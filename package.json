@@ -171,7 +171,7 @@
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "scrollparent": "^2.0.1",
-    "select2": "3.5.2-browserify",
+    "select2": "4.0.6",
     "sentrybrowser5": "npm:@sentry/browser@5.30.0",
     "sentrybrowser7": "npm:@sentry/browser@^7.21.1",
     "sortablejs": "^1.10.2",
