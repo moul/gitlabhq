@@ -1201,6 +1201,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_68435a54ee2b() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."project_id" IS NULL THEN
+  SELECT "project_id"
+  INTO NEW."project_id"
+  FROM "packages_debian_project_distributions"
+  WHERE "packages_debian_project_distributions"."id" = NEW."distribution_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_6cdea9559242() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -2012,6 +2028,502 @@ RETURN NULL;
 
 END
 $$;
+
+CREATE TABLE audit_events (
+    id bigint NOT NULL,
+    author_id integer NOT NULL,
+    entity_id integer NOT NULL,
+    entity_type character varying NOT NULL,
+    details text,
+    ip_address inet,
+    author_name text,
+    entity_path text,
+    target_details text,
+    created_at timestamp without time zone NOT NULL,
+    target_type text,
+    target_id bigint,
+    CONSTRAINT check_492aaa021d CHECK ((char_length(entity_path) <= 5500)),
+    CONSTRAINT check_83ff8406e2 CHECK ((char_length(author_name) <= 255)),
+    CONSTRAINT check_97a8c868e7 CHECK ((char_length(target_type) <= 255)),
+    CONSTRAINT check_d493ec90b5 CHECK ((char_length(target_details) <= 5500))
+)
+PARTITION BY RANGE (created_at);
+
+CREATE TABLE batched_background_migration_job_transition_logs (
+    id bigint NOT NULL,
+    batched_background_migration_job_id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    previous_status smallint NOT NULL,
+    next_status smallint NOT NULL,
+    exception_class text,
+    exception_message text,
+    CONSTRAINT check_50e580811a CHECK ((char_length(exception_message) <= 1000)),
+    CONSTRAINT check_76e202c37a CHECK ((char_length(exception_class) <= 100))
+)
+PARTITION BY RANGE (created_at);
+
+CREATE TABLE p_ci_build_names (
+    build_id bigint NOT NULL,
+    partition_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    name text NOT NULL,
+    search_vector tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, COALESCE(name, ''::text))) STORED,
+    CONSTRAINT check_1722c96346 CHECK ((char_length(name) <= 255))
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_ci_build_sources (
+    build_id bigint NOT NULL,
+    partition_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    source smallint NOT NULL
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_ci_builds (
+    status character varying,
+    finished_at timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    started_at timestamp without time zone,
+    runner_id_convert_to_bigint integer,
+    coverage double precision,
+    commit_id_convert_to_bigint integer,
+    name character varying,
+    options text,
+    allow_failure boolean DEFAULT false NOT NULL,
+    stage character varying,
+    trigger_request_id_convert_to_bigint integer,
+    stage_idx integer,
+    tag boolean,
+    ref character varying,
+    user_id_convert_to_bigint integer,
+    type character varying,
+    target_url character varying,
+    description character varying,
+    project_id_convert_to_bigint integer,
+    erased_by_id_convert_to_bigint integer,
+    erased_at timestamp without time zone,
+    artifacts_expire_at timestamp without time zone,
+    environment character varying,
+    "when" character varying,
+    yaml_variables text,
+    queued_at timestamp without time zone,
+    lock_version integer DEFAULT 0,
+    coverage_regex character varying,
+    auto_canceled_by_id_convert_to_bigint integer,
+    retried boolean,
+    protected boolean,
+    failure_reason integer,
+    scheduled_at timestamp with time zone,
+    token_encrypted character varying,
+    upstream_pipeline_id_convert_to_bigint integer,
+    resource_group_id bigint,
+    waiting_for_resource_at timestamp with time zone,
+    processed boolean,
+    scheduling_type smallint,
+    id bigint NOT NULL,
+    stage_id bigint,
+    partition_id bigint NOT NULL,
+    auto_canceled_by_partition_id bigint,
+    auto_canceled_by_id bigint,
+    commit_id bigint,
+    erased_by_id bigint,
+    project_id bigint,
+    runner_id bigint,
+    trigger_request_id bigint,
+    upstream_pipeline_id bigint,
+    user_id bigint,
+    execution_config_id bigint,
+    CONSTRAINT check_1e2fbd1b39 CHECK ((lock_version IS NOT NULL))
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_ci_builds_execution_configs (
+    id bigint NOT NULL,
+    partition_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    pipeline_id bigint NOT NULL,
+    run_steps jsonb DEFAULT '{}'::jsonb NOT NULL
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_ci_builds_metadata (
+    project_id integer NOT NULL,
+    timeout integer,
+    timeout_source integer DEFAULT 1 NOT NULL,
+    interruptible boolean,
+    config_options jsonb,
+    config_variables jsonb,
+    has_exposed_artifacts boolean,
+    environment_auto_stop_in character varying(255),
+    expanded_environment_name character varying(255),
+    secrets jsonb DEFAULT '{}'::jsonb NOT NULL,
+    build_id bigint NOT NULL,
+    id bigint NOT NULL,
+    runtime_runner_features jsonb DEFAULT '{}'::jsonb NOT NULL,
+    id_tokens jsonb DEFAULT '{}'::jsonb NOT NULL,
+    partition_id bigint NOT NULL,
+    debug_trace_enabled boolean DEFAULT false NOT NULL,
+    exit_code smallint
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_ci_job_annotations (
+    id bigint NOT NULL,
+    partition_id bigint NOT NULL,
+    job_id bigint NOT NULL,
+    name text NOT NULL,
+    data jsonb DEFAULT '[]'::jsonb NOT NULL,
+    CONSTRAINT check_bac9224e45 CHECK ((char_length(name) <= 255)),
+    CONSTRAINT data_is_array CHECK ((jsonb_typeof(data) = 'array'::text))
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_ci_job_artifacts (
+    project_id integer NOT NULL,
+    file_type integer NOT NULL,
+    size bigint,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    expire_at timestamp with time zone,
+    file character varying,
+    file_store integer DEFAULT 1,
+    file_sha256 bytea,
+    file_format smallint,
+    file_location smallint,
+    id bigint NOT NULL,
+    job_id bigint NOT NULL,
+    locked smallint DEFAULT 2,
+    partition_id bigint NOT NULL,
+    accessibility smallint DEFAULT 0 NOT NULL,
+    file_final_path text,
+    CONSTRAINT check_27f0f6dbab CHECK ((file_store IS NOT NULL)),
+    CONSTRAINT check_9f04410cf4 CHECK ((char_length(file_final_path) <= 1024))
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_ci_pipeline_variables (
+    key character varying NOT NULL,
+    value text,
+    encrypted_value text,
+    encrypted_value_salt character varying,
+    encrypted_value_iv character varying,
+    variable_type smallint DEFAULT 1 NOT NULL,
+    partition_id bigint NOT NULL,
+    raw boolean DEFAULT false NOT NULL,
+    id bigint NOT NULL,
+    pipeline_id bigint NOT NULL
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_ci_runner_machine_builds (
+    partition_id bigint NOT NULL,
+    build_id bigint NOT NULL,
+    runner_machine_id bigint NOT NULL
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_ci_stages (
+    project_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    name character varying,
+    status integer,
+    lock_version integer DEFAULT 0,
+    "position" integer,
+    id bigint NOT NULL,
+    partition_id bigint NOT NULL,
+    pipeline_id bigint,
+    CONSTRAINT check_81b431e49b CHECK ((lock_version IS NOT NULL))
+)
+PARTITION BY LIST (partition_id);
+
+CREATE SEQUENCE shared_audit_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE group_audit_events (
+    id bigint DEFAULT nextval('shared_audit_event_id_seq'::regclass) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    group_id bigint NOT NULL,
+    author_id bigint NOT NULL,
+    target_id bigint,
+    event_name text,
+    details text,
+    ip_address inet,
+    author_name text,
+    entity_path text,
+    target_details text,
+    target_type text,
+    CONSTRAINT group_audit_events_author_name_check CHECK ((char_length(author_name) <= 255)),
+    CONSTRAINT group_audit_events_entity_path_check CHECK ((char_length(entity_path) <= 5500)),
+    CONSTRAINT group_audit_events_event_name_check CHECK ((char_length(event_name) <= 255)),
+    CONSTRAINT group_audit_events_target_details_check CHECK ((char_length(target_details) <= 5500)),
+    CONSTRAINT group_audit_events_target_type_check CHECK ((char_length(target_type) <= 255))
+)
+PARTITION BY RANGE (created_at);
+
+CREATE TABLE groups_visits (
+    id bigint NOT NULL,
+    entity_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    visited_at timestamp with time zone NOT NULL
+)
+PARTITION BY RANGE (visited_at);
+
+CREATE TABLE incident_management_pending_alert_escalations (
+    id bigint NOT NULL,
+    rule_id bigint NOT NULL,
+    alert_id bigint NOT NULL,
+    process_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+)
+PARTITION BY RANGE (process_at);
+
+CREATE TABLE incident_management_pending_issue_escalations (
+    id bigint NOT NULL,
+    rule_id bigint NOT NULL,
+    issue_id bigint NOT NULL,
+    process_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+)
+PARTITION BY RANGE (process_at);
+
+CREATE TABLE instance_audit_events (
+    id bigint DEFAULT nextval('shared_audit_event_id_seq'::regclass) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    author_id bigint NOT NULL,
+    target_id bigint,
+    event_name text,
+    details text,
+    ip_address inet,
+    author_name text,
+    entity_path text,
+    target_details text,
+    target_type text,
+    CONSTRAINT instance_audit_events_author_name_check CHECK ((char_length(author_name) <= 255)),
+    CONSTRAINT instance_audit_events_entity_path_check CHECK ((char_length(entity_path) <= 5500)),
+    CONSTRAINT instance_audit_events_event_name_check CHECK ((char_length(event_name) <= 255)),
+    CONSTRAINT instance_audit_events_target_details_check CHECK ((char_length(target_details) <= 5500)),
+    CONSTRAINT instance_audit_events_target_type_check CHECK ((char_length(target_type) <= 255))
+)
+PARTITION BY RANGE (created_at);
+
+CREATE TABLE loose_foreign_keys_deleted_records (
+    id bigint NOT NULL,
+    partition bigint DEFAULT 1 NOT NULL,
+    primary_key_value bigint NOT NULL,
+    status smallint DEFAULT 1 NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    fully_qualified_table_name text NOT NULL,
+    consume_after timestamp with time zone DEFAULT now(),
+    cleanup_attempts smallint DEFAULT 0,
+    CONSTRAINT check_1a541f3235 CHECK ((char_length(fully_qualified_table_name) <= 150))
+)
+PARTITION BY LIST (partition);
+
+CREATE TABLE merge_request_diff_commits_b5377a7a34 (
+    authored_date timestamp without time zone,
+    committed_date timestamp without time zone,
+    sha bytea NOT NULL,
+    message text,
+    trailers jsonb DEFAULT '{}'::jsonb NOT NULL,
+    commit_author_id bigint,
+    committer_id bigint,
+    merge_request_diff_id bigint NOT NULL,
+    relative_order integer NOT NULL
+)
+PARTITION BY RANGE (merge_request_diff_id);
+
+CREATE TABLE merge_request_diff_files_99208b8fac (
+    new_file boolean NOT NULL,
+    renamed_file boolean NOT NULL,
+    deleted_file boolean NOT NULL,
+    too_large boolean NOT NULL,
+    a_mode character varying NOT NULL,
+    b_mode character varying NOT NULL,
+    new_path text NOT NULL,
+    old_path text NOT NULL,
+    diff text,
+    "binary" boolean,
+    external_diff_offset integer,
+    external_diff_size integer,
+    generated boolean,
+    merge_request_diff_id bigint NOT NULL,
+    relative_order integer NOT NULL
+)
+PARTITION BY RANGE (merge_request_diff_id);
+
+CREATE TABLE p_batched_git_ref_updates_deletions (
+    id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    partition_id bigint DEFAULT 1 NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    status smallint DEFAULT 1 NOT NULL,
+    ref text NOT NULL,
+    CONSTRAINT check_f322d53b92 CHECK ((char_length(ref) <= 1024))
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_catalog_resource_component_usages (
+    id bigint NOT NULL,
+    component_id bigint NOT NULL,
+    catalog_resource_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    used_by_project_id bigint NOT NULL,
+    used_date date NOT NULL
+)
+PARTITION BY RANGE (used_date);
+
+CREATE TABLE p_catalog_resource_sync_events (
+    id bigint NOT NULL,
+    catalog_resource_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    partition_id bigint DEFAULT 1 NOT NULL,
+    status smallint DEFAULT 1 NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+)
+PARTITION BY LIST (partition_id);
+
+CREATE TABLE p_ci_finished_build_ch_sync_events (
+    build_id bigint NOT NULL,
+    partition bigint DEFAULT 1 NOT NULL,
+    build_finished_at timestamp without time zone NOT NULL,
+    processed boolean DEFAULT false NOT NULL
+)
+PARTITION BY LIST (partition);
+
+CREATE TABLE project_audit_events (
+    id bigint DEFAULT nextval('shared_audit_event_id_seq'::regclass) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    project_id bigint NOT NULL,
+    author_id bigint NOT NULL,
+    target_id bigint,
+    event_name text,
+    details text,
+    ip_address inet,
+    author_name text,
+    entity_path text,
+    target_details text,
+    target_type text,
+    CONSTRAINT project_audit_events_author_name_check CHECK ((char_length(author_name) <= 255)),
+    CONSTRAINT project_audit_events_entity_path_check CHECK ((char_length(entity_path) <= 5500)),
+    CONSTRAINT project_audit_events_event_name_check CHECK ((char_length(event_name) <= 255)),
+    CONSTRAINT project_audit_events_target_details_check CHECK ((char_length(target_details) <= 5500)),
+    CONSTRAINT project_audit_events_target_type_check CHECK ((char_length(target_type) <= 255))
+)
+PARTITION BY RANGE (created_at);
+
+CREATE TABLE projects_visits (
+    id bigint NOT NULL,
+    entity_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    visited_at timestamp with time zone NOT NULL
+)
+PARTITION BY RANGE (visited_at);
+
+CREATE TABLE security_findings (
+    id bigint NOT NULL,
+    scan_id bigint NOT NULL,
+    scanner_id bigint NOT NULL,
+    severity smallint NOT NULL,
+    confidence smallint,
+    project_fingerprint text,
+    deduplicated boolean DEFAULT false NOT NULL,
+    uuid uuid,
+    overridden_uuid uuid,
+    partition_number integer DEFAULT 1 NOT NULL,
+    finding_data jsonb DEFAULT '{}'::jsonb NOT NULL,
+    CONSTRAINT check_6c2851a8c9 CHECK ((uuid IS NOT NULL)),
+    CONSTRAINT check_b9508c6df8 CHECK ((char_length(project_fingerprint) <= 40))
+)
+PARTITION BY LIST (partition_number);
+
+CREATE TABLE user_audit_events (
+    id bigint DEFAULT nextval('shared_audit_event_id_seq'::regclass) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    user_id bigint NOT NULL,
+    author_id bigint NOT NULL,
+    target_id bigint,
+    event_name text,
+    details text,
+    ip_address inet,
+    author_name text,
+    entity_path text,
+    target_details text,
+    target_type text,
+    CONSTRAINT user_audit_events_author_name_check CHECK ((char_length(author_name) <= 255)),
+    CONSTRAINT user_audit_events_entity_path_check CHECK ((char_length(entity_path) <= 5500)),
+    CONSTRAINT user_audit_events_event_name_check CHECK ((char_length(event_name) <= 255)),
+    CONSTRAINT user_audit_events_target_details_check CHECK ((char_length(target_details) <= 5500)),
+    CONSTRAINT user_audit_events_target_type_check CHECK ((char_length(target_type) <= 255))
+)
+PARTITION BY RANGE (created_at);
+
+CREATE TABLE value_stream_dashboard_counts (
+    id bigint NOT NULL,
+    namespace_id bigint NOT NULL,
+    count bigint NOT NULL,
+    recorded_at timestamp with time zone NOT NULL,
+    metric smallint NOT NULL
+)
+PARTITION BY RANGE (recorded_at);
+
+CREATE TABLE verification_codes (
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    visitor_id_code text NOT NULL,
+    code text NOT NULL,
+    phone text NOT NULL,
+    CONSTRAINT check_9b84e6aaff CHECK ((char_length(code) <= 8)),
+    CONSTRAINT check_ccc542256b CHECK ((char_length(visitor_id_code) <= 64)),
+    CONSTRAINT check_f5684c195b CHECK ((char_length(phone) <= 50))
+)
+PARTITION BY RANGE (created_at);
+
+COMMENT ON TABLE verification_codes IS 'JiHu-specific table';
+
+CREATE TABLE web_hook_logs (
+    id bigint NOT NULL,
+    web_hook_id integer NOT NULL,
+    trigger character varying,
+    url character varying,
+    request_headers text,
+    request_data text,
+    response_headers text,
+    response_body text,
+    response_status character varying,
+    execution_duration double precision,
+    internal_error_message character varying,
+    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    url_hash text
+)
+PARTITION BY RANGE (created_at);
+
+CREATE TABLE zoekt_tasks (
+    id bigint NOT NULL,
+    partition_id bigint DEFAULT 1 NOT NULL,
+    zoekt_node_id bigint NOT NULL,
+    zoekt_repository_id bigint NOT NULL,
+    project_identifier bigint NOT NULL,
+    perform_at timestamp with time zone DEFAULT now() NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    state smallint DEFAULT 0 NOT NULL,
+    task_type smallint NOT NULL,
+    retries_left smallint DEFAULT 5 NOT NULL,
+    CONSTRAINT c_zoekt_tasks_on_retries_left CHECK (((retries_left > 0) OR ((retries_left = 0) AND (state = 255))))
+)
+PARTITION BY LIST (partition_id);
 
 CREATE TABLE analytics_cycle_analytics_issue_stage_events (
     stage_event_hash_id bigint NOT NULL,
@@ -5163,6 +5675,8 @@ CREATE TABLE application_settings (
     importers jsonb DEFAULT '{}'::jsonb NOT NULL,
     security_policy_scheduled_scans_max_concurrency integer DEFAULT 100 NOT NULL,
     code_creation jsonb DEFAULT '{}'::jsonb NOT NULL,
+    code_suggestions_api_rate_limit integer DEFAULT 60 NOT NULL,
+    ai_action_api_rate_limit integer DEFAULT 160 NOT NULL,
     CONSTRAINT app_settings_container_reg_cleanup_tags_max_list_size_positive CHECK ((container_registry_cleanup_tags_service_max_list_size >= 0)),
     CONSTRAINT app_settings_dep_proxy_ttl_policies_worker_capacity_positive CHECK ((dependency_proxy_ttl_group_policy_worker_capacity >= 0)),
     CONSTRAINT app_settings_ext_pipeline_validation_service_url_text_limit CHECK ((char_length(external_pipeline_validation_service_url) <= 255)),
@@ -5616,26 +6130,6 @@ CREATE SEQUENCE atlassian_identities_user_id_seq
     CACHE 1;
 
 ALTER SEQUENCE atlassian_identities_user_id_seq OWNED BY atlassian_identities.user_id;
-
-CREATE TABLE audit_events (
-    id bigint NOT NULL,
-    author_id integer NOT NULL,
-    entity_id integer NOT NULL,
-    entity_type character varying NOT NULL,
-    details text,
-    ip_address inet,
-    author_name text,
-    entity_path text,
-    target_details text,
-    created_at timestamp without time zone NOT NULL,
-    target_type text,
-    target_id bigint,
-    CONSTRAINT check_492aaa021d CHECK ((char_length(entity_path) <= 5500)),
-    CONSTRAINT check_83ff8406e2 CHECK ((char_length(author_name) <= 255)),
-    CONSTRAINT check_97a8c868e7 CHECK ((char_length(target_type) <= 255)),
-    CONSTRAINT check_d493ec90b5 CHECK ((char_length(target_details) <= 5500))
-)
-PARTITION BY RANGE (created_at);
 
 CREATE TABLE audit_events_amazon_s3_configurations (
     id bigint NOT NULL,
@@ -6116,20 +6610,6 @@ CREATE TABLE banned_users (
     updated_at timestamp with time zone NOT NULL,
     user_id bigint NOT NULL
 );
-
-CREATE TABLE batched_background_migration_job_transition_logs (
-    id bigint NOT NULL,
-    batched_background_migration_job_id bigint NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
-    previous_status smallint NOT NULL,
-    next_status smallint NOT NULL,
-    exception_class text,
-    exception_message text,
-    CONSTRAINT check_50e580811a CHECK ((char_length(exception_message) <= 1000)),
-    CONSTRAINT check_76e202c37a CHECK ((char_length(exception_class) <= 100))
-)
-PARTITION BY RANGE (created_at);
 
 CREATE SEQUENCE batched_background_migration_job_transition_logs_id_seq
     START WITH 1
@@ -6916,65 +7396,6 @@ CREATE TABLE ci_build_trace_metadata (
     partition_id bigint NOT NULL
 );
 
-CREATE TABLE p_ci_builds (
-    status character varying,
-    finished_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    started_at timestamp without time zone,
-    runner_id_convert_to_bigint integer,
-    coverage double precision,
-    commit_id_convert_to_bigint integer,
-    name character varying,
-    options text,
-    allow_failure boolean DEFAULT false NOT NULL,
-    stage character varying,
-    trigger_request_id_convert_to_bigint integer,
-    stage_idx integer,
-    tag boolean,
-    ref character varying,
-    user_id_convert_to_bigint integer,
-    type character varying,
-    target_url character varying,
-    description character varying,
-    project_id_convert_to_bigint integer,
-    erased_by_id_convert_to_bigint integer,
-    erased_at timestamp without time zone,
-    artifacts_expire_at timestamp without time zone,
-    environment character varying,
-    "when" character varying,
-    yaml_variables text,
-    queued_at timestamp without time zone,
-    lock_version integer DEFAULT 0,
-    coverage_regex character varying,
-    auto_canceled_by_id_convert_to_bigint integer,
-    retried boolean,
-    protected boolean,
-    failure_reason integer,
-    scheduled_at timestamp with time zone,
-    token_encrypted character varying,
-    upstream_pipeline_id_convert_to_bigint integer,
-    resource_group_id bigint,
-    waiting_for_resource_at timestamp with time zone,
-    processed boolean,
-    scheduling_type smallint,
-    id bigint NOT NULL,
-    stage_id bigint,
-    partition_id bigint NOT NULL,
-    auto_canceled_by_partition_id bigint,
-    auto_canceled_by_id bigint,
-    commit_id bigint,
-    erased_by_id bigint,
-    project_id bigint,
-    runner_id bigint,
-    trigger_request_id bigint,
-    upstream_pipeline_id bigint,
-    user_id bigint,
-    execution_config_id bigint,
-    CONSTRAINT check_1e2fbd1b39 CHECK ((lock_version IS NOT NULL))
-)
-PARTITION BY LIST (partition_id);
-
 CREATE TABLE ci_builds (
     status character varying,
     finished_at timestamp without time zone,
@@ -7041,27 +7462,6 @@ CREATE SEQUENCE ci_builds_id_seq
     CACHE 1;
 
 ALTER SEQUENCE ci_builds_id_seq OWNED BY p_ci_builds.id;
-
-CREATE TABLE p_ci_builds_metadata (
-    project_id integer NOT NULL,
-    timeout integer,
-    timeout_source integer DEFAULT 1 NOT NULL,
-    interruptible boolean,
-    config_options jsonb,
-    config_variables jsonb,
-    has_exposed_artifacts boolean,
-    environment_auto_stop_in character varying(255),
-    expanded_environment_name character varying(255),
-    secrets jsonb DEFAULT '{}'::jsonb NOT NULL,
-    build_id bigint NOT NULL,
-    id bigint NOT NULL,
-    runtime_runner_features jsonb DEFAULT '{}'::jsonb NOT NULL,
-    id_tokens jsonb DEFAULT '{}'::jsonb NOT NULL,
-    partition_id bigint NOT NULL,
-    debug_trace_enabled boolean DEFAULT false NOT NULL,
-    exit_code smallint
-)
-PARTITION BY LIST (partition_id);
 
 CREATE SEQUENCE ci_builds_metadata_id_seq
     START WITH 1
@@ -7245,29 +7645,6 @@ CREATE TABLE ci_job_artifact_states (
     partition_id bigint NOT NULL,
     CONSTRAINT check_df832b66ea CHECK ((char_length(verification_failure) <= 255))
 );
-
-CREATE TABLE p_ci_job_artifacts (
-    project_id integer NOT NULL,
-    file_type integer NOT NULL,
-    size bigint,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
-    expire_at timestamp with time zone,
-    file character varying,
-    file_store integer DEFAULT 1,
-    file_sha256 bytea,
-    file_format smallint,
-    file_location smallint,
-    id bigint NOT NULL,
-    job_id bigint NOT NULL,
-    locked smallint DEFAULT 2,
-    partition_id bigint NOT NULL,
-    accessibility smallint DEFAULT 0 NOT NULL,
-    file_final_path text,
-    CONSTRAINT check_27f0f6dbab CHECK ((file_store IS NOT NULL)),
-    CONSTRAINT check_9f04410cf4 CHECK ((char_length(file_final_path) <= 1024))
-)
-PARTITION BY LIST (partition_id);
 
 CREATE TABLE ci_job_artifacts (
     project_id integer NOT NULL,
@@ -7566,20 +7943,6 @@ CREATE SEQUENCE ci_pipeline_schedules_id_seq
     CACHE 1;
 
 ALTER SEQUENCE ci_pipeline_schedules_id_seq OWNED BY ci_pipeline_schedules.id;
-
-CREATE TABLE p_ci_pipeline_variables (
-    key character varying NOT NULL,
-    value text,
-    encrypted_value text,
-    encrypted_value_salt character varying,
-    encrypted_value_iv character varying,
-    variable_type smallint DEFAULT 1 NOT NULL,
-    partition_id bigint NOT NULL,
-    raw boolean DEFAULT false NOT NULL,
-    id bigint NOT NULL,
-    pipeline_id bigint NOT NULL
-)
-PARTITION BY LIST (partition_id);
 
 CREATE TABLE ci_pipeline_variables (
     key character varying NOT NULL,
@@ -7967,21 +8330,6 @@ CREATE SEQUENCE ci_sources_projects_id_seq
     CACHE 1;
 
 ALTER SEQUENCE ci_sources_projects_id_seq OWNED BY ci_sources_projects.id;
-
-CREATE TABLE p_ci_stages (
-    project_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    name character varying,
-    status integer,
-    lock_version integer DEFAULT 0,
-    "position" integer,
-    id bigint NOT NULL,
-    partition_id bigint NOT NULL,
-    pipeline_id bigint,
-    CONSTRAINT check_81b431e49b CHECK ((lock_version IS NOT NULL))
-)
-PARTITION BY LIST (partition_id);
 
 CREATE TABLE ci_stages (
     project_id integer,
@@ -10393,34 +10741,6 @@ CREATE SEQUENCE grafana_integrations_id_seq
 
 ALTER SEQUENCE grafana_integrations_id_seq OWNED BY grafana_integrations.id;
 
-CREATE SEQUENCE shared_audit_event_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-CREATE TABLE group_audit_events (
-    id bigint DEFAULT nextval('shared_audit_event_id_seq'::regclass) NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    group_id bigint NOT NULL,
-    author_id bigint NOT NULL,
-    target_id bigint,
-    event_name text,
-    details text,
-    ip_address inet,
-    author_name text,
-    entity_path text,
-    target_details text,
-    target_type text,
-    CONSTRAINT group_audit_events_author_name_check CHECK ((char_length(author_name) <= 255)),
-    CONSTRAINT group_audit_events_entity_path_check CHECK ((char_length(entity_path) <= 5500)),
-    CONSTRAINT group_audit_events_event_name_check CHECK ((char_length(event_name) <= 255)),
-    CONSTRAINT group_audit_events_target_details_check CHECK ((char_length(target_details) <= 5500)),
-    CONSTRAINT group_audit_events_target_type_check CHECK ((char_length(target_type) <= 255))
-)
-PARTITION BY RANGE (created_at);
-
 CREATE TABLE group_crm_settings (
     group_id bigint NOT NULL,
     created_at timestamp with time zone NOT NULL,
@@ -10672,14 +10992,6 @@ CREATE SEQUENCE group_wiki_repository_states_id_seq
     CACHE 1;
 
 ALTER SEQUENCE group_wiki_repository_states_id_seq OWNED BY group_wiki_repository_states.id;
-
-CREATE TABLE groups_visits (
-    id bigint NOT NULL,
-    entity_id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    visited_at timestamp with time zone NOT NULL
-)
-PARTITION BY RANGE (visited_at);
 
 CREATE SEQUENCE groups_visits_id_seq
     START WITH 1
@@ -10945,16 +11257,6 @@ CREATE SEQUENCE incident_management_oncall_shifts_id_seq
 
 ALTER SEQUENCE incident_management_oncall_shifts_id_seq OWNED BY incident_management_oncall_shifts.id;
 
-CREATE TABLE incident_management_pending_alert_escalations (
-    id bigint NOT NULL,
-    rule_id bigint NOT NULL,
-    alert_id bigint NOT NULL,
-    process_at timestamp with time zone NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL
-)
-PARTITION BY RANGE (process_at);
-
 CREATE SEQUENCE incident_management_pending_alert_escalations_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -10963,16 +11265,6 @@ CREATE SEQUENCE incident_management_pending_alert_escalations_id_seq
     CACHE 1;
 
 ALTER SEQUENCE incident_management_pending_alert_escalations_id_seq OWNED BY incident_management_pending_alert_escalations.id;
-
-CREATE TABLE incident_management_pending_issue_escalations (
-    id bigint NOT NULL,
-    rule_id bigint NOT NULL,
-    issue_id bigint NOT NULL,
-    process_at timestamp with time zone NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL
-)
-PARTITION BY RANGE (process_at);
 
 CREATE SEQUENCE incident_management_pending_issue_escalations_id_seq
     START WITH 1
@@ -11081,26 +11373,6 @@ CREATE SEQUENCE insights_id_seq
     CACHE 1;
 
 ALTER SEQUENCE insights_id_seq OWNED BY insights.id;
-
-CREATE TABLE instance_audit_events (
-    id bigint DEFAULT nextval('shared_audit_event_id_seq'::regclass) NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    author_id bigint NOT NULL,
-    target_id bigint,
-    event_name text,
-    details text,
-    ip_address inet,
-    author_name text,
-    entity_path text,
-    target_details text,
-    target_type text,
-    CONSTRAINT instance_audit_events_author_name_check CHECK ((char_length(author_name) <= 255)),
-    CONSTRAINT instance_audit_events_entity_path_check CHECK ((char_length(entity_path) <= 5500)),
-    CONSTRAINT instance_audit_events_event_name_check CHECK ((char_length(event_name) <= 255)),
-    CONSTRAINT instance_audit_events_target_details_check CHECK ((char_length(target_details) <= 5500)),
-    CONSTRAINT instance_audit_events_target_type_check CHECK ((char_length(target_type) <= 255))
-)
-PARTITION BY RANGE (created_at);
 
 CREATE TABLE instance_audit_events_streaming_headers (
     id bigint NOT NULL,
@@ -11876,19 +12148,6 @@ CREATE SEQUENCE lists_id_seq
 
 ALTER SEQUENCE lists_id_seq OWNED BY lists.id;
 
-CREATE TABLE loose_foreign_keys_deleted_records (
-    id bigint NOT NULL,
-    partition bigint DEFAULT 1 NOT NULL,
-    primary_key_value bigint NOT NULL,
-    status smallint DEFAULT 1 NOT NULL,
-    created_at timestamp with time zone DEFAULT now() NOT NULL,
-    fully_qualified_table_name text NOT NULL,
-    consume_after timestamp with time zone DEFAULT now(),
-    cleanup_attempts smallint DEFAULT 0,
-    CONSTRAINT check_1a541f3235 CHECK ((char_length(fully_qualified_table_name) <= 150))
-)
-PARTITION BY LIST (partition);
-
 CREATE SEQUENCE loose_foreign_keys_deleted_records_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -12129,19 +12388,6 @@ CREATE TABLE merge_request_diff_commits (
     committer_id bigint
 );
 
-CREATE TABLE merge_request_diff_commits_b5377a7a34 (
-    authored_date timestamp without time zone,
-    committed_date timestamp without time zone,
-    sha bytea NOT NULL,
-    message text,
-    trailers jsonb DEFAULT '{}'::jsonb NOT NULL,
-    commit_author_id bigint,
-    committer_id bigint,
-    merge_request_diff_id bigint NOT NULL,
-    relative_order integer NOT NULL
-)
-PARTITION BY RANGE (merge_request_diff_id);
-
 CREATE TABLE merge_request_diff_details (
     merge_request_diff_id bigint NOT NULL,
     verification_retry_at timestamp with time zone,
@@ -12180,25 +12426,6 @@ CREATE TABLE merge_request_diff_files (
     external_diff_size integer,
     generated boolean
 );
-
-CREATE TABLE merge_request_diff_files_99208b8fac (
-    new_file boolean NOT NULL,
-    renamed_file boolean NOT NULL,
-    deleted_file boolean NOT NULL,
-    too_large boolean NOT NULL,
-    a_mode character varying NOT NULL,
-    b_mode character varying NOT NULL,
-    new_path text NOT NULL,
-    old_path text NOT NULL,
-    diff text,
-    "binary" boolean,
-    external_diff_offset integer,
-    external_diff_size integer,
-    generated boolean,
-    merge_request_diff_id bigint NOT NULL,
-    relative_order integer NOT NULL
-)
-PARTITION BY RANGE (merge_request_diff_id);
 
 CREATE TABLE merge_request_diffs (
     id integer NOT NULL,
@@ -13488,18 +13715,6 @@ CREATE SEQUENCE organizations_id_seq
 
 ALTER SEQUENCE organizations_id_seq OWNED BY organizations.id;
 
-CREATE TABLE p_batched_git_ref_updates_deletions (
-    id bigint NOT NULL,
-    project_id bigint NOT NULL,
-    partition_id bigint DEFAULT 1 NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
-    status smallint DEFAULT 1 NOT NULL,
-    ref text NOT NULL,
-    CONSTRAINT check_f322d53b92 CHECK ((char_length(ref) <= 1024))
-)
-PARTITION BY LIST (partition_id);
-
 CREATE SEQUENCE p_batched_git_ref_updates_deletions_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -13508,16 +13723,6 @@ CREATE SEQUENCE p_batched_git_ref_updates_deletions_id_seq
     CACHE 1;
 
 ALTER SEQUENCE p_batched_git_ref_updates_deletions_id_seq OWNED BY p_batched_git_ref_updates_deletions.id;
-
-CREATE TABLE p_catalog_resource_component_usages (
-    id bigint NOT NULL,
-    component_id bigint NOT NULL,
-    catalog_resource_id bigint NOT NULL,
-    project_id bigint NOT NULL,
-    used_by_project_id bigint NOT NULL,
-    used_date date NOT NULL
-)
-PARTITION BY RANGE (used_date);
 
 CREATE SEQUENCE p_catalog_resource_component_usages_id_seq
     START WITH 1
@@ -13528,17 +13733,6 @@ CREATE SEQUENCE p_catalog_resource_component_usages_id_seq
 
 ALTER SEQUENCE p_catalog_resource_component_usages_id_seq OWNED BY p_catalog_resource_component_usages.id;
 
-CREATE TABLE p_catalog_resource_sync_events (
-    id bigint NOT NULL,
-    catalog_resource_id bigint NOT NULL,
-    project_id bigint NOT NULL,
-    partition_id bigint DEFAULT 1 NOT NULL,
-    status smallint DEFAULT 1 NOT NULL,
-    created_at timestamp with time zone DEFAULT now() NOT NULL,
-    updated_at timestamp with time zone DEFAULT now() NOT NULL
-)
-PARTITION BY LIST (partition_id);
-
 CREATE SEQUENCE p_catalog_resource_sync_events_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -13547,33 +13741,6 @@ CREATE SEQUENCE p_catalog_resource_sync_events_id_seq
     CACHE 1;
 
 ALTER SEQUENCE p_catalog_resource_sync_events_id_seq OWNED BY p_catalog_resource_sync_events.id;
-
-CREATE TABLE p_ci_build_names (
-    build_id bigint NOT NULL,
-    partition_id bigint NOT NULL,
-    project_id bigint NOT NULL,
-    name text NOT NULL,
-    search_vector tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, COALESCE(name, ''::text))) STORED,
-    CONSTRAINT check_1722c96346 CHECK ((char_length(name) <= 255))
-)
-PARTITION BY LIST (partition_id);
-
-CREATE TABLE p_ci_build_sources (
-    build_id bigint NOT NULL,
-    partition_id bigint NOT NULL,
-    project_id bigint NOT NULL,
-    source smallint NOT NULL
-)
-PARTITION BY LIST (partition_id);
-
-CREATE TABLE p_ci_builds_execution_configs (
-    id bigint NOT NULL,
-    partition_id bigint NOT NULL,
-    project_id bigint NOT NULL,
-    pipeline_id bigint NOT NULL,
-    run_steps jsonb DEFAULT '{}'::jsonb NOT NULL
-)
-PARTITION BY LIST (partition_id);
 
 CREATE SEQUENCE p_ci_builds_execution_configs_id_seq
     START WITH 1
@@ -13584,25 +13751,6 @@ CREATE SEQUENCE p_ci_builds_execution_configs_id_seq
 
 ALTER SEQUENCE p_ci_builds_execution_configs_id_seq OWNED BY p_ci_builds_execution_configs.id;
 
-CREATE TABLE p_ci_finished_build_ch_sync_events (
-    build_id bigint NOT NULL,
-    partition bigint DEFAULT 1 NOT NULL,
-    build_finished_at timestamp without time zone NOT NULL,
-    processed boolean DEFAULT false NOT NULL
-)
-PARTITION BY LIST (partition);
-
-CREATE TABLE p_ci_job_annotations (
-    id bigint NOT NULL,
-    partition_id bigint NOT NULL,
-    job_id bigint NOT NULL,
-    name text NOT NULL,
-    data jsonb DEFAULT '[]'::jsonb NOT NULL,
-    CONSTRAINT check_bac9224e45 CHECK ((char_length(name) <= 255)),
-    CONSTRAINT data_is_array CHECK ((jsonb_typeof(data) = 'array'::text))
-)
-PARTITION BY LIST (partition_id);
-
 CREATE SEQUENCE p_ci_job_annotations_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -13611,13 +13759,6 @@ CREATE SEQUENCE p_ci_job_annotations_id_seq
     CACHE 1;
 
 ALTER SEQUENCE p_ci_job_annotations_id_seq OWNED BY p_ci_job_annotations.id;
-
-CREATE TABLE p_ci_runner_machine_builds (
-    partition_id bigint NOT NULL,
-    build_id bigint NOT NULL,
-    runner_machine_id bigint NOT NULL
-)
-PARTITION BY LIST (partition_id);
 
 CREATE TABLE packages_build_infos (
     id bigint NOT NULL,
@@ -13855,6 +13996,7 @@ CREATE TABLE packages_debian_project_architectures (
     updated_at timestamp with time zone NOT NULL,
     distribution_id bigint NOT NULL,
     name text NOT NULL,
+    project_id bigint,
     CONSTRAINT check_9c2e1c99d8 CHECK ((char_length(name) <= 255))
 );
 
@@ -15197,27 +15339,6 @@ CREATE SEQUENCE project_aliases_id_seq
 
 ALTER SEQUENCE project_aliases_id_seq OWNED BY project_aliases.id;
 
-CREATE TABLE project_audit_events (
-    id bigint DEFAULT nextval('shared_audit_event_id_seq'::regclass) NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    project_id bigint NOT NULL,
-    author_id bigint NOT NULL,
-    target_id bigint,
-    event_name text,
-    details text,
-    ip_address inet,
-    author_name text,
-    entity_path text,
-    target_details text,
-    target_type text,
-    CONSTRAINT project_audit_events_author_name_check CHECK ((char_length(author_name) <= 255)),
-    CONSTRAINT project_audit_events_entity_path_check CHECK ((char_length(entity_path) <= 5500)),
-    CONSTRAINT project_audit_events_event_name_check CHECK ((char_length(event_name) <= 255)),
-    CONSTRAINT project_audit_events_target_details_check CHECK ((char_length(target_details) <= 5500)),
-    CONSTRAINT project_audit_events_target_type_check CHECK ((char_length(target_type) <= 255))
-)
-PARTITION BY RANGE (created_at);
-
 CREATE TABLE project_authorizations (
     user_id integer NOT NULL,
     project_id integer NOT NULL,
@@ -15890,14 +16011,6 @@ CREATE SEQUENCE projects_sync_events_id_seq
     CACHE 1;
 
 ALTER SEQUENCE projects_sync_events_id_seq OWNED BY projects_sync_events.id;
-
-CREATE TABLE projects_visits (
-    id bigint NOT NULL,
-    entity_id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    visited_at timestamp with time zone NOT NULL
-)
-PARTITION BY RANGE (visited_at);
 
 CREATE SEQUENCE projects_visits_id_seq
     START WITH 1
@@ -16978,23 +17091,6 @@ CREATE SEQUENCE search_namespace_index_assignments_id_seq
     CACHE 1;
 
 ALTER SEQUENCE search_namespace_index_assignments_id_seq OWNED BY search_namespace_index_assignments.id;
-
-CREATE TABLE security_findings (
-    id bigint NOT NULL,
-    scan_id bigint NOT NULL,
-    scanner_id bigint NOT NULL,
-    severity smallint NOT NULL,
-    confidence smallint,
-    project_fingerprint text,
-    deduplicated boolean DEFAULT false NOT NULL,
-    uuid uuid,
-    overridden_uuid uuid,
-    partition_number integer DEFAULT 1 NOT NULL,
-    finding_data jsonb DEFAULT '{}'::jsonb NOT NULL,
-    CONSTRAINT check_6c2851a8c9 CHECK ((uuid IS NOT NULL)),
-    CONSTRAINT check_b9508c6df8 CHECK ((char_length(project_fingerprint) <= 40))
-)
-PARTITION BY LIST (partition_number);
 
 CREATE SEQUENCE security_findings_id_seq
     START WITH 1
@@ -18160,27 +18256,6 @@ CREATE SEQUENCE user_agent_details_id_seq
 
 ALTER SEQUENCE user_agent_details_id_seq OWNED BY user_agent_details.id;
 
-CREATE TABLE user_audit_events (
-    id bigint DEFAULT nextval('shared_audit_event_id_seq'::regclass) NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    user_id bigint NOT NULL,
-    author_id bigint NOT NULL,
-    target_id bigint,
-    event_name text,
-    details text,
-    ip_address inet,
-    author_name text,
-    entity_path text,
-    target_details text,
-    target_type text,
-    CONSTRAINT user_audit_events_author_name_check CHECK ((char_length(author_name) <= 255)),
-    CONSTRAINT user_audit_events_entity_path_check CHECK ((char_length(entity_path) <= 5500)),
-    CONSTRAINT user_audit_events_event_name_check CHECK ((char_length(event_name) <= 255)),
-    CONSTRAINT user_audit_events_target_details_check CHECK ((char_length(target_details) <= 5500)),
-    CONSTRAINT user_audit_events_target_type_check CHECK ((char_length(target_type) <= 255))
-)
-PARTITION BY RANGE (created_at);
-
 CREATE TABLE user_broadcast_message_dismissals (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
@@ -18601,15 +18676,6 @@ CREATE TABLE value_stream_dashboard_aggregations (
     enabled boolean DEFAULT true NOT NULL
 );
 
-CREATE TABLE value_stream_dashboard_counts (
-    id bigint NOT NULL,
-    namespace_id bigint NOT NULL,
-    count bigint NOT NULL,
-    recorded_at timestamp with time zone NOT NULL,
-    metric smallint NOT NULL
-)
-PARTITION BY RANGE (recorded_at);
-
 CREATE SEQUENCE value_stream_dashboard_counts_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -18618,19 +18684,6 @@ CREATE SEQUENCE value_stream_dashboard_counts_id_seq
     CACHE 1;
 
 ALTER SEQUENCE value_stream_dashboard_counts_id_seq OWNED BY value_stream_dashboard_counts.id;
-
-CREATE TABLE verification_codes (
-    created_at timestamp with time zone DEFAULT now() NOT NULL,
-    visitor_id_code text NOT NULL,
-    code text NOT NULL,
-    phone text NOT NULL,
-    CONSTRAINT check_9b84e6aaff CHECK ((char_length(code) <= 8)),
-    CONSTRAINT check_ccc542256b CHECK ((char_length(visitor_id_code) <= 64)),
-    CONSTRAINT check_f5684c195b CHECK ((char_length(phone) <= 50))
-)
-PARTITION BY RANGE (created_at);
-
-COMMENT ON TABLE verification_codes IS 'JiHu-specific table';
 
 CREATE TABLE vs_code_settings (
     id bigint NOT NULL,
@@ -19198,24 +19251,6 @@ CREATE SEQUENCE vulnerability_user_mentions_id_seq
     CACHE 1;
 
 ALTER SEQUENCE vulnerability_user_mentions_id_seq OWNED BY vulnerability_user_mentions.id;
-
-CREATE TABLE web_hook_logs (
-    id bigint NOT NULL,
-    web_hook_id integer NOT NULL,
-    trigger character varying,
-    url character varying,
-    request_headers text,
-    request_data text,
-    response_headers text,
-    response_body text,
-    response_status character varying,
-    execution_duration double precision,
-    internal_error_message character varying,
-    updated_at timestamp without time zone NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    url_hash text
-)
-PARTITION BY RANGE (created_at);
 
 CREATE SEQUENCE web_hook_logs_id_seq
     START WITH 1
@@ -19798,22 +19833,6 @@ CREATE SEQUENCE zoekt_shards_id_seq
     CACHE 1;
 
 ALTER SEQUENCE zoekt_shards_id_seq OWNED BY zoekt_shards.id;
-
-CREATE TABLE zoekt_tasks (
-    id bigint NOT NULL,
-    partition_id bigint DEFAULT 1 NOT NULL,
-    zoekt_node_id bigint NOT NULL,
-    zoekt_repository_id bigint NOT NULL,
-    project_identifier bigint NOT NULL,
-    perform_at timestamp with time zone DEFAULT now() NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
-    state smallint DEFAULT 0 NOT NULL,
-    task_type smallint NOT NULL,
-    retries_left smallint DEFAULT 5 NOT NULL,
-    CONSTRAINT c_zoekt_tasks_on_retries_left CHECK (((retries_left > 0) OR ((retries_left = 0) AND (state = 255))))
-)
-PARTITION BY LIST (partition_id);
 
 CREATE SEQUENCE zoekt_tasks_id_seq
     START WITH 1
@@ -28037,6 +28056,8 @@ CREATE INDEX index_packages_debian_group_distribution_keys_on_group_id ON packag
 
 CREATE INDEX index_packages_debian_group_distributions_on_creator_id ON packages_debian_group_distributions USING btree (creator_id);
 
+CREATE INDEX index_packages_debian_project_architectures_on_project_id ON packages_debian_project_architectures USING btree (project_id);
+
 CREATE INDEX index_packages_debian_project_component_files_on_component_id ON packages_debian_project_component_files USING btree (component_id);
 
 CREATE INDEX index_packages_debian_project_components_on_project_id ON packages_debian_project_components USING btree (project_id);
@@ -31433,6 +31454,8 @@ CREATE TRIGGER trigger_5ca97b87ee30 BEFORE INSERT OR UPDATE ON merge_request_con
 
 CREATE TRIGGER trigger_5f6432d2dccc BEFORE INSERT OR UPDATE ON operations_strategies_user_lists FOR EACH ROW EXECUTE FUNCTION trigger_5f6432d2dccc();
 
+CREATE TRIGGER trigger_68435a54ee2b BEFORE INSERT OR UPDATE ON packages_debian_project_architectures FOR EACH ROW EXECUTE FUNCTION trigger_68435a54ee2b();
+
 CREATE TRIGGER trigger_6cdea9559242 BEFORE INSERT OR UPDATE ON issue_links FOR EACH ROW EXECUTE FUNCTION trigger_6cdea9559242();
 
 CREATE TRIGGER trigger_77d9fbad5b12 BEFORE INSERT OR UPDATE ON packages_debian_project_distribution_keys FOR EACH ROW EXECUTE FUNCTION trigger_77d9fbad5b12();
@@ -32697,6 +32720,9 @@ ALTER TABLE ONLY vulnerability_flags
 
 ALTER TABLE ONLY todos
     ADD CONSTRAINT fk_ccf0373936 FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY packages_debian_project_architectures
+    ADD CONSTRAINT fk_cd96fce0a1 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY compliance_framework_security_policies
     ADD CONSTRAINT fk_cf3c0ac207 FOREIGN KEY (policy_configuration_id) REFERENCES security_orchestration_policy_configurations(id) ON DELETE CASCADE;
