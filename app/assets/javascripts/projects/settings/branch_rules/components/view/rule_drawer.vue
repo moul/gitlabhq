@@ -18,6 +18,7 @@ export default {
   ACCESS_LEVEL_DEVELOPER_INTEGER,
   ACCESS_LEVEL_MAINTAINER_INTEGER,
   ACCESS_LEVEL_ADMIN_INTEGER,
+  ACCESS_LEVEL_NO_ACCESS_INTEGER,
   components: {
     GlDrawer,
     GlButton,
@@ -66,6 +67,7 @@ export default {
       isAdminSelected: null,
       isMaintainersSelected: null,
       isDevelopersAndMaintainersSelected: null,
+      isNoOneSelected: null,
       isRuleUpdated: false,
     };
   },
@@ -73,25 +75,29 @@ export default {
     getDrawerHeaderHeight() {
       return getContentWrapperHeight();
     },
-    isNoOneSelected() {
-      return (
-        !this.isAdminSelected &&
-        !this.isMaintainersSelected &&
-        !this.isDevelopersAndMaintainersSelected
-      );
-    },
   },
   watch: {
     isOpen() {
       this.isAdminSelected = this.roles.includes(ACCESS_LEVEL_ADMIN_INTEGER);
       this.isMaintainersSelected = this.roles.includes(ACCESS_LEVEL_MAINTAINER_INTEGER);
       this.isDevelopersAndMaintainersSelected = this.roles.includes(ACCESS_LEVEL_DEVELOPER_INTEGER);
+      this.isNoOneSelected = this.roles.includes(ACCESS_LEVEL_NO_ACCESS_INTEGER);
 
       this.updatedGroups = this.groups;
       this.updatedUsers = this.users;
     },
   },
   methods: {
+    handleNoOneSelected() {
+      this.isRuleUpdated = true;
+      this.isAdminSelected = false;
+      this.isMaintainersSelected = false;
+      this.isDevelopersAndMaintainersSelected = false;
+    },
+    handleAccessLevelSelected() {
+      this.isRuleUpdated = true;
+      this.isNoOneSelected = false;
+    },
     handleRuleDataUpdate(namespace, items) {
       this.isRuleUpdated = true;
       this[namespace] = items;
@@ -100,23 +106,24 @@ export default {
       return items.map((item) => ({ [keyName]: convertToGraphQLId(type, item.id) }));
     },
     getRuleEditData() {
-      let ruleEditData = [
+      const ruleEditRoles = [
         ...this.formatItemsData(this.updatedUsers, 'userId', 'User'), // eslint-disable-line @gitlab/require-i18n-strings
         ...this.formatItemsData(this.updatedGroups, 'groupId', 'Group'), // eslint-disable-line @gitlab/require-i18n-strings
       ];
+      let ruleEditAccessLevels = [];
       if (this.isAdminSelected) {
-        ruleEditData.push({ accessLevel: ACCESS_LEVEL_ADMIN_INTEGER });
+        ruleEditAccessLevels.push({ accessLevel: ACCESS_LEVEL_ADMIN_INTEGER });
       }
       if (this.isMaintainersSelected) {
-        ruleEditData.push({ accessLevel: ACCESS_LEVEL_MAINTAINER_INTEGER });
+        ruleEditAccessLevels.push({ accessLevel: ACCESS_LEVEL_MAINTAINER_INTEGER });
       }
       if (this.isDevelopersAndMaintainersSelected) {
-        ruleEditData.push({ accessLevel: ACCESS_LEVEL_DEVELOPER_INTEGER });
+        ruleEditAccessLevels.push({ accessLevel: ACCESS_LEVEL_DEVELOPER_INTEGER });
       }
       if (this.isNoOneSelected) {
-        ruleEditData = [{ accessLevel: ACCESS_LEVEL_NO_ACCESS_INTEGER }];
+        ruleEditAccessLevels = [{ accessLevel: ACCESS_LEVEL_NO_ACCESS_INTEGER }];
       }
-      return ruleEditData;
+      return [...ruleEditRoles, ...ruleEditAccessLevels];
     },
     formatItemsIds(items) {
       return items.map((item) => ({ ...item, id: getIdFromGraphQLId(item.id) }));
@@ -141,35 +148,42 @@ export default {
     </template>
 
     <template #header>
-      <gl-button
-        variant="confirm"
-        :disabled="!isRuleUpdated"
-        :loading="isLoading"
-        data-testid="save-allowed-to-merge"
-        @click="editRule()"
-      >
-        {{ __('Save changes') }}
-      </gl-button>
-      <gl-button variant="confirm" category="secondary" @click="$emit('close')">
-        {{ __('Cancel') }}
-      </gl-button>
+      <div class="gl-flex gl-gap-3">
+        <gl-button
+          variant="confirm"
+          :disabled="!isRuleUpdated"
+          :loading="isLoading"
+          data-testid="save-allowed-to-merge"
+          @click="editRule()"
+        >
+          {{ __('Save changes') }}
+        </gl-button>
+        <gl-button variant="confirm" category="secondary" @click="$emit('close')">
+          {{ __('Cancel') }}
+        </gl-button>
+      </div>
     </template>
     <template #default>
       <gl-form-group class="gl-border-none">
-        <gl-form-checkbox v-model="isAdminSelected" @change="isRuleUpdated = true">
+        <gl-form-checkbox v-model="isAdminSelected" @change="handleAccessLevelSelected">
           {{ $options.accessLevelsConfig[$options.ACCESS_LEVEL_ADMIN_INTEGER].accessLevelLabel }}
         </gl-form-checkbox>
-        <gl-form-checkbox v-model="isMaintainersSelected" @change="isRuleUpdated = true">
+        <gl-form-checkbox v-model="isMaintainersSelected" @change="handleAccessLevelSelected">
           {{
             $options.accessLevelsConfig[$options.ACCESS_LEVEL_MAINTAINER_INTEGER].accessLevelLabel
           }}
         </gl-form-checkbox>
         <gl-form-checkbox
           v-model="isDevelopersAndMaintainersSelected"
-          @change="isRuleUpdated = true"
+          @change="handleAccessLevelSelected"
         >
           {{
             $options.accessLevelsConfig[$options.ACCESS_LEVEL_DEVELOPER_INTEGER].accessLevelLabel
+          }}
+        </gl-form-checkbox>
+        <gl-form-checkbox v-model="isNoOneSelected" @change="handleNoOneSelected">
+          {{
+            $options.accessLevelsConfig[$options.ACCESS_LEVEL_NO_ACCESS_INTEGER].accessLevelLabel
           }}
         </gl-form-checkbox>
 

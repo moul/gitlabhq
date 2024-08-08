@@ -9,6 +9,9 @@
 ## Allows release tooling and Gitaly team members to update the Gitaly Version
 /GITALY_SERVER_VERSION @project_278964_bot6 @gitlab-org/maintainers/rails-backend @gitlab-org/delivery @gl-gitaly
 
+## Allows release tooling, KAS version maintainers and the delivery team to update the KAS version
+/GITLAB_KAS_VERSION @project_278964_bot6 @gitlab-org/maintainers/kas-version-maintainers @gitlab-org/maintainers/rails-backend @gitlab-org/delivery
+
 ## Files that are excluded from required approval
 ## These rules override the * rule above, so that changes to docs and templates
 ## can be merged by any user who has maintainer rights, but is not included in
@@ -1138,6 +1141,7 @@ lib/gitlab/checks/**
 /app/validators/json_schemas/cluster_agent_authorization_configuration.json
 /app/views/admin/application_settings/_external_authorization_service_form.html.haml
 /app/views/admin/impersonation_tokens/
+/app/views/admin/sessions/
 /app/views/authentication/
 /app/views/dashboard/projects/_zero_authorized_projects.html.haml
 /app/views/devise/mailer/password_change.html.haml
@@ -1154,6 +1158,7 @@ lib/gitlab/checks/**
 /app/views/groups/settings/_two_factor_auth.html.haml
 /app/views/groups/settings/access_tokens/
 /app/views/layouts/devise*.haml
+/app/views/layouts/terms.html.haml
 /app/views/layouts/oauth_error.html.haml
 /app/views/notify/access_token_about_to_expire_email.html.haml
 /app/views/notify/access_token_about_to_expire_email.text.erb
@@ -1562,9 +1567,6 @@ ee/lib/ee/api/entities/project.rb
 /ee/config/routes/identity_verification.rb
 /ee/lib/arkose/
 /ee/lib/telesign/
-
-[Deploy:Environments - KAS Version Maintainers] @project_278964_bot6 @gitlab-org/maintainers/kas-version-maintainers @gitlab-org/maintainers/rails-backend @gitlab-org/delivery
-/GITLAB_KAS_VERSION
 
 ^[DiffMatchPatch gem]
 /vendor/gems/diff_match_patch @garyh

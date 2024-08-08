@@ -20,7 +20,7 @@ To use Code Suggestions, use one of these editor extensions:
 
 | IDE                                                                        | Extension                                                                                                                   |
 |----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
-| Visual Studio Code (VS Code)                                               | [VS Code GitLab Workflow extension](https://marketplace.visualstudio.com/items?itemName=GitLab.gitlab-workflow)             |
+| Visual Studio Code (VS Code)                                               | [GitLab Workflow for VS Code](https://marketplace.visualstudio.com/items?itemName=GitLab.gitlab-workflow)             |
 | [GitLab Web IDE (VS Code in the Cloud)](../../../project/web_ide/index.md) | No configuration required.                                                                                                  |
 | Microsoft Visual Studio (2022 for Windows)                                 | [Visual Studio GitLab extension](https://marketplace.visualstudio.com/items?itemName=GitLab.GitLabExtensionForVisualStudio) |
 | JetBrains IDEs                                                             | [GitLab Duo Plugin for JetBrains](https://plugins.jetbrains.com/plugin/22325-gitlab-duo)                                    |
@@ -70,58 +70,7 @@ plugin support. Refer to the JetBrains documentation for specifics on your IDE.
 
 For languages not listed in the table, Code Suggestions might not function as expected.
 
-## Use open tabs as context
-
-> - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/issues/206) in GitLab 17.2.
-
-To enhance the accuracy and relevance of GitLab Duo Code Suggestions, enable the use of
-open tabs as context in your IDE settings. This feature uses the contents of files most recently
-opened or changed in your IDE to provide more tailored code suggestions, within certain truncation limits.
-This extra context gives you:
-
-- More accurate and relevant code suggestions
-- Better alignment with your project's standards and practices
-- Improved context for new file creation
-
-Open tabs as context supports these languages:
-
-- Code Completion: All configured languages.
-- Code Generation: Go, Java, JavaScript, Kotlin, Python, Ruby, Rust, TypeScript (`.ts` and `.tsx` files),
-  Vue, and YAML.
-
-## Enable open tabs as context
-
-Prerequisites:
-
-- Requires GitLab 17.1 or later.
-- For GitLab self-managed instances, enable the `code_suggestions_context`and the
-  `advanced_context_resolver` [feature flags](../../../feature_flags.md).
-- GitLab Duo Code Suggestions enabled for your project
-- For Visual Studio Code, requires the GitLab Workflow extension, version 4.14.2 or later.
-
-::Tabs
-
-:::TabTitle Visual Studio Code
-
-1. Install the [GitLab Workflow extension](https://marketplace.visualstudio.com/items?itemName=GitLab.gitlab-workflow)
-   from the Visual Studio Marketplace.
-1. Configure the extension following the
-   [setup instructions](https://gitlab.com/gitlab-org/gitlab-vscode-extension#extension-settings).
-1. Enable the feature by toggling the `gitlab.aiAssistedCodeSuggestions.enabledSupportedLanguages` setting.
-
-:::TabTitle JetBrains IDEs
-
-For installation instructions for JetBrains IDEs, see the
-[GitLab JetBrains Plugin documentation](https://gitlab.com/gitlab-org/editor-extensions/gitlab-jetbrains-plugin#toggle-sending-open-tabs-as-context).
-
-::EndTabs
-
-When you're ready to start coding:
-
-1. Open relevant files, including configuration files, to provide better context.
-1. Close any files you don't want to be used as context.
-
-## View Multiple Code Suggestions
+## View multiple code suggestions
 
 > - [Introduced](https://gitlab.com/gitlab-org/gitlab-vscode-extension/-/issues/1325) in GitLab 17.1.
 
@@ -130,10 +79,14 @@ might be available. To view all available suggestions:
 
 1. Hover over the code completion suggestion.
 1. Scroll through the alternatives. Either:
-   - Use keyboard shortcuts. Press <kbd>Option</kbd> + <kbd>`]`</kbd> to view the
-     next suggestion, and <kbd>Option</kbd> + <kbd>`[`</kbd> to view the previous
-     suggestions.
-   - Select the right or left arrow to see next or previous options.
+   - Use keyboard shortcuts:
+     - On a Mac, press <kbd>Option</kbd> + <kbd>]</kbd> to view the
+       next suggestion, and <kbd>Option</kbd> + <kbd>&#91;</kbd> to view the previous
+       suggestions.
+     - On Windows, press <kbd>Alt</kbd> + <kbd>]</kbd> to view the
+       next suggestion, and <kbd>Alt</kbd> + <kbd>&#91;</kbd> to view the previous
+       suggestions.
+   - On the dialog that's displayed, select the right or left arrow to see next or previous options.
 1. Press <kbd>Tab</kbd> to apply the suggestion you prefer.
 
 ## Add additional languages for Code Suggestions
@@ -144,7 +97,7 @@ you can add support for it locally.
 Prerequisites:
 
 - You have installed and enabled the
-  [GitLab Workflow extension for VS Code](../../../../editor_extensions/visual_studio_code/index.md#download-the-extension).
+  [GitLab Workflow extension for VS Code](../../../../editor_extensions/visual_studio_code/index.md).
 - You have completed the [extension setup](https://gitlab.com/gitlab-org/gitlab-vscode-extension/#setup)
   instructions, and authorized the extension to access your GitLab account.
 

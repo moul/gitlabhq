@@ -78,7 +78,7 @@ RSpec.describe Banzai::Filter::GollumTagsFilter, feature_category: :wiki do
       text = "]#{'[[a' * 200000}[]"
 
       expect do
-        Timeout.timeout(3.seconds) { filter(text, context) }
+        Timeout.timeout(BANZAI_FILTER_TIMEOUT_MAX) { filter(text, context) }
       end.not_to raise_error
     end
   end
@@ -103,4 +103,9 @@ RSpec.describe Banzai::Filter::GollumTagsFilter, feature_category: :wiki do
   end
 
   it_behaves_like 'pipeline timing check'
+
+  it_behaves_like 'limits the number of filtered items', context: { pipeline: :ascii_doc } do
+    let(:text) { '[[page name or url]] [[page name or url]] [[page name or url]]' }
+    let(:ends_with) { '</a> [[page name or url]]' }
+  end
 end

@@ -85,7 +85,7 @@ Alternatively, you can use root cause analysis to [troubleshoot failed CI/CD job
 ## Troubleshoot failed CI/CD jobs with root cause analysis
 
 DETAILS:
-**Tier:** Ultimate with [GitLab Duo Enterprise](../../subscriptions/subscription-add-ons.md)
+**Tier:** For a limited time, Ultimate. In the future, Ultimate with [GitLab Duo Enterprise](../../subscriptions/subscription-add-ons.md).
 **Offering:** GitLab.com, Self-managed, GitLab Dedicated
 
 > - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/123692) in GitLab 16.2 as an [experiment](../../policy/experiment-beta-support.md#experiment) on GitLab.com.
@@ -105,7 +105,7 @@ To troubleshoot a failed CI/CD job:
 1. Select the failed CI/CD job.
 1. From the job log page, do one of the following:
 
-   - Above the job log, select **Troubleshoot**.
+   - Below the job log, select **Troubleshoot**.
    - Open GitLab Duo Chat and type `/troubleshoot`.
 
 An analysis of the reasons for the failure and an example fix is displayed.

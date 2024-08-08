@@ -166,6 +166,11 @@ gem 'gitlab-topology-service-client', '~> 0.1',
   path: 'vendor/gems/gitlab-topology-service-client',
   feature_category: :cell
 
+# Duo Workflow
+gem 'gitlab-duo-workflow-service-client', '~> 0.1',
+  path: 'vendor/gems/gitlab-duo-workflow-service-client',
+  feature_category: :duo_workflow
+
 # Generate Fake data
 gem 'ffaker', '~> 2.23' # rubocop:todo Gemfile/MissingFeatureCategory
 
@@ -228,7 +233,7 @@ gem 'elasticsearch-rails', '~> 7.2', require: 'elasticsearch/rails/instrumentati
 gem 'elasticsearch-api', '7.17.11', feature_category: :global_search
 gem 'aws-sdk-core', '~> 3.201.0' # rubocop:todo Gemfile/MissingFeatureCategory
 gem 'aws-sdk-cloudformation', '~> 1' # rubocop:todo Gemfile/MissingFeatureCategory
-gem 'aws-sdk-s3', '~> 1.156.0' # rubocop:todo Gemfile/MissingFeatureCategory
+gem 'aws-sdk-s3', '~> 1.157.0' # rubocop:todo Gemfile/MissingFeatureCategory
 gem 'faraday-typhoeus', '~> 1.1', feature_category: :global_search
 gem 'faraday_middleware-aws-sigv4', '~> 1.0.1', feature_category: :global_search
 # Used with Elasticsearch to support http keep-alive connections
@@ -351,9 +356,7 @@ gem 'loofah', '~> 2.22.0' # rubocop:todo Gemfile/MissingFeatureCategory
 gem 'licensee', '~> 9.16' # rubocop:todo Gemfile/MissingFeatureCategory
 
 # Detect and convert string character encoding
-# We forked charlock_holmes at https://gitlab.com/gitlab-org/ruby/gems/charlock_holmes
-# but changed it's name to 'static_holmes' in the gemspec file.
-gem 'static_holmes', '~> 0.7.11', require: 'charlock_holmes', feature_category: :shared
+gem 'charlock_holmes', '~> 0.7.9', feature_category: :shared
 
 # Detect mime content type from content
 gem 'ruby-magic', '~> 0.6' # rubocop:todo Gemfile/MissingFeatureCategory
@@ -628,7 +631,11 @@ gem 'gitaly', '~> 17.2.0', feature_category: :gitaly
 # KAS GRPC protocol definitions
 gem 'kas-grpc', '~> 0.6.0', feature_category: :deployment_management
 
-gem 'grpc', '~> 1.63', feature_category: :shared
+# Lock the version before issues below are resolved:
+# https://gitlab.com/gitlab-org/gitlab/-/issues/473169#note_2028352939
+# Or we can upgrade to a more recent version as long as we can confirm
+# that it doesn't have the same issues.
+gem 'grpc', '= 1.63.0', feature_category: :shared
 
 gem 'google-protobuf', '~> 3.25', '>= 3.25.3' # rubocop:todo Gemfile/MissingFeatureCategory
 

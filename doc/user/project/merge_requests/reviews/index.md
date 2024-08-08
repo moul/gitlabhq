@@ -22,12 +22,34 @@ To review merge requests, you can use:
 
 - The GitLab interface.
 - Visual Studio Code, if you have configured the
-  [GitLab Workflow VS Code extension](../../../../editor_extensions/visual_studio_code/index.md).
+  [GitLab Workflow extension for VS Code](../../../../editor_extensions/visual_studio_code/index.md).
 - Your terminal window, if you have configured the [GitLab CLI](../../../../editor_extensions/gitlab_cli/index.md).
 
 <i class="fa fa-youtube-play youtube" aria-hidden="true"></i>
 For an overview, see [Merge request review](https://www.youtube.com/watch?v=2MayfXKpU08&list=PLFGfElNsQthYDx0A_FaNNfUm9NHsK6zED&index=183).
 <!-- Video published on 2023-04-29 -->
+
+## View the review status of a merge request
+
+To do this:
+
+1. On the left sidebar, select **Search or go to** and find your project.
+1. Select **Code > Merge requests** and find your merge request.
+1. Select the title of the merge request to view it.
+1. Scroll to the [merge request widget](../widgets.md) to see the mergeability and
+   approval status for the merge request. For example, this merge request is blocked
+   because it hasn't received the approvals it needs:
+
+   ![The merge request widget displays 'All required approvals must be given'.](img/reviews_missing_v17_3.png)
+
+To see the individual review status for each reviewer, check the right sidebar
+of a merge request. Each **Reviewer** shows the status to the right of the user's name:
+
+- **{dash-circle}** Awaiting review from this user.
+- **{status_running}** The user's review is in progress.
+- **{check-circle}** Approved by this user.
+- **{comment-lines}** User has requested changes, and [blocked this merge request](#prevent-merge-when-you-request-changes).
+  (If needed, you can [bypass this block](#prevent-merge-when-you-request-changes).)
 
 ## Request a review
 

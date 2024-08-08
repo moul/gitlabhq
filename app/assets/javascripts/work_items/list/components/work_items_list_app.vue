@@ -3,6 +3,14 @@ import { GlFilteredSearchToken, GlLoadingIcon } from '@gitlab/ui';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import IssueCardStatistics from 'ee_else_ce/issues/list/components/issue_card_statistics.vue';
 import IssueCardTimeInfo from 'ee_else_ce/issues/list/components/issue_card_time_info.vue';
+import {
+  convertToApiParams,
+  convertToSearchQuery,
+  deriveSortKey,
+  getDefaultWorkItemTypes,
+  getInitialPageParams,
+  getTypeTokenOptions,
+} from 'ee_else_ce/issues/list/utils';
 import { TYPENAME_USER } from '~/graphql_shared/constants';
 import { convertToGraphQLId } from '~/graphql_shared/utils';
 import {
@@ -13,15 +21,8 @@ import {
   WORKSPACE_PROJECT,
 } from '~/issues/constants';
 import { AutocompleteCache } from '~/issues/dashboard/utils';
-import { defaultTypeTokenOptions } from '~/issues/list/constants';
 import searchLabelsQuery from '~/issues/list/queries/search_labels.query.graphql';
 import setSortPreferenceMutation from '~/issues/list/queries/set_sort_preference.mutation.graphql';
-import {
-  convertToApiParams,
-  convertToSearchQuery,
-  deriveSortKey,
-  getInitialPageParams,
-} from '~/issues/list/utils';
 import { fetchPolicies } from '~/lib/graphql';
 import { scrollUp } from '~/lib/utils/scroll_utils';
 import { __, s__ } from '~/locale';
@@ -77,16 +78,24 @@ export default {
   inject: [
     'autocompleteAwardEmojisPath',
     'fullPath',
+    'hasEpicsFeature',
+    'hasOkrsFeature',
+    'hasQualityManagementFeature',
     'initialSort',
     'isGroup',
     'isSignedIn',
     'workItemType',
   ],
   props: {
-    eeCreatedWorkItemsCount: {
+    eeWorkItemUpdateCount: {
       type: Number,
       required: false,
       default: 0,
+    },
+    showBulkEditSidebar: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
@@ -116,7 +125,7 @@ export default {
           ...this.apiFilterParams,
           ...this.pageParams,
           includeDescendants: !this.apiFilterParams.fullPath,
-          types: this.apiFilterParams.types || [this.workItemType],
+          types: this.apiFilterParams.types || this.workItemType || this.defaultWorkItemTypes,
         };
       },
       update(data) {
@@ -148,6 +157,13 @@ export default {
   computed: {
     apiFilterParams() {
       return convertToApiParams(this.filterTokens);
+    },
+    defaultWorkItemTypes() {
+      return getDefaultWorkItemTypes({
+        hasEpicsFeature: this.hasEpicsFeature,
+        hasOkrsFeature: this.hasOkrsFeature,
+        hasQualityManagementFeature: this.hasQualityManagementFeature,
+      });
     },
     hasSearch() {
       return Boolean(this.searchQuery);
@@ -255,7 +271,7 @@ export default {
           icon: 'issues',
           token: GlFilteredSearchToken,
           operators: OPERATORS_IS,
-          options: defaultTypeTokenOptions,
+          options: this.typeTokenOptions,
         });
       }
 
@@ -294,9 +310,16 @@ export default {
     showPageSizeSelector() {
       return this.workItems.length > 0;
     },
+    typeTokenOptions() {
+      return getTypeTokenOptions({
+        hasEpicsFeature: this.hasEpicsFeature,
+        hasOkrsFeature: this.hasOkrsFeature,
+        hasQualityManagementFeature: this.hasQualityManagementFeature,
+      });
+    },
   },
   watch: {
-    eeCreatedWorkItemsCount() {
+    eeWorkItemUpdateCount() {
       // Only reset isInitialAllCountSet when there's no issues to minimize unmounting IssuableList
       if (!this.hasAnyIssues) {
         this.isInitialAllCountSet = false;
@@ -414,6 +437,7 @@ export default {
     :initial-sort-by="sortKey"
     :issuables="workItems"
     :issuables-loading="isLoading"
+    :show-bulk-edit-sidebar="showBulkEditSidebar"
     namespace="work-items"
     recent-searches-storage-key="issues"
     :search-tokens="searchTokens"
@@ -455,6 +479,14 @@ export default {
 
     <template #list-body>
       <slot name="list-body"></slot>
+    </template>
+
+    <template #bulk-edit-actions="{ checkedIssuables }">
+      <slot name="bulk-edit-actions" :checked-issuables="checkedIssuables"></slot>
+    </template>
+
+    <template #sidebar-items="{ checkedIssuables }">
+      <slot name="sidebar-items" :checked-issuables="checkedIssuables"></slot>
     </template>
   </issuable-list>
 

@@ -41,6 +41,7 @@ class MergeRequest < ApplicationRecord
 
   SORTING_PREFERENCE_FIELD = :merge_requests_sort
   CI_MERGE_REQUEST_DESCRIPTION_MAX_LENGTH = 2700
+  MERGE_LEASE_TIMEOUT = 15.minutes.to_i
 
   belongs_to :target_project, class_name: "Project"
   belongs_to :source_project, class_name: "Project"
@@ -695,6 +696,10 @@ class MergeRequest < ApplicationRecord
     [:assignees, :reviewers] + super
   end
 
+  def self.use_locked_set?
+    Feature.enabled?(:unstick_locked_merge_requests_redis) # rubocop: disable Gitlab/FeatureFlagWithoutActor -- no actor needed
+  end
+
   def committers(with_merge_commits: false, lazy: false, include_author_when_signed: false)
     strong_memoize_with(:committers, with_merge_commits, lazy, include_author_when_signed) do
       commits.committers(
@@ -1273,7 +1278,10 @@ class MergeRequest < ApplicationRecord
       skip_discussions_check: merge_when_checks_pass_strat,
       skip_external_status_check: merge_when_checks_pass_strat,
       skip_requested_changes_check: merge_when_checks_pass_strat,
-      skip_jira_check: merge_when_checks_pass_strat
+      skip_locked_paths_check: merge_when_checks_pass_strat,
+      skip_jira_check: merge_when_checks_pass_strat,
+      skip_locked_lfs_files_check: merge_when_checks_pass_strat,
+      skip_security_policy_check: merge_when_checks_pass_strat
     }
   end
 
@@ -1285,7 +1293,9 @@ class MergeRequest < ApplicationRecord
   # skip_blocked_check
   # skip_external_status_check
   # skip_requested_changes_check
+  # skip_locked_paths_check
   # skip_jira_check
+  # skip_locked_lfs_files_check
   def mergeable?(check_mergeability_retry_lease: false, skip_rebase_check: false, **mergeable_state_check_params)
     return false unless mergeable_state?(**mergeable_state_check_params)
 
@@ -1302,7 +1312,8 @@ class MergeRequest < ApplicationRecord
       ::MergeRequests::Mergeability::CheckDraftStatusService,
       ::MergeRequests::Mergeability::CheckCommitsStatusService,
       ::MergeRequests::Mergeability::CheckDiscussionsStatusService,
-      ::MergeRequests::Mergeability::CheckCiStatusService
+      ::MergeRequests::Mergeability::CheckCiStatusService,
+      ::MergeRequests::Mergeability::CheckLfsFileLocksService
     ]
   end
 
@@ -1747,10 +1758,19 @@ class MergeRequest < ApplicationRecord
   end
 
   def in_locked_state
+    # This method raises an error when adding to Redis set fails. This is so
+    # we can retry merging if it wasn't added to ensure that the MR gets added
+    # to locked set for unsticking in case it gets into a stuck state during
+    # the merge process.
+    add_to_locked_set
     lock_mr
     yield
   ensure
     unlock_mr if locked?
+
+    # We only remove it from the locked set if it's no longer locked as it means
+    # the MR is either unlocked or merged.
+    remove_from_locked_set unless locked?
   end
 
   def update_and_mark_in_progress_merge_commit_sha(commit_id)
@@ -2350,6 +2370,36 @@ class MergeRequest < ApplicationRecord
       description,
       custom_regex: project.jira_integration.reference_pattern
     )
+  end
+
+  def merge_exclusive_lease
+    lease_key = ['merge_requests_merge_service', id].join(':')
+
+    Gitlab::ExclusiveLease.new(lease_key, timeout: MERGE_LEASE_TIMEOUT)
+  end
+
+  def source_and_target_branches_exist?
+    source_branch_sha.present? && target_branch_sha.present?
+  end
+
+  def has_diffs?
+    Gitlab::Git::Compare.new(
+      project.repository.raw_repository,
+      target_branch_sha,
+      source_branch_sha
+    ).diffs.any?
+  end
+
+  def add_to_locked_set
+    return unless self.class.use_locked_set?
+
+    Gitlab::MergeRequests::LockedSet.add(self.id, rescue_connection_error: false)
+  end
+
+  def remove_from_locked_set
+    return unless self.class.use_locked_set?
+
+    Gitlab::MergeRequests::LockedSet.remove(self.id)
   end
 
   private

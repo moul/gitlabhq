@@ -20,6 +20,8 @@ import {
   I18N_WORK_ITEM_CONFIDENTIALITY_CHECKBOX_TOOLTIP,
   SEARCH_DEBOUNCE,
   WORK_ITEM_TYPE_ENUM_EPIC,
+  MAX_WORK_ITEMS,
+  I18N_MAX_WORK_ITEMS_ERROR_MESSAGE,
 } from '~/work_items/constants';
 import projectWorkItemsQuery from '~/work_items/graphql/project_work_items.query.graphql';
 import namespaceWorkItemTypesQuery from '~/work_items/graphql/namespace_work_item_types.query.graphql';
@@ -32,6 +34,7 @@ import {
   updateWorkItemMutationResponse,
   mockIterationWidgetResponse,
   namespaceProjectsList,
+  generateWorkItemsListWithId,
 } from '../../mock_data';
 
 Vue.use(VueApollo);
@@ -127,6 +130,7 @@ describe('WorkItemLinksForm', () => {
   const findTooltip = () => wrapper.findComponent(GlTooltip);
   const findAddChildButton = () => wrapper.findByTestId('add-child-button');
   const findValidationElement = () => wrapper.findByTestId('work-items-invalid');
+  const findWorkItemLimitValidationMessage = () => wrapper.findByTestId('work-items-limit-error');
   const findErrorMessageElement = () => wrapper.findByTestId('work-items-error');
   const findProjectSelector = () => wrapper.findComponent(WorkItemProjectsListbox);
 
@@ -181,7 +185,7 @@ describe('WorkItemLinksForm', () => {
         expect(findInput().props('state')).toBe(false);
       });
 
-      it('creates child task in non confidential parent', async () => {
+      it('creates child task in non confidential parent and closes the form', async () => {
         findInput().vm.$emit('input', 'Create task test');
 
         findForm().vm.$emit('submit', {
@@ -201,6 +205,7 @@ describe('WorkItemLinksForm', () => {
           },
         });
         expect(wrapper.emitted('addChild')).toEqual([[]]);
+        expect(wrapper.emitted('cancel')).toEqual([[]]);
       });
 
       it('creates child task in confidential parent', async () => {
@@ -244,7 +249,7 @@ describe('WorkItemLinksForm', () => {
         expect(findWorkItemTokenInput().exists()).toBe(false);
       });
 
-      it('creates child issue in non confidential parent', async () => {
+      it('creates child issue in non confidential parent and closes the form', async () => {
         findInput().vm.$emit('input', 'Create issue test');
 
         findProjectSelector().vm.$emit('selectProject', projectData[0].fullPath);
@@ -267,6 +272,7 @@ describe('WorkItemLinksForm', () => {
           },
         });
         expect(wrapper.emitted('addChild')).toEqual([[]]);
+        expect(wrapper.emitted('cancel')).toEqual([[]]);
       });
 
       it('creates child issue in confidential parent', async () => {
@@ -423,7 +429,7 @@ describe('WorkItemLinksForm', () => {
       });
     });
 
-    it('selects and adds children', async () => {
+    it('selects, adds children and closes the form', async () => {
       await selectAvailableWorkItemTokens();
 
       expect(findAddChildButton().text()).toBe('Add tasks');
@@ -435,7 +441,9 @@ describe('WorkItemLinksForm', () => {
         preventDefault: jest.fn(),
       });
       await waitForPromises();
+
       expect(updateMutationResolver).toHaveBeenCalled();
+      expect(wrapper.emitted('cancel')).toEqual([[]]);
     });
 
     it('shows validation error when non-confidential child items are being added to confidential parent', async () => {
@@ -458,6 +466,17 @@ describe('WorkItemLinksForm', () => {
             parentWorkItemType: 'Issue',
           },
         ),
+      );
+    });
+
+    it('disables button ans shows validation error when more than 10 work items are selected', async () => {
+      await selectAvailableWorkItemTokens(generateWorkItemsListWithId(MAX_WORK_ITEMS + 1));
+
+      expect(findWorkItemTokenInput().props('areWorkItemsToAddValid')).toBe(false);
+      expect(findAddChildButton().attributes('disabled')).toBe('true');
+      expect(findWorkItemLimitValidationMessage().exists()).toBe(true);
+      expect(findWorkItemLimitValidationMessage().text()).toContain(
+        I18N_MAX_WORK_ITEMS_ERROR_MESSAGE,
       );
     });
 

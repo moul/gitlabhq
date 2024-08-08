@@ -270,6 +270,9 @@ merge_requests:
 - scan_result_policy_violations
 - applicable_post_merge_approval_rules
 - requested_changes
+- scan_result_policy_reads_through_violations
+- scan_result_policy_reads_through_approval_rules
+- running_scan_result_policy_violations
 external_pull_requests:
 - project
 merge_request_diff:
@@ -431,6 +434,7 @@ builds:
 - job_artifacts_lsif
 - job_artifacts_dotenv
 - job_artifacts_cobertura
+- job_artifacts_jacoco
 - job_artifacts_terraform
 - job_artifacts_accessibility
 - job_artifacts_cluster_applications
@@ -865,6 +869,8 @@ project:
 - design_management_repository
 - design_management_repository_state
 - compliance_standards_adherence
+- compliance_requirements
+- compliance_checks
 - scan_result_policy_reads
 - scan_result_policy_violations
 - project_state

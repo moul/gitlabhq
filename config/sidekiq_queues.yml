@@ -407,6 +407,8 @@
   - 2
 - - import_load_placeholder_references
   - 1
+- - import_reassign_placeholder_user_records
+  - 1
 - - import_refresh_import_jid
   - 1
 - - incident_management
@@ -754,6 +756,8 @@
 - - security_scan_execution_policies_rule_schedule
   - 1
 - - security_scan_result_policies_add_approvers_to_rules
+  - 1
+- - security_scan_result_policies_delete_scan_result_policy_reads
   - 1
 - - security_scan_result_policies_fallback_behavior_tracking
   - 1

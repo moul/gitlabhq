@@ -7,8 +7,8 @@
           - if @count
             %span.gl-inline-flex.gl-items-center.gl-gap-2.gl-text-sm.gl-text-subtle{ data: { testid: 'crud-count' } }
               - if @icon
-                = sprite_icon(@icon)
-              %span{ class: @count_class }
+                = sprite_icon(@icon, css_class: @icon_class)
+              %span{ @count_options }
                 = @count
         - if description? || @description
           .gl-text-sm.gl-text-subtle.gl-mt-1.gl-mb-0{ data: { testid: 'crud-description' } }
@@ -26,10 +26,10 @@
     .crud-body.gl-mx-5.gl-my-4{ body_options_attrs }
       = body
 
+      - if pagination?
+        .crud-pagination.gl-flex.gl-justify-center.gl-p-5.gl-border-t{ data: { testid: 'crud-pagination' } }
+          = pagination
+
     - if footer?
       .gl-px-5.gl-py-4.gl-bg-default.gl-border-t.gl-border-default.gl-rounded-b-base{ footer_options_attrs }
         = footer
-
-  - if pagination?
-    .gl-mt-5{ data: { testid: 'crud-pagination' } }
-      = pagination

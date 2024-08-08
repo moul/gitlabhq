@@ -12,7 +12,7 @@ The following GitLab Duo features are
 ## Summarize issue discussions with Discussion summary
 
 DETAILS:
-**Tier:** Ultimate for a limited time. In the future, Ultimate with [GitLab Duo Enterprise](../../subscriptions/subscription-add-ons.md).
+**Tier:** For a limited time, Ultimate. In the future, Ultimate with [GitLab Duo Enterprise](../../subscriptions/subscription-add-ons.md).
 **Offering:** GitLab.com
 **Status:** Experiment
 
@@ -35,8 +35,8 @@ The summary is displayed only for you.
 
 Provide feedback on this experimental feature in [issue 407779](https://gitlab.com/gitlab-org/gitlab/-/issues/407779).
 
-**Data usage**: When you use this feature, the text of all comments on the issue are sent to the large
-language model referenced above.
+**Data usage**: When you use this feature, the text of all comments on the issue are sent to
+the large [language model listed on the GitLab Duo page](index.md#discussion-summary).
 
 ## Forecast deployment frequency with Value stream forecasting
 
@@ -76,7 +76,7 @@ Provide feedback on this experimental feature in [issue 416833](https://gitlab.c
 ## Summarize an issue with Issue description generation
 
 DETAILS:
-**Tier:** Ultimate for a limited time. In the future, Ultimate with [GitLab Duo Enterprise](../../subscriptions/subscription-add-ons.md).
+**Tier:** For a limited time, Ultimate. In the future, Ultimate with [GitLab Duo Enterprise](../../subscriptions/subscription-add-ons.md).
 **Offering:** GitLab.com
 **Status:** Experiment
 
@@ -99,5 +99,5 @@ The issue description is replaced with AI-generated text.
 
 Provide feedback on this experimental feature in [issue 409844](https://gitlab.com/gitlab-org/gitlab/-/issues/409844).
 
-**Data usage**: When you use this feature, the text you enter is sent to the large
-language model referenced above.
+**Data usage**: When you use this feature, the text you enter is sent to
+the large [language model listed on the GitLab Duo page](index.md#issue-description-generation).

@@ -72,9 +72,14 @@ RSpec.describe Banzai::Filter::InlineDiffFilter, feature_category: :source_code_
     doc = '[-{-' * 250_000
 
     expect do
-      Timeout.timeout(3.seconds) { filter(doc) }
+      Timeout.timeout(BANZAI_FILTER_TIMEOUT_MAX) { filter(doc) }
     end.not_to raise_error
   end
 
   it_behaves_like 'pipeline timing check'
+
+  it_behaves_like 'limits the number of filtered items' do
+    let(:text) { '[+added+] [+added+] [+added+]' }
+    let(:ends_with) { '</span> [+added+]' }
+  end
 end
