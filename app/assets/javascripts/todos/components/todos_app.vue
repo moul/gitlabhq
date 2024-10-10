@@ -1,5 +1,13 @@
 <script>
-import { GlLoadingIcon, GlKeysetPagination, GlButton, GlBadge, GlTab, GlTabs } from '@gitlab/ui';
+import {
+  GlLoadingIcon,
+  GlKeysetPagination,
+  GlLink,
+  GlButton,
+  GlBadge,
+  GlTab,
+  GlTabs,
+} from '@gitlab/ui';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { createAlert } from '~/alert';
 import { s__ } from '~/locale';
@@ -14,6 +22,7 @@ const STATUS_BY_TAB = [['pending'], ['done'], ['pending', 'done']];
 
 export default {
   components: {
+    GlLink,
     GlLoadingIcon,
     GlKeysetPagination,
     GlButton,
@@ -45,6 +54,7 @@ export default {
       queryFilterValues: {
         groupId: [],
         projectId: [],
+        authorId: [],
         type: [],
         action: [],
         sort: `${SORT_OPTIONS[0].value}_DESC`,
@@ -57,7 +67,7 @@ export default {
       query: getTodosQuery,
       variables() {
         return {
-          state: STATUS_BY_TAB[this.currentTab],
+          state: this.statusByTab,
           ...this.queryFilterValues,
           ...this.cursor,
         };
@@ -93,6 +103,9 @@ export default {
     },
   },
   computed: {
+    statusByTab() {
+      return STATUS_BY_TAB[this.currentTab];
+    },
     isLoading() {
       return this.$apollo.queries.todos.loading;
     },
@@ -181,7 +194,7 @@ export default {
       </div>
     </div>
 
-    <todos-filter-bar @filters-changed="handleFiltersChanged" />
+    <todos-filter-bar :todos-status="statusByTab" @filters-changed="handleFiltersChanged" />
 
     <div>
       <div class="gl-flex gl-flex-col">
@@ -205,6 +218,12 @@ export default {
           @prev="prevPage"
           @next="nextPage"
         />
+
+        <div class="gl-mt-5 gl-text-center">
+          <gl-link href="https://gitlab.com/gitlab-org/gitlab/-/issues/498315" target="_blank">{{
+            s__('Todos|Leave feedback')
+          }}</gl-link>
+        </div>
       </div>
     </div>
   </div>

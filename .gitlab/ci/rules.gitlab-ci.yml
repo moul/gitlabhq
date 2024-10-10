@@ -2558,6 +2558,13 @@
     - <<: *if-default-refs
       changes: *code-backstage-qa-patterns
 
+.static-analysis:rules:ensure-application-settings-have-definition-file:
+  rules:
+    - <<: *if-default-refs
+      changes:
+        - db/structure.sql
+        - config/application_setting_columns/*.yml
+
 .static-analysis:rules:haml-lint:
   rules:
     - <<: *if-default-refs
@@ -3385,6 +3392,12 @@
     - <<: *if-merge-request-labels-pipeline-expedite
       when: never
     - !reference [".releases:rules:canonical-dot-com-security-gitlab-stable-branch-only", rules]
+
+.release-environments:rules:ai-gateway-tagging:
+  rules:
+    - if: '$AIGW_PIPELINE_TRIGGER_TOKEN == null'
+      when: never
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-ee$/'
 
 ###################
 # Benchmark rules #

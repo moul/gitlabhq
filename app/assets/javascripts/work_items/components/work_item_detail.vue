@@ -247,7 +247,7 @@ export default {
         };
       },
       skip() {
-        return this.isGroupWorkItem;
+        return this.isGroupWorkItem || this.workItemLoading;
       },
       update(data) {
         return data.workspace?.userPermissions ?? defaultWorkspacePermissions;
@@ -482,7 +482,7 @@ export default {
       });
     },
     openInModal({ event, modalWorkItem, context }) {
-      if (!this.workItemsAlphaEnabled || context === LINKED_ITEMS_ANCHOR) {
+      if (!this.workItemsAlphaEnabled || context === LINKED_ITEMS_ANCHOR || this.isDrawer) {
         return;
       }
 
@@ -722,7 +722,7 @@ export default {
                 v-if="showWorkItemCurrentUserTodos"
                 :item-id="workItem.id"
                 :current-user-todos="currentUserTodos"
-                :todos-button-type="'secondary'"
+                todos-button-type="secondary"
                 @todosUpdated="updateWorkItemCurrentTodosWidgetCache"
                 @error="updateError = $event"
               />
@@ -896,7 +896,7 @@ export default {
       </section>
     </section>
     <work-item-detail-modal
-      v-if="!isModal"
+      v-if="!isModal && !isDrawer"
       ref="modal"
       :parent-id="workItem.id"
       :work-item-id="modalWorkItemId"

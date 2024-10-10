@@ -481,7 +481,7 @@ group :development do
 
   gem 'listen', '~> 3.7' # rubocop:todo Gemfile/MissingFeatureCategory
 
-  gem 'ruby-lsp', "~> 0.17.0", require: false, feature_category: :tooling
+  gem 'ruby-lsp', "~> 0.19.0", require: false, feature_category: :tooling
 
   gem 'ruby-lsp-rails', "~> 0.3.6", feature_category: :tooling
 
@@ -501,7 +501,7 @@ group :development, :test do
   gem 'awesome_print', require: false # rubocop:todo Gemfile/MissingFeatureCategory
 
   gem 'database_cleaner-active_record', '~> 2.2.0', feature_category: :database
-  gem 'rspec-rails', '~> 6.1.1', feature_category: :shared
+  gem 'rspec-rails', '~> 7.0.0', feature_category: :shared
   gem 'factory_bot_rails', '~> 6.4.3', feature_category: :tooling
 
   # Prevent occasions where minitest is not bundled in packaged versions of ruby (see #3826)
@@ -593,7 +593,7 @@ group :test do
   # Moved in `test` because https://gitlab.com/gitlab-org/gitlab/-/issues/217527
   gem 'derailed_benchmarks', require: false # rubocop:todo Gemfile/MissingFeatureCategory
 
-  gem 'gitlab_quality-test_tooling', '~> 1.38.0', require: false, feature_category: :tooling
+  gem 'gitlab_quality-test_tooling', '~> 1.39.0', require: false, feature_category: :tooling
 end
 
 gem 'octokit', '~> 9.0', feature_category: :importers

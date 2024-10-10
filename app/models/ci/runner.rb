@@ -97,7 +97,9 @@ module Ci
 
     belongs_to :creator, class_name: 'User', optional: true
 
+    before_validation :ensure_sharding_key_id, on: :update # TODO: will be removed with https://gitlab.com/gitlab-org/gitlab/-/issues/493256
     before_save :ensure_token
+    after_destroy :cleanup_runner_queue
 
     scope :active, ->(value = true) { where(active: value) }
     scope :paused, -> { active(false) }
@@ -224,7 +226,7 @@ module Ci
     scope :with_creator, -> { preload(:creator) }
 
     validate :tag_constraints
-    validates :sharding_key_id, presence: true, on: :create, unless: :instance_type?
+    validates :sharding_key_id, presence: true, unless: :instance_type?
     validates :name, length: { maximum: 256 }, if: :name_changed?
     validates :description, length: { maximum: 1024 }, if: :description_changed?
     validates :access_level, presence: true
@@ -244,8 +246,6 @@ module Ci
 
       where(runner_type: runner_type)
     end
-
-    after_destroy :cleanup_runner_queue
 
     cached_attr_reader :contacted_at
 
@@ -413,8 +413,10 @@ module Ci
 
       # We want to show the first characters of the hash, so we need to bypass any fixed components of the token,
       # such as CREATED_RUNNER_TOKEN_PREFIX or partition_id_prefix_in_16_bit_encode
+      partition_prefix = partition_id_prefix_in_16_bit_encode
       start_index = authenticated_user_registration_type? ? CREATED_RUNNER_TOKEN_PREFIX.length : 0
-      token[start_index..start_index + RUNNER_SHORT_SHA_LENGTH].delete_prefix(partition_id_prefix_in_16_bit_encode)
+      start_index += partition_prefix.length if token[start_index..].start_with?(partition_prefix)
+      token[start_index..start_index + RUNNER_SHORT_SHA_LENGTH - 1]
     end
 
     def tag_list
@@ -545,6 +547,17 @@ module Ci
 
     def compute_token_expiration_project
       Project.where(id: runner_projects.map(&:project_id)).map(&:effective_runner_token_expiration_interval).compact.min&.from_now
+    end
+
+    def ensure_sharding_key_id
+      case runner_type
+      when 'group_type'
+        self.sharding_key_id ||= owner_runner_namespace.namespace_id if owner_runner_namespace
+      when 'project_type'
+        self.sharding_key_id ||= owner_project.id if owner_project
+      else
+        self.sharding_key_id = nil
+      end
     end
 
     def cleanup_runner_queue

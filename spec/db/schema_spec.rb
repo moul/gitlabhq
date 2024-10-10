@@ -30,6 +30,7 @@ RSpec.describe 'Database schema',
     ci_sources_pipelines: [%w[source_partition_id source_pipeline_id], %w[partition_id pipeline_id]],
     ci_sources_projects: [%w[partition_id pipeline_id]], # index on pipeline_id is sufficient
     ci_stages: [%w[partition_id pipeline_id]], # the index on pipeline_id is sufficient
+    issues: [%w[correct_work_item_type_id]],
     notes: %w[namespace_id], # this index is added in an async manner, hence it needs to be ignored in the first phase.
     p_ci_build_trace_metadata: [%w[partition_id build_id], %w[partition_id trace_artifact_id]], # the index on build_id is enough
     p_ci_builds: [%w[partition_id stage_id], %w[partition_id execution_config_id], %w[auto_canceled_by_partition_id auto_canceled_by_id], %w[upstream_pipeline_partition_id upstream_pipeline_id], %w[partition_id commit_id]], # https://gitlab.com/gitlab-org/gitlab/-/merge_requests/142804#note_1745483081
@@ -101,6 +102,7 @@ RSpec.describe 'Database schema',
     p_ci_pipelines: %w[partition_id auto_canceled_by_partition_id auto_canceled_by_id],
     p_ci_runner_machine_builds: %w[project_id],
     ci_runners: %w[sharding_key_id], # This value is meant to populate the partitioned table, no other usage
+    ci_runner_machines: %w[sharding_key_id], # This value is meant to populate the partitioned table, no other usage
     ci_runner_projects: %w[runner_id],
     ci_sources_pipelines: %w[partition_id source_partition_id source_job_id],
     ci_sources_projects: %w[partition_id],
@@ -111,6 +113,7 @@ RSpec.describe 'Database schema',
     cluster_providers_gcp: %w[gcp_project_id operation_id],
     compliance_management_frameworks: %w[group_id],
     commit_user_mentions: %w[commit_id],
+    dast_scanner_profiles_builds: %w[project_id],
     dependency_list_export_parts: %w[start_id end_id],
     dep_ci_build_trace_sections: %w[build_id],
     deploy_keys_projects: %w[deploy_key_id],
@@ -127,7 +130,7 @@ RSpec.describe 'Database schema',
     gitlab_subscription_histories: %w[gitlab_subscription_id hosted_plan_id namespace_id],
     identities: %w[user_id],
     import_failures: %w[project_id],
-    issues: %w[last_edited_by_id state_id correct_work_item_type_id], # correct_work_item_type_id is a temp column
+    issues: %w[last_edited_by_id state_id correct_work_item_type_id],
     issue_emails: %w[email_message_id],
     jira_tracker_data: %w[jira_issue_transition_id],
     keys: %w[user_id],
@@ -285,7 +288,7 @@ RSpec.describe 'Database schema',
             it 'only has existing indexes in the ignored duplicate indexes duplicate_indexes.yml' do
               table_ignored_indexes = (ignored_indexes[table] || {}).to_a.flatten.uniq
               indexes_by_name = indexes.map(&:name)
-              expect(indexes_by_name).to include(*table_ignored_indexes)
+              expect(indexes_by_name).to include(*table_ignored_indexes) unless table_ignored_indexes.empty?
             end
 
             it 'does not have any duplicated indexes' do

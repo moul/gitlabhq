@@ -1,42 +1,51 @@
 import { __ } from '~/locale';
-import contributedProjectsQuery from './graphql/queries/contributed_projects.query.graphql';
-import personalProjectsQuery from './graphql/queries/personal_projects.query.graphql';
-import membershipProjectsQuery from './graphql/queries/membership_projects.query.graphql';
-import starredProjectsQuery from './graphql/queries/starred_projects.query.graphql';
-import inactiveProjectsQuery from './graphql/queries/inactive_projects.query.graphql';
+import projectsQuery from './graphql/queries/projects.query.graphql';
+import userProjectsQuery from './graphql/queries/user_projects.query.graphql';
+
+const transformSortToUpperCase = (variables) => ({
+  ...variables,
+  sort: variables.sort.toUpperCase(),
+});
 
 export const CONTRIBUTED_TAB = {
   text: __('Contributed'),
   value: 'contributed',
-  query: contributedProjectsQuery,
+  query: userProjectsQuery,
+  variables: { contributed: true },
   queryPath: 'currentUser.contributedProjects',
+  transformVariables: transformSortToUpperCase,
 };
 
 export const STARRED_TAB = {
   text: __('Starred'),
   value: 'starred',
-  query: starredProjectsQuery,
+  query: userProjectsQuery,
+  variables: { starred: true },
   queryPath: 'currentUser.starredProjects',
+  transformVariables: transformSortToUpperCase,
 };
 
 export const PERSONAL_TAB = {
   text: __('Personal'),
   value: 'personal',
-  query: personalProjectsQuery,
+  query: projectsQuery,
+  variables: { personal: true },
   queryPath: 'projects',
 };
 
 export const MEMBER_TAB = {
   text: __('Member'),
   value: 'member',
-  query: membershipProjectsQuery,
+  query: projectsQuery,
+  variables: { membership: true },
   queryPath: 'projects',
 };
 
 export const INACTIVE_TAB = {
   text: __('Inactive'),
   value: 'inactive',
-  query: inactiveProjectsQuery,
+  query: projectsQuery,
+  variables: { archived: 'ONLY', membership: true },
   queryPath: 'projects',
 };
 
@@ -64,3 +73,5 @@ export const CUSTOM_DASHBOARD_ROUTE_NAMES = [
 
 export const FILTERED_SEARCH_NAMESPACE = 'dashboard';
 export const FILTERED_SEARCH_TERM_KEY = 'name';
+export const FILTERED_SEARCH_TOKEN_LANGUAGE = 'language';
+export const FILTERED_SEARCH_TOKEN_MIN_ACCESS_LEVEL = 'min_access_level';

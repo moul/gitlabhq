@@ -1077,7 +1077,9 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="queryselfmanagedaddoneligibleusersaddonpurchaseids"></a>`addOnPurchaseIds` | [`[GitlabSubscriptionsAddOnPurchaseID!]!`](#gitlabsubscriptionsaddonpurchaseid) | Global IDs of the add on purchases to find assignments for. |
 | <a id="queryselfmanagedaddoneligibleusersaddontype"></a>`addOnType` | [`GitlabSubscriptionsAddOnType!`](#gitlabsubscriptionsaddontype) | Type of add on to filter the eligible users by. |
+| <a id="queryselfmanagedaddoneligibleusersfilterbyassignedseat"></a>`filterByAssignedSeat` | [`String`](#string) | Filter users list by assigned seat. |
 | <a id="queryselfmanagedaddoneligibleuserssearch"></a>`search` | [`String`](#string) | Search the user list. |
 | <a id="queryselfmanagedaddoneligibleuserssort"></a>`sort` | [`GitlabSubscriptionsUserSort`](#gitlabsubscriptionsusersort) | Sort the user list. |
 
@@ -8909,6 +8911,29 @@ Input type: `SecurityFindingCreateMergeRequestInput`
 | <a id="mutationsecurityfindingcreatemergerequesterrors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during execution of the mutation. |
 | <a id="mutationsecurityfindingcreatemergerequestmergerequest"></a>`mergeRequest` | [`MergeRequest`](#mergerequest) | Merge Request created after mutation. |
 
+### `Mutation.securityFindingCreateVulnerability`
+
+DETAILS:
+**Introduced** in GitLab 17.5.
+**Status**: Experiment.
+
+Input type: `SecurityFindingCreateVulnerabilityInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutationsecurityfindingcreatevulnerabilityclientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutationsecurityfindingcreatevulnerabilityuuid"></a>`uuid` | [`String!`](#string) | UUID of the security finding to be used to create a vulnerability. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutationsecurityfindingcreatevulnerabilityclientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutationsecurityfindingcreatevulnerabilityerrors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during execution of the mutation. |
+| <a id="mutationsecurityfindingcreatevulnerabilityvulnerability"></a>`vulnerability` | [`Vulnerability`](#vulnerability) | Vulnerability created after mutation. |
+
 ### `Mutation.securityFindingDismiss`
 
 Input type: `SecurityFindingDismissInput`
@@ -10704,6 +10729,7 @@ Input type: `WorkItemCreateInput`
 | <a id="mutationworkitemcreateprojectpath"></a>`projectPath` **{warning-solid}** | [`ID`](#id) | **Deprecated:** Please use namespace_path instead. That will cover for both projects and groups. Deprecated in GitLab 15.10. |
 | <a id="mutationworkitemcreaterolledupdateswidget"></a>`rolledupDatesWidget` **{warning-solid}** | [`WorkItemWidgetRolledupDatesInput`](#workitemwidgetrolledupdatesinput) | **Deprecated:** **Status**: Experiment. Introduced in GitLab 16.9. |
 | <a id="mutationworkitemcreatetitle"></a>`title` | [`String!`](#string) | Title of the work item. |
+| <a id="mutationworkitemcreateweightwidget"></a>`weightWidget` | [`WorkItemWidgetWeightInput`](#workitemwidgetweightinput) | Input for weight widget. |
 | <a id="mutationworkitemcreateworkitemtypeid"></a>`workItemTypeId` | [`WorkItemsTypeID!`](#workitemstypeid) | Global ID of a work item type. |
 
 #### Fields
@@ -12339,6 +12365,29 @@ The edge type for [`CodeQualityDegradation`](#codequalitydegradation).
 | ---- | ---- | ----------- |
 | <a id="codequalitydegradationedgecursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="codequalitydegradationedgenode"></a>`node` | [`CodeQualityDegradation`](#codequalitydegradation) | The item at the end of the edge. |
+
+#### `CodeSuggestionEventConnection`
+
+The connection type for [`CodeSuggestionEvent`](#codesuggestionevent).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="codesuggestioneventconnectionedges"></a>`edges` | [`[CodeSuggestionEventEdge]`](#codesuggestioneventedge) | A list of edges. |
+| <a id="codesuggestioneventconnectionnodes"></a>`nodes` | [`[CodeSuggestionEvent]`](#codesuggestionevent) | A list of nodes. |
+| <a id="codesuggestioneventconnectionpageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `CodeSuggestionEventEdge`
+
+The edge type for [`CodeSuggestionEvent`](#codesuggestionevent).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="codesuggestioneventedgecursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="codesuggestioneventedgenode"></a>`node` | [`CodeSuggestionEvent`](#codesuggestionevent) | The item at the end of the edge. |
 
 #### `CommitConnection`
 
@@ -15210,28 +15259,28 @@ The edge type for [`PathLock`](#pathlock).
 | <a id="pathlockedgecursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="pathlockedgenode"></a>`node` | [`PathLock`](#pathlock) | The item at the end of the edge. |
 
-#### `PendingGroupMemberConnection`
+#### `PendingMemberInterfaceConnection`
 
-The connection type for [`PendingGroupMember`](#pendinggroupmember).
-
-##### Fields
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| <a id="pendinggroupmemberconnectionedges"></a>`edges` | [`[PendingGroupMemberEdge]`](#pendinggroupmemberedge) | A list of edges. |
-| <a id="pendinggroupmemberconnectionnodes"></a>`nodes` | [`[PendingGroupMember]`](#pendinggroupmember) | A list of nodes. |
-| <a id="pendinggroupmemberconnectionpageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
-
-#### `PendingGroupMemberEdge`
-
-The edge type for [`PendingGroupMember`](#pendinggroupmember).
+The connection type for [`PendingMemberInterface`](#pendingmemberinterface).
 
 ##### Fields
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="pendinggroupmemberedgecursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
-| <a id="pendinggroupmemberedgenode"></a>`node` | [`PendingGroupMember`](#pendinggroupmember) | The item at the end of the edge. |
+| <a id="pendingmemberinterfaceconnectionedges"></a>`edges` | [`[PendingMemberInterfaceEdge]`](#pendingmemberinterfaceedge) | A list of edges. |
+| <a id="pendingmemberinterfaceconnectionnodes"></a>`nodes` | [`[PendingMemberInterface]`](#pendingmemberinterface) | A list of nodes. |
+| <a id="pendingmemberinterfaceconnectionpageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `PendingMemberInterfaceEdge`
+
+The edge type for [`PendingMemberInterface`](#pendingmemberinterface).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="pendingmemberinterfaceedgecursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="pendingmemberinterfaceedgenode"></a>`node` | [`PendingMemberInterface`](#pendingmemberinterface) | The item at the end of the edge. |
 
 #### `PipelineArtifactRegistryConnection`
 
@@ -17523,6 +17572,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="addonuserstarredprojectsminaccesslevel"></a>`minAccessLevel` | [`AccessLevelEnum`](#accesslevelenum) | Return only projects where current user has at least the specified access level. |
+| <a id="addonuserstarredprojectsprogramminglanguagename"></a>`programmingLanguageName` | [`String`](#string) | Filter projects by programming language name (case insensitive). For example: "css" or "ruby". |
 | <a id="addonuserstarredprojectssearch"></a>`search` | [`String`](#string) | Search query. |
 | <a id="addonuserstarredprojectssort"></a>`sort` | [`ProjectSort`](#projectsort) | List starred projects by sort order. |
 
@@ -17764,6 +17815,14 @@ Self-hosted LLM servers.
 | <a id="aiselfhostedmodelmodel"></a>`model` | [`String!`](#string) | AI model deployed. |
 | <a id="aiselfhostedmodelname"></a>`name` | [`String!`](#string) | Deployment name of the self-hosted model. |
 | <a id="aiselfhostedmodelupdatedat"></a>`updatedAt` | [`Time`](#time) | Timestamp of last update. |
+
+### `AiUsageData`
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="aiusagedatacodesuggestionevents"></a>`codeSuggestionEvents` | [`CodeSuggestionEventConnection`](#codesuggestioneventconnection) | Events related to code suggestions feature. (see [Connections](#connections)) |
 
 ### `AlertManagementAlert`
 
@@ -18436,6 +18495,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="autocompleteduserstarredprojectsminaccesslevel"></a>`minAccessLevel` | [`AccessLevelEnum`](#accesslevelenum) | Return only projects where current user has at least the specified access level. |
+| <a id="autocompleteduserstarredprojectsprogramminglanguagename"></a>`programmingLanguageName` | [`String`](#string) | Filter projects by programming language name (case insensitive). For example: "css" or "ruby". |
 | <a id="autocompleteduserstarredprojectssearch"></a>`search` | [`String`](#string) | Search query. |
 | <a id="autocompleteduserstarredprojectssort"></a>`sort` | [`ProjectSort`](#projectsort) | List starred projects by sort order. |
 
@@ -19696,6 +19757,8 @@ GitLab CI/CD configuration template.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="cloudconnectorproberesultdetails"></a>`details` | [`JSON`](#json) | Additional details about the probe result. |
+| <a id="cloudconnectorproberesulterrors"></a>`errors` | [`[String!]`](#string) | Full list of errors about the probe result. |
 | <a id="cloudconnectorproberesultmessage"></a>`message` | [`String`](#string) | Additional message or details about the probe result. |
 | <a id="cloudconnectorproberesultname"></a>`name` | [`String`](#string) | Name of the probe. |
 | <a id="cloudconnectorproberesultsuccess"></a>`success` | [`Boolean`](#boolean) | Indicates if the probe was successful. |
@@ -19867,6 +19930,19 @@ Code Quality report for a pipeline.
 | <a id="codequalityreportsummarymajor"></a>`major` | [`Int`](#int) | Total number of major status. |
 | <a id="codequalityreportsummaryminor"></a>`minor` | [`Int`](#int) | Total number of minor status. |
 | <a id="codequalityreportsummaryunknown"></a>`unknown` | [`Int`](#int) | Total number of unknown status. |
+
+### `CodeSuggestionEvent`
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="codesuggestioneventevent"></a>`event` | [`AiUsageCodeSuggestionEvent!`](#aiusagecodesuggestionevent) | Type of the event. |
+| <a id="codesuggestioneventlanguage"></a>`language` | [`String`](#string) | Programming language in the context of the suggestion. |
+| <a id="codesuggestioneventsuggestionsize"></a>`suggestionSize` | [`String`](#string) | Size of the code suggestion. |
+| <a id="codesuggestioneventtimestamp"></a>`timestamp` | [`Time!`](#time) | When the event happened. |
+| <a id="codesuggestioneventuniquetrackingid"></a>`uniqueTrackingId` | [`String`](#string) | Unique tracking number. |
+| <a id="codesuggestioneventuser"></a>`user` | [`UserCore!`](#usercore) | User associated with the event. |
 
 ### `CodequalityReportsComparer`
 
@@ -20846,6 +20922,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="currentuserstarredprojectsminaccesslevel"></a>`minAccessLevel` | [`AccessLevelEnum`](#accesslevelenum) | Return only projects where current user has at least the specified access level. |
+| <a id="currentuserstarredprojectsprogramminglanguagename"></a>`programmingLanguageName` | [`String`](#string) | Filter projects by programming language name (case insensitive). For example: "css" or "ruby". |
 | <a id="currentuserstarredprojectssearch"></a>`search` | [`String`](#string) | Search query. |
 | <a id="currentuserstarredprojectssort"></a>`sort` | [`ProjectSort`](#projectsort) | List starred projects by sort order. |
 
@@ -23277,6 +23355,7 @@ GPG signature for a signed commit.
 | <a id="groupactualrepositorysizelimit"></a>`actualRepositorySizeLimit` | [`Float`](#float) | Size limit for repositories in the namespace in bytes. This limit only applies to namespaces under Project limit enforcement. |
 | <a id="groupactualsizelimit"></a>`actualSizeLimit` | [`Float`](#float) | The actual storage size limit (in bytes) based on the enforcement type of either repository or namespace. This limit is agnostic of enforcement type. |
 | <a id="groupadditionalpurchasedstoragesize"></a>`additionalPurchasedStorageSize` | [`Float`](#float) | Additional storage purchased for the root namespace in bytes. |
+| <a id="groupaiusagedata"></a>`aiUsageData` **{warning-solid}** | [`AiUsageData`](#aiusagedata) | **Introduced** in GitLab 17.5. **Status**: Experiment. AI-related data. |
 | <a id="groupallowstalerunnerpruning"></a>`allowStaleRunnerPruning` | [`Boolean!`](#boolean) | Indicates whether to regularly prune stale group runners. Defaults to false. |
 | <a id="groupamazons3configurations"></a>`amazonS3Configurations` | [`AmazonS3ConfigurationTypeConnection`](#amazons3configurationtypeconnection) | Amazon S3 configurations that receive audit events belonging to the group. (see [Connections](#connections)) |
 | <a id="groupautodevopsenabled"></a>`autoDevopsEnabled` | [`Boolean`](#boolean) | Indicates whether Auto DevOps is enabled for all projects within this group. |
@@ -23328,7 +23407,7 @@ GPG signature for a signed commit.
 | <a id="groupparent"></a>`parent` | [`Group`](#group) | Parent group. |
 | <a id="grouppath"></a>`path` | [`String!`](#string) | Path of the namespace. |
 | <a id="grouppendingmemberapprovals"></a>`pendingMemberApprovals` **{warning-solid}** | [`MemberApprovalConnection`](#memberapprovalconnection) | **Introduced** in GitLab 17.3. **Status**: Experiment. Pending member promotions of the group. |
-| <a id="grouppendingmembers"></a>`pendingMembers` **{warning-solid}** | [`PendingGroupMemberConnection`](#pendinggroupmemberconnection) | **Introduced** in GitLab 16.6. **Status**: Experiment. A pending membership of a user within this group. |
+| <a id="grouppendingmembers"></a>`pendingMembers` **{warning-solid}** | [`PendingMemberInterfaceConnection`](#pendingmemberinterfaceconnection) | **Introduced** in GitLab 16.6. **Status**: Experiment. A pending membership of a user within this group. |
 | <a id="grouppermanentdeletiondate"></a>`permanentDeletionDate` **{warning-solid}** | [`String`](#string) | **Introduced** in GitLab 16.11. **Status**: Experiment. Date when group will be deleted if delayed group deletion is enabled. |
 | <a id="groupproductanalyticsstoredeventslimit"></a>`productAnalyticsStoredEventsLimit` **{warning-solid}** | [`Int`](#int) | **Introduced** in GitLab 16.9. **Status**: Experiment. Number of product analytics events namespace is permitted to store per cycle. |
 | <a id="groupprojectcreationlevel"></a>`projectCreationLevel` | [`String`](#string) | Permission level required to create projects in the group. |
@@ -23397,7 +23476,9 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="groupaddoneligibleusersaddonpurchaseids"></a>`addOnPurchaseIds` | [`[GitlabSubscriptionsAddOnPurchaseID!]!`](#gitlabsubscriptionsaddonpurchaseid) | Global IDs of the add on purchases to find assignments for. |
 | <a id="groupaddoneligibleusersaddontype"></a>`addOnType` | [`GitlabSubscriptionsAddOnType!`](#gitlabsubscriptionsaddontype) | Type of add on to filter the eligible users by. |
+| <a id="groupaddoneligibleusersfilterbyassignedseat"></a>`filterByAssignedSeat` | [`String`](#string) | Filter users list by assigned seat. |
 | <a id="groupaddoneligibleuserssearch"></a>`search` | [`String`](#string) | Search the user list. |
 | <a id="groupaddoneligibleuserssort"></a>`sort` | [`GitlabSubscriptionsUserSort`](#gitlabsubscriptionsusersort) | Sort the user list. |
 
@@ -26018,6 +26099,7 @@ Defines which user roles, users, or groups can merge into a protected branch.
 | <a id="mergerequestsupportslockonmerge"></a>`supportsLockOnMerge` | [`Boolean!`](#boolean) | Indicates if the merge request supports locked labels. |
 | <a id="mergerequesttargetbranch"></a>`targetBranch` | [`String!`](#string) | Target branch of the merge request. |
 | <a id="mergerequesttargetbranchexists"></a>`targetBranchExists` | [`Boolean!`](#boolean) | Indicates if the target branch of the merge request exists. |
+| <a id="mergerequesttargetbranchpath"></a>`targetBranchPath` | [`String`](#string) | Path to the target branch of the merge request. |
 | <a id="mergerequesttargetproject"></a>`targetProject` | [`Project!`](#project) | Target project of the merge request. |
 | <a id="mergerequesttargetprojectid"></a>`targetProjectId` | [`Int!`](#int) | ID of the merge request target project. |
 | <a id="mergerequesttaskcompletionstatus"></a>`taskCompletionStatus` | [`TaskCompletionStatus!`](#taskcompletionstatus) | Completion status of tasks. |
@@ -26452,6 +26534,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="mergerequestassigneestarredprojectsminaccesslevel"></a>`minAccessLevel` | [`AccessLevelEnum`](#accesslevelenum) | Return only projects where current user has at least the specified access level. |
+| <a id="mergerequestassigneestarredprojectsprogramminglanguagename"></a>`programmingLanguageName` | [`String`](#string) | Filter projects by programming language name (case insensitive). For example: "css" or "ruby". |
 | <a id="mergerequestassigneestarredprojectssearch"></a>`search` | [`String`](#string) | Search query. |
 | <a id="mergerequestassigneestarredprojectssort"></a>`sort` | [`ProjectSort`](#projectsort) | List starred projects by sort order. |
 
@@ -26848,6 +26932,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="mergerequestauthorstarredprojectsminaccesslevel"></a>`minAccessLevel` | [`AccessLevelEnum`](#accesslevelenum) | Return only projects where current user has at least the specified access level. |
+| <a id="mergerequestauthorstarredprojectsprogramminglanguagename"></a>`programmingLanguageName` | [`String`](#string) | Filter projects by programming language name (case insensitive). For example: "css" or "ruby". |
 | <a id="mergerequestauthorstarredprojectssearch"></a>`search` | [`String`](#string) | Search query. |
 | <a id="mergerequestauthorstarredprojectssort"></a>`sort` | [`ProjectSort`](#projectsort) | List starred projects by sort order. |
 
@@ -27290,6 +27376,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="mergerequestparticipantstarredprojectsminaccesslevel"></a>`minAccessLevel` | [`AccessLevelEnum`](#accesslevelenum) | Return only projects where current user has at least the specified access level. |
+| <a id="mergerequestparticipantstarredprojectsprogramminglanguagename"></a>`programmingLanguageName` | [`String`](#string) | Filter projects by programming language name (case insensitive). For example: "css" or "ruby". |
 | <a id="mergerequestparticipantstarredprojectssearch"></a>`search` | [`String`](#string) | Search query. |
 | <a id="mergerequestparticipantstarredprojectssort"></a>`sort` | [`ProjectSort`](#projectsort) | List starred projects by sort order. |
 
@@ -27705,6 +27793,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="mergerequestreviewerstarredprojectsminaccesslevel"></a>`minAccessLevel` | [`AccessLevelEnum`](#accesslevelenum) | Return only projects where current user has at least the specified access level. |
+| <a id="mergerequestreviewerstarredprojectsprogramminglanguagename"></a>`programmingLanguageName` | [`String`](#string) | Filter projects by programming language name (case insensitive). For example: "css" or "ruby". |
 | <a id="mergerequestreviewerstarredprojectssearch"></a>`search` | [`String`](#string) | Search query. |
 | <a id="mergerequestreviewerstarredprojectssort"></a>`sort` | [`ProjectSort`](#projectsort) | List starred projects by sort order. |
 
@@ -28167,7 +28257,9 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="namespaceaddoneligibleusersaddonpurchaseids"></a>`addOnPurchaseIds` | [`[GitlabSubscriptionsAddOnPurchaseID!]!`](#gitlabsubscriptionsaddonpurchaseid) | Global IDs of the add on purchases to find assignments for. |
 | <a id="namespaceaddoneligibleusersaddontype"></a>`addOnType` | [`GitlabSubscriptionsAddOnType!`](#gitlabsubscriptionsaddontype) | Type of add on to filter the eligible users by. |
+| <a id="namespaceaddoneligibleusersfilterbyassignedseat"></a>`filterByAssignedSeat` | [`String`](#string) | Filter users list by assigned seat. |
 | <a id="namespaceaddoneligibleuserssearch"></a>`search` | [`String`](#string) | Search the user list. |
 | <a id="namespaceaddoneligibleuserssort"></a>`sort` | [`GitlabSubscriptionsUserSort`](#gitlabsubscriptionsusersort) | Sort the user list. |
 
@@ -29087,22 +29179,19 @@ Represents a Pending Group Membership.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="pendinggroupmemberaccesslevel"></a>`accessLevel` | [`AccessLevel`](#accesslevel) | GitLab::Access level. |
-| <a id="pendinggroupmemberapproved"></a>`approved` | [`Boolean`](#boolean) | Whether the pending group member has been approved. |
-| <a id="pendinggroupmemberavatarurl"></a>`avatarUrl` | [`String`](#string) | URL to avatar image file of the pending group member. |
+| <a id="pendinggroupmemberapproved"></a>`approved` | [`Boolean`](#boolean) | Whether the pending member has been approved. |
+| <a id="pendinggroupmemberavatarurl"></a>`avatarUrl` | [`String`](#string) | URL to avatar image file of the pending member. |
 | <a id="pendinggroupmembercreatedat"></a>`createdAt` | [`Time`](#time) | Date and time the membership was created. |
 | <a id="pendinggroupmembercreatedby"></a>`createdBy` | [`UserCore`](#usercore) | User that authorized membership. |
-| <a id="pendinggroupmemberemail"></a>`email` | [`String`](#string) | Public email of the pending group member. |
+| <a id="pendinggroupmemberemail"></a>`email` | [`String`](#string) | Public email of the pending member. |
 | <a id="pendinggroupmemberexpiresat"></a>`expiresAt` | [`Time`](#time) | Date and time the membership expires. |
-| <a id="pendinggroupmembergroup"></a>`group` | [`Group`](#group) | Group that a user is a member of. |
 | <a id="pendinggroupmemberid"></a>`id` | [`ID!`](#id) | ID of the member. |
-| <a id="pendinggroupmemberinvited"></a>`invited` | [`Boolean`](#boolean) | Whether the pending group member has been invited. |
-| <a id="pendinggroupmembername"></a>`name` | [`String`](#string) | Name of the pending group member. |
-| <a id="pendinggroupmembernotificationemail"></a>`notificationEmail` | [`String`](#string) | Group notification email for user. Only available for admins. |
+| <a id="pendinggroupmemberinvited"></a>`invited` | [`Boolean`](#boolean) | Whether the pending member has been invited. |
+| <a id="pendinggroupmembername"></a>`name` | [`String`](#string) | Name of the pending member. |
 | <a id="pendinggroupmemberupdatedat"></a>`updatedAt` | [`Time`](#time) | Date and time the membership was last updated. |
 | <a id="pendinggroupmemberuser"></a>`user` | [`UserCore`](#usercore) | User that is associated with the member object. |
-| <a id="pendinggroupmemberuserpermissions"></a>`userPermissions` | [`GroupPermissions!`](#grouppermissions) | Permissions for the current user on the resource. |
-| <a id="pendinggroupmemberusername"></a>`username` | [`String`](#string) | Username of the pending group member. |
-| <a id="pendinggroupmemberweburl"></a>`webUrl` | [`String`](#string) | Web URL of the pending group member. |
+| <a id="pendinggroupmemberusername"></a>`username` | [`String`](#string) | Username of the pending member. |
+| <a id="pendinggroupmemberweburl"></a>`webUrl` | [`String`](#string) | Web URL of the pending member. |
 
 #### Fields with arguments
 
@@ -29117,6 +29206,43 @@ Returns [`UserMergeRequestInteraction`](#usermergerequestinteraction).
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="pendinggroupmembermergerequestinteractionid"></a>`id` | [`MergeRequestID!`](#mergerequestid) | Global ID of the merge request. |
+
+### `PendingProjectMember`
+
+Represents a Pending Project Membership.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="pendingprojectmemberaccesslevel"></a>`accessLevel` | [`AccessLevel`](#accesslevel) | GitLab::Access level. |
+| <a id="pendingprojectmemberapproved"></a>`approved` | [`Boolean`](#boolean) | Whether the pending member has been approved. |
+| <a id="pendingprojectmemberavatarurl"></a>`avatarUrl` | [`String`](#string) | URL to avatar image file of the pending member. |
+| <a id="pendingprojectmembercreatedat"></a>`createdAt` | [`Time`](#time) | Date and time the membership was created. |
+| <a id="pendingprojectmembercreatedby"></a>`createdBy` | [`UserCore`](#usercore) | User that authorized membership. |
+| <a id="pendingprojectmemberemail"></a>`email` | [`String`](#string) | Public email of the pending member. |
+| <a id="pendingprojectmemberexpiresat"></a>`expiresAt` | [`Time`](#time) | Date and time the membership expires. |
+| <a id="pendingprojectmemberid"></a>`id` | [`ID!`](#id) | ID of the member. |
+| <a id="pendingprojectmemberinvited"></a>`invited` | [`Boolean`](#boolean) | Whether the pending member has been invited. |
+| <a id="pendingprojectmembername"></a>`name` | [`String`](#string) | Name of the pending member. |
+| <a id="pendingprojectmemberupdatedat"></a>`updatedAt` | [`Time`](#time) | Date and time the membership was last updated. |
+| <a id="pendingprojectmemberuser"></a>`user` | [`UserCore`](#usercore) | User that is associated with the member object. |
+| <a id="pendingprojectmemberusername"></a>`username` | [`String`](#string) | Username of the pending member. |
+| <a id="pendingprojectmemberweburl"></a>`webUrl` | [`String`](#string) | Web URL of the pending member. |
+
+#### Fields with arguments
+
+##### `PendingProjectMember.mergeRequestInteraction`
+
+Find a merge request.
+
+Returns [`UserMergeRequestInteraction`](#usermergerequestinteraction).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="pendingprojectmembermergerequestinteractionid"></a>`id` | [`MergeRequestID!`](#mergerequestid) | Global ID of the merge request. |
 
 ### `Pipeline`
 
@@ -29461,6 +29587,8 @@ Represents vulnerability finding of a security report on the pipeline.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="pipelinesecurityreportfindingairesolutionavailable"></a>`aiResolutionAvailable` | [`Boolean`](#boolean) | Indicates whether the type of finding can be resolved with AI. |
+| <a id="pipelinesecurityreportfindingairesolutionenabled"></a>`aiResolutionEnabled` | [`Boolean`](#boolean) | Indicates whether the specific finding can be resolved with AI. |
 | <a id="pipelinesecurityreportfindingassets"></a>`assets` | [`[AssetType!]`](#assettype) | List of assets associated with the vulnerability. |
 | <a id="pipelinesecurityreportfindingdescription"></a>`description` | [`String`](#string) | Description of the vulnerability finding. |
 | <a id="pipelinesecurityreportfindingdescriptionhtml"></a>`descriptionHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `description`. |
@@ -29672,6 +29800,7 @@ Project-level settings for product analytics provider.
 | <a id="projectactualrepositorysizelimit"></a>`actualRepositorySizeLimit` | [`Float`](#float) | Size limit for the repository in bytes. |
 | <a id="projectagentconfigurations"></a>`agentConfigurations` | [`AgentConfigurationConnection`](#agentconfigurationconnection) | Agent configurations defined by the project. (see [Connections](#connections)) |
 | <a id="projectaiagents"></a>`aiAgents` **{warning-solid}** | [`AiAgentConnection`](#aiagentconnection) | **Introduced** in GitLab 16.9. **Status**: Experiment. Ai Agents for the project. |
+| <a id="projectaiusagedata"></a>`aiUsageData` **{warning-solid}** | [`AiUsageData`](#aiusagedata) | **Introduced** in GitLab 17.5. **Status**: Experiment. AI-related data. |
 | <a id="projectallowmergeonskippedpipeline"></a>`allowMergeOnSkippedPipeline` | [`Boolean`](#boolean) | If `only_allow_merge_if_pipeline_succeeds` is true, indicates if merge requests of the project can also be merged with skipped jobs. |
 | <a id="projectallowsmultiplemergerequestassignees"></a>`allowsMultipleMergeRequestAssignees` | [`Boolean!`](#boolean) | Project allows assigning multiple users to a merge request. |
 | <a id="projectallowsmultiplemergerequestreviewers"></a>`allowsMultipleMergeRequestReviewers` | [`Boolean!`](#boolean) | Project allows assigning multiple reviewers to a merge request. |
@@ -30770,6 +30899,23 @@ Returns [`MergeRequest`](#mergerequest).
 | ---- | ---- | ----------- |
 | <a id="projectmergerequestiid"></a>`iid` | [`String!`](#string) | IID of the merge request, for example `1`. |
 
+##### `Project.mergeRequestViolations`
+
+Compliance violations reported on merge requests merged within the project.
+
+Returns [`ComplianceViolationConnection`](#complianceviolationconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="projectmergerequestviolationsfilters"></a>`filters` | [`ComplianceViolationProjectInput`](#complianceviolationprojectinput) | Filters applied when retrieving compliance violations. |
+| <a id="projectmergerequestviolationssort"></a>`sort` | [`ComplianceViolationSort`](#complianceviolationsort) | List compliance violations by sort order. |
+
 ##### `Project.mergeRequests`
 
 Merge requests of the project.
@@ -31834,6 +31980,7 @@ Returns [`UserMergeRequestInteraction`](#usermergerequestinteraction).
 | <a id="projectpermissionsremoveproject"></a>`removeProject` | [`Boolean!`](#boolean) | If `true`, the user can perform `remove_project` on this resource. |
 | <a id="projectpermissionsrenameproject"></a>`renameProject` | [`Boolean!`](#boolean) | If `true`, the user can perform `rename_project` on this resource. |
 | <a id="projectpermissionsrequestaccess"></a>`requestAccess` | [`Boolean!`](#boolean) | If `true`, the user can perform `request_access` on this resource. |
+| <a id="projectpermissionsupdatedesign"></a>`updateDesign` | [`Boolean!`](#boolean) | If `true`, the user can perform `update_design` on this resource. |
 | <a id="projectpermissionsupdatepages"></a>`updatePages` | [`Boolean!`](#boolean) | If `true`, the user can perform `update_pages` on this resource. |
 | <a id="projectpermissionsupdatewiki"></a>`updateWiki` | [`Boolean!`](#boolean) | If `true`, the user can perform `update_wiki` on this resource. |
 | <a id="projectpermissionsuploadfile"></a>`uploadFile` | [`Boolean!`](#boolean) | If `true`, the user can perform `upload_file` on this resource. |
@@ -34235,6 +34382,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="usercorestarredprojectsminaccesslevel"></a>`minAccessLevel` | [`AccessLevelEnum`](#accesslevelenum) | Return only projects where current user has at least the specified access level. |
+| <a id="usercorestarredprojectsprogramminglanguagename"></a>`programmingLanguageName` | [`String`](#string) | Filter projects by programming language name (case insensitive). For example: "css" or "ruby". |
 | <a id="usercorestarredprojectssearch"></a>`search` | [`String`](#string) | Search query. |
 | <a id="usercorestarredprojectssort"></a>`sort` | [`ProjectSort`](#projectsort) | List starred projects by sort order. |
 
@@ -36014,6 +36163,7 @@ LLMs supported by the self-hosted model features.
 | <a id="aiacceptedselfhostedmodelscodellama"></a>`CODELLAMA` | Code-Llama Instruct: Suitable for code suggestions. |
 | <a id="aiacceptedselfhostedmodelscodestral"></a>`CODESTRAL` | Codestral: Suitable for code suggestions. |
 | <a id="aiacceptedselfhostedmodelsdeepseekcoder"></a>`DEEPSEEKCODER` | Deepseek Coder base or instruct. |
+| <a id="aiacceptedselfhostedmodelsgpt"></a>`GPT` | GPT: Suitable for code generation. |
 | <a id="aiacceptedselfhostedmodelsllama3"></a>`LLAMA3` | LLaMA 3: Suitable for code suggestions and duo chat. |
 | <a id="aiacceptedselfhostedmodelsmistral"></a>`MISTRAL` | Mistral: Suitable for code suggestions and duo chat. |
 
@@ -36085,6 +36235,16 @@ Types of messages returned from AI features.
 | Value | Description |
 | ----- | ----------- |
 | <a id="aimessagetypetool"></a>`TOOL` | Tool selection message. |
+
+### `AiUsageCodeSuggestionEvent`
+
+Type of code suggestion event.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="aiusagecodesuggestioneventcode_suggestion_accepted_in_ide"></a>`CODE_SUGGESTION_ACCEPTED_IN_IDE` | Code suggestion accepted. |
+| <a id="aiusagecodesuggestioneventcode_suggestion_rejected_in_ide"></a>`CODE_SUGGESTION_REJECTED_IN_IDE` | Code suggestion rejected. |
+| <a id="aiusagecodesuggestioneventcode_suggestion_shown_in_ide"></a>`CODE_SUGGESTION_SHOWN_IN_IDE` | Code suggestion shown. |
 
 ### `AlertManagementAlertSort`
 
@@ -40896,6 +41056,7 @@ Implementations:
 
 - [`GroupMember`](#groupmember)
 - [`PendingGroupMember`](#pendinggroupmember)
+- [`PendingProjectMember`](#pendingprojectmember)
 - [`ProjectMember`](#projectmember)
 
 ##### Fields
@@ -41000,6 +41161,46 @@ Implementations:
 | ---- | ---- | ----------- |
 | <a id="packagefilemetadatacreatedat"></a>`createdAt` | [`Time!`](#time) | Date of creation. |
 | <a id="packagefilemetadataupdatedat"></a>`updatedAt` | [`Time!`](#time) | Date of most recent update. |
+
+#### `PendingMemberInterface`
+
+Implementations:
+
+- [`PendingGroupMember`](#pendinggroupmember)
+- [`PendingProjectMember`](#pendingprojectmember)
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="pendingmemberinterfaceaccesslevel"></a>`accessLevel` | [`AccessLevel`](#accesslevel) | GitLab::Access level. |
+| <a id="pendingmemberinterfaceapproved"></a>`approved` | [`Boolean`](#boolean) | Whether the pending member has been approved. |
+| <a id="pendingmemberinterfaceavatarurl"></a>`avatarUrl` | [`String`](#string) | URL to avatar image file of the pending member. |
+| <a id="pendingmemberinterfacecreatedat"></a>`createdAt` | [`Time`](#time) | Date and time the membership was created. |
+| <a id="pendingmemberinterfacecreatedby"></a>`createdBy` | [`UserCore`](#usercore) | User that authorized membership. |
+| <a id="pendingmemberinterfaceemail"></a>`email` | [`String`](#string) | Public email of the pending member. |
+| <a id="pendingmemberinterfaceexpiresat"></a>`expiresAt` | [`Time`](#time) | Date and time the membership expires. |
+| <a id="pendingmemberinterfaceid"></a>`id` | [`ID!`](#id) | ID of the member. |
+| <a id="pendingmemberinterfaceinvited"></a>`invited` | [`Boolean`](#boolean) | Whether the pending member has been invited. |
+| <a id="pendingmemberinterfacename"></a>`name` | [`String`](#string) | Name of the pending member. |
+| <a id="pendingmemberinterfaceupdatedat"></a>`updatedAt` | [`Time`](#time) | Date and time the membership was last updated. |
+| <a id="pendingmemberinterfaceuser"></a>`user` | [`UserCore`](#usercore) | User that is associated with the member object. |
+| <a id="pendingmemberinterfaceusername"></a>`username` | [`String`](#string) | Username of the pending member. |
+| <a id="pendingmemberinterfaceweburl"></a>`webUrl` | [`String`](#string) | Web URL of the pending member. |
+
+##### Fields with arguments
+
+###### `PendingMemberInterface.mergeRequestInteraction`
+
+Find a merge request.
+
+Returns [`UserMergeRequestInteraction`](#usermergerequestinteraction).
+
+####### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="pendingmemberinterfacemergerequestinteractionid"></a>`id` | [`MergeRequestID!`](#mergerequestid) | Global ID of the merge request. |
 
 #### `ResolvableInterface`
 
@@ -41415,6 +41616,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="userstarredprojectsminaccesslevel"></a>`minAccessLevel` | [`AccessLevelEnum`](#accesslevelenum) | Return only projects where current user has at least the specified access level. |
+| <a id="userstarredprojectsprogramminglanguagename"></a>`programmingLanguageName` | [`String`](#string) | Filter projects by programming language name (case insensitive). For example: "css" or "ruby". |
 | <a id="userstarredprojectssearch"></a>`search` | [`String`](#string) | Search query. |
 | <a id="userstarredprojectssort"></a>`sort` | [`ProjectSort`](#projectsort) | List starred projects by sort order. |
 
@@ -41789,10 +41992,20 @@ Attributes for defining a CI/CD variable.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="complianceviolationinputmergedafter"></a>`mergedAfter` | [`Date`](#date) | Merge requests merged after this date (inclusive). |
-| <a id="complianceviolationinputmergedbefore"></a>`mergedBefore` | [`Date`](#date) | Merge requests merged before this date (inclusive). |
+| <a id="complianceviolationinputmergedafter"></a>`mergedAfter` | [`Date`](#date) | Merge requests merged after the date (inclusive). |
+| <a id="complianceviolationinputmergedbefore"></a>`mergedBefore` | [`Date`](#date) | Merge requests merged before the date (inclusive). |
 | <a id="complianceviolationinputprojectids"></a>`projectIds` | [`[ProjectID!]`](#projectid) | Filter compliance violations by project. |
 | <a id="complianceviolationinputtargetbranch"></a>`targetBranch` | [`String`](#string) | Filter compliance violations by target branch. |
+
+### `ComplianceViolationProjectInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="complianceviolationprojectinputmergedafter"></a>`mergedAfter` | [`Date`](#date) | Merge requests merged after the date (inclusive). |
+| <a id="complianceviolationprojectinputmergedbefore"></a>`mergedBefore` | [`Date`](#date) | Merge requests merged before the date (inclusive). |
+| <a id="complianceviolationprojectinputtargetbranch"></a>`targetBranch` | [`String`](#string) | Filter compliance violations by target branch. |
 
 ### `DastProfileCadenceInput`
 

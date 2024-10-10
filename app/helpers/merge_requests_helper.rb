@@ -249,7 +249,8 @@ module MergeRequestsHelper
       rss_url: url_for(safe_params.merge(rss_url_options)),
       releases_endpoint: project_releases_path(project, format: :json),
       can_bulk_update: can?(current_user, :admin_merge_request, project).to_s,
-      environment_names_path: unfoldered_environment_names_project_path(project, :json)
+      environment_names_path: unfoldered_environment_names_project_path(project, :json),
+      default_branch: project.default_branch
     }
   end
 
@@ -269,7 +270,7 @@ module MergeRequestsHelper
   end
 
   def merge_request_dashboard_enabled?(current_user)
-    current_user.merge_request_dashboard_enabled? && !current_page?(merge_requests_search_dashboard_path)
+    current_user.merge_request_dashboard_enabled?
   end
 
   def sticky_header_data(project, merge_request)
@@ -362,60 +363,71 @@ module MergeRequestsHelper
     { new_comment_template_paths: new_comment_template_paths(@project.group, @project).to_json }
   end
 
-  def merge_request_dashboard_data(current_user)
+  def merge_request_dashboard_data
     {
-      switch_dashboard_path: merge_request_dashboard_enabled?(current_user) ? merge_requests_search_dashboard_path : merge_requests_dashboard_path,
-      lists: [
+      tabs: [
         {
-          title: _('Returned to you'),
-          query: 'assignedMergeRequests',
-          variables: {
-            reviewStates: %w[REVIEWED REQUESTED_CHANGES]
-          }
+          title: _('Needs attention'),
+          key: '',
+          lists: [
+            {
+              title: _('Returned to you'),
+              query: 'assignedMergeRequests',
+              variables: {
+                reviewStates: %w[REVIEWED REQUESTED_CHANGES]
+              }
+            },
+            {
+              title: _('Reviews requested'),
+              query: 'reviewRequestedMergeRequests',
+              variables: {
+                reviewStates: %w[UNAPPROVED UNREVIEWED REVIEW_STARTED]
+              }
+            },
+            {
+              title: _('Assigned to you'),
+              query: 'assignedMergeRequests',
+              variables: {
+                reviewerWildcardId: 'NONE'
+              }
+            }
+          ]
         },
         {
-          title: _('Reviews requested'),
-          query: 'reviewRequestedMergeRequests',
-          variables: {
-            reviewStates: %w[UNAPPROVED UNREVIEWED REVIEW_STARTED]
-          }
-        },
-        {
-          title: _('Assigned to you'),
-          query: 'assignedMergeRequests',
-          variables: {
-            reviewerWildcardId: 'NONE'
-          }
-        },
-        {
-          title: _('Waiting for others'),
-          query: 'assigneeOrReviewerMergeRequests',
-          variables: {
-            reviewerReviewStates: %w[REVIEWED REQUESTED_CHANGES],
-            assignedReviewStates: %w[UNREVIEWED UNAPPROVED REVIEW_STARTED]
-          }
-        },
-        {
-          title: _('Approved by you'),
-          query: 'reviewRequestedMergeRequests',
-          variables: {
-            reviewState: 'APPROVED'
-          }
-        },
-        {
-          title: _('Approved by others'),
-          query: 'assignedMergeRequests',
-          variables: {
-            reviewState: 'APPROVED'
-          }
-        },
-        {
-          title: _('Merged recently'),
-          query: 'assigneeOrReviewerMergeRequests',
-          variables: {
-            state: 'merged',
-            mergedAfter: 2.weeks.ago.to_time.iso8601
-          }
+          title: _('Following'),
+          key: 'following',
+          lists: [
+            {
+              title: _('Waiting for others'),
+              query: 'assigneeOrReviewerMergeRequests',
+              variables: {
+                reviewerReviewStates: %w[REVIEWED REQUESTED_CHANGES],
+                assignedReviewStates: %w[UNREVIEWED UNAPPROVED REVIEW_STARTED]
+              }
+            },
+            {
+              title: _('Approved by you'),
+              query: 'reviewRequestedMergeRequests',
+              variables: {
+                reviewState: 'APPROVED'
+              }
+            },
+            {
+              title: _('Approved by others'),
+              query: 'assignedMergeRequests',
+              variables: {
+                reviewState: 'APPROVED'
+              }
+            },
+            {
+              title: _('Merged recently'),
+              query: 'assigneeOrReviewerMergeRequests',
+              variables: {
+                state: 'merged',
+                mergedAfter: 2.weeks.ago.to_time.iso8601
+              }
+            }
+          ]
         }
       ]
     }

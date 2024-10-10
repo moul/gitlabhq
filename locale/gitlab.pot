@@ -636,9 +636,6 @@ msgstr[1] ""
 msgid "%{chartTitle} no data series"
 msgstr ""
 
-msgid "%{client_name} is requesting access to your account on %{title}."
-msgstr ""
-
 msgid "%{codeStart}$%{codeEnd} will be treated as the start of a reference to another variable."
 msgstr ""
 
@@ -1362,6 +1359,9 @@ msgid "%{strong_start}%{branch_count}%{strong_end} Branch"
 msgid_plural "%{strong_start}%{branch_count}%{strong_end} Branches"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "%{strong_start}%{client_name}%{strong_end} is requesting access to your account on %{title}."
+msgstr ""
 
 msgid "%{strong_start}%{commit_count}%{strong_end} Commit"
 msgid_plural "%{strong_start}%{commit_count}%{strong_end} Commits"
@@ -2145,6 +2145,9 @@ msgstr ""
 msgid "AI Agent was successfully deleted"
 msgstr ""
 
+msgid "AI Gateway"
+msgstr ""
+
 msgid "AI Gateway URL:"
 msgstr ""
 
@@ -2326,6 +2329,9 @@ msgid "AI|The existing description will be replaced when you submit."
 msgstr ""
 
 msgid "AI|To help improve the quality of the content, send your feedback to GitLab team members."
+msgstr ""
+
+msgid "AI|Use GitLab Duo to generate a comment with a suggested solution."
 msgstr ""
 
 msgid "AI|Use GitLab Duo to generate a merge request with a suggested solution."
@@ -3905,6 +3911,9 @@ msgstr ""
 msgid "AdminSelfHostedModels|By enabling self-hosted models, you accept the %{link_start}GitLab Testing Agreement%{link_end}."
 msgstr ""
 
+msgid "AdminSelfHostedModels|Configure AI Features"
+msgstr ""
+
 msgid "AdminSelfHostedModels|Create model"
 msgstr ""
 
@@ -3944,6 +3953,9 @@ msgstr ""
 msgid "AdminSelfHostedModels|Manage AI models that can be used for GitLab AI features."
 msgstr ""
 
+msgid "AdminSelfHostedModels|Manage GitLab Duo by configuring and assigning self-hosted models to AI-powered features"
+msgstr ""
+
 msgid "AdminSelfHostedModels|Model"
 msgstr ""
 
@@ -3966,6 +3978,9 @@ msgid "AdminSelfHostedModels|Name the deployment (must be unique)"
 msgstr ""
 
 msgid "AdminSelfHostedModels|New self-hosted model"
+msgstr ""
+
+msgid "AdminSelfHostedModels|Once the model is no longer in use, you can return here to delete it."
 msgstr ""
 
 msgid "AdminSelfHostedModels|Please add a valid endpoint."
@@ -4001,7 +4016,19 @@ msgstr ""
 msgid "AdminSelfHostedModels|Successfully updated %{mainFeature} / %{title}"
 msgstr ""
 
+msgid "AdminSelfHostedModels|The self-hosted model was successfully %{action}."
+msgstr ""
+
 msgid "AdminSelfHostedModels|There was an error saving the self-hosted model. Please try again."
+msgstr ""
+
+msgid "AdminSelfHostedModels|This self-hosted model cannot be deleted"
+msgstr ""
+
+msgid "AdminSelfHostedModels|To remove %{boldStart}%{modelName}%{boldEnd}, you must first remove it from the following AI Feature(s):"
+msgstr ""
+
+msgid "AdminSelfHostedModels|You are about to delete the %{boldStart}%{modelName}%{boldEnd} self-hosted model. This action cannot be undone."
 msgstr ""
 
 msgid "AdminSelfHostedModels|Your self-hosted model was successfully deleted."
@@ -4922,9 +4949,6 @@ msgstr ""
 msgid "Administrators are not permitted to connect applications with these scopes: %{code_open}api%{code_close}, %{code_open}read_api%{code_close}, %{code_open}read_repository%{code_close}, %{code_open}write_repository%{code_close}, %{code_open}write_registry%{code_close}, %{code_open}read_registry%{code_close}, and %{code_open}sudo%{code_close}. To permit this, change the %{code_open}disable_admin_oauth_scopes%{code_close} setting using the API."
 msgstr ""
 
-msgid "Admin|AI-powered features"
-msgstr ""
-
 msgid "Admin|Abuse reports"
 msgstr ""
 
@@ -4950,9 +4974,6 @@ msgid "Admin|Credentials"
 msgstr ""
 
 msgid "Admin|Deploy keys"
-msgstr ""
-
-msgid "Admin|Features"
 msgstr ""
 
 msgid "Admin|Geo"
@@ -5141,6 +5162,15 @@ msgstr ""
 msgid "AiImpactAnalytics|Value can't be calculated due to insufficient data."
 msgstr ""
 
+msgid "AiPowered|AI models"
+msgstr ""
+
+msgid "AiPowered|Allow use of self-hosted models"
+msgstr ""
+
+msgid "AiPowered|By enabling self-hosted models, you agree to the %{linkStart}GitLab Testing Agreement%{linkEnd}. Please note that this action cannot be reversed."
+msgstr ""
+
 msgid "AiPowered|Configure AI-powered GitLab Duo features. %{linkStart}Which features?%{linkEnd}"
 msgstr ""
 
@@ -5208,6 +5238,9 @@ msgid "AiPowered|When you save, GitLab Duo will be turned for all groups, subgro
 msgstr ""
 
 msgid "AiPowered|When you save, GitLab Duo will be turned off for all groups, subgroups, and projects."
+msgstr ""
+
+msgid "AiPowered|You have enabled self-hosted models and agreed to the %{linkStart}GitLab Testing Agreement%{linkEnd}. Please note that this action cannot be reversed."
 msgstr ""
 
 msgid "Akismet"
@@ -5743,6 +5776,9 @@ msgid "Allow secret push protection"
 msgstr ""
 
 msgid "Allow this key to push to this repository"
+msgstr ""
+
+msgid "Allow top-level group owners to create Service accounts."
 msgstr ""
 
 msgid "Allow use of licensed EE features"
@@ -7371,6 +7407,12 @@ msgstr ""
 msgid "Are you sure you want to delete this device? This action cannot be undone."
 msgstr ""
 
+msgid "Are you sure you want to delete this one-time password authenticator?"
+msgstr ""
+
+msgid "Are you sure you want to delete this one-time password authenticator? Enter your password to continue."
+msgstr ""
+
 msgid "Are you sure you want to delete this pipeline? Doing so will expire all pipeline caches and delete all related objects, such as builds, logs, artifacts, and triggers. This action cannot be undone."
 msgstr ""
 
@@ -7387,6 +7429,12 @@ msgid "Are you sure you want to import %d repository?"
 msgid_plural "Are you sure you want to import %d repositories?"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "Are you sure you want to invalidate your one-time password authenticator and WebAuthn devices?"
+msgstr ""
+
+msgid "Are you sure you want to invalidate your one-time password authenticator and WebAuthn devices? Enter your password to continue. This action cannot be undone."
+msgstr ""
 
 msgid "Are you sure you want to lock %{path}?"
 msgstr ""
@@ -7407,6 +7455,12 @@ msgid "Are you sure you want to proceed?"
 msgstr ""
 
 msgid "Are you sure you want to re-deploy this environment?"
+msgstr ""
+
+msgid "Are you sure you want to regenerate recovery codes?"
+msgstr ""
+
+msgid "Are you sure you want to regenerate recovery codes? Enter your password to continue."
 msgstr ""
 
 msgid "Are you sure you want to reindex?"
@@ -10856,6 +10910,9 @@ msgstr ""
 msgid "Cannot delete the default organization"
 msgstr ""
 
+msgid "Cannot have more than %{maximum_path_exclusions} path exclusions for secret push protection per project"
+msgstr ""
+
 msgid "Cannot have multiple Jira imports running at the same time"
 msgstr ""
 
@@ -11232,6 +11289,9 @@ msgid "Checking branch availability…"
 msgstr ""
 
 msgid "Checking group path availability..."
+msgstr ""
+
+msgid "Checking if merge request can be merged..."
 msgstr ""
 
 msgid "Checking username availability..."
@@ -13307,6 +13367,9 @@ msgstr ""
 msgid "Code Quality scans found %{findings}."
 msgstr ""
 
+msgid "Code Suggestions"
+msgstr ""
+
 msgid "Code block"
 msgstr ""
 
@@ -13397,6 +13460,9 @@ msgstr ""
 msgid "CodeSuggestions|Code Suggestions"
 msgstr ""
 
+msgid "CodeSuggestions|Download Report"
+msgstr ""
+
 msgid "CodeSuggestions|Enhance your coding experience with intelligent recommendations. %{linkStart}GitLab Duo%{linkEnd} offers features that use generative AI to suggest code."
 msgstr ""
 
@@ -13404,9 +13470,6 @@ msgid "CodeSuggestions|Get started with GitLab Duo Pro today to boost your effic
 msgstr ""
 
 msgid "CodeSuggestions|Get started with these Duo Pro features:"
-msgstr ""
-
-msgid "CodeSuggestions|GitLab Duo"
 msgstr ""
 
 msgid "CodeSuggestions|GitLab Duo Enterprise"
@@ -13430,7 +13493,7 @@ msgstr ""
 msgid "CodeSuggestions|Manage seat assignments for %{addOnName} or run a health check to identify problems."
 msgstr ""
 
-msgid "CodeSuggestions|Manage seat assignments for %{addOnName}."
+msgid "CodeSuggestions|Manage seat assignments for %{addOnName} within your group."
 msgstr ""
 
 msgid "CodeSuggestions|No health problems detected"
@@ -13461,6 +13524,12 @@ msgid "CodeSuggestions|Test Generation"
 msgstr ""
 
 msgid "CodeSuggestions|Tests are running"
+msgstr ""
+
+msgid "CodeSuggestions|The AI gateway URL must be set up as an environment variable."
+msgstr ""
+
+msgid "CodeSuggestions|The Code Suggestions feature is available."
 msgstr ""
 
 msgid "CodeSuggestions|The active subscription must sync with customers.gitlab.com every 72 hours."
@@ -19874,18 +19943,10 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
-msgid "Dismiss %d selected vulnerability as"
-msgid_plural "Dismiss %d selected vulnerabilities as"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "Dismiss Alert"
 msgstr ""
 
 msgid "Dismiss merge request promotion"
-msgstr ""
-
-msgid "Dismiss selected"
 msgstr ""
 
 msgid "Dismiss trial promotion"
@@ -20209,6 +20270,9 @@ msgid "DuoChat|How to use GitLab"
 msgstr ""
 
 msgid "DuoChat|Included references"
+msgstr ""
+
+msgid "DuoChat|Learn what Duo Chat can do."
 msgstr ""
 
 msgid "DuoChat|No results found"
@@ -23050,9 +23114,6 @@ msgstr ""
 msgid "Failure"
 msgstr ""
 
-msgid "False positive"
-msgstr ""
-
 msgid "Fast timeout"
 msgstr ""
 
@@ -23069,6 +23130,9 @@ msgid "Feature Flags"
 msgstr ""
 
 msgid "Feature disabled"
+msgstr ""
+
+msgid "Feature flag"
 msgstr ""
 
 msgid "Feature flag status"
@@ -23577,6 +23641,9 @@ msgid "Followed Users' Activity"
 msgstr ""
 
 msgid "Followed users"
+msgstr ""
+
+msgid "Following"
 msgstr ""
 
 msgid "Following tags don't exist"
@@ -32491,6 +32558,9 @@ msgstr ""
 msgid "Loading more"
 msgstr ""
 
+msgid "Loading pipeline status"
+msgstr ""
+
 msgid "Loading snippet"
 msgstr ""
 
@@ -32689,7 +32759,7 @@ msgstr ""
 msgid "Make sure you save it - you won't be able to access it again."
 msgstr ""
 
-msgid "Make sure you trust %{client_name} before authorizing."
+msgid "Make sure you trust %{strong_start}%{client_name}%{strong_end} before authorizing."
 msgstr ""
 
 msgid "Makes this %{type} confidential."
@@ -33754,6 +33824,9 @@ msgstr ""
 msgid "Members|Role change request was sent to the administrator."
 msgstr ""
 
+msgid "Members|Role promotions must be approved by an administrator. This setting can be changed in the Admin area. %{linkStart}Learn more%{linkEnd}."
+msgstr ""
+
 msgid "Members|Role updated successfully."
 msgstr ""
 
@@ -33970,6 +34043,9 @@ msgid "MergeChecks|This setting is configured in group %{groupName} and can only
 msgstr ""
 
 msgid "MergeChecks|View locked files"
+msgstr ""
+
+msgid "MergeChecks|View policies"
 msgstr ""
 
 msgid "MergeConflict|Commit to source branch"
@@ -35017,9 +35093,6 @@ msgid "MlModelRegistry|User canceled upload."
 msgstr ""
 
 msgid "MlModelRegistry|Using the MLflow client"
-msgstr ""
-
-msgid "MlModelRegistry|Version candidates"
 msgstr ""
 
 msgid "MlModelRegistry|Version description"
@@ -38037,9 +38110,6 @@ msgid "Open"
 msgstr ""
 
 msgid "Open Selection"
-msgstr ""
-
-msgid "Open action menu"
 msgstr ""
 
 msgid "Open color picker"
@@ -43011,7 +43081,7 @@ msgstr ""
 msgid "ProjectSettings|Allow skipping the merge train"
 msgstr ""
 
-msgid "ProjectSettings|Allow users and tokens read-only access to fetch security policy configurations within this project to enforce policies. %{linkStart}Learn more%{linkEnd}."
+msgid "ProjectSettings|Allow users and tokens read-only access to fetch security policy configurations in this project to enforce policies. %{linkStart}Learn more%{linkEnd}."
 msgstr ""
 
 msgid "ProjectSettings|Always show thumbs-up and thumbs-down emoji buttons on issues, merge requests, and snippets."
@@ -43176,7 +43246,7 @@ msgstr ""
 msgid "ProjectSettings|Global"
 msgstr ""
 
-msgid "ProjectSettings|Grant access to this repository for projects linked to it as the security policy project source for security policies."
+msgid "ProjectSettings|Grant access to the CI/CD configurations for projects linked to this security policy project as the source for security policies."
 msgstr ""
 
 msgid "ProjectSettings|Highlight the usage of hidden unicode characters. These have innocent uses for right-to-left languages, but can also be used in potential exploits."
@@ -43956,9 +44026,6 @@ msgid "PromotionRequests|User promotion has been rejected"
 msgstr ""
 
 msgid "PromotionRequests|User promotion has been rejected. Some errors occurred"
-msgstr ""
-
-msgid "Promotions"
 msgstr ""
 
 msgid "Promotions|Add %{link_start} description templates %{link_end} to help your contributors to communicate effectively!"
@@ -45831,9 +45898,6 @@ msgstr ""
 msgid "Reports|Accessibility scanning results are being parsed"
 msgstr ""
 
-msgid "Reports|Actions"
-msgstr ""
-
 msgid "Reports|An error occurred while loading %{name} results"
 msgstr ""
 
@@ -45868,9 +45932,6 @@ msgstr ""
 msgid "Reports|Head report parsing error:"
 msgstr ""
 
-msgid "Reports|Identifier"
-msgstr ""
-
 msgid "Reports|Metrics report scanning detected no new changes"
 msgstr ""
 
@@ -45886,12 +45947,6 @@ msgstr ""
 msgid "Reports|New"
 msgstr ""
 
-msgid "Reports|Scanner"
-msgstr ""
-
-msgid "Reports|Severity"
-msgstr ""
-
 msgid "Reports|Test summary"
 msgstr ""
 
@@ -45902,9 +45957,6 @@ msgid "Reports|Test summary results are loading"
 msgstr ""
 
 msgid "Reports|Tool"
-msgstr ""
-
-msgid "Reports|Vulnerability"
 msgstr ""
 
 msgid "Reports|Vulnerability Name"
@@ -46502,6 +46554,9 @@ msgid "Roadmap view"
 msgstr ""
 
 msgid "Role"
+msgstr ""
+
+msgid "Role promotions"
 msgstr ""
 
 msgid "Roles and permissions"
@@ -49130,6 +49185,9 @@ msgid_plural "SecurityExclusions|The following errors occured while saving the e
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "SecurityExclusions|This feature is subject to the %{linkStart}GitLab Testing Agreement%{linkEnd}."
+msgstr ""
+
 msgid "SecurityExclusions|Toggle exclusion"
 msgstr ""
 
@@ -49437,7 +49495,7 @@ msgstr ""
 msgid "SecurityOrchestration|Enabled"
 msgstr ""
 
-msgid "SecurityOrchestration|Enforce %{linkStart}security policies%{linkEnd} for this group."
+msgid "SecurityOrchestration|Enforce %{linkStart}security policies%{linkEnd} for all projects in this group."
 msgstr ""
 
 msgid "SecurityOrchestration|Enforce %{linkStart}security policies%{linkEnd} for this project."
@@ -50273,9 +50331,6 @@ msgstr ""
 msgid "SecurityReports|Create Jira issue"
 msgstr ""
 
-msgid "SecurityReports|Create issue"
-msgstr ""
-
 msgid "SecurityReports|Detection"
 msgstr ""
 
@@ -50363,9 +50418,6 @@ msgstr ""
 msgid "SecurityReports|Has merge request"
 msgstr ""
 
-msgid "SecurityReports|Hide dismissed"
-msgstr ""
-
 msgid "SecurityReports|Historical view of open vulnerabilities in the default branch. Excludes vulnerabilities that were resolved or dismissed. %{linkStart}Learn more.%{linkEnd}"
 msgstr ""
 
@@ -50378,13 +50430,7 @@ msgstr ""
 msgid "SecurityReports|Issue"
 msgstr ""
 
-msgid "SecurityReports|Issue Created"
-msgstr ""
-
 msgid "SecurityReports|Issues created from a vulnerability cannot be removed."
-msgstr ""
-
-msgid "SecurityReports|Jira Issue Created"
 msgstr ""
 
 msgid "SecurityReports|Learn more about security configuration"
@@ -50418,9 +50464,6 @@ msgid "SecurityReports|Monitor vulnerabilities in your project"
 msgstr ""
 
 msgid "SecurityReports|Monitored projects"
-msgstr ""
-
-msgid "SecurityReports|More info"
 msgstr ""
 
 msgid "SecurityReports|New feature: Grouping"
@@ -50469,9 +50512,6 @@ msgid "SecurityReports|Scan details"
 msgstr ""
 
 msgid "SecurityReports|Security dashboard"
-msgstr ""
-
-msgid "SecurityReports|Security reports can only be accessed by authorized users."
 msgstr ""
 
 msgid "SecurityReports|Security scans have run"
@@ -50578,6 +50618,15 @@ msgstr ""
 msgid "SecurityReports|These vulnerabilities were detected in external sources. They are not necessarily tied to your GitLab project. For example, running containers, URLs, and so on."
 msgstr ""
 
+msgid "SecurityReports|This project has reached the maximum number of vulnerabilities it can contain and some of the vulnerabilities couldn't be ingested."
+msgstr ""
+
+msgid "SecurityReports|This project has reached the maximum number of vulnerabilities it can contain. New vulnerabilities will not be created."
+msgstr ""
+
+msgid "SecurityReports|This project is reaching the maximum number of vulnerabilities it can contain."
+msgstr ""
+
 msgid "SecurityReports|This selection is required."
 msgstr ""
 
@@ -50603,12 +50652,6 @@ msgid "SecurityReports|Vulnerability report"
 msgstr ""
 
 msgid "SecurityReports|Warning parsing security reports"
-msgstr ""
-
-msgid "SecurityReports|You do not have sufficient permissions to access this report"
-msgstr ""
-
-msgid "SecurityReports|You must sign in as an authorized user to see this report"
 msgstr ""
 
 msgid "SecurityReports|scanned resources"
@@ -50996,6 +51039,9 @@ msgid "Service access token expiration"
 msgstr ""
 
 msgid "Service account"
+msgstr ""
+
+msgid "Service account creation"
 msgstr ""
 
 msgid "Service account generated successfully"
@@ -53975,12 +54021,6 @@ msgstr ""
 msgid "Switch branch/tag"
 msgstr ""
 
-msgid "Switch to new dashboard"
-msgstr ""
-
-msgid "Switch to old dashboard"
-msgstr ""
-
 msgid "Switch to plain text editing"
 msgstr ""
 
@@ -55459,6 +55499,9 @@ msgstr ""
 msgid "There was a problem fetching CRM organizations."
 msgstr ""
 
+msgid "There was a problem fetching authors."
+msgstr ""
+
 msgid "There was a problem fetching branches."
 msgstr ""
 
@@ -55523,6 +55566,9 @@ msgid "There was a problem fetching the keep latest artifacts setting."
 msgstr ""
 
 msgid "There was a problem fetching the latest pipeline status."
+msgstr ""
+
+msgid "There was a problem fetching the merge pipeline."
 msgstr ""
 
 msgid "There was a problem fetching the pipeline mini graph."
@@ -57202,6 +57248,9 @@ msgid "Todos|It's how you always know what to work on next."
 msgstr ""
 
 msgid "Todos|Label priority"
+msgstr ""
+
+msgid "Todos|Leave feedback"
 msgstr ""
 
 msgid "Todos|Mark all as done"
@@ -58973,6 +59022,9 @@ msgid "UsageQuota|Recalculate repository usage"
 msgstr ""
 
 msgid "UsageQuota|Registry"
+msgstr ""
+
+msgid "UsageQuota|Seat utilization"
 msgstr ""
 
 msgid "UsageQuota|Shared bits of code and text."
@@ -61195,9 +61247,6 @@ msgstr ""
 msgid "We've detected unusual activity"
 msgstr ""
 
-msgid "We've found no vulnerabilities"
-msgstr ""
-
 msgid "Web IDE"
 msgstr ""
 
@@ -61696,9 +61745,6 @@ msgstr ""
 msgid "Which project or group access token events trigger webhooks"
 msgstr ""
 
-msgid "While it's rare to have no vulnerabilities, it can happen. In any event, we ask that you please double check your settings to make sure you've set up your dashboard correctly."
-msgstr ""
-
 msgid "Who can approve?"
 msgstr ""
 
@@ -62021,9 +62067,6 @@ msgid "With requirements, you can set criteria to check your products against"
 msgstr ""
 
 msgid "Withdraw Access Request"
-msgstr ""
-
-msgid "Won't fix / Accept risk"
 msgstr ""
 
 msgid "Work Item type with id %{id} was not found"
@@ -62921,7 +62964,7 @@ msgstr ""
 msgid "You are already impersonating another user"
 msgstr ""
 
-msgid "You are an administrator, which means authorizing access to %{client_name} will allow it to interact with GitLab as an administrator as well."
+msgid "You are an administrator, which means authorizing access to %{strong_start}%{client_name}%{strong_end} will allow it to interact with GitLab as an administrator as well."
 msgstr ""
 
 msgid "You are attempting to delete a file that has been previously updated."
@@ -63524,7 +63567,7 @@ msgstr ""
 msgid "You tried to fork %{link_to_the_project} but it failed for the following reason:"
 msgstr ""
 
-msgid "You will be redirected to %{domain} after authorizing."
+msgid "You will be redirected to %{strong_start}%{domain}%{strong_end} after authorizing."
 msgstr ""
 
 msgid "You will be the author of all events in the activity feed that are the result of an update, like new branches being created or new commits being pushed to existing branches."
@@ -64080,9 +64123,6 @@ msgid "Zoom meeting removed"
 msgstr ""
 
 msgid "Zoom out"
-msgstr ""
-
-msgid "[No reason]"
 msgstr ""
 
 msgid "[REDACTED]"
@@ -66414,9 +66454,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "vulnerability|Add a comment"
-msgstr ""
-
-msgid "vulnerability|dismissed"
 msgstr ""
 
 msgid "was set to auto-merge by"

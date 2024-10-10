@@ -281,13 +281,13 @@ export default {
 
 <template>
   <div class="gl-flex gl-items-start gl-gap-3">
-    <div>
+    <div class="gl-w-28">
       <gl-collapsible-listbox
         ref="userSelect"
         block
         is-check-centered
-        toggle-class="gl-w-28"
-        :class="{ 'is-invalid': userSelectInvalid }"
+        toggle-class="!gl-w-28"
+        :class="{ 'is-invalid': userSelectInvalid || sourceUser.reassignmentError }"
         :header-text="s__('UserMapping|Re-assign to')"
         :toggle-text="toggleText"
         :disabled="statusIsAwaitingApproval || statusIsReassigning"
@@ -314,7 +314,7 @@ export default {
 
         <template #footer>
           <div
-            class="gl-flex gl-flex-col gl-border-t-1 gl-border-t-gray-200 !gl-p-2 !gl-pt-0 gl-border-t-solid"
+            class="gl-flex gl-flex-col gl-border-t-1 gl-border-t-dropdown !gl-p-2 !gl-pt-0 gl-border-t-solid"
           >
             <gl-button
               category="tertiary"
@@ -330,6 +330,9 @@ export default {
 
       <span v-if="userSelectInvalid" class="invalid-feedback">
         {{ __('This field is required.') }}
+      </span>
+      <span v-if="sourceUser.reassignmentError" class="invalid-feedback">
+        {{ sourceUser.reassignmentError }}
       </span>
     </div>
 

@@ -11,10 +11,6 @@
   }
 }
 
-@mixin btn-middle {
-  @include btn-default;
-}
-
 @mixin btn-outline($background, $text, $border, $hover-background, $hover-text, $hover-border, $active-background, $active-border, $active-text) {
   background-color: $background;
   color: $text;
@@ -155,7 +151,7 @@
 .input-group-prepend,
 .input-group-append {
   .btn {
-    @include btn-middle;
+    @include btn-default;
 
     &:hover {
       outline: none;
@@ -171,21 +167,6 @@
 
     border: 1px solid $gray-100 !important;
     background-color: $btn-active-gray-light !important;
-  }
-}
-
-.btn-blank {
-  padding: 0;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-
-  &:hover,
-  &:active,
-  &:focus {
-    outline: 0;
-    background: transparent;
-    box-shadow: none;
   }
 }
 

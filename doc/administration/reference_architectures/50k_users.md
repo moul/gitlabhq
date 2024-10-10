@@ -1539,8 +1539,8 @@ input/output operations per second (IOPS) for read operations and 2,000 IOPS for
 write operations. If you're running the environment on a Cloud provider,
 refer to their documentation about how to configure IOPS correctly.
 
-Gitaly servers must not be exposed to the public internet, as Gitaly's network
-traffic is unencrypted by default. The use of a firewall is highly recommended
+Gitaly servers must not be exposed to the public internet, as network traffic
+on Gitaly is unencrypted by default. The use of a firewall is highly recommended
 to restrict access to the Gitaly server. Another option is to
 [use TLS](#gitaly-cluster-tls-support).
 
@@ -2440,7 +2440,7 @@ Each Sidekiq pod is recommended to be run with the following configuration:
 - 2 GB memory (request)
 - 4 GB memory (limit)
 
-Similar to the standard deployment above, an initial target of 8 Sidekiq workers has been used here.
+Similar to the standard deployment above, an initial target of 14 Sidekiq workers has been used here.
 Additional workers may be required depending on your specific workflow.
 
 For further information on Sidekiq resource usage, see the Charts documentation on [Sidekiq resources](https://docs.gitlab.com/charts/charts/gitlab/sidekiq/#resources).
