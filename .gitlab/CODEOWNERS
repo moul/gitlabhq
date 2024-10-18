@@ -985,6 +985,7 @@ lib/gitlab/checks/**
 /doc/solutions/integrations/index.md @jfullam @brianwald @Darwinjs
 /doc/solutions/integrations/servicenow.md @ashrafkhamis
 /doc/subscriptions/ @fneill
+/doc/subscriptions/gitlab_com/ @lyspin
 /doc/subscriptions/gitlab_dedicated/ @lyspin
 /doc/topics/ @msedlakjakubowski
 /doc/topics/autodevops/ @phillipwells
@@ -1046,6 +1047,7 @@ lib/gitlab/checks/**
 /doc/user/get_started/get_started_projects.md @lciutacu
 /doc/user/gitlab_duo/ @sselhorn @jglassman1 @fneill
 /doc/user/gitlab_duo_chat/ @sselhorn @jglassman1 @fneill
+/doc/user/glql/ @msedlakjakubowski
 /doc/user/group/access_and_permissions.md @lciutacu
 /doc/user/group/clusters/ @phillipwells
 /doc/user/group/compliance_frameworks.md @eread
@@ -1167,9 +1169,9 @@ lib/gitlab/checks/**
 /doc/user/ssh.md @jglassman1
 /doc/user/ssh_troubleshooting.md @jglassman1
 /doc/user/storage_management_automation.md @fneill
+/doc/user/storage_usage_quotas.md @fneill
 /doc/user/tasks.md @msedlakjakubowski
 /doc/user/todos.md @sselhorn
-/doc/user/usage_quotas.md @fneill
 /doc/user/workspace/ @ashrafkhamis
 # End rake-managed-docs-block
 
@@ -1192,11 +1194,16 @@ lib/gitlab/checks/**
 /ee/spec/requests/custom_roles/
 /ee/lib/api/member_roles.rb
 
+[Container registry] @gitlab-org/ci-cd/package-stage/container-registry-group
+/app/assets/javascripts/packages_and_registries/container_registry/
+/app/assets/javascripts/packages_and_registries/dependency_proxy/
+/app/assets/javascripts/packages_and_registries/harbor_registry/
+/ee/app/services/ee/auth/container_registry_authentication_service.rb
+
 [Authentication] @gitlab-org/govern/authentication/approvers
 /app/assets/javascripts/access_tokens/
 /app/assets/javascripts/alerts_settings/graphql/mutations/reset_http_token.mutation.graphql
 /app/assets/javascripts/authentication/
-/app/assets/javascripts/packages_and_registries/package_registry/components/list/tokens/
 /app/assets/javascripts/pages/admin/impersonation_tokens/
 /app/assets/javascripts/pages/groups/settings/access_tokens/
 /app/assets/javascripts/pages/ldap/
@@ -1365,7 +1372,6 @@ lib/gitlab/checks/**
 /ee/app/models/ee/project_authorization.rb
 /ee/app/models/scim_oauth_access_token.rb
 /ee/app/serializers/scim_oauth_access_token_entity.rb
-/ee/app/services/ee/auth/
 /ee/app/services/ee/personal_access_tokens/
 /ee/app/services/ee/resource_access_tokens/
 /ee/app/services/ee/users/authorized_build_service.rb
@@ -1625,6 +1631,13 @@ ee/lib/gitlab/llm/chain/agents/zero_shot/
 ee/lib/gitlab/llm/chain/agents/single_action_executor.rb
 ee/lib/gitlab/llm/chain/streamed_zero_shot_answer.rb
 ee/lib/gitlab/llm/completions/chat.rb
+
+[Code Suggestions] @code-creation-team/backend-engineers
+ee/lib/api/code_suggestions.rb
+ee/lib/code_suggestions/
+ee/lib/ai/context/dependencies/
+ee/app/services/ai/repository_xray/
+ee/app/workers/ai/repository_xray/
 
 # Fulfillment::Utilization
 ^[Usage Quotas] @gitlab-org/fulfillment/utilization/fe

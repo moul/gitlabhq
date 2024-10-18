@@ -74,6 +74,7 @@ this method only supports replies, and not the other features of [incoming email
 
 > - Accepting `Cc` headers [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/348572) in GitLab 16.5.
 > - Accepting `X-Original-To` headers [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/149874) in GitLab 17.0.
+> - Accepting `X-Forwarded-To` headers [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/168716) in GitLab 17.6.
 
 Email is processed correctly when a configured email address is present in one of the following headers
 (sorted in the order they are checked):
@@ -83,6 +84,7 @@ Email is processed correctly when a configured email address is present in one o
 - `Envelope-To` or `X-Envelope-To`
 - `Received`
 - `X-Original-To`
+- `X-Forwarded-To`
 - `Cc`
 
 The `References` header is also accepted, however it is used specifically to relate email responses to existing discussion threads. It is not used for creating issues by email.
@@ -129,8 +131,8 @@ WARNING:
 Be careful when choosing the domain used for receiving incoming email.
 
 For example, suppose your top-level company domain is `hooli.com`.
-All employees in your company have an email address at that domain via Google
-Apps, and your company's private Slack instance requires a valid `@hooli.com`
+All employees in your company have an email address at that domain through Google
+Workspace, and your company's private Slack instance requires a valid `@hooli.com`
 email address to sign up.
 
 If you also host a public-facing GitLab instance at `hooli.com` and set your

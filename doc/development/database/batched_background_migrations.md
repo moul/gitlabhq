@@ -142,47 +142,6 @@ The optimization underlying mechanic is based on the concept of time efficiency.
 the exponential moving average of time efficiencies for the last N jobs and updates the batch
 size of the batched background migration to its optimal value.
 
-#### For GitLab SAAS
-
-When updating a large dataset specify different batch sizes for GitLab SAAS.
-
-```ruby
-# frozen_string_literal: true
-
-class BatchedMigration < Gitlab::Database::Migration[2.2]
-  BATCH_SIZE = 1000
-  SUB_BATCH_SIZE = 100
-  GITLAB_OPTIMIZED_BATCH_SIZE = 75_000
-  GITLAB_OPTIMIZED_SUB_BATCH_SIZE = 250
-
-  def up
-    queue_batched_background_migration(
-      MIGRATION,
-      TABLE_NAME,
-      COLUMN_NAME,
-      job_interval: DELAY_INTERVAL,
-      **batch_sizes
-    )
-  end
-
-  private
-
-  def batch_sizes
-    if Gitlab.com_except_jh?
-      {
-        batch_size: GITLAB_OPTIMIZED_BATCH_SIZE,
-        sub_batch_size: GITLAB_OPTIMIZED_SUB_BATCH_SIZE
-      }
-    else
-      {
-        batch_size: BATCH_SIZE,
-        sub_batch_size: SUB_BATCH_SIZE
-      }
-    end
-  end
-end
-```
-
 ### Job retry mechanism
 
 The batched background migrations retry mechanism ensures that a job is executed again in case of failure.
@@ -333,10 +292,26 @@ the migration that was used to enqueue it. Pay careful attention to:
 When finalizing a batched background migration you also need to update the
 `finalized_by` in the corresponding `db/docs/batched_background_migrations`
 file. The value should be the timestamp/version of the migration you added to
-finalize it.
+finalize it. The [schema version of the RSpec tests](../testing_guide/testing_migrations_guide.md#testing-a-non-activerecordmigration-class)
+associated with the migration should also be set to this version to avoid having the tests fail due
+to future schema changes.
 
 See the below [Examples](#examples) for specific details on what the actual
 migration code should be.
+
+### Deleting batched background migration code
+
+Once a batched background migration has been finalized, the migration code in `lib/gitlab/background_migration/`
+and its associated tests can be deleted after the next required stop following the finalization.
+
+Here is an example scenario:
+
+- 17.2 and 17.5 are required stops.
+- In 17.0 the batched background migration is queued.
+- In 17.3 the migration may be finalized, provided that it's completed in GitLab.com.
+- In 17.6 the code related to the migration may be deleted.
+
+Batched background migration code is routinely deleted when migrations are squashed.
 
 ### Use job arguments
 
@@ -392,17 +367,31 @@ Namespace.each_batch(of: 100) do |relation|
 end
 ```
 
-In some cases, only a subset of records must be examined. If only 10% of the 1000 records
-need examination, apply a filter to the initial relation when the jobs are created:
+#### Using a composite or partial index to iterate a subset of the table
+
+When applying additional filters, it is important to ensure they are properly
+[covered by an index](iterating_tables_in_batches.md#example-2-iteration-with-filters)
+to optimize `EachBatch` performance.
+In the below examples we need an index on `(type, id)` or `id WHERE type IS NULL`
+to support the filters. See
+the [`EachBatch` documentation](iterating_tables_in_batches.md) for more information.
+
+If you have a suitable index and you want to iterate only a subset of the table
+you can apply a `where` clause before the `each_batch` like:
 
 ```ruby
+# Works well if there is an index like either of:
+#  - `id WHERE type IS NULL`
+#  - `(type, id)`
+# Does not work well otherwise.
 Namespace.where(type: nil).each_batch(of: 100) do |relation|
   relation.update_all(type: 'User')
 end
 ```
 
-In the first example, we don't know how many records will be updated in each batch.
-In the second (filtered) example, we know exactly 100 will be updated with each batch.
+An advantage of this approach is that you get consistent batch sizes. But it is
+only suitable where there is an index that matches the `where` clauses as well
+as the batching strategy.
 
 `BatchedMigrationJob` provides a `scope_to` helper method to apply additional filters and achieve this:
 
@@ -410,6 +399,11 @@ In the second (filtered) example, we know exactly 100 will be updated with each 
 
    ```ruby
    class BackfillNamespaceType < BatchedMigrationJob
+
+     # Works well if there is an index like either of:
+     #  - `id WHERE type IS NULL`
+     #  - `(type, id)`
+     # Does not work well otherwise.
      scope_to ->(relation) { relation.where(type: nil) }
      operation_name :update_all
      feature_category :source_code_management
@@ -449,10 +443,6 @@ In the second (filtered) example, we know exactly 100 will be updated with each 
      end
    end
    ```
-
-NOTE:
-When applying additional filters, it is important to ensure they are properly covered by an index to optimize `EachBatch` performance.
-In the example above we need an index on `(type, id)` to support the filters. See [the `EachBatch` documentation for more information](iterating_tables_in_batches.md).
 
 ### Access data for multiple databases
 

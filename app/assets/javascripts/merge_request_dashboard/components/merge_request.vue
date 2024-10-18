@@ -71,11 +71,9 @@ export default {
     </td>
     <td class="gl-px-3 gl-py-4 gl-align-top">
       <h4 class="gl-mb-0 gl-mt-0 gl-text-base">
-        <gl-link
-          v-safe-html="mergeRequest.titleHtml"
-          :href="mergeRequest.webUrl"
-          class="gl-text-primary hover:gl-text-gray-900"
-        />
+        <gl-link :href="mergeRequest.webUrl" class="gl-text-primary hover:gl-text-gray-900">
+          {{ mergeRequest.title }}
+        </gl-link>
       </h4>
       <div class="gl-mb-2 gl-mt-2 gl-text-sm gl-text-secondary">
         <gl-sprintf
@@ -106,7 +104,11 @@ export default {
       <assigned-users :users="mergeRequest.reviewers.nodes" type="REVIEWERS" />
     </td>
     <td class="gl-py-4 gl-pl-3 gl-pr-5 gl-align-top">
-      <div class="gl-flex gl-justify-end gl-gap-3" :aria-label="statsAriaLabel">
+      <div
+        class="gl-flex gl-justify-end gl-gap-3"
+        :aria-label="statsAriaLabel"
+        :title="statsAriaLabel"
+      >
         <div class="gl-whitespace-nowrap">
           <gl-icon name="comments" class="!gl-align-middle" />
           {{ mergeRequest.userNotesCount }}

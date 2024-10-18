@@ -36,7 +36,7 @@ RSpec.describe Profiles::TwoFactorAuthsController, feature_category: :system_acc
     it 'requires the current password', :aggregate_failures do
       go
 
-      error = assigns[:error] || assigns[:destroy_error]
+      error = assigns[:error] || assigns[:otp_error]
       expect(error).to eq(error_message)
       expect(response).to render_template(:show)
     end
@@ -202,51 +202,6 @@ RSpec.describe Profiles::TwoFactorAuthsController, feature_category: :system_acc
         expect(ActiveSession).to receive(:destroy_all_but_current)
         go
       end
-
-      context 'when webauthn_without_totp flag is disabled' do
-        before do
-          stub_feature_flags(webauthn_without_totp: false)
-          expect(user).to receive(:validate_and_consume_otp!).with(pin).and_return(true)
-        end
-
-        it 'enables 2fa for the user' do
-          go
-
-          user.reload
-          expect(user).to be_two_factor_enabled
-        end
-
-        it 'presents plaintext codes for the user to save' do
-          expect(user).to receive(:generate_otp_backup_codes!).and_return(%w[a b c])
-
-          go
-
-          expect(assigns[:codes]).to match_array %w[a b c]
-        end
-
-        it 'calls to delete other sessions' do
-          expect(ActiveSession).to receive(:destroy_all_but_current)
-
-          go
-        end
-
-        it 'dismisses the `TWO_FACTOR_AUTH_RECOVERY_SETTINGS_CHECK` callout' do
-          expect(controller.helpers).to receive(:dismiss_two_factor_auth_recovery_settings_check)
-
-          go
-        end
-
-        it 'renders create' do
-          go
-          expect(response).to render_template(:create)
-        end
-
-        it 'renders create even if backup code already exists' do
-          expect(user).to receive(:otp_backup_codes?).and_return(true)
-          go
-          expect(response).to render_template(:create)
-        end
-      end
     end
 
     context 'with invalid pin' do
@@ -364,22 +319,6 @@ RSpec.describe Profiles::TwoFactorAuthsController, feature_category: :system_acc
         expect(flash[:notice]).to match(/Your WebAuthn device was registered!/)
       end
     end
-
-    context "when the feature flag 'webauthn_without_totp' is disabled" do
-      before do
-        stub_feature_flags(webauthn_without_totp: false)
-        session[:challenge] = challenge
-      end
-
-      let(:params) { { device_registration: { name: 'touch id', device_response: device_response } } } # rubocop:disable Rails/SaveBang
-
-      it "does not validate the current_password" do
-        go
-
-        expect(flash[:notice]).to match(/Your WebAuthn device was registered!/)
-        expect(response).to redirect_to(profile_two_factor_auth_path)
-      end
-    end
   end
 
   describe 'DELETE destroy' do
@@ -449,13 +388,14 @@ RSpec.describe Profiles::TwoFactorAuthsController, feature_category: :system_acc
       end
 
       it 'disables OTP authenticator and leaves WebAuthn devices unaffected' do
-        expect(user.reload.two_factor_otp_enabled?).to eq(true)
-        expect(user.reload.two_factor_webauthn_enabled?).to eq(true)
+        expect(user.two_factor_otp_enabled?).to eq(true)
+        expect(user.two_factor_webauthn_enabled?).to eq(true)
 
         go
 
-        expect(user.reload.two_factor_otp_enabled?).to eq(false)
-        expect(user.reload.two_factor_webauthn_enabled?).to eq(true)
+        user.reload
+        expect(user.two_factor_otp_enabled?).to eq(false)
+        expect(user.two_factor_webauthn_enabled?).to eq(true)
       end
 
       it 'redirects to profile_two_factor_auth_path' do
@@ -480,13 +420,14 @@ RSpec.describe Profiles::TwoFactorAuthsController, feature_category: :system_acc
       end
 
       it 'leaves WebAuthn devices unaffected' do
-        expect(user.reload.two_factor_otp_enabled?).to eq(false)
-        expect(user.reload.two_factor_webauthn_enabled?).to eq(true)
+        expect(user.two_factor_otp_enabled?).to eq(false)
+        expect(user.two_factor_webauthn_enabled?).to eq(true)
 
         go
 
-        expect(user.reload.two_factor_otp_enabled?).to eq(false)
-        expect(user.reload.two_factor_webauthn_enabled?).to eq(true)
+        user.reload
+        expect(user.two_factor_otp_enabled?).to eq(false)
+        expect(user.two_factor_webauthn_enabled?).to eq(true)
       end
 
       it 'redirects to profile_two_factor_auth_path' do
@@ -504,5 +445,46 @@ RSpec.describe Profiles::TwoFactorAuthsController, feature_category: :system_acc
 
       it_behaves_like 'user must enter a valid current password'
     end
+  end
+
+  describe 'DELETE destroy_webauthn' do
+    let_it_be_with_reload(:user) do
+      create(:user, :two_factor_via_webauthn)
+    end
+
+    let(:webauthn_id) { user.webauthn_registrations.first.id }
+    let(:current_password) { user.password }
+    let(:destroy_webauthn) do
+      delete :destroy_webauthn, params: { id: webauthn_id, current_password: current_password }
+    end
+
+    def go
+      destroy_webauthn
+    end
+
+    it 'destroys the webauthn device' do
+      count = user.webauthn_registrations.count
+      go
+
+      user.reload
+      expect(user.webauthn_registrations.count).to eq(count - 1)
+    end
+
+    it 'redirects to the profile two factor authentication page' do
+      go
+
+      expect(response).to redirect_to profile_two_factor_auth_path
+    end
+
+    it 'calls the Webauthn::DestroyService' do
+      service = double
+
+      expect(Webauthn::DestroyService).to receive(:new).with(user, user, webauthn_id.to_s).and_return(service)
+      expect(service).to receive(:execute)
+
+      go
+    end
+
+    it_behaves_like 'user must enter a valid current password'
   end
 end

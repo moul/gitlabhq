@@ -1745,10 +1745,10 @@ Input type: `AiFeatureSettingUpdateInput`
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="mutationaifeaturesettingupdateaiselfhostedmodelid"></a>`aiSelfHostedModelId` | [`AiSelfHostedModelID`](#aiselfhostedmodelid) | Global ID of the self-hosted model provide the AI setting. |
 | <a id="mutationaifeaturesettingupdateclientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutationaifeaturesettingupdatefeature"></a>`feature` | [`AiFeatures!`](#aifeatures) | AI feature being configured. |
 | <a id="mutationaifeaturesettingupdateprovider"></a>`provider` | [`AiFeatureProviders!`](#aifeatureproviders) | Provider for AI setting. |
-| <a id="mutationaifeaturesettingupdateselfhostedmodelid"></a>`selfHostedModelId` | [`AiSelfHostedModelID`](#aiselfhostedmodelid) | Global ID of the self-hosted model provide the AI setting. |
 
 #### Fields
 
@@ -2997,6 +2997,7 @@ Input type: `CiJobTokenScopeAddGroupOrProjectInput`
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="mutationcijobtokenscopeaddgrouporprojectclientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutationcijobtokenscopeaddgrouporprojectjobtokenpolicies"></a>`jobTokenPolicies` **{warning-solid}** | [`[CiJobTokenScopePolicies!]`](#cijobtokenscopepolicies) | **Deprecated:** **Status**: Experiment. Introduced in GitLab 17.5. |
 | <a id="mutationcijobtokenscopeaddgrouporprojectprojectpath"></a>`projectPath` | [`ID!`](#id) | Project that the CI job token scope belongs to. |
 | <a id="mutationcijobtokenscopeaddgrouporprojecttargetpath"></a>`targetPath` | [`ID!`](#id) | Group or project to be added to the CI job token scope. |
 
@@ -9574,6 +9575,32 @@ Input type: `TodosMarkAllDoneInput`
 | <a id="mutationtodosmarkalldoneerrors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during execution of the mutation. |
 | <a id="mutationtodosmarkalldonetodos"></a>`todos` | [`[Todo!]!`](#todo) | Updated to-do items. |
 
+### `Mutation.updateAbuseReportNote`
+
+Updates an abuse report Note.
+
+DETAILS:
+**Introduced** in GitLab 17.5.
+**Status**: Experiment.
+
+Input type: `UpdateAbuseReportNoteInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutationupdateabusereportnotebody"></a>`body` | [`String!`](#string) | Content of the note. |
+| <a id="mutationupdateabusereportnoteclientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutationupdateabusereportnoteid"></a>`id` | [`AntiAbuseReportsNoteID!`](#antiabusereportsnoteid) | Global ID of the note to update. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutationupdateabusereportnoteclientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutationupdateabusereportnoteerrors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during execution of the mutation. |
+| <a id="mutationupdateabusereportnotenote"></a>`note` | [`AbuseReportNote!`](#abusereportnote) | Abuse report note after mutation. |
+
 ### `Mutation.updateAlertStatus`
 
 Input type: `UpdateAlertStatusInput`
@@ -10814,7 +10841,7 @@ Input type: `WorkItemCreateInput`
 | <a id="mutationworkitemcreatelinkeditemswidget"></a>`linkedItemsWidget` | [`WorkItemWidgetLinkedItemsCreateInput`](#workitemwidgetlinkeditemscreateinput) | Input for linked items widget. |
 | <a id="mutationworkitemcreatemilestonewidget"></a>`milestoneWidget` | [`WorkItemWidgetMilestoneInput`](#workitemwidgetmilestoneinput) | Input for milestone widget. |
 | <a id="mutationworkitemcreatenamespacepath"></a>`namespacePath` | [`ID`](#id) | Full path of the namespace(project or group) the work item is created in. |
-| <a id="mutationworkitemcreateprojectpath"></a>`projectPath` **{warning-solid}** | [`ID`](#id) | **Deprecated:** Please use namespace_path instead. That will cover for both projects and groups. Deprecated in GitLab 15.10. |
+| <a id="mutationworkitemcreateprojectpath"></a>`projectPath` **{warning-solid}** | [`ID`](#id) | **Deprecated:** Please use namespacePath instead. That will cover for both projects and groups. Deprecated in GitLab 15.10. |
 | <a id="mutationworkitemcreaterolledupdateswidget"></a>`rolledupDatesWidget` **{warning-solid}** | [`WorkItemWidgetRolledupDatesInput`](#workitemwidgetrolledupdatesinput) | **Deprecated:** **Status**: Experiment. Introduced in GitLab 16.9. |
 | <a id="mutationworkitemcreatetitle"></a>`title` | [`String!`](#string) | Title of the work item. |
 | <a id="mutationworkitemcreateweightwidget"></a>`weightWidget` | [`WorkItemWidgetWeightInput`](#workitemwidgetweightinput) | Input for weight widget. |
@@ -17945,8 +17972,9 @@ Extra metadata for AI message.
 | <a id="aimetricscodesuggestionsacceptedcount"></a>`codeSuggestionsAcceptedCount` | [`Int`](#int) | Total count of code suggestions accepted by code contributors. |
 | <a id="aimetricscodesuggestionscontributorscount"></a>`codeSuggestionsContributorsCount` | [`Int`](#int) | Number of code contributors who used GitLab Duo Code Suggestions features. |
 | <a id="aimetricscodesuggestionsshowncount"></a>`codeSuggestionsShownCount` | [`Int`](#int) | Total count of code suggestions shown to code contributors. |
+| <a id="aimetricsduoassigneduserscount"></a>`duoAssignedUsersCount` | [`Int`](#int) | Total assigned Duo Pro and Enterprise seats. Ignores time period filter. Returns current data. |
 | <a id="aimetricsduochatcontributorscount"></a>`duoChatContributorsCount` | [`Int`](#int) | Number of contributors who used GitLab Duo Chat features. |
-| <a id="aimetricsduoproassigneduserscount"></a>`duoProAssignedUsersCount` | [`Int`](#int) | Number of assigned Duo Pro seats. Ignores time period filter and always returns current data. |
+| <a id="aimetricsduoproassigneduserscount"></a>`duoProAssignedUsersCount` **{warning-solid}** | [`Int`](#int) | **Deprecated** in GitLab 17.6. use duoAssignedUsersCount for the same behavior. |
 
 ### `AiSelfHostedModel`
 
@@ -20098,6 +20126,7 @@ Code Quality report for a pipeline.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="codesuggestioneventevent"></a>`event` | [`AiUsageCodeSuggestionEvent!`](#aiusagecodesuggestionevent) | Type of the event. |
+| <a id="codesuggestioneventid"></a>`id` | [`ID!`](#id) | ID of the code suggestion event. |
 | <a id="codesuggestioneventlanguage"></a>`language` | [`String`](#string) | Programming language in the context of the suggestion. |
 | <a id="codesuggestioneventsuggestionsize"></a>`suggestionSize` | [`String`](#string) | Size of the code suggestion. |
 | <a id="codesuggestioneventtimestamp"></a>`timestamp` | [`Time!`](#time) | When the event happened. |
@@ -28792,6 +28821,7 @@ Describes where code is deployed for a project organized by folder.
 | <a id="notebodyhtml"></a>`bodyHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of the content of the note. |
 | <a id="notecreatedat"></a>`createdAt` | [`Time!`](#time) | Timestamp of the note creation. |
 | <a id="notediscussion"></a>`discussion` | [`Discussion`](#discussion) | Discussion the note is a part of. |
+| <a id="noteexternalauthor"></a>`externalAuthor` | [`String`](#string) | Email address of non-GitLab user adding the note. For guests, the email address is obfuscated. |
 | <a id="noteid"></a>`id` | [`NoteID!`](#noteid) | ID of the note. |
 | <a id="noteimported"></a>`imported` | [`Boolean`](#boolean) | Indicates whether the note was imported. |
 | <a id="noteinternal"></a>`internal` | [`Boolean`](#boolean) | Indicates if the note is internal. |
@@ -36448,7 +36478,7 @@ LLMs supported by the self-hosted model features.
 | <a id="aiacceptedselfhostedmodelscodellama"></a>`CODELLAMA` | Code-Llama Instruct: Suitable for code suggestions. |
 | <a id="aiacceptedselfhostedmodelscodestral"></a>`CODESTRAL` | Codestral: Suitable for code suggestions. |
 | <a id="aiacceptedselfhostedmodelsdeepseekcoder"></a>`DEEPSEEKCODER` | Deepseek Coder base or instruct. |
-| <a id="aiacceptedselfhostedmodelsgpt"></a>`GPT` | GPT: Suitable for code generation. |
+| <a id="aiacceptedselfhostedmodelsgpt"></a>`GPT` | GPT: Suitable for code suggestions. |
 | <a id="aiacceptedselfhostedmodelsllama3"></a>`LLAMA3` | LLaMA 3: Suitable for code suggestions and duo chat. |
 | <a id="aiacceptedselfhostedmodelsmistral"></a>`MISTRAL` | Mistral: Suitable for code suggestions and duo chat. |
 
@@ -36876,6 +36906,48 @@ Direction of access.
 | ----- | ----------- |
 | <a id="cijobtokenscopedirectioninbound"></a>`INBOUND` | Target projects in the inbound allowlist can access the scope project through their job tokens. |
 | <a id="cijobtokenscopedirectionoutbound"></a>`OUTBOUND` | Job token scope project can access target project in the outbound allowlist. |
+
+### `CiJobTokenScopePolicies`
+
+CI_JOB_TOKEN policy.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="cijobtokenscopepoliciesadmin_container_image"></a>`ADMIN_CONTAINER_IMAGE` | Admin Container Image. |
+| <a id="cijobtokenscopepoliciesadmin_secure_files"></a>`ADMIN_SECURE_FILES` | Admin Secure Files. |
+| <a id="cijobtokenscopepoliciesadmin_terraform_state"></a>`ADMIN_TERRAFORM_STATE` | Admin Terraform State. |
+| <a id="cijobtokenscopepoliciesbuild_create_container_image"></a>`BUILD_CREATE_CONTAINER_IMAGE` | Build Create Container Image. |
+| <a id="cijobtokenscopepoliciesbuild_destroy_container_image"></a>`BUILD_DESTROY_CONTAINER_IMAGE` | Build Destroy Container Image. |
+| <a id="cijobtokenscopepoliciesbuild_download_code"></a>`BUILD_DOWNLOAD_CODE` | Build Download Code. |
+| <a id="cijobtokenscopepoliciesbuild_push_code"></a>`BUILD_PUSH_CODE` | Build Push Code. |
+| <a id="cijobtokenscopepoliciesbuild_read_container_image"></a>`BUILD_READ_CONTAINER_IMAGE` | Build Read Container Image. |
+| <a id="cijobtokenscopepoliciescreate_deployment"></a>`CREATE_DEPLOYMENT` | Create Deployment. |
+| <a id="cijobtokenscopepoliciescreate_environment"></a>`CREATE_ENVIRONMENT` | Create Environment. |
+| <a id="cijobtokenscopepoliciescreate_on_demand_dast_scan"></a>`CREATE_ON_DEMAND_DAST_SCAN` | Create On Demand Dast Scan. |
+| <a id="cijobtokenscopepoliciescreate_package"></a>`CREATE_PACKAGE` | Create Package. |
+| <a id="cijobtokenscopepoliciescreate_release"></a>`CREATE_RELEASE` | Create Release. |
+| <a id="cijobtokenscopepoliciesdestroy_container_image"></a>`DESTROY_CONTAINER_IMAGE` | Destroy Container Image. |
+| <a id="cijobtokenscopepoliciesdestroy_deployment"></a>`DESTROY_DEPLOYMENT` | Destroy Deployment. |
+| <a id="cijobtokenscopepoliciesdestroy_environment"></a>`DESTROY_ENVIRONMENT` | Destroy Environment. |
+| <a id="cijobtokenscopepoliciesdestroy_package"></a>`DESTROY_PACKAGE` | Destroy Package. |
+| <a id="cijobtokenscopepoliciesdestroy_release"></a>`DESTROY_RELEASE` | Destroy Release. |
+| <a id="cijobtokenscopepoliciesread_build"></a>`READ_BUILD` | Read Build. |
+| <a id="cijobtokenscopepoliciesread_container_image"></a>`READ_CONTAINER_IMAGE` | Read Container Image. |
+| <a id="cijobtokenscopepoliciesread_deployment"></a>`READ_DEPLOYMENT` | Read Deployment. |
+| <a id="cijobtokenscopepoliciesread_environment"></a>`READ_ENVIRONMENT` | Read Environment. |
+| <a id="cijobtokenscopepoliciesread_group"></a>`READ_GROUP` | Read Group. |
+| <a id="cijobtokenscopepoliciesread_job_artifacts"></a>`READ_JOB_ARTIFACTS` | Read Job Artifacts. |
+| <a id="cijobtokenscopepoliciesread_package"></a>`READ_PACKAGE` | Read Package. |
+| <a id="cijobtokenscopepoliciesread_pipeline"></a>`READ_PIPELINE` | Read Pipeline. |
+| <a id="cijobtokenscopepoliciesread_project"></a>`READ_PROJECT` | Read Project. |
+| <a id="cijobtokenscopepoliciesread_release"></a>`READ_RELEASE` | Read Release. |
+| <a id="cijobtokenscopepoliciesread_secure_files"></a>`READ_SECURE_FILES` | Read Secure Files. |
+| <a id="cijobtokenscopepoliciesread_terraform_state"></a>`READ_TERRAFORM_STATE` | Read Terraform State. |
+| <a id="cijobtokenscopepoliciesstop_environment"></a>`STOP_ENVIRONMENT` | Stop Environment. |
+| <a id="cijobtokenscopepoliciesupdate_deployment"></a>`UPDATE_DEPLOYMENT` | Update Deployment. |
+| <a id="cijobtokenscopepoliciesupdate_environment"></a>`UPDATE_ENVIRONMENT` | Update Environment. |
+| <a id="cijobtokenscopepoliciesupdate_pipeline"></a>`UPDATE_PIPELINE` | Update Pipeline. |
+| <a id="cijobtokenscopepoliciesupdate_release"></a>`UPDATE_RELEASE` | Update Release. |
 
 ### `CiPipelineCreationStatus`
 
@@ -39339,6 +39411,7 @@ Values for sorting timelogs.
 | <a id="todoactionenumreview_requested"></a>`review_requested` | Review was requested from the user. |
 | <a id="todoactionenumreview_submitted"></a>`review_submitted` | Merge request authored by the user received a review. |
 | <a id="todoactionenumssh_key_expired"></a>`ssh_key_expired` | SSH key of the user has expired. |
+| <a id="todoactionenumssh_key_expiring_soon"></a>`ssh_key_expiring_soon` | SSH key of the user will expire soon. |
 | <a id="todoactionenumunmergeable"></a>`unmergeable` | Merge request authored by the user could not be merged. |
 
 ### `TodoSort`

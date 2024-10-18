@@ -497,11 +497,6 @@ msgid_plural "%d vulnerabilities"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "%d vulnerability dismissed"
-msgid_plural "%d vulnerabilities dismissed"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "%d vulnerability set to confirmed"
 msgid_plural "%d vulnerabilities set to confirmed"
 msgstr[0] ""
@@ -736,6 +731,9 @@ msgid "%{count} more release"
 msgid_plural "%{count} more releases"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "%{count} more reviewers"
+msgstr ""
 
 msgid "%{count} of %{required} approvals from %{name}"
 msgstr ""
@@ -3890,6 +3888,9 @@ msgstr ""
 msgid "AdminSelfHostedModels|Configure AI Features"
 msgstr ""
 
+msgid "AdminSelfHostedModels|Configure GitLab Duo by adding and managing your own self-hosted models."
+msgstr ""
+
 msgid "AdminSelfHostedModels|Create model"
 msgstr ""
 
@@ -3918,6 +3919,9 @@ msgid "AdminSelfHostedModels|Endpoint"
 msgstr ""
 
 msgid "AdminSelfHostedModels|Get started with Self‑hosted models"
+msgstr ""
+
+msgid "AdminSelfHostedModels|Get started with self-hosted models"
 msgstr ""
 
 msgid "AdminSelfHostedModels|If necessary, provide the model identifier in the form of provider/model-name"
@@ -3983,9 +3987,6 @@ msgstr ""
 msgid "AdminSelfHostedModels|Self-hosted models"
 msgstr ""
 
-msgid "AdminSelfHostedModels|Self-hosted models are an experimental feature."
-msgstr ""
-
 msgid "AdminSelfHostedModels|Specify the URL endpoint where your self-hosted model is accessible"
 msgstr ""
 
@@ -4005,6 +4006,9 @@ msgid "AdminSelfHostedModels|To remove %{boldStart}%{modelName}%{boldEnd}, you m
 msgstr ""
 
 msgid "AdminSelfHostedModels|You are about to delete the %{boldStart}%{modelName}%{boldEnd} self-hosted model. This action cannot be undone."
+msgstr ""
+
+msgid "AdminSelfHostedModels|You do not currently have any self-hosted models. %{linkStart}Add a self-hosted model%{linkEnd} to get started."
 msgstr ""
 
 msgid "AdminSelfHostedModels|Your self-hosted model was successfully deleted."
@@ -5138,13 +5142,7 @@ msgstr ""
 msgid "AiImpactAnalytics|Value can't be calculated due to insufficient data."
 msgstr ""
 
-msgid "AiPowered|AI models"
-msgstr ""
-
-msgid "AiPowered|Allow use of self-hosted models"
-msgstr ""
-
-msgid "AiPowered|By enabling self-hosted models, you agree to the %{linkStart}GitLab Testing Agreement%{linkEnd}. Please note that this action cannot be reversed."
+msgid "AiPowered|By turning on self-hosted AI models, you agree to the %{linkStart}GitLab Testing Agreement%{linkEnd}. This action cannot be reversed."
 msgstr ""
 
 msgid "AiPowered|Configure AI-powered GitLab Duo features. %{linkStart}Which features?%{linkEnd}"
@@ -5198,6 +5196,9 @@ msgstr ""
 msgid "AiPowered|Participate in the Early Access Program and help make GitLab better"
 msgstr ""
 
+msgid "AiPowered|Self-hosted AI models"
+msgstr ""
+
 msgid "AiPowered|Setting unavailable"
 msgstr ""
 
@@ -5205,6 +5206,9 @@ msgid "AiPowered|Specify how code completion requests are sent to the AI gateway
 msgstr ""
 
 msgid "AiPowered|These features are being developed and might be unstable. %{linkStart}What do experiment and beta mean?%{linkEnd}"
+msgstr ""
+
+msgid "AiPowered|Turn on self-hosted models"
 msgstr ""
 
 msgid "AiPowered|When GitLab Duo is not available, experiment and beta features cannot be turned on."
@@ -5216,7 +5220,7 @@ msgstr ""
 msgid "AiPowered|When you save, GitLab Duo will be turned off for all groups, subgroups, and projects."
 msgstr ""
 
-msgid "AiPowered|You have enabled self-hosted models and agreed to the %{linkStart}GitLab Testing Agreement%{linkEnd}. Please note that this action cannot be reversed."
+msgid "AiPowered|You have turned on self-hosted AI models and agreed to the %{linkStart}GitLab Testing Agreement%{linkEnd}. This action cannot be reversed."
 msgstr ""
 
 msgid "Akismet"
@@ -5659,6 +5663,9 @@ msgid "All projects selected"
 msgstr ""
 
 msgid "All protected branches"
+msgstr ""
+
+msgid "All required approvals given"
 msgstr ""
 
 msgid "All required approvals must be given."
@@ -7371,6 +7378,12 @@ msgstr ""
 msgid "Are you sure you want to delete this SSH key?"
 msgstr ""
 
+msgid "Are you sure you want to delete this WebAuthn device?"
+msgstr ""
+
+msgid "Are you sure you want to delete this WebAuthn device? Enter your password to continue."
+msgstr ""
+
 msgid "Are you sure you want to delete this branch target?"
 msgstr ""
 
@@ -7378,9 +7391,6 @@ msgid "Are you sure you want to delete this comment?"
 msgstr ""
 
 msgid "Are you sure you want to delete this deploy key?"
-msgstr ""
-
-msgid "Are you sure you want to delete this device? This action cannot be undone."
 msgstr ""
 
 msgid "Are you sure you want to delete this one-time password authenticator?"
@@ -7754,6 +7764,12 @@ msgid "Attempted to destroy the pipeline trigger token but failed"
 msgstr ""
 
 msgid "Attempted to update the pipeline trigger token but failed"
+msgstr ""
+
+msgid "Attribute 'container-overrides' is not yet supported"
+msgstr ""
+
+msgid "Attribute 'pod-overrides' is not yet supported"
 msgstr ""
 
 msgid "Audit events"
@@ -11745,6 +11761,9 @@ msgstr ""
 msgid "CiCatalog|The project will be findable in the CI/CD Catalog after the project has at least one release."
 msgstr ""
 
+msgid "CiCatalog|There was a problem fetching the CI/CD Catalog releases."
+msgstr ""
+
 msgid "CiCatalog|There was a problem fetching the CI/CD Catalog setting."
 msgstr ""
 
@@ -12636,6 +12655,9 @@ msgstr ""
 msgid "ClusterAgents|Are you sure you want to revoke this token? You cannot undo this action."
 msgstr ""
 
+msgid "ClusterAgents|Bootstrap the agent with Flux"
+msgstr ""
+
 msgid "ClusterAgents|CI/CD workflow with restricted access"
 msgstr ""
 
@@ -12756,6 +12778,12 @@ msgstr ""
 msgid "ClusterAgents|How do I update an agent?"
 msgstr ""
 
+msgid "ClusterAgents|If Flux is installed in the cluster, you can install and register the agent from the command line:"
+msgstr ""
+
+msgid "ClusterAgents|If you're %{linkStart}bootstrapping the agent with Flux%{linkEnd}, you can close this dialog."
+msgstr ""
+
 msgid "ClusterAgents|Install using Helm (recommended)"
 msgstr ""
 
@@ -12816,6 +12844,9 @@ msgid "ClusterAgents|Recommended"
 msgstr ""
 
 msgid "ClusterAgents|Register"
+msgstr ""
+
+msgid "ClusterAgents|Register agent with the UI"
 msgstr ""
 
 msgid "ClusterAgents|Registering agent"
@@ -12912,6 +12943,9 @@ msgid "ClusterAgents|You can connect to your cluster from the command line. Conf
 msgstr ""
 
 msgid "ClusterAgents|You can connect to your cluster from the command line. To use this feature, configure %{monotypeStart}user_access%{monotypeEnd} in the agent configuration project."
+msgstr ""
+
+msgid "ClusterAgents|You can view a list of options with %{codeStart}--help%{codeEnd}."
 msgstr ""
 
 msgid "ClusterAgents|You cannot see this token again after you close this window."
@@ -14172,6 +14206,9 @@ msgstr ""
 msgid "ComplianceFrameworks|Compliance frameworks that are linked to an active policy can't be deleted"
 msgstr ""
 
+msgid "ComplianceFrameworks|Compliance frameworks that have a scoped policy can't be deleted"
+msgstr ""
+
 msgid "ComplianceFrameworks|Compliance pipeline configuration (optional)"
 msgstr ""
 
@@ -14287,6 +14324,9 @@ msgid "ComplianceFrameworks|Summary"
 msgstr ""
 
 msgid "ComplianceFrameworks|The compliance framework must be edited in top-level group %{linkStart}namespace%{linkEnd}"
+msgstr ""
+
+msgid "ComplianceFrameworks|The default framework can't be deleted"
 msgstr ""
 
 msgid "ComplianceFrameworks|There can be only one default framework."
@@ -18153,6 +18193,9 @@ msgstr ""
 msgid "Delete Value Stream"
 msgstr ""
 
+msgid "Delete WebAuthn device"
+msgstr ""
+
 msgid "Delete account"
 msgstr ""
 
@@ -20340,7 +20383,7 @@ msgstr ""
 msgid "DuoEnterpriseTrial|We just need some additional information to activate your trial."
 msgstr ""
 
-msgid "DuoEnterpriseTrial|You have successfully created a trial subscription from GitLab Duo Enterprise. To get started, enable the GitLab Duo Enterprise add-on for team members on this page by turning on the toggle for each team member. The subscription may take a minute to sync, so refresh the page if it's not visible yet."
+msgid "DuoEnterpriseTrial|You have successfully started a Duo Enterprise trial that will expire on %{exp_date}. To give members access to new GitLab Duo Enterprise features, %{assign_link_start}assign them%{assign_link_end} to GitLab Duo Enterprise seats."
 msgstr ""
 
 msgid "DuoFreeAccessEndingBanner|Buy Duo Pro"
@@ -20439,31 +20482,13 @@ msgstr ""
 msgid "DuoProTrial|Code completion and code generation with Code Suggestions"
 msgstr ""
 
-msgid "DuoProTrial|Day %{daysUsed}/%{duration}"
-msgstr ""
-
-msgid "DuoProTrial|GitLab Duo Pro Trial"
-msgstr ""
-
 msgid "DuoProTrial|GitLab Duo Pro is designed to make teams more efficient throughout the software development lifecycle with:"
 msgstr ""
 
 msgid "DuoProTrial|GitLab Duo Pro is only available for purchase for Premium and Ultimate users."
 msgstr ""
 
-msgid "DuoProTrial|Learn about GitLab Duo"
-msgstr ""
-
-msgid "DuoProTrial|Learn about features"
-msgstr ""
-
-msgid "DuoProTrial|Looking to do more with AI?"
-msgstr ""
-
 msgid "DuoProTrial|Organizational user controls"
-msgstr ""
-
-msgid "DuoProTrial|Purchase now"
 msgstr ""
 
 msgid "DuoProTrial|Sign in with a different account"
@@ -20478,9 +20503,6 @@ msgstr ""
 msgid "DuoProTrial|Test Generation"
 msgstr ""
 
-msgid "DuoProTrial|To regain access to features like Code Suggestions and Chat, purchase the subscription add-on for GitLab Duo Pro."
-msgstr ""
-
 msgid "DuoProTrial|To start a GitLab Duo trial, you must have the Owner role of a top-level group that has an active subscription or trial."
 msgstr ""
 
@@ -20490,21 +20512,7 @@ msgstr ""
 msgid "DuoProTrial|You do not have access to trial GitLab Duo"
 msgstr ""
 
-msgid "DuoProTrial|You have successfully created a trial subscription from GitLab Duo Pro. To get started, enable the GitLab Duo Pro add-on for team members on this page by turning on the toggle for each team member. The subscription may take a minute to sync, so refresh the page if it's not visible yet."
-msgstr ""
-
-msgid "DuoProTrial|You no longer have access to GitLab Duo Pro features"
-msgstr ""
-
-msgid "DuoProTrial|You've got %{daysRemaining} day left in your GitLab Duo Pro trial"
-msgid_plural "DuoProTrial|You've got %{daysRemaining} days left in your GitLab Duo Pro trial"
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "DuoProTrial|Your %{duration}-day trial has ended"
-msgstr ""
-
-msgid "DuoProTrial|Your trial ends on %{strongStart}%{trialEndDate}%{strongEnd}. To continue using features in GitLab Duo Pro, purchase a subscription add-on."
+msgid "DuoProTrial|You have successfully started a Duo Pro trial that will expire on %{exp_date}. To give members access to new GitLab Duo Pro features, %{assign_link_start}assign them%{assign_link_end} to GitLab Duo Pro seats."
 msgstr ""
 
 msgid "Duplicate packages"
@@ -20832,9 +20840,6 @@ msgid "Email sent"
 msgstr ""
 
 msgid "Email the pipeline status to a list of recipients."
-msgstr ""
-
-msgid "Email updates (optional)"
 msgstr ""
 
 msgid "Email:"
@@ -22934,6 +22939,9 @@ msgid "Failed to format markdown."
 msgstr ""
 
 msgid "Failed to generate description"
+msgstr ""
+
+msgid "Failed to generate export"
 msgstr ""
 
 msgid "Failed to generate export, please try again later."
@@ -26320,9 +26328,6 @@ msgstr ""
 msgid "GroupRoadmap|%{dateWord} – No end date"
 msgstr ""
 
-msgid "GroupRoadmap|%{startDateInWords} – %{endDateInWords}"
-msgstr ""
-
 msgid "GroupRoadmap|Loading epics"
 msgstr ""
 
@@ -26359,10 +26364,10 @@ msgstr ""
 msgid "GroupRoadmap|To view the roadmap, add a start or due date to one of the %{linkStart}child epics%{linkEnd}."
 msgstr ""
 
-msgid "GroupRoadmap|To view the roadmap, add a start or due date to one of your epics in this group or its subgroups; from %{startDate} to %{endDate}."
+msgid "GroupRoadmap|To view the roadmap, add a start or due date to one of your epics in this group or its subgroups; from %{dateRange}."
 msgstr ""
 
-msgid "GroupRoadmap|To widen your search, change or remove filters; from %{startDate} to %{endDate}."
+msgid "GroupRoadmap|To widen your search, change or remove filters; from %{dateRange}."
 msgstr ""
 
 msgid "GroupRoadmap|View epics list"
@@ -26842,13 +26847,10 @@ msgstr ""
 msgid "GroupsEmptyState|A group is a collection of several projects"
 msgstr ""
 
-msgid "GroupsEmptyState|Create new project"
+msgid "GroupsEmptyState|Create project"
 msgstr ""
 
-msgid "GroupsEmptyState|Create new subgroup"
-msgstr ""
-
-msgid "GroupsEmptyState|Groups are the best way to manage multiple projects and members."
+msgid "GroupsEmptyState|Create subgroup"
 msgstr ""
 
 msgid "GroupsEmptyState|If you organize your projects under a group, it works like a folder. You can manage your group member's permissions and access to each project in the group."
@@ -26857,22 +26859,34 @@ msgstr ""
 msgid "GroupsEmptyState|No groups found"
 msgstr ""
 
-msgid "GroupsEmptyState|No inactive projects."
-msgstr ""
-
 msgid "GroupsEmptyState|No public or internal groups"
-msgstr ""
-
-msgid "GroupsEmptyState|No shared projects."
-msgstr ""
-
-msgid "GroupsEmptyState|No subgroups or projects."
 msgstr ""
 
 msgid "GroupsEmptyState|Projects are where you can store your code, access issues, wiki, and other features of GitLab."
 msgstr ""
 
+msgid "GroupsEmptyState|Projects that are no longer used are displayed here."
+msgstr ""
+
+msgid "GroupsEmptyState|There are no inactive projects in this group"
+msgstr ""
+
+msgid "GroupsEmptyState|There are no shared projects in this group"
+msgstr ""
+
+msgid "GroupsEmptyState|There are no subgroups or projects in this group"
+msgstr ""
+
+msgid "GroupsEmptyState|Use groups to manage multiple projects and members."
+msgstr ""
+
+msgid "GroupsEmptyState|Use projects to store and access issues, wiki pages, and other GitLab features."
+msgstr ""
+
 msgid "GroupsEmptyState|You do not have necessary permissions to create a subgroup or project in this group. Please contact an owner of this group to create a new subgroup or project."
+msgstr ""
+
+msgid "GroupsEmptyState|You will see here all the projects shared with other groups and projects."
 msgstr ""
 
 msgid "GroupsNew|%{groupsLinkStart}Groups%{groupsLinkEnd} and %{subgroupsLinkStart}subgroups%{subgroupsLinkEnd} allow you to manage and collaborate across multiple projects. Members of a group have access to all of its projects."
@@ -27557,6 +27571,9 @@ msgstr ""
 msgid "HttpDestinationValidator validates only http external audit event destinations."
 msgstr ""
 
+msgid "I agree that by clicking continue or registering through a third party GitLab may contact me via email and telephone about its product, services and events."
+msgstr ""
+
 msgid "I forgot my password"
 msgstr ""
 
@@ -27573,9 +27590,6 @@ msgid "I want to store my code"
 msgstr ""
 
 msgid "I want to use GitLab CI with my existing repository"
-msgstr ""
-
-msgid "I'd like to receive updates about GitLab via email"
 msgstr ""
 
 msgid "I'm signing up for GitLab because:"
@@ -27839,9 +27853,6 @@ msgid "IdentityVerification|If you have not recently tried to sign into GitLab, 
 msgstr ""
 
 msgid "IdentityVerification|If you have not recently tried to sign into GitLab, we recommend changing your password (%{password_link}) and setting up Two-Factor Authentication (%{two_fa_link}) to keep your account safe."
-msgstr ""
-
-msgid "IdentityVerification|If you've lost access to the email associated to this account or having trouble with the code, %{supportLinkStart}here are some other steps you can take.%{supportLinkEnd}"
 msgstr ""
 
 msgid "IdentityVerification|Maximum login attempts exceeded. Wait %{interval} and try again."
@@ -28877,18 +28888,6 @@ msgid "Increment suggestion line end"
 msgstr ""
 
 msgid "Increment suggestion line start"
-msgstr ""
-
-msgid "Incubation|%{featureName} is in incubating phase"
-msgstr ""
-
-msgid "Incubation|GitLab incubates features to explore new use cases. These features are updated regularly, and support is limited."
-msgstr ""
-
-msgid "Incubation|Give feedback on this feature"
-msgstr ""
-
-msgid "Incubation|Learn more about incubating features"
 msgstr ""
 
 msgid "Indent line"
@@ -30114,13 +30113,7 @@ msgstr ""
 msgid "IssuesAnalytics|Closed"
 msgstr ""
 
-msgid "IssuesAnalytics|Create issues for projects in your group to track and see metrics for them."
-msgstr ""
-
 msgid "IssuesAnalytics|Failed to load chart. Please try again."
-msgstr ""
-
-msgid "IssuesAnalytics|Get started with issue analytics"
 msgstr ""
 
 msgid "IssuesAnalytics|Issues Opened vs Closed"
@@ -31762,6 +31755,9 @@ msgid "Labels|Promoting %{labelTitle} will make it available for all projects in
 msgstr ""
 
 msgid "Label|Assignee"
+msgstr ""
+
+msgid "Label|Reviewer"
 msgstr ""
 
 msgid "Lacking permissions to the blocking merge request"
@@ -34962,6 +34958,9 @@ msgstr ""
 msgid "MlModelRegistry|New model"
 msgstr ""
 
+msgid "MlModelRegistry|No description available. To add a description, click \"Edit model\" above."
+msgstr ""
+
 msgid "MlModelRegistry|No description provided"
 msgstr ""
 
@@ -36447,9 +36446,6 @@ msgid "Normal view"
 msgstr ""
 
 msgid "Not adopted"
-msgstr ""
-
-msgid "Not all browsers support WebAuthn. Therefore, we require that you set up a two-factor authentication app first. That way you'll always be able to sign in, even from an unsupported browser."
 msgstr ""
 
 msgid "Not all browsers support WebAuthn. You must save your recovery codes after you first register a two-factor authenticator to be able to sign in, even from an unsupported browser."
@@ -39807,9 +39803,6 @@ msgstr ""
 msgid "Pick a group or project"
 msgstr ""
 
-msgid "Pick a name"
-msgstr ""
-
 msgid "Pipeline"
 msgstr ""
 
@@ -39924,6 +39917,9 @@ msgstr ""
 msgid "PipelineEditorTutorial|If you’re using a self-managed GitLab instance, %{linkStart}make sure your instance has runners available.%{linkEnd}"
 msgstr ""
 
+msgid "PipelineEditorTutorial|Learn how to set up and use GitLab CI/CD with guided tutorials, videos, and best practices in %{linkStart}GitLab University%{linkEnd}."
+msgstr ""
+
 msgid "PipelineEditorTutorial|Learn more about %{linkStart}GitLab CI/CD concepts%{linkEnd}"
 msgstr ""
 
@@ -39952,6 +39948,9 @@ msgid "PipelineEditorTutorial|View %{linkStart}.gitlab-ci.yml syntax reference%{
 msgstr ""
 
 msgid "PipelineEditorTutorial|⚙️ Pipeline configuration reference"
+msgstr ""
+
+msgid "PipelineEditorTutorial|🎓 Learn CI/CD with GitLab University"
 msgstr ""
 
 msgid "PipelineEditorTutorial|💡 Tip: Visualize and validate your pipeline"
@@ -46436,6 +46435,9 @@ msgstr ""
 msgid "Review changes"
 msgstr ""
 
+msgid "Review requested from %{reviewerName}"
+msgstr ""
+
 msgid "Review requests"
 msgstr ""
 
@@ -50234,9 +50236,6 @@ msgstr ""
 msgid "SecurityReports|All tools"
 msgstr ""
 
-msgid "SecurityReports|Although it's rare to have no vulnerabilities, it can happen. Check your project's security configuration to make sure you've set up your security scans correctly."
-msgstr ""
-
 msgid "SecurityReports|Change status"
 msgstr ""
 
@@ -50244,15 +50243,6 @@ msgid "SecurityReports|Check the messages generated while parsing the following 
 msgstr ""
 
 msgid "SecurityReports|Cluster"
-msgstr ""
-
-msgid "SecurityReports|Comment added to '%{vulnerabilityName}'"
-msgstr ""
-
-msgid "SecurityReports|Comment deleted on '%{vulnerabilityName}'"
-msgstr ""
-
-msgid "SecurityReports|Comment edited on '%{vulnerabilityName}'"
 msgstr ""
 
 msgid "SecurityReports|Configure security testing"
@@ -50295,12 +50285,6 @@ msgid "SecurityReports|Dismiss vulnerability"
 msgstr ""
 
 msgid "SecurityReports|Dismissal comment"
-msgstr ""
-
-msgid "SecurityReports|Dismissed '%{vulnerabilityName}'"
-msgstr ""
-
-msgid "SecurityReports|Dismissed '%{vulnerabilityName}'. Turn off the hide dismissed toggle to view."
 msgstr ""
 
 msgid "SecurityReports|Dismissed (all reasons)"
@@ -50372,6 +50356,9 @@ msgstr ""
 msgid "SecurityReports|Historical view of open vulnerabilities in the default branch. Excludes vulnerabilities that were resolved or dismissed. %{linkStart}Learn more.%{linkEnd}"
 msgstr ""
 
+msgid "SecurityReports|If you were expecting vulnerabilities to be shown here, check that you've completed the %{linkStart}security scanning prerequisites%{linkEnd}, or check the other vulnerability types in the tabs above."
+msgstr ""
+
 msgid "SecurityReports|Image"
 msgstr ""
 
@@ -50423,7 +50410,7 @@ msgstr ""
 msgid "SecurityReports|No longer detected"
 msgstr ""
 
-msgid "SecurityReports|No vulnerabilities found"
+msgid "SecurityReports|No vulnerabilities to report"
 msgstr ""
 
 msgid "SecurityReports|Oops, something doesn't seem right."
@@ -50518,37 +50505,16 @@ msgstr ""
 msgid "SecurityReports|The security report for this pipeline has %{helpPageLinkStart}expired%{helpPageLinkEnd}. Re-run the pipeline to generate a new security report."
 msgstr ""
 
-msgid "SecurityReports|There was an error adding the comment."
-msgstr ""
-
 msgid "SecurityReports|There was an error creating a Jira issue for the finding. Please try again."
-msgstr ""
-
-msgid "SecurityReports|There was an error creating the issue."
 msgstr ""
 
 msgid "SecurityReports|There was an error creating the issue. Please try again."
 msgstr ""
 
-msgid "SecurityReports|There was an error creating the merge request"
-msgstr ""
-
-msgid "SecurityReports|There was an error creating the merge request."
-msgstr ""
-
 msgid "SecurityReports|There was an error creating the merge request. Please try again."
 msgstr ""
 
-msgid "SecurityReports|There was an error deleting the comment."
-msgstr ""
-
 msgid "SecurityReports|There was an error dismissing the finding. Please try again."
-msgstr ""
-
-msgid "SecurityReports|There was an error dismissing the vulnerabilities."
-msgstr ""
-
-msgid "SecurityReports|There was an error dismissing the vulnerability."
 msgstr ""
 
 msgid "SecurityReports|There was an error fetching the finding. Please try again."
@@ -50558,9 +50524,6 @@ msgid "SecurityReports|There was an error fetching the finding. The security rep
 msgstr ""
 
 msgid "SecurityReports|There was an error reverting the dismissal."
-msgstr ""
-
-msgid "SecurityReports|There was an error reverting this dismissal."
 msgstr ""
 
 msgid "SecurityReports|There was an error while generating the report."
@@ -50606,6 +50569,9 @@ msgid "SecurityReports|Warning parsing security reports"
 msgstr ""
 
 msgid "SecurityReports|scanned resources"
+msgstr ""
+
+msgid "SecurityReports|security scanning prerequisites"
 msgstr ""
 
 msgid "SecurityTraining|Enable security training to learn how to fix vulnerabilities. View security training from selected educational providers relevant to the detected vulnerability."
@@ -55162,6 +55128,9 @@ msgstr ""
 msgid "The project-group link could not be removed."
 msgstr ""
 
+msgid "The provided params did not update the note."
+msgstr ""
+
 msgid "The related CI build failed."
 msgstr ""
 
@@ -55547,9 +55516,6 @@ msgid "There was a problem sending the confirmation email"
 msgstr ""
 
 msgid "There was a problem updating the keep latest artifacts setting."
-msgstr ""
-
-msgid "There was an error creating the issue"
 msgstr ""
 
 msgid "There was an error fetching configuration for charts"
@@ -56433,9 +56399,6 @@ msgstr ""
 msgid "This vulnerability was automatically resolved because its vulnerability type was disabled in this project or removed from GitLab's default ruleset. For details about SAST rule changes, see https://docs.gitlab.com/ee/user/application_security/sast/rules#important-rule-changes."
 msgstr ""
 
-msgid "This will invalidate your registered applications and WebAuthn devices."
-msgstr ""
-
 msgid "This will remove the fork relationship between this project and %{fork_source}."
 msgstr ""
 
@@ -57292,6 +57255,9 @@ msgstr ""
 msgid "Todos|SSH key expired"
 msgstr ""
 
+msgid "Todos|SSH key expiring soon"
+msgstr ""
+
 msgid "Todos|Something went wrong. Please try again."
 msgstr ""
 
@@ -57329,6 +57295,9 @@ msgid "Todos|You're all done!"
 msgstr ""
 
 msgid "Todos|Your SSH key has expired"
+msgstr ""
+
+msgid "Todos|Your SSH key is expiring soon"
 msgstr ""
 
 msgid "Todos|Your To-Do List shows what to work on next"
@@ -57936,6 +57905,12 @@ msgstr ""
 msgid "TrialWidget|GitLab Duo Enterprise Trial"
 msgstr ""
 
+msgid "TrialWidget|GitLab Duo Pro"
+msgstr ""
+
+msgid "TrialWidget|GitLab Duo Pro Trial"
+msgstr ""
+
 msgid "TrialWidget|Learn more"
 msgstr ""
 
@@ -57946,6 +57921,9 @@ msgid "TrialWidget|Upgrade"
 msgstr ""
 
 msgid "TrialWidget|Your trial of GitLab Duo Enterprise has ended"
+msgstr ""
+
+msgid "TrialWidget|Your trial of GitLab Duo Pro has ended"
 msgstr ""
 
 msgid "Trials|%{planName} Trial"
@@ -60208,7 +60186,7 @@ msgstr ""
 msgid "ValueStreamAnalytics|Dashboard"
 msgstr ""
 
-msgid "ValueStreamAnalytics|Edit Value Stream: %{name}"
+msgid "ValueStreamAnalytics|Edit value stream: %{name}"
 msgstr ""
 
 msgid "ValueStreamAnalytics|Failed to load usage overview data"
@@ -60241,7 +60219,7 @@ msgstr ""
 msgid "ValueStreamAnalytics|Merge request analytics"
 msgstr ""
 
-msgid "ValueStreamAnalytics|New Value Stream"
+msgid "ValueStreamAnalytics|New value stream"
 msgstr ""
 
 msgid "ValueStreamAnalytics|Number of commits pushed to the default branch"
@@ -62964,7 +62942,7 @@ msgstr ""
 msgid "You are about to incur additional charges"
 msgstr ""
 
-msgid "You are about to transfer %{codeStart}%{groupName}%{codeEnd} to another namespace. This action changes the %{projectLinkStart}project's path%{projectLinkEnd} and can lead to %{documentationLinkStart}data loss%{documentationLinkEnd}."
+msgid "You are about to transfer %{codeStart}%{groupName}%{codeEnd} to another namespace. This action changes the %{groupLinkStart}group's path%{groupLinkEnd} and can lead to %{documentationLinkStart}data loss%{documentationLinkEnd}."
 msgstr ""
 
 msgid "You are about to transfer %{code_start}%{project_full_name}%{code_end} to another namespace. This action changes the %{link_to_namespace_change_doc} and can lead to %{link_to_data_loss_doc}."
@@ -63562,9 +63540,6 @@ msgid "You need git-lfs version %{min_git_lfs_version} (or greater) to continue.
 msgstr ""
 
 msgid "You need permission."
-msgstr ""
-
-msgid "You need to register a two-factor authentication app before you can set up a device."
 msgstr ""
 
 msgid "You need to set terms to be enforced"
@@ -64434,9 +64409,6 @@ msgstr ""
 msgid "cannot be enabled unless all domains have TLS certificates"
 msgstr ""
 
-msgid "cannot be enabled until a valid credit card is on file"
-msgstr ""
-
 msgid "cannot be enabled until identity verification is completed"
 msgstr ""
 
@@ -64450,6 +64422,12 @@ msgid "cannot be used for user namespace"
 msgstr ""
 
 msgid "cannot contain HTML/XML tags, including any word between angle brackets (&lt;,&gt;)."
+msgstr ""
+
+msgid "cannot have more than %{count} frameworks"
+msgstr ""
+
+msgid "cannot have more than %{count} requirements"
 msgstr ""
 
 msgid "cannot include leading slash or directory traversal."

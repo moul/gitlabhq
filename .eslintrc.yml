@@ -52,8 +52,8 @@ rules:
         - '^variables$'
         - 'attrs?$'
   '@gitlab/vue-no-undef-apollo-properties': error
-  '@gitlab/tailwind': error
-  '@gitlab/vue-tailwind': error
+  '@gitlab/tailwind-no-interpolation': error
+  '@gitlab/vue-tailwind-no-interpolation': error
   no-param-reassign:
     - error
     - props: true
@@ -162,6 +162,9 @@ rules:
           message: 'See our documentation on "Migrating from VueX" for tips on how to avoid adding new VueX stores.'
         - name: '@sentry/browser'
           message: Use "import * as Sentry from '~/sentry/sentry_browser_wrapper';" instead
+      patterns:
+        - group: ['react', 'react-dom/*']
+          message: We do not allow usage of React in our codebase except for the graphql_explorer
   unicorn/prefer-dom-node-dataset:
     - error
   no-unsanitized/method:
@@ -188,8 +191,8 @@ overrides:
     rules:
       '@gitlab/require-i18n-strings': off
       '@gitlab/no-runtime-template-compiler': off
-      '@gitlab/tailwind': off
-      '@gitlab/vue-tailwind': off
+      '@gitlab/tailwind-no-interpolation': off
+      '@gitlab/vue-tailwind-no-interpolation': off
       'require-await': error
       'import/no-dynamic-require': off
       'no-import-assign': off

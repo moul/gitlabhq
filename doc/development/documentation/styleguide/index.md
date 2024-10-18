@@ -13,7 +13,7 @@ For guidelines on specific words, see [the word list](word_list.md).
 ## The GitLab voice
 
 The GitLab brand guidelines define the
-[voice used by the larger organization](https://design.gitlab.com/brand-overview/brand-voice).
+[voice used by the larger organization](https://design.gitlab.com/brand-overview/introduction/#brand-personality).
 
 Building on that guidance, the voice in the GitLab documentation strives to be concise,
 direct, and precise. The goal is to provide information that's easy to search and scan.
@@ -109,7 +109,7 @@ features is limited by our linters, so, use regular Markdown and follow the rule
 linked style guide. You can't use Kramdown-specific markup (for example, `{:.class}`).
 
 For a complete Kramdown reference, see the
-[GitLab Markdown Guide](https://handbook.gitlab.com/handbook/markdown-guide/).
+[GitLab Markdown Guide](https://handbook.gitlab.com/docs/markdown-guide/).
 
 The Markdown format is tested by using [markdownlint](../testing/markdownlint.md) and [Vale](../testing/vale.md).
 
@@ -142,7 +142,7 @@ GitLab documentation should be clear and easy to understand.
 
 - Avoid unnecessary words.
 - Be clear, concise, and stick to the goal of the topic.
-- Write in US English with US grammar. (Tested in [`British.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/.vale/gitlab/British.yml).)
+- Write in US English with US grammar. (Tested in [`British.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/.vale/gitlab_base/British.yml).)
 
 ### Active voice
 
@@ -375,13 +375,13 @@ Follow these guidelines for punctuation.
 <!-- vale gitlab_base.Repetition = NO -->
 
 - End full sentences with a period, including full sentences in tables.
-- Use serial (Oxford) commas before the final **and** or **or** in a list of three or more items. (Tested in [`OxfordComma.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/.vale/gitlab/OxfordComma.yml).)
+- Use serial (Oxford) commas before the final **and** or **or** in a list of three or more items. (Tested in [`OxfordComma.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/.vale/gitlab_base/OxfordComma.yml).)
 
 <!-- vale gitlab_base.Repetition = YES -->
 
 When spacing content:
 
-- Use one space between sentences. (Use of more than one space is tested in [`SentenceSpacing.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/.vale/gitlab/SentenceSpacing.yml).)
+- Use one space between sentences. (Use of more than one space is tested in [`SentenceSpacing.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/.vale/gitlab_base/SentenceSpacing.yml).)
 - Do not use non-breaking spaces. Use standard spaces instead. (Tested in [`lint-doc.sh`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/scripts/lint-doc.sh).)
 - Do not use tabs for indentation. Use spaces instead. You can configure your code editor to output spaces instead of tabs when pressing the <kbd>Tab</kbd> key.
 
@@ -389,7 +389,7 @@ Do not use these punctuation characters:
 
 - `;` (semicolon): Use two sentences instead.
 - `–` (en dash) or `—` (em dash): Use separate sentences, or commas, instead.
-- `“` `”` `‘` `’`: Double or single typographer's ("curly") quotation marks. Use straight quotes instead. (Tested in [`NonStandardQuotes.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/.vale/gitlab/NonStandardQuotes.yml).)
+- `“` `”` `‘` `’`: Double or single typographer's ("curly") quotation marks. Use straight quotes instead. (Tested in [`NonStandardQuotes.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/.vale/gitlab_base/NonStandardQuotes.yml).)
 
 ### Placeholder text
 
@@ -455,6 +455,18 @@ To make text bold, wrap it with double asterisks (`**`). For example:
 ```markdown
 1. Select **Cancel**.
 ```
+
+When using bold format for UI elements or keywords, place any punctuation outside the bold tag.
+This rule includes periods, commas, colons, and right-angle brackets (`>`).
+
+The punctuation is part of the sentence structure rather than the UI element or keyword that you're emphasizing.
+
+Include punctuation in the bold tag when it's part of the UI element or keyword itself.
+
+For example:
+
+- `**Option**: This an option description.`
+- `Select **Overview** > **Users**.`
 
 ### Inline code
 
@@ -815,7 +827,7 @@ However, you should avoid putting too many links on any page. Too many links can
 To link to another documentation (`.md`) file in the same repository:
 
 - Use an inline link with a relative file path. For example, `[GitLab.com settings](../user/gitlab_com/index.md)`.
-- Put the entire link on a single line, even if the link is very long. ([Vale](../testing/vale.md) rule: [`SubstitutionWarning.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/.vale/gitlab/MultiLineLinks.yml)).
+- Put the entire link on a single line, even if the link is very long. ([Vale](../testing/vale.md) rule: [`SubstitutionWarning.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/.vale/gitlab_base/MultiLineLinks.yml)).
 
 To link to a file outside of the documentation files, for example to link from development
 documentation to a specific code file, you can:

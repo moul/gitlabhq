@@ -141,8 +141,11 @@ module QA
       end
 
       def running_on_dot_com?
-        uri = URI.parse(Runtime::Scenario.gitlab_address)
-        uri.host.include?('.com')
+        URI.parse(Runtime::Scenario.gitlab_address).host.include?('.com')
+      end
+
+      def running_on_release?
+        URI.parse(Runtime::Scenario.gitlab_address).host.include?('release.gitlab.net')
       end
 
       def running_on_dev?
@@ -405,10 +408,6 @@ module QA
       # should the specs container spin up a server
       def qa_hostname
         ENV['QA_HOSTNAME']
-      end
-
-      def cache_namespace_name?
-        enabled?(ENV['CACHE_NAMESPACE_NAME'], default: true)
       end
 
       def knapsack?

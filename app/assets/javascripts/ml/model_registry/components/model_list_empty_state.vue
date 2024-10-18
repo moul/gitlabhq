@@ -1,6 +1,6 @@
 <script>
 import { GlEmptyState, GlButton, GlModalDirective } from '@gitlab/ui';
-import emptySvgUrl from '@gitlab/svgs/dist/illustrations/empty-state/empty-dag-md.svg?url';
+import emptySvgUrl from '@gitlab/svgs/dist/illustrations/status/status-new-md.svg';
 import { helpPagePath } from '~/helpers/help_page_helper';
 import { s__ } from '~/locale';
 import { MLFLOW_USAGE_MODAL_ID } from '../constants';
@@ -15,7 +15,7 @@ export default {
   },
   inject: ['mlflowTrackingUrl'],
   props: {
-    modalId: {
+    primaryLink: {
       type: String,
       required: true,
     },
@@ -45,12 +45,11 @@ export default {
   <gl-empty-state
     :title="title"
     :svg-path="$options.emptySvgPath"
-    :svg-height="null"
     class="gl-py-8"
     :description="description"
   >
     <template #actions>
-      <gl-button v-gl-modal="modalId" variant="confirm" class="gl-mx-2 gl-mb-3">{{
+      <gl-button :href="primaryLink" variant="confirm" class="gl-mx-2 gl-mb-3">{{
         primaryText
       }}</gl-button>
       <gl-button v-gl-modal="$options.mlflowModalId" class="gl-mx-2 gl-mb-3 gl-mr-3">
