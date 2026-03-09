@@ -23,8 +23,8 @@ module Packages
 
       VERSION = '3.0.0'
 
-      PROJECT_LEVEL_SERVICES = %i[download publish symbol].freeze
-      GROUP_LEVEL_SERVICES = %i[search metadata].freeze
+      PROJECT_LEVEL_SERVICES = %i[publish symbol].freeze
+      GROUP_LEVEL_SERVICES = %i[download search metadata].freeze
 
       def initialize(project_or_group)
         @project_or_group = project_or_group
@@ -35,6 +35,8 @@ module Packages
       end
 
       def resources
+        return [] unless scope
+
         available_services.flat_map { |service| build_service(service) }
       end
 
@@ -43,12 +45,9 @@ module Packages
       attr_reader :project_or_group
 
       def available_services
-        case scope
-        when :group
-          GROUP_LEVEL_SERVICES
-        when :project
-          (GROUP_LEVEL_SERVICES + PROJECT_LEVEL_SERVICES).flatten
-        end
+        return GROUP_LEVEL_SERVICES if scope == :group
+
+        (GROUP_LEVEL_SERVICES + PROJECT_LEVEL_SERVICES).flatten
       end
 
       def build_service(service_type)
@@ -72,15 +71,20 @@ module Packages
                       metadata_service_url
                     when :publish
                       publish_service_url
+                    else
+                      raise ArgumentError, "unknown service type: #{service_type}"
                     end
 
         expose_url(full_path)
       end
 
       def scope
-        return :project if project_or_group.is_a?(::Project)
-
-        :group if project_or_group.is_a?(::Group)
+        case project_or_group
+        when Project
+          :project
+        when Group
+          :group
+        end
       end
 
       def download_service_url
@@ -91,10 +95,17 @@ module Packages
           package_filename: nil
         }
 
-        api_v4_projects_packages_nuget_download_package_name_package_version_package_filename_path(
-          params,
-          true
-        )
+        if scope == :group
+          api_v4_groups___packages_nuget_download_package_name_package_version_package_filename_path(
+            params,
+            true
+          )
+        else
+          api_v4_projects_packages_nuget_download_package_name_package_version_package_filename_path(
+            params,
+            true
+          )
+        end
       end
 
       def metadata_service_url
@@ -104,13 +115,12 @@ module Packages
           package_version: nil
         }
 
-        case scope
-        when :group
+        if scope == :group
           api_v4_groups___packages_nuget_metadata_package_name_package_version_path(
             params,
             true
           )
-        when :project
+        else
           api_v4_projects_packages_nuget_metadata_package_name_package_version_path(
             params,
             true
@@ -119,10 +129,9 @@ module Packages
       end
 
       def search_service_url
-        case scope
-        when :group
+        if scope == :group
           api_v4_groups___packages_nuget_query_path(id: project_or_group.id)
-        when :project
+        else
           api_v4_projects_packages_nuget_query_path(id: project_or_group.id)
         end
       end

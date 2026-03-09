@@ -737,6 +737,8 @@
   - 1
 - - namespaces_free_user_cap_group_over_limit_notification
   - 1
+- - namespaces_groups_transfer
+  - 1
 - - namespaces_process_sync_events
   - 1
 - - namespaces_remove_dormant_members

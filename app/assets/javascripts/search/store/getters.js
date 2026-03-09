@@ -33,6 +33,11 @@ const unappliedNewLabelKeys = (state) => {
 
 export const queryLanguageFilters = (state) => state.query[LANGUAGE_FILTER_PARAM] || [];
 
+export const queryWorkItemTypeFilters = ({ query: { type } }) => {
+  if (!type) return [];
+  return Array.isArray(type) ? type : [type];
+};
+
 export const frequentGroups = (state) => {
   return state.frequentItems[GROUPS_LOCAL_STORAGE_KEY];
 };
@@ -122,3 +127,5 @@ export const navigationItems = (state) =>
   });
 
 export const hasMissingProjectContext = (state) => !state?.projectInitialJson?.id;
+
+export const workItemTypes = (state) => state.workItemTypes || [];

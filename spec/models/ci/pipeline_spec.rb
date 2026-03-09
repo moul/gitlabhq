@@ -7327,7 +7327,7 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
       )
     end
 
-    shared_examples 'when no projects have variables' do
+    context 'when no projects have variables' do
       let(:project_ids) { [project.id, project_with_code_coverage_artifact.id] }
 
       it 'returns an empty result' do
@@ -7335,7 +7335,7 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
       end
     end
 
-    shared_examples 'when project_ids contain non-existent project IDs' do
+    context 'when project_ids contain non-existent project IDs' do
       let(:project_ids) { [project_with_ci_pipeline_variable1.id, non_existing_record_id] }
 
       it 'returns existing project IDs that have pipeline variables' do
@@ -7343,33 +7343,12 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
       end
     end
 
-    shared_examples 'when there are more projects with pipeline variables than the limit' do
+    context 'when there are more projects with pipeline variables than the limit' do
       let(:limit) { 1 }
 
       it 'returns project IDs that have pipeline variables up to the limit' do
         expect(projects_with_variables.size).to eq(1)
       end
-    end
-
-    it_behaves_like 'when no projects have variables'
-    it_behaves_like 'when project_ids contain non-existent project IDs'
-    it_behaves_like 'when there are more projects with pipeline variables than the limit'
-
-    context 'when FF `query_projects_with_variables_from_ci_pipeline_artifacts` is disabled' do
-      before do
-        stub_feature_flags(query_projects_with_variables_from_ci_pipeline_artifacts: false)
-      end
-
-      it 'returns project IDs within the given project_ids list that have ci_pipeline_variables records' do
-        expect(projects_with_variables).to contain_exactly(
-          project_with_ci_pipeline_variable1.id,
-          project_with_ci_pipeline_variable_and_pipeline_variables_artifact.id
-        )
-      end
-
-      it_behaves_like 'when no projects have variables'
-      it_behaves_like 'when project_ids contain non-existent project IDs'
-      it_behaves_like 'when there are more projects with pipeline variables than the limit'
     end
   end
 

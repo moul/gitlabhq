@@ -25,14 +25,6 @@ import {
   METADATA_KEYS,
   STATE_CLOSED,
   STATE_OPEN,
-  WORK_ITEM_TYPE_NAME_INCIDENT,
-  WORK_ITEM_TYPE_NAME_ISSUE,
-  WORK_ITEM_TYPE_NAME_TEST_CASE,
-  WORK_ITEM_TYPE_NAME_TICKET,
-  WORK_ITEM_TYPE_ENUM_TEST_CASE,
-  WORK_ITEM_TYPE_ENUM_TICKET,
-  WORK_ITEM_TYPE_ENUM_INCIDENT,
-  WORK_ITEM_TYPE_ENUM_ISSUE,
   WORK_ITEM_TYPE_ROUTE_WORK_ITEM,
 } from '~/work_items/constants';
 import {
@@ -42,7 +34,6 @@ import {
   canRouterNav,
 } from '~/work_items/utils';
 import { routeForWorkItemTypeName } from '~/work_items/router/utils';
-import { SUPPORT_BOT_USERNAME } from '~/issues/show/utils/issuable_data';
 
 export default {
   components: {
@@ -147,31 +138,6 @@ export default {
     workItemFullPath() {
       return (
         this.issuable.namespace?.fullPath || this.issuable.reference?.split(this.issuableSymbol)[0]
-      );
-    },
-    isIncident() {
-      // Remove once we have the workItemConfig returning real data
-      const isTypeIncident =
-        this.workItemType === WORK_ITEM_TYPE_NAME_INCIDENT ||
-        this.issuable?.type === WORK_ITEM_TYPE_ENUM_INCIDENT;
-
-      return this.workItemConfig?.isIncidentManagement || isTypeIncident;
-    },
-    isServiceDeskIssue() {
-      const isTypeServiceDeskIssue =
-        (this.issuable?.type === WORK_ITEM_TYPE_ENUM_ISSUE ||
-          this.workItemType === WORK_ITEM_TYPE_NAME_ISSUE) &&
-        this.issuable?.author?.username === SUPPORT_BOT_USERNAME;
-
-      const isTicketType =
-        this.issuable?.type === WORK_ITEM_TYPE_ENUM_TICKET ||
-        this.workItemType === WORK_ITEM_TYPE_NAME_TICKET;
-      return this.workItemConfig?.isServiceDesk || isTypeServiceDeskIssue || isTicketType;
-    },
-    isTestCase() {
-      return (
-        this.workItemType === WORK_ITEM_TYPE_NAME_TEST_CASE ||
-        this.issuable?.type === WORK_ITEM_TYPE_ENUM_TEST_CASE
       );
     },
     workItemConfig() {
@@ -318,15 +284,13 @@ export default {
       // eslint-disable-next-line no-underscore-dangle
       return this.issuable.__typename === 'MergeRequest';
     },
-    isAllowedType() {
-      return !this.isIncident && !this.isServiceDeskIssue && !this.isTestCase;
+    useIssueView() {
+      return this.workItemConfig?.useIssueView;
     },
     useWorkItemTemplate() {
       if (this.isGroup) return false;
 
-      // Use new config-based check first, fall back to legacy hardcoded checks for backward compatibility
-      // TODO: Add back !this.useIssueView once it is populated by the backend
-      return this.isAllowedType;
+      return !this.useIssueView;
     },
     hiddenIssuableTitle() {
       if (this.isMergeRequest) {
@@ -365,9 +329,8 @@ export default {
         return;
       }
       e.preventDefault();
-      // Unsupported types incidents and Service Desk issues
-      // should not open in drawer
-      if (!this.isAllowedType || !this.preventRedirect) {
+      // Unsupported types incidents, tickets, and test cases should not open in drawer
+      if (this.useIssueView || !this.preventRedirect) {
         this.navigateToIssuable();
         return;
       }

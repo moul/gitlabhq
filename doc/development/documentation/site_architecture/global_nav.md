@@ -116,9 +116,18 @@ ignore_in_report: true
 
 All other pages should be in the global nav.
 
-The technical writing team runs a report to determine which pages are not in the nav.
-This report skips pages with `ignore_in_report: true` in the front matter.
+#### Check for missing pages
+
+The technical writing team runs a [report](https://gitlab.com/gitlab-org/technical-writing/docs-gitlab-com/-/blob/main/scripts/pages_not_in_nav.cjs?ref_type=heads) to determine which pages are not in the nav.
 The team reviews this list each month.
+
+This report skips pages with `ignore_in_report: true` in the front matter.
+
+By default, the report also skips pages in the `/development` directory, but can be run with an `INCLUDE_DEV` flag to include these pages if needed:
+
+```plaintext
+make check-pages-not-in-nav INCLUDE_DEV=true
+```
 
 ### Use GitLab section
 

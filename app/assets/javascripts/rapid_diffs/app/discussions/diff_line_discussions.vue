@@ -29,7 +29,7 @@ export default {
       required: true,
     },
   },
-  emits: ['empty'],
+  emits: ['empty', 'highlight', 'clear-highlight'],
   data() {
     return {
       isLoggedIn: isLoggedIn(),
@@ -54,6 +54,18 @@ export default {
     this.scrollToNoteFragment();
   },
   methods: {
+    getLineRange(discussion) {
+      const { position } = discussion;
+      if (position.line_range) return position.line_range;
+      const line = { old_line: position.old_line, new_line: position.new_line };
+      return { start: line, end: line };
+    },
+    highlightLines(discussion) {
+      this.$emit('highlight', this.getLineRange(discussion));
+    },
+    clearHighlight() {
+      this.$emit('clear-highlight');
+    },
     startAnotherThread() {
       this.store.addNewLineDiscussionForm(this.position);
     },
@@ -75,6 +87,8 @@ export default {
       v-for="(discussion, index) in discussions"
       :key="index"
       :class="{ 'gl-border-t': index > 0 }"
+      @mouseenter="highlightLines(discussion)"
+      @mouseleave="clearHighlight"
     >
       <new-line-discussion-form v-if="discussion.isForm" :discussion="discussion" />
       <!-- eslint-disable-next-line @gitlab/vue-no-new-non-primitive-in-template -->

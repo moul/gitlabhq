@@ -145,4 +145,37 @@ describe('Branch rule', () => {
       expect(findProtectionDetailsListItems().at(2).text()).toBe('Squash commits: Encourage');
     });
   });
+
+  describe('access levels rendering', () => {
+    it('does not render access levels text when both are empty', async () => {
+      await createComponent({
+        branchProtection: {
+          mergeAccessLevels: { edges: [] },
+        },
+      });
+
+      const detailsText = findProtectionDetailsListItems()
+        .wrappers.map((item) => item.text())
+        .join(' ');
+
+      expect(detailsText).not.toContain('Allowed to merge:');
+    });
+
+    it('renders merge access levels text with roles and deploy keys', async () => {
+      await createComponent({
+        branchProtection: {
+          mergeAccessLevels: {
+            edges: [
+              { node: { accessLevel: 40 } },
+              { node: { accessLevel: 40, deployKey: { id: '1', title: 'Key' } } },
+            ],
+          },
+        },
+      });
+
+      const detailsText = findProtectionDetailsListItems().wrappers.map((item) => item.text());
+
+      expect(detailsText).toContain('Allowed to merge: Maintainers, 1 deploy key');
+    });
+  });
 });

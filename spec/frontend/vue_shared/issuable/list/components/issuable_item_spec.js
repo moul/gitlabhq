@@ -12,12 +12,7 @@ import WorkItemRelationshipIcons from '~/work_items/components/shared/work_item_
 import IssuableAssignees from '~/issuable/components/issue_assignees.vue';
 import { localeDateFormat } from '~/lib/utils/datetime/locale_dateformat';
 import * as utils from '~/work_items/utils';
-import {
-  WORK_ITEM_TYPE_NAME_INCIDENT,
-  WORK_ITEM_TYPE_NAME_ISSUE,
-  WORK_ITEM_TYPE_NAME_TEST_CASE,
-  WORK_ITEM_TYPE_NAME_TICKET,
-} from '~/work_items/constants';
+import { WORK_ITEM_TYPE_NAME_ISSUE } from '~/work_items/constants';
 import { mockBlockedByLinkedItem as mockLinkedItems } from 'jest/work_items/mock_data';
 import { mockIssuable, mockDraftIssuable, mockRegularLabel } from '../mock_data';
 
@@ -900,40 +895,23 @@ describe('IssuableItem', () => {
       expect(findIssuableCardLinkOverlay().element.tagName).toBe('A');
       expect(findIssuableCardLinkOverlay().attributes('href')).toBe(mockIssuable.webUrl);
     });
-  });
 
-  describe('when item is of unsupported work item type', () => {
-    const fullPath = 'gitlab-org/gitlab';
-
-    describe.each`
-      type                              | workItemTypeName                 | itemType       | authorUsername
-      ${'Work item incident'}           | ${WORK_ITEM_TYPE_NAME_INCIDENT}  | ${undefined}   | ${undefined}
-      ${'Work item Service Desk issue'} | ${WORK_ITEM_TYPE_NAME_TICKET}    | ${undefined}   | ${'support-bot'}
-      ${'Work item test case'}          | ${WORK_ITEM_TYPE_NAME_TEST_CASE} | ${undefined}   | ${undefined}
-      ${'Work item ticket'}             | ${WORK_ITEM_TYPE_NAME_TICKET}    | ${undefined}   | ${undefined}
-      ${'Legacy incident'}              | ${'Incident'}                    | ${'INCIDENT'}  | ${undefined}
-      ${'Legacy Service Desk issue'}    | ${'Issue'}                       | ${'ISSUE'}     | ${'support-bot'}
-      ${'Legacy test case'}             | ${'TestCase'}                    | ${'TEST_CASE'} | ${undefined}
-    `('when item is $type', ({ workItemTypeName, itemType, authorUsername }) => {
-      it('uses redirect on row click', async () => {
-        const item = {
-          ...mockIssuable,
-          workItemType: { name: workItemTypeName },
-          ...(itemType && { type: itemType }),
-          ...(authorUsername && { author: { ...mockAuthor, username: authorUsername } }),
-        };
-
-        wrapper = createComponent({
-          preventRedirect: true,
-          showCheckbox: false,
-          issuable: { ...item, namespace: { fullPath } },
-        });
-
-        await findIssuableItemWrapper().trigger('click');
-
-        expect(wrapper.emitted('select-issuable')).not.toBeDefined();
-        expect(visitUrl).toHaveBeenCalledWith(item.webUrl);
+    it('redirects when useIssueView=true', async () => {
+      wrapper = createComponent({
+        provide: {
+          getWorkItemTypeConfiguration: jest.fn().mockReturnValue({
+            ...defaultWorkItemConfig,
+            useIssueView: true,
+          }),
+        },
+        preventRedirect: true,
+        showCheckbox: false,
       });
+
+      await findIssuableItemWrapper().trigger('click');
+
+      expect(wrapper.emitted('select-issuable')).not.toBeDefined();
+      expect(visitUrl).toHaveBeenCalledWith(mockIssuable.webUrl);
     });
   });
 

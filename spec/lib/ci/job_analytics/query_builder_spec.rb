@@ -222,16 +222,6 @@ RSpec.describe Ci::JobAnalytics::QueryBuilder, :click_house, :freeze_time, featu
         is_expected.to be_a(ClickHouse::Finders::Ci::FinishedBuildsDeduplicatedFinder)
       end
 
-      context 'when use_job_analytics_deduplicated_finder feature flag is disabled' do
-        before do
-          stub_feature_flags(use_job_analytics_deduplicated_finder: false)
-        end
-
-        it 'uses the regular finder' do
-          is_expected.to be_a(ClickHouse::Finders::Ci::FinishedBuildsFinder)
-        end
-      end
-
       it 'generates valid SQL' do
         expected_sql = <<~SQL.squish
           SELECT `finished_builds`.`name`, round((avg(`finished_builds`.`duration`) / 1000.0), 2) AS mean_duration

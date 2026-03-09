@@ -227,7 +227,10 @@ to a specific user and group:
 ```shell
 curl --request POST \
   --header "PRIVATE-TOKEN: <your_access_token>" \
-  --url "https://gitlab.example.com/api/v4/projects/5/protected_tags?name=*-stable&allowed_to_create%5B%5D%5Buser_id%5D=10&allowed_to_create%5B%5D%5Bgroup_id%5D=20"
+  --url "https://gitlab.example.com/api/v4/projects/5/protected_tags" \
+  --data "name=*-stable" \
+  --data "allowed_to_create[][user_id]=10" \
+  --data "allowed_to_create[][group_id]=20"
 ```
 
 This example response includes:

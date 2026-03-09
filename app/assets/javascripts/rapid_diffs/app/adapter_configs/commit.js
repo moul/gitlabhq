@@ -3,6 +3,7 @@ import {
   commitInlineDiscussionsAdapter,
   commitParallelDiscussionsAdapter,
 } from '~/rapid_diffs/adapters/commit_discussions';
+import { lineHighlightingAdapter } from '~/rapid_diffs/adapters/line_highlighting';
 import { optionsMenuAdapter } from '~/rapid_diffs/adapters/options_menu';
 import { commitDiffsOptionsMenuAdapter } from '~/rapid_diffs/adapters/commit_diffs_options_menu';
 import { commitImageViewerAdapter } from '~/rapid_diffs/adapters/commit_image_viewer';
@@ -15,10 +16,12 @@ export const adapters = {
     ...VIEWER_ADAPTERS.text_inline.filter((a) => a !== optionsMenuAdapter),
     commitDiffsOptionsMenuAdapter,
     commitInlineDiscussionsAdapter,
+    lineHighlightingAdapter,
   ],
   text_parallel: [
     ...VIEWER_ADAPTERS.text_parallel.filter((a) => a !== optionsMenuAdapter),
     commitDiffsOptionsMenuAdapter,
     commitParallelDiscussionsAdapter,
+    lineHighlightingAdapter,
   ],
 };

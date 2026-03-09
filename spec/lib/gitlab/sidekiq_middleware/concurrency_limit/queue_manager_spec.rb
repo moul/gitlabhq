@@ -125,11 +125,11 @@ RSpec.describe Gitlab::SidekiqMiddleware::ConcurrencyLimit::QueueManager,
         end
 
         expect(Gitlab::SidekiqLogging::ConcurrencyLimitLogger.instance)
-          .to receive(:resumed_log)
-                .with(worker_class_name, [[1], [2]]).ordered
+          .to receive(:batch_resumed_log)
+                .with(worker_class_name, 2).ordered
         expect(Gitlab::SidekiqLogging::ConcurrencyLimitLogger.instance)
-          .to receive(:resumed_log)
-                .with(worker_class_name, [[3]]).ordered
+          .to receive(:batch_resumed_log)
+                .with(worker_class_name, 1).ordered
         expect(Gitlab::SafeRequestStore).to receive(:write).with(
           metadata_key,
           kind_of(Queue)

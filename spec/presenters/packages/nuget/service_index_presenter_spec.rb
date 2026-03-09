@@ -54,19 +54,43 @@ RSpec.describe ::Packages::Nuget::ServiceIndexPresenter do
           end
         end
       end
+
+      it 'includes the download service URL' do
+        download_resource = subject.find { |res| res[:@type] == 'PackageBaseAddress/3.0.0' }
+
+        expect(download_resource).to be_present
+        expect(download_resource[:@id]).to include('/packages/nuget/download')
+        expect(download_resource[:comment]).to eq('Get package content (.nupkg).')
+      end
     end
 
     context 'for a group' do
       let(:target) { group }
 
-      # at the group level we don't have the publish, symbol, and download service
-      it_behaves_like 'returning valid resources', resources_count: 6, include_publish_service: false
+      # at the group level we don't have the publish and symbol services
+      it_behaves_like 'returning valid resources', resources_count: 7, include_publish_service: false
     end
 
     context 'for a project' do
       let(:target) { project }
 
       it_behaves_like 'returning valid resources'
+
+      context 'with an unknown service type' do
+        let(:target) { project }
+
+        it 'raises an error for unknown service types' do
+          allow(presenter).to receive(:available_services).and_return(%i[unknown])
+
+          expect { presenter.resources }.to raise_error(ArgumentError, /unknown service type/)
+        end
+      end
+    end
+
+    context 'with nil target' do
+      let(:target) { nil }
+
+      it { is_expected.to eq([]) }
     end
   end
 end

@@ -3,6 +3,7 @@ import {
   createInlineDiscussionsAdapter,
   createParallelDiscussionsAdapter,
 } from '~/rapid_diffs/adapters/discussions';
+import { lineHighlightingAdapter } from '~/rapid_diffs/adapters/line_highlighting';
 import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request_discussions';
 import { viewedAdapter } from '~/rapid_diffs/adapters/viewed';
 import { pinia } from '~/pinia/instance';
@@ -18,11 +19,13 @@ export const adapters = {
     ...MR_HEADER_ADAPTERS,
     ...VIEWER_ADAPTERS.text_inline.slice(HEADER_ADAPTERS.length),
     inlineDiscussionsAdapter,
+    lineHighlightingAdapter,
   ],
   text_parallel: [
     ...MR_HEADER_ADAPTERS,
     ...VIEWER_ADAPTERS.text_parallel.slice(HEADER_ADAPTERS.length),
     parallelDiscussionsAdapter,
+    lineHighlightingAdapter,
   ],
   image: [...MR_HEADER_ADAPTERS, ...VIEWER_ADAPTERS.image.slice(HEADER_ADAPTERS.length)],
   no_preview: [...MR_HEADER_ADAPTERS],

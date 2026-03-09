@@ -68,12 +68,11 @@ module Ci
       end
 
       def use_deduplicated_finder?
-        ::Feature.enabled?(:use_job_analytics_deduplicated_finder, project, type: :gitlab_com_derisk) &&
-          ::ClickHouse::MigrationSupport::CiFinishedBuildsConsistencyHelper.backfill_in_progress?
+        ::ClickHouse::MigrationSupport::CiFinishedBuildsConsistencyHelper.backfill_in_progress?
       end
 
       def extract_sort_info(value)
-        value.match(/(?<field>.*)_(?<dir>.*)/) => {field:, dir:}
+        value.match(/(?<field>.*)_(?<dir>.*)/) => { field:, dir: }
 
         [field.to_sym, dir.to_sym]
       end

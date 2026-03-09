@@ -105,6 +105,69 @@ module API
                   with: ::API::Entities::Nuget::SearchResults
               end
             end
+
+            # https://docs.microsoft.com/en-us/nuget/api/package-base-address-resource
+            params do
+              requires :package_name, type: String, desc: 'The NuGet package name',
+                regexp: API::NO_SLASH_URL_PART_REGEX,
+                documentation: { example: 'MyNuGetPkg' }
+            end
+            namespace '/download/*package_name' do
+              after_validation do
+                authorize_read_package!(project_or_group)
+              end
+
+              desc 'The NuGet Content Service - index request' do
+                detail 'This feature was introduced in GitLab 12.8'
+                success code: 200, model: ::API::Entities::Nuget::PackagesVersions
+                failure [
+                  { code: 401, message: 'Unauthorized' },
+                  { code: 403, message: 'Forbidden' },
+                  { code: 404, message: 'Not Found' }
+                ]
+                tags %w[packages]
+              end
+              route_setting :authorization, permissions: :read_nuget_package, boundary_type: boundary_type
+              get 'index', format: :json, urgency: :low do
+                present ::Packages::Nuget::PackagesVersionsPresenter.new(find_packages),
+                  with: ::API::Entities::Nuget::PackagesVersions
+              end
+
+              desc 'The NuGet Content Service - content request' do
+                detail 'This feature was introduced in GitLab 12.8'
+                success code: 200
+                failure [
+                  { code: 401, message: 'Unauthorized' },
+                  { code: 403, message: 'Forbidden' },
+                  { code: 404, message: 'Not Found' }
+                ]
+                tags %w[packages]
+              end
+              params do
+                requires :package_version, type: String, desc: 'The NuGet package version',
+                  regexp: API::NO_SLASH_URL_PART_REGEX, documentation: { example: '1.3.0.17' }
+                requires :package_filename, type: String, desc: 'The NuGet package filename',
+                  regexp: API::NO_SLASH_URL_PART_REGEX, documentation: { example: 'mynugetpkg.1.3.0.17.nupkg' }
+              end
+              route_setting :authorization, permissions: :download_nuget_package, boundary_type: boundary_type
+              get '*package_version/*package_filename', format: [:nupkg, :snupkg], urgency: :low do
+                package = find_package
+                filename = format_filename(package)
+                package_file = ::Packages::PackageFileFinder.new(package, filename, with_file_name_like: true)
+                                                            .execute
+
+                not_found!('Package') unless package_file
+
+                track_package_event(
+                  params[:format] == 'snupkg' ? 'pull_symbol_package' : 'pull_package',
+                  :nuget,
+                  **snowplow_gitlab_standard_context.merge(category: 'API::NugetPackages')
+                )
+
+                # nuget and dotnet don't support 302 Moved status codes, supports_direct_download has to be set to false
+                present_package_file!(package_file, supports_direct_download: false)
+              end
+            end
           end
         end
       end

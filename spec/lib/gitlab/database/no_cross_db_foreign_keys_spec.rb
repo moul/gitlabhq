@@ -20,7 +20,6 @@ RSpec.describe 'cross-database foreign keys', feature_category: :database do
   # should be added as a comment along with the name of the column.
   let!(:allowed_cross_database_foreign_keys) do
     keys = [
-      'lfs_objects_projects.lfs_object_id',
       'p_ci_build_tags.tag_id',                                     # https://gitlab.com/gitlab-org/gitlab/-/issues/470872
       'targeted_message_dismissals.targeted_message_id',            # https://gitlab.com/gitlab-org/gitlab/-/issues/531357
       'user_broadcast_message_dismissals.broadcast_message_id',     # https://gitlab.com/gitlab-org/gitlab/-/issues/531358

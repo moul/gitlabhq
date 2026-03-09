@@ -48,7 +48,7 @@ To give access to specific Agent Platform features for a top-level group:
 
    When you add the first group, a default **No group** rule is also added.
    You can use this rule to configure access for all other users.
-   This rule is automatically deleted when it has no access to GitLab Duo (Classic)
+   This rule is automatically deleted when it has no access to GitLab Duo
    or Agent Platform and all existing groups are removed.
 
 1. Select the features that direct group members can access.
@@ -83,7 +83,7 @@ To give access to specific Agent Platform features for an instance:
 
    When you add the first group, a default **No group** rule is also added.
    You can use this rule to configure access for all other users.
-   This rule is automatically deleted when it has no access to GitLab Duo (Classic)
+   This rule is automatically deleted when it has no access to GitLab Duo
    or Agent Platform and all existing groups are removed.
 
    >>> [!note]

@@ -229,13 +229,12 @@ module Geo
 
                  return replicables unless node.selective_sync?
 
-                 if node.selective_sync_by_namespaces?
+                 if node.selective_sync_by_namespaces? || node.selective_sync_by_shards?
                    replicables.project_id_in(node.projects.select(:id))
                  elsif node.selective_sync_by_organizations?
-                   organization_ids = node.organizations.pluck_primary_key
-                   return none if organization_ids.empty?
-
-                   replicables.where(project_id: ::Project.where(organization_id: organization_ids).select(:id))
+                   organization_ids = node.organizations.select(:id)
+                   project_ids = ::Project.where(organization_id: organization_ids).select(:id)
+                   replicables.where(project_id: project_ids)
                  else
                    raise ::Geo::Errors::UnknownSelectiveSyncType.new(selective_sync_type: node.selective_sync_type)
                  end
@@ -247,13 +246,12 @@ module Geo
 
                  return replicables unless node.selective_sync?
 
-                 if node.selective_sync_by_namespaces?
+                 if node.selective_sync_by_namespaces? || node.selective_sync_by_shards?
                    replicables.group_id_in(node.namespaces_for_group_owned_replicables.select(:id))
                  elsif node.selective_sync_by_organizations?
-                   organization_ids = node.organizations.pluck_primary_key
-                   return none if organization_ids.empty?
-
-                   replicables.where(namespace_id: ::Namespace.where(organization_id: organization_ids).select(:id))
+                   organization_ids = node.organizations.select(:id)
+                   namespace_ids = ::Namespace.where(organization_id: organization_ids).select(:id)
+                   replicables.where(namespace_id: namespace_ids)
                  else
                    raise ::Geo::Errors::UnknownSelectiveSyncType.new(selective_sync_type: node.selective_sync_type)
                  end
@@ -268,14 +266,9 @@ module Geo
                  if node.selective_sync_by_namespaces? || node.selective_sync_by_shards?
                    namespace_ids = node.namespaces_for_group_owned_replicables.select(:id)
                    organization_ids = ::Namespace.id_in(namespace_ids).distinct(:organization_id).select(:organization_id)
-                   return none if organization_ids.empty?
-
                    replicables.organization_id_in(organization_ids)
                  elsif node.selective_sync_by_organizations?
-                   organization_ids = node.organizations.pluck_primary_key
-                   return none if organization_ids.empty?
-
-                   replicables.organization_id_in(organization_ids)
+                   replicables.organization_id_in(node.organizations.select(:id))
                  else
                    raise ::Geo::Errors::UnknownSelectiveSyncType.new(selective_sync_type: node.selective_sync_type)
                  end

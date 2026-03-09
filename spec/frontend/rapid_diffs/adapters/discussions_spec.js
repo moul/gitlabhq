@@ -6,6 +6,7 @@ import {
   createInlineDiscussionsAdapter,
   createParallelDiscussionsAdapter,
 } from '~/rapid_diffs/adapters/discussions';
+import { HIGHLIGHT_LINES, CLEAR_HIGHLIGHT } from '~/rapid_diffs/adapter_events';
 import { DiffFile } from '~/rapid_diffs/web_components/diff_file';
 import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
 import { useDiscussions } from '~/notes/store/discussions';
@@ -22,6 +23,12 @@ jest.mock('~/rapid_diffs/app/discussions/diff_line_discussions.vue', () => {
     methods: {
       empty() {
         this.$emit('empty');
+      },
+      emitHighlight(lineRange) {
+        this.$emit('highlight', lineRange);
+      },
+      emitClearHighlight() {
+        this.$emit('clear-highlight');
       },
     },
     mounted() {
@@ -287,6 +294,69 @@ describe('discussions adapters', () => {
       document.querySelector('#discussions-component').onDestroy = onDestroy;
       getDiffFile().remove();
       expect(onDestroy).toHaveBeenCalled();
+    });
+
+    describe('line highlighting events', () => {
+      const highlightSpy = jest.fn();
+      const clearHighlightSpy = jest.fn();
+
+      beforeEach(() => {
+        highlightSpy.mockClear();
+        clearHighlightSpy.mockClear();
+        resetHTMLFixture();
+        const fileData = { viewer: 'text_inline', old_path: oldPath, new_path: newPath };
+        setHTMLFixture(`
+          <diff-file data-file-data='${JSON.stringify(fileData)}'>
+            <div>
+              <table>
+                <thead><tr><td></td><td></td></tr></thead>
+                <tbody>
+                  <tr data-hunk-lines>
+                    <td data-position="old"><a data-line-number="1"></a></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </diff-file>
+        `);
+        const spyAdapter = {
+          [HIGHLIGHT_LINES]: highlightSpy,
+          [CLEAR_HIGHLIGHT]: clearHighlightSpy,
+        };
+        getDiffFile().mount({
+          adapterConfig: { text_inline: [createInlineDiscussionsAdapter(store), spyAdapter] },
+          appData,
+          unobserve: jest.fn(),
+        });
+      });
+
+      it('calls trigger with HIGHLIGHT_LINES when Vue component emits highlight', async () => {
+        useDiscussions().discussions = [
+          {
+            id: 'abc',
+            diff_discussion: true,
+            position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
+          },
+        ];
+        await nextTick();
+        const lineRange = { start: { old_line: 1 }, end: { old_line: 1 } };
+        document.querySelector('#discussions-component').instance().emitHighlight(lineRange);
+        expect(highlightSpy).toHaveBeenCalledWith(lineRange);
+      });
+
+      it('calls trigger with CLEAR_HIGHLIGHT when Vue component emits clear-highlight', async () => {
+        useDiscussions().discussions = [
+          {
+            id: 'abc',
+            diff_discussion: true,
+            position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
+          },
+        ];
+        await nextTick();
+        document.querySelector('#discussions-component').instance().emitClearHighlight();
+        expect(clearHighlightSpy).toHaveBeenCalled();
+      });
     });
   });
 

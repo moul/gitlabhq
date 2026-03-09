@@ -1,8 +1,8 @@
 import Vue, { watch } from 'vue';
-import { MOUNTED } from '~/rapid_diffs/adapter_events';
+import { MOUNTED, HIGHLIGHT_LINES, CLEAR_HIGHLIGHT } from '~/rapid_diffs/adapter_events';
 import DiffLineDiscussions from '~/rapid_diffs/app/discussions/diff_line_discussions.vue';
 
-function mountVueApp({ el, position, appData, store, onEmpty }) {
+function mountVueApp({ el, position, appData, store, trigger, onEmpty }) {
   const instance = new Vue({
     el,
     name: 'DiffLineDiscussionsRoot',
@@ -27,6 +27,12 @@ function mountVueApp({ el, position, appData, store, onEmpty }) {
         on: {
           empty() {
             if (onEmpty()) instance.$destroy();
+          },
+          highlight(lineRange) {
+            trigger(HIGHLIGHT_LINES, lineRange);
+          },
+          'clear-highlight': () => {
+            trigger(CLEAR_HIGHLIGHT);
           },
         },
       });
@@ -103,7 +109,7 @@ function addParallelCells(lineRow) {
 }
 
 function createDiscussionMount(createCell) {
-  return ({ diffElement, position, appData, store }) => {
+  return ({ diffElement, position, appData, store, trigger }) => {
     const cell = createCell(diffElement, position.old_line, position.new_line);
     if (cell.destroyApp) return;
     const mountTarget = document.createElement('div');
@@ -118,6 +124,7 @@ function createDiscussionMount(createCell) {
       },
       appData,
       store,
+      trigger,
       onEmpty() {
         const row = cell.parentElement;
         // parallel view can have discussions on both sides, we should only remove the whole row if the last discussion was removed
@@ -178,7 +185,14 @@ export const createParallelDiscussionsAdapter = (store) => ({
         this.data.oldPath,
         this.data.newPath,
         ({ id, position }) => {
-          mountParallelDiscussion({ diffElement, id, position, appData, store });
+          mountParallelDiscussion({
+            diffElement,
+            id,
+            position,
+            appData,
+            store,
+            trigger: this.trigger,
+          });
         },
         store,
         diffElement,
@@ -208,7 +222,14 @@ export const createInlineDiscussionsAdapter = (store) => ({
         this.data.oldPath,
         this.data.newPath,
         ({ id, position }) => {
-          mountInlineDiscussion({ diffElement, id, position, appData, store });
+          mountInlineDiscussion({
+            diffElement,
+            id,
+            position,
+            appData,
+            store,
+            trigger: this.trigger,
+          });
         },
         store,
         diffElement,

@@ -286,7 +286,8 @@ RSpec.describe 'Database schema',
       work_item_custom_status_mappings: %w[work_item_type_id], # Referential integrity will be handled by application code
       work_item_type_custom_fields: %w[work_item_type_id], # Referential integrity will be handled by application code
       work_item_type_custom_lifecycles: %w[work_item_type_id], # Referential integrity will be handled by application code
-      work_item_type_user_preferences: %w[work_item_type_id] # Referential integrity will be handled by application code
+      work_item_type_user_preferences: %w[work_item_type_id], # Referential integrity will be handled by application code
+      lfs_objects_projects: %w[lfs_object_id] # Referential integrity will be handled by application code
     }.with_indifferent_access.freeze
   end
 

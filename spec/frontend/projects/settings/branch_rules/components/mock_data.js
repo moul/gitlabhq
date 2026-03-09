@@ -90,11 +90,13 @@ export const protectionRowPropsMock = {
 const maintainersAccessLevel = {
   accessLevel: 40,
   accessLevelDescription: 'Maintainers',
+  deployKey: null,
 };
 
 const maintainersAndDevelopersAccessLevel = {
   accessLevel: 30,
   accessLevelDescription: 'Maintainers + Developers',
+  deployKey: null,
 };
 
 const pushAccessLevelEdges = [

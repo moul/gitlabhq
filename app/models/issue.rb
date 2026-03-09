@@ -912,7 +912,7 @@ class Issue < ApplicationRecord
   # On the other hand some other Issue types/conditions are only available through
   # WorkItems UI/workflows.
   #
-  # Overriden on EE (For OKRs and Epics)
+  # Overridden in EE (For OKRs and Epics)
   def show_as_work_item?
     return false if require_legacy_views?
     return true if group_level?
@@ -924,6 +924,8 @@ class Issue < ApplicationRecord
   # Legacy views/workflows only
   # - Service Desk were not converted to the work items framework.
   # - Incidents were not converted to the work items framework.
+  #
+  # Overridden in EE for test case check
   def require_legacy_views?
     from_service_desk? || work_item_type&.incident?
   end

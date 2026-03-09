@@ -3,7 +3,7 @@ stage: AI-powered
 group: Agent Foundations
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
 description: REST API to create, start, and manage GitLab Duo Agent Platform flows.
-title: Duo Agent Platform flows API
+title: Flows API
 ---
 
 {{< details >}}

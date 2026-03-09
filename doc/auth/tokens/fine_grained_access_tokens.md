@@ -996,6 +996,8 @@ Grants the ability to create, delete and read packages.
 | Read | Group | `GET` | `/groups/:id/-/packages/nuget/metadata/*package_name/index` |
 | Read | Group | `GET` | `/groups/:id/-/packages/nuget/metadata/*package_name/*package_version` |
 | Read | Group | `GET` | `/groups/:id/-/packages/nuget/query` |
+| Read | Group | `GET` | `/groups/:id/-/packages/nuget/download/*package_name/index` |
+| Read | Group | `GET` | `/groups/:id/-/packages/nuget/download/*package_name/*package_version/*package_filename` |
 | Read | Group | `GET` | `/groups/:id/-/packages/pypi/files/:sha256/*file_identifier` |
 | Read | Group | `GET` | `/groups/:id/-/packages/pypi/simple` |
 | Read | Group | `GET` | `/groups/:id/-/packages/pypi/simple/*package_name` |

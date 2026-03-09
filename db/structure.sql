@@ -43772,7 +43772,7 @@ CREATE INDEX idx_vreg_mvn_cache_remote_entry_states_needs_verification ON virtua
 
 CREATE UNIQUE INDEX idx_vreg_mvn_cache_remote_entry_states_on_entry_iid ON virtual_registries_packages_maven_cache_remote_entry_states USING btree (virtual_registries_packages_maven_cache_remote_entry_iid);
 
-CREATE INDEX idx_vreg_mvn_cache_remote_entry_states_on_group_id ON virtual_registries_packages_maven_cache_remote_entry_states USING btree (group_id);
+CREATE INDEX idx_vreg_mvn_cache_remote_entry_states_on_group_id_and_iid ON virtual_registries_packages_maven_cache_remote_entry_states USING btree (group_id, virtual_registries_packages_maven_cache_remote_entry_iid);
 
 CREATE INDEX idx_vreg_mvn_cache_remote_entry_states_on_verification_started ON virtual_registries_packages_maven_cache_remote_entry_states USING btree (virtual_registries_packages_maven_cache_remote_entry_iid, verification_started_at) WHERE (verification_state = 1);
 
@@ -54478,6 +54478,9 @@ ALTER TABLE p_ci_pipelines
 ALTER TABLE ONLY analytics_devops_adoption_segments
     ADD CONSTRAINT fk_190a24754d FOREIGN KEY (display_namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY virtual_registries_packages_maven_cache_remote_entry_states
+    ADD CONSTRAINT fk_192e67472b FOREIGN KEY (group_id, virtual_registries_packages_maven_cache_remote_entry_iid) REFERENCES virtual_registries_packages_maven_cache_remote_entries(group_id, iid) ON DELETE CASCADE;
+
 ALTER TABLE ONLY project_statistics
     ADD CONSTRAINT fk_198ad46fdc FOREIGN KEY (root_namespace_id) REFERENCES namespaces(id) ON DELETE SET NULL;
 
@@ -55962,9 +55965,6 @@ ALTER TABLE ONLY work_item_custom_lifecycle_statuses
 
 ALTER TABLE ONLY issue_tracker_data
     ADD CONSTRAINT fk_a54bddafd2 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE NOT VALID;
-
-ALTER TABLE ONLY lfs_objects_projects
-    ADD CONSTRAINT fk_a56e02279c FOREIGN KEY (lfs_object_id) REFERENCES lfs_objects(id) ON DELETE RESTRICT NOT VALID;
 
 ALTER TABLE ONLY merge_request_merge_schedules
     ADD CONSTRAINT fk_a5ff9339a9 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;

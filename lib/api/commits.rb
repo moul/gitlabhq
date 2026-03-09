@@ -49,11 +49,13 @@ module API
         access_token.application&.id == WebIde::DefaultOauthApplication.oauth_application_id
       end
 
-      def track_web_ide_commit_events
+      def track_web_ide_commit_events(attrs)
         return unless web_ide_request?
 
         Gitlab::InternalEvents.track_event('create_commit_from_web_ide', user: current_user, project: user_project)
         Gitlab::InternalEvents.track_event('g_edit_by_web_ide', user: current_user, project: user_project)
+
+        track_ci_config_creation_from_web_ide(attrs)
 
         namespace = user_project.namespace
 
@@ -68,6 +70,21 @@ module API
             data_source: 'redis_hll',
             event: 'create_commit_from_web_ide'
           ).to_context]
+        )
+      end
+
+      def track_ci_config_creation_from_web_ide(attrs)
+        creates_ci_config = attrs[:actions].any? do |action|
+          action[:action].to_s == 'create' && action[:file_path].to_s == user_project.ci_config_path_or_default
+        end
+
+        return unless creates_ci_config
+
+        Gitlab::InternalEvents.track_event(
+          'create_ci_config_file_from_web_ide',
+          user: current_user,
+          project: user_project,
+          namespace: user_project.namespace
         )
       end
 
@@ -326,7 +343,7 @@ module API
         if result[:status] == :success
           commit_detail = user_project.repository.commit(result[:result])
 
-          track_web_ide_commit_events
+          track_web_ide_commit_events(attrs)
 
           present commit_detail, with: Entities::CommitDetail, include_stats: attrs[:stats], current_user: current_user
         else

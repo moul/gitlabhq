@@ -35138,11 +35138,6 @@ four standard [pagination arguments](#pagination-arguments):
 
 ##### `GeoNode.packagesNugetSymbolRegistries`
 
-{{< details >}}
-**Introduced** in GitLab 18.6.
-**Status**: Experiment.
-{{< /details >}}
-
 Find Packages::Nuget::Symbols registries on this Geo node. Ignored if `geo_packages_nuget_symbol_replication` feature flag is disabled.
 
 Returns [`PackagesNugetSymbolRegistryConnection`](#packagesnugetsymbolregistryconnection).

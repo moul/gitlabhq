@@ -465,7 +465,7 @@ RSpec.describe Todo, feature_category: :notifications do
     end
 
     context 'when the todo is coming from a work item' do
-      let_it_be(:work_item) { create(:work_item, :test_case, project: project) }
+      let_it_be(:work_item) { create(:work_item, :task, project: project) }
 
       context 'when coming from the work item itself' do
         let_it_be(:todo) { create(:todo, project: project, user: user, target: work_item, target_type: WorkItem.name) }

@@ -135,3 +135,5 @@ module WorkItems
     end
   end
 end
+
+WorkItems::TypesFramework::Provider.prepend_mod

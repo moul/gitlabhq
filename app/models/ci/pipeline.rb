@@ -708,10 +708,6 @@ module Ci
     end
 
     def self.projects_with_variables(project_ids, limit)
-      if Feature.disabled?(:query_projects_with_variables_from_ci_pipeline_artifacts, Feature.current_request)
-        return Ci::PipelineVariable.projects_with_variables(project_ids, limit)
-      end
-
       pipeline_variables_table = Ci::PipelineVariable.quoted_table_name
       pipeline_artifacts_table = Ci::PipelineArtifact.quoted_table_name
 

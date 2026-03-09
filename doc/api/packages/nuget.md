@@ -24,15 +24,29 @@ for details on which headers and token types are supported. Undocumented authent
 
 ## Retrieve a package index
 
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/588736) support for group endpoints in GitLab 18.10.
+
+{{< /history >}}
+
 Retrieves the index for a specified package, which includes a list of available versions.
 
-```plaintext
-GET projects/:id/packages/nuget/download/:package_name/index
-```
+- For project-level:
+
+  ```plaintext
+  GET projects/:id/packages/nuget/download/:package_name/index
+  ```
+
+- For group-level:
+
+  ```plaintext
+  GET groups/:id/-/packages/nuget/download/:package_name/index
+  ```
 
 | Attribute      | Type   | Required | Description |
 | -------------- | ------ | -------- | ----------- |
-| `id`           | string | yes      | The ID or full path of the project. |
+| `id`           | string | yes      | The ID or full path of the project or group. |
 | `package_name` | string | yes      | The name of the package. |
 
 ```shell
@@ -52,36 +66,48 @@ Example response:
 
 ## Download a package file
 
-Downloads a specified NuGet package file for a project. The [metadata service](#retrieve-package-metadata) provides this URL.
+{{< history >}}
 
-```plaintext
-GET projects/:id/packages/nuget/download/:package_name/:package_version/:package_filename
-```
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/588736) support for group endpoints in GitLab 18.10.
+
+{{< /history >}}
+
+Downloads a specified NuGet package file. The [metadata service](#retrieve-package-metadata) provides this URL.
+
+- For projects:
+
+  ```plaintext
+  GET projects/:id/packages/nuget/download/:package_name/:package_version/:package_filename
+  ```
+
+- For groups:
+
+  ```plaintext
+  GET groups/:id/-/packages/nuget/download/:package_name/:package_version/:package_filename
+  ```
 
 | Attribute         | Type   | Required | Description |
 | ----------------- | ------ | -------- | ----------- |
-| `id`              | string | yes      | The ID or full path of the project. |
-| `package_name`    | string | yes      | The name of the package. |
-| `package_version` | string | yes      | The version of the package. |
-| `package_filename`| string | yes      | The name of the file. |
+| `id`              | string | Yes      | The ID or full path of the project or group. |
+| `package_name`    | string | Yes      | The name of the package. |
+| `package_version` | string | Yes      | The version of the package. |
+| `package_filename`| string | Yes      | The name of the file. |
+
+If successful, returns [`200 OK`](../../api/rest/troubleshooting.md#status-codes).
+
+Example request: 
 
 ```shell
 curl --user <username>:<personal_access_token> \
   --url "https://gitlab.example.com/api/v4/projects/1/packages/nuget/download/MyNuGetPkg/1.3.0.17/mynugetpkg.1.3.0.17.nupkg"
 ```
 
-Write the output to a file:
+Write the downloaded file to `MyNuGetPkg.1.3.0.17.nupkg` in the current directory:
 
 ```shell
 curl --user <username>:<personal_access_token> \
   --url "https://gitlab.example.com/api/v4/projects/1/packages/nuget/download/MyNuGetPkg/1.3.0.17/mynugetpkg.1.3.0.17.nupkg" > MyNuGetPkg.1.3.0.17.nupkg
 ```
-
-This writes the downloaded file to `MyNuGetPkg.1.3.0.17.nupkg` in the current directory.
-
-> [!note]
-> This API returns a `404` status when you use [group endpoints](#group-level). Use the NuGet package manager CLI to
-> [install packages](../../user/packages/nuget_repository/_index.md#install-a-package) with group endpoints to avoid this error.
 
 ## Upload a package file
 

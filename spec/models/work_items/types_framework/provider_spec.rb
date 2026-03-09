@@ -3,7 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe WorkItems::TypesFramework::Provider, feature_category: :team_planning do
-  let_it_be(:namespace) { create(:namespace) }
+  let_it_be(:organization) { create(:organization) }
+  let_it_be(:group) { create(:group) }
+  let_it_be(:namespace) { group }
   let_it_be(:issue_type) { build(:work_item_system_defined_type, :issue) }
   let_it_be(:task_type) { build(:work_item_system_defined_type, :task) }
 
@@ -18,7 +20,6 @@ RSpec.describe WorkItems::TypesFramework::Provider, feature_category: :team_plan
   end
 
   describe '#initialize' do
-    let_it_be(:group) { create(:group) }
     let_it_be(:project) { create(:project) }
 
     context 'when namespace is provided' do
@@ -396,6 +397,14 @@ RSpec.describe WorkItems::TypesFramework::Provider, feature_category: :team_plan
 
     it 'returns types sorted by name' do
       expect(result).to eq(result.sort)
+    end
+
+    context 'with organization as namespace' do
+      let(:provider) { described_class.new(organization) }
+
+      it 'returns types sorted by name' do
+        expect(result).to eq(result.sort)
+      end
     end
   end
 

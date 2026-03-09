@@ -7,7 +7,7 @@ title: 'Tutorial: Set up CI/CD Functions'
 
 This tutorial shows you how to create and use functions in your pipelines.
 
-Steps are reusable and composable pieces of a job. Each function defines structured inputs and
+Functions are reusable and composable pieces of a job. Each function defines structured inputs and
 outputs that can be consumed by other functions. You can configure functions in local files, GitLab.com repositories,
 or any other Git source.
 

@@ -117,6 +117,82 @@ describe('DiffLineDiscussions', () => {
     expect(mock.mock.contexts[0]).toBe(document.querySelector('a[href="#note_abc"]'));
   });
 
+  describe('line highlighting', () => {
+    const getDiscussionWrapper = () =>
+      wrapper.findComponent(DiffDiscussions).element.closest('[class]');
+
+    it('emits highlight with line range on mouseenter', () => {
+      useDiffDiscussions().setInitialDiscussions([
+        {
+          id: '1',
+          diff_discussion: true,
+          position: { old_path: 'old', new_path: 'old', new_line: '1', old_line: '1' },
+          notes: [{}],
+        },
+      ]);
+      createComponent({ position: { oldPath: 'old', newPath: 'old', oldLine: '1', newLine: '1' } });
+      getDiscussionWrapper().dispatchEvent(new MouseEvent('mouseenter'));
+      expect(wrapper.emitted('highlight')).toHaveLength(1);
+      expect(wrapper.emitted('highlight')[0]).toEqual([
+        {
+          start: { old_line: '1', new_line: '1' },
+          end: { old_line: '1', new_line: '1' },
+        },
+      ]);
+    });
+
+    it('emits highlight with line_range when present', () => {
+      const lineRange = {
+        start: { old_line: 1, new_line: null },
+        end: { old_line: 5, new_line: null },
+      };
+      useDiffDiscussions().setInitialDiscussions([
+        {
+          id: '1',
+          diff_discussion: true,
+          position: {
+            old_path: 'old',
+            new_path: 'old',
+            new_line: null,
+            old_line: 1,
+            line_range: lineRange,
+          },
+          notes: [{}],
+        },
+      ]);
+      createComponent({ position: { oldPath: 'old', newPath: 'old', oldLine: 1, newLine: null } });
+      getDiscussionWrapper().dispatchEvent(new MouseEvent('mouseenter'));
+      expect(wrapper.emitted('highlight')[0]).toEqual([lineRange]);
+    });
+
+    it('emits highlight on mouseenter for form discussions', () => {
+      useDiffDiscussions().addNewLineDiscussionForm({
+        oldPath: 'old',
+        newPath: 'old',
+        oldLine: '1',
+        newLine: '1',
+      });
+      createComponent({ position: { oldPath: 'old', newPath: 'old', oldLine: '1', newLine: '1' } });
+      const formWrapper = wrapper.findComponent(NewLineDiscussionForm).element.closest('[class]');
+      formWrapper.dispatchEvent(new MouseEvent('mouseenter'));
+      expect(wrapper.emitted('highlight')).toHaveLength(1);
+    });
+
+    it('emits clearHighlight on mouseleave', () => {
+      useDiffDiscussions().setInitialDiscussions([
+        {
+          id: '1',
+          diff_discussion: true,
+          position: { old_path: 'old', new_path: 'old', new_line: '1', old_line: '1' },
+          notes: [{}],
+        },
+      ]);
+      createComponent({ position: { oldPath: 'old', newPath: 'old', oldLine: '1', newLine: '1' } });
+      getDiscussionWrapper().dispatchEvent(new MouseEvent('mouseleave'));
+      expect(wrapper.emitted('clear-highlight')).toHaveLength(1);
+    });
+  });
+
   describe('start another thread', () => {
     it('can start another thread', () => {
       isLoggedIn.mockReturnValue(true);

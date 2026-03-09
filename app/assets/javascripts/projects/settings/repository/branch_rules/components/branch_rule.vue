@@ -4,15 +4,17 @@ import { createAlert } from '~/alert';
 import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import ProtectedBadge from '~/vue_shared/components/badges/protected_badge.vue';
 import { s__, sprintf, n__ } from '~/locale';
-import { accessLevelsConfig } from '~/projects/settings/branch_rules/components/constants';
 import squashOptionQuery from '~/projects/settings/branch_rules/queries/squash_option.query.graphql';
 import GroupInheritancePopover from '~/vue_shared/components/settings/group_inheritance_popover.vue';
-import { getAccessLevels } from '../../../utils';
+import {
+  getAccessLevels,
+  getAccessLevelsRolesText,
+  getAccessLevelsDeployKeysText,
+} from '../../../utils';
 import GroupBadge from './group_badge.vue';
 
 export default {
   name: 'BranchRule',
-  accessLevelsConfig,
   i18n: {
     defaultLabel: s__('BranchRules|default'),
     detailsButtonLabel: s__('BranchRules|View details'),
@@ -201,20 +203,12 @@ export default {
       return false;
     },
     getAccessLevelsText(beginString = '', accessLevels) {
-      const textParts = [];
-      if (accessLevels.roles.length) {
-        const roles = accessLevels.roles.map(
-          (roleInteger) => accessLevelsConfig[roleInteger].accessLevelLabel,
-        );
-        textParts.push(roles.join(', '));
-      }
-      if (accessLevels.groups.length) {
-        textParts.push(n__('1 group', '%d groups', accessLevels.groups.length));
-      }
-      if (accessLevels.users.length) {
-        textParts.push(n__('1 user', '%d users', accessLevels.users.length));
-      }
-      return `${beginString}: ${textParts.join(', ')}`;
+      const textParts = [
+        ...getAccessLevelsRolesText(accessLevels),
+        ...getAccessLevelsDeployKeysText(accessLevels),
+      ];
+
+      return textParts.length ? `${beginString}: ${textParts.join(', ')}` : '';
     },
   },
 };

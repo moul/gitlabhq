@@ -1363,6 +1363,8 @@
     - <<: *if-sync-changes-on-stable-branches
     - if: '$ENABLE_COMPILE_PRODUCTION_ASSETS == "true"'
     - if: '$ENABLE_COMPILE_TEST_ASSETS == "true"'
+    - <<: *if-merge-request
+      changes: *ruby-version-patterns
     - !reference [.frontend:rules:compile-test-assets, rules]
     - !reference [.frontend:rules:assets-shared, rules]
     - !reference [.releases:rules:canonical-dot-com-security-gitlab-stable-branch-only, rules]
