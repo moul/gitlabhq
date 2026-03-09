@@ -20798,6 +20798,28 @@ CREATE SEQUENCE group_scim_identities_id_seq
 
 ALTER SEQUENCE group_scim_identities_id_seq OWNED BY group_scim_identities.id;
 
+CREATE TABLE group_secret_rotation_infos (
+    id bigint NOT NULL,
+    group_id bigint NOT NULL,
+    next_reminder_at timestamp with time zone NOT NULL,
+    last_reminder_at timestamp with time zone,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    secret_metadata_version integer NOT NULL,
+    rotation_interval_days integer NOT NULL,
+    secret_name text NOT NULL,
+    CONSTRAINT check_085dedb712 CHECK ((char_length(secret_name) <= 255))
+);
+
+CREATE SEQUENCE group_secret_rotation_infos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE group_secret_rotation_infos_id_seq OWNED BY group_secret_rotation_infos.id;
+
 CREATE TABLE group_secrets_managers (
     id bigint NOT NULL,
     created_at timestamp with time zone NOT NULL,
@@ -31096,6 +31118,7 @@ CREATE TABLE user_preferences (
     duo_default_namespace_id bigint,
     policy_advanced_editor boolean DEFAULT false NOT NULL,
     early_access_studio_participant boolean DEFAULT false NOT NULL,
+    wiki_use_auto_commit_message boolean DEFAULT false NOT NULL,
     CONSTRAINT check_1d670edc68 CHECK ((time_display_relative IS NOT NULL)),
     CONSTRAINT check_89bf269f41 CHECK ((char_length(diffs_deletion_color) <= 7)),
     CONSTRAINT check_9b50d9f942 CHECK ((char_length(extensions_marketplace_opt_in_url) <= 512)),
@@ -35006,6 +35029,8 @@ ALTER TABLE ONLY group_scim_auth_access_tokens ALTER COLUMN id SET DEFAULT nextv
 
 ALTER TABLE ONLY group_scim_identities ALTER COLUMN id SET DEFAULT nextval('group_scim_identities_id_seq'::regclass);
 
+ALTER TABLE ONLY group_secret_rotation_infos ALTER COLUMN id SET DEFAULT nextval('group_secret_rotation_infos_id_seq'::regclass);
+
 ALTER TABLE ONLY group_secrets_managers ALTER COLUMN id SET DEFAULT nextval('group_secrets_managers_id_seq'::regclass);
 
 ALTER TABLE ONLY group_security_exclusions ALTER COLUMN id SET DEFAULT nextval('group_security_exclusions_id_seq'::regclass);
@@ -38484,6 +38509,9 @@ ALTER TABLE ONLY group_scim_auth_access_tokens
 
 ALTER TABLE ONLY group_scim_identities
     ADD CONSTRAINT group_scim_identities_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY group_secret_rotation_infos
+    ADD CONSTRAINT group_secret_rotation_infos_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY group_secrets_managers
     ADD CONSTRAINT group_secrets_managers_pkey PRIMARY KEY (id);
@@ -43251,6 +43279,10 @@ CREATE INDEX idx_group_audit_events_on_author_id_created_at_id ON ONLY group_aud
 CREATE INDEX idx_group_audit_events_on_group_id_author_created_at_id ON ONLY group_audit_events USING btree (group_id, author_id, created_at, id DESC);
 
 CREATE INDEX idx_group_audit_events_on_project_created_at_id ON ONLY group_audit_events USING btree (group_id, created_at, id);
+
+CREATE UNIQUE INDEX idx_group_secret_rotation_infos_group_secret ON group_secret_rotation_infos USING btree (group_id, secret_name, secret_metadata_version);
+
+CREATE INDEX idx_group_secret_rotation_infos_on_next_reminder_at ON group_secret_rotation_infos USING btree (next_reminder_at);
 
 CREATE INDEX index_ci_runner_machines_on_contacted_at_desc_and_id_desc ON ONLY ci_runner_machines USING btree (contacted_at DESC, id DESC);
 
@@ -55018,6 +55050,9 @@ ALTER TABLE ONLY user_achievements
 
 ALTER TABLE ONLY approval_group_rules_protected_branches
     ADD CONSTRAINT fk_4f85f13b20 FOREIGN KEY (approval_group_rule_id) REFERENCES approval_group_rules(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY group_secret_rotation_infos
+    ADD CONSTRAINT fk_4fbbb2e7e4 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY project_compliance_standards_adherence
     ADD CONSTRAINT fk_4fd1d9d9b0 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE SET NULL;

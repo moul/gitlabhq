@@ -15773,6 +15773,7 @@ Input type: `UserPreferencesUpdateInput`
 | <a id="mutation-userpreferencesupdate-projectssort"></a>`projectsSort` | [`ProjectSort`](#projectsort) | Sort order for projects. |
 | <a id="mutation-userpreferencesupdate-useworkitemsview"></a>`useWorkItemsView` | [`Boolean`](#boolean) | Use work item view instead of legacy issue view. |
 | <a id="mutation-userpreferencesupdate-visibilitypipelineidtype"></a>`visibilityPipelineIdType` | [`VisibilityPipelineIdType`](#visibilitypipelineidtype) | Determines whether the pipeline list shows ID or IID. |
+| <a id="mutation-userpreferencesupdate-wikiuseautocommitmessage"></a>`wikiUseAutoCommitMessage` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.10. |
 | <a id="mutation-userpreferencesupdate-workitemsdisplaysettings"></a>`workItemsDisplaySettings` {{< icon name="warning-solid" >}} | [`JSON`](#json) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.1. |
 
 #### Fields
@@ -50872,6 +50873,7 @@ Returns [`String`](#string).
 | <a id="userpreferences-timezone"></a>`timezone` {{< icon name="warning-solid" >}} | [`String`](#string) | **Introduced** in GitLab 17.7. **Status**: Experiment. Timezone of the user. |
 | <a id="userpreferences-useworkitemsview"></a>`useWorkItemsView` | [`Boolean`](#boolean) | Use work item view instead of legacy issue view. |
 | <a id="userpreferences-visibilitypipelineidtype"></a>`visibilityPipelineIdType` | [`VisibilityPipelineIdType`](#visibilitypipelineidtype) | Determines whether the pipeline list shows ID or IID. |
+| <a id="userpreferences-wikiuseautocommitmessage"></a>`wikiUseAutoCommitMessage` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.10. **Status**: Experiment. Whether to skip the commit message modal and use the auto-generated commit message when saving changes to a wiki document. |
 | <a id="userpreferences-workitemsdisplaysettings"></a>`workItemsDisplaySettings` | [`JSON!`](#json) | Display settings for the work item lists. |
 
 ### `UserStatus`

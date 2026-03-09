@@ -215,7 +215,7 @@ RSpec.shared_examples 'work items labels' do |namespace_type|
         label_text = find('.gl-label:first-child').text
 
         within('.gl-label:first-child') do
-          find('button.gl-label-close[aria-label="Remove label"]').click
+          find('button.gl-label-close[aria-label^="Remove label"]').click
         end
 
         expect(page).not_to have_css '.gl-label', text: label_text

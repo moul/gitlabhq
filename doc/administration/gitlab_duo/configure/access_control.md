@@ -24,6 +24,12 @@ You can also specify certain groups that can access only GitLab Duo Agent Platfo
 
 ## Give access to Agent Platform features
 
+{{< history >}}
+
+- Default **No group** rule [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225728) in GitLab 18.10.
+
+{{< /history >}}
+
 {{< tabs >}}
 
 {{< tab title="On GitLab.com" >}}
@@ -39,6 +45,12 @@ To give access to specific Agent Platform features for a top-level group:
 1. Select **Change configuration**.
 1. Under **Member access**, select **Add group**.
 1. From the dropdown list, select an existing group.
+
+   When you add the first group, a default **No group** rule is also added.
+   You can use this rule to configure access for all other users.
+   This rule is automatically deleted when it has no access to GitLab Duo (Classic)
+   or Agent Platform and all existing groups are removed.
+
 1. Select the features that direct group members can access.
 1. Select **Save changes**.
 
@@ -68,6 +80,11 @@ To give access to specific Agent Platform features for an instance:
 1. Select **Change configuration**.
 1. Under **Member access**, select **Add group**.
 1. From the dropdown list, select an existing group.
+
+   When you add the first group, a default **No group** rule is also added.
+   You can use this rule to configure access for all other users.
+   This rule is automatically deleted when it has no access to GitLab Duo (Classic)
+   or Agent Platform and all existing groups are removed.
 
    >>> [!note]
    You can select only direct subgroups of the top-level group for access control.
