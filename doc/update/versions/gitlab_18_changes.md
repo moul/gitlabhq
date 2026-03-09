@@ -41,11 +41,9 @@ required upgrade stops occur at versions:
   > Automatic database version upgrades only apply to single node instances when using the Linux package.
   > In all other cases, like Geo instances, PostgreSQL with high availability using the
   > Linux package, or using an external PostgreSQL database (like Amazon RDS), you must upgrade PostgreSQL manually. See [upgrading a Geo instance](https://docs.gitlab.com/omnibus/settings/database/#upgrading-a-geo-instance) for detailed steps.
-
 - From September 29th, 2025 Bitnami will stop providing tagged PostgreSQL and Redis images. If you deploy GitLab 17.11 or earlier using the
   GitLab chart with bundled Redis or Postgres, you must manually update your values to use the legacy repository to prevent unexpected
   downtime. For more information, see [issue 6089](https://gitlab.com/gitlab-org/charts/gitlab/-/issues/6089).
-
 - **Known issue:** The feature flag `ci_only_one_persistent_ref_creation` causes pipeline failures during zero-downtime upgrades when Rails is upgraded but Sidekiq remains on version 17.11 (see details in [issue 558808](https://gitlab.com/gitlab-org/gitlab/-/issues/558808)).
 
   **Prevention:** Open the Rails console and enable the feature flag before upgrading:
@@ -216,7 +214,6 @@ GitLab responds to requests that exceed the size limit with a `413 Entity Too la
   For most instances the migration should not take longer than 2 minutes, but for some larger instances,
   it could take up to 10 minutes.
   Please be patient and don't interrupt the migration process.
-
 - NGINX routing changes introduced in GitLab 18.5.0 can cause services to become inaccessible when using non-matching hostnames such as `localhost` or alternative domain names.
   This issue causes:
 
@@ -413,7 +410,6 @@ GitLab looks for the setting in order of precedence:
    > [!note]
    > If the pipeline archival range is later extended,
    > jobs without processing data will remain unexecutable.
-
 1. `GITLAB_DB_CI_JOBS_PROCESSING_DATA_CUTOFF` [environment variable](../../administration/environment_variables.md),
    if pipeline archival is not configured or needs to be overridden for this migration. It accepts duration strings
    like `1y` (1 year), `6mo` (6 months), `90d` (90 days).
