@@ -226,7 +226,7 @@ module Types
       type: ::GraphQL::Types::String,
       null: true,
       description: 'Who the user represents or works for.',
-      method: :user_detail_organization
+      method: :company
 
     field :job_title,
       type: ::GraphQL::Types::String,

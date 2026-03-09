@@ -91,7 +91,7 @@ Also, keep the following guidance in mind:
 - Be consistent with [feature names](#feature-names) and how to interact with them.
 - Break up noun strings. For example, instead of **project integration custom settings**,
   use **custom settings for project integrations**.
-- Format [dates and times](https://learn.microsoft.com/en-us/style-guide/a-z-word-list-term-collections/term-collections/date-time-terms)
+- Format [dates and times](#dates-and-times)
   consistently and for an international audience.
 - Use [illustrations](#illustrations), including screenshots, sparingly.
 - For [UI text](#ui-text), allow for up to 30% expansion and contraction in translation.
@@ -422,6 +422,21 @@ If you use an acronym, spell it out on first use on a page. Do not spell it out 
 
 For numbers in text, spell out zero through nine and use numbers for 10 and greater. For more information, see the [Microsoft Style Guide](https://learn.microsoft.com/en-us/style-guide/numbers).
 
+For numbers in the UI, see [Pajamas](https://design.gitlab.com/content/punctuation#numbers).
+
+### Dates and times
+
+Use the `month day, year` format for dates, and use `AM` and `PM` for times.
+For example:
+
+```plaintext
+January 3, 2026 at 10:30 AM
+```
+
+For additional details, see the [Microsoft Style Guide](https://learn.microsoft.com/en-us/style-guide/a-z-word-list-term-collections/term-collections/date-time-terms).
+
+For dates and times in the UI, see [Pajamas](https://design.gitlab.com/content/date-and-time).
+
 ## Text
 
 - [Write in Markdown](#markdown).
@@ -463,6 +478,8 @@ Do not use HTML comments to hide documentation. For details see, [Delete instead
 ### Punctuation
 
 Follow these guidelines for punctuation.
+
+For punctuation in the UI, see [Pajamas](https://design.gitlab.com/content/punctuation).
 
 <!-- vale gitlab_base.Repetition = NO -->
 
@@ -1130,6 +1147,8 @@ to prevent failing pipelines.
 ### Text for links
 
 Follow these guidelines for link text.
+
+For writing link text in the UI, see [Pajamas](https://design.gitlab.com/patterns/contextual-help#link-text).
 
 #### Standard text
 

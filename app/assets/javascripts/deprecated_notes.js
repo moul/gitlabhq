@@ -660,7 +660,7 @@ export default class Notes {
    * show the form
    */
   setupNoteForm(form, enableGFM = defaultAutocompleteConfig) {
-    this.glForm = new GLForm(form, enableGFM);
+    this.glForm = new GLForm(form.jquery ? form[0] : form, enableGFM);
     const textarea = form.find('.js-note-text');
     const key = [
       s__('NoteForm|Note'),
@@ -1134,8 +1134,8 @@ export default class Notes {
    */
   removeDiscussionNoteForm(form) {
     const row = form.closest('tr');
-    const glForm = form.data('glForm');
-    glForm.destroy();
+    const glForm = GLForm.getInstance(form);
+    glForm?.destroy();
     form.find('.js-note-text').each(function reset() {
       this.$autosave.reset();
     });
@@ -1255,7 +1255,7 @@ export default class Notes {
     const targetId = $originalContentEl.data('targetId');
     const targetType = $originalContentEl.data('targetType');
 
-    this.glForm = new GLForm($editForm.find('form'), this.enableGFM);
+    this.glForm = new GLForm($editForm.find('form')[0], this.enableGFM);
 
     $editForm.find('form').attr('action', `${postUrl}?html=true`).attr('data-remote', 'true');
     $editForm.find('.js-form-target-id').val(targetId);

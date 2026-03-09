@@ -536,6 +536,7 @@ class User < ApplicationRecord
   delegate :website_url, :website_url=, to: :user_detail, allow_nil: true
   delegate :location, :location=, to: :user_detail, allow_nil: true
   delegate :organization, :organization=, to: :user_detail, prefix: true, allow_nil: true
+  delegate :company, :company=, to: :user_detail, allow_nil: true
   delegate :discord, :discord=, to: :user_detail, allow_nil: true
   delegate :github, :github=, to: :user_detail, allow_nil: true
   delegate :project_authorizations_recalculated_at, :project_authorizations_recalculated_at=, to: :user_detail, allow_nil: true

@@ -208,6 +208,9 @@ RSpec.describe User, :with_current_organization, feature_category: :user_profile
     it { is_expected.to delegate_method(:organization).to(:user_detail).with_prefix.allow_nil }
     it { is_expected.to delegate_method(:organization=).to(:user_detail).with_arguments(:args).with_prefix.allow_nil }
 
+    it { is_expected.to delegate_method(:company).to(:user_detail).allow_nil }
+    it { is_expected.to delegate_method(:company=).to(:user_detail).with_arguments(:args).allow_nil }
+
     it { is_expected.to delegate_method(:project_authorizations_recalculated_at).to(:user_detail).allow_nil }
     it { is_expected.to delegate_method(:project_authorizations_recalculated_at=).to(:user_detail).with_arguments(:args).allow_nil }
 

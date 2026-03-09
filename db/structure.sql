@@ -48740,6 +48740,8 @@ CREATE INDEX index_vulnerability_reads_on_uuid_project_id_and_state ON vulnerabi
 
 CREATE UNIQUE INDEX index_vulnerability_reads_on_vulnerability_id ON vulnerability_reads USING btree (vulnerability_id);
 
+CREATE UNIQUE INDEX index_vulnerability_reads_on_vulnerability_occurrence_id_unique ON vulnerability_reads USING btree (vulnerability_occurrence_id);
+
 CREATE UNIQUE INDEX index_vulnerability_remediations_on_project_id_and_checksum ON vulnerability_remediations USING btree (project_id, checksum);
 
 CREATE UNIQUE INDEX index_vulnerability_risk_scores_on_vulnerability_finding ON vulnerability_finding_risk_scores USING btree (finding_id);
@@ -54927,6 +54929,9 @@ ALTER TABLE ONLY protected_environment_approval_rules
 
 ALTER TABLE ONLY security_pipeline_execution_policy_config_links
     ADD CONSTRAINT fk_40c1d0c74a FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY vulnerability_reads
+    ADD CONSTRAINT fk_40ff14947c FOREIGN KEY (vulnerability_occurrence_id) REFERENCES vulnerability_occurrences(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY subscription_add_on_purchases
     ADD CONSTRAINT fk_410004d68b FOREIGN KEY (subscription_add_on_id) REFERENCES subscription_add_ons(id) ON DELETE CASCADE;

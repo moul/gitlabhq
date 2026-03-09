@@ -108,7 +108,7 @@ After you choose a product option, configure how your AI Gateway connects to LLM
 In a fully self-hosted configuration, you deploy your own AI Gateway and use only [supported LLMs](supported_models_and_hardware_requirements.md) in your infrastructure, without using GitLab infrastructure or AI vendor models. This gives you full control over your data and security.
 
 > [!note]
-> This configuration only includes models configured through your self-hosted AI Gateway. If you use [GitLab-managed models](configure_duo_features.md#configure-a-feature-to-use-a-gitlab-managed-model) for any features, those features connect to the GitLab-hosted AI Gateway instead of your self-hosted gateway, making it a hybrid configuration rather than fully self-hosted.
+> This configuration only includes models configured through your self-hosted AI Gateway. If you use [GitLab-managed models](configure_duo_features.md#select-a-gitlab-managed-model-for-a-feature) for any features, those features connect to the GitLab-hosted AI Gateway instead of your self-hosted gateway, making it a hybrid configuration rather than fully self-hosted.
 
 While you deploy your own AI Gateway, you can still use cloud-based LLM services like [AWS Bedrock](https://aws.amazon.com/bedrock/) or [Azure OpenAI](https://azure.microsoft.com/en-us/products/ai-services/openai-service) as your model backend and they will continue to connect through your self-hosted AI Gateway.
 
@@ -141,10 +141,6 @@ This option provides flexibility by allowing you to:
 > - All calls to those features use the GitLab-hosted AI Gateway, not the self-hosted AI Gateway.
 > - Internet connectivity is required for these features.
 > - This is not a fully self-hosted or isolated configuration.
-
-For more information, see:
-
-- [Configure GitLab-managed models](configure_duo_features.md#configure-a-feature-to-use-a-gitlab-managed-model)
 
 #### GitLab managed models
 

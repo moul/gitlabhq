@@ -287,6 +287,9 @@
     "MemberRole",
     "StandardRole"
   ],
+  "RuleInterface": [
+    "MavenUpstreamRule"
+  ],
   "SecurityPolicySource": [
     "GroupSecurityPolicySource",
     "ProjectSecurityPolicySource"

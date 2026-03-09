@@ -5353,6 +5353,16 @@
   :idempotent: true
   :tags: []
   :queue_namespace:
+- :name: repositories_leave_pool_repository
+  :worker_name: Repositories::LeavePoolRepositoryWorker
+  :feature_category: :gitaly
+  :has_external_dependencies: false
+  :urgency: :low
+  :resource_boundary: :unknown
+  :weight: 1
+  :idempotent: true
+  :tags: []
+  :queue_namespace:
 - :name: repositories_post_receive
   :worker_name: Repositories::PostReceiveWorker
   :feature_category: :source_code_management

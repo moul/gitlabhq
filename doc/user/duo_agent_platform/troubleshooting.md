@@ -33,6 +33,21 @@ If you are trying to run a flow but it's not visible in the GitLab UI:
    1. Enable the affected flow in the top-level group and save the configuration.
    1. Wait a few minutes for the setting to propagate across your groups.
 
+## Insufficient permissions to create a new pipeline for imported projects
+
+If you are trying to run foundational flows in an imported project or a project created from a template,
+you might get the error: `Error in creating workload: Insufficient permissions to create a new pipeline`.
+
+To fix this issue:
+
+1. Go to the top-level group.
+1. Select **Settings** > **General**.
+1. Expand **GitLab Duo features**.
+1. Under **Flow execution**, identify the foundational flows you want to turn on.
+1. Disable the flows in the top-level group and save the configuration.
+1. Enable the same flows in the top-level group and save the configuration.
+1. Wait a few minutes for the setting to propagate across projects in the group.
+
 ## Session is stuck in created state
 
 If a session for your flow does not start:

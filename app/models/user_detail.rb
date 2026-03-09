@@ -84,6 +84,10 @@ class UserDetail < ApplicationRecord
 
   before_save :prevent_nil_fields
 
+  # This is needed because organization is synced to company column using a trigger
+  # If the organization is updated, we need to reload the user to get the updated company.
+  after_save :reload, if: -> { saved_change_to_organization? }
+
   # Exclude the hashed email_otp attribute
   def serializable_hash(options = nil)
     options = options.try(:dup) || {}

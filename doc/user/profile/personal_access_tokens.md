@@ -38,6 +38,40 @@ On GitLab Self-Managed and GitLab Dedicated instances, administrators can use th
 [user tokens API](../../api/user_tokens.md#create-an-impersonation-token) to create impersonation
 tokens to authenticate as a specific user.
 
+## View token usage information
+
+{{< history >}}
+
+- In GitLab 16.0 and earlier, token usage information is updated every 24 hours.
+- The frequency of token usage information updates [changed](https://gitlab.com/gitlab-org/gitlab/-/issues/410168) in GitLab 16.1 from 24 hours to 10 minutes.
+- Ability to view IP addresses [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/428577) in GitLab 17.8 [with a flag](../../administration/feature_flags/_index.md) named `pat_ip`. Enabled by default in 17.9.
+- Ability to view IP addresses made [generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/513302) in GitLab 17.10. Feature flag `pat_ip` removed.
+
+{{< /history >}}
+
+The personal access tokens page displays information about your access tokens.
+
+From this page, you can perform the following actions:
+
+- Create, rotate, and revoke personal access tokens.
+- View all active and inactive personal access tokens.
+- View token information, including, scopes, assigned roles, and expiration dates.
+- View usage information, including usage dates, and of the last five distinct connection IP addresses.
+  > [!note]
+  > GitLab periodically updates token usage information when the token performs a Git operation or
+  > authenticates an operation with the [REST](../../api/rest/_index.md) or
+  > [GraphQL](../../api/graphql/_index.md) API. Token usage times are updated every 10 minutes,
+  > token usage IP addresses update every minute.
+
+To view your personal access tokens:
+
+1. In the upper-right corner, select your avatar.
+1. Select **Edit profile**.
+1. On the left sidebar, select **Access** > **Personal access tokens**.
+
+Select the name of a token to open the details panel. By default, only active tokens are displayed.
+Use the search bar to filter the list of access tokens.
+
 ## Create a personal access token
 
 {{< history >}}
@@ -65,7 +99,7 @@ To create a personal access token:
    - If you do not enter a date, the expiry date is set to 365 days from today.
    - By default, the expiry date cannot be more than 365 days from today. On GitLab 17.6 and later,
    administrators can [modify the maximum lifetime of access tokens](../../administration/settings/account_and_limit_settings.md#limit-the-lifetime-of-access-tokens).
-1. Select one or more [scopes](#personal-access-token-scopes).
+1. Select one or more [personal access token scopes](#personal-access-token-scopes).
 1. Select **Create personal access token**.
 
 A personal access token is displayed. Save the personal access token somewhere safe. After you leave
@@ -87,6 +121,49 @@ https://gitlab.example.com/-/user_settings/personal_access_tokens?name=Example+A
 > [!note]
 > Personal access tokens must be treated carefully. For guidance on managing personal access tokens,
 see [token security considerations](../../security/tokens/_index.md#security-considerations).
+
+### Personal access token scopes
+
+{{< history >}}
+
+- Personal access tokens no longer being able to access container or package registries [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/387721) in GitLab 16.0.
+- `k8s_proxy` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/422408) in GitLab 16.4 [with a flag](../../administration/feature_flags/_index.md) named `k8s_proxy_pat`. Enabled by default.
+- Feature flag `k8s_proxy_pat` [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/131518) in GitLab 16.5.
+- `read_service_ping` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/42692#note_1222832412) in GitLab 17.1.
+- `manage_runner` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/460721) in GitLab 17.1.
+- `self_rotate` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/178111) in GitLab 17.9. Enabled by default.
+
+{{< /history >}}
+
+Scopes define the actions available when you authenticate with a personal access token. The following scopes are available:
+
+> [!note]
+> [Fine-grained personal access tokens](../../auth/tokens/fine_grained_access_tokens.md) use different scopes.
+
+| Scope                    | Description |
+| ------------------------ | ----------- |
+| `api`                    | Grants complete read and write access to the API, including all groups and projects, the [container registry](../packages/container_registry/_index.md), the [dependency proxy](../packages/dependency_proxy/_index.md), and the [package registry](../packages/package_registry/_index.md). Also grants complete read and write access to the registry and repository using Git-over-HTTP. |
+| `read_api`               | Grants read access to the API, including all groups and projects, the container registry, and the package registry. |
+| `read_registry`          | Grants read access (pull) to [container registry](../packages/container_registry/_index.md) images if a project is private and authorization is required. Available only when the container registry is enabled. |
+| `write_registry`         | Grants write access (push) to [container registry](../packages/container_registry/_index.md) images if a project is private and authorization is required. Available only when the container registry is enabled. |
+| `read_virtual_registry`  | Grants read access (pull) to container images through the [dependency proxy](../packages/dependency_proxy/_index.md) if a project is private and authorization is required. Available only when the dependency proxy is enabled. |
+| `write_virtual_registry` | Grants read and write access (pull, push, and delete) to container images through the [dependency proxy](../packages/dependency_proxy/_index.md) if a project is private and authorization is required. Available only when the dependency proxy is enabled. |
+| `read_repository`        | Grants read access (pull) to repositories on private projects using Git-over-HTTP or the [repository files API](../../api/repository_files.md). |
+| `write_repository`       | Grants read and write access (pull and push) to repositories on private projects using Git-over-HTTP. Does not support API authentication. |
+| `create_runner`          | Grants permission to create runners. |
+| `manage_runner`          | Grants permission to manage runners. |
+| `admin_mode`             | Grants permission to perform API actions when [Admin Mode](../../administration/settings/sign_in_restrictions.md#admin-mode) is enabled. Available only to administrators on GitLab Self-Managed instances. |
+| `ai_features`            | Grants permission to perform API actions for GitLab Duo, the Code Suggestions API, and the GitLab Duo Chat API. Designed to work with the GitLab Duo Plugin for JetBrains. For all other extensions, see the individual extension documentation. Does not work for GitLab Self-Managed versions 16.5, 16.6, and 16.7. |
+| `k8s_proxy`              | Grants permission to perform Kubernetes API calls using the agent for Kubernetes. |
+| `self_rotate`            | Grants permission to rotate this token using the [personal access token API](../../api/personal_access_tokens.md#rotate-a-personal-access-token). Does not allow rotation of other tokens. |
+| `read_service_ping`      | Grants access to download the Service Ping payloads through the API when authenticated as an administrator. |
+| `sudo`                   | Grants permission to perform API actions as any user in the system, when authenticated as an administrator. |
+| `read_user`              | Grants read-only access to the authenticated user's profile through the `/user` API endpoint, which includes username, public email, and full name. Also grants access to read-only API endpoints under [`/users`](../../api/users.md). |
+
+> [!warning]
+> If you have enabled [external authorization](../../administration/settings/external_authorization.md),
+> personal access tokens cannot access container or package registries. To restore access,
+> turn off external authorization.
 
 ## Rotate a personal access token
 
@@ -138,154 +215,6 @@ To revoke a personal access token:
 1. Next to an active token, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}).
 1. Select **Revoke** ({{< icon name="remove" >}}).
 1. On the confirmation dialog, select **Revoke**.
-
-## Disable access tokens
-
-{{< details >}}
-
-- Tier: Premium, Ultimate
-- Offering: GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
-
-{{< history >}}
-
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/436991) `Disable access tokens` setting in GitLab 17.3.
-
-{{< /history >}}
-
-Prerequisites:
-
-- You must be an administrator.
-
-You can prevent users from authenticating with access tokens across your entire GitLab
-instance. This setting affects personal access tokens, group access tokens, project
-access tokens, and impersonation tokens. This setting also applies to personal access
-tokens for service accounts.
-
-When you disable access tokens, the following rules apply:
-
-- Users cannot sign in to GitLab with personal access tokens.
-- The personal access tokens page returns a 404 error.
-- Feed tokens for RSS, Atom, and calendar feeds stop working.
-- API requests authenticated with personal access tokens are rejected.
-
-To disable access tokens for the instance:
-
-1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
-1. Expand **Account and limit**.
-1. Select the **Disable access tokens** checkbox.
-1. Select **Save changes**.
-
-You can also use the [`disable_personal_access_tokens` attribute](../../api/settings.md#available-settings) in the application settings API.
-
-## Disable personal access tokens for enterprise users
-
-{{< details >}}
-
-- Tier: Premium, Ultimate
-- Offering: GitLab.com
-
-{{< /details >}}
-
-{{< history >}}
-
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/369504) in GitLab 16.11 [with a flag](../../administration/feature_flags/_index.md) named `enterprise_disable_personal_access_tokens`. Disabled by default.
-- [Enabled on GitLab.com](https://gitlab.com/gitlab-org/gitlab/-/issues/369504) in GitLab 17.2
-- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/369504) in GitLab 17.3 . Feature flag `enterprise_disable_personal_access_tokens` removed.
-
-{{< /history >}}
-
-Prerequisites:
-
-- You must have the Owner role for the group that the enterprise user belongs to.
-
-Disabling the personal access tokens of a group's [enterprise users](../enterprise_user/_index.md):
-
-- Stops the enterprise users from creating new personal access tokens. This behavior applies
-  even if an enterprise user is also an administrator of the group.
-- Disables the existing personal access tokens of the enterprise users.
-
-> [!warning]
-> Disabling personal access tokens for enterprise users does not disable personal access tokens for [service accounts](service_accounts.md).
-
-To disable the enterprise users' personal access tokens:
-
-1. On the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
-1. Expand **Permissions and group features**.
-1. Under **Enterprise users**, select **Disable personal access tokens**.
-1. Select **Save changes**.
-
-When you delete or block an enterprise user account, their personal access tokens are automatically revoked.
-
-## View token usage information
-
-{{< history >}}
-
-- In GitLab 16.0 and earlier, token usage information is updated every 24 hours.
-- The frequency of token usage information updates [changed](https://gitlab.com/gitlab-org/gitlab/-/issues/410168) in GitLab 16.1 from 24 hours to 10 minutes.
-- Ability to view IP addresses [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/428577) in GitLab 17.8 [with a flag](../../administration/feature_flags/_index.md) named `pat_ip`. Enabled by default in 17.9.
-- Ability to view IP addresses made [generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/513302) in GitLab 17.10. Feature flag `pat_ip` removed.
-
-{{< /history >}}
-
-Token usage information updates periodically. The time the token was last used updates every 10 minutes, and the most recently used IP address updates every minute. GitLab considers a token used when the token:
-
-- Authenticates with the [REST](../../api/rest/_index.md) or [GraphQL](../../api/graphql/_index.md) APIs.
-- Performs a Git operation.
-
-To view the last time a token was used, and the IP addresses from where the token was used:
-
-1. In the upper-right corner, select your avatar.
-1. Select **Edit profile**.
-1. On the left sidebar, select **Access** > **Personal access tokens**.
-1. In the **Active personal access tokens** area, view the **Last Used** date and **Last Used IPs** for
-   the relevant token. **Last Used IPs** shows the last five distinct IP addresses.
-
-## Personal access token scopes
-
-{{< history >}}
-
-- Personal access tokens no longer being able to access container or package registries [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/387721) in GitLab 16.0.
-- `k8s_proxy` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/422408) in GitLab 16.4 [with a flag](../../administration/feature_flags/_index.md) named `k8s_proxy_pat`. Enabled by default.
-- Feature flag `k8s_proxy_pat` [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/131518) in GitLab 16.5.
-- `read_service_ping` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/42692#note_1222832412) in GitLab 17.1.
-- `manage_runner` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/460721) in GitLab 17.1.
-- `self_rotate` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/178111) in GitLab 17.9. Enabled by default.
-
-{{< /history >}}
-
-Scopes define the actions available when you authenticate with a personal access token. The following scopes are available:
-
-> [!note]
-> [Fine-grained personal access tokens](../../auth/tokens/fine_grained_access_tokens.md) use different scopes.
-
-| Scope                    | Description |
-| ------------------------ | ----------- |
-| `api`                    | Grants complete read and write access to the API, including all groups and projects, the [container registry](../packages/container_registry/_index.md), the [dependency proxy](../packages/dependency_proxy/_index.md), and the [package registry](../packages/package_registry/_index.md). Also grants complete read and write access to the registry and repository using Git-over-HTTP. |
-| `read_api`               | Grants read access to the API, including all groups and projects, the container registry, and the package registry. |
-| `read_registry`          | Grants read access (pull) to [container registry](../packages/container_registry/_index.md) images if a project is private and authorization is required. Available only when the container registry is enabled. |
-| `write_registry`         | Grants write access (push) to [container registry](../packages/container_registry/_index.md) images if a project is private and authorization is required. Available only when the container registry is enabled. |
-| `read_virtual_registry`  | Grants read access (pull) to container images through the [dependency proxy](../packages/dependency_proxy/_index.md) if a project is private and authorization is required. Available only when the dependency proxy is enabled. |
-| `write_virtual_registry` | Grants read and write access (pull, push, and delete) to container images through the [dependency proxy](../packages/dependency_proxy/_index.md) if a project is private and authorization is required. Available only when the dependency proxy is enabled. |
-| `read_repository`        | Grants read access (pull) to repositories on private projects using Git-over-HTTP or the [repository files API](../../api/repository_files.md). |
-| `write_repository`       | Grants read and write access (pull and push) to repositories on private projects using Git-over-HTTP. Does not support API authentication. |
-| `create_runner`          | Grants permission to create runners. |
-| `manage_runner`          | Grants permission to manage runners. |
-| `admin_mode`             | Grants permission to perform API actions when [Admin Mode](../../administration/settings/sign_in_restrictions.md#admin-mode) is enabled. Available only to administrators on GitLab Self-Managed instances. |
-| `ai_features`            | Grants permission to perform API actions for GitLab Duo, the Code Suggestions API, and the GitLab Duo Chat API. Designed to work with the GitLab Duo Plugin for JetBrains. For all other extensions, see the individual extension documentation. Does not work for GitLab Self-Managed versions 16.5, 16.6, and 16.7. |
-| `k8s_proxy`              | Grants permission to perform Kubernetes API calls using the agent for Kubernetes. |
-| `self_rotate`            | Grants permission to rotate this token using the [personal access token API](../../api/personal_access_tokens.md#rotate-a-personal-access-token). Does not allow rotation of other tokens. |
-| `read_service_ping`      | Grants access to download the Service Ping payloads through the API when authenticated as an administrator. |
-| `sudo`                   | Grants permission to perform API actions as any user in the system, when authenticated as an administrator. |
-| `read_user`              | Grants read-only access to the authenticated user's profile through the `/user` API endpoint, which includes username, public email, and full name. Also grants access to read-only API endpoints under [`/users`](../../api/users.md). |
-
-> [!warning]
-> If you have enabled [external authorization](../../administration/settings/external_authorization.md),
-> personal access tokens cannot access container or package registries. To restore access,
-> turn off external authorization.
 
 ## Access token expiration
 
@@ -391,6 +320,87 @@ Prerequisites:
 1. Clear the **Service account token expiration** checkbox.
 
 You can now create personal access tokens for a service account user with no expiry date.
+
+## Disable access tokens
+
+{{< details >}}
+
+- Tier: Premium, Ultimate
+- Offering: GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/436991) `Disable access tokens` setting in GitLab 17.3.
+
+{{< /history >}}
+
+Prerequisites:
+
+- Administrator access.
+
+You can prevent users from authenticating with access tokens across your entire GitLab
+instance. This setting affects personal access tokens, group access tokens, project
+access tokens, and impersonation tokens. This setting also applies to personal access
+tokens for service accounts.
+
+When you disable access tokens, the following rules apply:
+
+- Users cannot sign in to GitLab with personal access tokens.
+- The personal access tokens page returns a `404 Not Found` error.
+- Feed tokens for RSS, Atom, and calendar feeds stop working.
+- API requests authenticated with personal access tokens are rejected.
+
+To disable access tokens for the instance:
+
+1. In the upper-right corner, select **Admin**.
+1. Select **Settings** > **General**.
+1. Expand **Account and limit**.
+1. Select the **Disable access tokens** checkbox.
+1. Select **Save changes**.
+
+You can also use the [`disable_personal_access_tokens` attribute](../../api/settings.md#available-settings) in the application settings API.
+
+## Disable personal access tokens for enterprise users
+
+{{< details >}}
+
+- Tier: Premium, Ultimate
+- Offering: GitLab.com
+
+{{< /details >}}
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/369504) in GitLab 16.11 [with a flag](../../administration/feature_flags/_index.md) named `enterprise_disable_personal_access_tokens`. Disabled by default.
+- [Enabled on GitLab.com](https://gitlab.com/gitlab-org/gitlab/-/issues/369504) in GitLab 17.2
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/369504) in GitLab 17.3 . Feature flag `enterprise_disable_personal_access_tokens` removed.
+
+{{< /history >}}
+
+Prerequisites:
+
+- The Owner role for the group that the enterprise user belongs to.
+
+Disabling the personal access tokens of a group's [enterprise users](../enterprise_user/_index.md):
+
+- Stops the enterprise users from creating new personal access tokens. This behavior applies
+  even if an enterprise user is also an administrator of the group.
+- Disables the existing personal access tokens of the enterprise users.
+
+> [!warning]
+> Disabling personal access tokens for enterprise users does not disable personal access tokens for [service accounts](service_accounts.md).
+
+To disable the enterprise users' personal access tokens:
+
+1. On the top bar, select **Search or go to** and find your group.
+1. Select **Settings** > **General**.
+1. Expand **Permissions and group features**.
+1. Under **Enterprise users**, select **Disable personal access tokens**.
+1. Select **Save changes**.
+
+When you delete or block an enterprise user account, their personal access tokens are automatically revoked.
 
 ## Use DPoP with personal access tokens
 

@@ -39408,6 +39408,7 @@ Represents a Maven upstream registry.
 | <a id="mavenupstream-metadatacachevalidityhours"></a>`metadataCacheValidityHours` {{< icon name="warning-solid" >}} | [`Int!`](#int) | **Introduced** in GitLab 18.4. **Status**: Experiment. Time before the cache expires for Maven metadata. |
 | <a id="mavenupstream-name"></a>`name` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 18.1. **Status**: Experiment. Name of the upstream registry. |
 | <a id="mavenupstream-registriescount"></a>`registriesCount` {{< icon name="warning-solid" >}} | [`Int!`](#int) | **Introduced** in GitLab 18.6. **Status**: Experiment. Number of registries using the upstream. |
+| <a id="mavenupstream-rulescount"></a>`rulesCount` {{< icon name="warning-solid" >}} | [`Int!`](#int) | **Introduced** in GitLab 18.10. **Status**: Experiment. Total number of rules for the upstream. |
 | <a id="mavenupstream-url"></a>`url` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 18.1. **Status**: Experiment. URL of the upstream registry. |
 | <a id="mavenupstream-username"></a>`username` {{< icon name="warning-solid" >}} | [`String`](#string) | **Introduced** in GitLab 18.1. **Status**: Experiment. Username to sign in to the upstream registry. |
 
@@ -39440,13 +39441,16 @@ Represents Maven upstream registry details.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="mavenupstreamdetails-allowrules"></a>`allowRules` {{< icon name="warning-solid" >}} | [`[MavenUpstreamRule!]!`](#mavenupstreamrule) | **Introduced** in GitLab 18.10. **Status**: Experiment. Allow rules for the upstream. |
 | <a id="mavenupstreamdetails-cachevalidityhours"></a>`cacheValidityHours` {{< icon name="warning-solid" >}} | [`Int!`](#int) | **Introduced** in GitLab 18.1. **Status**: Experiment. Time before the cache expires for the upstream registry. |
+| <a id="mavenupstreamdetails-denyrules"></a>`denyRules` {{< icon name="warning-solid" >}} | [`[MavenUpstreamRule!]!`](#mavenupstreamrule) | **Introduced** in GitLab 18.10. **Status**: Experiment. Deny rules for the upstream. |
 | <a id="mavenupstreamdetails-description"></a>`description` {{< icon name="warning-solid" >}} | [`String`](#string) | **Introduced** in GitLab 18.1. **Status**: Experiment. Description of the upstream registry. |
 | <a id="mavenupstreamdetails-id"></a>`id` {{< icon name="warning-solid" >}} | [`ID!`](#id) | **Introduced** in GitLab 18.1. **Status**: Experiment. ID of the upstream registry. |
 | <a id="mavenupstreamdetails-metadatacachevalidityhours"></a>`metadataCacheValidityHours` {{< icon name="warning-solid" >}} | [`Int!`](#int) | **Introduced** in GitLab 18.4. **Status**: Experiment. Time before the cache expires for Maven metadata. |
 | <a id="mavenupstreamdetails-name"></a>`name` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 18.1. **Status**: Experiment. Name of the upstream registry. |
 | <a id="mavenupstreamdetails-registriescount"></a>`registriesCount` {{< icon name="warning-solid" >}} | [`Int!`](#int) | **Introduced** in GitLab 18.6. **Status**: Experiment. Number of registries using the upstream. |
 | <a id="mavenupstreamdetails-registryupstreams"></a>`registryUpstreams` {{< icon name="warning-solid" >}} | [`[MavenRegistryUpstreamWithRegistry!]!`](#mavenregistryupstreamwithregistry) | **Introduced** in GitLab 18.2. **Status**: Experiment. Represents the upstream registry for the upstream which contains the position data. |
+| <a id="mavenupstreamdetails-rulescount"></a>`rulesCount` {{< icon name="warning-solid" >}} | [`Int!`](#int) | **Introduced** in GitLab 18.10. **Status**: Experiment. Total number of rules for the upstream. |
 | <a id="mavenupstreamdetails-url"></a>`url` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 18.1. **Status**: Experiment. URL of the upstream registry. |
 | <a id="mavenupstreamdetails-username"></a>`username` {{< icon name="warning-solid" >}} | [`String`](#string) | **Introduced** in GitLab 18.1. **Status**: Experiment. Username to sign in to the upstream registry. |
 
@@ -39472,6 +39476,20 @@ four standard [pagination arguments](#pagination-arguments):
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="mavenupstreamdetails-cacheentries-search"></a>`search` | [`String`](#string) | Search cache entries by relative path. |
+
+### `MavenUpstreamRule`
+
+Represents a Maven upstream rule.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mavenupstreamrule-createdat"></a>`createdAt` | [`Time!`](#time) | When the rule was created. |
+| <a id="mavenupstreamrule-id"></a>`id` | [`VirtualRegistriesPackagesMavenUpstreamRuleID!`](#virtualregistriespackagesmavenupstreamruleid) | Global ID of the rule. |
+| <a id="mavenupstreamrule-pattern"></a>`pattern` | [`String!`](#string) | Pattern for the rule. |
+| <a id="mavenupstreamrule-patterntype"></a>`patternType` | [`MavenUpstreamPatternType!`](#mavenupstreampatterntype) | Type of pattern (WILDCARD or REGEX). |
+| <a id="mavenupstreamrule-targetcoordinate"></a>`targetCoordinate` | [`MavenUpstreamTargetCoordinate!`](#mavenupstreamtargetcoordinate) | Target coordinate for the rule. |
 
 ### `MemberApproval`
 
@@ -55914,6 +55932,25 @@ List limit metric setting.
 | <a id="listlimitmetric-issue_count"></a>`issue_count` | Limit list by number of issues. |
 | <a id="listlimitmetric-issue_weights"></a>`issue_weights` | Limit list by total weight of issues. |
 
+### `MavenUpstreamPatternType`
+
+Pattern type for Maven upstream rules.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="mavenupstreampatterntype-regex"></a>`REGEX` | Regular expression pattern type. |
+| <a id="mavenupstreampatterntype-wildcard"></a>`WILDCARD` | Wildcard pattern type. |
+
+### `MavenUpstreamTargetCoordinate`
+
+Target coordinate for Maven upstream rules.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="mavenupstreamtargetcoordinate-artifact_id"></a>`ARTIFACT_ID` | Artifact ID coordinate. |
+| <a id="mavenupstreamtargetcoordinate-group_id"></a>`GROUP_ID` | Group ID coordinate. |
+| <a id="mavenupstreamtargetcoordinate-version"></a>`VERSION` | Version coordinate. |
+
 ### `MeasurementIdentifier`
 
 Possible identifier types for a measurement.
@@ -59648,6 +59685,12 @@ A `VirtualRegistriesPackagesMavenUpstreamID` is a global ID. It is encoded as a 
 
 An example `VirtualRegistriesPackagesMavenUpstreamID` is: `"gid://gitlab/VirtualRegistries::Packages::Maven::Upstream/1"`.
 
+### `VirtualRegistriesPackagesMavenUpstreamRuleID`
+
+A `VirtualRegistriesPackagesMavenUpstreamRuleID` is a global ID. It is encoded as a string.
+
+An example `VirtualRegistriesPackagesMavenUpstreamRuleID` is: `"gid://gitlab/VirtualRegistries::Packages::Maven::Upstream::Rule/1"`.
+
 ### `VulnerabilitiesExternalIssueLinkID`
 
 A `VulnerabilitiesExternalIssueLinkID` is a global ID. It is encoded as a string.
@@ -60913,6 +60956,22 @@ Implementations:
 | <a id="roleinterface-detailspath"></a>`detailsPath` {{< icon name="warning-solid" >}} | [`String`](#string) | **Introduced** in GitLab 17.4. **Status**: Experiment. URL path to the role details webpage. |
 | <a id="roleinterface-id"></a>`id` | [`ID!`](#id) | Role ID. |
 | <a id="roleinterface-name"></a>`name` | [`String`](#string) | Role name. |
+
+#### `RuleInterface`
+
+Implementations:
+
+- [`MavenUpstreamRule`](#mavenupstreamrule)
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="ruleinterface-createdat"></a>`createdAt` | [`Time!`](#time) | When the rule was created. |
+| <a id="ruleinterface-id"></a>`id` | [`VirtualRegistriesPackagesMavenUpstreamRuleID!`](#virtualregistriespackagesmavenupstreamruleid) | Global ID of the rule. |
+| <a id="ruleinterface-pattern"></a>`pattern` | [`String!`](#string) | Pattern for the rule. |
+| <a id="ruleinterface-patterntype"></a>`patternType` | [`MavenUpstreamPatternType!`](#mavenupstreampatterntype) | Type of pattern (WILDCARD or REGEX). |
+| <a id="ruleinterface-targetcoordinate"></a>`targetCoordinate` | [`MavenUpstreamTargetCoordinate!`](#mavenupstreamtargetcoordinate) | Target coordinate for the rule. |
 
 #### `Service`
 

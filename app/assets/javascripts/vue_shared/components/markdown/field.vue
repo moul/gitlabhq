@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script>
 import { GlIcon, GlTooltipDirective } from '@gitlab/ui';
-import $ from 'jquery';
 import { debounce, isEqual, unescape } from 'lodash';
 import { createAlert } from '~/alert';
 import GLForm from '~/gl_form';
@@ -271,7 +270,7 @@ export default {
   },
   mounted() {
     this.glForm = new GLForm(
-      $(this.$refs['gl-form']),
+      this.$refs['gl-form'],
       {
         emojis: this.enableAutocomplete,
         members: this.enableAutocomplete,

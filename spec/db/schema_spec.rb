@@ -246,7 +246,7 @@ RSpec.describe 'Database schema',
       backup_vulnerability_severity_overrides: %w[vulnerability_id], # having a FK on this table prevents partitions from being detached
       backup_vulnerability_state_transitions: %w[vulnerability_id], # having a FK on this table prevents partitions from being detached
       backup_vulnerability_user_mentions: %w[vulnerability_id], # having a FK on this table prevents partitions from being detached
-      vulnerability_reads: %w[cluster_agent_id security_project_tracked_context_id vulnerability_occurrence_id partition_id], # tracked_contexts cannot be a foreign key yet. vulnerability_occurrence_id foreign key will be added at a later date
+      vulnerability_reads: %w[cluster_agent_id security_project_tracked_context_id partition_id], # tracked_contexts cannot be a foreign key yet. vulnerability_occurrence_id foreign key will be added at a later date
       # See: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/87584
       # Fixes performance issues with the deletion of web-hooks with many log entries
       web_hook_logs: %w[web_hook_id],
@@ -312,7 +312,7 @@ RSpec.describe 'Database schema',
       projects: 54, # Decrement by 2 after the removal of temporary indexes https://gitlab.com/gitlab-org/gitlab/-/merge_requests/217449
       sbom_occurrences: 25,
       users: 34, # Decrement by 1 after the removal of a temporary index https://gitlab.com/gitlab-org/gitlab/-/merge_requests/184848
-      vulnerability_reads: 23
+      vulnerability_reads: 24 # Decrement by 1 after removing vulnerability_id from the table
     }.with_indifferent_access.freeze
   end
 

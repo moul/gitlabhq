@@ -226,8 +226,11 @@ class GfmAutoComplete {
   }
 
   setup(input, enableMap = defaultAutocompleteConfig) {
+    // Accept both jQuery and DOM elements
+    const $input = input?.jquery ? input : $(input);
+
     // Add GFM auto-completion to all input fields, that accept GFM input.
-    this.input = input || $('.js-gfm-input');
+    this.input = $input || $('.js-gfm-input');
     this.enableMap = enableMap;
     this.setupLifecycle();
   }

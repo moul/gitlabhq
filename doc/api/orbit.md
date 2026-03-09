@@ -2,7 +2,7 @@
 stage: Analytics
 group: Knowledge Graph
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
-description: REST API to run queries, retrieve schemas, and check cluster health for the Knowledge Graph.
+description: REST API to run queries, retrieve schemas, and check cluster health for Orbit.
 title: Orbit API
 ---
 
@@ -25,12 +25,12 @@ title: Orbit API
 > For more information, see the history.
 > This feature is available for testing, but not ready for production use.
 
-Use this API to run queries, retrieve schemas, and check cluster health for the
-[Orbit knowledge graph](https://gitlab.com/gitlab-org/orbit/knowledge-graph).
+Use this API to run queries, retrieve schemas, and check cluster health for
+[Orbit](https://gitlab.com/gitlab-org/orbit/knowledge-graph).
 
-## Execute a query
+## Create a query
 
-Executes a query against the Orbit gRPC service.
+Creates and executes a query against the Orbit gRPC service.
 
 ```plaintext
 POST /api/v4/orbit/query
@@ -54,9 +54,9 @@ response attributes:
 | `raw_query_strings` | string array    | The underlying queries that were run.                    |
 | `row_count`         | integer         | The number of rows returned.                             |
 
-### Search query
+### Examples
 
-Find a user by username:
+Retrieve a user by username:
 
 ```shell
 curl --request POST \
@@ -70,6 +70,8 @@ curl --request POST \
   }' \
   --url "https://gitlab.example.com/api/v4/orbit/query"
 ```
+
+Example response:
 
 ```json
 {
@@ -86,8 +88,6 @@ curl --request POST \
   "row_count": 1
 }
 ```
-
-### Traversal query
 
 Find merged merge requests in a project:
 
@@ -107,6 +107,8 @@ curl --request POST \
   }' \
   --url "https://gitlab.example.com/api/v4/orbit/query"
 ```
+
+Example response:
 
 ```json
 {
@@ -131,8 +133,6 @@ curl --request POST \
 }
 ```
 
-### Aggregation query
-
 Count merge requests per project:
 
 ```shell
@@ -153,6 +153,8 @@ curl --request POST \
   --url "https://gitlab.example.com/api/v4/orbit/query"
 ```
 
+Example response:
+
 ```json
 {
   "result": [
@@ -163,8 +165,6 @@ curl --request POST \
   "row_count": 2
 }
 ```
-
-### Neighbors query
 
 Find outgoing neighbors of a user:
 
@@ -181,6 +181,8 @@ curl --request POST \
   }' \
   --url "https://gitlab.example.com/api/v4/orbit/query"
 ```
+
+Example response:
 
 ```json
 {
@@ -209,8 +211,6 @@ curl --request POST \
 }
 ```
 
-### Path finding query
-
 Find the shortest path between two projects:
 
 ```shell
@@ -229,6 +229,8 @@ curl --request POST \
   }' \
   --url "https://gitlab.example.com/api/v4/orbit/query"
 ```
+
+Example response:
 
 ```json
 {

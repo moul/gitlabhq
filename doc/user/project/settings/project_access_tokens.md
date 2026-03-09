@@ -31,12 +31,49 @@ You can use a project access token to authenticate:
   - Any non-blank value as a username.
   - The project access token as the password.
 
+Prerequisites:
+
+- The Maintainer or Owner role for the project.
+
 > [!note]
 > On GitLab.com, project access tokens require a Premium or Ultimate subscription. During a
 > [trial](https://about.gitlab.com/free-trial/#what-is-included-in-my-free-trial-what-is-excluded),
 > you are limited to one project access token.
 >
 > On GitLab Self-Managed and GitLab Dedicated, project access tokens are available with any license.
+
+## View your access tokens
+
+{{< history >}}
+
+- In GitLab 16.0 and earlier, token usage information is updated every 24 hours.
+- The frequency of token usage information updates [changed](https://gitlab.com/gitlab-org/gitlab/-/issues/410168) in GitLab 16.1 from 24 hours to 10 minutes.
+- Ability to view IP addresses [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/428577) in GitLab 17.8 [with a flag](../../../administration/feature_flags/_index.md) named `pat_ip`. Enabled by default in 17.9.
+- Ability to view IP addresses made [generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/513302) in GitLab 17.10. Feature flag `pat_ip` removed.
+
+{{< /history >}}
+
+The project access tokens page displays information about your access tokens.
+
+From this page, you can perform the following actions:
+
+- Create, rotate, and revoke project access tokens.
+- View all active and inactive project access tokens.
+- View token information, including, scopes, assigned roles, and expiration dates.
+- View usage information, including usage dates, and of the last five distinct connection IP addresses.
+  > [!note]
+  > GitLab periodically updates token usage information when the token performs a Git operation or
+  > authenticates an operation with the [REST](../../../api/rest/_index.md) or
+  > [GraphQL](../../../api/graphql/_index.md) API. Token usage times are updated every 10 minutes,
+  > token usage IP addresses update every minute.
+
+To view your project access tokens:
+
+1. On the top bar, select **Search or go to** and find your project.
+1. Select **Settings** > **Access tokens**.
+
+Active and usable access tokens are stored in the **Active project access tokens** section.
+Expired, rotated, or revoked tokens are stored in the **Inactive project access tokens** section.
 
 ## Create a project access token
 
@@ -65,7 +102,7 @@ To create a project access token:
    - By default, the expiry date cannot be more than 365 days from today. On GitLab 17.6 and later,
    administrators can [modify the maximum lifetime of access tokens](../../../administration/settings/account_and_limit_settings.md#limit-the-lifetime-of-access-tokens).
 1. Select a role for the token.
-1. Select one or more scopes for the token.
+1. Select one or more [project access token scopes](#project-access-token-scopes).
 1. Select **Create project access token**.
 
 A project access token is displayed. Save the project access token somewhere safe. After you leave
@@ -79,6 +116,37 @@ configured for personal access tokens.
 > Project access tokens are treated as internal users.
 > If an internal user creates a project access token, that token can access
 > all projects that have visibility level set to Internal.
+
+### Project access token scopes
+
+{{< history >}}
+
+- `k8s_proxy` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/422408) in GitLab 16.4 [with a flag](../../../administration/feature_flags/_index.md) named `k8s_proxy_pat`. Enabled by default.
+- Feature flag `k8s_proxy_pat` [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/131518) in GitLab 16.5.
+- `self_rotate` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/178111) in GitLab 17.9. Enabled by default.
+
+{{< /history >}}
+
+Scopes define the actions available when you authenticate with a project access token.
+
+| Scope              | Description |
+| ------------------ | ----------- |
+| `api`              | Grants complete read and write access to the scoped project API, including the [container registry](../../packages/container_registry/_index.md), the [dependency proxy](../../packages/dependency_proxy/_index.md), and the [package registry](../../packages/package_registry/_index.md). |
+| `read_api`         | Grants read access to the scoped project API, including the [package registry](../../packages/package_registry/_index.md). |
+| `read_registry`    | Grants read access (pull) to [container registry](../../packages/container_registry/_index.md) images if the project is private and authorization is required. Available only when the container registry is enabled. |
+| `write_registry`   | Grants write access (push) to the [container registry](../../packages/container_registry/_index.md). To push images, you must include the `read_registry` scope. Available only when the container registry is enabled. |
+| `read_repository`  | Grants read access (pull) to the repository in the project. |
+| `write_repository` | Grants read and write access (pull and push) to the repository in the project. |
+| `create_runner`    | Grants permission to create runners in the project. |
+| `manage_runner`    | Grants permission to manage runners in the project. |
+| `ai_features`      | Grants permission to perform API actions for GitLab Duo, the Code Suggestions API, and the GitLab Duo Chat API. Designed to work with the GitLab Duo Plugin for JetBrains. For all other extensions, see the individual extension documentation. Does not work for GitLab Self-Managed versions 16.5, 16.6, and 16.7. |
+| `k8s_proxy`        | Grants permission to perform Kubernetes API calls using the agent for Kubernetes in the project. |
+| `self_rotate`      | Grants permission to rotate this token using the [personal access token API](../../../api/personal_access_tokens.md#rotate-a-personal-access-token). Does not allow rotation of other tokens. |
+
+> [!warning]
+> If you have enabled [external authorization](../../../administration/settings/external_authorization.md),
+> personal access tokens cannot access container or package registries. To restore access,
+> turn off external authorization.
 
 ## Rotate a project access token
 
@@ -131,47 +199,6 @@ To revoke a project access token:
 1. Select **Settings** > **Access tokens**.
 1. For the relevant token, select **Revoke** ({{< icon name="remove" >}}).
 1. In the confirmation dialog, select **Revoke**.
-
-## Project access token scopes
-
-{{< history >}}
-
-- `k8s_proxy` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/422408) in GitLab 16.4 [with a flag](../../../administration/feature_flags/_index.md) named `k8s_proxy_pat`. Enabled by default.
-- Feature flag `k8s_proxy_pat` [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/131518) in GitLab 16.5.
-- `self_rotate` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/178111) in GitLab 17.9. Enabled by default.
-
-{{< /history >}}
-
-Scopes define the actions available when you authenticate with a project access token.
-
-| Scope              | Description |
-| ------------------ | ----------- |
-| `api`              | Grants complete read and write access to the scoped project API, including the [container registry](../../packages/container_registry/_index.md), the [dependency proxy](../../packages/dependency_proxy/_index.md), and the [package registry](../../packages/package_registry/_index.md). |
-| `read_api`         | Grants read access to the scoped project API, including the [package registry](../../packages/package_registry/_index.md). |
-| `read_registry`    | Grants read access (pull) to [container registry](../../packages/container_registry/_index.md) images if the project is private and authorization is required. Available only when the container registry is enabled. |
-| `write_registry`   | Grants write access (push) to the [container registry](../../packages/container_registry/_index.md). To push images, you must include the `read_registry` scope. Available only when the container registry is enabled. |
-| `read_repository`  | Grants read access (pull) to the repository in the project. |
-| `write_repository` | Grants read and write access (pull and push) to the repository in the project. |
-| `create_runner`    | Grants permission to create runners in the project. |
-| `manage_runner`    | Grants permission to manage runners in the project. |
-| `ai_features`      | Grants permission to perform API actions for GitLab Duo, the Code Suggestions API, and the GitLab Duo Chat API. Designed to work with the GitLab Duo Plugin for JetBrains. For all other extensions, see the individual extension documentation. Does not work for GitLab Self-Managed versions 16.5, 16.6, and 16.7. |
-| `k8s_proxy`        | Grants permission to perform Kubernetes API calls using the agent for Kubernetes in the project. |
-| `self_rotate`      | Grants permission to rotate this token using the [personal access token API](../../../api/personal_access_tokens.md#rotate-a-personal-access-token). Does not allow rotation of other tokens. |
-
-> [!warning]
-> If you have enabled [external authorization](../../../administration/settings/external_authorization.md),
-> personal access tokens cannot access container or package registries. To restore access,
-> turn off external authorization.
-
-## Restrict the creation of project access tokens
-
-To limit potential abuse, you can restrict users from creating tokens for a group hierarchy. This setting is only configurable for a top-level group and applies to every downstream project and subgroup. Any existing project access tokens remain valid until their expiration date or until manually revoked.
-
-1. On the top bar, select **Search or go to** and find your group.
-   This group must be at the top level.
-1. Select **Settings** > **General**.
-1. Expand **Permissions and group features**.
-1. In **Permissions**, clear the **Users can create project access tokens and group access tokens in this group** checkbox.
 
 ## Access token expiration
 
@@ -259,6 +286,16 @@ When the bot user is created, the following attributes are defined:
 | Name      | The name of the associated access token.                                                                 | `Main token - Read registry` |
 | Username  | Generated in this format: `project_{project_id}_bot_{random_string}`                                     | `project_123_bot_4ffca233d8298ea1` |
 | Email     | Generated in this format: `project_{project_id}_bot_{random_string}@noreply.{Gitlab.config.gitlab.host}` | `project_123_bot_4ffca233d8298ea1@noreply.example.com` |
+
+## Restrict the creation of project access tokens
+
+To limit potential abuse, you can restrict users from creating tokens for a group hierarchy. This setting is only configurable for a top-level group and applies to every downstream project and subgroup. Any existing project access tokens remain valid until their expiration date or until manually revoked.
+
+1. On the top bar, select **Search or go to** and find your group.
+   This group must be at the top level.
+1. Select **Settings** > **General**.
+1. Expand **Permissions and group features**.
+1. In **Permissions**, clear the **Users can create project access tokens and group access tokens in this group** checkbox.
 
 ## Inactive token retention
 

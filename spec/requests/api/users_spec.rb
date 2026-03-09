@@ -1961,7 +1961,7 @@ RSpec.describe API::Users, :aggregate_failures, feature_category: :user_manageme
 
           expect(response).to have_gitlab_http_status(:bad_request)
           expect(json_response['message']).to eq({ 'user_detail.organization' => ['is too long (maximum is 500 characters)'] })
-          expect(user.reload.user_detail_organization).to eq(expected_organization)
+          expect(user.reload.company).to eq(expected_organization)
         end
       end
 

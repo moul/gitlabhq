@@ -314,10 +314,19 @@ export const config = {
 
                 if (mergedWidget?.type === WIDGET_TYPE_ASSIGNEES && context.variables.id) {
                   const workItemAssignees = mergedWidget.assignees?.nodes || [];
-                  const users = workItemAssignees.map(
+                  const users = workItemAssignees.map((user) => {
                     // eslint-disable-next-line no-underscore-dangle
-                    (user) => context.cache.extract()[user.__ref],
-                  );
+                    const userRef = context.cache.extract()[user.__ref];
+
+                    // We're copying `avatarUrl` into `avatar_url` because both
+                    // Quick action autocompletion setups;
+                    // 1. `gfm_auto_complete.js` - Plain Text Editor
+                    // 2. `content_editor/components/suggestions_dropdown.vue` - RTE
+                    // expect user avatars to be present in `avatar_url` and
+                    // adding `avatar_url || avatarUrl` there requires unnecessary
+                    // repetition.
+                    return { ...userRef, avatar_url: userRef.avatarUrl };
+                  });
 
                   const existingAssignees = currentAssignees();
                   currentAssignees({

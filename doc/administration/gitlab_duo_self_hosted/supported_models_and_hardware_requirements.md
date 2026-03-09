@@ -117,7 +117,7 @@ This feature is in beta and is therefore subject to change as we gather feedback
 
 GitLab-managed models integrate with GitLab-hosted AI Gateway infrastructure to provide access to AI models curated and made available by GitLab. Instead of using your own self-hosted models, you can choose to use GitLab-managed models for specific GitLab Duo features.
 
-To choose which features use GitLab-managed models, see [Configure GitLab-managed models](configure_duo_features.md#configure-a-feature-to-use-a-gitlab-managed-model).
+To choose which features use GitLab-managed models, see [select a GitLab-managed model for a feature](configure_duo_features.md#select-a-gitlab-managed-model-for-a-feature).
 
 When enabled for a specific feature:
 
