@@ -642,6 +642,18 @@ RSpec.shared_examples 'a class that supports relative positioning' do
       it_behaves_like 'moves item between'
     end
 
+    context 'there are items with the same position and a small gap' do
+      let(:middle) { new_item }
+      let(:left) { create_item(relative_position: 100) }
+      let(:right) { create_item(relative_position: 100) }
+
+      before do
+        create_item(relative_position: 98)
+      end
+
+      it_behaves_like 'moves item between'
+    end
+
     context 'there is a bunch of items' do
       let(:items) { create_items_with_positions(100..104) }
       let(:left) { items[1] }

@@ -35113,11 +35113,6 @@ four standard [pagination arguments](#pagination-arguments):
 
 ##### `GeoNode.packagesHelmMetadataCacheRegistries`
 
-{{< details >}}
-**Introduced** in GitLab 18.10.
-**Status**: Experiment.
-{{< /details >}}
-
 Find Helm Metadata Cache registries on this Geo node. Ignored if `geo_packages_helm_metadata_cache_replication` feature flag is disabled.
 
 Returns [`PackagesHelmMetadataCacheRegistryConnection`](#packageshelmmetadatacacheregistryconnection).

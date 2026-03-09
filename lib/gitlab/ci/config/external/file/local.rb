@@ -73,6 +73,8 @@ module Gitlab
                 end
               rescue GRPC::InvalidArgument => e
                 log_grpc_error(e)
+              rescue GRPC::DeadlineExceeded
+                log_and_raise_timeout_error
               end
             end
 

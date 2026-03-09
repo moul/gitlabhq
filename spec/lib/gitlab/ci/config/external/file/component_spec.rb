@@ -291,4 +291,32 @@ RSpec.describe Gitlab::Ci::Config::External::File::Component, feature_category: 
       external_resource.load_and_validate_expanded_hash!
     end
   end
+
+  describe '#content with Gitaly timeout' do
+    context 'when Gitaly request times out with GRPC::DeadlineExceeded' do
+      before do
+        allow_next_instance_of(::Ci::Components::FetchService) do |instance|
+          allow(instance).to receive(:execute).and_raise(GRPC::DeadlineExceeded)
+        end
+      end
+
+      it 'raises Context::TimeoutError' do
+        expect { external_resource.content }.to raise_error(
+          Gitlab::Ci::Config::External::Context::TimeoutError,
+          /CI configuration fetch from Gitaly timed out/
+        )
+      end
+
+      it 'logs the timeout' do
+        expect(Gitlab::AppJsonLogger).to receive(:warn).with(
+          hash_including(
+            message: 'CI config Gitaly request timed out',
+            project_id: context_project.id
+          )
+        )
+
+        expect { external_resource.content }.to raise_error(Gitlab::Ci::Config::External::Context::TimeoutError)
+      end
+    end
+  end
 end

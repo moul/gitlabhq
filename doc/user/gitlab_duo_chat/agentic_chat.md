@@ -359,15 +359,23 @@ After you create a conversation with an agent:
 
 {{< /history >}}
 
-Prompt caching is enabled by default to improve GitLab Duo Chat (agentic) latency.
-When prompt caching is enabled, chat prompt data is temporarily stored in memory by the model
-vendor (Anthropic or VertexAI). Prompt caching significantly improves latency by avoiding the
+Prompt caching is enabled by default, and only works when the selected GitLab Duo
+Chat (Agentic) model is from Anthropic or is an Anthropic model served through Vertex.
+
+When prompt caching is enabled, chat prompt data is temporarily stored in memory
+by the model vendor.
+
+Prompt caching significantly improves latency by avoiding the
 re-processing of cached prompt and input data.
 
 ### Turn off prompt caching
 
 You can [turn off prompt caching](../duo_agent_platform/code_suggestions/_index.md#turn-off-prompt-caching)
-for top-level groups in the GitLab Duo settings.
+in the GitLab Duo settings, depending on the offering:
+
+- On GitLab.com, you can turn off caching for individual top-level groups.
+- On GitLab Self-Managed, you can turn off caching the entire instance.
+
 This also turns off prompt caching for Code Suggestions.
 
 ## Chat feature comparison

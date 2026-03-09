@@ -517,6 +517,44 @@ RSpec.describe Gitlab::GitalyClient::CommitService, feature_category: :gitaly do
     end
   end
 
+  describe '#tree_entry', feature_category: :pipeline_composition do
+    let(:path) { 'README.md' }
+
+    subject { client.tree_entry(revision, path) }
+
+    it 'uses medium_timeout by default' do
+      expect(Gitlab::GitalyClient).to receive(:call).with(
+        storage_name,
+        :commit_service,
+        :tree_entry,
+        kind_of(Gitaly::TreeEntryRequest),
+        timeout: Gitlab::GitalyClient.medium_timeout
+      ).and_raise(GRPC::NotFound)
+
+      expect(subject).to be_nil
+    end
+
+    context 'when GitalyTimeout is set' do
+      around do |example|
+        Gitlab::Ci::Config::GitalyTimeout.with_timeout(10) do
+          example.run
+        end
+      end
+
+      it 'uses the custom timeout' do
+        expect(Gitlab::GitalyClient).to receive(:call).with(
+          storage_name,
+          :commit_service,
+          :tree_entry,
+          kind_of(Gitaly::TreeEntryRequest),
+          timeout: 10
+        ).and_raise(GRPC::NotFound)
+
+        expect(subject).to be_nil
+      end
+    end
+  end
+
   describe '#tree_entries' do
     subject { client.tree_entries(repository, revision, path, recursive, skip_flat_paths, pagination_params) }
 

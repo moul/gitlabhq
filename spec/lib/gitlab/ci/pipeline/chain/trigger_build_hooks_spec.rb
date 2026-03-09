@@ -27,25 +27,9 @@ RSpec.describe Gitlab::Ci::Pipeline::Chain::TriggerBuildHooks, feature_category:
     expect(step.break?).to be false
   end
 
-  context 'when feature flag is disabled' do
-    before do
-      stub_feature_flags(ci_trigger_build_hooks_in_chain: false)
-    end
+  it 'enqueues ExecutePipelineBuildHooksWorker with pipeline_id' do
+    expect(::Ci::ExecutePipelineBuildHooksWorker).to receive(:perform_async).with(pipeline.id)
 
-    it 'does not trigger hooks' do
-      expect { run_chain }.not_to raise_error
-    end
-  end
-
-  context 'when feature flag is enabled' do
-    before do
-      stub_feature_flags(ci_trigger_build_hooks_in_chain: true)
-    end
-
-    it 'enqueues ExecutePipelineBuildHooksWorker with pipeline_id' do
-      expect(::Ci::ExecutePipelineBuildHooksWorker).to receive(:perform_async).with(pipeline.id)
-
-      run_chain
-    end
+    run_chain
   end
 end

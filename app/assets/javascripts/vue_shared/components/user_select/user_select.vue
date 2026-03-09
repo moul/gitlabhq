@@ -123,14 +123,13 @@ export default {
       },
       update(data) {
         return data.namespace?.issuable?.participants.nodes.map((node) => {
-          const isDisabled = Boolean(node?.status?.disabledForDuoUsage);
+          const isDisabled = Boolean(node?.duoStatus?.disabled);
           return {
             ...node,
             canMerge: false,
             isDisabled,
             ...(isDisabled && {
-              disabledReason:
-                node?.status?.disabledForDuoUsageReason || s__('WorkItem|Cannot be assigned'),
+              disabledReason: node?.duoStatus?.disabledReason || s__('WorkItem|Cannot be assigned'),
             }),
           };
         });
@@ -157,14 +156,14 @@ export default {
           data.namespace?.users
             .filter((user) => user)
             .map((user) => {
-              const isDisabled = Boolean(user?.status?.disabledForDuoUsage);
+              const isDisabled = Boolean(user?.duoStatus?.disabled);
               return {
                 ...user,
                 canMerge: user.mergeRequestInteraction?.canMerge || false,
                 isDisabled,
                 ...(isDisabled && {
                   disabledReason:
-                    user?.status?.disabledForDuoUsageReason || s__('WorkItem|Cannot be assigned'),
+                    user?.duoStatus?.disabledReason || s__('WorkItem|Cannot be assigned'),
                 }),
               };
             }) || []

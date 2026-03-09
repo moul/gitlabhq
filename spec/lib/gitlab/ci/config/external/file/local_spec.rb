@@ -383,4 +383,28 @@ RSpec.describe Gitlab::Ci::Config::External::File::Local, feature_category: :pip
       end
     end
   end
+
+  describe '#content with Gitaly timeout' do
+    let(:location) { '/lib/gitlab/ci/templates/existent-file.yml' }
+
+    context 'when Gitaly request times out with GRPC::DeadlineExceeded' do
+      before do
+        allow(project.repository).to receive(:blobs_at).and_raise(GRPC::DeadlineExceeded)
+      end
+
+      it 'logs the timeout and raises Context::TimeoutError' do
+        expect(Gitlab::AppJsonLogger).to receive(:warn).with(
+          hash_including(
+            message: 'CI config Gitaly request timed out',
+            project_id: project.id
+          )
+        )
+
+        expect { local_file.content.to_s }.to raise_error(
+          Gitlab::Ci::Config::External::Context::TimeoutError,
+          /CI configuration fetch from Gitaly timed out/
+        )
+      end
+    end
+  end
 end

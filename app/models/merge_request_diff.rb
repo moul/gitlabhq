@@ -108,6 +108,10 @@ class MergeRequestDiff < ApplicationRecord
         .joins(:merge_request_diff_commits)
         .where(merge_request_diff_commits: { sha: sha })
 
+    if project_ids_list.any? { |id| Feature.enabled?(:merge_request_diff_commits_partition, Project.actor_from_id(id)) }
+      diff_commits_query = diff_commits_query.where(merge_request_diff_commits: { project_id: project_ids_list })
+    end
+
     from_union(metadata_query, diff_commits_query).reorder(nil)
   end
 
@@ -736,6 +740,13 @@ class MergeRequestDiff < ApplicationRecord
     merge_request_diff_files.where(encoded_file_path: true).any?
   end
 
+  def partition_enabled?
+    return false unless merge_request&.target_project
+
+    Feature.enabled?(:merge_request_diff_commits_partition, merge_request.target_project)
+  end
+  strong_memoize_attr :partition_enabled?
+
   private
 
   def preload_metadata_for_commits(commits)
@@ -1073,11 +1084,13 @@ class MergeRequestDiff < ApplicationRecord
   end
 
   def metadata_sha_exists?(shas)
+    diff_commits_relation = MergeRequestDiffCommit.where(merge_request_diff_id: id)
+    diff_commits_relation = diff_commits_relation.where(project_id: project_id) if partition_enabled?
+
     MergeRequest::CommitsMetadata
       .where(project: project, sha: shas)
       .where_exists(
-        MergeRequestDiffCommit
-          .where(merge_request_diff_id: id)
+        diff_commits_relation
           .where(
             MergeRequestDiffCommit.arel_table[:merge_request_commits_metadata_id]
                                   .eq(MergeRequest::CommitsMetadata.arel_table[:id])
@@ -1086,7 +1099,17 @@ class MergeRequestDiff < ApplicationRecord
   end
 
   def commit_shas_from_metadata(limit)
-    MergeRequestDiffCommit.for_merge_request_diff(id).commit_shas_from_metadata(project_id: project.id, limit: limit)
+    diff_commits_relation = if partition_enabled?
+                              MergeRequestDiffCommit.for_merge_request_diff(id, project_id)
+                            else
+                              MergeRequestDiffCommit.for_merge_request_diff(id)
+                            end
+
+    diff_commits_relation.commit_shas_from_metadata(
+      project_id: project_id,
+      limit: limit,
+      partition_enabled: partition_enabled?
+    )
   end
 end
 

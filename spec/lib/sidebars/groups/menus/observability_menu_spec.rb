@@ -177,7 +177,18 @@ RSpec.describe Sidebars::Groups::Menus::ObservabilityMenu, feature_category: :ob
     end
 
     it 'has the right link' do
-      expect(observability_menu.link).to eq(observability_menu.send(:services_menu_item).link)
+      expect(observability_menu.link).to eq(observability_menu.send(:logs_explorer_menu_item).link)
+    end
+
+    context 'when logs_explorer_menu_item does not render' do
+      before do
+        menu_item = instance_double(::Sidebars::MenuItem, render?: false)
+        allow(observability_menu).to receive(:logs_explorer_menu_item).and_return(menu_item)
+      end
+
+      it 'returns nil' do
+        expect(observability_menu.link).to be_nil
+      end
     end
   end
 

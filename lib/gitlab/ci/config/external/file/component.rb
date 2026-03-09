@@ -93,6 +93,8 @@ module Gitlab
                   current_user: context.user
                 ).execute
               end
+            rescue GRPC::DeadlineExceeded
+              log_and_raise_timeout_error
             end
             strong_memoize_attr :component_result
 

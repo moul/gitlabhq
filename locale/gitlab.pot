@@ -11915,6 +11915,9 @@ msgstr ""
 msgid "BillingPlans|Talk to an expert"
 msgstr ""
 
+msgid "BillingPlans|Talk to sales"
+msgstr ""
+
 msgid "BillingPlans|Team Project Management"
 msgstr ""
 
@@ -46911,9 +46914,6 @@ msgstr ""
 msgid "Observability|32+ character encryption key for secure communication."
 msgstr ""
 
-msgid "Observability|API monitoring"
-msgstr ""
-
 msgid "Observability|APM & performance"
 msgstr ""
 
@@ -47019,10 +47019,10 @@ msgstr ""
 msgid "Observability|Danger Zone"
 msgstr ""
 
-msgid "Observability|Dashboard"
+msgid "Observability|Dashboard templates and use cases"
 msgstr ""
 
-msgid "Observability|Dashboard templates and use cases"
+msgid "Observability|Dashboards"
 msgstr ""
 
 msgid "Observability|Delete"
@@ -47080,6 +47080,9 @@ msgid "Observability|Experience the power of GitLab Observability with real-time
 msgstr ""
 
 msgid "Observability|Experimental functionality"
+msgstr ""
+
+msgid "Observability|External APIs"
 msgstr ""
 
 msgid "Observability|Failed to create O11y service settings"
@@ -47166,7 +47169,7 @@ msgstr ""
 msgid "Observability|Includes Logs, Traces and Metrics. %{learnMoreLink}"
 msgstr ""
 
-msgid "Observability|Infrastructure monitoring"
+msgid "Observability|Infrastructure"
 msgstr ""
 
 msgid "Observability|Initializing your Observability service"
@@ -47214,7 +47217,7 @@ msgstr ""
 msgid "Observability|Loading..."
 msgstr ""
 
-msgid "Observability|Logs explorer"
+msgid "Observability|Logs"
 msgstr ""
 
 msgid "Observability|Manage your o11y service connection settings."
@@ -47226,7 +47229,7 @@ msgstr ""
 msgid "Observability|Messaging queues"
 msgstr ""
 
-msgid "Observability|Metrics explorer"
+msgid "Observability|Metrics"
 msgstr ""
 
 msgid "Observability|Monitor application performance with detailed metrics, response times, and system health indicators in real-time dashboards."
@@ -47388,7 +47391,7 @@ msgstr ""
 msgid "Observability|To widen your search, change or remove filters above"
 msgstr ""
 
-msgid "Observability|Traces explorer"
+msgid "Observability|Traces"
 msgstr ""
 
 msgid "Observability|Tracing, Metrics & Logs"

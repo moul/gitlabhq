@@ -94,7 +94,7 @@ module Gitlab
           end
 
           def check_execution_time!
-            raise TimeoutError if execution_expired?
+            raise TimeoutError, Gitlab::Ci::Config::TIMEOUT_MESSAGE if execution_expired?
           end
 
           def execute_remote_parallel_request(lazy_response)

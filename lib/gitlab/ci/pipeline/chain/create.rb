@@ -36,8 +36,6 @@ module Gitlab
           private
 
           def with_build_hooks_via_chain
-            return yield unless Feature.enabled?(:ci_trigger_build_hooks_in_chain, project)
-
             Gitlab::SafeRequestStore[:ci_triggering_build_hooks_via_chain] = true
             yield
           ensure

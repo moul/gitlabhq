@@ -208,7 +208,14 @@ To learn about the code that builds the prompt, see these files:
 
 {{< /history >}}
 
-Prompt caching is enabled by default to improve Code Suggestions latency. When prompt caching is enabled, code completion prompt data is temporarily stored in memory by the model vendor. Prompt caching significantly improves latency by avoiding the re-processing of cached prompt and input data. The cached data is never logged to any persistent storage.
+Prompt caching is enabled by default on all Fireworks-hosted models to improve
+Code Suggestions latency.
+
+When prompt caching is enabled, code completion prompt data is temporarily stored
+in memory by the model vendor.
+
+Prompt caching significantly improves latency by avoiding the re-processing of
+cached prompt and input data. The cached data is never logged to any persistent storage.
 
 ### Turn off prompt caching
 

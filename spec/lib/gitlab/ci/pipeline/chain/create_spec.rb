@@ -51,18 +51,6 @@ RSpec.describe Gitlab::Ci::Pipeline::Chain::Create, feature_category: :pipeline_
 
         step.perform!
       end
-
-      context 'when feature flag is disabled' do
-        before do
-          stub_feature_flags(ci_trigger_build_hooks_in_chain: false)
-        end
-
-        it 'does not set request store flag' do
-          expect(Gitlab::SafeRequestStore).not_to receive(:[]=).with(:ci_triggering_build_hooks_via_chain, true)
-
-          step.perform!
-        end
-      end
     end
   end
 

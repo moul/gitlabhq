@@ -99,10 +99,12 @@ module Gitlab
 
         return [pos_left, pos_right] unless gap_too_small?(pos_left, pos_right)
 
-        gap = range.rhs.create_space_left
+        min_gap = pos_left == pos_right ? MIN_GAP + 1 : MIN_GAP
+
+        gap = range.rhs.create_space_left(min_gap: min_gap)
         [pos_left - gap.delta, pos_right]
       rescue NoSpaceLeft
-        gap = range.lhs.create_space_right
+        gap = range.lhs.create_space_right(min_gap: min_gap)
         [pos_left, pos_right + gap.delta]
       end
 

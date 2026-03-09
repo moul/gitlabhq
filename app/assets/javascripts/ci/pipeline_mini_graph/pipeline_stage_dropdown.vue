@@ -1,4 +1,5 @@
 <script>
+import { merge } from 'lodash';
 import {
   GlButton,
   GlDisclosureDropdown,
@@ -181,6 +182,7 @@ export default {
         variables: { stageId: this.stage.id },
         updateQuery: (previousData, { subscriptionData }) => {
           const updatedJob = subscriptionData.data?.ciStageUpdated;
+
           if (!updatedJob || !previousData?.ciPipelineStage) {
             return previousData;
           }
@@ -191,9 +193,12 @@ export default {
               ...previousData.ciPipelineStage,
               jobs: {
                 ...previousData.ciPipelineStage.jobs,
-                nodes: previousData.ciPipelineStage.jobs.nodes.map((job) =>
-                  job.name === updatedJob.name ? updatedJob : job,
-                ),
+                nodes: previousData.ciPipelineStage.jobs.nodes.map((job) => {
+                  if (job.name === updatedJob.name) {
+                    return merge({}, job, updatedJob);
+                  }
+                  return job;
+                }),
               },
             },
           };

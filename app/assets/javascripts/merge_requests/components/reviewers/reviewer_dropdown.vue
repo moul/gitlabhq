@@ -122,13 +122,12 @@ export default {
         .filter((u) => (this.search ? true : !this.selectedReviewers.find(({ id }) => u.id === id)))
         .map((user) => {
           const mapped = this.mapUser(user);
-          const isDisabled = Boolean(user?.status?.disabledForDuoUsage);
+          const isDisabled = Boolean(user?.duoStatus?.disabled);
           return {
             ...mapped,
             isDisabled,
             ...(isDisabled && {
-              disabledReason:
-                user?.status?.disabledForDuoUsageReason || s__('WorkItem|Cannot be assigned'),
+              disabledReason: user?.duoStatus?.disabledReason || s__('WorkItem|Cannot be assigned'),
             }),
           };
         });
@@ -195,9 +194,7 @@ export default {
     updateCachedDisabledReviewers() {
       const selectedReviewerIds = this.selectedReviewers.map((r) => r.id);
       this.cachedDisabledReviewers = (this.usersForList || [])
-        .filter(
-          (u) => Boolean(u?.status?.disabledForDuoUsage) && !selectedReviewerIds.includes(u.id),
-        )
+        .filter((u) => Boolean(u?.duoStatus?.disabled) && !selectedReviewerIds.includes(u.id))
         .map((u) => u.username);
     },
     mapUser(user) {
@@ -299,7 +296,7 @@ export default {
 
       // Filter out disabled reviewers from the selection
       const disabledUsernames = (this.usersForList || [])
-        .filter((u) => Boolean(u?.status?.disabledForDuoUsage))
+        .filter((u) => Boolean(u?.duoStatus?.disabled))
         .map((u) => u.username);
 
       const filteredReviewers = this.currentSelectedReviewers.filter(

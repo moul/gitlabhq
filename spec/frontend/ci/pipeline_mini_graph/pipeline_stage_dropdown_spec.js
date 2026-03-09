@@ -360,5 +360,21 @@ describe('PipelineStageDropdown', () => {
 
       expect(stopPollingSpy).toHaveBeenCalled();
     });
+
+    it('updates the job icon when the subscription receives a new status', async () => {
+      await clickStageDropdown();
+
+      await waitForPromises();
+
+      const findFirstIcon = () => findJobDropdownItems().at(0).findComponent(CiIcon);
+
+      expect(findFirstIcon().props('status').group).toBe('success');
+
+      mockSubscription.next({ data: { ciStageUpdated: stageJobUpdated } });
+
+      await waitForPromises();
+
+      expect(findFirstIcon().props('status').group).toBe('pending');
+    });
   });
 });

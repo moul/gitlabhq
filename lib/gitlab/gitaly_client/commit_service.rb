@@ -84,7 +84,8 @@ module Gitlab
           limit: limit.to_i
         )
 
-        response = gitaly_client_call(@repository.storage, :commit_service, :tree_entry, request, timeout: GitalyClient.medium_timeout)
+        timeout = Gitlab::Ci::Config::GitalyTimeout.current_timeout || GitalyClient.medium_timeout
+        response = gitaly_client_call(@repository.storage, :commit_service, :tree_entry, request, timeout: timeout)
 
         entry = nil
         data = []

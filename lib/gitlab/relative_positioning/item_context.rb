@@ -132,36 +132,36 @@ module Gitlab
         object.reset_relative_position
       end
 
-      def create_space_left
-        find_next_gap_before.tap { |gap| move_sequence_before(false, next_gap: gap) }
+      def create_space_left(min_gap: MIN_GAP)
+        find_next_gap_before(min_gap: min_gap).tap { |gap| move_sequence_before(false, next_gap: gap) }
       end
 
-      def create_space_right
-        find_next_gap_after.tap { |gap| move_sequence_after(false, next_gap: gap) }
+      def create_space_right(min_gap: MIN_GAP)
+        find_next_gap_after(min_gap: min_gap).tap { |gap| move_sequence_after(false, next_gap: gap) }
       end
 
-      def find_next_gap_before
+      def find_next_gap_before(min_gap: MIN_GAP)
         items_with_next_pos = scoped_items
                                 .select('relative_position AS pos, LEAD(relative_position) OVER (ORDER BY relative_position DESC) AS next_pos')
                                 .where('relative_position <= ?', relative_position)
                                 .order(relative_position: :desc)
 
-        find_next_gap(items_with_next_pos, range.first)
+        find_next_gap(items_with_next_pos, range.first, min_gap: min_gap)
       end
 
-      def find_next_gap_after
+      def find_next_gap_after(min_gap: MIN_GAP)
         items_with_next_pos = scoped_items
                                 .select('relative_position AS pos, LEAD(relative_position) OVER (ORDER BY relative_position ASC) AS next_pos')
                                 .where('relative_position >= ?', relative_position)
                                 .order(:relative_position)
 
-        find_next_gap(items_with_next_pos, range.last)
+        find_next_gap(items_with_next_pos, range.last, min_gap: min_gap)
       end
 
-      def find_next_gap(items_with_next_pos, default_end)
+      def find_next_gap(items_with_next_pos, default_end, min_gap: MIN_GAP)
         gap = model_class
           .from(items_with_next_pos, :items)
-          .where('next_pos IS NULL OR ABS(pos::bigint - next_pos::bigint) >= ?', MIN_GAP)
+          .where('next_pos IS NULL OR ABS(pos::bigint - next_pos::bigint) >= ?', min_gap)
           .pick(:pos, :next_pos)
 
         return if gap.nil? || gap.first == default_end
@@ -246,7 +246,7 @@ module Gitlab
       def move_sequence(start_pos, end_pos, delta, include_self = false)
         relation = include_self ? scoped_items : relative_siblings
 
-        object.update_relative_siblings(relation, (start_pos..end_pos), delta)
+        object.update_relative_siblings(relation, start_pos..end_pos, delta)
       end
     end
     # rubocop: enable CodeReuse/ActiveRecord

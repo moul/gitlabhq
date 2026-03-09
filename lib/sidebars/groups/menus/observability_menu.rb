@@ -10,17 +10,17 @@ module Sidebars
           return false unless o11y_settings_access_enabled? || (feature_enabled? && observability_access?)
 
           if context.group.observability_group_o11y_setting&.persisted?
-            add_item(services_menu_item)
-            add_item(traces_explorer_menu_item)
             add_item(logs_explorer_menu_item)
+            add_item(traces_explorer_menu_item)
             add_item(metrics_explorer_menu_item)
             add_item(infrastructure_monitoring_menu_item)
+            add_item(services_menu_item)
             add_item(dashboard_menu_item)
-            add_item(messaging_queues_menu_item)
-            add_item(api_monitoring_menu_item)
             add_item(alerts_menu_item)
             add_item(exceptions_menu_item)
             add_item(service_map_menu_item)
+            add_item(messaging_queues_menu_item)
+            add_item(api_monitoring_menu_item)
             add_item(notification_channels_menu_item)
           end
 
@@ -43,7 +43,7 @@ module Sidebars
 
         override :link
         def link
-          services_menu_item.link if services_menu_item.render?
+          logs_explorer_menu_item.link if logs_explorer_menu_item.render?
         end
 
         override :active_routes
@@ -92,7 +92,7 @@ module Sidebars
         def traces_explorer_menu_item
           link = group_observability_path(context.group, 'traces-explorer')
           ::Sidebars::MenuItem.new(
-            title: s_('Observability|Traces explorer'),
+            title: s_('Observability|Traces'),
             link: link,
             active_routes: { page: link },
             super_sidebar_parent: ::Sidebars::Groups::SuperSidebarMenus::ObservabilityMenu,
@@ -104,7 +104,7 @@ module Sidebars
         def logs_explorer_menu_item
           link = group_observability_path(context.group, 'logs/logs-explorer')
           ::Sidebars::MenuItem.new(
-            title: s_('Observability|Logs explorer'),
+            title: s_('Observability|Logs'),
             link: link,
             active_routes: { page: link },
             super_sidebar_parent: ::Sidebars::Groups::SuperSidebarMenus::ObservabilityMenu,
@@ -116,7 +116,7 @@ module Sidebars
         def metrics_explorer_menu_item
           link = group_observability_path(context.group, 'metrics-explorer/summary')
           ::Sidebars::MenuItem.new(
-            title: s_('Observability|Metrics explorer'),
+            title: s_('Observability|Metrics'),
             link: link,
             active_routes: { page: link },
             super_sidebar_parent: ::Sidebars::Groups::SuperSidebarMenus::ObservabilityMenu,
@@ -128,7 +128,7 @@ module Sidebars
         def infrastructure_monitoring_menu_item
           link = group_observability_path(context.group, 'infrastructure-monitoring/hosts')
           ::Sidebars::MenuItem.new(
-            title: s_('Observability|Infrastructure monitoring'),
+            title: s_('Observability|Infrastructure'),
             link: link,
             active_routes: { page: link },
             super_sidebar_parent: ::Sidebars::Groups::SuperSidebarMenus::ObservabilityMenu,
@@ -140,7 +140,7 @@ module Sidebars
         def dashboard_menu_item
           link = group_observability_path(context.group, 'dashboard')
           ::Sidebars::MenuItem.new(
-            title: s_('Observability|Dashboard'),
+            title: s_('Observability|Dashboards'),
             link: link,
             active_routes: { page: link },
             super_sidebar_parent: ::Sidebars::Groups::SuperSidebarMenus::ObservabilityMenu,
@@ -164,7 +164,7 @@ module Sidebars
         def api_monitoring_menu_item
           link = group_observability_path(context.group, 'api-monitoring/explorer')
           ::Sidebars::MenuItem.new(
-            title: s_('Observability|API monitoring'),
+            title: s_('Observability|External APIs'),
             link: link,
             active_routes: { page: link },
             super_sidebar_parent: ::Sidebars::Groups::SuperSidebarMenus::ObservabilityMenu,

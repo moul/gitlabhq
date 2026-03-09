@@ -20,6 +20,7 @@ describe('Sidebar participant component', () => {
 
   const createComponent = ({
     status = null,
+    duoStatus = null,
     issuableType = TYPE_ISSUE,
     canMerge = false,
     selected = false,
@@ -31,6 +32,7 @@ describe('Sidebar participant component', () => {
           ...user,
           canMerge,
           status,
+          duoStatus,
           compositeIdentityEnforced,
         },
         issuableType,
@@ -80,7 +82,8 @@ describe('Sidebar participant component', () => {
       beforeEach(() => {
         createComponent({
           compositeIdentityEnforced: true,
-          status: { ...user.status, disabledForDuoUsage: false },
+          status: { ...user.status },
+          duoStatus: { disabled: false },
         });
       });
 
@@ -93,7 +96,8 @@ describe('Sidebar participant component', () => {
       beforeEach(() => {
         createComponent({
           compositeIdentityEnforced: true,
-          status: { ...user.status, disabledForDuoUsage: true },
+          status: { ...user.status },
+          duoStatus: { disabled: true },
         });
       });
 
