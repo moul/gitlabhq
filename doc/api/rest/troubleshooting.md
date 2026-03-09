@@ -241,3 +241,7 @@ server {
 {{< /tabs >}}
 
 For more information, see [issue 18775](https://gitlab.com/gitlab-org/gitlab/-/issues/18775).
+
+## Support knowledge base
+
+If you're still having issues, see the [GitLab Support knowledge base](https://support.gitlab.com/hc/en-us/).

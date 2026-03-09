@@ -94,6 +94,7 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
   it { is_expected.to respond_to :git_author_name }
   it { is_expected.to respond_to :git_author_email }
   it { is_expected.to respond_to :git_author_full_text }
+  it { is_expected.to respond_to :git_author_login }
   it { is_expected.to respond_to :short_sha }
   it { is_expected.to delegate_method(:full_path).to(:project).with_prefix }
   it { is_expected.to delegate_method(:name).to(:pipeline_metadata).allow_nil }
@@ -1788,6 +1789,81 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
     end
 
     it { expect(pipeline.sha).to start_with(subject) }
+  end
+
+  describe '#git_author_login' do
+    let(:pipeline) { build_stubbed(:ci_empty_pipeline, :created, project: project) }
+
+    subject { pipeline.git_author_login }
+
+    context 'when commit is nil' do
+      before do
+        allow(pipeline).to receive(:commit).and_return(nil)
+      end
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when commit author email is nil' do
+      before do
+        allow(pipeline).to receive(:commit).and_return(double(author_email: nil))
+      end
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when no user is found for the email' do
+      before do
+        allow(pipeline).to receive(:commit).and_return(double(author_email: 'unknown@example.com'))
+      end
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when user is found' do
+      let_it_be(:author) { create(:user, :public_email) }
+
+      before do
+        allow(pipeline).to receive(:commit).and_return(double(author_email: author.public_email))
+      end
+
+      it 'returns the username' do
+        expect(subject).to eq(author.username)
+      end
+
+      context 'when user has a private profile' do
+        before do
+          author.update!(private_profile: true)
+        end
+
+        after do
+          author.update!(private_profile: false)
+        end
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'when public_email does not match the commit email' do
+        before do
+          allow(pipeline).to receive(:commit).and_return(double(author_email: 'other@example.com'))
+          create(:email, :confirmed, user: author, email: 'other@example.com')
+        end
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'when user has no public_email set' do
+        let_it_be(:author_no_public) { create(:user) }
+
+        before do
+          author_no_public.update_column(:public_email, nil)
+          create(:email, :confirmed, user: author_no_public, email: 'private-only@example.com')
+          allow(pipeline).to receive(:commit).and_return(double(author_email: 'private-only@example.com'))
+        end
+
+        it { is_expected.to be_nil }
+      end
+    end
   end
 
   describe '#retried' do
