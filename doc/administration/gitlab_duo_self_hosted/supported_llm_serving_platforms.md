@@ -3,7 +3,7 @@ stage: AI-powered
 group: Custom Models
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
 description: Supported LLM Serving Platforms.
-title: Supported platforms for self-hosted models
+title: Configure LLM platforms
 ---
 
 {{< details >}}
@@ -26,7 +26,15 @@ title: Supported platforms for self-hosted models
 
 The AI Gateway supports multiple LLM providers through [LiteLLM](https://docs.litellm.ai/docs/providers). Each platform has unique features and benefits that can cater to different needs. The following documentation summarises the providers we have validated and tested. If the platform you want to use is not in this documentation, provide feedback in the [platform request issue (issue 526144)](https://gitlab.com/gitlab-org/gitlab/-/issues/526144).
 
-## For self-hosted model deployments
+## Use multiple models and platforms
+
+You can use multiple models and platforms in the same GitLab instance.
+
+For example, you can configure one feature to use Azure OpenAI, and another feature to use AWS Bedrock, or self-hosted models served with vLLM.
+
+This setup gives you flexibility to choose the best model and platform for each use case. Models must be supported and served through a compatible platform.
+
+## Self-hosted model deployments
 
 ### vLLM
 
@@ -34,7 +42,7 @@ The AI Gateway supports multiple LLM providers through [LiteLLM](https://docs.li
 
 To install vLLM, see the [vLLM Installation Guide](https://docs.vllm.ai/en/latest/getting_started/installation.html). You should install [version v0.6.4.post1](https://github.com/vllm-project/vllm/releases/tag/v0.6.4.post1) or later.
 
-#### Endpoint Configuration
+#### Configuring the endpoint URL
 
 When configuring the endpoint URL for any OpenAI API compatible platforms (such as vLLM) in GitLab:
 
@@ -75,13 +83,10 @@ Example response:
 
 In this example, if the model's `id` is `Mixtral-8x22B-Instruct-v0.1`, you would set the model identifier in GitLab as `custom_openai/Mixtral-8x22B-Instruct-v0.1`.
 
-For more information on:
+For more information, see the following documentation:
 
 - vLLM supported models, see the [vLLM Supported Models documentation](https://docs.vllm.ai/en/latest/models/supported_models.html).
 - Available options when using vLLM to run a model, see the [vLLM documentation on engine arguments](https://docs.vllm.ai/en/stable/configuration/engine_args.html).
-- The hardware needed for the models, see the [Supported models and Hardware requirements documentation](supported_models_and_hardware_requirements.md).
-
-Examples:
 
 #### Mistral-7B-Instruct-v0.2
 
@@ -146,7 +151,7 @@ vllm serve <path-to-model>/<model-version> \
 
 This change has been observed to notably improve response times in internal benchmarks.
 
-## For cloud-hosted model deployments
+## Cloud-hosted model deployments
 
 GitLab has validated and tested the following providers. The AI Gateway supports LLM providers that are compatible with [LiteLLM](https://docs.litellm.ai/docs/providers).
 
@@ -155,12 +160,6 @@ GitLab has validated and tested the following providers. The AI Gateway supports
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models?tabs=python-secure%2Cglobal-standard%2Cstandard-chat-completions)
 - [Anthropic](https://platform.claude.com/docs/en/about-claude/models/overview)
 - [OpenAI](https://developers.openai.com/api/docs/models)
-
-For configuration information, see the following provider documentation:
-
-- [Anthropic API overview](https://platform.claude.com/docs/en/api/overview)
-- [OpenAI API overview](https://developers.openai.com/api/docs)
-- [Working with Azure OpenAI models](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/working-with-models?tabs=powershell)
 
 ### Configure authentication with AWS Bedrock
 
@@ -393,18 +392,13 @@ To use models from Google Vertex AI, you must authenticate your AI Gateway insta
 
 - Run the AI Gateway container on Google Cloud Run and use the [Cloud Run service account](https://docs.litellm.ai/docs/providers/vertex#using-gcp-service-account) for Vertex AI access.
 
-## Use multiple models and platforms
-
-You can use multiple models and platforms in the same GitLab instance.
-
-For example, you can configure one feature to use Azure OpenAI, and another feature to use AWS Bedrock, or self-hosted models served with vLLM.
-
-This setup gives you flexibility to choose the best model and platform for each use case. Models must be supported and served through a compatible platform.
-
-For more information on setting up different providers, see [Supported models and hardware requirements](supported_models_and_hardware_requirements.md).
-
 ## Related topics
 
+- [Supported models and hardware requirements documentation](supported_models_and_hardware_requirements.md).
 - [Amazon Bedrock supported foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html)
 - [AWS IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 - [Amazon Bedrock Security](https://docs.aws.amazon.com/bedrock/latest/userguide/security.html)
+- For configuration information, see the following documentation:
+  - [Anthropic API overview](https://platform.claude.com/docs/en/api/overview)
+  - [OpenAI API overview](https://developers.openai.com/api/docs)
+  - [Working with Azure OpenAI models](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/working-with-models?tabs=powershell)

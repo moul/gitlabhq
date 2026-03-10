@@ -2671,6 +2671,17 @@ end
   let(:query) { double('Query', schema: GitlabSchema) }
   ```
 
+- Use `GraphqlHelpers#get_graphql_query_as_string` to test a query used by the frontend. For example:
+
+  ```ruby
+  let(:query) { get_graphql_query_as_string('work_items/graphql/project_work_items.query.graphql') }
+  let(:variables) { { 'fullPath' => project.full_path } }
+
+  ...
+
+  post_graphql(query, variables: variables)
+  ```
+
 - Avoid false positives:
 
   Authenticating a user with the `current_user:` argument for `post_graphql`

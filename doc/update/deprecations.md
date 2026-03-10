@@ -135,6 +135,15 @@ Alternatively, you can deploy and configure an
 
 ## GitLab 19.1
 
+### Elasticsearch 7.x no longer supported for advanced search
+
+- Announced in GitLab 18.10
+- Removal in GitLab 19.1 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))
+- To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/gitlab-org/gitlab/-/issues/583544).
+
+The [maintenance term for Elasticsearch 7.x](https://www.elastic.co/support/eol) ended on 2026-01-15.
+For GitLab Self-Managed, administrators must upgrade their Elasticsearch instance to use advanced search.
+
 ### Linux package support for Amazon Linux 2
 
 - Announced in GitLab 18.9

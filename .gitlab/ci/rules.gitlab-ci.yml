@@ -496,6 +496,8 @@
   # List explicitly all the app/ dirs that are backend (i.e. all except app/assets).
   - "{,ee/,jh/}{app/channels,app/components,app/controllers,app/finders,app/graphql,app/helpers,app/mailers,app/models,app/policies,app/presenters,app/serializers,app/services,app/uploaders,app/validators,app/views,app/workers}/**/*"
   - "{,ee/,jh/}{bin,config,db,elastic,gems,generator_templates,lib}/**/*"
+  # GraphQL query files
+  - "{,ee/,jh/}app/assets/javascripts/**/*.graphql"
   # Spec support files
   - "{,ee/,jh/}spec/{support,factories,fixtures,tooling/fixtures}/**/*"
   - "{,ee/,jh/}spec/{*.rb,.rspec}"
@@ -520,6 +522,8 @@
   - "{,ee/,jh/}{app/channels,app/components,app/controllers,app/finders,app/graphql,app/helpers,app/mailers,app/models,app/policies,app/presenters,app/serializers,app/services,app/uploaders,app/validators,app/views,app/workers}/**/*"
   - "{,ee/,jh/}{bin,config,db,elastic,gems,generator_templates,lib}/**/*"
   - "{,ee/,jh/}spec/**/*"
+  # GraphQL query files
+  - "{,ee/,jh/}app/assets/javascripts/**/*.graphql"
   # CI changes
   - "{,jh/}.gitlab-ci.yml"
   - "{,jh/}.gitlab/ci/**/*"
@@ -541,6 +545,8 @@
   # List explicitly all the app/ dirs that are backend (i.e. all except app/assets).
   - "{,ee/,jh/}{app/channels,app/components,app/controllers,app/finders,app/graphql,app/helpers,app/mailers,app/models,app/policies,app/presenters,app/serializers,app/services,app/uploaders,app/validators,app/views,app/workers}/**/*"
   - "{,ee/,jh/}{bin,config,db,elastic,gems,generator_templates,lib}/**/*"
+  # GraphQL query files
+  - "{,ee/,jh/}app/assets/javascripts/**/*.graphql"
 
 .search-backend-patterns: &search-backend-patterns
   - "{,jh/}Gemfile.lock"

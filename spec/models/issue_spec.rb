@@ -310,16 +310,40 @@ RSpec.describe Issue, feature_category: :team_planning do
 
     describe '#ensure_namespace_traversal_ids' do
       let_it_be(:group) { create(:group) }
+      let_it_be(:other_group) { create(:group) }
       let_it_be(:project) { create(:project, group: group) }
 
       let(:issue) { build(:issue, project: project) }
 
-      it 'set the namespace_traversal_ids for a project issue' do
+      it 'sets the namespace_traversal_ids for a project issue' do
         expect(issue.namespace_traversal_ids).to eq([])
 
         issue.save!
 
         expect(issue.namespace_traversal_ids).to eq([group.id, project.project_namespace.id])
+      end
+
+      context 'when the in-memory namespace cache is stale due to a concurrent namespace transfer' do
+        let(:new_traversal_ids) { [other_group.id, project.project_namespace.id] }
+
+        before do
+          # Update traversal_ids in the DB without touching the in-memory project.project_namespace object,
+          # simulating a concurrent namespace transfer that updated the DB after the object was loaded.
+          Namespace.where(id: project.project_namespace.id).update_all(traversal_ids: new_traversal_ids)
+        end
+
+        it 'reads fresh traversal_ids from the database when creating a new record' do
+          issue.save!
+
+          expect(issue.namespace_traversal_ids).to eq(new_traversal_ids)
+        end
+
+        it 'reads fresh traversal_ids from the database when importing' do
+          issue.importing = true
+          issue.save!
+
+          expect(issue.namespace_traversal_ids).to eq(new_traversal_ids)
+        end
       end
     end
 

@@ -97,6 +97,11 @@ export default {
       required: false,
       default: false,
     },
+    ultimateFeaturesAvailable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -306,7 +311,7 @@ export default {
           />
         </project-setting-row>
         <project-setting-row
-          v-if="glFeatures.aiExperimentSastFpDetection"
+          v-if="glFeatures.aiExperimentSastFpDetection && ultimateFeaturesAvailable"
           :label="s__('DuoSAST|Turn on SAST false positive detection')"
           class="gl-mt-5"
           :help-text="
@@ -344,7 +349,7 @@ export default {
           />
         </project-setting-row>
         <project-setting-row
-          v-if="glFeatures.enableVulnerabilityResolution"
+          v-if="glFeatures.enableVulnerabilityResolution && ultimateFeaturesAvailable"
           :label="s__('DuoSAST|Turn on SAST vulnerability resolution workflow')"
           class="gl-mt-5"
           :help-text="

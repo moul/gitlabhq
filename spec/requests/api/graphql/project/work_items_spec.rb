@@ -35,12 +35,14 @@ RSpec.describe 'getting a work item list for a project', feature_category: :team
   let(:items_data) { graphql_data['project']['workItems']['nodes'] }
   let(:item_filter_params) { {} }
 
+  let(:variables) { {} }
+
   shared_examples 'work items resolver without N + 1 queries' do |threshold: 0|
     it 'avoids N+1 queries', :use_sql_query_cache do
-      post_graphql(query, current_user: current_user) # warm-up
+      post_graphql(query, current_user: current_user, variables: variables) # warm-up
 
       control = ActiveRecord::QueryRecorder.new(skip_cached: false) do
-        post_graphql(query, current_user: current_user)
+        post_graphql(query, current_user: current_user, variables: variables)
       end
 
       expect_graphql_errors_to_be_empty
@@ -57,7 +59,7 @@ RSpec.describe 'getting a work item list for a project', feature_category: :team
       )
 
       expect do
-        post_graphql(query, current_user: current_user)
+        post_graphql(query, current_user: current_user, variables: variables)
       end.not_to exceed_all_query_limit(control).with_threshold(threshold)
 
       expect_graphql_errors_to_be_empty
@@ -116,6 +118,13 @@ RSpec.describe 'getting a work item list for a project', feature_category: :team
           }
         GRAPHQL
       end
+
+      it_behaves_like 'work items resolver without N + 1 queries'
+    end
+
+    context 'with projectWorkItems query' do
+      let(:query) { get_graphql_query_as_string('work_items/graphql/project_work_items.query.graphql') }
+      let(:variables) { { 'fullPath' => project.full_path } }
 
       it_behaves_like 'work items resolver without N + 1 queries'
     end

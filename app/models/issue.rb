@@ -1016,7 +1016,17 @@ class Issue < ApplicationRecord
   end
 
   def ensure_namespace_traversal_ids
-    self.namespace_traversal_ids = self.namespace&.traversal_ids
+    # For new records and imports, always read traversal_ids fresh from the database to avoid
+    # stale in-memory association caches. This is critical during imports where a single
+    # project object is reused across many records and may have a cached project_namespace
+    # with outdated traversal_ids if a namespace transfer occurred mid-import.
+    # For existing records, the in-memory association is sufficient since the
+    # UpdateNamespaceTraversalIdsWorker corrects any stale values after a transfer.
+    self.namespace_traversal_ids = if new_record? || importing?
+                                     Namespace.where(id: namespace_id).pick(:traversal_ids)
+                                   else
+                                     namespace&.traversal_ids
+                                   end
   end
 
   def allowed_work_item_type_change

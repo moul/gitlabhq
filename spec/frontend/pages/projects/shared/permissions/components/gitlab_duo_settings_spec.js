@@ -13,6 +13,7 @@ const defaultProps = {
   duoFeaturesLocked: false,
   licensedAiFeaturesAvailable: true,
   experimentFeaturesEnabled: true,
+  ultimateFeaturesAvailable: true,
   duoContextExclusionSettings: {
     exclusionRules: ['*.log', 'node_modules/'],
   },
@@ -314,6 +315,15 @@ describe('GitlabDuoSettings', () => {
           expect(findDuoSastFpDetectionToggle().exists()).toBe(false);
         });
 
+        it('does not show SAST FP Detection toggle when ultimateFeaturesAvailable is false', () => {
+          wrapper = createWrapper(
+            { duoFeaturesEnabled: true, amazonQAvailable: false, ultimateFeaturesAvailable: false },
+            { aiExperimentSastFpDetection: true },
+          );
+
+          expect(findDuoSastFpDetectionToggle().exists()).toBe(false);
+        });
+
         it('disables SAST FP Detection toggle when Duo features are locked', () => {
           wrapper = createWrapper(
             {
@@ -445,6 +455,15 @@ describe('GitlabDuoSettings', () => {
           wrapper = createWrapper(
             { duoFeaturesEnabled: true, amazonQAvailable: false },
             { enableVulnerabilityResolution: false },
+          );
+
+          expect(findDuoSastVrWorkflowToggle().exists()).toBe(false);
+        });
+
+        it('does not show SAST VR Workflow toggle when ultimateFeaturesAvailable is false', () => {
+          wrapper = createWrapper(
+            { duoFeaturesEnabled: true, amazonQAvailable: false, ultimateFeaturesAvailable: false },
+            { enableVulnerabilityResolution: true },
           );
 
           expect(findDuoSastVrWorkflowToggle().exists()).toBe(false);

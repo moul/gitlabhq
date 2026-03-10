@@ -73750,6 +73750,12 @@ msgstr ""
 msgid "UsageBilling|An error occurred while fetching data"
 msgstr ""
 
+msgid "UsageBilling|An error occurred while fetching events list"
+msgstr ""
+
+msgid "UsageBilling|An error occurred while fetching usage data"
+msgstr ""
+
 msgid "UsageBilling|Contact sales"
 msgstr ""
 

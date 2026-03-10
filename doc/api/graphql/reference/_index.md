@@ -38148,6 +38148,7 @@ Represents a group secret.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="groupsecret-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the secret creation started. |
 | <a id="groupsecret-description"></a>`description` | [`String`](#string) | Description of the group secret. |
 | <a id="groupsecret-environment"></a>`environment` | [`String!`](#string) | Environments that can access the secret. |
 | <a id="groupsecret-group"></a>`group` | [`Group!`](#group) | Group the secret belongs to. |
@@ -47572,6 +47573,7 @@ Representation of a project secret.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="projectsecret-branch"></a>`branch` | [`String!`](#string) | Branches that can access the secret. |
+| <a id="projectsecret-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the secret creation started. |
 | <a id="projectsecret-description"></a>`description` | [`String`](#string) | Description of the project secret. |
 | <a id="projectsecret-environment"></a>`environment` | [`String!`](#string) | Environments that can access the secret. |
 | <a id="projectsecret-metadataversion"></a>`metadataVersion` | [`Int`](#int) | Current metadata version of the project secret. |
