@@ -7,12 +7,67 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   const diffDiscussions = useDiffDiscussions();
 
   async function fetchNotes() {
-    const notesStore = useNotes();
-    await notesStore.fetchNotes();
+    await useNotes().fetchNotes();
+  }
+
+  async function createNewDiscussion(noteData) {
+    const notes = useNotes();
+    await notes.createNewNote({
+      endpoint: notes.noteableData.create_note_path,
+      data: { note: noteData },
+    });
+  }
+
+  async function createLineDiscussion(formDiscussion, noteData) {
+    const notes = useNotes();
+    await notes.createNewNote({
+      endpoint: notes.noteableData.create_note_path,
+      data: { note: noteData },
+    });
+    diffDiscussions.removeNewLineDiscussionForm(formDiscussion);
+  }
+
+  async function replyToDiscussion(discussion, noteText) {
+    const notes = useNotes();
+    await notes.replyToDiscussion({
+      endpoint: notes.noteableData.create_note_path,
+      data: {
+        in_reply_to_discussion_id: discussion.reply_id,
+        note: { note: noteText },
+      },
+    });
+  }
+
+  async function saveNote(note, noteText) {
+    await useNotes().updateNote({
+      endpoint: note.path,
+      note: {
+        target_id: note.noteable_id,
+        note: { note: noteText },
+      },
+    });
+  }
+
+  async function destroyNote(note) {
+    await useNotes().deleteNote(note);
+  }
+
+  async function toggleAwardOnNote(note, name) {
+    await useNotes().toggleAwardRequest({
+      endpoint: note.toggle_award_path,
+      awardName: name,
+      noteId: note.id,
+    });
   }
 
   return {
     fetchNotes,
+    createNewDiscussion,
+    createLineDiscussion,
+    replyToDiscussion,
+    saveNote,
+    destroyNote,
+    toggleAwardOnNote,
     setInitialDiscussions: diffDiscussions.setInitialDiscussions,
     replaceDiscussion: diffDiscussions.replaceDiscussion,
     toggleDiscussionReplies: diffDiscussions.toggleDiscussionReplies,

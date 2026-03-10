@@ -17,7 +17,6 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
       'packages_helm_metadata_cache_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/587557
       'packages_nuget_symbol_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/587558
       'packages_package_file_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/587559
-      'slack_integrations_scopes_archived', # temp table: https://gitlab.com/gitlab-org/gitlab/-/issues/584705
       'snippet_repository_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/587561
       'supply_chain_attestation_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/588220
       'uploads_9ba88c4165' # https://gitlab.com/gitlab-org/gitlab/-/issues/398199
@@ -294,7 +293,6 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
       "user_agent_details" => "https://gitlab.com/gitlab-org/gitlab/-/work_items/574387",
       "abuse_report_assignees" => "https://gitlab.com/gitlab-org/gitlab/-/issues/553428",
       "labels" => "https://gitlab.com/gitlab-org/gitlab/-/issues/563889",
-      "slack_integrations_scopes_archived" => "https://gitlab.com/gitlab-org/gitlab/-/issues/584705",
       "note_diff_files" => "https://gitlab.com/gitlab-org/gitlab/-/issues/550694",
       "keys" => "https://gitlab.com/gitlab-org/gitlab/-/issues/553463",
       "oauth_applications" => "https://gitlab.com/gitlab-org/gitlab/-/issues/579291"

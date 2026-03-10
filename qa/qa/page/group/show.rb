@@ -58,5 +58,3 @@ module QA
     end
   end
 end
-
-QA::Page::Group::Show.prepend_mod_with('Page::Component::DuoChatCallout', namespace: QA)

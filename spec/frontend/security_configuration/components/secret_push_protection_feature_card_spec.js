@@ -26,7 +26,6 @@ const defaultProvide = {
   secretPushProtectionEnabled: false,
   canEnableSpp: true,
   secretPushProtectionLicensed: true,
-  isGitlabCom: false,
   projectFullPath: 'flightjs/flight',
   secretDetectionConfigurationPath: 'flightjs/Flight/-/security/configuration/secret_detection',
 };
@@ -218,50 +217,20 @@ describe('SecretPushProtectionFeatureCard component', () => {
     });
   });
 
-  describe('availability text', () => {
-    describe('on GitLab.com', () => {
-      beforeEach(() => {
-        createComponent({
-          provide: {
-            isGitlabCom: true,
-            secretPushProtectionLicensed: false,
-          },
-          props: {
-            feature: {
-              ...secretPushProtectionMock,
-              available: false,
-            },
-          },
-        });
-      });
-
-      it('displays GitLab.com-specific message', () => {
-        expect(wrapper.text()).toContain(
-          'Available with Ultimate. Enabled by default for all public projects.',
-        );
-      });
+  it('displays standard message when not available with current license', () => {
+    createComponent({
+      provide: {
+        secretPushProtectionLicensed: false,
+      },
+      props: {
+        feature: {
+          ...secretPushProtectionMock,
+          available: false,
+        },
+      },
     });
 
-    describe('not on GitLab.com', () => {
-      beforeEach(() => {
-        createComponent({
-          provide: {
-            isGitlabCom: false,
-            secretPushProtectionLicensed: false,
-          },
-          props: {
-            feature: {
-              ...secretPushProtectionMock,
-              available: false,
-            },
-          },
-        });
-      });
-
-      it('displays standard message', () => {
-        expect(wrapper.text()).toContain('Available with Ultimate');
-        expect(wrapper.text()).not.toContain('Enabled by default for all public projects');
-      });
-    });
+    expect(wrapper.text()).toContain('Available with Ultimate');
+    expect(wrapper.text()).not.toContain('Enabled by default for all public projects');
   });
 });

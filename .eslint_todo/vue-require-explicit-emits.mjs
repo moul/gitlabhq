@@ -718,7 +718,6 @@ export default {
     'ee/app/assets/javascripts/ai/components/content_container.vue',
     'ee/app/assets/javascripts/ai/components/duo_chat_feedback_modal.vue',
     'ee/app/assets/javascripts/ai/components/duo_workflow_action.vue',
-    'ee/app/assets/javascripts/ai/components/global_callout/duo_chat_callout.vue',
     'ee/app/assets/javascripts/ai/components/navigation_rail.vue',
     'ee/app/assets/javascripts/ai/components/new_chat_button.vue',
     'ee/app/assets/javascripts/ai/duo_agentic_chat/components/duo_agentic_chat.vue',

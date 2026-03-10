@@ -953,11 +953,11 @@ lib/gitlab/checks/
 /doc/ci/variables/ @marcel.amirault
 /doc/ci/yaml/ @marcel.amirault
 /doc/ci/yaml/artifacts_reports.md @lyspin
-/doc/development/advanced_search.md @gitlab-org/search-team/migration-maintainers
-/doc/development/advanced_search/ @gitlab-org/search-team/migration-maintainers
+/doc/development/advanced_search.md @gitlab-org/search-team/maintainers/advanced-framework
+/doc/development/advanced_search/ @gitlab-org/search-team/maintainers/advanced-framework
 /doc/development/ai_architecture.md @gitlab-org/ai-powered
 /doc/development/ai_features/ @gitlab-org/ai-powered
-/doc/development/ai_features/semantic_search.md @gitlab-org/search-team/migration-maintainers
+/doc/development/ai_features/semantic_search.md @gitlab-org/search-team/maintainers/advanced-framework
 /doc/development/application_limits.md @gitlab-org/distribution
 /doc/development/audit_event_guide/ @gitlab-org/govern/security-policies-frontend @gitlab-org/govern/threat-insights-frontend-team @gitlab-org/govern/threat-insights-backend-team
 /doc/development/avoiding_required_stops.md @gitlab-org/distribution
@@ -972,7 +972,7 @@ lib/gitlab/checks/
 /doc/development/distribution/ @gitlab-org/distribution
 /doc/development/documentation/ @fneill @kpaizee
 /doc/development/email_one_time_passwords.md @gitlab-org/software-supply-chain-security/authentication/approvers
-/doc/development/exact_code_search.md @gitlab-org/search-team/migration-maintainers
+/doc/development/exact_code_search.md @gitlab-org/search-team/maintainers/advanced-framework
 /doc/development/fe_guide/ @gitlab-org/analytics-section/product-analytics/engineers/frontend
 /doc/development/fe_guide/keyboard_shortcuts.md @gitlab-org/growth
 /doc/development/git_object_deduplication.md @proglottis @toon
@@ -995,7 +995,7 @@ lib/gitlab/checks/
 /doc/development/policies.md @gitlab-org/software-supply-chain-security/authorization/approvers
 /doc/development/prometheus_metrics.md @gitlab-org/analytics-section/product-analytics/engineers/frontend
 /doc/development/remote_development/ @gitlab-org/maintainers/remote-development/backend @gitlab-org/maintainers/remote-development/frontend
-/doc/development/search/ @gitlab-org/search-team/migration-maintainers
+/doc/development/search/ @gitlab-org/search-team/maintainers/advanced-framework
 /doc/development/sec/ @gitlab-org/secure/composition-analysis-be @gitlab-org/secure/static-analysis
 /doc/development/software_design.md @gl-dx/pipeline-maintainers
 /doc/development/spam_protection_and_captcha/ @gitlab-org/software-supply-chain-security/authorization/approvers
@@ -1839,7 +1839,7 @@ ee/app/workers/ai/repository_xray/
 /app/components/pajamas/
 
 # Search framework maintainers
-[Global Search] @gitlab-org/search-team/migration-maintainers
+[Advanced Search Framework] @gitlab-org/search-team/maintainers/advanced-framework
 /ee/lib/gem_extensions/elasticsearch/
 /ee/lib/elastic/
 /ee/lib/search/elastic/
@@ -1865,14 +1865,16 @@ ee/app/workers/ai/repository_xray/
 /ee/app/workers/elastic_namespace_indexer_worker.rb
 /ee/app/workers/elastic_remove_expired_namespace_subscriptions_from_index_cron_worker.rb
 /ee/app/workers/elastic_wiki_indexer_worker.rb
-
-# Necessary for availability, similar to DB migrations
-[Global Search] @gitlab-org/search-team/migration-maintainers
-/ee/elastic/migrate/
 /ee/spec/support/elastic.rb
 
-^[Global Search] @gitlab-org/search-team/migration-maintainers
+# Necessary for availability, similar to DB migrations
+[Advanced Search Migration] @gitlab-org/search-team/maintainers/advanced-migrations
+/ee/elastic/migrate/
+/ee/elastic/docs/
+
+^[Advanced Search Migration] @gitlab-org/search-team/maintainers/advanced-migrations
 /ee/spec/elastic/migrate/
+/ee/spec/lib/search/elastic
 
 ^[Workspaces Backend] @gitlab-org/maintainers/workspaces/backend
 /ee/app/models/remote_development/

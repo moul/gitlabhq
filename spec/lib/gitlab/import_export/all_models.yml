@@ -311,6 +311,7 @@ merge_requests:
 - policy_dismissals
 - security_scan_profiles
 - security_scan_profiles_projects
+- duo_workflows
 external_pull_requests:
 - project
 merge_data:

@@ -80,7 +80,7 @@ module Users
       vulnerability_report_grouping: 77, # EE-only
       # 78 removed in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/161010,
       # 79 removed in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/143862
-      duo_chat_callout: 80, # EE-only
+      # 80 removed in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224957
       # 81 removed in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/146322
       # 82 removed in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/203697
       joining_a_project_alert: 83, # EE-only

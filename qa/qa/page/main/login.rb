@@ -274,4 +274,3 @@ module QA
 end
 
 QA::Page::Main::Login.prepend_mod_with('Page::Main::Login', namespace: QA)
-QA::Page::Main::Login.prepend_mod_with('Page::Component::DuoChatCallout', namespace: QA)

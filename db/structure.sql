@@ -4519,6 +4519,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_c8bb98475baa() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."project_id" IS NULL THEN
+  SELECT "project_id"
+  INTO NEW."project_id"
+  FROM "packages_package_files"
+  WHERE "packages_package_files"."id" = NEW."package_file_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_c8bc8646bce9() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -20283,6 +20299,28 @@ CREATE SEQUENCE geo_cache_invalidation_events_id_seq
 
 ALTER SEQUENCE geo_cache_invalidation_events_id_seq OWNED BY geo_cache_invalidation_events.id;
 
+CREATE TABLE geo_ci_job_artifact_verification_summaries (
+    id bigint NOT NULL,
+    bucket_number integer NOT NULL,
+    total_count integer DEFAULT 0 NOT NULL,
+    verified_count integer DEFAULT 0 NOT NULL,
+    failed_count integer DEFAULT 0 NOT NULL,
+    state smallint DEFAULT 0 NOT NULL,
+    last_calculated_at timestamp with time zone,
+    state_changed_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+CREATE SEQUENCE geo_ci_job_artifact_verification_summaries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE geo_ci_job_artifact_verification_summaries_id_seq OWNED BY geo_ci_job_artifact_verification_summaries.id;
+
 CREATE TABLE geo_event_log (
     id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -25545,6 +25583,7 @@ CREATE TABLE packages_package_file_states (
     verification_retry_count smallint DEFAULT 0,
     verification_checksum bytea,
     verification_failure text,
+    project_id bigint,
     CONSTRAINT check_975cbbb43b CHECK ((char_length(verification_failure) <= 255))
 );
 
@@ -29683,18 +29722,6 @@ CREATE TABLE slack_integrations_scopes (
     organization_id bigint,
     CONSTRAINT check_c5ff08a699 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1))
 );
-
-CREATE TABLE slack_integrations_scopes_archived (
-    id bigint NOT NULL,
-    slack_api_scope_id bigint NOT NULL,
-    slack_integration_id bigint NOT NULL,
-    project_id bigint,
-    group_id bigint,
-    organization_id bigint,
-    archived_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-COMMENT ON TABLE slack_integrations_scopes_archived IS 'Temporary table for storing duplicate slack_integrations_scopes records during sharding key backfill. Stores duplicate/conflicting records with archival timestamp. TODO: Drop after BBM completion and verification.';
 
 CREATE SEQUENCE slack_integrations_scopes_id_seq
     START WITH 1
@@ -35024,6 +35051,8 @@ ALTER TABLE ONLY fork_networks ALTER COLUMN id SET DEFAULT nextval('fork_network
 
 ALTER TABLE ONLY geo_cache_invalidation_events ALTER COLUMN id SET DEFAULT nextval('geo_cache_invalidation_events_id_seq'::regclass);
 
+ALTER TABLE ONLY geo_ci_job_artifact_verification_summaries ALTER COLUMN id SET DEFAULT nextval('geo_ci_job_artifact_verification_summaries_id_seq'::regclass);
+
 ALTER TABLE ONLY geo_event_log ALTER COLUMN id SET DEFAULT nextval('geo_event_log_id_seq'::regclass);
 
 ALTER TABLE ONLY geo_events ALTER COLUMN id SET DEFAULT nextval('geo_events_id_seq'::regclass);
@@ -38472,6 +38501,9 @@ ALTER TABLE ONLY fork_networks
 ALTER TABLE ONLY geo_cache_invalidation_events
     ADD CONSTRAINT geo_cache_invalidation_events_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY geo_ci_job_artifact_verification_summaries
+    ADD CONSTRAINT geo_ci_job_artifact_verification_summaries_pkey PRIMARY KEY (id);
+
 ALTER TABLE ONLY geo_event_log
     ADD CONSTRAINT geo_event_log_pkey PRIMARY KEY (id);
 
@@ -39845,9 +39877,6 @@ ALTER TABLE ONLY slack_api_scopes
 
 ALTER TABLE ONLY slack_integrations
     ADD CONSTRAINT slack_integrations_pkey PRIMARY KEY (id);
-
-ALTER TABLE ONLY slack_integrations_scopes_archived
-    ADD CONSTRAINT slack_integrations_scopes_archived_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY slack_integrations_scopes
     ADD CONSTRAINT slack_integrations_scopes_pkey PRIMARY KEY (id);
@@ -43311,6 +43340,10 @@ CREATE UNIQUE INDEX idx_environment_merge_requests_unique_index ON deployment_me
 CREATE UNIQUE INDEX idx_external_audit_event_destination_id_key_uniq ON audit_events_streaming_headers USING btree (key, external_audit_event_destination_id);
 
 CREATE INDEX idx_external_status_checks_on_id_and_project_id ON external_status_checks USING btree (id, project_id);
+
+CREATE UNIQUE INDEX idx_geo_ci_job_artifact_verification_summaries_on_bucket ON geo_ci_job_artifact_verification_summaries USING btree (bucket_number);
+
+CREATE INDEX idx_geo_ci_job_artifact_verification_summaries_on_state ON geo_ci_job_artifact_verification_summaries USING btree (state) WHERE (state = ANY (ARRAY[1, 2]));
 
 CREATE INDEX idx_gitlab_hosted_runner_monthly_usages_on_billing_month_year ON ci_gitlab_hosted_runner_monthly_usages USING btree (EXTRACT(year FROM billing_month));
 
@@ -47110,6 +47143,8 @@ CREATE INDEX index_packages_package_file_states_failed_verification ON packages_
 
 CREATE UNIQUE INDEX index_packages_package_file_states_on_package_file_id ON packages_package_file_states USING btree (package_file_id);
 
+CREATE INDEX index_packages_package_file_states_on_project_id ON packages_package_file_states USING btree (project_id);
+
 CREATE INDEX index_packages_package_file_states_on_verification_state ON packages_package_file_states USING btree (verification_state);
 
 CREATE INDEX index_packages_package_file_states_pending_verification ON packages_package_file_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
@@ -49516,7 +49551,7 @@ CREATE UNIQUE INDEX uniq_psm_maintenance_tasks_on_psm_id_and_action ON project_s
 
 CREATE UNIQUE INDEX uniq_user_project_member_roles_user_project_shared_with_group ON user_project_member_roles USING btree (user_id, project_id, shared_with_group_id) WHERE (shared_with_group_id IS NOT NULL);
 
-CREATE UNIQUE INDEX unique_activation_metric_user_id_namespace_id_and_metric ON activation_metrics USING btree (user_id, namespace_id, metric);
+CREATE UNIQUE INDEX unique_activation_metric_user_id_namespace_id_and_metric ON activation_metrics USING btree (user_id, namespace_id, metric) NULLS NOT DISTINCT;
 
 CREATE UNIQUE INDEX unique_amazon_s3_configurations_namespace_id_and_bucket_name ON audit_events_amazon_s3_configurations USING btree (namespace_id, bucket_name);
 
@@ -53996,6 +54031,8 @@ CREATE TRIGGER trigger_c5eec113ea76 BEFORE INSERT OR UPDATE ON dast_pre_scan_ver
 
 CREATE TRIGGER trigger_c6728503decb BEFORE INSERT OR UPDATE ON design_user_mentions FOR EACH ROW EXECUTE FUNCTION trigger_c6728503decb();
 
+CREATE TRIGGER trigger_c8bb98475baa BEFORE INSERT OR UPDATE ON packages_package_file_states FOR EACH ROW EXECUTE FUNCTION trigger_c8bb98475baa();
+
 CREATE TRIGGER trigger_c8bc8646bce9 BEFORE INSERT OR UPDATE ON vulnerability_state_transitions FOR EACH ROW EXECUTE FUNCTION trigger_c8bc8646bce9();
 
 CREATE TRIGGER trigger_c9090feed334 BEFORE INSERT OR UPDATE ON boards_epic_lists FOR EACH ROW EXECUTE FUNCTION trigger_c9090feed334();
@@ -56660,6 +56697,9 @@ ALTER TABLE ONLY approval_merge_request_rules
 
 ALTER TABLE ONLY packages_debian_project_component_files
     ADD CONSTRAINT fk_e4ff7d8a8b FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY packages_package_file_states
+    ADD CONSTRAINT fk_e568054097 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY abuse_events
     ADD CONSTRAINT fk_e5ce49c215 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL;

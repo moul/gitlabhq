@@ -39699,6 +39699,7 @@ Defines which user roles, users, or groups can merge into a protected branch.
 | <a id="mergerequest-divergedfromtargetbranch"></a>`divergedFromTargetBranch` | [`Boolean!`](#boolean) | Indicates if the source branch is behind the target branch. |
 | <a id="mergerequest-downvotes"></a>`downvotes` | [`Int!`](#int) | Number of downvotes for the merge request. |
 | <a id="mergerequest-draft"></a>`draft` | [`Boolean!`](#boolean) | Indicates if the merge request is a draft. |
+| <a id="mergerequest-duoworkflows"></a>`duoWorkflows` {{< icon name="warning-solid" >}} | [`DuoWorkflowConnection`](#duoworkflowconnection) | **Introduced** in GitLab 18.10. **Status**: Experiment. Duo Workflow sessions associated with the merge request. |
 | <a id="mergerequest-forceremovesourcebranch"></a>`forceRemoveSourceBranch` | [`Boolean`](#boolean) | Indicates if the project settings will lead to source branch deletion after merge. |
 | <a id="mergerequest-hasci"></a>`hasCi` | [`Boolean!`](#boolean) | Indicates if the merge request has CI. |
 | <a id="mergerequest-hassecurityreports"></a>`hasSecurityReports` | [`Boolean!`](#boolean) | Indicates if the source branch has any security reports. |
@@ -57769,7 +57770,6 @@ Name of the feature that the callout is for.
 | <a id="usercalloutfeaturenameenum-ci_minutes_limit_alert_warning_stage"></a>`CI_MINUTES_LIMIT_ALERT_WARNING_STAGE` | Callout feature name for ci_minutes_limit_alert_warning_stage. |
 | <a id="usercalloutfeaturenameenum-cluster_security_warning"></a>`CLUSTER_SECURITY_WARNING` | Callout feature name for cluster_security_warning. |
 | <a id="usercalloutfeaturenameenum-duo_amazon_q_alert"></a>`DUO_AMAZON_Q_ALERT` | Callout feature name for duo_amazon_q_alert. |
-| <a id="usercalloutfeaturenameenum-duo_chat_callout"></a>`DUO_CHAT_CALLOUT` | Callout feature name for duo_chat_callout. |
 | <a id="usercalloutfeaturenameenum-duo_panel_auto_expanded"></a>`DUO_PANEL_AUTO_EXPANDED` | Callout feature name for duo_panel_auto_expanded. |
 | <a id="usercalloutfeaturenameenum-duo_panel_empty_state_auto_expanded"></a>`DUO_PANEL_EMPTY_STATE_AUTO_EXPANDED` | Callout feature name for duo_panel_empty_state_auto_expanded. |
 | <a id="usercalloutfeaturenameenum-email_otp_enrollment_callout"></a>`EMAIL_OTP_ENROLLMENT_CALLOUT` | Callout feature name for email_otp_enrollment_callout. |

@@ -115,7 +115,7 @@ module TwCodeowners
     CodeOwnerRule.new('Engineering Productivity', '@gl-dx/pipeline-maintainers'),
     CodeOwnerRule.new('Engagement', '@gitlab-org/growth'),
     CodeOwnerRule.new('Gitaly', '@proglottis @toon'),
-    CodeOwnerRule.new('Global Search', '@gitlab-org/search-team/migration-maintainers'),
+    CodeOwnerRule.new('Global Search', '@gitlab-org/search-team/maintainers/advanced-framework'),
     CodeOwnerRule.new('Remote Development',
       '@gitlab-org/maintainers/remote-development/backend @gitlab-org/maintainers/remote-development/frontend'),
     CodeOwnerRule.new('Pipeline Authoring', '@gitlab-org/maintainers/cicd-verify'),

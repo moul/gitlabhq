@@ -10340,9 +10340,6 @@ msgstr ""
 msgid "AsanaService|User personal access token. User must have access to the task. All comments are attributed to this user."
 msgstr ""
 
-msgid "Ask GitLab Duo"
-msgstr ""
-
 msgid "Ask GitLab Duo to help you write descriptions, rewrite existing text and more..."
 msgstr ""
 
@@ -26600,12 +26597,6 @@ msgstr ""
 msgid "DuoAgentsPlatform|You don't have permission to use GitLab Duo Agent Platform in this %{namespaceType}. %{learnMoreLinkStart}Learn more%{learnMoreLinkEnd}."
 msgstr ""
 
-msgid "DuoChat|%{linkStart}Learn how%{linkEnd} to set up Code Suggestions and Chat in your IDE. You can also use Chat in GitLab. Ask questions about:"
-msgstr ""
-
-msgid "DuoChat|AI features are now available"
-msgstr ""
-
 msgid "DuoChat|Agentic"
 msgstr ""
 
@@ -26624,9 +26615,6 @@ msgstr ""
 msgid "DuoChat|Give feedback"
 msgstr ""
 
-msgid "DuoChat|How to use GitLab"
-msgstr ""
-
 msgid "DuoChat|Included references"
 msgstr ""
 
@@ -26637,9 +26625,6 @@ msgid "DuoChat|No results found"
 msgstr ""
 
 msgid "DuoChat|Search %{categoryLabel}…"
-msgstr ""
-
-msgid "DuoChat|The issue, epic, merge request, or code you're viewing"
 msgstr ""
 
 msgid "DuoChat|There was an error communicating with GitLab Duo Chat. Please try again later."
@@ -42110,6 +42095,9 @@ msgid "Maximum project import requests per minute"
 msgstr ""
 
 msgid "Maximum projects allowed in the filter is %{count}"
+msgstr ""
+
+msgid "Maximum projects for legacy search"
 msgstr ""
 
 msgid "Maximum push size"
@@ -61453,9 +61441,6 @@ msgstr ""
 msgid "SecurityConfiguration|Available with Ultimate"
 msgstr ""
 
-msgid "SecurityConfiguration|Available with Ultimate. Enabled by default for all public projects."
-msgstr ""
-
 msgid "SecurityConfiguration|Configuration guide"
 msgstr ""
 
@@ -62943,6 +62928,11 @@ msgstr ""
 
 msgid "SecurityOrchestration|Recommended"
 msgstr ""
+
+msgid "SecurityOrchestration|Recommended (%{count} scanner)"
+msgid_plural "SecurityOrchestration|Recommended (%{count} scanners)"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "SecurityOrchestration|Recommended selection"
 msgstr ""
