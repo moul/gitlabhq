@@ -57,7 +57,6 @@ To configure the provider:
    You should now be able to get a client ID and client secret. Where these
    appear is different for each provider. This may also be called application ID
    and application secret.
-
 1. On your GitLab server, complete the following steps.
 
    {{< tabs >}}

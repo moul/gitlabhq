@@ -66,7 +66,6 @@ you to use.
 1. Select your newly created OAuth consumer, and you should now see a **Key** and
    **Secret** in the list of OAuth consumers. Keep this page open as you continue
    the configuration.
-
 1. On your GitLab server, open the configuration file:
 
    ```shell
@@ -109,7 +108,6 @@ you to use.
 
    Where `<bitbucket_app_key>` is the **Key** and `<bitbucket_app_secret>` the **Secret**
    from the Bitbucket application page.
-
 1. Save the configuration file.
 1. For the changes to take effect, [reconfigure GitLab](../administration/restart_gitlab.md#reconfigure-a-linux-package-installation)
    if you installed using the Linux package, or [restart](../administration/restart_gitlab.md#self-compiled-installations)

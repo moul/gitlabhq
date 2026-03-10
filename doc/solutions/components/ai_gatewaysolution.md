@@ -19,5 +19,5 @@ The document describes the installation package and integration scripts of GitLa
 <!--
 This page has been removed from the Global Navigation as it does not contain any content.
 When the content is added, you can remove `ignore_in_report: true` from the frontmatter
-at the top of the page. Then add it back to the navigation: https://docs.gitlab.com/development/documentation/site_architecture/global_nav/#add-a-navigation-entry
+at the top of the page. Then add it back to the navigation: <https://docs.gitlab.com/development/documentation/site_architecture/global_nav/#add-a-navigation-entry>
 -->

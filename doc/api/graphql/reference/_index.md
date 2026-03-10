@@ -48723,6 +48723,7 @@ A scan profile.
 | <a id="scanprofiletype-id"></a>`id` | [`SecurityScanProfileID`](#securityscanprofileid) | Global ID of the security scan profile. |
 | <a id="scanprofiletype-name"></a>`name` | [`String!`](#string) | Name of the security scan profile. |
 | <a id="scanprofiletype-scantype"></a>`scanType` | [`SecurityScanProfileType!`](#securityscanprofiletype) | Scan profile type. |
+| <a id="scanprofiletype-triggers"></a>`triggers` {{< icon name="warning-solid" >}} | [`[ScanProfileTriggerType!]!`](#scanprofiletriggertype) | **Introduced** in GitLab 18.10. **Status**: Experiment. Trigger types for the scan profile. |
 | <a id="scanprofiletype-updatedat"></a>`updatedAt` | [`ISO8601DateTime!`](#iso8601datetime) | Timestamp of when the scan profile was last updated. |
 
 ### `ScanResultPolicy`
@@ -57136,6 +57137,16 @@ Options for filtering by scan mode.
 | <a id="scanmodeenum-all"></a>`ALL` | Return results from all scans. |
 | <a id="scanmodeenum-full"></a>`FULL` | Return results from full scans. |
 | <a id="scanmodeenum-partial"></a>`PARTIAL` | Return results from partial scans. |
+
+### `ScanProfileTriggerType`
+
+Scan profile trigger type.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="scanprofiletriggertype-default_branch_pipeline"></a>`DEFAULT_BRANCH_PIPELINE` | Default branch pipeline. |
+| <a id="scanprofiletriggertype-git_push_event"></a>`GIT_PUSH_EVENT` | Git push event. |
+| <a id="scanprofiletriggertype-merge_request_pipeline"></a>`MERGE_REQUEST_PIPELINE` | Merge request pipeline. |
 
 ### `ScanStatus`
 

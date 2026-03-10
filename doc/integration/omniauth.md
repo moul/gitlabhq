@@ -112,7 +112,6 @@ To change the OmniAuth settings:
 
      For more details, see the
      [globals documentation](https://docs.gitlab.com/charts/charts/globals/#omniauth).
-
   1. Save the file and apply the new values:
 
      ```shell
@@ -587,7 +586,6 @@ then override the icon in one of two ways:
   1. Depending on your method of installing GitLab, add a custom `icon` parameter
      to your GitLab configuration file. Read [OpenID Connect OmniAuth provider](../administration/auth/oidc.md)
      for an example for the OpenID Connect provider.
-
 - **Embed an image directly in a configuration file**: This example creates a Base64-encoded
   version of your image you can serve through a
   [Data URL](https://developer.mozilla.org/en-US/docs/Web/URI/Schemes/data):

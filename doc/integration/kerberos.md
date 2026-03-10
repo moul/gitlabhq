@@ -89,7 +89,6 @@ sudo chmod 0600 /etc/http.keytab
 
    To avoid GitLab creating users automatically on their first sign in through Kerberos,
    don't set `kerberos` for `gitlab_rails['omniauth_allow_single_sign_on']`.
-
 1. [Reconfigure GitLab](../administration/restart_gitlab.md#reconfigure-a-linux-package-installation) for the changes to take effect.
 
 GitLab now offers the `negotiate` authentication method for signing in and

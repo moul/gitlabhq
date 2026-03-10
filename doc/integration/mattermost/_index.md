@@ -98,7 +98,6 @@ By default, Mattermost uses the Linux package bundled PostgreSQL service. If you
 1. Create a PostgreSQL user matching the `user` value, and `password` value that you have defined in `mattermost['sql_data_source']`.
 1. Create a PostgreSQL database matching the `dbname` value that was used.
 1. Ensure that the `user` has permissions to the database that was created with `dbname`.
-
 1. Reconfigure GitLab and restart Mattermost to apply the changes:
 
    ```shell

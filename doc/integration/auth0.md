@@ -51,7 +51,6 @@ application.
 1. Configure the [common settings](omniauth.md#configure-common-settings)
    to add `auth0` as a single sign-on provider. This enables Just-In-Time
    account provisioning for users who do not have an existing GitLab account.
-
 1. Add the provider configuration:
 
    For Linux package installations:

@@ -1253,7 +1253,6 @@ due to large volumes of data being indexed:
    You can also use the `gitlab:elastic:clear_index_status` Rake task to force the
    indexer to "forget" all progress, so it retries the indexing process from the
    start.
-
 1. Work items, group wikis, personal snippets, and users are not associated with a project and must be indexed separately:
 
    ```shell
@@ -1420,7 +1419,6 @@ To handle these queue groups on two nodes:
 
 1. Save the file and [reconfigure GitLab](../../administration/restart_gitlab.md)
    for the changes to take effect.
-
 1. To set up the non-indexing Sidekiq process, on your non-indexing Sidekiq node, change the `/etc/gitlab/gitlab.rb` file to:
 
    ```ruby

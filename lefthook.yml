@@ -1,3 +1,8 @@
+commit-msg:
+  scripts:
+    'lint_commit_message':
+      runner: bash
+
 pre-push:
   parallel: true
   skip:
@@ -153,6 +158,10 @@ pre-push:
       files: git diff --name-only --diff-filter=d $(git merge-base origin/master HEAD)..HEAD
       glob: '{tests.yml,*.rb,scripts/verify-tff-mapping}'
       run: scripts/verify-tff-mapping
+    commit-message-linting:
+      tags: style
+      files: git diff --name-only $(git merge-base origin/master HEAD)..HEAD
+      run: echo {files} >/dev/null && bundle exec ruby scripts/lint/commit_linter.rb
     secrets-detection:
       tags: secrets
       run: .lefthook/gitleaks.sh pre-push

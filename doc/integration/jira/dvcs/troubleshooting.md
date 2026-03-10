@@ -59,7 +59,6 @@ For more information about setting up Jira, see the Atlassian documentation and 
     also trust public certificate authorities.
   - If the integration stops working after upgrading Jira Java runtime, the
     `cacerts` Truststore may have been replaced during the upgrade.
-
 - Troubleshoot connectivity [up to and including TLS handshaking](https://confluence.atlassian.com/kb/unable-to-connect-to-ssl-services-due-to-pkix-path-building-failed-error-779355358.html),
   using the `SSLPoke` Java class.
 - Download the class from the Atlassian knowledge base to a directory on Jira Server, such as `/tmp`.

@@ -399,7 +399,6 @@ To set the number of concurrent indexing tasks:
 
    For example, if a Zoekt node has `4` CPU cores and the multiplier is `1.5`,
    the number of concurrent tasks for the node is `6`.
-
 1. Select **Save changes**.
 
 ## Define the probability of random force reindexing

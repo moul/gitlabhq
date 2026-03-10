@@ -93,7 +93,6 @@ To verify that your GitLab instance is using Elasticsearch:
 
 - When you perform a search, in the upper-right corner of the search results page,
   ensure **Advanced search is enabled** is displayed.
-
 - In the **Admin** area, under **Settings** > **Search**, check that the
   advanced search settings are selected.
 
@@ -119,7 +118,6 @@ To verify that your GitLab instance is using Elasticsearch:
 
   - `ActiveRecord::Relation`, **it is not** using Elasticsearch.
   - `Kaminari::PaginatableArray`, **it is** using Elasticsearch.
-
 - If Elasticsearch is limited to specific namespaces and you need to know if
   Elasticsearch is being used for a specific project or namespace, you can use
   the Rails console:

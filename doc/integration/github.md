@@ -44,7 +44,6 @@ your website could enable the covert redirect attack.
 1. Configure the [common settings](omniauth.md#configure-common-settings)
    to add `github` as a single sign-on provider. This enables Just-In-Time
    account provisioning for users who do not have an existing GitLab account.
-
 1. Edit the GitLab configuration file using the following information:
 
    | GitHub setting | Value in the GitLab configuration file | Description             |
@@ -121,7 +120,6 @@ your website could enable the covert redirect attack.
 
 1. Refresh the GitLab sign-in page. A GitHub icon should display below the
    sign-in form.
-
 1. Select the icon. Sign in to GitHub and authorize the GitLab application.
 
 ## Troubleshooting

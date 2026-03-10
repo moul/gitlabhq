@@ -26,7 +26,7 @@ You can use [OmniAuth::OpenIDConnect](https://github.com/omniauth/omniauth_openi
 applications and there are many other available [client implementations](https://openid.net/developers/certified-openid-connect-implementations/).
 
 GitLab uses the `doorkeeper-openid_connect` gem to provide OIDC service. For more information, see
-the [doorkeeper-openid_connect repository](https://github.com/doorkeeper-gem/doorkeeper-openid_connect "Doorkeeper::OpenidConnect repository").
+the [`doorkeeper-openid_connect` repository](https://github.com/doorkeeper-gem/doorkeeper-openid_connect "Doorkeeper::OpenidConnect repository").
 
 ## Enable OIDC for OAuth applications
 

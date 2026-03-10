@@ -26183,6 +26183,9 @@ msgstr ""
 msgid "DuoAgentPlatform|Job ID"
 msgstr ""
 
+msgid "DuoAgentPlatform|No GitLab Credits remain for this billing period. %{linkStart}Learn more.%{linkEnd}"
+msgstr ""
+
 msgid "DuoAgentPlatform|Remote GitLab Duo Flows"
 msgstr ""
 
@@ -60309,7 +60312,7 @@ msgstr ""
 msgid "ScanResultPolicy|denylist (%{licenseCount} %{licenses})"
 msgstr ""
 
-msgid "ScanResultPolicy|greater than or equal to"
+msgid "ScanResultPolicy|greater than"
 msgstr ""
 
 msgid "ScanResultPolicy|input source branch"
@@ -60318,7 +60321,7 @@ msgstr ""
 msgid "ScanResultPolicy|input target branch"
 msgstr ""
 
-msgid "ScanResultPolicy|less than or equal to"
+msgid "ScanResultPolicy|less than"
 msgstr ""
 
 msgid "ScanResultPolicy|license status"
@@ -62895,6 +62898,9 @@ msgstr ""
 msgid "SecurityOrchestration|Reason for snoozing policy (optional)"
 msgstr ""
 
+msgid "SecurityOrchestration|Recommended"
+msgstr ""
+
 msgid "SecurityOrchestration|Recommended selection"
 msgstr ""
 
@@ -63790,9 +63796,6 @@ msgid "SecurityOrchestration|without group exceptions"
 msgstr ""
 
 msgid "SecurityOrchestration|without project exceptions"
-msgstr ""
-
-msgid "SecurityOrchestration|★ Recommended"
 msgstr ""
 
 msgid "SecurityPolicies|Invalid or empty policy"

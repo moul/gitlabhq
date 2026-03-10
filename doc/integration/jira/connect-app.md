@@ -101,7 +101,6 @@ To configure the GitLab for Jira Cloud app:
 <!-- markdownlint-disable MD044 -->
 
 1. In Jira, select the horizontal ellipsis ({{< icon name="ellipsis_h" >}}) beside **Apps** and select **Manage your apps**.
-
 1. Navigate to the app using one of these methods:
 
    - For instances with centralized app management:
@@ -131,7 +130,6 @@ To configure the GitLab for Jira Cloud app:
    GitLab requires you to sign in to link groups, but does not tie the configuration to a
    specific user. The GitLab instance receives a token from Jira that is used to update information in Jira.
    For more information, see [GitLab access to Jira](#gitlab-access-to-jira).
-
 1. Select **Authorize**. A list of groups is now visible.
 1. Select **Link groups**.
 1. To link to a group, select **Link**.
@@ -239,7 +237,6 @@ To enable deployment gating:
      You can enter multiple environment names separated by commas (for example, `production, staging, testing, development`).
      Use lowercase letters only.
   1. Select **Save changes**.
-
 - In Jira Service Management:
 
   1. [Set up deployment gating](https://support.atlassian.com/jira-service-management-cloud/docs/set-up-deployment-gating/).
