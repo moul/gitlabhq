@@ -104,7 +104,9 @@ To create an agent:
    select which tools the agent can access.
    For example, for the agent to create issues automatically, select **Create issue**.
 
-   For more information, see the list of [agent tools](tools.md).
+   > [!note]
+   > Some tools require the IDE extension and are not available in Web UI.
+   > For more information, see the list of [agent tools](tools.md). 
 1. Select **Create agent**.
 
 {{< /tab >}}

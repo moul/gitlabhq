@@ -285,6 +285,42 @@ Most updates to the app are automatic. For more information, see the
 
 If the app requires additional permissions, [you must manually approve the update in Jira](https://developer.atlassian.com/platform/marketplace/upgrading-and-versioning-cloud-apps/#changes-that-require-manual-customer-approval).
 
+## Migration from Atlassian Connect to Forge
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/592890) in GitLab 18.10.
+
+{{< /history >}}
+
+The GitLab for Jira Cloud app has been migrated from
+[Atlassian Connect](https://developer.atlassian.com/cloud/jira/platform/getting-started-with-connect/)
+to [Atlassian Forge](https://developer.atlassian.com/platform/forge/).
+This change follows the
+[end-of-support announcement for Connect apps](https://www.atlassian.com/blog/developer/announcing-connect-end-of-support-timeline-and-next-steps) by Atlassian.
+
+All existing features continue to work, including:
+
+- Syncing branches, commits, merge requests, pipelines, deployments, and
+  feature flags to the Jira development panel.
+- Creating GitLab branches from Jira issues.
+- Using Smart Commits for time tracking and issue transitions.
+- Supporting both GitLab.com and GitLab Self-Managed instances.
+
+If you installed the GitLab for Jira Cloud app from the
+[Atlassian Marketplace](https://marketplace.atlassian.com/apps/1221011/gitlab-com-for-jira-cloud):
+
+- The Forge version appears as a
+  [major upgrade](https://developer.atlassian.com/platform/marketplace/upgrading-and-versioning-cloud-apps/#changes-that-require-manual-customer-approval)
+  of the existing app.
+- A Jira administrator must approve the upgrade.
+- All previously synced development data is preserved automatically.
+  The Forge app uses the same app identifier, so you do not have to migrate any data.
+- You do not have to change your GitLab configuration.
+
+For more information about the transition from Connect to Forge, see
+[the Atlassian guide on how to adopt Forge](https://developer.atlassian.com/platform/adopting-forge-from-connect/how-to-adopt/).
+
 ## Security considerations
 
 The GitLab for Jira Cloud app connects GitLab and Jira. Data must be shared between the two applications, and access must be granted in both directions.

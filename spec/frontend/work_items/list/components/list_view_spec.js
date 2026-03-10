@@ -2907,6 +2907,93 @@ describe('when service desk list', () => {
     });
   });
 
+  describe('document title with saved views', () => {
+    it('includes saved view name when on a saved view', async () => {
+      mountComponent({ workItemPlanningView: true });
+      await waitForPromises();
+
+      await router.push({ name: 'savedView', params: { type: 'work_items', view_id: '3' } });
+      await waitForPromises();
+
+      expect(document.title).toBe('Current sprint 3 · Work items · Test · GitLab');
+    });
+
+    it('renders generic "Work items" title when not on a saved view', async () => {
+      mountComponent({ workItemPlanningView: true });
+      await waitForPromises();
+
+      expect(document.title).toBe('Work items · Test · GitLab');
+    });
+
+    it('updates document title when switching between saved views', async () => {
+      const viewAName = 'View A';
+      const viewBName = 'View B';
+
+      const viewASavedView = [
+        {
+          ...singleSavedView[0],
+          id: 'gid://gitlab/WorkItems::SavedViews::SavedView/3',
+          name: viewAName,
+        },
+      ];
+      const viewBSavedView = [
+        {
+          ...singleSavedView[0],
+          id: 'gid://gitlab/WorkItems::SavedViews::SavedView/4',
+          name: viewBName,
+        },
+      ];
+
+      const savedViewHandler = jest.fn().mockImplementation(({ id }) => {
+        if (id === 'gid://gitlab/WorkItems::SavedViews::SavedView/3') {
+          return Promise.resolve(savedViewResponseFactory({ savedViews: viewASavedView }));
+        }
+        return Promise.resolve(savedViewResponseFactory({ savedViews: viewBSavedView }));
+      });
+
+      mountComponent({
+        workItemPlanningView: true,
+        savedViewHandler,
+      });
+      await waitForPromises();
+
+      await router.push({ name: 'savedView', params: { type: 'work_items', view_id: '3' } });
+      await waitForPromises();
+
+      expect(document.title).toContain(viewAName);
+
+      await router.push({ name: 'savedView', params: { type: 'work_items', view_id: '4' } });
+      await waitForPromises();
+
+      expect(document.title).toContain(viewBName);
+      expect(document.title).not.toContain(viewAName);
+    });
+
+    it('trims whitespace from saved view name in document title', async () => {
+      const savedViewHandler = jest.fn().mockResolvedValue(
+        savedViewResponseFactory({
+          savedViews: [
+            {
+              ...singleSavedView[0],
+              name: '   ',
+            },
+          ],
+        }),
+      );
+
+      mountComponent({
+        workItemPlanningView: true,
+        savedViewHandler,
+      });
+      await waitForPromises();
+
+      await router.push({ name: 'savedView', params: { type: 'work_items', view_id: '3' } });
+      await waitForPromises();
+
+      expect(document.title).toBe('Work items · Test · GitLab');
+    });
+  });
+
   describe('work item features field feature flag', () => {
     describe('when the feature flag is off', () => {
       it('does not pass features variable to the query', async () => {

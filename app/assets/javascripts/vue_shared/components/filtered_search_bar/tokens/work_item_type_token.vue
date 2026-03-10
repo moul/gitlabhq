@@ -59,6 +59,7 @@ export default {
             this.workItemTypes = rawTypes.map((type) => ({
               value: type.name.toUpperCase().replace(/\s+/g, '_'), // 'Key Results' -> 'KEY_RESULTS'
               title: type.name,
+              iconName: type.iconName,
             }));
           }
         })
@@ -118,6 +119,7 @@ export default {
           />
           <work-item-type-icon
             :work-item-type="type.title"
+            :type-icon-name="type.iconName"
             :show-text="true"
             class="gl-whitespace-nowrap"
           />

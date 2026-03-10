@@ -173,6 +173,11 @@ export default {
       required: false,
       default: TYPE_ISSUE,
     },
+    workItemTypeIconName: {
+      type: String,
+      required: false,
+      default: '',
+    },
     lockVersion: {
       type: Number,
       required: false,
@@ -592,6 +597,7 @@ export default {
           :moved-to-issue-url="movedToIssueUrl"
           :promoted-to-epic-url="promotedToEpicUrl"
           :service-desk-reply-to="serviceDeskReplyTo"
+          :work-item-type-icon-name="workItemTypeIconName"
         />
       </slot>
 

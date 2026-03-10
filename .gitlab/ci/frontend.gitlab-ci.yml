@@ -48,6 +48,7 @@ compile-production-assets:
     GLCI_BUILD_ASSETS_IMAGE: "true"
     GLCI_ASSETS_TAG_ENV_FILE_PATH: "assets-tag-env.env"
     ARCH: linux/amd64,linux/arm64
+    HEALTHCHECK_TCP_PORT: "2375"
   before_script:
     - !reference [.compile-assets-base, before_script]
     - !reference [.buildx-setup, before_script]

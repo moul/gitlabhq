@@ -135,6 +135,9 @@ export default {
     workItemType() {
       return this.issuable.workItemType?.name;
     },
+    workItemTypeIconName() {
+      return this.issuable.workItemType?.iconName;
+    },
     workItemFullPath() {
       return (
         this.issuable.namespace?.fullPath || this.issuable.reference?.split(this.issuableSymbol)[0]
@@ -428,6 +431,7 @@ export default {
           v-if="showWorkItemTypeIcon"
           class="gl-mr-2"
           :work-item-type="type"
+          :type-icon-name="workItemTypeIconName"
           show-tooltip-on-hover
           icon-variant="subtle"
         />

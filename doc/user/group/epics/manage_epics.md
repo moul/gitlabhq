@@ -861,7 +861,8 @@ Prerequisites:
 
 To view child epics from the parent:
 
-- In an epic, in the **Child items** section, select **Roadmap view**.
+- In the **Child items** section header, select **Display options** ({{< icon name="preferences" >}}) >
+  **View on a roadmap**.
 
 ### Add a child epic to an epic
 

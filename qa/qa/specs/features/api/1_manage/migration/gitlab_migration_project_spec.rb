@@ -67,6 +67,9 @@ module QA
           source_project.repository_branches.tap do |branches|
             branches.each do |b|
               b.delete(:web_url)
+              # Exclude protected field as it reflects project-level branch protection rules
+              # which may legitimately differ between source and imported projects
+              b.delete(:protected)
               b[:commit].delete(:web_url)
             end
           end
@@ -83,6 +86,9 @@ module QA
           imported_project.repository_branches.tap do |branches|
             branches.each do |b|
               b.delete(:web_url)
+              # Exclude protected field as it reflects project-level branch protection rules
+              # which may legitimately differ between source and imported projects
+              b.delete(:protected)
               b[:commit].delete(:web_url)
             end
           end

@@ -78,19 +78,6 @@ You can add issues from a different group hierarchy to an epic.
 To do it, paste the issue URL when
 [adding an existing issue](manage_epics.md#add-an-existing-issue-to-an-epic).
 
-## Roadmap in epics
-
-{{< details >}}
-
-- Tier: Ultimate
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
-
-On the **Child items** section header, select **More actions** ({{< icon name="ellipsis_v" >}}) > **View on a roadmap**.
-
-A roadmap filtered for the parent epic opens.
-
 ## Epics as work items
 
 {{< history >}}

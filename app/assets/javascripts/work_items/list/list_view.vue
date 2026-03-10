@@ -306,6 +306,7 @@ export default {
       initialLoadWasFiltered: false,
       showLocalBoard: false,
       namespaceId: null,
+      namespaceName: null,
       displaySettings: {},
       localDisplaySettings: {},
       initialViewDisplaySettings: {},
@@ -507,6 +508,8 @@ export default {
                 namespacePreferences: savedView.displaySettings,
               };
             }
+
+            this.updateDocumentTitle();
           }
         } catch (error) {
           Sentry.captureException(error);
@@ -1288,7 +1291,9 @@ export default {
       this.pageInfo = listData?.namespace?.workItems.pageInfo ?? {};
 
       if (listData?.namespace) {
+        this.namespaceName = listData.namespace.name;
         document.title = this.calculateDocumentTitle(listData);
+        this.updateDocumentTitle();
       }
       if (!this.withTabs) {
         this.isInitialLoadComplete = true;
@@ -1308,13 +1313,23 @@ export default {
         this.activeItem = item;
       }
     },
+    updateDocumentTitle() {
+      if (this.isSavedView && this.savedView?.name && this.namespaceName) {
+        document.title = this.calculateDocumentTitle({ namespace: { name: this.namespaceName } });
+      }
+    },
     calculateDocumentTitle(data) {
       const middleCrumb = data.namespace.name;
       if (this.isServiceDeskList) {
         return `${__('Service Desk')} · ${middleCrumb} · GitLab`;
       }
       if (this.isPlanningViewsEnabled) {
-        return `${s__('WorkItem|Work items')} · ${middleCrumb} · GitLab`;
+        const savedViewName =
+          this.isSavedView && this.savedView?.name?.trim() ? this.savedView.name.trim() : '';
+        const prefix = savedViewName
+          ? `${savedViewName} · ${s__('WorkItem|Work items')}`
+          : s__('WorkItem|Work items');
+        return `${prefix} · ${middleCrumb} · GitLab`;
       }
       if (this.isGroup && this.isEpicsList) {
         return `${__('Epics')} · ${middleCrumb} · GitLab`;

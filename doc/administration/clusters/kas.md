@@ -293,6 +293,67 @@ Key configuration points:
 1. For example, `wss://kas.gitlab.example.com/`.
 1. For example, `wss://gitlab.example.com/-/kubernetes-agent/`.
 
+#### Configure a standalone KAS node
+
+Configure Omnibus to run KAS separately from other components.
+
+On each Rails node:
+
+```ruby
+## KAS Config
+gitlab_kas['enable'] = false
+
+gitlab_rails['gitlab_kas_enabled'] = true
+gitlab_rails['gitlab_kas_external_url'] = 'wss://kas.example.com/-/kubernetes-agent/'
+gitlab_rails['gitlab_kas_internal_url'] = 'grpc://<KAS_NODE_IP_OR_DOMAIN>:8153' # If you want to configure multiple KAS nodes that are behind an internal LB, then use 'grpc://<LB_IP_OR_DOMAIN>:<port>'
+gitlab_rails['gitlab_kas_external_k8s_proxy_url'] = 'https://kas.example.com/-/kubernetes-agent/k8s-proxy/'
+```
+
+On each KAS node:
+
+```ruby
+### External URL
+external_url 'https://kas.example.com'
+
+### Avoid running unnecessary services ###
+gitaly['enable'] = false
+gitlab_workhorse['enable'] = false
+nginx['enable'] = true
+postgresql['enable'] = false
+prometheus['enable'] = false
+puma['enable'] = false
+redis['enable'] = false
+sidekiq['enable'] = false
+
+### Prevent database connections during 'gitlab-ctl reconfigure' ###
+gitlab_rails['rake_cache_clear'] = false
+gitlab_rails['auto_migrate'] = false
+
+gitlab_kas['redis_password'] = '<redis_password>'
+
+# Uncomment below if using Redis high availability with Sentinel
+# gitlab_kas['redis_sentinels'] = [
+#  {host: '<REDIS_IP>', port: 26379},
+#  {host: '<REDIS_IP>', port: 26379},
+#  {host: '<REDIS_IP>', port: 26379},
+# ]
+# gitlab_kas['redis_sentinels_master_name'] = 'gitlab-redis'
+# gitlab_kas['redis_sentinels_password'] = '<redis_sentinels_password>'
+
+### Kubernetes Agent Service ###
+gitlab_kas['enable'] = true
+gitlab_kas_external_url 'wss://kas.example.com/-/kubernetes-agent/'
+gitlab_kas['api_secret_key'] = '<32_bytes_long_base64_encoded_value>'
+gitlab_kas['private_api_secret_key'] = '<32_bytes_long_base64_encoded_value>'
+gitlab_kas['private_api_listen_address'] = '<KAS_NODE_PRIVATE_IP>:8155'
+
+gitlab_kas['listen_address'] = '<KAS_NODE_PRIVATE_IP>:8150'
+gitlab_kas['observability_listen_address'] = '<KAS_NODE_PRIVATE_IP>:8151'
+gitlab_kas['internal_api_listen_address'] = '<KAS_NODE_PRIVATE_IP>:8153'
+gitlab_kas['kubernetes_api_listen_address'] = '<KAS_NODE_PRIVATE_IP>:8154'
+
+```
+
 ### For GitLab Helm Chart
 
 See [how to use the GitLab-KAS chart](https://docs.gitlab.com/charts/charts/gitlab/kas/).

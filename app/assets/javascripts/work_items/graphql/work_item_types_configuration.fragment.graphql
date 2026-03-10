@@ -5,6 +5,7 @@ fragment WorkItemTypesConfiguration on WorkItemType {
   enabled
   canPromoteToObjective
   canUserCreateItems
+  iconName
   isConfigurable
   isGroupWorkItemType
   isIncidentManagement

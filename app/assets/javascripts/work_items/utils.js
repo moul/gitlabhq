@@ -11,7 +11,6 @@ import Tracking from '~/tracking';
 import {
   DEFAULT_PAGE_SIZE_CHILD_ITEMS,
   NAME_TO_ENUM_MAP,
-  NAME_TO_ICON_MAP,
   NAME_TO_ROUTE_MAP,
   NEW_WORK_ITEM_GID,
   STATE_CLOSED,
@@ -159,7 +158,7 @@ export const getDefaultHierarchyChildrenCount = () => {
 export const formatAncestors = (workItem) =>
   findHierarchyWidgetAncestors(workItem).map((ancestor) => ({
     ...ancestor,
-    icon: NAME_TO_ICON_MAP[ancestor.workItemType?.name],
+    icon: ancestor.workItemType?.iconName,
     href: ancestor.webUrl,
   }));
 

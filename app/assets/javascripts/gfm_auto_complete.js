@@ -16,7 +16,7 @@ import {
   appliedLabels,
   linkedItems,
 } from '~/graphql_shared/issuable_client';
-import { ISSUABLE_EPIC, NAME_TO_ICON_MAP, WORK_ITEM_TYPE_NAME_EPIC } from '~/work_items/constants';
+import { ISSUABLE_EPIC } from '~/work_items/constants';
 import { InternalEvents } from '~/tracking';
 import {
   prioritizeCommandsWithFrequent,
@@ -1536,8 +1536,7 @@ GfmAutoComplete.Issues = {
     return value.reference || '#${id}';
   },
   templateFunction({ id, title, reference, iconName }) {
-    const mappedIconName =
-      iconName === ISSUABLE_EPIC ? NAME_TO_ICON_MAP[WORK_ITEM_TYPE_NAME_EPIC] : iconName;
+    const mappedIconName = iconName === ISSUABLE_EPIC ? 'work-item-epic' : iconName;
     const icon = mappedIconName
       ? spriteIcon(mappedIconName, 'gl-fill-icon-subtle s16 gl-mr-2')
       : '';

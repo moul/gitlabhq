@@ -134,6 +134,9 @@ export default {
     childItemType() {
       return this.childItem.workItemType.name;
     },
+    childItemTypeIconName() {
+      return this.childItem.workItemType.iconName;
+    },
     childItemIid() {
       return this.childItem.iid;
     },
@@ -243,6 +246,7 @@ export default {
       <work-item-type-icon
         :icon-variant="childItemTypeIconVariant"
         :work-item-type="childItemType"
+        :type-icon-name="childItemTypeIconName"
       />
       <gl-tooltip :target="() => $refs.stateIcon">
         {{ childItemType }}

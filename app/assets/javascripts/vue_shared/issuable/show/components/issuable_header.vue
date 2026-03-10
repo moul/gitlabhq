@@ -114,6 +114,11 @@ export default {
       required: false,
       default: '',
     },
+    typeIconName: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   data() {
     return {
@@ -210,6 +215,7 @@ export default {
         :id="$options.iconId"
         show-text
         :work-item-type="issuableType"
+        :type-icon-name="typeIconName"
         icon-class="gl-fill-icon-subtle"
       />
       <gl-popover

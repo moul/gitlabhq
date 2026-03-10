@@ -176,6 +176,9 @@ export default {
     workItemType() {
       return this.isEpicBoard ? WORK_ITEM_TYPE_NAME_EPIC : this.item.type;
     },
+    workItemTypeIconName() {
+      return this.item.workItemType?.iconName;
+    },
     workItemFullPath() {
       return this.item.namespace?.fullPath || this.item.referencePath?.split(this.itemPrefix)[0];
     },
@@ -329,6 +332,7 @@ export default {
               v-if="showWorkItemTypeIcon"
               :aria-label="createIssueNumberAriaLabel()"
               :work-item-type="item.type"
+              :type-icon-name="workItemTypeIconName"
               class="gl-text-subtle"
               icon-class="gl-flex-shrink-0 gl-fill-icon-subtle"
               variant="subtle"
