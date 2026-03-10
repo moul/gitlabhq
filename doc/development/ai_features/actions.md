@@ -412,10 +412,8 @@ Prompt versions should adjust to [Semantic Versioning](https://semver.org/) stan
 - A change in the MAJOR component reflects changes will break with older versions of GitLab. For example, when the new
   prompt must receive a new property that doesn't have a default, since if this change were applied to all GitLab versions,
   requests made from older versions will throw an error since that property is not present.
-
 - A change in the MINOR component reflects feature additions, but that are still backwards compatible. For example,
   suppose we want to use a new more powerful model: requests of older versions of GitLab will still work.
-
 - A change in the PATCH component reflects small bug fixes to prompts, like a typo.
 
 The MAJOR component guarantees that older versions of GitLab will not break once a new change is added, without blocking

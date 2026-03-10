@@ -1391,7 +1391,7 @@ A snapshot is purely a stringified version of what you ask to be tested on the l
 
 Should the outcome of your spec be different from what is in the generated snapshot file, you'll be notified about it by a failing test in your test suite.
 
-Find all the details in Jests official documentation [https://jestjs.io/docs/snapshot-testing](https://jestjs.io/docs/snapshot-testing)
+Find all the details in Jests official documentation <https://jestjs.io/docs/snapshot-testing>
 
 ### Pros and Cons
 
@@ -1692,7 +1692,6 @@ To use Firefox, instead of Chrome, prefix the command with `WEBDRIVER=firefox`.
    ```
 
    This is in every `Ruby` file and makes all string literals unchangeable. There are also some performance benefits, but this is beyond the scope of this section.
-
 1. Import dependencies.
 
    You should import the modules you need. You will most likely always need to require `spec_helper`:
@@ -1702,7 +1701,6 @@ To use Firefox, instead of Chrome, prefix the command with `WEBDRIVER=firefox`.
    ```
 
    Import any other relevant module.
-
 1. Create a global scope for RSpec to define our tests, just like what we do in jest with the initial describe block.
 
 Then, you need to create the very first `RSpec` scope.

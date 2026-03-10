@@ -1,7 +1,7 @@
 ---
 stage: Database Excellence
 group: Database Frameworks
-info: 'See the Technical Writers assigned to Development Guidelines: https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments-to-development-guidelines'
+info: Any user with at least the Maintainer role can merge updates to this content. For details, see <https://docs.gitlab.com/development/development_processes/#development-guidelines-review>.
 title: Background operations
 ---
 

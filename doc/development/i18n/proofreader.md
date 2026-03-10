@@ -135,7 +135,6 @@ translations to the GitLab project.
    Proofreaders play an important role helping new contributors, and ensuring the consistency and
    quality of translations. Your conduct and contributions as a translator should reflect this
    before requesting to be a proofreader.
-
 1. Request proofreader permissions by opening a merge request to add yourself to the list of
    proofreaders.
 
@@ -148,7 +147,6 @@ translations to the GitLab project.
    - Link to your Crowdin profile
 
    In the merge request description, include links to any projects you have previously translated.
-
 1. [GitLab team members](https://about.gitlab.com/company/team/),
    [core team members](https://about.gitlab.com/community/core-team/),
    [globalization and localization team members](https://handbook.gitlab.com/handbook/marketing/localization/),

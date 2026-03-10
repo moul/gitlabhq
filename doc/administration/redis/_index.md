@@ -63,6 +63,12 @@ replica and sentinel).
 
 For more information, see [Redis replication and failover with the Linux package](replication_and_failover.md).
 
+### Secure Redis and Sentinel with TLS
+
+Secure Redis and Sentinel communication using TLS (Transport
+Layer Security). For detailed instructions on enabling standard TLS and
+mutual TLS (mTLS), see [securing Redis and Sentinel with TLS](tls.md).
+
 ## Redis replication and failover using the non-bundled Redis
 
 This setup is for when you have either a [Linux package](https://about.gitlab.com/install/) installation or a

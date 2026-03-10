@@ -89,7 +89,6 @@ Implementation approaches:
 
 - **For experimental/free features**: If the feature has free access, this usually means that the experimental features are subject to the [Testing Agreement](https://handbook.gitlab.com/handbook/legal/testing-agreement/).
   - For GitLab Duo features, the customer needs to enable [experimental toggle](../../user/gitlab_duo/turn_on_off.md#turn-on-beta-and-experimental-features) in order to use experimental features for free.
-
 - **For paid features on GitLab.com and GitLab Self-Managed**: Check if the user is entitled to use the feature before making the backend request.
 
 ```ruby

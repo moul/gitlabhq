@@ -95,13 +95,10 @@ When implementing granular PAT authorization, name permissions based on what the
 - **List and Show operations**: Use a single `read_resource` permission for both
   - `GET /projects/:id/jobs` → `read_job`
   - `GET /projects/:id/jobs/:job_id` → `read_job`
-
 - **Nested resources**: Include the parent resource in the permission name
   - `POST /projects/:id/pipeline_schedules/:pipeline_schedule_id/variables` → `create_pipeline_schedule_variable`
-
 - **Special actions**: Create specific permissions for unique operations
   - Cancel, retry, download, trigger, etc. each get their own permission
-
 - **Attribute updates**: Use a single update permission covering all attributes
   - `update_issue` covers updating title, description, assignees, etc.
   - Do not create `update_issue_description`, `update_issue_title`
@@ -285,13 +282,10 @@ The `boundaries` field specifies which organizational levels support this assign
 
 - `instance` - Permissions applicable at the GitLab instance level (admin-only operations like viewing audit logs, managing system settings)
   - **Use sparingly** — typically only for admin-facing permissions
-
 - `group` - Permissions applicable to groups and group-level resources (manage group members, group settings, group-owned projects)
   - Include this if your raw permissions work on group endpoints like `/groups/:id/...`
-
 - `project` - Permissions applicable to projects and project-level resources (manage issues, create pipelines, update repository settings)
   - Include this if your raw permissions work on project endpoints like `/projects/:id/...`
-
 - `user` - Permissions applicable to user-level resources (personal profile, personal settings, user-owned resources)
   - Include this if your raw permissions work on user endpoints like `/users/:id/...` or personal namespace operations
 

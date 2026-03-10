@@ -19,7 +19,6 @@ more flexibility for complex cases.
 
 1. Create your agent on the [AI Catalog](https://gitlab.com/explore/ai-catalog/agents/), and note its ID. Make sure the agent is set to
    public. Example: [Planner Agent](https://gitlab.com/explore/ai-catalog/agents/348/) has ID 348.
-
 1. Agents created on the AI Catalog need to be bundled into GitLab Duo Workflow Service, so they can be available to self-hosted
    setups that do not have access to our SaaS. To achieve this, open an MR to GitLab Duo Workflow Service adding the ID of the
    agent:
@@ -31,7 +30,6 @@ more flexibility for complex cases.
    ```
 
    The command above can also be executed locally for testing purposes. Agent reference must be lowercase without spaces (example: 'test_agent').
-
 1. To make the agent be selectable, add it to the [`FoundationalChatAgentsDefinitions.rb`](https://gitlab.com/gitlab-org/gitlab/blob/master/ee/lib/ai/foundational_chat_agents_definitions.rb).
    Use the reference used in the Dockerfile:
 

@@ -81,7 +81,6 @@ component can have two indicators:
   **10 seconds** for high-urgency jobs and **5 minutes** for other jobs.
 
   Some stage groups might have more services. The thresholds for them are also in the metrics catalog.
-
 - Error rate: The rate of operations that had errors.
 
 The calculation of the ratio happens as follows:

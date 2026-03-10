@@ -32,7 +32,6 @@ It's recommended to create two separate migration script files.
 
    Plan limits entries set to `0` mean that limits are not enabled. You should
    use this setting only in special and documented circumstances.
-
 1. (Optionally) Create the database migration that fine-tunes each level with a
    desired limit using the `create_or_update_plan_limit` migration helper.
    The plans in this migration should match the [plans on GitLab.com](#subscription-plans).

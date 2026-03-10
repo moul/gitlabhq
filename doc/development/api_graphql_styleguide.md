@@ -2625,7 +2625,6 @@ end
 
 - Become familiar with the methods in the `GraphqlHelpers` support module.
   Many of these methods make writing GraphQL tests easier.
-
 - Use traversal helpers like `GraphqlHelpers#graphql_data_at` and
   `GraphqlHelpers#graphql_dig_at` to access result fields. For example:
 

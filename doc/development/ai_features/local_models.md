@@ -32,7 +32,7 @@ Once installed, pull the model with `ollama pull mistral:instruct` in your termi
 
 If the model was successfully pulled, give it a run with `ollama run mistral:instruct`. Exit the process once you've tested the model.
 
-Now you can use the Ollama server. Visit [`http://localhost:11434/`](http://localhost:11434/); you should see `Ollama is running`. This means your server is already running. If that's not the case, you can run `ollama serve` in your terminal. Use `brew services start ollama` if you installed it with Homebrew.
+Now you can use the Ollama server. Visit <http://localhost:11434/>; you should see `Ollama is running`. This means your server is already running. If that's not the case, you can run `ollama serve` in your terminal. Use `brew services start ollama` if you installed it with Homebrew.
 
 The Ollama serving framework has an OpenAI-compatible API. See the [API reference](https://github.com/ollama/ollama/blob/main/docs/api.md).
 Here is a simple example you can try:

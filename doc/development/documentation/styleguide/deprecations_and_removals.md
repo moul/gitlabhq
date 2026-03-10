@@ -54,7 +54,6 @@ To deprecate a page or topic:
 
    If you're not sure when the feature will be removed or no
    replacement feature exists, you don't need to add this information.
-
 1. If the deprecation is a [breaking change](../../../update/terminology.md#breaking-change), add this text:
 
    ```markdown
@@ -62,7 +61,6 @@ To deprecate a page or topic:
    ```
 
    You can add any additional context-specific details that might help users.
-
 1. Add the following HTML comments above and below the content. For `remove_date`,
    set a date three months after the [release where it will be removed](https://about.gitlab.com/releases/).
 

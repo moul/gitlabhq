@@ -216,7 +216,6 @@ projects with:
   Integration tests are costly and should be testing inter-component
   operational issues. Isolated component testing reduces mean time to
   feedback on updates and decreases resource burn across the organization.
-
 - Components should have end-to-end test coverage in the GitLab Performance Test tool.
 - Integration validation through installation of fresh packages **_and_** upgrade from previous versions for:
   - Single GitLab Node

@@ -472,30 +472,25 @@ guide on how you can add a new custom validator.
   `File::Separator` or not, and whether the path is absolute, for example
   `/etc/passwd/`. By default, absolute paths are not allowed. However, you can optionally pass in an allowlist for allowed absolute paths in the following way:
   `requires :file_path, type: String, file_path: { allowlist: ['/foo/bar/', '/home/foo/', '/app/home'] }`
-
 - `Git SHA`:
 
   The [`Git SHA` validator](https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/api/validations/validators/git_sha.rb)
   checks whether the Git SHA parameter is a valid SHA.
   It checks by using the regex mentioned in [`commit.rb`](https://gitlab.com/gitlab-org/gitlab/-/commit/b9857d8b662a2dbbf54f46ecdcecb44702affe55#d1c10892daedb4d4dd3d4b12b6d071091eea83df_30_30) file.
-
 - `Absence`:
 
   The [`Absence` validator](https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/api/validations/validators/absence.rb)
   checks whether a particular parameter is absent in a given parameters hash.
-
 - `IntegerNoneAny`:
 
   The [`IntegerNoneAny` validator](https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/api/validations/validators/integer_none_any.rb)
   checks if the value of the given parameter is either an `Integer`, `None`, or `Any`.
   It allows only either of these mentioned values to move forward in the request.
-
 - `ArrayNoneAny`:
 
   The [`ArrayNoneAny` validator](https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/api/validations/validators/array_none_any.rb)
   checks if the value of the given parameter is either an `Array`, `None`, or `Any`.
   It allows only either of these mentioned values to move forward in the request.
-
 - `EmailOrEmailList`:
 
   The [`EmailOrEmailList` validator](https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/api/validations/validators/email_or_email_list.rb)

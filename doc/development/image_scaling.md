@@ -36,8 +36,8 @@ Furthermore, configuration in Workhorse can lead to the image scaler rejecting a
 For instance, here are two different URLs that serve the GitLab project avatar both in its
 original size and scaled down to 64 pixels. Only the second request will trigger the image scaler:
 
-- [`https://gitlab.com/gitlab-com/www-gitlab-com/-/blob/master/source/images/gitlab-logo-extra-whitespace.png`](https://gitlab.com/gitlab-com/www-gitlab-com/-/blob/master/source/images/gitlab-logo-extra-whitespace.png)
-- [`https://gitlab.com/gitlab-com/www-gitlab-com/-/blob/master/source/images/gitlab-logo-extra-whitespace.png?width=64`](https://gitlab.com/gitlab-com/www-gitlab-com/-/blob/master/source/images/gitlab-logo-extra-whitespace.png?width=64)
+- <https://gitlab.com/gitlab-com/www-gitlab-com/-/blob/master/source/images/gitlab-logo-extra-whitespace.png>
+- <https://gitlab.com/gitlab-com/www-gitlab-com/-/blob/master/source/images/gitlab-logo-extra-whitespace.png?width=64>
 
 ## Where do we scale images?
 

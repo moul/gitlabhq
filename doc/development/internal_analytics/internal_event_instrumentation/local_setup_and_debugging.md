@@ -43,7 +43,6 @@ The monitor can show two tables:
 
 - The `RELEVANT METRICS` table lists all the metrics that are defined on the `i_code_review_user_create_mr` event.
   The second right-most column shows the value of each metric when the monitor was started and the right most column shows the current value of each metric.
-
 - The `SNOWPLOW EVENTS` table lists a selection of properties from only Snowplow events fired after the monitor was started and those that match the event name.
   For this table to be visible, you can either enable event tracking (**Admin** > **Settings** > **Metrics and profiling** > **Event tracking**, then select "Enable event tracking" & save changes) or configure GDK to run with [Snowplow Micro](#snowplow-micro).
 
@@ -87,7 +86,6 @@ The Monitor's Keyboard commands:
 Starting with GitLab 18.0, Self-Managed instances collect event data by default. For versions prior to 18.0, GitLab Self-Managed instances do not collect event data through Snowplow by default. We can use [Snowplow Micro](https://docs.snowplow.io/docs/testing-debugging/snowplow-micro/what-is-micro/), a Docker based Snowplow collector, to test events locally:
 
 1. Ensure [Docker is installed and working](https://www.docker.com/get-started/).
-
 1. Enable Snowplow Micro:
 
    ```shell

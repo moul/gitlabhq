@@ -92,5 +92,4 @@ and must be regularly updated.
 To update the translation levels:
 
 1. Get the translation levels (percentage of approved words) from [Crowdin](https://crowdin.com/project/gitlab-ee/settings#translations).
-
 1. Update the hard-coded translation levels in [`i18n.rb`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/i18n.rb#L40).

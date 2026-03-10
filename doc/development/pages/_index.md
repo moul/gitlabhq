@@ -152,7 +152,6 @@ GitLab Pages access control is disabled by default. To enable it:
 1. Set the value of your `redirect-uri` to the `pages-domain` authorization endpoint
    (for example, `http://pages.gdk.test:3010/auth`).
    The `redirect-uri` must not contain any GitLab Pages site domain.
-
 1. Add the auth client configuration:
 
    - With GDK, in `gdk.yml`:

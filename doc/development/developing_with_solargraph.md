@@ -13,15 +13,11 @@ Refer to particular IDE plugin documentation on how to integrate it with Solargr
 
 - Visual Studio Code
   - GitHub: [`vscode-solargraph`](https://github.com/castwide/vscode-solargraph)
-
 - Atom
   - GitHub: [`atom-solargraph`](https://github.com/castwide/atom-solargraph)
-
 - Vim
   - GitHub: [`LanguageClient-neovim`](https://github.com/autozimu/LanguageClient-neovim)
-
 - Emacs
   - GitHub: [`emacs-solargraph`](https://github.com/guskovd/emacs-solargraph)
-
 - Eclipse
   - GitHub: [`eclipse-solargraph`](https://github.com/PyvesB/eclipse-solargraph)

@@ -580,7 +580,6 @@ We have separate projects for a several reasons.
   keep the repository up-to-date with all the default branches so that when
   we push changes from the merge request, we only need to push changes from
   the merge request, which can be more efficient.
-
 - Separation of concerns:
   - Validation project only has the following branches:
     - `master` and `main-jh` to keep changes up-to-date.

@@ -182,6 +182,15 @@ This error occurs because Code Review Flow runs on a CI/CD pipeline, and you don
 
 Contact your administrator and ask them to give you the required [permissions to execute pipelines](../../../permissions.md).
 
+### `Error DCR4004`
+
+You might get an error that states
+`<User>, you need to set a default GitLab Duo namespace to use Code Review Flow in this project. Please set a default GitLab Duo namespace in your preferences. Error code: DCR4004`.
+
+This error occurs when GitLab Duo cannot identify a default GitLab Duo namespace for the user that started the review.
+
+Set a default GitLab Duo namespace in your [preferences](../../../../user/profile/preferences.md#set-a-default-gitlab-duo-namespace), then request a review again.
+
 ### `Error DCR5000`
 
 You might get an error that states

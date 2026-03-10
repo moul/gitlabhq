@@ -84,9 +84,7 @@ There are actions outside of [the preferred set](#preferred-actions) that are ne
 A new action may be introduced when:
 
 1. The action represents a distinct lifecycle or state transition already present in the GitLab domain language. For example, `archive_project` or `protect_branch` represent specific actions that users understand and expect because they are already established within the GitLab domain language.
-
 1. The action changes the relationship between resources that are a part of the GitLab domain language. For example, `transfer_project` or `move_issue` represent specific actions that change the relationship between the resource and its parent namespace.
-
 1. The action is high-impact or irreversible and carries distinct domain meaning. For example, `purge_maven_virtual_registry_cache` uses the action `purge` which is irreversible and has established meaning when discussing caching in the broader software industry.
 
 ### Resource Naming Conventions
@@ -94,9 +92,7 @@ A new action may be introduced when:
 The resource (and optional subresource) in a permission name should always:
 
 1. Use the singular form (e.g., `read_project` instead of `read_projects`)
-
 1. Match the domain object being acted upon. (e.g., if an action is being evaluated against an `Issue` the permission name should be in the format `{action}_issue`.)
-
 1. Use user-facing domain terminology instead of exposing implementation details. (e.g., if a customer would have no way of knowing about your resource, it probably shouldn't be in the permission name)
 
 ### Avoiding Resource Boundaries in Permission Names

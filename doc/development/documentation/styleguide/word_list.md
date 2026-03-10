@@ -22,8 +22,8 @@ For guidance not on this page, we defer to these style guides:
 
 <!-- vale off -->
 
-<!-- Disable trailing punctuation in heading rule https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md026---trailing-punctuation-in-heading -->
-<!-- Proper names should have the correct capitalization rule https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md044---proper-names-should-have-the-correct-capitalization -->
+<!-- Disable trailing punctuation in heading rule <https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md026---trailing-punctuation-in-heading> -->
+<!-- Proper names should have the correct capitalization rule <https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md044---proper-names-should-have-the-correct-capitalization> -->
 <!-- markdownlint-disable MD026 MD044 -->
 
 ## `.gitlab-ci.yml` file
@@ -1894,7 +1894,6 @@ When writing about the Minimal Access role:
 - Write it out:
   - Use: if you are assigned the Minimal Access role
   - Instead of: if you are a Minimal Access user
-
 - When the Minimal Access role is the minimum required role:
   - Use: at least the Minimal Access role
   - Instead of: the Minimal Access role or higher
@@ -2810,13 +2809,10 @@ Always follow these words with a noun. For example:
 
 - Use: **This setting** improves performance.
 - Instead of: **This** improves performance.
-
 - Use: **These pants** are the best.
 - Instead of: **These** are the best.
-
 - Use: **That droid** is the one you are looking for.
 - Instead of: **That** is the one you are looking for.
-
 - Use: **Those settings** must be configured. (Or even better, **Configure those settings.**)
 - Instead of: **Those** need to be configured.
 

@@ -80,7 +80,6 @@ To implement it for your tracking system, you need to:
    ```
 
    `protected_properties` contains properties to be sent exclusively to the specified tracking class.
-
 1. [Trigger the event](internal_event_instrumentation/quick_start.md#trigger-events) in your code using Internal Events framework
 
 `**kwargs` is used to pass additional parameters to the tracking class from the Internal Events framework.

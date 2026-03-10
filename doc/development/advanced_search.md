@@ -32,7 +32,6 @@ Developers making significant changes to Elasticsearch queries should test their
 ### Setting up your development environment
 
 - See the [Elasticsearch GDK setup instructions](https://gitlab.com/gitlab-org/gitlab-development-kit/blob/main/doc/howto/elasticsearch.md)
-
 - Ensure [Elasticsearch is running](#setting-up-your-development-environment):
 
   ```shell
@@ -814,7 +813,6 @@ search functionality:
 - **Queries** are essential when relevance scoring is required to rank results by how well they match search criteria.
   They use the Boolean query's `must`, `should`, and `must_not` clauses, all of which influence the document's final
   relevance score.
-
 - **Filters** (within query context) determine whether documents appear in search results without affecting their score.
   For search operations where results only need to be included/excluded without ranking by relevance, using filters
   alone is more efficient and performs better at scale.

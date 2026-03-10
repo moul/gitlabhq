@@ -175,21 +175,16 @@ If you want to add a new tool, contact the GitLab Duo Chat team. We're working o
    - `example` of question and desired answer
 
 1. Add tool to `__all__` list of tools in `ai_gateway/chat/tools/gitlab.py`.
-
 1. Add tool class to the `DuoChatToolsRegistry` in `ai_gateway/chat/toolset.py` with an appropriate Unit Primitive.
-
 1. Add test for your changes.
 
 #### Changes in Rails Monolith
 
 1. Create files for the tool in the `ee/lib/gitlab/llm/chain/tools/` folder. Use existing tools like `issue_reader` or
    `epic_reader` as a template.
-
 1. Write a class for the tool that includes instructions for the large language model on how to use the tool
    to gather information - the main prompts that this tool is using.
-
 1. Implement code in the tool to parse the response from the large language model and return it to the [chat agent](https://gitlab.com/gitlab-org/gitlab/-/blob/e0220502f1b3459b5a571d510ce5d1826877c3ce/ee/lib/gitlab/llm/chain/agents/single_action_executor.rb).
-
 1. Add the new tool name to the `tools` array in `ee/lib/gitlab/llm/completions/chat.rb` so the agent knows about it.
 
 #### Testing all together
@@ -297,7 +292,6 @@ LangSmith integration works with any tools, including [GitLab Centralized Evalua
 
    Project name is an existing project in LangSmith or a new one. It's enough to put a new name in the environment variable -
    the project will be created during request.
-
 1. Restart GDK.
 1. Ask any question to Chat.
 1. Observe project in the LangSmith [page](https://smith.langchain.com/) > Projects > \[Project name\]. 'Runs' tab should contain

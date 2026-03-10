@@ -38,7 +38,7 @@ Our Fireworks AI account is managed by [Code Creation Group](https://handbook.gi
 
 To gain access to models in AWS Bedrock, create an [access request using the `aws_services_account_iam_update` template](https://gitlab.com/gitlab-com/gl-security/corp/issue-tracker/-/issues/new?description_template=aws_services_account_iam_update). See [this example access request](https://gitlab.com/gitlab-com/gl-security/corp/issue-tracker/-/issues/949) if you aren't sure what information to fill in.
 
-Once your access request is approved, you can gain access to AWS credentials by visiting [https://gitlabsandbox.cloud/login](https://gitlabsandbox.cloud/login).
+Once your access request is approved, you can gain access to AWS credentials by visiting <https://gitlabsandbox.cloud/login>.
 
 After logging into `gitlabsandbox.cloud`, perform the following steps:
 

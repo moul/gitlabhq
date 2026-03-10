@@ -904,6 +904,11 @@ All other Sentinel configuration options remain the same as documented in
 - Because of known [issue 589642](https://gitlab.com/gitlab-org/gitlab/-/issues/589642), the Admin Area reports the Valkey version incorrectly. This issue
   doesn't affect the version of Valkey installed or how it functions.
 
+## Secure Redis and Sentinel with TLS
+
+For comprehensive information on securing Redis and Sentinel
+communication using TLS, see [securing Redis and Sentinel with TLS](tls.md).
+
 ## Troubleshooting
 
 See the [Redis troubleshooting guide](troubleshooting.md).

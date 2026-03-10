@@ -1230,7 +1230,6 @@ You can view failures in two ways:
 
   1. Remember the retry mechanism. Having a failure does not mean the job failed.
      Always check the last status of the job.
-
 - Via database:
 
   1. Get the batched background migration `CLASS_NAME`.
@@ -1400,7 +1399,6 @@ background migration.
    > correctly handled by the batched migration framework. Any subclass of
    > `BatchedMigrationJob` is initialized with the necessary arguments to
    > execute the batch, and a connection to the tracking database.
-
 1. Create a database migration that adds a new trigger to the database. Example:
 
    ```ruby
@@ -1527,7 +1525,6 @@ background migration.
    If the application does not depend on the data being 100% migrated (for
    instance, the data is advisory, and not mission-critical), then you can skip this
    final step. This step confirms that the migration is completed, and all of the rows were migrated.
-
 1. Add a database migration to remove the trigger.
 
    ```ruby

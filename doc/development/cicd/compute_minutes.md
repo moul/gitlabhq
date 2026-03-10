@@ -158,7 +158,6 @@ In 2024, we developed a purpose-specific visualization for dedicated hosted runn
 The existing GitLab visualizations were insufficient because:
 
 1. **Single namespace limitation**: Existing visualizations only show usage for a single root namespace, but Dedicated customers need visibility across all namespaces on their instance
-
 1. **No runner type distinction**: Admin-managed instance runners can run alongside GitLab Hosted Instance Runners. Since we track all instance runner usage together, existing visualizations would incorrectly include self-managed instance runners in the hosted runner metrics
 
 ### How It Works
