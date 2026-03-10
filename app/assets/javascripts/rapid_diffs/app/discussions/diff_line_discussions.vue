@@ -18,57 +18,31 @@ export default {
     DiffDiscussions,
   },
   inject: {
-    store: { type: Object },
     userPermissions: {
       type: Object,
     },
   },
   props: {
-    position: {
-      type: Object,
+    discussions: {
+      type: Array,
       required: true,
     },
   },
-  emits: ['empty', 'highlight', 'clear-highlight'],
+  emits: ['start-thread', 'highlight', 'clear-highlight'],
   data() {
     return {
       isLoggedIn: isLoggedIn(),
     };
   },
   computed: {
-    discussions() {
-      return this.store
-        .findDiscussionsForPosition(this.position)
-        .filter((discussion) => !discussion.hidden);
-    },
     hasForm() {
       return this.discussions.some((discussion) => discussion.isForm);
-    },
-  },
-  watch: {
-    discussions(value) {
-      if (value.length === 0) this.$emit('empty');
     },
   },
   mounted() {
     this.scrollToNoteFragment();
   },
   methods: {
-    getLineRange(discussion) {
-      const { position } = discussion;
-      if (position.line_range) return position.line_range;
-      const line = { old_line: position.old_line, new_line: position.new_line };
-      return { start: line, end: line };
-    },
-    highlightLines(discussion) {
-      this.$emit('highlight', this.getLineRange(discussion));
-    },
-    clearHighlight() {
-      this.$emit('clear-highlight');
-    },
-    startAnotherThread() {
-      this.store.addNewLineDiscussionForm(this.position);
-    },
     scrollToNoteFragment() {
       if (!window.location.hash.startsWith('#note_') || scrolledToNote) return;
       const target = document.querySelector(`a[href="${window.location.hash}"]`);
@@ -77,18 +51,32 @@ export default {
       target.click();
       scrolledToNote = true;
     },
+    lineRange(discussion) {
+      const { position } = discussion;
+      if (position?.line_range) return position.line_range;
+      return {
+        start: { old_line: position?.old_line, new_line: position?.new_line },
+        end: { old_line: position?.old_line, new_line: position?.new_line },
+      };
+    },
+    onMouseenter(discussion) {
+      this.$emit('highlight', this.lineRange(discussion));
+    },
+    onMouseleave() {
+      this.$emit('clear-highlight');
+    },
   },
 };
 </script>
 
 <template>
-  <div v-if="discussions.length">
+  <div class="rd-diff-line-discussions-list">
     <div
       v-for="(discussion, index) in discussions"
       :key="index"
       :class="{ 'gl-border-t': index > 0 }"
-      @mouseenter="highlightLines(discussion)"
-      @mouseleave="clearHighlight"
+      @mouseenter="onMouseenter(discussion)"
+      @mouseleave="onMouseleave"
     >
       <new-line-discussion-form v-if="discussion.isForm" :discussion="discussion" />
       <!-- eslint-disable-next-line @gitlab/vue-no-new-non-primitive-in-template -->
@@ -96,7 +84,7 @@ export default {
     </div>
     <div v-if="!hasForm" class="gl-border-t gl-flex gl-border-t-subtle gl-px-5 gl-py-4">
       <note-signed-out-widget v-if="!isLoggedIn" />
-      <gl-button v-else-if="userPermissions.can_create_note" @click="startAnotherThread">
+      <gl-button v-else-if="userPermissions.can_create_note" @click="$emit('start-thread')">
         {{ __('Start another thread') }}
       </gl-button>
     </div>

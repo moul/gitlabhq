@@ -189,14 +189,7 @@ RSpec.describe Ci::CreatePipelineService, feature_category: :pipeline_compositio
       end
 
       before do
-        stub_const('Gitlab::Ci::Config::GITALY_TIMEOUT_SECONDS', 0.1)
-
-        allow_next_instance_of(::Ci::Components::FetchService) do |instance|
-          allow(instance).to receive(:execute).and_wrap_original do |method, _payload|
-            sleep 0.2
-            method.call
-          end
-        end
+        stub_const('Gitlab::Ci::Config::GITALY_TIMEOUT_SECONDS', 0.0001)
       end
 
       it 'fails with timeout error' do

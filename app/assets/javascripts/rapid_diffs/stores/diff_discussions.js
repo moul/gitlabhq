@@ -102,6 +102,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
       .value({ oldPath, newPath, oldLine, newLine })
       .filter((discussion) => !discussion.isForm);
     if (existingDiscussion) {
+      setFileDiscussionsHidden(oldPath, newPath, false);
       discussions.startReplying(existingDiscussion);
       return existingDiscussion.id;
     }

@@ -1,11 +1,22 @@
 import Vue, { watch } from 'vue';
 import { MOUNTED, HIGHLIGHT_LINES, CLEAR_HIGHLIGHT } from '~/rapid_diffs/adapter_events';
-import DiffLineDiscussions from '~/rapid_diffs/app/discussions/diff_line_discussions.vue';
+import DiffDiscussionRow from '~/rapid_diffs/app/discussions/diff_discussion_row.vue';
 
-function mountVueApp({ el, position, appData, store, trigger, onEmpty }) {
+function getLineNumbers(row) {
+  return [
+    row.querySelector('[data-position="old"] [data-line-number]'),
+    row.querySelector('[data-position="new"] [data-line-number]'),
+  ].map((cell) => (cell ? Number(cell.dataset.lineNumber) : null));
+}
+
+function mountDiscussionRow({ lineRow, parallel, appData, store, trigger }) {
+  if (lineRow.nextElementSibling?.dataset.discussionRow === 'true') return;
+  const [oldLine, newLine] = getLineNumbers(lineRow);
+  const changed = lineRow.querySelector('[data-change]') !== null;
+  const placeholder = lineRow.closest('tbody').insertRow(lineRow.sectionRowIndex + 1);
   const instance = new Vue({
-    el,
-    name: 'DiffLineDiscussionsRoot',
+    el: placeholder,
+    name: 'DiffDiscussionRowRoot',
     provide() {
       return {
         store,
@@ -22,11 +33,19 @@ function mountVueApp({ el, position, appData, store, trigger, onEmpty }) {
       };
     },
     render(h) {
-      return h(DiffLineDiscussions, {
-        props: { position },
+      return h(DiffDiscussionRow, {
+        props: {
+          oldPath: appData.oldPath,
+          newPath: appData.newPath,
+          oldLine,
+          newLine,
+          parallel,
+          changed,
+        },
         on: {
           empty() {
-            if (onEmpty()) instance.$destroy();
+            instance.$destroy();
+            instance.$el.remove();
           },
           highlight(lineRange) {
             trigger(HIGHLIGHT_LINES, lineRange);
@@ -38,14 +57,14 @@ function mountVueApp({ el, position, appData, store, trigger, onEmpty }) {
       });
     },
   });
-  return instance;
-}
-
-function getLineNumbers(row) {
-  return [
-    row.querySelector('[data-position="old"] [data-line-number]'),
-    row.querySelector('[data-position="new"] [data-line-number]'),
-  ].map((cell) => (cell ? Number(cell.dataset.lineNumber) : null));
+  const row = instance.$el;
+  // In Vue 3, createApp().mount(el) renders inside el rather than replacing it.
+  // This results in a nested <tr> inside the placeholder <tr>.
+  // Detect and fix by replacing the outer <tr> with the inner one.
+  if (row.parentNode?.tagName === 'TR') {
+    row.parentNode.replaceWith(row);
+  }
+  row.destroy = () => instance.$destroy();
 }
 
 function getInlinePosition(button) {
@@ -68,107 +87,35 @@ function findLineRow(element, oldLine, newLine) {
     .closest('tr');
 }
 
-function isValidDiscussionRow(row) {
-  return row && row?.dataset.discussionRow === 'true';
-}
-
-function addDiscussionRow(lineRow) {
-  const discussionRow = lineRow.closest('tbody').insertRow(lineRow.sectionRowIndex + 1);
-  discussionRow.dataset.discussionRow = 'true';
-  discussionRow.classList.add('rd-discussion-row');
-  return discussionRow;
-}
-
-function addInlineCell(lineRow) {
-  const maybeDiscussionRow = lineRow.nextElementSibling;
-  if (isValidDiscussionRow(maybeDiscussionRow)) return maybeDiscussionRow.children[0];
-
-  const newDiscussionRow = addDiscussionRow(lineRow);
-  const discussionCell = document.createElement('td');
-  discussionCell.colSpan = lineRow.querySelectorAll('td').length;
-
-  newDiscussionRow.appendChild(discussionCell);
-  return discussionCell;
-}
-
-function addParallelCells(lineRow) {
-  const maybeDiscussionRow = lineRow.nextElementSibling;
-  if (isValidDiscussionRow(maybeDiscussionRow))
-    return [maybeDiscussionRow.children[0], maybeDiscussionRow.children[1]];
-
-  const newDiscussionRow = addDiscussionRow(lineRow);
-
-  const leftCell = document.createElement('td');
-  const rightCell = document.createElement('td');
-  const cellColSpan = lineRow.querySelectorAll('td').length / 2;
-  leftCell.colSpan = cellColSpan;
-  rightCell.colSpan = cellColSpan;
-
-  newDiscussionRow.append(leftCell, rightCell);
-  return [leftCell, rightCell];
-}
-
-function createDiscussionMount(createCell) {
-  return ({ diffElement, position, appData, store, trigger }) => {
-    const cell = createCell(diffElement, position.old_line, position.new_line);
-    if (cell.destroyApp) return;
-    const mountTarget = document.createElement('div');
-    cell.appendChild(mountTarget);
-    const instance = mountVueApp({
-      el: mountTarget,
-      position: {
-        oldLine: position.old_line,
-        newLine: position.new_line,
-        oldPath: position.old_path,
-        newPath: position.new_path,
-      },
-      appData,
-      store,
-      trigger,
-      onEmpty() {
-        const row = cell.parentElement;
-        // parallel view can have discussions on both sides, we should only remove the whole row if the last discussion was removed
-        if (Array.from(row.querySelectorAll('td:not(:empty)')).length > 1) return false;
-        row.remove();
-        return true;
-      },
-    });
-    cell.destroyApp = () => instance.$destroy();
-  };
-}
-
-const mountParallelDiscussion = createDiscussionMount((diffElement, oldLine, newLine) => {
-  const lineRow = findLineRow(diffElement, oldLine, newLine);
-  let cell;
-
-  if (oldLine && newLine) {
-    cell = addInlineCell(lineRow, oldLine, newLine);
-  } else {
-    const [leftCell, rightCell] = addParallelCells(lineRow, oldLine, newLine);
-    cell = oldLine ? leftCell : rightCell;
-  }
-
-  return cell;
-});
-
-const mountInlineDiscussion = createDiscussionMount((diffElement, oldLine, newLine) => {
-  const lineRow = findLineRow(diffElement, oldLine, newLine);
-  return addInlineCell(lineRow, oldLine, newLine);
-});
-
-// eslint-disable-next-line max-params
-function createDiscussionsWatcher(oldPath, newPath, callback, store, diffElement) {
+function createDiscussionsWatcher({
+  oldPath,
+  newPath,
+  parallel,
+  store,
+  diffElement,
+  appData,
+  trigger,
+}) {
   const stopWatcher = watch(
-    () => store.findVisibleDiscussionsForFile({ oldPath, newPath }),
+    () => store.findAllDiscussionsForFile({ oldPath, newPath }),
     (matchedDiscussions) => {
-      matchedDiscussions.forEach(callback);
+      matchedDiscussions.forEach(({ position }) => {
+        const lineRow = findLineRow(diffElement, position.old_line, position.new_line);
+        mountDiscussionRow({
+          lineRow,
+          parallel,
+          appData: { ...appData, oldPath, newPath },
+          store,
+          trigger,
+        });
+      });
     },
     { immediate: true },
   );
   return () => {
     stopWatcher();
-    diffElement.querySelectorAll('[data-discussion-row] td').forEach((cell) => {
-      cell.destroyApp?.();
+    diffElement.querySelectorAll('[data-discussion-row]').forEach((row) => {
+      row.destroy?.();
     });
   };
 }
@@ -179,24 +126,17 @@ function focusForm(id) {
 
 export const createParallelDiscussionsAdapter = (store) => ({
   [MOUNTED](addCleanup) {
-    const { diffElement, appData } = this;
+    const { diffElement, appData, trigger } = this;
     addCleanup(
-      createDiscussionsWatcher(
-        this.data.oldPath,
-        this.data.newPath,
-        ({ id, position }) => {
-          mountParallelDiscussion({
-            diffElement,
-            id,
-            position,
-            appData,
-            store,
-            trigger: this.trigger,
-          });
-        },
+      createDiscussionsWatcher({
+        oldPath: this.data.oldPath,
+        newPath: this.data.newPath,
+        parallel: true,
         store,
         diffElement,
-      ),
+        appData,
+        trigger,
+      }),
     );
   },
   clicks: {
@@ -216,24 +156,17 @@ export const createParallelDiscussionsAdapter = (store) => ({
 
 export const createInlineDiscussionsAdapter = (store) => ({
   [MOUNTED](addCleanup) {
-    const { diffElement, appData } = this;
+    const { diffElement, appData, trigger } = this;
     addCleanup(
-      createDiscussionsWatcher(
-        this.data.oldPath,
-        this.data.newPath,
-        ({ id, position }) => {
-          mountInlineDiscussion({
-            diffElement,
-            id,
-            position,
-            appData,
-            store,
-            trigger: this.trigger,
-          });
-        },
+      createDiscussionsWatcher({
+        oldPath: this.data.oldPath,
+        newPath: this.data.newPath,
+        parallel: false,
         store,
         diffElement,
-      ),
+        appData,
+        trigger,
+      }),
     );
   },
   clicks: {

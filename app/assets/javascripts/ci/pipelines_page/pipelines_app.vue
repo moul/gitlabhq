@@ -209,7 +209,8 @@ export default {
             } else if (
               isNewPipeline &&
               !this.pagination.after &&
-              this.scope === this.$options.scopes.all
+              this.scope === this.$options.scopes.all &&
+              !this.hasActiveFilters
             ) {
               // SCENARIO B: Brand new pipeline detected while on Page 1
               this.fetchNewPipeline(updatedId);
@@ -346,6 +347,9 @@ export default {
     },
     showControls() {
       return this.hasInitiallyLoaded && !this.showEmptyState;
+    },
+    hasActiveFilters() {
+      return Object.keys(this.filterParams).length > 0;
     },
   },
   created() {

@@ -182,9 +182,13 @@ class Namespace < ApplicationRecord
 
   delegate :creator,
     :creator=,
+    :deletion_error,
+    :deletion_error=,
     :description,
     :description=,
     :description_html,
+    :last_error,
+    :last_error=,
     :state_metadata,
     :state_metadata=,
     :deletion_scheduled_at,

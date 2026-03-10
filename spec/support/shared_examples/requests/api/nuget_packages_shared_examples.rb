@@ -450,15 +450,6 @@ RSpec.shared_examples 'process nuget download content request' do |user_type, st
 
       it_behaves_like 'bumping the package last downloaded at field'
     end
-
-    context 'with non-matching package version' do
-      let(:url) do
-        "/#{target_type}/#{target.id}/packages/nuget/download/" \
-          "#{package.name}/99.99.99/#{package.name}.99.99.99.nupkg"
-      end
-
-      it_behaves_like 'rejects nuget packages access', :anonymous, :not_found
-    end
   end
 end
 

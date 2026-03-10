@@ -101,7 +101,6 @@ export default {
     'app/assets/javascripts/ci/common/pipeline_inputs/graphql/queries/pipeline_creation_inputs.query.graphql',
     'app/assets/javascripts/ci/common/pipeline_summary/graphql/queries/get_pipeline_summary.query.graphql',
     'app/assets/javascripts/ci/inherited_ci_variables/graphql/queries/inherited_ci_variables.query.graphql',
-    'app/assets/javascripts/ci/job_details/graphql/mutations/job_play_with_variables.mutation.graphql',
     'app/assets/javascripts/ci/job_details/graphql/mutations/job_retry_with_variables.mutation.graphql',
     'app/assets/javascripts/ci/job_details/graphql/queries/get_job.query.graphql',
     'app/assets/javascripts/ci/job_details/graphql/subscriptions/job_ci_status_updated.subscription.graphql',

@@ -133,6 +133,26 @@ describe('diffDiscussions store', () => {
       },
     );
 
+    it('shows hidden discussions when replying', () => {
+      useDiscussions().discussions = [
+        {
+          id: 'hidden',
+          diff_discussion: true,
+          hidden: true,
+          repliesExpanded: false,
+          isReplying: false,
+          position: {
+            old_path: defaultPosition.oldPath,
+            new_path: defaultPosition.newPath,
+            old_line: defaultPosition.oldLine,
+            new_line: defaultPosition.newLine,
+          },
+        },
+      ];
+      useDiffDiscussions().replyToLineDiscussion(defaultPosition);
+      expect(useDiscussions().discussions[0].hidden).toBe(false);
+    });
+
     it('adds new form if none exists', () => {
       useDiffDiscussions().replyToLineDiscussion(defaultPosition);
       expect(useDiffDiscussions().discussionForms[0].isForm).toBe(true);

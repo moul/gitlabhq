@@ -339,7 +339,7 @@ The resulting URL scheme is `https://<namespace>.example.io/<project_slug>`.
 {{< /history >}}
 
 In this configuration, NGINX proxies all requests to the daemon. The GitLab Pages
-daemon doesn't listen to the public internet:
+daemon does not listen to the public internet.
 
 Prerequisites:
 
@@ -347,8 +347,10 @@ Prerequisites:
   [single-domain sites](#dns-configuration-for-single-domain-sites).
 - You have a TLS certificate that covers your domain (like `example.io`).
 
-1. Add your TLS certificate and key as mentioned in the prerequisites into `/etc/gitlab/ssl`.
-1. In `/etc/gitlab/gitlab.rb`, set the external URL for GitLab Pages, and enable the feature:
+To configure single-domain sites with TLS support:
+
+1. Add your TLS certificate and key to `/etc/gitlab/ssl`.
+1. In `/etc/gitlab/gitlab.rb`, set the external URL for GitLab Pages and enable the feature:
 
    ```ruby
    external_url "https://example.com" # Swap out this URL for your own
@@ -360,9 +362,8 @@ Prerequisites:
    gitlab_pages['namespace_in_path'] = true
    ```
 
-1. If your TLS certificate and key don't match the name of your domain, like
-   `example.io.crt` and `example.io.key`,
-   add the full paths for the certificate and key files to `/etc/gitlab/gitlab.rb`:
+1. If your TLS certificate or key files have different names than `example.io.crt` and `example.io.key`, add the
+   full paths:
 
    ```ruby
    pages_nginx['ssl_certificate'] = "/etc/gitlab/ssl/pages-nginx.crt"
@@ -390,18 +391,20 @@ The resulting URL scheme is `https://example.io/<namespace>/<project_slug>`.
 > If you enable `namespace_in_path`, existing GitLab Pages websites
 > are accessible only as single-domain sites.
 
-### Wildcard domains with TLS-terminating Load Balancer
+### Wildcard domains with TLS-terminating load balancer
 
-Use this setup when you're installing a [GitLab POC on Amazon Web Services](../../install/aws/_index.md).
+Use this setup when installing a [GitLab POC on Amazon Web Services](../../install/aws/_index.md).
 This setup includes a TLS-terminating [classic load balancer](../../install/aws/_index.md#load-balancer)
 that listens for HTTPS connections, manages TLS certificates, and forwards HTTP traffic to the instance.
 
 Prerequisites:
 
-- You've configured [wildcard DNS](#dns-configuration).
-- You have a TLS-terminating load balancer.
+- Configured [wildcard DNS](#dns-configuration).
+- A TLS-terminating load balancer.
 
-1. In `/etc/gitlab/gitlab.rb` specify the following configuration:
+To configure wildcard domains with a TLS-terminating load balancer:
+
+1. In `/etc/gitlab/gitlab.rb`, specify the following configuration:
 
    ```ruby
    external_url "https://example.com" # external_url here is only for reference
@@ -423,7 +426,7 @@ The following table explains all configuration settings known to Pages in a Linu
 These options can be adjusted in `/etc/gitlab/gitlab.rb`,
 and take effect after you [reconfigure GitLab](../restart_gitlab.md#reconfigure-a-linux-package-installation).
 
-Most of these settings don't have to be configured manually unless you need more granular
+Most of these settings do not have to be configured manually unless you need more granular
 control over how the Pages daemon runs and serves content in your environment.
 
 | Setting                                 | Default                                               | Description |
@@ -448,22 +451,21 @@ control over how the Pages daemon runs and serves content in your environment.
 | `server_shutdown_timeout`               | `30s`                                                 | GitLab Pages server shutdown timeout in seconds. |
 | `gitlab_client_http_timeout`            | `60s`                                                 | GitLab API HTTP client connection timeout in seconds. |
 | `gitlab_client_jwt_expiry`              | `30s`                                                 | JWT Token expiry time in seconds. |
-| `gitlab_cache_expiry`                   | `600s`                                                | The maximum time a domain's configuration is stored in the [cache](#gitlab-api-cache-configuration) |
+| `gitlab_cache_expiry`                   | `600s`                                                | The maximum time a domain's configuration is stored in the [cache](#gitlab-api-cache-configuration). |
 | `gitlab_cache_refresh`                  | `60s`                                                 | The interval at which a domain's configuration is set to be due to refresh. |
 | `gitlab_cache_cleanup`                  | `60s`                                                 | The interval at which expired items are removed from the [cache](#gitlab-api-cache-configuration). |
 | `gitlab_retrieval_timeout`              | `30s`                                                 | The maximum time to wait for a response from the GitLab API per request. |
 | `gitlab_retrieval_interval`             | `1s`                                                  | The interval to wait before retrying to resolve a domain's configuration by using the GitLab API. |
 | `gitlab_retrieval_retries`              | `3`                                                   | The maximum number of times to retry to resolve a domain's configuration by using the GitLab API. |
-| `domain_config_source`                  | Not applicable                                        | This parameter was removed in 14.0, on earlier versions it can be used to enable and test API domain configuration source |
 | `gitlab_id`                             | Auto-filled                                           | The OAuth application public ID. Leave blank to automatically fill when Pages authenticates with GitLab. |
 | `gitlab_secret`                         | Auto-filled                                           | The OAuth application secret. Leave blank to automatically fill when Pages authenticates with GitLab. |
 | `auth_scope`                            | `api`                                                 | The OAuth application scope to use for authentication. Must match GitLab Pages OAuth application settings. Leave blank to use `api` scope by default. |
 | `auth_timeout`                          | `5s`                                                  | GitLab application client timeout for authentication in seconds. A value of `0` means no timeout. |
 | `auth_cookie_session_timeout`           | `10m`                                                 | Authentication cookie session timeout in seconds. A value of `0` means the cookie is deleted after the browser session ends. |
 | `gitlab_server`                         | GitLab `external_url`                                 | Server to use for authentication when access control is enabled. |
-| `headers`                               | Not applicable                                        | Specify any additional HTTP headers that should be sent to the client with each response. Multiple headers can be given as an array, header and value as one string. For example `['my-header: myvalue', 'my-other-header: my-other-value']` |
-| `enable_disk`                           | Not applicable                                        | Allows the GitLab Pages daemon to serve content from disk. Shall be disabled if shared disk storage isn't available. |
-| `insecure_ciphers`                      | Not applicable                                        | Use default list of cipher suites, may contain insecure ones like 3DES and RC4. |
+| `headers`                               | Not applicable                                        | Specify any additional HTTP headers that should be sent to the client with each response. Multiple headers can be given as an array, header and value as one string. For example `['my-header: myvalue', 'my-other-header: my-other-value']`. |
+| `enable_disk`                           | Not applicable                                        | Allows the GitLab Pages daemon to serve content from disk. Disable if shared disk storage is not available. |
+| `insecure_ciphers`                      | Not applicable                                        | Use default list of cipher suites, which may contain insecure ones like 3DES and RC4. |
 | `internal_gitlab_server`                | GitLab `external_url`                                 | Internal GitLab server address used exclusively for API requests. Use if you want to send that traffic over an internal load balancer. |
 | `listen_proxy`                          | Not applicable                                        | The addresses to listen on for reverse-proxy requests. Pages binds to these addresses' network sockets and receives incoming requests from them. Sets the value of `proxy_pass` in `$nginx-dir/conf/gitlab-pages.conf`. |
 | `log_directory`                         | Not applicable                                        | Absolute path to a log directory. |
@@ -486,7 +488,7 @@ control over how the Pages daemon runs and serves content in your environment.
 | `tls_min_version`                       | Not applicable                                        | Specifies the minimum TLS version ("tls1.2" or "tls1.3"). |
 | `use_http2`                             | Not applicable                                        | Enable HTTP2 support. |
 | **`gitlab_pages['env'][]`**             | Not applicable                                        |             |
-| `http_proxy`                            | Not applicable                                        | Configure GitLab Pages to use an HTTP Proxy to mediate traffic between Pages and GitLab. Sets an environment variable `http_proxy` when starting Pages daemon. |
+| `http_proxy`                            | Not applicable                                        | Configure GitLab Pages to use an HTTP proxy to mediate traffic between Pages and GitLab. Sets an environment variable `http_proxy` when starting the Pages daemon. |
 | **`gitlab_rails[]`**                    | Not applicable                                        |             |
 | `pages_domain_verification_cron_worker` | Not applicable                                        | Schedule for verifying custom GitLab Pages domains. |
 | `pages_domain_ssl_renewal_cron_worker`  | Not applicable                                        | Schedule for obtaining and renewing SSL certificates through Let's Encrypt for GitLab Pages domains. |
@@ -517,24 +519,23 @@ control over how the Pages daemon runs and serves content in your environment.
 
 ## Advanced configuration
 
-In addition to the wildcard domains, you can also have the option to configure
-GitLab Pages to work with custom domains. Again, there are two options here:
-support custom domains with and without TLS certificates. The easiest setup is
-that without TLS certificates. In either case, you need a **secondary IP**. If
-you have IPv6 and IPv4 addresses, you can use them both.
+In addition to wildcard domains, you can configure GitLab Pages to work with custom domains, with
+or without TLS certificates. In either case, you need a **secondary IP**. If you have both IPv6 and
+IPv4 addresses, you can use them both.
 
 ### Custom domains
 
-In this case, the Pages daemon is running, NGINX still proxies requests to
-the daemon but the daemon can receive requests from the outside
-world. Custom domains are supported, but no TLS.
+In this configuration, the Pages daemon is running and NGINX proxies requests to it, but the daemon
+can also receive requests from the public internet. Custom domains are supported without TLS.
 
 Prerequisites:
 
-- You've configured wildcard DNS.
-- You have a secondary IP.
+- Configured [wildcard DNS](#dns-configuration).
+- A secondary IP.
 
-1. In `/etc/gitlab/gitlab.rb` specify the following configuration:
+To configure custom domains:
+
+1. In `/etc/gitlab/gitlab.rb`, specify the following configuration:
 
    ```ruby
    external_url "http://example.com" # external_url here is only for reference
@@ -545,7 +546,7 @@ Prerequisites:
    gitlab_pages['custom_domain_mode'] = 'http' # Enable custom domain
    ```
 
-   If you don't have IPv6, you can omit the IPv6 address.
+   If you do not have IPv6, omit the IPv6 address.
 
 1. Save the file and [reconfigure GitLab](../restart_gitlab.md#reconfigure-a-linux-package-installation) for the changes to take effect.
 
@@ -553,19 +554,20 @@ The resulting URL schemes are `http://<namespace>.example.io/<project_slug>` and
 
 ### Custom domains with TLS support
 
-In this case, the Pages daemon is running, NGINX still proxies requests to
-the daemon but the daemon can also receive requests from the outside
-world. Custom domains and TLS are supported.
+In this configuration, the Pages daemon is running and NGINX proxies requests to it, but the daemon
+can also receive requests from the public internet. Custom domains and TLS are supported.
 
 Prerequisites:
 
-- You've configured wildcard DNS.
-- You have a TLS certificate. It can be either wildcard or any other type meeting the
+- Configured [wildcard DNS](#dns-configuration).
+- A TLS certificate. It can be a wildcard certificate or any other type meeting the
   [requirements](../../user/project/pages/custom_domains_ssl_tls_certification/_index.md#manually-add-ssltls-certificates).
-- Secondary IP.
+- A secondary IP.
+
+To configure custom domains with TLS support:
 
 1. Place the wildcard TLS certificate for `*.example.io` and the key inside `/etc/gitlab/ssl`.
-1. In `/etc/gitlab/gitlab.rb` specify the following configuration:
+1. In `/etc/gitlab/gitlab.rb`, specify the following configuration:
 
    ```ruby
    external_url "https://example.com" # external_url here is only for reference
@@ -579,10 +581,10 @@ Prerequisites:
    gitlab_pages['redirect_http'] = true
    ```
 
-   If you don't have IPv6, you can omit the IPv6 address.
+   If you do not have IPv6, omit the IPv6 address.
 
-1. If you haven't named your certificate `example.io.crt` and your key `example.io.key`,
-   then you need to also add the full paths as shown below:
+1. If your certificate and key are not named `example.io.crt` and `example.io.key`, add the full
+   paths:
 
    ```ruby
    gitlab_pages['cert'] = "/etc/gitlab/ssl/example.io.crt"
@@ -595,16 +597,16 @@ Prerequisites:
 
 ### Custom domain verification
 
-To prevent malicious users from hijacking domains that don't belong to them,
+To prevent malicious users from hijacking domains that do not belong to them,
 GitLab supports [custom domain verification](../../user/project/pages/custom_domains_ssl_tls_certification/_index.md).
-When adding a custom domain, users are required to prove they own it by
+When adding a custom domain, users must prove they own it by
 adding a GitLab-controlled verification code to the DNS records for that domain.
 
 > [!warning]
-> Disabling domain verification is unsafe and can lead to various vulnerabilities.
-> If you do disable it, either ensure that the Pages root domain itself does not point to the
-> secondary IP or add the root domain as custom domain to a project; otherwise, any user can add this
-> domain as a custom domain to their project.
+> Disabling domain verification is unsafe and can lead to various vulnerabilities. If you disable
+> it, ensure that the Pages root domain itself does not point to the secondary IP, or add the root
+> domain as a custom domain to a project. Otherwise, any user can add this domain as a custom domain
+> to their project.
 
 If your user base is private or otherwise trusted, you can disable the
 verification requirement:
@@ -623,7 +625,7 @@ sites served under a custom domain.
 
 To enable it:
 
-1. Choose an email address on which you want to receive notifications about expiring domains.
+1. Choose an email address to receive notifications about expiring domains.
 1. In the upper-right corner, select **Admin**.
 1. Select **Settings** > **Preferences**.
 1. Expand **Pages**.
@@ -635,20 +637,18 @@ To enable it:
 GitLab Pages access control can be configured per-project, and allows access to a Pages
 site to be controlled based on a user's membership to that project.
 
-Access control works by registering the Pages daemon as an OAuth application
-with GitLab. Whenever a request to access a private Pages site is made by an
-unauthenticated user, the Pages daemon redirects the user to GitLab. If
-authentication is successful, the user is redirected back to Pages with a token,
-which is persisted in a cookie. The cookies are signed with a secret key, so
-tampering can be detected.
+Access control works by registering the Pages daemon as an OAuth application with GitLab. Whenever
+an unauthenticated user requests access to a private Pages site, the Pages daemon redirects the user
+to GitLab. If authentication is successful, the user is redirected back to Pages with a token, which
+is persisted in a cookie. The cookies are signed with a secret key, so tampering can be detected.
 
-Each request to view a resource in a private site is authenticated by Pages
-using that token. For each request it receives, it makes a request to the GitLab
-API to check that the user is authorized to read that site.
+Each request to view a resource in a private site is authenticated by Pages using that token. For
+each request it receives, Pages makes a request to the GitLab API to check that the user is
+authorized to read that site.
 
 Pages access control is disabled by default. To enable it:
 
-1. Enable it in `/etc/gitlab/gitlab.rb`:
+1. In `/etc/gitlab/gitlab.rb`, add:
 
    ```ruby
    gitlab_pages['access_control'] = true
@@ -658,13 +658,13 @@ Pages access control is disabled by default. To enable it:
 1. Users can now configure it in their [projects' settings](../../user/project/pages/pages_access_control.md).
 
 > [!note]
-> For this setting to be effective with multi-node setups, it has to be applied to
-> all the App nodes and Sidekiq nodes.
+> For this setting to be effective with multi-node setups, apply it to all App nodes and Sidekiq
+> nodes.
 
 #### Using Pages with reduced authentication scope
 
-You can configure the scope Pages daemon uses to authenticate.
-By default, it uses the `api` scope.
+You can configure the scope the Pages daemon uses to authenticate. By default, it uses the `api`
+scope.
 
 For example, this reduces the scope to `read_api` in `/etc/gitlab/gitlab.rb`:
 
@@ -677,7 +677,7 @@ pre-existing applications must modify the GitLab Pages OAuth application.
 
 Prerequisites:
 
-- You've enabled [access control](#access-control).
+- You have enabled [access control](#access-control).
 
 To change the scope Pages uses:
 
@@ -696,13 +696,13 @@ can access Pages websites. All projects lose the **Everyone** visibility level o
 and are restricted to project members or everyone with access, depending on the
 project's visibility setting.
 
-This can be helpful to restrict information published with Pages websites to the users
-of your instance only.
+Use this setting to restrict information published with Pages to the users of your
+instance only.
 
 Prerequisites:
 
-- Be an administrator of the instance.
-- You must enable access control first for the setting to show in the Admin area.
+- Administrator access to the instance.
+- Access control enabled for the setting to show in the Admin area.
 
 To disable public access to all Pages sites:
 

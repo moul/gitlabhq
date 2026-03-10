@@ -29386,6 +29386,7 @@ CREATE TABLE security_project_tracked_contexts (
     state smallint DEFAULT 1 NOT NULL,
     is_default boolean DEFAULT false NOT NULL,
     context_name text NOT NULL,
+    traversal_ids bigint[] DEFAULT '{}'::bigint[] NOT NULL,
     CONSTRAINT check_032d33c1cc CHECK ((char_length(context_name) <= 1024))
 );
 
@@ -44695,6 +44696,8 @@ CREATE INDEX index_ci_deleted_objects_on_project_id ON ci_deleted_objects USING 
 
 CREATE INDEX index_ci_finished_build_ch_sync_events_for_partitioned_query ON ONLY p_ci_finished_build_ch_sync_events USING btree (((build_id % (100)::bigint)), build_id) WHERE (processed = false);
 
+CREATE INDEX index_ci_finished_build_ch_sync_events_on_mode_filter ON ONLY p_ci_finished_build_ch_sync_events USING btree (((build_id % (100)::bigint)), build_finished_at, build_id) WHERE (processed = false);
+
 CREATE INDEX index_ci_finished_pipeline_ch_sync_events_for_partitioned_query ON ONLY p_ci_finished_pipeline_ch_sync_events USING btree (((pipeline_id % (100)::bigint)), pipeline_id) WHERE (processed = false);
 
 CREATE INDEX index_ci_freeze_periods_on_project_id ON ci_freeze_periods USING btree (project_id);
@@ -47978,6 +47981,8 @@ CREATE INDEX index_security_policy_settings_on_csp_namespace_id ON security_poli
 CREATE UNIQUE INDEX index_security_policy_settings_on_organization_id ON security_policy_settings USING btree (organization_id);
 
 CREATE UNIQUE INDEX index_security_project_tracked_contexts_on_project_context ON security_project_tracked_contexts USING btree (project_id, context_name, context_type);
+
+CREATE INDEX index_security_project_tracked_contexts_on_traversal_ids_id ON security_project_tracked_contexts USING btree (traversal_ids, id);
 
 CREATE INDEX index_security_scan_profile_triggers_on_namespace_id ON security_scan_profile_triggers USING btree (namespace_id);
 

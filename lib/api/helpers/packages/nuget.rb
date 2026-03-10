@@ -41,14 +41,6 @@ module API
             .new(current_user, project_or_group, params[:q], search_options)
             .execute
         end
-
-        def format_filename(package)
-          return "#{params[:package_filename]}.#{params[:format]}" if package.version == params[:package_version]
-
-          return unless package.normalized_nuget_version == params[:package_version]
-
-          "#{params[:package_filename].sub(params[:package_version], package.version)}.#{params[:format]}"
-        end
       end
     end
   end

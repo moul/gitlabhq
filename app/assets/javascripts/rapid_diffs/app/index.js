@@ -34,6 +34,10 @@ export class RapidDiffsFacade {
   }
 
   init() {
+    if (!this.root) {
+      return;
+    }
+
     this.appData = camelizeKeys(JSON.parse(this.root.dataset.appData));
     this.#populateLegacyFileFragment();
     if (this.#lazy) {

@@ -759,11 +759,22 @@ compliance_job:
 > Don't store sensitive information or credentials in variables because they are stored as part of the plaintext policy configuration
 > in a Git repository.
 
-Pipeline execution policy variables cannot be overridden from the outside. Pipeline execution jobs are executed in isolation, so variables defined in another policy or in the project's `.gitlab-ci.yml` file are never available to the pipeline execution policy.
+By default, pipeline execution policies run in isolation, which means they do not apply any variables defined outside of the policy.
 
-The [`variables_override` type](#variables_override-type) only allows you to configure user-defined variables to override the policy variables. This includes variables that users specify in the CI/CD settings or when running a new pipeline.
+When you enable the [`variables_override` setting](#variables_override-type) setting, pipeline execution policies can access the following user-defined variables:
 
-Variables can be shared with pipeline execution policies using group or project settings, which follow the standard [CI/CD variable precedence](../../../ci/variables/_index.md#cicd-variable-precedence) rules. However, the precedence rules are more complex when using a pipeline execution policy as they can vary depending on the pipeline execution policy strategy:
+- Variables from group CI/CD settings.
+- Variables from project CI/CD settings.
+- Variables specified by users when running a new pipeline.
+
+However, even when the `variables_override` setting is enabled, pipeline execution policies cannot access the following types of variables:
+
+- Variables defined in other policies.
+- Variables defined in the project's `.gitlab-ci.yml` file.
+
+When enabled, the `variables_override` setting allows the policy to access and apply the variables according to standard [CI/CD variable precedence](../../../ci/variables/_index.md#cicd-variable-precedence) rules.
+
+However, the precedence rules are more complex when using a pipeline execution policy as they can vary depending on the pipeline execution policy strategy:
 
 - `inject_policy` strategy: If the variable is defined in the pipeline execution policy, the job always uses this value. If a variable is not defined in a pipeline execution policy, the job applies the value from the group or project settings.
 - `inject_ci` strategy: If the variable is defined in the pipeline execution policy, the job always uses this value. If a variable is not defined in a pipeline execution policy, the job applies the value from the group or project settings.

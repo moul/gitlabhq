@@ -37,7 +37,6 @@ RSpec.describe BulkImports::Projects::Pipelines::ProjectAttributesPipeline, :wit
       'printing_merge_request_link_enabled' => true,
       'auto_cancel_pending_pipelines' => 'enabled',
       'service_desk_enabled' => false,
-      'delete_error' => nil,
       'disable_overriding_approvers_per_merge_request' => true,
       'resolve_outdated_diff_discussions' => true,
       'jobs_cache_index' => nil,

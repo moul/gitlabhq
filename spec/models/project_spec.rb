@@ -1856,6 +1856,8 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
     it { is_expected.to delegate_method(:start_deletion!).to(:project_namespace).allow_nil }
     it { is_expected.to delegate_method(:cancel_deletion).to(:project_namespace).allow_nil }
     it { is_expected.to delegate_method(:cancel_deletion!).to(:project_namespace).allow_nil }
+    it { is_expected.to delegate_method(:deletion_error).to(:project_namespace).allow_nil }
+    it { is_expected.to delegate_method(:deletion_error=).to(:project_namespace).with_arguments(:args).allow_nil }
     it { is_expected.to delegate_method(:deletion_in_progress?).to(:project_namespace).allow_nil }
     it { is_expected.to delegate_method(:deletion_scheduled?).to(:project_namespace).allow_nil }
     it { is_expected.to delegate_method(:deletion_scheduled_at).to(:project_namespace) }
@@ -10043,6 +10045,93 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
         project.save!
 
         expect(project.self_deletion_in_progress_or_hidden?).to eq(expected_result)
+      end
+    end
+  end
+
+  describe '#deletion_error' do
+    context 'when project_namespace exists' do
+      let(:project) { create(:project) }
+
+      context 'when state_metadata has deletion_error' do
+        before do
+          project.project_namespace.namespace_details.update!(state_metadata: { 'deletion_error' => 'Something went wrong' })
+        end
+
+        it 'returns the deletion_error from state_metadata' do
+          expect(project.reload.deletion_error).to eq('Something went wrong')
+        end
+      end
+
+      context 'when state_metadata is nil' do
+        before do
+          project.project_namespace.namespace_details.update!(state_metadata: nil)
+        end
+
+        it 'returns nil' do
+          expect(project.reload.deletion_error).to be_nil
+        end
+      end
+
+      context 'when state_metadata does not have deletion_error key' do
+        before do
+          project.project_namespace.namespace_details.update!(state_metadata: { 'correlation_id' => 'abc123' })
+        end
+
+        it 'returns nil' do
+          expect(project.reload.deletion_error).to be_nil
+        end
+      end
+    end
+
+    context 'when project_namespace is nil' do
+      let(:project) { build(:project, project_namespace: nil) }
+
+      it 'returns nil' do
+        expect(project.deletion_error).to be_nil
+      end
+    end
+  end
+
+  describe '#deletion_error=' do
+    let(:project) { create(:project) }
+
+    it 'sets the deletion_error in state_metadata' do
+      project.deletion_error = 'Deletion failed'
+      project.project_namespace.namespace_details.save!
+
+      expect(project.project_namespace.namespace_details.reload.state_metadata['deletion_error']).to eq('Deletion failed')
+    end
+
+    it 'preserves existing state_metadata keys' do
+      project.project_namespace.namespace_details.update!(state_metadata: { 'correlation_id' => 'abc123' })
+
+      project.deletion_error = 'New error'
+      project.project_namespace.namespace_details.save!
+
+      state_metadata = project.project_namespace.namespace_details.reload.state_metadata
+      expect(state_metadata['correlation_id']).to eq('abc123')
+      expect(state_metadata['deletion_error']).to eq('New error')
+    end
+
+    it 'overwrites existing deletion_error' do
+      project.deletion_error = 'First error'
+      project.deletion_error = 'Second error'
+      project.project_namespace.namespace_details.save!
+
+      expect(project.project_namespace.namespace_details.reload.state_metadata['deletion_error']).to eq('Second error')
+    end
+
+    context 'when state_metadata is nil' do
+      before do
+        project.project_namespace.namespace_details.update!(state_metadata: nil)
+      end
+
+      it 'creates state_metadata with deletion_error' do
+        project.deletion_error = 'Error message'
+        project.project_namespace.namespace_details.save!
+
+        expect(project.project_namespace.namespace_details.reload.state_metadata).to eq({ 'deletion_error' => 'Error message' })
       end
     end
   end

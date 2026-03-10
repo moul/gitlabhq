@@ -17,6 +17,7 @@ class Namespace::Detail < ApplicationRecord
     last_updated_at: :datetime,
     last_changed_by_user_id: :integer,
     last_error: :string,
+    deletion_error: :string,
     deletion_scheduled_by_user_id: :integer,
     transfer_initiated_at: :datetime,
     transfer_initiated_by_user_id: :integer,

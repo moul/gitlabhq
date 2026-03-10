@@ -500,6 +500,7 @@ export default {
           :author-id="authorId"
           :note-id="note.id"
           :note-url="note.noteable_note_url"
+          :note-preview="note.body_first_line_html"
           :access-level="note.human_access"
           :is-contributor="note.is_contributor"
           :is-author="note.is_noteable_author"

@@ -708,7 +708,6 @@ included_attributes:
     - :autoclose_referenced_issues
     - :build_allow_git_fetch
     - :build_timeout
-    - :delete_error
     - :description
     - :disable_overriding_approvers_per_merge_request
     - :external_authorization_classification_label

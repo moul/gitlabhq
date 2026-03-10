@@ -2230,16 +2230,6 @@ describe('Saved Views', () => {
         expect(findSaveViewButton().exists()).toBe(true);
       });
 
-      it('renders "Save view" button when sort changes', async () => {
-        await mountDefault();
-
-        findIssuableList().vm.$emit('sort', UPDATED_DESC);
-        await nextTick();
-        await waitForPromises();
-
-        expect(findSaveViewButton().exists()).toBe(true);
-      });
-
       it('opens the new saved view modal when clicking "Save view"', async () => {
         await mountDefault();
 

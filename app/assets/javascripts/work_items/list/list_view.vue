@@ -1102,7 +1102,10 @@ export default {
       ];
     },
     viewConfigChanged() {
-      return this.filtersChanged || this.sortChanged || this.preferencesChanged;
+      if (this.isSavedView) {
+        return this.filtersChanged || this.sortChanged || this.preferencesChanged;
+      }
+      return this.filtersChanged;
     },
     showSaveChanges() {
       return this.savedView?.userPermissions?.updateSavedView && this.viewConfigChanged;

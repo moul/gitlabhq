@@ -192,7 +192,7 @@ RSpec.describe Ci::CreatePipelineService, feature_category: :pipeline_compositio
 
     context 'with timeout handling' do
       before do
-        stub_const('Gitlab::Ci::Config::GITALY_TIMEOUT_SECONDS', 0.1)
+        stub_const('Gitlab::Ci::Config::GITALY_TIMEOUT_SECONDS', 0.0001)
       end
 
       context 'when local include times out' do
@@ -203,19 +203,6 @@ RSpec.describe Ci::CreatePipelineService, feature_category: :pipeline_compositio
           job:
             script: exit 0
           YAML
-        end
-
-        before do
-          allow(project.repository).to receive(:blobs_at).with(
-            [[project.commit.sha, '.gitlab-ci.yml']]
-          ).once.and_call_original
-
-          allow(project.repository).to receive(:blobs_at).with(
-            [[project.commit.sha, file_location]]
-          ).once.and_wrap_original do |method, *args|
-            sleep 0.2
-            method.call(*args)
-          end
         end
 
         it 'fails with timeout error' do
@@ -259,17 +246,6 @@ RSpec.describe Ci::CreatePipelineService, feature_category: :pipeline_compositio
             message: 'Add CI template',
             branch_name: 'master'
           )
-        end
-
-        before do
-          allow_next_instance_of(Repository) do |instance|
-            allow(instance).to receive(:blobs_at).with(
-              [[another_project.commit.sha, file_location]]
-            ).once.and_wrap_original do |method, *args|
-              sleep 0.2
-              method.call(*args)
-            end
-          end
         end
 
         it 'fails with timeout error' do

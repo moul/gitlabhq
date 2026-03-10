@@ -23,6 +23,7 @@ exports[`Observability App Component Snapshots matches snapshot on error state 1
     class="gl-m-5"
     data-testid="o11y-error-status"
     dismisslabel="Dismiss"
+    headerlevel="2"
     politeness="polite"
     primarybuttonlink=""
     primarybuttontext=""

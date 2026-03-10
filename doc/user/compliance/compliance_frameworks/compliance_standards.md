@@ -74,7 +74,8 @@ to create a compliance framework for this standard.
 
 ## DORA compliance requirements
 
-DORA is DevOps Research and Assessment.
+The Digital Operational Resilience Act (DORA) is a European Union regulation aimed at increasing the digital
+operational resilience of the financial sector.
 
 The following table lists the requirements supported by GitLab for DORA and the controls for the requirements.
 You can use the

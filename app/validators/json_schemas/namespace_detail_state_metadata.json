@@ -18,6 +18,12 @@
         "null"
       ]
     },
+    "deletion_error": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "correlation_id": {
       "type": [
         "string",

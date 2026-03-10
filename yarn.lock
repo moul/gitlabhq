@@ -1343,21 +1343,14 @@
   resolved "https://registry.yarnpkg.com/@fastify/busboy/-/busboy-3.1.1.tgz#af3aea7f1e52ec916d8b5c9dcc0f09d4c060a3fc"
   integrity sha512-5DGmA8FTdB2XbDeEwc/5ZXBl6UbBAyBOOLlPuBnZ/N1SwdH9Ii+cOX3tBROlDgcTXxjOYnLMVoKk9+FXAw0CJw==
 
-"@floating-ui/core@^1.7.4":
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.7.4.tgz#4a006a6e01565c0f87ba222c317b056a2cffd2f4"
-  integrity sha512-C3HlIdsBxszvm5McXlB8PeOEWfBhcGBTZGkGlWc2U0KFY5IwG5OQEuQ8rq52DZmcHDlPLd+YFBK+cZcytwIFWg==
-  dependencies:
-    "@floating-ui/utils" "^0.2.10"
-
-"@floating-ui/core@^1.7.5":
+"@floating-ui/core@^1.7.4", "@floating-ui/core@^1.7.5":
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.7.5.tgz#d4af157a03330af5a60e69da7a4692507ada0622"
   integrity sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==
   dependencies:
     "@floating-ui/utils" "^0.2.11"
 
-"@floating-ui/dom@1.7.5", "@floating-ui/dom@^1.0.0":
+"@floating-ui/dom@1.7.5":
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.7.5.tgz#60bfc83a4d1275b2a90db76bf42ca2a5f2c231c2"
   integrity sha512-N0bD2kIPInNHUHehXhMke1rBGs1dwqvC9O9KYMyyjK7iXt7GAhnro7UlcuYcGdS/yYOlq0MAVgrow8IbWJwyqg==
@@ -1365,7 +1358,7 @@
     "@floating-ui/core" "^1.7.4"
     "@floating-ui/utils" "^0.2.10"
 
-"@floating-ui/dom@^1.7.6":
+"@floating-ui/dom@1.7.6", "@floating-ui/dom@^1.0.0", "@floating-ui/dom@^1.7.6":
   version "1.7.6"
   resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.7.6.tgz#f915bba5abbb177e1f227cacee1b4d0634b187bf"
   integrity sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==
@@ -1380,12 +1373,7 @@
   dependencies:
     "@floating-ui/dom" "^1.0.0"
 
-"@floating-ui/utils@^0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.10.tgz#a2a1e3812d14525f725d011a73eceb41fef5bc1c"
-  integrity sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==
-
-"@floating-ui/utils@^0.2.11":
+"@floating-ui/utils@^0.2.10", "@floating-ui/utils@^0.2.11":
   version "0.2.11"
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.11.tgz#a269e055e40e2f45873bae9d1a2fdccbd314ea3f"
   integrity sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==
@@ -1485,12 +1473,12 @@
   resolved "https://registry.yarnpkg.com/@gitlab/svgs/-/svgs-3.157.0.tgz#876f8474aeb086f46640d7701eb62e5de6ccf3b6"
   integrity sha512-kNcFRLti3gZRGaVjLuBzJyT3gjoVOB8nkWDErLmhLxXmU23LUG47820rUp8YtyST6/GnS/T21bOLgmUZ6NHFmQ==
 
-"@gitlab/ui@128.15.1":
-  version "128.15.1"
-  resolved "https://registry.yarnpkg.com/@gitlab/ui/-/ui-128.15.1.tgz#5b77548859f9a5c88ca19a60465836eb645f2638"
-  integrity sha512-DETbYjrFuWREnUKPkQRUjNMUtAgKm/5CUf20DVo2J6D9Yd/JQv/AT2vi9Npsfm9Xd23qa5EPDrH+4MeWpsQx9g==
+"@gitlab/ui@128.17.0":
+  version "128.17.0"
+  resolved "https://registry.yarnpkg.com/@gitlab/ui/-/ui-128.17.0.tgz#3c630199634b5e1dd26da7579e6d6dc0dd91449c"
+  integrity sha512-0iF7LqBBafawOeDMUqZoa2g8Qoa0n0o6CxnFFQesJVUYHfTGUvjrAqEfduEa4w8F5tZeP7IaW0Ye0ajgKSVO7w==
   dependencies:
-    "@floating-ui/dom" "1.7.5"
+    "@floating-ui/dom" "1.7.6"
     echarts "^5.6.0"
     gridstack "^12.4.2"
     iframe-resizer "^4.4.5"

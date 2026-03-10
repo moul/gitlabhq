@@ -323,6 +323,15 @@ html:not(.application-chrome) .super-sidebar {
     mix-blend-mode: var(--super-sidebar-hr-mix-blend-mode);
   }
 
+  .btn-with-notification {
+    position: relative;
+
+    .notification-dot-info {
+      @include notification-dot(var(--gl-status-info-text-color), 6px, 5px, 17px);
+      border: 0;
+    }
+  }
+
   .super-sidebar-help-center-toggle[aria-expanded='true'] {
     background-color: $gray-50 !important;
   }

@@ -67159,6 +67159,10 @@ components:
           type: string
         individual_note:
           type: string
+        resolvable:
+          type: boolean
+        resolved:
+          type: boolean
         notes:
           "$ref": "#/components/schemas/APIEntitiesNote"
     APIEntitiesBoard:

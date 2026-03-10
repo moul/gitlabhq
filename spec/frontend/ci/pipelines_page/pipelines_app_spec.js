@@ -930,5 +930,31 @@ describe('Pipelines App', () => {
       expect(successDynamicHandler).not.toHaveBeenCalled();
       expect(singlePipelineHandler).not.toHaveBeenCalled();
     });
+
+    it('does not fetch new pipelines when there are active filters', async () => {
+      createComponent({
+        requestHandlers: [
+          [getPipelinesQuery, successDynamicHandler],
+          [getAllPipelinesCountQuery, countHandler],
+          [getSinglePipelineQuery, singlePipelineHandler],
+        ],
+      });
+
+      await waitForPromises();
+
+      findFilteredSearch().vm.$emit('filterPipelines', mockPipelinesFilteredSearch);
+
+      await waitForPromises();
+
+      mockSubscription.next({
+        data: {
+          ciPipelineStatusesUpdated: { id: 'gid://gitlab/Ci::Pipeline/2026' },
+        },
+      });
+
+      await waitForPromises();
+
+      expect(singlePipelineHandler).not.toHaveBeenCalled();
+    });
   });
 });

@@ -984,9 +984,13 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
     it { is_expected.to delegate_method(:archived).to(:namespace_settings).allow_nil }
     it { is_expected.to delegate_method(:creator).to(:namespace_details) }
     it { is_expected.to delegate_method(:creator=).to(:namespace_details).with_arguments(:args) }
+    it { is_expected.to delegate_method(:deletion_error).to(:namespace_details) }
+    it { is_expected.to delegate_method(:deletion_error=).to(:namespace_details).with_arguments(:args) }
     it { is_expected.to delegate_method(:description).to(:namespace_details) }
     it { is_expected.to delegate_method(:description=).to(:namespace_details).with_arguments(:args) }
     it { is_expected.to delegate_method(:description_html).to(:namespace_details) }
+    it { is_expected.to delegate_method(:last_error).to(:namespace_details) }
+    it { is_expected.to delegate_method(:last_error=).to(:namespace_details).with_arguments(:args) }
     it { is_expected.to delegate_method(:state_metadata).to(:namespace_details) }
     it { is_expected.to delegate_method(:state_metadata=).to(:namespace_details).with_arguments(:args) }
     it { is_expected.to delegate_method(:deletion_scheduled_at).to(:namespace_details) }

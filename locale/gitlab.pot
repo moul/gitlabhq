@@ -5182,6 +5182,9 @@ msgstr ""
 msgid "Add reaction"
 msgstr ""
 
+msgid "Add reaction to @%{username}"
+msgstr ""
+
 msgid "Add request manually"
 msgstr ""
 
@@ -23936,6 +23939,9 @@ msgstr ""
 msgid "Delete comment template"
 msgstr ""
 
+msgid "Delete comment, @%{username}"
+msgstr ""
+
 msgid "Delete comment?"
 msgstr ""
 
@@ -27269,6 +27275,9 @@ msgid "Edit comment"
 msgstr ""
 
 msgid "Edit comment template"
+msgstr ""
+
+msgid "Edit comment, @%{username}"
 msgstr ""
 
 msgid "Edit commit message"
@@ -44459,6 +44468,9 @@ msgstr ""
 msgid "More actions"
 msgstr ""
 
+msgid "More actions for @%{username}"
+msgstr ""
+
 msgid "More details"
 msgstr ""
 
@@ -57056,6 +57068,9 @@ msgstr ""
 msgid "Reply internally"
 msgstr ""
 
+msgid "Reply to @%{username}"
+msgstr ""
+
 msgid "Reply to comment"
 msgstr ""
 
@@ -57711,6 +57726,9 @@ msgid "Resolve source branch %{source_branch_name} conflicts using interactive m
 msgstr ""
 
 msgid "Resolve thread"
+msgstr ""
+
+msgid "Resolve, @%{username}"
 msgstr ""
 
 msgid "Resolved"
@@ -79064,6 +79082,9 @@ msgstr ""
 msgid "WorkItem|Archive %{itemName}"
 msgstr ""
 
+msgid "WorkItem|Archive type: %{typeName}"
+msgstr ""
+
 msgid "WorkItem|Archived"
 msgstr ""
 
@@ -79071,6 +79092,9 @@ msgid "WorkItem|Archived custom fields"
 msgstr ""
 
 msgid "WorkItem|Archived types"
+msgstr ""
+
+msgid "WorkItem|Archiving a work item type will make it unusable in all groups and projects. Items already using this type will keep this type and may be changed to other types."
 msgstr ""
 
 msgid "WorkItem|Are you sure you want to cancel creating this %{workItemType}?"
@@ -79140,6 +79164,9 @@ msgid "WorkItem|Cannot be used to create new items."
 msgstr ""
 
 msgid "WorkItem|Cannot remove status"
+msgstr ""
+
+msgid "WorkItem|Cannot unarchive type. You've reached the limit of %{limit} active work item types. Archive an existing type to unarchive this one."
 msgstr ""
 
 msgid "WorkItem|Change appearance for all issues, epics, and tasks"
@@ -80256,19 +80283,25 @@ msgstr ""
 msgid "WorkItem|Type"
 msgstr ""
 
+msgid "WorkItem|Type archived."
+msgstr ""
+
 msgid "WorkItem|Type changed."
 msgstr ""
 
 msgid "WorkItem|Type lifecycle updated."
 msgstr ""
 
-msgid "WorkItem|UnArchive"
+msgid "WorkItem|Type unarchived."
 msgstr ""
 
 msgid "WorkItem|Unable to fetch destination projects."
 msgstr ""
 
 msgid "WorkItem|Unable to find selected template."
+msgstr ""
+
+msgid "WorkItem|Unarchive"
 msgstr ""
 
 msgid "WorkItem|Unarchive %{itemName}"

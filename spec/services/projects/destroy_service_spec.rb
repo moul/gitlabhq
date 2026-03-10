@@ -157,11 +157,18 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
       expect(project.reload.pending_delete).to be(false)
     end
 
-    it 'stores an error message in `projects.delete_error`' do
+    it 'stores an error message in deletion_error' do
       destroy_project(project, user, {})
 
-      expect(project.reload.delete_error).to be_present
-      expect(project.delete_error).to match(error_message)
+      expect(project.reload.deletion_error).to be_present
+      expect(project.deletion_error).to match(error_message)
+    end
+
+    it 'stores the error message after the state transition so it is not overwritten' do
+      destroy_project(project, user, {})
+
+      expect(project.reload.deletion_error).to be_present
+      expect(project.deletion_error).to match(error_message)
     end
 
     context 'when parent group visibility was made more restrictive while project was marked "pending deletion"' do
@@ -527,7 +534,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
           end.to raise_error(Exception, 'Other error message')
 
           expect(project.reload.pending_delete).to be(false)
-          expect(project.delete_error).to include("Other error message")
+          expect(project.deletion_error).to include("Other error message")
         end
       end
     end
@@ -730,7 +737,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
       it 'does not delete the project' do
         expect(destroy_project(project, user)).to be_falsey
 
-        expect(project.delete_error).to eq "Couldn't remove the project. A project repository storage move is in progress. Try again when it's complete."
+        expect(project.deletion_error).to eq "Couldn't remove the project. A project repository storage move is in progress. Try again when it's complete."
         expect(project.pending_delete).to be_falsey
       end
     end
@@ -742,7 +749,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
       it 'does not delete the project' do
         expect(destroy_project(project, user)).to be_falsey
 
-        expect(project.delete_error).to eq "Couldn't remove the project. A related snippet repository storage move is in progress. Try again when it's complete."
+        expect(project.deletion_error).to eq "Couldn't remove the project. A related snippet repository storage move is in progress. Try again when it's complete."
         expect(project.pending_delete).to be_falsey
       end
     end
@@ -911,7 +918,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
         end
 
         expect(destroy_project(project, user)).to be_falsey
-        expect(project.delete_error).to include('Failed to remove events')
+        expect(project.deletion_error).to include('Failed to remove events')
       end
     end
   end
@@ -991,7 +998,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
 
       it 'raises a clear error message about the failed deletion' do
         expect(destroy_project(project, user)).to be_falsey
-        expect(project.delete_error).to eq 'Cannot delete record because dependent pipeline artifacts exist'
+        expect(project.deletion_error).to eq 'Cannot delete record because dependent pipeline artifacts exist'
       end
     end
   end

@@ -4,17 +4,14 @@ group: Authentication
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
 title: Service accounts
 description: Create non-human accounts for automated processes and third-party service integrations.
+availability_details: no
 ---
-
-{{< details >}}
-
-- Tier: Premium, Ultimate
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
 
 {{< history >}}
 
+- Service accounts on the Free tier [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225913) in GitLab 18.10
+  [with a flag](../../administration/feature_flags/_index.md) named `service_accounts_available_on_free_or_unlicensed`. Disabled by default.
+- Service accounts on the Free tier [enabled on GitLab.com](https://gitlab.com/gitlab-org/gitlab/-/issues/591930) in GitLab 18.10.
 - Project service accounts [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/585509) in GitLab 18.10
   [with a flag](../../administration/feature_flags/_index.md) named `allow_projects_to_create_service_accounts`.
   Disabled by default.
@@ -23,6 +20,10 @@ description: Create non-human accounts for automated processes and third-party s
   Disabled by default.
 
 {{< /history >}}
+
+> [!flag]
+> On GitLab Self-Managed and GitLab Dedicated, the availability of service accounts on the Free
+> tier is controlled by a feature flag. For more information, see the history.
 
 Service accounts are user accounts that represent non-human entities rather than individual people.
 Use service accounts to perform automated actions, access data, or run scheduled processes. Service
@@ -48,6 +49,14 @@ Service accounts:
   when provisioned by a subgroup or project.
 
 You can also manage service accounts through the [service accounts API](../../api/service_accounts.md).
+
+The number of service accounts you can create depends on your subscription and offering:
+
+- On GitLab Premium and Ultimate, you can create an unlimited number of service accounts for all offerings.
+- On GitLab Free, limits vary by offering:
+  - For GitLab.com, you can create up to 100 service accounts for each top-level group.
+    This includes service accounts created in subgroups or projects.
+  - For GitLab Self-Managed and GitLab Dedicated, you cannot create service accounts.
 
 ## Types of service accounts
 
@@ -159,10 +168,13 @@ By default, on GitLab Self-Managed and GitLab Dedicated, only administrators can
 However, you can [configure the instance](../../administration/settings/account_and_limit_settings.md#allow-top-level-group-owners-to-create-service-accounts)
 to allow top-level group Owners to create group service accounts.
 
-The number of service accounts you can create is limited by your license:
+The number of service accounts you can create depends on your subscription and offering:
 
-- On GitLab Free, you cannot create service accounts.
-- On GitLab Premium and Ultimate, you can create an unlimited number of service accounts.
+- On GitLab Premium and Ultimate, you can create an unlimited number of service accounts for all offerings.
+- On GitLab Free, limits vary by offering:
+  - For GitLab.com, you can create up to 100 service accounts for each top-level group.
+    This includes service accounts created in subgroups or projects.
+  - For GitLab Self-Managed and GitLab Dedicated, you cannot create service accounts.
 
 To create a service account:
 

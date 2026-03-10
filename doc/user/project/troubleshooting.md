@@ -87,7 +87,7 @@ If this fails, display why it doesn't work with:
 
 ```ruby
 project = Project.find_by_full_path('<project_path>')
-project.delete_error
+project.deletion_error
 ```
 
 ## Toggle a feature for all projects within a group

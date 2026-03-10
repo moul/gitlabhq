@@ -151,13 +151,10 @@ describe('discussions adapters', () => {
       ];
       await nextTick();
       const [discussionRow] = getDiscussionRows();
-      const previousRow = discussionRow.previousElementSibling;
-      expect(previousRow.querySelector('[data-line-number]').dataset.lineNumber).toBe(
+      const codeRow = discussionRow.previousElementSibling;
+      expect(codeRow.querySelector('[data-line-number]').dataset.lineNumber).toBe(
         oldLine.toString(),
       );
-      expect(
-        JSON.parse(discussionRow.querySelector('[data-position]').dataset.position),
-      ).toStrictEqual({ oldPath, newPath, oldLine, newLine: null });
     });
 
     it('provides app data', async () => {
@@ -180,18 +177,17 @@ describe('discussions adapters', () => {
       ).toStrictEqual('Commit');
     });
 
-    it('does not render hidden discussions', async () => {
-      const discussionId = 'hidden-discussion';
+    it('mounts discussion row for hidden discussions', async () => {
       useDiscussions().discussions = [
         {
-          id: discussionId,
+          id: 'hidden-discussion',
           diff_discussion: true,
           position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
           hidden: true,
         },
       ];
       await nextTick();
-      expect(getDiffFile().querySelector('[data-discussion-id]')).toBeNull();
+      expect(getDiscussionRows()).toHaveLength(1);
     });
 
     it('does not render discussions for different paths', async () => {
@@ -236,30 +232,26 @@ describe('discussions adapters', () => {
       button.click();
       getDiffFile().onClick(event);
       await nextTick();
-      expect(
-        JSON.parse(
-          getDiffFile().querySelector('[data-discussion-row] [data-position]').dataset.position,
-        ),
-      ).toStrictEqual({ oldPath, newPath, oldLine: 2, newLine: null });
+      expect(getDiscussionRows()).toHaveLength(1);
     });
 
     it('removes empty row', async () => {
-      const discussionId = 'abc';
       const oldLine = 1;
       useDiscussions().discussions = [
         {
-          id: discussionId,
+          id: 'abc',
           diff_discussion: true,
           position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
         },
       ];
       await nextTick();
-      document.querySelector('#discussions-component').instance().empty();
+      expect(getDiscussionRows()).toHaveLength(1);
+      useDiscussions().discussions = [];
       await nextTick();
       expect(getDiscussionRows()).toHaveLength(0);
     });
 
-    it('re-renders discussions after hiding and showing', async () => {
+    it('keeps discussion row when discussions are hidden', async () => {
       const oldLine = 1;
       useDiscussions().setInitialDiscussions([
         {
@@ -272,11 +264,6 @@ describe('discussions adapters', () => {
       await nextTick();
       expect(getDiscussionRows()).toHaveLength(1);
       store.setFileDiscussionsHidden(oldPath, newPath, true);
-      await nextTick();
-      document.querySelector('#discussions-component').instance().empty();
-      await nextTick();
-      expect(getDiscussionRows()).toHaveLength(0);
-      store.setFileDiscussionsHidden(oldPath, newPath, false);
       await nextTick();
       expect(getDiscussionRows()).toHaveLength(1);
     });
@@ -372,23 +359,35 @@ describe('discussions adapters', () => {
                 <tr data-hunk-lines>
                   <td data-position="old"><a data-line-number="1"></a></td>
                   <td></td>
-                  <td data-position="new"><a data-line-number="1"></a></td>
+                  <td data-position="new"></td>
                   <td></td>
                 </tr>
                 <tr data-hunk-lines>
-                  <td data-position="old"><a data-line-number="2"></a></td>
+                  <td data-position="old"></td>
                   <td></td>
                   <td data-position="new"><a data-line-number="2"></a></td>
                   <td></td>
                 </tr>
                 <tr data-hunk-lines>
-                  <td data-position="old"><a data-line-number="2"></a></td>
+                  <td data-position="old"><a data-line-number="3"></a></td>
+                  <td></td>
+                  <td data-position="new"><a data-line-number="3"></a></td>
+                  <td></td>
+                </tr>
+                <tr data-hunk-lines>
+                  <td data-position="old"><a data-line-number="4"></a></td>
                   <td></td>
                   <td data-position="new">
                     <button data-click="newDiscussion"></button>
-                    <a data-line-number="2"></a>
+                    <a data-line-number="4"></a>
                   </td>
                   <td></td>
+                </tr>
+                <tr data-hunk-lines>
+                  <td data-change="removed" data-position="old"><a data-line-number="5"></a></td>
+                  <td data-change="removed"></td>
+                  <td data-change="added" data-position="new"><a data-line-number="5"></a></td>
+                  <td data-change="added"></td>
                 </tr>
               </tbody>
             </table>
@@ -403,91 +402,66 @@ describe('discussions adapters', () => {
     });
 
     it('renders a discussion on the old side', async () => {
-      const discussionId = 'old-side';
       const oldLine = 1;
       useDiscussions().discussions = [
         {
-          id: discussionId,
+          id: 'old-side',
           diff_discussion: true,
           position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
         },
       ];
       await nextTick();
       const [discussionRow] = getDiscussionRows();
-      const previousRow = discussionRow.previousElementSibling;
+      const codeRow = discussionRow.previousElementSibling;
       expect(
-        previousRow.querySelector('[data-position="old"] [data-line-number]').dataset.lineNumber,
+        codeRow.querySelector('[data-position="old"] [data-line-number]').dataset.lineNumber,
       ).toBe(oldLine.toString());
-      expect(
-        JSON.parse(discussionRow.querySelector('[data-position]').dataset.position),
-      ).toStrictEqual({ oldPath, newPath, oldLine, newLine: null });
+      expect(discussionRow.children).toHaveLength(2);
     });
 
     it('renders a discussion on the new side', async () => {
-      const discussionId = 'new-side';
       const newLine = 2;
       useDiscussions().discussions = [
         {
-          id: discussionId,
+          id: 'new-side',
           diff_discussion: true,
           position: { old_path: oldPath, new_path: newPath, old_line: null, new_line: newLine },
         },
       ];
       await nextTick();
       const [discussionRow] = getDiscussionRows();
-      const previousRow = discussionRow.previousElementSibling;
+      const codeRow = discussionRow.previousElementSibling;
       expect(
-        previousRow.querySelector('[data-position="new"] [data-line-number]').dataset.lineNumber,
+        codeRow.querySelector('[data-position="new"] [data-line-number]').dataset.lineNumber,
       ).toBe(newLine.toString());
-      expect(
-        JSON.parse(discussionRow.querySelector('[data-position]').dataset.position),
-      ).toStrictEqual({ oldPath, newPath, oldLine: null, newLine });
+      expect(discussionRow.children).toHaveLength(2);
     });
 
-    it('renders a discussion on both sides', async () => {
-      const leftDiscussionId = 'left';
-      const rightDiscussionId = 'right';
-      const oldLine = 1;
-      const newLine = 1;
+    it('renders discussions on both sides of a modified row', async () => {
       useDiscussions().discussions = [
         {
-          id: leftDiscussionId,
+          id: 'old-side',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
         },
         {
-          id: rightDiscussionId,
+          id: 'new-side',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: null, new_line: newLine },
+          position: { old_path: oldPath, new_path: newPath, old_line: null, new_line: 5 },
         },
       ];
       await nextTick();
-      const [discussionRow] = getDiscussionRows();
-      expect(
-        JSON.parse(discussionRow.children[0].querySelector('[data-position]').dataset.position),
-      ).toStrictEqual({
-        oldPath,
-        newPath,
-        oldLine,
-        newLine: null,
-      });
-      expect(
-        JSON.parse(discussionRow.children[1].querySelector('[data-position]').dataset.position),
-      ).toStrictEqual({
-        oldPath,
-        newPath,
-        oldLine: null,
-        newLine,
-      });
+      const discussionRows = getDiscussionRows();
+      expect(discussionRows).toHaveLength(1);
+      expect(discussionRows[0].children).toHaveLength(2);
     });
 
     it('renders a discussion spanning both sides', async () => {
-      const discussionId = 'both-sides';
-      const oldLine = 1;
-      const newLine = 1;
+      const oldLine = 3;
+      const newLine = 3;
       useDiscussions().discussions = [
         {
-          id: discussionId,
+          id: 'spanning',
           diff_discussion: true,
           position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: newLine },
         },
@@ -495,23 +469,38 @@ describe('discussions adapters', () => {
       await nextTick();
       const [discussionRow] = getDiscussionRows();
       expect(discussionRow.children).toHaveLength(1);
-      expect(
-        JSON.parse(discussionRow.children[0].querySelector('[data-position]').dataset.position),
-      ).toStrictEqual({ oldPath, newPath, oldLine, newLine });
     });
 
-    it('does not render hidden discussions', async () => {
-      const discussionId = 'hidden-discussion';
+    it('renders multiple discussions on the same spanning row', async () => {
       useDiscussions().discussions = [
         {
-          id: discussionId,
+          id: 'first',
+          diff_discussion: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 3, new_line: 3 },
+        },
+        {
+          id: 'second',
+          diff_discussion: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 3, new_line: 3 },
+        },
+      ];
+      await nextTick();
+      const discussionRows = getDiscussionRows();
+      expect(discussionRows).toHaveLength(1);
+      expect(discussionRows[0].children).toHaveLength(1);
+    });
+
+    it('mounts discussion row for hidden discussions', async () => {
+      useDiscussions().discussions = [
+        {
+          id: 'hidden-discussion',
           diff_discussion: true,
           position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
           hidden: true,
         },
       ];
       await nextTick();
-      expect(getDiffFile().querySelector('[data-discussion-id]')).toBeNull();
+      expect(getDiscussionRows()).toHaveLength(1);
     });
 
     it('does not render discussions for different paths', async () => {
@@ -527,21 +516,19 @@ describe('discussions adapters', () => {
     });
 
     it('creates only one discussion row when multiple discussions share the same position', async () => {
-      const oldLine = 1;
       useDiscussions().discussions = [
         {
           id: 'first',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
+          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
         },
         {
           id: 'second',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
+          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
         },
       ];
       await nextTick();
-
       const discussionRows = getDiscussionRows();
       expect(discussionRows).toHaveLength(1);
       expect(discussionRows[0].querySelectorAll('td')).toHaveLength(2);
@@ -556,50 +543,22 @@ describe('discussions adapters', () => {
       button.click();
       getDiffFile().onClick(event);
       await nextTick();
-      expect(
-        JSON.parse(
-          getDiffFile().querySelector('[data-discussion-row] [data-position]').dataset.position,
-        ),
-      ).toStrictEqual({ oldPath, newPath, oldLine: 2, newLine: 2 });
+      expect(getDiscussionRows()).toHaveLength(1);
     });
 
     it('removes empty row', async () => {
-      const discussionId = 'abc';
-      const oldLine = 1;
       useDiscussions().discussions = [
         {
-          id: discussionId,
+          id: 'abc',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
+          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
         },
       ];
-      await nextTick();
-      document.querySelector('#discussions-component').instance().empty();
-      await nextTick();
-      expect(getDiscussionRows()).toHaveLength(0);
-    });
-
-    it('does not remove row if it contains at least one discussion', async () => {
-      const leftDiscussionId = 'left';
-      const rightDiscussionId = 'right';
-      const oldLine = 1;
-      const newLine = 1;
-      useDiscussions().discussions = [
-        {
-          id: leftDiscussionId,
-          diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
-        },
-        {
-          id: rightDiscussionId,
-          diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: null, new_line: newLine },
-        },
-      ];
-      await nextTick();
-      document.querySelector('#discussions-component').instance().empty();
       await nextTick();
       expect(getDiscussionRows()).toHaveLength(1);
+      useDiscussions().discussions = [];
+      await nextTick();
+      expect(getDiscussionRows()).toHaveLength(0);
     });
   });
 });

@@ -49,11 +49,6 @@ export default {
       type: Number,
       required: true,
     },
-    isExpanded: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
   emits: ['update-variables'],
   apollo: {
@@ -91,7 +86,7 @@ export default {
           value: '',
         },
       ],
-      expanded: this.isExpanded,
+      expanded: false,
       manualJob: false,
     };
   },
