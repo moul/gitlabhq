@@ -117,7 +117,6 @@ Follow these steps to configure the base domain and other settings required for 
    The IP address might be listed in the `Non-authoritative answer:` section of the response.
 
    Copy this IP address, as you need it in the next step.
-
 1. Go back to the application project.
 1. On the left sidebar, select **Settings** > **CI/CD** and expand **Variables**.
    - Add a key called `KUBE_INGRESS_BASE_DOMAIN` with the application deployment domain as the value. For this example, use the domain `<IP address>.nip.io`.
@@ -177,16 +176,12 @@ The jobs are separated into stages:
   - Jobs suffixed with `-sast` run static analysis on the current code to check for potential
     security issues, and are allowed to fail ([Auto SAST](../stages.md#auto-sast))
   - The `secret-detection` job checks for leaked secrets and is allowed to fail ([auto secret detection](../stages.md#auto-secret-detection))
-
 - **Review** - Pipelines on the default branch include this stage with a `dast_environment_deploy` job.
   To learn more, see [dynamic application security testing (DAST)](../../../user/application_security/dast/_index.md).
-
 - **Production** - After the tests and checks finish, the application deploys in
   Kubernetes ([Auto Deploy](../stages.md#auto-deploy)).
-
 - **Performance** - Performance tests are run on the deployed application
   ([Auto Browser Performance Testing](../stages.md#auto-browser-performance-testing)).
-
 - **Cleanup** - Pipelines on the default branch include this stage with a `stop_dast_environment` job.
 
 After running a pipeline, you should view your deployed website and learn how

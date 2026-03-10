@@ -82,7 +82,6 @@ Let's test this feature by adding the fake secret `glpat-12345678901234567890` t
    ```
 
    The secret is now entered into the commit history. Secret push protection doesn't stop you from committing a secret; it only alerts you when you push.
-
 1. Push the changes to GitLab. You should see something like this:
 
    ```shell

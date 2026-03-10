@@ -118,7 +118,6 @@ Prerequisites:
 - [Visual Studio Code](https://code.visualstudio.com/) must be installed on your local machine.
   Other versions of VS Code, like VS Code Insiders and VSCodium, are not supported.
 - [Configure your browser for IDE protocols](#configure-browsers-for-ide-protocols).
-
 - From the GitLab interface:
   1. Go to the project's overview page.
   1. In the upper-right corner, select **Code**.
@@ -365,7 +364,6 @@ remove filtering:
 
 1. Delete the `.promisor` file. The previous step should have left only one
    `pack-<SHA1>.promisor` file, which should be empty and should be deleted.
-
 1. Remove partial clone configuration. The partial clone-related configuration
    variables should be removed from Git configuration files. Usually only the following
    configuration must be removed:

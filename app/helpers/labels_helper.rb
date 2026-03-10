@@ -145,8 +145,7 @@ module LabelsHelper
 
     case label_subscription_status(label, project)
     when 'group-level' then toggle_subscription_group_label_path(label.group, label)
-    when 'project-level' then toggle_subscription_project_label_path(project, label)
-    when 'unsubscribed' then toggle_subscription_project_label_path(project, label)
+    when 'project-level', 'unsubscribed' then toggle_subscription_project_label_path(project, label)
     end
   end
 

@@ -1904,6 +1904,29 @@ Grants the ability to read Zoekt nodes.
 | Read | Instance | `GET` | `/admin/zoekt/shards` |
 | Read | Instance | `GET` | `/admin/zoekt/shards/:node_id/indexed_namespaces` |
 
+### Subscription And Licensing resources
+
+#### License
+
+Grants the ability to read, create, and delete licenses.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Instance | `POST` | `/license` |
+| Delete | Instance | `DELETE` | `/license/:id` |
+| Read | Instance | `GET` | `/license` |
+| Read | Instance | `GET` | `/license/usage_export` |
+| Read | Instance | `GET` | `/license/:id` |
+| Read | Instance | `GET` | `/licenses` |
+
+#### License Billable User
+
+Grants the ability to refresh billable users for licenses.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Refresh | Instance | `PUT` | `/license/:id/refresh_billable_users` |
+
 ### System Access resources
 
 #### Access Request

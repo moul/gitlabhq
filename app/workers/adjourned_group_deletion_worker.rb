@@ -4,6 +4,7 @@
 # rubocop:disable Gitlab/BoundedContexts -- existing class moved from EE to CE
 # rubocop:disable Gitlab/NamespacedClass -- existing class moved from EE to CE
 class AdjournedGroupDeletionWorker
+  include ::Gitlab::InternalEventsTracking
   include ApplicationWorker
 
   data_consistency :sticky
@@ -28,11 +29,26 @@ class AdjournedGroupDeletionWorker
       user = deletion_schedule.deleting_user
 
       with_context(namespace: group, user: user) do
+        track_event(group, user)
+
         Namespaces::Groups::AdjournedDeletionService
           .new(group: group, current_user: user, params: { delay: delay })
           .execute
       end
     end
+  end
+
+  private
+
+  def track_event(group, user)
+    track_internal_event(
+      'trigger_delete_on_group',
+      namespace: group,
+      user: user,
+      label: 'worker',
+      property: 'true',
+      actor: 'system'
+    )
   end
 end
 # rubocop:enable Scalability/IdempotentWorker

@@ -113,7 +113,6 @@ To change or add a commit to the contributor's merge request:
    ```
 
    These commands fetch the branch from the forked project and create a local branch for you to work on.
-
 1. Make your changes to the local copy of the branch, and then commit them.
 1. Push your local changes to the forked project. The following command pushes the
    local branch `contributor/fork-branch` to the `fork-branch` branch of

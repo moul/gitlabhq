@@ -129,7 +129,6 @@ To purge files from a GitLab repository:
    > [!note]
    > This step fails for [protected branches](../../user/project/repository/branches/protected.md) and
    > [protected tags](../../user/project/protected_tags.md). To proceed, temporarily remove protections.
-
 1. Wait at least 30 minutes before the next step.
 1. Run the [clean up repository](../../user/project/repository/repository_size.md#clean-up-repository) process.
    This process only cleans up objects that are more than 30 minutes old.

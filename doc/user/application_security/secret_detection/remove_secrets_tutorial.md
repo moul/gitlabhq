@@ -102,7 +102,6 @@ to every commit after the secret was added:
    ```
 
    Even if the secret is removed from commit `456def`, it still exists in the history and is exposed if the changes are pushed now.
-
 1. To fix the history, start an interactive rebase from the commit that introduced the secret:
 
    ```shell

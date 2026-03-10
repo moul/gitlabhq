@@ -71,7 +71,6 @@ To use Git to rebase your branch against the target branch:
 
    Changes added to `my-branch` after this point are lost
    if you restore from the backup branch.
-
 1. Rebase against the `main` branch:
 
    ```shell
@@ -127,7 +126,6 @@ To rebase interactively:
 
    Changes added to `my-branch` after this point are lost
    if you restore from the backup branch.
-
 1. In the GitLab UI, in your merge request, confirm the number of commits
    to rebase in the **Commits** tab.
 1. Open these commits. For example, to edit the last five commits:
@@ -233,7 +231,6 @@ Prerequisites:
    > You can run `git rebase --abort` to stop the process before this point.
    > Git aborts the rebase and rolls back the branch to the state
    > before running `git rebase`. After you run `git rebase --continue`, you cannot abort the rebase.
-
 1. Continue the rebase:
 
    ```shell

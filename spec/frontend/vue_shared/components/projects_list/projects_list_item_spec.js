@@ -538,7 +538,9 @@ describe('ProjectsListItem', () => {
     });
 
     it('displays actions dropdown', () => {
-      expect(findListActions().props('project')).toBe(projectWithActions);
+      expect(findListActions().props()).toMatchObject({
+        project: projectWithActions,
+      });
     });
 
     describe('when list item actions emits action', () => {

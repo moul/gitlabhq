@@ -71,7 +71,6 @@ Follow these steps to provide the Bearer token with `APISEC_OVERRIDES_ENV`:
    Due to the format of `TEST_API_BEARERAUTH` it's not possible to mask the variable.
    To mask the token's value, you can create a second variable with the token values, and define
    `TEST_API_BEARERAUTH` with the value `{"headers":{"Authorization":"Bearer $MASKED_VARIABLE"}}`.
-
 1. In your `.gitlab-ci.yml` file, set `APISEC_OVERRIDES_ENV` to the variable you just created:
 
    ```yaml

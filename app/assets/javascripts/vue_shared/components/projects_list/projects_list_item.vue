@@ -43,6 +43,11 @@ export default {
     TopicBadges,
     CiCatalogBadge,
   },
+  provide() {
+    return {
+      triggerDeleteLocation: 'list',
+    };
+  },
   props: {
     project: {
       type: Object,

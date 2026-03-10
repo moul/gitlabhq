@@ -31,6 +31,11 @@ export default {
     GroupsListItemPlanBadge: () =>
       import('ee_component/vue_shared/components/groups_list/groups_list_item_plan_badge.vue'),
   },
+  provide() {
+    return {
+      triggerDeleteLocation: 'list',
+    };
+  },
   props: {
     group: {
       type: Object,

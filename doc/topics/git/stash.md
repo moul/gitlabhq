@@ -33,7 +33,6 @@ You can use options to control which changes are included.
 
   The `-k` (`--keep-index`) option stashes your changes but also keeps them in the working directory.
   Use this option when you want to temporarily save changes but keep working on them.
-
 - To stash changes and include untracked files:
 
   ```shell
@@ -42,7 +41,6 @@ You can use options to control which changes are included.
 
   The `-u` (`--include-untracked`) option also stashes files that Git is not yet tracking.
   Without this option, new files that have not been committed remain in your working directory.
-
 - To stash only staged changes:
 
   ```shell

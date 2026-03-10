@@ -376,7 +376,9 @@ describe('GroupsListItem', () => {
     beforeEach(createComponent);
 
     it('renders list item actions with correct props', () => {
-      expect(findGroupListItemActions().props()).toMatchObject({ group });
+      expect(findGroupListItemActions().props()).toMatchObject({
+        group,
+      });
     });
 
     describe('when list item actions emits action', () => {

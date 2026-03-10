@@ -119,7 +119,6 @@ To add a large file into your Git repository and track it with Git LFS:
    > [!note]
    > Ensure the files you're changing are not listed in a `.gitignore` file.
    > If they are, Git commits the change locally but doesn't push it to your upstream repository.
-
 1. Commit both files to your local copy of the repository:
 
    ```shell

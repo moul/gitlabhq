@@ -62,22 +62,18 @@ The pilot phase helps you achieve several key objectives:
   scope while collecting valuable data on your current security posture. In the rollout phase you
   should use a [merge request approval policy](#merge-request-approval-policy) to add an additional
   approval gate when vulnerabilities are detected in merge requests.
-
 - Establish scalable detection methods
 
   Implement application security testing on pilot projects in a way that can be expanded to include
   all projects in the wider rollout scope. Focus on configurations that scale well and can be
   standardized across projects.
-
 - Test scan times
 
   Test scan times on representative codebases and applications.
-
 - Simulate the vulnerability remediation workflow
 
   Simulate detecting, triaging, analyzing, and remediating vulnerabilities in the developer
   workflows. Verify that engineers can act on findings.
-
 - Compare maintenance costs
 
   Compare the maintenance of a single solution versus integrating multiple endpoint solutions. How

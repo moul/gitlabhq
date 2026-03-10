@@ -37,6 +37,21 @@ RSpec.describe AdjournedGroupDeletionWorker, feature_category: :groups_and_proje
         worker.perform
       end
 
+      it 'tracks internal event for group deletion' do
+        expect { worker.perform }
+          .to trigger_internal_events('trigger_delete_on_group')
+          .with(
+            namespace: group_marked_for_deletion,
+            user: user,
+            additional_properties: {
+              label: 'worker',
+              property: 'true',
+              actor: 'system'
+            }
+          )
+          .and increment_usage_metrics('counts.count_total_permanent_group_deletion_on_worker')
+      end
+
       it 'does not schedule to delete a group not marked for deletion' do
         expect(GroupDestroyWorker).not_to receive(:perform_in).with(0, group_not_marked_for_deletion.id, user.id)
 

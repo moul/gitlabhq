@@ -611,7 +611,6 @@ This example excludes from `gl-container-scanning-report.json`:
 ##### File format
 
 - `generalallowlist` block allows you to specify CVE IDs globally. All vulnerabilities with matching CVE IDs are excluded from the scan report.
-
 - `images` block allows you to specify CVE IDs for each container image independently. All vulnerabilities from the given image with matching CVE IDs are excluded from the scan report. The image name is retrieved from one of the environment variables used to specify the Docker image to be scanned, such as `$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG` or `CS_IMAGE`. The image provided in this block **must** match this value and **must not** include the tag value. For example, if you specify the image to be scanned using `CS_IMAGE=alpine:3.7`, then you would use `alpine` in the `images` block, but you cannot use `alpine:3.7`.
 
   You can specify container image in multiple ways:
@@ -880,7 +879,6 @@ against a Docker container without needing to run it within the context of a CI 
 image directly, follow these steps:
 
 1. Run Docker Desktop or Docker Machine.
-
 1. Run the analyzer's Docker image, passing the image and tag you want to analyze in the
    `CI_APPLICATION_REPOSITORY` and `CI_APPLICATION_TAG` variables:
 
@@ -941,7 +939,6 @@ container_scanning:
 ```
 
 - After enabling this feature, the generated CycloneDX report will include license information for components detected in your container images.
-
 - You can view this license information in the dependency list page or as part of the downloadable CycloneDX job artifact.
 
 It is important to mention that only SPDX licenses are supported. However, licenses that are non-compliant with SPDX will still be ingested without any user-facing error.
@@ -1071,7 +1068,7 @@ Some vulnerabilities can be fixed by applying the solution that GitLab
 automatically generates.
 
 To enable remediation support, the scanning tool must have access to the `Dockerfile` specified by
-the CI/CD variable`CS_DOCKERFILE_PATH`. To ensure that the scanning tool
+the CI/CD variable `CS_DOCKERFILE_PATH`. To ensure that the scanning tool
 has access to this
 file, it's necessary to set [`GIT_STRATEGY: fetch`](../../../ci/runners/configure_runners.md#git-strategy) in
 your `.gitlab-ci.yml` file by following the instructions described in this document's

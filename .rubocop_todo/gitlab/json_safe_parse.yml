@@ -76,7 +76,6 @@ Gitlab/JsonSafeParse:
     - 'app/services/jira/requests/base.rb'
     - 'app/services/mcp/tools/api_service.rb'
     - 'app/services/packages/composer/composer_json_service.rb'
-    - 'app/services/packages/npm/check_manifest_coherence_service.rb'
     - 'app/services/packages/npm/process_temporary_package_file_service.rb'
     - 'app/services/projects/lfs_pointers/lfs_download_link_list_service.rb'
     - 'app/services/web_hook_service.rb'

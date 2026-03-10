@@ -164,7 +164,6 @@ commits `A-B-C-D` and you want to delete commit `B`.
    ```
 
    A list of commits is displayed in your editor.
-
 1. In front of commit `B`, replace `pick` with `drop`.
 1. Leave the default, `pick`, for all other commits.
 1. Save and exit the editor.
@@ -181,7 +180,6 @@ commits `A-B-C-D` and you want to modify something introduced in commit `B`.
    ```
 
    A list of commits is displayed in your editor.
-
 1. In front of commit `B`, replace `pick` with `edit`.
 1. Leave the default, `pick`, for all other commits.
 1. Save and exit the editor.

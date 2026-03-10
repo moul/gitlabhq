@@ -39,6 +39,17 @@ describe('PersonalAccessTokenResourcesList', () => {
     createComponent();
   });
 
+  describe('props validation', () => {
+    it('validates `scope` prop correctly', () => {
+      const { validator } = PersonalAccessTokenResourcesList.props.scope;
+
+      expect(validator('namespace')).toBe(true);
+      expect(validator('user')).toBe(true);
+      expect(validator('invalid')).toBe(false);
+      expect(validator('')).toBe(false);
+    });
+  });
+
   describe('rendering', () => {
     it('renders checkbox group', () => {
       expect(findCheckboxGroup().exists()).toBe(true);
@@ -86,25 +97,31 @@ describe('PersonalAccessTokenResourcesList', () => {
     });
 
     it('renders checkboxes for each resource', () => {
-      expect(findCheckboxes()).toHaveLength(2);
+      expect(findCheckboxes()).toHaveLength(3);
 
       expect(findCheckbox(0).text()).toBe('Project');
       expect(findCheckbox(0).attributes('value')).toBe('project');
 
-      expect(findCheckbox(1).text()).toBe('Repository');
-      expect(findCheckbox(1).attributes('value')).toBe('repository');
+      expect(findCheckbox(1).text()).toBe('Contributed project');
+      expect(findCheckbox(1).attributes('value')).toBe('contributed_project');
+
+      expect(findCheckbox(2).text()).toBe('Repository');
+      expect(findCheckbox(2).attributes('value')).toBe('repository');
     });
   });
 
   describe('resource description', () => {
     it('renders popover with description for each resource', () => {
-      expect(findPopovers()).toHaveLength(2);
+      expect(findPopovers()).toHaveLength(3);
 
       expect(findPopover(0).text()).toBe('Project resource description');
       expect(findPopover(0).attributes('target')).toBe('namespace-project');
 
-      expect(findPopover(1).text()).toBe('Repository resource description');
-      expect(findPopover(1).attributes('target')).toBe('namespace-repository');
+      expect(findPopover(1).text()).toBe('Contributed project resource description');
+      expect(findPopover(1).attributes('target')).toBe('namespace-contributed_project');
+
+      expect(findPopover(2).text()).toBe('Repository resource description');
+      expect(findPopover(2).attributes('target')).toBe('namespace-repository');
     });
   });
 

@@ -198,7 +198,6 @@ To change the port used for the liveness checks, pass
 used by Auto DevOps:
 
 1. Create a directory and file at the root of your repository named `.gitlab/auto-deploy-values.yaml`.
-
 1. Populate the file with the following content, replacing the port values with
    the actual port number your application is configured to use:
 

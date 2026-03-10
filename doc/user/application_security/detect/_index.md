@@ -119,7 +119,6 @@ Security scanning jobs in a CI/CD pipeline are determined by the following crite
 
    Security scanning runs by default in branch pipelines. To run security scanning in merge request
    pipelines you must specifically [enable it](security_configuration.md#use-security-scanning-tools-with-merge-request-pipelines).
-
 1. Evaluation of rules
 
    Each template has defined [rules](../../../ci/yaml/_index.md#rules) which determine if the
@@ -127,7 +126,6 @@ Security scanning jobs in a CI/CD pipeline are determined by the following crite
 
    For example, some analyzers run only if files of a specific type are detected in the
    repository.
-
 1. Analyzer logic
 
    If the template's rules dictate that the job is to be run, a job is created in the pipeline stage

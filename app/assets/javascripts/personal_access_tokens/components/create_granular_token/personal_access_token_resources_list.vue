@@ -21,19 +21,20 @@ export default {
     GlPopover,
   },
   props: {
-    scope: {
-      type: String,
-      required: true,
+    value: {
+      type: Array,
+      required: false,
+      default: () => [],
     },
     permissions: {
       type: Array,
       required: false,
       default: () => [],
     },
-    value: {
-      type: Array,
-      required: false,
-      default: () => [],
+    scope: {
+      type: String,
+      required: true,
+      validator: (value) => ['namespace', 'user'].includes(value),
     },
   },
   emits: ['input'],

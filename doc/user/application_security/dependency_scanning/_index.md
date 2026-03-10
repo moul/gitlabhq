@@ -708,7 +708,6 @@ To allow the dependency analyzer to authenticate with a private Maven repository
    of `verysecret`, you would set the `MAVEN_CLI_OPTS` CI/CD variable to the following:
 
    `--settings mysettings.xml -Drepository.password=verysecret -Drepository.user=myuser`
-
 1. Create the `mysettings.xml` Maven settings file with your server configuration. The filename must
    match the value you specified in the `--settings` option in step 1.
 
@@ -781,7 +780,6 @@ To use dependency scanning with all [supported languages and frameworks](#suppor
    process by which external resources can be imported or temporarily accessed.
    These scanners are [periodically updated](../detect/vulnerability_scanner_maintenance.md)
    with new definitions, and you may want to download them regularly.
-
 1. Configure GitLab CI/CD to use the local analyzers.
 
    Set the value of the CI/CD variable `SECURE_ANALYZERS_PREFIX` to your local Docker registry - in
@@ -892,7 +890,6 @@ To configure the Maven dependency scanner to use a proxy:
 
    For details on how to specify the proxy configuration, see the
    [Maven documentation](https://maven.apache.org/guides/mini/guide-proxies.html).
-
 1. Define the `MAVEN_CLI_OPTS` CI/CD variable in your project's `.gitlab-ci.yml` file to reference
    the settings file `mysettings.xml`.
 
@@ -1202,7 +1199,6 @@ To support the following package managers, the GitLab analyzers proceed in two s
    - If your project does not use a `gradlew` file, then the analyzer automatically switches to one of the pre-installed Gradle versions, based on the version of Java specified by the `DS_JAVA_VERSION` variable (default version is 17).
 
      For Java versions 8 and 11, Gradle 6.7.1 is automatically selected, Java 17 uses Gradle 7.6.4, and Java 21 uses Gradle 8.8.
-
    - If your project does use a `gradlew` file, then the version of Gradle pre-installed in the analyzer image is ignored, and the version specified in your `gradlew` file is used instead.
 1. This test confirms that if a `Pipfile.lock` file is found, it is used by Gemnasium to scan the exact package versions listed in this file.
 1. Because of the implementation of `go build`, the Go build process requires network access, a pre-loaded mod cache using `go mod download`, or vendored dependencies. For more information, refer to the [Go documentation on compiling packages and dependencies](https://pkg.go.dev/cmd/go#hdr-Compile_packages_and_dependencies).
@@ -1253,7 +1249,6 @@ The following analyzers are executed, each of which have different behavior when
 - [Gemnasium](https://gitlab.com/gitlab-org/security-products/analyzers/gemnasium)
 
   Supports multiple lockfiles
-
 - [Retire.js](https://retirejs.github.io/retire.js/)
 
   Does not support multiple lockfiles. When multiple lockfiles exist, `Retire.js`
@@ -1315,7 +1310,6 @@ Follow these steps to modify the `settings.xml` file:
    - `${maven.home}/conf/settings.xml` global settings.
 
 1. Check if there's an existing `<pluginRepositories>` section in the file.
-
 1. If a `<pluginRepositories>` section already exists, add only the following `<pluginRepository>` element inside it.
    Otherwise, add the entire `<pluginRepositories>` section:
 
@@ -1465,7 +1459,6 @@ Follow these best practices when you build projects that use CocoaPods for depen
      1. Open your `.xcworkspace` file in Xcode.
      1. Select your target scheme.
      1. Select **Product** > **Build**. You can also press <kbd>⌘</kbd>+<kbd>B</kbd>.
-
    - [fastlane](https://fastlane.tools/), a tool for automating builds and releases for iOS and Android apps:
 
      1. Install `fastlane`:

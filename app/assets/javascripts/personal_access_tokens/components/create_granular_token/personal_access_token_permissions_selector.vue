@@ -1,6 +1,6 @@
 <script>
 import { GlSearchBoxByType, GlSkeletonLoader } from '@gitlab/ui';
-import { intersection, some } from 'lodash';
+import { intersection, some, groupBy } from 'lodash';
 import { createAlert } from '~/alert';
 import { s__, __ } from '~/locale';
 import getAccessTokenPermissions from '~/personal_access_tokens/graphql/get_access_token_permissions.query.graphql';
@@ -62,9 +62,7 @@ export default {
       return this.isUserScope ? 'user' : 'namespace';
     },
     resourceTitle() {
-      return this.isUserScope
-        ? this.$options.i18n.user.resourceTitle
-        : this.$options.i18n.namespace.resourceTitle;
+      return this.$options.i18n[this.scope].resourceTitle;
     },
     filteredPermissionsByBoundary() {
       return this.permissions.filter(
@@ -86,31 +84,36 @@ export default {
         ),
       );
     },
+    permissionsByResource() {
+      return groupBy(this.filteredPermissionsByBoundary, 'resource');
+    },
   },
   watch: {
     selectedResources(newResources, oldResources) {
-      this.updateSelectedResources(newResources, oldResources);
+      const removedResources = oldResources.filter((resource) => !newResources.includes(resource));
+
+      if (removedResources.length > 0) {
+        this.removePermissionsForResources(removedResources);
+      }
     },
   },
   methods: {
-    updateSelectedResources(newResources, oldResources) {
-      // find resources that were removed
-      const removedResources = oldResources.filter((resource) => !newResources.includes(resource));
-
-      // remove permissions associated with the removed resources
-      if (removedResources.length > 0) {
-        this.selectedPermissions = this.selectedPermissions.filter(
-          (permission) => !removedResources.some((resource) => permission.endsWith(`_${resource}`)),
-        );
-
-        // emit updated permissions after cleanup
-        this.$emit('input', this.selectedPermissions);
-      }
-    },
     handleRemoveResource(resourceToRemove) {
       this.selectedResources = this.selectedResources.filter(
-        (selectedResource) => selectedResource !== resourceToRemove,
+        (resource) => resource !== resourceToRemove,
       );
+      this.removePermissionsForResources([resourceToRemove]);
+    },
+    removePermissionsForResources(removedResources) {
+      const permissionsToRemove = removedResources.flatMap((resource) =>
+        (this.permissionsByResource[resource] ?? []).map((p) => p.name),
+      );
+
+      this.selectedPermissions = this.selectedPermissions.filter(
+        (permission) => !permissionsToRemove.includes(permission),
+      );
+
+      this.$emit('input', this.selectedPermissions);
     },
   },
   i18n: {
@@ -145,8 +148,8 @@ export default {
         <personal-access-token-resources-list
           v-else-if="filteredPermissions.length"
           v-model="selectedResources"
-          :scope="scope"
           :permissions="filteredPermissions"
+          :scope="scope"
         />
         <div v-else class="gl-my-4 gl-text-center gl-text-subtle">
           {{ $options.i18n.noResourcesFound }}
@@ -155,9 +158,9 @@ export default {
 
       <personal-access-token-granular-permissions-list
         v-model="selectedPermissions"
-        :permissions="filteredPermissionsByBoundary"
+        :permissions-by-resource="permissionsByResource"
         :selected-resources="selectedResources"
-        :target-boundaries="targetBoundaries"
+        :scope="scope"
         class="gl-mt-5 gl-w-full lg:gl-w-2/3"
         @input="$emit('input', $event)"
         @remove-resource="handleRemoveResource"
