@@ -43,7 +43,7 @@ The development workflow for branches is:
 To view and manage your branches in the GitLab user interface:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. On the left sidebar, select **Code** > **Branches**.
+1. In the left sidebar, select **Code** > **Branches**.
 
 On this page, you can:
 

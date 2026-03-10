@@ -14217,6 +14217,11 @@ paths:
         required: false
         example: README.md
       - in: query
+        name: follow
+        description: Follow file renames when filtering by path
+        type: boolean
+        required: false
+      - in: query
         name: author
         description: Search commits by commit author
         type: string
@@ -73125,6 +73130,26 @@ definitions:
         type: string
       packages_helm_metadata_caches_verification_failed_count:
         type: string
+      abuse_report_uploads_count:
+        type: string
+      abuse_report_uploads_checksum_total_count:
+        type: string
+      abuse_report_uploads_checksummed_count:
+        type: string
+      abuse_report_uploads_checksum_failed_count:
+        type: string
+      abuse_report_uploads_synced_count:
+        type: string
+      abuse_report_uploads_failed_count:
+        type: string
+      abuse_report_uploads_registry_count:
+        type: string
+      abuse_report_uploads_verification_total_count:
+        type: string
+      abuse_report_uploads_verified_count:
+        type: string
+      abuse_report_uploads_verification_failed_count:
+        type: string
       git_fetch_event_count_weekly:
         type: string
       git_push_event_count_weekly:
@@ -73216,6 +73241,10 @@ definitions:
       packages_helm_metadata_caches_synced_in_percentage:
         type: string
       packages_helm_metadata_caches_verified_in_percentage:
+        type: string
+      abuse_report_uploads_synced_in_percentage:
+        type: string
+      abuse_report_uploads_verified_in_percentage:
         type: string
       repositories_count:
         type: string
@@ -73477,6 +73506,16 @@ definitions:
     - packages_helm_metadata_caches_verification_total_count
     - packages_helm_metadata_caches_verified_count
     - packages_helm_metadata_caches_verification_failed_count
+    - abuse_report_uploads_count
+    - abuse_report_uploads_checksum_total_count
+    - abuse_report_uploads_checksummed_count
+    - abuse_report_uploads_checksum_failed_count
+    - abuse_report_uploads_synced_count
+    - abuse_report_uploads_failed_count
+    - abuse_report_uploads_registry_count
+    - abuse_report_uploads_verification_total_count
+    - abuse_report_uploads_verified_count
+    - abuse_report_uploads_verification_failed_count
     - git_fetch_event_count_weekly
     - git_push_event_count_weekly
     - proxy_remote_requests_event_count_weekly
@@ -73523,6 +73562,8 @@ definitions:
     - supply_chain_attestations_verified_in_percentage
     - packages_helm_metadata_caches_synced_in_percentage
     - packages_helm_metadata_caches_verified_in_percentage
+    - abuse_report_uploads_synced_in_percentage
+    - abuse_report_uploads_verified_in_percentage
     - repositories_count
     - replication_slots_count
     - replication_slots_used_count

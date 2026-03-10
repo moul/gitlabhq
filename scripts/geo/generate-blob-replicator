@@ -1761,7 +1761,7 @@ module Geo
 
     def prometheus_metrics_rows
       p = status_field_prefix
-      h = replicable_name_human_plural
+      h = replicable_name_human_plural.downcase
       m = milestone
 
       # Match the column alignment of existing rows:

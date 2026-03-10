@@ -291,12 +291,12 @@ Now that all branch protections in place, you're ready to create your 1.0.0 rele
 
 The branch protections are now visible in the UI:
 
-- On the left sidebar, select **Code** > **Branches**. In the list of branches,
+- In the left sidebar, select **Code** > **Branches**. In the list of branches,
   branch `1.0.0` should be show that it is protected:
 
   ![List of branches, showing 1.0.0 is protected](img/branch_is_protected_v16_2.png)
 
-- On the left sidebar, select **Settings** > **Repository**, then expand **Branch rules**
+- In the left sidebar, select **Settings** > **Repository**, then expand **Branch rules**
   to see details about all protected branches:
 
   ![List of protected branches and their protections](img/protections_in_place_v16_2.png)

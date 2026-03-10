@@ -103,6 +103,26 @@ RSpec.describe Integrations::Propagation::BulkUpdateService, feature_category: :
           described_class.new(subgroup_integration, batch).execute
         end.to change { integration.data_fields.reload.updated_at }.to(Time.current)
       end
+
+      it 'updates JSONB filters data correctly' do
+        filter = {
+          'global' => {
+            'rules' => [
+              { 'field' => 'user.id', 'operator' => 'eq', 'value' => 1 }
+            ]
+          },
+          'push' => {
+            'rules' => [
+              { 'field' => 'object_kind', 'operator' => 'eq', 'value' => 'work_item' }
+            ]
+          }
+        }
+        subgroup_integration.update!(filter: filter)
+
+        described_class.new(subgroup_integration, batch).execute
+
+        expect(integration.reload.filter).to eq(filter)
+      end
     end
   end
 

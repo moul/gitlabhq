@@ -26,7 +26,7 @@ Enable Maintenance Mode as an administrator in one of these ways:
 
 - **Web UI**:
   1. In the upper-right corner, select **Admin**.
-  1. On the left sidebar, select **Settings** > **General**.
+  1. In the left sidebar, select **Settings** > **General**.
   1. Expand **Maintenance Mode**, and toggle **Enable Maintenance Mode**.
      You can optionally add a message for the banner as well.
   1. Select **Save changes**.
@@ -43,7 +43,7 @@ Disable Maintenance Mode in one of three ways:
 
 - **Web UI**:
   1. In the upper-right corner, select **Admin**.
-  1. On the left sidebar, select **Settings** > **General**.
+  1. In the left sidebar, select **Settings** > **General**.
   1. Expand **Maintenance Mode**, and toggle **Enable Maintenance Mode**.
      You can optionally add a message for the banner as well.
   1. Select **Save changes**.

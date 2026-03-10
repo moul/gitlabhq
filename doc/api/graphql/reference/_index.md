@@ -10197,6 +10197,30 @@ Input type: `MarkAsSpamSnippetInput`
 | <a id="mutation-markasspamsnippet-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 | <a id="mutation-markasspamsnippet-snippet"></a>`snippet` | [`Snippet`](#snippet) | Snippet after mutation. |
 
+### `Mutation.mavenCacheEntryDelete`
+
+{{< details >}}
+**Introduced** in GitLab 18.10.
+**Status**: Experiment.
+{{< /details >}}
+
+Input type: `MavenCacheEntryDeleteInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-mavencacheentrydelete-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-mavencacheentrydelete-id"></a>`id` | [`String!`](#string) | ID of the cache entry. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-mavencacheentrydelete-cacheentry"></a>`cacheEntry` | [`MavenUpstreamCacheEntry`](#mavenupstreamcacheentry) | Maven cache entry. |
+| <a id="mutation-mavencacheentrydelete-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-mavencacheentrydelete-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+
 ### `Mutation.mavenUpstreamCacheDelete`
 
 {{< details >}}
@@ -17269,6 +17293,43 @@ The precise type of `Edge` and `Item` depends on the kind of connection. A
 Some of the types in the schema exist solely to model connections. Each connection
 has a distinct, named type, with a distinct named edge type. These are listed separately
 below.
+
+#### `AbuseReportUploadRegistryConnection`
+
+The connection type for [`AbuseReportUploadRegistry`](#abusereportuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="abusereportuploadregistryconnection-edges"></a>`edges` | [`[AbuseReportUploadRegistryEdge]`](#abusereportuploadregistryedge) | A list of edges. |
+| <a id="abusereportuploadregistryconnection-nodes"></a>`nodes` | [`[AbuseReportUploadRegistry]`](#abusereportuploadregistry) | A list of nodes. |
+| <a id="abusereportuploadregistryconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+##### Fields with arguments
+
+###### `AbuseReportUploadRegistryConnection.count`
+
+Limited count of collection. Returns limit + 1 for counts greater than the limit.
+
+Returns [`Int!`](#int).
+
+Arguments:
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="abusereportuploadregistryconnection-count-limit"></a>`limit` | [`Int`](#int) | Limit value to be applied to the count query. Default is 1000. |
+
+#### `AbuseReportUploadRegistryEdge`
+
+The edge type for [`AbuseReportUploadRegistry`](#abusereportuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="abusereportuploadregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="abusereportuploadregistryedge-node"></a>`node` | [`AbuseReportUploadRegistry`](#abusereportuploadregistry) | The item at the end of the edge. |
 
 #### `AccessLevelDeployKeyConnection`
 
@@ -26581,6 +26642,36 @@ An abuse report.
 | ---- | ---- | ----------- |
 | <a id="abusereport-id"></a>`id` | [`AbuseReportID!`](#abusereportid) | Global ID of the abuse report. |
 
+### `AbuseReportUploadRegistry`
+
+Represents the Geo replication and verification state of a abuse_report_upload.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="abusereportuploadregistry-abusereportuploadid"></a>`abuseReportUploadId` | [`ID!`](#id) | ID of the Abuse Report Upload. |
+| <a id="abusereportuploadregistry-checksummismatch"></a>`checksumMismatch` | [`Boolean`](#boolean) | Indicate if the checksums of the AbuseReportUploadRegistry do not match on the primary and secondary. |
+| <a id="abusereportuploadregistry-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the AbuseReportUploadRegistry was created. |
+| <a id="abusereportuploadregistry-datamanagementdetailspath"></a>`dataManagementDetailsPath` | [`String`](#string) | Path to the data management view for this AbuseReportUploadRegistry. |
+| <a id="abusereportuploadregistry-forcetoredownload"></a>`forceToRedownload` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 17.10. Removed from registry tables in the database in favor of the newer reusable framework. |
+| <a id="abusereportuploadregistry-id"></a>`id` | [`ID!`](#id) | ID of the AbuseReportUploadRegistry. |
+| <a id="abusereportuploadregistry-lastsyncfailure"></a>`lastSyncFailure` | [`String`](#string) | Error message during sync of the AbuseReportUploadRegistry. |
+| <a id="abusereportuploadregistry-lastsyncedat"></a>`lastSyncedAt` | [`Time`](#time) | Timestamp of the most recent successful sync of the AbuseReportUploadRegistry. |
+| <a id="abusereportuploadregistry-missingonprimary"></a>`missingOnPrimary` | [`Boolean`](#boolean) | Indicate if the AbuseReportUploadRegistry is missing on primary. |
+| <a id="abusereportuploadregistry-modelrecordid"></a>`modelRecordId` | [`Int`](#int) | ID of the AbuseReportUploadRegistry's model record. |
+| <a id="abusereportuploadregistry-retryat"></a>`retryAt` | [`Time`](#time) | Timestamp after which the AbuseReportUploadRegistry is resynced. |
+| <a id="abusereportuploadregistry-retrycount"></a>`retryCount` | [`Int`](#int) | Number of consecutive failed sync attempts of the AbuseReportUploadRegistry. |
+| <a id="abusereportuploadregistry-state"></a>`state` | [`RegistryState`](#registrystate) | Sync state of the AbuseReportUploadRegistry. |
+| <a id="abusereportuploadregistry-verificationchecksum"></a>`verificationChecksum` | [`String`](#string) | The local checksum of the AbuseReportUploadRegistry. |
+| <a id="abusereportuploadregistry-verificationchecksummismatched"></a>`verificationChecksumMismatched` | [`String`](#string) | The expected checksum of the AbuseReportUploadRegistry in case of mismatch. |
+| <a id="abusereportuploadregistry-verificationfailure"></a>`verificationFailure` | [`String`](#string) | Error message during verification of the AbuseReportUploadRegistry. |
+| <a id="abusereportuploadregistry-verificationretryat"></a>`verificationRetryAt` | [`Time`](#time) | Timestamp after which the AbuseReportUploadRegistry is reverified. |
+| <a id="abusereportuploadregistry-verificationretrycount"></a>`verificationRetryCount` | [`Int`](#int) | Number of consecutive failed verification attempts of the AbuseReportUploadRegistry. |
+| <a id="abusereportuploadregistry-verificationstartedat"></a>`verificationStartedAt` | [`Time`](#time) | Timestamp when the verification of AbuseReportUploadRegistry started. |
+| <a id="abusereportuploadregistry-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Verification state of the AbuseReportUploadRegistry. |
+| <a id="abusereportuploadregistry-verifiedat"></a>`verifiedAt` | [`Time`](#time) | Timestamp of the most recent successful verification of the AbuseReportUploadRegistry. |
+
 ### `AccessLevel`
 
 Represents the access level of a relationship between a User and object that it is related to.
@@ -34900,6 +34991,31 @@ Details of the fork project compared to its upstream project.
 | <a id="geonode-verificationmaxcapacity"></a>`verificationMaxCapacity` | [`Int`](#int) | Maximum concurrency of repository verification for the secondary node. |
 
 #### Fields with arguments
+
+##### `GeoNode.abuseReportUploadRegistries`
+
+{{< details >}}
+**Introduced** in GitLab 18.10.
+**Status**: Experiment.
+{{< /details >}}
+
+Find Abuse Report Upload registries on this Geo node. Ignored if `geo_abuse_report_upload_replication` feature flag is disabled.
+
+Returns [`AbuseReportUploadRegistryConnection`](#abusereportuploadregistryconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="geonode-abusereportuploadregistries-ids"></a>`ids` | [`[GeoAbuseReportUploadRegistryID!]`](#geoabusereportuploadregistryid) | Filters registries by their ID. |
+| <a id="geonode-abusereportuploadregistries-keyword"></a>`keyword` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 17.9. A keyword search feature on Geo registries will not be built in the UI due to poor search UX and performance. |
+| <a id="geonode-abusereportuploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
+| <a id="geonode-abusereportuploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
+| <a id="geonode-abusereportuploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
 
 ##### `GeoNode.ciSecureFileRegistries`
 
@@ -55449,6 +55565,7 @@ Geo registry class.
 
 | Value | Description |
 | ----- | ----------- |
+| <a id="georegistryclass-abuse_report_upload_registry"></a>`ABUSE_REPORT_UPLOAD_REGISTRY` | Geo::AbuseReportUploadRegistry registry class. |
 | <a id="georegistryclass-ci_secure_file_registry"></a>`CI_SECURE_FILE_REGISTRY` | Geo::CiSecureFileRegistry registry class. |
 | <a id="georegistryclass-container_repository_registry"></a>`CONTAINER_REPOSITORY_REGISTRY` | Geo::ContainerRepositoryRegistry registry class. |
 | <a id="georegistryclass-dependency_proxy_blob_registry"></a>`DEPENDENCY_PROXY_BLOB_REGISTRY` | Geo::DependencyProxyBlobRegistry registry class. |
@@ -58910,6 +59027,12 @@ An example `EpicTreeSortingID` is: `"gid://gitlab/EpicTreeSorting/1"`.
 
 Represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
 
+### `GeoAbuseReportUploadRegistryID`
+
+A `GeoAbuseReportUploadRegistryID` is a global ID. It is encoded as a string.
+
+An example `GeoAbuseReportUploadRegistryID` is: `"gid://gitlab/Geo::AbuseReportUploadRegistry/1"`.
+
 ### `GeoBaseRegistryID`
 
 A `GeoBaseRegistryID` is a global ID. It is encoded as a string.
@@ -59951,6 +60074,7 @@ One of:
 
 One of:
 
+- [`AbuseReportUploadRegistry`](#abusereportuploadregistry)
 - [`CiSecureFileRegistry`](#cisecurefileregistry)
 - [`ContainerRepositoryRegistry`](#containerrepositoryregistry)
 - [`DependencyProxyBlobRegistry`](#dependencyproxyblobregistry)

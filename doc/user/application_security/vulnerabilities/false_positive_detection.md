@@ -79,7 +79,7 @@ False positive detection is turned off by default. To use this feature, you must
 You can allow all projects in a group to use the foundational flow. Individual projects must still enable the feature in their project settings.
 To allow false positive detection for all projects in a group:
 
-1. On the left sidebar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Search or go to** and find your group.
 1. Select **Settings** > **GitLab Duo**.
 1. Under **Allow foundational flows**, select the **SAST False Positive Detection** checkbox.
 1. Select **Save changes**.
@@ -88,7 +88,7 @@ To allow false positive detection for all projects in a group:
 
 To turn on false positive detection for a specific project:
 
-1. On the left sidebar, select **Search or go to** and find your project.
+1. In the left sidebar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **GitLab Duo**.
 1. Turn on the **Turn on SAST false positive detection** toggle.

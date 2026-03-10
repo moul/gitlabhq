@@ -57,7 +57,7 @@ The protected tag (or wildcard) displays in the **Protected tags** list.
 
 To set the members of a group or subgroup as Allowed to create protected tags:
 
-1. On the left sidebar, select **Search or go** to and find your project.
+1. In the left sidebar, select **Search or go** to and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Protected tags**.
 1. Add groups to the following field:

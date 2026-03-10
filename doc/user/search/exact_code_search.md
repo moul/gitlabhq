@@ -49,7 +49,7 @@ To use exact code search:
 
 1. On the top bar, select **Search or go to**.
 1. In the search box, enter your search term.
-1. On the left sidebar, select **Code**.
+1. In the left sidebar, select **Code**.
 
 You can also use exact code search in a project or group.
 

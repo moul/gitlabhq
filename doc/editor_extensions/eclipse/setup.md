@@ -55,7 +55,7 @@ If you are on a GitLab Self-Managed instance, create a personal access token.
 
 1. In GitLab, in the upper-right corner, select your avatar.
 1. Select **Edit profile**.
-1. On the left sidebar, select **Access** > **Personal access tokens**.
+1. In the left sidebar, select **Access** > **Personal access tokens**.
 1. Select **Add new token**.
 1. Enter a name, description, and expiration date.
 1. Select the `api` scope.
@@ -66,7 +66,7 @@ If you are on a GitLab Self-Managed instance, create a personal access token.
 After you configure the plugin in your IDE, connect it to your GitLab account:
 
 1. In your IDE, select **Eclipse** > **Settings**.
-1. On the left sidebar, select **GitLab**.
+1. In the left sidebar, select **GitLab**.
 1. Provide the **Connection URL**. For GitLab.com, use `https://gitlab.com`.
 1. For **GitLab Personal Access Token**, paste in the personal access token you created.
    The token is displayed while being entered for the first time. After applying, the

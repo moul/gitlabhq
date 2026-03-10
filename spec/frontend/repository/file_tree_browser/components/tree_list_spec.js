@@ -22,6 +22,7 @@ import FileTreeBrowserPopover from '~/repository/file_tree_browser/components/fi
 import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser.vue';
 import { makeMockUserCalloutDismisser } from 'helpers/mock_user_callout_dismisser';
 import { visitUrl } from '~/lib/utils/url_utility';
+import { scrollUp } from '~/lib/utils/scroll_utils';
 import { mockResponse } from '../mock_data';
 
 Vue.use(VueApollo);
@@ -37,6 +38,7 @@ jest.mock('~/lib/utils/url_utility', () => ({
 }));
 jest.mock('~/behaviors/shortcuts/shortcuts_toggle');
 jest.mock('~/lib/utils/dom_utils');
+jest.mock('~/lib/utils/scroll_utils');
 
 describe('Tree List', () => {
   let wrapper;
@@ -1132,6 +1134,12 @@ describe('Tree List', () => {
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(
       '/-/blob/main/dir_1/file.txt?ref_type=heads',
     );
+  });
+
+  it('calls scrollUp when file is clicked', () => {
+    findFileRows().at(0).vm.$emit('clickRow');
+
+    expect(scrollUp).toHaveBeenCalled();
   });
 
   it('tracks event when row is clicked', async () => {

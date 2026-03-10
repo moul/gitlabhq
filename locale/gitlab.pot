@@ -26648,7 +26648,19 @@ msgstr ""
 msgid "DuoCodeReview|:warning: %{user_reference}, you need to set a default GitLab Duo namespace to use Code Review Flow in this project. Please set a default GitLab Duo namespace in your [preferences](%{docs_url})."
 msgstr ""
 
+msgid "DuoCodeReview|:warning: Code Review Flow could not add the service account to this project. Contact your administrator to verify that the service account has the required project access."
+msgstr ""
+
+msgid "DuoCodeReview|:warning: Code Review Flow could not create the required CI/CD pipeline. Please request a new review. If the problem persists, contact your administrator."
+msgstr ""
+
+msgid "DuoCodeReview|:warning: Code Review Flow could not obtain the required authentication tokens to connect to the GitLab AI Gateway and API. Please request a new review. If the issue persists, contact your administrator."
+msgstr ""
+
 msgid "DuoCodeReview|:warning: Code Review Flow is enabled but the service account needs to be verified. Contact your administrator."
+msgstr ""
+
+msgid "DuoCodeReview|:warning: Code Review Flow is not available for this project. Contact your administrator to verify that the flow is enabled and the required configuration is in place."
 msgstr ""
 
 msgid "DuoCodeReview|:warning: Code Review Flow is not enabled. Contact your group administrator to enable the foundational flow in the top-level group."
@@ -31163,6 +31175,12 @@ msgid "Geo|%{titlePlural} verified"
 msgstr ""
 
 msgid "Geo|1000+ Registries"
+msgstr ""
+
+msgid "Geo|Abuse Report Upload"
+msgstr ""
+
+msgid "Geo|Abuse Report Uploads"
 msgstr ""
 
 msgid "Geo|Add New Site"
@@ -38344,6 +38362,16 @@ msgstr ""
 msgid "IterationsCadence|The automation start date would retroactively create a past iteration. %{start_date} is the earliest possible start date."
 msgstr ""
 
+msgid "Iterations|%d iteration"
+msgid_plural "Iterations|%d iterations"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Iterations|%d week"
+msgid_plural "Iterations|%d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Iterations|Add iteration"
 msgstr ""
 
@@ -38357,9 +38385,6 @@ msgid "Iterations|Automatic scheduling"
 msgstr ""
 
 msgid "Iterations|Automation start date"
-msgstr ""
-
-msgid "Iterations|Cadence configuration is invalid."
 msgstr ""
 
 msgid "Iterations|Cadence name"
@@ -38455,16 +38480,13 @@ msgstr ""
 msgid "Iterations|Open"
 msgstr ""
 
+msgid "Iterations|Required fields missing."
+msgstr ""
+
 msgid "Iterations|Roll over issues"
 msgstr ""
 
 msgid "Iterations|Save changes"
-msgstr ""
-
-msgid "Iterations|Select duration"
-msgstr ""
-
-msgid "Iterations|Select number"
 msgstr ""
 
 msgid "Iterations|Select start date"
@@ -38476,7 +38498,7 @@ msgstr ""
 msgid "Iterations|The date of the first iteration to schedule. This date determines the day of the week when each iteration starts."
 msgstr ""
 
-msgid "Iterations|The duration of each iteration (in weeks)."
+msgid "Iterations|The duration of each iteration."
 msgstr ""
 
 msgid "Iterations|The iteration has been deleted."

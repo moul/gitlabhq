@@ -100,7 +100,7 @@ If the **primary** and **secondary** sites have a checksum verification mismatch
 
 1. On the **primary** site:
    1. In the upper-right corner, select **Admin**.
-   1. On the left sidebar, select **Overview** > **Projects**.
+   1. In the left sidebar, select **Overview** > **Projects**.
    1. Find the project that you want to check the checksum differences and
       select its name.
    1. On the project administration page, get the values in the **Storage name** and **Relative path** fields.

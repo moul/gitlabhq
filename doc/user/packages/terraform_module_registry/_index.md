@@ -340,7 +340,7 @@ If there are [duplicate module names](#allow-duplicate-terraform-modules) in the
 
 To download a Terraform module:
 
-1. On the left sidebar, select **Operate** > **Terraform modules**.
+1. In the left sidebar, select **Operate** > **Terraform modules**.
 1. Select the name of the module you want to download.
 1. From the **Assets** table, select the module you want to download.
 
@@ -353,7 +353,7 @@ You can delete modules by using [the packages API](../../../api/packages.md#dele
 
 To delete a module in the UI, from your project:
 
-1. On the left sidebar, select **Operate** > **Terraform modules**.
+1. In the left sidebar, select **Operate** > **Terraform modules**.
 1. Find the name of the package you want to delete.
 1. Select **Delete**.
 

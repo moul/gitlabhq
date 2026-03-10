@@ -36,7 +36,7 @@ information that is relevant to them.
 
 To visit the instance configuration page:
 
-1. On the left sidebar, select **Help** ({{< icon name="question-o" >}}) > **Help**.
+1. In the left sidebar, select **Help** ({{< icon name="question-o" >}}) > **Help**.
 1. On the Help page, select **Check the current instance configuration**.
 
 The direct URL is `<gitlab_url>/help/instance_configuration`. For GitLab.com,

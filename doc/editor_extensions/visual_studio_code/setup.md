@@ -81,7 +81,7 @@ To connect to your GitLab repository from VS Code:
 1. Clone your repository: `git clone <repository>`.
 1. Change to the directory where your repository was cloned and check out your branch: `git checkout <branch_name>`.
 1. Ensure your project is selected:
-   1. On the left sidebar, select **GitLab** ({{< icon name="tanuki" >}}).
+   1. In the left sidebar, select **GitLab** ({{< icon name="tanuki" >}}).
    1. Select the project name. If you have multiple projects, select the one you want to work with.
 1. In the terminal, ensure your repository is configured with a remote: `git remote -v`. The results should look similar to:
 
@@ -92,7 +92,7 @@ To connect to your GitLab repository from VS Code:
 
    If no remote is defined, or you have multiple remotes:
 
-   1. On the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
+   1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
    1. On the **Source Control** label, right-click and select **Repositories**.
    1. Next to your repository, select the ellipsis ({{< icon name=ellipsis_h >}}), then **Remote** > **Add Remote**.
    1. Select **Add remote from GitLab**.
@@ -118,7 +118,7 @@ If you are on GitLab Self-Managed or GitLab Dedicated, create a personal access 
 
 1. In the upper-right corner, select your avatar.
 1. Select **Edit profile**.
-1. On the left sidebar, select **Access** > **Personal access tokens**.
+1. In the left sidebar, select **Access** > **Personal access tokens**.
 1. Select **Add new token**.
 1. Enter a name, description, and expiration date.
 1. Select the `api` scope.

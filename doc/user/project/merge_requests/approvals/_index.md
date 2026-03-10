@@ -43,7 +43,7 @@ Prerequisites:
 To configure approval rules:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. On the left sidebar, select **Settings** > **Merge requests**.
+1. In the left sidebar, select **Settings** > **Merge requests**.
 1. Go to the **Merge request approvals** section.
 1. Set up your desired rules.
 
@@ -94,7 +94,7 @@ merge requests for your project or group.
 To view the approval status:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. On the left sidebar, select **Code** > **Merge requests** and find your merge request.
+1. In the left sidebar, select **Code** > **Merge requests** and find your merge request.
 1. To view the merge request, select its title.
 1. Go to the merge request widget to see the approval status. In this example, you can approve the merge request:
 

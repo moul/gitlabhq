@@ -252,7 +252,7 @@ By default, archived projects are excluded from search results.
 To include archived projects in search results:
 
 1. On the search page, on the left sidebar, select the **Include archived** checkbox.
-1. On the left sidebar, select **Apply**.
+1. In the left sidebar, select **Apply**.
 
 ## Search for code
 
@@ -290,7 +290,7 @@ where the results were found.
 To filter code search results by one or more languages:
 
 1. On the code search page, on the left sidebar, select one or more languages.
-1. On the left sidebar, select **Apply**.
+1. In the left sidebar, select **Apply**.
 
 ## Search for a commit SHA
 

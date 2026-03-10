@@ -118,7 +118,7 @@ follow these steps to avoid unnecessary data loss:
 
    1. On the **primary** site:
       1. In the upper-right corner, select **Admin**.
-      1. On the left sidebar, select **Monitoring** > **Background jobs**.
+      1. In the left sidebar, select **Monitoring** > **Background jobs**.
       1. On the Sidekiq dashboard, select **Cron**.
       1. Select `Disable All` to disable any non-Geo periodic background jobs.
       1. Select `Enable` for the `geo_sidekiq_cron_config_worker` cron job.
@@ -136,12 +136,12 @@ follow these steps to avoid unnecessary data loss:
       trigger the final replication process now.
    1. On the **primary** site:
       1. In the upper-right corner, select **Admin**.
-      1. On the left sidebar, select **Monitoring** > **Background jobs**.
+      1. In the left sidebar, select **Monitoring** > **Background jobs**.
       1. On the Sidekiq dashboard, select **Queues**, and wait for all queues except
          those with `geo` in the name to drop to 0.
          These queues contain work that has been submitted by your users; failing over
          before it is completed, causes the work to be lost.
-      1. On the left sidebar, select **Geo** > **Sites** and wait for the
+      1. In the left sidebar, select **Geo** > **Sites** and wait for the
          following conditions to be true of the **secondary** site you are failing over to:
 
          - All replication meters reach 100% replicated, 0% failures.
@@ -151,7 +151,7 @@ follow these steps to avoid unnecessary data loss:
 
    1. On the **secondary** site:
       1. In the upper-right corner, select **Admin**.
-      1. On the left sidebar, select **Monitoring** > **Background jobs**.
+      1. In the left sidebar, select **Monitoring** > **Background jobs**.
       1. On the Sidekiq dashboard, select **Queues**, and wait for all the `geo`
          queues to drop to 0 queued and 0 running jobs.
       1. [Run an integrity check](../../../raketasks/check.md) to verify the integrity

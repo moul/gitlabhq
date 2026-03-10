@@ -62,7 +62,7 @@ see [epic 9265](https://gitlab.com/groups/gitlab-org/-/epics/9265).
 
 If you are a member of multiple organizations, you can switch between them. To switch organizations:
 
-1. On the left sidebar, at the top, select the **Current organization** dropdown list.
+1. In the left sidebar, at the top, select the **Current organization** dropdown list.
 1. Select the organization you want to switch to.
 
 ## Supported Markdown for Organization description

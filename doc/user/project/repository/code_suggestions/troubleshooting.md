@@ -82,7 +82,7 @@ For all other GitLab for VS Code troubleshooting, see [troubleshooting the GitLa
 
 If you are on GitLab Self-Managed, ensure that Code Suggestions for the [GitLab Web IDE](../../web_ide/_index.md) is enabled. The same settings apply to VS Code as local IDE.
 
-1. On the left sidebar, select **Extensions** > **GitLab**.
+1. In the left sidebar, select **Extensions** > **GitLab**.
 1. Select **Manage** ({{< icon name="settings" >}}), and then select **Settings**.
 1. In **GitLab** > **Duo Code Suggestions**, select the **GitLab Duo Code Suggestions**
    checkbox.
@@ -176,7 +176,7 @@ This error occurs when the provided connection instance URL and authentication t
 GitLab Language Server process are invalid. To re-enable Code Suggestions:
 
 1. In your IDE, on the top bar, select your IDE name, then select **Settings**.
-1. On the left sidebar, select **Tools** > **GitLab Duo**.
+1. In the left sidebar, select **Tools** > **GitLab Duo**.
 1. Under **Connection**, select **Verify setup**.
 1. Update your **Connection** details as needed.
 1. Select **Verify setup**, and confirm that authentication succeeds.

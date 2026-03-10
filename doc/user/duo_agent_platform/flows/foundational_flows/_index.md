@@ -125,7 +125,7 @@ Prerequisites:
 - Administrator access.
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **Flow execution**, select the **Allow flow execution** and **Allow foundational flows** checkboxes.
 1. Select **Save changes**.

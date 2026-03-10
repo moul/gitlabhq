@@ -129,7 +129,7 @@ Follow these steps to configure the base domain and other settings required for 
 
    Copy this IP address, as you need it in the next step.
 1. Go back to the application project.
-1. On the left sidebar, select **Settings** > **CI/CD** and expand **Variables**.
+1. In the left sidebar, select **Settings** > **CI/CD** and expand **Variables**.
    - Add a key called `KUBE_INGRESS_BASE_DOMAIN` with the application deployment domain as the value. For this example, use the domain `<IP address>.nip.io`.
    - Add a key called `KUBE_NAMESPACE` with a value of the Kubernetes namespace for your deployments to target. You can use different namespaces per environment. Configure the environment, use the environment scope.
    - Add a key called `KUBE_CONTEXT` with the value `<path/to/agent/project>:<agent-name>`. Select the environment scope of your choice.
@@ -274,7 +274,7 @@ To fix the broken test:
 1. In the left-hand directory of files, find the `test/controllers/welcome_controller_test.rb`
    file, and select it to open it.
 1. Change line 7 to say `You're on Rails! Powered by GitLab Auto DevOps.`
-1. On the left sidebar, select **Source Control** ({{< icon name="merge" >}}).
+1. In the left sidebar, select **Source Control** ({{< icon name="merge" >}}).
 1. Write a commit message, and select **Commit**.
 
 Return to the **Overview** page of your merge request, and you should not only

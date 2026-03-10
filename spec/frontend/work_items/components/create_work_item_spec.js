@@ -21,7 +21,10 @@ import WorkItemProjectsListbox from '~/work_items/components/work_item_links/wor
 import WorkItemNamespaceListbox from '~/work_items/components/shared/work_item_namespace_listbox.vue';
 import TitleSuggestions from '~/work_items/components/title_suggestions.vue';
 import {
+  CREATION_CONTEXT_DESCRIPTION_CHECKLIST,
   CREATION_CONTEXT_LIST_ROUTE,
+  CREATION_CONTEXT_RELATED_ITEM,
+  CREATION_CONTEXT_SUPER_SIDEBAR,
   WIDGET_TYPE_START_AND_DUE_DATE,
   WORK_ITEM_TYPE_NAME_EPIC,
   WORK_ITEM_TYPE_NAME_INCIDENT,
@@ -1243,6 +1246,27 @@ describe('Create work item component', () => {
             description!`,
           confidential: false,
           relatedItemId: mockRelatedItem.id,
+        }),
+      );
+    });
+
+    it.each([
+      CREATION_CONTEXT_SUPER_SIDEBAR,
+      CREATION_CONTEXT_RELATED_ITEM,
+      CREATION_CONTEXT_DESCRIPTION_CHECKLIST,
+    ])('does not read DOM params when creationContext is %s', async (creationContext) => {
+      setHTMLFixture(`
+        <div class="new-issue-params hidden">
+          <div class="params-title">i am a title</div>
+          <div class="params-description">i am a description</div>
+        </div>`);
+      createComponent({ props: { creationContext } });
+      await resolveAll();
+
+      expect(setNewWorkItemCache).toHaveBeenCalledWith(
+        expect.objectContaining({
+          workItemTitle: '',
+          workItemDescription: '',
         }),
       );
     });

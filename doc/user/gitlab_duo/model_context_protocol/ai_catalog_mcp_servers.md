@@ -56,7 +56,7 @@ At the group level, MCP servers associated with namespace agents are also availa
 
 To add an MCP server to the AI Catalog:
 
-1. On the left sidebar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Search or go to** and find your group.
 1. Select **Build** > **AI Catalog**.
 1. Select the **MCP** tab.
 1. Select **New MCP server**.
@@ -80,7 +80,7 @@ The MCP server is now available in your organization's catalog and can be associ
 
 To edit an MCP server:
 
-1. On the left sidebar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Search or go to** and find your group.
 1. Select **Build** > **AI Catalog**.
 1. Select the **MCP** tab.
 1. Select the MCP server you want to edit.
@@ -92,7 +92,7 @@ To edit an MCP server:
 
 To give a custom agent access to an MCP server:
 
-1. On the left sidebar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Search or go to** and find your group.
 1. Select **Build** > **AI Catalog**.
 1. Select the **Agents** tab.
 1. Select the agent you want to configure, then select **Edit**.
@@ -107,7 +107,7 @@ You cannot restrict an agent from using specific MCP server tools.
 
 To view which MCP servers are connected to an agent:
 
-1. On the left sidebar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Search or go to** and find your group.
 1. Select **Build** > **AI Catalog**.
 1. Select the **Agents** tab.
 1. Select the agent.
@@ -121,7 +121,7 @@ Each server displays the number of agents that use it.
 
 To view MCP servers for a namespace:
 
-1. On the left sidebar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Search or go to** and find your group.
 1. Select **Automate** > **MCP**.
 
 For OAuth-enabled servers that you have not yet authenticated with, an option to **Connect** is displayed.
@@ -130,7 +130,7 @@ For OAuth-enabled servers that you have not yet authenticated with, an option to
 
 To authenticate with an OAuth-enabled MCP server:
 
-1. On the left sidebar, select **Search or go to** and find your group.
+1. In the left sidebar, select **Search or go to** and find your group.
 1. Select **Automate** > **MCP**.
 1. Find the MCP server and select **Connect**.
 1. Review and approve the authorization request on the MCP server's authorization page.

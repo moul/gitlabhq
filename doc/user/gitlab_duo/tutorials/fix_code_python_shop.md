@@ -74,7 +74,7 @@ Depending on your subscription add-on, you can use Chat in the GitLab UI, the We
    1. In the GitLab UI, on the top bar, select **Search or go to** and find your project.
    1. Select a file. Then in the upper right, select **Edit** > **Open in Web IDE**.
 1. Open Chat by using one of these methods:
-   - On the left sidebar, select **GitLab Duo Chat**.
+   - In the left sidebar, select **GitLab Duo Chat**.
    - In the file that you have open in the editor, select some code.
      1. Right-click and select **GitLab Duo Chat**.
      1. Select **Explain selected code**, **Generate Tests**, or **Refactor**.
@@ -91,7 +91,7 @@ How you use Chat in your IDE differs depending on which IDE you use.
 {{< tab title="VS Code" >}}
 
 1. In VS Code, open a file. The file does not need to be a file in a Git repository.
-1. On the left sidebar, select **GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
+1. In the left sidebar, select **GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
 1. In the message box, enter your question. Press **Enter**, or select **Send**.
 1. In the chat pane, in the upper-right corner, select **Show Status** to show information
    in the Command Palette.

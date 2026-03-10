@@ -79,7 +79,7 @@ To [change a user's username](../../user/profile/_index.md#change-your-username)
 
 1. In the upper-right corner, select your avatar.
 1. Select **Edit profile**.
-1. On the left sidebar, select **Account**.
+1. In the left sidebar, select **Account**.
 1. In the **Change username** section, enter a new username as the path.
 1. Select **Update username**.
 

@@ -12,6 +12,7 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
     %w[
       abuse_events
       abuse_report_uploads
+      abuse_report_upload_states
       abuse_report_user_mentions
       abuse_reports
       admin_roles

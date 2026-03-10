@@ -220,7 +220,7 @@ To remove blobs from your repository:
    - If [email notifications](../../profile/notifications.md) are enabled,
      wait until you receive an email stating that the repository history rewrite is completed.
    - If email notifications are not enabled, wait at least 5 minutes.
-1. On the left sidebar, select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the section labeled **Advanced**.
 1. Select **Run housekeeping**. Wait at least 30 minutes for the operation to complete.
 1. In the same **Settings** > **General** > **Advanced** section, select **Prune unreachable objects**.
@@ -322,7 +322,7 @@ To redact text from your repository:
 1. Select **Redact matching strings**.
 1. On the confirmation dialog, enter your project path.
 1. Select **Yes, redact matching strings**.
-1. On the left sidebar, select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Advanced**.
 1. Select **Run housekeeping**. Wait at least 30 minutes for the operation to complete.
 1. In the same **Settings** > **General** > **Advanced** section, select **Prune unreachable objects**.

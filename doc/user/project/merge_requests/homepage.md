@@ -69,7 +69,7 @@ Your merge request homepage shows more information about these merge requests. T
 use any of these methods:
 
 - Use the <kbd>Shift</kbd>+<kbd>m</kbd> [keyboard shortcut](../../shortcuts.md).
-- On the left sidebar, select **Merge requests** ({{< icon name="merge-request-open" >}}).
+- In the left sidebar, select **Merge requests** ({{< icon name="merge-request-open" >}}).
 - On the top bar, select **Search or go to**, then, from the dropdown list, select **Merge requests**.
 
 To help you focus on what needs your attention right now, GitLab organizes your merge request homepage

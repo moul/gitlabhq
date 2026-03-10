@@ -60,7 +60,7 @@ For example, you might have multiple repositories and need to select one, or the
 
 If your workspace doesn't have a Git repository initialized, you must create a new one:
 
-1. On the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
+1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
 1. Select **Initialize Repository**.
 
 When the repository is initialized, you should see the name in the **Source Control** view.
@@ -69,7 +69,7 @@ When the repository is initialized, you should see the name in the **Source Cont
 
 You might have a Git repository but it's not properly connected to GitLab.
 
-1. On the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
+1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
 1. On the **Source Control** label, right-click and select **Repositories**.
 1. Next to your repository, select the ellipsis ({{< icon name=ellipsis_h >}}), then **Remote** > **Add Remote**.
 1. Enter your GitLab project URL.
@@ -80,7 +80,7 @@ You might have a Git repository but it's not properly connected to GitLab.
 Your repository might have multiple GitLab remotes configured.
 To select the correct one:
 
-1. On the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
+1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
 1. On the status bar, select the current remote name.
 1. From the list, select the appropriate GitLab remote.
 1. Ensure the selected remote belongs to a group namespace in GitLab.
@@ -92,7 +92,7 @@ to close all the projects you're not using.
 
 To close projects:
 
-1. On the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
+1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
 1. Ensure repositories are shown: on the **Source Control** label, right-click and select **Repositories**.
 1. Right-click the repository you want to close and select **Close Repository**.
 

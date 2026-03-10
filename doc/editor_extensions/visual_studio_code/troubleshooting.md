@@ -112,7 +112,7 @@ To troubleshoot GitLab Duo errors in VS Code:
       <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
    1. Run the command `GitLab: Diagnostics` and review the output for any failed checks.
 1. If the diagnostics indicate that the feature is not enabled:
-   1. On the left sidebar in VS Code, select **Extensions** > **GitLab**.
+   1. In the left sidebar in VS Code, select **Extensions** > **GitLab**.
    1. Select **Manage** ({{< icon name="settings" >}}), and then select **Settings**.
    1. Find the **GitLab >** section for the missing feature and select the checkbox to enable it.
 1. If the diagnostics indicate that Agentic Chat is not supported for the current project, set a

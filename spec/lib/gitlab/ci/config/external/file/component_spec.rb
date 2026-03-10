@@ -46,7 +46,8 @@ RSpec.describe Gitlab::Ci::Config::External::File::Component, feature_category: 
       .to receive(:new)
       .with(
         address: params[:component],
-        current_user: context.user
+        current_user: context.user,
+        logger: context.logger
       ).and_return(fetch_service)
 
     allow(fetch_service).to receive(:execute).and_return(response)

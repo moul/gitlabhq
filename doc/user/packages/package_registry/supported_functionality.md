@@ -128,7 +128,7 @@ To reduce the associated security risks:
 To turn off request forwarding for a group:
 
 1. On the top bar, select **Search or go to** and find your group.
-1. On the left sidebar, select **Settings** > **Packages and registries**.
+1. In the left sidebar, select **Settings** > **Packages and registries**.
 1. Under **Package forwarding**, clear either of the following checkboxes:
    - **Forward npm package requests**
    - **Forward PyPI package requests**

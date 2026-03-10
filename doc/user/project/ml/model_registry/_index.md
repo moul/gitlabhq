@@ -57,7 +57,7 @@ To enable the model registry or set the [visibility level](../../../public_acces
 
 To create a new machine learning model by using the GitLab UI:
 
-1. On the left sidebar, select **Deploy** > **Model registry**.
+1. In the left sidebar, select **Deploy** > **Model registry**.
 1. On the **Model registry** page, select **Create/Import**.
 1. In the dropdown, select **Create new model**.
 1. Complete the fields:
@@ -84,13 +84,13 @@ The new model version is now available in the model registry.
 
 To delete a model and all its associated versions:
 
-1. On the left sidebar, select **Deploy** > **Model registry**.
+1. In the left sidebar, select **Deploy** > **Model registry**.
 1. Find the model you want to delete.
 1. In the most right column, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}) and **Delete model**.
 
 Alternatively you can delete models from the model details page:
 
-1. On the left sidebar, select **Deploy** > **Model registry**.
+1. In the left sidebar, select **Deploy** > **Model registry**.
 1. Find the model you want to delete.
 1. Select the model name to view its details.
 1. Select the vertical ellipsis ({{< icon name="ellipsis_v" >}}) and **Delete model**.
@@ -100,7 +100,7 @@ Alternatively you can delete models from the model details page:
 
 To delete a model version:
 
-1. On the left sidebar, select **Deploy** > **Model registry**.
+1. In the left sidebar, select **Deploy** > **Model registry**.
 1. Find the model with a version you want to delete.
 1. Select the model name to view its details.
 1. Select the **Versions** tab.
@@ -109,7 +109,7 @@ To delete a model version:
 
 Alternatively you can delete models from the model version details page:
 
-1. On the left sidebar, select **Deploy** > **Model registry**.
+1. In the left sidebar, select **Deploy** > **Model registry**.
 1. Find the model with a version you want to delete.
 1. Select the model name to view its details.
 1. Select the **Versions** tab.
@@ -121,7 +121,7 @@ Alternatively you can delete models from the model version details page:
 
 To add artifacts to a model version:
 
-1. On the left sidebar, select **Deploy** > **Model registry**.
+1. In the left sidebar, select **Deploy** > **Model registry**.
 1. Find the model.
 1. Select the model name to view its details.
 1. Select the **Versions** tab.
@@ -139,7 +139,7 @@ Because each file has a size limit of 5 GB, you must partition larger models.
 
 To delete artifacts of a version:
 
-1. On the left sidebar, select **Deploy** > **Model registry**.
+1. In the left sidebar, select **Deploy** > **Model registry**.
 1. Find the model.
 1. Select the model name to view its details.
 1. Select the **Versions** tab.

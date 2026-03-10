@@ -166,7 +166,7 @@ Prerequisites:
      [SAML SSO for GitLab.com groups documentation](../../../group/saml_sso/_index.md).
    - SAML authentication for GitLab Self-Managed instances, see
      [SAML SSO for GitLab Self-Managed](../../../../integration/saml.md).
-1. On the left sidebar, select **Settings** > **Merge requests**.
+1. In the left sidebar, select **Settings** > **Merge requests**.
 1. In the **Merge request approvals** section, scroll to **Approval settings** and
    select **Require user re-authentication (password or SAML) to approve**.
 1. Select **Save changes**.

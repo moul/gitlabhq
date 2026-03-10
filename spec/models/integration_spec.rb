@@ -1618,6 +1618,47 @@ RSpec.describe Integration, feature_category: :integrations do
         expect(described_class.last.organization_id).to be_nil
       end
     end
+
+    context 'when filter is set' do
+      let(:filter) do
+        {
+          'rules' => [
+            { 'field' => 'status', 'operator' => 'eq', 'value' => 'failed' }
+          ]
+        }
+      end
+
+      before do
+        record.filter = filter
+      end
+
+      it 'includes filter in the hash' do
+        hash = record.to_database_hash
+
+        expect(hash).to have_key('filter')
+        expect(hash['filter']).to eq(filter)
+      end
+
+      it 'preserves filter when saving with insert_all' do
+        hash = record.to_database_hash
+        hash[:project_id] = project.id
+
+        expect do
+          described_class.insert_all([hash])
+        end.to change { described_class.count }.by(1)
+
+        expect(described_class.last.filter).to eq(filter)
+      end
+    end
+
+    context 'when filter is nil' do
+      it 'includes filter as nil in the hash' do
+        hash = record.to_database_hash
+
+        expect(hash).to have_key('filter')
+        expect(hash['filter']).to be_empty
+      end
+    end
   end
 
   describe 'field DSL' do

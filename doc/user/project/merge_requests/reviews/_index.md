@@ -56,7 +56,7 @@ awaiting review from you. The merge requests you need to review are in the **Rev
 To see all merge requests that need your attention, use one of these methods:
 
 - Press the <kbd>Shift</kbd>+<kbd>m</kbd> [keyboard shortcut](../../../shortcuts.md).
-- On the left sidebar, select **Merge requests** ({{< icon name="merge-request" >}}).
+- In the left sidebar, select **Merge requests** ({{< icon name="merge-request" >}}).
 - On the top bar, select **Search or go to**, then, from the dropdown list, select **Merge requests I'm working on**.
 
 ## View the review status of a merge request

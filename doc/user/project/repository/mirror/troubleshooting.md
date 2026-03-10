@@ -338,7 +338,7 @@ To delete and remove all tags from the mirror repository:
    git tag -l | xargs -n 1 git push --delete origin
    ```
 
-1. On the left sidebar, select **Settings** > **Repository**.
+1. In the left sidebar, select **Settings** > **Repository**.
 1. Expand **Mirroring repositories**.
 1. Select **Update now** ({{< icon name="retry" >}}).
 

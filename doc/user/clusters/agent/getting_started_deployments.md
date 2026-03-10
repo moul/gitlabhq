@@ -186,7 +186,7 @@ In this section, you'll build a simple Kubernetes manifest as an OCI artifact, t
    ```
 
 1. Commit and push the changes to your project, and wait for the build pipeline to finish.
-1. On the left sidebar, select **Operate** > **Environments** and check the available [dashboard for Kubernetes](../../../ci/environments/kubernetes_dashboard.md).
+1. In the left sidebar, select **Operate** > **Environments** and check the available [dashboard for Kubernetes](../../../ci/environments/kubernetes_dashboard.md).
    The `applications/nginx` environment should be healthy.
 
 ## Secure the GitLab pipeline access

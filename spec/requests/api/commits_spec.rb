@@ -330,6 +330,63 @@ RSpec.describe API::Commits, feature_category: :source_code_management do
             end
           end
 
+          context 'follow optional parameter' do
+            let(:get_commits) { get api("/projects/#{project_id}/repository/commits", user), params: params }
+            let(:params) { { path: path, follow: follow } }
+            let(:path) { 'files/ruby/popen.rb' }
+
+            context 'when follow is false' do
+              let(:follow) { false }
+
+              it 'passes follow: false to the repository' do
+                expect_next_instance_of(Repository) do |repo|
+                  expect(repo).to receive(:commits).with(
+                    anything,
+                    hash_including(follow: false, path: path)
+                  ).and_call_original
+                end
+
+                get_commits
+
+                expect(response).to have_gitlab_http_status(:ok)
+              end
+            end
+
+            context 'when follow is true' do
+              let(:follow) { true }
+
+              it 'passes follow: true to the repository' do
+                expect_next_instance_of(Repository) do |repo|
+                  expect(repo).to receive(:commits).with(
+                    anything,
+                    hash_including(follow: true, path: path)
+                  ).and_call_original
+                end
+
+                get_commits
+
+                expect(response).to have_gitlab_http_status(:ok)
+              end
+            end
+
+            context 'when follow is not set' do
+              let(:params) { { path: path } }
+
+              it 'passes follow: nil to the repository' do
+                expect_next_instance_of(Repository) do |repo|
+                  expect(repo).to receive(:commits).with(
+                    anything,
+                    hash_including(follow: nil, path: path)
+                  ).and_call_original
+                end
+
+                get_commits
+
+                expect(response).to have_gitlab_http_status(:ok)
+              end
+            end
+          end
+
           context 'with_stats optional parameter' do
             let(:project) { create(:project, :public, :repository) }
 

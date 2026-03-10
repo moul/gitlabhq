@@ -26,7 +26,7 @@ If you use an older version of a JetBrains IDE, download a version of the plugin
 To enable the plugin:
 
 1. In your IDE, on the top bar, select your IDE's name, then select **Settings**.
-1. On the left sidebar, select **Plugins**.
+1. In the left sidebar, select **Plugins**.
 1. Select the **GitLab Duo** plugin, and select **Install**.
 1. Select **OK** or **Save**.
 
@@ -49,7 +49,7 @@ Prerequisites:
 After you configure the plugin in your IDE, connect it to your GitLab account:
 
 1. In your IDE, on the top bar, select your IDE's name, then select **Settings**.
-1. On the left sidebar, expand **Tools**, then select **GitLab Duo**.
+1. In the left sidebar, expand **Tools**, then select **GitLab Duo**.
    If you don't see the plugin listed, restart your IDE.
 1. Provide the **URL to GitLab instance**. For GitLab.com, use `https://gitlab.com`.
 1. Select an authentication method, **OAuth**, **PAT**, or **1Password CLI**.
@@ -88,7 +88,7 @@ The GitLab Duo Agent Platform uses the **Default Namespace** value when the plug
 can't determine the current GitLab project. To configure this value:
 
 1. In your IDE, on the top bar, select your IDE's name, then select **Settings**.
-1. On the left sidebar, expand **Tools**, then select **GitLab Duo**.
+1. In the left sidebar, expand **Tools**, then select **GitLab Duo**.
 1. Enter a value for **Default Namespace**.
 1. Select **OK** or **Save**.
 

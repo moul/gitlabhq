@@ -54,7 +54,7 @@ For GitLab Self-Managed, a GitLab administrator must:
 
 1. Enable the Ona integration in GitLab:
    1. In the upper-right corner, select **Admin**.
-   1. On the left sidebar, select **Settings** > **General**.
+   1. In the left sidebar, select **Settings** > **General**.
    1. Expand the **Ona** configuration section.
    1. Select the **Enable Ona integration** checkbox.
    1. Enter the Ona instance URL (for example, `https://app.ona.com`).

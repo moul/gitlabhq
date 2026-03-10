@@ -51,7 +51,7 @@ Prerequisites:
 
 To use the Code Review Flow on a merge request:
 
-1. On the left sidebar, select **Code** > **Merge requests** and find your merge request.
+1. In the left sidebar, select **Code** > **Merge requests** and find your merge request.
 1. Use one of these methods to request a review:
    - Assign `@GitLabDuo` as a reviewer.
    - In a comment box, enter the quick action `/assign_reviewer @GitLabDuo`.
@@ -190,6 +190,43 @@ You might get an error that states
 This error occurs when GitLab Duo cannot identify a default GitLab Duo namespace for the user that started the review.
 
 Set a default GitLab Duo namespace in your [preferences](../../../../user/profile/preferences.md#set-a-default-gitlab-duo-namespace), then request a review again.
+
+### `Error DCR4005`
+
+You might get an error that states
+`Code Review Flow could not obtain the required authentication tokens to connect to the GitLab AI Gateway and the GitLab API. Please request a new review. If the issue persists, contact your administrator. Error code: DCR4005`.
+
+Code Review Flow requires authentication tokens to connect to the GitLab AI Gateway and the GitLab API. This error occurs when those tokens cannot be generated, usually due to an incorrect GitLab Duo setup or a transient infrastructure issue.
+
+For self-managed instances, ask your administrator to verify the [GitLab Duo configuration](../../../../administration/gitlab_duo/configure/gitlab_self_managed.md).
+
+### `Error DCR4006`
+
+You might get an error that states
+`Code Review Flow could not add the service account to this project. Contact your administrator to verify that the service account has the required project access. Error code: DCR4006`.
+
+This error occurs when the service account cannot be added as a member of the project. This can happen when a group membership lock is enabled or the service account does not have the required access.
+
+Contact your administrator and ask them to verify that the service account can be added to the project as a developer.
+
+### `Error DCR4007`
+
+You might get an error that states
+`Code Review Flow is not available for this project. Contact your administrator to verify that the flow is enabled and the required configuration is in place. Error code: DCR4007`.
+
+This error occurs when the flow is disabled or the required configuration is missing for the project.
+
+Contact your administrator and ask them to verify that
+[the flow is enabled](_index.md#turn-foundational-flows-on-or-off) for the project.
+
+### `Error DCR4008`
+
+You might get an error that states
+`Code Review Flow could not create the required CI/CD pipeline. Please request a new review. If the problem persists, contact your administrator. Error code: DCR4008`.
+
+This error occurs when Code Review Flow cannot create or configure the CI/CD pipeline to run the review because of runner availability issues or internal configuration problems.
+
+Try to restart the review. If the error persists, contact your administrator.
 
 ### `Error DCR5000`
 

@@ -86,7 +86,7 @@ Prerequisites:
 {{< tab title="From a merge request" >}}
 
 1. On the top bar, select **Search or go to** and find your project.
-1. On the left sidebar, select **Code** > **Merge requests**.
+1. In the left sidebar, select **Code** > **Merge requests**.
 1. Select the merge request you want to create a workspace for.
 1. Select **Code** > **Open in Workspace**.
 1. From the **Cluster agent** dropdown list, select a cluster agent owned by the group the project belongs to.

@@ -185,10 +185,10 @@ Prerequisites:
 - You must be an administrator.
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
    - If the **GitLab Duo** menu item is not available, synchronize your subscription
      after purchase:
-     1. On the left sidebar, select **Subscription**.
+     1. In the left sidebar, select **Subscription**.
      1. In **Subscription details**, to the right of **Last sync**, select
         synchronize subscription ({{< icon name="retry" >}}).
 1. By **Seat utilization**, select **Assign seats**.
@@ -230,7 +230,7 @@ Prerequisites:
 - You must have GitLab 17.5 or later.
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. On the bottom right, you can adjust the page display to show **50** or **100** items to increase the number of users available for selection.
 1. Select the users to assign or remove seats for:
    - To select multiple users, to the left of each user, select the checkbox.
@@ -299,10 +299,10 @@ Prerequisites:
 - You must have GitLab 17.5 or later.
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
    - If the **GitLab Duo** menu item is not available, synchronize your subscription
      after purchase:
-     1. On the left sidebar, select **Subscription**.
+     1. In the left sidebar, select **Subscription**.
      1. In **Subscription details**, to the right of **Last sync**, select
         synchronize subscription ({{< icon name="retry" >}}).
 1. By **Seat utilization**, select **Assign seats**.

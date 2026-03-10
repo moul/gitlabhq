@@ -514,7 +514,15 @@ func TestAdoptCfRayHeaderCorrelation(t *testing.T) {
 		expectedHeader         string
 	}{
 		{
-			name:                   "X-Request-ID takes priority over Cf-Ray when both present",
+			name:                   "adopt Cf-Ray when both flags enabled and only Cf-Ray present",
+			propagateCorrelationID: true,
+			adoptCfRayHeader:       true,
+			cfRayHeader:            "test-cf-ray-id",
+			xRequestID:             "",
+			expectedHeader:         "test-cf-ray-id",
+		},
+		{
+			name:                   "prefer X-Request-ID over Cf-Ray when both present",
 			propagateCorrelationID: true,
 			adoptCfRayHeader:       true,
 			cfRayHeader:            "test-cf-ray-id",
@@ -523,14 +531,6 @@ func TestAdoptCfRayHeaderCorrelation(t *testing.T) {
 		},
 		{
 			name:                   "adopt Cf-Ray when X-Request-ID absent",
-			propagateCorrelationID: true,
-			adoptCfRayHeader:       true,
-			cfRayHeader:            "test-cf-ray-id",
-			xRequestID:             "",
-			expectedHeader:         "test-cf-ray-id",
-		},
-		{
-			name:                   "use X-Request-ID when Cf-Ray absent",
 			propagateCorrelationID: true,
 			adoptCfRayHeader:       true,
 			cfRayHeader:            "",

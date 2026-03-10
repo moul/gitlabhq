@@ -109,7 +109,7 @@ Prerequisites:
 To turn on extended logging:
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. Select **Change configuration**.
 1. Select the **Collect usage data** checkbox.
 1. Select **Save changes**.
@@ -151,7 +151,7 @@ Prerequisites:
 To run a health check:
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. In the upper-right corner, select **Run health check**.
 1. Optional. In GitLab 17.5 and later, after the health check is complete, you can select **Download report** to save a detailed report of the health check results.
 

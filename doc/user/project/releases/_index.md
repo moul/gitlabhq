@@ -40,7 +40,7 @@ When you create a release, or after, you can:
 
 To view a list of releases:
 
-- On the left sidebar, select **Deploy** > **Releases**, or
+- In the left sidebar, select **Deploy** > **Releases**, or
 
 - On the project's overview page, if at least one release exists, select the number of releases.
 
@@ -258,7 +258,7 @@ Prerequisites:
 
 In the UI:
 
-1. On the left sidebar, select **Deploy** > **Releases**.
+1. In the left sidebar, select **Deploy** > **Releases**.
 1. In the upper-right corner of the release you want to modify, select **Edit this release** (the pencil icon).
 1. On the **Edit Release** page, change the release's details.
 1. Select **Save changes**.
@@ -302,7 +302,7 @@ the [Releases API](../../../api/releases/_index.md#create-a-release).
 
 In the user interface, to associate milestones to a release:
 
-1. On the left sidebar, select **Deploy** > **Releases**.
+1. In the left sidebar, select **Deploy** > **Releases**.
 1. In the upper-right corner of the release you want to modify, select **Edit this release** (the pencil icon).
 1. From the **Milestones** list, select each milestone you want to associate. You can select multiple milestones.
 1. Select **Save changes**.
@@ -330,7 +330,7 @@ You can be notified by email when a new release is created for your project.
 
 To subscribe to notifications for releases:
 
-1. On the left sidebar, select **Project overview**.
+1. In the left sidebar, select **Project overview**.
 1. Select **Notification setting** (the bell icon).
 1. In the list, select **Custom**.
 1. Select the **New release** checkbox.

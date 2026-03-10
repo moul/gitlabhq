@@ -113,7 +113,7 @@ Prerequisites:
 - You must be an administrator.
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **Foundational agents**, for **Default availability**, select one of the following:
    - **On**

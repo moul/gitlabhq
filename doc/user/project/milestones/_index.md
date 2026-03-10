@@ -91,7 +91,7 @@ To do so:
 
 1. On the top bar, select **Search or go to**.
 1. Select **Your work**.
-1. On the left sidebar, select **Milestones**.
+1. In the left sidebar, select **Milestones**.
 
 ### View milestone details
 

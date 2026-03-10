@@ -269,7 +269,7 @@ provider like Google.
 1. Sign in to GitLab with your GitLab credentials, LDAP, or another OmniAuth provider.
 1. In the upper-right corner, select your avatar.
 1. Select **Edit profile**.
-1. On the left sidebar, select **Account**.
+1. In the left sidebar, select **Account**.
 1. In the **Connected Accounts** section, select the OmniAuth provider, such as Google.
 1. You are redirected to the provider. After you authorize GitLab,
    you are redirected back to GitLab.

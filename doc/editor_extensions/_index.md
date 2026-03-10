@@ -34,7 +34,7 @@ If you prefer a command-line interface, try the following:
 
 | Extension                                                       | GitLab Duo Chat      | Code Suggestions | Software Development<br> Flow | Agents      | Other<br> GitLab features |
 |-----------------------------------------------------------------|----------------------|------------------|------------------------------|-------------|--------------------------|
-| [The GitLab CLI (`glab`)](gitlab_cli/_index.md)                | {{< yes >}}(non-agentic) | {{< no >}}                  | {{< no >}}                | {{< no >}} | {{< yes >}}           |
+| [The GitLab CLI (`glab`)](gitlab_cli/_index.md)                | {{< yes >}} | {{< no >}}                  | {{< no >}}                | {{< no >}} | {{< yes >}}           |
 | [The GitLab Duo CLI (`duo`)](../user/gitlab_duo_cli/_index.md) | {{< yes >}}<br>(agentic) | {{< no >}}                  | {{< no >}}                | {{< no >}} | {{< no >}}            |
 | [GitLab.nvim for Neovim](neovim/_index.md)                     | {{< no >}}            | {{< yes >}}                 | {{< no >}}                | {{< no >}} | {{< no >}}            |
 

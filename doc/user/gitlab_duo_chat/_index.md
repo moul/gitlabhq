@@ -163,7 +163,7 @@ To use GitLab Duo Chat in the Web IDE on GitLab:
    1. In the GitLab UI, on the top bar, select **Search or go to** and find your project.
    1. Select a file. Then in the upper right, select **Edit** > **Open in Web IDE**.
 1. Open Chat by using one of the following methods:
-   - On the left sidebar, select **GitLab Duo Chat**.
+   - In the left sidebar, select **GitLab Duo Chat**.
    - In the file that you have open in the editor, select some code.
      1. Right-click and select **GitLab Duo Chat**.
      1. Select **Explain selected snippet**, **Fix**, **Generate tests**, **Open Quick Chat**, or **Refactor**.
@@ -199,7 +199,7 @@ Prerequisites:
 To use GitLab Duo Chat in the GitLab for VS Code extension:
 
 1. In VS Code, open a file. The file does not need to be a file in a Git repository.
-1. On the left sidebar, select **GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
+1. In the left sidebar, select **GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
 1. In the message box, enter your question and press <kbd>Enter</kbd> or select **Send**.
 
 If you have selected code in the editor, this selection is included with your question to GitLab Duo Chat.
@@ -378,7 +378,7 @@ Prerequisites:
 - You must be an administrator.
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **GitLab Duo Chat conversations**, select either of the following options:
    - **After the conversation was last updated**.

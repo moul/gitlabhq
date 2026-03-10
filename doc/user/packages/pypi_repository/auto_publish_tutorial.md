@@ -102,7 +102,7 @@ Here's a quick explanation of the committed code:
 To authenticate with the package registry, the example configuration uses the `CI_JOB_TOKEN`, which is automatically provided by GitLab CI/CD.
 To publish to external PyPI registries, you must configure a secret variable in your project settings:
 
-1. On the left sidebar, select **Settings** > **CI/CD** > **Variables**.
+1. In the left sidebar, select **Settings** > **CI/CD** > **Variables**.
 1. Add a new variable named `PYPI_TOKEN` with your PyPI API token as the value.
 1. In your `.gitlab-ci.yml` file, replace the `publish:script` with:
 
@@ -115,7 +115,7 @@ To publish to external PyPI registries, you must configure a secret variable in 
 
 When you commit your changes, you should check to make sure the pipeline runs correctly:
 
-- On the left sidebar, select **Build** > **Pipelines**. The most recent pipeline should have the three stages defined earlier.
+- In the left sidebar, select **Build** > **Pipelines**. The most recent pipeline should have the three stages defined earlier.
 
 If the pipeline hasn't run, manually run a fresh pipeline and make sure it completes successfully.
 

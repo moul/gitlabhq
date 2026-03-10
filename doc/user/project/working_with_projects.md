@@ -134,7 +134,7 @@ To view the projects you have interacted with:
 You can also view your starred and personal projects from your personal profile:
 
 1. In the upper-right corner, select your avatar and then your username.
-1. On the left sidebar, select **Starred projects** or **Personal projects**.
+1. In the left sidebar, select **Starred projects** or **Personal projects**.
 
 ### View inactive projects
 
@@ -490,7 +490,7 @@ To unarchive a project:
    1. On the top bar, select **Search or go to**.
    1. From the dropdown, select **View all my projects**.
    1. In the **Inactive** tab, select your project.
-1. On the left sidebar, select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Under **Advanced**, select **Expand**.
 1. In the **Unarchive project** section, select **Unarchive**.
 

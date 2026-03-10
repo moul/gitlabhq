@@ -378,7 +378,7 @@ RSpec.describe 'gitlab:db namespace rake task', :silence_stdout, feature_categor
           end
 
           it 'fails the rake task with CellNotFoundError' do
-            expect(Rake::Task['db:schema:load']).not_to receive(:invoke)
+            expect(Rake::Task['db:schema:load']).to receive(:invoke)
             expect(Rake::Task['gitlab:db:lock_writes']).not_to receive(:invoke)
             expect(Rake::Task['db:seed_fu']).not_to receive(:invoke)
             expect(Rake::Task['db:migrate']).not_to receive(:invoke)

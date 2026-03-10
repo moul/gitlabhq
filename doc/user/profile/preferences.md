@@ -250,7 +250,7 @@ You can view changes to whitespace in diffs.
 
 To view diffs on the Web IDE, follow these steps:
 
-1. On the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
+1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
 1. Under the **Changes** tab, select your file.
 
 ### Show whitespace changes in diffs

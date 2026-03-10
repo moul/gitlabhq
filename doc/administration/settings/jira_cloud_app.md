@@ -64,7 +64,7 @@ To create an OAuth application on your GitLab Self-Managed instance:
 1. In **Scopes**, select the `api` checkbox only.
 1. Select **Save application**.
 1. Copy the **Application ID** value.
-1. On the left sidebar, select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **GitLab for Jira App**.
 1. Paste the **Application ID** value into **Jira Connect Application ID**.
 1. Select **Save changes**.

@@ -1444,6 +1444,11 @@ Gitlab/LicenseAvailableUsage:
     - 'ee/app/models/ee/application_setting.rb'
     - 'lib/gitlab/current_settings.rb'
 
+Gitlab/Lookbook/NoUrlParamInPreview:
+  Enabled: true
+  Include:
+    - 'spec/components/previews/**/*'
+
 Gitlab/TokenWithoutPrefix:
   Enabled: true
   Include:

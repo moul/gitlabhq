@@ -53,7 +53,7 @@ Successful sign-in events are the only audit events available at all tiers. To s
 
 1. In the upper-right corner, select your avatar.
 1. Select **Edit profile**.
-1. On the left sidebar, select **Access** > **Authentication log**.
+1. In the left sidebar, select **Access** > **Authentication log**.
 
 After upgrading to a paid tier, you can also see successful sign-in events on audit event pages.
 

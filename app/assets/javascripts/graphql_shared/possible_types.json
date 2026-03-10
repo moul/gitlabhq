@@ -246,6 +246,7 @@
     "MergeRequest"
   ],
   "Registrable": [
+    "AbuseReportUploadRegistry",
     "CiSecureFileRegistry",
     "ContainerRepositoryRegistry",
     "DependencyProxyBlobRegistry",

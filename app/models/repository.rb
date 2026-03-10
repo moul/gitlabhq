@@ -154,7 +154,7 @@ class Repository
       ref: ref,
       path: opts[:path],
       author: expand_author_with_user_emails(opts[:author]),
-      follow: Array(opts[:path]).length == 1 && Feature.disabled?(:remove_file_commit_history_following, type: :ops),
+      follow: determine_follow_option(opts),
       limit: opts[:limit],
       offset: opts[:offset],
       skip_merges: !!opts[:skip_merges],
@@ -1438,6 +1438,14 @@ class Repository
     return author if emails.empty?
 
     (emails.map { |e| Regexp.escape(e) } + [Regexp.escape(author)]).join('\|')
+  end
+
+  # Determines whether to follow renames when filtering commits by path.
+  def determine_follow_option(opts)
+    return false unless Array(opts[:path]).length == 1
+    return false if Feature.enabled?(:remove_file_commit_history_following, type: :ops)
+
+    opts[:follow].nil? ? true : opts[:follow]
   end
 
   def empty_commit_collection_with_next_cursor

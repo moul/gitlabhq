@@ -86,7 +86,7 @@
 
 ## Navigation steps
 
-- Location first, then action: "On the left sidebar, select **Settings**."
+- Location first, then action: "In the left sidebar, select **Settings**."
 - Be brief: "Select **Save**." not "Select **Save** for changes to take effect."
 - Start optional steps with "Optional."
 - For the UI, use: top bar, left sidebar, right sidebar, and details panel.

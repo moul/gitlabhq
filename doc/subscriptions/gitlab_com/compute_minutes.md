@@ -83,7 +83,7 @@ To purchase additional compute minutes for your personal namespace:
 1. Sign in to GitLab.com.
 1. In the upper-right corner, select your avatar.
 1. Select **Edit profile**.
-1. On the left sidebar, select **Usage quotas**.
+1. In the left sidebar, select **Usage quotas**.
 1. Select **Buy additional compute minutes**. You are taken to the Customers Portal.
 1. In the **Subscription details** section, select the name of the user from the dropdown list.
 1. Enter the desired quantity of compute minute packs.

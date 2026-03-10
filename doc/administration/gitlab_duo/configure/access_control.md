@@ -76,7 +76,7 @@ Prerequisites:
 To give access to specific Agent Platform features for an instance:
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **Member access**, select **Add group**.
 1. From the dropdown list, select an existing group.

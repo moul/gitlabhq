@@ -35,10 +35,10 @@ When you view a GitLab project in VS Code, the extension shows you information a
 
 After you install and set up the extension, you can access the following features:
 
-- On the left sidebar, **GitLab** ({{< icon name="tanuki" >}}): Manage issues and merge
+- In the left sidebar, **GitLab** ({{< icon name="tanuki" >}}): Manage issues and merge
   requests, run CI/CD commands, view pipeline status, and perform security scanning.
   You can also extend your view with [custom queries](custom_queries.md).
-- On the left sidebar, **GitLab Duo Agent Platform** ({{< icon name="duo-agentic-chat" >}}):
+- In the left sidebar, **GitLab Duo Agent Platform** ({{< icon name="duo-agentic-chat" >}}):
   - The chat tab: Interact with GitLab Duo Chat (agentic), or use the **New chat** ({{< icon name="duo-chat-new" >}})
     dropdown list to select a foundational or custom agent to work with.
   - The flows tab: Use the Software Development Flow. Learn more about the
@@ -46,7 +46,7 @@ After you install and set up the extension, you can access the following feature
 - In the status bar, **Duo** ({{< icon name="tanuki-ai" >}}): Check the feature status of
   GitLab Duo Code Suggestions and review suggestions in
   your file as you author code.
-- On the left sidebar, **GitLab Duo Chat** ({{< icon name="duo-chat" >}}): Interact with
+- In the left sidebar, **GitLab Duo Chat** ({{< icon name="duo-chat" >}}): Interact with
   GitLab Duo Chat (non-agentic).
 
 If these features do not appear, see [troubleshooting](troubleshooting.md#gitlab-duo-features-are-unavailable) for guidance.
@@ -143,7 +143,7 @@ information to GitLab. To enable or customize telemetry in Visual Studio Code:
 
 1. In Visual Studio Code, go to **File** > **Preferences** > **Settings** (on Windows/Linux) or **Code** > **Settings** > **Settings** (on macOS).
 1. In the search bar, search for `Telemetry`.
-1. On the left sidebar, select **Telemetry**.
+1. In the left sidebar, select **Telemetry**.
 1. For **Telemetry Level**, select the data you want to share:
    - `all`: Sends usage data, general error telemetry, and crash reports.
    - `error`: Sends general error telemetry, and crash reports.

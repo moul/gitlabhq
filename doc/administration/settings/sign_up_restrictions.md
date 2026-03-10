@@ -128,7 +128,7 @@ Prerequisites:
 
 To turn on restricted access:
 
-1. On the left sidebar, select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Sign-up restrictions**.
 1. Under **Seat control**, select **Restricted access**.
 

@@ -213,7 +213,7 @@ and which members have inherited membership of that subgroup from the parent gro
 
 1. On the top bar, select **Search or go to** and find the **Development** group.
 1. Select the **User Experience** subgroup.
-1. On the left sidebar, select **Manage** > **Members**.
+1. In the left sidebar, select **Manage** > **Members**.
 1. On the **Members** page, select the **Filter members** field.
 1. Select **Membership**, then select **Indirect**, and press <kbd>Return</kbd>.
 
@@ -253,7 +253,7 @@ You will now add users directly to the different subgroups.
 
 1. On the top bar, select **Search or go to** and find the **Development** group.
 1. Select the **Product Management** subgroup.
-1. On the left sidebar, select **Manage** > **Members**.
+1. In the left sidebar, select **Manage** > **Members**.
 
 Excluding you, Alex is the only member of this subgroup and is a direct member,
 which is correct. However, you believe they should have the Maintainer role
@@ -294,7 +294,7 @@ You are now going to invite some users to the Engineering subgroup.
 
 1. On the top bar, select **Search or go to** and find the **Development** group.
 1. Select the **Engineering** subgroup.
-1. On the left sidebar, select **Manage** > **Members**. The only
+1. In the left sidebar, select **Manage** > **Members**. The only
    members are you and Alex. Both members have the Owner role, which are inherited roles.
 1. Select **Invite members**.
 1. Complete the fields for the following members:
@@ -339,7 +339,7 @@ rather than to the User Experience subgroup.
 
 1. On the top bar, select **Search or go to** and find the **Development** group.
 1. Select the **User Experience** subgroup, and then the **UX Design** subgroup.
-1. On the left sidebar, select **Manage** > **Members**. You and Alex
+1. In the left sidebar, select **Manage** > **Members**. You and Alex
    Smith are the only members. These are inherited roles.
 1. Select **Invite members**.
 1. Complete the fields and select **Invite** for the following members:
@@ -364,7 +364,7 @@ You can add Grayson to the **User Experience** subgroup as a specific role, whil
 keeping their role for the **Technical Writing** subgroup the same.
 
 1. Go to the **User Experience** subgroup.
-1. On the left sidebar, select **Manage** > **Members**. You and Alex
+1. In the left sidebar, select **Manage** > **Members**. You and Alex
    Smith are the only members. These are inherited roles.
 1. Select **Invite members**.
 1. Invite Grayson Garcia as a Developer, a role with a lower level of permissions
@@ -432,7 +432,7 @@ directly to the project.
 ## Add users to the project and parent group
 
 1. On the top bar, select **Search or go to** and find the **Release 2.0** project.
-1. On the left sidebar, select **Manage** > **Members**.
+1. In the left sidebar, select **Manage** > **Members**.
 1. Select **Invite members**. Invite the following users:
 
    | User           | Role       | Access expiration date |

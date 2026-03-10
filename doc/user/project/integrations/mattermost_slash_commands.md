@@ -87,7 +87,7 @@ To create a slash command in Mattermost:
 1. [In the Mattermost browser tab](#enable-custom-slash-commands-in-mattermost),
    go to your team page.
 1. Select the {{< icon name="ellipsis_v" >}} **Settings** icon, and select **Integrations**.
-1. On the left sidebar, select **Slash commands**.
+1. In the left sidebar, select **Slash commands**.
 1. Select **Add Slash Command**.
 1. Provide a **Display Name** and **Description** for your new command.
 1. Provide a **Command Trigger Word** based on your application's configuration:

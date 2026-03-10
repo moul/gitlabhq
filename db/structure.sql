@@ -5159,6 +5159,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_fd1d6f1b9e4f() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."organization_id" IS NULL THEN
+  SELECT "organization_id"
+  INTO NEW."organization_id"
+  FROM "abuse_report_uploads"
+  WHERE "abuse_report_uploads"."id" = NEW."abuse_report_upload_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_fd4a1be98713() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -12367,6 +12383,29 @@ CREATE SEQUENCE abuse_report_events_id_seq
     CACHE 1;
 
 ALTER SEQUENCE abuse_report_events_id_seq OWNED BY abuse_report_events.id;
+
+CREATE TABLE abuse_report_upload_states (
+    id bigint NOT NULL,
+    verification_started_at timestamp with time zone,
+    verification_retry_at timestamp with time zone,
+    verified_at timestamp with time zone,
+    abuse_report_upload_id bigint NOT NULL,
+    organization_id bigint NOT NULL,
+    verification_state smallint DEFAULT 0 NOT NULL,
+    verification_retry_count smallint DEFAULT 0 NOT NULL,
+    verification_checksum bytea,
+    verification_failure text,
+    CONSTRAINT check_b90a7e1a24 CHECK ((char_length(verification_failure) <= 255))
+);
+
+CREATE SEQUENCE abuse_report_upload_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE abuse_report_upload_states_id_seq OWNED BY abuse_report_upload_states.id;
 
 CREATE TABLE uploads_9ba88c4165 (
     id bigint NOT NULL,
@@ -21671,6 +21710,7 @@ CREATE TABLE integrations (
     group_confidential_mention_events boolean DEFAULT false NOT NULL,
     organization_id bigint,
     event_filters jsonb DEFAULT '{}'::jsonb NOT NULL,
+    filter jsonb DEFAULT '{}'::jsonb NOT NULL,
     CONSTRAINT check_2aae034509 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1)),
     CONSTRAINT check_a948a0aa7e CHECK ((char_length(type_new) <= 255))
 );
@@ -34411,6 +34451,8 @@ ALTER TABLE ONLY abuse_events ALTER COLUMN id SET DEFAULT nextval('abuse_events_
 
 ALTER TABLE ONLY abuse_report_events ALTER COLUMN id SET DEFAULT nextval('abuse_report_events_id_seq'::regclass);
 
+ALTER TABLE ONLY abuse_report_upload_states ALTER COLUMN id SET DEFAULT nextval('abuse_report_upload_states_id_seq'::regclass);
+
 ALTER TABLE ONLY abuse_report_user_mentions ALTER COLUMN id SET DEFAULT nextval('abuse_report_user_mentions_id_seq'::regclass);
 
 ALTER TABLE ONLY abuse_reports ALTER COLUMN id SET DEFAULT nextval('abuse_reports_id_seq'::regclass);
@@ -37249,6 +37291,9 @@ ALTER TABLE ONLY abuse_events
 
 ALTER TABLE ONLY abuse_report_events
     ADD CONSTRAINT abuse_report_events_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY abuse_report_upload_states
+    ADD CONSTRAINT abuse_report_upload_states_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY uploads_9ba88c4165
     ADD CONSTRAINT uploads_9ba88c4165_pkey PRIMARY KEY (id, model_type);
@@ -43883,6 +43928,20 @@ CREATE INDEX index_abuse_report_events_on_abuse_report_id ON abuse_report_events
 CREATE INDEX index_abuse_report_events_on_organization_id ON abuse_report_events USING btree (organization_id);
 
 CREATE INDEX index_abuse_report_events_on_user_id ON abuse_report_events USING btree (user_id);
+
+CREATE INDEX index_abuse_report_upload_states_failed_verification ON abuse_report_upload_states USING btree (verification_retry_at NULLS FIRST) WHERE (verification_state = 3);
+
+CREATE INDEX index_abuse_report_upload_states_needs_verification_id ON abuse_report_upload_states USING btree (abuse_report_upload_id) WHERE ((verification_state = 0) OR (verification_state = 3));
+
+CREATE UNIQUE INDEX index_abuse_report_upload_states_on_abuse_report_upload_id ON abuse_report_upload_states USING btree (abuse_report_upload_id);
+
+CREATE INDEX index_abuse_report_upload_states_on_organization_id ON abuse_report_upload_states USING btree (organization_id);
+
+CREATE INDEX index_abuse_report_upload_states_on_verification_started ON abuse_report_upload_states USING btree (abuse_report_upload_id, verification_started_at) WHERE (verification_state = 1);
+
+CREATE INDEX index_abuse_report_upload_states_on_verification_state ON abuse_report_upload_states USING btree (verification_state);
+
+CREATE INDEX index_abuse_report_upload_states_pending_verification ON abuse_report_upload_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
 
 CREATE UNIQUE INDEX index_abuse_report_user_mentions_on_abuse_report_id_and_note_id ON abuse_report_user_mentions USING btree (abuse_report_id, note_id);
 
@@ -54036,6 +54095,8 @@ CREATE TRIGGER trigger_fbd8825b3057 BEFORE INSERT OR UPDATE ON boards_epic_board
 
 CREATE TRIGGER trigger_fcc3ea1f9d4e BEFORE INSERT OR UPDATE ON ai_vectorizable_file_uploads FOR EACH ROW EXECUTE FUNCTION trigger_fcc3ea1f9d4e();
 
+CREATE TRIGGER trigger_fd1d6f1b9e4f BEFORE INSERT OR UPDATE ON abuse_report_upload_states FOR EACH ROW EXECUTE FUNCTION trigger_fd1d6f1b9e4f();
+
 CREATE TRIGGER trigger_fd4a1be98713 BEFORE INSERT OR UPDATE ON container_repository_states FOR EACH ROW EXECUTE FUNCTION trigger_fd4a1be98713();
 
 CREATE TRIGGER trigger_fff8735b6b9a BEFORE INSERT OR UPDATE ON vulnerability_finding_signatures FOR EACH ROW EXECUTE FUNCTION trigger_fff8735b6b9a();
@@ -55236,6 +55297,9 @@ ALTER TABLE ONLY resource_label_events
 ALTER TABLE ONLY user_achievements
     ADD CONSTRAINT fk_60b12fcda3 FOREIGN KEY (awarded_by_user_id) REFERENCES users(id) ON DELETE SET NULL;
 
+ALTER TABLE ONLY abuse_report_upload_states
+    ADD CONSTRAINT fk_6105b8ff69 FOREIGN KEY (abuse_report_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY merge_requests
     ADD CONSTRAINT fk_6149611a04 FOREIGN KEY (assignee_id) REFERENCES users(id) ON DELETE SET NULL;
 
@@ -56057,6 +56121,9 @@ ALTER TABLE ONLY work_item_date_field_values
 
 ALTER TABLE ONLY merge_requests_approval_rules_projects
     ADD CONSTRAINT fk_af4078336f FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY abuse_report_upload_states
+    ADD CONSTRAINT fk_af411f8958 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY analytics_cycle_analytics_group_stages
     ADD CONSTRAINT fk_analytics_cycle_analytics_group_stages_group_value_stream_id FOREIGN KEY (group_value_stream_id) REFERENCES analytics_cycle_analytics_group_value_streams(id) ON DELETE CASCADE;

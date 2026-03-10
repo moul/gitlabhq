@@ -42,7 +42,7 @@ The Workspace log file, named `.log` is located in the directory `<your-eclipse-
 To enable GitLab Language Server debug logs:
 
 1. In your IDE, select **Eclipse** > **Settings**.
-1. On the left sidebar, select **GitLab**.
+1. In the left sidebar, select **GitLab**.
 1. In **Language Server Log Level**, enter `debug`.
 1. Select **Apply and Close**.
 
@@ -121,7 +121,7 @@ To do this:
 
 1. Refer to Eclipse documentation on SSL certificates.
 1. Go to your IDE's top menu bar and select **Settings**.
-1. On the left sidebar, select **Tools** > **GitLab Duo**.
+1. In the left sidebar, select **Tools** > **GitLab Duo**.
 1. Confirm your default browser trusts the **URL to GitLab instance** you're using.
 1. Enable the **Ignore certificate errors** option.
 1. Select **Verify setup**.

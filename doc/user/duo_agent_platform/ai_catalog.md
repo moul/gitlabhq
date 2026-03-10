@@ -111,7 +111,7 @@ Prerequisites:
 To view the current version of an agent or flow:
 
 1. On the top bar, select **Search or go to** and find your project or group.
-1. On the left sidebar, select either:
+1. In the left sidebar, select either:
    - **Automate** > **Agents**
    - **Automate** > **Flows**
 1. Select the agent or flow to view its details.
@@ -131,7 +131,7 @@ Prerequisites:
 To make your group or project use the latest version of an agent or flow:
 
 1. On the top bar, select **Search or go to** and find your project or group.
-1. On the left sidebar, select either:
+1. In the left sidebar, select either:
    - **Automate** > **Agents**
    - **Automate** > **Flows**
 1. Select the agent or flow you want to update.

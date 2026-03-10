@@ -10592,6 +10592,7 @@ paths:
         schema:
           type: string
           enum:
+          - geo_abuse_report_uploads
           - packages_helm_metadata_caches
           - supply_chain_attestations
           - packages_nuget_symbols
@@ -10650,6 +10651,7 @@ paths:
         schema:
           type: string
           enum:
+          - geo_abuse_report_uploads
           - packages_helm_metadata_caches
           - supply_chain_attestations
           - packages_nuget_symbols
@@ -10706,6 +10708,7 @@ paths:
         schema:
           type: string
           enum:
+          - geo_abuse_report_uploads
           - packages_helm_metadata_caches
           - supply_chain_attestations
           - packages_nuget_symbols
@@ -10811,6 +10814,7 @@ paths:
         schema:
           type: string
           enum:
+          - geo_abuse_report_uploads
           - packages_helm_metadata_caches
           - supply_chain_attestations
           - packages_nuget_symbols
@@ -53647,6 +53651,12 @@ paths:
           type: string
         in: query
         example: README.md
+      - name: follow
+        required: false
+        description: Follow file renames when filtering by path
+        schema:
+          type: boolean
+        in: query
       - name: author
         required: false
         description: Search commits by commit author
@@ -64797,6 +64807,26 @@ components:
           type: string
         packages_helm_metadata_caches_verification_failed_count:
           type: string
+        abuse_report_uploads_count:
+          type: string
+        abuse_report_uploads_checksum_total_count:
+          type: string
+        abuse_report_uploads_checksummed_count:
+          type: string
+        abuse_report_uploads_checksum_failed_count:
+          type: string
+        abuse_report_uploads_synced_count:
+          type: string
+        abuse_report_uploads_failed_count:
+          type: string
+        abuse_report_uploads_registry_count:
+          type: string
+        abuse_report_uploads_verification_total_count:
+          type: string
+        abuse_report_uploads_verified_count:
+          type: string
+        abuse_report_uploads_verification_failed_count:
+          type: string
         git_fetch_event_count_weekly:
           type: string
         git_push_event_count_weekly:
@@ -64888,6 +64918,10 @@ components:
         packages_helm_metadata_caches_synced_in_percentage:
           type: string
         packages_helm_metadata_caches_verified_in_percentage:
+          type: string
+        abuse_report_uploads_synced_in_percentage:
+          type: string
+        abuse_report_uploads_verified_in_percentage:
           type: string
         repositories_count:
           type: string
@@ -69891,6 +69925,26 @@ components:
           type: string
         packages_helm_metadata_caches_verification_failed_count:
           type: string
+        abuse_report_uploads_count:
+          type: string
+        abuse_report_uploads_checksum_total_count:
+          type: string
+        abuse_report_uploads_checksummed_count:
+          type: string
+        abuse_report_uploads_checksum_failed_count:
+          type: string
+        abuse_report_uploads_synced_count:
+          type: string
+        abuse_report_uploads_failed_count:
+          type: string
+        abuse_report_uploads_registry_count:
+          type: string
+        abuse_report_uploads_verification_total_count:
+          type: string
+        abuse_report_uploads_verified_count:
+          type: string
+        abuse_report_uploads_verification_failed_count:
+          type: string
         git_fetch_event_count_weekly:
           type: string
         git_push_event_count_weekly:
@@ -69982,6 +70036,10 @@ components:
         packages_helm_metadata_caches_synced_in_percentage:
           type: string
         packages_helm_metadata_caches_verified_in_percentage:
+          type: string
+        abuse_report_uploads_synced_in_percentage:
+          type: string
+        abuse_report_uploads_verified_in_percentage:
           type: string
         repositories_count:
           type: string

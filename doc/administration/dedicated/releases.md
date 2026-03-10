@@ -37,7 +37,7 @@ You can check your GitLab version through GitLab itself or through Switchboard.
 
 To check your GitLab version:
 
-- In GitLab: On the left sidebar, at the bottom, select **Help** ({{< icon name="question" >}}) > **Help**,
+- In GitLab: In the left sidebar, at the bottom, select **Help** ({{< icon name="question" >}}) > **Help**,
   or visit `https://your-instance-url/help` directly.
 - In Switchboard: See [tenant overview](tenant_overview.md).
 

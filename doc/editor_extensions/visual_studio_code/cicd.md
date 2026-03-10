@@ -77,7 +77,7 @@ To show alerts for your current Git branch:
 To view the output for a CI/CD job for your current branch:
 
 1. On the left vertical menu bar, select **GitLab** ({{< icon name="tanuki" >}}) to display the extension sidebar.
-1. On the sidebar, expand **For current branch** to show its most recent pipeline.
+1. In the sidebar, expand **For current branch** to show its most recent pipeline.
 1. Select your desired job to open it in a new VS Code tab:
 
    ![A pipeline containing CI/CD jobs that are passing, allowed to fail, and failing.](img/view_job_output_v17_6.png)

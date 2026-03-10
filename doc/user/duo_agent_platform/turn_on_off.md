@@ -50,7 +50,7 @@ Prerequisites:
 To turn Agent Platform on or off for an instance:
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **GitLab Duo Agent Platform**, select or clear the **Turn on GitLab Duo Chat (agentic), agents, and flows** checkbox.
 1. Select **Save changes**.
@@ -125,7 +125,7 @@ Prerequisites:
 To change GitLab Duo availability for an instance:
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **GitLab Duo availability**, select an option.
 1. Select **Save changes**.
@@ -198,7 +198,7 @@ Prerequisites:
 To change GitLab Duo Core availability for an instance:
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **GitLab Duo availability**, select an option.
 1. Under **GitLab Duo Core**, select or clear the **Turn on features for GitLab Duo Core** checkbox.

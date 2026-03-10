@@ -154,8 +154,10 @@ InitializerConnections.warn_if_database_connection do
 
         # HTTP Router
         # Creating a black hole for /-/http_router/version since it is taken by the
-        # cloudflare worker, see: https://gitlab.com/gitlab-org/cells/http-router/-/issues/47
+        # cloudflare worker, see: https://gitlab.com/gitlab-com/gl-infra/tenant-scale/cells-infrastructure/team/-/work_items/150
         match '/http_router/version', to: proc { [204, {}, ['']] }, via: :all
+        # topology-service caching route, see: https://gitlab.com/gitlab-com/gl-infra/tenant-scale/cells-infrastructure/team/-/work_items/648
+        match '/topology-service/__cache/*path', to: proc { [204, {}, ['']] }, via: :all
 
         # '/-/health' implemented by BasicHealthCheck middleware
         get 'liveness' => 'health#liveness'

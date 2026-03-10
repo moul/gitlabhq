@@ -67,7 +67,7 @@ Prerequisites:
 
 To create a custom member role:
 
-1. On the left sidebar:
+1. In the left sidebar:
    - For GitLab.com, on the top bar, select **Search or go to** and find your group.
    - For GitLab Self-Managed and GitLab Dedicated, in the upper-right corner, select **Admin**.
 1. Select **Settings** > **Roles and permissions**.
@@ -126,7 +126,7 @@ Prerequisites:
 
 To edit a custom role:
 
-1. On the left sidebar:
+1. In the left sidebar:
    - For GitLab.com, on the top bar, select **Search or go to** and find your group.
    - For GitLab Self-Managed and GitLab Dedicated, in the upper-right corner, select **Admin**.
 1. Select **Settings** > **Roles and permissions**.
@@ -152,7 +152,7 @@ Prerequisites:
 
 To view details of a custom role:
 
-1. On the left sidebar:
+1. In the left sidebar:
    - For GitLab.com, on the top bar, select **Search or go to** and find your group.
    - For GitLab Self-Managed and GitLab Dedicated, in the upper-right corner, select **Admin**.
 1. Select **Settings** > **Roles and permissions**.
@@ -169,7 +169,7 @@ Prerequisites:
 
 To delete a custom role:
 
-1. On the left sidebar:
+1. In the left sidebar:
    - For GitLab.com, on the top bar, select **Search or go to** and find your group.
    - For GitLab Self-Managed and GitLab Dedicated, in the upper-right corner, select **Admin**.
 1. Select **Settings** > **Roles and permissions**.

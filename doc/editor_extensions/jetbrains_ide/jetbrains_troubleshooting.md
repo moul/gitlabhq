@@ -53,7 +53,7 @@ You can also [enable proxy authentication](../language_server/_index.md#enable-p
 To enable GitLab Language Server debug logs:
 
 1. In your IDE, on the top bar, select your IDE name, then select **Settings**.
-1. On the left sidebar, select **Tools** > **GitLab Duo**.
+1. In the left sidebar, select **Tools** > **GitLab Duo**.
 1. Select **GitLab Language Server** to expand the section.
 1. In **Logging** > **Log Level**, enter `debug`.
 1. Select **Apply**.
@@ -114,7 +114,7 @@ To do this:
 
 1. Refer to JetBrains documentation on [SSL certificates](https://www.jetbrains.com/help/idea/ssl-certificates.html).
 1. Go to your IDE's top menu bar and select **Settings**.
-1. On the left sidebar, select **Tools** > **GitLab Duo**.
+1. In the left sidebar, select **Tools** > **GitLab Duo**.
 1. Confirm your default browser trusts the **URL to GitLab instance** you're using.
 1. Enable the **Ignore certificate errors** option.
 1. Select **Verify setup**.

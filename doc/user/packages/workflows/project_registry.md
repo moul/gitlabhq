@@ -67,7 +67,7 @@ Create a new top-level group for artifact management:
 Create projects for each package type you need:
 
 1. On the top bar, select **Search or go to** and find your artifact management group.
-1. On the left sidebar, select **Create new** ({{< icon name="plus" >}}) and **New project/repository**.
+1. In the left sidebar, select **Create new** ({{< icon name="plus" >}}) and **New project/repository**.
 1. Select **Create blank project**.
 1. Enter a **Project name** for your desired package type. For example, `java-packages` or `node-packages`.
 1. Set the appropriate visibility level.

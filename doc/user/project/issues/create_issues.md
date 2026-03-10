@@ -37,8 +37,8 @@ To create an issue:
 1. On the top bar, select **Search or go to** and find your project.
 1. Either:
 
-   - On the left sidebar, select **Plan** > **Issues**, and then, in the upper-right corner, select **New issue**.
-   - On the left sidebar, at the top, select the plus sign ({{< icon name="plus" >}}) and then, under **In this project**,
+   - In the left sidebar, select **Plan** > **Issues**, and then, in the upper-right corner, select **New issue**.
+   - In the left sidebar, at the top, select the plus sign ({{< icon name="plus" >}}) and then, under **In this project**,
      select **New issue**.
 
 1. Complete the [fields](#fields-in-the-new-issue-form).

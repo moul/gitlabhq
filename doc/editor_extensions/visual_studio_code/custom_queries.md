@@ -27,7 +27,7 @@ Prerequisites:
 To see search results from your project:
 
 1. On the left vertical menu bar, select **GitLab** ({{< icon name="tanuki" >}}) to display the extension sidebar.
-1. On the sidebar, expand **Issues and merge requests**.
+1. In the sidebar, expand **Issues and merge requests**.
 1. Select a project to view its queries, then select the query you want to run.
 1. Below the query title, select the search result you want to see.
 1. If your search result is a merge request, select what you want to view in VS Code:

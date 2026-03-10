@@ -164,7 +164,7 @@ To do this:
    [language identifiers](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocumentItem).
    You need the identifier for your languages in a later step.
 1. In your IDE, on the top bar, select your IDE name, then select **Settings**.
-1. On the left sidebar, select **Tools** > **GitLab Duo**.
+1. In the left sidebar, select **Tools** > **GitLab Duo**.
 1. Under **Code Suggestions Enabled Languages** > **Additional languages**, add the identifier for each language
    you want to support. Identifiers should be in lowercase, like `html`. Separate multiple identifiers with commas,
    like `html,powershell,latex`, and don't add leading periods to each identifier.

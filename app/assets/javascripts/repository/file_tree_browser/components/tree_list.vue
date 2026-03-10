@@ -20,6 +20,7 @@ import { EVENT_OPEN_GLOBAL_SEARCH } from '~/vue_shared/global_search/constants';
 import getRefMixin from '~/repository/mixins/get_ref';
 import FileTreeBrowserPopover from '~/repository/file_tree_browser/components/file_tree_browser_popover.vue';
 import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser.vue';
+import { scrollUp } from '~/lib/utils/scroll_utils';
 import {
   normalizePath,
   dedupeByFlatPathAndId,
@@ -566,6 +567,7 @@ export default {
       });
     },
     onFileClick() {
+      scrollUp();
       this.trackEvent('click_file_tree_browser_on_repository_page');
     },
     onTreeClick(item) {

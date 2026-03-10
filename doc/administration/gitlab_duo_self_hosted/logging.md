@@ -40,7 +40,7 @@ This data is stored in your GitLab installation and is not shared with GitLab.
 To turn on AI logs:
 
 1. In the upper-right corner, select **Admin**.
-1. On the left sidebar, select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **Enable AI logs**, select **Capture detailed information about AI-related activities and requests**.
 1. Select **Save changes**.

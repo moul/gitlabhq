@@ -68,7 +68,7 @@ To edit your notification settings:
 
 1. In the upper-right corner, select your avatar.
 1. Select **Preferences**.
-1. On the left sidebar, select **Notifications**.
+1. In the left sidebar, select **Notifications**.
 1. In **Global notification email**, enter the email address your notifications are sent to.
    Defaults to your primary email address.
 1. For **Global notification level**, select the default [notification level](#notification-levels)
@@ -139,7 +139,7 @@ To select a notification level for a group, use either of these methods:
 
 1. In the upper-right corner, select your avatar.
 1. Select **Preferences**.
-1. On the left sidebar, select **Notifications**.
+1. In the left sidebar, select **Notifications**.
 1. Locate the group in the **Groups** section.
 1. Select the desired [notification level](#notification-levels).
 
@@ -156,7 +156,7 @@ You can use group notifications, for example, if you work freelance, and want to
 
 1. In the upper-right corner, select your avatar.
 1. Select **Preferences**.
-1. On the left sidebar, select **Notifications**.
+1. In the left sidebar, select **Notifications**.
 1. Locate the group in the **Groups** section.
 1. Select the desired email address.
 
@@ -168,7 +168,7 @@ To select a notification level for a project, use either of these methods:
 
 1. In the upper-right corner, select your avatar.
 1. Select **Preferences**.
-1. On the left sidebar, select **Notifications**.
+1. In the left sidebar, select **Notifications**.
 1. Locate the project in the **Projects** section.
 1. Select the desired [notification level](#notification-levels).
 
@@ -459,7 +459,7 @@ If you no longer wish to receive any email notifications:
 
 1. In the upper-right corner, select your avatar.
 1. Select **Preferences**.
-1. On the left sidebar, select **Notifications**.
+1. In the left sidebar, select **Notifications**.
 1. Set your **Global notification level** to **Disabled**.
 1. Clear the **Receive notifications about your own activity** checkbox.
 1. If you belong to any groups or projects, set their notification setting to **Global** or

@@ -21,7 +21,7 @@ To enable the Atlassian OmniAuth provider for passwordless authentication you mu
 1. Select **Create a new app**.
 1. Choose an App Name, such as 'GitLab', and select **Create**.
 1. Note the `Client ID` and `Secret` for the [GitLab configuration](#gitlab-configuration) steps.
-1. On the left sidebar under **APIS AND FEATURES**, select **OAuth 2.0 (3LO)**.
+1. In the left sidebar, under **APIS AND FEATURES**, select **OAuth 2.0 (3LO)**.
 1. Enter the GitLab callback URL using the format `https://gitlab.example.com/users/auth/atlassian_oauth2/callback` and select **Save changes**.
 1. Select **+ Add** in the left sidebar under **APIS AND FEATURES**.
 1. Select **Add** for **Jira platform REST API** and then **Configure**.

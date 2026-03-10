@@ -57,7 +57,7 @@ Prerequisites:
 - In GitLab 15.8 and later:
 
   1. In the upper-right corner, select **Admin**.
-  1. On the left sidebar, select **Settings** > **General**.
+  1. In the left sidebar, select **Settings** > **General**.
   1. Expand **GitLab for Jira App**.
   1. Clear the **Jira Connect Proxy URL** text box.
   1. Select **Save changes**.

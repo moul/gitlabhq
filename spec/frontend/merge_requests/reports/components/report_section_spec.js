@@ -1,5 +1,8 @@
+import { GlLink } from '@gitlab/ui';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
-import ReportSection from '~/merge_requests/reports/components/report_section.vue';
+import ReportSection, {
+  SECTION_ITEM_LEVEL,
+} from '~/merge_requests/reports/components/report_section.vue';
 import StatusIcon from '~/vue_merge_request_widget/components/widget/status_icon.vue';
 import ActionButtons from '~/vue_merge_request_widget/components/widget/action_buttons.vue';
 import HelpPopover from '~/vue_shared/components/help_popover.vue';
@@ -12,6 +15,11 @@ describe('ReportSection', () => {
   const findHelpPopover = () => wrapper.findComponent(HelpPopover);
   const findSummary = () => wrapper.findByTestId('summary');
   const findLoadingText = () => wrapper.findByTestId('loading-text');
+  const findSections = () => wrapper.findByTestId('sections');
+  const findAllSections = () => wrapper.findAllByTestId('section');
+  const findAllSectionHeaders = () => wrapper.findAllByTestId('section-header');
+  const findAllSectionTexts = () => wrapper.findAllByTestId('section-text');
+  const findAllSectionItems = () => wrapper.findAllByTestId('section-item');
 
   const DEFAULT_PROPS = {
     summary: { title: 'Detected 3 new licenses' },
@@ -128,6 +136,121 @@ describe('ReportSection', () => {
       createComponent({ actionButtons: [] });
 
       expect(findActionButtons().exists()).toBe(false);
+    });
+  });
+
+  describe('sections', () => {
+    const MOCK_DENIED_SECTION = {
+      header: 'Denied',
+      text: 'Out-of-compliance with policies',
+      children: [
+        {
+          icon: { name: 'failed' },
+          link: { href: 'https://example.com/gpl', text: 'GPL-3.0' },
+          supportingText: 'Used by lodash, webpack',
+        },
+      ],
+    };
+
+    const MOCK_UNCATEGORIZED_SECTION = {
+      header: 'Uncategorized',
+      text: 'No policy matches this license',
+      children: [
+        {
+          icon: { name: 'notice' },
+          link: { href: 'https://example.com/mit', text: 'MIT' },
+          actions: [{ text: 'Used by 2 packages', href: '/full-report' }],
+        },
+        {
+          icon: { name: 'notice' },
+          link: { href: 'https://example.com/isc', text: 'ISC' },
+          actions: [{ text: 'Used by 1 package', href: '/full-report' }],
+        },
+      ],
+    };
+
+    const MOCK_SECTIONS = [MOCK_DENIED_SECTION, MOCK_UNCATEGORIZED_SECTION];
+
+    it('does not render sections when empty', () => {
+      createComponent();
+
+      expect(findSections().exists()).toBe(false);
+    });
+
+    it('renders correct number of sections', () => {
+      createComponent({ sections: MOCK_SECTIONS });
+
+      expect(findAllSections()).toHaveLength(2);
+    });
+
+    describe('section headers', () => {
+      it('renders section headers', () => {
+        createComponent({ sections: MOCK_SECTIONS });
+
+        const headers = findAllSectionHeaders();
+
+        expect(headers.at(0).text()).toBe(MOCK_DENIED_SECTION.header);
+        expect(headers.at(1).text()).toBe(MOCK_UNCATEGORIZED_SECTION.header);
+      });
+
+      it('renders section description text', () => {
+        createComponent({ sections: MOCK_SECTIONS });
+
+        const texts = findAllSectionTexts();
+
+        expect(texts.at(0).text()).toBe(MOCK_DENIED_SECTION.text);
+        expect(texts.at(1).text()).toBe(MOCK_UNCATEGORIZED_SECTION.text);
+      });
+
+      it('does not render section text when not provided', () => {
+        createComponent({ sections: [{ header: 'Denied', children: [] }] });
+
+        expect(findAllSectionTexts()).toHaveLength(0);
+      });
+    });
+
+    describe('section items', () => {
+      it('renders item status icon with correct level', () => {
+        createComponent({ sections: MOCK_SECTIONS });
+
+        const itemIcons = wrapper
+          .findAllComponents(StatusIcon)
+          .filter((w) => w.props('name') === 'ReportItem');
+
+        expect(itemIcons.at(0).props('level')).toBe(SECTION_ITEM_LEVEL);
+        expect(itemIcons.at(0).props('iconName')).toBe(MOCK_DENIED_SECTION.children[0].icon.name);
+      });
+
+      it('renders item links', () => {
+        createComponent({ sections: MOCK_SECTIONS });
+
+        const items = findAllSectionItems();
+        const firstItemLink = items.at(0).findComponent(GlLink);
+
+        expect(firstItemLink.attributes('href')).toBe(MOCK_DENIED_SECTION.children[0].link.href);
+        expect(firstItemLink.text()).toBe(MOCK_DENIED_SECTION.children[0].link.text);
+      });
+
+      it('renders item supporting text for denied licenses', () => {
+        createComponent({ sections: MOCK_SECTIONS });
+
+        const supportingText = wrapper.findByTestId('item-supporting-text');
+
+        expect(supportingText.text()).toBe(MOCK_DENIED_SECTION.children[0].supportingText);
+      });
+
+      it('renders item action buttons for non-denied licenses', () => {
+        createComponent({ sections: MOCK_SECTIONS });
+
+        const itemActionButtons = wrapper
+          .findAllComponents(ActionButtons)
+          .filter((w) => w.classes('gl-ml-auto'));
+
+        expect(itemActionButtons).toHaveLength(2);
+        expect(itemActionButtons.at(0).props('tertiaryButtons')).toEqual(
+          MOCK_UNCATEGORIZED_SECTION.children[0].actions,
+        );
+      });
     });
   });
 });

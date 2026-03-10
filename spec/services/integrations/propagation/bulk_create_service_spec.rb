@@ -58,6 +58,26 @@ RSpec.describe Integrations::Propagation::BulkCreateService, feature_category: :
           updated_at: eq(Time.current)
         )
       end
+
+      it 'propagates JSONB filters data correctly' do
+        filter = {
+          'global' => {
+            'rules' => [
+              { 'field' => 'user.id', 'operator' => 'eq', 'value' => 1 }
+            ]
+          },
+          'push' => {
+            'rules' => [
+              { 'field' => 'object_kind', 'operator' => 'eq', 'value' => 'work_item' }
+            ]
+          }
+        }
+        integration.update!(filter: filter)
+
+        execute_service
+
+        expect(created_integration.filter).to eq(filter)
+      end
     end
 
     context 'when integration has organization' do

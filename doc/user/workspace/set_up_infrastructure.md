@@ -168,7 +168,7 @@ To configure GitLab OAuth:
 
 1. In the upper-right corner, select your avatar.
 1. Select **Edit profile**.
-1. On the left sidebar, select **Access** > **Applications**.
+1. In the left sidebar, select **Access** > **Applications**.
 1. Scroll down to **OAuth applications**.
 1. Select **Add new application**.
 1. Update the following settings:
@@ -265,7 +265,7 @@ resources in AWS.
 To run the pipeline:
 
 1. Create a new pipeline in your GitLab project:
-   1. On the left sidebar, select **Build** > **Pipelines**.
+   1. In the left sidebar, select **Build** > **Pipelines**.
    1. Select **New pipeline** and select **New pipeline** again to confirm.
 1. Verify the `plan` job succeeds, then manually trigger the `apply` job.
 

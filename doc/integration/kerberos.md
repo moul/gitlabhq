@@ -159,7 +159,7 @@ With that information at hand:
 
       1. As an administrator, you can confirm the new, blocked account:
          1. In the upper-right corner, select **Admin**.
-         1. On the left sidebar, select **Overview** > **Users** and review the **Blocked** tab.
+         1. In the left sidebar, select **Overview** > **Users** and review the **Blocked** tab.
       1. You can enable the user.
    1. If `block_auto_created_users` is false, the Kerberos user is
       authenticated and is signed in to GitLab.

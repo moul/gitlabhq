@@ -222,6 +222,9 @@ module API
           type: String,
           desc: 'The file path',
           documentation: { example: 'README.md' }
+        optional :follow,
+          type: Boolean,
+          desc: 'Follow file renames when filtering by path'
         optional :author,
           type: String,
           desc: 'Search commits by commit author',
@@ -263,7 +266,8 @@ module API
           first_parent: first_parent,
           order: order,
           author: author,
-          trailers: params[:trailers])
+          trailers: params[:trailers],
+          follow: params[:follow])
 
         serializer = with_stats ? Entities::CommitWithStats : Entities::Commit
 

@@ -100,7 +100,7 @@ To explore all public or internal groups:
 
 1. On the top bar, select **Search or go to**.
 1. From the dropdown, select **Explore**.
-1. On the left sidebar, select **Groups**.
+1. In the left sidebar, select **Groups**.
 
 ## View groups you are a member of
 

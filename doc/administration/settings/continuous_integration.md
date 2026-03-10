@@ -449,7 +449,7 @@ To turn off package forwarding:
 
 1. In the upper-right corner, select **Admin**.
 1. Select **Overview** > **Groups**.
-1. On the left sidebar, select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Package registry**.
 1. Clear either of the following checkboxes:
    - **Forward npm package requests**
@@ -691,7 +691,7 @@ in the pipeline editor.
 
 To select a CI/CD template for the required pipeline configuration:
 
-1. On the left sidebar, at the bottom, select **Admin**.
+1. In the left sidebar, at the bottom, select **Admin**.
 1. Select **Settings** > **CI/CD**.
 1. Expand the **Required pipeline configuration** section.
 1. Select a CI/CD template from the dropdown list.

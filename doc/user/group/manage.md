@@ -158,7 +158,7 @@ To unarchive a group:
    1. On the top bar, select **Search or go to**.
    1. Select **View all my groups**.
    1. In the **Inactive** tab, select your group.
-1. On the left sidebar, select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Under **Advanced**, select **Expand**.
 1. In the **Unarchive group** section, select **Unarchive**.
 
@@ -469,7 +469,7 @@ Prerequisites:
 
 To turn on restricted access:
 
-1. On the left sidebar, select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Under **Seat control**, select **Restricted access**.
 

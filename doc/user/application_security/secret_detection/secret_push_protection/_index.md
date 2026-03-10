@@ -105,7 +105,7 @@ Prerequisites:
 To enable secret push protection in a project:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. On the left sidebar, select **Secure** > **Security configuration**.
+1. In the left sidebar, select **Secure** > **Security configuration**.
 1. Turn on the **Secret push protection** toggle.
 
 You can also enable secret push protection for all projects in a group [with the API](../../../../api/group_security_settings.md#update-group-security-settings).

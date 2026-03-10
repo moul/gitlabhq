@@ -39,7 +39,7 @@ Some features in the plugin are in experiment or beta status. To use them, you m
 1. Go to your IDE's top menu bar and select **Settings**, or:
    - MacOS: press <kbd>Command</kbd>+<kbd>,</kbd>
    - Windows or Linux: press <kbd>Control</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>
-1. On the left sidebar, expand **Tools**, then select **GitLab Duo**.
+1. In the left sidebar, expand **Tools**, then select **GitLab Duo**.
 1. Select **Enable Experiment or BETA features**.
 1. To apply the changes, restart your IDE.
 
@@ -57,7 +57,7 @@ The GitLab Duo plugin uses the telemetry settings in your JetBrains IDE to send 
 information to GitLab. To enable telemetry in your JetBrains IDE:
 
 1. Go to your IDE's top menu bar and select **Settings**. For example, in PyCharm, select **PyCharm** > **Settings**.
-1. On the left sidebar, expand **Tools**, then select **GitLab Duo**.
+1. In the left sidebar, expand **Tools**, then select **GitLab Duo**.
 1. Under **Advanced**, select the **Enable telemetry** checkbox.
 1. Select **OK** or **Apply** to save your changes.
 
@@ -98,7 +98,7 @@ To integrate GitLab for JetBrains with the 1Password CLI:
 From the IDE:
 
 1. Go to your IDE's top menu bar and select **Settings**.
-1. On the left sidebar, expand **Tools**, then select **GitLab Duo**.
+1. In the left sidebar, expand **Tools**, then select **GitLab Duo**.
 1. Under **Authentication**, select the **1Password CLI** tab.
 1. Select **Integrate with 1Password CLI**.
 1. Optional. For **Secret reference**, paste the secret reference you copied from 1Password.

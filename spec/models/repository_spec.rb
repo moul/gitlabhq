@@ -473,25 +473,95 @@ RSpec.describe Repository, feature_category: :source_code_management do
             stub_feature_flags(remove_file_commit_history_following: false)
           end
 
-          it 'sets follow when it is a single path' do
-            expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: true)).and_call_original.twice
+          context 'with single path' do
+            it 'sets follow: true' do
+              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: true)).and_call_original.twice
+
+              repository.commits('master', limit: 1, path: 'README.md')
+              repository.commits('master', limit: 1, path: ['README.md'])
+            end
+          end
+        end
+
+        context 'with single path' do
+          it 'does not set follow' do
+            expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original.twice
 
             repository.commits('master', limit: 1, path: 'README.md')
             repository.commits('master', limit: 1, path: ['README.md'])
           end
         end
 
-        it 'does not set follow when it is a single path' do
-          expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original.twice
+        context 'with multiple paths' do
+          it 'does not set follow' do
+            expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
 
-          repository.commits('master', limit: 1, path: 'README.md')
-          repository.commits('master', limit: 1, path: ['README.md'])
+            repository.commits('master', limit: 1, path: ['README.md', 'CHANGELOG'])
+          end
         end
 
-        it 'does not set follow when it is multiple paths' do
-          expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+        context 'when follow option is explicitly provided' do
+          it 'ignores follow option and sets follow to false' do
+            expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
 
-          repository.commits('master', limit: 1, path: ['README.md', 'CHANGELOG'])
+            repository.commits('master', limit: 1, path: 'README.md', follow: true)
+          end
+
+          context 'with feature flag disabled' do
+            before do
+              stub_feature_flags(remove_file_commit_history_following: false)
+            end
+
+            it 'respects follow: true' do
+              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: true)).and_call_original
+
+              repository.commits('master', limit: 1, path: 'README.md', follow: true)
+            end
+
+            it 'respects follow: false' do
+              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+
+              repository.commits('master', limit: 1, path: 'README.md', follow: false)
+            end
+
+            context 'without path' do
+              it 'ignores follow option and sets follow to false' do
+                expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+
+                repository.commits('master', limit: 1, follow: true)
+              end
+            end
+
+            context 'with multiple paths' do
+              it 'ignores follow option and sets follow to false' do
+                expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+
+                repository.commits('master', limit: 1, path: ['README.md', 'CHANGELOG'], follow: true)
+              end
+            end
+          end
+        end
+
+        context 'when follow option is not provided' do
+          subject(:commits) { repository.commits('master', limit: 1, path: 'README.md') }
+
+          it 'does not set follow' do
+            expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+
+            commits
+          end
+
+          context 'with feature flag disabled' do
+            before do
+              stub_feature_flags(remove_file_commit_history_following: false)
+            end
+
+            it 'sets follow to true for single path (default behavior)' do
+              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: true)).and_call_original
+
+              commits
+            end
+          end
         end
       end
 

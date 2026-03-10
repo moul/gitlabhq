@@ -36,6 +36,12 @@ For more information, see [issue 389582](https://gitlab.com/gitlab-org/gitlab/-/
 
 ## List repository commits
 
+{{< history >}}
+
+- `follow` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225733) in GitLab 18.10.
+
+{{< /history >}}
+
 Get a list of repository commits in a project.
 
 ```plaintext
@@ -48,6 +54,7 @@ GET /projects/:id/repository/commits
 | `all`          | boolean        | No       | Retrieve every commit from the repository. If `true`, the `ref_name` parameter is ignored. |
 | `author`       | string         | No       | Search commits by commit author. |
 | `first_parent` | boolean        | No       | If `true`, follows only the first parent commit upon seeing a merge commit. |
+| `follow`       | boolean        | No       | If `true`, follows file renames when filtering commits by `path`, and returns commits for the file even if it was renamed. If `false`, returns only commits where the file existed at its current path. Used only when `path` specifies a single file. Defaults to `true`. |
 | `order`        | string         | No       | List commits in order. Possible values: `default`, [`topo`](https://git-scm.com/docs/git-log#Documentation/git-log.txt---topo-order). Defaults to `default`, the commits are shown in reverse chronological order. |
 | `path`         | string         | No       | The file path. |
 | `ref_name`     | string         | No       | The name of a repository branch, tag or revision range, or if not given the default branch. |

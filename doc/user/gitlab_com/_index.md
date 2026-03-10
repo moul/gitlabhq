@@ -634,7 +634,7 @@ Go to the current instance configuration to see the SSH host key fingerprints on
 GitLab.com.
 
 1. Sign in to GitLab.
-1. On the left sidebar, select **Help** ({{< icon name="question-o" >}}) > **Help**.
+1. In the left sidebar, select **Help** ({{< icon name="question-o" >}}) > **Help**.
 1. On the Help page, select **Check the current instance configuration**.
 
 In the instance configuration, you see the **SSH host key fingerprints**:

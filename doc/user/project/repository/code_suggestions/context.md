@@ -96,7 +96,7 @@ To change open files being used as context:
 {{< tab title="JetBrains IDEs" >}}
 
 1. Go to your IDE's top menu bar and select **Settings**.
-1. On the left sidebar, expand **Tools**, then select **GitLab Duo**.
+1. In the left sidebar, expand **Tools**, then select **GitLab Duo**.
 1. Below **Additional languages**, select or clear **Send open tabs as context**.
 1. Select **Apply** or **Save**.
 

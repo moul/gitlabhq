@@ -33,7 +33,7 @@ To explore project topics:
 
 1. On the top bar, select **Search or go to**.
 1. Select **Explore**.
-1. On the left sidebar, select **Topics**. The **Explore topics** page displays a list of all project topics.
+1. In the left sidebar, select **Topics**. The **Explore topics** page displays a list of all project topics.
 1. Optional. To filter topics by name, in the search box, enter your search criteria.
 1. To view the projects associated with a topic, select a topic.
    You can also access a topic page with the URL `https://gitlab.com/explore/projects/topics/<topic-name>`.
@@ -67,7 +67,7 @@ To subscribe to a topic:
 
 - From the **Explore topics** page:
 
-  1. On the left sidebar, expand the top-most chevron ({{< icon name="chevron-down" >}}).
+  1. In the left sidebar, expand the top-most chevron ({{< icon name="chevron-down" >}}).
   1. Select **Explore**.
   1. Select **Topics**.
   1. Select the topic you want to subscribe to.

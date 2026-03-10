@@ -156,7 +156,7 @@ This overview is brief. Refer to the previous instructions for more context.
 
 1. Enable writes to the `authorized_keys` file.
    1. In the upper-right corner, select **Admin**.
-   1. On the left sidebar, select **Settings** > **Network**.
+   1. In the left sidebar, select **Settings** > **Network**.
    1. Expand **Performance optimization**.
    1. Select the **Use `authorized_keys` file to authenticate SSH keys** checkbox.
 1. [Rebuild the `authorized_keys` file](../raketasks/maintenance.md#rebuild-authorized_keys-file).

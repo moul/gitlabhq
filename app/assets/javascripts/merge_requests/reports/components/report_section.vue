@@ -7,6 +7,8 @@ import StatusIcon from '~/vue_merge_request_widget/components/widget/status_icon
 import ActionButtons from '~/vue_merge_request_widget/components/widget/action_buttons.vue';
 import { EXTENSION_ICONS } from '~/vue_merge_request_widget/constants';
 
+export const SECTION_ITEM_LEVEL = 2;
+
 export default {
   name: 'ReportSection',
   components: {
@@ -50,12 +52,21 @@ export default {
       required: false,
       default: '',
     },
+    sections: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
   computed: {
     hasActionButtons() {
       return this.actionButtons.length > 0;
     },
+    hasSections() {
+      return this.sections.length > 0;
+    },
   },
+  SECTION_ITEM_LEVEL,
   i18n: {
     learnMore: __('Learn more'),
   },
@@ -100,6 +111,56 @@ export default {
           </div>
         </div>
       </template>
+    </div>
+    <div v-if="hasSections" data-testid="sections">
+      <div
+        v-for="section in sections"
+        :key="section.header"
+        class="gl-border-t gl-flex gl-border-t-section gl-py-3 gl-pl-7"
+        data-testid="section"
+      >
+        <div class="gl-w-full gl-min-w-0">
+          <div class="gl-mb-2">
+            <strong class="gl-block" data-testid="section-header">{{ section.header }}</strong>
+            <span
+              v-if="section.text"
+              class="gl-block gl-text-secondary"
+              data-testid="section-text"
+              >{{ section.text }}</span
+            >
+          </div>
+          <div
+            v-for="(item, index) in section.children"
+            :key="item.link ? item.link.text : index"
+            class="gl-border-t gl-flex gl-items-baseline gl-border-t-section gl-py-3"
+            :class="{ 'gl-border-t-0': index === 0 }"
+            data-testid="section-item"
+          >
+            <status-icon
+              v-if="item.icon"
+              :level="$options.SECTION_ITEM_LEVEL"
+              :icon-name="item.icon.name"
+              name="ReportItem"
+            />
+            <div class="gl-flex gl-grow gl-items-baseline">
+              <div>
+                <gl-link v-if="item.link" :href="item.link.href">{{ item.link.text }}</gl-link>
+                <p
+                  v-if="item.supportingText"
+                  v-safe-html="item.supportingText"
+                  class="gl-mb-0 gl-text-secondary"
+                  data-testid="item-supporting-text"
+                ></p>
+              </div>
+            </div>
+            <action-buttons
+              v-if="item.actions && item.actions.length"
+              :tertiary-buttons="item.actions"
+              class="gl-ml-auto gl-pl-3"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
