@@ -9,7 +9,7 @@ title: Troubleshooting Zoekt
 
 - Tier: Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed
-- Status: Beta
+- Status: Limited availability
 
 {{< /details >}}
 

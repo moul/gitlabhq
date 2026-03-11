@@ -59,7 +59,7 @@ If a session for your flow does not start:
 In the GitLab UI, foundational flows use a service account that:
 
 - Creates commits with its own email address.
-- Creates branches with the `workloads/` prefix (for example, `workloads/a1b2c3d4e5f`).
+- Creates a [workload pipeline](../../ci/pipelines/pipeline_types.md#workload-pipeline).
 
 Prerequisites:
 
@@ -80,10 +80,10 @@ To configure push rules for a project:
    1. In **Commit author's email**, add a regular expression that allows the email address you just copied.
    1. Select **Save push rules**.
 
-1. Allow the `workloads/` and `duo/feature/` branch prefixes:
+1. Allow the `duo/feature/` branch prefix:
    1. In the **Push rules** section, find **Branch name**.
-   1. Add a regular expression that allows branches starting with `workloads/` and `duo/feature/`.
-      For example: `^(workloads|duo/feature)/.*$`
+   1. Add a regular expression that allows branches starting with ^duo/(fix|feature|refactor|docs/).*
+      For example: `^(duo/feature)/.*$`
    1. Select **Save push rules**.
 
 To create push rules for the instance:

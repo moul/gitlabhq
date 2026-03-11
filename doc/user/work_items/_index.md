@@ -26,8 +26,6 @@ down into actionable components.
 
 This structure supports various planning frameworks like Scrum, Kanban, and portfolio management
 approaches, while giving teams visibility into progress at every level.
-With work items, you can organize your team's work using common structures that support various
-planning frameworks including Scrum, Kanban, and portfolio management approaches.
 
 ## Work item types
 
@@ -44,25 +42,19 @@ GitLab supports the following work item types:
 {{< history >}}
 
 - [Introduced](https://gitlab.com/groups/gitlab-org/-/epics/11918) in GitLab 18.7 [with a flag](../../administration/feature_flags/_index.md) named `work_item_planning_view`. Disabled by default.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/520452) in GitLab 18.10.
 
 {{< /history >}}
 
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
-> This feature is available for testing, but not ready for production use.
+The **Work items** list is the central place to view and manage all work item types
+(such as issues, epics, and tasks) for a project or group. Use this view to
+understand the full scope of work in your project or group and prioritize effectively.
 
-To organize work items (like issues, epics, and tasks) side-by-side, use the consolidated work items view.
-This view helps you understand the full scope of work, and prioritize effectively.
-
-When you enable this feature, it:
-
-- Removes **Plan** > **Issues** and **Plan** > **Epics** from the left sidebar in groups and projects.
-- Adds **Plan** > **Work items** to the left sidebar.
-- Pins **Work items** on the left sidebar for projects and groups, if you had previously pinned
-  **Plan** > **Issues** or **Plan** > **Epics**.
-- Removes **Settings** > **Issues** from the left sidebar in groups.
-- Adds **Settings** > **Work items** to the left sidebar in groups.
+In earlier versions of GitLab, issues and epics had separate list pages under
+**Plan** > **Issues** and **Plan** > **Epics**. In GitLab 18.10 and later, these pages
+are replaced by **Plan** > **Work items**, which consolidates all work item types in a
+single view. If you had pinned **Issues** or **Epics** in the sidebar, **Work items** is
+pinned in their place.
 
 To view work items for a project or group:
 
@@ -71,11 +63,15 @@ To view work items for a project or group:
 
 ### Filter work items
 
-On the **Work items** page, you can use filters to narrow down the list:
+The **Work items** list shows all work item types by default. To view a specific type
+(for example, only issues or only epics), use the **Type** filter.
+
+To filter the work items list:
 
 1. At the top of the page, from the filter bar, select a filter, operator, and its value.
-1. Optional. Add more filters.
-1. Press <kbd>Enter</kbd> or select the search icon {{< icon name="search" >}}.
+   For example, to view only epics, select the filter **Type**, operator **is**, and value **Epic**.
+1. Optional. Add more filters to refine your search.
+1. Press <kbd>Enter</kbd> or select the search icon ({{< icon name="search" >}}).
 
 #### Available filters
 
@@ -185,8 +181,8 @@ GitLab saves your display preferences at different levels:
 To configure display preferences:
 
 1. On the top bar, select **Search or go to** and find your group.
-1. Select **Plan** > **Epics** or **Plan** > **Issues**.
-1. In the upper-right corner, select **Display options** ({{< icon name="preferences" >}}).
+1. Select **Plan** > **Work items**.
+1. On the right of the filter bar, select **Display options** ({{< icon name="preferences" >}}).
 1. Under **Fields**, turn on or turn off the metadata you want to display:
    - Status (for issues)
    - Assignee

@@ -57,6 +57,8 @@ Pipelines can be configured in many different ways:
   already been merged into the target branch.
 - [Merge trains](merge_trains.md)
   use merged results pipelines to queue merges one after the other.
+- [Workload pipelines](pipeline_types.md#workload-pipeline) run on ephemeral Git
+  references for on-demand pipeline execution without creating temporary branches.
 - [Parent-child pipelines](downstream_pipelines.md#parent-child-pipelines) break down complex pipelines
   into one parent pipeline that can trigger multiple child sub-pipelines, which all
   run in the same project and with the same SHA. This pipeline architecture is commonly used for mono-repos.
@@ -556,11 +558,12 @@ project repository.
 
 This table lists the refspecs injected for each pipeline type:
 
-| Pipeline type                                                     | Refspecs |
-|-------------------------------------------------------------------|----------|
-| pipeline for branches                                             | `+<sha>:refs/pipelines/<id>` and `+refs/heads/<name>:refs/remotes/origin/<name>` |
-| pipeline for tags                                                 | `+<sha>:refs/pipelines/<id>` and `+refs/tags/<name>:refs/tags/<name>` |
-| [merge request pipeline](merge_request_pipelines.md)              | `+refs/pipelines/<id>:refs/pipelines/<id>` |
+| Pipeline type                                        | Refspecs |
+|------------------------------------------------------|----------|
+| pipeline for branches                                | `+<sha>:refs/pipelines/<id>` and `+refs/heads/<name>:refs/remotes/origin/<name>` |
+| pipeline for tags                                    | `+<sha>:refs/pipelines/<id>` and `+refs/tags/<name>:refs/tags/<name>` |
+| [merge request pipeline](merge_request_pipelines.md) | `+refs/pipelines/<id>:refs/pipelines/<id>` |
+| [pipeline for workload refs](pipeline_types.md#workload-pipeline)  | `+refs/pipelines/<id>:refs/pipelines/<id>` |
 
 The refs `refs/heads/<name>` and `refs/tags/<name>` exist in your
 project repository. GitLab generates the special ref `refs/pipelines/<id>` during a

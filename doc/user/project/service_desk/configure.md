@@ -495,10 +495,10 @@ In Google Workspace:
 
 In GitLab:
 
-1. Go to **Issues** of the project and wait for a new issue to be created from the confirmation
-   email from Google.
-1. Open the issue and note the confirmation code.
-1. (Optional) Delete the issue.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Issue**.
+   Wait for a new issue to be created from the confirmation email from Google.
+1. Select the issue and note the confirmation code.
+1. Optional. Delete the issue.
 
 In Google Workspace:
 

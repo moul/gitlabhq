@@ -51,7 +51,9 @@ Keep the full documentation in a wiki:
 1. Select **Plan** > **Wiki**.
 1. Create a wiki page with your detailed requirements (for example, with slug `product-requirements`).
 1. On the top bar, select **Search or go to** and find your project's group.
-1. Select **Plan** > **Epics** and find your epic.
+1. Select **Plan** > **Work items**.
+1. In the filter bar, select the filter **Type**, operator **is**, and value **Epic**.
+1. Identify your desired epic, and select its title.
 1. In the epic description, link to the wiki page:
 
    ```markdown

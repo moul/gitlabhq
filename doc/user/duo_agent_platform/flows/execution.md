@@ -25,6 +25,8 @@ You can also choose to [use your own runners](#configure-runners), and
 When flows execute in GitLab CI/CD:
 
 - They use a [composite identity](../composite_identity.md) to limit access.
+- They create an ephemeral [workload pipieline](../../../ci/pipelines/pipeline_types.md#workload-pipeline),
+  which is removed when the flow is complete.
 - The tools at their disposal are specific to the purpose of the flow.
   These tools can include the creation of merge requests or the running of local shell commands in their execution environment.
 

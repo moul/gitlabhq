@@ -357,7 +357,7 @@ Prerequisites:
 
 - You must have the Developer, Maintainer, or Owner role for the project.
 - If you created an external agent from the AI Catalog, the agent must be enabled in your project.
-- To allow the agent to push to workload branches (`workloads/*`), you might have to create [branch rules](../../project/repository/branches/branch_rules.md).
+- To allow the agent to push to agent created branches `^duo/(fix|feature|refactor|docs/).*`, you might have to create [branch rules](../../project/repository/branches/branch_rules.md).
 - GitLab Self-Managed only. If you created an external agent from the AI Catalog, the agent must be enabled in your project.
 
 1. In your project, open an issue, merge request, or epic.

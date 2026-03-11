@@ -93,8 +93,9 @@ When you mention a group in a comment, every member of the group gets a to-do it
 added to their to-do list.
 
 1. On the top bar, select **Search or go to** and find your project.
-1. For merge requests, select **Code** > **Merge requests**, and find your merge request.
-1. For issues, select **Plan** > **Issues**, and find your issue.
+1. Go to your merge request or issue:
+   - For merge requests, select **Code** > **Merge requests**, and find your merge request.
+   - For issues, select **Plan** > **Work items**, and find your issue.
 1. In a comment, type `@` followed by the user, group, or subgroup namespace.
    For example, `@alex`, `@alex-team`, or `@alex-team/marketing`.
 1. Select **Comment**.
@@ -201,8 +202,9 @@ Prerequisites:
 To lock an issue or merge request:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. For merge requests, select **Code** > **Merge requests**, and find your merge request.
-1. For issues, select **Plan** > **Issues**, and find your issue.
+1. Go to your merge request or issue:
+   - For merge requests, select **Code** > **Merge requests**, and find your merge request.
+   - For issues, select **Plan** > **Work items**, and find your issue.
 1. In the upper-right corner, select **Merge request actions** or **Issue actions**
    ({{< icon name="ellipsis_v" >}}), then select **Lock discussion**.
 

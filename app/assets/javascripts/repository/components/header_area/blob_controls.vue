@@ -54,7 +54,7 @@ export default {
     GlTooltip: GlTooltipDirective,
   },
   mixins: [getRefMixin, glFeatureFlagMixin(), InternalEvents.mixin()],
-  inject: ['currentRef', 'showWebIdeButton', 'showPipelineEditorButton'],
+  inject: ['currentRef', 'showWebIdeButton'],
   provide() {
     return {
       blobInfo: computed(() => this.blobInfo ?? DEFAULT_BLOB_INFO.repository.blobs.nodes[0]),
@@ -311,7 +311,7 @@ export default {
       :web-ide-url="blobInfo.ideEditPath"
       :needs-to-fork="shouldShowSingleFileEditorForkSuggestion"
       :needs-to-fork-with-web-ide="shouldShowWebIdeForkSuggestion"
-      :show-pipeline-editor-button="showPipelineEditorButton"
+      :show-pipeline-editor-button="Boolean(blobInfo.pipelineEditorPath)"
       :pipeline-editor-url="blobInfo.pipelineEditorPath"
       :gitpod-url="blobInfo.gitpodBlobUrl"
       :is-gitpod-enabled-for-instance="gitpodEnabled"

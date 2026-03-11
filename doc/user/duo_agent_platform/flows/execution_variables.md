@@ -44,7 +44,7 @@ The following predefined CI/CD variables are available:
 | `CI_RUNNER_VERSION` | Runner version. |
 | `CI_RUNNER_EXECUTABLE_ARCH` | Runner architecture (for example, `linux/amd64`). |
 | `CI_SERVER` | Always `yes` in CI/CD environments. |
-| `CI_WORKLOAD_REF` | Workload reference for the flow execution (for example, `refs/workloads/c727f70ba7f`). This is not a Git branch and cannot be used for Git operations. |
+| `CI_WORKLOAD_REF` | Workload reference for the flow execution (for example, `refs/workloads/c727f70ba7f`). These are internal Git references and automatically removed when the pipeline job finishes or fails.|
 
 ### Environment variables
 

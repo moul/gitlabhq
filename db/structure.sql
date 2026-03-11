@@ -2044,6 +2044,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_199f655f86af() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."project_id" IS NULL THEN
+  SELECT "project_id"
+  INTO NEW."project_id"
+  FROM "ci_pipeline_artifacts"
+  WHERE "ci_pipeline_artifacts"."id" = NEW."pipeline_artifact_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_1a052e65e9d9() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -5976,6 +5992,7 @@ CREATE TABLE p_ci_pipeline_artifact_states (
     verification_retry_count smallint DEFAULT 0,
     verification_checksum bytea,
     verification_failure text,
+    project_id bigint,
     CONSTRAINT check_ee83b93f85 CHECK ((char_length(verification_failure) <= 255))
 )
 PARTITION BY LIST (partition_id);
@@ -6401,7 +6418,8 @@ CREATE TABLE security_findings (
     finding_data jsonb DEFAULT '{}'::jsonb NOT NULL,
     project_id bigint,
     scanner_reported_severity smallint,
-    CONSTRAINT check_6c2851a8c9 CHECK ((uuid IS NOT NULL))
+    CONSTRAINT check_6c2851a8c9 CHECK ((uuid IS NOT NULL)),
+    CONSTRAINT check_9c3ba4d6f2 CHECK ((project_id IS NOT NULL))
 )
 PARTITION BY LIST (partition_number);
 
@@ -37887,9 +37905,6 @@ ALTER TABLE clusters_kubernetes_namespaces
 ALTER TABLE abuse_reports
     ADD CONSTRAINT check_95e5f0c300 CHECK ((char_length(message) <= 2048)) NOT VALID;
 
-ALTER TABLE security_findings
-    ADD CONSTRAINT check_9c3ba4d6f2 CHECK ((project_id IS NOT NULL)) NOT VALID;
-
 ALTER TABLE related_epic_links
     ADD CONSTRAINT check_a6d9d7c276 CHECK ((issue_link_id IS NOT NULL)) NOT VALID;
 
@@ -46988,6 +47003,8 @@ CREATE INDEX index_p_ci_job_messages_on_job_id ON ONLY p_ci_job_messages USING b
 
 CREATE INDEX index_p_ci_job_messages_on_project_id ON ONLY p_ci_job_messages USING btree (project_id);
 
+CREATE INDEX index_p_ci_pipeline_artifact_states_on_project_id ON ONLY p_ci_pipeline_artifact_states USING btree (project_id);
+
 CREATE INDEX index_p_ci_pipeline_variables_on_project_id ON ONLY p_ci_pipeline_variables USING btree (project_id);
 
 CREATE INDEX index_p_ci_runner_machine_builds_on_project_id ON ONLY p_ci_runner_machine_builds USING btree (project_id);
@@ -53719,6 +53736,8 @@ CREATE TRIGGER trigger_1825cdc71779 BEFORE INSERT OR UPDATE ON organization_deta
 CREATE TRIGGER trigger_18bc439a6741 BEFORE INSERT OR UPDATE ON packages_conan_metadata FOR EACH ROW EXECUTE FUNCTION trigger_18bc439a6741();
 
 CREATE TRIGGER trigger_1996c9e5bea0 BEFORE INSERT OR UPDATE ON abuse_report_events FOR EACH ROW EXECUTE FUNCTION trigger_1996c9e5bea0();
+
+CREATE TRIGGER trigger_199f655f86af BEFORE INSERT OR UPDATE ON p_ci_pipeline_artifact_states FOR EACH ROW EXECUTE FUNCTION trigger_199f655f86af();
 
 CREATE TRIGGER trigger_1a052e65e9d9 BEFORE INSERT OR UPDATE ON import_export_upload_uploads FOR EACH ROW EXECUTE FUNCTION trigger_1a052e65e9d9();
 
