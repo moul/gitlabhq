@@ -47,7 +47,6 @@ RSpec.describe IssueEmailParticipants::CreateService, feature_category: :service
     let(:emails) { nil }
     let(:service) { described_class.new(target: issue, current_user: user, emails: emails) }
     let(:expected_emails) { emails }
-    let(:error_feature_flag) { "Feature flag issue_email_participants is not enabled for this project." }
     let(:error_underprivileged) { _("You don't have permission to manage email participants.") }
     let(:error_no_participants_added) do
       _("No email participants were added. Either none were provided, or they already exist.")
@@ -153,16 +152,6 @@ RSpec.describe IssueEmailParticipants::CreateService, feature_category: :service
 
         it_behaves_like 'a successful service execution'
       end
-    end
-
-    context 'when feature flag issue_email_participants is disabled' do
-      let(:error_message) { error_feature_flag }
-
-      before do
-        stub_feature_flags(issue_email_participants: false)
-      end
-
-      it_behaves_like 'a failed service execution'
     end
   end
 end

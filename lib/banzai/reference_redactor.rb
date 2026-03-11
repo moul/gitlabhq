@@ -66,20 +66,26 @@ module Banzai
     def redacted_node_content(node)
       original_content = node.attr('data-original')
 
-      # Build the raw <a> tag just with a link as href and content if
+      # Build the <a> tag just with a link as href and content if
       # it's originally a link pattern. We shouldn't return a plain text href.
       original_link =
         if node.attr('data-link-reference') == 'true'
           href = node.attr('href')
 
-          %(<a href="#{href}">#{original_content}</a>)
+          a = node.document.create_element('a')
+          a['href'] = href
+          a.inner_html = original_content
+          a.to_html
         elsif node.attr('data-link') == 'true' && node.attr('data-original-href')
           # Reference was inside a link like [custom text](reference).
           # Restore as a plain link with the original href to avoid leaking
           # information about the reference's existence.
-          original_href = CGI.escapeHTML(node.attr('data-original-href'))
+          original_href = node.attr('data-original-href')
 
-          %(<a href="#{original_href}">#{original_content}</a>)
+          a = node.document.create_element('a')
+          a['href'] = original_href
+          a.inner_html = original_content
+          a.to_html
         end
 
       # The reference should be replaced by the original link's content,

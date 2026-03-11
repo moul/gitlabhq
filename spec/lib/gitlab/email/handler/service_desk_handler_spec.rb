@@ -25,7 +25,10 @@ RSpec.describe Gitlab::Email::Handler::ServiceDeskHandler, feature_category: :se
   end
 
   context 'when service desk is enabled for the project' do
-    let_it_be_with_reload(:project) { create(:project, :repository, :private, group: group, path: 'test', service_desk_enabled: true) }
+    let_it_be_with_reload(:project) do
+      create(:project, :repository, :private, group: group, path: 'test', service_desk_enabled: true)
+    end
+
     let_it_be(:support_bot) { create(:support_bot) }
 
     let(:confidential_ticket) { true }
@@ -129,7 +132,8 @@ RSpec.describe Gitlab::Email::Handler::ServiceDeskHandler, feature_category: :se
         receiver.execute
         new_ticket = WorkItem.last
 
-        expect(new_ticket.issue_customer_relations_contacts.map(&:contact)).to contain_exactly(contact, contact2, contact3)
+        expect(new_ticket.issue_customer_relations_contacts.map(&:contact)).to contain_exactly(contact, contact2,
+          contact3)
       end
 
       it_behaves_like 'tickets should not be confidential is set'
@@ -343,20 +347,6 @@ RSpec.describe Gitlab::Email::Handler::ServiceDeskHandler, feature_category: :se
               .to match_array(%w[alan@adventuretime.ooo jake@adventuretime.ooo])
           end
 
-          context 'when issue_email_participants FF is disabled' do
-            before do
-              # Was turned off after issue creation
-              stub_feature_flags(issue_email_participants: false)
-            end
-
-            it 'creates issue_email_participant for the author' do
-              subject
-
-              expect(WorkItem.last.issue_email_participants.map(&:email))
-                .to match_array(%w[jake@adventuretime.ooo])
-            end
-          end
-
           context 'when issue is closed and reopen_on_external_participant_note is enabled' do
             let(:reopen_note) { WorkItem.last.notes.last }
             let(:work_item) { WorkItem.last }
@@ -566,7 +556,10 @@ RSpec.describe Gitlab::Email::Handler::ServiceDeskHandler, feature_category: :se
           context 'when there are multiple projects with same key' do
             let_it_be(:project_with_same_key) { create(:project, group: group, service_desk_enabled: true) }
 
-            let(:email_raw) { service_desk_fixture('emails/service_desk_custom_address.eml', slug: project_with_same_key.full_path_slug.to_s) }
+            let(:email_raw) do
+              service_desk_fixture('emails/service_desk_custom_address.eml',
+                slug: project_with_same_key.full_path_slug.to_s)
+            end
 
             before do
               create(:service_desk_setting, project: project_with_same_key, project_key: service_desk_key)
@@ -709,7 +702,9 @@ RSpec.describe Gitlab::Email::Handler::ServiceDeskHandler, feature_category: :se
 
           context 'with valid service desk settings' do
             let_it_be(:user) { create(:user) }
-            let_it_be(:credentials) { build(:service_desk_custom_email_credential, project: project).save!(validate: false) }
+            let_it_be(:credentials) do
+              build(:service_desk_custom_email_credential, project: project).save!(validate: false)
+            end
 
             let_it_be_with_reload(:verification) do
               create(:service_desk_custom_email_verification, project: project, token: 'ZROT4ZZXA-Y6', triggerer: user)

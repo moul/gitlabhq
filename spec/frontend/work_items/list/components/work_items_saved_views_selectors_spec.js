@@ -183,12 +183,12 @@ describe('WorkItemsSavedViewsSelectors', () => {
       expect(findDefaultViewSelector().text()).toBe('All items');
     });
 
-    it('emits reset-to-default-view when clicked', async () => {
+    it('emits navigate-to-all-items when clicked', async () => {
       createComponent();
 
       await findDefaultViewSelector().trigger('click');
 
-      expect(wrapper.emitted('reset-to-default-view')).toHaveLength(1);
+      expect(wrapper.emitted('navigate-to-all-items')).toHaveLength(1);
     });
   });
 
@@ -380,7 +380,7 @@ describe('WorkItemsSavedViewsSelectors', () => {
       expect(toastShowMock).toHaveBeenCalledWith('View removed from your list');
     });
 
-    it('emits reset-to-default-view when unsubscribing from the last view', async () => {
+    it('emits navigate-to-all-items when unsubscribing from the last view', async () => {
       createComponent({
         mockSavedViews: [mockSavedViewsData[0]],
         visibleViews: [mockSavedViewsData[0]],
@@ -390,7 +390,7 @@ describe('WorkItemsSavedViewsSelectors', () => {
       await findUnsubscribeBtnAt(0).trigger('click');
       await waitForPromises();
 
-      expect(wrapper.emitted('reset-to-default-view')).toHaveLength(1);
+      expect(wrapper.emitted('navigate-to-all-items')).toHaveLength(1);
     });
 
     it('emits error event when unsubscribe mutation fails', async () => {
@@ -465,7 +465,7 @@ describe('WorkItemsSavedViewsSelectors', () => {
       expect(toastShowMock).toHaveBeenCalledWith('View has been deleted');
     });
 
-    it('emits reset-to-default-view when deleting the last view', async () => {
+    it('emits navigate-to-all-items when deleting the last view', async () => {
       createComponent({
         mockSavedViews: [mockSavedViewsData[0]],
         visibleViews: [mockSavedViewsData[0]],
@@ -476,7 +476,7 @@ describe('WorkItemsSavedViewsSelectors', () => {
       await findDeleteBtnAt(0).trigger('click');
       await waitForPromises();
 
-      expect(wrapper.emitted('reset-to-default-view')).toHaveLength(1);
+      expect(wrapper.emitted('navigate-to-all-items')).toHaveLength(1);
     });
 
     it('emits error event when delete mutation fails', async () => {

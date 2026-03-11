@@ -748,10 +748,12 @@ Existing sites maintain their current unique domain configuration.
 
 ### Running behind a proxy
 
-Like the rest of GitLab, Pages can be used in those environments where external
-internet connectivity is gated by a proxy. To use a proxy for GitLab Pages:
+You can use GitLab Pages in environments where external internet connectivity is
+gated by a proxy.
 
-1. Configure in `/etc/gitlab/gitlab.rb`:
+To use a proxy for GitLab Pages:
+
+1. In `/etc/gitlab/gitlab.rb`, add:
 
    ```ruby
    gitlab_pages['env']['http_proxy'] = 'http://example:8080'
@@ -771,10 +773,11 @@ This usually results in this error:
 Post /oauth/token: x509: certificate signed by unknown authority
 ```
 
-For Linux package installations, this problem is fixed by [installing a custom CA](https://docs.gitlab.com/omnibus/settings/ssl/#install-custom-public-certificates).
+To resolve this:
 
-For self-compiled installations, this can be fixed by installing the custom Certificate
-Authority (CA) in the system certificate store.
+- For Linux package installations,
+[install a custom CA](https://docs.gitlab.com/omnibus/settings/ssl/#install-custom-public-certificates).
+- For self-compiled installations, install the custom CA in the system certificate store.
 
 ### Support mutual TLS when calling the GitLab API
 
@@ -817,23 +820,24 @@ To configure the certificates in your GitLab Pages server:
    gitlab_pages['client_key'] = ['/etc/gitlab/ssl/key.pem']
    ```
 
-1. If you used a custom Certificate Authority (CA), you must copy the root CA certificate to `/etc/gitlab/ssl`
-   and edit `/etc/gitlab/gitlab.rb`:
+1. If you used a custom CA, copy the root CA certificate to `/etc/gitlab/ssl` and edit
+   `/etc/gitlab/gitlab.rb`:
 
    ```ruby
    gitlab_pages['client_ca_certs'] = ['/etc/gitlab/ssl/ca.pem']
    ```
 
-   File paths for multiple custom Certificate Authority (CA)s are separated by commas.
+   File paths for multiple custom Certificate Authorities are separated by commas.
 
-1. If you have a multi-node GitLab Pages installation, repeat these steps in all the nodes.
-1. Save a copy of the full certificate chain files in the `/etc/gitlab/trusted-certs` directory on all your GitLab Nodes.
+1. If you have a multi-node GitLab Pages installation, repeat these steps on all nodes.
+1. Save a copy of the full certificate chain files in the `/etc/gitlab/trusted-certs` directory on
+   all your GitLab nodes.
 
 ### ZIP serving and cache configuration
 
 > [!warning]
-> These instructions deal with some advanced settings of your GitLab instance. The recommended default values are set inside GitLab Pages. You should
-> change these settings only if absolutely necessary. Use extreme caution.
+> The recommended default values are set inside GitLab Pages. Change
+> these settings only if absolutely necessary.
 
 GitLab Pages can serve content from ZIP archives through object storage.
 It uses an in-memory cache to increase the performance when serving content from a ZIP
@@ -842,21 +846,21 @@ archive. You can modify the cache behavior by changing the following configurati
 | Setting | Description |
 | ------- | ----------- |
 | `zip_cache_expiration` | The cache expiration interval of ZIP archives. Must be greater than zero to avoid serving stale content. Default is `60s`. |
-| `zip_cache_cleanup` | The interval at which archives are cleaned from memory if they have already expired. Default is `30s`. |
-| `zip_cache_refresh` | The time interval in which an archive is extended in memory if accessed before `zip_cache_expiration`. This works together with `zip_cache_expiration` to determine if an archive is extended in memory. For more information, see the [ZIP cache refresh example](#zip-cache-refresh-example). Default is `30s`. |
-| `zip_open_timeout` | The maximum time allowed to open a ZIP archive. Increase this time for big archives or slow network connections because doing so may affect the latency of serving Pages. Default is 30 s. |
+| `zip_cache_cleanup` | The interval at which archives are cleaned from memory after they expire. Default is `30s`. |
+| `zip_cache_refresh` | The time interval in which an archive is extended in memory if accessed before `zip_cache_expiration`. Works together with `zip_cache_expiration` to determine if an archive is extended in memory. For more information, see the [ZIP cache refresh example](#zip-cache-refresh-example). Default is `30s`. |
+| `zip_open_timeout` | The maximum time allowed to open a ZIP archive. Increase this value for large archives or slow network connections. Default is `30s`. |
 | `zip_http_client_timeout` | The maximum time for the ZIP HTTP client. Default is `30m`. |
 
 #### ZIP cache refresh example
 
 Archives are refreshed in the cache (extending the time they are held in memory) if they're accessed
 before `zip_cache_expiration`, and the time left before expiring is less than or equal to
-`zip_cache_refresh`. For example, if `archive.zip` is accessed at time `0s`, it expires in `60s` (the
-default for `zip_cache_expiration`). In the example below, if the archive is opened again after `15s`
-it is **not** refreshed because the time left for expiry (`45s`) is greater than `zip_cache_refresh`
-(default `30s`). However, if the archive is accessed again after `45s` (from the first time it was
-opened) it's refreshed. This extends the time the archive remains in memory from
-`45s + zip_cache_expiration (60s)`, for a total of `105s`.
+`zip_cache_refresh`. For example, if `archive.zip` is accessed at time `0s`, it expires in `60s`
+(the default for `zip_cache_expiration`). If the archive is opened again after `15s`, it is not
+refreshed because the time left for expiry (`45s`) is greater than `zip_cache_refresh` (default
+`30s`). However, if the archive is accessed again after `45s` (from the first time it was opened),
+it's refreshed. This extends the time the archive remains in memory from `45s + zip_cache_expiration
+(60s)`, for a total of `105s`.
 
 After an archive reaches `zip_cache_expiration`, it's marked as expired and removed on the next
 `zip_cache_cleanup` interval.
@@ -865,18 +869,21 @@ After an archive reaches `zip_cache_expiration`, it's marked as expired and remo
 
 ### HTTP Strict Transport Security (HSTS) support
 
-HTTP Strict Transport Security (HSTS) can be enabled through the `gitlab_pages['headers']` configuration option. HSTS informs browsers that the website they are visiting should always provide its content over HTTPS to ensure that attackers cannot force subsequent connections to happen unencrypted. It can also improve loading speed of pages as it prevents browsers from attempting to connect over an unencrypted HTTP channel before being redirected to HTTPS.
+HTTP Strict Transport Security (HSTS) can be enabled through the `gitlab_pages['headers']`
+configuration option. HSTS informs browsers that the website should always be accessed over HTTPS,
+preventing attackers from forcing unencrypted connections. It can also improve page loading speed by
+preventing browsers from attempting an unencrypted HTTP connection before being redirected to HTTPS.
 
 ```ruby
 gitlab_pages['headers'] = ['Strict-Transport-Security: max-age=63072000']
 ```
 
-### Pages project redirects limits
+### Pages project redirect limits
 
-GitLab Pages comes with a set of default limits for the [`_redirects` file](../../user/project/pages/redirects.md)
-to minimize the impact on performance.
+GitLab Pages has default limits for the
+[`_redirects` file](../../user/project/pages/redirects.md) to minimize performance impact.
 
-To increase or decrease the limits, you can configure them:
+To adjust the limits:
 
 ```ruby
 gitlab_pages['redirects_max_config_size'] = 131072
@@ -886,8 +893,7 @@ gitlab_pages['redirects_max_rule_count'] = 2000
 
 ## Use environment variables
 
-You can pass an environment variable to the Pages daemon (for example,
-to enable or disable a feature flag).
+You can pass an environment variable to the Pages daemon to enable or disable a feature flag.
 
 To disable the configurable directory feature:
 
@@ -903,10 +909,9 @@ To disable the configurable directory feature:
 
 ## Activate verbose logging for daemon
 
-Follow the steps below to configure verbose logging of GitLab Pages daemon.
+To configure verbose logging of the GitLab Pages daemon:
 
-1. By default the daemon only logs with `INFO` level.
-   If you wish to make it log events with level `DEBUG` you must configure this in
+1. By default the daemon only logs with `INFO` level. To log events with level `DEBUG`, edit
    `/etc/gitlab/gitlab.rb`:
 
    ```ruby
@@ -917,14 +922,14 @@ Follow the steps below to configure verbose logging of GitLab Pages daemon.
 
 ## Propagating the correlation ID
 
-Setting the `propagate_correlation_id` to true allows installations behind a reverse proxy to generate
-and set a correlation ID to requests sent to GitLab Pages. When a reverse proxy sets the header value `X-Request-ID`,
-the value propagates in the request chain.
-Users [can find the correlation ID in the logs](../logs/tracing_correlation_id.md#identify-the-correlation-id-for-a-request).
+Setting `propagate_correlation_id` to `true` allows installations behind a reverse proxy to generate
+and set a correlation ID on requests sent to GitLab Pages. When a reverse proxy sets the header
+value `X-Request-ID`, the value propagates in the request chain. Users can
+[find the correlation ID in the logs](../logs/tracing_correlation_id.md#identify-the-correlation-id-for-a-request).
 
 To enable the propagation of the correlation ID:
 
-1. Set the parameter to true in `/etc/gitlab/gitlab.rb`:
+1. In `/etc/gitlab/gitlab.rb`, add:
 
    ```ruby
    gitlab_pages['propagate_correlation_id'] = true
@@ -934,12 +939,10 @@ To enable the propagation of the correlation ID:
 
 ## Change storage path
 
-Follow the steps below to change the default path where GitLab Pages' contents
-are stored.
+To change the default path where GitLab Pages content is stored:
 
-1. Pages are stored by default in `/var/opt/gitlab/gitlab-rails/shared/pages`.
-   If you wish to store them in another location you must set it up in
-   `/etc/gitlab/gitlab.rb`:
+1. Pages are stored by default in `/var/opt/gitlab/gitlab-rails/shared/pages`. To use a different
+   location, edit `/etc/gitlab/gitlab.rb`:
 
    ```ruby
    gitlab_rails['pages_path'] = "/mnt/storage/pages"
@@ -949,19 +952,17 @@ are stored.
 
 ## Configure listener for reverse proxy requests
 
-Follow the steps below to configure the proxy listener of GitLab Pages.
+To configure the proxy listener of GitLab Pages:
 
 1. By default the listener is configured to listen for requests on `localhost:8090`.
 
-   If you wish to disable it you must configure this in
-   `/etc/gitlab/gitlab.rb`:
+   To disable it, edit `/etc/gitlab/gitlab.rb`:
 
    ```ruby
    gitlab_pages['listen_proxy'] = nil
    ```
 
-   If you wish to make it listen on a different port you must configure this also in
-   `/etc/gitlab/gitlab.rb`:
+   To change the port, edit `/etc/gitlab/gitlab.rb`:
 
    ```ruby
    gitlab_pages['listen_proxy'] = "localhost:10080"
@@ -1024,7 +1025,7 @@ Prerequisites:
 
 - You must have administrator access to the instance.
 
-To set the maximum size of GitLab Pages site in a project, overriding the inherited setting:
+To set the maximum size of a GitLab Pages site in a project, overriding the inherited setting:
 
 1. In the top bar, select **Search or go to** and find your project.
 1. Select **Deploy** > **Pages**.

@@ -134,11 +134,9 @@ Add up to six email participants.
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/350460) in GitLab 13.8 [with a flag](../../administration/feature_flags/list.md) named `issue_email_participants`. Enabled by default.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/350460) in GitLab 18.10. Feature flag `issue_email_participants` removed.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag. For more information, see the history.
 
 **Availability**:
 
@@ -1594,11 +1592,9 @@ Remove up to six email participants.
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/350460) in GitLab 13.8 [with a flag](../../administration/feature_flags/list.md) named `issue_email_participants`. Enabled by default.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/350460) in GitLab 18.10. Feature flag `issue_email_participants` removed.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag. For more information, see the history.
 
 **Availability**:
 

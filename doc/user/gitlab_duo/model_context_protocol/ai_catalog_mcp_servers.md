@@ -40,7 +40,8 @@ With MCP servers in the AI Catalog, you can:
 - Authenticate with OAuth-enabled MCP servers.
 
 A dedicated **MCP** tab appears in the AI Catalog navigation alongside **Agents** and **Flows**.
-At the group level, MCP servers associated with namespace agents are also available under **Automate** > **MCP**.
+MCP servers associated with agents enabled in your namespace are also available under **Automate** > **MCP servers**
+at both the group and project level.
 
 ## Prerequisites
 
@@ -116,13 +117,18 @@ The agent detail page lists all connected MCP servers.
 
 ## View MCP servers for a namespace
 
-The **Automate** > **MCP** page shows all MCP servers associated with agents enabled in your namespace.
-Each server displays the number of agents that use it.
+The **Automate** > **MCP servers** page shows all MCP servers associated with agents enabled in your namespace.
+Each server displays the number of agents that use it, with agent names shown in a tooltip on hover.
 
-To view MCP servers for a namespace:
+This page is available at both the group and project level:
 
-1. In the left sidebar, select **Search or go to** and find your group.
-1. Select **Automate** > **MCP**.
+- **Group level** shows MCP servers associated with agents across the group.
+- **Project level** shows MCP servers associated with agents configured in the project.
+
+To view MCP servers at the group or project level:
+
+1. In the left sidebar, select **Search or go to** and find your group or project.
+1. Select **Automate** > **MCP servers**.
 
 For OAuth-enabled servers that you have not yet authenticated with, an option to **Connect** is displayed.
 
@@ -130,8 +136,8 @@ For OAuth-enabled servers that you have not yet authenticated with, an option to
 
 To authenticate with an OAuth-enabled MCP server:
 
-1. In the left sidebar, select **Search or go to** and find your group.
-1. Select **Automate** > **MCP**.
+1. In the left sidebar, select **Search or go to** and find your group or project.
+1. Select **Automate** > **MCP servers**.
 1. Find the MCP server and select **Connect**.
 1. Review and approve the authorization request on the MCP server's authorization page.
 1. GitLab stores the access token securely for future requests.

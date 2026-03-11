@@ -609,7 +609,7 @@ RSpec.describe Authz::RedactionService, feature_category: :permissions do
       service.execute
     end
 
-    it 'batch loads resources to prevent N+1 queries' do
+    it 'batch loads resources to prevent N+1 queries', :request_store do
       service.execute
 
       new_service = described_class.new(user: user, resources_by_type: resources_by_type, source: 'test')

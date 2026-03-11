@@ -19,7 +19,7 @@ RSpec.shared_examples 'a class that supports relative positioning' do
   let(:item2) { create_item }
   let(:new_item) { create_item(relative_position: nil) }
 
-  let(:set_size) { RelativePositioning.mover.context(item1).scoped_items.count }
+  let(:set_size) { item1.class.mover.context(item1).scoped_items.count }
   let(:items_with_nil_position_sample_quantity) { 100 }
 
   def create_item(params = {})
@@ -44,7 +44,7 @@ RSpec.shared_examples 'a class that supports relative positioning' do
     it 'includes all items with the same scope' do
       scope = as_items([item1, item2, new_item, create_item])
       irrelevant = create(factory, {}) # This should not share the scope
-      context = RelativePositioning.mover.context(item1)
+      context = item1.class.mover.context(item1)
 
       same_scope = as_items(context.scoped_items)
 
@@ -57,7 +57,7 @@ RSpec.shared_examples 'a class that supports relative positioning' do
     it 'includes all items with the same scope, except self' do
       scope = as_items([item2, new_item, create_item])
       irrelevant = create(factory, {}) # This should not share the scope
-      context = RelativePositioning.mover.context(item1)
+      context = item1.class.mover.context(item1)
 
       siblings = as_items(context.relative_siblings)
 
@@ -491,6 +491,28 @@ RSpec.shared_examples 'a class that supports relative positioning' do
       expect(new_item.relative_position).to be < item2.relative_position
       expect(new_item.relative_position).to be >= RelativePositioning::MIN_POSITION
     end
+
+    context 'when NoSpaceLeft is raised' do
+      it 'sets relative_position to min_position as fallback' do
+        allow_next_instance_of(RelativePositioning::Mover) do |instance|
+          allow(instance).to receive(:move_to_start).and_raise(RelativePositioning::NoSpaceLeft)
+        end
+
+        expect { new_item.move_to_start }.not_to raise_error
+
+        expect(new_item.relative_position).to eq(new_item.class.relative_positioning_min_position)
+      end
+
+      it 'calls could_not_move to schedule rebalancing' do
+        allow_next_instance_of(RelativePositioning::Mover) do |instance|
+          allow(instance).to receive(:move_to_start).and_raise(RelativePositioning::NoSpaceLeft)
+        end
+
+        expect(new_item).to receive(:could_not_move)
+
+        new_item.move_to_start
+      end
+    end
   end
 
   describe '#move_to_end' do
@@ -541,6 +563,28 @@ RSpec.shared_examples 'a class that supports relative positioning' do
       expect(item2.relative_position).to be > item1.relative_position
       expect(new_item.relative_position).to be > item2.relative_position
       expect(new_item.relative_position).to be <= RelativePositioning::MAX_POSITION
+    end
+
+    context 'when NoSpaceLeft is raised' do
+      it 'sets relative_position to max_position as fallback' do
+        allow_next_instance_of(RelativePositioning::Mover) do |instance|
+          allow(instance).to receive(:move_to_end).and_raise(RelativePositioning::NoSpaceLeft)
+        end
+
+        expect { new_item.move_to_end }.not_to raise_error
+
+        expect(new_item.relative_position).to eq(new_item.class.relative_positioning_max_position)
+      end
+
+      it 'calls could_not_move to schedule rebalancing' do
+        allow_next_instance_of(RelativePositioning::Mover) do |instance|
+          allow(instance).to receive(:move_to_end).and_raise(RelativePositioning::NoSpaceLeft)
+        end
+
+        expect(new_item).to receive(:could_not_move)
+
+        new_item.move_to_end
+      end
     end
   end
 
@@ -744,7 +788,7 @@ RSpec.shared_examples 'no-op relative positioning' do
   end
 
   describe '.scoped_items' do
-    subject { RelativePositioning.mover.context(item1).scoped_items }
+    subject { item1.class.mover.context(item1).scoped_items }
 
     it 'is empty' do
       expect(subject).to be_empty
@@ -752,7 +796,7 @@ RSpec.shared_examples 'no-op relative positioning' do
   end
 
   describe '.relative_siblings' do
-    subject { RelativePositioning.mover.context(item1).relative_siblings }
+    subject { item1.class.mover.context(item1).relative_siblings }
 
     it 'is empty' do
       expect(subject).to be_empty

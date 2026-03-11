@@ -1113,11 +1113,19 @@ export default {
     savedViewDraftStorageKey() {
       return `${this.rootPageFullPath}-saved-view-${this.$route.params.view_id}`;
     },
+    allItemsDraftFiltersStorageKey() {
+      return `${this.rootPageFullPath}-all-items-draft-filters`;
+    },
     viewDraftData() {
       return {
         filterTokens: this.filterTokens,
         sortKey: this.sortKey,
         displaySettings: this.localDisplaySettings,
+      };
+    },
+    allItemsDraftFilters() {
+      return {
+        query: this.$route.query,
       };
     },
     isSubscriptionLimitReached() {
@@ -1206,8 +1214,22 @@ export default {
     if (this.isSavedView) {
       this.pageParams = getInitialPageParams(this.pageSize);
     } else {
-      this.updateData(getParameterByName(PARAM_SORT));
-      this.addStateToken();
+      const draft = localStorage.getItem(this.allItemsDraftFiltersStorageKey);
+
+      if (draft) {
+        const parsedData = JSON.parse(draft);
+        if (parsedData.query) {
+          this.$router.replace({ query: parsedData.query }).catch((error) => {
+            if (error.name !== 'NavigationDuplicated') {
+              throw error;
+            }
+          });
+        }
+        this.updateData(getParameterByName(PARAM_SORT));
+      } else {
+        this.updateData(getParameterByName(PARAM_SORT));
+        this.addStateToken();
+      }
     }
     this.autocompleteCache = new AutocompleteCache();
     window.addEventListener('popstate', this.checkDrawerParams);
@@ -1219,7 +1241,6 @@ export default {
   },
   mounted() {
     setPageFullWidth();
-
     if (this.$route.query.sv_not_found) {
       this.showSavedViewNotFoundModal = true;
     }
@@ -1740,21 +1761,27 @@ export default {
         },
       });
     },
-    resetToDefaultView() {
-      this.filterTokens = [
-        {
-          type: TOKEN_TYPE_STATE,
-          value: {
-            data: STATUS_OPEN,
-            operator: OPERATOR_IS,
-          },
-        },
-      ];
-      this.state = STATUS_OPEN;
-      this.pageParams = getInitialPageParams(this.pageSize);
-      this.sortKey = CREATED_DESC;
+    navigateToAllItems() {
+      const draft = localStorage.getItem(this.allItemsDraftFiltersStorageKey);
 
-      this.$router.push({ name: ROUTES.index, query: this.urlParams }).catch((error) => {
+      if (draft) {
+        const { query } = JSON.parse(draft);
+
+        this.$router
+          .push({
+            name: ROUTES.index,
+            query,
+          })
+          .catch((error) => {
+            if (error.name !== 'NavigationDuplicated') {
+              throw error;
+            }
+          });
+
+        return;
+      }
+
+      this.$router.push({ name: ROUTES.index }).catch((error) => {
         if (error.name !== 'NavigationDuplicated') {
           throw error;
         }
@@ -1841,14 +1868,19 @@ export default {
       if (message) this.error = message;
     },
     persistDraft() {
-      if (!this.isSavedView) return;
+      if (!this.isSavedView) {
+        localStorage.setItem(
+          this.allItemsDraftFiltersStorageKey,
+          JSON.stringify(this.allItemsDraftFilters),
+        );
+      } else {
+        if (!this.viewConfigChanged) {
+          this.clearLocalSavedViewsConfig();
+          return;
+        }
 
-      if (!this.viewConfigChanged) {
-        this.clearLocalSavedViewsConfig();
-        return;
+        localStorage.setItem(this.savedViewDraftStorageKey, JSON.stringify(this.viewDraftData));
       }
-
-      localStorage.setItem(this.savedViewDraftStorageKey, JSON.stringify(this.viewDraftData));
     },
     clearLocalSavedViewsConfig() {
       localStorage.removeItem(this.savedViewDraftStorageKey);
@@ -2021,7 +2053,7 @@ export default {
             :sort-key="sortKey"
             :filters="apiFilterParams"
             :display-settings="displaySettingsSoT.namespacePreferences"
-            @reset-to-default-view="resetToDefaultView"
+            @navigate-to-all-items="navigateToAllItems"
             @subscribe-from-modal="subscribeFromModal = true"
             @error="handleError"
           >

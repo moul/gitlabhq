@@ -129,11 +129,9 @@ To see a list of all external participants:
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/350460) in GitLab 13.8 [with a flag](../../../administration/feature_flags/list.md) named `issue_email_participants`. Enabled by default.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/350460) in GitLab 18.10. Feature flag `issue_email_participants` removed.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag. For more information, see the history.
 
 Add an external participant using the [`/add_email` quick action](../quick_actions.md#add_email) when you want
 to include them in the conversation at any time.
@@ -163,11 +161,9 @@ You should see a success message and a new system note with the email address.
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/350460) in GitLab 13.8 [with a flag](../../../administration/feature_flags/list.md) named `issue_email_participants`. Enabled by default.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/350460) in GitLab 18.10. Feature flag `issue_email_participants` removed.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag. For more information, see the history.
 
 Remove an external participant from an issue or Service Desk ticket using the
 [`/remove_email` quick action](../quick_actions.md#remove_email)

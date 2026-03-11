@@ -2492,6 +2492,11 @@ msgid_plural "AICatalog|%d agents"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "AICatalog|%d more"
+msgid_plural "AICatalog|%d more"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "AICatalog|%{linkStart}Service accounts%{linkEnd} represent non-human entities. This is the account that you mention or assign to trigger the %{itemType}."
 msgstr ""
 
@@ -3063,6 +3068,15 @@ msgid "AICatalog|MCP servers allow your agent to connect with external tools."
 msgstr ""
 
 msgid "AICatalog|MCP servers associated with agents in this group appear here."
+msgstr ""
+
+msgid "AICatalog|MCP servers associated with agents in this project appear here."
+msgstr ""
+
+msgid "AICatalog|MCP servers associated with the agents enabled in your namespace."
+msgstr ""
+
+msgid "AICatalog|MCP servers associated with the agents enabled in your project."
 msgstr ""
 
 msgid "AICatalog|Make %{itemType} public?"
@@ -78040,6 +78054,9 @@ msgstr ""
 msgid "Webhooks|Header name"
 msgstr ""
 
+msgid "Webhooks|Header name is too long (maximum is %{maxLength} characters)."
+msgstr ""
+
 msgid "Webhooks|Header value"
 msgstr ""
 
@@ -83574,6 +83591,9 @@ msgid "item"
 msgid_plural "items"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "key is too long (maximum is %{max_length} characters)"
+msgstr ""
 
 msgid "key result"
 msgstr ""

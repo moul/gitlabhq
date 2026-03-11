@@ -31,6 +31,7 @@ The following foundational flows are available:
 - [Code Review](code_review.md): Automate code review with AI-native analysis and feedback.
 - [Agentic SAST Vulnerability Resolution](agentic_sast_vulnerability_resolution.md): Automatically generate merge requests to resolve SAST vulnerabilities.
 - [SAST false positive detection](sast_false_positive_detection.md): Automatically identify and filter false positives in SAST findings.
+- [Secret false positive detection](secret_false_positive_detection.md): Automatically identify and filter false positives in secret detection findings.
 
 ## Configure flow execution CI/CD details
 

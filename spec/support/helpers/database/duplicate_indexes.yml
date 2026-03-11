@@ -61,9 +61,6 @@ ml_model_versions:
 ml_models:
   index_ml_models_on_project_id_and_name:
   - index_ml_models_on_project_id
-namespaces:
-  index_namespaces_on_organization_id_and_id_for_groups:
-  - index_namespaces_on_organization_id_for_groups
 pages_domains:
   index_pages_domains_on_project_id_and_enabled_until:
   - index_pages_domains_on_project_id

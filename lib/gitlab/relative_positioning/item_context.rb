@@ -8,14 +8,19 @@ module Gitlab
     class ItemContext
       include Gitlab::Utils::StrongMemoize
 
-      attr_reader :object, :model_class, :range
+      attr_reader :object, :model_class, :range, :ideal_distance, :max_gap
       attr_accessor :ignoring
 
-      def initialize(object, range, ignoring: nil)
+      def initialize(
+        object, range, ignoring: nil,
+        ideal_distance: RelativePositioning::IDEAL_DISTANCE,
+        max_gap: RelativePositioning::MAX_GAP)
         @object = object
         @range = range
         @model_class = object.class
         @ignoring = ignoring
+        @ideal_distance = ideal_distance
+        @max_gap = max_gap
       end
 
       def ==(other)
@@ -59,7 +64,7 @@ module Gitlab
         current_occupant = relative_siblings.find_by(relative_position: position)
 
         if current_occupant.present?
-          Mover.new(position, range).move(object, lhs.object, current_occupant)
+          Mover.new(position, range, ideal_distance: ideal_distance, max_gap: max_gap).move(object, lhs.object, current_occupant)
         else
           object.relative_position = position
         end
@@ -76,7 +81,7 @@ module Gitlab
       def neighbour(item)
         return unless item.present?
 
-        self.class.new(item, range, ignoring: ignoring)
+        self.class.new(item, range, ignoring: ignoring, ideal_distance: ideal_distance, max_gap: max_gap)
       end
 
       def calculate_relative_position(calculation)
@@ -166,7 +171,7 @@ module Gitlab
 
         return if gap.nil? || gap.first == default_end
 
-        Gap.new(gap.first, gap.second || default_end)
+        Gap.new(gap.first, gap.second || default_end, ideal_distance: ideal_distance)
       end
 
       def scoped_items

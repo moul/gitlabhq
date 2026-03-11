@@ -49,9 +49,20 @@ automatically revoke the exposed secret. You should always revoke and
 replace exposed secrets as soon as possible. For secret-specific remediation guidance,
 review the details provided in the vulnerability report.
 
+## Reducing false positives with GitLab Duo
+
+Secret detection scanners can generate false positives that create noise in your vulnerability reports. The
+[GitLab Duo false positive detection](../vulnerabilities/secret_false_positive_detection.md) feature automatically
+analyzes secret detection findings to identify likely false positives. This helps your
+security team focus on genuine secrets and reduces time spent on manual triage.
+
+For Ultimate tier customers with a GitLab Duo add-on, false positive detection runs automatically
+after each security scan and provides confidence scores with explanations for each assessment.
+
 ## Related topics
 
 - [Secret detection exclusions](exclusions.md)
 - [Vulnerability report](../vulnerability_report/_index.md)
 - [Automatic response to leaked secrets](automatic_response.md)
 - [Push rules](../../project/repository/push_rules.md)
+- [Secret false positive detection](../vulnerabilities/secret_false_positive_detection.md)

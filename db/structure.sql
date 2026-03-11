@@ -18207,6 +18207,7 @@ CREATE TABLE compliance_requirements_controls (
     ping_enabled boolean DEFAULT true NOT NULL,
     CONSTRAINT check_110c87ed8d CHECK ((char_length(expression) <= 255)),
     CONSTRAINT check_5020dd6745 CHECK ((char_length(external_url) <= 1024)),
+    CONSTRAINT check_compliance_requirements_controls_secret_token_max_length CHECK ((octet_length(encrypted_secret_token) <= 256)),
     CONSTRAINT check_e3c26a3c02 CHECK ((char_length(external_control_name) <= 255))
 );
 
@@ -46758,8 +46759,6 @@ CREATE INDEX index_namespaces_on_name_trigram ON namespaces USING gin (name gin_
 CREATE INDEX index_namespaces_on_organization_id ON namespaces USING btree (organization_id);
 
 CREATE INDEX index_namespaces_on_organization_id_and_id_for_groups ON namespaces USING btree (organization_id, id) WHERE ((type)::text = 'Group'::text);
-
-CREATE INDEX index_namespaces_on_organization_id_for_groups ON namespaces USING btree (organization_id) WHERE ((type)::text = 'Group'::text);
 
 CREATE INDEX index_namespaces_on_owner_id ON namespaces USING btree (owner_id);
 

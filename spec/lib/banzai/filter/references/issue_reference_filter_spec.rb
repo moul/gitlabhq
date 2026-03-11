@@ -41,7 +41,7 @@ RSpec.describe Banzai::Filter::References::IssueReferenceFilter, feature_categor
   describe 'performance' do
     let(:another_issue) { create(:issue, project: project) }
 
-    it 'does not have a N+1 query problem' do
+    it 'does not have a N+1 query problem', :request_store do
       single_reference = "Issue #{issue.to_reference}"
       multiple_references = "Issues #{issue.to_reference} and #{another_issue.to_reference}"
 
@@ -643,7 +643,7 @@ RSpec.describe Banzai::Filter::References::IssueReferenceFilter, feature_categor
     let_it_be(:issue1) { create(:issue, project: project) }
     let_it_be(:issue2) { create(:issue, project: project) }
 
-    it 'does not have N+1 per multiple references per project' do
+    it 'does not have N+1 per multiple references per project', :request_store do
       single_reference = "Issue #{issue1.to_reference}"
       multiple_references = "Issues #{issue1.to_reference} and #{issue2.to_reference}"
 

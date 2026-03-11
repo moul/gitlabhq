@@ -53,7 +53,7 @@ export default {
       default: () => {},
     },
   },
-  emits: ['reset-to-default-view', 'error', 'subscribe-from-modal'],
+  emits: ['navigate-to-all-items', 'error', 'subscribe-from-modal'],
   data() {
     return {
       visibleViews: [],
@@ -278,7 +278,7 @@ export default {
           params: { view_id: getIdFromGraphQLId(nextNearestView.id).toString() },
         });
       } else {
-        this.$emit('reset-to-default-view');
+        this.$emit('navigate-to-all-items');
       }
     },
     async handleUnsubscribeFromView(view) {
@@ -387,7 +387,7 @@ export default {
         class="default-selector gl-h-[50px] !gl-whitespace-nowrap gl-border-none gl-bg-transparent gl-px-4 hover:gl-bg-gray-50 focus:gl-bg-gray-50"
         :class="{ 'default-selector-active gl-font-bold': isDefaultButtonActive }"
         data-testid="saved-views-default-view-selector"
-        @click="$emit('reset-to-default-view')"
+        @click="$emit('navigate-to-all-items')"
       >
         {{ $options.i18n.defaultViewTitle }}
       </button>

@@ -194,9 +194,16 @@ export default {
               <span class="gl-ml-1">{{ component.last30DayUsageCount }}</span>
             </span>
           </h3>
+          <p
+            v-if="component.description"
+            class="gl-mt-2 gl-text-subtle"
+            data-testid="component-description"
+          >
+            {{ component.description }}
+          </p>
           <pre
             data-testid="copy-to-clipboard"
-            class="code highlight js-syntax-highlight language-yaml"
+            class="code highlight js-syntax-highlight language-yaml gl-mt-3"
           ><code>{{
             generateSnippet(component.includePath)
           }}</code></pre>

@@ -2820,7 +2820,9 @@ RSpec.describe QuickActions::InterpretService, feature_category: :text_editors d
         end
 
         context 'with more than 6 emails' do
-          let(:content) { '/add_email a@gitlab.com b@gitlab.com c@gitlab.com d@gitlab.com e@gitlab.com f@gitlab.com g@gitlab.com' }
+          let(:content) do
+            '/add_email a@gitlab.com b@gitlab.com c@gitlab.com d@gitlab.com e@gitlab.com f@gitlab.com g@gitlab.com'
+          end
 
           it 'only adds 6 new emails' do
             expect { add_emails }.to change { issue.issue_email_participants.count }.by(6)
@@ -2848,16 +2850,6 @@ RSpec.describe QuickActions::InterpretService, feature_category: :text_editors d
 
           it 'only adds one new email' do
             expect { add_emails }.to change { issue.issue_email_participants.count }.by(1)
-          end
-        end
-
-        context 'with feature flag disabled' do
-          before do
-            stub_feature_flags(issue_email_participants: false)
-          end
-
-          it 'does not add any participants' do
-            expect { add_emails }.not_to change { issue.issue_email_participants.count }
           end
         end
       end
@@ -2968,16 +2960,6 @@ RSpec.describe QuickActions::InterpretService, feature_category: :text_editors d
 
       context 'with non-persisted issue' do
         let(:issuable) { build(:issue) }
-
-        it 'is not part of the available commands' do
-          expect(service.available_commands(issuable)).not_to include(a_hash_including(name: :remove_email))
-        end
-      end
-
-      context 'with feature flag disabled' do
-        before do
-          stub_feature_flags(issue_email_participants: false)
-        end
 
         it 'is not part of the available commands' do
           expect(service.available_commands(issuable)).not_to include(a_hash_including(name: :remove_email))

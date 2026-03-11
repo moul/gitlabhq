@@ -237,7 +237,11 @@ RSpec.describe 'getting an issue list at root level', feature_category: :team_pl
       private_project = create(:project, :private, group: private_group)
       create(:issue, project: private_project)
 
-      expect { post_query }.not_to exceed_all_query_limit(control).with_threshold(1)
+      # Threshold increased from 1 to 4: the test adds 2 projects in 2 new root namespaces,
+      # each requiring a one-time work_item_custom_types lookup for the configurable types
+      # cache (keyed per root ancestor in SafeRequestStore). This is O(new namespaces),
+      # not O(issues).
+      expect { post_query }.not_to exceed_all_query_limit(control).with_threshold(4)
       expect_graphql_errors_to_be_empty
     end
   end

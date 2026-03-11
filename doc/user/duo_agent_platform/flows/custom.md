@@ -25,6 +25,7 @@ title: Custom flows
 - Changed to [beta](../../../policy/development_stages_support.md) in GitLab 18.7.
 - [Enabled on GitLab.com](https://gitlab.com/gitlab-org/gitlab/-/issues/569060) in GitLab 18.7.
 - [Enabled on GitLab Self-Managed and GitLab Dedicated](https://gitlab.com/gitlab-org/gitlab/-/work_items/569060) in GitLab 18.8.
+- Pipeline events trigger [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/212797) in GitLab 18.9 as an [experiment](../../../policy/development_stages_support.md) with a [flag](../../../administration/feature_flags/_index.md) named `ai_flow_trigger_pipeline_hooks`. Disabled by default.
 
 {{< /history >}}
 
@@ -155,6 +156,8 @@ To enable a flow:
      to an issue or merge request.
    - **Assign reviewer**: When the service account user is assigned
      as a reviewer to a merge request.
+   - **Pipeline events**: When a pipeline changes state.
+     The possible states are `created`, `started`, `succeeded`, and `failed`.
 1. Select **Enable**.
 
 {{< /tab >}}

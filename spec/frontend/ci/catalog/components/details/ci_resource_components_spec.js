@@ -52,6 +52,7 @@ describe('CiResourceComponents', () => {
   const findUsageCounts = () => wrapper.findAllByTestId('usage-count');
   const findInputCodeBlock = () => wrapper.findAllByTestId('input-code-block');
   const findInputDefault = () => wrapper.findAllByTestId('input-default');
+  const findComponentDescriptions = () => wrapper.findAllByTestId('component-description');
 
   beforeEach(() => {
     mockComponentsResponse = jest.fn();
@@ -175,6 +176,19 @@ describe('CiResourceComponents', () => {
         expect(numberInput.props('text')).toBe('10');
       });
 
+      describe('component description', () => {
+        it('renders the description for each component', () => {
+          const descriptions = findComponentDescriptions();
+          expect(descriptions).toHaveLength(components.length);
+        });
+
+        it('displays the correct description for each component', () => {
+          components.forEach((component, index) => {
+            expect(findComponentDescriptions().at(index).text()).toBe(component.description);
+          });
+        });
+      });
+
       describe('usage count', () => {
         it('renders the usage count for each component', () => {
           expect(findUsageCounts()).toHaveLength(components.length);
@@ -214,6 +228,48 @@ describe('CiResourceComponents', () => {
         it('renders the component parameter attributes', () => {
           expect(wrapper.findComponent(GlTableLite).exists()).toBe(true);
         });
+      });
+    });
+
+    describe('when component has no description', () => {
+      const mockComponentsWithoutDescription = {
+        data: {
+          ciCatalogResource: {
+            __typename: 'CiCatalogResource',
+            id: 'gid://gitlab/CiCatalogResource/1',
+            webPath: '/twitter/project-1',
+            versions: {
+              __typename: 'CiCatalogResourceVersionConnection',
+              nodes: [
+                {
+                  id: 'gid://gitlab/Version/1',
+                  components: {
+                    __typename: 'CiComponentConnection',
+                    nodes: [
+                      {
+                        id: 'gid://gitlab/Ci::Component/1',
+                        name: 'Component without description',
+                        description: null,
+                        includePath: 'gitlab.com/org/project@~latest',
+                        last30DayUsageCount: 5,
+                        inputs: [],
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
+      };
+
+      beforeEach(async () => {
+        mockComponentsResponse.mockResolvedValue(mockComponentsWithoutDescription);
+        await createComponent();
+      });
+
+      it('does not render the description element', () => {
+        expect(findComponentDescriptions()).toHaveLength(0);
       });
     });
   });

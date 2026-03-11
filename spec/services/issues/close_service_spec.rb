@@ -314,7 +314,7 @@ RSpec.describe Issues::CloseService, feature_category: :team_planning do
         end
       end
 
-      it 'verifies the number of queries' do
+      it 'verifies the number of queries', :request_store do
         recorded = ActiveRecord::QueryRecorder.new { close_issue }
         expected_queries = 41
 

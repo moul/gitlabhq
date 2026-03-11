@@ -42,6 +42,33 @@ For vulnerabilities detected by SAST, GitLab Duo can automatically analyze them 
 request with context-aware code fixes. For more information, see
 [Agentic SAST vulnerability resolution](agentic_vulnerability_resolution.md).
 
+## Secret false positive detection
+
+{{< details >}}
+
+- Tier: Ultimate
+- Add-on: GitLab Duo Core, Pro, or Enterprise
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+- Status: Beta
+
+{{< /details >}}
+
+{{< history >}}
+
+- Introduced in [epic 17885](https://gitlab.com/groups/gitlab-org/-/work_items/20152) in GitLab 18.10 as a [beta](../../../policy/development_stages_support.md#beta) feature with a [feature flag](../../../administration/feature_flags/_index.md) named `duo_secret_detection_false_positive`. Disabled by default.
+
+{{< /history >}}
+
+GitLab Duo automatically analyzes secret detection findings to identify potential false positives. Dismissing false positives reduces noise in your vulnerability report by flagging findings that are likely not actual security risks.
+
+For each analyzed vulnerability, GitLab Duo provides the following information:
+
+- A confidence score indicating the likelihood that the assessment is correct.
+- An explanation of why the finding might or might not be correct.
+- Visual indicators that a vulnerability has been identified as a potential false positive in the vulnerability report.
+
+For more information, see [secret false positive detection](secret_false_positive_detection.md).
+
 ## Vulnerability Resolution
 
 {{< details >}}

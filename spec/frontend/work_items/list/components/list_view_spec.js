@@ -2260,6 +2260,20 @@ describe('Saved Views', () => {
 
         expect(findSaveViewButton().exists()).toBe(false);
       });
+
+      it('persists unsaved changes on "All Items" to localStorage', async () => {
+        await mountDefault();
+
+        findIssuableList().vm.$emit('filter', [
+          { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
+        ]);
+        await nextTick();
+
+        expect(localStorage.setItem).toHaveBeenCalledWith(
+          'full/path-all-items-draft-filters',
+          expect.stringContaining('"query"'),
+        );
+      });
     });
 
     describe('when user is logged out', () => {

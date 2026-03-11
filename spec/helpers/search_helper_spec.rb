@@ -313,7 +313,7 @@ RSpec.describe SearchHelper, feature_category: :global_search do
           })
         end
 
-        it 'does not have an N+1 for recently viewed issues' do
+        it 'does not have an N+1 for recently viewed issues', :request_store do
           issue1 = create(:issue, title: 'issue 1', project: project1)
           issue2 = create(:issue, title: 'issue 2', project: project2)
           issue_ids = [issue1.id, issue2.id]

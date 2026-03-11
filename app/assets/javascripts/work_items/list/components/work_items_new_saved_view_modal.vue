@@ -123,6 +123,9 @@ export default {
     emptyTitleFeedback() {
       return this.savedViewTitle ? '' : this.$options.i18n.validateTitle;
     },
+    allItemsDraftFiltersStorageKey() {
+      return `${this.fullPath}-all-items-draft-filters`;
+    },
   },
   watch: {
     show: {
@@ -153,6 +156,9 @@ export default {
       const trimmedTitle = this.savedViewTitle?.trim() ?? '';
       this.isTitleValid =
         trimmedTitle.length > 0 && trimmedTitle.length <= this.$options.MAX_TITLE_LENGTH;
+    },
+    resetAllItemsToDefaults() {
+      localStorage.removeItem(this.allItemsDraftFiltersStorageKey);
     },
     async saveView() {
       this.validateTitle();
@@ -192,11 +198,15 @@ export default {
 
         if (!this.isEdit) {
           const newViewId = getIdFromGraphQLId(data[mutationKey].savedView.id);
+          this.resetAllItemsToDefaults();
+
           this.$router.push({
             name: ROUTES.savedView,
             params: { view_id: newViewId.toString() },
             query: undefined,
           });
+        } else {
+          this.resetAllItemsToDefaults();
         }
 
         this.$toast.show(

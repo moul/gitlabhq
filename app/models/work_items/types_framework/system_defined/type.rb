@@ -83,6 +83,9 @@ module WorkItems
           end
         end
 
+        # Long-term these per-type predicates should be replaced with a single is_base_type?(name)
+        # method to avoid meta-programming and method_missing issues between CE/EE type classes.
+        # See https://gitlab.com/gitlab-org/gitlab/-/work_items/592881
         BASE_TYPES.each do |type|
           define_method :"#{type[:base_type]}?" do
             base_type == type[:base_type]

@@ -78,6 +78,14 @@ The review feature that runs depends on the add-on of the user that starts the G
 Because the review feature is based on the requesting user's add-on, both features can run in the
 same project.
 
+To determine which feature runs a review, check the merge request's activity feed. Code Review
+Flow starts a review session when it runs. If no review session appears, GitLab Duo Code Review runs
+the review.
+
+![Merge request activity feed showing a review session started by GitLab Duo.](img/gitlab_duo_code_review_flow_session_v18_10.png)
+
+After the review completes, you can also look for a Code Review Flow session in [sessions for your project](../../../user/duo_agent_platform/sessions/_index.md#view-sessions-for-your-project).
+
 ### How the review features compare
 
 While you interact with both review features the same way, Code Review Flow offers enhanced

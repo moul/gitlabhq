@@ -5955,7 +5955,7 @@ paths:
         in: path
       - name: key
         required: true
-        description: The key of the custom header
+        description: The name of the custom header
         schema:
           type: string
         in: path
@@ -5983,7 +5983,7 @@ paths:
         in: path
       - name: key
         required: true
-        description: The key of the custom header
+        description: The name of the custom header
         schema:
           type: string
         in: path
@@ -22062,7 +22062,7 @@ paths:
         in: path
       - name: key
         required: true
-        description: The key of the custom header
+        description: The name of the custom header
         schema:
           type: string
         in: path
@@ -22090,7 +22090,7 @@ paths:
         in: path
       - name: key
         required: true
-        description: The key of the custom header
+        description: The name of the custom header
         schema:
           type: string
         in: path
@@ -29301,7 +29301,7 @@ paths:
         in: path
       - name: key
         required: true
-        description: The key of the custom header
+        description: The name of the custom header
         schema:
           type: string
         in: path
@@ -29329,7 +29329,7 @@ paths:
         in: path
       - name: key
         required: true
-        description: The key of the custom header
+        description: The name of the custom header
         schema:
           type: string
         in: path
@@ -67351,9 +67351,9 @@ components:
           type: string
         description:
           type: string
-        description_html:
-          type: string
         text_color:
+          type: string
+        description_html:
           type: string
         color:
           type: string
@@ -73044,9 +73044,9 @@ components:
           type: string
         description:
           type: string
-        description_html:
-          type: string
         text_color:
+          type: string
+        description_html:
           type: string
         color:
           type: string
@@ -73069,9 +73069,9 @@ components:
           type: string
         description:
           type: string
-        description_html:
-          type: string
         text_color:
+          type: string
+        description_html:
           type: string
         color:
           type: string
@@ -73094,9 +73094,9 @@ components:
           type: string
         description:
           type: string
-        description_html:
-          type: string
         text_color:
+          type: string
+        description_html:
           type: string
         color:
           type: string

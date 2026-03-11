@@ -120,6 +120,8 @@ To update the secrets permissions for a project:
    - Select **Add** to add permissions rules for specific users, groups, or roles.
    - You can set permission scopes to read, create, update, and delete secrets.
 
+Users with the Owner role for the project always have permissions to perform all operations in the Secrets Manager.
+
 ## Deletion of a project
 
 When you [delete a project](../../../user/project/working_with_projects.md#delete-a-project) with secrets:

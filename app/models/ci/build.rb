@@ -1240,6 +1240,26 @@ module Ci
       options.dig(:allow_failure_criteria, :exit_codes).present? || options.dig(:retry, :exit_codes).present?
     end
 
+    attr_reader :pending_build_args
+
+    # Override save to pre-compute pending build args outside the database
+    # transaction. The state_machines-activerecord gem wraps ALL callbacks
+    # (before_transition, after_transition) inside a transaction, so there
+    # is no callback that runs outside it. However, the gem sets
+    # `status_event_transition` on the object *before* calling save (see
+    # TransitionCollection#perform), so we can detect a pending transition
+    # here and pre-compute the expensive args (tag lookups, CI minutes
+    # checks, plan lookups) before `super` enters the transaction. The
+    # args are then read by UpdateBuildQueueService#push inside the
+    # transaction via `build.pending_build_args`.
+    def save(...)
+      with_pending_build_args { super }
+    end
+
+    def save!(...)
+      with_pending_build_args { super }
+    end
+
     def create_queuing_entry!
       ::Ci::PendingBuild.upsert_from_build!(self)
     end
@@ -1354,6 +1374,21 @@ module Ci
     end
 
     private
+
+    def with_pending_build_args
+      prepare_pending_build_args
+      yield
+    ensure
+      @pending_build_args = nil
+    end
+
+    def prepare_pending_build_args
+      return unless project
+      return unless status_event_transition&.to == 'pending'
+      return unless Feature.enabled?(:precompute_pending_build_args, project, type: :gitlab_com_derisk)
+
+      @pending_build_args = ::Ci::PendingBuild.args_from_build(self)
+    end
 
     def apply_jobs_cache_index(cache)
       return cache unless project.jobs_cache_index

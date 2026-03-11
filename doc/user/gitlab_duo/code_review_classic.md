@@ -34,6 +34,10 @@ title: GitLab Duo Code Review
 
 {{< /history >}}
 
+> [!note]
+> Depending on your add-on, you might have access to Code Review Flow instead.
+> Learn how [the two features compare](../project/merge_requests/duo_in_merge_requests.md#use-gitlab-duo-to-review-your-code).
+
 When your merge request is ready to be reviewed, use GitLab Duo Code Review to perform an initial review:
 
 1. On the top bar, select **Search or go to** and find your project.
@@ -41,8 +45,6 @@ When your merge request is ready to be reviewed, use GitLab Duo Code Review to p
 1. In a comment box, enter the quick action `/assign_reviewer @GitLabDuo`, or assign GitLab Duo as reviewer.
 
 <i class="fa-youtube-play" aria-hidden="true"></i> [Watch an overview](https://www.youtube.com/watch?v=SG3bhD1YjeY&list=PLFGfElNsQthZGazU1ZdfDpegu0HflunXW&index=2)
-
-Learn about the new agentic [Code Review Flow](../duo_agent_platform/flows/foundational_flows/code_review.md).
 
 Data usage: When you use this feature, the following data is sent to the large language model:
 

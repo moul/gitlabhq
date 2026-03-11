@@ -60,11 +60,11 @@ module WorkItems
       end
 
       def all
-        type_class.all
+        resolve_all
       end
 
       def by_base_types(names)
-        type_class.by_type(names)
+        Array(names).filter_map { |name| resolve_by_base_type(name.to_s) }
       end
 
       def ids_by_base_types(types)
@@ -76,15 +76,16 @@ module WorkItems
       end
 
       def find_by_base_type(name)
-        type_class.default_by_type(name)
+        resolve_by_base_type(name.to_s)
       end
 
       def find_by_name(name)
-        type_class.find_by(name: name.to_s)
+        name_str = name.to_s
+        resolve_all.find { |type| type.name == name_str }
       end
 
       def default_issue_type
-        type_class.default_issue_type
+        find_by_base_type(:issue)
       end
 
       def find_by_gid(gid)
@@ -94,40 +95,49 @@ module WorkItems
         find_by_id(model_id)
       end
 
-      # Id is ambiguous in terms of system-defined and custom types.
-      # So we'll deprecate this method long term.
-      #
-      # This has some API related usages where a work item type id is passed.
-      # We should change these interfaces to use a GID instead so we can properly distinguish
-      # between system-defined and custom types.
-      #
-      # For now it looks like we can use the GID in most cases.
       def find_by_id(id)
-        type_class.find_by(id: id.to_i)
+        resolve_by_id(id.to_i)
       end
 
       def by_ids(ids)
-        integer_ids = Array.wrap(ids).map(&:to_i)
-        type_class.where(id: integer_ids)
+        Array.wrap(ids).filter_map { |id| resolve_by_id(id.to_i) }
       end
 
       def base_types_by_ids(ids)
-        type_class.where(id: ids).map(&:base_type).uniq
+        by_ids(ids).map(&:base_type).uniq
       end
 
       def all_ordered_by_name
-        type_class.order_by_name_asc
+        resolve_all.sort_by { |type| type.name.downcase }
       end
 
       def by_ids_ordered_by_name(ids)
-        type_class.by_ids_ordered_by_name(ids)
+        by_ids(ids).sort_by { |type| type.name.downcase }
       end
 
       def by_base_types_ordered_by_name(names)
-        type_class.by_base_type_ordered_by_name(names)
+        by_base_types(names).sort_by { |type| type.name.downcase }
       end
 
       private
+
+      # Override in EE to include custom types via the indexed cache.
+      # In CE, resolves from system-defined types only.
+      def resolve_by_id(id)
+        type_class.find_by(id: id)
+      end
+
+      # Override in EE to return the converted custom type when one exists.
+      # In CE, returns the system-defined type for the given base_type.
+      def resolve_by_base_type(name)
+        type_class.default_by_type(name)
+      end
+
+      # Override in EE to return all types (system-defined + custom) from the indexed cache.
+      # In CE, returns system-defined types only.
+      def resolve_all
+        type_class.all
+      end
 
       def type_class
         WorkItems::TypesFramework::SystemDefined::Type

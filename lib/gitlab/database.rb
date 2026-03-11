@@ -22,6 +22,8 @@ module Gitlab
     # https://www.postgresql.org/docs/9.2/static/datatype-numeric.html
     MAX_INT_VALUE = 2147483647
     MIN_INT_VALUE = -2147483648
+    MAX_BIGINT_VALUE = 9223372036854775807
+    MIN_BIGINT_VALUE = -9223372036854775808
     MAX_SMALLINT_VALUE = 32767
 
     # The max value between MySQL's TIMESTAMP and PostgreSQL's timestampz:

@@ -603,13 +603,13 @@ RSpec.describe Resolvers::ProjectIssuesResolver, feature_category: :team_plannin
       end
 
       it 'finds a specific issue with iid', :request_store do
-        result = batch_sync(max_queries: 11) { resolve_issues(iid: issue1.iid).to_a }
+        result = batch_sync(max_queries: 12) { resolve_issues(iid: issue1.iid).to_a }
 
         expect(result).to contain_exactly(issue1)
       end
 
       it 'batches queries that only include IIDs', :request_store do
-        result = batch_sync(max_queries: 11) do
+        result = batch_sync(max_queries: 12) do
           [issue1, issue2]
             .map { |issue| resolve_issues(iid: issue.iid.to_s) }
             .flat_map(&:to_a)
@@ -619,7 +619,7 @@ RSpec.describe Resolvers::ProjectIssuesResolver, feature_category: :team_plannin
       end
 
       it 'finds a specific issue with iids', :request_store do
-        result = batch_sync(max_queries: 11) do
+        result = batch_sync(max_queries: 12) do
           resolve_issues(iids: [issue1.iid]).to_a
         end
 
