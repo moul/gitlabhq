@@ -240,11 +240,13 @@ module GroupsHelper
   end
 
   def group_more_action_data(group)
+    request = group.requesters.with_user(current_user).first
+
     {
       group: GroupChildSerializer.new(current_user:).represent(group).to_json,
-      can_request_access: can_request_access(current_user, group).to_s,
-      can_withdraw_access_request: can_withdraw_access_request(current_user, group).to_s,
-      after_delete_path: root_path
+      can_request_access: can_request_access(current_user, group, request).to_s,
+      can_withdraw_access_request: can_withdraw_access_request(current_user, request).to_s,
+      dashboard_path: dashboard_groups_path
     }
   end
 
@@ -262,16 +264,12 @@ module GroupsHelper
 
   private
 
-  def can_request_access(user, group)
-    return false if group.requesters.with_user(user).first
-
-    can?(user, :request_access, group)
+  def can_request_access(user, group, request)
+    request.nil? && can?(user, :request_access, group)
   end
 
-  def can_withdraw_access_request(user, group)
-    access_request = group.requesters.with_user(user).first
-
-    can?(user, :withdraw_member_access_request, access_request)
+  def can_withdraw_access_request(user, request)
+    can?(user, :withdraw_member_access_request, request)
   end
 
   def group_title_link(group, hidable: false, show_avatar: false)

@@ -76,6 +76,9 @@ Rails/Pluck:
   # See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/94047#note_1179689274
   AutoCorrect: false
 
+Rails/Inquiry:
+  Enabled: false
+
 # Disabled by default and enabled via `.rubocop/internal_affairs.yml`.
 InternalAffairs:
   Enabled: false

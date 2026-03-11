@@ -124,6 +124,9 @@ describe('GroupListItemActions', () => {
           },
           [ACTION_LEAVE]: {
             action: expect.any(Function),
+            extraAttrs: {
+              class: 'js-leave-link',
+            },
           },
         },
         availableActions: [

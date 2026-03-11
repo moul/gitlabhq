@@ -41,7 +41,7 @@ module QA
         def leave_group
           dismiss_duo_chat_popup if respond_to?(:dismiss_duo_chat_popup)
 
-          click_element 'groups-projects-more-actions-dropdown'
+          click_element 'groups-list-item-actions'
           wait_for_requests
 
           click_element 'leave-group-link'
@@ -49,7 +49,7 @@ module QA
         end
 
         def click_request_access
-          click_element 'groups-projects-more-actions-dropdown'
+          click_element 'groups-list-item-actions'
           wait_for_requests
 
           click_element 'request-access-link'

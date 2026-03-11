@@ -131,6 +131,16 @@ To resume indexing, run this task:
 gitlab-rake gitlab:zoekt:resume_indexing
 ```
 
+#### Estimate storage requirements
+
+To estimate the storage required for your Zoekt nodes, run this task:
+
+```shell
+sudo gitlab-rake gitlab:zoekt:estimate_storage
+```
+
+For more information, see [estimate storage](#estimate-storage).
+
 ## Check indexing status
 
 {{< history >}}
@@ -764,14 +774,51 @@ For VM and bare metal deployments:
 
 ### Storage
 
-Storage requirements for Zoekt vary significantly based on repository characteristics,
-including the number of large and binary files.
+Zoekt storage requirements depend on the size of your Git repositories and your replica configuration.
+Zoekt indexes only Git object data (source code and commit history).
+It does not index LFS files, CI/CD artifacts, packages, wikis, or other storage components.
 
-As a starting point, you can estimate your Zoekt storage to be half your Gitaly storage.
-For example, if your Gitaly storage is 1 TB, you might need approximately 500 GB of Zoekt storage.
+#### Estimate storage
 
-To monitor the use of Zoekt nodes, see [check indexing status](#check-indexing-status).
-If namespaces are not being indexed due to low disk space, consider adding or scaling up nodes.
+To estimate storage requirements, run the Rake task:
+
+```shell
+sudo gitlab-rake gitlab:zoekt:estimate_storage
+```
+
+This task queries your GitLab database and outputs a storage estimate based on
+your current repository sizes and replica configuration.
+
+If you prefer to calculate manually, use:
+
+```plaintext
+storage_per_replica = sum(repository_git_size) × 3
+total_cluster_storage = storage_per_replica × number_of_replicas
+```
+
+Where `repository_git_size` is the Git object size for each repository.
+This value does not include LFS objects, wiki, artifacts, or packages.
+
+To view `repository_git_size`:
+
+1. In the upper-right corner, select **Admin**.
+1. Select **Overview** > **Projects**.
+1. In the **Repository** column, view the Git object size.
+
+For the initial provisioning target, start with three times
+your total `repository_git_size` multiplied by replica count.
+For example:
+
+- 100 GB of Git repository data and one replica: 300 GB of Zoekt storage.
+- 100 GB of Git repository data and two replicas: 600 GB of Zoekt storage.
+
+GitLab reserves this buffer internally to ensure Zoekt has headroom during indexing.
+After initial indexing is complete, actual disk usage is typically closer to
+half the `repository_git_size` based on observed GitLab.com data.
+Scale vertically or horizontally only when needed.
+
+To monitor Zoekt node storage, see [check indexing status](#check-indexing-status).
+If namespaces are not indexed due to low disk space, add nodes or increase disk capacity.
 
 ## Security and authentication
 

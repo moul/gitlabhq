@@ -799,7 +799,10 @@ RSpec.describe GroupsHelper, feature_category: :groups_and_projects do
     it 'returns expected values' do
       serialized_group = GroupChildSerializer.new(current_user: user).represent(group).to_json
 
-      expect(result).to include({ group: serialized_group, after_delete_path: '/' })
+      expect(result).to include({
+        group: serialized_group,
+        dashboard_path: '/dashboard/groups'
+      })
     end
 
     context 'when user has no access request' do

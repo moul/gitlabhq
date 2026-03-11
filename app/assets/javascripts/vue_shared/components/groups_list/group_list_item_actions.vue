@@ -109,6 +109,9 @@ export default {
         [ACTION_LEAVE]: {
           text: __('Leave group'),
           action: this.onActionLeave,
+          extraAttrs: {
+            class: 'js-leave-link',
+          },
         },
       };
 
@@ -241,7 +244,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div v-bind="$attrs">
     <gl-loading-icon v-if="actionsLoading" size="sm" class="gl-p-3" />
     <list-actions
       v-else
