@@ -106,16 +106,16 @@ Now let's take a look at the various abstraction levels available, and what they
 can (or cannot) reuse. For this we can use the following table, which defines
 the various abstractions and what they can (not) reuse:
 
-| Abstraction            | Service classes  | Finders  | Presenters  | Serializers   | Model instance method   | Model class methods   | Active Record   | Worker
-|:-----------------------|:-----------------|:---------|:------------|:--------------|:------------------------|:----------------------|:----------------|:--------
-| Controller/API endpoint| Yes              | Yes      | Yes         | Yes           | Yes                     | No                    | No              | No
-| Service class          | Yes              | Yes      | No          | No            | Yes                     | No                    | No              | Yes
-| Finder                 | No               | No       | No          | No            | Yes                     | Yes                   | No              | No
-| Presenter              | No               | Yes      | No          | No            | Yes                     | Yes                   | No              | No
-| Serializer             | No               | Yes      | No          | No            | Yes                     | Yes                   | No              | No
-| Model class method     | No               | No       | No          | No            | Yes                     | Yes                   | Yes             | No
-| Model instance method  | No               | Yes      | No          | No            | Yes                     | Yes                   | Yes             | Yes
-| Worker                 | Yes              | Yes      | No          | No            | Yes                     | No                    | No              | Yes
+| Abstraction             | Service classes | Finders | Presenters | Serializers | Model instance method | Model class methods | Active Record | Worker |
+|:------------------------|:----------------|:--------|:-----------|:------------|:----------------------|:--------------------|:--------------|:-------|
+| Controller/API endpoint | Yes             | Yes     | Yes        | Yes         | Yes                   | No                  | No            | No     |
+| Service class           | Yes             | Yes     | No         | No          | Yes                   | No                  | No            | Yes    |
+| Finder                  | No              | No      | No         | No          | Yes                   | Yes                 | No            | No     |
+| Presenter               | No              | Yes     | No         | No          | Yes                   | Yes                 | No            | No     |
+| Serializer              | No              | Yes     | No         | No          | Yes                   | Yes                 | No            | No     |
+| Model class method      | No              | No      | No         | No          | Yes                   | Yes                 | Yes           | No     |
+| Model instance method   | No              | Yes     | No         | No          | Yes                   | Yes                 | Yes           | Yes    |
+| Worker                  | Yes             | Yes     | No         | No          | Yes                   | No                  | No            | Yes    |
 
 ### Controllers
 

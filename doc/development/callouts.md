@@ -46,10 +46,8 @@ unique name and a sequential value:
 
 - Global context: `app/models/users/callout.rb`. Callouts are dismissed by a user globally. Related notifications would
   not be displayed anywhere in the GitLab instance for that user.
-
 - Group context: `app/models/users/group_callout.rb`. Callouts are dismissed by a user in a given group. Related
   notifications are still shown to the user in other groups.
-
 - Project context: `app/models/users/project_callout.rb`. Callouts dismissed by a user in a given project. Related
   notifications are still shown to the user in other projects.
 

@@ -54,7 +54,6 @@ After you have defined the event, you must register it for AI tracking:
 
    > [!note]
    > Your transformation blocks must return a serializable hash, because it will be serialized to the `jsonb` column in the database.
-
 1. Invoke `InternalEvents.track_event` with your new event in appropriate codebase places to trigger the event.
 
 ## Removing an event from AI usage tracking

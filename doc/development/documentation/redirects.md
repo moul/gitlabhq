@@ -85,7 +85,6 @@ might link to the old file:
 
 1. In <https://gitlab.com/gitlab-org/technical-writing/docs-gitlab-com/-/blob/main/data/en-us/navigation.yaml>,
    search for the path, and remove the entry.
-
 1. In [all of the doc projects](site_architecture/_index.md#source-files), search for links in the docs
    and codebase. Search for all variations, including full URL and just the path.
    For example, go to the root directory of the `gitlab` project and run:
@@ -99,7 +98,6 @@ might link to the old file:
 
    You might need to try variations of relative links, such as `../path/to/file` or
    `../file` to find every case.
-
 1. In <https://gitlab.com/gitlab-org/customers-gitlab-com>, search for full URLs:
 
    ```shell

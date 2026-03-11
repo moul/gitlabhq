@@ -74,16 +74,13 @@ Example debugging workflow:
 1. Sidekiq Error Rate panel shows an elevated error rate, specifically `UpdateMergeRequestsWorker`.
 
    ![A histogram showing error rate metrics from different worker events](img/stage_group_dashboards_debug_1_v14_10.png)
-
 1. If you select **Kibana: Kibana Sidekiq failed request logs** in the **Extra links** section, you can filter for `UpdateMergeRequestsWorker` and read through the logs.
 
    ![Debug 2](img/stage_group_dashboards_debug_2_v14_10.png)
-
 1. With [Sentry](https://sentry.gitlab.net/gitlab/gitlabcom/) you can find the exception where you
    can filter by transaction type and `correlation_id` from Kibana's result item.
 
    ![Debug 3](img/stage_group_dashboards_debug_3_v14_10.png)
-
 1. A precise exception, including a stack trace, job arguments, and other information should now appear.
 
 Happy debugging!

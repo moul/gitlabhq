@@ -120,18 +120,12 @@ flowchart
 ### How to implement user mapping in an importer
 
 1. Implement a feature flag for user mapping within the importer.
-
 1. Ensure that the feature flag state is stored at the beginning of the importer so that changing the flag state during an import does not affect the ongoing import.
-
    - Third-party importers accomplish this by setting `project.import_data[:data][:user_contribution_mapping_enabled]` at the start of the import. See [`Gitlab::GithubImport::Settings`](https://gitlab.com/gitlab-org/gitlab/-/blob/5849575ce96582fb00ee9ad7cc58034c08006a22/lib/gitlab/github_import/settings.rb#L57) or [`Gitlab::BitbucketServerImport::ProjectCreator`](https://gitlab.com/gitlab-org/gitlab/-/blob/5849575ce96582fb00ee9ad7cc58034c08006a22/lib/gitlab/bitbucket_server_import/project_creator.rb#L45) as examples.
    - direct transfer uses `EphemeralData` in [`BulkImports::CreateService`](https://gitlab.com/gitlab-org/gitlab/-/blob/5849575ce96582fb00ee9ad7cc58034c08006a22/app/services/bulk_imports/create_service.rb#L59) to cache the feature flag states.
-
 1. Before saving a user contribution to the database, use `Gitlab::Import::SourceUserMapper#find_or_create_source_user` to find the correct `User` to attribute the contribution to.
-
 1. Save the contribution with the mapped user to the database.
-
 1. Once the record is persisted, initialize `Import::PlaceholderReferences::PushService` and execute it to push an initialized `Import::SourceUserPlaceholderReference` to Redis. Initializing the service using `from_record` is often most convenient.
-
 1. Persist the cached `Import::SourceUserPlaceholderReference`s asynchronously using the `LoadPlaceholderReferencesWorker`. This worker uses `Import::PlaceholderReferences::LoadService` to persist the placeholder references. It's best to periodically call this worker throughout the import, e.g., at the end of a stage, as well as at the end of the import.
 
    > [!note]
@@ -139,7 +133,6 @@ flowchart
    > `import_source_user_placeholder_references` table. If a database record references a placeholder
    > user's ID but a placeholder reference is not persisted for some reason, the contribution cannot
    > be reassigned and the placeholder user may not be deleted.
-
 1. Delay finishing the import until all cached placeholder references have been loaded.
 
    - Parallel third-party importers accomplish this by re-enqueueing the `FinishImportWorker` if any placeholder references are remaining in Redis for the project. See [`Gitlab::GithubImport::Stage::FinishImportWorker`](https://gitlab.com/gitlab-org/gitlab/-/blob/2a8ba6c8cb1d41c5334a8be2d0b9b0b98aa01839/app/workers/gitlab/github_import/stage/finish_import_worker.rb#L17) as an example.
@@ -279,19 +272,14 @@ Bypassing an assignee's confirmation can only be done in the following situation
 When a real user accepts their reassignment, the process of replacing all foreign key references to the placeholder user's ID with the reassigned user's ID begins:
 
 1. `Import::SourceUsers::AcceptReassignmentService` asynchronously calls `Import::ReassignPlaceholderUserRecordsWorker`.
-
 1. The worker executes `Import::ReassignPlaceholderUserRecordsService` to replace records with foreign key references to the placeholder user ID with the reassignee's user ID by querying for placeholder references and placeholder memberships belonging to the source user.
-
 1. The service deletes placeholder references and placeholder memberships after successful reassignment.
-
 1. The service sets the source user's state to `complete`.
 
    > [!note]
    > - There are valid scenarios where a placeholder reference may not be able to be reassigned. For example, if a user is added as a reviewer to a merge request with a placeholder user reviewer, then the user accepts reassignments to the placeholder who was already a reviewer. This will raise an `ActiveRecord::RecordNotUnique` error during contribution reassignment, but it's a valid scenario.
    > - There is a possibility that the reassignment may fail due to unhandled errors. We need to investigate the issue since the reassignment is supposed to always succeed.
-
 1. Once the service finishes, the worker calls `Import::DeletePlaceholderUserWorker` asynchronously to delete the placeholder user. If the placeholder user ID is still referenced in any imported table, it will not be deleted. Check `columns_ignored_on_deletion` in the [AliasResolver](https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/import/placeholder_references/alias_resolver.rb#L5) for exceptions.
-
 1. If the placeholder user was reassigned without confirmation from the reassigned user, an email is sent to the reassigned user notifying them that they have been reassigned.
 
 ## Placeholder reference aliasing

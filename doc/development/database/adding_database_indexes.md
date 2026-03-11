@@ -268,7 +268,6 @@ You have two options depending on [how long it takes to create the index](../mig
 1. Single release: if a regular migration can create the required index very fast
    (usually because the table is new or very small) you can create the index in a
    regular migration, and ship the application code change in the same MR and milestone.
-
 1. At least two releases: if the required index takes time to create,
    you must create it in a PDM in one release then wait for the next release to
    make the application code changes that rely on the index.

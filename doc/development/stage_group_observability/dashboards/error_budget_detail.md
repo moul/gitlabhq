@@ -50,7 +50,6 @@ The Apdex and error-ratio panels also contain two alerting thresholds:
 - The one-hour threshold: the fast burn rate.
 
   When this line is crossed, we've spent 2% of our monthly budget in the last hour.
-
 - The six-hour threshold: the slow burn rate.
 
   When this line is crossed, we've spent 2% of our budget in the last six hours.

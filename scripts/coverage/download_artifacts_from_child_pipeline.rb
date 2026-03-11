@@ -11,10 +11,14 @@ require_relative 'child_pipeline_artifact_downloader'
 # - coverage-e2e-frontend/ (Istanbul coverage + test mappings)
 # - e2e-test-reports/ (RSpec JSON reports with feature_category metadata)
 if __FILE__ == $PROGRAM_NAME
+  BRIDGE_NAME = ENV.fetch('BRIDGE_NAME', 'e2e:test-on-gdk')
+  JOB_NAME = ENV.fetch('JOB_NAME', nil)
+  COVERAGE_TYPE = ENV.fetch('COVERAGE_TYPE', 'e2e-artifacts')
+
   downloader = ChildPipelineArtifactDownloader.new(
-    bridge_name: 'e2e:test-on-gdk',
-    job_name: 'process-e2e-coverage',
-    coverage_type: 'e2e-artifacts'
+    bridge_name: BRIDGE_NAME,
+    job_name: JOB_NAME,
+    coverage_type: COVERAGE_TYPE
   )
 
   begin

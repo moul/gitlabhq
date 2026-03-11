@@ -1049,13 +1049,13 @@ The `scripts/frontend/download_fixtures.sh` script is meant to download and extr
 # package registry by looking at the commits on a local branch.
 #
 # The package is downloaded and extracted if it exists
-$ scripts/frontend/download_fixtures.sh
+scripts/frontend/download_fixtures.sh
 
 # Same as above, but only looks at the last 10 commits of the currently checked-out branch
-$ scripts/frontend/download_fixtures.sh --max-commits=10
+scripts/frontend/download_fixtures.sh --max-commits=10
 
 # Looks at the commits on the local master branch instead of the currently checked-out branch
-$ scripts/frontend/download_fixtures.sh --branch master
+scripts/frontend/download_fixtures.sh --branch master
 ```
 
 #### Creating new fixtures

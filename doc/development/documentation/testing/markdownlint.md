@@ -99,10 +99,10 @@ replace `doc/**/*.md` with the path to the Markdown files in your repository:
 
 ```shell
 # From the root directory, you don't need to specify the configuration file
-$ markdownlint-cli2 'doc/**/*.md'
+markdownlint-cli2 'doc/**/*.md'
 
 # From elsewhere in the repository, specify the configuration file
-$ markdownlint-cli2 --config .markdownlint-cli2.yaml 'doc/**/*.md'
+markdownlint-cli2 --config .markdownlint-cli2.yaml 'doc/**/*.md'
 ```
 
 For a full list of command-line options, see [Command Line](https://github.com/DavidAnson/markdownlint-cli2?tab=readme-ov-file#command-line)

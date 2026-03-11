@@ -17,7 +17,6 @@ The process for creating and maintaining GitLab product documentation depends on
 
 - A new feature or feature enhancement: Delivered for a specific milestone and associated with specific code changes.
   This documentation has the highest priority.
-
 - [Changes outside a specific milestone](#documentation-feedback-and-improvements): Usually not associated with a specific code change, is of lower priority, and
   is open to all GitLab contributors.
 
@@ -74,7 +73,6 @@ otherwise agreed with the product manager and technical writer:
 
   If the new or changed documentation requires extensive collaboration or
   conversation, a separate, linked issue can be used for the planning process.
-
 - Use the [Documentation guidelines](_index.md),
   and other resources linked from there, including:
   - [Documentation folder structure](site_architecture/folder_structure.md).
@@ -644,7 +642,9 @@ We often create documentation issues for a Hackathon. These issues are typically
 
 1. Run Vale against the full docset. Go to the GitLab repo and run:
 
-   `find doc -name '*.md' | sort | xargs vale --minAlertLevel suggestion --output line > ../results.txt`
+   ```shell
+   find doc -name '*.md' | sort | xargs vale --minAlertLevel suggestion --output line > ../results.txt
+   ```
 
 1. Create issues. You have a few options:
 

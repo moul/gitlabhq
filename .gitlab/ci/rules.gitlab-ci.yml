@@ -2797,11 +2797,11 @@
     - <<: *if-merge-request-labels-skip-undercoverage
       when: never
     - <<: *if-merge-request-labels-run-all-rspec
-    # We cannot get the coverage data from child pipeline so we only run undercoverage on full pipelines for now
-    # See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/113410#note_1335422806
-    - !reference [".prevent-tier-2-and-below", rules]
+    - <<: *if-merge-request-tier-3
+      changes: *code-backstage-patterns
     - <<: *if-merge-request
       changes: *code-backstage-patterns
+      allow_failure: true
 
 .rails:rules:rspec-merge-auto-explain-logs:
   rules:

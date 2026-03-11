@@ -118,7 +118,6 @@ blocks:
 
 - The `arguments_proc` which needs to return the list of arguments the
   job needs to be scheduled with.
-
 - The `context_proc` which needs to return a hash with the context
   information for the job.
 

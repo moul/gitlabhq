@@ -137,7 +137,6 @@ page, with these behaviors:
   project under the [security group](https://gitlab.com/gitlab-org/security/) are
   not counted. These MRs are usually backports, and maintainers or reviewers usually
   do not need much time reviewing them.
-
 - It always picks the same reviewers and maintainers for the same
   branch name (unless their out-of-office (`OOO`) status changes, as in point 1). It
   removes leading `ce-` and `ee-`, and trailing `-ce` and `-ee`, so
@@ -672,7 +671,6 @@ experience, refactors the existing code). Then:
     - **Identify the minimal change** needed to trigger the code path (for example, setting a condition to `true` in the code) rather than full environment setup.
 
   Your testing might result in opportunities to add automated tests.
-
 - If you don't understand a piece of code, _say so_. There's a good chance
   someone else would be confused by it as well.
 - Ensure the author is clear on what is required from them to address/resolve the suggestion.
@@ -801,7 +799,6 @@ When reviewing merge requests from forked repositories, you have several methods
   ```
 
   For more information, see the [GitLab CLI commands](https://docs.gitlab.com/cli/mr/checkout/).
-
 - Use cURL to apply the diff.
   Use one of the following methods:
 

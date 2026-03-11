@@ -2942,7 +2942,6 @@ For example:
 
 - Instead of: The files using storage...
 - Use: The files that use storage...
-
 - Instead of: Change directories using the command line.
 - Use: Change directories by using the command line. Or even better: To change directories, use the command line.
 

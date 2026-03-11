@@ -37,7 +37,6 @@ To configure deployment of the PyPI package:
    ```
 
    To configure deployment with CI, set the `POETRY_PYPI_TOKEN_PYPI` to the token created. Alternatively, define a [trusted publisher](https://docs.pypi.org/trusted-publishers/) for the project, in which case no token is needed.
-
 1. Use [Poetry to publish](https://python-poetry.org/docs/cli/#publish) your package:
 
    ```shell

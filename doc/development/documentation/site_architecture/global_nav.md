@@ -68,12 +68,10 @@ With these groups in mind, the following are general rules for where new items s
 
 - User documentation belongs in **Use GitLab**.
 - Administration documentation belongs under **Administer**. This documentation often includes sections that mention:
-
   - Changing the `gitlab.rb` or `gitlab.yml` files.
   - Accessing the rails console or running Rake tasks.
   - Doing things in the **Admin** area.
   - Tasks that can only be done by an instance administrator.
-
 - Other documentation belongs at the top-level, but care must be taken to not create an enormously
   long top-level navigation, which defeats the purpose of it.
 

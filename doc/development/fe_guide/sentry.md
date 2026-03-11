@@ -18,7 +18,7 @@ We monitor two kinds of data: **Errors** and **Performance**.
 
 ## Start using Sentry
 
-Our Sentry instance is located at [https://new-sentry.gitlab.net/](https://new-sentry.gitlab.net/).
+Our Sentry instance is located at <https://new-sentry.gitlab.net/>.
 Only GitLab team members can access Sentry.
 
 After your first sign in you can join the `#gitlab` team by selecting **Join a team**. Confirm that

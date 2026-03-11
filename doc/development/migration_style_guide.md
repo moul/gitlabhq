@@ -301,9 +301,7 @@ In all cases, remember to select the appropriate migration type
 depending on [how long a migration takes](#how-long-a-migration-should-take)
 
 - Split the migration into **multiple single-transaction migrations**.
-
 - Use **multiple transactions** by [using `disable_ddl_transaction!`](#disable-transaction-wrapped-migration).
-
 - Keep using a single-transaction migration after **adjusting statement and lock timeout settings**.
   If your heavy workload must use the guarantees of a transaction,
   you should check your migration can execute without hitting the timeout limits.
@@ -326,7 +324,6 @@ temporarily set the statement timeout to `0` per transaction or per connection.
 
 - You use the per-connection option when your statement does not support
   running inside an explicit transaction, like `CREATE INDEX CONCURRENTLY`.
-
 - If your statement does support an explicit transaction block,
   like `ALTER TABLE ... VALIDATE CONSTRAINT`,
   the per-transaction option should be used.

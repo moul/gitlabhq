@@ -50,10 +50,12 @@ describe('DynamicValueRenderer', () => {
         expect(findInput().attributes('type')).toBe('text');
       });
 
-      it('renders text input for number type', () => {
+      it('renders number input for number type', () => {
         createComponent({ props: { item: { ...defaultProps.item, type: 'NUMBER' } } });
         expect(findInput().exists()).toBe(true);
-        expect(findInput().attributes('type')).toBe('text');
+        expect(findInput().attributes('type')).toBe('number');
+        expect(findInput().attributes('min')).toBe(String(Number.MIN_SAFE_INTEGER));
+        expect(findInput().attributes('max')).toBe(String(Number.MAX_SAFE_INTEGER));
       });
 
       it('renders boolean cell component for boolean type', () => {
@@ -299,22 +301,6 @@ describe('DynamicValueRenderer', () => {
 
         expect(findValidationFeedback().exists()).toBe(true);
         expect(findValidationFeedback().text()).toContain('This is required and must be defined.');
-      });
-
-      it('displays validation feedback for non-numeric value in number field', async () => {
-        createComponent({
-          props: {
-            item: {
-              ...defaultProps.item,
-              type: 'NUMBER',
-            },
-          },
-        });
-
-        await setInputValue('not-a-number');
-
-        expect(findValidationFeedback().exists()).toBe(true);
-        expect(findValidationFeedback().text()).toContain('The value must contain only numbers.');
       });
 
       it('includes pattern information in validation feedback for regex errors', async () => {

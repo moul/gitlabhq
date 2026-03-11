@@ -69935,9 +69935,6 @@ msgstr ""
 msgid "The value must be a valid JSON array format: [1,2,3] or [{\"key\": \"value\"}]"
 msgstr ""
 
-msgid "The value must contain only numbers."
-msgstr ""
-
 msgid "The value must match the defined regular expression."
 msgstr ""
 

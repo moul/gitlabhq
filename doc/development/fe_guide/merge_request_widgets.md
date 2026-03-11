@@ -240,7 +240,6 @@ To generate these known events for a single widget:
    ```
 
 1. Repeat step 6, but change the `data_source` to `redis_hll`.
-
 1. Add each event (those listed in the command in step 7, replacing `test_reports`
    with the appropriate name slug) to the aggregate files:
    1. `config/metrics/counts_7d/{timestamp}_code_review_category_monthly_active_users.yml`

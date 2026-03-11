@@ -748,24 +748,19 @@ end
 - `batched!` - Allow the migration to run in batches. If set, [`Elastic::MigrationWorker`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/ee/app/workers/elastic/migration_worker.rb)
   re-enqueues itself with a delay which is set using the `throttle_delay` option described below. The batching
   must be handled in the `migrate` method. This setting controls the re-enqueuing only.
-
 - `batch_size` - Sets the number of documents modified during a `batched!` migration run. This size should be set to a value which allows the updates
   enough time to finish. This can be tuned in combination with the `throttle_delay` option described below. The batching
   must be handled in a custom `migrate` method or by using the [`Search::Elastic::MigrationBackfillHelper`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/ee/app/workers/concerns/elastic/migration_backfill_helper.rb)
   `migrate` method which uses this setting. Default value is 1000 documents.
-
 - `throttle_delay` - Sets the wait time in between batch runs. This time should be set high enough to allow each migration batch
   enough time to finish. Additionally, the time should be less than 5 minutes because that is how often the
   [`Elastic::MigrationWorker`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/ee/app/workers/elastic/migration_worker.rb)
   cron worker runs. The default value is 3 minutes.
-
 - `pause_indexing!` - Pause indexing while the migration runs. This setting records the indexing setting before
   the migration runs and set it back to that value when the migration is completed.
-
 - `space_requirements!` - Verify that enough free space is available in the cluster when the migration runs. This setting
   halts the migration if the storage required is not available when the migration runs. The migration must provide
   the space required in bytes by defining a `space_required_bytes` method.
-
 - `retry_on_failure` - Enable the retry on failure feature. By default, it retries
   the migration 30 times. After it runs out of retries, the migration is marked as halted.
   To customize the number of retries, pass the `max_attempts` argument:

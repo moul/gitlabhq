@@ -190,7 +190,6 @@ The value must be one of: `supported`, `todo`, or `no_work_needed`.
     - `app/services/organizations/transfer/groups_service.rb`
     - `app/services/organizations/transfer/users_service.rb`
     - `ee/app/services/ee/organizations/transfer/groups_service.rb`
-
 - **`todo`**: The table needs organization transfer support but doesn't have it yet.
   - Used for **existing** tables that were sharded by `organization_id` previously.
 - **`no_work_needed`**: The table has been reviewed and does not require any updates during organization transfers.

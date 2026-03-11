@@ -31,7 +31,6 @@ depending on the type of GitLab instance:
 - **GitLab.com (SaaS)**: Uses the top-level namespace setting `experiment_features_enabled`.
   This is a namespace-level setting that allows each top-level group to control whether
   experiment and beta GitLab Duo features are enabled for their namespace.
-
 - **GitLab Self-Managed and GitLab Dedicated**: Uses the instance-level setting
   `instance_level_ai_beta_features_enabled`. This is an instance-wide setting controlled
   by administrators that applies to all namespaces on the instance.

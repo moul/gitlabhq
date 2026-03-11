@@ -327,7 +327,6 @@ version of the product:
 
    There are many ways to pass an environment variable to your local GitLab instance.
    For example, you can [create an entry in the `gdk.yml` file](https://gitlab-org.gitlab.io/gitlab-development-kit/configuration/#setting-environment-variables).
-
 1. Enable **Allow use of licensed EE features** to make licensed EE features available to projects
    only if the project namespace's plan includes the feature.
 
@@ -1919,7 +1918,6 @@ import { sidebarDataCountResponse } from 'ee_else_ce_jest/super_sidebar/mock_dat
 ```
 
 - Make sure that you have a CE and an EE `mock_data` file with an object (in the example above, `sidebarDataCountResponse`) with the corresponding data. One with only CE features data for the CE file and another with both CE and EE features data.
-
 - In the CE file `expect` blocks, if you need to compare an object, use `toMatchObject` instead of `toEqual`, so it doesn't expect that EE data to exist in the CE data. For example:
 
 ```javascript

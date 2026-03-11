@@ -429,6 +429,36 @@ be attempted with 18.11. Make sure you have enough disk space to accommodate the
 
 For more information, see [Upgrade packaged PostgreSQL server](https://docs.gitlab.com/omnibus/settings/database/#upgrade-packaged-postgresql-server).
 
+### Support for Redis 6
+
+- Announced in GitLab 18.10
+- Removal in GitLab 19.0 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))
+- To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/gitlab-org/gitlab/-/work_items/585839).
+
+In GitLab 19.0, we plan to remove support for Redis 6 as part of our commitment to maintaining a secure and
+supportable infrastructure stack.
+
+Before upgrading to GitLab 19.0, you must be running either:
+
+- Redis 7.2.
+- Valkey 7.2, which is available in beta from GitLab 18.9 with general availability planned for GitLab 19.0.
+
+The bundled Redis included with the Linux package has used Redis 7 since GitLab 16.2 and is not affected.
+Only GitLab Self-Managed instances using an external Redis 6 deployment must migrate.
+
+See the following resources for migrating an external Redis 6 deployment:
+
+- **AWS ElastiCache**: Upgrade your Redis 6 instance to Redis 7.2 or Valkey 7.2. For available upgrade paths, see
+  [AWS ElastiCache documentation](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/supported-engine-versions.html).
+- **GCP Memorystore**: Upgrade your Redis 6 instance to Redis 7.2 or Valkey 7.2. For available upgrade paths, see
+  [GCP Memorystore documentation](https://cloud.google.com/memorystore/docs/redis/supported-versions).
+- **Azure Cache for Redis**: A managed Redis 7.2 or Valkey 7.2 option is not currently available on Azure. You can
+  self-host Redis 7.2 or Valkey 7.2 on Azure VMs or AKS. You can also use the GitLab Linux package installation method,
+  which will support Valkey 7.2 with general availability planned for GitLab 19.0.
+- **Self-hosted**: Upgrade your Redis 6 instance to Redis 7.2 or Valkey 7.2.
+
+For more information, see the [requirements documentation](https://docs.gitlab.com/install/requirements/).
+
 ### Support for bundled PostgreSQL, Redis, and MinIO in GitLab Helm chart
 
 - Announced in GitLab 18.9

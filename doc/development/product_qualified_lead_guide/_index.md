@@ -13,7 +13,6 @@ A hand-raise PQL is a user who requests to speak to sales from within the produc
 
 1. Set up GDK with a connection to your local CustomersDot instance.
 1. Set up CustomersDot to talk to a staging instance of Workato.
-
 1. Set up CustomersDot using the [standard install instructions](https://gitlab.com/gitlab-org/customers-gitlab-com/-/blob/staging/doc/setup/installation_steps.md).
 1. Set the `CUSTOMER_PORTAL_URL` environment variable to your local URL of your CustomersDot instance.
 1. Place `export CUSTOMER_PORTAL_URL=http://localhost:5000/` in your shell `rc` script (`~/.zshrc` or `~/.bash_profile` or `~/.bashrc`) and restart GDK.

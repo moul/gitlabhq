@@ -333,7 +333,6 @@ synchronized to the other projects. In each of the [supported projects](#support
 1. Commit the changes to the new branch. Some projects require
    [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) so check the contributing information for the
    project before committing.
-
 1. Submit a merge request for review.
 
 ## Update linting images

@@ -115,7 +115,6 @@ In general, follow these guidelines:
   If there are too many issues to fix in a single merge request, add the rule at a
   `warning` level. Then, fix the existing issues in follow-up merge requests.
   When the issues are fixed, promote the rule to an `error`.
-
 - If you add a warning-level or suggestion-level rule, consider:
 
   - How many more warnings or suggestions it creates in the Vale output. If the

@@ -30,7 +30,6 @@ you can follow the steps below to configure the `pgai` Gem:
       ```
 
 1. To configure `ssh`, follow the instruction at [Access the console with `psql`](database_lab.md#access-the-console-with-psql), replacing `${USER}` with your postgres.ai username.
-
 1. Run the following commands:
 
    ```shell

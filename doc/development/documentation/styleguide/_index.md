@@ -691,7 +691,6 @@ Use lists to present information in a format that is easier to scan.
 
   For keywords and concepts, consider a [reference topic](../topic_types/reference.md) or
   [description list](#description-lists-in-markdown) for alternative formatting.
-
 - Avoid using list items to complete an introductory phrase. This format can be difficult to localize
   into languages that use different sentence structures.
   For example, use:
@@ -818,7 +817,6 @@ To create a guide, follow this example:
 1. Guide item with text.
 
    An item with text only.
-
 1. Guide item with alert.
 
    This is an item with an alert.
@@ -836,7 +834,6 @@ This code renders on the GitLab documentation site as:
 1. Guide item with text.
 
    An item with text only.
-
 1. Guide item with alert.
 
    An item with an alert.
@@ -1792,7 +1789,6 @@ To create accessible and maintainable diagrams, follow these guidelines:
   - Solid lines for direct relationships between elements.
   - Dotted lines for indirect relationship between elements.
   - Arrows for flow or direction in a process.
-
 - Shapes that represent the same element should have the same shape and size.
 - Add clear labels and brief descriptions to diagram elements.
 - For elements that have text, ensure adequate white space exists between the text and the

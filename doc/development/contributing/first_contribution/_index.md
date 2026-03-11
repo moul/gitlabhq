@@ -41,7 +41,6 @@ To get started, select the development option that works best for you:
 
   - No configuration or installation required.
   - Available within a few seconds.
-
 - GitLab Development Kit (GDK) and GDK-in-a-box - Fully local development (recommended).
 
   GDK is a local development environment that includes an installation of GitLab Self-Managed,

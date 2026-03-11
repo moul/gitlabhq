@@ -208,7 +208,6 @@ When you update the `codeowners.rake` file:
 
     In this example, `writer1` is a code owner for files related to this group that are in `/doc/user`.
     For everything else, `writer2` is made code owner. For an example, see [MR 127903](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/127903).
-
 - For a group that does not have an assigned writer, include the group name in the file and comment out the line:
 
   ```ruby

@@ -607,6 +607,70 @@ rspec:artifact-collector ee remainder:
     - !reference ['.rails:rules:ee-only-integration', rules]
     - !reference ['.rails:rules:ee-only-system', rules]
 
+rspec:predictive artifact-collector:
+  stage: post-test
+  needs:
+    - job: rspec:predictive:trigger
+      optional: true
+    - job: rspec:predictive:trigger single-db
+      optional: true
+    - job: rspec:predictive:trigger single-db-ci-connection
+      optional: true
+  rules:
+    - !reference ['.rails:rules:rspec-predictive', rules]
+    - !reference ['.rails:rules:rspec-predictive:single-db', rules]
+    - !reference ['.rails:rules:rspec-predictive:single-db-ci-connection', rules]
+  variables:
+    JOB_NAME: 'rspec-predictive-artifact-collector'
+    COVERAGE_TYPE: 'predictive'
+  script:
+    - |
+      for BRIDGE_NAME in "rspec:predictive:trigger" "rspec:predictive:trigger single-db" "rspec:predictive:trigger single-db-ci-connection"; do
+        echo "Attempting to download from bridge: $BRIDGE_NAME"
+        export BRIDGE_NAME="$BRIDGE_NAME"
+        ruby scripts/coverage/download_artifacts_from_child_pipeline.rb || true
+      done
+  artifacts:
+    name: predictive-coverage
+    expire_in: 31d
+    paths:
+      - coverage/
+      - rspec/
+      - crystalball/
+    when: always
+
+rspec-ee:predictive artifact-collector:
+  stage: post-test
+  needs:
+    - job: rspec-ee:predictive:trigger
+      optional: true
+    - job: rspec-ee:predictive:trigger single-db
+      optional: true
+    - job: rspec-ee:predictive:trigger single-db-ci-connection
+      optional: true
+  rules:
+    - !reference ['.rails:rules:rspec-predictive', rules]
+    - !reference ['.rails:rules:rspec-predictive:single-db', rules]
+    - !reference ['.rails:rules:rspec-predictive:single-db-ci-connection', rules]
+  variables:
+    JOB_NAME: 'rspec-ee-predictive-artifact-collector'
+    COVERAGE_TYPE: 'ee predictive'
+  script:
+    - |
+      for BRIDGE_NAME in "rspec-ee:predictive:trigger" "rspec-ee:predictive:trigger single-db" "rspec-ee:predictive:trigger single-db-ci-connection"; do
+        echo "Attempting to download from bridge: $BRIDGE_NAME"
+        export BRIDGE_NAME="$BRIDGE_NAME"
+        ruby scripts/coverage/download_artifacts_from_child_pipeline.rb || true
+      done
+  artifacts:
+    name: ee-predictive-coverage
+    expire_in: 31d
+    paths:
+      - coverage/
+      - rspec/
+      - crystalball/
+    when: always
+
 rspec:coverage:
   extends:
     - .coverage-base
@@ -628,6 +692,8 @@ rspec:coverage:
       optional: true
     - job: rspec:artifact-collector remainder single-redis
       optional: true
+    - job: rspec:predictive artifact-collector
+      optional: true
     # as-if-foss jobs
     - job: rspec:artifact-collector as-if-foss
       optional: true
@@ -639,6 +705,8 @@ rspec:coverage:
     - job: rspec:artifact-collector ee unit
       optional: true
     - job: rspec:artifact-collector ee remainder
+      optional: true
+    - job: rspec-ee:predictive artifact-collector
       optional: true
   script:
     - bundle exec scripts/merge-simplecov

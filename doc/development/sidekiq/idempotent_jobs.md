@@ -173,7 +173,6 @@ However, the key can remain until its TTL in certain cases like:
 
 1. `until_executing` is used but the job was never enqueued or executed after the Sidekiq
    client middleware was run.
-
 1. `until_executed` is used but the job fails to finish due to retry exhaustion, gets
    interrupted the maximum number of times, or gets lost.
 

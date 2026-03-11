@@ -89,7 +89,6 @@ with additional functions on the instance level:
    rarely needed in HTML. To benefit the built-in loading state, set the `data-editor-loading`
    property on the HTML element that should contain the editor. When bootstrapping,
    Source Editor shows the loader automatically.
-
 1. Update syntax highlighting if the filename changes.
 
    ```javascript

@@ -9,7 +9,7 @@ This guide describes all fields required for instrumenting AI and GitLab Duo Age
 AI events use two context schemas:
 
 - [Standard Context](https://gitlab.com/gitlab-org/iglu/-/tree/master/public/schemas/com.gitlab/gitlab_standard/jsonschema) - Contains general fields used across all GitLab events.
-See documentation for [Standard context](standard_context_fields.md) fields.
+  See documentation for [Standard context](standard_context_fields.md) fields.
 - [AI Context](https://gitlab.com/gitlab-org/iglu/-/tree/master/public/schemas/com.gitlab/ai_context/jsonschema) - Contains DAP-specific fields for workflow and session management, model information, and token tracking
 
 ## Overview

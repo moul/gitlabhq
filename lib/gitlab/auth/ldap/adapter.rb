@@ -44,16 +44,16 @@ module Gitlab
             attributes: %w[dn]).any?
         end
 
-        def ldap_search(*args)
+        def ldap_search(raise_on_error: false, **options)
           retries ||= 0
 
           # Net::LDAP's `time` argument doesn't work. Use Ruby `Timeout` instead.
           Timeout.timeout(timeout_time(retries)) do
-            results = ldap.search(*args)
+            results = ldap.search(options)
 
             if results.nil?
               response = ldap.get_operation_result
-              check_empty_response_code(response)
+              check_empty_response_code(response, raise_on_error: raise_on_error)
               []
             else
               results
@@ -80,7 +80,7 @@ module Gitlab
         end
 
         def users_search(options)
-          entries = ldap_search(options).select do |entry|
+          entries = ldap_search(**options).select do |entry|
             entry.respond_to? config.uid
           end
 
@@ -133,14 +133,18 @@ module Gitlab
           @ldap = Net::LDAP.new(config.adapter_options)
         end
 
-        def check_empty_response_code(response)
+        def check_empty_response_code(response, raise_on_error: false)
           if config.retry_empty_result_with_codes.include?(response.code)
             raise Net::LDAP::Error, "Got empty results with response code: #{response.code}, message: #{response.message}"
           end
 
-          unless response.code == 0
-            Gitlab::AppLogger.warn("LDAP search error: #{response.message}")
-          end
+          return if response.code == 0
+
+          Gitlab::AppLogger.warn("LDAP search error code: #{response.code}, message: #{response.message}")
+
+          return unless raise_on_error
+
+          raise Net::LDAP::Error, "LDAP search error code: #{response.code}, message: #{response.message}"
         end
       end
     end

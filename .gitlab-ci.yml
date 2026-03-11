@@ -252,6 +252,7 @@ variables:
   GLCI_PREDICTIVE_RSPEC_TESTS_MAPPING_PATH: crystalball/mapping.json
   GLCI_PREDICTIVE_RSPEC_TESTS_MAPPING_ALT_PATH: crystalball/mapping-alt.json
   GLCI_PREDICTIVE_RSPEC_PIPELINE_TEMPLATE_YML: .gitlab/ci/rails/rspec-predictive.gitlab-ci.yml.erb
+  GLCI_PREDICTIVE_DUO_SYSTEM_TESTS_PATH: rspec/duo_system_test_files.txt
 
   # Test execution result export to ClickHouse
   GLCI_EXPORT_TEST_METRICS: "true"

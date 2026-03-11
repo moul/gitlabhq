@@ -126,7 +126,6 @@ Expected outcomes should be specific and measurable. For example:
 
 - Do: `Detailed analysis identifying 3-5 specific improvement areas with code examples`
 - Do not: `Analysis of the code`
-
 - Do: `Complete refactored class with improved method names and added tests`
 - Do not: `Better code`
 

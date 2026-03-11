@@ -12,7 +12,6 @@ title: Database development guidelines
 - If you're creating a database MR for review, check out our [Database review guidelines](../database_review.md).
 
   It provides an introduction on database-related changes, migrations, and complex SQL queries.
-
 - If you're a database reviewer or want to become one, check out our [introduction to reviewing database changes](database_reviewer_guidelines.md).
 
 ## Upgrade

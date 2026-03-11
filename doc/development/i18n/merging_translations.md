@@ -19,7 +19,7 @@ By default Crowdin commits translations with `[skip ci]` in the commit
 message. This avoids an excessive number of pipelines from running.
 Before merging translations, make sure to trigger a pipeline to validate
 translations. Static analysis validates things Crowdin doesn't do. Create
-a new pipeline at [`https://gitlab.com/gitlab-org/gitlab/pipelines/new`](https://gitlab.com/gitlab-org/gitlab/pipelines/new)
+a new pipeline at <https://gitlab.com/gitlab-org/gitlab/pipelines/new>.
 (requires the Developer role) for the `master-i18n` branch.
 
 The pipeline job validates translations with the [`PoLinter` class](https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/i18n/po_linter.rb).

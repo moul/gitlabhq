@@ -158,7 +158,6 @@ When adding claims to a new model:
    ```
 
 1. **Add types in Topology Service** (see [Topology Service](#topology-service) section)
-
 1. **Add tests** (see [Tests](#tests) section)
 
 #### Tests
