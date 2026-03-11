@@ -175,7 +175,6 @@ REST endpoint to create a runner:
    {{< /tab >}}
 
    {{< /tabs >}}
-
 1. Save the returned `token` value in a secure location or your secrets management
    solution. The `token` value is returned only once in the API response.
 

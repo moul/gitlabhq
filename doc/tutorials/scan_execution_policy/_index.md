@@ -77,7 +77,6 @@ To create the scan execution policy:
 1. Select **Configure with a merge request**.
 
    The policy project `go-example-a - Security project` is created, and a merge request is created.
-
 1. Optional. Review the generated policy YAML in the merge request's **Changes** tab.
 1. Go to the **Overview** tab and select **Merge**.
 1. On the top bar, select **Search or go to** and search for the `go-example-a` project.
@@ -106,11 +105,9 @@ To test the scan execution policy:
 
    Let's check if the scan execution policy worked. Remember that we specified that secret detection
    is to run every time a pipeline runs, for any branch.
-
 1. In the merge request just created, go the **Pipelines** tab and select the created pipeline.
 
    Here you can see that a secret detection job ran. Let's check if it detected the test secret.
-
 1. Select the secret detection job.
 
    Near the bottom of the job's log, the following output confirms that the example secret was detected.
@@ -183,13 +180,10 @@ To test the scan execution policy:
 
    Let's check if the scan execution policy worked. Remember that we specified that secret detection
    is to run every time a pipeline runs, for any branch.
-
 1. In the merge request just created, go the **Pipelines** tab and select the created pipeline.
-
 1. In the merge request just created, select the pipeline's ID.
 
    Here you can see that a secret detection job ran. Let's check if it detected the test secret.
-
 1. Select the secret detection job.
 
    Near the bottom of the job's log, the following output confirms that the example secret was detected.

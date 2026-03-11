@@ -156,7 +156,6 @@ You can have more than one function in a job.
    This `hello_steps` function provides a non-default input `who` of `gitlab functions`.
 
    For an example of how this code should look in your repository, see the [Steps tutorial, part 2a](https://gitlab.com/gitlab-org/step-runner/-/tree/main/examples/tutorial_part_2a).
-
 1. Commit and push the changes:
 
    ```shell
@@ -211,7 +210,6 @@ To refactor your functions, move them from the `.gitlab-ci.yml` to a dedicated f
    This new function has no inputs, so the `spec` is empty.
    It is a `steps` type, which has the same syntax as functions in `.gitlab-ci.yml`.
    However, the local reference now points to your function in the `hello` directory.
-
 1. To use the new function, modify `.gitlab-ci.yml`:
 
    ```yaml
@@ -225,7 +223,6 @@ To refactor your functions, move them from the `.gitlab-ci.yml` to a dedicated f
    You've refactored the details of the job into a separate file.
 
    For an example of how this code should look in your repository, see the [Steps tutorial, part 2b](https://gitlab.com/gitlab-org/step-runner/-/tree/main/examples/tutorial_part_2b).
-
 1. Commit and push the changes:
 
    ```shell
@@ -323,7 +320,6 @@ The echo function takes a single input `echo`, prints it to the logs, and output
    ```
 
    For an example of how this code should look in your repository, see the [Steps tutorial, part 2c](https://gitlab.com/gitlab-org/step-runner/-/tree/main/examples/tutorial_part_2c).
-
 1. Commit and push the changes:
 
    ```shell

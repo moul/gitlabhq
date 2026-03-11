@@ -42,6 +42,13 @@ module Banzai
           Nokogiri::HTML::DocumentFragment.parse(
             Asciidoctor::PlantUml::Processor.plantuml_content(diagram_src, {})).css('img').first
         end
+
+        def plantuml_img_src(diagram_src)
+          img_tag = plantuml_img_tag(diagram_src)
+          return unless img_tag
+
+          img_tag['src']
+        end
       end
     end
   end

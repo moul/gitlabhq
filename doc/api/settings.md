@@ -716,8 +716,10 @@ to configure other related settings. These requirements are
 | `kroki_enabled`                          | boolean          | no                                   | (**If enabled, requires**: `kroki_url`) Enable [Kroki integration](../administration/integration/kroki.md). Default is `false`. |
 | `kroki_url`                              | string           | required by: `kroki_enabled`         | The Kroki instance URL for integration. |
 | `kroki_formats`                          | object           | no                                   | Additional formats supported by the Kroki instance. Possible values are `true` or `false` for formats `bpmn`, `blockdiag`, `excalidraw`, and `mermaid` in the format `<format>: true` or `<format>: false`. |
+| `kroki_diagram_proxy_enabled`            | boolean          | no                                   | Enable [proxying Kroki diagrams](../administration/integration/diagram_proxy.md) through the GitLab server. |
 | `plantuml_enabled`                       | boolean          | no                                   | (**If enabled, requires**: `plantuml_url`) Enable [PlantUML integration](../administration/integration/plantuml.md). Default is `false`. |
 | `plantuml_url`                           | string           | required by: `plantuml_enabled`      | The PlantUML instance URL for integration. |
+| `plantuml_diagram_proxy_enabled`         | boolean          | no                                   | Enable [proxying PlantUML diagrams](../administration/integration/diagram_proxy.md) through the GitLab server. |
 | `polling_interval_multiplier`            | float            | no                                   | Interval multiplier used by endpoints that perform polling. Set to `0` to disable polling. |
 | `project_export_enabled`                 | boolean          | no                                   | Enable project export. |
 | `project_jobs_api_rate_limit`            | integer          | no                                   | Maximum authenticated requests to `/project/:id/jobs` per minute. [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/129319) in GitLab 16.5. Default: 600. |

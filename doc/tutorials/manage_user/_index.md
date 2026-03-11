@@ -311,7 +311,6 @@ You are now going to invite some users to the Engineering subgroup.
    Blake Wang has the Maintainer role in this subgroup, in line with their responsibilities as
    engineering manager. The three developers all have the Developer role, which are
    direct roles.
-
 1. You can change their roles directly on this subgroup's member page. Under **Role**, select `Maintainer` to change Blake Wang's role
    to an Owner for this subgroup.
 1. Go back to the Development group's member page. You see that the members of the Engineering

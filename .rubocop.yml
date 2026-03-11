@@ -1577,3 +1577,9 @@ Gitlab/Authz/RoleCheckInRule:
   Include:
     - 'app/policies/**/*.rb'
     - 'ee/app/policies/**/*.rb'
+
+Gitlab/Authz/EnableInBasePolicy:
+  Enabled: true
+  Include:
+    - 'app/policies/base_policy.rb'
+    - 'ee/app/policies/ee/base_policy.rb'

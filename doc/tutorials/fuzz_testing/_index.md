@@ -92,7 +92,6 @@ To create the two fuzz target files:
 
    You can also copy this code from the `fuzz-testing-demo/fuzzers/fuzz-sayhello.js`
    project file.
-
 1. Name the **Target Branch** `add-fuzz-test` and write a descriptive commit message.
    - Do not select the **Start a new merge request with these changes** checkbox yet.
 1. Select **Commit changes**.
@@ -113,7 +112,6 @@ To create the two fuzz target files:
 
    You can also copy this code from the `fuzz-testing-demo/fuzzers/fuzz-readme.js`
    project file.
-
 1. Write a descriptive commit message.
 1. Make sure the **Target Branch** is `add-fuzz-test`.
 1. Select **Commit changes**.
@@ -246,7 +244,6 @@ To create the `my-tools.js` file:
 
    You can also copy the code from the `fuzz-testing-demo/javascript/my-tools.js`
    project file.
-
 1. Select **Commit changes**. This triggers another pipeline to run another fuzz test.
 1. When the pipeline is finished, check the merge request **Overview** page. You
    should see that the security scan detected no new potential vulnerabilities.

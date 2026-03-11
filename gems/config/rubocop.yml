@@ -164,6 +164,10 @@ Rails/StrongParams:
 Gitlab/NoFindInWorkers:
   Enabled: false
 
+# This cop doesn't make sense in the context of gems
+Gitlab/Authz/EnableInBasePolicy:
+  Enabled: false
+
 Rake/TopLevelMethodDefinition:
   Enabled: true
   Include:

@@ -64,7 +64,6 @@ Next, you'll add a merge request approval policy to your test project:
 1. Select **Configure with a merge request**.
 
    The application creates a new project to store the policies linked to it, and creates a merge request to define the policy.
-
 1. Select **Merge**.
 1. On the top bar, select **Search or go to** and find the `sast-scan-result-policy` project.
 1. Select **Secure** > **Policies**.

@@ -55743,6 +55743,12 @@ msgstr ""
 msgid "Provisioned by:"
 msgstr ""
 
+msgid "Proxy Kroki diagrams through GitLab"
+msgstr ""
+
+msgid "Proxy PlantUML diagrams through GitLab"
+msgstr ""
+
 msgid "Public"
 msgstr ""
 

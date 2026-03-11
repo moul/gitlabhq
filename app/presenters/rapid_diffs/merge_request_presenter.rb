@@ -2,6 +2,8 @@
 
 module RapidDiffs
   class MergeRequestPresenter < BasePresenter
+    include ::Gitlab::Utils::StrongMemoize
+    delegator_override_with ::Gitlab::Utils::StrongMemoize
     extend ::Gitlab::Utils::Override
 
     presents ::MergeRequest, as: :resource
@@ -115,10 +117,19 @@ module RapidDiffs
 
     def diff_options_from_params
       {
-        diff_id: request_params[:diff_id],
+        diff_id: request_params[:diff_id] || resolved_diff_id,
         start_sha: request_params[:start_sha],
         commit_id: request_params[:commit_id]
       }
     end
+
+    def resolved_diff_id
+      return if request_params[:commit_id].present?
+
+      version_params = @diff_options.slice(:diff_id, :start_sha)
+      resolved_diff = ::Gitlab::MergeRequests::DiffVersion.new(resource, version_params).resolve
+      resolved_diff&.id unless resolved_diff.try(:merge_head?)
+    end
+    strong_memoize_attr :resolved_diff_id
   end
 end

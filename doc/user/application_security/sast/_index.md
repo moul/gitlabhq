@@ -1265,6 +1265,8 @@ When using the Semgrep-based analyzer, the following options are also available:
   ```
 
 - Ignore a line of code for specific rule - add `// nosemgrep: RULE_ID` comment at the end of the line (the prefix is according to the development language).
+- The `//nosemgrep` comment can alternatively be added to the line immediately preceding the detection. No other lines (including other comments) should be
+between the ignore comment and the detected code.
 - Ignore a file or directory - create a `.semgrepignore` file in your repository's root directory or your project's working directory and add patterns for files and folders there. GitLab Semgrep analyzer automatically merges your custom `.semgrepignore` file with [GitLab built-in ignore patterns](https://gitlab.com/gitlab-org/security-products/analyzers/semgrep/-/blob/abcea7419961320f9718a2f24fe438cc1a7f8e08/semgrepignore).
 
 > [!note]

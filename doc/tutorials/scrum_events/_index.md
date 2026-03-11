@@ -503,7 +503,6 @@ Provide all team members the appropriate time to contribute and collaborate.
    For example:
 
    ![Three discussion threads for sprint planning stories with checklist items.](img/story_threads_v16_10.png)
-
 1. After every story has a thread, edit the issue description and [mention each team member](../../user/discussions/_index.md#mentions).
    Mentioning team members automatically creates a to-do item for them in their respective [to-do lists](../../user/todos.md).
 1. Then, asynchronously, before the start of the upcoming sprint, team members should:

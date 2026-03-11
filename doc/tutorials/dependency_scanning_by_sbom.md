@@ -1,7 +1,7 @@
 ---
 stage: Application Security Testing
 group: Composition Analysis
-info: To determine the technical writer assigned to the Stage/Group associated with this page, see https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments
+info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
 description: Learn how to configure dependency scanning using SBOM, detect vulnerabilities in your project dependencies, and understand which vulnerabilities are reachable in your code.
 title: 'Tutorial: Set up dependency scanning by using SBOM'
 ---
@@ -45,7 +45,6 @@ The first task in this tutorial is to set up the example project, including the 
 application, and configure CI/CD.
 
 1. On GitLab.com, create a blank project using the default values.
-
 1. Clone the project to your local machine:
 
    ```plaintext
@@ -152,7 +151,6 @@ because it's reachable and has a clear remediation path.
    > environment, you would analyze all the
    > [risk assessment data available](../user/application_security/vulnerabilities/risk_assessment_data.md)
    > and apply your organization's risk management framework.
-
 1. Select the search filter and from the dropdown list select **Reachability**, then select
    **Yes**.
 
@@ -211,7 +209,6 @@ Now that we have a solution, we'll go ahead and upgrade the `fastify` dependency
    ```
 
    This updates the `package-lock.json` file with the new dependency version.
-
 1. Create a new branch and commit these changes:
 
    ```plaintext
@@ -222,21 +219,17 @@ Now that we have a solution, we'll go ahead and upgrade the `fastify` dependency
    ```
 
 1. On GitLab.com, go to **Code** > **Merge requests** and select **Create merge request**.
-
 1. On the **New merge request** page, scroll to the bottom and select **Create merge request**.
 
    After the merge request pipeline completes, wait for the security results widget to appear.
    Processing the security report typically takes a minute or two.
-
 1. In the security results widget, select **Show details** ({{< icon name="chevron-lg-down" >}}).
 
    The security results widget states that the changes in the merge request fix 7 vulnerabilities,
    including the vulnerability you triaged and analyzed.
-
 1. Select **Merge**.
 
    Wait for the merge request to be merged.
-
 1. Go to **Secure** > **Vulnerability report**.
 
    Vulnerability CVE-2026-25223 is no longer listed because the vulnerability report defaults to

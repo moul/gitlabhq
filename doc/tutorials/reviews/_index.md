@@ -123,7 +123,6 @@ more information, scan through the issue descriptions.
   In this example, even if the exact labels are unfamiliar to you, you can determine this merge request is about a database bug:
 
   ![The Labels section of a merge request, showing 10 labels in different colors, including "database" and "type: bug"](img/labels_v17_0.png)
-
 - Who are the reviewers? Scan the names in the reviewer list. Do they match
   the type of work you'd expect, based on the description and (optionally) the labels?
   Consider both who is present, and who is absent. What do those names tell you
@@ -165,7 +164,6 @@ When you first open the **Changes** page, focus on the broader details first:
   codebase are these files in?
 
   ![File browser showing 2 changed files with their locations and line change indicators](img/file_tree_v17_0.png)
-
 - Does the file list match your expectations? You've already read the description of
   the merge request. Are these the files you'd expect to see changed for this kind
   of work? Pay extra attention to changes to unexpected files, or if changes
@@ -315,7 +313,6 @@ First, write your comments you want to attach to specific lines or files:
    or select an entire file to comment on:
 
    ![Code diff interface showing a speech bubble button next to a line number with a tooltip for adding a comment to one or multiple lines](img/comment_on_any_diff_line_v16_6.png)
-
 1. In the text area, write your first comment. To keep your comments private until
    the end of your review, select **Start a review** below your comment.
 1. [Provide suggestions](../../user/project/merge_requests/reviews/suggestions.md)
@@ -355,7 +352,6 @@ your review. It's time to think broadly, one last time.
 1. On the top right, select **Your review** to show details about your review:
 
    ![The review drawer, showing a review in progress. It contains a single-line review comment, and a comment spanning two lines of code.](../../user/project/merge_requests/reviews/img/review_drawer_v18_3.png)
-
 1. Review your pending comments. Edit them as needed.
 1. Select the outcome of your review.
 

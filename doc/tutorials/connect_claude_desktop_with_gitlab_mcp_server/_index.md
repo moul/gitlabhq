@@ -101,7 +101,6 @@ you can create a test issue.
    ```
 
    Replace `<project_name>` with your project.
-
 1. Press <kbd>Enter</kbd> or select **Send**.
 1. After Claude finds your project, ask
    Claude to create an issue in the project.

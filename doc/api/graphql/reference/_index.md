@@ -48951,7 +48951,7 @@ Representation of a secret permission.
 
 ### `SecretRotationInfo`
 
-Rotation configuration and status for a project secret.
+Rotation configuration and status for a secret.
 
 #### Fields
 

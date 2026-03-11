@@ -37,7 +37,6 @@ Install the tools to configure and use GitLab Runner in the GKE.
 This step describes how to create a cluster and connect to it. After you connect to the cluster, you use kubectl to interact with it.
 
 1. In the Google Cloud Platform, create a [standard](https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-zonal-cluster) cluster.
-
 1. Install the kubectl authentication plugin:
 
    ```shell

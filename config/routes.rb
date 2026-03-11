@@ -138,6 +138,7 @@ InitializerConnections.warn_if_database_connection do
             filename: %r{[^/]+}
           },
           as: 'banzai_upload'
+        get '/diagram-proxy/:key' => 'banzai/diagram_proxy#proxy', as: :diagram_proxy
 
         get '/whats_new' => 'whats_new#index'
         post '/whats_new/mark_as_read' => 'whats_new#mark_as_read'

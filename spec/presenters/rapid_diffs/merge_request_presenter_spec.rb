@@ -10,6 +10,8 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
   let(:diff_options) { { ignore_whitespace_changes: true } }
   let(:diffs_count) { 20 }
   let(:base_path) { "/#{namespace.to_param}/#{project.to_param}/-/merge_requests/#{merge_request.to_param}" }
+  let(:merge_request_diff) { instance_double(MergeRequestDiff, id: 999, merge_head?: false) }
+  let(:resolved_diff_id) { merge_request_diff.id }
   let(:request_params) { {} }
   let(:current_user) { build_stubbed(:user) }
   let(:resource) { merge_request }
@@ -21,7 +23,11 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
 
   before do
     allow(merge_request).to receive_message_chain(:diffs_for_streaming, :diff_files, :count).and_return(diffs_count)
-    allow(merge_request).to receive(:diff_stats).and_return(nil)
+    allow(merge_request).to receive_messages(
+      diff_stats: nil,
+      merge_request_diff: merge_request_diff,
+      diffable_merge_ref?: false
+    )
   end
 
   describe '#diffs_resource' do
@@ -67,12 +73,24 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
 
       it { is_expected.to end_with('?commit_id=abc123') }
     end
+
+    context 'when resolved diff is a merge head' do
+      let(:merge_request_diff) { instance_double(MergeRequestDiff, id: 999, merge_head?: true) }
+
+      it { is_expected.not_to include('diff_id') }
+    end
+
+    context 'when resolved diff is nil' do
+      let(:merge_request_diff) { nil }
+
+      it { is_expected.not_to include('diff_id') }
+    end
   end
 
   describe '#diffs_stats_endpoint' do
     subject(:url) { presenter.diffs_stats_endpoint }
 
-    it { is_expected.to eq("#{base_path}/diffs_stats") }
+    it { is_expected.to eq("#{base_path}/diffs_stats?diff_id=#{resolved_diff_id}") }
 
     it_behaves_like 'endpoint method with diff version support'
   end
@@ -80,7 +98,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
   describe '#diff_files_endpoint' do
     subject(:url) { presenter.diff_files_endpoint }
 
-    it { is_expected.to eq("#{base_path}/diff_files_metadata") }
+    it { is_expected.to eq("#{base_path}/diff_files_metadata?diff_id=#{resolved_diff_id}") }
 
     it_behaves_like 'endpoint method with diff version support'
   end
@@ -88,7 +106,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
   describe '#diff_file_endpoint' do
     subject(:url) { presenter.diff_file_endpoint }
 
-    it { is_expected.to eq("#{base_path}/diff_file") }
+    it { is_expected.to eq("#{base_path}/diff_file?diff_id=#{resolved_diff_id}") }
 
     it_behaves_like 'endpoint method with diff version support'
   end
@@ -97,7 +115,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     describe '#diffs_stream_url' do
       subject(:url) { presenter.diffs_stream_url }
 
-      it { is_expected.to eq("#{base_path}/diffs_stream?offset=5&view=inline") }
+      it { is_expected.to eq("#{base_path}/diffs_stream?diff_id=#{resolved_diff_id}&offset=5&view=inline") }
 
       context 'when diffs count is the same as streaming offset' do
         let(:diffs_count) { 5 }
@@ -114,7 +132,11 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
           allow(merge_request).to receive(:diffs).and_return(diff_files)
         end
 
-        it { is_expected.to eq("#{base_path}/diffs_stream?skip_new_path=test.txt&skip_old_path=test.txt&view=inline") }
+        it 'includes diff_id and skip params' do
+          expected = "#{base_path}/diffs_stream?diff_id=#{resolved_diff_id}" \
+            "&skip_new_path=test.txt&skip_old_path=test.txt&view=inline"
+          is_expected.to eq(expected)
+        end
       end
 
       context 'when linked file is the only file' do
@@ -140,7 +162,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
         it 'uses stats count without calling diffs_for_streaming' do
           expect(merge_request).not_to receive(:diffs_for_streaming)
 
-          expect(url).to eq("#{base_path}/diffs_stream?offset=5&view=inline")
+          expect(url).to eq("#{base_path}/diffs_stream?diff_id=#{resolved_diff_id}&offset=5&view=inline")
         end
       end
 
@@ -154,7 +176,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
         it 'falls back to diffs_for_streaming' do
           expect(merge_request).to receive(:diffs_for_streaming)
 
-          expect(url).to eq("#{base_path}/diffs_stream?offset=5&view=inline")
+          expect(url).to eq("#{base_path}/diffs_stream?diff_id=#{resolved_diff_id}&offset=5&view=inline")
         end
       end
     end
@@ -162,7 +184,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     describe '#reload_stream_url' do
       subject(:url) { presenter.reload_stream_url }
 
-      it { is_expected.to eq("#{base_path}/diffs_stream") }
+      it { is_expected.to eq("#{base_path}/diffs_stream?diff_id=#{resolved_diff_id}") }
 
       it_behaves_like 'endpoint method with diff version support'
     end
@@ -266,7 +288,10 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     describe '#reload_stream_url' do
       subject(:url) { presenter.reload_stream_url(skip_old_path: 'old.txt', skip_new_path: 'new.txt') }
 
-      it { is_expected.to eq("#{base_path}/diffs_stream?skip_new_path=new.txt&skip_old_path=old.txt") }
+      it 'includes diff_id and skip params' do
+        expected = "#{base_path}/diffs_stream?diff_id=#{resolved_diff_id}&skip_new_path=new.txt&skip_old_path=old.txt"
+        is_expected.to eq(expected)
+      end
     end
   end
 

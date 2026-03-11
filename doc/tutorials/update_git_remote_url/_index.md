@@ -57,7 +57,6 @@ You must have:
 To update the Git remote URL, determine the existing and new URLs for your repository:
 
 1. Open a terminal or command prompt.
-
 1. Go to your local repository working copy. To change directory, use `cd`:
 
    ```shell
@@ -72,7 +71,6 @@ To update the Git remote URL, determine the existing and new URLs for your repos
    ```
 
 1. Copy and keep note of the returned URLs. They are usually identical.
-
 1. Get the new URL:
    1. Go to GitLab.
    1. In the top bar, select **Search or go to** and find your project.
@@ -87,7 +85,6 @@ To update the Git remote URL, determine the existing and new URLs for your repos
 To update the Git remote URL:
 
 1. Open a terminal or command prompt.
-
 1. Go to your local repository working copy. To change directory, use `cd`:
 
    ```shell
@@ -146,9 +143,7 @@ access to the original repository.
 To add a new remote URL:
 
 1. Open a terminal or command prompt.
-
 1. Go to your local repository working copy.
-
 1. Add a new remote URL. Replace `<new_remote_name>` with a name for the new remote,
    for example, `new-origin`, and `<new_url>` with the new repository URL:
 

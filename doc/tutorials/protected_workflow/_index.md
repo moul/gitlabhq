@@ -74,7 +74,6 @@ First, create the new subgroup:
 1. Select the group named `Engineering`:
 
    ![The engineering group in search results](img/search_engineering_v16_2.png)
-
 1. On the overview page for the `engineering` group, in the upper-right corner,
    select **Create subgroup**.
 1. For the **Subgroup name**, enter `Managers`.
@@ -295,7 +294,6 @@ The branch protections are now visible in the UI:
   branch `1.0.0` should be show that it is protected:
 
   ![List of branches, showing 1.0.0 is protected](img/branch_is_protected_v16_2.png)
-
 - In the left sidebar, select **Settings** > **Repository**, then expand **Branch rules**
   to see details about all protected branches:
 

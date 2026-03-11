@@ -215,6 +215,12 @@ class ApplicationSetting < ApplicationRecord
 
   validates :plantuml_url, presence: true, if: :plantuml_enabled
 
+  jsonb_accessor :diagram_proxy,
+    kroki_diagram_proxy_enabled: [:boolean, { default: false }],
+    plantuml_diagram_proxy_enabled: [:boolean, { default: false }]
+
+  validates :diagram_proxy, json_schema: { filename: 'application_setting_diagram_proxy' }
+
   validates :sourcegraph_url, presence: true, if: :sourcegraph_enabled
 
   validates :diagramsnet_url,

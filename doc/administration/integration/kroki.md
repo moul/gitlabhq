@@ -27,6 +27,9 @@ To do that, sign in with an administrator account and follow these steps:
 1. Select **Enable Kroki** checkbox.
 1. Enter the **Kroki URL**, for example, `https://kroki.io`.
 
+You can also [proxy Kroki diagrams through GitLab](diagram_proxy.md) to reduce
+the exposure of your users to the external Kroki service.
+
 ## Kroki server
 
 When you enable Kroki, GitLab sends diagrams to an instance of Kroki to display them as images.

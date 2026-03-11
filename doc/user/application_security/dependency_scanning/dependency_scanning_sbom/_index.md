@@ -55,7 +55,7 @@ If you are new to dependency scanning, follow these steps to turn it on for your
 - Prerequisites for all GitLab instances:
 
   - The Developer, Maintainer, or Owner role for the project.
-  - A [supported lock file or dependency graph](https://gitlab.com/gitlab-org/security-products/analyzers/dependency-scanning/#supported-files),
+  - A [supported lock file or dependency graph](https://gitlab.com/gitlab-org/security-products/analyzers/dependency-scanning/#supported-files). Alternatively, a [manifest file](#manifest-fallback) can be used as a fallback option for the supported languages.
     either in the repository or created in the CI/CD pipeline and passed as an artifact to the `dependency-scanning` job.
   - For self-managed runners, GitLab Runner with the
     [`docker`](https://docs.gitlab.com/runner/executors/docker/) or
@@ -707,14 +707,23 @@ variables:
 
 ### Manifest fallback
 
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/585886) in GitLab 18.9. Only Maven manifest files supported.
+- [Updated](https://gitlab.com/gitlab-org/gitlab/-/work_items/586921) in GitLab 18.9. Support for Python requirements file added.
+- [Updated](https://gitlab.com/gitlab-org/gitlab/-/work_items/588788) in GitLab 18.10. Support for Gradle manifest files added.
+
+{{< /history >}}
+
 When a supported lock file or dependency graph export is not available, the dependency scanning analyzer can extract dependencies from supported manifest files as a fallback.
 
 The following manifest files are supported:
 
-| Language | Package manager | Manifest file      |
-|----------|-----------------|--------------------|
-| Java     | Maven           | `pom.xml`          |
-| Python   | pip             | `requirements.txt` |
+| Language | Package manager | Manifest file                      |
+|----------|-----------------|------------------------------------|
+| Java     | Maven           | `pom.xml`                          |
+| Python   | pip             | `requirements.txt`                 |
+| Java     | Gradle          | `build.gradle`, `build.gradle.kts` |
 
 > [!warning]
 >
