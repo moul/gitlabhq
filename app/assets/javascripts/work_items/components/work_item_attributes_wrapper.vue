@@ -29,7 +29,6 @@ import {
 import { findHierarchyWidgetDefinition } from '../utils';
 import workItemParticipantsQuery from '../graphql/work_item_participants.query.graphql';
 import workItemAllowedParentTypesQuery from '../graphql/work_item_allowed_parent_types.query.graphql';
-
 import WorkItemAssignees from './work_item_assignees.vue';
 import WorkItemLabels from './work_item_labels.vue';
 import WorkItemMilestone from './work_item_milestone.vue';
@@ -135,6 +134,9 @@ export default {
     },
   },
   computed: {
+    useWorkItemFeatures() {
+      return Boolean(this.glFeatures?.workItemFeaturesField);
+    },
     workItemType() {
       return this.workItem.workItemType?.name;
     },
@@ -184,7 +186,9 @@ export default {
       return this.isWidgetPresent(WIDGET_TYPE_HIERARCHY);
     },
     workItemMilestone() {
-      return this.isWidgetPresent(WIDGET_TYPE_MILESTONE);
+      return this.useWorkItemFeatures
+        ? this.workItem?.features?.milestone || {}
+        : this.isWidgetPresent(WIDGET_TYPE_MILESTONE);
     },
     isParentEnabled() {
       return this.workItemType === WORK_ITEM_TYPE_NAME_EPIC ? this.hasSubepicsFeature : true;

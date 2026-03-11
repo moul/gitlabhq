@@ -25,6 +25,7 @@ describe('WorkItemDueDate component', () => {
 
   const findWorkItemSidebarWidget = () => wrapper.findComponent(WorkItemSidebarWidget);
   const findStartDatePicker = () => wrapper.findByTestId('start-date-picker');
+  const findDatePickersWrapper = () => wrapper.findByTestId('date-pickers-wrapper');
   const findDueDatePicker = () => wrapper.findByTestId('due-date-picker');
   const findApplyButton = () => wrapper.findByTestId('apply-button');
   const findEditButton = () => wrapper.findByTestId('edit-button');
@@ -164,7 +165,7 @@ describe('WorkItemDueDate component', () => {
       });
 
       it('widget is closed and dates are updated, when date picker is focused', async () => {
-        findStartDatePicker().trigger('keydown.esc');
+        findDatePickersWrapper().trigger('keydown.esc');
         await nextTick();
 
         expect(updateWorkItemMutationHandler).toHaveBeenCalled();

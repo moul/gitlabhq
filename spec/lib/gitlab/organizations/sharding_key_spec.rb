@@ -96,9 +96,7 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
       'sbom_vulnerability_scans.project_id',
       'sbom_vulnerability_scan_results.project_id',
       'p_duo_workflows_checkpoints.project_id',
-      'p_duo_workflows_checkpoints.namespace_id',
-      'merge_request_diff_commits_b5377a7a34.project_id'
-      # No need for FK, rows will be deleted by the LFK to merge_request_diffs
+      'p_duo_workflows_checkpoints.namespace_id'
     ]
   end
 

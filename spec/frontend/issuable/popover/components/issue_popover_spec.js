@@ -3,6 +3,7 @@ import { shallowMount } from '@vue/test-utils';
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
 import issueQueryResponse from 'test_fixtures/graphql/issuable/popover/queries/issue.query.graphql.json';
+import issueQueryWithFeaturesResponse from 'test_fixtures/graphql/issuable/popover/queries/issue.query.graphql_with_features.json';
 import issueQuery from 'ee_else_ce/issuable/popover/queries/issue.query.graphql';
 import createMockApollo from 'helpers/mock_apollo_helper';
 import waitForPromises from 'helpers/wait_for_promises';
@@ -26,7 +27,7 @@ describe('IssuePopover component', () => {
   const findGlPopover = () => wrapper.findComponent(GlPopover);
   const findWorkItemIcon = () => wrapper.findComponent(WorkItemTypeIcon);
 
-  const mountComponent = ({ queryResponse = queryResponseHandler } = {}) => {
+  const mountComponent = ({ queryResponse = queryResponseHandler, provide = {} } = {}) => {
     wrapper = shallowMount(IssuePopover, {
       apolloProvider: createMockApollo([[issueQuery, queryResponse]]),
       propsData: {
@@ -34,6 +35,10 @@ describe('IssuePopover component', () => {
         namespacePath: 'foo/bar',
         iid: '1',
         cachedTitle,
+      },
+      provide: {
+        glFeatures: {},
+        ...provide,
       },
     });
   };
@@ -51,7 +56,9 @@ describe('IssuePopover component', () => {
     });
 
     it('calls query', () => {
-      expect(queryResponseHandler).toHaveBeenCalledWith({ fullPath: 'foo/bar', iid: '1' });
+      expect(queryResponseHandler).toHaveBeenCalledWith(
+        expect.objectContaining({ fullPath: 'foo/bar', iid: '1' }),
+      );
     });
 
     it('shows skeleton-loader while apollo is loading', () => {
@@ -127,6 +134,36 @@ describe('IssuePopover component', () => {
           maxVisible: 2,
         }),
       );
+    });
+  });
+
+  describe('when workItemFeaturesField feature flag is enabled', () => {
+    const featuresQueryHandler = jest.fn().mockResolvedValue(issueQueryWithFeaturesResponse);
+
+    beforeEach(async () => {
+      mountComponent({
+        queryResponse: featuresQueryHandler,
+        provide: { glFeatures: { workItemFeaturesField: true } },
+      });
+      findGlPopover().vm.$emit('show');
+      await waitForPromises();
+    });
+
+    it('passes useWorkItemFeatures variable to query', () => {
+      expect(featuresQueryHandler).toHaveBeenCalledWith(
+        expect.objectContaining({ useWorkItemFeatures: true }),
+      );
+    });
+
+    it('uses features.milestone over widgets milestone', () => {
+      const featuresMilestone =
+        issueQueryWithFeaturesResponse.data.namespace.workItem.features.milestone.milestone;
+
+      expect(wrapper.findComponent(IssueMilestone).props('milestone')).toMatchObject({
+        title: featuresMilestone.title,
+        startDate: featuresMilestone.startDate,
+        dueDate: featuresMilestone.dueDate,
+      });
     });
   });
 

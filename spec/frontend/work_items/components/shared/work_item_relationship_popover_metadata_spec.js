@@ -13,10 +13,10 @@ describe('WorkItemPopoverMetadata', () => {
   const mockAssignees = workItemTask.widgets.find((widget) => widget.type === 'ASSIGNEES').assignees
     .nodes;
 
-  const createComponent = () => {
+  const createComponent = ({ workItem = workItemTask } = {}) => {
     wrapper = shallowMountExtended(WorkItemPopoverMetadata, {
       propsData: {
-        workItem: workItemTask,
+        workItem,
         workItemFullPath: 'gitlab-org/gitlab-test',
       },
       scopedSlots: {
@@ -43,6 +43,24 @@ describe('WorkItemPopoverMetadata', () => {
   it('renders work item milestone', () => {
     expect(findItemMilestone().exists()).toBe(true);
     expect(findItemMilestone().props('milestone')).toEqual(mockMilestone);
+  });
+
+  it('uses features.milestone over widgets milestone', () => {
+    const featuresMilestone = {
+      title: 'Features milestone',
+      startDate: '2021-01-01',
+      dueDate: '2021-01-31',
+    };
+    createComponent({
+      workItem: {
+        ...workItemTask,
+        features: {
+          milestone: { milestone: featuresMilestone },
+        },
+      },
+    });
+
+    expect(findItemMilestone().props('milestone')).toEqual(featuresMilestone);
   });
 
   it('renders avatars for assignees', () => {

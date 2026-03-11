@@ -246,6 +246,8 @@ export default {
     <template #editing-content="{ stopEditing }">
       <div
         class="gl-flex gl-flex-wrap gl-gap-x-5 gl-gap-y-3 gl-pt-2 @sm/panel:gl-flex-row @md/panel:gl-flex-col"
+        data-testid="date-pickers-wrapper"
+        @keydown.esc="stopEditing"
       >
         <gl-form-group
           class="work-item-date-input gl-m-0 gl-flex gl-items-center gl-gap-3"
@@ -264,7 +266,6 @@ export default {
             data-testid="start-date-picker"
             @clear="clearStartDatePicker"
             @close="handleStartDateInput"
-            @keydown.esc.native="stopEditing"
           />
         </gl-form-group>
         <gl-form-group
@@ -284,7 +285,6 @@ export default {
             :target="null"
             data-testid="due-date-picker"
             @clear="clearDueDatePicker"
-            @keydown.esc.native="stopEditing"
           />
         </gl-form-group>
       </div>

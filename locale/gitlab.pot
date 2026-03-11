@@ -7693,6 +7693,9 @@ msgstr ""
 msgid "AiPowered|Monitor, manage, and customize AI-powered features to ensure efficient utilization and alignment."
 msgstr ""
 
+msgid "AiPowered|Monthly commitments offer significant discounts off list price. Pool GitLab Credits across your namespace for flexibility and predictable monthly costs."
+msgstr ""
+
 msgid "AiPowered|Never allow GitLab to process your code and project data for AI-native features in this group. Your data is not sent to GitLab Duo."
 msgstr ""
 
@@ -7720,7 +7723,13 @@ msgstr ""
 msgid "AiPowered|Purchase Duo Pro seats"
 msgstr ""
 
+msgid "AiPowered|Purchase credits"
+msgstr ""
+
 msgid "AiPowered|Remove"
+msgstr ""
+
+msgid "AiPowered|Save on GitLab Credits with monthly commitments"
 msgstr ""
 
 msgid "AiPowered|Select a group to continue"
@@ -7786,7 +7795,10 @@ msgstr ""
 msgid "AiPowered|Upgrade to"
 msgstr ""
 
-msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation. Learn more about %{linkStart}GitLab Credit pricing%{linkEnd}."
+msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation."
+msgstr ""
+
+msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation. Learn more about %{linkStart}GitLab Credit pricing.%{linkEnd}"
 msgstr ""
 
 msgid "AiPowered|Use beta models and features in GitLab Duo Self-Hosted"
@@ -44654,9 +44666,6 @@ msgid "My topic"
 msgstr ""
 
 msgid "N/A"
-msgstr ""
-
-msgid "NEW"
 msgstr ""
 
 msgid "Name"

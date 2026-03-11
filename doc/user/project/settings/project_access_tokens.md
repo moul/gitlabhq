@@ -289,13 +289,10 @@ When the bot user is created, the following attributes are defined:
 
 ## Restrict the creation of project access tokens
 
-To limit potential abuse, you can restrict users from creating tokens for a group hierarchy. This setting is only configurable for a top-level group and applies to every downstream project and subgroup. Any existing project access tokens remain valid until their expiration date or until manually revoked.
+To limit potential abuse, you can restrict users from creating access tokens for projects in a
+top-level group. Any existing tokens remain valid until they expire or are manually revoked.
 
-1. On the top bar, select **Search or go to** and find your group.
-   This group must be at the top level.
-1. Select **Settings** > **General**.
-1. Expand **Permissions and group features**.
-1. In **Permissions**, clear the **Users can create project access tokens and group access tokens in this group** checkbox.
+For more information, see [restrict the creation of group and project access tokens](../../group/settings/group_access_tokens.md#restrict-the-creation-of-group-and-project-access-tokens).
 
 ## Inactive token retention
 

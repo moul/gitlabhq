@@ -172,7 +172,6 @@ export default {
           :ci-config-data="ciConfigData"
           :ci-file-content="ciFileContent"
           :commit-sha="commitSha"
-          :current-tab="currentTab"
           :show-help-drawer="showHelpDrawer"
           :show-job-assistant-drawer="showJobAssistantDrawer"
           v-on="$listeners"

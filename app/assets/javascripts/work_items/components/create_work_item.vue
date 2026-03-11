@@ -434,7 +434,9 @@ export default {
         : findWidget(WIDGET_TYPE_ASSIGNEES, this.workItem);
     },
     workItemMilestone() {
-      return findWidget(WIDGET_TYPE_MILESTONE, this.workItem);
+      return this.useWorkItemFeatures
+        ? this.workItem?.features?.milestone || {}
+        : findWidget(WIDGET_TYPE_MILESTONE, this.workItem);
     },
     workItemLabels() {
       return findWidget(WIDGET_TYPE_LABELS, this.workItem);
@@ -584,7 +586,9 @@ export default {
       return descriptionWidget?.description || this.description;
     },
     workItemStartAndDueDate() {
-      return findWidget(WIDGET_TYPE_START_AND_DUE_DATE, this.workItem);
+      return this.useWorkItemFeatures
+        ? this.workItem.features?.startAndDueDate
+        : findWidget(WIDGET_TYPE_START_AND_DUE_DATE, this.workItem);
     },
     workItemIterationId() {
       return this.workItemIteration?.iteration?.id;

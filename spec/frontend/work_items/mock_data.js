@@ -5740,6 +5740,42 @@ export const groupEpicsWithMilestonesQueryResponse = {
   },
 };
 
+// This needs to be different from mockMilestone to make sure
+// in test that the component emits the right data based on the FF.
+export const mockFeaturesMilestone = {
+  expired: false,
+  id: 'gid://gitlab/Milestone/45',
+  title: 'v5.0',
+  state: 'active',
+  startDate: '2025-01-01',
+  dueDate: '2025-06-30',
+  webPath: '/milestones/45',
+  projectMilestone: false,
+};
+
+export const groupEpicsWithMilestonesQueryResponseWithFeatures = {
+  ...groupEpicsWithMilestonesQueryResponse,
+  data: {
+    ...groupEpicsWithMilestonesQueryResponse.data,
+    namespace: {
+      ...groupEpicsWithMilestonesQueryResponse.data.namespace,
+      workItems: {
+        ...groupEpicsWithMilestonesQueryResponse.data.namespace.workItems,
+        nodes: groupEpicsWithMilestonesQueryResponse.data.namespace.workItems.nodes.map(
+          (workItem) => ({
+            ...workItem,
+            features: {
+              milestone: {
+                milestone: mockFeaturesMilestone,
+              },
+            },
+          }),
+        ),
+      },
+    },
+  },
+};
+
 export const workItemsQueryResponse = {
   data: {
     namespace: {

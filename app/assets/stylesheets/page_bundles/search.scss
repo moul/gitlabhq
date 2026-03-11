@@ -64,7 +64,8 @@ $black-divider: #666;
   background-color: var(--gl-background-color-strong);
 }
 
-.language-filter-checkbox {
+.language-filter-checkbox,
+.type-filter-checkbox {
   .custom-control-label {
     flex-grow: 1;
   }

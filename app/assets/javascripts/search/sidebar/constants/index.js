@@ -131,3 +131,4 @@ export const STATE_FILTERS = {
 
 export const WORK_ITEM_TYPE_FILTER_PARAM = 'type';
 export const WORK_ITEM_TYPE_FILTER_HEADER = __('Type');
+export const WORK_ITEM_TYPE_AGGREGATION_NAME = 'work_item_type_ids';

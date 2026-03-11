@@ -14,6 +14,8 @@
 <%     "MLOps" %>
 <%   when 'not_owned' %>
 <%     "Not categorized" %>
+<%   when 'service_desk' %>
+<%     "Service Desk" %>
 <%   else %>
 <%     "#{feature_category.humanize}" %>
 <%   end %>

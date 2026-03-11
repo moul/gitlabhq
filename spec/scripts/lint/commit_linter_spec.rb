@@ -106,6 +106,73 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
     end
   end
 
+  describe '.first_commit_on_branch?' do
+    subject(:result) { described_class.first_commit_on_branch? }
+
+    let(:merge_base_sha) { 'a' * 40 }
+
+    let(:merge_base_cmd) { "git merge-base #{described_class::DEFAULT_BRANCH_REF} HEAD" }
+
+    context 'when merge-base fails' do
+      before do
+        allow(described_class).to receive(:run_command)
+          .with(merge_base_cmd)
+          .and_return(['', false])
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'when merge-base returns invalid SHA' do
+      before do
+        allow(described_class).to receive(:run_command)
+          .with(merge_base_cmd)
+          .and_return(["not-a-sha\n", true])
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'when rev-list fails' do
+      before do
+        allow(described_class).to receive(:run_command)
+          .with(merge_base_cmd)
+          .and_return(["#{merge_base_sha}\n", true])
+        allow(described_class).to receive(:run_command)
+          .with("git rev-list #{merge_base_sha}..HEAD")
+          .and_return(['', false])
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'when no commits exist on branch' do
+      before do
+        allow(described_class).to receive(:run_command)
+          .with(merge_base_cmd)
+          .and_return(["#{merge_base_sha}\n", true])
+        allow(described_class).to receive(:run_command)
+          .with("git rev-list #{merge_base_sha}..HEAD")
+          .and_return(['', true])
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'when commits already exist on branch' do
+      before do
+        allow(described_class).to receive(:run_command)
+          .with(merge_base_cmd)
+          .and_return(["#{merge_base_sha}\n", true])
+        allow(described_class).to receive(:run_command)
+          .with("git rev-list #{merge_base_sha}..HEAD")
+          .and_return(["#{'b' * 40}\n", true])
+      end
+
+      it { is_expected.to be false }
+    end
+  end
+
   describe '.commits_from_file' do
     subject(:result) { described_class.commits_from_file(file_path) }
 
@@ -116,6 +183,7 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
       before do
         tmpfile.write("Add a valid commit message\n\n# This is a comment\nBody of the commit\n")
         tmpfile.close
+        allow(described_class).to receive(:first_commit_on_branch?).and_return(true)
       end
 
       after do
@@ -138,6 +206,25 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
 
       it 'sets sha to nil' do
         expect(result.first.sha).to be_nil
+      end
+    end
+
+    context 'when not the first commit on the branch' do
+      let(:tmpfile) { Tempfile.new('commit_msg') }
+      let(:file_path) { tmpfile.path }
+
+      before do
+        tmpfile.write("Add a valid commit message\n")
+        tmpfile.close
+        allow(described_class).to receive(:first_commit_on_branch?).and_return(false)
+      end
+
+      after do
+        tmpfile.unlink
+      end
+
+      it 'returns an empty array' do
+        expect(result).to eq([])
       end
     end
 
@@ -165,6 +252,7 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
 
     let(:merge_base_sha) { 'a' * 40 }
     let(:commit_sha) { 'b' * 40 }
+    let(:second_commit_sha) { 'c' * 40 }
 
     def stub_commands(commands)
       allow(described_class).to receive(:run_command) do |cmd|
@@ -211,7 +299,7 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
       end
     end
 
-    context 'when commits exist' do
+    context 'when a single commit exists' do
       before do
         stub_commands(
           'merge-base' => ["#{merge_base_sha}\n", true],
@@ -220,11 +308,41 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
         )
       end
 
-      it 'returns an array of CommitData' do
+      it 'returns an array with one CommitData' do
         expect(result).to be_an(Array)
         expect(result.length).to eq(1)
         expect(result.first.sha).to eq('abc1234')
         expect(result.first.message).to eq('Add a valid commit message')
+      end
+    end
+
+    context 'when multiple commits exist' do
+      before do
+        stub_commands(
+          'merge-base' => ["#{merge_base_sha}\n", true],
+          'rev-list' => ["#{second_commit_sha}\n#{commit_sha}\n", true],
+          'git log' => ["abc1234\nAdd the first commit message", true]
+        )
+      end
+
+      it 'returns only the first (oldest) commit on the branch' do
+        expect(result).to be_an(Array)
+        expect(result.length).to eq(1)
+        expect(result.first.sha).to eq('abc1234')
+        expect(result.first.message).to eq('Add the first commit message')
+      end
+    end
+
+    context 'when rev-list returns an invalid SHA' do
+      before do
+        stub_commands(
+          'merge-base' => ["#{merge_base_sha}\n", true],
+          'rev-list' => ["not-a-valid-sha\n", true]
+        )
+      end
+
+      it 'returns an empty array' do
+        expect(result).to eq([])
       end
     end
 
@@ -248,6 +366,10 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
     context 'in commit-msg mode' do
       let(:tmpfile) { Tempfile.new('commit_msg') }
       let(:argv) { [tmpfile.path] }
+
+      before do
+        allow(described_class).to receive(:first_commit_on_branch?).and_return(true)
+      end
 
       after do
         tmpfile.unlink
@@ -293,6 +415,18 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
           is_expected.to eq(0)
         end
       end
+
+      context 'when not the first commit on the branch' do
+        before do
+          allow(described_class).to receive(:first_commit_on_branch?).and_return(false)
+          tmpfile.write("bad\n")
+          tmpfile.close
+        end
+
+        it 'returns 0 and skips linting' do
+          is_expected.to eq(0)
+        end
+      end
     end
 
     context 'in pre-push mode' do
@@ -306,7 +440,7 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
         it { is_expected.to eq(0) }
       end
 
-      context 'when all commits are valid' do
+      context 'when the first commit is valid' do
         before do
           allow(described_class).to receive(:commits_from_git).and_return(
             [described_class::CommitData.new("Add a valid commit message", 'abc1234')]
@@ -316,41 +450,27 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
         it { is_expected.to eq(0) }
       end
 
-      context 'when some commits are invalid' do
+      context 'when the first commit is invalid' do
         before do
           allow(described_class).to receive(:commits_from_git).and_return(
-            [
-              described_class::CommitData.new("Add a valid commit message", 'abc1234'),
-              described_class::CommitData.new("bad", 'def5678')
-            ]
+            [described_class::CommitData.new("bad", 'abc1234')]
           )
         end
 
         it 'returns 1 and includes the commit SHA in output' do
           expect { expect(run).to eq(1) }
-            .to output(/Commit def5678:.*See #{Regexp.escape(described_class::COMMIT_MESSAGE_GUIDELINES)}/mo).to_stderr
+            .to output(/Commit abc1234:.*See #{Regexp.escape(described_class::COMMIT_MESSAGE_GUIDELINES)}/mo).to_stderr
         end
       end
 
-      context 'when commits include fixup and invalid' do
+      context 'when the first commit is a fixup commit' do
         before do
           allow(described_class).to receive(:commits_from_git).and_return(
-            [
-              described_class::CommitData.new("fixup! Add something", 'abc1234'),
-              described_class::CommitData.new("bad", 'def5678')
-            ]
+            [described_class::CommitData.new("fixup! Add something", 'abc1234')]
           )
         end
 
-        it 'only reports the invalid commit' do
-          expect { expect(run).to eq(1) }
-            .to output(/Commit def5678:/).to_stderr
-        end
-
-        it 'does not report the fixup commit' do
-          expect { run }.to output(/Commit message linting failed/).to_stderr
-          # fixup commit should be skipped
-        end
+        it { is_expected.to eq(0) }
       end
     end
 
@@ -359,6 +479,7 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
       let(:argv) { [tmpfile.path] }
 
       before do
+        allow(described_class).to receive(:first_commit_on_branch?).and_return(true)
         tmpfile.write("bad\n")
         tmpfile.close
       end

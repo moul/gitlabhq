@@ -7,6 +7,7 @@ module Lint
   module CommitLinter
     COMMIT_MESSAGE_GUIDELINES =
       "https://docs.gitlab.com/development/contributing/merge_request_workflow/#commit-messages-guidelines"
+    DEFAULT_BRANCH_REF = 'origin/master'
     SHA_PATTERN = /\A[0-9a-f]{40}\z/
     CommitData = Struct.new(:message, :sha)
 
@@ -28,11 +29,35 @@ module Lint
       linter if linter.failed?
     end
 
+    # Checks whether the current commit is the first on this branch.
+    #
+    # In the commit-msg hook context, HEAD has not yet been updated to include
+    # the commit being created. So `git rev-list merge-base..HEAD` returns only
+    # the commits *before* the current one:
+    # - Empty rev-list = no prior commits = this is the first commit (returns true)
+    # - Non-empty rev-list = prior commits exist = not the first (returns false)
+    #
+    # On error, returns true (fail-open) so we lint rather than silently skip.
+    # This may cause false positives in unusual git states (e.g. shallow clones),
+    # but it's safer than letting bad messages through.
+    def first_commit_on_branch?
+      base_sha_output, base_success = run_command("git merge-base #{DEFAULT_BRANCH_REF} HEAD")
+      base_sha = base_sha_output.strip
+      return true unless base_success && base_sha.match?(SHA_PATTERN)
+
+      shas_output, shas_success = run_command("git rev-list #{base_sha}..HEAD")
+      return true unless shas_success
+
+      shas_output.strip.empty?
+    end
+
     def commits_from_file(file_path)
       unless file_path && File.exist?(file_path)
         warn "ERROR: Commit message file not found."
         exit 1
       end
+
+      return [] unless first_commit_on_branch?
 
       message = File.read(file_path)
         .lines
@@ -43,7 +68,7 @@ module Lint
     end
 
     def commits_from_git
-      base_sha_output, base_success = run_command('git merge-base origin/master HEAD')
+      base_sha_output, base_success = run_command("git merge-base #{DEFAULT_BRANCH_REF} HEAD")
       base_sha = base_sha_output.strip
       unless base_success && base_sha.match?(SHA_PATTERN)
         warn "ERROR: Failed to determine merge base"
@@ -56,12 +81,12 @@ module Lint
         exit 1
       end
 
-      shas = shas_output.split("\n")
-      shas.map do |sha|
-        output, = run_command("git log -1 --format='%h%n%B' #{sha}")
-        short_sha, message = output.strip.split("\n", 2)
-        CommitData.new(message.to_s.strip, short_sha)
-      end
+      first_sha = shas_output.split("\n").last
+      return [] unless first_sha&.match?(SHA_PATTERN)
+
+      output, = run_command("git log -1 --format='%h%n%B' #{first_sha}")
+      short_sha, message = output.strip.split("\n", 2)
+      [CommitData.new(message.to_s.strip, short_sha)]
     end
 
     def run(argv)

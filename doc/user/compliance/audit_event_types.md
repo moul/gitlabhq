@@ -637,6 +637,14 @@ Audit event types belong to the following product categories.
 | [`self_hosted_model_terms_accepted`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/165480) | Terms for usage of self-hosted models were accepted | {{< yes >}} | GitLab [17.4](https://gitlab.com/gitlab-org/gitlab/-/issues/477999) | Instance |
 | [`self_hosted_model_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/165520) | A self-hosted model configuration was updated | {{< yes >}} | GitLab [17.4](https://gitlab.com/gitlab-org/gitlab/-/issues/483295) | Instance |
 
+### Service Desk
+
+| Type name | Event triggered when | Saved to database | Introduced in | Scope |
+|:----------|:---------------------|:------------------|:--------------|:------|
+| [`ticket_closed_by_project_bot`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226641) | A Service Desk ticket is closed using a project access token | {{< yes >}} | GitLab [18.10](https://gitlab.com/gitlab-org/gitlab/-/issues/592448) | Project |
+| [`ticket_created_by_project_bot`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226641) | A Service Desk ticket is created using a project access token | {{< yes >}} | GitLab [18.10](https://gitlab.com/gitlab-org/gitlab/-/issues/592448) | Project |
+| [`ticket_reopened_by_project_bot`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/226641) | A Service Desk ticket is reopened using a project access token | {{< yes >}} | GitLab [18.10](https://gitlab.com/gitlab-org/gitlab/-/issues/592448) | Project |
+
 ### Source code management
 
 | Type name | Event triggered when | Saved to database | Introduced in | Scope |

@@ -3,8 +3,6 @@
 module SearchHelper
   include Gitlab::Utils::StrongMemoize
 
-  OKR_TYPES = %w[objective key_result].freeze
-
   # params which should persist when a new tab is selected
   SEARCH_GENERIC_PARAMS = [
     :search,
@@ -330,9 +328,7 @@ module SearchHelper
   def filter_work_item_types(types, container)
     types.reject do |type|
       # Epic requires the licensed feature; for projects, also requires project_work_item_epics feature flag
-      (type[:name] == 'epic' && !epics_enabled_for?(container)) ||
-        # OKR types require feature flag (overridden in EE)
-        (OKR_TYPES.include?(type[:name]) && !okrs_mvc_enabled?)
+      type[:name] == 'epic' && !epics_enabled_for?(container)
     end
   end
 
@@ -342,11 +338,6 @@ module SearchHelper
     else
       container.licensed_feature_available?(:epics)
     end
-  end
-
-  # Overridden in EE to check feature flag
-  def okrs_mvc_enabled?
-    false
   end
 
   def combined_generic_results

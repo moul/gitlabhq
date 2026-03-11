@@ -50,6 +50,7 @@ import {
   createWorkItemMutationResponse,
   createWorkItemMutationErrorResponse,
   createWorkItemQueryResponse,
+  createWorkItemQueryResponseWithFeatures,
   namespaceWorkItemTypesQueryResponse,
 } from 'ee_else_ce_jest/work_items/mock_data';
 
@@ -921,6 +922,23 @@ describe('Create work item component', () => {
       });
 
       it('renders the work item milestone widget', () => {
+        expect(findMilestoneWidget().exists()).toBe(true);
+      });
+    });
+
+    describe('when workItemFeaturesField feature flag is enabled', () => {
+      beforeEach(async () => {
+        gon.features = { workItemFeaturesField: true };
+        jest.fn().mockResolvedValue(createWorkItemQueryResponseWithFeatures());
+        createComponent({
+          props: { preselectedWorkItemType: WORK_ITEM_TYPE_NAME_ISSUE },
+          mutationHandler: createWorkItemSuccessHandler,
+        });
+
+        await resolveAll();
+      });
+
+      it('renders the work item milestone widget from features', () => {
         expect(findMilestoneWidget().exists()).toBe(true);
       });
     });

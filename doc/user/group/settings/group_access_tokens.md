@@ -313,17 +313,18 @@ When the bot user is created, the following attributes are defined:
 | Username  | Generated in this format: `group_{group_id}_bot_{random_string}`                                     | `group_123_bot_4ffca233d8298ea1` |
 | Email     | Generated in this format: `group_{group_id}_bot_{random_string}@noreply.{Gitlab.config.gitlab.host}` | `group_123_bot_4ffca233d8298ea1@noreply.example.com` |
 
-## Restrict the creation of group access tokens
+## Restrict the creation of group and project access tokens
 
-To limit potential abuse, you can restrict users from creating tokens for a group hierarchy. This setting is only configurable for a top-level group and applies to every downstream subgroup and project. Any existing group access tokens remain valid until their expiration date or until manually revoked.
+To limit potential abuse, you can restrict users from creating access tokens in a top-level group
+and any descendant subgroups or projects. Any existing tokens remain valid until they expire or
+are manually revoked.
 
-To restrict the creation of group access tokens:
+To restrict the creation of access tokens:
 
-1. On the top bar, select **Search or go to** and find your group.
-   This group must be at the top level.
+1. In the top bar, select **Search or go to** and find your top-level group.
 1. Select **Settings** > **General**.
 1. Expand **Permissions and group features**.
-1. Under **Permissions**, clear the **Users can create project access tokens and group access tokens in this group** checkbox.
+1. Clear the **Users can create group access tokens and project access tokens in this group** checkbox.
 1. Select **Save changes**.
 
 ## Related topics

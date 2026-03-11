@@ -82,7 +82,9 @@ const updateDatesWidget = (draftData, dates) => {
   const dueDate = dates.dueDate ? toISODateFormat(newDate(dates.dueDate)) : null;
   const startDate = dates.startDate ? toISODateFormat(newDate(dates.startDate)) : null;
 
-  const widget = findStartAndDueDateWidget(draftData.namespace.workItem);
+  const widget =
+    draftData.namespace.workItem?.features?.startAndDueDate ||
+    findStartAndDueDateWidget(draftData.namespace.workItem);
   Object.assign(widget, {
     dueDate,
     startDate,

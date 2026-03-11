@@ -6,7 +6,7 @@
 = gitlab_ui_form_for @abuse_report, html: { class: 'js-quick-submit'} do |f|
   .row
     .gl-col-lg-8
-      = form_errors(@abuse_report)
+      = form_errors(@abuse_report, custom_message: [:user_id])
 
   = f.hidden_field :user_id
 

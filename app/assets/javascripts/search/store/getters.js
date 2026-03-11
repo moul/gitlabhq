@@ -12,6 +12,7 @@ import {
   LABEL_FILTER_PARAM,
   LABEL_AGREGATION_NAME,
   LANGUAGE_FILTER_PARAM,
+  WORK_ITEM_TYPE_AGGREGATION_NAME,
 } from '~/search/sidebar/constants';
 
 import { GROUPS_LOCAL_STORAGE_KEY, PROJECTS_LOCAL_STORAGE_KEY, ICON_MAP } from './constants';
@@ -129,3 +130,11 @@ export const navigationItems = (state) =>
 export const hasMissingProjectContext = (state) => !state?.projectInitialJson?.id;
 
 export const workItemTypes = (state) => state.workItemTypes || [];
+
+export const workItemTypeAggregationBuckets = (state) => {
+  return (
+    state?.aggregations?.data?.find(
+      (aggregation) => aggregation.name === WORK_ITEM_TYPE_AGGREGATION_NAME,
+    )?.buckets || []
+  );
+};

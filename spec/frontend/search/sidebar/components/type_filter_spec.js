@@ -22,16 +22,24 @@ describe('TypeFilter', () => {
     { name: 'objective', label: 'Objective' },
   ];
 
+  const mockAggregationBuckets = [
+    { key: '1', count: 5, name: 'Task', icon_name: 'issue-type-task', base_type: 'task' },
+    { key: '2', count: 12, name: 'Issue', icon_name: 'issue-type-issue', base_type: 'issue' },
+    { key: '3', count: 3, name: 'Epic', icon_name: 'issue-type-epic', base_type: 'epic' },
+  ];
+
   const actionSpies = {
     setQuery: jest.fn(),
+    fetchAllAggregation: jest.fn(),
   };
 
-  const getterSpies = {
+  const defaultGetters = {
     queryWorkItemTypeFilters: jest.fn(() => []),
     workItemTypes: jest.fn(() => mockWorkItemTypes),
+    workItemTypeAggregationBuckets: jest.fn(() => mockAggregationBuckets),
   };
 
-  const createComponent = (getters = getterSpies) => {
+  const createComponent = (getters = defaultGetters) => {
     const store = new Vuex.Store({
       getters,
       actions: actionSpies,
@@ -47,6 +55,7 @@ describe('TypeFilter', () => {
   const findCheckboxByValue = (value) =>
     findAllCheckboxes().wrappers.find((checkbox) => checkbox.props('value') === value);
   const findHeader = () => wrapper.find('[class*="gl-mb-2"]');
+  const findAllCounts = () => wrapper.findAllByTestId('labelCount');
 
   describe('Renders correctly', () => {
     beforeEach(() => {
@@ -64,22 +73,67 @@ describe('TypeFilter', () => {
     it('renders form checkbox group', () => {
       expect(findFormCheckboxGroup().exists()).toBe(true);
     });
+  });
 
-    it('renders all work item type checkboxes', () => {
+  describe('Faceted type filtering', () => {
+    it('fetches aggregations on created', () => {
+      createComponent();
+      expect(actionSpies.fetchAllAggregation).toHaveBeenCalled();
+    });
+
+    it('only shows types that have aggregation data', () => {
+      createComponent();
+      expect(findAllCheckboxes()).toHaveLength(3);
+      expect(findCheckboxByValue('issue').exists()).toBe(true);
+      expect(findCheckboxByValue('task').exists()).toBe(true);
+      expect(findCheckboxByValue('epic').exists()).toBe(true);
+    });
+
+    it('does not render types without aggregation data', () => {
+      createComponent();
+      expect(findCheckboxByValue('objective')).toBeUndefined();
+    });
+
+    it('falls back to showing all types when aggregation data is empty', () => {
+      createComponent({
+        ...defaultGetters,
+        workItemTypeAggregationBuckets: jest.fn(() => []),
+      });
       expect(findAllCheckboxes()).toHaveLength(mockWorkItemTypes.length);
     });
 
-    it('renders checkboxes with correct values', () => {
-      mockWorkItemTypes.forEach((type) => {
-        const checkbox = findCheckboxByValue(type.name);
-        expect(checkbox.exists()).toBe(true);
-      });
+    it('sorts types by count descending', () => {
+      createComponent();
+      const checkboxValues = findAllCheckboxes().wrappers.map((w) => w.props('value'));
+      // issue has count 12, task has count 5, epic has count 3
+      expect(checkboxValues).toEqual(['issue', 'task', 'epic']);
+    });
+  });
+
+  describe('Counts', () => {
+    beforeEach(() => {
+      createComponent();
     });
 
-    it('renders checkboxes with correct labels', () => {
-      findAllCheckboxes().wrappers.forEach((checkbox, index) => {
-        expect(checkbox.text()).toContain(mockWorkItemTypes[index].label);
+    it('displays count for each type with aggregation data', () => {
+      const counts = findAllCounts();
+      expect(counts).toHaveLength(3);
+    });
+
+    it('formats the count values', () => {
+      const counts = findAllCounts();
+      // Sorted by count desc: issue(12), task(5), epic(3)
+      expect(counts.at(0).text()).toBe('12');
+      expect(counts.at(1).text()).toBe('5');
+      expect(counts.at(2).text()).toBe('3');
+    });
+
+    it('does not show counts when aggregation data is empty', () => {
+      createComponent({
+        ...defaultGetters,
+        workItemTypeAggregationBuckets: jest.fn(() => []),
       });
+      expect(findAllCounts()).toHaveLength(0);
     });
   });
 
@@ -90,30 +144,6 @@ describe('TypeFilter', () => {
 
     it('updates selection when checkbox is checked', async () => {
       const newSelection = ['issue', 'task'];
-      findFormCheckboxGroup().vm.$emit('input', newSelection);
-
-      await nextTick();
-
-      expect(actionSpies.setQuery).toHaveBeenCalledWith(expect.any(Object), {
-        key: WORK_ITEM_TYPE_FILTER_PARAM,
-        value: newSelection,
-      });
-    });
-
-    it('calls setQuery action when selection changes', async () => {
-      const newSelection = ['issue'];
-      findFormCheckboxGroup().vm.$emit('input', newSelection);
-
-      await nextTick();
-
-      expect(actionSpies.setQuery).toHaveBeenCalledWith(expect.any(Object), {
-        key: WORK_ITEM_TYPE_FILTER_PARAM,
-        value: newSelection,
-      });
-    });
-
-    it('calls setQuery with multiple selections', async () => {
-      const newSelection = ['issue', 'task', 'epic'];
       findFormCheckboxGroup().vm.$emit('input', newSelection);
 
       await nextTick();
@@ -138,12 +168,10 @@ describe('TypeFilter', () => {
 
   describe('Edge cases', () => {
     it('handles empty workItemTypes array', () => {
-      const customGetters = {
-        queryWorkItemTypeFilters: jest.fn(() => []),
+      createComponent({
+        ...defaultGetters,
         workItemTypes: jest.fn(() => []),
-      };
-
-      createComponent(customGetters);
+      });
 
       expect(findAllCheckboxes()).toHaveLength(0);
     });
@@ -153,36 +181,14 @@ describe('TypeFilter', () => {
         { name: 'work-item-type', label: 'Work Item Type' },
         { name: 'type_with_underscore', label: 'Type With Underscore' },
       ];
-      const customGetters = {
-        queryWorkItemTypeFilters: jest.fn(() => []),
+
+      createComponent({
+        ...defaultGetters,
         workItemTypes: jest.fn(() => specialTypes),
-      };
-
-      createComponent(customGetters);
-
-      expect(findAllCheckboxes()).toHaveLength(specialTypes.length);
-    });
-
-    it('renders checkboxes when workItemTypes are updated', async () => {
-      createComponent();
-      expect(findAllCheckboxes()).toHaveLength(mockWorkItemTypes.length);
-
-      const updatedTypes = [...mockWorkItemTypes, { name: 'requirement', label: 'Requirement' }];
-      const customGetters = {
-        queryWorkItemTypeFilters: jest.fn(() => []),
-        workItemTypes: jest.fn(() => updatedTypes),
-      };
-
-      wrapper = shallowMountExtended(TypeFilter, {
-        store: new Vuex.Store({
-          getters: customGetters,
-          actions: actionSpies,
-        }),
+        workItemTypeAggregationBuckets: jest.fn(() => []),
       });
 
-      await nextTick();
-
-      expect(findAllCheckboxes()).toHaveLength(updatedTypes.length);
+      expect(findAllCheckboxes()).toHaveLength(specialTypes.length);
     });
   });
 
@@ -207,7 +213,7 @@ describe('TypeFilter', () => {
 
     it('renders checkboxes with proper test IDs', () => {
       const labels = wrapper.findAllByTestId('label');
-      expect(labels).toHaveLength(mockWorkItemTypes.length);
+      expect(labels).toHaveLength(3);
     });
 
     it('renders header with semantic structure', () => {

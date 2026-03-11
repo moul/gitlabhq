@@ -1,4 +1,4 @@
-import { GlAlert, GlBadge, GlLoadingIcon, GlTabs } from '@gitlab/ui';
+import { GlAlert, GlLoadingIcon, GlTabs } from '@gitlab/ui';
 import { mount, shallowMount } from '@vue/test-utils';
 import VueApollo from 'vue-apollo';
 import Vue, { nextTick } from 'vue';
@@ -15,8 +15,6 @@ import {
   EDITOR_APP_STATUS_INVALID,
   EDITOR_APP_STATUS_VALID,
   TAB_QUERY_PARAM,
-  VALIDATE_TAB,
-  VALIDATE_TAB_BADGE_DISMISSED_KEY,
 } from '~/ci/pipeline_editor/constants';
 import PipelineGraph from '~/ci/pipeline_editor/components/graph/pipeline_graph.vue';
 import getBlobContent from '~/ci/pipeline_editor/graphql/queries/blob_content.query.graphql';
@@ -126,7 +124,6 @@ describe('Pipeline editor tabs component', () => {
   const findVisualizationTab = () => wrapper.find('[data-testid="visualization-tab"]');
 
   const findAlert = () => wrapper.findComponent(GlAlert);
-  const findBadge = () => wrapper.findComponent(GlBadge);
   const findCiValidate = () => wrapper.findComponent(CiValidate);
   const findGlTabs = () => wrapper.findComponent(GlTabs);
   const findLoadingIcon = () => wrapper.findComponent(GlLoadingIcon);
@@ -189,45 +186,6 @@ describe('Pipeline editor tabs component', () => {
       it('displays the tab and the validate component', () => {
         expect(findValidateTab().exists()).toBe(true);
         expect(findCiValidate().exists()).toBe(true);
-      });
-    });
-
-    describe('NEW badge', () => {
-      describe('default', () => {
-        beforeEach(() => {
-          mockBlobContentData.mockResolvedValue(mockBlobContentQueryResponse);
-          createComponentWithApollo({
-            mountFn: mount,
-            props: {
-              currentTab: VALIDATE_TAB,
-            },
-          });
-        });
-
-        it('renders badge by default', () => {
-          expect(findBadge().exists()).toBe(true);
-          expect(findBadge().text()).toBe(wrapper.vm.$options.i18n.new);
-        });
-
-        it('hides badge when moving away from the validate tab', async () => {
-          expect(findBadge().exists()).toBe(true);
-
-          await findEditorTab().vm.$emit('click');
-
-          expect(findBadge().exists()).toBe(false);
-        });
-      });
-
-      describe('if badge has been dismissed before', () => {
-        beforeEach(() => {
-          localStorage.setItem(VALIDATE_TAB_BADGE_DISMISSED_KEY, 'true');
-          mockBlobContentData.mockResolvedValue(mockBlobContentQueryResponse);
-          createComponentWithApollo({ mountFn: mount });
-        });
-
-        it('does not render badge if it has been dismissed before', () => {
-          expect(findBadge().exists()).toBe(false);
-        });
       });
     });
   });
