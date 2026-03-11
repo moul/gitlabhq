@@ -189,30 +189,30 @@ module Tasks
           {
             definition: "The following permissions are missing a definition file." \
               "\nRun bin/permission <NAME> to generate definition files." \
-              "\n#{implementation_guide_link(anchor: 'step-3-create-permission-definition-files')}",
+              "\n#{permission_definitions_link(anchor: 'permission-definition-file')}",
             excluded: "The following permissions have a definition file." \
               "\nRemove them from config/authz/permissions/definitions_todo.txt.",
             schema: "The following permissions failed schema validation." \
-              "\n#{implementation_guide_link(anchor: 'complete-the-yaml-definition')}",
+              "\n#{permission_definitions_link(anchor: 'permission-definition-fields')}",
             action: "The following permissions contain a disallowed action." \
               "\n#{conventions_link(anchor: 'disallowed-actions')}",
             name: "The following permissions have invalid names." \
               "\nPermission name must be in the format action_resource[_subresource]." \
               "\n#{conventions_link(anchor: 'naming-permissions')}",
             file: "The following permission definitions do not exist at the expected path." \
-              "\n#{implementation_guide_link(anchor: 'permission-naming-and-validation')}",
+              "\n#{permission_definitions_link(anchor: 'permission-naming-and-validation')}",
             unknown_permission: "The following permissions have a definition file but are not found in " \
               "declarative policy.\nRemove the definition files for the unknown permissions." \
-              "\n#{conventions_link(anchor: 'permission-definition-file')}",
+              "\n#{permission_definitions_link(anchor: 'permission-definition-file')}",
             missing_resource_metadata:
               "The following permission resource directories are missing a _metadata.yml file." \
-              "\n#{implementation_guide_link(anchor: 'create-resource-metadata-for-raw-permissions')}",
+              "\n#{permission_definitions_link(anchor: 'resource-metadata-fields')}",
             resource_metadata_schema: "The following resource metadata files failed schema validation." \
-              "\n#{implementation_guide_link(anchor: 'create-resource-metadata-for-raw-permissions')}",
+              "\n#{permission_definitions_link(anchor: 'resource-metadata-fields')}",
             empty_resource_directory:
               "The following resource directories contain only a _metadata.yml file with no permission definitions." \
               "\nEither add permission definitions or remove the directory." \
-              "\n#{implementation_guide_link(anchor: 'permission-naming-and-validation')}"
+              "\n#{permission_definitions_link(anchor: 'permission-naming-and-validation')}"
           }
         end
 

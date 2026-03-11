@@ -45,6 +45,8 @@ in the Agent Platform.
 | Claude Opus 4.6 | {{< yes >}} | {{< yes >}} |
 | GPT-5 | {{< yes >}} | {{< yes >}} |
 | GPT-5 Codex | {{< yes >}} | {{< yes >}} |
+| GPT-5.2 Codex | {{< yes >}} | {{< yes >}} |
+| GPT-5.3 Codex | {{< yes >}} | {{< yes >}} |
 | GPT-5 Mini | {{< yes >}} | {{< yes >}} |
 | GPT-5.2 | {{< yes >}} | {{< yes >}} |
 

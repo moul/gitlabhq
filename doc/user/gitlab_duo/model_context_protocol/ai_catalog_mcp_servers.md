@@ -44,7 +44,7 @@ At the group level, MCP servers associated with namespace agents are also availa
 
 ## Prerequisites
 
-- Meet the [prerequisites](../../duo_agent_platform/_index.md#prerequisites).
+- Meet the [prerequisites for the GitLab Duo Agent Platform](../../duo_agent_platform/_index.md#prerequisites).
 - Be a member of a top-level group that has
   [turned on GitLab Duo experiment and beta features](../turn_on_off.md#on-gitlabcom-2).
 - To add or edit MCP servers, you must have the Owner role for the group.
@@ -142,7 +142,4 @@ You do not need to provide OAuth credentials manually.
 
 ## Related topics
 
-- [Model Context Protocol](../_index.md)
-- [GitLab MCP clients](mcp_clients.md)
 - [GitLab MCP server](mcp_server.md)
-- [Get started with the Model Context Protocol](https://modelcontextprotocol.io/introduction)

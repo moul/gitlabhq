@@ -15,6 +15,7 @@ import {
   ACCESS_LEVEL_ADMIN_INTEGER,
   ACCESS_LEVEL_NO_ACCESS_INTEGER,
 } from '~/access_level/constants';
+import ItemsSelector from './items_selector.vue';
 import { projectUsersOptions, accessLevelsConfig } from './constants';
 
 export default {
@@ -37,8 +38,7 @@ export default {
     GlButton,
     GlFormGroup,
     GlFormCheckbox,
-    ItemsSelector: () =>
-      import('ee_component/projects/settings/branch_rules/components/items_selector.vue'),
+    ItemsSelector,
   },
   inject: {
     showEnterpriseAccessLevels: { default: false },

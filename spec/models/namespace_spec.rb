@@ -17,6 +17,12 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
   let(:gitlab_shell) { Gitlab::Shell.new }
   let(:repository_storage) { 'default' }
 
+  it_behaves_like 'cells claimable model',
+    subject_type: Cells::Claimable::CLAIMS_SUBJECT_TYPE::ORGANIZATION,
+    subject_key: :organization_id,
+    source_type: Cells::Claimable::CLAIMS_SOURCE_TYPE::RAILS_TABLE_NAMESPACES,
+    claiming_attributes: [:id]
+
   describe 'associations' do
     it { is_expected.to belong_to :organization }
     it { is_expected.to have_many :projects }

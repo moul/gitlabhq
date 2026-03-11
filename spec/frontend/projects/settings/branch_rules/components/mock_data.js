@@ -38,7 +38,7 @@ export const usersMock = [
   },
 ];
 
-const groupsMock = [{ name: 'test_group_1' }, { name: 'test_group_2' }];
+export const groupsMock = [{ name: 'test_group_1' }, { name: 'test_group_2' }];
 
 export const deployKeysMock = [
   {

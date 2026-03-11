@@ -971,7 +971,6 @@ export default {
     'ee/app/assets/javascripts/product_analytics/onboarding/components/providers/provider_settings_form.vue',
     'ee/app/assets/javascripts/product_analytics/onboarding/components/providers/self_managed_provider_card.vue',
     'ee/app/assets/javascripts/product_analytics/onboarding/onboarding_setup.vue',
-    'ee/app/assets/javascripts/projects/settings/branch_rules/components/items_selector.vue',
     'ee/app/assets/javascripts/projects/settings/branch_rules/components/status_checks/status_checks_delete_modal.vue',
     'ee/app/assets/javascripts/projects/settings/branch_rules/components/status_checks/status_checks_drawer.vue',
     'ee/app/assets/javascripts/projects/settings/branch_rules/components/status_checks/status_checks_form.vue',

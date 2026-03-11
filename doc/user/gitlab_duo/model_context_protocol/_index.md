@@ -32,3 +32,7 @@ GitLab supports MCP in two ways:
 - [MCP server](mcp_server.md): Connect external AI tools to your GitLab instance.
   Connected tools have secure access to your projects, issues, merge requests,
   and other GitLab data.
+
+## Related topics
+
+- [Get started with the MCP](https://modelcontextprotocol.io/introduction)

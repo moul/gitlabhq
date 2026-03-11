@@ -197,7 +197,6 @@ For subsidized models with basic integration:
 |-------|------------------------|
 | `claude-3-haiku` | 8.0 |
 | `codestral-2501` | 8.0 |
-| `gemini-2.0-flash-lite` | 8.0 |
 | `gemini-2.5-flash` | 8.0 |
 | `gpt-5-mini` | 8.0 |
 

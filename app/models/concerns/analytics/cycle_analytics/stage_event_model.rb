@@ -112,7 +112,7 @@ module Analytics
           DO UPDATE SET
             #{column_updates.join(",\n")}
           WHERE
-            #{mutable_column_conditions.join(" AND\n")}
+            #{mutable_column_conditions.join(" OR\n")}
           SQL
 
           result = connection.execute(query)

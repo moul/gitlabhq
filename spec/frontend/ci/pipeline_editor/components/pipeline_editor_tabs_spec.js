@@ -6,7 +6,6 @@ import createMockApollo from 'helpers/mock_apollo_helper';
 import setWindowLocation from 'helpers/set_window_location_helper';
 import CiConfigMergedPreview from '~/ci/pipeline_editor/components/editor/ci_config_merged_preview.vue';
 import CiValidate from '~/ci/pipeline_editor/components/validate/ci_validate.vue';
-import WalkthroughPopover from '~/ci/pipeline_editor/components/popovers/walkthrough_popover.vue';
 import PipelineEditorTabs from '~/ci/pipeline_editor/components/pipeline_editor_tabs.vue';
 import EditorTab from '~/ci/pipeline_editor/components/ui/editor_tab.vue';
 import {
@@ -134,7 +133,6 @@ describe('Pipeline editor tabs component', () => {
   const findPipelineGraph = () => wrapper.findComponent(PipelineGraph);
   const findTextEditor = () => wrapper.findComponent(MockTextEditor);
   const findMergedPreview = () => wrapper.findComponent(CiConfigMergedPreview);
-  const findWalkthroughPopover = () => wrapper.findComponent(WalkthroughPopover);
 
   beforeEach(() => {
     mockBlobContentData = jest.fn();
@@ -328,39 +326,5 @@ describe('Pipeline editor tabs component', () => {
     it('passes the `sync-active-tab-with-query-params` prop', () => {
       expect(findGlTabs().props('syncActiveTabWithQueryParams')).toBe(true);
     });
-  });
-
-  describe('pipeline editor walkthrough', () => {
-    describe('when isNewCiConfigFile prop is true (default)', () => {
-      beforeEach(() => {
-        createComponent();
-      });
-
-      it('shows walkthrough popover', () => {
-        expect(findWalkthroughPopover().exists()).toBe(true);
-      });
-    });
-
-    describe('when isNewCiConfigFile prop is false', () => {
-      it('does not show walkthrough popover', () => {
-        createComponent({ props: { isNewCiConfigFile: false } });
-        expect(findWalkthroughPopover().exists()).toBe(false);
-      });
-    });
-  });
-
-  it('sets listeners on walkthrough popover', async () => {
-    const handler = jest.fn();
-
-    createComponent({
-      listeners: {
-        event: handler,
-      },
-    });
-    await nextTick();
-
-    findWalkthroughPopover().vm.$emit('event');
-
-    expect(handler).toHaveBeenCalled();
   });
 });

@@ -417,3 +417,7 @@ You can now start a new chat and ask a question depending on the [available tool
 > [!warning]
 > You're responsible for guarding against prompt injection when you use these tools.
 > Exercise extreme caution or use MCP tools only on GitLab objects you trust.
+
+## Related topics
+
+- [MCP servers in the AI Catalog](ai_catalog_mcp_servers.md)

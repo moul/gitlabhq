@@ -170,7 +170,7 @@ module Tasks
               undefined_permission: <<~MSG.chomp,
                 The following API routes reference permissions without definition files.
                 Create definition files using: bin/permission <NAME>
-                #{implementation_guide_link(anchor: 'step-3-create-permission-definition-files')}
+                #{permission_definitions_link(anchor: 'permission-definition-file')}
               MSG
               missing_boundary: <<~MSG.chomp,
                 The following API routes define permissions but are missing a boundary_type.
@@ -180,12 +180,12 @@ module Tasks
               missing_assignable: <<~MSG.chomp,
                 The following API routes reference permissions not included in any assignable permission.
                 Add the permission to an assignable permission group in config/authz/permission_groups/assignable_permissions/
-                #{implementation_guide_link(anchor: 'step-4-assign-permissions-to-assignable-permissions')}
+                #{assignable_permissions_link(anchor: 'create-the-assignable-permission-file')}
               MSG
               boundary_mismatch: <<~MSG.chomp,
                 The following API routes have a boundary_type that doesn't match the assignable permission boundaries.
                 Update the assignable permission to include the route's boundary_type, or fix the route's boundary_type.
-                #{implementation_guide_link(anchor: 'determining-boundaries')}
+                #{assignable_permissions_link(anchor: 'determining-boundaries')}
               MSG
               missing_authorization: <<~MSG.chomp
                 The following API routes are missing route_setting :authorization metadata.

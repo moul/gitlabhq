@@ -463,12 +463,14 @@ export default {
               name,
               branchProtection: {
                 allowForcePush: this.allowForcePush,
-                codeOwnerApprovalRequired: this.branchProtection.codeOwnerApprovalRequired,
+                ...(this.branchProtection.codeOwnerApprovalRequired !== undefined && {
+                  codeOwnerApprovalRequired: this.branchProtection.codeOwnerApprovalRequired,
+                }),
                 pushAccessLevels: this.getAccessLevelInputFromEdges(
-                  this.branchProtection.pushAccessLevels.edges,
+                  this.branchProtection.pushAccessLevels?.edges || [],
                 ),
                 mergeAccessLevels: this.getAccessLevelInputFromEdges(
-                  this.branchProtection.mergeAccessLevels.edges,
+                  this.branchProtection.mergeAccessLevels?.edges || [],
                 ),
                 ...(branchProtection || {}),
               },

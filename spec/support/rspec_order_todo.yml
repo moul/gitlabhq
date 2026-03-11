@@ -3006,7 +3006,7 @@
 - './spec/features/projects/releases/user_views_releases_spec.rb'
 - './spec/features/projects/remote_mirror_spec.rb'
 - './spec/features/projects/settings/access_tokens_spec.rb'
-- './spec/features/projects/settings/branch_rules_settings_spec.rb'
+- './spec/features/projects/settings/branch_rules/branch_rule_details_spec.rb'
 - './spec/features/projects/settings/external_authorization_service_settings_spec.rb'
 - './spec/features/projects/settings/forked_project_settings_spec.rb'
 - './spec/features/projects/settings/lfs_settings_spec.rb'

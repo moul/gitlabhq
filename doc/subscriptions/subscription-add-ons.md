@@ -41,7 +41,7 @@ GitLab Duo Core is included automatically if you have:
 If you are an existing customer from GitLab 17.11 or earlier,
 you must [turn on features for GitLab Duo Core](../user/gitlab_duo/turn_on_off.md#turn-gitlab-duo-core-on-or-off).
 
-If you are a new customer in GitLab 18.0 or later, GitLab Duo Core features are automatically turned on and no further action is needed.
+If you are a new customer in GitLab 18.0 or later, features for GitLab Duo Core are automatically turned on and no further action is needed.
 
 To view which roles can access GitLab Duo Core, see [GitLab Duo group permissions](../user/permissions.md#group-gitlab-duo).
 

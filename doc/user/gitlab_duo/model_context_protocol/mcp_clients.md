@@ -50,7 +50,11 @@ To use a feature with MCP:
 1. Turn on MCP for your group.
 1. Configure the MCP servers you want the feature to connect to.
 
-For a click-through demo, see [GitLab Duo Agent Platform - MCP integration](https://gitlab.navattic.com/mcp).
+<i class="fa-youtube-play" aria-hidden="true"></i>
+For an overview, see [GitLab Duo Chat (agentic) - MCP tool call approval](https://www.youtube.com/watch?v=_cHoTmG8Yj8).
+<!-- Video published on 2025-06-24 -->
+
+For a click-through demo, see [GitLab Duo Agent Platform - MCP client](https://gitlab.navattic.com/mcp).
 <!-- Demo published on 2025-08-05 -->
 
 ## Prerequisites
@@ -366,11 +370,6 @@ you must review that tool unless you've approved it for the entire session:
 
      Chat might take action based on the reason you provide, such as
      suggesting a new approach, or creating an issue.
-
-## Related topics
-
-- [Get started with the Model Context Protocol](https://modelcontextprotocol.io/introduction)
-- [Demo - GitLab Duo Chat MCP Tool Call Approval](https://www.youtube.com/watch?v=_cHoTmG8Yj8)
 
 ## Troubleshooting
 

@@ -20908,7 +20908,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_416783d6ec2b"
+              "$ref": "#/components/schemas/RequestBody_5ff8b448bdb4"
   "/api/v4/user_counts":
     get:
       operationId: getApiV4UserCounts
@@ -84817,7 +84817,7 @@ components:
           description: The name of the branch
       required:
       - file
-    RequestBody_416783d6ec2b:
+    RequestBody_5ff8b448bdb4:
       type: object
       properties:
         runner_type:
@@ -84868,6 +84868,17 @@ components:
           type: integer
           description: Maximum timeout that limits the amount of time (in seconds)
             that runners can run jobs
+        token_expires_at:
+          type: string
+          format: date-time
+          description: The expiration time for the runner authentication token (ISO
+            8601 format). Must be between 5 minutes and 15 days in the future, and
+            cannot exceed instance/group/project limits.
+        token_rotation_deadline:
+          type: string
+          format: date-time
+          description: The deadline for token rotation (ISO 8601 format). Must be
+            specified with token_expires_at and be <= token_expires_at.
       required:
       - runner_type
       - group_id

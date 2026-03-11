@@ -14,32 +14,6 @@ In theory, this permission can be used to control access to manage CI/CD variabl
 Additionally using permissions such as `admin_cicd_variable` or `manage_cicd_variable` should be avoided because they imply different actions that are being authorized. Instead, the action should be specific such as `create_cicd_variable` or `read_cicd_variable`.
 Implementing granular permissions allows us to adhere to the principle of least privilege for custom roles and provides much more fine grained options for standard roles.
 
-## Permission Definition File
-
-Each permission should have a corresponding definition file. These files are used to build documentation and enable a permissions-first architecture around authorization logic.
-
-To generate a new definition file, run the following command:
-
-```shell
-bin/permission <permission_name>
-```
-
-In interactive mode, the command uses the permission name to suggest the action and resource, then walks you through the remaining fields. To skip all prompts, pass `-a` (action) and `-r` (resource) as flags:
-
-```shell
-bin/permission <permission_name> -a <action> -r <resource> -c <feature_category>
-```
-
-Overriding the action or resource is helpful when the action is more than one word. For example, consider the permission `force_delete_ai_catalog_item`. By default the command splits the name at the first underscore, suggesting `force` as the action and `delete_ai_catalog_item` as the resource. This would result in the definition file being written to `config/authz/permissions/delete_ai_catalog_item/force.yml`, which is incorrect.
-
-The following command generates a definition file with the correct action and resource, writing it to `config/authz/permissions/ai_catalog_item/force_delete.yml`:
-
-```shell
-bin/permission force_delete_ai_catalog_item -a force_delete -r ai_catalog_item -c ai_catalog
-```
-
-For a full guide on using the command, see [Create Permission Definition Files](granular_access/rest_api_implementation_guide.md#step-3-create-permission-definition-files).
-
 ## Naming Permissions
 
 Our goal is for all permissions to follow a consistent pattern: **`action_resource(_subresource)`**. These guidelines apply to both Assignable Permissions and Raw Permissions, but most strictly be followed with Assignable Permissions as they are public facing.

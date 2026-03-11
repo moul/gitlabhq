@@ -7487,7 +7487,10 @@ msgstr ""
 msgid "AiPowered|Allow GitLab to collect prompts, AI responses, and metadata from user interactions with GitLab Duo. This data helps to improve service quality and is not used to train models."
 msgstr ""
 
-msgid "AiPowered|Allow GitLab to process your code and project data for AI-powered features throughout this namespace. Your data will be sent to GitLab Duo for processing. Groups, subgroups, and projects can individually opt out if needed."
+msgid "AiPowered|Allow GitLab to process your code and project data for AI-native features in this group. Your data is sent to GitLab Duo. Groups, subgroups, and projects can opt out individually."
+msgstr ""
+
+msgid "AiPowered|Allow members of these groups access to AI-native features."
 msgstr ""
 
 msgid "AiPowered|Always off"
@@ -7511,7 +7514,7 @@ msgstr ""
 msgid "AiPowered|Automatic Code Reviews"
 msgstr ""
 
-msgid "AiPowered|Block GitLab from processing your code and project data for AI-powered features by default. Your data stays private unless subgroups or projects individually opt in."
+msgid "AiPowered|Block GitLab from processing your code and project data for AI-native features in this group. Your data stays private unless subgroups or projects opt in individually."
 msgstr ""
 
 msgid "AiPowered|Buy Credits"
@@ -7535,7 +7538,7 @@ msgstr ""
 msgid "AiPowered|Configure AI features"
 msgstr ""
 
-msgid "AiPowered|Configure AI-native GitLab Duo features. %{linkStart}Which features?%{linkEnd}"
+msgid "AiPowered|Configure AI-native GitLab Duo features. %{linkStart}Which features%{linkEnd}?"
 msgstr ""
 
 msgid "AiPowered|Configure GitLab Duo Self-Hosted"
@@ -7559,7 +7562,7 @@ msgstr ""
 msgid "AiPowered|Control whether AI-powered features are available."
 msgstr ""
 
-msgid "AiPowered|Control whether GitLab can process your code and project data to provide context to AI-powered features."
+msgid "AiPowered|Control whether GitLab can process your code and project data for AI-native features."
 msgstr ""
 
 msgid "AiPowered|Control who can access AI-native features executed with or without CI/CD pipelines."
@@ -7578,9 +7581,6 @@ msgid "AiPowered|Enabling self-hosted beta models and features is your acceptanc
 msgstr ""
 
 msgid "AiPowered|End date: %{endDate}"
-msgstr ""
-
-msgid "AiPowered|Ensure members can be added to the group that contains the project."
 msgstr ""
 
 msgid "AiPowered|Enter the URL for your Duo Agent Platform service. This endpoint is used for GitLab Duo Agent Platform requests. %{br} The URL must not include the \"http://\" or \"https://\" protocol. For example \"example.com:50052\"."
@@ -7649,9 +7649,6 @@ msgstr ""
 msgid "AiPowered|Indirect connections through GitLab Self-Managed"
 msgstr ""
 
-msgid "AiPowered|Learn more"
-msgstr ""
-
 msgid "AiPowered|Local AI Gateway URL"
 msgstr ""
 
@@ -7682,7 +7679,7 @@ msgstr ""
 msgid "AiPowered|Monitor, manage, and customize AI-powered features to ensure efficient utilization and alignment."
 msgstr ""
 
-msgid "AiPowered|Never allow GitLab to process your code and project data for AI-powered features. Your data will not be sent to GitLab Duo anywhere in this namespace."
+msgid "AiPowered|Never allow GitLab to process your code and project data for AI-native features in this group. Your data is not sent to GitLab Duo."
 msgstr ""
 
 msgid "AiPowered|No access rules configured"
@@ -7701,9 +7698,6 @@ msgid "AiPowered|Off by default"
 msgstr ""
 
 msgid "AiPowered|On by default"
-msgstr ""
-
-msgid "AiPowered|Only members of these groups will have access to selected AI features."
 msgstr ""
 
 msgid "AiPowered|Orchestrate AI agents across your entire software lifecycle to automate complex workflows, accelerate delivery, and keep your team in flow."
@@ -7739,16 +7733,19 @@ msgstr ""
 msgid "AiPowered|Tanuki AI icon"
 msgstr ""
 
-msgid "AiPowered|This setting applies to the whole instance. By turning this on, you accept the %{termsLinkStart}GitLab AI Functionality Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab governing AI feature usage. Check the %{requirementsLinkStart}eligibility requirements%{requirementsLinkEnd}."
+msgid "AiPowered|This setting applies to the entire instance. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage."
 msgstr ""
 
-msgid "AiPowered|This setting applies to the whole top-level group. By turning this on, you accept the %{termsLinkStart}GitLab AI Functionality Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab governing AI feature usage. Check the %{requirementsLinkStart}eligibility requirements%{requirementsLinkEnd}."
+msgid "AiPowered|This setting applies to the top-level group. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage."
 msgstr ""
 
 msgid "AiPowered|This setting requires Allow flow execution to be on"
 msgstr ""
 
 msgid "AiPowered|This setting requires GitLab Duo availability to be on or off by default."
+msgstr ""
+
+msgid "AiPowered|To add members to the group that contains the project, see the %{linkStart}prerequisites%{linkEnd}."
 msgstr ""
 
 msgid "AiPowered|Track credit consumption across your users and monitor usage trends. View breakdowns by user to understand how your team utilizes GitLab Duo."
@@ -59288,6 +59285,9 @@ msgstr ""
 msgid "Runners|documentation"
 msgstr ""
 
+msgid "Runners|token_expires_at is required when token_rotation_deadline is specified"
+msgstr ""
+
 msgid "Runners|token_expires_at is too far in the future (maximum is %{maximum})"
 msgstr ""
 
@@ -59785,10 +59785,25 @@ msgstr ""
 msgid "ScanExecutionPolicy|selected automatically"
 msgstr ""
 
+msgid "ScanProfiles|A scan is automatically run each time new commits are pushed to a branch associated with an open merge request. The full repository is scanned, but only vulnerabilities introduced by the merge request are highlighted. This helps identify security issues early, before code is merged."
+msgstr ""
+
+msgid "ScanProfiles|A scan is automatically run when changes are merged or pushed to the default branch. All vulnerabilities found are reported, providing a complete picture of your default branch's security posture."
+msgstr ""
+
+msgid "ScanProfiles|All"
+msgstr ""
+
+msgid "ScanProfiles|All vulnerabilities"
+msgstr ""
+
 msgid "ScanProfiles|Apply profile"
 msgstr ""
 
 msgid "ScanProfiles|Block secrets such as keys and API tokens from being pushed to your repositories. Secret detection is triggered when commits are pushed to a repository. If any secrets are detected, the push is blocked."
+msgstr ""
+
+msgid "ScanProfiles|Branch Pipelines (default only)"
 msgstr ""
 
 msgid "ScanProfiles|Configuration profiles are reusable settings templates for security tools. Create and manage profiles once, then apply them to multiple projects to ensure consistent security coverage."
@@ -59797,10 +59812,25 @@ msgstr ""
 msgid "ScanProfiles|Currently active"
 msgstr ""
 
+msgid "ScanProfiles|Default"
+msgstr ""
+
+msgid "ScanProfiles|Full repository"
+msgstr ""
+
 msgid "ScanProfiles|General Details"
 msgstr ""
 
 msgid "ScanProfiles|Information about this configuration profile."
+msgstr ""
+
+msgid "ScanProfiles|Merge Request Pipelines"
+msgstr ""
+
+msgid "ScanProfiles|New vulnerabilities only"
+msgstr ""
+
+msgid "ScanProfiles|Results:"
 msgstr ""
 
 msgid "ScanProfiles|Scan all Git push events and block pushes with detected secrets."
@@ -59809,10 +59839,22 @@ msgstr ""
 msgid "ScanProfiles|Scan triggers"
 msgstr ""
 
+msgid "ScanProfiles|Scans commits to the default branch"
+msgstr ""
+
+msgid "ScanProfiles|Scans new commits to merge requests · All branches"
+msgstr ""
+
+msgid "ScanProfiles|Scope:"
+msgstr ""
+
 msgid "ScanProfiles|Secret detection profile"
 msgstr ""
 
 msgid "ScanProfiles|Secret push protection"
+msgstr ""
+
+msgid "ScanProfiles|Target branch:"
 msgstr ""
 
 msgid "ScanProfiles|View documentation"
@@ -84311,18 +84353,6 @@ msgid "pending comment"
 msgstr ""
 
 msgid "personal access token"
-msgstr ""
-
-msgid "pipelineEditorWalkthrough|Let's do this!"
-msgstr ""
-
-msgid "pipelineEditorWalkthrough|See how GitLab pipelines work"
-msgstr ""
-
-msgid "pipelineEditorWalkthrough|This %{codeStart}.gitlab-ci.yml%{codeEnd} file creates a simple test pipeline."
-msgstr ""
-
-msgid "pipelineEditorWalkthrough|Use the %{boldStart}commit changes%{boldEnd} button at the bottom of the page to run the pipeline."
 msgstr ""
 
 msgid "pipelineEditorWalkthrough|You can use the file tree to view your pipeline configuration files. %{linkStart}Learn more%{linkEnd}"

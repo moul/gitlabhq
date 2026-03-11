@@ -1497,6 +1497,45 @@ RETURN NULL;
 END
 $$;
 
+CREATE FUNCTION table_sync_function_0992e728d3_delete() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+DELETE FROM merge_request_diff_commits_b5377a7a34
+WHERE (merge_request_diff_id, relative_order, project_id) IN (
+  SELECT
+    old_table.merge_request_diff_id,
+    old_table.relative_order,
+    old_table.project_id
+  FROM old_table
+  WHERE old_table.project_id IS NOT NULL
+);
+
+RETURN NULL;
+
+END
+$$;
+
+CREATE FUNCTION table_sync_function_0992e728d3_insert() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+INSERT INTO merge_request_diff_commits_b5377a7a34
+  (merge_request_commits_metadata_id, project_id, merge_request_diff_id, relative_order)
+SELECT
+  new_table.merge_request_commits_metadata_id,
+  new_table.project_id,
+  new_table.merge_request_diff_id,
+  new_table.relative_order
+FROM new_table
+WHERE new_table.merge_request_commits_metadata_id IS NOT NULL
+  AND new_table.project_id IS NOT NULL;
+
+RETURN NULL;
+
+END
+$$;
+
 CREATE FUNCTION table_sync_function_3f39f64fc3() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -6203,6 +6242,14 @@ CREATE TABLE merge_request_commits_metadata (
     committer_id bigint NOT NULL,
     sha bytea NOT NULL,
     message text
+)
+PARTITION BY RANGE (project_id);
+
+CREATE TABLE merge_request_diff_commits_b5377a7a34 (
+    merge_request_commits_metadata_id bigint NOT NULL,
+    merge_request_diff_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    relative_order integer NOT NULL
 )
 PARTITION BY RANGE (project_id);
 
@@ -38883,6 +38930,9 @@ ALTER TABLE ONLY merge_request_context_commits
 ALTER TABLE ONLY merge_request_diff_commit_users
     ADD CONSTRAINT merge_request_diff_commit_users_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY merge_request_diff_commits_b5377a7a34
+    ADD CONSTRAINT merge_request_diff_commits_b5377a7a34_pkey PRIMARY KEY (merge_request_diff_id, relative_order, project_id);
+
 ALTER TABLE ONLY merge_request_diff_commits
     ADD CONSTRAINT merge_request_diff_commits_pkey PRIMARY KEY (merge_request_diff_id, relative_order);
 
@@ -46401,6 +46451,8 @@ CREATE INDEX index_merge_request_context_commits_on_project_id ON merge_request_
 
 CREATE UNIQUE INDEX index_merge_request_diff_commit_users_on_org_id_name_email ON merge_request_diff_commit_users USING btree (organization_id, name, email);
 
+CREATE INDEX index_merge_request_diff_commits_b5377a7a34_on_project_id ON ONLY merge_request_diff_commits_b5377a7a34 USING btree (project_id);
+
 CREATE INDEX index_merge_request_diff_commits_on_project_id ON merge_request_diff_commits USING btree (project_id);
 
 CREATE INDEX index_merge_request_diff_commits_on_sha ON merge_request_diff_commits USING btree (sha);
@@ -47276,6 +47328,8 @@ CREATE INDEX index_pages_domains_on_verified_at ON pages_domains USING btree (ve
 CREATE INDEX index_pages_domains_on_verified_at_and_enabled_until ON pages_domains USING btree (verified_at, enabled_until);
 
 CREATE INDEX index_pages_domains_on_wildcard ON pages_domains USING btree (wildcard);
+
+CREATE INDEX index_partitioned_mrdc_on_merge_request_commits_metadata_id ON ONLY merge_request_diff_commits_b5377a7a34 USING btree (merge_request_commits_metadata_id);
 
 CREATE INDEX index_pat_on_user_id_and_expires_at ON personal_access_tokens USING btree (user_id, expires_at);
 
@@ -53680,6 +53734,10 @@ CREATE TRIGGER slsa_attestations_loose_fk_trigger AFTER DELETE ON slsa_attestati
 CREATE TRIGGER sync_project_authorizations_to_migration AFTER INSERT OR DELETE OR UPDATE ON project_authorizations FOR EACH ROW EXECUTE FUNCTION sync_project_authorizations_to_migration_table();
 
 CREATE TRIGGER table_sync_trigger_4ea4473e79 AFTER INSERT OR DELETE OR UPDATE ON uploads FOR EACH ROW EXECUTE FUNCTION table_sync_function_40ecbfb353();
+
+CREATE TRIGGER table_sync_trigger_57c8465cd7_delete AFTER DELETE ON merge_request_diff_commits REFERENCING OLD TABLE AS old_table FOR EACH STATEMENT EXECUTE FUNCTION table_sync_function_0992e728d3_delete();
+
+CREATE TRIGGER table_sync_trigger_57c8465cd7_insert AFTER INSERT ON merge_request_diff_commits REFERENCING NEW TABLE AS new_table FOR EACH STATEMENT EXECUTE FUNCTION table_sync_function_0992e728d3_insert();
 
 CREATE TRIGGER table_sync_trigger_cd362c20e2 AFTER INSERT OR DELETE OR UPDATE ON merge_request_diff_files FOR EACH ROW EXECUTE FUNCTION table_sync_function_3f39f64fc3();
 

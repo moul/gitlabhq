@@ -16,8 +16,8 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
   it_behaves_like 'having unique enum values'
 
   it_behaves_like 'cells claimable model',
-    subject_type: Cells::Claimable::CLAIMS_SUBJECT_TYPE::PROJECT,
-    subject_key: :id,
+    subject_type: Cells::Claimable::CLAIMS_SUBJECT_TYPE::ORGANIZATION,
+    subject_key: :organization_id,
     source_type: Cells::Claimable::CLAIMS_SOURCE_TYPE::RAILS_TABLE_PROJECTS,
     claiming_attributes: [:id]
 

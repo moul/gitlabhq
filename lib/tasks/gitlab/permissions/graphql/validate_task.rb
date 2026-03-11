@@ -168,12 +168,12 @@ module Tasks
               invalid_permission: <<~MSG.chomp,
                 The following GraphQL types/mutations/fields reference permissions not included in any assignable permission.
                 Add the permission to an assignable permission group in config/authz/permission_groups/assignable_permissions/.
-                #{implementation_guide_link(anchor: 'step-4-assign-permissions-to-assignable-permissions')}
+                #{assignable_permissions_link(anchor: 'create-the-assignable-permission-file')}
               MSG
               boundary_mismatch: <<~MSG.chomp
                 The following GraphQL types/mutations/fields have a boundary_type that doesn't match the assignable permission boundaries.
                 Update the assignable permission to include the directive's boundary_type, or fix the directive's boundary_type.
-                #{implementation_guide_link(anchor: 'determining-boundaries')}
+                #{assignable_permissions_link(anchor: 'determining-boundaries')}
               MSG
             }
           end

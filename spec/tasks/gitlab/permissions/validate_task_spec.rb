@@ -76,7 +76,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
           #
           #  The following permissions are missing a definition file.
           #  Run bin/permission <NAME> to generate definition files.
-          #  Learn more: http://localhost/help/development/permissions/granular_access/rest_api_implementation_guide.md#step-3-create-permission-definition-files
+          #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#permission-definition-file
           #
           #    - undefined_permission
           #
@@ -112,7 +112,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
           #
           #  The following permissions are missing a definition file.
           #  Run bin/permission <NAME> to generate definition files.
-          #  Learn more: http://localhost/help/development/permissions/granular_access/rest_api_implementation_guide.md#step-3-create-permission-definition-files
+          #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#permission-definition-file
           #
           #    - undefined_permission
           #
@@ -140,7 +140,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
           #######################################################################
           #
           #  The following permissions failed schema validation.
-          #  Learn more: http://localhost/help/development/permissions/granular_access/rest_api_implementation_guide.md#complete-the-yaml-definition
+          #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#permission-definition-fields
           #
           #    - defined_permission
           #        - property '/key' is invalid: error_type=schema
@@ -181,7 +181,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
             #######################################################################
             #
             #  The following permission definitions do not exist at the expected path.
-            #  Learn more: http://localhost/help/development/permissions/granular_access/rest_api_implementation_guide.md#permission-naming-and-validation
+            #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#permission-naming-and-validation
             #
             #    - defined_permission in config/authz/permissions/defined_permission.yml
             #      Expected path: config/authz/permissions/<resource>/defined_permission.yml
@@ -199,7 +199,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
             #######################################################################
             #
             #  The following permission definitions do not exist at the expected path.
-            #  Learn more: http://localhost/help/development/permissions/granular_access/rest_api_implementation_guide.md#permission-naming-and-validation
+            #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#permission-naming-and-validation
             #
             #    - defined_permission in config/authz/permissions/another_dir/resource_dir/defined_permission.yml
             #      Expected path: config/authz/permissions/resource_dir/defined_permission.yml
@@ -218,7 +218,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
             #######################################################################
             #
             #  The following permission definitions do not exist at the expected path.
-            #  Learn more: http://localhost/help/development/permissions/granular_access/rest_api_implementation_guide.md#permission-naming-and-validation
+            #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#permission-naming-and-validation
             #
             #    - action_on_a_resource in config/authz/permissions/wrong_resource_name/wrong_action_name.yml
             #      Path must match 'config/authz/permissions/<resource>/<action>.yml' based on <resource> and <action> values from 'action_on_a_resource' ('<action>_<resource>')
@@ -259,7 +259,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
           #
           #  The following permissions have a definition file but are not found in declarative policy.
           #  Remove the definition files for the unknown permissions.
-          #  Learn more: http://localhost/help/development/permissions/conventions.md#permission-definition-file
+          #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#permission-definition-file
           #
           #    - defined_permission
           #
@@ -282,7 +282,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
             #######################################################################
             #
             #  The following permission resource directories are missing a _metadata.yml file.
-            #  Learn more: http://localhost/help/development/permissions/granular_access/rest_api_implementation_guide.md#create-resource-metadata-for-raw-permissions
+            #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#resource-metadata-fields
             #
             #    - config/authz/permissions/**/permission/
             #
@@ -309,7 +309,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
             #######################################################################
             #
             #  The following resource metadata files failed schema validation.
-            #  Learn more: http://localhost/help/development/permissions/granular_access/rest_api_implementation_guide.md#create-resource-metadata-for-raw-permissions
+            #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#resource-metadata-fields
             #
             #    - permission
             #        - property '/feature_category' does not match format: known_product_category
@@ -338,7 +338,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
             #
             #  The following resource directories contain only a _metadata.yml file with no permission definitions.
             #  Either add permission definitions or remove the directory.
-            #  Learn more: http://localhost/help/development/permissions/granular_access/rest_api_implementation_guide.md#permission-naming-and-validation
+            #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#permission-naming-and-validation
             #
             #    - config/authz/permissions/empty_resource/
             #

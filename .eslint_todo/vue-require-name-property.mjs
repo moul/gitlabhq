@@ -1603,7 +1603,6 @@ export default {
     'ee/app/assets/javascripts/project_quality_summary/components/test_runs_empty_state.vue',
     'ee/app/assets/javascripts/projects/components/project_compliance_framework_empty_state.vue',
     'ee/app/assets/javascripts/projects/merge_requests/blocking_mr_input_root.vue',
-    'ee/app/assets/javascripts/projects/settings/branch_rules/components/items_selector.vue',
     'ee/app/assets/javascripts/projects/settings/branch_rules/components/status_checks/status_checks_delete_modal.vue',
     'ee/app/assets/javascripts/protected_environments/add_approvers.vue',
     'ee/app/assets/javascripts/protected_environments/add_rule_modal.vue',

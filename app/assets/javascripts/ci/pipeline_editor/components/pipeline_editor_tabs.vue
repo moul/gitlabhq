@@ -22,7 +22,6 @@ import CiEditorHeader from './editor/ci_editor_header.vue';
 import CiValidate from './validate/ci_validate.vue';
 import TextEditor from './editor/text_editor.vue';
 import EditorTab from './ui/editor_tab.vue';
-import WalkthroughPopover from './popovers/walkthrough_popover.vue';
 
 export default {
   i18n: {
@@ -66,7 +65,6 @@ export default {
     GlTabs,
     PipelineGraph,
     TextEditor,
-    WalkthroughPopover,
   },
   props: {
     ciConfigData: {
@@ -91,10 +89,6 @@ export default {
       required: true,
     },
     showJobAssistantDrawer: {
-      type: Boolean,
-      required: true,
-    },
-    isNewCiConfigFile: {
       type: Boolean,
       required: true,
     },
@@ -182,13 +176,11 @@ export default {
   >
     <editor-tab
       class="gl-mb-3"
-      title-link-class="js-walkthrough-popover-target"
       :title="$options.i18n.tabEdit"
       lazy
       data-testid="editor-tab"
       @click="setCurrentTab($options.tabConstants.CREATE_TAB)"
     >
-      <walkthrough-popover v-if="isNewCiConfigFile" v-on="$listeners" />
       <ci-editor-header
         :show-help-drawer="showHelpDrawer"
         :show-job-assistant-drawer="showJobAssistantDrawer"
