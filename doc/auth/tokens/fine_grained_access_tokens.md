@@ -771,6 +771,20 @@ Grants the ability to manage vulnerability notes.
 | Read | Project | `GET` | `/projects/:id/vulnerabilities/:noteable_id/notes/:note_id` |
 | Update | Project | `PUT` | `/projects/:id/vulnerabilities/:noteable_id/notes/:note_id` |
 
+### Notifications resources
+
+#### Todo
+
+Grants the ability to read, create, and complete todos.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/todo` |
+| Create | Project | `POST` | `/projects/:id/issues/:issue_iid/todo` |
+| Read | User | `GET` | `/todos` |
+| Update | User | `POST` | `/todos/:id/mark_as_done` |
+| Update | User | `POST` | `/todos/mark_as_done` |
+
 ### Orbit resources
 
 #### Knowledge Graph

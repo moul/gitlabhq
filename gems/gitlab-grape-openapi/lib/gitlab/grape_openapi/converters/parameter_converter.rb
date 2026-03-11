@@ -5,6 +5,7 @@ module Gitlab
     module Converters
       class ParameterConverter
         include CoercerResolver
+        include Concerns::Serializable
 
         attr_reader :name, :options, :validations, :route
 
@@ -63,13 +64,14 @@ module Gitlab
 
           schema[:minimum] = range.begin if range.begin
           schema[:maximum] = range.end if range.end
-
+          schema[:default] = options[:default] if options[:default] && serializable?(options[:default])
           schema
         end
 
         def build_enum_schema(object_type)
           schema = { type: object_type }
           schema[:enum] = options[:values] unless options[:values].is_a?(Proc)
+          schema[:default] = options[:default] if options[:default] && serializable?(options[:default])
           schema
         end
 
@@ -135,19 +137,6 @@ module Gitlab
         end
 
         private
-
-        def serializable?(value)
-          # Exclude lambdas/procs (they're evaluated at runtime, not suitable for static specs)
-          return false if value.is_a?(Proc)
-
-          # Exclude ActiveSupport::TimeWithZone objects (they serialize poorly to YAML)
-          return false if defined?(ActiveSupport::TimeWithZone) && value.is_a?(ActiveSupport::TimeWithZone)
-
-          # Exclude Time objects (they should be strings in OpenAPI)
-          return false if value.is_a?(Time)
-
-          true
-        end
 
         def time_serializer
           @time_serializer ||= Serializers::Time.new

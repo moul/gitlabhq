@@ -6,6 +6,7 @@ module Gitlab
       module RequestBody
         class ParameterSchema
           include Converters::CoercerResolver
+          include Concerns::Serializable
 
           attr_reader :route
 
@@ -87,6 +88,10 @@ module Gitlab
             schema = { type: object_type }
             schema[:minimum] = range.begin if range.begin
             schema[:maximum] = range.end if range.end
+            if param_options[:default] && serializable?(param_options[:default])
+              schema[:default] = param_options[:default]
+            end
+
             schema[:description] = param_options[:desc] if param_options[:desc]
             schema
           end
@@ -94,6 +99,10 @@ module Gitlab
           def build_enum_schema(object_type, param_options)
             schema = { type: object_type }
             schema[:enum] = param_options[:values] unless param_options[:values].is_a?(Proc)
+            if param_options[:default] && serializable?(param_options[:default])
+              schema[:default] = param_options[:default]
+            end
+
             schema[:description] = param_options[:desc] if param_options[:desc]
             schema
           end
@@ -160,8 +169,10 @@ module Gitlab
           def build_basic_schema(object_type, object_format, param_options, validations)
             schema = { type: object_type }
             schema[:format] = object_format if object_format
-            default_is_proc = param_options[:default].is_a?(Proc)
-            schema[:default] = param_options[:default] if param_options[:default] && !default_is_proc
+            if param_options[:default] && serializable?(param_options[:default])
+              schema[:default] = param_options[:default]
+            end
+
             schema[:description] = param_options[:desc] if param_options[:desc]
 
             if param_options.dig(:documentation, :example)

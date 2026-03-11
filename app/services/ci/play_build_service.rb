@@ -15,15 +15,11 @@ module Ci
     def execute
       check_access!
 
-      if Feature.enabled?(:ci_job_inputs, project)
-        input_process_result = process_job_inputs(build, inputs)
+      input_process_result = process_job_inputs(build, inputs)
 
-        return ServiceResponse.error(message: input_process_result.message) if input_process_result.error?
+      return ServiceResponse.error(message: input_process_result.message) if input_process_result.error?
 
-        filtered_inputs = input_process_result.payload[:inputs]
-      else
-        filtered_inputs = {}
-      end
+      filtered_inputs = input_process_result.payload[:inputs]
 
       job = Ci::EnqueueJobService.new(
         build,

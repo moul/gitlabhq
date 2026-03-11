@@ -8612,6 +8612,7 @@ Input type: `GroupSecretCreateInput`
 | <a id="mutation-groupsecretcreate-grouppath"></a>`groupPath` | [`ID!`](#id) | Group of the secret. |
 | <a id="mutation-groupsecretcreate-name"></a>`name` | [`String!`](#string) | Name of the group secret. |
 | <a id="mutation-groupsecretcreate-protected"></a>`protected` | [`Boolean!`](#boolean) | Whether the secret is only accessible from protected branches. |
+| <a id="mutation-groupsecretcreate-rotationintervaldays"></a>`rotationIntervalDays` | [`Int`](#int) | Number of days between rotation reminders for the secret. |
 | <a id="mutation-groupsecretcreate-secret"></a>`secret` | [`String!`](#string) | Value of the group secret. |
 
 #### Fields
@@ -8657,6 +8658,7 @@ Input type: `GroupSecretUpdateInput`
 | <a id="mutation-groupsecretupdate-metadatacas"></a>`metadataCas` | [`Int!`](#int) | This should match the current metadata version of the group secret being updated. |
 | <a id="mutation-groupsecretupdate-name"></a>`name` | [`String!`](#string) | Name of the group secret to update. |
 | <a id="mutation-groupsecretupdate-protected"></a>`protected` | [`Boolean`](#boolean) | Whether the secret is only accessible from protected branches. |
+| <a id="mutation-groupsecretupdate-rotationintervaldays"></a>`rotationIntervalDays` | [`Int`](#int) | Number of days between rotation reminders for the secret. |
 | <a id="mutation-groupsecretupdate-secret"></a>`secret` | [`String`](#string) | New value of the group secret. |
 
 #### Fields
@@ -52625,6 +52627,8 @@ Represents a status with its work item count.
 | <a id="workitemtype-id"></a>`id` | [`WorkItemsTypeID!`](#workitemstypeid) | Global ID of the work item type. |
 | <a id="workitemtype-isconfigurable"></a>`isConfigurable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.8. **Status**: Experiment. Indicates whether the work item type is configurable. |
 | <a id="workitemtype-isfilterable"></a>`isFilterable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.8. **Status**: Experiment. Indicates whether the work item type should be filterable. |
+| <a id="workitemtype-isfilterableboardview"></a>`isFilterableBoardView` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.10. **Status**: Experiment. Indicates whether the work item type is filterable in board view. |
+| <a id="workitemtype-isfilterablelistview"></a>`isFilterableListView` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.10. **Status**: Experiment. Indicates whether the work item type is filterable in list view. |
 | <a id="workitemtype-isgroupworkitemtype"></a>`isGroupWorkItemType` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.8. **Status**: Experiment. Indicates whether the work item type belongs only to a group. |
 | <a id="workitemtype-isincidentmanagement"></a>`isIncidentManagement` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.8. **Status**: Experiment. Indicates whether the work item type is for incident management. |
 | <a id="workitemtype-isservicedesk"></a>`isServiceDesk` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.8. **Status**: Experiment. Indicates whether the work item type is for service desk. |

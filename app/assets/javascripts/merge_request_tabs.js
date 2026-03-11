@@ -312,7 +312,7 @@ export default class MergeRequestTabs {
     }
   }
 
-  tabShown(action, href, shouldScroll = true) {
+  async tabShown(action, href, shouldScroll = true) {
     toggleLoader(false);
 
     if (action !== this.currentTab && this.mergeRequestTabs) {
@@ -339,7 +339,13 @@ export default class MergeRequestTabs {
       const tab = this.mergeRequestTabs.querySelector(`.${action}-tab`);
       if (tab) tab.classList.add('active');
 
-      if (isInVueNoteablePage() && !this.loadedPages[action] && action in pageBundles) {
+      const skipPageBundle = this.isDiffAction(action) && this.createRapidDiffsApp;
+      if (
+        isInVueNoteablePage() &&
+        !this.loadedPages[action] &&
+        action in pageBundles &&
+        !skipPageBundle
+      ) {
         toggleLoader(true);
         pageBundles[action]()
           .then(({ default: init }) => {
@@ -370,7 +376,7 @@ export default class MergeRequestTabs {
       } else if (this.isDiffAction(action)) {
         if (this.createRapidDiffsApp) {
           if (!this.rapidDiffsApp) {
-            this.rapidDiffsApp = this.createRapidDiffsApp();
+            this.rapidDiffsApp = await this.createRapidDiffsApp();
             this.rapidDiffsApp.init();
           } else {
             this.rapidDiffsApp.show();

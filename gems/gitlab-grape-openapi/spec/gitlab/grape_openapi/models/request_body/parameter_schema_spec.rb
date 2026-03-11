@@ -154,6 +154,44 @@ RSpec.describe Gitlab::GrapeOpenapi::Models::RequestBody::ParameterSchema do
           )
         end
       end
+
+      context 'with default value' do
+        let(:param_options) { { type: 'Integer', desc: 'Limit', required: false, values: 1..1000, default: 100 } }
+
+        it 'includes both range and default' do
+          expect(method_call).to eq(
+            type: 'integer',
+            minimum: 1,
+            maximum: 1000,
+            default: 100,
+            description: 'Limit'
+          )
+        end
+      end
+
+      context 'with Proc default value' do
+        let(:param_options) { { type: 'Integer', required: false, values: 1..100, default: -> { 50 } } }
+
+        it 'does not include Proc default (because the value is computed at runtime)' do
+          expect(method_call).to eq(
+            type: 'integer',
+            minimum: 1,
+            maximum: 100
+          )
+        end
+      end
+
+      context 'with Time object default' do
+        let(:param_options) { { type: 'Integer', required: false, values: 1..100, default: Time.current } }
+
+        it 'does not include Time default (not serializable)' do
+          expect(method_call).to eq(
+            type: 'integer',
+            minimum: 1,
+            maximum: 100
+          )
+        end
+      end
     end
 
     describe 'when values is present (enum)' do
@@ -201,6 +239,47 @@ RSpec.describe Gitlab::GrapeOpenapi::Models::RequestBody::ParameterSchema do
         it 'generates schema without enum when values is a lambda' do
           expect(method_call).to eq(
             type: 'integer'
+          )
+        end
+      end
+
+      context 'with enum and default value' do
+        let(:param_options) do
+          { type: 'String', desc: 'Priority', required: false, values: %w[low medium high], default: 'medium' }
+        end
+
+        it 'includes both enum and default' do
+          expect(method_call).to eq(
+            type: 'string',
+            enum: %w[low medium high],
+            default: 'medium',
+            description: 'Priority'
+          )
+        end
+      end
+
+      context 'with enum and Proc default value (because the value is computed at runtime)' do
+        let(:param_options) do
+          { type: 'String', required: false, values: %w[low medium high], default: -> { 'medium' } }
+        end
+
+        it 'includes enum but not Proc default' do
+          expect(method_call).to eq(
+            type: 'string',
+            enum: %w[low medium high]
+          )
+        end
+      end
+
+      context 'with enum and Time object default' do
+        let(:param_options) do
+          { type: 'String', required: false, values: %w[low medium high], default: Time.current }
+        end
+
+        it 'includes enum but not Time default (not serializable)' do
+          expect(method_call).to eq(
+            type: 'string',
+            enum: %w[low medium high]
           )
         end
       end
@@ -632,6 +711,16 @@ RSpec.describe Gitlab::GrapeOpenapi::Models::RequestBody::ParameterSchema do
         it 'generates schema without default when default is a lambda' do
           expect(method_call).to eq(
             type: 'integer'
+          )
+        end
+      end
+
+      context 'with Time object default' do
+        let(:param_options) { { type: 'String', required: false, default: Time.current } }
+
+        it 'generates schema without default when default is a Time (not serializable)' do
+          expect(method_call).to eq(
+            type: 'string'
           )
         end
       end

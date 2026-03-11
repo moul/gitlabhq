@@ -267,6 +267,17 @@ module WorkItems
           configuration_class.try(:allowed_child_types) || []
         end
 
+        def filterable_list_view?(resource_parent)
+          resource_parent = resource_parent.project if resource_parent.is_a?(Namespaces::ProjectNamespace)
+          value = configuration_class.try(:filterable_list_view?, resource_parent)
+          value.nil? || value
+        end
+
+        def filterable_board_view?(resource_parent)
+          resource_parent = resource_parent.project if resource_parent.is_a?(Namespaces::ProjectNamespace)
+          configuration_class.try(:filterable_board_view?, resource_parent) || false
+        end
+
         private
 
         def licenses_for_parent

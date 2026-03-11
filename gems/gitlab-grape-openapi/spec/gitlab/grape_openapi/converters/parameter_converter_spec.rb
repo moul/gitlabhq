@@ -701,11 +701,11 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
       context 'with enum and default' do
         let(:options) { { type: 'String', values: %w[low medium high], default: 'medium' } }
 
-        it 'includes enum but not default (enums take precedence)' do
-          # Current implementation: build_enum_schema doesn't include default
+        it 'includes both enum and default' do
           expect(converter.schema).to eq({
             type: 'string',
-            enum: %w[low medium high]
+            enum: %w[low medium high],
+            default: 'medium'
           })
         end
       end
@@ -713,10 +713,47 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
       context 'with enum of integers and default' do
         let(:options) { { type: 'Integer', values: [10, 20, 30], default: 20 } }
 
-        it 'includes enum but not default' do
+        it 'includes both enum and default' do
           expect(converter.schema).to eq({
             type: 'integer',
-            enum: [10, 20, 30]
+            enum: [10, 20, 30],
+            default: 20
+          })
+        end
+      end
+
+      context 'with range and default' do
+        let(:options) { { type: 'Integer', values: 1..100, default: 20 } }
+
+        it 'includes both range and default' do
+          expect(converter.schema).to eq({
+            type: 'integer',
+            minimum: 1,
+            maximum: 100,
+            default: 20
+          })
+        end
+      end
+
+      context 'with enum and Proc default' do
+        let(:options) { { type: 'String', values: %w[low medium high], default: -> { 'medium' } } }
+
+        it 'includes enum but not Proc default (not serializable)' do
+          expect(converter.schema).to eq({
+            type: 'string',
+            enum: %w[low medium high]
+          })
+        end
+      end
+
+      context 'with range and Proc default' do
+        let(:options) { { type: 'Integer', values: 1..100, default: -> { 20 } } }
+
+        it 'includes range but not Proc default (not serializable)' do
+          expect(converter.schema).to eq({
+            type: 'integer',
+            minimum: 1,
+            maximum: 100
           })
         end
       end

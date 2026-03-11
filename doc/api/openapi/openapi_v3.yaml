@@ -1474,6 +1474,7 @@ paths:
           enum:
           - id
           - username
+          default: id
         in: query
       - name: sort
         required: false
@@ -1483,6 +1484,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
   "/api/v4/projects/{id}/service_accounts/{user_id}":
     delete:
@@ -1877,6 +1879,7 @@ paths:
           enum:
           - id
           - username
+          default: id
         in: query
       - name: sort
         required: false
@@ -1886,6 +1889,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
   "/api/v4/groups/{id}/service_accounts/{user_id}":
     delete:
@@ -2208,7 +2212,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_f714dfd9676c"
+              "$ref": "#/components/schemas/RequestBody_23bbc72f099d"
   "/api/v4/groups/{id}/dependency_list_exports":
     post:
       operationId: postApiV4GroupsIdDependencyListExports
@@ -2233,7 +2237,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_cb291b5bda0e"
+              "$ref": "#/components/schemas/RequestBody_9f6446e30143"
   "/api/v4/pipelines/{id}/dependency_list_exports":
     post:
       operationId: postApiV4PipelinesIdDependencyListExports
@@ -2258,7 +2262,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_c12d01d42297"
+              "$ref": "#/components/schemas/RequestBody_a45d3271dd1f"
   "/api/v4/dependency_list_exports/{export_id}":
     get:
       operationId: getApiV4DependencyListExportsExportId
@@ -2658,6 +2662,7 @@ paths:
           - current
           - closed
           - all
+          default: all
         in: query
         example: opened
       - name: search
@@ -2763,6 +2768,7 @@ paths:
           - current
           - closed
           - all
+          default: all
         in: query
         example: opened
       - name: search
@@ -4127,7 +4133,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_311ae1cb1c73"
+              "$ref": "#/components/schemas/RequestBody_6a8b2bd25122"
   "/api/v4/security/groups/{id}/vulnerability_exports":
     post:
       operationId: postApiV4SecurityGroupsIdVulnerabilityExports
@@ -4153,7 +4159,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_311ae1cb1c73"
+              "$ref": "#/components/schemas/RequestBody_6a8b2bd25122"
   "/api/v4/security/vulnerability_exports":
     post:
       operationId: postApiV4SecurityVulnerabilityExports
@@ -4172,7 +4178,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_3fddd2c65a9a"
+              "$ref": "#/components/schemas/RequestBody_52a66ac83a4d"
   "/api/v4/security/vulnerability_exports/{id}":
     get:
       operationId: getApiV4SecurityVulnerabilityExportsId
@@ -4223,7 +4229,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_53c2dccf0e23"
+              "$ref": "#/components/schemas/RequestBody_9819dc4961ce"
   "/api/v4/security/vulnerability_archive_exports/{id}":
     get:
       operationId: getApiV4SecurityVulnerabilityArchiveExportsId
@@ -4357,6 +4363,7 @@ paths:
           enum:
           - all
           - dismissed
+          default: dismissed
         in: query
       - name: severity
         required: false
@@ -4948,6 +4955,7 @@ paths:
           enum:
           - id
           - username
+          default: id
         in: query
       - name: sort
         required: false
@@ -4957,6 +4965,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
   "/api/v4/service_accounts/{user_id}":
     patch:
@@ -5865,6 +5874,7 @@ paths:
           type: integer
           minimum: 1
           maximum: 20
+          default: 20
         in: query
         example: 20
       - name: page
@@ -6437,6 +6447,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: page
         required: false
@@ -6509,6 +6520,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: page
         required: false
@@ -8200,6 +8212,7 @@ paths:
           - created_at
           - updated_at
           - title
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -8209,6 +8222,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: search
         required: false
@@ -8226,6 +8240,7 @@ paths:
           - opened
           - closed
           - all
+          default: all
         in: query
       - name: author_id
         required: false
@@ -8399,6 +8414,7 @@ paths:
           - created_at
           - updated_at
           - title
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -8408,6 +8424,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: search
         required: false
@@ -8425,6 +8442,7 @@ paths:
           - opened
           - closed
           - all
+          default: all
         in: query
       - name: author_id
         required: false
@@ -10394,7 +10412,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_980358566425"
+              "$ref": "#/components/schemas/RequestBody_b7c40c215b12"
   "/api/v4/runner_controllers/{id}":
     get:
       operationId: getApiV4RunnerControllersId
@@ -10784,6 +10802,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
   "/api/v4/admin/data_management/{model_name}/checksum":
     put:
@@ -12915,7 +12934,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_99bd5a784975"
+              "$ref": "#/components/schemas/RequestBody_cf28c8dbffe3"
     get:
       operationId: getApiV4UsersUserIdKeys
       summary: Get the SSH keys of a specified user.
@@ -13463,6 +13482,7 @@ paths:
           - all
           - active
           - inactive
+          default: all
         in: query
     post:
       operationId: postApiV4UsersUserIdImpersonationTokens
@@ -13626,7 +13646,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_99bd5a784975"
+              "$ref": "#/components/schemas/RequestBody_cf28c8dbffe3"
   "/api/v4/user/keys/{key_id}":
     get:
       operationId: getApiV4UserKeysKeyId
@@ -15602,6 +15622,7 @@ paths:
           - active
           - closed
           - all
+          default: all
         in: query
       - name: iids
         required: false
@@ -16062,6 +16083,7 @@ paths:
           enum:
           - created_at
           - updated_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -16071,6 +16093,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: activity_filter
         required: false
@@ -16081,6 +16104,7 @@ paths:
           - all_notes
           - only_comments
           - only_activity
+          default: all_notes
         in: query
       - name: page
         required: false
@@ -16263,6 +16287,7 @@ paths:
           enum:
           - created_at
           - updated_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -16272,6 +16297,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: activity_filter
         required: false
@@ -16282,6 +16308,7 @@ paths:
           - all_notes
           - only_comments
           - only_activity
+          default: all_notes
         in: query
       - name: page
         required: false
@@ -16464,6 +16491,7 @@ paths:
           enum:
           - created_at
           - updated_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -16473,6 +16501,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: activity_filter
         required: false
@@ -16483,6 +16512,7 @@ paths:
           - all_notes
           - only_comments
           - only_activity
+          default: all_notes
         in: query
       - name: page
         required: false
@@ -16665,6 +16695,7 @@ paths:
           enum:
           - created_at
           - updated_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -16674,6 +16705,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: activity_filter
         required: false
@@ -16684,6 +16716,7 @@ paths:
           - all_notes
           - only_comments
           - only_activity
+          default: all_notes
         in: query
       - name: page
         required: false
@@ -16866,6 +16899,7 @@ paths:
           enum:
           - created_at
           - updated_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -16875,6 +16909,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: activity_filter
         required: false
@@ -16885,6 +16920,7 @@ paths:
           - all_notes
           - only_comments
           - only_activity
+          default: all_notes
         in: query
       - name: page
         required: false
@@ -17067,6 +17103,7 @@ paths:
           enum:
           - created_at
           - updated_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -17076,6 +17113,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: activity_filter
         required: false
@@ -17086,6 +17124,7 @@ paths:
           - all_notes
           - only_comments
           - only_activity
+          default: all_notes
         in: query
       - name: page
         required: false
@@ -17268,6 +17307,7 @@ paths:
           enum:
           - created_at
           - updated_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -17277,6 +17317,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: activity_filter
         required: false
@@ -17287,6 +17328,7 @@ paths:
           - all_notes
           - only_comments
           - only_activity
+          default: all_notes
         in: query
       - name: page
         required: false
@@ -17489,6 +17531,7 @@ paths:
           - active
           - closed
           - all
+          default: all
         in: query
       - name: iids
         required: false
@@ -20624,7 +20667,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_0b051dbd2a3a"
+              "$ref": "#/components/schemas/RequestBody_c85ee2da028d"
   "/api/v4/groups/{id}/wikis/{slug}":
     get:
       operationId: getApiV4GroupsIdWikisSlug
@@ -20682,7 +20725,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_86b8545db85e"
+              "$ref": "#/components/schemas/RequestBody_dfcfb14ce196"
     delete:
       operationId: deleteApiV4GroupsIdWikisSlug
       summary: Delete a wiki page
@@ -20769,7 +20812,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_0b051dbd2a3a"
+              "$ref": "#/components/schemas/RequestBody_c85ee2da028d"
   "/api/v4/projects/{id}/wikis/{slug}":
     get:
       operationId: getApiV4ProjectsIdWikisSlug
@@ -20827,7 +20870,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_86b8545db85e"
+              "$ref": "#/components/schemas/RequestBody_dfcfb14ce196"
     delete:
       operationId: deleteApiV4ProjectsIdWikisSlug
       summary: Delete a wiki page
@@ -21782,6 +21825,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: order_by
         required: false
@@ -21792,6 +21836,7 @@ paths:
           - name
           - updated
           - version
+          default: updated
         in: query
       - name: search
         required: false
@@ -22429,7 +22474,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_0cc34fe8756a"
+              "$ref": "#/components/schemas/RequestBody_7f5cc8912d6e"
   "/api/v4/snippets/public":
     get:
       operationId: getApiV4SnippetsPublic
@@ -23563,7 +23608,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_b17deb5007fe"
+              "$ref": "#/components/schemas/RequestBody_66222834fbc9"
   "/api/v4/projects/{id}/access_tokens/{token_id}":
     get:
       operationId: getApiV4ProjectsIdAccessTokensTokenId
@@ -23780,7 +23825,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_1a3b77a62483"
+              "$ref": "#/components/schemas/RequestBody_a5a2b08a61e8"
   "/api/v4/groups/{id}/access_tokens/{token_id}":
     get:
       operationId: getApiV4GroupsIdAccessTokensTokenId
@@ -23939,6 +23984,7 @@ paths:
           - legacy
           - keyset
           - none
+          default: legacy
         in: query
       - name: page_token
         required: false
@@ -24198,6 +24244,7 @@ paths:
           - email
           - name
           - commits
+          default: commits
         in: query
       - name: sort
         required: false
@@ -24207,6 +24254,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
   "/api/v4/projects/{id}/repository/merge_base":
     get:
@@ -24684,7 +24732,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_ff2bb5080b05"
+              "$ref": "#/components/schemas/RequestBody_bc798616856b"
   "/api/v4/projects/{id}/releases/{tag_name}/assets/links/{link_id}":
     get:
       operationId: getApiV4ProjectsIdReleasesTagNameAssetsLinksLinkId
@@ -24769,7 +24817,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_92ec9bb5d845"
+              "$ref": "#/components/schemas/RequestBody_8205585cd9db"
     delete:
       operationId: deleteApiV4ProjectsIdReleasesTagNameAssetsLinksLinkId
       summary: Delete a release link
@@ -24848,6 +24896,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: simple
         required: false
@@ -24920,6 +24969,7 @@ paths:
           enum:
           - released_at
           - created_at
+          default: released_at
         in: query
       - name: sort
         required: false
@@ -24930,6 +24980,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: include_html_description
         required: false
@@ -25629,6 +25680,7 @@ paths:
           - repository_size
           - wiki_size
           - packages_size
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -25638,6 +25690,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: archived
         required: false
@@ -25911,6 +25964,7 @@ paths:
           - repository_size
           - wiki_size
           - packages_size
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -25920,6 +25974,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: page
         required: false
@@ -25985,6 +26040,7 @@ paths:
           - repository_size
           - wiki_size
           - packages_size
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -25994,6 +26050,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: archived
         required: false
@@ -26335,6 +26392,7 @@ paths:
           - repository_size
           - wiki_size
           - packages_size
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -26344,6 +26402,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: archived
         required: false
@@ -26856,6 +26915,7 @@ paths:
           - repository_size
           - wiki_size
           - packages_size
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -26865,6 +26925,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: archived
         required: false
@@ -27659,7 +27720,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_88fd1718d330"
+              "$ref": "#/components/schemas/RequestBody_4cc92f3f6f14"
   "/api/v4/projects/{id}/repository_size":
     post:
       operationId: postApiV4ProjectsIdRepositorySize
@@ -28485,6 +28546,7 @@ paths:
           - name
           - version
           - type
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -28494,6 +28556,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
       - name: package_type
         required: false
@@ -28653,6 +28716,7 @@ paths:
           type: integer
           minimum: 1
           maximum: 20
+          default: 20
         in: query
         example: 20
       - name: package_id
@@ -29478,6 +29542,7 @@ paths:
           type: integer
           minimum: 1
           maximum: 20
+          default: 20
         in: query
         example: 20
       - name: page
@@ -29620,7 +29685,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_4dd32c111636"
+              "$ref": "#/components/schemas/RequestBody_7244dfe75f18"
   "/api/v4/projects/{id}/export/download":
     get:
       operationId: getApiV4ProjectsIdExportDownload
@@ -29835,6 +29900,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: page
         required: false
@@ -30990,7 +31056,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_417afc573e07"
+              "$ref": "#/components/schemas/RequestBody_656fc2290312"
   "/api/v4/projects/{id}/avatar":
     get:
       operationId: getApiV4ProjectsIdAvatar
@@ -31636,6 +31702,7 @@ paths:
           - id
           - created_at
           - file_name
+          default: id
         in: query
       - name: sort
         required: false
@@ -31645,6 +31712,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
   "/api/v4/projects/{id}/packages/{package_id}/package_files/{package_file_id}":
     delete:
@@ -31793,6 +31861,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: status
         required: false
@@ -33088,6 +33157,7 @@ paths:
           - locked
           - merged
           - all
+          default: all
         in: query
       - name: order_by
         required: false
@@ -33105,6 +33175,7 @@ paths:
           - title
           - updated_at
           - merged_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -33114,6 +33185,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: with_labels_details
         required: false
@@ -33188,6 +33260,7 @@ paths:
           - assigned_to_me
           - reviews_for_me
           - all
+          default: created_by_me
         in: query
       - name: source_branch
         required: false
@@ -33526,6 +33599,7 @@ paths:
           - locked
           - merged
           - all
+          default: all
         in: query
       - name: order_by
         required: false
@@ -33543,6 +33617,7 @@ paths:
           - title
           - updated_at
           - merged_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -33552,6 +33627,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: with_labels_details
         required: false
@@ -34151,6 +34227,7 @@ paths:
           - locked
           - merged
           - all
+          default: all
         in: query
       - name: order_by
         required: false
@@ -34168,6 +34245,7 @@ paths:
           - title
           - updated_at
           - merged_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -34177,6 +34255,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: with_labels_details
         required: false
@@ -36750,6 +36829,7 @@ paths:
           - created_by_me
           - assigned_to_me
           - all
+          default: created_by_me
         in: query
       - name: my_reaction_emoji
         required: false
@@ -36838,6 +36918,7 @@ paths:
           - opened
           - closed
           - all
+          default: all
         in: query
       - name: closed_by_id
         required: false
@@ -36863,6 +36944,7 @@ paths:
           - title
           - updated_at
           - weight
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -36872,6 +36954,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: due_date
         required: false
@@ -37117,6 +37200,7 @@ paths:
           - created_by_me
           - assigned_to_me
           - all
+          default: created_by_me
         in: query
       - name: my_reaction_emoji
         required: false
@@ -37254,6 +37338,7 @@ paths:
           - opened
           - closed
           - all
+          default: all
         in: query
       - name: closed_by_id
         required: false
@@ -37279,6 +37364,7 @@ paths:
           - title
           - updated_at
           - weight
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -37288,6 +37374,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: due_date
         required: false
@@ -38117,6 +38204,7 @@ paths:
           - opened
           - closed
           - all
+          default: all
         in: query
       - name: closed_by_id
         required: false
@@ -38142,6 +38230,7 @@ paths:
           - title
           - updated_at
           - weight
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -38151,6 +38240,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: due_date
         required: false
@@ -45315,6 +45405,7 @@ paths:
           - version
           - type
           - project_path
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -45324,6 +45415,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
       - name: package_type
         required: false
@@ -46189,7 +46281,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_f41771678df1"
+              "$ref": "#/components/schemas/RequestBody_b72bf3a2e1a8"
   "/api/v4/groups/{id}/avatar":
     get:
       operationId: getApiV4GroupsIdAvatar
@@ -47424,6 +47516,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
   "/api/v4/users/{id}/events":
     get:
@@ -47508,6 +47601,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
   "/api/v4/projects/{id}/error_tracking/settings":
     get:
@@ -47955,6 +48049,7 @@ paths:
           type: integer
           minimum: 1
           maximum: 1000
+          default: 100
         in: query
       - name: dry_run
         required: false
@@ -48329,6 +48424,7 @@ paths:
           - created_at
           - updated_at
           - finished_at
+          default: id
         in: query
       - name: sort
         required: false
@@ -48339,6 +48435,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
       - name: updated_after
         required: false
@@ -48674,6 +48771,7 @@ paths:
           - locked
           - merged
           - all
+          default: all
         in: query
       - name: order_by
         required: false
@@ -48691,6 +48789,7 @@ paths:
           - title
           - updated_at
           - merged_at
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -48700,6 +48799,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: with_labels_details
         required: false
@@ -53520,6 +53620,7 @@ paths:
           enum:
           - id
           - pipeline_id
+          default: id
         in: query
       - name: sort
         required: false
@@ -53690,6 +53791,7 @@ paths:
           enum:
           - default
           - topo
+          default: default
         in: query
       - name: trailers
         required: false
@@ -53921,7 +54023,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_e9d7f2dee778"
+              "$ref": "#/components/schemas/RequestBody_a32928b4e0af"
   "/api/v4/projects/{id}/repository/commits/{sha}/sequence":
     get:
       operationId: getApiV4ProjectsIdRepositoryCommitsShaSequence
@@ -54076,6 +54178,7 @@ paths:
           - branch
           - tag
           - all
+          default: all
         in: query
       - name: page
         required: false
@@ -55254,6 +55357,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
         example: desc
   "/api/v4/projects/{id}/pipeline_schedules/{pipeline_schedule_id}/take_ownership":
@@ -55657,6 +55761,7 @@ paths:
           - ref
           - updated_at
           - user_id
+          default: id
         in: query
         example: status
       - name: sort
@@ -55667,6 +55772,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
         example: asc
       - name: source
@@ -55738,7 +55844,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_094fcda865d2"
+              "$ref": "#/components/schemas/RequestBody_b5bccbe8d875"
   "/api/v4/projects/{id}/pipelines/latest":
     get:
       operationId: getApiV4ProjectsIdPipelinesLatest
@@ -56817,6 +56923,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: cursor
         required: false
@@ -57426,7 +57533,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_bb9a9c0a7ef5"
+              "$ref": "#/components/schemas/RequestBody_f421cfa30d9f"
   "/api/v4/jobs/{id}/artifacts":
     post:
       operationId: postApiV4JobsIdArtifacts
@@ -57458,7 +57565,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              "$ref": "#/components/schemas/RequestBody_9be221169aae"
+              "$ref": "#/components/schemas/RequestBody_8f753b2c12ad"
     get:
       operationId: getApiV4JobsIdArtifacts
       summary: Download the artifacts file for job
@@ -58130,6 +58237,7 @@ paths:
           - path
           - id
           - similarity
+          default: name
         in: query
       - name: sort
         required: false
@@ -58139,6 +58247,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
       - name: min_access_level
         required: false
@@ -58432,6 +58541,7 @@ paths:
           - path
           - id
           - similarity
+          default: name
         in: query
       - name: sort
         required: false
@@ -58441,6 +58551,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
       - name: page
         required: false
@@ -58609,6 +58720,7 @@ paths:
           - last_activity_at
           - similarity
           - star_count
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -58618,6 +58730,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: simple
         required: false
@@ -58770,6 +58883,7 @@ paths:
           - updated_at
           - last_activity_at
           - star_count
+          default: created_at
         in: query
       - name: sort
         required: false
@@ -58779,6 +58893,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: simple
         required: false
@@ -58926,6 +59041,7 @@ paths:
           - path
           - id
           - similarity
+          default: name
         in: query
       - name: sort
         required: false
@@ -58935,6 +59051,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
       - name: min_access_level
         required: false
@@ -59083,6 +59200,7 @@ paths:
           - path
           - id
           - similarity
+          default: name
         in: query
       - name: sort
         required: false
@@ -59092,6 +59210,7 @@ paths:
           enum:
           - asc
           - desc
+          default: asc
         in: query
       - name: min_access_level
         required: false
@@ -59987,6 +60106,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: status
         required: false
@@ -60047,6 +60167,7 @@ paths:
           enum:
           - asc
           - desc
+          default: desc
         in: query
       - name: status
         required: false
@@ -62094,6 +62215,7 @@ paths:
           - ultimate_trial_paid_customer
           - premium_trial
           - opensource
+          default: default
         in: query
     put:
       operationId: putApiV4ApplicationPlanLimits
@@ -62145,6 +62267,7 @@ paths:
           - sec
           - embedding
           - geo
+          default: main
         in: query
   "/api/v4/admin/migrations/{timestamp}/mark":
     post:
@@ -62175,7 +62298,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_9e90c0e98ab8"
+              "$ref": "#/components/schemas/RequestBody_791e3065f97e"
   "/api/v4/admin/clusters":
     get:
       operationId: getApiV4AdminClusters
@@ -62304,7 +62427,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_417afc573e07"
+              "$ref": "#/components/schemas/RequestBody_656fc2290312"
   "/api/v4/admin/databases/{database_name}/dictionary/tables/{table_name}":
     get:
       operationId: getApiV4AdminDatabasesDatabaseNameDictionaryTablesTableName
@@ -62509,7 +62632,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_7c61e2b58403"
+              "$ref": "#/components/schemas/RequestBody_62cbd8ae52e6"
   "/api/v4/broadcast_messages/{id}":
     get:
       operationId: getApiV4BroadcastMessagesId
@@ -62608,6 +62731,7 @@ paths:
           - sec
           - embedding
           - geo
+          default: main
         in: query
       - name: id
         required: true
@@ -62644,6 +62768,7 @@ paths:
           - sec
           - embedding
           - geo
+          default: main
         in: query
       - name: job_class_name
         required: false
@@ -62684,7 +62809,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_9e90c0e98ab8"
+              "$ref": "#/components/schemas/RequestBody_791e3065f97e"
   "/api/v4/admin/batched_background_migrations/{id}/pause":
     put:
       operationId: putApiV4AdminBatchedBackgroundMigrationsIdPause
@@ -62718,7 +62843,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_9e90c0e98ab8"
+              "$ref": "#/components/schemas/RequestBody_791e3065f97e"
   "/api/v4/groups/{id}/access_requests":
     get:
       operationId: getApiV4GroupsIdAccessRequests
@@ -78410,7 +78535,7 @@ components:
       required:
       - started_on
       - expires_on
-    RequestBody_4e443cf905a5:
+    RequestBody_715811529d22:
       type: object
       properties:
         query:
@@ -78420,12 +78545,14 @@ components:
           type: string
           enum:
           - json
+          default: json
           description: Query language
         response_format:
           type: string
           enum:
           - raw
           - llm
+          default: raw
           description: 'Response format: raw or llm'
       required:
       - query
@@ -79281,7 +79408,7 @@ components:
           format: date
           description: The expiration date of the token
           example: '2021-01-31'
-    RequestBody_f714dfd9676c:
+    RequestBody_23bbc72f099d:
       type: object
       properties:
         send_email:
@@ -79293,8 +79420,9 @@ components:
           - :dependency_list
           - :csv
           - :cyclonedx_1_6_json
+          default: :dependency_list
           description: File format of the export
-    RequestBody_cb291b5bda0e:
+    RequestBody_9f6446e30143:
       type: object
       properties:
         send_email:
@@ -79305,8 +79433,9 @@ components:
           enum:
           - :json_array
           - :csv
+          default: :json_array
           description: File format of the export
-    RequestBody_c12d01d42297:
+    RequestBody_a45d3271dd1f:
       type: object
       properties:
         send_email:
@@ -79316,6 +79445,7 @@ components:
           type: string
           enum:
           - sbom
+          default: sbom
           description: The type of the export file
     RequestBody_bcff1478ac49:
       type: object
@@ -79883,7 +80013,7 @@ components:
         remove_hidden_groups:
           type: boolean
           description: Whether hidden groups should be removed
-    RequestBody_311ae1cb1c73:
+    RequestBody_6a8b2bd25122:
       type: object
       properties:
         export_format:
@@ -79891,6 +80021,7 @@ components:
           enum:
           - csv
           - pdf
+          default: csv
           description: Format of the generated report
         send_email:
           type: boolean
@@ -79930,7 +80061,7 @@ components:
             full_path:
               type: string
               description: The full path of the vulnerable
-    RequestBody_3fddd2c65a9a:
+    RequestBody_52a66ac83a4d:
       type: object
       properties:
         export_format:
@@ -79938,10 +80069,11 @@ components:
           enum:
           - csv
           - pdf
+          default: csv
           description: Format of the generated report
         send_email:
           type: boolean
-    RequestBody_53c2dccf0e23:
+    RequestBody_9819dc4961ce:
       type: object
       properties:
         start_date:
@@ -79956,6 +80088,7 @@ components:
           type: string
           enum:
           - csv
+          default: csv
           description: The format of export to be generated
       required:
       - start_date
@@ -81570,6 +81703,21 @@ components:
           type: string
           description: Description of the runner controller token
           example: Token for managing runner
+    RequestBody_b7c40c215b12:
+      type: object
+      properties:
+        description:
+          type: string
+          description: Description of the runner controller
+          example: Controller for managing runner
+        state:
+          type: string
+          enum:
+          - disabled
+          - enabled
+          - dry_run
+          default: disabled
+          description: State of the runner controller (disabled, enabled, dry_run)
     RequestBody_980358566425:
       type: object
       properties:
@@ -82242,7 +82390,7 @@ components:
         auditor:
           type: boolean
           description: Flag indicating auditor status of the user
-    RequestBody_99bd5a784975:
+    RequestBody_cf28c8dbffe3:
       type: object
       properties:
         key:
@@ -82261,6 +82409,7 @@ components:
           - auth_and_signing
           - auth
           - signing
+          default: auth_and_signing
           description: Scope of usage for the SSH key
       required:
       - key
@@ -84752,7 +84901,7 @@ components:
           - position_type
       required:
       - body
-    RequestBody_0b051dbd2a3a:
+    RequestBody_c85ee2da028d:
       type: object
       properties:
         title:
@@ -84775,12 +84924,13 @@ components:
           - rdoc
           - asciidoc
           - org
+          default: markdown
           description: Format of a wiki page. Available formats are markdown, rdoc,
             asciidoc and org
       required:
       - title
       - content
-    RequestBody_86b8545db85e:
+    RequestBody_dfcfb14ce196:
       type: object
       properties:
         title:
@@ -84803,6 +84953,7 @@ components:
           - rdoc
           - asciidoc
           - org
+          default: markdown
           description: Format of a wiki page. Available formats are markdown, rdoc,
             asciidoc and org
     RequestBody_2ea335caa3cd:
@@ -85215,7 +85366,7 @@ components:
       required:
       - commit_sha
       - branch
-    RequestBody_0cc34fe8756a:
+    RequestBody_7f5cc8912d6e:
       type: object
       properties:
         title:
@@ -85230,6 +85381,7 @@ components:
           - private
           - internal
           - public
+          default: internal
           description: The visibility of the snippet
         files:
           type: array
@@ -85303,7 +85455,7 @@ components:
                 description: The previous path of a snippet file
             required:
             - action
-    RequestBody_b17deb5007fe:
+    RequestBody_66222834fbc9:
       type: object
       properties:
         name:
@@ -85335,11 +85487,12 @@ components:
           - 30
           - 40
           - 50
+          default: 40
           description: The access level of the token in the project
       required:
       - name
       - scopes
-    RequestBody_1a3b77a62483:
+    RequestBody_a5a2b08a61e8:
       type: object
       properties:
         name:
@@ -85371,6 +85524,7 @@ components:
           - 30
           - 40
           - 50
+          default: 40
           description: The access level of the token in the group
       required:
       - name
@@ -85466,7 +85620,7 @@ components:
         mirror_branch_regex:
           type: string
           description: Determines if only matched branches are mirrored
-    RequestBody_ff2bb5080b05:
+    RequestBody_bc798616856b:
       type: object
       properties:
         name:
@@ -85488,12 +85642,13 @@ components:
           - runbook
           - image
           - package
+          default: other
           description: 'The type of the link: `other`, `runbook`, `image`, or `package`.
             Defaults to `other`'
       required:
       - name
       - url
-    RequestBody_92ec9bb5d845:
+    RequestBody_8205585cd9db:
       type: object
       properties:
         name:
@@ -85515,6 +85670,7 @@ components:
           - runbook
           - image
           - package
+          default: other
           description: 'The type of the link: `other`, `runbook`, `image`, or `package`.
             Defaults to `other`'
     RequestBody_2bd12fb678ca:
@@ -87195,7 +87351,7 @@ components:
       required:
       - group_id
       - group_access
-    RequestBody_88fd1718d330:
+    RequestBody_4cc92f3f6f14:
       type: object
       properties:
         task:
@@ -87203,6 +87359,7 @@ components:
           enum:
           - :eager
           - :prune
+          default: :eager
           description: "`prune` to trigger manual prune of unreachable objects or
             `eager` to trigger eager housekeeping."
     RequestBody_c18ff17f5c1b:
@@ -89138,7 +89295,7 @@ components:
             required:
             - key
             - value
-    RequestBody_4dd32c111636:
+    RequestBody_7244dfe75f18:
       type: object
       properties:
         description:
@@ -89156,6 +89313,7 @@ components:
               enum:
               - PUT
               - POST
+              default: PUT
               description: HTTP method to upload the exported project
     RequestBody_2a46cbafb359:
       type: object
@@ -89397,7 +89555,7 @@ components:
             namespace:
               type: string
               description: Unique namespace related to Project
-    RequestBody_417afc573e07:
+    RequestBody_656fc2290312:
       type: object
       properties:
         name:
@@ -89449,6 +89607,7 @@ components:
               - unknown_authorization
               - rbac
               - abac
+              default: rbac
               description: Cluster authorization type, defaults to RBAC
           required:
           - api_url
@@ -92454,7 +92613,7 @@ components:
             namespace:
               type: string
               description: Unique namespace related to Group
-    RequestBody_f41771678df1:
+    RequestBody_b72bf3a2e1a8:
       type: object
       properties:
         name:
@@ -92506,6 +92665,7 @@ components:
               - unknown_authorization
               - rbac
               - abac
+              default: rbac
               description: Cluster authorization type, defaults to RBAC
           required:
           - api_url
@@ -93860,7 +94020,7 @@ components:
           description: The commit content to be created (generated by Multipart middleware)
       required:
       - file
-    RequestBody_e9d7f2dee778:
+    RequestBody_a32928b4e0af:
       type: object
       properties:
         note:
@@ -93880,6 +94040,7 @@ components:
           enum:
           - new
           - old
+          default: new
           description: The type of the line
       required:
       - note
@@ -94169,7 +94330,7 @@ components:
           - env_var
           - file
           description: The type of variable, must be one of env_var or file
-    RequestBody_094fcda865d2:
+    RequestBody_b5bccbe8d875:
       type: object
       properties:
         ref:
@@ -94195,6 +94356,7 @@ components:
                 enum:
                 - env_var
                 - file
+                default: env_var
                 description: The type of variable, must be one of env_var or file.
                   Defaults to env_var
         inputs:
@@ -94455,7 +94617,7 @@ components:
         debug_trace:
           type: boolean
           description: Enable or disable the debug trace
-    RequestBody_bb9a9c0a7ef5:
+    RequestBody_f421cfa30d9f:
       type: object
       properties:
         token:
@@ -94500,8 +94662,9 @@ components:
           - repository_xray
           - jacoco
           - scip
+          default: archive
           description: The type of artifact
-    RequestBody_9be221169aae:
+    RequestBody_8f753b2c12ad:
       type: object
       properties:
         file:
@@ -94550,6 +94713,7 @@ components:
           - repository_xray
           - jacoco
           - scip
+          default: archive
           description: The type of artifact
         artifact_format:
           type: string
@@ -94557,6 +94721,7 @@ components:
           - raw
           - zip
           - gzip
+          default: zip
           description: The format of artifact
         metadata:
           type: string
@@ -95664,7 +95829,7 @@ components:
             per top-level namespace. 0 for unlimited (GitLab.com only).
       required:
       - plan_name
-    RequestBody_9e90c0e98ab8:
+    RequestBody_791e3065f97e:
       type: object
       properties:
         database:
@@ -95675,6 +95840,7 @@ components:
           - sec
           - embedding
           - geo
+          default: main
           description: The name of the database
     RequestBody_acefb7b88a88:
       type: object
@@ -95775,7 +95941,7 @@ components:
           - file
           description: 'The type of a variable. Available types are: env_var (default)
             and file'
-    RequestBody_7c61e2b58403:
+    RequestBody_62cbd8ae52e6:
       type: object
       properties:
         message:
@@ -95808,6 +95974,7 @@ components:
           enum:
           - banner
           - notification
+          default: banner
           description: Broadcast type. Defaults to banner
         dismissable:
           type: boolean

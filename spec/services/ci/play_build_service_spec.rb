@@ -167,18 +167,6 @@ RSpec.describe Ci::PlayBuildService, '#execute', feature_category: :continuous_i
         end
       end
 
-      context 'when feature flag is disabled' do
-        before do
-          stub_feature_flags(ci_job_inputs: false)
-        end
-
-        it 'does not assign inputs to the build' do
-          execute_service
-
-          expect(build.reload.inputs).to be_empty
-        end
-      end
-
       context 'when tracking play with new input values' do
         it 'tracks the internal event' do
           expect { execute_service }

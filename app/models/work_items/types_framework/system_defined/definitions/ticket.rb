@@ -72,6 +72,10 @@ module WorkItems
             def can_be_conversion_target?
               false
             end
+
+            def filterable_board_view?(_resource_parent)
+              true
+            end
           end
         end
       end

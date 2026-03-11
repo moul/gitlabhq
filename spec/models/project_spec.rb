@@ -7146,6 +7146,7 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
       expect(project.repository).to receive(:remove_prohibited_refs).ordered
       expect(project.wiki.repository).to receive(:expire_content_cache)
       expect(import_state).to receive(:finish)
+      expect(project).to receive(:track_project_repository)
       expect(project).to receive(:reset_counters_and_iids)
       expect(project).to receive(:after_create_default_branch)
       expect(project).to receive(:refresh_markdown_cache!)
@@ -7226,6 +7227,22 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
         expect(project).to receive(:enqueue_record_project_target_platforms)
 
         project.after_import
+      end
+    end
+
+    describe 'project_repository tracking' do
+      context 'when the project does not have a git repository' do
+        it 'does not create a project_repository record' do
+          expect { project.after_import }.not_to change(ProjectRepository, :count)
+        end
+      end
+
+      context 'when the project does have a git repository' do
+        let_it_be(:project_with_repo) { create(:project, :test_repo) }
+
+        it 'creates a project_repository record' do
+          expect { project_with_repo.after_import }.to change(ProjectRepository, :count).by(1)
+        end
       end
     end
   end

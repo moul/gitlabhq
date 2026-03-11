@@ -2737,6 +2737,8 @@ class Project < ApplicationRecord
     repository.remove_prohibited_refs
     wiki.repository.expire_content_cache
 
+    track_project_repository
+
     DetectRepositoryLanguagesWorker.perform_async(id)
     ProjectCacheWorker.perform_async(self.id, [], %w[repository_size wiki_size])
     AuthorizedProjectUpdate::ProjectRecalculateWorker.perform_async(id)

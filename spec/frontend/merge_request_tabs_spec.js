@@ -467,46 +467,46 @@ describe('MergeRequestTabs', () => {
           }));
         });
 
-        it('stats Rapid Diffs app', () => {
+        it('starts Rapid Diffs app', async () => {
           testContext.class = new MergeRequestTabs({
             stubLocation,
             createRapidDiffsApp,
           });
-          testContext.class.tabShown('diffs', 'not-a-vue-page');
+          await testContext.class.tabShown('diffs', 'not-a-vue-page');
           expect(createRapidDiffsApp).toHaveBeenCalledTimes(1);
           expect(init).toHaveBeenCalledTimes(1);
         });
 
-        it('creates a single Rapid Diffs app instance', () => {
+        it('creates a single Rapid Diffs app instance', async () => {
           testContext.class = new MergeRequestTabs({
             stubLocation,
             createRapidDiffsApp,
           });
-          testContext.class.tabShown('diffs', 'not-a-vue-page');
-          testContext.class.tabShown('new', 'not-a-vue-page');
-          testContext.class.tabShown('diffs', 'not-a-vue-page');
+          await testContext.class.tabShown('diffs', 'not-a-vue-page');
+          await testContext.class.tabShown('new', 'not-a-vue-page');
+          await testContext.class.tabShown('diffs', 'not-a-vue-page');
           expect(createRapidDiffsApp).toHaveBeenCalledTimes(1);
           expect(init).toHaveBeenCalledTimes(1);
         });
 
-        it('hides Rapid Diffs', () => {
+        it('hides Rapid Diffs', async () => {
           testContext.class = new MergeRequestTabs({
             stubLocation,
             createRapidDiffsApp,
           });
-          testContext.class.tabShown('diffs', 'not-a-vue-page');
-          testContext.class.tabShown('new', 'not-a-vue-page');
+          await testContext.class.tabShown('diffs', 'not-a-vue-page');
+          await testContext.class.tabShown('new', 'not-a-vue-page');
           expect(hide).toHaveBeenCalledTimes(1);
         });
 
-        it('shows Rapid Diffs', () => {
+        it('shows Rapid Diffs', async () => {
           testContext.class = new MergeRequestTabs({
             stubLocation,
             createRapidDiffsApp,
           });
-          testContext.class.tabShown('diffs', 'not-a-vue-page');
-          testContext.class.tabShown('new', 'not-a-vue-page');
-          testContext.class.tabShown('diffs', 'not-a-vue-page');
+          await testContext.class.tabShown('diffs', 'not-a-vue-page');
+          await testContext.class.tabShown('new', 'not-a-vue-page');
+          await testContext.class.tabShown('diffs', 'not-a-vue-page');
           expect(show).toHaveBeenCalledTimes(1);
         });
       });

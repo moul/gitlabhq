@@ -1147,6 +1147,8 @@
   - 1
 - - security_scan_result_policies_sync_project
   - 1
+- - security_scan_result_policies_sync_project_finding_enrichments
+  - 1
 - - security_scan_result_policies_unblock_fail_open_approval_rules
   - 1
 - - security_scan_result_policies_unblock_pending_merge_request_violations

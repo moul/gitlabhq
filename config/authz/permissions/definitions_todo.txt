@@ -228,7 +228,6 @@ create_subgroup
 create_task
 create_test_case
 create_timelog
-create_todo
 create_virtual_registry
 create_vulnerability_archive_export
 create_vulnerability_feedback
@@ -599,7 +598,6 @@ read_storage_disk_path
 read_subscription_usage
 read_target_branch_rule
 read_timelog_category
-read_todo
 read_upload
 read_usage
 read_usage_quotas
@@ -730,7 +728,6 @@ update_subscription
 update_subscription_limit
 update_terraform_state
 update_timelog
-update_todo
 update_user
 update_user_achievement
 update_virtual_registry

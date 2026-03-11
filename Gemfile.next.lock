@@ -1332,7 +1332,7 @@ GEM
     omniauth-oauth2-generic (0.2.8)
       omniauth-oauth2 (~> 1.0)
       rake
-    omniauth-saml (2.2.4)
+    omniauth-saml (2.2.5)
       omniauth (~> 2.1)
       ruby-saml (~> 1.18)
     omniauth-shibboleth-redux (2.0.0)

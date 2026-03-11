@@ -42,6 +42,7 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
     push_frontend_feature_flag(:mr_pipelines_graphql, project)
     push_frontend_feature_flag(:pipeline_mini_graph_subscription, project)
     push_frontend_feature_flag(:notifications_todos_buttons, current_user)
+    push_frontend_feature_flag(:rapid_diffs_on_mr_show, current_user, type: :wip)
   end
 
   before_action do

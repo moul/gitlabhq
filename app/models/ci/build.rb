@@ -627,7 +627,7 @@ module Ci
     end
 
     def degenerated?
-      super && execution_config_id.nil?
+      super && execution_config_id.nil? && run_steps.blank?
     end
 
     def degenerate!

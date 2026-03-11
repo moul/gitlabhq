@@ -55,7 +55,9 @@ module Integrations
 
         add_reaction('eyes')
 
-        post_thread_reply(WIP_REPLY)
+        thread_context = build_thread_context
+        response = generate_response(thread_context)
+        post_thread_reply(response)
 
         remove_reaction('eyes')
         add_reaction('white_check_mark')
@@ -85,13 +87,71 @@ module Integrations
       end
       strong_memoize_attr :slack_gitlab_user_connection
 
+      # Stub: will be replaced with Duo agent call in a follow-up
+      def generate_response(_thread_context)
+        WIP_REPLY
+      end
+
+      def build_thread_context
+        messages = fetch_thread_messages
+        return slack_event[:text].to_s if messages.nil? || (messages.length == 1 && thread_ts == message_ts)
+
+        user_map = build_user_map(messages)
+        participants = format_participants(user_map)
+        conversation = messages.map do |m|
+          author_id = m['user'] || m['bot_id']
+          "#{author_id}: #{m['text'] || ''}"
+        end.join("\n")
+
+        "#{participants}\n\n## Conversation\n#{conversation}"
+      end
+
+      def fetch_thread_messages
+        parsed = slack_api.get('conversations.replies', channel: channel_id, ts: thread_ts).parsed_response
+
+        if parsed.is_a?(Hash) && parsed['ok']
+          parsed['messages'] || []
+        else
+          log_slack_error('Slack API error when fetching thread', parsed)
+          nil
+        end
+      rescue *Gitlab::HTTP::HTTP_ERRORS => e
+        Gitlab::ErrorTracking.track_exception(e, slack_workspace_id: slack_workspace_id)
+        nil
+      end
+
+      # Returns a mapping of Slack user IDs to GitLab usernames:
+      #   { 'U0001' => 'alice', 'U0002' => nil }
+      # Unlinked Slack users map to nil.
+      def build_user_map(messages)
+        # Cap resolved authors to bound the DB query. Recent participants are
+        # most relevant, so we take the last N unique IDs from the conversation.
+        author_ids = messages.filter_map { |m| m['user'] }.uniq.last(50)
+        gitlab_map = ChatName.for_team_and_chat_ids(slack_workspace_id, author_ids).with_user
+          .each_with_object({}) { |cn, h| h[cn.chat_id] = cn.user.username }
+
+        author_ids.index_with { |id| gitlab_map[id] }
+      rescue ActiveRecord::ActiveRecordError => e
+        Gitlab::ErrorTracking.track_exception(e, slack_workspace_id: slack_workspace_id)
+        {}
+      end
+
+      def format_participants(user_map)
+        lines = user_map.map do |slack_id, gitlab_username|
+          parts = ["Slack: #{slack_id}"]
+          parts << "GitLab: @#{gitlab_username}" if gitlab_username
+          "- #{parts.join(' | ')}"
+        end
+
+        "## Participants\n#{lines.join("\n")}"
+      end
+
       def ensure_user_linked
         url = ChatNames::AuthorizeUserService.new(authorize_params).execute
         return unless url
 
         presenter = ::Gitlab::SlashCommands::Presenters::Access.new(url)
-        text = presenter.authorize[:text]
-        post_ephemeral(text)
+        post_ephemeral(presenter.authorize[:text])
       rescue *Gitlab::HTTP::HTTP_ERRORS => e
         Gitlab::ErrorTracking.track_exception(e, slack_workspace_id: slack_workspace_id)
       end
@@ -112,54 +172,29 @@ module Integrations
       end
 
       def add_reaction(name)
-        response = slack_api.post(
-          'reactions.add',
-          channel: channel_id,
-          name: name,
-          timestamp: message_ts
-        )
-        return response if response['ok']
-
-        log_slack_error('Slack API error when adding reaction', response)
+        response = slack_api.post('reactions.add', channel: channel_id, name: name, timestamp: message_ts)
+        log_slack_error('Slack API error when adding reaction', response) unless response['ok']
       rescue *Gitlab::HTTP::HTTP_ERRORS => e
         Gitlab::ErrorTracking.track_exception(e, slack_workspace_id: slack_workspace_id)
       end
 
       def remove_reaction(name)
-        slack_api.post(
-          'reactions.remove',
-          channel: channel_id,
-          name: name,
-          timestamp: message_ts
-        )
+        response = slack_api.post('reactions.remove', channel: channel_id, name: name, timestamp: message_ts)
+        log_slack_error('Slack API error when removing reaction', response) unless response['ok']
       rescue *Gitlab::HTTP::HTTP_ERRORS => e
         Gitlab::ErrorTracking.track_exception(e, slack_workspace_id: slack_workspace_id)
       end
 
       def post_thread_reply(text)
-        response = slack_api.post(
-          'chat.postMessage',
-          channel: channel_id,
-          thread_ts: thread_ts,
-          text: text
-        )
-        return response if response['ok']
-
-        log_slack_error('Slack API error when posting response', response)
+        response = slack_api.post('chat.postMessage', channel: channel_id, thread_ts: thread_ts, text: text)
+        log_slack_error('Slack API error when posting response', response) unless response['ok']
       rescue *Gitlab::HTTP::HTTP_ERRORS => e
         Gitlab::ErrorTracking.track_exception(e, slack_workspace_id: slack_workspace_id)
       end
 
       def post_ephemeral(text)
-        response = slack_api.post(
-          'chat.postEphemeral',
-          channel: channel_id,
-          user: slack_user_id,
-          text: text
-        )
-        return response if response['ok']
-
-        log_slack_error('Slack API error when posting ephemeral message', response)
+        response = slack_api.post('chat.postEphemeral', channel: channel_id, user: slack_user_id, text: text)
+        log_slack_error('Slack API error when posting ephemeral message', response) unless response['ok']
       rescue *Gitlab::HTTP::HTTP_ERRORS => e
         Gitlab::ErrorTracking.track_exception(e, slack_workspace_id: slack_workspace_id)
       end

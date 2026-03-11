@@ -61,6 +61,10 @@ module QA
 
           def retry!
             wait_for_requests
+            wait_until(reload: true, max_duration: 60, sleep_interval: 1) do
+              has_element?('retry-button', wait: 1)
+            end
+
             click_element 'retry-button'
           end
 

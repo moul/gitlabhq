@@ -125,8 +125,28 @@ module Types
         method: :enabled?,
         experiment: { milestone: '18.9' }
 
+      field :is_filterable_list_view, GraphQL::Types::Boolean,
+        null: false,
+        description: 'Indicates whether the work item type is filterable in list view.',
+        resolver_method: :filterable_list_view,
+        experiment: { milestone: '18.10' }
+
+      field :is_filterable_board_view, GraphQL::Types::Boolean,
+        null: false,
+        description: 'Indicates whether the work item type is filterable in board view.',
+        resolver_method: :filterable_board_view,
+        experiment: { milestone: '18.10' }
+
       def widgets
         object.widget_definitions(context[:resource_parent])
+      end
+
+      def filterable_list_view
+        object.filterable_list_view?(context[:resource_parent])
+      end
+
+      def filterable_board_view
+        object.filterable_board_view?(context[:resource_parent])
       end
 
       def widget_definitions
