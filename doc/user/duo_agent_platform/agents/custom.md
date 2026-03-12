@@ -7,7 +7,7 @@ title: Custom agents
 
 {{< details >}}
 
-- Tier: Premium, Ultimate
+- Tier: [Free](../../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed
 
 {{< /details >}}
@@ -26,6 +26,7 @@ title: Custom agents
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/585273) in GitLab 18.8.
 - Feature flag `ai_catalog_agents` [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/217802) in GitLab 18.9.
 - Feature flag `global_ai_catalog` [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/223135) in 18.10.
+- Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
 
 {{< /history >}}
 
@@ -106,7 +107,7 @@ To create an agent:
 
    > [!note]
    > Some tools require the IDE extension and are not available in Web UI.
-   > For more information, see the list of [agent tools](tools.md). 
+   > For more information, see the list of [agent tools](tools.md).
 1. Select **Create agent**.
 
 {{< /tab >}}

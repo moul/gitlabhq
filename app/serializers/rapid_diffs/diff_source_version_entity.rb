@@ -2,6 +2,14 @@
 
 module RapidDiffs
   class DiffSourceVersionEntity < ::RapidDiffs::DiffVersionEntity
+    expose :head_sha do |merge_request_diff| # rubocop:disable Style/SymbolProc -- head_commit_sha takes 0 args; &:head_commit_sha passes options as argument
+      merge_request_diff.head_commit_sha
+    end
+
+    expose :base_sha do |merge_request_diff| # rubocop:disable Style/SymbolProc -- base_commit_sha takes 0 args; &:base_commit_sha passes options as argument
+      merge_request_diff.base_commit_sha
+    end
+
     expose :selected do |merge_request_diff|
       next merge_request_diff.id == current_merge_request_diff.id if current_merge_request_diff.present?
       next true if latest_or_merge_head?(merge_request_diff)

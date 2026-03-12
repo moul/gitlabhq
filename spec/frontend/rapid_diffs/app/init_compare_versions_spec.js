@@ -1,3 +1,4 @@
+import { createTestingPinia } from '@pinia/testing';
 import { setHTMLFixture, resetHTMLFixture } from 'helpers/fixtures';
 import { initCompareVersions } from '~/rapid_diffs/app/init_compare_versions';
 
@@ -30,6 +31,10 @@ describe('initCompareVersions', () => {
   };
 
   const findCompareVersions = () => document.querySelector('[data-compare-versions]');
+
+  beforeEach(() => {
+    createTestingPinia({ stubActions: false });
+  });
 
   afterEach(() => {
     resetHTMLFixture();

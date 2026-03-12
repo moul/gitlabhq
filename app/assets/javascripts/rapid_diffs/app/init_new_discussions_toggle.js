@@ -17,9 +17,20 @@ export function initNewDiscussionToggle(appElement) {
     );
   }
 
+  function hasGutterToggle(row, cellIndex) {
+    const discussionRow = row.nextElementSibling;
+    if (discussionRow?.dataset.discussionRow !== 'true') return false;
+    const cell = discussionRow.children[Math.min(cellIndex, discussionRow.children.length - 1)];
+    return cell?.querySelector('[data-gutter-toggle]') !== null;
+  }
+
   function moveTo(target) {
     const row = target.closest('tr');
     if (row.querySelector('[data-position="old"]:first-child + [data-position="new"]')) {
+      if (hasGutterToggle(row, 0)) {
+        toggle.hidden = true;
+        return;
+      }
       if (row.contains(toggle)) return;
       row.querySelector('[data-position]').prepend(toggle);
       return;
@@ -28,6 +39,11 @@ export function initNewDiscussionToggle(appElement) {
     if (!cell || toggle.parentElement === cell) return;
     const matchingCell = row.querySelector(`[data-position="${cell.dataset.position}"]`);
     if (!matchingCell.querySelector('[data-line-number]')) {
+      toggle.hidden = true;
+      return;
+    }
+    const cellIndex = cell.dataset.position === 'old' ? 0 : 1;
+    if (hasGutterToggle(row, cellIndex)) {
       toggle.hidden = true;
       return;
     }

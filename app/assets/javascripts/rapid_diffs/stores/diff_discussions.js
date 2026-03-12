@@ -49,14 +49,6 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     };
   });
 
-  const findVisibleDiscussionsForFile = computed(() => {
-    return ({ oldPath, newPath }) => {
-      return findAllDiscussionsForFile
-        .value({ oldPath, newPath })
-        .filter((discussion) => !discussion.hidden);
-    };
-  });
-
   const findDiscussionsForFile = computed(() => {
     return ({ oldPath, newPath }) => {
       return findAllDiscussionsForFile.value({ oldPath, newPath }).filter((discussion) => {
@@ -71,6 +63,20 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
         discussion.diff_discussion &&
         discussion.position?.old_path === oldPath &&
         discussion.position?.new_path === newPath
+      ) {
+        discussion.hidden = newState;
+      }
+    });
+  }
+
+  function setPositionDiscussionsHidden({ oldPath, newPath, oldLine, newLine }, newState) {
+    discussions.discussions.forEach((discussion) => {
+      if (
+        discussion.diff_discussion &&
+        discussion.position?.old_path === oldPath &&
+        discussion.position?.new_path === newPath &&
+        discussion.position?.old_line === oldLine &&
+        discussion.position?.new_line === newLine
       ) {
         discussion.hidden = newState;
       }
@@ -93,7 +99,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
       noteBody: '',
       shouldFocus: true,
     });
-    setFileDiscussionsHidden(oldPath, newPath, false);
+    setPositionDiscussionsHidden({ oldPath, newPath, oldLine, newLine }, false);
     return undefined;
   }
 
@@ -102,7 +108,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
       .value({ oldPath, newPath, oldLine, newLine })
       .filter((discussion) => !discussion.isForm);
     if (existingDiscussion) {
-      setFileDiscussionsHidden(oldPath, newPath, false);
+      setPositionDiscussionsHidden({ oldPath, newPath, oldLine, newLine }, false);
       discussions.startReplying(existingDiscussion);
       return existingDiscussion.id;
     }
@@ -133,7 +139,6 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     findDiscussionsForPosition,
     findDiscussionsForFile,
     findAllDiscussionsForFile,
-    findVisibleDiscussionsForFile,
     replyToLineDiscussion,
     addNewLineDiscussionForm,
     replaceDiscussionForm,
@@ -141,6 +146,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     setNewLineDiscussionFormText,
     setNewLineDiscussionFormAutofocus,
     setFileDiscussionsHidden,
+    setPositionDiscussionsHidden,
     setInitialDiscussions: discussions.setInitialDiscussions,
     replaceDiscussion: discussions.replaceDiscussion,
     toggleDiscussionReplies: discussions.toggleDiscussionReplies,

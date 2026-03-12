@@ -7,7 +7,7 @@ title: Convert to GitLab CI/CD Flow
 
 {{< details >}}
 
-- Tier: Premium, Ultimate
+- Tier: [Free](../../../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed
 
 {{< /details >}}
@@ -18,6 +18,7 @@ title: Convert to GitLab CI/CD Flow
 - Feature flag `duo_workflow_in_ci` enabled by default in GitLab 18.4. Feature flag `duo_workflow` must also be enabled, but it is enabled by default.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/585273) in GitLab 18.8.
 - Feature flags `duo_workflow_in_ci` and `duo_workflow` removed in GitLab 18.9.
+- Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
 
 {{< /history >}}
 

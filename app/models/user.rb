@@ -2392,13 +2392,6 @@ class User < ApplicationRecord
     merge_request_dashboard_show_drafts
   end
 
-  def work_items_consolidated_list_enabled?
-    # work_item_planning_view is the feature flag used to determine whether the consolidated list is enabled or not
-    return true if Feature.enabled?(:work_item_planning_view, type: :beta)
-
-    Feature.enabled?(:work_items_consolidated_list_user, self)
-  end
-
   def returned_to_you_merge_requests_count(force: false, cached_only: false)
     return if merge_request_dashboard_show_drafts? || user_preference.role_based?
 

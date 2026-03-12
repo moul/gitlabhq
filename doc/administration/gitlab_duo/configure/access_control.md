@@ -8,7 +8,7 @@ title: Configure access to the GitLab Duo Agent Platform
 
 {{< details >}}
 
-- Tier: Premium, Ultimate
+- Tier: [Free](../../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
 
 {{< /details >}}

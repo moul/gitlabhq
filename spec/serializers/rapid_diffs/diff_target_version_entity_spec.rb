@@ -54,6 +54,47 @@ RSpec.describe RapidDiffs::DiffTargetVersionEntity, feature_category: :code_revi
     end
   end
 
+  describe 'start_sha' do
+    context 'when diff is latest' do
+      before do
+        allow(merge_request_diff).to receive_messages(
+          latest?: true,
+          merge_head?: false
+        )
+      end
+
+      it 'returns start_commit_sha' do
+        expect(serialized[:start_sha]).to eq(merge_request_diff.start_commit_sha)
+      end
+    end
+
+    context 'when diff is merge_head' do
+      before do
+        allow(merge_request_diff).to receive_messages(
+          latest?: false,
+          merge_head?: true
+        )
+      end
+
+      it 'returns start_commit_sha' do
+        expect(serialized[:start_sha]).to eq(merge_request_diff.start_commit_sha)
+      end
+    end
+
+    context 'when diff is neither latest nor merge_head' do
+      before do
+        allow(merge_request_diff).to receive_messages(
+          latest?: false,
+          merge_head?: false
+        )
+      end
+
+      it 'returns head_commit_sha' do
+        expect(serialized[:start_sha]).to eq(merge_request_diff.head_commit_sha)
+      end
+    end
+  end
+
   describe 'version_index' do
     context 'when diff is latest' do
       before do

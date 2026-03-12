@@ -8,7 +8,7 @@ title: Code Suggestions
 
 {{< details >}}
 
-- Tier: Premium, Ultimate
+- Tier: [Free](../../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
 
 {{< /details >}}
@@ -33,6 +33,7 @@ title: Code Suggestions
 - Enabled Fireworks hosted `Codestral` as the default model in GitLab 18.1.
 - [Changed](https://gitlab.com/gitlab-org/gitlab/-/issues/545489) the default model for code generation to Claude Sonnet 4 in GitLab 18.2.
 - [Removed](https://gitlab.com/gitlab-org/gitlab/-/issues/462750) feature flag `code_suggestions_context` in GitLab 18.6.
+- Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
 
 {{< /history >}}
 

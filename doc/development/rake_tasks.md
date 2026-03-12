@@ -74,7 +74,7 @@ and priority.
 
 #### Seeding groups with subgroups
 
-You can seed groups with subgroups that contain milestones/projects/issues
+You can seed groups with subgroups that contain milestones/projects
 with the `gitlab:seed:group_seed` task:
 
 ```shell

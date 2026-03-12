@@ -1,9 +1,11 @@
 <script>
+import DiffGutterToggle from './diff_gutter_toggle.vue';
 import DiffLineDiscussions from './diff_line_discussions.vue';
 
 export default {
   name: 'DiffDiscussionRow',
   components: {
+    DiffGutterToggle,
     DiffLineDiscussions,
   },
   inject: {
@@ -68,8 +70,17 @@ export default {
     pos(oldLine, newLine) {
       return { oldPath: this.oldPath, newPath: this.newPath, oldLine, newLine };
     },
+    allDiscussionsForPosition(position) {
+      return this.store.findDiscussionsForPosition(position);
+    },
+    discussionsForGutter(position) {
+      return this.allDiscussionsForPosition(position).filter((d) => !d.isForm);
+    },
     visibleDiscussions(position) {
-      return this.store.findDiscussionsForPosition(position).filter((d) => !d.hidden);
+      return this.allDiscussionsForPosition(position).filter((d) => !d.hidden);
+    },
+    toggle(expanded) {
+      this.positions.forEach((p) => this.store.setPositionDiscussionsHidden(p, expanded));
     },
     startThread(position) {
       this.store.addNewLineDiscussionForm(position);
@@ -84,7 +95,12 @@ export default {
     class="rd-discussion-row"
     :data-collapsed="collapsed ? '' : undefined"
   >
-    <td v-for="(position, index) in positions" :key="index" :colspan="colspan">
+    <td v-for="(position, index) in positions" :key="index" :colspan="colspan" class="gl-relative">
+      <diff-gutter-toggle
+        :class="{ 'gl-ml-[-1px] gl-mt-[-1px]': !collapsed }"
+        :discussions="discussionsForGutter(position)"
+        @toggle="toggle"
+      />
       <diff-line-discussions
         v-if="visibleDiscussions(position).length"
         :discussions="visibleDiscussions(position)"

@@ -7,7 +7,7 @@ title: Software Development Flow
 
 {{< details >}}
 
-- Tier: Premium, Ultimate
+- Tier: [Free](../../../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
 
 {{< /details >}}
@@ -24,6 +24,7 @@ title: Software Development Flow
 - [Introduced](https://gitlab.com/groups/gitlab-org/-/epics/14153) as a private beta in GitLab 17.4 [with a flag](../../../../administration/feature_flags/_index.md) named `duo_workflow`. Enabled for GitLab team members only.
 - Enabled on GitLab.com, GitLab Self-Managed, and GitLab Dedicated and changed to beta in GitLab 18.2.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/585273) in GitLab 18.8. Feature flag `duo_workflow` removed.
+- Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
 
 {{< /history >}}
 

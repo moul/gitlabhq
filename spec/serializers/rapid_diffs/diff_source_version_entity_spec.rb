@@ -52,6 +52,14 @@ RSpec.describe RapidDiffs::DiffSourceVersionEntity, feature_category: :code_revi
         :created_at
       )
     end
+
+    it 'exposes head_sha from head_commit_sha' do
+      expect(serialized[:head_sha]).to eq(merge_request_diff.head_commit_sha)
+    end
+
+    it 'exposes base_sha from base_commit_sha' do
+      expect(serialized[:base_sha]).to eq(merge_request_diff.base_commit_sha)
+    end
   end
 
   describe 'selected' do

@@ -7,7 +7,7 @@ title: Fix CI/CD Pipeline Flow
 
 {{< details >}}
 
-- Tier: Premium, Ultimate
+- Tier: [Free](../../../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed
 
 {{< /details >}}
@@ -18,6 +18,7 @@ title: Fix CI/CD Pipeline Flow
 - Enabled on GitLab.com and GitLab Self-Managed in GitLab 18.5.
 - Feature flag `ai_duo_agent_fix_pipeline_button` [enabled by default](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/205086) in GitLab 18.5.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/585273) in GitLab 18.8. Feature flag `ai_duo_agent_fix_pipeline_button` [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/216681). Feature flag `duo_workflow_in_ci` was removed in GitLab 18.9.
+- Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
 
 {{< /history >}}
 

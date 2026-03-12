@@ -7639,6 +7639,9 @@ msgstr ""
 msgid "AiPowered|Features without CI/CD pipelines"
 msgstr ""
 
+msgid "AiPowered|GitLab Credits"
+msgstr ""
+
 msgid "AiPowered|GitLab Credits dashboard"
 msgstr ""
 
@@ -7738,10 +7741,16 @@ msgstr ""
 msgid "AiPowered|Purchase credits"
 msgstr ""
 
+msgid "AiPowered|Purchase credits (opens in new window)"
+msgstr ""
+
 msgid "AiPowered|Remove"
 msgstr ""
 
 msgid "AiPowered|Save on GitLab Credits with monthly commitments"
+msgstr ""
+
+msgid "AiPowered|Save with monthly commitments"
 msgstr ""
 
 msgid "AiPowered|Select a group to continue"

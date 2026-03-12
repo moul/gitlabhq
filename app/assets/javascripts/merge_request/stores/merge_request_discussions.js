@@ -91,12 +91,12 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     setNewLineDiscussionFormText: diffDiscussions.setNewLineDiscussionFormText,
     setNewLineDiscussionFormAutofocus: diffDiscussions.setNewLineDiscussionFormAutofocus,
     setFileDiscussionsHidden: diffDiscussions.setFileDiscussionsHidden,
+    setPositionDiscussionsHidden: diffDiscussions.setPositionDiscussionsHidden,
     discussionForms: computed(() => diffDiscussions.discussionForms),
     discussionsWithForms: computed(() => diffDiscussions.discussionsWithForms),
     getImageDiscussions: computed(() => diffDiscussions.getImageDiscussions),
     findDiscussionsForPosition: computed(() => diffDiscussions.findDiscussionsForPosition),
     findDiscussionsForFile: computed(() => diffDiscussions.findDiscussionsForFile),
     findAllDiscussionsForFile: computed(() => diffDiscussions.findAllDiscussionsForFile),
-    findVisibleDiscussionsForFile: computed(() => diffDiscussions.findVisibleDiscussionsForFile),
   };
 });

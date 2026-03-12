@@ -11,6 +11,14 @@ module RapidDiffs
       diff_version_index(merge_request_diff)
     end
 
+    expose :start_sha do |merge_request_diff|
+      if latest_or_merge_head?(merge_request_diff)
+        merge_request_diff.start_commit_sha
+      else
+        merge_request_diff.head_commit_sha
+      end
+    end
+
     expose :selected do |merge_request_diff|
       next merge_request_diff.head_commit_sha == options[:start_sha] if options[:start_sha].present?
       next true if latest_or_merge_head?(merge_request_diff)

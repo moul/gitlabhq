@@ -54,6 +54,7 @@ describe('mergeRequestDiscussions store', () => {
     'saveNote',
     'destroyNote',
     'toggleAwardOnNote',
+    'setPositionDiscussionsHidden',
   ])('exposes %s action', (action) => {
     expect(store[action]).toEqual(expect.any(Function));
   });
@@ -65,7 +66,6 @@ describe('mergeRequestDiscussions store', () => {
     'findDiscussionsForPosition',
     'findDiscussionsForFile',
     'findAllDiscussionsForFile',
-    'findVisibleDiscussionsForFile',
   ])('exposes %s getter', (getter) => {
     expect(store[getter]).toBeDefined();
   });

@@ -248,6 +248,79 @@ when manually passing inputs for:
 - Git [push options](../../topics/git/commit.md#push-options-for-gitlab-cicd)
 - [Pipeline schedules](../pipelines/schedules.md#create-a-pipeline-schedule)
 
+##### Access individual array elements
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/587657) in GitLab 18.10 [with a flag](../../administration/feature_flags/_index.md) named `ci_inputs_array_index_operator`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
+
+Use bracket notation with an index number to access individual elements of an array input.
+Array items are indexed in the order they are defined in the YAML array,
+with positive numbers, and the `[0]` index item is the first item in the array.
+
+For example:
+
+```yaml
+spec:
+  inputs:
+    supported_versions:
+      type: array
+      default:
+        - '2.0'
+        - '1.0'
+        - '0.1'
+---
+
+job:
+  script:
+    # Outputs: 'Latest version is 2.0'
+    - echo 'Latest version is $[[ inputs.supported_versions[0] ]]'
+```
+
+You can chain array indexing with dot notation to access nested values:
+
+```yaml
+spec:
+  inputs:
+    servers:
+      type: array
+      default:
+        - host: server1.example.com
+          port: 8080
+---
+
+job:
+  script:
+    - curl "https://$[[ inputs.servers[0].host ]]:$[[ inputs.servers[0].port ]]"
+```
+
+For multi-dimensional arrays, use multiple indices in a row. For example, you can use `[0][1]` for a 2-dimensional array:
+
+```yaml
+spec:
+  inputs:
+    matrix:
+      type: array
+      default:
+        - ['a', 'b']
+        - ['c', 'd']
+---
+
+job:
+  script:
+    # Outputs: 'b'
+    - echo $[[ inputs.matrix[0][1] ]]
+```
+
+You can chain together a maximum of 5 indices per segment, for example `arr[0][1][2][3][4]`.
+
 #### Multi-line input string values
 
 Inputs support different value types. You can pass multi-string values using the following format:

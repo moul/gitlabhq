@@ -352,7 +352,7 @@ Define how scheduled scans are distributed over time with the `time_window` obje
 | Field          | Type      | Required | Description                                                                                                                                                                          |
 |----------------|-----------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `distribution` | `string`  | true     | Distribution pattern for schedule scans. Supports only `random`, where scans are distributed randomly in the interval defined by the `value` key of the `time_window`. |
-| `value`        | `integer` | true     | The time window in seconds the schedule scans should run. Enter a value between 3600 (1 hour) and 86400 (24 hours).                                               |
+| `value`        | `integer` | true     | The time window in seconds the schedule scans should run. Enter a value between 3600 (1 hour) and 2629746 (approximately 30 days).                                               |
 
 #### `time_window` example
 
@@ -378,6 +378,47 @@ To optimize performance for projects at scale:
 - Roll out scheduled scan execution policies gradually, starting with a subset of projects. You can leverage security policy scopes to target specific groups, projects, or projects containing a given compliance framework label.
 - You can configure the policy to run the schedules on runners with a specified `tag`. Consider setting up a dedicated runner in each project to handle schedules enforced from a policy to reduce impact to other runners.
 - Test your implementation in a staging or lower environment before deploying to production. Monitor performance and adjust your rollout plan based on results.
+
+### Configuring the maximum scheduling timespan for scheduled scan execution policies
+
+Scheduled scan execution policies support monthly scheduling using the `cadence` field with cron expressions. You can configure the `time_window` up to 2629746 seconds (approximately 30 days) to randomly distribute scans within that period.
+
+For example, to schedule scans monthly with a 30-day distribution window:
+
+```yaml
+rules:
+  - type: schedule
+    cadence: '0 0 1 * *'  # Run on the first day of each month
+    time_window:
+      value: 2592000  # 30 days in seconds
+      distribution: random
+```
+
+#### Understanding scheduled scans during instance downtimes
+
+Scheduled scans keep track of their next execution time. After a successful scan, the system updates when the next scan should run. If the GitLab instance is unavailable during a scheduled scan time (due to maintenance, outage, or restart), the system identifies scans that should have already executed but haven't, and creates pipelines when the instance becomes available.
+
+#### Deleting projects with scheduled scans
+
+When you delete a project, all associated scheduled scans are also deleted. No pipelines run for deleted projects.
+
+#### Canceling a running scheduled scan
+
+To cancel a scheduled scan, you have two options:
+
+- Cancel individual pipelines: If you have the necessary permissions to cancel jobs in the project, you can cancel running pipelines directly from the pipeline view.
+- **Disable the policy**: Set `enabled: false` in the policy editor to disable the scan execution policy. Scans that are already running or scheduled to run within the next 15 minutes (approximately) might still execute.
+
+#### Recommendations for large-scale deployments
+
+When you deploy scheduled scan execution policies across many projects, consider the following recommendations:
+
+- Use gradual rollouts: Start with a small subset of projects and gradually add more projects. Use [compliance framework labels](../../../user/project/working_with_projects.md#add-a-compliance-framework-to-a-project) to scope policies to specific groups of projects.
+- Configure `time_window`: Always set the `time_window` parameter in your scheduled policies. Without it, all pipelines are scheduled for the same time, which can cause performance issues and resource contention.
+- Test in staging: Validate your policy configuration in a staging environment or lower before deploying to production. Monitor performance and adjust based on results.
+- Consider runner capacity: The impact on runners depends on your policy configuration, runner availability, and GitLab instance deployment. Configure policies to use runners with specific tags to distribute load.
+
+For more information on optimizing scheduled scans, see [optimize scheduled pipelines for projects at scale](#optimize-scheduled-pipelines-for-projects-at-scale).
 
 ### Concurrency control
 

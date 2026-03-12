@@ -30,6 +30,10 @@
   grid-auto-flow: column;
 }
 
+.rd-gutter-toggle {
+  z-index: constants.$diff-file-discussion-row-z-index;
+}
+
 .rd-discussion-row > td {
   min-width: 0;
   padding: 0;

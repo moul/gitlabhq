@@ -88,7 +88,7 @@ Before configuring Pages for wildcard domains, you must:
 1. Optional. Have a **wildcard certificate** for that domain if you decide to
    serve Pages under HTTPS.
 1. Optional but recommended. Enable [instance runners](../../ci/runners/_index.md)
-   so that your users don't have to bring their own.
+   so that your users do not have to bring their own.
 1. For custom domains, have a **secondary IP**.
 
 ### Single-domain sites
@@ -115,7 +115,7 @@ Before configuring Pages for single-domain sites, you must:
 1. Configure a **DNS record**.
 1. Optional. If you decide to serve Pages under HTTPS, have a **TLS certificate** for that domain.
 1. Optional but recommended. Enable [instance runners](../../ci/runners/_index.md)
-   so that your users don't have to bring their own.
+   so that your users do not have to bring their own.
 1. For custom domains, have a **secondary IP**.
 
 ### Add the domain to the Public Suffix List
@@ -146,7 +146,7 @@ that GitLab runs on. For example:
 
 Where `example.io` is the domain GitLab Pages is served from,
 `192.0.2.1` is the IPv4 address of your GitLab instance, and `2001:db8::1` is the
-IPv6 address. If you don't have IPv6, you can omit the `AAAA` record.
+IPv6 address. If you do not have IPv6, you can omit the `AAAA` record.
 
 #### DNS configuration for single-domain sites
 
@@ -1056,11 +1056,10 @@ To set the maximum number of GitLab Pages custom domains for a project:
 
 Prerequisites:
 
-- Be an administrator of the instance.
+- Administrator access to the instance.
 
-To configure the default duration for the instance after which
-[parallel deployments](../../user/project/pages/_index.md#parallel-deployments)
-are deleted:
+To configure the default duration after
+[parallel deployments](../../user/project/pages/_index.md#parallel-deployments) are deleted:
 
 1. In the upper-right corner, select **Admin**.
 1. Select **Settings** > **Preferences**.
@@ -1071,31 +1070,35 @@ are deleted:
 
 ## Set maximum number of files per GitLab Pages website
 
-The total number of file entries (including directories and symlinks) is limited to `200,000` per GitLab Pages website.
+The total number of file entries (including directories and symlinks) is limited to `200,000`
+for each GitLab Pages website.
 
 You can update the limit in your GitLab Self-Managed instance using the
 [GitLab Rails console](../operations/rails_console.md#starting-a-rails-console-session).
 
-For more information, see [GitLab application limits](../instance_limits.md#number-of-files-per-gitlab-pages-website).
+For more information, see
+[GitLab application limits](../instance_limits.md#number-of-files-per-gitlab-pages-website).
 
 ## Running GitLab Pages on a separate server
 
 You can run the GitLab Pages daemon on a separate server to decrease the load on
 your main application server.
 
-To configure GitLab Pages on a separate server:
-
 > [!warning]
 > The following procedure includes steps to back up and edit the
 > `gitlab-secrets.json` file. This file contains secrets that control
 > database encryption. Proceed with caution.
 
-1. Optional. To enable access control, add the following to `/etc/gitlab/gitlab.rb` and [reconfigure the **GitLab server**](../restart_gitlab.md#reconfigure-a-linux-package-installation):
+To configure GitLab Pages on a separate server:
+
+1. Optional. To enable access control, add the following to `/etc/gitlab/gitlab.rb` and
+   [reconfigure the **GitLab server**](../restart_gitlab.md#reconfigure-a-linux-package-installation):
 
    > [!warning]
-   > If you plan to use GitLab Pages with access control, you must enable it on the first GitLab server before copying `gitlab-secrets.json`.
-   > Enabling access control generates a new OAuth application, and information about it propagates to `gitlab-secrets.json`. If it's not done
-   > in the correct order, you may face issues with access control.
+   > If you plan to use GitLab Pages with access control, enable it on the GitLab server before
+   > copying `gitlab-secrets.json`. Enabling access control generates a new OAuth application, and
+   > information about it propagates to `gitlab-secrets.json`. If this is not done in the correct
+   > order, you may face issues with access control.
 
    ```ruby
    gitlab_pages['access_control'] = true
@@ -1133,12 +1136,13 @@ To configure GitLab Pages on a separate server:
 
    gitlab_pages['gitlab_server'] = 'http://<gitlab_server_IP_or_URL>'
 
-   ## If access control was enabled on step 3
+   ## If access control was enabled
    gitlab_pages['access_control'] = true
    ```
 
-1. If you have custom UID/GID settings on the **GitLab server**, add them to the **Pages server** `/etc/gitlab/gitlab.rb` as well,
-   otherwise running a `gitlab-ctl reconfigure` on the **GitLab server** can change file ownership and cause Pages requests to fail.
+1. If you have custom UID/GID settings on the **GitLab server**, add them to the **Pages server**
+   `/etc/gitlab/gitlab.rb` as well. Otherwise, running `gitlab-ctl reconfigure` on the **GitLab
+   server** can change file ownership and cause Pages requests to fail.
 
 1. Create a backup of the secrets file on the **Pages server**:
 
@@ -1152,7 +1156,7 @@ To configure GitLab Pages on a separate server:
    - [Custom domains with TLS support](#custom-domains-with-tls-support).
 
 1. Copy the `/etc/gitlab/gitlab-secrets.json` file from the **GitLab server**
-   to the **Pages server**.
+   to the **Pages server**:
 
    ```shell
    # On the GitLab server
@@ -1175,69 +1179,67 @@ To configure GitLab Pages on a separate server:
 1. To enable custom domains for individual GitLab Pages sites, on the **GitLab server**,
    make the following changes to `/etc/gitlab/gitlab.rb`:
 
-   - Custom domains
+   - Custom domains:
 
      ```ruby
-        gitlab_pages['custom_domain_mode'] = 'http' # Enable custom domain mode to http
+        gitlab_pages['custom_domain_mode'] = 'http'
      ```
 
-   - Custom domains with TLS support
+   - Custom domains with TLS support:
 
      ```ruby
-        gitlab_pages['custom_domain_mode'] = 'https' # Enable custom domain mode to https
+        gitlab_pages['custom_domain_mode'] = 'https'
      ```
 
-1. [Reconfigure the **GitLab server**](../restart_gitlab.md#reconfigure-a-linux-package-installation) for the changes to take effect.
+1. [Reconfigure the **GitLab server**](../restart_gitlab.md#reconfigure-a-linux-package-installation)
+   for the changes to take effect.
 
-It's possible to run GitLab Pages on multiple servers if you wish to distribute
-the load. You can do this through standard load balancing practices such as
-configuring your DNS server to return multiple IPs for your Pages server, or
-configuring a load balancer to work at the IP level. If you wish to
-set up GitLab Pages on multiple servers, perform the previous procedure for each
-Pages server.
+To distribute the load, you can run GitLab Pages on multiple servers using standard load balancing
+practices, such as configuring your DNS server to return multiple IPs or using an IP-level load
+balancer. To set up GitLab Pages on multiple servers, repeat the previous procedure for each Pages
+server.
 
 ## Domain source configuration
 
-When GitLab Pages daemon serves pages requests it firstly needs to identify which project should be used to
-serve the requested URL and how its content is stored.
+When the GitLab Pages daemon serves a request, it first identifies which project should serve the
+requested URL and how its content is stored.
 
-By default, GitLab Pages uses the internal GitLab API every time a new domain is requested.
-Pages fails to start if it can't connect to the API.
-The domain information is also cached by the Pages daemon to speed up subsequent requests.
+By default, GitLab Pages uses the internal GitLab API every time a new domain is requested. Pages
+fails to start if it cannot connect to the API. Domain information is also cached by the Pages daemon
+to speed up subsequent requests.
 
-For common issues, see the [troubleshooting section](troubleshooting.md#failed-to-connect-to-the-internal-gitlab-api).
+For common issues, see the
+[troubleshooting section](troubleshooting.md#failed-to-connect-to-the-internal-gitlab-api).
 
 ### GitLab API cache configuration
 
-API-based configuration uses a caching mechanism to improve performance and reliability of serving Pages.
-The cache behavior can be modified by changing the cache settings.
-However, the recommended values are set for you and should only be modified if needed.
-Incorrect configuration of these values may result in intermittent
-or persistent errors, or the Pages Daemon serving old content.
+API-based configuration uses a caching mechanism to improve performance and reliability. You can
+modify the cache behavior by changing the following settings, though the recommended defaults should
+only be changed if needed. Incorrect configuration may result in intermittent or persistent errors,
+or the Pages daemon serving stale content.
 
 > [!note]
-> Expiry, interval and timeout flags use [Go duration formatting](https://pkg.go.dev/time#ParseDuration).
-> A duration string is a possibly signed sequence of decimal numbers,
-> each with optional fraction and a unit suffix, such as `300ms`, `1.5h` or `2h45m`.
-> Valid time units are `ns`, `us` (or `µs`), `ms`, `s`, `m`, `h`.
+> Expiry, interval, and timeout flags use
+> [Go duration formatting](https://pkg.go.dev/time#ParseDuration). A duration string is a possibly
+> signed sequence of decimal numbers, each with optional fraction and a unit suffix, such as `300ms`,
+> `1.5h`, or `2h45m`. Valid time units are `ns`, `us` (or `µs`), `ms`, `s`, `m`, `h`.
 
 Examples:
 
-- Increasing `gitlab_cache_expiry` allows items to exist in the cache longer.
-  Use this setting if the communication between GitLab Pages and GitLab Rails
-  is not stable.
-- Increasing `gitlab_cache_refresh` reduces the frequency at which GitLab Pages
-  requests a domain's configuration from GitLab Rails. Use this setting if
-  GitLab Pages generates too many requests to GitLab API and content does not change frequently.
-- Decreasing `gitlab_cache_cleanup` removes expired items from the cache more frequently,
-  reducing the memory usage of your Pages node.
-- Decreasing `gitlab_retrieval_timeout` allows you to stop the request to GitLab Rails
-  more quickly. Increasing it allows more time to receive a response from the API.
-  Use this setting for slow network environments.
-- Decreasing `gitlab_retrieval_interval` makes requests to the API more frequently,
-  only when there is an error response from the API, for example a connection timeout.
-- Decreasing `gitlab_retrieval_retries` reduces the number of times a domain's
-  configuration is tried to be resolved automatically before reporting an error.
+- Increasing `gitlab_cache_expiry` allows items to exist in the cache longer. Use this setting if
+  the communication between GitLab Pages and GitLab Rails is not stable.
+- Increasing `gitlab_cache_refresh` reduces the frequency at which GitLab Pages requests a domain's
+  configuration from GitLab Rails. Use this setting if GitLab Pages generates too many requests to
+  the GitLab API and content does not change frequently.
+- Decreasing `gitlab_cache_cleanup` removes expired items from the cache more frequently, reducing
+  memory usage on your Pages node.
+- Decreasing `gitlab_retrieval_timeout` stops requests to GitLab Rails more quickly. Increasing it
+  allows more time to receive a response from the API. Use this setting for slow network
+  environments.
+- Decreasing `gitlab_retrieval_interval` makes requests to the API more frequently, only when there
+  is an error response from the API, such as a connection timeout.
+- Decreasing `gitlab_retrieval_retries` reduces the number of times a domain's configuration is
+  retried before reporting an error.
 
 ## Object storage settings
 
@@ -1253,7 +1255,7 @@ The following [object storage](../object_storage.md) settings are:
 | `connection` | Various connection options described below. | |
 
 > [!note]
-> If you want to stop using and disconnect the NFS server, you need to
+> If you want to stop using and disconnect the NFS server, you must
 > [explicitly disable local storage](#disable-pages-local-storage).
 
 ### S3-compatible connection settings
@@ -1264,12 +1266,10 @@ See [the available connection settings for different providers](../object_storag
 
 ### Migrate Pages deployments to object storage
 
-Existing Pages deployment objects (zip archives) can be stored in either:
+Existing Pages deployment objects (ZIP archives) can be stored in either local storage or object
+storage.
 
-- Local storage
-- Object storage
-
-Migrate your existing Pages deployments from local storage to object storage:
+To migrate your existing Pages deployments from local storage to object storage:
 
 ```shell
 sudo gitlab-rake gitlab:pages:deployments:migrate_to_object_storage
@@ -1281,7 +1281,7 @@ You can track progress and verify that all Pages deployments migrated successful
 - `sudo gitlab-rails dbconsole --database main` for Linux package installations.
 - `sudo -u git -H psql -d gitlabhq_production` for self-compiled installations.
 
-Verify `objectstg` below (where `store=2`) has count of all Pages deployments:
+Verify that `objectstg` (where `store=2`) has a count of all Pages deployments:
 
 ```shell
 gitlabhq_production=# SELECT count(*) AS total, sum(case when file_store = '1' then 1 else 0 end) AS filesystem, sum(case when file_store = '2' then 1 else 0 end) AS objectstg FROM pages_deployments;
@@ -1296,7 +1296,7 @@ After verifying everything is working correctly,
 
 ### Rolling Pages deployments back to local storage
 
-After the migration to object storage is performed, you can choose to move your Pages deployments back to local storage:
+After migrating to object storage, you can move your Pages deployments back to local storage:
 
 ```shell
 sudo gitlab-rake gitlab:pages:deployments:migrate_to_local
@@ -1320,9 +1320,9 @@ Object storage is the preferred configuration for most environments. However,
 if your requirements call for network storage and you want to configure Pages
 to run on a [separate server](#running-gitlab-pages-on-a-separate-server), you should:
 
-1. Ensure the shared storage volume you intend to use is already mounted and
-   available on both the primary server and your intended Pages server.
-1. Update the `/etc/gitlab/gitlab.rb` of each node to include:
+1. Ensure the shared storage volume is already mounted and available on both the primary server and
+   your intended Pages server.
+1. Update `/etc/gitlab/gitlab.rb` on each node to include:
 
    ```ruby
    gitlab_pages['enable_disk'] = true
@@ -1331,21 +1331,20 @@ to run on a [separate server](#running-gitlab-pages-on-a-separate-server), you s
 
 1. Switch over Pages to your separate server.
 
-After you successfully configure Pages on your separate server, only that server
-needs access to the shared storage volume. Consider keeping the shared storage volume
-mounted on your primary server, in case you must migrate back to a single-node environment.
+After you successfully configure Pages on your separate server, only that server needs access to the
+shared storage volume. Consider keeping the shared storage volume mounted on your primary server in
+case you need to migrate back to a single-node environment.
 
 ## ZIP storage
 
-The underlying storage format of GitLab Pages is a single ZIP archive per project.
-
-These ZIP archives can be stored either locally on disk storage or on [object storage](#object-storage-settings) if it is configured.
-
-The ZIP archives are stored every time pages site is updated.
+The underlying storage format of GitLab Pages is a single ZIP archive per project. These archives
+can be stored either locally or on [object storage](#object-storage-settings). A new archive is
+stored every time a Pages site is updated.
 
 ## Backup
 
-GitLab Pages are part of the [regular backup](../backup_restore/_index.md), so there is no separate backup to configure an additional backup.
+GitLab Pages are part of the [regular backup](../backup_restore/_index.md), so there is no
+separate backup to configure.
 
 ## Security
 
@@ -1366,36 +1365,42 @@ requests or TLS connections that exceed the specified limits are reported and re
 
 GitLab Pages supports the following types of rate limiting:
 
-- Per `source_ip`. It limits how many requests or TLS connections are allowed from the single client IP address.
-- Per `domain`. It limits how many requests or TLS connections are allowed per domain hosted on GitLab Pages. It can be a custom domain like `example.com`, or group domain like `group.gitlab.io`.
+- For each `source_ip`: Limits requests or TLS connections from a single client IP address.
+- For each `domain`: Limits requests or TLS connections per domain hosted on GitLab Pages. This can be a
+  custom domain like `example.com`, or a group domain like `group.gitlab.io`.
 
-HTTP request-based rate limits are enforced using the following:
+HTTP request-based rate limits are enforced using the following settings:
 
-- `rate_limit_source_ip`: Sets the maximum threshold in number of requests per client IP per second. Set to 0 to disable this feature.
-- `rate_limit_source_ip_burst`: Sets the maximum threshold of number of requests allowed in an initial outburst of requests per client IP.
-  For example, when you load a web page that loads multiple resources at the same time.
-- `rate_limit_domain`: Sets the maximum threshold in number of requests per hosted pages domain per second. Set to 0 to disable this feature.
-- `rate_limit_domain_burst`: Sets the maximum threshold of number of requests allowed in an initial outburst of requests per hosted pages domain.
+- `rate_limit_source_ip`: Maximum requests per client IP per second. Set to `0` to disable.
+- `rate_limit_source_ip_burst`: Maximum requests allowed in an initial burst per client IP, for
+  example when a page loads multiple resources simultaneously.
+- `rate_limit_domain`: Maximum requests per hosted Pages domain per second. Set to `0` to disable.
+- `rate_limit_domain_burst`: Maximum requests allowed in an initial burst per hosted Pages domain.
 
-TLS connection-based rate limits are enforced using the following:
+TLS connection-based rate limits are enforced using the following settings:
 
-- `rate_limit_tls_source_ip`: Sets the maximum threshold in number of TLS connections per client IP per second. Set to 0 to disable this feature.
-- `rate_limit_tls_source_ip_burst`: Sets the maximum threshold of number of TLS connections allowed in an initial outburst of TLS connections per client IP.
-  For example, when you load a web page from different web browsers at the same time.
-- `rate_limit_tls_domain`: Sets the maximum threshold in number of TLS connections per hosted pages domain per second. Set to 0 to disable this feature.
-- `rate_limit_tls_domain_burst`: Sets the maximum threshold of number of TLS connections allowed in an initial outburst of TLS connections per hosted pages domain.
+- `rate_limit_tls_source_ip`: Maximum TLS connections per client IP per second. Set to `0` to
+  disable.
+- `rate_limit_tls_source_ip_burst`: Maximum TLS connections allowed in an initial burst per client
+  IP.
+- `rate_limit_tls_domain`: Maximum TLS connections per hosted Pages domain per second. Set to `0`
+  to disable.
+- `rate_limit_tls_domain_burst`: Maximum TLS connections allowed in an initial burst per hosted
+  Pages domain.
 
-To allow certain IP ranges (subnets) to bypass all rate limits:
+To allow certain IP ranges (subnets) to bypass all rate limits, use `rate_limit_subnets_allow_list`.
+For example, `['1.2.3.4/24', '2001:db8::1/32']`. An
+[example GitLab Pages chart](https://docs.gitlab.com/charts/charts/gitlab/gitlab-pages/#configure-rate-limits-subnets-allow-list)
+is available.
 
-- `rate_limit_subnets_allow_list`: Sets the allow list with the IP ranges (subnets) that should bypass all rate limits.
-  For example, `['1.2.3.4/24', '2001:db8::1/32']`. An
-  [example GitLab Pages chart](https://docs.gitlab.com/charts/charts/gitlab/gitlab-pages/#configure-rate-limits-subnets-allow-list) is available.
+If the client's IP address is IPv6, the limit is applied to the IPv6 prefix with a length of 64,
+rather than the entire address.
 
-An IPv6 address receives a large prefix in the 128-bit address space. The prefix is typically at least size /64. Because of the large number of possible addresses, if the client's IP address is IPv6, the limit is applied to the IPv6 prefix with a length of 64, rather than the entire IPv6 address.
+#### Enable HTTP requests rate limits by source IP
 
-#### Enable HTTP requests rate limits by source-IP
+To set rate limits in `/etc/gitlab/gitlab.rb`:
 
-1. Set rate limits in `/etc/gitlab/gitlab.rb`:
+1. Add the following:
 
    ```ruby
    gitlab_pages['rate_limit_source_ip'] = 20.0
@@ -1406,7 +1411,9 @@ An IPv6 address receives a large prefix in the 128-bit address space. The prefix
 
 #### Enable HTTP requests rate limits by domain
 
-1. Set rate limits in `/etc/gitlab/gitlab.rb`:
+To set rate limits in `/etc/gitlab/gitlab.rb`:
+
+1. Add:
 
    ```ruby
    gitlab_pages['rate_limit_domain'] = 1000
@@ -1415,9 +1422,11 @@ An IPv6 address receives a large prefix in the 128-bit address space. The prefix
 
 1. Save the file and [reconfigure GitLab](../restart_gitlab.md#reconfigure-a-linux-package-installation) for the changes to take effect.
 
-#### Enable TLS connections rate limits by source-IP
+#### Enable TLS connections rate limits by source IP
 
-1. Set rate limits in `/etc/gitlab/gitlab.rb`:
+To set rate limits in `/etc/gitlab/gitlab.rb`:
+
+1. Add:
 
    ```ruby
    gitlab_pages['rate_limit_tls_source_ip'] = 20.0
@@ -1428,7 +1437,9 @@ An IPv6 address receives a large prefix in the 128-bit address space. The prefix
 
 #### Enable TLS connections rate limits by domain
 
-1. Set rate limits in `/etc/gitlab/gitlab.rb`:
+To set rate limits in `/etc/gitlab/gitlab.rb`:
+
+1. Add:
 
    ```ruby
    gitlab_pages['rate_limit_tls_domain'] = 1000

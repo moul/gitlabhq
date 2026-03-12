@@ -49,6 +49,7 @@ describe('commitDiffDiscussions store', () => {
     'saveNote',
     'destroyNote',
     'toggleAwardOnNote',
+    'setPositionDiscussionsHidden',
   ])('exposes %s action', (action) => {
     expect(useCommitDiffDiscussions()[action]).toEqual(expect.any(Function));
   });
@@ -59,7 +60,6 @@ describe('commitDiffDiscussions store', () => {
     'findDiscussionsForPosition',
     'findDiscussionsForFile',
     'findAllDiscussionsForFile',
-    'findVisibleDiscussionsForFile',
   ])('exposes %s getter', (getter) => {
     expect(useCommitDiffDiscussions()[getter]).toBeDefined();
   });

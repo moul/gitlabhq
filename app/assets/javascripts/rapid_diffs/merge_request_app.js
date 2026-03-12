@@ -11,8 +11,8 @@ class MergeRequestRapidDiffsApp extends RapidDiffsFacade {
   async init() {
     this.#initCodeReview();
     super.init();
-    await this.#initDiscussions();
     this.#initCompareVersions();
+    await this.#initDiscussions();
   }
 
   // eslint-disable-next-line class-methods-use-this

@@ -2,6 +2,7 @@ import { nextTick } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
 import DiffDiscussionRow from '~/rapid_diffs/app/discussions/diff_discussion_row.vue';
+import DiffGutterToggle from '~/rapid_diffs/app/discussions/diff_gutter_toggle.vue';
 import DiffLineDiscussions from '~/rapid_diffs/app/discussions/diff_line_discussions.vue';
 import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
 import { useDiscussions } from '~/notes/store/discussions';
@@ -38,6 +39,7 @@ describe('DiffDiscussionRow', () => {
 
   const findCells = () => wrapper.findAll('td');
   const findDiscussions = () => wrapper.findAllComponents(DiffLineDiscussions);
+  const findGutterToggles = () => wrapper.findAllComponents(DiffGutterToggle);
 
   beforeEach(() => {
     createTestingPinia({ stubActions: false });
@@ -87,9 +89,31 @@ describe('DiffDiscussionRow', () => {
       expect(findCells().at(0).attributes('colspan')).toBe('2');
       expect(findCells().at(1).attributes('colspan')).toBe('2');
     });
+
+    it('toggles all positions on spanning row', () => {
+      useDiscussions().discussions = [
+        createDiscussion({
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: 3 },
+        }),
+        createDiscussion({
+          id: '2',
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: 3 },
+        }),
+      ];
+      createComponent({ parallel: true, oldLine: 5, newLine: 3 });
+      findGutterToggles().at(0).vm.$emit('toggle', true);
+      expect(useDiscussions().discussions[0].hidden).toBe(true);
+      expect(useDiscussions().discussions[1].hidden).toBe(true);
+    });
   });
 
   describe('collapsed state', () => {
+    it('does not render DiffLineDiscussions when all discussions are hidden', () => {
+      useDiscussions().discussions = [createDiscussion({ hidden: true })];
+      createComponent();
+      expect(findDiscussions()).toHaveLength(0);
+    });
+
     it('sets data-collapsed when all discussions are hidden', () => {
       useDiscussions().discussions = [createDiscussion({ hidden: true })];
       createComponent();
@@ -101,12 +125,6 @@ describe('DiffDiscussionRow', () => {
       createComponent();
       expect(wrapper.find('tr').attributes('data-collapsed')).toBeUndefined();
     });
-  });
-
-  it('hides DiffLineDiscussions when all discussions are hidden', () => {
-    useDiscussions().discussions = [createDiscussion({ hidden: true })];
-    createComponent();
-    expect(findDiscussions()).toHaveLength(0);
   });
 
   it('emits empty when all discussions are removed', async () => {

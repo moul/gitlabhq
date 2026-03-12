@@ -4,8 +4,14 @@ group: Authentication
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
 title: Service accounts API
 description: GitLab service accounts API manages service accounts at instance or group level, with robust token and account management controls.
-availability_details: no
 ---
+
+{{< details >}}
+
+- Tier: Free, Premium, Ultimate
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
 
 {{< history >}}
 
@@ -16,7 +22,7 @@ availability_details: no
 {{< /history >}}
 
 > [!flag]
-> On GitLab Self-Managed and GitLab Dedicated, the availability of service accounts on the Free
+> On GitLab Self-Managed, the availability of service accounts on the Free
 > tier is controlled by a feature flag. For more information, see the history.
 
 Use this API to interact with [service accounts](../user/profile/service_accounts.md).
@@ -27,7 +33,8 @@ The number of service accounts you can create depends on your subscription and o
 - On GitLab Free, limits vary by offering:
   - For GitLab.com, you can create up to 100 service accounts for each top-level group.
     This includes service accounts created in subgroups or projects.
-  - For GitLab Self-Managed and GitLab Dedicated, you cannot create service accounts.
+  - For GitLab Self-Managed, you cannot create service accounts.
+
 You can also interact with service accounts through the [users API](users.md).
 
 ## Instance service accounts
