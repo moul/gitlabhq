@@ -31,13 +31,13 @@ To configure features and permissions for a project:
 
 When you turn off a feature, the following additional features are also unavailable:
 
-- If you turn off the **Issues** feature, project users cannot use:
+- If you turn off the **Work items** feature, project users cannot use:
 
   - **Issue Boards**
   - **Service Desk**
   - Project users can still access **Milestones** from merge requests.
 
-- If you turn off **Issues** and **Merge Requests**, project users cannot use:
+- If you turn off **Work items** and **Merge Requests**, project users cannot use:
 
   - **Labels**
   - **Milestones**
@@ -102,7 +102,7 @@ To turn off the CVE identifier request option in issues in your project:
 1. On the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
-1. Under **Issues**, turn off the **CVE ID requests in the issue sidebar** toggle.
+1. Under **Work items**, turn off the **CVE ID requests in the issue sidebar** toggle.
 1. Select **Save changes**.
 
 ## Turn off project email notifications

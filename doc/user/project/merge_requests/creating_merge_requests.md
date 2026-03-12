@@ -52,7 +52,7 @@ After merging the merge request, the issue is closed automatically, unless
 To create a branch and a merge request at the same time:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues** and find your issue.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
 1. Go to the bottom of the issue description.
 1. Select **Create merge request** > **Create merge request and branch**.
 1. On the dialog, review the suggested branch name. It's based on your project's
@@ -77,7 +77,7 @@ Prerequisites:
 To create a merge request when a branch is already linked in Development:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues** and find your issue.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
 1. In the **Development** section, find the linked branch.
 1. Select the branch actions menu ({{< icon name="ellipsis_v" >}}).
 1. Select **Create merge request**.
@@ -107,8 +107,7 @@ Prerequisites:
 To create a branch and a merge request at the same time:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**.
-1. In the list, find and select your task.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
 1. Go to the bottom of the task description.
 1. Select **Create merge request**.
 1. On the dialog, review the suggested branch name.
@@ -133,8 +132,7 @@ Prerequisites:
 To create a merge request when a branch is already linked in Development:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**.
-1. In the list, find and select your task.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
 1. In the **Development** section, find the linked branch.
 1. Select the branch actions menu ({{< icon name="ellipsis_v" >}}).
 1. Select **Create merge request**.

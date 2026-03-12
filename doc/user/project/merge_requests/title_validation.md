@@ -16,13 +16,10 @@ title: Merge request title validation
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/25689) in GitLab 17.11 [with a flag](../../../administration/feature_flags/_index.md) named `merge_request_title_regex`. Disabled by default.
+- [Enabled on GitLab.com and GitLab Self-Managed](https://gitlab.com/gitlab-org/gitlab/-/issues/508022) in GitLab 18.10.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/508022) in GitLab 18.10. Feature flag `merge_request_title_regex` removed.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
-> This feature is available for testing, but not ready for production use.
 
 You can enforce a naming convention on merge request titles by
 matching them against a [RE2](https://github.com/google/re2/wiki/Syntax) regular expression

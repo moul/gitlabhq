@@ -48,11 +48,11 @@ Prerequisites:
 - You must have the Guest, Planner, Reporter, Developer, Maintainer, or Owner role.
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**.
-1. Above the list of issues, select **Search or filter results**.
-1. In the dropdown list that appears, select the attributes to filter by.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Issue**.
+1. Optional. Select additional filters, operators, and values
+   to export a subset of issues.
    For more information, see [filter the list of issues](managing_issues.md#filter-the-list-of-issues).
-1. In the upper right, select **Actions** ({{< icon name="ellipsis_v" >}}) > **Export as CSV**.
+1. In the upper-right corner, select **Actions** ({{< icon name="ellipsis_v" >}}) > **Export as CSV**.
 1. In the dialog, verify that the email address is correct, then select **Export issues**.
 
 All matching issues are exported, including those not shown on the first page.

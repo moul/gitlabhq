@@ -7,8 +7,6 @@ import (
 	"io"
 	"net/http"
 	"slices"
-	"strings"
-	"sync"
 	"time"
 
 	redsync "github.com/go-redsync/redsync/v4"
@@ -19,10 +17,7 @@ import (
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/log"
 
 	"github.com/gorilla/websocket"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
-	"google.golang.org/protobuf/proto"
 )
 
 const wsWriteDeadline = 60 * time.Second
@@ -68,7 +63,6 @@ var ServerCapabilities = []capability{
 }
 
 var errFailedToAcquireLockError = errors.New("handleWebSocketMessages: failed to acquire lock")
-var errUsageQuotaExceededError = errors.New("handleAgentMessages: usage quota exceeded")
 
 var normalClosureErrCodes = []int{websocket.CloseGoingAway, websocket.CloseNormalClosure}
 
@@ -109,64 +103,36 @@ type runner struct {
 	originalReq        *http.Request
 	marshalBuf         []byte
 	conn               websocketConn
-	wf                 workflowStream
-	client             *Client
-	sendMu             sync.Mutex
-	mcpManager         mcpManager
 	lockManager        *workflowLockManager
 	workflowID         string
 	mutex              *redsync.Mutex
 	lockFlow           bool
 	serverCapabilities []string
-	cloudServiceClient *Client
-	cloudServiceStream selfHostedWorkflowStream
+	streamManager      *streamManager
+	mcpManager         mcpManager
 	workflowDefinition string
 }
 
 func newRunner(conn websocketConn, rails *api.API, backend http.Handler, r *http.Request, cfg *api.DuoWorkflow, rdb *redis.Client) (*runner, error) {
-	userAgent := r.Header.Get("User-Agent")
-
 	if cfg.Service == nil {
 		return nil, fmt.Errorf("failed to initialize client: Service configuration is nil")
 	}
 
-	client, err := NewClient(cfg.Service, userAgent)
-	if err != nil {
-		return nil, fmt.Errorf("failed to initialize client: %v", err)
+	lockFlow := cfg.LockConcurrentFlow
+	if lockFlow && rdb == nil {
+		log.WithRequest(r).Info("Workflow locking will be skipped as redis is not configured")
+		lockFlow = false
 	}
 
-	wf, err := client.ExecuteWorkflow(r.Context())
+	streamManager, err := newStreamManager(r, cfg)
 	if err != nil {
-		return nil, fmt.Errorf("failed to initialize stream: %v", err)
+		return nil, fmt.Errorf("failed to initialize stream manager: %v", err)
 	}
 
 	mcpManager, err := newMcpManager(rails, r, cfg.McpServers)
 	if err != nil {
 		// Log the error while the feature is in development
 		log.WithRequest(r).WithError(err).Info("failed to initialize MCP server(s)")
-	}
-
-	lockFlow := cfg.LockConcurrentFlow
-
-	if lockFlow && rdb == nil {
-		log.WithRequest(r).Info("Workflow locking will be skipped as redis is not configured")
-		lockFlow = false
-	}
-
-	var cloudServiceClient *Client
-	var cloudServiceStream selfHostedWorkflowStream
-
-	if cfg.CloudServiceForSelfHosted != nil && cfg.CloudServiceForSelfHosted.URI != "" {
-		cloudServiceClient, err = NewClient(cfg.CloudServiceForSelfHosted, userAgent)
-		if err != nil {
-			return nil, fmt.Errorf("failed to initialize cloud service client: %v", err)
-		}
-
-		cloudServiceStream, err = cloudServiceClient.TrackSelfHostedExecuteWorkflow(r.Context())
-		if err != nil {
-			_ = cloudServiceClient.Close()
-			return nil, fmt.Errorf("failed to initialize cloud service stream: %v", err)
-		}
 	}
 
 	return &runner{
@@ -176,14 +142,11 @@ func newRunner(conn websocketConn, rails *api.API, backend http.Handler, r *http
 		originalReq:        r,
 		marshalBuf:         make([]byte, ActionResponseBodyLimit),
 		conn:               conn,
-		wf:                 wf,
-		client:             client,
-		mcpManager:         mcpManager,
 		lockManager:        newWorkflowLockManager(rdb),
 		lockFlow:           lockFlow,
 		serverCapabilities: cfg.ServerCapabilities,
-		cloudServiceClient: cloudServiceClient,
-		cloudServiceStream: cloudServiceStream,
+		streamManager:      streamManager,
+		mcpManager:         mcpManager,
 	}, nil
 }
 
@@ -231,19 +194,13 @@ func (r *runner) handleWebSocketMessages(errCh chan<- error) {
 
 func (r *runner) handleAgentMessages(ctx context.Context, errCh chan<- error) {
 	for {
-		action, err := r.wf.Recv()
+		action, err := r.streamManager.Recv()
 		if err != nil {
 			if err == io.EOF {
 				errCh <- nil // Expected error when a workflow ends
-				return
+			} else {
+				errCh <- fmt.Errorf("handleAgentMessages: %w", err)
 			}
-
-			if r.isUsageQuotaExceededError(err) {
-				errCh <- errUsageQuotaExceededError
-				return
-			}
-
-			errCh <- fmt.Errorf("handleAgentMessages: failed to read a gRPC message: %w", err)
 			return
 		}
 
@@ -255,18 +212,7 @@ func (r *runner) handleAgentMessages(ctx context.Context, errCh chan<- error) {
 }
 
 func (r *runner) Close() error {
-	r.sendMu.Lock()
-	defer r.sendMu.Unlock()
-
-	var cloudServiceErrs error
-	if r.cloudServiceStream != nil {
-		cloudServiceErrs = errors.Join(r.cloudServiceStream.CloseSend())
-	}
-	if r.cloudServiceClient != nil {
-		cloudServiceErrs = errors.Join(cloudServiceErrs, r.cloudServiceClient.Close())
-	}
-
-	return errors.Join(r.wf.CloseSend(), r.client.Close(), r.closeWebSocketConnection(), r.mcpManager.Close(), cloudServiceErrs)
+	return errors.Join(r.streamManager.Close(), r.closeWebSocketConnection(), r.mcpManager.Close())
 }
 
 func (r *runner) closeWebSocketConnection() error {
@@ -320,13 +266,7 @@ func (r *runner) handleWebSocketMessage(message []byte) error {
 		}).Info("Sending startRequest")
 	}
 
-	log.WithContextFields(r.originalReq.Context(), log.Fields{
-		"payload_size": proto.Size(response),
-		"event_type":   fmt.Sprintf("%T", response.Response),
-		"request_id":   response.GetActionResponse().GetRequestID(),
-	}).Info("Sending action response")
-
-	if err := r.threadSafeSend(response); err != nil {
+	if err := r.streamManager.Send(response); err != nil {
 		if err == io.EOF {
 			// ignore EOF to let Recv() fail and return a meaningful message
 			return nil
@@ -399,19 +339,8 @@ func (r *runner) handleAgentAction(ctx context.Context, action *pb.Action) error
 		if err != nil {
 			return fmt.Errorf("handleAgentAction: failed to perform API call: %v", err)
 		}
-		statusCode := event.GetActionResponse().GetHttpResponse().StatusCode
 
-		log.WithContextFields(r.originalReq.Context(), log.Fields{
-			"path":                 action.GetRunHTTPRequest().Path,
-			"method":               action.GetRunHTTPRequest().Method,
-			"status_code":          statusCode,
-			"payload_size":         proto.Size(event),
-			"event_type":           fmt.Sprintf("%T", event.Response),
-			"action_response_type": fmt.Sprintf("%T", event.GetActionResponse().GetResponseType()),
-			"request_id":           action.GetRequestID(),
-		}).Info("Sending HTTP response event")
-
-		if err := r.threadSafeSend(event); err != nil {
+		if err := r.streamManager.Send(event); err != nil {
 			return fmt.Errorf("handleAgentAction: failed to send gRPC message: %v", err)
 		}
 
@@ -426,71 +355,17 @@ func (r *runner) handleAgentAction(ctx context.Context, action *pb.Action) error
 		if !r.mcpManager.HasTool(mcpTool.Name) {
 			return r.sendActionToWs(action)
 		}
+
 		event, err := r.mcpManager.CallTool(ctx, action)
 		if err != nil {
 			return fmt.Errorf("handleAgentAction: failed to call MCP tool: %v", err)
 		}
 
-		log.WithContextFields(ctx, log.Fields{
-			"request_id":           action.GetRequestID(),
-			"name":                 mcpTool.Name,
-			"args_size":            len(mcpTool.Args),
-			"payload_size":         proto.Size(event),
-			"event_type":           fmt.Sprintf("%T", event.Response),
-			"action_response_type": fmt.Sprintf("%T", event.GetActionResponse().GetResponseType()),
-		}).Info("Sending MCP tool response")
-
-		if err := r.threadSafeSend(event); err != nil {
+		if err := r.streamManager.Send(event); err != nil {
 			return fmt.Errorf("handleAgentAction: failed to send gRPC message: %v", err)
 		}
 	case *pb.Action_TrackLlmCallForSelfHosted:
-		if r.cloudServiceStream == nil {
-			return fmt.Errorf("handleAgentAction: cloud service stream not initialized")
-		}
-
-		trackAction := action.GetTrackLlmCallForSelfHosted()
-
-		log.WithContextFields(ctx, log.Fields{
-			"request_id":  action.GetRequestID(),
-			"workflow_id": trackAction.WorkflowID,
-		}).Info("Sending TrackLlmCallForSelfHosted to cloud service")
-
-		clientEvent := &pb.TrackSelfHostedClientEvent{
-			RequestID:            action.GetRequestID(),
-			WorkflowID:           trackAction.WorkflowID,
-			FeatureQualifiedName: trackAction.FeatureQualifiedName,
-			FeatureAiCatalogItem: trackAction.FeatureAiCatalogItem,
-		}
-
-		if err := r.cloudServiceStream.Send(clientEvent); err != nil {
-			return fmt.Errorf("handleAgentAction: failed to send to cloud service: %v", err)
-		}
-
-		selfHostedAction, err := r.cloudServiceStream.Recv()
-		if err != nil {
-			return fmt.Errorf("handleAgentAction: failed to receive from cloud service: %v", err)
-		}
-
-		log.WithContextFields(ctx, log.Fields{
-			"request_id": selfHostedAction.GetRequestID(),
-		}).Info("Received acknowledgment from cloud service")
-
-		event := &pb.ClientEvent{
-			Response: &pb.ClientEvent_ActionResponse{
-				ActionResponse: &pb.ActionResponse{
-					RequestID: action.GetRequestID(),
-					ResponseType: &pb.ActionResponse_PlainTextResponse{
-						PlainTextResponse: &pb.PlainTextResponse{
-							Response: "authenticated",
-						},
-					},
-				},
-			},
-		}
-
-		if err := r.threadSafeSend(event); err != nil {
-			return fmt.Errorf("handleAgentAction: failed to send gRPC message: %v", err)
-		}
+		return r.streamManager.HandleCloudServiceTracking(ctx, action)
 	default:
 		return r.sendActionToWs(action)
 	}
@@ -519,29 +394,6 @@ func (r *runner) sendActionToWs(action *pb.Action) error {
 	return nil
 }
 
-func (r *runner) threadSafeSend(event *pb.ClientEvent) error {
-	r.sendMu.Lock()
-	defer r.sendMu.Unlock()
-	return r.wf.Send(event)
-}
-
-// isUsageQuotaExceededError checks if the error is a gRPC RESOURCE_EXHAUSTED error
-// indicating that the consumer has exceeded their usage quota.
-func (r *runner) isUsageQuotaExceededError(err error) bool {
-	// Extract gRPC status from the error
-	st, ok := status.FromError(err)
-	if !ok {
-		return false
-	}
-
-	// Check if the error code is RESOURCE_EXHAUSTED and contains the quota exceeded message
-	if st.Code() == codes.ResourceExhausted {
-		return strings.Contains(st.Message(), "USAGE_QUOTA_EXCEEDED")
-	}
-
-	return false
-}
-
 func (r *runner) stopWorkflow(reason string, closeErr error) error {
 	log.WithRequest(r.originalReq).WithFields(log.Fields{
 		"close_error": closeErr.Error(),
@@ -555,7 +407,7 @@ func (r *runner) stopWorkflow(reason string, closeErr error) error {
 		},
 	}
 
-	if err := r.threadSafeSend(stopRequest); err != nil {
+	if err := r.streamManager.Send(stopRequest); err != nil {
 		return fmt.Errorf("failed to send stop request: %v", err)
 	}
 

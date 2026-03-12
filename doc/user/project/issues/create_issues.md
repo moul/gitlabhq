@@ -37,10 +37,11 @@ To create an issue:
 1. On the top bar, select **Search or go to** and find your project.
 1. Either:
 
-   - In the left sidebar, select **Plan** > **Issues**, and then, in the upper-right corner, select **New issue**.
-   - In the left sidebar, at the top, select the plus sign ({{< icon name="plus" >}}) and then, under **In this project**,
-     select **New issue**.
+   - In the left sidebar, select **Plan** > **Work items**, and then, in the upper-right corner, select **New item**.
+   - In the upper-right corner, select the plus sign ({{< icon name="plus" >}}) and then, under **In this project**,
+     select **New work item**.
 
+1. From the **Type** dropdown list, select **Issue** if it is not already selected.
 1. Complete the [fields](#fields-in-the-new-issue-form).
 1. Select **Create issue**.
 
@@ -58,7 +59,7 @@ Prerequisites:
 To create an issue from a group:
 
 1. On the top bar, select **Search or go to** and find your group.
-1. Select **Plan** > **Issues**.
+1. Select **Plan** > **Work items**.
 1. In the upper-right corner, select **Select project to create issue**.
 1. Select the project you'd like to create an issue for. The button now reflects the selected
    project.
@@ -140,8 +141,8 @@ Prerequisites:
 To email an issue to a project:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**.
-1. At the bottom of the page, select **Email issue to this project**.
+1. Select **Plan** > **Work items**.
+1. In the upper-right corner, select **More actions** ({{< icon name="ellipsis_v" >}}), then select **Email work item to this project**.
 1. To copy the email address, select **Copy** ({{< icon name="copy-to-clipboard" >}}).
 1. From your email client, send an email to this address.
    The subject is used as the title of the new issue, and the email body becomes the description.

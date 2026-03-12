@@ -13050,7 +13050,8 @@ CREATE TABLE ai_catalog_mcp_servers_users (
     ai_catalog_mcp_server_id bigint NOT NULL,
     user_id bigint NOT NULL,
     token jsonb,
-    refresh_token jsonb
+    refresh_token jsonb,
+    expires_at timestamp with time zone
 );
 
 CREATE SEQUENCE ai_catalog_mcp_servers_users_id_seq

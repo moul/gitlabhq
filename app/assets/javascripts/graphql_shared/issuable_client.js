@@ -89,6 +89,16 @@ export const config = {
       ProjectNamespaceMarkdownPaths: {
         merge: true,
       },
+      GroupNamespaceMarkdownPaths: {
+        merge: true,
+      },
+      Discussion: {
+        fields: {
+          userPermissions: {
+            merge: true,
+          },
+        },
+      },
       WorkItemWidgetDescription: {
         fields: {
           descriptionHtml: {

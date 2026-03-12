@@ -97,7 +97,7 @@ export default {
       >
         <span class="gl-flex gl-w-full gl-min-w-0 gl-items-center gl-justify-between">
           <span class="gl-inline-flex gl-items-center gl-gap-2 gl-truncate">
-            <work-item-type-icon :work-item-type="type.name" />
+            <work-item-type-icon :work-item-type="type.name" :type-icon-name="type.icon_name" />
             <span data-testid="label" :title="type.label">
               {{ type.label }}
             </span>

@@ -114,7 +114,7 @@ Prerequisites:
 To create a branch from an issue:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues** and find your issue.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
 1. Below the issue description, select **Create merge request** {{< icon name="chevron-down" >}} to display the dropdown list.
 1. Select **Create branch**.
 1. In the dialog, from the **Source (branch or tag)** dropdown list, select a source branch or tag.
@@ -139,8 +139,7 @@ Prerequisites:
 To create a branch directly from a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**.
-1. In the issue list, find your task.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
 1. Below the task description, select **Create merge request** {{< icon name="chevron-down" >}} to display the dropdown list.
 1. Select **Create branch**.
 1. In the dialog, from the **Source branch or tag** dropdown list, select a source branch or tag.

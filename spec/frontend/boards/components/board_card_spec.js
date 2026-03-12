@@ -91,7 +91,7 @@ describe('Board card', () => {
       mountComponent({
         item: {
           ...mockIssue,
-          iid: 1,
+          iid: '1',
           title: 'Accessible label test',
         },
       });

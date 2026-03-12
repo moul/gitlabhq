@@ -35521,6 +35521,17 @@ Describes the usage of consumables under the subscription.
 | <a id="gitlabsubscriptionusage-subscriptionportalusagedashboardurl"></a>`subscriptionPortalUsageDashboardUrl` | [`String`](#string) | Full URL to the GitLab Credits usage dashboard in the Customer Portal. |
 | <a id="gitlabsubscriptionusage-usersusage"></a>`usersUsage` | [`GitlabSubscriptionUsageUsersUsage`](#gitlabsubscriptionusageusersusage) | Consumption usage for users under the subscription. |
 
+### `GitlabSubscriptionUsageFlowTypeInfo`
+
+Information about a GitLab Credits flow type.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionusageflowtypeinfo-id"></a>`id` | [`String!`](#string) | Identifier for the flow type, used for filtering. |
+| <a id="gitlabsubscriptionusageflowtypeinfo-title"></a>`title` | [`String!`](#string) | Display name for the flow type. |
+
 ### `GitlabSubscriptionUsageUser`
 
 Describes the user with their usage data.
@@ -35530,11 +35541,29 @@ Describes the user with their usage data.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="gitlabsubscriptionusageuser-avatarurl"></a>`avatarUrl` | [`String`](#string) | URL of the user's avatar. |
-| <a id="gitlabsubscriptionusageuser-events"></a>`events` | [`GitlabSubscriptionUsageUserEventConnection`](#gitlabsubscriptionusageusereventconnection) | Billable events from the user. (see [Connections](#connections)) |
 | <a id="gitlabsubscriptionusageuser-id"></a>`id` | [`UserID!`](#userid) | Global ID of the user. |
 | <a id="gitlabsubscriptionusageuser-name"></a>`name` | [`String!`](#string) | Human-readable name of the user. |
 | <a id="gitlabsubscriptionusageuser-usage"></a>`usage` | [`GitlabSubscriptionUsageUserUsage`](#gitlabsubscriptionusageuserusage) | Usage of consumables for a user under the subscription. |
+| <a id="gitlabsubscriptionusageuser-usedflowtypes"></a>`usedFlowTypes` | [`[GitlabSubscriptionUsageFlowTypeInfo!]`](#gitlabsubscriptionusageflowtypeinfo) | Flow types used by the user during the billing period. |
 | <a id="gitlabsubscriptionusageuser-username"></a>`username` | [`String!`](#string) | Username of the user. Unique within the instance of GitLab. |
+
+#### Fields with arguments
+
+##### `GitlabSubscriptionUsageUser.events`
+
+Billable events from the user.
+
+Returns [`GitlabSubscriptionUsageUserEventConnection`](#gitlabsubscriptionusageusereventconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionusageuser-events-flowtypes"></a>`flowTypes` | [`[String]`](#string) | Filter events by one or more flow type IDs. |
 
 ### `GitlabSubscriptionUsageUserEvent`
 

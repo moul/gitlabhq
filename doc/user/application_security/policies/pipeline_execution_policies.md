@@ -261,6 +261,7 @@ from bypassing the pipeline execution policies.
 |-------------------------|----------|--------------------------|-------------|
 | `allowed` | `boolean`   | `true`, `false` | When `true`, other configurations can override policy variables. When `false`, other configurations cannot override policy variables. |
 | `exceptions` | `array` | `array` of `string` | Variables that are exceptions to the global rule. When `allowed: false`, the `exceptions` are an allowlist. When `allowed: true`, the `exceptions` are a denylist. |
+| `dotenv` | `string` | `respect_policy`, `allow_override` | Controls whether [dotenv artifact](../../../ci/yaml/artifacts_reports.md#artifactsreportsdotenv) variables respect the `variables_override` policy rules. By default (when not specified or set to `respect_policy`), dotenv variables are subject to the same override rules as other variables. Set to `allow_override` to let dotenv variables bypass the policy rules. This option is provided for backward compatibility with workflows that rely on dotenv artifacts overriding policy variables. Using `allow_override` is not recommended because it weakens the security guarantees provided by `variables_override`. |
 
 This option controls how user-defined variables are handled in pipelines with policies enforced. This feature allows you to:
 

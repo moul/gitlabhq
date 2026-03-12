@@ -1572,6 +1572,7 @@ RSpec.describe SearchHelper, feature_category: :global_search do
 
         expect(types).to all(have_key(:name))
         expect(types).to all(have_key(:label))
+        expect(types).to all(have_key(:icon_name))
       end
 
       it 'includes work item types available to the project' do
@@ -1593,12 +1594,13 @@ RSpec.describe SearchHelper, feature_category: :global_search do
         expect(type_names).not_to include('epic')
       end
 
-      it 'returns stringified type keys and human-readable labels' do
+      it 'returns stringified type keys, human-readable labels, and icon names' do
         types = helper.work_item_types_for_filter
         issue_type = types.find { |t| t[:name] == 'issue' }
 
         expect(issue_type[:name]).to eq('issue')
         expect(issue_type[:label]).to eq('Issue')
+        expect(issue_type[:icon_name]).to eq('work-item-issue')
       end
     end
 
@@ -1612,10 +1614,10 @@ RSpec.describe SearchHelper, feature_category: :global_search do
       it 'returns work item types available to the group' do
         types = helper.work_item_types_for_filter
 
-        # Group-level work item types should be available
         expect(types).to be_an(Array)
         expect(types).to all(have_key(:name))
         expect(types).to all(have_key(:label))
+        expect(types).to all(have_key(:icon_name))
       end
 
       it 'includes epic type for groups', if: Gitlab.ee? do

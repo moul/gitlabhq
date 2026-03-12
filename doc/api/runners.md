@@ -110,7 +110,8 @@ Example response:
         "runner_type": "project_type",
         "name": null,
         "online": true,
-        "status": "online"
+        "status": "online",
+        "job_execution_status": "idle"
     },
     {
         "active": true,
@@ -122,7 +123,8 @@ Example response:
         "runner_type": "group_type",
         "name": null,
         "online": false,
-        "status": "offline"
+        "status": "offline",
+        "job_execution_status": "idle"
     }
 ]
 ```
@@ -195,7 +197,8 @@ Example response:
         "runner_type": "instance_type",
         "name": null,
         "online": true,
-        "status": "online"
+        "status": "online",
+        "job_execution_status": "idle"
     },
     {
         "active": true,
@@ -207,7 +210,8 @@ Example response:
         "runner_type": "instance_type",
         "name": null,
         "online": false,
-        "status": "offline"
+        "status": "offline",
+        "job_execution_status": "idle"
     },
     {
         "active": true,
@@ -219,7 +223,8 @@ Example response:
         "runner_type": "project_type",
         "name": null,
         "online": true,
-        "status": "paused"
+        "status": "paused",
+        "job_execution_status": "idle"
     },
     {
         "active": true,
@@ -231,7 +236,8 @@ Example response:
         "runner_type": "group_type",
         "name": null,
         "online": false,
-        "status": "offline"
+        "status": "offline",
+        "job_execution_status": "idle"
     }
 ]
 ```
@@ -303,6 +309,7 @@ Example response:
     "name": null,
     "online": true,
     "status": "online",
+    "job_execution_status": "idle",
     "platform": null,
     "projects": [
         {
@@ -391,6 +398,7 @@ Example response:
     "name": null,
     "online": true,
     "status": "online",
+    "job_execution_status": "idle",
     "platform": null,
     "projects": [
         {
@@ -578,7 +586,8 @@ Example response:
       "created_at": "2024-06-09T11:12:02.507Z",
       "contacted_at": "2024-06-09T06:30:09.355Z",
       "ip_address": "127.0.0.1",
-      "status": "offline"
+      "status": "offline",
+      "job_execution_status": "idle"
     },
     {
       "id": 2,
@@ -590,7 +599,8 @@ Example response:
       "created_at": "2024-06-09T09:12:02.507Z",
       "contacted_at": "2024-06-09T06:30:09.355Z",
       "ip_address": "127.0.0.1",
-      "status": "offline"
+      "status": "offline",
+      "job_execution_status": "idle"
     }
 ]
 ```
@@ -657,7 +667,8 @@ Example response:
         "runner_type": "project_type",
         "name": null,
         "online": false,
-        "status": "offline"
+        "status": "offline",
+        "job_execution_status": "idle"
     },
     {
         "active": true,
@@ -669,7 +680,8 @@ Example response:
         "runner_type": "instance_type",
         "name": null,
         "online": true,
-        "status": "online"
+        "status": "online",
+        "job_execution_status": "idle"
     }
 ]
 ```
@@ -719,7 +731,8 @@ Example response:
     "runner_type": "project_type",
     "name": null,
     "online": true,
-    "status": "online"
+    "status": "online",
+    "job_execution_status": "idle"
 }
 ```
 
@@ -819,7 +832,8 @@ Example response:
     "runner_type": "instance_type",
     "name": "gitlab-runner",
     "online": null,
-    "status": "never_contacted"
+    "status": "never_contacted",
+    "job_execution_status": "idle"
   },
   {
     "id": 6,
@@ -831,7 +845,8 @@ Example response:
     "runner_type": "instance_type",
     "name": "gitlab-runner",
     "online": false,
-    "status": "offline"
+    "status": "offline",
+    "job_execution_status": "idle"
   },
   {
     "id": 8,
@@ -843,7 +858,8 @@ Example response:
     "runner_type": "group_type",
     "name": "gitlab-runner",
     "online": null,
-    "status": "never_contacted"
+    "status": "never_contacted",
+    "job_execution_status": "idle"
   }
 ]
 ```

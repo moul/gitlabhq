@@ -6,7 +6,6 @@ RSpec.describe 'Projects > Settings > Repository > Branch rules > Branch rule de
   include Spec::Support::Helpers::ModalHelpers
 
   let_it_be(:user) { create(:user) }
-  let(:role) { :developer }
 
   let_it_be(:branch_rule) do
     create(
@@ -48,7 +47,7 @@ RSpec.describe 'Projects > Settings > Repository > Branch rules > Branch rule de
       wait_for_requests
     end
 
-    it 'renders rule details' do
+    it 'renders rule details', :aggregate_failures do
       expect(page).to have_text 'Branch rule details'
       expect(page).to have_css '[data-testid="branch"]', text: branch_rule.name
       expect(page).to have_text 'Protect branch'
@@ -56,7 +55,20 @@ RSpec.describe 'Projects > Settings > Repository > Branch rules > Branch rule de
       expect(page).to have_text 'Allowed to merge'
     end
 
-    it 'renders breadcrumbs' do
+    it 'displays the number of matching branches for wildcard patterns' do
+      repo_project = create(:project, :repository)
+      repo_project.add_maintainer(user)
+      repo_project.repository.add_branch(user, 'production-stable', 'master')
+      repo_project.repository.add_branch(user, 'staging-stable', 'master')
+      wildcard_rule = create(:protected_branch, name: '*-stable', project: repo_project)
+
+      visit project_settings_repository_branch_rules_path(repo_project, params: { branch: wildcard_rule.name })
+      wait_for_requests
+
+      expect(page).to have_text '2 matching branches'
+    end
+
+    it 'renders breadcrumbs', :aggregate_failures do
       within_testid 'breadcrumb-links' do
         expect(page).to have_link('Repository settings', href: project_settings_repository_path(project))
         expect(page).to have_link('Branch rules',
@@ -74,7 +86,7 @@ RSpec.describe 'Projects > Settings > Repository > Branch rules > Branch rule de
       within_modal do
         expect(page).to have_text 'Update target branch'
         click_button 'Select branch or create rule'
-        fill_in 'Search', with: 'test-*'
+        fill_in 'Search branches', with: 'test-*'
         find_by_testid('listbox-item-test-*').click
         click_button 'Update'
       end
@@ -149,8 +161,8 @@ RSpec.describe 'Projects > Settings > Repository > Branch rules > Branch rule de
         end
 
         describe 'Deploy keys' do
-          let!(:deploy_key_with_write_access) { create(:deploy_key, user: user, write_access_to: project) }
-          let!(:deploy_key_readonly) { create(:deploy_key, user: user, readonly_access_to: project) }
+          let_it_be(:deploy_key_with_write_access) { create(:deploy_key, user: user, write_access_to: project) }
+          let_it_be(:deploy_key_readonly) { create(:deploy_key, user: user, readonly_access_to: project) }
 
           it 'does not show readonly deploy keys in push access drawer' do
             within_testid('allowed-to-push-content') do

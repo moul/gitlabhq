@@ -66,6 +66,7 @@ export default normalizeRender({
         variables: {
           boardItem: null,
           listId: null,
+          isIssue: this.isIssue,
         },
       });
 

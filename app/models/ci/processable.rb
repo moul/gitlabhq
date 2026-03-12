@@ -307,11 +307,12 @@ module Ci
     end
 
     def dependency_variables
-      return [] if all_dependencies.empty?
+      variables = Gitlab::Ci::Variables::Collection.new
+      return variables if all_dependencies.empty?
 
       dependencies_with_accessible_artifacts = job_dependencies_with_accessible_artifacts(all_dependencies)
 
-      Gitlab::Ci::Variables::Collection.new.concat(
+      variables.concat(
         Ci::JobVariable.where(job: dependencies_with_accessible_artifacts).dotenv_source
       )
     end
@@ -368,3 +369,5 @@ module Ci
     end
   end
 end
+
+Ci::Processable.prepend_mod_with('Ci::Processable')

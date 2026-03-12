@@ -47,12 +47,18 @@ to work items and adding custom work item types, see
 
 View tasks in issues, in the **Child items** section.
 
-You can also [filter the list of issues](project/issues/managing_issues.md#filter-the-list-of-issues)
+You can also [filter the list of work items](work_items/_index.md#filter-work-items)
 for `Type = task`.
 
-If you select a task from an issue, it opens in a dialog window.
-If you select a task to open in a new browser tab, or select it from the issue list,
-the task opens in a full-page view.
+When you select a task from an issue or from the **Work items** list, it opens in a details panel
+on the right side of the screen. On smaller screens, this panel overlaps the page.
+
+To open a task in full-page view:
+
+- Open it in a new browser tab by right-clicking the task, or by holding
+  <kbd>Command</kbd> or <kbd>Control</kbd> and selecting it.
+- In the upper-right corner of the details panel, select **Open in full page**
+  ({{< icon name="maximize" >}}).
 
 ## Create a task
 
@@ -69,11 +75,13 @@ Prerequisites:
 To create a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select **Add**.
-1. Select **New task**.
-1. Enter the task title.
-1. Select the [project](project/organize_work_with_projects.md) to create the new task in.
+1. Select **Plan** > **Work items**.
+1. In the top-right corner, select **New item**.
+1. From the **Type** dropdown list, select **Task** if it is not already selected.
+1. Complete the following:
+   - Enter the task title.
+   - Enter a task description.
+   - Optional. In the dialog sidebar, select a **Parent** [project](project/organize_work_with_projects.md) for the new task.
 1. Select **Create task**.
 
 ### From a task list item
@@ -88,12 +96,17 @@ Prerequisites:
 
 - You must have the Guest, Planner, Reporter, Developer, Maintainer, or Owner role for the project.
 
-1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, hover over a task list item and select the options menu ({{< icon name="ellipsis_v" >}}).
-1. Select **Convert to task**.
+To convert a task list item in an issue description to a task:
 
-The task list item is removed from the issue description and a task is created in the tasks widget from its contents.
+1. On the top bar, select **Search or go to** and find your project.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
+1. In the issue description, hover over the task list item and select the options menu
+   ({{< icon name="ellipsis_v" >}}).
+1. Select **Convert to child item**.
+1. Optional. Edit the task title and add a description.
+1. Select **Create task**.
+
+The task list item is removed from the issue description and added to the **Child items** section.
 Any nested task list items are moved up a nested level.
 
 ## Add existing tasks to an issue
@@ -108,11 +121,11 @@ Prerequisites:
 
 - You must have the Guest, Planner, Reporter, Developer, Maintainer, or Owner role for the project, or the project must be public.
 
-To add a task:
+To add an existing task to an issue:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select **Add**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
+1. In the issue description, in the **Child items** section, select **Add** ({{< icon name="plus" >}}).
 1. Select **Existing task**.
 1. Search tasks by title.
 1. Select one or multiple tasks to add to the issue.
@@ -133,12 +146,11 @@ Prerequisites:
 To edit a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the task you want to edit.
-   The task window opens.
-1. Optional. To edit the title, select it and make your changes.
-1. Optional. To edit the description, select the edit icon ({{< icon name="pencil" >}}), make your changes, and
-   select **Save**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the upper-right corner, select **Edit**.
+1. Optional. To edit the title, type into the **Title** text box.
+1. Optional. To edit the description, make your changes to the **Description** text box.
+1. Select **Save changes**.
 1. Select the close icon ({{< icon name="close" >}}).
 
 ### Using the rich text editor
@@ -161,11 +173,10 @@ Prerequisites:
 To edit the description of a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the title of the task you want to edit.
-   The task window opens.
-1. Next to **Description**, select the edit icon ({{< icon name="pencil" >}}). The description text box appears.
-1. Above the text box, select **Rich text**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the upper-right corner, select **Edit**.
+1. At the bottom of the **Description** text box, select **Switch to rich text editing**.
+   If the control shows **Switch to plain text editing**, the text box is already in rich text mode.
 1. Make your changes, and select **Save**.
 
 ## Promote a task to an issue
@@ -184,9 +195,7 @@ Prerequisites:
 To promote a task to an issue:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the task you want to edit.
-   The task window opens.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
 1. Unlink the parent issue and promote the task: In the task window, use these two
    [quick actions](project/quick_actions.md) in separate comments:
 
@@ -198,8 +207,7 @@ To promote a task to an issue:
    /promote_to issue
    ```
 
-The task is converted to an issue and gets a new URL with `/issues/`.
-The previous URL with `/work_items/` still works.
+The task is converted to an issue. The previous URL with `/work_items/` still works.
 
 ## Convert a task into another item type
 
@@ -226,8 +234,7 @@ Prerequisites:
 To convert a task into another item type:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**.
-1. In the issue list, find your task.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
 1. Optional. If the task has a parent issue assigned, remove it.
    Add a comment to the task with the `/remove_parent` quick action.
 1. In the upper-right corner, select **More actions** ({{< icon name="ellipsis_v" >}}), then select **Change type**.
@@ -249,16 +256,22 @@ Prerequisites:
 
 - You must have the Guest, Planner, Reporter, Developer, Maintainer, or Owner role for the project.
 
-You can remove a task from an issue. The task is not deleted, but the two are no longer connected.
-It's not possible to connect them again.
+You can remove a task from an issue without deleting it.
+To reconnect them, see [Set an issue as a parent](#set-an-issue-as-a-parent).
 
-To remove a task from an issue:
+To remove a task from an issue using the **Child items** section:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the options menu ({{< icon name="ellipsis_v" >}})
-   next to the task you want to remove.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
+1. In the issue description, in the **Child items** section, select the options menu
+   ({{< icon name="ellipsis_v" >}}) next to the task you want to remove.
 1. Select **Remove task**.
+
+To remove a task from an issue using the task details panel:
+
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the right sidebar, next to **Parent**, select **Edit**.
+1. In the upper-right corner of the dropdown list, select **Clear**.
 
 ## Delete a task
 
@@ -277,10 +290,10 @@ Prerequisites:
 To delete a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the task you want to edit.
-1. In the task window, in the options menu ({{< icon name="ellipsis_v" >}}), select **Delete task**.
-1. Select **OK**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. Select **More actions** ({{< icon name="ellipsis_v" >}}).
+1. Select **Delete task**.
+1. In the confirmation dialog, select **Delete task**.
 
 ## Reorder tasks
 
@@ -296,7 +309,27 @@ Prerequisites:
 - You must have the Planner, Reporter, Developer, Maintainer, or Owner role for the project.
 
 By default, tasks are ordered by creation date.
-To reorder them, drag them around.
+To reorder them in an issue's **Child items** section, drag them into the desired order.
+
+To sort tasks in the **Work items** list:
+
+1. On the right of the filter bar, select the **Created date** dropdown list.
+1. Select a sort criteria:
+
+   - Priority
+   - Created date
+   - Updated date
+   - Closed date
+   - Milestone due date
+   - Due date
+   - Popularity
+   - Label priority
+   - Manual (drag items into your preferred order; sort direction is ignored)
+   - Title
+   - Start date
+
+1. To toggle between ascending and descending order, select **Sort direction**
+   ({{< icon name="sort-lowest" >}} or {{< icon name="sort-highest" >}}).
 
 ## Change status
 
@@ -329,7 +362,7 @@ Prerequisites:
 To change the status of a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your task to view it.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
 1. In the right sidebar, in the **Status** section, select **Edit**.
 1. From the dropdown list, select the status.
 
@@ -358,10 +391,8 @@ Prerequisites:
 To change the assignee on a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the title of the task you want to edit.
-   The task window opens.
-1. Next to **Assignees**, select **Add assignees**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the right sidebar, in the **Assignee** section, select **Edit**.
 1. From the dropdown list, select the users to add as an assignee.
 1. Select any area outside the dropdown list.
 
@@ -381,9 +412,8 @@ Prerequisites:
 To add [labels](project/labels.md) to a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the title of the task you want to edit. The task window opens.
-1. Next to **Labels**, select **Add labels**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the right sidebar, in the **Labels** section, select **Edit**.
 1. From the dropdown list, select the labels to add.
 1. Select any area outside the dropdown list.
 
@@ -405,24 +435,15 @@ Prerequisites:
 
 You can set start and due dates on a task to show when work should begin and end.
 
-To set a due date:
+To set a start or due date:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the title of the task you want to edit.
-   The task window opens.
-1. If the task already has a due date next to **Due date**, select it. Otherwise, select **Add due date**.
-1. In the date picker, select the desired due date.
-
-To set a start date:
-
-1. In the issue description, in the **Child items** section, select the title of the task you want to edit.
-   The task window opens.
-1. If the task already has a start date next to **Start date**, select it. Otherwise, select **Add start date**.
-1. In the date picker, select the desired due date.
-
-   The due date must be the same or later than the start date.
-   If you select a start date to be later than the due date, the due date is then changed to the same day.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the right sidebar, in the **Dates** section, select **Edit**.
+1. Optional. In the **Start date** picker, select a date.
+1. Optional. In the **Due date** picker, select a date.
+   The due date must be the same as or later than the start date.
+1. Select **Apply**.
 
 ## Add a task to a milestone
 
@@ -447,12 +468,11 @@ Prerequisites:
 To add a task to a milestone:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the title of the task you want to edit.
-   The task window opens.
-1. Next to **Milestone**, select **Add to milestone**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the right sidebar, in the **Milestone** section, select **Edit**.
+1. From the dropdown list, select the milestone.
    If a task already belongs to a milestone, the dropdown list shows the current milestone.
-1. From the dropdown list, select the milestone to be associated with the task.
+1. Select any area outside the dropdown list.
 
 ## Set task weight
 
@@ -480,10 +500,8 @@ This value is visible only when you view a task.
 To set issue weight of a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the title of the task you want to edit.
-   The task window opens.
-1. Next to **Weight**, select **Edit**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the right sidebar, in the **Weight** section, select **Edit**.
 1. Enter a whole, positive number.
 1. Select **Apply** or press <kbd>Enter</kbd>.
 
@@ -552,11 +570,10 @@ Prerequisites:
 To add a task to an iteration:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the title of the task you want to edit.
-   The task window opens.
-1. Next to **Iteration**, select **Add to iteration**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the right sidebar, in the **Iteration** section, select **Edit**.
 1. From the dropdown list, select the iteration to be associated with the task.
+1. Select any area outside the dropdown list.
 
 ## Estimate and track spent time
 
@@ -637,15 +654,14 @@ You can add [comments](discussions/_index.md) and reply to threads in tasks.
 
 {{< /history >}}
 
-To refer to a task elsewhere in GitLab, you can use its full URL or a short reference, which looks like
-`namespace/project-name#123`, where `namespace` is either a group or a username.
+To refer to a task elsewhere in GitLab, you can use its full URL or a short reference like
+`namespace/project-name#123`, where `namespace` is a group or username.
 
 To copy the task reference to your clipboard:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select your task.
-1. In the upper-right corner, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}), then select **Copy Reference**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the upper-right corner, select **More actions** ({{< icon name="ellipsis_v" >}}), then select **Copy Reference**.
 
 You can now paste the reference into another description or comment.
 
@@ -668,8 +684,8 @@ For more information about creating comments by sending an email and the necessa
 To copy the task's email address:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the upper-right corner, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}), then select **Copy task email address**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the upper-right corner, select **More actions** ({{< icon name="ellipsis_v" >}}), then select **Copy task email address**.
 
 ## Set an issue as a parent
 
@@ -687,14 +703,16 @@ Prerequisites:
 To set an issue as a parent of a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select the title of the task you want to edit.
-   The task window opens.
-1. Next to **Parent**, from the dropdown list, select the parent to add.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the right sidebar, in the **Parent** section, select **Edit**.
+1. From the dropdown list, select the parent to add.
 1. Select any area outside the dropdown list.
 
-To remove the parent item of the task,
-next to **Parent**, select the dropdown list and then select **Unassign**.
+To remove the parent item of the task:
+
+1. In the **Parent** section, select **Edit**.
+1. In the upper-right corner of the dropdown list, select **Clear**.
+1. Select any area outside the dropdown list.
 
 ## Participants
 
@@ -737,21 +755,21 @@ Check that box and select **Create task**.
 
 To change the confidentiality of an existing task:
 
-1. [Open the task](#view-tasks).
+1. On the top bar, select **Search or go to** and find your project.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
 1. In the upper-right corner, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}).
 1. Select **Turn on confidentiality**.
 
 ### Who can see confidential tasks
 
-When a task is made confidential, only users with the Reporter, Developer, Maintainer, or Owner role for the project have
-access to the task.
-Users with Guest or [Minimal](permissions.md#users-with-minimal-access) roles can't access
-the task even if they were actively participating before the change.
+When a task is made confidential, only users with the Reporter, Developer, Maintainer, or Owner
+role for the project can access it.
+Users with the Guest or [Minimal](permissions.md#users-with-minimal-access) role can't access
+the task even if they were previously participating in it.
 
-However, a user with the **Guest role** can create confidential tasks, but can only view the ones
-that they created themselves.
+A user with the Guest role can create confidential tasks but can only view the ones they created.
 
-Users with the Guest role or non-members can read the confidential task if they are assigned to the task.
+Users with the Guest role or non-members can view a confidential task if they are assigned to it.
 When a Guest user or non-member is unassigned from a confidential task, they can no longer view it.
 
 Confidential tasks are hidden in search results for users without the necessary permissions.
@@ -782,11 +800,6 @@ system note in the task's comments, for example:
 - Feature flag `work_items_beta` [removed](https://gitlab.com/gitlab-com/gl-infra/production/-/issues/17549) in GitLab 18.6.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
-> This feature is available for testing, but not ready for production use.
 
 You can prevent public comments in a task.
 When you do, only project members can add and edit comments.
@@ -830,10 +843,8 @@ Prerequisites:
 To link an item to a task:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select your task.
-1. In the **Linked items** section of a task,
-   select **Add**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the **Linked items** section of a task, select **Add** ({{< icon name="plus" >}}).
 1. Select the relationship between the two items. Either:
    - **relates to**
    - **blocks**
@@ -853,8 +864,7 @@ Prerequisites:
 - You must have the Guest, Planner, Reporter, Developer, Maintainer, or Owner role for the project.
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select your issue to view it.
-1. In the issue description, in the **Child items** section, select your task.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
 1. In the **Linked items** section of a task, next to each item, select the vertical
    ellipsis ({{< icon name="ellipsis_v" >}}) and then select **Remove**.
 
@@ -884,9 +894,10 @@ Prerequisites:
 
 The merge requests are now visible in the main body, in the **Development** section.
 
-You must use the exact closing pattern to add the merge request to the task. Other text will not work.
+Use the exact closing pattern to add the merge request to the task.
 
-If [automatic issue closing](project/issues/managing_issues.md#disable-automatic-issue-closing) is enabled in your project settings, the task will be automatically closed when either:
+If [automatic issue closing](project/issues/managing_issues.md#disable-automatic-issue-closing)
+is enabled in your project settings, the task is automatically closed when either:
 
 - The added merge request is merged.
 - A commit referencing a task with the closing pattern is committed to your project's default branch.

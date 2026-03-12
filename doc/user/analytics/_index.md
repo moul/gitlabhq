@@ -67,7 +67,7 @@ Use these features to gain insights into CI/CD performance.
 
 | Feature | Description | Project-level | Group-level | Instance-level |
 | ------- | ----------- | ------------- | ----------- | -------------- |
-| [CI/CD analytics](ci_cd_analytics.md) | Pipeline duration and successes or failures. | {{< yes >}} | {{< yes >}} | {{< no >}} |
+| [CI/CD analytics](ci_cd_analytics.md) | Pipeline duration and successes or failures. | {{< yes >}} | {{< no >}} | {{< no >}} |
 | [DORA metrics](dora_metrics.md) | DORA metrics over time. | {{< yes >}} | {{< yes >}} | {{< no >}} |
 
 ### Security analytics

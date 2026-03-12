@@ -4,6 +4,7 @@ import Vue, { nextTick } from 'vue';
 import Vuex from 'vuex';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import TypeFilter from '~/search/sidebar/components/type_filter/index.vue';
+import WorkItemTypeIcon from '~/work_items/components/work_item_type_icon.vue';
 import {
   WORK_ITEM_TYPE_FILTER_PARAM,
   WORK_ITEM_TYPE_FILTER_HEADER,
@@ -16,10 +17,10 @@ describe('TypeFilter', () => {
   let wrapper;
 
   const mockWorkItemTypes = [
-    { name: 'issue', label: 'Issue' },
-    { name: 'task', label: 'Task' },
-    { name: 'epic', label: 'Epic' },
-    { name: 'objective', label: 'Objective' },
+    { name: 'issue', label: 'Issue', icon_name: 'work-item-issue' },
+    { name: 'task', label: 'Task', icon_name: 'work-item-task' },
+    { name: 'epic', label: 'Epic', icon_name: 'work-item-epic' },
+    { name: 'objective', label: 'Objective', icon_name: 'work-item-objective' },
   ];
 
   const mockAggregationBuckets = [
@@ -52,6 +53,7 @@ describe('TypeFilter', () => {
 
   const findFormCheckboxGroup = () => wrapper.findComponent(GlFormCheckboxGroup);
   const findAllCheckboxes = () => wrapper.findAllComponents(GlFormCheckbox);
+  const findAllWorkItemTypeIcons = () => wrapper.findAllComponents(WorkItemTypeIcon);
   const findCheckboxByValue = (value) =>
     findAllCheckboxes().wrappers.find((checkbox) => checkbox.props('value') === value);
   const findHeader = () => wrapper.find('[class*="gl-mb-2"]');
@@ -134,6 +136,22 @@ describe('TypeFilter', () => {
         workItemTypeAggregationBuckets: jest.fn(() => []),
       });
       expect(findAllCounts()).toHaveLength(0);
+    });
+
+    it('renders a WorkItemTypeIcon for each work item type', () => {
+      expect(findAllWorkItemTypeIcons()).toHaveLength(mockAggregationBuckets.length);
+    });
+
+    it('passes correct work-item-type prop to WorkItemTypeIcon', () => {
+      findAllWorkItemTypeIcons().wrappers.forEach((icon, index) => {
+        expect(icon.props('workItemType')).toBe(mockWorkItemTypes[index].name);
+      });
+    });
+
+    it('passes correct type-icon-name prop to WorkItemTypeIcon', () => {
+      findAllWorkItemTypeIcons().wrappers.forEach((icon, index) => {
+        expect(icon.props('typeIconName')).toBe(mockWorkItemTypes[index].icon_name);
+      });
     });
   });
 

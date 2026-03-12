@@ -73,9 +73,9 @@ Prerequisites:
 To do this:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**, then select the title of your issue to view it.
-1. In the right sidebar, next to **Due date**, select **Edit** to display a calendar.
-1. Select your desired date, then select again, outside the calendar, to save your changes.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
+1. In the right sidebar, in the **Dates** section, select **Edit**.
+1. Select your desired date, then select **Apply** to save your changes.
 
 ### With a quick action
 

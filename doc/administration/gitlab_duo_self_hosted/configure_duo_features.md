@@ -94,12 +94,12 @@ For more information on troubleshooting timeout errors, see [Error A1000](troubl
 - [Enabled](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/208951) in GitLab 18.7.
 - [Generally available](https://gitlab.com/groups/gitlab-org/-/work_items/19125) in GitLab 18.8.
 - Feature flag `self_hosted_agent_platform` [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/218589) in GitLab 18.9.
+- On GitLab 18.7 and 18.8, this feature is beta for customers with an online licenses. To use this feature, you must [turn on](#turn-on-self-hosted-beta-models-and-features) self-hosted beta models and features.
 
 {{< /history >}}
 
 Prerequisites:
 
-- Self-hosted beta models and features are [turned on](#turn-on-self-hosted-beta-models-and-features).
 - If your instance has an offline license, you must have the [GitLab Duo Agent Platform Self-Hosted](../../subscriptions/subscription-add-ons.md) add-on.
 
 To access the Agent Platform service from your GitLab instance:

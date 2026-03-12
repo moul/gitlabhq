@@ -51,7 +51,7 @@ Merge requests provide more granular filtering options.
 ### On an issue
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues** and find your issue.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
 1. Go to **Activity**.
 1. For **Sort or filter**, select **Show all activity**.
 

@@ -13090,6 +13090,9 @@ msgstr ""
 msgid "BranchRules|Rule target"
 msgstr ""
 
+msgid "BranchRules|Search branches"
+msgstr ""
+
 msgid "BranchRules|Select an existing branch, create a branch rule, or use wildcards such as %{stable} or %{production}. Branch names are case-sensitive. %{linkStart}Learn more.%{linkEnd}"
 msgstr ""
 
@@ -29881,6 +29884,9 @@ msgstr ""
 msgid "Failed to refresh compliance requirement status. Error: %{error_message}"
 msgstr ""
 
+msgid "Failed to refresh token: %{error}"
+msgstr ""
+
 msgid "Failed to regenerate new work item email address"
 msgstr ""
 
@@ -29948,6 +29954,9 @@ msgid "Failed to set due date because the date format is invalid."
 msgstr ""
 
 msgid "Failed to sign in using smart card authentication."
+msgstr ""
+
+msgid "Failed to store refreshed token"
 msgstr ""
 
 msgid "Failed to store token"
@@ -45331,6 +45340,9 @@ msgstr ""
 msgid "New unified work items list"
 msgstr ""
 
+msgid "New wiki page"
+msgstr ""
+
 msgid "New work item"
 msgstr ""
 
@@ -45751,6 +45763,9 @@ msgstr ""
 msgid "No ref selected"
 msgstr ""
 
+msgid "No refresh token available"
+msgstr ""
+
 msgid "No regions configured"
 msgstr ""
 
@@ -45827,6 +45842,9 @@ msgid "No template selected"
 msgstr ""
 
 msgid "No test coverage"
+msgstr ""
+
+msgid "No token found for this MCP server"
 msgstr ""
 
 msgid "No user provided"

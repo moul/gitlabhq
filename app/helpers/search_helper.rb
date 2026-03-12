@@ -309,7 +309,8 @@ module SearchHelper
         .map do |type|
           {
             name: type.base_type.to_s,
-            label: type.name
+            label: type.name,
+            icon_name: type.icon_name
           }
         end
       types = types.sort_by { |type| type[:name] }

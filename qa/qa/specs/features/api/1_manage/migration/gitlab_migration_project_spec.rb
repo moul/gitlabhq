@@ -97,6 +97,7 @@ module QA
         before do
           source_project.create_repository_branch('test-branch')
           source_project.create_repository_tag('v0.0.1')
+          source_project.change_default_branch('main')
         end
 
         it(

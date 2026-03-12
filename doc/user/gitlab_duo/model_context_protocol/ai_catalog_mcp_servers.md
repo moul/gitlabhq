@@ -30,7 +30,7 @@ third-party services (such as Jira or Google Drive) through the
 [Model Context Protocol](https://modelcontextprotocol.io/) (MCP).
 
 This feature is an [experiment](../../../policy/development_stages_support.md#experiment).
-Share your feedback in [issue 590708](https://gitlab.com/gitlab-org/gitlab/-/work_items/590708).
+Share your feedback in [issue 593219](https://gitlab.com/gitlab-org/gitlab/-/work_items/593219).
 
 With MCP servers in the AI Catalog, you can:
 
