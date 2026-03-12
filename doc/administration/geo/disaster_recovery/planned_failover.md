@@ -147,7 +147,6 @@ site:
 
 1. Copy the backup tarball generated from your primary site to the `/var/opt/gitlab/backups` folder
    on your secondary site.
-
 1. On your secondary site, restore the registry following the
    [Restore GitLab](../../backup_restore/_index.md#restore-gitlab) documentation.
 

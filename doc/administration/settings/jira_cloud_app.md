@@ -189,6 +189,7 @@ to check if Jira Cloud is linked to:
 
 If you do not want to [use the official Atlassian Marketplace listing](#install-the-gitlab-for-jira-cloud-app-from-the-atlassian-marketplace),
 install the GitLab for Jira Cloud app manually.
+This installation method is based on Atlassian Connect.
 
 You must install each Jira Cloud app from a single location. Jira fetches a
 [manifest file](https://developer.atlassian.com/cloud/jira/platform/connect-app-descriptor/)

@@ -20,7 +20,6 @@ describe('Sidebar participant component', () => {
 
   const createComponent = ({
     status = null,
-    duoStatus = null,
     issuableType = TYPE_ISSUE,
     canMerge = false,
     selected = false,
@@ -32,7 +31,6 @@ describe('Sidebar participant component', () => {
           ...user,
           canMerge,
           status,
-          duoStatus,
           compositeIdentityEnforced,
         },
         issuableType,
@@ -78,12 +76,11 @@ describe('Sidebar participant component', () => {
       expect(findBusyBadge().exists()).toBe(false);
     });
 
-    describe('and not disabled with ASSIGN trigger events', () => {
+    describe('and not disabled', () => {
       beforeEach(() => {
         createComponent({
           compositeIdentityEnforced: true,
-          status: { ...user.status },
-          duoStatus: { disabled: false, flowTriggerEvents: ['ASSIGN'] },
+          status: { ...user.status, disabledForDuoUsage: false },
         });
       });
 
@@ -92,40 +89,11 @@ describe('Sidebar participant component', () => {
       });
     });
 
-    describe('and not disabled with unrelated trigger events', () => {
-      beforeEach(() => {
-        createComponent({
-          compositeIdentityEnforced: true,
-          status: { ...user.status },
-          duoStatus: { disabled: false, flowTriggerEvents: ['ASSIGN_REVIEWER'] },
-        });
-      });
-
-      it('adds the sidebar-participant-disabled class', () => {
-        expect(findAvatar().classes()).toContain('sidebar-participant-disabled');
-      });
-    });
-
-    describe('and not disabled with no trigger events', () => {
-      beforeEach(() => {
-        createComponent({
-          compositeIdentityEnforced: true,
-          status: { ...user.status },
-          duoStatus: { disabled: false, flowTriggerEvents: [] },
-        });
-      });
-
-      it('adds the sidebar-participant-disabled class', () => {
-        expect(findAvatar().classes()).toContain('sidebar-participant-disabled');
-      });
-    });
-
     describe('and disabled', () => {
       beforeEach(() => {
         createComponent({
           compositeIdentityEnforced: true,
-          status: { ...user.status },
-          duoStatus: { disabled: true },
+          status: { ...user.status, disabledForDuoUsage: true },
         });
       });
 

@@ -608,7 +608,6 @@ must disable the **primary** site:
    ```
 
 1. Verify you can connect to the newly promoted primary using the URL used previously for the secondary.
-
 1. Success! The secondary has now been promoted to primary.
 
 ## Troubleshooting

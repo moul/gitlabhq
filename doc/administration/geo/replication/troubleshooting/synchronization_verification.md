@@ -91,7 +91,6 @@ You can use the following script to output detailed information for each model t
 This procedure provides detailed status information for all Geo registry types and helps identify patterns in failures.
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **secondary** site.
-
 1. Run the following script to get a comprehensive overview:
 
    ```ruby
@@ -937,7 +936,6 @@ is [enabled on the secondary site](../../../packages/container_registry.md#enabl
 **Diagnosis:**
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **secondary** site.
-
 1. Check for duplicate registries across different types:
 
    ```ruby
@@ -975,7 +973,6 @@ is [enabled on the secondary site](../../../packages/container_registry.md#enabl
 **Resolution:**
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **secondary** site.
-
 1. Remove duplicate registry entries for each affected type:
 
    ```ruby
@@ -1049,7 +1046,6 @@ is [enabled on the secondary site](../../../packages/container_registry.md#enabl
 **Diagnosis:**
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **secondary** site.
-
 1. Check failed repositories or container registries:
 
    ```ruby
@@ -1077,7 +1073,6 @@ is [enabled on the secondary site](../../../packages/container_registry.md#enabl
 **Resolution:**
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. Force re-verification for specific projects or container registries:
 
    ```ruby
@@ -1117,7 +1112,6 @@ Different Geo data types have unique characteristics and common failure patterns
 **Diagnosis:**
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. Identify uploads with missing files:
 
    ```ruby
@@ -1143,7 +1137,6 @@ Different Geo data types have unique characteristics and common failure patterns
 > Ensure you have a recent and working backup before deleting any upload records. Coordinate with your team to confirm these uploads are safe to remove.
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. Remove problematic uploads after confirmation:
 
    ```ruby
@@ -1159,7 +1152,6 @@ Different Geo data types have unique characteristics and common failure patterns
 **Diagnosis:**
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. Inspect problematic pages deployments:
 
    ```ruby
@@ -1182,7 +1174,6 @@ Different Geo data types have unique characteristics and common failure patterns
 > Ensure you have a recent and working backup before deleting any pages deployment records. Coordinate with your team to confirm these deployments are safe to remove.
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. After confirming with your team that the deployments are safe to remove:
 
    ```ruby
@@ -1196,7 +1187,6 @@ Different Geo data types have unique characteristics and common failure patterns
 **Diagnosis:**
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. Inspect problematic LFS objects:
 
    ```ruby
@@ -1231,7 +1221,6 @@ Different Geo data types have unique characteristics and common failure patterns
 > Removing LFS objects affects all projects that reference them. Ensure you have backups and coordinate with project maintainers before deletion.
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. Remove LFS objects with missing files:
 
    ```ruby
@@ -1269,7 +1258,6 @@ Different Geo data types have unique characteristics and common failure patterns
 **Diagnosis:**
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. Check for artifacts with missing files:
 
    ```ruby
@@ -1296,7 +1284,6 @@ Different Geo data types have unique characteristics and common failure patterns
 > Ensure you have a recent and working backup before deleting any job artifact records. Coordinate with your team to confirm these artifacts are safe to remove.
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. Clean up artifacts with missing files:
 
    ```ruby
@@ -1327,7 +1314,6 @@ Different Geo data types have unique characteristics and common failure patterns
 **Diagnosis:**
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. Check for artifacts with missing files:
 
    ```ruby
@@ -1354,7 +1340,6 @@ Different Geo data types have unique characteristics and common failure patterns
 > Ensure you have a recent and working backup before deleting any pipeline artifact records. Coordinate with your team to confirm these artifacts are safe to remove.
 
 1. [Start a Rails console session](../../../operations/rails_console.md#starting-a-rails-console-session) on the **primary** site.
-
 1. Remove pipeline artifacts with missing files:
 
    ```ruby
@@ -1513,9 +1498,7 @@ of a repository on the secondary Geo site's file system:
 To solve this:
 
 1. Sign in on the web interface for the secondary Geo site.
-
 1. Back up [the `.git` folder](../../../repository_storage_paths.md#translate-hashed-storage-paths).
-
 1. Optional. [Spot-check](../../../logs/log_parsing.md#find-all-projects-affected-by-a-fatal-git-problem)
    a few of those IDs whether they indeed correspond
    to a project with known Geo replication failures.

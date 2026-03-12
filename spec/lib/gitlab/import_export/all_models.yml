@@ -351,7 +351,6 @@ ci_pipelines: &pipeline_definition
 - stages
 - statuses
 - statuses_order_id_desc
-- latest_statuses_ordered_by_stage
 - latest_statuses
 - all_jobs
 - current_jobs

@@ -122,6 +122,40 @@ To request credits, [contact the Sales team](https://about.gitlab.com/sales/).
 
 If you're on the Free tier and want to try credits, you can start an [Ultimate trial](free_trials.md).
 
+## For the Free tier on GitLab.com
+
+{{< details >}}
+
+- Tier: Free
+- Offering: GitLab.com
+
+{{< /details >}}
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/groups/gitlab-org/-/work_items/20165) in GitLab 18.10.
+
+{{< /history >}}
+
+Users on the Free tier on GitLab.com can purchase a Monthly Commitment Pool of GitLab Credits for their group namespace. This provides access to a set of GitLab Duo Agent Platform features, without needing a Premium or Ultimate subscription.
+
+You can use the following features after you purchase credits:
+
+- [GitLab Duo Chat (agentic)](../user/gitlab_duo_chat/agentic_chat.md)
+- [AI Catalog](../user/duo_agent_platform/ai_catalog.md)
+- [Custom Agents](../user/duo_agent_platform/agents/custom.md)
+- [Planner Agent](../user/duo_agent_platform/agents/foundational_agents/planner.md)
+- [Custom Flows](../user/duo_agent_platform/flows/custom.md)
+- [Software Development Flow](../user/duo_agent_platform/flows/foundational_flows/software_development.md)
+- [Developer Flow](../user/duo_agent_platform/flows/foundational_flows/developer.md)
+- [Fix CI/CD Pipeline Flow](../user/duo_agent_platform/flows/foundational_flows/fix_pipeline.md)
+- [Convert to GitLab CI/CD Flow](../user/duo_agent_platform/flows/foundational_flows/convert_to_gitlab_ci.md)
+- [Code Review Flow](../user/duo_agent_platform/flows/foundational_flows/code_review.md)
+- [GitLab MCP clients](../user/gitlab_duo/model_context_protocol/mcp_clients.md)
+- [Code Suggestions](../user/duo_agent_platform/code_suggestions/_index.md)
+
+On-demand usage for Free namespaces is capped at $25,000 for each calendar month. Upon reaching this limit, on-demand usage is automatically turned off and resets at the beginning of the following month.
+
 ## Buy GitLab Credits
 
 You can buy GitLab Credits for your Monthly Commitment Pool in Customers Portal.
@@ -149,9 +183,22 @@ Prerequisites:
 
 - You must have the Owner role for the group.
 
+On the Premium and Ultimate tier:
+
 1. In the top bar, select **Search or go to** and find your top-level group.
 1. Select **Settings** > **GitLab Credits**.
 1. Select **Purchase monthly commitment** or **Increase monthly commitment**.
+1. In the Customers Portal form, enter the number of credits you want to buy.
+1. Select **Review order**. Verify that the number of credits, customer information, and payment method are correct.
+1. Select **Confirm purchase**.
+
+On the Free tier:
+
+1. On the top bar, select **Search or go to** and find your top-level group.
+1. Select **Settings** > **Billing**.
+1. If you:
+   - Are not on a trial: On the GitLab Credits card, select **Purchase credits** or **Increase credits**.
+   - Are on an active trial: On the GitLab Credits card, select **Purchase monthly commitment** or **Increase credits**.
 1. In the Customers Portal form, enter the number of credits you want to buy.
 1. Select **Review order**. Verify that the number of credits, customer information, and payment method are correct.
 1. Select **Confirm purchase**.

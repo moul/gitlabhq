@@ -2233,7 +2233,8 @@ documentation site (`https://docs.gitlab.com`). In all other cases and in
 
 ## Glossary tooltip
 
-Use the `glossary-tooltip` shortcode to provide a short definition that appears as a tooltip on hover. For example:
+Use the shortcode for a glossary tooltip to provide a short definition that appears as a tooltip on
+hover. For example:
 
 ```markdown
 To do this thing, use {{</* glossary-tooltip text="the term" */>}}.
@@ -2241,21 +2242,12 @@ To do this thing, use {{</* glossary-tooltip text="the term" */>}}.
 
 When the user hovers on {{< glossary-tooltip text="the term" >}}, a tooltip is displayed.
 
-If a glossary page is configured for the tooltip and the user selects the tooltip, a related glossary page opens.
-
-### Create a glossary term
-
-A [`glossary.yaml` file](https://gitlab.com/gitlab-org/technical-writing/docs-gitlab-com/-/blob/main/data/en-us/glossary-tooltips/glossary.yaml)
-exists in the `docs-gitlab-com` repository.
-
-- Add definitions to this file. Each definition should be short and not contain links.
-- If the term specified in the `text` field matches the `display_name` value in `glossary.yaml`,
-  the definition is displayed on hover.
-- If no `display_name` value matches, no definition or underline is displayed.
-  Values are case-insensitive.
-- If a related glossary page is not specified, the tooltip is displayed but does not change when selected.
+If a glossary page is configured for the tooltip and the user selects the anchor text, a related glossary page opens.
 
 ### Usage guidance
+
+Use a glossary tooltip if the definition is a single, concise sentence, and try to use no more than 60 characters. For longer definitions, use a glossary page.
+otherwise use a glossary page.
 
 Do not use more than five to ten tooltips on a page. Each tooltip slows down the reader. Be careful not to overload users with definitions.
 
@@ -2269,6 +2261,70 @@ Do not use glossary tooltips in these cases:
 - For common terms like repository, branch, or commit.
 - For every instance of a term.
 - As a replacement for acronyms. If you can spell out the acronym on first use, and it's an industry standard, do not use a glossary tooltip.
+
+### Create a glossary term
+
+Add glossary definitions to the
+[`glossary.yaml` file](https://gitlab.com/gitlab-org/technical-writing/docs-gitlab-com/-/blob/main/data/en-us/glossary-tooltips/glossary.yaml)
+in the `docs-gitlab-com` repository. Each definition should be short and not contain links.
+
+Glossary terms are defined in the `terms` block with the following fields:
+
+`term_id`
+
+: Unique ID for the glossary term. To link to the glossary section, the `term_id` must match the
+  anchor on the glossary page for that term.
+
+`display_name`
+
+: Text that displays in the documentation. The `display_name` field is case insensitive. For
+  example, a `text` parameter in the shortcode of "attack surface" matches the term "Attack Surface"
+  in the `glossary.yaml` file.
+
+`glossary`
+
+: Optional. Link to the glossary definition for the term. If included, the `term_id` is
+  appended to the end of the `glossary_url`. For example,
+  `/user/application_security/terminology#attack-surface`.
+
+`short_description`
+
+: The text that appears when the user hovers over the tooltip.
+
+Example glossary term definition in `glossary.yaml` file:
+
+```yaml
+terms:
+  - term_id: attack-surface
+    display_name: Attack Surface
+    glossary: *security_glossary
+    short_description: The different places in an application that are vulnerable to attack
+```
+
+Glossaries are defined at the top of the `glossary.yaml` file.
+
+The first line consists of two unique IDs:
+
+1. Short name for the glossary.
+1. Longer identifier of the glossary. For glossary terms that link to this glossary their `glossary` field must match this value.
+
+`glossary_url`
+
+: Root URL of the glossary page that the term is defined in.
+
+Example glossary definition in `glossary.yaml` file:
+
+```yaml
+# Glossary files
+security: &security_glossary
+  glossary_url: "/user/application_security/terminology"
+```
+
+Combining these examples results in the following:
+
+- The phrase "Attack Surface" is shown in the documentation as a link.
+- When the user hovers over the link, the content of the `short_description` field is shown in a tooltip.
+- When the user selects the link, the glossary page opens at the anchor `attack-surface`.
 
 ## Plagiarism
 

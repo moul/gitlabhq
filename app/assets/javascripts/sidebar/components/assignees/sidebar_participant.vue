@@ -1,9 +1,7 @@
 <script>
 import { GlAvatarLabeled, GlBadge, GlIcon } from '@gitlab/ui';
 import { TYPE_ISSUE, TYPE_MERGE_REQUEST } from '~/issues/constants';
-import { userIsAgent, userIsDisabled, userDisabledReason } from '~/ai/agents_utils';
-import { FLOW_TRIGGER_EVENTS } from '~/vue_shared/constants';
-import { __ } from '~/locale';
+import { __, s__ } from '~/locale';
 
 const AVAILABILITY_STATUS = {
   NOT_SET: 'NOT_SET',
@@ -37,13 +35,13 @@ export default {
       return this.user?.status?.availability === AVAILABILITY_STATUS.BUSY;
     },
     isAgent() {
-      return userIsAgent(this.user);
+      return this.user?.compositeIdentityEnforced;
     },
     isDisabled() {
-      return userIsDisabled(this.user, FLOW_TRIGGER_EVENTS.ASSIGN);
+      return this.user?.status?.disabledForDuoUsage === true;
     },
     disabledReason() {
-      return userDisabledReason(this.user, FLOW_TRIGGER_EVENTS.ASSIGN);
+      return this.user?.status?.disabledForDuoUsageReason || s__('WorkItem|Cannot be assigned');
     },
     hasCannotMergeIcon() {
       return this.issuableType === TYPE_MERGE_REQUEST && !this.user.canMerge;

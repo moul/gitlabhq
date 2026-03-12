@@ -1498,6 +1498,10 @@ class User < ApplicationRecord
       email_otp_required_after.present? && email_otp_required_after <= Time.zone.now
   end
 
+  def work_items_consolidated_list_enabled?
+    Feature.enabled?(:work_items_consolidated_list_user, self)
+  end
+
   def update_otp_secret!
     self.otp_secret = User.generate_otp_secret(OTP_SECRET_LENGTH)
     self.otp_secret_expires_at = Time.current + OTP_SECRET_TTL
@@ -2386,6 +2390,13 @@ class User < ApplicationRecord
 
   def merge_request_dashboard_show_drafts?
     merge_request_dashboard_show_drafts
+  end
+
+  def work_items_consolidated_list_enabled?
+    # work_item_planning_view is the feature flag used to determine whether the consolidated list is enabled or not
+    return true if Feature.enabled?(:work_item_planning_view, type: :beta)
+
+    Feature.enabled?(:work_items_consolidated_list_user, self)
   end
 
   def returned_to_you_merge_requests_count(force: false, cached_only: false)

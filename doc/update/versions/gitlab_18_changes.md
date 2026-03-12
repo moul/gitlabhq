@@ -70,26 +70,32 @@ required upgrade stops occur at versions:
 
 ## 18.9.0
 
-Upgrading to GitLab 18.9 might fail with a `PG::CheckViolation` error during the
-`AddNotNullConstraintToPoolRepositoriesOrganizationId` post-deployment migration:
+### Upgrade to 18.9.0 fails with `PG::CheckViolation`
+
+When upgrading a self-managed GitLab instance to GitLab 18.9.0 or 18.9.1, the upgrade fails during database migrations with:
 
 ```plaintext
-PG::CheckViolation: ERROR: check constraint "check_96233d37c0" of relation "pool_repositories" is violated by some row
+PG::CheckViolation: ERROR: check constraint "check_xxxxxxxx" of relation "tablename" is violated by some row
 ```
 
-This error occurs because a [batched background migration](../background_migrations.md) that backfills
-`organization_id` in the `pool_repositories` table can be incorrectly marked as finished without
-executing when the table has only one row or is empty. This is common on GitLab Self-Managed instances
-with few or no forks. The GitLab 18.9 migration then fails when it tries to enforce a `NOT NULL`
-constraint on the column that was never populated.
+This issue was caused by a bug fixed in GitLab 18.10 (see [merge request 224446](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224446)). The fix was also backported and should be included in the next GitLab 18.9 patch release (see [merge request 225026](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225026)).
 
-To work around this issue, populate the missing `organization_id` values before retrying the
-upgrade. See the [workaround in issue 590848](https://gitlab.com/gitlab-org/gitlab/-/issues/590848#note_3100211428)
-for the SQL query to run.
+However, the bug can cause batched background migrations to be skipped silently due to the single-record bug. When upgrading to v18.8,batched background migrations targeting tables with a single record were incorrectly marked as `finished` without ever executing. This left data unbackfilled, causing upgrade failures on self-managed instances.
 
-After updating the data, retry the upgrade by running `sudo gitlab-ctl reconfigure`.
+A proposed fix (see [merge request 225461](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225461)) resets affected batched background migrations from `finished`/`finalized` back to `paused` so the scheduler re-executes them. It scopes to migrations with `queued_migration_version` between 18.5 and 18.8 where `min_value = max_value` or `min_cursor = max_cursor`.
 
-For more information, see [issue 590848](https://gitlab.com/gitlab-org/gitlab/-/issues/590848).
+You have two options:
+
+- Apply the workaround now to complete your upgrade immediately.
+- Wait for the complete fix and upgrade after a release contains it.
+
+The following Knowledge Base articles describe workarounds for five known symptoms:
+
+- [`PG::CheckViolation: ERROR: check constraint "check_96233d37c0" of relation "pool_repositories" is violated by some row`](https://support.gitlab.com/hc/en-us/articles/25929006135068-PG-CheckViolation-ERROR-check-constraint-check-96233d37c0-of-relation-pool-repositories-is-violated-by-some-row)
+- [`PG::CheckViolation: ERROR: check constraint "check_f6590fe2c1" of relation "gpg_key_subkeys" is violated by some row`](https://support.gitlab.com/hc/en-us/articles/25756021007004-Upgrade-to-18-9-0-fails-with-PG-CheckViolation-on-gpg-key-subkeys)
+- [`PG::CheckViolation: ERROR: check constraint "check_17a3a18e31" of relation "user_agent_details" is violated by some row`](https://support.gitlab.com/hc/en-us/articles/25994671144348-Upgrade-to-18-9-0-fails-with-PG-CheckViolation-on-user-agent-details)
+- [`PG::CheckViolation: ERROR: check constraint "check_ddd6f289f4" of relation "commit_user_mentions" is violated by some row`](https://support.gitlab.com/hc/en-us/articles/25992549646364-Upgrade-to-18-9-0-fails-with-PG-CheckViolation-on-commit-user-mentions)
+- [`PG::CheckViolation: ERROR: check constraint "check_e69372e45f" of relation "suggestions" is violated by some row`](https://support.gitlab.com/hc/en-us/articles/25771198648732-Upgrade-to-18-9-0-fails-with-PG-CheckViolation-on-suggestions)
 
 ## 18.8.2
 

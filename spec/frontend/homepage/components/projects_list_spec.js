@@ -56,6 +56,20 @@ describe('ProjectsList', () => {
             },
           ],
         },
+        namespace: {
+          id: 'gid://gitlab/Namespace/1',
+          projects: {
+            nodes: [
+              {
+                id: 'gid://gitlab/Project/4',
+                name: 'MyProject',
+                namespace: 'john / MyProject',
+                webPath: '/john/myproject',
+                avatarUrl: null,
+              },
+            ],
+          },
+        },
       },
     },
   };
@@ -86,8 +100,10 @@ describe('ProjectsList', () => {
   const findProjectLinks = () => wrapper.findAllByTestId('quick-access-project-link');
   const findProjectAvatars = () => wrapper.findAllComponents(ProjectAvatar);
   const findTooltipComponents = () => wrapper.findAllComponents(TooltipOnTruncate);
-  const findFrequentlyVisitedMessage = () =>
-    wrapper.findByText('Displaying frequently visited projects');
+  const getFooterMessageText = () => {
+    const footer = wrapper.findByTestId('projects-footer');
+    return footer.exists() ? footer.text() : null;
+  };
 
   describe('loading state', () => {
     it('shows skeleton loaders while fetching data', () => {
@@ -139,6 +155,12 @@ describe('ProjectsList', () => {
             starredProjects: {
               nodes: [],
             },
+            namespace: {
+              id: 'gid://gitlab/Namespace/1',
+              projects: {
+                nodes: [],
+              },
+            },
           },
         },
       };
@@ -149,14 +171,57 @@ describe('ProjectsList', () => {
 
       expect(findEmptyState().exists()).toBe(true);
       expect(findProjectsList().exists()).toBe(false);
-      expect(findFrequentlyVisitedMessage().exists()).toBe(false);
     });
 
     it('does not show footer message during error state', async () => {
       createComponent({ userProjectsHandler: userProjectsQueryErrorHandler });
       await waitForPromises();
 
-      expect(findFrequentlyVisitedMessage().exists()).toBe(false);
+      expect(getFooterMessageText()).toBeNull();
+    });
+
+    it('shows correct footer message for frecent projects', async () => {
+      createComponent({ selectedSources: ['FRECENT'] });
+      await waitForPromises();
+
+      expect(getFooterMessageText()).toBe('Displaying frequently visited projects.');
+    });
+
+    it('shows correct footer message for starred projects', async () => {
+      createComponent({ selectedSources: ['STARRED'] });
+      await waitForPromises();
+
+      expect(getFooterMessageText()).toBe('Displaying starred projects.');
+    });
+
+    it('shows correct footer message for personal projects', async () => {
+      createComponent({ selectedSources: ['PERSONAL'] });
+      await waitForPromises();
+
+      expect(getFooterMessageText()).toBe('Displaying personal projects.');
+    });
+
+    it('shows correct footer message for frecent and starred projects', async () => {
+      createComponent({ selectedSources: ['FRECENT', 'STARRED'] });
+      await waitForPromises();
+
+      expect(getFooterMessageText()).toBe('Displaying frequently visited and starred projects.');
+    });
+
+    it('shows correct footer message for all three sources', async () => {
+      createComponent({ selectedSources: ['FRECENT', 'STARRED', 'PERSONAL'] });
+      await waitForPromises();
+
+      expect(getFooterMessageText()).toBe(
+        'Displaying frequently visited, starred, and personal projects.',
+      );
+    });
+
+    it('shows correct footer message for frecent and personal projects', async () => {
+      createComponent({ selectedSources: ['FRECENT', 'PERSONAL'] });
+      await waitForPromises();
+
+      expect(getFooterMessageText()).toBe('Displaying frequently visited and personal projects.');
     });
   });
 
@@ -178,6 +243,31 @@ describe('ProjectsList', () => {
       const links = findProjectLinks();
       expect(links).toHaveLength(1);
       expect(links.at(0).attributes('href')).toBe('/gitlab-org/gitaly');
+    });
+
+    it('shows only personal projects when selectedSources is PERSONAL', async () => {
+      createComponent({ selectedSources: ['PERSONAL'] });
+      await waitForPromises();
+
+      const links = findProjectLinks();
+      expect(links).toHaveLength(1);
+      expect(links.at(0).attributes('href')).toBe('/john/myproject');
+      expect(userProjectsQuerySuccessHandler).toHaveBeenCalledWith(
+        expect.objectContaining({
+          includePersonal: true,
+          includeFrecent: false,
+          includeStarred: false,
+          includeCurrentUser: true,
+        }),
+      );
+    });
+
+    it('shows frecent, starred, and personal projects when all are selected', async () => {
+      createComponent({ selectedSources: ['FRECENT', 'STARRED', 'PERSONAL'] });
+      await waitForPromises();
+
+      const links = findProjectLinks();
+      expect(links).toHaveLength(4);
     });
 
     it('shows both frecent and starred projects when both are selected', async () => {
@@ -245,6 +335,43 @@ describe('ProjectsList', () => {
       await waitForPromises();
 
       expect(findProjectLinks()).toHaveLength(3);
+    });
+
+    it('removes duplicate projects when same project appears across all sources', async () => {
+      const deduplicateHandler = jest.fn().mockResolvedValue({
+        data: {
+          frecentProjects: [
+            mockUserProjectsResponse.data.frecentProjects[0],
+            mockUserProjectsResponse.data.frecentProjects[1],
+          ],
+          currentUser: {
+            id: 'gid://gitlab/User/1',
+            starredProjects: {
+              nodes: [
+                mockUserProjectsResponse.data.frecentProjects[0], // Duplicate
+                mockUserProjectsResponse.data.currentUser.starredProjects.nodes[0],
+              ],
+            },
+            namespace: {
+              id: 'gid://gitlab/Namespace/1',
+              projects: {
+                nodes: [
+                  mockUserProjectsResponse.data.frecentProjects[0], // Duplicate
+                  mockUserProjectsResponse.data.currentUser.namespace.projects.nodes[0],
+                ],
+              },
+            },
+          },
+        },
+      });
+
+      createComponent({
+        userProjectsHandler: deduplicateHandler,
+        selectedSources: ['FRECENT', 'STARRED', 'PERSONAL'],
+      });
+      await waitForPromises();
+
+      expect(findProjectLinks()).toHaveLength(4);
     });
   });
 

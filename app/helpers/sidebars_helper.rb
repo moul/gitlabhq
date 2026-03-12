@@ -110,7 +110,8 @@ module SidebarsHelper
       shortcut_links: shortcut_links(user: user, project: project),
       track_visits_path: track_namespace_visits_path,
       work_items: work_items_modal_data(group, project),
-      has_multiple_organizations: user.has_multiple_organizations?
+      has_multiple_organizations: user.has_multiple_organizations?,
+      work_item_planning_view_enabled: user.work_items_consolidated_list_enabled?
     })
   end
 

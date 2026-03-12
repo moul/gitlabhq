@@ -29320,6 +29320,7 @@ CREATE TABLE security_pipeline_execution_project_schedules (
     cron text NOT NULL,
     cron_timezone text NOT NULL,
     snoozed_until timestamp with time zone,
+    next_run_applied_delay integer,
     CONSTRAINT check_b93315bfbb CHECK ((char_length(cron_timezone) <= 255)),
     CONSTRAINT check_bbbe4b1b8d CHECK ((char_length(cron) <= 128)),
     CONSTRAINT check_c440017377 CHECK ((time_window_seconds > 0))

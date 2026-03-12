@@ -399,5 +399,4 @@ For answers to common questions, see the [Geo FAQ](replication/faq.md).
 ## Troubleshooting
 
 - For Geo troubleshooting steps, see [Geo Troubleshooting](replication/troubleshooting/_index.md).
-
 - For Disaster Recovery troubleshooting steps, see [Troubleshooting Geo failover](disaster_recovery/failover_troubleshooting.md).

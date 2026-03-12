@@ -361,3 +361,6 @@ Failed to sign in to GitLab
 
 To resolve this issue, ensure the **Trusted** and **Confidential** checkboxes are cleared in
 the [OAuth application](jira_cloud_app.md#set-up-oauth-authentication) created for the app.
+If the error persists, see [issue 581765](https://gitlab.com/gitlab-org/gitlab/-/work_items/581765).
+
+If you use Google Chrome for the app, try using a different browser.

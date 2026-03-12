@@ -2,8 +2,12 @@
 import { GlSkeletonLoader } from '@gitlab/ui';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { InternalEvents } from '~/tracking';
-import { __ } from '~/locale';
-import { PROJECT_SOURCE_FRECENT, PROJECT_SOURCE_STARRED } from '~/homepage/constants';
+import {
+  PROJECT_SOURCE_FRECENT,
+  PROJECT_SOURCE_STARRED,
+  PROJECT_SOURCE_PERSONAL,
+} from '~/homepage/constants';
+import { formatProjectSourcesMessage } from '~/homepage/utils/format_project_sources_message';
 import ProjectAvatar from '~/vue_shared/components/project_avatar.vue';
 import TooltipOnTruncate from '~/vue_shared/components/tooltip_on_truncate/tooltip_on_truncate.vue';
 import userProjectsQuery from '~/homepage/graphql/queries/user_projects.query.graphql';
@@ -43,10 +47,15 @@ export default {
     projects: {
       query: userProjectsQuery,
       variables() {
+        const includeStarred = this.selectedSources.includes(PROJECT_SOURCE_STARRED);
+        const includePersonal = this.selectedSources.includes(PROJECT_SOURCE_PERSONAL);
+
         return {
           limit: this.projectLimit,
           includeFrecent: this.selectedSources.includes(PROJECT_SOURCE_FRECENT),
-          includeStarred: this.selectedSources.includes(PROJECT_SOURCE_STARRED),
+          includeStarred,
+          includePersonal,
+          includeCurrentUser: includeStarred || includePersonal,
         };
       },
       update(data) {
@@ -78,6 +87,10 @@ export default {
           addProjects(data.currentUser.starredProjects.nodes);
         }
 
+        if (data.currentUser?.namespace?.projects?.nodes) {
+          addProjects(data.currentUser.namespace.projects.nodes);
+        }
+
         return projects;
       },
       error(error) {
@@ -91,12 +104,10 @@ export default {
       return this.$apollo.queries.projects.loading;
     },
     footerMessage() {
-      if (this.selectedSources.length === 2) {
-        return __('Displaying frequently visited and starred projects.');
-      }
-      return this.selectedSources.includes(PROJECT_SOURCE_FRECENT)
-        ? __('Displaying frequently visited projects.')
-        : __('Displaying starred projects.');
+      return formatProjectSourcesMessage(this.selectedSources);
+    },
+    showFooter() {
+      return !this.error && !this.isLoading && this.projects.length;
     },
   },
   methods: {
@@ -113,6 +124,7 @@ export default {
   },
   PROJECT_SOURCE_FRECENT,
   PROJECT_SOURCE_STARRED,
+  PROJECT_SOURCE_PERSONAL,
 };
 </script>
 
@@ -166,7 +178,7 @@ export default {
       </li>
     </ul>
 
-    <div v-if="!error && !isLoading && projects.length" class="gl-mt-3">
+    <div v-if="showFooter" class="gl-mt-3" data-testid="projects-footer">
       <p class="gl-mb-0 gl-text-sm gl-text-subtle">
         {{ footerMessage }}
       </p>

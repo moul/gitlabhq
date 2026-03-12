@@ -94,7 +94,6 @@ module Ci
     # DEPRECATED:
     has_many :statuses, ->(pipeline) { in_partition(pipeline) }, class_name: 'CommitStatus', foreign_key: :commit_id, inverse_of: :pipeline, partition_foreign_key: :partition_id
     has_many :processables, ->(pipeline) { in_partition(pipeline) }, class_name: 'Ci::Processable', foreign_key: :commit_id, inverse_of: :pipeline, partition_foreign_key: :partition_id
-    has_many :latest_statuses_ordered_by_stage, ->(pipeline) { latest.in_partition(pipeline).order(:stage_idx, :stage) }, class_name: 'CommitStatus', foreign_key: :commit_id, inverse_of: :pipeline, partition_foreign_key: :partition_id
     has_many :latest_statuses, ->(pipeline) { latest.in_partition(pipeline) }, class_name: 'CommitStatus', foreign_key: :commit_id, inverse_of: :pipeline, partition_foreign_key: :partition_id
     has_many :statuses_order_id_desc, ->(pipeline) { in_partition(pipeline).order_id_desc }, class_name: 'CommitStatus', foreign_key: :commit_id,
       inverse_of: :pipeline, partition_foreign_key: :partition_id

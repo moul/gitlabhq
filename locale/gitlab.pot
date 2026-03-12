@@ -3481,7 +3481,13 @@ msgstr ""
 msgid "AICatalog|You must have the Maintainer or Owner role to enable a flow in a group. Only top-level groups are shown."
 msgstr ""
 
+msgid "AICatalog|You must have the Maintainer or Owner role to enable a flow."
+msgstr ""
+
 msgid "AICatalog|You must have the Maintainer or Owner role to enable an agent in a group. Only top-level groups are shown."
+msgstr ""
+
+msgid "AICatalog|You must have the Maintainer or Owner role to enable an agent."
 msgstr ""
 
 msgid "AICatalog|agent"
@@ -7321,12 +7327,6 @@ msgstr ""
 msgid "Agent or flow already enabled"
 msgstr ""
 
-msgid "AgentsUtils|Cannot be assigned"
-msgstr ""
-
-msgid "AgentsUtils|No triggers for this event"
-msgstr ""
-
 msgid "Agents|Explore other agents"
 msgstr ""
 
@@ -10447,6 +10447,9 @@ msgstr ""
 msgid "Assigned weight does not match total of its child items."
 msgstr ""
 
+msgid "Assigned work items"
+msgstr ""
+
 msgid "Assignee"
 msgid_plural "%d Assignees"
 msgstr[0] ""
@@ -11522,6 +11525,9 @@ msgid "BillingPlans|AI agents and automated flows that work alongside you to ans
 msgstr ""
 
 msgid "BillingPlans|AI-powered assistants that help you accomplish specific tasks and answer complex questions. Use pre-built agents for common workflows or create custom ones for your team's needs."
+msgstr ""
+
+msgid "BillingPlans|AI-powered features for writing code and automating workflows. Purchase %{creditsLinkStart}credits%{creditsLinkEnd} to unlock AI capabilities for your group, starting at $1 with volume discounts available."
 msgstr ""
 
 msgid "BillingPlans|AI-powered features that help you write code, understand your work, and automate tasks across your workflow."
@@ -25891,13 +25897,10 @@ msgstr ""
 msgid "Display view"
 msgstr ""
 
-msgid "Displaying frequently visited and starred projects."
+msgid "Displaying %{sources} projects."
 msgstr ""
 
-msgid "Displaying frequently visited projects."
-msgstr ""
-
-msgid "Displaying starred projects."
+msgid "Displaying projects."
 msgstr ""
 
 msgid "Do not display content for customer experience improvement and offers from third parties"
@@ -27892,6 +27895,15 @@ msgid "End date:"
 msgstr ""
 
 msgid "End time"
+msgstr ""
+
+msgid "EndOfTrialModal|Explore plans"
+msgstr ""
+
+msgid "EndOfTrialModal|Not sure which plan is right for you? %{explorePlansLink}."
+msgstr ""
+
+msgid "EndOfTrialModal|Purchase GitLab Credits"
 msgstr ""
 
 msgid "EndOfTrialModal|Source Code Management & CI/CD"
@@ -35437,6 +35449,12 @@ msgstr ""
 msgid "HomePageWorkItemsWidget|The number of issues is not available. Please refresh the page to try again, or visit the issue list."
 msgstr ""
 
+msgid "HomePageWorkItemsWidget|The number of work items is not available. Please refresh the page to try again, or visit the work items list."
+msgstr ""
+
+msgid "HomePageWorkItemsWidget|Work items"
+msgstr ""
+
 msgid "Homepage"
 msgstr ""
 
@@ -35892,15 +35910,6 @@ msgstr ""
 msgid "IdentityVerification|Step %{stepIndex} of %{totalSteps}"
 msgstr ""
 
-msgid "IdentityVerification|Step %{stepNumber}: Verify credit card"
-msgstr ""
-
-msgid "IdentityVerification|Step %{stepNumber}: Verify email address"
-msgstr ""
-
-msgid "IdentityVerification|Step %{stepNumber}: Verify phone number"
-msgstr ""
-
 msgid "IdentityVerification|The code has expired. Send a new code and try again."
 msgstr ""
 
@@ -35968,9 +35977,6 @@ msgid "IdentityVerification|We've sent a verification code to %{email}"
 msgstr ""
 
 msgid "IdentityVerification|We've sent a verification code to +%{phoneNumber}"
-msgstr ""
-
-msgid "IdentityVerification|You are signed in as %{username}. For added security, you'll need to verify your identity in a few quick steps."
 msgstr ""
 
 msgid "IdentityVerification|You are signed in as %{username}. For added security, you'll need to verify your identity. We've sent a verification code to %{email}"
@@ -74027,10 +74033,10 @@ msgstr ""
 msgid "UsageBilling|Save on GitLab Credits with monthly commitment"
 msgstr ""
 
-msgid "UsageBilling|Search for a user"
+msgid "UsageBilling|Shared pool of credits available to all users in the subscription."
 msgstr ""
 
-msgid "UsageBilling|Shared pool of credits available to all users in the subscription."
+msgid "UsageBilling|Sorting by total credits used displays only users with prior credit usage."
 msgstr ""
 
 msgid "UsageBilling|This dashboard may not display all current subscription data. For complete visibility, please upgrade to the latest version of GitLab or visit the %{linkStart}Customer Portal%{linkEnd}."
@@ -79254,6 +79260,9 @@ msgstr ""
 msgid "WorkItem|Canceled"
 msgstr ""
 
+msgid "WorkItem|Cannot be assigned"
+msgstr ""
+
 msgid "WorkItem|Cannot be used to create new items."
 msgstr ""
 
@@ -83358,6 +83367,9 @@ msgid_plural "frameworks"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "frequently visited"
+msgstr ""
+
 msgid "from"
 msgstr ""
 
@@ -84432,6 +84444,9 @@ msgstr ""
 msgid "pending comment"
 msgstr ""
 
+msgid "personal"
+msgstr ""
+
 msgid "personal access token"
 msgstr ""
 
@@ -84752,6 +84767,9 @@ msgid "spendCommand|%{slash_command} adds or subtracts time already spent."
 msgstr ""
 
 msgid "ssh:"
+msgstr ""
+
+msgid "starred"
 msgstr ""
 
 msgid "started a discussion on %{design_link}"

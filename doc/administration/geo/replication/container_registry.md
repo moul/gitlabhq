@@ -154,7 +154,6 @@ For each application and Sidekiq node on the **secondary** site:
    ```
 
 1. Copy `/var/opt/gitlab/gitlab-rails/etc/gitlab-registry.key` from the **primary** to the node.
-
 1. Edit `/etc/gitlab/gitlab.rb` and add:
 
    ```ruby

@@ -16,6 +16,7 @@ RSpec.describe 'Dashboard Issues', :js, :with_current_organization, feature_cate
   let_it_be(:other_issue) { create :issue, project: project }
 
   before do
+    stub_feature_flags(work_items_consolidated_list_user: false, work_item_planning_view: false)
     [project, project_with_issues_disabled].each { |project| project.add_maintainer(current_user) }
     sign_in(current_user)
   end

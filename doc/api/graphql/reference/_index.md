@@ -1207,6 +1207,27 @@ Returns [`GroupSecretsManager`](#groupsecretsmanager).
 | ---- | ---- | ----------- |
 | <a id="query-groupsecretsmanager-grouppath"></a>`groupPath` | [`ID!`](#id) | Group of the secrets manager. |
 
+### `Query.groupSecretsNeedingRotation`
+
+{{< details >}}
+**Introduced** in GitLab 18.10.
+**Status**: Experiment.
+{{< /details >}}
+
+List group secrets that need to be rotated.
+
+Returns [`GroupSecretConnection`](#groupsecretconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="query-groupsecretsneedingrotation-grouppath"></a>`groupPath` | [`ID!`](#id) | Group the secrets belong to. |
+
 ### `Query.groupSecretsPermissions`
 
 {{< details >}}
@@ -38305,6 +38326,7 @@ Represents a group secret.
 | <a id="groupsecret-metadataversion"></a>`metadataVersion` | [`Int`](#int) | Current metadata version of the group secret. |
 | <a id="groupsecret-name"></a>`name` | [`String!`](#string) | Name of the group secret. |
 | <a id="groupsecret-protected"></a>`protected` | [`Boolean!`](#boolean) | Whether the secret is only accessible from protected branches. |
+| <a id="groupsecret-rotationinfo"></a>`rotationInfo` | [`SecretRotationInfo`](#secretrotationinfo) | Rotation configuration for the secret. |
 | <a id="groupsecret-status"></a>`status` | [`SecretStatus!`](#secretstatus) | Computed lifecycle status of the secret, based on timestamps. |
 
 ### `GroupSecretsManager`

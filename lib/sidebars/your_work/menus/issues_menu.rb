@@ -13,12 +13,12 @@ module Sidebars
 
         override :title
         def title
-          _('Issues')
+          context.current_user.work_items_consolidated_list_enabled? ? _('Work items') : _('Issues')
         end
 
         override :sprite_icon
         def sprite_icon
-          'work-item-issue'
+          context.current_user.work_items_consolidated_list_enabled? ? 'work-items' : 'work-item-issue'
         end
 
         override :render?

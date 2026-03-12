@@ -193,7 +193,7 @@ To use IRSA to authenticate Amazon EKS:
            "bedrock:InvokeModel",
            "bedrock:InvokeModelWithResponseStream"
          ],
-         "Resource": "arn:aws:bedrock:*:*:foundation-model/*"
+         "Resource": "arn:aws:bedrock:*::foundation-model/*"
        }
      ]
    }
@@ -292,7 +292,7 @@ docker run -d \
   -e AWS_SECRET_ACCESS_KEY=your-secret-key \
   -e AWS_REGION=us-east-1 \
   -p 5052:5052 \
-  registry.gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/ai-gateway:vX.Y.Z-ee
+  registry.gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/model-gateway:self-hosted-vX.Y.Z-ee
 ```
 
 The IAM user or role must have a policy similar to the one you would set in Amazon EKS with Helm Chart.

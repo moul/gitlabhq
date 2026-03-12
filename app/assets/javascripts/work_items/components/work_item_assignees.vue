@@ -3,8 +3,6 @@ import { GlButton } from '@gitlab/ui';
 import { unionBy } from 'lodash';
 import fuzzaldrinPlus from 'fuzzaldrin-plus';
 import { sortNameAlphabetically, newWorkItemId } from '~/work_items/utils';
-import { userIsDisabled } from '~/ai/agents_utils';
-import { FLOW_TRIGGER_EVENTS } from '~/vue_shared/constants';
 import currentUserQuery from '~/graphql_shared/queries/current_user.query.graphql';
 import usersSearchQuery from '~/graphql_shared/queries/workspace_autocomplete_users.query.graphql';
 import InviteMembersTrigger from '~/invite_members/components/invite_members_trigger.vue';
@@ -138,9 +136,7 @@ export default {
     disabledUsers() {
       const selectedUsersId = this.selectedUsers.map((u) => u.id);
       return (this.users || [])
-        .filter(
-          (u) => userIsDisabled(u, FLOW_TRIGGER_EVENTS.ASSIGN) && !selectedUsersId.includes(u.id),
-        )
+        .filter((u) => u?.status?.disabledForDuoUsage === true && !selectedUsersId.includes(u.id))
         .map((u) => u.id);
     },
     selectedUsers() {
