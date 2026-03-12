@@ -45,7 +45,7 @@ module Import
           filename_parts << "#{export.relation}#{extension}"
         end
 
-        filename_parts.join("/")
+        filename_parts.join(Import::Clients::ObjectStorage::PREFIX_SEPARATOR)
       end
 
       def extension

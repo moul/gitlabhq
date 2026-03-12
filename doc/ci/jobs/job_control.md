@@ -70,6 +70,9 @@ When running manual jobs you can supply additional job specific CI/CD variables.
 Specify variables here when you want to alter the execution of a job that uses
 [CI/CD variables](../variables/_index.md).
 
+For typed, validated parameters that can be overridden when both running and retrying manual jobs,
+use [job inputs](job_inputs.md) instead.
+
 To run a manual job and specify additional variables:
 
 - Select the **name** of the manual job in the pipeline view, not **Run** ({{< icon name="play" >}}).
@@ -100,6 +103,8 @@ and not [masked](../variables/_index.md#mask-a-cicd-variable).
 
 When you retry a manual job that was previously run with manually-specified variables,
 you can update the variables or use the same variables.
+
+To retry manual jobs with typed, validated parameters, use [job inputs](job_inputs.md) instead.
 
 To retry a manual job with previously-specified variables:
 

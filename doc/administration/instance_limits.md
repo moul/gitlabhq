@@ -1280,6 +1280,24 @@ To change the limit, update `ci_partitions_size_limit` with the new value. For e
 ApplicationSetting.update(ci_partitions_size_limit: 20.gigabytes)
 ```
 
+### Maximum time window for CI/CD partitions
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/577314) in GitLab 18.10.
+
+{{< /history >}}
+
+The time window, in seconds, before new CI partitions are created and the system switches
+to the next set of partitions. Must be between 1 month and 6 months. Defaults to 1 month (2592000 seconds).
+
+You can change this limit by using the [GitLab Rails console](operations/rails_console.md#starting-a-rails-console-session).
+To change the limit, update `ci_partitions_in_seconds_limit` with the new value. For example, to set it to 3 months:
+
+```ruby
+ApplicationSetting.update(ci_partitions_in_seconds_limit: ChronicDuration.parse('3 months'))
+```
+
 ### Maximum config value for automatic pipeline cleanup
 
 {{< history >}}

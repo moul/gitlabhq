@@ -536,11 +536,11 @@ class ProjectPolicy < BasePolicy
   rule { can?(:planner_access) & can?(:create_work_item) }.enable :import_work_items
   rule { can?(:reporter_access) & can?(:create_work_item) }.enable :import_work_items
 
-  rule { can?(:developer_access) & user_confirmed? }.policy do
-    enable :create_pipeline
-    enable :update_pipeline
-    enable :cancel_pipeline
-    enable :create_pipeline_schedule
+  rule { ~user_confirmed? }.policy do
+    prevent :create_pipeline
+    prevent :update_pipeline
+    prevent :cancel_pipeline
+    prevent :create_pipeline_schedule
   end
 
   rule { can?(:manage_protected_tags) }.policy do
@@ -980,13 +980,6 @@ class ProjectPolicy < BasePolicy
 
   rule { can?(:read_all_resources) }.enable :read_resource_access_tokens
 
-  rule { can?(:admin_project) }.policy do
-    enable :read_resource_access_tokens
-    enable :destroy_resource_access_tokens
-    enable :create_resource_access_tokens
-    enable :manage_resource_access_tokens
-  end
-
   rule { ~resource_access_token_feature_available }.policy do
     prevent :read_resource_access_tokens
     prevent :destroy_resource_access_tokens
@@ -997,13 +990,6 @@ class ProjectPolicy < BasePolicy
   rule { ~resource_access_token_creation_allowed }.policy do
     prevent :create_resource_access_tokens
     prevent :manage_resource_access_tokens
-  end
-
-  rule { can?(:admin_project) }.policy do
-    enable :read_usage_quotas
-    enable :view_edit_page
-    enable :read_web_hook
-    enable :admin_web_hook
   end
 
   rule { can?(:project_bot_access) }.policy do
@@ -1026,13 +1012,6 @@ class ProjectPolicy < BasePolicy
   rule { ~runner_registration_token_enabled }.policy do
     prevent :read_runners_registration_token
     prevent :update_runners_registration_token
-  end
-
-  rule { can?(:admin_project_member) }.policy do
-    enable :import_project_members_from_another_project
-    # ability to read, approve or reject member access requests of other users
-    enable :admin_member_access_request
-    enable :read_member_access_request
   end
 
   rule { registry_enabled & can?(:admin_container_image) }.policy do
@@ -1083,10 +1062,6 @@ class ProjectPolicy < BasePolicy
   # with the rollout of the FF allow_guest_plus_roles_to_pull_packages
   # https://gitlab.com/gitlab-org/gitlab/-/issues/512210
   rule { can?(:guest_access) & allow_guest_plus_roles_to_pull_packages_enabled }.enable :read_package
-
-  rule { can?(:admin_project_member) }.policy do
-    enable :invite_project_members
-  end
 
   rule { can?(:read_project) }.enable :read_attestation
 

@@ -4,7 +4,8 @@ require 'spec_helper'
 
 RSpec.describe Import::Offline::Exports::ProcessService, feature_category: :importers do
   describe '#execute' do
-    let_it_be_with_reload(:offline_export) { create(:offline_export, :with_configuration) }
+    let_it_be_with_reload(:offline_export) { create(:offline_export) }
+    let_it_be(:configuration) { create(:import_offline_configuration, offline_export: offline_export) }
     let_it_be(:group_1) { create(:group) }
     let_it_be(:subgroup_1) { create(:group, parent: group_1) }
     let_it_be(:project_1) { create(:project, group: subgroup_1) }
@@ -23,6 +24,10 @@ RSpec.describe Import::Offline::Exports::ProcessService, feature_category: :impo
       [project_1, project_2].each do |project|
         project.add_maintainer(offline_export.user)
       end
+    end
+
+    before do
+      stub_offline_import_object_storage(configuration)
     end
 
     shared_examples 'a finished export', :aggregate_failures do

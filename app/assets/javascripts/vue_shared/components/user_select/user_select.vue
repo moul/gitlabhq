@@ -9,7 +9,9 @@ import {
   GlSearchBoxByType,
   GlTooltipDirective,
 } from '@gitlab/ui';
-import { __, s__ } from '~/locale';
+import { __ } from '~/locale';
+import { userDisabledAttributes } from '~/ai/agents_utils';
+import { FLOW_TRIGGER_EVENTS } from '~/vue_shared/constants';
 import SidebarParticipant from '~/sidebar/components/assignees/sidebar_participant.vue';
 import { TYPE_ISSUE, TYPE_MERGE_REQUEST } from '~/issues/constants';
 import { DEFAULT_DEBOUNCE_AND_THROTTLE_MS } from '~/lib/utils/constants';
@@ -122,17 +124,15 @@ export default {
         };
       },
       update(data) {
-        return data.namespace?.issuable?.participants.nodes.map((node) => {
-          const isDisabled = Boolean(node?.duoStatus?.disabled);
-          return {
-            ...node,
-            canMerge: false,
-            isDisabled,
-            ...(isDisabled && {
-              disabledReason: node?.duoStatus?.disabledReason || s__('WorkItem|Cannot be assigned'),
-            }),
-          };
-        });
+        return data.namespace?.issuable?.participants.nodes
+          .filter((node) => node)
+          .map((node) => {
+            return {
+              ...node,
+              ...userDisabledAttributes(node, FLOW_TRIGGER_EVENTS.ASSIGN),
+              canMerge: false,
+            };
+          });
       },
       error() {
         this.$emit('error');
@@ -156,15 +156,10 @@ export default {
           data.namespace?.users
             .filter((user) => user)
             .map((user) => {
-              const isDisabled = Boolean(user?.duoStatus?.disabled);
               return {
                 ...user,
+                ...userDisabledAttributes(user, FLOW_TRIGGER_EVENTS.ASSIGN),
                 canMerge: user.mergeRequestInteraction?.canMerge || false,
-                isDisabled,
-                ...(isDisabled && {
-                  disabledReason:
-                    user?.duoStatus?.disabledReason || s__('WorkItem|Cannot be assigned'),
-                }),
               };
             }) || []
         );

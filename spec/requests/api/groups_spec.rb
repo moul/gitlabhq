@@ -1232,15 +1232,7 @@ RSpec.describe API::Groups, feature_category: :groups_and_projects do
     end
 
     context 'when authenticated as the group owner' do
-      before do
-        # Remove this after https://gitlab.com/gitlab-org/gitlab/-/work_items/588408
-        allow(Gitlab::QueryLimiting::Transaction).to receive(:threshold).and_return(105)
-      end
-
       it 'updates the group', :aggregate_failures do
-        # TODO: remove threshold once https://gitlab.com/gitlab-org/gitlab/-/work_items/588290 is resolved
-        allow(Gitlab::QueryLimiting::Transaction).to receive(:threshold).and_return(103)
-
         workhorse_form_with_file(
           api("/groups/#{group1.id}", user1),
           method: :put,

@@ -14,6 +14,11 @@ In theory, this permission can be used to control access to manage CI/CD variabl
 Additionally using permissions such as `admin_cicd_variable` or `manage_cicd_variable` should be avoided because they imply different actions that are being authorized. Instead, the action should be specific such as `create_cicd_variable` or `read_cicd_variable`.
 Implementing granular permissions allows us to adhere to the principle of least privilege for custom roles and provides much more fine grained options for standard roles.
 
+Permissions are referenced by [role definition YAML files](role_definitions.md) (for default roles),
+[custom ability YAML files](custom_roles.md) (for custom roles), and
+[assignable permission groups](granular_access/rest_api_implementation_guide.md#step-4-create-assignable-permissions)
+(for granular PAT scoping).
+
 ## Naming Permissions
 
 Our goal is for all permissions to follow a consistent pattern: **`action_resource(_subresource)`**. These guidelines apply to both Assignable Permissions and Raw Permissions, but most strictly be followed with Assignable Permissions as they are public facing.

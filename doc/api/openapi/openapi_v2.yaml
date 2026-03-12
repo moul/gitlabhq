@@ -54126,9 +54126,9 @@ definitions:
         type: boolean
       archive_project:
         type: boolean
-      remove_group:
-        type: boolean
       remove_project:
+        type: boolean
+      remove_group:
         type: boolean
       manage_security_policy_link:
         type: boolean
@@ -54203,8 +54203,8 @@ definitions:
     - apply_security_scan_profiles
     - admin_merge_request
     - archive_project
-    - remove_group
     - remove_project
+    - remove_group
     - manage_security_policy_link
     - admin_compliance_framework
     - admin_cicd_variables

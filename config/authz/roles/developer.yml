@@ -13,6 +13,7 @@ project:
     - admin_issue_board
     - admin_merge_request
     - cancel_build
+    - cancel_pipeline
     - create_build
     - create_commit_status
     - create_container_image
@@ -20,6 +21,8 @@ project:
     - create_environment
     - create_feature_flag
     - create_merge_request_from
+    - create_pipeline
+    - create_pipeline_schedule
     - create_package
     - create_release
     - create_wiki
@@ -49,6 +52,7 @@ project:
     - update_escalation_status
     - update_feature_flag
     - update_merge_request
+    - update_pipeline
     - update_release
     - update_resource_group
     - update_sentry_issue

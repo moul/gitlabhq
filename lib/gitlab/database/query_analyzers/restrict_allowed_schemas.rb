@@ -20,7 +20,6 @@ module Gitlab
           gitlab_internal: nil,
 
           # Cells specific changes
-          gitlab_main_cell: :gitlab_main,
           gitlab_main_org: :gitlab_main,
           gitlab_main_cell_local: :gitlab_main,
           gitlab_main_jh: :gitlab_main,

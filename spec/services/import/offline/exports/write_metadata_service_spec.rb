@@ -26,6 +26,22 @@ RSpec.describe Import::Offline::Exports::WriteMetadataService, feature_category:
       create(:bulk_import_export, :finished, project: project, offline_export: offline_export, relation: 'issues')
     end
 
+    let(:client) { instance_double(Import::Clients::ObjectStorage, store_file: true) }
+    let(:tmpdir) { Dir.mktmpdir }
+
+    before do
+      allow(Dir).to receive(:mktmpdir).with(described_class::TMPDIR_SEGMENT).and_return(tmpdir)
+      allow(Import::Clients::ObjectStorage).to receive(:new).with(
+        provider: offline_export.configuration.provider,
+        bucket: offline_export.configuration.bucket,
+        credentials: offline_export.configuration.object_storage_credentials
+      ).and_return(client)
+    end
+
+    after do
+      FileUtils.rm_rf(tmpdir)
+    end
+
     subject(:service) { described_class.new(offline_export) }
 
     shared_examples 'a successful metadata export' do
@@ -34,12 +50,6 @@ RSpec.describe Import::Offline::Exports::WriteMetadataService, feature_category:
           group.full_path => "group_#{group.id}",
           project.full_path => "project_#{project.id}"
         }
-      end
-
-      let(:tmpdir) { Dir.mktmpdir }
-
-      after do
-        FileUtils.rm_rf(tmpdir)
       end
 
       it 'generates offline export metadata correctly' do
@@ -59,8 +69,17 @@ RSpec.describe Import::Offline::Exports::WriteMetadataService, feature_category:
         service.execute
       end
 
+      it 'uploads metadata directly to object storage' do
+        expect(client).to receive(:store_file).with(
+          "#{offline_export.configuration.export_prefix}/metadata.json.gz",
+          File.join(tmpdir, 'metadata.json.gz')
+        )
+
+        service.execute
+      end
+
       it 'removes temp files' do
-        expect(Dir).to receive(:mktmpdir).with(described_class::TMPDIR).and_return(tmpdir)
+        expect(Dir).to receive(:mktmpdir).with(described_class::TMPDIR_SEGMENT).and_return(tmpdir)
 
         service.execute
 
@@ -103,7 +122,9 @@ RSpec.describe Import::Offline::Exports::WriteMetadataService, feature_category:
     end
 
     context 'when offline_export is not present' do
-      let(:offline_export) { nil }
+      let(:nil_offline_export) { nil }
+
+      subject(:service) { described_class.new(nil_offline_export) }
 
       it 'returns nil' do
         expect(service.execute).to be_nil
@@ -121,6 +142,17 @@ RSpec.describe Import::Offline::Exports::WriteMetadataService, feature_category:
         it 'returns nil' do
           expect(service.execute).to be_nil
         end
+      end
+    end
+
+    context 'when upload fails' do
+      let(:upload_error) { Import::Clients::ObjectStorage::UploadError.new('Upload failed') }
+
+      it 'propagates exception for Sidekiq retry' do
+        allow(client).to receive(:store_file).and_raise(upload_error)
+
+        expect { service.execute }
+          .to raise_error(Import::Clients::ObjectStorage::UploadError, 'Upload failed')
       end
     end
   end

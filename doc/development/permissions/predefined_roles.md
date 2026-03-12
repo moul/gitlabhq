@@ -22,6 +22,12 @@ Each user can be one of the following types:
 
 See the [permissions page](../../user/permissions.md) for details on how each user type is used.
 
+## Role definition YAML files
+
+Default roles are defined in YAML files under `config/authz/roles/`.
+Each file specifies the role's direct permissions and inheritance hierarchy.
+For the full schema and how permissions are resolved, see [Role definition YAML files](role_definitions.md).
+
 ## Groups and Projects
 
 ### General permissions

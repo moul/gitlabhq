@@ -19,6 +19,7 @@ project:
     - admin_incident_management_timeline_event_tag
     - admin_integrations
     - admin_issue_board
+    - admin_member_access_request
     - admin_note
     - admin_operations
     - admin_package
@@ -37,6 +38,7 @@ project:
     - admin_snippet
     - admin_terraform_state
     - admin_upload
+    - admin_web_hook
     - admin_wiki
     - change_restrict_user_defined_variables
     - create_branch_rule
@@ -44,6 +46,7 @@ project:
     - create_deploy_token
     - create_environment_terminal
     - create_freeze_period
+    - create_resource_access_tokens
     - create_runners
     - delete_freeze_period
     - delete_job_artifact
@@ -51,18 +54,26 @@ project:
     - destroy_deployment
     - destroy_package
     - destroy_release
+    - destroy_resource_access_tokens
     - destroy_upload
+    - import_project_members_from_another_project
     - invite_member
+    - invite_project_members
     - manage_deploy_tokens
     - manage_merge_request_settings
     - manage_protected_tags
+    - manage_resource_access_tokens
     - push_to_delete_protected_branch
     - read_deploy_token
     - read_freeze_period
     - read_import_error
+    - read_member_access_request
     - read_pages
+    - read_resource_access_tokens
     - read_runners
     - read_runners_registration_token
+    - read_usage_quotas
+    - read_web_hook
     - remove_pages
     - rename_project
     - stop_environment
@@ -71,6 +82,8 @@ project:
     - update_pages
     - update_runners_registration_token
     - update_snippet
+    - view_edit_page
+
 
 group:
   permissions: []

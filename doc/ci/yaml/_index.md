@@ -3608,6 +3608,186 @@ job2:
 
 ---
 
+### `inputs`
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/groups/gitlab-org/-/epics/17833) in GitLab 18.10.
+
+{{< /history >}}
+
+Use `inputs` to define typed and validated inputs for a job. [Job inputs](../jobs/job_inputs.md)
+can be overridden when manually running or retrying a job.
+
+Job inputs are parameters that provide type safety and validation. Unlike [CI/CD variables](../variables/_index.md),
+only inputs explicitly defined in the job can be specified when running or retrying the job.
+All job input names must be predefined.
+
+Reference job input values with the `${{ job.inputs.INPUT_NAME }}` [Moa expression](../functions/moa.md) syntax.
+
+**Keyword type**: Job keyword. You can use it only as part of a job.
+
+**Supported values**:
+
+A hash of input names, where each input is configured with one or more subkeys:
+
+- [`default`](#inputsdefault) (required)
+- [`type`](#inputstype)
+- [`options`](#inputsoptions)
+- [`description`](#inputsdescription)
+- [`regex`](#inputsregex)
+
+**Example of `inputs`**:
+
+```yaml
+test_job:
+  inputs:
+    test_suite:
+      default: unit
+      description: Which test suite to run
+      options: [unit, integration, e2e]
+    parallel_count:
+      type: number
+      default: 5
+      description: Number of parallel test runners
+    verbose:
+      type: boolean
+      default: false
+      description: Enable verbose test output
+  script:
+    - 'echo "Running ${{ job.inputs.test_suite }} tests"'
+    - 'if [ "${{ job.inputs.verbose }}" == "true" ]; then export TEST_VERBOSE=1; fi'
+    - ./run_tests.sh --suite ${{ job.inputs.test_suite }} --parallel ${{ job.inputs.parallel_count }}
+```
+
+**Additional details**:
+
+- Job inputs are validated when the job is created and when you try to retry a job with new input values.
+  If validation fails, the job does not start.
+- Job inputs are scoped to the job where they are defined and cannot be accessed by other jobs.
+- For a complete list of keywords that support job inputs, see [where you can use job inputs](../jobs/job_inputs.md#where-you-can-use-job-inputs).
+
+---
+
+#### `inputs:default`
+
+All job inputs must have a default value defined with `default`.
+
+**Keyword type**: Job keyword. You can use it only as part of a job.
+
+**Supported values**: Any value matching the input's [`type`](#inputstype).
+
+**Example of `inputs:default`**:
+
+```yaml
+test_job:
+  inputs:
+    environment:
+      default: staging
+    timeout:
+      type: number
+      default: 30
+```
+
+---
+
+#### `inputs:type`
+
+Use `type` to define the data type of the input value.
+
+**Keyword type**: Job keyword. You can use it only as part of a job.
+
+**Supported values**:
+
+- `string` (default)
+- `number`
+- `boolean`
+- `array`.
+
+**Example of `inputs:type`**:
+
+```yaml
+test_job:
+  inputs:
+    count:
+      type: number
+      default: 5
+    enabled:
+      type: boolean
+      default: true
+```
+
+---
+
+#### `inputs:description`
+
+Use `description` to provide information about the input's purpose.
+The description does not affect the input's behavior.
+
+**Keyword type**: Job keyword. You can use it only as part of a job.
+
+**Supported values**: A string.
+
+**Example of `inputs:description`**:
+
+```yaml
+deploy_job:
+  inputs:
+    environment:
+      default: staging
+      description: Target deployment environment
+```
+
+---
+
+#### `inputs:options`
+
+Use `options` to specify a list of allowed values for an input.
+
+The input value must match one of the listed options exactly (case-sensitive).
+Validation fails if the value does not match an option.
+
+**Keyword type**: Job keyword. You can use it only as part of a job.
+
+**Supported values**: An array of allowed values.
+
+**Example of `inputs:options`**:
+
+```yaml
+deploy_job:
+  inputs:
+    environment:
+      default: staging
+      options: [development, staging, production]
+```
+
+---
+
+#### `inputs:regex`
+
+Use `regex` to specify a regular expression pattern that the input value must match.
+
+Validation fails if the value does not match the regular expression.
+
+**Keyword type**: Job keyword. You can use it only as part of a job.
+
+**Supported values**: A regular expression string.
+
+**Example of `inputs:regex`**:
+
+```yaml
+deploy_job:
+  inputs:
+    version:
+      default: v1.0.0
+      regex: ^v\d+\.\d+\.\d+$
+```
+
+In this example, an input value of `v1.1.1` passes the regex validation, but an input of
+`v1.1.1-beta` does not.
+
+---
+
 ### `inherit`
 
 Use `inherit` to [control inheritance of default keywords and variables](../jobs/_index.md#control-the-inheritance-of-default-keywords-and-variables).

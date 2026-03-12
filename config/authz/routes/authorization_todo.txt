@@ -127,7 +127,6 @@ GET /internal/gitlab_subscriptions/namespaces/:id/owners
 GET /internal/gitlab_subscriptions/namespaces/:id/subscription_add_on_purchases/:add_on_name
 GET /internal/gitlab_subscriptions/namespaces/:namespace_id/user_permissions/:user_id
 GET /internal/gitlab_subscriptions/users/:id
-GET /internal/knowledge_graph/:project_id/repository_info
 GET /internal/kubernetes/modules/remote_development/prerequisites
 GET /internal/kubernetes/modules/starboard_vulnerability/policies_configuration
 GET /internal/kubernetes/receptive_agents

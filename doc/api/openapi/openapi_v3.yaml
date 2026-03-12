@@ -215,6 +215,8 @@ tags:
   description: Operations related to OAuth applications.
 - name: Offline transfers
   description: Operations related to offline transfers.
+- name: Orbit
+  description: Operations related to orbit.
 - name: Organizations
   description: Operations related to organizations.
 - name: Packages
@@ -521,22 +523,6 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_71a7f1aae684"
-  "/api/v4/internal/knowledge_graph/{project_id}/repository_info":
-    get:
-      operationId: getApiV4InternalKnowledgeGraphProjectIdRepositoryInfo
-      summary: Retrieve repository information
-      description: Retrieve Gitaly connection details for the given project
-      tags:
-      - Knowledge graph
-      responses:
-        '200':
-          description: OK
-      parameters:
-      - name: project_id
-        required: true
-        schema:
-          type: integer
-        in: path
   "/api/v4/jobs/{id}/sbom_scans/authorize":
     post:
       operationId: postApiV4JobsIdSbomScansAuthorize
@@ -6309,7 +6295,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_b38efdf6aeba"
+              "$ref": "#/components/schemas/RequestBody_b71e137d08cd"
   "/api/v4/groups/{id}/member_roles/{member_role_id}":
     delete:
       operationId: deleteApiV4GroupsIdMemberRolesMemberRoleId
@@ -6376,7 +6362,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_b38efdf6aeba"
+              "$ref": "#/components/schemas/RequestBody_b71e137d08cd"
   "/api/v4/member_roles/{member_role_id}":
     delete:
       operationId: deleteApiV4MemberRolesMemberRoleId
@@ -69031,10 +69017,10 @@ components:
         archive_project:
           type: boolean
           default: false
-        remove_group:
+        remove_project:
           type: boolean
           default: false
-        remove_project:
+        remove_group:
           type: boolean
           default: false
         manage_security_policy_link:
@@ -80517,7 +80503,7 @@ components:
           description: Desired/new external UID of the user
       required:
       - extern_uid
-    RequestBody_b38efdf6aeba:
+    RequestBody_b71e137d08cd:
       type: object
       properties:
         base_access_level:
@@ -80545,14 +80531,14 @@ components:
         archive_project:
           type: boolean
           description: Allows archiving of projects.
-        remove_group:
-          type: boolean
-          description: Ability to delete or restore a group. This ability does not
-            allow deleting top-level groups. Review the Retention period settings
-            to prevent accidental deletion.
         remove_project:
           type: boolean
           description: Allows deletion of projects.
+        remove_group:
+          type: boolean
+          description: Ability to delete or restore a subgroup. This ability does
+            not allow deleting top-level groups. Review the retention period settings
+            to prevent accidental deletion.
         manage_security_policy_link:
           type: boolean
           description: Allows linking security policy projects.

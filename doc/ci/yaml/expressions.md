@@ -139,6 +139,7 @@ build-job:
 
 ## Related topics
 
+- [Moa expression language](../functions/moa.md)
 - [CI/CD inputs](../inputs/_index.md)
 - [CI/CD components](../components/_index.md)
 - [Matrix expressions](matrix_expressions.md)

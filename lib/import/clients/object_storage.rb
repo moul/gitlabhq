@@ -10,6 +10,7 @@ module Import
       ConnectionError = Class.new(StandardError)
 
       MULTIPART_THRESHOLD = 100.megabytes
+      PREFIX_SEPARATOR = '/'
 
       FOG_PROVIDER_MAP = {
         aws: 'AWS',

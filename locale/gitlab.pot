@@ -7321,6 +7321,12 @@ msgstr ""
 msgid "Agent or flow already enabled"
 msgstr ""
 
+msgid "AgentsUtils|Cannot be assigned"
+msgstr ""
+
+msgid "AgentsUtils|No triggers for this event"
+msgstr ""
+
 msgid "Agents|Explore other agents"
 msgstr ""
 
@@ -35787,7 +35793,7 @@ msgstr ""
 msgid "IdentityVerification|For added security, you'll need to verify your identity."
 msgstr ""
 
-msgid "IdentityVerification|GitLab will not charge or store your payment information, it will only be used for verification."
+msgid "IdentityVerification|GitLab does not make any charges or store the details of your credit or debit card. Verification is not connected to any billing information for your groups."
 msgstr ""
 
 msgid "IdentityVerification|Having trouble? %{codeLinkStart}Send a new code%{codeLinkEnd}, %{phoneLinkStart}enter a new phone number%{phoneLinkEnd}, or %{supportLinkStart}contact support%{supportLinkEnd}."
@@ -35824,9 +35830,6 @@ msgid "IdentityVerification|If you have not tried to sign into your account, we 
 msgstr ""
 
 msgid "IdentityVerification|Maximum login attempts exceeded. Wait %{interval} and try again."
-msgstr ""
-
-msgid "IdentityVerification|Payment Method Verification"
 msgstr ""
 
 msgid "IdentityVerification|Phone Number Verification"
@@ -35874,7 +35877,7 @@ msgstr ""
 msgid "IdentityVerification|Step %{stepIndex} of %{totalSteps}"
 msgstr ""
 
-msgid "IdentityVerification|Step %{stepNumber}: Verify a payment method"
+msgid "IdentityVerification|Step %{stepNumber}: Verify credit card"
 msgstr ""
 
 msgid "IdentityVerification|Step %{stepNumber}: Verify email address"
@@ -35913,13 +35916,13 @@ msgstr ""
 msgid "IdentityVerification|Verify code"
 msgstr ""
 
+msgid "IdentityVerification|Verify credit card"
+msgstr ""
+
 msgid "IdentityVerification|Verify email address"
 msgstr ""
 
 msgid "IdentityVerification|Verify my account"
-msgstr ""
-
-msgid "IdentityVerification|Verify payment method"
 msgstr ""
 
 msgid "IdentityVerification|Verify phone number"
@@ -79225,9 +79228,6 @@ msgid "WorkItem|Cancel"
 msgstr ""
 
 msgid "WorkItem|Canceled"
-msgstr ""
-
-msgid "WorkItem|Cannot be assigned"
 msgstr ""
 
 msgid "WorkItem|Cannot be used to create new items."

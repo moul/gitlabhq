@@ -2592,6 +2592,9 @@ job token policies or resource-specific access controls.
 | `GET` | `/groups/:id/-/packages/nuget/symbolfiles/*file_name/*signature/*same_file_name` |
 | `GET` | `/groups/:id/-/packages/nuget/v2` |
 | `GET` | `/groups/:id/-/packages/nuget/v2/$metadata` |
+| `GET` | `/internal/orbit/project/:project_id/info` |
+| `GET` | `/internal/orbit/project/:project_id/repository/archive` |
+| `GET` | `/internal/orbit/project/:project_id/repository/commits` |
 | `GET` | `/packages/conan/v1/ping` |
 | `GET` | `/packages/npm/*package_name` |
 | `POST` | `/packages/npm/-/npm/v1/security/advisories/bulk` |
