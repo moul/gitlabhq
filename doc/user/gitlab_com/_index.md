@@ -456,6 +456,7 @@ The following table describes the rate limits for GitLab.com:
 |:-----------------------------------------------------------------|:--------------------------------|
 | Protected paths for an IP address                                | 10 requests each minute         |
 | Raw endpoint traffic for a project, commit, or file path         | 300 requests each minute        |
+| Unauthenticated raw endpoint traffic for a project               | 800 requests each minute        |
 | Unauthenticated traffic from an IP address                       | 500 requests each minute        |
 | Authenticated API traffic for a user                             | 2,000 requests each minute      |
 | Authenticated non-API HTTP traffic for a user                    | 1,000 requests each minute      |

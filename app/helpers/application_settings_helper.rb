@@ -555,6 +555,7 @@ module ApplicationSettingsHelper
       :notes_create_limit_allowlist_raw,
       :members_delete_limit,
       :raw_blob_request_limit,
+      :raw_blob_request_limit_unauthenticated,
       :project_import_limit,
       :project_export_limit,
       :project_download_export_limit,

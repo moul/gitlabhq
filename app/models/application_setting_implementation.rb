@@ -192,6 +192,7 @@ module ApplicationSettingImplementation
         push_event_activities_limit: 3,
         push_event_hooks_limit: 3,
         raw_blob_request_limit: 300,
+        raw_blob_request_limit_unauthenticated: ApplicationSetting::DEFAULT_RAW_BLOB_UNAUTHENTICATED_REQUEST_LIMIT,
         recaptcha_enabled: false,
         receptive_cluster_agents_enabled: false,
         relation_export_batch_size: 50,

@@ -118,8 +118,7 @@ export default {
       return this.workItemType?.iconName || '';
     },
     assignees() {
-      const assigneesWidget = findAssigneesWidget(this.workItem);
-      return assigneesWidget?.assignees?.nodes || [];
+      return findAssigneesWidget(this.workItem)?.assignees?.nodes || [];
     },
     assigneeAvatars() {
       return this.assignees.map((assignee) => ({

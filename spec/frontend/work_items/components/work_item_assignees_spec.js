@@ -83,6 +83,7 @@ describe('WorkItemAssignees component', () => {
     allowsMultipleAssignees = false,
     canInviteMembers = false,
     canUpdate = true,
+    provide = {},
   } = {}) => {
     const apolloProvider = createMockApollo(
       [
@@ -120,6 +121,7 @@ describe('WorkItemAssignees component', () => {
         canInviteMembers,
         isGroup: false,
       },
+      provide,
       apolloProvider,
     });
   };
@@ -454,6 +456,33 @@ describe('WorkItemAssignees component', () => {
 
       expect(findSidebarDropdownWidget().props('showFooter')).toBe(true);
       expect(findInviteMembersTrigger().exists()).toBe(true);
+    });
+  });
+
+  describe('when workItemFeaturesField feature flag is enabled', () => {
+    beforeEach(async () => {
+      createComponent({
+        assignees: [],
+        canUpdate: true,
+        provide: { glFeatures: { workItemFeaturesField: true } },
+      });
+      await waitForPromises();
+    });
+
+    it('passes useWorkItemFeatures as true to the mutation', async () => {
+      const { currentUser } = currentUserResponse.data;
+      findAssignSelfButton().vm.$emit('click', new MouseEvent('click'));
+      await nextTick();
+
+      expect(successUpdateWorkItemMutationHandler).toHaveBeenCalledWith({
+        input: {
+          id: 'gid://gitlab/WorkItem/1',
+          assigneesWidget: {
+            assigneeIds: [currentUser.id],
+          },
+        },
+        useWorkItemFeatures: true,
+      });
     });
   });
 });

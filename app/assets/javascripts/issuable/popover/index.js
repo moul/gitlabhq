@@ -29,6 +29,8 @@ const handleIssuablePopoverMouseOut = ({ target }) => {
 const popoverMountedAttr = 'data-popover-mounted';
 
 function isCommentPopover(target) {
+  if (!target.href) return false;
+
   const targetUrl = new URL(target.href);
   const noteId = targetUrl.hash;
 

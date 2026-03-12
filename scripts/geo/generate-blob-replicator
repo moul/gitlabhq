@@ -230,7 +230,7 @@ module Geo
                  return replicables unless node.selective_sync?
 
                  if node.selective_sync_by_namespaces? || node.selective_sync_by_shards?
-                   replicables.project_id_in(node.projects.select(:id))
+                   replicables.project_id_in(::Project.selective_sync_scope(node).select(:id))
                  elsif node.selective_sync_by_organizations?
                    organization_ids = node.organizations.select(:id)
                    project_ids = ::Project.where(organization_id: organization_ids).select(:id)
@@ -453,7 +453,7 @@ module Geo
             # This factory creates a regular Upload with the appropriate model
             # association, then returns the record from the partition table.
             transient do
-              parent_model { create(:#{model_factory_name}) } # rubocop:disable RSpec/FactoryBot/InlineAssociation -- See above
+              parent_model { create(:geo_#{model_factory_name}) } # rubocop:disable RSpec/FactoryBot/InlineAssociation -- See above
             end
 
             initialize_with do
@@ -832,7 +832,7 @@ module Geo
           milestone '#{milestone}'
 
           def change
-            create_table :#{registry_table_name}, id: :bigserial, force: :cascade, if_not_exists: true do |t|
+            create_table :#{registry_table_name}, id: :bigserial, if_not_exists: true do |t|
               t.bigint :#{foreign_key_name}, null: false
               t.datetime_with_timezone :created_at, null: false
               t.datetime_with_timezone :last_synced_at

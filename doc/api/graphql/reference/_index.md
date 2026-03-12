@@ -24493,6 +24493,43 @@ The edge type for [`ProjectTargetBranchRule`](#projecttargetbranchrule).
 | <a id="projecttargetbranchruleedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="projecttargetbranchruleedge-node"></a>`node` | [`ProjectTargetBranchRule`](#projecttargetbranchrule) | The item at the end of the edge. |
 
+#### `ProjectUploadRegistryConnection`
+
+The connection type for [`ProjectUploadRegistry`](#projectuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="projectuploadregistryconnection-edges"></a>`edges` | [`[ProjectUploadRegistryEdge]`](#projectuploadregistryedge) | A list of edges. |
+| <a id="projectuploadregistryconnection-nodes"></a>`nodes` | [`[ProjectUploadRegistry]`](#projectuploadregistry) | A list of nodes. |
+| <a id="projectuploadregistryconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+##### Fields with arguments
+
+###### `ProjectUploadRegistryConnection.count`
+
+Limited count of collection. Returns limit + 1 for counts greater than the limit.
+
+Returns [`Int!`](#int).
+
+Arguments:
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="projectuploadregistryconnection-count-limit"></a>`limit` | [`Int`](#int) | Limit value to be applied to the count query. Default is 1000. |
+
+#### `ProjectUploadRegistryEdge`
+
+The edge type for [`ProjectUploadRegistry`](#projectuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="projectuploadregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="projectuploadregistryedge-node"></a>`node` | [`ProjectUploadRegistry`](#projectuploadregistry) | The item at the end of the edge. |
+
 #### `ProjectWikiRepositoryRegistryConnection`
 
 The connection type for [`ProjectWikiRepositoryRegistry`](#projectwikirepositoryregistry).
@@ -35353,6 +35390,31 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="geonode-projectrepositoryregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
 | <a id="geonode-projectrepositoryregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
 
+##### `GeoNode.projectUploadRegistries`
+
+{{< details >}}
+**Introduced** in GitLab 18.10.
+**Status**: Experiment.
+{{< /details >}}
+
+Find Project Upload registries on this Geo node. Ignored if `geo_project_upload_replication` feature flag is disabled.
+
+Returns [`ProjectUploadRegistryConnection`](#projectuploadregistryconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="geonode-projectuploadregistries-ids"></a>`ids` | [`[GeoProjectUploadRegistryID!]`](#geoprojectuploadregistryid) | Filters registries by their ID. |
+| <a id="geonode-projectuploadregistries-keyword"></a>`keyword` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 17.9. A keyword search feature on Geo registries will not be built in the UI due to poor search UX and performance. |
+| <a id="geonode-projectuploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
+| <a id="geonode-projectuploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
+| <a id="geonode-projectuploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
+
 ##### `GeoNode.projectWikiRepositoryRegistries`
 
 Find Project Wiki Repository registries on this Geo node. Ignored if `geo_project_wiki_repository_replication` feature flag is disabled.
@@ -35921,7 +35983,7 @@ GPG signature for a signed commit.
 | <a id="group-updatedat"></a>`updatedAt` | [`Time`](#time) | Timestamp of when the group was last updated. |
 | <a id="group-userpermissions"></a>`userPermissions` | [`GroupPermissions!`](#grouppermissions) | Permissions for the current user on the resource. |
 | <a id="group-valuestreamanalytics"></a>`valueStreamAnalytics` | [`ValueStreamAnalytics`](#valuestreamanalytics) | Information about Value Stream Analytics within the group. |
-| <a id="group-virtualregistriescleanuppolicy"></a>`virtualRegistriesCleanupPolicy` {{< icon name="warning-solid" >}} | [`VirtualRegistryCleanupPolicy`](#virtualregistrycleanuppolicy) | **Introduced** in GitLab 18.7. **Status**: Experiment. Virtual registries cleanup policy of the group. Returns null if the `maven_virtual_registry` or `virtual_registry_cleanup_policies`feature flag is disabled. |
+| <a id="group-virtualregistriescleanuppolicy"></a>`virtualRegistriesCleanupPolicy` {{< icon name="warning-solid" >}} | [`VirtualRegistryCleanupPolicy`](#virtualregistrycleanuppolicy) | **Introduced** in GitLab 18.7. **Status**: Experiment. Virtual registries cleanup policy of the group. Returns null if the `maven_virtual_registry` feature flag is disabled. |
 | <a id="group-virtualregistriescontainerregistries"></a>`virtualRegistriesContainerRegistries` {{< icon name="warning-solid" >}} | [`ContainerRegistryConnection`](#containerregistryconnection) | **Introduced** in GitLab 18.7. **Status**: Experiment. Container virtual registries registered to the group. Returns null if the `container_virtual_registries` feature flag is disabled. |
 | <a id="group-virtualregistriespackagesmavenregistries"></a>`virtualRegistriesPackagesMavenRegistries` {{< icon name="warning-solid" >}} | [`MavenRegistryConnection`](#mavenregistryconnection) | **Introduced** in GitLab 18.6. **Status**: Experiment. Maven virtual registries registered to the group. Returns null if the `maven_virtual_registry` feature flag is disabled. |
 | <a id="group-virtualregistriessetting"></a>`virtualRegistriesSetting` {{< icon name="warning-solid" >}} | [`VirtualRegistriesSetting`](#virtualregistriessetting) | **Introduced** in GitLab 18.5. **Status**: Experiment. Virtual registries settings for the group. Returns null if the `maven_virtual_registry` feature flag is disabled. |
@@ -43903,6 +43965,7 @@ Personal access token.
 | <a id="pipeline-mergerequesteventtype"></a>`mergeRequestEventType` | [`PipelineMergeRequestEventType`](#pipelinemergerequesteventtype) | Event type of the pipeline associated with a merge request. |
 | <a id="pipeline-name"></a>`name` | [`String`](#string) | Name of the pipeline. |
 | <a id="pipeline-path"></a>`path` | [`String`](#string) | Relative path to the pipeline's page. |
+| <a id="pipeline-pipelineschedule"></a>`pipelineSchedule` | [`PipelineSchedule`](#pipelineschedule) | Pipeline schedule that triggered the pipeline. |
 | <a id="pipeline-project"></a>`project` | [`Project`](#project) | Project the pipeline belongs to. |
 | <a id="pipeline-queuedduration"></a>`queuedDuration` | [`Duration`](#duration) | How long the pipeline was queued before starting. |
 | <a id="pipeline-ref"></a>`ref` | [`String`](#string) | Reference to the branch from which the pipeline was triggered. |
@@ -47880,6 +47943,36 @@ Represents the source of a security policy belonging to a project.
 | <a id="projecttargetbranchrule-id"></a>`id` | [`ProjectsTargetBranchRuleID!`](#projectstargetbranchruleid) | ID of the target branch rule. |
 | <a id="projecttargetbranchrule-name"></a>`name` | [`String!`](#string) | Name of the target branch rule. |
 | <a id="projecttargetbranchrule-targetbranch"></a>`targetBranch` | [`String!`](#string) | Target branch for the target branch rule. |
+
+### `ProjectUploadRegistry`
+
+Represents the Geo replication and verification state of a project_upload.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="projectuploadregistry-checksummismatch"></a>`checksumMismatch` | [`Boolean`](#boolean) | Indicate if the checksums of the ProjectUploadRegistry do not match on the primary and secondary. |
+| <a id="projectuploadregistry-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the ProjectUploadRegistry was created. |
+| <a id="projectuploadregistry-datamanagementdetailspath"></a>`dataManagementDetailsPath` | [`String`](#string) | Path to the data management view for this ProjectUploadRegistry. |
+| <a id="projectuploadregistry-forcetoredownload"></a>`forceToRedownload` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 17.10. Removed from registry tables in the database in favor of the newer reusable framework. |
+| <a id="projectuploadregistry-id"></a>`id` | [`ID!`](#id) | ID of the ProjectUploadRegistry. |
+| <a id="projectuploadregistry-lastsyncfailure"></a>`lastSyncFailure` | [`String`](#string) | Error message during sync of the ProjectUploadRegistry. |
+| <a id="projectuploadregistry-lastsyncedat"></a>`lastSyncedAt` | [`Time`](#time) | Timestamp of the most recent successful sync of the ProjectUploadRegistry. |
+| <a id="projectuploadregistry-missingonprimary"></a>`missingOnPrimary` | [`Boolean`](#boolean) | Indicate if the ProjectUploadRegistry is missing on primary. |
+| <a id="projectuploadregistry-modelrecordid"></a>`modelRecordId` | [`Int`](#int) | ID of the ProjectUploadRegistry's model record. |
+| <a id="projectuploadregistry-projectuploadid"></a>`projectUploadId` | [`ID!`](#id) | ID of the Project Upload. |
+| <a id="projectuploadregistry-retryat"></a>`retryAt` | [`Time`](#time) | Timestamp after which the ProjectUploadRegistry is resynced. |
+| <a id="projectuploadregistry-retrycount"></a>`retryCount` | [`Int`](#int) | Number of consecutive failed sync attempts of the ProjectUploadRegistry. |
+| <a id="projectuploadregistry-state"></a>`state` | [`RegistryState`](#registrystate) | Sync state of the ProjectUploadRegistry. |
+| <a id="projectuploadregistry-verificationchecksum"></a>`verificationChecksum` | [`String`](#string) | The local checksum of the ProjectUploadRegistry. |
+| <a id="projectuploadregistry-verificationchecksummismatched"></a>`verificationChecksumMismatched` | [`String`](#string) | The expected checksum of the ProjectUploadRegistry in case of mismatch. |
+| <a id="projectuploadregistry-verificationfailure"></a>`verificationFailure` | [`String`](#string) | Error message during verification of the ProjectUploadRegistry. |
+| <a id="projectuploadregistry-verificationretryat"></a>`verificationRetryAt` | [`Time`](#time) | Timestamp after which the ProjectUploadRegistry is reverified. |
+| <a id="projectuploadregistry-verificationretrycount"></a>`verificationRetryCount` | [`Int`](#int) | Number of consecutive failed verification attempts of the ProjectUploadRegistry. |
+| <a id="projectuploadregistry-verificationstartedat"></a>`verificationStartedAt` | [`Time`](#time) | Timestamp when the verification of ProjectUploadRegistry started. |
+| <a id="projectuploadregistry-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Verification state of the ProjectUploadRegistry. |
+| <a id="projectuploadregistry-verifiedat"></a>`verifiedAt` | [`Time`](#time) | Timestamp of the most recent successful verification of the ProjectUploadRegistry. |
 
 ### `ProjectValueStreamAnalyticsFlowMetrics`
 
@@ -55640,6 +55733,7 @@ Geo registry class.
 | <a id="georegistryclass-pages_deployment_registry"></a>`PAGES_DEPLOYMENT_REGISTRY` | Geo::PagesDeploymentRegistry registry class. |
 | <a id="georegistryclass-pipeline_artifact_registry"></a>`PIPELINE_ARTIFACT_REGISTRY` | Geo::PipelineArtifactRegistry registry class. |
 | <a id="georegistryclass-project_repository_registry"></a>`PROJECT_REPOSITORY_REGISTRY` | Geo::ProjectRepositoryRegistry registry class. |
+| <a id="georegistryclass-project_upload_registry"></a>`PROJECT_UPLOAD_REGISTRY` | Geo::ProjectUploadRegistry registry class. |
 | <a id="georegistryclass-project_wiki_repository_registry"></a>`PROJECT_WIKI_REPOSITORY_REGISTRY` | Geo::ProjectWikiRepositoryRegistry registry class. |
 | <a id="georegistryclass-snippet_repository_registry"></a>`SNIPPET_REPOSITORY_REGISTRY` | Geo::SnippetRepositoryRegistry registry class. |
 | <a id="georegistryclass-supply_chain_attestation_registry"></a>`SUPPLY_CHAIN_ATTESTATION_REGISTRY` | Geo::SupplyChainAttestationRegistry registry class. |
@@ -59189,6 +59283,12 @@ A `GeoProjectRepositoryRegistryID` is a global ID. It is encoded as a string.
 
 An example `GeoProjectRepositoryRegistryID` is: `"gid://gitlab/Geo::ProjectRepositoryRegistry/1"`.
 
+### `GeoProjectUploadRegistryID`
+
+A `GeoProjectUploadRegistryID` is a global ID. It is encoded as a string.
+
+An example `GeoProjectUploadRegistryID` is: `"gid://gitlab/Geo::ProjectUploadRegistry/1"`.
+
 ### `GeoProjectWikiRepositoryRegistryID`
 
 A `GeoProjectWikiRepositoryRegistryID` is a global ID. It is encoded as a string.
@@ -60150,6 +60250,7 @@ One of:
 - [`PagesDeploymentRegistry`](#pagesdeploymentregistry)
 - [`PipelineArtifactRegistry`](#pipelineartifactregistry)
 - [`ProjectRepositoryRegistry`](#projectrepositoryregistry)
+- [`ProjectUploadRegistry`](#projectuploadregistry)
 - [`ProjectWikiRepositoryRegistry`](#projectwikirepositoryregistry)
 - [`SnippetRepositoryRegistry`](#snippetrepositoryregistry)
 - [`TerraformStateVersionRegistry`](#terraformstateversionregistry)

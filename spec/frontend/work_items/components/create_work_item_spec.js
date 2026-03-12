@@ -941,6 +941,10 @@ describe('Create work item component', () => {
       it('renders the work item milestone widget from features', () => {
         expect(findMilestoneWidget().exists()).toBe(true);
       });
+
+      it('renders the work item assignees widget from features', () => {
+        expect(findAssigneesWidget().exists()).toBe(true);
+      });
     });
   });
 

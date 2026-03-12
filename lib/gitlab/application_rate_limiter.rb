@@ -90,6 +90,7 @@ module Gitlab
             threshold: -> { application_settings.projects_api_rate_limit_unauthenticated }, interval: 10.minutes
           },
           raw_blob: { threshold: -> { application_settings.raw_blob_request_limit }, interval: 1.minute },
+          raw_blob_unauthenticated: { threshold: -> { application_settings.raw_blob_request_limit_unauthenticated }, interval: 1.minute },
           runner_jobs_request_api: { threshold: -> { application_settings.runner_jobs_request_api_limit }, interval: 1.minute },
           runner_jobs_patch_trace_api: { threshold: -> { application_settings.runner_jobs_patch_trace_api_limit }, interval: 1.minute },
           runner_jobs_api: { threshold: -> { application_settings.runner_jobs_endpoints_api_limit }, interval: 1.minute },

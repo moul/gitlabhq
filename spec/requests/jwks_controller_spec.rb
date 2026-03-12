@@ -11,6 +11,8 @@ RSpec.describe JwksController, feature_category: :system_access do
         "/.well-known/oauth-authorization-server",
         "/.well-known/oauth-authorization-server/api/v4/mcp",
         "/.well-known/openid-configuration/api/v4/mcp",
+        "/.well-known/oauth-authorization-server/api/v4/orbit/mcp",
+        "/.well-known/openid-configuration/api/v4/orbit/mcp",
         "/.well-known/webfinger?resource=#{create(:user).email}"
       ].each do |endpoint|
         get endpoint
@@ -101,6 +103,21 @@ RSpec.describe JwksController, feature_category: :system_access do
       it 'returns only mcp scope in scopes_supported' do
         expect(response).to have_gitlab_http_status(:ok)
         expect(parsed_response['scopes_supported']).to eq(['mcp'])
+      end
+
+      it 'includes registration_endpoint' do
+        expect(parsed_response['registration_endpoint']).to end_with('/oauth/register')
+      end
+    end
+
+    context 'when accessing MCP Orbit discovery endpoint' do
+      before do
+        get '/.well-known/oauth-authorization-server/api/v4/orbit/mcp'
+      end
+
+      it 'returns only mcp_orbit scope in scopes_supported' do
+        expect(response).to have_gitlab_http_status(:ok)
+        expect(parsed_response['scopes_supported']).to eq(['mcp_orbit'])
       end
 
       it 'includes registration_endpoint' do

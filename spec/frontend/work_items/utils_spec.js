@@ -27,6 +27,7 @@ import {
 import {
   autocompleteDataSources,
   convertTypeEnumToName,
+  findAssigneesWidget,
   formatLabelForListbox,
   formatUserForListbox,
   newWorkItemPath,
@@ -977,5 +978,29 @@ describe('isCurrentViewWorkItem', () => {
     document.body.dataset.page = page;
 
     expect(isCurrentViewWorkItem()).toBe(false);
+  });
+});
+
+describe('findAssigneesWidget', () => {
+  const assigneesWidget = { type: WIDGET_TYPE_ASSIGNEES, assignees: { nodes: [] } };
+  const featuresAssignees = { allowsMultipleAssignees: true, assignees: { nodes: [] } };
+
+  it('returns features.assignees when present', () => {
+    const workItem = {
+      features: { assignees: featuresAssignees },
+      widgets: [assigneesWidget],
+    };
+
+    expect(findAssigneesWidget(workItem)).toBe(featuresAssignees);
+  });
+
+  it('falls back to widgets when features not present', () => {
+    const workItem = { widgets: [assigneesWidget] };
+
+    expect(findAssigneesWidget(workItem)).toBe(assigneesWidget);
+  });
+
+  it('returns undefined when neither exists', () => {
+    expect(findAssigneesWidget({ widgets: [] })).toBeUndefined();
   });
 });

@@ -202,6 +202,29 @@ describe('IssuableItem', () => {
 
         expect(wrapper.vm.assignees).toStrictEqual(mockIssuable.assignees);
       });
+
+      describe('when features.assignees is present', () => {
+        let mockAssignees;
+
+        beforeEach(() => {
+          mockAssignees = [mockAuthor];
+          wrapper = createComponent({
+            issuable: {
+              ...mockIssuable,
+              assignees: undefined,
+              features: {
+                assignees: { assignees: { nodes: mockAssignees } },
+              },
+            },
+          });
+        });
+
+        it('returns features.assignees over widgets[].assignees', () => {
+          expect(wrapper.findComponent(IssuableAssignees).props('assignees')).toEqual(
+            expect.arrayContaining(mockAssignees),
+          );
+        });
+      });
     });
 
     describe('timestamp', () => {

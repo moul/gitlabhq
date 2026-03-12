@@ -27,6 +27,7 @@ import WorkItemDates from 'ee_else_ce/work_items/components/work_item_dates.vue'
 import WorkItemMetadataProvider from '~/work_items/components/work_item_metadata_provider.vue';
 import PageHeading from '~/vue_shared/components/page_heading.vue';
 import {
+  findAssigneesWidget,
   getDisplayReference,
   getNewWorkItemAutoSaveKey,
   getNewWorkItemWidgetsAutoSaveKey,
@@ -429,9 +430,7 @@ export default {
       return NAME_TO_TEXT_LOWERCASE_MAP[this.relatedItem?.type];
     },
     workItemAssignees() {
-      return this.useWorkItemFeatures
-        ? this.workItem?.features?.assignees
-        : findWidget(WIDGET_TYPE_ASSIGNEES, this.workItem);
+      return findAssigneesWidget(this.workItem);
     },
     workItemMilestone() {
       return this.useWorkItemFeatures
@@ -548,8 +547,9 @@ export default {
       return findWidget(WIDGET_TYPE_PARTICIPANTS, this.workItem);
     },
     workItemAssigneeIds() {
-      const assigneesWidget = findWidget(WIDGET_TYPE_ASSIGNEES, this.workItem);
-      return assigneesWidget?.assignees?.nodes?.map((assignee) => assignee.id) || [];
+      return (
+        findAssigneesWidget(this.workItem)?.assignees?.nodes?.map((assignee) => assignee.id) || []
+      );
     },
     workItemLabelIds() {
       const labelsWidget = findWidget(WIDGET_TYPE_LABELS, this.workItem);

@@ -28,7 +28,7 @@ import {
   WORK_ITEM_TYPE_ROUTE_WORK_ITEM,
 } from '~/work_items/constants';
 import {
-  isAssigneesWidget,
+  findAssigneesWidget,
   findLabelsWidget,
   findLinkedItemsWidget,
   canRouterNav,
@@ -185,7 +185,7 @@ export default {
       return (
         this.issuable.assignees?.nodes ||
         this.issuable.assignees ||
-        this.issuable.widgets?.find(isAssigneesWidget)?.assignees?.nodes ||
+        findAssigneesWidget(this.issuable)?.assignees?.nodes ||
         []
       );
     },

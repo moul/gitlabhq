@@ -141,6 +141,7 @@ Example response:
   "snippet_size_limit": 52428800,
   "issues_create_limit": 300,
   "raw_blob_request_limit": 300,
+  "raw_blob_request_limit_unauthenticated": 800,
   "wiki_page_max_content_bytes": 5242880,
   "require_admin_approval_after_user_signup": false,
   "require_personal_access_token_expiry": true,
@@ -361,6 +362,7 @@ Example response:
   "snippet_size_limit": 52428800,
   "issues_create_limit": 300,
   "raw_blob_request_limit": 300,
+  "raw_blob_request_limit_unauthenticated": 800,
   "wiki_page_max_content_bytes": 5242880,
   "require_admin_approval_after_user_signup": false,
   "require_personal_access_token_expiry": true,
@@ -747,6 +749,7 @@ to configure other related settings. These requirements are
 | `push_event_hooks_limit`                 | integer          | no                                   | Maximum number of changes (branches or tags) in a single push above which webhooks and integrations are not triggered. Setting to `0` does not disable throttling. Default: `3`. |
 | `rate_limiting_response_text`            | string           | no                                   | When rate limiting is enabled via the `throttle_*` settings, send this plain text response when a rate limit is exceeded. 'Retry later' is sent if this is blank. |
 | `raw_blob_request_limit`                 | integer          | no                                   | Maximum number of requests per minute for each raw path (default is `300`). Set to `0` to disable throttling.|
+| `raw_blob_request_limit_unauthenticated` | integer          | no                                   | Maximum number of unauthenticated requests per minute across all raw paths in a project (default is `800`). Set to `0` to disable throttling.|
 | `search_rate_limit`                      | integer          | no                                   | Max number of requests per minute for performing a search while authenticated. Default: 30. To disable throttling, set to 0.|
 | `search_rate_limit_unauthenticated`      | integer          | no                                   | Max number of requests per minute for performing a search while unauthenticated. Default: 10. To disable throttling, set to 0.|
 | `recaptcha_enabled`                      | boolean          | no                                   | (**If enabled, requires**: `recaptcha_private_key` and `recaptcha_site_key`) Enable reCAPTCHA. |

@@ -4545,9 +4545,6 @@ msgstr ""
 msgid "AccessTokens|Require expiration dates for service accounts"
 msgstr ""
 
-msgid "AccessTokens|Requires the granular_personal_access_tokens feature flag."
-msgstr ""
-
 msgid "AccessTokens|Revoke"
 msgstr ""
 
@@ -7510,7 +7507,7 @@ msgstr ""
 msgid "AiPowered|Allow GitLab Duo agents to execute foundational flows in this group and its subgroups and projects."
 msgstr ""
 
-msgid "AiPowered|Allow GitLab to collect prompts, AI responses, and metadata from user interactions with GitLab Duo. This data helps to improve service quality and is not used to train models."
+msgid "AiPowered|Allow GitLab to collect prompts, AI responses, and metadata from user interactions with GitLab Duo. This data helps improve service quality and is not used to train models."
 msgstr ""
 
 msgid "AiPowered|Allow GitLab to process your code and project data for AI-native features in this group. Your data is sent to GitLab Duo. Groups, subgroups, and projects can opt out individually."
@@ -29330,9 +29327,6 @@ msgstr ""
 msgid "Expired"
 msgstr ""
 
-msgid "Expired %{expiredOn}"
-msgstr ""
-
 msgid "Expired:"
 msgstr ""
 
@@ -30953,13 +30947,13 @@ msgstr ""
 msgid "FoundationalFlow|Fix CI/CD Pipeline"
 msgstr ""
 
-msgid "FoundationalFlow|GitLab resolve SAST vulnerability"
-msgstr ""
-
 msgid "FoundationalFlow|Migrate your Jenkins pipelines to GitLab CI/CD."
 msgstr ""
 
 msgid "FoundationalFlow|Resolve SAST Vulnerability"
+msgstr ""
+
+msgid "FoundationalFlow|Resolve critical SAST vulnerabilities."
 msgstr ""
 
 msgid "FoundationalFlow|SAST False Positive Detection"
@@ -31630,6 +31624,12 @@ msgid "Geo|Project Repositories"
 msgstr ""
 
 msgid "Geo|Project Repository"
+msgstr ""
+
+msgid "Geo|Project Upload"
+msgstr ""
+
+msgid "Geo|Project Uploads"
 msgstr ""
 
 msgid "Geo|Project Wiki Repositories"
@@ -42121,6 +42121,9 @@ msgid "Maximum number of secrets (%{limit}) for this %{scope} has been reached. 
 msgstr ""
 
 msgid "Maximum number of stages per value stream exceeded"
+msgstr ""
+
+msgid "Maximum number of unauthenticated requests per minute across all raw paths in a project (default is 800). Set to 0 to disable throttling."
 msgstr ""
 
 msgid "Maximum number of unique IP addresses per user."
@@ -56241,6 +56244,9 @@ msgstr ""
 msgid "Raw blob request rate limit per minute"
 msgstr ""
 
+msgid "Raw blob request rate limit per minute (unauthenticated, per project)"
+msgstr ""
+
 msgid "Raw blob requests"
 msgstr ""
 
@@ -67521,9 +67527,6 @@ msgstr ""
 msgid "Started %{startDate}"
 msgstr ""
 
-msgid "Started %{startsIn}"
-msgstr ""
-
 msgid "Started asynchronous removal of all repository check states."
 msgstr ""
 
@@ -67537,9 +67540,6 @@ msgid "Starts"
 msgstr ""
 
 msgid "Starts %{startDate}"
-msgstr ""
-
-msgid "Starts %{startsIn}"
 msgstr ""
 
 msgid "Starts escalations for this incident"
@@ -81326,6 +81326,9 @@ msgstr ""
 msgid "You cannot %{action} %{state} users."
 msgstr ""
 
+msgid "You cannot access the raw file. Please wait a minute or authenticate and try again."
+msgstr ""
+
 msgid "You cannot access the raw file. Please wait a minute."
 msgstr ""
 
@@ -84447,9 +84450,6 @@ msgstr[1] ""
 msgid "parent already has maximum number of children."
 msgstr ""
 
-msgid "past due"
-msgstr ""
-
 msgid "pending comment"
 msgstr ""
 
@@ -84890,9 +84890,6 @@ msgid "unknown"
 msgstr ""
 
 msgid "unsubscribed %{emails}"
-msgstr ""
-
-msgid "upcoming"
 msgstr ""
 
 msgid "updated"

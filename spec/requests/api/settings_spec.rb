@@ -241,6 +241,7 @@ RSpec.describe API::Settings, 'Settings', :do_not_mock_admin_mode_setting, featu
             snippet_size_limit: 5,
             issues_create_limit: 300,
             raw_blob_request_limit: 300,
+            raw_blob_request_limit_unauthenticated: 400,
             spam_check_endpoint_enabled: true,
             spam_check_endpoint_url: 'grpc://example.com/spam_check',
             spam_check_api_key: 'SPAM_CHECK_API_KEY',
@@ -341,6 +342,7 @@ RSpec.describe API::Settings, 'Settings', :do_not_mock_admin_mode_setting, featu
         expect(json_response['snippet_size_limit']).to eq(5)
         expect(json_response['issues_create_limit']).to eq(300)
         expect(json_response['raw_blob_request_limit']).to eq(300)
+        expect(json_response['raw_blob_request_limit_unauthenticated']).to eq(400)
         expect(json_response['spam_check_endpoint_enabled']).to be_truthy
         expect(json_response['spam_check_endpoint_url']).to eq('grpc://example.com/spam_check')
         expect(json_response['spam_check_api_key']).to eq('SPAM_CHECK_API_KEY')

@@ -51,6 +51,7 @@ export const isNotesWidget = (widget) => widget.type === WIDGET_TYPE_NOTES;
 export const isStatusWidget = (widget) => widget.type === WIDGET_TYPE_STATUS;
 
 export const findAssigneesWidget = (workItem) =>
+  workItem?.features?.assignees ||
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_ASSIGNEES);
 
 export const findAwardEmojiWidget = (workItem) =>

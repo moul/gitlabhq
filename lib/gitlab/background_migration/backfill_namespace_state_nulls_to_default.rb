@@ -3,8 +3,6 @@
 module Gitlab
   module BackgroundMigration
     class BackfillNamespaceStateNullsToDefault < BatchedMigrationJob
-      cursor :id
-
       operation_name :namespace_state_nulls_to_default
       feature_category :groups_and_projects
 
@@ -12,7 +10,7 @@ module Gitlab
 
       def perform
         each_sub_batch do |sub_batch|
-          sub_batch.where(state: nil).update_all(state: ANCESTOR_INHERITED_STATE)
+          sub_batch.where(state: nil).update_all(state: ANCESTOR_INHERITED_STATE, updated_at: Time.current)
         end
       end
     end

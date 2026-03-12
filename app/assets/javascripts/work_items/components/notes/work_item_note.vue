@@ -13,6 +13,7 @@ import gfmEventHub from '~/vue_shared/components/markdown/eventhub';
 import EditedAt from '~/issues/show/components/edited.vue';
 import TimelineEntryItem from '~/vue_shared/components/notes/timeline_entry_item.vue';
 import NoteHeader from '~/notes/components/note_header.vue';
+import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { i18n, TRACKING_CATEGORY_SHOW } from '../../constants';
 import updateWorkItemMutation from '../../graphql/update_work_item.mutation.graphql';
 import updateWorkItemNoteMutation from '../../graphql/notes/update_work_item_note.mutation.graphql';
@@ -36,7 +37,7 @@ export default {
     WorkItemCommentForm,
     EditedAt,
   },
-  mixins: [Tracking.mixin()],
+  mixins: [glFeatureFlagsMixin(), Tracking.mixin()],
   props: {
     fullPath: {
       type: String,
@@ -246,6 +247,7 @@ export default {
         return {
           fullPath: this.fullPath,
           iid: this.workItemIid,
+          useWorkItemFeatures: Boolean(this.glFeatures?.workItemFeaturesField),
         };
       },
       update(data) {
@@ -335,9 +337,24 @@ export default {
         },
       };
 
+      const editedFeatures = this.workItem?.features
+        ? {
+            features: {
+              ...this.workItem.features,
+              assignees: {
+                ...(this.workItem.features.assignees || {}),
+                assignees: {
+                  nodes: newAssignees,
+                },
+              },
+            },
+          }
+        : {};
+
       return {
         newAssignees,
         editedWorkItemWidgets,
+        editedFeatures,
       };
     },
     notifyCopyDone() {
@@ -348,7 +365,9 @@ export default {
       toast(__('Link copied to clipboard.'));
     },
     async assignUserAction() {
-      const { newAssignees, editedWorkItemWidgets } = this.getNewAssigneesAndWidget();
+      const { newAssignees, editedWorkItemWidgets, editedFeatures } =
+        this.getNewAssigneesAndWidget();
+      const useWorkItemFeatures = Boolean(this.glFeatures?.workItemFeaturesField);
 
       try {
         await this.$apollo.mutate({
@@ -360,6 +379,7 @@ export default {
                 assigneeIds: newAssignees.map(({ id }) => id),
               },
             },
+            useWorkItemFeatures,
           },
           optimisticResponse: {
             workItemUpdate: {
@@ -367,6 +387,7 @@ export default {
               workItem: {
                 ...this.workItem,
                 widgets: editedWorkItemWidgets,
+                ...editedFeatures,
               },
             },
           },

@@ -133,6 +133,18 @@ describe('initIssuablePopovers', () => {
     });
   });
 
+  describe('non-anchor elements with popover', () => {
+    it('does not crash when target has no href', () => {
+      jest.spyOn(popover, 'handleIssuablePopoverMount').mockImplementation(jest.fn());
+
+      initIssuablePopovers([milestone1], popover.handleIssuablePopoverMount);
+
+      expect(() => {
+        milestone1.dispatchEvent(new Event('mouseenter', { target: milestone1 }));
+      }).not.toThrow();
+    });
+  });
+
   describe('milestone popovers', () => {
     beforeEach(() => {
       jest.spyOn(popover, 'handleIssuablePopoverMount').mockImplementation(jest.fn());

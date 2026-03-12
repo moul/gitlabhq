@@ -28,7 +28,6 @@ import { keysFor, ISSUABLE_EDIT_DESCRIPTION } from '~/behaviors/shortcuts/keybin
 import ShortcutsWorkItems from '~/behaviors/shortcuts/shortcuts_work_items';
 import {
   i18n,
-  WIDGET_TYPE_ASSIGNEES,
   WIDGET_TYPE_CURRENT_USER_TODOS,
   WIDGET_TYPE_DESCRIPTION,
   WIDGET_TYPE_AWARD_EMOJI,
@@ -54,7 +53,7 @@ import workItemByIdQuery from '../graphql/work_item_by_id.query.graphql';
 import workItemByIidQuery from '../graphql/work_item_by_iid.query.graphql';
 import getAllowedWorkItemChildTypes from '../graphql/work_item_allowed_children.query.graphql';
 import workspacePermissionsQuery from '../graphql/workspace_permissions.query.graphql';
-import { findHierarchyWidgetDefinition, activeWorkItemIds } from '../utils';
+import { findAssigneesWidget, findHierarchyWidgetDefinition, activeWorkItemIds } from '../utils';
 import { updateWorkItemCurrentTodosWidget } from '../graphql/cache_utils';
 
 import getWorkItemDesignListQuery from './design_management/graphql/design_collection.query.graphql';
@@ -413,7 +412,7 @@ export default {
       return this.workItemCurrentUserTodos?.currentUserTodos?.nodes;
     },
     workItemAssignees() {
-      return this.findWidget(WIDGET_TYPE_ASSIGNEES);
+      return findAssigneesWidget(this.workItem);
     },
     workItemAwardEmoji() {
       return this.findWidget(WIDGET_TYPE_AWARD_EMOJI);

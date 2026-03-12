@@ -2,7 +2,7 @@ import { GlAvatarsInline } from '@gitlab/ui';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import ItemMilestone from '~/issuable/components/issue_milestone.vue';
 import WorkItemPopoverMetadata from '~/work_items/components/shared/work_item_relationship_popover_metadata.vue';
-import { workItemTask } from '../../mock_data';
+import { workItemTask, mockAssignees as mockAssigneesFromMockData } from '../../mock_data';
 
 describe('WorkItemPopoverMetadata', () => {
   let wrapper;
@@ -74,5 +74,19 @@ describe('WorkItemPopoverMetadata', () => {
       badgeTooltipProp: 'name',
       badgeTooltipMaxChars: null,
     });
+  });
+
+  it('uses features.assignees over widgets assignees', () => {
+    const [firstAssignee] = mockAssigneesFromMockData;
+    createComponent({
+      workItem: {
+        ...workItemTask,
+        features: {
+          assignees: { assignees: { nodes: [firstAssignee] } },
+        },
+      },
+    });
+
+    expect(findAvatars().props('avatars')).toEqual([firstAssignee]);
   });
 });

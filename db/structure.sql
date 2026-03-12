@@ -4057,6 +4057,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_99fbbdf73a77() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."project_id" IS NULL THEN
+  SELECT "project_id"
+  INTO NEW."project_id"
+  FROM "project_uploads"
+  WHERE "project_uploads"."id" = NEW."project_upload_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_9b944f36fdac() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -27838,6 +27854,29 @@ CREATE TABLE project_type_ci_runners (
     CONSTRAINT check_organization_id_nullness CHECK ((organization_id IS NOT NULL))
 );
 
+CREATE TABLE project_upload_states (
+    id bigint NOT NULL,
+    verification_started_at timestamp with time zone,
+    verification_retry_at timestamp with time zone,
+    verified_at timestamp with time zone,
+    project_upload_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    verification_state smallint DEFAULT 0 NOT NULL,
+    verification_retry_count smallint DEFAULT 0 NOT NULL,
+    verification_checksum bytea,
+    verification_failure text,
+    CONSTRAINT check_09f22d9724 CHECK ((char_length(verification_failure) <= 255))
+);
+
+CREATE SEQUENCE project_upload_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE project_upload_states_id_seq OWNED BY project_upload_states.id;
+
 CREATE TABLE project_uploads (
     id bigint NOT NULL,
     size bigint NOT NULL,
@@ -35625,6 +35664,8 @@ ALTER TABLE ONLY project_to_security_attributes ALTER COLUMN id SET DEFAULT next
 
 ALTER TABLE ONLY project_topics ALTER COLUMN id SET DEFAULT nextval('project_topics_id_seq'::regclass);
 
+ALTER TABLE ONLY project_upload_states ALTER COLUMN id SET DEFAULT nextval('project_upload_states_id_seq'::regclass);
+
 ALTER TABLE ONLY project_wiki_repositories ALTER COLUMN id SET DEFAULT nextval('project_wiki_repositories_id_seq'::regclass);
 
 ALTER TABLE ONLY projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq'::regclass);
@@ -37950,6 +37991,9 @@ ALTER TABLE packages_composer_packages
 ALTER TABLE packages_composer_packages
     ADD CONSTRAINT check_packages_composer_packages_version_cache_sha_max_length CHECK ((octet_length(version_cache_sha) <= 255)) NOT VALID;
 
+ALTER TABLE packages_nuget_symbols
+    ADD CONSTRAINT check_packages_nuget_symbols_file_sha256_max_length CHECK ((octet_length(file_sha256) <= 64)) NOT VALID;
+
 ALTER TABLE packages_conan_package_references
     ADD CONSTRAINT check_reference_length CHECK ((octet_length(reference) <= 20)) NOT VALID;
 
@@ -39602,6 +39646,9 @@ ALTER TABLE ONLY project_type_ci_runner_machines
 
 ALTER TABLE ONLY project_type_ci_runners
     ADD CONSTRAINT project_type_ci_runners_pkey PRIMARY KEY (id, runner_type);
+
+ALTER TABLE ONLY project_upload_states
+    ADD CONSTRAINT project_upload_states_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY project_uploads
     ADD CONSTRAINT project_uploads_pkey PRIMARY KEY (id, model_type);
@@ -47552,6 +47599,20 @@ CREATE INDEX index_project_type_ci_runners_on_locked ON project_type_ci_runners 
 
 CREATE INDEX index_project_type_ci_runners_on_organization_id ON project_type_ci_runners USING btree (organization_id);
 
+CREATE INDEX index_project_upload_states_failed_verification ON project_upload_states USING btree (verification_retry_at NULLS FIRST) WHERE (verification_state = 3);
+
+CREATE INDEX index_project_upload_states_needs_verification_id ON project_upload_states USING btree (project_upload_id) WHERE ((verification_state = 0) OR (verification_state = 3));
+
+CREATE INDEX index_project_upload_states_on_project_id ON project_upload_states USING btree (project_id);
+
+CREATE UNIQUE INDEX index_project_upload_states_on_project_upload_id ON project_upload_states USING btree (project_upload_id);
+
+CREATE INDEX index_project_upload_states_on_verification_started ON project_upload_states USING btree (project_upload_id, verification_started_at) WHERE (verification_state = 1);
+
+CREATE INDEX index_project_upload_states_on_verification_state ON project_upload_states USING btree (verification_state);
+
+CREATE INDEX index_project_upload_states_pending_verification ON project_upload_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
+
 CREATE UNIQUE INDEX index_project_user_callouts_feature ON user_project_callouts USING btree (user_id, feature_name, project_id);
 
 CREATE UNIQUE INDEX index_project_wiki_repositories_on_project_id ON project_wiki_repositories USING btree (project_id);
@@ -53988,6 +54049,8 @@ CREATE TRIGGER trigger_979e7f45114f BEFORE INSERT OR UPDATE ON ml_candidate_metr
 
 CREATE TRIGGER trigger_97e9245e767d BEFORE INSERT OR UPDATE ON issue_assignees FOR EACH ROW EXECUTE FUNCTION trigger_97e9245e767d();
 
+CREATE TRIGGER trigger_99fbbdf73a77 BEFORE INSERT OR UPDATE ON project_upload_states FOR EACH ROW EXECUTE FUNCTION trigger_99fbbdf73a77();
+
 CREATE TRIGGER trigger_9b944f36fdac BEFORE INSERT OR UPDATE ON approval_merge_request_rules_users FOR EACH ROW EXECUTE FUNCTION trigger_9b944f36fdac();
 
 CREATE TRIGGER trigger_9e137c16de79 BEFORE INSERT OR UPDATE ON vulnerability_findings_remediations FOR EACH ROW EXECUTE FUNCTION trigger_9e137c16de79();
@@ -56056,6 +56119,9 @@ ALTER TABLE ONLY ml_candidates
 ALTER TABLE ONLY subscription_add_on_purchases
     ADD CONSTRAINT fk_a1db288990 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY project_upload_states
+    ADD CONSTRAINT fk_a21cb2b8a2 FOREIGN KEY (project_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY approval_policy_merge_request_bypass_events
     ADD CONSTRAINT fk_a24f768758 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL;
 
@@ -56601,6 +56667,9 @@ ALTER TABLE ONLY sbom_occurrences
 
 ALTER TABLE ONLY zentao_tracker_data
     ADD CONSTRAINT fk_d8eda829f4 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE NOT VALID;
+
+ALTER TABLE ONLY project_upload_states
+    ADD CONSTRAINT fk_d91477a6fa FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY todos
     ADD CONSTRAINT fk_d94154aa95 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;

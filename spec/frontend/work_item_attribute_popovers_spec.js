@@ -7,26 +7,21 @@ jest.mock('~/lib/graphql');
 jest.mock('~/issuable/popover');
 
 describe('Work Item Attribute Popovers', () => {
-  const triggerEvent = (eventName, el, target) => {
-    const event = new MouseEvent(eventName, {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-    });
-
-    Object.defineProperty(event, 'target', {
-      value: target,
-      enumerable: true,
-    });
-
-    el.dispatchEvent(event);
+  const triggerMouseover = (el) => {
+    el.dispatchEvent(
+      new MouseEvent('mouseover', {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+      }),
+    );
   };
 
   beforeEach(() => {
     setHTMLFixture(`
       <div class="attributes-wrapper">
         <div class="js-without-popover" data-reference-type="milestone" data-placement="left" data-milestone="1">17.0<div>
-        <div class="has-popover js-with-popover" data-reference-type="milestone" data-placement="left" data-milestone="2">18.0<div>
+        <div class="has-popover js-with-popover" data-reference-type="milestone" data-placement="left" data-milestone="2"><span class="child-text">18.0</span><div>
         <div class="has-popover js-iteration-popover" data-reference-type="iteration" data-placement="left" data-iteration="3" data-namespace-path="group/project">Sprint 1<div>
       </div>
     `);
@@ -37,10 +32,9 @@ describe('Work Item Attribute Popovers', () => {
     resetHTMLFixture();
   });
 
-  it('calls handleIssuablePopoverMount to mount popover', () => {
+  it('calls handleIssuablePopoverMount on mouseover', () => {
     const mockTarget = document.querySelector('.js-with-popover');
-    triggerEvent('mouseover', document, mockTarget);
-    triggerEvent('mouseenter', mockTarget, mockTarget);
+    triggerMouseover(mockTarget);
 
     expect(handleIssuablePopoverMount).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -53,18 +47,30 @@ describe('Work Item Attribute Popovers', () => {
     );
   });
 
+  it('mounts popover when hovering over a child element', () => {
+    const parentTarget = document.querySelector('.js-with-popover');
+    const childTarget = document.querySelector('.child-text');
+    triggerMouseover(childTarget);
+
+    expect(handleIssuablePopoverMount).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: parentTarget,
+        referenceType: 'milestone',
+        milestone: '2',
+      }),
+    );
+  });
+
   it('does not call handleIssuablePopoverMount when target is missing required attributes for popover', () => {
     const mockTarget = document.querySelector('.js-without-popover');
-    triggerEvent('mouseover', document, mockTarget);
-    triggerEvent('mouseenter', mockTarget, mockTarget);
+    triggerMouseover(mockTarget);
 
     expect(handleIssuablePopoverMount).not.toHaveBeenCalled();
   });
 
   it('calls handleIssuablePopoverMount with iteration data attribute for iteration popover', () => {
     const mockTarget = document.querySelector('.js-iteration-popover');
-    triggerEvent('mouseover', document, mockTarget);
-    triggerEvent('mouseenter', mockTarget, mockTarget);
+    triggerMouseover(mockTarget);
 
     expect(handleIssuablePopoverMount).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -76,5 +82,26 @@ describe('Work Item Attribute Popovers', () => {
         target: mockTarget,
       }),
     );
+  });
+
+  it.each`
+    description                 | attr
+    ${'already mounted'}        | ${'popoverMounted'}
+    ${'listener already added'} | ${'popoverListenerAdded'}
+  `('does not mount popover again if $description', ({ attr }) => {
+    const mockTarget = document.querySelector('.js-with-popover');
+    mockTarget.dataset[attr] = 'true';
+    triggerMouseover(mockTarget);
+
+    expect(handleIssuablePopoverMount).not.toHaveBeenCalled();
+  });
+
+  it('calls handleIssuablePopoverMount only once for repeated mouseover events', () => {
+    const mockTarget = document.querySelector('.js-with-popover');
+    triggerMouseover(mockTarget);
+    triggerMouseover(mockTarget);
+    triggerMouseover(mockTarget);
+
+    expect(handleIssuablePopoverMount).toHaveBeenCalledTimes(1);
   });
 });

@@ -2595,6 +2595,8 @@ job token policies or resource-specific access controls.
 | `GET` | `/internal/orbit/project/:project_id/info` |
 | `GET` | `/internal/orbit/project/:project_id/repository/archive` |
 | `GET` | `/internal/orbit/project/:project_id/repository/commits` |
+| `GET` | `/orbit/mcp` |
+| `POST` | `/orbit/mcp` |
 | `GET` | `/packages/conan/v1/ping` |
 | `GET` | `/packages/npm/*package_name` |
 | `POST` | `/packages/npm/-/npm/v1/security/advisories/bulk` |

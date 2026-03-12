@@ -15,7 +15,7 @@ RSpec.describe Gitlab::Auth, :use_clean_rails_memory_store_caching, feature_cate
 
   describe 'constants' do
     it 'API_SCOPES contains all scopes for API access' do
-      expect(subject::API_SCOPES).to match_array %i[api read_user read_api create_runner manage_runner k8s_proxy self_rotate mcp granular]
+      expect(subject::API_SCOPES).to match_array %i[api read_user read_api create_runner manage_runner k8s_proxy self_rotate mcp mcp_orbit granular]
     end
 
     it 'ADMIN_SCOPES contains all scopes for ADMIN access' do
@@ -50,8 +50,8 @@ RSpec.describe Gitlab::Auth, :use_clean_rails_memory_store_caching, feature_cate
     end
 
     it 'contains all non-default scopes' do
-      # MCP_SCOPE and GRANULAR_SCOPEs are available, but not in the UI.
-      expect(subject.all_available_scopes - [subject::MCP_SCOPE, subject::GRANULAR_SCOPE])
+      # MCP_SCOPE, MCP_ORBIT_SCOPE, and GRANULAR_SCOPE are available, but not in the UI.
+      expect(subject.all_available_scopes - [subject::MCP_SCOPE, subject::MCP_ORBIT_SCOPE, subject::GRANULAR_SCOPE])
         .to match_array(subject::UI_SCOPES_ORDERED_BY_PERMISSION)
     end
 
@@ -105,6 +105,7 @@ RSpec.describe Gitlab::Auth, :use_clean_rails_memory_store_caching, feature_cate
         k8s_proxy
         manage_runner
         mcp
+        mcp_orbit
         openid
         profile
         read_api

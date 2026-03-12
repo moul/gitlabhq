@@ -12,6 +12,7 @@ import WorkItemSidebarDropdownWidget from '~/work_items/components/shared/work_i
 import { s__, sprintf, __ } from '~/locale';
 import Tracking from '~/tracking';
 import { ISSUE_MR_CHANGE_ASSIGNEE } from '~/behaviors/shortcuts/keybindings';
+import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import updateWorkItemMutation from '../graphql/update_work_item.mutation.graphql';
 import { i18n, TRACKING_CATEGORY_SHOW } from '../constants';
 
@@ -23,7 +24,7 @@ export default {
     GlButton,
     UncollapsedAssigneeList,
   },
-  mixins: [Tracking.mixin()],
+  mixins: [glFeatureFlagsMixin(), Tracking.mixin()],
   props: {
     fullPath: {
       type: String,
@@ -292,6 +293,7 @@ export default {
                 assigneeIds: localAssigneeIds,
               },
             },
+            useWorkItemFeatures: Boolean(this.glFeatures?.workItemFeaturesField),
           },
         });
         if (errors.length > 0) {

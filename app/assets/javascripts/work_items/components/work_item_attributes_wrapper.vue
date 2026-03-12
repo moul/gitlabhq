@@ -7,7 +7,6 @@ import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import WorkItemDates from 'ee_else_ce/work_items/components/work_item_dates.vue';
 
 import {
-  WIDGET_TYPE_ASSIGNEES,
   WIDGET_TYPE_HEALTH_STATUS,
   WIDGET_TYPE_HIERARCHY,
   WIDGET_TYPE_ITERATION,
@@ -26,7 +25,7 @@ import {
   WIDGET_TYPE_STATUS,
   STATE_CLOSED,
 } from '../constants';
-import { findHierarchyWidgetDefinition } from '../utils';
+import { findAssigneesWidget, findHierarchyWidgetDefinition } from '../utils';
 import workItemParticipantsQuery from '../graphql/work_item_participants.query.graphql';
 import workItemAllowedParentTypesQuery from '../graphql/work_item_allowed_parent_types.query.graphql';
 import WorkItemAssignees from './work_item_assignees.vue';
@@ -156,7 +155,7 @@ export default {
       return this.workItemParticipants.count || 0;
     },
     workItemAssignees() {
-      return this.isWidgetPresent(WIDGET_TYPE_ASSIGNEES);
+      return findAssigneesWidget(this.workItem);
     },
     workItemLabels() {
       return this.isWidgetPresent(WIDGET_TYPE_LABELS);

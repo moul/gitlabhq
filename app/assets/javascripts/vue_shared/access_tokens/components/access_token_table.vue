@@ -112,16 +112,6 @@ export default {
       this.showModal = true;
       this.selectedToken = item;
     },
-    inactiveTooltip(granular) {
-      if (granular) {
-        return {
-          title: s__('AccessTokens|Requires the granular_personal_access_tokens feature flag.'),
-          customClass: 'inactive-badge-tooltip',
-        };
-      }
-
-      return {};
-    },
   },
   usage: helpPagePath('/user/profile/personal_access_tokens.md', {
     anchor: 'view-token-usage-information',
@@ -212,7 +202,7 @@ export default {
         </div>
       </template>
 
-      <template #cell(status)="{ item: { active, revoked, expired, granular, expiresAt } }">
+      <template #cell(status)="{ item: { active, revoked, expiresAt } }">
         <template v-if="active">
           <template v-if="isExpiring(expiresAt)">
             <gl-badge
@@ -235,21 +225,10 @@ export default {
             s__('AccessTokens|Revoked')
           }}</gl-badge>
         </template>
-        <template v-else-if="expired">
+        <template v-else>
           <gl-badge variant="neutral" icon="time-out" icon-optically-aligned>{{
             s__('AccessTokens|Expired')
           }}</gl-badge>
-        </template>
-        <template v-else>
-          <gl-badge
-            v-gl-tooltip="inactiveTooltip(granular)"
-            :class="{ 'gl-cursor-pointer': granular }"
-            variant="neutral"
-            icon="status_warning"
-            icon-optically-aligned
-          >
-            {{ s__('AccessTokens|Inactive') }}
-          </gl-badge>
         </template>
       </template>
 
@@ -331,8 +310,3 @@ export default {
     </gl-modal>
   </div>
 </template>
-<style>
-.inactive-badge-tooltip .tooltip-inner {
-  max-width: 220px;
-}
-</style>

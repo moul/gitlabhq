@@ -262,6 +262,7 @@
     "PagesDeploymentRegistry",
     "PipelineArtifactRegistry",
     "ProjectRepositoryRegistry",
+    "ProjectUploadRegistry",
     "ProjectWikiRepositoryRegistry",
     "SnippetRepositoryRegistry",
     "TerraformStateVersionRegistry",

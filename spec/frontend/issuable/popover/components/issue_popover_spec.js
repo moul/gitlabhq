@@ -25,6 +25,7 @@ describe('IssuePopover component', () => {
   const queryResponseHandler = jest.fn().mockResolvedValue(issueQueryResponse);
 
   const findGlPopover = () => wrapper.findComponent(GlPopover);
+  const findAvatarsInline = () => wrapper.findComponent(GlAvatarsInline);
   const findWorkItemIcon = () => wrapper.findComponent(WorkItemTypeIcon);
 
   const mountComponent = ({ queryResponse = queryResponseHandler, provide = {} } = {}) => {
@@ -120,7 +121,7 @@ describe('IssuePopover component', () => {
     it('shows assignees', () => {
       const workItemAssignees = workItem.widgets.find((w) => w.type === 'ASSIGNEES').assignees
         .nodes;
-      const assignees = wrapper.findComponent(GlAvatarsInline);
+      const assignees = findAvatarsInline();
       expect(assignees.exists()).toBe(true);
       expect(assignees.props()).toEqual(
         expect.objectContaining({
@@ -164,6 +165,21 @@ describe('IssuePopover component', () => {
         startDate: featuresMilestone.startDate,
         dueDate: featuresMilestone.dueDate,
       });
+    });
+
+    it('uses features.assignees over widgets assignees', () => {
+      const featuresAssignees =
+        issueQueryWithFeaturesResponse.data.namespace.workItem.features.assignees.assignees.nodes;
+
+      const assignees = findAvatarsInline();
+      expect(assignees.props('avatars')).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            src: featuresAssignees[0].avatarUrl,
+            alt: featuresAssignees[0].name,
+          }),
+        ]),
+      );
     });
   });
 

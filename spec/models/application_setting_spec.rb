@@ -220,6 +220,7 @@ RSpec.describe ApplicationSetting, feature_category: :settings, type: :model do
         push_event_hooks_limit: 3,
         pypi_package_requests_forwarding: true,
         raw_blob_request_limit: 300,
+        raw_blob_request_limit_unauthenticated: ApplicationSetting::DEFAULT_RAW_BLOB_UNAUTHENTICATED_REQUEST_LIMIT,
         rate_limiting_response_text: nil,
         recaptcha_enabled: false,
         reindexing_minimum_index_size: 1.gigabyte,
@@ -562,6 +563,7 @@ RSpec.describe ApplicationSetting, feature_category: :settings, type: :model do
           projects_api_limit
           projects_api_rate_limit_unauthenticated
           raw_blob_request_limit
+          raw_blob_request_limit_unauthenticated
           runner_jobs_request_api_limit
           runner_jobs_patch_trace_api_limit
           runner_jobs_endpoints_api_limit

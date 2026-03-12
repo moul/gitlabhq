@@ -66,11 +66,12 @@ Read more about [User and IP rate limits](settings/user_and_ip_rate_limits.md).
 
 ### By raw endpoint
 
-This setting limits the request rate per endpoint.
+These settings limit the request rate on raw endpoints.
 
 Read more about [raw endpoint rate limits](settings/rate_limits_on_raw_endpoints.md).
 
-- **Default rate limit**: 300 requests per project, per commit and per file path.
+- **Default rate limit (authenticated and unauthenticated)**: 300 requests per minute, per project and file path.
+- **Default rate limit (unauthenticated)**: 800 requests per minute, per project across all file paths.
 
 ### By protected path
 

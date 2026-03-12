@@ -78,15 +78,11 @@ class PersonalAccessTokensFinder
   end
 
   def by_state(tokens)
-    granular_enabled = Feature.enabled?(:granular_personal_access_tokens, current_user)
-
     case @params[:state]
     when 'active'
-      result = tokens.active
-      granular_enabled ? result : result.not_granular
+      tokens.active
     when 'inactive'
-      result = tokens.inactive
-      granular_enabled ? result : result.or(tokens.granular)
+      tokens.inactive
     else
       tokens
     end

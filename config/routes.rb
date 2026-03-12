@@ -63,6 +63,9 @@ InitializerConnections.warn_if_database_connection do
       get '/.well-known/oauth-authorization-server/api/v4/mcp', to: 'jwks#provider'
       get '/.well-known/openid-configuration/api/v4/mcp', to: 'jwks#provider'
       get '/.well-known/oauth-protected-resource/api/v4/mcp', to: 'oauth/protected_resource_metadata#show'
+      get '/.well-known/oauth-authorization-server/api/v4/orbit/mcp', to: 'jwks#provider'
+      get '/.well-known/openid-configuration/api/v4/orbit/mcp', to: 'jwks#provider'
+      get '/.well-known/oauth-protected-resource/api/v4/orbit/mcp', to: 'oauth/protected_resource_metadata#show'
 
       use_doorkeeper_device_authorization_grant do
         controller device_authorizations: 'oauth/device_authorizations'
@@ -77,6 +80,9 @@ InitializerConnections.warn_if_database_connection do
       match '/.well-known/oauth-authorization-server/api/v4/mcp', to: 'jwks#provider', via: :options
       match '/.well-known/openid-configuration/api/v4/mcp', to: 'jwks#provider', via: :options
       match '/.well-known/oauth-protected-resource/api/v4/mcp', to: 'oauth/protected_resource_metadata#show', via: :options
+      match '/.well-known/oauth-authorization-server/api/v4/orbit/mcp', to: 'jwks#provider', via: :options
+      match '/.well-known/openid-configuration/api/v4/orbit/mcp', to: 'jwks#provider', via: :options
+      match '/.well-known/oauth-protected-resource/api/v4/orbit/mcp', to: 'oauth/protected_resource_metadata#show', via: :options
 
       match '/oauth/token' => 'oauth/tokens#create', via: :options
       match '/oauth/revoke' => 'oauth/tokens#revoke', via: :options

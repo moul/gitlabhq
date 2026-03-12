@@ -914,8 +914,19 @@ RSpec.describe 'Git HTTP requests', feature_category: :source_code_management do
                     stub_feature_flags(granular_personal_access_tokens: false)
                   end
 
-                  it_behaves_like 'pulls are disallowed'
-                  it_behaves_like 'pushes are disallowed'
+                  it 'denies pulls' do
+                    download(path, **env) do |response|
+                      expect(response).to have_gitlab_http_status(:forbidden)
+                      expect(response.body).to eq('Granular tokens are not yet supported')
+                    end
+                  end
+
+                  it 'denies pushes' do
+                    upload(path, **env) do |response|
+                      expect(response).to have_gitlab_http_status(:forbidden)
+                      expect(response.body).to eq('Granular tokens are not yet supported')
+                    end
+                  end
                 end
               end
 

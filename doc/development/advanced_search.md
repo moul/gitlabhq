@@ -2287,6 +2287,116 @@ Requires `search_level` field and at least one of `use_group_authorization` or `
 ]
 ```
 
+#### `by_user_accessible_namespaces`
+
+Filters documents based on user access to namespaces (groups and projects). This filter is specific
+to user search queries and handles authorization at the namespace level for global, group, and
+project search levels.
+
+**Required fields:**
+
+- `namespace_ancestry_ids` - keyword field populated from `Namespace#elastic_namespace_ancestry` / `Project#elastic_namespace_ancestry` (including the `p<id>` project segment), used for `prefix` and `terms` queries in namespace hierarchy filtering
+- `current_user` - the user performing the search (for global scope)
+- `search_level` - one of `:global`, `:group`, or `:project`
+
+**Optional fields:**
+
+- `group_id` - group ID for group-level search
+- `project_id` - project ID for project-level search
+- `autocomplete` - boolean flag for autocomplete searches
+
+**Behavior by search level:**
+
+- **Global**: Returns all users
+  - **With autocomplete**: Returns users accessible through authorized groups and projects. Uses `traversal_id_prefixes` to match group hierarchies and direct project membership.
+- **Group**: Returns users in the specified group and its descendants, plus users in ancestor
+  groups.
+- **Project**: Returns users in the specified project and its ancestor groups.
+
+Example for global search:
+
+```json
+{
+  "bool": {
+    "should": [
+      {
+        "prefix": {
+          "namespace_ancestry_ids": {
+            "_name": "namespace:ancestry_filter:descendants",
+            "value": "285-"
+          }
+        }
+      },
+      {
+        "prefix": {
+          "namespace_ancestry_ids": {
+            "_name": "namespace:ancestry_filter:descendants",
+            "value": "417-418-419-"
+          }
+        }
+      },
+      {
+        "terms": {
+          "namespace_ancestry_ids": [
+            "417-418-419-p91-"
+          ],
+          "_name": "namespace:ancestry_filter:ancestors"
+        }
+      }
+    ],
+    "minimum_should_match": 1
+  }
+}
+```
+
+Example for group search in a subgroup:
+
+```json
+{
+  "bool": {
+    "should": [
+      {
+        "prefix": {
+          "namespace_ancestry_ids": {
+            "_name": "namespace:ancestry_filter:descendants",
+            "value": "807-806-805"
+          }
+        }
+      },
+      {
+        "terms": {
+          "namespace_ancestry_ids": [
+            "807-","807-806-"
+          ],
+          "_name": "namespace:ancestry_filter:ancestors"
+        }
+      }
+    ],
+    "minimum_should_match": 1
+  }
+}
+```
+
+Example for project search:
+
+```json
+{
+  "bool": {
+    "should": [
+      {
+        "terms": {
+          "namespace_ancestry_ids": [
+            "807-","807-806-", "807-806-805", "807-806-805-p123"
+          ],
+          "_name": "namespace:ancestry_filter:ancestors"
+        }
+      }
+    ],
+    "minimum_should_match": 1
+  }
+}
+```
+
 #### `by_noteable_type`
 
 Requires `noteable_type` field. Query with `noteable_type` in options. Sets `_source` to only return `noteable_id` field.

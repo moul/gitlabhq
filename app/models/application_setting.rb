@@ -44,6 +44,8 @@ class ApplicationSetting < ApplicationRecord
   DEFAULT_AUTHENTICATED_GIT_HTTP_LIMIT = 3600
   DEFAULT_AUTHENTICATED_GIT_HTTP_PERIOD = 3600
 
+  DEFAULT_RAW_BLOB_UNAUTHENTICATED_REQUEST_LIMIT = 800
+
   SEARCH_SCOPE_SYSTEM_DEFAULT = 'system default'
 
   enum :whats_new_variant, { all_tiers: 0, current_tier: 1, disabled: 2 }, prefix: true
@@ -712,6 +714,7 @@ class ApplicationSetting < ApplicationRecord
       :projects_api_limit,
       :projects_api_rate_limit_unauthenticated,
       :raw_blob_request_limit,
+      :raw_blob_request_limit_unauthenticated,
       :runner_jobs_request_api_limit,
       :runner_jobs_patch_trace_api_limit,
       :runner_jobs_endpoints_api_limit,
@@ -1264,7 +1267,8 @@ class ApplicationSetting < ApplicationRecord
       users_api_limit_ssh_key: [:integer, { default: 120 }],
       users_api_limit_gpg_keys: [:integer, { default: 120 }],
       users_api_limit_gpg_key: [:integer, { default: 120 }],
-      pipeline_limit_per_user: [:integer, { default: 0 }]
+      pipeline_limit_per_user: [:integer, { default: 0 }],
+      raw_blob_request_limit_unauthenticated: [:integer, { default: DEFAULT_RAW_BLOB_UNAUTHENTICATED_REQUEST_LIMIT }]
     }
   end
 

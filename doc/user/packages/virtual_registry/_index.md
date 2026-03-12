@@ -264,7 +264,9 @@ Object storage usage counts towards the top-level group [object storage usage li
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/572839) in GitLab 18.6 [with a flag](../../../administration/feature_flags/_index.md) named `maven_virtual_registry`. Enabled by default.
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/572839) in GitLab 18.6 [with a flag](../../../administration/feature_flags/_index.md) named `virtual_registry_cleanup_policies`. Disabled by default.
 - [UI for cleanup policies](https://gitlab.com/gitlab-org/gitlab/-/issues/548566) introduced in GitLab 18.9 [with a flag](../../../administration/feature_flags/_index.md) named `ui_for_virtual_registry_cleanup_policy`. Disabled by default.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/578060) in GitLab 18.10. Feature flags `virtual_registry_cleanup_policies` and `ui_for_virtual_registry_cleanup_policy` removed.
 
 {{< /history >}}
 

@@ -3,7 +3,7 @@
 require 'spec_helper'
 require_migration!
 
-RSpec.describe QueueBackfillNamespaceStateNullsToDefault, migration: :gitlab_main_org,
+RSpec.describe RequeueBackfillNamespaceStateNullsToDefault, migration: :gitlab_main_org,
   feature_category: :groups_and_projects do
   let!(:batched_migration) { described_class::MIGRATION }
 

@@ -70,6 +70,8 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       project_topic_uploads
       project_type_ci_runner_machines
       project_type_ci_runners
+      project_upload_states
+      project_uploads
       queries_service_pings
       raw_usage_data
       sbom_component_versions

@@ -1142,7 +1142,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_dd62c565c70a"
+              "$ref": "#/components/schemas/RequestBody_4b644ef242d0"
   "/api/v4/ai/duo_workflows/workflows/agent_privileges":
     get:
       operationId: getApiV4AiDuoWorkflowsWorkflowsAgentPrivileges
@@ -10597,6 +10597,7 @@ paths:
           type: string
           enum:
           - geo_abuse_report_uploads
+          - geo_project_uploads
           - packages_helm_metadata_caches
           - supply_chain_attestations
           - packages_nuget_symbols
@@ -10656,6 +10657,7 @@ paths:
           type: string
           enum:
           - geo_abuse_report_uploads
+          - geo_project_uploads
           - packages_helm_metadata_caches
           - supply_chain_attestations
           - packages_nuget_symbols
@@ -10713,6 +10715,7 @@ paths:
           type: string
           enum:
           - geo_abuse_report_uploads
+          - geo_project_uploads
           - packages_helm_metadata_caches
           - supply_chain_attestations
           - packages_nuget_symbols
@@ -10820,6 +10823,7 @@ paths:
           type: string
           enum:
           - geo_abuse_report_uploads
+          - geo_project_uploads
           - packages_helm_metadata_caches
           - supply_chain_attestations
           - packages_nuget_symbols
@@ -14951,7 +14955,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_5c4277e39882"
+              "$ref": "#/components/schemas/RequestBody_4ed7a937686c"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -63156,6 +63160,8 @@ components:
             self_rotate: Grants permission for token to rotate itself.
             mcp: Grants read-write access to remote Model Context Protocol (MCP) server
               for tools execution.
+            mcp_orbit: Grants access to the Orbit Knowledge Graph MCP server for graph
+              queries and schema retrieval.
   schemas:
     APIEntitiesCiMinutesAdditionalPack:
       type: object
@@ -64918,6 +64924,26 @@ components:
           type: string
         packages_helm_metadata_caches_verification_failed_count:
           type: string
+        project_uploads_count:
+          type: string
+        project_uploads_checksum_total_count:
+          type: string
+        project_uploads_checksummed_count:
+          type: string
+        project_uploads_checksum_failed_count:
+          type: string
+        project_uploads_synced_count:
+          type: string
+        project_uploads_failed_count:
+          type: string
+        project_uploads_registry_count:
+          type: string
+        project_uploads_verification_total_count:
+          type: string
+        project_uploads_verified_count:
+          type: string
+        project_uploads_verification_failed_count:
+          type: string
         abuse_report_uploads_count:
           type: string
         abuse_report_uploads_checksum_total_count:
@@ -65029,6 +65055,10 @@ components:
         packages_helm_metadata_caches_synced_in_percentage:
           type: string
         packages_helm_metadata_caches_verified_in_percentage:
+          type: string
+        project_uploads_synced_in_percentage:
+          type: string
+        project_uploads_verified_in_percentage:
           type: string
         abuse_report_uploads_synced_in_percentage:
           type: string
@@ -66578,6 +66608,8 @@ components:
         members_delete_limit:
           type: string
         raw_blob_request_limit:
+          type: string
+        raw_blob_request_limit_unauthenticated:
           type: string
         project_import_limit:
           type: string
@@ -68427,13 +68459,7 @@ components:
         name:
           type: string
           example: John Doe
-        active:
-          type: boolean
         revoked:
-          type: boolean
-        expired:
-          type: boolean
-        granular:
           type: boolean
         created_at:
           type: string
@@ -68452,6 +68478,8 @@ components:
           type: string
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
+        active:
+          type: boolean
         expires_at:
           type: string
           format: date-time
@@ -70046,6 +70074,26 @@ components:
           type: string
         packages_helm_metadata_caches_verification_failed_count:
           type: string
+        project_uploads_count:
+          type: string
+        project_uploads_checksum_total_count:
+          type: string
+        project_uploads_checksummed_count:
+          type: string
+        project_uploads_checksum_failed_count:
+          type: string
+        project_uploads_synced_count:
+          type: string
+        project_uploads_failed_count:
+          type: string
+        project_uploads_registry_count:
+          type: string
+        project_uploads_verification_total_count:
+          type: string
+        project_uploads_verified_count:
+          type: string
+        project_uploads_verification_failed_count:
+          type: string
         abuse_report_uploads_count:
           type: string
         abuse_report_uploads_checksum_total_count:
@@ -70157,6 +70205,10 @@ components:
         packages_helm_metadata_caches_synced_in_percentage:
           type: string
         packages_helm_metadata_caches_verified_in_percentage:
+          type: string
+        project_uploads_synced_in_percentage:
+          type: string
+        project_uploads_verified_in_percentage:
           type: string
         abuse_report_uploads_synced_in_percentage:
           type: string
@@ -73612,13 +73664,7 @@ components:
         name:
           type: string
           example: John Doe
-        active:
-          type: boolean
         revoked:
-          type: boolean
-        expired:
-          type: boolean
-        granular:
           type: boolean
         created_at:
           type: string
@@ -73637,6 +73683,8 @@ components:
           type: string
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
+        active:
+          type: boolean
         expires_at:
           type: string
           format: date-time
@@ -73652,13 +73700,7 @@ components:
         name:
           type: string
           example: John Doe
-        active:
-          type: boolean
         revoked:
-          type: boolean
-        expired:
-          type: boolean
-        granular:
           type: boolean
         created_at:
           type: string
@@ -73677,6 +73719,8 @@ components:
           type: string
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
+        active:
+          type: boolean
         expires_at:
           type: string
           format: date-time
@@ -73699,13 +73743,7 @@ components:
         name:
           type: string
           example: John Doe
-        active:
-          type: boolean
         revoked:
-          type: boolean
-        expired:
-          type: boolean
-        granular:
           type: boolean
         created_at:
           type: string
@@ -73724,6 +73762,8 @@ components:
           type: string
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
+        active:
+          type: boolean
         expires_at:
           type: string
           format: date-time
@@ -73739,13 +73779,7 @@ components:
         name:
           type: string
           example: John Doe
-        active:
-          type: boolean
         revoked:
-          type: boolean
-        expired:
-          type: boolean
-        granular:
           type: boolean
         created_at:
           type: string
@@ -73764,6 +73798,8 @@ components:
           type: string
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
+        active:
+          type: boolean
         expires_at:
           type: string
           format: date-time
@@ -73783,13 +73819,7 @@ components:
         name:
           type: string
           example: John Doe
-        active:
-          type: boolean
         revoked:
-          type: boolean
-        expired:
-          type: boolean
-        granular:
           type: boolean
         created_at:
           type: string
@@ -73808,6 +73838,8 @@ components:
           type: string
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
+        active:
+          type: boolean
         expires_at:
           type: string
           format: date-time
@@ -73832,13 +73864,7 @@ components:
         name:
           type: string
           example: John Doe
-        active:
-          type: boolean
         revoked:
-          type: boolean
-        expired:
-          type: boolean
-        granular:
           type: boolean
         created_at:
           type: string
@@ -73857,6 +73883,8 @@ components:
           type: string
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
+        active:
+          type: boolean
         expires_at:
           type: string
           format: date-time
@@ -78521,6 +78549,27 @@ components:
       required:
       - started_on
       - expires_on
+    RequestBody_5dad54a8340f:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC protocol version identifier. Must be `2.0`.
+        method:
+          type: string
+          description: Name of the JSON-RPC method invoked on the MCP server.
+        id:
+          type: string
+          description: ID of the JSON-RPC request returned in the response.
+        params:
+          oneOf:
+          - type: object
+          - type: array
+      required:
+      - jsonrpc
+      - method
     RequestBody_715811529d22:
       type: object
       properties:
@@ -79240,7 +79289,7 @@ components:
           type: string
           description: the ID of the root namespace
           example: '1'
-    RequestBody_dd62c565c70a:
+    RequestBody_4b644ef242d0:
       type: object
       properties:
         project_id:
@@ -79311,11 +79360,21 @@ components:
           example: 1
         additional_context:
           type: array
-          items:
-            type: object
           description: Additional Context required by the Flow, in JSON format. Contains
             an array of context details, where each detail is a Hash with a minimum
             of "Category" and "Content" keys.
+          items:
+            type: object
+            properties:
+              Category:
+                type: string
+                description: The category of the context detail
+              Content:
+                type: string
+                description: The content type of the context detail
+            required:
+            - Category
+            - Content
         shallow_clone:
           type: boolean
           default: true
@@ -82538,7 +82597,7 @@ components:
           description: The avatar file (generated by Multipart middleware)
       required:
       - avatar
-    RequestBody_5c4277e39882:
+    RequestBody_4ed7a937686c:
       type: object
       properties:
         admin_mode:
@@ -83068,6 +83127,10 @@ components:
           type: integer
           description: Maximum number of requests per minute for each raw path. Set
             to 0 for unlimited requests per minute.
+        raw_blob_request_limit_unauthenticated:
+          type: integer
+          description: Maximum number of requests per minute for a raw blob for unauthenticated
+            requests. Set to 0 for unlimited requests per minute.
         wiki_page_max_content_bytes:
           type: integer
           description: Maximum wiki page content size in bytes
@@ -84528,27 +84591,6 @@ components:
           type: boolean
           description: "[Deprecated in 14.10] No longer allowed to update confidentiality
             of notes"
-    RequestBody_5dad54a8340f:
-      type: object
-      properties:
-        jsonrpc:
-          type: string
-          enum:
-          - '2.0'
-          description: JSON-RPC protocol version identifier. Must be `2.0`.
-        method:
-          type: string
-          description: Name of the JSON-RPC method invoked on the MCP server.
-        id:
-          type: string
-          description: ID of the JSON-RPC request returned in the response.
-        params:
-          oneOf:
-          - type: object
-          - type: array
-      required:
-      - jsonrpc
-      - method
     RequestBody_0c8401a3fdd1:
       type: object
       properties:

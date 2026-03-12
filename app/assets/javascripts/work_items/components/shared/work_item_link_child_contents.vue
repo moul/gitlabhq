@@ -115,7 +115,11 @@ export default {
       }, {});
     },
     assignees() {
-      return this.metadataWidgets[WIDGET_TYPE_ASSIGNEES]?.assignees?.nodes || [];
+      return (
+        this.childItem?.features?.assignees?.assignees?.nodes ||
+        this.metadataWidgets[WIDGET_TYPE_ASSIGNEES]?.assignees?.nodes ||
+        []
+      );
     },
     assigneesCollapsedTooltip() {
       if (this.assignees.length > 2) {
