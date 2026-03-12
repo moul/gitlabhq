@@ -7369,7 +7369,22 @@ msgstr ""
 msgid "AiFlowTriggers|🔄 Processing the request..."
 msgstr ""
 
+msgid "AiImpactAnalytics|Agent Platform chats"
+msgstr ""
+
+msgid "AiImpactAnalytics|Agent Platform flows"
+msgstr ""
+
 msgid "AiImpactAnalytics|Assigned Duo seat engagement"
+msgstr ""
+
+msgid "AiImpactAnalytics|Chat (non-agentic) usage"
+msgstr ""
+
+msgid "AiImpactAnalytics|Code Review comments"
+msgstr ""
+
+msgid "AiImpactAnalytics|Code Review requests"
 msgstr ""
 
 msgid "AiImpactAnalytics|Code Suggestions acceptance rate"
@@ -7382,9 +7397,6 @@ msgid "AiImpactAnalytics|Code Suggestions accepted out of total Code Suggestions
 msgstr ""
 
 msgid "AiImpactAnalytics|Code Suggestions usage"
-msgstr ""
-
-msgid "AiImpactAnalytics|Code contributors with assigned Duo seats who used Code Suggestions."
 msgstr ""
 
 msgid "AiImpactAnalytics|Code contributors with assigned Duo seats who used Code Suggestions. %{linkStart}Learn more%{linkEnd}."
@@ -7402,25 +7414,13 @@ msgstr ""
 msgid "AiImpactAnalytics|Duo Agent Platform chats"
 msgstr ""
 
-msgid "AiImpactAnalytics|Duo Agent Platform flows"
-msgstr ""
-
 msgid "AiImpactAnalytics|Duo Chat usage"
 msgstr ""
 
-msgid "AiImpactAnalytics|Duo Code Review comments"
-msgstr ""
-
-msgid "AiImpactAnalytics|Duo Code Review requests"
-msgstr ""
-
-msgid "AiImpactAnalytics|Duo RCA usage"
-msgstr ""
-
-msgid "AiImpactAnalytics|Duo features usage"
-msgstr ""
-
 msgid "AiImpactAnalytics|Duo users"
+msgstr ""
+
+msgid "AiImpactAnalytics|Feature usage"
 msgstr ""
 
 msgid "AiImpactAnalytics|Number of Duo Code Review comments."
@@ -7444,16 +7444,22 @@ msgstr ""
 msgid "AiImpactAnalytics|Number of users that used at least one GitLab Duo feature."
 msgstr ""
 
+msgid "AiImpactAnalytics|Number of users who used Code Suggestions."
+msgstr ""
+
+msgid "AiImpactAnalytics|Number of users who used Duo Chat (non-agentic)."
+msgstr ""
+
+msgid "AiImpactAnalytics|Number of users who used Root Cause Analysis."
+msgstr ""
+
+msgid "AiImpactAnalytics|Root Cause Analysis usage"
+msgstr ""
+
 msgid "AiImpactAnalytics|The usage data may be incomplete due to backend calculations starting after upgrade to GitLab 16.11. For more information, see %{linkStart}epic 12978%{linkEnd}."
 msgstr ""
 
-msgid "AiImpactAnalytics|Users with assigned Duo seats who used Duo Chat."
-msgstr ""
-
 msgid "AiImpactAnalytics|Users with assigned Duo seats who used Duo Chat. %{linkStart}Learn more%{linkEnd}."
-msgstr ""
-
-msgid "AiImpactAnalytics|Users with assigned Duo seats who used Root Cause Analysis."
 msgstr ""
 
 msgid "AiImpactAnalytics|Users with assigned Duo seats who used at least one Duo feature. %{linkStart}Learn more%{linkEnd}."

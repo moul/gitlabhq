@@ -48,7 +48,6 @@ For additional information for Helm chart installations, see
   - For Linux package installations, a timeout occurs and a
     [manual workaround to complete the migrations](../package/package_troubleshooting.md#error-command-timed-out-after-3600s)
     is necessary.
-
 - GitLab 16.0 introduced changes around enforcing limits on project sizes. On self-managed, if you use
   these limits, projects that have reached their limit causes error messages when pushing to unaffected Git
   repositories in the same group. The errors often refer to exceeding a limit of zero bytes (`limit of 0 B`).

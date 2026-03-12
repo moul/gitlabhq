@@ -13,7 +13,7 @@ description: Solutions for problems with background migrations.
 
 {{< /details >}}
 
-<!-- Linked from lib/gitlab/database/migrations/batched_background_migration_helpers.rb -->
+<!-- Linked from `lib/gitlab/database/migrations/batched_background_migration_helpers.rb` -->
 
 ## Database migrations failing because of batched background migration not finished
 

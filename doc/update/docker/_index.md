@@ -44,7 +44,6 @@ To upgrade a GitLab instance that was
 
 1. Create a [backup](../../install/docker/backup.md). As a minimum, back up
    [the database](../../install/docker/backup.md#create-a-database-backup) and the GitLab secrets file.
-
 1. Stop the running container:
 
    ```shell

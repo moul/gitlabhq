@@ -29,7 +29,7 @@ fields and methods on a model are available via GraphQL.
 
 <!-- vale off -->
 <!-- Vale linting disabled after this line. -->
-<!-- See https://docs.gitlab.com/development/documentation/testing/vale/#disable-vale-tests -->
+<!-- See <https://docs.gitlab.com/development/documentation/testing/vale/#disable-vale-tests> -->
 
 <!-- markdownlint-disable MD044 -->
 <!-- MD044/proper-names test disabled after this line to make page compatible with markdownlint-cli 0.29.0. -->

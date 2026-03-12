@@ -421,34 +421,40 @@ Filters for the `dora_chart` visualization.
 
 ## Dashboard metrics and drill-down reports
 
+{{< history >}}
+
+- Code Suggestions, Chat (non-agentic), and Root Cause Analysis usage metrics [updated](https://gitlab.com/gitlab-org/gitlab/-/issues/589605) to display absolute user counts instead of percentage rates in GitLab 18.10.
+
+{{< /history >}}
+
 The following table provides an overview of the metrics available in the Value Streams Dashboard,
 along with their descriptions and the name of the drill-down report where they are displayed.
 
-| Metric                             | Description | Drill-down report | ID |
-|------------------------------------| ----------- | ----------------- | -- |
-| Deployment frequency               | Average number of deployments to production per day. This metric measures how often value is delivered to end users. | **Deployment frequency** tab | `deployment_frequency` |
-| Lead time for changes              | The time to successfully deliver a commit into production. This metric reflects the efficiency of CI/CD pipelines. | **Lead time** tab | `lead_time_for_changes` |
-| Time to restore service            | The time it takes an organization to recover from a failure in production. | **Time to restore service** tab | `time_to_restore_service` |
-| Change failure rate                | Percentage of deployments that cause an incident in production. | **Change failure rate** tab | `change_failure_rate` |
-| Lead time                          | Median time from issue created to issue closed. | Value Stream Analytics | `lead_time` |
-| Cycle time                         | Median time from the earliest commit of a linked issue's merge request to when that issue is closed. | **Lifecycle metrics** section in Value Stream Analytics | `cycle_time` |
-| Issues created                     | Number of new issues created. | Issue analytics | `issues` |
-| Issues closed                      | Number of issues closed by month. | Issue analytics | `issues_completed` |
-| Number of deploys                  | Total number of deploys to production. | Merge request analytics | `deploys` |
-| Merge request throughput           | The number of merge requests merged by month. | Productivity analytics | `merge_request_throughput` |
-| Median time to merge               | Median time between merge request created and merge request merged. | Productivity analytics | `median_time_to_merge` |
-| Contributor count                  | Number of monthly unique users with contributions in the group. | Contribution analytics | `contributor_count` |
-| Critical vulnerabilities over time | Critical vulnerabilities over time in project or group | Vulnerability report | `vulnerability_critical` |
-| High vulnerabilities over time     | High vulnerabilities over time in project or group | Vulnerability report | `vulnerability_high` |
-| Total pipeline runs                | The total number of pipelines that have run in the selected time period. | CI/CD analytics | `pipeline_count` |
-| Pipeline median duration           | The median time it takes for pipelines to complete. | CI/CD analytics | `pipeline_duration_median` |
-| Pipeline success rate              | The percentage of pipelines that completed successfully. | CI/CD analytics | `pipeline_success_rate` |
-| Pipeline failure rate              | The percentage of pipelines that failed. | CI/CD analytics | `pipeline_failed_rate` |
-| Duo features usage                 | Number of contributors who used any GitLab Duo feature. |  | `duo_used_count` |
-| Code Suggestions usage             | Users with assigned GitLab Duo seats who used at least one GitLab Duo feature. |  | `code_suggestions_usage_rate` |
-| Code Suggestions acceptance rate   | Code Suggestions accepted out of total Code Suggestions generated. |  | `code_suggestions_acceptance_rate` |
-| Duo Chat usage                     | Users with assigned GitLab Duo seats who used GitLab Duo Chat. |  | `duo_chat_usage_rate` |
-| Duo RCA usage                      | Users with assigned GitLab Duo seats who used Root Cause Analysis. |  | `duo_rca_usage_rate` |
+| Metric                            | Description                                                                                                          | Drill-down report | ID |
+|-----------------------------------|----------------------------------------------------------------------------------------------------------------------| ----------------- | -- |
+| Deployment frequency              | Average number of deployments to production per day. This metric measures how often value is delivered to end users. | **Deployment frequency** tab | `deployment_frequency` |
+| Lead time for changes             | The time to successfully deliver a commit into production. This metric reflects the efficiency of CI/CD pipelines.   | **Lead time** tab | `lead_time_for_changes` |
+| Time to restore service           | The time it takes an organization to recover from a failure in production.                                           | **Time to restore service** tab | `time_to_restore_service` |
+| Change failure rate               | Percentage of deployments that cause an incident in production.                                                      | **Change failure rate** tab | `change_failure_rate` |
+| Lead time                         | Median time from issue created to issue closed.                                                                      | Value Stream Analytics | `lead_time` |
+| Cycle time                        | Median time from the earliest commit of a linked issue's merge request to when that issue is closed.                 | **Lifecycle metrics** section in Value Stream Analytics | `cycle_time` |
+| Issues created                    | Number of new issues created.                                                                                        | Issue analytics | `issues` |
+| Issues closed                     | Number of issues closed by month.                                                                                    | Issue analytics | `issues_completed` |
+| Number of deploys                 | Total number of deploys to production.                                                                               | Merge request analytics | `deploys` |
+| Merge request throughput          | The number of merge requests merged by month.                                                                        | Productivity analytics | `merge_request_throughput` |
+| Median time to merge              | Median time between merge request created and merge request merged.                                                  | Productivity analytics | `median_time_to_merge` |
+| Contributor count                 | Number of monthly unique users with contributions in the group.                                                      | Contribution analytics | `contributor_count` |
+| Critical vulnerabilities over time | Critical vulnerabilities over time in project or group                                                               | Vulnerability report | `vulnerability_critical` |
+| High vulnerabilities over time    | High vulnerabilities over time in project or group                                                                   | Vulnerability report | `vulnerability_high` |
+| Total pipeline runs               | The total number of pipelines that have run in the selected time period.                                             | CI/CD analytics | `pipeline_count` |
+| Pipeline median duration          | The median time it takes for pipelines to complete.                                                                  | CI/CD analytics | `pipeline_duration_median` |
+| Pipeline success rate             | The percentage of pipelines that completed successfully.                                                             | CI/CD analytics | `pipeline_success_rate` |
+| Pipeline failure rate             | The percentage of pipelines that failed.                                                                             | CI/CD analytics | `pipeline_failed_rate` |
+| Feature usage                     | Number of contributors who used any GitLab Duo feature.                                                              |  | `duo_used_count` |
+| Code Suggestions usage            | Number of users who used Code Suggestions.                                                                           |  | `code_suggestions_users_count` |
+| Code Suggestions acceptance rate  | Code Suggestions accepted out of total Code Suggestions generated.                                                   |  | `code_suggestions_acceptance_rate` |
+| Chat (non-agentic) usage          | Number of users who used Chat (non-agentic).                                                                     |  | `duo_chat_users_count` |
+| Root Cause Analysis usage         | Number of users who used Root Cause Analysis.                                                                        |  | `duo_rca_users_count` |
 
 ## Metrics with Jira
 

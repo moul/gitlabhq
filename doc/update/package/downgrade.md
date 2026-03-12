@@ -92,7 +92,6 @@ To roll back GitLab shortly after an upgrade:
 
 1. Follow the upgrade procedure, by [specifying an earlier version](../../install/docker/installation.md#find-the-gitlab-version-and-edition-to-use)
    than you have installed.
-
 1. Restore the [database backup you made](../../install/docker/backup.md#create-a-database-backup) before the upgrade.
 
    - [Follow the restore steps for Docker images](../../administration/backup_restore/restore_gitlab.md#restore-for-docker-image-and-gitlab-helm-chart-installations), including

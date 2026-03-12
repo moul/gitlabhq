@@ -31,7 +31,6 @@ For additional information for Helm chart installations, see
 ## 15.11.0
 
 - **Upgrade to patch release 15.11.3 or later**. This avoids [issue 408304](https://gitlab.com/gitlab-org/gitlab/-/issues/408304) when upgrading from 15.5.0 and earlier.
-
 - Usually, backups in environments that have PgBouncer must [bypass PgBouncer by setting variables that are prefixed with `GITLAB_BACKUP_`](../../administration/backup_restore/backup_gitlab.md#bypassing-pgbouncer). However, due to an [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/422163), `gitlab-backup` uses the regular database connection through PgBouncer instead of the direct connection defined in the override, and the database backup fails. The workaround is to use `pg_dump` directly.
 
   **Affected releases**:

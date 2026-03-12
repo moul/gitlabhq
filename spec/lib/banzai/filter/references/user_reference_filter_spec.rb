@@ -382,6 +382,18 @@ RSpec.describe Banzai::Filter::References::UserReferenceFilter, feature_category
     end
   end
 
+  context 'when a user reference with custom link text is cached in the request store', :request_store do
+    it 'does not reuse custom link text for plain-text references' do
+      reference_filter("[target](#{reference})")
+
+      doc = reference_filter("assigned to #{reference}")
+      link = doc.css('a').first
+
+      # Text content should be the reference text, and not "target".
+      expect(link.content).to eq(reference)
+    end
+  end
+
   it_behaves_like 'limits the number of filtered items' do
     let(:text) { "#{reference} #{reference} #{reference}" }
     let(:ends_with) { "</a> #{reference}" }

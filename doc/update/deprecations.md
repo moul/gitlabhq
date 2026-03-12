@@ -28,21 +28,21 @@ DO NOT EDIT THIS PAGE DIRECTLY
 
 This page is automatically generated from the template located at
 `data/deprecations/templates/_deprecation_template.md.erb`, using
-the YAML files in `/data/deprecations` by the rake task
+the YAML files in `/data/deprecations` by the Rake task
 located at `lib/tasks/gitlab/docs/compile_deprecations.rake`,
 
 For deprecation authors (usually Product Managers and Engineering Managers):
 
 - To add a deprecation, use the example.yml file in `/data/deprecations/templates` as a template.
 - For more information about authoring deprecations, check the the deprecation item guidance:
-  https://handbook.gitlab.com/handbook/marketing/blog/release-posts/#update-the-deprecations-doc
+  <https://handbook.gitlab.com/handbook/marketing/blog/release-posts/#update-the-deprecations-doc>
 
 For deprecation reviewers (Technical Writers only):
 
 - To update the deprecation doc, run: `bin/rake gitlab:docs:compile_deprecations`
 - To verify the deprecations doc is up to date, run: `bin/rake gitlab:docs:check_deprecations`
 - For more information about updating the deprecation doc, see the deprecation doc update guidance:
-  https://handbook.gitlab.com/handbook/marketing/blog/release-posts/#update-the-deprecations-doc
+  <https://handbook.gitlab.com/handbook/marketing/blog/release-posts/#update-the-deprecations-doc>
 -->
 
 ## GitLab 20.0
@@ -1992,15 +1992,15 @@ Users are advised to upgrade to 3.8.8 or greater.
 - Removal in GitLab 17.0 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))
 - To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/gitlab-org/gitlab/-/issues/439687).
 
-- For Linux package (Omnibus) installations, the [`sidekiq['min_concurrency']` and `sidekiq['max_concurrency']`](https://docs.gitlab.com/administration/sidekiq/extra_sidekiq_processes/#manage-thread-counts-explicitly) settings are deprecated in GitLab 16.9 and will be removed in GitLab 17.0.
+For Linux package (Omnibus) installations, the [`sidekiq['min_concurrency']` and `sidekiq['max_concurrency']`](https://docs.gitlab.com/administration/sidekiq/extra_sidekiq_processes/#manage-thread-counts-explicitly) settings are deprecated in GitLab 16.9 and will be removed in GitLab 17.0.
 
-  You can use `sidekiq['concurrency']` in GitLab 16.9 and later to set thread counts explicitly in each process.
+You can use `sidekiq['concurrency']` in GitLab 16.9 and later to set thread counts explicitly in each process.
 
-  The above change only applies to Linux package (Omnibus) installations.
+The above change only applies to Linux package (Omnibus) installations.
 
-- For GitLab Helm chart installations, passing `SIDEKIQ_CONCURRENCY_MIN` and/or `SIDEKIQ_CONCURRENCY_MAX` as `extraEnv` to the `sidekiq` sub-chart is deprecated in GitLab 16.10 and will be removed in GitLab 17.0.
+For GitLab Helm chart installations, passing `SIDEKIQ_CONCURRENCY_MIN` and/or `SIDEKIQ_CONCURRENCY_MAX` as `extraEnv` to the `sidekiq` sub-chart is deprecated in GitLab 16.10 and will be removed in GitLab 17.0.
 
-  You can use the `concurrency` option to set thread counts explicitly in each process.
+You can use the `concurrency` option to set thread counts explicitly in each process.
 
 ### Offset pagination for `/users` REST API endpoint is deprecated
 

@@ -202,7 +202,6 @@ deploy node:
    `/etc/gitlab/gitlab.rb` does not contain `gitlab_rails['auto_migrate'] = false`.
    Either set it specifically `gitlab_rails['auto_migrate'] = true` or omit it
    for the default behavior (`true`).
-
 1. If you're using PgBouncer, you must bypass PgBouncer and connect directly to PostgreSQL before running migrations.
 
    Rails uses an advisory lock when attempting to run a migration to prevent
