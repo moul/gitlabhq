@@ -35592,7 +35592,7 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="gitlabsubscriptionusageusersusage-users-searchquery"></a>`searchQuery` | [`String`](#string) | Filter users with a matching name, username, or email. Ignored when username is provided. |
+| <a id="gitlabsubscriptionusageusersusage-users-searchquery"></a>`searchQuery` | [`String`](#string) | Filter users with a matching name, username, or email. Ignored when username is provided or when sorting by total credits used. |
 | <a id="gitlabsubscriptionusageusersusage-users-sort"></a>`sort` | [`GitlabSubscriptionUsageUserSort`](#gitlabsubscriptionusageusersort) | Sort users by the criteria. |
 | <a id="gitlabsubscriptionusageusersusage-users-username"></a>`username` | [`String`](#string) | Username of the User. |
 
@@ -55613,6 +55613,8 @@ Values for sorting users in subscription usage.
 | ----- | ----------- |
 | <a id="gitlabsubscriptionusageusersort-name_asc"></a>`NAME_ASC` | Name by ascending order. |
 | <a id="gitlabsubscriptionusageusersort-name_desc"></a>`NAME_DESC` | Name by descending order. |
+| <a id="gitlabsubscriptionusageusersort-total_credits_used_asc"></a>`TOTAL_CREDITS_USED_ASC` | Total credits used by ascending order. |
+| <a id="gitlabsubscriptionusageusersort-total_credits_used_desc"></a>`TOTAL_CREDITS_USED_DESC` | Total credits used by descending order. |
 
 ### `GitlabSubscriptionsAddOnType`
 

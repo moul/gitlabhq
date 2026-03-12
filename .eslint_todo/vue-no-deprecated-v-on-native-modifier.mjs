@@ -15,7 +15,6 @@ export default {
     'app/assets/javascripts/vue_shared/alert_details/components/sidebar/sidebar_assignees.vue',
     'app/assets/javascripts/vue_shared/components/dropdown/dropdown_widget/dropdown_widget.vue',
     'app/assets/javascripts/vue_shared/components/user_select/user_select.vue',
-    'app/assets/javascripts/vue_shared/issuable/list/components/issuable_item.vue',
   ],
   rules: {
     'vue/no-deprecated-v-on-native-modifier': 'off',

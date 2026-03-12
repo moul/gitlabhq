@@ -469,8 +469,8 @@ export default {
               data-testid="issuable-title-link"
               v-bind="issuableTitleProps"
               @click.stop="handleIssuableItemClick"
-              @mouseover.native="prefetchWorkItem(issuableIid)"
-              @mouseout.native="clearPrefetching"
+              @mouseover="prefetchWorkItem(issuableIid)"
+              @mouseout="clearPrefetching"
             >
               {{ issuable.title }}
               <gl-icon v-if="isIssuableUrlExternal" name="external-link" class="gl-ml-2" />

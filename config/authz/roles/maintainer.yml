@@ -1,0 +1,93 @@
+---
+name: maintainer
+description: Manage branches, merge requests, CI/CD settings, and project members. Cannot delete the project.
+
+inherits_from:
+  - developer
+
+project:
+  permissions: []
+  raw_permissions:
+    - add_cluster
+    - admin_build
+    - admin_cicd_variables
+    - admin_cluster
+    - admin_container_image
+    - admin_deployment
+    - admin_environment
+    - admin_feature_flags_client
+    - admin_incident_management_timeline_event_tag
+    - admin_integrations
+    - admin_issue_board
+    - admin_note
+    - admin_operations
+    - admin_package
+    - admin_pages
+    - admin_pipeline
+    - admin_project
+    - admin_project_aws
+    - admin_project_google_cloud
+    - admin_project_member
+    - admin_protected_branch
+    - admin_protected_environments
+    - admin_push_rules
+    - admin_runners
+    - admin_secure_files
+    - admin_sentry
+    - admin_snippet
+    - admin_terraform_state
+    - admin_upload
+    - admin_wiki
+    - change_restrict_user_defined_variables
+    - create_branch_rule
+    - create_cluster
+    - create_deploy_token
+    - create_environment_terminal
+    - create_freeze_period
+    - create_runners
+    - delete_freeze_period
+    - delete_job_artifact
+    - destroy_deploy_token
+    - destroy_deployment
+    - destroy_package
+    - destroy_release
+    - destroy_upload
+    - invite_member
+    - manage_deploy_tokens
+    - manage_merge_request_settings
+    - manage_protected_tags
+    - push_to_delete_protected_branch
+    - read_deploy_token
+    - read_freeze_period
+    - read_import_error
+    - read_pages
+    - read_runners
+    - read_runners_registration_token
+    - remove_pages
+    - rename_project
+    - stop_environment
+    - update_cluster
+    - update_freeze_period
+    - update_pages
+    - update_runners_registration_token
+    - update_snippet
+
+group:
+  permissions: []
+  raw_permissions:
+    - add_cluster
+    - admin_achievement
+    - admin_build
+    - admin_cluster
+    - admin_pipeline
+    - admin_push_rules
+    - admin_upload
+    - award_achievement
+    - create_cluster
+    - create_jira_connect_subscription
+    - destroy_package
+    - destroy_upload
+    - import_projects
+    - read_deploy_token
+    - read_runners
+    - update_cluster

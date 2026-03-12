@@ -9,14 +9,14 @@ RSpec.describe RuboCop::Cop::Gitlab::Authz::RoleCheckInRule,
     it 'registers an offense for a standalone role check' do
       expect_offense(<<~RUBY)
         rule { can?(:developer_access) }.enable :read_foo
-                    ^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:*_access)) in policy rules.
+                    ^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:developer_access)) in policy rules.
       RUBY
     end
 
     it 'registers an offense when negated with ~' do
       expect_offense(<<~RUBY)
         rule { ~can?(:developer_access) }.prevent :read_foo
-                     ^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:*_access)) in policy rules.
+                     ^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:developer_access)) in policy rules.
       RUBY
     end
   end
@@ -25,21 +25,21 @@ RSpec.describe RuboCop::Cop::Gitlab::Authz::RoleCheckInRule,
     it 'registers an offense for &' do
       expect_offense(<<~RUBY)
         rule { feature_enabled & can?(:developer_access) }.enable :read_foo
-                                      ^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:*_access)) in policy rules.
+                                      ^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:developer_access)) in policy rules.
       RUBY
     end
 
     it 'registers an offense for |' do
       expect_offense(<<~RUBY)
         rule { can?(:maintainer_access) | project_public }.enable :read_foo
-                    ^^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:*_access)) in policy rules.
+                    ^^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:maintainer_access)) in policy rules.
       RUBY
     end
 
     it 'registers an offense when nested inside a larger expression' do
       expect_offense(<<~RUBY)
         rule { (feature_enabled & something_else) & can?(:developer_access) }.enable :read_foo
-                                                         ^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:*_access)) in policy rules.
+                                                         ^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:developer_access)) in policy rules.
       RUBY
     end
   end
@@ -48,6 +48,101 @@ RSpec.describe RuboCop::Cop::Gitlab::Authz::RoleCheckInRule,
     it 'does not register an offense when symbol does not end in _access' do
       expect_no_offenses(<<~RUBY)
         rule { can?(:read_issue) }.enable :read_foo
+      RUBY
+    end
+  end
+
+  context 'when bare role conditions are used inside a rule' do
+    it 'registers an offense for guest' do
+      expect_offense(<<~RUBY)
+        rule { guest }.enable :read_code
+               ^^^^^ Avoid role-based conditions (guest) in policy rules.
+      RUBY
+    end
+
+    it 'registers an offense for planner' do
+      expect_offense(<<~RUBY)
+        rule { planner }.enable :read_foo
+               ^^^^^^^ Avoid role-based conditions (planner) in policy rules.
+      RUBY
+    end
+
+    it 'registers an offense for reporter' do
+      expect_offense(<<~RUBY)
+        rule { reporter }.enable :read_foo
+               ^^^^^^^^ Avoid role-based conditions (reporter) in policy rules.
+      RUBY
+    end
+
+    it 'registers an offense for security_manager' do
+      expect_offense(<<~RUBY)
+        rule { security_manager }.enable :read_foo
+               ^^^^^^^^^^^^^^^^ Avoid role-based conditions (security_manager) in policy rules.
+      RUBY
+    end
+
+    it 'registers an offense for developer' do
+      expect_offense(<<~RUBY)
+        rule { developer }.enable :read_foo
+               ^^^^^^^^^ Avoid role-based conditions (developer) in policy rules.
+      RUBY
+    end
+
+    it 'registers an offense for maintainer' do
+      expect_offense(<<~RUBY)
+        rule { maintainer }.enable :read_foo
+               ^^^^^^^^^^ Avoid role-based conditions (maintainer) in policy rules.
+      RUBY
+    end
+
+    it 'registers an offense for owner' do
+      expect_offense(<<~RUBY)
+        rule { owner }.enable :admin_foo
+               ^^^^^ Avoid role-based conditions (owner) in policy rules.
+      RUBY
+    end
+
+    it 'registers an offense when negated with ~' do
+      expect_offense(<<~RUBY)
+        rule { ~maintainer }.prevent :admin_foo
+                ^^^^^^^^^^ Avoid role-based conditions (maintainer) in policy rules.
+      RUBY
+    end
+
+    it 'registers an offense when combined with &' do
+      expect_offense(<<~RUBY)
+        rule { developer & feature_enabled }.enable :write_foo
+               ^^^^^^^^^ Avoid role-based conditions (developer) in policy rules.
+      RUBY
+    end
+
+    it 'registers an offense when combined with |' do
+      expect_offense(<<~RUBY)
+        rule { owner | maintainer }.enable :admin_foo
+               ^^^^^ Avoid role-based conditions (owner) in policy rules.
+                       ^^^^^^^^^^ Avoid role-based conditions (maintainer) in policy rules.
+      RUBY
+    end
+
+    it 'registers offenses for both role condition and can?(:*_access) in the same rule' do
+      expect_offense(<<~RUBY)
+        rule { guest & can?(:developer_access) }.enable :read_foo
+               ^^^^^ Avoid role-based conditions (guest) in policy rules.
+                            ^^^^^^^^^^^^^^^^^ Avoid role-based checks (can?(:developer_access)) in policy rules.
+      RUBY
+    end
+  end
+
+  context 'when bare role conditions are not role names' do
+    it 'does not register an offense for non-role method calls' do
+      expect_no_offenses(<<~RUBY)
+        rule { feature_enabled }.enable :read_foo
+      RUBY
+    end
+
+    it 'does not register an offense for non-role method calls with similar names' do
+      expect_no_offenses(<<~RUBY)
+        rule { guest_access_enabled }.enable :read_foo
       RUBY
     end
   end

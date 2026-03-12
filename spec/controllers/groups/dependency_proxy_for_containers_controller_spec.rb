@@ -754,6 +754,54 @@ RSpec.describe Groups::DependencyProxyForContainersController, feature_category:
     end
   end
 
+  shared_examples 'referrers endpoint returns 404' do
+    let(:expected_json) { { 'errors' => [{ 'code' => 'NAME_UNKNOWN', 'message' => 'Not Found' }] } }
+
+    it 'returns a 404 JSON response with the distribution API version header' do
+      subject
+
+      expect(response).to have_gitlab_http_status(:not_found)
+      expect(response.headers['Docker-Distribution-Api-Version']).to eq(DependencyProxy::DISTRIBUTION_API_VERSION)
+      expect(json_response).to eq(expected_json)
+    end
+  end
+
+  describe '#referrers_not_found (OCI referrers endpoint)', :aggregate_failures do
+    subject { get_referrers }
+
+    it_behaves_like 'referrers endpoint returns 404'
+
+    context 'with no authentication' do
+      before do
+        request.headers['HTTP_AUTHORIZATION'] = nil
+      end
+
+      it_behaves_like 'referrers endpoint returns 404'
+    end
+
+    context 'when dependency proxy is disabled' do
+      before do
+        disable_dependency_proxy
+      end
+
+      it_behaves_like 'referrers endpoint returns 404'
+    end
+
+    context 'with various HTTP methods' do
+      %i[get post put patch delete].each do |method|
+        context "with #{method.upcase}" do
+          subject { send(method, :referrers_not_found, params: { group_id: group.to_param, image: 'alpine', tag: 'latest' }) }
+
+          it_behaves_like 'referrers endpoint returns 404'
+        end
+      end
+    end
+
+    def get_referrers
+      get :referrers_not_found, params: { group_id: group.to_param, image: 'alpine', tag: 'latest' }
+    end
+  end
+
   def disable_dependency_proxy
     group.create_dependency_proxy_setting!(enabled: false)
   end

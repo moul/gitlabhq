@@ -353,220 +353,33 @@ class ProjectPolicy < BasePolicy
     enable :request_access
   end
 
+  # Role permissions are maintained in yaml in config/authz/roles/
   rule { can?(:guest_access) }.policy do
-    enable :award_emoji
-    enable :create_issue
-    enable :create_note
-    enable :export_work_items
-    enable :read_analytics
-    enable :read_cycle_analytics
-    enable :read_insights
-    enable :read_issue
-    enable :read_issue_board
-    enable :read_issue_board_list
-    enable :read_label
-    enable :read_milestone
-    enable :read_note
-    enable :read_project
-    enable :read_project_member
-    enable :read_release
-    enable :read_snippet
-    enable :read_upload
-    enable :read_wiki
-    enable :upload_file
+    enable(*Authz::Role.get(:guest).direct_permissions(:project))
   end
 
   rule { can?(:planner_access) }.policy do
     enable :guest_access
 
-    enable :admin_issue
-    enable :admin_issue_board
-    enable :admin_issue_board_list
-    enable :admin_label
-    enable :admin_milestone
-    enable :admin_wiki
-    enable :admin_work_item
-    enable :create_design
-    enable :create_saved_view
-    enable :create_wiki
-    enable :destroy_design
-    enable :destroy_issue
-    enable :download_code
-    enable :download_wiki_code
-    enable :move_design
-    enable :read_code
-    enable :read_confidential_issues
-    enable :read_internal_note
-    enable :read_merge_request
-    enable :reopen_issue
-    enable :update_design
-    enable :update_issue
+    enable(*Authz::Role.get(:planner).direct_permissions(:project))
   end
 
   rule { can?(:reporter_access) }.policy do
-    enable :admin_issue
-    enable :admin_issue_board
-    enable :admin_issue_board_list
-    enable :admin_label
-    enable :admin_milestone
-    enable :admin_work_item
-    enable :create_design
-    enable :create_saved_view
-    enable :create_snippet
-    enable :daily_statistics
-    enable :destroy_design
-    enable :download_code
-    enable :download_wiki_code
-    enable :metrics_dashboard
-    enable :move_design
-    enable :read_build
-    enable :read_ci_cd_analytics
-    enable :read_code
-    enable :read_commit_status
-    enable :read_confidential_issues
-    enable :read_container_image
-    enable :read_deploy_board
-    enable :read_deployment
-    enable :read_environment
-    enable :read_external_emails
-    enable :read_grafana
-    enable :read_harbor_registry
-    enable :read_internal_note
-    enable :read_merge_request
-    enable :read_package
-    enable :read_pipeline
-    enable :read_pipeline_schedule
-    enable :read_prometheus
-    enable :read_sentry_issue
-    enable :read_statistics
-    enable :reopen_issue
-    enable :update_design
-    enable :update_issue
+    enable(*Authz::Role.get(:reporter).direct_permissions(:project))
   end
 
   rule { can?(:security_manager_access) }.policy do
-    enable :access_security_and_compliance
-    enable :cancel_build
-    enable :create_build
-    enable :read_runners
-    enable :read_security_configuration
-    enable :admin_security_attributes
+    enable(*Authz::Role.get(:security_manager).direct_permissions(:project))
   end
 
   rule { can?(:developer_access) }.policy do
-    enable :access_security_and_compliance
-    enable :admin_feature_flag
-    enable :admin_feature_flags_user_lists
-    enable :admin_issue_board
-    enable :admin_merge_request
-    enable :cancel_build
-    enable :create_build
-    enable :create_commit_status
-    enable :create_container_image
-    enable :create_deployment
-    enable :create_environment
-    enable :create_feature_flag
-    enable :create_merge_request_from
-    enable :create_package
-    enable :create_release
-    enable :create_wiki
-    enable :destroy_container_image
-    enable :destroy_container_image_tag
-    enable :destroy_container_registry_protection_tag_rule
-    enable :destroy_environment
-    enable :destroy_feature_flag
-    enable :destroy_release
-    enable :publish_catalog_version
-    enable :push_code
-    enable :read_alert_management_alert
-    enable :read_cluster # Deprecated as certificate-based cluster integration (`Clusters::Cluster`).
-    enable :read_cluster_agent
-    enable :read_feature_flag
-    enable :read_pod_logs
-    enable :read_resource_group
-    enable :read_secure_files
-    enable :read_security_configuration
-    enable :read_terraform_state
-    enable :reopen_merge_request
-    enable :resolve_note
-    enable :update_alert_management_alert
-    enable :update_container_image
-    enable :update_deployment
-    enable :update_environment
-    enable :update_escalation_status
-    enable :update_feature_flag
-    enable :update_merge_request
-    enable :update_release
-    enable :update_resource_group
-    enable :update_sentry_issue
+    enable(*Authz::Role.get(:developer).direct_permissions(:project))
 
     enable(*all_job_update_abilities)
   end
 
   rule { can?(:maintainer_access) }.policy do
-    enable :add_cluster
-    enable :admin_build
-    enable :admin_cicd_variables
-    enable :admin_cluster
-    enable :admin_container_image
-    enable :admin_deployment
-    enable :admin_environment
-    enable :admin_feature_flags_client
-    enable :admin_incident_management_timeline_event_tag
-    enable :admin_integrations
-    enable :admin_issue_board
-    enable :admin_note
-    enable :admin_operations
-    enable :admin_package
-    enable :admin_pages
-    enable :admin_pipeline
-    enable :admin_project
-    enable :admin_project_aws
-    enable :admin_project_google_cloud
-    enable :admin_project_member
-    enable :admin_protected_branch
-    enable :admin_protected_environments
-    enable :admin_push_rules
-    enable :admin_runners
-    enable :admin_secure_files
-    enable :admin_sentry
-    enable :admin_snippet
-    enable :admin_terraform_state
-    enable :admin_upload
-    enable :admin_wiki
-    enable :change_restrict_user_defined_variables
-    enable :create_branch_rule
-    enable :create_cluster
-    enable :create_deploy_token
-    enable :create_environment_terminal
-    enable :create_freeze_period
-    enable :create_runners
-    enable :delete_freeze_period
-    enable :delete_job_artifact
-    enable :destroy_deploy_token
-    enable :destroy_deployment
-    enable :destroy_package
-    enable :destroy_release
-    enable :destroy_upload
-    enable :invite_member
-    enable :manage_deploy_tokens
-    enable :manage_merge_request_settings
-    enable :manage_protected_tags
-    enable :push_to_delete_protected_branch
-    enable :read_deploy_token
-    enable :read_freeze_period
-    enable :read_import_error
-    enable :read_pages
-    enable :read_runners
-    enable :read_runners_registration_token
-    enable :remove_pages
-    enable :rename_project
-    enable :stop_environment
-    enable :update_cluster
-    enable :update_freeze_period
-    enable :update_pages
-    enable :update_runners_registration_token
-    enable :update_snippet
+    enable(*Authz::Role.get(:maintainer).direct_permissions(:project))
   end
 
   rule { can?(:owner_access) }.policy do
@@ -577,28 +390,7 @@ class ProjectPolicy < BasePolicy
     enable :developer_access
     enable :maintainer_access
 
-    enable :add_catalog_resource
-    enable :archive_project
-    enable :change_namespace
-    enable :change_visibility_level
-    enable :create_group_link
-    enable :delete_group_link
-    enable :destroy_issue
-    enable :destroy_merge_request
-    enable :destroy_pipeline
-    enable :link_forked_project
-    enable :manage_owners
-    enable :remove_fork_project
-    enable :remove_project
-    enable :set_emails_disabled
-    enable :set_issue_created_at
-    enable :set_issue_iid
-    enable :set_issue_updated_at
-    enable :set_note_created_at
-    enable :set_show_default_award_emojis
-    enable :set_show_diff_preview_in_email
-    enable :set_warn_about_potentially_unwanted_characters
-    enable :update_group_link
+    enable(*Authz::Role.get(:owner).direct_permissions(:project))
   end
 
   rule { admin }.policy do

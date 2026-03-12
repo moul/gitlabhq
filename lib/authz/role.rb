@@ -4,14 +4,28 @@ module Authz
   class Role
     BASE_PATH = 'config/authz/roles'
 
+    SCOPES = %i[project group].freeze
+
     def initialize(role_data)
       @role_data = role_data
     end
 
-    # Returns all permissions for this role including permissions
+    # Returns all project permissions for this role including permissions
     # from inherited roles.
+    def project_permissions
+      @project_permissions ||= resolve_permissions(:project, Set.new)
+    end
+
+    # Returns all group permissions for this role including permissions
+    # from inherited roles.
+    def group_permissions
+      @group_permissions ||= resolve_permissions(:group, Set.new)
+    end
+
+    # Returns all permissions (project + group) for this role including
+    # permissions from inherited roles.
     def permissions
-      @permissions ||= resolve_permissions(Set.new)
+      @permissions ||= (project_permissions + group_permissions).uniq
     end
 
     class << self
@@ -38,47 +52,52 @@ module Authz
         raise ArgumentError, "Role definition not found for: #{path}" unless File.exist?(path)
 
         role_data = YAML.safe_load_file(path).deep_symbolize_keys
-        role_data[:raw_permissions] = Array(role_data[:raw_permissions]).map(&:to_sym)
-        role_data[:permissions] = Array(role_data[:permissions]).map(&:to_sym)
         role_data[:inherits_from] = Array(role_data[:inherits_from]).map(&:to_sym)
+
+        SCOPES.each do |scope|
+          role_data[scope] ||= {}
+          role_data[scope][:raw_permissions] = Array(role_data[scope][:raw_permissions]).map(&:to_sym)
+          role_data[scope][:permissions] = Array(role_data[scope][:permissions]).map(&:to_sym)
+        end
+
         role_data
       end
     end
 
+    # Returns only the permissions directly defined in this role's YAML file
+    # for the given scope. Does not include permissions inherited from other roles.
+    def direct_permissions(scope)
+      assignable = expand_assignable_permissions(scope)
+
+      (raw_permissions(scope) + assignable).uniq
+    end
+
     protected
 
-    def resolve_permissions(evaluated_roles)
+    def resolve_permissions(scope, evaluated_roles)
       return [] if evaluated_roles.include?(@role_data[:name])
 
       evaluated_roles.add(@role_data[:name])
 
       inherited = @role_data[:inherits_from].flat_map do |parent_name|
-        self.class.get(parent_name).resolve_permissions(evaluated_roles)
+        self.class.get(parent_name).resolve_permissions(scope, evaluated_roles)
       end
 
-      (inherited + direct_permissions).uniq
+      (inherited + direct_permissions(scope)).uniq
     end
 
     private
 
-    # Returns only the permissions directly defined in this role's YAML file.
-    # Does not include permissions inherited from other roles.
-    def direct_permissions
-      assignable = expand_assignable_permissions
-
-      (raw_permissions + assignable).uniq
+    def raw_permissions(scope)
+      @role_data.dig(scope, :raw_permissions) || []
     end
 
-    def raw_permissions
-      @role_data.fetch(:raw_permissions, [])
+    def assignable_permissions(scope)
+      @role_data.dig(scope, :permissions) || []
     end
 
-    def assignable_permissions
-      @role_data.fetch(:permissions, [])
-    end
-
-    def expand_assignable_permissions
-      assignable_permissions.flat_map do |name|
+    def expand_assignable_permissions(scope)
+      assignable_permissions(scope).flat_map do |name|
         Authz::PermissionGroups::Assignable.get(name).permissions
       end
     end

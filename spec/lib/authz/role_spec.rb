@@ -4,6 +4,8 @@ require 'fast_spec_helper'
 
 RSpec.describe Authz::Role, feature_category: :permissions do
   before do
+    # clear any cached role data from prior specs before stubbing the path
+    described_class.reset!
     stub_const("#{described_class}::BASE_PATH", 'spec/fixtures/authz/roles')
   end
 
@@ -47,54 +49,159 @@ RSpec.describe Authz::Role, feature_category: :permissions do
     it 'returns the role for a valid access level' do
       role = described_class.get_from_access_level(20)
 
-      expect(role.permissions).to contain_exactly(:read_issue, :create_issue, :read_code, :download_code)
+      expect(role.project_permissions).to contain_exactly(
+        :read_issue, :create_issue, :read_code, :download_code
+      )
     end
   end
 
-  describe '#permissions' do
-    it 'returns only direct permissions for a role with no inherited roles' do
+  describe '#project_permissions' do
+    it 'returns only direct project permissions for a role with no inherited roles' do
       role = described_class.get(:guest)
 
-      expect(role.permissions).to contain_exactly(:read_issue, :create_issue)
+      expect(role.project_permissions).to contain_exactly(:read_issue, :create_issue)
     end
 
-    it 'return all role permissions for a role including inherited permissions' do
+    it 'returns all project permissions for a role including inherited permissions' do
       role = described_class.get(:reporter)
 
-      expect(role.permissions).to contain_exactly(:read_issue, :create_issue, :read_code, :download_code)
+      expect(role.project_permissions).to contain_exactly(
+        :read_issue, :create_issue, :read_code, :download_code
+      )
     end
 
-    it 'returns all role permissions recursively for roles with multi-level inheritance' do
+    it 'returns all project permissions recursively for roles with multi-level inheritance' do
       role = described_class.get(:developer)
 
-      expect(role.permissions).to contain_exactly(
+      expect(role.project_permissions).to contain_exactly(
         :read_issue, :create_issue, # from guest
         :read_code, :download_code, # from reporter
         :push_code, :create_pipeline # from developer
       )
     end
 
-    it 'expands assignable permissions so role permissions include raw permissions and expanded assignable ones' do
+    it 'expands assignable permissions so project permissions include raw and expanded assignable ones' do
       assignable = instance_double(Authz::PermissionGroups::Assignable, permissions: [:read_epic, :read_epic_board])
       allow(Authz::PermissionGroups::Assignable).to receive(:get).with(:read_work_item).and_return(assignable)
 
-      role_data = { name: 'test_role', inherits_from: [], raw_permissions: [:create_issue],
-                    permissions: [:read_work_item] }
+      role_data = {
+        name: 'test_role', inherits_from: [],
+        project: { raw_permissions: [:create_issue], permissions: [:read_work_item] },
+        group: { raw_permissions: [], permissions: [] }
+      }
       allow(described_class).to receive(:load_role_data).with(:test_role).and_return(role_data)
 
       role = described_class.get(:test_role)
 
-      expect(role.permissions).to contain_exactly(:create_issue, :read_epic, :read_epic_board)
+      expect(role.project_permissions).to contain_exactly(:create_issue, :read_epic, :read_epic_board)
     end
 
     it 'only loads the role once for circular inheritance without infinite recursion' do
-      role_a = { name: 'role_a', inherits_from: [:role_b], raw_permissions: [:permission_1], permissions: [] }
-      role_b = { name: 'role_b', inherits_from: [:role_a], raw_permissions: [:permission_2], permissions: [] }
+      role_a = {
+        name: 'role_a', inherits_from: [:role_b],
+        project: { raw_permissions: [:permission_1], permissions: [] },
+        group: { raw_permissions: [], permissions: [] }
+      }
+      role_b = {
+        name: 'role_b', inherits_from: [:role_a],
+        project: { raw_permissions: [:permission_2], permissions: [] },
+        group: { raw_permissions: [], permissions: [] }
+      }
 
       allow(described_class).to receive(:load_role_data).with(:role_a).and_return(role_a)
       allow(described_class).to receive(:load_role_data).with(:role_b).and_return(role_b)
 
-      expect(described_class.get(:role_a).permissions).to contain_exactly(:permission_1, :permission_2)
+      expect(described_class.get(:role_a).project_permissions).to contain_exactly(:permission_1, :permission_2)
+    end
+  end
+
+  describe '#group_permissions' do
+    it 'returns only direct group permissions for a role with no inherited roles' do
+      role = described_class.get(:guest)
+
+      expect(role.group_permissions).to contain_exactly(:read_group, :read_release)
+    end
+
+    it 'returns all group permissions for a role including inherited permissions' do
+      role = described_class.get(:reporter)
+
+      expect(role.group_permissions).to contain_exactly(
+        :read_group, :read_release, # from guest
+        :read_package, :read_prometheus # from reporter
+      )
+    end
+
+    it 'returns all group permissions recursively for roles with multi-level inheritance' do
+      role = described_class.get(:developer)
+
+      expect(role.group_permissions).to contain_exactly(
+        :read_group, :read_release, # from guest
+        :read_package, :read_prometheus, # from reporter
+        :create_package, :read_cluster_agent # from developer
+      )
+    end
+
+    it 'expands assignable permissions so group permissions include raw and expanded assignable ones' do
+      assignable = instance_double(Authz::PermissionGroups::Assignable, permissions: [:read_epic, :read_epic_board])
+      allow(Authz::PermissionGroups::Assignable).to receive(:get).with(:read_work_item).and_return(assignable)
+
+      role_data = {
+        name: 'test_role', inherits_from: [],
+        project: { raw_permissions: [], permissions: [] },
+        group: { raw_permissions: [:read_group], permissions: [:read_work_item] }
+      }
+      allow(described_class).to receive(:load_role_data).with(:test_role).and_return(role_data)
+
+      role = described_class.get(:test_role)
+
+      expect(role.group_permissions).to contain_exactly(:read_group, :read_epic, :read_epic_board)
+    end
+  end
+
+  describe '#direct_permissions' do
+    it 'returns only permissions defined directly in the role YAML for the given scope' do
+      role = described_class.get(:developer)
+
+      expect(role.direct_permissions(:project)).to contain_exactly(:push_code, :create_pipeline)
+      expect(role.direct_permissions(:group)).to contain_exactly(:create_package, :read_cluster_agent)
+    end
+
+    it 'does not include inherited permissions' do
+      role = described_class.get(:reporter)
+
+      expect(role.direct_permissions(:project)).to contain_exactly(:read_code, :download_code)
+      expect(role.direct_permissions(:project)).not_to include(:read_issue, :create_issue)
+    end
+
+    it 'expands assignable permissions' do
+      assignable = instance_double(Authz::PermissionGroups::Assignable, permissions: [:read_epic, :read_epic_board])
+      allow(Authz::PermissionGroups::Assignable).to receive(:get).with(:read_work_item).and_return(assignable)
+
+      role_data = {
+        name: 'test_role', inherits_from: [],
+        project: { raw_permissions: [:create_issue], permissions: [:read_work_item] },
+        group: { raw_permissions: [], permissions: [] }
+      }
+      allow(described_class).to receive(:load_role_data).with(:test_role).and_return(role_data)
+
+      role = described_class.get(:test_role)
+
+      expect(role.direct_permissions(:project)).to contain_exactly(:create_issue, :read_epic, :read_epic_board)
+    end
+  end
+
+  describe '#permissions' do
+    it 'returns combined project and group permissions' do
+      role_data = {
+        name: 'test_role', inherits_from: [],
+        project: { raw_permissions: [:read_issue], permissions: [] },
+        group: { raw_permissions: [:read_group], permissions: [] }
+      }
+      allow(described_class).to receive(:load_role_data).with(:test_role).and_return(role_data)
+
+      role = described_class.get(:test_role)
+
+      expect(role.permissions).to contain_exactly(:read_issue, :read_group)
     end
   end
 end

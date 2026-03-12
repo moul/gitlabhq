@@ -67986,6 +67986,9 @@ msgstr ""
 msgid "SubscriptionGroupsNew|Select a group for your subscription."
 msgstr ""
 
+msgid "SubscriptionGroupsNew|The group does not have an active subscription with GitLab Credits"
+msgstr ""
+
 msgid "SubscriptionGroupsNew|The group is a top-level group on a Free tier"
 msgstr ""
 

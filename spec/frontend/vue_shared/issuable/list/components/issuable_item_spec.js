@@ -54,6 +54,9 @@ const createComponent = ({
     stubs: {
       GlSprintf,
       WorkItemRelationshipIcons,
+      WorkItemPrefetch: {
+        template: `<div data-testid="issuable-prefetch-trigger"><slot :prefetchWorkItem="() => {}" :clearPrefetching="() => {}"></slot></div>`,
+      },
     },
     mocks: {
       $apollo: {
