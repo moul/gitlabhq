@@ -41,7 +41,7 @@ that have the functionality you need in the [CI/CD Catalog](#cicd-catalog).
 
 <i class="fa-youtube-play" aria-hidden="true"></i>
 For an introduction and hands-on examples, see [Efficient DevSecOps workflows with reusable CI/CD components](https://www.youtube.com/watch?v=-yvfSFKAgbA).
-<!-- Video published on 2024-01-22. DRI: Developer Relations, https://gitlab.com/groups/gitlab-com/marketing/developer-relations/-/epics/399 -->
+<!-- Video published on 2024-01-22. DRI: Developer Relations, <https://gitlab.com/groups/gitlab-com/marketing/developer-relations/-/epics/399> -->
 
 For common questions and additional support, see the [FAQ: GitLab CI/CD Catalog](https://about.gitlab.com/blog/faq-gitlab-ci-cd-catalog/)
 blog post.

@@ -540,7 +540,7 @@ query: project = "team/project" and milestone = "Sprint 23" and opened = true
 | Root link                        | `[Link text](/page-from-root)`            | `[Home](/home)` |
 | Full URL                         | Standard Markdown                         | `[API Guide](https://gitlab.example.com/.../wikis/api-standards)` |
 
-<!-- The `page-from-root` example is added as exception in doc/.vale/gitlab_docs/InternalLinkFormat.yml -->
+<!-- The `page-from-root` example is added as exception in `doc/.vale/gitlab_docs/InternalLinkFormat.yml` -->
 
 ### Referencing work items
 

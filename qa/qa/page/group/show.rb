@@ -45,7 +45,7 @@ module QA
           wait_for_requests
 
           click_element 'leave-group-link'
-          click_confirmation_ok_button
+          click_button 'Leave group'
         end
 
         def click_request_access

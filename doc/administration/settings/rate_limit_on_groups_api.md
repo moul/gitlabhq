@@ -128,7 +128,7 @@ To change the rate limit:
 
 1. In the upper-right corner, select **Admin**.
 1. Select **Settings** > **Network**.
-1. Expand **Groups API**.
+1. Expand **Groups API rate limits**.
 1. In the **Maximum requests to the POST /groups/:id/archive and POST /groups/:id/unarchive API per minute per user or IP address** text box, enter a value.
 1. Select **Save changes**.
 

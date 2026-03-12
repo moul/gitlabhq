@@ -67,7 +67,7 @@ When using the Maven virtual registry, remember the following restrictions:
 
 {{< /history >}}
 
-Manage virtual registries for your group.
+Manage Maven virtual registries for your group.
 
 You can also [use the API](../../../../api/maven_virtual_registries.md#manage-maven-virtual-registries).
 
@@ -77,13 +77,15 @@ To create a Maven virtual registry:
 
 1. On the top bar, select **Search or go to** and find your group. This group must be at the top level.
 1. Select **Deploy** > **Virtual registry**.
-1. Select **Create registry**.
+1. If you:
+   - Have an existing registry, select **Create registry**. From the dropdown list, select **Maven**.
+   - Do not have an existing registry, from the dropdown list, select **Maven**. Then, select **Create registry**.
 1. Enter a **Name** and optional **Description**.
-1. Select **Create Maven registry**.
+1. Select **Create registry**.
 
 ## Manage upstream registries
 
-Manage upstream registries in a virtual registry.
+Manage upstream Maven registries in a virtual registry.
 
 ### Create a Maven upstream registry
 
@@ -91,7 +93,7 @@ Create a Maven upstream registry to connect to the virtual registry.
 
 Prerequisites:
 
-- You must have a virtual registry. For more information, see [Create a virtual registry](#create-a-maven-virtual-registry).
+- You must have a Maven virtual registry. For more information, see [Create a virtual registry](#create-a-maven-virtual-registry).
 
 To create a Maven upstream registry:
 

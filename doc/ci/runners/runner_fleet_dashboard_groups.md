@@ -47,7 +47,7 @@ Prerequisites:
 
 - You must have the Maintainer role for the group.
 - For GitLab Self-Managed, to view the **Runner usage** and **Wait time to pick a job** metrics,
-configure the [ClickHouse integration](../../integration/clickhouse.md).
+  configure the [ClickHouse integration](../../integration/clickhouse.md).
 
 To view the runner fleet dashboard for groups:
 

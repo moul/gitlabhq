@@ -324,7 +324,7 @@ connections):
 
 1. Append the following to `/etc/gitlab/gitlab.rb` for each respective Gitaly server:
 
-   <!-- Updates to following example must also be made at https://gitlab.com/gitlab-org/charts/gitlab/blob/master/doc/advanced/external-gitaly/external-omnibus-gitaly.md#configure-omnibus-gitlab -->
+   <!-- Updates to following example must also be made at <https://gitlab.com/gitlab-org/charts/gitlab/blob/master/doc/advanced/external-gitaly/external-omnibus-gitaly.md#configure-linux-package-installation> -->
 
    On `gitaly1.internal`:
 

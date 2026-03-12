@@ -179,7 +179,7 @@ To configure GitLab Pages DNS for single-domain sites without wildcard DNS:
    example.io          1800 IN AAAA 2001:db8::1
    ```
 
-  `example.io` is the domain GitLab Pages is served from.
+   `example.io` is the domain GitLab Pages is served from.
 
 #### DNS configuration for custom domains
 
@@ -776,7 +776,7 @@ Post /oauth/token: x509: certificate signed by unknown authority
 To resolve this:
 
 - For Linux package installations,
-[install a custom CA](https://docs.gitlab.com/omnibus/settings/ssl/#install-custom-public-certificates).
+  [install a custom CA](https://docs.gitlab.com/omnibus/settings/ssl/#install-custom-public-certificates).
 - For self-compiled installations, install the custom CA in the system certificate store.
 
 ### Support mutual TLS when calling the GitLab API

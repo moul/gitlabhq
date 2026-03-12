@@ -5,7 +5,7 @@ info: To determine the technical writer assigned to the Stage/Group associated w
 title: Using a Geo Site
 ---
 
-<!-- Please update EE::GitLab::GeoGitAccess::GEO_SERVER_DOCS_URL if this file is moved) -->
+<!-- Please update `EE::GitLab::GeoGitAccess::GEO_SERVER_DOCS_URL` if this file is moved -->
 
 {{< details >}}
 

@@ -23,15 +23,10 @@ export const generateRefDestinationPath = (selectedRef) => {
 
 export const getAccessLevels = (accessLevels = {}) => {
   const total = accessLevels.edges?.length;
-  const accessLevelTypes = { total, users: [], groups: [], roles: [], deployKeys: [] };
+  const accessLevelTypes = { total, roles: [], deployKeys: [] };
 
   (accessLevels.edges || []).forEach(({ node }) => {
-    if (node.user) {
-      const src = node.user.avatarUrl;
-      accessLevelTypes.users.push({ src, ...node.user });
-    } else if (node.group) {
-      accessLevelTypes.groups.push(node.group);
-    } else if (node.deployKey) {
+    if (node.deployKey) {
       accessLevelTypes.deployKeys.push(node.deployKey);
     } else {
       accessLevelTypes.roles.push(node.accessLevel);
@@ -47,16 +42,6 @@ export const getAccessLevelInputFromEdges = (edges) => {
 
     if (node.accessLevel !== undefined) {
       result.accessLevel = node.accessLevel;
-    }
-
-    if (node.group?.id !== undefined) {
-      result.groupId = node.group.id;
-      delete result.accessLevel; // backend only expects groupId
-    }
-
-    if (node.user?.id !== undefined) {
-      result.userId = node.user.id;
-      delete result.accessLevel; // backend only expects userId
     }
 
     if (node.deployKey?.id !== undefined) {

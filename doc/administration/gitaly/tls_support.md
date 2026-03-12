@@ -91,7 +91,7 @@ The process for configuring TLS support depends on your installation type.
 
 1. Edit `/etc/gitlab/gitlab.rb` and add:
 
-   <!-- Updates to following example must also be made at https://gitlab.com/gitlab-org/charts/gitlab/blob/master/doc/advanced/external-gitaly/external-omnibus-gitaly.md#configure-omnibus-gitlab -->
+   <!-- Updates to following example must also be made at <https://gitlab.com/gitlab-org/charts/gitlab/blob/master/doc/advanced/external-gitaly/external-omnibus-gitaly.md#configure-linux-package-installation> -->
 
    ```ruby
    gitaly['configuration'] = {

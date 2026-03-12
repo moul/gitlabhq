@@ -89,11 +89,11 @@ list by active,
 inactive, and trending projects:
 
 - Active projects are projects with recent activity
-or ongoing development.
+  or ongoing development.
 - Inactive projects are projects that are archived or
-scheduled for deletion.
+  scheduled for deletion.
 - Trending projects are public projects that are considered popular
-based on the amount of comments they received in the previous 30 days.
+  based on the amount of comments they received in the previous 30 days.
 
 If you are not authenticated,
 the list shows public projects only.
@@ -570,8 +570,8 @@ A project transfer includes:
   - New project labels are created if matching group labels do not exist
   - Epic copies are created in the target group if necessary, with separate copies per project
     - When you transfer multiple projects
-with issues assigned to the same epic, separate copies of that epic are created in the target
-group for each project.
+      with issues assigned to the same epic, separate copies of that epic are created in the target
+      group for each project.
 
 > [!warning]
 > Errors during the transfer process might cause data loss of project components or dependencies of end users.

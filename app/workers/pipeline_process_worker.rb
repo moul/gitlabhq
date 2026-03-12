@@ -14,6 +14,7 @@ class PipelineProcessWorker
 
   idempotent!
   deduplicate :until_executed, if_deduplicated: :reschedule_once, ttl: 1.minute
+  max_concurrency_limit_percentage 0.6
 
   def perform(pipeline_id)
     Ci::Pipeline.find_by_id(pipeline_id).try do |pipeline|

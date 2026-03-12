@@ -168,7 +168,7 @@ You can use several methods to authenticate AWS Bedrock with your AI Gateway.
 Prerequisites:
 
 - Models are automatically enabled in Bedrock when first invoked. For more information,
-see [Bedrock model access](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html).
+  see [Bedrock model access](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html).
 - Have AWS credentials configured with appropriate IAM permissions.
 
 #### Amazon EKS with Helm Chart (Recommended)
@@ -210,17 +210,17 @@ To use IRSA to authenticate Amazon EKS:
    This ensures only approved models can be accessed, even if GitLab configuration changes. For
    available model ARNs, see [Amazon Bedrock model IDs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html).
 
-  ```json
-  "Resource": [
-    "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0",
-    "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
-  ]
-  ```
+   ```json
+   "Resource": [
+     "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0",
+     "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
+   ]
+   ```
 
-  > [!note]
-  Some models might use different ARN formats. For example, newer models might
-  require inference profile ARNs in addition to foundation model ARNs. To check the
-  the ARN format for your specific model, see the [Amazon Bedrock model IDs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html).
+   > [!note]
+   > Some models might use different ARN formats. For example, newer models might
+   > require inference profile ARNs in addition to foundation model ARNs. To check the
+   > the ARN format for your specific model, see the [Amazon Bedrock model IDs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html).
 
 1. Create an IAM role with a trust policy for your Amazon EKS service account to use. Replace the following values:
 

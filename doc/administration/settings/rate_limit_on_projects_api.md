@@ -118,7 +118,7 @@ To change the rate limit:
 
 1. In the upper-right corner, select **Admin**.
 1. Select **Settings** > **Network**.
-1. Expand **Projects API**.
+1. Expand **Projects API rate limits**.
 1. In the **Maximum requests to the GET /projects/:id/members/all API per minute per user or IP address** text box, enter a value.
 1. Select **Save changes**.
 

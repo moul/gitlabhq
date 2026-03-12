@@ -61459,9 +61459,6 @@ msgstr ""
 msgid "SecurityAttributes|Successfully added %{addedCount} security attributes"
 msgstr ""
 
-msgid "SecurityAttributes|Successfully applied security attributes"
-msgstr ""
-
 msgid "SecurityAttributes|Successfully removed \"%{name}\" security attribute from this project"
 msgstr ""
 
@@ -61481,6 +61478,9 @@ msgid "SecurityAttributes|Updated the category description"
 msgstr ""
 
 msgid "SecurityAttributes|Updated the category name"
+msgstr ""
+
+msgid "SecurityAttributes|Updating security attributes in the background"
 msgstr ""
 
 msgid "SecurityAttributes|Use security attributes to categorize projects by business context, security needs, and more. Categories are shared across your groups, enabling consistent and scalable classification of assets. These attributes can help prioritize security efforts, filter dashboards, and apply consistent governance across projects."

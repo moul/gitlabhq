@@ -35,6 +35,7 @@ to reduce bandwidth usage and improve build performance.
 Before you can use the container virtual registry:
 
 - Review the [prerequisites](../_index.md#prerequisites) to use the virtual registry.
+- Configure authentication to the virtual registry. For more information, see [Authenticate to the virtual registry](../_index.md#authenticate-to-the-virtual-registry).
 
 When using the container virtual registry, remember the following restrictions:
 
@@ -45,8 +46,66 @@ When using the container virtual registry, remember the following restrictions:
 
 ## Manage virtual registries
 
-To create, edit, or delete a container virtual registry, see the
-[Container virtual registry API](../../../../api/container_virtual_registries.md).
+{{< history >}}
+
+- [Introduced](https://gitlab.com/groups/gitlab-org/-/work_items/19283) in GitLab 18.10 [with a flag](../../../../administration/feature_flags/_index.md) named `ui_for_container_virtual_registries`.
+
+{{< /history >}}
+
+Manage container virtual registries for your group.
+
+You can also [use the API](../../../../api/container_virtual_registries.md).
+
+### Create a container virtual registry
+
+To create a container virtual registry:
+
+1. On the top bar, select **Search or go to** and find your group. This group must be at the top level.
+1. Select **Deploy** > **Virtual registry**.
+1. If you:
+   - Have an existing registry, select **Create registry**. From the dropdown list, select **Container**.
+   - Do not have an existing registry, from the dropdown list, select **Container**. Then, select **Create registry**.
+1. Enter a **Name** and optional **Description**.
+1. Select **Create registry**.
+
+## Manage upstream registries
+
+Manage upstream container registries in a virtual registry.
+
+### Create a container upstream registry
+
+Create a container upstream registry to connect to the virtual registry.
+
+Prerequisites:
+
+- You must have a container virtual registry. For more information, see [Create a virtual registry](#create-a-container-virtual-registry).
+
+To create a container upstream registry:
+
+1. On the top bar, select **Search or go to** and find your group. This group must be at the top level.
+1. Select **Deploy** > **Virtual registry**.
+1. Under **Registry types**, select **View registries**.
+1. Under the **Registries** tab, select a registry.
+1. Select **Add upstream**. If the virtual registry has existing upstreams, from the dropdown list, select either:
+   - **Create new upstream** to configure the upstream.
+   - **Link existing upstream** > **Select existing upstream**.
+     1. From the dropdown list, select an upstream.
+     1. Optional. Select **Test upstream** to test the upstream connection before you create it.
+     1. Select **Add upstream**.
+1. Complete the fields.
+   - Include both a **username** and **password**, or neither. If not set, a public (anonymous) request is used to access the upstream.
+   - If you want to connect the upstream to Docker Hardened Images, use the following as the **Upstream URL**:
+
+      ```plaintext
+      https://dhi.io
+      ```
+
+   - **Artifact caching period** defaults to 24 hours. Set to `0` to disable cache entry checks.
+   - If you want to test the upstream connection before you create it, select **Test upstream**.
+
+1. Select **Create upstream**.
+
+For more information about cache validity settings, see [Set the cache validity period](../../virtual_registry/_index.md#set-the-cache-validity-period).
 
 ## Authenticate with the container virtual registry
 

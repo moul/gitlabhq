@@ -110,6 +110,7 @@ export default {
           text: __('Leave group'),
           action: this.onActionLeave,
           extraAttrs: {
+            'data-testid': 'leave-group-link',
             class: 'js-leave-link',
           },
         },

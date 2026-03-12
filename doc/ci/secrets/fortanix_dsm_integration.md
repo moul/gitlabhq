@@ -137,7 +137,7 @@ To generate a new secret in Fortanix DSM and use it with GitLab:
    If not, select **Build** > **Pipelines** > **Run pipeline**.
 1. Go to **Build** > **Jobs** and check the `build` job's log:
 
-   ![gitlab_build_result_1](img/gitlab_build_result_1_v16_9.png)
+   ![`gitlab_build_result_1`](img/gitlab_build_result_1_v16_9.png)
 
 ![dsm_secrets](img/dsm_secrets_v16_9.png)
 
@@ -178,7 +178,7 @@ To use a secret that already exists in Fortanix DSM with GitLab:
    If not, select **Build** > **Pipelines** > **Run pipeline**.
 1. Go to **Build** > **Jobs** and check the `build` job's log:
 
-   - ![gitlab_build_result_2](img/gitlab_build_result_2_v16_9.png)
+   - ![`gitlab_build_result_2`](img/gitlab_build_result_2_v16_9.png)
 
 ## Code Signing
 
@@ -228,4 +228,4 @@ To set up code signing securely in your GitLab environment:
    If not, select **Build** > **Pipelines** > **Run pipeline**.
 1. Go to **Build** > **Jobs** and check the `build` job's log:
 
-   - ![gitlab_build_result_3](img/gitlab_build_result_3_v16_9.png)
+   - ![`gitlab_build_result_3`](img/gitlab_build_result_3_v16_9.png)

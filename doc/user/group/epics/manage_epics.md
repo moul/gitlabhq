@@ -31,13 +31,14 @@ Prerequisites:
 To create an epic in the group you're in:
 
 1. Get to the New Epic form:
-   - Go to your group and from the left sidebar select **Epics**. Then select **New epic**.
-   - From an epic in your group, in the upper-right corner, select **More actions** ({{< icon name="ellipsis_v" >}}). Then select **New related epic**.
-   - From anywhere, in the top menu, select **New** ({{< icon name="plus-square" >}}). Then select **New epic**.
-   - In an empty [roadmap](../roadmap/_index.md), select **New epic**.
+   - Go to your group and from the left sidebar select **Work items**. Then select **New item**.
+   - From an epic in your group, in the upper-right corner, select **More actions** ({{< icon name="ellipsis_v" >}}). Then select **New related item**.
+   - From anywhere, in the top menu, select **New** ({{< icon name="plus-square" >}}). Then select **New work item**.
+   - In an empty [roadmap](../roadmap/_index.md), select **New work item**.
 
-1. Enter a title.
+1. From the **Type** dropdown list, select **Epic** if it is not already selected.
 1. Complete the fields.
+   - Enter a title.
    - Enter a description.
    - To [make the epic confidential](#make-an-epic-confidential), select the checkbox next to **Turn on confidentiality**.
    - Choose labels.
@@ -142,8 +143,8 @@ Prerequisites:
 
 To update multiple epics at the same time:
 
-1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Epics**.
+1. On the top bar, select **Search or go to** and find your group.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 1. Select **Bulk edit**. On the right, a sidebar with editable fields appears.
 1. Select the checkboxes next to each epic you want to edit.
 1. From the sidebar, edit the available fields.
@@ -237,8 +238,9 @@ Prerequisites:
 
 To change the assignee on an epic:
 
-1. In the top bar, select **Search or go to** and find your group.
-1. Select **Plan** > **Epics**, then select your epic to view it.
+1. On the top bar, select **Search or go to** and find your group.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
+1. Select your epic to view it.
 1. In the right sidebar, in the **Assignees** section, select **Edit**.
 1. From the dropdown list, select the users to add as an assignee.
 1. Select any area outside the dropdown list.
@@ -292,9 +294,9 @@ Prerequisites:
 
 To change an epic's color:
 
-1. In the top bar, select **Search or go to** and find your group.
-1. Select **Plan** > **Epics**.
-1. Select **New epic** or select an existing epic.
+1. On the top bar, select **Search or go to** and find your group.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
+1. Select an epic.
 1. In the right sidebar, in the **Color** section, select **Edit**.
 1. Select an existing color or enter an RGB or hex value.
 1. Select any area outside the dialog.
@@ -370,10 +372,6 @@ If an issue belongs to an epic, you can go to the parent epic from:
 
 ## View epics list
 
-In a group, the left sidebar displays the total count of open epics.
-This number indicates all epics associated with the group and its subgroups, including epics you
-might not have permission to view.
-
 Prerequisites:
 
 - You must be a member of either:
@@ -384,7 +382,7 @@ Prerequisites:
 To view epics in a group:
 
 1. On the top bar, select **Search or go to** and find your group.
-1. Select **Plan** > **Epics**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 
 To set which attributes are shown for epics on the epics list, [configure display preferences](../../work_items/_index.md#configure-list-display-preferences).
 
@@ -414,7 +412,7 @@ the epic's [confidentiality status](#make-an-epic-confidential):
 
 {{< /history >}}
 
-When you select an epic from the Epics page or an epic board, it opens in a details panel.
+When you select an epic from the work items page or an epic board, it opens in a details panel.
 You can then view and edit its details without losing context of the epic list or board.
 
 When using the drawer:
@@ -428,21 +426,16 @@ When using the drawer:
 
 To open an epic in the full page view:
 
-- Open the epic in a new tab. From the list of epics, either:
+- Open the epic in a new tab. From the list of work items, either:
   - Right-click the epic and open it in a new browser tab.
   - Hold <kbd>Command</kbd> or <kbd>Control</kbd> and select the epic.
 - Select an epic, and from the drawer, either:
   - In the upper-left corner, select the issue reference, for example `my_project#123`.
   - In the upper-right corner, select **Open in full page** ({{< icon name="maximize" >}}).
 
-To always open issues in full page view, see [set preference whether to open items in a drawer](../../work_items/_index.md#configure-list-display-preferences).
+To always open work items in full page view, see [set preference whether to open items in a drawer](../../work_items/_index.md#configure-list-display-preferences).
 
-### Cached epic count
-
-The total count of open epics displayed in the sidebar is cached if higher
-than 1000. The cached value is rounded to thousands or millions and updated every 24 hours.
-
-## Filter the list of epics
+## Filter a list of epics
 
 {{< history >}}
 
@@ -450,7 +443,7 @@ than 1000. The cached value is rounded to thousands or millions and updated ever
 
 {{< /history >}}
 
-You can filter the list of epics by:
+You can filter a list of epics by:
 
 - Title or description (select **Search within**)
 - Author name / username
@@ -467,10 +460,10 @@ You can filter the list of epics by:
 To filter:
 
 1. On the top bar, select **Search or go to** and find your group.
-1. Select **Plan** > **Epics**.
-1. Select the field **Search or filter results**.
-1. From the dropdown list, select the scope or enter plain text to search by epic title or description.
-1. Press <kbd>Enter</kbd> on your keyboard. The list is filtered.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
+1. Select additional filters, operators, and values as needed.
+   To search by title or description, type in the filter bar.
+1. Press <kbd>Enter</kbd> or select the magnifying glass ({{< icon name="search" >}}).
 
 ### Filter with the OR operator
 
@@ -482,10 +475,11 @@ To filter:
 
 {{< /history >}}
 
-You can use the OR operator (**is one of: `||`**) when you [filter the list of epics](#filter-the-list-of-epics) by:
+You can use the OR operator (**is one of: `||`**) when you [filter the list of epics](#filter-a-list-of-epics) by:
 
-- Authors
-- Labels
+- Assignee
+- Author
+- Label
 
 `is one of` represents an inclusive OR. For example, if you filter by `Label is one of Deliverable` and
 `Label is one of UX`, GitLab shows epics with either `Deliverable`, `UX`, or both labels.
@@ -667,7 +661,7 @@ Prerequisites:
 To change the health status of an epic:
 
 1. On the top bar, select **Search or go to** and find your group.
-1. Select **Plan** > **Epics**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 1. Select an epic.
 1. In the right sidebar, in the **Health status** section, select **Edit**.
 1. From the dropdown list, select a status.
@@ -831,7 +825,7 @@ Prerequisites:
 To add a parent epic:
 
 1. On the top bar, select **Search or go to** and find your group.
-1. Select **Plan** > **Epics**.
+1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 1. Select an epic.
 1. In the right sidebar, in the **Parent** section, select **Edit**.
 1. In the search box, enter part of the parent epic's title.
@@ -886,7 +880,8 @@ To add an existing epic as child epic:
 1. In an epic, in the **Child items** section, select **Add** > **Existing epic**.
 1. Identify the epic to be added, using either of the following methods:
    - Paste the link of the epic.
-   - Search for the desired issue by entering part of the epic's title, then selecting the desired match. This search is only available for epics in the same group hierarchy.
+   - Search for the desired epic by entering part of its title, then selecting the desired match.
+  This search is limited to epics in the same group hierarchy.
 
    If there are multiple epics to be added, press <kbd>Space</kbd> and repeat this step.
 1. Select **Add**.

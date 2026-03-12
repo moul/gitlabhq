@@ -563,7 +563,7 @@ curl --request DELETE \
 > Use the Work Items API instead:
 >
 > - GitLab 17.4 to 18.0: Required when [the new look for epics](../user/group/epics/_index.md#epics-as-work-items)
-> is enabled.
+>   is enabled.
 > - GitLab 18.1 and later: Required for all installations.
 >
 > For more information, see the [API migration guide](graphql/epic_work_items_api_migration_guide.md).

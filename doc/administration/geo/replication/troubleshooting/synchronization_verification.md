@@ -1094,7 +1094,7 @@ is [enabled on the secondary site](../../../packages/container_registry.md#enabl
    end
    ```
 
-  ```ruby
+   ```ruby
    container_repo_ids = [1, 2, 3]
 
    container_repo_ids.each do |repo_id|

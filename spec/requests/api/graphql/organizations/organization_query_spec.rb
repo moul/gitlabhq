@@ -348,16 +348,6 @@ RSpec.describe 'getting organization information', feature_category: :organizati
           expect(graphql_data_at(:organization, :root_path)).to eq("/o/#{organization.path}")
         end
       end
-
-      context 'when organization_scoped_paths feature flag is disabled' do
-        before do
-          stub_feature_flags(organization_scoped_paths: false)
-        end
-
-        it 'returns unscoped root path' do
-          expect(root_path).to eq('/')
-        end
-      end
     end
   end
 end

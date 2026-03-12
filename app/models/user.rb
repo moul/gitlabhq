@@ -2547,6 +2547,7 @@ class User < ApplicationRecord
   #
   # rubocop: disable CodeReuse/ServiceClass
   def increment_failed_attempts!
+    return if service_account?
     return if ::Gitlab::Database.read_only?
 
     increment_failed_attempts
@@ -2647,6 +2648,8 @@ class User < ApplicationRecord
 
   # override, from Devise
   def lock_access!(opts = {})
+    return if service_account?
+
     Gitlab::AppLogger.info("Account Locked: username=#{username}")
     audit_lock_access(reason: opts.delete(:reason))
     super

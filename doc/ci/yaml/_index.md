@@ -33,7 +33,7 @@ Use [CI/CD expressions](expressions.md) for more dynamic pipeline configuration 
 
 <!--
 If you are editing content on this page, follow the instructions for documenting keywords:
-https://docs.gitlab.com/development/cicd/cicd_reference_documentation_guide/
+<https://docs.gitlab.com/development/cicd/cicd_reference_documentation_guide/>
 -->
 
 ## Keywords

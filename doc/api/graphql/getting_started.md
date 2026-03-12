@@ -522,7 +522,7 @@ Sometimes, it is necessary to send GraphQL requests to a different URL. An examp
 
 To change the URL of a GraphQL request in the GraphiQL explorer, set a custom header in the Header area of GraphiQL (bottom left area, right where Variables are):
 
-```JSON
+```json
 {
   "REQUEST_PATH": "<the URL to make the graphQL request against>"
 }

@@ -427,7 +427,7 @@ The following task rebuilds only the two indexes in each database with the highe
    sudo gitlab-rake gitlab:db:reindex
    ```
 
-1. Check [application_json.log](../logs/_index.md#application_jsonlog) to verify execution or to troubleshoot.
+1. Check [`application_json.log`](../logs/_index.md#application_jsonlog) to verify execution or to troubleshoot.
 
 ### Customize reindexing settings
 

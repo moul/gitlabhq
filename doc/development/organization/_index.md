@@ -116,7 +116,6 @@ Some routes are not currently available under the organization scope:
 
 Enable the following feature flags to test organizations:
 
-- `organization_scoped_paths`
 - `ui_for_organizations`
 - `organization_switching`
 

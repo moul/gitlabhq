@@ -13250,6 +13250,8 @@ Input type: `RunnerCreateInput`
 | <a id="mutation-runnercreate-rununtagged"></a>`runUntagged` | [`Boolean`](#boolean) | Indicates the runner is able to run untagged jobs. |
 | <a id="mutation-runnercreate-runnertype"></a>`runnerType` | [`CiRunnerType!`](#cirunnertype) | Type of the runner to create. |
 | <a id="mutation-runnercreate-taglist"></a>`tagList` | [`[String!]`](#string) | Tags associated with the runner. |
+| <a id="mutation-runnercreate-tokenexpiresat"></a>`tokenExpiresAt` | [`Time`](#time) | Token expiration time (ISO 8601 format). Must be between 5 minutes and 15 days in the future, and cannot exceed instance/group/project limits. |
+| <a id="mutation-runnercreate-tokenrotationdeadline"></a>`tokenRotationDeadline` {{< icon name="warning-solid" >}} | [`Time`](#time) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.10. |
 
 #### Fields
 
@@ -30520,6 +30522,7 @@ CI/CD variables for a project.
 | <a id="cirunner-status"></a>`status` | [`CiRunnerStatus!`](#cirunnerstatus) | Status of the runner. |
 | <a id="cirunner-taglist"></a>`tagList` | [`[String!]`](#string) | Tags associated with the runner. |
 | <a id="cirunner-tokenexpiresat"></a>`tokenExpiresAt` | [`Time`](#time) | Runner token expiration time. |
+| <a id="cirunner-tokenrotationdeadline"></a>`tokenRotationDeadline` {{< icon name="warning-solid" >}} | [`Time`](#time) | **Introduced** in GitLab 18.10. **Status**: Experiment. Deadline after which token rotation is rejected. |
 | <a id="cirunner-upgradestatus"></a>`upgradeStatus` | [`CiRunnerUpgradeStatus`](#cirunnerupgradestatus) | Availability of upgrades for the runner. |
 | <a id="cirunner-userpermissions"></a>`userPermissions` | [`RunnerPermissions!`](#runnerpermissions) | Permissions for the current user on the resource. |
 

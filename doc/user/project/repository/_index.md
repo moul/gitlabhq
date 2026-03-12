@@ -42,7 +42,7 @@ You can add files to a repository:
 To add or upload a file from the GitLab UI:
 
 <!-- Original source for this list: doc/user/project/repository/web_editor.md#upload-a-file -->
-<!-- For why we duplicated the info, see https://gitlab.com/gitlab-org/gitlab/-/merge_requests/111072#note_1267429478 -->
+<!-- For why we duplicated the info, see <https://gitlab.com/gitlab-org/gitlab/-/merge_requests/111072#note_1267429478> -->
 
 1. On the top bar, select **Search or go to** and find your project.
 1. Go to the directory you want to upload the file to.

@@ -49,6 +49,32 @@ PARTITION BY session_year
 ORDER BY (namespace_path, user_id, session_id, flow_type)
 SETTINGS index_granularity = 8192;
 
+CREATE TABLE ai_audit_events
+(
+    `id` UUID CODEC(ZSTD(1)),
+    `event_name` LowCardinality(String) DEFAULT '',
+    `created_at` DateTime64(6, 'UTC') DEFAULT now64() CODEC(Delta(8), ZSTD(1)),
+    `author_id` UInt64 DEFAULT 0 CODEC(ZSTD(1)),
+    `project_id` Nullable(UInt64) CODEC(ZSTD(1)),
+    `group_id` Nullable(UInt64) CODEC(ZSTD(1)),
+    `ip_address` String DEFAULT '' CODEC(ZSTD(1)),
+    `workflow_id` UInt64 DEFAULT 0 CODEC(DoubleDelta, ZSTD(1)),
+    `details` String DEFAULT '{}' CODEC(ZSTD(3)),
+    `traversal_path` String DEFAULT multiIf(coalesce(project_id, 0) != 0, dictGetOrDefault('project_traversal_paths_dict', 'traversal_path', project_id, '0/'), coalesce(group_id, 0) != 0, dictGetOrDefault('namespace_traversal_paths_dict', 'traversal_path', group_id, '0/'), '0/') CODEC(ZSTD(3)),
+    PROJECTION by_workflow_id
+    (
+        SELECT *
+        ORDER BY
+            workflow_id,
+            created_at,
+            id
+    )
+)
+ENGINE = ReplacingMergeTree
+PARTITION BY toYYYYMM(created_at)
+ORDER BY (traversal_path, workflow_id, created_at, id)
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192;
+
 CREATE TABLE ai_code_suggestions
 (
     `uid` String,
@@ -142,6 +168,29 @@ CREATE TABLE ci_finished_builds
     `retries_count` UInt16 DEFAULT 0,
     `runner_tags` Array(String) DEFAULT [],
     `job_definition_id` UInt64 DEFAULT 0,
+    PROJECTION build_stats_by_project_pipeline_finished_at_name_stage_name
+    (
+        SELECT
+            project_id,
+            pipeline_id,
+            finished_at,
+            name,
+            stage_name,
+            countIf(status = 'success') AS success_count,
+            countIf(status = 'failed') AS failed_count,
+            countIf(status = 'canceled') AS canceled_count,
+            count() AS total_count,
+            sum(duration) AS sum_duration,
+            avg(duration) AS avg_duration,
+            quantile(0.95)(duration) AS p95_duration,
+            quantilesTDigest(0.5, 0.75, 0.9, 0.99)(duration) AS duration_quantiles
+        GROUP BY
+            project_id,
+            pipeline_id,
+            finished_at,
+            name,
+            stage_name
+    ),
     PROJECTION by_project_pipeline_finished_at_name_v2
     (
         SELECT
@@ -167,29 +216,6 @@ CREATE TABLE ci_finished_builds
             name,
             id,
             version
-    ),
-    PROJECTION build_stats_by_project_pipeline_finished_at_name_stage_name
-    (
-        SELECT
-            project_id,
-            pipeline_id,
-            finished_at,
-            name,
-            stage_name,
-            countIf(status = 'success') AS success_count,
-            countIf(status = 'failed') AS failed_count,
-            countIf(status = 'canceled') AS canceled_count,
-            count() AS total_count,
-            sum(duration) AS sum_duration,
-            avg(duration) AS avg_duration,
-            quantile(0.95)(duration) AS p95_duration,
-            quantilesTDigest(0.5, 0.75, 0.9, 0.99)(duration) AS duration_quantiles
-        GROUP BY
-            project_id,
-            pipeline_id,
-            finished_at,
-            name,
-            stage_name
     )
 )
 ENGINE = ReplacingMergeTree(version, deleted)

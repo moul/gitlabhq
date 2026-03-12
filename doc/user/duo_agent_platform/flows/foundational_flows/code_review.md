@@ -189,7 +189,7 @@ You might get an error that states
 
 This error occurs when GitLab Duo cannot identify a default GitLab Duo namespace for the user that started the review.
 
-Set a default GitLab Duo namespace in your [preferences](../../../../user/profile/preferences.md#set-a-default-gitlab-duo-namespace), then request a review again.
+Set a default GitLab Duo namespace in your [preferences](../../../profile/preferences.md#set-a-default-gitlab-duo-namespace), then request a review again.
 
 ### `Error DCR4005`
 

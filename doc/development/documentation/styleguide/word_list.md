@@ -218,14 +218,21 @@ The token generated when you create an agent for Kubernetes. Use **agent access 
 - secret token
 - authentication token
 
-## Agentic Chat, GitLab Duo Chat (agentic)
+## Agentic Chat, GitLab Duo Agentic Chat
 
-GitLab Duo Chat (agentic) is an enhanced version of [GitLab Duo Chat (non-agentic)](#chat-gitlab-duo-chat-non-agentic).
+GitLab Duo Agentic Chat is part of the GitLab Duo Agent Platform.
 
-On first use, use **GitLab Duo Chat (agentic)**.
-Thereafter, use **Chat** or **GitLab Duo Chat**.
+Options for use are:
 
-Do not use **Agentic Chat** or **Duo Agentic Chat**.
+- **GitLab Duo Agentic Chat**
+- **Agentic Chat**
+- **GitLab Duo Chat** - Use when the difference between agentic and non-agentic isn't needed.
+- **Chat** - Use when the difference between agentic and non-agentic isn't needed.
+
+Do not use:
+
+- **Duo Agentic Chat** (without **GitLab**)
+- **GitLab Duo Chat (agentic)** (parenthetical)
 
 ## agnostic
 
@@ -479,14 +486,22 @@ Instead of:
 
 - In the **Seat utilization** card, select **Assign seats**.
 
-## Chat, GitLab Duo Chat (non-agentic)
+## Chat, GitLab Duo Non-Agentic Chat
 
-GitLab Duo Chat (non-agentic) differs from [GitLab Duo Chat (agentic)](#agentic-chat-gitlab-duo-chat-agentic).
+GitLab Duo Non-Agentic Chat is the older version of GitLab Duo Chat.
 
-On first use, use **GitLab Duo Chat (non-agentic)**.
-Thereafter, use **Chat** or **GitLab Duo Chat**.
+Options for use:
 
-Do not use **Duo Chat**.
+- **GitLab Duo Non-Agentic Chat**.
+- **Non-Agentic Chat**. 
+- **GitLab Duo Chat** - Use when the difference between agentic and non-agentic isn't needed.
+- **Chat** - Use when the difference between agentic and non-agentic isn't needed.
+
+Do not use:
+
+- **Duo Non-Agentic Chat** (without **GitLab**)
+- **GitLab Duo Chat (non-agentic)** (parenthetical)
+- **Classic Chat**
 
 ## checkbox
 
@@ -2330,7 +2345,7 @@ See also [recommended steps](_index.md#recommended-steps).
 
 ## register
 
-Use **register** instead of **sign up** when talking about creating an account.
+Instead of **register** or **sign up**, use **create a user account**.
 
 ## reindex
 
@@ -2647,8 +2662,6 @@ To describe the action of signing in, use:
 
 You can also use:
 
-- **sign-in** as a noun or adjective. For example: **sign-in page** or
-  **sign-in restrictions**.
 - **single sign-on**.
 
 Do not use:
@@ -2661,7 +2674,14 @@ If the user interface has different words, you can use those.
 
 ## sign up
 
-Use **register** instead of **sign up** when talking about creating an account.
+Use **create a user account** instead of **register** or **sign up** when talking about creating an account.
+
+Use **a new user account** instead of **a sign-up**.
+
+Other variations:
+
+- Use **new user account restrictions** instead of **sign-up restrictions**.
+- Use **allow new user accounts** instead of **sign-up enabled**.
 
 ## signed-in user, signed in user
 

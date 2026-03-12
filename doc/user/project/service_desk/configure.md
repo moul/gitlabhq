@@ -1103,8 +1103,8 @@ configure the `azure_ad_endpoint` and `graph_endpoint` settings:
          poll_interval: 60  # Optional
    ```
 
-  For Microsoft Cloud for US Government or [other Azure deployments](https://learn.microsoft.com/en-us/graph/deployments),
-  configure the `azure_ad_endpoint` and `graph_endpoint` settings. For example:
+   For Microsoft Cloud for US Government or [other Azure deployments](https://learn.microsoft.com/en-us/graph/deployments),
+   configure the `azure_ad_endpoint` and `graph_endpoint` settings. For example:
 
    ```yaml
      service_desk_email:

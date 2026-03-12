@@ -8377,6 +8377,16 @@ RSpec.describe User, :with_current_organization, feature_category: :user_profile
     end
   end
 
+  describe '#lock_access!' do
+    context 'with service_account' do
+      it 'is unable to lock it' do
+        service_account_user = create(:user, :service_account)
+
+        expect { service_account_user.lock_access! }.not_to change { service_account_user.access_locked? }.from(false)
+      end
+    end
+  end
+
   describe '#increment_failed_attempts!' do
     let_it_be_with_reload(:user) { create(:user, failed_attempts: 0) }
 
@@ -8388,6 +8398,14 @@ RSpec.describe User, :with_current_organization, feature_category: :user_profile
       allow(Gitlab::Database).to receive(:read_only?) { true }
 
       expect { user.increment_failed_attempts! }.not_to change(user, :failed_attempts)
+    end
+
+    context 'with service_accounts' do
+      it 'does not increment a failed login_attempt' do
+        service_account_user = create(:user, :service_account)
+
+        expect { service_account_user.increment_failed_attempts! }.not_to change { service_account_user.failed_attempts }
+      end
     end
   end
 

@@ -31,8 +31,6 @@ export const accessLevelsMockResponse = {
 
 export const accessLevelsMockResult = {
   total: 2,
-  users: [],
-  groups: [],
   roles: [40],
   deployKeys: [
     {
