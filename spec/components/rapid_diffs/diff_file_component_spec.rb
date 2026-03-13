@@ -54,6 +54,24 @@ RSpec.describe RapidDiffs::DiffFileComponent, type: :component, feature_category
     end
   end
 
+  describe 'before_body slot' do
+    let_it_be(:diff_file) { build(:diff_file) }
+
+    it 'renders before_body before the diff file body' do
+      custom_content = '<div data-testid="before-body">Before Body</div>'.html_safe
+
+      result = render_component do |c|
+        c.with_before_body { custom_content }
+      end
+
+      html = result.at_css('details[data-file-body]').to_html
+      before_body_pos = html.index('data-testid="before-body"')
+      body_pos = html.index('data-testid="rd-diff-file-body"')
+
+      expect(before_body_pos).to be < body_pos
+    end
+  end
+
   describe 'extra_file_data' do
     let_it_be(:diff_file) { build(:diff_file) }
 

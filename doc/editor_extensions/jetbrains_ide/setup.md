@@ -71,8 +71,8 @@ Prerequisites:
 - For agents, you have [foundational agents turned on](../../user/duo_agent_platform/agents/foundational_agents/_index.md#turn-foundational-agents-on-or-off)
   and [custom agents enabled](../../user/duo_agent_platform/agents/custom.md#enable-an-agent), as
   needed.
-- You open a project that is linked to a remote repository on GitLab, or you set a default GitLab Duo
-  namespace in the extension.
+- You have a [default GitLab Duo namespace](../../user/profile/preferences.md#namespace-resolution-in-your-local-environment)
+  set or have a project open that has GitLab Duo access.
 
 To enable GitLab Duo features:
 
@@ -81,16 +81,6 @@ To enable GitLab Duo features:
 1. Restart your IDE, if prompted.
 
 For GitLab Duo Code Suggestions, [review the additional prerequisites and setup steps](../../user/duo_agent_platform/code_suggestions/set_up.md#prerequisites).
-
-## Set the default namespace
-
-The GitLab Duo Agent Platform uses the **Default Namespace** value when the plugin
-can't determine the current GitLab project. To configure this value:
-
-1. In your IDE, on the top bar, select your IDE's name, then select **Settings**.
-1. In the left sidebar, expand **Tools**, then select **GitLab Duo**.
-1. Enter a value for **Default Namespace**.
-1. Select **OK** or **Save**.
 
 ## Install alpha versions of the plugin
 

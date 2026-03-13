@@ -301,6 +301,7 @@ One conversation window can include multiple messages, and so multiple billable 
 {{< history >}}
 
 - Introduced in GitLab 18.7.
+- Sorting results [introduced](https://gitlab.com/groups/gitlab-org/-/work_items/21008) in GitLab 18.10.
 
 {{< /history >}}
 
@@ -360,6 +361,7 @@ Prerequisites:
 
 1. Sign in to [Customers Portal](https://customers.gitlab.com/).
 1. On the subscription card, select **GitLab Credits dashboard**.
+1. Optional. To sort the results by **User** or **Total credits used**, select the respective column.
 
 {{< /tab >}}
 
@@ -371,6 +373,7 @@ Prerequisites:
 
 1. In the top bar, select **Search or go to** and find your top-level group.
 1. Select **Settings** > **GitLab Credits**.
+1. Optional. To sort the results by **User** or **Total credits used**, select the respective column.
 
 {{< /tab >}}
 
@@ -383,6 +386,7 @@ Prerequisites:
 
 1. In the upper-right corner, select **Admin**.
 1. Select **GitLab Credits**.
+1. Optional. To sort the results by **User** or **Total credits used**, select the respective column.
 
 {{< /tab >}}
 

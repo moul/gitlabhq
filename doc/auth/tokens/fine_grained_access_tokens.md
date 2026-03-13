@@ -150,6 +150,17 @@ Grants the ability to publish CI catalog versions.
 | ------ | ------ | ------ | ---- |
 | Publish | Project | `POST` | `/projects/:id/catalog/publish` |
 
+#### Ci Minute
+
+Grants the ability to manage CI minutes.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Group | `POST` | `/namespaces/:id/minutes` |
+| Create | User | `POST` | `/namespaces/:id/minutes` |
+| Transfer | Group | `PATCH` | `/namespaces/:id/minutes/move/:target_id` |
+| Transfer | User | `PATCH` | `/namespaces/:id/minutes/move/:target_id` |
+
 #### Cluster
 
 Grants the ability to create, read, update, and delete clusters.

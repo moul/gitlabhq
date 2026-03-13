@@ -651,13 +651,11 @@ module Types
       Types::ContainerRegistry::Protection::RuleType.connection_type,
       null: true,
       description: 'Container protection rules for the project.',
-      experiment: { milestone: '16.10' },
       resolver: Resolvers::ProjectContainerRegistryProtectionRulesResolver
 
     field :container_protection_tag_rules,
       Types::ContainerRegistry::Protection::TagRuleType.connection_type,
       null: true,
-      experiment: { milestone: '17.8' },
       description: 'Container repository tag protection rules for the project.'
 
     field :container_repositories, Types::ContainerRegistry::ContainerRepositoryType.connection_type,

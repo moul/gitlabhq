@@ -150,7 +150,7 @@ To help improve service quality, you can share usage data about GitLab Duo Agent
 After you turn on data collection, AI interactions from all projects and subgroups in your namespace are logged with GitLab.
 This data is used exclusively for service improvement and debugging, and not for training AI models.
 
-You can also turn on usage data collection [for an instance](../../administration/gitlab_duo/configure/gitlab_self_managed.md#share-usage-data-with-gitlab)
+You can also turn on usage data collection [for an instance](../../administration/gitlab_duo/configure/_index.md#share-usage-data-with-gitlab)
 
 Prerequisites:
 

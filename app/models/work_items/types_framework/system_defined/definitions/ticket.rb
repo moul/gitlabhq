@@ -61,10 +61,6 @@ module WorkItems
               false
             end
 
-            def filterable?
-              true
-            end
-
             def creatable?
               false
             end

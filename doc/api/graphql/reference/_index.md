@@ -5948,7 +5948,7 @@ Input type: `CreateContainerProtectionRepositoryRuleInput`
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="mutation-createcontainerprotectionrepositoryrule-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-createcontainerprotectionrepositoryrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` | [`ContainerProtectionRepositoryRuleAccessLevel`](#containerprotectionrepositoryruleaccesslevel) | Minimum GitLab access level required to delete container images from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, the default minimum access level is `DEVELOPER`. |
+| <a id="mutation-createcontainerprotectionrepositoryrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` {{< icon name="warning-solid" >}} | [`ContainerProtectionRepositoryRuleAccessLevel`](#containerprotectionrepositoryruleaccesslevel) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.11. |
 | <a id="mutation-createcontainerprotectionrepositoryrule-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` | [`ContainerProtectionRepositoryRuleAccessLevel`](#containerprotectionrepositoryruleaccesslevel) | Minimum GitLab access level required to push container images to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, the default minimum access level is `DEVELOPER`. |
 | <a id="mutation-createcontainerprotectionrepositoryrule-projectpath"></a>`projectPath` | [`ID!`](#id) | Full path of the project where a protection rule is located. |
 | <a id="mutation-createcontainerprotectionrepositoryrule-repositorypathpattern"></a>`repositoryPathPattern` | [`String!`](#string) | Container repository path pattern protected by the protection rule. Must start with the project’s full path. For example: `my-project/*-prod-*`. Wildcard character `*` is allowed anywhere after the project’s full path. |
@@ -5977,17 +5977,17 @@ Input type: `createContainerProtectionTagRuleInput`
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="mutation-createcontainerprotectiontagrule-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-createcontainerprotectiontagrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to delete container image tags from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. Introduced in GitLab 17.8: **Status**: Experiment. If the value is `nil`, no access level can delete tags. |
-| <a id="mutation-createcontainerprotectiontagrule-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to push container image tags to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. Introduced in GitLab 17.8: **Status**: Experiment. If the value is `nil`, no access level can push tags. |
+| <a id="mutation-createcontainerprotectiontagrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to delete container image tags from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, no access level can delete tags. |
+| <a id="mutation-createcontainerprotectiontagrule-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to push container image tags to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, no access level can push tags. |
 | <a id="mutation-createcontainerprotectiontagrule-projectpath"></a>`projectPath` | [`ID!`](#id) | Full path of the project containing the container image tags. |
-| <a id="mutation-createcontainerprotectiontagrule-tagnamepattern"></a>`tagNamePattern` | [`String!`](#string) | The pattern that matches container image tags to protect. For example, `v1.*`. Wildcard character `*` allowed. Introduced in GitLab 17.8: **Status**: Experiment. |
+| <a id="mutation-createcontainerprotectiontagrule-tagnamepattern"></a>`tagNamePattern` | [`String!`](#string) | The pattern that matches container image tags to protect. For example, `v1.*`. Wildcard character `*` allowed. |
 
 #### Fields
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="mutation-createcontainerprotectiontagrule-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-createcontainerprotectiontagrule-containerprotectiontagrule"></a>`containerProtectionTagRule` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRule`](#containerprotectiontagrule) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.8. |
+| <a id="mutation-createcontainerprotectiontagrule-containerprotectiontagrule"></a>`containerProtectionTagRule` | [`ContainerProtectionTagRule`](#containerprotectiontagrule) | Protection rule for container image tags after creation. |
 | <a id="mutation-createcontainerprotectiontagrule-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 
 ### `Mutation.createCustomDashboard`
@@ -6969,7 +6969,7 @@ Input type: `DeleteContainerProtectionTagRuleInput`
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="mutation-deletecontainerprotectiontagrule-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-deletecontainerprotectiontagrule-containerprotectiontagrule"></a>`containerProtectionTagRule` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRule`](#containerprotectiontagrule) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.8. |
+| <a id="mutation-deletecontainerprotectiontagrule-containerprotectiontagrule"></a>`containerProtectionTagRule` | [`ContainerProtectionTagRule`](#containerprotectiontagrule) | Deleted protection rule for container image tags. |
 | <a id="mutation-deletecontainerprotectiontagrule-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 
 ### `Mutation.deleteConversationThread`
@@ -15053,7 +15053,7 @@ Input type: `UpdateContainerProtectionRepositoryRuleInput`
 | ---- | ---- | ----------- |
 | <a id="mutation-updatecontainerprotectionrepositoryrule-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-updatecontainerprotectionrepositoryrule-id"></a>`id` | [`ContainerRegistryProtectionRuleID!`](#containerregistryprotectionruleid) | Global ID of the container repository protection rule to be updated. |
-| <a id="mutation-updatecontainerprotectionrepositoryrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` | [`ContainerProtectionRepositoryRuleAccessLevel`](#containerprotectionrepositoryruleaccesslevel) | Minimum GitLab access level required to delete container images from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, the default minimum access level is `DEVELOPER`. |
+| <a id="mutation-updatecontainerprotectionrepositoryrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` {{< icon name="warning-solid" >}} | [`ContainerProtectionRepositoryRuleAccessLevel`](#containerprotectionrepositoryruleaccesslevel) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.11. |
 | <a id="mutation-updatecontainerprotectionrepositoryrule-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` | [`ContainerProtectionRepositoryRuleAccessLevel`](#containerprotectionrepositoryruleaccesslevel) | Minimum GitLab access level required to push container images to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, the default minimum access level is `DEVELOPER`. |
 | <a id="mutation-updatecontainerprotectionrepositoryrule-repositorypathpattern"></a>`repositoryPathPattern` | [`String`](#string) | Container repository path pattern protected by the protection rule. Must start with the project’s full path. For example: `my-project/*-prod-*`. Wildcard character `*` is allowed anywhere after the project’s full path. |
 
@@ -15082,16 +15082,16 @@ Input type: `UpdateContainerProtectionTagRuleInput`
 | ---- | ---- | ----------- |
 | <a id="mutation-updatecontainerprotectiontagrule-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-updatecontainerprotectiontagrule-id"></a>`id` | [`ContainerRegistryProtectionTagRuleID!`](#containerregistryprotectiontagruleid) | Global ID of the tag protection rule to update. |
-| <a id="mutation-updatecontainerprotectiontagrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.8. |
-| <a id="mutation-updatecontainerprotectiontagrule-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.8. |
-| <a id="mutation-updatecontainerprotectiontagrule-tagnamepattern"></a>`tagNamePattern` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.8. |
+| <a id="mutation-updatecontainerprotectiontagrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to delete container image tags from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, no access level can delete tags. |
+| <a id="mutation-updatecontainerprotectiontagrule-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to push container image tags to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, no access level can push tags. |
+| <a id="mutation-updatecontainerprotectiontagrule-tagnamepattern"></a>`tagNamePattern` | [`String`](#string) | The pattern that matches container image tags to protect. For example, `v1.*`. Wildcard character `*` allowed. |
 
 #### Fields
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="mutation-updatecontainerprotectiontagrule-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-updatecontainerprotectiontagrule-containerprotectiontagrule"></a>`containerProtectionTagRule` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRule`](#containerprotectiontagrule) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.8. |
+| <a id="mutation-updatecontainerprotectiontagrule-containerprotectiontagrule"></a>`containerProtectionTagRule` | [`ContainerProtectionTagRule`](#containerprotectiontagrule) | Protection rule for container image tags after creation. |
 | <a id="mutation-updatecontainerprotectiontagrule-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 
 ### `Mutation.updateCustomDashboard`
@@ -31622,9 +31622,9 @@ Represents the most restrictive permissions for a container image tag.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="containerprotectionaccesslevel-immutable"></a>`immutable` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 17.11. **Status**: Experiment. Returns true when tag rule is for tag immutability. Otherwise, false. |
-| <a id="containerprotectionaccesslevel-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | **Introduced** in GitLab 17.8. **Status**: Experiment. Minimum GitLab access level required to delete container image tags from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. |
-| <a id="containerprotectionaccesslevel-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | **Introduced** in GitLab 17.8. **Status**: Experiment. Minimum GitLab access level required to push container image tags to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. |
+| <a id="containerprotectionaccesslevel-immutable"></a>`immutable` | [`Boolean!`](#boolean) | Returns true when tag rule is for tag immutability. Otherwise, false. |
+| <a id="containerprotectionaccesslevel-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to delete container image tags from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, no access level can delete tags. |
+| <a id="containerprotectionaccesslevel-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to push container image tags to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, no access level can push tags. |
 
 ### `ContainerProtectionRepositoryRule`
 
@@ -31635,7 +31635,7 @@ A container repository protection rule designed to prevent users with a certain 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="containerprotectionrepositoryrule-id"></a>`id` | [`ContainerRegistryProtectionRuleID!`](#containerregistryprotectionruleid) | ID of the container repository protection rule. |
-| <a id="containerprotectionrepositoryrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` | [`ContainerProtectionRepositoryRuleAccessLevel`](#containerprotectionrepositoryruleaccesslevel) | Minimum GitLab access level required to delete container images from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, the default minimum access level is `DEVELOPER`. |
+| <a id="containerprotectionrepositoryrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` {{< icon name="warning-solid" >}} | [`ContainerProtectionRepositoryRuleAccessLevel`](#containerprotectionrepositoryruleaccesslevel) | **Introduced** in GitLab 17.11. **Status**: Experiment. Minimum GitLab access level required to delete container images from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, the default minimum access level is `DEVELOPER`. Valid only when feature flag `container_registry_protected_containers_delete` is enabled. |
 | <a id="containerprotectionrepositoryrule-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` | [`ContainerProtectionRepositoryRuleAccessLevel`](#containerprotectionrepositoryruleaccesslevel) | Minimum GitLab access level required to push container images to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, the default minimum access level is `DEVELOPER`. |
 | <a id="containerprotectionrepositoryrule-repositorypathpattern"></a>`repositoryPathPattern` | [`String!`](#string) | Container repository path pattern protected by the protection rule. Must start with the project’s full path. For example: `my-project/*-prod-*`. Wildcard character `*` is allowed anywhere after the project’s full path. |
 
@@ -31647,11 +31647,11 @@ A container repository tag protection rule designed to prevent users with a cert
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="containerprotectiontagrule-id"></a>`id` {{< icon name="warning-solid" >}} | [`ContainerRegistryProtectionTagRuleID!`](#containerregistryprotectiontagruleid) | **Introduced** in GitLab 17.8. **Status**: Experiment. ID of the container repository tag protection rule. |
-| <a id="containerprotectiontagrule-immutable"></a>`immutable` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 17.11. **Status**: Experiment. Returns true when tag rule is for tag immutability. Otherwise, false. |
-| <a id="containerprotectiontagrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | **Introduced** in GitLab 17.8. **Status**: Experiment. Minimum GitLab access level required to delete container image tags from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. |
-| <a id="containerprotectiontagrule-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | **Introduced** in GitLab 17.8. **Status**: Experiment. Minimum GitLab access level required to push container image tags to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. |
-| <a id="containerprotectiontagrule-tagnamepattern"></a>`tagNamePattern` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 17.8. **Status**: Experiment. The pattern that matches container image tags to protect. For example, `v1.*`. Wildcard character `*` allowed. |
+| <a id="containerprotectiontagrule-id"></a>`id` | [`ContainerRegistryProtectionTagRuleID!`](#containerregistryprotectiontagruleid) | ID of the container repository tag protection rule. |
+| <a id="containerprotectiontagrule-immutable"></a>`immutable` | [`Boolean!`](#boolean) | Returns true when tag rule is for tag immutability. Otherwise, false. |
+| <a id="containerprotectiontagrule-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to delete container image tags from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, no access level can delete tags. |
+| <a id="containerprotectiontagrule-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to push container image tags to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, no access level can push tags. |
+| <a id="containerprotectiontagrule-tagnamepattern"></a>`tagNamePattern` | [`String!`](#string) | The pattern that matches container image tags to protect. For example, `v1.*`. Wildcard character `*` allowed. |
 | <a id="containerprotectiontagrule-userpermissions"></a>`userPermissions` | [`ContainerRegistryProtectionTagRulePermissions!`](#containerregistryprotectiontagrulepermissions) | Permissions for the current user on the resource. |
 
 ### `ContainerRegistry`
@@ -31860,7 +31860,7 @@ A tag from a container repository.
 | <a id="containerrepositorytag-mediatype"></a>`mediaType` | [`String`](#string) | Media type of the tag. |
 | <a id="containerrepositorytag-name"></a>`name` | [`String!`](#string) | Name of the tag. |
 | <a id="containerrepositorytag-path"></a>`path` | [`String!`](#string) | Path of the tag. |
-| <a id="containerrepositorytag-protection"></a>`protection` {{< icon name="warning-solid" >}} | [`ContainerProtectionAccessLevel`](#containerprotectionaccesslevel) | **Introduced** in GitLab 17.9. **Status**: Experiment. Minimum GitLab access level required to push and delete container image tags. If the value is `nil`, no minimum access level is enforced. Users with the Developer role or higher can push tags by default. |
+| <a id="containerrepositorytag-protection"></a>`protection` | [`ContainerProtectionAccessLevel`](#containerprotectionaccesslevel) | Minimum GitLab access level required to push and delete container image tags. If the value is `nil`, no minimum access level is enforced. Users with the Developer role or higher can push tags by default. |
 | <a id="containerrepositorytag-publishedat"></a>`publishedAt` | [`Time`](#time) | Timestamp when the tag was published. |
 | <a id="containerrepositorytag-referrers"></a>`referrers` | [`[ContainerRepositoryReferrer!]`](#containerrepositoryreferrer) | Referrers for the tag. |
 | <a id="containerrepositorytag-revision"></a>`revision` | [`String`](#string) | Revision of the tag. |
@@ -34232,10 +34232,8 @@ Events that describe the history and progress of a GitLab Duo Agent Platform ses
 | <a id="duoworkflowevent-errors"></a>`errors` | [`[String!]`](#string) | Message errors. |
 | <a id="duoworkflowevent-executionstatus"></a>`executionStatus` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 17.10. **Status**: Experiment. Granular status of the session's execution. |
 | <a id="duoworkflowevent-metadata"></a>`metadata` | [`JsonString`](#jsonstring) | Metadata associated with the event. |
-| <a id="duoworkflowevent-parenttimestamp"></a>`parentTimestamp` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 18.6. Use `parentTs` instead. |
 | <a id="duoworkflowevent-parentts"></a>`parentTs` | [`String`](#string) | UUID v7 timestamp identifier of the parent message for branched conversations or responses. |
 | <a id="duoworkflowevent-threadts"></a>`threadTs` | [`String`](#string) | UUID v7 timestamp identifier for the conversation thread/session in LangGraph state management. |
-| <a id="duoworkflowevent-timestamp"></a>`timestamp` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 18.6. Use `threadTs` instead. |
 | <a id="duoworkflowevent-workflowdefinition"></a>`workflowDefinition` | [`String`](#string) | GitLab Duo Agent Platform flow type based on its capabilities. |
 | <a id="duoworkflowevent-workflowgoal"></a>`workflowGoal` | [`String`](#string) | Goal of the session. |
 | <a id="duoworkflowevent-workflowstatus"></a>`workflowStatus` | [`DuoWorkflowStatus`](#duoworkflowstatus) | Status of the session. |
@@ -35701,6 +35699,7 @@ Describes the usage of consumables for a user under the subscription.
 | <a id="gitlabsubscriptionusageuserusage-monthlycommitmentcreditsused"></a>`monthlyCommitmentCreditsUsed` | [`Float`](#float) | Monthly Commitment GitLab Credits used by the user. |
 | <a id="gitlabsubscriptionusageuserusage-monthlywaivercreditsused"></a>`monthlyWaiverCreditsUsed` | [`Float`](#float) | Monthly Waiver GitLab Credits used by the user. |
 | <a id="gitlabsubscriptionusageuserusage-overagecreditsused"></a>`overageCreditsUsed` | [`Float`](#float) | Overage GitLab Credits used by the user. |
+| <a id="gitlabsubscriptionusageuserusage-paidtiertrialcreditsused"></a>`paidTierTrialCreditsUsed` | [`Float`](#float) | Paid Tier Trial GitLab Credits used by the user. |
 | <a id="gitlabsubscriptionusageuserusage-totalcredits"></a>`totalCredits` | [`Float`](#float) | Total GitLab Credits available for the user. |
 
 ### `GitlabSubscriptionUsageUsersUsage`
@@ -39970,6 +39969,23 @@ Returns [`FindingReportsComparer`](#findingreportscomparer).
 | <a id="mergerequest-findingreportscomparer-reporttype"></a>`reportType` | [`ComparableSecurityReportType!`](#comparablesecurityreporttype) | Filter vulnerability findings by report type. |
 | <a id="mergerequest-findingreportscomparer-scanmode"></a>`scanMode` | [`ScanModeEnum`](#scanmodeenum) | Filter results by scan mode. |
 
+##### `MergeRequest.linkedWorkItems`
+
+{{< details >}}
+**Introduced** in GitLab 18.10.
+**Status**: Experiment.
+{{< /details >}}
+
+Work items linked to this merge request (closing or mentioned).
+
+Returns [`[MergeRequestLinkedWorkItem!]`](#mergerequestlinkedworkitem).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mergerequest-linkedworkitems-types"></a>`types` | [`[MergeRequestWorkItemLinkType!]`](#mergerequestworkitemlinktype) | Filter by link types. Returns all types if not specified. |
+
 ##### `MergeRequest.notes`
 
 All notes on this noteable.
@@ -41002,6 +41018,30 @@ Represents the Geo sync and verification state of a Merge Request diff.
 | <a id="mergerequestdiffregistry-verificationstartedat"></a>`verificationStartedAt` | [`Time`](#time) | Timestamp when the verification of MergeRequestDiffRegistry started. |
 | <a id="mergerequestdiffregistry-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Verification state of the MergeRequestDiffRegistry. |
 | <a id="mergerequestdiffregistry-verifiedat"></a>`verifiedAt` | [`Time`](#time) | Timestamp of the most recent successful verification of the MergeRequestDiffRegistry. |
+
+### `MergeRequestExternalIssue`
+
+An external issue referenced by a merge request.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mergerequestexternalissue-reference"></a>`reference` | [`String!`](#string) | Reference of the external issue (e.g. JIRA-123). |
+| <a id="mergerequestexternalissue-title"></a>`title` | [`String`](#string) | Title of the external issue. |
+| <a id="mergerequestexternalissue-weburl"></a>`webUrl` | [`String`](#string) | URL of the external issue on the external tracker. |
+
+### `MergeRequestLinkedWorkItem`
+
+A work item linked to a merge request.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mergerequestlinkedworkitem-externalissue"></a>`externalIssue` | [`MergeRequestExternalIssue`](#mergerequestexternalissue) | Linked external issue. |
+| <a id="mergerequestlinkedworkitem-linktype"></a>`linkType` | [`MergeRequestWorkItemLinkType!`](#mergerequestworkitemlinktype) | Type of relationship between the merge request and work item. |
+| <a id="mergerequestlinkedworkitem-workitem"></a>`workItem` | [`WorkItem`](#workitem) | Linked work item. |
 
 ### `MergeRequestMergeabilityCheck`
 
@@ -44729,8 +44769,8 @@ Project-level settings for product analytics provider.
 | <a id="project-codecoveragesummary"></a>`codeCoverageSummary` | [`CodeCoverageSummary`](#codecoveragesummary) | Code coverage summary associated with the project. |
 | <a id="project-componentusages"></a>`componentUsages` | [`CiCatalogResourceComponentUsageConnection`](#cicatalogresourcecomponentusageconnection) | Component(s) used by the project. (see [Connections](#connections)) |
 | <a id="project-containerexpirationpolicy"></a>`containerExpirationPolicy` {{< icon name="warning-solid" >}} | [`ContainerExpirationPolicy`](#containerexpirationpolicy) | **Deprecated** in GitLab 17.5. Use `container_tags_expiration_policy`. |
-| <a id="project-containerprotectionrepositoryrules"></a>`containerProtectionRepositoryRules` {{< icon name="warning-solid" >}} | [`ContainerProtectionRepositoryRuleConnection`](#containerprotectionrepositoryruleconnection) | **Introduced** in GitLab 16.10. **Status**: Experiment. Container protection rules for the project. |
-| <a id="project-containerprotectiontagrules"></a>`containerProtectionTagRules` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRuleConnection`](#containerprotectiontagruleconnection) | **Introduced** in GitLab 17.8. **Status**: Experiment. Container repository tag protection rules for the project. |
+| <a id="project-containerprotectionrepositoryrules"></a>`containerProtectionRepositoryRules` | [`ContainerProtectionRepositoryRuleConnection`](#containerprotectionrepositoryruleconnection) | Container protection rules for the project. (see [Connections](#connections)) |
+| <a id="project-containerprotectiontagrules"></a>`containerProtectionTagRules` | [`ContainerProtectionTagRuleConnection`](#containerprotectiontagruleconnection) | Container repository tag protection rules for the project. (see [Connections](#connections)) |
 | <a id="project-containerregistryenabled"></a>`containerRegistryEnabled` | [`Boolean`](#boolean) | Indicates if Container registry is enabled for the current user. |
 | <a id="project-containerrepositoriescount"></a>`containerRepositoriesCount` | [`Int!`](#int) | Number of container repositories in the project. |
 | <a id="project-containerscanningforregistryenabled"></a>`containerScanningForRegistryEnabled` | [`Boolean`](#boolean) | Indicates whether container scanning for registry is enabled or not for the project. Returns `null` if unauthorized. |
@@ -52799,7 +52839,6 @@ Represents a status with its work item count.
 | <a id="workitemtype-iconname"></a>`iconName` | [`String`](#string) | Icon name of the work item type. |
 | <a id="workitemtype-id"></a>`id` | [`WorkItemsTypeID!`](#workitemstypeid) | Global ID of the work item type. |
 | <a id="workitemtype-isconfigurable"></a>`isConfigurable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.8. **Status**: Experiment. Indicates whether the work item type is configurable. |
-| <a id="workitemtype-isfilterable"></a>`isFilterable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.8. **Status**: Experiment. Indicates whether the work item type should be filterable. |
 | <a id="workitemtype-isfilterableboardview"></a>`isFilterableBoardView` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.10. **Status**: Experiment. Indicates whether the work item type is filterable in board view. |
 | <a id="workitemtype-isfilterablelistview"></a>`isFilterableListView` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.10. **Status**: Experiment. Indicates whether the work item type is filterable in list view. |
 | <a id="workitemtype-isgroupworkitemtype"></a>`isGroupWorkItemType` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.8. **Status**: Experiment. Indicates whether the work item type belongs only to a group. |
@@ -55147,9 +55186,9 @@ Access level of a container registry tag protection rule resource.
 
 | Value | Description |
 | ----- | ----------- |
-| <a id="containerprotectiontagruleaccesslevel-admin"></a>`ADMIN` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 17.8. **Status**: Experiment. Admin access. |
-| <a id="containerprotectiontagruleaccesslevel-maintainer"></a>`MAINTAINER` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 17.8. **Status**: Experiment. Maintainer access. |
-| <a id="containerprotectiontagruleaccesslevel-owner"></a>`OWNER` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 17.8. **Status**: Experiment. Owner access. |
+| <a id="containerprotectiontagruleaccesslevel-admin"></a>`ADMIN` | Admin access. |
+| <a id="containerprotectiontagruleaccesslevel-maintainer"></a>`MAINTAINER` | Maintainer access. |
+| <a id="containerprotectiontagruleaccesslevel-owner"></a>`OWNER` | Owner access. |
 
 ### `ContainerRepositoryCleanupStatus`
 
@@ -56500,6 +56539,15 @@ State of a GitLab merge request.
 | <a id="mergerequeststate-locked"></a>`locked` | Discussion has been locked. |
 | <a id="mergerequeststate-merged"></a>`merged` | Merge request has been merged. |
 | <a id="mergerequeststate-opened"></a>`opened` | Opened merge request. |
+
+### `MergeRequestWorkItemLinkType`
+
+Type of relationship between a merge request and a work item.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="mergerequestworkitemlinktype-closes"></a>`CLOSES` | Work item will be closed when the merge request is merged. |
+| <a id="mergerequestworkitemlinktype-mentioned"></a>`MENTIONED` | Work item is mentioned in the merge request but will not be closed. |
 
 ### `MergeRequestsDashboardListType`
 
@@ -60341,9 +60389,9 @@ Implementations:
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="accesslevelinterface-immutable"></a>`immutable` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 17.11. **Status**: Experiment. Returns true when tag rule is for tag immutability. Otherwise, false. |
-| <a id="accesslevelinterface-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | **Introduced** in GitLab 17.8. **Status**: Experiment. Minimum GitLab access level required to delete container image tags from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. |
-| <a id="accesslevelinterface-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` {{< icon name="warning-solid" >}} | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | **Introduced** in GitLab 17.8. **Status**: Experiment. Minimum GitLab access level required to push container image tags to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. |
+| <a id="accesslevelinterface-immutable"></a>`immutable` | [`Boolean!`](#boolean) | Returns true when tag rule is for tag immutability. Otherwise, false. |
+| <a id="accesslevelinterface-minimumaccesslevelfordelete"></a>`minimumAccessLevelForDelete` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to delete container image tags from the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, no access level can delete tags. |
+| <a id="accesslevelinterface-minimumaccesslevelforpush"></a>`minimumAccessLevelForPush` | [`ContainerProtectionTagRuleAccessLevel`](#containerprotectiontagruleaccesslevel) | Minimum GitLab access level required to push container image tags to the container repository. Valid values include `MAINTAINER`, `OWNER`, or `ADMIN`. If the value is `nil`, no access level can push tags. |
 
 #### `AiCatalogItem`
 

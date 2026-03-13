@@ -25,7 +25,8 @@ To troubleshoot GitLab Duo errors in your IDE:
    1. Find and select the checkbox to enable the missing feature.
    1. Select **OK** or **Save**.
    1. Restart your IDE, if prompted.
-1. If the diagnostics indicate that Agentic Chat is not supported for the current project, [set a default GitLab Duo namespace](setup.md#set-the-default-namespace) in the extension.
+1. If the diagnostics indicate that Agentic Chat is not supported for the current project,
+   [set a default GitLab Duo namespace](../../user/profile/preferences.md#namespace-resolution-in-your-local-environment).
 
 For additional support:
 

@@ -26,6 +26,13 @@
       ],
       "description": "Data for rendering the project grades summary in PDF reports"
     },
+    "total_risk_score": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Data for rendering the total risk score in PDF reports"
+    },
     "dashboard_type": {
       "type": [
         "string",

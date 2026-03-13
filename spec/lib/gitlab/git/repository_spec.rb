@@ -2607,6 +2607,32 @@ RSpec.describe Gitlab::Git::Repository, feature_category: :source_code_managemen
     end
   end
 
+  describe '#initial_commit' do
+    subject(:initial_commit) { repository.initial_commit(ref) }
+
+    let(:ref) { nil }
+
+    it 'returns the first commit with no parents' do
+      expect(initial_commit).to be_a(Gitlab::Git::Commit)
+      expect(initial_commit.parent_ids).to be_empty
+    end
+
+    context 'when ref is specified' do
+      let(:ref) { 'master' }
+
+      it 'returns the initial commit for that ref' do
+        expect(initial_commit).to be_a(Gitlab::Git::Commit)
+        expect(initial_commit.parent_ids).to be_empty
+      end
+    end
+
+    context 'when repository is empty' do
+      let(:repository) { create(:project, :empty_repo).repository.raw }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe '#create_from_bundle' do
     let(:valid_bundle_path) { File.join(Dir.tmpdir, "repo-#{SecureRandom.hex}.bundle") }
     let(:malicious_bundle_path) { Rails.root.join('spec/fixtures/malicious.bundle') }

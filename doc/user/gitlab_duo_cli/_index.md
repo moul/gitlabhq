@@ -153,12 +153,35 @@ To authenticate:
 
 To modify the configuration after initial setup, use `duo config edit`.
 
+#### Authenticate with environment variables
+
+Prerequisites:
+
+- A [personal access token](../profile/personal_access_tokens.md) with `api` permissions.
+
+To authenticate with environment variables:
+
+1. Set `GITLAB_TOKEN` or `GITLAB_OAUTH_TOKEN` to your personal access token.
+
+   ```shell
+   export GITLAB_TOKEN="<your-personal-access-token>"
+   ```
+   
+1. Optional. Set `GITLAB_BASE_URL` or `GITLAB_URL` to your custom GitLab instance URL, for example `https://gitlab.example.com`. The default is `https://gitlab.com`.
+
+   ```shell
+   export GITLAB_BASE_URL="<your-instance-url>"
+   ```
+
+This method is useful for headless mode, CI/CD pipelines, and scripted workflows
+where interactive authentication is not possible.
+
 ## Use the GitLab Duo CLI
 
 Prerequisites:
 
-- A GitLab project with a remote repository configured, or a
-  [default GitLab Duo namespace](../profile/preferences.md#set-a-default-gitlab-duo-namespace) set.
+- A [default GitLab Duo namespace](../profile/preferences.md#namespace-resolution-in-your-local-environment)
+  set, or an open project that has GitLab Duo access.
 
 ### Interactive mode
 

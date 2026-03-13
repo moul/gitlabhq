@@ -218,11 +218,11 @@ The following GitLab events can trigger notifications in Slack:
 | Event                                                                 | Description |
 | --------------------------------------------------------------------- | ----------- |
 | Push                                                                  | A push is made to the repository. |
-| Issue                                                                 | An issue is created, closed, or reopened. |
-| Confidential issue                                                    | A confidential issue is created, closed, or reopened. |
+| Issue                                                                 | A work item is created, closed, or reopened. |
+| Confidential issue                                                    | A confidential work item is created, closed, or reopened. |
 | Merge request                                                         | A merge request is created, merged, approved, closed, or reopened. |
 | Note                                                                  | A comment is added. |
-| Confidential note                                                     | An internal note or comment on a confidential issue is added. |
+| Confidential note                                                     | An internal note or comment on a confidential work item is added. |
 | Tag push                                                              | A tag is pushed to the repository or removed. |
 | Pipeline                                                              | A pipeline status changes. |
 | Wiki page                                                             | A wiki page is created or updated. |

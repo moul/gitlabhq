@@ -109,6 +109,16 @@ describe('initNewDiscussionToggle', () => {
       expect(toggle.parentElement).toBe(cell);
     });
 
+    it('sets line range on hover', () => {
+      const cell = appElement.querySelector('[data-position="new"]');
+
+      cell.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+      const { lineRange } = toggle;
+      expect(lineRange.start).toStrictEqual({ old_line: null, new_line: 5, type: null });
+      expect(lineRange.end).toStrictEqual({ old_line: null, new_line: 5, type: null });
+    });
+
     it('shows toggle on focus', () => {
       const cell = appElement.querySelector('[data-position]');
 
@@ -238,6 +248,18 @@ describe('initNewDiscussionToggle', () => {
         expect(toggle.parentElement).toBe(cell);
       },
     );
+
+    it('sets line range on hover', () => {
+      createParallelDiff();
+      initNewDiscussionToggle(appElement);
+
+      const cell = appElement.querySelector('[data-position="old"]');
+      cell.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+      const { lineRange } = toggle;
+      expect(lineRange.start).toStrictEqual({ old_line: 5, new_line: 5, type: null });
+      expect(lineRange.end).toStrictEqual({ old_line: 5, new_line: 5, type: null });
+    });
 
     it.each(['old', 'new'])(
       'hides toggle on hover for %s side when line number is not present',

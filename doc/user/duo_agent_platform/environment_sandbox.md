@@ -113,11 +113,13 @@ To resolve this:
 
 When the execution environment sandbox is applied, the following restrictions are enforced.
 
-### Network configuration
+### Configure sandbox settings
 
-The sandbox allows network access to:
+Use an [`agent-config.yml`](flows/execution.md#create-the-configuration-file) file to configure some of your sandbox settings.
 
-- [Allowlisted domains](#allowlisted-domains) (auto-configured).
+By default, the sandbox permits access to the following configurations:
+
+- Default allow-listed domains. These are configured automatically and cannot be changed or updated.
 - Unix socket access (Docker socket).
 - Local binding.
 
@@ -129,16 +131,212 @@ The sandbox enforces the following filesystem restrictions:
 - Write allowed: Current directory (`./`) and temporary directory (`/tmp/`).
 - Git configuration access: Allowed.
 
-## Allowlisted domains
+### Configure a network policy
 
-Only following domains are automatically allowlisted for network access:
+SRT is included in the default GitLab-provided Docker image. You can also
+[install SRT on a custom image](#install-anthropic-sandbox-runtime-srt-on-a-custom-image).
 
-- `host.docker.internal`
+When SRT is installed, flows can access only the following domains by default.
+These domains are always allowed and cannot be removed:
+
 - `localhost`
-- Your GitLab instance domain
-- Your GitLab instance wildcard domain (for example, `*.gitlab.example.com`)
+- `host.docker.internal`
+- Your GitLab instance domain (for example, `gitlab.com`, `*.gitlab.com`)
+- The GitLab Duo Workflow Service domain
 
-To track progress on allowlist customization, see [this epic](https://gitlab.com/groups/gitlab-org/-/epics/20247).
+If you use a custom image without SRT,
+no network restrictions are applied and the flow can access any domain
+reachable from the runner.
+
+To allow or deny additional domains, add a `network_policy` to your
+`agent-config.yml` file.
+
+> [!note]
+> The `network_policy` does not allow `"*"` in the `allowed_domains` or the `denied_domains`. SRT does not support turning on all network traffic.
+> However, wildcards are allowed as part of domains, for example `"*.domain.com"`.
+
+```yaml
+network_policy:
+  include_recommended_allowed: true # default: false
+  allowed_domains:
+    - my-own-site.com
+  denied_domains:
+    - malicious.com
+```
+
+### Default allowed domain list
+
+The setting `include_recommended_allowed` includes a list of domains used for packages and development:
+
+- `github.com`
+- `www.github.com`
+- `api.github.com`
+- `npm.pkg.github.com`
+- `raw.githubusercontent.com`
+- `pkg-npm.githubusercontent.com`
+- `objects.githubusercontent.com`
+- `codeload.github.com`
+- `avatars.githubusercontent.com`
+- `camo.githubusercontent.com`
+- `gist.github.com`
+- `gitlab.com`
+- `www.gitlab.com`
+- `registry.gitlab.com`
+- `bitbucket.org`
+- `www.bitbucket.org`
+- `api.bitbucket.org`
+- `registry-1.docker.io`
+- `auth.docker.io`
+- `index.docker.io`
+- `hub.docker.com`
+- `www.docker.com`
+- `production.cloudflare.docker.com`
+- `download.docker.com`
+- `gcr.io`
+- `*.gcr.io`
+- `ghcr.io`
+- `mcr.microsoft.com`
+- `*.data.mcr.microsoft.com`
+- `public.ecr.aws`
+- `cloud.google.com`
+- `accounts.google.com`
+- `gcloud.google.com`
+- `storage.googleapis.com`
+- `compute.googleapis.com`
+- `container.googleapis.com`
+- `artifactregistry.googleapis.com`
+- `cloudresourcemanager.googleapis.com`
+- `oauth2.googleapis.com`
+- `www.googleapis.com`
+- `login.microsoftonline.com`
+- `packages.microsoft.com`
+- `dotnet.microsoft.com`
+- `dot.net`
+- `dev.azure.com`
+- `s3.amazonaws.com`
+- `*.s3.amazonaws.com`
+- `*.codeartifact.amazonaws.com`
+- `*.s3.api.aws`
+- `*.codeartifact.api.aws`
+- `download.oracle.com`
+- `yum.oracle.com`
+- `registry.npmjs.org`
+- `www.npmjs.com`
+- `www.npmjs.org`
+- `npmjs.com`
+- `npmjs.org`
+- `yarnpkg.com`
+- `registry.yarnpkg.com`
+- `pypi.org`
+- `www.pypi.org`
+- `files.pythonhosted.org`
+- `pythonhosted.org`
+- `test.pypi.org`
+- `pypi.python.org`
+- `pypa.io`
+- `www.pypa.io`
+- `rubygems.org`
+- `www.rubygems.org`
+- `api.rubygems.org`
+- `index.rubygems.org`
+- `ruby-lang.org`
+- `www.ruby-lang.org`
+- `rubyonrails.org`
+- `www.rubyonrails.org`
+- `rvm.io`
+- `get.rvm.io`
+- `crates.io`
+- `www.crates.io`
+- `index.crates.io`
+- `static.crates.io`
+- `rustup.rs`
+- `static.rust-lang.org`
+- `www.rust-lang.org`
+- `proxy.golang.org`
+- `sum.golang.org`
+- `index.golang.org`
+- `golang.org`
+- `www.golang.org`
+- `goproxy.io`
+- `pkg.go.dev`
+- `maven.org`
+- `repo.maven.org`
+- `central.maven.org`
+- `repo1.maven.org`
+- `jcenter.bintray.com`
+- `gradle.org`
+- `www.gradle.org`
+- `services.gradle.org`
+- `plugins.gradle.org`
+- `kotlin.org`
+- `www.kotlin.org`
+- `spring.io`
+- `repo.spring.io`
+- `packagist.org`
+- `www.packagist.org`
+- `repo.packagist.org`
+- `nuget.org`
+- `www.nuget.org`
+- `api.nuget.org`
+- `pub.dev`
+- `api.pub.dev`
+- `hex.pm`
+- `www.hex.pm`
+- `cpan.org`
+- `www.cpan.org`
+- `metacpan.org`
+- `www.metacpan.org`
+- `api.metacpan.org`
+- `cocoapods.org`
+- `www.cocoapods.org`
+- `cdn.cocoapods.org`
+- `haskell.org`
+- `www.haskell.org`
+- `hackage.haskell.org`
+- `swift.org`
+- `www.swift.org`
+- `archive.ubuntu.com`
+- `security.ubuntu.com`
+- `ubuntu.com`
+- `www.ubuntu.com`
+- `*.ubuntu.com`
+- `ppa.launchpad.net`
+- `launchpad.net`
+- `www.launchpad.net`
+- `dl.k8s.io`
+- `pkgs.k8s.io`
+- `k8s.io`
+- `www.k8s.io`
+- `releases.hashicorp.com`
+- `apt.releases.hashicorp.com`
+- `rpm.releases.hashicorp.com`
+- `archive.releases.hashicorp.com`
+- `hashicorp.com`
+- `www.hashicorp.com`
+- `repo.anaconda.com`
+- `conda.anaconda.org`
+- `anaconda.org`
+- `www.anaconda.com`
+- `anaconda.com`
+- `continuum.io`
+- `apache.org`
+- `www.apache.org`
+- `archive.apache.org`
+- `downloads.apache.org`
+- `eclipse.org`
+- `www.eclipse.org`
+- `download.eclipse.org`
+- `nodejs.org`
+- `www.nodejs.org`
+- `sourceforge.net`
+- `*.sourceforge.net`
+- `packagecloud.io`
+- `*.packagecloud.io`
+- `json-schema.org`
+- `www.json-schema.org`
+- `json.schemastore.org`
+- `www.schemastore.org`
+- `*.modelcontextprotocol.io`
 
 ## Warnings and fallback behavior
 

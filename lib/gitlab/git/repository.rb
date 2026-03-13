@@ -1005,6 +1005,23 @@ module Gitlab
         true
       end
 
+      # Returns the initial commit (first commit with no parents) for the given ref
+      # @param ref [String] The reference to start from (default: root_ref)
+      # @return [Gitlab::Git::Commit, nil]
+      def initial_commit(ref = nil)
+        ref ||= root_ref
+        return unless ref
+
+        wrapped_gitaly_errors do
+          commits = gitaly_commit_client.list_commits(
+            [ref],
+            reverse: true,
+            pagination_params: { limit: 1 }
+          )
+          commits.first
+        end
+      end
+
       # Creates a commit
       #
       # @param [User] user The committer of the commit.

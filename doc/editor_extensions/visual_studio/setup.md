@@ -91,10 +91,6 @@ prerequisites:
 - For agentic features, you meet the prerequisites for [GitLab Duo Agent Platform](../../user/duo_agent_platform/_index.md#prerequisites).
 - You have GitLab Duo [turned on](../../user/gitlab_duo/turn_on_off.md).
 - For flows, you have [foundational flows turned on](../../user/duo_agent_platform/flows/foundational_flows/_index.md#turn-foundational-flows-on-or-off).
-- You open a project that is linked to a remote repository on GitLab, or you set a
-  default GitLab Duo namespace in the extension:
-  1. In Visual Studio, go to **Tools** > **Options** > **GitLab**.
-  1. Under **GitLab**, select **General**.
-  1. Enter a value for **Default namespace (DAP)**.
-  1. Select **OK**.
+- You have a [default GitLab Duo namespace](../../user/profile/preferences.md#namespace-resolution-in-your-local-environment)
+  set or have a project open that has GitLab Duo access.
 - For GitLab Duo Code Suggestions, you [meet the additional prerequisites](../../user/duo_agent_platform/code_suggestions/set_up.md#prerequisites).

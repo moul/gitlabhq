@@ -107,12 +107,6 @@ module Types
         method: :archived?,
         experiment: { milestone: '18.8' }
 
-      field :is_filterable, GraphQL::Types::Boolean,
-        null: true,
-        description: 'Indicates whether the work item type should be filterable.',
-        method: :filterable?,
-        experiment: { milestone: '18.8' }
-
       field :is_group_work_item_type, GraphQL::Types::Boolean,
         null: true,
         description: 'Indicates whether the work item type belongs only to a group.',

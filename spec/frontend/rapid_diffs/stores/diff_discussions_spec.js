@@ -40,12 +40,11 @@ describe('diffDiscussions store', () => {
   });
 
   describe('addNewLineDiscussionForm', () => {
-    const defaultPosition = {
-      oldPath: 'old/file.js',
-      newPath: 'new/file.js',
-      oldLine: 10,
-      newLine: 20,
+    const lineRange = {
+      start: { old_line: 10, new_line: 20, type: null },
+      end: { old_line: 10, new_line: 20, type: null },
     };
+    const defaultPosition = { oldPath: 'old/file.js', newPath: 'new/file.js', lineRange };
     const formId = 'old/file.js-new/file.js-10-20';
 
     it('returns id if form already exists', () => {
@@ -66,8 +65,9 @@ describe('diffDiscussions store', () => {
       expect(newDiscussion.position).toStrictEqual({
         old_path: defaultPosition.oldPath,
         new_path: defaultPosition.newPath,
-        old_line: defaultPosition.oldLine,
-        new_line: defaultPosition.newLine,
+        old_line: 10,
+        new_line: 20,
+        line_range: lineRange,
       });
       expect(result).toBe(undefined);
     });
@@ -81,8 +81,8 @@ describe('diffDiscussions store', () => {
           position: {
             old_path: defaultPosition.oldPath,
             new_path: defaultPosition.newPath,
-            old_line: defaultPosition.oldLine,
-            new_line: defaultPosition.newLine,
+            old_line: 10,
+            new_line: 20,
           },
           notes: [],
         },
@@ -118,7 +118,7 @@ describe('diffDiscussions store', () => {
       ${null}                    | ${defaultPosition.newLine}
       ${defaultPosition.oldLine} | ${null}
     `(
-      `starts replying if an existing discussion is found at the $position position`,
+      'starts replying if an existing discussion is found at the position',
       ({ oldLine, newLine }) => {
         const testPosition = { ...defaultPosition, oldLine, newLine };
         const existingDiscussion = {
@@ -138,8 +138,8 @@ describe('diffDiscussions store', () => {
 
         const result = useDiffDiscussions().replyToLineDiscussion(testPosition);
 
-        expect(useDiscussions().discussions[0].repliesExpanded).toBe(true);
-        expect(useDiscussions().discussions[0].isReplying).toBe(true);
+        expect(existingDiscussion.repliesExpanded).toBe(true);
+        expect(existingDiscussion.isReplying).toBe(true);
         expect(result).toBe(existingDiscussion.id);
       },
     );
@@ -164,9 +164,9 @@ describe('diffDiscussions store', () => {
       expect(useDiscussions().discussions[0].hidden).toBe(false);
     });
 
-    it('adds new form if none exists', () => {
-      useDiffDiscussions().replyToLineDiscussion(defaultPosition);
-      expect(useDiffDiscussions().discussionForms[0].isForm).toBe(true);
+    it('returns undefined if no existing discussion found', () => {
+      const result = useDiffDiscussions().replyToLineDiscussion(defaultPosition);
+      expect(result).toBeUndefined();
     });
   });
 
@@ -195,12 +195,12 @@ describe('diffDiscussions store', () => {
     });
   });
 
-  describe('setNewLineDiscussionFormText', () => {
+  describe('setDiscussionFormText', () => {
     it('sets the noteBody for the discussion form', () => {
       const discussion = { id: 'form-1', noteBody: 'old text' };
       const newText = 'new text';
 
-      useDiffDiscussions().setNewLineDiscussionFormText(discussion, newText);
+      useDiffDiscussions().setDiscussionFormText(discussion, newText);
 
       expect(discussion.noteBody).toBe(newText);
     });
@@ -457,6 +457,187 @@ describe('diffDiscussions store', () => {
       });
 
       expect(discussions).toHaveLength(0);
+    });
+  });
+
+  describe('findVisibleDiscussionsForFile', () => {
+    beforeEach(() => {
+      useDiscussions().setInitialDiscussions([
+        {
+          id: '1',
+          diff_discussion: true,
+          notes: [],
+          position: { old_path: 'file1.js', new_path: 'file1.js' },
+        },
+        {
+          id: '2',
+          diff_discussion: true,
+          notes: [],
+          position: { old_path: 'file1.js', new_path: 'file1.js' },
+          hidden: true,
+        },
+        {
+          id: '3',
+          diff_discussion: true,
+          notes: [],
+          position: { old_path: 'file2.js', new_path: 'file2.js' },
+        },
+      ]);
+      useDiffDiscussions().discussionForms = [
+        {
+          id: '4',
+          isForm: true,
+          diff_discussion: true,
+          position: { old_path: 'file1.js', new_path: 'file1.js' },
+        },
+      ];
+    });
+
+    it('returns visible discussions matching the file paths including forms', () => {
+      const discussions = useDiffDiscussions().findVisibleDiscussionsForFile({
+        oldPath: 'file1.js',
+        newPath: 'file1.js',
+      });
+
+      expect(discussions).toHaveLength(2);
+      expect(discussions.map((d) => d.id)).toEqual(['1', '4']);
+    });
+
+    it('excludes hidden discussions', () => {
+      const discussions = useDiffDiscussions().findVisibleDiscussionsForFile({
+        oldPath: 'file1.js',
+        newPath: 'file1.js',
+      });
+
+      expect(discussions.every((d) => !d.hidden)).toBe(true);
+    });
+
+    it('returns empty array when no discussions match', () => {
+      const discussions = useDiffDiscussions().findVisibleDiscussionsForFile({
+        oldPath: 'nonexistent.js',
+        newPath: 'nonexistent.js',
+      });
+
+      expect(discussions).toHaveLength(0);
+    });
+  });
+
+  describe('findFileDiscussionsForFile', () => {
+    const filePaths = { oldPath: 'file1.js', newPath: 'file1.js' };
+
+    it('returns discussions with position_type file', () => {
+      useDiscussions().setInitialDiscussions([
+        {
+          id: '1',
+          diff_discussion: true,
+          notes: [],
+          position: { old_path: 'file1.js', new_path: 'file1.js', position_type: 'file' },
+        },
+        {
+          id: '2',
+          diff_discussion: true,
+          notes: [],
+          position: { old_path: 'file1.js', new_path: 'file1.js', old_line: 1, new_line: null },
+        },
+      ]);
+
+      const discussions = useDiffDiscussions().findFileDiscussionsForFile(filePaths);
+
+      expect(discussions).toHaveLength(1);
+      expect(discussions[0].id).toBe('1');
+    });
+
+    it('returns file discussion forms', () => {
+      useDiffDiscussions().addNewFileDiscussionForm(filePaths);
+
+      const discussions = useDiffDiscussions().findFileDiscussionsForFile(filePaths);
+
+      expect(discussions).toHaveLength(1);
+      expect(discussions[0].isForm).toBe(true);
+    });
+
+    it('excludes hidden file discussions', () => {
+      useDiscussions().setInitialDiscussions([
+        {
+          id: '1',
+          diff_discussion: true,
+          notes: [],
+          hidden: true,
+          position: { old_path: 'file1.js', new_path: 'file1.js', position_type: 'file' },
+        },
+      ]);
+
+      expect(useDiffDiscussions().findFileDiscussionsForFile(filePaths)).toHaveLength(0);
+    });
+  });
+
+  describe('findVisibleDiscussionsForFile (excludes file discussions)', () => {
+    it('excludes discussions with position_type file', () => {
+      useDiscussions().setInitialDiscussions([
+        {
+          id: 'line',
+          diff_discussion: true,
+          notes: [],
+          position: { old_path: 'file1.js', new_path: 'file1.js', old_line: 1, new_line: null },
+        },
+        {
+          id: 'file',
+          diff_discussion: true,
+          notes: [],
+          position: { old_path: 'file1.js', new_path: 'file1.js', position_type: 'file' },
+        },
+      ]);
+
+      const discussions = useDiffDiscussions().findVisibleDiscussionsForFile({
+        oldPath: 'file1.js',
+        newPath: 'file1.js',
+      });
+
+      expect(discussions).toHaveLength(1);
+      expect(discussions[0].id).toBe('line');
+    });
+  });
+
+  describe('addNewFileDiscussionForm', () => {
+    const filePaths = { oldPath: 'file1.js', newPath: 'file1.js' };
+    const formId = 'file1.js-file1.js-file';
+
+    it('returns id if form already exists', () => {
+      useDiffDiscussions().discussionForms = [{ id: formId }];
+      expect(useDiffDiscussions().addNewFileDiscussionForm(filePaths)).toBe(formId);
+    });
+
+    it('adds a new file discussion form if none exists', () => {
+      const result = useDiffDiscussions().addNewFileDiscussionForm(filePaths);
+
+      const newDiscussion = useDiffDiscussions().discussionForms[0];
+      expect(useDiffDiscussions().discussionForms).toHaveLength(1);
+      expect(newDiscussion.id).toBe(formId);
+      expect(newDiscussion.diff_discussion).toBe(true);
+      expect(newDiscussion.isForm).toBe(true);
+      expect(newDiscussion.noteBody).toBe('');
+      expect(newDiscussion.shouldFocus).toBe(true);
+      expect(newDiscussion.position).toStrictEqual({
+        position_type: 'file',
+        old_path: filePaths.oldPath,
+        new_path: filePaths.newPath,
+        old_line: null,
+        new_line: null,
+      });
+      expect(result).toBe(undefined);
+    });
+  });
+
+  describe('removeNewFileDiscussionForm', () => {
+    it('removes the file discussion form from the list', () => {
+      const fileForm = { id: 'file-form', isForm: true };
+      const otherForm = { id: 'other-form', isForm: true };
+      useDiffDiscussions().discussionForms = [fileForm, otherForm];
+
+      useDiffDiscussions().removeNewFileDiscussionForm(fileForm);
+
+      expect(useDiffDiscussions().discussionForms).toHaveLength(1);
+      expect(useDiffDiscussions().discussionForms[0].id).toBe('other-form');
     });
   });
 

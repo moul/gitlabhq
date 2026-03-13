@@ -4,6 +4,11 @@
   user-select: none;
 }
 
-.user-logged-out .rd-viewed-toggle {
+.rd-file-comment-toggle.rd-file-comment-toggle.disabled {
+  border-color: transparent;
+}
+
+.user-logged-out .rd-viewed-toggle,
+.user-logged-out .rd-file-comment-toggle {
   display: none;
 }

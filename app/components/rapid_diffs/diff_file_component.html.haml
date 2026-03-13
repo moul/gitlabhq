@@ -7,6 +7,7 @@
     %details.rd-diff-file-details{ open: true, data: { file_body: '' } }
       %summary>
       .flash-container.rd-diff-file-error
-      .rd-diff-file-body
+      = before_body if before_body?
+      .rd-diff-file-body{ data: { testid: 'rd-diff-file-body' } }
         = render viewer_component_instance
   %diff-file-mounted

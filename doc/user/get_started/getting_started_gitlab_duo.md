@@ -20,7 +20,7 @@ can check the health of the installation.
 For more information, see:
 
 - [Turn on GitLab Duo](../gitlab_duo/turn_on_off.md).
-- [Health check details](../../administration/gitlab_duo/configure/gitlab_self_managed.md#run-a-health-check-for-gitlab-duo).
+- [Health check details](../../administration/gitlab_duo/configure/_index.md#run-a-health-check-for-gitlab-duo).
 
 ## Step 2: Try GitLab Duo Chat in the UI
 

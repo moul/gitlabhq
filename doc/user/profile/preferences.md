@@ -189,7 +189,7 @@ Your project overview page is the page you view when you select **Project overvi
 
 Set a default GitLab Duo namespace to ensure GitLab Duo is available to use with your project.
 Your default GitLab Duo namespace determines your available [AI models](../gitlab_duo/model_selection.md)
-and GitLab Duo features and your consumption of [GitLab Credits](../../subscriptions/gitlab_credits.md).
+and GitLab Duo features, and your consumption of [GitLab Credits](../../subscriptions/gitlab_credits.md).
 
 Your default GitLab Duo namespace determines feature availability and credit consumption in the following scenarios:
 
@@ -218,9 +218,27 @@ To set a default GitLab Duo namespace:
 1. From the **Default GitLab Duo namespace** dropdown list, select the namespace you want to set as your default.
 1. Select **Save changes**.
 
-For the [GitLab for VS Code extension](../../editor_extensions/visual_studio_code/setup.md#configure-gitlab-duo)
-and the [GitLab Duo plugin for JetBrains IDEs](../../editor_extensions/jetbrains_ide/setup.md#set-the-default-namespace),
-you must also set a default namespace in the extension's settings.
+#### Namespace resolution in your local environment
+
+{{< history >}}
+
+- Access to user default namespaces for IDEs [introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/work_items/2043) in GitLab 18.10.
+- Access to user default namespaces introduced in GitLab for VS Code 6.71.7.
+
+{{< /history >}}
+
+When you use GitLab Duo in an IDE or the CLI, the first available namespace determines feature
+availability and credit consumption. GitLab Duo checks for a namespace in this order:
+
+1. The project namespace, if your project is linked to a remote repository in GitLab.
+1. The default namespace set in your user preferences.
+1. For IDEs, the default namespace set in the editor extension's settings:
+   - For VS Code, under **Extensions** > **GitLab** > **Manage** ({{< icon name="settings" >}}) > **Settings** > **GitLab** > **Duo Agent Platform**.
+   - For JetBrains IDEs, under **Settings** > **Tools** > **GitLab Duo** > **GitLab Duo Agent Platform**.
+   - For Visual Studio, under **Tools** > **Options** > **GitLab** > **General**.
+
+If the first namespace identified does not have access to the requested feature or available credits,
+the feature is not available. GitLab Duo does not fall back to the next namespace in the list.
 
 ### Hide shortcut buttons
 

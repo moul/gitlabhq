@@ -82,8 +82,13 @@ export default {
     toggle(expanded) {
       this.positions.forEach((p) => this.store.setPositionDiscussionsHidden(p, expanded));
     },
-    startThread(position) {
-      this.store.addNewLineDiscussionForm(position);
+    startThread({ oldPath, newPath, oldLine, newLine }) {
+      const pos = { old_line: oldLine, new_line: newLine, type: null };
+      this.store.addNewLineDiscussionForm({
+        oldPath,
+        newPath,
+        lineRange: { start: pos, end: pos },
+      });
     },
   },
 };

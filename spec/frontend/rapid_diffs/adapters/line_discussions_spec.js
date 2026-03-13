@@ -1,16 +1,31 @@
 import { nextTick } from 'vue';
-import { setActivePinia } from 'pinia';
+import { defineStore } from 'pinia';
+import { createTestingPinia } from '@pinia/testing';
 import { kebabCase } from 'lodash';
 import { resetHTMLFixture, setHTMLFixture } from 'helpers/fixtures';
-import {
-  createInlineDiscussionsAdapter,
-  createParallelDiscussionsAdapter,
-} from '~/rapid_diffs/adapters/discussions';
+import { createLineDiscussionsAdapter } from '~/rapid_diffs/adapters/line_discussions';
 import { HIGHLIGHT_LINES, CLEAR_HIGHLIGHT } from '~/rapid_diffs/adapter_events';
 import { DiffFile } from '~/rapid_diffs/web_components/diff_file';
-import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
-import { useDiscussions } from '~/notes/store/discussions';
-import { pinia } from '~/pinia/instance';
+
+const useDiscussionsStore = defineStore('discussionsStore', {
+  state: () => ({
+    discussions: [],
+  }),
+  actions: {
+    findAllDiscussionsForFile() {
+      return this.discussions;
+    },
+    findDiscussionsForPosition() {
+      return this.discussions;
+    },
+    replyToLineDiscussion() {},
+    addNewLineDiscussionForm() {},
+    setPositionDiscussionsHidden() {},
+    setFileDiscussionsHidden() {},
+    startReplying() {},
+    stopReplying() {},
+  },
+});
 
 // jest fails with direct usage of lodash inside jest.mock
 const toKebab = (str) => kebabCase(str);
@@ -89,13 +104,11 @@ describe('discussions adapters', () => {
   let store;
 
   beforeEach(() => {
-    setActivePinia(pinia);
-    store = useDiffDiscussions();
+    createTestingPinia({ stubActions: false });
+    store = useDiscussionsStore();
   });
 
   afterEach(() => {
-    useDiscussions().discussions = [];
-    store.discussionForms = [];
     resetHTMLFixture();
   });
 
@@ -133,32 +146,28 @@ describe('discussions adapters', () => {
         </diff-file>
       `);
       getDiffFile().mount({
-        adapterConfig: { text_inline: [createInlineDiscussionsAdapter(store)] },
+        adapterConfig: { text_inline: [createLineDiscussionsAdapter({ store, parallel: false })] },
         appData,
         unobserve: jest.fn(),
       });
     });
 
-    it('renders a discussion', async () => {
-      const discussionId = 'abc';
-      const oldLine = 1;
-      useDiscussions().discussions = [
+    it('renders a discussion row', async () => {
+      store.discussions = [
         {
-          id: discussionId,
+          id: 'abc',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
+          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
         },
       ];
       await nextTick();
       const [discussionRow] = getDiscussionRows();
       const codeRow = discussionRow.previousElementSibling;
-      expect(codeRow.querySelector('[data-line-number]').dataset.lineNumber).toBe(
-        oldLine.toString(),
-      );
+      expect(codeRow.querySelector('[data-line-number]').dataset.lineNumber).toBe('1');
     });
 
     it('provides app data', async () => {
-      useDiscussions().discussions = [
+      store.discussions = [
         {
           id: 'abc',
           diff_discussion: true,
@@ -178,7 +187,7 @@ describe('discussions adapters', () => {
     });
 
     it('mounts discussion row for hidden discussions', async () => {
-      useDiscussions().discussions = [
+      store.discussions = [
         {
           id: 'hidden-discussion',
           diff_discussion: true,
@@ -190,86 +199,72 @@ describe('discussions adapters', () => {
       expect(getDiscussionRows()).toHaveLength(1);
     });
 
-    it('does not render discussions for different paths', async () => {
-      useDiscussions().discussions = [
-        {
-          id: 'xyz',
-          diff_discussion: true,
-          position: { old_path: 'different', new_path: 'paths', old_line: 1, new_line: null },
-        },
-      ];
-      await nextTick();
-      expect(getDiffFile().querySelector('[data-discussion-id]')).toBeNull();
-    });
-
-    it('creates only one discussion row when multiple discussions share the same position', async () => {
-      const oldLine = 1;
-      useDiscussions().discussions = [
+    it('creates only one discussion row per line', async () => {
+      store.discussions = [
         {
           id: 'first',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
+          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
         },
         {
           id: 'second',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
+          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
         },
       ];
       await nextTick();
-
       const discussionRows = getDiscussionRows();
       expect(discussionRows).toHaveLength(1);
       expect(discussionRows[0].querySelectorAll('td')).toHaveLength(1);
     });
 
-    it('creates new discussion form on click', async () => {
+    it('removes empty row', async () => {
+      store.discussions = [
+        {
+          id: 'abc',
+          diff_discussion: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
+        },
+      ];
+      await nextTick();
+      expect(getDiscussionRows()).toHaveLength(1);
+      store.discussions = [];
+      await nextTick();
+      expect(getDiscussionRows()).toHaveLength(0);
+    });
+
+    it('skips discussions whose line is not in the DOM', async () => {
+      store.discussions = [
+        {
+          id: 'abc',
+          diff_discussion: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 999, new_line: null },
+        },
+      ];
+      await nextTick();
+      expect(getDiscussionRows()).toHaveLength(0);
+    });
+
+    it('forwards click to store.replyToLineDiscussion', () => {
       let event;
       const button = getDiffFile().querySelector('[data-click="newDiscussion"]');
+      const pos = { old_line: 2, new_line: null, type: null };
+      button.lineRange = { start: pos, end: pos };
       button.addEventListener('click', (e) => {
         event = e;
       });
       button.click();
       getDiffFile().onClick(event);
-      await nextTick();
-      expect(getDiscussionRows()).toHaveLength(1);
-    });
 
-    it('removes empty row', async () => {
-      const oldLine = 1;
-      useDiscussions().discussions = [
-        {
-          id: 'abc',
-          diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
-        },
-      ];
-      await nextTick();
-      expect(getDiscussionRows()).toHaveLength(1);
-      useDiscussions().discussions = [];
-      await nextTick();
-      expect(getDiscussionRows()).toHaveLength(0);
-    });
-
-    it('keeps discussion row when discussions are hidden', async () => {
-      const oldLine = 1;
-      useDiscussions().setInitialDiscussions([
-        {
-          id: 'abc',
-          diff_discussion: true,
-          notes: [],
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
-        },
-      ]);
-      await nextTick();
-      expect(getDiscussionRows()).toHaveLength(1);
-      store.setFileDiscussionsHidden(oldPath, newPath, true);
-      await nextTick();
-      expect(getDiscussionRows()).toHaveLength(1);
+      expect(store.replyToLineDiscussion).toHaveBeenCalledWith({
+        oldPath,
+        newPath,
+        lineRange: { start: pos, end: pos },
+      });
     });
 
     it('destroys Vue instances on cleanup', async () => {
-      useDiscussions().discussions = [
+      store.discussions = [
         {
           id: 'abc',
           diff_discussion: true,
@@ -312,14 +307,16 @@ describe('discussions adapters', () => {
           [CLEAR_HIGHLIGHT]: clearHighlightSpy,
         };
         getDiffFile().mount({
-          adapterConfig: { text_inline: [createInlineDiscussionsAdapter(store), spyAdapter] },
+          adapterConfig: {
+            text_inline: [createLineDiscussionsAdapter({ store, parallel: false }), spyAdapter],
+          },
           appData,
           unobserve: jest.fn(),
         });
       });
 
       it('calls trigger with HIGHLIGHT_LINES when Vue component emits highlight', async () => {
-        useDiscussions().discussions = [
+        store.discussions = [
           {
             id: 'abc',
             diff_discussion: true,
@@ -333,7 +330,7 @@ describe('discussions adapters', () => {
       });
 
       it('calls trigger with CLEAR_HIGHLIGHT when Vue component emits clear-highlight', async () => {
-        useDiscussions().discussions = [
+        store.discussions = [
           {
             id: 'abc',
             diff_discussion: true,
@@ -346,7 +343,7 @@ describe('discussions adapters', () => {
       });
 
       it('triggers CLEAR_HIGHLIGHT when discussion row becomes empty', async () => {
-        useDiscussions().discussions = [
+        store.discussions = [
           {
             id: 'abc',
             diff_discussion: true,
@@ -355,7 +352,7 @@ describe('discussions adapters', () => {
         ];
         await nextTick();
         expect(getDiscussionRows()).toHaveLength(1);
-        useDiscussions().discussions = [];
+        store.discussions = [];
         await nextTick();
         expect(clearHighlightSpy).toHaveBeenCalled();
       });
@@ -410,19 +407,18 @@ describe('discussions adapters', () => {
         </diff-file>
       `);
       getDiffFile().mount({
-        adapterConfig: { text_parallel: [createParallelDiscussionsAdapter(store)] },
+        adapterConfig: { text_parallel: [createLineDiscussionsAdapter({ store, parallel: true })] },
         appData: {},
         unobserve: jest.fn(),
       });
     });
 
     it('renders a discussion on the old side', async () => {
-      const oldLine = 1;
-      useDiscussions().discussions = [
+      store.discussions = [
         {
           id: 'old-side',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
+          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
         },
       ];
       await nextTick();
@@ -430,17 +426,16 @@ describe('discussions adapters', () => {
       const codeRow = discussionRow.previousElementSibling;
       expect(
         codeRow.querySelector('[data-position="old"] [data-line-number]').dataset.lineNumber,
-      ).toBe(oldLine.toString());
+      ).toBe('1');
       expect(discussionRow.children).toHaveLength(2);
     });
 
     it('renders a discussion on the new side', async () => {
-      const newLine = 2;
-      useDiscussions().discussions = [
+      store.discussions = [
         {
           id: 'new-side',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: null, new_line: newLine },
+          position: { old_path: oldPath, new_path: newPath, old_line: null, new_line: 2 },
         },
       ];
       await nextTick();
@@ -448,12 +443,12 @@ describe('discussions adapters', () => {
       const codeRow = discussionRow.previousElementSibling;
       expect(
         codeRow.querySelector('[data-position="new"] [data-line-number]').dataset.lineNumber,
-      ).toBe(newLine.toString());
+      ).toBe('2');
       expect(discussionRow.children).toHaveLength(2);
     });
 
     it('renders discussions on both sides of a modified row', async () => {
-      useDiscussions().discussions = [
+      store.discussions = [
         {
           id: 'old-side',
           diff_discussion: true,
@@ -472,13 +467,11 @@ describe('discussions adapters', () => {
     });
 
     it('renders a discussion spanning both sides', async () => {
-      const oldLine = 3;
-      const newLine = 3;
-      useDiscussions().discussions = [
+      store.discussions = [
         {
           id: 'spanning',
           diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: newLine },
+          position: { old_path: oldPath, new_path: newPath, old_line: 3, new_line: 3 },
         },
       ];
       await nextTick();
@@ -486,52 +479,8 @@ describe('discussions adapters', () => {
       expect(discussionRow.children).toHaveLength(1);
     });
 
-    it('renders multiple discussions on the same spanning row', async () => {
-      useDiscussions().discussions = [
-        {
-          id: 'first',
-          diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: 3, new_line: 3 },
-        },
-        {
-          id: 'second',
-          diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: 3, new_line: 3 },
-        },
-      ];
-      await nextTick();
-      const discussionRows = getDiscussionRows();
-      expect(discussionRows).toHaveLength(1);
-      expect(discussionRows[0].children).toHaveLength(1);
-    });
-
-    it('mounts discussion row for hidden discussions', async () => {
-      useDiscussions().discussions = [
-        {
-          id: 'hidden-discussion',
-          diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
-          hidden: true,
-        },
-      ];
-      await nextTick();
-      expect(getDiscussionRows()).toHaveLength(1);
-    });
-
-    it('does not render discussions for different paths', async () => {
-      useDiscussions().discussions = [
-        {
-          id: 'xyz',
-          diff_discussion: true,
-          position: { old_path: 'different', new_path: 'paths', old_line: 1, new_line: null },
-        },
-      ];
-      await nextTick();
-      expect(getDiffFile().querySelector('[data-discussion-id]')).toBeNull();
-    });
-
-    it('creates only one discussion row when multiple discussions share the same position', async () => {
-      useDiscussions().discussions = [
+    it('creates only one discussion row per line', async () => {
+      store.discussions = [
         {
           id: 'first',
           diff_discussion: true,
@@ -549,20 +498,26 @@ describe('discussions adapters', () => {
       expect(discussionRows[0].querySelectorAll('td')).toHaveLength(2);
     });
 
-    it('creates new discussion form on click', async () => {
+    it('forwards click to store.replyToLineDiscussion', () => {
       let event;
       const button = getDiffFile().querySelector('[data-click="newDiscussion"]');
+      const pos = { old_line: 4, new_line: 4, type: null };
+      button.lineRange = { start: pos, end: pos };
       button.addEventListener('click', (e) => {
         event = e;
       });
       button.click();
       getDiffFile().onClick(event);
-      await nextTick();
-      expect(getDiscussionRows()).toHaveLength(1);
+
+      expect(store.replyToLineDiscussion).toHaveBeenCalledWith({
+        oldPath,
+        newPath,
+        lineRange: { start: pos, end: pos },
+      });
     });
 
     it('removes empty row', async () => {
-      useDiscussions().discussions = [
+      store.discussions = [
         {
           id: 'abc',
           diff_discussion: true,
@@ -571,7 +526,7 @@ describe('discussions adapters', () => {
       ];
       await nextTick();
       expect(getDiscussionRows()).toHaveLength(1);
-      useDiscussions().discussions = [];
+      store.discussions = [];
       await nextTick();
       expect(getDiscussionRows()).toHaveLength(0);
     });

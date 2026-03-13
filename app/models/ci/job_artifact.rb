@@ -198,10 +198,6 @@ module Ci
       expire_at.present? && expire_at.past?
     end
 
-    def expiring?
-      expire_at.present? && expire_at.future?
-    end
-
     def expire_in
       expire_at - Time.current if expire_at
     end

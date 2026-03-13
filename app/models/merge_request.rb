@@ -1590,24 +1590,41 @@ class MergeRequest < ApplicationRecord
   end
 
   def self.mergeable_state_checks
-    # We want to have the cheapest checks first in the list, that way we can
-    #   fail fast before running the more expensive ones.
-    #
-    [
-      ::MergeRequests::Mergeability::CheckOpenStatusService,
-      ::MergeRequests::Mergeability::CheckMergeTimeService,
-      ::MergeRequests::Mergeability::CheckDraftStatusService,
-      ::MergeRequests::Mergeability::CheckCommitsStatusService,
-      ::MergeRequests::Mergeability::CheckDiscussionsStatusService,
-      ::MergeRequests::Mergeability::CheckCiStatusService,
-      ::MergeRequests::Mergeability::CheckLfsFileLocksService
-    ]
+    mergeable_state_checks_by_tier.values.flatten
+  end
+
+  # Checks grouped by cost tier for fail-fast optimization.
+  # EE prepends additional checks into each tier via override.
+  # Tiers are executed in order: cheapest first, so we can
+  # fail fast before running the more expensive ones.
+  # Checks within each tier are ordered by P99 latency ascending.
+  #
+  # Thresholds based on production P99 latency:
+  # - trivial: P99 < 0.005s
+  # - light:   P99 0.005s - 0.019s
+  # - heavy:   P99 >= 0.020s
+  def self.mergeable_state_checks_by_tier
+    {
+      trivial: [
+        ::MergeRequests::Mergeability::CheckOpenStatusService,
+        ::MergeRequests::Mergeability::CheckDraftStatusService
+      ],
+      light: [
+        ::MergeRequests::Mergeability::CheckMergeTimeService
+      ],
+      heavy: [
+        ::MergeRequests::Mergeability::CheckLfsFileLocksService,
+        ::MergeRequests::Mergeability::CheckDiscussionsStatusService,
+        ::MergeRequests::Mergeability::CheckCiStatusService,
+        ::MergeRequests::Mergeability::CheckCommitsStatusService
+      ]
+    }
   end
 
   def self.mergeable_git_state_checks
     [
-      ::MergeRequests::Mergeability::CheckConflictStatusService,
-      ::MergeRequests::Mergeability::CheckRebaseStatusService
+      ::MergeRequests::Mergeability::CheckRebaseStatusService,
+      ::MergeRequests::Mergeability::CheckConflictStatusService
     ]
   end
 

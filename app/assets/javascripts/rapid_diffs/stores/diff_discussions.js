@@ -37,6 +37,12 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     };
   });
 
+  const isFileDiscussion = (discussion) =>
+    discussion.position?.position_type === 'file' ||
+    (discussion.isForm &&
+      discussion.position?.old_line === null &&
+      discussion.position?.new_line === null);
+
   const findAllDiscussionsForFile = computed(() => {
     return ({ oldPath, newPath }) => {
       return discussionsWithForms.value.filter((discussion) => {
@@ -46,6 +52,22 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
           discussion.position?.new_path === newPath
         );
       });
+    };
+  });
+
+  const findVisibleDiscussionsForFile = computed(() => {
+    return ({ oldPath, newPath }) => {
+      return findAllDiscussionsForFile
+        .value({ oldPath, newPath })
+        .filter((discussion) => !discussion.hidden && !isFileDiscussion(discussion));
+    };
+  });
+
+  const findFileDiscussionsForFile = computed(() => {
+    return ({ oldPath, newPath }) => {
+      return findAllDiscussionsForFile
+        .value({ oldPath, newPath })
+        .filter((discussion) => !discussion.hidden && isFileDiscussion(discussion));
     };
   });
 
@@ -83,7 +105,8 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     });
   }
 
-  function addNewLineDiscussionForm({ oldPath, newPath, oldLine, newLine }) {
+  function addNewLineDiscussionForm({ oldPath, newPath, lineRange }) {
+    const { old_line: oldLine, new_line: newLine } = lineRange.end;
     const id = [oldPath, newPath, oldLine, newLine].join('-');
     if (discussionForms.value.some((discussion) => discussion.id === id)) return id;
     discussionForms.value.push({
@@ -94,6 +117,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
         new_path: newPath,
         old_line: oldLine,
         new_line: newLine,
+        line_range: lineRange,
       },
       isForm: true,
       noteBody: '',
@@ -107,12 +131,10 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     const [existingDiscussion] = findDiscussionsForPosition
       .value({ oldPath, newPath, oldLine, newLine })
       .filter((discussion) => !discussion.isForm);
-    if (existingDiscussion) {
-      setPositionDiscussionsHidden({ oldPath, newPath, oldLine, newLine }, false);
-      discussions.startReplying(existingDiscussion);
-      return existingDiscussion.id;
-    }
-    return addNewLineDiscussionForm({ oldPath, newPath, oldLine, newLine });
+    if (!existingDiscussion) return undefined;
+    setPositionDiscussionsHidden({ oldPath, newPath, oldLine, newLine }, false);
+    discussions.startReplying(existingDiscussion);
+    return existingDiscussion.id;
   }
 
   function removeNewLineDiscussionForm(discussion) {
@@ -124,12 +146,36 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     discussions.addDiscussion(newDiscussion);
   }
 
-  function setNewLineDiscussionFormText(discussion, text) {
+  function setDiscussionFormText(discussion, text) {
     discussion.noteBody = text;
   }
 
   function setNewLineDiscussionFormAutofocus(discussion, value) {
     discussion.shouldFocus = value;
+  }
+
+  function addNewFileDiscussionForm({ oldPath, newPath }) {
+    const id = [oldPath, newPath, 'file'].join('-');
+    if (discussionForms.value.some((discussion) => discussion.id === id)) return id;
+    discussionForms.value.push({
+      id,
+      diff_discussion: true,
+      position: {
+        position_type: 'file',
+        old_path: oldPath,
+        new_path: newPath,
+        old_line: null,
+        new_line: null,
+      },
+      isForm: true,
+      noteBody: '',
+      shouldFocus: true,
+    });
+    return undefined;
+  }
+
+  function removeNewFileDiscussionForm(discussion) {
+    discussionForms.value.splice(discussionForms.value.indexOf(discussion), 1);
   }
 
   return {
@@ -139,12 +185,16 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     findDiscussionsForPosition,
     findDiscussionsForFile,
     findAllDiscussionsForFile,
+    findVisibleDiscussionsForFile,
+    findFileDiscussionsForFile,
     replyToLineDiscussion,
     addNewLineDiscussionForm,
     replaceDiscussionForm,
     removeNewLineDiscussionForm,
-    setNewLineDiscussionFormText,
+    setDiscussionFormText,
     setNewLineDiscussionFormAutofocus,
+    addNewFileDiscussionForm,
+    removeNewFileDiscussionForm,
     setFileDiscussionsHidden,
     setPositionDiscussionsHidden,
     setInitialDiscussions: discussions.setInitialDiscussions,

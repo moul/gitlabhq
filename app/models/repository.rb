@@ -1248,6 +1248,41 @@ class Repository
     )
   end
 
+  # Squashes commits between start_sha and end_sha into a single commit.
+  # Unlike #squash which takes a merge_request, this method takes explicit SHAs.
+  #
+  # NOTE: This method is similar to #squash but takes explicit SHAs instead of
+  # a merge request. If you modify #squash, consider if this method needs the
+  # same changes (e.g., adding caching, metrics, or hooks).
+  #
+  # @param user [User] The user performing the squash
+  # @param start_sha [String] The SHA to use as parent of the squashed commit
+  # @param end_sha [String] The SHA whose tree will be used for the squashed commit
+  # @param message [String] Commit message for the squashed commit
+  # @return [String] The SHA of the new squashed commit
+  def squash_commits(user, start_sha:, end_sha:, message:)
+    raw.squash(
+      user,
+      start_sha: start_sha,
+      end_sha: end_sha,
+      author: user,
+      message: message,
+      sign: sign_commits?
+    )
+  end
+
+  # Returns the initial commit (first commit with no parents) for the given ref
+  #
+  # @param ref [String] The reference to start from (default: default branch)
+  # @return [Commit, nil]
+  def initial_commit(ref = nil)
+    ref ||= root_ref
+    return unless ref
+
+    git_commit = raw_repository.initial_commit(ref)
+    ::Commit.new(git_commit, container) if git_commit
+  end
+
   def submodule_links
     @submodule_links ||= ::Gitlab::SubmoduleLinks.new(self)
   end
@@ -1452,12 +1487,11 @@ class Repository
     !Gitlab::GitRefValidator.validate(short_name)
   end
 
-  # Determines whether to follow renames when filtering commits by path.
   def determine_follow_option(opts)
     return false unless Array(opts[:path]).length == 1
-    return false if Feature.enabled?(:remove_file_commit_history_following, type: :ops)
+    return opts[:follow] unless opts[:follow].nil?
 
-    opts[:follow].nil? ? true : opts[:follow]
+    Feature.disabled?(:remove_file_commit_history_following, type: :ops)
   end
 
   def empty_commit_collection_with_next_cursor

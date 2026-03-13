@@ -6,6 +6,7 @@ module RapidDiffs
     include DiffHelper
 
     renders_one :header
+    renders_one :before_body
 
     def initialize(
       diff_file:,

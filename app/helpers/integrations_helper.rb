@@ -316,11 +316,11 @@ module IntegrationsHelper
     when "note", "note_events"
       s_("ProjectService|Trigger event for new comments.")
     when "confidential_note", "confidential_note_events"
-      s_("ProjectService|Trigger event for new comments on confidential issues.")
+      s_("ProjectService|Trigger event for new comments on confidential work items.")
     when "issue", "issue_events", "issues_events"
-      s_("ProjectService|Trigger event when an issue is created, updated, or closed.")
+      s_("ProjectService|Trigger event when a work item is created, updated, or closed.")
     when "confidential_issue", "confidential_issue_events", "confidential_issues_events"
-      s_("ProjectService|Trigger event when a confidential issue is created, updated, or closed.")
+      s_("ProjectService|Trigger event when a confidential work item is created, updated, or closed.")
     when "merge_request", "merge_request_events", "merge_requests_events"
       s_("ProjectService|Trigger event when a merge request is created, updated, or merged.")
     when "pipeline", "pipeline_events"

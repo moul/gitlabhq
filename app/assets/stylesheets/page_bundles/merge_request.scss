@@ -149,7 +149,7 @@ $merge-request-sticky-header-height: 45px;
         }
 
         .merge-request-tabs {
-          @apply gl-h-auto;
+          @apply gl-h-8;
         }
 
         .nav-links li a {
@@ -185,6 +185,8 @@ $merge-request-sticky-header-height: 45px;
 }
 
 .merge-request-tabs-container {
+  align-items: center;
+
   .discussion-filter-container {
     &:not(:only-child) {
       margin: $gl-padding-4;
@@ -199,16 +201,25 @@ $merge-request-sticky-header-height: 45px;
   }
 }
 
-// Wrap MR tabs/buttons so you don't have to scroll on desktop
-@include gl-container-width-down(lg, panel) {
+@include gl-container-width-down(md, panel) {
   .merge-request-tabs-container {
-    @apply gl-flex-row;
+    flex-direction: column-reverse;
+    align-items: flex-start;
   }
 }
 
-@include gl-container-width-down(md, panel) {
-  .merge-request-tabs-container {
-    @apply gl-flex-col-reverse;
+// Allow MR tabs to scroll horizontally when they can't fit in one line
+@include gl-container-width-up(md, panel) {
+  .merge-request-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    @apply gl-h-8;
+  }
+
+  .merge-request-tabs-actions {
+    flex-wrap: nowrap;
+    flex-shrink: 0;
   }
 }
 
@@ -222,15 +233,6 @@ $merge-request-sticky-header-height: 45px;
           @apply gl-hidden;
         }
       }
-    }
-  }
-}
-
-@include gl-container-width-down(xl, panel) {
-  .right-sidebar-expanded {
-    .merge-request-tabs-container {
-      flex-direction: column-reverse;
-      align-items: flex-start;
     }
   }
 }

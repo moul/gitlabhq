@@ -30,7 +30,7 @@ The package registry supports the following package manager types:
 | [Debian](../debian_repository/_index.md)          | [Experiment](https://gitlab.com/groups/gitlab-org/-/epics/6057) |
 | [Generic packages](../generic_packages/_index.md) | Generally available     |
 | [Go](../go_proxy/_index.md)                       | [Experiment](https://gitlab.com/groups/gitlab-org/-/epics/3043) |
-| [Helm](../helm_repository/_index.md)              | [Beta](https://gitlab.com/groups/gitlab-org/-/epics/6366) |
+| [Helm](../helm_repository/_index.md)              | Generally available      |
 | [Maven](../maven_repository/_index.md)            | Generally available      |
 | [npm](../npm_registry/_index.md)                  | Generally available      |
 | [NuGet](../nuget_repository/_index.md)            | Generally available      |

@@ -616,7 +616,7 @@ If access issues persist, check that authentication is correctly configured, and
 
 In case of persistent issues, the error message may suggest bypassing authentication with `AIGW_AUTH__BYPASS_EXTERNAL=true`, but only do this for troubleshooting.
 
-You can also run a [health check](../administration/gitlab_duo/configure/gitlab_self_managed.md#run-a-health-check-for-gitlab-duo) by going to **Admin** > **GitLab Duo**.
+You can also run a [health check](../administration/gitlab_duo/configure/_index.md#run-a-health-check-for-gitlab-duo) by going to **Admin** > **GitLab Duo**.
 
 These tests are performed for offline environments:
 

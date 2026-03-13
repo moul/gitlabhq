@@ -516,7 +516,7 @@ To continue to use `heroku/builder:22` after GitLab 19.0, set `AUTO_DEVOPS_BUILD
 
 - Announced in GitLab 18.8
 - Removal in GitLab 19.0 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))
-- To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/gitlab-org/gitlab/-/issues/583607).
+- To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/groups/gitlab-org/-/work_items/18493).
 
 The **Trending** tab in **Explore** > **Projects** and its associated GraphQL arguments are deprecated in GitLab 18.8 and will be removed in GitLab 19.0.
 In the month before the GitLab 19.0 release, the ***Trending** tab redirects to the **Active** tab sorted by stars in descending order on GitLab.com.

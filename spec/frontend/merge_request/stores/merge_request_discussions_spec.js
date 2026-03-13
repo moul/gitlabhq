@@ -45,9 +45,11 @@ describe('mergeRequestDiscussions store', () => {
     'addNewLineDiscussionForm',
     'replaceDiscussionForm',
     'removeNewLineDiscussionForm',
-    'setNewLineDiscussionFormText',
+    'setDiscussionFormText',
     'setNewLineDiscussionFormAutofocus',
     'setFileDiscussionsHidden',
+    'addNewFileDiscussionForm',
+    'removeNewFileDiscussionForm',
     'createNewDiscussion',
     'createLineDiscussion',
     'replyToDiscussion',
@@ -66,6 +68,8 @@ describe('mergeRequestDiscussions store', () => {
     'findDiscussionsForPosition',
     'findDiscussionsForFile',
     'findAllDiscussionsForFile',
+    'findVisibleDiscussionsForFile',
+    'findFileDiscussionsForFile',
   ])('exposes %s getter', (getter) => {
     expect(store[getter]).toBeDefined();
   });
@@ -155,6 +159,21 @@ describe('mergeRequestDiscussions store', () => {
         awardName: 'thumbsup',
         noteId: 1,
       });
+    });
+  });
+
+  describe('replyToLineDiscussion', () => {
+    it('always creates a new discussion form', () => {
+      const lineRange = {
+        start: { old_line: 5, new_line: 15 },
+        end: { old_line: 10, new_line: 20 },
+      };
+
+      store.replyToLineDiscussion({ oldPath: 'old/file.js', newPath: 'new/file.js', lineRange });
+
+      const forms = useDiffDiscussions().discussionForms;
+      expect(forms).toHaveLength(1);
+      expect(forms[0].position.line_range).toStrictEqual(lineRange);
     });
   });
 });

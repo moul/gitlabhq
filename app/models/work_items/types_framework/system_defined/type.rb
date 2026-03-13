@@ -249,10 +249,6 @@ module WorkItems
           configuration_class.try(:archived?) || false
         end
 
-        def filterable?
-          configuration_class.try(:filterable?) || false
-        end
-
         def only_for_group?
           configuration_class.try(:only_for_group?) || false
         end

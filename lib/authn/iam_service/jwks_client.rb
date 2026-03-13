@@ -25,25 +25,11 @@ module Authn
         raise KeyNotFoundError, "Signing key not found in JWKS"
       end
 
-      # Backward compatibility methods - to be removed in follow-up MR
-      # These methods maintain the old API while JwtValidationService transitions
-      # to using verification_key_for
-
-      def fetch_keys
-        keyset
-      end
-
-      def refresh_keys
-        keyset(force: true)
+      def keyset
+        Rails.cache.fetch(cache_key, expires_in: cache_ttl, race_condition_ttl: RACE_CONDITION_TTL) { fetch_keyset }
       end
 
       private
-
-      def keyset(force: false)
-        Rails.cache.fetch(cache_key, expires_in: cache_ttl, race_condition_ttl: RACE_CONDITION_TTL,
-          force: force
-        ) { fetch_keyset }
-      end
 
       def fetch_keyset
         response = Gitlab::HTTP.get(endpoint, timeout: HTTP_TIMEOUT_SECONDS)

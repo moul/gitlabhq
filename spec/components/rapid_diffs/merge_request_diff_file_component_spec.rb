@@ -93,6 +93,25 @@ RSpec.describe RapidDiffs::MergeRequestDiffFileComponent, type: :component, feat
     end
   end
 
+  describe 'file discussions container' do
+    it 'renders the container inside the before_body slot' do
+      render_component
+
+      details = page.find('details[data-file-body]')
+      expect(details).to have_css('[data-file-discussions]')
+    end
+  end
+
+  describe 'file comment button' do
+    it 'renders a disabled comment button' do
+      render_component
+
+      button = page.find('[data-testid="comment-files-button"]')
+      expect(button[:disabled]).to eq('disabled')
+      expect(button[:'aria-label']).to eq('Comment on this file')
+    end
+  end
+
   describe 'conflict message' do
     where(:conflict_type, :expected_message) do
       [

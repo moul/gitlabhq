@@ -44,10 +44,6 @@ module WorkItems
               }
             end
 
-            def filterable?
-              true
-            end
-
             def filterable_board_view?(resource_parent)
               !!resource_parent.try(:work_item_tasks_on_boards_feature_flag_enabled?)
             end

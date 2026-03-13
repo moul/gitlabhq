@@ -68,119 +68,51 @@ function mountDiscussionRow({ lineRow, parallel, appData, store, trigger }) {
   row.destroy = () => instance.$destroy();
 }
 
-function getInlinePosition(button) {
-  return getLineNumbers(button.closest('tr'));
-}
-
-function getParallelPosition(button) {
-  const cell = button.parentElement;
-  const lineNumbers = getLineNumbers(cell.parentElement);
-  const { change } = cell.dataset;
-  if (change) return change === 'added' ? [null, lineNumbers[1]] : [lineNumbers[0], null];
-  return lineNumbers;
-}
-
 function findLineRow(element, oldLine, newLine) {
   return element
     .querySelector(
       `[data-position="${oldLine ? 'old' : 'new'}"] [data-line-number="${oldLine || newLine}"]`,
     )
-    .closest('tr');
-}
-
-function createDiscussionsWatcher({
-  oldPath,
-  newPath,
-  parallel,
-  store,
-  diffElement,
-  appData,
-  trigger,
-}) {
-  const stopWatcher = watch(
-    () => store.findAllDiscussionsForFile({ oldPath, newPath }),
-    (matchedDiscussions) => {
-      matchedDiscussions.forEach(({ position }) => {
-        const lineRow = findLineRow(diffElement, position.old_line, position.new_line);
-        mountDiscussionRow({
-          lineRow,
-          parallel,
-          appData: { ...appData, oldPath, newPath },
-          store,
-          trigger,
-        });
-      });
-    },
-    { immediate: true },
-  );
-  return () => {
-    stopWatcher();
-    diffElement.querySelectorAll('[data-discussion-row]').forEach((row) => {
-      row.destroy?.();
-    });
-  };
+    ?.closest('tr');
 }
 
 function focusForm(id) {
   document.querySelector(`[data-discussion-id="${id}"] textarea:not(.hidden)`)?.focus();
 }
 
-export const createParallelDiscussionsAdapter = (store) => ({
+export const createLineDiscussionsAdapter = ({ store, parallel }) => ({
   [MOUNTED](addCleanup) {
     const { diffElement, appData, trigger } = this;
-    addCleanup(
-      createDiscussionsWatcher({
-        oldPath: this.data.oldPath,
-        newPath: this.data.newPath,
-        parallel: true,
-        store,
-        diffElement,
-        appData,
-        trigger,
-      }),
+    const { oldPath, newPath } = this.data;
+    const stopWatcher = watch(
+      () => store.findAllDiscussionsForFile({ oldPath, newPath }),
+      (matchedDiscussions) => {
+        matchedDiscussions.forEach(({ position }) => {
+          const lineRow = findLineRow(diffElement, position.old_line, position.new_line);
+          if (!lineRow) return;
+          mountDiscussionRow({
+            lineRow,
+            parallel,
+            appData: { ...appData, oldPath, newPath },
+            store,
+            trigger,
+          });
+        });
+      },
+      { immediate: true },
     );
+    addCleanup(() => {
+      stopWatcher();
+      diffElement.querySelectorAll('[data-discussion-row]').forEach((row) => {
+        row.destroy?.();
+      });
+    });
   },
   clicks: {
     newDiscussion(event, button) {
-      const [oldLine, newLine] = getParallelPosition(button);
       const { oldPath, newPath } = this.data;
-      const existingDiscussionId = store.replyToLineDiscussion({
-        oldPath,
-        newPath,
-        oldLine,
-        newLine,
-      });
-      if (existingDiscussionId) focusForm(existingDiscussionId);
-    },
-  },
-});
-
-export const createInlineDiscussionsAdapter = (store) => ({
-  [MOUNTED](addCleanup) {
-    const { diffElement, appData, trigger } = this;
-    addCleanup(
-      createDiscussionsWatcher({
-        oldPath: this.data.oldPath,
-        newPath: this.data.newPath,
-        parallel: false,
-        store,
-        diffElement,
-        appData,
-        trigger,
-      }),
-    );
-  },
-  clicks: {
-    newDiscussion(event, button) {
-      const [oldLine, newLine] = getInlinePosition(button);
-      const { oldPath, newPath } = this.data;
-      const existingDiscussionId = store.replyToLineDiscussion({
-        oldPath,
-        newPath,
-        oldLine,
-        newLine,
-      });
-      if (existingDiscussionId) focusForm(existingDiscussionId);
+      const id = store.replyToLineDiscussion({ oldPath, newPath, lineRange: button.lineRange });
+      if (id) focusForm(id);
     },
   },
 });

@@ -117,3 +117,4 @@ To manage who must approve any changes to custom rules, use [Code Owners](../../
 ## Related topics
 
 - [AGENTS.md customization files](agents_md.md)
+- [Agent Skills](agent_skills.md)

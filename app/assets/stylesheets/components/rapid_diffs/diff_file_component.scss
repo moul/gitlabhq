@@ -56,6 +56,11 @@
   border-top: 1px solid transparent;
 }
 
+.rd-diff-file-details {
+  --rd-content-border-radius: 0 0 var(--rd-diff-file-border-radius) var(--rd-diff-file-border-radius);
+  --rd-content-border-color: var(--rd-diff-file-border-color, var(--gl-border-color-default));
+}
+
 .rd-diff-file-details > summary {
   display: none;
 }
@@ -246,8 +251,6 @@
 }
 
 .rd-diff-file-body {
-  --rd-content-border-radius: 0 0 var(--rd-diff-file-border-radius) var(--rd-diff-file-border-radius);
-  --rd-content-border-color: var(--rd-diff-file-border-color, var(--gl-border-color-default));
   border: constants.$diff-file-border-width solid var(--rd-diff-file-outer-border-color, var(--rd-content-border-color));
   border-top: 0;
   border-radius: var(--rd-content-border-radius);

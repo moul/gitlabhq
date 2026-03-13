@@ -1089,30 +1089,6 @@ RSpec.describe WorkItems::TypesFramework::SystemDefined::Type, feature_category:
       end
     end
 
-    describe '#filterable?' do
-      context 'when configuration_class responds to filterable?' do
-        it 'returns true when configuration_class.filterable? is true' do
-          allow(type.configuration_class).to receive(:filterable?).and_return(true)
-
-          expect(type.filterable?).to be true
-        end
-
-        it 'returns false when configuration_class.filterable?is explicitly false' do
-          allow(type.configuration_class).to receive(:filterable?).and_return(false)
-
-          expect(type.filterable?).to be false
-        end
-      end
-
-      context 'when configuration_class does not respond to filterable?' do
-        it 'returns false as default when value is nil' do
-          allow(type.configuration_class).to receive(:try).with(:filterable?).and_return(nil)
-
-          expect(type.filterable?).to be false
-        end
-      end
-    end
-
     describe '#only_for_group?' do
       context 'when configuration_class responds to only_for_group?' do
         it 'returns true when configuration_class.only_for_group? is true' do
@@ -1178,13 +1154,6 @@ RSpec.describe WorkItems::TypesFramework::SystemDefined::Type, feature_category:
       task: true,
       incident: true,
       ticket: false
-    }
-
-    it_behaves_like 'work item type configuration', :filterable?, {
-      issue: true,
-      task: true,
-      incident: true,
-      ticket: true
     }
 
     it_behaves_like 'work item type configuration', :archived?, {

@@ -9293,4 +9293,36 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
       end
     end
   end
+
+  describe '.mergeable_state_checks_by_tier' do
+    it 'returns checks in tier order: trivial, light, heavy' do
+      tier_keys = described_class.mergeable_state_checks_by_tier.keys
+      expect(tier_keys).to eq(%i[trivial light heavy])
+    end
+
+    it 'includes CE checks in the expected tiers' do
+      tiers = described_class.mergeable_state_checks_by_tier
+
+      expect(tiers[:trivial]).to include(
+        ::MergeRequests::Mergeability::CheckOpenStatusService,
+        ::MergeRequests::Mergeability::CheckDraftStatusService
+      )
+      expect(tiers[:light]).to include(
+        ::MergeRequests::Mergeability::CheckMergeTimeService
+      )
+      expect(tiers[:heavy]).to include(
+        ::MergeRequests::Mergeability::CheckLfsFileLocksService,
+        ::MergeRequests::Mergeability::CheckDiscussionsStatusService,
+        ::MergeRequests::Mergeability::CheckCiStatusService,
+        ::MergeRequests::Mergeability::CheckCommitsStatusService
+      )
+    end
+  end
+
+  describe '.mergeable_state_checks' do
+    it 'returns all checks flattened in tier order' do
+      expected = described_class.mergeable_state_checks_by_tier.values.flatten
+      expect(described_class.mergeable_state_checks).to eq(expected)
+    end
+  end
 end

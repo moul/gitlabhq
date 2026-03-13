@@ -51905,10 +51905,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -51922,7 +51922,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -52084,10 +52084,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -52097,7 +52097,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -52173,10 +52173,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -52190,7 +52190,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -52462,10 +52462,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -52475,7 +52475,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -52649,10 +52649,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -52666,7 +52666,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -52877,10 +52877,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -52890,7 +52890,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -52944,10 +52944,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -52961,7 +52961,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -53054,10 +53054,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -53067,7 +53067,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -53163,10 +53163,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -53176,7 +53176,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -53225,10 +53225,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -53242,7 +53242,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -53281,10 +53281,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -53298,7 +53298,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -53348,10 +53348,10 @@ definitions:
         description: Secret token.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       use_inherited_settings:
         type: boolean
@@ -59672,10 +59672,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -59689,7 +59689,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -59851,10 +59851,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -59864,7 +59864,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -59940,10 +59940,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -59957,7 +59957,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -60229,10 +60229,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -60242,7 +60242,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -60416,10 +60416,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -60433,7 +60433,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -60644,10 +60644,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -60657,7 +60657,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -60711,10 +60711,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -60728,7 +60728,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -60821,10 +60821,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -60834,7 +60834,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -60930,10 +60930,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -60943,7 +60943,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -60992,10 +60992,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -61009,7 +61009,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -61048,10 +61048,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -61065,7 +61065,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -61115,10 +61115,10 @@ definitions:
         description: Secret token.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       use_inherited_settings:
         type: boolean
@@ -61616,10 +61616,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -61633,7 +61633,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -61795,10 +61795,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -61808,7 +61808,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -61884,10 +61884,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -61901,7 +61901,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -62173,10 +62173,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -62186,7 +62186,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -62360,10 +62360,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -62377,7 +62377,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -62588,10 +62588,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -62601,7 +62601,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -62655,10 +62655,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -62672,7 +62672,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -62765,10 +62765,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -62778,7 +62778,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -62874,10 +62874,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       merge_requests_events:
         type: boolean
@@ -62887,7 +62887,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -62936,10 +62936,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -62953,7 +62953,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -62992,10 +62992,10 @@ definitions:
         description: Trigger event for pushes to the repository.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       work_item_events:
         type: boolean
@@ -63009,7 +63009,7 @@ definitions:
         description: Trigger event for new comments.
       confidential_note_events:
         type: boolean
-        description: Trigger event for new comments on confidential issues.
+        description: Trigger event for new comments on confidential work items.
       tag_push_events:
         type: boolean
         description: Trigger event for new tags pushed to the repository.
@@ -63059,10 +63059,10 @@ definitions:
         description: Secret token.
       issues_events:
         type: boolean
-        description: Trigger event when an issue is created, updated, or closed.
+        description: Trigger event when a work item is created, updated, or closed.
       confidential_issues_events:
         type: boolean
-        description: Trigger event when a confidential issue is created, updated,
+        description: Trigger event when a confidential work item is created, updated,
           or closed.
       use_inherited_settings:
         type: boolean

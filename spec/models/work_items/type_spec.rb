@@ -383,12 +383,6 @@ RSpec.describe WorkItems::Type, feature_category: :team_planning do
       end
     end
 
-    describe '#filterable?' do
-      it 'returns nil' do
-        expect(work_item_type.filterable?).to be_nil
-      end
-    end
-
     describe '#only_for_group?' do
       it 'returns nil' do
         expect(work_item_type.only_for_group?).to be_nil

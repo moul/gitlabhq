@@ -1,8 +1,6 @@
 import { HEADER_ADAPTERS, VIEWER_ADAPTERS } from '~/rapid_diffs/app/adapter_configs/base';
-import {
-  createInlineDiscussionsAdapter,
-  createParallelDiscussionsAdapter,
-} from '~/rapid_diffs/adapters/discussions';
+import { createLineDiscussionsAdapter } from '~/rapid_diffs/adapters/line_discussions';
+import { createFileDiscussionsAdapter } from '~/rapid_diffs/adapters/file_discussions';
 import { lineHighlightingAdapter } from '~/rapid_diffs/adapters/line_highlighting';
 import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request_discussions';
 import { viewedAdapter } from '~/rapid_diffs/adapters/viewed';
@@ -10,9 +8,10 @@ import { pinia } from '~/pinia/instance';
 
 const MR_HEADER_ADAPTERS = [...HEADER_ADAPTERS, viewedAdapter];
 
-const mergeRequestStore = useMergeRequestDiscussions(pinia);
-const inlineDiscussionsAdapter = createInlineDiscussionsAdapter(mergeRequestStore);
-const parallelDiscussionsAdapter = createParallelDiscussionsAdapter(mergeRequestStore);
+const store = useMergeRequestDiscussions(pinia);
+const inlineDiscussionsAdapter = createLineDiscussionsAdapter({ store, parallel: false });
+const parallelDiscussionsAdapter = createLineDiscussionsAdapter({ store, parallel: true });
+const fileDiscussionsAdapter = createFileDiscussionsAdapter(store);
 
 export const adapters = {
   text_inline: [
@@ -20,13 +19,19 @@ export const adapters = {
     ...VIEWER_ADAPTERS.text_inline.slice(HEADER_ADAPTERS.length),
     inlineDiscussionsAdapter,
     lineHighlightingAdapter,
+    fileDiscussionsAdapter,
   ],
   text_parallel: [
     ...MR_HEADER_ADAPTERS,
     ...VIEWER_ADAPTERS.text_parallel.slice(HEADER_ADAPTERS.length),
     parallelDiscussionsAdapter,
     lineHighlightingAdapter,
+    fileDiscussionsAdapter,
   ],
-  image: [...MR_HEADER_ADAPTERS, ...VIEWER_ADAPTERS.image.slice(HEADER_ADAPTERS.length)],
-  no_preview: [...MR_HEADER_ADAPTERS],
+  image: [
+    ...MR_HEADER_ADAPTERS,
+    ...VIEWER_ADAPTERS.image.slice(HEADER_ADAPTERS.length),
+    fileDiscussionsAdapter,
+  ],
+  no_preview: [...MR_HEADER_ADAPTERS, fileDiscussionsAdapter],
 };

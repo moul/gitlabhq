@@ -9244,7 +9244,19 @@ msgstr ""
 msgid "Analytics settings"
 msgstr ""
 
+msgid "AnalyticsDashboards|Chat (non-agentic)"
+msgstr ""
+
+msgid "AnalyticsDashboards|Code Suggestions"
+msgstr ""
+
 msgid "AnalyticsDashboards|Failed to load namespace metadata."
+msgstr ""
+
+msgid "AnalyticsDashboards|Root Cause Analysis"
+msgstr ""
+
+msgid "AnalyticsDashboards|This table doesn't include GitLab Duo Agent Platform events."
 msgstr ""
 
 msgid "Analytics|%{linkStart}Learn more%{linkEnd} about managing and interacting with analytics dashboards."
@@ -37257,7 +37269,7 @@ msgstr ""
 msgid "IntegrationEvents|A comment is added"
 msgstr ""
 
-msgid "IntegrationEvents|A confidential issue is created, closed, or reopened"
+msgid "IntegrationEvents|A confidential work item is created, closed, or reopened"
 msgstr ""
 
 msgid "IntegrationEvents|A deployment is started or finished"
@@ -37290,13 +37302,13 @@ msgstr ""
 msgid "IntegrationEvents|A wiki page is created or updated"
 msgstr ""
 
+msgid "IntegrationEvents|A work item is created, closed, or reopened"
+msgstr ""
+
 msgid "IntegrationEvents|An incident is created, closed, or reopened"
 msgstr ""
 
-msgid "IntegrationEvents|An internal note or comment on a confidential issue is added"
-msgstr ""
-
-msgid "IntegrationEvents|An issue is created, closed, or reopened"
+msgid "IntegrationEvents|An internal note or comment on a confidential work item is added"
 msgstr ""
 
 msgid "Integrations"
@@ -54038,7 +54050,7 @@ msgstr ""
 msgid "ProjectService|Token for the Drone project."
 msgstr ""
 
-msgid "ProjectService|Trigger event for new comments on confidential issues."
+msgid "ProjectService|Trigger event for new comments on confidential work items."
 msgstr ""
 
 msgid "ProjectService|Trigger event for new comments."
@@ -54056,7 +54068,7 @@ msgstr ""
 msgid "ProjectService|Trigger event when a commit is created or updated."
 msgstr ""
 
-msgid "ProjectService|Trigger event when a confidential issue is created, updated, or closed."
+msgid "ProjectService|Trigger event when a confidential work item is created, updated, or closed."
 msgstr ""
 
 msgid "ProjectService|Trigger event when a deployment starts or finishes."
@@ -54077,10 +54089,10 @@ msgstr ""
 msgid "ProjectService|Trigger event when a wiki page is created or updated."
 msgstr ""
 
-msgid "ProjectService|Trigger event when an incident is created."
+msgid "ProjectService|Trigger event when a work item is created, updated, or closed."
 msgstr ""
 
-msgid "ProjectService|Trigger event when an issue is created, updated, or closed."
+msgid "ProjectService|Trigger event when an incident is created."
 msgstr ""
 
 msgid "ProjectSettings|%{link_start}What are description templates?%{link_end}"
@@ -69904,6 +69916,9 @@ msgid_plural "All %{resolvableDiscussionsCount} threads resolved"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "The overall risk score for your organization based on vulnerability severity and age."
+msgstr ""
+
 msgid "The page could not be displayed because it timed out."
 msgstr ""
 
@@ -72476,6 +72491,9 @@ msgid "Topics|Topics"
 msgstr ""
 
 msgid "Total"
+msgstr ""
+
+msgid "Total Risk Score"
 msgstr ""
 
 msgid "Total cores (CPUs)"
@@ -78015,13 +78033,13 @@ msgstr ""
 msgid "Webhooks help"
 msgstr ""
 
-msgid "WebhooksTrigger|A comment is made or edited on a confidential issue."
+msgid "WebhooksTrigger|A comment is made or edited on a confidential work item."
 msgstr ""
 
-msgid "WebhooksTrigger|A comment is made or edited on an issue or merge request."
+msgid "WebhooksTrigger|A comment is made or edited on an work item or merge request."
 msgstr ""
 
-msgid "WebhooksTrigger|A confidential issue is created, updated, closed, or reopened."
+msgid "WebhooksTrigger|A confidential work item is created, updated, closed, or reopened."
 msgstr ""
 
 msgid "WebhooksTrigger|A deployment starts, finishes, fails, or is canceled."
@@ -78063,13 +78081,13 @@ msgstr ""
 msgid "WebhooksTrigger|A wiki page is created or updated."
 msgstr ""
 
+msgid "WebhooksTrigger|A work item is created, updated, closed, or reopened."
+msgstr ""
+
 msgid "WebhooksTrigger|An access token expires in the next 7 days."
 msgstr ""
 
 msgid "WebhooksTrigger|An emoji is awarded or revoked."
-msgstr ""
-
-msgid "WebhooksTrigger|An issue is created, updated, closed, or reopened."
 msgstr ""
 
 msgid "WebhooksTrigger|Comments"
@@ -78078,7 +78096,7 @@ msgstr ""
 msgid "WebhooksTrigger|Confidential comments"
 msgstr ""
 
-msgid "WebhooksTrigger|Confidential issues events"
+msgid "WebhooksTrigger|Confidential work items events"
 msgstr ""
 
 msgid "WebhooksTrigger|Deployment events"
@@ -78088,9 +78106,6 @@ msgid "WebhooksTrigger|Emoji events"
 msgstr ""
 
 msgid "WebhooksTrigger|Feature flag events"
-msgstr ""
-
-msgid "WebhooksTrigger|Issues events"
 msgstr ""
 
 msgid "WebhooksTrigger|Job events"
@@ -78136,6 +78151,9 @@ msgid "WebhooksTrigger|Which project or group access token events trigger webhoo
 msgstr ""
 
 msgid "WebhooksTrigger|Wiki page events"
+msgstr ""
+
+msgid "WebhooksTrigger|Work item events"
 msgstr ""
 
 msgid "Webhooks|+ Add URL masking"

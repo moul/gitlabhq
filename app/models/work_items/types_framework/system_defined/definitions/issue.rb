@@ -63,10 +63,6 @@ module WorkItems
               true
             end
 
-            def filterable?
-              true
-            end
-
             def filterable_board_view?(_resource_parent)
               true
             end

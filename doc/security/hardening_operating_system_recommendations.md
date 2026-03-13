@@ -105,7 +105,7 @@ be blocked, or at least restricted to specific ranges. For more information on p
 - To use an HTTP/S proxy, both `gitLab_workhorse` and `gitLab_rails` must have the necessary
   [web proxy environment variables](https://docs.gitlab.com/omnibus/settings/environment-variables.html) set.
 - In multi-node GitLab installations, configure the HTTP/S proxy on all **Rails** and **Sidekiq** nodes.
-- To configure GitLab Duo on GitLab Self-Managed, [allow outbound connections from the GitLab instance to GitLab Duo](../administration/gitlab_duo/configure/gitlab_self_managed.md#allow-outbound-connections-from-the-gitlab-instance-to-gitlab-duo).
+- To configure GitLab Duo on GitLab Self-Managed, [allow outbound connections from the GitLab instance to GitLab Duo](../administration/gitlab_duo/configure/_index.md#allow-outbound-connections-from-the-gitlab-instance-to-gitlab-duo).
 
 ### Firewall Additions
 

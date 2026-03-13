@@ -62,6 +62,23 @@ export const useCommitDiffDiscussions = defineStore('commitDiffDiscussions', () 
     diffDiscussions.toggleAward({ note, award: name });
   }
 
+  function replyToLineDiscussion({ oldPath, newPath, lineRange }) {
+    const { end } = lineRange;
+    const singleLineRange = { start: end, end };
+    const id = diffDiscussions.replyToLineDiscussion({
+      oldPath,
+      newPath,
+      oldLine: end.old_line,
+      newLine: end.new_line,
+    });
+    if (id) return id;
+    return diffDiscussions.addNewLineDiscussionForm({
+      oldPath,
+      newPath,
+      lineRange: singleLineRange,
+    });
+  }
+
   return {
     setDiscussionsEndpoint,
     createNewDiscussion,
@@ -86,11 +103,11 @@ export const useCommitDiffDiscussions = defineStore('commitDiffDiscussions', () 
     setEditingMode: diffDiscussions.setEditingMode,
     requestLastNoteEditing: diffDiscussions.requestLastNoteEditing,
     toggleAward: diffDiscussions.toggleAward,
-    replyToLineDiscussion: diffDiscussions.replyToLineDiscussion,
+    replyToLineDiscussion,
     addNewLineDiscussionForm: diffDiscussions.addNewLineDiscussionForm,
     replaceDiscussionForm: diffDiscussions.replaceDiscussionForm,
     removeNewLineDiscussionForm: diffDiscussions.removeNewLineDiscussionForm,
-    setNewLineDiscussionFormText: diffDiscussions.setNewLineDiscussionFormText,
+    setDiscussionFormText: diffDiscussions.setDiscussionFormText,
     setNewLineDiscussionFormAutofocus: diffDiscussions.setNewLineDiscussionFormAutofocus,
     setFileDiscussionsHidden: diffDiscussions.setFileDiscussionsHidden,
     setPositionDiscussionsHidden: diffDiscussions.setPositionDiscussionsHidden,

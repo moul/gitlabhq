@@ -4119,7 +4119,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_6a8b2bd25122"
+              "$ref": "#/components/schemas/RequestBody_43051e1a8bdb"
   "/api/v4/security/groups/{id}/vulnerability_exports":
     post:
       operationId: postApiV4SecurityGroupsIdVulnerabilityExports
@@ -4145,7 +4145,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_6a8b2bd25122"
+              "$ref": "#/components/schemas/RequestBody_43051e1a8bdb"
   "/api/v4/security/vulnerability_exports":
     post:
       operationId: postApiV4SecurityVulnerabilityExports
@@ -40137,7 +40137,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_85829e85a00e"
+              "$ref": "#/components/schemas/RequestBody_13ff7e600114"
   "/api/v4/projects/{id}/services/drone-ci":
     put:
       operationId: putApiV4ProjectsIdServicesDroneCi
@@ -40249,7 +40249,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_365bee8201c7"
+              "$ref": "#/components/schemas/RequestBody_1e55309b961e"
   "/api/v4/projects/{id}/services/google-play":
     put:
       operationId: putApiV4ProjectsIdServicesGooglePlay
@@ -40305,7 +40305,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_bef569810cd1"
+              "$ref": "#/components/schemas/RequestBody_a6fbcff9aa2e"
   "/api/v4/projects/{id}/services/harbor":
     put:
       operationId: putApiV4ProjectsIdServicesHarbor
@@ -40501,7 +40501,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_3fe43a6555fe"
+              "$ref": "#/components/schemas/RequestBody_1d6c4cc809b5"
   "/api/v4/projects/{id}/services/mattermost-slash-commands":
     put:
       operationId: putApiV4ProjectsIdServicesMattermostSlashCommands
@@ -40697,7 +40697,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_3f3f9aa9d244"
+              "$ref": "#/components/schemas/RequestBody_dd163f1ebbcf"
   "/api/v4/projects/{id}/services/pushover":
     put:
       operationId: putApiV4ProjectsIdServicesPushover
@@ -40865,7 +40865,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_f91b5855691f"
+              "$ref": "#/components/schemas/RequestBody_0f60d0dce73e"
   "/api/v4/projects/{id}/services/microsoft-teams":
     put:
       operationId: putApiV4ProjectsIdServicesMicrosoftTeams
@@ -40893,7 +40893,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_c87941779c95"
+              "$ref": "#/components/schemas/RequestBody_8fc7263e0413"
   "/api/v4/projects/{id}/services/mattermost":
     put:
       operationId: putApiV4ProjectsIdServicesMattermost
@@ -40921,7 +40921,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_dd1500c67b73"
+              "$ref": "#/components/schemas/RequestBody_1155ddd8f847"
   "/api/v4/projects/{id}/services/teamcity":
     put:
       operationId: putApiV4ProjectsIdServicesTeamcity
@@ -40977,7 +40977,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_fb3d532cc100"
+              "$ref": "#/components/schemas/RequestBody_0ae5317cd370"
   "/api/v4/projects/{id}/services/unify-circuit":
     put:
       operationId: putApiV4ProjectsIdServicesUnifyCircuit
@@ -41005,7 +41005,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_bc1248bca522"
+              "$ref": "#/components/schemas/RequestBody_f071be11c212"
   "/api/v4/projects/{id}/services/webex-teams":
     put:
       operationId: putApiV4ProjectsIdServicesWebexTeams
@@ -41033,7 +41033,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_97a6301b2315"
+              "$ref": "#/components/schemas/RequestBody_c0bb13e5b28b"
   "/api/v4/projects/{id}/services/zentao":
     put:
       operationId: putApiV4ProjectsIdServicesZentao
@@ -41089,7 +41089,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_8a4888a7922f"
+              "$ref": "#/components/schemas/RequestBody_2c59cf25c423"
   "/api/v4/projects/{id}/services/github":
     put:
       operationId: putApiV4ProjectsIdServicesGithub
@@ -41820,7 +41820,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_85829e85a00e"
+              "$ref": "#/components/schemas/RequestBody_13ff7e600114"
   "/api/v4/projects/{id}/integrations/drone-ci":
     put:
       operationId: putApiV4ProjectsIdIntegrationsDroneCi
@@ -41932,7 +41932,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_365bee8201c7"
+              "$ref": "#/components/schemas/RequestBody_1e55309b961e"
   "/api/v4/projects/{id}/integrations/google-play":
     put:
       operationId: putApiV4ProjectsIdIntegrationsGooglePlay
@@ -41988,7 +41988,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_bef569810cd1"
+              "$ref": "#/components/schemas/RequestBody_a6fbcff9aa2e"
   "/api/v4/projects/{id}/integrations/harbor":
     put:
       operationId: putApiV4ProjectsIdIntegrationsHarbor
@@ -42184,7 +42184,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_3fe43a6555fe"
+              "$ref": "#/components/schemas/RequestBody_1d6c4cc809b5"
   "/api/v4/projects/{id}/integrations/mattermost-slash-commands":
     put:
       operationId: putApiV4ProjectsIdIntegrationsMattermostSlashCommands
@@ -42380,7 +42380,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_3f3f9aa9d244"
+              "$ref": "#/components/schemas/RequestBody_dd163f1ebbcf"
   "/api/v4/projects/{id}/integrations/pushover":
     put:
       operationId: putApiV4ProjectsIdIntegrationsPushover
@@ -42548,7 +42548,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_f91b5855691f"
+              "$ref": "#/components/schemas/RequestBody_0f60d0dce73e"
   "/api/v4/projects/{id}/integrations/microsoft-teams":
     put:
       operationId: putApiV4ProjectsIdIntegrationsMicrosoftTeams
@@ -42576,7 +42576,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_c87941779c95"
+              "$ref": "#/components/schemas/RequestBody_8fc7263e0413"
   "/api/v4/projects/{id}/integrations/mattermost":
     put:
       operationId: putApiV4ProjectsIdIntegrationsMattermost
@@ -42604,7 +42604,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_dd1500c67b73"
+              "$ref": "#/components/schemas/RequestBody_1155ddd8f847"
   "/api/v4/projects/{id}/integrations/teamcity":
     put:
       operationId: putApiV4ProjectsIdIntegrationsTeamcity
@@ -42660,7 +42660,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_fb3d532cc100"
+              "$ref": "#/components/schemas/RequestBody_0ae5317cd370"
   "/api/v4/projects/{id}/integrations/unify-circuit":
     put:
       operationId: putApiV4ProjectsIdIntegrationsUnifyCircuit
@@ -42688,7 +42688,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_bc1248bca522"
+              "$ref": "#/components/schemas/RequestBody_f071be11c212"
   "/api/v4/projects/{id}/integrations/webex-teams":
     put:
       operationId: putApiV4ProjectsIdIntegrationsWebexTeams
@@ -42716,7 +42716,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_97a6301b2315"
+              "$ref": "#/components/schemas/RequestBody_c0bb13e5b28b"
   "/api/v4/projects/{id}/integrations/zentao":
     put:
       operationId: putApiV4ProjectsIdIntegrationsZentao
@@ -42772,7 +42772,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_8a4888a7922f"
+              "$ref": "#/components/schemas/RequestBody_2c59cf25c423"
   "/api/v4/projects/{id}/integrations/github":
     put:
       operationId: putApiV4ProjectsIdIntegrationsGithub
@@ -43503,7 +43503,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_85829e85a00e"
+              "$ref": "#/components/schemas/RequestBody_13ff7e600114"
   "/api/v4/groups/{id}/integrations/drone-ci":
     put:
       operationId: putApiV4GroupsIdIntegrationsDroneCi
@@ -43615,7 +43615,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_365bee8201c7"
+              "$ref": "#/components/schemas/RequestBody_1e55309b961e"
   "/api/v4/groups/{id}/integrations/google-play":
     put:
       operationId: putApiV4GroupsIdIntegrationsGooglePlay
@@ -43671,7 +43671,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_bef569810cd1"
+              "$ref": "#/components/schemas/RequestBody_a6fbcff9aa2e"
   "/api/v4/groups/{id}/integrations/harbor":
     put:
       operationId: putApiV4GroupsIdIntegrationsHarbor
@@ -43867,7 +43867,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_3fe43a6555fe"
+              "$ref": "#/components/schemas/RequestBody_1d6c4cc809b5"
   "/api/v4/groups/{id}/integrations/mattermost-slash-commands":
     put:
       operationId: putApiV4GroupsIdIntegrationsMattermostSlashCommands
@@ -44063,7 +44063,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_3f3f9aa9d244"
+              "$ref": "#/components/schemas/RequestBody_dd163f1ebbcf"
   "/api/v4/groups/{id}/integrations/pushover":
     put:
       operationId: putApiV4GroupsIdIntegrationsPushover
@@ -44231,7 +44231,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_f91b5855691f"
+              "$ref": "#/components/schemas/RequestBody_0f60d0dce73e"
   "/api/v4/groups/{id}/integrations/microsoft-teams":
     put:
       operationId: putApiV4GroupsIdIntegrationsMicrosoftTeams
@@ -44259,7 +44259,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_c87941779c95"
+              "$ref": "#/components/schemas/RequestBody_8fc7263e0413"
   "/api/v4/groups/{id}/integrations/mattermost":
     put:
       operationId: putApiV4GroupsIdIntegrationsMattermost
@@ -44287,7 +44287,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_dd1500c67b73"
+              "$ref": "#/components/schemas/RequestBody_1155ddd8f847"
   "/api/v4/groups/{id}/integrations/teamcity":
     put:
       operationId: putApiV4GroupsIdIntegrationsTeamcity
@@ -44343,7 +44343,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_fb3d532cc100"
+              "$ref": "#/components/schemas/RequestBody_0ae5317cd370"
   "/api/v4/groups/{id}/integrations/unify-circuit":
     put:
       operationId: putApiV4GroupsIdIntegrationsUnifyCircuit
@@ -44371,7 +44371,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_bc1248bca522"
+              "$ref": "#/components/schemas/RequestBody_f071be11c212"
   "/api/v4/groups/{id}/integrations/webex-teams":
     put:
       operationId: putApiV4GroupsIdIntegrationsWebexTeams
@@ -44399,7 +44399,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_97a6301b2315"
+              "$ref": "#/components/schemas/RequestBody_c0bb13e5b28b"
   "/api/v4/groups/{id}/integrations/zentao":
     put:
       operationId: putApiV4GroupsIdIntegrationsZentao
@@ -44455,7 +44455,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_8a4888a7922f"
+              "$ref": "#/components/schemas/RequestBody_2c59cf25c423"
   "/api/v4/groups/{id}/integrations/github":
     put:
       operationId: putApiV4GroupsIdIntegrationsGithub
@@ -80058,7 +80058,7 @@ components:
         remove_hidden_groups:
           type: boolean
           description: Whether hidden groups should be removed
-    RequestBody_6a8b2bd25122:
+    RequestBody_43051e1a8bdb:
       type: object
       properties:
         export_format:
@@ -80095,6 +80095,9 @@ components:
             project_security_status:
               type: object
               description: Data for rendering the project grades summary in PDF reports
+            total_risk_score:
+              type: object
+              description: Data for rendering the total risk score in PDF reports
             dashboard_type:
               type: string
               enum:
@@ -90816,7 +90819,7 @@ components:
       - diffblue_license_key
       - diffblue_access_token_name
       - diffblue_access_token_secret
-    RequestBody_85829e85a00e:
+    RequestBody_13ff7e600114:
       type: object
       properties:
         webhook:
@@ -90879,10 +90882,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         work_item_events:
           type: boolean
@@ -90897,7 +90900,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -90986,7 +90989,7 @@ components:
             to `false`.
       required:
       - external_wiki_url
-    RequestBody_365bee8201c7:
+    RequestBody_1e55309b961e:
       type: object
       properties:
         channel:
@@ -91057,10 +91060,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         merge_requests_events:
           type: boolean
@@ -91071,7 +91074,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -91123,7 +91126,7 @@ components:
       - package_name
       - service_account_key_file_name
       - service_account_key
-    RequestBody_bef569810cd1:
+    RequestBody_a6fbcff9aa2e:
       type: object
       properties:
         webhook:
@@ -91145,10 +91148,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         work_item_events:
           type: boolean
@@ -91163,7 +91166,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -91400,7 +91403,7 @@ components:
             to `false`.
       required:
       - workspace_url
-    RequestBody_3fe43a6555fe:
+    RequestBody_1d6c4cc809b5:
       type: object
       properties:
         hostname:
@@ -91429,10 +91432,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         merge_requests_events:
           type: boolean
@@ -91443,7 +91446,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -91589,7 +91592,7 @@ components:
             to `false`.
       required:
       - token
-    RequestBody_3f3f9aa9d244:
+    RequestBody_dd163f1ebbcf:
       type: object
       properties:
         webhook:
@@ -91611,10 +91614,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         work_item_events:
           type: boolean
@@ -91629,7 +91632,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -91674,7 +91677,7 @@ components:
       - api_key
       - user_key
       - priority
-    RequestBody_f91b5855691f:
+    RequestBody_0f60d0dce73e:
       type: object
       properties:
         webhook:
@@ -91751,10 +91754,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         merge_requests_events:
           type: boolean
@@ -91765,7 +91768,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -91796,7 +91799,7 @@ components:
             to `false`.
       required:
       - webhook
-    RequestBody_c87941779c95:
+    RequestBody_8fc7263e0413:
       type: object
       properties:
         webhook:
@@ -91818,10 +91821,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         work_item_events:
           type: boolean
@@ -91836,7 +91839,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -91852,7 +91855,7 @@ components:
             to `false`.
       required:
       - webhook
-    RequestBody_dd1500c67b73:
+    RequestBody_1155ddd8f847:
       type: object
       properties:
         webhook:
@@ -91929,10 +91932,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         merge_requests_events:
           type: boolean
@@ -91943,7 +91946,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -92005,7 +92008,7 @@ components:
       - build_type
       - username
       - password
-    RequestBody_fb3d532cc100:
+    RequestBody_0ae5317cd370:
       type: object
       properties:
         hostname:
@@ -92038,10 +92041,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         merge_requests_events:
           type: boolean
@@ -92052,7 +92055,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -92078,7 +92081,7 @@ components:
       required:
       - token
       - room
-    RequestBody_bc1248bca522:
+    RequestBody_f071be11c212:
       type: object
       properties:
         webhook:
@@ -92100,10 +92103,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         work_item_events:
           type: boolean
@@ -92118,7 +92121,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -92134,7 +92137,7 @@ components:
             to `false`.
       required:
       - webhook
-    RequestBody_97a6301b2315:
+    RequestBody_c0bb13e5b28b:
       type: object
       properties:
         webhook:
@@ -92156,10 +92159,10 @@ components:
           description: Trigger event for pushes to the repository.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         work_item_events:
           type: boolean
@@ -92174,7 +92177,7 @@ components:
           description: Trigger event for new comments.
         confidential_note_events:
           type: boolean
-          description: Trigger event for new comments on confidential issues.
+          description: Trigger event for new comments on confidential work items.
         tag_push_events:
           type: boolean
           description: Trigger event for new tags pushed to the repository.
@@ -92211,7 +92214,7 @@ components:
       - url
       - api_token
       - zentao_product_xid
-    RequestBody_8a4888a7922f:
+    RequestBody_2c59cf25c423:
       type: object
       properties:
         url:
@@ -92222,10 +92225,10 @@ components:
           description: Secret token.
         issues_events:
           type: boolean
-          description: Trigger event when an issue is created, updated, or closed.
+          description: Trigger event when a work item is created, updated, or closed.
         confidential_issues_events:
           type: boolean
-          description: Trigger event when a confidential issue is created, updated,
+          description: Trigger event when a confidential work item is created, updated,
             or closed.
         use_inherited_settings:
           type: boolean

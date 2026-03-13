@@ -84,7 +84,7 @@ export default {
       :save-button-title="__('Comment')"
       :save-note="saveNote"
       restore-from-autosave
-      @input="store.setNewLineDiscussionFormText(discussion, $event)"
+      @input="store.setDiscussionFormText(discussion, $event)"
       @cancel="cancelReplyForm"
     />
   </div>

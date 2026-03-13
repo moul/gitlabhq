@@ -206,30 +206,32 @@ RSpec.describe Authn::IamService::JwksClient, :use_clean_rails_redis_caching, fe
     end
   end
 
-  describe 'backward compatibility methods' do
-    before do
-      allow(Gitlab::HTTP).to receive(:get).and_return(successful_response)
-    end
-
-    describe '#fetch_keys' do
-      it 'returns JWT::JWK::Set from cache' do
-        keys = client.fetch_keys
-        expect(keys).to be_a(JWT::JWK::Set)
-      end
-    end
-
-    describe '#refresh_keys' do
-      it 'returns refreshed JWT::JWK::Set' do
-        keys = client.refresh_keys
-        expect(keys).to be_a(JWT::JWK::Set)
+  describe '#keyset' do
+    context 'when cache is empty' do
+      before do
+        allow(Gitlab::HTTP).to receive(:get).and_return(successful_response)
       end
 
-      it 'forces a cache refresh' do
-        client.fetch_keys
+      it 'fetches from HTTP and returns a JWK::Set' do
+        keyset = client.keyset
+
+        expect(keyset).to be_a(JWT::JWK::Set)
+        expect(keyset.map(&:kid)).to include(kid)
         expect(Gitlab::HTTP).to have_received(:get).once
+      end
+    end
 
-        client.refresh_keys
-        expect(Gitlab::HTTP).to have_received(:get).twice
+    context 'when keyset is cached' do
+      before do
+        Rails.cache.write(cache_key, JWT::JWK::Set.new(jwks_response))
+        allow(Gitlab::HTTP).to receive(:get)
+      end
+
+      it 'returns cached keyset without HTTP request' do
+        keyset = client.keyset
+
+        expect(keyset).to be_a(JWT::JWK::Set)
+        expect(Gitlab::HTTP).not_to have_received(:get)
       end
     end
   end

@@ -545,54 +545,45 @@ RSpec.describe Repository, feature_category: :source_code_management do
 
         context 'when follow option is explicitly provided' do
           let(:path) { 'README.md' }
-          let(:kwargs) { { limit: 1, path: path, follow: true } }
 
-          it 'ignores follow option and sets follow to false' do
-            expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+          context 'when follow is true' do
+            let(:kwargs) { { limit: 1, path: path, follow: true } }
 
-            commits
-          end
-
-          context 'when feature flag is disabled' do
-            before do
-              stub_feature_flags(remove_file_commit_history_following: false)
-            end
-
-            it 'respects follow: true' do
+            it 'respects follow: true regardless of feature flag state' do
               expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: true)).and_call_original
 
               commits
             end
+          end
 
-            context 'when follow is false' do
-              let(:kwargs) { { limit: 1, path: path, follow: false } }
+          context 'when follow is false' do
+            let(:kwargs) { { limit: 1, path: path, follow: false } }
 
-              it 'respects follow: false' do
-                expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+            it 'respects follow: false regardless of feature flag state' do
+              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
 
-                commits
-              end
+              commits
             end
+          end
 
-            context 'without path' do
-              let(:kwargs) { { limit: 1, follow: true } }
+          context 'without path' do
+            let(:kwargs) { { limit: 1, follow: true } }
 
-              it 'ignores follow option and sets follow to false' do
-                expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+            it 'ignores follow option and sets follow to false' do
+              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
 
-                commits
-              end
+              commits
             end
+          end
 
-            context 'with multiple paths' do
-              let(:path) { ['README.md', 'CHANGELOG'] }
-              let(:kwargs) { { limit: 1, path: path, follow: true } }
+          context 'with multiple paths' do
+            let(:path) { ['README.md', 'CHANGELOG'] }
+            let(:kwargs) { { limit: 1, path: path, follow: true } }
 
-              it 'ignores follow option and sets follow to false' do
-                expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+            it 'ignores follow option and sets follow to false' do
+              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
 
-                commits
-              end
+              commits
             end
           end
         end
@@ -5248,6 +5239,61 @@ RSpec.describe Repository, feature_category: :source_code_management do
           subject
         end
       end
+    end
+  end
+
+  describe '#squash_commits' do
+    let(:start_sha) { repository.commit.parent_ids.first }
+    let(:end_sha) { repository.commit.sha }
+    let(:message) { 'Squashed commit message' }
+
+    subject(:squash_commits) { repository.squash_commits(user, start_sha: start_sha, end_sha: end_sha, message: message) }
+
+    it 'delegates to raw repository with correct parameters' do
+      expect(repository.raw).to receive(:squash).with(
+        user,
+        start_sha: start_sha,
+        end_sha: end_sha,
+        author: user,
+        message: message,
+        sign: true
+      ).and_return('squashed_sha')
+
+      expect(squash_commits).to eq('squashed_sha')
+    end
+  end
+
+  describe '#initial_commit' do
+    subject(:initial_commit) { repository.initial_commit(ref) }
+
+    let(:ref) { nil }
+
+    it 'returns the first commit with no parents' do
+      expect(initial_commit).to be_a(::Commit)
+      expect(initial_commit.parent_ids).to be_empty
+    end
+
+    context 'when ref is specified' do
+      let(:ref) { 'master' }
+
+      it 'returns the initial commit for that ref' do
+        expect(initial_commit).to be_a(::Commit)
+        expect(initial_commit.parent_ids).to be_empty
+      end
+    end
+
+    context 'when repository is empty' do
+      let(:project) { create(:project, :empty_repo) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when raw_repository returns nil' do
+      before do
+        allow(repository.raw_repository).to receive(:initial_commit).and_return(nil)
+      end
+
+      it { is_expected.to be_nil }
     end
   end
 end
