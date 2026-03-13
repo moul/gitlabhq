@@ -51,7 +51,7 @@ The following tools are available to custom agents.
 | Get Work Item | `get_work_item` | Get a work item from a group or project. |
 | Get Work Item Notes | `get_work_item_notes` | Get all notes for a work item. |
 | GitLab API Get | `gitlab_api_get` | Make read-only GET requests to any REST API endpoint. |
-| GitLab Blob Search | `gitlab_blob_search` | Search for the contents of files in a group or project. |
+| GitLab Blob Search | `gitlab_blob_search` | Search for the contents of files in a group, project, or instance. To search across a group or in an instance, you must turn on either [advanced](../../../integration/advanced_search/elasticsearch.md#enable-code-search-with-advanced-search) or [exact code](../../../integration/zoekt/_index.md#enable-exact-code-search) search.  |
 | GitLab Commit Search | `gitlab_commit_search` | Search for commits in a project or group. |
 | GitLab Documentation Search | `gitlab_documentation_search` | Search the GitLab documentation for information. |
 | GitLab GraphQL | `gitlab_graphql` | Execute read-only GraphQL queries against the GraphQL API. |

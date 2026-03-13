@@ -3,7 +3,9 @@
 class EnvironmentSerializer < BaseSerializer
   include WithPagination
 
-  Item = Struct.new(:name, :size, :latest)
+  Item = Struct.new(:name, :folder_size, :latest) do
+    alias_method :size, :folder_size
+  end
 
   entity EnvironmentEntity
 

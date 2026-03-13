@@ -25,8 +25,9 @@ RSpec.describe 'Import multiple repositories by uploading a manifest file', :js,
     expect(page).to have_content('https://android-review.googlesource.com/platform/build/blueprint')
   end
 
-  it 'imports a project successfully', :sidekiq_inline, :js,
-    quarantine: 'https://gitlab.com/gitlab-org/gitlab/-/issues/592154' do
+  it 'imports a project successfully', :sidekiq_inline, :js do
+    stub_import_repository
+
     visit new_import_manifest_path
 
     attach_file('manifest', Rails.root.join('spec/fixtures/aosp_manifest.xml'))
@@ -40,7 +41,8 @@ RSpec.describe 'Import multiple repositories by uploading a manifest file', :js,
     wait_for_requests
 
     page.within(second_row) do
-      expect(page).to have_content 'Complete'
+      expect(page).to have_content('Complete'),
+        "Expected 'Complete' but page contained: #{page.text}"
       expect(page).to have_content("#{group.full_path}/build/blueprint")
     end
   end
@@ -65,5 +67,13 @@ RSpec.describe 'Import multiple repositories by uploading a manifest file', :js,
 
   def second_row
     page.all('table tbody tr')[1]
+  end
+
+  def stub_import_repository
+    # Ensure the import_repository method is called during the spec
+    # without attempting to communicate with an external remote repository
+    expect_next_instance_of(Projects::ImportService) do |instance|
+      expect(instance).to receive(:import_repository).and_return(true)
+    end
   end
 end

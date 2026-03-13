@@ -193,7 +193,7 @@ RSpec.describe Admin::UsersController, :enable_admin_mode, feature_category: :us
         request
 
         expect(response).to redirect_to(admin_user_path(user))
-        expect(flash[:alert]).to eq(s_('Error occurred. User was not updated'))
+        expect(flash[:alert]).to eq(_('Error occurred. User was not updated'))
       end
     end
   end
@@ -220,7 +220,7 @@ RSpec.describe Admin::UsersController, :enable_admin_mode, feature_category: :us
         request
 
         expect(response).to redirect_to(admin_user_path(user))
-        expect(flash[:alert]).to eq(s_('Error occurred. User was not updated'))
+        expect(flash[:alert]).to eq(_('Error occurred. User was not updated'))
       end
     end
   end

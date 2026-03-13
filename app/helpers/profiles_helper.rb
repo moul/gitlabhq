@@ -8,7 +8,7 @@ module ProfilesHelper
     verified_emails = user.verified_emails - [private_email]
 
     [
-      [s_('Use primary email (%{email})') % { email: user.email }, ''],
+      [_('Use primary email (%{email})') % { email: user.email }, ''],
       [
         safe_format(s_("Profiles|Use a private email - %{email}"), email: private_email),
         Gitlab::PrivateCommitEmail::TOKEN

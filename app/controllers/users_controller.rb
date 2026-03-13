@@ -227,7 +227,7 @@ class UsersController < ApplicationController
     if followee
       flash[:alert] = followee.errors.full_messages.join(', ') if followee&.errors&.any?
     else
-      flash[:alert] = s_('Action not allowed.')
+      flash[:alert] = _('Action not allowed.')
     end
 
     redirect_path = referer_path(request) || @user

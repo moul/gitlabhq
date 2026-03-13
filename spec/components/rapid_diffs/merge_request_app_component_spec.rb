@@ -47,6 +47,7 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
   before do
     allow(RapidDiffs::AppComponent).to receive(:new).and_return(app_component)
     allow(app_component).to receive(:render_in).and_yield(app_component)
+    allow(app_component).to receive(:with_before_diffs_list).and_yield
     allow(app_component).to receive(:with_diffs_list).and_yield
     allow(app_component).to receive_messages(diff_collection: [], parallel_view?: false)
   end
@@ -112,6 +113,26 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
 
         expect(component.helpers.content_for?(:startup_js)).to be(false)
       end
+    end
+  end
+
+  context "when user has permission to create notes" do
+    let(:user_permissions) { { can_create_note: true } }
+
+    it "renders before_diffs_list slot with new discussion toggle" do
+      render_component
+
+      expect(page).to have_selector('[data-new-discussion-toggle][data-click="newDiscussion"][hidden]', visible: :all)
+    end
+  end
+
+  context "when user does not have permission to create notes" do
+    let(:user_permissions) { { can_create_note: false } }
+
+    it "does not render before_diffs_list slot" do
+      render_component
+
+      expect(page).not_to have_selector('[data-new-discussion-toggle]', visible: :all)
     end
   end
 

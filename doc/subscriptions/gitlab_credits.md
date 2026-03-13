@@ -394,3 +394,22 @@ Prerequisites:
 
 By default, individual user data is not displayed in the GitLab Credits dashboard.
 To display it, you must enable this setting for your [group](../user/group/manage.md#display-gitlab-credits-user-data) or [instance](../administration/settings/visibility_and_access_controls.md#display-gitlab-credits-user-data).
+
+### Export usage data
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/customers-gitlab-com/-/work_items/14504) in GitLab 18.10.
+
+{{< /history >}}
+
+You can export the credit usage data for a subscription as a CSV file in Customers Portal.
+The CSV file lists the usage events and credits used on each day of the current month.
+
+Prerequisites:
+
+- You must be a billing account manager.
+
+1. Sign in to [Customers Portal](https://customers.gitlab.com/).
+1. On the subscription card, select **GitLab Credits dashboard**.
+1. Select **Export usage data**.

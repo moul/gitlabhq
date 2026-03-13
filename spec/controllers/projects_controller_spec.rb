@@ -1411,7 +1411,7 @@ RSpec.describe ProjectsController, feature_category: :groups_and_projects do
           }, format: :js
 
           expect(forked_project.reload.forked?).to be_falsey
-          expect(flash[:notice]).to eq(s_('The fork relationship has been removed.'))
+          expect(flash[:notice]).to eq(_('The fork relationship has been removed.'))
           expect(response).to redirect_to(edit_project_path(forked_project))
         end
       end

@@ -145,7 +145,7 @@ module Gitlab
             buffer_size: 1
           }
 
-          options[:thread_count] = 5 if Feature.enabled?(:snowplow_emitter_thread_count, Feature.current_request)
+          options[:thread_count] = 15 if Feature.enabled?(:snowplow_emitter_thread_count, Feature.current_request)
 
           return options if Feature.disabled?(:track_struct_event_logger, Feature.current_request)
 

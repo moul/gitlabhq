@@ -1343,7 +1343,7 @@ RSpec.describe 'Login', :with_current_organization, :clean_gitlab_redis_sessions
           expect(page).to have_current_path new_user_settings_identities_path, ignore_query: true
           expect(page).to have_content(
             format(
-              s_('Allow %{strongOpen}%{provider}%{strongClose} to sign you in?'),
+              _('Allow %{strongOpen}%{provider}%{strongClose} to sign you in?'),
               strongOpen: '',
               strongClose: '',
               provider: 'JWT')
@@ -1364,7 +1364,7 @@ RSpec.describe 'Login', :with_current_organization, :clean_gitlab_redis_sessions
           expect(page).to have_current_path new_user_settings_identities_path, ignore_query: true
           expect(page).to have_content(
             format(
-              s_('Allow %{strongOpen}%{provider}%{strongClose} to sign you in?'),
+              _('Allow %{strongOpen}%{provider}%{strongClose} to sign you in?'),
               strongOpen: '',
               strongClose: '',
               provider: 'JWT')

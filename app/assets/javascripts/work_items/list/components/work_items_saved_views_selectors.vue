@@ -273,13 +273,14 @@ export default {
           this.visibleViews = [...this.visibleViews, nextNearestView];
         }
 
-        this.$router.push({
+        return this.$router.push({
           name: ROUTES.savedView,
           params: { view_id: getIdFromGraphQLId(nextNearestView.id).toString() },
         });
-      } else {
-        this.$emit('navigate-to-all-items');
       }
+
+      this.$emit('navigate-to-all-items');
+      return this.$nextTick();
     },
     async handleUnsubscribeFromView(view) {
       if (!view) return;
@@ -289,6 +290,7 @@ export default {
 
       try {
         await this.navigateAfterViewRemoval(nextNearestView);
+
         await this.$apollo.mutate({
           mutation: workItemSavedViewUnsubscribe,
           variables: {

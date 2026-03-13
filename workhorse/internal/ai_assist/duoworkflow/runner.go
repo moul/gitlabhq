@@ -199,6 +199,7 @@ func (r *runner) handleAgentMessages(ctx context.Context, errCh chan<- error) {
 		action, err := r.streamManager.Recv()
 		if err != nil {
 			if err == io.EOF {
+				log.WithRequest(r.originalReq).Info("handleAgentMessages: EOF, expected when workflow ends")
 				errCh <- nil // Expected error when a workflow ends
 			} else {
 				errCh <- fmt.Errorf("handleAgentMessages: %w", err)
@@ -213,8 +214,25 @@ func (r *runner) handleAgentMessages(ctx context.Context, errCh chan<- error) {
 	}
 }
 
+func (r *runner) logClose(name string, err error) error {
+	if err != nil {
+		log.WithRequest(r.originalReq).WithFields(log.Fields{
+			"connection_type": name,
+		}).WithError(err).Error("failed to close")
+	} else {
+		log.WithRequest(r.originalReq).WithFields(log.Fields{
+			"connection_type": name,
+		}).Info("closed")
+	}
+	return err
+}
+
 func (r *runner) Close() error {
-	return errors.Join(r.streamManager.Close(), r.closeWebSocketConnection(), r.mcpManager.Close())
+	streamManagerCloseErr := r.logClose("stream manager", r.streamManager.Close())
+	wsCloseErr := r.logClose("websocket connection", r.closeWebSocketConnection())
+	mcpManagerCloseErr := r.logClose("mcp manager", r.mcpManager.Close())
+
+	return errors.Join(streamManagerCloseErr, wsCloseErr, mcpManagerCloseErr)
 }
 
 func (r *runner) closeWebSocketConnection() error {
@@ -388,9 +406,12 @@ func (r *runner) sendActionToWs(action *pb.Action) error {
 	}
 
 	if err = r.conn.WriteMessage(websocket.BinaryMessage, r.marshalBuf); err != nil {
-		if err != websocket.ErrCloseSent {
-			return fmt.Errorf("sendActionToWs: failed to send WS message: %v", err)
+		if err == websocket.ErrCloseSent {
+			log.WithRequest(r.originalReq).Info("sendActionToWs: failed to send WS message because websocket closed, ignoring")
+			return nil
 		}
+
+		return fmt.Errorf("sendActionToWs: failed to send WS message: %v", err)
 	}
 
 	return nil

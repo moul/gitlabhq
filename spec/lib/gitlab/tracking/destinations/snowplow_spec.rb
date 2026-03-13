@@ -346,7 +346,7 @@ RSpec.describe Gitlab::Tracking::Destinations::Snowplow, :do_not_stub_snowplow_b
 
     it 'initializes emitter with thread_count' do
       expect(Gitlab::Tracking::SnowplowTestEmitter)
-        .to receive(:new).with(endpoint: anything, options: hash_including(thread_count: 5))
+        .to receive(:new).with(endpoint: anything, options: hash_including(thread_count: 15))
 
       subject.send(:emitter)
     end

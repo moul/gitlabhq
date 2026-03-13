@@ -366,16 +366,20 @@ Error: self-signed certificate in certificate chain
 To resolve certificate errors, use one of the following methods:
 
 - Use the system certificate store (recommended):
-  If your CA certificate is installed in your operating system's certificate store,
-  configure Node.js to use it. Requires Node.js 22.15.0, 23.9.0, or 24.0.0 and later.
+  - If your CA certificate is installed in your operating system's certificate store, configure
+    Node.js to use it. Requires Node.js 22.15.0, 23.9.0, or 24.0.0 and later.
+  - If you run the GitLab Duo CLI in a container, install the CA certificate in the container's
+    system store, not the host system store.
 
   ```shell
   export NODE_OPTIONS="--use-system-ca"
   ```
 
 - Specify a CA certificate file:
-  For older Node.js versions, or when the CA certificate is not in the system store,
-  point Node.js to the certificate file directly. The file must be in PEM format.
+  - For older Node.js versions, or when the CA certificate is not in the system store, point Node.js
+    to the certificate file directly. The file must be in PEM format.
+  - If you run the GitLab Duo CLI in a container, set the path to a location in the container.
+    Use a volume mount to provide the certificate file.
 
   ```shell
   export NODE_EXTRA_CA_CERTS=/path/to/custom-ca.pem

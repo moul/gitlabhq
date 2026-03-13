@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -39,9 +40,41 @@ var (
 		[]string{"type", "dst"},
 	)
 
+	// TotalRequests counts every Redis command processed by workhorse.
+	TotalRequests = promauto.NewCounter(
+		prometheus.CounterOpts{
+			Name: "gitlab_workhorse_redis_client_requests_total",
+			Help: "Client side Redis request count in workhorse",
+		},
+	)
+
+	// TotalRequestDuration tracks the duration of Redis commands in seconds.
+	TotalRequestDuration = promauto.NewHistogram(
+		prometheus.HistogramOpts{
+			Name:    "gitlab_workhorse_redis_client_requests_duration_seconds",
+			Help:    "Client side Redis request latency in workhorse, excluding blocking commands",
+			Buckets: []float64{0.1, 0.5, 0.75, 1},
+		},
+	)
+
 	errSentinelTLSNotDefined       = fmt.Errorf("configuration Sentinel.tls not defined")
 	errSentinelInconsistentSchemes = fmt.Errorf("inconsistent sentinel URL schemes: use all non-TLS (redis:// or tcp://) or all TLS (rediss://)")
 )
+
+// apdexExcludedCommands contains Redis commands excluded from duration
+// observation, matching the Ruby APDEX_EXCLUDE list in
+// lib/gitlab/instrumentation/redis_helper.rb. These are blocking commands
+// whose latency reflects wait time rather than Redis performance.
+var apdexExcludedCommands = map[string]struct{}{
+	"brpop":      {},
+	"blpop":      {},
+	"brpoplpush": {},
+	"bzpopmin":   {},
+	"bzpopmax":   {},
+	"command":    {},
+	"xread":      {},
+	"xreadgroup": {},
+}
 
 // TLSErrorMessages holds context-specific error messages for TLS configuration
 type TLSErrorMessages struct {
@@ -151,32 +184,72 @@ func createDialer(sentinels []string, sentinelTLSConfig *tls.Config, redisTLSCon
 	}
 }
 
-// implements the redis.Hook interface for instrumentation
-type sentinelInstrumentationHook struct{}
+// instrumentationHook implements the redis.Hook interface for instrumentation.
+type instrumentationHook struct {
+	isSentinel bool
+}
 
-func (s sentinelInstrumentationHook) DialHook(next redis.DialHook) redis.DialHook {
+func (s instrumentationHook) DialHook(next redis.DialHook) redis.DialHook {
 	return func(ctx context.Context, network, addr string) (net.Conn, error) {
 		conn, err := next(ctx, network, addr)
-		if err != nil && err.Error() == errSentinelMasterAddr.Error() {
+		if s.isSentinel && err != nil && err.Error() == errSentinelMasterAddr.Error() {
 			// check for non-dialer error
 			ErrorCounter.WithLabelValues("master", "sentinel").Inc()
 		}
+
 		return conn, err
 	}
 }
 
-// ProcessHook is a no-op hook for Redis command processing.
-func (s sentinelInstrumentationHook) ProcessHook(next redis.ProcessHook) redis.ProcessHook {
+// ProcessHook increments TotalRequests and observes duration for every Redis command.
+func (s instrumentationHook) ProcessHook(next redis.ProcessHook) redis.ProcessHook {
 	return func(ctx context.Context, cmd redis.Cmder) error {
-		return next(ctx, cmd)
+		start := time.Now()
+		TotalRequests.Inc()
+
+		err := next(ctx, cmd)
+
+		if !isApdexExcluded(cmd.Name()) {
+			TotalRequestDuration.Observe(time.Since(start).Seconds())
+		}
+
+		return err
 	}
 }
 
-// ProcessPipelineHook is a no-op hook for Redis pipeline command processing.
-func (s sentinelInstrumentationHook) ProcessPipelineHook(next redis.ProcessPipelineHook) redis.ProcessPipelineHook {
+// ProcessPipelineHook increments TotalRequests and observes duration for every Redis pipeline.
+// Duration is divided evenly across commands to match the Ruby instrumentation behavior.
+func (s instrumentationHook) ProcessPipelineHook(next redis.ProcessPipelineHook) redis.ProcessPipelineHook {
 	return func(ctx context.Context, cmds []redis.Cmder) error {
-		return next(ctx, cmds)
+		start := time.Now()
+		numCmds := len(cmds)
+		TotalRequests.Add(float64(numCmds))
+
+		err := next(ctx, cmds)
+
+		if numCmds > 0 && !hasApdexExcludedCommand(cmds) {
+			durationPerCommand := time.Since(start).Seconds() / float64(numCmds)
+			for range numCmds {
+				TotalRequestDuration.Observe(durationPerCommand)
+			}
+		}
+
+		return err
 	}
+}
+
+func isApdexExcluded(name string) bool {
+	_, excluded := apdexExcludedCommands[strings.ToLower(name)]
+	return excluded
+}
+
+func hasApdexExcludedCommand(cmds []redis.Cmder) bool {
+	for _, cmd := range cmds {
+		if isApdexExcluded(cmd.Name()) {
+			return true
+		}
+	}
+	return false
 }
 
 // Configure redis-connection
@@ -234,7 +307,10 @@ func configureRedis(cfg *config.RedisConfig) (*redis.Client, error) {
 	// ParseURL seeds TLSConfig if scheme is rediss
 	opt.Dialer = createDialer([]string{}, nil, opt.TLSConfig)
 
-	return redis.NewClient(opt), nil
+	client := redis.NewClient(opt)
+	client.AddHook(instrumentationHook{isSentinel: false})
+
+	return client, nil
 }
 
 func configureSentinel(cfg *config.Config) (*redis.Client, error) {
@@ -272,7 +348,7 @@ func configureSentinel(cfg *config.Config) (*redis.Client, error) {
 		Dialer: createDialer(options.Sentinels, options.SentinelTLSConfig, redisTLSConfig),
 	})
 
-	client.AddHook(sentinelInstrumentationHook{})
+	client.AddHook(instrumentationHook{isSentinel: true})
 
 	return client, nil
 }

@@ -224,6 +224,7 @@ To set a default GitLab Duo namespace:
 
 - Access to user default namespaces for IDEs [introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/work_items/2043) in GitLab 18.10.
 - Access to user default namespaces introduced in GitLab for VS Code 6.71.7.
+- Access to user default namespaces introduced in GitLab Duo CLI 8.76.0.
 
 {{< /history >}}
 

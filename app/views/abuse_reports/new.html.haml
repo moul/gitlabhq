@@ -35,7 +35,7 @@
   .form-group.row
     .gl-col-lg-8
       = f.label :message
-      = f.text_area :message, class: "form-control gl-form-input", rows: 4, required: true
+      = f.text_area :message, class: "form-control gl-form-input", rows: 4, required: true, maxlength: AbuseReport::MAX_MESSAGE_SIZE
       .form-text.gl-text-subtle
         = _("Explain why you're reporting the user.")
 

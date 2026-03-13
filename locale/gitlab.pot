@@ -34293,6 +34293,9 @@ msgstr ""
 msgid "GroupSAML|Reset SCIM token"
 msgstr ""
 
+msgid "GroupSAML|Restricted access is active"
+msgstr ""
+
 msgid "GroupSAML|Role to assign members of this SAML group."
 msgstr ""
 
@@ -34357,6 +34360,9 @@ msgid "GroupSAML|Valid SAML Response"
 msgstr ""
 
 msgid "GroupSAML|When selected, group sync will only occur when both the SAML group name and provider match."
+msgstr ""
+
+msgid "GroupSAML|With %{ra_link_start}restricted access%{ra_link_end} active and no seats available, new users provisioned through SAML/SCIM group sync are assigned the non-billable Minimal Access role. Learn more about %{ra_learn_more_start}provisioning behavior with SAML/SCIM%{ra_learn_more_end}."
 msgstr ""
 
 msgid "GroupSAML|as %{access_level}"
@@ -40221,6 +40227,9 @@ msgstr ""
 msgid "LDAP|No LDAP synchronizations"
 msgstr ""
 
+msgid "LDAP|Restricted access is active"
+msgstr ""
+
 msgid "LDAP|Select LDAP group"
 msgstr ""
 
@@ -40261,6 +40270,9 @@ msgid "LDAP|User filter"
 msgstr ""
 
 msgid "LDAP|View more information on %{linkStart}user filters%{linkEnd}."
+msgstr ""
+
+msgid "LDAP|With %{ra_link_start}restricted access%{ra_link_end} active and no seats available, new users provisioned through LDAP sync are assigned the non-billable Minimal Access role. Learn more about %{ra_learn_more_start}provisioning behavior with LDAP%{ra_learn_more_end}."
 msgstr ""
 
 msgid "LDAP|You can manage permission levels for individual group members in the Members tab."
@@ -42345,6 +42357,9 @@ msgstr ""
 msgid "MemberRole|%{requirement} has to be enabled in order to enable %{permission}"
 msgstr ""
 
+msgid "MemberRole|%{role} (Custom role)"
+msgstr ""
+
 msgid "MemberRole|A sharding key (namespace_id or organization_id) is required"
 msgstr ""
 
@@ -43164,6 +43179,9 @@ msgid "MergeChecks|Skipped pipelines are considered successful"
 msgstr ""
 
 msgid "MergeChecks|This setting is configured in group %{groupName} and can only be changed in the group settings by an administrator or group owner."
+msgstr ""
+
+msgid "MergeChecks|Title must match required pattern"
 msgstr ""
 
 msgid "MergeChecks|View locked files"
@@ -62404,13 +62422,22 @@ msgstr ""
 msgid "SecurityOrchestration|Automatically %{boldStart}override severity%{boldEnd} of these vulnerabilities to:"
 msgstr ""
 
+msgid "SecurityOrchestration|Automatically decrease the severity by one level for any vulnerabilities that match the following criteria:"
+msgstr ""
+
 msgid "SecurityOrchestration|Automatically dismiss vulnerabilities when they match all of the following criteria:"
 msgstr ""
 
 msgid "SecurityOrchestration|Automatically dismiss vulnerabilities with a risk level of %{risk} when they match all of the following criteria:"
 msgstr ""
 
+msgid "SecurityOrchestration|Automatically increase the severity by one level for any vulnerabilities that match the following criteria:"
+msgstr ""
+
 msgid "SecurityOrchestration|Automatically selected runners"
+msgstr ""
+
+msgid "SecurityOrchestration|Automatically set the severity to %{severity} for any vulnerabilities that match the following criteria:"
 msgstr ""
 
 msgid "SecurityOrchestration|Automatically set the status of these vulnerabilities to %{type}."
@@ -64202,9 +64229,6 @@ msgid "SecurityReports|All severities"
 msgstr ""
 
 msgid "SecurityReports|All statuses"
-msgstr ""
-
-msgid "SecurityReports|All tools"
 msgstr ""
 
 msgid "SecurityReports|All tracked refs"

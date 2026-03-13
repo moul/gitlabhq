@@ -5,6 +5,8 @@
 *.rej
 /AGENTS.local.md
 /opencode.json
+/.claude
+/CLAUDE.md
 .dir-locals.el
 .DS_Store
 /OpenCode.md

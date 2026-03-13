@@ -366,8 +366,8 @@ RSpec.describe Integrations::SlackEvents::AppMentionedService, feature_category:
         end
 
         context 'when thread has multiple messages with linked and unlinked users' do
-          let_it_be(:other_user) { create(:user, username: 'other_dev') }
-          let_it_be(:other_chat_name) do
+          let(:other_user) { create(:user, username: 'other_dev') }
+          let(:other_chat_name) do
             create(:chat_name, user: other_user, team_id: slack_installation.team_id, chat_id: 'U999OTHER')
           end
 
