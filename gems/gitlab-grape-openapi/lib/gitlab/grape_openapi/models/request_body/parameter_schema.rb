@@ -14,49 +14,62 @@ module Gitlab
             @route = route
           end
 
-          # rubocop:disable Metrics/CyclomaticComplexity -- TODO: find a way to split this method
           def build(key, param_options)
-            type_str = param_options[:type].to_s
             validations = validations_for(key.to_sym)
+            built_schema = build_raw_type_schema(param_options, validations)
 
-            mapping = coercer_mapping_for(validations)
-            return build_coerced_schema_with_description(mapping, param_options) if mapping
-
-            # Handle array types like [String] (single type in brackets)
-            if type_str.start_with?('[') && type_str.exclude?(',')
-              # This is an array type like [String], not a union type
-              return build_simple_array_from_bracket_notation(param_options)
+            unless built_schema
+              object_type = Converters::TypeResolver.resolve_type(param_options[:type]) || 'string'
+              object_format = Converters::TypeResolver.resolve_format(nil, param_options[:type])
+              built_schema = build_resolved_schema(object_type, object_format, param_options, validations)
             end
 
-            # Handle file types (e.g., API::Validations::Types::WorkhorseFile)
-            return build_file_schema(param_options) if type_str.include?('API::Validations::Types::WorkhorseFile')
-
-            # Handle union types (e.g., [String, Integer])
-            return build_union_type_schema(param_options) if type_str.start_with?('[')
-
-            validations = validations_for(key.to_sym)
-            object_type = Converters::TypeResolver.resolve_type(param_options[:type]) || 'string'
-            object_format = Converters::TypeResolver.resolve_format(nil, param_options[:type])
-
-            # Handle range values
-            return build_range_schema(object_type, param_options) if param_options[:values].is_a?(Range)
-
-            # Handle enum/values
-            return build_enum_schema(object_type, param_options) if param_options[:values]
-
-            # Handle array types with nested params
-            return build_nested_array_schema(param_options) if param_options[:type] == 'Array' && param_options[:params]
-
-            # Handle array types (simple, like Array[String])
-            return build_array_schema(param_options) if object_type.include?('[')
-
-            # Handle Hash types with nested params
-            return build_nested_hash_schema(param_options) if param_options[:type] == 'Hash' && param_options[:params]
-
-            # Build basic schema
-            build_basic_schema(object_type, object_format, param_options, validations)
+            apply_allow_blank(built_schema, param_options)
+            built_schema
           end
-          # rubocop:enable Metrics/CyclomaticComplexity
+
+          # Handles schema building for types that cannot safely be passed through TypeResolver
+          def build_raw_type_schema(param_options, validations)
+            type_str = param_options[:type].to_s
+            mapping = coercer_mapping_for(validations)
+
+            if mapping
+              # Handle coerced types(e.g., coerce_with: option used)
+              build_coerced_schema_with_description(mapping, param_options)
+            elsif type_str.start_with?('[') && type_str.exclude?(',')
+              # Handle array types like [String] (single type in brackets)
+              build_simple_array_from_bracket_notation(param_options)
+            elsif type_str.include?('API::Validations::Types::WorkhorseFile')
+              # Handle file types (e.g., API::Validations::Types::WorkhorseFile)
+              build_file_schema(param_options)
+            elsif type_str.start_with?('[')
+              # Handle union types (e.g., [String, Integer])
+              build_union_type_schema(param_options)
+            end
+          end
+
+          # Handles schema building for types that have been resolved through TypeResolver
+          def build_resolved_schema(object_type, object_format, param_options, validations)
+            if param_options[:values].is_a?(Range)
+              # Handle range values
+              build_range_schema(object_type, param_options)
+            elsif param_options[:values]
+              # Handle enum/values
+              build_enum_schema(object_type, param_options)
+            elsif param_options[:type] == 'Array' && param_options[:params]
+              # Handle array types with nested params
+              build_nested_array_schema(param_options)
+            elsif object_type.include?('[')
+              # Handle array types (simple, like Array[String])
+              build_array_schema(param_options)
+            elsif param_options[:type] == 'Hash' && param_options[:params]
+              # Handle Hash types with nested params
+              build_nested_hash_schema(param_options)
+            else
+              # Build basic schema
+              build_basic_schema(object_type, object_format, param_options, validations)
+            end
+          end
 
           def build_coerced_schema_with_description(mapping, param_options)
             schema = build_coerced_schema(mapping)
@@ -196,6 +209,16 @@ module Gitlab
               .namespace_stackable
               .new_values[:validations]
               &.select { |v| v[:attributes].include?(attribute) }
+          end
+
+          private
+
+          def apply_allow_blank(schema, param_options)
+            if param_options[:allow_blank] == false || (param_options[:required] && param_options[:values])
+              schema[:minLength] = 1 if schema[:type] == 'string'
+            else
+              schema[:nullable] = true
+            end
           end
         end
       end

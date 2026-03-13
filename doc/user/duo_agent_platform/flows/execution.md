@@ -297,6 +297,8 @@ In addition, runners on GitLab Self-Managed:
 - Must be able to download the default image from `registry.gitlab.com`
   or be able to access [the Docker image you specified](#change-the-default-docker-image).
 
+For GitLab instances with self-signed certificates in the certificate chain, the GitLab Duo CLI requires [additional configuration](../../gitlab_duo_cli/_index.md#custom-ssl-certificates).
+
 > [!note]
 > The runner's connection to the GitLab Duo Agent Platform Service is routed through the
 > GitLab instance. Runners do not connect directly to

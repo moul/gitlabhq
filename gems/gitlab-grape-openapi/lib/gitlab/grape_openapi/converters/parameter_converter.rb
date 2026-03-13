@@ -38,14 +38,24 @@ module Gitlab
           type_str = options[:type].to_s
 
           mapping = coercer_mapping
-          return build_coerced_schema(mapping) if mapping
-          return build_simple_array_schema if type_str.start_with?('[') && type_str.exclude?(',')
-          return build_union_schema(object_type) if type_str.start_with?('[')
-          return build_range_schema(object_type) if options[:values].is_a?(Range)
-          return build_enum_schema(object_type) if options[:values]
-          return build_array_schema if array_type?(object_type)
+          built_schema = if mapping
+                           build_coerced_schema(mapping)
+                         elsif type_str.start_with?('[') && type_str.exclude?(',')
+                           build_simple_array_schema
+                         elsif type_str.start_with?('[')
+                           build_union_schema(object_type)
+                         elsif options[:values].is_a?(Range)
+                           build_range_schema(object_type)
+                         elsif options[:values]
+                           build_enum_schema(object_type)
+                         elsif array_type?(object_type)
+                           build_array_schema
+                         else
+                           build_basic_schema(object_type, object_format)
+                         end
 
-          build_basic_schema(object_type, object_format)
+          apply_allow_blank(built_schema)
+          built_schema
         end
 
         def build_simple_array_schema
@@ -140,6 +150,17 @@ module Gitlab
 
         def time_serializer
           @time_serializer ||= Serializers::Time.new
+        end
+
+        # allow_blank defaults to true
+        # when `allow_blank: false` for a string type minLength should be set to 1
+        # when param is required and values option used, the param is not nullable
+        def apply_allow_blank(schema)
+          if options[:allow_blank] == false || (options[:required] && options[:values])
+            schema[:minLength] = 1 if schema[:type] == 'string'
+          else
+            schema[:nullable] = true
+          end
         end
       end
     end

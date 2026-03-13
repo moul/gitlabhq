@@ -1558,6 +1558,47 @@ As a general rule, we discourage adding columns to high-traffic tables that are 
 analytics or reporting of GitLab.com. This can have negative performance impacts for all
 GitLab Self-Managed instances without providing direct feature value to them.
 
+### Creating triggers
+
+Creating a trigger on high-traffic tables can lead to lock contention timeouts during deployment.
+To mitigate this, we can create the trigger in a post-deployment migration using the [`with_lock_retries`](#retry-mechanism-when-acquiring-database-locks)
+helper method. We should also ensure that the migration is idempotent so it can be retried when it fails in between and won't fail
+because a function or trigger already exists.
+
+```ruby
+class AddTriggersToHighTrafficTable < Gitlab::Database::Migration[2.3]
+  milestone '18.10'
+  
+  disable_ddl_transaction!
+  
+  TRIGGER_FUNCTION_NAME = 'function_name_here'
+  TRIGGER_NAME = 'trigger_name_here'
+  TABLE_NAME = :table_name
+
+  def up
+    with_lock_retries do
+      create_trigger_function(TRIGGER_FUNCTION_NAME, replace: true) do
+        # function body
+      end
+
+      create_trigger(TABLE_NAME, TRIGGER_NAME, TRIGGER_FUNCTION_NAME, fires: 'AFTER INSERT', replace: true)
+    end
+  end
+  
+  def down
+    with_lock_retries do
+      drop_trigger(TABLE_NAME, TRIGGER_NAME, if_exists: true)
+    end
+  
+    drop_function(TRIGGER_FUNCTION_NAME, if_exists: true)
+  end
+end
+```
+
+`disable_ddl_transaction!` is required to use `with_lock_retries`. In case `create_trigger` helper can't be used
+to create a trigger (e.g. trigger runs for each statement instead of each row), use `CREATE OR REPLACE TRIGGER`
+when creating the trigger.
+
 ## Milestone
 
 Beginning in GitLab 16.6, all new migrations must specify a milestone, using the following syntax:

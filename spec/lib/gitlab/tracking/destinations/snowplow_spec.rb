@@ -185,12 +185,9 @@ RSpec.describe Gitlab::Tracking::Destinations::Snowplow, :do_not_stub_snowplow_b
   end
 
   describe '#frontend_client_options' do
-    let_it_be(:group) { create(:group) }
-
     context 'when snowplow is enabled' do
       before do
         stub_application_setting(snowplow_enabled?: true)
-        stub_feature_flags(additional_snowplow_tracking: true)
       end
 
       it 'returns snowplow options' do
@@ -203,7 +200,7 @@ RSpec.describe Gitlab::Tracking::Destinations::Snowplow, :do_not_stub_snowplow_b
           linkClickTracking: true
         }
 
-        expect(subject.frontend_client_options(group)).to eq(expected)
+        expect(subject.frontend_client_options).to eq(expected)
       end
     end
 
@@ -225,7 +222,7 @@ RSpec.describe Gitlab::Tracking::Destinations::Snowplow, :do_not_stub_snowplow_b
           appId: 'gitlab_sm'
         }
 
-        expect(subject.frontend_client_options(group)).to eq(expected)
+        expect(subject.frontend_client_options).to eq(expected)
       end
     end
   end

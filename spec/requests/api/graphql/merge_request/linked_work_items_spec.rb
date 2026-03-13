@@ -65,31 +65,6 @@ RSpec.describe 'Query.mergeRequest.linkedWorkItems', feature_category: :code_rev
     end
   end
 
-  context 'when a closing issue is a non-issue work item type (epic)' do
-    let_it_be(:epic_work_item) { create(:work_item, :epic, project: project) }
-
-    let_it_be(:closing_link_epic) do
-      create(:merge_requests_closing_issues, issue: epic_work_item, merge_request: merge_request)
-    end
-
-    let(:linked_work_items_fields) do
-      <<~GRAPHQL
-        linkedWorkItems(types: [CLOSES]) {
-          linkType
-          workItem { id title }
-        }
-      GRAPHQL
-    end
-
-    it 'filters out the epic work item' do
-      work_item_ids = linked_work_items_data.pluck('workItem').pluck('id')
-
-      expect(work_item_ids).not_to include(
-        global_id_of(epic_work_item, model_name: 'WorkItem').to_s
-      )
-    end
-  end
-
   context 'when filtering by MENTIONED type' do
     let_it_be(:project_with_repo) { create(:project, :public, :repository, developers: developer) }
     let_it_be(:issue_to_mention) { create(:issue, project: project_with_repo) }

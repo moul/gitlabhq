@@ -40,9 +40,9 @@ module Gitlab
           emitter.input(payload)
         end
 
-        def frontend_client_options(group)
+        def frontend_client_options
           if Gitlab::CurrentSettings.snowplow_enabled?
-            snowplow_options(group)
+            snowplow_options
           else
             product_usage_events_options
           end
@@ -58,17 +58,15 @@ module Gitlab
 
         private
 
-        def snowplow_options(group)
-          additional_features = Feature.enabled?(:additional_snowplow_tracking, group, type: :ops)
-
+        def snowplow_options
           # Using camel case as these keys will be used only in JavaScript
           {
             namespace: SNOWPLOW_NAMESPACE,
             hostname: hostname,
             cookieDomain: cookie_domain,
             appId: app_id,
-            formTracking: additional_features,
-            linkClickTracking: additional_features
+            formTracking: true,
+            linkClickTracking: true
           }
         end
 
