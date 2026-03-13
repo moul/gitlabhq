@@ -344,6 +344,7 @@ type GitAuditEventRequest struct {
 	Protocol      string                                  `json:"protocol"`
 	Repo          string                                  `json:"gl_repository"`
 	Username      string                                  `json:"username"`
+	Identifier    string                                  `json:"identifier"`
 	PackfileStats *gitalypb.PackfileNegotiationStatistics `json:"packfile_stats,omitempty"`
 	Changes       string                                  `json:"changes"`
 }

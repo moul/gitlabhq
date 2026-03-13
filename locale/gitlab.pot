@@ -1160,6 +1160,9 @@ msgstr ""
 msgid "%{mergeLength}/%{usersLength} can merge"
 msgstr ""
 
+msgid "%{message} %{tls_guidance}"
+msgstr ""
+
 msgid "%{milestone} (expired)"
 msgstr ""
 
@@ -7372,9 +7375,6 @@ msgstr ""
 msgid "AiImpactAnalytics|Agent Platform flows"
 msgstr ""
 
-msgid "AiImpactAnalytics|Assigned Duo seat engagement"
-msgstr ""
-
 msgid "AiImpactAnalytics|Chat (non-agentic) usage"
 msgstr ""
 
@@ -7396,7 +7396,7 @@ msgstr ""
 msgid "AiImpactAnalytics|Code Suggestions usage"
 msgstr ""
 
-msgid "AiImpactAnalytics|Code contributors with assigned Duo seats who used Code Suggestions. %{linkStart}Learn more%{linkEnd}."
+msgid "AiImpactAnalytics|Code Suggestions users"
 msgstr ""
 
 msgid "AiImpactAnalytics|Data available after upgrade to GitLab 18.0. %{linkStart}Learn more%{linkEnd}."
@@ -7409,9 +7409,6 @@ msgid "AiImpactAnalytics|Data available after upgrade to GitLab 18.7. %{linkStar
 msgstr ""
 
 msgid "AiImpactAnalytics|Duo Agent Platform chats"
-msgstr ""
-
-msgid "AiImpactAnalytics|Duo Chat usage"
 msgstr ""
 
 msgid "AiImpactAnalytics|Duo users"
@@ -7444,6 +7441,9 @@ msgstr ""
 msgid "AiImpactAnalytics|Number of users who used Code Suggestions."
 msgstr ""
 
+msgid "AiImpactAnalytics|Number of users who used Code Suggestions. %{linkStart}Learn more%{linkEnd}."
+msgstr ""
+
 msgid "AiImpactAnalytics|Number of users who used Duo Chat (non-agentic)."
 msgstr ""
 
@@ -7454,12 +7454,6 @@ msgid "AiImpactAnalytics|Root Cause Analysis usage"
 msgstr ""
 
 msgid "AiImpactAnalytics|The usage data may be incomplete due to backend calculations starting after upgrade to GitLab 16.11. For more information, see %{linkStart}epic 12978%{linkEnd}."
-msgstr ""
-
-msgid "AiImpactAnalytics|Users with assigned Duo seats who used Duo Chat. %{linkStart}Learn more%{linkEnd}."
-msgstr ""
-
-msgid "AiImpactAnalytics|Users with assigned Duo seats who used at least one Duo feature. %{linkStart}Learn more%{linkEnd}."
 msgstr ""
 
 msgid "AiImpactAnalytics|Value can't be calculated due to insufficient data."
@@ -7475,6 +7469,9 @@ msgid "AiModelDeprecation|Model %{strong_start}%{model_name}%{strong_end} was de
 msgstr ""
 
 msgid "AiModelDeprecation|The following models have been deprecated and will stop working after GitLab removes them. Please change to an alternative model before the removal version to avoid disruption."
+msgstr ""
+
+msgid "AiPowered| Turn off only if your local service endpoint does not support TLS."
 msgstr ""
 
 msgid "AiPowered|AI Gateway request timeout"
@@ -7750,6 +7747,12 @@ msgstr ""
 msgid "AiPowered|Save with monthly commitments"
 msgstr ""
 
+msgid "AiPowered|Secure connection (TLS) for GitLab Duo Agent Platform service"
+msgstr ""
+
+msgid "AiPowered|Security"
+msgstr ""
+
 msgid "AiPowered|Select a group to continue"
 msgstr ""
 
@@ -7817,6 +7820,9 @@ msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a br
 msgstr ""
 
 msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation. Learn more about %{linkStart}GitLab Credit pricing.%{linkEnd}"
+msgstr ""
+
+msgid "AiPowered|Use TLS for the GitLab Duo Agent Platform service"
 msgstr ""
 
 msgid "AiPowered|Use beta models and features in GitLab Duo Self-Hosted"
@@ -11119,6 +11125,9 @@ msgstr ""
 msgid "Available ID"
 msgstr ""
 
+msgid "Available only on GitLab Premium."
+msgstr ""
+
 msgid "Available with Ultimate"
 msgstr ""
 
@@ -11723,9 +11732,6 @@ msgid "BillingPlans|For individuals working on personal projects and open source
 msgstr ""
 
 msgid "BillingPlans|For scaling organizations seeking enhanced productivity and collaboration."
-msgstr ""
-
-msgid "BillingPlans|Free"
 msgstr ""
 
 msgid "BillingPlans|Free guest users"
@@ -25793,9 +25799,6 @@ msgstr ""
 msgid "Discover Duo Pro"
 msgstr ""
 
-msgid "Discover GitLab Geo"
-msgstr ""
-
 msgid "Discover|An example of GitLab's Dependency list feature"
 msgstr ""
 
@@ -26266,6 +26269,12 @@ msgstr ""
 msgid "DuoAgentPlatform|User messaged agent"
 msgstr ""
 
+msgid "DuoAgenticChat|As Owner of the group, you can turn on GitLab Duo Agent Platform and its AI features for your team."
+msgstr ""
+
+msgid "DuoAgenticChat|As Owner of the project, you can turn on GitLab Duo Agent Platform and its AI features for your team."
+msgstr ""
+
 msgid "DuoAgenticChat|Chat about different topics"
 msgstr ""
 
@@ -26296,6 +26305,12 @@ msgstr ""
 msgid "DuoAgenticChat|GitLab Duo is already responding to this chat in another tab or location. Start a new chat, or wait for GitLab Duo to finish before sending a new message."
 msgstr ""
 
+msgid "DuoAgenticChat|GitLab Duo is disabled"
+msgstr ""
+
+msgid "DuoAgenticChat|Go to Duo settings"
+msgstr ""
+
 msgid "DuoAgenticChat|I don't have access to that resource at the moment. Is there something else I can help you with?"
 msgstr ""
 
@@ -26314,6 +26329,9 @@ msgstr ""
 msgid "DuoAgenticChat|No credits remain on your trial"
 msgstr ""
 
+msgid "DuoAgenticChat|Optional. Turn on preview features"
+msgstr ""
+
 msgid "DuoAgenticChat|Purchase more credits"
 msgstr ""
 
@@ -26326,6 +26344,12 @@ msgstr ""
 msgid "DuoAgenticChat|Select default namespace"
 msgstr ""
 
+msgid "DuoAgenticChat|Set up automated workflows and AI agents."
+msgstr ""
+
+msgid "DuoAgenticChat|Steps to turn on GitLab Duo"
+msgstr ""
+
 msgid "DuoAgenticChat|The agent associated with this conversation is no longer available. You can view the conversation history but cannot send new messages."
 msgstr ""
 
@@ -26336,6 +26360,21 @@ msgid "DuoAgenticChat|To use Chat, select a default namespace in your %{preferen
 msgstr ""
 
 msgid "DuoAgenticChat|To use Chat, select a default namespace in your user profile preferences. Alternatively, turn off the Agentic toggle to return to non-agentic Chat."
+msgstr ""
+
+msgid "DuoAgenticChat|Turn on GitLab Duo Agent Platform"
+msgstr ""
+
+msgid "DuoAgenticChat|Turn on GitLab Duo features"
+msgstr ""
+
+msgid "DuoAgenticChat|Turn on GitLab Duo features for this project or group."
+msgstr ""
+
+msgid "DuoAgenticChat|Turn on beta and experimental features for early access to new tools and improvements."
+msgstr ""
+
+msgid "DuoAgenticChat|Turn on flows"
 msgstr ""
 
 msgid "DuoAgenticChat|Unable to connect to workflow service. Please try again."
@@ -31168,10 +31207,10 @@ msgstr ""
 msgid "Geo"
 msgstr ""
 
-msgid "Geo Settings"
+msgid "Geo Sites"
 msgstr ""
 
-msgid "Geo Sites"
+msgid "Geo settings"
 msgstr ""
 
 msgid "Geo sites"
@@ -31455,6 +31494,9 @@ msgstr ""
 msgid "Geo|Helm Metadata Caches"
 msgstr ""
 
+msgid "Geo|Help your team work faster from any location. GitLab Geo creates read-only mirrors of your instance to clone and fetch large repositories quicker."
+msgstr ""
+
 msgid "Geo|If enabled, GitLab will handle Object Storage replication using Geo."
 msgstr ""
 
@@ -31503,9 +31545,6 @@ msgstr ""
 msgid "Geo|Last verified: %{timeAgo}"
 msgstr ""
 
-msgid "Geo|Learn more about Geo"
-msgstr ""
-
 msgid "Geo|Learn more about Geo site statuses"
 msgstr ""
 
@@ -31518,7 +31557,7 @@ msgstr ""
 msgid "Geo|Limit the number of concurrent operations this secondary site can run in the background."
 msgstr ""
 
-msgid "Geo|Make everyone on your team more productive regardless of their location. GitLab Geo creates read-only mirrors of your GitLab instance so you can reduce the time it takes to clone and fetch large repos."
+msgid "Geo|Manage your subscription"
 msgstr ""
 
 msgid "Geo|Merge Request Diff"
@@ -31945,9 +31984,6 @@ msgid "Geo|There was an error scheduling all %{type} for checksum recalculation.
 msgstr ""
 
 msgid "Geo|There was an error updating the Geo Settings"
-msgstr ""
-
-msgid "Geo|This GitLab instance is subscribed to the %{insufficient_license} tier. Geo is only available for users who have at least a Premium subscription."
 msgstr ""
 
 msgid "Geo|This will recalculate checksums for all %{type}. It may take some time to complete. Are you sure you want to continue?"
@@ -38332,6 +38368,9 @@ msgstr ""
 msgid "Issues|Use issues (also known as tickets or stories on other platforms) to collaborate on ideas, solve problems, and plan your project."
 msgstr ""
 
+msgid "It fails with a TLS mismatch error. If your self-hosted Duo Agent Platform service endpoint does not support TLS, turn off TLS connection to the GitLab Duo Agent Platform service "
+msgstr ""
+
 msgid "It looks like you are visiting GitLab from Mainland China, Macau, or Hong Kong.We advise you to %{jihu_url} before continuing."
 msgstr ""
 
@@ -41461,9 +41500,6 @@ msgid "Make adjustments to how your GitLab instance is set up."
 msgstr ""
 
 msgid "Make changes to the diagram"
-msgstr ""
-
-msgid "Make everyone on your team more productive regardless of their location. GitLab Geo creates read-only mirrors of your GitLab instance so you can reduce the time it takes to clone and fetch large repos."
 msgstr ""
 
 msgid "Make new users external by default"
@@ -73865,6 +73901,78 @@ msgid "Usage this month"
 msgstr ""
 
 msgid "Usage trends"
+msgstr ""
+
+msgid "UsageBillingFlowType|AI Catalog based Agent or Flow"
+msgstr ""
+
+msgid "UsageBillingFlowType|Agentic Chat"
+msgstr ""
+
+msgid "UsageBillingFlowType|Code Review Flow"
+msgstr ""
+
+msgid "UsageBillingFlowType|Code Suggestions"
+msgstr ""
+
+msgid "UsageBillingFlowType|Convert to GitLab CI/CD Flow"
+msgstr ""
+
+msgid "UsageBillingFlowType|DAP Feature (Legacy)"
+msgstr ""
+
+msgid "UsageBillingFlowType|Developer Flow"
+msgstr ""
+
+msgid "UsageBillingFlowType|Fix Pipeline Flow"
+msgstr ""
+
+msgid "UsageBillingFlowType|Foundational Agents"
+msgstr ""
+
+msgid "UsageBillingFlowType|Issue to Merge Request Flow"
+msgstr ""
+
+msgid "UsageBillingFlowType|Other AI Usage"
+msgstr ""
+
+msgid "UsageBillingFlowType|SAST FP Detection Flow"
+msgstr ""
+
+msgid "UsageBillingFlowType|SAST Vulnerability Resolution Flow"
+msgstr ""
+
+msgid "UsageBillingFlowType|Software Development Flow"
+msgstr ""
+
+msgid "UsageBillingUserDetails|%{count} flow types selected"
+msgstr ""
+
+msgid "UsageBillingUserDetails|1 flow type selected"
+msgstr ""
+
+msgid "UsageBillingUserDetails|All types"
+msgstr ""
+
+msgid "UsageBillingUserDetails|Any type"
+msgstr ""
+
+msgid "UsageBillingUserDetails|Clear"
+msgstr ""
+
+msgid "UsageBillingUserDetails|Filter flow types"
+msgstr ""
+
+msgid "UsageBillingUserDetails|Flow"
+msgstr ""
+
+msgid "UsageBillingUserDetails|No matching types"
+msgstr ""
+
+msgid "UsageBillingUserDetails|Search types"
+msgstr ""
+
+msgid "UsageBillingUserDetails|Select all"
 msgstr ""
 
 msgid "UsageBillingUserDetails|included credits used this month"

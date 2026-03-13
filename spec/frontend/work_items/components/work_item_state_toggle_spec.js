@@ -201,6 +201,7 @@ describe('Work Item State toggle button component', () => {
         category: TRACKING_CATEGORY_SHOW,
         label: 'item_state',
         property: 'type_Task',
+        extra: { viewContext: 'full_screen' },
       });
     });
 

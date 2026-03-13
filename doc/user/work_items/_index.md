@@ -54,7 +54,8 @@ In earlier versions of GitLab, issues and epics had separate list pages under
 **Plan** > **Issues** and **Plan** > **Epics**. In GitLab 18.10 and later, these pages
 are replaced by **Plan** > **Work items**, which consolidates all work item types in a
 single view. If you had pinned **Issues** or **Epics** in the sidebar, **Work items** is
-pinned in their place.
+pinned in their place. URLs that contain `/epics/:iid` or `/issues/:iid` automatically
+redirect to `/work_items/:iid`.
 
 To view work items for a project or group:
 

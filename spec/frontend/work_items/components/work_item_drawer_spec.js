@@ -67,6 +67,7 @@ describe('WorkItemDrawer', () => {
         open,
         issuableType,
         isBoard,
+        viewContext: 'drawer_list',
       },
       listeners: {
         customEvent: mockListener,

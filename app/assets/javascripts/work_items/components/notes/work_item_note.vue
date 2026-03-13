@@ -14,7 +14,7 @@ import EditedAt from '~/issues/show/components/edited.vue';
 import TimelineEntryItem from '~/vue_shared/components/notes/timeline_entry_item.vue';
 import NoteHeader from '~/notes/components/note_header.vue';
 import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
-import { i18n, TRACKING_CATEGORY_SHOW } from '../../constants';
+import { i18n, TRACKING_CATEGORY_SHOW, VIEW_CONTEXT } from '../../constants';
 import updateWorkItemMutation from '../../graphql/update_work_item.mutation.graphql';
 import updateWorkItemNoteMutation from '../../graphql/notes/update_work_item_note.mutation.graphql';
 import workItemByIidQuery from '../../graphql/work_item_by_iid.query.graphql';
@@ -38,6 +38,9 @@ export default {
     EditedAt,
   },
   mixins: [glFeatureFlagsMixin(), Tracking.mixin()],
+  inject: {
+    viewContext: { default: VIEW_CONTEXT.fullScreen },
+  },
   props: {
     fullPath: {
       type: String,
@@ -152,6 +155,7 @@ export default {
         category: TRACKING_CATEGORY_SHOW,
         label: 'work_item_note_actions',
         property: `type_${this.workItemType}`,
+        extra: { viewContext: this.viewContext },
       };
     },
     author() {

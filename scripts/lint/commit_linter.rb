@@ -59,8 +59,10 @@ module Lint
 
       return [] unless first_commit_on_branch?
 
-      message = File.read(file_path)
-        .lines
+      lines = File.read(file_path).lines
+      scissors_index = lines.index { |line| line.match?(/^# -+ >8 -+/) }
+      lines = lines[0...scissors_index] if scissors_index
+      message = lines
         .reject { |line| line.start_with?('#') }
         .join
 

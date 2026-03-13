@@ -244,7 +244,85 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# 5. Write static vite.gdk.json
+# 5. Copy gitlabhq_production → gitlabhq_development if it does not exist
+#
+#    We exec into the PostgreSQL pod and create the
+#    database as a template copy of gitlabhq_production (after terminating
+#    active sessions on the source).  The database.yml is then rewritten
+#    to reference gitlabhq_development. This is signficantly faster than
+#    pd_dump/pg_restore or loading the schema, due to avoiding Rails.
+# ---------------------------------------------------------------------------
+
+echo ""
+echo "==> Creating gitlabhq_development database (if it does not exist)..."
+
+PG_POD=$($KUBECTL get pod -n "$NAMESPACE" -l app.kubernetes.io/name=postgresql \
+  -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
+
+if [[ -z "$PG_POD" ]]; then
+  error "No PostgreSQL pod found in namespace '$NAMESPACE'."
+  error "Check: $KUBECTL get pods -n $NAMESPACE -l app.kubernetes.io/name=postgresql"
+  exit 1
+fi
+
+echo "  Found PostgreSQL pod: $PG_POD"
+
+PG_PASS=$($KUBECTL exec -n "$NAMESPACE" "$PG_POD" -- \
+  sh -c 'echo "$POSTGRES_POSTGRES_PASSWORD"' 2>/dev/null || true)
+
+if [[ -z "$PG_PASS" ]]; then
+  error "Could not read POSTGRES_POSTGRES_PASSWORD from pod $PG_POD."
+  exit 1
+fi
+
+AUTH_CHECK=$($KUBECTL exec -n "$NAMESPACE" "$PG_POD" -- \
+  env PGPASSWORD="$PG_PASS" psql -U postgres -tAc "SELECT 1" 2>&1 || true)
+
+if [[ "$AUTH_CHECK" != "1" ]]; then
+  error "PostgreSQL authentication failed. psql output:"
+  error "$AUTH_CHECK"
+  exit 1
+fi
+
+success "  Authentication OK"
+
+DB_EXISTS=$($KUBECTL exec -n "$NAMESPACE" "$PG_POD" -- \
+  env PGPASSWORD="$PG_PASS" psql -U postgres -d postgres -tAc \
+    "SELECT 1 FROM pg_database WHERE datname='gitlabhq_development'" 2>/dev/null || true)
+
+if [[ "$DB_EXISTS" =~ 1 ]]; then
+  echo "  ✓ gitlabhq_development already exists – skipping creation."
+else
+  echo "  Terminating active sessions on gitlabhq_production..."
+  TERMINATED=$($KUBECTL exec -n "$NAMESPACE" "$PG_POD" -- \
+    env PGPASSWORD="$PG_PASS" psql -U postgres -d postgres -tAc \
+      "SELECT count(*) FROM (SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='gitlabhq_production' AND pid <> pg_backend_pid()) t" || echo "?")
+  echo "  Terminated $TERMINATED sessions."
+
+  echo "  Creating gitlabhq_development from template gitlabhq_production..."
+  $KUBECTL exec -n "$NAMESPACE" "$PG_POD" -- \
+    env PGPASSWORD="$PG_PASS" psql -U postgres -d postgres -c \
+      "CREATE DATABASE gitlabhq_development TEMPLATE gitlabhq_production"
+
+  if [[ $? -eq 0 ]]; then
+    success "  ✓ gitlabhq_development created successfully."
+  else
+    error "Failed to create gitlabhq_development. You may need to create it manually."
+  fi
+fi
+
+echo ""
+echo "==> Rewriting database names in config/database.yml..."
+if [[ -f "$DB_YML" ]]; then
+  sed -i.bak 's/database: gitlabhq_production/database: gitlabhq_development/g' "$DB_YML"
+  rm "$DB_YML.bak"
+  echo "  ✓ config/database.yml now references gitlabhq_development"
+else
+  warn "config/database.yml not found – skipping database name rewrite"
+fi
+
+# ---------------------------------------------------------------------------
+# 6. Write static vite.gdk.json
 #
 #    vite.gdk.json is committed to the repo and should always use 127.0.0.1
 #    so that the Vite dev server is reachable via port-forward.  Writing it

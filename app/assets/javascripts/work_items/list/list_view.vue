@@ -137,6 +137,7 @@ import {
   WORK_ITEM_TYPE_NAME_ISSUE,
   WORK_ITEM_TYPE_NAME_TICKET,
   METADATA_KEYS,
+  VIEW_CONTEXT,
   WORK_ITEM_CREATE_SOURCES,
   ROUTES,
 } from '../constants';
@@ -185,6 +186,7 @@ const FEATURE_NAME = 'work_item_consolidated_list_feedback';
 export default {
   name: 'ListView',
   CREATION_CONTEXT_LIST_ROUTE,
+  VIEW_CONTEXT,
   issuableListTabs,
   searchProjectsQuery,
   WORK_ITEM_CREATE_SOURCES,
@@ -1929,6 +1931,7 @@ export default {
         :active-item="activeItem"
         :open="isItemSelected"
         :issuable-type="activeWorkItemType"
+        :view-context="$options.VIEW_CONTEXT.drawerList"
         click-outside-exclude-selector=".issuable-list"
         @close="activeItem = null"
         @add-child="refetchItems"

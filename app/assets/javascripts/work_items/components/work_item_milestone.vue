@@ -16,6 +16,7 @@ import {
   I18N_WORK_ITEM_ERROR_UPDATING,
   NAME_TO_TEXT_LOWERCASE_MAP,
   TRACKING_CATEGORY_SHOW,
+  VIEW_CONTEXT,
 } from '../constants';
 
 export default {
@@ -33,6 +34,9 @@ export default {
     GlLink,
   },
   mixins: [glFeatureFlagsMixin(), Tracking.mixin()],
+  inject: {
+    viewContext: { default: VIEW_CONTEXT.fullScreen },
+  },
   props: {
     fullPath: {
       type: String,
@@ -79,6 +83,7 @@ export default {
         category: TRACKING_CATEGORY_SHOW,
         label: 'item_milestone',
         property: `type_${this.workItemType}`,
+        extra: { viewContext: this.viewContext },
       };
     },
     emptyPlaceholder() {

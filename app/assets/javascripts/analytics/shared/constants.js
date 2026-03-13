@@ -206,10 +206,6 @@ export const AI_METRICS = {
   DUO_REVIEW_COMMENT_COUNT: 'duo_review_comment_count',
   DUO_AGENT_PLATFORM_FLOWS: 'duo_agent_platform_flows',
   DUO_AGENT_PLATFORM_CHATS: 'duo_agent_platform_chats',
-  // TODO: The following metrics to be removed in https://gitlab.com/gitlab-org/gitlab/-/work_items/592813
-  DUO_USAGE_RATE: 'duo_usage_rate',
-  DUO_CHAT_USAGE_RATE: 'duo_chat_usage_rate',
-  CODE_SUGGESTIONS_USAGE_RATE: 'code_suggestions_usage_rate',
 };
 
 export const VALUE_STREAM_METRIC_DISPLAY_UNITS = {

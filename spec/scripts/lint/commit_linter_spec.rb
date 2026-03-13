@@ -209,6 +209,34 @@ RSpec.describe Lint::CommitLinter, feature_category: :tooling do
       end
     end
 
+    context 'with scissors mode (commit -v with commit.cleanup=scissors)' do
+      let(:tmpfile) { Tempfile.new('commit_msg') }
+      let(:file_path) { tmpfile.path }
+      let(:long_diff_line) { 'a' * 120 }
+
+      before do
+        tmpfile.write(
+          "Add a valid commit message\n\nBody text\n" \
+            "# ------------------------ >8 ------------------------\n" \
+            "# Do not modify or remove the line above.\n" \
+            "diff --git a/some/file.rb b/some/file.rb\n" \
+            "#{long_diff_line}\n"
+        )
+        tmpfile.close
+        allow(described_class).to receive(:first_commit_on_branch?).and_return(true)
+      end
+
+      after do
+        tmpfile.unlink
+      end
+
+      it 'strips everything after the scissors line' do
+        expect(result.first.message).to include("Body text")
+        expect(result.first.message).not_to include("diff --git")
+        expect(result.first.message).not_to include(long_diff_line)
+      end
+    end
+
     context 'when not the first commit on the branch' do
       let(:tmpfile) { Tempfile.new('commit_msg') }
       let(:file_path) { tmpfile.path }

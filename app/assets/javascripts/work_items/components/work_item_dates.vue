@@ -9,6 +9,7 @@ import {
   I18N_WORK_ITEM_ERROR_UPDATING,
   NAME_TO_TEXT_LOWERCASE_MAP,
   TRACKING_CATEGORY_SHOW,
+  VIEW_CONTEXT,
   WIDGET_TYPE_START_AND_DUE_DATE,
 } from '../constants';
 import updateWorkItemMutation from '../graphql/update_work_item.mutation.graphql';
@@ -28,6 +29,9 @@ export default {
     WorkItemSidebarWidget,
   },
   mixins: [Tracking.mixin()],
+  inject: {
+    viewContext: { default: VIEW_CONTEXT.fullScreen },
+  },
   props: {
     workItem: {
       type: Object,
@@ -94,6 +98,7 @@ export default {
         category: TRACKING_CATEGORY_SHOW,
         label: 'item_dates',
         property: `type_${this.workItemType}`,
+        extra: { viewContext: this.viewContext },
       };
     },
     startDateValue() {

@@ -344,6 +344,21 @@ describe('discussions adapters', () => {
         document.querySelector('#discussions-component').instance().emitClearHighlight();
         expect(clearHighlightSpy).toHaveBeenCalled();
       });
+
+      it('triggers CLEAR_HIGHLIGHT when discussion row becomes empty', async () => {
+        useDiscussions().discussions = [
+          {
+            id: 'abc',
+            diff_discussion: true,
+            position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
+          },
+        ];
+        await nextTick();
+        expect(getDiscussionRows()).toHaveLength(1);
+        useDiscussions().discussions = [];
+        await nextTick();
+        expect(clearHighlightSpy).toHaveBeenCalled();
+      });
     });
   });
 

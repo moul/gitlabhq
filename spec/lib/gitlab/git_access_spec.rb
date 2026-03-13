@@ -442,14 +442,14 @@ RSpec.describe Gitlab::GitAccess, :aggregate_failures, feature_category: :system
 
         it 'denies git pull' do
           expect { pull_access_check }.to raise_error(described_class::ForbiddenError,
-            'Access denied: Your Personal Access Token lacks the required permissions: [download_code] ' \
-            "for \"#{project.full_path}\".")
+            'Access denied: This operation requires a fine-grained personal access token ' \
+            "with the following project permissions: [Code: Download].")
         end
 
         it 'denies git push' do
           expect { push_access_check }.to raise_error(described_class::ForbiddenError,
-            'Access denied: Your Personal Access Token lacks the required permissions: [push_code] ' \
-            "for \"#{project.full_path}\".")
+            'Access denied: This operation requires a fine-grained personal access token ' \
+            "with the following project permissions: [Code: Push].")
         end
       end
 
@@ -462,8 +462,8 @@ RSpec.describe Gitlab::GitAccess, :aggregate_failures, feature_category: :system
 
         it 'denies git push' do
           expect { push_access_check }.to raise_error(described_class::ForbiddenError,
-            'Access denied: Your Personal Access Token lacks the required permissions: [push_code] ' \
-            "for \"#{project.full_path}\".")
+            'Access denied: This operation requires a fine-grained personal access token ' \
+            "with the following project permissions: [Code: Push].")
         end
       end
 
@@ -476,8 +476,8 @@ RSpec.describe Gitlab::GitAccess, :aggregate_failures, feature_category: :system
 
         it 'denies git pull' do
           expect { pull_access_check }.to raise_error(described_class::ForbiddenError,
-            'Access denied: Your Personal Access Token lacks the required permissions: [download_code] ' \
-            "for \"#{project.full_path}\".")
+            'Access denied: This operation requires a fine-grained personal access token ' \
+            "with the following project permissions: [Code: Download].")
         end
       end
 

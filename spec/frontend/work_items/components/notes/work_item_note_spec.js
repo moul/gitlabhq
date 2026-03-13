@@ -397,6 +397,7 @@ end`;
           category: TRACKING_CATEGORY_SHOW,
           label: 'work_item_note_actions',
           property: 'type_Task',
+          extra: { viewContext: 'full_screen' },
         });
       });
 

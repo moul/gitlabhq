@@ -225,6 +225,7 @@ RSpec.describe API::AccessRequests, feature_category: :system_access do
         it_behaves_like 'authorizing granular token permissions', :delete_access_request do
           let(:user) { access_requester }
           let(:boundary_object) { :user }
+          let(:error_boundary_object) { source }
           let(:request) { delete api("/#{source_type.pluralize}/#{source.id}/access_requests/#{access_requester.id}", personal_access_token: pat) }
         end
       end

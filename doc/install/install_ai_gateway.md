@@ -94,13 +94,10 @@ Newer features are available from nightly builds, but backwards compatibility is
      exclusively against the local GitLab instance.
    - Eliminates the 20-second delay caused by unreachable CustomersDot calls.
 1. Configure the [AI gateway URL](../administration/gitlab_duo_self_hosted/configure_duo_features.md#configure-access-to-the-local-ai-gateway) and the [GitLab Duo Agent Platform service URL](../administration/gitlab_duo_self_hosted/configure_duo_features.md#configure-access-to-the-gitlab-duo-agent-platform).
-1. Configure the `DUO_AGENT_PLATFORM_SERVICE_SECURE` environment variable based on your model setup:
-   - If you are using a self-hosted model without TLS, set the `DUO_AGENT_PLATFORM_SERVICE_SECURE` environment variable to `false` in your GitLab instance:
-
-     - For Linux package installations: In `gitlab_rails['env']`, set `'DUO_AGENT_PLATFORM_SERVICE_SECURE' => false`.
-     - For self-compiled installations: In `/etc/default/gitlab`, set `export DUO_AGENT_PLATFORM_SERVICE_SECURE=false`.
-
-   - If you are using a [GitLab-managed model](../administration/gitlab_duo_self_hosted/supported_models_and_hardware_requirements.md#gitlab-managed-models), do not set the `DUO_AGENT_PLATFORM_SERVICE_SECURE` environment variable.
+1. Optional. If your local GitLab Duo Agent Platform endpoint uses TLS:
+   1. In the upper-right corner, select **Admin**.
+   1. Select **GitLab Duo** > **Change configuration**.
+   1. Select the **Use TLS for the GitLab Duo Agent Platform service** checkbox.
 
 ## Set up Docker with NGINX and SSL
 

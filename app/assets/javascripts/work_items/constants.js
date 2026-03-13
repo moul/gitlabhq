@@ -533,3 +533,10 @@ export const ICON_NAVIGATION_KEYS = {
   NEXT: [ARROW_RIGHT_KEY, ARROW_DOWN_KEY],
   IGNORE: [' ', ENTER_KEY],
 };
+
+export const VIEW_CONTEXT = {
+  fullScreen: 'full_screen',
+  drawerBoard: 'drawer_board',
+  drawerList: 'drawer_list',
+  drawerWorkItem: 'drawer_work_item',
+};

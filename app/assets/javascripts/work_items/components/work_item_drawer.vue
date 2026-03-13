@@ -38,6 +38,11 @@ export default {
     isGroup: {},
     fullPath: {},
   },
+  provide() {
+    return {
+      viewContext: this.viewContext,
+    };
+  },
   inheritAttrs: false,
   props: {
     open: {
@@ -58,6 +63,10 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    viewContext: {
+      type: String,
+      required: true,
     },
   },
   data() {

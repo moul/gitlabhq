@@ -1315,10 +1315,8 @@ Gitlab.ee do
     "https://gitlab.com/api/v4/projects/58711783/packages/generic/duo-workflow-executor/#{executor_version}/#{os_info.sub('/', '-')}-duo-workflow-executor.tar.gz"
   end
 
-  secure = Gitlab::Utils.to_boolean(ENV['DUO_AGENT_PLATFORM_SERVICE_SECURE'], default: true)
-
   Settings.duo_workflow.reverse_merge!(
-    secure: secure,
+    secure: true,
     service_url: nil, # service_url is constructued in Gitlab::DuoWorkflow::Client
     debug: false,
     executor_binary_url: "https://gitlab.com/api/v4/projects/58711783/packages/generic/duo-workflow-executor/#{executor_version}/duo-workflow-executor.tar.gz",

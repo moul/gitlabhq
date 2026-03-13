@@ -28,7 +28,8 @@ RSpec.describe Gitlab::Graphql::Authz::GranularTokenAuthorization, feature_categ
 
     it 'raises an ResourceNotAvailable error that includes the message from the service response' do
       expect { resolve }.to raise_error(Gitlab::Graphql::Errors::ResourceNotAvailable, 'Access denied: ' \
-        "Your Personal Access Token lacks the required permissions: [read_wiki] for \"#{project.full_path}\".")
+        'This operation requires a fine-grained personal access token ' \
+        "with the following project permissions: [Wiki: Read].")
     end
 
     context 'when the token is nil' do
@@ -74,7 +75,7 @@ RSpec.describe Gitlab::Graphql::Authz::GranularTokenAuthorization, feature_categ
 
         it 'raises an ResourceNotAvailable error that includes the message from the service response' do
           expect { resolve }.to raise_error(Gitlab::Graphql::Errors::ResourceNotAvailable,
-            'Unable to determine boundaries and permissions for authorization')
+            "Access denied: This operation doesn't support fine-grained personal access tokens.")
         end
       end
 

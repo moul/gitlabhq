@@ -869,14 +869,14 @@ RSpec.describe 'Git HTTP requests', feature_category: :source_code_management do
                   it 'denies pulls' do
                     download(path, **env) do |response|
                       expect(response).to have_gitlab_http_status(:forbidden)
-                      expect(response.body).to eq("Access denied: Your Personal Access Token lacks the required permissions: [download_code] for \"#{project.full_path}\".")
+                      expect(response.body).to eq("Access denied: This operation requires a fine-grained personal access token with the following project permissions: [Code: Download].")
                     end
                   end
 
                   it 'denies pushes' do
                     upload(path, **env) do |response|
                       expect(response).to have_gitlab_http_status(:forbidden)
-                      expect(response.body).to eq("Access denied: Your Personal Access Token lacks the required permissions: [push_code] for \"#{project.full_path}\".")
+                      expect(response.body).to eq("Access denied: This operation requires a fine-grained personal access token with the following project permissions: [Code: Push].")
                     end
                   end
                 end
@@ -889,7 +889,7 @@ RSpec.describe 'Git HTTP requests', feature_category: :source_code_management do
                   it 'denies pushes' do
                     upload(path, **env) do |response|
                       expect(response).to have_gitlab_http_status(:forbidden)
-                      expect(response.body).to eq("Access denied: Your Personal Access Token lacks the required permissions: [push_code] for \"#{project.full_path}\".")
+                      expect(response.body).to eq("Access denied: This operation requires a fine-grained personal access token with the following project permissions: [Code: Push].")
                     end
                   end
                 end
@@ -902,7 +902,7 @@ RSpec.describe 'Git HTTP requests', feature_category: :source_code_management do
                   it 'denies pulls' do
                     download(path, **env) do |response|
                       expect(response).to have_gitlab_http_status(:forbidden)
-                      expect(response.body).to eq("Access denied: Your Personal Access Token lacks the required permissions: [download_code] for \"#{project.full_path}\".")
+                      expect(response.body).to eq("Access denied: This operation requires a fine-grained personal access token with the following project permissions: [Code: Download].")
                     end
                   end
                 end
@@ -917,14 +917,14 @@ RSpec.describe 'Git HTTP requests', feature_category: :source_code_management do
                   it 'denies pulls' do
                     download(path, **env) do |response|
                       expect(response).to have_gitlab_http_status(:forbidden)
-                      expect(response.body).to eq('Granular tokens are not yet supported')
+                      expect(response.body).to eq('Access denied: Fine-grained personal access tokens are not yet supported.')
                     end
                   end
 
                   it 'denies pushes' do
                     upload(path, **env) do |response|
                       expect(response).to have_gitlab_http_status(:forbidden)
-                      expect(response.body).to eq('Granular tokens are not yet supported')
+                      expect(response.body).to eq('Access denied: Fine-grained personal access tokens are not yet supported.')
                     end
                   end
                 end

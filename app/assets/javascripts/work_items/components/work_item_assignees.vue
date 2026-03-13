@@ -14,7 +14,7 @@ import Tracking from '~/tracking';
 import { ISSUE_MR_CHANGE_ASSIGNEE } from '~/behaviors/shortcuts/keybindings';
 import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import updateWorkItemMutation from '../graphql/update_work_item.mutation.graphql';
-import { i18n, TRACKING_CATEGORY_SHOW } from '../constants';
+import { i18n, TRACKING_CATEGORY_SHOW, VIEW_CONTEXT } from '../constants';
 
 export default {
   components: {
@@ -25,6 +25,9 @@ export default {
     UncollapsedAssigneeList,
   },
   mixins: [glFeatureFlagsMixin(), Tracking.mixin()],
+  inject: {
+    viewContext: { default: VIEW_CONTEXT.fullScreen },
+  },
   props: {
     fullPath: {
       type: String,
@@ -193,6 +196,7 @@ export default {
         category: TRACKING_CATEGORY_SHOW,
         label: 'item_assignees',
         property: `type_${this.workItemType}`,
+        extra: { viewContext: this.viewContext },
       };
     },
     isLoadingUsers() {

@@ -109,23 +109,32 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   def new
-    service = ::Issues::BuildService.new(
-      container: project,
-      current_user: current_user,
-      params: build_params
-    )
+    if project.work_items_consolidated_list_enabled?(current_user)
+      redirect_to new_project_work_item_url(project, params.except(
+        :controller,
+        :action,
+        :namespace_id,
+        :project_id
+      ).permit!)
+    else
+      service = ::Issues::BuildService.new(
+        container: project,
+        current_user: current_user,
+        params: build_params
+      )
 
-    @issue = @noteable = service.execute
-    @add_related_issue = add_related_issue
-    @merge_request_to_resolve_discussions_of = service.merge_request_to_resolve_discussions_of
+      @issue = @noteable = service.execute
+      @add_related_issue = add_related_issue
+      @merge_request_to_resolve_discussions_of = service.merge_request_to_resolve_discussions_of
 
-    if service.discussion_to_resolve_id.present?
-      @discussion_to_resolve = service.discussions_to_resolve.first
-      Gitlab::UsageDataCounters::MergeRequestActivityUniqueCounter
-        .track_resolve_thread_in_issue_action(user: current_user)
+      if service.discussion_to_resolve_id.present?
+        @discussion_to_resolve = service.discussions_to_resolve.first
+        Gitlab::UsageDataCounters::MergeRequestActivityUniqueCounter
+          .track_resolve_thread_in_issue_action(user: current_user)
+      end
+
+      respond_with(@issue)
     end
-
-    respond_with(@issue)
   end
 
   def show

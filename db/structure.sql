@@ -13333,6 +13333,7 @@ CREATE TABLE ai_settings (
     minimum_access_level_enable_on_projects smallint,
     minimum_access_level_execute_async smallint,
     feature_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
+    self_hosted_duo_agent_platform_service_secure boolean DEFAULT true NOT NULL,
     CONSTRAINT check_3cf9826589 CHECK ((char_length(ai_gateway_url) <= 2048)),
     CONSTRAINT check_900d7a89b3 CHECK ((char_length(duo_agent_platform_service_url) <= 2048)),
     CONSTRAINT check_a02bd8868c CHECK ((char_length(amazon_q_role_arn) <= 2048)),

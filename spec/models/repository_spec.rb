@@ -450,64 +450,110 @@ RSpec.describe Repository, feature_category: :source_code_management do
   describe '#commits' do
     let_it_be(:project) { create(:project, :repository) }
 
+    let(:ref) { nil }
+    let(:kwargs) { { limit: 60 } }
+
+    subject(:commits) { repository.commits(ref, **kwargs) }
+
     context 'when neither the all flag nor a ref are specified' do
       it 'returns every commit from default branch' do
-        expect(repository.commits(nil, limit: 60).size).to eq(37)
+        expect(commits.size).to eq(37)
+      end
+
+      context 'when all flag is set' do
+        let(:kwargs) { { limit: 60, all: true } }
+
+        it 'returns every commit from the repository' do
+          expect(commits.size).to eq(60)
+        end
       end
     end
 
     context 'when ref is passed' do
+      let(:ref) { 'master' }
+
       it 'returns every commit from the specified ref' do
-        expect(repository.commits('master', limit: 60).size).to eq(37)
+        expect(commits.size).to eq(37)
       end
 
-      context 'when all' do
+      context 'when all flag is set' do
+        let(:kwargs) { { limit: 60, all: true } }
+
         it 'returns every commit from the repository' do
-          expect(repository.commits('master', limit: 60, all: true).size).to eq(60)
+          expect(commits.size).to eq(60)
         end
       end
 
-      context 'with path' do
+      context 'when path is passed' do
+        let(:kwargs) { { limit: 1, path: path } }
+
         context 'when remove_file_commit_history_following feature flag is disabled' do
           before do
             stub_feature_flags(remove_file_commit_history_following: false)
           end
 
-          context 'with single path' do
-            it 'sets follow: true' do
-              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: true)).and_call_original.twice
+          context 'and path is a string' do
+            let(:path) { 'README.md' }
 
-              repository.commits('master', limit: 1, path: 'README.md')
-              repository.commits('master', limit: 1, path: ['README.md'])
+            it 'sets follow to true' do
+              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: true)).and_call_original
+
+              commits
+            end
+          end
+
+          context 'and path is a single path in array' do
+            let(:path) { ['README.md'] }
+
+            it 'sets follow to true' do
+              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: true)).and_call_original
+
+              commits
             end
           end
         end
 
-        context 'with single path' do
-          it 'does not set follow' do
-            expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original.twice
+        context 'and path is a string' do
+          let(:path) { 'README.md' }
 
-            repository.commits('master', limit: 1, path: 'README.md')
-            repository.commits('master', limit: 1, path: ['README.md'])
-          end
-        end
-
-        context 'with multiple paths' do
           it 'does not set follow' do
             expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
 
-            repository.commits('master', limit: 1, path: ['README.md', 'CHANGELOG'])
+            commits
+          end
+        end
+
+        context 'and path is a single path in array' do
+          let(:path) { ['README.md'] }
+
+          it 'does not set follow' do
+            expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+
+            commits
+          end
+        end
+
+        context 'and path is multiple paths' do
+          let(:path) { ['README.md', 'CHANGELOG'] }
+
+          it 'does not set follow' do
+            expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+
+            commits
           end
         end
 
         context 'when follow option is explicitly provided' do
+          let(:path) { 'README.md' }
+          let(:kwargs) { { limit: 1, path: path, follow: true } }
+
           it 'ignores follow option and sets follow to false' do
             expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
 
-            repository.commits('master', limit: 1, path: 'README.md', follow: true)
+            commits
           end
 
-          context 'with feature flag disabled' do
+          context 'when feature flag is disabled' do
             before do
               stub_feature_flags(remove_file_commit_history_following: false)
             end
@@ -515,35 +561,44 @@ RSpec.describe Repository, feature_category: :source_code_management do
             it 'respects follow: true' do
               expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: true)).and_call_original
 
-              repository.commits('master', limit: 1, path: 'README.md', follow: true)
+              commits
             end
 
-            it 'respects follow: false' do
-              expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+            context 'when follow is false' do
+              let(:kwargs) { { limit: 1, path: path, follow: false } }
 
-              repository.commits('master', limit: 1, path: 'README.md', follow: false)
+              it 'respects follow: false' do
+                expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
+
+                commits
+              end
             end
 
             context 'without path' do
+              let(:kwargs) { { limit: 1, follow: true } }
+
               it 'ignores follow option and sets follow to false' do
                 expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
 
-                repository.commits('master', limit: 1, follow: true)
+                commits
               end
             end
 
             context 'with multiple paths' do
+              let(:path) { ['README.md', 'CHANGELOG'] }
+              let(:kwargs) { { limit: 1, path: path, follow: true } }
+
               it 'ignores follow option and sets follow to false' do
                 expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
 
-                repository.commits('master', limit: 1, path: ['README.md', 'CHANGELOG'], follow: true)
+                commits
               end
             end
           end
         end
 
         context 'when follow option is not provided' do
-          subject(:commits) { repository.commits('master', limit: 1, path: 'README.md') }
+          let(:path) { 'README.md' }
 
           it 'does not set follow' do
             expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
@@ -551,7 +606,7 @@ RSpec.describe Repository, feature_category: :source_code_management do
             commits
           end
 
-          context 'with feature flag disabled' do
+          context 'when feature flag is disabled' do
             before do
               stub_feature_flags(remove_file_commit_history_following: false)
             end
@@ -566,61 +621,65 @@ RSpec.describe Repository, feature_category: :source_code_management do
       end
 
       context 'without path' do
+        let(:kwargs) { { limit: 1 } }
+
         it 'does not set follow' do
           expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(follow: false)).and_call_original
 
-          repository.commits('master', limit: 1)
+          commits
         end
       end
 
       context 'when include_referenced_by is passed' do
-        context 'when commit has references' do
-          let(:ref) { '5937ac0a7beb003549fc5fd26fc247adbce4a52e' }
-          let(:include_referenced_by) { ['refs/tags'] }
+        let(:ref) { '5937ac0a7beb003549fc5fd26fc247adbce4a52e' }
+        let(:include_referenced_by) { ['refs/tags'] }
+        let(:kwargs) { { limit: 1, include_referenced_by: include_referenced_by } }
 
-          subject { repository.commits(ref, limit: 1, include_referenced_by: include_referenced_by).first }
+        it 'returns commits with referenced_by that match the patterns' do
+          expect(commits.first.referenced_by).to match_array(['refs/tags/v1.1.0'])
+        end
 
-          it 'returns commits with referenced_by excluding that match the patterns' do
-            expect(subject.referenced_by).to match_array(['refs/tags/v1.1.0'])
+        context 'and matching multiple references' do
+          let(:include_referenced_by) { ['refs/tags', 'refs/heads'] }
+
+          it 'returns commits with referenced_by that match all patterns' do
+            expect(commits.first.referenced_by).to match_array(['refs/tags/v1.1.0', 'refs/heads/improve/awesome', 'refs/heads/merge-test'])
           end
+        end
+      end
 
-          context 'when matching multiple references' do
-            let(:include_referenced_by) { ['refs/tags', 'refs/heads'] }
+      context "when 'order' flag is set" do
+        let(:kwargs) { { limit: 1, order: 'topo' } }
 
-            it 'returns commits with referenced_by that match the patterns' do
-              expect(subject.referenced_by).to match_array(['refs/tags/v1.1.0', 'refs/heads/improve/awesome', 'refs/heads/merge-test'])
-            end
-          end
+        it 'passes order option to perform the query' do
+          expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(order: 'topo')).and_call_original
+
+          commits
         end
       end
     end
 
     context "when 'author' is set" do
-      it "returns commits from that author" do
-        commit = repository.commits(nil, limit: 1).first
-        known_author = "#{commit.author_name} <#{commit.author_email}>"
+      let(:commit) { repository.commit }
 
-        expect(repository.commits(nil, author: known_author, limit: 1)).not_to be_empty
+      let(:kwargs) { { author: author, limit: 1 } }
+
+      context 'and author is known' do
+        let(:author) do
+          "#{commit.author_name} <#{commit.author_email}>"
+        end
+
+        it 'returns commits from that author' do
+          expect(commits).not_to be_empty
+        end
       end
 
-      it "doesn't returns commits from an unknown author" do
-        unknown_author = "The Man With No Name <zapp@brannigan.com>"
+      context 'and author is unknown' do
+        let(:author) { "The Man With No Name <zapp@brannigan.com>" }
 
-        expect(repository.commits(nil, author: unknown_author, limit: 1)).to be_empty
-      end
-    end
-
-    context "when 'all' flag is set" do
-      it 'returns every commit from the repository' do
-        expect(repository.commits(nil, all: true, limit: 60).size).to eq(60)
-      end
-    end
-
-    context "when 'order' flag is set" do
-      it 'passes order option to perform the query' do
-        expect(Gitlab::Git::Commit).to receive(:where).with(a_hash_including(order: 'topo')).and_call_original
-
-        repository.commits('master', limit: 1, order: 'topo')
+        it 'returns no commits' do
+          expect(commits).to be_empty
+        end
       end
     end
   end

@@ -28,6 +28,7 @@ import {
   NEW_WORK_ITEM_IID,
   DEFAULT_DESCRIPTION_TEMPLATE_NAME,
   TRACKING_CATEGORY_SHOW,
+  VIEW_CONTEXT,
   CREATION_CONTEXT_LIST_ROUTE,
   ROUTES,
   WIDGET_TYPE_DESCRIPTION,
@@ -51,6 +52,9 @@ export default {
     WorkItemDescriptionTemplateListbox,
   },
   mixins: [glFeatureFlagsMixin(), Tracking.mixin()],
+  inject: {
+    viewContext: { default: VIEW_CONTEXT.fullScreen },
+  },
   props: {
     description: {
       type: String,
@@ -284,6 +288,7 @@ export default {
         category: TRACKING_CATEGORY_SHOW,
         label: 'item_description',
         property: `type_${this.workItemType}`,
+        extra: { viewContext: this.viewContext },
       };
     },
     useWorkItemFeaturesField() {

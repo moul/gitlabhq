@@ -7674,6 +7674,7 @@ Input type: `DuoSettingsUpdateInput`
 | <a id="mutation-duosettingsupdate-minimumaccesslevelexecute"></a>`minimumAccessLevelExecute` {{< icon name="warning-solid" >}} | [`AccessLevelEnum`](#accesslevelenum) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.7. |
 | <a id="mutation-duosettingsupdate-minimumaccesslevelexecuteasync"></a>`minimumAccessLevelExecuteAsync` {{< icon name="warning-solid" >}} | [`AccessLevelEnum`](#accesslevelenum) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.7. |
 | <a id="mutation-duosettingsupdate-minimumaccesslevelmanage"></a>`minimumAccessLevelManage` {{< icon name="warning-solid" >}} | [`AccessLevelEnum`](#accesslevelenum) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.7. |
+| <a id="mutation-duosettingsupdate-selfhostedduoagentplatformservicesecure"></a>`selfHostedDuoAgentPlatformServiceSecure` | [`Boolean`](#boolean) | Whether to use secure transport (TLS) for the local Duo Agent Platform service. |
 
 #### Fields
 
@@ -34152,6 +34153,7 @@ GitLab Duo settings.
 | <a id="duosettings-minimumaccesslevelexecute"></a>`minimumAccessLevelExecute` {{< icon name="warning-solid" >}} | [`AccessLevelEnum`](#accesslevelenum) | **Introduced** in GitLab 18.7. **Status**: Experiment. Minimum access level required to execute Duo Agent Platform. Returns `null` if `dap_instance_customizable_permissions` feature flag is disabled. |
 | <a id="duosettings-minimumaccesslevelexecuteasync"></a>`minimumAccessLevelExecuteAsync` {{< icon name="warning-solid" >}} | [`AccessLevelEnum`](#accesslevelenum) | **Introduced** in GitLab 18.7. **Status**: Experiment. Minimum access level required to execute Duo Agent Platform features in CI/CD. Returns `null` if `dap_instance_customizable_permissions` feature flag is disabled. |
 | <a id="duosettings-minimumaccesslevelmanage"></a>`minimumAccessLevelManage` {{< icon name="warning-solid" >}} | [`AccessLevelEnum`](#accesslevelenum) | **Introduced** in GitLab 18.7. **Status**: Experiment. Minimum access level required to manage Duo Agent Platform. Returns `null` if `dap_instance_customizable_permissions` feature flag is disabled. |
+| <a id="duosettings-selfhostedduoagentplatformservicesecure"></a>`selfHostedDuoAgentPlatformServiceSecure` | [`Boolean`](#boolean) | Whether local Duo Agent Platform service uses secure transport (TLS). |
 | <a id="duosettings-updatedat"></a>`updatedAt` {{< icon name="warning-solid" >}} | [`Time!`](#time) | **Introduced** in GitLab 17.9. **Status**: Experiment. Timestamp of last GitLab Duo setting update. |
 
 ### `DuoWorkflow`

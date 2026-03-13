@@ -236,6 +236,7 @@ describe('WorkItemMilestone component', () => {
         category: TRACKING_CATEGORY_SHOW,
         label: 'item_milestone',
         property: 'type_Task',
+        extra: { viewContext: 'full_screen' },
       });
     });
   });

@@ -196,7 +196,7 @@ class GraphqlController < ApplicationController
 
   def limit_query_size
     if multiplex?
-      total_size = multiplex_param.sum { _1[:query].size }
+      total_size = multiplex_param.sum { |query_info| query_info[:query].size }
       raise ::Gitlab::Graphql::Errors::ArgumentError, "Query too large" if total_size > MAX_QUERY_SIZE
     else
       max = if permitted_params[:operationName].to_s.in?(EXTENDED_QUERY_SIZE_ALLOWLIST)

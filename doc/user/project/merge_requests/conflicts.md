@@ -118,6 +118,10 @@ message, you can:
 
 To troubleshoot CI/CD pipeline issues, see [debugging CI/CD pipelines](../../../ci/debugging.md).
 
+For projects that use the semi-linear or fast-forward merge method, you can also
+turn on [automatic rebase before merge](methods/_index.md#automatic-rebase-before-merge)
+to skip the manual rebase step.
+
 ### Rebase in the GitLab UI
 
 To trigger a rebase from the GitLab UI, use the [`/rebase` quick action](../quick_actions.md#rebase), or the

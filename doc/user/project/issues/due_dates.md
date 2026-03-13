@@ -38,7 +38,7 @@ Due dates also appear in your [to-do items](../../todos.md).
 
 ## View issues with due dates
 
-You can see issues with their due dates on the **Issues** page.
+You can see issues with their due dates on the **Work items** page.
 If an issue contains a due date,
 it is shown below the issue title:
 
@@ -49,7 +49,7 @@ Issue dates in the past are shown with a red icon ({{< icon name="calendar-overd
 To view and sort issues containing due dates in your project:
 
 1. On the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Issues**.
+1. Select **Plan** > **Work items** and filter by **Type** = **Issue**.
 1. To sort by due date, select the current sort method, then select **Due date**.
 1. Optional. To reverse the sort order, select **Sort direction** ({{< icon name="sort-lowest" >}}).
 
@@ -89,8 +89,8 @@ To set a due date with quick actions in an issue's description or comment:
 Issues with due dates can also be exported as an iCalendar feed. The URL of the
 feed can be added to calendar applications.
 
-- The **Project Issues** page
-- The **Group Issues** page
+- The **Project work items** page
+- The **Group work items** page
 
 1. Go to the page that contains the list of issues you want to subscribe to.
    For example:

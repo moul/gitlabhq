@@ -45,6 +45,7 @@ import {
   WIDGET_TYPE_LINKED_RESOURCES,
   WIDGET_TYPE_MILESTONE,
   WORK_ITEM_TYPE_NAME_INCIDENT,
+  VIEW_CONTEXT,
 } from '../constants';
 
 import workItemUpdatedSubscription from '../graphql/work_item_updated.subscription.graphql';
@@ -935,6 +936,7 @@ export default {
     },
   },
   WORK_ITEM_TYPE_NAME_OBJECTIVE,
+  VIEW_CONTEXT,
   noAccessSvg,
 };
 </script>
@@ -1392,6 +1394,7 @@ export default {
         :active-item="activeChildItem"
         :open="isItemSelected"
         :issuable-type="activeChildItemType"
+        :view-context="$options.VIEW_CONTEXT.drawerWorkItem"
         click-outside-exclude-selector=".issuable-list"
         @close="activeChildItem = null"
         @work-item-deleted="deleteChildItem"

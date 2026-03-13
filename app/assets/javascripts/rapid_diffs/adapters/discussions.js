@@ -44,6 +44,7 @@ function mountDiscussionRow({ lineRow, parallel, appData, store, trigger }) {
         },
         on: {
           empty() {
+            trigger(CLEAR_HIGHLIGHT);
             instance.$destroy();
             instance.$el.remove();
           },

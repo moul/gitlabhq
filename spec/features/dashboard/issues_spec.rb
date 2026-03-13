@@ -117,12 +117,32 @@ RSpec.describe 'Dashboard Issues', :js, :with_current_organization, feature_cate
       end
     end
 
-    it 'shows the new issue page' do
-      click_button _('Select project to create issue')
-      click_button project.full_name
-      click_link format(_('New issue in %{project}'), project: project.name)
+    context 'when work_item_planning_view: true' do
+      before do
+        stub_feature_flags(work_item_planning_view: true)
+      end
 
-      expect(page).to have_current_path("/#{project.full_path}/-/issues/new")
+      it 'shows the new issue page' do
+        click_button _('Select project to create issue')
+        click_button project.full_name
+        click_link format(_('New issue in %{project}'), project: project.name)
+
+        expect(page).to have_current_path("/#{project.full_path}/-/work_items/new")
+      end
+    end
+
+    context 'when work_item_planning_view: false' do
+      before do
+        stub_feature_flags(work_item_planning_view: false)
+      end
+
+      it 'shows the new issue page' do
+        click_button _('Select project to create issue')
+        click_button project.full_name
+        click_link format(_('New issue in %{project}'), project: project.name)
+
+        expect(page).to have_current_path("/#{project.full_path}/-/issues/new")
+      end
     end
   end
 end

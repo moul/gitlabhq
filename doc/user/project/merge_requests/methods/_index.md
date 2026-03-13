@@ -265,6 +265,53 @@ conditions are true:
 Rebasing may be required before squashing, even though squashing can itself be
 considered equivalent to rebasing.
 
+### Automatic rebase before merge
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183928) in GitLab 18.0 [with a feature flag](../../../../administration/feature_flags/_index.md) named `rebase_on_merge_automatic`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag.
+> For more information, see the history.
+
+When you use the **Merge commit with semi-linear history** or **Fast-forward merge** method,
+you can turn on automatic rebase before merge.
+When this setting is on, GitLab automatically rebases the source branch onto the target branch at
+merge time when the source branch is behind the target branch.
+You do not need to manually rebase or wait for a rebase to complete before merging.
+
+Server-side rebase removes GPG signatures from commits. If your project requires signed commits, consider whether automatic rebase is appropriate.
+
+Automatic rebase:
+
+- Creates a server-side rebase of the source branch without modifying the original source branch.
+- Fast-forwards the target branch to include the rebased commits.
+- Does not re-run CI/CD pipelines on the rebased result.
+- Requires that the rebase can complete without merge conflicts.
+
+> [!note]
+> Because the CI/CD pipeline does not run again after the automatic rebase,
+> the merged result might differ from the last pipeline run. To validate the
+> rebased result before merging, use [merge trains](../../../../ci/pipelines/merge_trains.md).
+
+#### Turn on automatic rebase before merge
+
+Prerequisites:
+
+- The Maintainer or Owner role for the project.
+- The project [merge method](#configure-a-projects-merge-method) must be set to
+  **Merge commit with semi-linear history** or **Fast-forward merge**.
+
+To turn on automatic rebase:
+
+1. In the top bar, select **Search or go to** and find your project.
+1. Select **Settings** > **Merge requests**.
+1. In the **Merge method** section, select **Enable automatic rebase prior to merge**.
+1. Select **Save changes**.
+
 ### Rebase without CI/CD pipeline
 
 To rebase a merge request's branch without triggering a CI/CD pipeline, select

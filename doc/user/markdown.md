@@ -420,8 +420,8 @@ Examples:
 
 <!--
 The "2." and "4." in the previous example are changed to "1." in the following example,
-to match the style standards on docs.gitlab.com.
-See https://docs.gitlab.com/development/documentation/styleguide/#lists
+to match the style standards on <https://docs.gitlab.com>.
+See <https://docs.gitlab.com/development/documentation/styleguide/#lists>.
 -->
 
 When rendered, the example looks similar to:
@@ -456,8 +456,8 @@ They can even:
 
 <!--
 The "*" and "+" in the previous example are changed to "-" in the following example,
-to match the style standards on docs.gitlab.com.
-See https://docs.gitlab.com/development/documentation/styleguide/#lists
+to match the style standards on <https://docs.gitlab.com>.
+See <https://docs.gitlab.com/development/documentation/styleguide/#lists>.
 -->
 
 When rendered, the example looks similar to:
@@ -1649,7 +1649,7 @@ content types:
 <!--
 Tags for the table of contents are presented in a code block to work around a Markdown bug.
 Do not change the code block back to single backticks.
-For more information, see https://gitlab.com/gitlab-org/gitlab/-/issues/359077.
+For more information, see <https://gitlab.com/gitlab-org/gitlab/-/issues/359077>.
 -->
 
 ```markdown

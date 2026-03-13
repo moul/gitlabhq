@@ -156,6 +156,7 @@ Configure your project's merge request settings:
   - [Merge only when all threads are resolved](../merge_requests/_index.md#prevent-merge-unless-all-threads-are-resolved).
   - [Required associated issue from Jira](../../../integration/jira/issues.md#require-associated-jira-issue-for-merge-requests-to-be-merged).
   - [Merge request title validation](../merge_requests/title_validation.md).
+  - [Automatic rebase before merge](../merge_requests/methods/_index.md#automatic-rebase-before-merge) for semi-linear and fast-forward merge methods.
   - [**Delete source branch when merge request is accepted** option by default](#delete-the-source-branch-on-merge-by-default).
 - Configure:
   - [Suggested changes commit messages](../merge_requests/reviews/suggestions.md#configure-the-commit-message-for-applied-suggestions).
