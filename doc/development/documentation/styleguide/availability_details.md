@@ -53,6 +53,10 @@ For tier, choose one:
 > [!note]
 > GitLab Dedicated and GitLab Dedicated for Government always include an Ultimate subscription.
 
+For GitLab Agent Platform features available on the Free tier, link to the [GitLab Credits](../../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom) page:
+
+- `[Free](../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate`
+
 ### Add-ons
 
 Use add-on information only for features in GitLab Duo and GitLab Duo Self-Hosted.

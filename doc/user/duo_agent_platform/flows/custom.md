@@ -26,6 +26,7 @@ title: Custom flows
 - [Enabled on GitLab.com](https://gitlab.com/gitlab-org/gitlab/-/issues/569060) in GitLab 18.7.
 - [Enabled on GitLab Self-Managed and GitLab Dedicated](https://gitlab.com/gitlab-org/gitlab/-/work_items/569060) in GitLab 18.8.
 - Pipeline events trigger [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/212797) in GitLab 18.9 as an [experiment](../../../policy/development_stages_support.md) with a [flag](../../../administration/feature_flags/_index.md) named `ai_flow_trigger_pipeline_hooks`. Disabled by default.
+- Enabling directly in projects as a maintainer [introduced](https://gitlab.com/groups/gitlab-org/-/work_items/20743) in GitLab 18.10 [with a flag](../../../administration/feature_flags/_index.md) named `ai_catalog_project_level_enablement`. Enabled on GitLab.com, GitLab Self-Managed, and GitLab Dedicated by default.
 - Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
 
 {{< /history >}}
@@ -131,12 +132,11 @@ The flow appears in the AI Catalog.
 
 Enable a flow to trigger it from an issue, merge request, or discussion.
 
-The flow is enabled in a top-level group and a project at the same time.
+When you enable a flow in a project, it is enabled in the top-level group for that project at the same time.
 
 Prerequisites:
 
-- For the top-level group where you enable the flow, you must have the Maintainer or Owner role.
-- For the project where you enable the flow, you must have the Maintainer or Owner role.
+- You must have the Maintainer or Owner role for the project.
 
 {{< tabs >}}
 
@@ -148,7 +148,6 @@ To enable a flow:
 1. Select **Automate** > **Flows**.
 1. Select the **Managed** tab, then select the flow you want to enable.
 1. In the upper-right corner, select **Enable**.
-1. Under **Group**, select the group you want to enable the flow in.
 1. Under **Project**, select the project you want to enable the flow in.
 1. For **Add triggers**, select which events trigger the flow:
    - **Mention**: When the service account user is mentioned
@@ -171,7 +170,6 @@ To enable a flow:
 1. Select **AI Catalog**, then select the **Flows** tab.
 1. Select the flow you want to enable.
 1. In the upper-right corner, select **Enable**.
-1. Under **Group**, select the group you want to enable the flow in.
 1. Under **Project**, select the project you want to enable the flow in.
 1. For **Add triggers**, select which events trigger the flow:
    - **Mention**: When the service account user is mentioned

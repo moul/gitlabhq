@@ -487,9 +487,11 @@
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
+                  "direct_asset_path": true,
                   "filepath": true,
                   "link_type": true,
                   "name": true,
+                  "type": true,
                   "url": true
                 }
               }

@@ -3,7 +3,7 @@
 import { GlPopover, GlButton, GlTooltipDirective, GlFormInput } from '@gitlab/ui';
 import { GL_COLOR_ORANGE_50, GL_COLOR_ORANGE_200 } from '@gitlab/ui/src/tokens/build/js/tokens';
 import $ from 'jquery';
-import { escapeRegExp } from 'lodash';
+import { escapeRegExp } from 'lodash-es';
 import { MARKDOWN_EVENT_SHOW, MARKDOWN_EVENT_HIDE } from '~/behaviors/preview_markdown';
 import {
   keysFor,

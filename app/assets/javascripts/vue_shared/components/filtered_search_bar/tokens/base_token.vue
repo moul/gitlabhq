@@ -7,7 +7,7 @@ import {
   GlDropdownText,
   GlLoadingIcon,
 } from '@gitlab/ui';
-import { debounce, last } from 'lodash';
+import { debounce, last } from 'lodash-es';
 
 import { stripQuotes } from '~/lib/utils/text_utility';
 import {

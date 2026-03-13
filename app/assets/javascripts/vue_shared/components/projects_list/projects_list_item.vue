@@ -1,16 +1,16 @@
 <script>
-import { GlIcon, GlBadge, GlTooltip } from '@gitlab/ui';
+import { GlBadge, GlIcon, GlTooltip } from '@gitlab/ui';
 
 import ProjectListItemActions from '~/vue_shared/components/projects_list/project_list_item_actions.vue';
 import ListItemInactiveBadge from '~/vue_shared/components/resource_lists/list_item_inactive_badge.vue';
-import { VISIBILITY_TYPE_ICON, PROJECT_VISIBILITY_TYPE } from '~/visibility_level/constants';
+import { PROJECT_VISIBILITY_TYPE, VISIBILITY_TYPE_ICON } from '~/visibility_level/constants';
 import { ACCESS_LEVEL_LABELS, ACCESS_LEVEL_NO_ACCESS_INTEGER } from '~/access_level/constants';
 import { FEATURABLE_ENABLED } from '~/featurable/constants';
-import { __, s__, n__, sprintf } from '~/locale';
+import { __, n__, s__, sprintf } from '~/locale';
 import { numberToHumanSize, numberToMetricPrefix } from '~/lib/utils/number_utils';
 import {
-  TIMESTAMP_TYPES,
   TIMESTAMP_TYPE_CREATED_AT,
+  TIMESTAMP_TYPES,
 } from '~/vue_shared/components/resource_lists/constants';
 import CiIcon from '~/vue_shared/components/ci_icon/ci_icon.vue';
 import ListItem from '~/vue_shared/components/resource_lists/list_item.vue';
@@ -46,6 +46,7 @@ export default {
   provide() {
     return {
       triggerDeleteLocation: 'list',
+      triggerRestoreLocation: 'list',
     };
   },
   props: {

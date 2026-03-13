@@ -39,6 +39,7 @@ export default {
     ProjectsListItemLeaveModal,
   },
   mixins: [InternalEvents.mixin()],
+  inject: ['triggerRestoreLocation'],
   i18n: {
     project: __('Project'),
   },
@@ -171,6 +172,10 @@ export default {
       await restoreProject(this.project.id);
       this.$emit('action', ACTION_RESTORE);
       renderRestoreSuccessToast(this.project);
+
+      this.trackEvent('trigger_restore_on_project', {
+        label: this.triggerRestoreLocation,
+      });
     },
     async onActionWithLoading({ action, errorMessage }) {
       this.actionsLoading = true;

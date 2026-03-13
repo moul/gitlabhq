@@ -1,6 +1,6 @@
 <script>
 import { GlLoadingIcon } from '@gitlab/ui';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 import { s__, __, sprintf } from '~/locale';
 import { copyToClipboard } from '~/lib/utils/copy_to_clipboard';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
@@ -43,6 +43,7 @@ export default {
     GroupDeleteModal,
   },
   mixins: [InternalEvents.mixin()],
+  inject: ['triggerRestoreLocation'],
   props: {
     group: {
       type: Object,
@@ -181,6 +182,10 @@ export default {
       await restoreGroup(this.group.id);
       this.$emit('action', ACTION_RESTORE);
       renderRestoreSuccessToast(this.group);
+
+      this.trackEvent('trigger_restore_on_group', {
+        label: this.triggerRestoreLocation,
+      });
     },
     async onActionWithLoading({ action, errorMessage }) {
       this.actionsLoading = true;

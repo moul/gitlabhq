@@ -279,7 +279,7 @@ export default {
             <discussion-counter
               :blocks-merge="blocksMerge"
               :can-resolve-discussion="canResolveDiscussion"
-              hide-options
+              compact
             />
             <template v-if="isSignedIn">
               <todo-widget

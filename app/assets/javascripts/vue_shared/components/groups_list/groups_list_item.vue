@@ -34,6 +34,7 @@ export default {
   provide() {
     return {
       triggerDeleteLocation: 'list',
+      triggerRestoreLocation: 'list',
     };
   },
   props: {

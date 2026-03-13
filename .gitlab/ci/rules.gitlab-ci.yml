@@ -653,6 +653,7 @@
   - "ee/frontend_islands/apps/**/*.config.{js,ts,cjs,mjs}"
   - "ee/frontend_islands/apps/**/components.json"
   - "ee/frontend_islands/packages/**/index.{js,json}"
+  - "ee/frontend_islands/**/*.md"
 
 # Code patterns + .ci-patterns
 .code-patterns: &code-patterns

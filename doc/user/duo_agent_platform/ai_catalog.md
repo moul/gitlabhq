@@ -58,7 +58,14 @@ To view the AI Catalog:
 1. On the top bar, select **Search or go to** > **Explore**.
 1. Select **AI Catalog**.
 
-A list of agents is displayed. To view available flows, select the **Flows** tab.
+A list of agents is displayed.
+
+On GitLab Self-Managed, the following agents are not displayed in the AI Catalog:
+
+- Custom agents created on GitLab.com.
+- GitLab-managed external agents that have not been [added to the instance](agents/external.md#add-gitlab-managed-agents-to-other-instances).
+
+To view available flows, select the **Flows** tab.
 
 ## Agent and flow versions
 
@@ -90,10 +97,16 @@ To ensure consistent behavior, versions are immutable.
 
 ### Version pinning
 
-When you enable an AI Catalog item in a group or project, GitLab pins it to a specific version:
+{{< history >}}
+
+- Project that manages an agent or flow always on the latest version of that item [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/583024) in GitLab 18.10.
+
+{{< /history >}}
+
+When you enable an AI Catalog item:
 
 - In a group, GitLab pins the latest version.
-- In a project, GitLab pins the same version as the project's top-level group.
+- In a project that does not manage that item, GitLab pins the same version as the project's top-level group.
 
 Version pinning means:
 
@@ -102,6 +115,13 @@ Version pinning means:
 - You maintain control over when to adopt new versions.
 
 This approach provides stability and predictability for your AI-powered workflows.
+
+When you enable an AI Catalog item in the project that manages the item, GitLab does not pin a version.
+Instead, the manager project always uses the latest version of the item.
+
+If you enabled an agent or flow in its manager project before GitLab 18.10, your configuration remains at the pinned version.
+
+After you update to the latest version for the first time, GitLab automatically uses the latest version from then onwards.
 
 ### View the current version
 

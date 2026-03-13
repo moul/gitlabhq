@@ -1,7 +1,7 @@
 <script>
 import { GlPopover, GlDashboardPanel } from '@gitlab/ui';
 import { alertVariantIconMap } from '@gitlab/ui/src/utils/constants';
-import { isObject } from 'lodash';
+import { isObject } from 'lodash-es';
 import { VARIANT_DANGER, VARIANT_WARNING, VARIANT_INFO } from '~/alert';
 
 /**

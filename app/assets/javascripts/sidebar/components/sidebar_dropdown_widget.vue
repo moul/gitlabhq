@@ -1,6 +1,6 @@
 <script>
 import { GlIcon, GlLink, GlTooltipDirective } from '@gitlab/ui';
-import { kebabCase, snakeCase } from 'lodash';
+import { kebabCase, snakeCase } from 'lodash-es';
 import { createAlert } from '~/alert';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { TYPE_ISSUE, TYPE_MERGE_REQUEST } from '~/issues/constants';

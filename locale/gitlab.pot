@@ -61058,7 +61058,7 @@ msgstr ""
 msgid "SecretsManagerPermissions|Failed to fetch secrets manager permissions. Please try again later."
 msgstr ""
 
-msgid "SecretsManagerPermissions|For example, my-group or my-group/sub-group"
+msgid "SecretsManagerPermissions|Group names must start and end with letters or numbers, and can only contain letters, numbers, periods, hyphens and underscores. Separate subgroups with slashes."
 msgstr ""
 
 msgid "SecretsManagerPermissions|Permissions for secrets manager removed."
@@ -61089,6 +61089,9 @@ msgid "SecretsManagerPermissions|Secrets manager user permissions"
 msgstr ""
 
 msgid "SecretsManagerPermissions|Select the access scopes to grant to this user for the secrets manager and related API endpoints."
+msgstr ""
+
+msgid "SecretsManagerPermissions|The full path to the group to add. For example, %{example}."
 msgstr ""
 
 msgid "SecretsManager|Add a description for the secret"

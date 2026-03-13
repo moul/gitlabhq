@@ -163,6 +163,10 @@ RSpec.describe SidebarsHelper, feature_category: :navigation do
         it 'sets work_item_planning_view_enabled to true', :use_clean_rails_memory_store_caching do
           expect(subject[:work_item_planning_view_enabled]).to be(true)
         end
+
+        it 'sets issues_dashboard_path to work_items dashboard', :use_clean_rails_memory_store_caching do
+          expect(subject[:issues_dashboard_path]).to eq(work_items_dashboard_path(assignee_username: user.username))
+        end
       end
 
       context 'when work_items_consolidated_list_user feature flag is disabled' do
@@ -172,6 +176,10 @@ RSpec.describe SidebarsHelper, feature_category: :navigation do
 
         it 'sets work_item_planning_view_enabled to false', :use_clean_rails_memory_store_caching do
           expect(subject[:work_item_planning_view_enabled]).to be(false)
+        end
+
+        it 'sets issues_dashboard_path to issues dashboard', :use_clean_rails_memory_store_caching do
+          expect(subject[:issues_dashboard_path]).to eq(issues_dashboard_path(assignee_username: user.username))
         end
       end
     end

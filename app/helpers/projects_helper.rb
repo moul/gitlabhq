@@ -463,7 +463,8 @@ module ProjectsHelper
       environmentsHelpPath: help_page_path('ci/environments/_index.md'),
       featureFlagsHelpPath: help_page_path('operations/feature_flags.md'),
       releasesHelpPath: help_page_path('user/project/releases/_index.md'),
-      infrastructureHelpPath: help_page_path('user/infrastructure/_index.md')
+      infrastructureHelpPath: help_page_path('user/infrastructure/_index.md'),
+      groupPathRegex: JsRegex.new(Gitlab::PathRegex::FULL_NAMESPACE_FORMAT_REGEX).source
     }
   end
 

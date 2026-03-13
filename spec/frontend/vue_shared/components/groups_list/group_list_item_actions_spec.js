@@ -7,15 +7,15 @@ import GroupListItemPreventDeleteModal from '~/vue_shared/components/groups_list
 import GroupDeleteModal from '~/groups/components/delete_modal.vue';
 import GroupListItemLeaveModal from '~/vue_shared/components/groups_list/group_list_item_leave_modal.vue';
 import {
-  ACTION_COPY_ID,
   ACTION_ARCHIVE,
+  ACTION_COPY_ID,
   ACTION_DELETE,
   ACTION_DELETE_IMMEDIATELY,
   ACTION_EDIT,
   ACTION_LEAVE,
+  ACTION_REQUEST_ACCESS,
   ACTION_RESTORE,
   ACTION_UNARCHIVE,
-  ACTION_REQUEST_ACCESS,
   ACTION_WITHDRAW_ACCESS_REQUEST,
 } from '~/vue_shared/components/list_actions/constants';
 import { groups } from 'jest/vue_shared/components/groups_list/mock_data';
@@ -25,9 +25,9 @@ import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import waitForPromises from 'helpers/wait_for_promises';
 import {
   renderArchiveSuccessToast,
+  renderDeleteSuccessToast,
   renderRestoreSuccessToast,
   renderUnarchiveSuccessToast,
-  renderDeleteSuccessToast,
 } from '~/vue_shared/components/groups_list/utils';
 import { createAlert } from '~/alert';
 import GroupListItemActions from '~/vue_shared/components/groups_list/group_list_item_actions.vue';
@@ -60,11 +60,14 @@ describe('GroupListItemActions', () => {
   let wrapper;
   let axiosMock;
 
+  const { bindInternalEventDocument } = useMockInternalEventsTracking();
+
   const [group] = groups;
   const defaultProps = { group };
 
   const createComponent = ({ propsData = {} } = {}) => {
     wrapper = shallowMountExtended(GroupListItemActions, {
+      provide: { triggerRestoreLocation: 'list' },
       propsData: { ...defaultProps, ...propsData },
       mocks: {
         $toast: mockToast,
@@ -141,8 +144,6 @@ describe('GroupListItemActions', () => {
   });
 
   describe('when copy ID action is fired', () => {
-    const { bindInternalEventDocument } = useMockInternalEventsTracking();
-
     it('tracks event', async () => {
       copyToClipboard.mockResolvedValueOnce();
       createComponent();
@@ -185,8 +186,6 @@ describe('GroupListItemActions', () => {
     beforeEach(() => {
       createComponent();
     });
-
-    const { bindInternalEventDocument } = useMockInternalEventsTracking();
 
     it('should call trackEvent method', async () => {
       const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
@@ -259,8 +258,6 @@ describe('GroupListItemActions', () => {
       createComponent();
     });
 
-    const { bindInternalEventDocument } = useMockInternalEventsTracking();
-
     it('should call trackEvent method', async () => {
       const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
 
@@ -323,6 +320,20 @@ describe('GroupListItemActions', () => {
   describe('when restore action is fired', () => {
     beforeEach(() => {
       createComponent();
+    });
+
+    it('should call trackEvent method', async () => {
+      const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+      await fireAction(ACTION_RESTORE);
+
+      expect(trackEventSpy).toHaveBeenCalledWith(
+        'trigger_restore_on_group',
+        {
+          label: 'list',
+        },
+        undefined,
+      );
     });
 
     describe('when API call is successful', () => {

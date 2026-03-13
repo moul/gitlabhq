@@ -23,6 +23,7 @@ title: External agents
 - Introduced in GitLab 18.3 [with a flag](../../../administration/feature_flags/_index.md) named `ai_flow_triggers`. Enabled by default.
 - Renamed from CLI agents in GitLab 18.6.
 - Enabling in groups [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/578318) in GitLab 18.7 [with a flag](../../../administration/feature_flags/_index.md) named `ai_catalog_agents`. Enabled on GitLab.com.
+- Enabling directly in projects as a maintainer [introduced](https://gitlab.com/groups/gitlab-org/-/work_items/20743) in GitLab 18.10 [with a flag](../../../administration/feature_flags/_index.md) named `ai_catalog_project_level_enablement`. Enabled on GitLab.com, GitLab Self-Managed, and GitLab Dedicated by default.
 
 {{< /history >}}
 
@@ -263,12 +264,11 @@ The following CI/CD variables are available:
 
 Enable an agent to trigger it from an issue, merge request, or discussion.
 
-The agent is enabled in a top-level group and a project at the same time.
+When you enable an agent in a project, it is enabled in the top-level group for that project at the same time.
 
 Prerequisites:
 
-- For the top-level group where you enable the agent, you must have the Maintainer or Owner role.
-- For the project where you enable the agent, you must have the Maintainer or Owner role.
+- You must have the Maintainer or Owner role for the project.
 
 {{< tabs >}}
 
@@ -280,7 +280,6 @@ To enable an external agent:
 1. Select **Automate** > **Agents**.
 1. Select the **Managed** tab, then select the agent you want to enable.
 1. In the upper-right corner, select **Enable**.
-1. Under **Group**, select the group you want to enable the agent in.
 1. Under **Project**, select the project you want to enable the agent in.
 1. For **Add triggers**, select which event types trigger the external agent:
    - **Mention**: When the service account user is mentioned
@@ -301,7 +300,6 @@ To enable an external agent:
 1. Select **AI Catalog**, then select the **Agents** tab.
 1. Select the agent you want to enable.
 1. In the upper-right corner, select **Enable**.
-1. Under **Group**, select the group you want to enable the agent in.
 1. Under **Project**, select the project you want to enable the agent in.
 1. For **Add triggers**, select which event types trigger the external agent:
    - **Mention**: When the service account user is mentioned
@@ -397,8 +395,7 @@ you can create an external agent with the AI Catalog and configure it to run in 
 The preferred workflow is:
 
 1. Create the agent in the AI Catalog.
-1. Enable the agent for the top-level group.
-1. Add the agent to your project and specify a trigger that determines how you call the agent.
+1. Enable the agent for your project and specify a trigger that determines how you call the agent.
 
 In this case, a service account is created for you.
 When the agent runs, it uses a combination of the user's memberships and the service account memberships.

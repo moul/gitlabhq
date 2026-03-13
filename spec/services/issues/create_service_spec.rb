@@ -329,9 +329,19 @@ RSpec.describe Issues::CreateService, feature_category: :team_planning do
       end
 
       it 'moves the issue to the end, in an asynchronous worker' do
-        expect(Issues::PlacementWorker).to receive(:perform_async).with(be_nil, Integer)
+        expect(Issues::PlacementWorker).to receive(:perform_async).with({ 'namespace_id' => group.id })
 
         described_class.new(container: project, current_user: user, params: opts).execute
+      end
+
+      context 'when issue is from a personal namespace' do
+        let(:project) { create(:project, :public, namespace: user.namespace) }
+
+        it 'passes the project_namespace_id to the placement worker' do
+          expect(Issues::PlacementWorker).to receive(:perform_async).with({ 'namespace_id' => project.project_namespace_id })
+
+          described_class.new(container: project, current_user: user, params: opts).execute
+        end
       end
 
       context 'when label belongs to project group' do

@@ -55,6 +55,31 @@ RSpec.describe Ci::JobDefinition, feature_category: :continuous_integration do
 
           it { is_expected.to be_valid }
 
+          context 'for release with type and direct_asset_path in asset links' do
+            let(:config) do
+              {
+                options: {
+                  release: {
+                    tag_name: 'v1.0',
+                    description: 'Release v1.0',
+                    assets: {
+                      links: [
+                        {
+                          name: 'asset1',
+                          url: 'https://example.com/assets/1',
+                          type: 'package',
+                          direct_asset_path: '/binaries/asset1'
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            end
+
+            it { is_expected.to be_valid }
+          end
+
           context 'for trigger:include::component' do
             let(:config) do
               {
@@ -202,6 +227,38 @@ RSpec.describe Ci::JobDefinition, feature_category: :continuous_integration do
               expect(job_definition).not_to be_valid
               expect(job_definition.errors[:config]).to include(
                 'value at `/options/artifacts/reports` is not an object')
+            end
+          end
+
+          context 'when release asset link has unknown property' do
+            let(:config) do
+              {
+                options: {
+                  release: {
+                    assets: {
+                      links: [
+                        { name: 'asset1', url: 'https://example.com/assets/1', unknown_prop: 'value' }
+                      ]
+                    }
+                  }
+                }
+              }
+            end
+
+            it 'is invalid' do
+              expect(Gitlab::AppJsonLogger).to receive(:warn).with(
+                class: described_class.name,
+                message: 'Invalid config schema detected',
+                job_definition_checksum: job_definition.checksum,
+                project_id: job_definition.project_id,
+                schema_errors: [
+                  'object property at `/options/release/assets/links/0/unknown_prop` ' \
+                    'is a disallowed additional property'
+                ]
+              )
+              expect(job_definition).not_to be_valid
+              expect(job_definition.errors[:config]).to include(
+                'object property at `/options/release/assets/links/0/unknown_prop` is a disallowed additional property')
             end
           end
         end

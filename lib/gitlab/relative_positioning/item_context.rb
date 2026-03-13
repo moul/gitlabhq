@@ -127,22 +127,18 @@ module Gitlab
         neighbour(item)
       end
 
-      def shift_left
-        move_sequence_before(true)
-        object.reset_relative_position
+      def shift_left(min_gap: MIN_GAP, exclude: nil)
+        find_next_gap_before(min_gap: min_gap).tap do |gap|
+          move_sequence_before(next_gap: gap, exclude: exclude)
+          object.reset_relative_position
+        end
       end
 
-      def shift_right
-        move_sequence_after(true)
-        object.reset_relative_position
-      end
-
-      def create_space_left(min_gap: MIN_GAP)
-        find_next_gap_before(min_gap: min_gap).tap { |gap| move_sequence_before(false, next_gap: gap) }
-      end
-
-      def create_space_right(min_gap: MIN_GAP)
-        find_next_gap_after(min_gap: min_gap).tap { |gap| move_sequence_after(false, next_gap: gap) }
+      def shift_right(min_gap: MIN_GAP, exclude: nil)
+        find_next_gap_after(min_gap: min_gap).tap do |gap|
+          move_sequence_after(next_gap: gap, exclude: exclude)
+          object.reset_relative_position
+        end
       end
 
       def find_next_gap_before(min_gap: MIN_GAP)
@@ -184,72 +180,60 @@ module Gitlab
 
       private
 
-      # Moves the sequence before the current item to the middle of the next gap
+      # Moves the sequence starting from the current item to the middle of the next gap before it.
       # For example, we have
       #
       #   5 . . . . . 11 12 13 14 [15] 16 . 17
-      #               -----------
+      #               ----------------
       #
-      # This moves the sequence [11 12 13 14] to [8 9 10 11], so we have:
+      # This moves the sequence [11 12 13 14 15] to [8 9 10 11 12], so we have:
       #
-      #   5 . . 8 9 10 11 . . . [15] 16 . 17
-      #         ---------
-      #
-      # Creating a gap to the left of the current item. We can understand this as
-      # dividing the 5 spaces between 5 and 11 into two smaller gaps of 2 and 3.
-      #
-      # If `include_self` is true, the current item will also be moved, creating a
-      # gap to the right of the current item:
-      #
-      #   5 . . 8 9 10 11 [14] . . . 16 . 17
+      #   5 . . 8 9 10 11 [12] . . . 16 . 17
       #         --------------
+      #
+      # Creating a gap to the right of the current item. We can understand this as
+      # dividing the 5 spaces between 5 and 11 into two smaller gaps of 2 and 3.
       #
       # As an optimization, the gap can be precalculated and passed to this method.
       #
       # @api private
       # @raises NoSpaceLeft if the sequence cannot be moved
-      def move_sequence_before(include_self = false, next_gap: find_next_gap_before)
+      def move_sequence_before(next_gap: find_next_gap_before, exclude: nil)
         raise NoSpaceLeft unless next_gap.present?
 
         delta = next_gap.delta
 
-        move_sequence(next_gap.start_pos, relative_position, -delta, include_self)
+        move_sequence(next_gap.start_pos, relative_position, -delta, exclude: exclude)
       end
 
-      # Moves the sequence after the current item to the middle of the next gap
+      # Moves the sequence starting from the current item to the middle of the next gap after it.
       # For example, we have:
       #
       #   8 . 10 [11] 12 13 14 15 . . . . . 21
-      #               -----------
+      #          ----------------
       #
-      # This moves the sequence [12 13 14 15] to [15 16 17 18], so we have:
-      #
-      #   8 . 10 [11] . . . 15 16 17 18 . . 21
-      #                     -----------
-      #
-      # Creating a gap to the right of the current item. We can understand this as
-      # dividing the 5 spaces between 15 and 21 into two smaller gaps of 3 and 2.
-      #
-      # If `include_self` is true, the current item will also be moved, creating a
-      # gap to the left of the current item:
+      # This moves the sequence [11 12 13 14 15] to [14 15 16 17 18], so we have:
       #
       #   8 . 10 . . . [14] 15 16 17 18 . . 21
       #                ----------------
       #
+      # Creating a gap to the left of the current item. We can understand this as
+      # dividing the 5 spaces between 15 and 21 into two smaller gaps of 3 and 2.
+      #
       # As an optimization, the gap can be precalculated and passed to this method.
       #
       # @api private
       # @raises NoSpaceLeft if the sequence cannot be moved
-      def move_sequence_after(include_self = false, next_gap: find_next_gap_after)
+      def move_sequence_after(next_gap: find_next_gap_after, exclude: nil)
         raise NoSpaceLeft unless next_gap.present?
 
         delta = next_gap.delta
 
-        move_sequence(relative_position, next_gap.start_pos, delta, include_self)
+        move_sequence(relative_position, next_gap.start_pos, delta, exclude: exclude)
       end
 
-      def move_sequence(start_pos, end_pos, delta, include_self = false)
-        relation = include_self ? scoped_items : relative_siblings
+      def move_sequence(start_pos, end_pos, delta, exclude: nil)
+        relation = exclude ? scoped_items.id_not_in(exclude) : scoped_items
 
         object.update_relative_siblings(relation, start_pos..end_pos, delta)
       end

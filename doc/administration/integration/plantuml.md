@@ -468,8 +468,8 @@ After configuring your local PlantUML server, you're ready to enable the PlantUM
 1. Set the PlantUML instance as `https://gitlab.example.com/-/plantuml/`,
    and select **Save changes**.
 
-You can also [proxy PlantUML diagrams through GitLab](diagram_proxy.md) to reduce
-the exposure of your users to the external PlantUML service.
+To prevent browsers from sending diagram content to the external PlantUML service,
+use the [diagram proxy](diagram_proxy.md).
 
 Depending on your PlantUML and GitLab version numbers, you may also need to take
 these steps:

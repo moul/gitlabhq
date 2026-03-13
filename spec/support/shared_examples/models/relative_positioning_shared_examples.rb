@@ -698,6 +698,38 @@ RSpec.shared_examples 'a class that supports relative positioning' do
       it_behaves_like 'moves item between'
     end
 
+    context 'there are other items with the same position as rhs and we need to shift left' do
+      let(:middle) { new_item }
+      let(:left) { create_item(relative_position: 99) }
+      let(:right) { create_item(relative_position: 100) }
+
+      let!(:other) { create_item(relative_position: 100) }
+
+      it_behaves_like 'moves item between'
+
+      it 'keeps the other items in the same position' do
+        middle.move_between(left, right)
+
+        expect(other.reset.relative_position).to eq(100)
+      end
+    end
+
+    context 'there are other items with the same position as lhs and we need to shift right' do
+      let(:middle) { new_item }
+      let(:left) { create_item(relative_position: RelativePositioning::MIN_POSITION) }
+      let(:right) { create_item(relative_position: RelativePositioning::MIN_POSITION + 1) }
+
+      let!(:other) { create_item(relative_position: RelativePositioning::MIN_POSITION) }
+
+      it_behaves_like 'moves item between'
+
+      it 'keeps the other items in the same position' do
+        middle.move_between(left, right)
+
+        expect(other.reset.relative_position).to eq(RelativePositioning::MIN_POSITION)
+      end
+    end
+
     context 'there is a bunch of items' do
       let(:items) { create_items_with_positions(100..104) }
       let(:left) { items[1] }

@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script>
 import { GlIcon, GlTooltipDirective } from '@gitlab/ui';
-import { debounce, isEqual, unescape } from 'lodash';
+import { debounce, isEqual, unescape } from 'lodash-es';
 import { createAlert } from '~/alert';
 import GLForm from '~/gl_form';
 import SafeHtml from '~/vue_shared/directives/safe_html';

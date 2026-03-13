@@ -92,7 +92,13 @@ module SidebarsHelper
       },
       can_sign_out: current_user_menu?(:sign_out),
       sign_out_link: destroy_user_session_path,
-      issues_dashboard_path: issues_dashboard_path(assignee_username: user.username),
+
+      issues_dashboard_path: if user.work_items_consolidated_list_enabled?
+                               work_items_dashboard_path(assignee_username: user.username)
+                             else
+                               issues_dashboard_path(assignee_username: user.username)
+                             end,
+
       merge_request_dashboard_path: merge_requests_dashboard_path,
       todos_dashboard_path: dashboard_todos_path,
       compare_plans_url: compare_plans_url(user: user, project: project, group: group),
