@@ -49,7 +49,7 @@ You can try several things to ensure your repository is properly configured and 
 
 Start by ensuring the correct project is selected in the GitLab for VS Code extension.
 
-1. In VS Code, on the left sidebar, select **GitLab** ({{< icon name="tanuki" >}}).
+1. In VS Code, in the left sidebar, select **GitLab** ({{< icon name="tanuki" >}}).
 1. Ensure the project is listed and selected.
 
 If an error message appears next to the project name, select it to reveal what needs to be updated.

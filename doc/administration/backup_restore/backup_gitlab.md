@@ -2,7 +2,7 @@
 stage: Tenant Scale
 group: Geo
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
-description: Back up your self-managed GitLab instance using gitlab-backup command, including database, repositories, and configuration files.
+description: Back up your self-managed GitLab instance using `gitlab-backup` command, including database, repositories, and configuration files.
 title: Back up GitLab
 description: Guide to backing up GitLab instances, covering backup strategies, data types, command options, and scaling considerations.
 ---
@@ -517,7 +517,7 @@ Depending on your installation type, slightly different components can be skippe
 
 {{< tab title="Linux package (Omnibus) / Docker / Self-compiled" >}}
 
-<!-- source: https://gitlab.com/gitlab-org/gitlab/-/blob/d693aa7f894c7306a0d20ab6d138a7b95785f2ff/lib/backup/manager.rb#L117-133 -->
+<!-- source: <https://gitlab.com/gitlab-org/gitlab/-/blob/d693aa7f894c7306a0d20ab6d138a7b95785f2ff/lib/backup/manager.rb#L117-133> -->
 
 - `db` (database)
 - `repositories` (Git repositories data, including wikis)
@@ -536,7 +536,7 @@ Depending on your installation type, slightly different components can be skippe
 
 {{< tab title="Helm chart (Kubernetes)" >}}
 
-<!-- source: https://gitlab.com/gitlab-org/build/CNG/-/blob/068e146db915efcd875414e04403410b71a2e70c/gitlab-toolbox/scripts/bin/backup-utility#L19 -->
+<!-- source: <https://gitlab.com/gitlab-org/build/CNG/-/blob/068e146db915efcd875414e04403410b71a2e70c/gitlab-toolbox/scripts/bin/backup-utility#L19> -->
 
 - `db` (database)
 - `repositories` (Git repositories data, including wikis)

@@ -926,10 +926,10 @@ installed. The UID and GID can be retrieved with the following commands:
 
 ```shell
 # UID
-$ id -u git
+id -u git
 
 # GID
-$ id -g git
+id -g git
 ```
 
 Additionally, you should not configure multiple [access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html),

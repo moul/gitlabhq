@@ -13960,6 +13960,30 @@ Input type: `SecurityPolicyProjectUnassignInput`
 | <a id="mutation-securitypolicyprojectunassign-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-securitypolicyprojectunassign-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 
+### `Mutation.securityRefsUntrack`
+
+{{< details >}}
+**Introduced** in GitLab 18.10.
+**Status**: Experiment.
+{{< /details >}}
+
+Input type: `SecurityRefsUntrackInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-securityrefsuntrack-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-securityrefsuntrack-refids"></a>`refIds` | [`[SecurityProjectTrackedContextID!]!`](#securityprojecttrackedcontextid) | Global IDs of the tracked refs to stop tracking. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-securityrefsuntrack-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-securityrefsuntrack-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+| <a id="mutation-securityrefsuntrack-untrackedrefids"></a>`untrackedRefIds` | [`[ID!]`](#id) | Global IDs of refs that were successfully untracked. |
+
 ### `Mutation.securityScanProfileAttach`
 
 {{< details >}}

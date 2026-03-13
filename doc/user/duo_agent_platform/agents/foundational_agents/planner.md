@@ -80,7 +80,7 @@ Prerequisites:
 
 To use the Planner Agent in VS Code:
 
-1. In VS Code, on the left sidebar, select **GitLab Duo Agent Platform** ({{< icon name="duo-agentic-chat" >}}).
+1. In VS Code, in the left sidebar, select **GitLab Duo Agent Platform** ({{< icon name="duo-agentic-chat" >}}).
 1. Select the **Chat** tab.
 1. From the **New chat** ({{< icon name="duo-chat-new" >}}) dropdown list, select **Planner**.
 1. Enter your planning-related question or request. To get the best results from your request:

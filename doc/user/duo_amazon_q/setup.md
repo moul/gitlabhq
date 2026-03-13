@@ -241,7 +241,7 @@ To confirm that it was successful:
 - In the Amazon CloudWatch console log, check for a `204` status code. For more information, see
   [What is Amazon CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html)?
 - In GitLab, a notification that says `Amazon Q settings have been saved` is displayed.
-- In GitLab, on the left sidebar, select **Applications**. The Amazon Q OAuth application is displayed.
+- In GitLab, in the left sidebar, select **Applications**. The Amazon Q OAuth application is displayed.
 
 ## Allow administrators to use customer managed keys
 

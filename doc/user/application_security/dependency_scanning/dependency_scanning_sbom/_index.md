@@ -8,19 +8,19 @@ title: Dependency scanning by using SBOM
 {{< details >}}
 
 - Tier: Ultimate
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-- Status: Limited Availability (GitLab.com)
+- Offering: GitLab.com, GitLab Self-Managed
+- Status: Limited Availability (GitLab.com and GitLab Self-Managed)
 
 {{< /details >}}
 
 {{< history >}}
 
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/395692) in GitLab 17.1 and officially released as an [Experiment](../../../../policy/development_stages_support.md#experiment) in GitLab 17.3 with a flag named `dependency_scanning_using_sbom_reports`.
-- Released [lock file-based dependency scanning](https://gitlab.com/gitlab-org/security-products/analyzers/dependency-scanning/-/blob/main/README.md?ref_type=heads#supported-files) analyzer as an [Experiment](../../../../policy/development_stages_support.md#experiment) in GitLab 17.4.
-- [Enabled on GitLab.com, GitLab Self-Managed, and GitLab Dedicated](https://gitlab.com/gitlab-org/gitlab/-/issues/395692) for default branch only in GitLab 17.5.
-- Released as Beta with support for all branches and [Enabled by default with the latest dependency scanning CI/CD templates](https://gitlab.com/gitlab-org/gitlab/-/issues/519597) for Cargo, Conda, Cocoapods, and Swift in GitLab 17.9.
+- [Introduced](https://gitlab.com/groups/gitlab-org/-/work_items/8026) in GitLab 17.4 as an [experiment](../../../../policy/development_stages_support.md#experiment) for default branch only [with a feature flag](../../../../administration/feature_flags/_index.md) named `dependency_scanning_using_sbom_reports`. Disabled by default.
+- [Enabled on GitLab Self-Managed](https://gitlab.com/gitlab-org/gitlab/-/issues/395692) in GitLab 17.5.
+- [Changed](https://gitlab.com/groups/gitlab-org/-/work_items/15960) from experiment to beta with support for all branches and [Enabled by default with the latest dependency scanning CI/CD templates](https://gitlab.com/gitlab-org/gitlab/-/issues/519597) for Cargo, Conda, Cocoapods, and Swift in GitLab 17.9.
 - Feature flag `dependency_scanning_using_sbom_reports` removed in GitLab 17.10.
-- Released as Limited Availability on GitLab.com only with a new [V2 CI/CD dependency scanning template](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/201175/) in GitLab 18.5. Using the dependency scanning SBOM API behind feature flag `dependency_scanning_sbom_scan_api` disabled by default.
+- [Changed](https://gitlab.com/groups/gitlab-org/-/work_items/15960) from beta to limited availability for GitLab.com only with a new [V2 CI/CD dependency scanning template](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/201175/) in GitLab 18.5 [with a feature flag](../../../../administration/feature_flags/_index.md) named `dependency_scanning_sbom_scan_api`. Disabled by default.
+- Feature flag `dependency_scanning_using_sbom_reports` [enabled by default](https://gitlab.com/gitlab-org/gitlab/-/work_items/551861) in GitLab 18.10.
 
 {{< /history >}}
 
@@ -33,8 +33,9 @@ aspects of inspecting the items your code uses. These items typically include ap
 dependencies that are almost always imported from external sources, rather than sourced from items
 you wrote yourself.
 
-Dependency scanning can run in the development phase of your application's lifecycle. Every time a
-pipeline produces an SBOM report, security findings are identified and compared between the source
+Dependency scanning can run in the development phase of your application's lifecycle. Using the new
+dependency scanning analyzer in CI/CD pipelines, project dependencies are detected and reported in CycloneDX
+SBOM reports. Security findings are identified and compared between the source
 and target branches. Findings and their severity are listed in the merge request, enabling you to
 proactively address the risk to your application, before the code change is committed. Security
 findings for reported SBOM components are also identified by
@@ -394,7 +395,7 @@ build:
 Dependency scanning analyzer outputs:
 
 - A CycloneDX SBOM for each supported lock file or dependency graph export detected.
-- A single dependency scanning report for all scanned SBOM documents (GitLab.com only).
+- A single dependency scanning report for all scanned SBOM documents (GitLab.com and GitLab Self-Managed only).
 
 ### CycloneDX Software Bill of Materials
 
@@ -472,8 +473,14 @@ merge cyclonedx sboms:
 
 ### Dependency scanning report
 
-The dependency scanning analyzer outputs a single dependency scanning report containing vulnerabilities
-for all lock files scanned.
+{{< details >}}
+
+- Offering: GitLab.com, GitLab Self-Managed
+
+{{< /details >}}
+
+The dependency scanning analyzer generates a dependency scanning report that documents all
+vulnerabilities identified in dependencies identified in the CycloneDX SBOM files.
 
 The dependency scanning report is:
 

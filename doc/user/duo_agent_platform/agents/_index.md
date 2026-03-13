@@ -25,6 +25,7 @@ title: Agents
 - Foundational, external, and custom agents [generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/585273) in GitLab 18.8.
 - Feature flag `global_ai_catalog` [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/223135) in 18.10.
 - Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
+
 {{< /history >}}
 
 Agents are AI-powered assistants that help you accomplish specific

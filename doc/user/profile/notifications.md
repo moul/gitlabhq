@@ -297,7 +297,7 @@ Issue event notifications are sent for the following notification levels:
 | Reassigned                   | Yes   | Yes         |            | Yes        | If **Issue is reassigned** is selected | Also sent to the previous assignee. |
 | Reopened                     | Yes   | Yes         |            | Yes        | If **Issue is reopened** is selected |                    |
 
-<!-- For issue due timing source, see 'issue_due_scheduler_worker' in https://gitlab.com/gitlab-org/gitlab/-/blob/master/config/initializers/1_settings.rb -->
+<!-- For issue due timing source, see 'issue_due_scheduler_worker' in <https://gitlab.com/gitlab-org/gitlab/-/blob/master/config/initializers/1_settings.rb> -->
 
 Merge request notifications are sent for the following notification levels:
 

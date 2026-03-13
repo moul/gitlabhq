@@ -84,7 +84,7 @@ the review.
 
 ![Merge request activity feed showing a review session started by GitLab Duo.](img/gitlab_duo_code_review_flow_session_v18_10.png)
 
-After the review completes, you can also look for a Code Review Flow session in [sessions for your project](../../../user/duo_agent_platform/sessions/_index.md#view-sessions-for-your-project).
+After the review completes, you can also look for a Code Review Flow session in [sessions for your project](../../duo_agent_platform/sessions/_index.md#view-sessions-for-your-project).
 
 ### How the review features compare
 

@@ -55,7 +55,7 @@ You can start a trial even if you have not signed up for a GitLab account yet.
 
 If you don't have a GitLab account, to start a free trial:
 
-1. Go to [https://gitlab.com/-/trial_registrations/new](https://gitlab.com/-/trial_registrations/new).
+1. Go to <https://gitlab.com/-/trial_registrations/new>.
 1. Fill in the form details, and select **Continue**.
 1. Complete the remaining steps and select **Create project**. You are taken to your new project and signed in as the new user you created.
 1. In the left sidebar, at the bottom, a widget displays your trial type and the remaining days in your trial.

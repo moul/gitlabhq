@@ -18,7 +18,7 @@ with GitLab. If your preferred issue tracker is not listed in the
 you can enable a custom issue tracker.
 
 After you enable the custom issue tracker, a link to the issue tracker displays
-on the left sidebar in your project.
+in the left sidebar in your project.
 
 ![Custom issue tracker link](img/custom_issue_tracker_v18_3.png)
 
@@ -38,7 +38,7 @@ To enable a custom issue tracker in a project:
      `https://customissuetracker.com/project-name/:id`, which becomes
      `https://customissuetracker.com/project-name/123`).
    - **New issue URL**:
-     <!-- The line below was originally added in January 2018: https://gitlab.com/gitlab-org/gitlab/-/commit/778b231f3a5dd42ebe195d4719a26bf675093350 -->
+     <!-- The line below was originally added in January 2018: <https://gitlab.com/gitlab-org/gitlab/-/commit/778b231f3a5dd42ebe195d4719a26bf675093350> -->
      **This URL is not used and an [issue exists](https://gitlab.com/gitlab-org/gitlab/-/issues/327503) to remove it**.
      Enter any URL.
 

@@ -29,9 +29,9 @@ To effectively organize and manage
 your packages with this approach, you should:
 
 - Create a dedicated top-level group for artifact
-management with projects organized by package type.
+  management with projects organized by package type.
 - Limit the top-level group to only projects with
-artifacts to improve performance when consuming packages.
+  artifacts to improve performance when consuming packages.
 
 ### Recommended structure
 
@@ -79,7 +79,7 @@ This approach scales naturally while maintaining security and ease of use.
 
 Configure group settings:
 
-1. In your artifact management group, on the left sidebar, select **Settings** > **Packages and registries**.
+1. In your artifact management group, in the left sidebar, select **Settings** > **Packages and registries**.
 1. Configure any group policies you need, like **Duplicate packages** or **Package forwarding**.
 1. Set up group access controls as needed.
 
@@ -108,7 +108,7 @@ For external systems:
 
 Create a group deploy token for organization-wide package consumption:
 
-1. In your artifact management group, on the left sidebar, select **Settings** > **Repository**.
+1. In your artifact management group, in the left sidebar, select **Settings** > **Repository**.
 1. Expand **Deploy tokens**.
 1. Select **Add token** and complete the fields:
    - For the **Name**, enter `package-consumption`.
@@ -120,7 +120,7 @@ Save the token securely.
 If you want to use CI/CD job tokens for publishing,
 configure the job token allowlist:
 
-1. In each package-specific project, on the left sidebar, select **Settings** > **CI/CD**.
+1. In each package-specific project, in the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Token Access**.
 1. Add projects that should be allowed to publish packages to this package registry.
 

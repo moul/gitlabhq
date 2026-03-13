@@ -242,7 +242,7 @@ To check the health of your GitLab Duo configuration:
 
 To close GitLab Duo Chat:
 
-- For GitLab Duo Chat on the left sidebar, select **GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
+- For GitLab Duo Chat in the left sidebar, select **GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
 - For the quick chat window that's embedded in your file, in the upper-right corner,
   select **Collapse** ({{< icon name="chevron-lg-up" >}}).
 

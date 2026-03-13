@@ -29,7 +29,7 @@ In this example, a Git repository has two branches: `develop` and `main`.
 Commit `B` is cherry-picked from the `develop` branch after commit `E` in the `main` branch.
 Commit `G` is added after the cherry-pick:
 
-<!-- Diagram reused in doc/topics/git/cherry_pick.md -->
+<!-- Diagram reused in `doc/topics/git/cherry_pick.md` -->
 
 ```mermaid
 %%{init: { "fontFamily": "GitLab Sans" }}%%

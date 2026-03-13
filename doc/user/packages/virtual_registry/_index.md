@@ -398,7 +398,7 @@ Upstream registries are organized in ordered lists. When a virtual registry rece
 - The registry walks through the ordered list of upstreams to find one that can fulfill the request.
 - If the requested file is found in an upstream, the virtual registry returns that file and caches it for future requests. Caching increases the availability of dependencies if you've pulled them at least once through the virtual registry.
 - If a requested file is not found in a cache, the virtual registry walks the ordered list to find the
-upstream with the highest priority that can fulfill the request.
+  upstream with the highest priority that can fulfill the request.
 
 This system noticeably impacts the performance of a virtual registry.
 

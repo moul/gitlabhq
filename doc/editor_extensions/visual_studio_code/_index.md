@@ -42,7 +42,7 @@ After you install and set up the extension, you can access the following feature
   - The chat tab: Interact with GitLab Duo Chat (agentic), or use the **New chat** ({{< icon name="duo-chat-new" >}})
     dropdown list to select a foundational or custom agent to work with.
   - The flows tab: Use the Software Development Flow. Learn more about the
-  [difference between Chat and the flow](../../user/duo_agent_platform/flows/foundational_flows/software_development.md#flow-and-chat-comparison).
+    [difference between Chat and the flow](../../user/duo_agent_platform/flows/foundational_flows/software_development.md#flow-and-chat-comparison).
 - In the status bar, **Duo** ({{< icon name="tanuki-ai" >}}): Check the feature status of
   GitLab Duo Code Suggestions and review suggestions in
   your file as you author code.

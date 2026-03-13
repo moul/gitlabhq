@@ -24,7 +24,7 @@ When you turn on the integration:
 - The **Plan** > **Wiki** menu item is hidden.
 
   To access the GitLab wiki for the project, use its URL:
-`<example_project_URL>/-/wikis/home`.
+  `<example_project_URL>/-/wikis/home`.
   To bring back the **Plan** > **Wiki** menu item, turn off this integration.
 
 Creating a more comprehensive integration with Confluence Cloud is tracked in

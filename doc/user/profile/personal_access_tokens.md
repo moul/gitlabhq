@@ -98,7 +98,7 @@ To create a personal access token:
    - The token expires at midnight UTC on that date.
    - If you do not enter a date, the expiry date is set to 365 days from today.
    - By default, the expiry date cannot be more than 365 days from today. On GitLab 17.6 and later,
-   administrators can [modify the maximum lifetime of access tokens](../../administration/settings/account_and_limit_settings.md#limit-the-lifetime-of-access-tokens).
+     administrators can [modify the maximum lifetime of access tokens](../../administration/settings/account_and_limit_settings.md#limit-the-lifetime-of-access-tokens).
 1. Select one or more [personal access token scopes](#personal-access-token-scopes).
 1. Select **Create personal access token**.
 

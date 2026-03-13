@@ -359,7 +359,7 @@ Project permissions for [project features](project/organize_work_with_projects.m
 
 **Footnotes**:
 
-<!-- Disable ordered list rule https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md029---ordered-list-item-prefix -->
+<!-- Disable ordered list rule <https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md029---ordered-list-item-prefix> -->
 <!-- markdownlint-disable MD029 -->
 
 1. On GitLab Self-Managed, users with the Guest role are able to perform this action only on
@@ -493,7 +493,7 @@ Project Owners can perform any listed action, and can delete pipelines:
 
 **Footnotes**:
 
-<!-- Disable ordered list rule https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md029---ordered-list-item-prefix -->
+<!-- Disable ordered list rule <https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md029---ordered-list-item-prefix> -->
 <!-- markdownlint-disable MD029 -->
 
 1. Non-members and guests: Only if the project is public.
@@ -811,7 +811,7 @@ Project permissions for [repository](project/repository/_index.md) features incl
 
 **Footnotes**:
 
-<!-- Disable ordered list rule https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md029---ordered-list-item-prefix -->
+<!-- Disable ordered list rule <https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md029---ordered-list-item-prefix> -->
 <!-- markdownlint-disable MD029 -->
 
 1. On GitLab Self-Managed, users with the Guest role are able to perform this action only on public

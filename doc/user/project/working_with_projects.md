@@ -584,7 +584,7 @@ following restrictions in mind.
 For projects with inherited memberships:
 
 - Members with [inherited membership](members/_index.md#membership-types)
-in the project lose access unless they are also members of the target group.
+  in the project lose access unless they are also members of the target group.
 - The project inherits new member permissions from the target group.
 
 For projects where the container registry is enabled:

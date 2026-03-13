@@ -297,9 +297,9 @@ To create an email domain allowlist or denylist:
    manually or upload a `.txt` file that contains list entries.
 
    Both the allowlist and denylist accept wildcards. For example, you can use
-`*.company.com` to accept every `company.com` subdomain, or `*.io` to block all
-domains ending in `.io`. Domains must be separated by a whitespace,
-semicolon, comma, or a new line.
+   `*.company.com` to accept every `company.com` subdomain, or `*.io` to block all
+   domains ending in `.io`. Domains must be separated by a whitespace,
+   semicolon, comma, or a new line.
 
    ![The domain denylist settings with the options to upload a file or enter the denylist manually.](img/domain_denylist_v14_1.png)
 

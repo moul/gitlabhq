@@ -89,8 +89,7 @@ Note the following:
 
 {{< history >}}
 
-- [Changed](https://gitlab.com/gitlab-org/gitlab/-/issues/558233) pipeline execution so that when a `.pipeline-policy-pre` stage fails, all later jobs are skipped
-in GitLab 18.10 [with a flag](../../../administration/feature_flags/_index.md) named `ensure_pipeline_policy_pre_succeeds`. Enabled by default.
+- [Changed](https://gitlab.com/gitlab-org/gitlab/-/issues/558233) pipeline execution so that when a `.pipeline-policy-pre` stage fails, all later jobs are skipped in GitLab 18.10 [with a flag](../../../administration/feature_flags/_index.md) named `ensure_pipeline_policy_pre_succeeds`. Enabled by default.
 
 {{< /history >}}
 

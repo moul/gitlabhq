@@ -921,22 +921,43 @@ When in doubt, try to follow the best practices described in this [Mozilla Devel
 The `tooling/bin/gettext_extractor locale/gitlab.pot` script parses the codebase and extracts all the strings from the
 [translation helpers](#preparing-a-page-for-translation) ready to be translated.
 
-The script cannot resolve the strings if they are passed as variables or function calls. Therefore,
+The script cannot resolve the strings if they are passed as variables, function calls, or string interpolations. Therefore,
 make sure to always pass string literals to the helpers.
 
-```javascript
-// Good
-__('Some label');
-s__('Namespace', 'Label');
-s__('Namespace|Label');
-n__('%d apple', '%d apples', appleCount);
+- In Ruby/HAML:
 
-// Bad
-__(LABEL);
-s__(getLabel());
-s__(NAMESPACE, LABEL);
-n__(LABEL_SINGULAR, LABEL_PLURAL, appleCount);
-```
+  ```ruby
+  # Good
+  _('Some label');
+  _("Some label");
+  _('Hi %{name}') % { name: 'Luki' }
+  s_('Namespace|Label');
+  n_('%d apple', '%d apples', appleCount);
+
+  # Bad
+  _(LABEL);
+  _('Hi %{name}' % { name: 'Luki' })
+  _("Step: #{count}");
+  s_(get_label());
+  n_(label_singular, label_plural, appleCount);
+  ```
+
+- In JavaScript:
+
+  ```javascript
+  // Good
+  __('Some label');
+  s__('Namespace', 'Label');
+  s__('Namespace|Label');
+  n__('%d apple', '%d apples', appleCount);
+
+  // Bad
+  __(LABEL);
+  __(`Step: ${count}`);
+  s__(getLabel());
+  s__(NAMESPACE, LABEL);
+  n__(LABEL_SINGULAR, LABEL_PLURAL, appleCount);
+  ```
 
 ### Using variables to insert text dynamically
 

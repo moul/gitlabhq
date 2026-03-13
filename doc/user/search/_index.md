@@ -227,7 +227,7 @@ To search in all GitLab:
 1. Type your search query. You must type at least two characters.
 1. Press <kbd>Enter</kbd> to search, or select from the list.
 
-The results are displayed. To filter the results, on the left sidebar, select a filter.
+The results are displayed. To filter the results, in the left sidebar, select a filter.
 
 ## Search in a project
 
@@ -237,7 +237,7 @@ To search in a project:
 1. Select **Search or go to** again and type the string you want to search for.
 1. Press <kbd>Enter</kbd> to search, or select from the list.
 
-The results are displayed. To filter the results, on the left sidebar, select a filter.
+The results are displayed. To filter the results, in the left sidebar, select a filter.
 
 ## Include archived projects in search results
 
@@ -251,7 +251,7 @@ The results are displayed. To filter the results, on the left sidebar, select a 
 By default, archived projects are excluded from search results.
 To include archived projects in search results:
 
-1. On the search page, on the left sidebar, select the **Include archived** checkbox.
+1. On the search page, in the left sidebar, select the **Include archived** checkbox.
 1. In the left sidebar, select **Apply**.
 
 ## Search for code
@@ -289,7 +289,7 @@ where the results were found.
 
 To filter code search results by one or more languages:
 
-1. On the code search page, on the left sidebar, select one or more languages.
+1. On the code search page, in the left sidebar, select one or more languages.
 1. In the left sidebar, select **Apply**.
 
 ## Search for a commit SHA

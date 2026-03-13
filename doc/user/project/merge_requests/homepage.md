@@ -115,12 +115,12 @@ In the upper right of your merge request homepage, select **Display preferences*
   - **Role** groups merge requests by whether you are the reviewer or the author.
 - Toggle **Show your drafts** to show or hide draft merge requests from the **Your merge requests** list.
 
-Active merge requests count toward the total shown on the left sidebar. GitLab excludes **Inactive**
+Active merge requests count toward the total shown in the left sidebar. GitLab excludes **Inactive**
 merge requests from your review count.
 
 ### Workflow view: active statuses
 
-These merge requests need your attention. They count toward the total shown on the left sidebar:
+These merge requests need your attention. They count toward the total shown in the left sidebar:
 
 - **Your merge requests**: You're the merge request author or assignee. Add reviewers to start the review process.
   Statuses:
@@ -166,7 +166,7 @@ The **Role** view groups merge requests you are an assignee or reviewer for:
 - **Your merge requests (Active)**
 - **Your merge requests (Inactive)**
 
-Merge requests in the **Active** lists count toward the total shown on the left sidebar.
+Merge requests in the **Active** lists count toward the total shown in the left sidebar.
 
 ## Related topics
 

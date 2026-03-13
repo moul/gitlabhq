@@ -413,7 +413,7 @@ For more information, see the documentation on [additional configuration for SAM
 
 ### Verify `NameID`
 
-In troubleshooting, any authenticated user can use the API to verify the `NameID` GitLab already has linked to their user by visiting [`https://gitlab.com/api/v4/user`](https://gitlab.com/api/v4/user) and checking the `extern_uid` under identities.
+In troubleshooting, any authenticated user can use the API to verify the `NameID` GitLab already has linked to their user by visiting <https://gitlab.com/api/v4/user> and checking the `extern_uid` under identities.
 
 For GitLab Self-Managed, administrators can use the [users API](../../../api/users.md) to see the same information.
 

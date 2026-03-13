@@ -1,7 +1,7 @@
 ---
 stage: AI-powered
 group: AI Framework
-info: This page is maintained by Developer Relations, author @dnsmichi, see https://handbook.gitlab.com/handbook/marketing/developer-relations/developer-advocacy/content/#maintained-documentation
+info: This page is maintained by Developer Relations, author @dnsmichi, see <https://handbook.gitlab.com/handbook/marketing/developer-relations/developer-advocacy/content/#maintained-documentation>
 description: AI-native features and functionality.
 title: GitLab Duo use cases
 ---

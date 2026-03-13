@@ -493,7 +493,7 @@ GitLab Duo Non-Agentic Chat is the older version of GitLab Duo Chat.
 Options for use:
 
 - **GitLab Duo Non-Agentic Chat**.
-- **Non-Agentic Chat**. 
+- **Non-Agentic Chat**.
 - **GitLab Duo Chat** - Use when the difference between agentic and non-agentic isn't needed.
 - **Chat** - Use when the difference between agentic and non-agentic isn't needed.
 

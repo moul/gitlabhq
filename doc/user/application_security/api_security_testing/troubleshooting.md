@@ -119,7 +119,7 @@ variables:
 
 In a dynamic environment your target API changes for each different deployment. In this case, there is more than one possible solution: use the `environment_url.txt` file when dealing with dynamic environments.
 
-**Use environment_url.txt**
+**Use `environment_url.txt`**
 
 To support dynamic environments in which the target API URL changes during each pipeline, API security testing engine supports the use of an `environment_url.txt` file that contains the URL to use. This file is not checked into the repository, instead it's created during the pipeline by the job that deploys the test target and collected as an artifact that can be used by later jobs in the pipeline. The job that creates the `environment_url.txt` file must run before the API security testing engine job.
 

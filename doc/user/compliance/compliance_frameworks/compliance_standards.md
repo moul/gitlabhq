@@ -24,7 +24,7 @@ compliance standards.
 The [Compliance Adherence Templates](https://gitlab.com/gitlab-org/software-supply-chain-security/compliance/engineering/compliance-adherence-templates) project
 contains a library of JSON templates. Use these templates to quickly adopt predefined compliance frameworks.
 
-<!-- Content for tables is sourced from https://gitlab.com/gitlab-org/software-supply-chain-security/compliance/engineering/compliance-adherence-templates -->
+<!-- Content for tables is sourced from <https://gitlab.com/gitlab-org/software-supply-chain-security/compliance/engineering/compliance-adherence-templates> -->
 
 ## CIS CSC compliance requirements
 

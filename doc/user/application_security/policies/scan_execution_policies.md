@@ -64,7 +64,7 @@ instead according to these rules:
 - If the `scan-policies` stage doesn't already exist, GitLab injects the stage into the CI/CD pipeline at evaluation time.
 - If the `build` stage exists, GitLab injects `scan-policies` immediately after the `build` stage.
 - If the `build` stage does not exist, GitLab injects `scan-policies` at
-the beginning of the pipeline.
+  the beginning of the pipeline.
 
 To avoid job name conflicts, a hyphen and a number are appended to the job name. Each number is a unique
 value for each policy action. For example, `secret-detection` becomes `secret-detection-1`.
@@ -413,7 +413,7 @@ To cancel a scheduled scan, you have two options:
 
 When you deploy scheduled scan execution policies across many projects, consider the following recommendations:
 
-- Use gradual rollouts: Start with a small subset of projects and gradually add more projects. Use [compliance framework labels](../../../user/project/working_with_projects.md#add-a-compliance-framework-to-a-project) to scope policies to specific groups of projects.
+- Use gradual rollouts: Start with a small subset of projects and gradually add more projects. Use [compliance framework labels](../../project/working_with_projects.md#add-a-compliance-framework-to-a-project) to scope policies to specific groups of projects.
 - Configure `time_window`: Always set the `time_window` parameter in your scheduled policies. Without it, all pipelines are scheduled for the same time, which can cause performance issues and resource contention.
 - Test in staging: Validate your policy configuration in a staging environment or lower before deploying to production. Monitor performance and adjust based on results.
 - Consider runner capacity: The impact on runners depends on your policy configuration, runner availability, and GitLab instance deployment. Configure policies to use runners with specific tags to distribute load.

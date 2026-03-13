@@ -123,7 +123,7 @@ Prerequisites:
 - The Developer, Maintainer, or Owner role for the project.
 
 1. On the top bar, select **Search or go to** and find your project.
-1. On the left sidebar, select **Build** > **Pipelines**.
+1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
 1. In the pipeline's **Security** tab, select **Download results**.

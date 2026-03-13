@@ -42,7 +42,7 @@ To change the appearance:
 
 {{< /history >}}
 
-You can change the navigation theme of the GitLab UI. These colors are displayed on the left sidebar.
+You can change the navigation theme of the GitLab UI. These colors are displayed in the left sidebar.
 Using individual navigation themes might help you differentiate between your different
 GitLab instances.
 
@@ -152,7 +152,7 @@ To choose your homepage view:
 
 ### Customize default content on your group overview page
 
-You can change the main content on your group overview page. Your group overview page is the page that shows when you select **Groups** on the left sidebar. You can customize the default content for your group overview page to the:
+You can change the main content on your group overview page. Your group overview page is the page that shows when you select **Groups** in the left sidebar. You can customize the default content for your group overview page to the:
 
 - Details Dashboard (default), which includes an overview of group activities and projects.
 - Security Dashboard, which might include group security policies and other security topics.
@@ -169,7 +169,7 @@ To change the default content on your group overview page:
 
 ### Customize default content on your project overview page
 
-Your project overview page is the page you view when you select **Project overview** on the left sidebar. You can set your main project overview page to the Activity page, the README file, and other content.
+Your project overview page is the page you view when you select **Project overview** in the left sidebar. You can set your main project overview page to the Activity page, the README file, and other content.
 
 1. In the upper-right corner, select your avatar.
 1. Select **Preferences**.

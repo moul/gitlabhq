@@ -223,12 +223,12 @@ Membership restrictions:
 
 - Inherited memberships are lost. Only direct group members are transferred.
 - If a group Owner has an inherited membership, the user that transfers the group
-becomes the new Owner.
+  becomes the new Owner.
 
 Visibility and access restrictions:
 
 - If a target parent group has lower visibility, the visibility settings of all subgroups and projects
-are adjusted to match the visibility of the target parent group.
+  are adjusted to match the visibility of the target parent group.
 - Repository URLs change. You must update your local repositories to point to the new location. For more information, see [Repository page changes](../project/repository/_index.md#repository-path-changes).
 
 Package and container registry restrictions:

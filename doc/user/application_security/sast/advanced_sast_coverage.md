@@ -29,7 +29,7 @@ To learn more about the rules used in GitLab Advanced SAST, see [SAST rules](rul
 
 GitLab Advanced SAST finds the following types of weaknesses in each programming language:
 
-<!-- Table contents are automatically produced by a job in https://gitlab.com/gitlab-org/security-products/oxeye/product/oxeye-rulez. -->
+<!-- Table contents are automatically produced by a job in <https://gitlab.com/gitlab-org/security-products/oxeye/product/oxeye-rulez>. -->
 
 | CWE                                                          | CWE Description                                                                                                        | C                                    | C++                                  | C#                                   | Go                                   | Java                                 | JavaScript, TypeScript               | PHP                                  | Python                               | Ruby                                 |
 |:-------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------|:-------------------------------------|:-------------------------------------|:-------------------------------------|:-------------------------------------|:-------------------------------------|:-------------------------------------|:-------------------------------------|:-------------------------------------|:-------------------------------------|

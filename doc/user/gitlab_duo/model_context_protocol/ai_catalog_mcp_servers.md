@@ -69,10 +69,10 @@ To add an MCP server to the AI Catalog:
    - **Transport**: Select **HTTP**. Only HTTP transport is supported.
      SSE and stdio transports are not available.
    - **Authentication type**: Select one of the following:
-      - **None**: No authentication required.
-      - **OAuth**: Authenticate with OAuth 2.0. If the server supports
-        [OAuth 2.0 Dynamic Client Registration](https://tools.ietf.org/html/rfc7591),
-        GitLab automatically registers itself as an OAuth client on first connection.
+     - **None**: No authentication required.
+     - **OAuth**: Authenticate with OAuth 2.0. If the server supports
+       [OAuth 2.0 Dynamic Client Registration](https://tools.ietf.org/html/rfc7591),
+       GitLab automatically registers itself as an OAuth client on first connection.
 1. Select **Create MCP server**.
 
 The MCP server is now available in your organization's catalog and can be associated with agents.

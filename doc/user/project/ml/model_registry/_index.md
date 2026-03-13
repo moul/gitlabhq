@@ -40,7 +40,7 @@ The model registry is controlled by the package registry setting.
 Before using the model registry, make
 sure the [package registry is enabled](../../../../administration/packages/_index.md#enable-or-disable-the-package-registry).
 
-To access the model registry, on the left sidebar, select **Deploy** > **Model registry**.
+To access the model registry, in the left sidebar, select **Deploy** > **Model registry**.
 
 If **Model registry** is not available, ensure that it has been enabled.
 

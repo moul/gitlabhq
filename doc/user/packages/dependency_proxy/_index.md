@@ -240,7 +240,7 @@ To set Docker Hub credentials for the dependency proxy for a group:
 To set Docker Hub credentials in the Dependency Proxy settings using the [GraphQL API](../../../api/graphql/_index.md):
 
 1. Go to GraphiQL:
-   - For GitLab.com, use [`https://gitlab.com/-/graphql-explorer`](https://gitlab.com/-/graphql-explorer).
+   - For GitLab.com, use <https://gitlab.com/-/graphql-explorer>.
    - For GitLab Self-Managed, use `https://gitlab.example.com/-/graphql-explorer`.
 1. In GraphiQL, enter this mutation:
 

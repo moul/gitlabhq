@@ -198,7 +198,7 @@ apply to Ruby files anywhere in the project structure, not just the root directo
 ## Use case examples
 
 <!-- 2025-11-12 Use case examples are maintained by DevRel, @dnsmichi
-Inspired by the reference in https://gitlab.com/gitlab-da/use-cases/ai/gitlab-duo-agent-platform/demo-environments/tanuki-iot-platform/-/blob/main/.gitlab/duo/mr-review-instructions.yaml?ref_type=heads
+Inspired by the reference in <https://gitlab.com/gitlab-da/use-cases/ai/gitlab-duo-agent-platform/demo-environments/tanuki-iot-platform/-/blob/main/.gitlab/duo/mr-review-instructions.yaml?ref_type=heads>
 -->
 
 {{< tabs >}}

@@ -162,7 +162,7 @@ None of these integrations have integration hooks.
 
 ### External issue trackers
 
-The following integrations add links to [external issue trackers](../../../integration/external-issue-tracker.md) on the left sidebar in your project.
+The following integrations add links to [external issue trackers](../../../integration/external-issue-tracker.md) in the left sidebar in your project.
 None of these integrations have integration hooks.
 
 | Integration                                     | Description                                             | Issue sync  | Can create new issues |
@@ -178,7 +178,7 @@ None of these integrations have integration hooks.
 
 ### External wikis
 
-The following integrations add links to external wikis on the left sidebar in your project.
+The following integrations add links to external wikis in the left sidebar in your project.
 None of these integrations have integration hooks.
 
 | Integration                                              | Description                                         |

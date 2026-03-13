@@ -95,7 +95,7 @@ Likewise, while inside the issue, you can see the confidential ({{< icon name="e
 the issue number. There is also an indicator in the comment area that the
 issue you are commenting on is confidential.
 
-There is also an indicator on the sidebar denoting confidentiality.
+There is also an indicator in the sidebar denoting confidentiality.
 
 Every change from regular to confidential and vice versa, is indicated by a
 system note in the issue's comments, for example:

@@ -90,8 +90,8 @@ To export the required files in PEM encoding from the PKCS #12 file, the
 
 ```shell
 #-- Extract private key in PEM encoding (no password, unencrypted)
-$ openssl pkcs12 -in gitlab.p12 -nocerts -nodes -out gitlab.key
+openssl pkcs12 -in gitlab.p12 -nocerts -nodes -out gitlab.key
 
 #-- Extract certificates in PEM encoding (full certs chain including CA)
-$ openssl pkcs12 -in gitlab.p12 -nokeys -out gitlab.crt
+openssl pkcs12 -in gitlab.p12 -nokeys -out gitlab.crt
 ```

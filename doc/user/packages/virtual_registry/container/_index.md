@@ -105,7 +105,7 @@ To create a container upstream registry:
 
 1. Select **Create upstream**.
 
-For more information about cache validity settings, see [Set the cache validity period](../../virtual_registry/_index.md#set-the-cache-validity-period).
+For more information about cache validity settings, see [Set the cache validity period](../_index.md#set-the-cache-validity-period).
 
 ## Authenticate with the container virtual registry
 

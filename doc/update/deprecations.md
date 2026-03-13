@@ -47,6 +47,29 @@ For deprecation reviewers (Technical Writers only):
 
 ## GitLab 20.0
 
+### Compliance pipelines
+
+- Announced in GitLab 17.3
+- Removal in GitLab 20.0 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))
+- To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/groups/gitlab-org/-/epics/11275).
+
+Currently, there are two ways to ensure compliance- or security-related jobs are run in a project pipeline:
+
+- [Compliance pipelines](https://docs.gitlab.com/user/compliance/compliance_pipelines/).
+- [Security policies](https://docs.gitlab.com/user/application_security/policies/).
+
+To provide a single place for ensuring required jobs are run in all pipelines for a project, we have deprecated
+compliance pipelines in GitLab 17.3 and will remove the feature in GitLab 20.0.
+
+Customers should migrate from compliance pipelines to the new
+[pipeline execution policy type](https://docs.gitlab.com/user/application_security/policies/pipeline_execution_policies/)
+as soon as possible.
+
+For more information, see the relevant:
+
+- [Migration guide](https://docs.gitlab.com/user/compliance/compliance_pipelines/#pipeline-execution-policies-migration).
+- [Blog post](https://about.gitlab.com/blog/why-gitlab-is-deprecating-compliance-pipelines-in-favor-of-security-policies/).
+
 ### Legacy group-level audit event streaming destination GraphQL APIs
 
 - Announced in GitLab 18.10
@@ -182,25 +205,6 @@ To migrate to the `azure_v2` driver:
 1. Test the new configuration in a non-production environment before deploying to production.
 
 For more information about updating your storage driver configuration, see [use object storage](https://docs.gitlab.com/administration/packages/container_registry/#use-object-storage).
-
-### Compliance pipelines
-
-- Announced in GitLab 17.3
-- Removal in GitLab 19.0 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))
-- To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/groups/gitlab-org/-/epics/11275).
-
-Currently, there are two ways to ensure compliance- or security-related jobs are run in a project pipeline:
-
-- [Compliance pipelines](https://docs.gitlab.com/user/group/compliance_pipelines/).
-- [Security policies](https://docs.gitlab.com/user/application_security/policies/).
-
-To provide a single place for ensuring required jobs are run in all pipelines for a project, we have deprecated
-compliance pipelines in GitLab 17.3 and will remove the feature in GitLab 19.0.
-
-Customers should migrate from compliance pipelines to the new
-[pipeline execution policy type](https://docs.gitlab.com/user/application_security/policies/pipeline_execution_policies/)
-as soon as possible.
-For details, see the [migration guide](https://docs.gitlab.com/user/group/compliance_pipelines/#pipeline-execution-policies-migration) and [blog post](https://about.gitlab.com/blog/why-gitlab-is-deprecating-compliance-pipelines-in-favor-of-security-policies/).
 
 ### Container Registry AWS S3 Signature Version 2 support
 

@@ -244,7 +244,7 @@ Prerequisites:
 
 To use a custom agent in VS Code:
 
-1. In VS Code, on the left sidebar, select **GitLab Duo Agent Platform** ({{< icon name="duo-agentic-chat" >}}).
+1. In VS Code, in the left sidebar, select **GitLab Duo Agent Platform** ({{< icon name="duo-agentic-chat" >}}).
 1. Select the **Chat** tab.
 1. From the **New chat** ({{< icon name="duo-chat-new" >}}) dropdown list, select the custom agent.
 1. Enter your question or request.
