@@ -2,7 +2,7 @@
 import NO_PIPELINES_SVG from '@gitlab/svgs/dist/illustrations/empty-state/empty-pipeline-md.svg?url';
 import ERROR_STATE_SVG from '@gitlab/svgs/dist/illustrations/empty-state/empty-job-failed-md.svg?url';
 import { GlCollapsibleListbox, GlEmptyState, GlKeysetPagination, GlLoadingIcon } from '@gitlab/ui';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import Visibility from 'visibilityjs';
 import { createAlert, VARIANT_INFO, VARIANT_WARNING } from '~/alert';
 import { s__, __ } from '~/locale';

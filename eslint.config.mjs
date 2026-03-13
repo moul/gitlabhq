@@ -869,22 +869,6 @@ export default [
       'no-undef': 'off',
     },
   },
-
-  // web worker rules
-  {
-    files: ['app/assets/javascripts/**/*_worker.js', 'ee/app/assets/javascripts/**/*_worker.js'],
-
-    languageOptions: {
-      globals: {
-        self: 'readonly',
-      },
-    },
-
-    rules: {
-      'no-restricted-globals': 'off',
-    },
-  },
-
   ...jhConfigs,
   ...Object.values(REVEAL_ESLINT_TODO ? {} : todoLists),
 ];

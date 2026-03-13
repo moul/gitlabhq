@@ -1,5 +1,5 @@
 <script>
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { STAGE_VIEW } from '~/ci/pipeline_details/graph/constants';
 import { createJobsHash, generateJobNeedsDict } from '~/ci/pipeline_details/utils';
 import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';

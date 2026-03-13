@@ -37912,8 +37912,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="group-workitemtypes-name"></a>`name` | [`IssueType`](#issuetype) | Filter work item types by the given name. |
-| <a id="group-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. |
+| <a id="group-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 18.11. Name-based filtering is no longer supported with introduction of configurable work item types in 18.11. |
+| <a id="group-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 18.11. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
 
 ##### `Group.workItems`
 
@@ -42774,8 +42774,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="namespace-workitemtypes-name"></a>`name` | [`IssueType`](#issuetype) | Filter work item types by the given name. |
-| <a id="namespace-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. |
+| <a id="namespace-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 18.11. Name-based filtering is no longer supported with introduction of configurable work item types in 18.11. |
+| <a id="namespace-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 18.11. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
 
 ##### `Namespace.workItems`
 
@@ -43291,8 +43291,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="organization-workitemtypes-name"></a>`name` | [`IssueType`](#issuetype) | Filter work item types by the given name. |
-| <a id="organization-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. |
+| <a id="organization-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 18.11. Name-based filtering is no longer supported with introduction of configurable work item types in 18.11. |
+| <a id="organization-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 18.11. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
 
 ##### `Organization.workspacesClusterAgents`
 
@@ -47304,8 +47304,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="project-workitemtypes-name"></a>`name` | [`IssueType`](#issuetype) | Filter work item types by the given name. |
-| <a id="project-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. |
+| <a id="project-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 18.11. Name-based filtering is no longer supported with introduction of configurable work item types in 18.11. |
+| <a id="project-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 18.11. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
 
 ##### `Project.workItems`
 

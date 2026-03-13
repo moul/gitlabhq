@@ -1,6 +1,6 @@
 <script>
 import { GlResizeObserverDirective, GlLoadingIcon, GlIcon, GlAlert } from '@gitlab/ui';
-import { throttle, isEmpty } from 'lodash';
+import { throttle, isEmpty } from 'lodash-es';
 // eslint-disable-next-line no-restricted-imports
 import { mapGetters, mapState, mapActions } from 'vuex';
 import { PanelBreakpointInstance } from '~/panel_breakpoint_instance';

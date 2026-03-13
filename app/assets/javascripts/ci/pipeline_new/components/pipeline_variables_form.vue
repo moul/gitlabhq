@@ -1,6 +1,6 @@
 <script>
 import { GlLink, GlSprintf } from '@gitlab/ui';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 import { s__ } from '~/locale';
 import { helpPagePath } from '~/helpers/help_page_helper';
 import { reportToSentry } from '~/ci/utils';

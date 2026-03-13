@@ -114,7 +114,7 @@ git push --push-option=<push_option>
 
 | プッシュオプション                    | 説明 | 例 |
 |--------------------------------|-------------|---------|
-| `ci.input=<name>=<value>`      | パイプラインに入力パラメータを渡します。 | `git push -o ci.input='stage=test' -o ci.input='security_scan=false'`配列の入力: `git push -o ci.input='my_array=["string", "double", "quotes"]'` |
+| `ci.input=<name>=<value>`      | パイプラインに入力パラメータを渡します。 | `git push -o ci.input='stage=test' -o ci.input='security_scan=false'`。配列の入力: `git push -o ci.input='my_array=["string", "double", "quotes"]'` |
 | `ci.skip`                      | このプッシュのパイプラインをスキップします。ブランチのパイプラインにのみ影響し、[マージリクエストパイプライン](../../ci/pipelines/merge_request_pipelines.md)には影響しません。JenkinsのようなCI/CDインテグレーションはスキップしません。 | `git push -o ci.skip` |
 | `ci.variable="<name>=<value>"` | パイプラインの[CI/CD変数](../../ci/variables/_index.md)を設定します。ブランチのパイプラインにのみ影響し、[マージリクエストパイプライン](../../ci/pipelines/merge_request_pipelines.md)には影響しません。 | `git push -o ci.variable="MAX_RETRIES=10" -o ci.variable="MAX_TIME=600"` |
 

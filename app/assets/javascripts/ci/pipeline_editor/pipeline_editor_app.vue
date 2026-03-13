@@ -1,6 +1,6 @@
 <script>
 import { GlLoadingIcon, GlModal } from '@gitlab/ui';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { fetchPolicies } from '~/lib/graphql';
 import { DEFAULT_DEBOUNCE_AND_THROTTLE_MS } from '~/lib/utils/constants';
 import { mergeUrlParams, queryToObject, visitUrl } from '~/lib/utils/url_utility';

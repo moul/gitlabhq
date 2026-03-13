@@ -10,11 +10,18 @@ module Resolvers
       argument :name,
         ::Types::IssueTypeEnum,
         description: "Filter work item types by the given name.",
-        required: false
+        required: false,
+        deprecated: {
+          reason: "Name-based filtering is no longer supported with introduction of " \
+            "configurable work item types in 18.11",
+          milestone: "18.11"
+        }
 
       argument :only_available,
         ::GraphQL::Types::Boolean,
-        description: "When true, returns only the available work item types for the current user.",
+        description: "When true, returns only the available work item types for the current user. " \
+          "This experimental field will be removed in 18.11. " \
+          "Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead.",
         required: false,
         experiment: { milestone: "18.6" }
 

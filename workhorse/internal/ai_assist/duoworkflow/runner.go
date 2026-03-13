@@ -33,7 +33,8 @@ const (
 	capabilityReadFileChunked      capability = "read_file_chunked"
 
 	// Server capabilities
-	capabilityAdvancedSearch capability = "advanced_search"
+	capabilityAdvancedSearch   capability = "advanced_search"
+	capabilityToolCallApproval capability = "tool_call_approval"
 )
 
 // ClientCapabilities is how gitlab-lsp -> workhorse -> Duo Workflow Service communicates
@@ -57,9 +58,10 @@ var ClientCapabilities = []capability{
 // To add a new server capability:
 // 1. Add a constant above (e.g., capabilityNewFeature capability = "new_feature")
 // 2. Add it to this ServerCapabilities list
-// 3. Update get_server_capabilities in ee/lib/api/ai/duo_workflows/workflows.rb
+// 3. Update compute_server_capabilities in ee/lib/api/ai/duo_workflows/workflows.rb
 var ServerCapabilities = []capability{
 	capabilityAdvancedSearch,
+	capabilityToolCallApproval,
 }
 
 var errFailedToAcquireLockError = errors.New("handleWebSocketMessages: failed to acquire lock")

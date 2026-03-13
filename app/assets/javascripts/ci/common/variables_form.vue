@@ -7,7 +7,7 @@ import {
   GlFormTextarea,
   GlLoadingIcon,
 } from '@gitlab/ui';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 import { s__, __ } from '~/locale';
 import Markdown from '~/vue_shared/components/markdown/non_gfm_markdown.vue';
 import { CI_VARIABLE_TYPE_FILE, CI_VARIABLE_TYPE_ENV_VAR } from '../pipeline_new/constants';

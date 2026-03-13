@@ -35,8 +35,9 @@ or specify custom availability zone IDs to align with your existing AWS infrastr
 ## Region selection
 
 When you create your GitLab Dedicated instance, you select AWS regions for your primary deployment,
-disaster recovery, and backups. Your region choices control where your data lives,
-how you meet compliance requirements, and how you protect against regional outages.
+disaster recovery, and backups. Your region choices are permanent and cannot be changed after provisioning.
+Choose regions based on data residency requirements, latency, and disaster recovery strategy to ensure
+your instance meets compliance needs and protects against regional outages.
 
 Primary region
 : Your main deployment where your instance runs and users access GitLab.
@@ -83,37 +84,45 @@ can be used as your primary, secondary, or backup region.
 > Tenants with `us-east-1` as their primary region experience downtime that GitLab cannot mitigate during an outage.
 > Consider selecting a different primary region to reduce this risk.
 
+<!-- separator -->
+
+> [!warning] Middle East regions temporarily unavailable
+> Both `me-central-1` (UAE) and `me-south-1` (Bahrain) are currently unavailable due to significant infrastructure disruptions.
+> Instances in these regions might experience prolonged downtime, service degradation, scaling failures, and failover issues.
+> For more information, see the [AWS Health Dashboard](https://health.aws.amazon.com/health/status).
+> To request access or discuss your options, submit a [support ticket](https://support.gitlab.com/hc/en-us/requests/new?ticket_form_id=4414917877650).
+
 You can deploy your instance in the following AWS regions:
 
-| Region                    | Code             | ClickHouse Cloud | AWS SES |
-| ------------------------- | ---------------- | ---------------- | ------- |
+| Region                    | Code             | ClickHouse Cloud                            | AWS SES |
+| ------------------------- | ---------------- | ------------------------------------------- | ------- |
 | Africa (Cape Town)        | `af-south-1`     | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
-| Asia Pacific (Hyderabad)  | `ap-south-2`     | {{< icon name="dash-circle" >}} No | {{< icon name="check-circle-filled" >}} Yes |
-| Asia Pacific (Jakarta)    | `ap-southeast-3` | {{< icon name="dash-circle" >}} No | {{< icon name="check-circle-filled" >}} Yes |
-| Asia Pacific (Melbourne)  | `ap-southeast-4` | {{< icon name="dash-circle" >}} No | {{< icon name="dash-circle" >}} No |
+| Asia Pacific (Hyderabad)  | `ap-south-2`     | {{< icon name="dash-circle" >}} No          | {{< icon name="check-circle-filled" >}} Yes |
+| Asia Pacific (Jakarta)    | `ap-southeast-3` | {{< icon name="dash-circle" >}} No          | {{< icon name="check-circle-filled" >}} Yes |
+| Asia Pacific (Melbourne)  | `ap-southeast-4` | {{< icon name="dash-circle" >}} No          | {{< icon name="dash-circle" >}} No |
 | Asia Pacific (Mumbai)     | `ap-south-1`     | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
-| Asia Pacific (Osaka)      | `ap-northeast-3` | {{< icon name="dash-circle" >}} No | {{< icon name="check-circle-filled" >}} Yes |
+| Asia Pacific (Osaka)      | `ap-northeast-3` | {{< icon name="dash-circle" >}} No          | {{< icon name="check-circle-filled" >}} Yes |
 | Asia Pacific (Seoul)      | `ap-northeast-2` | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
 | Asia Pacific (Singapore)  | `ap-southeast-1` | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
 | Asia Pacific (Sydney)     | `ap-southeast-2` | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
 | Asia Pacific (Tokyo)      | `ap-northeast-1` | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
-| Asia Pacific (Hong Kong)  | `ap-east-1`      | {{< icon name="dash-circle" >}} No | {{< icon name="dash-circle" >}} No |
+| Asia Pacific (Hong Kong)  | `ap-east-1`      | {{< icon name="dash-circle" >}} No          | {{< icon name="dash-circle" >}} No |
 | Canada (Central)          | `ca-central-1`   | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
 | Europe (Frankfurt)        | `eu-central-1`   | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
 | Europe (Ireland)          | `eu-west-1`      | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
 | Europe (London)           | `eu-west-2`      | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
-| Europe (Milan)            | `eu-south-1`     | {{< icon name="dash-circle" >}} No | {{< icon name="check-circle-filled" >}} Yes |
-| Europe (Spain)            | `eu-south-2`     | {{< icon name="dash-circle" >}} No | {{< icon name="dash-circle" >}} No |
-| Europe (Paris)            | `eu-west-3`      | {{< icon name="dash-circle" >}} No | {{< icon name="check-circle-filled" >}} Yes |
+| Europe (Milan)            | `eu-south-1`     | {{< icon name="dash-circle" >}} No          | {{< icon name="check-circle-filled" >}} Yes |
+| Europe (Spain)            | `eu-south-2`     | {{< icon name="dash-circle" >}} No          | {{< icon name="dash-circle" >}} No |
+| Europe (Paris)            | `eu-west-3`      | {{< icon name="dash-circle" >}} No          | {{< icon name="check-circle-filled" >}} Yes |
 | Europe (Stockholm)        | `eu-north-1`     | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
-| Europe (Zurich)           | `eu-central-2`   | {{< icon name="dash-circle" >}} No | {{< icon name="check-circle-filled" >}} Yes |
-| Israel (Tel Aviv)         | `il-central-1`   | {{< icon name="dash-circle" >}} No | {{< icon name="check-circle-filled" >}} Yes |
-| Middle East (UAE)         | `me-central-1`   | {{< icon name="dash-circle" >}} No | {{< icon name="dash-circle" >}} No |
-| Middle East (Bahrain)     | `me-south-1`     | {{< icon name="dash-circle" >}} No | {{< icon name="check-circle-filled" >}} Yes |
+| Europe (Zurich)           | `eu-central-2`   | {{< icon name="dash-circle" >}} No          | {{< icon name="check-circle-filled" >}} Yes |
+| Israel (Tel Aviv)         | `il-central-1`   | {{< icon name="dash-circle" >}} No          | {{< icon name="check-circle-filled" >}} Yes |
+| Middle East (UAE)         | `me-central-1`   | {{< icon name="dash-circle" >}} No          | {{< icon name="dash-circle" >}} No |
+| Middle East (Bahrain)     | `me-south-1`     | {{< icon name="dash-circle" >}} No          | {{< icon name="check-circle-filled" >}} Yes |
 | South America (São Paulo) | `sa-east-1`      | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
 | US East (N. Virginia)     | `us-east-1`      | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
 | US East (Ohio)            | `us-east-2`      | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
-| US West (N. California)   | `us-west-1`      | {{< icon name="dash-circle" >}} No | {{< icon name="check-circle-filled" >}} Yes |
+| US West (N. California)   | `us-west-1`      | {{< icon name="dash-circle" >}} No          | {{< icon name="check-circle-filled" >}} Yes |
 | US West (Oregon)          | `us-west-2`      | {{< icon name="check-circle-filled" >}} Yes | {{< icon name="check-circle-filled" >}} Yes |
 
 If you need a region that is not listed, contact your account representative or [GitLab Support](https://about.gitlab.com/support/).
@@ -144,5 +153,5 @@ For regions without AWS SES support, you must set up an [external SMTP mail serv
 
 ## Related topics
 
-- [Create your GitLab Dedicated instance](../_index.md)
+- [Create your GitLab Dedicated instance](_index.md)
 - [Disaster recovery for GitLab Dedicated](../disaster_recovery.md)

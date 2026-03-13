@@ -707,6 +707,20 @@ func TestRunner_handleWebSocketMessage(t *testing.T) {
 			serverCapabilities: []string{},
 			expectedErrMsg:     "",
 		},
+		{
+			name:               "start request with tool_call_approval server capability",
+			message:            []byte(`{"startRequest": {"workflowID": "id-123", "goal": "test goal", "clientCapabilities": []}}`),
+			clientCapabilities: []string{"tool_call_approval"},
+			serverCapabilities: []string{"tool_call_approval"},
+			expectedErrMsg:     "",
+		},
+		{
+			name:               "start request with multiple server capabilities including tool_call_approval",
+			message:            []byte(`{"startRequest": {"workflowID": "id-123", "goal": "test goal", "clientCapabilities": ["shell_command"]}}`),
+			clientCapabilities: []string{"shell_command", "advanced_search", "tool_call_approval"},
+			serverCapabilities: []string{"advanced_search", "tool_call_approval"},
+			expectedErrMsg:     "",
+		},
 	}
 
 	for _, tt := range tests {

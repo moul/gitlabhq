@@ -1,5 +1,5 @@
 <script>
-import { escape, isEmpty } from 'lodash';
+import { escape, isEmpty } from 'lodash-es';
 import ActionComponent from '~/ci/common/private/job_action_component.vue';
 import { reportToSentry } from '~/ci/utils';
 import { __, s__, sprintf } from '~/locale';

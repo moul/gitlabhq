@@ -11,7 +11,7 @@ import {
   GlAnimatedChevronLgRightDownIcon,
   GlCollapse,
 } from '@gitlab/ui';
-import { cloneDeep, uniqueId } from 'lodash';
+import { cloneDeep, uniqueId } from 'lodash-es';
 import { createAlert } from '~/alert';
 import { reportToSentry } from '~/ci/utils';
 import { JOB_GRAPHQL_ERRORS } from '~/ci/constants';

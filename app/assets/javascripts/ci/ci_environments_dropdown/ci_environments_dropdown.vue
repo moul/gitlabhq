@@ -1,5 +1,5 @@
 <script>
-import { debounce, uniq } from 'lodash';
+import { debounce, uniq } from 'lodash-es';
 import { GlDropdownDivider, GlDropdownItem, GlCollapsibleListbox } from '@gitlab/ui';
 import { __, s__, sprintf } from '~/locale';
 import { convertEnvironmentScope } from './utils';

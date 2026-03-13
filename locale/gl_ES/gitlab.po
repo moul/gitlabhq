@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Language: gl\n"
 "X-Crowdin-File: /master/locale/gitlab.pot\n"
 "X-Crowdin-File-ID: 16\n"
-"PO-Revision-Date: 2026-03-04 06:34\n"
+"PO-Revision-Date: 2026-03-12 08:15\n"
 
 msgid " %{start} to %{end}"
 msgstr " %{start} a %{end}"
@@ -1700,6 +1700,9 @@ msgstr ""
 msgid "'%{lock_path}' is locked in Git LFS by @%{lock_user_name}"
 msgstr ""
 
+msgid "'%{name}' is a reserved name and cannot be used"
+msgstr ""
+
 msgid "'%{name}' is already taken"
 msgstr ""
 
@@ -2489,6 +2492,11 @@ msgid_plural "AICatalog|%d agents"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "AICatalog|%d more"
+msgid_plural "AICatalog|%d more"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "AICatalog|%{linkStart}Service accounts%{linkEnd} represent non-human entities. This is the account that you mention or assign to trigger the %{itemType}."
 msgstr ""
 
@@ -2750,6 +2758,9 @@ msgstr ""
 msgid "AICatalog|Could not update %{itemType}."
 msgstr ""
 
+msgid "AICatalog|Could not update MCP server. Please try again."
+msgstr ""
+
 msgid "AICatalog|Could not update agent. Try again."
 msgstr ""
 
@@ -2817,6 +2828,9 @@ msgid "AICatalog|Duplicate flow"
 msgstr ""
 
 msgid "AICatalog|Duplicate this flow with all its settings and configuration."
+msgstr ""
+
+msgid "AICatalog|Edit MCP server"
 msgstr ""
 
 msgid "AICatalog|Edit agent"
@@ -3041,7 +3055,10 @@ msgstr ""
 msgid "AICatalog|MCP server created."
 msgstr ""
 
-msgid "AICatalog|MCP server not found"
+msgid "AICatalog|MCP server not found."
+msgstr ""
+
+msgid "AICatalog|MCP server updated."
 msgstr ""
 
 msgid "AICatalog|MCP servers"
@@ -3051,6 +3068,15 @@ msgid "AICatalog|MCP servers allow your agent to connect with external tools."
 msgstr ""
 
 msgid "AICatalog|MCP servers associated with agents in this group appear here."
+msgstr ""
+
+msgid "AICatalog|MCP servers associated with agents in this project appear here."
+msgstr ""
+
+msgid "AICatalog|MCP servers associated with the agents enabled in your namespace."
+msgstr ""
+
+msgid "AICatalog|MCP servers associated with the agents enabled in your project."
 msgstr ""
 
 msgid "AICatalog|Make %{itemType} public?"
@@ -3365,6 +3391,9 @@ msgstr ""
 msgid "AICatalog|Update available"
 msgstr ""
 
+msgid "AICatalog|Update the settings for this MCP server."
+msgstr ""
+
 msgid "AICatalog|Update to %{version}"
 msgstr ""
 
@@ -3654,6 +3683,9 @@ msgid "AI|Troubleshoot this broken pipeline."
 msgstr ""
 
 msgid "AI|Use GitLab Duo Agent Platform to generate a merge request with a suggested solution."
+msgstr ""
+
+msgid "AI|Use GitLab Duo to check whether this secret detection vulnerability might be a false positive."
 msgstr ""
 
 msgid "AI|Use GitLab Duo to check whether this vulnerability might be a false positive."
@@ -4552,6 +4584,9 @@ msgstr ""
 msgid "AccessTokens|Select a role"
 msgstr ""
 
+msgid "AccessTokens|Select at least one scope."
+msgstr ""
+
 msgid "AccessTokens|Select permissions"
 msgstr ""
 
@@ -4673,6 +4708,12 @@ msgid "AccessTokens|Your static object token authenticates you when repository s
 msgstr ""
 
 msgid "AccessTokens|Your token"
+msgstr ""
+
+msgid "AccessibilityReport|Collapse accessibility details"
+msgstr ""
+
+msgid "AccessibilityReport|Expand accessibility details"
 msgstr ""
 
 msgid "AccessibilityReport|Message: %{message}"
@@ -5153,6 +5194,9 @@ msgid "Add protected branches"
 msgstr ""
 
 msgid "Add reaction"
+msgstr ""
+
+msgid "Add reaction to @%{username}"
 msgstr ""
 
 msgid "Add request manually"
@@ -5804,6 +5848,9 @@ msgstr ""
 msgid "AdminSelfHostedModels|GitLab managed models"
 msgstr ""
 
+msgid "AdminSelfHostedModels|Google Vertex AI"
+msgstr ""
+
 msgid "AdminSelfHostedModels|If required, provide the API token that grants access to your self-hosted model deployment."
 msgstr ""
 
@@ -5811,9 +5858,6 @@ msgid "AdminSelfHostedModels|Manage GitLab Duo by configuring and assigning self
 msgstr ""
 
 msgid "AdminSelfHostedModels|Model added. Select it for a feature to start using it."
-msgstr ""
-
-msgid "AdminSelfHostedModels|Model configuration"
 msgstr ""
 
 msgid "AdminSelfHostedModels|Model family"
@@ -5825,7 +5869,10 @@ msgstr ""
 msgid "AdminSelfHostedModels|Model identifier must be less than 255 characters."
 msgstr ""
 
-msgid "AdminSelfHostedModels|Model identifier must start with \"%{bedrockIdentifierPrefix}\""
+msgid "AdminSelfHostedModels|Model identifier must start with \"%{identifierPrefix}\""
+msgstr ""
+
+msgid "AdminSelfHostedModels|Model selection"
 msgstr ""
 
 msgid "AdminSelfHostedModels|Model uses an API token"
@@ -5913,6 +5960,9 @@ msgid "AdminSelfHostedModels|This self-hosted model cannot be deleted"
 msgstr ""
 
 msgid "AdminSelfHostedModels|To fully set up AWS credentials for this model please refer to the %{linkStart}AWS Bedrock Configuration Guide%{linkEnd}"
+msgstr ""
+
+msgid "AdminSelfHostedModels|To fully set up Google Cloud credentials for this model please refer to the %{linkStart}Google Vertex AI Configuration Guide%{linkEnd}"
 msgstr ""
 
 msgid "AdminSelfHostedModels|To remove %{boldStart}%{modelName}%{boldEnd}, you must first remove it from the following AI Feature(s):"
@@ -7271,6 +7321,12 @@ msgstr ""
 msgid "Agent or flow already enabled"
 msgstr ""
 
+msgid "AgentsUtils|Cannot be assigned"
+msgstr ""
+
+msgid "AgentsUtils|No triggers for this event"
+msgstr ""
+
 msgid "Agents|Explore other agents"
 msgstr ""
 
@@ -7313,7 +7369,22 @@ msgstr ""
 msgid "AiFlowTriggers|🔄 Processing the request..."
 msgstr ""
 
+msgid "AiImpactAnalytics|Agent Platform chats"
+msgstr ""
+
+msgid "AiImpactAnalytics|Agent Platform flows"
+msgstr ""
+
 msgid "AiImpactAnalytics|Assigned Duo seat engagement"
+msgstr ""
+
+msgid "AiImpactAnalytics|Chat (non-agentic) usage"
+msgstr ""
+
+msgid "AiImpactAnalytics|Code Review comments"
+msgstr ""
+
+msgid "AiImpactAnalytics|Code Review requests"
 msgstr ""
 
 msgid "AiImpactAnalytics|Code Suggestions acceptance rate"
@@ -7326,9 +7397,6 @@ msgid "AiImpactAnalytics|Code Suggestions accepted out of total Code Suggestions
 msgstr ""
 
 msgid "AiImpactAnalytics|Code Suggestions usage"
-msgstr ""
-
-msgid "AiImpactAnalytics|Code contributors with assigned Duo seats who used Code Suggestions."
 msgstr ""
 
 msgid "AiImpactAnalytics|Code contributors with assigned Duo seats who used Code Suggestions. %{linkStart}Learn more%{linkEnd}."
@@ -7346,22 +7414,13 @@ msgstr ""
 msgid "AiImpactAnalytics|Duo Agent Platform chats"
 msgstr ""
 
-msgid "AiImpactAnalytics|Duo Agent Platform flows"
-msgstr ""
-
 msgid "AiImpactAnalytics|Duo Chat usage"
 msgstr ""
 
-msgid "AiImpactAnalytics|Duo Code Review comments"
+msgid "AiImpactAnalytics|Duo users"
 msgstr ""
 
-msgid "AiImpactAnalytics|Duo Code Review requests"
-msgstr ""
-
-msgid "AiImpactAnalytics|Duo RCA usage"
-msgstr ""
-
-msgid "AiImpactAnalytics|Duo features usage"
+msgid "AiImpactAnalytics|Feature usage"
 msgstr ""
 
 msgid "AiImpactAnalytics|Number of Duo Code Review comments."
@@ -7382,16 +7441,25 @@ msgstr ""
 msgid "AiImpactAnalytics|Number of contributors who used any GitLab Duo feature."
 msgstr ""
 
+msgid "AiImpactAnalytics|Number of users that used at least one GitLab Duo feature."
+msgstr ""
+
+msgid "AiImpactAnalytics|Number of users who used Code Suggestions."
+msgstr ""
+
+msgid "AiImpactAnalytics|Number of users who used Duo Chat (non-agentic)."
+msgstr ""
+
+msgid "AiImpactAnalytics|Number of users who used Root Cause Analysis."
+msgstr ""
+
+msgid "AiImpactAnalytics|Root Cause Analysis usage"
+msgstr ""
+
 msgid "AiImpactAnalytics|The usage data may be incomplete due to backend calculations starting after upgrade to GitLab 16.11. For more information, see %{linkStart}epic 12978%{linkEnd}."
 msgstr ""
 
-msgid "AiImpactAnalytics|Users with assigned Duo seats who used Duo Chat."
-msgstr ""
-
 msgid "AiImpactAnalytics|Users with assigned Duo seats who used Duo Chat. %{linkStart}Learn more%{linkEnd}."
-msgstr ""
-
-msgid "AiImpactAnalytics|Users with assigned Duo seats who used Root Cause Analysis."
 msgstr ""
 
 msgid "AiImpactAnalytics|Users with assigned Duo seats who used at least one Duo feature. %{linkStart}Learn more%{linkEnd}."
@@ -7445,7 +7513,10 @@ msgstr ""
 msgid "AiPowered|Allow GitLab to collect prompts, AI responses, and metadata from user interactions with GitLab Duo. This data helps to improve service quality and is not used to train models."
 msgstr ""
 
-msgid "AiPowered|Allow GitLab to process your code and project data for AI-powered features throughout this namespace. Your data will be sent to GitLab Duo for processing. Groups, subgroups, and projects can individually opt out if needed."
+msgid "AiPowered|Allow GitLab to process your code and project data for AI-native features in this group. Your data is sent to GitLab Duo. Groups, subgroups, and projects can opt out individually."
+msgstr ""
+
+msgid "AiPowered|Allow members of these groups access to AI-native features."
 msgstr ""
 
 msgid "AiPowered|Always off"
@@ -7469,7 +7540,7 @@ msgstr ""
 msgid "AiPowered|Automatic Code Reviews"
 msgstr ""
 
-msgid "AiPowered|Block GitLab from processing your code and project data for AI-powered features by default. Your data stays private unless subgroups or projects individually opt in."
+msgid "AiPowered|Block GitLab from processing your code and project data for AI-native features in this group. Your data stays private unless subgroups or projects opt in individually."
 msgstr ""
 
 msgid "AiPowered|Buy Credits"
@@ -7493,7 +7564,7 @@ msgstr ""
 msgid "AiPowered|Configure AI features"
 msgstr ""
 
-msgid "AiPowered|Configure AI-native GitLab Duo features. %{linkStart}Which features?%{linkEnd}"
+msgid "AiPowered|Configure AI-native GitLab Duo features. %{linkStart}Which features%{linkEnd}?"
 msgstr ""
 
 msgid "AiPowered|Configure GitLab Duo Self-Hosted"
@@ -7517,7 +7588,7 @@ msgstr ""
 msgid "AiPowered|Control whether AI-powered features are available."
 msgstr ""
 
-msgid "AiPowered|Control whether GitLab can process your code and project data to provide context to AI-powered features."
+msgid "AiPowered|Control whether GitLab can process your code and project data for AI-native features."
 msgstr ""
 
 msgid "AiPowered|Control who can access AI-native features executed with or without CI/CD pipelines."
@@ -7536,9 +7607,6 @@ msgid "AiPowered|Enabling self-hosted beta models and features is your acceptanc
 msgstr ""
 
 msgid "AiPowered|End date: %{endDate}"
-msgstr ""
-
-msgid "AiPowered|Ensure members can be added to the group that contains the project."
 msgstr ""
 
 msgid "AiPowered|Enter the URL for your Duo Agent Platform service. This endpoint is used for GitLab Duo Agent Platform requests. %{br} The URL must not include the \"http://\" or \"https://\" protocol. For example \"example.com:50052\"."
@@ -7574,13 +7642,13 @@ msgstr ""
 msgid "AiPowered|GitLab Credits dashboard"
 msgstr ""
 
+msgid "AiPowered|GitLab Duo"
+msgstr ""
+
 msgid "AiPowered|GitLab Duo Agent Platform"
 msgstr ""
 
 msgid "AiPowered|GitLab Duo Chat conversations"
-msgstr ""
-
-msgid "AiPowered|GitLab Duo Classic"
 msgstr ""
 
 msgid "AiPowered|GitLab Duo Core available to all users"
@@ -7601,13 +7669,10 @@ msgstr ""
 msgid "AiPowered|GitLab Duo with Amazon Q"
 msgstr ""
 
-msgid "AiPowered|Group"
+msgid "AiPowered|Have access to"
 msgstr ""
 
 msgid "AiPowered|Indirect connections through GitLab Self-Managed"
-msgstr ""
-
-msgid "AiPowered|Learn more"
 msgstr ""
 
 msgid "AiPowered|Local AI Gateway URL"
@@ -7628,19 +7693,28 @@ msgstr ""
 msgid "AiPowered|Member access"
 msgstr ""
 
-msgid "AiPowered|Membership grants access to"
+msgid "AiPowered|Members of group"
 msgstr ""
 
 msgid "AiPowered|Model Selection"
 msgstr ""
 
+msgid "AiPowered|Model selection"
+msgstr ""
+
 msgid "AiPowered|Monitor, manage, and customize AI-powered features to ensure efficient utilization and alignment."
 msgstr ""
 
-msgid "AiPowered|Never allow GitLab to process your code and project data for AI-powered features. Your data will not be sent to GitLab Duo anywhere in this namespace."
+msgid "AiPowered|Monthly commitments offer significant discounts off list price. Pool GitLab Credits across your namespace for flexibility and predictable monthly costs."
+msgstr ""
+
+msgid "AiPowered|Never allow GitLab to process your code and project data for AI-native features in this group. Your data is not sent to GitLab Duo."
 msgstr ""
 
 msgid "AiPowered|No access rules configured"
+msgstr ""
+
+msgid "AiPowered|No group"
 msgstr ""
 
 msgid "AiPowered|No groups found"
@@ -7655,16 +7729,19 @@ msgstr ""
 msgid "AiPowered|On by default"
 msgstr ""
 
-msgid "AiPowered|Only members of these groups will have access to selected AI features."
-msgstr ""
-
 msgid "AiPowered|Orchestrate AI agents across your entire software lifecycle to automate complex workflows, accelerate delivery, and keep your team in flow."
 msgstr ""
 
 msgid "AiPowered|Purchase Duo Pro seats"
 msgstr ""
 
+msgid "AiPowered|Purchase credits"
+msgstr ""
+
 msgid "AiPowered|Remove"
+msgstr ""
+
+msgid "AiPowered|Save on GitLab Credits with monthly commitments"
 msgstr ""
 
 msgid "AiPowered|Select a group to continue"
@@ -7691,16 +7768,19 @@ msgstr ""
 msgid "AiPowered|Tanuki AI icon"
 msgstr ""
 
-msgid "AiPowered|This setting applies to the whole instance. By turning this on, you accept the %{termsLinkStart}GitLab AI Functionality Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab governing AI feature usage. Check the %{requirementsLinkStart}eligibility requirements%{requirementsLinkEnd}."
+msgid "AiPowered|This setting applies to the entire instance. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage."
 msgstr ""
 
-msgid "AiPowered|This setting applies to the whole top-level group. By turning this on, you accept the %{termsLinkStart}GitLab AI Functionality Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab governing AI feature usage. Check the %{requirementsLinkStart}eligibility requirements%{requirementsLinkEnd}."
+msgid "AiPowered|This setting applies to the top-level group. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage."
 msgstr ""
 
 msgid "AiPowered|This setting requires Allow flow execution to be on"
 msgstr ""
 
 msgid "AiPowered|This setting requires GitLab Duo availability to be on or off by default."
+msgstr ""
+
+msgid "AiPowered|To add members to the group that contains the project, see the %{linkStart}prerequisites%{linkEnd}."
 msgstr ""
 
 msgid "AiPowered|Track credit consumption across your users and monitor usage trends. View breakdowns by user to understand how your team utilizes GitLab Duo."
@@ -7727,7 +7807,10 @@ msgstr ""
 msgid "AiPowered|Upgrade to"
 msgstr ""
 
-msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation. Learn more about %{linkStart}GitLab Credit pricing%{linkEnd}."
+msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation."
+msgstr ""
+
+msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation. Learn more about %{linkStart}GitLab Credit pricing.%{linkEnd}"
 msgstr ""
 
 msgid "AiPowered|Use beta models and features in GitLab Duo Self-Hosted"
@@ -10292,9 +10375,6 @@ msgstr ""
 msgid "AsanaService|User personal access token. User must have access to the task. All comments are attributed to this user."
 msgstr ""
 
-msgid "Ask GitLab Duo"
-msgstr ""
-
 msgid "Ask GitLab Duo to help you write descriptions, rewrite existing text and more..."
 msgstr ""
 
@@ -11555,6 +11635,9 @@ msgstr ""
 msgid "BillingPlans|Control who can approve merge requests to ensure code quality and compliance."
 msgstr ""
 
+msgid "BillingPlans|Credits"
+msgstr ""
+
 msgid "BillingPlans|Cross-team project management"
 msgstr ""
 
@@ -11657,6 +11740,12 @@ msgstr ""
 msgid "BillingPlans|Get unlimited user licenses, which includes guest user licenses, up from a maximum of 5 users on the Free plan."
 msgstr ""
 
+msgid "BillingPlans|GitLab Credits"
+msgstr ""
+
+msgid "BillingPlans|GitLab Credits - Monthly committed pool"
+msgstr ""
+
 msgid "BillingPlans|GitLab Duo Agent Platform"
 msgstr ""
 
@@ -11688,6 +11777,9 @@ msgid "BillingPlans|Includes $12 in GitLab Credits per user per month"
 msgstr ""
 
 msgid "BillingPlans|Includes $24 in GitLab Credits per user per month"
+msgstr ""
+
+msgid "BillingPlans|Increase credits"
 msgstr ""
 
 msgid "BillingPlans|Introducing GitLab Duo Enterprise"
@@ -11729,6 +11821,9 @@ msgstr ""
 msgid "BillingPlans|Merge trains"
 msgstr ""
 
+msgid "BillingPlans|Monthly commitments offer significant discounts off list price. Pool GitLab Credits across your namespace for flexibility and predictable monthly costs."
+msgstr ""
+
 msgid "BillingPlans|Multi-region support"
 msgstr ""
 
@@ -11762,6 +11857,15 @@ msgstr ""
 msgid "BillingPlans|Protected Environments"
 msgstr ""
 
+msgid "BillingPlans|Purchase credits"
+msgstr ""
+
+msgid "BillingPlans|Purchase monthly commitment"
+msgstr ""
+
+msgid "BillingPlans|Purchase monthly credits for your group and unlock AI capabilities. Credits start at $1, with volume discounts available."
+msgstr ""
+
 msgid "BillingPlans|Push Rules"
 msgstr ""
 
@@ -11780,6 +11884,9 @@ msgstr ""
 msgid "BillingPlans|Safeguard testing and production environments by restricting deployment access to authorized users only."
 msgstr ""
 
+msgid "BillingPlans|Save on GitLab Credits with monthly commitments"
+msgstr ""
+
 msgid "BillingPlans|Scale with Confidence"
 msgstr ""
 
@@ -11787,6 +11894,9 @@ msgid "BillingPlans|Seats in use"
 msgstr ""
 
 msgid "BillingPlans|See all %{plan_name} features"
+msgstr ""
+
+msgid "BillingPlans|See all features"
 msgstr ""
 
 msgid "BillingPlans|Software Supply Chain Security"
@@ -11802,6 +11912,9 @@ msgid "BillingPlans|Start a free GitLab Duo Enterprise Trial"
 msgstr ""
 
 msgid "BillingPlans|Start a free trial of GitLab Ultimate"
+msgstr ""
+
+msgid "BillingPlans|Start a free trial of Ultimate with advanced enterprise security, no credit card required."
 msgstr ""
 
 msgid "BillingPlans|Start an Ultimate trial to try the complete set of features from GitLab."
@@ -11837,6 +11950,9 @@ msgstr ""
 msgid "BillingPlans|Talk to an expert"
 msgstr ""
 
+msgid "BillingPlans|Talk to sales"
+msgstr ""
+
 msgid "BillingPlans|Team Project Management"
 msgstr ""
 
@@ -11870,6 +11986,9 @@ msgstr ""
 msgid "BillingPlans|Try GitLab Duo Pro"
 msgstr ""
 
+msgid "BillingPlans|Try for free"
+msgstr ""
+
 msgid "BillingPlans|Ultimate"
 msgstr ""
 
@@ -11900,6 +12019,9 @@ msgstr ""
 msgid "BillingPlans|Value Stream Management"
 msgstr ""
 
+msgid "BillingPlans|View Usage"
+msgstr ""
+
 msgid "BillingPlans|Visibility & Incident Response"
 msgstr ""
 
@@ -11921,7 +12043,16 @@ msgstr ""
 msgid "BillingPlans|Your AI companion throughout development"
 msgstr ""
 
+msgid "BillingPlans|Your group is on %{planName}"
+msgstr ""
+
+msgid "BillingPlans|Your monthly credit commitment is shared across all members of the group. Credits reset at the start of each billing cycle."
+msgstr ""
+
 msgid "BillingPlans|Your trial has %{days} days left."
+msgstr ""
+
+msgid "BillingPlans|a trial of GitLab Ultimate"
 msgstr ""
 
 msgid "BillingPlans|a trial of Ultimate"
@@ -11952,6 +12083,9 @@ msgid "BillingPlans|per user"
 msgstr ""
 
 msgid "BillingPlans|per user/month,"
+msgstr ""
+
+msgid "BillingPlans|per user/month, billed annually"
 msgstr ""
 
 msgid "BillingPlans|projects"
@@ -14050,6 +14184,9 @@ msgstr ""
 msgid "CSV is being generated and will be emailed to you upon completion."
 msgstr ""
 
+msgid "CVE"
+msgstr ""
+
 msgid "CVE|As a maintainer, requesting a CVE for a vulnerability in your project will help your users stay secure and informed."
 msgstr ""
 
@@ -14081,6 +14218,9 @@ msgid "CVS|Container Scanning for Registry is enabled"
 msgstr ""
 
 msgid "CVS|Only a project maintainer or owner can toggle this feature."
+msgstr ""
+
+msgid "CWE"
 msgstr ""
 
 msgid "Cache search results for %{label}"
@@ -19502,6 +19642,9 @@ msgstr ""
 msgid "Confidentiality"
 msgstr ""
 
+msgid "Configuration"
+msgstr ""
+
 msgid "Configuration help"
 msgstr ""
 
@@ -23355,6 +23498,9 @@ msgstr ""
 msgid "Data Analyst"
 msgstr ""
 
+msgid "Data Explorer"
+msgstr ""
+
 msgid "Data is still calculating…"
 msgstr ""
 
@@ -23823,6 +23969,9 @@ msgid "Delete comment"
 msgstr ""
 
 msgid "Delete comment template"
+msgstr ""
+
+msgid "Delete comment, @%{username}"
 msgstr ""
 
 msgid "Delete comment?"
@@ -26072,6 +26221,9 @@ msgstr ""
 msgid "DuoAgentPlatform|Job ID"
 msgstr ""
 
+msgid "DuoAgentPlatform|No GitLab Credits remain for this billing period. %{linkStart}Learn more.%{linkEnd}"
+msgstr ""
+
 msgid "DuoAgentPlatform|Remote GitLab Duo Flows"
 msgstr ""
 
@@ -26156,7 +26308,7 @@ msgstr ""
 msgid "DuoAgenticChat|Purchase more credits or turn off the Agentic toggle to start a new conversation."
 msgstr ""
 
-msgid "DuoAgenticChat|Return to Classic Chat"
+msgid "DuoAgenticChat|Return to non-agentic Chat"
 msgstr ""
 
 msgid "DuoAgenticChat|Select default namespace"
@@ -26168,10 +26320,10 @@ msgstr ""
 msgid "DuoAgenticChat|This chat was deleted."
 msgstr ""
 
-msgid "DuoAgenticChat|To use Agentic Chat, select a default namespace in your %{preferencesLinkStart}user profile preferences%{preferencesLinkEnd}. Alternatively, turn off the  %{agenticModeStart}Agentic toggle%{agenticModeEnd} to return to Classic Chat."
+msgid "DuoAgenticChat|To use Chat, select a default namespace in your %{preferencesLinkStart}user profile preferences%{preferencesLinkEnd}. Alternatively, turn off the  %{agenticModeStart}Agentic toggle%{agenticModeEnd} to return to non-agentic Chat."
 msgstr ""
 
-msgid "DuoAgenticChat|To use Agentic Chat, select a default namespace in your user profile preferences. Alternatively, turn off the Agentic toggle to return to Classic Chat."
+msgid "DuoAgenticChat|To use Chat, select a default namespace in your user profile preferences. Alternatively, turn off the Agentic toggle to return to non-agentic Chat."
 msgstr ""
 
 msgid "DuoAgenticChat|Unable to connect to workflow service. Please try again."
@@ -26480,12 +26632,6 @@ msgstr ""
 msgid "DuoAgentsPlatform|You don't have permission to use GitLab Duo Agent Platform in this %{namespaceType}. %{learnMoreLinkStart}Learn more%{learnMoreLinkEnd}."
 msgstr ""
 
-msgid "DuoChat|%{linkStart}Learn how%{linkEnd} to set up Code Suggestions and Chat in your IDE. You can also use Chat in GitLab. Ask questions about:"
-msgstr ""
-
-msgid "DuoChat|AI features are now available"
-msgstr ""
-
 msgid "DuoChat|Agentic"
 msgstr ""
 
@@ -26504,9 +26650,6 @@ msgstr ""
 msgid "DuoChat|Give feedback"
 msgstr ""
 
-msgid "DuoChat|How to use GitLab"
-msgstr ""
-
 msgid "DuoChat|Included references"
 msgstr ""
 
@@ -26519,9 +26662,6 @@ msgstr ""
 msgid "DuoChat|Search %{categoryLabel}…"
 msgstr ""
 
-msgid "DuoChat|The issue, epic, merge request, or code you're viewing"
-msgstr ""
-
 msgid "DuoChat|There was an error communicating with GitLab Duo Chat. Please try again later."
 msgstr ""
 
@@ -26531,10 +26671,22 @@ msgstr ""
 msgid "DuoCodeReview|:warning: %{user_reference}, you don't have permission to create a pipeline for Code Review Flow in this project. Contact your administrator to update your permissions."
 msgstr ""
 
-msgid "DuoCodeReview|:warning: %{user_reference}, you need to set a default namespace to use Code Review Flow in this project. Please set a default GitLab Duo namespace in your [preferences](%{docs_url})."
+msgid "DuoCodeReview|:warning: %{user_reference}, you need to set a default GitLab Duo namespace to use Code Review Flow in this project. Please set a default GitLab Duo namespace in your [preferences](%{docs_url})."
+msgstr ""
+
+msgid "DuoCodeReview|:warning: Code Review Flow could not add the service account to this project. Contact your administrator to verify that the service account has the required project access."
+msgstr ""
+
+msgid "DuoCodeReview|:warning: Code Review Flow could not create the required CI/CD pipeline. Please request a new review. If the problem persists, contact your administrator."
+msgstr ""
+
+msgid "DuoCodeReview|:warning: Code Review Flow could not obtain the required authentication tokens to connect to the GitLab AI Gateway and API. Please request a new review. If the issue persists, contact your administrator."
 msgstr ""
 
 msgid "DuoCodeReview|:warning: Code Review Flow is enabled but the service account needs to be verified. Contact your administrator."
+msgstr ""
+
+msgid "DuoCodeReview|:warning: Code Review Flow is not available for this project. Contact your administrator to verify that the flow is enabled and the required configuration is in place."
 msgstr ""
 
 msgid "DuoCodeReview|:warning: Code Review Flow is not enabled. Contact your group administrator to enable the foundational flow in the top-level group."
@@ -26858,6 +27010,9 @@ msgstr ""
 msgid "DuoFeatures|View examples of exclusions."
 msgstr ""
 
+msgid "DuoFoundationalFlows|:warning: %{user_reference}, you need to set a default GitLab Duo namespace to use this flow. Please set a default GitLab Duo namespace in your %{link_start}preferences%{link_end}."
+msgstr ""
+
 msgid "DuoProDiscover|A single platform integrates the best AI model for each use case across the entire development workflow."
 msgstr ""
 
@@ -26976,6 +27131,12 @@ msgid "DuoSAST|Use false positive detection for vulnerabilities on the default b
 msgstr ""
 
 msgid "DuoSAST|Use vulnerability resolution workflow for vulnerabilities on the default branch"
+msgstr ""
+
+msgid "DuoSecretDetection|Turn on Secret Detection false positive detection"
+msgstr ""
+
+msgid "DuoSecretDetection|Use false positive detection for Secret Detection vulnerabilities on the default branch"
 msgstr ""
 
 msgid "DuoTrialDiscover|Ask questions, explore concepts, test ideas, and receive instant feedback directly in your workflow."
@@ -27134,6 +27295,9 @@ msgid "Edit comment"
 msgstr ""
 
 msgid "Edit comment template"
+msgstr ""
+
+msgid "Edit comment, @%{username}"
 msgstr ""
 
 msgid "Edit commit message"
@@ -31042,6 +31206,12 @@ msgstr ""
 msgid "Geo|1000+ Registries"
 msgstr ""
 
+msgid "Geo|Abuse Report Upload"
+msgstr ""
+
+msgid "Geo|Abuse Report Uploads"
+msgstr ""
+
 msgid "Geo|Add New Site"
 msgstr ""
 
@@ -32999,6 +33169,9 @@ msgstr ""
 msgid "GlobalSearch|Wiki"
 msgstr ""
 
+msgid "GlobalSearch|Work items"
+msgstr ""
+
 msgid "GlobalSearch|Your work"
 msgstr ""
 
@@ -33135,9 +33308,6 @@ msgid "Go to the group’s 'Settings &gt; General' page, and check 'Restrict mem
 msgstr ""
 
 msgid "Go to the milestone list"
-msgstr ""
-
-msgid "Go to the pipeline editor"
 msgstr ""
 
 msgid "Go to the project's activity feed"
@@ -35629,7 +35799,7 @@ msgstr ""
 msgid "IdentityVerification|For added security, you'll need to verify your identity."
 msgstr ""
 
-msgid "IdentityVerification|GitLab will not charge or store your payment information, it will only be used for verification."
+msgid "IdentityVerification|GitLab does not make any charges or store the details of your credit or debit card. Verification is not connected to any billing information for your groups."
 msgstr ""
 
 msgid "IdentityVerification|Having trouble? %{codeLinkStart}Send a new code%{codeLinkEnd}, %{phoneLinkStart}enter a new phone number%{phoneLinkEnd}, or %{supportLinkStart}contact support%{supportLinkEnd}."
@@ -35666,9 +35836,6 @@ msgid "IdentityVerification|If you have not tried to sign into your account, we 
 msgstr ""
 
 msgid "IdentityVerification|Maximum login attempts exceeded. Wait %{interval} and try again."
-msgstr ""
-
-msgid "IdentityVerification|Payment Method Verification"
 msgstr ""
 
 msgid "IdentityVerification|Phone Number Verification"
@@ -35716,7 +35883,7 @@ msgstr ""
 msgid "IdentityVerification|Step %{stepIndex} of %{totalSteps}"
 msgstr ""
 
-msgid "IdentityVerification|Step %{stepNumber}: Verify a payment method"
+msgid "IdentityVerification|Step %{stepNumber}: Verify credit card"
 msgstr ""
 
 msgid "IdentityVerification|Step %{stepNumber}: Verify email address"
@@ -35755,13 +35922,13 @@ msgstr ""
 msgid "IdentityVerification|Verify code"
 msgstr ""
 
+msgid "IdentityVerification|Verify credit card"
+msgstr ""
+
 msgid "IdentityVerification|Verify email address"
 msgstr ""
 
 msgid "IdentityVerification|Verify my account"
-msgstr ""
-
-msgid "IdentityVerification|Verify payment method"
 msgstr ""
 
 msgid "IdentityVerification|Verify phone number"
@@ -35818,7 +35985,7 @@ msgstr ""
 msgid "IdentityVerification|You've reached the maximum amount of tries. Wait %{interval} or send a new code and try again."
 msgstr ""
 
-msgid "IdentityVerification|Your account has been successfully verified. You'll be redirected to your account in just a moment. You can also %{redirect_url_start}refresh the page%{redirect_url_end}."
+msgid "IdentityVerification|Your account has been successfully verified. You'll be redirected to your account in just a moment. You can also %{link_start}refresh the page%{link_end}."
 msgstr ""
 
 msgid "IdentityVerification|Your verification code expires after %{expires_in_minutes} minutes."
@@ -36421,16 +36588,7 @@ msgstr ""
 msgid "InProductMarketing|Accelerate delivery with GitLab Ultimate + GitLab Duo Agent Platform"
 msgstr ""
 
-msgid "InProductMarketing|Boost efficiency and collaboration"
-msgstr ""
-
 msgid "InProductMarketing|Built-in security"
-msgstr ""
-
-msgid "InProductMarketing|End-to-end security and compliance"
-msgstr ""
-
-msgid "InProductMarketing|Enjoy %{duration} days of full access to our best plan, after which you'll have access to our free tier forever. Upgrade to the best plan that suits you at any point - Premium or Ultimate."
 msgstr ""
 
 msgid "InProductMarketing|Ensure compliance"
@@ -36445,37 +36603,19 @@ msgstr ""
 msgid "InProductMarketing|Get Started with GitLab"
 msgstr ""
 
-msgid "InProductMarketing|GitLab Duo Agent Platform: AI across the software development lifecycle"
-msgstr ""
-
-msgid "InProductMarketing|GitLab Duo Enterprise: AI across the software development lifecycle"
-msgstr ""
-
 msgid "InProductMarketing|Invite unlimited colleagues"
 msgstr ""
 
 msgid "InProductMarketing|No credit card required."
 msgstr ""
 
-msgid "InProductMarketing|One platform for Dev, Sec, and Ops teams"
-msgstr ""
-
-msgid "InProductMarketing|Ship secure software faster"
-msgstr ""
-
 msgid "InProductMarketing|Start a Self-Managed trial"
-msgstr ""
-
-msgid "InProductMarketing|Start with Self-Managed"
 msgstr ""
 
 msgid "InProductMarketing|Support compliance"
 msgstr ""
 
 msgid "InProductMarketing|Team members collaborating"
-msgstr ""
-
-msgid "InProductMarketing|Trusted by"
 msgstr ""
 
 msgid "InProductMarketing|Try our most advanced features, including GitLab Duo Agent Platform to automate development tasks with AI agents. After your %{duration}-day trial, continue with free features or upgrade to unlock the full value of GitLab."
@@ -38248,6 +38388,16 @@ msgstr ""
 msgid "IterationsCadence|The automation start date would retroactively create a past iteration. %{start_date} is the earliest possible start date."
 msgstr ""
 
+msgid "Iterations|%d iteration"
+msgid_plural "Iterations|%d iterations"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Iterations|%d week"
+msgid_plural "Iterations|%d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Iterations|Add iteration"
 msgstr ""
 
@@ -38261,9 +38411,6 @@ msgid "Iterations|Automatic scheduling"
 msgstr ""
 
 msgid "Iterations|Automation start date"
-msgstr ""
-
-msgid "Iterations|Cadence configuration is invalid."
 msgstr ""
 
 msgid "Iterations|Cadence name"
@@ -38359,16 +38506,13 @@ msgstr ""
 msgid "Iterations|Open"
 msgstr ""
 
+msgid "Iterations|Required fields missing."
+msgstr ""
+
 msgid "Iterations|Roll over issues"
 msgstr ""
 
 msgid "Iterations|Save changes"
-msgstr ""
-
-msgid "Iterations|Select duration"
-msgstr ""
-
-msgid "Iterations|Select number"
 msgstr ""
 
 msgid "Iterations|Select start date"
@@ -38380,7 +38524,7 @@ msgstr ""
 msgid "Iterations|The date of the first iteration to schedule. This date determines the day of the week when each iteration starts."
 msgstr ""
 
-msgid "Iterations|The duration of each iteration (in weeks)."
+msgid "Iterations|The duration of each iteration."
 msgstr ""
 
 msgid "Iterations|The iteration has been deleted."
@@ -40723,7 +40867,13 @@ msgstr ""
 msgid "LicenseCompliance|Allowed"
 msgstr ""
 
+msgid "LicenseCompliance|Collapse License Compliance details"
+msgstr ""
+
 msgid "LicenseCompliance|Denied"
+msgstr ""
+
+msgid "LicenseCompliance|Expand License Compliance details"
 msgstr ""
 
 msgid "LicenseCompliance|License Compliance detected %d license"
@@ -41979,6 +42129,9 @@ msgstr ""
 msgid "Maximum projects allowed in the filter is %{count}"
 msgstr ""
 
+msgid "Maximum projects for legacy search"
+msgstr ""
+
 msgid "Maximum push size"
 msgstr ""
 
@@ -43154,6 +43307,12 @@ msgstr ""
 msgid "MergeRequest|Viewed by me"
 msgstr ""
 
+msgid "MergeRequest|latest version"
+msgstr ""
+
+msgid "MergeRequest|version %{versionIndex}"
+msgstr ""
+
 msgid "MergeTopics|%{sourceTopic} will be removed"
 msgstr ""
 
@@ -44254,9 +44413,6 @@ msgstr ""
 msgid "ModelSelection|Manage GitLab Duo by configuring and assigning models to AI-native features."
 msgstr ""
 
-msgid "ModelSelection|Model Selection"
-msgstr ""
-
 msgid "ModelSelection|Model Selection is enabled for GitLab Duo, which requires a default namespace to be set. You must select a default namespace in profile preferences to continue using GitLab Duo features."
 msgstr ""
 
@@ -44332,6 +44488,9 @@ msgstr ""
 msgid "More actions"
 msgstr ""
 
+msgid "More actions for @%{username}"
+msgstr ""
+
 msgid "More details"
 msgstr ""
 
@@ -44354,6 +44513,9 @@ msgid "More topics"
 msgstr ""
 
 msgid "Most common"
+msgstr ""
+
+msgid "Most recent commit."
 msgstr ""
 
 msgid "Most relevant"
@@ -44443,10 +44605,16 @@ msgstr ""
 msgid "MrReports|Blockers"
 msgstr ""
 
+msgid "MrReports|License compliance"
+msgstr ""
+
 msgid "MrReports|Reports"
 msgstr ""
 
 msgid "MrReports|Security scan"
+msgstr ""
+
+msgid "MrReports|View report"
 msgstr ""
 
 msgid "Multiple IP address ranges are supported. Does not affect access to the group's settings."
@@ -44507,9 +44675,6 @@ msgid "My topic"
 msgstr ""
 
 msgid "N/A"
-msgstr ""
-
-msgid "NEW"
 msgstr ""
 
 msgid "Name"
@@ -46575,6 +46740,9 @@ msgstr ""
 msgid "Number of parallel processes per indexing task"
 msgstr ""
 
+msgid "Number of projects"
+msgstr ""
+
 msgid "Number of references exceeds the limit. Please provide no more than %{refs_limit} references at the same time."
 msgstr ""
 
@@ -46612,6 +46780,9 @@ msgid "OKRs|%{author_link}'s OKR %{work_item_link} requires an update."
 msgstr ""
 
 msgid "OKRs|An update is due on: %{update_due_date}"
+msgstr ""
+
+msgid "OWASP"
 msgstr ""
 
 msgid "Object does not exist on the server or you don't have permissions to access it"
@@ -46800,9 +46971,6 @@ msgstr ""
 msgid "Observability|32+ character encryption key for secure communication."
 msgstr ""
 
-msgid "Observability|API monitoring"
-msgstr ""
-
 msgid "Observability|APM & performance"
 msgstr ""
 
@@ -46908,10 +47076,10 @@ msgstr ""
 msgid "Observability|Danger Zone"
 msgstr ""
 
-msgid "Observability|Dashboard"
+msgid "Observability|Dashboard templates and use cases"
 msgstr ""
 
-msgid "Observability|Dashboard templates and use cases"
+msgid "Observability|Dashboards"
 msgstr ""
 
 msgid "Observability|Delete"
@@ -46969,6 +47137,9 @@ msgid "Observability|Experience the power of GitLab Observability with real-time
 msgstr ""
 
 msgid "Observability|Experimental functionality"
+msgstr ""
+
+msgid "Observability|External APIs"
 msgstr ""
 
 msgid "Observability|Failed to create O11y service settings"
@@ -47055,7 +47226,7 @@ msgstr ""
 msgid "Observability|Includes Logs, Traces and Metrics. %{learnMoreLink}"
 msgstr ""
 
-msgid "Observability|Infrastructure monitoring"
+msgid "Observability|Infrastructure"
 msgstr ""
 
 msgid "Observability|Initializing your Observability service"
@@ -47103,7 +47274,7 @@ msgstr ""
 msgid "Observability|Loading..."
 msgstr ""
 
-msgid "Observability|Logs explorer"
+msgid "Observability|Logs"
 msgstr ""
 
 msgid "Observability|Manage your o11y service connection settings."
@@ -47115,7 +47286,7 @@ msgstr ""
 msgid "Observability|Messaging queues"
 msgstr ""
 
-msgid "Observability|Metrics explorer"
+msgid "Observability|Metrics"
 msgstr ""
 
 msgid "Observability|Monitor application performance with detailed metrics, response times, and system health indicators in real-time dashboards."
@@ -47277,7 +47448,7 @@ msgstr ""
 msgid "Observability|To widen your search, change or remove filters above"
 msgstr ""
 
-msgid "Observability|Traces explorer"
+msgid "Observability|Traces"
 msgstr ""
 
 msgid "Observability|Tracing, Metrics & Logs"
@@ -48100,6 +48271,48 @@ msgid "Optionally, you can %{link_to_customize} how FogBugz email addresses and 
 msgstr ""
 
 msgid "Options"
+msgstr ""
+
+msgid "Orbit"
+msgstr ""
+
+msgid "Orbit|Configuration"
+msgstr ""
+
+msgid "Orbit|Data Explorer"
+msgstr ""
+
+msgid "Orbit|Enable"
+msgstr ""
+
+msgid "Orbit|Enable Orbit for a top-level group to index its projects and make them queryable"
+msgstr ""
+
+msgid "Orbit|Failed to load groups. Please try again."
+msgstr ""
+
+msgid "Orbit|Failed to update group setting. Please try again."
+msgstr ""
+
+msgid "Orbit|Indexed"
+msgstr ""
+
+msgid "Orbit|Indexes"
+msgstr ""
+
+msgid "Orbit|Indexing…"
+msgstr ""
+
+msgid "Orbit|Not indexed"
+msgstr ""
+
+msgid "Orbit|Only top-level groups can be indexed"
+msgstr ""
+
+msgid "Orbit|Orbit"
+msgstr ""
+
+msgid "Orbit|Schema"
 msgstr ""
 
 msgid "Ordered list"
@@ -50938,9 +51151,6 @@ msgid "Pipelines|Use a template based on your project's language or framework to
 msgstr ""
 
 msgid "Pipelines|Use template"
-msgstr ""
-
-msgid "Pipelines|Using %{codeStart}inputs%{codeEnd} to control pipeline behavior offers improved security and flexibility. Consider updating your pipelines to use %{codeStart}inputs%{codeEnd} instead."
 msgstr ""
 
 msgid "Pipelines|Validate"
@@ -55562,6 +55772,12 @@ msgstr ""
 msgid "Provisioned by:"
 msgstr ""
 
+msgid "Proxy Kroki diagrams through GitLab"
+msgstr ""
+
+msgid "Proxy PlantUML diagrams through GitLab"
+msgstr ""
+
 msgid "Public"
 msgstr ""
 
@@ -56875,6 +57091,9 @@ msgstr ""
 msgid "Reply internally"
 msgstr ""
 
+msgid "Reply to @%{username}"
+msgstr ""
+
 msgid "Reply to comment"
 msgstr ""
 
@@ -56999,10 +57218,22 @@ msgstr ""
 msgid "Reports|Base report parsing error:"
 msgstr ""
 
+msgid "Reports|Collapse metrics report details"
+msgstr ""
+
+msgid "Reports|Collapse test summary"
+msgstr ""
+
 msgid "Reports|Copy failed test names to run locally"
 msgstr ""
 
 msgid "Reports|Copy failed tests"
+msgstr ""
+
+msgid "Reports|Expand metrics report details"
+msgstr ""
+
+msgid "Reports|Expand test summary"
 msgstr ""
 
 msgid "Reports|Failed %{count} time in %{baseBranch} in the last 14 days"
@@ -57055,9 +57286,6 @@ msgid "Reports|Test summary results are being parsed"
 msgstr ""
 
 msgid "Reports|View partial report"
-msgstr ""
-
-msgid "Reports|metrics report"
 msgstr ""
 
 msgid "Repositories Analytics"
@@ -57521,6 +57749,9 @@ msgid "Resolve source branch %{source_branch_name} conflicts using interactive m
 msgstr ""
 
 msgid "Resolve thread"
+msgstr ""
+
+msgid "Resolve, @%{username}"
 msgstr ""
 
 msgid "Resolved"
@@ -58954,6 +59185,9 @@ msgstr ""
 msgid "Runners|Token expiry"
 msgstr ""
 
+msgid "Runners|Token rotation deadline has passed"
+msgstr ""
+
 msgid "Runners|Top projects consuming group runners"
 msgstr ""
 
@@ -59081,6 +59315,27 @@ msgid "Runners|Zone must have the right format."
 msgstr ""
 
 msgid "Runners|documentation"
+msgstr ""
+
+msgid "Runners|token_expires_at is required when token_rotation_deadline is specified"
+msgstr ""
+
+msgid "Runners|token_expires_at is too far in the future (maximum is %{maximum})"
+msgstr ""
+
+msgid "Runners|token_expires_at must be a valid time"
+msgstr ""
+
+msgid "Runners|token_expires_at must be at least %{minimum} in the future"
+msgstr ""
+
+msgid "Runners|token_rotation_deadline cannot be in the past"
+msgstr ""
+
+msgid "Runners|token_rotation_deadline must be a valid time"
+msgstr ""
+
+msgid "Runners|token_rotation_deadline must be less than or equal to token_expires_at"
 msgstr ""
 
 msgid "Runner|1 day selected"
@@ -59562,10 +59817,25 @@ msgstr ""
 msgid "ScanExecutionPolicy|selected automatically"
 msgstr ""
 
+msgid "ScanProfiles|A scan is automatically run each time new commits are pushed to a branch associated with an open merge request. The full repository is scanned, but only vulnerabilities introduced by the merge request are highlighted. This helps identify security issues early, before code is merged."
+msgstr ""
+
+msgid "ScanProfiles|A scan is automatically run when changes are merged or pushed to the default branch. All vulnerabilities found are reported, providing a complete picture of your default branch's security posture."
+msgstr ""
+
+msgid "ScanProfiles|All"
+msgstr ""
+
+msgid "ScanProfiles|All vulnerabilities"
+msgstr ""
+
 msgid "ScanProfiles|Apply profile"
 msgstr ""
 
 msgid "ScanProfiles|Block secrets such as keys and API tokens from being pushed to your repositories. Secret detection is triggered when commits are pushed to a repository. If any secrets are detected, the push is blocked."
+msgstr ""
+
+msgid "ScanProfiles|Branch Pipelines (default only)"
 msgstr ""
 
 msgid "ScanProfiles|Configuration profiles are reusable settings templates for security tools. Create and manage profiles once, then apply them to multiple projects to ensure consistent security coverage."
@@ -59574,10 +59844,25 @@ msgstr ""
 msgid "ScanProfiles|Currently active"
 msgstr ""
 
+msgid "ScanProfiles|Default"
+msgstr ""
+
+msgid "ScanProfiles|Full repository"
+msgstr ""
+
 msgid "ScanProfiles|General Details"
 msgstr ""
 
 msgid "ScanProfiles|Information about this configuration profile."
+msgstr ""
+
+msgid "ScanProfiles|Merge Request Pipelines"
+msgstr ""
+
+msgid "ScanProfiles|New vulnerabilities only"
+msgstr ""
+
+msgid "ScanProfiles|Results:"
 msgstr ""
 
 msgid "ScanProfiles|Scan all Git push events and block pushes with detected secrets."
@@ -59586,10 +59871,22 @@ msgstr ""
 msgid "ScanProfiles|Scan triggers"
 msgstr ""
 
+msgid "ScanProfiles|Scans commits to the default branch"
+msgstr ""
+
+msgid "ScanProfiles|Scans new commits to merge requests · All branches"
+msgstr ""
+
+msgid "ScanProfiles|Scope:"
+msgstr ""
+
 msgid "ScanProfiles|Secret detection profile"
 msgstr ""
 
 msgid "ScanProfiles|Secret push protection"
+msgstr ""
+
+msgid "ScanProfiles|Target branch:"
 msgstr ""
 
 msgid "ScanProfiles|View documentation"
@@ -60126,7 +60423,7 @@ msgstr ""
 msgid "ScanResultPolicy|denylist (%{licenseCount} %{licenses})"
 msgstr ""
 
-msgid "ScanResultPolicy|greater than or equal to"
+msgid "ScanResultPolicy|greater than"
 msgstr ""
 
 msgid "ScanResultPolicy|input source branch"
@@ -60135,7 +60432,7 @@ msgstr ""
 msgid "ScanResultPolicy|input target branch"
 msgstr ""
 
-msgid "ScanResultPolicy|less than or equal to"
+msgid "ScanResultPolicy|less than"
 msgstr ""
 
 msgid "ScanResultPolicy|license status"
@@ -60202,6 +60499,9 @@ msgid "ScheduledJob|delayed manual action (%{remainingTime})"
 msgstr ""
 
 msgid "Schedules"
+msgstr ""
+
+msgid "Schema"
 msgstr ""
 
 msgid "Scope"
@@ -61221,9 +61521,6 @@ msgstr ""
 msgid "SecurityConfiguration|Available with Ultimate"
 msgstr ""
 
-msgid "SecurityConfiguration|Available with Ultimate. Enabled by default for all public projects."
-msgstr ""
-
 msgid "SecurityConfiguration|Configuration guide"
 msgstr ""
 
@@ -61763,6 +62060,9 @@ msgstr ""
 msgid "SecurityOrchestration|%{cadence} on %{branches}%{timeWindowInfo}%{branchExceptionsString}"
 msgstr ""
 
+msgid "SecurityOrchestration|%{count} pipelines/hour"
+msgstr ""
+
 msgid "SecurityOrchestration|%{hours}"
 msgstr ""
 
@@ -61892,6 +62192,9 @@ msgid "SecurityOrchestration|Add protected branches"
 msgstr ""
 
 msgid "SecurityOrchestration|Add regular branches"
+msgstr ""
+
+msgid "SecurityOrchestration|Add values"
 msgstr ""
 
 msgid "SecurityOrchestration|Additional configuration"
@@ -62026,6 +62329,9 @@ msgstr ""
 msgid "SecurityOrchestration|Back to standard editor"
 msgstr ""
 
+msgid "SecurityOrchestration|Begin test run"
+msgstr ""
+
 msgid "SecurityOrchestration|Branch exceptions (%{count})"
 msgstr ""
 
@@ -62090,6 +62396,9 @@ msgid "SecurityOrchestration|Code push"
 msgstr ""
 
 msgid "SecurityOrchestration|Comments are required when bypassing policies."
+msgstr ""
+
+msgid "SecurityOrchestration|Completed: %{time}"
 msgstr ""
 
 msgid "SecurityOrchestration|Compliance and security policy group"
@@ -62284,6 +62593,9 @@ msgstr ""
 msgid "SecurityOrchestration|Excluded projects"
 msgstr ""
 
+msgid "SecurityOrchestration|Execution time: %{time}"
+msgstr ""
+
 msgid "SecurityOrchestration|Exploit settings"
 msgstr ""
 
@@ -62381,6 +62693,9 @@ msgid "SecurityOrchestration|If one or more %{securityPoliciesPathStart}security
 msgstr ""
 
 msgid "SecurityOrchestration|If vulnerabilities are automatically dismissed when found under following criteria:"
+msgstr ""
+
+msgid "SecurityOrchestration|If vulnerabilities have one of the following identifiers:"
 msgstr ""
 
 msgid "SecurityOrchestration|In each pipeline, a %{boldStart}maximum of 1000%{boldEnd} vulnerabilities that are %{italicStart}no longer detected%{italicEnd} will be set to status %{italicStart}Resolved%{italicEnd} until all have been auto-resolved."
@@ -62577,6 +62892,9 @@ msgstr ""
 msgid "SecurityOrchestration|Only project approval settings will take effect"
 msgstr ""
 
+msgid "SecurityOrchestration|Only projects where you have owner permissions are shown"
+msgstr ""
+
 msgid "SecurityOrchestration|Open policy actions dropdown"
 msgstr ""
 
@@ -62688,6 +63006,14 @@ msgstr ""
 msgid "SecurityOrchestration|Reason for snoozing policy (optional)"
 msgstr ""
 
+msgid "SecurityOrchestration|Recommended"
+msgstr ""
+
+msgid "SecurityOrchestration|Recommended (%{count} scanner)"
+msgid_plural "SecurityOrchestration|Recommended (%{count} scanners)"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "SecurityOrchestration|Recommended selection"
 msgstr ""
 
@@ -62712,6 +63038,9 @@ msgstr ""
 msgid "SecurityOrchestration|Resolved"
 msgstr ""
 
+msgid "SecurityOrchestration|Results of most recent test"
+msgstr ""
+
 msgid "SecurityOrchestration|Roles"
 msgstr ""
 
@@ -62734,6 +63063,12 @@ msgid "SecurityOrchestration|Run %{scannerStart}%{scanner}%{scannerEnd} with the
 msgstr ""
 
 msgid "SecurityOrchestration|Run a %{scannerStart}%{scanner}%{scannerEnd} scan with the following options:"
+msgstr ""
+
+msgid "SecurityOrchestration|Run a test to understand how this policy will impact your infrastructure before enabling it across all projects. The test executes real pipelines to provide accurate timing and resource estimates."
+msgstr ""
+
+msgid "SecurityOrchestration|Run a test to understand how this policy will impact your infrastructure before enabling it on this project. The test executes real pipelines to provide accurate timing and resource estimates."
 msgstr ""
 
 msgid "SecurityOrchestration|Run scans for merge request pipelines targeting default branches and on default branches. Optimized for MR approval policy compatibility"
@@ -62874,6 +63209,9 @@ msgstr ""
 msgid "SecurityOrchestration|Select frameworks"
 msgstr ""
 
+msgid "SecurityOrchestration|Select identifier type"
+msgstr ""
+
 msgid "SecurityOrchestration|Select list type"
 msgstr ""
 
@@ -62899,6 +63237,9 @@ msgid "SecurityOrchestration|Select source, currently selected: %{selected}"
 msgstr ""
 
 msgid "SecurityOrchestration|Select suffix"
+msgstr ""
+
+msgid "SecurityOrchestration|Select target project"
 msgstr ""
 
 msgid "SecurityOrchestration|Select type, currently selected: %{selected}"
@@ -62986,9 +63327,6 @@ msgid "SecurityOrchestration|Technical limitation"
 msgstr ""
 
 msgid "SecurityOrchestration|Template"
-msgstr ""
-
-msgid "SecurityOrchestration|Test run content coming soon"
 msgstr ""
 
 msgid "SecurityOrchestration|Test runs"
@@ -63292,6 +63630,9 @@ msgid "SecurityOrchestration|You can't unprotect this branch because its protect
 msgstr ""
 
 msgid "SecurityOrchestration|You can't unprotect this branch because its protection is enforced by one or more %{security_policies_link_start}security policies%{security_policies_link_end}. %{learn_more_link_start}Learn more%{learn_more_link_end}."
+msgstr ""
+
+msgid "SecurityOrchestration|You cannot use auto-dismiss rules with override rules."
 msgstr ""
 
 msgid "SecurityOrchestration|You do not have the permission required to edit policies"
@@ -63809,6 +64150,9 @@ msgstr ""
 msgid "SecurityReports|Cluster"
 msgstr ""
 
+msgid "SecurityReports|Collapse security scanning details"
+msgstr ""
+
 msgid "SecurityReports|Coming soon: time-based data retention limits"
 msgstr ""
 
@@ -63926,6 +64270,9 @@ msgstr ""
 msgid "SecurityReports|Error parsing security reports"
 msgstr ""
 
+msgid "SecurityReports|Expand security scanning details"
+msgstr ""
+
 msgid "SecurityReports|Export"
 msgstr ""
 
@@ -63957,9 +64304,6 @@ msgid "SecurityReports|GitLab Duo FP detection"
 msgstr ""
 
 msgid "SecurityReports|GitLab Duo resolution"
-msgstr ""
-
-msgid "SecurityReports|Go to policies"
 msgstr ""
 
 msgid "SecurityReports|Group your vulnerabilities by one of the provided categories. Leave feedback or suggestions in %{feedbackIssueStart}this issue%{feedbackIssueEnd}."
@@ -64153,9 +64497,6 @@ msgstr ""
 msgid "SecurityReports|Reachable:"
 msgstr ""
 
-msgid "SecurityReports|Recommendation: Auto-resolve when no longer detected"
-msgstr ""
-
 msgid "SecurityReports|Remove project from dashboard"
 msgstr ""
 
@@ -64306,9 +64647,6 @@ msgid "SecurityReports|This selection is required."
 msgstr ""
 
 msgid "SecurityReports|Time period"
-msgstr ""
-
-msgid "SecurityReports|To ensure that open vulnerabilities include only vulnerabilities that are still detected, use a vulnerability management policy to automatically resolve vulnerabilities that are no longer detected."
 msgstr ""
 
 msgid "SecurityReports|To widen your search, change or remove filters above"
@@ -66998,6 +67336,9 @@ msgstr ""
 msgid "Squash commits when merging"
 msgstr ""
 
+msgid "Squash option cannot be used with wildcard branch rules. Use an exact branch name."
+msgstr ""
+
 msgid "SquashSettings|Allow"
 msgstr ""
 
@@ -67285,6 +67626,9 @@ msgstr ""
 msgid "StatusCheck|Check for a status response in merge requests. %{linkStart}Learn more%{linkEnd}."
 msgstr ""
 
+msgid "StatusCheck|Collapse status checks"
+msgstr ""
+
 msgid "StatusCheck|Delete status check"
 msgstr ""
 
@@ -67292,6 +67636,9 @@ msgid "StatusCheck|Delete status check?"
 msgstr ""
 
 msgid "StatusCheck|Examples: QA, Security."
+msgstr ""
+
+msgid "StatusCheck|Expand status checks"
 msgstr ""
 
 msgid "StatusCheck|External API is already in use."
@@ -67361,9 +67708,6 @@ msgid "StatusCheck|What is status check?"
 msgstr ""
 
 msgid "StatusCheck|You are about to delete the %{name} status check."
-msgstr ""
-
-msgid "StatusCheck|status checks"
 msgstr ""
 
 msgid "StatusPage|AWS %{docsLink}"
@@ -67649,6 +67993,9 @@ msgid "SubscriptionGroupsNew|Select a group for your %{planName} subscription"
 msgstr ""
 
 msgid "SubscriptionGroupsNew|Select a group for your subscription."
+msgstr ""
+
+msgid "SubscriptionGroupsNew|The group does not have an active subscription with GitLab Credits"
 msgstr ""
 
 msgid "SubscriptionGroupsNew|The group is a top-level group on a Free tier"
@@ -68705,6 +69052,9 @@ msgstr ""
 msgid "Terraform|Cannot remove a locked state"
 msgstr ""
 
+msgid "Terraform|Collapse Terraform report details"
+msgstr ""
+
 msgid "Terraform|Copy Terraform init command"
 msgstr ""
 
@@ -68715,6 +69065,9 @@ msgid "Terraform|Details"
 msgstr ""
 
 msgid "Terraform|Download JSON"
+msgstr ""
+
+msgid "Terraform|Expand Terraform report details"
 msgstr ""
 
 msgid "Terraform|Explore documentation"
@@ -69663,9 +70016,6 @@ msgid "The user you are trying to deactivate has been active in the past %{minim
 msgstr ""
 
 msgid "The value must be a valid JSON array format: [1,2,3] or [{\"key\": \"value\"}]"
-msgstr ""
-
-msgid "The value must contain only numbers."
 msgstr ""
 
 msgid "The value must match the defined regular expression."
@@ -70843,12 +71193,6 @@ msgstr ""
 msgid "TierBadgePopover|Explore paid plans"
 msgstr ""
 
-msgid "TierBadgePopover|Get advanced features like GitLab Duo Agent Platform, merge approvals, epics, and code review analytics."
-msgstr ""
-
-msgid "TierBadgePopover|Get advanced features like merge approvals, epics, and code review analytics."
-msgstr ""
-
 msgid "TierBadgePopover|Start a free trial"
 msgstr ""
 
@@ -70856,12 +71200,6 @@ msgid "TierBadgePopover|This group and all its related projects use the %{tier} 
 msgstr ""
 
 msgid "TierBadgePopover|This project uses the %{tier} GitLab tier. %{copyEnd}"
-msgstr ""
-
-msgid "TierBadgePopover|Unlock advanced features"
-msgstr ""
-
-msgid "TierBadgePopover|Upgrade to unlock"
 msgstr ""
 
 msgid "TierBadgePopover|Want to enhance team productivity and access advanced features like Merge Approvals, Push rules, Epics, Code Review Analytics, and Container Scanning? Try all GitLab has to offer for free for %{duration} days. No credit card required."
@@ -71946,6 +72284,9 @@ msgstr ""
 msgid "Toggle the navigation sidebar"
 msgstr ""
 
+msgid "Toggle transparency checkerboard"
+msgstr ""
+
 msgid "Toggled :%{name}: emoji reaction."
 msgstr ""
 
@@ -72519,9 +72860,6 @@ msgid "Trial|Select a country or region"
 msgstr ""
 
 msgid "Trial|Select state or province"
-msgstr ""
-
-msgid "Trial|Start your free Ultimate and GitLab Duo Agent Platform trial"
 msgstr ""
 
 msgid "Trial|Start your free Ultimate and GitLab Duo Enterprise trial"
@@ -73409,6 +73747,15 @@ msgstr ""
 msgid "Upgrade to Premium"
 msgstr ""
 
+msgid "UpgradeSubscription|An error occurred while assigning your project to a group for billing. Try again or %{linkStart}learn more about pricing%{linkEnd}."
+msgstr ""
+
+msgid "UpgradeSubscription|Billing page is not available"
+msgstr ""
+
+msgid "UpgradeSubscription|Try again"
+msgstr ""
+
 msgid "Upload"
 msgstr ""
 
@@ -73513,6 +73860,12 @@ msgstr ""
 msgid "UsageBilling|An error occurred while fetching data"
 msgstr ""
 
+msgid "UsageBilling|An error occurred while fetching events list"
+msgstr ""
+
+msgid "UsageBilling|An error occurred while fetching usage data"
+msgstr ""
+
 msgid "UsageBilling|Contact sales"
 msgstr ""
 
@@ -73530,6 +73883,14 @@ msgstr ""
 
 msgid "UsageBilling|Credits used after all included user credits and monthly commitment pool have been exhausted. Learn about %{linkStart}GitLab Credit pricing%{linkEnd}."
 msgstr ""
+
+msgid "UsageBilling|Credits used this month"
+msgstr ""
+
+msgid "UsageBilling|Credits used this month, resets in %{days} day"
+msgid_plural "UsageBilling|Credits used this month, resets in %{days} days"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "UsageBilling|Daily GitLab Credits usage"
 msgstr ""
@@ -73553,15 +73914,6 @@ msgid "UsageBilling|Explore GitLab Duo"
 msgstr ""
 
 msgid "UsageBilling|GitLab Credits"
-msgstr ""
-
-msgid "UsageBilling|GitLab Credits - Monthly Waiver"
-msgstr ""
-
-msgid "UsageBilling|GitLab Credits - Monthly committed pool"
-msgstr ""
-
-msgid "UsageBilling|GitLab Credits - On Demand"
 msgstr ""
 
 msgid "UsageBilling|GitLab Credits dashboard"
@@ -73606,6 +73958,12 @@ msgstr ""
 msgid "UsageBilling|Location"
 msgstr ""
 
+msgid "UsageBilling|Monthly Committed Pool"
+msgstr ""
+
+msgid "UsageBilling|Monthly Waiver"
+msgstr ""
+
 msgid "UsageBilling|Monthly Waiver credits remaining"
 msgstr ""
 
@@ -73636,6 +73994,9 @@ msgstr ""
 msgid "UsageBilling|No users found"
 msgstr ""
 
+msgid "UsageBilling|On Demand"
+msgstr ""
+
 msgid "UsageBilling|On-demand"
 msgstr ""
 
@@ -73649,6 +74010,9 @@ msgid "UsageBilling|Save on GitLab Credits with monthly commitment"
 msgstr ""
 
 msgid "UsageBilling|Search for a user"
+msgstr ""
+
+msgid "UsageBilling|Shared pool of credits available to all users in the subscription."
 msgstr ""
 
 msgid "UsageBilling|This dashboard may not display all current subscription data. For complete visibility, please upgrade to the latest version of GitLab or visit the %{linkStart}Customer Portal%{linkEnd}."
@@ -73687,15 +74051,13 @@ msgstr ""
 msgid "UsageBilling|Usage trends"
 msgstr ""
 
-msgid "UsageBilling|Used this month"
+msgid "UsageBilling|You are currently using temporary evaluation credits to access GitLab Duo features. Your subscription's included credits for users will be available after your evaluation ends. If you have access to the %{linkStart}Customers Portal%{linkEnd}, you can view your usage breakdown, remaining balance, and some usage details."
 msgstr ""
 
-msgid "UsageBilling|Used this month, resets in %{days} day"
-msgid_plural "UsageBilling|Used this month, resets in %{days} days"
-msgstr[0] ""
-msgstr[1] ""
+msgid "UsageBilling|You will be billed for this usage at the end of the month. Learn more about %{pricingLinkStart}GitLab Credit pricing%{pricingLinkEnd}."
+msgstr ""
 
-msgid "UsageBilling|You are currently using temporary evaluation credits to access GitLab Duo features. Your subscription's included credits for users will be available after your evaluation ends. If you have access to the %{linkStart}Customers Portal%{linkEnd}, you can view your usage breakdown, remaining balance, and some usage details."
+msgid "UsageBilling|You won't be billed for this usage until you accept the On-Demand billing terms. Learn more about %{pricingLinkStart}GitLab Credit pricing%{pricingLinkEnd}."
 msgstr ""
 
 msgid "UsageBilling|You won't be billed for this usage until you accept the on-demand billing terms."
@@ -77713,6 +78075,9 @@ msgstr ""
 msgid "Webhooks|Header name"
 msgstr ""
 
+msgid "Webhooks|Header name is too long (maximum is %{maxLength} characters)."
+msgstr ""
+
 msgid "Webhooks|Header value"
 msgstr ""
 
@@ -78709,6 +79074,9 @@ msgstr ""
 msgid "WorkItem|All activity"
 msgstr ""
 
+msgid "WorkItem|All available types will be enabled in all groups and projects. Re-enabling this setting later will return each group or project to its current configuration."
+msgstr ""
+
 msgid "WorkItem|All current statuses must be mapped to a new value."
 msgstr ""
 
@@ -78719,6 +79087,9 @@ msgid "WorkItem|All work item types which can be enabled within this group."
 msgstr ""
 
 msgid "WorkItem|All work item types which can be enabled within this organization."
+msgstr ""
+
+msgid "WorkItem|Allow types to be disabled in projects."
 msgstr ""
 
 msgid "WorkItem|An error occurred updating the RSS link. Please refresh the page to try again."
@@ -78790,6 +79161,9 @@ msgstr ""
 msgid "WorkItem|Archive %{itemName}"
 msgstr ""
 
+msgid "WorkItem|Archive type: %{typeName}"
+msgstr ""
+
 msgid "WorkItem|Archived"
 msgstr ""
 
@@ -78797,6 +79171,9 @@ msgid "WorkItem|Archived custom fields"
 msgstr ""
 
 msgid "WorkItem|Archived types"
+msgstr ""
+
+msgid "WorkItem|Archiving a work item type will make it unusable in all groups and projects. Items already using this type will keep this type and may be changed to other types."
 msgstr ""
 
 msgid "WorkItem|Are you sure you want to cancel creating this %{workItemType}?"
@@ -78859,13 +79236,13 @@ msgstr ""
 msgid "WorkItem|Canceled"
 msgstr ""
 
-msgid "WorkItem|Cannot be assigned"
-msgstr ""
-
 msgid "WorkItem|Cannot be used to create new items."
 msgstr ""
 
 msgid "WorkItem|Cannot remove status"
+msgstr ""
+
+msgid "WorkItem|Cannot unarchive type. You've reached the limit of %{limit} active work item types. Archive an existing type to unarchive this one."
 msgstr ""
 
 msgid "WorkItem|Change appearance for all issues, epics, and tasks"
@@ -79033,7 +79410,16 @@ msgstr ""
 msgid "WorkItem|Development"
 msgstr ""
 
+msgid "WorkItem|Disable"
+msgstr ""
+
 msgid "WorkItem|Disable list item"
+msgstr ""
+
+msgid "WorkItem|Disable type customization in projects"
+msgstr ""
+
+msgid "WorkItem|Disabled"
 msgstr ""
 
 msgid "WorkItem|Disabled in all groups and projects. Items created prior to archiving may remain in this type."
@@ -79099,7 +79485,13 @@ msgstr ""
 msgid "WorkItem|Emoji reactions"
 msgstr ""
 
+msgid "WorkItem|Enable"
+msgstr ""
+
 msgid "WorkItem|Enable list item"
+msgstr ""
+
+msgid "WorkItem|Enabled"
 msgstr ""
 
 msgid "WorkItem|Enabled types"
@@ -79982,19 +80374,28 @@ msgstr ""
 msgid "WorkItem|Type"
 msgstr ""
 
+msgid "WorkItem|Type archived."
+msgstr ""
+
 msgid "WorkItem|Type changed."
+msgstr ""
+
+msgid "WorkItem|Type customization in projects"
 msgstr ""
 
 msgid "WorkItem|Type lifecycle updated."
 msgstr ""
 
-msgid "WorkItem|UnArchive"
+msgid "WorkItem|Type unarchived."
 msgstr ""
 
 msgid "WorkItem|Unable to fetch destination projects."
 msgstr ""
 
 msgid "WorkItem|Unable to find selected template."
+msgstr ""
+
+msgid "WorkItem|Unarchive"
 msgstr ""
 
 msgid "WorkItem|Unarchive %{itemName}"
@@ -82244,9 +82645,6 @@ msgstr ""
 msgid "cannot be used for user namespace"
 msgstr ""
 
-msgid "cannot be used with wildcard branch rules. Use an exact branch name."
-msgstr ""
-
 msgid "cannot contain HTML/XML tags, including any word between angle brackets (&lt;,&gt;)."
 msgstr ""
 
@@ -82334,9 +82732,6 @@ msgstr ""
 msgid "ciReport|Automatically apply the patch in a new branch"
 msgstr ""
 
-msgid "ciReport|Browser Performance"
-msgstr ""
-
 msgid "ciReport|Browser performance test metrics results are being parsed"
 msgstr ""
 
@@ -82361,6 +82756,15 @@ msgid "ciReport|Code Quality hasn't changed."
 msgstr ""
 
 msgid "ciReport|Code Quality is loading"
+msgstr ""
+
+msgid "ciReport|Collapse Code Quality details"
+msgstr ""
+
+msgid "ciReport|Collapse browser performance details"
+msgstr ""
+
+msgid "ciReport|Collapse load performance details"
 msgstr ""
 
 msgid "ciReport|Container Scanning"
@@ -82435,6 +82839,15 @@ msgstr ""
 msgid "ciReport|Error while fetching enabled scans. Please try again later."
 msgstr ""
 
+msgid "ciReport|Expand Code Quality details"
+msgstr ""
+
+msgid "ciReport|Expand browser performance details"
+msgstr ""
+
+msgid "ciReport|Expand load performance details"
+msgstr ""
+
 msgid "ciReport|Explain vulnerability"
 msgstr ""
 
@@ -82468,9 +82881,6 @@ msgstr ""
 msgid "ciReport|GitLab Duo Vulnerability Resolution, an AI feature, can suggest a possible fix."
 msgstr ""
 
-msgid "ciReport|License Compliance"
-msgstr ""
-
 msgid "ciReport|License Compliance failed loading results"
 msgstr ""
 
@@ -82478,9 +82888,6 @@ msgid "ciReport|License Compliance test metrics results are being parsed"
 msgstr ""
 
 msgid "ciReport|License scan results"
-msgstr ""
-
-msgid "ciReport|Load Performance"
 msgstr ""
 
 msgid "ciReport|Load performance test metrics detected %{strong_start}%{changesFound}%{strong_end} change"
@@ -82507,6 +82914,9 @@ msgid "ciReport|New vulnerabilities are vulnerabilities that the security scan d
 msgstr ""
 
 msgid "ciReport|No code quality issues found"
+msgstr ""
+
+msgid "ciReport|No license compliance enabled."
 msgstr ""
 
 msgid "ciReport|No new vulnerabilities were found."
@@ -83103,6 +83513,9 @@ msgstr ""
 msgid "is not a valid X509 certificate."
 msgstr ""
 
+msgid "is not a valid icon name. Valid icon names are: %{valid_names}"
+msgstr ""
+
 msgid "is not allowed for sign-up. Please use your regular email address."
 msgstr ""
 
@@ -83196,6 +83609,9 @@ msgid "item"
 msgid_plural "items"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "key is too long (maximum is %{max_length} characters)"
+msgstr ""
 
 msgid "key result"
 msgstr ""
@@ -83999,18 +84415,6 @@ msgid "pending comment"
 msgstr ""
 
 msgid "personal access token"
-msgstr ""
-
-msgid "pipelineEditorWalkthrough|Let's do this!"
-msgstr ""
-
-msgid "pipelineEditorWalkthrough|See how GitLab pipelines work"
-msgstr ""
-
-msgid "pipelineEditorWalkthrough|This %{codeStart}.gitlab-ci.yml%{codeEnd} file creates a simple test pipeline."
-msgstr ""
-
-msgid "pipelineEditorWalkthrough|Use the %{boldStart}commit changes%{boldEnd} button at the bottom of the page to run the pipeline."
 msgstr ""
 
 msgid "pipelineEditorWalkthrough|You can use the file tree to view your pipeline configuration files. %{linkStart}Learn more%{linkEnd}"

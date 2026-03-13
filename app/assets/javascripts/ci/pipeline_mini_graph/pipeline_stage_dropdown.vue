@@ -1,5 +1,5 @@
 <script>
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import {
   GlButton,
   GlDisclosureDropdown,

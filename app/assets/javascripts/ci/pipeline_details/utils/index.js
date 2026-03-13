@@ -1,4 +1,4 @@
-import { pickBy } from 'lodash';
+import { pickBy } from 'lodash-es';
 import { getParameterByName, parseUrlPathname } from '~/lib/utils/url_utility';
 import {
   NEEDS_PROPERTY,

@@ -1,6 +1,6 @@
 <script>
 import { GlCollapsibleListbox, GlButton } from '@gitlab/ui';
-import { isEqual, debounce } from 'lodash';
+import { isEqual, debounce } from 'lodash-es';
 import EMPTY_VARIABLES_SVG from '@gitlab/svgs/dist/illustrations/variables-sm.svg';
 import { s__, __ } from '~/locale';
 import { createAlert } from '~/alert';
