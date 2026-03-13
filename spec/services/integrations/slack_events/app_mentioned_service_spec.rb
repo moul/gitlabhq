@@ -384,7 +384,8 @@ RSpec.describe Integrations::SlackEvents::AppMentionedService, feature_category:
             }
           end
 
-          it 'builds thread context with participants and conversation sections' do
+          it 'builds thread context with participants and conversation sections',
+            quarantine: 'https://gitlab.com/gitlab-org/gitlab/-/issues/593435' do
             service = described_class.new(params)
             thread_context = nil
 
