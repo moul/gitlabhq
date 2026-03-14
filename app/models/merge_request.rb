@@ -365,6 +365,24 @@ class MergeRequest < ApplicationRecord
     end
   end
 
+  # NOTE: Batch transition merge_status to checking/cannot_be_merged_rechecking.
+  # This bypasses state machine callbacks for performance but mimics their behavior.
+  #
+  # Transitions mirror the `mark_as_checking` event defined above.
+  def self.batch_mark_as_checking(mr_ids, batch_size: 1000)
+    return if mr_ids.blank?
+
+    mr_ids.each_slice(batch_size) do |batch_ids|
+      where(id: batch_ids)
+        .where(merge_status: :unchecked)
+        .update_all(merge_status: :checking)
+
+      where(id: batch_ids)
+        .where(merge_status: :cannot_be_merged_recheck)
+        .update_all(merge_status: :cannot_be_merged_rechecking)
+    end
+  end
+
   def self.batch_clear_merge_error(mr_ids, batch_size: 1000)
     return if mr_ids.blank?
 

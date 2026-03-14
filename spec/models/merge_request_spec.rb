@@ -5483,6 +5483,48 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
     end
   end
 
+  describe '.batch_mark_as_checking' do
+    let(:mr_unchecked) { create(:merge_request, :unique_branches, merge_status: 'unchecked') }
+    let(:mr_cannot_be_merged_recheck) { create(:merge_request, :unique_branches, merge_status: 'cannot_be_merged_recheck') }
+    let(:mr_can_be_merged) { create(:merge_request, :unique_branches, merge_status: 'can_be_merged') }
+    let(:mr_cannot_be_merged) { create(:merge_request, :unique_branches, merge_status: 'cannot_be_merged') }
+    let(:mr_checking) { create(:merge_request, :unique_branches, merge_status: 'checking') }
+
+    it 'batch transitions merge statuses according to mark_as_checking event' do
+      mr_ids = [
+        mr_unchecked.id,
+        mr_cannot_be_merged_recheck.id,
+        mr_can_be_merged.id,
+        mr_cannot_be_merged.id,
+        mr_checking.id
+      ]
+
+      described_class.batch_mark_as_checking(mr_ids)
+
+      expect(mr_unchecked.reload.merge_status).to eq('checking')
+      expect(mr_cannot_be_merged_recheck.reload.merge_status).to eq('cannot_be_merged_rechecking')
+      expect(mr_can_be_merged.reload.merge_status).to eq('can_be_merged')
+      expect(mr_cannot_be_merged.reload.merge_status).to eq('cannot_be_merged')
+      expect(mr_checking.reload.merge_status).to eq('checking')
+    end
+
+    it 'only updates MRs in the provided list' do
+      described_class.batch_mark_as_checking([mr_unchecked.id])
+
+      expect(mr_unchecked.reload.merge_status).to eq('checking')
+      expect(mr_cannot_be_merged_recheck.reload.merge_status).to eq('cannot_be_merged_recheck')
+    end
+
+    it 'handles empty array' do
+      expect { described_class.batch_mark_as_checking([]) }.not_to raise_error
+    end
+
+    it 'does not update updated_at timestamp' do
+      expect { described_class.batch_mark_as_checking([mr_unchecked.id]) }
+        .not_to change { mr_unchecked.reload.updated_at }
+    end
+  end
+
   describe '.batch_clear_merge_error' do
     let(:mr1) { create(:merge_request, :unique_branches, merge_error: 'Something went wrong') }
     let(:mr2) { create(:merge_request, :unique_branches, merge_error: 'Another error') }
