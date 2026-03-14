@@ -91,6 +91,8 @@ module Geo
       generate_new_files
       patch_existing_files
 
+      run_post_generation_tasks unless dry_run
+
       print_summary
     end
 
@@ -247,7 +249,7 @@ module Geo
                  return replicables unless node.selective_sync?
 
                  if node.selective_sync_by_namespaces? || node.selective_sync_by_shards?
-                   replicables.group_id_in(node.namespaces_for_group_owned_replicables.select(:id))
+                   replicables.namespace_id_in(node.namespaces_for_group_owned_replicables.select(:id))
                  elsif node.selective_sync_by_organizations?
                    organization_ids = node.organizations.select(:id)
                    namespace_ids = ::Namespace.where(organization_id: organization_ids).select(:id)
@@ -288,7 +290,7 @@ module Geo
       when 'project_id'
         "scope :project_id_in, ->(ids) { where(project_id: ids) }"
       when 'namespace_id'
-        "scope :group_id_in, ->(ids) { joins(:group).merge(::Namespace.id_in(ids)) }"
+        "scope :namespace_id_in, ->(ids) { where(namespace_id: ids) }"
       when 'organization_id'
         "scope :organization_id_in, ->(ids) { where(organization_id: ids) }"
       end
@@ -367,6 +369,17 @@ module Geo
         # inherits from Upload to get all Upload behavior (retrieve_uploader,
         # model polymorphic association, absolute_path, etc.).
         #
+        # Dual-path architecture:
+        #
+        # - Upload includes Geo::ReplicableModel, so after_create_commit fires
+        #   geo_create_event! via Geo::UploadReplicator for all upload types.
+        # - This model also includes Geo::ReplicableModel, but since records are
+        #   never "created" via this model, callbacks don't fire.
+        # - The save_partition_verification_details callback in EE::Upload
+        #   correctly writes verification state to the partition state table.
+        # - Geo events flow through UploadReplicator for all uploads (including this one),
+        #   while #{replicator_class_name} handles replication on the secondary.
+        #
         # The composite primary key (id, model_type) is overridden to just `id`
         # since `id` is globally unique across all partitions (shared sequence).
         # See: https://gitlab.com/gitlab-org/gitlab/-/issues/536647
@@ -374,7 +387,6 @@ module Geo
           class #{replicable_name_camel} < ::Upload
             include ::Geo::ReplicableModel
             include ::Geo::VerifiableModel
-            extend ::ActiveSupport::Concern
             extend ::Gitlab::Utils::Override
 
             self.table_name = '#{table_name}'
@@ -387,8 +399,7 @@ module Geo
             has_one :#{replicable_name}_state,
               autosave: false,
               inverse_of: :#{replicable_name},
-              class_name: 'Geo::#{state_class_name}',
-              foreign_key: :#{foreign_key_name}
+              class_name: 'Geo::#{state_class_name}'
 
             scope :with_verification_state, ->(state) {
               joins(:#{replicable_name}_state)
@@ -440,6 +451,10 @@ module Geo
       to_snake_case(model_class.split('::').last)
     end
 
+    def parent_model_factory_name
+      replicable_name.sub(/_upload$/, '')
+    end
+
     def generate_upload_partition_model_factory
       write_file("ee/spec/factories/geo/#{replicable_name}.rb", <<~RUBY)
         # frozen_string_literal: true
@@ -453,7 +468,7 @@ module Geo
             # This factory creates a regular Upload with the appropriate model
             # association, then returns the record from the partition table.
             transient do
-              parent_model { create(:geo_#{model_factory_name}) } # rubocop:disable RSpec/FactoryBot/InlineAssociation -- See above
+              parent_model { create(:#{parent_model_factory_name}) } # rubocop:disable RSpec/FactoryBot/InlineAssociation -- See above
             end
 
             initialize_with do
@@ -645,13 +660,17 @@ module Geo
       end
     end
 
+    def upload_model_validation_include
+      upload_partition ? "\n            include ::Geo::Concerns::UploadReplicatorPreDownloadValidation" : ''
+    end
+
     def generate_replicator
       write_file("ee/app/replicators/geo/#{replicable_name}_replicator.rb", <<~RUBY)
         # frozen_string_literal: true
 
         module Geo
           class #{replicator_class_name} < Gitlab::Geo::Replicator
-            include ::Geo::BlobReplicatorStrategy
+            include ::Geo::BlobReplicatorStrategy#{upload_model_validation_include}
             extend ::Gitlab::Utils::Override
 
             def self.model
@@ -819,10 +838,23 @@ module Geo
       YAML
     end
 
+    # -- Migration existence helpers --
+
+    def find_existing_migration(dir, glob_suffix)
+      Dir.glob("#{dir}/*_#{glob_suffix}").first
+    end
+
     # -- Geo tracking DB migration --
 
     def generate_geo_migration
       migration_class = "Create#{replicable_name_camel}Registry"
+      existing = find_existing_migration('ee/db/geo/migrate', "create_#{replicable_name}_registry.rb")
+
+      if existing
+        puts "  [SKIP]   #{existing} (already exists)"
+        return
+      end
+
       file_path = "ee/db/geo/migrate/#{timestamp}_create_#{replicable_name}_registry.rb"
 
       write_file(file_path, <<~RUBY)
@@ -979,6 +1011,13 @@ module Geo
 
     def generate_state_migration
       migration_class = "Create#{replicable_name_camel}States"
+      existing = find_existing_migration('db/migrate', "create_#{replicable_name}_states.rb")
+
+      if existing
+        puts "  [SKIP]   #{existing} (already exists)"
+        return
+      end
+
       file_path = "db/migrate/#{next_timestamp}_create_#{replicable_name}_states.rb"
 
       # For upload partitions, we can't use foreign_key in create_table because
@@ -1060,6 +1099,14 @@ module Geo
       sharding_keys.each_with_index do |key, index|
         key_camel = key.split('_').map(&:capitalize).join
         migration_class = "Add#{replicable_name_camel}States#{key_camel}ShardingKeyTrigger"
+        glob_suffix = "add_#{replicable_name}_states_#{key}_sharding_key_trigger.rb"
+        existing = find_existing_migration('db/migrate', glob_suffix)
+
+        if existing
+          puts "  [SKIP]   #{existing} (already exists)"
+          next
+        end
+
         file_path = "db/migrate/#{timestamps[index]}_add_#{replicable_name}_states_#{key}_sharding_key_trigger.rb"
 
         trigger_install = sharding_key_trigger_install(key)
@@ -1235,6 +1282,7 @@ module Geo
           let(:model_record) { create(:geo_#{replicable_name}) }
 
           include_examples 'a blob replicator with a read-only replicable model'
+          include_examples 'a blob replicator with pre-download validation'
         end
       RUBY
     end
@@ -1428,7 +1476,7 @@ module Geo
 
       # Align columns like existing entries
       col1 = registry_class.ljust(40)
-      col2 = registry_type.ljust(48)
+      col2 = registry_type.ljust(51)
 
       "    #{col1}| #{col2}| #{factory}"
     end
@@ -1865,7 +1913,7 @@ module Geo
 
         # If the anchor line is the last element (no trailing comma),
         # add a comma to it and remove the trailing comma from the new entry.
-        unless anchor_line.rstrip.end_with?(',')
+        if new_line.rstrip.end_with?(',') && !anchor_line.rstrip.end_with?(',')
           content.insert(line_end, ',')
           line_end += 1 # account for the inserted comma
           new_line = new_line.sub(/,\s*$/, '')
@@ -1983,6 +2031,75 @@ module Geo
     end
 
     # -------------------------------------------------------------------------
+    # Post-generation tasks
+    # -------------------------------------------------------------------------
+
+    def run_post_generation_tasks
+      puts
+      puts '=' * 72
+      puts 'Running post-generation tasks...'
+      puts '=' * 72
+      puts
+
+      run_task('Step 1: Geo tracking DB migration',
+        'bin/rake db:migrate:geo')
+
+      run_task('Step 2: Main DB migration',
+        'bin/rake db:migrate')
+
+      puts '  >> Step 3: Commit db/structure.sql, ee/db/geo/structure.sql, and schema_migrations changes'
+      puts '     [MANUAL] Commit these files after reviewing the generated migrations.'
+      puts
+
+      if upload_partition
+        puts "  >> Step 4: Review the auto-generated model (Geo::#{replicable_name_camel})"
+        puts '     [MANUAL] Verify all Geo concerns are correct and adjust if needed.'
+      else
+        puts "  >> Step 4: Add model concerns to #{model_class}"
+        puts '     [MANUAL] See the issue template for the full list of required changes.'
+      end
+
+      puts
+
+      run_task('Step 5: Extract gettext strings',
+        'tooling/bin/gettext_extractor locale/gitlab.pot')
+
+      run_task('Step 6: Regenerate SSF metrics',
+        'bundle exec rake geo:dev:ssf_metrics')
+
+      run_task('Step 7: Regenerate DB dictionary',
+        'bundle exec rake gitlab:db:dictionary:generate')
+
+      run_task('Step 8: Compile GraphQL docs',
+        'bundle exec rake gitlab:graphql:compile_docs')
+
+      run_task('Step 9: Generate all GraphQL introspection schemas',
+        'bundle exec rake gitlab:graphql:generate_all_introspection_schemas')
+
+      run_task('Step 10: Generate OpenAPI v2 spec',
+        'bundle exec rake gitlab:openapi:v2:generate')
+
+      run_task('Step 11: Generate OpenAPI v3 spec',
+        'bundle exec rake gitlab:openapi:v3:generate')
+    end
+
+    def run_task(description, command)
+      puts "  >> #{description}"
+      puts "     $ #{command}"
+
+      success = system(command)
+
+      if success
+        puts "     [OK]"
+      else
+        warn "     [FAILED] '#{command}' exited with status #{$?.exitstatus}."
+        warn "     You may need to run this step manually."
+      end
+
+      puts
+    end
+
+    # -------------------------------------------------------------------------
     # Summary
     # -------------------------------------------------------------------------
 
@@ -1999,12 +2116,27 @@ module Geo
         puts "Files modified: #{@files_modified.size}"
       end
 
+      if dry_run
+        puts 'Post-generation tasks (skipped in dry-run mode):'
+        puts '  1. bin/rake db:migrate:geo'
+        puts '  2. bin/rake db:migrate'
+        puts '  3. [MANUAL] Commit db/structure.sql, ee/db/geo/structure.sql, and schema_migrations changes'
+        puts '  4. [MANUAL] Review/update the model (see below)'
+        puts '  5. tooling/bin/gettext_extractor locale/gitlab.pot'
+        puts '  6. bundle exec rake geo:dev:ssf_metrics'
+        puts '  7. bundle exec rake gitlab:db:dictionary:generate'
+        puts '  8. bundle exec rake gitlab:graphql:compile_docs'
+        puts '  9. bundle exec rake gitlab:graphql:generate_all_introspection_schemas'
+        puts ' 10. bundle exec rake gitlab:openapi:v2:generate'
+        puts ' 11. bundle exec rake gitlab:openapi:v3:generate'
+      else
+        puts 'Post-generation tasks were run automatically (steps 1, 2, 5-11).'
+        puts 'If any task failed, re-run it manually (see commands above).'
+      end
+
       puts
+
       puts 'Manual steps still required:'
-      puts '  1. Run Geo tracking database migration:'
-      puts '       bin/rake db:migrate:geo'
-      puts '  2. Run main database migration:'
-      puts '       bin/rake db:migrate'
       puts '  3. Commit the generated db/structure.sql, ee/db/geo/structure.sql,'
       puts '       and schema_migrations changes'
 
@@ -2022,12 +2154,6 @@ module Geo
         puts '       - implement verification_state_object'
       end
 
-      puts '  5. Run: tooling/bin/gettext_extractor locale/gitlab.pot'
-      puts '  6. Run: bundle exec rake geo:dev:ssf_metrics'
-      puts '  7. Run: bundle exec rake gitlab:graphql:compile_docs'
-      puts '  8. Run: bundle exec rake gitlab:graphql:generate_all_introspection_schemas'
-      puts '  9. Run: bundle exec rake gitlab:openapi:v2:generate'
-      puts ' 10. Run: bundle exec rake gitlab:openapi:v3:generate'
       puts
       puts 'For the full checklist, see:'
       puts '  .gitlab/issue_templates/Geo Replicate a new blob type.md'

@@ -36,6 +36,7 @@ project:
 group:
   permissions: []
   raw_permissions:
+    - admin_add_on_purchase
     - admin_cicd_variables
     - admin_group
     - admin_group_member
@@ -63,6 +64,7 @@ group:
     - read_billing
     - read_runners
     - read_runners_registration_token
+    - read_subscription_usage
     - read_usage_quotas
     - register_group_runners
     - remove_group
