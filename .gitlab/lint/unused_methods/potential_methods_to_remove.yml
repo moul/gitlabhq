@@ -142,8 +142,6 @@ app/helpers/sorting_titles_values_helper.rb:
 - sort_title_version_asc
 - sort_value_version_asc
 - sort_value_version_desc
-app/models/application_record.rb:
-- deleted_from_database?
 app/models/application_setting_implementation.rb:
 - ensure_key_restrictions!
 app/models/ci/build.rb:

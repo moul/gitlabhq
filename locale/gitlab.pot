@@ -23840,9 +23840,6 @@ msgstr ""
 msgid "Default channel to use if no other channel is configured."
 msgstr ""
 
-msgid "Default description template for issues"
-msgstr ""
-
 msgid "Default description template for merge requests"
 msgstr ""
 
@@ -65772,9 +65769,6 @@ msgstr ""
 msgid "Set %{parent_ref} as this item's parent item."
 msgstr ""
 
-msgid "Set a default description template to be used for new issues. %{link_start}What are description templates?%{link_end}"
-msgstr ""
-
 msgid "Set a group, access level or users who are required to deploy."
 msgstr ""
 
@@ -79584,6 +79578,9 @@ msgstr ""
 msgid "WorkItem|Dates"
 msgstr ""
 
+msgid "WorkItem|Default description for work items"
+msgstr ""
+
 msgid "WorkItem|Default statuses"
 msgstr ""
 
@@ -80297,6 +80294,9 @@ msgid "WorkItem|Select which type you would like to change this item to."
 msgstr ""
 
 msgid "WorkItem|Send email"
+msgstr ""
+
+msgid "WorkItem|Set a default description to be used for new work items. %{link_start}What are description templates?%{link_end}"
 msgstr ""
 
 msgid "WorkItem|Shared"
