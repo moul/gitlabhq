@@ -4343,7 +4343,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_c9d05b049caa"
+              "$ref": "#/components/schemas/RequestBody_1cd55f02d6a4"
   "/api/v4/security/groups/{id}/vulnerability_exports":
     post:
       operationId: postApiV4SecurityGroupsIdVulnerabilityExports
@@ -4370,7 +4370,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_c9d05b049caa"
+              "$ref": "#/components/schemas/RequestBody_1cd55f02d6a4"
   "/api/v4/security/vulnerability_exports":
     post:
       operationId: postApiV4SecurityVulnerabilityExports
@@ -84411,7 +84411,7 @@ components:
           type: boolean
           description: Whether hidden groups should be removed
           nullable: true
-    RequestBody_c9d05b049caa:
+    RequestBody_1cd55f02d6a4:
       type: object
       properties:
         export_format:
@@ -84456,6 +84456,11 @@ components:
             total_risk_score:
               type: object
               description: Data for rendering the total risk score in PDF reports
+              nullable: true
+            open_vulnerabilities_over_time:
+              type: object
+              description: Data for rendering the open vulnerabilities over time in
+                PDF reports
               nullable: true
             dashboard_type:
               type: string

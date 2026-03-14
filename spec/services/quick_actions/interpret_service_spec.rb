@@ -158,6 +158,15 @@ RSpec.describe QuickActions::InterpretService, feature_category: :text_editors d
 
         expect(updates).to eq(add_label_ids: [inprogress.id, bug.id])
       end
+
+      it 'returns a message containing all labels from multiple /label commands' do
+        bug # populate the label
+        inprogress # populate the label
+        _, _, message = service.execute(content, issuable)
+
+        expected_refs = [bug, inprogress].map { |l| l.to_reference(format: :name) }.sort.join(' ')
+        expect(message).to eq("Added #{expected_refs} labels.")
+      end
     end
 
     shared_examples 'multiple label with same argument' do
@@ -211,6 +220,14 @@ RSpec.describe QuickActions::InterpretService, feature_category: :text_editors d
         _, updates, _ = service.execute(content, issuable)
 
         expect(updates).to eq(remove_label_ids: [inprogress.id, bug.id])
+      end
+
+      it 'returns a message containing all labels from multiple /unlabel commands' do
+        issuable.update!(label_ids: [inprogress.id, bug.id]) # populate the label
+        _, _, message = service.execute(content, issuable)
+
+        expected_refs = [bug, inprogress].map { |l| l.to_reference(format: :name) }.sort.join(' ')
+        expect(message).to eq("Removed #{expected_refs} labels.")
       end
     end
 

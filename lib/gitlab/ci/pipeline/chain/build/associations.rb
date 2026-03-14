@@ -22,7 +22,9 @@ module Gitlab
             private
 
             def assign_pipeline_variables
-              @pipeline.variables_attributes = variables_attributes
+              if Feature.disabled?(:ci_stop_writing_to_pipeline_variables, project)
+                @pipeline.variables_attributes = variables_attributes
+              end
 
               Gitlab::Ci::Pipeline::Build::PipelineVariablesArtifactBuilder.new(@pipeline, variables_attributes).run
             rescue ActiveModel::ValidationError => e

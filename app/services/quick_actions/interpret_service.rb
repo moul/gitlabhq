@@ -190,6 +190,8 @@ module QuickActions
     end
 
     def map_commands(commands, method)
+      seen_execution_messages = []
+
       commands.flat_map do |name_or_alias, arg|
         definition = self.class.definition_by_name(name_or_alias)
         next unless definition
@@ -198,7 +200,14 @@ module QuickActions
         when :explain
           definition.explain(self, arg)
         when :execute_message
-          @execution_message[definition.name.to_sym] || definition.execute_message(self, arg)
+          if @execution_message[definition.name.to_sym]
+            next if seen_execution_messages.include?(definition.name.to_sym)
+
+            seen_execution_messages << definition.name.to_sym
+            @execution_message[definition.name.to_sym]
+          else
+            definition.execute_message(self, arg)
+          end
         end
       end.compact
     end

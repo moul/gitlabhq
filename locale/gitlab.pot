@@ -47667,6 +47667,9 @@ msgstr ""
 msgid "OfflineTransfer|Object storage request responded with status %{status}"
 msgstr ""
 
+msgid "OfflineTransfer|Offline Transfer"
+msgstr ""
+
 msgid "OfflineTransfer|Unable to access object storage bucket."
 msgstr ""
 
@@ -69933,6 +69936,9 @@ msgid "The number of projects that have no repository data indexed. A value of 0
 msgstr ""
 
 msgid "The number of times an upload record could not find its file"
+msgstr ""
+
+msgid "The number of vulnerabilities detected over time"
 msgstr ""
 
 msgid "The only thread is resolved"

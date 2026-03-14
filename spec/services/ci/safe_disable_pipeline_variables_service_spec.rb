@@ -8,7 +8,7 @@ RSpec.describe Ci::SafeDisablePipelineVariablesService, feature_category: :pipel
   let(:log_output) { StringIO.new }
   let(:service) { described_class.new(current_user: current_user, group: parent_group) }
 
-  describe '#execute' do
+  shared_examples '#execute' do
     subject(:update_role) { service.execute }
 
     context 'when group_id correctly supplied' do
@@ -87,5 +87,15 @@ RSpec.describe Ci::SafeDisablePipelineVariablesService, feature_category: :pipel
         end
       end
     end
+  end
+
+  it_behaves_like '#execute'
+
+  context 'when FF `ci_stop_writing_to_pipeline_variables` is disabled' do
+    before do
+      stub_feature_flags(ci_stop_writing_to_pipeline_variables: false)
+    end
+
+    it_behaves_like '#execute'
   end
 end

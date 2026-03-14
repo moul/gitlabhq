@@ -1173,7 +1173,7 @@ RSpec.describe Ci::CreatePipelineService, :clean_gitlab_redis_cache, feature_cat
       end
     end
 
-    context 'when pipeline variables are specified' do
+    shared_examples 'when pipeline variables are specified' do
       subject(:pipeline) { execute_service(variables_attributes: variables_attributes).payload }
 
       context 'with valid pipeline variables' do
@@ -1216,6 +1216,16 @@ RSpec.describe Ci::CreatePipelineService, :clean_gitlab_redis_cache, feature_cat
           expect(pipeline.errors[:base]).to eq(['Duplicate variable names: hello, other'])
         end
       end
+    end
+
+    it_behaves_like 'when pipeline variables are specified'
+
+    context 'when ci_stop_writing_to_pipeline_variables FF is disabled' do
+      before do
+        stub_feature_flags(ci_stop_writing_to_pipeline_variables: false)
+      end
+
+      it_behaves_like 'when pipeline variables are specified'
     end
 
     describe 'Pipeline for external pull requests' do

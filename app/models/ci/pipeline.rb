@@ -174,7 +174,8 @@ module Ci
 
     has_many :job_environments, class_name: 'Environments::Job', inverse_of: :pipeline
 
-    accepts_nested_attributes_for :variables, reject_if: :persisted?
+    # TODO: Remove with FF `ci_stop_writing_to_pipeline_variables`
+    accepts_nested_attributes_for :variables, reject_if: :reject_variables_attributes?
 
     delegate :full_path, to: :project, prefix: true
     delegate :name, to: :pipeline_metadata, allow_nil: true
@@ -1848,6 +1849,10 @@ module Ci
 
     rescue Repository::AmbiguousRefError
       false
+    end
+
+    def reject_variables_attributes?
+      persisted? || Feature.enabled?(:ci_stop_writing_to_pipeline_variables, project)
     end
 
     def read_variables_from_pipeline_artifact

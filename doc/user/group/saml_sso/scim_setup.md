@@ -229,12 +229,9 @@ During the synchronization process, all new users:
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/206932) in GitLab 18.6 [with a flag](../../../administration/feature_flags/_index.md) named `bso_minimal_access_fallback`. Disabled by default.
+- [Enabled by default](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225777) in GitLab 18.10.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
 
 When [restricted access](../manage.md#restricted-access) is enabled and no subscription seats are available, users provisioned through SCIM are assigned the Minimal Access role.
 

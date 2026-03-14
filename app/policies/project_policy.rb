@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ProjectPolicy < BasePolicy
-  include ArchivedAbilities
   include ::Ci::JobAbilities
 
   # https://docs.gitlab.com/18.2/ci/pipelines/settings/#change-which-users-can-view-your-pipelines
@@ -78,7 +77,7 @@ class ProjectPolicy < BasePolicy
   condition(:project_pipeline_override_role_owner) { project.ci_pipeline_variables_minimum_override_role == 'owner' }
 
   desc "Project is in the process of being deleted"
-  condition(:pending_delete) { project.pending_delete? }
+  condition(:self_deletion_in_progress) { project.self_deletion_in_progress? }
 
   condition(:default_issues_tracker, scope: :subject) { project.default_issues_tracker? }
 
@@ -570,22 +569,12 @@ class ProjectPolicy < BasePolicy
   rule { (mirror_available & can?(:admin_project)) | admin }.enable :admin_remote_mirror
   rule { can?(:push_code) }.enable :admin_tag
 
-  rule { archived }.policy do
-    prevent(*archived_abilities)
-
-    archived_features.each do |feature|
-      prevent(
-        :"create_#{feature}",
-        :"update_#{feature}",
-        :"admin_#{feature}"
-      )
-    end
+  rule { self_deletion_in_progress }.policy do
+    prevent(*Authz::PermissionGroups::Internal.get('project:pending_deletion').permissions)
   end
 
-  rule { archived & ~pending_delete }.policy do
-    archived_features.each do |feature|
-      prevent(:"destroy_#{feature}")
-    end
+  rule { archived & ~self_deletion_in_progress }.policy do
+    prevent(*Authz::PermissionGroups::Internal.get('project:archived').permissions)
   end
 
   rule { issues_disabled }.policy do

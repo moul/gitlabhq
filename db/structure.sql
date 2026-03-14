@@ -4201,6 +4201,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_a3bf14aafa32() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."snippet_project_id" IS NULL THEN
+  SELECT "snippet_project_id"
+  INTO NEW."snippet_project_id"
+  FROM "snippet_repositories"
+  WHERE "snippet_repositories"."snippet_id" = NEW."snippet_repository_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_a465de38164e() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -4880,6 +4896,22 @@ IF NEW."group_id" IS NULL THEN
   INTO NEW."group_id"
   FROM "bulk_import_exports"
   WHERE "bulk_import_exports"."id" = NEW."export_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
+CREATE FUNCTION trigger_decac6b7c511() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."snippet_organization_id" IS NULL THEN
+  SELECT "snippet_organization_id"
+  INTO NEW."snippet_organization_id"
+  FROM "snippet_repositories"
+  WHERE "snippet_repositories"."snippet_id" = NEW."snippet_repository_id";
 END IF;
 
 RETURN NEW;
@@ -29851,6 +29883,8 @@ CREATE TABLE snippet_repository_states (
     verification_retry_count smallint DEFAULT 0,
     verification_checksum bytea,
     verification_failure text,
+    snippet_project_id bigint,
+    snippet_organization_id bigint,
     CONSTRAINT check_0dabaefb7f CHECK ((char_length(verification_failure) <= 255))
 );
 
@@ -48202,6 +48236,10 @@ CREATE INDEX index_snippet_repository_states_failed_verification ON snippet_repo
 
 CREATE INDEX index_snippet_repository_states_needs_verification ON snippet_repository_states USING btree (verification_state) WHERE ((verification_state = 0) OR (verification_state = 3));
 
+CREATE INDEX index_snippet_repository_states_on_snippet_organization_id ON snippet_repository_states USING btree (snippet_organization_id);
+
+CREATE INDEX index_snippet_repository_states_on_snippet_project_id ON snippet_repository_states USING btree (snippet_project_id);
+
 CREATE UNIQUE INDEX index_snippet_repository_states_on_snippet_repository_id ON snippet_repository_states USING btree (snippet_repository_id);
 
 CREATE INDEX index_snippet_repository_states_on_verification_state ON snippet_repository_states USING btree (verification_state);
@@ -54068,6 +54106,8 @@ CREATE TRIGGER trigger_a22be47501db BEFORE INSERT OR UPDATE ON group_wiki_reposi
 
 CREATE TRIGGER trigger_a253cb3cacdf BEFORE INSERT OR UPDATE ON dora_daily_metrics FOR EACH ROW EXECUTE FUNCTION trigger_a253cb3cacdf();
 
+CREATE TRIGGER trigger_a3bf14aafa32 BEFORE INSERT OR UPDATE ON snippet_repository_states FOR EACH ROW EXECUTE FUNCTION trigger_a3bf14aafa32();
+
 CREATE TRIGGER trigger_a465de38164e BEFORE INSERT OR UPDATE ON ci_job_artifact_states FOR EACH ROW EXECUTE FUNCTION trigger_a465de38164e();
 
 CREATE TRIGGER trigger_a4e4fb2451d9 BEFORE INSERT OR UPDATE ON epic_user_mentions FOR EACH ROW EXECUTE FUNCTION trigger_a4e4fb2451d9();
@@ -54171,6 +54211,8 @@ CREATE TRIGGER trigger_dc13168b8025 BEFORE INSERT OR UPDATE ON vulnerability_fla
 CREATE TRIGGER trigger_de59b81d3044 BEFORE INSERT OR UPDATE ON bulk_import_export_batches FOR EACH ROW EXECUTE FUNCTION trigger_de59b81d3044();
 
 CREATE TRIGGER trigger_de99bb993511 BEFORE INSERT ON namespace_descendants FOR EACH ROW EXECUTE FUNCTION function_for_trigger_de99bb993511();
+
+CREATE TRIGGER trigger_decac6b7c511 BEFORE INSERT OR UPDATE ON snippet_repository_states FOR EACH ROW EXECUTE FUNCTION trigger_decac6b7c511();
 
 CREATE TRIGGER trigger_delete_orphaned_granular_scopes AFTER DELETE ON personal_access_token_granular_scopes FOR EACH ROW EXECUTE FUNCTION delete_orphaned_granular_scopes();
 
@@ -55460,6 +55502,9 @@ ALTER TABLE ONLY merge_request_diff_details
 ALTER TABLE ONLY saml_group_links
     ADD CONSTRAINT fk_6336b1d1d0 FOREIGN KEY (member_role_id) REFERENCES member_roles(id) ON DELETE SET NULL;
 
+ALTER TABLE ONLY snippet_repository_states
+    ADD CONSTRAINT fk_634bc9f2e3 FOREIGN KEY (snippet_organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY deployment_approvals
     ADD CONSTRAINT fk_63920ba071 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
@@ -56164,6 +56209,9 @@ ALTER TABLE ONLY work_item_custom_lifecycle_statuses
 
 ALTER TABLE ONLY issue_tracker_data
     ADD CONSTRAINT fk_a54bddafd2 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE NOT VALID;
+
+ALTER TABLE ONLY snippet_repository_states
+    ADD CONSTRAINT fk_a5b669580c FOREIGN KEY (snippet_project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY merge_request_merge_schedules
     ADD CONSTRAINT fk_a5ff9339a9 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;

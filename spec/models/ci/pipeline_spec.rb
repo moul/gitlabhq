@@ -2229,6 +2229,47 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
     end
   end
 
+  describe 'nested attributes for variables' do
+    let_it_be(:variables_attributes) { [{ key: 'TEST', secret_value: 'value' }] }
+    let_it_be_with_refind(:persisted_pipeline) do
+      create(:ci_pipeline, project: project).tap { |pipeline| pipeline.variables_attributes = variables_attributes }
+    end
+
+    let(:pipeline) do
+      build(:ci_pipeline, project: project).tap { |pipeline| pipeline.variables_attributes = variables_attributes }
+    end
+
+    it 'rejects variables_attributes' do
+      expect(pipeline.association(:variables).target).to be_empty
+    end
+
+    context 'when pipeline is persisted' do
+      let(:pipeline) { persisted_pipeline }
+
+      it 'rejects variables_attributes' do
+        expect(pipeline.association(:variables).reader).to be_empty
+      end
+    end
+
+    context 'when ci_stop_writing_to_pipeline_variables FF is disabled' do
+      before do
+        stub_feature_flags(ci_stop_writing_to_pipeline_variables: false)
+      end
+
+      it 'accepts variables_attributes' do
+        expect(pipeline.association(:variables).target).not_to be_empty
+      end
+
+      context 'when pipeline is persisted' do
+        let(:pipeline) { persisted_pipeline }
+
+        it 'rejects variables_attributes' do
+          expect(pipeline.association(:variables).reader).to be_empty
+        end
+      end
+    end
+  end
+
   describe '#auto_canceled?' do
     subject { pipeline.auto_canceled? }
 

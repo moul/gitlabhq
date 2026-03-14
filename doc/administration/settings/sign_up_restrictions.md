@@ -141,12 +141,9 @@ You can still independently configure [project sharing for the group and its sub
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/206932) in GitLab 18.6 [with a flag](../feature_flags/_index.md) named `bso_minimal_access_fallback`. Disabled by default.
+- [Enabled by default](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225777) in GitLab 18.10.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
 
 When restricted access is enabled and no subscription seats are available, users provisioned through SAML, SCIM, or LDAP are assigned the Minimal Access role instead of their configured access level.
 This behavior ensures that synchronization can continue without consuming billable seats on GitLab.com and GitLab Self-Managed Ultimate.
