@@ -48426,6 +48426,12 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
+msgid "Organization Admin"
+msgstr ""
+
+msgid "Organization Administration"
+msgstr ""
+
 msgid "Organization ID cannot be nil"
 msgstr ""
 

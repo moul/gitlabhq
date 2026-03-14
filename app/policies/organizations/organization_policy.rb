@@ -17,6 +17,7 @@ module Organizations
 
     rule { admin }.policy do
       enable :admin_organization
+      enable :access_organization_admin_area
       enable :create_group
       enable :read_organization
       enable :read_organization_user
@@ -25,6 +26,7 @@ module Organizations
 
     rule { organization_owner }.policy do
       enable :admin_organization
+      enable :access_organization_admin_area
       enable :read_organization_user
     end
 

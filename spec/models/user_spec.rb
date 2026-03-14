@@ -7082,6 +7082,42 @@ RSpec.describe User, :with_current_organization, feature_category: :user_profile
     end
   end
 
+  describe '#can_access_organization_admin_area?' do
+    let_it_be(:organization) { create(:organization) }
+    let_it_be(:organization_owner) { create(:organization_owner, organization: organization).user }
+    let_it_be(:regular_user) { create(:user) }
+
+    subject { user.can_access_organization_admin_area?(organization) }
+
+    context 'when user is an organization owner' do
+      let(:user) { organization_owner }
+
+      it { is_expected.to be_truthy }
+
+      context 'when org_admin_area feature flag is disabled' do
+        before do
+          stub_feature_flags(org_admin_area: false)
+        end
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'when user is a regular user' do
+      let(:user) { regular_user }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when organization is nil' do
+      let(:user) { organization_owner }
+
+      subject { user.can_access_organization_admin_area?(nil) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
   describe '#free_or_trial_owned_group_ids' do
     let(:user) { build_stubbed(:user) }
     let(:group_ids) { [1, 2, 3] }
@@ -7095,7 +7131,7 @@ RSpec.describe User, :with_current_organization, feature_category: :user_profile
   end
 
   shared_examples 'organization owner' do
-    let!(:org_user) { create(:organization_user, organization: organization, user: user, access_level: access_level) }
+    let!(:organization_user) { create(:organization_user, organization: organization, user: user, access_level: access_level) }
 
     context 'when user is the owner of the organization' do
       let(:access_level) { Gitlab::Access::OWNER }
