@@ -179,6 +179,19 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION assign_p_knowledge_graph_code_indexing_tasks_id_value() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."id" IS NOT NULL THEN
+  RAISE WARNING 'Manually assigning ids is not allowed, the value will be ignored';
+END IF;
+NEW."id" := nextval('p_knowledge_graph_code_indexing_tasks_id_seq'::regclass);
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION assign_zoekt_tasks_id_value() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -6389,6 +6402,20 @@ CREATE TABLE p_generated_ref_commits (
     commit_sha bytea NOT NULL
 )
 PARTITION BY RANGE (project_id);
+
+CREATE TABLE p_knowledge_graph_code_indexing_tasks (
+    id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    ref text NOT NULL,
+    commit_sha text NOT NULL,
+    traversal_path text NOT NULL,
+    CONSTRAINT check_291fb206ad CHECK ((char_length(ref) <= 255)),
+    CONSTRAINT check_c9cdc501a3 CHECK ((char_length(traversal_path) <= 1024)),
+    CONSTRAINT check_d66fc905af CHECK ((char_length(commit_sha) <= 40))
+)
+PARTITION BY RANGE (created_at);
 
 CREATE SEQUENCE sent_notifications_id_seq
     START WITH 1
@@ -24904,6 +24931,15 @@ CREATE SEQUENCE p_generated_ref_commits_id_seq
 
 ALTER SEQUENCE p_generated_ref_commits_id_seq OWNED BY p_generated_ref_commits.id;
 
+CREATE SEQUENCE p_knowledge_graph_code_indexing_tasks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE p_knowledge_graph_code_indexing_tasks_id_seq OWNED BY p_knowledge_graph_code_indexing_tasks.id;
+
 CREATE SEQUENCE p_sent_notifications_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -39313,6 +39349,9 @@ ALTER TABLE ONLY p_duo_workflows_checkpoints
 ALTER TABLE ONLY p_generated_ref_commits
     ADD CONSTRAINT p_generated_ref_commits_pkey PRIMARY KEY (id, project_id);
 
+ALTER TABLE ONLY p_knowledge_graph_code_indexing_tasks
+    ADD CONSTRAINT p_knowledge_graph_code_indexing_tasks_pkey PRIMARY KEY (id, created_at);
+
 ALTER TABLE ONLY p_sent_notifications
     ADD CONSTRAINT p_sent_notifications_pkey PRIMARY KEY (id, partition);
 
@@ -47104,6 +47143,8 @@ CREATE INDEX index_p_duo_workflows_checkpoints_on_project_id ON ONLY p_duo_workf
 
 CREATE INDEX index_p_duo_workflows_checkpoints_thread ON ONLY p_duo_workflows_checkpoints USING btree (workflow_id, thread_ts);
 
+CREATE INDEX index_p_knowledge_graph_code_indexing_tasks_on_project_id ON ONLY p_knowledge_graph_code_indexing_tasks USING btree (project_id);
+
 CREATE INDEX index_p_sent_notifications_on_issue_email_participant_id ON ONLY p_sent_notifications USING btree (issue_email_participant_id);
 
 CREATE INDEX index_p_sent_notifications_on_namespace_id ON ONLY p_sent_notifications USING btree (namespace_id);
@@ -53673,6 +53714,8 @@ CREATE TRIGGER assign_p_ci_pipelines_id_trigger BEFORE INSERT ON p_ci_pipelines 
 CREATE TRIGGER assign_p_ci_stages_id_trigger BEFORE INSERT ON p_ci_stages FOR EACH ROW EXECUTE FUNCTION assign_p_ci_stages_id_value();
 
 CREATE TRIGGER assign_p_duo_workflows_checkpoints_id_trigger BEFORE INSERT ON p_duo_workflows_checkpoints FOR EACH ROW EXECUTE FUNCTION assign_p_duo_workflows_checkpoints_id_value();
+
+CREATE TRIGGER assign_p_knowledge_graph_code_indexing_tasks_id_trigger BEFORE INSERT ON p_knowledge_graph_code_indexing_tasks FOR EACH ROW EXECUTE FUNCTION assign_p_knowledge_graph_code_indexing_tasks_id_value();
 
 CREATE TRIGGER assign_zoekt_tasks_id_trigger BEFORE INSERT ON zoekt_tasks FOR EACH ROW EXECUTE FUNCTION assign_zoekt_tasks_id_value();
 

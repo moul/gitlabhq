@@ -96,7 +96,10 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
       'sbom_vulnerability_scans.project_id',
       'sbom_vulnerability_scan_results.project_id',
       'p_duo_workflows_checkpoints.project_id',
-      'p_duo_workflows_checkpoints.namespace_id'
+      'p_duo_workflows_checkpoints.namespace_id',
+      # No LFK needed: daily partitions are dropped after 1 day via retain_for
+      # https://gitlab.com/gitlab-org/gitlab/-/blob/ccc2459924e2805e43ad8f97eec15a6932d84f68/ee/app/models/analytics/knowledge_graph/code_indexing_task.rb#L13
+      'p_knowledge_graph_code_indexing_tasks.project_id'
     ]
   end
 
