@@ -70,7 +70,7 @@ You might need the project ID if you want to interact with the project using the
 
 To find the project ID:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. On the project overview page, in the upper-right corner, select **Actions** ({{< icon name="ellipsis_v" >}}).
 1. Select **Copy project ID**.
 
@@ -100,7 +100,7 @@ the list shows public projects only.
 
 To view the projects on your GitLab instance:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. Select **Explore**.
 1. Optional. Select a tab to filter which projects are displayed.
 
@@ -116,7 +116,7 @@ To view the projects on your GitLab instance:
 
 To view the projects you have interacted with:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. Select **View all my projects**.
 1. Optional. Select a tab to filter which projects are displayed:
    - **Contributed**: Projects where you have:
@@ -170,7 +170,7 @@ If the project is pending deletion, the list also shows:
 
 To view only the projects you are the owner of:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. Select either:
    - **View all your projects**, to filter your projects.
    - **Explore**, to filter all projects you can access.
@@ -181,7 +181,7 @@ To view only the projects you are the owner of:
 
 To view the activity of a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Manage** > **Activity**.
 1. Optional. To filter activity by contribution type, select a tab:
 
@@ -206,7 +206,7 @@ GitLab removes project activity events older than three years from the events ta
 
 You can filter projects by the programming language they use. To do this:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. Select either:
    - **View all your projects**, to filter your projects.
    - **Explore**, to filter all projects you can access.
@@ -221,7 +221,7 @@ You can star projects you use frequently to make them easier to find.
 
 To star a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the upper-right corner of the page, select **Star**.
 
 ## Leave a project
@@ -245,13 +245,13 @@ Prerequisites:
 
 To leave a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. On the project overview page, in the upper-right corner, select **Actions** ({{< icon name="ellipsis_v" >}}).
 1. Select **Leave project**, then **Leave project** again.
 
 To leave a project from the **Your work** list view directly:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. Select **View all my projects**.
 1. In the **Member** tab, find the project you want to leave and select the vertical ellipsis ({{< icon name="ellipsis_v" >}}).
 1. Select **Leave project**.
@@ -266,7 +266,7 @@ Prerequisites:
 
 - You must have the Maintainer or Owner role for the project.
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. In the **Project name** text box, enter your project name. See the [limitations on project names](../reserved_names.md).
 1. Optional. In the **Project description** text box, enter your project description. The description is limited to 2,000 characters.
@@ -288,7 +288,7 @@ Prerequisites:
 
 To rename a repository:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Advanced**.
 1. In the **Change path** text box, edit the path.
@@ -315,7 +315,7 @@ Prerequisites:
 
 To add a logo file to use as your project avatar:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the root of your project repository, upload the logo file.
 
 #### Upload an avatar in project settings
@@ -334,7 +334,7 @@ Prerequisites:
 
 To upload an avatar in your project settings:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. In the **Project avatar** section, select **Choose file**.
 1. Select your avatar file.
@@ -359,7 +359,7 @@ Prerequisites:
 
 To delete a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Advanced**.
 1. In the **Delete project** section, select **Delete**.
@@ -398,7 +398,7 @@ Prerequisites:
 
 To permanently delete a project scheduled for deletion:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Advanced**.
 1. In the **Delete project** section, select **Delete permanently**.
@@ -421,7 +421,7 @@ Prerequisites:
 
 To restore a project pending deletion:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Advanced**.
 1. In the **Restore project** section, select **Restore project**.
@@ -451,14 +451,14 @@ Prerequisites:
 
 To archive a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Advanced**.
 1. In the **Archive project** section, select **Archive**.
 
 To archive a project from the **Your work** list view directly:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. From the dropdown, select **View all my projects**.
 1. In the **Member** tab, find the project you want to archive and select the vertical ellipsis ({{< icon name="ellipsis_v" >}}).
 1. Select **Archive**.
@@ -487,7 +487,7 @@ Prerequisites:
 To unarchive a project:
 
 1. Find the archived project.
-   1. On the top bar, select **Search or go to**.
+   1. In the top bar, select **Search or go to**.
    1. From the dropdown, select **View all my projects**.
    1. In the **Inactive** tab, select your project.
 1. In the left sidebar, select **Settings** > **General**.
@@ -496,7 +496,7 @@ To unarchive a project:
 
 To unarchive a project from the **Your work** list view directly:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. From the dropdown, select **View all my projects**.
 1. In the **Inactive** tab, find the project you want to unarchive and select the vertical ellipsis ({{< icon name="ellipsis_v" >}}).
 1. Select **Unarchive**.
@@ -533,7 +533,7 @@ Prerequisites:
 
 To transfer a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Advanced**.
 1. Under **Transfer project**, choose the namespace to transfer the project to.
@@ -626,7 +626,7 @@ Prerequisites:
 
 To manage projects with the **Actions** menu:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. From the dropdown, select **View all my projects**.
 1. On the **Projects** page, find your project and select the vertical ellipsis ({{< icon name="ellipsis_v" >}}).
 1. Select an action.

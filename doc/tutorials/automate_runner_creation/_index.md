@@ -85,7 +85,7 @@ gives access to all projects in the group.
 
 To create a project access token:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Settings** > **Access tokens**.
 1. Select **Add new token**
 1. Enter a name. The token name is visible to any user with permissions to view

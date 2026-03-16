@@ -46,7 +46,7 @@ Prerequisites:
 
 To turn GitLab Duo on or off for a group or subgroup:
 
-1. On the top bar, select **Search or go to** and find your group or subgroup.
+1. In the top bar, select **Search or go to** and find your group or subgroup.
 1. Go to the settings, based on your deployment type and group level:
    - For GitLab.com top-level groups: Select **Settings** > **GitLab Duo** and select **Change configuration**.
    - For GitLab.com subgroups: Select **Settings** > **General** and expand **GitLab Duo features**.
@@ -74,7 +74,7 @@ Prerequisites:
 
 To turn GitLab Duo on or off for a top-level group:
 
-1. On the top bar, select **Search or go to** and find your top-level group.
+1. In the top bar, select **Search or go to** and find your top-level group.
 1. Select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
 1. Choose an option.
@@ -100,7 +100,7 @@ Prerequisites:
 
 To turn GitLab Duo on or off for a top-level group:
 
-1. On the top bar, select **Search or go to** and find your top-level group.
+1. In the top bar, select **Search or go to** and find your top-level group.
 1. Select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
 1. Choose an option.
@@ -119,7 +119,7 @@ Prerequisites:
 
 To turn GitLab Duo on or off for a group or subgroup:
 
-1. On the top bar, select **Search or go to** and find your group or subgroup.
+1. In the top bar, select **Search or go to** and find your group or subgroup.
 1. Select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Select or clear the **Use GitLab Duo features** checkbox.
@@ -146,7 +146,7 @@ Prerequisites:
 
 To turn GitLab Duo on or off for a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
 1. Under **GitLab Duo**, turn the toggle on or off.

@@ -108,7 +108,7 @@ If you prefer to see code generation results only when they are complete, you ca
 Disabling streaming means that code generation requests might be perceived
 as taking longer to resolve. To disable streaming:
 
-1. In VS Code, on the top bar, go to **Code** > **Settings** > **Settings**.
+1. In VS Code, in the top bar, go to **Code** > **Settings** > **Settings**.
 1. In the upper-right corner, select **Open Settings (JSON)** to edit your `settings.json` file:
 
    ![The icons in the upper-right corner of VS Code, including 'Open Settings.'](img/open_settings_v17_5.png)
@@ -175,7 +175,7 @@ You can [add a custom SSL certificate](set_up.md#add-a-custom-certificate-for-co
 This error occurs when the provided connection instance URL and authentication token passed through to the
 GitLab Language Server process are invalid. To re-enable Code Suggestions:
 
-1. In your IDE, on the top bar, select your IDE name, then select **Settings**.
+1. In your IDE, in the top bar, select your IDE name, then select **Settings**.
 1. In the left sidebar, select **Tools** > **GitLab Duo**.
 1. Under **Connection**, select **Verify setup**.
 1. Update your **Connection** details as needed.

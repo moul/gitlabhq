@@ -1,5 +1,5 @@
 import { GlFilteredSearchToken } from '@gitlab/ui';
-import { keyBy } from 'lodash';
+import { keyBy } from 'lodash-es';
 import {
   OPERATORS_IS,
   OPERATORS_IS_NOT,

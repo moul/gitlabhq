@@ -194,7 +194,7 @@ On the Premium and Ultimate tier:
 
 On the Free tier:
 
-1. On the top bar, select **Search or go to** and find your top-level group.
+1. In the top bar, select **Search or go to** and find your top-level group.
 1. Select **Settings** > **Billing**.
 1. If you:
    - Are not on a trial: On the GitLab Credits card, select **Purchase credits** or **Increase credits**.

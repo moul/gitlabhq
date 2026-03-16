@@ -60,7 +60,7 @@ Prerequisites:
 
 To install the GitLab for Jira Cloud app:
 
-1. In Jira, on the top bar, select **Apps** > **Explore more apps** and search for `GitLab for Jira Cloud`.
+1. In Jira, in the top bar, select **Apps** > **Explore more apps** and search for `GitLab for Jira Cloud`.
 1. Select **GitLab for Jira Cloud**, then select **Get it now**.
 
 Alternatively, [get the app directly from the Atlassian Marketplace](https://marketplace.atlassian.com/apps/1221011/gitlab-com-for-jira-cloud?tab=overview&hosting=cloud).
@@ -175,7 +175,7 @@ In Jira Service Management:
 
 In GitLab:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Integrations**.
 1. Select **GitLab for Jira Cloud app**. If the integration is disabled, first [link a GitLab group](#configure-the-gitlab-for-jira-cloud-app)
    which enables the GitLab for Jira Cloud app integration for the group, its subgroups, and projects.
@@ -229,7 +229,7 @@ To enable deployment gating:
 
 - In GitLab:
 
-  1. On the top bar, select **Search or go to** and find your project.
+  1. In the top bar, select **Search or go to** and find your project.
   1. Select **Settings** > **Integrations**.
   1. Select **GitLab for Jira Cloud app**.
   1. Under **Deployment gating**, select the **Enable deployment gating** checkbox.
@@ -246,7 +246,7 @@ To enable deployment gating:
 
 To add the service account to your protected environments in GitLab:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **CI/CD**.
 1. Expand **Protected environments** and select **Protect an environment**.
 1. From the **Select environment** dropdown list, select an environment to protect (for example, **staging**).

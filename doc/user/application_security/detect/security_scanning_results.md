@@ -75,7 +75,7 @@ Prerequisites:
 
 To download a security report:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
@@ -110,7 +110,7 @@ Prerequisites:
 
 To view a pipeline security report:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Build** > **Pipelines**.
 1. Select the latest pipeline.
 
@@ -126,7 +126,7 @@ Prerequisites:
 
 To create an issue:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
@@ -148,7 +148,7 @@ Prerequisites:
 
 To change the status and severity of findings or vulnerabilities:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Build** > **Pipelines**.
 1. Select the latest pipeline.
 1. Select the **Security** tab.
@@ -180,7 +180,7 @@ Prerequisites:
 
 To download a security report:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
@@ -226,7 +226,7 @@ Prerequisites:
 
 To view the security widget:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Merge requests**.
 1. Select a merge request.
 

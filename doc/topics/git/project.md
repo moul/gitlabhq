@@ -31,7 +31,7 @@ Prerequisites:
 - You must have permission to add new projects to a [namespace](../../user/namespace/_index.md).
   To verify your permissions:
 
-  1. On the top bar, select **Search or go to** and find your group.
+  1. In the top bar, select **Search or go to** and find your group.
   1. In the upper-right corner, confirm that **New project** is visible.
 
   If you do not have the necessary permission, contact your GitLab administrator.

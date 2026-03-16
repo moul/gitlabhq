@@ -49,7 +49,7 @@ To create a merge request from an issue, you must:
 
 To convert your issue to a merge request:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Plan** > **Work items**, then filter by **Type** = **Issue**.
 1. Select the issue you want to create a merge request for.
 1. Below the issue header, select **Generate MR with GitLab Duo**.

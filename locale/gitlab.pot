@@ -25763,9 +25763,6 @@ msgstr ""
 msgid "Disable password and passkey authentication for users with an SSO identity"
 msgstr ""
 
-msgid "Disable semantic search"
-msgstr ""
-
 msgid "Disabled"
 msgstr ""
 
@@ -65259,6 +65256,9 @@ msgstr ""
 msgid "SemanticSearch|Current status of the semantic code search."
 msgstr ""
 
+msgid "SemanticSearch|Disable"
+msgstr ""
+
 msgid "SemanticSearch|Disabled"
 msgstr ""
 
@@ -65266,6 +65266,9 @@ msgid "SemanticSearch|Enabled"
 msgstr ""
 
 msgid "SemanticSearch|Status"
+msgstr ""
+
+msgid "SemanticSearch|This action is destructive. Disabling semantic search will remove all indexed data. If you reconnect in the future, a full index will be performed."
 msgstr ""
 
 msgid "SemanticSearch|Vector storage"
@@ -70586,9 +70589,6 @@ msgid "This action cannot be undone, and will permanently delete the %{key} SSH 
 msgstr ""
 
 msgid "This action cannot be undone, and will permanently delete the %{key} SSH key. All commits signed using this SSH key will be marked as unverified."
-msgstr ""
-
-msgid "This action is destructive. Disabling semantic search will remove all indexed data. If you reconnect in the future, a full index will be performed."
 msgstr ""
 
 msgid "This action will permanently delete this group, including its subgroups and projects, on %{date}. Scheduled pipelines will not run during deletion."

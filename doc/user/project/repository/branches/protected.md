@@ -48,7 +48,7 @@ Prerequisites:
 
 To protect a branch:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Branch rules**.
 1. Select **Add branch rule** > **Branch name or pattern**.
@@ -92,7 +92,7 @@ Prerequisites:
 
 To protect a branch for all the projects in a group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Repository**.
 1. Expand **Protected branches**.
 1. Select **Add protected branch**.
@@ -185,7 +185,7 @@ Prerequisites:
 
 To protect multiple branches at the same time:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Branch rules**.
 1. Select **Add branch rule** > **Branch name or pattern**.
@@ -218,7 +218,7 @@ You can set various protection options to secure your branches.
 You can force everyone to submit a merge request, rather than allowing them to
 check in directly to a protected branch:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Branch rules**.
 1. Next to your branch, select **View details**.
@@ -232,7 +232,7 @@ check in directly to a protected branch:
 
 You can allow everyone with write access to push directly to the protected branch.
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Branch rules**.
 1. Next to your branch, select **View details**.
@@ -251,7 +251,7 @@ You can allow everyone with write access to push directly to the protected branc
 To set the members of a group or subgroup as **Allowed to merge** or **Allowed to push and merge**
 to a protected branch:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Branch rules**.
 1. Next to your branch, select **View details**.
@@ -335,7 +335,7 @@ Prerequisites:
 
 To allow a deploy key to push to a protected branch:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Branch rules**.
 1. Next to your branch, select **View details**.
@@ -352,7 +352,7 @@ protected branches.
 
 To protect a branch and enable force push:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Branch rules**.
 1. Select **Add branch rule** > **Branch name or pattern**.
@@ -364,7 +364,7 @@ To protect a branch and enable force push:
 
 To enable force pushes on branches that are already protected:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Branch rules**.
 1. Next to your branch, select **View details**.
@@ -385,7 +385,7 @@ If a branch is protected by multiple rules, code owner approval is required if
 
 To protect a new branch and enable Code Owner's approval:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Branch rules**.
 1. Select **Add branch rule** > **Branch name or pattern**.
@@ -397,7 +397,7 @@ To protect a new branch and enable Code Owner's approval:
 
 To enable Code Owner's approval on branches that are already protected:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Branch rules**.
 1. Next to your branch, select **View details**.
@@ -477,7 +477,7 @@ Prerequisites:
 
 To create a new branch with protections:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Branches**.
 1. Select **New branch**.
 1. Fill in the branch name and select an existing branch, tag, or commit to
@@ -493,7 +493,7 @@ If branch protection is configured to [allow everyone to push directly to a prot
 Users with the Maintainer or Owner role can manually delete protected
 branches by using the GitLab web interface:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Branches**.
 1. Next to the branch you want to delete, select **More actions** ({{< icon name="ellipsis_v" >}}).
 1. Select **Delete protected branch**.

@@ -20,7 +20,7 @@ title: Project settings
 
 To configure features and permissions for a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
 1. To allow users to request access to the project, select the **Users can request access** checkbox.
@@ -60,7 +60,7 @@ and accessible to project members, regardless of their role.
 
 To toggle the availability of individual features in a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
 1. To change the availability of a feature, turn the toggle on or off.
@@ -74,7 +74,7 @@ To toggle the availability of individual features in a project:
 By default, project analytics are displayed under the **Analyze** item in the left sidebar.
 To turn this feature off and remove the **Analyze** item from the left sidebar:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
 1. Turn off the **Analytics** toggle.
@@ -99,7 +99,7 @@ In some environments, users can submit a [CVE identifier request](../../applicat
 
 To turn off the CVE identifier request option in issues in your project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
 1. Under **Work items**, turn off the **CVE ID requests in the issue sidebar** toggle.
@@ -111,7 +111,7 @@ Prerequisites:
 
 - You must have the Owner role for the project.
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand the **Visibility, project features, permissions** section.
 1. Clear the **Enable email notifications** checkbox.
@@ -137,7 +137,7 @@ Prerequisites:
 
 To turn off diff previews for a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand the **Visibility, project features, permissions** section.
 1. Clear **Include diff previews**.
@@ -170,7 +170,7 @@ In merge requests, you can change the default behavior so that the
 
 To set this default:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Merge requests**.
 1. Select **Enable "Delete source branch" option by default**.
 1. Select **Save changes**.
@@ -190,7 +190,7 @@ before a project token expires. By default, these webhooks trigger 7 days before
 
 To configure these webhooks to also trigger 60 days and 30 days before a token expires:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand the **Visibility, project features, permissions** section.
 1. Select the **Add additional webhook triggers for project access token expiration** checkbox.

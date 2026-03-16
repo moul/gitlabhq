@@ -43,7 +43,7 @@ Prerequisites:
 
 To enable IaC scanning:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Go to **Build** > **Pipeline** editor.
 1. Add either the IaC scanning CI/CD template or component.
 
@@ -103,7 +103,7 @@ Prerequisites:
 
 You can review vulnerabilities in a pipeline:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
@@ -122,7 +122,7 @@ Prerequisites:
 
 - The Developer, Maintainer, or Owner role for the project.
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
@@ -361,7 +361,7 @@ Prerequisites:
 
 To use a specific analyzer version:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Build** > **Pipeline editor**.
 1. Add the `SAST_ANALYZER_IMAGE_TAG` CI/CD variable, after the line that includes the
    `SAST-IaC.gitlab-ci.yml` template.

@@ -1,6 +1,6 @@
 <script>
 import { GlLabel, GlTooltipDirective, GlIcon, GlLoadingIcon } from '@gitlab/ui';
-import { sortBy, uniqueId } from 'lodash';
+import { sortBy, uniqueId } from 'lodash-es';
 import SafeHtml from '~/vue_shared/directives/safe_html';
 import boardCardInner from 'ee_else_ce/boards/mixins/board_card_inner';
 import { isScopedLabel, convertObjectPropsToCamelCase } from '~/lib/utils/common_utils';

@@ -1,6 +1,6 @@
 <script>
 import { GlDisclosureDropdown, GlResizeObserverDirective } from '@gitlab/ui';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import VueDraggable from '~/lib/utils/vue3compat/draggable_compat.vue';
 import { s__, n__ } from '~/locale';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';

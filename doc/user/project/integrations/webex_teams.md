@@ -39,7 +39,7 @@ notifications:
 
 1. To enable integration:
    - At the project or group level:
-     1. On the top bar, select **Search or go to** and find your project or group.
+     1. In the top bar, select **Search or go to** and find your project or group.
      1. Select **Settings** > **Integrations**.
    - At the instance level:
      1. In the upper-right corner, select **Admin**.

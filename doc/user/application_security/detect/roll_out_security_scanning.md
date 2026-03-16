@@ -152,7 +152,7 @@ Prerequisites:
 
 For each project in scope:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Security configuration**.
 1. Expand **Security configuration**.
 1. Enable the appropriate application security testing based on your project's stack.
@@ -173,7 +173,7 @@ Prerequisites:
 
 To view pipeline results:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Build** > **Pipelines**.
 1. Select the pipeline to review.
 1. In the pipeline details, select the **Security** tab to view detected vulnerabilities.
@@ -273,7 +273,7 @@ Prerequisites:
 
 To configure approval policies to require security reviews:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Secure** > **Policies**.
 1. Select **New policy**
 1. In the **Merge request approval policy** pane, select **Select policy**.
@@ -360,7 +360,7 @@ Prerequisites:
 - You must have the Owner role, or a custom role with `manage_security_policy_link` permission, for
   the groups in which application security testing is to be enabled.
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Secure** > **Policies**.
 1. Create scan execution policies based on the application security testing configuration used
    during the pilot phase.

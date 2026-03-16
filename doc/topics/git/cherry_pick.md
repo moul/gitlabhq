@@ -78,7 +78,7 @@ To cherry-pick a single commit into your current working branch:
    Date:   Tue Aug 31 21:19:41 2021 +0000
 
        Fixes a regression we found yesterday
-    ```
+   ```
 
 1. Check out the branch you want to cherry-pick into:
 
@@ -123,7 +123,7 @@ into your desired target branch:
    Date:   Tue Aug 31 21:19:41 2021 +0000
 
        Adds tests to ensure the problem does not happen again
-    ```
+   ```
 
 1. Check out the branch (`release`) you want to cherry-pick into:
 
@@ -174,7 +174,7 @@ To cherry-pick the merge commit from branch `feature-1` into your current workin
    Date:   Tue Aug 31 21:19:41 2021 +0000
 
        Merges feature-1 into main
-    ```
+   ```
 
 1. Check out the branch you want to cherry-pick into:
 

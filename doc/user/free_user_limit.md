@@ -96,7 +96,7 @@ Prerequisites:
 
 - You must have the Owner role for the group.
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Usage quotas**.
 1. To view all members, select the **Seats** tab.
 

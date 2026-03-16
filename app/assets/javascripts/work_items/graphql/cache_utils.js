@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-import { map, isEqual } from 'lodash';
+import { map, isEqual } from 'lodash-es';
 import { TYPENAME_USER } from '~/graphql_shared/constants';
 import { apolloProvider } from '~/graphql_shared/issuable_client';
 import { convertToGraphQLId } from '~/graphql_shared/utils';

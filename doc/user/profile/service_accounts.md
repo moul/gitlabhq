@@ -142,7 +142,7 @@ To view service accounts for the entire instance:
 
 To view service accounts for a group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Service accounts**.
 
 {{< /tab >}}
@@ -151,7 +151,7 @@ To view service accounts for a group:
 
 To view service accounts for a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Service accounts**.
 
 {{< /tab >}}

@@ -3,7 +3,7 @@ import { VueRenderer } from '@tiptap/vue-2';
 import tippy from 'tippy.js';
 import Suggestion from '@tiptap/suggestion';
 import { PluginKey } from '@tiptap/pm/state';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 import { REFERENCE_TYPES } from '~/content_editor/constants/reference_types';
 import {
   prioritizeCommandsWithFrequent,

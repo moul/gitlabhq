@@ -1,6 +1,6 @@
 <script>
 import { GlButton, GlDisclosureDropdown, GlLabel } from '@gitlab/ui';
-import { difference, unionBy } from 'lodash';
+import { difference, unionBy } from 'lodash-es';
 import fuzzaldrinPlus from 'fuzzaldrin-plus';
 import { NAMESPACE_GROUP, NAMESPACE_PROJECT } from '~/issues/constants';
 import { __, createListFormat, s__, sprintf } from '~/locale';

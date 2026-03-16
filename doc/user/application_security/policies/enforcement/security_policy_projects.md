@@ -152,7 +152,7 @@ Prerequisites:
 
 To link a group, subgroup, or project to a security policy project:
 
-1. On the top bar, select **Search or go to** and find your project, subgroup, or group.
+1. In the top bar, select **Search or go to** and find your project, subgroup, or group.
 1. Select **Secure** > **Policies**.
 1. Select **Edit Policy Project**, then search for and select the project you would like to link
    from the dropdown list.

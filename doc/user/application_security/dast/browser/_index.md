@@ -75,7 +75,7 @@ After completing your first scan:
 
 You can review vulnerabilities in a pipeline:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.

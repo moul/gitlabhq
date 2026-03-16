@@ -17,7 +17,7 @@ description: Automatic detection and filtering of false positives in secret dete
 
 {{< history >}}
 
-- Introduced in [epic 17885](https://gitlab.com/groups/gitlab-org/-/work_items/20152) in GitLab 18.10 as a [beta](../../../policy/development_stages_support.md#beta) feature with a [feature flag](../../../administration/feature_flags/_index.md) named `duo_secret_detection_false_positive`. Disabled by default.
+- Introduced in [epic 17885](https://gitlab.com/groups/gitlab-org/-/work_items/20152) in GitLab 18.10 as a [beta](../../../policy/development_stages_support.md#beta) feature with a [feature flag](../../../administration/feature_flags/_index.md) named `duo_secret_detection_false_positive`. [Enabled on GitLab.com, GitLab Self-Managed, and GitLab Dedicated](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227074).
 
 {{< /history >}}
 
@@ -47,7 +47,7 @@ The analysis runs in the background and results appear in the vulnerability repo
 
 You can manually run false positive detection for existing vulnerabilities:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Vulnerability report**.
 1. Select the vulnerability you want to analyze.
 1. In the upper-right corner, select **Check for false positive** to trigger false positive detection.
@@ -106,7 +106,7 @@ When the GitLab Duo analysis identifies a vulnerability as a false positive, you
 
 ### Dismiss the vulnerability
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Vulnerability report**.
 1. Select the vulnerability you want to dismiss.
 1. Select **Change status**.
@@ -121,7 +121,7 @@ The vulnerability is marked as dismissed and does not appear in future scans unl
 
 If you want to remove the false positive assessment and keep the vulnerability:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Vulnerability report**.
 1. Locate the vulnerability with the false positive flag.
 1. Hover over the false positive badge on the vulnerability.

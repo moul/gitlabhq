@@ -311,7 +311,7 @@ The Policies page displays deployed policies for all available environments. You
 policy's information (for example, description or enforcement status), and create and edit deployed
 policies:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Policies**.
 
 ![Policies List Page](img/policies_list_v17_7.png)
@@ -322,7 +322,7 @@ A green checkmark in the first column indicates that the policy is enabled and e
 
 Use the policy editor to create, edit, and delete policies:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Policies**.
    - To create a new policy, select **New policy** which is located in the **Policies** page's header.
      You can then select which type of policy to create.

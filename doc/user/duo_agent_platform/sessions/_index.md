@@ -54,7 +54,7 @@ exclusively for Chats.
 
 You can cancel a session that is running or waiting for input. To cancel a session:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Automate** > **Sessions**.
 1. On the **Details** tab, scroll to the bottom.
 1. Select **Cancel session**.

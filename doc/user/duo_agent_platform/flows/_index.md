@@ -70,7 +70,7 @@ To execute flows in the GitLab UI:
 
 To view flows that are running for your project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Automate** > **Sessions**.
 
 ## View flow history in the IDEs

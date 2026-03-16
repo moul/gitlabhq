@@ -47,7 +47,7 @@ For **GitLab Self-Managed** instances, make sure your administrator has
 
 After you've met the requirements, enable Let's Encrypt integration:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Deploy** > **Pages**.
 1. Next to the domain name, select **Edit** ({{< icon name="pencil" >}}).
 1. Turn on the **Automatic certificate management using Let's Encrypt** toggle.
@@ -75,7 +75,7 @@ This issue occurs when Let's Encrypt cannot reach or validate your domain.
 
 To resolve this issue:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General** > **Visibility** and make sure **Pages** is
    set to **Everyone**.
 1. Select **Deploy** > **Pages** > **Domains & settings**.
@@ -106,7 +106,7 @@ This process can take some time. Please try again later.
 
 Remove and add the domain for GitLab Pages again by following these steps:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Deploy** > **Pages**.
 1. Next to the domain name, select **Remove**.
 1. [Add the domain again, and verify it](_index.md#step-1-add-a-custom-domain).

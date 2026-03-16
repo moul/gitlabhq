@@ -38,7 +38,7 @@ you must have [Mattermost 3.4 or later](https://mattermost.com/blog/category/pla
 If Mattermost is installed on the same server as GitLab,
 you can automatically configure Mattermost slash commands:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Integrations**.
 1. Select **Mattermost slash commands**.
 1. Under **Enable integration**, ensure the **Active** checkbox is selected.

@@ -302,7 +302,7 @@ Prerequisites:
 
 - You must have the Owner role for the top-level group.
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **General** > **Permissions and group features**.
 1. Clear the **Service account token expiration** checkbox.
 
@@ -394,7 +394,7 @@ Disabling the personal access tokens of a group's [enterprise users](../enterpri
 
 To disable the enterprise users' personal access tokens:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Under **Enterprise users**, select **Disable personal access tokens**.

@@ -143,7 +143,7 @@ Prerequisites:
 
 To update multiple epics at the same time:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 1. Select **Bulk edit**. On the right, a sidebar with editable fields appears.
 1. Select the checkboxes next to each epic you want to edit.
@@ -238,7 +238,7 @@ Prerequisites:
 
 To change the assignee on an epic:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 1. Select your epic to view it.
 1. In the right sidebar, in the **Assignees** section, select **Edit**.
@@ -294,7 +294,7 @@ Prerequisites:
 
 To change an epic's color:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 1. Select an epic.
 1. In the right sidebar, in the **Color** section, select **Edit**.
@@ -381,7 +381,7 @@ Prerequisites:
 
 To view epics in a group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 
 To set which attributes are shown for epics on the epics list, [configure display preferences](../../work_items/_index.md#configure-list-display-preferences).
@@ -459,7 +459,7 @@ You can filter a list of epics by:
 
 To filter:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 1. Select additional filters, operators, and values as needed.
    To search by title or description, type in the filter bar.
@@ -660,7 +660,7 @@ Prerequisites:
 
 To change the health status of an epic:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 1. Select an epic.
 1. In the right sidebar, in the **Health status** section, select **Edit**.
@@ -824,7 +824,7 @@ Prerequisites:
 
 To add a parent epic:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Plan** > **Work items**, then filter by **Type** = **Epic**.
 1. Select an epic.
 1. In the right sidebar, in the **Parent** section, select **Edit**.

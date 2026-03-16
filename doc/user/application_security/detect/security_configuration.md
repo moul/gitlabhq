@@ -80,7 +80,7 @@ Not enabled
 
 To view a project's security configuration:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Security configuration**.
 
 To see a historic view of changes to the CI/CD configuration file, select **Configuration history**.
@@ -89,7 +89,7 @@ To see a historic view of changes to the CI/CD configuration file, select **Conf
 
 To edit a project's security configuration:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Security configuration**.
 1. Select the security scanner you want to enable or configure and follow the instructions.
 

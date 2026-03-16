@@ -59,7 +59,7 @@ You can also [use the API](../../../../api/container_virtual_registries.md).
 
 To create a container virtual registry:
 
-1. On the top bar, select **Search or go to** and find your group. This group must be at the top level.
+1. In the top bar, select **Search or go to** and find your group. This group must be at the top level.
 1. Select **Deploy** > **Virtual registry**.
 1. If you:
    - Have an existing registry, select **Create registry**. From the dropdown list, select **Container**.
@@ -81,7 +81,7 @@ Prerequisites:
 
 To create a container upstream registry:
 
-1. On the top bar, select **Search or go to** and find your group. This group must be at the top level.
+1. In the top bar, select **Search or go to** and find your group. This group must be at the top level.
 1. Select **Deploy** > **Virtual registry**.
 1. Under **Registry types**, select **View registries**.
 1. Under the **Registries** tab, select a registry.

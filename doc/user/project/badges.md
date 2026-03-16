@@ -148,7 +148,7 @@ A common project badge presents the GitLab CI pipeline status.
 
 To add this badge to a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Badges**.
 1. Under **Name**, enter _Pipeline Status_.
@@ -178,7 +178,7 @@ If you need individual badges for each project, either:
 
 To view badges available in a project or group:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Settings** > **General**.
 1. Expand **Badges**.
 
@@ -186,7 +186,7 @@ To view badges available in a project or group:
 
 To add a new badge to a project or group:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Settings** > **General**.
 1. Expand **Badges**.
 1. Select **Add badge**.
@@ -200,7 +200,7 @@ To add a new badge to a project or group:
 You can view the exact link for your badges.
 Then you can use the link to embed the badge in your HTML or Markdown pages.
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **CI/CD**.
 1. Expand **General pipelines**.
 1. In the **Pipeline status**, **Coverage report**, or **Latest release** sections, view the URLs for the images.
@@ -358,7 +358,7 @@ Prerequisites:
 
 To add a custom badge with an image:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Settings** > **General**.
 1. Expand **Badges**.
 1. Under **Name**, enter the name for the badge.
@@ -377,7 +377,7 @@ To use custom images generated through a pipeline, see [accessing the latest job
 
 To edit a badge in a project or group:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Settings** > **General**.
 1. Expand **Badges**.
 1. Next to the badge you want to edit, select **Edit** ({{< icon name="pencil" >}}).
@@ -388,7 +388,7 @@ To edit a badge in a project or group:
 
 To delete a badge in a project or group:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Settings** > **General**.
 1. Expand **Badges**.
 1. Next to the badge you want to delete, select **Delete** ({{< icon name="remove" >}}).

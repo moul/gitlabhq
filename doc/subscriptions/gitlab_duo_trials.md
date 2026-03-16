@@ -68,7 +68,7 @@ Prerequisites:
 
 To start a GitLab Duo Pro trial on GitLab.com:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Billing**.
 1. Select **Start a free GitLab Duo Pro trial**.
 1. Complete the fields.
@@ -126,7 +126,7 @@ Prerequisites:
 
 To start a GitLab Duo Enterprise trial on GitLab.com:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Billing**.
 1. Select **Start a free GitLab Duo Enterprise trial**.
 1. Complete the fields.

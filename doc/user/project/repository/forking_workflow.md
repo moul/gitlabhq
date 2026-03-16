@@ -106,7 +106,7 @@ Prerequisites:
 
 To update your fork from the GitLab UI:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. Select **View all my projects**.
 1. Select the fork you want to update.
 1. Below the dropdown list for branch name, find the **Forked from** ({{< icon name="fork" >}})
@@ -192,7 +192,7 @@ Prerequisites:
 
 To remove a fork relationship:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Advanced**.
 1. In the **Remove fork relationship** section, select **Remove fork relationship**.

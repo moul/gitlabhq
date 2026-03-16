@@ -43,7 +43,7 @@ Prerequisites:
 
 To set up the integration for your project or group:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Settings** > **Integrations**.
 1. Next to **Confluence Workspace**, select **Configure**.
 1. Under **Enable integration**, select the **Active** checkbox.
@@ -83,6 +83,6 @@ Prerequisites:
 
 To access your Confluence Workspace from a GitLab project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Plan** > **Confluence**.
 1. Select **Go to Confluence**.

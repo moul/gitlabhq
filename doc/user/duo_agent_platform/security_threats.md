@@ -178,7 +178,7 @@ Prerequisites:
 
 To configure prompt injection protection:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **General**.
 1. Expand **GitLab Duo features**.
 1. Under **Prompt injection protection**, select an option:

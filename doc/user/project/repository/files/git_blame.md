@@ -33,7 +33,7 @@ Prerequisites:
 
 To view the blame for a file:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Repository**.
 1. Select the file you want to review.
 1. Either:
@@ -54,7 +54,7 @@ changes to light gray.
 
 To see earlier revisions of a specific line:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Repository**.
 1. Select the file you want to review.
 1. In the upper-right corner, select **Blame**, and go to the line you want to see.

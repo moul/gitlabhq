@@ -425,7 +425,7 @@ The following table lists the GitLab settings and the corresponding Azure AD fie
 
 To configure Azure AD for a GitLab.com group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
    This group must be at the top level.
 1. Select **Settings** > **SAML SSO**.
 1. Configure [SAML SSO for the group](_index.md).

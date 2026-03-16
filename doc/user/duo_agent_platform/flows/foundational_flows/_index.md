@@ -86,7 +86,7 @@ Prerequisites:
 
 - The Owner role for the top-level group.
 
-1. On the top bar, select **Search or go to** and find your top-level group.
+1. In the top bar, select **Search or go to** and find your top-level group.
 1. Select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **Flow execution**, select the **Allow flow execution** and **Allow foundational flows** checkboxes.
@@ -105,7 +105,7 @@ Prerequisites:
 - The Owner or Maintainer role for the project.
 - Flow execution and foundational flows turned on for the top-level group.
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings > General**.
 1. Expand **GitLab Duo**.
 1. Turn on the **GitLab Duo**, **Allow flow execution**, and **Allow foundational flows** toggles.
@@ -140,7 +140,7 @@ Prerequisites:
 - Administrator access.
 - Flow execution and foundational flows turned on for the instance.
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **General**.
 1. Expand **GitLab Duo features**.
 1. Under **Flow execution**, select the **Allow flow execution** and **Allow foundational flows** checkboxes.
@@ -158,7 +158,7 @@ Prerequisites:
 - The Owner or Maintainer role for the project.
 - Flow execution and foundational flows turned on for the instance and group.
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings > General**.
 1. Expand **GitLab Duo**.
 1. Turn on the **GitLab Duo**, **Allow flow execution**, and **Allow foundational flows** toggles.

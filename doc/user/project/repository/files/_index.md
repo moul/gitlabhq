@@ -110,7 +110,7 @@ sharing and referencing code in documentation, issues, or merge requests.
 
 To create a permalink:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Go to the file or directory you want to link to.
 1. Optional. For specific code selections:
    - **Single line**: Select the line number.
@@ -138,7 +138,7 @@ the current branch and modify the file. This helps you identify files that have 
 
 To view the open merge requests for a file:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Go to the file you want to view.
 1. In the upper right of the screen, next to the filename, look for the green badge with the number
    of {{< icon name="merge-request-open" >}} **Open** merge requests.
@@ -158,7 +158,7 @@ The file finder uses fuzzy search and highlights results as you type.
 
 To search for a file, press <kbd>t</kbd> anywhere in your project, or:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Repository**.
 1. In the upper right, select **Find file**.
 1. On the dialog, start entering the filename:

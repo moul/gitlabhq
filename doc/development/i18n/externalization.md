@@ -142,13 +142,13 @@ You can mark that content for translation with:
 
 Given the following content in ERB:
 
-```erb
+```html
 <h1>Hello world!</h1>
 ```
 
 You can mark that content for translation with:
 
-```erb
+```html
 <h1><%= _("Hello world!") %></h1>
 ```
 

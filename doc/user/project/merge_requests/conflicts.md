@@ -73,7 +73,7 @@ Interactive mode merges the target branch into the source branch with your chose
 
 To resolve merge conflicts with interactive mode:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Merge requests** and find the merge request.
 1. Select **Overview**, and scroll to the merge request reports section.
 1. Find the merge conflicts message, and select **Resolve conflicts**.
@@ -93,7 +93,7 @@ resolve them.
 
 The merge conflict resolution editor helps you resolve these conflicts in GitLab:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Merge requests** and find the merge request.
 1. Select **Overview**, and scroll to the merge request reports section.
 1. Find the merge conflicts message, and select **Resolve conflicts**.
@@ -136,7 +136,7 @@ Prerequisites:
 
 To rebase a merge request's branch from the GitLab UI:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Merge requests** and find the merge request.
 1. Either:
    - On the **Overview** tab, scroll to the merge request widget and select **Rebase source branch**.

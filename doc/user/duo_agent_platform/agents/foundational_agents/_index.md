@@ -56,7 +56,7 @@ Prerequisites:
 
 To duplicate an agent:
 
-1. On the top bar, select **Search or go to** > **Explore**.
+1. In the top bar, select **Search or go to** > **Explore**.
 1. Select **AI Catalog**, then select the **Agents** tab.
 1. Select the agent you want to duplicate.
 1. In the upper-right corner, select **Actions** ({{< icon name="ellipsis_v" >}}) > **Duplicate**.
@@ -86,7 +86,7 @@ Prerequisites:
 
 - You must have the Owner role for the group.
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **Foundational agents**, for **Default availability**, select one of the following:

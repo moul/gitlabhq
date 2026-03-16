@@ -71,7 +71,7 @@ If you are new to dependency scanning, follow these steps to turn it on for your
 
 To turn on dependency scanning:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Code** > **Repository**.
 1. Select the `.gitlab-ci.yml` file.
 1. Select **Edit** > **Edit single file**.

@@ -71,7 +71,7 @@ Prerequisites:
 
 To view a list of flows associated with your project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Automate** > **Flows**.
    - To view flows enabled in the project, select the **Enabled** tab.
    - To view flows managed by the project, select the **Managed** tab.
@@ -92,7 +92,7 @@ Prerequisites:
 
 To create a flow:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Automate** > **Flows**.
 1. Select **New flow**.
 1. Under **Basic information**:
@@ -144,7 +144,7 @@ Prerequisites:
 
 To enable a flow:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Automate** > **Flows**.
 1. Select the **Managed** tab, then select the flow you want to enable.
 1. In the upper-right corner, select **Enable**.
@@ -166,7 +166,7 @@ To enable a flow:
 
 To enable a flow:
 
-1. On the top bar, select **Search or go to** > **Explore**.
+1. In the top bar, select **Search or go to** > **Explore**.
 1. Select **AI Catalog**, then select the **Flows** tab.
 1. Select the flow you want to enable.
 1. In the upper-right corner, select **Enable**.
@@ -201,7 +201,7 @@ Prerequisites:
 
 To enable a flow in a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Automate** > **Flows**.
 1. In the upper-right corner, select **Enable flow from group**.
 1. From the dropdown list, select the flow you want to enable.
@@ -228,7 +228,7 @@ Prerequisites:
 
 To disable a flow:
 
-1. On the top bar, select **Search or go to** and find your group or project.
+1. In the top bar, select **Search or go to** and find your group or project.
 1. Select **Automate** > **Flows**.
 1. Find the flow you want to remove and select **Actions** ({{< icon name="ellipsis_v" >}}) > **Disable**.
 1. On the confirmation dialog, select **Disable**.
@@ -275,7 +275,7 @@ Prerequisites:
 
 To duplicate a flow:
 
-1. On the top bar, select **Search or go to** > **Explore**.
+1. In the top bar, select **Search or go to** > **Explore**.
 1. Select **AI Catalog**, then select the **Flows** tab.
 1. Select the flow you want to duplicate.
 1. In the upper-right corner, select **Actions** ({{< icon name="ellipsis_v" >}}) > **Duplicate**.

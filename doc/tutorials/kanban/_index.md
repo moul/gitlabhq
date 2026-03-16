@@ -45,7 +45,7 @@ Create [scoped labels](../../user/project/labels.md#scoped-labels) for **status:
 
 After you've created your labels, the next step is to create a Kanban board:
 
-1. On the top bar, select **Search or go to** and find your group or project.
+1. In the top bar, select **Search or go to** and find your group or project.
 1. Select **Plan** > **Issue Boards**.
 1. In the upper-left corner of the issue board, select the dropdown list with the current board name.
 1. Select **Create new board**.
@@ -76,7 +76,7 @@ Next, we'll create a custom VSA report that matches your Kanban workflow.
 
 To visualize flow:
 
-1. On the top bar, select **Search or go to** and find your group or project.
+1. In the top bar, select **Search or go to** and find your group or project.
 1. In the side navigation, select **Analyze** > **Value stream analytics**.
 1. Select the **Value stream** drop down in the upper left of the page, then select **New Value Stream**.
 1. Enter the desired name for the VSA report, then select the **Create from a template** option.

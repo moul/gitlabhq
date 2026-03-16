@@ -236,7 +236,7 @@ Prerequisites:
 - GitLab Duo Code Suggestions must be enabled.
 - For GitLab Self-Managed, [ClickHouse for contribution analytics](../group/contribution_analytics/_index.md#contribution-analytics-with-clickhouse) must be configured.
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Analyze** > **Analytics Dashboards**.
 1. Select **GitLab Duo and SDLC trends**.
 

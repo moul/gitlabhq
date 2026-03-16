@@ -1,5 +1,5 @@
 import { GlLabel, GlLoadingIcon } from '@gitlab/ui';
-import { range } from 'lodash';
+import { range } from 'lodash-es';
 import Vue, { nextTick } from 'vue';
 import VueApollo from 'vue-apollo';
 import { createControlledMockApollo } from 'helpers/mock_apollo_helper';

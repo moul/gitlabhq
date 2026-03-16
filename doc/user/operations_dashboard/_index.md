@@ -17,7 +17,7 @@ including pipeline and alert status.
 
 To access the dashboard:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. Select **Your work**.
 1. Select **Operations**.
 

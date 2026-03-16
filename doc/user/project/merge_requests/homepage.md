@@ -70,7 +70,7 @@ use any of these methods:
 
 - Use the <kbd>Shift</kbd>+<kbd>m</kbd> [keyboard shortcut](../../shortcuts.md).
 - In the left sidebar, select **Merge requests** ({{< icon name="merge-request-open" >}}).
-- On the top bar, select **Search or go to**, then, from the dropdown list, select **Merge requests**.
+- In the top bar, select **Search or go to**, then, from the dropdown list, select **Merge requests**.
 
 To help you focus on what needs your attention right now, GitLab organizes your merge request homepage
 into three tabs:

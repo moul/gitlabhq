@@ -148,7 +148,7 @@ Prerequisites:
 
 To enforce using SSH certificates:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **General**.
 1. Expand the **Permissions and group features** section.
 1. Select the **Enforce SSH Certificates** checkbox.

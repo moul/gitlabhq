@@ -123,7 +123,7 @@ This also applies to enterprise users who are administrators of the group.
 
 To disable the enterprise users' SSH Keys:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Under **Enterprise users**, select **Disable SSH Keys**.

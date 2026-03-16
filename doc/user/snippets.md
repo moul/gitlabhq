@@ -98,17 +98,17 @@ Snippets are [versioned by default](#versioned-snippets).
 To discover all snippets visible to you in GitLab, you can:
 
 - View a project's snippets:
-  1. On the top bar, select **Search or go to** and find your project.
+  1. In the top bar, select **Search or go to** and find your project.
   1. In the left sidebar, select **Code** > **Snippets**.
 - View all the snippets you created:
-  1. On the top bar, select **Search or go to**.
+  1. In the top bar, select **Search or go to**.
   1. Select **Your work**.
   1. Select **Snippets**.
 
   On GitLab.com, you can also visit your [snippets directly](https://gitlab.com/dashboard/snippets).
 
 - Explore all public snippets:
-  1. On the top bar, select **Search or go to**.
+  1. In the top bar, select **Search or go to**.
   1. Select **Explore**.
   1. Select **Snippets**.
 
@@ -270,7 +270,7 @@ Prerequisites:
 
 To do this task:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Snippets**.
 1. Select the snippet you want to report as spam.
 1. Select **Submit as spam**.

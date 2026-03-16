@@ -56,7 +56,7 @@ When you mark a merge request as ready, GitLab notifies
 When you view or search in your project's merge requests list, to include or exclude
 draft merge requests:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Merge requests**.
 1. To filter by merge request status, select **Open**, **Merged**, **Closed**,
    or **All** in the navigation bar.

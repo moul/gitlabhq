@@ -48,7 +48,7 @@ Prerequisites:
 
 To use advanced search:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. In the search box, enter your search term.
 
 You can also use advanced search in a project or group.

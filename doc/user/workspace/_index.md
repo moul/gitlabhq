@@ -58,7 +58,7 @@ A running workspace remains accessible to the user even if user permissions are 
 
 To manage workspaces from a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the upper right, select **Code**.
 1. From the dropdown list, under **Your workspaces**, you can:
    - Restart, stop, or terminate an existing workspace.
@@ -90,7 +90,7 @@ To clean up orphaned resources, an administrator must manually delete the worksp
 
 To manage all workspaces associated with `agentk`:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Operate** > **Kubernetes clusters**.
 1. Select the agent configured for remote development.
 1. Select the **Workspaces** tab.

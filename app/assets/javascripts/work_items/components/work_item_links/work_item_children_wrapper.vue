@@ -1,5 +1,5 @@
 <script>
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import { produce } from 'immer';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 

@@ -57,7 +57,7 @@ Create a new description template as a Markdown (`.md`) file inside the `.gitlab
 
 To create a work item description template:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Repository**.
 1. Next to the default branch, select {{< icon name="plus" >}}.
 1. Select **New file**.
@@ -81,7 +81,7 @@ For more information, see [creating merge requests](merge_requests/creating_merg
 
 To create a merge request description template for a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Repository**.
 1. Next to the default branch, select {{< icon name="plus" >}}.
 1. Select **New file**.
@@ -174,7 +174,7 @@ Prerequisites:
 
 To re-use templates [you've created](description_templates.md#create-a-description-template):
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **General**.
 1. Expand **Templates**.
 1. From the dropdown list, select your template project as the template repository at group level.
@@ -204,7 +204,7 @@ To set a default description template for merge requests, either:
   For more information, see [priority of default description templates](#priority-of-default-description-templates).
 - Users on GitLab Premium and Ultimate: set the default template in project settings:
 
-  1. On the top bar, select **Search or go to** and find your project.
+  1. In the top bar, select **Search or go to** and find your project.
   1. Select **Settings** > **Merge requests**.
   1. In the **Default description template for merge requests** section, fill in the text area.
   1. Select **Save changes**.
@@ -217,7 +217,7 @@ To set a default description for work items, either:
   For more information, see [priority of default description templates](#priority-of-default-description-templates).
 - Users on GitLab Premium and Ultimate: set the default template in project settings:
 
-  1. On the top bar, select **Search or go to** and find your project.
+  1. In the top bar, select **Search or go to** and find your project.
   1. Select **Settings** > **General**.
   1. Expand **Default description for work items**.
   1. Fill in the text area.

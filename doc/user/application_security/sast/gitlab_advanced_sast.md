@@ -69,7 +69,7 @@ Prerequisites:
 
 Turn on GitLab Advanced SAST:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Go to **Build** > **Pipeline** editor.
 1. Create or edit your `.gitlab-ci.yml` file.
 1. Add the appropriate variable to enable Advanced SAST:
@@ -125,7 +125,7 @@ Prerequisites:
 
 To view vulnerabilities in your pipeline:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
@@ -431,7 +431,7 @@ expected, reach out to GitLab Support for further assistance with the following 
 
 To identify the GitLab Advanced SAST analyzer version:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Build** > **Jobs**.
 1. Locate the `gitlab-advanced-sast` job.
 1. In the output of the job, search for the string `GitLab GitLab Advanced SAST analyzer`.

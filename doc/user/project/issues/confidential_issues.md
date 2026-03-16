@@ -44,7 +44,7 @@ When you create a confidential issue in a project, the project becomes listed in
 
 To create a confidential issue:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the upper-right corner, select **Create new** ({{< icon name="plus" >}}).
 1. From the dropdown list, select **New issue**.
 1. Complete the [fields](create_issues.md#fields-in-the-new-issue-form).
@@ -55,7 +55,7 @@ To create a confidential issue:
 
 To change the confidentiality of an existing issue:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
 1. In the upper-right corner, select **Issue actions** ({{< icon name="ellipsis_v" >}}) and then **Turn on confidentiality** (or **Turn off confidentiality** to make the issue non-confidential).
 

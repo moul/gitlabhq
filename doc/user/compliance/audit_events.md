@@ -68,7 +68,7 @@ After upgrading to a paid tier, you can also see successful sign-in events on au
 
 To view a group's audit events:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Secure** > **Audit events**.
 1. Filter the audit events by the member of the project (user) who performed the action and date range.
 
@@ -83,7 +83,7 @@ Group audit events can also be accessed using the [group audit events API](../..
 
 {{< /details >}}
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Audit events**.
 1. Filter the audit events by the member of the project (user) who performed the action and date range.
 

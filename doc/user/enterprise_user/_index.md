@@ -58,7 +58,7 @@ Prerequisites:
 
 To add a custom domain for a group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Domain Verification**.
 1. In the upper-right corner, select **Add Domain**.
 1. Configure the domain settings:
@@ -79,7 +79,7 @@ To add a custom domain for a group:
 1. Verify ownership of the domain:
    1. In **TXT**, copy the verification code.
    1. In your domain provider DNS settings, add the verification code as a `TXT` record.
-   1. In GitLab, on the top bar, select **Search or go to** and find your group.
+   1. In GitLab, in the top bar, select **Search or go to** and find your group.
    1. Select **Settings** > **Domain Verification**.
    1. Next to the domain name, select **Retry verification** ({{< icon name="retry" >}}).
 
@@ -98,14 +98,14 @@ After successful verification, the domain status changes to **Verified** and can
 
 To view all custom domains for a group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Domain Verification**.
 
 ### Edit group domains
 
 To edit a custom domain for a group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Domain Verification**.
 1. Next to the domain name, select **Edit** ({{< icon name="pencil" >}}).
 
@@ -127,7 +127,7 @@ Deleting a group domain can impact enterprise users in your group. After you del
 
 To delete a custom domain for a group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Domain Verification**.
 1. Next to the domain name, select **Remove domain** ({{< icon name="remove" >}}).
 1. When prompted, select **Delete domain**.
@@ -220,7 +220,7 @@ Prerequisites:
 
 To view an enterprise user's email address:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Manage** > **Members**.
 1. Hover over the enterprise user's name.
 
@@ -297,7 +297,7 @@ Prerequisites:
 
 To enable the Extension Marketplace for enterprise users:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Under **Web IDE and workspaces**, select the **Enable extension marketplace** checkbox.

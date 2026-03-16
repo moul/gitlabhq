@@ -1,4 +1,4 @@
-import { escapeRegExp, kebabCase, snakeCase, isEmpty, unionBy, union } from 'lodash';
+import { escapeRegExp, kebabCase, snakeCase, isEmpty, unionBy, union } from 'lodash-es';
 import { ref } from 'vue';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { joinPaths, queryToObject } from '~/lib/utils/url_utility';

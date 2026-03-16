@@ -102,7 +102,7 @@ Prerequisites:
 
 To delete a merge request approval rule:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Merge requests**.
 1. In the **Merge request approvals** section, next to the rule you want to delete, select the trash can ({{< icon name="remove" >}}).
 1. Select **Remove approvers**.
@@ -147,7 +147,7 @@ To override approvers of a merge request:
 1. When [creating a new merge request](../creating_merge_requests.md), scroll to the **Approval Rules** section,
    and add or remove your desired approval rules before selecting **Create merge request**.
 1. When viewing an existing merge request:
-   1. On the top bar, select **Search or go to** and find your project.
+   1. In the top bar, select **Search or go to** and find your project.
    1. In the left sidebar, select **Code** > **Merge requests** and find your merge request.
    1. Select **Edit**.
    1. Scroll to the **Approval Rules** section.
@@ -218,7 +218,7 @@ To enable approval permissions for these users without granting them push access
    The users must have the Planner, Reporter, Developer, Maintainer, or Owner role.
 1. [Share the project with your group](../../members/sharing_projects_groups.md#invite-a-group-to-a-project),
    with the Reporter, Developer, Maintainer, or Owner role.
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Merge requests**.
 1. In the **Merge request approvals** section, in the **Approval rules** section:
    - For a new rule, select **Add approval rule** and target the protected branch.
@@ -293,7 +293,7 @@ users were not explicitly listed in the approval rules.
 If you add [code owners](../../codeowners/_index.md) to your repository, the owners of files
 become eligible approvers in the project. To enable this merge request approval rule:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Merge requests**.
 1. In the **Merge request approvals** section, in the **Approval rules** section, locate the **All eligible users** rule.
 1. In the **Approvals required** column, enter the number of approvals required.

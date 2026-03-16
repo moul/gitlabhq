@@ -895,7 +895,7 @@ You can use the Minimal Access role with [SAML SSO for GitLab.com groups](group/
 to control access to groups and projects in the group hierarchy. You can set the default role to
 Minimal Access for members automatically added to the top-level group through SSO.
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **SAML SSO**.
 1. From the **Default membership role** dropdown list, select **Minimal Access**.
 1. Select **Save changes**.

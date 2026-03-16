@@ -47,7 +47,7 @@ For an overview on DNS records, see [GitLab Pages DNS records](dns_concepts.md).
 
 To add your custom domain to GitLab Pages:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Deploy** > **Pages**.
 1. In the upper-right corner, select **New Domain**.
 1. In **Domain**, enter the domain name.
@@ -167,7 +167,7 @@ Additionally:
 
 After you have added all the DNS records:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Deploy** > **Pages**.
 1. Next to the domain name, select **Edit** ({{< icon name="pencil" >}}).
 1. In **Verification status**, select **Retry verification** ({{< icon name="retry" >}}).
@@ -246,7 +246,7 @@ Prerequisites:
 
 To add a certificate when you create a new domain:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Deploy** > **Pages**.
 1. In the upper-right corner, select **New Domain**.
 1. In **Domain**, enter the domain name.
@@ -256,7 +256,7 @@ To add a certificate when you create a new domain:
 
 To add a certificate to an existing domain:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Deploy** > **Pages**.
 1. Next to the domain name, select **Edit** ({{< icon name="pencil" >}}).
 1. In **Certificate**, turn off the **Automatic certificate management using Let's Encrypt** toggle.
@@ -283,7 +283,7 @@ with a valid certificate.
 
 To force HTTPS:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Deploy** > **Pages**.
 1. Select the **Force HTTPS (requires valid certificates)** checkbox.
 1. Select **Save changes**.
@@ -304,7 +304,7 @@ You can edit a custom domain to:
 
 To edit a custom domain:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Deploy** > **Pages**.
 1. Next to the domain name, select **Edit** ({{< icon name="pencil" >}}).
 
@@ -314,7 +314,7 @@ After a custom domain is deleted, the domain is no longer verified in GitLab and
 
 To delete and remove a custom domain:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Deploy** > **Pages**.
 1. Next to the domain name, select **Remove domain** ({{< icon name="remove" >}}).
 1. When prompted, select **Remove domain**.

@@ -47,7 +47,7 @@ Prerequisites:
 
 To enable the setting for the project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Service Desk**.
 1. Select **Add external participants from the `Cc` header**.

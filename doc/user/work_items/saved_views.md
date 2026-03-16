@@ -38,7 +38,7 @@ Prerequisites:
 
 To create a saved view:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Plan** > **Work items**.
 1. At the top of the page, from the filter bar, select a filter, operator, and its value.
 1. Optional. Add more filters.
@@ -61,7 +61,7 @@ shared views from teammates.
 
 To add a saved view to your list:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Plan** > **Work items**.
 1. Above the filter bar, select **Add view** > **Browse views**.
 1. From the list, select a view you want to add.
@@ -76,7 +76,7 @@ Prerequisites:
 
 To edit a saved view:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Plan** > **Work items**.
 1. Select the view you want to edit.
 1. Select the view again, then select **Edit**.
@@ -91,7 +91,7 @@ When you select a link to a saved view that isn't already in your list, it's add
 
 To copy a link to a saved view:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Plan** > **Work items**.
 1. Select the view you want to copy.
 1. Select the view again, then select **Copy link to view**.
@@ -100,7 +100,7 @@ To copy a link to a saved view:
 
 To remove a saved view from your list:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Plan** > **Work items**.
 1. Select the view you want to remove.
 1. Select the view again, then select **Remove from list**.
@@ -119,7 +119,7 @@ Prerequisites:
 
 To delete a saved view:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Plan** > **Work items**.
 1. Select the view you want to delete.
 1. Select the view again, then select **Delete view**.

@@ -48,7 +48,7 @@ Now let's go over a few common tasks you'll use the left sidebar for.
 
 To start, we will find the project we want to work on.
 
-1. To explore all available projects, on the top bar, select **Search or go to**.
+1. To explore all available projects, in the top bar, select **Search or go to**.
 1. Choose from the list of frequently visited projects, or
    type a colon `:` followed by the project name:
 

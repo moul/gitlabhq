@@ -95,7 +95,7 @@ Prerequisites:
 
 To enable Libbehave:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Code** > **Repository**.
 1. Select the `.gitlab-ci.yml` file.
 1. Select **Edit** > **Edit single file**.
@@ -123,7 +123,7 @@ Prerequisites:
 
 To configure merge request comments:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Access tokens**.
 1. Select **Add new token** and complete the fields:
    - **Token name**: Enter a name, for example, `libbehave-bot`.

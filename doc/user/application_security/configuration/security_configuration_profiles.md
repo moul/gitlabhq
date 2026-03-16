@@ -36,7 +36,7 @@ To assess and manage your profiles, use the [security inventory](../security_inv
 
 To view a high-level status (**Enabled**, **Not Enabled**, or **Failed**) of scanners in the group like SAST, DAST, and secret detection:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Secure** > **Security inventory**.
 1. In the security inventory, review the **Test Coverage** column.
 
@@ -44,7 +44,7 @@ To view a high-level status (**Enabled**, **Not Enabled**, or **Failed**) of sca
 
 To configure a specific project:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Secure** > **Security inventory**.
 1. Next to the project, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}) and select **Manage tool coverage**.
 1. Turn individual scanners on or off.
@@ -53,7 +53,7 @@ To configure a specific project:
 
 To save time, you can apply security settings to multiple projects at once:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Secure** > **Security inventory**.
 1. Select multiple projects or an entire subgroup to apply the settings to.
 1. Select the **Bulk Action** dropdown and choose **Manage security scanners**.
@@ -75,7 +75,7 @@ When you apply the secret detection profile, you enable the recommended baseline
 
 To view technical details about the secret detection profile:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Secure** > **Security inventory**.
 1. Select the **Secret Detection** profile.
 1. Review the following information:

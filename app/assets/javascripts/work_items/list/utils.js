@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { camelCase, capitalize } from 'lodash';
+import { camelCase, capitalize } from 'lodash-es';
 import { TYPENAME_ITERATIONS_CADENCE, TYPENAME_WORK_ITEM } from '~/graphql_shared/constants';
 import { getIdFromGraphQLId, convertToGraphQLId } from '~/graphql_shared/utils';
 import { isPositiveInteger } from '~/lib/utils/number_utils';

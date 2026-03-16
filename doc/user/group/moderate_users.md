@@ -107,7 +107,7 @@ The following actions count as activity:
 
 To turn on automatic dormant member removal:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Scroll to **Dormant members**.

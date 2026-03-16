@@ -25,7 +25,7 @@ Prerequisites:
 
 To set up emails on push:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Integrations**.
 1. Select **Emails on push**.
 1. Under **Enable integration**, select the **Active** checkbox.

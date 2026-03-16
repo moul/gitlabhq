@@ -41,7 +41,7 @@ GitLab supports the following commit signing methods:
 
 To review commits for a merge request, or for an entire project, and verify they are signed:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. To review commits:
    - For a project, select **Code** > **Commits**.
    - For a merge request:

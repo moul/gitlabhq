@@ -30,7 +30,7 @@ The security center displays:
 
 To view the security center:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. Select **Your work**.
 1. Select **Security** > **Security dashboard**.
 
@@ -40,7 +40,7 @@ The security center is empty by default. You must add one or more projects that 
 
 To add projects:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. Select **Your work**.
 1. Expand **Security**.
 1. Select **Settings**.
@@ -53,7 +53,7 @@ After you add projects, the security dashboard and vulnerability report show the
 
 The security center displays a maximum of 100 projects, so you might need to use the search function to remove a project. To remove projects:
 
-1. On the top bar, select **Search or go to**.
+1. In the top bar, select **Search or go to**.
 1. Select **Your work**.
 1. Expand **Security**.
 1. Select **Settings**.

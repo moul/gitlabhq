@@ -1,6 +1,6 @@
 <script>
 import { GlLink, GlPopover, GlTooltipDirective, GlTruncateText } from '@gitlab/ui';
-import { difference, groupBy, xor } from 'lodash';
+import { difference, groupBy, xor } from 'lodash-es';
 import { __, n__, s__ } from '~/locale';
 import WorkItemSidebarDropdownWidget from '~/work_items/components/shared/work_item_sidebar_dropdown_widget.vue';
 import Tracking from '~/tracking';

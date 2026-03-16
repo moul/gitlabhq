@@ -59,7 +59,7 @@ redirect to `/work_items/:iid`.
 
 To view work items for a project or group:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Plan** > **Work items**.
 
 ### Filter work items
@@ -181,7 +181,7 @@ GitLab saves your display preferences at different levels:
 
 To configure display preferences:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Plan** > **Work items**.
 1. On the right of the filter bar, select **Display options** ({{< icon name="preferences" >}}).
 1. Under **Fields**, turn on or turn off the metadata you want to display:

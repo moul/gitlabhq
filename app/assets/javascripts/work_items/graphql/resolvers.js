@@ -1,4 +1,4 @@
-import { set, isEmpty } from 'lodash';
+import { set, isEmpty } from 'lodash-es';
 import { produce } from 'immer';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { findWidget } from '~/work_items/list/utils';

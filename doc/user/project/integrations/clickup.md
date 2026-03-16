@@ -22,7 +22,7 @@ You can use [ClickUp](https://clickup.com/) as an
 [external issue tracker](../../../integration/external-issue-tracker.md).
 To enable the ClickUp integration in a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Integrations**.
 1. Select **ClickUp**.
 1. Under **Enable integration**, select the **Active** checkbox.

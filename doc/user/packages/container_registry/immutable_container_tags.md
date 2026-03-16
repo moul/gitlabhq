@@ -88,7 +88,7 @@ Prerequisites:
 
 To create an immutable rule:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Packages and registries**.
 1. Expand **Container registry**.
 1. Under **Protected container tags**, select **Add protection rule**.
@@ -119,7 +119,7 @@ Prerequisites:
 
 To delete an immutable rule:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Packages and registries**.
 1. Expand **Container registry**.
 1. Under **Protected container tags**, next to the immutable rule you want to delete, select **Delete** ({{< icon name="remove" >}}).

@@ -1,7 +1,7 @@
 <script>
 import { produce } from 'immer';
 import { GlAlert, GlButton, GlBadge, GlTooltipDirective } from '@gitlab/ui';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 
 import { s__, n__, sprintf } from '~/locale';
 import CrudComponent from '~/vue_shared/components/crud_component.vue';

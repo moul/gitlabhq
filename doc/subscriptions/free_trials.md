@@ -71,7 +71,7 @@ Prerequisites:
 
 To start a trial:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Billing**.
 1. Select **Start free trial**.
 1. Complete the fields.
@@ -112,6 +112,6 @@ The subscription is activated.
 
 You can keep track of your remaining trial period time to help you plan for a subscription upgrade.
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. In the left sidebar, at the bottom, a widget displays your trial type and the remaining days in your trial.
 1. On GitLab Self-Managed, to access information about features available when you upgrade, select **Learn more**.

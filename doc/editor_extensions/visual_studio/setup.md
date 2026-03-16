@@ -46,7 +46,7 @@ If you are on GitLab Self-Managed, create a personal access token.
 
 To authenticate with GitLab:
 
-1. In Visual Studio, on the top bar, go to **Tools** > **Options** > **GitLab**.
+1. In Visual Studio, in the top bar, go to **Tools** > **Options** > **GitLab**.
 1. In the **Access Token** text box, paste your token. The token is not displayed, nor is it accessible to others.
 1. In the **GitLab URL** text box, enter the URL of your GitLab instance. For GitLab.com, use `https://gitlab.com`.
 
@@ -55,7 +55,7 @@ To authenticate with GitLab:
 The GitLab extension uses the telemetry settings in Visual Studio to send usage and error
 information to GitLab. To enable telemetry in GitLab for Visual Studio:
 
-1. In Visual Studio, on the top bar, go to **Tools** > **Options**.
+1. In Visual Studio, in the top bar, go to **Tools** > **Options**.
 1. In the left sidebar, expand **GitLab** and select **General**.
 1. In the **Enable telemetry** dropdown list, select **True**.
 1. Select **OK**.

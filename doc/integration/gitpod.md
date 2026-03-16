@@ -69,7 +69,7 @@ After you [enable Ona](#enable-ona-in-your-user-preferences),
 you can launch it from GitLab in one of these ways:
 
 - From a project repository:
-  1. On the top bar, select **Search or go to** and find your project.
+  1. In the top bar, select **Search or go to** and find your project.
   1. In the upper right, select **Code** > **Ona**.
 - From a merge request:
   1. Go to your merge request.

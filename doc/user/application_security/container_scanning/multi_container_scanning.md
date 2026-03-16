@@ -203,7 +203,7 @@ variables:
 
 After the pipeline completes:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Go to your merge request or pipeline details page.
 1. Select the **Security** tab.
 1. View detected vulnerabilities from all scanned images.

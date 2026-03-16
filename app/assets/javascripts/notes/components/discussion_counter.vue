@@ -7,7 +7,7 @@ import {
   GlTooltipDirective,
 } from '@gitlab/ui';
 import { mapActions, mapState } from 'pinia';
-import { throttle } from 'lodash';
+import { throttle } from 'lodash-es';
 import { __, n__ } from '~/locale';
 import {
   keysFor,

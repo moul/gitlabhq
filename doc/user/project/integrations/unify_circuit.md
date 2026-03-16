@@ -22,7 +22,7 @@ copy its URL.
 
 In GitLab:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Integrations**.
 1. Select **Unify Circuit**.
 1. Turn on the **Active** toggle.

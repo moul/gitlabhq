@@ -339,7 +339,7 @@ Prerequisites:
 
 To turn off GitLab Duo with Amazon Q for a group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **General**.
 1. Expand **Amazon Q**.
 1. Choose an option:
@@ -355,7 +355,7 @@ Prerequisites:
 
 To turn off GitLab Duo with Amazon Q for a project:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
 1. Under **Amazon Q**, turn the toggle off.

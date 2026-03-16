@@ -1,4 +1,4 @@
-import { identity, memoize, isEmpty } from 'lodash';
+import { identity, memoize, isEmpty } from 'lodash-es';
 import fuzzaldrinPlus from 'fuzzaldrin-plus';
 import { initEmojiMap, getAllEmoji, searchEmoji } from '~/emoji';
 import { newDate } from '~/lib/utils/datetime_utility';

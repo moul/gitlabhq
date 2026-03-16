@@ -63,13 +63,13 @@ To verify that Code Suggestions is turned on in Visual Studio:
 
 1. In Visual Studio, on the bottom status bar, point to the GitLab icon.
 1. Check the icon tooltip to confirm that the feature is enabled.
-1. If Code Suggestions is not enabled, on the top bar select **Extensions** > **GitLab** > **Toggle Code Suggestions** to enable it.
+1. If Code Suggestions is not enabled, in the top bar select **Extensions** > **GitLab** > **Toggle Code Suggestions** to enable it.
 
 ### JetBrains IDEs
 
 To verify that Code Suggestions is turned on in JetBrains IDEs:
 
-1. In your IDE, on the top bar, select your IDE's name, then select **Settings**.
+1. In your IDE, in the top bar, select your IDE's name, then select **Settings**.
 1. In the left sidebar, expand **Tools**, then select **GitLab Duo**.
 1. In the **Features** section, ensure that **Enable Code Suggestions** and **Enable GitLab Duo Chat** are selected.
 1. Select **OK** or **Save**.
@@ -88,7 +88,7 @@ to use a custom SSL certificate when connecting to your GitLab instance.
 
 To use a custom SSL certificate with GitLab Duo:
 
-1. In your IDE, on the top bar, select your IDE name, then select **Settings**.
+1. In your IDE, in the top bar, select your IDE name, then select **Settings**.
 1. In the left sidebar, expand **Tools**, then select **GitLab Duo**.
 1. Under **Connection**, enter the **URL to GitLab instance**.
 1. To verify your connection, select **Verify setup**.
@@ -103,7 +103,7 @@ If your IDE detects a non-trusted SSL certificate:
 
 To review certificates you've already accepted:
 
-1. In your IDE, on the top bar, select your IDE name, then select **Settings**.
+1. In your IDE, in the top bar, select your IDE name, then select **Settings**.
 1. In the left sidebar, select **Tools** > **Server Certificates**.
 1. Select [**Server Certificates**](https://www.jetbrains.com/help/idea/settings-tools-server-certificates.html).
 1. Select a certificate to view it.

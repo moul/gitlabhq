@@ -100,7 +100,7 @@ in the `.gitlab-ci.yml` file. You then merge the merge request to enable contain
 
 To enable container scanning:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Security configuration**.
 1. In the **Container Scanning** row, select **Configure with a merge request**.
 1. Select **Create merge request**.
@@ -115,7 +115,7 @@ you have a complex GitLab configuration file or you need to use non-default opti
 
 To enable container scanning:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Build** > **Pipeline editor**.
 1. If no `.gitlab-ci.yml` file exists, select **Configure pipeline**, then delete the example
    content.
@@ -144,7 +144,7 @@ Pipelines now include a container scanning job.
 
 You can review vulnerabilities in a pipeline:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
@@ -995,7 +995,7 @@ Support for populating the vulnerability report with all present advisory data, 
 
 To enable Container Scanning for the GitLab Container Registry:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Security configuration**.
 1. Scroll down to the **Container Scanning For Registry** section and turn on the toggle.
 
@@ -1009,7 +1009,7 @@ UI. You can use a project, group, or instance CI/CD variable.
 
 To configure a custom scanner image:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Settings** > **CI/CD**.
 1. Expand the **Variables** section.
 1. Select **Add variable** and fill in the details:

@@ -27,7 +27,7 @@ see [GitLab container registry administration](../../../administration/packages/
 
 You can view the container registry for a project or group.
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Deploy** > **Container Registry**.
 
 You can search, sort, filter, and [delete](delete_container_registry_images.md#use-the-gitlab-ui)
@@ -37,7 +37,7 @@ your container images. You can share a filtered view by copying the URL from you
 
 You can use the container registry **Tag Details** page to view a list of tags associated with a given container image:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Deploy** > **Container Registry**.
 1. Select your container image.
 
@@ -57,7 +57,7 @@ For more information, see [view container registry usage](reduce_container_regis
 
 To download and run a container image hosted in the container registry:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Deploy** > **Container Registry**.
 1. Find the container image you want to work with and select **Copy image path** （{{< icon name="copy-to-clipboard" >}}）.
 1. Use `docker run` with the copied link:
@@ -125,7 +125,7 @@ The container registry is enabled by default.
 
 You can, however, remove the container registry for a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand the **Visibility, project features, permissions** section
    and disable **Container registry**.
@@ -141,7 +141,7 @@ You can, however, change the visibility of the container registry for a project.
 For more information about the permissions that this setting grants to users,
 see the [container registry visibility permissions](#container-registry-visibility-permissions).
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand the section **Visibility, project features, permissions**.
 1. Under **Container registry**, select an option from the dropdown list:

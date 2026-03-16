@@ -25,7 +25,7 @@ If you use an older version of a JetBrains IDE, download a version of the plugin
 
 To enable the plugin:
 
-1. In your IDE, on the top bar, select your IDE's name, then select **Settings**.
+1. In your IDE, in the top bar, select your IDE's name, then select **Settings**.
 1. In the left sidebar, select **Plugins**.
 1. Select the **GitLab Duo** plugin, and select **Install**.
 1. Select **OK** or **Save**.
@@ -48,7 +48,7 @@ Prerequisites:
 
 After you configure the plugin in your IDE, connect it to your GitLab account:
 
-1. In your IDE, on the top bar, select your IDE's name, then select **Settings**.
+1. In your IDE, in the top bar, select your IDE's name, then select **Settings**.
 1. In the left sidebar, expand **Tools**, then select **GitLab Duo**.
    If you don't see the plugin listed, restart your IDE.
 1. Provide the **URL to GitLab instance**. For GitLab.com, use `https://gitlab.com`.

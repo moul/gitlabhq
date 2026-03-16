@@ -1,6 +1,6 @@
 <script>
 import { GlAvatar, GlAvatarLink } from '@gitlab/ui';
-import { escape } from 'lodash';
+import { escape } from 'lodash-es';
 import { mapActions } from 'pinia';
 import SafeHtml from '~/vue_shared/directives/safe_html';
 import { truncateSha } from '~/lib/utils/text_utility';

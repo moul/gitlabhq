@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import { isCurrentUser } from '~/lib/utils/common_utils';
 
 function addReactiveNoteProps(note) {

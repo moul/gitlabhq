@@ -1,6 +1,6 @@
 import Vue, { nextTick } from 'vue';
 import VueApollo from 'vue-apollo';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import { sortNameAlphabetically, newWorkItemId, newWorkItemFullPath } from '~/work_items/utils';
 import WorkItemAssignees from '~/work_items/components/work_item_assignees.vue';
 import WorkItemSidebarDropdownWidget from '~/work_items/components/shared/work_item_sidebar_dropdown_widget.vue';

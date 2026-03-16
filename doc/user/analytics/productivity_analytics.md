@@ -42,7 +42,7 @@ Prerequisites:
 
 - You must have the Reporter, Developer, Maintainer, or Owner role for the group.
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Analyze** > **Productivity analytics**.
 1. Optional. Filter results:
 

@@ -62,7 +62,7 @@ Depending on your subscription add-on, you can use Chat in the GitLab UI, the We
 
 #### Use Chat in the GitLab UI
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. On the GitLab Duo sidebar, select either **New GitLab Duo Chat** ({{< icon name="pencil-square" >}}) or **Current GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
    A Chat conversation opens in the GitLab Duo sidebar on the right side of your screen.
 1. Enter your question in the chat text box and press <kbd>Enter</kbd> or select **Send**.
@@ -71,7 +71,7 @@ Depending on your subscription add-on, you can use Chat in the GitLab UI, the We
 #### Use Chat in the Web IDE
 
 1. Open the Web IDE:
-   1. In the GitLab UI, on the top bar, select **Search or go to** and find your project.
+   1. In the GitLab UI, in the top bar, select **Search or go to** and find your project.
    1. Select a file. Then in the upper right, select **Edit** > **Open in Web IDE**.
 1. Open Chat by using one of these methods:
    - In the left sidebar, select **GitLab Duo Chat**.

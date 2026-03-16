@@ -140,7 +140,7 @@ Prerequisites:
 
 To clean up a repository:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Go to **Settings** > **Repository**.
 1. Expand **Repository maintenance**.
 1. Upload the list of objects to remove. For example, the `commit-map` file in the `filter-repo` directory.
@@ -208,7 +208,7 @@ Prerequisites:
 
 To remove blobs from your repository:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Repository maintenance**.
 1. Select **Remove blobs**.
@@ -314,7 +314,7 @@ Prerequisites:
 
 To redact text from your repository:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Repository maintenance**.
 1. Select **Redact text**.

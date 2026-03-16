@@ -143,7 +143,7 @@ to **Only Project Members**, the package registry is then public. Turning off th
 
 To allow anyone to pull from the package registry, regardless of project visibility:
 
-1. On the top bar, select **Search or go to** and find your private or internal project.
+1. In the top bar, select **Search or go to** and find your private or internal project.
 1. Select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
 1. Turn on the **Allow anyone to pull from package registry** toggle.

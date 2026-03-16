@@ -55,7 +55,7 @@ Prerequisites:
 
 To view the AI Catalog:
 
-1. On the top bar, select **Search or go to** > **Explore**.
+1. In the top bar, select **Search or go to** > **Explore**.
 1. Select **AI Catalog**.
 
 A list of agents is displayed.
@@ -131,7 +131,7 @@ Prerequisites:
 
 To view the current version of an agent or flow:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. In the left sidebar, select either:
    - **Automate** > **Agents**
    - **Automate** > **Flows**
@@ -151,7 +151,7 @@ Prerequisites:
 
 To make your group or project use the latest version of an agent or flow:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. In the left sidebar, select either:
    - **Automate** > **Agents**
    - **Automate** > **Flows**

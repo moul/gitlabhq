@@ -41,7 +41,7 @@ Prerequisites:
 
 To explain the code in a file:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select a file that contains code.
 1. Select the lines you want explained.
 1. On the left side, select the question mark ({{< icon name="question" >}}).

@@ -96,7 +96,7 @@ Group push rules allow group maintainers to set push rules for newly created pro
 
 To configure push rules for a group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Repository**.
 1. Expand the **Pre-defined push rules** section.
 1. Select the settings you want.
@@ -118,7 +118,7 @@ When you set push rules for a project, those rules replace any previously config
 
 To set push rules for a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Push rules**.
 1. Set the rule you want.
@@ -399,7 +399,7 @@ Commits with invalid or corrupt signatures are rejected.
 
 To enable the **Reject unsigned commits** push rule:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **Repository**.
 1. Expand **Push rules**.
 1. Select **Reject unsigned commits**.

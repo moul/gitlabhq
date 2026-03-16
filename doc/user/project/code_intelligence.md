@@ -161,7 +161,7 @@ To enable code intelligence for a project, add GitLab CI/CD jobs to your project
 
 After the job succeeds, browse your repository to see code intelligence information:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Repository**.
 1. Go to the file in your repository. If you know the filename, either:
    - Enter the `/~` keyboard shortcut to open the file finder, and enter the file's name.
@@ -176,7 +176,7 @@ After the job succeeds, browse your repository to see code intelligence informat
 
 Use code intelligence to see all uses of an object:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Repository**.
 1. Go to the file in your repository. If you know the filename, either:
    - Enter the `/~` keyboard shortcut to open the file finder, and enter the file's name.

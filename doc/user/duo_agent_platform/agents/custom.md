@@ -76,7 +76,7 @@ Prerequisites:
 
 To view a list of agents associated with your project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Automate** > **Agents**.
    - To view agents enabled in the project, select the **Enabled** tab.
    - To view agents managed by the project, select the **Managed** tab.
@@ -97,7 +97,7 @@ Prerequisites:
 
 To create an agent:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Automate** > **Agents**.
 1. Select **New agent**.
 1. Under **Basic information**:
@@ -121,7 +121,7 @@ To create an agent:
 
 To create an agent:
 
-1. On the top bar, select **Search or go to** > **Explore**.
+1. In the top bar, select **Search or go to** > **Explore**.
 1. Select **AI Catalog**, then select the **Agents** tab.
 1. Select **New agent**.
 1. Under **Basic information**:
@@ -161,7 +161,7 @@ Prerequisites:
 
 To enable an agent:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Automate** > **Agents**.
 1. Select the **Managed** tab, then select the agent you want to enable.
 1. In the upper-right corner, select **Enable**.
@@ -174,7 +174,7 @@ To enable an agent:
 
 To enable an agent:
 
-1. On the top bar, select **Search or go to** > **Explore**.
+1. In the top bar, select **Search or go to** > **Explore**.
 1. Select **AI Catalog**, then select the **Agents** tab.
 1. Select the agent you want to enable.
 1. In the upper-right corner, select **Enable**.
@@ -202,7 +202,7 @@ Prerequisites:
 
 To enable an agent in a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Automate** > **Agents**.
 1. In the upper-right corner, select **Enable agent from group**.
 1. From the dropdown list, select the agent you want to enable.
@@ -224,7 +224,7 @@ Prerequisites:
 
 To use a custom agent in the GitLab UI:
 
-1. On the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your project or group.
 1. Open an issue, epic, or merge request.
 1. On the GitLab Duo sidebar, select either **New GitLab Duo Chat**
    ({{< icon name="pencil-square" >}}) or **Current GitLab Duo Chat**
@@ -282,7 +282,7 @@ Prerequisites:
 
 To disable an agent:
 
-1. On the top bar, select **Search or go to** and find your group or project.
+1. In the top bar, select **Search or go to** and find your group or project.
 1. Select **Automate** > **Agents**.
 1. Find the agent you want to remove and select **Actions** ({{< icon name="ellipsis_v" >}}) > **Disable**.
 1. On the confirmation dialog, select **Disable**.
@@ -299,7 +299,7 @@ Prerequisites:
 
 To duplicate an agent:
 
-1. On the top bar, select **Search or go to** > **Explore**.
+1. In the top bar, select **Search or go to** > **Explore**.
 1. Select **AI Catalog**, then select the **Agents** tab.
 1. Select the agent you want to duplicate.
 1. In the upper-right corner, select **Actions** ({{< icon name="ellipsis_v" >}}) > **Duplicate**.

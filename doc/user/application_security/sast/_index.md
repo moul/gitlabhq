@@ -148,7 +148,7 @@ Prerequisites:
 
 To enable and configure SAST with customizations:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Security configuration**.
 1. If the latest pipeline for the default branch of the project has completed and produced valid
    SAST artifacts, select **Configure SAST**, otherwise select **Enable SAST** in the static
@@ -178,7 +178,7 @@ Prerequisites:
 
 To enable and configure SAST with default settings:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Secure** > **Security configuration**.
 1. In the SAST section, select **Configure with a merge request**.
 
@@ -205,7 +205,7 @@ Prerequisites:
 
 To enable SAST in your project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Go to **Build** > **Pipeline** editor.
 1. Add either the SAST CI/CD template or component.
 
@@ -261,7 +261,7 @@ Prerequisites:
 
 You can review vulnerabilities in a pipeline:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
@@ -285,7 +285,7 @@ Prerequisites:
 
 - The Developer, Maintainer, or Owner role for the project.
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
@@ -361,7 +361,7 @@ Prerequisites:
 
 To disable a rule, for example because it generates too many false positives:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Create a `.gitlab/sast-ruleset.toml` file at the root of your project if one does not already exist.
 1. In the vulnerability's details, locate the ID of the rule that triggered the finding.
 1. Use the rule ID to disable the rule. For example, to disable `gosec.G107-1`, add the following in `.gitlab/sast-ruleset.toml`:

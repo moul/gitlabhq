@@ -44,12 +44,12 @@ your cluster's level.
 
 **Project-level clusters**:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Operate** > **Kubernetes clusters**.
 
 **Group-level clusters**:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Operate** > **Kubernetes clusters**.
 
 **Instance-level clusters**:

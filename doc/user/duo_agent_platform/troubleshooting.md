@@ -74,7 +74,7 @@ To configure push rules for a project:
    1. Locate the service account user and copy the email address.
 
 1. Allow the email address to push to the project:
-   1. On the top bar, select **Search or go to** and find your project.
+   1. In the top bar, select **Search or go to** and find your project.
    1. Select **Settings** > **Repository**.
    1. Expand **Push rules**.
    1. In **Commit author's email**, add a regular expression that allows the email address you just copied.

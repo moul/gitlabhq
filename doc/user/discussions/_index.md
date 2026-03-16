@@ -92,7 +92,7 @@ Notifications and mentions can be disabled in
 When you mention a group in a comment, every member of the group gets a to-do item
 added to their to-do list.
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Go to your merge request or issue:
    - For merge requests, select **Code** > **Merge requests**, and find your merge request.
    - For issues, select **Plan** > **Work items**, and find your issue.
@@ -113,7 +113,7 @@ When you add comments to a merge request diff, these comments persist, even when
 
 To add a commit diff comment:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Merge requests**, and find your merge request.
 1. Select the **Commits** tab, then select the commit message.
 1. Start a comment:
@@ -201,7 +201,7 @@ Prerequisites:
 
 To lock an issue or merge request:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Go to your merge request or issue:
    - For merge requests, select **Code** > **Merge requests**, and find your merge request.
    - For issues, select **Plan** > **Work items**, and find your issue.

@@ -94,7 +94,7 @@ Prerequisites:
 
 To see the status of your GitLab.com subscription:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **Billing**.
 
 The following information is displayed:

@@ -91,7 +91,7 @@ Prerequisites:
 
 To use Chat in the GitLab UI:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. On the GitLab Duo sidebar, select either **New GitLab Duo Chat**
    ({{< icon name="pencil-square" >}}) or **Current GitLab Duo Chat**
    ({{< icon name="duo-chat" >}}).

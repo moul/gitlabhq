@@ -52,7 +52,7 @@ Prerequisites:
 
 To change GitLab Duo availability for a top-level group:
 
-1. On the top bar, select **Search or go to** and find your top-level group.
+1. In the top bar, select **Search or go to** and find your top-level group.
 1. Select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **GitLab Duo availability**, select an option.
@@ -68,7 +68,7 @@ Prerequisites:
 
 To change GitLab Duo availability for a group or subgroup:
 
-1. On the top bar, select **Search or go to** and find your group or subgroup.
+1. In the top bar, select **Search or go to** and find your group or subgroup.
 1. Select **Settings** > **General**.
 1. Expand **GitLab Duo features**.
 1. Under **GitLab Duo availability**, select an option.
@@ -84,7 +84,7 @@ Prerequisites:
 
 To change GitLab Duo availability for a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **GitLab Duo**.
 1. Turn the **GitLab Duo** toggle on or off.
@@ -114,7 +114,7 @@ Prerequisites:
 
 To change GitLab Duo availability for a group or subgroup:
 
-1. On the top bar, select **Search or go to** and find your group or subgroup.
+1. In the top bar, select **Search or go to** and find your group or subgroup.
 1. Select **Settings** > **General**.
 1. Expand **GitLab Duo features**.
 1. Under **GitLab Duo availability**, select an option.
@@ -130,7 +130,7 @@ Prerequisites:
 
 To change GitLab Duo availability for a project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **GitLab Duo**.
 1. Turn the **GitLab Duo** toggle on or off.
@@ -179,7 +179,7 @@ Prerequisites:
 
 To change GitLab Duo Core availability for a top-level group:
 
-1. On the top bar, select **Search or go to** and find your top-level group.
+1. In the top bar, select **Search or go to** and find your top-level group.
 1. Select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **GitLab Duo availability**, select an option.
@@ -232,7 +232,7 @@ Prerequisites:
 
 To turn on GitLab Duo experiment and beta features for a top-level group:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **Feature preview**, select **Turn on experiment and beta GitLab Duo features**.

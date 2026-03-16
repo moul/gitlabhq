@@ -124,7 +124,7 @@ previous one is removed.
 
 To create each label:
 
-1. On the top bar, select **Search or go to** and find your group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Manage** > **Labels**.
 1. Select **New label**.
 1. In the **Title** field, enter the name of the label. Start with `type::bug`.
@@ -177,7 +177,7 @@ To set up your issue board:
 1. Decide on the scope of the board.
    For example, [create a group issue board](../../user/project/issue_board.md#group-issue-boards) that you'll use to assign
    severity to issues.
-1. On the top bar, select **Search or go to** and find your **triage-tutorial** group.
+1. In the top bar, select **Search or go to** and find your **triage-tutorial** group.
 1. Select **Plan** > **Issue boards**.
 1. In the upper-left corner of the issue board page, select the dropdown list with the current board name.
 1. Select **Create new board**.

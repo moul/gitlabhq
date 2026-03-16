@@ -10,7 +10,7 @@ import {
   GlAlert,
 } from '@gitlab/ui';
 import produce from 'immer';
-import { isEmpty, isEqual, sortBy } from 'lodash';
+import { isEmpty, isEqual, sortBy } from 'lodash-es';
 import fuzzaldrinPlus from 'fuzzaldrin-plus';
 import { createAlert, VARIANT_INFO } from '~/alert';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';

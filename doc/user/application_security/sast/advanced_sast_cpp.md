@@ -28,7 +28,7 @@ Prerequisites:
 
 To turn on GitLab Advanced SAST C/C++ analysis in your project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Go to **Build** > **Pipeline** editor.
 1. Add C/C++ analysis to your SAST job's configuration. The instructions here assume the
    compilation database is named `compile_commands.json`.

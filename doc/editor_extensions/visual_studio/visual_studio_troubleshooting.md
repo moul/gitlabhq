@@ -23,7 +23,7 @@ If GitLab Duo Chat or GitLab Duo Code Suggestions are not available in Visual St
 - Check that Code Suggestions is enabled:
   1. In Visual Studio, on the bottom status bar, check the GitLab icon's tooltip for the current
      status of the feature.
-  1. If Code Suggestions is not enabled, on the top bar, select **Extensions** > **GitLab** >
+  1. If Code Suggestions is not enabled, in the top bar, select **Extensions** > **GitLab** >
      **Toggle Code Suggestions**.
 
 For additional support:
@@ -35,7 +35,7 @@ For additional support:
 
 More logs are available in the **GitLab Extension Output** window:
 
-1. In Visual Studio, on the top bar, go to the **Tools** > **Options** menu.
+1. In Visual Studio, in the top bar, go to the **Tools** > **Options** menu.
 1. Find the **GitLab** option, and set **Log Level** to **Debug**.
 1. Go to **View** > **Output** to open the extension log. In the dropdown list, select **GitLab Extension** as the log filter.
 1. Verify that the debug log contains similar output:

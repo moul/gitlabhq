@@ -48,7 +48,7 @@ Issue dates in the past are shown with a red icon ({{< icon name="calendar-overd
 
 To view and sort issues containing due dates in your project:
 
-1. On the top bar, select **Search or go to** and find your project.
+1. In the top bar, select **Search or go to** and find your project.
 1. Select **Plan** > **Work items** and filter by **Type** = **Issue**.
 1. To sort by due date, select the current sort method, then select **Due date**.
 1. Optional. To reverse the sort order, select **Sort direction** ({{< icon name="sort-lowest" >}}).
