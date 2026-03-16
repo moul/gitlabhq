@@ -166,7 +166,7 @@ To authenticate with environment variables:
    ```shell
    export GITLAB_TOKEN="<your-personal-access-token>"
    ```
-   
+
 1. Optional. Set `GITLAB_BASE_URL` or `GITLAB_URL` to your custom GitLab instance URL, for example `https://gitlab.example.com`. The default is `https://gitlab.com`.
 
    ```shell

@@ -35,7 +35,7 @@ To enable the Redmine integration in a project:
    - **New issue URL**: The URL to use to create a new issue in the Redmine project linked to
      this GitLab project.
 
-     <!-- The note below was originally added in January 2018: https://gitlab.com/gitlab-org/gitlab/-/commit/778b231f3a5dd42ebe195d4719a26bf675093350 -->
+     <!-- The note below was originally added in January 2018: <https://gitlab.com/gitlab-org/gitlab/-/commit/778b231f3a5dd42ebe195d4719a26bf675093350> -->
 
      > [!note]
      > This URL is not used and removal is planned in a future release.

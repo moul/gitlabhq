@@ -490,7 +490,7 @@ This means that the language server could not communicate with the `direct_acces
 to generate a JWT token due to the certificate issue.
 
 If you do not use TLS to connect your self-hosted model with the Agent Platform, to resolve this issue,
-[turn off](configure_duo_features.md#configure-access-to-the-gitlab-duo-agent-platform) 
+[turn off](configure_duo_features.md#configure-access-to-the-gitlab-duo-agent-platform)
 TLS connection to the GitLab Duo Agent Platform service.
 
 ## Related topics

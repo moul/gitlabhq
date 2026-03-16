@@ -1233,7 +1233,7 @@ in the rendered output.
 Embed images using inline or reference [links](#links) prepended with a `!`. For example:
 
 <!--
-DO NOT change the name of markdown_logo_v17_11.png. This file is used for a test in
+DO NOT change the name of `markdown_logo_v17_11.png`. This file is used for a test in
 spec/controllers/help_controller_spec.rb.
 -->
 

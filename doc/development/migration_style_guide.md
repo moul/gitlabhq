@@ -1568,9 +1568,9 @@ because a function or trigger already exists.
 ```ruby
 class AddTriggersToHighTrafficTable < Gitlab::Database::Migration[2.3]
   milestone '18.10'
-  
+
   disable_ddl_transaction!
-  
+
   TRIGGER_FUNCTION_NAME = 'function_name_here'
   TRIGGER_NAME = 'trigger_name_here'
   TABLE_NAME = :table_name
@@ -1584,12 +1584,12 @@ class AddTriggersToHighTrafficTable < Gitlab::Database::Migration[2.3]
       create_trigger(TABLE_NAME, TRIGGER_NAME, TRIGGER_FUNCTION_NAME, fires: 'AFTER INSERT', replace: true)
     end
   end
-  
+
   def down
     with_lock_retries do
       drop_trigger(TABLE_NAME, TRIGGER_NAME, if_exists: true)
     end
-  
+
     drop_function(TRIGGER_FUNCTION_NAME, if_exists: true)
   end
 end
