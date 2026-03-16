@@ -7,6 +7,51 @@ RSpec.describe Namespaces::Stateful::StateQuerying, feature_category: :groups_an
 
   let_it_be_with_reload(:namespace) { create(:namespace) }
 
+  describe 'delegations' do
+    subject { namespace }
+
+    it { is_expected.to delegate_method(:deletion_scheduled_by_user).to(:namespace_details) }
+  end
+
+  describe '.deletion_scheduled_before' do
+    let_it_be(:cutoff_time) { 10.days.ago }
+    let_it_be(:group_not_scheduled) { create(:group) }
+    let_it_be(:group_scheduled_after) do
+      create(:group, state: :deletion_scheduled, deletion_scheduled_at: cutoff_time + 2.days)
+    end
+
+    let_it_be(:group_scheduled_before) do
+      create(:group, state: :deletion_scheduled, deletion_scheduled_at: cutoff_time - 2.days)
+    end
+
+    let_it_be(:group_scheduled_on_cutoff) do
+      create(:group, state: :deletion_scheduled, deletion_scheduled_at: cutoff_time)
+    end
+
+    subject(:relation) { Group.deletion_scheduled_before(cutoff_time) }
+
+    it 'includes namespaces scheduled for deletion on or before the specified time' do
+      expect(relation).to include(group_scheduled_before, group_scheduled_on_cutoff)
+    end
+
+    it 'excludes namespaces scheduled after the specified time or not scheduled at all' do
+      expect(relation).not_to include(group_scheduled_after, group_not_scheduled)
+    end
+  end
+
+  describe '.with_deletion_scheduled_by_user' do
+    let_it_be(:user) { create(:user) }
+    let_it_be(:group) do
+      create(:group, state: :deletion_scheduled, state_metadata: { deletion_scheduled_by_user_id: user.id })
+    end
+
+    it 'eager loads the deletion_scheduled_by_user association through namespace_details' do
+      result = Group.where(id: group.id).with_deletion_scheduled_by_user.first
+
+      expect(result.namespace_details.association(:deletion_scheduled_by_user)).to be_loaded
+    end
+  end
+
   describe '#effective_state' do
     context 'with explicit state' do
       where(:state_key) do

@@ -46809,6 +46809,8 @@ CREATE UNIQUE INDEX index_namespace_commit_emails_on_user_id_and_namespace_id ON
 
 CREATE INDEX index_namespace_details_on_creator_id ON namespace_details USING btree (creator_id);
 
+CREATE INDEX index_namespace_details_on_id_and_deletion_scheduled_at ON namespace_details USING btree (namespace_id, deletion_scheduled_at) WHERE (deletion_scheduled_at IS NOT NULL);
+
 CREATE UNIQUE INDEX index_namespace_import_users_on_namespace_id ON namespace_import_users USING btree (namespace_id);
 
 CREATE UNIQUE INDEX index_namespace_import_users_on_user_id ON namespace_import_users USING btree (user_id);

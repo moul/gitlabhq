@@ -161,7 +161,8 @@ class IssuesFinder < IssuableFinder
   # Negates all params found in `negatable_params`
   def filter_negated_items(items)
     issues = super
-    by_negated_issue_types(issues)
+    issues = by_negated_issue_types(issues)
+    by_negated_work_item_type_ids(issues)
   end
 
   override :filter_by_full_text_search
@@ -250,6 +251,13 @@ class IssuesFinder < IssuableFinder
     return items if issue_type_params.blank?
 
     items.without_issue_type(issue_type_params)
+  end
+
+  def by_negated_work_item_type_ids(items)
+    negated_type_ids = Array(not_params[:work_item_type_ids]).compact
+    return items if negated_type_ids.blank?
+
+    items.without_work_item_type_ids(negated_type_ids)
   end
 end
 

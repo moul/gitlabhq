@@ -882,6 +882,12 @@ API/DescriptionDetail:
     - 'lib/**/api/**/*.rb'
     - 'ee/lib/**/api/**/*.rb'
 
+API/LifecycleInDescription:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
 API/DescriptionSuccessResponse:
   Enabled: true
   Include:

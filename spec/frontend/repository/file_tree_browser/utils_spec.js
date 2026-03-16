@@ -8,6 +8,7 @@ import {
   isExpandable,
   createItemVisibilityObserver,
   observeElements,
+  generateSkeletonItem,
 } from '~/repository/file_tree_browser/utils';
 import { FTB_MAX_PAGES, FTB_MAX_DEPTH } from '~/repository/constants';
 
@@ -87,6 +88,19 @@ describe('File tree browser utilities', () => {
       expect(result.level).toBe(level);
       expect(result.parentPath).toBe(parentPath);
       expect(result.isShowMore).toBe(true);
+    });
+  });
+
+  describe('generateSkeletonItem', () => {
+    it('generates skeleton item with correct structure', () => {
+      const result = generateSkeletonItem('/path/to/directory', 2);
+
+      expect(result).toEqual({
+        id: `/path/to/directory-skeleton`,
+        level: 2,
+        parentPath: '/path/to/directory',
+        isSkeleton: true,
+      });
     });
   });
 

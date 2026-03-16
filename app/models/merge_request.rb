@@ -1440,7 +1440,7 @@ class MergeRequest < ApplicationRecord
   def ensure_merge_request_diff
     return if merge_request_diff.persisted?
 
-    create_merge_request_diff(preload_gitaly: !importing? && Feature.enabled?(:preload_gitaly_in_ensure_mr_diff, project))
+    create_merge_request_diff(preload_gitaly: !importing?)
   end
 
   def create_merge_request_diff(preload_gitaly: false)

@@ -206,13 +206,20 @@ RSpec.shared_examples 'work item API filter parity' do
     # instad of `iid` we have `iids`
     # `or`, `not` is just a key in GraphQL
     # `hierarchy_filters` is deprecated
-    known_exceptions = %w[iid not or hierarchy_filters]
+    # TODO: work_item_type_ids will be added
+    # See https://gitlab.com/gitlab-org/gitlab/-/work_items/593365
+    known_exceptions = %w[iid not or hierarchy_filters work_item_type_ids]
 
     ::Resolvers::Namespaces::WorkItemsResolver.arguments.keys.map(&:underscore) - known_exceptions - parity_wip
   end
 
   let(:graphql_not_filter_params) do
-    ::Types::WorkItems::NegatedWorkItemFilterInputType.arguments.keys.map(&:underscore) - not_filter_parity_wip
+    # TODO: work_item_type_ids will be added
+    # See https://gitlab.com/gitlab-org/gitlab/-/work_items/593365
+    known_exceptions = %w[work_item_type_ids]
+
+    ::Types::WorkItems::NegatedWorkItemFilterInputType.arguments.keys.map(&:underscore) -
+      known_exceptions - not_filter_parity_wip
   end
 
   let(:graphql_or_filter_params) do

@@ -23,9 +23,18 @@ RSpec.describe ActiveContext::Concerns::Collection do
     it 'delegates to ActiveContext::Tracker' do
       objects = [mock_object]
 
-      expect(ActiveContext::Tracker).to receive(:track!).with(objects, collection: collection_class)
+      expect(ActiveContext::Tracker).to receive(:track!).with(objects, collection: collection_class, queue: nil)
 
       collection_class.track!(*objects)
+    end
+
+    it 'passes queue parameter to ActiveContext::Tracker' do
+      objects = [mock_object]
+      queue = double
+
+      expect(ActiveContext::Tracker).to receive(:track!).with(objects, collection: collection_class, queue: queue)
+
+      collection_class.track!(*objects, queue: queue)
     end
   end
 
@@ -248,6 +257,35 @@ RSpec.describe ActiveContext::Concerns::Collection do
 
     it 'requires embedding_model_selector to be implemented' do
       expect { base_collection_class.embedding_model_selector }.to raise_error(NotImplementedError)
+    end
+  end
+
+  describe '.backfill_queue' do
+    context 'when backfill_queue is not overridden' do
+      it 'defaults to the main queue' do
+        expect(collection_class.backfill_queue).to eq(collection_class.queue)
+      end
+    end
+
+    context 'when backfill_queue is overridden' do
+      let(:custom_backfill_queue) { double }
+      let(:collection_with_custom_backfill) do
+        Class.new do
+          include ActiveContext::Concerns::Collection
+
+          def self.queue
+            'main_queue'
+          end
+
+          def self.backfill_queue
+            'custom_backfill_queue'
+          end
+        end
+      end
+
+      it 'returns the custom backfill queue' do
+        expect(collection_with_custom_backfill.backfill_queue).to eq('custom_backfill_queue')
+      end
     end
   end
 end

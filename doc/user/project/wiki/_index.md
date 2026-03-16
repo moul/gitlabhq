@@ -82,16 +82,27 @@ to be used as your wiki's home page. To create it:
 
 - Separation of page title and path [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/30758) in GitLab 17.2 [with flags](../../../administration/feature_flags/_index.md) named `wiki_front_matter` and `wiki_front_matter_title`. Enabled by default.
 - Feature flags `wiki_front_matter` and `wiki_front_matter_title` removed in GitLab 17.3.
++- Create a wiki page from the top bar [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/591976) in GitLab 18.10.
 
 {{< /history >}}
 
 Prerequisites:
 
-- You must have the Developer, Maintainer, or Owner role.
+- The Developer, Maintainer, or Owner role.
+
+To create a new wiki page from a project or group:
+
+1. On the top bar, select **Search or go to** and find your group or project.
+1. In the upper-right corner, select **Create new** ({{< icon name="plus" >}}), then **New wiki page**.
+
+Alternatively:
 
 1. In the top bar, select **Search or go to** and find your project or group.
 1. Select **Plan** > **Wiki**.
 1. Select **Wiki actions** ({{< icon name="ellipsis_v" >}}), then **New page** on this page, or any other wiki page.
+
+After opening the new page form, complete the following steps:
+
 1. Select a content format.
 1. Add a **Title** for your new page.
 1. Optional. Uncheck **Generate page path from title** and change the **Path** of the page.

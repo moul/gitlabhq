@@ -46,6 +46,19 @@ export const generateShowMoreItem = (id, parentPath, level) => ({
 });
 
 /**
+ * Generates skeleton placeholder item for the file-row component during loading.
+ * @param {string} parentPath - The path of the parent directory
+ * @param {number} level - Level used for indentation in rendering the tree
+ * @returns {Object} Skeleton item object with id, level, parentPath, and isSkeleton properties
+ */
+export const generateSkeletonItem = (parentPath, level) => ({
+  id: `${parentPath}-skeleton`, // eslint-disable-line @gitlab/require-i18n-strings
+  level,
+  parentPath,
+  isSkeleton: true,
+});
+
+/**
  * Checks if a directory contains a specific child by name
  * @param {Object} directoryContents - Directory contents object
  * @param {Array} directoryContents.trees - Array of tree objects in the directory

@@ -1402,6 +1402,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="query-issues-updatedbefore"></a>`updatedBefore` | [`Time`](#time) | Issues updated before the date. |
 | <a id="query-issues-weight"></a>`weight` | [`String`](#string) | Weight applied to the issue, "none" and "any" values are supported. |
 | <a id="query-issues-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="query-issues-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter issues by work item type global IDs. |
 
 ### `Query.iteration`
 
@@ -16715,6 +16716,7 @@ Input type: `WorkItemExportInput`
 | <a id="mutation-workitemexport-updatedbefore"></a>`updatedBefore` | [`Time`](#time) | Work items updated before the timestamp. |
 | <a id="mutation-workitemexport-weight"></a>`weight` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.2. |
 | <a id="mutation-workitemexport-weightwildcardid"></a>`weightWildcardId` {{< icon name="warning-solid" >}} | [`WeightWildcardId`](#weightwildcardid) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.2. |
+| <a id="mutation-workitemexport-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter work items by work item type global IDs. |
 
 #### Fields
 
@@ -17164,6 +17166,7 @@ Input type: `WorkItemsCsvExportInput`
 | <a id="mutation-workitemscsvexport-updatedbefore"></a>`updatedBefore` | [`Time`](#time) | Work items updated before the timestamp. |
 | <a id="mutation-workitemscsvexport-weight"></a>`weight` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.2. |
 | <a id="mutation-workitemscsvexport-weightwildcardid"></a>`weightWildcardId` {{< icon name="warning-solid" >}} | [`WeightWildcardId`](#weightwildcardid) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.2. |
+| <a id="mutation-workitemscsvexport-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter work items by work item type global IDs. |
 
 #### Fields
 
@@ -32790,6 +32793,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="currentuser-workitems-types"></a>`types` | [`[IssueType!]`](#issuetype) | Filter work items by the given work item types. |
 | <a id="currentuser-workitems-updatedafter"></a>`updatedAfter` | [`Time`](#time) | Work items updated after the timestamp. |
 | <a id="currentuser-workitems-updatedbefore"></a>`updatedBefore` | [`Time`](#time) | Work items updated before the timestamp. |
+| <a id="currentuser-workitems-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter work items by work item type global IDs. |
 
 ##### `CurrentUser.workspaces`
 
@@ -36832,6 +36836,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="group-issues-updatedbefore"></a>`updatedBefore` | [`Time`](#time) | Issues updated before the date. |
 | <a id="group-issues-weight"></a>`weight` | [`String`](#string) | Weight applied to the issue, "none" and "any" values are supported. |
 | <a id="group-issues-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="group-issues-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter issues by work item type global IDs. |
 
 ##### `Group.iterationCadences`
 
@@ -37922,6 +37927,7 @@ Returns [`WorkItemStateCountsType`](#workitemstatecountstype).
 | <a id="group-workitemstatecounts-verificationstatuswidget"></a>`verificationStatusWidget` | [`VerificationStatusFilterInput`](#verificationstatusfilterinput) | Input for verification status widget filter. |
 | <a id="group-workitemstatecounts-weight"></a>`weight` | [`String`](#string) | Weight applied to the work item, "none" and "any" values are supported. |
 | <a id="group-workitemstatecounts-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="group-workitemstatecounts-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter work items by work item type global IDs. |
 
 ##### `Group.workItemTypes`
 
@@ -37937,8 +37943,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="group-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 18.11. Name-based filtering is no longer supported with introduction of configurable work item types in 18.11. |
-| <a id="group-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 18.11. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
+| <a id="group-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 19.0. Name-based filtering is no longer supported with introduction of configurable work item types in 19.0. |
+| <a id="group-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 19.0. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
 
 ##### `Group.workItems`
 
@@ -38010,6 +38016,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="group-workitems-verificationstatuswidget"></a>`verificationStatusWidget` | [`VerificationStatusFilterInput`](#verificationstatusfilterinput) | Input for verification status widget filter. |
 | <a id="group-workitems-weight"></a>`weight` | [`String`](#string) | Weight applied to the work item, "none" and "any" values are supported. |
 | <a id="group-workitems-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="group-workitems-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter work items by work item type global IDs. |
 
 ##### `Group.workItemsWidgets`
 
@@ -42820,6 +42827,7 @@ Returns [`WorkItemStateCountsType`](#workitemstatecountstype).
 | <a id="namespace-workitemstatecounts-verificationstatuswidget"></a>`verificationStatusWidget` | [`VerificationStatusFilterInput`](#verificationstatusfilterinput) | Input for verification status widget filter. |
 | <a id="namespace-workitemstatecounts-weight"></a>`weight` | [`String`](#string) | Weight applied to the work item, "none" and "any" values are supported. |
 | <a id="namespace-workitemstatecounts-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="namespace-workitemstatecounts-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter work items by work item type global IDs. |
 
 ##### `Namespace.workItemTypes`
 
@@ -42840,8 +42848,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="namespace-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 18.11. Name-based filtering is no longer supported with introduction of configurable work item types in 18.11. |
-| <a id="namespace-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 18.11. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
+| <a id="namespace-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 19.0. Name-based filtering is no longer supported with introduction of configurable work item types in 19.0. |
+| <a id="namespace-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 19.0. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
 
 ##### `Namespace.workItems`
 
@@ -42913,6 +42921,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="namespace-workitems-verificationstatuswidget"></a>`verificationStatusWidget` | [`VerificationStatusFilterInput`](#verificationstatusfilterinput) | Input for verification status widget filter. |
 | <a id="namespace-workitems-weight"></a>`weight` | [`String`](#string) | Weight applied to the work item, "none" and "any" values are supported. |
 | <a id="namespace-workitems-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="namespace-workitems-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter work items by work item type global IDs. |
 
 ##### `Namespace.workItemsWidgets`
 
@@ -43357,8 +43366,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="organization-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 18.11. Name-based filtering is no longer supported with introduction of configurable work item types in 18.11. |
-| <a id="organization-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 18.11. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
+| <a id="organization-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 19.0. Name-based filtering is no longer supported with introduction of configurable work item types in 19.0. |
+| <a id="organization-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 19.0. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
 
 ##### `Organization.workspacesClusterAgents`
 
@@ -45960,6 +45969,7 @@ Returns [`Issue`](#issue).
 | <a id="project-issue-updatedbefore"></a>`updatedBefore` | [`Time`](#time) | Issues updated before the date. |
 | <a id="project-issue-weight"></a>`weight` | [`String`](#string) | Weight applied to the issue, "none" and "any" values are supported. |
 | <a id="project-issue-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="project-issue-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter issues by work item type global IDs. |
 
 ##### `Project.issueStatusCounts`
 
@@ -46013,6 +46023,7 @@ Returns [`IssueStatusCountsType`](#issuestatuscountstype).
 | <a id="project-issuestatuscounts-updatedbefore"></a>`updatedBefore` | [`Time`](#time) | Issues updated before the date. |
 | <a id="project-issuestatuscounts-weight"></a>`weight` | [`String`](#string) | Weight applied to the issue, "none" and "any" values are supported. |
 | <a id="project-issuestatuscounts-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="project-issuestatuscounts-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter issues by work item type global IDs. |
 
 ##### `Project.issues`
 
@@ -46073,6 +46084,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="project-issues-updatedbefore"></a>`updatedBefore` | [`Time`](#time) | Issues updated before the date. |
 | <a id="project-issues-weight"></a>`weight` | [`String`](#string) | Weight applied to the issue, "none" and "any" values are supported. |
 | <a id="project-issues-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="project-issues-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter issues by work item type global IDs. |
 
 ##### `Project.iterationCadences`
 
@@ -47355,6 +47367,7 @@ Returns [`WorkItemStateCountsType`](#workitemstatecountstype).
 | <a id="project-workitemstatecounts-verificationstatuswidget"></a>`verificationStatusWidget` | [`VerificationStatusFilterInput`](#verificationstatusfilterinput) | Input for verification status widget filter. |
 | <a id="project-workitemstatecounts-weight"></a>`weight` | [`String`](#string) | Weight applied to the work item, "none" and "any" values are supported. |
 | <a id="project-workitemstatecounts-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="project-workitemstatecounts-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter work items by work item type global IDs. |
 
 ##### `Project.workItemTypes`
 
@@ -47370,8 +47383,8 @@ four standard [pagination arguments](#pagination-arguments):
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="project-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 18.11. Name-based filtering is no longer supported with introduction of configurable work item types in 18.11. |
-| <a id="project-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 18.11. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
+| <a id="project-workitemtypes-name"></a>`name` {{< icon name="warning-solid" >}} | [`IssueType`](#issuetype) | **Deprecated** in GitLab 19.0. Name-based filtering is no longer supported with introduction of configurable work item types in 19.0. |
+| <a id="project-workitemtypes-onlyavailable"></a>`onlyAvailable` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. When true, returns only the available work item types for the current user. This experimental field will be removed in 19.0. Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead. |
 
 ##### `Project.workItems`
 
@@ -47437,6 +47450,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="project-workitems-verificationstatuswidget"></a>`verificationStatusWidget` | [`VerificationStatusFilterInput`](#verificationstatusfilterinput) | Input for verification status widget filter. |
 | <a id="project-workitems-weight"></a>`weight` | [`String`](#string) | Weight applied to the work item, "none" and "any" values are supported. |
 | <a id="project-workitems-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="project-workitems-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter work items by work item type global IDs. |
 
 ### `ProjectCiCdSetting`
 
@@ -62228,6 +62242,7 @@ Input type for filtering projects by security attributes.
 | <a id="boardissueinput-types"></a>`types` | [`[IssueType!]`](#issuetype) | Filter by the given issue types. |
 | <a id="boardissueinput-weight"></a>`weight` | [`String`](#string) | Filter by weight. |
 | <a id="boardissueinput-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter by weight ID wildcard. Incompatible with weight. |
+| <a id="boardissueinput-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter by work item type global IDs. |
 
 ### `BranchProtectionInput`
 
@@ -62680,6 +62695,7 @@ Defines which user roles, users, or groups can merge into a protected branch.
 | <a id="negatedboardissueinput-releasetag"></a>`releaseTag` | [`String`](#string) | Filter by release tag. |
 | <a id="negatedboardissueinput-types"></a>`types` | [`[IssueType!]`](#issuetype) | Filter by the given issue types. |
 | <a id="negatedboardissueinput-weight"></a>`weight` | [`String`](#string) | Filter by weight. |
+| <a id="negatedboardissueinput-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter by work item type global IDs. |
 
 ### `NegatedComplianceFrameworkFilters`
 
@@ -62770,6 +62786,7 @@ Defines which user roles, users, or groups can merge into a protected branch.
 | <a id="negatedworkitemfilterinput-releasetag"></a>`releaseTag` | [`[String!]`](#string) | Release tag not associated with the work items's milestone (maximum is 100 tags). Ignored when parent is a group . |
 | <a id="negatedworkitemfilterinput-types"></a>`types` | [`[IssueType!]`](#issuetype) | Filter out work items by the given types. |
 | <a id="negatedworkitemfilterinput-weight"></a>`weight` | [`String`](#string) | Weight not applied to the work items. |
+| <a id="negatedworkitemfilterinput-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter out work items by work item type global IDs. |
 
 ### `OncallRotationActivePeriodInputType`
 

@@ -363,7 +363,6 @@ module.exports = {
       sandboxed_swagger: './lib/swagger.js',
       super_sidebar: './entrypoints/super_sidebar.js',
       tracker: './entrypoints/tracker.js',
-      analytics: './entrypoints/analytics.js',
       graphql_explorer: './entrypoints/graphql_explorer.js',
       ...incrementalCompiler.filterEntryPoints(generateEntries({ defaultEntries, entriesState })),
     };

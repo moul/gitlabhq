@@ -13,14 +13,14 @@ module Resolvers
         required: false,
         deprecated: {
           reason: "Name-based filtering is no longer supported with introduction of " \
-            "configurable work item types in 18.11",
-          milestone: "18.11"
+            "configurable work item types in 19.0",
+          milestone: "19.0"
         }
 
       argument :only_available,
         ::GraphQL::Types::Boolean,
         description: "When true, returns only the available work item types for the current user. " \
-          "This experimental field will be removed in 18.11. " \
+          "This experimental field will be removed in 19.0. " \
           "Use canUserCreateItems and isFilterableListView fields from the WorkItemTypes API instead.",
         required: false,
         experiment: { milestone: "18.6" }

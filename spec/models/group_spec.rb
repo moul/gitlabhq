@@ -1353,36 +1353,6 @@ RSpec.describe Group, feature_category: :groups_and_projects do
       end
     end
 
-    describe '.marked_for_deletion_before' do
-      let_it_be(:date) { 10.days.ago }
-
-      let_it_be(:group_not_marked_for_deletion) { create(:group) }
-      let_it_be(:group_marked_for_deletion_after_specified_date) do
-        create(:group_with_deletion_schedule, marked_for_deletion_on: date + 2.days)
-      end
-
-      let_it_be(:group_marked_for_deletion_before_specified_date) do
-        create(:group_with_deletion_schedule, marked_for_deletion_on: date - 2.days)
-      end
-
-      let_it_be(:group_marked_for_deletion_on_specified_date) do
-        create(:group_with_deletion_schedule, marked_for_deletion_on: date)
-      end
-
-      subject(:relation) { described_class.marked_for_deletion_before(date) }
-
-      it 'only includes groups that are marked for deletion on or before the specified date' do
-        expect(relation).to include(
-          group_marked_for_deletion_before_specified_date,
-          group_marked_for_deletion_on_specified_date
-        )
-        expect(relation).not_to include(
-          group_marked_for_deletion_after_specified_date,
-          group_not_marked_for_deletion
-        )
-      end
-    end
-
     describe '.marked_for_deletion_on' do
       let_it_be(:group_marked_for_deletion) { create(:group_with_deletion_schedule, marked_for_deletion_on: Date.parse('2024-01-01')) }
       let_it_be(:group_not_marked_for_deletion) { create(:group) }

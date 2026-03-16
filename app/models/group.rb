@@ -155,11 +155,6 @@ class Group < Namespace
   scope :with_deletion_schedule, -> { preload(deletion_schedule: :deleting_user) }
   scope :with_deletion_schedule_only, -> { preload(:deletion_schedule) }
 
-  scope :marked_for_deletion_before, ->(date) do
-    joins(:deletion_schedule)
-      .where('group_deletion_schedules.marked_for_deletion_on <= ?', date)
-  end
-
   scope :marked_for_deletion_on, ->(date) do
     joins(:deletion_schedule)
       .where(group_deletion_schedules: { marked_for_deletion_on: date })

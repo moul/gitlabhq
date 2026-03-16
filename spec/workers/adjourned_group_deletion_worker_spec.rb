@@ -10,14 +10,13 @@ RSpec.describe AdjournedGroupDeletionWorker, feature_category: :groups_and_proje
     let!(:group_not_marked_for_deletion) { create(:group) }
     let!(:parent_group) { create(:group) }
     let!(:group_marked_for_deletion) do
-      create(:group_with_deletion_schedule,
-        parent: parent_group,
-        marked_for_deletion_on: 15.days.ago,
-        deleting_user: user)
+      create(:group, parent: parent_group, state: :deletion_scheduled, deletion_scheduled_at: 15.days.ago,
+        state_metadata: { deletion_scheduled_by_user_id: user.id })
     end
 
     let!(:group_marked_for_deletion_for_later) do
-      create(:group_with_deletion_schedule, marked_for_deletion_on: 2.days.ago, deleting_user: user)
+      create(:group, state: :deletion_scheduled, deletion_scheduled_at: 2.days.ago,
+        state_metadata: { deletion_scheduled_by_user_id: user.id })
     end
 
     before do
@@ -65,12 +64,8 @@ RSpec.describe AdjournedGroupDeletionWorker, feature_category: :groups_and_proje
       end
 
       it 'schedules groups 20 seconds apart' do
-        group_marked_for_deletion_2 = create(
-          :group_with_deletion_schedule,
-          marked_for_deletion_on: 14.days.ago,
-          deleting_user: user,
-          owners: user
-        )
+        group_marked_for_deletion_2 = create(:group, owners: user, state: :deletion_scheduled,
+          deletion_scheduled_at: 15.days.ago, state_metadata: { deletion_scheduled_by_user_id: user.id })
 
         expect(GroupDestroyWorker).to receive(:perform_in).with(0, group_marked_for_deletion.id, user.id)
         expect(GroupDestroyWorker).to receive(:perform_in).with(20, group_marked_for_deletion_2.id, user.id)
@@ -126,7 +121,11 @@ RSpec.describe AdjournedGroupDeletionWorker, feature_category: :groups_and_proje
         let_it_be(:user) { create(:admin) }
 
         before do
-          group_marked_for_deletion.deletion_schedule.update!(deleting_user: user)
+          group_marked_for_deletion.namespace_details.update!(
+            state_metadata: group_marked_for_deletion.state_metadata.merge(
+              'deletion_scheduled_by_user_id' => user.id
+            )
+          )
         end
 
         it_behaves_like 'destroys the group'

@@ -266,6 +266,154 @@ describe('Tree List', () => {
     });
   });
 
+  describe('skeleton loader', () => {
+    const mockEvent = {
+      target: {
+        closest: jest.fn(() => ({
+          previousElementSibling: {
+            nextElementSibling: { focus: jest.fn() },
+          },
+        })),
+      },
+    };
+
+    describe('when last item is a file', () => {
+      beforeEach(() => {
+        const paginatedResponse = cloneDeep(mockResponse);
+        paginatedResponse.data.project.repository.paginatedTree.pageInfo.hasNextPage = true;
+        return createComponent(paginatedResponse);
+      });
+
+      it('shows skeleton item and hides show more button when show more is clicked', async () => {
+        const secondPageResponse = cloneDeep(mockResponse);
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].trees.nodes = [];
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].blobs.nodes = [];
+        getQueryHandlerSuccess.mockResolvedValueOnce(secondPageResponse);
+
+        findFileRows().at(2).vm.$emit('showMore', mockEvent);
+        await nextTick();
+        await nextTick();
+        triggerIntersectionForAll();
+        await nextTick();
+
+        const files = findFileRows().wrappers.map((w) => w.props('file'));
+        expect(files.some((f) => f.isSkeleton)).toBe(true);
+        expect(files.some((f) => f.isShowMore)).toBe(false);
+      });
+
+      it('removes skeleton item after data loads', async () => {
+        const secondPageResponse = cloneDeep(mockResponse);
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].trees.nodes = [];
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].blobs.nodes = [];
+        getQueryHandlerSuccess.mockResolvedValueOnce(secondPageResponse);
+
+        findFileRows().at(2).vm.$emit('showMore', mockEvent);
+        await waitForPromises();
+        triggerIntersectionForAll();
+        await nextTick();
+
+        const files = findFileRows().wrappers.map((w) => w.props('file'));
+        expect(files.some((f) => f.isSkeleton)).toBe(false);
+      });
+    });
+
+    describe('when last item is a directory', () => {
+      beforeEach(() => {
+        const dirResponse = cloneDeep(mockResponse);
+        dirResponse.data.project.repository.paginatedTree.pageInfo.hasNextPage = true;
+        dirResponse.data.project.repository.paginatedTree.nodes[0].blobs.nodes = [];
+        return createComponent(dirResponse);
+      });
+
+      it('shows skeleton item and hides show more button when show more is clicked', async () => {
+        const secondPageResponse = cloneDeep(mockResponse);
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].trees.nodes = [];
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].blobs.nodes = [];
+        getQueryHandlerSuccess.mockResolvedValueOnce(secondPageResponse);
+
+        findFileRows().at(1).vm.$emit('showMore', mockEvent);
+        await nextTick();
+        await nextTick();
+        triggerIntersectionForAll();
+        await nextTick();
+
+        const files = findFileRows().wrappers.map((w) => w.props('file'));
+        expect(files.some((f) => f.isSkeleton)).toBe(true);
+        expect(files.some((f) => f.isShowMore)).toBe(false);
+      });
+
+      it('removes skeleton item after data loads', async () => {
+        const secondPageResponse = cloneDeep(mockResponse);
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].trees.nodes = [];
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].blobs.nodes = [];
+        getQueryHandlerSuccess.mockResolvedValueOnce(secondPageResponse);
+
+        findFileRows().at(1).vm.$emit('showMore', mockEvent);
+        await waitForPromises();
+        triggerIntersectionForAll();
+        await nextTick();
+
+        const files = findFileRows().wrappers.map((w) => w.props('file'));
+        expect(files.some((f) => f.isSkeleton)).toBe(false);
+      });
+    });
+
+    describe('when last item is a submodule', () => {
+      beforeEach(() => {
+        const subResponse = cloneDeep(mockResponse);
+        subResponse.data.project.repository.paginatedTree.pageInfo.hasNextPage = true;
+        subResponse.data.project.repository.paginatedTree.nodes[0].trees.nodes = [];
+        subResponse.data.project.repository.paginatedTree.nodes[0].blobs.nodes = [];
+        subResponse.data.project.repository.paginatedTree.nodes[0].submodules.nodes = [
+          {
+            __typename: 'Submodule',
+            id: 'gid://Submodule123',
+            sha: '1234567890abcdef',
+            name: 'submodule-project',
+            flatPath: 'submodule-project',
+            type: 'commit',
+            path: 'submodule-project',
+            treeUrl: 'https://example.com/submodule-project',
+            webUrl: 'https://example.com/submodule-project',
+          },
+        ];
+        return createComponent(subResponse);
+      });
+
+      it('shows skeleton item and hides show more button when show more is clicked', async () => {
+        const secondPageResponse = cloneDeep(mockResponse);
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].trees.nodes = [];
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].blobs.nodes = [];
+        getQueryHandlerSuccess.mockResolvedValueOnce(secondPageResponse);
+
+        findFileRows().at(1).vm.$emit('showMore', mockEvent);
+        await nextTick();
+        await nextTick();
+        triggerIntersectionForAll();
+        await nextTick();
+
+        const files = findFileRows().wrappers.map((w) => w.props('file'));
+        expect(files.some((f) => f.isSkeleton)).toBe(true);
+        expect(files.some((f) => f.isShowMore)).toBe(false);
+      });
+
+      it('removes skeleton item after data loads', async () => {
+        const secondPageResponse = cloneDeep(mockResponse);
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].trees.nodes = [];
+        secondPageResponse.data.project.repository.paginatedTree.nodes[0].blobs.nodes = [];
+        getQueryHandlerSuccess.mockResolvedValueOnce(secondPageResponse);
+
+        findFileRows().at(1).vm.$emit('showMore', mockEvent);
+        await waitForPromises();
+        triggerIntersectionForAll();
+        await nextTick();
+
+        const files = findFileRows().wrappers.map((w) => w.props('file'));
+        expect(files.some((f) => f.isSkeleton)).toBe(false);
+      });
+    });
+  });
+
   describe('search button', () => {
     it('renders search button with correct props', () => {
       const button = findSearchButton();

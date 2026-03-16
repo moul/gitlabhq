@@ -13,11 +13,14 @@ module ActiveContext
           unit_primitive:,
           content_field: :content,
           content_method: nil,
-          remove_content: false
+          remove_content: false,
+          next_model_only: false
         )
           with_batch_handling(refs) do
             docs_to_process = refs.flat_map do |ref|
-              next [] unless ref.indexing_embedding_models.any?
+              models = ref.indexing_embedding_models(next_model_only: next_model_only)
+
+              next [] unless models.any?
 
               initialize_documents!(ref, content_method, content_field)
 
@@ -26,7 +29,7 @@ module ActiveContext
                 {
                   ref: ref,
                   doc: doc,
-                  models: ref.indexing_embedding_models
+                  models: models
                 }
               end
             end

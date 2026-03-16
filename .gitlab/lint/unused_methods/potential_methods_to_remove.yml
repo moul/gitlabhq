@@ -149,8 +149,6 @@ app/models/ci/build.rb:
 - has_archived_trace?
 app/models/ci/build_trace_chunk.rb:
 - migrated?
-app/models/ci/catalog/components_project.rb:
-- find_catalog_component
 app/models/ci/job_token/allowlist.rb:
 - project_link_traversal_ids
 - group_link_traversal_ids

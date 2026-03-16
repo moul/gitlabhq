@@ -2,17 +2,6 @@
 Lint/EmptyBlock:
   Exclude:
     - 'config/application.rb'
-    - 'ee/spec/models/protected_environment_spec.rb'
-    - 'ee/spec/models/security/orchestration_policy_configuration_spec.rb'
-    - 'ee/spec/models/security/orchestration_policy_rule_schedule_spec.rb'
-    - 'ee/spec/models/vulnerabilities/stat_diff_spec.rb'
-    - 'ee/spec/requests/api/analytics/group_activity_analytics_spec.rb'
-    - 'ee/spec/requests/api/graphql/boards/board_lists_query_spec.rb'
-    - 'ee/spec/requests/api/vulnerability_exports_spec.rb'
-    - 'ee/spec/requests/groups/security/credentials_controller_spec.rb'
-    - 'ee/spec/requests/lfs_http_spec.rb'
-    - 'ee/spec/services/ci/runners/register_runner_service_spec.rb'
-    - 'ee/spec/services/incident_management/escalation_policies/update_service_spec.rb'
     - 'lib/api/helpers/groups_helpers.rb'
     - 'lib/api/helpers/issues_helpers.rb'
     - 'lib/api/helpers/protected_branches_helpers.rb'

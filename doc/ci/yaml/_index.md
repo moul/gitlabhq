@@ -1385,7 +1385,7 @@ deploy:
 - You cannot use `spec:include` in [CI/CD components](../components/_index.md#component-spec-section).
 - External input files must contain only the `inputs` key. Other keys cause validation errors.
 - External inputs are merged first, then inline inputs are applied.
-- Inline inputs take precedence over external inputs with the same name.
+- Inline inputs cannot have the same name as included inputs.
 - When you include multiple input files, they are merged in the order specified.
 - Supports [`local`](#includelocal), [`remote`](#includeremote), and [`project`](#includeproject) include types.
   Does not support `template`, `component`, or `artifact` includes.

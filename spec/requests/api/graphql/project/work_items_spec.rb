@@ -1071,6 +1071,50 @@ RSpec.describe 'getting a work item list for a project', feature_category: :team
         end
       end
     end
+
+    context 'when filtering by workItemTypeIds' do
+      let_it_be(:task) { create(:work_item, :task, project: project) }
+
+      let(:item_filter_params) { { workItemTypeIds: [task.work_item_type.to_global_id.to_s] } }
+
+      before do
+        post_graphql(query, current_user: current_user)
+      end
+
+      it 'returns items with selected type GIDs' do
+        expect(item_ids).to contain_exactly(task.to_global_id.to_s)
+      end
+
+      context 'when using NOT' do
+        let(:item_filter_params) { { not: { workItemTypeIds: [task.work_item_type.to_global_id.to_s] } } }
+
+        it 'returns items without selected type GIDs' do
+          expect(item_ids).not_to include(task.to_global_id.to_s)
+        end
+      end
+
+      context 'when both types and workItemTypeIds are provided' do
+        let(:item_filter_params) { { types: [:TASK], workItemTypeIds: [task.work_item_type.to_global_id.to_s] } }
+
+        it 'returns a mutual exclusion error' do
+          expect_graphql_errors_to_include(
+            'Only one of [issueTypes, workItemTypeIds] arguments is allowed at the same time.'
+          )
+        end
+      end
+
+      context 'when both types and workItemTypeIds are provided in NOT' do
+        let(:item_filter_params) do
+          { not: { types: [:TASK], workItemTypeIds: [task.work_item_type.to_global_id.to_s] } }
+        end
+
+        it 'returns a mutual exclusion error' do
+          expect_graphql_errors_to_include(
+            'Only one of [issueTypes, workItemTypeIds] arguments is allowed at the same time.'
+          )
+        end
+      end
+    end
   end
 
   context 'when skipping authorization' do

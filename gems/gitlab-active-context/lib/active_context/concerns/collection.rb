@@ -6,8 +6,8 @@ module ActiveContext
       extend ActiveSupport::Concern
 
       class_methods do
-        def track!(*objects)
-          ActiveContext::Tracker.track!(objects, collection: self)
+        def track!(*objects, queue: nil)
+          ActiveContext::Tracker.track!(objects, collection: self, queue: queue)
         end
 
         def search(user:, query:)
@@ -20,6 +20,10 @@ module ActiveContext
 
         def queue
           raise NotImplementedError
+        end
+
+        def backfill_queue
+          queue
         end
 
         def routing(_)

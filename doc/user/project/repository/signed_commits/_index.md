@@ -61,14 +61,14 @@ To review commits for a merge request, or for an entire project, and verify they
 
    ![Unverified signature details for a commit.](img/project_signed_commit_unverified_signature_v17_4.png)
 
-You can also [use the Commits API](../../../../api/commits.md#retrieve-commit-signature)
+You can also [use the commits API](../../../../api/commits.md#retrieve-commit-signature)
 to check a commit's signature.
 
 ### Verify web UI commits
 
 GitLab uses SSH to sign commits created through the web UI.
 To verify these commits locally, obtain the GitLab public key for signing web commits
-using the [Web Commits API](../../../../api/web_commits.md#retrieve-public-signing-key).
+using the [web commits API](../../../../api/web_commits.md#retrieve-public-signing-key).
 
 ### Mailmap email detection for signed commits
 
@@ -99,11 +99,18 @@ GitLab profile and verify it.
 
 ## Enforce signed commits with push rules
 
+{{< details >}}
+
+- Tier: Premium, Ultimate
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
+
 You can require signed commits across your projects using push rules.
 The **Reject unsigned commits** push rule prevents any unsigned commits from being pushed
 to a repository, helping organizations maintain code integrity and meet compliance requirements.
 
-For more information about how this rule works and its limitations, see [Require signed commits](../push_rules.md#require-signed-commits).
+For more information about how this rule works and its limitations, see [require signed commits](../push_rules.md#require-signed-commits).
 
 ## Troubleshooting
 

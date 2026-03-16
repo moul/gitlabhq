@@ -150,7 +150,11 @@ The `detail` should describe any additional details not covered by the `desc` su
 
 - The GitLab version when the endpoint was added.
 - If it is behind a feature flag, mention that instead: `This feature is gated by the :feature\_flag\_symbol feature flag.`
-- If the endpoint is deprecated, and if so, its planned removal date
+- If the endpoint is deprecated, and if so, its planned removal date.
+
+Do not include lifecycle terms like "experiment", "experimental", "general availability", "GA", or "beta" in the
+`detail` or `desc` summary strings. Use `route_setting :lifecycle` instead.
+For more information, see [Marking endpoint lifecycle](#marking-endpoint-lifecycle).
 
 ### Defining endpoint success
 
@@ -182,6 +186,45 @@ end
 ```
 
 Together, these make the deprecation programmatically discoverable in the OpenAPI specification.
+
+### Marking endpoint lifecycle
+
+When an endpoint is not yet generally available, use `route_setting :lifecycle` to
+indicate its development stage. Valid values are `:experiment` and `:beta`.
+
+Do not put lifecycle information in the `desc` summary or `detail` strings.
+The `API/LifecycleInDescription` RuboCop cop enforces this rule.
+
+For generally available endpoints, omit `route_setting :lifecycle`.
+
+```ruby
+# bad -- Specifies "experimental" in "detail"
+desc 'Get all widgets' do
+  detail 'This feature is experimental.'
+  tags %w[widgets]
+end
+
+# good -- Specifies "experiment" in as route_setting
+route_setting :lifecycle, :experiment
+desc 'Get all widgets' do
+  detail 'Introduced in GitLab 18.10.'
+  tags %w[widgets]
+end
+
+# good -- Specifies "experiment" in as route_setting
+route_setting :lifecycle, :beta
+desc 'Get all widgets' do
+  detail 'Introduced in GitLab 18.10.'
+  tags %w[widgets]
+end
+```
+
+The `route_setting :lifecycle` value is included in the generated OpenAPI specification
+as the `x-gitlab-lifecycle` vendor extension. This makes the lifecycle status
+programmatically discoverable.
+
+For more information about development stages, see
+[development stages and support](../policy/development_stages_support.md).
 
 ### Choosing a tag
 
@@ -296,6 +339,7 @@ and can be changed or removed at any time without prior notice.
 
 While in the [experiment status](../policy/development_stages_support.md#experiment):
 
+- Add `route_setting :lifecycle, :experiment` before the endpoint. For more information, see [Marking endpoint lifecycle](#marking-endpoint-lifecycle).
 - Use a feature flag that is [off by default](feature_flags/_index.md#beta-type).
 - When the flag is off:
   - Any added endpoints must return `404 Not Found`.
@@ -306,6 +350,7 @@ While in the [experiment status](../policy/development_stages_support.md#experim
 
 While in the [beta status](../policy/development_stages_support.md#beta):
 
+- Add `route_setting :lifecycle, :beta` before the endpoint. For more information, see [Marking endpoint lifecycle](#marking-endpoint-lifecycle).
 - Use a feature flag that is [on by default](feature_flags/_index.md#beta-type).
 - The [API documentation](../api/api_resources.md) must [document the beta status](documentation/experiment_beta.md) and the feature flag [must be documented](documentation/feature_flags.md).
 - The [OpenAPI documentation](../api/openapi/openapi_interactive.md) must not describe the changes.
@@ -313,6 +358,7 @@ While in the [beta status](../policy/development_stages_support.md#beta):
 When the feature becomes [generally available](../policy/development_stages_support.md#generally-available):
 
 - [Remove](feature_flags/controls.md#cleaning-up) the feature flag.
+- Remove `route_setting :lifecycle` from the endpoint.
 - Remove the [experiment or beta status](documentation/experiment_beta.md) from the [API documentation](../api/api_resources.md).
 - Add the [OpenAPI documentation](../api/openapi/openapi_interactive.md) to make the changes programmatically discoverable.
 

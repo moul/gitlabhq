@@ -19,14 +19,13 @@ class AdjournedGroupDeletionWorker
     deletion_cutoff = Gitlab::CurrentSettings.deletion_adjourned_period.days.ago.to_date
 
     Group.with_route
-      .marked_for_deletion_before(deletion_cutoff)
-      .with_deletion_schedule
+      .deletion_scheduled_before(deletion_cutoff)
+      .with_deletion_scheduled_by_user
       .find_each(batch_size: 100) # rubocop: disable CodeReuse/ActiveRecord -- existing class moved from EE to CE
       .with_index do |group, index|
-      deletion_schedule = group.deletion_schedule
       delay = index * INTERVAL
 
-      user = deletion_schedule.deleting_user
+      user = group.deletion_scheduled_by_user
 
       with_context(namespace: group, user: user) do
         track_event(group, user)

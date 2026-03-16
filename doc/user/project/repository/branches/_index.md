@@ -178,6 +178,16 @@ GitLab enforces these additional rules on all branches:
 - Branch names with 40 hexadecimal characters are prohibited, because they are similar to Git commit hashes.
 - Branch names are case-sensitive.
 
+Branch names with specific formatting provide:
+
+- Streamlined merge request workflow when you
+  [prefix branch names with issue numbers](#prefix-branch-names-with-a-number).
+- Automated [branch protections](protected.md) based on branch name.
+- [Push rules](../push_rules.md) to test branch names before they are pushed to GitLab.
+- Control over which [CI/CD jobs](../../../../ci/jobs/_index.md) run on merge requests.
+
+### Software packages
+
 Common software packages, like Docker, can enforce
 [additional branch naming restrictions](../../../../administration/packages/container_registry_troubleshooting.md#docker-connection-error).
 
@@ -188,16 +198,21 @@ For the best compatibility with other software packages, use only:
 - Underscores (`_`)
 - Lowercase letters from the ASCII standard table
 
-You can use forward slashes (`/`) and emoji in branch names, but compatibility with other
-software packages cannot be guaranteed.
+### Characters to avoid in branch names
 
-Branch names with specific formatting offer extra benefits:
+While Git technically allows many characters in branch names, certain characters can cause issues with GitLab Runner and other tools and are not recommended:
 
-- Streamline your merge request workflow by
-  [prefixing branch names with issue numbers](#prefix-branch-names-with-a-number).
-- Automate [branch protections](protected.md) based on branch name.
-- Test branch names with [push rules](../push_rules.md) before branches are pushed up to GitLab.
-- Define which [CI/CD jobs](../../../../ci/jobs/_index.md) to run on merge requests.
+- Spaces and whitespace
+- Special path/glob characters: `~`, `^`, `:`, `?`, `*`, `[`, `\`
+- Double dot: `..`
+- Special Git syntax: `@{`
+- Consecutive slashes: `//`
+- emoji
+- Trailing `.` or `.lock` suffix
+- Starting with `-` or `.`
+- ASCII control characters (including Delete)
+
+For maximum compatibility with GitLab Runner and other tools, use only alphanumeric characters, hyphens, and underscores.
 
 ### Configure default pattern for branch names from issues
 

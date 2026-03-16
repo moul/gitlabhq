@@ -258,6 +258,9 @@ class Issue < ApplicationRecord
     where.not(work_item_type_id: type_ids)
   }
 
+  scope :with_work_item_type_ids, ->(ids) { where(work_item_type_id: ids) }
+  scope :without_work_item_type_ids, ->(ids) { where.not(work_item_type_id: ids) }
+
   scope :public_only, -> { where(confidential: false) }
 
   scope :confidential_only, -> { where(confidential: true) }

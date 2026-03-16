@@ -31,6 +31,7 @@ import {
   isExpandable,
   createItemVisibilityObserver,
   observeElements,
+  generateSkeletonItem,
 } from '../utils';
 
 export default {
@@ -87,7 +88,7 @@ export default {
       return this.buildList('/', 0);
     },
     isRootLoading() {
-      return this.isDirectoryLoading('/');
+      return this.isDirectoryLoading('/') && this.isDirectoryEmpty('/');
     },
     filterSearchShortcutKey() {
       if (this.shortcutsDisabled) {
@@ -205,12 +206,16 @@ export default {
           loading: this.isDirectoryLoading(treePath),
         });
 
-        if (this.shouldRenderShowMore(treePath, path))
-          directoryList.push(generateShowMoreItem(tree.id, path, level));
+        if (this.shouldRenderShowMore(treePath, path)) {
+          if (this.loadingPathsMap[path]) directoryList.push(generateSkeletonItem(path, level));
+          else directoryList.push(generateShowMoreItem(tree.id, path, level));
+        }
 
         // Recursively add children for expanded directories
         if (this.expandedPathsMap[treePath]) {
-          directoryList.push(...this.buildList(treePath, level + 1));
+          if (this.isDirectoryLoading(treePath) && this.isDirectoryEmpty(treePath))
+            directoryList.push(generateSkeletonItem(treePath, level + 1));
+          else directoryList.push(...this.buildList(treePath, level + 1));
         }
       });
 
@@ -243,8 +248,10 @@ export default {
           level,
         });
 
-        if (this.shouldRenderShowMore(blobPath, path))
-          filesList.push(generateShowMoreItem(blob.id, path, level));
+        if (this.shouldRenderShowMore(blobPath, path)) {
+          if (this.loadingPathsMap[path]) filesList.push(generateSkeletonItem(path, level));
+          else filesList.push(generateShowMoreItem(blob.id, path, level));
+        }
       });
 
       return filesList;
@@ -266,8 +273,10 @@ export default {
           level,
         });
 
-        if (this.shouldRenderShowMore(submodulePath, path))
-          submodulesList.push(generateShowMoreItem(submodule.id, path, level));
+        if (this.shouldRenderShowMore(submodulePath, path)) {
+          if (this.loadingPathsMap[path]) submodulesList.push(generateSkeletonItem(path, level));
+          else submodulesList.push(generateShowMoreItem(submodule.id, path, level));
+        }
       });
 
       return submodulesList;
@@ -385,6 +394,11 @@ export default {
 
     isDirectoryLoading(path) {
       return Boolean(this.loadingPathsMap[normalizePath(path)]);
+    },
+
+    isDirectoryEmpty(path) {
+      const contents = this.getDirectoryContents(path);
+      return !contents.trees.length && !contents.blobs.length && !contents.submodules.length;
     },
 
     getDirectoryContents(path) {
@@ -641,7 +655,7 @@ export default {
       >
         <li
           v-for="item in flatFilesList"
-          :key="`${item.path}-${item.type}`"
+          :key="item.isSkeleton || item.isShowMore ? item.id : `${item.path}-${item.type}`"
           :ref="item.id === activeItemId ? 'activeItem' : undefined"
           :data-item-id="item.id"
           role="treeitem"
@@ -657,7 +671,7 @@ export default {
           @click="activeItemId = item.id"
         >
           <file-row
-            v-if="appearedItems[item.id]"
+            v-if="item.isSkeleton || appearedItems[item.id]"
             :file="item"
             :level="item.level"
             :opened="item.opened"

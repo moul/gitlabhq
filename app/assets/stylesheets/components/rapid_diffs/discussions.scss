@@ -58,9 +58,15 @@
   padding: 0;
   vertical-align: top;
   background-color: var(--gl-background-color-subtle);
-  border-top: 1px solid var(--rd-line-border-color);
-  border-bottom: 1px solid var(--rd-line-border-color);
   container: discussion-cell / inline-size;
+}
+
+.rd-discussion-row > td:first-child {
+  border-left: 0;
+}
+
+.rd-discussion-row > td:last-child {
+  border-right: 0;
 }
 
 .rd-discussion-row > td + td {
