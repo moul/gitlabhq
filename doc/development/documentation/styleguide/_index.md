@@ -2247,7 +2247,6 @@ If a glossary page is configured for the tooltip and the user selects the anchor
 ### Usage guidance
 
 Use a glossary tooltip if the definition is a single, concise sentence, and try to use no more than 60 characters. For longer definitions, use a glossary page.
-otherwise use a glossary page.
 
 Do not use more than five to ten tooltips on a page. Each tooltip slows down the reader. Be careful not to overload users with definitions.
 

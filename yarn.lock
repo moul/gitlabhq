@@ -1436,7 +1436,8 @@
   resolved "https://registry.yarnpkg.com/@gitlab/fonts/-/fonts-1.3.1.tgz#dd335ed25cb33927abc1d80dfbfa31fc93e9bd15"
   integrity sha512-/7Q5Sy9Q3pmutV/1EgURm3iDZtV0HcE4nTwFpHLCrGDdxQ3pNv6SdujzeJExnfiI5Y+1FGfOvKwOlmiVuyDtzA==
 
-"@gitlab/noop@^1.0.1":
+"@gitlab/noop@^1.0.1", jackspeak@^3.1.2, "jackspeak@npm:@gitlab/noop@1.0.1", jsonify@^0.0.1, "jsonify@npm:@gitlab/noop@1.0.1":
+  name jackspeak
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@gitlab/noop/-/noop-1.0.1.tgz#71a831146ee02732b4a61d2d3c11204564753454"
   integrity sha512-s++4wjMYeDvBp9IO59DBrWjy8SE/gFkjTDO5ck2W0S6Vv7OlqgErwL7pHngAnrSmTJAzyUG8wHGqo0ViS4jn5Q==
@@ -1462,16 +1463,16 @@
   resolved "https://registry.yarnpkg.com/@gitlab/svgs/-/svgs-3.157.0.tgz#876f8474aeb086f46640d7701eb62e5de6ccf3b6"
   integrity sha512-kNcFRLti3gZRGaVjLuBzJyT3gjoVOB8nkWDErLmhLxXmU23LUG47820rUp8YtyST6/GnS/T21bOLgmUZ6NHFmQ==
 
-"@gitlab/ui@129.0.0":
-  version "129.0.0"
-  resolved "https://registry.yarnpkg.com/@gitlab/ui/-/ui-129.0.0.tgz#de3294559ca4fd1be8bf41e6272db45b42144356"
-  integrity sha512-qEVj7GtDSUe4/7wtqqjuanHGxcg9Yn3Ug+Z/HKGrPHhUOxDGYYc7xW/izkRjchVcdeJJkCegMbmtN4flbeJz0g==
+"@gitlab/ui@129.1.2":
+  version "129.1.2"
+  resolved "https://registry.yarnpkg.com/@gitlab/ui/-/ui-129.1.2.tgz#11b49ceccf9043e6aadb5bc7f1b29c2a7701cc3d"
+  integrity sha512-ILZrR5+5u8RaaB/QjEXHU8vQcohM2Kj3Rl0nsTGXnGbd8wO4zhL59E1o4XUNH1LFhZ88CR6MC2gtBZwa8KxCbg==
   dependencies:
     "@floating-ui/dom" "1.7.6"
     echarts "^5.6.0"
     gridstack "^12.4.2"
     iframe-resizer "^4.4.5"
-    lodash "^4.17.23"
+    lodash-es "^4.17.23"
     popper.js "^1.16.1"
     portal-vue "2.1.7"
     vue-functional-data-merge "^3.1.0"
@@ -9443,11 +9444,6 @@ istanbul-reports@^3.1.3:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jackspeak@^3.1.2, "jackspeak@npm:@gitlab/noop@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@gitlab/noop/-/noop-1.0.1.tgz#71a831146ee02732b4a61d2d3c11204564753454"
-  integrity sha512-s++4wjMYeDvBp9IO59DBrWjy8SE/gFkjTDO5ck2W0S6Vv7OlqgErwL7pHngAnrSmTJAzyUG8wHGqo0ViS4jn5Q==
-
 jed@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/jed/-/jed-1.1.1.tgz#7a549bbd9ffe1585b0cd0a191e203055bee574b4"
@@ -10031,11 +10027,6 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jsonify@^0.0.1, "jsonify@npm:@gitlab/noop@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@gitlab/noop/-/noop-1.0.1.tgz#71a831146ee02732b4a61d2d3c11204564753454"
-  integrity sha512-s++4wjMYeDvBp9IO59DBrWjy8SE/gFkjTDO5ck2W0S6Vv7OlqgErwL7pHngAnrSmTJAzyUG8wHGqo0ViS4jn5Q==
-
 jstimezonedetect@1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/jstimezonedetect/-/jstimezonedetect-1.0.7.tgz#54bc13ff9960a6510288665cc9596244e21bd29d"
@@ -10274,7 +10265,7 @@ lodash.truncate@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
   integrity sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM=
 
-lodash@^4.0.0, lodash@^4.15.0, lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.23, lodash@^4.7.0:
+lodash@^4.0.0, lodash@^4.15.0, lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.23"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.23.tgz#f113b0378386103be4f6893388c73d0bde7f2c5a"
   integrity sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==

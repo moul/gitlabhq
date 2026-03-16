@@ -11,19 +11,15 @@ description: Automatic detection and filtering of false positives in SAST findin
 - Tier: Ultimate
 - Add-on: GitLab Duo Core, Pro, or Enterprise
 - Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-- Status: Beta
 
 {{< /details >}}
 
 {{< history >}}
 
 - [Introduced](https://gitlab.com/groups/gitlab-org/-/epics/18977) in GitLab 18.7 as a [beta](../../../policy/development_stages_support.md#beta) [with feature flags](../../../administration/feature_flags/_index.md) named `enable_vulnerability_fp_detection` and `ai_experiment_sast_fp_detection`. Enabled by default.
+- [Generally available](https://gitlab.com/groups/gitlab-org/-/work_items/19789) in GitLab 18.10.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
 
 When a static application security testing (SAST) scan runs, GitLab Duo automatically analyzes each Critical and High severity SAST vulnerabilities to determine the likelihood that it's a false positive. Detection is available for vulnerabilities from [GitLab-supported SAST analyzers](../sast/analyzers.md).
 
