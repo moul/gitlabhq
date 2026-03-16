@@ -7,10 +7,6 @@ export const glqlTypescriptFeatureFlagEnabled = () => {
   return Boolean(gon.features?.glqlTypescript);
 };
 
-export const glqlAggregationEnabled = () => {
-  return Boolean(gon.features?.glqlAggregation);
-};
-
 export const glqlFeatureFlags = () => ({
   glqlWorkItems: true,
   glqlTypescript: glqlTypescriptFeatureFlagEnabled(),

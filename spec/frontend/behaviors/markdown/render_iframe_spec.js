@@ -2,8 +2,7 @@ import { setHTMLFixture, resetHTMLFixture } from 'helpers/fixtures';
 import renderIframes from '~/behaviors/markdown/render_iframe';
 import {
   YOUTUBE_EMBED_URL,
-  fixtureWithoutAssetProxy,
-  fixtureWithAssetProxy,
+  fixtureDefault,
   fixtureWithDimensions,
   fixtureWithWidthOnly,
 } from './mock_data';
@@ -35,8 +34,8 @@ describe('Embedded iframe renderer', () => {
     resetHTMLFixture();
   });
 
-  it('renders an embedded iframe when the asset proxy is disabled', () => {
-    setHTMLFixture(fixtureWithoutAssetProxy);
+  it('renders an embedded iframe', () => {
+    setHTMLFixture(fixtureDefault);
 
     expect(findEmbeddedIframes()).toHaveLength(0);
 
@@ -45,28 +44,19 @@ describe('Embedded iframe renderer', () => {
     expect(findEmbeddedIframes(YOUTUBE_EMBED_URL)).toHaveLength(1);
   });
 
-  it('renders an embedded iframe when the asset proxy is enabled', () => {
-    setHTMLFixture(fixtureWithAssetProxy);
-
-    expect(findEmbeddedIframes()).toHaveLength(0);
-
-    renderAllIframes();
-
-    expect(findEmbeddedIframes(YOUTUBE_EMBED_URL)).toHaveLength(1);
-  });
-
-  it('does not render an embedded iframe when the allowlist has no match', () => {
-    setHTMLFixture(fixtureWithAssetProxy);
+  it('does not render an embedded iframe and removes the image when the allowlist has no match', () => {
+    setHTMLFixture(fixtureDefault);
 
     window.gon.iframe_rendering_allowlist = ['embed.figma.com'];
 
     renderAllIframes();
 
     expect(findEmbeddedIframes()).toHaveLength(0);
+    expect(document.querySelectorAll('img')).toHaveLength(0);
   });
 
   it('does not render an embedded iframe when the feature flag is not enabled for the project or group', () => {
-    setHTMLFixture(fixtureWithAssetProxy);
+    setHTMLFixture(fixtureDefault);
 
     window.gon.features.allowIframesInMarkdown = false;
 
@@ -76,7 +66,7 @@ describe('Embedded iframe renderer', () => {
   });
 
   it('does not render an embedded iframe when the instance-wide setting is disabled', () => {
-    setHTMLFixture(fixtureWithAssetProxy);
+    setHTMLFixture(fixtureDefault);
 
     window.gon.iframe_rendering_enabled = false;
 
@@ -132,7 +122,7 @@ describe('Embedded iframe renderer', () => {
     });
 
     it('uses full-width/height when no dimensions are provided', () => {
-      setHTMLFixture(fixtureWithoutAssetProxy);
+      setHTMLFixture(fixtureDefault);
 
       renderAllIframes();
 

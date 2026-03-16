@@ -236,7 +236,7 @@ system. In GitLab, you can use a predefined list of filename patterns to prevent
 being pushed to a repository. Merge requests that contain a matching file are blocked.
 This push rule does not restrict files already committed to the repository.
 You must update the configuration of existing projects to use the rule, using the
-process described in [Override global push rules per project](#override-global-push-rules-per-project).
+process described in [override global push rules per project](#override-global-push-rules-per-project).
 
 Files blocked by this rule are listed below. For a complete list of criteria, refer to
 [`files_denylist.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/ee/lib/gitlab/checks/files_denylist.yml).

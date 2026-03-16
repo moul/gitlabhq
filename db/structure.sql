@@ -26336,6 +26336,7 @@ CREATE TABLE pm_advisories (
     urls text[] DEFAULT '{}'::text[],
     identifiers jsonb NOT NULL,
     cve text,
+    cvss_v4 text,
     CONSTRAINT check_152def3868 CHECK ((char_length(cvss_v2) <= 128)),
     CONSTRAINT check_19cbd06439 CHECK ((char_length(advisory_xid) <= 36)),
     CONSTRAINT check_b1c980b212 CHECK ((char_length(cve) <= 24)),
@@ -37980,6 +37981,9 @@ ALTER TABLE ONLY chat_names
 
 ALTER TABLE ONLY chat_teams
     ADD CONSTRAINT chat_teams_pkey PRIMARY KEY (id);
+
+ALTER TABLE pm_advisories
+    ADD CONSTRAINT check_011cca490f CHECK ((char_length(cvss_v4) <= 180)) NOT VALID;
 
 ALTER TABLE epic_issues
     ADD CONSTRAINT check_048dce81f3 CHECK ((work_item_parent_link_id IS NOT NULL)) NOT VALID;

@@ -167,7 +167,7 @@ export default {
     'ee/app/assets/javascripts/ai/catalog/pages/ai_catalog_agents_show.vue',
     'ee/app/assets/javascripts/ai/catalog/pages/ai_catalog_flows_show.vue',
     'ee/app/assets/javascripts/ai/components/ai_panel.vue',
-    'ee/app/assets/javascripts/ai/components/duo_workflow_action.vue',
+    'ee/app/assets/javascripts/ai/shared/widgets/duo_workflow_action.vue',
     'ee/app/assets/javascripts/ai/constants.js',
     'ee/app/assets/javascripts/ai/duo_agentic_chat/components/app.vue',
     'ee/app/assets/javascripts/ai/duo_agentic_chat/components/duo_agentic_chat.vue',

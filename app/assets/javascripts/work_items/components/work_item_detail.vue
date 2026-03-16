@@ -10,7 +10,7 @@ import {
   GlIntersectionObserver,
 } from '@gitlab/ui';
 import noAccessSvg from '@gitlab/svgs/dist/illustrations/empty-state/empty-search-md.svg';
-import DuoWorkflowAction from 'ee_component/ai/components/duo_workflow_action.vue';
+import DuoWorkflowAction from 'ee_component/ai/shared/widgets/duo_workflow_action.vue';
 import DesignDropzone from '~/vue_shared/components/upload_dropzone/upload_dropzone.vue';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { s__, __ } from '~/locale';

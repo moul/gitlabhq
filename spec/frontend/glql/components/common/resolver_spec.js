@@ -176,8 +176,6 @@ describe('Resolver', () => {
         fields: MOCK_FIELDS,
         displayType: 'list',
         loading: false,
-        aggregate: null,
-        groupBy: null,
       });
     });
 

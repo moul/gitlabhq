@@ -2031,7 +2031,7 @@ RSpec.describe Projects::MergeRequestsController, feature_category: :code_review
         expect(control_count).to be <= 137
       end
 
-      it 'has no N+1 SQL issues for environments', :request_store, retry: 0 do
+      it 'has no N+1 SQL issues for environments', :request_store do
         # First run to insert test data from lets, which does take up some 30 queries
         get_ci_environments_status
 

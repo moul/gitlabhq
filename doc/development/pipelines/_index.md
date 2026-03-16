@@ -732,8 +732,6 @@ For detailed documentation on coverage collection, data flow, and ClickHouse sto
 
 Backend tests that fail are automatically retried once in a separate RSpec process. This helps detect flaky tests, defined as tests that fail then pass with the same commit SHA.
 
-On our CI, we use [`RSpec::Retry`](https://github.com/NoRedInk/rspec-retry) to automatically retry a failing example a few times (see [`spec/spec_helper.rb`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/spec/spec_helper.rb) for the precise retries count).
-
 The "retrying failed tests in a new RSpec process" can be disabled by setting the `$RETRY_FAILED_TESTS_IN_NEW_PROCESS` variable to `false`.
 
 ### Quarantined tests

@@ -51,6 +51,8 @@ import IssuableList from '~/vue_shared/issuable/list/components/issuable_list_ro
 import MergeRequestReviewers from '~/merge_requests/list/components/merge_request_reviewers.vue';
 import issuableEventHub from '~/merge_requests/list/eventhub';
 
+jest.mock('~/merge_requests/list', () => ({ initBulkUpdateSidebar: jest.fn() }));
+
 Vue.use(VueApollo);
 Vue.use(VueRouter);
 
@@ -693,19 +695,15 @@ describe('Merge requests list app', () => {
       expect(findBulkEditButton().exists()).toBe(false);
     });
 
-    it(
-      'emits "issuables:enableBulkEdit" event to legacy bulk edit class',
-      async () => {
-        createComponent({ provide: { canBulkUpdate: true }, mountFn: mountExtended });
-        jest.spyOn(issuableEventHub, '$emit');
+    it('emits "issuables:enableBulkEdit" event to legacy bulk edit class', async () => {
+      createComponent({ provide: { canBulkUpdate: true }, mountFn: mountExtended });
+      jest.spyOn(issuableEventHub, '$emit');
 
-        findBulkEditButton().vm.$emit('click');
-        await waitForPromises();
+      findBulkEditButton().vm.$emit('click');
+      await waitForPromises();
 
-        expect(issuableEventHub.$emit).toHaveBeenCalledWith('issuables:enableBulkEdit');
-      },
-      process.env.CI ? 20000 : 5000,
-    ); // timeout of 20s for CI only to accommodate gVisor syscall overhead
+      expect(issuableEventHub.$emit).toHaveBeenCalledWith('issuables:enableBulkEdit');
+    });
 
     describe.each([true, false])(
       'when "issuables:toggleBulkEdit" event is received with payload `%s`',

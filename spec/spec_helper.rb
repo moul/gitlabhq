@@ -29,7 +29,6 @@ require_relative '../config/environment'
 
 require 'rspec/mocks'
 require 'rspec/rails'
-require 'rspec/retry'
 require 'rspec-parameterized'
 require 'shoulda/matchers'
 require 'test_prof/recipes/rspec/let_it_be'
@@ -73,9 +72,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures = false
   config.fixture_paths = [Rails.root]
-
-  config.verbose_retry = true
-  config.display_try_failure_messages = true
 
   config.infer_spec_type_from_file_location!
 
@@ -204,18 +200,6 @@ RSpec.configure do |config|
   include StubSnowplow
   include StubMember
   include VersionCheckHelpers
-
-  if ENV['CI'] || ENV['RETRIES']
-    # Gradually stop using rspec-retry
-    # See https://gitlab.com/gitlab-org/gitlab/-/issues/438388
-    config.default_retry_count = 1
-    config.prepend_before(:each, type: :feature) do |example|
-      # This includes the first try, i.e. tests will be run 2 times before failing.
-      example.metadata[:retry] = ENV.fetch('RETRIES', 1).to_i + 1
-    end
-
-    config.exceptions_to_hard_fail = [DeprecationToolkitEnv::DeprecationBehaviors::SelectiveRaise::RaiseDisallowedDeprecation]
-  end
 
   if Gitlab::RspecFlaky::Config.generate_report?
     config.reporter.register_listener(

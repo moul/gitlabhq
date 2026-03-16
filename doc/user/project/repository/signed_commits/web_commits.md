@@ -106,7 +106,7 @@ To turn on web-based commit signing for a project:
 
 In Git, commits have both an author and a committer.
 For web commits, the `Committer` field is configurable. To update this field, see
-[Configure commit signing for GitLab UI commits](../../../../administration/gitaly/configure_gitaly.md#configure-commit-signing-for-gitlab-ui-commits).
+[configure commit signing for GitLab UI commits](../../../../administration/gitaly/configure_gitaly.md#configure-commit-signing-for-gitlab-ui-commits).
 
 GitLab provides multiple security features that rely on the `Committer` field to be set to the user who creates the commit.
 For example:

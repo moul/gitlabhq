@@ -573,7 +573,6 @@ group :development, :test, :monorepo do
 end
 
 group :test do
-  gem 'rspec-retry', '~> 0.6.2', feature_category: :tooling
   gem 'rspec_profiling', '~> 0.0.9', feature_category: :tooling
   gem 'rspec-benchmark', '~> 0.6.0', feature_category: :tooling
   gem 'rspec-parameterized', '~> 1.0', '>= 1.0.2', require: false, feature_category: :tooling
@@ -717,7 +716,7 @@ gem 'ed25519', '~> 1.4.0', feature_category: :shared # rubocop:todo Gemfile/Miss
 gem 'error_tracking_open_api', path: 'gems/error_tracking_open_api', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 
 # Vulnerability advisories
-gem 'cvss-suite', '~> 3.3.0', require: 'cvss_suite', feature_category: :software_composition_analysis
+gem 'cvss-suite', '~> 4.1.1', require: 'cvss_suite', feature_category: :software_composition_analysis
 
 # Work with RPM packages
 gem 'arr-pm', '~> 0.0.12', feature_category: :package_registry
@@ -760,4 +759,4 @@ gem "gitlab-cloud-connector", "~> 1.45", require: 'gitlab/cloud_connector', feat
 
 gem "gvltools", "~> 0.4.0", feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 
-gem 'gitlab_query_language', '~> 0.22.0', feature_category: :integrations
+gem 'gitlab_query_language', '~> 0.23.0', feature_category: :integrations

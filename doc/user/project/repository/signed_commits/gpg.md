@@ -14,7 +14,7 @@ title: Sign commits with GPG
 {{< /details >}}
 
 You can sign the commits you make in a GitLab repository with a
-GPG ([GNU Privacy Guard](https://gnupg.org/)) key.
+[GPG (GNU Privacy Guard)](https://gnupg.org/) key.
 
 > [!note]
 > GitLab uses the term GPG for all OpenPGP, PGP, and GPG-related material and

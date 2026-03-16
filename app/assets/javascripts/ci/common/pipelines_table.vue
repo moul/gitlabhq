@@ -1,6 +1,6 @@
 <script>
 import { GlTableLite, GlTooltipDirective } from '@gitlab/ui';
-import DuoWorkflowAction from 'ee_component/ai/components/duo_workflow_action.vue';
+import DuoWorkflowAction from 'ee_component/ai/shared/widgets/duo_workflow_action.vue';
 import { cleanLeadingSeparator } from '~/lib/utils/url_utility';
 import { s__, __ } from '~/locale';
 import Tracking from '~/tracking';

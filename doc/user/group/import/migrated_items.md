@@ -133,7 +133,8 @@ Project items that are migrated to the destination GitLab instance include:
 - Pipeline schedules
 - Projects
 - Project features
-- Push rules
+- Push rules. During an import, [group push rules](../../project/repository/push_rules.md#group-push-rules) take precedence over project push rules.
+  If the source instance has any group push rules, no project push rules are imported.
 - Releases
 - Release evidences
 - Repositories

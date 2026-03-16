@@ -81,11 +81,11 @@ The structure of the **Verification status** field is:
 To set up DNS records according to the type of domain you want to use with your Pages site,
 choose one of the following:
 
-- [For root domains](#for-root-domains)
-- [For subdomains](#for-subdomains)
-- [For both root and subdomains](#for-both-root-and-subdomains)
+- [Root domains](#root-domains)
+- [Subdomains](#subdomains)
+- [Both root and subdomains](#both-root-and-subdomains)
 
-#### For root domains
+#### Root domains
 
 Root domains (`example.com`) require:
 
@@ -113,7 +113,7 @@ and request the Pages server IP address for your instance.
 > This method most likely does not work if you set an
 > [`MX` record](dns_concepts.md#mx-record) for your root domain.
 
-#### For subdomains
+#### Subdomains
 
 Subdomains (`subdomain.example.com`) require:
 
@@ -129,7 +129,7 @@ Whether it's a user or a project website, the DNS record
 should point to your Pages domain (`namespace.gitlab.io`),
 without any path.
 
-#### For both root and subdomains
+#### Both root and subdomains
 
 To point both the root domain and subdomain to the same website, for example,
 `example.com` and `www.example.com`, you need the following:
@@ -157,10 +157,9 @@ Additionally:
 - Do not add any special chars after the default Pages
   domain. For example, do not point `subdomain.domain.com` to
   or `namespace.gitlab.io/`. Some domain hosting providers may request a trailing dot (`namespace.gitlab.io.`).
-- GitLab Pages IP on GitLab.com [was changed](https://about.gitlab.com/releases/2017/03/06/we-are-changing-the-ip-of-gitlab-pages-on-gitlab-com/) in 2017.
-- GitLab Pages IP on GitLab.com [has changed](https://about.gitlab.com/blog/gcp-move-update/#gitlab-pages-and-custom-domains)
+- [Changed](https://about.gitlab.com/blog/gcp-move-update/#gitlab-pages-and-custom-domains) GitLab Pages IP on GitLab.com
   from `52.167.214.135` to `35.185.44.232` in 2018.
-- IPv6 support [was added](https://gitlab.com/gitlab-org/gitlab/-/issues/214718)
+- [Added](https://gitlab.com/gitlab-org/gitlab/-/issues/214718) IPv6 support
   to GitLab.com in 2023.
 
 ### Step 4: Verify the domain's ownership
@@ -268,7 +267,7 @@ When you complete the certificate fields:
 - In **Certificate (PEM)**, paste the PEM certificate. If your certificate requires
   a separate intermediate certificate, paste it in the same field, separated by a blank line.
   For more information, see
-  [Setting up GitLab Pages with Cloudflare certificates](https://about.gitlab.com/blog/setting-up-gitlab-pages-with-cloudflare-certificates/).
+  [setting up GitLab Pages with Cloudflare certificates](https://about.gitlab.com/blog/setting-up-gitlab-pages-with-cloudflare-certificates/).
 - In the private key field, paste your private key.
 
 > [!note]

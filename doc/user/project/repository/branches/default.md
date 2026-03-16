@@ -54,7 +54,7 @@ To update the default branch for an individual [project](../../_index.md):
    [uses a closing pattern](../../issues/managing_issues.md#closing-issues-automatically).
 1. Select **Save changes**.
 
-You can also use the `default_branch` attribute of the [Projects API](../../../../api/projects.md).
+You can also use the `default_branch` attribute of the [projects API](../../../../api/projects.md).
 When you create a project with the API and set `initialize_with_readme` to `true`,
 you can specify the `default_branch` parameter as either:
 

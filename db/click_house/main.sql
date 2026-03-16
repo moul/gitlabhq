@@ -436,11 +436,11 @@ CREATE TABLE contributions_new
     `action` Int16 DEFAULT 0,
     `created_at` DateTime64(6, 'UTC') DEFAULT now64(),
     `updated_at` DateTime64(6, 'UTC') DEFAULT now64(),
-    `version` DateTime64(6, 'UTC') DEFAULT now() CODEC(ZSTD(1)),
+    `version` DateTime64(6, 'UTC') DEFAULT now64() CODEC(ZSTD(1)),
     `deleted` Bool DEFAULT false CODEC(ZSTD(1))
 )
 ENGINE = ReplacingMergeTree(version, deleted)
-PARTITION BY toYYYYMM(created_at)
+PARTITION BY toYear(created_at)
 ORDER BY (path, created_at, author_id, id)
 SETTINGS index_granularity = 8192;
 
