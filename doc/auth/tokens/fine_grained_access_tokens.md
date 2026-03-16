@@ -367,12 +367,12 @@ Grants the ability to create and read repository storage moves.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
-| Manage | Project | `POST` | `/projects/:id/repository_storage_moves` |
-| Manage | Group | `POST` | `/groups/:id/repository_storage_moves` |
-| Manage | Instance | `POST` | `/project_repository_storage_moves` |
-| Manage | Instance | `POST` | `/snippet_repository_storage_moves` |
-| Manage | Instance | `POST` | `/snippets/:id/repository_storage_moves` |
-| Manage | Instance | `POST` | `/group_repository_storage_moves` |
+| Create | Project | `POST` | `/projects/:id/repository_storage_moves` |
+| Create | Group | `POST` | `/groups/:id/repository_storage_moves` |
+| Create | Instance | `POST` | `/project_repository_storage_moves` |
+| Create | Instance | `POST` | `/snippet_repository_storage_moves` |
+| Create | Instance | `POST` | `/snippets/:id/repository_storage_moves` |
+| Create | Instance | `POST` | `/group_repository_storage_moves` |
 | Read | Project | `GET` | `/projects/:id/repository_storage_moves` |
 | Read | Project | `GET` | `/projects/:id/repository_storage_moves/:repository_storage_move_id` |
 | Read | Group | `GET` | `/groups/:id/repository_storage_moves` |

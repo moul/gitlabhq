@@ -280,10 +280,9 @@ automatically applied:
 
 {{< /history >}}
 
-GitLab runs a check every day at 1:00 AM UTC to identify personal access tokens that are expiring in the near future. The owners of these tokens are notified by email when these tokens expire in a certain number of days. The number of days differs depending on the version of GitLab:
-
-- In GitLab 17.6 and later, personal access token owners are notified by email when the check identifies their personal access tokens as expiring in the next 60 days. An additional email is sent when the check identifies their group access tokens as expiring in the next 30 days.
-- Personal access token owners are notified by email when the check identifies their group access tokens as expiring in the next seven days.
+GitLab runs a daily check at 1:00 AM UTC to identify personal access tokens that expire soon.
+Users are notified by email seven days before a token expires. In
+GitLab 17.6 and later, notifications are also sent 30 and 60 days before a token expires.
 
 ### Personal access token expiry calendar
 

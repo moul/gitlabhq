@@ -203,7 +203,7 @@ For the best compatibility with other software packages, use only:
 While Git technically allows many characters in branch names, certain characters can cause issues with GitLab Runner and other tools and are not recommended:
 
 - Spaces and whitespace
-- Special path/glob characters: `~`, `^`, `:`, `?`, `*`, `[`, `\`
+- Special path or glob (wildcard) characters: `~`, `^`, `:`, `?`, `*`, `[`, `\`, `'`, `"`
 - Double dot: `..`
 - Special Git syntax: `@{`
 - Consecutive slashes: `//`

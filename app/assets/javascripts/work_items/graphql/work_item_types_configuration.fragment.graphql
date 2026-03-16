@@ -1,20 +1,7 @@
+#import "~/work_items/graphql/work_item_types_configuration_base.fragment.graphql"
+
 fragment WorkItemTypesConfiguration on WorkItemType {
-  id
-  name
-  archived
-  enabled
-  canPromoteToObjective
-  canUserCreateItems
-  iconName
-  isConfigurable
-  isGroupWorkItemType
-  isIncidentManagement
-  isServiceDesk
-  showProjectSelector
-  supportsMoveAction
-  supportsRoadmapView
-  useIssueView
-  visibleInSettings
+  ...WorkItemTypesConfigurationBase
   widgetDefinitions {
     type
     ... on WorkItemWidgetDefinitionHierarchy {

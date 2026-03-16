@@ -26737,10 +26737,16 @@ msgstr ""
 msgid "DuoCodeReview|:wave: There's nothing for me to review."
 msgstr ""
 
+msgid "DuoCodeReview|Automated code review is enabled"
+msgstr ""
+
 msgid "DuoCodeReview|Can't access the merge request. When SAML single sign-on is enabled on a group or its parent, Duo Code Reviews can't be requested from the API. Request a review from the GitLab UI instead."
 msgstr ""
 
 msgid "DuoCodeReview|Can't create the progress note. This can happen if the Duo Code Review bot does not have permission to create notes on the merge request."
+msgstr ""
+
+msgid "DuoCodeReview|Code Review Flow automatically reviews your merge requests to help you ship better code, faster."
 msgstr ""
 
 msgid "DuoCodeReview|Control whether GitLab Duo automatically reviews merge requests across all groups and projects. This setting cascades to subgroups and projects but can be overridden."
@@ -26768,6 +26774,15 @@ msgid "DuoCodeReview|I finished my review and found nothing to comment on. Nice 
 msgstr ""
 
 msgid "DuoCodeReview|I have encountered some problems while I was reviewing. Please try again later."
+msgstr ""
+
+msgid "DuoCodeReview|Learn more"
+msgstr ""
+
+msgid "DuoCodeReview|Learn more about usage pricing"
+msgstr ""
+
+msgid "DuoCodeReview|To opt out, change your settings."
 msgstr ""
 
 msgid "DuoCodeReview|When enabled, GitLab Duo will automatically review new merge requests across all groups and projects. Draft merge requests and merge requests without changes are skipped."
@@ -35827,6 +35842,9 @@ msgid "IdentityVerification|Confirm your email address"
 msgstr ""
 
 msgid "IdentityVerification|Country or region"
+msgstr ""
+
+msgid "IdentityVerification|Credit card Verification"
 msgstr ""
 
 msgid "IdentityVerification|Didn't get the code? %{buttonStart}Resend code%{buttonEnd}."
@@ -61641,6 +61659,9 @@ msgstr ""
 msgid "SecurityConfiguration|Enable Auto DevOps"
 msgstr ""
 
+msgid "SecurityConfiguration|Enable merge requests in Project Settings %{gt} General %{gt} Visibility, project features, permissions."
+msgstr ""
+
 msgid "SecurityConfiguration|Enable security training to help your developers learn how to fix vulnerabilities."
 msgstr ""
 
@@ -61668,6 +61689,9 @@ msgstr ""
 msgid "SecurityConfiguration|Manage profiles for use by DAST scans."
 msgstr ""
 
+msgid "SecurityConfiguration|Merge requests are disabled"
+msgstr ""
+
 msgid "SecurityConfiguration|Not enabled"
 msgstr ""
 
@@ -61687,6 +61711,9 @@ msgid "SecurityConfiguration|Secret detection configuration"
 msgstr ""
 
 msgid "SecurityConfiguration|Security configuration"
+msgstr ""
+
+msgid "SecurityConfiguration|Security configuration uses merge requests to change the `.gitlab-ci.yml` file. Enable merge requests for this project if you are a maintainer, or ask a maintainer to do this for you."
 msgstr ""
 
 msgid "SecurityConfiguration|Security testing"
@@ -83062,6 +83089,9 @@ msgid "ciReport|License Compliance test metrics results are being parsed"
 msgstr ""
 
 msgid "ciReport|License scan results"
+msgstr ""
+
+msgid "ciReport|License scanning is waiting for the pipeline to complete."
 msgstr ""
 
 msgid "ciReport|Load performance test metrics detected %{strong_start}%{changesFound}%{strong_end} change"

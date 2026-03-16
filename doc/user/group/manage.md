@@ -369,7 +369,7 @@ To disable group mentions:
 
 You can prevent [enterprise users](../enterprise_user/_index.md) in your group from creating
 [snippets](../snippets.md) in their personal namespace. When disabled, enterprise users
-can still create project snippets.
+can still create project snippets, and view and edit their existing personal snippets.
 
 Prerequisites:
 

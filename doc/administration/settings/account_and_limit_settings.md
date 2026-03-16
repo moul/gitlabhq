@@ -328,6 +328,35 @@ When you require expiration dates for new access tokens:
 - Users must set an expiration date that does not exceed the allowed lifetime for new access tokens.
 - To control the maximum access token lifetime, use the [**Limit the lifetime of access tokens** setting](#limit-the-lifetime-of-access-tokens).
 
+## Inactive project and group access token retention period
+
+{{< details >}}
+
+- Offering: GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
+
+By default, GitLab deletes group and project access tokens and their [token family](../../api/personal_access_tokens.md#automatic-reuse-detection)
+30 days after the last active token in the token family becomes inactive. This deletion removes all
+tokens in the token family, the associated bot user, and moves any bot contributions to a
+[ghost user](../../user/profile/account/delete_account.md#associated-records).
+
+Prerequisites:
+
+- Administrator access.
+
+To modify the retention period for inactive tokens:
+
+1. In the upper-right corner, select **Admin**.
+1. Select **Settings** > **General**.
+1. Expand **Account and limit**.
+1. In the **Inactive project and group access token retention period** text box, modify the retention period.
+   - If a number is defined, all group and project access tokens are deleted after they are inactive for the specified number of days.
+   - If the field is blank, inactive tokens are never deleted.
+1. Select **Save changes**.
+
+You can also use the [application settings API](../../api/settings.md) to modify the `inactive_resource_access_tokens_delete_after_days` attribute.
+
 ## Personal access token prefix
 
 You can specify a prefix for personal access tokens. Benefits of using a custom prefix include:

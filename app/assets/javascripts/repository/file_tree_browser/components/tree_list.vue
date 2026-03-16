@@ -20,6 +20,7 @@ import { EVENT_OPEN_GLOBAL_SEARCH } from '~/vue_shared/global_search/constants';
 import getRefMixin from '~/repository/mixins/get_ref';
 import FileTreeBrowserPopover from '~/repository/file_tree_browser/components/file_tree_browser_popover.vue';
 import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser.vue';
+import { createItemVisibilityObserver, observeElements } from '~/lib/utils/lazy_render_utils';
 import { scrollUp } from '~/lib/utils/scroll_utils';
 import {
   normalizePath,
@@ -29,8 +30,6 @@ import {
   shouldStopPagination,
   hasMorePages,
   isExpandable,
-  createItemVisibilityObserver,
-  observeElements,
   generateSkeletonItem,
 } from '../utils';
 
@@ -164,9 +163,12 @@ export default {
       const rootElement = this.fileTreeBrowserIsPeekOn
         ? document.querySelector('.file-tree-browser-peek')
         : document.querySelector('.js-static-panel-inner');
-      this.itemObserver = createItemVisibilityObserver((itemId, isVisible) => {
-        this.appearedItems = { ...this.appearedItems, [itemId]: isVisible };
-      }, rootElement);
+      this.itemObserver = createItemVisibilityObserver(
+        (itemId, isVisible) => {
+          this.appearedItems = { ...this.appearedItems, [itemId]: isVisible };
+        },
+        { rootElement },
+      );
 
       this.observeListItems();
     },

@@ -162,7 +162,7 @@ The original token becomes inactive immediately, and GitLab retains both version
 audit purposes. You can view both active and inactive tokens on the access tokens page.
 
 On GitLab Self-Managed and GitLab Dedicated, you can modify the
-[retention period for inactive tokens](#inactive-token-retention).
+[retention period for inactive tokens](../../../administration/settings/account_and_limit_settings.md#inactive-project-and-group-access-token-retention-period).
 
 > [!warning]
 > This action cannot be undone. Tools that rely on a rotated access token will stop working until
@@ -187,7 +187,7 @@ To rotate a project access token:
 Revoke a token to immediately invalidate it and prevent further use. Revoked tokens are not
 deleted immediately, but you can filter token lists to show only active tokens. By default,
 GitLab deletes revoked group and project access tokens after 30 days. For more information, see
-[inactive token retention](#inactive-token-retention).
+[inactive token retention](../../../administration/settings/account_and_limit_settings.md#inactive-project-and-group-access-token-retention-period).
 
 > [!warning]
 > This action cannot be undone. Tools that rely on a revoked access token will stop working until
@@ -246,16 +246,19 @@ automatically applied:
 
 {{< /history >}}
 
-GitLab runs a check every day at 1:00 AM UTC to identify project access tokens that are expiring in the near future. Members of the project with the Maintainer or Owner role are notified by email when these tokens expire in a certain number of days. The number of days differs depending on the version of GitLab:
+GitLab runs a daily check at 1:00 AM UTC to identify project access tokens that expire soon.
+Direct members with the Owner or Maintainer role are notified by email seven days before a token
+expires. In GitLab 17.6 and later, notifications are also sent 30 and 60 days before a token expires.
 
-- In GitLab 17.6 and later, project maintainers and owners are notified by email when the check identifies their project access tokens as expiring in the next 60 days. An additional email is sent when the check identifies their project access tokens as expiring in the next 30 days.
-- Project maintainers and owners are notified by email when the check identifies their project access tokens as expiring in the next seven days.
-- In GitLab 17.7 and later, project members who have inherited the Owner or Maintainer role due to the project belonging to a group can also receive notification emails. You can enable this by changing:
-  - The [group setting](../../group/manage.md#expiry-emails-for-group-and-project-access-tokens) in any of the parent groups of the project.
-  - On GitLab Self-Managed, the [instance setting](../../../administration/settings/email.md#group-and-project-access-token-expiry-emails-to-inherited-members).
+In GitLab 17.7 and later, members with an inherited Owner or Maintainer role can also receive
+these emails. You can configure this for every group and project on the
+[GitLab instance](../../../administration/settings/email.md#group-and-project-access-token-expiry-emails-to-inherited-members)
+or a [specific parent group](../../group/manage.md#expiry-emails-for-group-and-project-access-tokens).
+If applied to a parent group, this setting is inherited by all descendant groups and projects.
 
-Your expired access tokens are listed in the inactive project access tokens table until they are
-[automatically deleted](#inactive-token-retention).
+Expired tokens appear in the inactive project access tokens section until they're automatically
+deleted. On GitLab Self-Managed, you can modify this
+[retention period](../../../administration/settings/account_and_limit_settings.md#inactive-project-and-group-access-token-retention-period).
 
 ## Bot users for projects
 
@@ -293,36 +296,6 @@ To limit potential abuse, you can restrict users from creating access tokens for
 top-level group. Any existing tokens remain valid until they expire or are manually revoked.
 
 For more information, see [restrict the creation of group and project access tokens](../../group/settings/group_access_tokens.md#restrict-the-creation-of-group-and-project-access-tokens).
-
-## Inactive token retention
-
-{{< details >}}
-
-- Offering: GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
-
-By default, GitLab deletes group and project access tokens and their
-[token family](../../../api/personal_access_tokens.md#automatic-reuse-detection) 30 days after the
-last active token in the token family becomes inactive. This deletion removes all tokens in the
-token family, the associated bot user, and moves any bot contributions to a
-[ghost user](../../profile/account/delete_account.md#associated-records).
-
-Prerequisites:
-
-- Administrator access.
-
-To modify the retention period for inactive tokens:
-
-1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
-1. Expand **Account and limit**.
-1. In the **Inactive project and group access token retention period** text box, modify the retention period.
-   - If a number is defined, all group and project access tokens are deleted after they are inactive for the specified number of days.
-   - If the field is blank, inactive tokens are never deleted.
-1. Select **Save changes**.
-
-You can also use the [application settings API](../../../api/settings.md) to modify the `inactive_resource_access_tokens_delete_after_days` attribute.
 
 ## Related topics
 
