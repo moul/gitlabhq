@@ -1249,7 +1249,7 @@ RSpec.describe 'Admin updates settings', feature_category: :shared do
 
         context 'for POST /groups/:id/archive API requests' do
           let(:rate_limit_field) do
-            format(_('Maximum requests to the %{api_name} API per %{timeframe} per user or IP address'), api_name: 'POST /groups/:id/archive and POST /groups/:id/unarchive', timeframe: 'minute')
+            format(_('Maximum requests to the %{api_name1} and %{api_name2} APIs per %{timeframe} per user or IP address'), api_name1: 'POST /groups/:id/archive', api_name2: 'POST /groups/:id/unarchive', timeframe: 'minute')
           end
 
           let(:application_setting_key) { :group_archive_unarchive_api_limit }

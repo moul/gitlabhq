@@ -64,11 +64,7 @@ This requirement does not apply for migrations from GitLab.com to GitLab Dedicat
   by an instance administrator.
 - You must have a
   [personal access token](../../profile/personal_access_tokens.md) for
-  the source GitLab instance:
-  - For GitLab 15.1 and later source instances, the personal access token must
-    have the `api` scope.
-  - For GitLab 15.0 and earlier source instances, the personal access token must
-    have both the `api` and `read_repository` scopes.
+  the source GitLab instance with the `api` scope.
 - You must have the required permissions on the source and destination instances. For:
   - Most users, you need:
     - The Owner role on the source group to migrate from.

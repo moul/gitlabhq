@@ -38,7 +38,7 @@ To view all batched background migrations across all databases:
 
 {{< tabs >}}
 
-{{< tab title="GitLab 18.5 and later" >}}
+{{< tab title="GitLab 18.9 and later" >}}
 
 ```shell
 sudo gitlab-rake gitlab:background_migrations:list
@@ -61,7 +61,7 @@ ci_3    | ci_runners                       | BackfillOrganizationIdOnCiRunners  
 
 {{< /tab >}}
 
-{{< tab title="GitLab 18.4 and earlier" >}}
+{{< tab title="GitLab 18.8 and earlier" >}}
 
 ```shell
 sudo gitlab-rake gitlab:background_migrations:status

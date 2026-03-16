@@ -53,7 +53,7 @@ For deprecation reviewers (Technical Writers only):
 - Removal in GitLab 20.0 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))
 - To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/groups/gitlab-org/-/epics/11275).
 
-Currently, there are two ways to ensure compliance- or security-related jobs are run in a project pipeline:
+Currently, there are two ways to ensure that compliance- or security-related jobs are run in a project pipeline:
 
 - [Compliance pipelines](https://docs.gitlab.com/user/compliance/compliance_pipelines/).
 - [Security policies](https://docs.gitlab.com/user/application_security/policies/).

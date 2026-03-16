@@ -42231,6 +42231,9 @@ msgstr ""
 msgid "Maximum requests per period per user"
 msgstr ""
 
+msgid "Maximum requests to the %{api_name1} and %{api_name2} APIs per %{timeframe} per user or IP address"
+msgstr ""
+
 msgid "Maximum requests to the %{api_name} API per %{timeframe} per IP address for unauthenticated requests"
 msgstr ""
 

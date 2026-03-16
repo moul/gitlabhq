@@ -3847,6 +3847,7 @@ Gitlab/BoundedContexts:
     - 'lib/sidebars/concerns/show_work_items_badge.rb'
     - 'lib/sidebars/concerns/super_sidebar_panel.rb'
     - 'lib/sidebars/context.rb'
+    - 'lib/sidebars/explore/menus/analytics_dashboards_menu.rb'
     - 'lib/sidebars/explore/menus/catalog_menu.rb'
     - 'lib/sidebars/explore/menus/groups_menu.rb'
     - 'lib/sidebars/explore/menus/projects_menu.rb'

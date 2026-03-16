@@ -50,6 +50,13 @@ To enable License scanning of CycloneDX files:
 
 ## Supported languages and package managers
 
+{{< history >}}
+
+- Support for Swift [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/506756) in GitLab 17.9.
+- Support for Dart [introduced](https://gitlab.com/groups/gitlab-org/-/epics/18351) in GitLab 18.10.
+
+{{< /history >}}
+
 License scanning is supported for the following languages and package managers:
 
 <!-- markdownlint-disable MD044 -->

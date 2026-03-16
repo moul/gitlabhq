@@ -5,9 +5,11 @@
   window: 2
   reporter: khornergit
   stage: Govern
+  impact: high
+  scope: [group, project]
   issue_url: https://gitlab.com/groups/gitlab-org/-/epics/11275
   body: |
-    Currently, there are two ways to ensure compliance- or security-related jobs are run in a project pipeline:
+    Currently, there are two ways to ensure that compliance- or security-related jobs are run in a project pipeline:
 
     - [Compliance pipelines](https://docs.gitlab.com/user/compliance/compliance_pipelines/).
     - [Security policies](https://docs.gitlab.com/user/application_security/policies/).
