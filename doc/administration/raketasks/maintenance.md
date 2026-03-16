@@ -382,7 +382,6 @@ status in the output of the `sudo gitlab-rake db:migrate:status` command.
    ```
 
 1. After the command completes, run `sudo gitlab-rake db:migrate:status` to check if all migrations are completed (have an `up` status).
-
 1. Hot reload `puma` and `sidekiq` services:
 
    ```shell
@@ -634,7 +633,6 @@ Prerequisites:
    ```
 
 1. Restart PostgreSQL for the changes to take effect.
-
 1. Restart GitLab: the web (Puma) and Sidekiq services should be restarted.
 
 {{< /tab >}}

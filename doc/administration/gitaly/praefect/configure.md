@@ -781,7 +781,6 @@ Configure Praefect with TLS.
 For Linux package installations:
 
 1. Create certificates for Praefect servers.
-
 1. On the Praefect servers, create the `/etc/gitlab/ssl` directory and copy your key
    and certificate there:
 
@@ -807,7 +806,6 @@ For Linux package installations:
    ```
 
 1. Save the file and [reconfigure](../../restart_gitlab.md#reconfigure-a-linux-package-installation).
-
 1. On the Praefect clients (including each Gitaly server), copy the certificates,
    or their certificate authority, into `/etc/gitlab/trusted-certs`:
 

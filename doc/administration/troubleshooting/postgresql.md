@@ -102,22 +102,15 @@ This section is for links to information elsewhere in the GitLab documentation.
   - Destructively reseeding the GitLab database.
   - Guidance around updating packaged PostgreSQL, including how to stop it
     from happening automatically.
-
 - [Information about external PostgreSQL](../postgresql/external.md).
-
 - [Running Geo with external PostgreSQL](../geo/setup/external_database.md).
-
 - [Upgrades when running PostgreSQL configured for HA](https://docs.gitlab.com/omnibus/settings/database/#upgrading-a-gitlab-ha-cluster).
-
 - Consuming PostgreSQL from [within CI runners](../../ci/services/postgres.md).
-
 - Managing PostgreSQL versions on Linux package installations from the Linux package development
   documentation.
-
 - [PostgreSQL scaling](../postgresql/replication_and_failover.md)
   - Including [troubleshooting](../postgresql/replication_and_failover_troubleshooting.md)
     `gitlab-ctl patroni check-leader` and PgBouncer errors.
-
 - Developer database documentation,
   some of which is absolutely not for production use. Including:
   - Understanding EXPLAIN plans.

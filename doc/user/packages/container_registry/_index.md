@@ -60,7 +60,6 @@ To download and run a container image hosted in the container registry:
 1. On the top bar, select **Search or go to** and find your project or group.
 1. Select **Deploy** > **Container Registry**.
 1. Find the container image you want to work with and select **Copy image path** （{{< icon name="copy-to-clipboard" >}}）.
-
 1. Use `docker run` with the copied link:
 
    ```shell

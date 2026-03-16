@@ -80,11 +80,8 @@ sequenceDiagram
 The authentication process for self-hosted models is secure, efficient, and made up of the following key components:
 
 - **Self-issued tokens**: In this architecture, access credentials are not synchronized with `cloud.gitlab.com`. Instead, tokens are self-issued dynamically, similar to the functionality on GitLab.com. This method provides users with immediate access while maintaining a high level of security.
-
 - **Offline environments**: In offline setups, there are no connections to `cloud.gitlab.com`. All requests are routed exclusively to the self-hosted AI Gateway.
-
 - **Token minting and verification**: The instance mints the token, which is then verified by the AI Gateway against the GitLab instance.
-
 - **Model configuration and security**: When an administrator configures a model, they can incorporate an API key to authenticate requests. Additionally, you can enhance security by specifying connection IP addresses within your network, ensuring that only trusted IPs can interact with the model.
 
 As illustrated in the following diagram:

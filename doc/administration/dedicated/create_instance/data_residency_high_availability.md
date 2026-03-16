@@ -56,15 +56,11 @@ Consider these factors when selecting regions:
 
 - Data residency and compliance: Your primary region is where your data is stored. Choose regions that meet your regulatory requirements.
   For example, GDPR compliance may require data to remain in the EU, while HIPAA compliance may require specific AWS regions.
-
 - High availability and disaster recovery: Select secondary and backup regions to protect against regional outages.
   If your primary region becomes unavailable, you can fail over to your secondary region.
-
 - Feature availability: Some GitLab Dedicated features like ClickHouse Cloud and AWS SES are only available in specific regions.
-
 - Performance and latency: Select regions geographically close to your users and infrastructure to minimize latency
   and improve performance.
-
 - Sustainability: If your organization has sustainability commitments, you can consider the carbon emissions
   of different regions. For low-emission region guidance, see how to
   [choose a region based on both business requirements and sustainability goals](https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sus_sus_region_a2.html).

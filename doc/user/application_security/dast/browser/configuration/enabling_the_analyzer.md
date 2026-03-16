@@ -45,7 +45,6 @@ To create the CI/CD job:
    > stable template unless you need a feature provided only in the latest template.
 
 1. Add a `dast` stage to your GitLab CI/CD stages configuration.
-
 1. Define the URL to be scanned by DAST by using one of these methods:
 
    - Set the `DAST_TARGET_URL` [CI/CD variable](../../../../../ci/yaml/_index.md#variables).

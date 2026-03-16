@@ -196,9 +196,7 @@ If you have an offline license, you can set up a fully private infrastructure:
      see the [supported models and hardware requirements documentation](supported_models_and_hardware_requirements.md).
 
 1. [Install the AI Gateway](../../install/install_ai_gateway.md) to access GitLab Duo features.
-
 1. [Configure your GitLab instance](configure_duo_features.md) for features to use self-hosted models.
-
 1. [Enable logging](logging.md) to track and manage your system's performance.
 
 ## Related topics

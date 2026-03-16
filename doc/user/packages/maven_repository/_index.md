@@ -992,7 +992,6 @@ you can configure GitLab CI/CD to build new packages automatically.
 You can create a new package each time the default branch is updated.
 
 1. Create a `ci_settings.xml` file that serves as Maven's `settings.xml` file.
-
 1. Add the `server` section with the same ID you defined in your `pom.xml` file.
    For example, use `gitlab-maven` as the ID:
 
@@ -1065,7 +1064,6 @@ You can create a package each time the default branch
 is updated.
 
 1. Authenticate with [a CI job token in Gradle](#edit-the-client-configuration).
-
 1. Add a `deploy` job to your `.gitlab-ci.yml` file:
 
    ```yaml

@@ -53,11 +53,8 @@ The API security testing engine outputs an error message when it cannot establis
 Before proceeding with a solution, it is important to confirm that the error message was produced because the port was already taken. To confirm this was the cause:
 
 1. Go to the job console.
-
 1. Look for the artifact `gl-api-security-scanner.log`. You can either download all artifacts by selecting **Download** and then search for the file, or directly start searching by selecting **Browse**.
-
 1. Open the file `gl-api-security-scanner.log` in a text editor.
-
 1. If the error message was produced because the port was already taken, you should see in the file a message like the following:
 
    ```log

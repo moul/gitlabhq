@@ -120,12 +120,9 @@ Prerequisites:
 To change an alert's status:
 
 - From the [alert list](#alert-list):
-
   1. In the **Status** column, next to an alert, select the status dropdown list.
   1. Select a status.
-
 - From the [alert details page](#alert-details-page):
-
   1. In the right sidebar, select **Edit**.
   1. Select a status.
 

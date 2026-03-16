@@ -20,7 +20,6 @@ You can also view or fork the complete [example source](https://gitlab.com/gitla
 
 1. Open a terminal and go to the project's repository.
 1. Run `npm init`. Name the module according to [the package registry's naming conventions](../../user/packages/npm_registry/_index.md#naming-convention). For example, if the project's path is `gitlab-examples/semantic-release-npm`, name the module `@gitlab-examples/semantic-release-npm`.
-
 1. Install the following npm packages:
 
    ```shell
@@ -42,7 +41,6 @@ You can also view or fork the complete [example source](https://gitlab.com/gitla
    ```
 
 1. Update the `files` key with glob patterns that selects all files that should be included in the published module. More information about `files` can be found [in the npm documentation](https://docs.npmjs.com/cli/v6/configuring-npm/package-json/#files).
-
 1. Add a `.gitignore` file to the project to avoid committing `node_modules`:
 
    ```plaintext

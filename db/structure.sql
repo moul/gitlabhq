@@ -18194,6 +18194,8 @@ CREATE TABLE compliance_management_frameworks (
     created_at timestamp with time zone,
     updated_at timestamp with time zone,
     source_id bigint,
+    template_id text,
+    template_version integer,
     CONSTRAINT check_08cd34b2c2 CHECK ((char_length(color) <= 10)),
     CONSTRAINT check_1617e0b87e CHECK ((char_length(description) <= 255)),
     CONSTRAINT check_ab00bc2193 CHECK ((char_length(name) <= 255)),
@@ -38040,6 +38042,9 @@ ALTER TABLE packages_packages
 
 ALTER TABLE vulnerabilities
     ADD CONSTRAINT check_d7634b42b6 CHECK ((char_length(solution) <= 7000)) NOT VALID;
+
+ALTER TABLE compliance_management_frameworks
+    ADD CONSTRAINT check_dbba6ffa2a CHECK ((char_length(template_id) <= 255)) NOT VALID;
 
 ALTER TABLE packages_debian_group_component_files
     ADD CONSTRAINT check_debian_group_component_files_file_sha256_max_length CHECK ((octet_length(file_sha256) <= 64)) NOT VALID;

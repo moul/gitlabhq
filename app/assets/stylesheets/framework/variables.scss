@@ -3,6 +3,9 @@
 /*
  * Layout
  */
+$body-font-size: 0.875rem;
+$body-line-height: 1.5;
+$body-resolved-line-height: $body-font-size * $body-line-height;
 $grid-size: 8px;
 $right-sidebar-collapsed-width: 62px;
 $right-sidebar-width: 290px;
@@ -156,7 +159,9 @@ $general-hover-transition-curve: linear;
 $performance-bar-height: 2.5rem;
 $system-header-height: 16px;
 $system-footer-height: $system-header-height;
-$mr-sticky-header-height: 4.5rem;
+$mr-sticky-tabs-height: $gl-spacing-scale-8;
+$mr-sticky-description-padding: $gl-spacing-scale-1;
+$mr-sticky-header-height: calc(#{$mr-sticky-tabs-height} + #{$body-resolved-line-height} + #{$mr-sticky-description-padding});
 $mr-review-bar-height: calc(2rem + 16px);
 $top-bar-height: 3rem; //= 48px
 $work-item-sticky-header-height: 52px;

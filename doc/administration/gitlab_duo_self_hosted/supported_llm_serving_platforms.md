@@ -333,7 +333,6 @@ For Kubernetes clusters other than Amazon EKS, you can use Kubernetes secrets to
 To use AWS Bedrock API keys as an alternative to IAM credentials:
 
 1. [Create a Bedrock API key](https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys-generate.html)
-
 1. Create a Kubernetes secret with the API key:
 
    ```shell

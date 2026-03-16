@@ -25,17 +25,14 @@ When you [view the incidents list](manage_incidents.md#view-a-list-of-incidents)
 - **Search**: Search for incident titles and descriptions or [filter the list](#filter-the-incidents-list).
 - **Severity**: Severity of a particular incident, which can be one of the following
   values:
-
   - {{< icon name="severity-critical" >}} Critical - S1
   - {{< icon name="severity-high" >}} High - S2
   - {{< icon name="severity-medium" >}} Medium - S3
   - {{< icon name="severity-low" >}} Low - S4
   - {{< icon name="severity-unknown" >}} Unknown
-
 - **Incident**: The title of the incident, which attempts to capture the
   most meaningful information.
 - **Status**: The status of the incident, which can be one of the following values:
-
   - Triggered
   - Acknowledged
   - Resolved

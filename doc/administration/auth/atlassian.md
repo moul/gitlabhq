@@ -79,7 +79,6 @@ To enable the Atlassian OmniAuth provider for passwordless authentication you mu
 
 1. Change `<your_client_id>` and `<your_client_secret>` to the Client credentials you received during [application registration](#atlassian-application-registration).
 1. Save the configuration file.
-
 1. For the changes to take effect:
    - If you installed using the Linux package, [reconfigure GitLab](../restart_gitlab.md#reconfigure-a-linux-package-installation).
    - If you self-compiled your installation, [restart GitLab](../restart_gitlab.md#self-compiled-installations).

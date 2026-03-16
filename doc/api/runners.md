@@ -253,11 +253,9 @@ Instance runner details are available to all authenticated users through this en
 Prerequisites:
 
 - User access: You must have one of the following:
-
   - For group runners: The Maintainer or Owner role in the owner namespace.
   - For project runners: The Maintainer or Owner role in the project that owns the runner.
   - A custom role with the `admin_runners` permission in the relevant group or project.
-
 - An access token with the `manage_runner` scope and the appropriate role.
 
 ```plaintext
@@ -342,12 +340,10 @@ PUT /runners/:id
 Prerequisites:
 
 - User access: You must have one of the following:
-
   - For instance runners: Administrator access to the GitLab instance.
   - For group runners: Owner role in the owner namespace.
   - For project runners: The Maintainer or Owner role in a project assigned to the runner.
   - A custom role with the `admin_runners` permission in the relevant group or project.
-
 - An access token with the `manage_runner` scope and the appropriate role.
 
 | Attribute          | Type    | Required | Description |
@@ -429,12 +425,10 @@ Pause a runner.
 Prerequisites:
 
 - User access: You must have one of the following:
-
   - For instance runners: Administrator access to the GitLab instance.
   - For group runners: Owner role in the owner namespace.
   - For project runners: The Maintainer or Owner role in a project assigned to the runner.
   - A custom role with the `admin_runners` permission in the relevant group or project.
-
 - An access token with the `manage_runner` scope and the appropriate role.
 
 ```plaintext
@@ -746,10 +740,8 @@ Prerequisites:
 
 - You must not lock the runner, unless you are an administrator.
 - User access: You must have one of the following:
-
   - The Maintainer or Owner role in the project you want to unassign.
   - A custom role with the `admin_runners` permission in the relevant group or project.
-
 - An access token with the `manage_runner` scope and the appropriate role.
 
 ```plaintext
@@ -772,11 +764,9 @@ Lists all runners available in the group and its ancestor groups, including [any
 Prerequisites:
 
 - User access: You must have one of the following:
-
   - Administrator access to the GitLab instance.
   - Owner or Auditor role in the group.
   - A custom role with the `admin_runners` permission in the group.
-
 - An access token with the `manage_runner` scope and the appropriate role.
 
 ```plaintext
@@ -935,12 +925,10 @@ To delete the runner by ID, use your access token with the runner's ID:
 Prerequisites:
 
 - User access: You must have one of the following:
-
   - For instance runners: Administrator access to the GitLab instance.
   - For group runners: Owner role in the owner namespace.
   - For project runners: The Maintainer or Owner role in the project that owns the runner.
   - A custom role with the `admin_runners` permission in the relevant group or project.
-
 - An access token with the `manage_runner` scope and the appropriate role.
 
 ```plaintext
@@ -1087,12 +1075,10 @@ Reset the runner's authentication token by using its runner ID.
 Prerequisites:
 
 - User access: You must have one of the following:
-
   - For instance runners: Administrator access to the GitLab instance.
   - For group runners: Owner role in the owner namespace.
   - For project runners: The Maintainer or Owner role in a project assigned to the runner.
   - A custom role with the `admin_runners` permission in the relevant group or project.
-
 - An access token with the `manage_runner` scope and the appropriate role.
 
 ```plaintext

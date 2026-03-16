@@ -47,7 +47,6 @@ A site profile contains:
   - **Username form field**: The name of username field at the sign-in HTML form.
   - **Password form field**: The name of password field at the sign-in HTML form.
   - **Submit form field**: The `id` or `name` of the element that when selected submits the sign-in HTML form.
-
 - **Scan method**: A type of method to perform API testing. The supported methods are OpenAPI, Postman Collections, HTTP Archive (HAR), or GraphQL.
   - **GraphQL endpoint path**: The path to the GraphQL endpoint. This path is concatenated with the target URL to provide the URI for the scan to test. The GraphQL endpoint must support introspection queries.
   - **File URL**: The URL of the OpenAPI, Postman Collection, or HTTP Archive file.

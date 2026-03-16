@@ -429,7 +429,6 @@ This type of connection allows GitLab functionality to access private services:
 
   - [webhooks](../../../user/project/integrations/webhooks.md)
   - import or mirror projects and repositories
-
 - For hosted runners:
 
   - custom secrets managers

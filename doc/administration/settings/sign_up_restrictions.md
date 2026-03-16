@@ -331,7 +331,6 @@ that are [pending administrator approval](../moderate_users.md#view-users-pendin
   - If the new user role is [billable](../../subscriptions/manage_users_and_seats.md#billable-users),
     all other membership requests for that user are automatically approved.
   - If the new user role is not billable, other requests for that user remain pending until administrator approval.
-
 - If a user who isn't an administrator adds a user to a group or project:
   - If the user does not have any billable role in any group or project, and is added or promoted to a billable role,
     their request remains [pending until administrator approval](../moderate_users.md#view-users-pending-role-promotion).

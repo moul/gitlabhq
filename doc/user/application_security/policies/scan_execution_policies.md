@@ -90,23 +90,18 @@ Prerequisites:
 When you create your first scan execution policies, choose from these templates for common use cases:
 
 - Merge Request Security
-
   - Use case: You want security scans to run only when merge requests are created, not on every commit.
   - When to use: For projects using merge request pipelines that need security scans to run on
     source branches targeting default or protected branches.
   - Best for: Aligning with merge request approval policies and reducing infrastructure
     costs by avoiding scans on every branch.
   - Pipeline sources: Primarily merge request pipelines.
-
 - Scheduled Scanning
-
   - Use case: You want security scans to run automatically on a schedule (like daily or weekly) regardless of code changes.
   - When to use: For security scanning on a regular cadence, independent of development activity.
   - Best for: Compliance requirements, baseline security monitoring, or projects with infrequent commits.
   - Pipeline sources: Scheduled pipelines.
-
 - Release Security
-
   - Use case: You want security scans to run on all changes to your `main` or release branches.
   - When to use: For projects that need comprehensive scanning before releases, or on protected branches.
   - Best for: Release-gated workflows, production deployments, or high-security environments.

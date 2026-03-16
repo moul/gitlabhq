@@ -72,16 +72,12 @@ When implementing granular PAT authorization, name permissions based on what the
 - **Object types**: Use a `read_resource` permission that covers all fields on the type
   - `IssueType` → `read_issue`
   - `ProjectType` → `read_project`
-
 - **Create mutations**: Use `create_resource`
   - `Mutations::Issues::Create` → `create_issue`
-
 - **Update mutations**: Use `update_resource`
   - `Mutations::Issues::Update` → `update_issue`
-
 - **Delete mutations**: Use `delete_resource`
   - `Mutations::Issues::Destroy` → `delete_issue`
-
 - **Special action mutations**: Create specific permissions for unique operations
   - Move, archive, transfer, etc. each get their own permission
 

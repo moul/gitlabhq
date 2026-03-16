@@ -41,7 +41,6 @@ When using the container virtual registry, remember the following restrictions:
 
 - You can create up to `5` container virtual registries per top-level group.
 - You can set only `5` upstreams to a given container virtual registry.
-- For technical reasons, the `proxy_download` setting is force enabled, no matter what the value in the [object storage configuration](../../../../administration/object_storage.md#proxy-download) is configured to.
 - Geo support is not implemented.
 
 ## Manage virtual registries

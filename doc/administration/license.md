@@ -137,10 +137,8 @@ This can be caused by:
 
     Contact your network administrator to make changes to an existing proxy or firewall.
   - If an SSL inspection appliance is used, you must add the appliance's root CA certificate to `/etc/gitlab/trusted-certs` on your instance, then run `gitlab-ctl reconfigure`.
-
 - **Customers Portal is not operational**:
   - Check for any active disruptions to the Customers Portal on [status](https://status.gitlab.com/).
-
 - **An offline environment**:
   - Check [DNS settings](https://docs.gitlab.com/omnibus/settings/dns/).
   - Contact either:

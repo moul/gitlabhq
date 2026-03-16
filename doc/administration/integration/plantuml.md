@@ -362,7 +362,6 @@ SSL termination.
    ```
 
 1. Add the `plantuml.crt` and `plantuml.key` files to an `ssl` directory.
-
 1. Configure the `docker-compose.yml` file:
 
    ```yaml

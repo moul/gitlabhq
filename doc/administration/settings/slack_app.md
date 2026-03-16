@@ -111,14 +111,11 @@ When GitLab releases new features for the GitLab for Slack app, you might have t
 To update your copy of the GitLab for Slack app:
 
 - **In GitLab**:
-
   1. In the upper-right corner, select **Admin**.
   1. In the left sidebar, select **Settings** > **General**.
   1. Expand **GitLab for Slack app**.
   1. Select **Download latest manifest file** to download `slack_manifest.json`.
-
 - **In Slack**:
-
   1. Go to [Slack API](https://api.slack.com/apps).
   1. Search for and select **GitLab (`<your host name>`)**.
   1. In the left sidebar, select **App Manifest**.

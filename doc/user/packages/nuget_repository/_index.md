@@ -750,7 +750,6 @@ with your project or group endpoint:
   ```
 
   - Replace `<project_id>` with the project ID.
-
 - Group endpoint:
 
   ```plaintext

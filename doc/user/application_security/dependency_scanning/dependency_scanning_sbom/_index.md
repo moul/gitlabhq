@@ -54,7 +54,6 @@ Share any feedback on the new dependency scanning analyzer in this [feedback iss
 If you are new to dependency scanning, follow these steps to turn it on for your project.
 
 - Prerequisites for all GitLab instances:
-
   - The Developer, Maintainer, or Owner role for the project.
   - A [supported lock file or dependency graph](https://gitlab.com/gitlab-org/security-products/analyzers/dependency-scanning/#supported-files). Alternatively, a [manifest file](#manifest-fallback) can be used as a fallback option for the supported languages.
     either in the repository or created in the CI/CD pipeline and passed as an artifact to the `dependency-scanning` job.
@@ -62,9 +61,7 @@ If you are new to dependency scanning, follow these steps to turn it on for your
     [`docker`](https://docs.gitlab.com/runner/executors/docker/) or
     [`kubernetes`](https://docs.gitlab.com/runner/install/kubernetes/) executor.
   - For hosted runners on GitLab.com, this configuration is enabled by default.
-
 - Additional prerequisites for GitLab Self-Managed only:
-
   - [Package metadata](../../../../administration/settings/security_and_compliance.md#choose-package-registry-metadata-to-sync)
     for all PURL types to be scanned must be synchronized in the GitLab instance.
 

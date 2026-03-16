@@ -1119,13 +1119,10 @@ To configure GitLab Pages on a separate server:
 1. Set up object storage by either:
    - [Configuring the object storage and migrating GitLab Pages data to it](#object-storage-settings).
    - [Configuring network storage](#enable-pages-network-storage-in-multi-node-environments).
-
 1. [Reconfigure the **GitLab server**](../restart_gitlab.md#reconfigure-a-linux-package-installation) for the
    changes to take effect. The `gitlab-secrets.json` file is now updated with the
    new configuration.
-
 1. Set up a new server. This becomes the **Pages server**.
-
 1. On the **Pages server**, install GitLab by using the Linux package and modify `/etc/gitlab/gitlab.rb`
    to include:
 
@@ -1167,7 +1164,6 @@ To configure GitLab Pages on a separate server:
    ```
 
 1. [Reconfigure the **Pages server**](../restart_gitlab.md#reconfigure-a-linux-package-installation) for the changes to take effect.
-
 1. On the **GitLab server**, make the following changes to `/etc/gitlab/gitlab.rb`:
 
    ```ruby

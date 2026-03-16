@@ -41,7 +41,6 @@ For self-compiled installations:
    ```
 
 1. Save the `gitlab.yml` file.
-
 1. Restart GitLab:
 
    ```shell
@@ -57,7 +56,6 @@ For Linux package installations:
    ```
 
 1. Save the `/etc/gitlab/gitlab.rb` file.
-
 1. Reconfigure GitLab:
 
    ```shell

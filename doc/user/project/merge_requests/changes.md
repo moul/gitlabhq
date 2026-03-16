@@ -183,9 +183,7 @@ setting in a merge request, it updates your user settings as well.
 1. On the top bar, select **Search or go to** and find your project.
 1. In the left sidebar, select **Code** > **Merge requests** and find your merge request.
 1. Below the merge request title, select **Changes**.
-
 1. Select **Preferences** ({{< icon name="preferences" >}}).
-
 1. Select or clear **Show one file at a time**.
 
 {{< /tab >}}

@@ -1667,7 +1667,6 @@ The Commits and Files APIs enforce maximum size and rate limits on the following
 - `POST /projects/:id/repository/commits` - [Create a commit](../api/commits.md#create-a-commit)
 - `POST /projects/:id/repository/files/:file_path` - [Create a file in a repository](../api/repository_files.md#create-a-file-in-a-repository)
 - `PUT /projects/:id/repository/files/:file_path` - [Update a file in a repository](../api/repository_files.md#update-a-file-in-a-repository)
-
 - **Maximum request size**: Requests that exceed this limit receive
   a `413 Request Entity Too Large` error with the following message: `RequestBody: upload failed: the upload size <size> is over maximum of 314572800 bytes: entity is too large`. The default is 300 MB (314,572,800 bytes).
 - **Rate limit**: 3 requests per 30 seconds for requests above 20 MB.

@@ -192,7 +192,10 @@ Courier, which we install later to add IMAP authentication, requires mailboxes t
    sudo apt-get install courier-imap
    ```
 
-   And start `imapd`:
+   Ubuntu 24.04 doesn't have the `courier-imap` package. For more information, see
+   [Ubuntu bug 2071662](https://bugs.launchpad.net/ubuntu/+source/courier/+bug/2071662).
+
+   After installing `courier-imap`, start `imapd`:
 
    ```shell
    imapd start
