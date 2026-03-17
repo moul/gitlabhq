@@ -92,7 +92,7 @@ The following table shows the default test coverage limits and badge colors:
 | Unknown       | No coverage                 | <span style="color: #9f9f9f">■</span> `#9f9f9f` |
 
 > [!note]
-> *Up to* means up to, but not including, the upper bound.
+> _Up to_ means up to, but not including, the upper bound.
 
 ### Change the default limits
 

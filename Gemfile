@@ -83,7 +83,7 @@ gem 'logger', '~> 1.7.0', feature_category: :shared # rubocop:todo Gemfile/Missi
 gem 'marginalia', '~> 1.11.1', feature_category: :database
 
 # Authorization
-gem 'declarative_policy', '~> 2.0.1', feature_category: :permissions
+gem 'declarative_policy', '~> 2.1.0', feature_category: :permissions
 
 # For source code paths mapping
 gem 'coverband', '6.1.7', require: false, feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839

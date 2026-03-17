@@ -3297,7 +3297,7 @@ This API returns specific HTTP status codes:
 
 | HTTP Status | Message                                    | Reason |
 |-------------|--------------------------------------------|--------|
-| `202`       | *(no message)* | Successfully enqueued. |
+| `202`       | _(no message)_ | Successfully enqueued. |
 | `403`       | `Cannot push to source branch` | You don't have permission to push to the merge request's source branch. |
 | `403`       | `Source branch does not exist` | You don't have permission to push to the merge request's source branch. |
 | `403`       | `Source branch is protected from force push` | You don't have permission to push to the merge request's source branch. |

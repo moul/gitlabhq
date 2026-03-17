@@ -171,7 +171,6 @@ app/models/clusters/concerns/application_version.rb:
 - update_available?
 app/models/commit.rb:
 - touch_later
-- valid_full_sha
 app/models/concerns/awardable.rb:
 - user_authored?
 app/models/concerns/counter_attribute.rb:

@@ -22,7 +22,7 @@ class JwksController < Doorkeeper::OpenidConnect::DiscoveryController
   end
 
   def provider
-    if request.path.in?(OAUTH_PATHS)
+    if request.path_info.in?(OAUTH_PATHS)
       expires_in 24.hours, public: true, must_revalidate: true, 'no-transform': true
       response_hash = provider_response
       response_hash[:registration_endpoint] = Gitlab::Utils.append_path(

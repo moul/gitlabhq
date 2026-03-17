@@ -357,7 +357,7 @@ If there are any projects, snippets, or other assets that are required for a rev
 
 When assigning reviewers, it can be helpful to:
 
-- Add a comment to the MR indicating which *type* of review you are looking for
+- Add a comment to the MR indicating which _type_ of review you are looking for
   from that reviewer.
   - For example, if an MR changes a database query and updates
     backend code, the MR author first needs a `~backend` review and a `~database`

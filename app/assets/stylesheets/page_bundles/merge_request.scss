@@ -110,6 +110,12 @@ $merge-request-sticky-header-height: rem-to-px($mr-sticky-tabs-height) + 1px;
 
 @supports (container-type: scroll-state) {
   .merge-request-sticky-header-wrapper {
+    pointer-events: none;
+
+    > * {
+      pointer-events: auto;
+    }
+
     @include gl-container-width-up(md, panel) {
       top: $calc-application-header-height;
       min-height: 89px;
@@ -199,11 +205,12 @@ $merge-request-sticky-header-height: rem-to-px($mr-sticky-tabs-height) + 1px;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: thin;
-  @apply gl-h-9;
+  height: $mr-static-tabs-height;
 }
 
 .merge-request-tabs.merge-request-tabs li {
   position: relative;
+  display: flex;
   align-items: center;
   border-top: var(--mr-tab-border-width) solid transparent;
   border-bottom: var(--mr-tab-border-width) solid transparent;

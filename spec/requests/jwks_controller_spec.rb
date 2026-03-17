@@ -147,7 +147,11 @@ RSpec.describe JwksController, feature_category: :system_access do
 
       before do
         stub_config_setting(relative_url_root: relative_url_root, url: base_url_with_root)
-        get '/.well-known/oauth-authorization-server/api/v4/mcp'
+        allow(Rails.application.routes).to receive(:default_url_options)
+          .and_return(script_name: relative_url_root)
+        # Simulate what the Rack map middleware does: set SCRIPT_NAME to the prefix
+        get '/.well-known/oauth-authorization-server/api/v4/mcp',
+          env: { 'SCRIPT_NAME' => relative_url_root }
       end
 
       it 'includes relative_url_root in registration_endpoint' do

@@ -6956,21 +6956,7 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
         end
       end
 
-      context 'when defer_notify_conflict_to_after_commit is enabled' do
-        before do
-          stub_feature_flags(defer_notify_conflict_to_after_commit: true)
-        end
-
-        it_behaves_like 'notify conflict behavior'
-      end
-
-      context 'when defer_notify_conflict_to_after_commit is disabled' do
-        before do
-          stub_feature_flags(defer_notify_conflict_to_after_commit: false)
-        end
-
-        it_behaves_like 'notify conflict behavior'
-      end
+      it_behaves_like 'notify conflict behavior'
     end
 
     describe 'check_state?' do

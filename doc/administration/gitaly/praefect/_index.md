@@ -530,6 +530,9 @@ To migrate to Gitaly Cluster (Praefect):
 Even if you don't use the `default` repository storage, you must ensure it is configured.
 [Read more about this limitation](../configure_gitaly.md#gitlab-requires-a-default-repository-storage).
 
+To migrate from the Gitaly chart on Kubernetes, follow the
+[specific migration instructions](https://docs.gitlab.com/charts/advanced/external-gitaly/#migrate-from-gitaly-chart-to-external-gitaly).
+
 ## Migrate off Gitaly Cluster (Praefect)
 
 If the limitations and tradeoffs of Gitaly Cluster (Praefect) are found to be not suitable for your environment, you can

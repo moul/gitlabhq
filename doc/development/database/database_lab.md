@@ -12,6 +12,7 @@ Internal users at GitLab have access to the Database Lab Engine (DLE) and
 on replicated production data. Unlike a typical read-only production replica, in the DLE you can
 also create, update, and delete rows. You can also test the performance of
 schema changes, like additional indexes or columns, in an isolated copy of production data.
+A new snapshot of the database is typically created every 4 hours.
 
 ## Database Lab quick start
 

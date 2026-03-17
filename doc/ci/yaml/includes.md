@@ -165,7 +165,7 @@ production:
 The `POSTGRES_USER` and `POSTGRES_PASSWORD` variables
 and the `environment:url` of the `production` job defined in the `.gitlab-ci.yml` file
 override the values defined in the `autodevops-template.yml` file. The other keywords
-do not change. This method is called *merging*.
+do not change. This method is called _merging_.
 
 ### Merge method for `include`
 

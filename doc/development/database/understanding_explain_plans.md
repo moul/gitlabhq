@@ -195,7 +195,7 @@ Seq Scan on projects  (cost=0.00..908053.18 rows=5746969 width=0) (actual time=0
 
 Here we can see that our filter has to remove 65,677 rows, and that we use
 208,846 buffers. Each buffer in PostgreSQL is 8 KB (8192 bytes), meaning our
-above node uses *1.6 GB of buffers*. That's a lot!
+above node uses _1.6 GB of buffers_. That's a lot!
 
 Keep in mind that some statistics are per-loop averages, while others are total values:
 

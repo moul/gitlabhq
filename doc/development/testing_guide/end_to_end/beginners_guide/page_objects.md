@@ -217,7 +217,7 @@ end
 
 **Example 2**
 
-*By an index...*
+_By an index..._
 
 ```ruby
 %ol

@@ -704,7 +704,8 @@ And the following cipher suites (according to the [RFC 8446](https://datatracker
 - `TLS_AES_128_GCM_SHA256`
 - `TLS_AES_256_GCM_SHA384`
 
-*Note*: **Go** does [not support](https://github.com/golang/go/blob/go1.17/src/crypto/tls/cipher_suites.go#L676) all cipher suites with TLS 1.3.
+> [!note]
+> **Go** does [not support](https://github.com/golang/go/blob/go1.17/src/crypto/tls/cipher_suites.go#L676) all cipher suites with TLS 1.3.
 
 ##### Implementation examples
 
