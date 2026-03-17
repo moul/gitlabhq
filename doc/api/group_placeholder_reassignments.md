@@ -35,9 +35,9 @@ Prerequisites:
 > User contribution mapping is not supported when you import projects to a [personal namespace](../user/namespace/_index.md#types-of-namespaces).
 > When you import to a personal namespace, all contributions are assigned to the personal namespace owner and they cannot be reassigned.
 
-## Download the CSV file
+## Retrieve pending reassignments
 
-Download a CSV file of pending reassignments.
+Retrieves a CSV file with a list of pending reassignments.
 
 ```plaintext
 GET /groups/:id/placeholder_reassignments
@@ -67,7 +67,7 @@ http://gitlab.example,gitlab_migration,9,Alice,alice,"",""
 
 ## Reassign placeholders
 
-Complete the [CSV file](#download-the-csv-file) and upload it to reassign placeholder users.
+Reassigns placeholder users with an uploaded CSV file.
 
 ```plaintext
 POST /groups/:id/placeholder_reassignments

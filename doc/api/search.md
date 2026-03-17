@@ -18,15 +18,15 @@ Every call to this API requires authentication.
 Some scopes are available for [basic search](../user/search/_index.md#available-scopes).
 When [advanced search](../user/search/advanced_search.md#available-scopes) or
 [exact code search](../user/search/exact_code_search.md#available-scopes) is enabled,
-additional scopes are available for [global search](#global-search),
-[group search](#group-search), and [project search](#project-search) APIs.
+additional scopes are available for [global search](#search-an-instance),
+[group search](#search-a-group), and [project search](#search-a-project) operations.
 
 If you want to use basic search instead, see
 [specify a search type](../user/search/_index.md#specify-a-search-type).
 
 The search API supports [offset-based pagination](rest/_index.md#offset-based-pagination).
 
-## Global search
+## Search an instance
 
 Search for a [term](../user/search/advanced_search.md#syntax) across the entire GitLab instance.
 The response depends on the requested scope.
@@ -501,7 +501,7 @@ Example response:
 ]
 ```
 
-## Group search
+## Search a group
 
 Search for a [term](../user/search/_index.md) in the specified group.
 
@@ -947,7 +947,7 @@ Example response:
 ]
 ```
 
-## Project search
+## Search a project
 
 Search for a [term](../user/search/_index.md) in the specified project.
 

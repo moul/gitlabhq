@@ -27,6 +27,7 @@ import { IconsPlugin } from './config/helpers/vite_plugin_icons.mjs';
 import { ImagesPlugin } from './config/helpers/vite_plugin_images.mjs';
 import { CrossOriginWorkerPlugin } from './config/helpers/vite_plugin_cross_origin_worker';
 import { PrebuildDuoNext } from './config/helpers/vite_plugin_prebuild_duo_next';
+import { Vue3InfectionPlugin } from './config/helpers/vite_plugin_vue3_infection.mjs';
 import * as vue3SfcCompiler from './config/vue3migration/vue3_sfc_compiler.mjs';
 import vue2Compiler from './config/vue3migration/vue2_compiler';
 
@@ -125,6 +126,7 @@ export default defineConfig({
     ],
   },
   plugins: [
+    ...(!USE_VUE3 ? [Vue3InfectionPlugin()] : []),
     PageEntrypointsPlugin(),
     IconsPlugin(),
     ImagesPlugin(),
@@ -211,7 +213,19 @@ export default defineConfig({
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
       },
     },
-    exclude: ['@gitlab/ui'],
+    exclude: [
+      '@gitlab/ui',
+      ...(!USE_VUE3
+        ? [
+            '@vue/compat',
+            '@gitlab/vuex-vue3',
+            '@gitlab/vue-router-vue3',
+            '@vue/apollo-option',
+            'vue-demi',
+            '@gitlab/vuedraggable-vue3',
+          ]
+        : []),
+    ],
     include: [
       // When building @gitlab/ui from source, lodash imports fail in vite because lodash publishes commonjs modules.
       // Vite supports glob expansions in `optimizeDeps.include` that solves this, but it adds a `.js` extension in the

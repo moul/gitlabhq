@@ -89,9 +89,9 @@ To edit an MCP server:
 1. Update the fields as needed.
 1. Select **Save changes**.
 
-## Associate an MCP server with an agent
+## Connect an MCP server to a custom agent
 
-To give a custom agent access to an MCP server:
+To connect an MCP server to a custom agent:
 
 1. In the left sidebar, select **Search or go to** and find your group.
 1. Select **Build** > **AI Catalog**.
@@ -104,9 +104,9 @@ The agent can now use all tools provided by the associated MCP server during exe
 
 You cannot restrict an agent from using specific MCP server tools.
 
-## View MCP servers connected to an agent
+## View MCP servers connected to a custom agent
 
-To view which MCP servers are connected to an agent:
+To view which MCP servers are connected to a custom agent:
 
 1. In the left sidebar, select **Search or go to** and find your group.
 1. Select **Build** > **AI Catalog**.
@@ -114,6 +114,27 @@ To view which MCP servers are connected to an agent:
 1. Select the agent.
 
 The agent detail page lists all connected MCP servers.
+
+## Disconnect an MCP server from custom agents
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227157) in GitLab 18.11.
+
+{{< /history >}}
+
+You can disconnect an MCP server from all custom agents that it has a connection
+to. You cannot disconnect an MCP server from a specific agent.
+
+After disconnecting, existing custom agent chats can still reference content
+already retrieved from the MCP server. However, agents are no longer able to
+fetch new content or perform any actions.
+
+1. In the left sidebar, select **Search or go to** and find your group.
+1. Select **Build** > **AI Catalog**.
+1. Select the **MCP** tab.
+1. For the MCP server you want to disconnect, select **Disconnect**.
+1. In the confirmation dialog, select **Disconnect**.
 
 ## View MCP servers for a namespace
 

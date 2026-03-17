@@ -15,9 +15,9 @@ title: LDAP group links
 
 Use this API to manage LDAP group links. For more information, see [manage group memberships with LDAP](../user/group/access_and_permissions.md#manage-group-memberships-with-ldap).
 
-## List LDAP group links
+## List all LDAP group links
 
-Lists LDAP group links.
+Lists all LDAP group links.
 
 ```plaintext
 GET /groups/:id/ldap_group_links

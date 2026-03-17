@@ -69,4 +69,5 @@ group:
   - read_cluster_agent
   - read_group_all_available_runners
   - read_observability_portal
+  - resolve_note
   - update_o11y_settings

@@ -20,6 +20,7 @@ project:
   - destroy_design
   - download_code
   - download_wiki_code
+  - mark_note_as_internal
   - metrics_dashboard
   - move_design
   - read_build
@@ -55,6 +56,7 @@ group:
   - admin_milestone
   - admin_work_item
   - create_saved_view
+  - mark_note_as_internal
   - read_ci_cd_analytics
   - read_confidential_issues
   - read_container_image

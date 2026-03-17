@@ -20,9 +20,9 @@ title: Group-level Variables API
 
 Use this API to interact with [CI/CD variables](../ci/variables/_index.md#for-a-group) for a group.
 
-## List group variables
+## List all group variables
 
-Get list of a group's variables. Use the `page` and `per_page` [pagination](rest/_index.md#offset-based-pagination)
+Lists all variables for a specified group. Use the `page` and `per_page` [pagination](rest/_index.md#offset-based-pagination)
 parameters to control the pagination of results.
 
 ```plaintext
@@ -66,7 +66,7 @@ curl --request GET \
 ]
 ```
 
-## Show variable details
+## Retrieve details of a group variable
 
 {{< history >}}
 
@@ -74,7 +74,7 @@ curl --request GET \
 
 {{< /history >}}
 
-Get the details of a group's specific variable. If there are multiple variables with the same key,
+Retrieves details of a specified group variable. If there are multiple variables with the same key,
 use `filter` to select the correct `environment_scope`.
 
 ```plaintext
@@ -107,7 +107,7 @@ curl --request GET \
 }
 ```
 
-## Create variable
+## Create a group variable
 
 {{< history >}}
 
@@ -115,7 +115,7 @@ curl --request GET \
 
 {{< /history >}}
 
-Create a new variable.
+Creates a group variable.
 
 ```plaintext
 POST /groups/:id/variables
@@ -156,7 +156,7 @@ curl --request POST \
 }
 ```
 
-## Update variable
+## Update a group variable
 
 {{< history >}}
 
@@ -164,13 +164,13 @@ curl --request POST \
 
 {{< /history >}}
 
-Update a group's variable. If there are multiple variables with the same key,
+Updates the specified group variable. If there are multiple variables with the same key,
 use `filter` to select the correct `environment_scope`.
 
 > [!warning]
 > When filtering for an `environment_scope` that does not exist, the endpoint falls back to
 > updating a variable with the same name but different environment scope. Verify the existence
-> of a scope for a given variable using the [show variable details](#show-variable-details) endpoint.
+> of a scope for a given variable using the [retrieve details of a group variable](#retrieve-details-of-a-group-variable) endpoint.
 
 ```plaintext
 PUT /groups/:id/variables/:key
@@ -210,7 +210,7 @@ curl --request PUT \
 }
 ```
 
-## Remove variable
+## Delete a group variable
 
 {{< history >}}
 
@@ -218,7 +218,7 @@ curl --request PUT \
 
 {{< /history >}}
 
-Remove a group's variable. If there are multiple variables with the same key,
+Deletes the specified group variable. If there are multiple variables with the same key,
 use `filter` to select the correct `environment_scope`.
 
 ```plaintext

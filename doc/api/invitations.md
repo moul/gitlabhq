@@ -90,9 +90,9 @@ Example response:
 }
 ```
 
-## List all invitations pending for a group or project
+## List all pending invitations for a group or project
 
-Gets a list of invited group or project members viewable by the authenticated user.
+Lists all pending invitations viewable by the authenticated user.
 Returns invitations to direct members only, and not through inherited ancestors' groups.
 
 This function takes pagination parameters `page` and `per_page` to restrict the list of members.
@@ -134,7 +134,7 @@ Example response:
 
 ## Update an invitation to a group or project
 
-Updates a pending invitation's access level or access expiry date.
+Updates a pending invitation to a group or project.
 
 ```plaintext
 PUT /groups/:id/invitations/:email
@@ -168,7 +168,7 @@ Example response:
 
 ## Delete an invitation to a group or project
 
-Deletes a pending invitation by email address.
+Deletes a pending invitation to the specified email address.
 
 ```plaintext
 DELETE /groups/:id/invitations/:email

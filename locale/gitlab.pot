@@ -26371,6 +26371,12 @@ msgstr ""
 msgid "DuoAgenticChat|Upgrade to a paid subscription or turn off the Agentic toggle to start a new conversation."
 msgstr ""
 
+msgid "DuoAgenticChat|Your GitLab Duo Agent Platform trial has ended"
+msgstr ""
+
+msgid "DuoAgenticChat|Your trial has ended. Repurchase to resume using GitLab Duo Agent Platform."
+msgstr ""
+
 msgid "DuoAgentsPlatform|AI Catalog"
 msgstr ""
 

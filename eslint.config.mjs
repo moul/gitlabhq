@@ -457,6 +457,8 @@ export default [
       'local-rules/vue-require-valid-help-page-link-component': 'error',
       'local-rules/vue-require-vue-constructor-name': 'error',
       'local-rules/no-orphaned-feature-flag-references': 'error',
+      'local-rules/no-web-url': 'error',
+      'local-rules/vue-no-web-url': 'error',
     },
   },
   /** Overrides for EE files to be allowed to import from EE */
@@ -525,6 +527,8 @@ export default [
       '@gitlab/vue-tailwind-no-max-width-media-queries': 'off',
       '@gitlab/no-hardcoded-urls': 'off',
       '@gitlab/vue-no-hardcoded-urls': 'off',
+      'local-rules/no-web-url': 'off',
+      'local-rules/vue-no-web-url': 'off',
       'require-await': 'error',
       'import/no-dynamic-require': 'off',
       'no-import-assign': 'off',
@@ -656,6 +660,8 @@ export default [
       '@gitlab/require-i18n-strings': 'off',
       '@gitlab/no-hardcoded-urls': 'off',
       '@gitlab/vue-no-hardcoded-urls': 'off',
+      'local-rules/no-web-url': 'off',
+      'local-rules/vue-no-web-url': 'off',
       'import/extensions': 'off',
       'import/no-extraneous-dependencies': 'off',
       'import/no-commonjs': 'off',
@@ -672,6 +678,8 @@ export default [
       '@gitlab/require-i18n-strings': 'off',
       '@gitlab/no-hardcoded-urls': 'off',
       '@gitlab/vue-no-hardcoded-urls': 'off',
+      'local-rules/no-web-url': 'off',
+      'local-rules/vue-no-web-url': 'off',
       'import/no-unresolved': [
         'error',
         // The test fixtures are dynamically generated in CI during
@@ -737,6 +745,8 @@ export default [
       '@gitlab/require-i18n-strings': 'off',
       '@gitlab/no-hardcoded-urls': 'off',
       '@gitlab/vue-no-hardcoded-urls': 'off',
+      'local-rules/no-web-url': 'off',
+      'local-rules/vue-no-web-url': 'off',
     },
   },
 
@@ -755,6 +765,8 @@ export default [
       '@gitlab/vue-require-i18n-strings': 'off',
       '@gitlab/no-hardcoded-urls': 'off',
       '@gitlab/vue-no-hardcoded-urls': 'off',
+      'local-rules/no-web-url': 'off',
+      'local-rules/vue-no-web-url': 'off',
     },
   },
 
@@ -772,6 +784,8 @@ export default [
       'filenames/match-regex': 'off',
       'no-console': 'off',
       'import/no-unresolved': 'off',
+      'local-rules/no-web-url': 'off',
+      'local-rules/vue-no-web-url': 'off',
     },
   },
 
@@ -834,6 +848,8 @@ export default [
       '@gitlab/no-hardcoded-urls': 'off',
       '@gitlab/vue-no-hardcoded-urls': 'off',
       'no-restricted-imports': 'off',
+      'local-rules/no-web-url': 'off',
+      'local-rules/vue-no-web-url': 'off',
     },
   },
 
@@ -863,6 +879,8 @@ export default [
       '@gitlab/require-i18n-strings': 'off',
       '@gitlab/no-hardcoded-urls': 'off',
       '@gitlab/vue-no-hardcoded-urls': 'off',
+      'local-rules/no-web-url': 'off',
+      'local-rules/vue-no-web-url': 'off',
       // Console logging is expected in k6 tests
       'no-console': 'off',
       // Allow unnamed functions in k6 tests
