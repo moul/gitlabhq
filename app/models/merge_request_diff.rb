@@ -263,6 +263,8 @@ class MergeRequestDiff < ApplicationRecord
 
     reversed_compare_commits_preloaded
     compare_diffs_preloaded
+
+    eager_load_diff_collection if Feature.enabled?(:eager_load_diff_collection, project, type: :gitlab_com_derisk)
   end
 
   # Collect information about commits and diff from repository
@@ -979,6 +981,11 @@ class MergeRequestDiff < ApplicationRecord
 
       compare.diffs(options)
     end
+  end
+
+  def eager_load_diff_collection
+    collection = compare_diffs_preloaded
+    collection.size if collection
   end
 
   def save_commits

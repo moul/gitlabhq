@@ -178,6 +178,7 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
     it { is_expected.to have_many(:package_protection_rules).class_name('Packages::Protection::Rule').inverse_of(:project) }
     it { is_expected.to have_many(:pipeline_artifacts).dependent(:restrict_with_error) }
     it { is_expected.to have_many(:terraform_states).class_name('Terraform::State').inverse_of(:project) }
+    it { is_expected.to have_many(:terraform_state_protection_rules).inverse_of(:project).class_name('Terraform::StateProtectionRule') }
     it { is_expected.to have_many(:timelogs) }
     it { is_expected.to have_many(:error_tracking_client_keys).class_name('ErrorTracking::ClientKey') }
     it { is_expected.to have_many(:pending_builds).class_name('Ci::PendingBuild') }
@@ -10544,27 +10545,20 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
     let_it_be(:project_in_group) { build_stubbed(:project, group: group) }
     let_it_be(:project_in_user) { build_stubbed(:project, :in_user_namespace) }
 
-    where(:project, :consolidated_list, :legacy_url, :result) do
-      ref(:project_in_group) | false | false | false
-      ref(:project_in_group) | false | true | false
-      ref(:project_in_group) | true | false | true
-      ref(:project_in_group) | true | ref(:group) | false
-      ref(:project_in_group) | true | ref(:project_in_group) | false
-      ref(:project_in_group) | true | ref(:project_in_user) | true
-      ref(:project_in_user) | false | false | false
-      ref(:project_in_user) | false | true | false
-      ref(:project_in_user) | true | false | true
-      ref(:project_in_user) | true | ref(:group) | true
-      ref(:project_in_user) | true | ref(:project_in_group) | true
-      ref(:project_in_user) | true | ref(:project_in_user) | false
+    where(:project, :legacy_url, :result) do
+      ref(:project_in_group) | false | true
+      ref(:project_in_group) | ref(:group) | false
+      ref(:project_in_group) | ref(:project_in_group) | false
+      ref(:project_in_group) | ref(:project_in_user) | true
+      ref(:project_in_user) | false | true
+      ref(:project_in_user) | ref(:group) | true
+      ref(:project_in_user) | ref(:project_in_group) | true
+      ref(:project_in_user) | ref(:project_in_user) | false
     end
 
     with_them do
       before do
-        stub_feature_flags(
-          work_item_planning_view: consolidated_list,
-          work_item_legacy_url: legacy_url
-        )
+        stub_feature_flags(work_item_legacy_url: legacy_url)
       end
 
       subject(:use_work_item_url?) { project.use_work_item_url? }

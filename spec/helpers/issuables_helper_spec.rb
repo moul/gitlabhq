@@ -6,13 +6,6 @@ RSpec.describe IssuablesHelper, feature_category: :team_planning do
   let(:label)  { build_stubbed(:label) }
   let(:label2) { build_stubbed(:label) }
 
-  before do
-    # TODO: When removing the feature flag,
-    # we won't need the tests for the issues listing page, since we'll be using
-    # the work items listing page.
-    stub_feature_flags(work_item_planning_view: false)
-  end
-
   describe '#users_dropdown_label' do
     let(:user) { build_stubbed(:user) }
     let(:user2) { build_stubbed(:user) }
@@ -210,8 +203,8 @@ RSpec.describe IssuablesHelper, feature_category: :team_planning do
         @project = issue.project
 
         base_data = {
-          endpoint: "/#{@project.full_path}/-/issues/#{issue.iid}",
-          updateEndpoint: "/#{@project.full_path}/-/issues/#{issue.iid}.json",
+          endpoint: "/#{@project.full_path}/-/work_items/#{issue.iid}",
+          updateEndpoint: "/#{@project.full_path}/-/work_items/#{issue.iid}.json",
           canUpdate: true,
           canDestroy: true,
           issuableRef: "##{issue.iid}",

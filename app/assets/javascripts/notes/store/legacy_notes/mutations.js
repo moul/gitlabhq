@@ -66,12 +66,14 @@ export default {
 
   [types.EXPAND_DISCUSSION]({ discussionId }) {
     const discussion = utils.findNoteObjectById(useDiscussions().discussions, discussionId);
-    Object.assign(discussion, { expanded: true });
+    discussion.expanded = true;
+    useDiscussions().expandDiscussion(discussion);
   },
 
   [types.COLLAPSE_DISCUSSION]({ discussionId }) {
     const discussion = utils.findNoteObjectById(useDiscussions().discussions, discussionId);
-    Object.assign(discussion, { expanded: false });
+    discussion.expanded = false;
+    useDiscussions().collapseDiscussion(discussion);
   },
 
   [types.REMOVE_PLACEHOLDER_NOTES]() {
@@ -311,10 +313,7 @@ export default {
   },
 
   [types.UPDATE_DISCUSSION](noteData) {
-    const note = noteData;
-    const selectedDiscussion = useDiscussions().discussions.find((disc) => disc.id === note.id);
-    note.expanded = true; // override expand flag to prevent collapse
-    Object.assign(selectedDiscussion, { ...note });
+    useDiscussions().updateDiscussion({ ...noteData, expanded: true });
   },
 
   [types.UPDATE_DISCUSSION_POSITION]({ discussionId, position }) {

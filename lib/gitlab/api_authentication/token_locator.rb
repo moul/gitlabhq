@@ -85,10 +85,13 @@ module Gitlab
       end
 
       def extract_from_http_bearer_token(request)
-        password = request.headers['Authorization']
-        return unless password.present?
+        auth_header = request.headers['Authorization']
+        return unless auth_header.present?
 
-        UsernameAndPassword.new(nil, password.split(' ').last)
+        scheme, token = auth_header.split(' ', 2)
+        return unless scheme.casecmp('bearer') == 0 && token.present?
+
+        UsernameAndPassword.new(nil, token)
       end
 
       def extract_from_http_deploy_token_header(request)

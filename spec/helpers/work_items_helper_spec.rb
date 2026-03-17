@@ -5,10 +5,6 @@ require "spec_helper"
 RSpec.describe WorkItemsHelper, feature_category: :team_planning do
   include Devise::Test::ControllerHelpers
 
-  before do
-    stub_feature_flags(work_item_planning_view: false)
-  end
-
   describe '#work_items_data' do
     before do
       allow(helper).to receive(:current_user).and_return(current_user)

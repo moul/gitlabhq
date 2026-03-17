@@ -156,6 +156,12 @@ export default {
         this.duoFoundationalFlowsCascadingSettings?.lockedByApplicationSetting
       );
     },
+    showSastFpDetection() {
+      return this.glFeatures.aiExperimentSastFpDetection && this.ultimateFeaturesAvailable;
+    },
+    showSastVrWorkflow() {
+      return this.glFeatures.enableVulnerabilityResolution && this.ultimateFeaturesAvailable;
+    },
   },
   watch: {
     duoFeaturesEnabled(isEnabled) {
@@ -311,7 +317,7 @@ export default {
           />
         </project-setting-row>
         <project-setting-row
-          v-if="glFeatures.aiExperimentSastFpDetection && ultimateFeaturesAvailable"
+          v-if="showSastFpDetection"
           :label="s__('DuoSAST|Turn on SAST false positive detection')"
           class="gl-mt-5"
           :help-text="
@@ -349,7 +355,7 @@ export default {
           />
         </project-setting-row>
         <project-setting-row
-          v-if="glFeatures.enableVulnerabilityResolution && ultimateFeaturesAvailable"
+          v-if="showSastVrWorkflow"
           :label="s__('DuoSAST|Turn on SAST vulnerability resolution workflow')"
           class="gl-mt-5"
           :help-text="

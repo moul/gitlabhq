@@ -30654,6 +30654,26 @@ CREATE SEQUENCE term_agreements_id_seq
 
 ALTER SEQUENCE term_agreements_id_seq OWNED BY term_agreements.id;
 
+CREATE TABLE terraform_state_protection_rules (
+    id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    project_id bigint NOT NULL,
+    minimum_access_level_for_write smallint NOT NULL,
+    allowed_from smallint DEFAULT 0 NOT NULL,
+    state_name text NOT NULL,
+    CONSTRAINT check_d2eedbc9b6 CHECK ((char_length(state_name) <= 255))
+);
+
+CREATE SEQUENCE terraform_state_protection_rules_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE terraform_state_protection_rules_id_seq OWNED BY terraform_state_protection_rules.id;
+
 CREATE TABLE terraform_state_version_states (
     id bigint NOT NULL,
     verification_started_at timestamp with time zone,
@@ -35982,6 +36002,8 @@ ALTER TABLE ONLY targeted_messages ALTER COLUMN id SET DEFAULT nextval('targeted
 
 ALTER TABLE ONLY term_agreements ALTER COLUMN id SET DEFAULT nextval('term_agreements_id_seq'::regclass);
 
+ALTER TABLE ONLY terraform_state_protection_rules ALTER COLUMN id SET DEFAULT nextval('terraform_state_protection_rules_id_seq'::regclass);
+
 ALTER TABLE ONLY terraform_state_version_states ALTER COLUMN id SET DEFAULT nextval('terraform_state_version_states_id_seq'::regclass);
 
 ALTER TABLE ONLY terraform_state_versions ALTER COLUMN id SET DEFAULT nextval('terraform_state_versions_id_seq'::regclass);
@@ -40146,6 +40168,9 @@ ALTER TABLE ONLY targeted_messages
 ALTER TABLE ONLY term_agreements
     ADD CONSTRAINT term_agreements_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY terraform_state_protection_rules
+    ADD CONSTRAINT terraform_state_protection_rules_pkey PRIMARY KEY (id);
+
 ALTER TABLE ONLY terraform_state_version_states
     ADD CONSTRAINT terraform_state_version_states_pkey PRIMARY KEY (id);
 
@@ -43951,6 +43976,8 @@ CREATE INDEX idx_subscription_add_on_purchases_on_started_on_and_expires_on ON s
 CREATE INDEX idx_subscription_add_on_purchases_on_subscription_add_on_id ON subscription_add_on_purchases USING btree (subscription_add_on_id);
 
 CREATE INDEX idx_subscription_seat_assignments_namespace_last_activity_on ON subscription_seat_assignments USING btree (namespace_id, last_activity_on, created_at);
+
+CREATE UNIQUE INDEX idx_terraform_state_protection_rules_on_project_id_state_name ON terraform_state_protection_rules USING btree (project_id, state_name);
 
 CREATE INDEX idx_test_reports_on_issue_id_created_at_and_id ON requirements_management_test_reports USING btree (issue_id, created_at, id);
 
@@ -57874,6 +57901,9 @@ ALTER TABLE ONLY merge_request_assignees
 
 ALTER TABLE ONLY packages_dependency_links
     ADD CONSTRAINT fk_rails_4437bf4070 FOREIGN KEY (dependency_id) REFERENCES packages_dependencies(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY terraform_state_protection_rules
+    ADD CONSTRAINT fk_rails_44c2d1ce19 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE p_ci_builds
     ADD CONSTRAINT fk_rails_4540ead625_p FOREIGN KEY (upstream_pipeline_partition_id, upstream_pipeline_id) REFERENCES p_ci_pipelines(partition_id, id) ON UPDATE CASCADE ON DELETE CASCADE;

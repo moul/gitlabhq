@@ -63,7 +63,9 @@ Depending on your subscription add-on, you can use Chat in the GitLab UI, the We
 #### Use Chat in the GitLab UI
 
 1. In the top bar, select **Search or go to** and find your project.
-1. On the GitLab Duo sidebar, select either **New GitLab Duo Chat** ({{< icon name="pencil-square" >}}) or **Current GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
+1. On the GitLab Duo sidebar, select **Add new chat** ({{< icon name="pencil-square" >}}).
+1. From the dropdown list, select an agent.
+
    A Chat conversation opens in the GitLab Duo sidebar on the right side of your screen.
 1. Enter your question in the chat text box and press <kbd>Enter</kbd> or select **Send**.
    It might take a few seconds for the interactive AI chat to produce an answer.

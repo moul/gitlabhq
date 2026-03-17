@@ -508,6 +508,7 @@ class Project < ApplicationRecord
   has_many :reviews, inverse_of: :project
 
   has_many :terraform_states, class_name: 'Terraform::State', inverse_of: :project
+  has_many :terraform_state_protection_rules, class_name: 'Terraform::StateProtectionRule', inverse_of: :project
 
   # GitLab Pages
   has_many :pages_domains

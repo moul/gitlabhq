@@ -92,9 +92,11 @@ Prerequisites:
 To use Chat in the GitLab UI:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. On the GitLab Duo sidebar, select either **New GitLab Duo Chat**
-   ({{< icon name="pencil-square" >}}) or **Current GitLab Duo Chat**
-   ({{< icon name="duo-chat" >}}).
+1. On the GitLab Duo sidebar, select either **Add new chat** ({{< icon name="pencil-square" >}})
+   or **Current GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
+
+   If you have selected a new chat, from the dropdown list, select an agent.
+
    A Chat conversation opens in the GitLab Duo sidebar on the right side of your screen.
 1. Under the chat text box, ensure the **Agentic** toggle is turned on.
 1. Enter your question in the chat text box and press <kbd>Enter</kbd> or select **Send**.
@@ -208,11 +210,13 @@ Your conversations synchronize across GitLab Duo Chat in the GitLab UI and your 
 
    - In the GitLab UI, you can do either of the following:
 
-     - On the GitLab Duo sidebar, select **New GitLab Duo Chat**
-       ({{< icon name="pencil-square" >}}).
-     - In the message box, type `/new` and press <kbd>Enter</kbd> or select **Send**.
+     - To create a new conversation with a specific agent:
+       1. On the GitLab Duo sidebar, select **Add new chat** ({{< icon name="pencil-square" >}}).
+       1. From the dropdown list, select an agent.
+     - To create a new conversation with the same agent as the existing conversation,
+       in the message box, type `/new` and press <kbd>Enter</kbd> or select **Send**.
 
-     A new Chat conversation replaces the previous one.
+     A new Chat conversation replaces the existing one.
    - Under the Chat text box, ensure the **Agentic** toggle is turned on.
    - In your IDE, in the upper-right corner of the message box, select **New chat**
      ({{< icon name="plus" >}}).

@@ -7,6 +7,7 @@ import { useDiffsList } from '~/rapid_diffs/stores/diffs_list';
 import { useCodeReview } from '~/diffs/stores/code_review';
 import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request_discussions';
 import { initCompareVersions } from '~/rapid_diffs/app/init_compare_versions';
+import { initNewDiscussionToggle } from '~/rapid_diffs/app/init_new_discussions_toggle';
 
 jest.mock('~/lib/graphql');
 jest.mock('~/rapid_diffs/app/view_settings');
@@ -15,6 +16,7 @@ jest.mock('~/rapid_diffs/app/file_browser');
 jest.mock('~/rapid_diffs/app/quirks/safari_fix');
 jest.mock('~/rapid_diffs/app/quirks/content_visibility_fix');
 jest.mock('~/rapid_diffs/app/init_compare_versions');
+jest.mock('~/rapid_diffs/app/init_new_discussions_toggle');
 
 describe('Merge Request Rapid Diffs app', () => {
   let app;
@@ -126,5 +128,11 @@ describe('Merge Request Rapid Diffs app', () => {
       document.querySelector('[data-after-browser-toggle]'),
       expect.objectContaining({ versions }),
     );
+  });
+
+  it('initializes new discussion toggle with allowExpandedLines', async () => {
+    buildApp();
+    await app.init();
+    expect(initNewDiscussionToggle).toHaveBeenCalledWith(app.root, { allowExpandedLines: true });
   });
 });

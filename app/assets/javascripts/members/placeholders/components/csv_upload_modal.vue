@@ -106,7 +106,7 @@ export default {
     },
   },
   dropzoneAllowList: ['.csv'],
-  docsLink: helpPagePath('user/import/mapping/_index', {
+  docsLink: helpPagePath('user/import/mapping', {
     anchor: 'request-reassignment-by-using-a-csv-file',
   }),
   i18n: {

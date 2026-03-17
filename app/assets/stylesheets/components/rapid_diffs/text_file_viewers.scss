@@ -1,6 +1,10 @@
 @use "sass:color";
 @use 'constants';
 
+diff-file[data-with-discussion-toggle] {
+  --rd-line-area-extend-left: 16px;
+}
+
 .rd-diff-file {
   --rd-body-font-size: #{constants.$code-font-size};
   --rd-body-font-line-height: #{constants.$code-line-height};
@@ -34,10 +38,6 @@
 
 .rd-text-view-content td:last-child {
   border-right: 1px solid var(--rd-diff-file-outer-border-color, var(--rd-line-border-color, var(--rd-line-theme-border-color)));
-}
-
-.rd-text-view-root:has(.rd-new-discussion-toggle) {
-  --rd-line-number-area-extend-left: 16px;
 }
 
 .rd-hunk-header,
@@ -191,13 +191,13 @@
   scroll-margin-top: var(--rd-diff-file-header-height);
 }
 
-.rd-line-number:not(:nth-child(2))::before {
+diff-file[data-with-discussion-toggle] .rd-line-number:not(:nth-child(2))::before {
   content: "";
   position: absolute;
   top: 0;
   bottom: 0;
-  width: var(--rd-line-number-area-extend-left);
-  left: calc(1px + var(--rd-line-number-area-extend-left) * -1);
+  width: var(--rd-line-area-extend-left);
+  left: calc(1px + var(--rd-line-area-extend-left) * -1);
 }
 
 .rd-hunk-lines:target,

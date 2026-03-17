@@ -25,6 +25,9 @@ describe('diffDiscussions store', () => {
     'setEditingMode',
     'requestLastNoteEditing',
     'toggleAward',
+    'updateDiscussion',
+    'collapseDiscussion',
+    'expandDiscussion',
   ])('exposes %s from base store', (action) => {
     expect(useDiffDiscussions()[action]).toEqual(expect.any(Function));
   });
@@ -70,6 +73,16 @@ describe('diffDiscussions store', () => {
         line_range: lineRange,
       });
       expect(result).toBe(undefined);
+    });
+
+    it('stores lineChange and lineCode on the form', () => {
+      const lineChange = { change: 'added', position: 'new' };
+      const lineCode = 'abc_10_20';
+      useDiffDiscussions().addNewLineDiscussionForm({ ...defaultPosition, lineChange, lineCode });
+
+      const newDiscussion = useDiffDiscussions().discussionForms[0];
+      expect(newDiscussion.lineChange).toStrictEqual(lineChange);
+      expect(newDiscussion.lineCode).toBe(lineCode);
     });
 
     it('shows hidden discussions at the same position', () => {
@@ -212,6 +225,22 @@ describe('diffDiscussions store', () => {
       useDiffDiscussions().setNewLineDiscussionFormAutofocus(discussion, false);
 
       expect(discussion.shouldFocus).toBe(false);
+    });
+  });
+
+  describe('collapseDiscussion', () => {
+    it('sets hidden to true', () => {
+      const discussion = { id: '1', hidden: false };
+      useDiffDiscussions().collapseDiscussion(discussion);
+      expect(discussion.hidden).toBe(true);
+    });
+  });
+
+  describe('expandDiscussion', () => {
+    it('sets hidden to false', () => {
+      const discussion = { id: '1', hidden: true };
+      useDiffDiscussions().expandDiscussion(discussion);
+      expect(discussion.hidden).toBe(false);
     });
   });
 

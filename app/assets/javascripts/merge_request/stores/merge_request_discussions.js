@@ -1,6 +1,7 @@
 import { computed } from 'vue';
 import { defineStore } from 'pinia';
 import { useNotes } from '~/notes/store/legacy_notes';
+import { useDiscussions } from '~/notes/store/discussions';
 import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
 import { useDiffsView } from '~/rapid_diffs/stores/diffs_view';
 import { useMergeRequestVersions } from '~/merge_request/stores/merge_request_versions';
@@ -15,6 +16,12 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
 
   async function fetchNotes() {
     await useNotes().fetchNotes();
+    const discussionsStore = useDiscussions();
+    discussionsStore.discussions.forEach((discussion) => {
+      if (discussion.resolvable && discussion.resolved) {
+        discussionsStore.collapseDiscussion(discussion);
+      }
+    });
   }
 
   async function createNewDiscussion(noteData) {
@@ -75,6 +82,15 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     });
   }
 
+  async function toggleResolveNote(discussion) {
+    await useNotes().toggleResolveNote({
+      endpoint: discussion.resolve_path,
+      isResolved: discussion.resolved,
+      discussion: true,
+      discussionId: discussion.id,
+    });
+  }
+
   return {
     fetchNotes,
     createNewDiscussion,
@@ -83,8 +99,10 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     saveNote,
     destroyNote,
     toggleAwardOnNote,
+    toggleResolveNote,
     setInitialDiscussions: diffDiscussions.setInitialDiscussions,
     replaceDiscussion: diffDiscussions.replaceDiscussion,
+    updateDiscussion: diffDiscussions.updateDiscussion,
     toggleDiscussionReplies: diffDiscussions.toggleDiscussionReplies,
     expandDiscussionReplies: diffDiscussions.expandDiscussionReplies,
     startReplying: diffDiscussions.startReplying,
@@ -99,6 +117,8 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     setEditingMode: diffDiscussions.setEditingMode,
     requestLastNoteEditing: diffDiscussions.requestLastNoteEditing,
     toggleAward: diffDiscussions.toggleAward,
+    collapseDiscussion: diffDiscussions.collapseDiscussion,
+    expandDiscussion: diffDiscussions.expandDiscussion,
     replyToLineDiscussion: diffDiscussions.addNewLineDiscussionForm,
     addNewLineDiscussionForm: diffDiscussions.addNewLineDiscussionForm,
     replaceDiscussionForm: diffDiscussions.replaceDiscussionForm,

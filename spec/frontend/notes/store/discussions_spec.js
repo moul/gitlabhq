@@ -42,6 +42,30 @@ describe('discussions store', () => {
     });
   });
 
+  describe('updateDiscussion', () => {
+    it('updates an existing discussion without resetting reactive props', () => {
+      useDiscussions().setInitialDiscussions([
+        { id: 'abc', resolved: false, hidden: true, notes: [{ id: 'n1' }] },
+      ]);
+      useDiscussions().updateDiscussion({
+        id: 'abc',
+        resolved: true,
+        notes: [{ id: 'n1', resolved: true }],
+      });
+      const discussion = useDiscussions().discussions[0];
+      expect(discussion.resolved).toBe(true);
+      expect(discussion.hidden).toBe(true);
+      expect(discussion.repliesExpanded).toBe(true);
+    });
+
+    it('does nothing when discussion is not found', () => {
+      useDiscussions().setInitialDiscussions([{ id: 'abc', notes: [{ id: 'n1' }] }]);
+      useDiscussions().updateDiscussion({ id: 'nonexistent', notes: [] });
+      expect(useDiscussions().discussions).toHaveLength(1);
+      expect(useDiscussions().discussions[0].id).toBe('abc');
+    });
+  });
+
   describe('addDiscussion', () => {
     it('adds a transformed discussion', () => {
       useDiscussions().discussions = [];
@@ -58,6 +82,24 @@ describe('discussions store', () => {
       useDiscussions().discussions = [discussion];
       useDiscussions().deleteDiscussion(discussion);
       expect(useDiscussions().discussions).toHaveLength(0);
+    });
+  });
+
+  describe('collapseDiscussion', () => {
+    it('sets hidden to true', () => {
+      const discussion = { id: 'abc', hidden: false };
+      useDiscussions().discussions = [discussion];
+      useDiscussions().collapseDiscussion(discussion);
+      expect(discussion.hidden).toBe(true);
+    });
+  });
+
+  describe('expandDiscussion', () => {
+    it('sets hidden to false', () => {
+      const discussion = { id: 'abc', hidden: true };
+      useDiscussions().discussions = [discussion];
+      useDiscussions().expandDiscussion(discussion);
+      expect(discussion.hidden).toBe(false);
     });
   });
 

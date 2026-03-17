@@ -10150,9 +10150,6 @@ msgstr ""
 msgid "Are you sure you want to delete this WebAuthn device?"
 msgstr ""
 
-msgid "Are you sure you want to delete this WebAuthn device? Enter your password to continue."
-msgstr ""
-
 msgid "Are you sure you want to delete this branch target?"
 msgstr ""
 
@@ -10163,9 +10160,6 @@ msgid "Are you sure you want to delete this deploy key?"
 msgstr ""
 
 msgid "Are you sure you want to delete this one-time password authenticator?"
-msgstr ""
-
-msgid "Are you sure you want to delete this one-time password authenticator? Enter your password to continue."
 msgstr ""
 
 msgid "Are you sure you want to delete this pipeline? Doing so will expire all pipeline caches and delete all related objects, such as builds, logs, artifacts, and triggers. This action cannot be undone."
@@ -10191,12 +10185,6 @@ msgid_plural "Are you sure you want to import %d repositories?"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Are you sure you want to invalidate your one-time password authenticator and WebAuthn devices?"
-msgstr ""
-
-msgid "Are you sure you want to invalidate your one-time password authenticator and WebAuthn devices? Enter your password to continue. This action cannot be undone."
-msgstr ""
-
 msgid "Are you sure you want to lock %{path}?"
 msgstr ""
 
@@ -10219,9 +10207,6 @@ msgid "Are you sure you want to re-deploy this environment?"
 msgstr ""
 
 msgid "Are you sure you want to regenerate recovery codes?"
-msgstr ""
-
-msgid "Are you sure you want to regenerate recovery codes? Enter your password to continue."
 msgstr ""
 
 msgid "Are you sure you want to reindex?"
@@ -25767,6 +25752,9 @@ msgid "Disabled by %{parent} owner"
 msgstr ""
 
 msgid "Disabled mirrors can only be enabled by instance owners. It is recommended that you delete them."
+msgstr ""
+
+msgid "Disabled two-factor authentication (2FA)?"
 msgstr ""
 
 msgid "Discard"
@@ -52721,9 +52709,6 @@ msgstr ""
 msgid "ProfilesAuthentication|Are you sure you want to delete this passkey?"
 msgstr ""
 
-msgid "ProfilesAuthentication|Are you sure you want to delete this passkey? Enter your password to continue."
-msgstr ""
-
 msgid "ProfilesAuthentication|Default 2FA method:"
 msgstr ""
 
@@ -71319,6 +71304,9 @@ msgstr ""
 msgid "This vulnerability was automatically resolved because its vulnerability type was disabled in this project or removed from GitLab's default ruleset. For details about SAST rule changes, see https://docs.gitlab.com/ee/user/application_security/sast/rules#important-rule-changes."
 msgstr ""
 
+msgid "This will delete all 2FA methods from your account. We recommend keeping 2FA enabled to protect your account."
+msgstr ""
+
 msgid "This will permanently delete the designated account manager."
 msgstr ""
 
@@ -82390,6 +82378,9 @@ msgid "Your new comment"
 msgstr ""
 
 msgid "Your passkey did not send a valid JSON response."
+msgstr ""
+
+msgid "Your passkey will only be eligible for passwordless sign-in."
 msgstr ""
 
 msgid "Your password"

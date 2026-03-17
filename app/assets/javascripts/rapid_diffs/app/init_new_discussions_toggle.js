@@ -1,20 +1,20 @@
 import { useDiffsList } from '~/rapid_diffs/stores/diffs_list';
 import { pinia } from '~/pinia/instance';
 
-export function initNewDiscussionToggle(appElement) {
+export function initNewDiscussionToggle(appElement, { allowExpandedLines = false } = {}) {
   const toggle = appElement.querySelector('[data-new-discussion-toggle]');
 
   if (!toggle) return;
 
   let hideTimerId;
   let lastFocusedElement;
+  let currentDiffFile;
 
   function isValidTarget(element) {
-    return (
-      element.closest('[data-hunk-lines]') &&
-      element.closest('[data-hunk-lines]').querySelector('[data-line-number]') &&
-      !element.closest('[data-change="meta"], [data-expanded]')
-    );
+    const row = element.closest('[data-hunk-lines]');
+    if (!row || !row.querySelector('[data-line-number]')) return false;
+    if (element.closest('[data-change="meta"]')) return false;
+    return allowExpandedLines || !element.closest('[data-expanded]');
   }
 
   function hasGutterToggle(row, cellIndex) {
@@ -22,6 +22,29 @@ export function initNewDiscussionToggle(appElement) {
     if (discussionRow?.dataset.discussionRow !== 'true') return false;
     const cell = discussionRow.children[Math.min(cellIndex, discussionRow.children.length - 1)];
     return cell?.querySelector('[data-gutter-toggle]') !== null;
+  }
+
+  function markToggleRow(row) {
+    const previousRow = toggle.closest('tr');
+    if (previousRow) delete previousRow.dataset.hasNewDiscussionToggle;
+    row.dataset.hasNewDiscussionToggle = ''; // eslint-disable-line no-param-reassign
+  }
+
+  function markDiffFile(row) {
+    const diffFile = row.closest('diff-file');
+    if (currentDiffFile && currentDiffFile !== diffFile) {
+      delete currentDiffFile.dataset.withDiscussionToggle;
+    }
+    currentDiffFile = diffFile;
+    if (diffFile) diffFile.dataset.withDiscussionToggle = '';
+  }
+
+  function hideToggle() {
+    toggle.hidden = true;
+    if (currentDiffFile) {
+      delete currentDiffFile.dataset.withDiscussionToggle;
+      currentDiffFile = null;
+    }
   }
 
   function getLineNumber(row, side) {
@@ -39,12 +62,14 @@ export function initNewDiscussionToggle(appElement) {
 
   function moveTo(target) {
     const row = target.closest('tr');
+    markDiffFile(row);
     if (row.querySelector('[data-position="old"]:first-child + [data-position="new"]')) {
       if (hasGutterToggle(row, 0)) {
-        toggle.hidden = true;
+        hideToggle();
         return;
       }
       if (row.contains(toggle)) return;
+      markToggleRow(row);
       row.querySelector('[data-position]').prepend(toggle);
       setTogglePosition(row);
       return;
@@ -53,19 +78,21 @@ export function initNewDiscussionToggle(appElement) {
     if (!cell || toggle.parentElement === cell) return;
     const matchingCell = row.querySelector(`[data-position="${cell.dataset.position}"]`);
     if (!matchingCell.querySelector('[data-line-number]')) {
-      toggle.hidden = true;
+      hideToggle();
       return;
     }
     const cellIndex = cell.dataset.position === 'old' ? 0 : 1;
     if (hasGutterToggle(row, cellIndex)) {
-      toggle.hidden = true;
+      hideToggle();
       return;
     }
+    markToggleRow(row);
     matchingCell.prepend(toggle);
     setTogglePosition(row);
   }
 
   function onEnter(event) {
+    if (toggle.dataset.dragging != null) return;
     if (!isValidTarget(event.target)) return;
     if (event instanceof FocusEvent) lastFocusedElement = event.target;
     clearTimeout(hideTimerId);
@@ -74,6 +101,7 @@ export function initNewDiscussionToggle(appElement) {
   }
 
   function onLeave(event) {
+    if (toggle.dataset.dragging != null) return;
     if (!isValidTarget(event.target)) return;
     if (event instanceof FocusEvent) lastFocusedElement = undefined;
     clearTimeout(hideTimerId);
@@ -82,7 +110,7 @@ export function initNewDiscussionToggle(appElement) {
         toggle.hidden = false;
         moveTo(lastFocusedElement);
       } else {
-        toggle.hidden = true;
+        hideToggle();
       }
     });
   }
@@ -97,5 +125,6 @@ export function initNewDiscussionToggle(appElement) {
     // reload removes all elements in the list, we need to detach the button before it gets removed
     const diffsList = appElement.querySelector('[data-diffs-list]');
     diffsList.parentElement.prepend(toggle);
+    currentDiffFile = null;
   });
 }

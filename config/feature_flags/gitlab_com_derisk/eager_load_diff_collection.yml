@@ -1,0 +1,9 @@
+---
+name: eager_load_diff_collection
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/0
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227515
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/0
+milestone: '18.11'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

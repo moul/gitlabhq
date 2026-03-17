@@ -6,7 +6,8 @@ description: Use GitLab for Education, Open Source, and Startups.
 title: Community programs
 ---
 
-GitLab provides the following community program subscriptions.
+GitLab provides different community program subscriptions.
+These subscriptions are not eligible for [GitLab Credits](gitlab_credits.md).
 
 ## GitLab for Education
 

@@ -67,7 +67,8 @@ export function expandDiscussion(data) {
 
 export function collapseDiscussion(discussionId) {
   const discussion = utils.findNoteObjectById(useDiscussions().discussions, discussionId);
-  Object.assign(discussion, { expanded: false });
+  discussion.expanded = false;
+  useDiscussions().collapseDiscussion(discussion);
   if (!discussion.diff_file) return;
   this.tryStore('legacyDiffs').collapseDiffDiscussion(discussion);
 }

@@ -226,13 +226,10 @@ To use a custom agent in the GitLab UI:
 
 1. In the top bar, select **Search or go to** and find your project or group.
 1. Open an issue, epic, or merge request.
-1. On the GitLab Duo sidebar, select either **New GitLab Duo Chat**
-   ({{< icon name="pencil-square" >}}) or **Current GitLab Duo Chat**
-   ({{< icon name="duo-chat" >}}).
+1. On the GitLab Duo sidebar, select **Add new chat** ({{< icon name="pencil-square" >}}).
+1. From the dropdown list, select the custom agent.
 
    A Chat conversation opens in the GitLab Duo sidebar on the right side of your screen.
-
-1. From the **New chat** ({{< icon name="duo-chat-new" >}}) dropdown list, select the custom agent.
 1. Enter your question or request.
 
 ### In VS Code

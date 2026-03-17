@@ -4288,19 +4288,14 @@ RSpec.describe Group, feature_category: :groups_and_projects do
   end
 
   describe '#use_work_item_url?' do
-    where(:consolidated_list, :legacy_url, :result) do
-      false | false | false
-      false | true | false
-      true | false | true
-      true | true | false
+    where(:legacy_url, :result) do
+      false | true
+      true  | false
     end
 
     with_them do
       before do
-        stub_feature_flags(
-          work_item_planning_view: consolidated_list,
-          work_item_legacy_url: legacy_url
-        )
+        stub_feature_flags(work_item_legacy_url: legacy_url)
       end
 
       subject(:use_work_item_url?) { group.use_work_item_url? }

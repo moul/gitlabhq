@@ -7,6 +7,7 @@ RSpec.describe Ci::Runner, type: :model, factory_default: :keep, feature_categor
   include ::TokenAuthenticatableMatchers
 
   let_it_be(:organization, freeze: true) { create_default(:organization) }
+  let_it_be(:other_organization) { create(:organization) }
   let_it_be(:group) { create(:group) }
   let_it_be(:project) { create(:project, group: group) }
   let_it_be(:other_project) { create(:project, group: group) }
@@ -152,7 +153,7 @@ RSpec.describe Ci::Runner, type: :model, factory_default: :keep, feature_categor
     end
   end
 
-  describe 'validation' do
+  describe 'validations' do
     it { is_expected.to validate_length_of(:name).is_at_most(256) }
     it { is_expected.to validate_length_of(:description).is_at_most(1024) }
     it { is_expected.to validate_presence_of(:access_level) }
@@ -172,6 +173,65 @@ RSpec.describe Ci::Runner, type: :model, factory_default: :keep, feature_categor
           expect(runner).to be_invalid
           expect(runner.errors.full_messages).to contain_exactly('Runner cannot have organization_id assigned')
         end
+      end
+    end
+
+    describe '#organization_id_matches_owner' do
+      shared_examples 'when owner does not exist' do
+        before do
+          runner.runner_namespaces.delete_all
+          runner.runner_projects.delete_all
+        end
+
+        it 'does not validate matching organization_id' do
+          expect(runner.owner).to be_nil
+          expect(runner).to be_invalid
+          expect(runner.errors[:organization_id]).to be_empty
+        end
+      end
+
+      shared_examples 'when organization_id matches owner organization' do
+        it { is_expected.to be_valid }
+
+        it_behaves_like 'when owner does not exist'
+      end
+
+      shared_examples 'when organization_id does not match owner organization' do
+        let(:organization_id) { other_organization.id }
+
+        it 'is invalid' do
+          expect(runner).to be_invalid
+          expect(runner.errors[:organization_id]).to contain_exactly('must match the organization of the parent group/project')
+        end
+
+        it_behaves_like 'when owner does not exist'
+      end
+
+      context 'when runner is instance type' do
+        subject(:runner) { build(:ci_runner, :instance_type) }
+
+        it 'does not validate matching organization_id' do
+          expect(runner).not_to receive(:organization_id_matches_owner)
+          expect(runner).to be_valid
+        end
+      end
+
+      context 'when runner is group type' do
+        let(:organization_id) { group.organization_id }
+
+        subject(:runner) { build(:ci_runner, :group, groups: [group], organization_id: organization_id) }
+
+        it_behaves_like 'when organization_id matches owner organization'
+        it_behaves_like 'when organization_id does not match owner organization'
+      end
+
+      context 'when runner is project type' do
+        let(:organization_id) { project.organization_id }
+
+        subject(:runner) { build(:ci_runner, :project, projects: [project], organization_id: organization_id) }
+
+        it_behaves_like 'when organization_id matches owner organization'
+        it_behaves_like 'when organization_id does not match owner organization'
       end
     end
 

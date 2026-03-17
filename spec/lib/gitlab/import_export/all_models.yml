@@ -921,6 +921,7 @@ project:
 - product_analytics_events
 - pipeline_artifacts
 - terraform_states
+- terraform_state_protection_rules
 - alert_management_http_integrations
 - exported_protected_branches
 - incident_management_oncall_schedules

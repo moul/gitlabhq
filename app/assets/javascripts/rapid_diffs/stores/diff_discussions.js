@@ -105,7 +105,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     });
   }
 
-  function addNewLineDiscussionForm({ oldPath, newPath, lineRange }) {
+  function addNewLineDiscussionForm({ oldPath, newPath, lineRange, lineChange, lineCode }) {
     const { old_line: oldLine, new_line: newLine } = lineRange.end;
     const id = [oldPath, newPath, oldLine, newLine].join('-');
     if (discussionForms.value.some((discussion) => discussion.id === id)) return id;
@@ -119,6 +119,8 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
         new_line: newLine,
         line_range: lineRange,
       },
+      lineChange,
+      lineCode,
       isForm: true,
       noteBody: '',
       shouldFocus: true,
@@ -187,6 +189,8 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     findAllDiscussionsForFile,
     findVisibleDiscussionsForFile,
     findFileDiscussionsForFile,
+    collapseDiscussion: discussions.collapseDiscussion,
+    expandDiscussion: discussions.expandDiscussion,
     replyToLineDiscussion,
     addNewLineDiscussionForm,
     replaceDiscussionForm,
@@ -199,6 +203,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     setPositionDiscussionsHidden,
     setInitialDiscussions: discussions.setInitialDiscussions,
     replaceDiscussion: discussions.replaceDiscussion,
+    updateDiscussion: discussions.updateDiscussion,
     toggleDiscussionReplies: discussions.toggleDiscussionReplies,
     expandDiscussionReplies: discussions.expandDiscussionReplies,
     startReplying: discussions.startReplying,

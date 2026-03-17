@@ -36,8 +36,8 @@ export default {
       required: false,
       default: null,
     },
-    message: {
-      type: String,
+    messages: {
+      type: Array,
       required: true,
     },
     method: {
@@ -112,7 +112,7 @@ export default {
       :action-cancel="$options.actions.cancel"
       @primary.prevent="submitForm"
     >
-      <p>{{ message }}</p>
+      <p v-for="(message, index) in messages" :key="index">{{ message }}</p>
       <form ref="form" :action="path" method="post">
         <gl-form-group
           v-if="passwordRequired"

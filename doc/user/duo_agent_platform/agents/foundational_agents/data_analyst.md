@@ -71,13 +71,10 @@ Prerequisites:
 
 To use the Data Analyst Agent in the GitLab UI:
 
-1. Open GitLab Duo Chat:
-
-   On the GitLab Duo sidebar, select either **New GitLab Duo Chat** ({{< icon name="pencil-square" >}}) or **Current GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
+1. On the GitLab Duo sidebar, select **Add new chat** ({{< icon name="pencil-square" >}}).
+1. From the dropdown list, select **Data Analyst**.
 
    A Chat conversation opens in the GitLab Duo sidebar on the right side of your screen.
-
-1. From the **New chat** ({{< icon name="duo-chat-new" >}}) dropdown list, select **Data Analyst**.
 1. Enter your analytics question or request. To get the best results from your request:
 
    - Specify the scope (project or group) when asking about data.

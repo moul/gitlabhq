@@ -4,6 +4,7 @@ import { adapters } from '~/rapid_diffs/app/adapter_configs/merge_request';
 import { useCodeReview } from '~/diffs/stores/code_review';
 import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request_discussions';
 import { initCompareVersions } from '~/rapid_diffs/app/init_compare_versions';
+import { initNewDiscussionToggle } from '~/rapid_diffs/app/init_new_discussions_toggle';
 
 class MergeRequestRapidDiffsApp extends RapidDiffsFacade {
   adapterConfig = adapters;
@@ -13,6 +14,7 @@ class MergeRequestRapidDiffsApp extends RapidDiffsFacade {
     super.init();
     this.#initCompareVersions();
     await this.#initDiscussions();
+    initNewDiscussionToggle(this.root, { allowExpandedLines: true });
   }
 
   // eslint-disable-next-line class-methods-use-this

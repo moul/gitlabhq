@@ -40,7 +40,7 @@ export default {
       default: false,
     },
   },
-  emits: ['empty', 'highlight', 'clear-highlight'],
+  emits: ['empty', 'highlight', 'clear-highlight', 'start-thread'],
   computed: {
     positions() {
       if (!this.parallel || (this.oldLine && this.newLine && !this.changed)) {
@@ -82,14 +82,6 @@ export default {
     toggle(expanded) {
       this.positions.forEach((p) => this.store.setPositionDiscussionsHidden(p, expanded));
     },
-    startThread({ oldPath, newPath, oldLine, newLine }) {
-      const pos = { old_line: oldLine, new_line: newLine, type: null };
-      this.store.addNewLineDiscussionForm({
-        oldPath,
-        newPath,
-        lineRange: { start: pos, end: pos },
-      });
-    },
   },
 };
 </script>
@@ -109,7 +101,7 @@ export default {
       <diff-line-discussions
         v-if="visibleDiscussions(position).length"
         :discussions="visibleDiscussions(position)"
-        @start-thread="startThread(position)"
+        @start-thread="$emit('start-thread', position)"
         @highlight="$emit('highlight', $event)"
         @clear-highlight="$emit('clear-highlight')"
       />

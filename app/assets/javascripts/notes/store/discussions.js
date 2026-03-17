@@ -35,11 +35,25 @@ export const useDiscussions = defineStore('discussions', {
         addReactiveDiscussionProps(newDiscussion),
       );
     },
+    updateDiscussion(discussionData) {
+      const discussion = this.discussions.find((d) => d.id === discussionData.id);
+      if (!discussion) return;
+      Object.assign(discussion, {
+        ...discussionData,
+        notes: discussionData.notes?.map(addReactiveNoteProps),
+      });
+    },
     addDiscussion(discussion) {
       this.discussions.push(addReactiveDiscussionProps(discussion));
     },
     deleteDiscussion(discussion) {
       this.discussions.splice(this.discussions.indexOf(discussion), 1);
+    },
+    collapseDiscussion(discussion) {
+      discussion.hidden = true;
+    },
+    expandDiscussion(discussion) {
+      discussion.hidden = false;
     },
     toggleDiscussionReplies(discussion) {
       discussion.repliesExpanded = !discussion.repliesExpanded;

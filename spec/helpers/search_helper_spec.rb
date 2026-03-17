@@ -7,10 +7,6 @@ RSpec.describe SearchHelper, feature_category: :global_search do
   include BadgesHelper
 
   before do
-    # TODO: When removing the feature flag,
-    # we won't need the tests for the issues listing page, since we'll be using
-    # the work items listing page.
-    stub_feature_flags(work_item_planning_view: false)
     stub_feature_flags(work_item_legacy_url: true)
     # create AI Setting singleton record to prevent N+1
     Ai::Setting.instance if Gitlab.ee?

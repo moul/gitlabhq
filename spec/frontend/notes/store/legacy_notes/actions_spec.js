@@ -194,7 +194,12 @@ describe('Actions Notes Store', () => {
     const discussionId = 'test-discussion-id';
 
     it('sets expanded to false and calls collapseDiffDiscussion when discussion has diff_file', () => {
-      const discussion = { id: discussionId, expanded: true, diff_file: { file_hash: 'abc' } };
+      const discussion = {
+        id: discussionId,
+        expanded: true,
+        diff_discussion: true,
+        diff_file: { file_hash: 'abc' },
+      };
       const collapseDiffDiscussionSpy = jest
         .spyOn(useLegacyDiffs(), 'collapseDiffDiscussion')
         .mockImplementation(() => {});
@@ -203,6 +208,7 @@ describe('Actions Notes Store', () => {
       store.collapseDiscussion(discussionId);
 
       expect(discussion.expanded).toBe(false);
+      expect(discussion.hidden).toBe(true);
       expect(collapseDiffDiscussionSpy).toHaveBeenCalledWith(discussion);
     });
 
@@ -214,6 +220,7 @@ describe('Actions Notes Store', () => {
       store.collapseDiscussion(discussionId);
 
       expect(discussion.expanded).toBe(false);
+      expect(discussion.hidden).toBe(true);
       expect(collapseDiffDiscussionSpy).not.toHaveBeenCalled();
     });
   });
@@ -813,7 +820,12 @@ describe('Actions Notes Store', () => {
         store.replyToDiscussion,
         payload,
         {},
-        [{ type: store[types.UPDATE_DISCUSSION], payload: discussion }],
+        [
+          {
+            type: store[types.UPDATE_DISCUSSION],
+            payload: expect.objectContaining({ notes: [] }),
+          },
+        ],
         [
           { type: store.updateOrCreateNotes, payload: [] },
           { type: store.updateMergeRequestWidget },

@@ -3,6 +3,7 @@ import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request
 import { useMergeRequestVersions } from '~/merge_request/stores/merge_request_versions';
 import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
 import { useDiffsView } from '~/rapid_diffs/stores/diffs_view';
+import { useDiscussions } from '~/notes/store/discussions';
 import { useNotes } from '~/notes/store/legacy_notes';
 
 jest.mock('~/notes/store/legacy_notes');
@@ -21,6 +22,7 @@ describe('mergeRequestDiscussions store', () => {
       updateNote: jest.fn().mockResolvedValue({ id: 1, body: 'updated' }),
       deleteNote: jest.fn().mockResolvedValue(),
       toggleAwardRequest: jest.fn().mockResolvedValue(),
+      toggleResolveNote: jest.fn().mockResolvedValue(),
       noteableData: {
         create_note_path: '/api/notes',
         noteableType: 'MergeRequest',
@@ -54,6 +56,9 @@ describe('mergeRequestDiscussions store', () => {
     'setEditingMode',
     'requestLastNoteEditing',
     'toggleAward',
+    'updateDiscussion',
+    'collapseDiscussion',
+    'expandDiscussion',
     'replyToLineDiscussion',
     'addNewLineDiscussionForm',
     'replaceDiscussionForm',
@@ -69,6 +74,7 @@ describe('mergeRequestDiscussions store', () => {
     'saveNote',
     'destroyNote',
     'toggleAwardOnNote',
+    'toggleResolveNote',
     'setPositionDiscussionsHidden',
   ])('exposes %s action', (action) => {
     expect(store[action]).toEqual(expect.any(Function));
@@ -91,6 +97,23 @@ describe('mergeRequestDiscussions store', () => {
     it('delegates to the legacy notes store', async () => {
       await store.fetchNotes();
       expect(mockNotesStore.fetchNotes).toHaveBeenCalled();
+    });
+
+    it('marks resolved discussions as hidden after fetching', async () => {
+      const resolvedDiscussion = { id: '1', resolvable: true, resolved: true };
+      const unresolvedDiscussion = { id: '2', resolvable: true, resolved: false };
+      const nonResolvableDiscussion = { id: '3', resolvable: false };
+      useDiscussions().discussions = [
+        resolvedDiscussion,
+        unresolvedDiscussion,
+        nonResolvableDiscussion,
+      ];
+
+      await store.fetchNotes();
+
+      expect(resolvedDiscussion).toMatchObject({ hidden: true });
+      expect(unresolvedDiscussion).not.toHaveProperty('hidden');
+      expect(nonResolvableDiscussion).not.toHaveProperty('hidden');
     });
   });
 
@@ -220,6 +243,25 @@ describe('mergeRequestDiscussions store', () => {
       const forms = useDiffDiscussions().discussionForms;
       expect(forms).toHaveLength(1);
       expect(forms[0].position.line_range).toStrictEqual(lineRange);
+    });
+  });
+
+  describe('toggleResolveNote', () => {
+    it('delegates to the legacy notes store', async () => {
+      const discussion = {
+        id: 'discussion-1',
+        resolved: false,
+        resolve_path: '/resolve/path',
+      };
+
+      await store.toggleResolveNote(discussion);
+
+      expect(mockNotesStore.toggleResolveNote).toHaveBeenCalledWith({
+        endpoint: '/resolve/path',
+        isResolved: false,
+        discussion: true,
+        discussionId: 'discussion-1',
+      });
     });
   });
 });

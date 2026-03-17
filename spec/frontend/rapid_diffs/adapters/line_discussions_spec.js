@@ -45,6 +45,9 @@ jest.mock('~/rapid_diffs/app/discussions/diff_line_discussions.vue', () => {
       emitClearHighlight() {
         this.$emit('clear-highlight');
       },
+      startThread(position) {
+        this.$emit('start-thread', position);
+      },
     },
     mounted() {
       this.$el.instance = () => this;
@@ -126,11 +129,11 @@ describe('discussions adapters', () => {
               <thead><tr><td></td><td></td></tr></thead>
               <tbody>
                 <tr data-hunk-lines>
-                  <td data-position="old"><a data-line-number="1"></a></td>
+                  <td data-position="old" data-change="removed"><a data-line-number="1"></a></td>
                   <td></td>
                 </tr>
                 <tr data-hunk-lines>
-                  <td data-position="new"><a data-line-number="1"></a></td>
+                  <td data-position="new" data-change="added"><a data-line-number="1"></a></td>
                   <td></td>
                 </tr>
                 <tr data-hunk-lines>
@@ -233,34 +236,64 @@ describe('discussions adapters', () => {
       expect(getDiscussionRows()).toHaveLength(0);
     });
 
-    it('skips discussions whose line is not in the DOM', async () => {
-      store.discussions = [
-        {
-          id: 'abc',
-          diff_discussion: true,
-          position: { old_path: oldPath, new_path: newPath, old_line: 999, new_line: null },
-        },
-      ];
-      await nextTick();
-      expect(getDiscussionRows()).toHaveLength(0);
-    });
-
-    it('forwards click to store.replyToLineDiscussion', () => {
+    it('forwards click to store', () => {
       let event;
       const button = getDiffFile().querySelector('[data-click="newDiscussion"]');
       const pos = { old_line: 2, new_line: null, type: null };
-      button.lineRange = { start: pos, end: pos };
+      const lineRange = { start: pos, end: pos };
+      button.lineRange = lineRange;
       button.addEventListener('click', (e) => {
         event = e;
       });
       button.click();
       getDiffFile().onClick(event);
+      expect(store.replyToLineDiscussion).toHaveBeenCalledWith(
+        expect.objectContaining({ oldPath, newPath, lineRange }),
+      );
+      expect(store.addNewLineDiscussionForm).toHaveBeenCalledWith(
+        expect.objectContaining({ lineRange, lineCode: expect.stringMatching(/_\d+_\d+$/) }),
+      );
+    });
 
-      expect(store.replyToLineDiscussion).toHaveBeenCalledWith({
+    it('resolves lineCode on start-thread from discussion row', async () => {
+      store.discussions = [
+        {
+          id: 'abc',
+          diff_discussion: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
+        },
+      ];
+      await nextTick();
+      const row = getDiscussionRows()[0];
+      row.querySelector('#discussions-component').instance().startThread({
         oldPath,
         newPath,
-        lineRange: { start: pos, end: pos },
+        oldLine: 1,
+        newLine: null,
       });
+      expect(store.addNewLineDiscussionForm).toHaveBeenCalledWith(
+        expect.objectContaining({
+          oldPath,
+          newPath,
+          lineCode: expect.stringMatching(/_\d+_\d+$/),
+        }),
+      );
+    });
+
+    it('keeps discussion row when discussions are hidden', async () => {
+      const oldLine = 1;
+      store.discussions = [
+        {
+          id: 'abc',
+          diff_discussion: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: oldLine, new_line: null },
+        },
+      ];
+      await nextTick();
+      expect(getDiscussionRows()).toHaveLength(1);
+      store.setFileDiscussionsHidden(oldPath, newPath, true);
+      await nextTick();
+      expect(getDiscussionRows()).toHaveLength(1);
     });
 
     it('destroys Vue instances on cleanup', async () => {
@@ -502,18 +535,60 @@ describe('discussions adapters', () => {
       let event;
       const button = getDiffFile().querySelector('[data-click="newDiscussion"]');
       const pos = { old_line: 4, new_line: 4, type: null };
-      button.lineRange = { start: pos, end: pos };
+      const lineRange = { start: pos, end: pos };
+      button.lineRange = lineRange;
       button.addEventListener('click', (e) => {
         event = e;
       });
       button.click();
       getDiffFile().onClick(event);
 
-      expect(store.replyToLineDiscussion).toHaveBeenCalledWith({
+      expect(store.replyToLineDiscussion).toHaveBeenCalledWith(
+        expect.objectContaining({
+          oldPath,
+          newPath,
+          oldLine: expect.any(Number),
+          newLine: expect.any(Number),
+          lineRange,
+        }),
+      );
+    });
+
+    it('includes lineCode in the created form', () => {
+      let event;
+      const button = getDiffFile().querySelector('[data-click="newDiscussion"]');
+      button.addEventListener('click', (e) => {
+        event = e;
+      });
+      button.click();
+      getDiffFile().onClick(event);
+      expect(store.addNewLineDiscussionForm).toHaveBeenCalledWith(
+        expect.objectContaining({ lineCode: expect.stringMatching(/_\d+_\d+$/) }),
+      );
+    });
+
+    it('resolves lineChange per side on start-thread from discussion row', async () => {
+      store.discussions = [
+        {
+          id: 'abc',
+          diff_discussion: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+        },
+      ];
+      await nextTick();
+      const row = getDiscussionRows()[0];
+      row.querySelector('#discussions-component').instance().startThread({
         oldPath,
         newPath,
-        lineRange: { start: pos, end: pos },
+        oldLine: 5,
+        newLine: null,
       });
+      expect(store.addNewLineDiscussionForm).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lineChange: { change: 'removed', position: 'old' },
+          lineCode: expect.stringMatching(/_\d+_\d+$/),
+        }),
+      );
     });
 
     it('removes empty row', async () => {

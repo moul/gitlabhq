@@ -208,6 +208,51 @@ RSpec.describe MergeRequestDiff, feature_category: :code_review_workflow do
       it { expect(subject.base_commit_sha).to eq('ae73cb07c9eeaf35924a10f713b364d32b2dd34f') }
       it { expect(subject.start_commit_sha).to eq('0b4bc9a49b562e85de7cc9e834518ea6828729b9') }
       it { expect(subject.reload.patch_id_sha).to eq('f14ae956369247901117b8b7d237c9dc605898c5') }
+
+      context 'when eager_load_diff_collection feature flag is enabled' do
+        before do
+          stub_feature_flags(eager_load_diff_collection: merge_request.target_project)
+        end
+
+        it 'populates the diff collection before save' do
+          mr_diff = merge_request.merge_request_diffs.build
+          mr_diff.preload_gitaly_data
+
+          collection = mr_diff.send(:compare_diffs_preloaded)
+          expect(collection.instance_variable_get(:@populated)).to eq(true)
+        end
+
+        context 'when compare_diffs_preloaded returns nil' do
+          it 'does not raise an error' do
+            mr_diff = merge_request.merge_request_diffs.build
+            allow(mr_diff).to receive(:compare_diffs_preloaded).and_return(nil)
+
+            expect { mr_diff.preload_gitaly_data }.not_to raise_error
+          end
+        end
+      end
+
+      context 'when eager_load_diff_collection feature flag is disabled' do
+        before do
+          stub_feature_flags(eager_load_diff_collection: false)
+        end
+
+        it 'does not eagerly populate the diff collection' do
+          mr_diff = merge_request.merge_request_diffs.build
+          mr_diff.preload_gitaly_data
+
+          collection = mr_diff.send(:compare_diffs_preloaded)
+          expect(collection.instance_variable_get(:@populated)).not_to eq(true)
+        end
+
+        it { expect(subject).to be_valid }
+        it { expect(subject).to be_persisted }
+        it { expect(subject.commits.count).to eq(29) }
+        it { expect(subject.diffs.count).to eq(20) }
+        it { expect(subject.head_commit_sha).to eq('b83d6e391c22777fca1ed3012fce84f633d7fed0') }
+        it { expect(subject.base_commit_sha).to eq('ae73cb07c9eeaf35924a10f713b364d32b2dd34f') }
+        it { expect(subject.start_commit_sha).to eq('0b4bc9a49b562e85de7cc9e834518ea6828729b9') }
+      end
     end
   end
 

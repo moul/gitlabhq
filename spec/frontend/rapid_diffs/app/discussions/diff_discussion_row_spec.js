@@ -127,6 +127,15 @@ describe('DiffDiscussionRow', () => {
     });
   });
 
+  it('emits start-thread with position when DiffLineDiscussions emits start-thread', () => {
+    useDiscussions().discussions = [createDiscussion()];
+    createComponent();
+    findDiscussions().at(0).vm.$emit('start-thread');
+    expect(wrapper.emitted('start-thread')).toStrictEqual([
+      [{ oldPath, newPath, oldLine: 5, newLine: null }],
+    ]);
+  });
+
   it('emits empty when all discussions are removed', async () => {
     useDiscussions().discussions = [createDiscussion()];
     createComponent();
