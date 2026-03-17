@@ -2521,9 +2521,6 @@ msgstr ""
 msgid "AICatalog|A service account is automatically created. This account is used in combination with the user to run the flow."
 msgstr ""
 
-msgid "AICatalog|A service account will be added to the project and assigned the Developer role."
-msgstr ""
-
 msgid "AICatalog|AI Catalog"
 msgstr ""
 
@@ -2612,9 +2609,6 @@ msgid "AICatalog|Agents successfully added to AI Catalog."
 msgstr ""
 
 msgid "AICatalog|All project members will be able to use it, after a Maintainer enables it in a project."
-msgstr ""
-
-msgid "AICatalog|All project members will be able to use it."
 msgstr ""
 
 msgid "AICatalog|An agent or flow can only be enabled once per organization, group, or project"
@@ -3035,6 +3029,9 @@ msgid "AICatalog|Is visible only to users with at least the Developer role for t
 msgstr ""
 
 msgid "AICatalog|Is visible to everyone, including users outside your organization."
+msgstr ""
+
+msgid "AICatalog|Learn more about composite identity."
 msgstr ""
 
 msgid "AICatalog|Learn more about foundational agents"

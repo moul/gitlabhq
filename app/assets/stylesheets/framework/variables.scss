@@ -1,4 +1,5 @@
 @import '@gitlab/ui/src/tokens/build/scss/tokens';
+@import '@gitlab/ui/src/scss/variables';
 
 /*
  * Layout
@@ -171,11 +172,11 @@ $file-header-height: 42px;
 /*
  * Merge requests
  */
-$mr-body-resolved-line-height: $gl-font-size-base * 1.5;
+$mr-sticky-header-title-height: max($gl-button-small-size, $gl-font-size-base * 1.5);
 $mr-static-tabs-height: $gl-spacing-scale-9;
 $mr-sticky-tabs-height: $gl-spacing-scale-8;
 $mr-sticky-description-padding: $gl-spacing-scale-1;
-$mr-sticky-header-height: calc(#{$mr-sticky-tabs-height} + #{$mr-body-resolved-line-height} + #{$mr-sticky-description-padding});
+$mr-sticky-header-height: calc(#{$mr-sticky-tabs-height} + #{$mr-sticky-header-title-height} + #{$mr-sticky-description-padding} + #{$gl-border-size-1});
 $mr-review-bar-height: calc(2rem + 16px);
 
 /*

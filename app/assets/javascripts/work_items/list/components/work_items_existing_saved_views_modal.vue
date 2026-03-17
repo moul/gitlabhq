@@ -242,7 +242,7 @@ export default {
           {{ error }}
         </gl-alert>
       </div>
-      <ul class="gl-mb-3 gl-mt-[6px] gl-max-h-[25rem] gl-overflow-scroll gl-p-0 gl-px-1">
+      <ul class="gl-mb-3 gl-mt-[6px] gl-max-h-[25rem] gl-overflow-auto gl-p-0 gl-px-1">
         <li v-for="view in filteredViews" :key="view.id" class="gl-my-1">
           <button
             class="saved-view-item gl-flex gl-min-h-[36px] gl-w-full gl-cursor-pointer gl-rounded-base gl-border-none gl-px-4 gl-py-3 hover:gl-bg-gray-50 focus:gl-bg-gray-50"

@@ -89,6 +89,23 @@ RSpec.describe Banzai::Filter::DiagramProxyPostFilter, feature_category: :markdo
         expect(doc.at_css('img')['src']).to be_nil
       end
     end
+
+    context 'when kroki proxy is enabled but plantuml proxy is disabled' do
+      before do
+        stub_application_setting(
+          kroki_enabled: true, kroki_url: "http://localhost:8000",
+          kroki_diagram_proxy_enabled: true,
+          plantuml_diagram_proxy_enabled: false
+        )
+      end
+
+      it 'skips plantuml diagram nodes' do
+        input = build_img(diagram_type: 'plantuml', source: 'Bob -> Sara : Hello')
+        doc = filter(input)
+
+        expect(doc.at_css('img')['src']).to be_nil
+      end
+    end
   end
 
   describe 'kroki diagrams' do

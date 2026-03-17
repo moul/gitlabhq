@@ -108,7 +108,6 @@ Gitlab/Authz/PermissionCheck:
     - 'ee/app/components/namespaces/seats_usage_notification_component.rb'
     - 'ee/app/components/namespaces/storage/base_alert_component.rb'
     - 'ee/app/components/namespaces/storage/namespace_limit/alert_component.rb'
-    - 'ee/app/components/namespaces/storage/namespace_limit/pre_enforcement_alert_component.rb'
     - 'ee/app/components/namespaces/storage/namespace_limit/user_pre_enforcement_alert_component.rb'
     - 'ee/app/components/namespaces/storage/repository_limit/alert_component.rb'
     - 'ee/app/controllers/projects/duo_agents_platform_controller.rb'

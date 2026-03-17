@@ -64,6 +64,20 @@ RSpec.describe Banzai::DiagramProxyController, feature_category: :markdown do
       end
     end
 
+    context 'when no key parameter is provided' do
+      let(:key) { '' }
+
+      before do
+        sign_in(user)
+      end
+
+      it 'returns 404' do
+        request
+
+        expect(response).to have_gitlab_http_status(:not_found)
+      end
+    end
+
     context 'when the Redis key does not exist' do
       let(:key) { 'nonexistent-key' }
 
