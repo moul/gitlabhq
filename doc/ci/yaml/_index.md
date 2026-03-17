@@ -2300,10 +2300,8 @@ cache-job:
 - If you use **Windows Batch** to run your shell scripts you must replace
   `$` with `%`. For example: `key: %CI_COMMIT_REF_SLUG%`
 - The `cache:key` value can't contain:
-
   - The `/` character, or the equivalent URI-encoded `%2F`.
   - Only the `.` character (any number), or the equivalent URI-encoded `%2E`.
-
 - The cache is shared between jobs, so if you're using different
   paths for different jobs, you should also set a different `cache:key`.
   Otherwise cache content can be overwritten.

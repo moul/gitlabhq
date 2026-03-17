@@ -53,7 +53,6 @@ You can also sort the projects by:
 - Date
 - Name
 - Number of stars
-
 - To filter projects by name, in the search box, enter your search criteria.
 - To sort projects by other criteria, from the dropdown lists, select an option.
 
@@ -66,15 +65,12 @@ You can do this either from the **Explore topics** page or a project with topics
 To subscribe to a topic:
 
 - From the **Explore topics** page:
-
   1. In the left sidebar, expand the top-most chevron ({{< icon name="chevron-down" >}}).
   1. Select **Explore**.
   1. Select **Topics**.
   1. Select the topic you want to subscribe to.
   1. In the upper-right corner, select **Subscribe to the new projects feed** ({{< icon name="rss" >}}).
-
 - From a project:
-
   1. In the top bar, select **Search or go to** and find your project.
   1. In the **Project overview** page, from the **Topics** list select the topic you want to subscribe to.
   1. In the upper-right corner, select **Subscribe to the new projects feed** ({{< icon name="rss" >}}).

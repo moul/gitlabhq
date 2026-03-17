@@ -41,7 +41,6 @@ When you create a release, or after, you can:
 To view a list of releases:
 
 - In the left sidebar, select **Deploy** > **Releases**, or
-
 - On the project's overview page, if at least one release exists, select the number of releases.
 
   ![Number of Releases](img/releases_count_v13_2.png "Incremental counter of Releases")

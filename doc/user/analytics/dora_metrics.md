@@ -28,7 +28,6 @@ The four DORA metrics measure two critical aspects of DevOps:
 - **Velocity metrics** track how quickly your organization delivers software:
   - [Deployment frequency](#deployment-frequency): How often code is deployed to production
   - [Lead time for changes](#lead-time-for-changes): How long it takes code to reach production
-
 - **Stability metrics** measure your software's reliability:
   - [Change failure rate](#change-failure-rate): How often deployments cause production failures
   - [Time to restore service](#time-to-restore-service): How quickly service recovers after failures

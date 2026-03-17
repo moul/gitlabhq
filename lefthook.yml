@@ -265,6 +265,11 @@ pre-commit:
       root: ee/frontend_islands
       glob: 'ee/frontend_islands/apps/**/*.{ts,vue}'
       run: 'yarn run lint:types'
+    role-permissions-ordering:
+      tags: backend style
+      files: git diff --name-only --diff-filter=d --staged
+      glob: 'config/authz/roles/*.yml'
+      run: ruby scripts/lint/sort_role_permissions.rb
     secrets-detection-clickhouse:
       tags: backend database
       glob: 'db/click_house/main.sql'
@@ -307,6 +312,11 @@ auto-fix:
       files: git diff --name-only --diff-filter=d $(git merge-base origin/master HEAD) --cached
       glob: '{,ee/}app/graphql/*.rb'
       run: bundle exec rake gitlab:graphql:compile_docs
+    role-permissions-ordering:
+      tags: backend style
+      files: git diff --name-only --diff-filter=d $(git merge-base origin/master HEAD) --cached
+      glob: 'config/authz/roles/*.yml'
+      run: ruby scripts/lint/sort_role_permissions.rb --fix
     markdownlint:
       tags: documentation style
       files: git diff --name-only --diff-filter=d $(git merge-base origin/master HEAD) --cached

@@ -323,9 +323,7 @@ To deploy and validate the solution:
    ```
 
 1. Configure your [GitLab instance to access the AI Gateway](../administration/gitlab_duo_self_hosted/configure_duo_features.md#configure-access-to-the-local-ai-gateway).
-
 1. Configure your GitLab instance to access the URL for the [GitLab Duo Agent Platform service](../administration/gitlab_duo_self_hosted/configure_duo_features.md#configure-access-to-the-gitlab-duo-agent-platform).
-
 1. Perform the health check and confirm that the AI Gateway and Agent Platform are both accessible.
 
 ## Install by using Helm chart
@@ -365,7 +363,6 @@ https://gitlab.com/api/v4/projects/gitlab-org%2fcharts%2fai-gateway-helm-chart/p
    ```
 
 1. Get version number of the latest package in the [chart's Package Registry](https://gitlab.com/gitlab-org/charts/ai-gateway-helm-chart/-/packages).
-
 1. For the AI Gateway to access the API, it must know where the GitLab instance
    is located. To do this, set the `gitlab.url` and `gitlab.apiUrl` together with
    the `ingress.hosts` and `ingress.tls` values as follows:
@@ -522,7 +519,6 @@ To upgrade the AI Gateway, download the newest Docker image tag.
    ```
 
 1. Pull and [run the new image](#start-a-container-from-the-image).
-
 1. Ensure that the environment variables are all set correctly.
 
 ## Security updates and image verification

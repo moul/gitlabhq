@@ -464,12 +464,9 @@ If the top-level group has [restricted membership by email domain](../access_and
 If all users are receiving a `404` after signing in to the identity provider (IdP):
 
 - Verify the `assertion_consumer_service_url`:
-
   - In the GitLab configuration by [matching it to the HTTPS endpoint of GitLab](../../../integration/saml.md#configure-saml-support-in-gitlab).
   - As the `Assertion Consumer Service URL` or equivalent when setting up the SAML app on your IdP.
-
 - Verify if the `404` is related to [the user having too many groups assigned to them in their Azure IdP](group_sync.md#microsoft-azure-active-directory-integration).
-
 - Verify the clocks on the IdP server and GitLab are synced to the same time.
 
 If a subset of users receive a `404` error after they sign in to the IdP, first verify what audit events are returned if the user is added to the group and then immediately removed. Alternatively, if the user can successfully sign in, but they do not show as [a member of the top-level group](../_index.md#search-a-group):

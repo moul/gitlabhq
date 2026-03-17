@@ -2,6 +2,13 @@ import { computed } from 'vue';
 import { defineStore } from 'pinia';
 import { useNotes } from '~/notes/store/legacy_notes';
 import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
+import { useDiffsView } from '~/rapid_diffs/stores/diffs_view';
+import { useMergeRequestVersions } from '~/merge_request/stores/merge_request_versions';
+import {
+  buildLineDiscussionData,
+  buildReplyData,
+  buildUpdateNoteData,
+} from '~/merge_request/utils';
 
 export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions', () => {
   const diffDiscussions = useDiffDiscussions();
@@ -20,32 +27,40 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
 
   async function createLineDiscussion(formDiscussion, noteData) {
     const notes = useNotes();
-    await notes.createNewNote({
-      endpoint: notes.noteableData.create_note_path,
-      data: { note: noteData },
-    });
+    const { diffRefs } = useMergeRequestVersions();
+    await notes.saveNote(
+      buildLineDiscussionData({
+        noteData,
+        noteableData: notes.noteableData,
+        viewConfig: useDiffsView(),
+        diffRefs,
+      }),
+    );
     diffDiscussions.removeNewLineDiscussionForm(formDiscussion);
   }
 
   async function replyToDiscussion(discussion, noteText) {
     const notes = useNotes();
-    await notes.replyToDiscussion({
-      endpoint: notes.noteableData.create_note_path,
-      data: {
-        in_reply_to_discussion_id: discussion.reply_id,
-        note: { note: noteText },
-      },
-    });
+    const { diffRefs } = useMergeRequestVersions();
+    await notes.saveNote(
+      buildReplyData({
+        discussion,
+        noteText,
+        noteableData: notes.noteableData,
+        diffRefs,
+      }),
+    );
   }
 
   async function saveNote(note, noteText) {
-    await useNotes().updateNote({
-      endpoint: note.path,
-      note: {
-        target_id: note.noteable_id,
-        note: { note: noteText },
-      },
-    });
+    const notes = useNotes();
+    await notes.updateNote(
+      buildUpdateNoteData({
+        note,
+        noteText,
+        noteableData: notes.noteableData,
+      }),
+    );
   }
 
   async function destroyNote(note) {

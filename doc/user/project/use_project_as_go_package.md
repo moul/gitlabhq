@@ -88,7 +88,6 @@ printf '%s\n\nAuthorization: Basic %s\n\n' "$GITLAB_URL" "$encoded"
 To use this script:
 
 1. Save the script to a file, for example `gitlab_goauth.sh`.
-
 1. Make the file executable:
 
    ```shell

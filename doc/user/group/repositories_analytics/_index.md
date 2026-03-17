@@ -41,9 +41,7 @@ The group **Repository analytics** page displays:
   - Number of projects with coverage reports.
   - Average coverage percentage across all projects.
   - Total number of pipeline jobs that produce coverage reports.
-
 - **Average test coverage**: A graph that shows the average test coverage across all projects in your group for the last 30 days.
-
 - **Latest test coverage results**: A list of the most recent coverage data for each project in your group. Select projects from the dropdown list to filter the results.
 
 ## Download coverage data

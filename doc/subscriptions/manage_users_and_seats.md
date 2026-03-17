@@ -20,7 +20,6 @@ Billable users are users who occupy seats in a subscription and count toward the
 The following users count as billable:
 
 - Users with access to a namespace or top-level group in a subscription, such as direct [members](../user/project/members/_index.md#membership-types), inherited members, and invited users with one of these roles:
-
   - Guest (billable on Premium, non-billable on Free and Ultimate)
   - Planner
   - Reporter
@@ -28,7 +27,6 @@ The following users count as billable:
   - Maintainer
   - Owner
   - [Custom role](../user/custom_roles/_index.md), except custom Guest member role with only the `read_code` permission
-
 - [Auditor users](../administration/auditor_users.md)
 - Administrators (on GitLab Self-Managed on the Premium and Ultimate tiers)
 - Users without namespace access (on GitLab Self-Managed on the Premium tier)

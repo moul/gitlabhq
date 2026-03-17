@@ -1046,6 +1046,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="query-duoworkflowworkflows-sort"></a>`sort` | [`DuoWorkflowsWorkflowSort`](#duoworkflowsworkflowsort) | Sort flows by the criteria. |
 | <a id="query-duoworkflowworkflows-statusgroup"></a>`statusGroup` | [`DuoWorkflowStatusGroup`](#duoworkflowstatusgroup) | Status group to filter flow sessions by. |
 | <a id="query-duoworkflowworkflows-type"></a>`type` | [`String`](#string) | Type of flow to filter by (for example, software_development or foundational_chat_agents). |
+| <a id="query-duoworkflowworkflows-updatedafter"></a>`updatedAfter` | [`ISO8601DateTime`](#iso8601datetime) | Filters flows updated after a given date. |
 | <a id="query-duoworkflowworkflows-workflowid"></a>`workflowId` | [`AiDuoWorkflowsWorkflowID`](#aiduoworkflowsworkflowid) | Flow ID to filter by. |
 
 ### `Query.echo`
@@ -32062,6 +32063,7 @@ Represents a vulnerability. The connection type is countable.
 | <a id="countablevulnerability-primaryidentifier"></a>`primaryIdentifier` | [`VulnerabilityIdentifier`](#vulnerabilityidentifier) | Primary identifier of the vulnerability. |
 | <a id="countablevulnerability-project"></a>`project` | [`Project`](#project) | Project on which the vulnerability was found. |
 | <a id="countablevulnerability-reachability"></a>`reachability` {{< icon name="warning-solid" >}} | [`ReachabilityType`](#reachabilitytype) | **Introduced** in GitLab 17.11. **Status**: Experiment. Reachability status of the vulnerability. |
+| <a id="countablevulnerability-removedfromcode"></a>`removedFromCode` | [`Boolean!`](#boolean) | Indicates whether the vulnerability is present in the code or not. |
 | <a id="countablevulnerability-reporttype"></a>`reportType` | [`VulnerabilityReportType`](#vulnerabilityreporttype) | Type of the security report that found the vulnerability (SAST, DEPENDENCY_SCANNING, CONTAINER_SCANNING, DAST, SECRET_DETECTION, COVERAGE_FUZZING, API_FUZZING, CLUSTER_IMAGE_SCANNING, CONTAINER_SCANNING_FOR_REGISTRY, GENERIC). `Scan Type` in the UI. |
 | <a id="countablevulnerability-representationinformation"></a>`representationInformation` {{< icon name="warning-solid" >}} | [`VulnerabilityRepresentationInformation`](#vulnerabilityrepresentationinformation) | **Introduced** in GitLab 17.7. **Status**: Experiment. Information about the representation of the vulnerability, such as resolved commit SHA. |
 | <a id="countablevulnerability-resolvedat"></a>`resolvedAt` | [`Time`](#time) | Timestamp of when the vulnerability state was changed to resolved. |
@@ -45739,6 +45741,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="project-duoworkflowworkflows-sort"></a>`sort` | [`DuoWorkflowsWorkflowSort`](#duoworkflowsworkflowsort) | Sort flows by the criteria. |
 | <a id="project-duoworkflowworkflows-statusgroup"></a>`statusGroup` | [`DuoWorkflowStatusGroup`](#duoworkflowstatusgroup) | Status group to filter flow sessions by. |
 | <a id="project-duoworkflowworkflows-type"></a>`type` | [`String`](#string) | Type of flow to filter by (for example, software_development or foundational_chat_agents). |
+| <a id="project-duoworkflowworkflows-updatedafter"></a>`updatedAfter` | [`ISO8601DateTime`](#iso8601datetime) | Filters flows updated after a given date. |
 | <a id="project-duoworkflowworkflows-workflowid"></a>`workflowId` | [`AiDuoWorkflowsWorkflowID`](#aiduoworkflowsworkflowid) | Flow ID to filter by. |
 
 ##### `Project.environment`
@@ -51583,6 +51586,7 @@ Represents a vulnerability.
 | <a id="vulnerability-primaryidentifier"></a>`primaryIdentifier` | [`VulnerabilityIdentifier`](#vulnerabilityidentifier) | Primary identifier of the vulnerability. |
 | <a id="vulnerability-project"></a>`project` | [`Project`](#project) | Project on which the vulnerability was found. |
 | <a id="vulnerability-reachability"></a>`reachability` {{< icon name="warning-solid" >}} | [`ReachabilityType`](#reachabilitytype) | **Introduced** in GitLab 17.11. **Status**: Experiment. Reachability status of the vulnerability. |
+| <a id="vulnerability-removedfromcode"></a>`removedFromCode` | [`Boolean!`](#boolean) | Indicates whether the vulnerability is present in the code or not. |
 | <a id="vulnerability-reporttype"></a>`reportType` | [`VulnerabilityReportType`](#vulnerabilityreporttype) | Type of the security report that found the vulnerability (SAST, DEPENDENCY_SCANNING, CONTAINER_SCANNING, DAST, SECRET_DETECTION, COVERAGE_FUZZING, API_FUZZING, CLUSTER_IMAGE_SCANNING, CONTAINER_SCANNING_FOR_REGISTRY, GENERIC). `Scan Type` in the UI. |
 | <a id="vulnerability-representationinformation"></a>`representationInformation` {{< icon name="warning-solid" >}} | [`VulnerabilityRepresentationInformation`](#vulnerabilityrepresentationinformation) | **Introduced** in GitLab 17.7. **Status**: Experiment. Information about the representation of the vulnerability, such as resolved commit SHA. |
 | <a id="vulnerability-resolvedat"></a>`resolvedAt` | [`Time`](#time) | Timestamp of when the vulnerability state was changed to resolved. |

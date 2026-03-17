@@ -49,13 +49,12 @@ Prerequisites:
 
 - Administrator access.
 
-- In GitLab 15.7:
+To disable the **Jira Connect Proxy URL** setting:
 
+- In GitLab 15.7:
   1. Open a [Rails console](../operations/rails_console.md#starting-a-rails-console-session).
   1. Execute `ApplicationSetting.current_without_cache.update(jira_connect_proxy_url: nil)`.
-
 - In GitLab 15.8 and later:
-
   1. In the upper-right corner, select **Admin**.
   1. In the left sidebar, select **Settings** > **General**.
   1. Expand **GitLab for Jira App**.

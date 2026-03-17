@@ -93,24 +93,16 @@ Upward trends are positive (green) for some metrics (like [deployment frequency]
 {{< /history >}}
 
 - **Feature usage**: Number of contributors who used any GitLab Duo feature.
-
 - **Agent Platform chats**: Number of chat sessions initiated through GitLab Duo Agent Platform.
-
 - **Agent Platform flows**: Number of agent flows (excluding chats) executed through GitLab Duo Agent Platform.
-
 - **Chat (non-agentic) usage**: Number of users who used Chat (non-agentic).
-
 - **Root Cause Analysis usage**: Number of users who used Root Cause Analysis.
-
 - **Code Review requests**: Number of Code Review requests made on merge requests.
   This includes requests initiated by both merge request authors and non-authors.
-
 - **Code Review comments**: Number of Code Review comments posted on merge request diffs.
-
 - **Code Suggestions usage**: Number of users who used Code Suggestions.
   On GitLab.com, data updates every five minutes.
   GitLab counts Code Suggestions usage only if the user has pushed code to the project in the current month.
-
 - **Code Suggestions acceptance rate**: Percentage of code suggestions provided by GitLab Duo that have been accepted by code contributors.
 
 ### Development metrics

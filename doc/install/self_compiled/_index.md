@@ -1242,7 +1242,6 @@ error Command failed with exit code 137.
 This can occur when Yarn kills a container that runs out of memory. To fix this:
 
 1. Increase your system's memory to at least 8 GB.
-
 1. Run this command to clean the assets:
 
    ```shell

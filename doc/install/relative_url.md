@@ -133,6 +133,5 @@ To enable relative URLs in GitLab:
 To disable the relative URL:
 
 1. Remove `/home/git/gitlab/config/initializers/relative_url.rb`
-
 1. Follow the previous steps starting from 2. and set up the
    GitLab URL to one that doesn't contain a relative path.

@@ -51,10 +51,8 @@ You can also manually direct GitLab Duo to use a skill by name, file path, or sl
 ### Prerequisites
 
 - Meet the [Agent Platform prerequisites](../_index.md#prerequisites).
-- For GitLab Duo Chat in your local environment, install and configure:
-
-  - [GitLab for VS Code](../../../editor_extensions/visual_studio_code/setup.md) 6.71.4 or later.
-
+- For GitLab Duo Chat in your local environment, install and configure
+  [GitLab for VS Code](../../../editor_extensions/visual_studio_code/setup.md) 6.71.4 or later.
 - For custom flows, update the flow's configuration file to access the `workspace_agent_skills`
   context passed from the executor:
 

@@ -1,6 +1,8 @@
 import { createTestingPinia } from '@pinia/testing';
 import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request_discussions';
+import { useMergeRequestVersions } from '~/merge_request/stores/merge_request_versions';
 import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
+import { useDiffsView } from '~/rapid_diffs/stores/diffs_view';
 import { useNotes } from '~/notes/store/legacy_notes';
 
 jest.mock('~/notes/store/legacy_notes');
@@ -14,13 +16,24 @@ describe('mergeRequestDiscussions store', () => {
     mockNotesStore = {
       fetchNotes: jest.fn().mockResolvedValue(),
       createNewNote: jest.fn().mockResolvedValue({ id: 'new-1' }),
+      saveNote: jest.fn().mockResolvedValue(),
       replyToDiscussion: jest.fn().mockResolvedValue({ discussion: { id: 'disc-1' } }),
       updateNote: jest.fn().mockResolvedValue({ id: 1, body: 'updated' }),
       deleteNote: jest.fn().mockResolvedValue(),
       toggleAwardRequest: jest.fn().mockResolvedValue(),
-      noteableData: { create_note_path: '/api/notes' },
+      noteableData: {
+        create_note_path: '/api/notes',
+        noteableType: 'MergeRequest',
+        id: 42,
+        diff_head_sha: 'abc123',
+        targetType: 'merge_request',
+      },
     };
     useNotes.mockReturnValue(mockNotesStore);
+    useMergeRequestVersions().setVersions({
+      sourceVersions: [{ selected: true, base_sha: 'base000', head_sha: 'head222' }],
+      targetVersions: [{ selected: true, start_sha: 'start111' }],
+    });
     store = useMergeRequestDiscussions();
   });
 
@@ -92,34 +105,63 @@ describe('mergeRequestDiscussions store', () => {
   });
 
   describe('createLineDiscussion', () => {
-    it('delegates to notes store and removes the form', async () => {
+    it('delegates to notes store saveNote and removes the form', async () => {
       const formDiscussion = { id: 'form-1', isForm: true };
       useDiffDiscussions().discussionForms.push(formDiscussion);
 
       await store.createLineDiscussion(formDiscussion, {
         position: { old_line: 1 },
+        lineChange: { change: 'added', position: 'new' },
+        lineCode: 'hash_0_1',
         note: 'test',
       });
 
-      expect(mockNotesStore.createNewNote).toHaveBeenCalledWith({
+      expect(mockNotesStore.saveNote).toHaveBeenCalledWith({
         endpoint: '/api/notes',
-        data: { note: { position: { old_line: 1 }, note: 'test' } },
+        data: {
+          view: useDiffsView().viewType,
+          line_type: 'new',
+          merge_request_diff_head_sha: 'head222',
+          note_project_id: '',
+          target_type: 'merge_request',
+          target_id: 42,
+          return_discussion: true,
+          note: {
+            note: 'test',
+            position: JSON.stringify({
+              base_sha: 'base000',
+              start_sha: 'start111',
+              head_sha: 'head222',
+              old_line: 1,
+              position_type: 'text',
+              line_range: null,
+              ignore_whitespace_change: !useDiffsView().showWhitespace,
+            }),
+            noteable_type: 'MergeRequest',
+            noteable_id: 42,
+            commit_id: null,
+            type: 'DiffNote',
+            line_code: 'hash_0_1',
+          },
+        },
       });
       expect(useDiffDiscussions().discussionForms).not.toContainEqual(formDiscussion);
     });
   });
 
   describe('replyToDiscussion', () => {
-    it('delegates to notes store replyToDiscussion', async () => {
+    it('delegates to notes store saveNote with reply data', async () => {
       const discussion = { id: 'disc-1', reply_id: 'reply-1' };
 
       await store.replyToDiscussion(discussion, 'reply text');
 
-      expect(mockNotesStore.replyToDiscussion).toHaveBeenCalledWith({
+      expect(mockNotesStore.saveNote).toHaveBeenCalledWith({
         endpoint: '/api/notes',
         data: {
           in_reply_to_discussion_id: 'reply-1',
+          target_type: 'merge_request',
           note: { note: 'reply text' },
+          merge_request_diff_head_sha: 'head222',
         },
       });
     });
@@ -133,7 +175,11 @@ describe('mergeRequestDiscussions store', () => {
 
       expect(mockNotesStore.updateNote).toHaveBeenCalledWith({
         endpoint: '/note/1',
-        note: { target_id: 10, note: { note: 'updated' } },
+        note: {
+          target_type: 'merge_request',
+          target_id: 10,
+          note: { note: 'updated' },
+        },
       });
     });
   });

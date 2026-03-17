@@ -23,6 +23,10 @@ export default {
       import('ee_component/merge_requests/reports/components/license_compliance_provider.vue'),
     LicenseComplianceNavItem: () =>
       import('ee_component/merge_requests/reports/components/license_compliance_nav_item.vue'),
+    CodeQualityProvider: () =>
+      import('~/merge_requests/reports/components/code_quality_provider.vue'),
+    CodeQualityNavItem: () =>
+      import('~/merge_requests/reports/components/code_quality_nav_item.vue'),
   },
   data() {
     return {
@@ -82,6 +86,9 @@ export default {
         <license-compliance-provider v-if="mr" :mr="mr">
           <license-compliance-nav-item />
         </license-compliance-provider>
+        <code-quality-provider v-if="mr" :mr="mr">
+          <code-quality-nav-item />
+        </code-quality-provider>
       </nav>
     </aside>
     <section class="@md/panel:gl-pt-5">

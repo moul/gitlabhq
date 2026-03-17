@@ -326,7 +326,6 @@ Now, you will use Code Suggestions (specifically code generation) to improve the
 database error handling and connection management:
 
 1. Open the `app/database.py` file in your IDE.
-
 1. First, fix the hard coded database path. Position your cursor at the line
    where `DATABASE_PATH` is defined, and enter the following:
 
@@ -602,7 +601,6 @@ Next you'll use Code Suggestions to improve error handling in the routes.
 Now, you'll use Code Suggestions to improve error handling in the routes:
 
 1. Open the `app/routes/shop.py` file in your IDE.
-
 1. First, let's add better error handling to the GET routes. Position your cursor
    at the beginning of the `get_all_books` function, and enter the following:
 
@@ -783,7 +781,6 @@ The final improvement you're going to make is to use Chat to improve the Flask
 application configuration.
 
 1. Open the `app/__init__.py` file in your IDE.
-
 1. Open Chat in your IDE and enter:
 
    ```plaintext
@@ -991,7 +988,6 @@ everything works correctly:
    - `DELETE /books/999` with a non-existent ID.
 
 1. Validate that the error handling works correctly for all error cases.
-
 1. Optional. Ask Chat how to validate that the error handling works correctly.
 
 ## Summary

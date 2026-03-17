@@ -151,7 +151,6 @@ When 2FA is not enforced in a top-level group:
   If a subgroup enables a 2FA requirement:
   - All members of the top-level group must use 2FA.
   - All members of any sibling subgroups must use 2FA.
-
 - If **Allow more restrictive 2FA enforcement for subgroups** is disabled, subgroups
   cannot enforce a 2FA requirement independently. 2FA is not required for any members in the hierarchy.
 

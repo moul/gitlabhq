@@ -232,12 +232,9 @@ Prerequisites:
 To view the Value Streams Dashboard for a group:
 
 - From Analytics Dashboards:
-
   1. In the top bar, select **Search or go to** and find your group.
   1. Select **Analyze** > **Analytics Dashboards**.
-
 - From Value Stream Analytics:
-
   1. In the top bar, select **Search or go to** and find your project or group.
   1. Select **Analyze** > **Value stream analytics**.
   1. Below the **Filter results** text box, in the **Lifecycle metrics** row, select **Value Streams Dashboard / DORA**.

@@ -312,7 +312,6 @@ To select a model:
 - In the GitLab UI:
   1. Under the chat text box, ensure the **Agentic** toggle is turned on.
   1. Select a model from the dropdown list.
-
 - In your IDE:
   1. In the sidebar, select **GitLab Duo Agent Platform** ({{< icon name="duo-agentic-chat" >}}).
   1. Select the **Chat** tab.

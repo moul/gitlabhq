@@ -25,6 +25,8 @@ describe('Merge request reports App component', () => {
     wrapper.findComponent({ name: 'LicenseComplianceProvider' });
   const findLicenseComplianceNavItem = () =>
     wrapper.findComponent({ name: 'LicenseComplianceNavItem' });
+  const findCodeQualityProvider = () => wrapper.findComponent({ name: 'CodeQualityProvider' });
+  const findCodeQualityNavItem = () => wrapper.findComponent({ name: 'CodeQualityNavItem' });
   const findLoadingIcon = () => wrapper.findComponent(GlLoadingIcon);
   const findRouterView = () => wrapper.findComponent({ name: 'RouterView' });
 
@@ -57,6 +59,14 @@ describe('Merge request reports App component', () => {
         },
         LicenseComplianceNavItem: {
           name: 'LicenseComplianceNavItem',
+          template: '<div></div>',
+        },
+        CodeQualityProvider: {
+          name: 'CodeQualityProvider',
+          template: '<div><slot /></div>',
+        },
+        CodeQualityNavItem: {
+          name: 'CodeQualityNavItem',
           template: '<div></div>',
         },
       },
@@ -118,6 +128,24 @@ describe('Merge request reports App component', () => {
       await waitForPromises();
 
       expect(findLicenseComplianceNavItem().exists()).toBe(true);
+    });
+  });
+
+  describe('code quality', () => {
+    it('renders CodeQualityProvider when mr is loaded', async () => {
+      createComponent();
+
+      await waitForPromises();
+
+      expect(findCodeQualityProvider().exists()).toBe(true);
+    });
+
+    it('renders CodeQualityNavItem inside provider', async () => {
+      createComponent();
+
+      await waitForPromises();
+
+      expect(findCodeQualityNavItem().exists()).toBe(true);
     });
   });
 

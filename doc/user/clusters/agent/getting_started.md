@@ -110,7 +110,6 @@ You can do this by bootstrapping the agent with the GitLab CLI (`glab`).
    ```
 
 1. [Authenticate `glab`](https://gitlab.com/gitlab-org/cli/#installation) to your GitLab instance.
-
 1. In the repository where you bootstrapped Flux, run the `glab cluster agent bootstrap` command:
 
    ```shell

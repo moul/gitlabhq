@@ -17,10 +17,11 @@ export const useMergeRequestVersions = defineStore('mergeRequestVersions', {
     diffRefs() {
       const source = this.selectedSourceVersion;
       const target = this.selectedTargetVersion;
+      if (!source || !target) return null;
       return {
-        base_sha: source?.base_sha,
-        head_sha: source?.head_sha,
-        start_sha: target?.start_sha,
+        base_sha: source.base_sha,
+        head_sha: source.head_sha,
+        start_sha: target.start_sha,
       };
     },
   },

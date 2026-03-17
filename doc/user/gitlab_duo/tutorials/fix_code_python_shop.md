@@ -198,7 +198,6 @@ ensures you do not miss critical components.
    ```
 
 1. Copy the response into the `.gitignore` file.
-
 1. For the `README` file, enter the following into Chat:
 
    ```plaintext
@@ -1378,7 +1377,6 @@ def create_app(test_config=None):
 {{< /tabs >}}
 
 1. Check your code files against these examples.
-
 1. To verify if your code works, ask Chat how to start a local application server:
 
    ```plaintext

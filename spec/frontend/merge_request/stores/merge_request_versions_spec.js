@@ -70,12 +70,8 @@ describe('mergeRequestVersions store', () => {
       });
     });
 
-    it('returns undefined values when no versions are selected', () => {
-      expect(store.diffRefs).toEqual({
-        base_sha: undefined,
-        head_sha: undefined,
-        start_sha: undefined,
-      });
+    it('returns null when no versions are selected', () => {
+      expect(store.diffRefs).toBeNull();
     });
   });
 });

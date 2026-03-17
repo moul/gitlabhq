@@ -179,7 +179,6 @@ Not all detections require immediate action. Consider the following when evaluat
   - Production database credentials
   - Private cryptographic keys
   - Any credentials that could grant unauthorized access
-
 - False positives: Detected patterns that aren't actual secrets. For example:
   - Test data that resembles secrets but has no real-world value
   - Placeholder values in configuration templates

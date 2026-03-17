@@ -91,7 +91,7 @@ To create a personal access token:
 1. In the upper-right corner, select your avatar.
 1. Select **Edit profile**.
 1. In the left sidebar, select **Access** > **Personal access tokens**.
-1. Select **Add new token**.
+1. From the **Generate token** dropdown list, select **Legacy token**.
 1. In **Token name**, enter a name for the token.
 1. Optional. In **Token description**, enter a description for the token.
 1. In **Expiration date**, enter an expiry date for the token.
@@ -100,7 +100,7 @@ To create a personal access token:
    - By default, the expiry date cannot be more than 365 days from today. On GitLab 17.6 and later,
      administrators can [modify the maximum lifetime of access tokens](../../administration/settings/account_and_limit_settings.md#limit-the-lifetime-of-access-tokens).
 1. Select one or more [personal access token scopes](#personal-access-token-scopes).
-1. Select **Create personal access token**.
+1. Select **Generate token**.
 
 A personal access token is displayed. Save the personal access token somewhere safe. After you leave
 or refresh the page, you cannot view it again.

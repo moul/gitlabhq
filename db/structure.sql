@@ -32602,7 +32602,8 @@ CREATE TABLE vulnerability_representation_information (
     vulnerability_id bigint NOT NULL,
     project_id bigint NOT NULL,
     resolved_in_commit_sha bytea,
-    vulnerability_occurrence_id bigint
+    vulnerability_occurrence_id bigint,
+    removed_from_code boolean DEFAULT false NOT NULL
 );
 
 CREATE TABLE vulnerability_scanners (
@@ -45554,6 +45555,8 @@ CREATE INDEX index_duo_workflows_events_on_namespace_id ON duo_workflows_events 
 CREATE INDEX index_duo_workflows_events_on_project_id ON duo_workflows_events USING btree (project_id);
 
 CREATE INDEX index_duo_workflows_events_on_workflow_id ON duo_workflows_events USING btree (workflow_id);
+
+CREATE INDEX index_duo_workflows_on_user_id_and_updated_at ON duo_workflows_workflows USING btree (user_id, updated_at DESC) WHERE (workflow_definition <> 'chat'::text);
 
 CREATE INDEX index_duo_workflows_workflows_on_ai_catalog_item_id ON duo_workflows_workflows USING btree (ai_catalog_item_id);
 

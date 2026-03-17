@@ -65,7 +65,6 @@ for a group, including its subgroups and projects.
 > In GitLab 17.7:
 >
 > - For GitLab.com, the GitLab Duo settings page is only available for top-level groups, not for subgroups.
->
 > - For GitLab Self-Managed, the GitLab Duo settings page is not available for groups or subgroups.
 
 Prerequisites:
@@ -91,7 +90,6 @@ for a group and its subgroups and projects.
 > In GitLab 17.4 to 17.6:
 >
 > - For GitLab.com, the GitLab Duo settings page is only available for top-level groups, not for subgroups.
->
 > - For GitLab Self-Managed, the GitLab Duo settings page is not available for groups or subgroups.
 
 Prerequisites:

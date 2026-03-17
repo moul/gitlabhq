@@ -55,10 +55,8 @@ instructions. Previously existing conversations do not.
 
 - Meet the [Agent Platform prerequisites](../_index.md#prerequisites).
 - For GitLab Duo Chat in your local environment, install the supported IDE extension:
-
   - For VS Code, install and configure the [GitLab for VS Code extension](../../../editor_extensions/visual_studio_code/setup.md) 6.60 or later.
   - For a JetBrains IDE, install and configure the [GitLab plugin for JetBrains](../../../editor_extensions/jetbrains_ide/setup.md) 3.26.0 or later.
-
 - For custom flows, update the flow's configuration file to access the `user_rule` context passed
   from the executor:
 
@@ -83,7 +81,6 @@ User-level `AGENTS.md` files apply to all of your projects and workspaces.
 1. Create an `AGENTS.md` file in your home directory:
    - On Linux or macOS, create the file at `~/.gitlab/duo/AGENTS.md`.
    - On Windows, create the file at `%APPDATA%\GitLab\duo\AGENTS.md`.
-
 1. Add instructions to the file. For example:
 
    {{< tabs >}}

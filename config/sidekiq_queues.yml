@@ -1099,6 +1099,8 @@
   - 1
 - - security_policies_skip_pipelines_audit
   - 1
+- - security_process_tracked_context_project_transfer_events
+  - 1
 - - security_project_tracked_contexts_create_or_update_default_tracked_context
   - 1
 - - security_project_tracked_contexts_update_default_context
@@ -1184,6 +1186,8 @@
 - - security_sync_project_policy
   - 1
 - - security_sync_scan_policies
+  - 1
+- - security_sync_tracked_context_traversal_ids
   - 1
 - - security_unassign_policy_configurations_for_expired_namespace
   - 1

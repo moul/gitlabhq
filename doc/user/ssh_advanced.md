@@ -60,7 +60,6 @@ To generate ED25519_SK or ECDSA_SK SSH keys, you must use OpenSSH 8.2 or later:
    ```
 
 1. Touch the button on the hardware security key.
-
 1. Accept the suggested filename and directory:
 
    ```plaintext

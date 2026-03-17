@@ -32,23 +32,17 @@ To configure features and permissions for a project:
 When you turn off a feature, the following additional features are also unavailable:
 
 - If you turn off the **Work items** feature, project users cannot use:
-
   - **Issue Boards**
   - **Service Desk**
   - Project users can still access **Milestones** from merge requests.
-
 - If you turn off **Work items** and **Merge Requests**, project users cannot use:
-
   - **Labels**
   - **Milestones**
-
 - If you turn off **Repository**, project users cannot access:
-
   - **Merge requests**
   - **CI/CD**
   - **Git Large File Storage**
   - **Packages**
-
 - The metrics dashboard requires read access to project environments and deployments.
   Users with access to the metrics dashboard can also access environments and deployments.
 

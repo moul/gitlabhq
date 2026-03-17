@@ -91,7 +91,6 @@ To set up Google Workspace as your identity provider:
    | **Identity provider single sign-on URL** | **SSO URL**            |
 
 1. Google Workspace displays a SHA256 fingerprint when you retrieve the certificate. If you need to generate the SHA256 fingerprint later, see [calculate the fingerprint](troubleshooting.md#calculate-the-fingerprint).
-
 1. Set these values:
    - For **Primary email**: `email`.
    - For **First name**: `first_name`.
@@ -130,7 +129,6 @@ To set up SSO with Okta as your identity provider:
    | **Identity provider single sign-on URL** | **Identity Provider Single Sign-On URL**                       |
 
 1. Under the Okta **Single sign-on URL** field, select the **Use this for Recipient URL and Destination URL** checkbox.
-
 1. Set these values:
    - For **Application username (NameID)**: **Custom** `user.getInternalProperty("id")`.
    - For **Name ID Format**: `Persistent`. For more information, see [manage user SAML identity](#manage-user-saml-identity).

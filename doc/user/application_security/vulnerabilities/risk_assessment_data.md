@@ -8,7 +8,6 @@ title: Vulnerability risk assessment data
 Use vulnerability risk data to help assess the potential impact to your environment.
 
 - Severity: Each vulnerability is assigned a standardized GitLab severity value.
-
 - For vulnerabilities in the [Common Vulnerabilities and Exposures (CVE)](https://www.cve.org/) catalog,
   the following data can be retrieved through the [vulnerability details](_index.md) page or by using a GraphQL query:
   - Likelihood of exploitation: [Exploit Prediction Scoring System (EPSS)](https://www.first.org/epss) score.
