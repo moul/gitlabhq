@@ -1217,8 +1217,14 @@ export default {
       this.pageParams = getInitialPageParams(this.pageSize);
     } else {
       const draft = localStorage.getItem(this.allItemsDraftFiltersStorageKey);
+      const hasUrlQuery = Object.keys(this.$route.query).length > 0;
 
-      if (draft) {
+      if (hasUrlQuery) {
+        localStorage.setItem(
+          this.allItemsDraftFiltersStorageKey,
+          JSON.stringify({ query: this.$route.query }),
+        );
+      } else if (draft) {
         const parsedData = JSON.parse(draft);
         if (parsedData.query) {
           this.$router.replace({ query: parsedData.query }).catch((error) => {
@@ -1227,9 +1233,11 @@ export default {
             }
           });
         }
-        this.updateData(getParameterByName(PARAM_SORT));
-      } else {
-        this.updateData(getParameterByName(PARAM_SORT));
+      }
+
+      this.updateData(getParameterByName(PARAM_SORT));
+
+      if (!draft && !hasUrlQuery) {
         this.addStateToken();
       }
     }

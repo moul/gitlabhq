@@ -580,4 +580,56 @@ RSpec.describe UserDetail, feature_category: :system_access do
       expect(user_detail.as_json).not_to have_key('email_otp')
     end
   end
+
+  # rubocop:disable Layout/LineLength -- This trigger will be removed in a MR
+  describe 'organization and company column sync trigger' do
+    using RSpec::Parameterized::TableSyntax
+
+    describe 'on insert' do
+      where(:test_case, :organization_value, :company_value, :expected_organization, :expected_company) do
+        'only organization set'      | 'Org Inc'  | ''         | 'Org Inc'  | 'Org Inc'
+        'only company set'           | ''         | 'Corp Ltd' | 'Corp Ltd' | 'Corp Ltd'
+        'both set, different values' | 'Org Inc'  | 'Corp Ltd' | 'Corp Ltd' | 'Corp Ltd'
+        'both empty'                 | ''         | ''         | ''         | ''
+      end
+
+      with_them do
+        let(:user) do
+          create(:user, user_detail_organization: organization_value, company: company_value)
+        end
+
+        it "syncs correctly when #{params[:test_case]}" do
+          expect(user.reload.user_detail_organization).to eq(expected_organization)
+          expect(user.company).to eq(expected_company)
+        end
+      end
+    end
+
+    describe 'on update' do
+      where(:test_case, :initial_org, :initial_company, :update_attrs, :expected_organization, :expected_company) do
+        'update organization when company empty' | ''    | ''    | { user_detail_organization: 'New Org' } | 'New Org' | 'New Org'
+        'update company when organization empty' | ''    | ''    | { company: 'New Co' } | 'New Co' | 'New Co'
+        'update organization when company set'   | 'Old' | 'Old' | { user_detail_organization: 'New Org' } | 'New Org' | 'New Org'
+        'update company when organization set'   | 'Old' | 'Old' | { company: 'New Co' } | 'New Co' | 'New Co'
+        'update both'                            | 'Old' | 'Old' | { user_detail_organization: 'Org',
+company: 'Co' } | 'Co' | 'Co'
+        'clear organization when company set'    | 'Old' | 'Old' | { user_detail_organization: '' } | '' | ''
+        'clear company when organization set'    | 'Old' | 'Old' | { company: '' } | '' | ''
+      end
+
+      with_them do
+        let(:user) do
+          create(:user, user_detail_organization: initial_org, company: initial_company)
+        end
+
+        it "syncs correctly when #{params[:test_case]}" do
+          user.update!(update_attrs)
+
+          expect(user.reload.user_detail_organization).to eq(expected_organization)
+          expect(user.company).to eq(expected_company)
+        end
+      end
+    end
+  end
+  # rubocop:enable Layout/LineLength
 end

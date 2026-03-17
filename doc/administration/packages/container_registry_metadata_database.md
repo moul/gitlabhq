@@ -254,6 +254,91 @@ Monitor the health and status of garbage collection task queues for blobs and ma
 
 #### Check the health of online garbage collection
 
+{{< tabs >}}
+
+{{< tab title="GitLab 18.10 and later" >}}
+
+The following command displays information related to online garbage collection.
+
+```shell
+sudo -u registry gitlab-ctl registry-database gc-stats
+```
+
+Example Output:
+
+```shell
+=== Blob Review Queue ===
+
+Tasks Pending Removal: 42
+Tasks ready for GC review (review_after has passed).
+
+┌───────────────────────────────────────────────────────────────────┬─────────────────────┬─────────────────┐
+│                              DIGEST                               │    REVIEW AFTER     │      EVENT      │
+├───────────────────────────────────────────────────────────────────┼─────────────────────┼─────────────────┤
+│ sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22e  │ 2026-01-16 21:56:13 │ blob_upload     │
+│ sha256:b4f5e6d7c8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2 │ 2026-01-16 19:56:13 │ manifest_delete │
+│ sha256:c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3 │ 2026-01-16 17:56:13 │ layer_delete    │
+└───────────────────────────────────────────────────────────────────┴─────────────────────┴─────────────────┘
+
+Long Overdue Tasks: 5
+Tasks pending longer than configured delay - may need attention.
+
+┌───────────────────────────────────────────────────────────────────┬─────────────────────┬──────────────┬─────────┐
+│                              DIGEST                               │    REVIEW AFTER     │    EVENT     │ OVERDUE │
+├───────────────────────────────────────────────────────────────────┼─────────────────────┼──────────────┼─────────┤
+│ sha256:d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4 │ 2026-01-11 23:56:13 │ blob_upload  │ 4d 0h   │
+│ sha256:e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5 │ 2026-01-13 23:56:13 │ layer_delete │ 2d 0h   │
+└───────────────────────────────────────────────────────────────────┴─────────────────────┴──────────────┴─────────┘
+
+High Retry Tasks: 2
+Tasks with >10 review attempts - may indicate persistent issues.
+
+┌───────────────────────────────────────────────────────────────────┬─────────────────────┬─────────────────┬─────────┐
+│                              DIGEST                               │    REVIEW AFTER     │      EVENT      │ RETRIES │
+├───────────────────────────────────────────────────────────────────┼─────────────────────┼─────────────────┼─────────┤
+│ sha256:f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6 │ 2026-01-17 00:56:13 │ blob_upload     │ 15      │
+│ sha256:a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7 │ 2026-01-17 01:56:13 │ manifest_delete │ 12      │
+└───────────────────────────────────────────────────────────────────┴─────────────────────┴─────────────────┴─────────┘
+
+=== Manifest Review Queue ===
+
+Tasks Pending Removal: 128
+Tasks ready for GC review (review_after has passed).
+
+┌───────────────┬─────────────┬─────────────────────┬──────────────────────┐
+│ REPOSITORY ID │ MANIFEST ID │    REVIEW AFTER     │        EVENT         │
+├───────────────┼─────────────┼─────────────────────┼──────────────────────┤
+│ 1001          │ 12345       │ 2026-01-16 22:56:13 │ tag_delete           │
+│ 1002          │ 67890       │ 2026-01-16 20:56:13 │ manifest_upload      │
+│ 1003          │ 11111       │ 2026-01-16 18:56:13 │ tag_switch           │
+│ 2001          │ 22222       │ 2026-01-16 16:56:13 │ manifest_list_delete │
+└───────────────┴─────────────┴─────────────────────┴──────────────────────┘
+
+Long Overdue Tasks: 8
+Tasks pending longer than configured delay - may need attention.
+
+┌───────────────┬─────────────┬─────────────────────┬─────────────────┬─────────┐
+│ REPOSITORY ID │ MANIFEST ID │    REVIEW AFTER     │      EVENT      │ OVERDUE │
+├───────────────┼─────────────┼─────────────────────┼─────────────────┼─────────┤
+│ 3001          │ 33333       │ 2026-01-12 23:56:13 │ tag_delete      │ 3d 0h   │
+│ 3002          │ 44444       │ 2026-01-14 23:56:13 │ manifest_delete │ 1d 0h   │
+└───────────────┴─────────────┴─────────────────────┴─────────────────┴─────────┘
+
+High Retry Tasks: 3
+Tasks with >10 review attempts - may indicate persistent issues.
+
+┌───────────────┬─────────────┬─────────────────────┬─────────────────┬─────────┐
+│ REPOSITORY ID │ MANIFEST ID │    REVIEW AFTER     │      EVENT      │ RETRIES │
+├───────────────┼─────────────┼─────────────────────┼─────────────────┼─────────┤
+│ 4001          │ 55555       │ 2026-01-17 00:26:13 │ tag_delete      │ 18      │
+│ 4002          │ 66666       │ 2026-01-17 00:41:13 │ manifest_upload │ 11      │
+└───────────────┴─────────────┴─────────────────────┴─────────────────┴─────────┘
+```
+
+{{< /tab >}}
+
+{{< tab title="GitLab 18.9 and earlier" >}}
+
 The following queries return tasks that were retried more than 10 times,
 or were eligible for review for longer than 24 hours. The online garbage collector should
 pick up an item for review within 24 hours with few failed attempts. If any rows are returned,
@@ -306,24 +391,6 @@ LIMIT
   20;
 ```
 
-If these queries return any rows, check the registry logs for messages related
-to garbage collection. Filter for entries by `component="registry.gc.*` and
-investigate any error messages.
-
-The unfiltered size of the `gc_manifest_review_queue` and `gc_blob_review_queue`
-are not good indicators of the health of the online garbage collector.
-These queues never fully clear for an active registry.
-
-Large amounts of tasks eligible for review are also not necessarily a cause for concern.
-The garbage collector might be working through items caused by a spike in activity.
-
-Similarly, the `created_at` date of these tasks alone is not good health indicator.
-When an event adds the same blob or manifest to the queue, the `review_after`
-of the existing task is updated, which postpones the review. No duplicate task is created.
-
-This can occur any number of times, so
-tasks created months ago are not a cause for concern.
-
 #### Informational queries related to online garbage collection
 
 Check the number of tasks eligible for review by running the following queries:
@@ -333,12 +400,47 @@ Check the number of tasks eligible for review by running the following queries:
   SELECT COUNT(*) FROM gc_manifest_review_queue WHERE review_after < NOW();
   ```
 
-Generally, these queries should return relatively low counts, often nearing zero.
-However, these queries might return larger values if:
+{{< /tab >}}
 
-- An import was started 24 to 48 hours ago
-- Large amounts of tags were deleted or a container repository was removed
-- Online garbage collection was disabled for an extended period
+{{< /tabs >}}
+
+Generally, there should be relatively low counts of items ready for review,
+often nearing zero. However, there might be more if:
+
+- An import was started 24 to 48 hours ago.
+- Large amounts of tags were deleted or a container repository was removed.
+- Online garbage collection was disabled for an extended period.
+
+If there are tasks with retries or that are long overdue, check the registry logs
+for messages related to garbage collection. Filter for entries by
+`component="registry.gc.*` and investigate any error messages.
+
+#### Check before troubleshooting
+
+##### GC queue sizes
+
+The unfiltered size of the `gc_manifest_review_queue` and `gc_blob_review_queue`
+are not good indicators of the health of the online garbage collector. These
+queues constantly have new entries added to them; therefore, these queues
+never fully clear for an active registry.
+
+Additionally, not all items in these queues will be removed from storage.
+Consult the [online garbage collection](https://gitlab.com/gitlab-org/container-registry/-/blob/master/docs/spec/gitlab/online-garbage-collection.md)
+specification for a full explanation of these queues for more context.
+
+##### Lots of tasks ready to review
+
+Large amounts of tasks eligible for review are also not necessarily a cause for concern.
+The garbage collector might be working through items caused by a spike in activity.
+
+##### Some tasks are old
+
+Similarly, the `created_at` date of these tasks alone is not a good health indicator.
+When an event adds the same blob or manifest to the queue, the `review_after`
+of the existing task is updated, which postpones the review. No duplicate task is created.
+
+This can occur any number of times, so tasks created months ago are not a cause
+for concern.
 
 ### Adjust the garbage collector worker interval
 

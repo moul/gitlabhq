@@ -8,12 +8,31 @@ export const mockGranularGroupScope = {
     fullPath: 'my-group',
     webUrl: 'https://gitlab.com/groups/my-group',
     avatarUrl: '/avatar.png',
+    __typename: 'Group',
   },
   permissions: [
     { resource: 'project', action: 'read' },
     { resource: 'project', action: 'write' },
     { resource: 'group', action: 'admin' },
   ],
+  __typename: 'AccessTokenGranularScope',
+};
+
+export const mockGranularProjectScope = {
+  access: 'SELECTED_MEMBERSHIPS',
+  namespace: {
+    id: 'gid://gitlab/Namespaces::ProjectNamespace/10',
+    name: 'My Project',
+    fullPath: 'my-group/my-project',
+    __typename: 'Namespace',
+  },
+  project: {
+    id: 'gid://gitlab/Project/10',
+    name: 'My Project',
+    fullPath: 'my-group/my-project',
+    __typename: 'Project',
+  },
+  permissions: [{ resource: 'project', action: 'read' }],
   __typename: 'AccessTokenGranularScope',
 };
 
@@ -285,6 +304,22 @@ export const mockAccessTokenPermissionsQueryResponse = {
     ],
   },
 };
+export const mockSourceTokenQueryResponse = {
+  data: {
+    user: {
+      personalAccessTokens: {
+        nodes: [
+          {
+            name: mockTokens[0].name,
+            description: mockTokens[0].description,
+            scopes: [{ ...mockGranularGroupScope, project: null }],
+          },
+        ],
+      },
+    },
+  },
+};
+
 export const mockStatisticsResponse = {
   data: {
     user: {

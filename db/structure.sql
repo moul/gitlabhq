@@ -4505,12 +4505,19 @@ $$;
 CREATE FUNCTION trigger_c48e4298f362() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-DECLARE
-  row_data JSONB;
 BEGIN
-  row_data := to_jsonb(NEW);
-  IF row_data ? 'company' THEN
-    NEW."company" := NEW."organization";
+  IF TG_OP = 'INSERT' THEN
+    IF NEW.company IS NOT NULL AND NEW.company != '' THEN
+      NEW.organization := NEW.company;
+    ELSE
+      NEW.company := NEW.organization;
+    END IF;
+  ELSIF TG_OP = 'UPDATE' THEN
+    IF OLD.company IS DISTINCT FROM NEW.company THEN
+      NEW.organization := NEW.company;
+    ELSIF OLD.organization IS DISTINCT FROM NEW.organization THEN
+      NEW.company := NEW.organization;
+    END IF;
   END IF;
   RETURN NEW;
 END;

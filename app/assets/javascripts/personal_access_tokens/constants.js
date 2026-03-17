@@ -194,6 +194,8 @@ export const MAX_DESCRIPTION_LENGTH = 255;
 
 export const SEARCH = 'search';
 
+export const TYPENAME_PERSONAL_ACCESS_TOKEN = 'PersonalAccessToken';
+
 export const ACTIONS = {
   REVOKE: 'revoke',
   ROTATE: 'rotate',

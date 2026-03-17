@@ -14,7 +14,6 @@ import wikiPageQuery from '~/wikis/graphql/wiki_page.query.graphql';
 import wikiPageSubscribeMutation from '~/wikis/graphql/wiki_page_subscribe.mutation.graphql';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import WikiSidebarToggle from '~/wikis/components/wiki_sidebar_toggle.vue';
-import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import WikiMoreDropdown from './wiki_more_dropdown.vue';
 import RestoreVersionModal from './restore_version_modal.vue';
 
@@ -34,7 +33,6 @@ export default {
     GlTooltip: GlTooltipDirective,
     GlModal: GlModalDirective,
   },
-  mixins: [glFeatureFlagsMixin()],
   inject: {
     pageHeading: { default: null },
     showEditButton: { default: null },
@@ -198,13 +196,7 @@ export default {
   >
     <page-heading class="gl-w-full">
       <template #heading>
-        <wiki-sidebar-toggle
-          action="open"
-          class="gl-mr-2"
-          :class="{
-            '@lg/panel:gl-hidden': glFeatures.wikiFloatingSidebarToggle,
-          }"
-        />
+        <wiki-sidebar-toggle action="open" class="gl-mr-2 @lg/panel:gl-hidden" />
         <span>
           {{ pageHeadingComputed }}
         </span>

@@ -2815,6 +2815,12 @@ msgstr ""
 msgid "AICatalog|Disable flow from this %{namespaceType}"
 msgstr ""
 
+msgid "AICatalog|Disconnect"
+msgstr ""
+
+msgid "AICatalog|Disconnect %{name}?"
+msgstr ""
+
 msgid "AICatalog|Duplicate"
 msgstr ""
 
@@ -2860,6 +2866,9 @@ msgstr ""
 msgid "AICatalog|Excessive resource usage"
 msgstr ""
 
+msgid "AICatalog|Existing agent chats will continue to reference content already retrieved from this server. However, agents will no longer be able to fetch new content or perform any actions. You can reconnect at any time."
+msgstr ""
+
 msgid "AICatalog|Explore the AI Catalog"
 msgstr ""
 
@@ -2888,6 +2897,9 @@ msgid "AICatalog|Failed to disable flow"
 msgstr ""
 
 msgid "AICatalog|Failed to disable flow. %{error}"
+msgstr ""
+
+msgid "AICatalog|Failed to disconnect from server. Please try again."
 msgstr ""
 
 msgid "AICatalog|Failed to load MCP server"
@@ -4219,6 +4231,9 @@ msgstr ""
 msgid "AccessTokens|Access tokens"
 msgstr ""
 
+msgid "AccessTokens|Access:"
+msgstr ""
+
 msgid "AccessTokens|Active"
 msgstr ""
 
@@ -4334,6 +4349,15 @@ msgid "AccessTokens|Disable access tokens"
 msgstr ""
 
 msgid "AccessTokens|Disables personal, group, project and impersonation access tokens. This setting also disables personal access tokens for service accounts."
+msgstr ""
+
+msgid "AccessTokens|Duplicate"
+msgstr ""
+
+msgid "AccessTokens|Duplicate '%{tokenName}'?"
+msgstr ""
+
+msgid "AccessTokens|Duplicate a token to generate a new token with the same scope as the original token. The original token remains unchanged and both tokens operate independently."
 msgstr ""
 
 msgid "AccessTokens|Enable DPoP"
@@ -4452,6 +4476,9 @@ msgstr[1] ""
 msgid "AccessTokens|Inactive"
 msgstr ""
 
+msgid "AccessTokens|Inactive: Requires the granular_personal_access_tokens feature flag."
+msgstr ""
+
 msgid "AccessTokens|Incoming email token"
 msgstr ""
 
@@ -4528,6 +4555,9 @@ msgid "AccessTokens|Only specific group or projects that I'm a member of"
 msgstr ""
 
 msgid "AccessTokens|Only specific groups or projects that I'm a member of"
+msgstr ""
+
+msgid "AccessTokens|Permissions:"
 msgstr ""
 
 msgid "AccessTokens|Personal access tokens"
@@ -29740,6 +29770,9 @@ msgstr ""
 msgid "Failed to destroy compliance requirement control"
 msgstr ""
 
+msgid "Failed to disconnect from MCP server"
+msgstr ""
+
 msgid "Failed to discover OAuth metadata"
 msgstr ""
 
@@ -45590,6 +45623,9 @@ msgid "No confirmation email received? Check your spam folder or %{request_link_
 msgstr ""
 
 msgid "No connection could be made to a Gitaly server, please check your logs!"
+msgstr ""
+
+msgid "No connection found for this MCP server"
 msgstr ""
 
 msgid "No contributions"

@@ -178,7 +178,6 @@ docs-lint redirects:
   before_script:
     - source scripts/utils.sh
   script: ./scripts/lint-docs-redirects.rb
-  allow_failure: true
 
 docs-i18n-lint markdown:
   extends:

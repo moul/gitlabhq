@@ -511,6 +511,7 @@ You can also [restore wiki page templates](#restore-a-page-template-to-a-previou
 - Limit of 15 items in the sidebar [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/158084) in GitLab 17.2.
 - Sidebar [moved](https://gitlab.com/gitlab-org/gitlab/-/issues/569910) from the upper right to the upper left of the page in GitLab 18.6.
 - Floating sidebar toggle [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/221019) in GitLab 18.9 with a flag named `wiki_floating_sidebar_toggle`. Disabled by default.
+- Floating sidebar toggle [generally available](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227437) in GitLab 18.11. Feature flag `wiki_floating_sidebar_toggle` removed.
 
 {{< /history >}}
 

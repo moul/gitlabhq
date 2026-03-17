@@ -1260,6 +1260,33 @@ Grants the ability to create, delete, read, and update snippets.
 | Read | Instance | `GET` | `/snippets/:id/user_agent_detail` |
 | Update | User | `PUT` | `/snippets/:id` |
 
+### Project Model Registry And Experiments resources
+
+#### Ml Flow Artifact
+
+Grants the ability to read MLflow artifacts.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | Project | `GET` | `/projects/:id/ml/mlflow/api/2.0/mlflow-artifacts/artifacts` |
+| Read | Project | `GET` | `/projects/:id/ml/mlflow/api/2.0/mlflow-artifacts/artifacts/:model_version/*file_path` |
+
+#### Ml Flow Run
+
+Grants the ability to create, read, update, delete and log MLflow runs.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Project | `POST` | `/projects/:id/ml/mlflow/api/2.0/mlflow/runs/create` |
+| Delete | Project | `POST` | `/projects/:id/ml/mlflow/api/2.0/mlflow/runs/delete` |
+| Log | Project | `POST` | `/projects/:id/ml/mlflow/api/2.0/mlflow/runs/log-metric` |
+| Log | Project | `POST` | `/projects/:id/ml/mlflow/api/2.0/mlflow/runs/log-parameter` |
+| Log | Project | `POST` | `/projects/:id/ml/mlflow/api/2.0/mlflow/runs/log-batch` |
+| Read | Project | `GET` | `/projects/:id/ml/mlflow/api/2.0/mlflow/runs/get` |
+| Read | Project | `POST` | `/projects/:id/ml/mlflow/api/2.0/mlflow/runs/search` |
+| Update | Project | `POST` | `/projects/:id/ml/mlflow/api/2.0/mlflow/runs/update` |
+| Update | Project | `POST` | `/projects/:id/ml/mlflow/api/2.0/mlflow/runs/set-tag` |
+
 ### Project Planning resources
 
 #### Custom Attribute

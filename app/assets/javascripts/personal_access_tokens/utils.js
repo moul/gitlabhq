@@ -1,5 +1,6 @@
 import { map, groupBy, uniqBy } from 'lodash';
 import { queryToObject } from '~/lib/utils/url_utility';
+import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { localeDateFormat, newDate } from '~/lib/utils/datetime_utility';
 import { convertToSnakeCase } from '~/lib/utils/text_utility';
 import { __ } from '~/locale';
@@ -266,4 +267,18 @@ export function groupPermissionsByResourceAndCategory(permissions) {
       'key',
     ),
   }));
+}
+
+/**
+ * Builds the URL to redirect to the granular token creation form pre-populated
+ * from an existing token. The form fetches the source token's full scope data
+ * server-side using the ID, so no scope data is encoded in the URL.
+ * @param {Object} token - The token to duplicate (must have an `id` field)
+ * @param {string} granularNewUrl - The base URL for the granular token creation form
+ * @returns {string} URL with source_token_id query parameter
+ */
+export function buildDuplicateUrl(token, granularNewUrl) {
+  const params = new URLSearchParams({ source_token_id: getIdFromGraphQLId(token.id) });
+  const separator = granularNewUrl.includes('?') ? '&' : '?';
+  return `${granularNewUrl}${separator}${params}`;
 }

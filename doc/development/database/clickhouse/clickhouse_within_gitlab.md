@@ -22,7 +22,7 @@ This document gives a high-level overview of how to develop features using Click
    clickhouse:
      bin: "/opt/homebrew/bin/clickhouse"
      enabled: true
-     # these are optional if we have more then one GDK:
+     # these are optional if we have more than one GDK:
      # http_port: 8123
      # interserver_http_port: 9009
      # tcp_port: 9001

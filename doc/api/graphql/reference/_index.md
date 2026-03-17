@@ -27492,6 +27492,28 @@ Returns [`Date`](#date).
 | ---- | ---- | ----------- |
 | <a id="agentplatformsessionsaggregationresponsedimensions-createdeventat-granularity"></a>`granularity` | [`String`](#string) |  |
 
+### `AgentPlatformSessionsAggregationScope`
+
+Aggregation scope for AgentPlatformSessions. Apply ordering and pagination on the aggregation.
+
+#### Fields with arguments
+
+##### `AgentPlatformSessionsAggregationScope.aggregated`
+
+Aggregated data.
+
+Returns [`AgentPlatformSessionsAggregationResponseConnection`](#agentplatformsessionsaggregationresponseconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="agentplatformsessionsaggregationscope-aggregated-orderby"></a>`orderBy` | [`[AggregationOrder!]`](#aggregationorder) | Sorting order list for the aggregated data. |
+
 ### `AgentPlatformUserFlowCount`
 
 Agent platform flow counts aggergated per user.
@@ -27841,6 +27863,7 @@ An MCP (Model Context Protocol) server.
 | ---- | ---- | ----------- |
 | <a id="aicatalogmcpserver-authtype"></a>`authType` | [`AiCatalogMcpServerAuthType!`](#aicatalogmcpserverauthtype) | Authentication type for the MCP server. |
 | <a id="aicatalogmcpserver-createdat"></a>`createdAt` | [`Time!`](#time) | Timestamp when the MCP server was created. |
+| <a id="aicatalogmcpserver-currentuserconnected"></a>`currentUserConnected` | [`Boolean!`](#boolean) | Whether the current user has connected to the MCP server. |
 | <a id="aicatalogmcpserver-description"></a>`description` | [`String`](#string) | Description of the MCP server. |
 | <a id="aicatalogmcpserver-homepageurl"></a>`homepageUrl` | [`String`](#string) | Homepage URL of the MCP server. |
 | <a id="aicatalogmcpserver-id"></a>`id` | [`ID!`](#id) | ID of the MCP server. |
@@ -28212,11 +28235,7 @@ Usage metrics. Not for production use yet.
 
 Aggregation engine for GitLab agent platform sessions usage.
 
-Returns [`AgentPlatformSessionsAggregationResponseConnection`](#agentplatformsessionsaggregationresponseconnection).
-
-This field returns a [connection](#connections). It accepts the
-four standard [pagination arguments](#pagination-arguments):
-`before: String`, `after: String`, `first: Int`, and `last: Int`.
+Returns [`AgentPlatformSessionsAggregationScope`](#agentplatformsessionsaggregationscope).
 
 ###### Arguments
 
@@ -28225,7 +28244,6 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="aiusage-agentplatformsessions-createdeventatfrom"></a>`createdEventAtFrom` | [`Time`](#time) | Filter by session creation timestamp. Start of the range. |
 | <a id="aiusage-agentplatformsessions-createdeventatto"></a>`createdEventAtTo` | [`Time`](#time) | Filter by session creation timestamp. End of the range. |
 | <a id="aiusage-agentplatformsessions-flowtype"></a>`flowType` | [`[String!]`](#string) | Filter by one or many flow types. |
-| <a id="aiusage-agentplatformsessions-orderby"></a>`orderBy` | [`[AggregationOrder!]`](#aggregationorder) | Sorting order list for the aggregated data. |
 | <a id="aiusage-agentplatformsessions-userid"></a>`userId` | [`[Int!]`](#int) | Filter by one or many user ids. |
 
 ### `AiUsageData`

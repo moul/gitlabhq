@@ -6,8 +6,9 @@ import {
   convertFiltersToQueryParams,
   convertSortToQueryParams,
   groupPermissionsByResourceAndCategory,
+  buildDuplicateUrl,
 } from '~/personal_access_tokens/utils';
-import { mockGroupPermissions } from './mock_data';
+import { mockGroupPermissions, mockTokens } from './mock_data';
 
 describe('personal_access_tokens/utils', () => {
   describe('timeFormattedAsDate', () => {
@@ -255,6 +256,23 @@ describe('personal_access_tokens/utils', () => {
           ],
         },
       ]);
+    });
+  });
+
+  describe('buildDuplicateUrl', () => {
+    const granularNewUrl = '/user_settings/personal_access_tokens/granular/new';
+    const granularToken = mockTokens[0];
+
+    it('builds a URL containing the integer source token ID', () => {
+      const url = buildDuplicateUrl(granularToken, granularNewUrl);
+
+      expect(url).toBe(`${granularNewUrl}?source_token_id=1`);
+    });
+
+    it('uses the integer ID, not the GID', () => {
+      const url = buildDuplicateUrl(granularToken, granularNewUrl);
+
+      expect(url).not.toContain('gid');
     });
   });
 });
