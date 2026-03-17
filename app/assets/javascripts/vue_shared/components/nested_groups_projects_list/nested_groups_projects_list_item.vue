@@ -20,7 +20,13 @@ export default {
     item: {
       type: Object,
       required: true,
-      validator: (value) => Array.isArray(value.children),
+      validator: (value) => {
+        if (value.type === LIST_ITEM_TYPE_PROJECT) {
+          return true;
+        }
+
+        return Array.isArray(value.children);
+      },
     },
     timestampType: {
       type: String,

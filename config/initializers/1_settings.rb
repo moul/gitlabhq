@@ -1134,9 +1134,12 @@ Gitlab.ee do
   Settings.cron_jobs['ai_duo_workflows_fail_stuck_workflows_worker'] ||= {}
   Settings.cron_jobs['ai_duo_workflows_fail_stuck_workflows_worker']['cron'] ||= '*/30 * * * *'
   Settings.cron_jobs['ai_duo_workflows_fail_stuck_workflows_worker']['job_class'] ||= 'Ai::DuoWorkflows::FailStuckWorkflowsWorker'
-  Settings.cron_jobs['secret_rotation_reminder_batch_worker'] ||= {}
-  Settings.cron_jobs['secret_rotation_reminder_batch_worker']['cron'] ||= '* * * * *'
-  Settings.cron_jobs['secret_rotation_reminder_batch_worker']['job_class'] = 'SecretsManagement::SecretRotationReminderBatchWorker'
+  Settings.cron_jobs['project_secret_rotation_reminder_batch_worker'] ||= {}
+  Settings.cron_jobs['project_secret_rotation_reminder_batch_worker']['cron'] ||= '* * * * *'
+  Settings.cron_jobs['project_secret_rotation_reminder_batch_worker']['job_class'] = 'SecretsManagement::ProjectSecretRotationReminderBatchWorker'
+  Settings.cron_jobs['group_secret_rotation_reminder_batch_worker'] ||= {}
+  Settings.cron_jobs['group_secret_rotation_reminder_batch_worker']['cron'] ||= '* * * * *'
+  Settings.cron_jobs['group_secret_rotation_reminder_batch_worker']['job_class'] = 'SecretsManagement::GroupSecretRotationReminderBatchWorker'
   Settings.cron_jobs['project_secrets_manager_maintenance_tasks_cron_worker'] ||= {}
   Settings.cron_jobs['project_secrets_manager_maintenance_tasks_cron_worker']['cron'] ||= '* * * * *'
   Settings.cron_jobs['project_secrets_manager_maintenance_tasks_cron_worker']['job_class'] = 'SecretsManagement::ProjectSecretsManagerMaintenanceTasksCronWorker'

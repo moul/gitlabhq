@@ -14,17 +14,17 @@ title: Post-migration contribution and membership mapping
 
 {{< history >}}
 
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/443557) in GitLab 17.4 for direct transfer [with flags](../../administration/feature_flags/_index.md) named `importer_user_mapping` and `bulk_import_importer_user_mapping`. Disabled by default.
-- Introduced in GitLab 17.6 for [Gitea](https://gitlab.com/gitlab-org/gitlab/-/issues/467084) [with flags](../../administration/feature_flags/_index.md) named `importer_user_mapping` and `gitea_user_mapping`, and for [GitHub](https://gitlab.com/gitlab-org/gitlab/-/issues/466355) with flags named `importer_user_mapping` and `github_user_mapping`. Disabled by default.
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/466356) in GitLab 17.7 for Bitbucket Server [with flags](../../administration/feature_flags/_index.md) named `importer_user_mapping` and `bitbucket_server_user_mapping`. Disabled by default.
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/443557) in GitLab 17.4 for direct transfer [with flags](../../../administration/feature_flags/_index.md) named `importer_user_mapping` and `bulk_import_importer_user_mapping`. Disabled by default.
+- Introduced in GitLab 17.6 for [Gitea](https://gitlab.com/gitlab-org/gitlab/-/issues/467084) [with flags](../../../administration/feature_flags/_index.md) named `importer_user_mapping` and `gitea_user_mapping`, and for [GitHub](https://gitlab.com/gitlab-org/gitlab/-/issues/466355) with flags named `importer_user_mapping` and `github_user_mapping`. Disabled by default.
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/466356) in GitLab 17.7 for Bitbucket Server [with flags](../../../administration/feature_flags/_index.md) named `importer_user_mapping` and `bitbucket_server_user_mapping`. Disabled by default.
 - [Enabled on GitLab.com and GitLab Self-Managed](https://gitlab.com/gitlab-org/gitlab/-/issues/472735) in GitLab 17.7 for direct transfer.
 - Enabled on GitLab.com in GitLab 17.7 for [Bitbucket Server](https://gitlab.com/gitlab-org/gitlab/-/issues/509897), [Gitea](https://gitlab.com/gitlab-org/gitlab/-/issues/498390), and [GitHub](https://gitlab.com/gitlab-org/gitlab/-/issues/499993).
 - Enabled on GitLab Self-Managed in GitLab 17.8 for [Bitbucket Server](https://gitlab.com/gitlab-org/gitlab/-/issues/509897), [Gitea](https://gitlab.com/gitlab-org/gitlab/-/issues/498390), and [GitHub](https://gitlab.com/gitlab-org/gitlab/-/issues/499993).
-- Reassigning contributions to a personal namespace owner when importing to a personal namespace [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/525342) in GitLab 18.3 [with a flag](../../administration/feature_flags/_index.md) named `user_mapping_to_personal_namespace_owner`. Disabled by default.
+- Reassigning contributions to a personal namespace owner when importing to a personal namespace [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/525342) in GitLab 18.3 [with a flag](../../../administration/feature_flags/_index.md) named `user_mapping_to_personal_namespace_owner`. Disabled by default.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/508945) in GitLab 18.4 for direct transfer. Feature flag `bulk_import_importer_user_mapping` removed.
 - Reassigning contributions to service accounts, project bots, and group
   bots [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/573124) in GitLab
-  18.5 [with a flag](../../administration/feature_flags/_index.md) named `user_mapping_service_account_and_bots`.
+  18.5 [with a flag](../../../administration/feature_flags/_index.md) named `user_mapping_service_account_and_bots`.
   Enabled by default.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/512211) in GitLab 18.6 for Gitea. Feature flag
   `gitea_user_mapping` removed.
@@ -42,12 +42,12 @@ correct users. This process ensures accurate attribution while maintaining contr
 
 Post-migration user contribution and membership mapping is available by default for migrations from:
 
-- [GitLab when using direct transfer](../group/import/_index.md)
-- [GitHub](../project/import/github.md)
-- [Bitbucket Server](bitbucket_server.md)
-- [Gitea](gitea.md)
+- [GitLab when using direct transfer](../../group/import/_index.md)
+- [GitHub](../../project/import/github.md)
+- [Bitbucket Server](../bitbucket_server.md)
+- [Gitea](../gitea.md)
 
-When you import projects to a [personal namespace](../namespace/_index.md#types-of-namespaces), user contribution mapping
+When you import projects to a [personal namespace](../../namespace/_index.md#types-of-namespaces), user contribution mapping
 and membership mapping is not supported and all contributions are assigned to the personal namespace owner. These
 contributions cannot be reassigned.
 
@@ -55,7 +55,7 @@ contributions cannot be reassigned.
 
 - Plan for the number of users, according to the [user limits](#placeholder-user-limits).
 - If you import to GitLab.com, set up your paid namespace.
-- If you import to GitLab.com and use [SAML SSO for GitLab.com groups](../group/saml_sso/_index.md),
+- If you import to GitLab.com and use [SAML SSO for GitLab.com groups](../../group/saml_sso/_index.md),
   ensure all users link their SAML identity to their GitLab.com account.
 
 ## Post-migration mapping workflow
@@ -88,7 +88,7 @@ When you reassign contributions to a user on the destination instance, the user 
 
 {{< /history >}}
 
-If your top-level group has at least one [enterprise user](../enterprise_user/_index.md), you can reassign contributions
+If your top-level group has at least one [enterprise user](../../enterprise_user/_index.md), you can reassign contributions
 only to enterprise users in your organization.
 
 This means you cannot accidentally reassign to users outside your organization.
@@ -96,7 +96,7 @@ This means you cannot accidentally reassign to users outside your organization.
 ### Deleted users
 
 Contributions on the source instance that were made by a now deleted user are mapped on the destination instance to
-[a ghost user](../../administration/internal_users.md), except when:
+[a ghost user](../../../administration/internal_users.md), except when:
 
 - The contribution was never properly detached from the deleted user on the source instance.
 - Migrating from Bitbucket Server.
@@ -119,7 +119,7 @@ Placeholder users do not count towards license limits.
 
 A placeholder user is not created in these scenarios:
 
-- You're importing a project from [Gitea](gitea.md) with contributions from deleted users.
+- You're importing a project from [Gitea](../gitea.md) with contributions from deleted users.
   Contributions from these users are mapped to the user who imported the project.
 - You have exceeded your [placeholder user limit](#placeholder-user-limits). Contributions from any new users are
   mapped to an import user.
@@ -245,7 +245,7 @@ If importing to GitLab.com, placeholder users are limited per top-level group on
 | Ultimate and open source | > 1000          | 8000                                      |
 
 For GitLab Self-Managed and GitLab Dedicated, no placeholder limits apply by default.
-A GitLab administrator can [set a placeholder limit](../../administration/instance_limits.md#import-placeholder-user-limits) on their instance.
+A GitLab administrator can [set a placeholder limit](../../../administration/instance_limits.md#import-placeholder-user-limits) on their instance.
 
 To view your current placeholder user usage and limits:
 
@@ -288,9 +288,9 @@ On the destination instance, users with the Owner role for a top-level group can
 
 On GitLab Self-Managed and GitLab Dedicated, administrators can reassign
 contributions and memberships to active and inactive non-bot users immediately without their confirmation.
-For more information, see [skip confirmation when administrators reassign placeholder users](../../administration/settings/import_and_export_settings.md#skip-confirmation-when-administrators-reassign-placeholder-users).
+For more information, see [skip confirmation when administrators reassign placeholder users](../../../administration/settings/import_and_export_settings.md#skip-confirmation-when-administrators-reassign-placeholder-users).
 To reassign contributions and memberships to administrators, see
-[allow contribution mapping to administrators](../../administration/settings/import_and_export_settings.md#allow-contribution-mapping-to-administrators).
+[allow contribution mapping to administrators](../../../administration/settings/import_and_export_settings.md#allow-contribution-mapping-to-administrators).
 
 ## Bypass confirmation when reassigning placeholder users
 
@@ -313,7 +313,7 @@ Prerequisites:
 
 - You must have the Owner role for the group.
 
-To bypass confirmation for [enterprise users](../enterprise_user/_index.md)
+To bypass confirmation for [enterprise users](../../enterprise_user/_index.md)
 when you reassign placeholders:
 
 1. In the top bar, select **Search or go to** and find your group.
@@ -357,16 +357,16 @@ are mapped automatically to the user who previously accepted reassignments for t
 
 On GitLab Self-Managed and GitLab Dedicated, administrators can reassign
 contributions and memberships to active and inactive non-bot users immediately without their confirmation.
-For more information, see [skip confirmation when administrators reassign placeholder users](../../administration/settings/import_and_export_settings.md#skip-confirmation-when-administrators-reassign-placeholder-users).
+For more information, see [skip confirmation when administrators reassign placeholder users](../../../administration/settings/import_and_export_settings.md#skip-confirmation-when-administrators-reassign-placeholder-users).
 To reassign contributions and memberships to administrators, see
-[allow contribution mapping to administrators](../../administration/settings/import_and_export_settings.md#allow-contribution-mapping-to-administrators).
+[allow contribution mapping to administrators](../../../administration/settings/import_and_export_settings.md#allow-contribution-mapping-to-administrators).
 
 ### Completing the reassignment
 
 The reassignment process must be fully completed before you:
 
-- [Move an imported group in the same GitLab instance](../group/manage.md#transfer-a-group).
-- [Move an imported project to a different group](../project/working_with_projects.md#transfer-a-project).
+- [Move an imported group in the same GitLab instance](../../group/manage.md#transfer-a-group).
+- [Move an imported project to a different group](../../project/working_with_projects.md#transfer-a-project).
 - Duplicate an imported issue.
 - Promote an imported issue to an epic.
 
@@ -381,12 +381,12 @@ Reassigning contributions and membership to an incorrect user poses a security t
 of your group. They can, therefore, view information they should not be able to see.
 
 Reassigning contributions to users with administrator access is disabled by default, but you can
-[enable](../../administration/settings/import_and_export_settings.md#allow-contribution-mapping-to-administrators) it.
+[enable](../../../administration/settings/import_and_export_settings.md#allow-contribution-mapping-to-administrators) it.
 
 #### Membership security considerations
 
 Because of the GitLab permissions model, when a group or project is imported into an existing parent group, members of
-the parent group are granted [inherited membership](../project/members/_index.md#membership-types) of the imported group or project.
+the parent group are granted [inherited membership](../../project/members/_index.md#membership-types) of the imported group or project.
 
 Selecting a user for contribution and membership reassignment who already has an
 existing inherited membership of the imported group or project can affect how memberships
@@ -422,15 +422,15 @@ Before a user accepts the reassignment, you can [cancel the request](#cancel-rea
 
 On GitLab Self-Managed and GitLab Dedicated, administrators can reassign
 contributions and memberships to active and inactive non-bot users immediately without their confirmation.
-For more information, see [skip confirmation when administrators reassign placeholder users](../../administration/settings/import_and_export_settings.md#skip-confirmation-when-administrators-reassign-placeholder-users).
+For more information, see [skip confirmation when administrators reassign placeholder users](../../../administration/settings/import_and_export_settings.md#skip-confirmation-when-administrators-reassign-placeholder-users).
 To reassign contributions and memberships to administrators, see
-[allow contribution mapping to administrators](../../administration/settings/import_and_export_settings.md#allow-contribution-mapping-to-administrators).
+[allow contribution mapping to administrators](../../../administration/settings/import_and_export_settings.md#allow-contribution-mapping-to-administrators).
 
 ### Request reassignment by using a CSV file
 
 {{< history >}}
 
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/455901) in GitLab 17.10 [with a flag](../../administration/feature_flags/_index.md) named `importer_user_mapping_reassignment_csv`. Enabled by default.
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/455901) in GitLab 17.10 [with a flag](../../../administration/feature_flags/_index.md) named `importer_user_mapping_reassignment_csv`. Enabled by default.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/478022) in GitLab 18.0. Feature flag `importer_user_mapping_reassignment_csv` removed.
 
 {{< /history >}}
@@ -478,9 +478,9 @@ You can [cancel the reassignment request](#cancel-reassignment-request) before t
 
 On GitLab Self-Managed and GitLab Dedicated, administrators can reassign
 contributions and memberships to active and inactive non-bot users immediately without their confirmation.
-For more information, see [skip confirmation when administrators reassign placeholder users](../../administration/settings/import_and_export_settings.md#skip-confirmation-when-administrators-reassign-placeholder-users).
+For more information, see [skip confirmation when administrators reassign placeholder users](../../../administration/settings/import_and_export_settings.md#skip-confirmation-when-administrators-reassign-placeholder-users).
 To reassign contributions and memberships to administrators, see
-[allow contribution mapping to administrators](../../administration/settings/import_and_export_settings.md#allow-contribution-mapping-to-administrators).
+[allow contribution mapping to administrators](../../../administration/settings/import_and_export_settings.md#allow-contribution-mapping-to-administrators).
 
 After you reassign contributions, GitLab sends you an email with the number of:
 
@@ -491,7 +491,7 @@ After you reassign contributions, GitLab sends you an email with the number of:
 If any rows have not been successfully processed, the email has a CSV file with more detailed results.
 
 To reassign placeholder users in bulk without using the UI,
-see [Group placeholder reassignments API](../../api/group_placeholder_reassignments.md).
+see [Group placeholder reassignments API](../../../api/group_placeholder_reassignments.md).
 
 ### Keep as placeholder
 
@@ -598,7 +598,7 @@ You can also sort the table by reassignment status.
 
 ## Confirm contribution reassignment
 
-When [**Skip confirmation when administrators reassign placeholder users**](../../administration/settings/import_and_export_settings.md#skip-confirmation-when-administrators-reassign-placeholder-users) is enabled:
+When [**Skip confirmation when administrators reassign placeholder users**](../../../administration/settings/import_and_export_settings.md#skip-confirmation-when-administrators-reassign-placeholder-users) is enabled:
 
 - Administrators can reassign contributions immediately without user confirmation.
 - Administrators can reassign contributions to active and inactive non-bot users.

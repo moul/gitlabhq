@@ -22,7 +22,7 @@ description: Repository migration, third-party repositories, and user contributi
 Bring your existing work into GitLab.
 
 A migration tool is available for some third-party platforms. Some support
-[post-migration mapping](mapping.md) of user contribution and membership.
+[post-migration mapping](mapping/_index.md) of user contribution and membership.
 
 | Migrate from                                                                | Groups                  | Projects    | Migration tool | Post-migration mapping |
 |:----------------------------------------------------------------------------|:------------------------|:------------|:---------------|:-----------------------|

@@ -75,7 +75,8 @@ On the source instance, stale imports are often due to excessive memory usage,
 which might restart Sidekiq processes and interrupt export jobs.
 The destination instance might wait for the export files until the migration eventually times out.
 
-To check if the [group](../../../api/group_relations_export.md#export-status) or [project](../../../api/project_relations_export.md#export-status) relations were successfully exported,
+To check if the [group](../../../api/group_relations_export.md#export-status) or
+[project](../../../api/project_relations_export.md#export-status) relations were successfully exported,
 run the following command:
 
 ```shell
@@ -83,7 +84,7 @@ curl --request GET --location "https://example.gitlab.com/api/v4/projects/:ID/ex
 --header "PRIVATE-TOKEN: <your_access_token>"
 ```
 
-If a relation has a status other than `1`, the relation was not successfully exported
+If a {{< glossary-tooltip text="relation" >}} has a status other than `1`, the relation was not successfully exported
 and the issue is on the source instance.
 
 You can also run the following command to search for interrupted export jobs.
