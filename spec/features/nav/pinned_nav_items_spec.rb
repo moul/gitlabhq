@@ -197,7 +197,10 @@ RSpec.describe 'Navigation menu item pinning', :js, feature_category: :navigatio
     end
   end
 
-  describe 'keyboard behavior with collapsed sidebar' do
+  describe 'keyboard behavior with collapsed sidebar', quarantine: {
+    issue: 'https://gitlab.com/gitlab-org/gitlab/-/work_items/593872',
+    type: :flaky
+  } do
     before do
       visit project_path(project)
       # Collapse the sidebar to icon-only mode
@@ -298,7 +301,10 @@ RSpec.describe 'Navigation menu item pinning', :js, feature_category: :navigatio
     end
   end
 
-  describe 'mouse behavior with collapsed sidebar' do
+  describe 'mouse behavior with collapsed sidebar', quarantine: {
+    issue: 'https://gitlab.com/gitlab-org/gitlab/-/work_items/593872',
+    type: :flaky
+  } do
     before do
       visit project_path(project)
       # Collapse the sidebar to icon-only mode

@@ -11209,34 +11209,13 @@ paths:
       parameters:
       - name: model_name
         required: true
-        description: The name of the model
+        description: See https://docs.gitlab.com/administration/admin_area/#data-management
+          for the list of allowed values
         schema:
           type: string
-          enum:
-          - geo_abuse_report_uploads
-          - geo_project_uploads
-          - packages_helm_metadata_caches
-          - supply_chain_attestations
-          - packages_nuget_symbols
-          - uploads
-          - terraform_state_versions
-          - snippet_repositories
-          - projects_wiki_repositories
-          - projects
-          - ci_pipeline_artifacts
-          - pages_deployments
-          - packages_package_files
-          - merge_request_diffs
-          - lfs_objects
-          - ci_job_artifacts
-          - group_wiki_repositories
-          - design_management_repositories
-          - dependency_proxy_manifests
-          - dependency_proxy_blobs
-          - container_repositories
-          - ci_secure_files
           minLength: 1
         in: path
+        example: uploads
       - name: record_identifier
         required: true
         description: The identifier of the model record
@@ -11271,34 +11250,13 @@ paths:
       parameters:
       - name: model_name
         required: true
-        description: The name of the model
+        description: See https://docs.gitlab.com/administration/admin_area/#data-management
+          for the list of allowed values
         schema:
           type: string
-          enum:
-          - geo_abuse_report_uploads
-          - geo_project_uploads
-          - packages_helm_metadata_caches
-          - supply_chain_attestations
-          - packages_nuget_symbols
-          - uploads
-          - terraform_state_versions
-          - snippet_repositories
-          - projects_wiki_repositories
-          - projects
-          - ci_pipeline_artifacts
-          - pages_deployments
-          - packages_package_files
-          - merge_request_diffs
-          - lfs_objects
-          - ci_job_artifacts
-          - group_wiki_repositories
-          - design_management_repositories
-          - dependency_proxy_manifests
-          - dependency_proxy_blobs
-          - container_repositories
-          - ci_secure_files
           minLength: 1
         in: path
+        example: uploads
       - name: record_identifier
         required: true
         description: The identifier of the model record
@@ -11331,34 +11289,13 @@ paths:
       parameters:
       - name: model_name
         required: true
-        description: The name of the model
+        description: See https://docs.gitlab.com/administration/admin_area/#data-management
+          for the list of allowed values
         schema:
           type: string
-          enum:
-          - geo_abuse_report_uploads
-          - geo_project_uploads
-          - packages_helm_metadata_caches
-          - supply_chain_attestations
-          - packages_nuget_symbols
-          - uploads
-          - terraform_state_versions
-          - snippet_repositories
-          - projects_wiki_repositories
-          - projects
-          - ci_pipeline_artifacts
-          - pages_deployments
-          - packages_package_files
-          - merge_request_diffs
-          - lfs_objects
-          - ci_job_artifacts
-          - group_wiki_repositories
-          - design_management_repositories
-          - dependency_proxy_manifests
-          - dependency_proxy_blobs
-          - container_repositories
-          - ci_secure_files
           minLength: 1
         in: path
+        example: uploads
       - name: page
         required: false
         description: Current page number
@@ -11446,34 +11383,13 @@ paths:
       parameters:
       - name: model_name
         required: true
-        description: The name of the model
+        description: See https://docs.gitlab.com/administration/admin_area/#data-management
+          for the list of allowed values
         schema:
           type: string
-          enum:
-          - geo_abuse_report_uploads
-          - geo_project_uploads
-          - packages_helm_metadata_caches
-          - supply_chain_attestations
-          - packages_nuget_symbols
-          - uploads
-          - terraform_state_versions
-          - snippet_repositories
-          - projects_wiki_repositories
-          - projects
-          - ci_pipeline_artifacts
-          - pages_deployments
-          - packages_package_files
-          - merge_request_diffs
-          - lfs_objects
-          - ci_job_artifacts
-          - group_wiki_repositories
-          - design_management_repositories
-          - dependency_proxy_manifests
-          - dependency_proxy_blobs
-          - container_repositories
-          - ci_secure_files
           minLength: 1
         in: path
+        example: uploads
       requestBody:
         required: false
         content:

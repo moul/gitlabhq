@@ -59,7 +59,7 @@ module Import
 
       def error_no_source_users
         ServiceResponse.error(
-          message: s_('No placeholder users are awaiting reassignment.'),
+          message: _('No placeholder users are awaiting reassignment.'),
           reason: :no_source_users
         )
       end

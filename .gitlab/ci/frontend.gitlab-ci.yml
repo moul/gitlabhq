@@ -133,6 +133,31 @@ compile-fe-islands:
     paths:
       - ee/frontend_islands/apps/*/dist/main.js
 
+generate-js-routes:
+  extends:
+    - .default-retry
+    - .default-before_script
+    - .ruby-cache
+    - .repo-from-artifacts
+    - .frontend:rules:jest
+  stage: prepare
+  needs:
+    - !reference [.repo-from-artifacts, needs]
+    - job: cache:ruby-gems
+      optional: true
+  variables:
+    SETUP_DB: "false"
+  script:
+    - bundle exec rake gitlab:js:routes
+  artifacts:
+    paths:
+      - app/assets/javascripts/lib/utils/path_helpers
+      - ee/app/assets/javascripts/lib/utils/path_helpers
+  # This job is not yet used. Once we verify that this job works in all
+  # environments we will remove this and add it as a dependency for test and
+  # build jobs.
+  allow_failure: true
+
 .frontend-fixtures-base:
   extends:
     - .default-retry

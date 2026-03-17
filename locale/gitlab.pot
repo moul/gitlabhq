@@ -13531,6 +13531,9 @@ msgstr ""
 msgid "Browse Files"
 msgstr ""
 
+msgid "Browse artifacts"
+msgstr ""
+
 msgid "Browse commit files"
 msgstr ""
 
@@ -22165,9 +22168,6 @@ msgstr ""
 msgid "Custom range"
 msgstr ""
 
-msgid "Custom role"
-msgstr ""
-
 msgid "Custom tags in Datadog. Specify one tag per line in the format `key:value\\nkey2:value2`."
 msgstr ""
 
@@ -23868,9 +23868,6 @@ msgid "Default language for users who are not logged in."
 msgstr ""
 
 msgid "Default projects limit"
-msgstr ""
-
-msgid "Default role"
 msgstr ""
 
 msgid "Default search scope"
@@ -42444,10 +42441,16 @@ msgstr ""
 msgid "MemberRole|Custom role created on %{dateTime}"
 msgstr ""
 
+msgid "MemberRole|Custom role: %{role}"
+msgstr ""
+
 msgid "MemberRole|Custom roles"
 msgstr ""
 
 msgid "MemberRole|Default"
+msgstr ""
+
+msgid "MemberRole|Default role: %{role}"
 msgstr ""
 
 msgid "MemberRole|Default roles"
@@ -42652,6 +42655,9 @@ msgid "MemberRole|The Owner role is typically assigned to the individual or team
 msgstr ""
 
 msgid "MemberRole|The Planner role is suitable for team members who need to manage projects and track work items but do not need to contribute code, such as project managers and scrum masters."
+msgstr ""
+
+msgid "MemberRole|The Planner role is suitable for team members who need to manage projects and track work items but do not need to contribute code."
 msgstr ""
 
 msgid "MemberRole|The Reporter role is suitable for team members who need to stay informed about a project or group but do not actively contribute code."
@@ -62515,9 +62521,6 @@ msgstr ""
 msgid "SecurityOrchestration|Automatically set the status of these vulnerabilities to %{type}."
 msgstr ""
 
-msgid "SecurityOrchestration|Back to standard editor"
-msgstr ""
-
 msgid "SecurityOrchestration|Begin test run"
 msgstr ""
 
@@ -62741,6 +62744,12 @@ msgid "SecurityOrchestration|Emergency production issue"
 msgstr ""
 
 msgid "SecurityOrchestration|Empty policy name"
+msgstr ""
+
+msgid "SecurityOrchestration|Enable advanced editor"
+msgstr ""
+
+msgid "SecurityOrchestration|Enable standard editor"
 msgstr ""
 
 msgid "SecurityOrchestration|Enabled"
@@ -63642,9 +63651,6 @@ msgid "SecurityOrchestration|To widen your search, change filters above or selec
 msgstr ""
 
 msgid "SecurityOrchestration|Trigger"
-msgstr ""
-
-msgid "SecurityOrchestration|Try advanced editor"
 msgstr ""
 
 msgid "SecurityOrchestration|Turn off default mode to edit scope."
@@ -69584,9 +69590,6 @@ msgid "The Microsoft Teams webhook (for example, `https://outlook.office.com/web
 msgstr ""
 
 msgid "The Pivotal Tracker token."
-msgstr ""
-
-msgid "The Planner role is suitable for team members who need to manage projects and track work items but do not need to contribute code."
 msgstr ""
 
 msgid "The Pumble webhook (for example, `https://api.pumble.com/workspaces/x/...`)."

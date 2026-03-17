@@ -19,6 +19,7 @@ import {
   WORK_ITEM_TREE_COLLAPSE_TRACKING_ACTION_COLLAPSED,
   WORK_ITEM_TREE_COLLAPSE_TRACKING_ACTION_EXPANDED,
   WORK_ITEM_TYPE_NAME_TICKET,
+  METADATA_KEYS,
 } from '../../constants';
 import {
   findHierarchyWidget,
@@ -149,7 +150,7 @@ export default {
       draggedItemType: null,
       hiddenMetadataKeys: getHiddenMetadataKeysFromLocalStorage(
         WORKITEM_TREE_METADATA_LOCALSTORAGEKEY,
-        [],
+        [METADATA_KEYS.PARENT],
       ),
     };
   },
@@ -400,6 +401,8 @@ export default {
     noChildItemsOpen: s__('WorkItem|No child items are currently open.'),
   },
   WORKITEM_TREE_METADATA_LOCALSTORAGEKEY,
+  METADATA_KEYS,
+  defaultHiddenMetadataKeys: [METADATA_KEYS.PARENT],
 };
 </script>
 
@@ -446,6 +449,7 @@ export default {
         :work-item-type="workItemType"
         :show-closed="showClosed"
         :metadata-local-storage-key="$options.WORKITEM_TREE_METADATA_LOCALSTORAGEKEY"
+        :default-hidden-metadata-keys="$options.defaultHiddenMetadataKeys"
         show-view-roadmap-action
         @toggle-show-closed="toggleShowClosed"
         @update-hidden-metadata-keys="handleUpdateHiddenMetadataKeys"

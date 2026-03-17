@@ -70,7 +70,7 @@ RSpec.describe Gitlab::PDF::Security::GroupVulnerabilitiesHistory, feature_categ
     it 'includes expected text elements' do
       render_chart
 
-      expect(pdf).to have_received(:text_box).with(s_('Vulnerability History'), any_args).once
+      expect(pdf).to have_received(:text_box).with(_('Vulnerability History'), any_args).once
 
       expected_date_string = "#{data[:date_info]} (#{data[:selected_day_range]} Days)"
       expect(pdf).to have_received(:text_box).with(expected_date_string, any_args).once

@@ -28805,6 +28805,7 @@ CREATE TABLE saved_views (
     filter_data jsonb,
     display_settings jsonb,
     lock_version integer DEFAULT 0 NOT NULL,
+    updated_by_id bigint,
     CONSTRAINT check_61a6c07bf6 CHECK ((char_length(name) <= 140)),
     CONSTRAINT check_d27167623c CHECK ((char_length(description) <= 140))
 );
@@ -48068,6 +48069,8 @@ CREATE INDEX index_saved_views_on_namespace_private_created_by ON saved_views US
 
 CREATE INDEX index_saved_views_on_private ON saved_views USING btree (private);
 
+CREATE INDEX index_saved_views_on_updated_by_id ON saved_views USING btree (updated_by_id);
+
 CREATE UNIQUE INDEX index_sbom_component_versions_on_component_id_and_version ON sbom_component_versions USING btree (component_id, version);
 
 CREATE INDEX index_sbom_component_versions_on_organization_id ON sbom_component_versions USING btree (organization_id);
@@ -55355,6 +55358,9 @@ ALTER TABLE ONLY work_item_custom_types
 
 ALTER TABLE ONLY import_offline_configurations
     ADD CONSTRAINT fk_4c2f23efc7 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY saved_views
+    ADD CONSTRAINT fk_4cae7d2cb4 FOREIGN KEY (updated_by_id) REFERENCES users(id) ON DELETE SET NULL;
 
 ALTER TABLE ONLY bulk_import_batch_trackers
     ADD CONSTRAINT fk_4cd59701d0 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;

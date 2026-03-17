@@ -47,7 +47,7 @@ module Gitlab
 
             # Title
             @pdf.text_box(
-              s_('Vulnerability History'),
+              _('Vulnerability History'),
               at: [0, @pdf.bounds.top - 10],
               width: @pdf.bounds.right,
               align: :center,
@@ -57,7 +57,7 @@ module Gitlab
 
             # Date information
             @pdf.text_box(
-              "#{@date_info} (#{@selected_day_range} #{s_('Days')})",
+              "#{@date_info} (#{@selected_day_range} #{_('Days')})",
               at: [0, @pdf.bounds.top - 40],
               width: @pdf.bounds.right,
               align: :center,

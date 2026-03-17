@@ -1,10 +1,10 @@
-import { GlLink, GlPopover } from '@gitlab/ui';
+import { GlLink } from '@gitlab/ui';
 import Vue, { nextTick } from 'vue';
 import VueApollo from 'vue-apollo';
 import waitForPromises from 'helpers/wait_for_promises';
 import createMockApollo from 'helpers/mock_apollo_helper';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
-import IssuePopover from '~/issuable/popover/components/issue_popover.vue';
+import WorkItemPopover from '~/issuable/popover/components/work_item_popover.vue';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import WorkItemParent from '~/work_items/components/work_item_parent.vue';
 import WorkItemSidebarDropdownWidget from '~/work_items/components/shared/work_item_sidebar_dropdown_widget.vue';
@@ -61,8 +61,8 @@ describe('WorkItemParent component', () => {
   const findSidebarDropdownWidget = () => wrapper.findComponent(WorkItemSidebarDropdownWidget);
   const findAncestorUnavailable = () => wrapper.findByTestId('ancestor-not-available');
   const findLink = () => wrapper.findComponent(GlLink);
-  const findPopover = () => wrapper.findComponent(GlPopover);
-  const findIssuePopover = () => wrapper.findComponent(IssuePopover);
+  const findInaccessibleParentPopover = () => wrapper.findByTestId('inaccessible-parent-popover');
+  const findWorkItemPopover = () => wrapper.findComponent(WorkItemPopover);
 
   const successUpdateWorkItemMutationHandler = jest
     .fn()
@@ -125,7 +125,7 @@ describe('WorkItemParent component', () => {
         ...provide,
       },
       stubs: {
-        IssuePopover: true,
+        WorkItemPopover,
       },
     });
   };
@@ -238,8 +238,8 @@ describe('WorkItemParent component', () => {
     it('renders IssuePopover for parent link', () => {
       createComponent({ parent: mockParentWidgetResponse });
 
-      expect(findIssuePopover().exists()).toBe(true);
-      expect(findIssuePopover().props('target')).toBe(findLink().props('id'));
+      expect(findWorkItemPopover().exists()).toBe(true);
+      expect(findWorkItemPopover().props('target')).toBe(findLink().attributes('id'));
     });
 
     it('does not show ancestor not available message', () => {
@@ -251,7 +251,7 @@ describe('WorkItemParent component', () => {
     it('does not render inaccessible parent popover', () => {
       createComponent({ parent: mockParentWidgetResponse });
 
-      expect(findPopover().exists()).toBe(false);
+      expect(findInaccessibleParentPopover().exists()).toBe(false);
     });
   });
 
@@ -542,8 +542,8 @@ describe('WorkItemParent component', () => {
     });
 
     it('displays appropriate message in popover on hover and focus', () => {
-      expect(findPopover().props('triggers')).toBe('hover focus');
-      expect(findPopover().text()).toEqual(
+      expect(findInaccessibleParentPopover().props('triggers')).toBe('hover focus');
+      expect(findInaccessibleParentPopover().text()).toEqual(
         `You don't have the necessary permission to view the ancestor.`,
       );
     });

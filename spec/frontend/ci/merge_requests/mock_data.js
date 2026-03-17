@@ -26,6 +26,7 @@ export const generateMockPipeline = ({
   type: 'merge_request',
   hasManualActions: true,
   hasScheduledActions: false,
+  pipelineSchedule: null,
   failedJobsCount: 0,
   __typename: 'Pipeline',
   commit: {
@@ -289,6 +290,7 @@ export const mockPipelineUpdateResponse = {
       },
       hasManualActions: false,
       hasScheduledActions: false,
+      pipelineSchedule: null,
       failedJobsCount: 0,
       __typename: 'Pipeline',
       downstream: {
@@ -419,6 +421,7 @@ export const mockPipelines = [
     },
     hasManualActions: false,
     hasScheduledActions: false,
+    pipelineSchedule: null,
     __typename: 'Pipeline',
   },
   {
@@ -534,6 +537,7 @@ export const mockPipelines = [
     },
     hasManualActions: false,
     hasScheduledActions: false,
+    pipelineSchedule: null,
     __typename: 'Pipeline',
   },
 ];

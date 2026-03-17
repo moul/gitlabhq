@@ -406,6 +406,7 @@ export const METADATA_KEYS = {
   DATES: 'dates',
   HEALTH: 'health',
   BLOCKED: 'blocked',
+  PARENT: 'parent',
   COMMENTS: 'comments',
   POPULARITY: 'popularity',
 };
@@ -463,6 +464,12 @@ export const WORK_ITEM_LIST_PREFERENCES_METADATA_FIELDS = [
     key: 'blocked',
     label: s__('WorkItems|Blocked/Blocking'),
     icon: 'entity-blocked',
+    isPresentInGroup: true,
+  },
+  {
+    key: 'parent',
+    label: __('Parent'),
+    icon: 'work-item-parent',
     isPresentInGroup: true,
   },
   {

@@ -29,6 +29,7 @@ RSpec.describe WorkItems::SavedViews::CreateService, feature_category: :portfoli
           expect(saved_view).to be_persisted
           expect(saved_view.name).to eq('My Saved View')
           expect(saved_view.author).to eq(current_user)
+          expect(saved_view.updated_by).to eq(current_user)
         end
 
         context 'when container is a project' do

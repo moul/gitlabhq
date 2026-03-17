@@ -74,6 +74,7 @@ RSpec.describe WorkItems::SavedViews::UpdateService, feature_category: :portfoli
         expect(updated_view.display_settings).to eq({ 'hiddenMetadataKeys' => %w[assignee labels] })
         expect(updated_view.sort).to eq('created_asc')
         expect(updated_view.private).to be(true)
+        expect(updated_view.updated_by).to eq(current_user)
       end
     end
 
@@ -254,6 +255,47 @@ RSpec.describe WorkItems::SavedViews::UpdateService, feature_category: :portfoli
 
         expect(result).to be_success
         expect(saved_view.reload.private).to be(true)
+      end
+
+      it 'sets updated_by to the current user' do
+        service = described_class.new(
+          current_user: current_user,
+          saved_view: saved_view,
+          params: { name: 'Updated Name' }
+        )
+        result = service.execute
+
+        expect(result).to be_success
+        expect(saved_view.reload.updated_by).to eq(current_user)
+      end
+
+      context 'when a different user updates the saved view' do
+        before do
+          project.add_planner(other_user)
+        end
+
+        it 'sets updated_by to the user who performed the update' do
+          service = described_class.new(
+            current_user: other_user,
+            saved_view: saved_view,
+            params: { name: 'Updated by other' }
+          )
+          result = service.execute
+
+          expect(result).to be_success
+          expect(saved_view.reload.updated_by).to eq(other_user)
+        end
+      end
+    end
+
+    context 'when params are empty' do
+      it 'does not set updated_by' do
+        service = described_class.new(current_user: current_user, saved_view: saved_view, params: {})
+
+        result = service.execute
+
+        expect(result).to be_success
+        expect(saved_view.reload.updated_by).to be_nil
       end
     end
 

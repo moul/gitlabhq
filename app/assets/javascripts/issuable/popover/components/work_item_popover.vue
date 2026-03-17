@@ -28,7 +28,7 @@ import {
 import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 
 export default {
-  name: 'IssuePopover',
+  name: 'WorkItemPopover',
   components: {
     GlIcon,
     GlPopover,
@@ -154,64 +154,71 @@ export default {
     boundary="viewport"
     placement="top"
     :show="show"
+    :css-classes="['work-item-popover']"
     @show="shouldFetch = true"
   >
-    <gl-skeleton-loader v-if="$apollo.queries.workItem.loading" :width="150" />
-    <template v-else-if="workItem">
-      <div class="gl-flex gl-items-center gl-gap-2">
-        <status-badge v-if="isIssueClosed || !statusWidget.status" :state="workItem.state" />
-        <gl-icon
-          v-if="workItem.confidential"
-          v-gl-tooltip
-          name="eye-slash"
-          :title="__('Confidential')"
-          variant="warning"
-          :aria-label="__('Confidential')"
-        />
-        <span class="gl-text-subtle">
-          {{ __('Opened') }} <time :datetime="workItem.createdAt">{{ formattedTime }}</time>
-        </span>
-      </div>
-      <div class="gl-heading-5 gl-my-3" data-testid="popover-title">{{ workItem.title }}</div>
-      <div>
-        <work-item-type-icon
-          :work-item-type="workItemTypeName"
-          :type-icon-name="workItemTypeIcon"
-        />
-        <span class="gl-text-subtle">{{ reference }}</span>
-      </div>
-      <div class="gl-mt-3 gl-flex gl-flex-wrap gl-items-center gl-gap-3 gl-text-subtle">
-        <issue-due-date
-          v-if="datesWidget.dueDate"
-          :closed="isIssueClosed"
-          css-class="gl-inline-flex"
-          :date="datesWidget.dueDate"
-          :start-date="datesWidget.startDate"
-          tooltip-placement="top"
-          class="gl-flex gl-items-center"
-        />
-        <issue-weight v-if="weightWidget.weight" :weight="weightWidget.weight" />
-        <issue-milestone v-if="milestoneWidget.milestone" :milestone="milestoneWidget.milestone" />
-        <div
-          v-if="statusWidget.status || assignees.length"
-          class="gl-flex gl-grow gl-items-center gl-justify-end gl-gap-3"
-        >
-          <gl-avatars-inline
-            v-if="assignees.length"
-            :avatars="assigneeAvatars"
-            :avatar-size="16"
-            :max-visible="2"
-            :badge-sr-only-text="moreAssigneesTooltip"
-            collapsed
+    <slot name="header"></slot>
+    <div class="gl-px-4 gl-py-3">
+      <gl-skeleton-loader v-if="$apollo.queries.workItem.loading" :width="150" />
+      <template v-else-if="workItem">
+        <div class="gl-flex gl-items-center gl-gap-2">
+          <status-badge v-if="isIssueClosed || !statusWidget.status" :state="workItem.state" />
+          <gl-icon
+            v-if="workItem.confidential"
+            v-gl-tooltip
+            name="eye-slash"
+            :title="__('Confidential')"
+            variant="warning"
+            :aria-label="__('Confidential')"
+          />
+          <span class="gl-text-subtle">
+            {{ __('Opened') }} <time :datetime="workItem.createdAt">{{ formattedTime }}</time>
+          </span>
+        </div>
+        <div class="gl-heading-5 gl-my-3" data-testid="popover-title">{{ workItem.title }}</div>
+        <div>
+          <work-item-type-icon
+            :work-item-type="workItemTypeName"
+            :type-icon-name="workItemTypeIcon"
+          />
+          <span class="gl-text-subtle">{{ reference }}</span>
+        </div>
+        <div class="gl-mt-3 gl-flex gl-flex-wrap gl-items-center gl-gap-3 gl-text-subtle">
+          <issue-due-date
+            v-if="datesWidget.dueDate"
+            :closed="isIssueClosed"
+            css-class="gl-inline-flex"
+            :date="datesWidget.dueDate"
+            :start-date="datesWidget.startDate"
+            tooltip-placement="top"
             class="gl-flex gl-items-center"
           />
-          <issue-status v-if="statusWidget.status" :item="statusWidget.status" />
+          <issue-weight v-if="weightWidget.weight" :weight="weightWidget.weight" />
+          <issue-milestone
+            v-if="milestoneWidget.milestone"
+            :milestone="milestoneWidget.milestone"
+          />
+          <div
+            v-if="statusWidget.status || assignees.length"
+            class="gl-flex gl-grow gl-items-center gl-justify-end gl-gap-3"
+          >
+            <gl-avatars-inline
+              v-if="assignees.length"
+              :avatars="assigneeAvatars"
+              :avatar-size="16"
+              :max-visible="2"
+              :badge-sr-only-text="moreAssigneesTooltip"
+              collapsed
+              class="gl-flex gl-items-center"
+            />
+            <issue-status v-if="statusWidget.status" :item="statusWidget.status" />
+          </div>
         </div>
-      </div>
-    </template>
-    <template v-else>
-      <div class="gl-heading-5 gl-my-3" data-testid="popover-title">{{ cachedTitle }}</div>
-    </template>
+      </template>
+      <template v-else>
+        <div class="gl-heading-5 gl-my-3" data-testid="popover-title">{{ cachedTitle }}</div>
+      </template>
+    </div>
   </gl-popover>
 </template>
 
@@ -229,5 +236,20 @@ export default {
  */
 .gl-popover .popover-body .board-card-info time {
   margin-left: 0.25rem;
+}
+
+/*
+ * These styles target GlPopover internals (popover-body, arrow pseudo-elements)
+ * which cannot be controlled via props or utility classes.
+ */
+.work-item-popover .popover-body {
+  padding: 0;
+}
+
+.work-item-popover.bs-popover-bottom .arrow::before,
+.work-item-popover[data-popper-placement^='bottom'] .arrow::before,
+.work-item-popover.bs-popover-bottom .arrow::after,
+.work-item-popover[data-popper-placement^='bottom'] .arrow::after {
+  border-bottom-color: var(--gl-background-color-strong);
 }
 </style>

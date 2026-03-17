@@ -1,0 +1,316 @@
+# frozen_string_literal: true
+
+require 'spec_helper'
+
+RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_state, feature_category: :cell do
+  let(:mock_claim_service) { instance_double(::Gitlab::TopologyServiceClient::ClaimService) }
+  let(:lease_uuid) { SecureRandom.uuid }
+  let(:fake_deadline) { 'fake-deadline' }
+  let(:redis_key) { "cells:claims:verification_service:last_processed_id:#{User.table_name}" }
+  let(:begin_update_response) do
+    Gitlab::Cells::TopologyService::Claims::V1::BeginUpdateResponse.new(
+      lease_uuid: Gitlab::Cells::TopologyService::Types::V1::UUID.new(value: lease_uuid)
+    )
+  end
+
+  let(:service) { described_class.new(User) }
+
+  before do
+    stub_config_cell(enabled: true)
+    allow(Gitlab::TopologyServiceClient::ClaimService).to receive(:instance).and_return(mock_claim_service)
+    allow(mock_claim_service).to receive(:cell_id).and_return(1)
+    allow(GRPC::Core::TimeConsts).to receive(:from_relative_time).and_return(fake_deadline)
+  end
+
+  def build_ts_record(user_id)
+    Gitlab::Cells::TopologyService::Claims::V1::Record.new(
+      metadata: Gitlab::Cells::TopologyService::Claims::V1::Metadata.new(
+        bucket: Gitlab::Cells::TopologyService::Claims::V1::Bucket.new(
+          type: Gitlab::Cells::TopologyService::Claims::V1::Bucket::Type::USER_IDS,
+          value: user_id.to_s
+        ),
+        subject: Gitlab::Cells::TopologyService::Claims::V1::Subject.new(
+          type: Gitlab::Cells::TopologyService::Claims::V1::Subject::Type::USER,
+          id: user_id
+        ),
+        source: Gitlab::Cells::TopologyService::Claims::V1::Source.new(
+          type: Gitlab::Cells::TopologyService::Claims::V1::Source::Type::RAILS_TABLE_USERS,
+          rails_primary_key_id: Cells::Serialization.to_bytes(user_id)
+        )
+      )
+    )
+  end
+
+  def stub_list_records(records, truncated: false)
+    response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
+      records: records,
+      truncated: truncated
+    )
+    allow(mock_claim_service).to receive(:list_records).and_return(response)
+  end
+
+  def stub_commit(begin_update_response: self.begin_update_response)
+    allow(mock_claim_service).to receive(:begin_update).and_return(begin_update_response)
+    allow(mock_claim_service).to receive(:commit_update)
+  end
+
+  describe '#execute' do
+    context 'when model is not claimable' do
+      let(:non_claimable_model) do
+        Class.new(ApplicationRecord) do
+          self.table_name = 'foobar'
+          def self.name = 'FooBar'
+        end
+      end
+
+      let(:service) { described_class.new(non_claimable_model) }
+
+      it 'returns zero creates and destroys' do
+        expect(service.execute).to eq({ created: 0, destroyed: 0 })
+      end
+
+      it 'logs a warning' do
+        expect(Gitlab::AppLogger).to receive(:warn).with(
+          hash_including(message: /FooBar model is not claimable/)
+        )
+
+        service.execute
+      end
+    end
+
+    context 'when there are no local records' do
+      before do
+        stub_list_records([])
+      end
+
+      it 'returns zero creates and destroys' do
+        expect(service.execute).to eq({ created: 0, destroyed: 0 })
+      end
+
+      it 'does not call begin_update' do
+        expect(mock_claim_service).not_to receive(:begin_update)
+        service.execute
+      end
+    end
+
+    context 'when a local record is missing from the Topology Service' do
+      let!(:user) { create(:user) }
+      let(:expected_records) { user.cells_claims_metadata.map { |m| m.except(:record) } }
+
+      before do
+        stub_list_records([])
+        stub_commit
+      end
+
+      it 'creates the missing record in the Topology Service' do
+        expect(mock_claim_service).to receive(:begin_update).with(
+          hash_including(create_records: match_array(expected_records), destroy_records: [])
+        ).and_return(begin_update_response)
+
+        service.execute
+      end
+
+      it 'commits the update' do
+        expect(mock_claim_service).to receive(:commit_update).with(lease_uuid)
+        service.execute
+      end
+
+      it 'returns the correct create count' do
+        result = service.execute
+        expect(result[:created]).to eq(1 * User.cells_claims_attributes.size)
+        expect(result[:destroyed]).to eq(0)
+      end
+
+      it 'logs batch progress with first and last IDs' do
+        expect(Gitlab::AppLogger).to receive(:info).with(
+          hash_including(
+            message: "Cells::Claims::VerificationService batch processed",
+            batch_first_id: 0,
+            batch_last_id: user.id,
+            created: User.cells_claims_attributes.size,
+            destroyed: 0
+          )
+        )
+
+        service.execute
+      end
+    end
+
+    context 'when a Topology Service record is missing from local' do
+      let(:user) { create(:user) }
+      let(:orphaned_ts_record) { build_ts_record(user.id + 9999) }
+
+      before do
+        stub_list_records([orphaned_ts_record])
+        stub_commit
+      end
+
+      it 'destroys the orphaned Topology Service record' do
+        expect(mock_claim_service).to receive(:begin_update).with(
+          hash_including(destroy_records: be_present)
+        ).and_return(begin_update_response)
+
+        service.execute
+      end
+
+      it 'returns the correct destroy count' do
+        result = service.execute
+        expect(result[:destroyed]).to eq(1)
+      end
+    end
+
+    context 'when local and Topology Service records are in sync' do
+      let(:user) { create(:user) }
+      let(:ts_record) { build_ts_record(user.id) }
+
+      before do
+        stub_list_records([ts_record])
+      end
+
+      it 'does not call begin_update' do
+        expect(mock_claim_service).not_to receive(:begin_update)
+        service.execute
+      end
+
+      it 'returns zero creates and destroys' do
+        expect(service.execute).to eq({ created: 0, destroyed: 0 })
+      end
+    end
+
+    context 'when list_records response is truncated' do
+      let!(:user) { create(:user) }
+      let(:ts_record) { build_ts_record(user.id) }
+
+      it 'recursively fetches until not truncated' do
+        truncated_response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
+          records: [ts_record],
+          truncated: true
+        )
+        final_response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
+          records: [],
+          truncated: false
+        )
+
+        expect(mock_claim_service).to receive(:list_records).ordered.and_return(truncated_response)
+        expect(mock_claim_service).to receive(:list_records).ordered.and_return(final_response)
+
+        service.execute
+      end
+
+      context 'when the pagination cursor does not advance' do
+        it 'raises an infinite loop error on the second iteration' do
+          first_response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
+            records: [ts_record],
+            truncated: true
+          )
+          stale_response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
+            records: [ts_record],
+            truncated: true
+          )
+
+          expect(mock_claim_service).to receive(:list_records).ordered.and_return(first_response)
+          expect(mock_claim_service).to receive(:list_records).ordered.and_return(stale_response)
+
+          expect { service.execute }.to raise_error(
+            Cells::Claims::VerificationService::PaginationError,
+            /Pagination cursor did not advance/
+          )
+        end
+      end
+    end
+
+    context 'when processing multiple batches' do
+      let!(:users) { create_list(:user, 3) }
+
+      before do
+        stub_const("#{described_class}::LIMIT", 2)
+        stub_list_records([])
+        stub_commit
+      end
+
+      it 'processes all records across batches' do
+        result = service.execute
+        expect(result[:created]).to eq(3 * User.cells_claims_attributes.size)
+      end
+
+      it 'saves last processed id with TTL after each batch' do
+        redis_snapshots = []
+
+        allow(service).to receive(:save_last_processed_id).and_wrap_original do |original, id|
+          original.call(id)
+          Gitlab::Redis::SharedState.with do |redis|
+            redis_snapshots << {
+              value: redis.get(redis_key),
+              ttl: redis.ttl(redis_key)
+            }
+          end
+        end
+
+        service.execute
+
+        batch_ids = users.each_slice(2).map { |batch| batch.last.id.to_s }
+        expect(redis_snapshots.pluck(:value)).to include(*batch_ids)
+        expect(redis_snapshots).to all(include(
+          ttl: be_between(
+            (described_class::REDIS_LAST_PROCESSED_ID_TTL - 1.minute).to_i,
+            described_class::REDIS_LAST_PROCESSED_ID_TTL.to_i
+          )
+        ))
+      end
+
+      it 'resets last_processed_id to 0 after all batches complete' do
+        service.execute
+
+        Gitlab::Redis::SharedState.with do |redis|
+          expect(redis.get(redis_key)).to eq('0')
+        end
+      end
+    end
+
+    context 'when last_processed_id is already set in Redis' do
+      let!(:old_user) { create(:user) }
+      let!(:new_user) { create(:user) }
+      let(:expected_records) { new_user.cells_claims_metadata.map { |m| m.except(:record) } }
+
+      before do
+        Gitlab::Redis::SharedState.with { |r| r.set(redis_key, old_user.id) }
+        stub_list_records([])
+        stub_commit
+      end
+
+      it 'resumes from the last processed id' do
+        expect(mock_claim_service).to receive(:begin_update).once.with(
+          hash_including(create_records: match_array(expected_records))
+        ).and_return(begin_update_response)
+
+        service.execute
+      end
+    end
+
+    context 'when a GRPC::BadStatus error occurs during commit' do
+      let!(:user) { create(:user) }
+
+      before do
+        stub_list_records([])
+        allow(mock_claim_service).to receive(:begin_update).and_raise(GRPC::AlreadyExists.new)
+        allow(Gitlab::ErrorTracking).to receive(:log_exception)
+      end
+
+      it 'logs the exception and does not raise' do
+        expect(Gitlab::ErrorTracking).to receive(:log_exception).with(instance_of(GRPC::AlreadyExists))
+        expect { service.execute }.not_to raise_error
+      end
+
+      it 'returns zero created and destroyed' do
+        result = service.execute
+        expect(result[:created]).to eq(0)
+        expect(result[:destroyed]).to eq(0)
+      end
+
+      it 'does not save last_processed_id for the failed batch' do
+        expect(service).not_to receive(:save_last_processed_id).with(user.id)
+        service.execute
+      end
+    end
+  end
+end

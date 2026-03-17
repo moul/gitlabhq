@@ -62,8 +62,8 @@ contributions cannot be reassigned.
 
 When using post-migration mapping, GitLab maps any memberships and contributions you import to
 [placeholder users](#placeholder-users). Placeholder users are created on the destination instance even if users with
-the same email addresses exist on the source instance. Until you reassign contributions on the destination instance, all
-contributions are associated with placeholder users.
+the same email addresses exist on the destination instance. Until you reassign contributions on the
+destination instance, all contributions are associated with placeholder users.
 
 After the import is complete and you've reviewed the results, you can update the mappings as follows:
 

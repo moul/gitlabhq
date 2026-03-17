@@ -73,6 +73,9 @@ class ProjectPolicy < BasePolicy
   desc "Project is archived"
   condition(:archived, scope: :subject, score: 0) { project.self_or_ancestors_archived? }
 
+  desc "Project is scheduled for deletion"
+  condition(:deletion_scheduled, scope: :subject) { project.marked_for_deletion_at.present? }
+
   desc "Project user pipeline variables minimum override role"
   condition(:project_pipeline_override_role_owner) { project.ci_pipeline_variables_minimum_override_role == 'owner' }
 
@@ -542,20 +545,6 @@ class ProjectPolicy < BasePolicy
     prevent :create_pipeline_schedule
   end
 
-  rule { can?(:manage_protected_tags) }.policy do
-    enable :read_protected_tags
-    enable :create_protected_tags
-    enable :update_protected_tags
-    enable :destroy_protected_tags
-  end
-
-  rule { can?(:admin_protected_branch) }.policy do
-    enable :read_protected_branch
-    enable :create_protected_branch
-    enable :update_protected_branch
-    enable :destroy_protected_branch
-  end
-
   rule { can?(:admin_build) }.enable :manage_trigger
 
   rule { public_project & metrics_dashboard_allowed }.policy do
@@ -573,7 +562,7 @@ class ProjectPolicy < BasePolicy
     prevent(*Authz::PermissionGroups::Internal.get('project:pending_deletion').permissions)
   end
 
-  rule { archived & ~self_deletion_in_progress }.policy do
+  rule { (archived | deletion_scheduled) & ~self_deletion_in_progress }.policy do
     prevent(*Authz::PermissionGroups::Internal.get('project:archived').permissions)
   end
 

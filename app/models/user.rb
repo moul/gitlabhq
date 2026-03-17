@@ -2914,13 +2914,6 @@ class User < ApplicationRecord
     admin?
   end
 
-  def can_access_organization_admin_area?(organization)
-    return false unless organization
-    return false unless Feature.enabled?(:org_admin_area, organization)
-
-    can?(:access_organization_admin_area, organization)
-  end
-
   def free_or_trial_owned_group_ids
     @free_or_trial_owned_group_ids ||= owned_groups.free_or_trial.ids
   end

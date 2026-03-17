@@ -61,6 +61,29 @@ func (w *nullResponseWriter) WriteHeader(status int) {
 	}
 }
 
+// serveHTTPSafe calls h.ServeHTTP and recovers from http.ErrAbortHandler panics.
+// httputil.ReverseProxy panics with http.ErrAbortHandler when the client disconnects
+// or the request context is canceled. This is normally caught by net/http's own
+// recovery in connection goroutines, but Execute is called from an agent goroutine
+// that is outside of that managed context, so we must recover here explicitly.
+func serveHTTPSafe(h http.Handler, w http.ResponseWriter, r *http.Request) (err error) {
+	defer func() {
+		if p := recover(); p != nil {
+			if p == http.ErrAbortHandler {
+				if ctxErr := r.Context().Err(); ctxErr != nil {
+					err = fmt.Errorf("serveHTTPSafe: request aborted: %w", ctxErr)
+				} else {
+					err = fmt.Errorf("serveHTTPSafe: request aborted")
+				}
+			} else {
+				panic(p)
+			}
+		}
+	}()
+	h.ServeHTTP(w, r)
+	return nil
+}
+
 func (a *runHTTPActionHandler) Execute(ctx context.Context) (*pb.ClientEvent, error) {
 	action := a.action.GetRunHTTPRequest()
 
@@ -95,27 +118,11 @@ func (a *runHTTPActionHandler) Execute(ctx context.Context) (*pb.ClientEvent, er
 	}
 
 	nrw := &nullResponseWriter{header: make(http.Header)}
-	a.backend.ServeHTTP(nrw, req)
-
-	headers := make(map[string]string, len(nrw.Header()))
-	for k, v := range nrw.Header() {
-		headers[k] = strings.Join(v, ", ")
+	if err := serveHTTPSafe(a.backend, nrw, req); err != nil {
+		return nil, err
 	}
 
-	clientEvent := &pb.ClientEvent{
-		Response: &pb.ClientEvent_ActionResponse{
-			ActionResponse: &pb.ActionResponse{
-				RequestID: a.action.RequestID,
-				ResponseType: &pb.ActionResponse_HttpResponse{
-					HttpResponse: &pb.HttpResponse{
-						Body:       nrw.body.String(),
-						StatusCode: int32(nrw.status),
-						Headers:    headers,
-					},
-				},
-			},
-		},
-	}
+	clientEvent := a.buildClientEvent(nrw)
 
 	log.WithContextFields(a.originalReq.Context(), log.Fields{
 		"path":                 a.action.GetRunHTTPRequest().Path,
@@ -128,4 +135,26 @@ func (a *runHTTPActionHandler) Execute(ctx context.Context) (*pb.ClientEvent, er
 	}).Info("Sending HTTP response event")
 
 	return clientEvent, nil
+}
+
+func (a *runHTTPActionHandler) buildClientEvent(nrw *nullResponseWriter) *pb.ClientEvent {
+	headers := make(map[string]string, len(nrw.Header()))
+	for k, v := range nrw.Header() {
+		headers[k] = strings.Join(v, ", ")
+	}
+
+	return &pb.ClientEvent{
+		Response: &pb.ClientEvent_ActionResponse{
+			ActionResponse: &pb.ActionResponse{
+				RequestID: a.action.RequestID,
+				ResponseType: &pb.ActionResponse_HttpResponse{
+					HttpResponse: &pb.HttpResponse{
+						Body:       nrw.body.String(),
+						StatusCode: int32(nrw.status), //nolint:gosec
+						Headers:    headers,
+					},
+				},
+			},
+		},
+	}
 }

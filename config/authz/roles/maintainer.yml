@@ -46,6 +46,7 @@ project:
   - create_environment_terminal
   - create_freeze_period
   - create_protected_branch
+  - create_protected_tags
   - create_resource_access_tokens
   - create_runners
   - delete_freeze_period
@@ -54,6 +55,7 @@ project:
   - destroy_deployment
   - destroy_package
   - destroy_protected_branch
+  - destroy_protected_tags
   - destroy_release
   - destroy_resource_access_tokens
   - destroy_upload
@@ -71,6 +73,7 @@ project:
   - read_member_access_request
   - read_pages
   - read_protected_branch
+  - read_protected_tags
   - read_resource_access_tokens
   - read_runners
   - read_runners_registration_token
@@ -83,6 +86,7 @@ project:
   - update_freeze_period
   - update_pages
   - update_protected_branch
+  - update_protected_tags
   - update_runners_registration_token
   - update_snippet
   - view_edit_page

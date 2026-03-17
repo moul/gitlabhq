@@ -29,6 +29,7 @@ module WorkItems
           **params.except(:filters),
           namespace: container.is_a?(Project) ? container.project_namespace : container,
           created_by_id: current_user.id,
+          updated_by_id: current_user.id,
           filter_data: filter_response.payload,
           version: 1
         )

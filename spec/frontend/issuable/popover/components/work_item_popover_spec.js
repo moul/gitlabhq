@@ -10,7 +10,7 @@ import waitForPromises from 'helpers/wait_for_promises';
 import IssueDueDate from '~/boards/components/issue_due_date.vue';
 import IssueMilestone from '~/issuable/components/issue_milestone.vue';
 import StatusBadge from '~/issuable/components/status_badge.vue';
-import IssuePopover from '~/issuable/popover/components/issue_popover.vue';
+import WorkItemPopover from '~/issuable/popover/components/work_item_popover.vue';
 import WorkItemTypeIcon from '~/work_items/components/work_item_type_icon.vue';
 
 describe('IssuePopover component', () => {
@@ -29,7 +29,7 @@ describe('IssuePopover component', () => {
   const findWorkItemIcon = () => wrapper.findComponent(WorkItemTypeIcon);
 
   const mountComponent = ({ queryResponse = queryResponseHandler, provide = {} } = {}) => {
-    wrapper = shallowMount(IssuePopover, {
+    wrapper = shallowMount(WorkItemPopover, {
       apolloProvider: createMockApollo([[issueQuery, queryResponse]]),
       propsData: {
         target: document.createElement('a'),

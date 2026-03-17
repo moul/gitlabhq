@@ -67,11 +67,19 @@ export default {
       type: String,
       required: true,
     },
+    defaultHiddenMetadataKeys: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
   data() {
     return {
       isDropdownVisible: false,
-      hiddenMetadataKeys: getHiddenMetadataKeysFromLocalStorage(this.metadataLocalStorageKey, []),
+      hiddenMetadataKeys: getHiddenMetadataKeysFromLocalStorage(
+        this.metadataLocalStorageKey,
+        this.defaultHiddenMetadataKeys,
+      ),
     };
   },
   computed: {

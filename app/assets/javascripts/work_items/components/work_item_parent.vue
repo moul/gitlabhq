@@ -37,7 +37,7 @@ export default {
     GlLink,
     GlIcon,
     GlPopover,
-    IssuePopover: () => import('~/issuable/popover/components/issue_popover.vue'),
+    WorkItemPopover: () => import('~/issuable/popover/components/work_item_popover.vue'),
     WorkItemSidebarDropdownWidget,
   },
   mixins: [glFeatureFlagsMixin()],
@@ -399,7 +399,7 @@ export default {
           :href="parentWebUrl"
           >{{ listboxText }}</gl-link
         >
-        <issue-popover
+        <work-item-popover
           v-if="parent"
           :cached-title="parent.title"
           :iid="parent.iid"
@@ -410,7 +410,12 @@ export default {
     </template>
     <template v-if="showCustomNoneValue" #none>
       <span id="parent-not-available" class="gl-cursor-help">
-        <gl-popover triggers="hover focus" placement="bottom" :target="'parent-not-available'">
+        <gl-popover
+          data-testid="inaccessible-parent-popover"
+          triggers="hover focus"
+          placement="bottom"
+          target="parent-not-available"
+        >
           <span>{{
             s__(`WorkItem|You don't have the necessary permission to view the ancestor.`)
           }}</span>

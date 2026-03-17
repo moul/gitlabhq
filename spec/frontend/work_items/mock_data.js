@@ -452,8 +452,15 @@ export const workItemWithEpicParentQueryResponse = {
           hasChildren: true,
           parent: {
             id: 'gid://gitlab/WorkItem/3',
+            iid: '130',
             title: 'Work Item Epic',
+            confidential: false,
             webUrl: 'http://127.0.0.1:3000/groups/gitlab-org/-/work_items/130',
+            namespace: {
+              id: 'gid://gitlab/Group/1',
+              fullPath: 'gitlab-org',
+              __typename: 'Group',
+            },
             __typename: 'WorkItem',
             workItemType: {
               id: 'gid://gitlab/WorkItems::Type/6',
@@ -785,8 +792,73 @@ export const mockParent = {
       id: 'gid://gitlab/WorkItems::Type/1',
       name: 'Issue',
       iconName: 'work-item-issue',
+      __typename: 'WorkItemType',
     },
+    __typename: 'WorkItem',
   },
+};
+
+export const mockParentWorkItem = {
+  id: 'gid://gitlab/WorkItem/100',
+  iid: '100',
+  title: 'Parent Work Item',
+  confidential: false,
+  webUrl: '/gitlab-org/gitlab-test/-/work_items/100',
+  reference: 'gitlab-org/gitlab-test#100',
+  namespace: {
+    id: 'gid://gitlab/Group/1',
+    fullPath: 'gitlab-org/gitlab-test',
+    __typename: 'Project',
+  },
+  workItemType: {
+    id: 'gid://gitlab/WorkItems::Type/5',
+    name: 'Issue',
+    iconName: 'work-item-issue',
+    __typename: 'WorkItemType',
+  },
+  __typename: 'WorkItem',
+};
+
+export const mockParentIssue = {
+  id: 'gid://gitlab/WorkItem/515',
+  iid: '515',
+  title: 'Parent Work Item',
+  confidential: false,
+  webUrl: '/gitlab-org/gitlab-test/-/work_items/515',
+  reference: 'test-project-path#515',
+  namespace: {
+    id: 'gid://gitlab/Project/1',
+    fullPath: 'test-project-path',
+    __typename: 'Project',
+  },
+  workItemType: {
+    id: 'gid://gitlab/WorkItems::Type/5',
+    name: 'Issue',
+    iconName: 'work-item-issue',
+    __typename: 'WorkItemType',
+  },
+  __typename: 'WorkItem',
+};
+
+export const mockParentObjective = {
+  id: 'gid://gitlab/WorkItem/515',
+  iid: '515',
+  title: 'Parent Objective',
+  confidential: false,
+  webUrl: '/gitlab-org/gitlab-test/-/work_items/515',
+  reference: 'test-project-path#515',
+  namespace: {
+    id: 'gid://gitlab/Project/1',
+    fullPath: 'test-project-path',
+    __typename: 'Project',
+  },
+  workItemType: {
+    id: 'gid://gitlab/WorkItems::Type/2411',
+    name: 'Objective',
+    iconName: 'work-item-objective',
+    __typename: 'WorkItemType',
+  },
+  __typename: 'WorkItem',
 };
 
 export const mockParticipantWidget = {
@@ -2627,7 +2699,16 @@ export const confidentialWorkItemTask = {
   createdAt: '2022-08-03T12:41:54Z',
   closedAt: null,
   webUrl: '/gitlab-org/gitlab-test/-/work_items/2',
-  widgets: [workItemObjectiveMetadataWidgets.LINKED_ITEMS],
+  widgets: [
+    workItemObjectiveMetadataWidgets.LINKED_ITEMS,
+    {
+      type: 'HIERARCHY',
+      hasChildren: false,
+      rolledUpCountsByType: [],
+      parent: mockParentIssue,
+      __typename: 'WorkItemWidgetHierarchy',
+    },
+  ],
   __typename: 'WorkItem',
 };
 
@@ -2653,7 +2734,16 @@ export const closedWorkItemTask = {
   createdAt: '2022-08-03T12:41:54Z',
   closedAt: '2022-08-12T13:07:52Z',
   webUrl: '/gitlab-org/gitlab-test/-/work_items/3',
-  widgets: [workItemObjectiveMetadataWidgets.LINKED_ITEMS],
+  widgets: [
+    workItemObjectiveMetadataWidgets.LINKED_ITEMS,
+    {
+      type: 'HIERARCHY',
+      hasChildren: false,
+      rolledUpCountsByType: [],
+      parent: mockParentIssue,
+      __typename: 'WorkItemWidgetHierarchy',
+    },
+  ],
   __typename: 'WorkItem',
 };
 
@@ -2687,6 +2777,7 @@ export const workItemTask = {
       type: 'HIERARCHY',
       hasChildren: false,
       rolledUpCountsByType: [],
+      parent: mockParentIssue,
       __typename: 'WorkItemWidgetHierarchy',
     },
   ],
@@ -2807,6 +2898,7 @@ export const childrenWorkItemsObjectives = [
         type: 'HIERARCHY',
         hasChildren: false,
         rolledUpCountsByType: [],
+        parent: mockParentObjective,
         __typename: 'WorkItemWidgetHierarchy',
       },
     ],
@@ -2834,6 +2926,7 @@ export const childrenWorkItemsObjectives = [
         type: 'HIERARCHY',
         hasChildren: false,
         rolledUpCountsByType: [],
+        parent: mockParentObjective,
         __typename: 'WorkItemWidgetHierarchy',
       },
     ],
@@ -3148,7 +3241,7 @@ export const mockHierarchyChildren = [
     },
     namespace: {
       __typename: 'Project',
-      id: '1',
+      id: '2',
       fullPath: 'test-objective-project-path',
       name: 'Project name',
     },
@@ -3164,6 +3257,25 @@ export const mockHierarchyChildren = [
         type: 'HIERARCHY',
         hasChildren: true,
         rolledUpCountsByType: [],
+        parent: {
+          id: 'gid://gitlab/WorkItem/2',
+          iid: '2',
+          title: 'New title',
+          confidential: false,
+          webUrl: '/gitlab-org/gitlab-test/-/work_items/2',
+          namespace: {
+            id: '1',
+            fullPath: 'test-project-path',
+            __typename: 'Project',
+          },
+          workItemType: {
+            id: 'gid://gitlab/WorkItems::Type/2411',
+            name: 'Objective',
+            iconName: 'work-item-objective',
+            __typename: 'WorkItemType',
+          },
+          __typename: 'WorkItem',
+        },
         __typename: 'WorkItemWidgetHierarchy',
       },
     ],
@@ -3456,7 +3568,7 @@ export const workItemHierarchyTreeSingleClosedItemResponse = {
                 },
                 namespace: {
                   __typename: 'Project',
-                  id: '1',
+                  id: '2',
                   fullPath: 'test-objective-project-path',
                   name: 'Project name',
                 },
@@ -3472,6 +3584,25 @@ export const workItemHierarchyTreeSingleClosedItemResponse = {
                     type: 'HIERARCHY',
                     hasChildren: true,
                     rolledUpCountsByType: [],
+                    parent: {
+                      id: 'gid://gitlab/WorkItem/2',
+                      iid: '2',
+                      title: 'New title',
+                      confidential: false,
+                      webUrl: '/gitlab-org/gitlab-test/-/work_items/2',
+                      namespace: {
+                        id: '1',
+                        fullPath: 'test-project-path',
+                        __typename: 'Project',
+                      },
+                      workItemType: {
+                        id: 'gid://gitlab/WorkItems::Type/2411',
+                        name: 'Objective',
+                        iconName: 'work-item-objective',
+                        __typename: 'WorkItemType',
+                      },
+                      __typename: 'WorkItem',
+                    },
                     __typename: 'WorkItemWidgetHierarchy',
                   },
                 ],
@@ -4202,6 +4333,21 @@ export const mockAncestorWidgetResponse = {
                       hasParent: true,
                       parent: {
                         id: 'gid://gitlab/WorkItem/663',
+                        iid: '663',
+                        title: 'Parent',
+                        confidential: false,
+                        webUrl: '/path/to/work_item',
+                        namespace: {
+                          id: 'gid://gitlab/Project/1',
+                          fullPath: 'test-project-path',
+                          __typename: 'Project',
+                        },
+                        workItemType: {
+                          id: 'gid://gitlab/WorkItems::Type/1',
+                          name: 'Issue',
+                          iconName: 'work-item-issue',
+                          __typename: 'WorkItemType',
+                        },
                         __typename: 'WorkItem',
                       },
                       __typename: 'WorkItemWidgetHierarchy',
@@ -5955,6 +6101,22 @@ export const workItemsWithSubChildQueryResponse = {
                 hasChildren: false,
                 parent: {
                   id: 'gid://gitlab/WorkItem/102',
+                  iid: '102',
+                  title: 'a group level work item 102',
+                  confidential: false,
+                  webUrl: 'http://127.0.0.1:3000/toolbox/gitlab-smoke-tests/-/issues/34',
+                  namespace: {
+                    id: 'full-path-epic-id',
+                    fullPath: 'full-path',
+                    __typename: 'Group',
+                  },
+                  workItemType: {
+                    id: 'gid://gitlab/WorkItems::Type/5',
+                    name: 'Issue',
+                    iconName: 'work-item-issue',
+                    __typename: 'WorkItemType',
+                  },
+                  __typename: 'WorkItem',
                 },
                 hasParent: true,
                 rolledUpCountsByType: [],
@@ -6004,6 +6166,22 @@ export const workItemsWithSubChildQueryResponse = {
                 hasChildren: false,
                 parent: {
                   id: 'gid://gitlab/WorkItem/1',
+                  iid: '1',
+                  title: 'Parent work item',
+                  confidential: false,
+                  webUrl: 'http://127.0.0.1:3000/toolbox/gitlab-smoke-tests/-/issues/1',
+                  namespace: {
+                    id: 'parent-work-item-ns-1',
+                    fullPath: 'full-path',
+                    __typename: 'Group',
+                  },
+                  workItemType: {
+                    id: 'gid://gitlab/WorkItems::Type/5',
+                    name: 'Issue',
+                    iconName: 'work-item-issue',
+                    __typename: 'WorkItemType',
+                  },
+                  __typename: 'WorkItem',
                 },
                 hasParent: true,
                 rolledUpCountsByType: [],

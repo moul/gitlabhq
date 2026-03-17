@@ -87,7 +87,7 @@ RSpec.describe 'Change type action', :js, feature_category: :portfolio_managemen
         expect(page).to have_button('Change type', disabled: false)
 
         within_testid('change-type-warning-message', wait: 20) do
-          message = s_('Some fields are not present in %{type}. If you change type now, this information will be lost.')
+          message = _('Some fields are not present in %{type}. If you change type now, this information will be lost.')
           expect(page).to have_content(format(message, type: 'task'))
           expect(page).to have_content(s_('WorkItem|Designs'))
         end

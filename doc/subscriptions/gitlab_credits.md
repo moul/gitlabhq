@@ -348,6 +348,7 @@ The dashboard displays the following information:
 
 - Organization usage: Total credit usage across your GitLab instance or group
 - Detailed credit usage by user: Number of credits used by each user
+- User drill-down view: Individual usage events for each user, with links to GitLab Duo Agent Platform session details
 
 ### View the GitLab Credits dashboard
 
@@ -394,6 +395,24 @@ Prerequisites:
 
 By default, individual user data is not displayed in the GitLab Credits dashboard.
 To display it, you must enable this setting for your [group](../user/group/manage.md#display-gitlab-credits-user-data) or [instance](../administration/settings/visibility_and_access_controls.md#display-gitlab-credits-user-data).
+
+### View user credit usage details
+
+{{< history >}}
+
+- Linking to GitLab Duo Agent Platform session details [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/579139) in GitLab 18.10.
+
+{{< /history >}}
+
+To view a user's individual usage events in a drill-down view:
+
+1. In the GitLab Credits dashboard, select the **Usage by user** tab.
+1. In the **User** column, select the user you want to view.
+1. To view session details, in the **Action** column, select the action you want to view.
+
+> [!note]
+> Session links are available only for GitLab Duo Agent Platform usage events that are triggered in a project and have an associated session ID.
+> Usage events triggered in a group, legacy events, and actions outside Agent Platform don't have links.
 
 ### Export usage data
 

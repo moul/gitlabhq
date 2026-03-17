@@ -605,8 +605,8 @@ export const saveHiddenMetadataKeysToLocalStorage = (key, hiddenKeys) => {
   }
 };
 
-export const getHiddenMetadataKeysFromLocalStorage = (key) => {
-  if (!AccessorUtilities.canUseLocalStorage()) return [];
+export const getHiddenMetadataKeysFromLocalStorage = (key, defaultHiddenKeys = []) => {
+  if (!AccessorUtilities.canUseLocalStorage()) return defaultHiddenKeys;
 
   const stored = localStorage.getItem(key);
 
@@ -614,11 +614,11 @@ export const getHiddenMetadataKeysFromLocalStorage = (key) => {
     try {
       return JSON.parse(stored);
     } catch {
-      return [];
+      return defaultHiddenKeys;
     }
   }
 
-  return [];
+  return defaultHiddenKeys;
 };
 
 export const isCurrentViewWorkItem = () => {
