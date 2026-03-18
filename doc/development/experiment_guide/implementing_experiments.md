@@ -382,3 +382,68 @@ export default {
 
 > [!note]
 > When there is no experiment data in the `window.gl.experiments` object for the given experiment name, the `control` slot is used, if it exists.
+
+## Experiment development best practices
+
+### Use `only_assigned` for secondary experiment blocks
+
+Experiment blocks that are not the entry point into an experiment should use the
+[`only_assigned`](https://gitlab.com/gitlab-org/ruby/gems/gitlab-experiment/-/blob/master/README.md#progressive-rollout-with-only_assigned)
+option. This prevents users from entering an experiment flow mid-way through.
+
+For example, if an experiment starts on the registration page and continues through
+the welcome page, the welcome page experiment block should use `only_assigned: true`:
+
+```ruby
+experiment(:my_experiment, actor: current_user, only_assigned: true).track(:render_welcome)
+```
+
+Without `only_assigned`, a user who bypasses the registration page could still be
+assigned a variant on the welcome page, resulting in an inconsistent experience.
+
+### Test experiments manually on staging
+
+When you test experiments manually on staging, a 100% rollout eliminates the burden
+of finding candidate or control sessions. However, a full rollout also masks issues
+where a user enters or exits an experiment unexpectedly due to an exclusion bug or
+inconsistent context.
+
+To catch these issues, test at lower rollout percentages and verify that users
+remain in their assigned variant across the full experiment lifecycle.
+
+### Write feature specs for multi-page experiments
+
+Unit tests can be ineffective for experiments that span multiple experiment blocks
+because the experiment context (notably the user during registration) can change
+between blocks, which causes re-segmentation. Write feature specs that cover the
+full experiment lifespan for any experiment that spans multiple pages.
+
+Use the `:experiment_tracking` RSpec metadata to verify that tracking events fire
+and to confirm the expected number of segmentations:
+
+```ruby
+context 'when candidate experience', experiment_tracking: 1 do
+  before do
+    stub_feature_flags(my_experiment: true)
+    stub_application_setting_enum('email_confirmation_setting', 'hard')
+  end
+
+  it 'completes the experiment flow' do
+    # test contents
+
+    is_expected.to have_tracked_experiment(:my_experiment, [
+      :assignment,
+      :completed_trial_form,
+      :completed_identity_verification,
+      :render_welcome,
+      { action: :completed_group_project_creation, namespace: namespace },
+      :render_get_started
+    ])
+  end
+end
+```
+
+> [!note]
+> The `experiment_tracking` metadata watches tracking events. During user creation,
+> you see an assignment both before (with the cookie value) and after creation
+> (with the user model). Pass `experiment_tracking: 2` in those cases.

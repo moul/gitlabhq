@@ -36,7 +36,7 @@ The application maps incoming requests to an organization through `Current.organ
 - Controllers
 - GraphQL
 - Grape API endpoints (use the `set_current_organization` helper)
-- Sidekiq
+- Sidekiq (it's set in the context that enqueues the jobs)
 
 ### Passing organization context
 
@@ -67,12 +67,15 @@ end
 
 ### Scoping queries to organizations
 
-Ensure queries are scoped to the current organization:
+Ensure queries that read resources from tables that have `organization_id` as a sharding key are scoped to the current organization:
 
 ```ruby
 @labels = Label.in_organization(organization).templates
 @topic = Projects::Topic.in_organization(organization.id).find_by_name(topic_name)
+@groups = Group.in_organization(organization.id)
 ```
+
+This doesn't need to be done on queries that read resources from other tables don't have `organization_id` as a sharding key. For example, querying issues on a project or a group doesn't need to be scoped to an organization.
 
 ## Organization routing
 

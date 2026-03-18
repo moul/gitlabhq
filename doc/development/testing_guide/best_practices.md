@@ -55,6 +55,7 @@ When using spring and guard together, use `SPRING=1 bundle exec guard` instead t
   methods.
 - Use `context` to test branching logic (`RSpec/AvoidConditionalStatements` RuboCop Cop - [MR](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/117152)).
 - Try to match the ordering of tests to the ordering in the class.
+- Prefer [table-based tests](#table-based--parameterized-tests) where possible.
 - Try to follow the [Four-Phase Test](https://thoughtbot.com/blog/four-phase-test) pattern, using newlines
   to separate phases.
 - Use `Gitlab.config.gitlab.host` rather than hard coding `'localhost'`.
@@ -891,9 +892,12 @@ running successfully in isolation. See the script for more details.
 ### `subject` and `let` variables
 
 The GitLab RSpec suite has made extensive use of `let`(along with its strict, non-lazy
-version `let!`) variables to reduce duplication. However, this sometimes [comes at the cost of clarity](https://thoughtbot.com/blog/lets-not),
+version `let!`) variables to reduce duplication.
+However, this sometimes [comes at the cost of clarity](https://thoughtbot.com/blog/lets-not),
 so we need to set some guidelines for their use going forward:
 
+- Prefer [table-based / parameterized tests](#table-based--parameterized-tests)
+  instead of repeating `let` definitions across contexts.
 - `let!` variables are preferable to instance variables. `let` variables
   are preferable to `let!` variables. Local variables are preferable to
   `let` variables.
@@ -911,7 +915,90 @@ so we need to set some guidelines for their use going forward:
   be evaluated until it is referenced.
 - Avoid referencing `subject` in examples. Use a named subject `subject(:name)`, or a `let` variable instead, so
   the variable has a contextual name.
-- If the `subject` is never referenced inside examples, then it's acceptable to define the `subject` without a name.
+
+### Table-based / Parameterized tests
+
+This style of testing is used to exercise one piece of code with a comprehensive
+range of inputs. By specifying the test case once, alongside a table of inputs
+and the expected output for each, your tests can be made easier to read and more
+compact.
+
+We use the [RSpec::Parameterized](https://github.com/tomykaira/rspec-parameterized)
+gem.
+
+Prefer table-based tests over multiple `context` blocks that differ only in their
+`let` values. For example, instead of repeating contexts:
+
+```ruby
+# bad
+context 'when the group status is :active' do
+  let(:status) { :active }
+  let(:actor) { create(:group) }
+
+  it { expect(actor.visible?).to be(true) }
+end
+
+context 'when the project status is :active' do
+  let(:status) { :active }
+  let(:actor) { create(:project) }
+
+  it { expect(actor.visible?).to be(true) }
+end
+
+context 'when the group status is :inactive' do
+  let(:status) { :inactive }
+  let(:actor) { create(:group) }
+
+  it { expect(actor.visible?).to be(false) }
+end
+
+context 'when the project status is :inactive' do
+  let(:status) { :inactive }
+  let(:actor) { create(:project) }
+
+  it { expect(actor.visible?).to be(false) }
+end
+```
+
+Use a table to express the same cases more compactly:
+
+```ruby
+# good
+using RSpec::Parameterized::TableSyntax
+
+let(:group) { create(:group) }
+let(:project) { create(:project) }
+
+where(:actor, :status, :visible) do
+  ref(:group) | :active   | true
+  ref(:group) | :inactive | false
+  ref(:project) | :active   | true
+  ref(:project) | :inactive | false
+end
+
+with_them do
+  it { expect(actor.visible?).to be(visible) }
+end
+```
+
+If, after creating a table-based test, you see an error that looks like this:
+
+```ruby
+NoMethodError:
+  undefined method `to_params'
+
+  param_sets = extracted.is_a?(Array) ? extracted : extracted.to_params
+                                                                       ^^^^^^^^^^
+  Did you mean?  to_param
+```
+
+That indicates that you need to include the line `using RSpec::Parameterized::TableSyntax` in the spec file.
+
+> [!warning]
+> Only use simple values as input in the `where` block. Using procs, stateful
+> objects, FactoryBot-created objects, and similar items can lead to
+> [unexpected results](https://github.com/tomykaira/rspec-parameterized/issues/8).
+> Use `ref(:symbol)` instead.
 
 ### Common test setup
 
@@ -1487,65 +1574,6 @@ To add a schema matcher spec:
    ```ruby
    match_snowplow_context_schema(schema_path: '<filename from step 1>', context: <Context Hash> )
    ```
-
-### Table-based / Parameterized tests
-
-This style of testing is used to exercise one piece of code with a comprehensive
-range of inputs. By specifying the test case once, alongside a table of inputs
-and the expected output for each, your tests can be made easier to read and more
-compact.
-
-We use the [RSpec::Parameterized](https://github.com/tomykaira/rspec-parameterized)
-gem. A short example, using the table syntax and checking Ruby equality for a
-range of inputs, might look like this:
-
-```ruby
-describe "#==" do
-  using RSpec::Parameterized::TableSyntax
-
-  let(:one) { 1 }
-  let(:two) { 2 }
-
-  where(:a, :b, :result) do
-    1         | 1         | true
-    1         | 2         | false
-    true      | true      | true
-    true      | false     | false
-    ref(:one) | ref(:one) | true  # let variables must be referenced using `ref`
-    ref(:one) | ref(:two) | false
-  end
-
-  with_them do
-    it { expect(a == b).to eq(result) }
-
-    it 'is isomorphic' do
-      expect(b == a).to eq(result)
-    end
-  end
-end
-```
-
-If, after creating a table-based test, you see an error that looks like this:
-
-```ruby
-NoMethodError:
-  undefined method `to_params'
-
-  param_sets = extracted.is_a?(Array) ? extracted : extracted.to_params
-                                                                       ^^^^^^^^^^
-  Did you mean?  to_param
-```
-
-That indicates that you need to include the line `using RSpec::Parameterized::TableSyntax` in the spec file.
-
-<!-- vale gitlab_base.Spelling = NO -->
-
-> [!warning]
-> Only use simple values as input in the `where` block. Using procs, stateful
-> objects, FactoryBot-created objects, and similar items can lead to
-> [unexpected results](https://github.com/tomykaira/rspec-parameterized/issues/8).
-
-<!-- vale gitlab_base.Spelling = YES -->
 
 ### Prometheus tests
 

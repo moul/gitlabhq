@@ -63,6 +63,7 @@ export default {
     'app/assets/javascripts/work_items/components/shared/work_item_link_child_contents.vue',
     'app/assets/javascripts/work_items/components/shared/work_item_namespace_listbox.vue',
     'app/assets/javascripts/work_items/components/shared/work_item_parent_metadata.vue',
+    'app/assets/javascripts/work_items/components/work_item_change_type_modal.vue',
     'app/assets/javascripts/work_items/components/work_item_detail.vue',
     'app/assets/javascripts/work_items/components/work_item_drawer.vue',
     'app/assets/javascripts/work_items/components/work_item_links/work_item_projects_listbox.vue',

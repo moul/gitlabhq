@@ -93,11 +93,25 @@ RSpec.describe 'Change type action', :js, feature_category: :portfolio_managemen
         end
       end
     end
+
+    context 'when converting to incident' do
+      it 'redirects to the legacy view' do
+        visit project_work_item_path(project, issue.iid)
+
+        click_button _('More actions'), match: :first
+        click_button s_('WorkItem|Change type')
+        select 'Incident', from: s_('WorkItem|Type')
+        click_button s_('WorkItem|Change type')
+
+        # Legacy issue app rendered
+        expect(page).to have_selector('.issuable-details')
+      end
+    end
   end
 
   def trigger_change_type(type)
     click_button _('More actions'), match: :first
     click_button s_('WorkItem|Change type')
-    find_by_testid('work-item-change-type-select').select(type)
+    select type, from: s_('WorkItem|Type')
   end
 end

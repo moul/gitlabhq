@@ -1,0 +1,65 @@
+---
+name: auditor
+description: Read-only access to all groups and projects. This is an instance-level user type, not a project or group membership role.
+inherits_from: []
+project:
+  permissions: []
+  raw_permissions:
+  - access_security_and_compliance
+  - add_project_to_instance_security_dashboard
+  - public_user_access
+  - read_approvers
+  - read_ascp_scan
+  - read_build
+  - read_cluster
+  - read_compliance_adherence_report
+  - read_compliance_dashboard
+  - read_compliance_violations_report
+  - read_dependency
+  - read_deployment
+  - read_environment
+  - read_feature_flag
+  - read_licenses
+  - read_on_demand_dast_scan
+  - read_pages
+  - read_project_audit_events
+  - read_project_merge_request_analytics
+  - read_project_security_exclusions
+  - read_runners
+  - read_security_resource
+  - read_security_settings
+  - read_snippet
+  - read_software_license_policy
+  - read_terraform_state
+  - read_vulnerability
+group:
+  permissions: []
+  raw_permissions:
+  - read_billable_member
+  - read_billing
+  - read_cluster
+  - read_cluster_agent
+  - read_compliance_adherence_report
+  - read_compliance_dashboard
+  - read_compliance_violations_report
+  - read_container_image
+  - read_cycle_analytics
+  - read_dependency
+  - read_dependency_proxy
+  - read_dora4_analytics
+  - read_group
+  - read_group_all_available_runners
+  - read_group_audit_events
+  - read_group_contribution_analytics
+  - read_group_release_stats
+  - read_group_repository_analytics
+  - read_group_stage
+  - read_licenses
+  - read_protected_branch
+  - read_runners
+  - read_vulnerability
+  - read_wiki
+  - view_group_ci_cd_analytics
+  - view_group_devops_adoption
+  - view_productivity_analytics
+  - view_type_of_work_charts

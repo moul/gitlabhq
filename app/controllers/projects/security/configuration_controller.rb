@@ -5,7 +5,7 @@ module Projects
     class ConfigurationController < Projects::ApplicationController
       include SecurityAndCompliancePermissions
 
-      feature_category :static_application_security_testing, [:show]
+      feature_category :security_testing_configuration, [:show]
       urgency :low, [:show]
 
       before_action only: [:show] do

@@ -1,11 +1,10 @@
-import { GlModal, GlFormSelect } from '@gitlab/ui';
+import { GlFormSelect, GlModal } from '@gitlab/ui';
 import Vue, { nextTick } from 'vue';
 import VueApollo from 'vue-apollo';
 
 import createMockApollo from 'helpers/mock_apollo_helper';
-import { mountExtended } from 'helpers/vue_test_utils_helper';
+import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import waitForPromises from 'helpers/wait_for_promises';
-import { stubComponent } from 'helpers/stub_component';
 
 import WorkItemChangeTypeModal from '~/work_items/components/work_item_change_type_modal.vue';
 import namespaceWorkItemTypesQuery from '~/work_items/graphql/namespace_work_item_types.query.graphql';
@@ -15,6 +14,7 @@ import {
   WORK_ITEM_TYPE_NAME_EPIC,
   WORK_ITEM_TYPE_NAME_ISSUE,
   WORK_ITEM_TYPE_NAME_TASK,
+  WORK_ITEM_WIDGETS_NAME_MAP,
 } from '~/work_items/constants';
 
 import {
@@ -75,14 +75,14 @@ describe('WorkItemChangeTypeModal component', () => {
     hasChildren = false,
     widgets = [],
     workItemType = WORK_ITEM_TYPE_NAME_TASK,
+    namespaceQueryHandler = typesQuerySuccessHandler,
     convertWorkItemMutationHandler = convertWorkItemMutationSuccessHandler,
     designQueryHandler = noDesignQueryHandler,
-    allowedConversionTypesEE = [],
     hasSubepicsFeature = true,
   } = {}) => {
-    wrapper = mountExtended(WorkItemChangeTypeModal, {
+    wrapper = shallowMountExtended(WorkItemChangeTypeModal, {
       apolloProvider: createMockApollo([
-        [namespaceWorkItemTypesQuery, typesQuerySuccessHandler],
+        [namespaceWorkItemTypesQuery, namespaceQueryHandler],
         [convertWorkItemMutation, convertWorkItemMutationHandler],
         [getWorkItemDesignListQuery, designQueryHandler],
       ]),
@@ -95,16 +95,10 @@ describe('WorkItemChangeTypeModal component', () => {
         widgets,
         workItemType,
         allowedChildTypes: [{ name: WORK_ITEM_TYPE_NAME_TASK }],
-        allowedConversionTypesEE,
       },
       provide: {
         hasSubepicsFeature,
-      },
-      stubs: {
-        GlModal: stubComponent(GlModal, {
-          template:
-            '<div><slot name="modal-title"></slot><slot></slot><slot name="modal-footer"></slot></div>',
-        }),
+        getWorkItemTypeConfiguration: jest.fn(),
       },
     });
   };
@@ -121,7 +115,6 @@ describe('WorkItemChangeTypeModal component', () => {
   });
 
   it('renders change type modal with the select', () => {
-    expect(findChangeTypeModal().exists()).toBe(true);
     expect(findGlFormSelect().exists()).toBe(true);
     expect(findChangeTypeModal().props('actionPrimary')).toEqual({
       attributes: {
@@ -137,7 +130,7 @@ describe('WorkItemChangeTypeModal component', () => {
   });
 
   it('renders all types as select options', () => {
-    expect(findGlFormSelect().findAll('option')).toHaveLength(2);
+    expect(findGlFormSelect().attributes('options').split(',')).toHaveLength(6);
   });
 
   describe('work item type change tests', () => {
@@ -218,17 +211,33 @@ describe('WorkItemChangeTypeModal component', () => {
       expect(findChangeTypeModal().props('actionPrimary').attributes.disabled).toBe(false);
     });
 
+    it.each`
+      widgetType                              | widgetData                             | workItemType                 | typeTobeConverted | expectedString
+      ${WORK_ITEM_WIDGETS_NAME_MAP.ITERATION} | ${workItemChangeTypeWidgets.ITERATION} | ${WORK_ITEM_TYPE_NAME_ISSUE} | ${epicTypeId}     | ${'Iteration'}
+      ${WORK_ITEM_WIDGETS_NAME_MAP.WEIGHT}    | ${workItemChangeTypeWidgets.WEIGHT}    | ${WORK_ITEM_TYPE_NAME_ISSUE} | ${epicTypeId}     | ${'Weight'}
+    `(
+      'shows warning message in case of $widgetType widget',
+      async ({ workItemType, widgetData, typeTobeConverted, expectedString }) => {
+        createComponent({
+          workItemType,
+          widgets: [widgetData],
+        });
+
+        await waitForPromises();
+
+        findGlFormSelect().vm.$emit('change', typeTobeConverted);
+
+        await nextTick();
+
+        expect(findWarningAlert().text()).toContain(expectedString);
+        expect(findChangeTypeModal().props('actionPrimary').attributes.disabled).toBe(false);
+      },
+    );
+
     it('shows no value present message if value of the widget is not present on conversion', async () => {
-      const allowedConversionTypesEE = [
-        {
-          id: epicTypeId,
-          name: WORK_ITEM_TYPE_NAME_EPIC,
-        },
-      ];
       createComponent({
         workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
         widgets: [workItemChangeTypeWidgets.MILESTONE],
-        allowedConversionTypesEE,
       });
 
       await waitForPromises();

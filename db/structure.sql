@@ -12753,7 +12753,6 @@ CREATE TABLE agent_activity_events (
     recorded_at timestamp with time zone NOT NULL,
     kind smallint NOT NULL,
     level smallint NOT NULL,
-    sha bytea,
     detail text,
     agent_project_id bigint,
     CONSTRAINT check_068205e735 CHECK ((char_length(detail) <= 255)),
@@ -32208,6 +32207,24 @@ CREATE SEQUENCE vulnerability_feedback_id_seq
 
 ALTER SEQUENCE vulnerability_feedback_id_seq OWNED BY vulnerability_feedback.id;
 
+CREATE TABLE vulnerability_finding_due_dates (
+    id bigint NOT NULL,
+    vulnerability_occurrence_id bigint NOT NULL,
+    due_date date NOT NULL,
+    project_id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+CREATE SEQUENCE vulnerability_finding_due_dates_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE vulnerability_finding_due_dates_id_seq OWNED BY vulnerability_finding_due_dates.id;
+
 CREATE TABLE vulnerability_finding_evidences (
     id bigint NOT NULL,
     created_at timestamp with time zone NOT NULL,
@@ -36154,6 +36171,8 @@ ALTER TABLE ONLY vulnerability_exports ALTER COLUMN id SET DEFAULT nextval('vuln
 ALTER TABLE ONLY vulnerability_external_issue_links ALTER COLUMN id SET DEFAULT nextval('vulnerability_external_issue_links_id_seq'::regclass);
 
 ALTER TABLE ONLY vulnerability_feedback ALTER COLUMN id SET DEFAULT nextval('vulnerability_feedback_id_seq'::regclass);
+
+ALTER TABLE ONLY vulnerability_finding_due_dates ALTER COLUMN id SET DEFAULT nextval('vulnerability_finding_due_dates_id_seq'::regclass);
 
 ALTER TABLE ONLY vulnerability_finding_evidences ALTER COLUMN id SET DEFAULT nextval('vulnerability_finding_evidences_id_seq'::regclass);
 
@@ -40426,6 +40445,9 @@ ALTER TABLE ONLY vulnerability_external_issue_links
 ALTER TABLE ONLY vulnerability_feedback
     ADD CONSTRAINT vulnerability_feedback_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY vulnerability_finding_due_dates
+    ADD CONSTRAINT vulnerability_finding_due_dates_pkey PRIMARY KEY (id);
+
 ALTER TABLE ONLY vulnerability_finding_evidences
     ADD CONSTRAINT vulnerability_finding_evidences_pkey PRIMARY KEY (id);
 
@@ -43677,6 +43699,8 @@ CREATE INDEX idx_issues_root_namespace_updated_at ON issues USING btree ((namesp
 
 CREATE INDEX idx_issues_state_id_namespace_traversal_ids ON issues USING btree (state_id, namespace_traversal_ids);
 
+CREATE UNIQUE INDEX idx_jira_connect_installations_on_org_id_client_key_uniq ON jira_connect_installations USING btree (organization_id, client_key);
+
 CREATE UNIQUE INDEX idx_jira_connect_subscriptions_on_installation_id_namespace_id ON jira_connect_subscriptions USING btree (jira_connect_installation_id, namespace_id);
 
 CREATE INDEX idx_keys_expires_at_and_before_expiry_notification_undelivered ON keys USING btree (date(timezone('UTC'::text, expires_at)), before_expiry_notification_delivered_at) WHERE (before_expiry_notification_delivered_at IS NULL);
@@ -46359,11 +46383,7 @@ CREATE INDEX index_issues_on_work_item_type_id_project_id_created_at_state ON is
 
 CREATE INDEX index_iterations_cadences_on_group_id ON iterations_cadences USING btree (group_id);
 
-CREATE UNIQUE INDEX index_jira_connect_installations_on_client_key ON jira_connect_installations USING btree (client_key);
-
 CREATE INDEX index_jira_connect_installations_on_instance_url ON jira_connect_installations USING btree (instance_url);
-
-CREATE INDEX index_jira_connect_installations_on_organization_id ON jira_connect_installations USING btree (organization_id);
 
 CREATE INDEX index_jira_connect_subscriptions_on_namespace_id ON jira_connect_subscriptions USING btree (namespace_id);
 
@@ -49006,6 +49026,10 @@ CREATE INDEX index_vulnerability_feedback_on_merge_request_id ON vulnerability_f
 CREATE INDEX index_vulnerability_feedback_on_pipeline_id ON vulnerability_feedback USING btree (pipeline_id);
 
 CREATE INDEX index_vulnerability_feedback_on_set_of_common_attributes ON vulnerability_feedback USING btree (project_id, category, feedback_type);
+
+CREATE UNIQUE INDEX index_vulnerability_finding_due_dates_on_occurrence_id ON vulnerability_finding_due_dates USING btree (vulnerability_occurrence_id);
+
+CREATE INDEX index_vulnerability_finding_due_dates_on_project_id ON vulnerability_finding_due_dates USING btree (project_id);
 
 CREATE INDEX index_vulnerability_finding_evidences_on_project_id ON vulnerability_finding_evidences USING btree (project_id);
 
@@ -56946,6 +56970,9 @@ ALTER TABLE ONLY duo_workflows_workflows
 
 ALTER TABLE ONLY duo_workflows_workflows
     ADD CONSTRAINT fk_duo_workflows_workflows_service_account_id FOREIGN KEY (service_account_id) REFERENCES users(id) ON DELETE SET NULL NOT VALID;
+
+ALTER TABLE ONLY vulnerability_finding_due_dates
+    ADD CONSTRAINT fk_e05139745e FOREIGN KEY (vulnerability_occurrence_id) REFERENCES vulnerability_occurrences(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY merge_request_cleanup_schedules
     ADD CONSTRAINT fk_e0655f1a25 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;

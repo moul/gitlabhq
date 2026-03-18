@@ -3169,7 +3169,7 @@ Input type: `AiCatalogItemConsumerUpdateInput`
 | ---- | ---- | ----------- |
 | <a id="mutation-aicatalogitemconsumerupdate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-aicatalogitemconsumerupdate-id"></a>`id` | [`AiCatalogItemConsumerID!`](#aicatalogitemconsumerid) | Global ID of the catalog item consumer to update. |
-| <a id="mutation-aicatalogitemconsumerupdate-pinnedversionprefix"></a>`pinnedVersionPrefix` | [`String!`](#string) | Version to pin the item to. |
+| <a id="mutation-aicatalogitemconsumerupdate-pinnedversionprefix"></a>`pinnedVersionPrefix` | [`String!`](#string) | Version to pin the item to. Required to prevent a concurrency issue where the version could change between read and update. |
 | <a id="mutation-aicatalogitemconsumerupdate-serviceaccountid"></a>`serviceAccountId` | [`UserID`](#userid) | Service account to associate with the item consumer. |
 | <a id="mutation-aicatalogitemconsumerupdate-triggertypes"></a>`triggerTypes` | [`[String!]`](#string) | List of event types to create flow triggers for (values can be mention, assign or assign_reviewer). |
 

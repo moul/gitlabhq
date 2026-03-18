@@ -10,9 +10,9 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
   let(:allowed_to_be_missing_sharding_key) do
     [
       'ai_settings', # https://gitlab.com/gitlab-org/gitlab/-/issues/531356
-      'group_secrets_managers', # https://gitlab.com/gitlab-org/gitlab/-/issues/583654
+      'group_secrets_managers', # https://gitlab.com/gitlab-org/gitlab/-/work_items/589058
       'merge_request_diff_files_99208b8fac', # https://gitlab.com/gitlab-org/gitlab/-/issues/422767
-      'project_secrets_managers', # https://gitlab.com/gitlab-org/gitlab/-/issues/583654
+      'project_secrets_managers', # https://gitlab.com/gitlab-org/gitlab/-/work_items/589058
       'p_ci_pipeline_artifact_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/587555
       'packages_helm_metadata_cache_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/587557
       'packages_nuget_symbol_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/587558

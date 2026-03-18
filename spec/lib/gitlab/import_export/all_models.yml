@@ -1338,6 +1338,7 @@ vulnerability_finding:
   - detection_transitions
   - project_tracked_context
   - security_finding_enrichments
+  - finding_due_date
 scanner:
   - findings
   - security_findings

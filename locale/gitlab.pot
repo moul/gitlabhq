@@ -28536,9 +28536,6 @@ msgstr ""
 msgid "Epic"
 msgstr ""
 
-msgid "Epic (Promote to group)"
-msgstr ""
-
 msgid "Epic Boards"
 msgstr ""
 
@@ -48357,6 +48354,12 @@ msgstr ""
 msgid "Orbit|Additional metadata if required"
 msgstr ""
 
+msgid "Orbit|All domains"
+msgstr ""
+
+msgid "Orbit|Collapse"
+msgstr ""
+
 msgid "Orbit|Components"
 msgstr ""
 
@@ -48369,13 +48372,25 @@ msgstr ""
 msgid "Orbit|Data Explorer"
 msgstr ""
 
+msgid "Orbit|Define how node types connect to each other. Relationships are also known as edges."
+msgstr ""
+
+msgid "Orbit|Domains"
+msgstr ""
+
 msgid "Orbit|Enable"
 msgstr ""
 
 msgid "Orbit|Enable Orbit for a top-level group to index its projects and make them queryable"
 msgstr ""
 
+msgid "Orbit|Expand"
+msgstr ""
+
 msgid "Orbit|Failed to load groups. Please try again."
+msgstr ""
+
+msgid "Orbit|Failed to load schema. Please try again."
 msgstr ""
 
 msgid "Orbit|Failed to update group setting. Please try again."
@@ -48396,6 +48411,9 @@ msgstr ""
 msgid "Orbit|No connection"
 msgstr ""
 
+msgid "Orbit|Node Types"
+msgstr ""
+
 msgid "Orbit|Not indexed"
 msgstr ""
 
@@ -48408,10 +48426,19 @@ msgstr ""
 msgid "Orbit|Overall status"
 msgstr ""
 
+msgid "Orbit|Properties"
+msgstr ""
+
+msgid "Orbit|Relationships"
+msgstr ""
+
 msgid "Orbit|Sample prompt"
 msgstr ""
 
 msgid "Orbit|Schema"
+msgstr ""
+
+msgid "Orbit|Search nodes and relationships..."
 msgstr ""
 
 msgid "Orbit|Settings"
@@ -48433,6 +48460,9 @@ msgid "Orbit|Unable to load cluster status."
 msgstr ""
 
 msgid "Orbit|Unhealthy"
+msgstr ""
+
+msgid "Orbit|Variants"
 msgstr ""
 
 msgid "Orbit|Version"
@@ -79289,6 +79319,9 @@ msgid "WorkItem|%{workItemType} is blocked by 1 item"
 msgid_plural "WorkItem|%{workItemType} is blocked by %{itemCount} items"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "WorkItem|(Promote to group)"
+msgstr ""
 
 msgid "WorkItem|+%d more item"
 msgid_plural "WorkItem|+%d more items"

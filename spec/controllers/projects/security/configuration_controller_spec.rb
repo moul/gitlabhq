@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Projects::Security::ConfigurationController do
+RSpec.describe Projects::Security::ConfigurationController, feature_category: :security_testing_configuration do
   let(:project) { create(:project, :public) }
   let(:user) { create(:user) }
 

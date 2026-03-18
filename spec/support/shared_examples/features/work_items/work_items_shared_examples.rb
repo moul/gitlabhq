@@ -1288,13 +1288,12 @@ RSpec.shared_examples 'work items change type' do |selected_type, expected_selec
     click_button _('More actions'), match: :first
     click_button s_('WorkItem|Change type')
 
-    expect(find('#work-item-change-type')).to have_content(s_('WorkItem|Change type'))
+    within('[role="dialog"]') do
+      expect(page).to have_css('h2', text: s_('WorkItem|Change type'))
+    end
 
-    find_by_testid('work-item-change-type-select').select(selected_type)
-
+    select selected_type, from: s_('WorkItem|Type')
     click_button s_('WorkItem|Change type')
-
-    wait_for_requests
 
     expect(page).to have_selector(expected_selector)
   end
