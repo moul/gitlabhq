@@ -101,8 +101,10 @@ To create a flow:
 1. Under **Visibility & access**, for **Visibility**, select **Private** or **Public**.
 1. Under **Configuration**:
    1. Select **Flow**.
-   1. In the editor, enter your flow configuration.
-      To learn how to write custom flow YAML, see the [flow registry framework documentation](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/main/docs/flow_registry/v1.md).
+   1. In the editor, enter your flow configuration:
+
+      - For more information on custom flow YAML, see [flow registry v1 specification](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/main/docs/flow_registry/v1.md).
+      - For fields that differ from the v1 specification, see [custom flow YAML schema](custom_flows_schema.md).
 1. Select **Create flow**.
 
 {{< /tab >}}
@@ -118,8 +120,10 @@ To create a flow:
 1. Under **Visibility & access**, for **Visibility**, select **Private** or **Public**.
 1. Under **Configuration**:
    1. Select **Flow**.
-   1. In the editor, enter your flow configuration.
-      To learn how to write custom flow YAML, see the [flow registry framework documentation](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/main/docs/flow_registry/v1.md).
+   1. In the editor, enter your flow configuration:
+
+      - For more information on custom flow YAML, see [flow registry v1 specification](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/main/docs/flow_registry/v1.md).
+      - For fields that differ from the v1 specification, see [custom flow YAML schema](custom_flows_schema.md).
 1. Select **Create flow**.
 
 {{< /tab >}}

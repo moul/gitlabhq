@@ -23,7 +23,7 @@ Use this API to interact with group access tokens. For more information, see [Gr
 
 {{< /history >}}
 
-Lists all group access tokens for a group.
+Lists all group access tokens for the specified group.
 
 ```plaintext
 GET /groups/:id/access_tokens
@@ -85,9 +85,9 @@ curl --request GET \
 ]
 ```
 
-## Get details on a group access token
+## Retrieve details on a group access token
 
-Gets details on a group access token.
+Retrieves details on a specified group access token.
 
 ```plaintext
 GET /groups/:id/access_tokens/:token_id
@@ -184,10 +184,13 @@ curl --request POST \
 
 {{< /history >}}
 
-Rotates a group access token. This immediately revokes the previous token and creates a new token. Generally, this endpoint rotates a specific group access token by authenticating with a personal access token. You can also use a group access token to rotate itself. For more information, see [Self-rotate](#self-rotate).
+Rotates a specified group access token. This immediately revokes the previous token and creates a
+new token. Generally, this endpoint rotates a specific group access token by authenticating with a
+personal access token. You can also use a group access token to rotate itself. For more information,
+see [Self-rotate](#self-rotate).
 
-If you attempt to use this endpoint to rotate a token that was previously revoked, any active tokens from the same
-token family are revoked. For more information, see [Automatic reuse detection](personal_access_tokens.md#automatic-reuse-detection).
+If you attempt to use this endpoint to rotate a token that was previously revoked, any active tokens
+from the same token family are revoked. For more information, see [automatic reuse detection](personal_access_tokens.md#automatic-reuse-detection).
 
 Prerequisites:
 

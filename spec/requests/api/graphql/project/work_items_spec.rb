@@ -1085,6 +1085,26 @@ RSpec.describe 'getting a work item list for a project', feature_category: :team
         expect(item_ids).to contain_exactly(task.to_global_id.to_s)
       end
 
+      context 'with multiple work item type ids' do
+        let(:item_filter_params) do
+          {
+            workItemTypeIds: [
+              task.work_item_type.to_global_id.to_s,
+              item1.work_item_type.to_global_id.to_s
+            ]
+          }
+        end
+
+        it 'returns items of all specified types' do
+          expect(item_ids).to contain_exactly(
+            task.to_global_id.to_s,
+            item1.to_global_id.to_s,
+            item2.to_global_id.to_s,
+            confidential_item.to_global_id.to_s
+          )
+        end
+      end
+
       context 'when using NOT' do
         let(:item_filter_params) { { not: { workItemTypeIds: [task.work_item_type.to_global_id.to_s] } } }
 
@@ -1112,6 +1132,26 @@ RSpec.describe 'getting a work item list for a project', feature_category: :team
           expect_graphql_errors_to_include(
             'Only one of [issueTypes, workItemTypeIds] arguments is allowed at the same time.'
           )
+        end
+      end
+
+      context 'when workItemTypeIds exceeds the maximum limit' do
+        let(:item_filter_params) do
+          { workItemTypeIds: (1..101).map { |id| "gid://gitlab/WorkItems::Type/#{id}" } }
+        end
+
+        it 'returns an error' do
+          expect_graphql_errors_to_include('workItemTypeIds is too long (maximum is 100)')
+        end
+      end
+
+      context 'when NOT workItemTypeIds exceeds the maximum limit' do
+        let(:item_filter_params) do
+          { not: { workItemTypeIds: (1..101).map { |id| "gid://gitlab/WorkItems::Type/#{id}" } } }
+        end
+
+        it 'returns an error' do
+          expect_graphql_errors_to_include('workItemTypeIds is too long (maximum is 100)')
         end
       end
     end

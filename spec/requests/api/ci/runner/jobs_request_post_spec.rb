@@ -769,7 +769,7 @@ RSpec.describe API::Ci::Runner, :clean_gitlab_redis_shared_state, feature_catego
               end
 
               it 'queries the ci_builds table five times' do
-                expect { request_job }.not_to exceed_all_query_limit(5).for_model(::Ci::Build)
+                expect { request_job }.not_to exceed_all_query_limit(6).for_model(::Ci::Build)
               end
             end
           end

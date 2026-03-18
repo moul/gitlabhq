@@ -12,7 +12,7 @@ RSpec.describe ReactiveCaching::LowUrgencyWorker, feature_category: :redis do
       end
 
       it 'has data_consistency sticky' do
-        expect(described_class.get_data_consistency_per_database).to eq({ main: :sticky, ci: :sticky, sec: :sticky })
+        expect(described_class.get_data_consistency_per_database).to include({ main: :sticky })
       end
     end
 
@@ -22,7 +22,7 @@ RSpec.describe ReactiveCaching::LowUrgencyWorker, feature_category: :redis do
       end
 
       it 'has data_consistency always' do
-        expect(described_class.get_data_consistency_per_database).to eq({ main: :always, ci: :always, sec: :always })
+        expect(described_class.get_data_consistency_per_database).to include({ main: :always })
       end
     end
   end

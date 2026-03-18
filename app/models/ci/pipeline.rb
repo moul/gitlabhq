@@ -18,6 +18,7 @@ module Ci
     include EachBatch
     include FastDestroyAll::Helpers
     include Gitlab::InternalEventsTracking
+    include Ci::PartitionableFinder
 
     self.table_name = :p_ci_pipelines
     self.primary_key = :id

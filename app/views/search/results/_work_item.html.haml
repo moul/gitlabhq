@@ -18,7 +18,7 @@
       - if (reference = work_item_reference(work_item))
         = reference
         &middot;
-      = sprintf(s_('created %{work_item_created} by %{author}'), { work_item_created: time_ago_with_tooltip(work_item.created_at, placement: 'bottom'), author: link_to_member(work_item.author, avatar: false) }).html_safe
+      = sprintf(_('created %{work_item_created} by %{author}'), { work_item_created: time_ago_with_tooltip(work_item.created_at, placement: 'bottom'), author: link_to_member(work_item.author, avatar: false) }).html_safe
     .description.term.gl-px-0.gl-text-sm
       = highlight_and_truncate_issuable(work_item, @search_term, @search_highlight)
     - if work_item.labels.any?
@@ -34,4 +34,4 @@
           = sprite_icon('thumb-up', css_class: "gl-align-middle")
           = work_item.upvotes_count
       = render_if_exists partial: 'search/results/work_item_status', locals: { issuable: work_item }
-    %span.gl-text-subtle.gl-text-sm= sprintf(s_('updated %{time_ago}'), { time_ago: time_ago_with_tooltip(work_item.updated_at, placement: 'bottom') }).html_safe
+    %span.gl-text-subtle.gl-text-sm= sprintf(_('updated %{time_ago}'), { time_ago: time_ago_with_tooltip(work_item.updated_at, placement: 'bottom') }).html_safe

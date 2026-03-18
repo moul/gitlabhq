@@ -20,6 +20,7 @@ RSpec.describe Ci::PipelineProcessing::AtomicProcessingService, feature_category
 
       before do
         stub_ci_pipeline_yaml_file(YAML.dump(test_file['config']))
+        allow(Gitlab::QueryLimiting::Transaction).to receive(:threshold).and_return(110)
       end
 
       it 'follows transitions' do

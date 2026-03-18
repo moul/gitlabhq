@@ -56,7 +56,7 @@
     - else
       = render Pajamas::AlertComponent.new(variant: :warning, dismissible: false, alert_options: { class: 'gl-mb-5' }) do |c|
         - c.with_body do
-          = s_('Adding new applications is disabled in your GitLab instance. Please contact your GitLab administrator to get the permission.')
+          = _('Adding new applications is disabled in your GitLab instance. Please contact your GitLab administrator to get the permission.')
 
     - if oauth_authorized_applications_enabled
       = render ::Layouts::CrudComponent.new(_('Authorized applications'),
