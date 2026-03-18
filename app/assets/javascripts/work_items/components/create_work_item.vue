@@ -40,8 +40,6 @@ import { TYPENAME_MERGE_REQUEST, TYPENAME_VULNERABILITY } from '~/graphql_shared
 import {
   I18N_WORK_ITEM_ERROR_CREATING,
   i18n,
-  NAME_TO_TEXT_LOWERCASE_MAP,
-  NAME_TO_TEXT_MAP,
   WIDGET_TYPE_ASSIGNEES,
   WIDGET_TYPE_COLOR,
   NEW_WORK_ITEM_IID,
@@ -427,7 +425,7 @@ export default {
       return getDisplayReference(this.selectedProjectFullPath, this.relatedItem.reference);
     },
     relatedItemType() {
-      return NAME_TO_TEXT_LOWERCASE_MAP[this.relatedItem?.type];
+      return this.relatedItem?.type;
     },
     workItemAssignees() {
       return findAssigneesWidget(this.workItem);
@@ -482,7 +480,7 @@ export default {
         .filter((workItemType) => workItemType.name !== WORK_ITEM_TYPE_NAME_TICKET)
         .map((workItemType) => ({
           value: workItemType.id,
-          text: NAME_TO_TEXT_MAP[workItemType.name],
+          text: workItemType.name,
         }));
     },
     selectedWorkItemType() {
@@ -516,12 +514,12 @@ export default {
     },
     createErrorText() {
       return sprintf(I18N_WORK_ITEM_ERROR_CREATING, {
-        workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.selectedWorkItemTypeName],
+        workItemType: this.selectedWorkItemTypeName,
       });
     },
     createWorkItemText() {
       return sprintf(s__('WorkItem|Create %{workItemType}'), {
-        workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.selectedWorkItemTypeName],
+        workItemType: this.selectedWorkItemTypeName,
       });
     },
     makeConfidentialText() {
@@ -534,7 +532,7 @@ export default {
     },
     titleText() {
       return sprintf(s__('WorkItem|New %{workItemType}'), {
-        workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.selectedWorkItemTypeName],
+        workItemType: this.selectedWorkItemTypeName,
       });
     },
     canUpdate() {
@@ -624,7 +622,7 @@ export default {
           ? this.$options.i18n.resolveOneThreadText
           : this.$options.i18n.resolveAllThreadsText;
       return sprintf(warning, {
-        workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.selectedWorkItemTypeName],
+        workItemType: this.selectedWorkItemTypeName,
       });
     },
     isFormFilled() {

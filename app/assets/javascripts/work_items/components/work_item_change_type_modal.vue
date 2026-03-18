@@ -6,8 +6,6 @@ import { __, s__, sprintf } from '~/locale';
 import { findDesignsWidget, getParentGroupName, isMilestoneWidget } from '~/work_items/utils';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import {
-  NAME_TO_TEXT_LOWERCASE_MAP,
-  NAME_TO_TEXT_MAP,
   ALLOWED_CONVERSION_TYPES,
   WIDGET_TYPE_DESIGNS,
   WIDGET_TYPE_HIERARCHY,
@@ -153,7 +151,7 @@ export default {
     },
     selectOptions() {
       const selectOptions = this.allowedConversionTypes.map((item) => ({
-        text: item.text || NAME_TO_TEXT_MAP[item.name],
+        text: item.text || item.name,
         value: item.id,
       }));
       selectOptions.unshift({
@@ -353,8 +351,8 @@ export default {
             'WorkItem|Parent item type %{parentWorkItemType} is not supported on %{workItemType}. Remove the parent item to change type.',
           ),
           {
-            workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.selectedWorkItemType.name],
-            parentWorkItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.parentWorkItemType],
+            workItemType: this.selectedWorkItemType.name,
+            parentWorkItemType: this.parentWorkItemType,
           },
         );
 
@@ -368,8 +366,8 @@ export default {
             'WorkItem|%{workItemType} does not support the %{childItemType} child item types. Remove child items to change type.',
           ),
           {
-            workItemType: NAME_TO_TEXT_MAP[this.selectedWorkItemType.name],
-            childItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.allowedChildTypes?.[0]?.name],
+            workItemType: this.selectedWorkItemType.name,
+            childItemType: this.allowedChildTypes?.[0]?.name,
           },
         );
 
@@ -392,7 +390,7 @@ export default {
           s__(
             'WorkItem|Some fields are not present in %{workItemType}. If you change type now, this information will be lost.',
           ),
-          { workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.selectedWorkItemType.name] },
+          { workItemType: this.selectedWorkItemType.name },
         );
       }
     },

@@ -19,7 +19,6 @@ import namespaceWorkItemTypesQuery from '~/work_items/graphql/namespace_work_ite
 import {
   I18N_WORK_ITEM_ERROR_CREATING,
   I18N_WORK_ITEM_ERROR_DELETING,
-  NAME_TO_TEXT_LOWERCASE_MAP,
   WORK_ITEM_TYPE_NAME_TASK,
 } from '~/work_items/constants';
 import { renderGFM } from '~/behaviors/markdown/render_gfm';
@@ -384,7 +383,7 @@ export default {
     showAlert(message, error) {
       createAlert({
         message: sprintf(message, {
-          workItemType: NAME_TO_TEXT_LOWERCASE_MAP[WORK_ITEM_TYPE_NAME_TASK],
+          workItemType: WORK_ITEM_TYPE_NAME_TASK,
         }),
         error,
         captureError: true,

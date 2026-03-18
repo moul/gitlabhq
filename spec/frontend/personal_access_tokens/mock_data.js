@@ -1,4 +1,4 @@
-import { groupBy } from 'lodash';
+import { groupBy } from 'lodash-es';
 
 export const mockGranularGroupScope = {
   access: 'SELECTED_MEMBERSHIPS',

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'getting a work item list for a project', feature_category: :team_planning do
+RSpec.describe 'getting a work item list for a project', feature_category: :portfolio_management do
   include_context 'with work items list request'
 
   let_it_be(:label1) { create(:label, project: project) }

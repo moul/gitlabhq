@@ -352,6 +352,43 @@ Filters rows by value range using `BETWEEN`. Supports filtering on regular colum
 | `merge_column` | Boolean | No | If `true`, applies filter using `HAVING` instead of `WHERE` |
 | `description` | String | No | Human-readable description |
 
+## Transient columns
+
+Transient columns are named SQL expression aliases you define once and
+reference across `dimensions`, `metrics`, and `filters` blocks. They are
+not projected in the final query result. Use transient columns to
+eliminate duplication of complex SQL expressions.
+
+### Define a transient column
+
+Call `transient` at the class level with a name and a block that returns
+an Arel expression. Define transient columns before you reference them.
+
+```ruby
+transient(:duration) do
+  sql("dateDiff('seconds', anyIfMerge(created_event_at), anyIfMerge(finished_event_at))")
+end
+
+transient(:is_finished) { sql('anyIfMerge(finished_event_at) IS NOT NULL') }
+```
+
+### Reference a transient column
+
+Inside `dimensions`, `metrics`, or `filters` blocks, call
+`transient(:name)` to insert the stored expression. Pass the return
+value anywhere a lambda expression is accepted: as a positional
+argument or as a keyword argument value.
+
+```ruby
+metrics do
+  mean :duration, :float, transient(:duration),
+    description: 'Average session duration in seconds'
+
+  count :finished, if: transient(:is_finished),
+    description: 'Number of finished sessions'
+end
+```
+
 ## Using the Framework
 
 ### Creating an aggregation request

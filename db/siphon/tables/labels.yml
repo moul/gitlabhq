@@ -1,0 +1,10 @@
+---
+table: labels
+database: main
+ignored_columns:
+  - description_html
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_labels
+    dedup_by:
+      - id

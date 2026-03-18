@@ -4,6 +4,7 @@ require 'spec_helper'
 
 RSpec.describe 'Dashboard Issues', :js, :with_current_organization, feature_category: :team_planning do
   include FilteredSearchHelpers
+  include ListboxHelpers
 
   let_it_be(:current_user) { create(:user, organization: current_organization) }
   let_it_be(:user) { current_user } # Shared examples depend on this being available
@@ -108,12 +109,11 @@ RSpec.describe 'Dashboard Issues', :js, :with_current_organization, feature_cate
 
     it 'shows projects only with issues feature enabled' do
       click_button _('Select project to create issue')
+      wait_for_requests
 
       within_testid('new-resource-dropdown') do
-        within('[role="menu"]') do
-          expect(page).to have_content(project.full_name)
-          expect(page).not_to have_content(project_with_issues_disabled.full_name)
-        end
+        expect_listbox_item(project.full_name)
+        expect_no_listbox_item(project_with_issues_disabled.full_name)
       end
     end
 
@@ -124,7 +124,8 @@ RSpec.describe 'Dashboard Issues', :js, :with_current_organization, feature_cate
 
       it 'shows the new issue page' do
         click_button _('Select project to create issue')
-        click_button project.full_name
+        wait_for_requests
+        select_listbox_item(project.full_name)
         click_link format(_('New issue in %{project}'), project: project.name)
 
         expect(page).to have_current_path("/#{project.full_path}/-/work_items/new")
@@ -138,7 +139,8 @@ RSpec.describe 'Dashboard Issues', :js, :with_current_organization, feature_cate
 
       it 'shows the new issue page' do
         click_button _('Select project to create issue')
-        click_button project.full_name
+        wait_for_requests
+        select_listbox_item(project.full_name)
         click_link format(_('New issue in %{project}'), project: project.name)
 
         expect(page).to have_current_path("/#{project.full_path}/-/issues/new")

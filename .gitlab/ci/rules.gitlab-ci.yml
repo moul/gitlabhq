@@ -2547,6 +2547,7 @@
     - <<: *if-default-refs
       changes:
         - "db/click_house/**/*"
+        - "db/siphon/**/*"
         - "lib/click_house/**/*"
 
 .rails:rules:ee-only-clickhouse-changes:

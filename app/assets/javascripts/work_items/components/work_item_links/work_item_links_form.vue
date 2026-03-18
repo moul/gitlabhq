@@ -14,7 +14,6 @@ import {
   WIDGET_TYPE_MILESTONE,
   WIDGET_TYPE_ITERATION,
   WORK_ITEM_TYPE_NAME_TASK,
-  NAME_TO_TEXT_LOWERCASE_MAP,
   WORK_ITEM_CREATE_SOURCES,
 } from '../../constants';
 import WorkItemProjectsListbox from './work_item_projects_listbox.vue';
@@ -180,16 +179,16 @@ export default {
     addOrCreateButtonLabel() {
       if (this.isCreateForm) {
         return sprintf(s__('WorkItem|Create %{workItemType}'), {
-          workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.childrenType],
+          workItemType: this.childrenType,
         });
       }
       if (this.workItemsToAdd.length > 1) {
         return sprintf(s__('WorkItem|Add %{workItemType}s'), {
-          workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.childrenType],
+          workItemType: this.childrenType,
         });
       }
       return sprintf(s__('WorkItem|Add %{workItemType}'), {
-        workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.childrenType],
+        workItemType: this.childrenType,
       });
     },
     confidentialityCheckboxLabel() {
@@ -206,8 +205,8 @@ export default {
           'WorkItem|A non-confidential %{workItemType} cannot be assigned to a confidential parent %{parentWorkItemType}.',
         ),
         {
-          workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.childrenType],
-          parentWorkItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.parentWorkItemType],
+          workItemType: this.childrenType,
+          parentWorkItemType: this.parentWorkItemType,
         },
       );
     },
@@ -267,8 +266,8 @@ export default {
         ),
         {
           invalidWorkItemsList: this.invalidWorkItemsToAdd.map(({ title }) => title).join(', '),
-          childWorkItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.childrenType],
-          parentWorkItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.parentWorkItemType],
+          childWorkItemType: this.childrenType,
+          parentWorkItemType: this.parentWorkItemType,
         },
       );
     },

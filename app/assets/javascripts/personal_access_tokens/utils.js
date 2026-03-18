@@ -1,4 +1,4 @@
-import { map, groupBy, uniqBy } from 'lodash';
+import { map, groupBy, uniqBy } from 'lodash-es';
 import { queryToObject } from '~/lib/utils/url_utility';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { localeDateFormat, newDate } from '~/lib/utils/datetime_utility';

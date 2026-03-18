@@ -14,11 +14,9 @@ import {
   WORK_ITEM_TYPE_NAME_EPIC,
   WIDGET_TYPE_HIERARCHY,
   DETAIL_VIEW_QUERY_PARAM_NAME,
-  NAME_TO_TEXT_LOWERCASE_MAP,
-  NAME_TO_TEXT_MAP,
+  WORK_ITEM_TYPE_NAME_TICKET,
   WORK_ITEM_TREE_COLLAPSE_TRACKING_ACTION_COLLAPSED,
   WORK_ITEM_TREE_COLLAPSE_TRACKING_ACTION_EXPANDED,
-  WORK_ITEM_TYPE_NAME_TICKET,
   METADATA_KEYS,
 } from '../../constants';
 import {
@@ -221,7 +219,7 @@ export default {
           this.depthLimitReachedByType?.find((item) => item.workItemType?.name === type.name) || {};
 
         return {
-          name: NAME_TO_TEXT_MAP[type.name],
+          name: type.name,
           atDepthLimit: depthLimitByType.depthLimitReached,
           items: this.genericActionItems(type.name).map((item) => ({
             text: item.title,
@@ -316,7 +314,7 @@ export default {
   },
   methods: {
     genericActionItems(workItemType) {
-      const workItemName = NAME_TO_TEXT_LOWERCASE_MAP[workItemType];
+      const workItemName = workItemType;
       return [
         ...(workItemType === WORK_ITEM_TYPE_NAME_TICKET
           ? []

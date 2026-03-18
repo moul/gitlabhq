@@ -526,7 +526,7 @@ describe('WorkItemParent component', () => {
       await waitForPromises();
 
       expect(wrapper.emitted('error')).toEqual([
-        ['Something went wrong while updating the objective. Please try again.'],
+        ['Something went wrong while updating the Objective. Please try again.'],
       ]);
       expect(Sentry.captureException).toHaveBeenCalledWith(error);
     });

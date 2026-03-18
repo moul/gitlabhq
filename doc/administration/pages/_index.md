@@ -1272,7 +1272,7 @@ sudo gitlab-rake gitlab:pages:deployments:migrate_to_object_storage
 ```
 
 You can track progress and verify that all Pages deployments migrated successfully using the
-[PostgreSQL console](https://docs.gitlab.com/omnibus/settings/database/#connecting-to-the-bundled-postgresql-database):
+[PostgreSQL console](https://docs.gitlab.com/omnibus/settings/database/#connecting-to-the-postgresql-database):
 
 - `sudo gitlab-rails dbconsole --database main` for Linux package installations.
 - `sudo -u git -H psql -d gitlabhq_production` for self-compiled installations.

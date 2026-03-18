@@ -1,6 +1,6 @@
 <script>
 import { GlAlert, GlButton, GlCollapse, GlIcon } from '@gitlab/ui';
-import { partition, isString, uniqueId, isEmpty } from 'lodash';
+import { partition, isString, uniqueId, isEmpty } from 'lodash-es';
 import SafeHtml from '~/vue_shared/directives/safe_html';
 import InviteModalBase from 'ee_else_ce/invite_members/components/invite_modal_base.vue';
 import Api from '~/api';

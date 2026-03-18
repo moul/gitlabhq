@@ -144,9 +144,9 @@ describe('WorkItemChangeTypeModal component', () => {
     it.each`
       scenario                                    | widgets                                                      | hasSubepicsFeature | btnDisabled | parentType
       ${'epic parent with subepics enabled'}      | ${workItemWithEpicParentQueryResponse.data.workItem.widgets} | ${true}            | ${false}    | ${''}
-      ${'epic parent with subepics disabled'}     | ${workItemWithEpicParentQueryResponse.data.workItem.widgets} | ${false}           | ${true}     | ${'epic'}
-      ${'non-epic parent with subepics enabled'}  | ${workItemQueryResponse.data.workItem.widgets}               | ${true}            | ${true}     | ${'issue'}
-      ${'non-epic parent with subepics disabled'} | ${workItemQueryResponse.data.workItem.widgets}               | ${false}           | ${true}     | ${'issue'}
+      ${'epic parent with subepics disabled'}     | ${workItemWithEpicParentQueryResponse.data.workItem.widgets} | ${false}           | ${true}     | ${'Epic'}
+      ${'non-epic parent with subepics enabled'}  | ${workItemQueryResponse.data.workItem.widgets}               | ${true}            | ${true}     | ${'Issue'}
+      ${'non-epic parent with subepics disabled'} | ${workItemQueryResponse.data.workItem.widgets}               | ${false}           | ${true}     | ${'Issue'}
     `('$scenario', async ({ widgets, hasSubepicsFeature, btnDisabled, parentType }) => {
       createComponent({
         hasParent: true,
@@ -163,7 +163,7 @@ describe('WorkItemChangeTypeModal component', () => {
       const hasWarning = parentType !== '';
       expect(findWarningAlert().exists()).toBe(hasWarning);
       if (hasWarning) {
-        const warningText = `Parent item type ${parentType} is not supported on issue. Remove the parent item to change type.`;
+        const warningText = `Parent item type ${parentType} is not supported on Issue. Remove the parent item to change type.`;
         expect(findWarningAlert().text()).toBe(warningText);
       }
       expect(findChangeTypeModal().props('actionPrimary').attributes.disabled).toBe(btnDisabled);
@@ -180,7 +180,7 @@ describe('WorkItemChangeTypeModal component', () => {
     await nextTick();
 
     expect(findWarningAlert().text()).toBe(
-      'Task does not support the task child item types. Remove child items to change type.',
+      'Task does not support the Task child item types. Remove child items to change type.',
     );
     expect(findChangeTypeModal().props('actionPrimary').attributes.disabled).toBe(true);
   });

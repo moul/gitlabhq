@@ -26,7 +26,6 @@ import { isLoggedIn } from '~/lib/utils/common_utils';
 import WorkItemChangeTypeModal from 'ee_else_ce/work_items/components/work_item_change_type_modal.vue';
 import {
   CREATION_CONTEXT_RELATED_ITEM,
-  NAME_TO_TEXT_LOWERCASE_MAP,
   STATE_CLOSED,
   WORK_ITEM_TYPE_NAME_KEY_RESULT,
   WORK_ITEM_TYPE_NAME_OBJECTIVE,
@@ -300,28 +299,28 @@ export default {
     i18n() {
       return {
         deleteWorkItem: sprintf(s__('WorkItem|Delete %{workItemType}'), {
-          workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.workItemType],
+          workItemType: this.workItemType,
         }),
         convertError: sprintf(
           s__(
             'WorkItem|Something went wrong while promoting the %{workItemType}. Please try again.',
           ),
-          { workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.workItemType] },
+          { workItemType: this.workItemType },
         ),
         copyCreateNoteEmail: sprintf(s__('WorkItem|Copy %{workItemType} email address'), {
-          workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.workItemType],
+          workItemType: this.workItemType,
         }),
         copyReferenceError: sprintf(
           s__(
             'WorkItem|Something went wrong while copying the %{workItemType} reference. Please try again.',
           ),
-          { workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.workItemType] },
+          { workItemType: this.workItemType },
         ),
         copyCreateNoteEmailError: sprintf(
           s__(
             'WorkItem|Something went wrong while copying the %{workItemType} email address. Please try again.',
           ),
-          { workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.workItemType] },
+          { workItemType: this.workItemType },
         ),
       };
     },
@@ -334,7 +333,7 @@ export default {
             'WorkItem|Are you sure you want to delete the %{workItemType}? This action cannot be reversed.',
           );
       return sprintf(message, {
-        workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.workItemType],
+        workItemType: this.workItemType,
       });
     },
     workItemTypeConfiguration() {

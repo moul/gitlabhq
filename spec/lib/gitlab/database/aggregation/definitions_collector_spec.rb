@@ -5,10 +5,11 @@ require 'spec_helper'
 RSpec.describe Gitlab::Database::Aggregation::DefinitionsCollector, feature_category: :database do
   let(:dummy_definition_class) do
     Class.new do
-      attr_reader :args
+      attr_reader :args, :kwargs
 
-      def initialize(*args)
+      def initialize(*args, **kwargs)
         @args = args
+        @kwargs = kwargs
       end
     end
   end
@@ -36,6 +37,39 @@ RSpec.describe Gitlab::Database::Aggregation::DefinitionsCollector, feature_cate
           bar(1, 2, 3)
         end
       end.to raise_error(NoMethodError)
+    end
+  end
+
+  describe '#collect with transients' do
+    let(:expression) { -> { 'resolved_expression' } }
+    let(:transients) { { my_transient: expression } }
+
+    subject(:collector) { described_class.new(mapping, transients: transients) }
+
+    it 'returns transient lambda via transient() helper' do
+      collected_definitions = collector.collect do
+        foo(:name, :integer, transient(:my_transient))
+      end
+
+      definition = collected_definitions.first
+      expect(definition.args).to eq([:name, :integer, expression])
+    end
+
+    it 'returns transient lambda in keyword arguments' do
+      collected_definitions = collector.collect do
+        foo(:name, condition: transient(:my_transient))
+      end
+
+      definition = collected_definitions.first
+      expect(definition.kwargs).to eq({ condition: expression })
+    end
+
+    it 'raises KeyError for unknown transient name' do
+      expect do
+        collector.collect do
+          foo(:name, :integer, transient(:unknown))
+        end
+      end.to raise_error(KeyError)
     end
   end
 

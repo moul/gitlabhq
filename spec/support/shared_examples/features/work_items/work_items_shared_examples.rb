@@ -415,7 +415,7 @@ RSpec.shared_examples 'authored work item guest user permissions' do
     within_testid 'work-item-actions-dropdown' do
       click_button _('More actions')
 
-      expect(page).to have_button 'Close key result'
+      expect(page).to have_button 'Close Key Result'
       expect(page).to have_button 'New related item'
       expect(page).not_to have_button 'Promote to objective'
       expect(page).not_to have_button 'Change type'
@@ -423,7 +423,7 @@ RSpec.shared_examples 'authored work item guest user permissions' do
       expect(page).not_to have_button 'Turn on confidentiality'
       expect(page).to have_button 'Copy reference'
       expect(page).not_to have_button 'Report abuse'
-      expect(page).to have_button 'Delete key result'
+      expect(page).to have_button 'Delete Key Result'
     end
 
     page.within('.main-notes-list') do
@@ -1122,11 +1122,11 @@ RSpec.shared_examples 'work items hierarchy' do |testid, type|
   it 'adds an existing child item', :aggregate_failures do
     within_testid testid do
       find_by_testid('add-tree-child-button').click
-      click_button "Existing #{type}"
+      click_button "Existing #{type.to_s.capitalize}"
       fill_in 'Search existing items', with: child_item.title
       click_button child_item.title
       send_keys :escape
-      click_button "Add #{type}"
+      click_button "Add #{type.to_s.capitalize}"
 
       expect(page).to have_link child_item.title
     end
@@ -1158,9 +1158,9 @@ RSpec.shared_examples 'work items hierarchy' do |testid, type|
 
   def create_child(type, title)
     find_by_testid('add-tree-child-button').click
-    click_button "New #{type}"
+    click_button "New #{type.to_s.capitalize}"
     fill_in 'Add a title', with: title
-    click_button "Create #{type}"
+    click_button "Create #{type.to_s.capitalize}"
   end
 end
 

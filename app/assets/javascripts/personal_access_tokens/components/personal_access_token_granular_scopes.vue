@@ -1,6 +1,6 @@
 <script>
 import { GlIcon, GlLink } from '@gitlab/ui';
-import { groupBy, mapValues, camelCase } from 'lodash';
+import { groupBy, mapValues, camelCase } from 'lodash-es';
 import { s__ } from '~/locale';
 import ProjectAvatar from '~/vue_shared/components/project_avatar.vue';
 import { getTypeFromGraphQLId } from '~/graphql_shared/utils';

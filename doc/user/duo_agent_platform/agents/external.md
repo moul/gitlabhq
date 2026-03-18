@@ -392,6 +392,9 @@ Prerequisites:
 On GitLab Self-Managed, if the `ai_catalog_create_third_party_flows` feature flag is enabled,
 you can create an external agent with the AI Catalog and configure it to run in your environment.
 
+On GitLab.com, you cannot create custom external agents.
+Instead, use a [GitLab-managed external agent](#quickstart-for-gitlab-managed-external-agents).
+
 The preferred workflow is:
 
 1. Create the agent in the AI Catalog.

@@ -23,7 +23,6 @@ import workItemAllowedParentTypesQuery from '../graphql/work_item_allowed_parent
 import {
   I18N_WORK_ITEM_ERROR_UPDATING,
   NAME_TO_ENUM_MAP,
-  NAME_TO_TEXT_LOWERCASE_MAP,
   NO_WORK_ITEM_IID,
   WORK_ITEM_TYPE_NAME_EPIC,
   WORK_ITEM_TYPE_NAME_ISSUE,
@@ -337,7 +336,7 @@ export default {
         this.$emit(
           'error',
           sprintf(I18N_WORK_ITEM_ERROR_UPDATING, {
-            workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.workItemType],
+            workItemType: this.workItemType,
           }),
         );
         Sentry.captureException(error);

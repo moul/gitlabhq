@@ -1,4 +1,5 @@
 import { createLineDiscussionsAdapter } from '~/rapid_diffs/adapters/line_discussions';
+import { createNoPreviewDiscussionsAdapter } from '~/rapid_diffs/adapters/no_preview_discussions';
 import { commitDiffDiscussionsStore } from '~/rapid_diffs/stores/instances/commit_discussions';
 
 export const commitInlineDiscussionsAdapter = createLineDiscussionsAdapter({
@@ -9,3 +10,6 @@ export const commitParallelDiscussionsAdapter = createLineDiscussionsAdapter({
   store: commitDiffDiscussionsStore,
   parallel: true,
 });
+export const commitNoPreviewDiscussionsAdapter = createNoPreviewDiscussionsAdapter(
+  commitDiffDiscussionsStore,
+);

@@ -321,6 +321,23 @@ RSpec.describe MergeRequestDiffCommit, feature_category: :code_review_workflow d
 
     it_behaves_like 'inserts the commits into the database en masse'
 
+    context 'when there are more rows than the batch size' do
+      before do
+        stub_const("#{described_class}::BULK_INSERT_BATCH_SIZE", 1)
+      end
+
+      it 'inserts rows in multiple batches' do
+        expect(ApplicationRecord).to receive(:legacy_bulk_insert)
+          .with(described_class.table_name, [deduplicated_rows.first])
+          .ordered
+        expect(ApplicationRecord).to receive(:legacy_bulk_insert)
+          .with(described_class.table_name, [deduplicated_rows.second])
+          .ordered
+
+        create_bulk(merge_request_diff_id)
+      end
+    end
+
     it 'creates diff commit users' do
       diff = create(:merge_request_diff, merge_request: merge_request)
       described_class.create_bulk(diff.id, [commits.first], project)

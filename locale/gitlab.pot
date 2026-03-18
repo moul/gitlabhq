@@ -54242,6 +54242,9 @@ msgstr ""
 msgid "ProjectSettings|Auto-close referenced issues on default branch"
 msgstr ""
 
+msgid "ProjectSettings|Automatically rebases the source branch onto the target branch before merging. %{link_start}How does automatic rebase work?%{link_end}"
+msgstr ""
+
 msgid "ProjectSettings|Automatically resolve merge request diff threads when they become outdated"
 msgstr ""
 
@@ -56254,6 +56257,11 @@ msgstr ""
 
 msgid "Random"
 msgstr ""
+
+msgid "RapidDiffs|%{count} thread hidden."
+msgid_plural "RapidDiffs|%{count} threads hidden."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "RapidDiffs|Add comment"
 msgstr ""
@@ -63689,7 +63697,7 @@ msgstr ""
 msgid "SecurityOrchestration|Unlink the project from the following containers:"
 msgstr ""
 
-msgid "SecurityOrchestration|Unlinking a security project removes all policies stored in the linked security project. Save to confirm this action."
+msgid "SecurityOrchestration|Unlinking a security policy project will stop enforcing all policies from the linked project on this namespace. The policy project and its policies will not be deleted. Save to confirm this action."
 msgstr ""
 
 msgid "SecurityOrchestration|Update security policies"
@@ -79791,9 +79799,6 @@ msgstr ""
 msgid "WorkItem|Enter the work item title"
 msgstr ""
 
-msgid "WorkItem|Epic"
-msgstr ""
-
 msgid "WorkItem|Epic will be moved to parent group %{groupName}."
 msgstr ""
 
@@ -79932,9 +79937,6 @@ msgid "WorkItem|Iteration"
 msgstr ""
 
 msgid "WorkItem|Key Result"
-msgstr ""
-
-msgid "WorkItem|Key result"
 msgstr ""
 
 msgid "WorkItem|Label"
@@ -80276,9 +80278,6 @@ msgid "WorkItem|Reopen %{workItemType}"
 msgstr ""
 
 msgid "WorkItem|Reopening %{workItemType}"
-msgstr ""
-
-msgid "WorkItem|Requirement"
 msgstr ""
 
 msgid "WorkItem|Reset template"
@@ -80839,16 +80838,7 @@ msgstr ""
 msgid "WorkItem|blocks"
 msgstr ""
 
-msgid "WorkItem|epic"
-msgstr ""
-
-msgid "WorkItem|incident"
-msgstr ""
-
 msgid "WorkItem|is blocked by"
-msgstr ""
-
-msgid "WorkItem|issue"
 msgstr ""
 
 msgid "WorkItem|item"
@@ -80857,16 +80847,10 @@ msgstr ""
 msgid "WorkItem|items"
 msgstr ""
 
-msgid "WorkItem|key result"
-msgstr ""
-
 msgid "WorkItem|need"
 msgstr ""
 
 msgid "WorkItem|needs"
-msgstr ""
-
-msgid "WorkItem|objective"
 msgstr ""
 
 msgid "WorkItem|on track"
@@ -80875,19 +80859,7 @@ msgstr ""
 msgid "WorkItem|relates to"
 msgstr ""
 
-msgid "WorkItem|requirement"
-msgstr ""
-
-msgid "WorkItem|task"
-msgstr ""
-
-msgid "WorkItem|test case"
-msgstr ""
-
 msgid "WorkItem|the following items"
-msgstr ""
-
-msgid "WorkItem|ticket"
 msgstr ""
 
 msgid "WorkItem|weight completed"

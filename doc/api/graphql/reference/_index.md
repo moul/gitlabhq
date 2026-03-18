@@ -3486,6 +3486,7 @@ Input type: `AiFlowTriggerUpdateInput`
 | <a id="mutation-aiflowtriggerupdate-configpath"></a>`configPath` | [`String`](#string) | Path to the configuration file for the AI flow trigger. |
 | <a id="mutation-aiflowtriggerupdate-description"></a>`description` | [`String`](#string) | Description of the AI flow trigger. |
 | <a id="mutation-aiflowtriggerupdate-eventtypes"></a>`eventTypes` | [`[Int!]`](#int) | Event types that triggers the AI flow. |
+| <a id="mutation-aiflowtriggerupdate-filter"></a>`filter` {{< icon name="warning-solid" >}} | [`JSON`](#json) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
 | <a id="mutation-aiflowtriggerupdate-id"></a>`id` | [`AiFlowTriggerID!`](#aiflowtriggerid) | ID of the flow trigger to update. |
 | <a id="mutation-aiflowtriggerupdate-userid"></a>`userId` | [`UserID`](#userid) | Service account for the AI flow trigger. |
 
@@ -27614,6 +27615,7 @@ An AI catalog agent.
 | <a id="aicatalogagent-id"></a>`id` | [`ID!`](#id) | ID of the item. |
 | <a id="aicatalogagent-isenabledinmanagedbyproject"></a>`isEnabledInManagedByProject` | [`Boolean!`](#boolean) | Whether the item is enabled in the project it is managed by. This field can only be resolved for one AiCatalogItem in any single request. |
 | <a id="aicatalogagent-itemtype"></a>`itemType` | [`AiCatalogItemType!`](#aicatalogitemtype) | Type of the item. |
+| <a id="aicatalogagent-last30dayusagecount"></a>`last30DayUsageCount` | [`Int!`](#int) | Number of projects using the item in the last 30 days. |
 | <a id="aicatalogagent-name"></a>`name` | [`String!`](#string) | Name of the item. |
 | <a id="aicatalogagent-project"></a>`project` | [`Project`](#project) | Project for the item. |
 | <a id="aicatalogagent-public"></a>`public` | [`Boolean!`](#boolean) | Whether the item is publicly visible in the catalog. |
@@ -27722,6 +27724,7 @@ An AI catalog flow.
 | <a id="aicatalogflow-id"></a>`id` | [`ID!`](#id) | ID of the item. |
 | <a id="aicatalogflow-isenabledinmanagedbyproject"></a>`isEnabledInManagedByProject` | [`Boolean!`](#boolean) | Whether the item is enabled in the project it is managed by. This field can only be resolved for one AiCatalogItem in any single request. |
 | <a id="aicatalogflow-itemtype"></a>`itemType` | [`AiCatalogItemType!`](#aicatalogitemtype) | Type of the item. |
+| <a id="aicatalogflow-last30dayusagecount"></a>`last30DayUsageCount` | [`Int!`](#int) | Number of projects using the item in the last 30 days. |
 | <a id="aicatalogflow-name"></a>`name` | [`String!`](#string) | Name of the item. |
 | <a id="aicatalogflow-project"></a>`project` | [`Project`](#project) | Project for the item. |
 | <a id="aicatalogflow-public"></a>`public` | [`Boolean!`](#boolean) | Whether the item is publicly visible in the catalog. |
@@ -27890,6 +27893,7 @@ An AI catalog third party flow.
 | <a id="aicatalogthirdpartyflow-id"></a>`id` | [`ID!`](#id) | ID of the item. |
 | <a id="aicatalogthirdpartyflow-isenabledinmanagedbyproject"></a>`isEnabledInManagedByProject` | [`Boolean!`](#boolean) | Whether the item is enabled in the project it is managed by. This field can only be resolved for one AiCatalogItem in any single request. |
 | <a id="aicatalogthirdpartyflow-itemtype"></a>`itemType` | [`AiCatalogItemType!`](#aicatalogitemtype) | Type of the item. |
+| <a id="aicatalogthirdpartyflow-last30dayusagecount"></a>`last30DayUsageCount` | [`Int!`](#int) | Number of projects using the item in the last 30 days. |
 | <a id="aicatalogthirdpartyflow-name"></a>`name` | [`String!`](#string) | Name of the item. |
 | <a id="aicatalogthirdpartyflow-project"></a>`project` | [`Project`](#project) | Project for the item. |
 | <a id="aicatalogthirdpartyflow-public"></a>`public` | [`Boolean!`](#boolean) | Whether the item is publicly visible in the catalog. |
@@ -28015,6 +28019,7 @@ Represents an AI flow trigger.
 | <a id="aiflowtriggertype-createdat"></a>`createdAt` | [`Time!`](#time) | Timestamp of when the flow trigger was created. |
 | <a id="aiflowtriggertype-description"></a>`description` | [`String!`](#string) | Description of the flow trigger. |
 | <a id="aiflowtriggertype-eventtypes"></a>`eventTypes` | [`[Int!]!`](#int) | List of events that triggers the flow. |
+| <a id="aiflowtriggertype-filter"></a>`filter` {{< icon name="warning-solid" >}} | [`JSON`](#json) | **Introduced** in GitLab 18.11. **Status**: Experiment. Filter conditions for the AI flow trigger. |
 | <a id="aiflowtriggertype-id"></a>`id` | [`ID!`](#id) | ID of the flow trigger. |
 | <a id="aiflowtriggertype-project"></a>`project` | [`Project!`](#project) | Project of the flow trigger. |
 | <a id="aiflowtriggertype-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the flow trigger was last updated. |
@@ -60450,6 +60455,7 @@ Implementations:
 | <a id="aicatalogitem-id"></a>`id` | [`ID!`](#id) | ID of the item. |
 | <a id="aicatalogitem-isenabledinmanagedbyproject"></a>`isEnabledInManagedByProject` | [`Boolean!`](#boolean) | Whether the item is enabled in the project it is managed by. This field can only be resolved for one AiCatalogItem in any single request. |
 | <a id="aicatalogitem-itemtype"></a>`itemType` | [`AiCatalogItemType!`](#aicatalogitemtype) | Type of the item. |
+| <a id="aicatalogitem-last30dayusagecount"></a>`last30DayUsageCount` | [`Int!`](#int) | Number of projects using the item in the last 30 days. |
 | <a id="aicatalogitem-name"></a>`name` | [`String!`](#string) | Name of the item. |
 | <a id="aicatalogitem-project"></a>`project` | [`Project`](#project) | Project for the item. |
 | <a id="aicatalogitem-public"></a>`public` | [`Boolean!`](#boolean) | Whether the item is publicly visible in the catalog. |

@@ -138,7 +138,7 @@ To request a policy exception:
    - Customer impact and why upgrading to a maintained version is not feasible.
 1. **Obtain written approval** from a sponsoring Director or VP.
 
-Exceptions are granted at the discretion of the [Release Managers](https://about.gitlab.com/community/release-m://about.gitlab.com/community/release-ma) as policy owners, subject to [SLO commitments](https://handbook.gitlab.com/handbook/engineering/releases/patch-releases/#slo-commitments).
+Exceptions are granted at the discretion of the [Release Managers](https://about.gitlab.com/community/release-managers/) as policy owners, subject to [SLO commitments](https://handbook.gitlab.com/handbook/engineering/releases/patch-releases/#slo-commitments).
 
 ## More information
 

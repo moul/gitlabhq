@@ -392,10 +392,10 @@ To disable:
 
 ClickHouse Cloud automatically handles version upgrades and security patches. No manual intervention is required.
 
-For information about upgrade scheduling and maintenance windows, see the [ClickHouse Cloud documentation](https://clickhouse.com/docs/cloud/manage/updates).
+For information about upgrade scheduling and maintenance windows, see [ClickHouse Cloud upgrades](https://clickhouse.com/docs/manage/updates).
 
 > [!note]
-> ClickHouse Cloud notifies you in advance of upcoming upgrades. Review the [ClickHouse Cloud changelog](https://clickhouse.com/docs/cloud/changes) to stay informed about new features and changes.
+> ClickHouse Cloud notifies you in advance of upcoming upgrades. Review the [ClickHouse Cloud changelog](https://clickhouse.com/docs/whats-new/cloud) to stay informed about new features and changes.
 
 ### ClickHouse for GitLab Self-Managed (BYOC)
 
@@ -408,7 +408,7 @@ Prerequisites:
 
 Before upgrading:
 
-1. Review the [ClickHouse release notes](https://clickhouse.com/docs/category/release-notes) for breaking changes.
+1. Review the [ClickHouse release notes](https://clickhouse.com/docs/category/changelog) for breaking changes.
 1. Check [compatibility](#supported-clickhouse-versions) with your GitLab version.
 1. Test the upgrade in a non-production environment.
 1. Plan for potential downtime, or use a rolling upgrade strategy for HA clusters.

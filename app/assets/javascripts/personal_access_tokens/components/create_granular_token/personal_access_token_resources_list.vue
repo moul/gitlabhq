@@ -7,7 +7,7 @@ import {
   GlFormCheckbox,
   GlPopover,
 } from '@gitlab/ui';
-import { xor } from 'lodash';
+import { xor } from 'lodash-es';
 import { groupPermissionsByResourceAndCategory } from '~/personal_access_tokens/utils';
 
 export default {

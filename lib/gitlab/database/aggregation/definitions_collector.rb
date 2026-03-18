@@ -4,9 +4,10 @@ module Gitlab
   module Database
     module Aggregation
       class DefinitionsCollector
-        def initialize(mapping)
+        def initialize(mapping, transients: {})
           @collection = []
           @mapping = mapping
+          @transients = transients
         end
 
         def collect(&definitions_block)
@@ -19,6 +20,10 @@ module Gitlab
 
         def sql(...)
           Arel.sql(...)
+        end
+
+        def transient(name)
+          @transients.fetch(name)
         end
 
         def method_missing(method_name, ...)

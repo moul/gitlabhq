@@ -7,7 +7,7 @@ import {
   GlTooltipDirective,
   GlAnimatedSmileIcon,
 } from '@gitlab/ui';
-import { findLastIndex } from 'lodash';
+import { findLastIndex } from 'lodash-es';
 import { getEmojiCategoryMap, state } from '~/emoji';
 import { __ } from '~/locale';
 import { CATEGORY_NAMES, CATEGORY_ICON_MAP, FREQUENTLY_USED_KEY } from '../constants';

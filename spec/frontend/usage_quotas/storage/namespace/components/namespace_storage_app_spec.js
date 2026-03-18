@@ -1,7 +1,7 @@
 import { GlAlert } from '@gitlab/ui';
 import VueApollo from 'vue-apollo';
 import Vue from 'vue';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import { mountExtended } from 'helpers/vue_test_utils_helper';
 import waitForPromises from 'helpers/wait_for_promises';
 import { captureException } from '~/ci/runner/sentry_utils';

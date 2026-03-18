@@ -1,6 +1,6 @@
 <script>
 import { GlSearchBoxByType, GlSkeletonLoader } from '@gitlab/ui';
-import { intersection, some, groupBy } from 'lodash';
+import { intersection, some, groupBy } from 'lodash-es';
 import { createAlert } from '~/alert';
 import { s__, __ } from '~/locale';
 import getAccessTokenPermissions from '~/personal_access_tokens/graphql/get_access_token_permissions.query.graphql';

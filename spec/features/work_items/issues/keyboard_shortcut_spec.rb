@@ -21,7 +21,7 @@ RSpec.describe 'Issues shortcut', :js, feature_category: :team_planning do
         it 'takes user to the new issue page' do
           send_keys('i')
 
-          expect(page).to have_css('h1', text: 'New issue')
+          expect(page).to have_css('h1', text: 'New Issue')
           expect(page).to have_current_path(new_project_work_item_path(project))
         end
       end
@@ -34,7 +34,7 @@ RSpec.describe 'Issues shortcut', :js, feature_category: :team_planning do
         it 'takes user to the new issue page' do
           send_keys('i')
 
-          expect(page).to have_css('h1', text: 'New issue')
+          expect(page).to have_css('h1', text: 'New Issue')
           expect(page).to have_current_path(new_project_issue_path(project))
         end
       end

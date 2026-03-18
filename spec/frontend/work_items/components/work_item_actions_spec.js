@@ -18,7 +18,6 @@ import WorkItemChangeTypeModal from 'ee_else_ce/work_items/components/work_item_
 import MoveWorkItemModal from '~/work_items/components/move_work_item_modal.vue';
 import {
   CREATION_CONTEXT_RELATED_ITEM,
-  NAME_TO_TEXT_LOWERCASE_MAP,
   STATE_OPEN,
   WORK_ITEM_TYPE_NAME_EPIC,
   WORK_ITEM_TYPE_NAME_ISSUE,
@@ -283,7 +282,7 @@ describe('WorkItemActions component', () => {
       },
       {
         testId: 'copy-create-note-email-action',
-        text: 'Copy issue email address',
+        text: 'Copy Issue email address',
       },
       {
         group: true,
@@ -298,7 +297,7 @@ describe('WorkItemActions component', () => {
       },
       {
         testId: 'delete-action',
-        text: 'Delete issue',
+        text: 'Delete Issue',
       },
       {
         group: true,
@@ -432,7 +431,7 @@ describe('WorkItemActions component', () => {
 
       expect(modalShowSpy).toHaveBeenCalled();
       expect(findModal().text()).toBe(
-        'Are you sure you want to delete the task? This action cannot be reversed.',
+        'Are you sure you want to delete the Task? This action cannot be reversed.',
       );
     });
 
@@ -442,7 +441,7 @@ describe('WorkItemActions component', () => {
       findDeleteButton().vm.$emit('action');
 
       expect(findModal().text()).toBe(
-        'Delete this task and release all child items? This action cannot be reversed.',
+        'Delete this Task and release all child items? This action cannot be reversed.',
       );
     });
 
@@ -606,7 +605,7 @@ describe('WorkItemActions component', () => {
 
         expect(convertWorkItemMutationErrorHandler).toHaveBeenCalled();
         expect(wrapper.emitted('error')).toEqual([
-          ['Something went wrong while promoting the key result. Please try again.'],
+          ['Something went wrong while promoting the Key Result. Please try again.'],
         ]);
       });
     });
@@ -631,7 +630,7 @@ describe('WorkItemActions component', () => {
         createComponent({ workItemType });
 
         expect(findCopyCreateNoteEmailButton().text()).toEqual(
-          `Copy ${NAME_TO_TEXT_LOWERCASE_MAP[workItemType]} email address`,
+          `Copy ${workItemType} email address`,
         );
       },
     );

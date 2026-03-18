@@ -327,6 +327,8 @@ BEGIN
   INSERT INTO custom_dashboard_search_data (
     custom_dashboard_id,
     organization_id,
+    name,
+    description,
     search_vector,
     created_at,
     updated_at
@@ -334,13 +336,17 @@ BEGIN
   VALUES (
     NEW.id,
     NEW.organization_id,
-    to_tsvector('english', NEW.name || ' ' || NEW.description),
+    coalesce(NEW.name, ''),
+    coalesce(NEW.description, ''),
+    to_tsvector('english', coalesce(NEW.name, '') || ' ' || coalesce(NEW.description, '')),
     CURRENT_TIMESTAMP,
     CURRENT_TIMESTAMP
   )
   ON CONFLICT (custom_dashboard_id) DO UPDATE
-  SET search_vector = EXCLUDED.search_vector,
-      updated_at = CURRENT_TIMESTAMP;
+  SET name          = EXCLUDED.name,
+      description   = EXCLUDED.description,
+      search_vector = EXCLUDED.search_vector,
+      updated_at    = CURRENT_TIMESTAMP;
 
   RETURN NEW;
 END
@@ -13079,6 +13085,8 @@ CREATE TABLE ai_catalog_items (
     verification_level smallint DEFAULT 0 NOT NULL,
     identifier text,
     foundational_flow_reference text,
+    last_30_day_usage_count integer DEFAULT 0 NOT NULL,
+    last_30_day_usage_count_updated_at timestamp with time zone DEFAULT '1970-01-01 00:00:00'::timestamp without time zone NOT NULL,
     CONSTRAINT check_5a87fd2753 CHECK ((char_length(identifier) <= 255)),
     CONSTRAINT check_7e02a4805b CHECK ((char_length(description) <= 1024)),
     CONSTRAINT check_804e59e032 CHECK ((char_length(foundational_flow_reference) <= 255)),
@@ -44319,6 +44327,8 @@ CREATE INDEX index_ai_catalog_items_on_foundational_flow_reference ON ai_catalog
 
 CREATE INDEX index_ai_catalog_items_on_item_type ON ai_catalog_items USING btree (item_type);
 
+CREATE INDEX index_ai_catalog_items_on_last_30_day_usage_count_updated_at ON ai_catalog_items USING btree (last_30_day_usage_count_updated_at);
+
 CREATE INDEX index_ai_catalog_items_on_latest_released_version_id ON ai_catalog_items USING btree (latest_released_version_id);
 
 CREATE INDEX index_ai_catalog_items_on_latest_version_id ON ai_catalog_items USING btree (latest_version_id);
@@ -48998,6 +49008,8 @@ CREATE INDEX index_vulnerability_feedback_on_pipeline_id ON vulnerability_feedba
 CREATE INDEX index_vulnerability_feedback_on_set_of_common_attributes ON vulnerability_feedback USING btree (project_id, category, feedback_type);
 
 CREATE INDEX index_vulnerability_finding_evidences_on_project_id ON vulnerability_finding_evidences USING btree (project_id);
+
+CREATE INDEX index_vulnerability_finding_links_on_project_id ON vulnerability_finding_links USING btree (project_id);
 
 CREATE INDEX index_vulnerability_finding_signatures_on_project_id ON vulnerability_finding_signatures USING btree (project_id);
 

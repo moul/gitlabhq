@@ -124,13 +124,13 @@ describe('WorkItemTree', () => {
       .flatMap((action) => action.items)
       .map((action) => action.text);
 
-    expect(actions).not.toContain('New ticket');
+    expect(actions).not.toContain('New Ticket');
     expect(actions).toEqual([
-      'New issue',
-      'Existing issue',
-      'New epic',
-      'Existing epic',
-      'Existing ticket',
+      'New Issue',
+      'Existing Issue',
+      'New Epic',
+      'Existing Epic',
+      'Existing Ticket',
     ]);
   });
 

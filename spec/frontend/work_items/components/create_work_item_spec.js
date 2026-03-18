@@ -552,7 +552,7 @@ describe('Create work item component', () => {
       await resolveAll();
 
       expect(findSelect().exists()).toBe(false);
-      expect(findFormTitle().text()).toBe('New epic');
+      expect(findFormTitle().text()).toBe('New Epic');
     });
 
     it('emits "changeType" with the type name when "selectedWorkItemTypeId" changes', async () => {
@@ -739,7 +739,7 @@ describe('Create work item component', () => {
       await updateWorkItemTitle();
       await submitCreateForm();
 
-      expect(findAlert().text()).toBe('Something went wrong when creating epic. Please try again.');
+      expect(findAlert().text()).toBe('Something went wrong when creating Epic. Please try again.');
     });
 
     it('shows an alert on mutation error', async () => {
@@ -1077,7 +1077,7 @@ describe('Create work item component', () => {
 
     it('renders the correct text for the checkbox', () => {
       expect(findRelatesToCheckbox().text()).toMatchInterpolatedText(
-        'Mark this item as related to: epic #1',
+        'Mark this item as related to: Epic #1',
       );
     });
 
@@ -1138,7 +1138,7 @@ describe('Create work item component', () => {
       expect(findFormButtons().classes('gl-sticky')).toBe(true);
       expect(findFormButtons().classes('gl-justify-between')).toBe(true);
       expect(findFormButtons().findAllComponents(GlButton).at(0).text()).toBe('Cancel');
-      expect(findFormButtons().findAllComponents(GlButton).at(1).text()).toBe('Create epic');
+      expect(findFormButtons().findAllComponents(GlButton).at(1).text()).toBe('Create Epic');
     });
 
     it('shows buttons on left and sticky when not isModal', async () => {
@@ -1147,7 +1147,7 @@ describe('Create work item component', () => {
 
       expect(findFormButtons().classes('gl-sticky')).toBe(true);
       expect(findFormButtons().classes('gl-justify-between')).toBe(true);
-      expect(findFormButtons().findAllComponents(GlButton).at(0).text()).toBe('Create epic');
+      expect(findFormButtons().findAllComponents(GlButton).at(0).text()).toBe('Create Epic');
       expect(findFormButtons().findAllComponents(GlButton).at(1).text()).toBe('Cancel');
     });
 
@@ -1361,7 +1361,7 @@ describe('Create work item component', () => {
 
       it('renders text', () => {
         expect(findResolveDiscussionSection().text()).toMatchInterpolatedText(
-          'Creating this issue will resolve the thread in !1 (discussion 1224)',
+          'Creating this Issue will resolve the thread in !1 (discussion 1224)',
         );
       });
 

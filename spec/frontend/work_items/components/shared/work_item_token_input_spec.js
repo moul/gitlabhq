@@ -585,7 +585,7 @@ describe('WorkItemTokenInput', () => {
       await waitForPromises();
       expect(findGlAlert().exists()).toBe(true);
       expect(findGlAlert().text()).toBe(
-        'Something went wrong while fetching the task. Please try again.',
+        'Something went wrong while fetching the Task. Please try again.',
       );
 
       findGlAlert().vm.$emit('dismiss');

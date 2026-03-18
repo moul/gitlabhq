@@ -331,7 +331,7 @@ describe('Description component', () => {
 
         it('shows an alert with an error message', () => {
           expect(createAlert).toHaveBeenCalledWith({
-            message: 'Something went wrong when creating task. Please try again.',
+            message: 'Something went wrong when creating Task. Please try again.',
             error: new Error('an error'),
             captureError: true,
           });

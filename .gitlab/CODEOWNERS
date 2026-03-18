@@ -84,6 +84,7 @@ Gemfile.next.checksum
 /db/click_house/
 /ee/db/click_house/
 /**/click_house/
+/db/siphon/
 
 ## We list db/ subfolders explicitly as we don't want to match Clickhouse files
 [Database] @gitlab-org/maintainers/database

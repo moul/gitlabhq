@@ -4,6 +4,7 @@ require 'spec_helper'
 
 RSpec.describe 'User creates work items', :js, feature_category: :team_planning do
   include WorkItemsHelpers
+  include ListboxHelpers
 
   let_it_be(:user) { create(:user) }
   let_it_be(:group) { create(:group, :public) }
@@ -76,7 +77,7 @@ RSpec.describe 'User creates work items', :js, feature_category: :team_planning 
 
         set_work_item_milestone(milestone.title)
 
-        create_work_item_with_type('issue')
+        create_work_item_with_type('Issue')
 
         wait_for_all_requests
 
@@ -102,10 +103,11 @@ RSpec.describe 'User creates work items', :js, feature_category: :team_planning 
       end
 
       it 'shows projects only with issues feature enabled', :js do
-        click_button 'Toggle project select', match: :first
+        click_button 'Select project to create issue', match: :first
+        wait_for_requests
 
-        expect(page).to have_button project.full_name
-        expect(page).not_to have_button project_with_issues_disabled.full_name
+        expect_listbox_item(project.full_name)
+        expect_no_listbox_item(project_with_issues_disabled.full_name)
       end
     end
   end

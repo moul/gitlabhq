@@ -13,11 +13,7 @@ import workItemAncestorsQuery from '../../graphql/work_item_ancestors.query.grap
 import groupWorkItemsQuery from '../../graphql/group_work_items.query.graphql';
 import projectWorkItemsQuery from '../../graphql/project_work_items.query.graphql';
 import workItemsByReferencesQuery from '../../graphql/work_items_by_references.query.graphql';
-import {
-  I18N_WORK_ITEM_SEARCH_ERROR,
-  NAME_TO_ENUM_MAP,
-  NAME_TO_TEXT_LOWERCASE_MAP,
-} from '../../constants';
+import { I18N_WORK_ITEM_SEARCH_ERROR, NAME_TO_ENUM_MAP } from '../../constants';
 import { formatAncestors, isReference } from '../../utils';
 
 export default {
@@ -80,7 +76,7 @@ export default {
       },
       error() {
         this.error = sprintf(I18N_WORK_ITEM_SEARCH_ERROR, {
-          workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.childrenType],
+          workItemType: this.childrenType,
         });
       },
     },
@@ -100,7 +96,7 @@ export default {
       },
       error() {
         this.error = sprintf(I18N_WORK_ITEM_SEARCH_ERROR, {
-          workItemType: NAME_TO_TEXT_LOWERCASE_MAP[this.childrenType],
+          workItemType: this.childrenType,
         });
       },
     },

@@ -1,6 +1,6 @@
 <script>
 import { GlButton, GlCollapsibleListbox, GlIcon, GlSprintf } from '@gitlab/ui';
-import { keyBy } from 'lodash';
+import { keyBy } from 'lodash-es';
 import { createAlert } from '~/alert';
 import {
   MINIMUM_SEARCH_LENGTH,

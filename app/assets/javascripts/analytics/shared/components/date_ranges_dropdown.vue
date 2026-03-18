@@ -1,7 +1,7 @@
 <script>
 import { GlCollapsibleListbox, GlIcon, GlTooltipDirective, GlButton } from '@gitlab/ui';
 
-import { isString } from 'lodash';
+import { isString } from 'lodash-es';
 import { isValidDate, localeDateFormat } from '~/lib/utils/datetime_utility';
 import {
   DATE_RANGE_CUSTOM_VALUE,

@@ -1,0 +1,10 @@
+---
+table: members
+database: main
+ignored_columns:
+  - invite_token
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_members
+    dedup_by:
+      - id

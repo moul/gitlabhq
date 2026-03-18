@@ -5,6 +5,7 @@ require 'spec_helper'
 RSpec.describe 'Group issues page', feature_category: :team_planning do
   include Features::SortingHelpers
   include FilteredSearchHelpers
+  include ListboxHelpers
 
   let(:group) { create(:group) }
   let(:project) { create(:project, :public, group: group) }
@@ -116,10 +117,11 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
       end
 
       it 'shows projects only with issues feature enabled', :js do
-        click_button 'Toggle project select', match: :first
+        click_button 'Select project to create issue', match: :first
+        wait_for_requests
 
-        expect(page).to have_button project.full_name
-        expect(page).not_to have_button project_with_issues_disabled.full_name
+        expect_listbox_item(project.full_name)
+        expect_no_listbox_item(project_with_issues_disabled.full_name)
       end
     end
   end

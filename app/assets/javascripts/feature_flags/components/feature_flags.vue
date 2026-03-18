@@ -8,7 +8,7 @@ import {
   GlSprintf,
   GlTooltipDirective,
 } from '@gitlab/ui';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 // eslint-disable-next-line no-restricted-imports
 import { mapState, mapActions } from 'vuex';
 import IndexLayout from '~/vue_shared/components/index_layout.vue';
