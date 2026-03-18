@@ -208,7 +208,7 @@ RSpec.describe 'Using WebAuthn Authenticators', :js, feature_category: :system_a
             it 'does not render any passkeys content' do
               visit profile_two_factor_auth_path
 
-              expect(page).not_to have_content("passkey")
+              expect(page).not_to have_content(s_('ProfilesAuthentication|Add passkey'))
             end
           end
         end

@@ -3,7 +3,11 @@
 module QA
   module Page
     module Profile
-      class TwoFactorAuth < Page::Base
+      class PasswordAndAuth < Page::Base
+        view 'app/views/profiles/two_factor_auths/show.html.haml' do
+          element 'change-password-button'
+        end
+
         view 'app/views/profiles/two_factor_auths/_configure_later_button.html.haml' do
           element 'configure-it-later-button'
         end
@@ -21,6 +25,10 @@ module QA
           element 'copy-button'
           element 'recovery-codes'
           element 'code-content'
+        end
+
+        def click_change_password
+          click_element('change-password-button')
         end
 
         def click_configure_it_later_button
@@ -59,7 +67,7 @@ module QA
           code_elements = within_element('recovery-codes') do
             all_elements('code-content', minimum: 1)
           end
-          code_elements.map { |code_content| code_content.text }
+          code_elements.map(&:text)
         end
 
         def click_copy_and_proceed

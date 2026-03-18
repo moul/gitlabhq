@@ -116,10 +116,10 @@ If you can still access your account, you can regenerate your recovery codes thr
 
 To regenerate recovery codes with the UI:
 
-1. Access your [**User settings**](../_index.md#access-your-user-settings).
-1. Select **Account** > **Two-Factor Authentication (2FA)**.
-1. Select **Manage two-factor authentication**.
-1. In the **Disable two-factor authentication** section, select **Regenerate recovery codes**.
+1. In the upper-right corner, select your avatar.
+1. Select **Edit profile**.
+1. In the left sidebar, select **Access** > **Password and authentication**.
+1. In the **Recovery codes** section, select **Regenerate recovery codes**.
 1. In the dialog, enter your current password and select **Regenerate recovery codes**.
 
 > [!note]

@@ -53,7 +53,6 @@
 - ee/spec/features/merge_trains/user_adds_to_merge_train_when_pipeline_succeeds_spec.rb
 - ee/spec/features/namespace_user_cap_reached_alert_spec.rb
 - ee/spec/features/pending_project_memberships_spec.rb
-- ee/spec/features/profiles/account_spec.rb
 - ee/spec/features/profiles/password_spec.rb
 - ee/spec/features/profiles/user_visits_profile_spec.rb
 - ee/spec/features/profiles/user_visits_public_profile_spec.rb

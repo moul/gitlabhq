@@ -14550,6 +14550,9 @@ msgstr ""
 msgid "Cannot skip two factor authentication setup"
 msgstr ""
 
+msgid "Cannot unarchive because the maximum limit of %{limit} work item types has been reached."
+msgstr ""
+
 msgid "Cannot update more than %{limit} organization data at once"
 msgstr ""
 
@@ -27300,9 +27303,6 @@ msgstr ""
 msgid "Edit Geo Site"
 msgstr ""
 
-msgid "Edit Password"
-msgstr ""
-
 msgid "Edit Release"
 msgstr ""
 
@@ -27841,9 +27841,6 @@ msgid "Enable repository checks"
 msgstr ""
 
 msgid "Enable searching"
-msgstr ""
-
-msgid "Enable two-factor authentication"
 msgstr ""
 
 msgid "Enable unauthenticated API request rate limit"
@@ -37011,9 +37008,6 @@ msgstr ""
 msgid "Increase"
 msgstr ""
 
-msgid "Increase your account's security by enabling two-factor authentication (2FA)."
-msgstr ""
-
 msgid "Increment suggestion line end"
 msgstr ""
 
@@ -41590,9 +41584,6 @@ msgid "Manage statuses"
 msgstr ""
 
 msgid "Manage templates…"
-msgstr ""
-
-msgid "Manage two-factor authentication"
 msgstr ""
 
 msgid "Manage usage"
@@ -52778,7 +52769,16 @@ msgstr ""
 msgid "ProfilesAuthentication|Added on"
 msgstr ""
 
+msgid "ProfilesAuthentication|All passwords must meet %{link_start}password requirements%{link_end}."
+msgstr ""
+
 msgid "ProfilesAuthentication|Are you sure you want to delete this passkey?"
+msgstr ""
+
+msgid "ProfilesAuthentication|Change password"
+msgstr ""
+
+msgid "ProfilesAuthentication|Connect a service for sign-in."
 msgstr ""
 
 msgid "ProfilesAuthentication|Default 2FA method:"
@@ -52793,7 +52793,10 @@ msgstr ""
 msgid "ProfilesAuthentication|Disable passkey sign-in"
 msgstr ""
 
-msgid "ProfilesAuthentication|Increase your account's security by enabling passkeys and two-factor authentication."
+msgid "ProfilesAuthentication|Enable additional security methods for two-factor authentication."
+msgstr ""
+
+msgid "ProfilesAuthentication|Enable additional security methods for two-factor authentication. Once enabled, you can also use your passkeys for 2FA."
 msgstr ""
 
 msgid "ProfilesAuthentication|Last used"
@@ -52829,13 +52832,22 @@ msgstr ""
 msgid "ProfilesAuthentication|Passkeys sign-in"
 msgstr ""
 
-msgid "ProfilesAuthentication|Passkeys unavailable"
+msgid "ProfilesAuthentication|Password and authentication"
+msgstr ""
+
+msgid "ProfilesAuthentication|Password and passkey sign-in have been restricted for your account. %{link_start}Learn more%{link_end}."
 msgstr ""
 
 msgid "ProfilesAuthentication|Register another 2FA method above to automatically use passkeys as default 2FA."
 msgstr ""
 
+msgid "ProfilesAuthentication|Service sign-in"
+msgstr ""
+
 msgid "ProfilesAuthentication|To use passkeys as your default two-factor authentication, please register at least one backup 2FA method first below."
+msgstr ""
+
+msgid "ProfilesAuthentication|Two-factor authentication (2FA)"
 msgstr ""
 
 msgid "ProfilesAuthentication|Use passkey as 2FA"
@@ -52971,9 +52983,6 @@ msgid "Profiles|Commit email"
 msgstr ""
 
 msgid "Profiles|Connect %{provider}"
-msgstr ""
-
-msgid "Profiles|Connect a service for sign-in."
 msgstr ""
 
 msgid "Profiles|Connected Accounts"
@@ -53135,9 +53144,6 @@ msgstr ""
 msgid "Profiles|Incoming email token was successfully reset"
 msgstr ""
 
-msgid "Profiles|Increase your account's security by enabling two-factor authentication (2FA)."
-msgstr ""
-
 msgid "Profiles|Invalid password"
 msgstr ""
 
@@ -53273,9 +53279,6 @@ msgstr ""
 msgid "Profiles|Send confirmation email"
 msgstr ""
 
-msgid "Profiles|Service sign-in"
-msgstr ""
-
 msgid "Profiles|Set new profile picture"
 msgstr ""
 
@@ -53340,9 +53343,6 @@ msgid "Profiles|Timezone"
 msgstr ""
 
 msgid "Profiles|Title"
-msgstr ""
-
-msgid "Profiles|Two-factor authentication"
 msgstr ""
 
 msgid "Profiles|Type your %{codeStart}password%{codeEnd} to confirm:"
@@ -73250,9 +73250,6 @@ msgid "Turn on confidentiality: Limit visibility to project members with at leas
 msgstr ""
 
 msgid "Turning this setting off disables all subgroup 2FA settings. This is a destructive change and cannot be reversed. Read %{link_start}more%{link_end}."
-msgstr ""
-
-msgid "Two-Factor Authentication"
 msgstr ""
 
 msgid "Two-factor Authentication"

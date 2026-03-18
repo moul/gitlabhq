@@ -42,15 +42,15 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
   #   2. It does not yet have a foreign key as the index is still being backfilled
   let(:allowed_to_be_missing_foreign_key) do
     [
-      'web_hook_logs_daily.organization_id', # https://gitlab.com/gitlab-org/gitlab/-/issues/524820
-      'web_hook_logs_daily.group_id', # https://gitlab.com/gitlab-org/gitlab/-/issues/524820
-      'web_hook_logs_daily.project_id', # https://gitlab.com/gitlab-org/gitlab/-/issues/524820
+      'web_hook_logs_daily.organization_id', # No LFK needed: daily partitions are dropped after 14 days
+      'web_hook_logs_daily.group_id', # No LFK needed: daily partitions are dropped after 14 days
+      'web_hook_logs_daily.project_id', # No LFK needed: daily partitions are dropped after 14 days
       'ci_deleted_objects.project_id', # LFK already present on p_ci_builds and cascade delete all ci resources
       'ci_namespace_monthly_usages.namespace_id', # https://gitlab.com/gitlab-org/gitlab/-/issues/321400
       'ci_pipeline_chat_data.project_id',
       'p_ci_pipeline_variables.project_id',
       'ci_pipeline_messages.project_id',
-      'security_findings.project_id', # https://gitlab.com/gitlab-org/gitlab/-/work_items/588191
+      'security_findings.project_id', # No LFK needed: sliding_list partitions are detached once stale and purged
       # LFK already present on ci_pipeline_schedules and cascade delete all ci resources.
       'ci_pipeline_schedule_variables.project_id',
       'ci_build_trace_chunks.project_id', # LFK already present on p_ci_builds and cascade delete all ci resources

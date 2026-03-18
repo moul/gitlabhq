@@ -629,7 +629,57 @@ Step 2 (MR 2): [Validate `project_id` NOT NULL on `packages_package_files`](http
 1. Create the MR with label `pipeline:skip-check-migrations` as reverting this migration is intended to be `#no-op`.
 
 > [!note]
-> Pipelines might complain about a missing FK. You must add the FK to `allowed_to_be_missing_foreign_key` in [sharding_key_spec.rb](https://gitlab.com/gitlab-org/gitlab/-/blob/master/spec/lib/gitlab/organizations/sharding_key_spec.rb?ref_type=heads#L81).
+> Pipelines might complain about a missing FK. You must add the FK to `allowed_to_be_missing_foreign_key` in
+> [sharding_key_spec.rb](https://gitlab.com/gitlab-org/gitlab/-/blob/master/spec/lib/gitlab/organizations/sharding_key_spec.rb).
+> For guidance on when omitting a FK is acceptable, see
+> [When to omit a foreign key on a sharding key column](#when-to-omit-a-foreign-key-on-a-sharding-key-column).
+
+### When to omit a foreign key on a sharding key column
+
+Sharding key columns must reference their parent table (`projects`, `namespaces`, or `organizations`) with a
+foreign key constraint. You can omit the foreign key when the table automatically drops data after a fixed
+retention period through time-based partition management (configured with `retain_for` in `partitioned_by`).
+Because old partitions are dropped in their entirety, referential integrity is maintained by the retention
+policy rather than a cascading FK constraint. The same applies to tables using a `sliding_list` partitioning
+strategy, where partitions are detached and dropped once all their rows are considered stale.
+
+**Example 1: fixed retention with `retain_for`**
+
+`web_hook_logs_daily` is partitioned daily and drops partitions older than 14 days:
+
+```ruby
+partitioned_by :created_at, strategy: :daily, retain_for: 14.days
+```
+
+Because old partitions are dropped automatically, a foreign key on `web_hook_logs_daily.project_id`
+referencing `projects` is not required.
+
+**Example 2: sliding list partitioning**
+
+`security_findings` uses a `sliding_list` strategy and detaches partitions once all their findings are
+associated with scans that have been purged and are older than `security_scan_stale_after_days`
+(configurable, defaulting to 3 months):
+
+```ruby
+partitioned_by :partition_number,
+  strategy: :sliding_list,
+  next_partition_if: ->(partition) { partition_full?(partition) || oldest_record_stale?(partition) },
+  detach_partition_if: ->(partition) { detach_partition?(partition.value) }
+```
+
+Because stale partitions are detached and eventually dropped, a foreign key on
+`security_findings.project_id` referencing `projects` is not required.
+
+When you omit a foreign key for this reason, add the column to `allowed_to_be_missing_foreign_key` in
+`spec/lib/gitlab/organizations/sharding_key_spec.rb` with a comment explaining the retention behavior:
+
+```ruby
+# No LFK needed: daily partitions are dropped after 14 days via retain_for
+'web_hook_logs_daily.project_id', # https://gitlab.com/gitlab-org/gitlab/-/issues/524820
+
+# No LFK needed: sliding_list partitions are detached once findings are stale and purged
+'security_findings.project_id', # https://gitlab.com/gitlab-org/gitlab/-/work_items/588191
+```
 
 ### Add transfer service support
 

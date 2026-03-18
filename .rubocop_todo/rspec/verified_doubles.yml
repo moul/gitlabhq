@@ -5,7 +5,6 @@ RSpec/VerifiedDoubles:
     - 'ee/spec/controllers/oauth/geo_auth_controller_spec.rb'
     - 'ee/spec/db/production/license_spec.rb'
     - 'ee/spec/features/admin/groups/admin_subscription_alerts_spec.rb'
-    - 'ee/spec/features/profiles/account_spec.rb'
     - 'ee/spec/finders/ee/template_finder_spec.rb'
     - 'ee/spec/finders/license_template_finder_spec.rb'
     - 'ee/spec/finders/projects/integrations/jira/issues_finder_spec.rb'

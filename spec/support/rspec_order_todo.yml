@@ -135,7 +135,6 @@
 - './ee/spec/features/password_reset_spec.rb'
 - './ee/spec/features/pending_group_memberships_spec.rb'
 - './ee/spec/features/pending_project_memberships_spec.rb'
-- './ee/spec/features/profiles/account_spec.rb'
 - './ee/spec/features/profiles/billing_spec.rb'
 - './ee/spec/features/profiles/user_visits_public_profile_spec.rb'
 - './ee/spec/features/projects/active_tabs_spec.rb'

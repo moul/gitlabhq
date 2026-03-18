@@ -111,6 +111,13 @@ module Packages
         .where(packages_debian_file_metadata: { architecture: architecture_name })
     end
 
+    scope :latest_id_per_file_name, -> {
+      where(
+        id: select('DISTINCT ON (packages_package_files.file_name) packages_package_files.id')
+          .order(:file_name).recent
+      )
+    }
+
     scope :with_debian_unknown_since, ->(updated_before) do
       where_exists(
         Packages::Debian::FileMetadatum

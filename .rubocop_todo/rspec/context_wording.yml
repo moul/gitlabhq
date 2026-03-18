@@ -111,7 +111,6 @@ RSpec/ContextWording:
     - 'ee/spec/features/merge_request/user_views_blocked_merge_request_spec.rb'
     - 'ee/spec/features/merge_requests/user_filters_by_approvers_spec.rb'
     - 'ee/spec/features/oncall_schedules/user_creates_schedule_spec.rb'
-    - 'ee/spec/features/profiles/account_spec.rb'
     - 'ee/spec/features/projects/active_tabs_spec.rb'
     - 'ee/spec/features/projects/audit_events_spec.rb'
     - 'ee/spec/features/projects/iterations/user_views_iteration_spec.rb'
