@@ -12,12 +12,15 @@ import JobDropdownItem from '~/ci/common/private/job_dropdown_item.vue';
 import PipelineStageDropdown from '~/ci/pipeline_mini_graph/pipeline_stage_dropdown.vue';
 import getPipelineStageJobsQuery from '~/ci/pipeline_mini_graph/graphql/queries/get_pipeline_stage_jobs.query.graphql';
 import stageJobsUpdatedSubscription from '~/ci/pipeline_mini_graph/graphql/subscriptions/stage_jobs_updated.subscription.graphql';
+import ciStageStatusUpdatedSubscription from '~/ci/pipeline_mini_graph/graphql/subscriptions/ci_stage_status_updated.subscription.graphql';
 import {
   createMockPipelineStageJobs,
   mockPipelineStageJobs,
   pipelineStage,
+  pipelineStageRunning,
   pipelineStageJobsFetchError,
   stageJobUpdated,
+  mockStageStatusUpdateResponse,
 } from './mock_data';
 
 Vue.use(VueApollo);
@@ -28,6 +31,8 @@ describe('PipelineStageDropdown', () => {
   let pipelineStageResponse;
   let mockSubscription;
   let subscriptionHandler;
+  let stageStatusSubscriptionHandler;
+  let mockStageStatusSubscription;
 
   const defaultProps = {
     stage: pipelineStage,
@@ -46,7 +51,14 @@ describe('PipelineStageDropdown', () => {
       return mockSubscription;
     });
 
+    mockStageStatusSubscription = createMockSubscription();
+    stageStatusSubscriptionHandler = jest.fn().mockReturnValue(mockStageStatusSubscription);
+
     mockApollo.defaultClient.setRequestHandler(stageJobsUpdatedSubscription, subscriptionHandler);
+    mockApollo.defaultClient.setRequestHandler(
+      ciStageStatusUpdatedSubscription,
+      stageStatusSubscriptionHandler,
+    );
 
     wrapper = mountExtended(PipelineStageDropdown, {
       provide: {
@@ -375,6 +387,120 @@ describe('PipelineStageDropdown', () => {
       await waitForPromises();
 
       expect(findFirstIcon().props('status').group).toBe('pending');
+    });
+  });
+
+  describe('stage status subscription', () => {
+    const flags = { pipelineMiniGraphSubscription: true };
+
+    describe('when stage is alive', () => {
+      it('subscribes to stage status updates on mount', async () => {
+        await createComponent({ props: { stage: pipelineStageRunning }, flags });
+
+        expect(stageStatusSubscriptionHandler).toHaveBeenCalledWith({
+          stageId: pipelineStageRunning.id,
+        });
+      });
+
+      it('updates the stage icon when subscription receives new status', async () => {
+        await createComponent({ props: { stage: pipelineStageRunning }, flags });
+
+        expect(findCiIcon().props('status')).toEqual(pipelineStageRunning.detailedStatus);
+
+        mockStageStatusSubscription.next(mockStageStatusUpdateResponse);
+        await nextTick();
+
+        expect(findCiIcon().props('status')).toEqual(
+          mockStageStatusUpdateResponse.data.ciStageStatusUpdated.detailedStatus,
+        );
+      });
+
+      it('resubscribes with new stage id when stage prop changes', async () => {
+        const newStage = {
+          ...pipelineStageRunning,
+          id: 'gid://gitlab/Ci::Stage/999',
+          name: 'build-2',
+        };
+
+        await createComponent({ props: { stage: pipelineStageRunning }, flags });
+
+        expect(stageStatusSubscriptionHandler).toHaveBeenCalledTimes(1);
+        expect(stageStatusSubscriptionHandler).toHaveBeenCalledWith({
+          stageId: pipelineStageRunning.id,
+        });
+
+        await wrapper.setProps({ stage: newStage });
+        await nextTick();
+
+        expect(stageStatusSubscriptionHandler).toHaveBeenCalledTimes(2);
+        expect(stageStatusSubscriptionHandler).toHaveBeenLastCalledWith({
+          stageId: newStage.id,
+        });
+      });
+
+      it('unsubscribes when stage transitions to completed', async () => {
+        await createComponent({ props: { stage: pipelineStageRunning }, flags });
+
+        mockStageStatusSubscription.next(mockStageStatusUpdateResponse);
+        await nextTick();
+
+        const completedStatus =
+          mockStageStatusUpdateResponse.data.ciStageStatusUpdated.detailedStatus;
+        expect(findCiIcon().props('status')).toEqual(completedStatus);
+
+        mockStageStatusSubscription.next({
+          data: {
+            ciStageStatusUpdated: {
+              ...mockStageStatusUpdateResponse.data.ciStageStatusUpdated,
+              detailedStatus: {
+                ...pipelineStageRunning.detailedStatus,
+              },
+            },
+          },
+        });
+        await nextTick();
+
+        // Verifies that the subscription does not update the icon when stage is no longer alive
+        expect(findCiIcon().props('status')).toEqual(completedStatus);
+      });
+    });
+
+    describe('when stage is not alive', () => {
+      it('does not subscribe to stage status updates on mount', async () => {
+        await createComponent({ props: { stage: pipelineStage }, flags });
+
+        expect(stageStatusSubscriptionHandler).not.toHaveBeenCalled();
+      });
+
+      it('subscribes when stage transitions to alive (e.g., job retry)', async () => {
+        await createComponent({ props: { stage: pipelineStage }, flags });
+
+        expect(stageStatusSubscriptionHandler).not.toHaveBeenCalled();
+
+        await wrapper.setProps({
+          stage: {
+            ...pipelineStage,
+            detailedStatus: {
+              ...pipelineStage.detailedStatus,
+              name: 'RUNNING',
+              icon: 'status_running',
+            },
+          },
+        });
+        await nextTick();
+
+        expect(stageStatusSubscriptionHandler).toHaveBeenCalledWith({
+          stageId: pipelineStage.id,
+        });
+      });
+    });
+
+    describe('when feature flag is disabled', () => {
+      it('does not subscribe even when stage is alive', async () => {
+        await createComponent({ props: { stage: pipelineStageRunning } });
+
+        expect(stageStatusSubscriptionHandler).not.toHaveBeenCalled();
+      });
     });
   });
 });

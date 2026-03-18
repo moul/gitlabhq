@@ -183,8 +183,6 @@ app/models/concerns/integrations/base/harbor.rb:
 - supported_event_actions
 app/models/concerns/integrations/base/integration.rb:
 - instance_exists_for?
-app/models/concerns/integrations/base/issue_tracker.rb:
-- enabled_in_gitlab_config
 app/models/concerns/mentionable.rb:
 - referenced_projects
 - referenced_group_users

@@ -13362,6 +13362,7 @@ CREATE TABLE ai_self_hosted_models (
     encrypted_api_token bytea,
     encrypted_api_token_iv bytea,
     identifier text,
+    provider smallint DEFAULT 0 NOT NULL,
     CONSTRAINT check_a28005edb2 CHECK ((char_length(endpoint) <= 2048)),
     CONSTRAINT check_cccb37e0de CHECK ((char_length(name) <= 255)),
     CONSTRAINT check_d1e593d04d CHECK ((char_length(identifier) <= 255))

@@ -113,11 +113,23 @@ export default {
       update(data) {
         this.hasError = false;
 
+        const mrDetails = data?.project?.mergeRequest;
+        const mergeRequest = mrDetails
+          ? {
+              id: mrDetails.id,
+              iid: mrDetails.iid,
+              title: mrDetails.title,
+              webPath: mrDetails.webPath,
+              sourceBranch: mrDetails.sourceBranch,
+            }
+          : null;
+
         const serverPipelines =
-          data?.project?.mergeRequest?.pipelines?.nodes?.map((pipeline) => ({
+          mrDetails?.pipelines?.nodes?.map((pipeline) => ({
             ...pipeline,
             id: getIdFromGraphQLId(pipeline.id),
             graphqlId: pipeline.id,
+            mergeRequest,
           })) || [];
 
         return this.mergeWithPendingPipelines(serverPipelines);

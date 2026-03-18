@@ -11599,12 +11599,6 @@ msgstr ""
 msgid "BillingPlans|All stages of the DevOps lifecycle"
 msgstr ""
 
-msgid "BillingPlans|All the benefits of Free +"
-msgstr ""
-
-msgid "BillingPlans|All the benefits of Premium +"
-msgstr ""
-
 msgid "BillingPlans|Also featuring GitLab Duo Agent Platform"
 msgstr ""
 
@@ -11815,9 +11809,6 @@ msgstr ""
 msgid "BillingPlans|If you would like to downgrade your plan please contact %{support_link_start}Customer Support%{support_link_end}."
 msgstr ""
 
-msgid "BillingPlans|Includes"
-msgstr ""
-
 msgid "BillingPlans|Includes $12 in GitLab Credits per user per month"
 msgstr ""
 
@@ -11876,9 +11867,6 @@ msgid "BillingPlans|Multiple approval rules"
 msgstr ""
 
 msgid "BillingPlans|No credit card required"
-msgstr ""
-
-msgid "BillingPlans|Not ready to trial the full suite of GitLab and GitLab Duo features? Start a free trial of GitLab Duo Pro instead."
 msgstr ""
 
 msgid "BillingPlans|Now with AI features included"
@@ -11956,10 +11944,10 @@ msgstr ""
 msgid "BillingPlans|Start a free GitLab Duo Enterprise Trial"
 msgstr ""
 
-msgid "BillingPlans|Start a free trial of GitLab Ultimate"
+msgid "BillingPlans|Start a free trial of Ultimate with advanced enterprise security, no credit card required."
 msgstr ""
 
-msgid "BillingPlans|Start a free trial of Ultimate with advanced enterprise security, no credit card required."
+msgid "BillingPlans|Start an Ultimate trial and try out the full product offering from GitLab, including AI-native features."
 msgstr ""
 
 msgid "BillingPlans|Start an Ultimate trial to try the complete set of features from GitLab."
@@ -12026,9 +12014,6 @@ msgid "BillingPlans|Track related issues to manage large initiatives and monitor
 msgstr ""
 
 msgid "BillingPlans|Trusted by"
-msgstr ""
-
-msgid "BillingPlans|Try GitLab Duo Pro"
 msgstr ""
 
 msgid "BillingPlans|Try for free"

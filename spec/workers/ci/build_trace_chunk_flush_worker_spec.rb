@@ -17,6 +17,14 @@ RSpec.describe Ci::BuildTraceChunkFlushWorker, feature_category: :continuous_int
     expect(chunk.reload).to be_migrated
   end
 
+  # It's OK to remove this test in future if we need to load the associated Ci::Build for a legitimate reason.
+  # See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227700 for context.
+  it 'does not load the build' do
+    chunk_id = chunk.id
+
+    expect { described_class.new.perform(chunk_id) }.not_to exceed_query_limit(0).for_query(/p_ci_builds/)
+  end
+
   describe '#perform' do
     it_behaves_like 'an idempotent worker' do
       let(:job_args) { [chunk.id] }

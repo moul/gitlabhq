@@ -5,6 +5,15 @@
 subscription mrPipelineStatusUpdated($pipelineId: CiPipelineID!) {
   ciPipelineStatusUpdated(pipelineId: $pipelineId) {
     ...PipelineDetails
+    stages {
+      nodes {
+        id
+        detailedStatus {
+          id
+          name
+        }
+      }
+    }
     downstream {
       nodes {
         id
@@ -13,6 +22,7 @@ subscription mrPipelineStatusUpdated($pipelineId: CiPipelineID!) {
         path
         detailedStatus {
           ...CiIcon
+          name
           tooltip
           label
         }
