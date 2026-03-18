@@ -29581,6 +29581,26 @@ CREATE SEQUENCE security_project_tracked_contexts_id_seq
 
 ALTER SEQUENCE security_project_tracked_contexts_id_seq OWNED BY security_project_tracked_contexts.id;
 
+CREATE TABLE security_scan_execution_project_schedules (
+    id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    policy_rule_schedule_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    security_policy_id bigint NOT NULL,
+    next_run_at timestamp with time zone NOT NULL,
+    next_run_applied_delay integer DEFAULT 0 NOT NULL
+);
+
+CREATE SEQUENCE security_scan_execution_project_schedules_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE security_scan_execution_project_schedules_id_seq OWNED BY security_scan_execution_project_schedules.id;
+
 CREATE TABLE security_scan_profile_triggers (
     id bigint NOT NULL,
     created_at timestamp with time zone NOT NULL,
@@ -35915,6 +35935,8 @@ ALTER TABLE ONLY security_policy_settings ALTER COLUMN id SET DEFAULT nextval('s
 
 ALTER TABLE ONLY security_project_tracked_contexts ALTER COLUMN id SET DEFAULT nextval('security_project_tracked_contexts_id_seq'::regclass);
 
+ALTER TABLE ONLY security_scan_execution_project_schedules ALTER COLUMN id SET DEFAULT nextval('security_scan_execution_project_schedules_id_seq'::regclass);
+
 ALTER TABLE ONLY security_scan_profile_triggers ALTER COLUMN id SET DEFAULT nextval('security_scan_profile_triggers_id_seq'::regclass);
 
 ALTER TABLE ONLY security_scan_profiles ALTER COLUMN id SET DEFAULT nextval('security_scan_profiles_id_seq'::regclass);
@@ -40012,6 +40034,9 @@ ALTER TABLE ONLY security_policy_settings
 ALTER TABLE ONLY security_project_tracked_contexts
     ADD CONSTRAINT security_project_tracked_contexts_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY security_scan_execution_project_schedules
+    ADD CONSTRAINT security_scan_execution_project_schedules_pkey PRIMARY KEY (id);
+
 ALTER TABLE ONLY security_scan_profile_triggers
     ADD CONSTRAINT security_scan_profile_triggers_pkey PRIMARY KEY (id);
 
@@ -43961,6 +43986,12 @@ CREATE INDEX idx_security_scan_profiles_projects_on_security_scan_profile_id ON 
 CREATE UNIQUE INDEX idx_security_scans_on_build_and_scan_type ON security_scans USING btree (build_id, scan_type);
 
 CREATE INDEX idx_security_scans_on_scan_type ON security_scans USING btree (scan_type);
+
+CREATE INDEX idx_security_sep_schedules_on_next_run_at_and_id ON security_scan_execution_project_schedules USING btree (next_run_at, id);
+
+CREATE UNIQUE INDEX idx_security_sep_schedules_on_rule_schedule_id_and_project_id ON security_scan_execution_project_schedules USING btree (policy_rule_schedule_id, project_id);
+
+CREATE INDEX idx_security_sep_schedules_on_security_policy_id_and_project_id ON security_scan_execution_project_schedules USING btree (security_policy_id, project_id);
 
 CREATE INDEX idx_slack_integrations_scopes_on_slack_api_scope_id ON slack_integrations_scopes USING btree (slack_api_scope_id);
 
@@ -48229,6 +48260,8 @@ CREATE UNIQUE INDEX index_security_policy_settings_on_organization_id ON securit
 CREATE UNIQUE INDEX index_security_project_tracked_contexts_on_project_context ON security_project_tracked_contexts USING btree (project_id, context_name, context_type);
 
 CREATE INDEX index_security_project_tracked_contexts_on_traversal_ids_id ON security_project_tracked_contexts USING btree (traversal_ids, id);
+
+CREATE INDEX index_security_scan_execution_project_schedules_on_project_id ON security_scan_execution_project_schedules USING btree (project_id);
 
 CREATE INDEX index_security_scan_profile_triggers_on_namespace_id ON security_scan_profile_triggers USING btree (namespace_id);
 
@@ -57451,6 +57484,9 @@ ALTER TABLE ONLY gpg_signatures
 ALTER TABLE ONLY virtual_registries_container_registry_upstreams
     ADD CONSTRAINT fk_rails_11d127aa33 FOREIGN KEY (registry_id) REFERENCES virtual_registries_container_registries(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY security_scan_execution_project_schedules
+    ADD CONSTRAINT fk_rails_11f0ed9e9a FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY pm_affected_packages
     ADD CONSTRAINT fk_rails_1279c1b9a1 FOREIGN KEY (pm_advisory_id) REFERENCES pm_advisories(id) ON DELETE CASCADE;
 
@@ -58213,6 +58249,9 @@ ALTER TABLE ONLY evidences
 ALTER TABLE ONLY jira_imports
     ADD CONSTRAINT fk_rails_63cbe52ada FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY security_scan_execution_project_schedules
+    ADD CONSTRAINT fk_rails_644bb1c41b FOREIGN KEY (policy_rule_schedule_id) REFERENCES security_orchestration_policy_rule_schedules(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY group_deploy_tokens
     ADD CONSTRAINT fk_rails_6477b01f6b FOREIGN KEY (deploy_token_id) REFERENCES deploy_tokens(id) ON DELETE CASCADE;
 
@@ -58443,6 +58482,9 @@ ALTER TABLE ONLY approval_merge_request_rules_users
 
 ALTER TABLE ONLY audit_events_instance_streaming_event_type_filters
     ADD CONSTRAINT fk_rails_80e948655b FOREIGN KEY (external_streaming_destination_id) REFERENCES audit_events_instance_external_streaming_destinations(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY security_scan_execution_project_schedules
+    ADD CONSTRAINT fk_rails_8136c951a3 FOREIGN KEY (security_policy_id) REFERENCES security_policies(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY required_code_owners_sections
     ADD CONSTRAINT fk_rails_817708cf2d FOREIGN KEY (protected_branch_id) REFERENCES protected_branches(id) ON DELETE CASCADE;

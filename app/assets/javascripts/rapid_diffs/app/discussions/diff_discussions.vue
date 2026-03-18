@@ -42,15 +42,11 @@ export default {
         :timeline-layout="timelineLayout"
         :is-last-discussion="index === discussions.length - 1"
         @toggleDiscussionReplies="store.toggleDiscussionReplies(discussion)"
-        @discussionUpdated="store.replaceDiscussion(discussion, $event)"
-        @noteUpdated="store.updateNote"
-        @noteDeleted="store.deleteNote"
         @noteEdited="store.editNote"
         @startEditing="store.setEditingMode($event, true)"
         @cancelEditing="store.setEditingMode($event, false)"
         @startReplying="store.startReplying(discussion)"
         @stopReplying="store.stopReplying(discussion)"
-        @toggleAward="store.toggleAward"
       >
         <template v-if="counterBadgeVisible" #avatar-badge>
           <design-note-pin

@@ -8318,7 +8318,7 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
     let(:merge_request) { build_stubbed(:merge_request) }
 
     before do
-      allow_next_instance_of(Gitlab::MergeRequests::DiffVersion, merge_request, {}) do |version|
+      allow_next_instance_of(Gitlab::MergeRequests::DiffResolver, merge_request, {}) do |version|
         allow(version).to receive(:resolve).and_return(diff)
       end
     end
@@ -8334,23 +8334,6 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
         expect(merge_request.diffs_for_streaming).to eq(['HEAD diff'])
       end
     end
-
-    context 'when compare is present' do
-      let(:compare) do
-        instance_double(
-          Compare,
-          diffs_for_streaming: ['compare diff']
-        )
-      end
-
-      before do
-        merge_request.compare = compare
-      end
-
-      it 'returns diffs from compare' do
-        expect(merge_request.diffs_for_streaming).to eq(['compare diff'])
-      end
-    end
   end
 
   describe '#diffs_for_streaming_by_changed_paths' do
@@ -8359,7 +8342,7 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
     let(:expected_block) { proc {} }
 
     before do
-      allow_next_instance_of(Gitlab::MergeRequests::DiffVersion, merge_request, {}) do |version|
+      allow_next_instance_of(Gitlab::MergeRequests::DiffResolver, merge_request, {}) do |version|
         allow(version).to receive(:resolve).and_return(diff)
       end
     end
@@ -8368,25 +8351,6 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
       expect(diff).to receive(:diffs_for_streaming_by_changed_paths).with({}, &expected_block)
 
       merge_request.diffs_for_streaming_by_changed_paths({}, &expected_block)
-    end
-
-    context 'when compare is present' do
-      let(:compare) do
-        instance_double(
-          Compare,
-          diffs_for_streaming_by_changed_paths: ['compare result']
-        )
-      end
-
-      before do
-        merge_request.compare = compare
-      end
-
-      it 'delegates to compare' do
-        expect(compare).to receive(:diffs_for_streaming_by_changed_paths).with({}, &expected_block)
-
-        merge_request.diffs_for_streaming_by_changed_paths({}, &expected_block)
-      end
     end
   end
 
@@ -8513,23 +8477,6 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
 
     it 'returns limited diffs' do
       expect(subject.count).to eq(limit)
-    end
-
-    context 'when compare is present' do
-      let(:compare) { instance_double(Compare) }
-
-      before do
-        merge_request.compare = compare
-      end
-
-      it 'returns diffs from compare' do
-        expect(compare)
-          .to receive(:first_diffs_slice)
-          .with(limit, {})
-          .and_return(['compare diff'])
-
-        expect(merge_request.first_diffs_slice(limit)).to eq(['compare diff'])
-      end
     end
   end
 

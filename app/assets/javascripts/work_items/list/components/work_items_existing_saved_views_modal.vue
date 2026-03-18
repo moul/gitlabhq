@@ -13,6 +13,7 @@ import { s__ } from '~/locale';
 import { ROUTES } from '~/work_items/constants';
 import { subscribeWithLimitEnforce } from 'ee_else_ce/work_items/list/utils';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
+import { SAVED_VIEW_SORT_NAME_ASC } from '~/work_items/list/constants';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { helpPagePath } from '~/helpers/help_page_helper';
 import getNamespaceSavedViewsQuery from '../graphql/work_item_saved_views_namespace.query.graphql';
@@ -86,6 +87,7 @@ export default {
         return {
           fullPath: this.fullPath,
           subscribedOnly: false,
+          sort: SAVED_VIEW_SORT_NAME_ASC,
         };
       },
       update(data) {

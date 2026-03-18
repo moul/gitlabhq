@@ -64,31 +64,6 @@ describe('DiffDiscussions', () => {
     expect(useDiffDiscussions().toggleDiscussionReplies).toHaveBeenCalledWith(discussion);
   });
 
-  it('handles discussionUpdated event', () => {
-    const discussion = { id: '1' };
-    const updatedDiscussion = { id: '1', notes: [{ id: 'new-note' }] };
-    createComponent({ discussions: [{ id: '1' }] });
-    wrapper.findComponent(NoteableDiscussion).vm.$emit('discussionUpdated', updatedDiscussion);
-    expect(useDiffDiscussions().replaceDiscussion).toHaveBeenCalledWith(
-      discussion,
-      updatedDiscussion,
-    );
-  });
-
-  it('handles noteUpdated event', () => {
-    const note = { id: '1' };
-    createComponent({ discussions: [{ id: '1' }] });
-    wrapper.findComponent(NoteableDiscussion).vm.$emit('noteUpdated', note);
-    expect(useDiffDiscussions().updateNote).toHaveBeenCalledWith(note);
-  });
-
-  it('handles noteDeleted event', () => {
-    const note = { id: '1' };
-    createComponent({ discussions: [{ id: '1' }] });
-    wrapper.findComponent(NoteableDiscussion).vm.$emit('noteDeleted', note);
-    expect(useDiffDiscussions().deleteNote).toHaveBeenCalledWith(note);
-  });
-
   it('handles startEditing event', () => {
     const note = { id: '1' };
     createComponent({ discussions: [{ id: '1' }] });
@@ -101,14 +76,6 @@ describe('DiffDiscussions', () => {
     createComponent({ discussions: [{ id: '1' }] });
     wrapper.findComponent(NoteableDiscussion).vm.$emit('cancelEditing', note);
     expect(useDiffDiscussions().setEditingMode).toHaveBeenCalledWith(note, false);
-  });
-
-  it('handles toggleAward event', () => {
-    const note = { id: '1' };
-    const award = 'smile';
-    createComponent({ discussions: [{ id: '1' }] });
-    wrapper.findComponent(NoteableDiscussion).vm.$emit('toggleAward', { note, award });
-    expect(useDiffDiscussions().toggleAward).toHaveBeenCalledWith({ note, award });
   });
 
   it('handles noteEdited event', () => {

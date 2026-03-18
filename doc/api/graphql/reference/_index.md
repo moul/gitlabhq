@@ -58091,7 +58091,6 @@ Name of the feature that the callout is for.
 | <a id="usercalloutfeaturenameenum-web_ide_ci_environments_guidance"></a>`WEB_IDE_CI_ENVIRONMENTS_GUIDANCE` | Callout feature name for web_ide_ci_environments_guidance. |
 | <a id="usercalloutfeaturenameenum-work_items_nav_badge"></a>`WORK_ITEMS_NAV_BADGE` | Callout feature name for work_items_nav_badge. |
 | <a id="usercalloutfeaturenameenum-work_items_onboarding_modal"></a>`WORK_ITEMS_ONBOARDING_MODAL` | Callout feature name for work_items_onboarding_modal. |
-| <a id="usercalloutfeaturenameenum-work_item_consolidated_list_feedback"></a>`WORK_ITEM_CONSOLIDATED_LIST_FEEDBACK` | Callout feature name for work_item_consolidated_list_feedback. |
 | <a id="usercalloutfeaturenameenum-work_item_epic_feedback"></a>`WORK_ITEM_EPIC_FEEDBACK` | Callout feature name for work_item_epic_feedback. |
 
 ### `UserGroupCalloutFeatureName`

@@ -224,7 +224,6 @@ app/models/concerns/user_mention_behaviour.rb:
 app/models/event.rb:
 - created_target?
 - note_target_id
-- recent_repository_update?
 app/models/group.rb:
 - get_ids_by_ids_or_paths
 - blocked_owners

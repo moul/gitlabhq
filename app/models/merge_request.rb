@@ -1113,15 +1113,11 @@ class MergeRequest < ApplicationRecord
   end
 
   def diffs_for_streaming(diff_options = {})
-    return compare.diffs_for_streaming(diff_options) if compare
-
     diff = resolve_diff_version(diff_options)
     diff.diffs_for_streaming(diff_options)
   end
 
   def diffs_for_streaming_by_changed_paths(diff_options = {}, &)
-    return compare.diffs_for_streaming_by_changed_paths(diff_options, &) if compare
-
     diff = resolve_diff_version(diff_options)
     diff.diffs_for_streaming_by_changed_paths(diff_options, &)
   end
@@ -2773,8 +2769,6 @@ class MergeRequest < ApplicationRecord
   end
 
   def first_diffs_slice(limit, diff_options = {})
-    return compare.first_diffs_slice(limit, diff_options) if compare
-
     diff = resolve_diff_version(diff_options)
     diff.first_diffs_slice(limit, diff_options)
   end
@@ -3193,7 +3187,7 @@ class MergeRequest < ApplicationRecord
       commit_id: diff_options.delete(:commit_id)
     }.compact
 
-    ::Gitlab::MergeRequests::DiffVersion.new(self, params).resolve
+    ::Gitlab::MergeRequests::DiffResolver.new(self, params).resolve
   end
 end
 

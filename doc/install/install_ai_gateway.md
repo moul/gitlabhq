@@ -25,14 +25,16 @@ Prerequisites:
   a minimum of 512 MB of RAM.
 - Ensure the container has access to at least two CPUs for
   the `ai_gateway` and `duo-workflow-service` services.
-- Generate a JWT signing key for GitLab Duo Agent Platform functionality:
+- Generate JWT signing and validation keys for GitLab Duo Agent Platform functionality:
 
   ```shell
   openssl genrsa -out duo_workflow_jwt.key 2048
+  openssl genrsa -out duo_workflow_validation.key 2048
   ```
 
   > [!warning]
-  > Keep the `duo_workflow_jwt.key` file secure and do not share it publicly. This key is used for signing JWT tokens and must be treated as a sensitive credential.
+  > Keep the `duo_workflow_jwt.key` and `duo_workflow_validation.key` files secure and do not share them publicly. These
+  keys are used for signing and validating JWT tokens and must be treated as sensitive credentials.
 
 To ensure better performance, especially under heavy usage, consider allocating
 more disk space, memory, and resources than the minimum requirements.
@@ -72,7 +74,9 @@ Newer features are available from nightly builds, but backwards compatibility is
    docker run -d -p 5052:5052 -p 50052:50052 \
     -e AIGW_GITLAB_URL=<your_gitlab_instance> \
     -e AIGW_GITLAB_API_URL=https://<your_gitlab_domain>/api/v4/ \
+    -e DUO_WORKFLOW_AUTH__ENABLED="true" \
     -e DUO_WORKFLOW_SELF_SIGNED_JWT__SIGNING_KEY="$(cat duo_workflow_jwt.key)" \
+    -e DUO_WORKFLOW_SELF_SIGNED_JWT__VALIDATION_KEY="$(cat duo_workflow_validation.key)" \
     registry.gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/model-gateway:<ai-gateway-tag>
    ```
 
@@ -250,10 +254,11 @@ To set up an SSL certificate:
 
 ### Create an environment file
 
-Create a `.env` file to store the JWT signing key:
+Create a `.env` file to store the JWT signing and validation keys:
 
 ```shell
 echo "DUO_WORKFLOW_SELF_SIGNED_JWT__SIGNING_KEY=\"$(cat duo_workflow_jwt.key)\"" > .env
+echo "DUO_WORKFLOW_SELF_SIGNED_JWT__VALIDATION_KEY=\"$(cat duo_workflow_validation.key)\"" >> .env
 ```
 
 ### Create a Docker Compose file
@@ -388,6 +393,10 @@ https://gitlab.com/api/v4/projects/gitlab-org%2fcharts%2fai-gateway-helm-chart/p
      --set="ingress.className=nginx" \
      --set "extraEnvironmentVariables[0].name=DUO_WORKFLOW_SELF_SIGNED_JWT__SIGNING_KEY" \
      --set "extraEnvironmentVariables[0].value=$(cat duo_workflow_jwt.key)" \
+     --set "extraEnvironmentVariables[1].name=DUO_WORKFLOW_SELF_SIGNED_JWT__VALIDATION_KEY" \
+     --set "extraEnvironmentVariables[1].value=$(cat duo_workflow_validation.key)" \
+     --set "extraEnvironmentVariables[2].name=DUO_WORKFLOW_AUTH__ENABLED" \
+     --set "extraEnvironmentVariables[2].value={{ true | quote }}" \
      --timeout=300s --wait --wait-for-jobs
    ```
 
@@ -587,6 +596,7 @@ docker run -d -p 5052:5052 -p 50052:50052 \
  -e AIGW_GITLAB_URL=<your_gitlab_instance> \
  -e AIGW_GITLAB_API_URL=https://<your_gitlab_domain>/api/v4/ \
  -e DUO_WORKFLOW_SELF_SIGNED_JWT__SIGNING_KEY="$(cat duo_workflow_jwt.key)" \
+ -e DUO_WORKFLOW_SELF_SIGNED_JWT__VALIDATION_KEY="$(cat duo_workflow_validation.key)" \
  registry.gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/model-gateway:self-hosted-v18.2.1-ee@sha256:abc123...
 ```
 

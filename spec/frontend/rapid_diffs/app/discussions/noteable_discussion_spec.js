@@ -1,19 +1,18 @@
 import { shallowMount } from '@vue/test-utils';
-import AxiosMockAdapter from 'axios-mock-adapter';
 import { nextTick } from 'vue';
 import { merge } from 'lodash';
 import { stubComponent } from 'helpers/stub_component';
 import waitForPromises from 'helpers/wait_for_promises';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_via_gl_modal';
 import { detectAndConfirmSensitiveTokens } from '~/lib/utils/secret_detection';
+import { createAlert } from '~/alert';
+import { COMMENT_FORM } from '~/notes/i18n';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
 import NoteForm from '~/rapid_diffs/app/discussions/note_form.vue';
 import NoteSignedOutWidget from '~/rapid_diffs/app/discussions/note_signed_out_widget.vue';
 import NoteableDiscussion from '~/rapid_diffs/app/discussions/noteable_discussion.vue';
 import DiscussionNotes from '~/rapid_diffs/app/discussions/discussion_notes.vue';
 import { isLoggedIn } from '~/lib/utils/common_utils';
-import axios from '~/lib/utils/axios_utils';
-import { HTTP_STATUS_INTERNAL_SERVER_ERROR, HTTP_STATUS_OK } from '~/lib/utils/http_status';
 
 jest.mock('~/alert');
 jest.mock('~/lib/utils/confirm_via_gl_modal/confirm_via_gl_modal');
@@ -23,8 +22,8 @@ jest.mock('~/lib/utils/autosave');
 
 describe('NoteableDiscussion', () => {
   let wrapper;
-  let axiosMock;
   let defaultProps;
+  let store;
 
   const createDiscussion = (discussionProps, noteProps) => ({
     id: 'discussion-1',
@@ -46,7 +45,7 @@ describe('NoteableDiscussion', () => {
         discussion: createDiscussion(),
         ...props,
       },
-      provide: merge(defaultProvide, provide),
+      provide: merge({ store }, defaultProvide, provide),
       stubs: {
         DiscussionNotes: stubComponent(DiscussionNotes, {
           data() {
@@ -60,9 +59,11 @@ describe('NoteableDiscussion', () => {
 
   beforeEach(() => {
     isLoggedIn.mockReturnValue(true);
-    axiosMock = new AxiosMockAdapter(axios);
     defaultProps = {
       requestLastNoteEditing: jest.fn(),
+    };
+    store = {
+      replyToDiscussion: jest.fn().mockResolvedValue(),
     };
   });
 
@@ -131,20 +132,6 @@ describe('NoteableDiscussion', () => {
     expect(wrapper.emitted('stopReplying')).toBe(undefined);
   });
 
-  it('propagates noteUpdated event', () => {
-    const note = {};
-    createComponent();
-    wrapper.findComponent(DiscussionNotes).vm.$emit('noteUpdated', note);
-    expect(wrapper.emitted('noteUpdated')).toStrictEqual([[note]]);
-  });
-
-  it('propagates noteDeleted event', () => {
-    const note = {};
-    createComponent();
-    wrapper.findComponent(DiscussionNotes).vm.$emit('noteDeleted', note);
-    expect(wrapper.emitted('noteDeleted')).toStrictEqual([[note]]);
-  });
-
   it('propagates startEditing event', () => {
     const note = {};
     createComponent();
@@ -157,14 +144,6 @@ describe('NoteableDiscussion', () => {
     createComponent();
     wrapper.findComponent(DiscussionNotes).vm.$emit('cancelEditing', note);
     expect(wrapper.emitted('cancelEditing')).toStrictEqual([[note]]);
-  });
-
-  it('propagates toggleAward event', () => {
-    const note = {};
-    const award = 'smile';
-    createComponent();
-    wrapper.findComponent(DiscussionNotes).vm.$emit('toggleAward', { note, award });
-    expect(wrapper.emitted('toggleAward')).toStrictEqual([[{ note, award }]]);
   });
 
   it('propagates noteEdited event', () => {
@@ -204,12 +183,11 @@ describe('NoteableDiscussion', () => {
       detectAndConfirmSensitiveTokens.mockResolvedValue(true);
     });
 
-    it('adds reply and closes form', async () => {
-      const discussion = {};
-      axiosMock.onPost(defaultProvide.endpoints.discussions).reply(HTTP_STATUS_OK, { discussion });
-      createComponent({ props: { discussion: createDiscussion({ isReplying: true }) } });
+    it('calls store.replyToDiscussion and closes form', async () => {
+      const discussion = createDiscussion({ isReplying: true });
+      createComponent({ props: { discussion } });
       await wrapper.findComponent(NoteForm).props('saveNote')('test note');
-      expect(wrapper.emitted('discussionUpdated')).toStrictEqual([[discussion]]);
+      expect(store.replyToDiscussion).toHaveBeenCalledWith(discussion, 'test note');
       expect(wrapper.emitted('stopReplying')).toStrictEqual([[]]);
     });
 
@@ -217,20 +195,23 @@ describe('NoteableDiscussion', () => {
       detectAndConfirmSensitiveTokens.mockResolvedValue(false);
       createComponent({ props: { discussion: createDiscussion({ isReplying: true }) } });
       await wrapper.findComponent(NoteForm).props('saveNote')('test note');
-      expect(wrapper.emitted('discussionUpdated')).toBe(undefined);
+      expect(store.replyToDiscussion).not.toHaveBeenCalled();
     });
 
-    it('throws error when save fails', async () => {
-      axiosMock
-        .onPost(defaultProvide.endpoints.discussions)
-        .reply(HTTP_STATUS_INTERNAL_SERVER_ERROR);
+    it('shows alert when save fails', async () => {
+      store.replyToDiscussion.mockRejectedValue({
+        response: { data: {}, status: 500 },
+      });
       createComponent({ props: { discussion: createDiscussion({ isReplying: true }) } });
 
-      await expect(
-        wrapper.findComponent(NoteForm).props('saveNote')('test note'),
-      ).rejects.toThrow();
+      await wrapper.findComponent(NoteForm).props('saveNote')('test note');
 
-      expect(wrapper.emitted('discussionUpdated')).toBe(undefined);
+      expect(createAlert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: COMMENT_FORM.GENERIC_UNSUBMITTABLE_NETWORK,
+        }),
+      );
+      expect(wrapper.emitted('stopReplying')).toBe(undefined);
     });
   });
 

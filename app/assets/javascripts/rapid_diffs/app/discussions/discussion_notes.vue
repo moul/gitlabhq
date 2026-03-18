@@ -64,13 +64,10 @@ export default {
       :timeline-layout="timelineLayout"
       :show-reply-button="userPermissions.can_create_note && !individual"
       :is-last-discussion="isLastDiscussion"
-      @noteDeleted="$emit('noteDeleted', firstNote)"
-      @noteUpdated="$emit('noteUpdated', $event)"
       @noteEdited="$emit('noteEdited', { note: firstNote, value: $event })"
       @startReplying="$emit('startReplying')"
       @startEditing="$emit('startEditing', firstNote)"
       @cancelEditing="$emit('cancelEditing', firstNote)"
-      @toggleAward="$emit('toggleAward', { note: firstNote, award: $event })"
     >
       <template #avatar-badge>
         <slot name="avatar-badge"></slot>
@@ -101,12 +98,9 @@ export default {
                   :key="note.id"
                   :note="note"
                   :is-last-discussion="isLastDiscussion"
-                  @noteDeleted="$emit('noteDeleted', note)"
-                  @noteUpdated="$emit('noteUpdated', $event)"
                   @noteEdited="$emit('noteEdited', { note, value: $event })"
                   @startEditing="$emit('startEditing', note)"
                   @cancelEditing="$emit('cancelEditing', note)"
-                  @toggleAward="$emit('toggleAward', { note, award: $event })"
                 />
               </template>
               <slot name="footer" :has-replies="hasReplies"></slot>

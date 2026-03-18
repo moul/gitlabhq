@@ -1,5 +1,6 @@
 import { useDiffsList } from '~/rapid_diffs/stores/diffs_list';
 import { pinia } from '~/pinia/instance';
+import { moveToggle } from '~/rapid_diffs/utils/new_discussion_toggle';
 
 export function initNewDiscussionToggle(appElement, { allowExpandedLines = false } = {}) {
   const toggle = appElement.querySelector('[data-new-discussion-toggle]');
@@ -22,12 +23,6 @@ export function initNewDiscussionToggle(appElement, { allowExpandedLines = false
     if (discussionRow?.dataset.discussionRow !== 'true') return false;
     const cell = discussionRow.children[Math.min(cellIndex, discussionRow.children.length - 1)];
     return cell?.querySelector('[data-gutter-toggle]') !== null;
-  }
-
-  function markToggleRow(row) {
-    const previousRow = toggle.closest('tr');
-    if (previousRow) delete previousRow.dataset.hasNewDiscussionToggle;
-    row.dataset.hasNewDiscussionToggle = ''; // eslint-disable-line no-param-reassign
   }
 
   function markDiffFile(row) {
@@ -69,8 +64,7 @@ export function initNewDiscussionToggle(appElement, { allowExpandedLines = false
         return;
       }
       if (row.contains(toggle)) return;
-      markToggleRow(row);
-      row.querySelector('[data-position]').prepend(toggle);
+      moveToggle(toggle, row);
       setTogglePosition(row);
       return;
     }
@@ -86,8 +80,7 @@ export function initNewDiscussionToggle(appElement, { allowExpandedLines = false
       hideToggle();
       return;
     }
-    markToggleRow(row);
-    matchingCell.prepend(toggle);
+    moveToggle(toggle, row, cell.dataset.position);
     setTogglePosition(row);
   }
 

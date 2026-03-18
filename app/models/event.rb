@@ -508,10 +508,6 @@ class Event < ApplicationRecord
     project.last_activity_at > RESET_PROJECT_ACTIVITY_INTERVAL.ago
   end
 
-  def recent_repository_update?
-    project.last_repository_updated_at > REPOSITORY_UPDATED_AT_INTERVAL.ago
-  end
-
   def set_last_repository_updated_at
     Project.unscoped.where(id: project_id)
       .where("last_repository_updated_at < ? OR last_repository_updated_at IS NULL", REPOSITORY_UPDATED_AT_INTERVAL.ago)

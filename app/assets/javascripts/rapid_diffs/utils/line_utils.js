@@ -28,6 +28,26 @@ export function getLineCode({ id, row, oldLine, newLine }) {
   return `${id}_${left}_${right}`;
 }
 
+export function getLinePosition(row, side) {
+  const [oldLine, newLine] = getLineNumbers(row);
+  return {
+    old_line: !side || side === 'old' ? oldLine : null,
+    new_line: !side || side === 'new' ? newLine : null,
+  };
+}
+
+export function getChangeType(row, side) {
+  const selector = side ? `[data-position="${side}"][data-change]` : '[data-change]';
+  const cell = row.querySelector(selector);
+  if (!cell) return null;
+  return cell.dataset.change === 'added' ? 'new' : 'old';
+}
+
+export function getRowPosition(row, side) {
+  const type = getChangeType(row, side);
+  return { ...getLinePosition(row, type ? side : undefined), type };
+}
+
 export function findLineRow(element, oldLine, newLine) {
   return element
     .querySelector(

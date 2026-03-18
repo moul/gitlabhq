@@ -1,30 +1,22 @@
 import { nextTick } from 'vue';
 import { merge } from 'lodash';
-import MockAdapter from 'axios-mock-adapter';
 import { shallowMount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
-import axios from '~/lib/utils/axios_utils';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_action';
 import { clearDraft } from '~/lib/utils/autosave';
+import { createAlert } from '~/alert';
+import { SOMETHING_WENT_WRONG } from '~/diffs/i18n';
 import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
 import NoteForm from '~/rapid_diffs/app/discussions/note_form.vue';
 import NewLineDiscussionForm from '~/rapid_diffs/app/discussions/new_line_discussion_form.vue';
-import { HTTP_STATUS_INTERNAL_SERVER_ERROR, HTTP_STATUS_OK } from '~/lib/utils/http_status';
 
 jest.mock('~/alert');
 jest.mock('~/lib/utils/autosave');
 jest.mock('~/lib/utils/confirm_via_gl_modal/confirm_action');
 
 describe('NewLineDiscussionForm', () => {
-  let mockAdapter;
   let pinia;
   let wrapper;
-
-  const defaultProvisions = {
-    endpoints: {
-      discussions: '/discussions',
-    },
-  };
 
   const createDiscussion = () => ({
     id: 'new-line-form',
@@ -46,16 +38,16 @@ describe('NewLineDiscussionForm', () => {
     wrapper = shallowMount(NewLineDiscussionForm, {
       pinia,
       propsData: merge({ discussion }, props),
-      provide: merge({ store }, defaultProvisions, provide),
+      provide: merge({ store }, provide),
     });
   };
 
   const findNoteForm = () => wrapper.findComponent(NoteForm);
 
   beforeEach(() => {
-    mockAdapter = new MockAdapter(axios);
     pinia = createTestingPinia({ stubActions: false });
     store = useDiffDiscussions();
+    store.createLineDiscussion = jest.fn().mockResolvedValue();
   });
 
   it('has data-discussion-id attribute', () => {
@@ -110,37 +102,30 @@ describe('NewLineDiscussionForm', () => {
 
   describe('saving note', () => {
     const noteBody = 'Test note body';
-    const newDiscussion = { id: 'new-discussion', notes: [] };
 
-    it('submits discussion and replaces form', async () => {
+    it('calls store.createLineDiscussion', async () => {
       const oldDiscussion = createDiscussion();
-      mockAdapter
-        .onPost(defaultProvisions.endpoints.discussions, {
-          note: {
-            note: noteBody,
-            position: oldDiscussion.position,
-          },
-        })
-        .reply(HTTP_STATUS_OK, { discussion: newDiscussion });
       createComponent({ props: { discussion: oldDiscussion } });
 
       await findNoteForm().props('saveNote')(noteBody);
 
-      expect(useDiffDiscussions().replaceDiscussionForm).toHaveBeenCalledWith(
-        oldDiscussion,
-        newDiscussion,
-      );
+      expect(store.createLineDiscussion).toHaveBeenCalledWith(oldDiscussion, {
+        position: oldDiscussion.position,
+        note: noteBody,
+      });
     });
 
-    it('throws error on submission failure', async () => {
-      mockAdapter
-        .onPost(defaultProvisions.endpoints.discussions)
-        .reply(HTTP_STATUS_INTERNAL_SERVER_ERROR);
+    it('shows alert on submission failure', async () => {
+      store.createLineDiscussion.mockRejectedValue(new Error('fail'));
       createComponent();
 
-      await expect(findNoteForm().props('saveNote')(noteBody)).rejects.toThrow();
+      await findNoteForm().props('saveNote')(noteBody);
 
-      expect(useDiffDiscussions().replaceDiscussionForm).not.toHaveBeenCalled();
+      expect(createAlert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: SOMETHING_WENT_WRONG,
+        }),
+      );
     });
   });
 });

@@ -64,14 +64,6 @@ describe('DiscussionNotes', () => {
         expect(wrapper.emitted('startReplying')).toStrictEqual([[]]);
       });
 
-      it('propagates toggleAward event', () => {
-        const award = 'smile';
-        const note = { id: 'foo' };
-        createComponent({ notes: [note] });
-        wrapper.findComponent(NoteableNote).vm.$emit('toggleAward', award);
-        expect(wrapper.emitted('toggleAward')).toStrictEqual([[{ note, award }]]);
-      });
-
       it('propagates noteEdited event', () => {
         const value = 'smile';
         const note = { id: 'foo' };
@@ -97,27 +89,10 @@ describe('DiscussionNotes', () => {
           expect(findNoteableNote().exists()).toBe(true);
         });
 
-        it.each(['noteDeleted', 'startEditing', 'cancelEditing'])(
-          'propagates %s event',
-          (event) => {
-            createComponent({ notes });
-            findNoteableNote().vm.$emit(event, note);
-            expect(wrapper.emitted(event)).toStrictEqual([[note]]);
-          },
-        );
-
-        it('propagates noteUpdated event', () => {
-          const updatedNote = {};
+        it.each(['startEditing', 'cancelEditing'])('propagates %s event', (event) => {
           createComponent({ notes });
-          findNoteableNote().vm.$emit('noteUpdated', updatedNote);
-          expect(wrapper.emitted('noteUpdated')).toStrictEqual([[updatedNote]]);
-        });
-
-        it('propagates toggleAward event', () => {
-          const award = 'smile';
-          createComponent({ notes });
-          findNoteableNote().vm.$emit('toggleAward', award);
-          expect(wrapper.emitted('toggleAward')).toStrictEqual([[{ note, award }]]);
+          findNoteableNote().vm.$emit(event, note);
+          expect(wrapper.emitted(event)).toStrictEqual([[note]]);
         });
 
         it('propagates noteEdited event', () => {

@@ -144,6 +144,16 @@ describe('WorkItemsExistingSavedViewsModal', () => {
     expect(findLoadingIcon().exists()).toBe(true);
   });
 
+  it('fetches saved views sorted by name ascending', () => {
+    expect(savedViewsHandler).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sort: 'NAME_ASC',
+        subscribedOnly: false,
+        fullPath: 'test-project-path',
+      }),
+    );
+  });
+
   it('focuses the search input on showing modal', async () => {
     const focusSpy = jest.fn();
     findSearch().element.focus = focusSpy;

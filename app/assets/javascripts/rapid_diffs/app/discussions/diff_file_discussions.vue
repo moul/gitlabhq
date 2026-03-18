@@ -1,5 +1,4 @@
 <script>
-import axios from '~/lib/utils/axios_utils';
 import { __ } from '~/locale';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_action';
 import { ignoreWhilePending } from '~/lib/utils/ignore_while_pending';
@@ -16,9 +15,6 @@ export default {
   inject: {
     store: { type: Object },
     userPermissions: {
-      type: Object,
-    },
-    endpoints: {
       type: Object,
     },
   },
@@ -74,15 +70,10 @@ export default {
       this.store.removeNewFileDiscussionForm(this.formDiscussion);
     }),
     async saveNote(noteBody) {
-      const {
-        data: { discussion },
-      } = await axios.post(this.endpoints.discussions, {
-        note: {
-          position: this.formDiscussion.position,
-          note: noteBody,
-        },
+      await this.store.createFileDiscussion(this.formDiscussion, {
+        note: noteBody,
+        position: this.formDiscussion.position,
       });
-      this.store.replaceDiscussionForm(this.formDiscussion, discussion);
     },
   },
 };

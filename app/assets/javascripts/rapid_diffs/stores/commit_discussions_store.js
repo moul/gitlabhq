@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import axios from '~/lib/utils/axios_utils';
+import { HTTP_STATUS_GONE } from '~/lib/utils/http_status';
 import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
 
 export const useCommitDiffDiscussions = defineStore('commitDiffDiscussions', () => {
@@ -42,14 +43,22 @@ export const useCommitDiffDiscussions = defineStore('commitDiffDiscussions', () 
   }
 
   async function saveNote(note, noteText) {
-    const {
-      data: { note: updatedNote },
-    } = await axios.put(note.path, {
-      rapid_diffs: true,
-      target_id: note.noteable_id,
-      note: { note: noteText },
-    });
-    diffDiscussions.updateNote(updatedNote);
+    try {
+      const {
+        data: { note: updatedNote },
+      } = await axios.put(note.path, {
+        rapid_diffs: true,
+        target_id: note.noteable_id,
+        note: { note: noteText },
+      });
+      diffDiscussions.updateNote(updatedNote);
+    } catch (error) {
+      if (error.response?.status === HTTP_STATUS_GONE) {
+        diffDiscussions.deleteNote(note);
+        return;
+      }
+      throw error;
+    }
   }
 
   async function destroyNote(note) {

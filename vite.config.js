@@ -221,6 +221,7 @@ export default defineConfig({
             '@gitlab/vuex-vue3',
             '@gitlab/vue-router-vue3',
             '@vue/apollo-option',
+            'pinia',
             'vue-demi',
             '@gitlab/vuedraggable-vue3',
           ]

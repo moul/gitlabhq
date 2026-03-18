@@ -46,6 +46,20 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     diffDiscussions.removeNewLineDiscussionForm(formDiscussion);
   }
 
+  async function createFileDiscussion(formDiscussion, noteData) {
+    const notes = useNotes();
+    const { diffRefs } = useMergeRequestVersions();
+    await notes.saveNote(
+      buildLineDiscussionData({
+        noteData,
+        noteableData: notes.noteableData,
+        viewConfig: useDiffsView(),
+        diffRefs,
+      }),
+    );
+    diffDiscussions.removeNewFileDiscussionForm(formDiscussion);
+  }
+
   async function replyToDiscussion(discussion, noteText) {
     const notes = useNotes();
     const { diffRefs } = useMergeRequestVersions();
@@ -95,6 +109,7 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     fetchNotes,
     createNewDiscussion,
     createLineDiscussion,
+    createFileDiscussion,
     replyToDiscussion,
     saveNote,
     destroyNote,

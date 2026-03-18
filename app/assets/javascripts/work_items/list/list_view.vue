@@ -54,6 +54,7 @@ import {
   urlSortParams,
   UPDATED_DESC,
   RELATIVE_POSITION_ASC,
+  SAVED_VIEW_SORT_RELATIVE_POSITION,
 } from '~/work_items/list/constants';
 import searchLabelsQuery from '~/work_items/list/graphql/search_labels.query.graphql';
 import namespaceWorkItemTypesQuery from '~/work_items/graphql/namespace_work_item_types.query.graphql';
@@ -121,7 +122,6 @@ import getWorkItemsSlimQuery from 'ee_else_ce/work_items/list/graphql/get_work_i
 import getWorkItemsCountOnlyQuery from 'ee_else_ce/work_items/list/graphql/get_work_items_count_only.query.graphql';
 import hasWorkItemsQuery from '~/work_items/list/graphql/has_work_items.query.graphql';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_via_gl_modal';
-import { initWorkItemsFeedback } from '~/work_items_feedback';
 import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser.vue';
 import CreateWorkItemModal from '../components/create_work_item_modal.vue';
 import WorkItemDrawer from '../components/work_item_drawer.vue';
@@ -179,9 +179,6 @@ const WorkItemParentToken = () =>
   import('~/vue_shared/components/filtered_search_bar/tokens/work_item_parent_token.vue');
 const WorkItemTypeToken = () =>
   import('~/vue_shared/components/filtered_search_bar/tokens/work_item_type_token.vue');
-
-const CONSOLIDATED_LIST_FEEDBACK_PROMPT_EXPIRY = '2026-01-01';
-const FEATURE_NAME = 'work_item_consolidated_list_feedback';
 
 export default {
   name: 'ListView',
@@ -527,7 +524,7 @@ export default {
         return {
           fullPath: this.rootPageFullPath,
           subscribedOnly: true,
-          sort: 'RELATIVE_POSITION',
+          sort: SAVED_VIEW_SORT_RELATIVE_POSITION,
         };
       },
       update(data) {
@@ -1165,21 +1162,6 @@ export default {
         this.activeItem = null;
       }
       if (this.isSavedView) this.restoreViewDraft();
-    },
-    isGroup(value) {
-      if (this.isPlanningViewsEnabled && value) {
-        initWorkItemsFeedback({
-          feedbackIssue: 'https://gitlab.com/gitlab-org/gitlab/-/issues/579558',
-          feedbackIssueText: __('Share feedback on the experience'),
-          badgeContent: __(
-            'All your work items are now in one place, making them easier to manage.',
-          ),
-          badgeTitle: __('New unified list'),
-          badgePopoverTitle: __('New unified work items list'),
-          featureName: FEATURE_NAME,
-          expiry: CONSOLIDATED_LIST_FEEDBACK_PROMPT_EXPIRY,
-        });
-      }
     },
     eeSearchTokens() {
       if (this.isSavedView && Boolean(this.savedView)) {

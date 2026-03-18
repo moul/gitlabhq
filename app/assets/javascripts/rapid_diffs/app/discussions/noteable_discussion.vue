@@ -1,11 +1,13 @@
 <script>
-import axios from '~/lib/utils/axios_utils';
 import { getAutoSaveKeyFromDiscussion } from '~/lib/utils/autosave';
 import { isLoggedIn } from '~/lib/utils/common_utils';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_via_gl_modal';
 import { ignoreWhilePending } from '~/lib/utils/ignore_while_pending';
 import { s__, __, sprintf } from '~/locale';
 import { detectAndConfirmSensitiveTokens } from '~/lib/utils/secret_detection';
+import { createAlert } from '~/alert';
+import { createNoteErrorMessages } from '~/notes/utils';
+import { COMMENT_FORM } from '~/notes/i18n';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
 import NoteSignedOutWidget from './note_signed_out_widget.vue';
 import NoteForm from './note_form.vue';
@@ -20,10 +22,10 @@ export default {
     DiscussionNotes,
   },
   inject: {
-    userPermissions: {
+    store: {
       type: Object,
     },
-    endpoints: {
+    userPermissions: {
       type: Object,
     },
   },
@@ -106,16 +108,15 @@ export default {
         return;
       }
 
-      const postData = {
-        in_reply_to_discussion_id: this.discussion.reply_id,
-        note: { note: noteText },
-      };
-
-      const {
-        data: { discussion },
-      } = await axios.post(this.endpoints.discussions, postData);
-      this.$emit('discussionUpdated', discussion);
-      this.$emit('stopReplying');
+      try {
+        await this.store.replyToDiscussion(this.discussion, noteText);
+        this.$emit('stopReplying');
+      } catch (e) {
+        const message = e.response
+          ? createNoteErrorMessages(e.response.data, e.response.status)[0]
+          : COMMENT_FORM.GENERIC_UNSUBMITTABLE_NETWORK;
+        createAlert({ message, parent: this.$el });
+      }
     },
   },
 };
@@ -135,12 +136,9 @@ export default {
       :is-last-discussion="isLastDiscussion"
       @toggleDiscussionReplies="$emit('toggleDiscussionReplies')"
       @startReplying="showReplyForm"
-      @noteUpdated="$emit('noteUpdated', $event)"
-      @noteDeleted="$emit('noteDeleted', $event)"
       @noteEdited="$emit('noteEdited', $event)"
       @startEditing="$emit('startEditing', $event)"
       @cancelEditing="$emit('cancelEditing', $event)"
-      @toggleAward="$emit('toggleAward', $event)"
     >
       <template #avatar-badge>
         <slot name="avatar-badge"></slot>

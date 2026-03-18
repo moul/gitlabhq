@@ -3,6 +3,9 @@ import {
   getLineNumbers,
   getLineChange,
   getLineCode,
+  getLinePosition,
+  getChangeType,
+  getRowPosition,
   findLineRow,
 } from '~/rapid_diffs/utils/line_utils';
 
@@ -84,6 +87,103 @@ describe('line_utils', () => {
       `);
       const row = document.querySelector('#target');
       expect(getLineCode({ id: 'x', row, oldLine: null, newLine: null })).toBe('x_7_9');
+    });
+  });
+
+  describe('getLinePosition', () => {
+    beforeEach(() => {
+      setHTMLFixture(`
+        <table><tbody>
+          <tr>
+            <td data-position="old"><a data-line-number="3"></a></td>
+            <td data-position="new"><a data-line-number="5"></a></td>
+          </tr>
+        </tbody></table>
+      `);
+    });
+
+    it('returns both lines when no side given', () => {
+      const row = document.querySelector('tr');
+      expect(getLinePosition(row, undefined)).toEqual({ old_line: 3, new_line: 5 });
+    });
+
+    it('returns only old_line when side is old', () => {
+      const row = document.querySelector('tr');
+      expect(getLinePosition(row, 'old')).toEqual({ old_line: 3, new_line: null });
+    });
+
+    it('returns only new_line when side is new', () => {
+      const row = document.querySelector('tr');
+      expect(getLinePosition(row, 'new')).toEqual({ old_line: null, new_line: 5 });
+    });
+  });
+
+  describe('getChangeType', () => {
+    it('returns "new" for a row with an added cell', () => {
+      setHTMLFixture(`<table><tbody><tr><td data-change="added"></td></tr></tbody></table>`);
+      expect(getChangeType(document.querySelector('tr'))).toBe('new');
+    });
+
+    it('returns "old" for a row with a removed cell', () => {
+      setHTMLFixture(`<table><tbody><tr><td data-change="removed"></td></tr></tbody></table>`);
+      expect(getChangeType(document.querySelector('tr'))).toBe('old');
+    });
+
+    it('returns null for an unchanged row', () => {
+      setHTMLFixture(`<table><tbody><tr><td></td></tr></tbody></table>`);
+      expect(getChangeType(document.querySelector('tr'))).toBeNull();
+    });
+
+    it('returns type for the given side only when both sides are changed', () => {
+      setHTMLFixture(`
+        <table><tbody><tr>
+          <td data-position="old" data-change="removed"></td>
+          <td data-position="new" data-change="added"></td>
+        </tr></tbody></table>
+      `);
+      const row = document.querySelector('tr');
+      expect(getChangeType(row, 'old')).toBe('old');
+      expect(getChangeType(row, 'new')).toBe('new');
+    });
+
+    it('returns null for a side with no change even when the other side is changed', () => {
+      setHTMLFixture(`
+        <table><tbody><tr>
+          <td data-position="old" data-change="removed"></td>
+          <td data-position="new"></td>
+        </tr></tbody></table>
+      `);
+      expect(getChangeType(document.querySelector('tr'), 'new')).toBeNull();
+    });
+  });
+
+  describe('getRowPosition', () => {
+    it('returns both line numbers and null type for an unchanged row', () => {
+      setHTMLFixture(`
+        <table><tbody><tr>
+          <td data-position="old"><a data-line-number="3"></a></td>
+          <td data-position="new"><a data-line-number="5"></a></td>
+        </tr></tbody></table>
+      `);
+      expect(getRowPosition(document.querySelector('tr'), undefined)).toEqual({
+        old_line: 3,
+        new_line: 5,
+        type: null,
+      });
+    });
+
+    it('returns only the side line number and type for a changed row', () => {
+      setHTMLFixture(`
+        <table><tbody><tr>
+          <td data-position="old" data-change="removed"><a data-line-number="3"></a></td>
+          <td data-position="new" data-change="added"><a data-line-number="5"></a></td>
+        </tr></tbody></table>
+      `);
+      expect(getRowPosition(document.querySelector('tr'), 'old')).toEqual({
+        old_line: 3,
+        new_line: null,
+        type: 'old',
+      });
     });
   });
 

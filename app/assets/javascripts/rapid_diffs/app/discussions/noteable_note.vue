@@ -1,15 +1,14 @@
 <script>
 import { GlAvatarLink, GlAvatar } from '@gitlab/ui';
-import axios from '~/lib/utils/axios_utils';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_via_gl_modal';
 import { createAlert } from '~/alert';
-import { HTTP_STATUS_GONE } from '~/lib/utils/http_status';
 import { ignoreWhilePending } from '~/lib/utils/ignore_while_pending';
 import { __, sprintf } from '~/locale';
 import { detectAndConfirmSensitiveTokens } from '~/lib/utils/secret_detection';
 import { isCurrentUser } from '~/lib/utils/common_utils';
 import { UPDATE_COMMENT_FORM } from '~/notes/i18n';
+import { updateNoteErrorMessage } from '~/notes/utils';
 import NoteActions from './note_actions.vue';
 import NoteBody from './note_body.vue';
 import NoteHeader from './note_header.vue';
@@ -27,6 +26,9 @@ export default {
     TimelineEntryItem,
   },
   inject: {
+    store: {
+      type: Object,
+    },
     endpoints: {
       type: Object,
     },
@@ -114,8 +116,7 @@ export default {
       this.isDeleting = true;
 
       try {
-        await axios.delete(this.note.path);
-        this.$emit('noteDeleted');
+        await this.store.destroyNote(this.note);
       } catch (error) {
         createAlert({
           message: __('Something went wrong while deleting your note. Please try again.'),
@@ -132,21 +133,13 @@ export default {
       this.isSaving = true;
 
       try {
-        const {
-          data: { note: updatedNote },
-        } = await axios.put(this.note.path, {
-          rapid_diffs: true,
-          target_id: this.note.noteable_id,
-          note: { note: noteText },
-        });
+        await this.store.saveNote(this.note, noteText);
         this.$emit('cancelEditing');
-        this.$emit('noteUpdated', updatedNote);
       } catch (error) {
-        if (error.response && error.response.status === HTTP_STATUS_GONE) {
-          this.$emit('noteDeleted');
-        } else {
-          throw error;
-        }
+        createAlert({
+          message: updateNoteErrorMessage(error),
+          parent: this.$el,
+        });
       } finally {
         this.isSaving = false;
       }
@@ -169,8 +162,7 @@ export default {
     }),
     async toggleAward(name) {
       try {
-        await axios.post(this.note.toggle_award_path, { name });
-        this.$emit('toggleAward', name);
+        await this.store.toggleAwardOnNote(this.note, name);
       } catch (error) {
         createAlert({
           message: __('Failed to set a reaction. Please try again.'),

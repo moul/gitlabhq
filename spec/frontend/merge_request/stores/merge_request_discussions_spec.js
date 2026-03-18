@@ -70,6 +70,7 @@ describe('mergeRequestDiscussions store', () => {
     'removeNewFileDiscussionForm',
     'createNewDiscussion',
     'createLineDiscussion',
+    'createFileDiscussion',
     'replyToDiscussion',
     'saveNote',
     'destroyNote',
@@ -167,6 +168,33 @@ describe('mergeRequestDiscussions store', () => {
             line_code: 'hash_0_1',
           },
         },
+      });
+      expect(useDiffDiscussions().discussionForms).not.toContainEqual(formDiscussion);
+    });
+  });
+
+  describe('createFileDiscussion', () => {
+    it('delegates to notes store saveNote and removes the form', async () => {
+      const position = {
+        position_type: 'file',
+        old_path: 'file.js',
+        new_path: 'file.js',
+        old_line: null,
+        new_line: null,
+      };
+      const formDiscussion = { id: 'form-1', isForm: true, position };
+      useDiffDiscussions().discussionForms.push(formDiscussion);
+
+      await store.createFileDiscussion(formDiscussion, { note: 'test', position });
+
+      expect(mockNotesStore.saveNote).toHaveBeenCalledWith({
+        endpoint: '/api/notes',
+        data: expect.objectContaining({
+          note: expect.objectContaining({
+            note: 'test',
+            position: expect.stringContaining('"position_type":"file"'),
+          }),
+        }),
       });
       expect(useDiffDiscussions().discussionForms).not.toContainEqual(formDiscussion);
     });

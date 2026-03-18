@@ -1,7 +1,11 @@
 import MockAdapter from 'axios-mock-adapter';
 import { createTestingPinia } from '@pinia/testing';
 import axios from '~/lib/utils/axios_utils';
-import { HTTP_STATUS_OK } from '~/lib/utils/http_status';
+import {
+  HTTP_STATUS_OK,
+  HTTP_STATUS_GONE,
+  HTTP_STATUS_INTERNAL_SERVER_ERROR,
+} from '~/lib/utils/http_status';
 import { useCommitDiffDiscussions } from '~/rapid_diffs/stores/commit_discussions_store';
 import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
 import { useDiscussions } from '~/notes/store/discussions';
@@ -152,6 +156,23 @@ describe('commitDiffDiscussions store', () => {
         expect(useDiscussions().discussions[0].notes[0]).toEqual(
           expect.objectContaining(updatedNote),
         );
+      });
+
+      it('deletes note and resolves when server returns GONE', async () => {
+        const note = { id: 1, path: '/note/1', noteable_id: 10, discussion_id: 'disc-1' };
+        mockAxios.onPut('/note/1').reply(HTTP_STATUS_GONE);
+        useDiscussions().discussions = [{ id: 'disc-1', notes: [note] }];
+
+        await useCommitDiffDiscussions().saveNote(note, 'updated');
+
+        expect(useDiscussions().discussions).toHaveLength(0);
+      });
+
+      it('re-throws on other errors', async () => {
+        const note = { id: 1, path: '/note/1', noteable_id: 10 };
+        mockAxios.onPut('/note/1').reply(HTTP_STATUS_INTERNAL_SERVER_ERROR);
+
+        await expect(useCommitDiffDiscussions().saveNote(note, 'updated')).rejects.toThrow();
       });
     });
 

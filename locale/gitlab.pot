@@ -8372,9 +8372,6 @@ msgstr ""
 msgid "All your to-do items are done."
 msgstr ""
 
-msgid "All your work items are now in one place, making them easier to manage."
-msgstr ""
-
 msgid "Allow"
 msgstr ""
 
@@ -29992,9 +29989,6 @@ msgstr ""
 msgid "Failed to store token"
 msgstr ""
 
-msgid "Failed to submit your comment. Please try again."
-msgstr ""
-
 msgid "Failed to unfollow user"
 msgstr ""
 
@@ -45398,12 +45392,6 @@ msgid "New test case"
 msgstr ""
 
 msgid "New topic"
-msgstr ""
-
-msgid "New unified list"
-msgstr ""
-
-msgid "New unified work items list"
 msgstr ""
 
 msgid "New wiki page"
@@ -66193,9 +66181,6 @@ msgid "SeverityWidget|There was an error while updating severity."
 msgstr ""
 
 msgid "Share"
-msgstr ""
-
-msgid "Share feedback on the experience"
 msgstr ""
 
 msgid "Share the %{strong_open}GitLab single sign-on URL%{strong_close} with members so they can sign in to your group through your identity provider"

@@ -1,9 +1,10 @@
 <script>
-import axios from '~/lib/utils/axios_utils';
-import { __ } from '~/locale';
+import { __, sprintf } from '~/locale';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_action';
 import { ignoreWhilePending } from '~/lib/utils/ignore_while_pending';
 import { clearDraft } from '~/lib/utils/autosave';
+import { createAlert } from '~/alert';
+import { SOMETHING_WENT_WRONG, SAVING_THE_COMMENT_FAILED } from '~/diffs/i18n';
 import NoteForm from './note_form.vue';
 
 export default {
@@ -13,9 +14,6 @@ export default {
   },
   inject: {
     store: { type: Object },
-    endpoints: {
-      type: Object,
-    },
   },
   props: {
     discussion: {
@@ -57,15 +55,23 @@ export default {
       this.store.removeNewLineDiscussionForm(this.discussion);
     }),
     async saveNote(noteBody) {
-      const {
-        data: { discussion },
-      } = await axios.post(this.endpoints.discussions, {
-        note: {
+      try {
+        await this.store.createLineDiscussion(this.discussion, {
           position: this.discussion.position,
+          lineChange: this.discussion.lineChange,
+          lineCode: this.discussion.lineCode,
           note: noteBody,
-        },
-      });
-      this.store.replaceDiscussionForm(this.discussion, discussion);
+        });
+      } catch (e) {
+        const reason = e.response?.data?.errors;
+        const errorMessage = reason
+          ? sprintf(SAVING_THE_COMMENT_FAILED, { reason })
+          : SOMETHING_WENT_WRONG;
+        createAlert({
+          message: errorMessage,
+          parent: this.$refs.root,
+        });
+      }
     },
   },
 };

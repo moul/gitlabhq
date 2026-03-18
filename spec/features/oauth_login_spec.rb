@@ -75,7 +75,8 @@ RSpec.describe 'OAuth Login', :with_current_organization, :allow_forgery_protect
         let(:remember_me) { true }
 
         context 'when two-factor authentication is disabled' do
-          it 'remembers the user after a browser restart' do
+          it 'remembers the user after a browser restart',
+            quarantine: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/issues/16540' do
             login_with_provider(provider, additional_info: additional_info)
 
             clear_browser_session
