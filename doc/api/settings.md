@@ -24,7 +24,7 @@ Prerequisites:
 
 - You must have administrator access to the instance.
 
-## Get details on current application settings
+## Retrieve details on current application settings
 
 {{< history >}}
 
@@ -37,7 +37,7 @@ Prerequisites:
 
 {{< /history >}}
 
-Gets details on the current [application settings](#available-settings) for this GitLab instance.
+Retrieves details on the current [application settings](#available-settings) for this GitLab instance.
 
 ```plaintext
 GET /application/settings

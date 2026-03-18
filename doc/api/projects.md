@@ -2091,7 +2091,7 @@ Manage a project, including creation, deletion, and archival.
 
 {{< /history >}}
 
-Creates a new project owned by the authenticated user.
+Creates a project owned by the authenticated user.
 
 If your HTTP repository isn't publicly accessible, add authentication information to the URL
 `https://username:password@gitlab.company.com/group/project.git`, where `password` is a public access key with the `api`
@@ -2189,7 +2189,7 @@ see [Project feature visibility level](#project-feature-visibility-level).
 
 {{< /history >}}
 
-Create a project for a user.
+Creates a project for a user.
 
 Prerequisites:
 
@@ -2271,7 +2271,7 @@ Supported general project attributes:
 To set the visibility level of individual project features,
 see [Project feature visibility level](#project-feature-visibility-level).
 
-### Edit a project
+### Update a project
 
 {{< history >}}
 
@@ -2283,7 +2283,7 @@ see [Project feature visibility level](#project-feature-visibility-level).
 
 {{< /history >}}
 
-Update an existing project.
+Updates an existing project.
 
 If your HTTP repository isn't publicly accessible, add authentication information
 to the URL `https://username:password@gitlab.company.com/group/project.git`,
@@ -2397,7 +2397,7 @@ see [Project feature visibility level](#project-feature-visibility-level).
 
 ### Import members
 
-Import members from another project.
+Imports members from another project.
 
 If the importing member's role for the target project is:
 
@@ -2458,7 +2458,7 @@ Example responses:
 
 ### Archive a project
 
-Archive a project.
+Archives the specified project.
 
 Prerequisites:
 
@@ -2607,7 +2607,7 @@ Example response:
 
 ### Unarchive a project
 
-Unarchive a project.
+Unarchives the specified project.
 
 Prerequisites:
 
@@ -2793,7 +2793,7 @@ Supported attributes:
 
 ### Restore a project marked for deletion
 
-Restore a project that is marked for deletion.
+Restores a specified project that was marked for deletion.
 
 ```plaintext
 POST /projects/:id/restore
@@ -2807,7 +2807,7 @@ Supported attributes:
 
 ### Transfer a project to a new namespace
 
-Transfer a project to a new namespace.
+Transfers a project to a new namespace.
 
 For information on prerequisites for transferring a project, see
 [Transfer a project to another namespace](../user/project/working_with_projects.md#transfer-a-project).
@@ -2993,7 +2993,7 @@ Example response:
 
 ### Upload a project avatar
 
-Upload an avatar to the specified project.
+Uploads an avatar to the specified project.
 
 ```plaintext
 PUT /projects/:id
@@ -3048,7 +3048,7 @@ Example response:
 
 {{< /history >}}
 
-Download a project avatar. You can access this endpoint without authentication if the project is publicly accessible.
+Downloads a project avatar. You can access this endpoint without authentication if the project is publicly accessible.
 
 ```plaintext
 GET /projects/:id/avatar
@@ -3086,7 +3086,7 @@ For more information, see [Invite a group to a project](../user/project/members/
 
 ### Share a project with a group
 
-Share a project with a group.
+Shares a specified project with a group.
 
 ```plaintext
 POST /projects/:id/share
@@ -3103,7 +3103,7 @@ Supported attributes:
 
 ### Delete a shared project link in a group
 
-Unshare the project from the group. Returns `204` and no content on success.
+Unshares a project from a specified group. Returns `204` and no content on success.
 
 ```plaintext
 DELETE /projects/:id/share/:group_id
@@ -3126,7 +3126,7 @@ curl --request DELETE \
 
 ## Start the housekeeping task for a project
 
-Start the [housekeeping task](../administration/housekeeping.md) for a project.
+Starts the [housekeeping task](../administration/housekeeping.md) for a project.
 
 ```plaintext
 POST /projects/:id/housekeeping
@@ -3204,7 +3204,7 @@ Example response:
 
 This endpoint may only be accessed by an administrative user.
 
-Download a snapshot of the project (or wiki, if requested) Git repository. This
+Downloads a snapshot of the project (or wiki, if requested) Git repository. This
 snapshot is always in uncompressed [tar](https://en.wikipedia.org/wiki/Tar_(computing))
 format.
 
@@ -3222,9 +3222,9 @@ Supported attributes:
 | `id`      | integer or string | Yes      | The ID or [URL-encoded path of the project](rest/_index.md#namespaced-paths). |
 | `wiki`    | boolean           | No       | Whether to download the wiki, rather than project, repository. |
 
-## Get the path to repository storage
+## Retrieve the path to repository storage
 
-Get the path to repository storage for the specified project. If you're using Gitaly Cluster (Praefect), see [Praefect-generated replica paths](../administration/gitaly/praefect/_index.md#praefect-generated-replica-paths) instead.
+Retrieves the path to repository storage for the specified project. If you're using Gitaly Cluster (Praefect), see [Praefect-generated replica paths](../administration/gitaly/praefect/_index.md#praefect-generated-replica-paths) instead.
 
 Available for administrators only.
 

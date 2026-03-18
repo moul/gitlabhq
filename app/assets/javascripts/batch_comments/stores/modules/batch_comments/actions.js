@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { createAlert } from '~/alert';
 import { scrollToElement } from '~/lib/utils/scroll_utils';
 import { __ } from '~/locale';

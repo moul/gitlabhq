@@ -10,7 +10,7 @@ import {
   GlTooltipDirective,
   GlSkeletonLoader,
 } from '@gitlab/ui';
-import { isEmpty, isNil } from 'lodash';
+import { isEmpty, isNil } from 'lodash-es';
 import axios from '~/lib/utils/axios_utils';
 import readyToMergeMixin from 'ee_else_ce/vue_merge_request_widget/mixins/ready_to_merge';
 import readyToMergeQuery from '~/vue_merge_request_widget/queries/states/ready_to_merge.query.graphql';

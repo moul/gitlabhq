@@ -573,7 +573,7 @@ To limit the use of pipeline variables to only the Maintainer role and higher:
     Default when not specified on GitLab Self-Managed and GitLab Dedicated.
   - `developer`: Only users with the Developer, Maintainer, or Owner role can run pipelines with pipeline variables.
 
-You can also use [the projects API](../../api/projects.md#edit-a-project) to set
+You can also use [the projects API](../../api/projects.md#update-a-project) to set
 the role for the `ci_pipeline_variables_minimum_override_role` setting.
 
 This restriction does not affect the use of CI/CD variables from the project or group settings.

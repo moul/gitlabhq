@@ -157,7 +157,7 @@ To use the UI to run a pipeline in the parent project for a merge request from a
 ### Prevent pipelines from fork projects
 
 To prevent users from running new pipelines for fork projects in the parent project
-use [the projects API](../../api/projects.md#edit-a-project) to disable the `ci_allow_fork_pipelines_to_run_in_parent_project`
+use [the projects API](../../api/projects.md#update-a-project) to disable the `ci_allow_fork_pipelines_to_run_in_parent_project`
 setting.
 
 > [!warning]

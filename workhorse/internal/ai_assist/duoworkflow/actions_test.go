@@ -366,7 +366,7 @@ func TestServeHTTPSafe(t *testing.T) {
 }
 
 func TestRunHttpActionHandler_Execute_ContextCancelled(t *testing.T) {
-	t.Run("returns error instead of panicking when context is canceled", func(t *testing.T) {
+	t.Run("sends error to dws instead of panicking or erroring when context is canceled", func(t *testing.T) {
 		// This backend simulates what httputil.ReverseProxy does when the request
 		// context is canceled mid-flight: it panics with http.ErrAbortHandler.
 		// Without the serveHTTPSafe wrapper, this panic would propagate uncaught
@@ -407,8 +407,9 @@ func TestRunHttpActionHandler_Execute_ContextCancelled(t *testing.T) {
 
 		result, err := handler.Execute(ctx)
 
-		require.Error(t, err)
-		require.Nil(t, result)
+		require.NoError(t, err)
+		require.NotNil(t, result)
+		require.NotEmpty(t, result.GetActionResponse().GetHttpResponse().Error)
 	})
 }
 

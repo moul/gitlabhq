@@ -437,7 +437,7 @@ gem 'async', '~> 2.32.0', require: false, feature_category: :shared # rubocop:to
 gem 'io-event', '~> 1.12', require: false, feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 
 # Security report schemas used to validate CI job artifacts of security jobs
-gem 'gitlab-security_report_schemas', '0.1.3.min15.0.0.max15.2.3', feature_category: :vulnerability_management
+gem 'gitlab-security_report_schemas', '0.2.0.min15.0.0.max15.2.4', feature_category: :vulnerability_management
 
 # Frontend bundling
 gem 'vite_rails', '~> 3.0.17', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
@@ -699,7 +699,7 @@ gem 'valid_email', '~> 0.1', feature_category: :shared # rubocop:todo Gemfile/Mi
 # JSON
 gem 'jsonb_accessor', '~> 1.4', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 gem 'json', '~> 2.13.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
-gem 'json_schemer', '~> 2.3.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'json_schemer', '~> 2.4.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 gem 'oj', '~> 3.16.0', '>=3.16.16', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 gem 'oj-introspect', '~> 0.9', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 gem 'multi_json', '~> 1.17.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839

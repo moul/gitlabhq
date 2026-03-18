@@ -1,4 +1,4 @@
-import { isEmpty, chunk } from 'lodash';
+import { isEmpty, chunk } from 'lodash-es';
 import { createAlert } from '~/alert';
 import { __ } from '~/locale';
 import { FILE_DIFF_POSITION_TYPE } from '~/diffs/constants';

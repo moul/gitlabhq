@@ -10,7 +10,7 @@ Use this API to interact with starred projects. For more information, see [proje
 
 ## List projects starred by a user
 
-Get a list of visible projects starred by the given user. When accessed without
+Lists all visible projects starred by a specified user. When accessed without
 authentication, only public projects are returned.
 
 ```plaintext
@@ -273,7 +273,7 @@ Example response:
 
 ## List users who starred a project
 
-List the users who starred a project.
+Lists all users who starred a specified project.
 
 ```plaintext
 GET /projects/:id/starrers

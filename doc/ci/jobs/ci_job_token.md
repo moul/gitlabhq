@@ -263,7 +263,7 @@ To grant permission to job tokens generated in your project to push to the proje
 1. In the **Permissions** section, select **Allow Git push requests to the repository**.
 
 You can also control this setting with the `ci_push_repository_for_job_token_allowed` parameter in
-the [projects API](../../api/projects.md#edit-a-project).
+the [projects API](../../api/projects.md#update-a-project).
 
 ## Fine-grained permissions for job tokens
 
