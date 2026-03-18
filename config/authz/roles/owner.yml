@@ -10,6 +10,7 @@ project:
   permissions: []
   raw_permissions:
   - add_catalog_resource
+  - admin_project_secrets_manager
   - archive_project
   - change_namespace
   - change_visibility_level
@@ -20,6 +21,9 @@ project:
   - destroy_pipeline
   - link_forked_project
   - manage_owners
+  - read_compliance_adherence_report
+  - read_compliance_dashboard
+  - read_compliance_violations_report
   - remove_fork_project
   - remove_project
   - set_emails_disabled
@@ -36,13 +40,18 @@ group:
   raw_permissions:
   - admin_add_on_purchase
   - admin_cicd_variables
+  - admin_compliance_framework
+  - admin_external_audit_events
   - admin_group
   - admin_group_member
   - admin_integrations
+  - admin_licensed_seat
   - admin_namespace
   - admin_package
   - admin_protected_environments
   - admin_runners
+  - admin_service_account_member
+  - admin_service_accounts
   - archive_group
   - change_group
   - change_new_user_signups_cap
@@ -52,22 +61,29 @@ group:
   - create_deploy_token
   - create_group_link
   - create_runners
+  - create_service_account
   - create_subgroup
   - delete_group_link
+  - delete_service_account
   - delete_subgroup
   - destroy_deploy_token
+  - destroy_epic
   - destroy_issue
   - edit_billing
+  - manage_deploy_tokens
   - manage_merge_request_settings
   - read_billing
   - read_runners
   - read_runners_registration_token
+  - read_service_account
   - read_subscription_usage
   - read_usage_quotas
   - register_group_runners
   - remove_group
   - security_manager_access
   - set_emails_disabled
+  - set_epic_created_at
+  - set_epic_updated_at
   - set_note_created_at
   - set_show_diff_preview_in_email
   - update_default_branch_protection

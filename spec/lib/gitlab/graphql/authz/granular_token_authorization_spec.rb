@@ -14,6 +14,9 @@ RSpec.describe Gitlab::Graphql::Authz::GranularTokenAuthorization, feature_categ
   let(:context) { { access_token: } }
   let(:resolve_block) { ->(_obj, _args) { 'field_value' } }
   let(:field) { create_field_with_directive(boundary: 'itself', permissions: ['read_wiki']) }
+  let(:owner_without_directive) do
+    Class.new(GraphQL::Schema::Object) { graphql_name 'GranularTokenAuthorizationOwnerType' }
+  end
 
   subject(:extension) { described_class.new(field: field, options: {}) }
 
@@ -71,7 +74,7 @@ RSpec.describe Gitlab::Graphql::Authz::GranularTokenAuthorization, feature_categ
       it { is_expected.to eq('field_value') }
 
       context 'when a directive cannot be found' do
-        let(:field) { create_base_field }
+        let(:field) { create_base_field(owner: owner_without_directive) }
 
         it 'raises an ResourceNotAvailable error that includes the message from the service response' do
           expect { resolve }.to raise_error(Gitlab::Graphql::Errors::ResourceNotAvailable,

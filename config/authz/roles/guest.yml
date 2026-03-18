@@ -10,12 +10,14 @@ project:
   - create_issue
   - create_note
   - export_work_items
+  - read_ai_catalog_item_consumer
   - read_analytics
   - read_cycle_analytics
   - read_insights
   - read_issue
   - read_issue_board
   - read_issue_board_list
+  - read_iteration
   - read_label
   - read_milestone
   - read_note
@@ -31,4 +33,7 @@ group:
   raw_permissions:
   - award_emoji
   - read_group
+  - read_group_release_stats
   - read_release
+  - read_subgroup_epic
+  - read_wiki

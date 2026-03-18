@@ -157,7 +157,10 @@ module Types
       null: true,
       resolver: Resolvers::ProjectResolver,
       description: "Find a project.",
-      scopes: [:api, :read_api, :ai_workflows]
+      scopes: [:api, :read_api, :ai_workflows],
+      directives: granular_scope_directive(
+        permissions: :read_project, boundary_argument: :full_path, boundary_type: :project
+      )
     field :projects,
       null: true,
       resolver: Resolvers::ProjectsResolver,

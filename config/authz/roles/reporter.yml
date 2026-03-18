@@ -10,16 +10,25 @@ project:
   - admin_issue
   - admin_issue_board
   - admin_issue_board_list
+  - admin_iteration
   - admin_label
   - admin_milestone
+  - admin_requirement
   - admin_work_item
   - create_design
+  - create_iteration
+  - create_project_secrets
+  - create_requirement
+  - create_requirement_test_report
   - create_saved_view
   - create_snippet
   - daily_statistics
+  - delete_project_secrets
   - destroy_design
   - download_code
   - download_wiki_code
+  - export_requirements
+  - import_requirements
   - mark_note_as_internal
   - metrics_dashboard
   - move_design
@@ -29,6 +38,8 @@ project:
   - read_commit_status
   - read_confidential_issues
   - read_container_image
+  - read_customizable_dashboards
+  - read_dependency
   - read_deploy_board
   - read_deployment
   - read_environment
@@ -36,34 +47,67 @@ project:
   - read_grafana
   - read_harbor_registry
   - read_internal_note
+  - read_licenses
   - read_merge_request
   - read_package
   - read_pipeline
   - read_pipeline_schedule
+  - read_project_secrets
+  - read_project_secrets_manager_status
   - read_prometheus
   - read_sentry_issue
+  - read_software_license_policy
   - read_statistics
   - reopen_issue
   - update_design
   - update_issue
+  - update_project_secrets
+  - update_requirement
 group:
   permissions: []
   raw_permissions:
+  - admin_epic
+  - admin_epic_board
+  - admin_epic_board_list
   - admin_issue
   - admin_issue_board
   - admin_issue_board_list
+  - admin_iteration
+  - admin_iteration_cadence
   - admin_label
   - admin_milestone
+  - admin_value_stream
   - admin_work_item
+  - create_epic
+  - create_iteration
+  - create_iteration_cadence
   - create_saved_view
+  - create_secret
+  - delete_secret
+  - download_wiki_code
   - mark_note_as_internal
   - read_ci_cd_analytics
+  - read_confidential_epic
   - read_confidential_issues
   - read_container_image
   - read_crm_contact
   - read_crm_organization
+  - read_customizable_dashboards
+  - read_cycle_analytics
+  - read_dora4_analytics
+  - read_group_analytics_dashboards
+  - read_group_coverage_reports
+  - read_group_repository_analytics
+  - read_group_stage
   - read_harbor_registry
   - read_internal_note
   - read_package
   - read_prometheus
+  - read_secret
+  - read_security_attribute
+  - update_epic
   - update_issue
+  - update_secret
+  - view_group_ci_cd_analytics
+  - view_productivity_analytics
+  - view_type_of_work_charts

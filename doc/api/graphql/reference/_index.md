@@ -921,6 +921,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="query-customdashboards-createdbyid"></a>`createdById` | [`UserID`](#userid) | Filter by dashboard creator. |
 | <a id="query-customdashboards-namespaceid"></a>`namespaceId` | [`NamespaceID`](#namespaceid) | Filter by namespace. |
 | <a id="query-customdashboards-organizationid"></a>`organizationId` | [`OrganizationsOrganizationID!`](#organizationsorganizationid) | Organization ID to filter dashboards. |
+| <a id="query-customdashboards-search"></a>`search` | [`String`](#string) | Filter dashboards by name. |
 
 ### `Query.customField`
 

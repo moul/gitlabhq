@@ -8,10 +8,31 @@ project:
   raw_permissions:
   - access_security_and_compliance
   - admin_security_attributes
+  - apply_security_scan_profiles
   - cancel_build
   - create_build
+  - enable_secret_push_protection
+  - manage_project_security_exclusions
+  - read_project_security_exclusions
   - read_runners
+  - read_secret_push_protection_info
   - read_security_configuration
+  - read_security_scan_profiles
 group:
   permissions: []
-  raw_permissions: []
+  raw_permissions:
+  - admin_compliance_framework
+  - admin_compliance_pipeline_configuration
+  - admin_external_audit_events
+  - admin_security_attributes
+  - admin_vulnerability
+  - apply_security_scan_profiles
+  - enable_secret_push_protection
+  - read_compliance_adherence_report
+  - read_compliance_dashboard
+  - read_compliance_violations_report
+  - read_dependency
+  - read_group_audit_events
+  - read_licenses
+  - read_security_inventory
+  - read_security_scan_profiles

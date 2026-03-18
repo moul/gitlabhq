@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'DeletePagesDeployment mutation', feature_category: :pages do
+RSpec.describe Mutations::Pages::Deployment::Restore, feature_category: :pages do
   include GraphqlHelpers
 
   let_it_be(:project_maintainer) { create(:user) }
@@ -33,6 +33,22 @@ RSpec.describe 'DeletePagesDeployment mutation', feature_category: :pages do
 
   describe 'user is authorized', :freeze_time do
     let(:current_user) { project_maintainer }
+
+    it_behaves_like 'authorizing granular token permissions for GraphQL', :restore_page_deployment do
+      let(:user) { current_user }
+      let(:boundary_object) { project }
+      let(:mutation) do
+        <<~GRAPHQL
+          mutation RestorePagesDeployment {
+            restorePagesDeployment(input: { id: "#{pages_deployment_id}" }) {
+              errors
+            }
+          }
+        GRAPHQL
+      end
+
+      let(:request) { post_graphql(mutation, token: { personal_access_token: pat }) }
+    end
 
     it 'reactivates the deployment' do
       expect(pages_deployment.active?).to be(true)

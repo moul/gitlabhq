@@ -7,6 +7,7 @@ RSpec.describe Gitlab::Graphql::Authz::DirectiveFinder, feature_category: :permi
 
   let(:directive) { create_directive(boundary: 'project', permissions: ['READ_ISSUE']) }
   let(:field_with_directive) { create_field_with_directive(directive:) }
+  let(:owner_without_directive) { Class.new(GraphQL::Schema::Object) { graphql_name 'DirectiveFinderOwnerType' } }
   let(:object) { nil }
 
   subject(:finder) { described_class.new(field) }
@@ -15,7 +16,7 @@ RSpec.describe Gitlab::Graphql::Authz::DirectiveFinder, feature_category: :permi
     subject(:find) { finder.find(object) }
 
     context 'when no directive is found' do
-      let(:field) { create_base_field }
+      let(:field) { create_base_field(owner: owner_without_directive) }
 
       it { is_expected.to be_nil }
     end
@@ -93,7 +94,7 @@ RSpec.describe Gitlab::Graphql::Authz::DirectiveFinder, feature_category: :permi
         end
       end
 
-      let(:field) { create_base_field(type: return_type) }
+      let(:field) { create_base_field(type: return_type, owner: owner_without_directive) }
 
       it { is_expected.to eq(directive) }
     end

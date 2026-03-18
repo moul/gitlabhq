@@ -10,6 +10,7 @@ module Types
     connection_type_class Types::CountableConnectionType
 
     authorize :read_project
+    authorize_granular_token permissions: :read_project, boundary: :itself, boundary_type: :project
 
     def self.authorization_scopes
       super + [:ai_workflows]

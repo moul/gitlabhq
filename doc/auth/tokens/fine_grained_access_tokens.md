@@ -1996,6 +1996,19 @@ Grants the ability to read Zoekt nodes.
 
 ### Subscription And Licensing resources
 
+#### GitLab Subscription
+
+Grants the ability to read, create, and update GitLab subscriptions.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Group | `POST` | `/namespaces/:id/gitlab_subscription` |
+| Create | User | `POST` | `/namespaces/:id/gitlab_subscription` |
+| Read | Group | `GET` | `/namespaces/:id/gitlab_subscription` |
+| Read | User | `GET` | `/namespaces/:id/gitlab_subscription` |
+| Update | Group | `PUT` | `/namespaces/:id/gitlab_subscription` |
+| Update | User | `PUT` | `/namespaces/:id/gitlab_subscription` |
+
 #### License
 
 Grants the ability to read, create, and delete licenses.
