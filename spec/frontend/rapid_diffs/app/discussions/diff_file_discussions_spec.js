@@ -4,6 +4,7 @@ import { defineStore } from 'pinia';
 import { createTestingPinia } from '@pinia/testing';
 import DiffFileDiscussions from '~/rapid_diffs/app/discussions/diff_file_discussions.vue';
 import DiffDiscussions from '~/rapid_diffs/app/discussions/diff_discussions.vue';
+import DiffFileDiscussionExpansion from '~/diffs/components/diff_file_discussion_expansion.vue';
 import NoteForm from '~/rapid_diffs/app/discussions/note_form.vue';
 
 const useMockStore = defineStore('fileDiscussionsTestStore', {
@@ -11,8 +12,14 @@ const useMockStore = defineStore('fileDiscussionsTestStore', {
     discussions: [],
   }),
   actions: {
-    findFileDiscussionsForFile() {
+    findAllFileDiscussionsForFile() {
       return this.discussions;
+    },
+    expandFileDiscussions() {
+      this.discussions = this.discussions.map((d) => ({ ...d, hidden: false }));
+    },
+    setInitialDiscussions(discussions) {
+      this.discussions = discussions;
     },
     removeNewFileDiscussionForm() {},
     createFileDiscussion() {},
@@ -75,6 +82,22 @@ describe('DiffFileDiscussions', () => {
     const discussions = wrapper.findComponent(DiffDiscussions).props('discussions');
     expect(discussions).toHaveLength(1);
     expect(discussions[0].id).toBe('file-disc-1');
+  });
+
+  it('renders expansion component for collapsed (hidden) file discussions', () => {
+    store.setInitialDiscussions([{ ...createFileDiscussion(), hidden: true }]);
+    createComponent();
+    expect(wrapper.findComponent(DiffFileDiscussionExpansion).exists()).toBe(true);
+    expect(wrapper.findComponent(DiffDiscussions).exists()).toBe(false);
+  });
+
+  it('expands hidden file discussions on toggle', async () => {
+    store.setInitialDiscussions([{ ...createFileDiscussion(), hidden: true }]);
+    createComponent();
+    wrapper.findComponent(DiffFileDiscussionExpansion).vm.$emit('toggle');
+    await nextTick();
+    expect(wrapper.findComponent(DiffDiscussions).exists()).toBe(true);
+    expect(wrapper.findComponent(DiffFileDiscussionExpansion).exists()).toBe(false);
   });
 
   it('renders NoteForm when a file discussion form exists', () => {

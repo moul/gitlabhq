@@ -66,6 +66,7 @@ describe('mergeRequestDiscussions store', () => {
     'setDiscussionFormText',
     'setNewLineDiscussionFormAutofocus',
     'setFileDiscussionsHidden',
+    'expandFileDiscussions',
     'addNewFileDiscussionForm',
     'removeNewFileDiscussionForm',
     'createNewDiscussion',
@@ -88,8 +89,7 @@ describe('mergeRequestDiscussions store', () => {
     'findDiscussionsForPosition',
     'findDiscussionsForFile',
     'findAllDiscussionsForFile',
-    'findVisibleDiscussionsForFile',
-    'findFileDiscussionsForFile',
+    'findAllFileDiscussionsForFile',
   ])('exposes %s getter', (getter) => {
     expect(store[getter]).toBeDefined();
   });

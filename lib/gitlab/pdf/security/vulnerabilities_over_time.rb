@@ -58,7 +58,7 @@ module Gitlab
 
         def draw_title
           @pdf.text_box(
-            s_('Vulnerabilities over time'),
+            _('Vulnerabilities over time'),
             at: [0, @pdf.cursor],
             width: @pdf.bounds.right,
             height: 20,
@@ -71,7 +71,7 @@ module Gitlab
 
         def draw_description
           @pdf.text_box(
-            s_("The number of vulnerabilities detected over time"),
+            _("The number of vulnerabilities detected over time"),
             at: [0, @pdf.cursor],
             width: @pdf.bounds.right,
             height: 20,

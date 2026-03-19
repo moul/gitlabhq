@@ -104,13 +104,13 @@ supplies the following:
 - Vulnerability trends over a 30, 60, or 90-day time frame
 - A letter grade for each project in the group according to its highest-severity open vulnerability. The letter grades are assigned using the following criteria:
 
-| Grade | Description |
-| ----- | ----------- |
-| **F** | One or more `critical` vulnerabilities |
+| Grade | Description                                     |
+| ----- | ----------------------------------------------- |
+| **F** | One or more `critical` vulnerabilities          |
 | **D** | One or more `high` or `unknown` vulnerabilities |
-| **C** | One or more `medium` vulnerabilities |
-| **B** | One or more `low` vulnerabilities |
-| **A** | Zero vulnerabilities |
+| **C** | One or more `medium` vulnerabilities            |
+| **B** | One or more `low` vulnerabilities               |
+| **A** | Zero vulnerabilities                            |
 
 To view group security dashboard:
 
@@ -186,6 +186,8 @@ The project security dashboard shows vulnerabilities detected in the project's d
 
 - The [**Vulnerabilities over time**](#vulnerabilities-over-time) chart, which includes up to 90 days of history.
 - The [**Severity panels**](#vulnerability-severity-panel), which show open vulnerabilities by severity.
+- The [**Risk score**](#risk-score-panel) panel, which shows the overall security risk of the project.
+- The [**Vulnerabilities by age**](#vulnerabilities-by-age) chart, which groups open vulnerabilities by age buckets.
 
 Open vulnerabilities are those with Needs triage or Confirmed status. Closed vulnerabilities with Dismissed or Resolved status are not included in these charts.
 
@@ -246,7 +248,22 @@ To view details:
 
 #### Risk score panel
 
-The risk score panel shows the overall security risk for the group. The panel has two views:
+{{< history >}}
+
+- Risk score panel:
+  - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/570504) in GitLab 18.6 [with a flag](../../../administration/feature_flags/_index.md) named `security_dashboard_risk_score`. Disabled by default.
+  - [Enabled on GitLab.com, GitLab Self-Managed, and GitLab Dedicated](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/215574) in GitLab 18.7.
+  - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/107661) in GitLab 18.8. Feature flag `security_dashboard_risk_score` removed.
+- Risk score chart for project dashboards:
+  - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/591112) in GitLab 18.11 [with a flag](../../../administration/feature_flags/_index.md) named `project_total_risk_score_chart`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of the risk score chart for projects is controlled by a feature flag.
+> For more information, see the history.
+
+The risk score panel shows the overall security risk for the group or project. The panel has two views:
 
 1. The **No grouping** (default) view shows the total risk score of the group:
    - The circular gauge shows the calculated risk score in the center.
@@ -273,8 +290,18 @@ Risk scores are calculated from multiple factors, including:
 
 #### Vulnerabilities by age
 
-The **Vulnerabilities by age** chart is available on group dashboards. It shows the distribution of unresolved vulnerabilities based on the amount of time
-since they were first detected. You can group vulnerabilities by severity or by report type, helping you identify where remediation activities may be needed.
+{{< history >}}
+
+- Vulnerabilities by age chart for project dashboards:
+  - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/590979) in GitLab 18.11 [with a flag](../../../administration/feature_flags/_index.md) named `project_vulnerabilities_by_age_chart`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of the vulnerabilities by age chart for projects is controlled by a feature flag.
+> For more information, see the history.
+
+The **Vulnerabilities by age** chart is available on group dashboards and, with a feature flag, on project dashboards. It shows the distribution of unresolved vulnerabilities based on the amount of time since they were first detected. You can group vulnerabilities by severity or by report type, helping you identify where remediation activities may be needed.
 
 To view details:
 

@@ -308,6 +308,30 @@ The output includes colored status indicators and shows:
 - The overall status including a combined health assessment: `HEALTHY`, `DEGRADED`, or `UNHEALTHY`
 - Recommendations for resolving issues
 
+## Perform force reindexing
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/478814) in GitLab 18.10.
+
+{{< /history >}}
+
+Prerequisites:
+
+- You must have administrator access to the instance.
+
+Perform force reindexing for the range of projects.
+
+Run this Rake task:
+
+```shell
+gitlab-rake gitlab:zoekt:reindex_projects ID_FROM=10 ID_TO=20
+```
+
+Using the `ID_FROM` and `ID_TO` environment variables, you can force reindex a limited number of projects.
+To reindex just one project keep the `ID_FROM` and `ID_TO` equal to the project ID to be reindexed.
+To reindex all projects omit the environment variables.
+
 ## Pause indexing
 
 Prerequisites:

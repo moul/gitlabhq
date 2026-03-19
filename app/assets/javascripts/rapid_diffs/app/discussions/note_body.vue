@@ -72,6 +72,7 @@ export default {
 
 <template>
   <div :class="{ 'js-task-list-container': canEdit }">
+    <div class="flash-container !gl-mt-0 gl-mb-3 !gl-px-0"></div>
     <div
       v-gfm="note.note_html"
       :class="{ '[content-visibility:hidden]': isEditing }"

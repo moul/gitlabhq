@@ -70,7 +70,7 @@ in your `.gitlab-ci.yml` file. The component supports these languages:
 - .Net/C#
 
 To contribute more languages to the component, open a merge request in the
-[Code intelligence component project](https://gitlab.com/components/code-intelligence).
+[code intelligence component project](https://gitlab.com/components/code-intelligence).
 
 1. Add a GitLab CI/CD component to your project's `.gitlab-ci.yml`. For example, this job generates
    the LSIF artifact for `golang`:
@@ -84,7 +84,7 @@ To contribute more languages to the component, open a merge request in the
 
 1. For configuration instructions for the [code intelligence component](https://gitlab.com/components/code-intelligence),
    check the `README` for each supported language.
-1. For more configuration details, see [Use a component](../../ci/components/_index.md#use-a-component).
+1. For more information, see [use a component](../../ci/components/_index.md#use-a-component).
 
 ### Add CI/CD jobs for code intelligence
 

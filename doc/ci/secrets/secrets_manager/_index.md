@@ -64,7 +64,7 @@ and workflows.
 1. Select **Secure** > **Secrets manager**.
 1. Select **Add secret** and fill in the details:
    - **Name**: Must be unique in the project.
-   - **Value**: No limitations.
+   - **Value**: Must be 10 KB (10,000 bytes) or less.
    - **Description**: Maximum of 200 characters.
    - **Environments**: Can be:
      - **All (default)** (`*`)

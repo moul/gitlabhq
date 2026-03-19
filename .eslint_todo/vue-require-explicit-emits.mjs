@@ -385,8 +385,6 @@ export default {
     'app/assets/javascripts/projects/new_v2/components/project_name_validator.vue',
     'app/assets/javascripts/projects/new_v2/components/shared_project_creation_fields.vue',
     'app/assets/javascripts/projects/new_v2/components/template_project_form.vue',
-    'app/assets/javascripts/projects/pipelines/charts/components/pipelines_dashboard_clickhouse_filters.vue',
-
     'app/assets/javascripts/projects/settings/branch_rules/components/access_levels_drawer.vue',
     'app/assets/javascripts/projects/settings/branch_rules/components/protection.vue',
     'app/assets/javascripts/projects/settings/branch_rules/components/protection_toggle.vue',

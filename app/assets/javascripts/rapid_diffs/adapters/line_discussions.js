@@ -7,6 +7,7 @@ import {
   getLineCode,
   findLineRow,
 } from '~/rapid_diffs/utils/line_utils';
+import { createAlert } from '~/alert';
 
 function mountDiscussionRow({ lineRow, parallel, appData, store, trigger, id }) {
   if (lineRow.nextElementSibling?.dataset.discussionRow === 'true') return;
@@ -75,7 +76,7 @@ function mountDiscussionRow({ lineRow, parallel, appData, store, trigger, id }) 
   row.destroy = () => instance.$destroy();
 }
 
-export const createLineDiscussionsAdapter = ({ store, parallel }) => ({
+export const createLineDiscussionsAdapter = ({ store, parallel, errorMessage }) => ({
   [MOUNTED](addCleanup) {
     const { diffElement, appData, trigger, id } = this;
     const { oldPath, newPath } = this.data;
@@ -83,16 +84,25 @@ export const createLineDiscussionsAdapter = ({ store, parallel }) => ({
       () => store.findAllDiscussionsForFile({ oldPath, newPath }),
       (matchedDiscussions) => {
         matchedDiscussions.forEach(({ position }) => {
-          const lineRow = findLineRow(diffElement, position.old_line, position.new_line);
-          if (!lineRow) return;
-          mountDiscussionRow({
-            lineRow,
-            parallel,
-            appData: { ...appData, oldPath, newPath },
-            store,
-            trigger,
-            id,
-          });
+          try {
+            const lineRow = findLineRow(diffElement, position.old_line, position.new_line);
+            if (!lineRow) return;
+            mountDiscussionRow({
+              lineRow,
+              parallel,
+              appData: { ...appData, oldPath, newPath },
+              store,
+              trigger,
+              id,
+            });
+          } catch (error) {
+            createAlert({
+              message: errorMessage,
+              parent: diffElement,
+              error,
+              captureError: true,
+            });
+          }
         });
       },
       { immediate: true },

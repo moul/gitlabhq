@@ -1,11 +1,23 @@
 import { nextTick } from 'vue';
 import { shallowMount } from '@vue/test-utils';
+import { defineStore } from 'pinia';
 import { createTestingPinia } from '@pinia/testing';
 import DiffDiscussionRow from '~/rapid_diffs/app/discussions/diff_discussion_row.vue';
 import DiffGutterToggle from '~/rapid_diffs/app/discussions/diff_gutter_toggle.vue';
 import DiffLineDiscussions from '~/rapid_diffs/app/discussions/diff_line_discussions.vue';
-import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
-import { useDiscussions } from '~/notes/store/discussions';
+
+const useMockStore = defineStore('discussionRowTestStore', {
+  state: () => ({
+    discussions: [],
+  }),
+  actions: {
+    findDiscussionsForPosition() {
+      return this.discussions;
+    },
+    setPositionDiscussionsHidden() {},
+    addNewLineDiscussionForm() {},
+  },
+});
 
 describe('DiffDiscussionRow', () => {
   let wrapper;
@@ -43,20 +55,19 @@ describe('DiffDiscussionRow', () => {
 
   beforeEach(() => {
     createTestingPinia({ stubActions: false });
-    store = useDiffDiscussions();
+    store = useMockStore();
   });
 
   describe('inline view', () => {
     it('renders one cell with colspan 3', () => {
-      useDiscussions().discussions = [createDiscussion()];
+      store.discussions = [createDiscussion()];
       createComponent();
       expect(findCells()).toHaveLength(1);
       expect(findCells().at(0).attributes('colspan')).toBe('3');
     });
 
     it('passes visible discussions to DiffLineDiscussions', () => {
-      const discussion = createDiscussion();
-      useDiscussions().discussions = [discussion];
+      store.discussions = [createDiscussion()];
       createComponent();
       expect(findDiscussions().at(0).props('discussions')).toHaveLength(1);
     });
@@ -64,7 +75,7 @@ describe('DiffDiscussionRow', () => {
 
   describe('parallel view', () => {
     it('renders two cells with colspan 2 for side-specific discussions', () => {
-      useDiscussions().discussions = [createDiscussion()];
+      store.discussions = [createDiscussion()];
       createComponent({ parallel: true, oldLine: 5, newLine: null });
       expect(findCells()).toHaveLength(2);
       expect(findCells().at(0).attributes('colspan')).toBe('2');
@@ -72,7 +83,7 @@ describe('DiffDiscussionRow', () => {
     });
 
     it('renders one cell with colspan 4 for spanning discussions', () => {
-      useDiscussions().discussions = [
+      store.discussions = [
         createDiscussion({
           position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: 3 },
         }),
@@ -83,52 +94,213 @@ describe('DiffDiscussionRow', () => {
     });
 
     it('renders two cells with colspan 2 for changed row even when both lines are set', () => {
-      useDiscussions().discussions = [createDiscussion()];
+      store.discussions = [createDiscussion()];
       createComponent({ parallel: true, oldLine: 5, newLine: 3, changed: true });
       expect(findCells()).toHaveLength(2);
       expect(findCells().at(0).attributes('colspan')).toBe('2');
       expect(findCells().at(1).attributes('colspan')).toBe('2');
     });
 
-    it('toggles all positions on spanning row', () => {
-      useDiscussions().discussions = [
+    it('calls setPositionDiscussionsHidden for all positions on spanning row toggle', () => {
+      store.discussions = [
         createDiscussion({
-          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: 3 },
-        }),
-        createDiscussion({
-          id: '2',
           position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: 3 },
         }),
       ];
       createComponent({ parallel: true, oldLine: 5, newLine: 3 });
       findGutterToggles().at(0).vm.$emit('toggle', true);
-      expect(useDiscussions().discussions[0].hidden).toBe(true);
-      expect(useDiscussions().discussions[1].hidden).toBe(true);
+      expect(store.setPositionDiscussionsHidden).toHaveBeenCalledWith(
+        { oldPath, newPath, oldLine: 5, newLine: 3 },
+        true,
+      );
     });
   });
 
   describe('collapsed state', () => {
-    it('does not render DiffLineDiscussions when all discussions are hidden', () => {
-      useDiscussions().discussions = [createDiscussion({ hidden: true })];
+    it('passes expanded true to gutter toggle when not all hidden', () => {
+      store.discussions = [createDiscussion()];
       createComponent();
+      expect(findGutterToggles().at(0).props('expanded')).toBe(true);
+    });
+
+    it('passes expanded false to gutter toggle when all hidden', () => {
+      store.discussions = [createDiscussion({ hidden: true })];
+      createComponent();
+      expect(findGutterToggles().at(0).props('expanded')).toBe(false);
+    });
+
+    it('collapses when all discussions are hidden', () => {
+      store.discussions = [createDiscussion({ hidden: true })];
+      createComponent();
+      expect(wrapper.find('tr').attributes('data-collapsed')).toBe('');
       expect(findDiscussions()).toHaveLength(0);
     });
 
-    it('sets data-collapsed when all discussions are hidden', () => {
-      useDiscussions().discussions = [createDiscussion({ hidden: true })];
+    it('does not collapse when at least one discussion is not hidden', () => {
+      store.discussions = [
+        createDiscussion({ hidden: true }),
+        createDiscussion({
+          id: '2',
+          hidden: false,
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+        }),
+      ];
       createComponent();
+      expect(wrapper.find('tr').attributes('data-collapsed')).toBeUndefined();
+    });
+
+    it('shows all discussions when not collapsed', () => {
+      store.discussions = [
+        createDiscussion({ hidden: true }),
+        createDiscussion({
+          id: '2',
+          hidden: false,
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+        }),
+      ];
+      createComponent();
+      expect(findDiscussions().at(0).props('discussions')).toHaveLength(2);
+    });
+
+    it('calls setPositionDiscussionsHidden on manual toggle via gutter', () => {
+      store.discussions = [createDiscussion()];
+      createComponent();
+      findGutterToggles().at(0).vm.$emit('toggle', true);
+      expect(store.setPositionDiscussionsHidden).toHaveBeenCalledWith(
+        { oldPath, newPath, oldLine: 5, newLine: null },
+        true,
+      );
+    });
+  });
+
+  describe('resolve-driven collapse', () => {
+    it('hides all discussions when last one is resolved', async () => {
+      store.discussions = [createDiscussion({ resolvable: true, resolved: false })];
+      createComponent();
+      store.discussions[0].resolved = true;
+      await nextTick();
+      expect(store.setPositionDiscussionsHidden).toHaveBeenCalledWith(
+        { oldPath, newPath, oldLine: 5, newLine: null },
+        true,
+      );
+    });
+
+    it('unhides all discussions when one is unresolved', async () => {
+      store.discussions = [createDiscussion({ resolvable: true, resolved: true })];
+      createComponent();
+      store.discussions[0].resolved = false;
+      await nextTick();
+      expect(store.setPositionDiscussionsHidden).toHaveBeenCalledWith(
+        { oldPath, newPath, oldLine: 5, newLine: null },
+        false,
+      );
+    });
+
+    it('hides when all discussions at position are resolved', async () => {
+      store.discussions = [
+        createDiscussion({ resolvable: true, resolved: false }),
+        createDiscussion({
+          id: '2',
+          resolvable: true,
+          resolved: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+        }),
+      ];
+      createComponent();
+      store.discussions[0].resolved = true;
+      await nextTick();
+      expect(store.setPositionDiscussionsHidden).toHaveBeenCalledWith(
+        { oldPath, newPath, oldLine: 5, newLine: null },
+        true,
+      );
+    });
+  });
+
+  describe('parallel collapsed state', () => {
+    it('does not collapse when only one side has all discussions hidden', () => {
+      store.discussions = [
+        createDiscussion({
+          hidden: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+        }),
+        createDiscussion({
+          id: '2',
+          hidden: false,
+          position: { old_path: oldPath, new_path: newPath, old_line: null, new_line: 3 },
+        }),
+      ];
+      createComponent({ parallel: true, oldLine: 5, newLine: 3, changed: true });
+      expect(wrapper.find('tr').attributes('data-collapsed')).toBeUndefined();
+    });
+
+    it('passes expanded true to both gutter toggles when one side is hidden but the other is not', () => {
+      store.discussions = [
+        createDiscussion({
+          hidden: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+        }),
+        createDiscussion({
+          id: '2',
+          hidden: false,
+          position: { old_path: oldPath, new_path: newPath, old_line: null, new_line: 3 },
+        }),
+      ];
+      createComponent({ parallel: true, oldLine: 5, newLine: 3, changed: true });
+      expect(findGutterToggles().at(0).props('expanded')).toBe(true);
+      expect(findGutterToggles().at(1).props('expanded')).toBe(true);
+    });
+
+    it('collapses when only one side has discussions and they are all hidden', () => {
+      store.discussions = [
+        createDiscussion({
+          hidden: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+        }),
+      ];
+      createComponent({ parallel: true, oldLine: 5, newLine: 3, changed: true });
       expect(wrapper.find('tr').attributes('data-collapsed')).toBe('');
     });
 
-    it('removes data-collapsed when discussions are visible', () => {
-      useDiscussions().discussions = [createDiscussion()];
-      createComponent();
-      expect(wrapper.find('tr').attributes('data-collapsed')).toBeUndefined();
+    it('auto-collapses one-sided discussions when all are resolved', async () => {
+      store.discussions = [
+        createDiscussion({
+          resolvable: true,
+          resolved: false,
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+        }),
+      ];
+      createComponent({ parallel: true, oldLine: 5, newLine: 3, changed: true });
+      store.discussions[0].resolved = true;
+      await nextTick();
+      expect(store.setPositionDiscussionsHidden).toHaveBeenCalledWith(
+        { oldPath, newPath, oldLine: 5, newLine: null },
+        true,
+      );
+      expect(store.setPositionDiscussionsHidden).toHaveBeenCalledWith(
+        { oldPath, newPath, oldLine: null, newLine: 3 },
+        true,
+      );
+    });
+
+    it('collapses when both sides have all discussions hidden', () => {
+      store.discussions = [
+        createDiscussion({
+          hidden: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+        }),
+        createDiscussion({
+          id: '2',
+          hidden: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: null, new_line: 3 },
+        }),
+      ];
+      createComponent({ parallel: true, oldLine: 5, newLine: 3, changed: true });
+      expect(wrapper.find('tr').attributes('data-collapsed')).toBe('');
     });
   });
 
   it('emits start-thread with position when DiffLineDiscussions emits start-thread', () => {
-    useDiscussions().discussions = [createDiscussion()];
+    store.discussions = [createDiscussion()];
     createComponent();
     findDiscussions().at(0).vm.$emit('start-thread');
     expect(wrapper.emitted('start-thread')).toStrictEqual([
@@ -137,9 +309,9 @@ describe('DiffDiscussionRow', () => {
   });
 
   it('emits empty when all discussions are removed', async () => {
-    useDiscussions().discussions = [createDiscussion()];
+    store.discussions = [createDiscussion()];
     createComponent();
-    useDiscussions().discussions = [];
+    store.discussions = [];
     await nextTick();
     expect(wrapper.emitted('empty')).toStrictEqual([[]]);
   });

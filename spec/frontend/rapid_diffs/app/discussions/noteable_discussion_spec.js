@@ -8,6 +8,7 @@ import { detectAndConfirmSensitiveTokens } from '~/lib/utils/secret_detection';
 import { createAlert } from '~/alert';
 import { COMMENT_FORM } from '~/notes/i18n';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
+import ResolveDiscussionButton from '~/notes/components/discussion_resolve_button.vue';
 import NoteForm from '~/rapid_diffs/app/discussions/note_form.vue';
 import NoteSignedOutWidget from '~/rapid_diffs/app/discussions/note_signed_out_widget.vue';
 import NoteableDiscussion from '~/rapid_diffs/app/discussions/noteable_discussion.vue';
@@ -234,5 +235,94 @@ describe('NoteableDiscussion', () => {
     const props = wrapper.findComponent(NoteForm).props();
     expect(props.saveButtonTitle).toBe('Reply internally');
     expect(props.internal).toBe(true);
+  });
+
+  describe('resolve button', () => {
+    const resolvableNote = {
+      id: 'note-1',
+      resolvable: true,
+      current_user: { can_resolve_discussion: true },
+    };
+
+    it('renders resolve button for resolvable discussions', () => {
+      createComponent({
+        props: {
+          discussion: createDiscussion({ resolvable: true, resolved: false }, resolvableNote),
+          toggleResolveNote: jest.fn(),
+        },
+      });
+      const button = wrapper.findComponent(ResolveDiscussionButton);
+      expect(button.exists()).toBe(true);
+      expect(button.props('buttonTitle')).toBe('Resolve thread');
+    });
+
+    it('shows unresolve title when discussion is resolved', () => {
+      createComponent({
+        props: {
+          discussion: createDiscussion({ resolvable: true, resolved: true }, resolvableNote),
+          toggleResolveNote: jest.fn(),
+        },
+      });
+      expect(wrapper.findComponent(ResolveDiscussionButton).props('buttonTitle')).toBe(
+        'Reopen thread',
+      );
+    });
+
+    it('does not render resolve button for non-resolvable discussions', () => {
+      createComponent({
+        props: {
+          discussion: createDiscussion({ resolvable: false }),
+          toggleResolveNote: jest.fn(),
+        },
+      });
+      expect(wrapper.findComponent(ResolveDiscussionButton).exists()).toBe(false);
+    });
+
+    it('does not render resolve button when user cannot resolve', () => {
+      createComponent({
+        props: {
+          discussion: createDiscussion(
+            { resolvable: true },
+            { id: 'note-1', resolvable: true, current_user: { can_resolve_discussion: false } },
+          ),
+          toggleResolveNote: jest.fn(),
+        },
+      });
+      expect(wrapper.findComponent(ResolveDiscussionButton).exists()).toBe(false);
+    });
+
+    it('does not render resolve button when toggleResolveNote is not provided', () => {
+      createComponent({
+        props: {
+          discussion: createDiscussion({ resolvable: true }, resolvableNote),
+        },
+      });
+      expect(wrapper.findComponent(ResolveDiscussionButton).exists()).toBe(false);
+    });
+
+    it('calls toggleResolveNote when resolve button is clicked', async () => {
+      const toggleResolveNote = jest.fn().mockResolvedValue();
+      const discussion = createDiscussion({ resolvable: true, resolved: false }, resolvableNote);
+      createComponent({
+        props: { discussion, toggleResolveNote },
+      });
+      await wrapper.findComponent(ResolveDiscussionButton).vm.$emit('on-click');
+      expect(toggleResolveNote).toHaveBeenCalledWith(discussion);
+    });
+
+    it('shows alert when resolving fails', async () => {
+      const toggleResolveNote = jest.fn().mockRejectedValue(new Error('fail'));
+      const discussion = createDiscussion({ resolvable: true, resolved: false }, resolvableNote);
+      createComponent({
+        props: { discussion, toggleResolveNote },
+      });
+      await wrapper.findComponent(ResolveDiscussionButton).vm.$emit('on-click');
+      await waitForPromises();
+      expect(createAlert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: 'Something went wrong while resolving this discussion. Please try again.',
+        }),
+      );
+    });
   });
 });

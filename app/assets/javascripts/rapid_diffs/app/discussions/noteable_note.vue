@@ -63,6 +63,21 @@ export default {
       required: false,
       default: false,
     },
+    canResolve: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    isResolved: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    isResolving: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -240,6 +255,10 @@ export default {
             :can-award-emoji="canAwardEmoji"
             :can-delete="canEdit"
             :can-report-as-abuse="canReportAsAbuse"
+            :can-resolve="canResolve"
+            :is-resolved="isResolved"
+            :is-resolving="isResolving"
+            @resolve="$emit('resolve')"
             @delete="onDelete"
             @startEditing="$emit('startEditing')"
             @startReplying="$emit('startReplying')"

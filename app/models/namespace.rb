@@ -434,6 +434,21 @@ class Namespace < ApplicationRecord
         )
         .where(namespace_setting_table[:archived].eq(true))
     end
+
+    # namespaces.traversal_ids could be either an integer[] or a bigint[]
+    # this utility method exists to help cast arguments when writing raw queries
+    def traversal_ids_type
+      type_name = connection.select_value(
+        "SELECT typname FROM pg_attribute INNER JOIN pg_type ON pg_attribute.atttypid = pg_type.oid " \
+          "WHERE attname = 'traversal_ids' AND attrelid = 'namespaces'::regclass"
+      )
+      case type_name
+      when '_int4'
+        'integer[]'
+      when '_int8'
+        'bigint[]'
+      end
+    end
   end
 
   def archived?

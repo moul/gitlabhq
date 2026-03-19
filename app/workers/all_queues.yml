@@ -4444,7 +4444,7 @@
   :queue_namespace:
 - :name: integrations_irker
   :worker_name: Integrations::IrkerWorker
-  :feature_category: :integrations
+  :feature_category: :team_planning
   :has_external_dependencies: false
   :urgency: :low
   :resource_boundary: :unknown

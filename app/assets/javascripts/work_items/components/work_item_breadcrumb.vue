@@ -82,7 +82,7 @@ export default {
       if (this.shouldUseRouterNavigation) {
         indexCrumb.to = {
           name: ROUTES.index,
-          query: this.$route.query,
+          query: undefined,
           params: { type: this.breadcrumbType },
         };
       } else {

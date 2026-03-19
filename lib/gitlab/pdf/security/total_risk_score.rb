@@ -71,7 +71,7 @@ module Gitlab
 
         def draw_title
           @pdf.text_box(
-            s_('Total Risk Score'),
+            _('Total Risk Score'),
             at: [0, @pdf.cursor],
             width: @pdf.bounds.right,
             height: 20,
@@ -84,7 +84,7 @@ module Gitlab
 
         def draw_description
           @pdf.text_box(
-            s_("The overall risk score for your organization based on vulnerability severity and age."),
+            _("The overall risk score for your organization based on vulnerability severity and age."),
             at: [0, @pdf.cursor],
             width: @pdf.bounds.right,
             height: 20,

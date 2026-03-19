@@ -106,6 +106,26 @@ describe('fileDiscussionsAdapter', () => {
     expect(getFileDiscussionsComponent()).not.toBeNull();
   });
 
+  it('mounts file discussions component when file discussions are hidden', async () => {
+    mountAdapter();
+    useDiscussions().discussions = [
+      {
+        id: 'file-disc',
+        diff_discussion: true,
+        hidden: true,
+        position: {
+          old_path: oldPath,
+          new_path: newPath,
+          position_type: 'file',
+          old_line: null,
+          new_line: null,
+        },
+      },
+    ];
+    await nextTick();
+    expect(getFileDiscussionsComponent()).not.toBeNull();
+  });
+
   it('does not mount when there are no file discussions', async () => {
     mountAdapter();
     useDiscussions().discussions = [

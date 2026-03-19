@@ -6,6 +6,9 @@ import { resetHTMLFixture, setHTMLFixture } from 'helpers/fixtures';
 import { createLineDiscussionsAdapter } from '~/rapid_diffs/adapters/line_discussions';
 import { HIGHLIGHT_LINES, CLEAR_HIGHLIGHT } from '~/rapid_diffs/adapter_events';
 import { DiffFile } from '~/rapid_diffs/web_components/diff_file';
+import { createAlert } from '~/alert';
+
+jest.mock('~/alert');
 
 const useDiscussionsStore = defineStore('discussionsStore', {
   state: () => ({
@@ -149,7 +152,11 @@ describe('discussions adapters', () => {
         </diff-file>
       `);
       getDiffFile().mount({
-        adapterConfig: { text_inline: [createLineDiscussionsAdapter({ store, parallel: false })] },
+        adapterConfig: {
+          text_inline: [
+            createLineDiscussionsAdapter({ store, parallel: false, errorMessage: 'test error' }),
+          ],
+        },
         appData,
         unobserve: jest.fn(),
       });
@@ -234,6 +241,23 @@ describe('discussions adapters', () => {
       store.discussions = [];
       await nextTick();
       expect(getDiscussionRows()).toHaveLength(0);
+    });
+
+    it('shows an alert when mounting a discussion row fails', async () => {
+      store.discussions = [
+        {
+          id: 'abc',
+          diff_discussion: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 999, new_line: null },
+        },
+      ];
+      await nextTick();
+      expect(createAlert).toHaveBeenCalledWith({
+        message: 'test error',
+        parent: getDiffFile().querySelector('div'),
+        error: expect.any(Error),
+        captureError: true,
+      });
     });
 
     it('forwards click to store', () => {

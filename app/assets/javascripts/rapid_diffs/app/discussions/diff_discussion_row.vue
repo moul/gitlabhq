@@ -52,9 +52,17 @@ export default {
       if (!this.parallel) return 3;
       return this.positions.length === 1 ? 4 : 2;
     },
-    collapsed() {
-      return this.positions.every(
-        (p) => !this.store.findDiscussionsForPosition(p).some((d) => !d.hidden),
+    allResolved() {
+      return this.positions.every((p) => {
+        return this.store
+          .findDiscussionsForPosition(p)
+          .filter((d) => !d.isForm && d.resolvable)
+          .every((d) => d.resolved);
+      });
+    },
+    allHidden() {
+      return this.positions.every((p) =>
+        this.store.findDiscussionsForPosition(p).every((d) => d.hidden),
       );
     },
     empty() {
@@ -64,6 +72,9 @@ export default {
   watch: {
     empty(value) {
       if (value) this.$emit('empty');
+    },
+    allResolved(resolved) {
+      this.positions.forEach((p) => this.store.setPositionDiscussionsHidden(p, resolved));
     },
   },
   methods: {
@@ -77,7 +88,8 @@ export default {
       return this.allDiscussionsForPosition(position).filter((d) => !d.isForm);
     },
     visibleDiscussions(position) {
-      return this.allDiscussionsForPosition(position).filter((d) => !d.hidden);
+      if (this.allHidden) return [];
+      return this.allDiscussionsForPosition(position);
     },
     toggle(expanded) {
       this.positions.forEach((p) => this.store.setPositionDiscussionsHidden(p, expanded));
@@ -90,12 +102,13 @@ export default {
   <tr
     data-discussion-row="true"
     class="rd-discussion-row"
-    :data-collapsed="collapsed ? '' : undefined"
+    :data-collapsed="allHidden ? '' : undefined"
   >
     <td v-for="(position, index) in positions" :key="index" :colspan="colspan" class="gl-relative">
       <diff-gutter-toggle
-        :class="{ 'gl-ml-[-1px] gl-mt-[-1px]': !collapsed }"
+        :class="{ 'gl-ml-[-1px] gl-mt-[-1px]': !allHidden }"
         :discussions="discussionsForGutter(position)"
+        :expanded="!allHidden"
         @toggle="toggle"
       />
       <diff-line-discussions

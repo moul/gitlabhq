@@ -55,19 +55,9 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     };
   });
 
-  const findVisibleDiscussionsForFile = computed(() => {
+  const findAllFileDiscussionsForFile = computed(() => {
     return ({ oldPath, newPath }) => {
-      return findAllDiscussionsForFile
-        .value({ oldPath, newPath })
-        .filter((discussion) => !discussion.hidden && !isFileDiscussion(discussion));
-    };
-  });
-
-  const findFileDiscussionsForFile = computed(() => {
-    return ({ oldPath, newPath }) => {
-      return findAllDiscussionsForFile
-        .value({ oldPath, newPath })
-        .filter((discussion) => !discussion.hidden && isFileDiscussion(discussion));
+      return findAllDiscussionsForFile.value({ oldPath, newPath }).filter(isFileDiscussion);
     };
   });
 
@@ -156,6 +146,19 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     discussion.shouldFocus = value;
   }
 
+  function expandFileDiscussions(oldPath, newPath) {
+    discussions.discussions.forEach((discussion) => {
+      if (
+        discussion.diff_discussion &&
+        discussion.position?.old_path === oldPath &&
+        discussion.position?.new_path === newPath &&
+        isFileDiscussion(discussion)
+      ) {
+        discussion.hidden = false;
+      }
+    });
+  }
+
   function addNewFileDiscussionForm({ oldPath, newPath }) {
     const id = [oldPath, newPath, 'file'].join('-');
     if (discussionForms.value.some((discussion) => discussion.id === id)) return id;
@@ -187,8 +190,6 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     findDiscussionsForPosition,
     findDiscussionsForFile,
     findAllDiscussionsForFile,
-    findVisibleDiscussionsForFile,
-    findFileDiscussionsForFile,
     collapseDiscussion: discussions.collapseDiscussion,
     expandDiscussion: discussions.expandDiscussion,
     replyToLineDiscussion,
@@ -199,6 +200,8 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     setNewLineDiscussionFormAutofocus,
     addNewFileDiscussionForm,
     removeNewFileDiscussionForm,
+    expandFileDiscussions,
+    findAllFileDiscussionsForFile,
     setFileDiscussionsHidden,
     setPositionDiscussionsHidden,
     setInitialDiscussions: discussions.setInitialDiscussions,

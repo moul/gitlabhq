@@ -43,6 +43,14 @@ describe('DiffDiscussions', () => {
     expect(useDiffDiscussions().requestLastNoteEditing).toHaveBeenCalled();
   });
 
+  it('passes toggleResolveNote to NoteableDiscussion', () => {
+    store.toggleResolveNote = jest.fn();
+    createComponent({ discussions: [{ id: '1' }] });
+    expect(wrapper.findComponent(NoteableDiscussion).props('toggleResolveNote')).toBe(
+      store.toggleResolveNote,
+    );
+  });
+
   it('handles startReplying event', () => {
     const discussion = { id: '1' };
     createComponent({ discussions: [discussion] });

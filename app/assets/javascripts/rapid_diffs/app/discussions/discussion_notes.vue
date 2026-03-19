@@ -40,6 +40,21 @@ export default {
       required: false,
       default: false,
     },
+    canResolve: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    isResolved: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    isResolving: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   computed: {
     hasReplies() {
@@ -64,6 +79,10 @@ export default {
       :timeline-layout="timelineLayout"
       :show-reply-button="userPermissions.can_create_note && !individual"
       :is-last-discussion="isLastDiscussion"
+      :can-resolve="canResolve"
+      :is-resolved="isResolved"
+      :is-resolving="isResolving"
+      @resolve="$emit('resolve')"
       @noteEdited="$emit('noteEdited', { note: firstNote, value: $event })"
       @startReplying="$emit('startReplying')"
       @startEditing="$emit('startEditing', firstNote)"

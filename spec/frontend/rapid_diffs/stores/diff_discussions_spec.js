@@ -489,69 +489,7 @@ describe('diffDiscussions store', () => {
     });
   });
 
-  describe('findVisibleDiscussionsForFile', () => {
-    beforeEach(() => {
-      useDiscussions().setInitialDiscussions([
-        {
-          id: '1',
-          diff_discussion: true,
-          notes: [],
-          position: { old_path: 'file1.js', new_path: 'file1.js' },
-        },
-        {
-          id: '2',
-          diff_discussion: true,
-          notes: [],
-          position: { old_path: 'file1.js', new_path: 'file1.js' },
-          hidden: true,
-        },
-        {
-          id: '3',
-          diff_discussion: true,
-          notes: [],
-          position: { old_path: 'file2.js', new_path: 'file2.js' },
-        },
-      ]);
-      useDiffDiscussions().discussionForms = [
-        {
-          id: '4',
-          isForm: true,
-          diff_discussion: true,
-          position: { old_path: 'file1.js', new_path: 'file1.js' },
-        },
-      ];
-    });
-
-    it('returns visible discussions matching the file paths including forms', () => {
-      const discussions = useDiffDiscussions().findVisibleDiscussionsForFile({
-        oldPath: 'file1.js',
-        newPath: 'file1.js',
-      });
-
-      expect(discussions).toHaveLength(2);
-      expect(discussions.map((d) => d.id)).toEqual(['1', '4']);
-    });
-
-    it('excludes hidden discussions', () => {
-      const discussions = useDiffDiscussions().findVisibleDiscussionsForFile({
-        oldPath: 'file1.js',
-        newPath: 'file1.js',
-      });
-
-      expect(discussions.every((d) => !d.hidden)).toBe(true);
-    });
-
-    it('returns empty array when no discussions match', () => {
-      const discussions = useDiffDiscussions().findVisibleDiscussionsForFile({
-        oldPath: 'nonexistent.js',
-        newPath: 'nonexistent.js',
-      });
-
-      expect(discussions).toHaveLength(0);
-    });
-  });
-
-  describe('findFileDiscussionsForFile', () => {
+  describe('findAllFileDiscussionsForFile', () => {
     const filePaths = { oldPath: 'file1.js', newPath: 'file1.js' };
 
     it('returns discussions with position_type file', () => {
@@ -570,7 +508,7 @@ describe('diffDiscussions store', () => {
         },
       ]);
 
-      const discussions = useDiffDiscussions().findFileDiscussionsForFile(filePaths);
+      const discussions = useDiffDiscussions().findAllFileDiscussionsForFile(filePaths);
 
       expect(discussions).toHaveLength(1);
       expect(discussions[0].id).toBe('1');
@@ -579,13 +517,13 @@ describe('diffDiscussions store', () => {
     it('returns file discussion forms', () => {
       useDiffDiscussions().addNewFileDiscussionForm(filePaths);
 
-      const discussions = useDiffDiscussions().findFileDiscussionsForFile(filePaths);
+      const discussions = useDiffDiscussions().findAllFileDiscussionsForFile(filePaths);
 
       expect(discussions).toHaveLength(1);
       expect(discussions[0].isForm).toBe(true);
     });
 
-    it('excludes hidden file discussions', () => {
+    it('includes hidden file discussions', () => {
       useDiscussions().setInitialDiscussions([
         {
           id: '1',
@@ -596,34 +534,39 @@ describe('diffDiscussions store', () => {
         },
       ]);
 
-      expect(useDiffDiscussions().findFileDiscussionsForFile(filePaths)).toHaveLength(0);
+      expect(useDiffDiscussions().findAllFileDiscussionsForFile(filePaths)).toHaveLength(1);
     });
   });
 
-  describe('findVisibleDiscussionsForFile (excludes file discussions)', () => {
-    it('excludes discussions with position_type file', () => {
+  describe('expandFileDiscussions', () => {
+    const oldPath = 'file1.js';
+    const newPath = 'file1.js';
+
+    beforeEach(() => {
       useDiscussions().setInitialDiscussions([
-        {
-          id: 'line',
-          diff_discussion: true,
-          notes: [],
-          position: { old_path: 'file1.js', new_path: 'file1.js', old_line: 1, new_line: null },
-        },
         {
           id: 'file',
           diff_discussion: true,
           notes: [],
-          position: { old_path: 'file1.js', new_path: 'file1.js', position_type: 'file' },
+          hidden: true,
+          position: { old_path: oldPath, new_path: newPath, position_type: 'file' },
+        },
+        {
+          id: 'line',
+          diff_discussion: true,
+          notes: [],
+          hidden: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 1, new_line: null },
         },
       ]);
+    });
 
-      const discussions = useDiffDiscussions().findVisibleDiscussionsForFile({
-        oldPath: 'file1.js',
-        newPath: 'file1.js',
-      });
+    it('sets hidden to false only for file-type discussions', () => {
+      useDiffDiscussions().expandFileDiscussions(oldPath, newPath);
 
-      expect(discussions).toHaveLength(1);
-      expect(discussions[0].id).toBe('line');
+      const [fileDisc, lineDisc] = useDiscussions().discussions;
+      expect(fileDisc.hidden).toBe(false);
+      expect(lineDisc.hidden).toBe(true);
     });
   });
 

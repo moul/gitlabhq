@@ -6,12 +6,24 @@ import { lineHighlightingAdapter } from '~/rapid_diffs/adapters/line_highlightin
 import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request_discussions';
 import { viewedAdapter } from '~/rapid_diffs/adapters/viewed';
 import { pinia } from '~/pinia/instance';
+import { s__ } from '~/locale';
 
 const MR_HEADER_ADAPTERS = [...HEADER_ADAPTERS, viewedAdapter];
 
 const store = useMergeRequestDiscussions(pinia);
-const inlineDiscussionsAdapter = createLineDiscussionsAdapter({ store, parallel: false });
-const parallelDiscussionsAdapter = createLineDiscussionsAdapter({ store, parallel: true });
+const discussionsErrorMessage = s__(
+  'RapidDiffs|Some discussions for this file could not be displayed. View them in the Overview tab.',
+);
+const inlineDiscussionsAdapter = createLineDiscussionsAdapter({
+  store,
+  parallel: false,
+  errorMessage: discussionsErrorMessage,
+});
+const parallelDiscussionsAdapter = createLineDiscussionsAdapter({
+  store,
+  parallel: true,
+  errorMessage: discussionsErrorMessage,
+});
 const fileDiscussionsAdapter = createFileDiscussionsAdapter(store);
 const noPreviewDiscussionsAdapter = createNoPreviewDiscussionsAdapter(store);
 

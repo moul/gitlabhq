@@ -1745,9 +1745,6 @@ msgstr ""
 msgid "'Components' must be an Array"
 msgstr ""
 
-msgid "'ConfluenceService|Your GitLab wiki is still available at %{link_start}%{wiki_url}%{link_end}. To re-enable the link to the GitLab wiki, disable this integration."
-msgstr ""
-
 msgid "'Endpoints' must be an Array"
 msgstr ""
 
@@ -19943,6 +19940,9 @@ msgid "ConfluenceService|Link to a Confluence Workspace from the sidebar."
 msgstr ""
 
 msgid "ConfluenceService|Link to a Confluence Workspace from the sidebar. Enabling this integration replaces the \"Wiki\" sidebar link with a link to the Confluence Workspace. The GitLab wiki is still available at the original URL."
+msgstr ""
+
+msgid "ConfluenceService|Your GitLab wiki is still available at %{link_start}%{wiki_url}%{link_end}. To re-enable the link to the GitLab wiki, disable this integration."
 msgstr ""
 
 msgid "Connect"
@@ -56373,6 +56373,12 @@ msgid "RapidDiffs|Show lines before"
 msgstr ""
 
 msgid "RapidDiffs|Show options"
+msgstr ""
+
+msgid "RapidDiffs|Some discussions for this file could not be displayed."
+msgstr ""
+
+msgid "RapidDiffs|Some discussions for this file could not be displayed. View them in the Overview tab."
 msgstr ""
 
 msgid "RapidDiffs|Submodule"

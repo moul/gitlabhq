@@ -153,7 +153,7 @@ Instance administrators can add a header, footer or additional text to the GitLa
 them to all emails sent from GitLab. If you're using a custom `thank_you.md`, `new_participant.md` or `new_note.md`, to include
 this content, add `%{SYSTEM_HEADER}`, `%{SYSTEM_FOOTER}`, or `%{ADDITIONAL_TEXT}` to your templates.
 
-For more information, see [System header and footer messages](../../../administration/appearance.md#add-system-header-and-footer-messages) and [custom additional text](../../../administration/settings/email.md#custom-additional-text).
+For more information, see [system header and footer messages](../../../administration/appearance.md#add-system-header-and-footer-messages) and [custom additional text](../../../administration/settings/email.md#custom-additional-text).
 
 ## Use a custom template for Service Desk tickets
 
@@ -286,7 +286,7 @@ For an overview, see [a short showcase video](https://youtu.be/_moD5U3xcQs).
 This feature is in [beta](../../../policy/development_stages_support.md#beta).
 A beta feature is not production-ready, but is unlikely to change drastically
 before it's released. We encourage users to try beta features and provide feedback
-in [the feedback issue](https://gitlab.com/gitlab-org/gitlab/-/issues/416637).
+in the [feedback issue](https://gitlab.com/gitlab-org/gitlab/-/issues/416637).
 
 ### Prerequisites
 
@@ -486,7 +486,7 @@ In GitLab:
 
 In Google Workspace:
 
-1. Sign in to the custom email account and open the [Forwarding and POP/IMAP](https://mail.google.com/mail/u/0/#settings/fwdandpop) settings page.
+1. Sign in to the custom email account and open the [**Forwarding and POP/IMAP**](https://mail.google.com/mail/u/0/#settings/fwdandpop) settings.
 1. Select **Add a forwarding address**.
 1. Enter the Service Desk address from the custom email form.
 1. Select **Next**.
@@ -818,7 +818,7 @@ The supported configuration items for the encrypted file are:
 {{< tab title="Helm chart (Kubernetes)" >}}
 
 Use a Kubernetes secret to store the Service Desk email password. For more information,
-read about [Helm IMAP secrets](https://docs.gitlab.com/charts/installation/secrets/#imap-password-for-service-desk-emails).
+see [Helm IMAP secrets](https://docs.gitlab.com/charts/installation/secrets/#imap-password-for-service-desk-emails).
 
 {{< /tab >}}
 

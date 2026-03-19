@@ -1356,6 +1356,43 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
     end
   end
 
+  describe '.traversal_ids_type' do
+    subject(:traversal_ids_type) { described_class.traversal_ids_type }
+
+    let(:raw_query) do
+      "SELECT typname FROM pg_attribute INNER JOIN pg_type ON pg_attribute.atttypid = pg_type.oid " \
+        "WHERE attname = 'traversal_ids' AND attrelid = 'namespaces'::regclass"
+    end
+
+    before do
+      allow(described_class.connection).to receive(:select_value).with(raw_query).and_return(pg_type_name)
+    end
+
+    context 'when the column type is _int4' do
+      let(:pg_type_name) { '_int4' }
+
+      it 'returns integer[]' do
+        expect(traversal_ids_type).to eq('integer[]')
+      end
+    end
+
+    context 'when the column type is _int8' do
+      let(:pg_type_name) { '_int8' }
+
+      it 'returns bigint[]' do
+        expect(traversal_ids_type).to eq('bigint[]')
+      end
+    end
+
+    context 'when the column type is unrecognized' do
+      let(:pg_type_name) { '_text' }
+
+      it 'returns nil' do
+        expect(traversal_ids_type).to be_nil
+      end
+    end
+  end
+
   context 'traversal scopes' do
     it_behaves_like 'namespace traversal scopes'
 

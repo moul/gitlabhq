@@ -56,7 +56,7 @@ export const createFileDiscussionsAdapter = (store) => ({
     fileCommentToggle.classList.remove('disabled');
     fileCommentToggle.removeAttribute('aria-disabled');
     const stopWatcher = watch(
-      () => store.findFileDiscussionsForFile({ oldPath, newPath }),
+      () => store.findAllFileDiscussionsForFile({ oldPath, newPath }),
       (matchedDiscussions) => {
         if (matchedDiscussions.length === 0) return;
         const container = diffElement.querySelector('[data-file-discussions]');

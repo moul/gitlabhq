@@ -3,12 +3,14 @@ import { __ } from '~/locale';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_action';
 import { ignoreWhilePending } from '~/lib/utils/ignore_while_pending';
 import { clearDraft } from '~/lib/utils/autosave';
+import DiffFileDiscussionExpansion from '~/diffs/components/diff_file_discussion_expansion.vue';
 import NoteForm from './note_form.vue';
 import DiffDiscussions from './diff_discussions.vue';
 
 export default {
   name: 'DiffFileDiscussions',
   components: {
+    DiffFileDiscussionExpansion,
     NoteForm,
     DiffDiscussions,
   },
@@ -31,13 +33,16 @@ export default {
   emits: ['empty'],
   computed: {
     allDiscussions() {
-      return this.store.findFileDiscussionsForFile({
+      return this.store.findAllFileDiscussionsForFile({
         oldPath: this.oldPath,
         newPath: this.newPath,
       });
     },
-    discussions() {
-      return this.allDiscussions.filter((d) => !d.isForm);
+    collapsedDiscussions() {
+      return this.allDiscussions.filter((d) => !d.isForm && d.hidden);
+    },
+    expandedDiscussions() {
+      return this.allDiscussions.filter((d) => !d.isForm && !d.hidden);
     },
     formDiscussion() {
       return this.allDiscussions.find((d) => d.isForm);
@@ -81,7 +86,12 @@ export default {
 
 <template>
   <div data-testid="file-discussions">
-    <diff-discussions v-if="discussions.length" :discussions="discussions" />
+    <diff-file-discussion-expansion
+      v-if="collapsedDiscussions.length"
+      :discussions="collapsedDiscussions"
+      @toggle="store.expandFileDiscussions(oldPath, newPath)"
+    />
+    <diff-discussions v-if="expandedDiscussions.length" :discussions="expandedDiscussions" />
     <div
       v-if="formDiscussion"
       class="gl-rounded-[var(--content-border-radius)] gl-bg-subtle gl-px-5 gl-py-4"

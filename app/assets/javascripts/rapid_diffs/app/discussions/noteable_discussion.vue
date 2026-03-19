@@ -9,6 +9,7 @@ import { createAlert } from '~/alert';
 import { createNoteErrorMessages } from '~/notes/utils';
 import { COMMENT_FORM } from '~/notes/i18n';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
+import ResolveDiscussionButton from '~/notes/components/discussion_resolve_button.vue';
 import NoteSignedOutWidget from './note_signed_out_widget.vue';
 import NoteForm from './note_form.vue';
 import DiscussionNotes from './discussion_notes.vue';
@@ -17,6 +18,7 @@ export default {
   name: 'NoteableDiscussion',
   components: {
     DiscussionReplyPlaceholder,
+    ResolveDiscussionButton,
     NoteSignedOutWidget,
     NoteForm,
     DiscussionNotes,
@@ -38,6 +40,11 @@ export default {
       type: Function,
       required: true,
     },
+    toggleResolveNote: {
+      type: Function,
+      required: false,
+      default: null,
+    },
     timelineLayout: {
       type: Boolean,
       required: false,
@@ -52,6 +59,7 @@ export default {
   data() {
     return {
       isLoggedIn: isLoggedIn(),
+      isResolving: false,
     };
   },
   computed: {
@@ -67,8 +75,34 @@ export default {
     canReply() {
       return !this.discussion.notes[0]?.system && !this.discussion.individual_note;
     },
+    resolvable() {
+      return this.discussion.resolvable;
+    },
+    canResolve() {
+      return this.discussion.notes
+        .filter((note) => note.resolvable)
+        .every((note) => note.current_user?.can_resolve_discussion);
+    },
+    resolveButtonTitle() {
+      return this.discussion.resolved ? __('Reopen thread') : __('Resolve thread');
+    },
   },
   methods: {
+    async toggleResolve() {
+      this.isResolving = true;
+      try {
+        await this.toggleResolveNote(this.discussion);
+      } catch (error) {
+        createAlert({
+          message: __('Something went wrong while resolving this discussion. Please try again.'),
+          error,
+          captureError: true,
+          parent: this.$el,
+        });
+      } finally {
+        this.isResolving = false;
+      }
+    },
     showReplyForm(text) {
       this.$emit('startReplying');
       if (typeof text !== 'undefined') {
@@ -134,6 +168,10 @@ export default {
       :expanded="discussion.repliesExpanded"
       :individual="discussion.individual_note"
       :is-last-discussion="isLastDiscussion"
+      :can-resolve="Boolean(toggleResolveNote) && resolvable && canResolve"
+      :is-resolved="discussion.resolved"
+      :is-resolving="isResolving"
+      @resolve="toggleResolve"
       @toggleDiscussionReplies="$emit('toggleDiscussionReplies')"
       @startReplying="showReplyForm"
       @noteEdited="$emit('noteEdited', $event)"
@@ -163,8 +201,15 @@ export default {
             :autosave-key="autosaveKey"
             @cancel="cancelReplyForm"
           />
-          <div v-else-if="userPermissions.can_create_note">
+          <div v-else-if="userPermissions.can_create_note" class="gl-flex gl-gap-3">
             <discussion-reply-placeholder @focus="showReplyForm" />
+            <resolve-discussion-button
+              v-if="toggleResolveNote && resolvable && canResolve"
+              class="gl-flex-none"
+              :is-resolving="isResolving"
+              :button-title="resolveButtonTitle"
+              @on-click="toggleResolve"
+            />
           </div>
         </div>
       </template>

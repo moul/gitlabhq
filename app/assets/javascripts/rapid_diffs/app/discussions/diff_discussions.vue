@@ -39,6 +39,7 @@ export default {
         :class="timelineLayout && index !== 0 && 'gl-mt-4'"
         :discussion="discussion"
         :request-last-note-editing="store.requestLastNoteEditing"
+        :toggle-resolve-note="store.toggleResolveNote"
         :timeline-layout="timelineLayout"
         :is-last-discussion="index === discussions.length - 1"
         @toggleDiscussionReplies="store.toggleDiscussionReplies(discussion)"

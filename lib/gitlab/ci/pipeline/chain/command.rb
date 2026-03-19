@@ -10,7 +10,8 @@ module Gitlab
           :trigger, :schedule, :merge_request, :external_pull_request,
           :ignore_skip_ci, :save_incompleted,
           :seeds_block, :variables_attributes, :push_options,
-          :chat_data, :mirror_update, :bridge, :content, :dry_run, :linting, :logger, :pipeline_policy_context,
+          :chat_data, :mirror_update, :bridge, :content, :dry_run, :linting, :logger,
+          :pipeline_policy_context, :scan_execution_policy_context_block,
           :duo_workflow_definition, :scan_profile_eligibility_service,
           # These attributes are set by Chains during processing:
           :config_content, :yaml_processor_result, :workflow_rules_result, :pipeline_seed,
