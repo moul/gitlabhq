@@ -16,6 +16,7 @@ project:
   - admin_issue_board
   - admin_merge_request
   - admin_vulnerability_merge_request_link
+  - approve_merge_request
   - cancel_build
   - cancel_pipeline
   - create_build
@@ -42,6 +43,7 @@ project:
   - edit_on_demand_dast_scan
   - enable_continuous_vulnerability_scans
   - execute_ai_catalog_item
+  - provide_status_check_response
   - publish_catalog_version
   - push_code
   - read_ai_catalog_flow
@@ -70,6 +72,7 @@ project:
   - read_vulnerability_statistics
   - reopen_merge_request
   - resolve_note
+  - retry_failed_status_checks
   - update_alert_management_alert
   - update_container_image
   - update_deployment
@@ -88,10 +91,12 @@ group:
   - admin_crm_contact
   - admin_crm_organization
   - admin_merge_request
+  - create_custom_dashboard
   - create_custom_emoji
   - create_observability_access_request
   - create_package
   - create_wiki
+  - delete_custom_dashboard
   - delete_o11y_settings
   - read_ai_catalog_flow
   - read_ai_catalog_third_party_flow
@@ -108,4 +113,5 @@ group:
   - read_vulnerability
   - read_vulnerability_statistics
   - resolve_note
+  - update_custom_dashboard
   - update_o11y_settings

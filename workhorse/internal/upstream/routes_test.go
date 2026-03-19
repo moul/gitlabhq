@@ -174,33 +174,39 @@ func initRdb(t *testing.T) *redis.Client {
 	return rdb
 }
 
-func TestWsRouteStrict(t *testing.T) {
-	u := newUpstream(config.Config{}, logrus.StandardLogger(), func(u *upstream) {
-		handler := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-			w.WriteHeader(http.StatusOK)
+func TestWsRoutesRequireWebsocketUpgrade(t *testing.T) {
+	railsServer := startRailsServer(t, nil)
+	ws, _ := startWorkhorseServer(t, railsServer.URL, false)
+
+	wsRoutes := []struct {
+		name string
+		path string
+	}{
+		{"ActionCable", "/-/cable"},
+		{"environment terminal", "/group/project/-/environments/1/terminal.ws"},
+		{"job terminal", "/group/project/-/jobs/123/terminal.ws"},
+		{"job proxy", "/group/project/-/jobs/456/proxy.ws"},
+		{"Duo Workflow", "/api/v4/ai/duo_workflows/ws"},
+	}
+
+	for _, route := range wsRoutes {
+		t.Run(route.name+" rejects non-websocket request", func(t *testing.T) {
+			resp, err := http.Get(ws.URL + route.path)
+			require.NoError(t, err)
+			defer resp.Body.Close()
+			require.Equal(t, http.StatusBadRequest, resp.StatusCode)
 		})
-		u.Routes = []routeEntry{
-			u.wsRouteStrict(newRoute(`^/-/cable\z`, "action_cable", railsBackend), handler),
-		}
-	}, nil, nil, nil, nil, nil, nil)
-	ts := httptest.NewServer(u)
-	t.Cleanup(ts.Close)
 
-	t.Run("rejects request without websocket upgrade headers", func(t *testing.T) {
-		resp, err := http.Get(ts.URL + "/-/cable")
-		require.NoError(t, err)
-		defer resp.Body.Close()
-		require.Equal(t, http.StatusBadRequest, resp.StatusCode)
-	})
+		t.Run(route.name+" allows websocket upgrade request", func(t *testing.T) {
+			req, err := http.NewRequest("GET", ws.URL+route.path, nil)
+			require.NoError(t, err)
+			req.Header.Set("Connection", "upgrade")
+			req.Header.Set("Upgrade", "websocket")
 
-	t.Run("allows request with websocket upgrade headers", func(t *testing.T) {
-		req, _ := http.NewRequest("GET", ts.URL+"/-/cable", nil)
-		req.Header.Set("Connection", "upgrade")
-		req.Header.Set("Upgrade", "websocket")
-
-		resp, err := http.DefaultClient.Do(req)
-		require.NoError(t, err)
-		defer resp.Body.Close()
-		require.Equal(t, http.StatusOK, resp.StatusCode)
-	})
+			resp, err := http.DefaultClient.Do(req)
+			require.NoError(t, err)
+			defer resp.Body.Close()
+			require.Equal(t, http.StatusOK, resp.StatusCode)
+		})
+	}
 }

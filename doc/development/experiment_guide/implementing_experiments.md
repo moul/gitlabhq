@@ -401,10 +401,10 @@ experiment(:my_experiment, actor: current_user, only_assigned: true).track(:rend
 Without `only_assigned`, a user who bypasses the registration page could still be
 assigned a variant on the welcome page, resulting in an inconsistent experience.
 
-### Test experiments manually on staging
+### Manual testing on staging
 
-When you test experiments manually on staging, a 100% rollout eliminates the burden
-of finding candidate or control sessions. However, a full rollout also masks issues
+When you test experiments manually on staging, a 100% rollout removes the need to
+find candidate or control sessions. However, a full rollout also masks issues
 where a user enters or exits an experiment unexpectedly due to an exclusion bug or
 inconsistent context.
 
@@ -413,13 +413,19 @@ remain in their assigned variant across the full experiment lifecycle.
 
 ### Write feature specs for multi-page experiments
 
-Unit tests can be ineffective for experiments that span multiple experiment blocks
+Unit tests may not catch issues in experiments that span multiple experiment blocks
 because the experiment context (notably the user during registration) can change
 between blocks, which causes re-segmentation. Write feature specs that cover the
 full experiment lifespan for any experiment that spans multiple pages.
 
 Use the `:experiment_tracking` RSpec metadata to verify that tracking events fire
-and to confirm the expected number of segmentations:
+and to confirm the expected number of segmentations. Pass `experiment_tracking: 1`
+for most experiments.
+
+> [!note]
+> The `experiment_tracking` metadata watches tracking events. During user creation,
+> you see an assignment both before (with the cookie value) and after creation
+> (with the user model). Pass `experiment_tracking: 2` in those cases.
 
 ```ruby
 context 'when candidate experience', experiment_tracking: 1 do
@@ -442,8 +448,3 @@ context 'when candidate experience', experiment_tracking: 1 do
   end
 end
 ```
-
-> [!note]
-> The `experiment_tracking` metadata watches tracking events. During user creation,
-> you see an assignment both before (with the cookie value) and after creation
-> (with the user model). Pass `experiment_tracking: 2` in those cases.

@@ -846,6 +846,14 @@ Settings.cron_jobs['lost_transaction_recovery_worker']['job_class'] = 'Cells::Lo
 Settings.cron_jobs['topology_service_stale_requests_cleanup_worker'] ||= {}
 Settings.cron_jobs['topology_service_stale_requests_cleanup_worker']['cron'] ||= '*/5 * * * *'
 Settings.cron_jobs['topology_service_stale_requests_cleanup_worker']['job_class'] = 'Cells::StaleRequestsCleanupCronWorker'
+Settings.cron_jobs['cells_schedule_claims_verification_worker'] ||= {}
+Settings.cron_jobs['cells_schedule_claims_verification_worker']['cron'] ||= '0 0 * * 6'
+Settings.cron_jobs['cells_schedule_claims_verification_worker']['job_class'] = 'Gitlab::Scheduling::ScheduleWithinWorker'
+Settings.cron_jobs['cells_schedule_claims_verification_worker']['args'] = {
+  'worker_class' => 'Cells::ScheduleClaimsVerificationWorker',
+  'within_minutes' => 59,
+  'within_hours' => 23
+}
 Settings.cron_jobs['concurrency_limit_resume_worker'] ||= {}
 Settings.cron_jobs['concurrency_limit_resume_worker']['cron'] ||= '*/1 * * * *'
 Settings.cron_jobs['concurrency_limit_resume_worker']['job_class'] ||= 'ConcurrencyLimit::ResumeWorker'

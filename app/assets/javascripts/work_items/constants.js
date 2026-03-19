@@ -450,42 +450,6 @@ export const WORK_ITEM_CREATE_SOURCES = {
   VULNERABILITY: 'vulnerability',
 };
 
-export const WORK_ITEM_ICON_OPTIONS = [
-  'work-item-enhancement',
-  'work-item-epic',
-  'work-item-feature-flag',
-  'work-item-feature',
-  'work-item-incident',
-  'work-item-issue',
-  'work-item-keyresult',
-  'work-item-maintenance',
-  'work-item-objective',
-  'work-item-requirement',
-  'work-item-task',
-  'work-item-test-case',
-  'work-item-ticket',
-  'bug',
-];
-
-export const WI_TYPE_ICON_SELECTION_SET_SCREEN_READER_TEXT_MAP = {
-  /* eslint-disable @gitlab/require-i18n-strings */
-  'work-item-enhancement': 'Magic wand',
-  'work-item-epic': 'Stack',
-  'work-item-feature-flag': 'Flag',
-  'work-item-feature': 'Star',
-  'work-item-incident': 'Exclamation point',
-  'work-item-issue': 'Document',
-  'work-item-keyresult': 'Arrow',
-  'work-item-maintenance': 'Tools',
-  'work-item-objective': 'Target',
-  'work-item-requirement': 'Checklist',
-  'work-item-task': 'Check',
-  'work-item-test-case': 'Test tube',
-  'work-item-ticket': 'Ticket',
-  bug: 'Insect',
-  /* eslint-enable @gitlab/require-i18n-strings */
-};
-
 export const ICON_NAVIGATION_KEYS = {
   PREVIOUS: [ARROW_LEFT_KEY, ARROW_UP_KEY],
   NEXT: [ARROW_RIGHT_KEY, ARROW_DOWN_KEY],

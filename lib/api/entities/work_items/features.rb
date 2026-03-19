@@ -42,3 +42,5 @@ module API
     end
   end
 end
+
+::API::Entities::WorkItems::Features::Entity.prepend_mod

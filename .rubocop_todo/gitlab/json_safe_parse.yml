@@ -280,7 +280,6 @@ Gitlab/JsonSafeParse:
     - 'lib/gitlab/background_migration/migrate_evidences_for_vulnerability_findings.rb'
     - 'lib/gitlab/background_migration/migrate_remediations_for_vulnerability_findings.rb'
     - 'lib/gitlab/beyond_identity/client.rb'
-    - 'lib/gitlab/cache/json_caches/json_keyed.rb'
     - 'lib/gitlab/cache/json_caches/redis_keyed.rb'
     - 'lib/gitlab/chat_name_token.rb'
     - 'lib/gitlab/ci/ansi2html.rb'

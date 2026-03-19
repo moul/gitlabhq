@@ -376,12 +376,12 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
     subject(:validate_name) { task.send(:validate_name, permission) }
 
     where(:name, :valid) do
-      "valid_permission"     | true
-      "valid_permission_two" | true
-      "_invalid_permission"  | false
-      "Invalid_permission"   | false
-      "invalid-permission"   | false
-      "invalid_permission_"  | false
+      "valid_permission"           | true
+      "valid_permission_two"       | true
+      "_valid_private_permission"  | true
+      "Invalid_permission"         | false
+      "invalid-permission"         | false
+      "invalid_permission_"        | false
     end
 
     with_them do

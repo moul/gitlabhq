@@ -79928,6 +79928,9 @@ msgstr ""
 msgid "WorkItem|Failed to fetch namespace metadata."
 msgstr ""
 
+msgid "WorkItem|Failed to fetch work item type icons."
+msgstr ""
+
 msgid "WorkItem|Failed to fetch work item types."
 msgstr ""
 

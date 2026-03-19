@@ -71357,6 +71357,77 @@ components:
           example: main
         link:
           type: string
+    APIEntitiesWorkItemsFeaturesIteration:
+      type: object
+      properties:
+        iteration:
+          "$ref": "#/components/schemas/APIEntitiesIteration"
+    APIEntitiesWorkItemsFeaturesProgress:
+      type: object
+      properties:
+        progress:
+          type: integer
+          example: 65
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-02-12T09:45:00Z'
+        current_value:
+          type: integer
+          example: 13
+        start_value:
+          type: integer
+          example: 0
+        end_value:
+          type: integer
+          example: 20
+    APIEntitiesWorkItemsFeaturesColor:
+      type: object
+      properties:
+        color:
+          type: string
+          example: "#A8DADC"
+        text_color:
+          type: string
+          example: "#1D3557"
+    APIEntitiesWorkItemsFeaturesHealthStatus:
+      type: object
+      properties:
+        health_status:
+          type: string
+          example: needs_attention
+    APIEntitiesWorkItemsFeaturesWorkItemReference:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        global_id:
+          type: string
+          example: gid://gitlab/WorkItem/1
+        iid:
+          type: integer
+          example: 42
+        title:
+          type: string
+          example: Plan first milestone
+        state:
+          type: string
+          example: opened
+        confidential:
+          type: boolean
+          example: false
+        work_item_type:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsType"
+        reference:
+          type: string
+          example: gitlab-org/example#42
+        web_url:
+          type: string
+          example: https://gitlab.example.com/groups/example/-/work_items/42
+        web_path:
+          type: string
+          example: "/groups/example/-/work_items/42"
     APIEntitiesWorkItemsFeaturesStartAndDueDate:
       type: object
       properties:
@@ -71368,6 +71439,20 @@ components:
           type: string
           format: date
           example: '2022-08-30'
+        roll_up:
+          type: boolean
+          example: false
+        is_fixed:
+          type: boolean
+          example: true
+        start_date_sourcing_work_item:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesWorkItemReference"
+        start_date_sourcing_milestone:
+          "$ref": "#/components/schemas/APIEntitiesMilestone"
+        due_date_sourcing_work_item:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesWorkItemReference"
+        due_date_sourcing_milestone:
+          "$ref": "#/components/schemas/APIEntitiesMilestone"
     APIEntitiesWorkItemsLabel:
       type: object
       properties:
@@ -71431,6 +71516,14 @@ components:
           "$ref": "#/components/schemas/APIEntitiesMilestone"
         start_and_due_date:
           "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesStartAndDueDate"
+        health_status:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesHealthStatus"
+        color:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesColor"
+        progress:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesProgress"
+        iteration:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesIteration"
     APIEntitiesWorkItemsPermissions:
       type: object
       properties:

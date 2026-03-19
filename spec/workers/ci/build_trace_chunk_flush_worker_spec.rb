@@ -9,6 +9,20 @@ RSpec.describe Ci::BuildTraceChunkFlushWorker, feature_category: :continuous_int
     create(:ci_build_trace_chunk, :redis_with_data, initial_data: data)
   end
 
+  it_behaves_like 'worker with data consistency', described_class, data_consistency: :sticky
+
+  it 'has a deduplicate strategy' do
+    expect(described_class.get_deduplicate_strategy).to eq(:until_executed)
+  end
+
+  it 'has a concurrency limit' do
+    expect(described_class.get_max_concurrency_limit_percentage).to eq(0.45)
+  end
+
+  it 'disables retry' do
+    expect(described_class.sidekiq_options['retry']).to be(false)
+  end
+
   it 'migrates chunk to a permanent store' do
     expect(chunk).to be_live
 

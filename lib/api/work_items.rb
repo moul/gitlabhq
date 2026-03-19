@@ -22,13 +22,6 @@ module API
       hash[key.to_s] = key
     end.freeze
     ALL_FIELDS = FIELD_NAME_LOOKUP.values.uniq.freeze
-    FEATURE_NAME_LOOKUP = ::API::Entities::WorkItems::Features::Entity
-      .root_exposures
-      .each_with_object({}) do |exposure, hash|
-        key = exposure.key.to_sym
-        hash[key.to_s] = key
-      end.freeze
-    FEATURE_SUPPORTED_VALUES = FEATURE_NAME_LOOKUP.keys.freeze
     FAILURE_RESPONSES = [
       { code: 400, message: 'Bad request' },
       { code: 401, message: 'Unauthorized' },
@@ -78,6 +71,19 @@ module API
       user_permissions: [:namespace],
       features: [:work_item_type, { namespace: :route }]
     }.freeze
+
+    def self.feature_name_lookup
+      ::API::Entities::WorkItems::Features::Entity
+        .root_exposures
+        .each_with_object({}) do |exposure, hash|
+          key = exposure.key.to_sym
+          hash[key.to_s] = key
+        end.freeze
+    end
+
+    def self.feature_supported_values
+      feature_name_lookup.keys.freeze
+    end
 
     helpers do
       params :work_items_filter_params do
@@ -231,7 +237,7 @@ module API
           desc: [
             'Comma-separated list of feature payloads to include.',
             'No feature payloads are returned unless specified.',
-            "Supported values: #{FEATURE_SUPPORTED_VALUES.join(', ')}."
+            "Supported values: #{WorkItems.feature_supported_values.join(', ')}."
           ].join(' ')
       end
 
@@ -247,7 +253,7 @@ module API
           desc: [
             'Comma-separated list of feature payloads to include.',
             'No feature payloads are returned unless specified.',
-            "Supported values: #{FEATURE_SUPPORTED_VALUES.join(', ')}."
+            "Supported values: #{WorkItems.feature_supported_values.join(', ')}."
           ].join(' ')
       end
 
@@ -314,7 +320,7 @@ module API
       end
 
       def requested_feature_keys(requested_features)
-        filter_requested_keys(requested_features, FEATURE_NAME_LOOKUP)
+        filter_requested_keys(requested_features, WorkItems.feature_name_lookup)
       end
 
       def check_pagination_param!(params)
@@ -551,3 +557,5 @@ module API
     end
   end
 end
+
+API::WorkItems.prepend_mod

@@ -66,14 +66,17 @@ group:
   - create_service_account
   - create_subgroup
   - delete_group_link
+  - delete_secrets_permission
   - delete_service_account
   - delete_subgroup
+  - deprovision_secrets_manager
   - destroy_deploy_token
   - destroy_epic
   - destroy_issue
   - edit_billing
   - manage_deploy_tokens
   - manage_merge_request_settings
+  - provision_secrets_manager
   - read_billing
   - read_runners
   - read_runners_registration_token
@@ -92,3 +95,4 @@ group:
   - update_git_access_protocol
   - update_group_link
   - update_runners_registration_token
+  - update_secrets_permission

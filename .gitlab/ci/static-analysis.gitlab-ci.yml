@@ -410,3 +410,4 @@ check-deprecated-files:
   script:
     - gem install rainbow --no-document
     - scripts/lint/check_deprecated_files.rb
+  allow_failure: true

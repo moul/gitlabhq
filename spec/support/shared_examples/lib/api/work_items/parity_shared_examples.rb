@@ -101,8 +101,7 @@ RSpec.shared_examples 'work item API field parity' do
         expect(rest_fields).not_to be_empty
         expect(graphql_fields).not_to be_empty
 
-        expect(rest_fields)
-          .to match_array(graphql_fields - feature_field_exceptions(feature_name))
+        expect(rest_fields).to match_array(graphql_fields - %w[type])
       end
     end
   end
@@ -152,23 +151,6 @@ RSpec.shared_examples 'work item API field parity' do
     return Set.new unless graphql_type.respond_to?(:fields)
 
     graphql_type.fields.keys.map(&:underscore).to_set
-  end
-
-  def feature_field_exceptions(feature_name)
-    exceptions = Set.new(%w[type])
-
-    if feature_name == 'start_and_due_date'
-      exceptions.merge(%w[
-        roll_up
-        is_fixed
-        start_date_sourcing_work_item
-        start_date_sourcing_milestone
-        due_date_sourcing_work_item
-        due_date_sourcing_milestone
-      ])
-    end
-
-    exceptions
   end
 
   def rest_feature_entity_class(feature_name)

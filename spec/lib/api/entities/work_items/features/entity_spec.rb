@@ -61,7 +61,8 @@ RSpec.describe API::Entities::WorkItems::Features::Entity, feature_category: :te
 
     context 'when the widget exposes a milestone' do
       it 'includes the milestone payload' do
-        expect(representation).to include(milestone: a_hash_including(title: exposed_milestone.title))
+        expect(representation).to include(:milestone)
+        expect(representation[:milestone]).to include(title: exposed_milestone.title)
       end
     end
 

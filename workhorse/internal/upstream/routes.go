@@ -220,21 +220,6 @@ func (u *upstream) route(method string, metadata routeMetadata, handler http.Han
 func (u *upstream) wsRoute(metadata routeMetadata, handler http.Handler, matchers ...matcherFunc) routeEntry {
 	method := "GET"
 	handler = u.observabilityMiddlewares(handler, method, metadata, nil)
-
-	return routeEntry{
-		method:   method,
-		regex:    compileRegexp(metadata.regexpStr),
-		handler:  handler,
-		matchers: append(matchers, websocket.IsWebSocketUpgrade),
-	}
-}
-
-// wsRouteStrict creates a WebSocket route that will match requests even if websocket headers are missing.
-// The request is rejected if it is not a valid WebSocket upgrade request.
-// Use wsRouteStrict if you want invalid WebSocket upgrade requests to fail early with a 400 Bad Request.
-func (u *upstream) wsRouteStrict(metadata routeMetadata, handler http.Handler, matchers ...matcherFunc) routeEntry {
-	method := "GET"
-	handler = u.observabilityMiddlewares(handler, method, metadata, nil)
 	handler = requireWebsocket(handler)
 
 	return routeEntry{
@@ -395,7 +380,7 @@ func configureRoutes(u *upstream) {
 			contentEncodingHandler(upload.Artifacts(api, signingProxy, preparer, &u.Config))),
 
 		// ActionCable websocket
-		u.wsRouteStrict(newRoute(`^/-/cable\z`, "action_cable", railsBackend),
+		u.wsRoute(newRoute(`^/-/cable\z`, "action_cable", railsBackend),
 			cableProxy),
 
 		// Terminal websocket

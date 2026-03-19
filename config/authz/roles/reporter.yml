@@ -44,6 +44,7 @@ project:
   - read_deployment
   - read_environment
   - read_external_emails
+  - read_external_status_check_response
   - read_grafana
   - read_harbor_registry
   - read_internal_note
@@ -66,6 +67,8 @@ project:
 group:
   permissions: []
   raw_permissions:
+  - _delete_created_custom_dashboard
+  - _update_created_custom_dashboard
   - admin_epic
   - admin_epic_board
   - admin_epic_board_list
@@ -92,6 +95,7 @@ group:
   - read_container_image
   - read_crm_contact
   - read_crm_organization
+  - read_custom_dashboard
   - read_customizable_dashboards
   - read_cycle_analytics
   - read_dora4_analytics

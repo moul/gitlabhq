@@ -587,6 +587,7 @@ class ProjectPolicy < BasePolicy
   end
 
   rule { merge_requests_disabled | repository_disabled }.policy do
+    prevent :approve_merge_request
     prevent :create_merge_request_in
     prevent :create_merge_request_from
     prevent :read_merge_request

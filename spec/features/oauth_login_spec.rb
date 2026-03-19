@@ -2,7 +2,11 @@
 
 require 'spec_helper'
 
-RSpec.describe 'OAuth Login', :with_current_organization, :allow_forgery_protection, feature_category: :system_access do
+RSpec.describe 'OAuth Login', :with_current_organization, :allow_forgery_protection, feature_category: :system_access,
+  quarantine: {
+    issue: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/issues/39377',
+    type: :flaky
+  } do
   include DeviseHelpers
 
   def enter_code(code)

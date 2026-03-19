@@ -73,16 +73,17 @@ GLQL can query the following data sources:
 - Work items
 - Merge requests
 
-Each data source exposes one or more types, for example `Issue` under work items.
-For a full list of supported types, see [supported types](fields.md#type).
+Each data source has one or more types. For example, `Issue` is a work item type.
 
-Use the `type` field in your query to specify the data source, for example `type = Issue` or `type = MergeRequest`.
+Specify the data source in your query by using the `type` field. For example, `type = Issue` or `type = MergeRequest`.
 
 ### Fields
 
-Fields are the attributes of a queried type, used to filter, display, and sort results. Available fields depend on the type being queried, for example `assignee`, `author`, `label`, or `milestone` on `Issue`.
+Use fields to filter, display, and sort results.
 
-For a full list of supported fields, supported operators, and value types, see [GLQL fields](fields.md).
+The fields you can use depend on the type of data you want to query. For example, the `Issue` type has fields like `assignee`, `author`, and `milestone`.
+
+For a full list of supported fields, operators, and types, see [GLQL fields](fields.md).
 
 ### Operators
 

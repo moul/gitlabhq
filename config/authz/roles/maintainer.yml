@@ -47,6 +47,11 @@ project:
   - admin_web_hook
   - admin_wiki
   - apply_security_scan_profiles
+  - change_commit_committer_check
+  - change_commit_committer_name_check
+  - change_push_rules
+  - change_reject_non_dco_commits
+  - change_reject_unsigned_commits
   - change_restrict_user_defined_variables
   - create_ai_catalog_flow
   - create_ai_catalog_flow_item_consumer
@@ -92,6 +97,8 @@ project:
   - push_code_to_protected_branches
   - push_to_delete_protected_branch
   - read_approvers
+  - read_commit_committer_check
+  - read_commit_committer_name_check
   - read_deploy_token
   - read_freeze_period
   - read_import_error
@@ -101,6 +108,8 @@ project:
   - read_project_security_exclusions
   - read_protected_branch
   - read_protected_tags
+  - read_reject_non_dco_commits
+  - read_reject_unsigned_commits
   - read_resource_access_tokens
   - read_runner_usage
   - read_runners
@@ -139,6 +148,11 @@ group:
   - admin_wiki
   - apply_security_scan_profiles
   - award_achievement
+  - change_commit_committer_check
+  - change_commit_committer_name_check
+  - change_push_rules
+  - change_reject_non_dco_commits
+  - change_reject_unsigned_commits
   - create_ai_catalog_flow_item_consumer
   - create_ai_catalog_third_party_flow_item_consumer
   - create_ai_foundational_flow_item_consumer
@@ -152,10 +166,16 @@ group:
   - import_projects
   - maintainer_access
   - modify_product_analytics_settings
+  - provision_cloud_runner
+  - provision_gke_runner
   - read_deploy_token
   - read_jobs_statistics
   - read_protected_branch
+  - read_runner_cloud_provisioning_info
+  - read_runner_gke_provisioning_info
   - read_runner_usage
   - read_runners
+  - read_secrets_manager
+  - read_secrets_permission
   - update_cluster
   - update_protected_branch

@@ -260,7 +260,7 @@ RSpec.shared_examples 'work item listing endpoint' do
   let(:api_request_path) { "/namespaces/#{CGI.escape(namespace_record.full_path)}/-/work_items" }
 
   let(:all_fields_param) { ::API::WorkItems::ALL_FIELDS.join(',') }
-  let(:all_features_param) { ::API::WorkItems::FEATURE_SUPPORTED_VALUES.join(',') }
+  let(:all_features_param) { ::API::WorkItems.feature_supported_values.join(',') }
   let(:expected_work_item_ids) { [primary_work_item.id, secondary_work_item.id].uniq }
 
   it_behaves_like 'work item pagination'

@@ -1,6 +1,7 @@
 ---
 name: auditor
-description: Read-only access to all groups and projects. This is an instance-level user type, not a project or group membership role.
+description: Read-only access to all groups and projects. This is an instance-level
+  user type, not a project or group membership role.
 inherits_from: []
 project:
   permissions: []
@@ -18,6 +19,7 @@ project:
   - read_dependency
   - read_deployment
   - read_environment
+  - read_external_status_check_response
   - read_feature_flag
   - read_licenses
   - read_on_demand_dast_scan
@@ -43,6 +45,7 @@ group:
   - read_compliance_dashboard
   - read_compliance_violations_report
   - read_container_image
+  - read_custom_dashboard
   - read_cycle_analytics
   - read_dependency
   - read_dependency_proxy

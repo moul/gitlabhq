@@ -293,6 +293,7 @@ RSpec.describe '1_settings', feature_category: :settings do
         batched_git_ref_updates_cleanup_scheduler_worker
         bbo_users_delete_unconfirmed_secondary
         bulk_imports_stale_import_worker
+        cells_schedule_claims_verification_worker
         ci_archive_traces_cron_worker
         ci_catalog_resources_aggregate_last30_day_usage_worker
         ci_catalog_resources_cleanup_last_usages_worker

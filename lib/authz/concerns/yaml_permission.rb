@@ -27,6 +27,10 @@ module Authz
 
         private
 
+        def ignore_files
+          []
+        end
+
         def load_all
           load_files_to_hash(config_path) do |file_path, content|
             definition = new(content, file_path)
@@ -41,6 +45,8 @@ module Authz
         def load_files_to_hash(glob_path)
           {}.tap do |result|
             Dir.glob(glob_path).each do |file|
+              next if ignore_files.include?(File.basename(file))
+
               content = load_from_file(file)
               key, value = yield(file, content)
               result[key] = value
