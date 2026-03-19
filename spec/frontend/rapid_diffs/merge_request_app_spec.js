@@ -8,6 +8,7 @@ import { useCodeReview } from '~/diffs/stores/code_review';
 import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request_discussions';
 import { initCompareVersions } from '~/rapid_diffs/app/init_compare_versions';
 import { initNewDiscussionToggle } from '~/rapid_diffs/app/init_new_discussions_toggle';
+import { initLineRangeSelection } from '~/rapid_diffs/app/init_line_range_selection';
 
 jest.mock('~/lib/graphql');
 jest.mock('~/rapid_diffs/app/view_settings');
@@ -17,6 +18,7 @@ jest.mock('~/rapid_diffs/app/quirks/safari_fix');
 jest.mock('~/rapid_diffs/app/quirks/content_visibility_fix');
 jest.mock('~/rapid_diffs/app/init_compare_versions');
 jest.mock('~/rapid_diffs/app/init_new_discussions_toggle');
+jest.mock('~/rapid_diffs/app/init_line_range_selection');
 
 describe('Merge Request Rapid Diffs app', () => {
   let app;
@@ -134,5 +136,11 @@ describe('Merge Request Rapid Diffs app', () => {
     buildApp();
     await app.init();
     expect(initNewDiscussionToggle).toHaveBeenCalledWith(app.root, { allowExpandedLines: true });
+  });
+
+  it('initializes line range selection', async () => {
+    buildApp();
+    await app.init();
+    expect(initLineRangeSelection).toHaveBeenCalledWith(app.root);
   });
 });

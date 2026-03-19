@@ -704,6 +704,21 @@ RSpec.describe Ci::CreatePipelineService, :clean_gitlab_redis_cache, feature_cat
       end
     end
 
+    context 'when push options contain ci.no_pipeline' do
+      let(:push_options) do
+        { 'ci' => { 'no_pipeline' => true } }
+      end
+
+      it 'does not create a new pipeline' do
+        result = execute_service(push_options: push_options)
+
+        expect(result.message).to eq('filtered_by_no_pipeline')
+        expect(Ci::Build.all).to be_empty
+        expect(Ci::Pipeline.count).to eq(0)
+        expect(result.payload).not_to be_persisted
+      end
+    end
+
     context 'when there are no jobs for this pipeline' do
       before do
         config = YAML.dump({ test: { script: 'ls', only: ['feature'] } })

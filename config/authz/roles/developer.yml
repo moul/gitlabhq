@@ -15,6 +15,7 @@ project:
   - admin_feature_flags_user_lists
   - admin_issue_board
   - admin_merge_request
+  - admin_vulnerability_merge_request_link
   - cancel_build
   - cancel_pipeline
   - create_build

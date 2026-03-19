@@ -159,4 +159,3 @@ group:
   - read_runners
   - update_cluster
   - update_protected_branch
-

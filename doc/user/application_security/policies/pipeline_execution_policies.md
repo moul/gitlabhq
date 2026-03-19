@@ -52,17 +52,18 @@ the following sections and tables provide an alternative.
 
 ## `pipeline_execution_policy` schema
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | `string` | true | Name of the policy. Maximum of 255 characters.|
-| `description` (optional) | `string` | true | Description of the policy. |
-| `enabled` | `boolean` | true | Flag to enable (`true`) or disable (`false`) the policy. |
-| `content` | `object` of [`content`](#content-type) | true | Reference to the CI/CD configuration to inject into project pipelines. |
-| `pipeline_config_strategy` | `string` | false | Can be `inject_policy`, `inject_ci` (deprecated), or `override_project_ci`. See [pipeline strategies](#pipeline-configuration-strategies) for more information. |
-| `policy_scope` | `object` of [`policy_scope`](_index.md#configure-the-policy-scope) | false | Scopes the policy based on projects, groups, or compliance framework labels you specify. |
+| Field | Type | Required | Description                                                                                                                                                                                                                                                                                                                     |
+|-------|------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `name` | `string` | true | Name of the policy. Maximum of 255 characters.                                                                                                                                                                                                                                                                                  |
+| `description` (optional) | `string` | true | Description of the policy.                                                                                                                                                                                                                                                                                                      |
+| `enabled` | `boolean` | true | Flag to enable (`true`) or disable (`false`) the policy.                                                                                                                                                                                                                                                                        |
+| `content` | `object` of [`content`](#content-type) | true | Reference to the CI/CD configuration to inject into project pipelines.                                                                                                                                                                                                                                                          |
+| `pipeline_config_strategy` | `string` | false | Can be `inject_policy`, `inject_ci` (deprecated), or `override_project_ci`. See [pipeline strategies](#pipeline-configuration-strategies) for more information.                                                                                                                                                                 |
+| `policy_scope` | `object` of [`policy_scope`](_index.md#configure-the-policy-scope) | false | Scopes the policy based on projects, groups, or compliance framework labels you specify.                                                                                                                                                                                                                                        |
 | `suffix` | `string` | false | Can either be `on_conflict` (default), or `never`. Defines the behavior for handling job naming conflicts. `on_conflict` applies a unique suffix to the job names for jobs that would break the uniqueness. `never` causes the pipeline to fail if the job names across the project and all applicable policies are not unique. |
-| `skip_ci` | `object` of [`skip_ci`](pipeline_execution_policies.md#skip_ci-type) | false | Defines whether users can apply the `skip-ci` directive. By default, the use of `skip-ci` is ignored and as a result, pipelines with pipeline execution policies cannot be skipped. |
-| `variables_override` | `object` of [`variables_override`](pipeline_execution_policies.md#variables_override-type) | false | Controls whether users can override the behavior of policy variables in the jobs created by the policy. By default, the policy variables are enforced with the highest precedence and users cannot override them. |
+| `skip_ci` | `object` of [`skip_ci`](pipeline_execution_policies.md#skip_ci-type) | false | Defines whether users can apply the `skip-ci` directive. By default, the use of `skip-ci` is ignored and as a result, pipelines with pipeline execution policies cannot be skipped.                                                                                                                                             |
+| `no_pipeline` | `object` of [`no_pipeline`](pipeline_execution_policies.md#no_pipeline-type) | false | Defines whether users can apply the `no_pipeline` directive. By default, the use of `no_pipeline` is ignored and as a result, pipelines with pipeline execution policies cannot be not created.                                                                                                                                 |
+| `variables_override` | `object` of [`variables_override`](pipeline_execution_policies.md#variables_override-type) | false | Controls whether users can override the behavior of policy variables in the jobs created by the policy. By default, the policy variables are enforced with the highest precedence and users cannot override them.                                                                                                               |
 
 Note the following:
 
@@ -247,6 +248,19 @@ from bypassing the pipeline execution policies.
 |-------------------------|----------|--------------------------|-------------|
 | `allowed` | `boolean`   | `true`, `false` | Flag to allow (`true`) or prevent (`false`) the use of the `skip-ci` directive for pipelines with enforced pipeline execution policies. |
 | `allowlist`             | `object` | `users` | Specify users who are always allowed to use `skip-ci` directive, regardless of the `allowed` flag. Use `users:` followed by an array of objects with `id` keys representing user IDs. |
+
+### `no_pipeline` type
+
+Pipeline execution policies offer control over who can use the `[no_pipeline]` directive. You can specify certain users or service accounts that are allowed to use `[no_pipeline]` while still ensuring critical security and compliance checks are performed.
+
+Use the `no_pipeline` keyword to specify whether users are allowed to apply the `no_pipeline` directive to not create pipelines.
+When the keyword is not specified, the `no_pipeline` directive is ignored, preventing all users
+from bypassing the pipeline execution policies.
+
+| Field                   | Type     | Possible values          | Description |
+|-------------------------|----------|--------------------------|-------------|
+| `allowed` | `boolean`   | `true`, `false` | Flag to allow (`true`) or prevent (`false`) the use of the `no_pipeline` directive for pipelines with enforced pipeline execution policies. |
+| `allowlist`             | `object` | `users` | Specify users who are always allowed to use `no_pipeline` directive, regardless of the `allowed` flag. Use `users:` followed by an array of objects with `id` keys representing user IDs. |
 
 ### `variables_override` type
 
@@ -994,6 +1008,12 @@ sast:
   script: ...
 ```
 
+## Behavior with `[no_pipeline]`
+
+By default, to prevent a regular pipeline from creating, users can push a commit to a protected branch with `[no_pipeline]` in push options. However, jobs defined with a pipeline execution policy are always triggered, as the policy ignores the `[no_pipeline]` directive. This prevents developers from skipping the execution of jobs defined in the policy, which ensures that critical security and compliance checks are always performed.
+
+For more flexible control over `[no_pipeline]` behavior, see the [`no_pipeline` type](#no_pipeline-type) section.
+
 ## Behavior with `[skip ci]`
 
 By default, to prevent a regular pipeline from triggering, users can push a commit to a protected branch with `[skip ci]` in the commit message. However, jobs defined with a pipeline execution policy are always triggered, as the policy ignores the `[skip ci]` directive. This prevents developers from skipping the execution of jobs defined in the policy, which ensures that critical security and compliance checks are always performed.
@@ -1343,6 +1363,27 @@ pipeline_execution_policy:
         - project: group-a/project1
           file: README.md
     skip_ci:
+      allowed: false
+      allowlist:
+        users:
+          - id: 75
+```
+
+### Configure `ci_no_pipeline` in a pipeline execution policy
+
+In the following example, the pipeline execution policy is enforced, and [no create CI](#no_pipeline-type) is disallowed except for the user with ID `75`.
+
+```yaml
+pipeline_execution_policy:
+  - name: My pipeline execution policy with ci.no_pipeline exceptions
+    description: 'Enforces CI/CD jobs'
+    enabled: true
+    pipeline_config_strategy: inject_policy
+    content:
+      include:
+        - project: group-a/project1
+          file: README.md
+    no_pipeline:
       allowed: false
       allowlist:
         users:

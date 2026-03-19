@@ -8,15 +8,23 @@ project:
   raw_permissions:
   - access_security_and_compliance
   - admin_security_attributes
+  - admin_vulnerability
+  - admin_vulnerability_external_issue_link
+  - admin_vulnerability_issue_link
   - apply_security_scan_profiles
   - cancel_build
   - create_build
+  - create_vulnerability_archive_export
+  - create_vulnerability_export
   - enable_secret_push_protection
   - manage_project_security_exclusions
+  - read_project_security_dashboard
   - read_project_security_exclusions
   - read_runners
   - read_secret_push_protection_info
   - read_security_configuration
+  - read_security_project_tracked_ref
+  - read_security_resource
   - read_security_scan_profiles
 group:
   permissions: []

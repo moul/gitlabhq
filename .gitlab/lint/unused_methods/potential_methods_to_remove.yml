@@ -250,7 +250,6 @@ app/models/namespace.rb:
 app/models/organizations/isolation_record.rb:
 - not_isolated?
 app/models/project.rb:
-- has_auto_devops_implicitly_disabled?
 - import_scheduled?
 - updating_remote_mirror?
 - issue_exists?

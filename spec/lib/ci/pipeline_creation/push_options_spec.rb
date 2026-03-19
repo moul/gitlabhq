@@ -24,6 +24,22 @@ RSpec.describe Ci::PipelineCreation::PushOptions, feature_category: :pipeline_co
     end
   end
 
+  describe '#no_pipeline?' do
+    context 'when there is no ci no_pipeline push option' do
+      it 'returns false' do
+        expect(push_options.no_pipeline?).to be_falsey
+      end
+    end
+
+    context 'when there is a ci no_pipeline push option' do
+      let(:ci_push_options) { { ci: { no_pipeline: true } } }
+
+      it 'returns true' do
+        expect(push_options.no_pipeline?).to be_truthy
+      end
+    end
+  end
+
   describe '#variables' do
     context 'when push options contain variables' do
       let(:ci_push_options) do

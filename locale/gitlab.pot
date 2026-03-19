@@ -1703,10 +1703,10 @@ msgstr ""
 msgid "'%{lock_path}' is locked in Git LFS by @%{lock_user_name}"
 msgstr ""
 
-msgid "'%{name}' is a reserved name and cannot be used"
+msgid "'%{name}' is a reserved name and cannot be used."
 msgstr ""
 
-msgid "'%{name}' is already taken"
+msgid "'%{name}' is already taken."
 msgstr ""
 
 msgid "'%{slug}' is a reserved name"
@@ -83824,9 +83824,6 @@ msgstr ""
 msgid "is not a valid X509 certificate."
 msgstr ""
 
-msgid "is not a valid icon name. Valid icon names are: %{valid_names}"
-msgstr ""
-
 msgid "is not allowed for sign-up. Please use your regular email address."
 msgstr ""
 
@@ -83858,6 +83855,9 @@ msgid "is not valid."
 msgstr ""
 
 msgid "is not valid. The iteration group has to match the iteration cadence group."
+msgstr ""
+
+msgid "is not valid. Valid icon names are: %{valid_names}"
 msgstr ""
 
 msgid "is not verified."

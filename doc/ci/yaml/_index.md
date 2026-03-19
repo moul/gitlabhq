@@ -1433,11 +1433,12 @@ in a header section.
 spec:
   component: [name, version, reference]
   inputs:
-    image_tag:
-      default: latest
+    stage:
+      default: build
 ---
 
 build-image:
+  stage: $[[ inputs.stage ]]
   image: registry.example.com/$[[ component.name ]]:$[[ component.version ]]
   script:
     - echo "Building with component version $[[ component.version ]]"
@@ -6776,7 +6777,7 @@ The keywords available for use in trigger jobs are:
 - [`stage`](#stage).
 - [`trigger`](#trigger).
 - [`variables`](#variables).
-- [`when`](#when) (only with a value of `on_success`, `on_failure`, or `always`).
+- [`when`](#when) (only with a value of `on_success`, `on_failure`, `always`, or `manual`).
 - [`resource_group`](#resource_group).
 - [`environment`](#environment).
 

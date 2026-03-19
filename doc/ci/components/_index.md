@@ -280,11 +280,12 @@ For example, a component that references a Docker image built with the same vers
 spec:
   component: [name, version, reference]
   inputs:
-    image_tag:
-      default: latest
+    stage:
+      default: build
 ---
 
 build-image:
+  stage: $[[ inputs.stage ]]
   image: registry.example.com/$[[ component.name ]]:$[[ component.version ]]
   script:
     - echo "Building with component version $[[ component.version ]]"

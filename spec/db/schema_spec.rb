@@ -312,7 +312,7 @@ RSpec.describe 'Database schema',
       projects: 54, # Decrement by 2 after the removal of temporary indexes https://gitlab.com/gitlab-org/gitlab/-/merge_requests/217449
       sbom_occurrences: 25,
       users: 34, # Decrement by 1 after the removal of a temporary index https://gitlab.com/gitlab-org/gitlab/-/merge_requests/184848
-      vulnerability_reads: 24 # Decrement by 1 after removing vulnerability_id from the table
+      vulnerability_reads: 25 # Increased by one for tmp index on BBM https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224292
     }.with_indifferent_access.freeze
   end
 

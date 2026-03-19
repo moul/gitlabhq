@@ -5,6 +5,10 @@ diff-file[data-with-discussion-toggle] {
   --rd-line-area-extend-left: 16px;
 }
 
+diff-file[data-line-range-dragging] {
+  --rd-line-area-extend-left: 100vw;
+}
+
 .rd-diff-file {
   --rd-body-font-size: #{constants.$code-font-size};
   --rd-body-font-line-height: #{constants.$code-line-height};
@@ -61,6 +65,11 @@ diff-file[data-with-discussion-toggle] {
   @container diff-file (style(--rd-content-visibility-auto: visible)) {
     --virtual-rows-visibility: auto;
   }
+}
+
+[data-line-range-dragging] .rd-hunk-header,
+[data-line-range-dragging] .rd-hunk-lines {
+  --virtual-rows-visibility: visible;
 }
 
 // We need to disable content-visibility when toggle is visible, otherwise it gets clipped because of containment
@@ -191,7 +200,7 @@ diff-file[data-with-discussion-toggle] {
   scroll-margin-top: var(--rd-diff-file-header-height);
 }
 
-diff-file[data-with-discussion-toggle] .rd-line-number:not(:nth-child(2))::before {
+diff-file:where([data-with-discussion-toggle], [data-line-range-dragging]) .rd-line-number:not(:nth-child(2))::before {
   content: "";
   position: absolute;
   top: 0;

@@ -1620,12 +1620,6 @@ class Project < ApplicationRecord
     auto_devops_config[:scope] != :project && auto_devops_config[:status]
   end
 
-  def has_auto_devops_implicitly_disabled?
-    auto_devops_config = first_auto_devops_config
-
-    auto_devops_config[:scope] != :project && !auto_devops_config[:status]
-  end
-
   def packages_cleanup_policy
     super || build_packages_cleanup_policy
   end

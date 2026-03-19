@@ -19,12 +19,13 @@ module Enums
           filtered_by_rules: 26,
           filtered_by_workflow_rules: 27,
           composite_identity_forbidden: 28,
-          pipeline_ref_creation_failure: 29
+          pipeline_ref_creation_failure: 29,
+          filtered_by_no_pipeline: 30
         }
       end
 
       def self.persistable_failure_reasons
-        failure_reasons.except(:filtered_by_rules, :filtered_by_workflow_rules)
+        failure_reasons.except(:filtered_by_rules, :filtered_by_workflow_rules, :filtered_by_no_pipeline)
       end
 
       def self.persistable_failure_reason?(reason)

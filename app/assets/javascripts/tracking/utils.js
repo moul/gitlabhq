@@ -1,4 +1,4 @@
-import { omitBy, isUndefined } from 'lodash';
+import { omitBy, isUndefined } from 'lodash-es';
 import { TRACKING_CONTEXT_SCHEMA } from '~/experimentation/constants';
 import { getExperimentData } from '~/experimentation/utils';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';

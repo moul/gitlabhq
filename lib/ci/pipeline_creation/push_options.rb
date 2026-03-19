@@ -23,6 +23,10 @@ module Ci
         push_options.dig(:ci, :skip).present?
       end
 
+      def no_pipeline?
+        push_options.dig(:ci, :no_pipeline).present?
+      end
+
       def variables
         raw_push_options_variables = push_options.dig(:ci, :variable)
         return [] unless raw_push_options_variables

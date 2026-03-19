@@ -15,6 +15,7 @@ module Ci
       Gitlab::Ci::Pipeline::Chain::Validate::SecurityOrchestrationPolicy,
       Gitlab::Ci::Pipeline::Chain::AssignPartition,
       Gitlab::Ci::Pipeline::Chain::PipelineExecutionPolicies::EvaluatePolicies,
+      Gitlab::Ci::Pipeline::Chain::NoPipeline,
       Gitlab::Ci::Pipeline::Chain::Skip,
       Gitlab::Ci::Pipeline::Chain::Validate::Config,
       Gitlab::Ci::Pipeline::Chain::Config::Content,

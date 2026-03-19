@@ -49759,6 +49759,8 @@ CREATE INDEX tmp_index_project_statistics_cont_registry_size ON project_statisti
 
 CREATE INDEX tmp_index_users_on_external_where_external_is_null ON users USING btree (external) WHERE (external IS NULL);
 
+CREATE INDEX tmp_index_vuln_reads_on_id_where_owasp_2021 ON vulnerability_reads USING btree (id) WHERE (owasp_top_10 = ANY (ARRAY[11, 12, 13, 14, 15, 16, 17, 18, 19, 20]));
+
 CREATE UNIQUE INDEX u_compliance_requirements_for_framework ON compliance_requirements USING btree (framework_id, name);
 
 CREATE UNIQUE INDEX u_project_compliance_standards_adherence_for_reporting ON project_compliance_standards_adherence USING btree (project_id, check_name, standard);
