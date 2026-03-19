@@ -55208,9 +55208,15 @@ Values for sorting contacts.
 | ----- | ----------- |
 | <a id="containerexpirationpolicyolderthanenum-fourteen_days"></a>`FOURTEEN_DAYS` | 14 days until tags are automatically removed. |
 | <a id="containerexpirationpolicyolderthanenum-ninety_days"></a>`NINETY_DAYS` | 90 days until tags are automatically removed. |
+| <a id="containerexpirationpolicyolderthanenum-one_day"></a>`ONE_DAY` | 1 day until tags are automatically removed. |
+| <a id="containerexpirationpolicyolderthanenum-one_hundred_eighty_days"></a>`ONE_HUNDRED_EIGHTY_DAYS` | 180 days until tags are automatically removed. |
+| <a id="containerexpirationpolicyolderthanenum-one_thousand_ninety_five_days"></a>`ONE_THOUSAND_NINETY_FIVE_DAYS` | 3 years until tags are automatically removed. |
 | <a id="containerexpirationpolicyolderthanenum-seven_days"></a>`SEVEN_DAYS` | 7 days until tags are automatically removed. |
+| <a id="containerexpirationpolicyolderthanenum-seven_hundred_thirty_days"></a>`SEVEN_HUNDRED_THIRTY_DAYS` | 2 years until tags are automatically removed. |
 | <a id="containerexpirationpolicyolderthanenum-sixty_days"></a>`SIXTY_DAYS` | 60 days until tags are automatically removed. |
 | <a id="containerexpirationpolicyolderthanenum-thirty_days"></a>`THIRTY_DAYS` | 30 days until tags are automatically removed. |
+| <a id="containerexpirationpolicyolderthanenum-three_days"></a>`THREE_DAYS` | 3 days until tags are automatically removed. |
+| <a id="containerexpirationpolicyolderthanenum-three_hundred_sixty_five_days"></a>`THREE_HUNDRED_SIXTY_FIVE_DAYS` | 1 year until tags are automatically removed. |
 
 ### `ContainerProtectionRepositoryRuleAccessLevel`
 

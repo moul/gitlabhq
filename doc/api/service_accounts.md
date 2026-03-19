@@ -191,6 +191,7 @@ Example response:
 {{< history >}}
 
 - Subgroup service accounts [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/585513) in GitLab 18.10 [with a feature flag](../administration/feature_flags/_index.md) named `allow_subgroups_to_create_service_accounts`. Disabled by default.
+- Subgroup service accounts [generally available](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225485/) in GitLab 18.11. Feature flag `allow_subgroups_to_create_service_accounts` removed.
 
 {{< /history >}}
 
@@ -575,6 +576,7 @@ Example response:
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/585509) in GitLab 18.9 [with a flag](../administration/feature_flags/_index.md) named `allow_projects_to_create_service_accounts`. Disabled by default.
+- Project service accounts [generally available](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225485/) in GitLab 18.11. Feature flag `allow_projects_to_create_service_accounts` removed.
 
 {{< /history >}}
 

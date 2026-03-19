@@ -322,7 +322,7 @@ export default {
       return mapCreatedAtToID[sort] || sort;
     },
   },
-  helpUrl: helpPagePath('user/import/mapping', {
+  helpUrl: helpPagePath('user/import/mapping/reassignment', {
     anchor: 'security-considerations',
   }),
   uploadCsvModalId: UPLOAD_CSV_PLACEHOLDERS_MODAL_ID,

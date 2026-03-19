@@ -843,6 +843,9 @@ msgid_plural "%{count} work items selected"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%{days} day until tags are automatically removed"
+msgstr ""
+
 msgid "%{days} days until tags are automatically removed"
 msgstr ""
 
@@ -1686,6 +1689,12 @@ msgid "%{viewer} could not be displayed: %{reason}. Options to address this: %{o
 msgstr ""
 
 msgid "%{wildcards_link_start}Wildcards%{wildcards_link_end} such as %{code_tag_start}v*%{code_tag_end} or %{code_tag_start}*-release%{code_tag_end} are supported."
+msgstr ""
+
+msgid "%{years} year until tags are automatically removed"
+msgstr ""
+
+msgid "%{years} years until tags are automatically removed"
 msgstr ""
 
 msgid "'%{entry}' is not a valid domain name"

@@ -62,8 +62,8 @@ export default {
       const fullData = [];
       this.collapsedData?.new_errors?.forEach((e) => {
         fullData.push({
-          text: e.check_name
-            ? `${capitalizeFirstCharacter(e.severity)} - ${e.check_name} - ${e.description}`
+          text: e.engine_name
+            ? `${capitalizeFirstCharacter(e.severity)} - ${e.engine_name} - ${e.description}`
             : `${capitalizeFirstCharacter(e.severity)} - ${e.description}`,
           link: {
             href: e.web_url,
@@ -77,8 +77,8 @@ export default {
 
       this.collapsedData?.resolved_errors?.forEach((e) => {
         fullData.push({
-          text: e.check_name
-            ? `${capitalizeFirstCharacter(e.severity)} - ${e.check_name} - ${e.description}`
+          text: e.engine_name
+            ? `${capitalizeFirstCharacter(e.severity)} - ${e.engine_name} - ${e.description}`
             : `${capitalizeFirstCharacter(e.severity)} - ${e.description}`,
           supportingText: `${i18n.prependText} ${e.file_path}:${e.line}`,
           icon: {

@@ -164,6 +164,10 @@ marked as completed by default and can set to pending by sending `including: fal
 
 Provides an instance of `Gitlab::Elastic::Helper.default`
 
+#### `es_client`
+
+Provides an instance of `Gitlab::Search::Client.new`
+
 #### `warm_elasticsearch_migrations_cache!`
 
 Primes the `::Elastic::DataMigrationService` migration cache by calling `migration_has_finished?` for each migration.
