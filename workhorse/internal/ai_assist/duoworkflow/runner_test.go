@@ -24,15 +24,17 @@ import (
 )
 
 type mockWebSocketConn struct {
-	readMessages      [][]byte
-	writeMessages     [][]byte
-	readIndex         int
-	readError         error
-	writeError        error
-	closeError        error
-	writeControlError error
-	setDeadlineError  error
-	blockCh           chan bool
+	readMessages       [][]byte
+	writeMessages      [][]byte
+	writeDeadlines     []time.Time
+	readIndex          int
+	readError          error
+	writeError         error
+	closeError         error
+	writeControlError  error
+	setDeadlineError   error
+	clearDeadlineError error
+	blockCh            chan bool
 }
 
 func (m *mockWebSocketConn) ReadMessage() (int, []byte, error) {
@@ -71,7 +73,11 @@ func (m *mockWebSocketConn) SetReadDeadline(_ time.Time) error {
 	return m.setDeadlineError
 }
 
-func (m *mockWebSocketConn) SetWriteDeadline(_ time.Time) error {
+func (m *mockWebSocketConn) SetWriteDeadline(t time.Time) error {
+	m.writeDeadlines = append(m.writeDeadlines, t)
+	if t.IsZero() {
+		return m.clearDeadlineError
+	}
 	return m.setDeadlineError
 }
 
@@ -1179,11 +1185,12 @@ func TestRunner_closeWebSocketConnection(t *testing.T) {
 
 func TestRunner_sendActionToWs(t *testing.T) {
 	tests := []struct {
-		name             string
-		action           *pb.Action
-		writeError       error
-		setDeadlineError error
-		expectedErrMsg   string
+		name               string
+		action             *pb.Action
+		writeError         error
+		setDeadlineError   error
+		clearDeadlineError error
+		expectedErrMsg     string
 	}{
 		{
 			name: "successful send",
@@ -1223,13 +1230,27 @@ func TestRunner_sendActionToWs(t *testing.T) {
 			setDeadlineError: errors.New("set write deadline failed"),
 			expectedErrMsg:   "sendActionToWs: failed to set write deadline: set write deadline failed",
 		},
+		{
+			name: "clear write deadline error",
+			action: &pb.Action{
+				RequestID: "req-clear",
+				Action: &pb.Action_RunCommand{
+					RunCommand: &pb.RunCommandAction{
+						Program: "ls",
+					},
+				},
+			},
+			clearDeadlineError: errors.New("clear write deadline failed"),
+			expectedErrMsg:     "sendActionToWs: failed to clear write deadline: clear write deadline failed",
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			mockConn := &mockWebSocketConn{
-				writeError:       tt.writeError,
-				setDeadlineError: tt.setDeadlineError,
+				writeError:         tt.writeError,
+				setDeadlineError:   tt.setDeadlineError,
+				clearDeadlineError: tt.clearDeadlineError,
 			}
 
 			testURL, _ := url.Parse("http://example.com")
@@ -1248,6 +1269,10 @@ func TestRunner_sendActionToWs(t *testing.T) {
 			} else {
 				require.NoError(t, err)
 				require.Len(t, mockConn.writeMessages, 1)
+				// Verify the write deadline was set and then cleared.
+				require.Len(t, mockConn.writeDeadlines, 2)
+				require.False(t, mockConn.writeDeadlines[0].IsZero(), "first call should set a non-zero deadline")
+				require.True(t, mockConn.writeDeadlines[1].IsZero(), "second call should clear the deadline")
 			}
 		})
 	}

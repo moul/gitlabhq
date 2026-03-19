@@ -66,11 +66,21 @@ If Advanced Search isn't available, GLQL uses PostgreSQL instead.
 The query syntax consists primarily of logical expressions. These expressions follow the
 syntax of `<field> <operator> <value> and ...`.
 
+### Data sources
+
+GLQL can query the following data sources:
+
+- Work items
+- Merge requests
+
+Each data source exposes one or more types, for example `Issue` under work items.
+For a full list of supported types, see [supported types](fields.md#type).
+
+Use the `type` field in your query to specify the data source, for example `type = Issue` or `type = MergeRequest`.
+
 ### Fields
 
-Field names can have values like `assignee`, `author`, `label`, and `milestone`.
-A `type` field can be used to filter a query by the object type, like `Issue`, `MergeRequest`,
-or work item types like `Task` or `Objective`.
+Fields are the attributes of a queried type, used to filter, display, and sort results. Available fields depend on the type being queried, for example `assignee`, `author`, `label`, or `milestone` on `Issue`.
 
 For a full list of supported fields, supported operators, and value types, see [GLQL fields](fields.md).
 
@@ -151,7 +161,7 @@ title: GLQL table 🎉
 description: This view lists my open issues
 fields: title, state, health, epic, milestone, weight, updated
 limit: 5
-query: group = "gitlab-org" AND assignee = currentUser() AND state = opened
+query: type = Issue AND group = "gitlab-org" AND assignee = currentUser() AND state = opened
 ```
 ````
 
@@ -194,7 +204,7 @@ display: list
 fields: title, health, due
 limit: 5
 sort: due asc
-query: group = "gitlab-org" AND assignee = currentUser() AND state = opened
+query: type = Issue AND group = "gitlab-org" AND assignee = currentUser() AND state = opened
 ```
 ````
 
@@ -235,7 +245,7 @@ To rename a table view's column to a custom value, use the `AS` syntax keyword t
 display: list
 fields: title, labels("workflow::*") AS "Workflow", labels("priority::*") AS "Priority"
 limit: 5
-query: project = "gitlab-org/gitlab" AND assignee = currentUser() AND state = opened
+query: type = Issue AND project = "gitlab-org/gitlab" AND assignee = currentUser() AND state = opened
 ```
 ````
 

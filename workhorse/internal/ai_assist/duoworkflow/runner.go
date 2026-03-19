@@ -414,6 +414,12 @@ func (r *runner) sendActionToWs(action *pb.Action) error {
 		return fmt.Errorf("sendActionToWs: failed to send WS message: %v", err)
 	}
 
+	// Clear the write deadline after a successful write so it does not affect
+	// subsequent operations (including reads on the same net.Conn).
+	if deadlineErr := r.conn.SetWriteDeadline(time.Time{}); deadlineErr != nil {
+		return fmt.Errorf("sendActionToWs: failed to clear write deadline: %v", deadlineErr)
+	}
+
 	return nil
 }
 

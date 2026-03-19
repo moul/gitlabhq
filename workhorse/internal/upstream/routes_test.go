@@ -142,7 +142,7 @@ func TestAllowedProxyRouteWithRateLimitCache(t *testing.T) {
 	config := newUpstreamConfig(railsServer.URL)
 	config.CircuitBreakerConfig.Enabled = true
 
-	upstreamHandler := newUpstream(*config, logrus.StandardLogger(), configureRoutes, nil, rdb, nil, nil, nil)
+	upstreamHandler := newUpstream(*config, logrus.StandardLogger(), configureRoutes, nil, rdb, nil, nil, nil, nil)
 	ws := httptest.NewServer(upstreamHandler)
 	defer ws.Close()
 
@@ -182,7 +182,7 @@ func TestWsRouteStrict(t *testing.T) {
 		u.Routes = []routeEntry{
 			u.wsRouteStrict(newRoute(`^/-/cable\z`, "action_cable", railsBackend), handler),
 		}
-	}, nil, nil, nil, nil, nil)
+	}, nil, nil, nil, nil, nil, nil)
 	ts := httptest.NewServer(u)
 	t.Cleanup(ts.Close)
 

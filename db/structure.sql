@@ -47705,8 +47705,6 @@ CREATE INDEX index_project_repository_states_needs_verification ON project_repos
 
 CREATE INDEX index_project_repository_states_on_project_id ON project_repository_states USING btree (project_id);
 
-CREATE INDEX index_project_repository_states_on_project_repository_id ON project_repository_states USING btree (project_repository_id);
-
 CREATE INDEX index_project_repository_states_on_verification_state ON project_repository_states USING btree (verification_state);
 
 CREATE INDEX index_project_repository_states_pending_verification ON project_repository_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
@@ -49892,6 +49890,8 @@ CREATE UNIQUE INDEX unique_index_ml_model_version_metadata_name ON ml_model_vers
 CREATE UNIQUE INDEX unique_index_on_system_note_metadata_id ON resource_link_events USING btree (system_note_metadata_id);
 
 CREATE UNIQUE INDEX unique_index_project_group_links_on_group_id_and_project_id ON project_group_links USING btree (group_id, project_id);
+
+CREATE UNIQUE INDEX unique_index_project_repository_states_on_project_repository_id ON project_repository_states USING btree (project_repository_id);
 
 CREATE UNIQUE INDEX unique_index_sysaccess_ms_access_tokens_on_sysaccess_ms_app_id ON system_access_microsoft_graph_access_tokens USING btree (system_access_microsoft_application_id);
 

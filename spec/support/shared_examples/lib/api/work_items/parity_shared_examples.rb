@@ -195,7 +195,7 @@ end
 RSpec.shared_examples 'work item API filter parity' do
   # These are filters that we have not yet migrated to the REST API. See EE parity_spec where we override them.
   let(:filter_parity_wip) do
-    %w[exclude_group_work_items exclude_projects include_ancestors include_archived include_descendants timeframe]
+    %w[exclude_group_work_items exclude_projects timeframe]
   end
 
   let(:not_filter_parity_wip) { [] }

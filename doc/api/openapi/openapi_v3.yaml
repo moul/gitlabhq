@@ -4343,7 +4343,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_1cd55f02d6a4"
+              "$ref": "#/components/schemas/RequestBody_ab32f2337a80"
   "/api/v4/security/groups/{id}/vulnerability_exports":
     post:
       operationId: postApiV4SecurityGroupsIdVulnerabilityExports
@@ -4370,7 +4370,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_1cd55f02d6a4"
+              "$ref": "#/components/schemas/RequestBody_ab32f2337a80"
   "/api/v4/security/vulnerability_exports":
     post:
       operationId: postApiV4SecurityVulnerabilityExports
@@ -82549,6 +82549,24 @@ components:
       required:
       - started_on
       - expires_on
+    RequestBody_2f48b32bde07:
+      type: object
+      properties:
+        revisions:
+          type: array
+          items:
+            type: string
+          description: Git revisions to list blobs for
+          nullable: true
+        bytes_limit:
+          type: integer
+          minimum: 1
+          maximum: 1048576
+          default: 1048576
+          description: Maximum blob size in bytes (1 to 1048576)
+          nullable: true
+      required:
+      - revisions
     RequestBody_fb3b23c01c35:
       type: object
       properties:
@@ -84331,7 +84349,7 @@ components:
           type: boolean
           description: Whether hidden groups should be removed
           nullable: true
-    RequestBody_1cd55f02d6a4:
+    RequestBody_ab32f2337a80:
       type: object
       properties:
         export_format:
@@ -84381,6 +84399,10 @@ components:
               type: object
               description: Data for rendering the open vulnerabilities over time in
                 PDF reports
+              nullable: true
+            vulnerabilities_by_age:
+              type: object
+              description: Data for rendering the vulnerabilities by age in PDF reports
               nullable: true
             dashboard_type:
               type: string

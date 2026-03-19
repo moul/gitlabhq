@@ -8,7 +8,7 @@ export default {
 };
 </script>
 <template>
-  <div class="gl-border-b gl-flex gl-justify-between gl-bg-subtle">
+  <div class="gl-flex gl-flex-wrap gl-items-center gl-gap-3">
     <blame-legend />
     <blame-preferences :has-revs-file="hasRevsFile" />
   </div>

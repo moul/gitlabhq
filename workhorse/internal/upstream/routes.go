@@ -13,6 +13,8 @@ import (
 	"gitlab.com/gitlab-org/labkit/log"
 	"gitlab.com/gitlab-org/labkit/tracing"
 
+	"gitlab.com/gitlab-org/gitlab/workhorse/internal/loadshedding"
+
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/ai_assist/duoworkflow"
 	apipkg "gitlab.com/gitlab-org/gitlab/workhorse/internal/api"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/artifacts"
@@ -137,6 +139,10 @@ func withBodyLimitMode(bodyLimitMode bodylimit.Mode) func(*routeOptions) {
 }
 
 func (u *upstream) observabilityMiddlewares(handler http.Handler, method string, metadata routeMetadata, opts *routeOptions) http.Handler {
+	if u.loadShedder != nil {
+		handler = loadshedding.Middleware(u.loadShedder, u.accessLogger)(handler)
+	}
+
 	handler = log.AccessLogger(
 		handler,
 		log.WithAccessLogger(u.accessLogger),
@@ -292,7 +298,9 @@ func buildProxy(backend *url.URL, version string, rt http.RoundTripper, cfg conf
 		sendfile.SendFile(apipkg.Block(handler)),
 		git.SendArchive,
 		git.SendBlob,
+		git.SendChangedPaths,
 		git.SendDiff,
+		git.SendListBlobs,
 		git.SendPatch,
 		git.SendSnapshot,
 		artifacts.SendEntry,

@@ -25,6 +25,7 @@ import (
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/healthcheck"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/helper"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/helper/nginx"
+	"gitlab.com/gitlab-org/gitlab/workhorse/internal/loadshedding"
 	proxypkg "gitlab.com/gitlab-org/gitlab/workhorse/internal/proxy"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/rejectmethods"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/upload"
@@ -58,6 +59,7 @@ type upstream struct {
 	geoProxyPollSleep     func(time.Duration)
 	geoPollerDone         chan struct{}
 	accessLogger          *logrus.Logger
+	loadShedder           *loadshedding.LoadShedder
 	enableGeoProxyFeature bool
 	mu                    sync.RWMutex
 	watchKeyHandler       builds.WatchKeyHandler
@@ -76,6 +78,7 @@ func NewUpstream(
 	healthCheckServer *healthcheck.Server,
 	shutdownChan <-chan struct{},
 	upgradedConnsManager *UpgradedConnsManager,
+	loadShedder *loadshedding.LoadShedder,
 ) http.Handler {
 	return newUpstream(
 		cfg,
@@ -86,6 +89,7 @@ func NewUpstream(
 		healthCheckServer,
 		shutdownChan,
 		upgradedConnsManager,
+		loadShedder,
 	)
 }
 
@@ -98,10 +102,12 @@ func newUpstream(
 	healthCheckServer *healthcheck.Server,
 	shutdownChan <-chan struct{},
 	upgradedConnsManager *UpgradedConnsManager,
+	loadShedder *loadshedding.LoadShedder,
 ) http.Handler {
 	up := upstream{
 		Config:       cfg,
 		accessLogger: accessLogger,
+		loadShedder:  loadShedder,
 		// Kind of a feature flag. See https://gitlab.com/groups/gitlab-org/-/epics/5914#note_564974130
 		enableGeoProxyFeature: os.Getenv("GEO_SECONDARY_PROXY") != "0",
 		geoProxyBackend:       &url.URL{},

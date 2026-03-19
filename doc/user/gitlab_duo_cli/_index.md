@@ -273,6 +273,96 @@ When you use headless mode, the GitLab Duo CLI:
 - Does not maintain context from previous conversations.
   A new workflow starts every time you execute the `run` command.
 
+## Select a model
+
+You can select a model for interactive mode or headless mode.
+
+### For interactive mode
+
+The model you select persists across sessions, and you can switch models
+mid-conversation without losing context.
+
+Prerequisites:
+
+- GitLab Duo CLI 8.76.0 or later.
+
+To select a model for interactive mode:
+
+1. In interactive mode, enter the `/model` command.
+1. Use the arrow keys to scroll through the list of available models, or enter a model name to
+   filter the list.
+1. Select a model and press <kbd>Enter</kbd> to switch to it.
+
+### For headless mode
+
+The model you select does not persist across sessions.
+
+Prerequisites:
+
+- GitLab Duo CLI 8.68.0 or later.
+
+To select a model for headless mode:
+
+1. Find the [`gitlab_identifier` for the model](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/HEAD/ai_gateway/model_selection/models.yml).
+1. When you run the GitLab Duo CLI, set the `--model` option or the `GITLAB_DUO_MODEL` environment
+   variable to the `gitlab_identifier` value.
+
+   {{< tabs >}}
+
+   {{< tab title="glab" >}}
+
+   Use the `--model` option:
+
+   ```shell
+   glab duo cli --model <gitlab_identifier_for_the_model>
+   ```
+
+   Use the `GITLAB_DUO_MODEL` environment variable:
+
+   ```shell
+   GITLAB_DUO_MODEL=<gitlab_identifier_for_the_model> glab duo cli
+   ```
+
+   For example, to use [`GPT-5-Codex - OpenAI`](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/HEAD/ai_gateway/model_selection/models.yml#L448):
+
+   ```shell
+   glab duo cli --model gpt_5_codex
+   ```
+
+   ```shell
+   GITLAB_DUO_MODEL=gpt_5_codex glab duo cli
+   ```
+
+   {{< /tab >}}
+
+   {{< tab title="duo" >}}
+
+   Use the `--model` option:
+
+   ```shell
+   duo --model <gitlab_identifier_for_the_model>
+   ```
+
+   Use the `GITLAB_DUO_MODEL` environment variable:
+
+   ```shell
+   GITLAB_DUO_MODEL=<gitlab_identifier_for_the_model> duo
+   ```
+
+   For example, to use [`GPT-5-Codex - OpenAI`](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/HEAD/ai_gateway/model_selection/models.yml#L448):
+
+   ```shell
+   duo --model gpt_5_codex
+   ```
+
+   ```shell
+   GITLAB_DUO_MODEL=gpt_5_codex duo
+   ```
+
+   {{< /tab >}}
+
+   {{< /tabs >}}
+
 ## Model Context Protocol (MCP) connections
 
 To connect the GitLab Duo CLI to local or remote MCP servers, use the same MCP configuration
@@ -287,7 +377,7 @@ The GitLab Duo CLI supports these options:
   `duo run --help`.
 - `--log-level <level>`: Set the logging level (`debug`, `info`, `warn`, `error`).
 - `-v`, `--version`: Display version information.
-- `--model <model>`: Select the AI model to use for your session.
+- `--model <model>`: Select the AI model to use for the session.
 
 Additional options for headless mode:
 
@@ -338,6 +428,7 @@ You can configure the GitLab Duo CLI using environment variables:
 - `DUO_WORKFLOW_GIT_HTTP_PASSWORD`: Git HTTP authentication password.
 - `DUO_WORKFLOW_GIT_HTTP_USER`: Git HTTP authentication username.
 - `GITLAB_BASE_URL` or `GITLAB_URL`: GitLab instance URL.
+- `GITLAB_DUO_MODEL`: AI model to use for the session.
 - `GITLAB_OAUTH_TOKEN` or `GITLAB_TOKEN`: Authentication token.
 - `LOG_LEVEL`: Logging level.
 

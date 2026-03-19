@@ -203,7 +203,7 @@ To create a [merge request](../merge_requests/_index.md) in the Web IDE:
 1. [Commit the changes](#commit-changes).
 1. In the notification that appears in the lower right, select **Create MR**.
 
-For more information, see [View missed notifications](#view-missed-notifications).
+For more information, see [view missed notifications](#view-missed-notifications).
 
 ## Customize the Web IDE
 

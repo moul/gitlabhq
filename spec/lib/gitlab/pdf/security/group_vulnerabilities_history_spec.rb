@@ -85,7 +85,7 @@ RSpec.describe Gitlab::PDF::Security::GroupVulnerabilitiesHistory, feature_categ
       render_chart
 
       # 4 severity icons + 4 svg charts
-      expect(pdf).to have_received(:svg).with(%r{<svg.*</svg>}, any_args).exactly(8).times
+      expect(pdf).to have_received(:svg).with(%r{<svg.*</svg>}m, any_args).exactly(8).times
     end
 
     context 'when data is nil' do

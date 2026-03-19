@@ -10,6 +10,7 @@ module API
     urgency :low
 
     WORK_ITEMS_TAGS = %w[work_items].freeze
+    GROUP_ONLY_FILTER_PARAMS = %i[include_ancestors include_descendants include_archived].freeze
     DEFAULT_FIELDS = %i[id iid global_id title].freeze
     FULL_PATH_ID_REQUIREMENT = %r{[^/]+(?:/[^/]+)*}
     SUBSCRIPTION_STATUS_ENUM = {
@@ -211,6 +212,15 @@ module API
         end
       end
 
+      params :work_items_group_filter_params do
+        optional :include_ancestors, type: Boolean,
+          desc: 'Include work items from ancestor groups.'
+        optional :include_descendants, type: Boolean,
+          desc: 'Include work items from descendant groups and projects.'
+        optional :include_archived, type: Boolean, default: false,
+          desc: 'Return work items from archived projects.'
+      end
+
       params :work_items_list_params do
         use :pagination
         use :work_items_filter_params
@@ -223,6 +233,11 @@ module API
             'No feature payloads are returned unless specified.',
             "Supported values: #{FEATURE_SUPPORTED_VALUES.join(', ')}."
           ].join(' ')
+      end
+
+      params :work_items_group_list_params do
+        use :work_items_list_params
+        use :work_items_group_filter_params
       end
 
       params :work_item_show_params do
@@ -315,14 +330,16 @@ module API
       end
 
       def work_items_finder_params(resource_parent)
+        transformer = ::API::Helpers::WorkItemsFilterParams.new(params)
+        filter_params = transformer.transform
+
         base_params = if resource_parent.is_a?(::Project)
                         { project_id: resource_parent.id }
                       else
                         { group_id: resource_parent }
                       end
 
-        transformer = ::API::Helpers::WorkItemsFilterParams.new(params)
-        filter_params = transformer.transform
+        filter_params.except!(*GROUP_ONLY_FILTER_PARAMS) if resource_parent.is_a?(::Project)
 
         # TODO: Remove once we allow sorting param as part of the API.
         # But keep `created_at` as default when no param is present, since sorting by just `id`
@@ -381,7 +398,7 @@ module API
           tags WORK_ITEMS_TAGS
         end
         params do
-          use :work_items_list_params
+          use :work_items_group_list_params
         end
         route_setting :authorization,
           permissions: :read_work_item,
@@ -497,7 +514,7 @@ module API
           tags WORK_ITEMS_TAGS
         end
         params do
-          use :work_items_list_params
+          use :work_items_group_list_params
         end
         route_setting :authorization,
           permissions: :read_work_item,

@@ -84,8 +84,7 @@ results in plain text instead of mentioning all users.
 When you disable this feature, existing `@all` mentions in the Markdown texts are unchanged,
 and remain as links. Only future `@all` mentions appear as plain text.
 
-Notifications and mentions can be disabled in
-[a group's settings](../group/manage.md#disable-email-notifications).
+You can disable notifications and mentions in [group settings](../group/manage.md#disable-email-notifications).
 
 ### Mention a group in an issue or merge request
 
@@ -102,7 +101,7 @@ added to their to-do list.
 
 GitLab creates a to-do item for all the group and subgroup members.
 
-For more information on mentioning subgroups, see [Mention subgroups](../group/subgroups/_index.md#mention-subgroups).
+For more information, see [mention subgroups](../group/subgroups/_index.md#mention-subgroups).
 
 ## Add a comment to a merge request diff
 

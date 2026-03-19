@@ -91,6 +91,8 @@ To select a model for a feature:
 
 In the IDE, model selection for GitLab Duo Chat (agentic) is applied only when the connection type is set to WebSocket.
 
+To specify a model for the GitLab Duo CLI, see [select a model](../../user/gitlab_duo_cli/_index.md#select-a-model).
+
 ## Troubleshooting
 
 When selecting models other than the default, you might encounter the following issues.

@@ -69,7 +69,7 @@ func TestRouting(t *testing.T) {
 			handle(u, quxbaz),
 			handle(u, main),
 		}
-	}, nil, nil, nil, shutdownChan, nil)
+	}, nil, nil, nil, shutdownChan, nil, nil)
 	ts := httptest.NewServer(u)
 	defer ts.Close()
 
@@ -477,7 +477,7 @@ func startWorkhorseServer(t *testing.T, railsServerURL string, enableGeoProxyFea
 	}
 	cfg := newUpstreamConfig(railsServerURL)
 	shutdownChan := make(chan struct{})
-	upstreamHandler := newUpstream(*cfg, logrus.StandardLogger(), myConfigureRoutes, nil, nil, nil, shutdownChan, nil)
+	upstreamHandler := newUpstream(*cfg, logrus.StandardLogger(), myConfigureRoutes, nil, nil, nil, shutdownChan, nil, nil)
 	ws := httptest.NewServer(upstreamHandler)
 
 	t.Cleanup(func() {
@@ -573,7 +573,7 @@ func TestAdoptCfRayHeaderCorrelation(t *testing.T) {
 				u.Routes = []routeEntry{
 					u.route("", routeMetadata{}, handler),
 				}
-			}, nil, nil, nil, shutdownChan, nil)
+			}, nil, nil, nil, shutdownChan, nil, nil)
 
 			// Create a test request
 			req := httptest.NewRequest("GET", "/", nil)

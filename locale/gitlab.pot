@@ -14223,7 +14223,7 @@ msgstr ""
 msgid "CSV is being generated and will be emailed to you upon completion."
 msgstr ""
 
-msgid "CVE"
+msgid "CVE ID"
 msgstr ""
 
 msgid "CVE|As a maintainer, requesting a CVE for a vulnerability in your project will help your users stay secure and informed."
@@ -14259,7 +14259,7 @@ msgstr ""
 msgid "CVS|Only a project maintainer or owner can toggle this feature."
 msgstr ""
 
-msgid "CWE"
+msgid "CWE ID"
 msgstr ""
 
 msgid "Cache search results for %{label}"
@@ -26284,6 +26284,12 @@ msgstr ""
 msgid "DuoAgentPlatform|User messaged agent"
 msgstr ""
 
+msgid "DuoAgenticChat|As Owner of the group, you can turn on GitLab Duo Agent Platform and its AI features for your team."
+msgstr ""
+
+msgid "DuoAgenticChat|As Owner of the project, you can turn on GitLab Duo Agent Platform and its AI features for your team."
+msgstr ""
+
 msgid "DuoAgenticChat|Chat about different topics"
 msgstr ""
 
@@ -26314,6 +26320,12 @@ msgstr ""
 msgid "DuoAgenticChat|GitLab Duo is already responding to this chat in another tab or location. Start a new chat, or wait for GitLab Duo to finish before sending a new message."
 msgstr ""
 
+msgid "DuoAgenticChat|GitLab Duo is disabled"
+msgstr ""
+
+msgid "DuoAgenticChat|Go to Duo settings"
+msgstr ""
+
 msgid "DuoAgenticChat|I don't have access to that resource at the moment. Is there something else I can help you with?"
 msgstr ""
 
@@ -26332,6 +26344,9 @@ msgstr ""
 msgid "DuoAgenticChat|No credits remain on your trial"
 msgstr ""
 
+msgid "DuoAgenticChat|Optional. Turn on preview features"
+msgstr ""
+
 msgid "DuoAgenticChat|Purchase more credits"
 msgstr ""
 
@@ -26344,6 +26359,12 @@ msgstr ""
 msgid "DuoAgenticChat|Select default namespace"
 msgstr ""
 
+msgid "DuoAgenticChat|Set up automated workflows and AI agents."
+msgstr ""
+
+msgid "DuoAgenticChat|Steps to turn on GitLab Duo"
+msgstr ""
+
 msgid "DuoAgenticChat|The agent associated with this conversation is no longer available. You can view the conversation history but cannot send new messages."
 msgstr ""
 
@@ -26354,6 +26375,21 @@ msgid "DuoAgenticChat|To use Chat, select a default namespace in your %{preferen
 msgstr ""
 
 msgid "DuoAgenticChat|To use Chat, select a default namespace in your user profile preferences. Alternatively, turn off the Agentic toggle to return to non-agentic Chat."
+msgstr ""
+
+msgid "DuoAgenticChat|Turn on GitLab Duo Agent Platform"
+msgstr ""
+
+msgid "DuoAgenticChat|Turn on GitLab Duo features"
+msgstr ""
+
+msgid "DuoAgenticChat|Turn on GitLab Duo features for this project or group."
+msgstr ""
+
+msgid "DuoAgenticChat|Turn on beta and experimental features for early access to new tools and improvements."
+msgstr ""
+
+msgid "DuoAgenticChat|Turn on flows"
 msgstr ""
 
 msgid "DuoAgenticChat|Unable to connect to workflow service. Please try again."
@@ -32269,6 +32305,9 @@ msgid "GitLab Credits"
 msgstr ""
 
 msgid "GitLab Duo"
+msgstr ""
+
+msgid "GitLab Duo AI Catalog"
 msgstr ""
 
 msgid "GitLab Duo Agent Platform"
@@ -63170,7 +63209,7 @@ msgstr ""
 msgid "SecurityOrchestration|Other"
 msgstr ""
 
-msgid "SecurityOrchestration|Override"
+msgid "SecurityOrchestration|Override Severity"
 msgstr ""
 
 msgid "SecurityOrchestration|Override the following project settings:"
@@ -70082,6 +70121,9 @@ msgid "The number of projects that have no repository data indexed. A value of 0
 msgstr ""
 
 msgid "The number of times an upload record could not find its file"
+msgstr ""
+
+msgid "The number of vulnerabilities detected by age"
 msgstr ""
 
 msgid "The number of vulnerabilities detected over time"
@@ -77229,6 +77271,9 @@ msgid "Vulnerabilities"
 msgstr ""
 
 msgid "Vulnerabilities Over Time"
+msgstr ""
+
+msgid "Vulnerabilities by age"
 msgstr ""
 
 msgid "Vulnerabilities over time"

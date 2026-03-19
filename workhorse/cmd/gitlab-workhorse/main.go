@@ -339,12 +339,8 @@ func run(boot bootConfig, cfg config.Config) error {
 		healthCheckServer,
 		shutdownCh,
 		upgradedConnsManager,
+		loadShedder,
 	)
-
-	// Apply load shedding middleware if configured
-	if loadShedder != nil {
-		up = loadshedding.Middleware(loadShedder, accessLogger)(up)
-	}
 
 	srv := &http.Server{Handler: wrapRaven(up)}
 

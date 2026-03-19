@@ -46,11 +46,7 @@ export default {
 </script>
 
 <template>
-  <gl-disclosure-dropdown
-    :toggle-text="$options.i18n.blamePreferences"
-    :loading="isLoading"
-    class="gl-m-3"
-  >
+  <gl-disclosure-dropdown :toggle-text="$options.i18n.blamePreferences" :loading="isLoading">
     <template v-if="!hasRevsFile">
       <div class="gl-m-3">
         <gl-disclosure-dropdown-item @action="visitDocs">{{

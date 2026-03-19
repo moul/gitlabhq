@@ -120,7 +120,7 @@ This process:
 
 Use this method to remove internal Git references and unreferenced objects from your repository.
 Do not use this method to remove sensitive data.
-Instead use [Remove blobs](#remove-blobs).
+To remove sensitive data, use the [remove blobs method](#remove-blobs).
 
 This process:
 
@@ -236,7 +236,7 @@ To remove blobs from your repository:
 #### Get a list of object IDs
 
 To remove blobs, you need a list of objects to remove.
-To get these IDs, use the `ls-tree` command or use the [Repositories API list repository tree](../../../api/repositories.md#list-all-repository-trees-in-a-project) endpoint.
+To get these IDs, use the `ls-tree` command or the [list repository tree API endpoint](../../../api/repositories.md#list-all-repository-trees-in-a-project).
 The following instructions use the `ls-tree` command.
 
 Prerequisites:
@@ -306,7 +306,7 @@ This approach:
 For more information, see [secret push protection](../../application_security/secret_detection/secret_push_protection/_index.md).
 
 Alternatively, to completely delete specific files from a repository, see
-[Remove blobs](#remove-blobs).
+[remove blobs](#remove-blobs).
 
 Prerequisites:
 

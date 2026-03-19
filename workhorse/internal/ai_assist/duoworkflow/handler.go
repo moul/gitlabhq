@@ -61,8 +61,11 @@ func (h *Handler) Shutdown(ctx context.Context) error {
 // and manages the lifecycle of the workflow runner including registration and cleanup.
 func (h *Handler) Build() http.Handler {
 	return h.rails.PreAuthorizeHandler(func(w http.ResponseWriter, r *http.Request, a *api.Response) {
+		connectionsTotal.Inc()
+
 		conn, err := h.upgrader.Upgrade(w, r, nil)
 		if err != nil {
+			connectionErrorsTotal.Inc()
 			fail.Request(w, r, fmt.Errorf("failed to upgrade: %v", err))
 			return
 		}
@@ -74,6 +77,7 @@ func (h *Handler) Build() http.Handler {
 func (h *Handler) handleWebSocketConnection(w http.ResponseWriter, r *http.Request, conn *websocket.Conn, duoWorkflowConfig *api.DuoWorkflow) {
 	runner, err := h.createRunner(conn, duoWorkflowConfig, r)
 	if err != nil {
+		connectionErrorsTotal.Inc()
 		h.handleInitializationError(w, r, conn, err)
 		return
 	}
@@ -105,6 +109,8 @@ func (h *Handler) registerAndExecuteRunner(r *http.Request, conn *websocket.Conn
 func (h *Handler) executeRunner(r *http.Request, conn *websocket.Conn, runner *runner) {
 	start := time.Now()
 	if err := runner.Execute(r.Context()); err != nil {
+		connectionErrorsTotal.Inc()
+
 		log.WithRequest(r).WithError(err).WithFields(log.Fields{
 			"duration_ms": time.Since(start).Milliseconds(),
 		}).Error("error executing workflow")

@@ -40,6 +40,13 @@
       ],
       "description": "Data for rendering vulnerabilities over time in PDF reports"
     },
+    "vulnerabilities_by_age": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Data for rendering vulnerabilities by age in PDF reports"
+    },
     "dashboard_type": {
       "type": [
         "string",

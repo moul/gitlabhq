@@ -98,7 +98,7 @@ Because these are different token types with different scopes, the CI/CD job has
 
 ## Compliance considerations for merge requests
 
-When a flow creates a merge request, the merge request is attributed to the service account instead of the human user who triggered the flow. This attribution model might conflict with compliance frameworks that require segregation of duties, including:
+When a flow creates a merge request, the merge request is attributed to the human user who triggered the flow instead of the service account. This is done to adhere to compliance frameworks that require segregation of duties, including:
 
 - SOC 2 (System and Organization Controls 2)
 - SOX (Sarbanes-Oxley Act)

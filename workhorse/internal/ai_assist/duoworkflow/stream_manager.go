@@ -43,6 +43,7 @@ func newStreamManager(r *http.Request, cfg *api.DuoWorkflow) (*streamManager, er
 		closeErr := client.Close()
 		return nil, fmt.Errorf("failed to initialize stream: %v", errors.Join(err, closeErr))
 	}
+	sessionsTotal.Inc()
 
 	var cloudServiceClient *Client
 	var cloudServiceStream selfHostedWorkflowStream
@@ -172,6 +173,9 @@ func (sm *streamManager) Recv() (*pb.Action, error) {
 		if err == io.EOF {
 			return nil, err // Expected error when a workflow ends
 		}
+
+		grpcCode := status.Code(err).String()
+		sessionErrorsTotal.WithLabelValues(grpcCode).Inc()
 
 		// Check if this is a RESOURCE_EXHAUSTED error indicating quota exceeded
 		if sm.isUsageQuotaExceededError(err) {
