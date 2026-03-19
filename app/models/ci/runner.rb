@@ -149,6 +149,8 @@ module Ci
       joins(:runner_namespaces).where(ci_runner_namespaces: { namespace_id: group_id })
     }
 
+    scope :in_organization, ->(organization_id) { where(organization_id: organization_id) }
+
     scope :created_by_admins, -> { with_creator_id(User.admins.ids) }
 
     scope :with_creator_id, ->(value) { where(creator_id: value) }

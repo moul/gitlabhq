@@ -5,14 +5,16 @@ import {
   TIMESTAMP_TYPE_CREATED_AT,
   TIMESTAMP_TYPE_UPDATED_AT,
 } from '~/vue_shared/components/resource_lists/constants';
+import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
+import { PAGINATION_TYPE_KEYSET, PAGINATION_TYPE_OFFSET } from '~/groups_projects/constants';
 import groupCountsQuery from '../graphql/queries/group_counts.query.graphql';
 import {
-  GROUP_DASHBOARD_TABS,
-  FIRST_TAB_ROUTE_NAMES,
-  SORT_OPTION_UPDATED,
-  SORT_OPTION_CREATED,
-  FILTERED_SEARCH_TERM_KEY,
   FILTERED_SEARCH_NAMESPACE,
+  FILTERED_SEARCH_TERM_KEY,
+  FIRST_TAB_ROUTE_NAMES,
+  GROUP_DASHBOARD_TABS,
+  SORT_OPTION_CREATED,
+  SORT_OPTION_UPDATED,
 } from '../constants';
 
 export default {
@@ -41,10 +43,24 @@ export default {
   },
   name: 'YourWorkGroupsApp',
   components: { TabsWithList },
+  mixins: [glFeatureFlagMixin()],
   props: {
     initialSort: {
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    tabs() {
+      const paginationType = this.glFeatures.groupsListKeysetPagination
+        ? PAGINATION_TYPE_KEYSET
+        : PAGINATION_TYPE_OFFSET;
+
+      return this.$options.GROUP_DASHBOARD_TABS.map(({ variables = {}, ...tab }) => ({
+        ...tab,
+        variables: { pagination: paginationType, ...variables },
+        paginationType,
+      }));
     },
   },
 };
@@ -52,7 +68,7 @@ export default {
 
 <template>
   <tabs-with-list
-    :tabs="$options.GROUP_DASHBOARD_TABS"
+    :tabs="tabs"
     :filtered-search-term-key="$options.FILTERED_SEARCH_TERM_KEY"
     :filtered-search-namespace="$options.FILTERED_SEARCH_NAMESPACE"
     :filtered-search-recent-searches-storage-key="$options.RECENT_SEARCHES_STORAGE_KEY_GROUPS"

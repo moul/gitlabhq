@@ -1,6 +1,6 @@
 import Vue, { markRaw } from 'vue';
 import MockAdapter from 'axios-mock-adapter';
-import { GlLoadingIcon, GlKeysetPagination, GlPagination } from '@gitlab/ui';
+import { GlKeysetPagination, GlLoadingIcon, GlPagination } from '@gitlab/ui';
 import VueApollo from 'vue-apollo';
 import dashboardGroupsWithChildrenResponse from 'test_fixtures/groups/dashboard/index_with_children.json';
 import starredProjectsGraphQlResponse from 'test_fixtures/graphql/projects/your_work/starred_projects.query.graphql.json';
@@ -9,7 +9,7 @@ import personalProjectsGraphQlResponse from 'test_fixtures/graphql/projects/your
 import membershipProjectsGraphQlResponse from 'test_fixtures/graphql/projects/your_work/membership_projects.query.graphql.json';
 import contributedProjectsGraphQlResponse from 'test_fixtures/graphql/projects/your_work/contributed_projects.query.graphql.json';
 import dashboardGroupsResponse from 'test_fixtures/groups/dashboard/index.json';
-import { shallowMountExtended, mountExtended } from 'helpers/vue_test_utils_helper';
+import { mountExtended, shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import axios from '~/lib/utils/axios_utils';
 import TabView from '~/groups_projects/components/tab_view.vue';
 import { formatGraphQLProjects } from '~/vue_shared/components/projects_list/formatter';
@@ -20,15 +20,16 @@ import { DEFAULT_PER_PAGE } from '~/api';
 import { createAlert } from '~/alert';
 import {
   CONTRIBUTED_TAB,
-  PERSONAL_TAB,
-  MEMBER_TAB,
-  STARRED_TAB,
   INACTIVE_TAB,
+  MEMBER_TAB,
+  PERSONAL_TAB,
+  STARRED_TAB,
 } from '~/projects/your_work/constants';
 import { MEMBER_TAB as MEMBER_TAB_GROUPS } from '~/groups/your_work/constants';
 import {
   FILTERED_SEARCH_TOKEN_LANGUAGE,
   FILTERED_SEARCH_TOKEN_MIN_ACCESS_LEVEL,
+  PAGINATION_TYPE_OFFSET,
 } from '~/groups_projects/constants';
 import { FILTERED_SEARCH_TERM_KEY } from '~/projects/filtered_search_and_sort/constants';
 import { ACCESS_LEVEL_OWNER_INTEGER, ACCESS_LEVEL_OWNER_STRING } from '~/access_level/constants';
@@ -494,7 +495,7 @@ describe('TabView', () => {
   });
 
   describe('offset pagination', () => {
-    const propsData = { tab: MEMBER_TAB_GROUPS };
+    const propsData = { tab: { ...MEMBER_TAB_GROUPS, paginationType: PAGINATION_TYPE_OFFSET } };
 
     describe('when there is one page', () => {
       beforeEach(async () => {

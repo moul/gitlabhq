@@ -20,7 +20,7 @@ export const FILTERED_SEARCH_TOKEN_REPOSITORY_CHECK_FAILED = 'last_repository_ch
 export const SORT_DIRECTION_ASC = 'asc';
 export const SORT_DIRECTION_DESC = 'desc';
 
-export const PAGINATION_TYPE_KEYSET = 'paginationKeyset';
-export const PAGINATION_TYPE_OFFSET = 'paginationOffset';
+export const PAGINATION_TYPE_KEYSET = 'keyset';
+export const PAGINATION_TYPE_OFFSET = 'offset';
 
 export const QUERY_PARAM_PAGE = 'page';

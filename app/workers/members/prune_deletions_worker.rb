@@ -54,7 +54,7 @@ module Members
           # limit deletion to execute only for 60s (execution_tracker::MAX_RUNTIME)
           break if execution_tracker.over_limit?
 
-          ::Members::DestroyService.new(scheduled_by).execute(member, skip_subresources: true)
+          destroy_member(member, scheduled_by)
           destroyed_count += 1
         end
       end
@@ -72,6 +72,10 @@ module Members
     end
     strong_memoize_attr :member_deletion_schedules
 
+    def destroy_member(member, scheduled_by)
+      ::Members::DestroyService.new(scheduled_by).execute(member, skip_subresources: true)
+    end
+
     def log_monitoring_data(user_id, namespace_id, destroyed_count, destroy_duration)
       Gitlab::AppLogger.info(
         message: 'Processed scheduled member deletion',
@@ -87,3 +91,5 @@ module Members
     end
   end
 end
+
+::Members::PruneDeletionsWorker.prepend_mod_with('Members::PruneDeletionsWorker')

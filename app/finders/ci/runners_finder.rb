@@ -20,7 +20,7 @@ module Ci
               elsif @group
                 group_runners
               elsif @user
-                @user.ci_available_runners
+                user_runners
               else
                 all_runners
               end
@@ -92,6 +92,13 @@ module Ci
       else
         raise ArgumentError, 'Invalid membership filter'
       end
+    end
+
+    def user_runners
+      items = @user.ci_available_runners
+      return items unless @params[:organization_id].present?
+
+      items.in_organization(@params[:organization_id])
     end
 
     def project_runners

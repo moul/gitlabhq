@@ -5,6 +5,7 @@ import ExploreGroupsApp from '~/explore/groups/components/app.vue';
 import TabsWithList from '~/groups_projects/components/tabs_with_list.vue';
 import { createRouter } from '~/explore/groups';
 import { EXPLORE_GROUPS_TABS, FILTERED_SEARCH_TERM_KEY } from '~/explore/groups/constants';
+import { PAGINATION_TYPE_KEYSET, PAGINATION_TYPE_OFFSET } from '~/groups_projects/constants';
 
 Vue.use(VueRouter);
 
@@ -16,11 +17,14 @@ describe('ExploreGroupsApp', () => {
     initialSort: 'latest_activity',
   };
 
-  const createComponent = () => {
+  const createComponent = ({ glFeatures = {} } = {}) => {
     router = createRouter('/explore/groups');
 
     wrapper = shallowMount(ExploreGroupsApp, {
       propsData: defaultPropsData,
+      provide: {
+        glFeatures: { groupsListKeysetPagination: true, ...glFeatures },
+      },
       router,
     });
   };
@@ -55,6 +59,34 @@ describe('ExploreGroupsApp', () => {
         clickItemAfterFilter: 'click_group_after_filter_on_explore_groups',
       },
       shouldUpdateActiveTabCountFromTabQuery: false,
+    });
+  });
+
+  describe('when groupsListKeysetPagination is true', () => {
+    it('passes keyset pagination type to tabs', () => {
+      createComponent({ glFeatures: { groupsListKeysetPagination: true } });
+
+      wrapper
+        .findComponent(TabsWithList)
+        .props('tabs')
+        .forEach((tab) => {
+          expect(tab.paginationType).toBe(PAGINATION_TYPE_KEYSET);
+          expect(tab.variables.pagination).toBe(PAGINATION_TYPE_KEYSET);
+        });
+    });
+  });
+
+  describe('when groupsListKeysetPagination is false', () => {
+    it('passes offset pagination type to tabs', () => {
+      createComponent({ glFeatures: { groupsListKeysetPagination: false } });
+
+      wrapper
+        .findComponent(TabsWithList)
+        .props('tabs')
+        .forEach((tab) => {
+          expect(tab.paginationType).toBe(PAGINATION_TYPE_OFFSET);
+          expect(tab.variables.pagination).toBe(PAGINATION_TYPE_OFFSET);
+        });
     });
   });
 });

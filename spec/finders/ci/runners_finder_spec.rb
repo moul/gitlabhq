@@ -902,6 +902,32 @@ RSpec.describe Ci::RunnersFinder, '#execute', feature_category: :fleet_visibilit
       end
     end
 
+    context 'with organization_id filter' do
+      let_it_be(:other_org) { create(:organization) }
+      let_it_be(:other_org_group) { create(:group, organization: other_org) }
+      let_it_be(:user) do
+        create(:user, organizations: [group.organization, other_org], maintainer_of: [project], owner_of: [group, other_org_group])
+      end
+
+      let_it_be(:project_runner) { create(:ci_runner, :project, projects: [project]) }
+      let_it_be(:group_runner) { create(:ci_runner, :group, groups: [group]) }
+      let_it_be(:other_org_runner) { create(:ci_runner, :group, groups: [other_org_group]) }
+
+      context 'when organization_id is provided' do
+        let(:extra_params) { { organization_id: group.organization_id } }
+
+        it 'returns only runners belonging to that organization' do
+          is_expected.to contain_exactly(project_runner, group_runner)
+        end
+      end
+
+      context 'when organization_id is not provided' do
+        it 'returns runners from all user organizations' do
+          is_expected.to contain_exactly(project_runner, group_runner, other_org_runner)
+        end
+      end
+    end
+
     context 'when user is nil' do
       let_it_be(:user) { nil }
 

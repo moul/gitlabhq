@@ -2,20 +2,20 @@ import Vue from 'vue';
 import MockAdapter from 'axios-mock-adapter';
 import VueApollo from 'vue-apollo';
 import VueRouter from 'vue-router';
-import { GlPagination } from '@gitlab/ui';
+import { GlKeysetPagination } from '@gitlab/ui';
 import dashboardGroupsResponse from 'test_fixtures/groups/dashboard/index.json';
 import YourWorkGroupsApp from '~/groups/your_work/components/app.vue';
 import { createRouter } from '~/groups/your_work';
 import groupCountsQuery from '~/groups/your_work/graphql/queries/group_counts.query.graphql';
 import {
-  GROUP_DASHBOARD_TABS,
-  FIRST_TAB_ROUTE_NAMES,
-  SORT_OPTIONS,
-  SORT_OPTION_UPDATED,
-  SORT_OPTION_CREATED,
-  FILTERED_SEARCH_TERM_KEY,
   FILTERED_SEARCH_NAMESPACE,
+  FILTERED_SEARCH_TERM_KEY,
+  FIRST_TAB_ROUTE_NAMES,
+  GROUP_DASHBOARD_TABS,
   GROUPS_DASHBOARD_ROUTE_NAME,
+  SORT_OPTION_CREATED,
+  SORT_OPTION_UPDATED,
+  SORT_OPTIONS,
 } from '~/groups/your_work/constants';
 import TabsWithList from '~/groups_projects/components/tabs_with_list.vue';
 import TabView from '~/groups_projects/components/tab_view.vue';
@@ -25,10 +25,11 @@ import {
   TIMESTAMP_TYPE_CREATED_AT,
   TIMESTAMP_TYPE_UPDATED_AT,
 } from '~/vue_shared/components/resource_lists/constants';
+import { PAGINATION_TYPE_KEYSET, PAGINATION_TYPE_OFFSET } from '~/groups_projects/constants';
 import axios from '~/lib/utils/axios_utils';
 import createMockApollo from 'helpers/mock_apollo_helper';
 import { resolvers } from '~/vue_shared/components/groups_list/resolvers';
-import { shallowMountExtended, mountExtended } from 'helpers/vue_test_utils_helper';
+import { mountExtended, shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import waitForPromises from 'helpers/wait_for_promises';
 
 Vue.use(VueApollo);
@@ -54,6 +55,7 @@ describe('YourWorkGroupsApp', () => {
     handlers = [],
     route = defaultRoute,
     stubs = {},
+    glFeatures = {},
   } = {}) => {
     const apolloProvider = createMockApollo(handlers, resolvers(endpoint));
     router = createRouter();
@@ -61,6 +63,9 @@ describe('YourWorkGroupsApp', () => {
 
     wrapper = mountFn(YourWorkGroupsApp, {
       propsData: defaultPropsData,
+      provide: {
+        glFeatures: { groupsListKeysetPagination: true, ...glFeatures },
+      },
       apolloProvider,
       router,
       stubs,
@@ -80,7 +85,7 @@ describe('YourWorkGroupsApp', () => {
     mockAxios.onGet(endpoint).replyOnce(200, dashboardGroupsResponse);
     await createComponent();
 
-    expect(wrapper.findComponent(TabsWithList).props()).toEqual({
+    expect(wrapper.findComponent(TabsWithList).props()).toMatchObject({
       tabs: GROUP_DASHBOARD_TABS,
       filteredSearchTestid: null,
       filteredSearchSupportedTokens: [],
@@ -156,19 +161,16 @@ describe('YourWorkGroupsApp', () => {
     });
   });
 
-  it('uses offset pagination', async () => {
+  it('uses keyset pagination', async () => {
     mockAxios.onGet(endpoint).replyOnce(200, dashboardGroupsResponse, {
       'X-PER-PAGE': 20,
-      'X-PAGE': 1,
-      'X-TOTAL': 25,
-      'X-TOTAL-PAGES': 2,
-      'X-NEXT-PAGE': 2,
+      'X-NEXT-PAGE': 'next-cursor',
       'X-PREV-PAGE': null,
     });
     await createComponent({ mountFn: mountExtended });
     await waitForPromises();
 
-    expect(wrapper.findComponent(GlPagination).exists()).toBe(true);
+    expect(wrapper.findComponent(GlKeysetPagination).exists()).toBe(true);
   });
 
   it.each(GROUP_DASHBOARD_TABS)(
@@ -186,4 +188,32 @@ describe('YourWorkGroupsApp', () => {
       });
     },
   );
+
+  describe('when groupsListKeysetPagination is true', () => {
+    it('passes keyset pagination type to tabs', async () => {
+      await createComponent({ glFeatures: { groupsListKeysetPagination: true } });
+
+      wrapper
+        .findComponent(TabsWithList)
+        .props('tabs')
+        .forEach((tab) => {
+          expect(tab.paginationType).toBe(PAGINATION_TYPE_KEYSET);
+          expect(tab.variables.pagination).toBe(PAGINATION_TYPE_KEYSET);
+        });
+    });
+  });
+
+  describe('when groupsListKeysetPagination is false', () => {
+    it('passes offset pagination type to tabs', async () => {
+      await createComponent({ glFeatures: { groupsListKeysetPagination: false } });
+
+      wrapper
+        .findComponent(TabsWithList)
+        .props('tabs')
+        .forEach((tab) => {
+          expect(tab.paginationType).toBe(PAGINATION_TYPE_OFFSET);
+          expect(tab.variables.pagination).toBe(PAGINATION_TYPE_OFFSET);
+        });
+    });
+  });
 });

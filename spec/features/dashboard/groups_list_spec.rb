@@ -288,29 +288,63 @@ RSpec.describe 'Dashboard Groups page', :js, feature_category: :groups_and_proje
       allow(Kaminari.config).to receive(:default_per_page).and_return(1)
 
       sign_in(user)
-      visit dashboard_groups_path
     end
 
-    it 'loads results for next page' do
-      expect(page).to have_selector('[data-testid="gl-pagination-item"]', count: 2)
-      expect(page).to have_selector('[data-testid="gl-pagination-next"]')
+    describe 'when `groups_list_keyset_pagination` flag enabled' do
+      before do
+        visit dashboard_groups_path
+      end
 
-      # Check first page
-      expect(page).to have_content(group2.full_name)
-      expect(has_testid?("groups-list-item-#{group2.id}")).to be true
-      expect(page).not_to have_content(group.full_name)
-      expect(has_testid?("groups-list-item-#{group.id}")).to be false
+      it 'loads results for next page' do
+        expect(page).to have_selector('[data-testid="prevButton"]')
+        expect(page).to have_selector('[data-testid="nextButton"]')
 
-      # Go to next page
-      find_by_testid('gl-pagination-next').click
+        # Check first page
+        expect(page).to have_content(group2.full_name)
+        expect(has_testid?("groups-list-item-#{group2.id}")).to be true
+        expect(page).not_to have_content(group.full_name)
+        expect(has_testid?("groups-list-item-#{group.id}")).to be false
 
-      wait_for_requests
+        # Go to next page
+        find_by_testid('nextButton').click
 
-      # Check second page
-      expect(page).to have_content(group.full_name)
-      expect(has_testid?("groups-list-item-#{group.id}")).to be true
-      expect(page).not_to have_content(group2.full_name)
-      expect(has_testid?("groups-list-item-#{group2.id}")).to be false
+        wait_for_requests
+
+        # Check second page
+        expect(page).to have_content(group.full_name)
+        expect(has_testid?("groups-list-item-#{group.id}")).to be true
+        expect(page).not_to have_content(group2.full_name)
+        expect(has_testid?("groups-list-item-#{group2.id}")).to be false
+      end
+    end
+
+    describe 'when `groups_list_keyset_pagination` flag disabled' do
+      before do
+        stub_feature_flags(groups_list_keyset_pagination: false)
+        visit dashboard_groups_path
+      end
+
+      it 'loads results for next page' do
+        expect(page).to have_selector('[data-testid="gl-pagination-item"]', count: 2)
+        expect(page).to have_selector('[data-testid="gl-pagination-next"]')
+
+        # Check first page
+        expect(page).to have_content(group2.full_name)
+        expect(has_testid?("groups-list-item-#{group2.id}")).to be true
+        expect(page).not_to have_content(group.full_name)
+        expect(has_testid?("groups-list-item-#{group.id}")).to be false
+
+        # Go to next page
+        find_by_testid('gl-pagination-next').click
+
+        wait_for_requests
+
+        # Check second page
+        expect(page).to have_content(group.full_name)
+        expect(has_testid?("groups-list-item-#{group.id}")).to be true
+        expect(page).not_to have_content(group2.full_name)
+        expect(has_testid?("groups-list-item-#{group2.id}")).to be false
+      end
     end
   end
 

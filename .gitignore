@@ -42,6 +42,7 @@ eslint-report.html
 /config/cable.yml
 /config/database*.yml
 /config/gitlab.yml
+/config/gitlab-sidekiq.yml
 /config/gitlab_ci.yml
 /config/Gitlab.gitlab-license
 /config/initializers/smtp_settings.rb

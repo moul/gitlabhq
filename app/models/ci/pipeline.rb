@@ -548,25 +548,6 @@ module Ci
       archive_cutoff ? created_after(archive_cutoff) : all
     end
 
-    # Finds a pipeline by ID, first attempting to search within the current partition
-    # for improved query performance when partition pruning is enabled, then falling
-    # back to a global search if not found.
-    #
-    def self.find_by_id_through_partition(pipeline_id)
-      return unless pipeline_id
-
-      partition_id = Ci::Partition.current&.id
-      scope = Ci::Pipeline.in_partition(partition_id) if partition_id
-
-      if Feature.enabled?(:ci_partition_pruning_workers, :current_request) && scope
-        pipeline = scope.find_by_id(pipeline_id)
-      end
-
-      pipeline ||= Ci::Pipeline.find_by_id(pipeline_id)
-
-      pipeline
-    end
-
     # Returns the pipelines in descending order (= newest first), optionally
     # limited to a number of references.
     #

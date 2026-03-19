@@ -119,6 +119,28 @@ RSpec.describe Ci::PipelineProcessing::AtomicProcessingService, feature_category
         expect(builds.success.count).to eq(5)
       end
 
+      context 'when ci_pipeline_processing_atomic_processing_service_plain_retry_lock is disabled' do
+        before do
+          stub_feature_flags(ci_pipeline_processing_atomic_processing_service_plain_retry_lock: false)
+        end
+
+        it 'processes a pipeline', :sidekiq_inline do
+          expect(process_pipeline).to be_truthy
+
+          succeed_pending
+
+          expect(builds.success.count).to eq(2)
+
+          succeed_pending
+
+          expect(builds.success.count).to eq(4)
+
+          succeed_pending
+
+          expect(builds.success.count).to eq(5)
+        end
+      end
+
       it 'does not process pipeline if existing stage is running' do
         expect(process_pipeline).to be_truthy
         expect(builds.pending.count).to eq(2)

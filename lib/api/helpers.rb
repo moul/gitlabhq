@@ -18,6 +18,10 @@ module API
     API_EXCEPTION_ENV = 'gitlab.api.exception'
     API_RESPONSE_STATUS_CODE = 'gitlab.api.response_status_code'
     INTEGER_ID_REGEX = /^-?\d+$/
+    GLOBAL_ID_LOG_REGEXES = [
+      %r{^/ai/.*$},
+      %r{^/code_suggestions/.*$}
+    ].freeze
 
     # ai_workflows scope is used by Duo Workflow which is an AI automation tool, requests authenticated by token with
     # this scope are audited to keep track of all actions done by Duo Workflow.
@@ -120,6 +124,10 @@ module API
 
     def save_current_user_in_env(user)
       env[API_USER_ENV] = { user_id: user.id, username: user.username }
+
+      if GLOBAL_ID_LOG_REGEXES.any? { |re| re.match?(env["api.endpoint"]&.namespace) }
+        env[API_USER_ENV][:global_user_id] = Gitlab::GlobalAnonymousId.user_id(user)
+      end
     end
 
     def sudo?

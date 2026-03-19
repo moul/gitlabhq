@@ -1,8 +1,26 @@
 #import "~/graphql_shared/fragments/group.fragment.graphql"
 
 # @feature_category: groups_and_projects
-query exploreGroups($active: Boolean, $search: String, $sort: String, $parentId: Int, $page: Int) {
-  groups(active: $active, search: $search, sort: $sort, parentId: $parentId, page: $page) @client {
+query exploreGroups(
+  $active: Boolean
+  $search: String
+  $sort: String
+  $parentId: Int
+  $page: Int
+  $pagination: String
+  $before: String
+  $after: String
+) {
+  groups(
+    active: $active
+    search: $search
+    sort: $sort
+    parentId: $parentId
+    page: $page
+    pagination: $pagination
+    before: $before
+    after: $after
+  ) @client {
     nodes {
       ...Group
       hasChildren
@@ -14,6 +32,10 @@ query exploreGroups($active: Boolean, $search: String, $sort: String, $parentId:
       perPage
       nextPage
       previousPage
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
     }
   }
 }
