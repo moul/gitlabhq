@@ -1,6 +1,6 @@
 <script>
 import { GlLoadingIcon, GlButton } from '@gitlab/ui';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 import { computed } from 'vue';
 import { logError } from '~/lib/logger';
 import { captureException } from '~/sentry/sentry_browser_wrapper';

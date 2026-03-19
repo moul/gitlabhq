@@ -46,6 +46,7 @@ import { createAlert } from '~/alert';
 import { ACCESS_LEVEL_OWNER_INTEGER } from '~/access_level/constants';
 import { QUERY_PARAM_END_CURSOR, QUERY_PARAM_START_CURSOR } from '~/graphql_shared/constants';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
+import * as localStorageUtils from '~/lib/utils/local_storage';
 import {
   TIMESTAMP_TYPE_CREATED_AT,
   TIMESTAMP_TYPE_LAST_ACTIVITY_AT,
@@ -481,6 +482,21 @@ describe('TabsWithList', () => {
         expect(router.currentRoute.query).toEqual({
           [defaultPropsData.filteredSearchTermKey]: searchTerm,
           sort: `${SORT_OPTION_UPDATED.value}_${SORT_DIRECTION_DESC}`,
+        });
+      });
+
+      describe('when `sortStorageKey` prop is passed', () => {
+        it('saves sort to localStorage and does not call `userPreferencesUpdate` mutation', async () => {
+          const saveSpy = jest.spyOn(localStorageUtils, 'saveStorageValue');
+
+          await setup({ sortStorageKey: 'projects' });
+
+          expect(saveSpy).toHaveBeenCalledWith(
+            'tabs-with-list-sort:projects',
+            `${SORT_OPTION_UPDATED.value}_${SORT_DIRECTION_DESC}`,
+            true,
+          );
+          expect(userPreferencesUpdateSuccessHandler).not.toHaveBeenCalled();
         });
       });
 

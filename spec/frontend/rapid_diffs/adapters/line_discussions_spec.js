@@ -1,7 +1,7 @@
 import { nextTick } from 'vue';
 import { defineStore } from 'pinia';
 import { createTestingPinia } from '@pinia/testing';
-import { kebabCase } from 'lodash';
+import { kebabCase } from 'lodash-es';
 import { resetHTMLFixture, setHTMLFixture } from 'helpers/fixtures';
 import { createLineDiscussionsAdapter } from '~/rapid_diffs/adapters/line_discussions';
 import { HIGHLIGHT_LINES, CLEAR_HIGHLIGHT } from '~/rapid_diffs/adapter_events';
@@ -21,7 +21,6 @@ const useDiscussionsStore = defineStore('discussionsStore', {
     findDiscussionsForPosition() {
       return this.discussions;
     },
-    replyToLineDiscussion() {},
     addNewLineDiscussionForm() {},
     setPositionDiscussionsHidden() {},
     setFileDiscussionsHidden() {},
@@ -271,7 +270,7 @@ describe('discussions adapters', () => {
       });
       button.click();
       getDiffFile().onClick(event);
-      expect(store.replyToLineDiscussion).toHaveBeenCalledWith(
+      expect(store.addNewLineDiscussionForm).toHaveBeenCalledWith(
         expect.objectContaining({ oldPath, newPath, lineRange }),
       );
       expect(store.addNewLineDiscussionForm).toHaveBeenCalledWith(
@@ -555,7 +554,7 @@ describe('discussions adapters', () => {
       expect(discussionRows[0].querySelectorAll('td')).toHaveLength(2);
     });
 
-    it('forwards click to store.replyToLineDiscussion', () => {
+    it('forwards click to store.addNewLineDiscussionForm', () => {
       let event;
       const button = getDiffFile().querySelector('[data-click="newDiscussion"]');
       const pos = { old_line: 4, new_line: 4, type: null };
@@ -567,12 +566,12 @@ describe('discussions adapters', () => {
       button.click();
       getDiffFile().onClick(event);
 
-      expect(store.replyToLineDiscussion).toHaveBeenCalledWith(
+      expect(store.addNewLineDiscussionForm).toHaveBeenCalledWith(
         expect.objectContaining({
           oldPath,
           newPath,
-          oldLine: expect.any(Number),
-          newLine: expect.any(Number),
+          lineCode: expect.stringMatching(/_\d+_\d+$/),
+          lineChange: { change: undefined, position: 'new' },
           lineRange,
         }),
       );

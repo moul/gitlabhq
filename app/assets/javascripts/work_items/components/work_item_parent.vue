@@ -24,7 +24,6 @@ import {
   I18N_WORK_ITEM_ERROR_UPDATING,
   NAME_TO_ENUM_MAP,
   NO_WORK_ITEM_IID,
-  WORK_ITEM_TYPE_NAME_EPIC,
   WORK_ITEM_TYPE_NAME_ISSUE,
   WIDGET_TYPE_HIERARCHY,
 } from '../constants';
@@ -80,11 +79,6 @@ export default {
       required: false,
       default: false,
     },
-    isGroup: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
   data() {
     return {
@@ -101,9 +95,6 @@ export default {
   computed: {
     isIssue() {
       return this.workItemType === WORK_ITEM_TYPE_NAME_ISSUE;
-    },
-    isEpic() {
-      return this.workItemType === WORK_ITEM_TYPE_NAME_EPIC;
     },
     isLoading() {
       return (
@@ -173,18 +164,11 @@ export default {
       );
       return hierarchyWidgetDefinition?.propagatesMilestone;
     },
-    fetchGroupWorkItems() {
-      // original implementation
-      return this.isGroup || this.isIssue;
-    },
     areAnyAllowedParentTypesGroupWorkItems() {
-      /* we should be fetching group work items only if any of the allowed parents is a group work item */
-      /** Issues and Epics can have epics has parent types , so group work items make sense there */
-      const isAnyAllowedParentGroupType = this.allowedParentTypes.some(
+      return [...this.allowedParentTypes, ...this.allowedParentTypesForNewWorkItemEnums].some(
         (typename) =>
           this.workItemTypesConfiguration[convertTypeEnumToName(typename)]?.isGroupWorkItemType,
       );
-      return isAnyAllowedParentGroupType || this.fetchGroupWorkItems;
     },
   },
   watch: {
@@ -194,7 +178,7 @@ export default {
       },
     },
     localSelectedItem() {
-      if (this.propagatesMilestone || this.isEpic) this.handleSelectedParentMilestone();
+      if (this.propagatesMilestone) this.handleSelectedParentMilestone();
     },
   },
   apollo: {

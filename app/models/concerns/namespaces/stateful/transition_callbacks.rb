@@ -25,6 +25,11 @@ module Namespaces
         state_metadata.except!('deletion_scheduled_at', 'deletion_scheduled_by_user_id')
       end
 
+      def set_deletion_error_data(transition)
+        error = transition_args(transition)[:deletion_error]
+        self.deletion_error = error if error.present?
+      end
+
       def set_transfer_data(transition)
         state_metadata.merge!(
           transfer_initiated_at: Time.current.as_json,

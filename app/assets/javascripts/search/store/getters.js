@@ -1,4 +1,4 @@
-import { intersection, difference } from 'lodash';
+import { intersection, difference } from 'lodash-es';
 import {
   formatSearchResultCount,
   addCountOverLimit,

@@ -49,6 +49,7 @@ module Namespaces
         before_transition on: :start_transfer, do: :ensure_transition_user
         before_transition on: :start_transfer, do: :set_transfer_data
         before_transition on: [:complete_transfer, :cancel_transfer], do: :clear_transfer_data
+        before_transition on: :reschedule_deletion, do: :set_deletion_error_data
 
         event :archive do
           transition ancestor_inherited: :archived

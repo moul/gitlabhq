@@ -25,10 +25,12 @@ export const useCommitDiffDiscussions = defineStore('commitDiffDiscussions', () 
     diffDiscussions.addDiscussion(discussion);
   }
 
-  async function createLineDiscussion(formDiscussion, noteData) {
+  async function createLineDiscussion(formDiscussion, noteBody) {
     const {
       data: { discussion },
-    } = await axios.post(endpoint.value, { note: noteData });
+    } = await axios.post(endpoint.value, {
+      note: { note: noteBody, position: formDiscussion.position },
+    });
     diffDiscussions.replaceDiscussionForm(formDiscussion, discussion);
   }
 
@@ -71,23 +73,6 @@ export const useCommitDiffDiscussions = defineStore('commitDiffDiscussions', () 
     diffDiscussions.toggleAward({ note, award: name });
   }
 
-  function replyToLineDiscussion({ oldPath, newPath, lineRange }) {
-    const { end } = lineRange;
-    const singleLineRange = { start: end, end };
-    const id = diffDiscussions.replyToLineDiscussion({
-      oldPath,
-      newPath,
-      oldLine: end.old_line,
-      newLine: end.new_line,
-    });
-    if (id) return id;
-    return diffDiscussions.addNewLineDiscussionForm({
-      oldPath,
-      newPath,
-      lineRange: singleLineRange,
-    });
-  }
-
   return {
     setDiscussionsEndpoint,
     createNewDiscussion,
@@ -112,7 +97,6 @@ export const useCommitDiffDiscussions = defineStore('commitDiffDiscussions', () 
     setEditingMode: diffDiscussions.setEditingMode,
     requestLastNoteEditing: diffDiscussions.requestLastNoteEditing,
     toggleAward: diffDiscussions.toggleAward,
-    replyToLineDiscussion,
     addNewLineDiscussionForm: diffDiscussions.addNewLineDiscussionForm,
     replaceDiscussionForm: diffDiscussions.replaceDiscussionForm,
     removeNewLineDiscussionForm: diffDiscussions.removeNewLineDiscussionForm,

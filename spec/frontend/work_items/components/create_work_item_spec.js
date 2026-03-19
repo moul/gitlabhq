@@ -846,35 +846,32 @@ describe('Create work item component', () => {
         expect(findLabelsWidget().exists()).toBe(true);
       });
 
-      it('renders the dates widget', () => {
-        expect(findDatesWidget().props('shouldRollUp')).toBe(true);
-      });
-
       it('renders the work item CRM contacts widget', () => {
         expect(findCrmContactsWidget().exists()).toBe(true);
       });
     });
 
-    describe('with canRollUp=true', () => {
-      beforeEach(async () => {
-        createComponent({
-          provide: {
-            getWorkItemTypeConfiguration: () => ({
-              widgetDefinitions: [
-                {
-                  type: WIDGET_TYPE_START_AND_DUE_DATE,
-                  canRollUp: false,
-                },
-              ],
-            }),
-          },
-        });
-        await resolveAll();
-      });
+    describe('with canRollUp config', () => {
+      it.each([true, false])(
+        'renders the dates widget with shouldRollUp %s when canRollUp is %s',
+        async (canRollUp) => {
+          createComponent({
+            provide: {
+              getWorkItemTypeConfiguration: jest.fn().mockReturnValue({
+                widgetDefinitions: [
+                  {
+                    type: WIDGET_TYPE_START_AND_DUE_DATE,
+                    canRollUp,
+                  },
+                ],
+              }),
+            },
+          });
+          await resolveAll();
 
-      it('renders the dates widget', () => {
-        expect(findDatesWidget().props('shouldRollUp')).toBe(true);
-      });
+          expect(findDatesWidget().props('shouldRollUp')).toBe(canRollUp);
+        },
+      );
     });
 
     it('uses the description prop as the initial description value when defined', async () => {
@@ -949,9 +946,14 @@ describe('Create work item component', () => {
   });
 
   describe('Create work item widgets for Incident work item type', () => {
-    describe('default', () => {
+    describe('with isIncidentManagement=true', () => {
       beforeEach(async () => {
-        createComponent({ props: { preselectedWorkItemType: WORK_ITEM_TYPE_NAME_INCIDENT } });
+        createComponent({
+          props: { preselectedWorkItemType: WORK_ITEM_TYPE_NAME_INCIDENT },
+          provide: {
+            getWorkItemTypeConfiguration: jest.fn().mockReturnValue({ isIncidentManagement: true }),
+          },
+        });
         await resolveAll();
       });
 
@@ -977,21 +979,6 @@ describe('Create work item component', () => {
 
       it('renders the work item milestone widget', () => {
         expect(findMilestoneWidget().exists()).toBe(true);
-      });
-
-      it('does not renders the work item parent widget', () => {
-        expect(findParentWidget().exists()).toBe(false);
-      });
-    });
-
-    describe('with isIncidentManagement=true', () => {
-      beforeEach(async () => {
-        createComponent({
-          provide: {
-            getWorkItemTypeConfiguration: () => ({ isIncidentManagement: true }),
-          },
-        });
-        await resolveAll();
       });
 
       it('does not renders the work item parent widget', () => {

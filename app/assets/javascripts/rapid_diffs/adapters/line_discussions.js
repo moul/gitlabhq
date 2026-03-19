@@ -120,26 +120,18 @@ export const createLineDiscussionsAdapter = ({ store, parallel, errorMessage }) 
       const row = button.closest('tr');
       const [oldLine, newLine] = getLineNumbers(row);
       const { oldPath, newPath } = this.data;
-      const existingDiscussionId = store.replyToLineDiscussion({
+      const lineCode = getLineCode({ id: this.id, row, oldLine, newLine });
+      const existingDiscussionId = store.addNewLineDiscussionForm({
         oldPath,
         newPath,
-        oldLine,
-        newLine,
+        lineChange,
+        lineCode,
         lineRange: button.lineRange,
       });
       if (existingDiscussionId) {
         document
           .querySelector(`[data-discussion-id="${existingDiscussionId}"] textarea:not(.hidden)`)
           ?.focus();
-      } else {
-        const lineCode = getLineCode({ id: this.id, row, oldLine, newLine });
-        store.addNewLineDiscussionForm({
-          oldPath,
-          newPath,
-          lineChange,
-          lineCode,
-          lineRange: button.lineRange,
-        });
       }
     },
   },

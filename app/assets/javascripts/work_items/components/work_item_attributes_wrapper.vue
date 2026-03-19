@@ -278,7 +278,6 @@ export default {
       :parent="workItemParent"
       :has-parent="hasParent"
       :group-path="groupPath"
-      :is-group="isGroup"
       @error="$emit('error', $event)"
     />
     <work-item-weight

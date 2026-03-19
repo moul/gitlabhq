@@ -65,6 +65,30 @@ RSpec.describe Namespaces::Stateful::TransitionCallbacks, feature_category: :gro
     end
   end
 
+  describe '#set_deletion_error_data' do
+    before do
+      namespace.update!(state: :deletion_in_progress)
+    end
+
+    it 'sets deletion_error when provided in transition args' do
+      namespace.reschedule_deletion!(transition_user: user, deletion_error: 'Test error message')
+
+      expect(namespace.reload.deletion_error).to eq('Test error message')
+    end
+
+    it 'does not set deletion_error when not provided' do
+      namespace.reschedule_deletion!(transition_user: user)
+
+      expect(namespace.reload.deletion_error).to be_nil
+    end
+
+    it 'does not set deletion_error when provided as empty string' do
+      namespace.reschedule_deletion!(transition_user: user, deletion_error: '')
+
+      expect(namespace.reload.deletion_error).to be_nil
+    end
+  end
+
   describe '#clear_deletion_schedule_data' do
     where(:initial_state) { %i[deletion_scheduled deletion_in_progress] }
 

@@ -1,5 +1,5 @@
 import { nextTick } from 'vue';
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import { shallowMount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_action';
@@ -109,10 +109,7 @@ describe('NewLineDiscussionForm', () => {
 
       await findNoteForm().props('saveNote')(noteBody);
 
-      expect(store.createLineDiscussion).toHaveBeenCalledWith(oldDiscussion, {
-        position: oldDiscussion.position,
-        note: noteBody,
-      });
+      expect(store.createLineDiscussion).toHaveBeenCalledWith(oldDiscussion, noteBody);
     });
 
     it('shows alert on submission failure', async () => {

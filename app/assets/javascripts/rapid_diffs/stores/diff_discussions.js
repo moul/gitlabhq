@@ -119,16 +119,6 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     return undefined;
   }
 
-  function replyToLineDiscussion({ oldPath, newPath, oldLine, newLine }) {
-    const [existingDiscussion] = findDiscussionsForPosition
-      .value({ oldPath, newPath, oldLine, newLine })
-      .filter((discussion) => !discussion.isForm);
-    if (!existingDiscussion) return undefined;
-    setPositionDiscussionsHidden({ oldPath, newPath, oldLine, newLine }, false);
-    discussions.startReplying(existingDiscussion);
-    return existingDiscussion.id;
-  }
-
   function removeNewLineDiscussionForm(discussion) {
     discussionForms.value.splice(discussionForms.value.indexOf(discussion), 1);
   }
@@ -192,7 +182,6 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     findAllDiscussionsForFile,
     collapseDiscussion: discussions.collapseDiscussion,
     expandDiscussion: discussions.expandDiscussion,
-    replyToLineDiscussion,
     addNewLineDiscussionForm,
     replaceDiscussionForm,
     removeNewLineDiscussionForm,

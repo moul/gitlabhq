@@ -21,6 +21,20 @@ export const buildBlobViewPath = (baseUrl, options) => {
 };
 
 /**
+ * Returns the url to an existing merge request
+ * @param {Object} options - Redirect options
+ * @param {string} options.url - The current URL
+ * @param {string} options.projectPath - The project path
+ * @param {string} options.fromMergeRequestIid - The merge request IID to redirect to
+ */
+export const getUrlToExistingMergeRequest = ({ url, projectPath, fromMergeRequestIid }) => {
+  const urlCopy = new URL(url);
+  urlCopy.pathname = joinPaths(projectPath, '/-/merge_requests/', fromMergeRequestIid);
+  const cleanUrl = removeParams(['from_merge_request_iid'], urlCopy.toString());
+  return cleanUrl;
+};
+
+/**
  * Redirects to an existing merge request
  * @param {Object} options - Redirect options
  * @param {string} options.url - The current URL
@@ -28,9 +42,7 @@ export const buildBlobViewPath = (baseUrl, options) => {
  * @param {string} options.fromMergeRequestIid - The merge request IID to redirect to
  */
 export const redirectToExistingMergeRequest = ({ url, projectPath, fromMergeRequestIid }) => {
-  const urlCopy = new URL(url);
-  urlCopy.pathname = joinPaths(projectPath, '/-/merge_requests/', fromMergeRequestIid);
-  const cleanUrl = removeParams(['from_merge_request_iid'], urlCopy.toString());
+  const cleanUrl = getUrlToExistingMergeRequest({ url, projectPath, fromMergeRequestIid });
   visitUrl(cleanUrl);
 };
 

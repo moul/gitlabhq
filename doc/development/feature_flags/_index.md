@@ -417,8 +417,8 @@ To [use ChatOps](../../ci/chatops/_index.md) to output all the feature flags in 
 command. For example:
 
 ```shell
-/chatops run feature list --dev
-/chatops run feature list --staging
+/chatops gitlab run feature list --dev
+/chatops gitlab run feature list --staging
 ```
 
 ## Toggle a feature flag
@@ -1103,16 +1103,16 @@ use a **percentage of time** rollout. For example:
 
 ```shell
 # not running any jobs, deferring all 100% of the jobs
-/chatops run feature set run_sidekiq_jobs_SlowRunningWorker false
+/chatops gitlab run feature set run_sidekiq_jobs_SlowRunningWorker false
 
 # only running 10% of the jobs, deferring 90% of the jobs
-/chatops run feature set run_sidekiq_jobs_SlowRunningWorker 10
+/chatops gitlab run feature set run_sidekiq_jobs_SlowRunningWorker 10
 
 # running 50% of the jobs, deferring 50% of the jobs
-/chatops run feature set run_sidekiq_jobs_SlowRunningWorker 50
+/chatops gitlab run feature set run_sidekiq_jobs_SlowRunningWorker 50
 
 # back to running all jobs normally
-/chatops run feature delete run_sidekiq_jobs_SlowRunningWorker
+/chatops gitlab run feature delete run_sidekiq_jobs_SlowRunningWorker
 ```
 
 ### Dropping Sidekiq jobs
@@ -1122,10 +1122,10 @@ Instead of [deferring jobs](#deferring-sidekiq-jobs), jobs can be entirely dropp
 
 ```shell
 # drop all the jobs
-/chatops run feature set drop_sidekiq_jobs_SlowRunningWorker true
+/chatops gitlab run feature set drop_sidekiq_jobs_SlowRunningWorker true
 
 # process jobs normally
-/chatops run feature delete drop_sidekiq_jobs_SlowRunningWorker
+/chatops gitlab run feature delete drop_sidekiq_jobs_SlowRunningWorker
 ```
 
 > [!note]

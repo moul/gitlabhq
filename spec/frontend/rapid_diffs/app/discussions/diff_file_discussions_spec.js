@@ -119,9 +119,6 @@ describe('DiffFileDiscussions', () => {
     store.discussions = [form];
     createComponent();
     await wrapper.findComponent(NoteForm).props('saveNote')('my comment');
-    expect(store.createFileDiscussion).toHaveBeenCalledWith(form, {
-      note: 'my comment',
-      position: form.position,
-    });
+    expect(store.createFileDiscussion).toHaveBeenCalledWith(form, 'my comment');
   });
 });

@@ -1,6 +1,6 @@
 <script>
 import jsYaml from 'js-yaml';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import {
   GlForm,
   GlLink,

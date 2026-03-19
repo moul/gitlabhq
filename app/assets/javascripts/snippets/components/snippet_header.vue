@@ -10,7 +10,7 @@ import {
   GlButton,
   GlTooltipDirective,
 } from '@gitlab/ui';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import CanCreateProjectSnippet from 'shared_queries/snippet/project_permissions.query.graphql';
 import CanCreatePersonalSnippet from 'shared_queries/snippet/user_permissions.query.graphql';
 import { fetchPolicies } from '~/lib/graphql';

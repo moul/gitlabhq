@@ -59,7 +59,6 @@ describe('mergeRequestDiscussions store', () => {
     'updateDiscussion',
     'collapseDiscussion',
     'expandDiscussion',
-    'replyToLineDiscussion',
     'addNewLineDiscussionForm',
     'replaceDiscussionForm',
     'removeNewLineDiscussionForm',
@@ -130,15 +129,16 @@ describe('mergeRequestDiscussions store', () => {
 
   describe('createLineDiscussion', () => {
     it('delegates to notes store saveNote and removes the form', async () => {
-      const formDiscussion = { id: 'form-1', isForm: true };
-      useDiffDiscussions().discussionForms.push(formDiscussion);
-
-      await store.createLineDiscussion(formDiscussion, {
+      const formDiscussion = {
+        id: 'form-1',
+        isForm: true,
         position: { old_line: 1 },
         lineChange: { change: 'added', position: 'new' },
         lineCode: 'hash_0_1',
-        note: 'test',
-      });
+      };
+      useDiffDiscussions().discussionForms.push(formDiscussion);
+
+      await store.createLineDiscussion(formDiscussion, 'test');
 
       expect(mockNotesStore.saveNote).toHaveBeenCalledWith({
         endpoint: '/api/notes',
@@ -158,7 +158,6 @@ describe('mergeRequestDiscussions store', () => {
               head_sha: 'head222',
               old_line: 1,
               position_type: 'text',
-              line_range: null,
               ignore_whitespace_change: !useDiffsView().showWhitespace,
             }),
             noteable_type: 'MergeRequest',
@@ -185,7 +184,7 @@ describe('mergeRequestDiscussions store', () => {
       const formDiscussion = { id: 'form-1', isForm: true, position };
       useDiffDiscussions().discussionForms.push(formDiscussion);
 
-      await store.createFileDiscussion(formDiscussion, { note: 'test', position });
+      await store.createFileDiscussion(formDiscussion, 'test');
 
       expect(mockNotesStore.saveNote).toHaveBeenCalledWith({
         endpoint: '/api/notes',
@@ -256,21 +255,6 @@ describe('mergeRequestDiscussions store', () => {
         awardName: 'thumbsup',
         noteId: 1,
       });
-    });
-  });
-
-  describe('replyToLineDiscussion', () => {
-    it('always creates a new discussion form', () => {
-      const lineRange = {
-        start: { old_line: 5, new_line: 15 },
-        end: { old_line: 10, new_line: 20 },
-      };
-
-      store.replyToLineDiscussion({ oldPath: 'old/file.js', newPath: 'new/file.js', lineRange });
-
-      const forms = useDiffDiscussions().discussionForms;
-      expect(forms).toHaveLength(1);
-      expect(forms[0].position.line_range).toStrictEqual(lineRange);
     });
   });
 

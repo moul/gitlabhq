@@ -32,32 +32,34 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     });
   }
 
-  async function createLineDiscussion(formDiscussion, noteData) {
+  async function createLineDiscussion(discussion, noteBody) {
     const notes = useNotes();
     const { diffRefs } = useMergeRequestVersions();
     await notes.saveNote(
       buildLineDiscussionData({
-        noteData,
+        discussion,
+        noteBody,
         noteableData: notes.noteableData,
         viewConfig: useDiffsView(),
         diffRefs,
       }),
     );
-    diffDiscussions.removeNewLineDiscussionForm(formDiscussion);
+    diffDiscussions.removeNewLineDiscussionForm(discussion);
   }
 
-  async function createFileDiscussion(formDiscussion, noteData) {
+  async function createFileDiscussion(discussion, noteBody) {
     const notes = useNotes();
     const { diffRefs } = useMergeRequestVersions();
     await notes.saveNote(
       buildLineDiscussionData({
-        noteData,
+        discussion,
+        noteBody,
         noteableData: notes.noteableData,
         viewConfig: useDiffsView(),
         diffRefs,
       }),
     );
-    diffDiscussions.removeNewFileDiscussionForm(formDiscussion);
+    diffDiscussions.removeNewFileDiscussionForm(discussion);
   }
 
   async function replyToDiscussion(discussion, noteText) {
@@ -134,7 +136,6 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     toggleAward: diffDiscussions.toggleAward,
     collapseDiscussion: diffDiscussions.collapseDiscussion,
     expandDiscussion: diffDiscussions.expandDiscussion,
-    replyToLineDiscussion: diffDiscussions.addNewLineDiscussionForm,
     addNewLineDiscussionForm: diffDiscussions.addNewLineDiscussionForm,
     replaceDiscussionForm: diffDiscussions.replaceDiscussionForm,
     removeNewLineDiscussionForm: diffDiscussions.removeNewLineDiscussionForm,

@@ -10,7 +10,7 @@ import {
   GlIntersectionObserver,
   GlLoadingIcon,
 } from '@gitlab/ui';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { s__, __ } from '~/locale';
 import { parseIntPagination, normalizeHeaders } from '~/lib/utils/common_utils';
 import { DEBOUNCE_DELAY } from '~/vue_shared/components/filtered_search_bar/constants';

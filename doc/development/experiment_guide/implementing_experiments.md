@@ -80,14 +80,14 @@ the experiment would be assigned the _control_, 25% would be assigned the _red_
 variant, and 25% would be assigned the _blue_ variant:
 
 ```plaintext
-/chatops run feature set pill_color 50 --actors
+/chatops gitlab run feature set pill_color 50 --actors
 ```
 
 For an even distribution in this example, change the command to set it to 66% instead
 of 50.
 
 To immediately stop running an experiment, use the
-`/chatops run feature set pill_color false` command.
+`/chatops gitlab run feature set pill_color false` command.
 
 > [!warning]
 > We strongly recommend using the `--actors` flag when using the ChatOps commands,

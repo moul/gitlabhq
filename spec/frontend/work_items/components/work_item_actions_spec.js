@@ -239,7 +239,14 @@ describe('WorkItemActions component', () => {
   });
 
   it('renders dropdown actions', async () => {
-    createComponent({ workItemType: WORK_ITEM_TYPE_NAME_ISSUE });
+    createComponent({
+      workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
+      provide: {
+        getWorkItemTypeConfiguration: jest
+          .fn()
+          .mockReturnValue({ supportsMoveAction: true, showProjectSelector: true }),
+      },
+    });
 
     await waitForPromises();
 
@@ -539,11 +546,11 @@ describe('WorkItemActions component', () => {
       });
 
       describe.each`
-        description                                             | workItemType                      | mockConfig                          | shouldShowButton
-        ${'when config is `null` and type is OKR'}              | ${WORK_ITEM_TYPE_NAME_KEY_RESULT} | ${undefined}                        | ${true}
-        ${'when config is `null` and type is not OKR'}          | ${WORK_ITEM_TYPE_NAME_TASK}       | ${undefined}                        | ${false}
-        ${'when config has canPromote `false` and type is OKR'} | ${WORK_ITEM_TYPE_NAME_KEY_RESULT} | ${{ canPromoteToObjective: false }} | ${true}
-        ${'when config has canPromote `true` and type is OKR'}  | ${WORK_ITEM_TYPE_NAME_KEY_RESULT} | ${{ canPromoteToObjective: true }}  | ${true}
+        description                                           | workItemType                      | mockConfig                          | shouldShowButton
+        ${'when config is undefined'}                         | ${WORK_ITEM_TYPE_NAME_KEY_RESULT} | ${undefined}                        | ${false}
+        ${'when config has canPromote false'}                 | ${WORK_ITEM_TYPE_NAME_KEY_RESULT} | ${{ canPromoteToObjective: false }} | ${false}
+        ${'when config has canPromote true'}                  | ${WORK_ITEM_TYPE_NAME_KEY_RESULT} | ${{ canPromoteToObjective: true }}  | ${true}
+        ${'when config has canPromote true for non-OKR type'} | ${WORK_ITEM_TYPE_NAME_TASK}       | ${{ canPromoteToObjective: true }}  | ${true}
       `('$description', ({ workItemType, mockConfig, shouldShowButton }) => {
         it('shows promote button correctly', async () => {
           createComponent({
@@ -727,35 +734,24 @@ describe('WorkItemActions component', () => {
     });
 
     it.each`
-      isProjectSelectorVisible | workItemType
-      ${false}                 | ${WORK_ITEM_TYPE_NAME_EPIC}
-      ${true}                  | ${WORK_ITEM_TYPE_NAME_ISSUE}
-      ${true}                  | ${WORK_ITEM_TYPE_NAME_TASK}
+      isProjectSelectorVisible | showProjectSelector
+      ${true}                  | ${true}
+      ${false}                 | ${false}
+      ${false}                 | ${undefined}
     `(
-      'when workItemType is $workItemType, sets `CreateWorkItemModal` `showProjectSelector` prop to $isProjectSelectorVisible',
-      ({ isProjectSelectorVisible, workItemType }) => {
-        createComponent({ workItemType });
+      'when showProjectSelector config is $showProjectSelector, sets `CreateWorkItemModal` `showProjectSelector` prop to $isProjectSelectorVisible',
+      ({ isProjectSelectorVisible, showProjectSelector }) => {
+        createComponent({
+          provide: {
+            getWorkItemTypeConfiguration: jest.fn().mockReturnValue({ showProjectSelector }),
+          },
+        });
 
         expect(findCreateWorkItemModal().props('showProjectSelector')).toBe(
           isProjectSelectorVisible,
         );
       },
     );
-
-    describe('with showProjectSelector=true', () => {
-      beforeEach(async () => {
-        createComponent({
-          provide: {
-            getWorkItemTypeConfiguration: jest.fn().mockReturnValue({ showProjectSelector: true }),
-          },
-        });
-        await waitForPromises();
-      });
-
-      it('renders create modal with project selector', () => {
-        expect(findCreateWorkItemModal().props('showProjectSelector')).toBe(true);
-      });
-    });
 
     it('emits `workItemCreated` when `CreateWorkItemModal` emits `workItemCreated`', () => {
       createComponent();
@@ -807,9 +803,11 @@ describe('WorkItemActions component', () => {
   });
 
   describe('move issue button', () => {
-    it('shows move button when workItemType is issue and `canMove` is true', async () => {
+    it('shows move button when supportsMoveAction config is true and `canMove` is true', async () => {
       createComponent({
-        workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
+        provide: {
+          getWorkItemTypeConfiguration: jest.fn().mockReturnValue({ supportsMoveAction: true }),
+        },
       });
       await waitForPromises();
 
@@ -818,7 +816,9 @@ describe('WorkItemActions component', () => {
 
     it('renders with text "Move"', async () => {
       createComponent({
-        workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
+        provide: {
+          getWorkItemTypeConfiguration: jest.fn().mockReturnValue({ supportsMoveAction: true }),
+        },
       });
 
       await waitForPromises();
@@ -826,35 +826,32 @@ describe('WorkItemActions component', () => {
       expect(findMoveButton().text()).toBe('Move');
     });
 
-    describe('with supportsMoveAction=true', () => {
-      beforeEach(async () => {
-        createComponent({
-          provide: {
-            getWorkItemTypeConfiguration: jest.fn().mockReturnValue({ supportsMoveAction: true }),
-          },
-        });
-        await waitForPromises();
-      });
-
-      it('renders the move button', () => {
-        expect(findMoveButton().exists()).toBe(true);
-      });
-    });
-
     it('hides move button when `canMove` is false', async () => {
       createComponent({
-        workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
         canMove: false,
+        provide: {
+          getWorkItemTypeConfiguration: jest.fn().mockReturnValue({ supportsMoveAction: true }),
+        },
       });
       await waitForPromises();
 
       expect(findMoveButton().exists()).toBe(false);
     });
 
-    it('hides move button when workItemType is not issue', async () => {
+    it('hides move button when supportsMoveAction config is false', async () => {
       createComponent({
-        workItemType: WORK_ITEM_TYPE_NAME_TASK,
+        provide: {
+          getWorkItemTypeConfiguration: jest.fn().mockReturnValue({ supportsMoveAction: false }),
+        },
       });
+
+      await waitForPromises();
+
+      expect(findMoveButton().exists()).toBe(false);
+    });
+
+    it('hides move button when config is not available', async () => {
+      createComponent();
 
       await waitForPromises();
 
@@ -863,10 +860,14 @@ describe('WorkItemActions component', () => {
   });
 
   describe('move modal', () => {
+    const moveActionConfig = { supportsMoveAction: true };
+
     it('does not render move modal when there is no projectId', async () => {
       createComponent({
-        workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
         projectId: null,
+        provide: {
+          getWorkItemTypeConfiguration: jest.fn().mockReturnValue(moveActionConfig),
+        },
       });
 
       await waitForPromises();
@@ -876,7 +877,9 @@ describe('WorkItemActions component', () => {
 
     it('renders move modal when move button is clicked', async () => {
       createComponent({
-        workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
+        provide: {
+          getWorkItemTypeConfiguration: jest.fn().mockReturnValue(moveActionConfig),
+        },
       });
 
       await waitForPromises();
@@ -890,7 +893,9 @@ describe('WorkItemActions component', () => {
 
     it('passes correct props to move modal', async () => {
       createComponent({
-        workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
+        provide: {
+          getWorkItemTypeConfiguration: jest.fn().mockReturnValue(moveActionConfig),
+        },
       });
 
       await waitForPromises();
@@ -908,7 +913,9 @@ describe('WorkItemActions component', () => {
 
     it('closes modal when hideModal event is emitted', async () => {
       createComponent({
-        workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
+        provide: {
+          getWorkItemTypeConfiguration: jest.fn().mockReturnValue(moveActionConfig),
+        },
       });
 
       await waitForPromises();

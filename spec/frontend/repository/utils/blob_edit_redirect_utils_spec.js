@@ -2,6 +2,7 @@ import * as urlUtility from '~/lib/utils/url_utility';
 import * as localStorageAlert from '~/lib/utils/local_storage_alert';
 import { VARIANT_INFO } from '~/alert';
 import {
+  getUrlToExistingMergeRequest,
   buildBlobViewPath,
   redirectToExistingMergeRequest,
   redirectToCreateMergeRequest,
@@ -46,6 +47,18 @@ describe('blobEditRedirectUtils', () => {
       expect(result).toBe(
         'https://gitlab.com/group/subgroup/project/-/blob/main/app/models/user.rb',
       );
+    });
+  });
+
+  describe('getUrlToExistingMergeRequest', () => {
+    it('returns the url to the existing merge request', () => {
+      const url = getUrlToExistingMergeRequest({
+        url: 'https://gitlab.com/namespace/project/-/blob/main/file.js?from_merge_request_iid=42',
+        projectPath: '/namespace/project',
+        fromMergeRequestIid: '42',
+      });
+
+      expect(url).toBe('https://gitlab.com/namespace/project/-/merge_requests/42');
     });
   });
 

@@ -8,12 +8,11 @@ import { DiffFile } from '~/rapid_diffs/web_components/diff_file';
 import { resetHTMLFixture, setHTMLFixture } from 'helpers/fixtures';
 
 const useMockDiscussionsStore = defineStore('mockDiscussions', () => {
-  function replyToLineDiscussion() {}
   function addNewLineDiscussionForm() {}
   function findAllDiscussionsForFile() {
     return [];
   }
-  return { replyToLineDiscussion, addNewLineDiscussionForm, findAllDiscussionsForFile };
+  return { addNewLineDiscussionForm, findAllDiscussionsForFile };
 });
 
 describe('initLineRangeSelection', () => {
@@ -253,7 +252,7 @@ describe('initLineRangeSelection', () => {
       endDrag();
 
       const store = useMockDiscussionsStore();
-      const { lineRange } = store.replyToLineDiscussion.mock.calls[0][0];
+      const { lineRange } = store.addNewLineDiscussionForm.mock.calls[0][0];
       expect(lineRange.start.old_line).not.toEqual(lineRange.end.old_line);
     });
 
@@ -303,7 +302,7 @@ describe('initLineRangeSelection', () => {
       dragOverRow(rows[1]);
       endDrag();
 
-      expect(useMockDiscussionsStore().replyToLineDiscussion).toHaveBeenCalled();
+      expect(useMockDiscussionsStore().addNewLineDiscussionForm).toHaveBeenCalled();
     });
 
     it('passes end row position in lineRange when landing on an unchanged line', () => {
@@ -315,7 +314,7 @@ describe('initLineRangeSelection', () => {
       dragOverRow(rows[1]);
       endDrag();
 
-      const { lineRange } = useMockDiscussionsStore().replyToLineDiscussion.mock.calls[0][0];
+      const { lineRange } = useMockDiscussionsStore().addNewLineDiscussionForm.mock.calls[0][0];
       expect(lineRange.end.old_line).toBe(2);
       expect(lineRange.end.new_line).toBe(1);
     });
@@ -329,19 +328,19 @@ describe('initLineRangeSelection', () => {
       dragOverRow(rows[1]);
       endDrag();
 
-      const { lineRange } = useMockDiscussionsStore().replyToLineDiscussion.mock.calls[0][0];
+      const { lineRange } = useMockDiscussionsStore().addNewLineDiscussionForm.mock.calls[0][0];
       expect(lineRange.end.old_line).toBe(2);
       expect(lineRange.end.new_line).toBeNull();
     });
 
-    it('calls replyToLineDiscussion when clicking on an unchanged line', () => {
+    it('calls addNewLineDiscussionForm when clicking on an unchanged line', () => {
       const fixture = table(parallelLine(1, 1), parallelLine(2, 2));
       mountDiffFile(fixture, 'text_parallel');
       const rows = getDiffFile().querySelectorAll('[data-hunk-lines]');
       hoverCell(rows[0].querySelector('[data-position="new"]'));
       toggle.click();
 
-      const { lineRange } = useMockDiscussionsStore().replyToLineDiscussion.mock.calls[0][0];
+      const { lineRange } = useMockDiscussionsStore().addNewLineDiscussionForm.mock.calls[0][0];
       expect(lineRange.end.old_line).toBe(1);
       expect(lineRange.end.new_line).toBe(1);
     });
@@ -355,7 +354,7 @@ describe('initLineRangeSelection', () => {
       dragOverRow(rows[1]);
       endDrag();
 
-      const { lineRange } = useMockDiscussionsStore().replyToLineDiscussion.mock.calls[0][0];
+      const { lineRange } = useMockDiscussionsStore().addNewLineDiscussionForm.mock.calls[0][0];
       expect(lineRange.end.old_line).toBe(1);
       expect(lineRange.end.new_line).toBe(2);
     });
@@ -369,7 +368,7 @@ describe('initLineRangeSelection', () => {
       dragOverRow(rows[1]);
       endDrag();
 
-      const { lineRange } = useMockDiscussionsStore().replyToLineDiscussion.mock.calls[0][0];
+      const { lineRange } = useMockDiscussionsStore().addNewLineDiscussionForm.mock.calls[0][0];
       expect(lineRange.end.old_line).toBeNull();
       expect(lineRange.end.new_line).toBe(2);
     });

@@ -27,10 +27,7 @@ import WorkItemChangeTypeModal from 'ee_else_ce/work_items/components/work_item_
 import {
   CREATION_CONTEXT_RELATED_ITEM,
   STATE_CLOSED,
-  WORK_ITEM_TYPE_NAME_KEY_RESULT,
   WORK_ITEM_TYPE_NAME_OBJECTIVE,
-  WORK_ITEM_TYPE_NAME_EPIC,
-  WORK_ITEM_TYPE_NAME_ISSUE,
   VIEW_CONTEXT,
   WIDGET_TYPE_NOTIFICATIONS,
 } from '../constants';
@@ -340,13 +337,9 @@ export default {
       return this.getWorkItemTypeConfiguration(this.workItemType);
     },
     canPromoteToObjective() {
-      // User permissions
       if (!this.canUpdateMetadata) return false;
 
-      return (
-        this.workItemTypeConfiguration?.canPromoteToObjective ||
-        this.workItemType === WORK_ITEM_TYPE_NAME_KEY_RESULT
-      );
+      return this.workItemTypeConfiguration?.canPromoteToObjective;
     },
     confidentialItem() {
       return {
@@ -395,9 +388,6 @@ export default {
         webUrl: this.workItemWebUrl,
       };
     },
-    isEpic() {
-      return this.workItemType === WORK_ITEM_TYPE_NAME_EPIC;
-    },
     showChangeType() {
       if (!this.canUpdateMetadata) {
         return false;
@@ -410,14 +400,10 @@ export default {
       return this.canUpdate && !(this.workItemState === STATE_CLOSED && this.isDiscussionLocked);
     },
     showMoveButton() {
-      return (
-        (this.workItemTypeConfiguration?.supportsMoveAction ||
-          this.workItemType === WORK_ITEM_TYPE_NAME_ISSUE) &&
-        this.canMove
-      );
+      return this.workItemTypeConfiguration?.supportsMoveAction && this.canMove;
     },
     showProjectSelector() {
-      return this.workItemTypeConfiguration?.showProjectSelector || !this.isEpic;
+      return this.workItemTypeConfiguration?.showProjectSelector;
     },
     toggleSidebarLabel() {
       return this.showSidebar ? s__('WorkItem|Hide sidebar') : s__('WorkItem|Show sidebar');

@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import { createTestingPinia } from '@pinia/testing';
 import { GlButton, GlSprintf, GlLink } from '@gitlab/ui';
 import { nextTick } from 'vue';

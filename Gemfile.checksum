@@ -274,7 +274,7 @@
 {"name":"google-apis-sqladmin_v1beta4","version":"0.41.0","platform":"ruby","checksum":"551553b6481879f1cd39fb83cc2a2c2ea9334afc4bf261b96900dd559f96749d"},
 {"name":"google-apis-storage_v1","version":"0.56.0","platform":"ruby","checksum":"b4e8d90db1a2085de66fbb915b3bcd792179dfcc573320900435f91b8d0d182b"},
 {"name":"google-cloud-artifact_registry-v1","version":"0.11.0","platform":"ruby","checksum":"ba80d2dce9767e663931ded7929b7f8bf5983a6e2ea68078e27e7ca9a940783e"},
-{"name":"google-cloud-bigquery","version":"1.52.1","platform":"ruby","checksum":"20635badc4c7fa2dca3aab38ad03d95ddf7eb2c9e996c0e63cd94fe561e7fa13"},
+{"name":"google-cloud-bigquery","version":"1.62.0","platform":"ruby","checksum":"ec47296f978acae7eb7df70b09bda152e7e4d45fe87c07413abc6f72f0cf0e65"},
 {"name":"google-cloud-common","version":"1.9.0","platform":"ruby","checksum":"a593848e01c23705571df08e5b3019db4a09d7c91b2aff98c85ca36332a7a82c"},
 {"name":"google-cloud-compute-v1","version":"2.6.0","platform":"ruby","checksum":"b96059b33ffc2f25644d20161a0c1aa1331197073c2e44786b18f8b670f1141e"},
 {"name":"google-cloud-core","version":"1.7.0","platform":"ruby","checksum":"748028a48530ea5bce159722eb7a02cd0562f1c52f0569e9ed69da3cba6b4f35"},

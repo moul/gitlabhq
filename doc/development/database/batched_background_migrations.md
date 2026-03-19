@@ -186,7 +186,7 @@ Succeeded --> [*]
 ### Failed batched background migrations
 
 The whole batched background migration is marked as `failed`
-(`/chatops run batched_background_migrations status MIGRATION_ID` shows
+(`/chatops gitlab run batched_background_migrations status MIGRATION_ID` shows
 the migration as `failed`) if any of the following is true:
 
 - There are no more jobs to consume, and there are failed jobs.
@@ -1067,7 +1067,7 @@ and prepare for the migration:
 
 To list the batched background migrations in the system, run this command:
 
-`/chatops run batched_background_migrations list`
+`/chatops gitlab run batched_background_migrations list`
 
 This command supports the following options:
 
@@ -1096,7 +1096,7 @@ Output example:
 
 To see the status and progress of a specific batched background migration, run this command:
 
-`/chatops run batched_background_migrations status MIGRATION_ID`
+`/chatops gitlab run batched_background_migrations status MIGRATION_ID`
 
 This command supports the following options:
 
@@ -1135,7 +1135,7 @@ Definitions of the batched background migration states:
 
 If you want to pause a batched background migration, you need to run the following command:
 
-`/chatops run batched_background_migrations pause MIGRATION_ID`
+`/chatops gitlab run batched_background_migrations pause MIGRATION_ID`
 
 This command supports the following options:
 
@@ -1160,7 +1160,7 @@ Output example:
 
 If you want to resume a batched background migration, you need to run the following command:
 
-`/chatops run batched_background_migrations resume MIGRATION_ID`
+`/chatops gitlab run batched_background_migrations resume MIGRATION_ID`
 
 This command supports the following options:
 

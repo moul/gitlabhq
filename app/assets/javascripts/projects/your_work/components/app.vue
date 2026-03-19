@@ -80,6 +80,6 @@ export default {
     :event-tracking="$options.eventTracking"
     :tab-counts-query="$options.tabCountsQuery"
     :tab-counts-query-error-message="__('An error occurred loading the project counts.')"
-    user-preferences-sort-key="projectsSort"
+    sort-storage-key="projects"
   />
 </template>

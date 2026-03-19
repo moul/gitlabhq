@@ -293,7 +293,7 @@ export default {
     useWorkItemTemplate() {
       if (this.isGroup) return false;
 
-      return !this.useIssueView;
+      return !this.workItemConfig?.useIssueView;
     },
     hiddenIssuableTitle() {
       if (this.isMergeRequest) {

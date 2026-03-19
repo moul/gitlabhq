@@ -11837,6 +11837,7 @@ Input type: `PipelineCreateInput`
 | <a id="mutation-pipelinecreate-async"></a>`async` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.8. |
 | <a id="mutation-pipelinecreate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-pipelinecreate-inputs"></a>`inputs` {{< icon name="warning-solid" >}} | [`[CiInputsInput!]`](#ciinputsinput) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.10. |
+| <a id="mutation-pipelinecreate-mergerequestiid"></a>`mergeRequestIid` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
 | <a id="mutation-pipelinecreate-projectpath"></a>`projectPath` | [`ID!`](#id) | Full path of the project that is triggering the pipeline. |
 | <a id="mutation-pipelinecreate-ref"></a>`ref` | [`String!`](#string) | Ref on which to run the pipeline. |
 | <a id="mutation-pipelinecreate-variables"></a>`variables` | [`[CiVariableInput!]`](#civariableinput) | Variables for the pipeline. |

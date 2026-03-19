@@ -1,5 +1,5 @@
 <script>
-import { isEqual } from 'lodash';
+import { isEqual } from 'lodash-es';
 import FilteredSearchAndSort from '~/groups_projects/components/filtered_search_and_sort.vue';
 import { RECENT_SEARCHES_STORAGE_KEY_GROUPS } from '~/filtered_search/recent_searches_storage_keys';
 import {

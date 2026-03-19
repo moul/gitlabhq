@@ -39,7 +39,6 @@ describe('commitDiffDiscussions store', () => {
     'setEditingMode',
     'requestLastNoteEditing',
     'toggleAward',
-    'replyToLineDiscussion',
     'addNewLineDiscussionForm',
     'replaceDiscussionForm',
     'removeNewLineDiscussionForm',
@@ -202,65 +201,6 @@ describe('commitDiffDiscussions store', () => {
 
         expect(JSON.parse(mockAxios.history.post[0].data)).toEqual({ name: 'thumbsup' });
       });
-    });
-  });
-
-  describe('replyToLineDiscussion', () => {
-    const oldPath = 'old/file.js';
-    const newPath = 'new/file.js';
-
-    it('collapses multi-line range to single-line using end position', () => {
-      const multiLineRange = {
-        start: { old_line: 5, new_line: 15 },
-        end: { old_line: 10, new_line: 20 },
-      };
-
-      useCommitDiffDiscussions().replyToLineDiscussion({
-        oldPath,
-        newPath,
-        lineRange: multiLineRange,
-      });
-
-      const forms = useDiffDiscussions().discussionForms;
-      expect(forms).toHaveLength(1);
-      expect(forms[0].position.line_range).toStrictEqual({
-        start: { old_line: 10, new_line: 20 },
-        end: { old_line: 10, new_line: 20 },
-      });
-    });
-
-    it('replies to existing discussion at end position', () => {
-      const existingDiscussion = {
-        id: 'existing',
-        diff_discussion: true,
-        repliesExpanded: false,
-        isReplying: false,
-        position: { old_path: oldPath, new_path: newPath, old_line: 10, new_line: 20 },
-        notes: [],
-      };
-      useDiffDiscussions().setInitialDiscussions([existingDiscussion]);
-
-      const result = useCommitDiffDiscussions().replyToLineDiscussion({
-        oldPath,
-        newPath,
-        lineRange: { start: { old_line: 5, new_line: 15 }, end: { old_line: 10, new_line: 20 } },
-      });
-
-      expect(result).toBe('existing');
-      expect(useDiffDiscussions().discussionForms).toHaveLength(0);
-    });
-
-    it('creates a single-line form when no existing discussion', () => {
-      const lineRange = {
-        start: { old_line: 10, new_line: 20 },
-        end: { old_line: 10, new_line: 20 },
-      };
-
-      useCommitDiffDiscussions().replyToLineDiscussion({ oldPath, newPath, lineRange });
-
-      const forms = useDiffDiscussions().discussionForms;
-      expect(forms).toHaveLength(1);
-      expect(forms[0].position.line_range).toStrictEqual(lineRange);
     });
   });
 });

@@ -41,9 +41,9 @@ Are there any other stages or teams involved that need to be kept in the loop?
 - [ ] Ensure that the cleanup MR has been deployed to both production and canary.
       If the merge request was deployed before [the code cutoff](https://about.gitlab.com/handbook/engineering/releases/#self-managed-releases-1),
       the feature can be officially announced in a release blog post.
-    - [ ] `/chatops run auto_deploy status <merge-commit-of-cleanup-mr>`
+    - [ ] `/chatops gitlab run auto_deploy status <merge-commit-of-cleanup-mr>`
 - [ ] Close [the feature issue](ISSUE LINK) to indicate the feature will be released in the current milestone.
-- [ ] If not already done, clean up the feature flag from all environments by running these chatops command in `#production` channel: `/chatops run feature delete <feature-flag-name> --dev --pre --staging --staging-ref --production`
+- [ ] If not already done, clean up the feature flag from all environments by running these chatops command in `#production` channel: `/chatops gitlab run feature delete <feature-flag-name> --dev --pre --staging --staging-ref --production`
 - [ ] Close [the rollout issue](ISSUE LINK).
 
 

@@ -75,10 +75,7 @@ export default {
       this.store.removeNewFileDiscussionForm(this.formDiscussion);
     }),
     async saveNote(noteBody) {
-      await this.store.createFileDiscussion(this.formDiscussion, {
-        note: noteBody,
-        position: this.formDiscussion.position,
-      });
+      await this.store.createFileDiscussion(this.formDiscussion, noteBody);
     },
   },
 };

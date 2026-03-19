@@ -939,10 +939,10 @@ The MR assignee must:
 You can check migration status from Slack (or any ChatOps‑enabled channel) at any time:
 
 ```plaintext
-/chatops run search_migrations --help
-/chatops run search_migrations list
-/chatops run search_migrations get MigrationName
-/chatops run search_migrations get VersionNumber
+/chatops gitlab run search_migrations --help
+/chatops gitlab run search_migrations list
+/chatops gitlab run search_migrations get MigrationName
+/chatops gitlab run search_migrations get VersionNumber
 ```
 
 The above uses the [search_migrations](https://gitlab.com/gitlab-com/chatops/-/blob/master/lib/chatops/commands/search_migrations.rb) ChatOps plugin to fetch current migration state.

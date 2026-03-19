@@ -145,6 +145,61 @@ RSpec.describe 'PipelineCreate', feature_category: :pipeline_composition do
       end
     end
 
+    context 'when merge_request_iid is provided' do
+      let_it_be(:merge_request) do
+        create(:merge_request, source_project: project, source_branch: 'feature', target_branch: 'master')
+      end
+
+      let(:params) { { ref: merge_request.source_branch, merge_request_iid: merge_request.iid.to_s } }
+
+      before_all do
+        project.repository.create_branch('feature', 'master')
+      end
+
+      before do
+        stub_ci_pipeline_yaml_file(YAML.dump({
+          test: {
+            script: 'echo test',
+            rules: [{ when: 'always' }]
+          }
+        }))
+        stub_feature_flags(enable_inputs_for_mr_pipelines: project)
+      end
+
+      it 'creates a pipeline linked to the merge request' do
+        expect do
+          post_graphql_mutation(mutation, current_user: user)
+        end.to change { ::Ci::Pipeline.count }.by(1)
+
+        created_pipeline = ::Ci::Pipeline.last
+        expect(created_pipeline.merge_request).to eq(merge_request)
+        expect(created_pipeline.source).to eq('merge_request_event')
+        expect(mutation_response['pipeline']['id']).to eq(created_pipeline.to_global_id.to_s)
+      end
+
+      context 'when feature flag is disabled' do
+        before do
+          stub_feature_flags(enable_inputs_for_mr_pipelines: false)
+        end
+
+        it 'returns an error' do
+          post_graphql_mutation(mutation, current_user: user)
+
+          expect(graphql_errors.first['message']).to include('Feature not available')
+        end
+      end
+
+      context 'when merge request does not exist' do
+        let(:params) { { ref: 'master', merge_request_iid: '999999' } }
+
+        it 'returns an error' do
+          post_graphql_mutation(mutation, current_user: user)
+
+          expect(graphql_errors.first['message']).to include("Couldn't find")
+        end
+      end
+    end
+
     context 'when the `async` argument is `true`' do
       let(:operation_name) { 'internalPipelineCreate' }
       let(:params) { { ref: project.default_branch, async: true } }

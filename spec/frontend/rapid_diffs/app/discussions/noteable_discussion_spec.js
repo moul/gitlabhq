@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { nextTick } from 'vue';
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import { stubComponent } from 'helpers/stub_component';
 import waitForPromises from 'helpers/wait_for_promises';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_via_gl_modal';

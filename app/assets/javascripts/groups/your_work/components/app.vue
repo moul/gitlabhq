@@ -80,5 +80,6 @@ export default {
     :tab-counts-query-error-message="__('An error occurred loading the group counts.')"
     :should-update-active-tab-count-from-tab-query="false"
     :event-tracking="$options.eventTracking"
+    sort-storage-key="groups"
   />
 </template>

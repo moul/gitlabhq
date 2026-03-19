@@ -1,6 +1,6 @@
 <script>
 import { GlButton, GlIcon, GlDisclosureDropdownItem, GlModal, GlModalDirective } from '@gitlab/ui';
-import { escape } from 'lodash';
+import { escape } from 'lodash-es';
 import { s__, __, sprintf } from '~/locale';
 import { isTemplate } from '../utils';
 

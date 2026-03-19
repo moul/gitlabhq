@@ -167,6 +167,50 @@ If the server supports [OAuth 2.0 Dynamic Client Registration](https://tools.iet
 GitLab automatically registers itself as an OAuth client on first connection.
 You do not need to provide OAuth credentials manually.
 
+## Available MCP servers
+
+You can add the following MCP servers to the AI Catalog.
+For more servers proposed for the catalog, see [issue 591969](https://gitlab.com/gitlab-org/gitlab/-/work_items/591969).
+
+### Linear
+
+The Linear MCP server allows AI agents and workflows to interact with Linear data in real-time,
+including finding, creating, and updating issues, projects, and comments.
+
+| Property | Value |
+|---|---|
+| URL | `https://mcp.linear.app/mcp` |
+| Transport | HTTP |
+| Authentication | OAuth |
+
+### Atlassian
+
+The Atlassian MCP server allows AI agents and workflows to interact with Jira and Confluence data
+in real-time, including searching, creating, and updating issues, pages, and project content.
+
+| Property | Value |
+|---|---|
+| URL | `https://mcp.atlassian.com/v1/mcp` |
+| Transport | HTTP |
+| Authentication | OAuth |
+
+Before connecting, configure your Atlassian instance to trust GitLab as an authorized domain:
+
+1. In Atlassian, go to the admin page.
+1. Select **Apps** > **AI Settings** > **Rovo MCP Server**.
+1. Add `https://gitlab.com/**` to the list of trusted domains.
+
+### Context7
+
+Context7 MCP pulls up-to-date, version-specific documentation and code examples from the
+source and adds them to your prompt.
+
+| Property | Value |
+|---|---|
+| URL | `https://mcp.context7.com/mcp` |
+| Transport | HTTP |
+| Authentication | None |
+
 ## Related topics
 
 - [GitLab MCP server](mcp_server.md)

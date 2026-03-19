@@ -474,7 +474,7 @@ The keep file contains code that:
 
 Once the column has been added and the backfill is finished we need to finalize the migration. We can check the status of queued migration in `#chat-ops-test` Slack channel.
 
-- `/chatops run batched_background_migrations list --job-class-name=<desired_sharding_key_migration_job_name>` to check the status of a particular job
+- `/chatops gitlab run batched_background_migrations list --job-class-name=<desired_sharding_key_migration_job_name>` to check the status of a particular job
 - Output will look something like:
 
   ![ChatOps response showing batched background migration status with progress percentage and batch counts.](img/chatops_v18_6.png)
@@ -733,7 +733,7 @@ Let's take the recent `BackfillPushEventPayloadsProjectId` BBM failure as an exa
 - Failures are also reported as a comment on backfilled original MR. Example: MR [!183123](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183123#note_2482744925)
 
   ![Merge request comment showing batched background migration failure notification.](img/bbm-failure_v18_6.png)
-- We can also check the status of the job in `#chat-ops-test` Slack channel, using `/chatops run batched_background_migrations list --job-class-name=<desired_sharding_key_migration_job_name>`.
+- We can also check the status of the job in `#chat-ops-test` Slack channel, using `/chatops gitlab run batched_background_migrations list --job-class-name=<desired_sharding_key_migration_job_name>`.
 
   ![ChatOps output indicating a failed batched background migration status.](img/backfill-chatops-failed_v18_6.png)
 - Let's figure out the reason for failure using [Kibana dashboard](https://log.gprd.gitlab.net/app/discover).
@@ -773,7 +773,7 @@ Let's take the recent `BackfillApprovalMergeRequestRulesUsersProjectId` BBM fail
 
   ![Merge request comment tagging team members about the migration failure.](img/bbm-mr-message_v18_6.png)
 
-1. We can also check the status of the job in `#chat-ops-test` Slack channel, using `/chatops run batched_background_migrations list --job-class-name=<desired_sharding_key_migration_job_name>`.
+1. We can also check the status of the job in `#chat-ops-test` Slack channel, using `/chatops gitlab run batched_background_migrations list --job-class-name=<desired_sharding_key_migration_job_name>`.
 
    ![ChatOps command output showing the failed migration status and progress details.](img/chatops-failed-status_v18_6.png)
 1. Let's check the Kibana dashboard. There are [no logs](https://log.gprd.gitlab.net/app/discover#/view/07cd7a8b-10bb-457c-8d25-3c6d6269e614?_g=h@9751b81&_a=h@ff28b71) for this job.

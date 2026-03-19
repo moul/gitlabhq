@@ -117,6 +117,7 @@ describe('YourWorkGroupsApp', () => {
       tabCountsQueryErrorMessage: 'An error occurred loading the group counts.',
       shouldUpdateActiveTabCountFromTabQuery: false,
       userPreferencesSortKey: null,
+      sortStorageKey: 'groups',
     });
   });
 

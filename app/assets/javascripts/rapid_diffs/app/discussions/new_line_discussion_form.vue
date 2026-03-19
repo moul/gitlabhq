@@ -56,12 +56,7 @@ export default {
     }),
     async saveNote(noteBody) {
       try {
-        await this.store.createLineDiscussion(this.discussion, {
-          position: this.discussion.position,
-          lineChange: this.discussion.lineChange,
-          lineCode: this.discussion.lineCode,
-          note: noteBody,
-        });
+        await this.store.createLineDiscussion(this.discussion, noteBody);
       } catch (e) {
         const reason = e.response?.data?.errors;
         const errorMessage = reason

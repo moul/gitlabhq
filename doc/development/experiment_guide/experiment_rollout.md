@@ -26,8 +26,8 @@ You can toggle experiments on SaaS on and off using the `gitlab_experiment` [fea
 
 This can be done via ChatOps:
 
-- [disable](../feature_flags/controls.md#disabling-feature-flags): `/chatops run feature set gitlab_experiment false`
-- [enable](../feature_flags/controls.md#process): `/chatops run feature delete gitlab_experiment`
+- [disable](../feature_flags/controls.md#disabling-feature-flags): `/chatops gitlab run feature set gitlab_experiment false`
+- [enable](../feature_flags/controls.md#process): `/chatops gitlab run feature delete gitlab_experiment`
 - This allows the `default_enabled` [value of true in the YAML](https://gitlab.com/gitlab-org/gitlab/-/blob/016430f6751b0c34abb24f74608c80a1a8268f20/config/feature_flags/ops/gitlab_experiment.yml#L8) to be honored.
 
 ## Notes on feature flags

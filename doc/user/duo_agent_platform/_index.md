@@ -78,6 +78,7 @@ These features are generally available and consume [GitLab Credits](../../subscr
 | [Code Review Flow](flows/foundational_flows/code_review.md) | Automate code review tasks and enforce coding standards across your team. |
 | [SAST False Positive Detection Flow](flows/foundational_flows/sast_false_positive_detection.md) | Automatically identify and filter out false positives in SAST security scans. |
 | [Code Suggestions](code_suggestions/_index.md) | Get AI-powered suggestions as you write code. |
+| [SAST Vulnerability Resolution Flow](flows/foundational_flows/agentic_sast_vulnerability_resolution.md) | Automatically generate fixes and remediation steps for SAST vulnerabilities. |
 
 ## Beta and experiment features
 
@@ -91,7 +92,6 @@ These features are either beta or experiment and do not consume GitLab Credits.
 |---------|-------------|
 | [Data Analyst Agent](agents/foundational_agents/data_analyst.md) | Analyze data and generate insights from your development metrics and project data. |
 | [Custom flows](flows/custom.md) | Combine multiple agents to solve your business problems. |
-| [SAST Vulnerability Resolution Flow](flows/foundational_flows/agentic_sast_vulnerability_resolution.md) | Automatically generate fixes and remediation steps for SAST vulnerabilities. |
 | [MCP server](../gitlab_duo/model_context_protocol/mcp_server.md) | Securely connect AI tools and applications to your GitLab instance. |
 | [External MCP servers](../gitlab_duo/model_context_protocol/ai_catalog_mcp_servers.md) | Connect custom agents to external data sources and third-party services using MCP servers. |
 | [Knowledge Graph](../project/repository/knowledge_graph/_index.md) | Create structured, queryable representations of code repositories to power AI features. |

@@ -28,6 +28,10 @@ class Projects::PipelinesController < Projects::ApplicationController
   # Will be removed with https://gitlab.com/gitlab-org/gitlab/-/issues/225596
   before_action :redirect_for_legacy_scope_filter, only: [:index], if: -> { request.format.html? }
 
+  before_action only: [:new] do
+    push_frontend_feature_flag(:enable_inputs_for_mr_pipelines, project)
+  end
+
   around_action :allow_gitaly_ref_name_caching, only: [:index, :show]
 
   track_event :charts,

@@ -7,7 +7,7 @@ import {
   GlSprintf,
 } from '@gitlab/ui';
 import AxiosMockAdapter from 'axios-mock-adapter';
-import { kebabCase, merge } from 'lodash';
+import { kebabCase, merge } from 'lodash-es';
 import Vue, { nextTick } from 'vue';
 import VueApollo from 'vue-apollo';
 import axios from '~/lib/utils/axios_utils';

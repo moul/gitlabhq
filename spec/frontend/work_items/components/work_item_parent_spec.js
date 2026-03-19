@@ -98,7 +98,6 @@ describe('WorkItemParent component', () => {
     groupSearchQueryHandler = groupWorkItemsSuccessHandler,
     mutationHandler = successUpdateWorkItemMutationHandler,
     hasParent = true,
-    isGroup = false,
     provide = {},
   } = {}) => {
     wrapper = shallowMountExtended(WorkItemParent, {
@@ -116,7 +115,6 @@ describe('WorkItemParent component', () => {
         workItemId,
         workItemType,
         hasParent,
-        isGroup,
         allowedParentTypesForNewWorkItem,
       },
       provide: {
@@ -551,7 +549,29 @@ describe('WorkItemParent component', () => {
 
   describe('on group level', () => {
     beforeEach(() => {
-      createComponent({ isGroup: true, hasParent: false, workItemType: 'Epic' });
+      const typesConfig = {
+        ...mockFullWorkItemTypeConfiguration,
+        Epic: {
+          ...mockFullWorkItemTypeConfiguration.Epic,
+          isGroupWorkItemType: true,
+        },
+      };
+      mockWorkItemConfigGetter.mockImplementation(() => ({
+        isGroupWorkItemType: true,
+        widgetDefinitions: [
+          {
+            autoExpandTreeOnMove: null,
+            propagatesMilestone: true,
+            type: 'HIERARCHY',
+            __typename: 'WorkItemWidgetDefinitionHierarchy',
+          },
+        ],
+      }));
+      createComponent({
+        hasParent: false,
+        workItemType: 'Epic',
+        provide: { workItemTypesConfiguration: typesConfig },
+      });
     });
 
     it('calls group mutation when selecting a parent', async () => {
@@ -577,12 +597,22 @@ describe('WorkItemParent component', () => {
           .fn()
           .mockResolvedValue(groupEpicsWithMilestonesQueryResponseWithFeatures);
 
+        const typesConfig = {
+          ...mockFullWorkItemTypeConfiguration,
+          Epic: {
+            ...mockFullWorkItemTypeConfiguration.Epic,
+            isGroupWorkItemType: true,
+          },
+        };
+
         createComponent({
-          isGroup: true,
           hasParent: false,
           workItemType: 'Epic',
           groupSearchQueryHandler: featuresHandler,
-          provide: { glFeatures: { workItemFeaturesField: true } },
+          provide: {
+            workItemTypesConfiguration: typesConfig,
+            glFeatures: { workItemFeaturesField: true },
+          },
         });
 
         showDropdown();
@@ -612,21 +642,32 @@ describe('WorkItemParent component', () => {
   describe('work item type configuration', () => {
     describe('query selection based on configuration', () => {
       it.each`
-        workItemType   | isGroup  | isIssue  | isGroupWorkItemType | expectedQuery
-        ${'Epic'}      | ${true}  | ${false} | ${true}             | ${'group'}
-        ${'Epic'}      | ${true}  | ${false} | ${null}             | ${'group'}
-        ${'Objective'} | ${false} | ${false} | ${false}            | ${'project'}
-        ${'Objective'} | ${false} | ${false} | ${null}             | ${'project'}
-        ${'Issue'}     | ${true}  | ${true}  | ${false}            | ${'group'}
-        ${'Issue'}     | ${false} | ${true}  | ${null}             | ${'group'}
+        workItemType   | isGroupWorkItemType | expectedQuery
+        ${'Epic'}      | ${true}             | ${'group'}
+        ${'Epic'}      | ${null}             | ${'project'}
+        ${'Objective'} | ${false}            | ${'project'}
+        ${'Objective'} | ${null}             | ${'project'}
+        ${'Issue'}     | ${true}             | ${'group'}
+        ${'Issue'}     | ${null}             | ${'project'}
       `(
-        'selects correct query when workItemType=$workItemType, isGroup=$isGroup, isGroupWorkItemType=$isGroupWorkItemType',
-        async ({ workItemType, isGroup, isGroupWorkItemType, expectedQuery }) => {
+        'selects correct query when workItemType=$workItemType, isGroupWorkItemType=$isGroupWorkItemType',
+        async ({ workItemType, isGroupWorkItemType, expectedQuery }) => {
           mockWorkItemConfigGetter.mockImplementation(() => {
             return { isGroupWorkItemType };
           });
 
-          createComponent({ workItemType, isGroup });
+          const typesConfig = {
+            ...mockFullWorkItemTypeConfiguration,
+            Epic: {
+              ...mockFullWorkItemTypeConfiguration.Epic,
+              isGroupWorkItemType,
+            },
+          };
+
+          createComponent({
+            workItemType,
+            provide: { workItemTypesConfiguration: typesConfig },
+          });
 
           showDropdown();
           await waitForPromises();
@@ -642,19 +683,19 @@ describe('WorkItemParent component', () => {
 
     describe('propagatesMilestone', () => {
       it.each`
-        workItemType | propagatesMilestone | shouldEmitMilestone
-        ${'Epic'}    | ${true}             | ${true}
-        ${'Epic'}    | ${false}            | ${true}
-        ${'Epic'}    | ${null}             | ${true}
-        ${'Issue'}   | ${true}             | ${true}
-        ${'Issue'}   | ${false}            | ${false}
-        ${'Issue'}   | ${null}             | ${false}
+        workItemType | propagatesMilestone | isGroupWorkItemType | shouldEmitMilestone
+        ${'Epic'}    | ${true}             | ${true}             | ${true}
+        ${'Epic'}    | ${false}            | ${true}             | ${false}
+        ${'Epic'}    | ${null}             | ${true}             | ${false}
+        ${'Issue'}   | ${true}             | ${true}             | ${true}
+        ${'Issue'}   | ${false}            | ${true}             | ${false}
+        ${'Issue'}   | ${null}             | ${true}             | ${false}
       `(
         'emits parentMilestone correctly when workItemType=$workItemType and propagatesMilestone=$propagatesMilestone',
-        async ({ workItemType, propagatesMilestone, shouldEmitMilestone }) => {
+        async ({ workItemType, propagatesMilestone, isGroupWorkItemType, shouldEmitMilestone }) => {
           mockWorkItemConfigGetter.mockImplementation(() => {
             return {
-              isGroupWorkItemType: null,
+              isGroupWorkItemType,
               widgetDefinitions: [
                 {
                   type: 'HIERARCHY',
@@ -665,7 +706,18 @@ describe('WorkItemParent component', () => {
             };
           });
 
-          createComponent({ workItemType, isGroup: true });
+          const configWithGroupType = {
+            ...mockFullWorkItemTypeConfiguration,
+            Epic: {
+              ...mockFullWorkItemTypeConfiguration.Epic,
+              isGroupWorkItemType: true,
+            },
+          };
+
+          createComponent({
+            workItemType,
+            provide: { workItemTypesConfiguration: configWithGroupType },
+          });
           showDropdown();
           await waitForPromises();
 

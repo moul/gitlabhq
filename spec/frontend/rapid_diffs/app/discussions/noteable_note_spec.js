@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import { shallowMount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import NoteableNote from '~/rapid_diffs/app/discussions/noteable_note.vue';

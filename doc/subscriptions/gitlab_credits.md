@@ -274,11 +274,14 @@ For premium models with optimized integration:
 
 ### Features
 
-The following table lists the number of requests you can make with one GitLab Credit for features that use a fixed model.
+The following table lists the number of requests you can make with one GitLab Credit for different features.
+This pricing applies to all models (including self-hosted models) available for the feature.
 
 | Feature | Requests with one credit |
 |---------|---------------------------|
 | [GitLab Duo Code Suggestions](../user/duo_agent_platform/code_suggestions/_index.md) | 50 |
+| Code Review Flow | 4 |
+| SAST False Positive Detection Flow | 1 |
 
 [GitLab Duo Chat (agentic)](../user/gitlab_duo_chat/agentic_chat.md) doesn't use a fixed model,
 so credit cost varies based on the model selected for the request.

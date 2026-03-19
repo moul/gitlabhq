@@ -949,12 +949,12 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
         allow(project).to receive(:destroy!).and_raise(StandardError)
       end
 
-      it 'calls reschedule_deletion to transition state back' do
-        expect(project).to receive(:reschedule_deletion!).with(transition_user: user).and_call_original
-
+      it 'calls reschedule_deletion to transition state back with deletion_error' do
         destroy_project(project, user, {})
 
-        expect(project.reload.state).to eq('deletion_scheduled')
+        project.reload
+        expect(project.state).to eq('deletion_scheduled')
+        expect(project.deletion_error).to be_present
       end
     end
   end

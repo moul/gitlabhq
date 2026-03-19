@@ -93,15 +93,20 @@ describe('buildLineDiscussionData', () => {
     head_sha: 'head222',
   };
 
-  const noteData = {
+  const discussion = {
     position: { old_path: 'a.rb', new_path: 'a.rb', old_line: null, new_line: 5 },
     lineChange: { change: 'added', position: 'new' },
     lineCode: 'abc_0_5',
-    note: 'test comment',
   };
 
   it('builds the correct payload', () => {
-    const result = buildLineDiscussionData({ noteData, noteableData, viewConfig, diffRefs });
+    const result = buildLineDiscussionData({
+      discussion,
+      noteBody: 'test comment',
+      noteableData,
+      viewConfig,
+      diffRefs,
+    });
 
     expect(result).toEqual({
       endpoint: '/api/notes',
@@ -124,7 +129,6 @@ describe('buildLineDiscussionData', () => {
             old_line: null,
             new_line: 5,
             position_type: 'text',
-            line_range: null,
             ignore_whitespace_change: false,
           }),
           noteable_type: 'MergeRequest',
@@ -139,7 +143,8 @@ describe('buildLineDiscussionData', () => {
 
   it('sets ignore_whitespace_change to true when whitespace is hidden', () => {
     const result = buildLineDiscussionData({
-      noteData,
+      discussion,
+      noteBody: 'test comment',
       noteableData,
       viewConfig: { ...viewConfig, showWhitespace: false },
       diffRefs,
