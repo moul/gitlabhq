@@ -70,7 +70,6 @@ module Gitlab
             :award_emoji,
             :crm_contacts,
             :current_user_todos,
-            :custom_fields,
             :description,
             :development,
             :email_participants,
@@ -88,7 +87,6 @@ module Gitlab
           test_case: [
             :award_emoji,
             :current_user_todos,
-            :custom_fields,
             :description,
             :linked_items,
             :notes,
@@ -99,7 +97,6 @@ module Gitlab
           requirement: [
             :award_emoji,
             :current_user_todos,
-            :custom_fields,
             :description,
             :linked_items,
             :notes,
@@ -189,7 +186,6 @@ module Gitlab
             :award_emoji,
             :crm_contacts,
             :current_user_todos,
-            :custom_fields,
             :description,
             :designs,
             :development,

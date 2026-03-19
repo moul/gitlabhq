@@ -12,7 +12,6 @@ module WorkItems
                 award_emoji
                 crm_contacts
                 current_user_todos
-                custom_fields
                 description
                 designs
                 development
