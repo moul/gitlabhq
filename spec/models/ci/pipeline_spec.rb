@@ -2703,12 +2703,26 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
     end
 
     describe 'pipeline caching' do
-      it 'executes Ci::ExpirePipelineCacheService' do
-        expect_next_instance_of(Ci::ExpirePipelineCacheService) do |service|
-          expect(service).to receive(:execute).with(pipeline)
-        end
+      it 'enqueues Ci::ExpirePipelineCacheWorker' do
+        expect(Ci::ExpirePipelineCacheWorker)
+          .to receive(:perform_async)
+          .with(pipeline.id, { 'partition_id' => pipeline.partition_id })
 
         pipeline.cancel
+      end
+
+      context 'when ci_expire_pipeline_cache_workers feature flag is disabled' do
+        before do
+          stub_feature_flags(ci_expire_pipeline_cache_workers: false)
+        end
+
+        it 'executes Ci::ExpirePipelineCacheService' do
+          expect_next_instance_of(Ci::ExpirePipelineCacheService) do |service|
+            expect(service).to receive(:execute).with(pipeline)
+          end
+
+          pipeline.cancel
+        end
       end
     end
 

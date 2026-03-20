@@ -73613,6 +73613,10 @@ components:
           type: string
           format: date-time
           example: '2022-09-19T11:32:35.169Z'
+        creator_id:
+          type: integer
+          description: ID of the user who created the package
+          example: 1
         project_id:
           type: integer
           example: 2

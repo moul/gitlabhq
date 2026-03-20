@@ -31,7 +31,10 @@ project:
 group:
   permissions: []
   raw_permissions:
+  - admin_epic_relation
   - award_emoji
+  - read_epic_link_relation
+  - read_epic_relation
   - read_group
   - read_group_release_stats
   - read_release

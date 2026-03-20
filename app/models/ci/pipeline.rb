@@ -348,7 +348,11 @@ module Ci
             ::JiraConnect::SyncBuildsWorker.perform_async(pipeline.id, seq_id)
           end
 
-          Ci::ExpirePipelineCacheService.new.execute(pipeline) # rubocop: disable CodeReuse/ServiceClass
+          if Feature.enabled?(:ci_expire_pipeline_cache_workers, pipeline.project)
+            Ci::ExpirePipelineCacheWorker.perform_async(pipeline.id, { 'partition_id' => pipeline.partition_id })
+          else
+            Ci::ExpirePipelineCacheService.new.execute(pipeline) # rubocop: disable CodeReuse/ServiceClass
+          end
         end
       end
 

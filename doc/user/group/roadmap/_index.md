@@ -181,8 +181,8 @@ on the start day (Sunday) of the week. This preset is selected by default.
 
 ![roadmap date range in weeks](img/roadmap_timeline_weeks_v11_11.png)
 
-In the **Weeks** preset, roadmap shows epics and milestones which have start or due dates **falling
-within** or **going through** currently selected date range preset, where **today**
+In the **Weeks** preset, roadmap shows epics and milestones which have start or due dates **falling within**
+or **going through** currently selected date range preset, where **today**
 is shown by the vertical red line in the timeline. The sub-headers underneath the week name on
 the timeline header represent the days of the week.
 

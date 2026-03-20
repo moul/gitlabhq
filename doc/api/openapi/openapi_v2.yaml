@@ -51262,6 +51262,11 @@ definitions:
         type: string
         format: date-time
         example: '2022-09-19T11:32:35.169Z'
+      creator_id:
+        type: integer
+        format: int32
+        example: 1
+        description: ID of the user who created the package
       project_id:
         type: integer
         format: int32
@@ -51286,6 +51291,7 @@ definitions:
     - _links
     - created_at
     - last_downloaded_at
+    - creator_id
     - tags
     description: API_Entities_Package model
   API_Entities_Package_Pipeline:

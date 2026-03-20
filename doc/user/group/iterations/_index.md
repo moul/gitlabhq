@@ -43,8 +43,8 @@ Use iterations to plan and execute work in fixed time periods, and help teams ma
 predictable delivery cadence.
 When teams work in sprints, each iteration provides a clear timebox for planning,
 execution, and delivery of work items.
-For more information, see
-[Tutorial: Use GitLab to facilitate Scrum](../../../tutorials/scrum_events/_index.md).
+For more information, see the
+[use GitLab to facilitate Scrum tutorial](../../../tutorials/scrum_events/_index.md).
 
 For example, when running two-week sprints, teams often need to coordinate multiple workstreams.
 The development team tracks implementation in the current sprint, while product managers prepare
@@ -141,7 +141,7 @@ To create an iteration cadence:
      Administrators can change the instance time zone.
 1. Select **Create cadence**. The cadence list page opens.
 
-To manually manage the created cadence, see [Create an iteration manually](#create-an-iteration-manually).
+To manually manage the created cadence, see [create an iteration manually](#create-an-iteration-manually).
 
 ### View the iterations list
 

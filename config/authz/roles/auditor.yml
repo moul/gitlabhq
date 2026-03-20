@@ -22,6 +22,7 @@ project:
   - read_external_status_check_response
   - read_feature_flag
   - read_licenses
+  - read_namespace_cluster_agent_mapping
   - read_on_demand_dast_scan
   - read_pages
   - read_project_audit_events
@@ -58,6 +59,7 @@ group:
   - read_group_repository_analytics
   - read_group_stage
   - read_licenses
+  - read_namespace_cluster_agent_mapping
   - read_protected_branch
   - read_runners
   - read_vulnerability

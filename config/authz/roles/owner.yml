@@ -41,13 +41,16 @@ group:
   permissions: []
   raw_permissions:
   - admin_add_on_purchase
+  - admin_ci_minutes
   - admin_cicd_variables
   - admin_compliance_framework
   - admin_external_audit_events
   - admin_group
+  - admin_group_credentials_inventory
   - admin_group_member
   - admin_integrations
   - admin_licensed_seat
+  - admin_merge_request_approval_settings
   - admin_namespace
   - admin_package
   - admin_protected_environments
@@ -77,7 +80,12 @@ group:
   - manage_deploy_tokens
   - manage_merge_request_settings
   - provision_secrets_manager
+  - read_billable_member
   - read_billing
+  - read_compliance_adherence_report
+  - read_compliance_dashboard
+  - read_compliance_violations_report
+  - read_group_credentials_inventory
   - read_runners
   - read_runners_registration_token
   - read_service_account
@@ -91,6 +99,7 @@ group:
   - set_epic_updated_at
   - set_note_created_at
   - set_show_diff_preview_in_email
+  - update_approval_rule
   - update_default_branch_protection
   - update_git_access_protocol
   - update_group_link

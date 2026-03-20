@@ -6,7 +6,10 @@ module API
       class Subscriptions < ::API::Base
         feature_category :team_planning
 
-        before { authenticate! }
+        before do
+          authenticate!
+          set_current_organization
+        end
 
         namespace :integrations do
           namespace :jira_connect do

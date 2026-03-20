@@ -11,8 +11,6 @@ RSpec.describe 'projects/new', feature_category: :groups_and_projects do
     assign(:project, project)
     assign(:namespace, namespace)
 
-    stub_feature_flags(new_project_creation_form: false)
-
     allow(view).to receive_messages(
       current_user: user,
       import_sources_enabled?: false,

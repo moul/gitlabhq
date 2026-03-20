@@ -501,7 +501,7 @@ You can sort the epics list by:
 
 Each option contains a button that can toggle the order between **Ascending** and **Descending**.
 The sort option and order is saved and used wherever you browse epics, including the
-[Roadmap](../roadmap/_index.md).
+[roadmap](../roadmap/_index.md).
 
 ## Change activity sort order
 
@@ -525,8 +525,7 @@ If you're working on items that contain private information, you can make an epi
 > [!note]
 > A confidential epic can only contain [confidential issues](../../project/issues/confidential_issues.md)
 > and confidential child epics. However, merge requests are public, if created in a public project.
-> Read [Merge requests for confidential issues](../../project/merge_requests/confidential.md)
-> to learn how to create a confidential merge request.
+> To create a confidential merge request, see [merge requests for confidential issues](../../project/merge_requests/confidential.md).
 
 Prerequisites:
 

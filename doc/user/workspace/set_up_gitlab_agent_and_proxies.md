@@ -80,7 +80,7 @@ Install an [Ingress controller](https://kubernetes.io/docs/concepts/services-net
 Install the [GitLab agent for Kubernetes](../clusters/agent/_index.md#kubernetes-integration-glossary) in your
 Kubernetes cluster to connect your cluster to GitLab:
 
-1. Complete one of the installation options in [Installing the agent for Kubernetes](../clusters/agent/install/_index.md).
+1. Complete one of the installation options in [installing the agent for Kubernetes](../clusters/agent/install/_index.md).
 1. Note the `agentName` you configured. It's required when you configure the agent for workspaces.
 
 ## Install the GitLab agent server for Kubernetes

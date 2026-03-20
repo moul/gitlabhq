@@ -12,7 +12,6 @@ RSpec.describe 'Project', feature_category: :source_code_management do
     let(:user) { create(:user) }
 
     before do
-      stub_feature_flags(new_project_creation_form: false)
       sign_in user
       visit new_project_path
     end
@@ -92,7 +91,6 @@ RSpec.describe 'Project', feature_category: :source_code_management do
     let(:user)    { create(:user) }
 
     before do
-      stub_feature_flags(new_project_creation_form: false)
       sign_in user
       visit new_project_path
     end

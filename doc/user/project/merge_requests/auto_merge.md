@@ -55,7 +55,7 @@ Merge checks include a passing CI/CD pipeline, and much more:
 - If the merge request has a **Merge after** date set, the current time must be after the configured date.
 
 For a full list of checks and their API equivalents, see
-[Merge status](../../../api/merge_requests.md#merge-status).
+[merge status](../../../api/merge_requests.md#merge-status).
 
 ![Auto-merge is ready](img/auto_merge_ready_v16_0.png)
 

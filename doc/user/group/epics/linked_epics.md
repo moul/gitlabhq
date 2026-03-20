@@ -19,7 +19,7 @@ the epic description. You can link epics in different groups.
 The relationship only shows up in the UI if the user can see both epics.
 When you try to close an epic that has open blockers, a warning is displayed.
 
-To manage linked epics through our API, see [Linked epics API](../../../api/linked_epics.md).
+To manage linked, see the [linked epics API](../../../api/linked_epics.md).
 
 ## Ways to use linked epics
 
