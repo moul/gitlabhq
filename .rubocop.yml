@@ -932,6 +932,12 @@ API/ParameterType:
     - 'lib/**/api/**/*.rb'
     - 'ee/lib/**/api/**/*.rb'
 
+API/ParameterValuesProc:
+  Enabled: true
+  Include:
+    - 'lib/**/api/**/*.rb'
+    - 'ee/lib/**/api/**/*.rb'
+
 API/RouteSettingLifecycle:
   Enabled: true
   Include:

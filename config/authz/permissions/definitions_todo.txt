@@ -456,7 +456,6 @@ read_design
 read_design_activity
 read_dora4_analytics
 read_duo_core_settings
-read_duo_usage_analytics
 read_duo_workflow
 read_duo_workflow_event
 read_emoji

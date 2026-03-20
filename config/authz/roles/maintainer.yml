@@ -161,6 +161,7 @@ group:
   - create_cluster
   - create_jira_connect_subscription
   - create_protected_branch
+  - delete_custom_emoji
   - destroy_package
   - destroy_protected_branch
   - destroy_upload

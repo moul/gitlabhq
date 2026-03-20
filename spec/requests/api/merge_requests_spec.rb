@@ -7,7 +7,7 @@ RSpec.describe API::MergeRequests, :aggregate_failures, feature_category: :sourc
   include ProjectForksHelper
 
   let_it_be(:base_time) { Time.now }
-  let_it_be(:user)  { create(:user) }
+  let_it_be_with_refind(:user) { create(:user) }
   let_it_be(:user2) { create(:user) }
   let_it_be(:admin) { create(:user, :admin) }
   let_it_be_with_refind(:project) { create(:project, :public, :repository, creator: user, namespace: user.namespace, only_allow_merge_if_pipeline_succeeds: false) }

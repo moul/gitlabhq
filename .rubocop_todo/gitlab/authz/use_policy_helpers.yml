@@ -66,7 +66,6 @@ Gitlab/Authz/UsePolicyHelpers:
     - 'ee/spec/policies/project_policy_spec.rb'
     - 'ee/spec/policies/project_snippet_policy_spec.rb'
     - 'ee/spec/policies/projects/compliance_standards/adherence_policy_spec.rb'
-    - 'ee/spec/policies/resource_iteration_event_policy_spec.rb'
     - 'ee/spec/policies/resource_weight_event_policy_spec.rb'
     - 'ee/spec/policies/saml_provider_policy_spec.rb'
     - 'ee/spec/policies/sbom/component_policy_spec.rb'

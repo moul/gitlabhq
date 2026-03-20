@@ -85,11 +85,17 @@ module Gitlab
       end
 
       def calculate_relative_position(calculation)
+        order = if calculation == 'MIN'
+                  Arel.sql('position').asc.nulls_last
+                else
+                  Arel.sql('position').desc.nulls_last
+                end
+
         # When calculating across projects, this is much more efficient than
         # MAX(relative_position) without the GROUP BY, due to index usage:
         # https://gitlab.com/gitlab-org/gitlab-foss/issues/54276#note_119340977
         relation = scoped_items
-                     .order(Arel.sql('position').desc.nulls_last)
+                     .order(order)
                      .group(grouping_column)
                      .limit(1)
 

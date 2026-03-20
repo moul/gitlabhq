@@ -9067,6 +9067,15 @@ paths:
         type: boolean
         required: false
       - in: query
+        name: num_context_lines
+        description: Number of context lines around each match. Available with advanced
+          and exact code search. Introduced in GitLab 18.11.
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 20
+        required: false
+      - in: query
         name: regex
         description: Performs a regex code search. Available with exact code search.
           Introduced in GitLab 18.9
@@ -38737,6 +38746,15 @@ paths:
           - title
         required: false
       - in: query
+        name: num_context_lines
+        description: Number of context lines around each match. Available with advanced
+          and exact code search. Introduced in GitLab 18.11.
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 20
+        required: false
+      - in: query
         name: regex
         description: Performs a regex code search. Available with exact code search.
           Introduced in GitLab 18.9
@@ -46009,6 +46027,15 @@ paths:
         description: Excludes forked projects in the search. Available with exact
           code search. Introduced in GitLab 18.9.
         type: boolean
+        required: false
+      - in: query
+        name: num_context_lines
+        description: Number of context lines around each match. Available with advanced
+          and exact code search. Introduced in GitLab 18.11.
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 20
         required: false
       - in: query
         name: regex

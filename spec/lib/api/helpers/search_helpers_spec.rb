@@ -43,7 +43,7 @@ RSpec.describe API::Helpers::SearchHelpers, feature_category: :global_search do
   describe '.search_param_keys' do
     it 'for CE returns the expected param keys', unless: Gitlab.ee? do
       expect(described_class.search_param_keys).to match_array(
-        %i[confidential include_archived num_context_lines order_by page per_page scope search search_type sort state]
+        %i[confidential include_archived order_by page per_page scope search search_type sort state]
       )
     end
 
@@ -61,7 +61,7 @@ RSpec.describe API::Helpers::SearchHelpers, feature_category: :global_search do
     it 'returns search_param_keys with id', unless: Gitlab.ee? do
       expect(described_class.gitlab_search_mcp_params).to match_array(
         %i[
-          confidential id include_archived num_context_lines order_by page per_page scope search search_type sort state
+          confidential id include_archived order_by page per_page scope search search_type sort state
         ]
       )
     end

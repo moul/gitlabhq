@@ -5185,7 +5185,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_74413c5f48b5"
+              "$ref": "#/components/schemas/RequestBody_1ccd5fb88bc6"
   "/api/v4/projects/{id}/managed_licenses/{managed_license_id}":
     get:
       operationId: getApiV4ProjectsIdManagedLicensesManagedLicenseId
@@ -5258,7 +5258,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_ed3186768773"
+              "$ref": "#/components/schemas/RequestBody_ff6c80a6af72"
     delete:
       operationId: deleteApiV4ProjectsIdManagedLicensesManagedLicenseId
       summary: Delete an existing software license policy from a project
@@ -24747,6 +24747,16 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: num_context_lines
+        required: false
+        description: Number of context lines around each match. Available with advanced
+          and exact code search. Introduced in GitLab 18.11.
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 20
+          nullable: true
+        in: query
       - name: regex
         required: false
         description: Performs a regex code search. Available with exact code search.
@@ -24863,6 +24873,16 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: num_context_lines
+        required: false
+        description: Number of context lines around each match. Available with advanced
+          and exact code search. Introduced in GitLab 18.11.
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 20
+          nullable: true
+        in: query
       - name: regex
         required: false
         description: Performs a regex code search. Available with exact code search.
@@ -24971,6 +24991,16 @@ paths:
         in: query
         style: form
         explode: false
+      - name: num_context_lines
+        required: false
+        description: Number of context lines around each match. Available with advanced
+          and exact code search. Introduced in GitLab 18.11.
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 20
+          nullable: true
+        in: query
       - name: regex
         required: false
         description: Performs a regex code search. Available with exact code search.
@@ -86893,7 +86923,7 @@ components:
           description: Should approvers authenticate via password or SAML before adding
             approval
           nullable: true
-    RequestBody_74413c5f48b5:
+    RequestBody_1ccd5fb88bc6:
       type: object
       properties:
         name:
@@ -86903,12 +86933,15 @@ components:
           nullable: true
         approval_status:
           type: string
-          description: The approval status of the license. "allowed" or "denied".
+          enum:
+          - allowed
+          - denied
+          description: The approval status of the license.
           minLength: 1
       required:
       - name
       - approval_status
-    RequestBody_ed3186768773:
+    RequestBody_ff6c80a6af72:
       type: object
       properties:
         name:
@@ -86918,7 +86951,10 @@ components:
           nullable: true
         approval_status:
           type: string
-          description: The approval status of the license. "allowed" or "denied".
+          enum:
+          - allowed
+          - denied
+          description: The approval status of the license.
           nullable: true
     RequestBody_a8cab86e12ae:
       type: object

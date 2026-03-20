@@ -131,9 +131,7 @@ module API
 
       def verify_search_scope_for_ee!(_); end
 
-      def verify_ee_param_regex!(_); end
-
-      def verify_ee_param_exclude_forks!(_); end
+      def verify_ee_blob_search_params!(_); end
 
       def verify_ee_param_fields!(_); end
 
@@ -186,6 +184,10 @@ module API
         # Overridden in EE
       end
 
+      params :ee_param_num_context_lines do
+        # Overridden in EE
+      end
+
       params :ee_param_regex do
         # Overridden in EE
       end
@@ -210,6 +212,7 @@ module API
         use :param_archived_filter
         use :ee_param_fields
         use :ee_param_exclude_forks
+        use :ee_param_num_context_lines
         use :ee_param_regex
         use :pagination
       end
@@ -218,8 +221,7 @@ module API
         params: Helpers::SearchHelpers.gitlab_search_mcp_params, aggregators: [::Mcp::Tools::SearchService]
       get do
         verify_search_scope_for_ee!(search_type)
-        verify_ee_param_regex!(search_type)
-        verify_ee_param_exclude_forks!(search_type)
+        verify_ee_blob_search_params!(search_type)
         verify_ee_param_fields!(search_type)
 
         set_headers('Content-Transfer-Encoding' => 'binary')
@@ -244,6 +246,7 @@ module API
         use :param_archived_filter
         use :ee_param_fields
         use :ee_param_exclude_forks
+        use :ee_param_num_context_lines
         use :ee_param_regex
         use :pagination
       end
@@ -254,8 +257,7 @@ module API
         additional_params = { group_id: user_group.id }
         search_type = search_type(additional_params)
         verify_search_scope_for_ee!(search_type)
-        verify_ee_param_regex!(search_type)
-        verify_ee_param_exclude_forks!(search_type)
+        verify_ee_blob_search_params!(search_type)
         verify_ee_param_fields!(search_type)
 
         set_headers
@@ -281,6 +283,7 @@ module API
 
         use :params_common
         use :ee_param_fields
+        use :ee_param_num_context_lines
         use :ee_param_regex
         use :pagination
       end
@@ -290,8 +293,7 @@ module API
       get ':id/(-/)search' do
         additional_params = { project_id: user_project.id, repository_ref: params[:ref] }
         search_type = search_type(additional_params)
-        verify_ee_param_regex!(search_type)
-        verify_ee_param_exclude_forks!(search_type)
+        verify_ee_blob_search_params!(search_type)
         verify_ee_param_fields!(search_type)
 
         set_headers
