@@ -43,6 +43,7 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       granular_scopes
       group_type_ci_runner_machines
       group_type_ci_runners
+      group_upload_states
       import_failures
       import_offline_configurations
       integrations

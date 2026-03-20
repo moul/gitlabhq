@@ -523,6 +523,6 @@ sequenceDiagram
     Monolith->>User: Return response
 ```
 
-The execution flows are the same whether the user is using a local monolith, GitLab SaaS,
+The execution flows are the same whether the user is using a local monolith, GitLab.com,
 the cloud-connected DWS or a
 local installation of DWS.

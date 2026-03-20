@@ -214,7 +214,7 @@ module Geo
       when 'project_id'
         'project_id_in'
       when 'namespace_id'
-        'group_id_in'
+        'namespace_id_in'
       when 'organization_id'
         'organization_id_in'
       else

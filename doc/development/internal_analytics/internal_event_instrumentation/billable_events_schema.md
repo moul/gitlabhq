@@ -7,7 +7,7 @@ title: Billable Events Schema
 
 ## Overview
 
-The billable events schema defines the structure and fields for tracking usage events that contribute to customer billing. This schema is used across GitLab SaaS, Dedicated, and Self-Managed deployments to capture standardized usage data for billing purposes.
+The billable events schema defines the structure and fields for tracking usage events that contribute to customer billing. This schema is used across GitLab.com, Dedicated, and Self-Managed deployments to capture standardized usage data for billing purposes.
 
 This document serves as the reference for the billable usage event schema based on the [`billable_usage` jsonschema](https://gitlab.com/gitlab-org/iglu/-/blob/master/public/schemas/com.gitlab/billable_usage/jsonschema).
 

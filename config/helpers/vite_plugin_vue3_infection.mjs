@@ -2,13 +2,11 @@ import { createRequire } from 'node:module';
 import { readFile } from 'node:fs/promises';
 
 const require = createRequire(import.meta.url);
-const { CONTEXT_ALIASES } = require('./context_aliases_shared');
+const { CONTEXT_ALIASES, INFECTABLE_RE, INFECTION_BLOCKLIST } = require('./context_aliases_shared');
 
 const VUE3_QUERY = 'vue3';
 const VUE3_SUFFIX = '.vue3-infected';
 const VUE3_SUFFIX_RE = /\.vue3-infected(\.\w+)/;
-const INFECTABLE_RE = /\.(js|mjs|vue)$/;
-const INFECTION_BLOCKLIST = ['app/assets/javascripts/lib/graphql.js'];
 
 const toURL = (id) => new URL(id, 'https://dummy.base');
 

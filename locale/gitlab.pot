@@ -31479,6 +31479,12 @@ msgstr ""
 msgid "Geo|GraphQL ID: %{id}"
 msgstr ""
 
+msgid "Geo|Group Upload"
+msgstr ""
+
+msgid "Geo|Group Uploads"
+msgstr ""
+
 msgid "Geo|Group Wiki Repositories"
 msgstr ""
 

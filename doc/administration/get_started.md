@@ -147,7 +147,7 @@ You can restore a backup only to **the exact same version and type** (Community 
 - Review the [Linux package (Omnibus) backup and restore documentation](https://docs.gitlab.com/omnibus/settings/backups).
 - Review the [Helm Chart backup and restore documentation](https://docs.gitlab.com/charts/backup-restore/).
 
-### Back up GitLab SaaS
+### Back up GitLab.com
 
 Backups of our production databases are taken hourly through
 [disk snapshots](https://cloud.google.com/compute/docs/disks/snapshots) and every
@@ -157,7 +157,7 @@ streamed into GCS for point-in-time recovery.
 
 All backups are encrypted. After 90 days, backups are deleted.
 
-- GitLab SaaS creates backups to ensure your data is secure, but you can't use these methods to export or back up your data yourself.
+- GitLab.com creates backups to ensure your data is secure, but you can't use these methods to export or back up your data yourself.
 - Issues are stored in the database. They can't be stored in Git itself.
 - You can use the project export option in:
   - [The UI](../user/project/settings/import_export.md#export-a-project-and-its-data).
@@ -228,12 +228,12 @@ To get assistance for GitLab Self-Managed:
 - Gather [your subscription information](https://about.gitlab.com/support/#for-self-managed-users) before submitting a ticket.
 - [Submit a support ticket](https://support.gitlab.com/hc/en-us/requests/new).
 
-## Support for GitLab SaaS
+## Support for GitLab.com
 
-GitLab SaaS has 24/7 monitoring. Our full team of site reliability and production engineers is always on.
+GitLab.com has 24/7 monitoring. Our full team of site reliability and production engineers is always on.
 Often, by the time you notice an issue, someone's already looking into it.
 
-To get assistance for GitLab SaaS:
+To get assistance for GitLab.com:
 
 - Access [GitLab Docs](../_index.md) for self-service support.
 - Join the [GitLab Forum](https://forum.gitlab.com/) for community support.
@@ -261,26 +261,26 @@ You can make changes to your default rate limits from the **Admin** area. For mo
 
 For more information about API and rate limits, see our [API page](../api/rest/_index.md).
 
-## API and rate limits for GitLab SaaS
+## API and rate limits for GitLab.com
 
 Rate limits prevent denial-of-service or brute-force attacks. IP blocks usually happen when GitLab.com receives unusual traffic
 from a single IP address. The system views unusual traffic as potentially malicious based on rate limit settings.
 
 Rate limits also improve the security of your application.
 
-### Configure rate limits for GitLab SaaS
+### Configure rate limits for GitLab.com
 
 You can make changes to your default rate limits from the **Admin** area. For more information about configuration, see the [**Admin** area page](../security/rate_limits.md#configurable-limits).
 
 - Review the rate limit page.
 - Read our [API page](../api/rest/_index.md) for more information about API and rate limiting.
 
-### GitLab SaaS-specific block and error responses
+### GitLab.com-specific block and error responses
 
-- [403 forbidden error](../user/gitlab_com/_index.md#rate-limits-on-gitlabcom): If the error occurs for all GitLab SaaS requests, look for an automated process that could have triggered a block. For more assistance, contact GitLab support with your error details, including the affected IP address.
-- [HAProxy API throttle](../user/gitlab_com/_index.md#haproxy): GitLab SaaS responds with HTTP status code 429 to API requests that exceed 10 requests per second, per IP address.
-- [Protected paths throttle](../user/gitlab_com/_index.md#protected-paths-throttle): GitLab SaaS responds with HTTP status code 429 to POST requests at protected paths that exceed 10 requests per minute, per IP address.
-- [Git and container registry failed authentication ban](../user/gitlab_com/_index.md#git-and-container-registry-failed-authentication-ban): GitLab SaaS responds with HTTP status code 403 for one hour if it receives 30 failed authentication requests in three minutes from a single IP address.
+- [403 forbidden error](../user/gitlab_com/_index.md#rate-limits-on-gitlabcom): If the error occurs for all GitLab.com requests, look for an automated process that could have triggered a block. For more assistance, contact GitLab support with your error details, including the affected IP address.
+- [HAProxy API throttle](../user/gitlab_com/_index.md#haproxy): GitLab.com responds with HTTP status code 429 to API requests that exceed 10 requests per second, per IP address.
+- [Protected paths throttle](../user/gitlab_com/_index.md#protected-paths-throttle): GitLab.com responds with HTTP status code 429 to POST requests at protected paths that exceed 10 requests per minute, per IP address.
+- [Git and container registry failed authentication ban](../user/gitlab_com/_index.md#git-and-container-registry-failed-authentication-ban): GitLab.com responds with HTTP status code 403 for one hour if it receives 30 failed authentication requests in three minutes from a single IP address.
 
 ## GitLab training resources
 

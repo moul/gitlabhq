@@ -7,6 +7,8 @@ inherits_from:
 project:
   permissions: []
   raw_permissions:
+  - _read_own_workspace
+  - _update_own_workspace
   - access_security_and_compliance
   - access_security_scans_api
   - add_project_to_instance_security_dashboard

@@ -252,6 +252,7 @@
     "DependencyProxyBlobRegistry",
     "DependencyProxyManifestRegistry",
     "DesignManagementRepositoryRegistry",
+    "GroupUploadRegistry",
     "GroupWikiRepositoryRegistry",
     "JobArtifactRegistry",
     "LfsObjectRegistry",

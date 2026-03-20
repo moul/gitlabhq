@@ -79,6 +79,10 @@ module Import
         source_user.reassignment_token = SecureRandom.hex
       end
 
+      before_transition failed: :reassignment_in_progress do |source_user|
+        source_user.reassignment_error = nil
+      end
+
       event :reassign do
         transition REASSIGNABLE_STATUSES => :awaiting_approval
       end
@@ -113,6 +117,10 @@ module Import
 
       event :fail_reassignment do
         transition reassignment_in_progress: :failed
+      end
+
+      event :retry_reassignment do
+        transition failed: :reassignment_in_progress
       end
     end
 

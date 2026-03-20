@@ -195,9 +195,14 @@ RSpec.describe WorkItems::TypesFramework::Provider, feature_category: :team_plan
   end
 
   describe '#filtered_types' do
-    subject { provider.filtered_types }
+    subject(:result) { provider.filtered_types }
 
-    it { is_expected.to match_array(WorkItems::TypesFramework::SystemDefined::Type.all) }
+    it 'returns available system-defined types' do
+      expected_base_types = WorkItems::TypesFramework::SystemDefined::Type::BASE_TYPES.pluck(:base_type)
+      actual_base_types = result.map(&:base_type)
+
+      expect(actual_base_types).to match_array(expected_base_types)
+    end
   end
 
   describe '#by_base_types' do

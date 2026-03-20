@@ -22,4 +22,7 @@ const CONTEXT_ALIASES = {
   ),
 };
 
-module.exports = { CONTEXT_ALIASES };
+const INFECTABLE_RE = /\.(js|mjs|vue)$/;
+const INFECTION_BLOCKLIST = ['app/assets/javascripts/lib/graphql.js'];
+
+module.exports = { CONTEXT_ALIASES, INFECTABLE_RE, INFECTION_BLOCKLIST };

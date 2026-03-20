@@ -230,6 +230,24 @@ RSpec.describe Import::SourceUser, type: :model, feature_category: :importers do
       end
     end
 
+    context 'when retrying a failed reassignment' do
+      subject(:source_user) { create(:import_source_user, :failed) }
+
+      it 'transitions from failed to reassignment_in_progress' do
+        expect { source_user.retry_reassignment }.to change {
+          source_user.reassignment_in_progress?
+        }.from(false).to(true)
+      end
+
+      it 'clears the reassignment_error' do
+        source_user.update_column(:reassignment_error, 'Previous error')
+
+        expect { source_user.retry_reassignment }.to change {
+          source_user.reassignment_error
+        }.from('Previous error').to(nil)
+      end
+    end
+
     context 'when switching to reassignment_in_progress without reassigned to user approval' do
       let_it_be(:reassign_to_user) { create(:user) }
       let_it_be(:reassigned_by_user) { create(:user, :admin) }

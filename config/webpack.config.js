@@ -57,6 +57,7 @@ const createIncrementalWebpackCompiler = require('./helpers/incremental_webpack_
 const vendorDllHash = require('./helpers/vendor_dll_hash');
 
 const GraphqlKnownOperationsPlugin = require('./plugins/graphql_known_operations_plugin');
+const WebpackVue3InfectionPlugin = require('./plugins/webpack_vue3_infection_plugin');
 const { CONTEXT_ALIASES } = require('./helpers/context_aliases_shared');
 
 const SUPPORTED_BROWSERS = fs.readFileSync(path.join(ROOT_PATH, '.browserslistrc'), 'utf-8');
@@ -621,6 +622,7 @@ module.exports = {
   },
 
   plugins: [
+    !USE_VUE3 && new WebpackVue3InfectionPlugin(),
     // A custom function is needed because chunkIds: "named" alone only
     // affects chunks that already have names (entry points, chunks with
     // magic comments such as:

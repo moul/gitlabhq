@@ -44,6 +44,12 @@ Use the AI Catalog to:
 
 ## View the AI Catalog
 
+{{< history >}}
+
+- Ability to use the GitLab Duo sidebar to view the AI Catalog [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/592493) in GitLab 18.11.
+
+{{< /history >}}
+
 Prerequisites:
 
 - You must meet the [prerequisites](_index.md#prerequisites).
@@ -53,10 +59,15 @@ Prerequisites:
   - In a group, you must have the Maintainer or Owner role.
   - In a project, you must have the Maintainer or Owner role.
 
-To view the AI Catalog:
+To view the AI Catalog, you can either:
 
-1. In the top bar, select **Search or go to** > **Explore**.
-1. Select **AI Catalog**.
+- Use the top bar:
+  1. In the top bar, select **Search or go to** > **Explore**.
+  1. Select **AI Catalog**.
+
+- Use the GitLab Duo sidebar:
+  1. In the top bar, select **Search or go to** and find your project.
+  1. On the GitLab Duo sidebar, select **GitLab Duo AI Catalog** ({{< icon name="tanuki-ai" >}}).
 
 A list of agents is displayed.
 

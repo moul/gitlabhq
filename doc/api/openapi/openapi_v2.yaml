@@ -73058,6 +73058,26 @@ definitions:
         type: string
       packages_helm_metadata_caches_verification_failed_count:
         type: string
+      group_uploads_count:
+        type: string
+      group_uploads_checksum_total_count:
+        type: string
+      group_uploads_checksummed_count:
+        type: string
+      group_uploads_checksum_failed_count:
+        type: string
+      group_uploads_synced_count:
+        type: string
+      group_uploads_failed_count:
+        type: string
+      group_uploads_registry_count:
+        type: string
+      group_uploads_verification_total_count:
+        type: string
+      group_uploads_verified_count:
+        type: string
+      group_uploads_verification_failed_count:
+        type: string
       project_uploads_count:
         type: string
       project_uploads_checksum_total_count:
@@ -73189,6 +73209,10 @@ definitions:
       packages_helm_metadata_caches_synced_in_percentage:
         type: string
       packages_helm_metadata_caches_verified_in_percentage:
+        type: string
+      group_uploads_synced_in_percentage:
+        type: string
+      group_uploads_verified_in_percentage:
         type: string
       project_uploads_synced_in_percentage:
         type: string
@@ -73458,6 +73482,16 @@ definitions:
     - packages_helm_metadata_caches_verification_total_count
     - packages_helm_metadata_caches_verified_count
     - packages_helm_metadata_caches_verification_failed_count
+    - group_uploads_count
+    - group_uploads_checksum_total_count
+    - group_uploads_checksummed_count
+    - group_uploads_checksum_failed_count
+    - group_uploads_synced_count
+    - group_uploads_failed_count
+    - group_uploads_registry_count
+    - group_uploads_verification_total_count
+    - group_uploads_verified_count
+    - group_uploads_verification_failed_count
     - project_uploads_count
     - project_uploads_checksum_total_count
     - project_uploads_checksummed_count
@@ -73524,6 +73558,8 @@ definitions:
     - supply_chain_attestations_verified_in_percentage
     - packages_helm_metadata_caches_synced_in_percentage
     - packages_helm_metadata_caches_verified_in_percentage
+    - group_uploads_synced_in_percentage
+    - group_uploads_verified_in_percentage
     - project_uploads_synced_in_percentage
     - project_uploads_verified_in_percentage
     - abuse_report_uploads_synced_in_percentage

@@ -142,7 +142,7 @@ This issue occurs after an upgrade.
 The workaround is to enable the `ci_unlock_pipelines_extra_low` feature flag.
 To toggle feature flags, you must be an administrator.
 
-On GitLab SaaS:
+On GitLab.com:
 
 - Run the following [ChatOps](../chatops/_index.md) command:
 

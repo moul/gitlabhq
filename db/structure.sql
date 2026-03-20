@@ -4268,6 +4268,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_a5ad4291f3cc() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."namespace_id" IS NULL THEN
+  SELECT "namespace_id"
+  INTO NEW."namespace_id"
+  FROM "namespace_uploads"
+  WHERE "namespace_uploads"."id" = NEW."group_upload_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_a68471fea292() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -21135,6 +21151,29 @@ CREATE TABLE group_type_ci_runners (
     CONSTRAINT check_organization_id_nullness CHECK ((organization_id IS NOT NULL))
 );
 
+CREATE TABLE group_upload_states (
+    id bigint NOT NULL,
+    verification_started_at timestamp with time zone,
+    verification_retry_at timestamp with time zone,
+    verified_at timestamp with time zone,
+    group_upload_id bigint NOT NULL,
+    namespace_id bigint NOT NULL,
+    verification_state smallint DEFAULT 0 NOT NULL,
+    verification_retry_count smallint DEFAULT 0 NOT NULL,
+    verification_checksum bytea,
+    verification_failure text,
+    CONSTRAINT check_4755461e28 CHECK ((char_length(verification_failure) <= 255))
+);
+
+CREATE SEQUENCE group_upload_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE group_upload_states_id_seq OWNED BY group_upload_states.id;
+
 CREATE TABLE group_wiki_repositories (
     shard_id bigint NOT NULL,
     group_id bigint NOT NULL,
@@ -35321,6 +35360,8 @@ ALTER TABLE ONLY group_security_exclusions ALTER COLUMN id SET DEFAULT nextval('
 
 ALTER TABLE ONLY group_ssh_certificates ALTER COLUMN id SET DEFAULT nextval('group_ssh_certificates_id_seq'::regclass);
 
+ALTER TABLE ONLY group_upload_states ALTER COLUMN id SET DEFAULT nextval('group_upload_states_id_seq'::regclass);
+
 ALTER TABLE ONLY group_wiki_repository_states ALTER COLUMN id SET DEFAULT nextval('group_wiki_repository_states_id_seq'::regclass);
 
 ALTER TABLE ONLY groups_visits ALTER COLUMN id SET DEFAULT nextval('groups_visits_id_seq'::regclass);
@@ -38157,6 +38198,15 @@ ALTER TABLE packages_composer_packages
 ALTER TABLE packages_nuget_symbols
     ADD CONSTRAINT check_packages_nuget_symbols_file_sha256_max_length CHECK ((octet_length(file_sha256) <= 64)) NOT VALID;
 
+ALTER TABLE packages_rpm_repository_files
+    ADD CONSTRAINT check_packages_rpm_repository_files_file_md5_max_length CHECK ((octet_length(file_md5) <= 32)) NOT VALID;
+
+ALTER TABLE packages_rpm_repository_files
+    ADD CONSTRAINT check_packages_rpm_repository_files_file_sha1_max_length CHECK ((octet_length(file_sha1) <= 40)) NOT VALID;
+
+ALTER TABLE packages_rpm_repository_files
+    ADD CONSTRAINT check_packages_rpm_repository_files_file_sha256_max_length CHECK ((octet_length(file_sha256) <= 64)) NOT VALID;
+
 ALTER TABLE packages_conan_package_references
     ADD CONSTRAINT check_reference_length CHECK ((octet_length(reference) <= 20)) NOT VALID;
 
@@ -38831,6 +38881,9 @@ ALTER TABLE ONLY group_type_ci_runner_machines
 
 ALTER TABLE ONLY group_type_ci_runners
     ADD CONSTRAINT group_type_ci_runners_pkey PRIMARY KEY (id, runner_type);
+
+ALTER TABLE ONLY group_upload_states
+    ADD CONSTRAINT group_upload_states_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY group_wiki_repositories
     ADD CONSTRAINT group_wiki_repositories_pkey PRIMARY KEY (group_id);
@@ -46049,6 +46102,20 @@ CREATE INDEX index_group_type_ci_runners_on_description_trigram ON group_type_ci
 CREATE INDEX index_group_type_ci_runners_on_organization_id ON group_type_ci_runners USING btree (organization_id);
 
 CREATE UNIQUE INDEX index_group_type_ci_runners_on_token_encrypted_and_runner_type ON group_type_ci_runners USING btree (token_encrypted, runner_type);
+
+CREATE INDEX index_group_upload_states_failed_verification ON group_upload_states USING btree (verification_retry_at NULLS FIRST) WHERE (verification_state = 3);
+
+CREATE INDEX index_group_upload_states_needs_verification_id ON group_upload_states USING btree (group_upload_id) WHERE ((verification_state = 0) OR (verification_state = 3));
+
+CREATE UNIQUE INDEX index_group_upload_states_on_group_upload_id ON group_upload_states USING btree (group_upload_id);
+
+CREATE INDEX index_group_upload_states_on_namespace_id ON group_upload_states USING btree (namespace_id);
+
+CREATE INDEX index_group_upload_states_on_verification_started ON group_upload_states USING btree (group_upload_id, verification_started_at) WHERE (verification_state = 1);
+
+CREATE INDEX index_group_upload_states_on_verification_state ON group_upload_states USING btree (verification_state);
+
+CREATE INDEX index_group_upload_states_pending_verification ON group_upload_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
 
 CREATE UNIQUE INDEX index_group_user_callouts_feature ON user_group_callouts USING btree (user_id, feature_name, group_id);
 
@@ -54280,6 +54347,8 @@ CREATE TRIGGER trigger_a465de38164e BEFORE INSERT OR UPDATE ON ci_job_artifact_s
 
 CREATE TRIGGER trigger_a4e4fb2451d9 BEFORE INSERT OR UPDATE ON epic_user_mentions FOR EACH ROW EXECUTE FUNCTION trigger_a4e4fb2451d9();
 
+CREATE TRIGGER trigger_a5ad4291f3cc BEFORE INSERT OR UPDATE ON group_upload_states FOR EACH ROW EXECUTE FUNCTION trigger_a5ad4291f3cc();
+
 CREATE TRIGGER trigger_a68471fea292 BEFORE INSERT OR UPDATE ON snippet_uploads FOR EACH ROW EXECUTE FUNCTION trigger_a68471fea292();
 
 CREATE TRIGGER trigger_a7e0fb195210 BEFORE INSERT OR UPDATE ON vulnerability_finding_evidences FOR EACH ROW EXECUTE FUNCTION trigger_a7e0fb195210();
@@ -57026,6 +57095,9 @@ ALTER TABLE ONLY packages_debian_group_components
 ALTER TABLE ONLY packages_composer_metadata
     ADD CONSTRAINT fk_e65180da68 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY group_upload_states
+    ADD CONSTRAINT fk_e6bd25ce30 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY approval_project_rules_protected_branches
     ADD CONSTRAINT fk_e6ee913fc2 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
@@ -57220,6 +57292,9 @@ ALTER TABLE ONLY approval_policy_merge_request_bypass_events
 
 ALTER TABLE ONLY user_group_member_roles
     ADD CONSTRAINT fk_f3b8fc5e4e FOREIGN KEY (shared_with_group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY group_upload_states
+    ADD CONSTRAINT fk_f47be2f726 FOREIGN KEY (group_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY abuse_report_user_mentions
     ADD CONSTRAINT fk_f4c2b15ef9 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;

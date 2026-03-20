@@ -13990,6 +13990,31 @@ Input type: `SecurityPolicyProjectUnassignInput`
 | <a id="mutation-securitypolicyprojectunassign-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-securitypolicyprojectunassign-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 
+### `Mutation.securityRefsTrack`
+
+{{< details >}}
+**Introduced** in GitLab 18.10.
+**Status**: Experiment.
+{{< /details >}}
+
+Input type: `SecurityRefsTrackInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-securityrefstrack-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-securityrefstrack-projectpath"></a>`projectPath` | [`ID!`](#id) | Full path of the project. |
+| <a id="mutation-securityrefstrack-refs"></a>`refs` | [`[SecurityRefInput!]!`](#securityrefinput) | Array of refs to be tracked. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-securityrefstrack-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-securityrefstrack-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the operation. |
+| <a id="mutation-securityrefstrack-trackedrefs"></a>`trackedRefs` | [`[SecurityTrackedRef!]`](#securitytrackedref) | Refs that were successfully tracked. |
+
 ### `Mutation.securityRefsUntrack`
 
 {{< details >}}
@@ -21801,6 +21826,43 @@ The edge type for [`GroupSecretsPermission`](#groupsecretspermission).
 | ---- | ---- | ----------- |
 | <a id="groupsecretspermissionedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="groupsecretspermissionedge-node"></a>`node` | [`GroupSecretsPermission`](#groupsecretspermission) | The item at the end of the edge. |
+
+#### `GroupUploadRegistryConnection`
+
+The connection type for [`GroupUploadRegistry`](#groupuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="groupuploadregistryconnection-edges"></a>`edges` | [`[GroupUploadRegistryEdge]`](#groupuploadregistryedge) | A list of edges. |
+| <a id="groupuploadregistryconnection-nodes"></a>`nodes` | [`[GroupUploadRegistry]`](#groupuploadregistry) | A list of nodes. |
+| <a id="groupuploadregistryconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+##### Fields with arguments
+
+###### `GroupUploadRegistryConnection.count`
+
+Limited count of collection. Returns limit + 1 for counts greater than the limit.
+
+Returns [`Int!`](#int).
+
+Arguments:
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="groupuploadregistryconnection-count-limit"></a>`limit` | [`Int`](#int) | Limit value to be applied to the count query. Default is 1000. |
+
+#### `GroupUploadRegistryEdge`
+
+The edge type for [`GroupUploadRegistry`](#groupuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="groupuploadregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="groupuploadregistryedge-node"></a>`node` | [`GroupUploadRegistry`](#groupuploadregistry) | The item at the end of the edge. |
 
 #### `GroupWikiRepositoryRegistryConnection`
 
@@ -35379,6 +35441,31 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="geonode-designmanagementrepositoryregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
 | <a id="geonode-designmanagementrepositoryregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
 
+##### `GeoNode.groupUploadRegistries`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Find Group Upload registries on this Geo node. Ignored if `geo_group_upload_replication` feature flag is disabled.
+
+Returns [`GroupUploadRegistryConnection`](#groupuploadregistryconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="geonode-groupuploadregistries-ids"></a>`ids` | [`[GeoGroupUploadRegistryID!]`](#geogroupuploadregistryid) | Filters registries by their ID. |
+| <a id="geonode-groupuploadregistries-keyword"></a>`keyword` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 17.9. A keyword search feature on Geo registries will not be built in the UI due to poor search UX and performance. |
+| <a id="geonode-groupuploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
+| <a id="geonode-groupuploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
+| <a id="geonode-groupuploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
+
 ##### `GeoNode.groupWikiRepositoryRegistries`
 
 Find group wiki repository registries on this Geo node.
@@ -38629,6 +38716,36 @@ Contains statistics about a group.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="groupstats-releasestats"></a>`releaseStats` | [`GroupReleaseStats`](#groupreleasestats) | Statistics related to releases within the group. |
+
+### `GroupUploadRegistry`
+
+Represents the Geo replication and verification state of a group_upload.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="groupuploadregistry-checksummismatch"></a>`checksumMismatch` | [`Boolean`](#boolean) | Indicate if the checksums of the GroupUploadRegistry do not match on the primary and secondary. |
+| <a id="groupuploadregistry-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the GroupUploadRegistry was created. |
+| <a id="groupuploadregistry-datamanagementdetailspath"></a>`dataManagementDetailsPath` | [`String`](#string) | Path to the data management view for this GroupUploadRegistry. |
+| <a id="groupuploadregistry-forcetoredownload"></a>`forceToRedownload` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 17.10. Removed from registry tables in the database in favor of the newer reusable framework. |
+| <a id="groupuploadregistry-groupuploadid"></a>`groupUploadId` | [`ID!`](#id) | ID of the Group Upload. |
+| <a id="groupuploadregistry-id"></a>`id` | [`ID!`](#id) | ID of the GroupUploadRegistry. |
+| <a id="groupuploadregistry-lastsyncfailure"></a>`lastSyncFailure` | [`String`](#string) | Error message during sync of the GroupUploadRegistry. |
+| <a id="groupuploadregistry-lastsyncedat"></a>`lastSyncedAt` | [`Time`](#time) | Timestamp of the most recent successful sync of the GroupUploadRegistry. |
+| <a id="groupuploadregistry-missingonprimary"></a>`missingOnPrimary` | [`Boolean`](#boolean) | Indicate if the GroupUploadRegistry is missing on primary. |
+| <a id="groupuploadregistry-modelrecordid"></a>`modelRecordId` | [`Int`](#int) | ID of the GroupUploadRegistry's model record. |
+| <a id="groupuploadregistry-retryat"></a>`retryAt` | [`Time`](#time) | Timestamp after which the GroupUploadRegistry is resynced. |
+| <a id="groupuploadregistry-retrycount"></a>`retryCount` | [`Int`](#int) | Number of consecutive failed sync attempts of the GroupUploadRegistry. |
+| <a id="groupuploadregistry-state"></a>`state` | [`RegistryState`](#registrystate) | Sync state of the GroupUploadRegistry. |
+| <a id="groupuploadregistry-verificationchecksum"></a>`verificationChecksum` | [`String`](#string) | The local checksum of the GroupUploadRegistry. |
+| <a id="groupuploadregistry-verificationchecksummismatched"></a>`verificationChecksumMismatched` | [`String`](#string) | The expected checksum of the GroupUploadRegistry in case of mismatch. |
+| <a id="groupuploadregistry-verificationfailure"></a>`verificationFailure` | [`String`](#string) | Error message during verification of the GroupUploadRegistry. |
+| <a id="groupuploadregistry-verificationretryat"></a>`verificationRetryAt` | [`Time`](#time) | Timestamp after which the GroupUploadRegistry is reverified. |
+| <a id="groupuploadregistry-verificationretrycount"></a>`verificationRetryCount` | [`Int`](#int) | Number of consecutive failed verification attempts of the GroupUploadRegistry. |
+| <a id="groupuploadregistry-verificationstartedat"></a>`verificationStartedAt` | [`Time`](#time) | Timestamp when the verification of GroupUploadRegistry started. |
+| <a id="groupuploadregistry-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Verification state of the GroupUploadRegistry. |
+| <a id="groupuploadregistry-verifiedat"></a>`verifiedAt` | [`Time`](#time) | Timestamp of the most recent successful verification of the GroupUploadRegistry. |
 
 ### `GroupValueStreamAnalyticsFlowMetrics`
 
@@ -55977,6 +56094,7 @@ Geo registry class.
 | <a id="georegistryclass-dependency_proxy_blob_registry"></a>`DEPENDENCY_PROXY_BLOB_REGISTRY` | Geo::DependencyProxyBlobRegistry registry class. |
 | <a id="georegistryclass-dependency_proxy_manifest_registry"></a>`DEPENDENCY_PROXY_MANIFEST_REGISTRY` | Geo::DependencyProxyManifestRegistry registry class. |
 | <a id="georegistryclass-design_management_repository_registry"></a>`DESIGN_MANAGEMENT_REPOSITORY_REGISTRY` | Geo::DesignManagementRepositoryRegistry registry class. |
+| <a id="georegistryclass-group_upload_registry"></a>`GROUP_UPLOAD_REGISTRY` | Geo::GroupUploadRegistry registry class. |
 | <a id="georegistryclass-group_wiki_repository_registry"></a>`GROUP_WIKI_REPOSITORY_REGISTRY` | Geo::GroupWikiRepositoryRegistry registry class. |
 | <a id="georegistryclass-job_artifact_registry"></a>`JOB_ARTIFACT_REGISTRY` | Geo::JobArtifactRegistry registry class. |
 | <a id="georegistryclass-lfs_object_registry"></a>`LFS_OBJECT_REGISTRY` | Geo::LfsObjectRegistry registry class. |
@@ -59486,6 +59604,12 @@ A `GeoDesignManagementRepositoryRegistryID` is a global ID. It is encoded as a s
 
 An example `GeoDesignManagementRepositoryRegistryID` is: `"gid://gitlab/Geo::DesignManagementRepositoryRegistry/1"`.
 
+### `GeoGroupUploadRegistryID`
+
+A `GeoGroupUploadRegistryID` is a global ID. It is encoded as a string.
+
+An example `GeoGroupUploadRegistryID` is: `"gid://gitlab/Geo::GroupUploadRegistry/1"`.
+
 ### `GeoGroupWikiRepositoryRegistryID`
 
 A `GeoGroupWikiRepositoryRegistryID` is a global ID. It is encoded as a string.
@@ -60503,6 +60627,7 @@ One of:
 - [`DependencyProxyBlobRegistry`](#dependencyproxyblobregistry)
 - [`DependencyProxyManifestRegistry`](#dependencyproxymanifestregistry)
 - [`DesignManagementRepositoryRegistry`](#designmanagementrepositoryregistry)
+- [`GroupUploadRegistry`](#groupuploadregistry)
 - [`GroupWikiRepositoryRegistry`](#groupwikirepositoryregistry)
 - [`JobArtifactRegistry`](#jobartifactregistry)
 - [`LfsObjectRegistry`](#lfsobjectregistry)
@@ -63169,6 +63294,15 @@ Input type for security attribute.
 | <a id="securityattributeinput-color"></a>`color` | [`Color!`](#color) | Color of the security attribute. |
 | <a id="securityattributeinput-description"></a>`description` | [`String!`](#string) | Description of the security attribute. |
 | <a id="securityattributeinput-name"></a>`name` | [`String!`](#string) | Name of the security attribute. |
+
+### `SecurityRefInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="securityrefinput-name"></a>`name` | [`String!`](#string) | Name of the ref. |
+| <a id="securityrefinput-reftype"></a>`refType` | [`SecurityTrackedRefType!`](#securitytrackedreftype) | Type of ref (branch or tag). |
 
 ### `SnippetBlobActionInputType`
 

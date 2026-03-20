@@ -53,14 +53,13 @@ module WorkItems
         unfiltered_base_types.map(&:upcase)
       end
 
-      def filtered_types
-        # TODO: filter base types using the TypesFilter
-        # See https://gitlab.com/gitlab-org/gitlab/-/work_items/585707
-        type_class.all
-      end
-
       def all
         resolve_all
+      end
+
+      # Override in EE
+      def filtered_types
+        all
       end
 
       def by_base_types(names)
