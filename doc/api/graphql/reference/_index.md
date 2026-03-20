@@ -32242,6 +32242,7 @@ The currently authenticated GitLab user.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="currentuser-active"></a>`active` | [`Boolean`](#boolean) | Indicates if the user is active. |
+| <a id="currentuser-admin"></a>`admin` | [`Boolean!`](#boolean) | Indicates if the user is an instance administrator. |
 | <a id="currentuser-avatarurl"></a>`avatarUrl` | [`String`](#string) | URL of the user's avatar. |
 | <a id="currentuser-bio"></a>`bio` | [`String`](#string) | Bio of the user. |
 | <a id="currentuser-bot"></a>`bot` | [`Boolean!`](#boolean) | Indicates if the user is a bot. |

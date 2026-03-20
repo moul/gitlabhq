@@ -819,6 +819,19 @@ RSpec.describe Notify, feature_category: :code_review_workflow do
         it 'contains a link to the issue note' do
           is_expected.to have_body_text note_on_issue_path
         end
+
+        context 'when note contains a table of contents tag' do
+          let(:note) do
+            create(:discussion_note_on_issue, noteable: issue, project: project, author: note_author,
+              note: "[[_TOC_]]\n\n# Heading 1\n\n## Heading 2")
+          end
+
+          it 'does not render the table of contents' do
+            is_expected.to have_body_text('_TOC_')
+            is_expected.not_to have_body_text('#heading-1')
+            is_expected.not_to have_body_text('#heading-2')
+          end
+        end
       end
 
       describe 'on a wiki_page' do
