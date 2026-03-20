@@ -142,6 +142,7 @@ export const i18n = {
 };
 
 export const SCAN_PROFILE_TYPE_SECRET_DETECTION = 'SECRET_DETECTION';
+export const SCAN_PROFILE_TYPE_SAST = 'SAST';
 
 export const SCAN_TRIGGER_DEFINITIONS = {
   GIT_PUSH_EVENT: {
@@ -187,6 +188,7 @@ export const SCAN_TRIGGER_DEFINITIONS = {
 export const SCAN_PROFILE_CATEGORIES = {
   [SCAN_PROFILE_TYPE_SECRET_DETECTION]: {
     name: s__('SecurityProfiles|Secret Detection'),
+    displayName: s__('SecurityProfiles|Secret Detection'),
     label: 'SD',
     helpTitle: s__('SecurityProfiles|What is secret push protection?'),
     helpDescription: s__(
@@ -196,9 +198,20 @@ export const SCAN_PROFILE_CATEGORIES = {
       '/user/application_security/configuration/security_configuration_profiles',
     ),
   },
+  [SCAN_PROFILE_TYPE_SAST]: {
+    name: s__('SecurityProfiles|SAST'),
+    displayName: s__('SecurityProfiles|Static Application Security Testing (SAST)'),
+    label: 'SAST',
+    helpTitle: s__('SecurityProfiles|What is SAST?'),
+    helpDescription: s__(
+      'SecurityProfiles|Scans your source code using GitLab-managed rules to identify common vulnerabilities like injection flaws and hardcoded secrets. %{linkStart}Learn more%{linkEnd}.',
+    ),
+    helpLink: helpPagePath('/user/application_security/sast/_index'),
+  },
 };
 export const SCAN_PROFILE_PROMO_ITEMS = [
   { scanType: SCAN_PROFILE_TYPE_SECRET_DETECTION, isConfigured: false },
+  { scanType: SCAN_PROFILE_TYPE_SAST, isConfigured: false },
 ];
 export const SCAN_PROFILE_I18N = {
   noProfile: s__('SecurityProfiles|No profile applied'),

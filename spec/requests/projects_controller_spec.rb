@@ -105,43 +105,11 @@ RSpec.describe ProjectsController, :with_license, feature_category: :groups_and_
         project.add_maintainer(user)
       end
 
-      context 'when work_items_consolidated_list is disabled for project' do
-        before do
-          stub_feature_flags(work_item_planning_view: false)
-        end
+      it 'pushes work_item_planning_view feature flag as true' do
+        get edit_project_path(project)
 
-        it 'does not push work_item_planning_view feature flag' do
-          get edit_project_path(project)
-
-          expect(response).to have_gitlab_http_status(:ok)
-          expect(response.body).not_to have_pushed_frontend_feature_flags(workItemPlanningView: true)
-        end
-
-        context 'when work_items_consolidated_list is enabled for user' do
-          before do
-            stub_feature_flags(work_items_consolidated_list_user: true)
-          end
-
-          it 'pushes work_item_planning_view feature flag as true' do
-            get edit_project_path(project)
-
-            expect(response).to have_gitlab_http_status(:ok)
-            expect(response.body).to have_pushed_frontend_feature_flags(workItemPlanningView: true)
-          end
-        end
-      end
-
-      context 'when work_items_consolidated_list is enabled' do
-        before do
-          stub_feature_flags(work_item_planning_view: true)
-        end
-
-        it 'pushes work_item_planning_view feature flag as true' do
-          get edit_project_path(project)
-
-          expect(response).to have_gitlab_http_status(:ok)
-          expect(response.body).to have_pushed_frontend_feature_flags(workItemPlanningView: true)
-        end
+        expect(response).to have_gitlab_http_status(:ok)
+        expect(response.body).to have_pushed_frontend_feature_flags(workItemPlanningView: true)
       end
     end
   end

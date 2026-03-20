@@ -16,6 +16,7 @@ RSpec.describe HomepageData, feature_category: :notifications do
   let(:helpers_proxy) { instance_double(ApplicationHelper) }
 
   before do
+    stub_feature_flags(work_items_consolidated_list_user: user)
     allow(controller).to receive_messages(current_user: user, can?: true)
     allow(controller).to receive(:helpers).and_return(helpers_proxy)
 
@@ -59,14 +60,8 @@ RSpec.describe HomepageData, feature_category: :notifications do
       expect(homepage_data).to have_key(:work_item_planning_view_enabled)
     end
 
-    context 'when work_items_consolidated_list_user feature flag is enabled' do
-      before do
-        stub_feature_flags(work_items_consolidated_list_user: true)
-      end
-
-      it 'sets work_item_planning_view_enabled to "true"' do
-        expect(homepage_data[:work_item_planning_view_enabled]).to eq('true')
-      end
+    it 'sets work_item_planning_view_enabled to "true"' do
+      expect(homepage_data[:work_item_planning_view_enabled]).to eq('true')
     end
 
     context 'when user has a recent push event' do

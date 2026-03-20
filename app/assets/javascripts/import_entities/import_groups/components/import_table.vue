@@ -16,7 +16,7 @@ import {
   GlFormCheckbox,
   GlTooltipDirective,
 } from '@gitlab/ui';
-import { debounce, isNumber, isUndefined } from 'lodash';
+import { debounce, isNumber, isUndefined } from 'lodash-es';
 import PageHeading from '~/vue_shared/components/page_heading.vue';
 import EmptyResult from '~/vue_shared/components/empty_result.vue';
 import { createAlert } from '~/alert';

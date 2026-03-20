@@ -540,31 +540,16 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
       expect(user.reload.user_preference.issues_sort).to eq('priority')
     end
 
-    context 'when work_item_planning_view feature flag is enabled' do
-      it 'redirects to work items path without type filter in FOSS' do
-        get :issues, params: { id: group.to_param }
+    it 'redirects to work items path without type filter in FOSS' do
+      get :issues, params: { id: group.to_param }
 
-        expect(response).to redirect_to(group_work_items_path(group))
-      end
-
-      it 'preserves query parameters except type when redirecting' do
-        get :issues, params: { id: group.to_param, search: 'bug', sort: 'created_desc', type: 'old_type' }
-
-        expect(response).to redirect_to(group_work_items_path(group, params: { search: 'bug', sort: 'created_desc' }))
-      end
+      expect(response).to redirect_to(group_work_items_path(group))
     end
 
-    context 'when work_item_planning_view feature flag is disabled' do
-      before do
-        stub_feature_flags(work_item_planning_view: false)
-      end
+    it 'preserves query parameters except type when redirecting' do
+      get :issues, params: { id: group.to_param, search: 'bug', sort: 'created_desc', type: 'old_type' }
 
-      it 'renders the issues page' do
-        get :issues, params: { id: group.to_param }
-
-        expect(response).to have_gitlab_http_status(:ok)
-        expect(response).to render_template 'groups/issues'
-      end
+      expect(response).to redirect_to(group_work_items_path(group, params: { search: 'bug', sort: 'created_desc' }))
     end
   end
 
@@ -1578,10 +1563,6 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
     end
 
     describe 'GET #issues' do
-      before do
-        stub_feature_flags(work_item_planning_view: false)
-      end
-
       subject { get :issues, params: { id: group.to_param } }
 
       it_behaves_like 'disabled when using an external authorization service'

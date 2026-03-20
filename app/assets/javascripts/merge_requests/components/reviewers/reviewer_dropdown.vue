@@ -1,5 +1,5 @@
 <script>
-import { debounce, difference } from 'lodash';
+import { debounce, difference } from 'lodash-es';
 import { GlCollapsibleListbox, GlButton, GlAvatar, GlIcon, GlBadge, GlSprintf } from '@gitlab/ui';
 import { __, s__ } from '~/locale';
 import { InternalEvents } from '~/tracking';

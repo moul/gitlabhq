@@ -80,7 +80,7 @@ When you reassign contributions to a user on the destination instance, the user 
   to the user.
 - Reject the reassignment.
 
-### Enterprise users
+## Enterprise users
 
 {{< history >}}
 
@@ -93,7 +93,7 @@ only to enterprise users in your organization.
 
 This means you cannot accidentally reassign to users outside your organization.
 
-### Deleted users
+## Deleted users
 
 Contributions on the source instance that were made by a now deleted user are mapped on the destination instance to
 [a ghost user](../../administration/internal_users.md), except when:
@@ -101,7 +101,7 @@ Contributions on the source instance that were made by a now deleted user are ma
 - The contribution was never properly detached from the deleted user on the source instance.
 - Migrating from Bitbucket Server.
 
-### Placeholder users
+## Placeholder users
 
 With contribution and membership mapping, you don't immediately assign contributions and memberships to users on the
 destination instance. Instead, a placeholder user is created for any active, inactive, or bot user with imported
@@ -115,7 +115,7 @@ member lists.
 
 Placeholder users do not count towards license limits.
 
-#### Exceptions
+### Exceptions
 
 A placeholder user is not created in these scenarios:
 
@@ -124,7 +124,7 @@ A placeholder user is not created in these scenarios:
 - You have exceeded your [placeholder user limit](#placeholder-user-limits). Contributions from any new users are
   mapped to an import user.
 
-#### Placeholder user attributes
+### Placeholder user attributes
 
 Placeholder users are different to regular users and cannot:
 
@@ -148,7 +148,7 @@ To preserve historical context, the placeholder user name and username are deriv
 - Placeholder user's name is `Placeholder <source user name>`.
 - Placeholder user's username is `%{source_username}_placeholder_user_%{incremental_number}`.
 
-#### View placeholder users
+### View placeholder users
 
 Prerequisites:
 
@@ -162,7 +162,7 @@ To view placeholder users created during imports to a top-level group and its su
 1. Select **Manage** > **Members**.
 1. Select the **Placeholders** tab.
 
-#### Filter for placeholder users
+### Filter for placeholder users
 
 {{< details >}}
 
@@ -187,7 +187,7 @@ To filter for placeholder users created during imports for an entire instance:
 1. Select **Overview** > **Users**.
 1. In the search box, filter users by **type**.
 
-#### Creating placeholder users
+### Creating placeholder users
 
 Placeholder users are created per import source and per top-level group:
 
@@ -209,7 +209,7 @@ subsequent imports from the same source instance to the same top-level group or
 subgroup on the destination instance do not create placeholder users.
 Instead, contributions are mapped automatically to the user.
 
-#### Placeholder user deletion
+### Placeholder user deletion
 
 {{< history >}}
 
@@ -228,7 +228,7 @@ they're also associated with other projects or groups.
 > [issue 519391](https://gitlab.com/gitlab-org/gitlab/-/issues/519391) and
 > [issue 537340](https://gitlab.com/gitlab-org/gitlab/-/issues/537340).
 
-#### Placeholder user limits
+### Placeholder user limits
 
 If importing to GitLab.com, placeholder users are limited per top-level group on the destination instance. The limits differ depending on your plan and seat count. Placeholder users do not count towards license limits.
 

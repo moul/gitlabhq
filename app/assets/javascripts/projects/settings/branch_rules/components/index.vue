@@ -234,6 +234,9 @@ export default {
       return this.branch === ALL_BRANCHES_WILDCARD;
     },
     matchingBranchesLinkHref() {
+      if (this.branch === s__('BranchRules|All branches')) {
+        return mergeUrlParams({ state: 'all' }, this.branchesPath);
+      }
       return mergeUrlParams({ state: 'all', search: `^${this.branch}$` }, this.branchesPath);
     },
     matchingBranchesLinkTitle() {

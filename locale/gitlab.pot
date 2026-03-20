@@ -5193,27 +5193,6 @@ msgstr ""
 msgid "Add or subtract spent time"
 msgstr ""
 
-msgid "Add passkey|Add a name to help you identify the passkey later"
-msgstr ""
-
-msgid "Add passkey|Add passkey"
-msgstr ""
-
-msgid "Add passkey|Follow the instructions on your browser to add a passkey. %{link_start}Learn more about passkeys%{link_end}."
-msgstr ""
-
-msgid "Add passkey|Passkey name"
-msgstr ""
-
-msgid "Add passkey|Passkeys only works with HTTPS-enabled websites. Contact your administrator for more details."
-msgstr ""
-
-msgid "Add passkey|Verify your password to add the passkey"
-msgstr ""
-
-msgid "Add passkey|Your browser doesn't support passkeys."
-msgstr ""
-
 msgid "Add people"
 msgstr ""
 
@@ -5341,6 +5320,27 @@ msgid "AddMember|There are not enough available seats to invite this many users.
 msgstr ""
 
 msgid "AddMember|Too many users specified (limit is %{user_limit})"
+msgstr ""
+
+msgid "AddPasskey|Add a name to help you identify the passkey later"
+msgstr ""
+
+msgid "AddPasskey|Add passkey"
+msgstr ""
+
+msgid "AddPasskey|Follow the instructions on your browser to add a passkey. %{link_start}Learn more about passkeys%{link_end}."
+msgstr ""
+
+msgid "AddPasskey|Passkey name"
+msgstr ""
+
+msgid "AddPasskey|Passkeys only works with HTTPS-enabled websites. Contact your administrator for more details."
+msgstr ""
+
+msgid "AddPasskey|Verify your password to add the passkey"
+msgstr ""
+
+msgid "AddPasskey|Your browser doesn't support passkeys."
 msgstr ""
 
 msgid "Added"
@@ -11371,10 +11371,10 @@ msgstr ""
 msgid "Batch size"
 msgstr ""
 
-msgid "Batched Job|Background migrations"
+msgid "BatchedJobs|Background migrations"
 msgstr ""
 
-msgid "Batched Job|Batched Job (Id: %{id})"
+msgid "BatchedJobs|Batched Job (Id: %{id})"
 msgstr ""
 
 msgid "BatchedJob|Attempts"
@@ -26188,12 +26188,6 @@ msgstr ""
 msgid "Due to inactivity, this project is scheduled to be deleted on %{deletion_date}. %{link_start}Why is this scheduled?%{link_end}"
 msgstr ""
 
-msgid "Duo Agent Platform|Duo Agent Platform Settings have been saved"
-msgstr ""
-
-msgid "Duo Agent Platform|Something went wrong saving Duo Agent Platform settings"
-msgstr ""
-
 msgid "Duo controls"
 msgstr ""
 
@@ -26236,6 +26230,9 @@ msgstr ""
 msgid "DuoAgentPlatform|Details"
 msgstr ""
 
+msgid "DuoAgentPlatform|Duo Agent Platform Settings have been saved"
+msgstr ""
+
 msgid "DuoAgentPlatform|Error occurred when starting the flow."
 msgstr ""
 
@@ -26270,6 +26267,9 @@ msgid "DuoAgentPlatform|Session triggered"
 msgstr ""
 
 msgid "DuoAgentPlatform|Show tool details"
+msgstr ""
+
+msgid "DuoAgentPlatform|Something went wrong saving Duo Agent Platform settings"
 msgstr ""
 
 msgid "DuoAgentPlatform|Starting job"
@@ -60089,6 +60089,9 @@ msgstr ""
 msgid "ScanExecutionPolicy|selected automatically"
 msgstr ""
 
+msgid "ScanProfiles|%{scanTypeName} profile"
+msgstr ""
+
 msgid "ScanProfiles|A scan is automatically run each time new commits are pushed to a branch associated with an open merge request. The full repository is scanned, but only vulnerabilities introduced by the merge request are highlighted. This helps identify security issues early, before code is merged."
 msgstr ""
 
@@ -60150,9 +60153,6 @@ msgid "ScanProfiles|Scans new commits to merge requests · All branches"
 msgstr ""
 
 msgid "ScanProfiles|Scope:"
-msgstr ""
-
-msgid "ScanProfiles|Secret detection profile"
 msgstr ""
 
 msgid "ScanProfiles|Secret push protection"
@@ -64285,13 +64285,25 @@ msgstr ""
 msgid "SecurityProfiles|Profile disabled successfully."
 msgstr ""
 
+msgid "SecurityProfiles|SAST"
+msgstr ""
+
+msgid "SecurityProfiles|Scans your source code using GitLab-managed rules to identify common vulnerabilities like injection flaws and hardcoded secrets. %{linkStart}Learn more%{linkEnd}."
+msgstr ""
+
 msgid "SecurityProfiles|Secret Detection"
 msgstr ""
 
 msgid "SecurityProfiles|Security configuration illustration"
 msgstr ""
 
+msgid "SecurityProfiles|Static Application Security Testing (SAST)"
+msgstr ""
+
 msgid "SecurityProfiles|What are configuration profiles?"
+msgstr ""
+
+msgid "SecurityProfiles|What is SAST?"
 msgstr ""
 
 msgid "SecurityProfiles|What is secret push protection?"
@@ -71522,15 +71534,6 @@ msgstr ""
 msgid "Time (in hours) that users are allowed to skip forced configuration of two-factor authentication."
 msgstr ""
 
-msgid "Time Display|12-hour: 2:34 PM"
-msgstr ""
-
-msgid "Time Display|24-hour: 14:34"
-msgstr ""
-
-msgid "Time Display|System"
-msgstr ""
-
 msgid "Time based: Yes"
 msgstr ""
 
@@ -71601,6 +71604,15 @@ msgid "Time until first merge request"
 msgstr ""
 
 msgid "Time zone"
+msgstr ""
+
+msgid "TimeDisplay|12-hour: 2:34 PM"
+msgstr ""
+
+msgid "TimeDisplay|24-hour: 14:34"
+msgstr ""
+
+msgid "TimeDisplay|System"
 msgstr ""
 
 msgid "TimeTrackingEstimated|Est"

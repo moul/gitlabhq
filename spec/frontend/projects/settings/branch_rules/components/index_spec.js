@@ -396,6 +396,23 @@ describe('View branch rules', () => {
     expect(findAllBranches().text()).toBe('*');
   });
 
+  it('renders matching branches link without regex pattern for All branches', async () => {
+    util.getParameterByName.mockReturnValueOnce(I18N.allBranches);
+    util.mergeUrlParams.mockReturnValueOnce('/branches?state=all');
+
+    const mockResponse = JSON.parse(JSON.stringify(branchProtectionsMockResponse));
+    mockResponse.data.project.branchRules.nodes[0].name = I18N.allBranches;
+
+    await createComponent({
+      branchRulesQueryHandler: jest.fn().mockResolvedValue(mockResponse),
+    });
+
+    const matchingBranchesLink = findMatchingBranchesLink();
+
+    expect(matchingBranchesLink.exists()).toBe(true);
+    expect(matchingBranchesLink.attributes().href).toBe('/branches?state=all');
+  });
+
   it('renders matching branches link', () => {
     const mergeUrlParams = jest.spyOn(util, 'mergeUrlParams');
     const matchingBranchesLink = findMatchingBranchesLink();

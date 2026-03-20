@@ -6,6 +6,7 @@ import ScanProfileTable from '~/security_configuration/components/scan_profiles/
 import {
   SCAN_PROFILE_CATEGORIES,
   SCAN_PROFILE_TYPE_SECRET_DETECTION,
+  SCAN_PROFILE_TYPE_SAST,
 } from '~/security_configuration/constants';
 
 describe('ScanProfileConfiguration', () => {
@@ -37,6 +38,10 @@ describe('ScanProfileConfiguration', () => {
       expect(table.props('tableItems')).toEqual([
         {
           scanType: SCAN_PROFILE_TYPE_SECRET_DETECTION,
+          isConfigured: false,
+        },
+        {
+          scanType: SCAN_PROFILE_TYPE_SAST,
           isConfigured: false,
         },
       ]);
