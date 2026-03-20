@@ -296,7 +296,6 @@ RSpec/ReceiveMessages:
     - 'spec/lib/gitlab/import_export/snippet_repo_restorer_spec.rb'
     - 'spec/lib/gitlab/kas/client_spec.rb'
     - 'spec/lib/gitlab/metrics/exporter/base_exporter_spec.rb'
-    - 'spec/lib/gitlab/metrics/global_search_slis_spec.rb'
     - 'spec/lib/gitlab/metrics/rails_slis_spec.rb'
     - 'spec/lib/gitlab/metrics/requests_rack_middleware_spec.rb'
     - 'spec/lib/gitlab/metrics/samplers/action_cable_sampler_spec.rb'

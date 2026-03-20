@@ -61,16 +61,16 @@ let(:user3) { create(:user, organizations: [org1, org2])}
 If you need a `Current.organization` for tests, you can use the [`with_current_organization`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/spec/support/shared_contexts/current_organization_context.rb) shared context.
 This will create a `current_organization` method that will be returned by `Gitlab::Current::Organization` class
 
+This shared context is always included for specs that have type `graphql` or `controller`.
+
 ```ruby
 # frozen_string_literal: true
 require 'spec_helper'
 
-RSpec.describe ProjectsController, :with_current_organization do
+RSpec.describe MyClass, :with_current_organization do
   let(:project) { create(:project) }
 
   it 'sets Current.organization' do
-    get :index
-
     expect(Current.organization).to eq(project.organization)
   end
 end

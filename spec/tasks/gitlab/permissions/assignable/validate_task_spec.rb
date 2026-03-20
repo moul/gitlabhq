@@ -38,7 +38,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
       allow(Authz::Permission).to receive(:defined?).with(anything).and_return(false)
       allow(Authz::Permission).to receive(:defined?).with('update_wiki').and_return(true)
 
-      # Stubs to make _metadata.yml file validation pass
+      # Stubs to make .metadata.yml file validation pass
       allow(Authz::PermissionGroups::Resource).to receive(:get).and_return(
         instance_double(Authz::PermissionGroups::Resource, definition: {})
       )
@@ -242,7 +242,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
           expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
             #######################################################################
             #
-            #  The following assignable permission resource directories are missing a _metadata.yml file.
+            #  The following assignable permission resource directories are missing a .metadata.yml file.
             #  Learn more: http://localhost/help/development/permissions/granular_access/assignable_permissions.md#when-do-you-need-metadata-files
             #
             #    - config/authz/permission_groups/assignable_permissions/wiki_category/wiki/
@@ -342,7 +342,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
     end
 
     describe 'empty resource directory validation' do
-      context 'when a resource directory contains only _metadata.yml' do
+      context 'when a resource directory contains only .metadata.yml' do
         before do
           allow(Dir).to receive(:glob).and_call_original
           allow(Dir).to receive(:glob)
@@ -351,7 +351,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
           allow(Dir).to receive(:glob)
             .with('config/authz/permission_groups/assignable_permissions/some_category/empty_resource/*.yml')
             .and_return([
-              'config/authz/permission_groups/assignable_permissions/some_category/empty_resource/_metadata.yml'
+              'config/authz/permission_groups/assignable_permissions/some_category/empty_resource/.metadata.yml'
             ])
         end
 
@@ -359,7 +359,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
           expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
             #######################################################################
             #
-            #  The following resource directories contain only a _metadata.yml file with no permission definitions.
+            #  The following resource directories contain only a .metadata.yml file with no permission definitions.
             #  Either add permission definitions or remove the directory.
             #  Learn more: http://localhost/help/development/permissions/granular_access/assignable_permissions.md#understanding-the-directory-structure
             #
@@ -370,7 +370,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
         end
       end
 
-      context 'when a resource directory contains _metadata.yml and permission files' do
+      context 'when a resource directory contains .metadata.yml and permission files' do
         before do
           allow(Dir).to receive(:glob).and_call_original
           allow(Dir).to receive(:glob)
@@ -379,7 +379,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
           allow(Dir).to receive(:glob)
             .with('config/authz/permission_groups/assignable_permissions/some_category/valid_resource/*.yml')
             .and_return([
-              'config/authz/permission_groups/assignable_permissions/some_category/valid_resource/_metadata.yml',
+              'config/authz/permission_groups/assignable_permissions/some_category/valid_resource/.metadata.yml',
               'config/authz/permission_groups/assignable_permissions/some_category/valid_resource/read.yml'
             ])
         end
@@ -391,7 +391,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
     end
 
     describe 'empty category directory validation' do
-      context 'when a category directory contains only _metadata.yml with no resource subdirectories' do
+      context 'when a category directory contains only .metadata.yml with no resource subdirectories' do
         before do
           allow(Dir).to receive(:glob).and_call_original
           allow(Dir).to receive(:glob)
@@ -402,7 +402,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
             .and_return([])
           allow(File).to receive(:exist?).and_call_original
           allow(File).to receive(:exist?)
-            .with('config/authz/permission_groups/assignable_permissions/empty_category/_metadata.yml')
+            .with('config/authz/permission_groups/assignable_permissions/empty_category/.metadata.yml')
             .and_return(true)
         end
 
@@ -410,7 +410,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
           expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
             #######################################################################
             #
-            #  The following category directories contain only a _metadata.yml file with no resource subdirectories.
+            #  The following category directories contain only a .metadata.yml file with no resource subdirectories.
             #  Either add resource subdirectories or remove the directory.
             #  Learn more: http://localhost/help/development/permissions/granular_access/assignable_permissions.md#understanding-the-directory-structure
             #
@@ -421,7 +421,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
         end
       end
 
-      context 'when a category directory contains _metadata.yml and resource subdirectories' do
+      context 'when a category directory contains .metadata.yml and resource subdirectories' do
         before do
           allow(Dir).to receive(:glob).and_call_original
           allow(Dir).to receive(:glob)
@@ -432,7 +432,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, feature_cat
             .and_return(['config/authz/permission_groups/assignable_permissions/valid_category/some_resource/'])
           allow(File).to receive(:exist?).and_call_original
           allow(File).to receive(:exist?)
-            .with('config/authz/permission_groups/assignable_permissions/valid_category/_metadata.yml')
+            .with('config/authz/permission_groups/assignable_permissions/valid_category/.metadata.yml')
             .and_return(true)
           allow(File).to receive(:directory?).and_call_original
           allow(File).to receive(:directory?)

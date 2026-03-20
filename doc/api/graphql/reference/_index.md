@@ -26880,6 +26880,7 @@ Granular scope applied to an access token.
 | <a id="accesstokengranularscope-access"></a>`access` | [`AccessTokenGranularScopeAccess!`](#accesstokengranularscopeaccess) | Access configured on a granular scope. |
 | <a id="accesstokengranularscope-namespace"></a>`namespace` | [`Namespace`](#namespace) | Namespace of the granular scope. |
 | <a id="accesstokengranularscope-permissions"></a>`permissions` | [`[AccessTokenPermission!]`](#accesstokenpermission) | List of permissions of a granular scope. |
+| <a id="accesstokengranularscope-project"></a>`project` | [`Project`](#project) | Project of the granular scope, when the scope targets a specific project. |
 
 ### `AccessTokenLegacyScope`
 
@@ -27231,6 +27232,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="addonuser-personalaccesstokens-createdbefore"></a>`createdBefore` | [`Time`](#time) | Filter personal access tokens created before the timestamp. |
 | <a id="addonuser-personalaccesstokens-expiresafter"></a>`expiresAfter` | [`Date`](#date) | Filter personal access tokens that expire after the specified date. |
 | <a id="addonuser-personalaccesstokens-expiresbefore"></a>`expiresBefore` | [`Date`](#date) | Filter personal access tokens that expire before the specified date. |
+| <a id="addonuser-personalaccesstokens-id"></a>`id` | [`PersonalAccessTokenID`](#personalaccesstokenid) | Filter personal access tokens by ID. |
 | <a id="addonuser-personalaccesstokens-lastusedafter"></a>`lastUsedAfter` | [`Time`](#time) | Filter personal access tokens last used after the timestamp. |
 | <a id="addonuser-personalaccesstokens-lastusedbefore"></a>`lastUsedBefore` | [`Time`](#time) | Filter personal access tokens last used before the timestamp. |
 | <a id="addonuser-personalaccesstokens-revoked"></a>`revoked` | [`Boolean`](#boolean) | Filter personal access tokens by their revoked status. |
@@ -29126,6 +29128,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="autocompleteduser-personalaccesstokens-createdbefore"></a>`createdBefore` | [`Time`](#time) | Filter personal access tokens created before the timestamp. |
 | <a id="autocompleteduser-personalaccesstokens-expiresafter"></a>`expiresAfter` | [`Date`](#date) | Filter personal access tokens that expire after the specified date. |
 | <a id="autocompleteduser-personalaccesstokens-expiresbefore"></a>`expiresBefore` | [`Date`](#date) | Filter personal access tokens that expire before the specified date. |
+| <a id="autocompleteduser-personalaccesstokens-id"></a>`id` | [`PersonalAccessTokenID`](#personalaccesstokenid) | Filter personal access tokens by ID. |
 | <a id="autocompleteduser-personalaccesstokens-lastusedafter"></a>`lastUsedAfter` | [`Time`](#time) | Filter personal access tokens last used after the timestamp. |
 | <a id="autocompleteduser-personalaccesstokens-lastusedbefore"></a>`lastUsedBefore` | [`Time`](#time) | Filter personal access tokens last used before the timestamp. |
 | <a id="autocompleteduser-personalaccesstokens-revoked"></a>`revoked` | [`Boolean`](#boolean) | Filter personal access tokens by their revoked status. |
@@ -32598,6 +32601,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="currentuser-personalaccesstokens-createdbefore"></a>`createdBefore` | [`Time`](#time) | Filter personal access tokens created before the timestamp. |
 | <a id="currentuser-personalaccesstokens-expiresafter"></a>`expiresAfter` | [`Date`](#date) | Filter personal access tokens that expire after the specified date. |
 | <a id="currentuser-personalaccesstokens-expiresbefore"></a>`expiresBefore` | [`Date`](#date) | Filter personal access tokens that expire before the specified date. |
+| <a id="currentuser-personalaccesstokens-id"></a>`id` | [`PersonalAccessTokenID`](#personalaccesstokenid) | Filter personal access tokens by ID. |
 | <a id="currentuser-personalaccesstokens-lastusedafter"></a>`lastUsedAfter` | [`Time`](#time) | Filter personal access tokens last used after the timestamp. |
 | <a id="currentuser-personalaccesstokens-lastusedbefore"></a>`lastUsedBefore` | [`Time`](#time) | Filter personal access tokens last used before the timestamp. |
 | <a id="currentuser-personalaccesstokens-revoked"></a>`revoked` | [`Boolean`](#boolean) | Filter personal access tokens by their revoked status. |
@@ -38046,7 +38050,7 @@ Returns [`WorkItemStateCountsType`](#workitemstatecountstype).
 | <a id="group-workitemstatecounts-customfield"></a>`customField` {{< icon name="warning-solid" >}} | [`[WorkItemWidgetCustomFieldFilterInputType!]`](#workitemwidgetcustomfieldfilterinputtype) | **Introduced** in GitLab 17.10. **Status**: Experiment. Filter by custom fields (maximum is 100 fields). |
 | <a id="group-workitemstatecounts-dueafter"></a>`dueAfter` | [`Time`](#time) | Work items due after the timestamp. |
 | <a id="group-workitemstatecounts-duebefore"></a>`dueBefore` | [`Time`](#time) | Work items due before the timestamp. |
-| <a id="group-workitemstatecounts-excludegroupworkitems"></a>`excludeGroupWorkItems` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.4. **Status**: Experiment. Exclude group-level work items within the group and its descendants. Ignored for project namespaces and when use_namespace_traversal_ids_for_work_items_finder feature flag is enabled. |
+| <a id="group-workitemstatecounts-excludegroupworkitems"></a>`excludeGroupWorkItems` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.4. **Status**: Experiment. Exclude group-level work items within the group and its descendants. Ignored for project namespaces. |
 | <a id="group-workitemstatecounts-excludeprojects"></a>`excludeProjects` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 17.5. **Status**: Experiment. Exclude work items from projects within the group. Ignored for project namespaces. |
 | <a id="group-workitemstatecounts-healthstatusfilter"></a>`healthStatusFilter` | [`HealthStatusFilter`](#healthstatusfilter) | Health status of the work item, "none" and "any" values are supported. |
 | <a id="group-workitemstatecounts-hierarchyfilters"></a>`hierarchyFilters` {{< icon name="warning-solid" >}} | [`HierarchyFilterInput`](#hierarchyfilterinput) | **Introduced** in GitLab 18.3. **Status**: Experiment. Filtering options related to the work item hierarchy. |
@@ -38135,7 +38139,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="group-workitems-customfield"></a>`customField` {{< icon name="warning-solid" >}} | [`[WorkItemWidgetCustomFieldFilterInputType!]`](#workitemwidgetcustomfieldfilterinputtype) | **Introduced** in GitLab 17.10. **Status**: Experiment. Filter by custom fields (maximum is 100 fields). |
 | <a id="group-workitems-dueafter"></a>`dueAfter` | [`Time`](#time) | Work items due after the timestamp. |
 | <a id="group-workitems-duebefore"></a>`dueBefore` | [`Time`](#time) | Work items due before the timestamp. |
-| <a id="group-workitems-excludegroupworkitems"></a>`excludeGroupWorkItems` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.4. **Status**: Experiment. Exclude group-level work items within the group and its descendants. Ignored for project namespaces and when use_namespace_traversal_ids_for_work_items_finder feature flag is enabled. |
+| <a id="group-workitems-excludegroupworkitems"></a>`excludeGroupWorkItems` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.4. **Status**: Experiment. Exclude group-level work items within the group and its descendants. Ignored for project namespaces. |
 | <a id="group-workitems-excludeprojects"></a>`excludeProjects` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 17.5. **Status**: Experiment. Exclude work items from projects within the group. Ignored for project namespaces. |
 | <a id="group-workitems-healthstatusfilter"></a>`healthStatusFilter` | [`HealthStatusFilter`](#healthstatusfilter) | Health status of the work item, "none" and "any" values are supported. |
 | <a id="group-workitems-hierarchyfilters"></a>`hierarchyFilters` {{< icon name="warning-solid" >}} | [`HierarchyFilterInput`](#hierarchyfilterinput) | **Introduced** in GitLab 18.3. **Status**: Experiment. Filtering options related to the work item hierarchy. |
@@ -40476,6 +40480,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="mergerequestassignee-personalaccesstokens-createdbefore"></a>`createdBefore` | [`Time`](#time) | Filter personal access tokens created before the timestamp. |
 | <a id="mergerequestassignee-personalaccesstokens-expiresafter"></a>`expiresAfter` | [`Date`](#date) | Filter personal access tokens that expire after the specified date. |
 | <a id="mergerequestassignee-personalaccesstokens-expiresbefore"></a>`expiresBefore` | [`Date`](#date) | Filter personal access tokens that expire before the specified date. |
+| <a id="mergerequestassignee-personalaccesstokens-id"></a>`id` | [`PersonalAccessTokenID`](#personalaccesstokenid) | Filter personal access tokens by ID. |
 | <a id="mergerequestassignee-personalaccesstokens-lastusedafter"></a>`lastUsedAfter` | [`Time`](#time) | Filter personal access tokens last used after the timestamp. |
 | <a id="mergerequestassignee-personalaccesstokens-lastusedbefore"></a>`lastUsedBefore` | [`Time`](#time) | Filter personal access tokens last used before the timestamp. |
 | <a id="mergerequestassignee-personalaccesstokens-revoked"></a>`revoked` | [`Boolean`](#boolean) | Filter personal access tokens by their revoked status. |
@@ -40939,6 +40944,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="mergerequestauthor-personalaccesstokens-createdbefore"></a>`createdBefore` | [`Time`](#time) | Filter personal access tokens created before the timestamp. |
 | <a id="mergerequestauthor-personalaccesstokens-expiresafter"></a>`expiresAfter` | [`Date`](#date) | Filter personal access tokens that expire after the specified date. |
 | <a id="mergerequestauthor-personalaccesstokens-expiresbefore"></a>`expiresBefore` | [`Date`](#date) | Filter personal access tokens that expire before the specified date. |
+| <a id="mergerequestauthor-personalaccesstokens-id"></a>`id` | [`PersonalAccessTokenID`](#personalaccesstokenid) | Filter personal access tokens by ID. |
 | <a id="mergerequestauthor-personalaccesstokens-lastusedafter"></a>`lastUsedAfter` | [`Time`](#time) | Filter personal access tokens last used after the timestamp. |
 | <a id="mergerequestauthor-personalaccesstokens-lastusedbefore"></a>`lastUsedBefore` | [`Time`](#time) | Filter personal access tokens last used before the timestamp. |
 | <a id="mergerequestauthor-personalaccesstokens-revoked"></a>`revoked` | [`Boolean`](#boolean) | Filter personal access tokens by their revoked status. |
@@ -41478,6 +41484,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="mergerequestparticipant-personalaccesstokens-createdbefore"></a>`createdBefore` | [`Time`](#time) | Filter personal access tokens created before the timestamp. |
 | <a id="mergerequestparticipant-personalaccesstokens-expiresafter"></a>`expiresAfter` | [`Date`](#date) | Filter personal access tokens that expire after the specified date. |
 | <a id="mergerequestparticipant-personalaccesstokens-expiresbefore"></a>`expiresBefore` | [`Date`](#date) | Filter personal access tokens that expire before the specified date. |
+| <a id="mergerequestparticipant-personalaccesstokens-id"></a>`id` | [`PersonalAccessTokenID`](#personalaccesstokenid) | Filter personal access tokens by ID. |
 | <a id="mergerequestparticipant-personalaccesstokens-lastusedafter"></a>`lastUsedAfter` | [`Time`](#time) | Filter personal access tokens last used after the timestamp. |
 | <a id="mergerequestparticipant-personalaccesstokens-lastusedbefore"></a>`lastUsedBefore` | [`Time`](#time) | Filter personal access tokens last used before the timestamp. |
 | <a id="mergerequestparticipant-personalaccesstokens-revoked"></a>`revoked` | [`Boolean`](#boolean) | Filter personal access tokens by their revoked status. |
@@ -41960,6 +41967,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="mergerequestreviewer-personalaccesstokens-createdbefore"></a>`createdBefore` | [`Time`](#time) | Filter personal access tokens created before the timestamp. |
 | <a id="mergerequestreviewer-personalaccesstokens-expiresafter"></a>`expiresAfter` | [`Date`](#date) | Filter personal access tokens that expire after the specified date. |
 | <a id="mergerequestreviewer-personalaccesstokens-expiresbefore"></a>`expiresBefore` | [`Date`](#date) | Filter personal access tokens that expire before the specified date. |
+| <a id="mergerequestreviewer-personalaccesstokens-id"></a>`id` | [`PersonalAccessTokenID`](#personalaccesstokenid) | Filter personal access tokens by ID. |
 | <a id="mergerequestreviewer-personalaccesstokens-lastusedafter"></a>`lastUsedAfter` | [`Time`](#time) | Filter personal access tokens last used after the timestamp. |
 | <a id="mergerequestreviewer-personalaccesstokens-lastusedbefore"></a>`lastUsedBefore` | [`Time`](#time) | Filter personal access tokens last used before the timestamp. |
 | <a id="mergerequestreviewer-personalaccesstokens-revoked"></a>`revoked` | [`Boolean`](#boolean) | Filter personal access tokens by their revoked status. |
@@ -42946,7 +42954,7 @@ Returns [`WorkItemStateCountsType`](#workitemstatecountstype).
 | <a id="namespace-workitemstatecounts-customfield"></a>`customField` {{< icon name="warning-solid" >}} | [`[WorkItemWidgetCustomFieldFilterInputType!]`](#workitemwidgetcustomfieldfilterinputtype) | **Introduced** in GitLab 17.10. **Status**: Experiment. Filter by custom fields (maximum is 100 fields). |
 | <a id="namespace-workitemstatecounts-dueafter"></a>`dueAfter` | [`Time`](#time) | Work items due after the timestamp. |
 | <a id="namespace-workitemstatecounts-duebefore"></a>`dueBefore` | [`Time`](#time) | Work items due before the timestamp. |
-| <a id="namespace-workitemstatecounts-excludegroupworkitems"></a>`excludeGroupWorkItems` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.4. **Status**: Experiment. Exclude group-level work items within the group and its descendants. Ignored for project namespaces and when use_namespace_traversal_ids_for_work_items_finder feature flag is enabled. |
+| <a id="namespace-workitemstatecounts-excludegroupworkitems"></a>`excludeGroupWorkItems` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.4. **Status**: Experiment. Exclude group-level work items within the group and its descendants. Ignored for project namespaces. |
 | <a id="namespace-workitemstatecounts-excludeprojects"></a>`excludeProjects` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 17.5. **Status**: Experiment. Exclude work items from projects within the group. Ignored for project namespaces. |
 | <a id="namespace-workitemstatecounts-healthstatusfilter"></a>`healthStatusFilter` | [`HealthStatusFilter`](#healthstatusfilter) | Health status of the work item, "none" and "any" values are supported. |
 | <a id="namespace-workitemstatecounts-hierarchyfilters"></a>`hierarchyFilters` {{< icon name="warning-solid" >}} | [`HierarchyFilterInput`](#hierarchyfilterinput) | **Introduced** in GitLab 18.3. **Status**: Experiment. Filtering options related to the work item hierarchy. |
@@ -43040,7 +43048,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="namespace-workitems-customfield"></a>`customField` {{< icon name="warning-solid" >}} | [`[WorkItemWidgetCustomFieldFilterInputType!]`](#workitemwidgetcustomfieldfilterinputtype) | **Introduced** in GitLab 17.10. **Status**: Experiment. Filter by custom fields (maximum is 100 fields). |
 | <a id="namespace-workitems-dueafter"></a>`dueAfter` | [`Time`](#time) | Work items due after the timestamp. |
 | <a id="namespace-workitems-duebefore"></a>`dueBefore` | [`Time`](#time) | Work items due before the timestamp. |
-| <a id="namespace-workitems-excludegroupworkitems"></a>`excludeGroupWorkItems` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.4. **Status**: Experiment. Exclude group-level work items within the group and its descendants. Ignored for project namespaces and when use_namespace_traversal_ids_for_work_items_finder feature flag is enabled. |
+| <a id="namespace-workitems-excludegroupworkitems"></a>`excludeGroupWorkItems` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.4. **Status**: Experiment. Exclude group-level work items within the group and its descendants. Ignored for project namespaces. |
 | <a id="namespace-workitems-excludeprojects"></a>`excludeProjects` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 17.5. **Status**: Experiment. Exclude work items from projects within the group. Ignored for project namespaces. |
 | <a id="namespace-workitems-healthstatusfilter"></a>`healthStatusFilter` | [`HealthStatusFilter`](#healthstatusfilter) | Health status of the work item, "none" and "any" values are supported. |
 | <a id="namespace-workitems-hierarchyfilters"></a>`hierarchyFilters` {{< icon name="warning-solid" >}} | [`HierarchyFilterInput`](#hierarchyfilterinput) | **Introduced** in GitLab 18.3. **Status**: Experiment. Filtering options related to the work item hierarchy. |
@@ -51030,6 +51038,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="usercore-personalaccesstokens-createdbefore"></a>`createdBefore` | [`Time`](#time) | Filter personal access tokens created before the timestamp. |
 | <a id="usercore-personalaccesstokens-expiresafter"></a>`expiresAfter` | [`Date`](#date) | Filter personal access tokens that expire after the specified date. |
 | <a id="usercore-personalaccesstokens-expiresbefore"></a>`expiresBefore` | [`Date`](#date) | Filter personal access tokens that expire before the specified date. |
+| <a id="usercore-personalaccesstokens-id"></a>`id` | [`PersonalAccessTokenID`](#personalaccesstokenid) | Filter personal access tokens by ID. |
 | <a id="usercore-personalaccesstokens-lastusedafter"></a>`lastUsedAfter` | [`Time`](#time) | Filter personal access tokens last used after the timestamp. |
 | <a id="usercore-personalaccesstokens-lastusedbefore"></a>`lastUsedBefore` | [`Time`](#time) | Filter personal access tokens last used before the timestamp. |
 | <a id="usercore-personalaccesstokens-revoked"></a>`revoked` | [`Boolean`](#boolean) | Filter personal access tokens by their revoked status. |
@@ -55707,6 +55716,7 @@ Detailed representation of whether a GitLab merge request can be merged.
 | <a id="detailedmergestatus-preparing"></a>`PREPARING` | Merge request diff is being created. |
 | <a id="detailedmergestatus-requested_changes"></a>`REQUESTED_CHANGES` | Indicates a reviewer has requested changes. |
 | <a id="detailedmergestatus-security_policies_violations"></a>`SECURITY_POLICIES_VIOLATIONS` | All policy rules must be satisfied. |
+| <a id="detailedmergestatus-security_policy_pipeline_check"></a>`SECURITY_POLICY_PIPELINE_CHECK` | All security policy pipelines must succeed. |
 | <a id="detailedmergestatus-title_not_matching"></a>`TITLE_NOT_MATCHING` | Merge request title does not match required regex. |
 | <a id="detailedmergestatus-unchecked"></a>`UNCHECKED` | Merge status has not been checked. |
 
@@ -56784,6 +56794,7 @@ Representation of mergeability check identifier.
 | <a id="mergeabilitycheckidentifier-not_approved"></a>`NOT_APPROVED` | Checks whether the merge request is approved. |
 | <a id="mergeabilitycheckidentifier-not_open"></a>`NOT_OPEN` | Checks whether the merge request is open. |
 | <a id="mergeabilitycheckidentifier-requested_changes"></a>`REQUESTED_CHANGES` | Checks whether the merge request has changes requested. |
+| <a id="mergeabilitycheckidentifier-security_policy_pipeline_check"></a>`SECURITY_POLICY_PIPELINE_CHECK` | Checks whether all pipelines have passed when security policies are configured. |
 | <a id="mergeabilitycheckidentifier-security_policy_violations"></a>`SECURITY_POLICY_VIOLATIONS` | Checks whether the security policies are satisfied. |
 | <a id="mergeabilitycheckidentifier-status_checks_must_pass"></a>`STATUS_CHECKS_MUST_PASS` | Checks whether the external status checks pass. |
 | <a id="mergeabilitycheckidentifier-title_regex"></a>`TITLE_REGEX` | Checks whether the title matches the expected regex. |
@@ -61898,6 +61909,7 @@ Arguments:
 | <a id="user-personalaccesstokens-createdbefore"></a>`createdBefore` | [`Time`](#time) | Filter personal access tokens created before the timestamp. |
 | <a id="user-personalaccesstokens-expiresafter"></a>`expiresAfter` | [`Date`](#date) | Filter personal access tokens that expire after the specified date. |
 | <a id="user-personalaccesstokens-expiresbefore"></a>`expiresBefore` | [`Date`](#date) | Filter personal access tokens that expire before the specified date. |
+| <a id="user-personalaccesstokens-id"></a>`id` | [`PersonalAccessTokenID`](#personalaccesstokenid) | Filter personal access tokens by ID. |
 | <a id="user-personalaccesstokens-lastusedafter"></a>`lastUsedAfter` | [`Time`](#time) | Filter personal access tokens last used after the timestamp. |
 | <a id="user-personalaccesstokens-lastusedbefore"></a>`lastUsedBefore` | [`Time`](#time) | Filter personal access tokens last used before the timestamp. |
 | <a id="user-personalaccesstokens-revoked"></a>`revoked` | [`Boolean`](#boolean) | Filter personal access tokens by their revoked status. |

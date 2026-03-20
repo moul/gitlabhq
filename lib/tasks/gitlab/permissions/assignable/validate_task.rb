@@ -123,12 +123,12 @@ module Tasks
           end
 
           def validate_empty_resource_directories
-            # Check resource directories (inside category directories) for having only _metadata.yml
+            # Check resource directories (inside category directories) for having only .metadata.yml
             violations[:empty_resource_directory] = find_empty_directories("#{PERMISSION_DIR}/*/*/")
           end
 
           def validate_empty_category_directories
-            # Check category directories for having only _metadata.yml with no resource subdirectories
+            # Check category directories for having only .metadata.yml with no resource subdirectories
             violations[:empty_category_directory] = find_empty_parent_directories("#{PERMISSION_DIR}/*/")
           end
 
@@ -186,7 +186,7 @@ module Tasks
               file: "The following permission definitions do not exist at the expected path." \
                 "\n#{assignable_permissions_link(anchor: 'understanding-the-directory-structure')}",
               missing_resource_metadata:
-                "The following assignable permission resource directories are missing a _metadata.yml file." \
+                "The following assignable permission resource directories are missing a .metadata.yml file." \
                 "\n#{assignable_permissions_link(anchor: 'when-do-you-need-metadata-files')}",
               resource_metadata_schema:
                 "The following assignable permission resource metadata file failed schema validation." \
@@ -195,11 +195,11 @@ module Tasks
                 "The following assignable permission category metadata file failed schema validation." \
                 "\n#{assignable_permissions_link(anchor: 'understanding-the-directory-structure')}",
               empty_resource_directory:
-                "The following resource directories contain only a _metadata.yml file with no permission definitions." \
+                "The following resource directories contain only a .metadata.yml file with no permission definitions." \
                 "\nEither add permission definitions or remove the directory." \
                 "\n#{assignable_permissions_link(anchor: 'understanding-the-directory-structure')}",
               empty_category_directory:
-                "The following category directories contain only a _metadata.yml file with no resource " \
+                "The following category directories contain only a .metadata.yml file with no resource " \
                 "subdirectories.\nEither add resource subdirectories or remove the directory." \
                 "\n#{assignable_permissions_link(anchor: 'understanding-the-directory-structure')}"
             }

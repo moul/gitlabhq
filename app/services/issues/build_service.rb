@@ -129,7 +129,7 @@ module Issues
     end
 
     def author
-      Gitlab::Auth::Identity.invert_composite_identity(current_user)
+      Gitlab::Auth::Identity.resolve_composite_identity_actor(current_user)
     end
   end
 end

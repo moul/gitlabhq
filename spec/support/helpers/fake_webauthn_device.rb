@@ -12,7 +12,7 @@ class FakeWebauthnDevice
   end
 
   def respond_to_webauthn_registration
-    app_id = WebAuthn.configuration.origin
+    app_id = @page.evaluate_script('window.location.origin')
     challenge = @page.evaluate_script('gon.webauthn.options.challenge')
 
     options = {
@@ -32,7 +32,7 @@ class FakeWebauthnDevice
   end
 
   def respond_to_webauthn_authentication(passkey: nil)
-    app_id = @page.evaluate_script('JSON.parse(gon.webauthn.options).extensions.appid')
+    app_id = @page.evaluate_script('window.location.origin')
     challenge = @page.evaluate_script('JSON.parse(gon.webauthn.options).challenge')
 
     begin

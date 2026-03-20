@@ -102,9 +102,9 @@ module Tasks
         def find_empty_directories(glob_pattern)
           Dir.glob(glob_pattern).select do |dir|
             yml_files = Dir.glob("#{dir}*.yml").map { |f| File.basename(f) }
-            permission_files = yml_files.reject { |f| f == '_metadata.yml' }
+            permission_files = yml_files.reject { |f| f == '.metadata.yml' }
 
-            permission_files.empty? && yml_files.include?('_metadata.yml')
+            permission_files.empty? && yml_files.include?('.metadata.yml')
           end
         end
 
@@ -112,7 +112,7 @@ module Tasks
           Dir.glob(glob_pattern).select do |dir|
             subdirs = Dir.glob("#{dir}*/").select { |d| File.directory?(d) }
 
-            subdirs.empty? && File.exist?("#{dir}_metadata.yml")
+            subdirs.empty? && File.exist?("#{dir}.metadata.yml")
           end
         end
 

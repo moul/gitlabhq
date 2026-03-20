@@ -36,15 +36,14 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
       described_class.initialize_slis!
     end
 
-    context "when initializeing for limited types" do
+    context "when initializing for limited types" do
       where(:api, :web) do
         [true, false].repeated_permutation(2).to_a
       end
 
       with_them do
         it 'only initializes for the relevant endpoints', :aggregate_failures do
-          allow(Gitlab::Metrics::Environment).to receive(:api?).and_return(api)
-          allow(Gitlab::Metrics::Environment).to receive(:web?).and_return(web)
+          allow(Gitlab::Metrics::Environment).to receive_messages(api?: api, web?: web)
           allow(Gitlab::Metrics::Sli::Apdex).to receive(:initialize_sli)
           allow(Gitlab::Metrics::Sli::ErrorRate).to receive(:initialize_sli)
 

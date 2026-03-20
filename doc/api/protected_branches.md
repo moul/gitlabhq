@@ -20,12 +20,27 @@ instead of specific users.
 
 ## Valid access levels
 
-The `ProtectedRefAccess.allowed_access_levels` method defines the following access levels:
+The `ProtectedRefAccess.allowed_access_levels` method defines the following access levels used across
+push, merge, and unprotect configurations.
 
-- `0`: No access
-- `30`: Developer role
-- `40`: Maintainer role
-- `60`: Administrator
+- `0`: No access - Valid for push and merge access levels only. Not valid for unprotect access levels.
+- `30`: Developer
+- `40`: Maintainer
+- `60`: Administrator - Valid for GitLab Self-Managed only.
+
+In addition to role-based access levels, you can assign access by:
+
+- User (`user_id`): Valid for push, merge, and unprotect access levels.
+- Group (`group_id`): Valid for push, merge, and unprotect access levels. The group must have
+  the Developer, Maintainer, or Owner role for the project.
+- Deploy key (`deploy_key_id`): Valid for push access levels only.
+
+For more information, see the [protect repository branches examples](#protect-repository-branches).
+
+> [!note]
+> To avoid permanently locking protection settings for a branch, ensure at least one user or group
+> retains unprotect permissions for the branch at all times.
+> For more information, see [control who can unprotect branches](../user/project/repository/branches/protected.md#control-who-can-unprotect-branches).
 
 ## List protected branches
 
@@ -315,7 +330,7 @@ Supported attributes:
 | `code_owner_approval_required` | boolean           | No       | If `true`, prevents pushes to this branch if it matches an item in the [`CODEOWNERS` file](../user/project/codeowners/_index.md). Default is `false`. Premium and Ultimate only. |
 | `merge_access_level`           | integer           | No       | Access levels allowed to merge. Default is `40` (Maintainer role). |
 | `push_access_level`            | integer           | No       | Access levels allowed to push. Default is `40` (Maintainer role). |
-| `unprotect_access_level`       | integer           | No       | Access levels allowed to unprotect. Default is `40` (Maintainer role). |
+| `unprotect_access_level`       | integer           | No       | Access levels allowed to unprotect. Default is `40` (Maintainer role). `0` (No access) is not valid. |
 
 When you configure access levels:
 

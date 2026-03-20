@@ -205,12 +205,12 @@ module Tasks
               "declarative policy.\nRemove the definition files for the unknown permissions." \
               "\n#{permission_definitions_link(anchor: 'permission-definition-file')}",
             missing_resource_metadata:
-              "The following permission resource directories are missing a _metadata.yml file." \
+              "The following permission resource directories are missing a .metadata.yml file." \
               "\n#{permission_definitions_link(anchor: 'resource-metadata-fields')}",
             resource_metadata_schema: "The following resource metadata files failed schema validation." \
               "\n#{permission_definitions_link(anchor: 'resource-metadata-fields')}",
             empty_resource_directory:
-              "The following resource directories contain only a _metadata.yml file with no permission definitions." \
+              "The following resource directories contain only a .metadata.yml file with no permission definitions." \
               "\nEither add permission definitions or remove the directory." \
               "\n#{permission_definitions_link(anchor: 'permission-naming-and-validation')}"
           }

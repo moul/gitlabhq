@@ -911,7 +911,7 @@ module API
       return unless token_info
       return unless TOKEN_SCOPES_TO_AUDIT.intersect?(Array.wrap(token_info[:token_scopes]))
 
-      request_author = Gitlab::Auth::Identity.invert_composite_identity(user)
+      request_author = Gitlab::Auth::Identity.resolve_composite_identity_actor(user)
       context = {
         name: 'api_request_access_with_scope',
         author: request_author,

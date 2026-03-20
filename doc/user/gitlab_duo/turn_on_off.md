@@ -32,18 +32,6 @@ You can turn GitLab Duo on or off:
 
 ### On GitLab.com
 
-{{< details >}}
-
-- Tier: [Free](../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
-
-{{< /details >}}
-
-{{< history >}}
-
-- Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
-
-{{< /history >}}
-
 #### For a top-level group
 
 Prerequisites:
@@ -161,18 +149,6 @@ when you upgrade to GitLab 18.0 or later, to use GitLab Duo Core, you must turn 
 
 ### On GitLab.com
 
-{{< details >}}
-
-- Tier: [Free](../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
-
-{{< /details >}}
-
-{{< history >}}
-
-- Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
-
-{{< /history >}}
-
 Prerequisites:
 
 - The Owner role for the top-level group.
@@ -213,18 +189,6 @@ GitLab Duo features that are experimental and beta are turned off by default.
 These features are subject to the [Testing Agreement](https://handbook.gitlab.com/handbook/legal/testing-agreement/).
 
 ### On GitLab.com
-
-{{< details >}}
-
-- Tier: [Free](../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
-
-{{< /details >}}
-
-{{< history >}}
-
-- Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
-
-{{< /history >}}
 
 Prerequisites:
 

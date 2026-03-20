@@ -1575,6 +1575,7 @@ class MergeRequest < ApplicationRecord
       skip_jira_check: merge_when_checks_pass_strat,
       skip_locked_lfs_files_check: merge_when_checks_pass_strat,
       skip_security_policy_check: merge_when_checks_pass_strat,
+      skip_security_policy_pipeline_check: merge_when_checks_pass_strat,
       skip_merge_time_check: merge_when_checks_pass_strat,
       skip_merge_request_title_check: merge_when_checks_pass_strat
     }

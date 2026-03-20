@@ -88,19 +88,6 @@ RSpec.describe Ci::CreatePipelineService, :aggregate_failures,
       expect(pipeline.variables.size).to eq(2)
     end
 
-    context 'when ci_stop_writing_to_pipeline_variables FF is disabled' do
-      before do
-        stub_feature_flags(ci_stop_writing_to_pipeline_variables: false)
-      end
-
-      it 'assigns partition_id to variables' do
-        variables_partition_ids = pipeline.association(:variables).reader.map(&:partition_id).uniq
-
-        expect(pipeline.variables.size).to eq(2)
-        expect(variables_partition_ids).to eq([current_partition_id])
-      end
-    end
-
     it 'assigns partition_id to needs' do
       needs = find_need('build')
 

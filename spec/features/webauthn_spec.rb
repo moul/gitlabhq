@@ -7,7 +7,7 @@ RSpec.describe 'Using WebAuthn Authenticators', :js, feature_category: :system_a
   let(:app_id) { "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}" }
 
   before do
-    WebAuthn.configuration.origin = app_id
+    WebAuthn.configuration.allowed_origins = [app_id]
   end
 
   it_behaves_like 'OTP devices work independently of WebAuthn authenticators', 'WebAuthn'
@@ -190,7 +190,7 @@ RSpec.describe 'Using WebAuthn Authenticators', :js, feature_category: :system_a
               expect(page).to have_content(_('You must provide a valid current password.'))
 
               # Successful registration
-              passkey ||= FakeWebauthnDevice.new(page, name: 'Retried passkey')
+              passkey ||= FakeWebauthnDevice.new(page, 'Retried passkey')
               passkey.respond_to_webauthn_registration
               click_button _('Try again')
               wait_for_requests

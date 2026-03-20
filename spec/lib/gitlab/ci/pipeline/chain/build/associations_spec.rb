@@ -230,22 +230,6 @@ RSpec.describe Gitlab::Ci::Pipeline::Chain::Build::Associations, feature_categor
     end
   end
 
-  # TODO: Remove with FF `ci_stop_writing_to_pipeline_variables` cleanup
-  it 'does not assign variables_attributes to the pipeline' do
-    step.perform!
-
-    expect(pipeline.association(:variables).target).to be_empty
-  end
-
-  context 'when ci_stop_writing_to_pipeline_variables FF is disabled' do
-    before do
-      stub_feature_flags(ci_stop_writing_to_pipeline_variables: false)
-    end
-
-    it_behaves_like 'assigns pipeline variables'
-    it_behaves_like 'does not break the chain'
-  end
-
   context 'when PipelineVariablesArtifactBuilder raises ActiveModel::ValidationError' do
     let(:variables_attributes) { [{ key: 'invalid-key!', value: 'some-value' }] }
 

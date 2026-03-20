@@ -10,12 +10,6 @@ module Authz
       def config_path
         Rails.root.join(BASE_PATH, '**/[_a-z]?*.yml')
       end
-
-      private
-
-      def ignore_files
-        ['_metadata.yml']
-      end
     end
   end
 end

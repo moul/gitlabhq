@@ -47,7 +47,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
       File.open(exclusion_file.path, "w+b") { |f| f.write exclusion_list_data }
       stub_const('Tasks::Gitlab::Permissions::ValidateTask::PERMISSION_TODO_FILE', exclusion_file.path)
 
-      # Stubs to make _metadata.yml file validation pass
+      # Stubs to make .metadata.yml file validation pass
       allow(Authz::Resource).to receive(:get).and_return(instance_double(Authz::Resource, definition: {}))
       allow(JSONSchemer).to receive(:schema).and_call_original
       allow(JSONSchemer).to receive(:schema)
@@ -281,7 +281,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
           expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
             #######################################################################
             #
-            #  The following permission resource directories are missing a _metadata.yml file.
+            #  The following permission resource directories are missing a .metadata.yml file.
             #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#resource-metadata-fields
             #
             #    - config/authz/permissions/**/permission/
@@ -321,7 +321,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
     end
 
     describe 'empty resource directory validation' do
-      context 'when a resource directory contains only _metadata.yml' do
+      context 'when a resource directory contains only .metadata.yml' do
         before do
           allow(Dir).to receive(:glob).and_call_original
           allow(Dir).to receive(:glob)
@@ -329,14 +329,14 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
             .and_return(['config/authz/permissions/empty_resource/'])
           allow(Dir).to receive(:glob)
             .with('config/authz/permissions/empty_resource/*.yml')
-            .and_return(['config/authz/permissions/empty_resource/_metadata.yml'])
+            .and_return(['config/authz/permissions/empty_resource/.metadata.yml'])
         end
 
         it 'returns an error' do
           expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
             #######################################################################
             #
-            #  The following resource directories contain only a _metadata.yml file with no permission definitions.
+            #  The following resource directories contain only a .metadata.yml file with no permission definitions.
             #  Either add permission definitions or remove the directory.
             #  Learn more: http://localhost/help/development/permissions/granular_access/permission_definitions.md#permission-naming-and-validation
             #
@@ -347,7 +347,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
         end
       end
 
-      context 'when a resource directory contains _metadata.yml and permission files' do
+      context 'when a resource directory contains .metadata.yml and permission files' do
         before do
           allow(Dir).to receive(:glob).and_call_original
           allow(Dir).to receive(:glob)
@@ -356,7 +356,7 @@ RSpec.describe Tasks::Gitlab::Permissions::ValidateTask, feature_category: :perm
           allow(Dir).to receive(:glob)
             .with('config/authz/permissions/valid_resource/*.yml')
             .and_return([
-              'config/authz/permissions/valid_resource/_metadata.yml',
+              'config/authz/permissions/valid_resource/.metadata.yml',
               'config/authz/permissions/valid_resource/read.yml'
             ])
         end

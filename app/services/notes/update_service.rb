@@ -79,7 +79,7 @@ module Notes
     attr_accessor :old_note_body
 
     def updated_by_user
-      @_updated_by_user ||= Gitlab::Auth::Identity.invert_composite_identity(current_user)
+      @_updated_by_user ||= Gitlab::Auth::Identity.resolve_composite_identity_actor(current_user)
     end
 
     def update_note(note, only_commands)

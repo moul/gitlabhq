@@ -452,6 +452,9 @@ You can configure these permissions through the API only. Use this feature for:
 - Automated governance: Enable scripts to create admin-only protections that development teams
   cannot override.
 
+For information about valid access levels and constraints for unprotect permissions, see
+[valid access levels](../../../../api/protected_branches.md#valid-access-levels).
+
 #### Unprotect permissions
 
 The following table shows who can unprotect a branch based on your configuration:

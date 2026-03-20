@@ -16,7 +16,7 @@ Migrate to GitLab from third-party systems.
 - [From FogBugz](../../project/import/fogbugz.md)
 - [Through a manifest file](../../project/import/manifest.md)
 - [Through a Git URL](../../project/import/repo_by_url.md)
-- [From ClearCase](../../project/import/clearcase.md)
+- [From ClearCase](clearcase.md)
 - [From CVS](../../project/import/cvs.md)
 - [From Perforce Helix](../../project/import/perforce.md)
 - [From TFVC](../../project/import/tfvc.md)

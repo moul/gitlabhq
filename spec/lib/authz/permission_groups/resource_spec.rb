@@ -5,7 +5,7 @@ require 'fast_spec_helper'
 RSpec.describe Authz::PermissionGroups::Resource, feature_category: :permissions do
   describe '.config_path' do
     it 'returns the glob pattern for metadata files' do
-      expect(described_class.config_path).to include('**/_metadata.yml')
+      expect(described_class.config_path).to include('**/.metadata.yml')
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe Authz::PermissionGroups::Resource, feature_category: :permissions
 
   describe 'instance methods' do
     let(:definition) { { description: 'Test resource' } }
-    let(:file_path) { "config/authz/permission_groups/assignable_permissions/ci_cd/pipeline/_metadata.yml" }
+    let(:file_path) { "config/authz/permission_groups/assignable_permissions/ci_cd/pipeline/.metadata.yml" }
 
     subject(:resource) { described_class.new(definition, file_path) }
 
@@ -53,7 +53,7 @@ RSpec.describe Authz::PermissionGroups::Resource, feature_category: :permissions
       end
 
       context 'with a different file path' do
-        let(:file_path) { "config/authz/permission_groups/assignable_permissions/ci_cd/job/_metadata.yml" }
+        let(:file_path) { "config/authz/permission_groups/assignable_permissions/ci_cd/job/.metadata.yml" }
 
         it 'returns the correct directory name' do
           expect(resource.name).to eq('job')
@@ -79,7 +79,7 @@ RSpec.describe Authz::PermissionGroups::Resource, feature_category: :permissions
       end
 
       context 'with multi-word directory name' do
-        let(:file_path) { "config/authz/permission_groups/assignable_permissions/ci_cd/merge_request/_metadata.yml" }
+        let(:file_path) { "config/authz/permission_groups/assignable_permissions/ci_cd/merge_request/.metadata.yml" }
         let(:definition) { { description: 'Test resource' } }
 
         it 'returns the titlecased directory name' do
