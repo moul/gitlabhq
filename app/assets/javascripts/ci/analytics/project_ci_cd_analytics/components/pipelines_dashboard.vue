@@ -17,7 +17,7 @@ import {
   LOAD_ANALYTICS_FAILURE,
   LOAD_PIPELINES_FAILURE,
   UNSUPPORTED_DATA,
-} from '../constants';
+} from '../../constants';
 import getPipelineCountByStatus from '../graphql/queries/get_pipeline_count_by_status.query.graphql';
 import getProjectPipelineStatistics from '../graphql/queries/get_project_pipeline_statistics.query.graphql';
 import DashboardHeader from './dashboard_header.vue';

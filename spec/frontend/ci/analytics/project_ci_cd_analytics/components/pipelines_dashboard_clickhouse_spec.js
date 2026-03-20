@@ -12,7 +12,7 @@ import {
   DATE_RANGE_DEFAULT,
   DATE_RANGE_30_DAYS,
   DATE_RANGE_180_DAYS,
-} from '~/ci/analytics/project_ci_cd_analytics/constants';
+} from '~/ci/analytics/constants';
 import PipelinesDashboardClickhouseFilters from '~/ci/analytics/project_ci_cd_analytics/components/pipelines_dashboard_clickhouse_filters.vue';
 import PipelinesStats from '~/ci/analytics/project_ci_cd_analytics/components/pipelines_stats.vue';
 import PipelineDurationChart from '~/ci/analytics/project_ci_cd_analytics/components/pipeline_duration_chart.vue';

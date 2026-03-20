@@ -74,6 +74,7 @@ title: Database development guidelines
 - [Creating enums](creating_enums.md)
 - [Data layout and access patterns](layout_and_access_patterns.md)
 - [Efficient `IN` operator queries](efficient_in_operator_queries.md)
+- [Fixed items models](../fixed_items_model.md)
 - [Foreign keys & associations](foreign_keys.md)
 - [Hash indexes](hash_indexes.md)
 - [Insert into tables in batches](insert_into_tables_in_batches.md)

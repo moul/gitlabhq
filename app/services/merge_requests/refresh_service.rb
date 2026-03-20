@@ -285,8 +285,7 @@ module MergeRequests
           # Since any number of commits could have been made to the restored branch,
           # find the common root to see what has been added.
           common_ref = @project.repository.merge_base(merge_request.diff_head_sha, @push.newrev)
-          # If the a commit no longer exists in this repo, gitlab_git throws
-          # a Rugged::OdbError. This is fixed in https://gitlab.com/gitlab-org/gitlab_git/merge_requests/52
+          # If a commit no longer exists in this repo, the call may raise an error.
           @commits = @project.repository.commits_between(common_ref, @push.newrev) if common_ref
         rescue StandardError
         end

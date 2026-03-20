@@ -1259,6 +1259,8 @@
   - 1
 - - vulnerabilities_auto_dismiss
   - 1
+- - vulnerabilities_auto_severity_override
+  - 1
 - - vulnerabilities_consistency_check
   - 1
 - - vulnerabilities_mark_dropped_as_resolved

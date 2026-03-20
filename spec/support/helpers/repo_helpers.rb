@@ -13,7 +13,7 @@ module RepoHelpers
   #   blob.path # => 'files/js/commit.js.coffee'
   #   blob.data # => 'class Commit...'
   #
-  # Build the options hash that's passed to Rugged::Commit#create
+  # Build the options hash for a sample commit
 
   def sample_blob
     OpenStruct.new(

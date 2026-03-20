@@ -3,7 +3,7 @@ import {
   formatPipelineCountPercentage,
   formatPipelineDuration,
   formatPipelineDurationForAxis,
-} from '~/ci/analytics/project_ci_cd_analytics/format_utils';
+} from '~/ci/analytics/utils';
 
 const largeNumber = '12345678901234567890'; // Larger than MAX_SAFE_INTEGER
 

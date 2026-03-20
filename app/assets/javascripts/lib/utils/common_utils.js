@@ -3,7 +3,7 @@
  */
 
 import $ from 'jquery';
-import { escape, isFunction, partial, toLower } from 'lodash';
+import { escape, isFunction, partial, toLower } from 'lodash-es';
 import { PanelBreakpointInstance } from '~/panel_breakpoint_instance';
 import Cookies from '~/lib/utils/cookies';
 import { SCOPED_LABEL_DELIMITER } from '~/sidebar/components/labels/labels_select_widget/constants';

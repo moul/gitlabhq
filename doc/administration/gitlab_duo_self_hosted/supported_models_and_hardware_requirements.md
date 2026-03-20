@@ -82,7 +82,7 @@ depending on the specific model and feature combination.
 
 {{< /history >}}
 
-You can use your own compatible models and platform with GitLab Duo features. For compatible models not included in supported model families, use the general model family.
+You can use your own compatible models and platform with GitLab Duo features. For compatible models not included in supported model families, use the general model family. This includes models that you host yourself (for example, served through vLLM or LiteLLM), with the requirement that they are exposed through an OpenAI API–compatible `/v1` endpoint.
 
 Compatible models are excluded from the definition of Customer Integrated Models in the [AI Functionality Terms](https://handbook.gitlab.com/handbook/legal/ai-functionality-terms/). Compatible models and platforms must adhere to the OpenAI API specification. Models and platforms that have
 previously been marked as experimental or beta are now considered compatible models.

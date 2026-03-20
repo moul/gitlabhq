@@ -1,6 +1,7 @@
 import { engineeringNotation } from '@gitlab/ui/src/utils/number_utils';
 import { SUPPORTED_FORMATS, getFormatter } from '~/lib/utils/unit_format';
 import { stringifyTime, parseSeconds } from '~/lib/utils/datetime/date_format_utility';
+import { getDateInPast } from '~/lib/utils/datetime/date_calculation_utility';
 
 export const calculatePipelineCountPercentage = (a, b) => {
   try {
@@ -17,6 +18,16 @@ export const calculatePipelineCountPercentage = (a, b) => {
     // return below
   }
   return undefined;
+};
+
+export const calculateDatesFromRelativeDays = (days) => {
+  // Use UTC time and take beginning of day
+  const today = new Date(new Date().setUTCHours(0, 0, 0, 0));
+
+  return {
+    fromTime: getDateInPast(today, days),
+    toTime: today,
+  };
 };
 
 export const formatPipelineCountPercentage = (a, b) => {

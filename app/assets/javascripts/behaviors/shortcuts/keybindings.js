@@ -1,4 +1,4 @@
-import { memoize } from 'lodash';
+import { memoize } from 'lodash-es';
 import AccessorUtilities from '~/lib/utils/accessor';
 import { __, s__ } from '~/locale';
 

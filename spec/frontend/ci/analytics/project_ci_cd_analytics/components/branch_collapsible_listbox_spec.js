@@ -6,7 +6,7 @@ import createMockApollo from 'helpers/mock_apollo_helper';
 import waitForPromises from 'helpers/wait_for_promises';
 import BranchCollapsibleListbox from '~/ci/analytics/project_ci_cd_analytics/components/branch_collapsible_listbox.vue';
 import getBranchesOptionsQuery from '~/ci/analytics/project_ci_cd_analytics/graphql/queries/get_branches_options.query.graphql';
-import { BRANCH_ANY } from '~/ci/analytics/project_ci_cd_analytics/constants';
+import { BRANCH_ANY } from '~/ci/analytics/constants';
 import { createAlert } from '~/alert';
 
 jest.mock('~/alert');

@@ -41,7 +41,6 @@ module Types
 end
 ```
 
-- You MUST take care of authorization and proper base scope or define elevated permission requirements for the GraphQL field.
 - Note: ALL filters, metrics & dimensions are exposed automatically.
 
 ### Mounter Options
@@ -51,6 +50,27 @@ end
 | `field_name` | String/Symbol | The GraphQL field name. Defaults to `:aggregation` |
 | `types_prefix` | String/Symbol | Prefix for all child types like `*AggregationResponse`. Defaults to `field_name` |
 | `description` | String | Description for the GraphQL field |
+| `authorize` | Symbol | Permission required to access the field (e.g. `:read_project`). Passed directly to the GraphQL field definition |
+
+### Authorization
+
+Use the `authorize` option to restrict access to the field:
+
+```ruby
+mount_aggregation_engine(
+  IssueAggregationEngine,
+  field_name: 'issue_analytics',
+  description: 'Issue analytics aggregation',
+  authorize: :read_project
+) do
+  # authorize :read_project - this also supported.
+  def aggregation_scope
+    object.issues
+  end
+end
+```
+
+If `authorize` is not specified, you MUST take care of authorization manually.
 
 ## Example GraphQL Query for generated GraphQL subtree
 

@@ -130,7 +130,7 @@ Group permission for [analytics](analytics/_index.md) features including value s
 | View [insights](project/insights/_index.md) charts                 |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
 | View [issue analytics](group/issues_analytics/_index.md)           |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
 | View contribution analytics                                        |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
-| View value stream analytics                                        |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
+| View value stream analytics                                        |       |         |    ✓     |     ✓     |     ✓      |   ✓   |
 | View [productivity analytics](analytics/productivity_analytics.md) |       |         |    ✓     |     ✓     |     ✓      |   ✓   |
 | View [group DevOps adoption](group/devops_adoption/_index.md)      |       |         |    ✓     |     ✓     |     ✓      |   ✓   |
 | View metrics dashboard annotations                                 |       |         |    ✓     |     ✓     |     ✓      |   ✓   |
@@ -396,7 +396,7 @@ Project permissions for [analytics](analytics/_index.md) features including valu
 | Action                                                                                     | Guest | Planner | Reporter | Developer | Maintainer | Owner |
 | ------------------------------------------------------------------------------------------ | :---: | :-----: | :------: | :-------: | :--------: | :---: |
 | View [issue analytics](group/issues_analytics/_index.md)                                   |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
-| View [value stream analytics](group/value_stream_analytics/_index.md)                      |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
+| View [value stream analytics](group/value_stream_analytics/_index.md)                      |       |         |    ✓     |     ✓     |     ✓      |   ✓   |
 | View [CI/CD analytics](analytics/ci_cd_analytics.md)                                       |       |         |    ✓     |     ✓     |     ✓      |   ✓   |
 | View [code review analytics](analytics/code_review_analytics.md)                           |       |         |    ✓     |     ✓     |     ✓      |   ✓   |
 | View [DORA metrics](analytics/ci_cd_analytics.md)                                          |       |         |    ✓     |     ✓     |     ✓      |   ✓   |

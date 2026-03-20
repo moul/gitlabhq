@@ -3,7 +3,7 @@ import { GlLoadingIcon } from '@gitlab/ui';
 import { GlLineChart } from '@gitlab/ui/src/charts';
 import { s__ } from '~/locale';
 import { localeDateFormat } from '~/lib/utils/datetime/locale_dateformat';
-import { formatPipelineDuration, formatPipelineDurationForAxis } from '../format_utils';
+import { formatPipelineDuration, formatPipelineDurationForAxis } from '../../utils';
 
 export default {
   name: 'PipelineDurationChart',

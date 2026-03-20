@@ -1199,7 +1199,13 @@ class MergeRequest < ApplicationRecord
   end
 
   def changed_paths
-    project.repository.find_changed_paths(commits, merge_commit_diff_mode: :all_parents)
+    shas_for_changed_paths = if Feature.enabled?(:optimised_commits_for_mr_changed_paths, project)
+                               commit_shas
+                             else
+                               commits
+                             end
+
+    project.repository.find_changed_paths(shas_for_changed_paths, merge_commit_diff_mode: :all_parents)
   end
   request_cache(:changed_paths) { [id, diff_head_sha] }
 

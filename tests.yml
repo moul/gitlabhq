@@ -394,6 +394,8 @@ mapping:
       - 'ee/app/models/onboarding/user_status\.rb'
     test:
       - 'ee/spec/features/registrations/saas/*_spec.rb'
+      - 'ee/spec/requests/ee/registrations_controller_spec.rb'
+      - 'ee/spec/requests/trial_registrations_controller_spec.rb'
       - ee/spec/features/registrations/email_opt_in_registration_spec.rb
       - ee/spec/features/registrations/one_trust_spec.rb
 

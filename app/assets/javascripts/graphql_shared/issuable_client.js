@@ -1,6 +1,6 @@
 import produce from 'immer';
 import VueApollo from 'vue-apollo';
-import { unionBy } from 'lodash';
+import { unionBy } from 'lodash-es';
 import { concatPagination } from '@apollo/client/utilities';
 import { makeVar } from '@apollo/client/core';
 import errorQuery from '~/boards/graphql/client/error.query.graphql';

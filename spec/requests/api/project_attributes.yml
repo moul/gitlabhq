@@ -210,7 +210,7 @@ project_setting:
     - duo_sast_vr_workflow_enabled
     - duo_secret_detection_fp_enabled
     - enabled_foundational_flows
-    - code_owner_reviewer_assignment_strategy
+    - reviewer_assignment_strategy
     - merge_request_title_regex
     - merge_request_title_regex_description
 build_service_desk_setting: # service_desk_setting

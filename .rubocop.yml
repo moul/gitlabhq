@@ -1186,6 +1186,11 @@ Gitlab/RailsLogger:
     - 'spec/**/*.rb'
     - 'ee/spec/**/*.rb'
 
+Gitlab/DirectStdio:
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'ee/spec/**/*.rb'
+
 Gitlab/AvoidRailsCacheDeleteMatched:
   Enabled: true
   Exclude:

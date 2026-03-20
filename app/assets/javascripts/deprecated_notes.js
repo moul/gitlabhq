@@ -13,7 +13,7 @@ deprecated_notes_spec.js is the spec for the legacy, jQuery notes application. I
 import { GlSkeletonLoader } from '@gitlab/ui';
 import Autosize from 'autosize';
 import $ from 'jquery';
-import { escape, uniqueId } from 'lodash';
+import { escape, uniqueId } from 'lodash-es';
 import Vue from 'vue';
 import { renderGFM } from '~/behaviors/markdown/render_gfm';
 import { createAlert, VARIANT_INFO } from '~/alert';

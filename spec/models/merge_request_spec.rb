@@ -2530,17 +2530,17 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
   end
 
   describe '#changed_paths' do
-    let(:commits) { [double(:commit)] }
+    let(:shas) { ['ade1c0b4b116209ed2a9958436b26f89085ec383'] }
     let(:changed_paths) { [double(:changed_path, path: 'path.rb')] }
     let(:merge_request) { build(:merge_request, id: 1, project: project) }
 
     before do
-      allow(merge_request).to receive(:commits).and_return(commits)
+      allow(merge_request).to receive(:commit_shas).and_return(shas)
     end
 
-    it 'fetches the changed paths from gitaly' do
+    it 'fetches the changed paths from gitaly using commit SHAs' do
       expect(project.repository)
-        .to receive(:find_changed_paths).with(commits, merge_commit_diff_mode: :all_parents)
+        .to receive(:find_changed_paths).with(shas, merge_commit_diff_mode: :all_parents)
         .once.and_return(changed_paths)
       expect(merge_request.changed_paths).to eq(changed_paths)
     end
@@ -2566,6 +2566,22 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
       allow(merge_request).to receive(:diff_head_sha).and_return('new_sha')
 
       2.times { merge_request.changed_paths }
+    end
+
+    context 'when FF optimised_commits_for_mr_changed_paths is disabled' do
+      let(:commits) { [double(:commit)] }
+
+      before do
+        stub_feature_flags(optimised_commits_for_mr_changed_paths: false)
+        allow(merge_request).to receive(:commits).and_return(commits)
+      end
+
+      it 'fetches the changed paths from gitaly' do
+        expect(project.repository)
+          .to receive(:find_changed_paths).with(commits, merge_commit_diff_mode: :all_parents)
+                                          .once.and_return(changed_paths)
+        expect(merge_request.changed_paths).to eq(changed_paths)
+      end
     end
   end
 

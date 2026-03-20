@@ -80,6 +80,7 @@ describe('Viewed Adapter', () => {
     createTestingPinia({ stubActions: false });
     localStorage.clear();
     document.head.innerHTML = '';
+    document.elementFromPoint = jest.fn().mockReturnValue(null);
   });
 
   afterEach(() => {

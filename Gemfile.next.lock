@@ -2488,7 +2488,6 @@ DEPENDENCIES
   ruby-progressbar (~> 1.10)
   ruby-saml (~> 1.18)
   rubyzip (~> 2.4.0)
-  rugged (~> 1.9)
   sanitize (~> 6.0.2)
   sd_notify (~> 0.1.0)
   seed-fu (~> 2.3.7)

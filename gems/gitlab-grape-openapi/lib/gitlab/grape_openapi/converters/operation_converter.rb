@@ -59,14 +59,41 @@ module Gitlab
         end
 
         def extract_parameters
-          return [] if options[:params].empty?
+          params = if options[:params].empty?
+                     []
+                   else
+                     options[:params].filter_map do |key, options|
+                       Converters::ParameterConverter.convert(
+                         key,
+                         options: options,
+                         validations: validations_for(key.to_sym),
+                         route: route
+                       )
+                     end
+                   end
 
-          # For non-GET requests, only path parameters are included here
-          # Body parameters are handled separately in extract_request_body
-          options[:params].filter_map do |key, options|
-            Converters::ParameterConverter.convert(key, options: options, validations: validations_for(key.to_sym),
-              route: route)
+          inject_missing_path_parameters(params)
+        end
+
+        def inject_missing_path_parameters(params)
+          declared_names = params.map(&:name).to_set
+
+          path_placeholders = normalized_path.scan(/\{(\w+)\}/).flatten
+          path_placeholders.each do |placeholder|
+            next if declared_names.include?(placeholder)
+
+            # Empty schema because the Grape endpoint did not declare this param,
+            # so we have no type information. An empty schema is valid OpenAPI 3.0
+            # and means "any type", which is more accurate than guessing.
+            params << Models::Parameter.new(
+              placeholder,
+              options: { required: true },
+              schema: {},
+              in_value: 'path'
+            )
           end
+
+          params
         end
 
         def operation_id

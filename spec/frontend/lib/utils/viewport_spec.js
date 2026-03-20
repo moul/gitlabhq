@@ -1,5 +1,10 @@
 import { useMockIntersectionObserver } from 'helpers/mock_dom_observer';
-import { observeIntersectionOnce, getCoveringElement } from '~/lib/utils/viewport';
+import {
+  observeIntersectionOnce,
+  findCoveringElementAtPoint,
+  getCoveringElementSync,
+  getCoveringElement,
+} from '~/lib/utils/viewport';
 
 describe('Viewport utils', () => {
   const { trigger: triggerIntersection } = useMockIntersectionObserver();
@@ -21,7 +26,118 @@ describe('Viewport utils', () => {
     });
   });
 
-  describe('getCoveringElement', () => {
+  describe('findCoveringElementAtPoint', () => {
+    let element;
+
+    const mockElementFromPoint = (value) => {
+      Object.defineProperty(document, 'elementFromPoint', {
+        writable: true,
+        value: jest.fn(() => value),
+      });
+    };
+
+    beforeEach(() => {
+      element = document.createElement('div');
+      document.body.appendChild(element);
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = '';
+    });
+
+    it('returns null when no element covers the target', () => {
+      mockElementFromPoint(null);
+      expect(findCoveringElementAtPoint(element, 50, 100)).toBeNull();
+    });
+
+    it('returns null when element at point is the target itself', () => {
+      mockElementFromPoint(element);
+      expect(findCoveringElementAtPoint(element, 50, 100)).toBeNull();
+    });
+
+    it('returns null when element at point is a child of the target', () => {
+      const child = document.createElement('span');
+      element.appendChild(child);
+      mockElementFromPoint(child);
+      expect(findCoveringElementAtPoint(element, 50, 100)).toBeNull();
+    });
+
+    it('returns sticky element when it covers the target', () => {
+      const stickyElement = document.createElement('div');
+      document.body.appendChild(stickyElement);
+      mockElementFromPoint(stickyElement);
+      jest.spyOn(window, 'getComputedStyle').mockReturnValue({ position: 'sticky' });
+
+      expect(findCoveringElementAtPoint(element, 50, 100)).toBe(stickyElement);
+    });
+
+    it('returns fixed element when it covers the target', () => {
+      const fixedElement = document.createElement('div');
+      document.body.appendChild(fixedElement);
+      mockElementFromPoint(fixedElement);
+      jest.spyOn(window, 'getComputedStyle').mockReturnValue({ position: 'fixed' });
+
+      expect(findCoveringElementAtPoint(element, 50, 100)).toBe(fixedElement);
+    });
+
+    it('traverses up to find sticky ancestor', () => {
+      const stickyParent = document.createElement('div');
+      const coveringChild = document.createElement('div');
+      stickyParent.appendChild(coveringChild);
+      document.body.appendChild(stickyParent);
+
+      Object.defineProperty(coveringChild, 'offsetParent', { value: stickyParent });
+
+      mockElementFromPoint(coveringChild);
+      jest.spyOn(window, 'getComputedStyle').mockImplementation((el) => ({
+        position: el === stickyParent ? 'sticky' : 'static',
+      }));
+
+      expect(findCoveringElementAtPoint(element, 50, 100)).toBe(stickyParent);
+    });
+
+    it('returns null when no sticky or fixed ancestor is found', () => {
+      const regularElement = document.createElement('div');
+      document.body.appendChild(regularElement);
+
+      Object.defineProperty(regularElement, 'offsetParent', { value: document.body });
+
+      mockElementFromPoint(regularElement);
+      jest.spyOn(window, 'getComputedStyle').mockReturnValue({ position: 'static' });
+
+      expect(findCoveringElementAtPoint(element, 50, 100)).toBeNull();
+    });
+
+    it('shifts y coordinate by 1px to avoid border', () => {
+      mockElementFromPoint(null);
+      findCoveringElementAtPoint(element, 50, 100);
+      expect(document.elementFromPoint).toHaveBeenCalledWith(50, 101);
+    });
+  });
+
+  describe('getCoveringElementSync', () => {
+    it('returns synchronously', () => {
+      const element = document.createElement('div');
+      document.body.appendChild(element);
+      jest.spyOn(element, 'getBoundingClientRect').mockReturnValue({ top: 100, left: 50 });
+      Object.defineProperty(document, 'elementFromPoint', {
+        writable: true,
+        value: jest.fn(() => null),
+      });
+
+      const result = getCoveringElementSync(element);
+
+      expect(result).toBeNull();
+      expect(result).not.toBeInstanceOf(Promise);
+      document.body.innerHTML = '';
+    });
+  });
+
+  describe.each`
+    name                        | getCovering
+    ${'getCoveringElementSync'} | ${getCoveringElementSync}
+    ${'getCoveringElement'}     | ${getCoveringElement}
+  `('$name', ({ getCovering }) => {
     let element;
 
     const triggerWithRect = (top = 100, left = 50) => {
@@ -40,6 +156,7 @@ describe('Viewport utils', () => {
     beforeEach(() => {
       element = document.createElement('div');
       document.body.appendChild(element);
+      jest.spyOn(element, 'getBoundingClientRect').mockReturnValue({ top: 100, left: 50 });
     });
 
     afterEach(() => {
@@ -49,7 +166,7 @@ describe('Viewport utils', () => {
     it('returns null when no element covers the target', async () => {
       mockElementFromPoint(null);
 
-      const promise = getCoveringElement(element);
+      const promise = getCovering(element);
       triggerWithRect();
 
       expect(await promise).toBeNull();
@@ -58,18 +175,7 @@ describe('Viewport utils', () => {
     it('returns null when element at point is the target itself', async () => {
       mockElementFromPoint(element);
 
-      const promise = getCoveringElement(element);
-      triggerWithRect();
-
-      expect(await promise).toBeNull();
-    });
-
-    it('returns null when element at point is a child of the target', async () => {
-      const child = document.createElement('span');
-      element.appendChild(child);
-      mockElementFromPoint(child);
-
-      const promise = getCoveringElement(element);
+      const promise = getCovering(element);
       triggerWithRect();
 
       expect(await promise).toBeNull();
@@ -81,41 +187,10 @@ describe('Viewport utils', () => {
       mockElementFromPoint(stickyElement);
       jest.spyOn(window, 'getComputedStyle').mockReturnValue({ position: 'sticky' });
 
-      const promise = getCoveringElement(element);
+      const promise = getCovering(element);
       triggerWithRect();
 
       expect(await promise).toBe(stickyElement);
-    });
-
-    it('returns fixed element when it covers the target', async () => {
-      const fixedElement = document.createElement('div');
-      document.body.appendChild(fixedElement);
-      mockElementFromPoint(fixedElement);
-      jest.spyOn(window, 'getComputedStyle').mockReturnValue({ position: 'fixed' });
-
-      const promise = getCoveringElement(element);
-      triggerWithRect();
-
-      expect(await promise).toBe(fixedElement);
-    });
-
-    it('traverses up to find sticky ancestor', async () => {
-      const stickyParent = document.createElement('div');
-      const coveringChild = document.createElement('div');
-      stickyParent.appendChild(coveringChild);
-      document.body.appendChild(stickyParent);
-
-      Object.defineProperty(coveringChild, 'offsetParent', { value: stickyParent });
-
-      mockElementFromPoint(coveringChild);
-      jest.spyOn(window, 'getComputedStyle').mockImplementation((el) => ({
-        position: el === stickyParent ? 'sticky' : 'static',
-      }));
-
-      const promise = getCoveringElement(element);
-      triggerWithRect();
-
-      expect(await promise).toBe(stickyParent);
     });
 
     it('returns null when no sticky or fixed ancestor is found', async () => {
@@ -127,10 +202,10 @@ describe('Viewport utils', () => {
       mockElementFromPoint(regularElement);
       jest.spyOn(window, 'getComputedStyle').mockReturnValue({ position: 'static' });
 
-      const promise = getCoveringElement(element);
+      const promise = getCovering(element);
       triggerWithRect();
 
-      expect(await promise).toBe(null);
+      expect(await promise).toBeNull();
     });
   });
 });

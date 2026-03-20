@@ -2,11 +2,6 @@
 import { GlCollapsibleListbox, GlFormGroup } from '@gitlab/ui';
 import { s__ } from '~/locale';
 import {
-  DATE_RANGE_7_DAYS,
-  DATE_RANGE_30_DAYS,
-  DATE_RANGE_90_DAYS,
-  DATE_RANGE_180_DAYS,
-  DATE_RANGE_DEFAULT,
   SOURCE_PUSH,
   SOURCE_SCHEDULE,
   SOURCE_MERGE_REQUEST_EVENT,
@@ -26,8 +21,9 @@ import {
   SOURCE_DUO_WORKFLOW,
   SOURCE_PIPELINE_EXECUTION_POLICY_SCHEDULE,
   SOURCE_UNKNOWN,
-} from '../constants';
+} from '../../constants';
 
+import DateRangeFilter from '../../components/date_range_filter.vue';
 import BranchCollapsibleListbox from './branch_collapsible_listbox.vue';
 
 const sourcesItems = [
@@ -65,19 +61,13 @@ const sourcesItems = [
   { value: SOURCE_UNKNOWN, text: s__('PipelineSource|Unknown') },
 ];
 
-const dateRangeItems = [
-  { value: DATE_RANGE_7_DAYS, text: s__('PipelineCharts|Last week') },
-  { value: DATE_RANGE_30_DAYS, text: s__('PipelineCharts|Last 30 days') },
-  { value: DATE_RANGE_90_DAYS, text: s__('PipelineCharts|Last 90 days') },
-  { value: DATE_RANGE_180_DAYS, text: s__('PipelineCharts|Last 180 days') },
-];
-
 export default {
   name: 'PipelinesDashboardClickhouseFilters',
   components: {
     GlCollapsibleListbox,
     GlFormGroup,
     BranchCollapsibleListbox,
+    DateRangeFilter,
   },
   props: {
     value: {
@@ -114,11 +104,10 @@ export default {
         const { source, branch, dateRange } = this.value || {};
 
         const isValidSource = sourcesItems.map((s) => s.value).includes(source);
-        const isValidDateRange = dateRangeItems.map((d) => d.value).includes(dateRange);
 
         this.source = isValidSource ? source : null;
         this.branch = branch || null;
-        this.dateRange = isValidDateRange ? dateRange : DATE_RANGE_DEFAULT;
+        this.dateRange = dateRange || null;
       },
       immediate: true,
     },
@@ -135,7 +124,6 @@ export default {
     },
   },
   sourcesItems,
-  dateRangeItems,
 };
 </script>
 <template>
@@ -168,18 +156,11 @@ export default {
         @select="onSelect('branch', $event)"
       />
     </gl-form-group>
-    <gl-form-group
-      class="gl-min-w-full @sm/panel:gl-min-w-15"
-      :label="__('Date range')"
-      label-for="date-range"
-    >
-      <gl-collapsible-listbox
-        id="date-range"
-        :selected="dateRange"
-        block
-        :items="$options.dateRangeItems"
-        @select="onSelect('dateRange', $event)"
-      />
-    </gl-form-group>
+    <date-range-filter
+      id="date-range-filter"
+      block
+      :selected="dateRange"
+      @select="onSelect('dateRange', $event)"
+    />
   </div>
 </template>

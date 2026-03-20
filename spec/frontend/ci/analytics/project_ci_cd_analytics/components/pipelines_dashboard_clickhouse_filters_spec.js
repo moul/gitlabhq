@@ -3,6 +3,7 @@ import { shallowMount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import PipelinesDashboardClickhouseFilters from '~/ci/analytics/project_ci_cd_analytics/components/pipelines_dashboard_clickhouse_filters.vue';
 import BranchCollapsibleListbox from '~/ci/analytics/project_ci_cd_analytics/components/branch_collapsible_listbox.vue';
+import DateRangeFilter from '~/ci/analytics/components/date_range_filter.vue';
 
 jest.mock('~/alert');
 
@@ -16,6 +17,7 @@ describe('PipelinesDashboardClickhouseFilters', () => {
   const findCollapsibleListbox = (id) =>
     wrapper.findAllComponents(GlCollapsibleListbox).wrappers.find((w) => w.attributes('id') === id);
   const findBranchCollapsibleListbox = () => wrapper.findComponent(BranchCollapsibleListbox);
+  const findDateRangeFilter = () => wrapper.findComponent(DateRangeFilter);
 
   const createComponent = ({ props, mountFn = shallowMount } = {}) => {
     wrapper = mountFn(PipelinesDashboardClickhouseFilters, {
@@ -38,7 +40,7 @@ describe('PipelinesDashboardClickhouseFilters', () => {
     it('sets values, and does not emit @input', () => {
       expect(findCollapsibleListbox('pipeline-source').props('selected')).toBe('PUSH');
       expect(findBranchCollapsibleListbox().props('selected')).toBe('my-branch-0');
-      expect(findCollapsibleListbox('date-range').props('selected')).toBe('30d');
+      expect(findDateRangeFilter().props('selected')).toBe('30d');
 
       expect(wrapper.emitted('input')).toBeUndefined();
     });
@@ -49,7 +51,7 @@ describe('PipelinesDashboardClickhouseFilters', () => {
 
       expect(findCollapsibleListbox('pipeline-source').props('selected')).toBe('SCHEDULE');
       expect(findBranchCollapsibleListbox().props('selected')).toBe('my-branch-1');
-      expect(findCollapsibleListbox('date-range').props('selected')).toBe('180d');
+      expect(findDateRangeFilter().props('selected')).toBe('180d');
 
       expect(wrapper.emitted('input')).toBeUndefined();
     });
@@ -124,7 +126,7 @@ describe('PipelinesDashboardClickhouseFilters', () => {
 
       expect(wrapper.emitted('input')[0][0]).toEqual({
         branch: null,
-        dateRange: '7d',
+        dateRange: null,
         source: 'PUSH',
       });
     });
@@ -167,7 +169,7 @@ describe('PipelinesDashboardClickhouseFilters', () => {
 
       expect(wrapper.emitted('input')[0][0]).toEqual({
         branch: 'my-branch-1',
-        dateRange: '7d',
+        dateRange: null,
         source: null,
       });
     });
@@ -178,32 +180,20 @@ describe('PipelinesDashboardClickhouseFilters', () => {
       createComponent();
     });
 
-    it('shows options', () => {
-      const ranges = findCollapsibleListbox('date-range')
-        .props('items')
-        .map(({ text }) => text);
-
-      expect(ranges).toEqual(['Last week', 'Last 30 days', 'Last 90 days', 'Last 180 days']);
-    });
-
-    it('is "Last 7 days" by default', () => {
-      expect(findCollapsibleListbox('date-range').props('selected')).toBe('7d');
-    });
-
-    it('does not set invalid value as selected', () => {
+    it('sets selected value', () => {
       createComponent({
         props: {
           value: {
-            source: 'NOT_AN_OPTION',
+            dateRange: '180d',
           },
         },
       });
 
-      expect(findCollapsibleListbox('date-range').props('selected')).toBe('7d');
+      expect(findDateRangeFilter().props('selected')).toBe('180d');
     });
 
     it('emits when an option is selected', async () => {
-      findCollapsibleListbox('date-range').vm.$emit('select', '90d');
+      findDateRangeFilter().vm.$emit('select', '90d');
 
       await nextTick();
 

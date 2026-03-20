@@ -624,9 +624,6 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-# Prevent Rugged from picking up local developer gitconfig.
-Rugged::Settings['search_path_global'] = Rails.root.join('tmp/tests').to_s
-
 # Initialize FactoryDefault to use create_default helper
 TestProf::FactoryDefault.init
 

@@ -347,9 +347,8 @@ module Gitlab
         # the commit and not the full message. This is ok, since all the
         # code that uses `local_branches` only cares at most about the
         # commit message.
-        # TODO: Once gitaly "takes over" Rugged consider separating the
-        # subject from the message to make it clearer when there's one
-        # available but not the other.
+        # TODO: Consider separating the subject from the message to make it
+        # clearer when there's one available but not the other.
         hash = {
           id: response.commit_id,
           message: message,

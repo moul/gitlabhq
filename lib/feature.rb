@@ -152,6 +152,8 @@ module Feature
     def enable(key, thing = true)
       thing = sanitized_thing(thing)
 
+      check_feature_flags_definition_for_mutation!(key)
+
       log(key: key, action: __method__, thing: thing)
 
       return_value = with_feature(key) { _1.enable(thing) }
@@ -166,6 +168,8 @@ module Feature
 
     def disable(key, thing = false)
       thing = sanitized_thing(thing)
+
+      check_feature_flags_definition_for_mutation!(key)
 
       log(key: key, action: __method__, thing: thing)
 
@@ -420,6 +424,36 @@ module Feature
 
       validate_thing!(key, thing)
       Feature::Definition.valid_usage!(key, type: type)
+    end
+
+    # Validate if a feature flag YAML definition exists for the given key before allowing
+    # mutation operations (enable/disable).
+    #
+    # In development/test environment: raise InvalidFeatureFlagError.
+    # In production environment: log a warning instead to avoid
+    # breaking existing automation that may reference undefined flags.
+    def check_feature_flags_definition_for_mutation!(key)
+      return if Feature::Definition.has_definition?(key)
+
+      message = "Feature flag '#{key}' has no YAML definition."
+      suggestions = suggest_similar_flag_names(key)
+      message += "\nDid you mean: #{suggestions.first(3).join(', ')}?" if suggestions.any?
+
+      # Raise an exception in development and test environments to prevent undefined flags from being used.
+      raise InvalidFeatureFlagError, message if check_feature_flags_definition?
+
+      warn_message = "WARNING: #{message}"
+
+      # rubocop:disable Gitlab/RailsLogger -- warn when enabling/disabling undefined flags in production
+      Rails.logger.warn(warn_message)
+      # rubocop:enable Gitlab/RailsLogger
+    end
+
+    def suggest_similar_flag_names(key)
+      return [] unless defined?(DidYouMean::SpellChecker)
+
+      known_keys = Feature::Definition.definitions.keys.map(&:to_s)
+      DidYouMean::SpellChecker.new(dictionary: known_keys).correct(key.to_s)
     end
 
     def validate_thing!(key, thing)

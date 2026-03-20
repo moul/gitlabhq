@@ -349,7 +349,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::OperationConverter do
         end
       end
 
-      context 'with route having no params' do
+      context 'with route having no declared params and no path placeholders' do
         let(:route) do
           routes.find do |r|
             r.instance_variable_get(:@pattern).instance_variable_get(:@origin) == '/api/:version/users'
@@ -358,6 +358,45 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::OperationConverter do
 
         it 'returns empty array for parameters' do
           expect(operation.parameters).to eq([])
+        end
+      end
+
+      context 'with route having undeclared path placeholders' do
+        let(:route) do
+          routes.find do |r|
+            r.instance_variable_get(:@pattern).instance_variable_get(:@origin) ==
+              '/api/:version/projects/:project_id/users' &&
+              r.instance_variable_get(:@options)[:method] == 'GET'
+          end
+        end
+
+        it 'injects missing path parameters' do
+          expect(operation.parameters.size).to eq(1)
+          param = operation.parameters.first
+          expect(param.name).to eq('project_id')
+          expect(param.in_value).to eq('path')
+          expect(param.required).to be true
+          expect(param.schema).to eq({})
+        end
+      end
+
+      context 'with route having multiple undeclared path placeholders' do
+        let(:route) do
+          routes.find do |r|
+            r.instance_variable_get(:@pattern).instance_variable_get(:@origin) ==
+              '/api/:version/projects/:project_id/merge_requests/:merge_request_id/comments' &&
+              r.instance_variable_get(:@options)[:method] == 'GET'
+          end
+        end
+
+        it 'injects all missing path parameters' do
+          param_names = operation.parameters.map(&:name)
+          expect(param_names).to include('project_id', 'merge_request_id')
+
+          operation.parameters.each do |param|
+            expect(param.in_value).to eq('path')
+            expect(param.required).to be true
+          end
         end
       end
 

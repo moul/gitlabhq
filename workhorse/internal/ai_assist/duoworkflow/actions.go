@@ -97,36 +97,9 @@ func serveHTTPSafe(h http.Handler, w http.ResponseWriter, r *http.Request) (err 
 }
 
 func (a *runHTTPActionHandler) Execute(ctx context.Context) (*pb.ClientEvent, error) {
-	action := a.action.GetRunHTTPRequest()
-
-	var bodyBuffer bytes.Buffer
-	if action.Body != nil {
-		bodyBuffer.WriteString(*action.Body)
-	}
-
-	actionURL, err := url.Parse(action.Path)
+	req, err := a.buildRequest(ctx)
 	if err != nil {
 		return nil, err
-	}
-
-	reqURL := a.rails.URL.ResolveReference(actionURL).String()
-	req, err := http.NewRequestWithContext(ctx, action.Method, reqURL, &bodyBuffer)
-	if err != nil {
-		return nil, err
-	}
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %v", a.token))
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("User-Agent", "Agent-Flow-via-GitLab-Workhorse")
-
-	if clientIP, _, splitHostErr := net.SplitHostPort(a.originalReq.RemoteAddr); splitHostErr == nil {
-		// If we aren't the first proxy retain prior X-Forwarded-For information as a comma+space separated list and fold multiple headers into one.
-		var header string
-		if prior, ok := a.originalReq.Header["X-Forwarded-For"]; ok {
-			header = strings.Join(prior, ", ") + ", " + clientIP
-		} else {
-			header = clientIP
-		}
-		req.Header.Set("X-Forwarded-For", header)
 	}
 
 	logger := log.WithContextFields(a.originalReq.Context(), log.Fields{
@@ -179,4 +152,40 @@ func (a *runHTTPActionHandler) buildClientEvent(nrw *nullResponseWriter, err err
 	}
 
 	return ce
+}
+
+func (a *runHTTPActionHandler) buildRequest(ctx context.Context) (*http.Request, error) {
+	action := a.action.GetRunHTTPRequest()
+
+	var bodyBuffer bytes.Buffer
+	if action.Body != nil {
+		bodyBuffer.WriteString(*action.Body)
+	}
+
+	actionURL, err := url.Parse(action.Path)
+	if err != nil {
+		return nil, err
+	}
+
+	reqURL := a.rails.URL.ResolveReference(actionURL).String()
+	req, err := http.NewRequestWithContext(ctx, action.Method, reqURL, &bodyBuffer)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %v", a.token))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("User-Agent", "Agent-Flow-via-GitLab-Workhorse")
+
+	if clientIP, _, splitHostErr := net.SplitHostPort(a.originalReq.RemoteAddr); splitHostErr == nil {
+		// If we aren't the first proxy retain prior X-Forwarded-For information as a comma+space separated list and fold multiple headers into one.
+		var header string
+		if prior, ok := a.originalReq.Header["X-Forwarded-For"]; ok {
+			header = strings.Join(prior, ", ") + ", " + clientIP
+		} else {
+			header = clientIP
+		}
+		req.Header.Set("X-Forwarded-For", header)
+	}
+
+	return req, nil
 }

@@ -8,8 +8,11 @@ export const observeIntersectionOnce = (element) => {
   });
 };
 
-export const getCoveringElement = async (element) => {
-  const { top, left } = (await observeIntersectionOnce(element)).intersectionRect;
+/**
+ * Given a target element and the coordinates of its top-left corner,
+ * returns the sticky/fixed element covering it, or null.
+ */
+export const findCoveringElementAtPoint = (element, left, top) => {
   // browser might compensate for sticky element border, we should shift the target by 1px because of this
   const topElement = document.elementFromPoint(left, top + 1);
 
@@ -23,4 +26,14 @@ export const getCoveringElement = async (element) => {
   }
 
   return null;
+};
+
+export const getCoveringElementSync = (element) => {
+  const { top, left } = element.getBoundingClientRect();
+  return findCoveringElementAtPoint(element, left, top);
+};
+
+export const getCoveringElement = async (element) => {
+  const { top, left } = (await observeIntersectionOnce(element)).intersectionRect;
+  return findCoveringElementAtPoint(element, left, top);
 };

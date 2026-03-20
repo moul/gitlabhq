@@ -27745,6 +27745,7 @@ CREATE TABLE project_settings (
     automatic_rebase_enabled boolean DEFAULT false NOT NULL,
     duo_secret_detection_fp_enabled boolean DEFAULT true NOT NULL,
     code_owner_reviewer_assignment_strategy smallint DEFAULT 0 NOT NULL,
+    reviewer_assignment_strategy smallint DEFAULT 0 NOT NULL,
     CONSTRAINT check_1a30456322 CHECK ((char_length(pages_unique_domain) <= 63)),
     CONSTRAINT check_237486989c CHECK ((char_length(merge_request_title_regex_description) <= 255)),
     CONSTRAINT check_3a03e7557a CHECK ((char_length(previous_default_branch) <= 4096)),

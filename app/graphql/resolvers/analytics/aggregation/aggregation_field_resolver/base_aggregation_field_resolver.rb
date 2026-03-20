@@ -44,9 +44,13 @@ module Resolvers
           end
 
           def build_parts_from_selection(selections)
-            selections.map do |field|
+            part_selections(selections).map do |field|
               { identifier: field.name.to_sym, parameters: field.arguments || {} }
             end
+          end
+
+          def part_selections(selections)
+            selections.reject { |s| s.name.to_s.start_with?('__') }
           end
 
           def build_order(order_by)

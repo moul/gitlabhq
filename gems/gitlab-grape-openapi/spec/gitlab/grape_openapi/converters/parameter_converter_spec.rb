@@ -74,6 +74,48 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
         end
       end
 
+      context 'when parameter name contains version' do
+        let(:route) do
+          double('Route',
+            path: "/:version/projects/:id/merge_requests/:merge_request_iid/versions/:version_id",
+            instance_variable_get: { method: 'GET' })
+        end
+
+        let(:name) { "version_id" }
+
+        it 'correctly identifies as path parameter' do
+          expect(converter.in_value).to eq('path')
+        end
+      end
+
+      context 'when parameter name ends with version' do
+        let(:route) do
+          double('Route',
+            path: "/:version/projects/:id/packages/:package_name/:package_version/:file_name",
+            instance_variable_get: { method: 'GET' })
+        end
+
+        let(:name) { "package_version" }
+
+        it 'correctly identifies as path parameter' do
+          expect(converter.in_value).to eq('path')
+        end
+      end
+
+      context 'when parameter name is a substring of another path parameter' do
+        let(:route) do
+          double('Route',
+            path: "/api/v1/projects/:id/repository/files/:file_path",
+            instance_variable_get: { method: 'GET' })
+        end
+
+        let(:name) { "file" }
+
+        it 'returns query because only file_path is in the path' do
+          expect(converter.in_value).to eq('query')
+        end
+      end
+
       context 'when multiple path parameters exist' do
         let(:route) do
           double(

@@ -126,7 +126,7 @@ System-defined types are predefined work item types built into GitLab. These typ
 - Model: `WorkItems::TypesFramework::SystemDefined::Type`
 - Location: `app/models/work_items/types_framework/system_defined/`
 - Each type has a definition module in `definitions/` (for example, `definitions/issue.rb`)
-- Uses `ActiveRecord::FixedItemsModel` to provide an ActiveRecord-like API without database queries
+- Uses [`ActiveRecord::FixedItemsModel`](fixed_items_model.md) to provide an ActiveRecord-like API without database queries
 
 **Type definition example:**
 

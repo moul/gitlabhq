@@ -10,6 +10,8 @@ module Resolvers
           end
 
           def resolve(**arguments)
+            authorize!(object) if self.class.authorization.any?
+
             filters = ::Gitlab::Database::Aggregation::Graphql::Adapter.arguments_to_filters(engine_class, arguments)
             request = ::Gitlab::Database::Aggregation::Request.new(filters: filters, metrics: [])
 

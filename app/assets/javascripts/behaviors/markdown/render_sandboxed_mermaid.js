@@ -1,4 +1,4 @@
-import { countBy, debounce } from 'lodash';
+import { countBy, debounce } from 'lodash-es';
 import { __ } from '~/locale';
 import {
   getBaseURL,

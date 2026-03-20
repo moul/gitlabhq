@@ -21,7 +21,9 @@ module Gitlab
         end
 
         def in_value
-          route.path.gsub('version', '').include?("/:#{name}") ? 'path' : 'query'
+          # Strip only the :version path segment (not substrings like :version_id or :package_version),
+          # then match the param name as a complete segment bounded by / . ( or end-of-string.
+          route.path.gsub('/:version/', '/').match?(%r{/:#{Regexp.escape(name)}([/.(]|$)}) ? 'path' : 'query'
         end
 
         def example

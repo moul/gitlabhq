@@ -93,7 +93,6 @@ RSpec/RedundantMetatagType:
     - 'ee/spec/requests/ee/application_controller_spec.rb'
     - 'ee/spec/requests/ee/confirmations_controller_spec.rb'
     - 'ee/spec/requests/ee/passwords_controller_spec.rb'
-    - 'ee/spec/requests/ee/registrations_controller_spec.rb'
     - 'ee/spec/requests/ee/user_settings/personal_access_tokens_controller_spec.rb'
     - 'ee/spec/requests/groups/settings/domain_verification_controller_spec.rb'
     - 'ee/spec/requests/groups/settings/gitlab_duo/configuration_controller_spec.rb'

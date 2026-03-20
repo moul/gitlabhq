@@ -348,6 +348,11 @@ paths:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesGitlabSubscription"
       deprecated: true
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -368,6 +373,11 @@ paths:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesGitlabSubscription"
       deprecated: true
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -386,6 +396,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesGitlabSubscription"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/namespaces/{id}/minutes":
     post:
       operationId: postApiV4NamespacesIdMinutes
@@ -474,6 +489,15 @@ paths:
         '404':
           description: Not found
       deprecated: true
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: add_on_name
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -500,6 +524,15 @@ paths:
         '404':
           description: Not found
       deprecated: true
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: add_on_name
+        required: true
+        schema: {}
+        in: path
     put:
       operationId: putApiV4NamespacesIdSubscriptionAddOnPurchaseAddOnName
       summary: Update the add-on purchase for the namespace
@@ -520,6 +553,15 @@ paths:
         '404':
           description: Not found
       deprecated: true
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: add_on_name
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -721,6 +763,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: sast_endpoint
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -970,6 +1016,10 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/ai/duo_workflows/workflows/{id}/checkpoints/{checkpoint_id}":
     get:
       operationId: getApiV4AiDuoWorkflowsWorkflowsIdCheckpointsCheckpointId
@@ -996,6 +1046,10 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/ai/duo_workflows/workflows/{id}/checkpoint_writes_batch":
     post:
       operationId: postApiV4AiDuoWorkflowsWorkflowsIdCheckpointWritesBatch
@@ -1053,6 +1107,11 @@ paths:
       responses:
         '200':
           description: OK
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/ai/duo_workflows/workflows/{id}/events/{event_id}":
     put:
       operationId: putApiV4AiDuoWorkflowsWorkflowsIdEventsEventId
@@ -1749,6 +1808,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: user_id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdServiceAccountsUserIdPersonalAccessTokens
       summary: Create a personal access token for a project service account.
@@ -1774,6 +1837,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: user_id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -1811,6 +1878,14 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: user_id
+        required: true
+        schema: {}
+        in: path
+      - name: token_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/service_accounts/{user_id}/personal_access_tokens/{token_id}/rotate":
     post:
       operationId: postApiV4ProjectsIdServiceAccountsUserIdPersonalAccessTokensTokenIdRotate
@@ -1836,6 +1911,14 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: user_id
+        required: true
+        schema: {}
+        in: path
+      - name: token_id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: false
@@ -2178,6 +2261,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: user_id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4GroupsIdServiceAccountsUserIdPersonalAccessTokens
       summary: Create a personal access token for a group service account.
@@ -2203,6 +2290,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: user_id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -2239,6 +2330,14 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: user_id
+        required: true
+        schema: {}
+        in: path
+      - name: token_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/service_accounts/{user_id}/personal_access_tokens/{token_id}/rotate":
     post:
       operationId: postApiV4GroupsIdServiceAccountsUserIdPersonalAccessTokensTokenIdRotate
@@ -2263,6 +2362,14 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: user_id
+        required: true
+        schema: {}
+        in: path
+      - name: token_id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: false
@@ -2378,6 +2485,11 @@ paths:
       responses:
         '200':
           description: OK
+      parameters:
+      - name: export_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/protected_branches":
     get:
       operationId: getApiV4GroupsIdProtectedBranches
@@ -4109,6 +4221,11 @@ paths:
           description: Forbidden
         '404':
           description: Not found
+      parameters:
+      - name: name
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4ProjectAliasesName
       summary: Delete a project alias by name
@@ -4121,6 +4238,11 @@ paths:
           description: Forbidden
         '404':
           description: Not found
+      parameters:
+      - name: name
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/approval_rules":
     get:
       operationId: getApiV4ProjectsIdMergeRequestsMergeRequestIidApprovalRules
@@ -4403,6 +4525,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesVulnerabilityExport"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/security/vulnerability_exports/{id}/download":
     get:
       operationId: getApiV4SecurityVulnerabilityExportsIdDownload
@@ -4412,6 +4539,11 @@ paths:
       responses:
         '200':
           description: OK
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/security/projects/{id}/vulnerability_archive_exports":
     post:
       operationId: postApiV4SecurityProjectsIdVulnerabilityArchiveExports
@@ -4455,6 +4587,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesVulnerabilityArchiveExport"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/security/vulnerability_archive_exports/{id}/download":
     get:
       operationId: getApiV4SecurityVulnerabilityArchiveExportsIdDownload
@@ -4464,6 +4601,11 @@ paths:
       responses:
         '200':
           description: OK
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/vulnerabilities/{id}/issue_links":
     get:
       operationId: getApiV4VulnerabilitiesIdIssueLinks
@@ -5073,6 +5215,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: managed_license_id
+        required: true
+        schema: {}
+        in: path
     patch:
       operationId: patchApiV4ProjectsIdManagedLicensesManagedLicenseId
       summary: Update an existing software license policy from a project
@@ -5103,6 +5249,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: managed_license_id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -5132,6 +5282,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: managed_license_id
+        required: true
+        schema: {}
         in: path
   "/api/v4/service_accounts":
     post:
@@ -5400,6 +5554,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: pat_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/manage/personal_access_tokens/{pat_id}/rotate":
     post:
       operationId: postApiV4GroupsIdManagePersonalAccessTokensPatIdRotate
@@ -5421,6 +5579,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: pat_id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: false
@@ -5546,6 +5708,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/manage/resource_access_tokens/{prat_id}":
     delete:
       operationId: deleteApiV4GroupsIdManageResourceAccessTokensPratId
@@ -5569,6 +5735,14 @@ paths:
           nullable: true
         in: query
         example: '2021-01-31'
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: prat_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/manage/resource_access_tokens/{prat_id}/rotate":
     post:
       operationId: postApiV4GroupsIdManageResourceAccessTokensPratIdRotate
@@ -5582,6 +5756,15 @@ paths:
           description: No Content
         '400':
           description: Bad Request
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: prat_id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -5657,6 +5840,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/manage/ssh_keys/{key_id}":
     delete:
       operationId: deleteApiV4GroupsIdManageSshKeysKeyId
@@ -5669,6 +5856,15 @@ paths:
           description: No Content
         '400':
           description: Bad Request
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: key_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/blocks":
     get:
       operationId: getApiV4ProjectsIdMergeRequestsMergeRequestIidBlocks
@@ -6204,6 +6400,14 @@ paths:
           nullable: true
         in: query
         example: 1
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: hook_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/hooks/{hook_id}/url_variables/{key}":
     put:
       operationId: putApiV4GroupsIdHooksHookIdUrlVariablesKey
@@ -6228,6 +6432,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -6259,6 +6467,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/hooks/{hook_id}/custom_headers/{key}":
     put:
       operationId: putApiV4GroupsIdHooksHookIdCustomHeadersKey
@@ -6283,6 +6495,10 @@ paths:
         schema:
           type: string
           minLength: 1
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -6313,6 +6529,10 @@ paths:
         schema:
           type: string
           minLength: 1
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/groups/{id}/hooks/{hook_id}/test/{trigger}":
     post:
@@ -6366,6 +6586,10 @@ paths:
           - vulnerability_events
           minLength: 1
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/hooks/{hook_id}/events/{hook_log_id}/resend":
     post:
       operationId: postApiV4GroupsIdHooksHookIdEventsHookLogIdResend
@@ -6382,6 +6606,19 @@ paths:
           description: Not found
         '429':
           description: Too many requests
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: hook_id
+        required: true
+        schema: {}
+        in: path
+      - name: hook_log_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/saml/identities":
     get:
       operationId: getApiV4GroupsIdSamlIdentities
@@ -6928,6 +7165,10 @@ paths:
           nullable: true
         in: path
         example: 11
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdMergeTrainsMergeRequestsMergeRequestIid
       summary: Add a merge request to a merge train
@@ -6968,6 +7209,10 @@ paths:
           nullable: true
         in: path
         example: 11
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -7679,6 +7924,10 @@ paths:
           default: ''
           nullable: true
         in: query
+      - name: provider
+        required: true
+        schema: {}
+        in: path
   "/api/v4/geo_sites":
     post:
       operationId: postApiV4GeoSites
@@ -8382,6 +8631,10 @@ paths:
           nullable: true
         in: path
         example: '1'
+      - name: epic_iid
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -8424,6 +8677,10 @@ paths:
           nullable: true
         in: path
         example: 1
+      - name: epic_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/epic_boards":
     get:
       operationId: getApiV4GroupsIdEpicBoards
@@ -10006,6 +10263,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesExternalStatusCheck"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -10043,6 +10305,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/external_status_checks/{check_id}":
     put:
       operationId: putApiV4ProjectsIdExternalStatusChecksCheckId
@@ -10065,6 +10331,10 @@ paths:
           nullable: true
         in: path
         example: 1
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -10086,6 +10356,10 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/status_check_responses":
     post:
@@ -10136,6 +10410,15 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMergeRequestsStatusCheck"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/status_checks/{external_status_check_id}/retry":
     post:
       operationId: postApiV4ProjectsIdMergeRequestsMergeRequestIidStatusChecksExternalStatusCheckIdRetry
@@ -10254,6 +10537,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: approval_rule_id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: false
@@ -10425,6 +10712,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: approval_rule_id
+        required: true
+        schema: {}
         in: path
     put:
       operationId: putApiV4ProjectsIdApprovalRulesApprovalRuleId
@@ -12018,6 +12309,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: board_id
+        required: true
+        schema: {}
+        in: path
     get:
       operationId: getApiV4GroupsIdBoardsBoardId
       summary: Find a group board
@@ -12039,6 +12334,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: board_id
+        required: true
+        schema: {}
+        in: path
     put:
       operationId: putApiV4GroupsIdBoardsBoardId
       summary: Update a group board
@@ -12059,6 +12358,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: board_id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: false
@@ -12113,6 +12416,10 @@ paths:
           type: string
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/registered-models/create":
     post:
       operationId: postApiV4ProjectsIdMlMlflowApi20MlflowRegisteredModelsCreate
@@ -12127,6 +12434,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowRegisteredModel"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12157,6 +12469,10 @@ paths:
           default: ''
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/registered-models/update":
     patch:
       operationId: patchApiV4ProjectsIdMlMlflowApi20MlflowRegisteredModelsUpdate
@@ -12171,6 +12487,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowRegisteredModel"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -12191,6 +12512,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowModelVersion"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -12220,6 +12546,10 @@ paths:
           type: string
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/registered-models/search":
     get:
       operationId: getApiV4ProjectsIdMlMlflowApi20MlflowRegisteredModelsSearch
@@ -12269,6 +12599,10 @@ paths:
           type: string
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/registered-models/alias":
     get:
       operationId: getApiV4ProjectsIdMlMlflowApi20MlflowRegisteredModelsAlias
@@ -12294,6 +12628,10 @@ paths:
           type: string
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/runs/create":
     post:
       operationId: postApiV4ProjectsIdMlMlflowApi20MlflowRunsCreate
@@ -12308,6 +12646,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowRun"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12343,6 +12686,10 @@ paths:
           type: string
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/runs/search":
     post:
       operationId: postApiV4ProjectsIdMlMlflowApi20MlflowRunsSearch
@@ -12358,6 +12705,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowRun"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12378,6 +12730,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowUpdateRun"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12394,6 +12751,11 @@ paths:
       responses:
         '201':
           description: Created
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12410,6 +12772,11 @@ paths:
       responses:
         '201':
           description: Created
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12426,6 +12793,11 @@ paths:
       responses:
         '201':
           description: Created
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12442,6 +12814,11 @@ paths:
       responses:
         '201':
           description: Created
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12458,6 +12835,11 @@ paths:
       responses:
         '201':
           description: Created
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12478,6 +12860,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowModelVersion"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -12513,6 +12900,10 @@ paths:
           type: integer
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/model-versions/get":
     get:
       operationId: getApiV4ProjectsIdMlMlflowApi20MlflowModelVersionsGet
@@ -12542,6 +12933,10 @@ paths:
           type: string
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/model-versions/update":
     patch:
       operationId: patchApiV4ProjectsIdMlMlflowApi20MlflowModelVersionsUpdate
@@ -12556,6 +12951,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowModelVersion"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -12606,6 +13006,10 @@ paths:
           type: string
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/experiments/get":
     get:
       operationId: getApiV4ProjectsIdMlMlflowApi20MlflowExperimentsGet
@@ -12629,6 +13033,10 @@ paths:
           default: ''
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/experiments/get-by-name":
     get:
       operationId: getApiV4ProjectsIdMlMlflowApi20MlflowExperimentsGetByName
@@ -12652,6 +13060,10 @@ paths:
           default: ''
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/experiments/list":
     get:
       operationId: getApiV4ProjectsIdMlMlflowApi20MlflowExperimentsList
@@ -12666,6 +13078,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowListExperiment"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/experiments/search":
     post:
       operationId: postApiV4ProjectsIdMlMlflowApi20MlflowExperimentsSearch
@@ -12680,6 +13097,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowListExperiment"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -12700,6 +13122,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesMlMlflowNewExperiment"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12716,6 +13143,11 @@ paths:
       responses:
         '201':
           description: Created
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12732,6 +13164,11 @@ paths:
       responses:
         '201':
           description: Created
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -12753,6 +13190,11 @@ paths:
                 "$ref": "#/components/schemas/APIVsCodeSettingsEntitiesVsCodeManifest"
         '401':
           description: 401 Unauthorized
+      parameters:
+      - name: settings_context_hash
+        required: true
+        schema: {}
+        in: path
   "/api/v4/vscode/settings_sync(/{settings_context_hash})/v1/resource/{resource_name}/{id}":
     get:
       operationId: getApiV4VscodeSettingsSync(SettingsContextHash}V1ResourceResourceNameId
@@ -12796,6 +13238,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: settings_context_hash
+        required: true
+        schema: {}
+        in: path
   "/api/v4/vscode/settings_sync(/{settings_context_hash})/v1/resource/{resource_name}":
     get:
       operationId: getApiV4VscodeSettingsSync(SettingsContextHash}V1ResourceResourceName
@@ -12830,6 +13276,10 @@ paths:
           - profiles
           minLength: 1
         in: path
+      - name: settings_context_hash
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4VscodeSettingsSync(SettingsContextHash}V1ResourceResourceName
       summary: Creates or updates a specific setting
@@ -12859,6 +13309,10 @@ paths:
           - profiles
           minLength: 1
         in: path
+      - name: settings_context_hash
+        required: true
+        schema: {}
+        in: path
   "/api/v4/vscode/settings_sync(/{settings_context_hash})/v1/collection":
     delete:
       operationId: deleteApiV4VscodeSettingsSync(SettingsContextHash}V1Collection
@@ -12870,6 +13324,11 @@ paths:
           description: OK
         '401':
           description: 401 Unauthorized
+      parameters:
+      - name: settings_context_hash
+        required: true
+        schema: {}
+        in: path
   "/api/v4/users/{id}/custom_attributes":
     get:
       operationId: getApiV4UsersIdCustomAttributes
@@ -12883,6 +13342,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesCustomAttribute"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/users/{id}/custom_attributes/{key}":
     get:
       operationId: getApiV4UsersIdCustomAttributesKey
@@ -12904,6 +13368,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
     put:
       operationId: putApiV4UsersIdCustomAttributesKey
       summary: Set a custom attribute on a user
@@ -12923,6 +13391,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -12945,6 +13417,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/users/{id}/support_pin":
     get:
@@ -16617,6 +17093,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: milestone_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/milestones/{milestone_id}/issues":
     get:
       operationId: getApiV4ProjectsIdMilestonesMilestoneIdIssues
@@ -16734,6 +17214,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: milestone_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/milestones/{milestone_id}/burndown_events":
     get:
       operationId: getApiV4ProjectsIdMilestonesMilestoneIdBurndownEvents
@@ -16753,6 +17237,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: milestone_id
+        required: true
+        schema: {}
         in: path
   "/api/v4/notification_settings":
     get:
@@ -18682,6 +19170,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: milestone_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/milestones/{milestone_id}/issues":
     get:
       operationId: getApiV4GroupsIdMilestonesMilestoneIdIssues
@@ -18792,6 +19284,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: milestone_id
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/labels":
     get:
@@ -18990,6 +19486,10 @@ paths:
           default: true
           nullable: true
         in: query
+      - name: name
+        required: true
+        schema: {}
+        in: path
     put:
       operationId: putApiV4ProjectsIdLabelsName
       summary: Update an existing label. At least one optional parameter is required.
@@ -19334,6 +19834,10 @@ paths:
           default: true
           nullable: true
         in: query
+      - name: name
+        required: true
+        schema: {}
+        in: path
     put:
       operationId: putApiV4GroupsIdLabelsName
       summary: Update an existing label. At least one optional parameter is required.
@@ -21400,6 +21904,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: board_id
+        required: true
+        schema: {}
+        in: path
     put:
       operationId: putApiV4ProjectsIdBoardsBoardId
       summary: Update a project board
@@ -21422,6 +21930,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: board_id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: false
@@ -21451,6 +21963,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: board_id
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/boards/{board_id}/lists":
     get:
@@ -21862,6 +22378,10 @@ paths:
           type: string
           nullable: true
         in: query
+      - name: queue_name
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/wikis":
     get:
       operationId: getApiV4GroupsIdWikis
@@ -21885,6 +22405,10 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4GroupsIdWikis
       summary: Create a wiki page
@@ -21903,6 +22427,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -21946,6 +22475,10 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
     put:
       operationId: putApiV4GroupsIdWikisSlug
       summary: Update a wiki page
@@ -21964,6 +22497,15 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: slug
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -21990,6 +22532,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/wikis/attachments":
     post:
       operationId: postApiV4GroupsIdWikisAttachments
@@ -22006,6 +22552,11 @@ paths:
                 "$ref": "#/components/schemas/APIEntitiesWikiAttachment"
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -22035,6 +22586,10 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdWikis
       summary: Create a wiki page
@@ -22053,6 +22608,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -22096,6 +22656,10 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
     put:
       operationId: putApiV4ProjectsIdWikisSlug
       summary: Update a wiki page
@@ -22114,6 +22678,15 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: slug
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -22140,6 +22713,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/wikis/attachments":
     post:
       operationId: postApiV4ProjectsIdWikisAttachments
@@ -22156,6 +22733,11 @@ paths:
                 "$ref": "#/components/schemas/APIEntitiesWikiAttachment"
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -22691,6 +23273,14 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: name
+        required: true
+        schema: {}
+        in: path
+      - name: serial
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/terraform/state/{name}":
     get:
@@ -24047,6 +24637,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/snippets/{id}/user_agent_detail":
     get:
@@ -26739,6 +27333,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/-/packages/pypi/simple":
     get:
       operationId: getApiV4GroupsIdDashPackagesPypiSimple
@@ -27927,6 +28525,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesCustomAttribute"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/custom_attributes/{key}":
     get:
       operationId: getApiV4ProjectsIdCustomAttributesKey
@@ -27948,6 +28551,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
     put:
       operationId: putApiV4ProjectsIdCustomAttributesKey
       summary: Set a custom attribute on a project
@@ -27967,6 +28574,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -27990,6 +28601,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/restore":
     post:
       operationId: postApiV4ProjectsIdRestore
@@ -28003,6 +28618,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesProject"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects":
     get:
       operationId: getApiV4Projects
@@ -29672,6 +30292,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/audit_events/{audit_event_id}":
     get:
       operationId: getApiV4ProjectsIdAuditEventsAuditEventId
@@ -29692,6 +30316,10 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/templates/{type}":
     get:
@@ -30109,6 +30737,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: snippet_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/snippets/{snippet_id}/user_agent_detail":
     get:
       operationId: getApiV4ProjectsIdSnippetsSnippetIdUserAgentDetail
@@ -30161,6 +30793,10 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/packages/protection/rules":
     get:
       operationId: getApiV4ProjectsIdPackagesProtectionRules
@@ -30584,6 +31220,11 @@ paths:
           description: Forbidden
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
     patch:
       operationId: patchApiV4ProjectsIdJobTokenScope
       summary: Patch CI_JOB_TOKEN access settings.
@@ -30600,6 +31241,11 @@ paths:
           description: Forbidden
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -30644,6 +31290,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdJobTokenScopeAllowlist
       summary: Add target project to allowlist.
@@ -30719,6 +31369,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdJobTokenScopeGroupsAllowlist
       summary: Add target group to allowlist.
@@ -31103,6 +31757,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -31133,6 +31791,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/hooks/{hook_id}/custom_headers/{key}":
     put:
       operationId: putApiV4ProjectsIdHooksHookIdCustomHeadersKey
@@ -31157,6 +31819,10 @@ paths:
         schema:
           type: string
           minLength: 1
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -31187,6 +31853,10 @@ paths:
         schema:
           type: string
           minLength: 1
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/hooks":
     get:
@@ -31421,6 +32091,14 @@ paths:
           nullable: true
         in: query
         example: 1
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: hook_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/hooks/{hook_id}/test/{trigger}":
     post:
       operationId: postApiV4ProjectsIdHooksHookIdTestTrigger
@@ -31473,6 +32151,10 @@ paths:
           - vulnerability_events
           minLength: 1
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/hooks/{hook_id}/events/{hook_log_id}/resend":
     post:
       operationId: postApiV4ProjectsIdHooksHookIdEventsHookLogIdResend
@@ -31489,6 +32171,19 @@ paths:
           description: Not found
         '429':
           description: Too many requests
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: hook_id
+        required: true
+        schema: {}
+        in: path
+      - name: hook_log_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/export":
     get:
       operationId: getApiV4ProjectsIdExport
@@ -33302,6 +33997,11 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4PersonalAccessTokensId
       summary: Revoke a personal access token
@@ -33314,6 +34014,11 @@ paths:
           description: No Content
         '400':
           description: Bad Request
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/personal_access_tokens/{id}/rotate":
     post:
       operationId: postApiV4PersonalAccessTokensIdRotate
@@ -33328,6 +34033,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesPersonalAccessTokenWithToken"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -34619,6 +35329,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesNamespace"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -34674,6 +35389,11 @@ paths:
           description: Forbidden
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -34697,6 +35417,11 @@ paths:
           description: Forbidden
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/namespaces/storage/limit_exclusions":
     get:
       operationId: getApiV4NamespacesStorageLimitExclusions
@@ -34961,7 +35686,7 @@ paths:
         schema:
           type: integer
           nullable: true
-        in: query
+        in: path
       - name: unidiff
         required: false
         description: A diff in a Unified diff format
@@ -34984,6 +35709,15 @@ paths:
                 "$ref": "#/components/schemas/APIEntitiesMergeRequestApprovals"
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdMergeRequestsMergeRequestIidApprovals
       summary: Change approval-related configuration
@@ -35038,6 +35772,15 @@ paths:
           description: Not found
         '401':
           description: Unauthorized
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -35061,6 +35804,15 @@ paths:
           description: Not found
         '401':
           description: Unauthorized
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/reset_approvals":
     put:
       operationId: putApiV4ProjectsIdMergeRequestsMergeRequestIidResetApprovals
@@ -35074,6 +35826,15 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/approval_state":
     get:
       operationId: getApiV4ProjectsIdMergeRequestsMergeRequestIidApprovalState
@@ -35115,6 +35876,11 @@ paths:
       responses:
         '201':
           description: Created
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/merge_requests":
     get:
       operationId: getApiV4MergeRequests
@@ -36944,6 +37710,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -36976,6 +37746,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/reviewers":
     get:
       operationId: getApiV4ProjectsIdMergeRequestsMergeRequestIidReviewers
@@ -37001,6 +37775,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/commits":
     get:
@@ -37079,6 +37857,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdMergeRequestsMergeRequestIidContextCommits
       summary: Create merge request context commits
@@ -37105,6 +37887,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -37146,6 +37932,10 @@ paths:
         in: query
         style: form
         explode: false
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/changes":
     get:
       operationId: getApiV4ProjectsIdMergeRequestsMergeRequestIidChanges
@@ -37180,6 +37970,10 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/diffs":
     get:
       operationId: getApiV4ProjectsIdMergeRequestsMergeRequestIidDiffs
@@ -37262,6 +38056,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/pipelines":
     get:
       operationId: getApiV4ProjectsIdMergeRequestsMergeRequestIidPipelines
@@ -37326,6 +38124,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -37369,6 +38171,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -37394,6 +38200,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/cancel_merge_when_pipeline_succeeds":
     post:
@@ -37427,6 +38237,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/rebase":
     put:
       operationId: putApiV4ProjectsIdMergeRequestsMergeRequestIidRebase
@@ -37451,6 +38265,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: false
@@ -37505,6 +38323,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/related_issues":
     get:
       operationId: getApiV4ProjectsIdMergeRequestsMergeRequestIidRelatedIssues
@@ -37546,6 +38368,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/members":
     get:
       operationId: getApiV4GroupsIdMembers
@@ -38525,6 +39351,11 @@ paths:
           description: OK
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/uploads":
     post:
       operationId: postApiV4ProjectsIdUploads
@@ -38540,6 +39371,11 @@ paths:
                 "$ref": "#/components/schemas/APIEntitiesProjectUpload"
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -38581,6 +39417,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/uploads/{upload_id}":
     get:
       operationId: getApiV4ProjectsIdUploadsUploadId
@@ -38601,6 +39441,10 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
     delete:
       operationId: deleteApiV4ProjectsIdUploadsUploadId
@@ -38623,6 +39467,10 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/uploads/{secret}/{filename}":
     get:
@@ -38652,6 +39500,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4ProjectsIdUploadsSecretFilename
       summary: Delete a single project upload by secret and filename
@@ -38680,6 +39532,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/groups/{id}/uploads":
     get:
@@ -38717,6 +39573,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/uploads/{upload_id}":
     get:
       operationId: getApiV4GroupsIdUploadsUploadId
@@ -38737,6 +39597,10 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
     delete:
       operationId: deleteApiV4GroupsIdUploadsUploadId
@@ -38759,6 +39623,10 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/groups/{id}/uploads/{secret}/{filename}":
     get:
@@ -38788,6 +39656,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4GroupsIdUploadsSecretFilename
       summary: Delete a single group upload by secret and filename
@@ -38816,6 +39688,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/markdown":
     post:
@@ -38907,6 +39783,10 @@ paths:
           type: string
           nullable: true
         in: query
+      - name: id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdCiLint
       summary: Validate a CI YAML configuration with a namespace
@@ -38921,6 +39801,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesCiLintResult"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -41838,6 +42723,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: issue_iid
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/issues/{issue_iid}/metric_images":
     post:
       operationId: postApiV4ProjectsIdIssuesIssueIidMetricImages
@@ -41860,6 +42749,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -41888,6 +42781,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/issues/{issue_iid}/metric_images/{metric_image_id}":
     put:
@@ -41918,6 +42815,10 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: false
@@ -41953,6 +42854,10 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/issues/{issue_iid}/links":
     get:
@@ -42486,6 +43391,11 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/services/apple-app-store":
     put:
       operationId: putApiV4ProjectsIdServicesAppleAppStore
@@ -42508,6 +43418,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42536,6 +43451,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42564,6 +43484,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42592,6 +43517,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42620,6 +43550,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42648,6 +43583,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42676,6 +43616,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42704,6 +43649,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42732,6 +43682,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42760,6 +43715,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42788,6 +43748,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42816,6 +43781,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42844,6 +43814,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42872,6 +43847,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42900,6 +43880,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42928,6 +43913,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -42956,6 +43946,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -42984,6 +43979,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43012,6 +44012,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43040,6 +44045,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43068,6 +44078,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43096,6 +44111,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43124,6 +44144,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -43152,6 +44177,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43180,6 +44210,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43208,6 +44243,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43236,6 +44276,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43264,6 +44309,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43292,6 +44342,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43320,6 +44375,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43348,6 +44408,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43376,6 +44441,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43404,6 +44474,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43432,6 +44507,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43460,6 +44540,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43488,6 +44573,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43516,6 +44606,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43544,6 +44639,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43572,6 +44672,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43600,6 +44705,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43628,6 +44738,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43656,6 +44771,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43684,6 +44804,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43712,6 +44837,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43740,6 +44870,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43768,6 +44903,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43796,6 +44936,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43824,6 +44969,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43852,6 +45002,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43880,6 +45035,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43908,6 +45068,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -43936,6 +45101,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -44019,6 +45189,10 @@ paths:
           - mock-monitoring
           minLength: 1
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
     get:
       operationId: getApiV4ProjectsIdServicesSlug
       summary: Get an integration settings
@@ -44099,6 +45273,10 @@ paths:
           - mock-monitoring
           minLength: 1
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/services/mattermost_slash_commands/trigger":
     post:
       operationId: postApiV4ProjectsIdServicesMattermostSlashCommandsTrigger
@@ -44173,6 +45351,11 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/integrations/apple-app-store":
     put:
       operationId: putApiV4ProjectsIdIntegrationsAppleAppStore
@@ -44195,6 +45378,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44223,6 +45411,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44251,6 +45444,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44279,6 +45477,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44307,6 +45510,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44335,6 +45543,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44363,6 +45576,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44391,6 +45609,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44419,6 +45642,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44447,6 +45675,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44475,6 +45708,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44503,6 +45741,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44531,6 +45774,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44559,6 +45807,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44587,6 +45840,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44615,6 +45873,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -44643,6 +45906,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44671,6 +45939,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44699,6 +45972,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44727,6 +46005,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44755,6 +46038,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44783,6 +46071,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44811,6 +46104,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -44839,6 +46137,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44867,6 +46170,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44895,6 +46203,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44923,6 +46236,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44951,6 +46269,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -44979,6 +46302,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45007,6 +46335,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45035,6 +46368,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45063,6 +46401,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45091,6 +46434,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45119,6 +46467,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45147,6 +46500,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45175,6 +46533,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45203,6 +46566,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45231,6 +46599,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45259,6 +46632,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45287,6 +46665,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45315,6 +46698,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45343,6 +46731,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45371,6 +46764,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45399,6 +46797,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45427,6 +46830,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45455,6 +46863,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45483,6 +46896,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45511,6 +46929,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45539,6 +46962,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45567,6 +46995,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45595,6 +47028,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45623,6 +47061,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -45706,6 +47149,10 @@ paths:
           - mock-monitoring
           minLength: 1
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
     get:
       operationId: getApiV4ProjectsIdIntegrationsSlug
       summary: Get an integration settings
@@ -45786,6 +47233,10 @@ paths:
           - mock-monitoring
           minLength: 1
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/integrations/mattermost_slash_commands/trigger":
     post:
       operationId: postApiV4ProjectsIdIntegrationsMattermostSlashCommandsTrigger
@@ -45860,6 +47311,11 @@ paths:
           description: Unauthorized
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/integrations/apple-app-store":
     put:
       operationId: putApiV4GroupsIdIntegrationsAppleAppStore
@@ -45882,6 +47338,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45910,6 +47371,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45938,6 +47404,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45966,6 +47437,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -45994,6 +47470,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46022,6 +47503,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46050,6 +47536,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46078,6 +47569,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46106,6 +47602,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46134,6 +47635,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46162,6 +47668,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46190,6 +47701,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46218,6 +47734,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46246,6 +47767,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46274,6 +47800,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46302,6 +47833,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -46330,6 +47866,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46358,6 +47899,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46386,6 +47932,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46414,6 +47965,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46442,6 +47998,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46470,6 +48031,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46498,6 +48064,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -46526,6 +48097,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46554,6 +48130,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46582,6 +48163,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46610,6 +48196,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46638,6 +48229,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46666,6 +48262,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46694,6 +48295,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46722,6 +48328,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46750,6 +48361,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46778,6 +48394,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46806,6 +48427,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46834,6 +48460,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46862,6 +48493,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46890,6 +48526,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46918,6 +48559,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46946,6 +48592,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -46974,6 +48625,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47002,6 +48658,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47030,6 +48691,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47058,6 +48724,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47086,6 +48757,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47114,6 +48790,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47142,6 +48823,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47170,6 +48856,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47198,6 +48889,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47226,6 +48922,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47254,6 +48955,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47282,6 +48988,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -47310,6 +49021,11 @@ paths:
           description: Not found
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -47393,6 +49109,10 @@ paths:
           - mock-monitoring
           minLength: 1
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
     get:
       operationId: getApiV4GroupsIdIntegrationsSlug
       summary: Get an integration settings
@@ -47472,6 +49192,10 @@ paths:
           - mock-ci
           - mock-monitoring
           minLength: 1
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/slack/trigger":
     post:
@@ -49397,6 +51121,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: freeze_period_id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -49649,14 +51377,6 @@ paths:
           nullable: true
         in: path
         example: gitlab-org/gitlab
-      - name: file
-        required: true
-        description: The file content to be created (generated by Multipart middleware)
-        schema:
-          type: string
-          format: binary
-          nullable: true
-        in: path
       - name: file_path
         required: true
         description: The URL-encoded path to the file.
@@ -49688,14 +51408,6 @@ paths:
           nullable: true
         in: path
         example: gitlab-org/gitlab
-      - name: file
-        required: true
-        description: The file content to be updated (generated by Multipart middleware)
-        schema:
-          type: string
-          format: binary
-          nullable: true
-        in: path
       - name: file_path
         required: true
         description: The URL-encoded path to the file.
@@ -49834,6 +51546,11 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
+      parameters:
+      - name: name
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -49850,6 +51567,11 @@ paths:
       responses:
         '204':
           description: No Content
+      parameters:
+      - name: name
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/feature_flags_user_lists":
     get:
       operationId: getApiV4ProjectsIdFeatureFlagsUserLists
@@ -50634,6 +52356,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: key_id
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/environments":
     get:
@@ -51497,6 +53223,10 @@ paths:
           - type: string
           - type: integer
           nullable: true
+        in: path
+      - name: deployment_id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -52812,7 +54542,7 @@ paths:
                         (?<!-)
                         )\zix
           nullable: true
-        in: query
+        in: path
         example: 1.0.0
       - name: file_name
         required: true
@@ -52888,7 +54618,7 @@ paths:
                         (?<!-)
                         )\zix
           nullable: true
-        in: query
+        in: path
         example: 1.0.0
       - name: file_name
         required: true
@@ -52936,14 +54666,6 @@ paths:
           nullable: true
         in: path
         example: example_1.0.0~alpha2_amd64.deb
-      - name: file
-        required: true
-        description: The package file to be published (generated by Multipart middleware)
-        schema:
-          type: string
-          format: binary
-          nullable: true
-        in: path
       requestBody:
         required: true
         content:
@@ -53186,7 +54908,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -53250,7 +54972,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -53314,7 +55036,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -53374,7 +55096,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -53446,7 +55168,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -53514,7 +55236,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -53590,6 +55312,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -53629,14 +55359,6 @@ paths:
           minLength: 1
         in: path
         example: conanfile.py
-      - name: file
-        required: true
-        description: The package file to be published (generated by Multipart middleware)
-        schema:
-          type: string
-          format: binary
-          nullable: true
-        in: path
       requestBody:
         required: true
         content:
@@ -53679,6 +55401,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -53760,7 +55490,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -53832,7 +55562,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -53912,7 +55642,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -53988,7 +55718,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -54076,7 +55806,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -54160,7 +55890,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -54252,6 +55982,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -54307,14 +56045,6 @@ paths:
           minLength: 1
         in: path
         example: conaninfo.txt
-      - name: file
-        required: true
-        description: The package file to be published (generated by Multipart middleware)
-        schema:
-          type: string
-          format: binary
-          nullable: true
-        in: path
       requestBody:
         required: true
         content:
@@ -54357,6 +56087,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -54542,7 +56280,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -54626,7 +56364,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -54696,7 +56434,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -54753,7 +56491,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -54815,7 +56553,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -54885,7 +56623,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -54947,7 +56685,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -55017,7 +56755,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -55073,6 +56811,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -55135,6 +56881,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -55191,7 +56945,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -55267,6 +57021,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -55306,14 +57068,6 @@ paths:
           minLength: 1
         in: path
         example: conanfile.py
-      - name: file
-        required: true
-        description: The package file to be published (generated by Multipart middleware)
-        schema:
-          type: string
-          format: binary
-          nullable: true
-        in: path
       requestBody:
         required: true
         content:
@@ -55356,6 +57110,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -55433,7 +57195,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -55525,6 +57287,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -55580,14 +57350,6 @@ paths:
           minLength: 1
         in: path
         example: conaninfo.txt
-      - name: file
-        required: true
-        description: The package file to be published (generated by Multipart middleware)
-        schema:
-          type: string
-          format: binary
-          nullable: true
-        in: path
       requestBody:
         required: true
         content:
@@ -55630,6 +57392,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -55777,7 +57547,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -55842,7 +57612,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -55903,7 +57673,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -55951,7 +57721,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -56004,7 +57774,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -56065,7 +57835,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -56118,7 +57888,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -56179,7 +57949,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -56226,6 +57996,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -56279,6 +58057,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -56326,7 +58112,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -56393,6 +58179,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -56432,14 +58226,6 @@ paths:
           minLength: 1
         in: path
         example: conanfile.py
-      - name: file
-        required: true
-        description: The package file to be published (generated by Multipart middleware)
-        schema:
-          type: string
-          format: binary
-          nullable: true
-        in: path
       requestBody:
         required: true
         content:
@@ -56473,6 +58259,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -56541,7 +58335,7 @@ paths:
         schema:
           type: string
           nullable: true
-        in: query
+        in: path
         example: '1.0'
       - name: package_username
         required: true
@@ -56624,6 +58418,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -56679,14 +58481,6 @@ paths:
           minLength: 1
         in: path
         example: conaninfo.txt
-      - name: file
-        required: true
-        description: The package file to be published (generated by Multipart middleware)
-        schema:
-          type: string
-          format: binary
-          nullable: true
-        in: path
       requestBody:
         required: true
         content:
@@ -56720,6 +58514,14 @@ paths:
           nullable: true
         in: path
         example: my-package
+      - name: package_version
+        required: true
+        description: Package version
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1.0'
       - name: package_username
         required: true
         description: Package username
@@ -59936,6 +61738,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: secure_file_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/secure_files/{secure_file_id}/download":
     get:
       operationId: getApiV4ProjectsIdSecureFilesSecureFileIdDownload
@@ -61505,6 +63311,10 @@ paths:
           nullable: true
         in: path
         example: 88
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/jobs/{job_id}/trace":
     get:
       operationId: getApiV4ProjectsIdJobsJobIdTrace
@@ -61533,6 +63343,10 @@ paths:
           nullable: true
         in: path
         example: 88
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/jobs/{job_id}/cancel":
     post:
       operationId: postApiV4ProjectsIdJobsJobIdCancel
@@ -61561,6 +63375,10 @@ paths:
           nullable: true
         in: path
         example: 88
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -61595,6 +63413,10 @@ paths:
           nullable: true
         in: path
         example: 88
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -61631,6 +63453,10 @@ paths:
           nullable: true
         in: path
         example: 88
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/jobs/{job_id}/play":
     post:
       operationId: postApiV4ProjectsIdJobsJobIdPlay
@@ -61662,6 +63488,10 @@ paths:
           nullable: true
         in: path
         example: 88
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -61720,6 +63550,11 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/APIEntitiesCustomAttribute"
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/custom_attributes/{key}":
     get:
       operationId: getApiV4GroupsIdCustomAttributesKey
@@ -61741,6 +63576,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
     put:
       operationId: putApiV4GroupsIdCustomAttributesKey
       summary: Set a custom attribute on a group
@@ -61760,6 +63599,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
       requestBody:
         required: true
@@ -61782,6 +63625,10 @@ paths:
         schema:
           type: string
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/groups":
     get:
@@ -63214,6 +65061,11 @@ paths:
       responses:
         '201':
           description: Created
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/audit_events":
     get:
       operationId: getApiV4GroupsIdAuditEvents
@@ -63264,6 +65116,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/audit_events/{audit_event_id}":
     get:
       operationId: getApiV4GroupsIdAuditEventsAuditEventId
@@ -63284,6 +65140,10 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
         in: path
   "/api/v4/groups/{id}/saml_users":
     get:
@@ -63361,6 +65221,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/provisioned_users":
     get:
       operationId: getApiV4GroupsIdProvisionedUsers
@@ -63437,6 +65301,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/groups/{id}/ssh_certificates":
     get:
       operationId: getApiV4GroupsIdSshCertificates
@@ -63475,6 +65343,10 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4GroupsIdSshCertificates
       summary: Create a ssh certificate for a group.
@@ -63495,6 +65367,11 @@ paths:
           description: Forbidden
         '404':
           description: Not found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -63519,6 +65396,15 @@ paths:
           description: Forbidden
         '422':
           description: Unprocessable entity
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: ssh_certificates_id
+        required: true
+        schema: {}
+        in: path
   "/api/v4/projects/{id}/jobs/artifacts/{ref_name}/download":
     get:
       operationId: getApiV4ProjectsIdJobsArtifactsRefNameDownload
@@ -64331,6 +66217,10 @@ paths:
           - type: integer
           nullable: true
         in: path
+      - name: branch
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4ProjectsIdRepositoryBranchesBranch
       summary: Delete a branch
@@ -64614,6 +66504,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: badge_id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -64810,6 +66704,10 @@ paths:
           type: string
           nullable: true
         in: path
+      - name: badge_id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: false
         content:
@@ -64912,6 +66810,15 @@ paths:
           description: Bad Request
         '404':
           description: Not Found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -64943,6 +66850,14 @@ paths:
           type: integer
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4ProjectsIdIssuesIssueIidAwardEmojiAwardId
       summary: Delete an emoji reaction
@@ -64964,6 +66879,14 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/issues/{issue_iid}/notes/{note_id}/award_emoji":
     get:
@@ -65001,6 +66924,18 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdIssuesIssueIidNotesNoteIdAwardEmoji
       summary: Add a new emoji reaction
@@ -65019,6 +66954,19 @@ paths:
           description: Bad Request
         '404':
           description: Not Found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -65050,6 +66998,18 @@ paths:
           type: integer
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4ProjectsIdIssuesIssueIidNotesNoteIdAwardEmojiAwardId
       summary: Delete an emoji reaction
@@ -65071,6 +67031,18 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: issue_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/award_emoji":
     get:
@@ -65143,6 +67115,15 @@ paths:
           description: Bad Request
         '404':
           description: Not Found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -65174,6 +67155,14 @@ paths:
           type: integer
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4ProjectsIdMergeRequestsMergeRequestIidAwardEmojiAwardId
       summary: Delete an emoji reaction
@@ -65195,6 +67184,14 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/notes/{note_id}/award_emoji":
     get:
@@ -65232,6 +67229,18 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdMergeRequestsMergeRequestIidNotesNoteIdAwardEmoji
       summary: Add a new emoji reaction
@@ -65250,6 +67259,19 @@ paths:
           description: Bad Request
         '404':
           description: Not Found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -65281,6 +67303,18 @@ paths:
           type: integer
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4ProjectsIdMergeRequestsMergeRequestIidNotesNoteIdAwardEmojiAwardId
       summary: Delete an emoji reaction
@@ -65302,6 +67336,18 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: merge_request_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/snippets/{snippet_id}/award_emoji":
     get:
@@ -65374,6 +67420,15 @@ paths:
           description: Bad Request
         '404':
           description: Not Found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: snippet_id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -65405,6 +67460,14 @@ paths:
           type: integer
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: snippet_id
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4ProjectsIdSnippetsSnippetIdAwardEmojiAwardId
       summary: Delete an emoji reaction
@@ -65426,6 +67489,14 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: snippet_id
+        required: true
+        schema: {}
         in: path
   "/api/v4/projects/{id}/snippets/{snippet_id}/notes/{note_id}/award_emoji":
     get:
@@ -65463,6 +67534,18 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: snippet_id
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4ProjectsIdSnippetsSnippetIdNotesNoteIdAwardEmoji
       summary: Add a new emoji reaction
@@ -65481,6 +67564,19 @@ paths:
           description: Bad Request
         '404':
           description: Not Found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: snippet_id
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -65512,6 +67608,18 @@ paths:
           type: integer
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: snippet_id
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4ProjectsIdSnippetsSnippetIdNotesNoteIdAwardEmojiAwardId
       summary: Delete an emoji reaction
@@ -65533,6 +67641,18 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: snippet_id
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
         in: path
   "/api/v4/groups/{id}/epics/{epic_iid}/award_emoji":
     get:
@@ -65605,6 +67725,15 @@ paths:
           description: Bad Request
         '404':
           description: Not Found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: epic_iid
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -65636,6 +67765,14 @@ paths:
           type: integer
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: epic_iid
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4GroupsIdEpicsEpicIidAwardEmojiAwardId
       summary: Delete an emoji reaction
@@ -65657,6 +67794,14 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: epic_iid
+        required: true
+        schema: {}
         in: path
   "/api/v4/groups/{id}/epics/{epic_iid}/notes/{note_id}/award_emoji":
     get:
@@ -65694,6 +67839,18 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: epic_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
     post:
       operationId: postApiV4GroupsIdEpicsEpicIidNotesNoteIdAwardEmoji
       summary: Add a new emoji reaction
@@ -65712,6 +67869,19 @@ paths:
           description: Bad Request
         '404':
           description: Not Found
+      parameters:
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: epic_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
       requestBody:
         required: true
         content:
@@ -65743,6 +67913,18 @@ paths:
           type: integer
           nullable: true
         in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: epic_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
+        in: path
     delete:
       operationId: deleteApiV4GroupsIdEpicsEpicIidNotesNoteIdAwardEmojiAwardId
       summary: Delete an emoji reaction
@@ -65764,6 +67946,18 @@ paths:
         schema:
           type: integer
           nullable: true
+        in: path
+      - name: id
+        required: true
+        schema: {}
+        in: path
+      - name: epic_iid
+        required: true
+        schema: {}
+        in: path
+      - name: note_id
+        required: true
+        schema: {}
         in: path
   "/api/v4/avatar":
     get:

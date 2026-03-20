@@ -3,7 +3,7 @@ import { GlLink, GlSkeletonLoader } from '@gitlab/ui';
 import { GlSingleStat } from '@gitlab/ui/src/charts';
 import { formatBigInt } from '~/analytics/shared/utils';
 import { s__ } from '~/locale';
-import { formatPipelineCountPercentage, formatPipelineDuration } from '../format_utils';
+import { formatPipelineCountPercentage, formatPipelineDuration } from '../../utils';
 
 export default {
   name: 'PipelinesStats',

@@ -4,7 +4,7 @@ import { produce } from 'immer';
 import { createAlert } from '~/alert';
 import { __, s__ } from '~/locale';
 import getBranchesOptionsQuery from '../graphql/queries/get_branches_options.query.graphql';
-import { BRANCH_ANY } from '../constants';
+import { BRANCH_ANY } from '../../constants';
 
 const BRANCH_PAGINATION_LIMIT = 10;
 

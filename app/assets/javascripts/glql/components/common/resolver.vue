@@ -1,5 +1,5 @@
 <script>
-import { pick } from 'lodash';
+import { pick } from 'lodash-es';
 import { sha256 } from '~/lib/utils/text_utility';
 import { InternalEvents } from '~/tracking';
 import { parse } from '../../core/parser';

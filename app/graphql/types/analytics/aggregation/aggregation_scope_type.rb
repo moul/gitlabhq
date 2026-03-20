@@ -13,7 +13,7 @@ module Types
 
             Class.new(BaseObject) do
               graphql_name "#{types_prefix}AggregationScope"
-              description "Aggregation scope for #{types_prefix}. " \
+              description "Aggregation scope for `#{types_prefix}`. " \
                 "Apply ordering and pagination on the aggregation."
 
               field :aggregated,

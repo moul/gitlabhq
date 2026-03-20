@@ -1,10 +1,10 @@
 <script>
 import { s__ } from '~/locale';
 import { createAlert } from '~/alert';
-import { getDateInPast } from '~/lib/utils/datetime_utility';
 import { mergeUrlParams } from '~/lib/utils/url_utility';
-import { DATE_RANGES_AS_DAYS, DATE_RANGE_DEFAULT, BRANCH_ANY } from '../constants';
+import { DATE_RANGES_AS_DAYS, DATE_RANGE_DEFAULT, BRANCH_ANY } from '../../constants';
 import { updateQueryHistory, paramsFromQuery } from '../url_utils';
+import { calculateDatesFromRelativeDays } from '../../utils';
 import getPipelineAnalytics from '../graphql/queries/get_pipeline_analytics.query.graphql';
 
 import DashboardHeader from './dashboard_header.vue';
@@ -98,15 +98,16 @@ export default {
       return branch;
     },
     variables() {
-      // Use UTC time and take beginning of day
-      const today = new Date(new Date().setUTCHours(0, 0, 0, 0));
+      const { fromTime, toTime } = calculateDatesFromRelativeDays(
+        DATE_RANGES_AS_DAYS[this.params.dateRange] || 7,
+      );
 
       return {
         fullPath: this.projectPath,
         source: this.params.source || null,
         branch: this.branchVariable,
-        fromTime: getDateInPast(today, DATE_RANGES_AS_DAYS[this.params.dateRange] || 7),
-        toTime: today,
+        fromTime,
+        toTime,
         jobName: this.params.jobName || null,
       };
     },

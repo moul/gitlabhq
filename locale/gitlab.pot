@@ -2560,9 +2560,6 @@ msgstr ""
 msgid "AICatalog|Agent"
 msgstr ""
 
-msgid "AICatalog|Agent \"%{name}\" could not be enabled."
-msgstr ""
-
 msgid "AICatalog|Agent ID: %{id}"
 msgstr ""
 
@@ -2857,13 +2854,7 @@ msgstr ""
 msgid "AICatalog|Enable %{itemType} in your project"
 msgstr ""
 
-msgid "AICatalog|Enable agent from group"
-msgstr ""
-
 msgid "AICatalog|Enable agent in your project"
-msgstr ""
-
-msgid "AICatalog|Enable flow from group"
 msgstr ""
 
 msgid "AICatalog|Enable flow in your project"
@@ -2927,9 +2918,6 @@ msgid "AICatalog|Failed to report flow. %{error}"
 msgstr ""
 
 msgid "AICatalog|Flow"
-msgstr ""
-
-msgid "AICatalog|Flow \"%{name}\" could not be enabled."
 msgstr ""
 
 msgid "AICatalog|Flow ID: %{id}"
@@ -11081,6 +11069,9 @@ msgid "Auto-dismiss action"
 msgstr ""
 
 msgid "Auto-dismissed by the vulnerability management policy named '%{policy_name}' as the vulnerability matched the policy criteria in pipeline %{pipeline_link}."
+msgstr ""
+
+msgid "Auto-overridden by the vulnerability management policy named '%{policy_name}' in pipeline %{pipeline_link}."
 msgstr ""
 
 msgid "Auto-resolved by the vulnerability management policy named '%{policy_name}' as the vulnerability was no longer detected in pipeline %{pipeline_link}."
@@ -64769,6 +64760,9 @@ msgstr ""
 msgid "SecurityReports|Open vulnerabilities by the amount of time since they were opened."
 msgstr ""
 
+msgid "SecurityReports|Open vulnerabilities by their top ten most common CWE identifiers."
+msgstr ""
+
 msgid "SecurityReports|Open vulnerability trends over time. To interact with a link in a chart popover, click to pin the popover first."
 msgstr ""
 
@@ -64970,6 +64964,9 @@ msgid "SecurityReports|To widen your search, change or remove filters above"
 msgstr ""
 
 msgid "SecurityReports|Tool"
+msgstr ""
+
+msgid "SecurityReports|Top 10 CWEs"
 msgstr ""
 
 msgid "SecurityReports|Total number of %{boldStart}open%{boldEnd} %{severity} vulnerabilities and their median amount of time open. Select the number to see the open vulnerabilities in the vulnerability report."
