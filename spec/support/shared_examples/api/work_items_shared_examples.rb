@@ -210,7 +210,7 @@ RSpec.shared_examples 'avoids N+1 queries' do
 
     expect do
       get api(api_request_path, user), params: { fields: all_fields_param, features: all_features_param }
-    end.to issue_same_number_of_queries_as(baseline).with_threshold(1)
+    end.to issue_same_number_of_queries_as(baseline)
 
     expect(response).to have_gitlab_http_status(:ok)
     expect(json_response.size).to eq(expected_work_item_ids.size + 1)
@@ -243,7 +243,7 @@ RSpec.shared_examples 'work item N+1 query prevention' do
 
     expect do
       get api(api_request_path, user), params: request_params
-    end.to issue_same_number_of_queries_as(baseline).with_threshold(1)
+    end.to issue_same_number_of_queries_as(baseline)
 
     expect(response).to have_gitlab_http_status(:ok)
     expect(json_response.first).to include('reference', 'web_url')

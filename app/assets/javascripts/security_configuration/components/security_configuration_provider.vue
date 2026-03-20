@@ -54,11 +54,6 @@ export default {
       validityChecksAvailable: computed(() => this.graphqlData?.validityChecksAvailable ?? false),
       validityChecksEnabled: computed(() => this.graphqlData?.validityChecksEnabled ?? false),
       userIsProjectAdmin: computed(() => this.graphqlData?.userIsProjectAdmin ?? false),
-      secretPushProtectionLicensed: computed(
-        () => this.graphqlData?.secretPushProtectionLicensed ?? false,
-      ),
-      canEnableSpp: computed(() => this.graphqlData?.canEnableSpp ?? false),
-      isGitlabCom: computed(() => this.graphqlData?.isGitlabCom ?? false),
     };
   },
   data() {
@@ -120,12 +115,9 @@ export default {
           containerScanningForRegistryEnabled: config.containerScanningForRegistryEnabled,
           secretPushProtectionAvailable: config.secretPushProtectionAvailable,
           secretPushProtectionEnabled: config.secretPushProtectionEnabled,
-          secretPushProtectionLicensed: config.secretPushProtectionLicensed,
           validityChecksAvailable: config.validityChecksAvailable,
           validityChecksEnabled: config.validityChecksEnabled,
           userIsProjectAdmin: config.userIsProjectAdmin,
-          canEnableSpp: config.canEnableSpp,
-          isGitlabCom: config.isGitlabCom,
           secretDetectionConfigurationPath: config.secretDetectionConfigurationPath,
           licenseConfigurationSource: config.licenseConfigurationSource,
           vulnerabilityArchiveExportPath: config.vulnerabilityArchiveExportPath,

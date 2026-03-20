@@ -24,8 +24,7 @@ const feature = secretPushProtectionMock;
 const defaultProvide = {
   secretPushProtectionAvailable: true,
   secretPushProtectionEnabled: false,
-  canEnableSpp: true,
-  secretPushProtectionLicensed: true,
+  userIsProjectAdmin: true,
   projectFullPath: 'flightjs/flight',
   secretDetectionConfigurationPath: 'flightjs/Flight/-/security/configuration/secret_detection',
 };
@@ -97,16 +96,6 @@ describe('SecretPushProtectionFeatureCard component', () => {
       expect(button.props('icon')).toBe('settings');
       expect(button.attributes('href')).toBe(secretDetectionConfigurationPath);
       expect(button.attributes('aria-label')).toBe('Configure Secret Detection');
-    });
-
-    it('hides the settings button when not licensed', () => {
-      createComponent({
-        provide: {
-          secretPushProtectionLicensed: false,
-        },
-      });
-
-      expect(findSettingsButton().exists()).toBe(false);
     });
   });
 
@@ -199,11 +188,11 @@ describe('SecretPushProtectionFeatureCard component', () => {
     });
   });
 
-  describe('when user cannot enable SPP', () => {
+  describe('when user is not project admin', () => {
     beforeEach(() => {
       createComponent({
         provide: {
-          canEnableSpp: false,
+          userIsProjectAdmin: false,
         },
       });
     });
@@ -215,22 +204,5 @@ describe('SecretPushProtectionFeatureCard component', () => {
     it('shows access level tooltip', () => {
       expect(findPopover().exists()).toBe(true);
     });
-  });
-
-  it('displays standard message when not available with current license', () => {
-    createComponent({
-      provide: {
-        secretPushProtectionLicensed: false,
-      },
-      props: {
-        feature: {
-          ...secretPushProtectionMock,
-          available: false,
-        },
-      },
-    });
-
-    expect(wrapper.text()).toContain('Available with Ultimate');
-    expect(wrapper.text()).not.toContain('Enabled by default for all public projects');
   });
 });

@@ -49289,7 +49289,7 @@ Security configuration data for a project.
 | <a id="securityconfiguration-autodevopspath"></a>`autoDevopsPath` | [`String`](#string) | Path to Auto DevOps settings. |
 | <a id="securityconfiguration-canapplyprofiles"></a>`canApplyProfiles` | [`Boolean!`](#boolean) | Whether the current user can apply security profiles. |
 | <a id="securityconfiguration-canenableautodevops"></a>`canEnableAutoDevops` | [`Boolean!`](#boolean) | Whether the current user can enable Auto DevOps. |
-| <a id="securityconfiguration-canenablespp"></a>`canEnableSpp` | [`Boolean!`](#boolean) | Whether the current user can enable secret push protection. |
+| <a id="securityconfiguration-canenablespp"></a>`canEnableSpp` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 18.11. Automatic enablement of Secret Push Protection for public GitLab.com projects has been discontinued. |
 | <a id="securityconfiguration-canmanageattributes"></a>`canManageAttributes` | [`Boolean!`](#boolean) | Whether the current user can manage security attributes. |
 | <a id="securityconfiguration-canreadattributes"></a>`canReadAttributes` | [`Boolean!`](#boolean) | Whether the current user can read security attributes. |
 | <a id="securityconfiguration-containerscanningforregistryenabled"></a>`containerScanningForRegistryEnabled` | [`Boolean`](#boolean) | Whether container scanning for registry is enabled. |
@@ -49299,14 +49299,14 @@ Security configuration data for a project.
 | <a id="securityconfiguration-groupfullpath"></a>`groupFullPath` | [`String`](#string) | Full path of the root ancestor group. |
 | <a id="securityconfiguration-groupmanageattributespath"></a>`groupManageAttributesPath` | [`String`](#string) | Path to manage group security attributes. |
 | <a id="securityconfiguration-helppagepath"></a>`helpPagePath` | [`String`](#string) | Path to application security help documentation. |
-| <a id="securityconfiguration-isgitlabcom"></a>`isGitlabCom` | [`Boolean`](#boolean) | Whether the instance is GitLab.com. |
+| <a id="securityconfiguration-isgitlabcom"></a>`isGitlabCom` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 18.11. Automatic enablement of Secret Push Protection for public GitLab.com projects has been discontinued. |
 | <a id="securityconfiguration-latestpipelinepath"></a>`latestPipelinePath` | [`String`](#string) | Path to the latest pipeline on the default branch. |
 | <a id="securityconfiguration-licenseconfigurationsource"></a>`licenseConfigurationSource` | [`String`](#string) | Source of license configuration. |
 | <a id="securityconfiguration-maxtrackedrefs"></a>`maxTrackedRefs` | [`Int`](#int) | Maximum number of refs that can be tracked for security scanning. |
 | <a id="securityconfiguration-secretdetectionconfigurationpath"></a>`secretDetectionConfigurationPath` | [`String`](#string) | Path to secret detection configuration. |
 | <a id="securityconfiguration-secretpushprotectionavailable"></a>`secretPushProtectionAvailable` | [`Boolean!`](#boolean) | Whether secret push protection is available at the instance level. |
 | <a id="securityconfiguration-secretpushprotectionenabled"></a>`secretPushProtectionEnabled` | [`Boolean`](#boolean) | Whether secret push protection is enabled for the project. |
-| <a id="securityconfiguration-secretpushprotectionlicensed"></a>`secretPushProtectionLicensed` | [`Boolean!`](#boolean) | Whether the project has a license for secret push protection. |
+| <a id="securityconfiguration-secretpushprotectionlicensed"></a>`secretPushProtectionLicensed` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 18.11. Automatic enablement of Secret Push Protection for public GitLab.com projects has been discontinued. |
 | <a id="securityconfiguration-securityscanprofileslicensed"></a>`securityScanProfilesLicensed` | [`Boolean!`](#boolean) | Whether the project has a license for security scan profiles. |
 | <a id="securityconfiguration-securitytrainingenabled"></a>`securityTrainingEnabled` | [`Boolean!`](#boolean) | Whether security training is available for the project. |
 | <a id="securityconfiguration-upgradepath"></a>`upgradePath` | [`String`](#string) | Path to upgrade security features. |

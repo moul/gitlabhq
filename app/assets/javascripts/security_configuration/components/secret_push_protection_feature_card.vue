@@ -29,8 +29,7 @@ export default {
   inject: [
     'secretPushProtectionAvailable',
     'secretPushProtectionEnabled',
-    'canEnableSpp',
-    'secretPushProtectionLicensed',
+    'userIsProjectAdmin',
     'projectFullPath',
     'secretDetectionConfigurationPath',
   ],
@@ -74,7 +73,7 @@ export default {
       };
     },
     isToggleDisabled() {
-      return !this.secretPushProtectionAvailable || !this.canEnableSpp;
+      return !this.secretPushProtectionAvailable || !this.userIsProjectAdmin;
     },
     showLock() {
       return this.isToggleDisabled && this.available;
@@ -83,7 +82,7 @@ export default {
       if (!this.secretPushProtectionAvailable) {
         return this.$options.i18n.tooltipDescription;
       }
-      if (!this.canEnableSpp) {
+      if (!this.userIsProjectAdmin) {
         return this.$options.i18n.accessLevelTooltipDescription;
       }
       return '';
@@ -204,7 +203,7 @@ export default {
           @change="toggleSecretPushProtection"
         />
         <gl-button
-          v-if="secretPushProtectionLicensed"
+          v-if="secretPushProtectionAvailable"
           v-gl-tooltip.left.viewport="$options.i18n.settingsButtonTooltip"
           icon="settings"
           category="secondary"

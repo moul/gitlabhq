@@ -38169,7 +38169,7 @@ ALTER TABLE vulnerability_statistics
     ADD CONSTRAINT check_vulnerability_statistics_traversal_ids_not_empty CHECK ((cardinality(traversal_ids) > 0)) NOT VALID;
 
 ALTER TABLE ONLY ci_build_needs
-    ADD CONSTRAINT ci_build_needs_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT ci_build_needs_pkey PRIMARY KEY (id, partition_id);
 
 ALTER TABLE ONLY ci_build_pending_states
     ADD CONSTRAINT ci_build_pending_states_pkey PRIMARY KEY (id);
@@ -43228,8 +43228,6 @@ CREATE INDEX ca_aggregations_last_consistency_check_updated_at ON analytics_cycl
 CREATE INDEX ca_aggregations_last_full_run_at ON analytics_cycle_analytics_aggregations USING btree (last_full_run_at NULLS FIRST) WHERE (enabled IS TRUE);
 
 CREATE INDEX ca_aggregations_last_incremental_run_at ON analytics_cycle_analytics_aggregations USING btree (last_incremental_run_at NULLS FIRST) WHERE (enabled IS TRUE);
-
-CREATE UNIQUE INDEX ci_build_needs_pkey_partitioning ON ci_build_needs USING btree (id, partition_id);
 
 CREATE UNIQUE INDEX ci_job_token_scope_links_source_and_target_project_direction ON ci_job_token_project_scope_links USING btree (source_project_id, target_project_id, direction);
 
