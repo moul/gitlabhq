@@ -1,0 +1,14 @@
+---
+table: label_links
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_label_links
+    dedup_by:
+      - id
+    refresh_on_change:
+      - target_stream_identifier: merge_requests
+        target_keys:
+          - id
+        source_keys:
+          - target_id

@@ -61,7 +61,7 @@ RSpec::Matchers.define :ignore_sensitive_and_encrypted_columns do |table_config,
 
       # Check _token and _html columns
       postgresql_columns.each do |column|
-        next unless column.include?('_token') || column.include?('_html')
+        next unless column.include?('_token') || column.include?('_html') || column.include?('secret')
         next if @skipped_columns.include?(column)
         next if @ignored_columns.include?(column)
 
@@ -94,16 +94,24 @@ RSpec::Matchers.define :have_correct_replication_target do |clickhouse_table_nam
       .map(&:strip)
   end
 
-  match do |content|
-    @errors = []
-    unless content.has_key?('replication_targets')
-      @errors << "missing 'replication_targets' key"
-      next false
-    end
+  def ch_column_names(ch_table)
+    query =
+      <<~SQL
+        SELECT name
+        FROM system.columns
+        WHERE table = '#{ch_table}' AND database = '#{ch_database_name}';
+      SQL
 
+    ClickHouse::Client.select(query, :main).pluck("name")
+  end
+
+  match do |content|
+    next true unless content.has_key?('replication_targets')
+
+    @errors = []
     replication_targets = Array(content['replication_targets'])
-    unless replication_targets.size == 1
-      @errors << "expected exactly 1 replication target, got #{replication_targets.size}"
+    if replication_targets.size > 1
+      @errors << "expected exactly 0 or 1 replication target, got #{replication_targets.size}"
     end
 
     target = replication_targets.first
@@ -137,6 +145,34 @@ RSpec::Matchers.define :have_correct_replication_target do |clickhouse_table_nam
     elsif clickhouse_primary_keys != postgresql_primary_keys
       @errors << "the ClickHouse primary keys (#{clickhouse_primary_keys.join(', ')}) don't match with " \
         "the PostgreSQL table's primary keys (#{postgresql_primary_keys.join(', ')})"
+    end
+
+    Array(target['refresh_on_change']).each do |roc|
+      target_identifier = roc['target_stream_identifier']
+      target_path = Rails.root.join('db', 'siphon', 'tables', "#{target_identifier}.yml")
+      if roc['target_stream_identifier'].empty? || !File.exist?(target_path)
+        @errors << "target table/stream (#{target_path}) is not configured"
+      end
+
+      target_keys = Array(roc['target_keys'])
+
+      target_postgresql_pks = ApplicationRecord.connection.primary_keys(roc['target_stream_identifier'])
+      if target_postgresql_pks != target_keys
+        @errors << "refresh_on_change.target_keys must match with the PostgreSQL primary keys of #{target_identifier}"
+      end
+
+      source_keys = Array(roc['source_keys'])
+      if source_keys.size != target_keys.size
+        @errors << "refresh_on_change.source_keys (#{source_keys.join(', ')}) should have the same " \
+          "size as refresh_on_change.target_keys (#{target_keys.join(', ')})"
+      end
+
+      column_names = ch_column_names(target['target'])
+      source_keys.each do |key|
+        unless column_names.include?(key)
+          @errors << "ClickHouse table '#{target['target']}' doesn't contain '#{key}' column"
+        end
+      end
     end
 
     @errors << "priority must be a number, got: '#{target['priority']}'" unless (target['priority'] || 1).is_a?(Numeric)

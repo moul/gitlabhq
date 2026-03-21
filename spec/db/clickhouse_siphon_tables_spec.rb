@@ -58,7 +58,8 @@ RSpec.describe 'ClickHouse siphon tables', :click_house, feature_category: :data
     let(:clickhouse_table_names) { ch_table_names.pluck('name').to_set }
     let(:skip_ignore_columns) do
       {
-        'namespaces' => %w[max_personal_access_token_lifetime]
+        'namespaces' => %w[max_personal_access_token_lifetime],
+        'users' => %w[otp_secret_expires_at]
       }
     end
 

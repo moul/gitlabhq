@@ -1,0 +1,14 @@
+---
+table: merge_request_metrics
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_merge_request_metrics
+    dedup_by:
+      - id
+    refresh_on_change:
+      - target_stream_identifier: merge_requests
+        target_keys:
+          - id
+        source_keys:
+          - merge_request_id

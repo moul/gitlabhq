@@ -1,0 +1,14 @@
+---
+table: award_emoji
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_award_emoji
+    dedup_by:
+      - id
+    refresh_on_change:
+      - target_stream_identifier: merge_requests
+        target_keys:
+          - id
+        source_keys:
+          - awardable_id
