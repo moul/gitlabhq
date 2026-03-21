@@ -604,6 +604,13 @@ test-linters:
   script:
     - yarn vitest:eslint
 
+test-infection-scanner:
+  extends:
+    - .frontend-test-base
+    - .frontend:rules:test-infection-scanner
+  script:
+    - yarn vitest:infection-scanner
+
 coverage-frontend:
   extends:
     - .default-retry

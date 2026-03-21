@@ -1860,6 +1860,12 @@
     - <<: *if-default-refs
       changes: ["tooling/eslint-config/**/*", "spec/tooling/frontend/eslint-config/**/*"]
 
+.frontend:rules:test-infection-scanner:
+  rules:
+    - <<: *if-merge-request-labels-run-all-jest
+    - <<: *if-default-refs
+      changes: ["scripts/frontend/infection_scanner/**/*", "spec/frontend/scripts/infection_scanner/**/*"]
+
 .frontend:rules:jest-vue3-check-quarantined:
   rules:
     - <<: *if-not-merge-request

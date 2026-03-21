@@ -195,6 +195,7 @@ export default [
       'ee/frontend_islands/',
       'app/assets/javascripts/lib/utils/path_helpers/*.js',
       'ee/app/assets/javascripts/lib/utils/path_helpers/*.js',
+      'spec/frontend/scripts/infection_scanner/fixtures/**',
     ],
   },
   ...compat.extends(...extendConfigs),
