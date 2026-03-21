@@ -71,12 +71,12 @@ project:
   - create_service_account
   - delete_freeze_period
   - delete_job_artifact
+  - delete_protected_tag
   - delete_service_account
   - destroy_deploy_token
   - destroy_deployment
   - destroy_package
   - destroy_protected_branch
-  - destroy_protected_tags
   - destroy_release
   - destroy_resource_access_tokens
   - destroy_upload

@@ -2665,9 +2665,6 @@ msgstr ""
 msgid "AICatalog|Basic information"
 msgstr ""
 
-msgid "AICatalog|Beta"
-msgstr ""
-
 msgid "AICatalog|Build a custom agent in GitLab or connect to an AI model provider you already use."
 msgstr ""
 
@@ -14778,9 +14775,6 @@ msgstr ""
 msgid "Characters over limit"
 msgstr ""
 
-msgid "Chat is not available."
-msgstr ""
-
 msgid "ChatMessage|%{project_link}: Pipeline %{pipeline_link} of %{ref_type} %{ref_link} by %{user_combined_name} %{humanized_status} in %{duration}"
 msgstr ""
 
@@ -26440,7 +26434,13 @@ msgstr ""
 msgid "DuoAgentsPlatform|Cancel session?"
 msgstr ""
 
+msgid "DuoAgentsPlatform|Chat"
+msgstr ""
+
 msgid "DuoAgentsPlatform|Chat with a specialized agent"
+msgstr ""
+
+msgid "DuoAgentsPlatform|Code suggestions will appear here."
 msgstr ""
 
 msgid "DuoAgentsPlatform|Complete multi-step tasks with flows"
@@ -26651,6 +26651,9 @@ msgid "DuoAgentsPlatform|Start a Free Trial"
 msgstr ""
 
 msgid "DuoAgentsPlatform|Start your free %{strongStart}%{trialDuration}-day trial%{strongEnd} now to accelerate your software delivery. Automate tasks with AI agents, from searching projects to creating commits."
+msgstr ""
+
+msgid "DuoAgentsPlatform|Suggestions"
 msgstr ""
 
 msgid "DuoAgentsPlatform|The trigger could not be created. Try again."
@@ -45264,9 +45267,6 @@ msgid "New"
 msgstr ""
 
 msgid "New %{type} in %{project}"
-msgstr ""
-
-msgid "New Chat"
 msgstr ""
 
 msgid "New File"
@@ -68625,9 +68625,6 @@ msgid "Suggestions are not applicable as one or more suggestions were not found.
 msgstr ""
 
 msgid "Suggestions are not applicable as their lines cannot overlap."
-msgstr ""
-
-msgid "Suggestions content placeholder"
 msgstr ""
 
 msgid "Suggestions must all be on the same branch."

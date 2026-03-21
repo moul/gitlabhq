@@ -156,7 +156,8 @@ class IssuePolicy < IssuablePolicy
     enable :admin_issue_link
   end
 
-  rule { support_bot & service_desk_enabled }.enable :admin_issue_relation
+  rule { support_bot }.enable :admin_issue_relation
+  rule { support_bot & ~service_desk_enabled }.prevent_all
 
   rule { can_read_crm_contacts }.policy do
     enable :read_crm_contacts

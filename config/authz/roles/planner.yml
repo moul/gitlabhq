@@ -22,6 +22,7 @@ project:
   - create_requirement
   - create_requirement_test_report
   - create_saved_view
+  - create_ticket
   - create_wiki
   - destroy_design
   - destroy_issue

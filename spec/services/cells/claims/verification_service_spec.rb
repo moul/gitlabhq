@@ -6,14 +6,13 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
   let(:mock_claim_service) { instance_double(::Gitlab::TopologyServiceClient::ClaimService) }
   let(:lease_uuid) { SecureRandom.uuid }
   let(:fake_deadline) { 'fake-deadline' }
-  let(:redis_key) { "cells:claims:verification_service:last_processed_id:#{User.table_name}" }
+  let(:timeout) { 1.minute }
+  let(:service) { described_class.new(User, timeout: timeout) }
   let(:begin_update_response) do
     Gitlab::Cells::TopologyService::Claims::V1::BeginUpdateResponse.new(
       lease_uuid: Gitlab::Cells::TopologyService::Types::V1::UUID.new(value: lease_uuid)
     )
   end
-
-  let(:service) { described_class.new(User) }
 
   before do
     stub_config_cell(enabled: true)
@@ -63,10 +62,10 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         end
       end
 
-      let(:service) { described_class.new(non_claimable_model) }
+      let(:service) { described_class.new(non_claimable_model, timeout: timeout) }
 
       it 'returns zero creates and destroys' do
-        expect(service.execute).to eq({ created: 0, destroyed: 0 })
+        expect(service.execute).to include(created: 0, destroyed: 0, over_time: false)
       end
 
       it 'logs a warning' do
@@ -84,7 +83,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       end
 
       it 'returns zero creates and destroys' do
-        expect(service.execute).to eq({ created: 0, destroyed: 0 })
+        expect(service.execute).to include(created: 0, destroyed: 0, over_time: false)
       end
 
       it 'does not call begin_update' do
@@ -121,6 +120,11 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         expect(result[:destroyed]).to eq(0)
       end
 
+      it 'returns last_id' do
+        result = service.execute
+        expect(result[:last_id]).to eq(user.id)
+      end
+
       it 'logs batch progress with first and last IDs' do
         expect(Gitlab::AppLogger).to receive(:info).with(
           hash_including(
@@ -128,7 +132,8 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
             batch_first_id: 0,
             batch_last_id: user.id,
             created: User.cells_claims_attributes.size,
-            destroyed: 0
+            destroyed: 0,
+            over_time: false
           )
         )
 
@@ -173,7 +178,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       end
 
       it 'returns zero creates and destroys' do
-        expect(service.execute).to eq({ created: 0, destroyed: 0 })
+        expect(service.execute).to include(created: 0, destroyed: 0, over_time: false)
       end
     end
 
@@ -233,57 +238,57 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         expect(result[:created]).to eq(3 * User.cells_claims_attributes.size)
       end
 
-      it 'saves last processed id with TTL after each batch' do
-        redis_snapshots = []
-
-        allow(service).to receive(:save_last_processed_id).and_wrap_original do |original, id|
-          original.call(id)
-          Gitlab::Redis::SharedState.with do |redis|
-            redis_snapshots << {
-              value: redis.get(redis_key),
-              ttl: redis.ttl(redis_key)
-            }
-          end
-        end
-
-        service.execute
-
-        batch_ids = users.each_slice(2).map { |batch| batch.last.id.to_s }
-        expect(redis_snapshots.pluck(:value)).to include(*batch_ids)
-        expect(redis_snapshots).to all(include(
-          ttl: be_between(
-            (described_class::REDIS_LAST_PROCESSED_ID_TTL - 1.minute).to_i,
-            described_class::REDIS_LAST_PROCESSED_ID_TTL.to_i
-          )
-        ))
-      end
-
-      it 'resets last_processed_id to 0 after all batches complete' do
-        service.execute
-
-        Gitlab::Redis::SharedState.with do |redis|
-          expect(redis.get(redis_key)).to eq('0')
-        end
+      it 'returns the last_id of the final batch' do
+        result = service.execute
+        expect(result[:last_id]).to eq(users.last.id)
       end
     end
 
-    context 'when last_processed_id is already set in Redis' do
+    context 'when start_id is provided' do
       let!(:old_user) { create(:user) }
       let!(:new_user) { create(:user) }
       let(:expected_records) { new_user.cells_claims_metadata.map { |m| m.except(:record) } }
+      let(:service) { described_class.new(User, timeout: timeout, start_id: old_user.id) }
 
       before do
-        Gitlab::Redis::SharedState.with { |r| r.set(redis_key, old_user.id) }
         stub_list_records([])
         stub_commit
       end
 
-      it 'resumes from the last processed id' do
+      it 'resumes from the given start_id' do
         expect(mock_claim_service).to receive(:begin_update).once.with(
           hash_including(create_records: match_array(expected_records))
         ).and_return(begin_update_response)
 
         service.execute
+      end
+    end
+
+    context 'when runtime limit is exceeded' do
+      let!(:users) { create_list(:user, 3) }
+      let(:runtime_limiter) { instance_double(Gitlab::Metrics::RuntimeLimiter) }
+
+      before do
+        stub_const("#{described_class}::LIMIT", 2)
+        stub_list_records([])
+        stub_commit
+        allow(Gitlab::Metrics::RuntimeLimiter).to receive(:new).and_return(runtime_limiter)
+        # First batch completes, over_time? returns true after processing
+        allow(runtime_limiter).to receive_messages(over_time?: true, was_over_time?: true)
+      end
+
+      it 'stops processing after the runtime limit is reached' do
+        result = service.execute
+
+        # Only first batch (2 users) processed, third user skipped
+        expect(result[:created]).to eq(2 * User.cells_claims_attributes.size)
+        expect(result[:over_time]).to be(true)
+      end
+
+      it 'returns last_id for the caller to save' do
+        result = service.execute
+
+        expect(result[:last_id]).to eq(users[1].id)
       end
     end
 
@@ -301,15 +306,11 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         expect { service.execute }.not_to raise_error
       end
 
-      it 'returns zero created and destroyed' do
+      it 'does not count records when commit fails' do
         result = service.execute
+
         expect(result[:created]).to eq(0)
         expect(result[:destroyed]).to eq(0)
-      end
-
-      it 'does not save last_processed_id for the failed batch' do
-        expect(service).not_to receive(:save_last_processed_id).with(user.id)
-        service.execute
       end
     end
   end

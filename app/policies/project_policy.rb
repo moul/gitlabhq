@@ -944,16 +944,9 @@ class ProjectPolicy < BasePolicy
     enable :read_build_report_results
   end
 
-  rule { support_bot }.enable :guest_access
-  rule { support_bot & ~service_desk_enabled }.policy do
-    prevent :create_note
-    prevent :read_project
-    prevent :guest_access
-  end
+  rule { support_bot & ~service_desk_enabled }.prevent_all
 
-  rule { (can?(:planner_access) | can?(:reporter_access)) & service_desk_enabled }.policy do
-    enable :create_ticket
-  end
+  rule { ~service_desk_enabled }.prevent :create_ticket
 
   rule { project_bot }.enable :project_bot_access
 
@@ -1097,8 +1090,7 @@ class ProjectPolicy < BasePolicy
   end
 
   def lookup_access_level!
-    return ::Gitlab::Access::REPORTER if alert_bot?
-    return ::Gitlab::Access::REPORTER if support_bot? && service_desk_enabled?
+    return ::Gitlab::Access::REPORTER if alert_bot? || support_bot?
 
     # NOTE: max_member_access_for_user is cached
     project.max_member_access_for_user(@user)

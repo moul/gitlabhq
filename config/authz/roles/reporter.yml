@@ -22,6 +22,7 @@ project:
   - create_requirement_test_report
   - create_saved_view
   - create_snippet
+  - create_ticket
   - daily_statistics
   - delete_project_secrets
   - destroy_design

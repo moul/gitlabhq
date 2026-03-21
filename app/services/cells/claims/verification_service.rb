@@ -7,15 +7,16 @@ module Cells
 
       LIMIT = 1000
       GRPC_QUERY_TIMEOUT_IN_SECONDS = 5
-      REDIS_LAST_PROCESSED_ID_TTL = 1.hour
 
       attr_reader :model
 
-      def initialize(model)
+      def initialize(model, timeout:, start_id: 0)
         @claim_service = Gitlab::TopologyServiceClient::ClaimService.instance
         @model = model
         @created_count = 0
         @destroyed_count = 0
+        @runtime_limiter = Gitlab::Metrics::RuntimeLimiter.new(timeout)
+        @start_id = start_id
       end
 
       def execute
@@ -25,27 +26,29 @@ module Cells
             message: "#{model.name} model is not claimable, skipping verification",
             feature_category: :cell
           )
-          return { created: 0, destroyed: 0 }
+          return { created: 0, destroyed: 0, over_time: false, last_id: nil }
         end
 
         reconcile_claims
 
         {
           created: @created_count,
-          destroyed: @destroyed_count
+          destroyed: @destroyed_count,
+          over_time: runtime_limiter.was_over_time?,
+          last_id: @scan_last_id
         }
       end
 
       private
 
-      attr_reader :claim_service
+      attr_reader :claim_service, :runtime_limiter
 
       def claimable_model?
         Cells::Claimable.models_with_claims.include?(model)
       end
 
       def reconcile_claims
-        start_id = last_processed_id
+        start_id = @start_id
 
         loop do
           local_records = find_local_records(start_id)
@@ -54,9 +57,9 @@ module Cells
           last_id = local_records.last.read_attribute(model.primary_key)
           ts_records = list_ts_records(model, start_id, last_id)
 
-          created, destroyed, committed = process_batch(local_records, ts_records)
+          created, destroyed = process_batch(local_records, ts_records)
 
-          save_last_processed_id(last_id) if committed
+          @scan_last_id = last_id
           Gitlab::AppLogger.info(
             class: self.class.name,
             message: "Cells::Claims::VerificationService batch processed",
@@ -65,14 +68,14 @@ module Cells
             batch_last_id: last_id,
             created: created,
             destroyed: destroyed,
+            over_time: runtime_limiter.was_over_time?,
             cell_id: claim_service.cell_id,
             feature_category: :cell
           )
+          break if runtime_limiter.over_time?
 
           start_id = last_id
         end
-
-        save_last_processed_id(0)
       end
 
       def find_local_records(start_id)
@@ -125,7 +128,7 @@ module Cells
           @destroyed_count += destroys.size
         end
 
-        [creates.size, destroys.size, committed]
+        [creates.size, destroys.size]
       end
 
       def compute_changes(local_records_by_id, ts_records_map)
@@ -182,18 +185,6 @@ module Cells
           subject: { type: meta.subject.type, id: meta.subject.id },
           source: { type: meta.source.type, rails_primary_key_id: meta.source.rails_primary_key_id }
         }
-      end
-
-      def last_processed_id
-        Gitlab::Redis::SharedState.with { |redis| redis.get(redis_key).to_i }
-      end
-
-      def save_last_processed_id(id)
-        Gitlab::Redis::SharedState.with { |redis| redis.set(redis_key, id, ex: REDIS_LAST_PROCESSED_ID_TTL) }
-      end
-
-      def redis_key
-        "cells:claims:verification_service:last_processed_id:#{model.table_name}"
       end
 
       def grpc_deadline

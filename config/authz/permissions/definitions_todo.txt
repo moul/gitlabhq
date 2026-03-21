@@ -285,7 +285,6 @@ destroy_project_bot_member
 destroy_project_group_link
 destroy_project_member
 destroy_protected_branch
-destroy_protected_tags
 destroy_release
 destroy_requirement
 destroy_resource_access_tokens

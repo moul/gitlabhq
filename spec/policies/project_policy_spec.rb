@@ -1341,10 +1341,10 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
 
   context 'support bot' do
     let(:current_user) { create(:support_bot) }
+    let(:permissions) { %i[reporter_access create_note read_issue read_work_item create_ticket] }
 
     context 'with service desk disabled' do
-      it { expect_allowed(:public_access) }
-      it { expect_disallowed(:guest_access, :create_note, :read_project, :create_ticket) }
+      it { expect_disallowed(*permissions) }
     end
 
     context 'with service desk enabled' do
@@ -1352,14 +1352,14 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
         allow(::ServiceDesk).to receive(:enabled?).with(project).and_return(true)
       end
 
-      it { expect_allowed(:reporter_access, :create_note, :read_issue, :read_work_item, :create_ticket) }
+      it { expect_allowed(*permissions) }
 
       context 'when issues are protected members only' do
         before do
           project.project_feature.update!(issues_access_level: ProjectFeature::PRIVATE)
         end
 
-        it { expect_allowed(:reporter_access, :create_note, :read_issue, :read_work_item) }
+        it { expect_allowed(*permissions) }
       end
     end
   end

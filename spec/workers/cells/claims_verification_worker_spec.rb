@@ -2,9 +2,10 @@
 
 require 'spec_helper'
 
-RSpec.describe Cells::ClaimsVerificationWorker, feature_category: :cell do
+RSpec.describe Cells::ClaimsVerificationWorker, :clean_gitlab_redis_shared_state, feature_category: :cell do
   let(:worker) { described_class.new }
   let(:mock_service) { instance_double(Cells::Claims::VerificationService) }
+  let(:redis_key) { "cells:claims:verification_service:last_processed_id:User" }
 
   before do
     stub_config_cell(enabled: true)
@@ -12,6 +13,13 @@ RSpec.describe Cells::ClaimsVerificationWorker, feature_category: :cell do
 
   it_behaves_like 'an idempotent worker' do
     let(:job_args) { ["User"] }
+  end
+
+  describe '#lease_key' do
+    it 'includes the model name for per-model locking' do
+      worker.perform("User") # sets @model_name
+      expect(worker.send(:lease_key)).to eq("cells/claims_verification_worker:User")
+    end
   end
 
   describe '#perform' do
@@ -82,10 +90,13 @@ RSpec.describe Cells::ClaimsVerificationWorker, feature_category: :cell do
 
     context 'when model is valid' do
       before do
-        allow(Cells::Claims::VerificationService).to receive(:new).with(User).and_return(mock_service)
+        allow(Cells::Claims::VerificationService).to receive(:new)
+          .with(User, timeout: described_class::MAX_RUNTIME, start_id: 0).and_return(mock_service)
         allow(mock_service).to receive(:execute).and_return({
           created: 3,
-          destroyed: 1
+          destroyed: 1,
+          over_time: false,
+          last_id: 100
         })
       end
 
@@ -95,14 +106,112 @@ RSpec.describe Cells::ClaimsVerificationWorker, feature_category: :cell do
         worker.perform(model_name)
       end
 
+      it 'does not re-enqueue itself' do
+        expect(described_class).not_to receive(:perform_async)
+
+        worker.perform(model_name)
+      end
+
+      it 'resets last_processed_id to 0' do
+        worker.perform(model_name)
+
+        Gitlab::Redis::SharedState.with do |redis|
+          expect(redis.get(redis_key)).to eq('0')
+        end
+      end
+
       it 'logs the verification result' do
         expect(worker).to receive(:log_hash_metadata_on_done).with(
           message: 'Records verification completed',
           feature_category: :cell,
           model: "User",
           created: 3,
-          destroyed: 1
+          destroyed: 1,
+          over_time: false,
+          start_id: 0,
+          last_id: 100
         )
+
+        worker.perform(model_name)
+      end
+    end
+
+    context 'when the service exceeds the runtime limit' do
+      before do
+        allow(Cells::Claims::VerificationService).to receive(:new)
+          .with(User, timeout: described_class::MAX_RUNTIME, start_id: 0).and_return(mock_service)
+        allow(mock_service).to receive(:execute).and_return({
+          created: 5,
+          destroyed: 0,
+          over_time: true,
+          last_id: 5000
+        })
+      end
+
+      it 're-enqueues itself' do
+        expect(described_class).to receive(:perform_async).with(model_name)
+
+        worker.perform(model_name)
+      end
+
+      it 'saves last_processed_id for the next run' do
+        allow(described_class).to receive(:perform_async)
+
+        worker.perform(model_name)
+
+        Gitlab::Redis::SharedState.with do |redis|
+          expect(redis.get(redis_key).to_i).to eq(5000)
+        end
+      end
+
+      it 'logs over_time in metadata' do
+        allow(described_class).to receive(:perform_async)
+
+        expect(worker).to receive(:log_hash_metadata_on_done).with(
+          hash_including(over_time: true, start_id: 0, last_id: 5000)
+        )
+
+        worker.perform(model_name)
+      end
+    end
+
+    context 'when last_processed_id is already set in Redis' do
+      before do
+        Gitlab::Redis::SharedState.with { |r| r.set(redis_key, 3000) }
+        allow(Cells::Claims::VerificationService).to receive(:new)
+          .with(User, timeout: described_class::MAX_RUNTIME, start_id: 3000).and_return(mock_service)
+        allow(mock_service).to receive(:execute).and_return({
+          created: 2,
+          destroyed: 0,
+          over_time: false,
+          last_id: 5000
+        })
+      end
+
+      it 'passes the last_processed_id as start_id to the service' do
+        expect(Cells::Claims::VerificationService).to receive(:new)
+          .with(User, timeout: described_class::MAX_RUNTIME, start_id: 3000)
+          .and_return(mock_service)
+
+        worker.perform(model_name)
+      end
+    end
+
+    context 'when the exclusive lease is already held' do
+      include ExclusiveLeaseHelpers
+
+      before do
+        stub_exclusive_lease_taken("cells/claims_verification_worker:User")
+      end
+
+      it 'does not execute the verification service' do
+        expect(Cells::Claims::VerificationService).not_to receive(:new)
+
+        worker.perform(model_name)
+      end
+
+      it 'does not re-enqueue itself' do
+        expect(described_class).not_to receive(:perform_async)
 
         worker.perform(model_name)
       end
@@ -112,7 +221,8 @@ RSpec.describe Cells::ClaimsVerificationWorker, feature_category: :cell do
       let(:error) { StandardError.new('something went wrong') }
 
       before do
-        allow(Cells::Claims::VerificationService).to receive(:new).with(User).and_return(mock_service)
+        allow(Cells::Claims::VerificationService).to receive(:new)
+          .with(User, timeout: described_class::MAX_RUNTIME, start_id: 0).and_return(mock_service)
         allow(mock_service).to receive(:execute).and_raise(error)
       end
 

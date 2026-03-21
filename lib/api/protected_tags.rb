@@ -113,7 +113,7 @@ module API
       # rubocop: disable CodeReuse/ActiveRecord
       route_setting :authorization, permissions: :delete_protected_tag, boundary_type: :project
       delete ':id/protected_tags/:name', requirements: TAG_ENDPOINT_REQUIREMENTS do
-        authorize!(:destroy_protected_tags, user_project)
+        authorize!(:delete_protected_tag, user_project)
 
         protected_tag = user_project.protected_tags.find_by!(name: params[:name])
 
