@@ -417,9 +417,9 @@ class ProjectPolicy < BasePolicy
     prevent :create_merge_request_in
   end
 
-  rule { can?(:reporter_access) & can?(:create_issue) }.enable :create_incident
+  rule { ~can?(:create_issue) }.prevent :create_incident
 
-  rule { can?(:reporter_access) & can?(:read_environment) }.enable :read_freeze_period
+  rule { ~can?(:read_environment) }.prevent :read_freeze_period
 
   rule { can?(:create_issue) }.enable :create_work_item
 

@@ -180,12 +180,12 @@ class IssuePolicy < IssuablePolicy
     enable :clone_issue
   end
 
-  rule { is_incident & ~can?(:reporter_access) }.policy do
+  rule { is_incident & ~can?(:_update_incident_work_item) }.policy do
     prevent :admin_issue
     prevent :update_issue
   end
 
-  rule { is_incident & ~can?(:owner_access) }.policy do
+  rule { is_incident & ~can?(:_delete_incident_work_item) }.policy do
     prevent :destroy_issue
   end
 

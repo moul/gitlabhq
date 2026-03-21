@@ -7,6 +7,7 @@ inherits_from:
 project:
   permissions: []
   raw_permissions:
+  - _update_incident_work_item
   - admin_issue
   - admin_issue_board
   - admin_issue_board_list
@@ -16,6 +17,7 @@ project:
   - admin_requirement
   - admin_work_item
   - create_design
+  - create_incident
   - create_iteration
   - create_project_secrets
   - create_requirement
@@ -46,6 +48,7 @@ project:
   - read_environment
   - read_external_emails
   - read_external_status_check_response
+  - read_freeze_period
   - read_grafana
   - read_harbor_registry
   - read_internal_note

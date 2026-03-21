@@ -1608,3 +1608,8 @@ Gitlab/Authz/EnableInBasePolicy:
   Include:
     - 'app/policies/base_policy.rb'
     - 'ee/app/policies/ee/base_policy.rb'
+
+Gitlab/Authz/AvoidHighestRoleUsage:
+  Include:
+    - 'app/policies/**/*.rb'
+    - 'ee/app/policies/**/*.rb'

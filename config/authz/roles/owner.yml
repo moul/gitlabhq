@@ -9,6 +9,7 @@ inherits_from:
 project:
   permissions: []
   raw_permissions:
+  - _delete_incident_work_item
   - add_catalog_resource
   - admin_project_secrets_manager
   - archive_project

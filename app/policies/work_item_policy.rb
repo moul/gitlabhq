@@ -29,14 +29,14 @@ class WorkItemPolicy < IssuePolicy
     enable :clone_work_item
   end
 
-  rule { is_incident & ~can?(:reporter_access) }.policy do
+  rule { is_incident & ~can?(:_update_incident_work_item) }.policy do
     prevent :update_work_item
     prevent :admin_work_item
     prevent :admin_work_item_link
     prevent :admin_parent_link
   end
 
-  rule { is_incident & ~can?(:owner_access) }.policy do
+  rule { is_incident & ~can?(:_delete_incident_work_item) }.policy do
     prevent :delete_work_item
   end
 
