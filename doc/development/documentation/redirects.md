@@ -14,6 +14,7 @@ Add a redirect to ensure:
 - Users see the new page and can update or delete their bookmark.
 - External sites can update their links, especially sites that have automation that
   checks for redirected links.
+- Translated documentation can always fall back to an existing file in the English content.
 - The documentation site global navigation does not link to a missing page.
 
   The links in the global navigation are already tested in the `docs-gitlab-com` project.
@@ -160,3 +161,29 @@ of the following must be true:
   a GitLab Self-Managed release.
 - The page does not contain any content of value, like a placeholder page or a page
   with extremely low usage statistics.
+
+## Troubleshooting
+
+### Error: `Duplicate content path` after moving a page
+
+If you move a file into a directory of the same name, you might get a `Duplicate content path` error.
+For example:
+
+- Source file: `doc/development/testing.md` (becomes the new redirect)
+- Target file: `doc/development/testing/_index.md`
+
+```shell
+WARN  Duplicate content path: "/development/testing" file: "gitlab/doc/development/testing.md"
+panic: Duplicate content path: "/development/testing" file: "gitlab/doc/development/testing.md"
+```
+
+This error happens because both the redirect file and the new file would publish
+to an identical URL path. In this example both files would need to be published to
+`https://docs.gitlab.com/testing/`, which is invalid.
+
+To avoid this issue, review the content of the source page and choose an alternative name
+for the new file or directory. Choosing a different directory name allows you to use `_index.md`
+for the file name. For example:
+
+- Source file: `doc/development/testing.md` (becomes the new redirect)
+- Target file: `doc/development/backend_testing/_index.md`

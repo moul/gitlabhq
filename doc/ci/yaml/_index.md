@@ -1555,10 +1555,6 @@ Scripts you specify in `after_script` execute in a new shell, separate from any
   In GitLab 16.3 and earlier, the timeout is hard-coded to 5 minutes.
 - Don't affect the job's exit code. If the `script` section succeeds and the
   `after_script` times out or fails, the job exits with code `0` (`Job Succeeded`).
-- There is a known issue with using [CI/CD job tokens](../jobs/ci_job_token.md) with `after_script`.
-  You can use a job token for authentication in `after_script` commands, but the token
-  immediately becomes invalid if the job is canceled. See [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/473376)
-  for more details.
 - For jobs that time out:
   - `after_script` commands do not execute by default.
   - You can [configure timeout values](../runners/configure_runners.md#ensuring-after_script-execution) to ensure `after_script` runs by setting appropriate `RUNNER_SCRIPT_TIMEOUT` and `RUNNER_AFTER_SCRIPT_TIMEOUT` values that don't exceed the job's timeout.
@@ -2073,8 +2069,8 @@ rspec:
 
 **Additional details**:
 
-- Combining reports in parent pipelines using [artifacts from child pipelines](#needspipelinejob) is
-  not supported. Track progress on adding support in [this issue](https://gitlab.com/gitlab-org/gitlab/-/issues/215725).
+- Combining reports in parent pipelines using [artifacts from child pipelines](#needspipelinejob)
+  is not supported. For more information, see [epic 8205](https://gitlab.com/groups/gitlab-org/-/work_items/8205).
 - To be able to browse and download the report output files, include the [`artifacts:paths`](#artifactspaths) keyword. This uploads and stores the artifact twice.
 - Artifacts created for `artifacts: reports` are always uploaded, regardless of the job results (success or failure).
   You can use [`artifacts:expire_in`](#artifactsexpire_in) to set an expiration
@@ -2357,8 +2353,8 @@ use the new cache, instead of rebuilding the dependencies.
 
 - The cache `key` is a SHA computed from the content of the listed files. If a file doesn't exist, it's ignored in the key calculation.
   If none of the specified files exist, the fallback key is `default`.
-- Wildcard patterns like `**/package.json` can be used. An [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/301161)
-  exists to increase the number of paths or patterns allowed for a cache key.
+- Wildcard patterns like `**/package.json` can be used.
+- A maximum of two files can be specified. For updates on increasing the number of allowed paths or patterns, see [issue 301161](https://gitlab.com/gitlab-org/gitlab/-/work_items/301161).
 
 ---
 
@@ -2683,7 +2679,7 @@ In this example:
 - If there are multiple coverage numbers found in the matched fragment, the first number is used.
 - Leading zeros are removed.
 - Coverage output from [child pipelines](../pipelines/downstream_pipelines.md#parent-child-pipelines)
-  is not recorded or displayed. Check [the related issue](https://gitlab.com/gitlab-org/gitlab/-/issues/280818)
+  is not recorded or displayed. See [issue 280818](https://gitlab.com/gitlab-org/gitlab/-/issues/280818)
   for more details.
 
 ---
@@ -4765,9 +4761,8 @@ for `PROVIDER` and `STACK`:
 **Additional details**:
 
 - `parallel:matrix` jobs add the matrix values to the job names to differentiate
-  the jobs from each other, but [large values can cause names to exceed limits](https://gitlab.com/gitlab-org/gitlab/-/issues/362262):
-  - [Job names](../jobs/_index.md#job-names) must be 255 characters or fewer.
-  - When using [`needs`](#needs), job names must be 128 characters or fewer.
+  the jobs from each other. However, long values can cause job names to exceed the
+  255-character limit. For more information, see [epic 11791](https://gitlab.com/groups/gitlab-org/-/work_items/11791).
 - You cannot use the matrix values as variables for [`rules:if`](#rulesif).
 - You cannot create multiple matrix configurations with the same values but different names.
   Job names are generated from the matrix values, not the names, so matrix entries
@@ -4844,7 +4839,7 @@ This example creates a release:
 
 **Additional details**:
 
-- All release jobs, except [trigger](#trigger) jobs, must include the `script` keyword. A release
+- Release jobs must include the `script` keyword. A release
   job can use the output from script commands. If you don't need the script, you can use a placeholder:
 
   ```yaml
@@ -4852,7 +4847,7 @@ This example creates a release:
     - echo "release job"
   ```
 
-  An [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/223856) exists to remove this requirement.
+  For more details, see [issue 223856](https://gitlab.com/gitlab-org/gitlab/-/issues/223856), which aims to remove this restriction.
 
 - The `release` section executes after the `script` keyword and before the `after_script`.
 - A release is created only if the job's main script succeeds.
@@ -5322,7 +5317,7 @@ job:
   with `if`. See [issue 327780](https://gitlab.com/gitlab-org/gitlab/-/issues/327780) for more details.
 - If a rule matches and has no `when` defined, the rule uses the `when`
   defined for the job, which defaults to `on_success` if not defined.
-- You can [mix `when` at the job-level with `when` in rules](https://gitlab.com/gitlab-org/gitlab/-/issues/219437).
+- You can mix `when` at the job-level with `when` in rules.
   `when` configuration in `rules` takes precedence over `when` at the job-level.
 - Unlike variables in [`script`](../variables/job_scripts.md)
   sections, variables in rules expressions are always formatted as `$VARIABLE`.
@@ -6218,7 +6213,8 @@ the job configuration takes precedence and the default configuration is not used
 - `<image-name>:<tag>`
 - `<image-name>@<digest>`
 
-CI/CD variables [are supported](../variables/where_variables_can_be_used.md#gitlab-ciyml-file), but [not for `alias`](https://gitlab.com/gitlab-org/gitlab/-/issues/19561).
+CI/CD variables [are supported](../variables/where_variables_can_be_used.md#gitlab-ciyml-file), but not for `alias`.
+To customize `alias` dynamically, use [CI/CD inputs](../inputs/_index.md) instead.
 
 **Example of `services`**:
 

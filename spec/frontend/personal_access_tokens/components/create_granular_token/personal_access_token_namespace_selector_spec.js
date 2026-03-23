@@ -5,6 +5,7 @@ import { mountExtended } from 'helpers/vue_test_utils_helper';
 import createMockApollo from 'helpers/mock_apollo_helper';
 import waitForPromises from 'helpers/wait_for_promises';
 import { createAlert } from '~/alert';
+import CrudComponent from '~/vue_shared/components/crud_component.vue';
 import PersonalAccessTokenNamespaceSelector from '~/personal_access_tokens/components/create_granular_token/personal_access_token_namespace_selector.vue';
 import getUserGroupsAndProjects from '~/personal_access_tokens/graphql/get_user_groups_and_projects.query.graphql';
 import { DEBOUNCE_DELAY } from '~/vue_shared/components/filtered_search_bar/constants';
@@ -46,6 +47,7 @@ describe('PersonalAccessTokenNamespaceSelector', () => {
     });
   };
 
+  const findCrudComponent = () => wrapper.findComponent(CrudComponent);
   const findListbox = () => wrapper.findComponent(GlCollapsibleListbox);
   const findSelectedNamespaces = () => wrapper.findByTestId('selected-namespaces');
   const findRemoveButtons = () => wrapper.findAllByTestId('remove-namespace');
@@ -60,6 +62,10 @@ describe('PersonalAccessTokenNamespaceSelector', () => {
   });
 
   describe('rendering', () => {
+    it('renders the crud component', () => {
+      expect(findCrudComponent().props('title')).toBe('Group or project');
+    });
+
     it('renders the collapsible listbox', () => {
       expect(findListbox().exists()).toBe(true);
       expect(findListbox().props('toggleText')).toBe('Add group or project');

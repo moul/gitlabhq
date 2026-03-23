@@ -25,35 +25,15 @@ The purpose of the sharding key is documented in the
 but in short this column is used to provide a standard way of determining which
 Organization owns a particular row in the database.
 
-The actual name of the foreign key can be anything but it must reference a row
-in `projects` or `namespaces`. The chosen `sharding_key` column must be non-nullable.
-
-The reasoning for adding sharding keys, and which keys to add to a table/row, goes like this:
-
-- In order to move organizations across cells, we want `organization_id` on all rows of all tables.
-- But `organization_id` on rows that are actually owned by a top-level group (or its subgroups or projects) makes
-  top-level group transfer inefficient (due to `organization_id` rewrites) to the point of being impractical.
-- Compromise: Add `organization_id` or `namespace_id` to all rows of all tables.
-- But `namespace_id` on rows of tables that are actually owned by projects makes project transfer (and certain subgroup
-  transfers) inefficient (due to `namespace_id` rewrites) to the point of being impractical.
-- Compromise: Add `organization_id`, `namespace_id`, or `project_id` to all rows of all tables (whichever is most specific).
-
 ## Choosing the right sharding key
 
 Every row must have exactly 1 sharding key, and it should be as specific as possible. Exceptions cannot be made on large
 tables.
 
-In rare cases where a table can belong to multiple different parent entities (for example, both a project and a namespace),
-you may define the `sharding_key` with multiple columns.
-This is only allowed if the table has a check constraint that correctly ensures exactly one of the sharding key columns must be non-nullable for a row in the table.
-See [`NOT NULL` constraints for multiple columns](../../database/not_null_constraints.md#not-null-constraints-for-multiple-columns)
-for instructions on creating these constraints.
+The actual name of the foreign key can be anything but it must reference a row
+in `projects` or `namespaces`.
 
-> [!warning]
-> Tables with multiple-column sharding key may be required to be split into separate tables in the future to support efficient data migration and isolation across cells.
-> Avoid designing new tables with multiple-column sharding keys unless absolutely necessary.
-
-The following are examples of valid sharding keys:
+The following are examples of a valid sharding key:
 
 - The table entries belong only to a project:
 
@@ -83,7 +63,34 @@ The following are examples of valid sharding keys:
     group_id: namespaces
   ```
 
-- The table entries belong to a namespace or a project:
+- (Only for `gitlab_main_user`) The table entries belong only to a user:
+
+  ```yaml
+  sharding_key:
+    user_id: users
+  ```
+
+### The sharding key must be non-nullable
+
+The chosen `sharding_key` must be non-nullable.
+We must be able to consistently attribute each row to an organization,
+and not lose data after migrating an organization to another cell.
+
+Additionally, to set up row filtering for Org Mover, we require a
+[`REPLICA IDENTITY`](https://www.postgresql.org/docs/current/logical-replication-row-filter.html#LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS)
+that includes the sharding key column.
+This `REPLICA IDENTITY` must include only columns that are
+[not null](https://www.postgresql.org/docs/current/sql-altertable.html#SQL-ALTERTABLE-REPLICA-IDENTITY).
+
+### Multiple sharding key columns
+
+In rare cases where a table can belong to multiple different parent entities (for example, both a project and a namespace),
+you may define the `sharding_key` with multiple columns.
+This is only allowed if the table has a check constraint that correctly ensures exactly one of the sharding key columns must be non-nullable for a row in the table.
+See [`NOT NULL` constraints for multiple columns](../../database/not_null_constraints.md#not-null-constraints-for-multiple-columns)
+for instructions on creating these constraints.
+
+- The table entries belong to a namespace, or a project:
 
   ```yaml
   sharding_key:
@@ -91,12 +98,19 @@ The following are examples of valid sharding keys:
     namespace_id: namespaces
   ```
 
-- (Only for `gitlab_main_user`) The table entries belong only to a user:
+For example:
 
-  ```yaml
-  sharding_key:
-    user_id: users
-  ```
+- In order to move organizations across cells, we want `organization_id` on all rows of all tables.
+- But `organization_id` on rows that are actually owned by a top-level group (or its subgroups or projects) makes
+  top-level group transfer inefficient (due to `organization_id` rewrites) to the point of being impractical.
+- Compromise: Add `organization_id` or `namespace_id` to all rows of all tables.
+- But `namespace_id` on rows of tables that are actually owned by projects makes project transfer (and certain subgroup
+  transfers) inefficient (due to `namespace_id` rewrites) to the point of being impractical.
+- Compromise: Add `organization_id`, `namespace_id`, or `project_id` to all rows of all tables (whichever is most specific).
+
+> [!warning]
+> Tables with multiple-column sharding key may be required to be split into separate tables in the future to support efficient data migration and isolation across cells.
+> Avoid designing new tables with multiple-column sharding keys unless absolutely necessary.
 
 ### The sharding key must be immutable
 

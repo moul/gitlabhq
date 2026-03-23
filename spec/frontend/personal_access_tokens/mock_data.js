@@ -1,5 +1,3 @@
-import { groupBy } from 'lodash-es';
-
 export const mockGranularGroupScope = {
   access: 'SELECTED_MEMBERSHIPS',
   namespace: {
@@ -250,8 +248,6 @@ export const mockGroupPermissions = [
 
 export const mockGroupResources = ['project', 'repository', 'contributed_project'];
 
-export const mockGroupPermissionsByResource = groupBy(mockGroupPermissions, 'resource');
-
 export const mockInstancePermissions = [
   {
     name: 'read_compliance_policy_setting',
@@ -292,8 +288,6 @@ export const mockUserPermissions = [
 ];
 
 export const mockUserResources = ['user', 'project'];
-
-export const mockUserPermissionsByResource = groupBy(mockUserPermissions, 'resource');
 
 export const mockAccessTokenPermissionsQueryResponse = {
   data: {

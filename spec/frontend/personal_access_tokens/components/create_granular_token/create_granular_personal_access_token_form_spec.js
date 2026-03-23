@@ -5,6 +5,9 @@ import {
   GlFormTextarea,
   GlButton,
   GlExperimentBadge,
+  GlLink,
+  GlTabs,
+  GlSprintf,
 } from '@gitlab/ui';
 import Vue, { nextTick } from 'vue';
 import VueApollo from 'vue-apollo';
@@ -12,6 +15,7 @@ import createMockApollo from 'helpers/mock_apollo_helper';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import waitForPromises from 'helpers/wait_for_promises';
 import { createAlert } from '~/alert';
+import { helpPagePath } from '~/helpers/help_page_helper';
 import { scrollTo } from '~/lib/utils/scroll_utils';
 import PageHeading from '~/vue_shared/components/page_heading.vue';
 import CreateGranularPersonalAccessTokenForm from '~/personal_access_tokens/components/create_granular_token/create_granular_personal_access_token_form.vue';
@@ -45,6 +49,9 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
         accessTokenTableUrl: '/-/personal_access_tokens',
         ...provide,
       },
+      stubs: {
+        GlSprintf,
+      },
     });
   };
 
@@ -62,6 +69,9 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
 
   const findScopeSelectorComponent = () => wrapper.findComponent(PersonalAccessTokenScopeSelector);
   const findNamespaceSelector = () => wrapper.findComponent(PersonalAccessTokenNamespaceSelector);
+
+  const findLink = () => wrapper.findComponent(GlLink);
+  const findTabs = () => wrapper.findComponent(GlTabs);
 
   const findPermissionsSelectors = () =>
     wrapper.findAllComponents(PersonalAccessTokenPermissionsSelector);
@@ -153,7 +163,20 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
       expect(findNamespaceSelector().exists()).toBe(true);
     });
 
+    it('displays the add permissions heading and description', () => {
+      expect(wrapper.text()).toContain('Add resource permissions');
+      expect(wrapper.text()).toContain(
+        'Add only the minimum resource and permissions  needed for your token. Permissions not included in your assigned role have no effect.',
+      );
+
+      expect(findLink().attributes('href')).toBe(
+        helpPagePath('auth/tokens/fine_grained_access_tokens.md'),
+      );
+    });
+
     it('renders permissions selectors for group and user scope', () => {
+      expect(findTabs().exists()).toBe(true);
+
       expect(findPermissionsSelectors()).toHaveLength(2);
 
       expect(findGroupPermissionsSelector().props('targetBoundaries')).toEqual([

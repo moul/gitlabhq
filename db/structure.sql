@@ -24380,6 +24380,7 @@ CREATE TABLE oauth_applications (
     ropc_enabled boolean DEFAULT true NOT NULL,
     dynamic boolean DEFAULT false NOT NULL,
     organization_id bigint,
+    device_code_enabled boolean DEFAULT true NOT NULL,
     CONSTRAINT check_75750847b8 CHECK ((char_length(scopes) <= 2048))
 );
 

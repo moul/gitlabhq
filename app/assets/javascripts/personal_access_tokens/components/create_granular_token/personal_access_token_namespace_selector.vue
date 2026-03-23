@@ -154,6 +154,7 @@ export default {
     },
   },
   i18n: {
+    title: s__('AccessTokens|Group or project'),
     selected: __('%{count} selected'),
     noMatches: __('No matches found'),
     groups: __('Groups'),
@@ -172,8 +173,8 @@ export default {
 
 <template>
   <div>
-    <crud-component class="gl-mt-0">
-      <template #title>
+    <crud-component :title="$options.i18n.title" class="gl-mt-0">
+      <template #actions>
         <gl-collapsible-listbox
           v-model="selectedIds"
           :items="listboxItems"

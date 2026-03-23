@@ -79,11 +79,6 @@
     }
   }
 
-  .header-message,
-  .footer-message {
-    position: static !important;
-  }
-
   // Quick search overlay
   #super-sidebar-search-modal {
     @apply gl-pt-0;

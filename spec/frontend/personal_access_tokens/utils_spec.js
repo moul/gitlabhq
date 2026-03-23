@@ -236,11 +236,27 @@ describe('personal_access_tokens/utils', () => {
               description: 'Project resource description',
               key: 'project',
               name: 'Project',
+              actions: [
+                {
+                  key: 'read_project',
+                  name: 'Read',
+                },
+                {
+                  key: 'write_project',
+                  name: 'Write',
+                },
+              ],
             },
             {
               description: 'Contributed project resource description',
               key: 'contributed_project',
               name: 'Contributed project',
+              actions: [
+                {
+                  key: 'read_contributed_project',
+                  name: 'Read',
+                },
+              ],
             },
           ],
         },
@@ -252,6 +268,12 @@ describe('personal_access_tokens/utils', () => {
               description: 'Repository resource description',
               key: 'repository',
               name: 'Repository',
+              actions: [
+                {
+                  key: 'read_repository',
+                  name: 'Read',
+                },
+              ],
             },
           ],
         },

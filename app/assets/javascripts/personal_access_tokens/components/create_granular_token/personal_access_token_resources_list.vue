@@ -26,7 +26,7 @@ export default {
       required: false,
       default: () => [],
     },
-    permissions: {
+    permissionsFilteredBySearch: {
       type: Array,
       required: false,
       default: () => [],
@@ -53,7 +53,7 @@ export default {
       },
     },
     resourcesGroupedByCategory() {
-      return groupPermissionsByResourceAndCategory(this.permissions);
+      return groupPermissionsByResourceAndCategory(this.permissionsFilteredBySearch);
     },
   },
   methods: {

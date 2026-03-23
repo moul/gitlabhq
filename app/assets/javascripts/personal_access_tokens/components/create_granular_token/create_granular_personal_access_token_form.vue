@@ -6,9 +6,13 @@ import {
   GlFormTextarea,
   GlButton,
   GlExperimentBadge,
+  GlTabs,
+  GlLink,
+  GlSprintf,
 } from '@gitlab/ui';
 import PageHeading from '~/vue_shared/components/page_heading.vue';
 import { scrollTo } from '~/lib/utils/scroll_utils';
+import { helpPagePath } from '~/helpers/help_page_helper';
 import { s__, __ } from '~/locale';
 import { createAlert } from '~/alert';
 import createGranularPersonalAccessTokenMutation from '~/personal_access_tokens/graphql/create_granular_personal_access_token.mutation.graphql';
@@ -39,6 +43,9 @@ export default {
     GlButton,
     CreatedPersonalAccessToken,
     GlExperimentBadge,
+    GlTabs,
+    GlLink,
+    GlSprintf,
   },
   inject: ['accessTokenMaxDate', 'accessTokenTableUrl'],
   data() {
@@ -187,6 +194,7 @@ export default {
     description: s__(
       'AccessTokens|Fine-grained personal access tokens give you granular control over the specific resources and actions available to the token.',
     ),
+    basicInformation: s__('AcccessTokens|Basic Information'),
     nameLabel: s__('AccessTokens|Name'),
     nameError: s__('AccessTokens|Token name is required.'),
     descriptionLabel: s__('AccessTokens|Description'),
@@ -201,7 +209,12 @@ export default {
     cancelButton: __('Cancel'),
     createButton: s__('AccessTokens|Generate token'),
     createError: s__('AccessTokens|Token generation unsuccessful. Please try again.'),
+    addPermissions: s__('AccessTokens|Add resource permissions'),
+    addPermissionsDescription: s__(
+      'AccessTokens|Add only the %{linkStart}minimum resource and permissions %{linkEnd} needed for your token. Permissions not included in your assigned role have no effect.',
+    ),
   },
+  fineGrainedTokensDocPath: helpPagePath('auth/tokens/fine_grained_access_tokens.md'),
 };
 </script>
 
@@ -224,6 +237,7 @@ export default {
 
       <gl-form class="js-quick-submit">
         <section class="gl-w-full lg:gl-w-1/2">
+          <h2 class="gl-heading-3">{{ $options.i18n.basicInformation }}</h2>
           <gl-form-group
             :label="$options.i18n.nameLabel"
             label-for="token-name"
@@ -251,7 +265,7 @@ export default {
             :error="errors.expirationDate"
           />
         </section>
-        <section>
+        <section class="gl-mt-8">
           <personal-access-token-scope-selector v-model="form.access" :error="errors.access">
             <template #namespace-selector>
               <personal-access-token-namespace-selector
@@ -261,23 +275,30 @@ export default {
                 class="gl-mt-4 gl-w-full lg:gl-w-1/2"
               />
             </template>
-
-            <template #namespace-permissions>
-              <personal-access-token-permissions-selector
-                v-model="form.permissions.namespace"
-                :error="errors.permissions"
-                :target-boundaries="targetBoundaries.namespace"
-              />
-            </template>
-
-            <template #user-permissions>
-              <personal-access-token-permissions-selector
-                v-model="form.permissions.user"
-                :error="errors.permissions"
-                :target-boundaries="targetBoundaries.user"
-              />
-            </template>
           </personal-access-token-scope-selector>
+        </section>
+        <section class="gl-mt-8">
+          <h2 class="gl-heading-3 gl-mb-2">{{ $options.i18n.addPermissions }}</h2>
+          <p class="gl-text-subtle">
+            <gl-sprintf :message="$options.i18n.addPermissionsDescription">
+              <template #link="{ content }">
+                <gl-link :href="$options.fineGrainedTokensDocPath">{{ content }}</gl-link>
+              </template>
+            </gl-sprintf>
+          </p>
+          <gl-tabs content-class="!gl-p-0">
+            <personal-access-token-permissions-selector
+              v-model="form.permissions.namespace"
+              :error="errors.permissions"
+              :target-boundaries="targetBoundaries.namespace"
+            />
+
+            <personal-access-token-permissions-selector
+              v-model="form.permissions.user"
+              :error="errors.permissions"
+              :target-boundaries="targetBoundaries.user"
+            />
+          </gl-tabs>
         </section>
 
         <section class="gl-mt-6">
