@@ -71,6 +71,7 @@ and cross-posted (with the command results) to the responsible team's Slack chan
 - [ ] Ensure that documentation exists for the feature, and the [version history text](https://docs.gitlab.com/development/documentation/feature_flags/#add-history-text) has been updated.
 - [ ] Ensure that any breaking changes have been announced following the [release post process](https://about.gitlab.com/handbook/marketing/blog/release-posts/#deprecations-removals-and-breaking-changes) to ensure GitLab customers are aware.
 - [ ] Notify the [`#support_gitlab-com` Slack channel](https://gitlab.slack.com/archives/C4XFU81LG) and your team channel ([more guidance when this is necessary in the dev docs](https://docs.gitlab.com/development/feature_flags/controls/#communicate-the-change)).
+- [ ] If this flag is or may be queried by external API consumers (for example, IDE extensions, Duo CLI, or CI integrations), follow the [external API consumer guidance](https://docs.gitlab.com/development/feature_flags/#do-not-use-feature-flags-in-external-api-consumers) and ensure a fail-open mechanism is in place before the rollout milestone is finalised.
 
 ### Global rollout on production
 

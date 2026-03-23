@@ -30,6 +30,29 @@ or not, see the feature flag lifecycle handbook page.
 
 Moved to the ["When to use feature flags"](https://handbook.gitlab.com/handbook/product-development/how-we-work/product-development-flow/feature-flag-lifecycle/#when-to-use-feature-flags) section in the handbook.
 
+### Do not use feature flags in external API consumers
+
+Feature flags are internal implementation details and are not part of the public API contract.
+External API consumers (such as IDE extensions, Duo CLI, and CI integrations) that query feature
+flags via the GraphQL [`metadata.featureFlags`](../../api/graphql/reference/_index.md#metadatafeatureflags)
+field or the deprecated [`featureFlagEnabled`](../../api/graphql/reference/_index.md#queryfeatureflagenabled)
+field face a specific risk: when a flag is removed from the monolith, external consumers may not
+have been updated yet, which can range from a minor UI issue to a customer-impacting incident.
+
+Follow this guidance when working with feature flags in external API consumers:
+
+1. **Prefer API fields or Application Settings.** Where possible, avoid querying a feature flag
+   from an external API consumer. Instead, introduce a dedicated API field or
+   [Application Setting](../application_settings.md) that the consumer can query. These values
+   persist after the flag is removed.
+1. **Implement fail-open behavior.** If a feature flag must be used in an external API consumer,
+   implement a "fail-open" mechanism: after the rollout milestone is finalised, the consumer should
+   default to treating the flag as enabled. Update the consumer as soon as the rollout milestone is
+   confirmed. See [an example in the GitLab Language Server](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/merge_requests/2558/diffs).
+1. **Consider user upgrade patterns before removal.** Before removing a flag that is used by an
+   external API consumer, assess how quickly users update their clients and determine the safest
+   timing for removal.
+
 ### Do not use feature flags for long lived settings
 
 Feature flags are meant to be short lived. If you are intending on adding a

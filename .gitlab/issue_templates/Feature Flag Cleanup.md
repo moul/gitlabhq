@@ -33,7 +33,7 @@ Are there any other stages or teams involved that need to be kept in the loop?
 
 <!-- The checklist here is to help stakeholders keep track of the feature flag status -->
 - [ ] Specify in the issue description if this feature will be removed completely or will be productized as part of the Feature Flag cleanup
-- [ ] Verify that external API consumers (e.g., IDE extensions, CLI tools) that may check this feature flag have been updated or can gracefully handle its removal.
+- [ ] Verify that external API consumers (for example, IDE extensions, Duo CLI, or CI integrations) that may query this feature flag have been updated or can gracefully handle its removal. See the [external API consumer guidance](https://docs.gitlab.com/development/feature_flags/#do-not-use-feature-flags-in-external-api-consumers) for details on fail-open patterns and upgrade timing considerations.
 - [ ] Create a merge request to remove `<feature-flag-name>` feature flag. Ask for review and merge it.
     - [ ] Remove all references to the feature flag from the codebase.
     - [ ] Remove the YAML definitions for the feature from the repository.

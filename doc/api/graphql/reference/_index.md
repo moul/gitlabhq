@@ -1080,7 +1080,7 @@ Returns [`EpicList`](#epiclist).
 Replaced with metadata.featureFlags.
 {{< /details >}}
 
-Check if a feature flag is enabled.
+Check if a feature flag is enabled. External API consumers should read the [feature flag guidance for external API consumers](https://docs.gitlab.com/development/feature_flags/#do-not-use-feature-flags-in-external-api-consumers) before using this field.
 
 Returns [`Boolean!`](#boolean).
 
@@ -42363,7 +42363,7 @@ MergeTrainCar represents an attempt to merge a merge requestusing merge trains.
 **Status**: Experiment.
 {{< /details >}}
 
-Feature flags for the GitLab instance.
+Feature flags for the GitLab instance. External API consumers should read the [feature flag guidance](https://docs.gitlab.com/development/feature_flags/#do-not-use-feature-flags-in-external-api-consumers) before using this field.
 
 Returns [`[GitlabInstanceFeatureFlag!]!`](#gitlabinstancefeatureflag).
 

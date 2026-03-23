@@ -274,7 +274,8 @@ module Types
     field :feature_flag_enabled, GraphQL::Types::Boolean,
       null: false,
       deprecated: { reason: 'Replaced with metadata.featureFlags', milestone: '17.4' },
-      description: 'Check if a feature flag is enabled',
+      description: 'Check if a feature flag is enabled. ' \
+        'External API consumers should read the [feature flag guidance for external API consumers](https://docs.gitlab.com/development/feature_flags/#do-not-use-feature-flags-in-external-api-consumers) before using this field.',
       resolver: Resolvers::FeatureFlagResolver
 
     field :access_token_permissions,
