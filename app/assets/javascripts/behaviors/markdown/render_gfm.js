@@ -8,6 +8,7 @@ import { renderGlql } from './render_glql';
 import { renderJSONTable, renderJSONTableHTML } from './render_json_table';
 import { addAriaLabels } from './accessibility';
 import { renderImageLightbox } from './render_image_lightbox';
+import renderStickyTableHeaders from './render_table_headers';
 
 function initPopovers(elements) {
   if (!elements.length) return;
@@ -56,4 +57,7 @@ export function renderGFM(element) {
   addAriaLabels(taskListCheckboxEls);
   renderGlql(glqlEls);
   renderImageLightbox(imageEls, element);
+
+  const mdTableEls = arrayFromAll('table:not(.code)');
+  renderStickyTableHeaders(mdTableEls);
 }

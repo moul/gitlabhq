@@ -829,8 +829,6 @@ class MergeRequestDiff < ApplicationRecord
   end
 
   def build_merge_request_diff_files(diffs)
-    dedup_new_path_enabled = Feature.enabled?(:deduplicate_new_path_value, project)
-
     sort_diffs(diffs).map.with_index do |diff, index|
       diff_hash = diff.to_hash.merge(
         binary: false,
@@ -839,9 +837,7 @@ class MergeRequestDiff < ApplicationRecord
         project_id: self.project_id
       )
 
-      if dedup_new_path_enabled
-        diff_hash[:new_path] = diff.new_path == diff.old_path ? nil : diff.new_path
-      end
+      diff_hash[:new_path] = diff.new_path == diff.old_path ? nil : diff.new_path
 
       # Compatibility with old diffs created with Psych.
       diff_hash.tap do |hash|

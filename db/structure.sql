@@ -20030,6 +20030,27 @@ CREATE SEQUENCE emails_id_seq
 
 ALTER SEQUENCE emails_id_seq OWNED BY emails.id;
 
+CREATE TABLE enabled_foundational_flow_check_results (
+    id bigint NOT NULL,
+    organization_id bigint NOT NULL,
+    enabled_foundational_flow_id bigint NOT NULL,
+    check_id smallint NOT NULL,
+    status smallint NOT NULL,
+    message text,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    CONSTRAINT check_270d2ebc3c CHECK ((char_length(message) <= 4096))
+);
+
+CREATE SEQUENCE enabled_foundational_flow_check_results_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE enabled_foundational_flow_check_results_id_seq OWNED BY enabled_foundational_flow_check_results.id;
+
 CREATE TABLE enabled_foundational_flows (
     id bigint NOT NULL,
     namespace_id bigint,
@@ -35334,6 +35355,8 @@ ALTER TABLE ONLY elastic_reindexing_tasks ALTER COLUMN id SET DEFAULT nextval('e
 
 ALTER TABLE ONLY emails ALTER COLUMN id SET DEFAULT nextval('emails_id_seq'::regclass);
 
+ALTER TABLE ONLY enabled_foundational_flow_check_results ALTER COLUMN id SET DEFAULT nextval('enabled_foundational_flow_check_results_id_seq'::regclass);
+
 ALTER TABLE ONLY enabled_foundational_flows ALTER COLUMN id SET DEFAULT nextval('enabled_foundational_flows_id_seq'::regclass);
 
 ALTER TABLE ONLY environments ALTER COLUMN id SET DEFAULT nextval('environments_id_seq'::regclass);
@@ -38257,6 +38280,15 @@ ALTER TABLE packages_debian_project_component_files
 ALTER TABLE sprints
     ADD CONSTRAINT check_df3816aed7 CHECK ((due_date IS NOT NULL)) NOT VALID;
 
+ALTER TABLE packages_package_files
+    ADD CONSTRAINT check_package_files_file_md5_max_length CHECK ((octet_length(file_md5) <= 32)) NOT VALID;
+
+ALTER TABLE packages_package_files
+    ADD CONSTRAINT check_package_files_file_sha1_max_length CHECK ((octet_length(file_sha1) <= 40)) NOT VALID;
+
+ALTER TABLE packages_package_files
+    ADD CONSTRAINT check_package_files_file_sha256_max_length CHECK ((octet_length(file_sha256) <= 64)) NOT VALID;
+
 ALTER TABLE packages_composer_metadata
     ADD CONSTRAINT check_packages_composer_metadata_target_sha_max_length CHECK ((octet_length(target_sha) <= 64)) NOT VALID;
 
@@ -38790,6 +38822,9 @@ ALTER TABLE ONLY elasticsearch_indexed_projects
 
 ALTER TABLE ONLY emails
     ADD CONSTRAINT emails_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY enabled_foundational_flow_check_results
+    ADD CONSTRAINT enabled_foundational_flow_check_results_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY enabled_foundational_flows
     ADD CONSTRAINT enabled_foundational_flows_pkey PRIMARY KEY (id);
@@ -43704,6 +43739,10 @@ CREATE INDEX idx_elastic_reindexing_slices_on_elastic_reindexing_subtask_id ON e
 CREATE UNIQUE INDEX idx_enabled_flows_on_namespace_catalog_item ON enabled_foundational_flows USING btree (namespace_id, catalog_item_id) WHERE (namespace_id IS NOT NULL);
 
 CREATE UNIQUE INDEX idx_enabled_flows_on_project_catalog_item ON enabled_foundational_flows USING btree (project_id, catalog_item_id) WHERE (project_id IS NOT NULL);
+
+CREATE UNIQUE INDEX idx_enabled_foundational_flow_check_results_on_flow_and_check ON enabled_foundational_flow_check_results USING btree (enabled_foundational_flow_id, check_id);
+
+CREATE INDEX idx_enabled_foundational_flow_check_results_on_organization ON enabled_foundational_flow_check_results USING btree (organization_id);
 
 CREATE INDEX idx_enabled_pkgs_cleanup_policies_on_next_run_at_project_id ON packages_cleanup_policies USING btree (next_run_at, project_id) WHERE (keep_n_duplicated_package_files <> 'all'::text);
 
@@ -56364,6 +56403,9 @@ ALTER TABLE ONLY boards_epic_list_user_preferences
 ALTER TABLE ONLY issues
     ADD CONSTRAINT fk_96b1dd429c FOREIGN KEY (milestone_id) REFERENCES milestones(id) ON DELETE SET NULL;
 
+ALTER TABLE ONLY enabled_foundational_flow_check_results
+    ADD CONSTRAINT fk_97ace560fa FOREIGN KEY (enabled_foundational_flow_id) REFERENCES enabled_foundational_flows(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY resource_weight_events
     ADD CONSTRAINT fk_97c7849ca4 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
@@ -57423,6 +57465,9 @@ ALTER TABLE ONLY workspaces
 ALTER TABLE ONLY packages_conan_file_metadata
     ADD CONSTRAINT fk_f7aacd483c FOREIGN KEY (recipe_revision_id) REFERENCES packages_conan_recipe_revisions(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY enabled_foundational_flow_check_results
+    ADD CONSTRAINT fk_f7acffc5d7 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY work_item_transitions
     ADD CONSTRAINT fk_f7c401aeb4 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
@@ -58142,9 +58187,6 @@ ALTER TABLE ONLY analytics_cycle_analytics_value_stream_settings
 
 ALTER TABLE ONLY merge_request_assignment_events
     ADD CONSTRAINT fk_rails_4378a2e8d7 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL;
-
-ALTER TABLE ONLY ai_instance_accessible_entity_rules
-    ADD CONSTRAINT fk_rails_43a6361a35 FOREIGN KEY (through_namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY remote_mirrors
     ADD CONSTRAINT fk_rails_43a9aa4ca8 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;

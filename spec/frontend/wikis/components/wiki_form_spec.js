@@ -1,4 +1,5 @@
-import { nextTick } from 'vue';
+import Vue, { nextTick } from 'vue';
+import VueApollo from 'vue-apollo';
 import {
   GlAlert,
   GlButton,
@@ -14,12 +15,17 @@ import * as urlUtils from '~/lib/utils/url_utility';
 import axios from '~/lib/utils/axios_utils';
 import { mockTracking } from 'helpers/tracking_helper';
 import { mountExtended, shallowMountExtended } from 'helpers/vue_test_utils_helper';
+import createMockApollo from 'helpers/mock_apollo_helper';
+import waitForPromises from 'helpers/wait_for_promises';
 import WikiForm from '~/wikis/components/wiki_form.vue';
 import WikiTemplate from '~/wikis/components/wiki_template.vue';
 import MarkdownEditor from '~/vue_shared/components/markdown/markdown_editor.vue';
 import { WIKI_FORMAT_LABEL, WIKI_FORMAT_UPDATED_ACTION } from '~/wikis/constants';
+import getAutoCommitMessagePreference from '~/wikis/graphql/auto_commit_message_preference.query.graphql';
 import { DRAWIO_ORIGIN } from 'spec/test_constants';
 import { mockLocation, restoreLocation } from '../test_utils';
+
+Vue.use(VueApollo);
 
 jest.mock('~/emoji');
 jest.mock('~/lib/graphql');
@@ -57,6 +63,7 @@ describe('WikiForm', () => {
 
   const pageInfoNew = {
     persisted: false,
+    slug: '',
     uploadsPath: '/project/path/-/wikis/attachments',
     wikiPath: '/project/path/-/wikis',
     helpPath: '/help/user/project/wiki/_index',
@@ -106,8 +113,20 @@ describe('WikiForm', () => {
     pageInfo,
     provide = {},
     templates = [],
+    autoCommitMessageQueryHandler,
   } = {}) {
+    const apolloProvider = createMockApollo([
+      [
+        getAutoCommitMessagePreference,
+        autoCommitMessageQueryHandler ||
+          jest.fn().mockResolvedValue({
+            data: { currentUser: { id: '1', userPreferences: { wikiUseAutoCommitMessage: true } } },
+          }),
+      ],
+    ]);
+
     wrapper = mountFn(WikiForm, {
+      apolloProvider,
       provide: {
         isEditingPath: true,
         templates,
@@ -132,15 +151,6 @@ describe('WikiForm', () => {
         GlFormGroup,
         GlForm,
         GlModal,
-      },
-      mocks: {
-        $apollo: {
-          queries: {
-            currentUser: {
-              loading: false,
-            },
-          },
-        },
       },
     });
   }
@@ -679,34 +689,39 @@ describe('WikiForm', () => {
 
   describe('immersive mode', () => {
     const provide = { glFeatures: { wikiImmersiveEditor: true } };
+    let mutateSpy;
 
-    describe('setup', () => {
-      beforeEach(() => {
-        createWrapper({ mountFn: shallowMountExtended, provide });
-      });
+    beforeEach(async () => {
+      createWrapper({ mountFn: shallowMountExtended, provide });
+      await waitForPromises();
+      mutateSpy = jest.spyOn(wrapper.vm.$apollo.provider.defaultClient, 'mutate');
+    });
 
-      it('enables immersive mode on markdown editor', () => {
-        expect(findMarkdownEditor().props().immersive).toBe(true);
-      });
+    afterEach(() => {
+      mutateSpy.mockRestore();
+    });
 
-      it('passes the form actions to the markdown editor #header slot', () => {
-        expect(findMarkdownEditor().find('[data-testid="wiki-form-actions"]').exists()).toBe(true);
-      });
+    it('enables immersive mode on markdown editor', () => {
+      expect(findMarkdownEditor().props().immersive).toBe(true);
+    });
+
+    it('passes the form actions to the markdown editor #header slot', () => {
+      expect(findMarkdownEditor().find('[data-testid="wiki-form-actions"]').exists()).toBe(true);
     });
 
     describe.each`
-      case                                                                                  | persisted | originalTitle | originalPath                 | titleInput   | expectedTitle | expectedPath
-      ${'new page with title'}                                                              | ${false}  | ${''}         | ${''}                        | ${'My page'} | ${'My page'}  | ${'My-page'}
-      ${'new page with no title'}                                                           | ${false}  | ${''}         | ${''}                        | ${''}        | ${'Untitled'} | ${'untitled-20230730042400'}
-      ${'new page with title (page reload) generates path from title'}                      | ${false}  | ${'Foo'}      | ${''}                        | ${'Bar'}     | ${'Bar'}      | ${'Bar'}
-      ${'new page with title and path (page reload) updates path with title'}               | ${false}  | ${'Foo'}      | ${'foo'}                     | ${'Bar'}     | ${'Bar'}      | ${'Bar'}
-      ${'new page with no title'}                                                           | ${false}  | ${'Foo'}      | ${''}                        | ${''}        | ${'Untitled'} | ${'untitled-20230730042400'}
-      ${'new page with path but no title (page reload)'}                                    | ${false}  | ${''}         | ${'bar'}                     | ${''}        | ${'Untitled'} | ${'bar'}
-      ${'existing page with updated title keeps path'}                                      | ${true}   | ${'Foo'}      | ${'foo'}                     | ${'Bar'}     | ${'Bar'}      | ${'foo'}
-      ${'existing page with removed title keeps path'}                                      | ${true}   | ${'Foo'}      | ${'foo'}                     | ${''}        | ${'Untitled'} | ${'foo'}
-      ${'existing page with no title updates path from title'}                              | ${true}   | ${'Untitled'} | ${'untitled-20221310061200'} | ${'Bar'}     | ${'Bar'}      | ${'Bar'}
-      ${'existing page with autogenerated path keeps path when title is removed'}           | ${true}   | ${'Untitled'} | ${'untitled-20221310061200'} | ${''}        | ${'Untitled'} | ${'untitled-20221310061200'}
-      ${'existing page with title and autogenerated path keeps path when title is removed'} | ${true}   | ${'Foo'}      | ${'untitled-20221310061200'} | ${''}        | ${'Untitled'} | ${'untitled-20221310061200'}
+      case                                                                                    | persisted | originalTitle | originalPath                 | titleInput   | expectedTitle | expectedPath
+      ${'new page with title'}                                                                | ${false}  | ${''}         | ${''}                        | ${'My page'} | ${'My page'}  | ${'My-page'}
+      ${'new page with no title'}                                                             | ${false}  | ${''}         | ${''}                        | ${''}        | ${'Untitled'} | ${'untitled-20230730042400'}
+      ${'new page with title (page reload) generates path from title'}                        | ${false}  | ${'Foo'}      | ${''}                        | ${'Bar'}     | ${'Bar'}      | ${'Bar'}
+      ${'new page with title and path (page reload) updates path with title'}                 | ${false}  | ${'Foo'}      | ${'foo'}                     | ${'Bar'}     | ${'Bar'}      | ${'Bar'}
+      ${'new page with title that is removed and no path (state inconsistency after reload)'} | ${false}  | ${'Foo'}      | ${''}                        | ${''}        | ${'Untitled'} | ${'untitled-20230730042400'}
+      ${'new page with path but no title (page reload)'}                                      | ${false}  | ${''}         | ${'bar'}                     | ${''}        | ${'Untitled'} | ${'bar'}
+      ${'existing page with updated title keeps path'}                                        | ${true}   | ${'Foo'}      | ${'foo'}                     | ${'Bar'}     | ${'Bar'}      | ${'foo'}
+      ${'existing page with removed title keeps path'}                                        | ${true}   | ${'Foo'}      | ${'foo'}                     | ${''}        | ${'Untitled'} | ${'foo'}
+      ${'existing page with no title updates path from title'}                                | ${true}   | ${'Untitled'} | ${'untitled-20221310061200'} | ${'Bar'}     | ${'Bar'}      | ${'Bar'}
+      ${'existing page with autogenerated path keeps path when title is removed'}             | ${true}   | ${'Untitled'} | ${'untitled-20221310061200'} | ${''}        | ${'Untitled'} | ${'untitled-20221310061200'}
+      ${'existing page with title and autogenerated path keeps path when title is removed'}   | ${true}   | ${'Foo'}      | ${'untitled-20221310061200'} | ${''}        | ${'Untitled'} | ${'untitled-20221310061200'}
     `(
       '$case',
       ({ persisted, originalTitle, originalPath, titleInput, expectedTitle, expectedPath }) => {
@@ -725,6 +740,8 @@ describe('WikiForm', () => {
             },
             provide,
           });
+
+          await waitForPromises();
 
           const input = wrapper.findByTestId('wiki-title-textbox');
           input.element.value = titleInput;
@@ -751,16 +768,29 @@ describe('WikiForm', () => {
 
     describe('adding a commit message', () => {
       beforeEach(async () => {
-        createWrapper({ mountFn: shallowMountExtended, provide });
+        wrapper.findByTestId('wiki-submit-message-mode').vm.$emit('select', 'CUSTOM');
 
-        // Enable commit message input
-        wrapper.findByTestId('wiki-submit-message-mode').vm.$emit('input', 'CUSTOM');
+        await waitForPromises();
+      });
 
-        await nextTick();
+      it('shows the commit message modal', () => {
+        expect(wrapper.findByTestId('commit-message-modal').props('visible')).toBe(true);
       });
 
       it('shows the input field', () => {
         expect(wrapper.findByTestId('wiki-message-textbox').isVisible()).toBe(true);
+      });
+
+      it('persists the preference via mutation', () => {
+        expect(mutateSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            variables: {
+              input: {
+                wikiUseAutoCommitMessage: false,
+              },
+            },
+          }),
+        );
       });
 
       it('includes the commit message in the form', async () => {
@@ -768,21 +798,64 @@ describe('WikiForm', () => {
         await nextTick();
         expect(wrapper.find('input[name="wiki[message]"]').attributes('value')).toBe('Foobar');
       });
+
+      describe('auto commit message toggle', () => {
+        const findToggle = () => wrapper.findByTestId('auto-commit-message-toggle');
+
+        it('renders the toggle in the modal', () => {
+          expect(findToggle().exists()).toBe(true);
+          expect(findToggle().props('label')).toBe(
+            'Use the default commit message for future saves',
+          );
+        });
+
+        it('reflects the current preference value', () => {
+          expect(findToggle().props('value')).toBe(false);
+        });
+
+        it('updates the preference when toggled on', async () => {
+          mutateSpy.mockClear();
+
+          findToggle().vm.$emit('change', true);
+          await nextTick();
+
+          expect(findToggle().props('value')).toBe(true);
+          expect(mutateSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+              variables: {
+                input: {
+                  wikiUseAutoCommitMessage: true,
+                },
+              },
+            }),
+          );
+        });
+
+        it('does not submit the form when toggled', async () => {
+          const submitSpy = jest.spyOn(findForm().element, 'submit');
+
+          findToggle().vm.$emit('change', true);
+          await waitForPromises();
+
+          expect(submitSpy).not.toHaveBeenCalled();
+        });
+      });
     });
 
     describe('saving through the commit message modal', () => {
       let submitSpy;
 
       beforeEach(async () => {
-        createWrapper({ mountFn: shallowMountExtended, provide });
-
+        createWrapper({
+          pageInfo: { title: 'Foo' },
+          provide,
+        });
+        await waitForPromises();
         submitSpy = jest.spyOn(findForm().element, 'submit');
 
-        // eslint-disable-next-line no-restricted-syntax -- workaround until https://gitlab.com/gitlab-org/gitlab/-/merge_requests/217991 is merged
-        wrapper.setData({ pageTitle: 'Foo' });
-        wrapper.findByTestId('wiki-submit-message-mode').vm.$emit('input', 'CUSTOM');
+        wrapper.findByTestId('wiki-submit-message-mode').vm.$emit('select', 'CUSTOM');
 
-        await nextTick();
+        await waitForPromises();
 
         wrapper.findComponentByTestId('wiki-message-textbox').vm.$emit('input', 'Foobar');
 
@@ -803,6 +876,155 @@ describe('WikiForm', () => {
           await nextTick();
 
           expect(submitSpy).not.toHaveBeenCalled();
+        },
+      );
+    });
+
+    describe('save message mode preference', () => {
+      const immersiveProvide = { glFeatures: { wikiImmersiveEditor: true } };
+
+      const autoCommitMessageQueryResponse = (value) =>
+        jest.fn().mockResolvedValue({
+          data: {
+            currentUser: {
+              id: '1',
+              userPreferences: { wikiUseAutoCommitMessage: value },
+            },
+          },
+        });
+
+      describe('when clicking save button', () => {
+        it('submits form directly when useAutoCommitMessage is true', async () => {
+          createWrapper({
+            pageInfo: { title: 'Foo' },
+            provide,
+            autoCommitMessageQueryHandler: autoCommitMessageQueryResponse(true),
+          });
+          await waitForPromises();
+          const submitSpy = jest.spyOn(findForm().element, 'submit');
+
+          wrapper.findByTestId('wiki-submit-button').vm.$emit('click', new Event('click'));
+          await nextTick();
+
+          expect(submitSpy).toHaveBeenCalled();
+        });
+
+        it('opens commit message modal when useAutoCommitMessage is false', async () => {
+          createWrapper({
+            pageInfo: { title: 'Foo' },
+            provide,
+            autoCommitMessageQueryHandler: autoCommitMessageQueryResponse(false),
+          });
+          await waitForPromises();
+          const submitSpy = jest.spyOn(findForm().element, 'submit');
+
+          wrapper.findByTestId('wiki-submit-button').vm.$emit('click', new Event('click'));
+          await nextTick();
+
+          expect(wrapper.findByTestId('commit-message-modal').props('visible')).toBe(true);
+          expect(submitSpy).not.toHaveBeenCalled();
+        });
+
+        it('does not call the preference mutation', async () => {
+          createWrapper({
+            pageInfo: { title: 'Foo' },
+            provide,
+          });
+          await waitForPromises();
+          const spy = jest.spyOn(wrapper.vm.$apollo.provider.defaultClient, 'mutate');
+
+          wrapper.findByTestId('wiki-submit-button').vm.$emit('click', new Event('click'));
+          await nextTick();
+
+          expect(spy).not.toHaveBeenCalled();
+          spy.mockRestore();
+        });
+      });
+
+      describe.each`
+        preference | selectedMode | shouldOpenCommitMessageModal | updatesPreference
+        ${true}    | ${'AUTO'}    | ${false}                     | ${false}
+        ${true}    | ${'CUSTOM'}  | ${true}                      | ${true}
+        ${false}   | ${'AUTO'}    | ${false}                     | ${true}
+        ${false}   | ${'CUSTOM'}  | ${true}                      | ${false}
+      `(
+        'when preference is $preference and selecting $selectedMode from dropdown',
+        ({ preference, selectedMode, shouldOpenCommitMessageModal, updatesPreference }) => {
+          let submitSpy;
+          let mutateSpyLocal;
+
+          beforeEach(async () => {
+            createWrapper({
+              pageInfo: { title: 'Foo' },
+              provide,
+              autoCommitMessageQueryHandler: autoCommitMessageQueryResponse(preference),
+            });
+            await waitForPromises();
+            submitSpy = jest.spyOn(findForm().element, 'submit');
+            mutateSpyLocal = jest.spyOn(wrapper.vm.$apollo.provider.defaultClient, 'mutate');
+
+            wrapper.findByTestId('wiki-submit-message-mode').vm.$emit('select', selectedMode);
+            await waitForPromises();
+          });
+
+          afterEach(() => {
+            mutateSpyLocal.mockRestore();
+          });
+
+          if (shouldOpenCommitMessageModal) {
+            it('opens commit message modal', () => {
+              expect(wrapper.findByTestId('commit-message-modal').props('visible')).toBe(true);
+              expect(submitSpy).not.toHaveBeenCalled();
+            });
+          } else {
+            it('submits form directly', () => {
+              expect(submitSpy).toHaveBeenCalled();
+            });
+          }
+
+          if (updatesPreference) {
+            it('updates the preference via mutation', () => {
+              expect(mutateSpyLocal).toHaveBeenCalledWith(
+                expect.objectContaining({
+                  variables: {
+                    input: {
+                      wikiUseAutoCommitMessage: selectedMode === 'AUTO',
+                    },
+                  },
+                }),
+              );
+            });
+
+            it('shows loading state on the save button while mutation is in-flight', async () => {
+              createWrapper({
+                pageInfo: { title: 'Foo' },
+                provide: immersiveProvide,
+                autoCommitMessageQueryHandler: autoCommitMessageQueryResponse(preference),
+              });
+              await waitForPromises();
+
+              let resolveMutate;
+              jest.spyOn(wrapper.vm.$apollo.provider.defaultClient, 'mutate').mockReturnValue(
+                new Promise((resolve) => {
+                  resolveMutate = resolve;
+                }),
+              );
+
+              wrapper.findByTestId('wiki-submit-message-mode').vm.$emit('select', selectedMode);
+              await nextTick();
+
+              expect(wrapper.findByTestId('wiki-submit-button').props('loading')).toBe(true);
+
+              resolveMutate();
+              await waitForPromises();
+
+              expect(wrapper.findByTestId('wiki-submit-button').props('loading')).toBe(false);
+            });
+          } else {
+            it('does not update the preference via mutation', () => {
+              expect(mutateSpyLocal).not.toHaveBeenCalled();
+            });
+          }
         },
       );
     });

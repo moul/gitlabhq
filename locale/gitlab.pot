@@ -44711,6 +44711,9 @@ msgstr ""
 msgid "MrReports|License compliance"
 msgstr ""
 
+msgid "MrReports|No pipelines started yet. Results will appear when a pipeline completes."
+msgstr ""
+
 msgid "MrReports|Reports"
 msgstr ""
 
@@ -44718,6 +44721,9 @@ msgid "MrReports|Security scan"
 msgstr ""
 
 msgid "MrReports|View report"
+msgstr ""
+
+msgid "MrReports|Waiting for pipeline to complete."
 msgstr ""
 
 msgid "Multiple IP address ranges are supported. Does not affect access to the group's settings."
@@ -79015,7 +79021,13 @@ msgstr ""
 msgid "WikiPage|Update template %{pageTitle}"
 msgstr ""
 
+msgid "WikiPage|Use the default commit message for future saves"
+msgstr ""
+
 msgid "WikiPage|Uses the default commit message"
+msgstr ""
+
+msgid "WikiPage|Wiki pages save without opening this dialog."
 msgstr ""
 
 msgid "WikiPage|Write your content or drag files here…"

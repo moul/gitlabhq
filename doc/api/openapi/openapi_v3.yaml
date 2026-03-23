@@ -6494,7 +6494,7 @@ paths:
         description: The name of the custom header
         schema:
           type: string
-          minLength: 1
+          nullable: true
         in: path
       - name: id
         required: true
@@ -6528,7 +6528,7 @@ paths:
         description: The name of the custom header
         schema:
           type: string
-          minLength: 1
+          nullable: true
         in: path
       - name: id
         required: true
@@ -23975,7 +23975,7 @@ paths:
         description: The name of the custom header
         schema:
           type: string
-          minLength: 1
+          nullable: true
         in: path
       requestBody:
         required: true
@@ -24005,7 +24005,7 @@ paths:
         description: The name of the custom header
         schema:
           type: string
-          minLength: 1
+          nullable: true
         in: path
   "/api/v4/hooks":
     get:
@@ -31848,7 +31848,7 @@ paths:
         description: The name of the custom header
         schema:
           type: string
-          minLength: 1
+          nullable: true
         in: path
       - name: id
         required: true
@@ -31882,7 +31882,7 @@ paths:
         description: The name of the custom header
         schema:
           type: string
-          minLength: 1
+          nullable: true
         in: path
       - name: id
         required: true

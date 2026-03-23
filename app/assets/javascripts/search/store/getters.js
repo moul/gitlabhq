@@ -121,7 +121,9 @@ export const navigationItems = (state) =>
       icon: ICON_MAP[item.scope] || '',
       link: searchNavigationLink(item, state),
       is_active: Boolean(item?.active),
-      pill_count: `${formatSearchResultCount(item?.count)}${addCountOverLimit(item?.count)}` || '',
+      pill_count: item?.count
+        ? `${formatSearchResultCount(item.count)}${addCountOverLimit(item.count)}`
+        : '-',
     };
 
     return navigation;

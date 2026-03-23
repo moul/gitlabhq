@@ -126,7 +126,7 @@ RSpec.describe Gitlab::Database::LooseForeignKeys, feature_category: :database d
         expect(table_names).not_to be_empty, "YAML has a non-zero tables defined"
 
         # expect to not have duplicates
-        expect(table_names).to contain_exactly(*table_names.uniq)
+        expect(table_names).to match_array(table_names.uniq)
       end
 
       it 'does not have duplicate column definitions' do
@@ -142,7 +142,7 @@ RSpec.describe Gitlab::Database::LooseForeignKeys, feature_category: :database d
         end
 
         # expect to not have duplicates
-        expect(all_definitions).to contain_exactly(*all_definitions.uniq)
+        expect(all_definitions).to match_array(all_definitions.uniq)
       end
     end
 
@@ -320,6 +320,7 @@ RSpec.describe Gitlab::Database::LooseForeignKeys, feature_category: :database d
     # PENDING: Remove tables from this list as sharding keys are added
     let(:pending_exceptions) do
       %w[
+        ai_instance_accessible_entity_rules
         application_settings
         merge_request_diff_commits
         p_ci_pipeline_artifact_states

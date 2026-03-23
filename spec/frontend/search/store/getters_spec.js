@@ -85,6 +85,21 @@ describe('Global Search Store Getters', () => {
       state.navigation = MOCK_NAVIGATION;
       expect(getters.navigationItems(state)).toStrictEqual(MOCK_NAVIGATION_ITEMS);
     });
+
+    it('returns "-" when count is unavailable', () => {
+      state.navigation = {
+        projects: {
+          label: 'Projects',
+          scope: 'projects',
+          link: '/search?scope=projects&search=et',
+          count: undefined,
+        },
+      };
+
+      const result = getters.navigationItems(state);
+
+      expect(result[0].pill_count).toBe('-');
+    });
   });
 
   describe('labelAggregationBuckets', () => {

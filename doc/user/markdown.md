@@ -1262,7 +1262,7 @@ When an image is selected, it opens in an overlay.
 If an image has transparent areas, hover over it and select **Toggle transparency checkerboard**
 to show a checkerboard background.
 The checkerboard makes transparent areas visible against any theme.
-**Toggle transparency checkerboard** appears only on PNG images that contain transparent pixels.
+**Toggle transparency checkerboard** appears on PNG and WebP images only that contain transparent pixels.
 
 ### Videos
 

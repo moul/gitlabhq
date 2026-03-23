@@ -107,6 +107,7 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
 
   let(:allowed_no_work_needed_tables) do
     %w[
+      enabled_foundational_flow_check_results
       labels
     ]
   end

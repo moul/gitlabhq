@@ -58,7 +58,7 @@ export default {
 </script>
 <template>
   <div class="gl-table-shadow">
-    <table class="!gl-my-0 gl-overflow-y-hidden">
+    <table class="!gl-my-0 gl-min-w-full gl-overflow-y-hidden">
       <thead class="!gl-border-b !gl-border-section gl-text-sm">
         <tr>
           <th-resizable
