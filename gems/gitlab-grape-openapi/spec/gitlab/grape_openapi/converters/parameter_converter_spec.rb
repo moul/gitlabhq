@@ -1015,7 +1015,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
             attributes: [:version_prefix],
             options: { min: 1, max: 10 },
             required: false,
-            validator_class: double('LengthValidator')
+            validator_class: double('LengthValidator', name: 'API::LengthValidator')
           }
         ]
       end
@@ -1031,7 +1031,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
           attributes: [:version_prefix],
           options: { min: 1, max: 10 },
           required: false,
-          validator_class: double('LengthValidator')
+          validator_class: double('LengthValidator', name: 'API::LengthValidator')
         }]
       end
 
@@ -1155,6 +1155,83 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
           )
 
           expect(result.schema[:pattern]).to be_nil
+        end
+      end
+
+      context 'when a limit validation is present on a string type' do
+        let(:validations) do
+          [{
+            attributes: [:name],
+            options: 255,
+            validator_class: API::Validations::Validators::Limit
+          }]
+        end
+
+        it 'sets maxLength on string schema' do
+          expect(converter.schema).to eq({ nullable: true, type: 'string', maxLength: 255 })
+        end
+
+        context 'when limit and allow_blank: false are combined' do
+          let(:options) { { type: 'String', allow_blank: false } }
+          let(:validations) do
+            [{
+              attributes: [:name],
+              options: 255,
+              validator_class: API::Validations::Validators::Limit
+            }]
+          end
+
+          it 'sets both minLength and maxLength' do
+            expect(converter.schema).to eq({ type: 'string', minLength: 1, maxLength: 255 })
+          end
+        end
+
+        context 'when limit is zero' do
+          let(:options) { { type: 'String' } }
+          let(:validations) do
+            [{ attributes: [:field], options: 0, validator_class: API::Validations::Validators::Limit }]
+          end
+
+          it 'does not set maxLength' do
+            expect(converter.schema[:maxLength]).to be_nil
+          end
+        end
+
+        context 'when limit is a non-integer' do
+          let(:options) { { type: 'String' } }
+          let(:validations) do
+            [{ attributes: [:field], options: "six", validator_class: API::Validations::Validators::Limit }]
+          end
+
+          it 'does not set maxLength' do
+            expect(converter.schema[:maxLength]).to be_nil
+          end
+        end
+
+        context 'when limit is negative' do
+          let(:options) { { type: 'String' } }
+          let(:validations) do
+            [{ attributes: [:field], options: -1, validator_class: API::Validations::Validators::Limit }]
+          end
+
+          it 'does not set maxLength' do
+            expect(converter.schema[:maxLength]).to be_nil
+          end
+        end
+      end
+
+      context 'when a limit validation is present on a non-string type' do
+        let(:options) { { type: 'Integer' } }
+        let(:validations) do
+          [{
+            attributes: [:count],
+            options: 100,
+            validator_class: API::Validations::Validators::Limit
+          }]
+        end
+
+        it 'does not set maxLength' do
+          expect(converter.schema[:maxLength]).to be_nil
         end
       end
     end

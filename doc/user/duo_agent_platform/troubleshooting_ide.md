@@ -122,7 +122,7 @@ If necessary, you can
 
 ## IDE commands fail or run indefinitely
 
-When using GitLab Duo Chat (agentic) or the Software Development flow in your IDE,
+When using GitLab Duo Agentic Chat or the Software Development Flow in your IDE,
 GitLab Duo can get stuck in a loop or have difficulty running commands.
 
 This issue can occur when you are using shell themes or integrations, like `Oh My ZSH!` or `powerlevel10k`.

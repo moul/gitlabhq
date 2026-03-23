@@ -36,10 +36,10 @@ GitLab Duo (non-agentic) as you work on your projects.
 
 {{< /details >}}
 
-To use GitLab Duo Chat (agentic), agents, and flows:
+To use GitLab Duo Agentic Chat, agents, and flows:
 
 1. In the left sidebar, select **GitLab Duo Agent Platform** ({{< icon name="duo-agentic-chat" >}}).
-1. To interact with GitLab Duo Chat, select the chat tab and enter your prompt.
+1. To interact with Agentic Chat, select the chat tab and enter your prompt.
 1. To work with agents, select the chat tab, and then use the **New chat** ({{< icon name="duo-chat-new" >}})
    dropdown list to select a foundational or custom agent to work with.
 1. To use the Software Development Flow, select the flows tab and then enter your prompt.

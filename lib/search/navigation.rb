@@ -54,7 +54,9 @@ module Search
       when :blobs
         show_code_search_tab?
       when :issues
-        show_issues_search_tab?
+        # Issues search is disabled as it's been replaced by work_items scope
+        # See https://gitlab.com/gitlab-org/gitlab/-/issues/587248
+        false
       when :work_items
         show_work_items_search_tab?
       when :merge_requests
@@ -110,15 +112,7 @@ module Search
       tab_enabled_for_project?(:commits)
     end
 
-    def show_issues_search_tab?
-      return false if ::Feature.enabled?(:search_scope_work_item, user)
-      return true if tab_enabled_for_project?(:issues)
-
-      project.nil? && (group.present? || ::Gitlab::CurrentSettings.global_search_issues_enabled?)
-    end
-
     def show_work_items_search_tab?
-      return false unless ::Feature.enabled?(:search_scope_work_item, user)
       return true if tab_enabled_for_project?(:work_items)
 
       project.nil? && (group.present? || ::Gitlab::CurrentSettings.global_search_issues_enabled?)

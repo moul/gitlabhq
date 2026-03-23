@@ -6,6 +6,7 @@ module Gitlab
       class ParameterConverter
         include CoercerResolver
         include Concerns::Serializable
+        include Concerns::LimitResolver
 
         attr_reader :name, :options, :validations, :route
 
@@ -57,6 +58,7 @@ module Gitlab
                          end
 
           apply_allow_blank(built_schema)
+          apply_limit!(built_schema, validations)
           built_schema
         end
 

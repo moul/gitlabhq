@@ -27,7 +27,7 @@ requirements such as development style guides.
 
 The following Agent Platform features support custom rules:
 
-- [GitLab Duo Chat (agentic)](../../gitlab_duo_chat/agentic_chat.md)
+- [GitLab Duo Agentic Chat](../../gitlab_duo_chat/agentic_chat.md)
 - [Foundational and custom agents](../agents/_index.md)
 - [Foundational and custom flows](../flows/_index.md)
 

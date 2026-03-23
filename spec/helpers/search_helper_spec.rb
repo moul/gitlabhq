@@ -1180,17 +1180,6 @@ RSpec.describe SearchHelper, feature_category: :global_search do
         expect(Gitlab::Json.parse(search_navigation_json).keys)
           .to eq(%w[projects blobs work_items merge_requests wiki_blobs commits notes milestones users snippet_titles])
       end
-
-      context 'when search_scope_work_item feature flag is disabled' do
-        before do
-          stub_feature_flags(search_scope_work_item: false)
-        end
-
-        it 'returns items in order with issues instead of work_items' do
-          expect(Gitlab::Json.parse(search_navigation_json).keys)
-            .to eq(%w[projects blobs issues merge_requests wiki_blobs commits notes milestones users snippet_titles])
-        end
-      end
     end
   end
 

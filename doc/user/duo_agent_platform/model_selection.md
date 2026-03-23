@@ -21,7 +21,7 @@ This table lists the default model for each feature in the Agent Platform.
 
 | Feature | Model |
 |-------|--------------|
-| GitLab Duo Chat (agentic) | Claude Haiku 4.5 |
+| GitLab Duo Agentic Chat | Claude Haiku 4.5 |
 | All other agents | Claude Sonnet 4.5 Vertex |
 
 ## Supported models
@@ -30,10 +30,10 @@ This table lists the models you can select for features
 in the Agent Platform.
 
 > [!note]
-> The OpenAI models used in GitLab Duo Chat (agentic) have experimental support, specifically for GPT-5, GPT-5 mini, and GPT-5-Codex.
-> Share your feedback about OpenAI models in GitLab Duo Chat (agentic) in this [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/572864).
+> The OpenAI models used in GitLab Duo Agentic Chat have experimental support, specifically for GPT-5, GPT-5 mini, and GPT-5-Codex.
+> Share your feedback about OpenAI models in GitLab Duo Agentic Chat in this [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/572864).
 
-| Model | GitLab Duo Chat (agentic) | All other agents |
+| Model | GitLab Duo Agentic Chat | All other agents |
 |-------|--------------|------------------|
 | Claude Sonnet 4 | {{< yes >}} | {{< yes >}} |
 | Claude Sonnet 4 Vertex | {{< yes >}} | {{< yes >}} |
@@ -89,7 +89,7 @@ To select a model for a feature:
 1. Select a model from the dropdown list.
 1. Optional. To apply the model to all features in the section, select **Apply to all**.
 
-In the IDE, model selection for GitLab Duo Chat (agentic) is applied only when the connection type is set to WebSocket.
+In the IDE, model selection for GitLab Duo Agentic Chat is applied only when the connection type is set to WebSocket.
 
 To specify a model for the GitLab Duo CLI, see [select a model](../../user/gitlab_duo_cli/_index.md#select-a-model).
 

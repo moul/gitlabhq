@@ -142,27 +142,8 @@ RSpec.describe Search::Navigation, feature_category: :global_search do
     end
 
     context 'for issues tab' do
-      where(:tab_enabled, :setting_enabled, :project, :condition) do
-        false | false | nil | false
-        false | true | nil | true
-        false | true | ref(:project_double) | false
-        false | false | ref(:project_double) | false
-        true | false | nil | true
-        true | true | nil | true
-        true | false | ref(:project_double) | true
-        true | true | ref(:project_double) | true
-      end
-
-      with_them do
-        before do
-          stub_feature_flags(search_scope_work_item: false)
-          allow(search_navigation).to receive(:tab_enabled_for_project?).with(:issues).and_return(tab_enabled)
-          stub_application_setting(global_search_issues_enabled: setting_enabled)
-        end
-
-        it 'data item condition is set correctly' do
-          expect(tabs[:issues][:condition]).to eq(condition)
-        end
+      it 'always returns false as issues scope is disabled' do
+        expect(tabs[:issues][:condition]).to be_falsey
       end
     end
 
@@ -180,7 +161,6 @@ RSpec.describe Search::Navigation, feature_category: :global_search do
 
       with_them do
         before do
-          stub_feature_flags(search_scope_work_item: true)
           allow(search_navigation).to receive(:tab_enabled_for_project?).with(:work_items).and_return(tab_enabled)
           stub_application_setting(global_search_issues_enabled: setting_enabled)
         end

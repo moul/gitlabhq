@@ -2960,18 +2960,6 @@ msgstr ""
 msgid "AICatalog|Foundational"
 msgstr ""
 
-msgid "AICatalog|Foundational agent"
-msgstr ""
-
-msgid "AICatalog|Foundational agents are managed by the %{linkStart}top-level group%{linkEnd}."
-msgstr ""
-
-msgid "AICatalog|Foundational flow"
-msgstr ""
-
-msgid "AICatalog|Foundational flows are managed by the %{linkStart}top-level group%{linkEnd}."
-msgstr ""
-
 msgid "AICatalog|Frequently failing or nuisance activity."
 msgstr ""
 
@@ -2985,6 +2973,12 @@ msgid "AICatalog|From the flows configured for this project, select the flow tha
 msgstr ""
 
 msgid "AICatalog|Get started with the AI Catalog"
+msgstr ""
+
+msgid "AICatalog|GitLab"
+msgstr ""
+
+msgid "AICatalog|GitLab-managed"
 msgstr ""
 
 msgid "AICatalog|GitLab-managed external agents"

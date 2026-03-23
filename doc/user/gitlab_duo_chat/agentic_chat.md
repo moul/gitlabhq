@@ -2,7 +2,7 @@
 stage: AI-powered
 group: Duo Chat
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
-title: GitLab Duo Chat (agentic)
+title: GitLab Duo Agentic Chat
 ---
 
 {{< details >}}
@@ -41,14 +41,14 @@ title: GitLab Duo Chat (agentic)
 
 {{< /history >}}
 
-GitLab Duo Chat (agentic) is an enhanced version of GitLab Duo Chat (non-agentic). This new Chat can autonomously
+GitLab Duo Agentic Chat is an enhanced version of GitLab Duo Chat (non-agentic). This new Chat can autonomously
 perform actions on your behalf, to help you answer complex questions more comprehensively.
 
 While the non-agentic Chat answers questions based on a single context, the agentic Chat searches,
 retrieves, and combines information from multiple sources across your GitLab projects
 to provide more thorough and relevant answers.
 
-GitLab Duo Chat (agentic) can:
+Agentic Chat can:
 
 - Search projects to find relevant issues, merge requests, and other artifacts using keyword-based search (not semantic search).
 - Access files in your local project without manually specifying file paths.
@@ -100,7 +100,7 @@ To use Chat in the GitLab UI:
    A Chat conversation opens in the GitLab Duo sidebar on the right side of your screen.
 1. Under the chat text box, ensure the **Agentic** toggle is turned on.
 1. Enter your question in the chat text box and press <kbd>Enter</kbd> or select **Send**.
-   - You can provide additional [context](../duo_agent_platform/context.md#gitlab-duo-chat-agentic) for your chat.
+   - You can provide additional [context](../duo_agent_platform/context.md#gitlab-duo-agentic-chat) for your chat.
    - It might take a few seconds for the interactive AI chat to produce an answer.
 1. Optional. You can:
    - Ask a follow-up question.
@@ -364,8 +364,8 @@ After you create a conversation with an agent:
 
 {{< /history >}}
 
-Prompt caching is enabled by default, and only works when the selected GitLab Duo
-Chat (Agentic) model is from Anthropic or is an Anthropic model served through Vertex.
+Prompt caching is enabled by default, and only works when the selected Agentic
+Chat model is from Anthropic or is an Anthropic model served through Vertex.
 
 When prompt caching is enabled, chat prompt data is temporarily stored in memory
 by the model vendor.
@@ -385,7 +385,7 @@ This also turns off prompt caching for Code Suggestions.
 
 ## Chat feature comparison
 
-| Capability                                              | GitLab Duo Chat (non-agentic) |                                                         GitLab Duo Chat (agentic)                                                                                                          |
+| Capability                                              | GitLab Duo Chat (non-agentic) |                                                         GitLab Duo Agentic Chat                                                                                                           |
 | ------------                                            |------|                                                         -------------                                                                                                          |
 | Ask general programming questions |                       Yes  |                                                          Yes                                                                                                                   |
 | Get answers about an open file in the editor |     Yes  |                                                          Yes. Provide the path of the file in your question.                                                                   |

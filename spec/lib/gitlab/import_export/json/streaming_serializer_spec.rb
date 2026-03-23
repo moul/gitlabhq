@@ -600,4 +600,56 @@ RSpec.describe Gitlab::ImportExport::Json::StreamingSerializer, :clean_gitlab_re
       end
     end
   end
+
+  describe '#serialize_relation with excluded_relations' do
+    let(:include) { [{ issues: { include: [] } }, { merge_requests: { include: [] } }] }
+    let(:excluded_relations) { [] }
+
+    subject(:serializer) do
+      described_class.new(
+        exportable,
+        relations_schema,
+        json_writer,
+        exportable_path: exportable_path,
+        logger: logger,
+        current_user: user,
+        excluded_relations: excluded_relations
+      )
+    end
+
+    before do
+      allow(json_writer).to receive(:write_attributes).with(exportable_path, hash)
+      allow(json_writer).to receive(:write_relation_array)
+    end
+
+    context 'when excluded_relations contains the relation key as a string' do
+      let(:excluded_relations) { ['merge_requests'] }
+
+      it 'does not call the writer for the excluded relation' do
+        serializer.execute
+
+        expect(json_writer).not_to have_received(:write_relation_array).with(exportable_path, :merge_requests, anything)
+      end
+    end
+
+    context 'when excluded_relations contains the relation key as a symbol' do
+      let(:excluded_relations) { [:merge_requests] }
+
+      it 'does not call the writer for the excluded relation' do
+        serializer.execute
+
+        expect(json_writer).not_to have_received(:write_relation_array).with(exportable_path, :merge_requests, anything)
+      end
+    end
+
+    context 'when excluded_relations is empty' do
+      let_it_be(:merge_request) { create(:merge_request, source_project: exportable, target_project: exportable) }
+
+      it 'does not skip any relations' do
+        serializer.execute
+
+        expect(json_writer).to have_received(:write_relation_array).with(exportable_path, :merge_requests, anything)
+      end
+    end
+  end
 end

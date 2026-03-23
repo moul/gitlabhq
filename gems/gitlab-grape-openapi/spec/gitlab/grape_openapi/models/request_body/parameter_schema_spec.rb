@@ -82,6 +82,98 @@ RSpec.describe Gitlab::GrapeOpenapi::Models::RequestBody::ParameterSchema do
       end
     end
 
+    describe 'limit validation behaviour' do
+      let(:key) { :name }
+
+      context 'with limit validation on a string type' do
+        let(:param_options) { { type: 'String', desc: 'Username', required: false } }
+        let(:validations) do
+          [{
+            attributes: [:name],
+            options: 255,
+            validator_class: API::Validations::Validators::Limit
+          }]
+        end
+
+        it 'includes maxLength in schema' do
+          expect(method_call).to eq(
+            type: 'string',
+            description: 'Username',
+            maxLength: 255,
+            nullable: true
+          )
+        end
+
+        context 'when limit and allow_blank: false combined' do
+          let(:param_options) { { type: 'String', desc: 'Username', required: false, allow_blank: false } }
+          let(:validations) do
+            [{
+              attributes: [:name],
+              options: 255,
+              validator_class: API::Validations::Validators::Limit
+            }]
+          end
+
+          it 'sets both minLength and maxLength' do
+            expect(method_call).to eq(
+              type: 'string',
+              description: 'Username',
+              minLength: 1,
+              maxLength: 255
+            )
+          end
+        end
+
+        context 'when limit is zero' do
+          let(:param_options) { { type: 'String', required: false } }
+          let(:validations) do
+            [{ attributes: [:field], options: 0, validator_class: API::Validations::Validators::Limit }]
+          end
+
+          it 'does not set maxLength' do
+            expect(method_call[:maxLength]).to be_nil
+          end
+        end
+
+        context 'when limit is negative' do
+          let(:param_options) { { type: 'String', required: false } }
+          let(:validations) do
+            [{ attributes: [:field], options: -1, validator_class: API::Validations::Validators::Limit }]
+          end
+
+          it 'does not set maxLength' do
+            expect(method_call[:maxLength]).to be_nil
+          end
+        end
+
+        context 'when limit is not an integer' do
+          let(:param_options) { { type: 'String', required: false } }
+          let(:validations) do
+            [{ attributes: [:field], options: "five", validator_class: API::Validations::Validators::Limit }]
+          end
+
+          it 'does not set maxLength' do
+            expect(method_call[:maxLength]).to be_nil
+          end
+        end
+      end
+
+      context 'with limit validation on a non-string type' do
+        let(:param_options) { { type: 'Integer', desc: 'Count', required: false } }
+        let(:validations) do
+          [{
+            attributes: [:name],
+            options: 100,
+            validator_class: API::Validations::Validators::Limit
+          }]
+        end
+
+        it 'does not include maxLength' do
+          expect(method_call[:maxLength]).to be_nil
+        end
+      end
+    end
+
     describe 'when type starts with "[" and has no comma (e.g., [String])' do
       let(:key) { :items }
 

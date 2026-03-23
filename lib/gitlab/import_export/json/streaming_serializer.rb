@@ -19,7 +19,7 @@ module Gitlab
           end
         end
 
-        def initialize(exportable, relations_schema, json_writer, current_user:, exportable_path:, logger: Gitlab::Export::Logger)
+        def initialize(exportable, relations_schema, json_writer, current_user:, exportable_path:, excluded_relations: [], logger: Gitlab::Export::Logger)
           @exportable = exportable
           @current_user = current_user
           @exportable_path = exportable_path
@@ -27,6 +27,7 @@ module Gitlab
           @json_writer = json_writer
           @logger = logger
           @exported_objects_count = 0
+          @excluded_relations = Array.wrap(excluded_relations).map(&:to_s)
         end
 
         def execute
@@ -55,6 +56,8 @@ module Gitlab
           raise ArgumentError, 'definition needs to have exactly one Hash element' unless definition.one?
 
           key, definition_options = definition.first
+
+          return if @excluded_relations.include?(key.to_s)
 
           record = exportable.public_send(key) # rubocop: disable GitlabSecurity/PublicSend
 

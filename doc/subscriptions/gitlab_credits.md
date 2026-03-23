@@ -141,7 +141,7 @@ Users on the Free tier on GitLab.com can purchase a Monthly Commitment Pool of G
 
 You can use the following features after you purchase credits:
 
-- [GitLab Duo Chat (agentic)](../user/gitlab_duo_chat/agentic_chat.md)
+- [GitLab Duo Agentic Chat](../user/gitlab_duo_chat/agentic_chat.md)
 - [AI Catalog](../user/duo_agent_platform/ai_catalog.md)
 - [Custom Agents](../user/duo_agent_platform/agents/custom.md)
 - [Planner Agent](../user/duo_agent_platform/agents/foundational_agents/planner.md)
@@ -285,11 +285,11 @@ This pricing applies to all models (including self-hosted models) available for 
 | Code Review Flow | 4 |
 | SAST False Positive Detection Flow | 1 |
 
-[GitLab Duo Chat (agentic)](../user/gitlab_duo_chat/agentic_chat.md) doesn't use a fixed model,
+[GitLab Duo Agentic Chat](../user/gitlab_duo_chat/agentic_chat.md) doesn't use a fixed model,
 so credit cost varies based on the model selected for the request.
 With the [default model](../user/duo_agent_platform/model_selection.md#default-models) you can make 6.7 requests with one credit.
 
-Each message sent to GitLab Duo Chat (agentic) counts as one billable request.
+Each message sent to GitLab Duo Agentic Chat counts as one billable request.
 One conversation window can include multiple messages, and so multiple billable requests.
 
 ## GitLab Credits dashboard

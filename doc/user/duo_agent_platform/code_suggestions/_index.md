@@ -221,7 +221,7 @@ cached prompt and input data. The cached data is never logged to any persistent 
 ### Turn off prompt caching
 
 You can turn off prompt caching for top-level groups in the GitLab Duo settings.
-This also turns off prompt caching for [GitLab Duo Chat (agentic)](../../gitlab_duo_chat/agentic_chat.md#prompt-caching).
+This also turns off prompt caching for [GitLab Duo Agentic Chat](../../gitlab_duo_chat/agentic_chat.md#prompt-caching).
 
 Prerequisites:
 

@@ -677,24 +677,34 @@ CREATE TABLE namespace_traversal_paths
     `id` Int64 DEFAULT 0,
     `traversal_path` String DEFAULT '0/',
     `version` DateTime64(6, 'UTC') DEFAULT now(),
-    `deleted` Bool DEFAULT false
+    `deleted` Bool DEFAULT false,
+    PROJECTION by_traversal_path
+    (
+        SELECT *
+        ORDER BY traversal_path
+    )
 )
 ENGINE = ReplacingMergeTree(version, deleted)
 PRIMARY KEY id
 ORDER BY id
-SETTINGS index_granularity = 512;
+SETTINGS index_granularity = 512, deduplicate_merge_projection_mode = 'rebuild';
 
 CREATE TABLE project_namespace_traversal_paths
 (
     `id` Int64 DEFAULT 0,
     `traversal_path` String DEFAULT '0/',
     `version` DateTime64(6, 'UTC') DEFAULT now(),
-    `deleted` Bool DEFAULT false
+    `deleted` Bool DEFAULT false,
+    PROJECTION by_traversal_path
+    (
+        SELECT *
+        ORDER BY traversal_path
+    )
 )
 ENGINE = ReplacingMergeTree(version, deleted)
 PRIMARY KEY id
 ORDER BY id
-SETTINGS index_granularity = 512;
+SETTINGS index_granularity = 512, deduplicate_merge_projection_mode = 'rebuild';
 
 CREATE TABLE schema_migrations
 (

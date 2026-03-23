@@ -12,7 +12,7 @@ with JetBrains IDEs like IntelliJ, PyCharm, GoLand, Webstorm, and Rubymine.
 After you [install and configure](setup.md) the extension, you can access the following features:
 
 - On the right tool window bar, **GitLab Duo Agent Platform** ({{< icon name="duo-agentic-chat" >}}):
-  - The chat tab: Interact with GitLab Duo Chat (agentic), or use the **New chat** ({{< icon name="duo-chat-new" >}})
+  - The chat tab: Interact with GitLab Duo Agentic Chat, or use the **New chat** ({{< icon name="duo-chat-new" >}})
     dropdown list to select a foundational or custom agent to work with.
   - The flows tab: Use the Software Development Flow. Learn more about the
     [difference between Chat and the flow](../../user/duo_agent_platform/flows/foundational_flows/software_development.md#flow-and-chat-comparison).

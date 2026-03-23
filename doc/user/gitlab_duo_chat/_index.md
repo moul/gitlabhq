@@ -46,7 +46,7 @@ contextual, conversational AI. This non-agentic Chat:
 <i class="fa-youtube-play" aria-hidden="true"></i> [Watch an overview](https://www.youtube.com/watch?v=ZQBAuf-CTAY)
 <!-- Video published on 2024-04-18 -->
 
-Learn about the new [GitLab Duo Chat (agentic)](agentic_chat.md).
+Learn about the new [GitLab Duo Agentic Chat](agentic_chat.md).
 
 ## Supported editor extensions
 

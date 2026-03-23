@@ -27,7 +27,7 @@ title: GitLab Duo CLI (`duo`)
 
 {{< /history >}}
 
-The GitLab Duo CLI is a command-line interface tool that brings [GitLab Duo Chat (agentic)](../gitlab_duo_chat/agentic_chat.md)
+The GitLab Duo CLI is a command-line interface tool that brings [GitLab Duo Agentic Chat](../gitlab_duo_chat/agentic_chat.md)
 to your terminal. Available for use with any operating system and editor, use `duo` to ask complex
 questions about your codebase and to autonomously perform actions on your behalf.
 
@@ -224,6 +224,9 @@ To use the GitLab Duo CLI in interactive mode:
    The pipelines in MR 23 are failing. Please help me fix them.
    ```
 
+To cancel a response while the GitLab Duo CLI is working, press <kbd>Escape</kbd>.
+The GitLab Duo CLI stops the current operation and returns to the prompt.
+
 ### Headless mode
 
 > [!caution]
@@ -272,6 +275,19 @@ When you use headless mode, the GitLab Duo CLI:
 - Bypasses manual tool approvals and automatically approves all tools for use.
 - Does not maintain context from previous conversations.
   A new workflow starts every time you execute the `run` command.
+
+## Slash commands
+
+In interactive mode, use slash commands to perform actions without sending a message
+to the AI model. Enter a slash command at the prompt and press <kbd>Enter</kbd>.
+
+The following slash commands are available:
+
+| Command | Description |
+|---------|-------------|
+| `/copy`   | Copy the last GitLab Duo response to the clipboard. |
+| `/help`   | Display a list of available slash commands. |
+| `/model`  | Switch the AI model for the current session. |
 
 ## Select a model
 

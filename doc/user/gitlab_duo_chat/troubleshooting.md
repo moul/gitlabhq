@@ -339,7 +339,7 @@ Chat displays the following types of links as selectable in responses:
 - Links to `gitlab.com`, including but not limited to GitLab projects, issues, and merge requests.
 - Relative URLs in your GitLab instance.
 
-## Issues specific to GitLab Duo Chat (agentic)
+## Issues specific to GitLab Duo Agentic Chat
 
 ### Not enough GitLab Credits
 

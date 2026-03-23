@@ -66137,6 +66137,12 @@ definitions:
             - PUT
             - POST
             default: PUT
+      excluded_relations:
+        type: array
+        description: List of project relation names to exclude from the export (e.g.
+          ["merge_requests", "issues"])
+        items:
+          type: string
     description: Start export
   postApiV4ProjectsIdExportRelations:
     type: object

@@ -39,6 +39,19 @@ For example, `How does the clean_missing_data function in data_cleaning.py decid
 
 For additional practical examples, see the [GitLab Duo use cases](../gitlab_duo/use_cases.md).
 
+## Use of credits with Chat features
+
+The following Chat features have an agentic version which consumes credits, and a non-agentic version that does not consume credits:
+
+- Explain selected code.
+- Troubleshoot failed CI/CD jobs with Root Cause Analysis.
+- Explain a vulnerability.
+- Slash commands in the GitLab UI.
+
+If you have access to both Agentic Chat and Non-Agentic Chat, the feature version defaults to the Chat version you last selected in the GitLab Duo sidebar.
+
+If you do not have access to Agentic Chat and therefore the GitLab Duo Agent Platform, the feature version defaults to the non-agentic version.
+
 ## Ask about GitLab
 
 {{< collapsible title="Editor information" >}}

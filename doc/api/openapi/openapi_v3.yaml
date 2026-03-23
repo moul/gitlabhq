@@ -805,7 +805,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_87bc27aeaf7b"
+              "$ref": "#/components/schemas/RequestBody_b8e76fe6dc60"
   "/api/v4/code_suggestions/completions":
     post:
       operationId: postApiV4CodeSuggestionsCompletions
@@ -817,7 +817,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_a57e41841366"
+              "$ref": "#/components/schemas/RequestBody_5dd53f5e1063"
   "/api/v4/code_suggestions/direct_access":
     post:
       operationId: postApiV4CodeSuggestionsDirectAccess
@@ -23323,6 +23323,7 @@ paths:
         schema:
           type: string
           nullable: true
+          maxLength: 255
         in: query
     post:
       operationId: postApiV4ProjectsIdTerraformStateName
@@ -23471,7 +23472,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_6490533772a5"
+              "$ref": "#/components/schemas/RequestBody_fcbe52168a61"
     delete:
       operationId: deleteApiV4ProjectsIdTerraformStateNameLock
       summary: Unlock a Terraform state of a certain name
@@ -23512,6 +23513,7 @@ paths:
         schema:
           type: string
           nullable: true
+          maxLength: 255
         in: query
   "/api/v4/projects/{id}/packages/terraform/modules/{module_name}/{module_system}":
     get:
@@ -32282,7 +32284,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_c5c130e60980"
+              "$ref": "#/components/schemas/RequestBody_9485b92e2fc8"
   "/api/v4/projects/{id}/export/download":
     get:
       operationId: getApiV4ProjectsIdExportDownload
@@ -85454,13 +85456,14 @@ components:
       - mr_title
       - mr_description
       - files_content
-    RequestBody_87bc27aeaf7b:
+    RequestBody_b8e76fe6dc60:
       type: object
       properties:
         content:
           type: string
           description: Prompt from user
           nullable: true
+          maxLength: 1000
         resource_type:
           type: string
           enum:
@@ -85474,6 +85477,7 @@ components:
           - work_item
           description: Resource type
           nullable: true
+          maxLength: 100
         resource_id:
           oneOf:
           - type: string
@@ -85483,10 +85487,12 @@ components:
           type: string
           description: Referer URL
           nullable: true
+          maxLength: 1000
         client_subscription_id:
           type: string
           description: Client Subscription ID
           nullable: true
+          maxLength: 500
         with_clean_history:
           type: boolean
           description: Indicates if we need to reset the history before and after
@@ -85504,18 +85510,22 @@ components:
               type: string
               description: The name of the current file
               nullable: true
+              maxLength: 1000
             content_above_cursor:
               type: string
               description: The content above cursor
               nullable: true
+              maxLength: 400000
             content_below_cursor:
               type: string
               description: The content below cursor
               nullable: true
+              maxLength: 400000
             selected_text:
               type: string
               description: The content currently selected by the user
               nullable: true
+              maxLength: 400000
           nullable: true
         additional_context:
           type: array
@@ -85543,10 +85553,12 @@ components:
                 type: string
                 description: ID of the additional context.
                 nullable: true
+                maxLength: 255
               content:
                 type: string
                 description: Content of the additional context.
                 nullable: true
+                maxLength: 1000
               metadata:
                 type: object
                 description: Metadata of the additional context.
@@ -85558,7 +85570,7 @@ components:
           nullable: true
       required:
       - content
-    RequestBody_a57e41841366:
+    RequestBody_5dd53f5e1063:
       type: object
       properties:
         current_file:
@@ -85569,14 +85581,17 @@ components:
               type: string
               description: The name of the current file
               nullable: true
+              maxLength: 255
             content_above_cursor:
               type: string
               description: The content above cursor
               nullable: true
+              maxLength: 400000
             content_below_cursor:
               type: string
               description: The content below cursor
               nullable: true
+              maxLength: 400000
           required:
           - file_name
           - content_above_cursor
@@ -85610,6 +85625,7 @@ components:
           type: string
           description: Additional instructions provided by a user
           nullable: true
+          maxLength: 600000
         context:
           type: array
           description: List of related context parts
@@ -85627,10 +85643,12 @@ components:
                 type: string
                 description: The name of a related part of context
                 nullable: true
+                maxLength: 255
               content:
                 type: string
                 description: The content of a part of context
                 nullable: true
+                maxLength: 600000
             required:
             - type
             - name
@@ -93202,13 +93220,14 @@ components:
           nullable: true
       required:
       - file
-    RequestBody_6490533772a5:
+    RequestBody_fcbe52168a61:
       type: object
       properties:
         ID:
           type: string
           description: Terraform state lock ID
           nullable: true
+          maxLength: 255
         Operation:
           type: string
           description: Terraform operation
@@ -98259,7 +98278,7 @@ components:
             - key
             - value
           nullable: true
-    RequestBody_c5c130e60980:
+    RequestBody_9485b92e2fc8:
       type: object
       properties:
         description:
@@ -98282,6 +98301,13 @@ components:
               default: PUT
               description: HTTP method to upload the exported project
               nullable: true
+          nullable: true
+        excluded_relations:
+          type: array
+          items:
+            type: string
+          description: List of project relation names to exclude from the export (e.g.
+            ["merge_requests", "issues"])
           nullable: true
     RequestBody_52f6781aedff:
       type: object
