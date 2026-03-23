@@ -384,7 +384,8 @@ graph TD
     style MV fill:#fff4dd,stroke:#d4a017,stroke-width:2px
 ```
 
-*Note: For the sake of simplicity, unnecessary columns are omitted from the `merge_requests` table.*
+> [!note]
+> For the sake of simplicity, unnecessary columns are omitted from the `merge_requests` table.
 
 ##### 1. Create the `NULL` `siphon_merge_requests` table
 
@@ -619,7 +620,8 @@ arrayExists(x -> x.1 = 73 AND x.2 = 3, reviewers);
 
 ```
 
-*Note: Array data types may add extra overhead during parsing and filtering. When denormalized data is a simple list of IDs without associated state, a delimited string field (e.g., `'/user_id1/user_id2/'`) combined with `hasSubstr` can offer higher performance.*
+> [!note]
+> Array data types may add extra overhead during parsing and filtering. When denormalized data is a simple list of IDs without associated state, a delimited string field (e.g., `'/user_id1/user_id2/'`) combined with `hasSubstr` can offer higher performance.
 
 ### Consistency Guarantees
 

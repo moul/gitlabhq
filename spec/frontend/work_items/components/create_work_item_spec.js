@@ -1163,18 +1163,77 @@ describe('Create work item component', () => {
       await updateWorkItemTitle();
     });
 
-    it('should call handleKeydown method when keydown event is triggered with CTRL', () => {
-      const event = new KeyboardEvent('keydown', { key: 'Enter', ctrlKey: true });
-      document.dispatchEvent(event);
+    it.each`
+      key       | keyOptions
+      ${'CTRL'} | ${{ key: 'Enter', ctrlKey: true }}
+      ${'CMD'}  | ${{ key: 'Enter', metaKey: true }}
+    `(
+      'creates work item and stops $key+Enter from propagating to other handlers',
+      ({ keyOptions }) => {
+        const event = new KeyboardEvent('keydown', { cancelable: true, ...keyOptions });
+        jest.spyOn(event, 'preventDefault');
+        jest.spyOn(event, 'stopImmediatePropagation');
+        document.dispatchEvent(event);
 
-      expect(createWorkItemSuccessHandler).toHaveBeenCalled();
+        expect(createWorkItemSuccessHandler).toHaveBeenCalled();
+        expect(event.preventDefault).toHaveBeenCalled();
+        expect(event.stopImmediatePropagation).toHaveBeenCalled();
+      },
+    );
+  });
+
+  describe('when saving work item during create', () => {
+    it('skips updateDraftData when loading is true', async () => {
+      createComponent();
+      await resolveAll();
+      await updateWorkItemTitle();
+
+      jest.spyOn(apolloProvider.defaultClient, 'mutate');
+      wrapper.find('form').trigger('submit');
+
+      apolloProvider.defaultClient.mutate.mockClear();
+      findTitleInput().vm.$emit('updateDraft', 'new title');
+      await nextTick();
+
+      expect(apolloProvider.defaultClient.mutate).not.toHaveBeenCalledWith(
+        expect.objectContaining({ mutation: updateNewWorkItemMutation }),
+      );
     });
 
-    it('should call handleKeydown method when keydown event is triggered with CMD', () => {
-      const event = new KeyboardEvent('keydown', { key: 'Enter', metaKey: true });
-      document.dispatchEvent(event);
+    it('skips handleUpdateWidgetDraft when loading is true', async () => {
+      createComponent();
+      await resolveAll();
+      await updateWorkItemTitle();
 
-      expect(createWorkItemSuccessHandler).toHaveBeenCalled();
+      jest.spyOn(apolloProvider.defaultClient, 'mutate');
+      wrapper.find('form').trigger('submit');
+
+      apolloProvider.defaultClient.mutate.mockClear();
+      findAssigneesWidget().vm.$emit('updateWidgetDraft', { assignees: [] });
+      await nextTick();
+
+      expect(apolloProvider.defaultClient.mutate).not.toHaveBeenCalledWith(
+        expect.objectContaining({ mutation: updateNewWorkItemMutation }),
+      );
+    });
+
+    it('clears autosave draft before emitting work-item-created', async () => {
+      createComponent({
+        props: {
+          relatedItem: mockRelatedItem,
+        },
+      });
+      await resolveAll();
+
+      await updateWorkItemTitle();
+      await submitCreateForm();
+
+      const clearedAt = clearDraft.mock.invocationCallOrder[0];
+      const emittedAt = wrapper.emitted('work-item-created').length;
+
+      expect(clearDraft).toHaveBeenCalled();
+      expect(emittedAt).toBe(1);
+      expect(clearedAt).toBeDefined();
     });
   });
 

@@ -1463,8 +1463,8 @@ Grants the ability to read, write, and delete work items.
 | Read | Project | `GET` | `/projects/:id/merge_requests/:eventable_id/resource_milestone_events` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:eventable_id/resource_milestone_events/:event_id` |
 | Read | Project | `GET` | `/namespaces/:id/-/work_items` |
-| Read | Project | `GET` | `/namespaces/:id/-/work_items/:work_item_iid` |
 | Read | Project | `GET` | `/projects/:id/-/work_items` |
+| Read | Project | `GET` | `/namespaces/:id/-/work_items/:work_item_iid` |
 | Read | Project | `GET` | `/projects/:id/-/work_items/:work_item_iid` |
 | Read | Project | `GET` | `/projects/:id/boards` |
 | Read | Project | `GET` | `/projects/:id/boards/:board_id` |
@@ -1507,8 +1507,8 @@ Grants the ability to read, write, and delete work items.
 | Read | Group | `GET` | `/groups/:id/issues` |
 | Read | Group | `GET` | `/groups/:id/issues_statistics` |
 | Read | Group | `GET` | `/namespaces/:id/-/work_items` |
-| Read | Group | `GET` | `/namespaces/:id/-/work_items/:work_item_iid` |
 | Read | Group | `GET` | `/groups/:id/-/work_items` |
+| Read | Group | `GET` | `/namespaces/:id/-/work_items/:work_item_iid` |
 | Read | Group | `GET` | `/groups/:id/-/work_items/:work_item_iid` |
 | Read | Group | `GET` | `/groups/:id/epics/:noteable_id/discussions` |
 | Read | Group | `GET` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id` |

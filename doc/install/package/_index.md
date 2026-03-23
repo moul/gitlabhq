@@ -261,9 +261,10 @@ Before you upgrade:
    tokens to comply with FIPS 140-3 requirements. Previously, GitLab used PBKDF2 without
    salt, which is incompatible with FIPS 140-3 compliant systems like Ubuntu 22.04.
 
-   **Note:** This migration is only required when moving to FIPS 140-3 compliant operating systems
-   (such as Ubuntu 22.04). No changes are needed if you are already running on older FIPS versions
-   (such as Ubuntu 20.04) or staying on non-FIPS systems.
+   > [!note]
+   > This migration is only required when moving to FIPS 140-3 compliant operating systems
+   > (such as Ubuntu 22.04). No changes are needed if you are already running on older FIPS versions
+   > (such as Ubuntu 20.04) or staying on non-FIPS systems.
 
    When migrating from a non-FIPS instance or older FIPS version to a FIPS 140-3 instance:
 

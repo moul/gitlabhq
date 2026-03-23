@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'User searches for issues', :js, :clean_gitlab_redis_rate_limiting, feature_category: :global_search do
+RSpec.describe 'User searches for issues', :js, feature_category: :global_search do
   include ListboxHelpers
   let_it_be(:user) { create(:user) }
   let_it_be(:project) { create(:project, namespace: user.namespace) }
@@ -181,7 +181,7 @@ RSpec.describe 'User searches for issues', :js, :clean_gitlab_redis_rate_limitin
     end
   end
 
-  context 'when signed out' do
+  context 'when signed out', :disable_rate_limiter do
     context 'when global_search_block_anonymous_searches_enabled is disabled' do
       let_it_be(:project) { create(:project, :public) }
 

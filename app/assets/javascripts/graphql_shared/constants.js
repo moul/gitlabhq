@@ -42,6 +42,7 @@ export const TYPENAME_VALUE_STREAM = 'Analytics::CycleAnalytics::ValueStream';
 export const TYPENAME_VALUE_STREAM_STAGE = 'Analytics::CycleAnalytics::Stage';
 export const TYPENAME_VULNERABILITY = 'Vulnerability';
 export const TYPENAME_WORK_ITEM = 'WorkItem';
+export const TYPENAME_WORK_ITEMS_TYPE = 'WorkItems::Type';
 export const TYPENAME_WORK_ITEM_RELATED_BRANCH = 'WorkItemRelatedBranch';
 export const TYPE_ORGANIZATION = 'Organizations::Organization';
 export const TYPE_USERS_SAVED_REPLY = 'Users::SavedReply';

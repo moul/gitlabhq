@@ -540,7 +540,8 @@ and, as an Admin, easily create licensed groups for testing.
 
 ### Important Testing Considerations
 
-**Note**: A user who has a seat in multiple groups with different tiers of GitLab Duo add-on gets the highest tier experience across the entire instance.
+> [!note]
+> A user who has a seat in multiple groups with different tiers of GitLab Duo add-on gets the highest tier experience across the entire instance.
 
 It's not possible to test feature separation between different GitLab Duo add-ons if your test account has a seat in a higher tier add-on.
 To properly test different tiers, create a separate test account for each tier you need to test.

@@ -71971,7 +71971,7 @@ components:
         tags:
           "$ref": "#/components/schemas/APIEntitiesMlMlflowKeyValue"
         latest_versions:
-          type: string
+          "$ref": "#/components/schemas/APIEntitiesMlMlflowModelVersion"
     APIEntitiesMlMlflowUpdateRun:
       type: object
       properties:

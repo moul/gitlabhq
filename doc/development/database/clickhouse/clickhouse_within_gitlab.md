@@ -243,7 +243,8 @@ GROUP BY name
 ORDER BY ratio DESC;
 ```
 
-**Note:** Don't over-optimize. While higher compression levels (like ZSTD 10+) save disk space, they increase CPU overhead during both writes and reads. Stick to the defaults unless the storage gains are significant.
+> [!note]
+> Don't over-optimize. While higher compression levels (like ZSTD 10+) save disk space, they increase CPU overhead during both writes and reads. Stick to the defaults unless the storage gains are significant.
 
 ## Writing database queries
 

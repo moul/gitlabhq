@@ -358,7 +358,7 @@ export const filtersMap = {
   },
   [TOKEN_TYPE_TYPE]: {
     [API_PARAM]: {
-      [NORMAL_FILTER]: 'types',
+      [NORMAL_FILTER]: 'workItemTypeIds',
     },
     [URL_PARAM]: {
       [OPERATOR_IS]: {
@@ -751,7 +751,7 @@ export const savedViewFilters = {
     type: TOKEN_TYPE_SUBSCRIBED,
     operator: OPERATOR_IS,
   },
-  types: {
+  workItemTypeIds: {
     type: TOKEN_TYPE_TYPE,
     operator: OPERATOR_IS,
   },

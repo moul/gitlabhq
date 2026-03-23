@@ -3,11 +3,11 @@ import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { mountExtended } from 'helpers/vue_test_utils_helper';
 import waitForPromises from 'helpers/wait_for_promises';
 import axios from '~/lib/utils/axios_utils';
-import { capitalizeFirstCharacter } from '~/lib/utils/text_utility';
 import Widget from '~/vue_merge_request_widget/components/widget/widget.vue';
 import { EXTENSION_ICONS } from '~/vue_merge_request_widget/constants';
 
 import codeQualityWidget from '~/vue_merge_request_widget/widgets/code_quality/index.vue';
+import * as utils from '~/vue_merge_request_widget/widgets/code_quality/utils';
 import {
   HTTP_STATUS_INTERNAL_SERVER_ERROR,
   HTTP_STATUS_NO_CONTENT,
@@ -114,39 +114,30 @@ describe('Code Quality widget', () => {
   });
 
   describe('expanded data', () => {
-    it('formats new findings with severity, engine name, and description', async () => {
+    it('calls transformNewCodeQualityFinding with each new finding', async () => {
+      jest.spyOn(utils, 'transformNewCodeQualityFinding');
       mockApi(HTTP_STATUS_OK, responseNewFindings);
 
       createComponent();
 
       await waitForPromises();
 
-      const content = findWidget().props('content');
-      expect(content[0]).toMatchObject({
-        text: `${capitalizeFirstCharacter(newFinding.severity)} - ${newFinding.engine_name} - ${newFinding.description}`,
-        link: {
-          href: newFinding.web_url,
-          text: `in ${newFinding.file_path}:${newFinding.line}`,
-        },
-      });
+      expect(utils.transformNewCodeQualityFinding).toHaveBeenCalledWith(newFinding, 0, [
+        newFinding,
+      ]);
     });
 
-    it('formats resolved findings with a Fixed badge', async () => {
+    it('calls transformResolvedCodeQualityFinding with each resolved finding', async () => {
+      jest.spyOn(utils, 'transformResolvedCodeQualityFinding');
       mockApi(HTTP_STATUS_OK, responseResolvedFindings);
 
       createComponent();
 
       await waitForPromises();
 
-      const content = findWidget().props('content');
-      expect(content[0]).toMatchObject({
-        text: `${capitalizeFirstCharacter(resolvedFinding.severity)} - ${resolvedFinding.engine_name} - ${resolvedFinding.description}`,
-        supportingText: `in ${resolvedFinding.file_path}:${resolvedFinding.line}`,
-        badge: {
-          variant: 'neutral',
-          text: 'Fixed',
-        },
-      });
+      expect(utils.transformResolvedCodeQualityFinding).toHaveBeenCalledWith(resolvedFinding, 0, [
+        resolvedFinding,
+      ]);
     });
   });
 

@@ -11,12 +11,16 @@ export const newFinding = {
   engine_name: 'rubocop',
 };
 
-export const resolvedFinding = {
+export const resolvedFindingWithoutEngineName = {
   description: 'Unused variable',
   severity: 'minor',
   file_path: 'app/assets/javascripts/index.js',
   line: 10,
   web_url: '/blob/app/assets/javascripts/index.js#L10',
+};
+
+export const resolvedFinding = {
+  ...resolvedFindingWithoutEngineName,
   engine_name: 'eslint',
 };
 

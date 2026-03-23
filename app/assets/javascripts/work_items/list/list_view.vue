@@ -17,11 +17,11 @@ import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import IssueCardStatistics from 'ee_else_ce/work_items/list/components/issue_card_statistics.vue';
 import IssueCardTimeInfo from 'ee_else_ce/work_items/list/components/issue_card_time_info.vue';
 import {
+  convertOldTypeTokenEnumToGid,
   convertToApiParams,
   convertToSearchQuery,
   convertToUrlParams,
   deriveSortKey,
-  getDefaultWorkItemTypes,
   getFilterTokens,
   getSavedViewFilterTokens,
   getInitialPageParams,
@@ -57,7 +57,6 @@ import {
   SAVED_VIEW_SORT_RELATIVE_POSITION,
 } from '~/work_items/list/constants';
 import searchLabelsQuery from '~/work_items/list/graphql/search_labels.query.graphql';
-import namespaceWorkItemTypesQuery from '~/work_items/graphql/namespace_work_item_types.query.graphql';
 import getNamespaceSavedViewsQuery from '~/work_items/list/graphql/work_item_saved_views_namespace.query.graphql';
 import updateWorkItemListUserPreference from '~/work_items/graphql/update_work_item_list_user_preferences.mutation.graphql';
 import namespaceSavedViewQuery from '~/work_items/list/graphql/namespace_saved_view.query.graphql';
@@ -131,7 +130,6 @@ import getUserWorkItemsPreferences from '../graphql/get_user_preferences.query.g
 import {
   CREATION_CONTEXT_LIST_ROUTE,
   DETAIL_VIEW_QUERY_PARAM_NAME,
-  NAME_TO_ENUM_MAP,
   STATE_CLOSED,
   WORK_ITEM_TYPE_NAME_EPIC,
   WORK_ITEM_TYPE_NAME_ISSUE,
@@ -258,6 +256,8 @@ export default {
     'workItemPlanningViewEnabled',
     'subscribedSavedViewLimit',
     'canCreateSavedView',
+    'getWorkItemTypeConfiguration',
+    'workItemTypesConfiguration',
   ],
   props: {
     eeWorkItemUpdateCount: {
@@ -309,7 +309,6 @@ export default {
       displaySettings: {},
       localDisplaySettings: {},
       initialViewDisplaySettings: {},
-      workItemTypes: [],
       isLoggedIn: isLoggedIn(),
       isSortKeyInitialized: !this.isLoggedIn,
       hasWorkItems: false,
@@ -411,10 +410,10 @@ export default {
     hasWorkItems: {
       query: hasWorkItemsQuery,
       variables() {
-        const singleWorkItemType = this.workItemType ? NAME_TO_ENUM_MAP[this.workItemType] : null;
+        const singleWorkItemType = this.getWorkItemTypeConfiguration(this.workItemType)?.id;
         return {
           fullPath: this.rootPageFullPath,
-          types: singleWorkItemType || this.defaultWorkItemTypes,
+          workItemTypeIds: singleWorkItemType || this.defaultWorkItemTypes,
         };
       },
       update(data) {
@@ -429,20 +428,6 @@ export default {
           this.isInitialLoadComplete = true;
           this.initialLoadWasFiltered = this.filterTokens.length > 0;
         }
-      },
-    },
-    workItemTypes: {
-      query: namespaceWorkItemTypesQuery,
-      variables() {
-        return {
-          fullPath: this.rootPageFullPath,
-        };
-      },
-      update(data) {
-        return data?.namespace?.workItemTypes?.nodes;
-      },
-      error(error) {
-        Sentry.captureException(error);
       },
     },
     savedView: {
@@ -604,12 +589,9 @@ export default {
       });
     },
     defaultWorkItemTypes() {
-      return getDefaultWorkItemTypes({
-        hasEpicsFeature: this.hasEpicsFeature,
-        hasOkrsFeature: this.hasOkrsFeature,
-        hasQualityManagementFeature: this.hasQualityManagementFeature,
-        isGroupIssuesList: this.isGroupIssuesList,
-      });
+      return Object.values(this.workItemTypesConfiguration)
+        .filter((type) => type.isFilterableListView)
+        .map((type) => type.id);
     },
     workItemDrawerEnabled() {
       return this.displaySettings.commonPreferences?.shouldOpenItemsInSidePanel ?? true;
@@ -634,7 +616,7 @@ export default {
     },
     queryVariables() {
       const hasGroupFilter = Boolean(this.urlFilterParams.group_path);
-      const singleWorkItemType = this.workItemType ? NAME_TO_ENUM_MAP[this.workItemType] : null;
+      const singleWorkItemType = this.getWorkItemTypeConfiguration(this.workItemType)?.id;
       const isIidSearch = ISSUE_REFERENCE.test(this.searchQuery);
       return {
         fullPath: this.rootPageFullPath,
@@ -646,20 +628,22 @@ export default {
         search: isIidSearch ? undefined : this.searchQuery,
         excludeProjects: hasGroupFilter || this.isEpicsList,
         includeDescendants: !hasGroupFilter,
-        types: this.apiFilterParams.types || singleWorkItemType || this.defaultWorkItemTypes,
+        workItemTypeIds:
+          this.apiFilterParams.workItemTypeIds || singleWorkItemType || this.defaultWorkItemTypes,
         isGroup: this.isGroup,
         excludeGroupWorkItems: this.isGroupIssuesList,
         useWorkItemFeatures: Boolean(this.glFeatures.workItemFeaturesField),
       };
     },
     csvExportQueryVariables() {
-      const singleWorkItemType = this.workItemType ? NAME_TO_ENUM_MAP[this.workItemType] : null;
+      const singleWorkItemType = this.getWorkItemTypeConfiguration(this.workItemType)?.id;
       return {
         ...this.apiFilterParams,
         projectPath: this.rootPageFullPath,
         state: this.state,
         search: this.searchQuery,
-        types: this.apiFilterParams.types || singleWorkItemType || this.defaultWorkItemTypes,
+        workItemTypeIds:
+          this.apiFilterParams.workItemTypeIds || singleWorkItemType || this.defaultWorkItemTypes,
       };
     },
     searchQuery() {
@@ -771,7 +755,6 @@ export default {
           icon: 'work-item-issue',
           unique: true,
           token: WorkItemTypeToken,
-          operators: OPERATORS_IS_NOT_OR,
           multiSelect: true,
           fullPath: this.rootPageFullPath,
         });
@@ -1034,9 +1017,7 @@ export default {
     },
     workItemTypeId() {
       const workItemTypeName = this.workItemType || WORK_ITEM_TYPE_NAME_ISSUE;
-      return (
-        this.workItemTypes?.find((workItemType) => workItemType.name === workItemTypeName)?.id || ''
-      );
+      return this.getWorkItemTypeConfiguration(workItemTypeName)?.id || '';
     },
     shouldLoad() {
       return !this.isInitialLoadComplete || (!this.isSortKeyInitialized && !this.error);
@@ -1193,6 +1174,14 @@ export default {
         }
       },
     },
+    // TODO remove when we no longer need to convert old type[]=ISSUE params to new type[]=1 params
+    workItemTypesConfiguration(workItemTypesConfiguration) {
+      if (!this.filterTokens.some((token) => token.type === TOKEN_TYPE_TYPE)) {
+        return;
+      }
+      const tokens = convertOldTypeTokenEnumToGid(this.filterTokens, workItemTypesConfiguration);
+      this.handleFilter(tokens);
+    },
   },
   created() {
     if (this.isSavedView) {
@@ -1209,11 +1198,13 @@ export default {
       } else if (draft) {
         const parsedData = JSON.parse(draft);
         if (parsedData.query) {
-          this.$router.replace({ query: parsedData.query }).catch((error) => {
-            if (error.name !== 'NavigationDuplicated') {
-              throw error;
-            }
-          });
+          this.$router
+            .replace({ query: { ...this.$route.query, ...parsedData.query } })
+            .catch((error) => {
+              if (error.name !== 'NavigationDuplicated') {
+                throw error;
+              }
+            });
         }
       }
 

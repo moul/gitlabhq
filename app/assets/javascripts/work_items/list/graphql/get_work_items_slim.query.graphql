@@ -27,9 +27,9 @@ query getWorkItemsSlim(
   $milestoneWildcardId: MilestoneWildcardId
   $myReactionEmoji: String
   $subscribed: SubscriptionStatus
-  $types: [IssueType!]
   $updatedAfter: Time
   $updatedBefore: Time
+  $workItemTypeIds: [WorkItemsTypeID!]
   $crmOrganizationId: String
   $crmContactId: String
   $releaseTag: [String!]
@@ -70,9 +70,9 @@ query getWorkItemsSlim(
       milestoneWildcardId: $milestoneWildcardId
       myReactionEmoji: $myReactionEmoji
       subscribed: $subscribed
-      types: $types
       updatedAfter: $updatedAfter
       updatedBefore: $updatedBefore
+      workItemTypeIds: $workItemTypeIds
       crmContactId: $crmContactId
       crmOrganizationId: $crmOrganizationId
       releaseTag: $releaseTag

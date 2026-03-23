@@ -464,26 +464,19 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
         sign_in(user)
       end
 
-      context 'when user has ability to write update_default_branch_protection' do
-        before do
-          allow(Ability).to receive(:allowed?).and_call_original
-          allow(Ability).to receive(:allowed?).with(user, :update_default_branch_protection, an_instance_of(Group)).and_return(true)
+      context 'for users who have the ability to create a group with `default_branch_protection_defaults`' do
+        it 'creates group with the specified default branch protection level' do
+          post :create, params: { group: { name: 'new_group', path: 'new_group', default_branch_protected: "true", default_branch_protection_defaults: protection_defaults } }, as: :json
+
+          expect(response).to have_gitlab_http_status(:found)
+          expect(Group.last.default_branch_protection_defaults).to eq(::Gitlab::Access::BranchProtection.protected_against_developer_pushes.stringify_keys)
         end
 
-        context 'for users who have the ability to create a group with `default_branch_protection_defaults`' do
-          it 'creates group with the specified default branch protection level' do
-            post :create, params: { group: { name: 'new_group', path: 'new_group', default_branch_protected: "true", default_branch_protection_defaults: protection_defaults } }, as: :json
+        it 'ignores default_branch_protection_defaults if default_branch_protected is set to false' do
+          post :create, params: { group: { name: 'new_group', path: 'new_group', default_branch_protected: "false", default_branch_protection_defaults: protection_defaults } }, as: :json
 
-            expect(response).to have_gitlab_http_status(:found)
-            expect(Group.last.default_branch_protection_defaults).to eq(::Gitlab::Access::BranchProtection.protected_against_developer_pushes.stringify_keys)
-          end
-
-          it 'ignores default_branch_protection_defaults if default_branch_protected is set to false' do
-            post :create, params: { group: { name: 'new_group', path: 'new_group', default_branch_protected: "false", default_branch_protection_defaults: protection_defaults } }, as: :json
-
-            expect(response).to have_gitlab_http_status(:found)
-            expect(Group.last.default_branch_protection_defaults).to eq(::Gitlab::Access::BranchProtection.protection_none.stringify_keys)
-          end
+          expect(response).to have_gitlab_http_status(:found)
+          expect(Group.last.default_branch_protection_defaults).to eq(::Gitlab::Access::BranchProtection.protection_none.stringify_keys)
         end
       end
 

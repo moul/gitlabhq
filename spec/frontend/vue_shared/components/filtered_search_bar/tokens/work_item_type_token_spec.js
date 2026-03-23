@@ -69,12 +69,14 @@ describe('WorkItemTypeToken', () => {
 
   describe('template', () => {
     it.each`
-      data       | expectedText
-      ${'ISSUE'} | ${'Issue'}
-      ${'TASK'}  | ${'Task'}
+      data   | expectedText
+      ${'1'} | ${'Issue'}
+      ${'2'} | ${'Task'}
     `('when "$value" is selected, shows "$expectedText"', async ({ data, expectedText }) => {
-      createComponent({ props: { value: { data } } });
+      createComponent();
       await waitForPromises();
+
+      await wrapper.setProps({ value: { data, operator: '=' } });
 
       const tokenSegments = findTokenSegments();
       expect(tokenSegments).toHaveLength(3); // Type, =, "Issue"

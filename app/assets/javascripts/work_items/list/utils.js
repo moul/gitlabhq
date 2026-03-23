@@ -1,8 +1,13 @@
 import produce from 'immer';
 import { camelCase, capitalize } from 'lodash-es';
-import { TYPENAME_ITERATIONS_CADENCE, TYPENAME_WORK_ITEM } from '~/graphql_shared/constants';
+import {
+  TYPENAME_ITERATIONS_CADENCE,
+  TYPENAME_WORK_ITEM,
+  TYPENAME_WORK_ITEMS_TYPE,
+} from '~/graphql_shared/constants';
 import { getIdFromGraphQLId, convertToGraphQLId } from '~/graphql_shared/utils';
 import { isPositiveInteger } from '~/lib/utils/number_utils';
+import { capitalizeFirstCharacter } from '~/lib/utils/text_utility';
 import { getParameterByName } from '~/lib/utils/url_utility';
 import { __, s__ } from '~/locale';
 import {
@@ -384,6 +389,52 @@ export const getFilterTokens = (locationSearch, options = {}) => {
   return tokens;
 };
 
+/**
+ * Converts `type` URL param old enum value to new gid value
+ * i.e. `type[]=KEY_RESULT`/`type[]=epic` to `type[]=1`
+ *
+ * @param {Object[]} tokens - Array of filter tokens
+ * @param {Object} workItemTypesConfiguration - Work item types configuration
+ * @returns {Object[]} Array of filter tokens, with the type token value converted
+ */
+export const convertOldTypeTokenEnumToGid = (tokens, workItemTypesConfiguration) => {
+  const isTypeEnum = /^[a-zA-Z_]+$/;
+
+  const getGidFromTypeTokenEnum = (typeEnum) => {
+    // typeEnum can either be lowercase (epic) or screaming snake case (KEY_RESULT).
+    // The system type name is in title case (Key Result)
+    const typeName = typeEnum.toLowerCase().split('_').map(capitalizeFirstCharacter).join(' ');
+    const typeConfig = workItemTypesConfiguration[typeName];
+    return typeConfig ? String(getIdFromGraphQLId(typeConfig.id)) : undefined;
+  };
+
+  return tokens
+    .map((token) => {
+      if (token.type === TOKEN_TYPE_TYPE) {
+        if (isTypeEnum.test(token.value.data)) {
+          return {
+            ...token,
+            value: {
+              ...token.value,
+              data: getGidFromTypeTokenEnum(token.value.data),
+            },
+          };
+        }
+        if (Array.isArray(token.value.data)) {
+          return {
+            ...token,
+            value: {
+              ...token.value,
+              data: token.value.data.map((data) => getGidFromTypeTokenEnum(data)),
+            },
+          };
+        }
+      }
+      return token;
+    })
+    .filter((token) => token.value.data !== undefined);
+};
+
 const trueYesFalseNo = (value) => {
   if (value) {
     return 'yes';
@@ -406,18 +457,14 @@ const wildcardTokens = [
 const isWildcardValue = (tokenType, value) =>
   wildcardTokens.includes(tokenType) && wildcardFilterValues.includes(value);
 
-const requiresUpperCaseValue = (tokenType, value) =>
-  tokenType === TOKEN_TYPE_TYPE || isWildcardValue(tokenType, value);
-
 const convertToTokenValue = (token, baseValue) => {
   switch (token) {
     case TOKEN_TYPE_CONFIDENTIAL:
       return trueYesFalseNo(baseValue);
     case TOKEN_TYPE_SUBSCRIBED:
-    case TOKEN_TYPE_TYPE:
       return baseValue.toUpperCase();
     case TOKEN_TYPE_HEALTH:
-      if (requiresUpperCaseValue(token, capitalize(baseValue))) {
+      if (isWildcardValue(token, capitalize(baseValue))) {
         return baseValue.toUpperCase();
       }
       return camelCase(baseValue);
@@ -602,14 +649,6 @@ export const isParentIdParam = (type) => {
   return type === TOKEN_TYPE_PARENT;
 };
 
-export const isSubscribedParam = (type) => {
-  return type === TOKEN_TYPE_SUBSCRIBED;
-};
-
-export const isHealthStatusParam = (type) => {
-  return type === TOKEN_TYPE_HEALTH;
-};
-
 const getFilterType = ({ type, value: { data, operator } }) => {
   const isUnionedAuthor = type === TOKEN_TYPE_AUTHOR && operator === OPERATOR_OR;
   const isUnionedLabel = type === TOKEN_TYPE_LABEL && operator === OPERATOR_OR;
@@ -638,11 +677,17 @@ const formatData = (token) => {
     return data.map((item) => formatData({ ...token, value: { ...token.value, data: item } }));
   }
 
-  if (requiresUpperCaseValue(token.type, data)) {
+  if (isWildcardValue(token.type, data)) {
     return data.toUpperCase();
   }
   if ([TOKEN_TYPE_CONFIDENTIAL, TOKEN_TYPE_DRAFT].includes(token.type)) {
     return data === 'yes';
+  }
+  if (token.type === TOKEN_TYPE_TYPE) {
+    return convertToGraphQLId(TYPENAME_WORK_ITEMS_TYPE, data);
+  }
+  if (token.type === TOKEN_TYPE_HEALTH) {
+    return camelCase(data);
   }
 
   return data;
@@ -713,10 +758,6 @@ export const convertToApiParams = (filterTokens) => {
           includeDescendantWorkItems: true,
         });
       }
-    } else if (isSubscribedParam(token.type)) {
-      obj.set(apiField, data.toUpperCase());
-    } else if (isHealthStatusParam(token.type)) {
-      obj.set(apiField, isWildcardValue(token.type, capitalize(data)) ? data : camelCase(data));
     } else {
       obj.set(apiField, obj.has(apiField) ? [obj.get(apiField), data].flat() : data);
     }

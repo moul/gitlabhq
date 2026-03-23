@@ -1,6 +1,7 @@
 <script>
 import { GlIcon, GlIntersperse, GlFilteredSearchSuggestion } from '@gitlab/ui';
 import { createAlert } from '~/alert';
+import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { s__ } from '~/locale';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import WorkItemTypeIcon from '~/work_items/components/work_item_type_icon.vue';
@@ -78,7 +79,7 @@ export default {
       return types.find((type) => this.getTypeValue(type) === data);
     },
     getTypeValue(type) {
-      return type.name.toUpperCase().replace(/\s+/g, '_'); // 'Key Results' -> 'KEY_RESULTS');
+      return String(getIdFromGraphQLId(type.id));
     },
   },
 };

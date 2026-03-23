@@ -1129,12 +1129,14 @@ design: &design
 - user_mentions
 - events
 - subscriptions
+- namespace
 designs: *design
 actions:
 - design
 - version
 - uploads
 - file_uploads
+- namespace
 versions: &version
 - author
 - issue

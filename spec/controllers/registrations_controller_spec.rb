@@ -674,17 +674,15 @@ RSpec.describe RegistrationsController, feature_category: :user_profile do
         end
       end
 
-      context 'when user is not invited' do
-        it 'tracks user creation with signup label' do
-          post :create, params: user_params
+      it 'tracks user creation with signup label', unless: Gitlab.ee? do
+        post :create, params: user_params
 
-          expect_snowplow_event(
-            category: 'RegistrationsController',
-            action: 'create_user',
-            label: 'signup',
-            user: User.find_by(email: base_user_params[:email])
-          )
-        end
+        expect_snowplow_event(
+          category: 'RegistrationsController',
+          action: 'create_user',
+          label: 'signup',
+          user: User.find_by(email: base_user_params[:email])
+        )
       end
 
       context 'when a timing operation fails' do

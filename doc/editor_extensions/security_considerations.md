@@ -88,4 +88,4 @@ Development containers provide:
 - Network isolation: Restrict container networking to limit external access.
 
 The GitLab for VS Code extension is compatible with VS Code Dev Containers. For more
-information, see [use the extension in a Visual Studio Code Dev Container](visual_studio_code/setup.md#use-the-extension-in-a-visual-studio-code-dev-container).
+information, see [use the extension in a Visual Studio Code Dev Container](visual_studio_code/setup.md#install-in-a-visual-studio-code-dev-container).

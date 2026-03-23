@@ -759,6 +759,8 @@ export default {
     },
     handleKeydown(e) {
       if (isMetaEnterKeyPair(e) && !this.loading) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
         this.createWorkItem();
       }
     },
@@ -822,6 +824,12 @@ export default {
       this.$emit('changeType', this.selectedWorkItemTypeName);
     },
     async updateDraftData(type, value) {
+      // loading is set to true at the start of createWorkItem and intentionally
+      // never reset on success because the component is destroyed shortly after.
+      // This prevents async draft writes from re-populating localStorage after
+      // clearAutosaveDraft has already cleared it.
+      if (this.loading) return;
+
       if (type === 'title') {
         this.localTitle = value;
         this.validate();
@@ -836,6 +844,7 @@ export default {
         return;
       }
 
+      // This flag is used in `updateDraftData` and in `handleUpdateWidgetDraft`
       this.loading = true;
 
       const workItemCreateInput = {
@@ -1006,12 +1015,12 @@ export default {
 
         setLastUsedWorkItemTypeIdForNamespace(this.selectedWorkItemTypeId, this.inputNamespacePath);
 
+        this.clearAutosaveDraft();
+
         this.$emit('work-item-created', {
           workItem: data.workItemCreate.workItem,
           numberOfDiscussionsResolved: this.numberOfDiscussionsResolved,
         });
-
-        this.clearAutosaveDraft();
       } catch (error) {
         this.error = error.message || this.createErrorText;
         this.loading = false;
@@ -1019,6 +1028,9 @@ export default {
       }
     },
     async handleUpdateWidgetDraft(input) {
+      // See comment in updateDraftData for why we guard on this.loading
+      if (this.loading) return;
+
       try {
         await this.$apollo.mutate({
           mutation: updateNewWorkItemMutation,
@@ -1040,9 +1052,9 @@ export default {
     },
     handleCancelClick() {
       /*
-      If any form field is filled or has a non-default value, ask user to confirm
-      if they want to discard the draft
-    */
+       * If any form field is filled or has a non-default value, ask user to confirm
+       * if they want to discard the draft
+       */
       if (this.isFormFilled) {
         this.$emit('confirmCancel');
       } else {

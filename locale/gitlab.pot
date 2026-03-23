@@ -1521,11 +1521,6 @@ msgid_plural "%{strong_start}%{count}%{strong_end} Environments"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "%{strong_start}%{errors}%{strong_end} %{prefix} finding"
-msgid_plural "%{strong_start}%{errors}%{strong_end} %{prefix} findings"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "%{strong_start}%{human_size}%{strong_end} Forked Project"
 msgstr ""
 
@@ -7801,10 +7796,10 @@ msgstr ""
 msgid "AiPowered|Tanuki AI icon"
 msgstr ""
 
-msgid "AiPowered|This setting applies to the entire instance. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage."
+msgid "AiPowered|This setting applies to the entire instance. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}Check the required prerequisites%{prerequisitesLinkEnd}."
 msgstr ""
 
-msgid "AiPowered|This setting applies to the top-level group. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage."
+msgid "AiPowered|This setting applies to the top-level group. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}Check the required prerequisites%{prerequisitesLinkEnd}."
 msgstr ""
 
 msgid "AiPowered|This setting requires Allow flow execution to be on"
@@ -7822,13 +7817,13 @@ msgstr ""
 msgid "AiPowered|Track credit consumption across your users and monitor usage trends. View breakdowns by user to understand how your team utilizes GitLab Duo."
 msgstr ""
 
+msgid "AiPowered|Turn on GitLab Duo Agent Platform access"
+msgstr ""
+
 msgid "AiPowered|Turn on GitLab Duo Chat (agentic), agents, and flows"
 msgstr ""
 
 msgid "AiPowered|Turn on experiment and beta GitLab Duo features"
-msgstr ""
-
-msgid "AiPowered|Turn on features for GitLab Duo Core"
 msgstr ""
 
 msgid "AiPowered|Turn on prompt caching"
@@ -7876,7 +7871,7 @@ msgstr ""
 msgid "AiPowered|When GitLab Duo is not available, prompt caching cannot be turned on."
 msgstr ""
 
-msgid "AiPowered|When turned on, users can access features included in the GitLab Duo Core add-on. %{linkStart}Which features are included%{linkEnd}?"
+msgid "AiPowered|When turned on, members without a Duo Pro or Duo Enterprise seat can access GitLab Duo Agent Platform features. %{linkStart}Which features are included%{linkEnd}?"
 msgstr ""
 
 msgid "AiPowered|When you save, GitLab Duo will be turned off for all groups, subgroups, and projects."
@@ -16925,12 +16920,6 @@ msgid "Code Owners"
 msgstr ""
 
 msgid "Code Quality"
-msgstr ""
-
-msgid "Code Quality scans found %{degradation} and %{improvement}."
-msgstr ""
-
-msgid "Code Quality scans found %{findings}."
 msgstr ""
 
 msgid "Code Suggestions"
@@ -83103,6 +83092,16 @@ msgstr ""
 msgid "ciReport|%{scanner}: Loading resulted in an error"
 msgstr ""
 
+msgid "ciReport|%{strong_start}%{count}%{strong_end} fixed finding"
+msgid_plural "ciReport|%{strong_start}%{count}%{strong_end} fixed findings"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "ciReport|%{strong_start}%{count}%{strong_end} new finding"
+msgid_plural "ciReport|%{strong_start}%{count}%{strong_end} new findings"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "ciReport|A merge request with a suggested solution has been created."
 msgstr ""
 
@@ -83135,9 +83134,6 @@ msgstr ""
 msgid "ciReport|Cluster Image Scanning"
 msgstr ""
 
-msgid "ciReport|Code Quality"
-msgstr ""
-
 msgid "ciReport|Code Quality failed to load results"
 msgstr ""
 
@@ -83146,6 +83142,19 @@ msgstr ""
 
 msgid "ciReport|Code Quality is loading"
 msgstr ""
+
+msgid "ciReport|Code Quality scans found %{newFindings} and %{resolvedFindings}."
+msgstr ""
+
+msgid "ciReport|Code Quality scans found %{strong_start}%{count}%{strong_end} fixed finding."
+msgid_plural "ciReport|Code Quality scans found %{strong_start}%{count}%{strong_end} fixed findings."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "ciReport|Code Quality scans found %{strong_start}%{count}%{strong_end} new finding."
+msgid_plural "ciReport|Code Quality scans found %{strong_start}%{count}%{strong_end} new findings."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "ciReport|Code quality failed loading results"
 msgstr ""

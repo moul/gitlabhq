@@ -99,7 +99,9 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
       'p_duo_workflows_checkpoints.namespace_id',
       # No LFK needed: daily partitions are dropped after 1 day via retain_for
       # https://gitlab.com/gitlab-org/gitlab/-/blob/ccc2459924e2805e43ad8f97eec15a6932d84f68/ee/app/models/analytics/knowledge_graph/code_indexing_task.rb#L13
-      'p_knowledge_graph_code_indexing_tasks.project_id'
+      'p_knowledge_graph_code_indexing_tasks.project_id',
+      'merge_request_diff_commits_b5377a7a34.project_id'
+      # No need for FK, rows will be deleted by the LFK to merge_request_diffs
     ]
   end
 

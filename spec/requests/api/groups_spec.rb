@@ -3448,10 +3448,12 @@ RSpec.describe API::Groups, :with_current_organization, feature_category: :group
           parent.add_owner(user3)
         end
 
-        it 'creates group' do
+        it 'creates group with the specified default_branch_protection_defaults' do
           subject
 
           expect(response).to have_gitlab_http_status(:created)
+          expect(json_response['default_branch_protection_defaults']['allowed_to_push'])
+            .to eq([{ "access_level" => Gitlab::Access::DEVELOPER }])
         end
       end
 
