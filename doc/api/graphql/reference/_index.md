@@ -3547,6 +3547,7 @@ Input type: `AiSelfHostedModelConnectionCheckInput`
 | <a id="mutation-aiselfhostedmodelconnectioncheck-identifier"></a>`identifier` | [`String`](#string) | Identifier for 3rd party model provider. |
 | <a id="mutation-aiselfhostedmodelconnectioncheck-model"></a>`model` | [`AiAcceptedSelfHostedModels!`](#aiacceptedselfhostedmodels) | AI model deployed. |
 | <a id="mutation-aiselfhostedmodelconnectioncheck-name"></a>`name` | [`String!`](#string) | Deployment name of the self-hosted model. |
+| <a id="mutation-aiselfhostedmodelconnectioncheck-provider"></a>`provider` | [`AiSelfHostedModelProvider`](#aiselfhostedmodelprovider) | Provider for the self-hosted model. |
 
 #### Fields
 
@@ -3575,6 +3576,7 @@ Input type: `AiSelfHostedModelCreateInput`
 | <a id="mutation-aiselfhostedmodelcreate-identifier"></a>`identifier` | [`String`](#string) | Identifier for 3rd party model provider. |
 | <a id="mutation-aiselfhostedmodelcreate-model"></a>`model` | [`AiAcceptedSelfHostedModels!`](#aiacceptedselfhostedmodels) | AI model deployed. |
 | <a id="mutation-aiselfhostedmodelcreate-name"></a>`name` | [`String!`](#string) | Deployment name of the self-hosted model. |
+| <a id="mutation-aiselfhostedmodelcreate-provider"></a>`provider` | [`AiSelfHostedModelProvider`](#aiselfhostedmodelprovider) | Provider for the self-hosted model. |
 
 #### Fields
 
@@ -3631,6 +3633,7 @@ Input type: `AiSelfHostedModelUpdateInput`
 | <a id="mutation-aiselfhostedmodelupdate-identifier"></a>`identifier` | [`String`](#string) | Identifier for 3rd party model provider. |
 | <a id="mutation-aiselfhostedmodelupdate-model"></a>`model` | [`AiAcceptedSelfHostedModels!`](#aiacceptedselfhostedmodels) | AI model deployed. |
 | <a id="mutation-aiselfhostedmodelupdate-name"></a>`name` | [`String!`](#string) | Deployment name of the self-hosted model. |
+| <a id="mutation-aiselfhostedmodelupdate-provider"></a>`provider` | [`AiSelfHostedModelProvider`](#aiselfhostedmodelprovider) | Provider for the self-hosted model. |
 
 #### Fields
 
@@ -28341,6 +28344,7 @@ Self-hosted LLM servers.
 | <a id="aiselfhostedmodel-model"></a>`model` | [`String!`](#string) | AI model deployed. |
 | <a id="aiselfhostedmodel-modeldisplayname"></a>`modelDisplayName` | [`String!`](#string) | Display name of the AI model deployed. |
 | <a id="aiselfhostedmodel-name"></a>`name` | [`String!`](#string) | Deployment name of the self-hosted model. |
+| <a id="aiselfhostedmodel-provider"></a>`provider` | [`AiSelfHostedModelProvider!`](#aiselfhostedmodelprovider) | Provider for the self-hosted model. |
 | <a id="aiselfhostedmodel-releasestate"></a>`releaseState` | [`AiSelfHostedModelReleaseState!`](#aiselfhostedmodelreleasestate) | GitLab release status of the model. |
 | <a id="aiselfhostedmodel-updatedat"></a>`updatedAt` | [`Time`](#time) | Timestamp of last update. |
 
@@ -54453,6 +54457,16 @@ AI features that can be configured through the Model Selection feature settings.
 | <a id="aimodelselectionfeatures-sast_vulnerability_fp_detection"></a>`SAST_VULNERABILITY_FP_DETECTION` | Sast vulnerability fp detection feature setting. |
 | <a id="aimodelselectionfeatures-summarize_new_merge_request"></a>`SUMMARIZE_NEW_MERGE_REQUEST` | Summarize new merge request feature setting. |
 | <a id="aimodelselectionfeatures-summarize_review"></a>`SUMMARIZE_REVIEW` | Summarize review feature setting. |
+
+### `AiSelfHostedModelProvider`
+
+Provider for a self-hosted model.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="aiselfhostedmodelprovider-api"></a>`API` | API provider. |
+| <a id="aiselfhostedmodelprovider-bedrock"></a>`BEDROCK` | Amazon Bedrock provider. |
+| <a id="aiselfhostedmodelprovider-vertex_ai"></a>`VERTEX_AI` | Google Vertex AI provider. |
 
 ### `AiSelfHostedModelReleaseState`
 

@@ -14787,6 +14787,9 @@ msgstr ""
 msgid "Characters over limit"
 msgstr ""
 
+msgid "Chat is not available."
+msgstr ""
+
 msgid "ChatMessage|%{project_link}: Pipeline %{pipeline_link} of %{ref_type} %{ref_link} by %{user_combined_name} %{humanized_status} in %{duration}"
 msgstr ""
 
@@ -26452,13 +26455,7 @@ msgstr ""
 msgid "DuoAgentsPlatform|Cancel session?"
 msgstr ""
 
-msgid "DuoAgentsPlatform|Chat"
-msgstr ""
-
 msgid "DuoAgentsPlatform|Chat with a specialized agent"
-msgstr ""
-
-msgid "DuoAgentsPlatform|Code suggestions will appear here."
 msgstr ""
 
 msgid "DuoAgentsPlatform|Complete multi-step tasks with flows"
@@ -26657,9 +26654,6 @@ msgid "DuoAgentsPlatform|Start a Free Trial"
 msgstr ""
 
 msgid "DuoAgentsPlatform|Start your free %{strongStart}%{trialDuration}-day trial%{strongEnd} now to accelerate your software delivery. Automate tasks with AI agents, from searching projects to creating commits."
-msgstr ""
-
-msgid "DuoAgentsPlatform|Suggestions"
 msgstr ""
 
 msgid "DuoAgentsPlatform|The trigger could not be created. Try again."
@@ -45273,6 +45267,9 @@ msgid "New"
 msgstr ""
 
 msgid "New %{type} in %{project}"
+msgstr ""
+
+msgid "New Chat"
 msgstr ""
 
 msgid "New File"
@@ -68633,6 +68630,9 @@ msgstr ""
 msgid "Suggestions are not applicable as their lines cannot overlap."
 msgstr ""
 
+msgid "Suggestions content placeholder"
+msgstr ""
+
 msgid "Suggestions must all be on the same branch."
 msgstr ""
 
@@ -77882,6 +77882,9 @@ msgstr ""
 msgid "Vulnerability|Not an FP"
 msgstr ""
 
+msgid "Vulnerability|Note: Unverified vulnerability does not have a source. This means that the vulnerability was detected without identifying the untrusted input that caused it. Exercise caution when addressing this vulnerability, as the root cause may not be fully understood."
+msgstr ""
+
 msgid "Vulnerability|Policy violation detected"
 msgstr ""
 
@@ -77979,6 +77982,9 @@ msgid "Vulnerability|This vulnerability was bypassed by a user in a merge reques
 msgstr ""
 
 msgid "Vulnerability|Tool:"
+msgstr ""
+
+msgid "Vulnerability|Trace Entry Point"
 msgstr ""
 
 msgid "Vulnerability|Training"

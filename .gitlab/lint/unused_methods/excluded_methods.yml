@@ -50,5 +50,7 @@ app/models/work_items/types_framework/provider.rb:
   - by_ids_with_widget_definition_preload: Deprecated method for old WorkItems::Type model; scheduled for removal in https://gitlab.com/gitlab-org/gitlab/-/issues/581931
 ee/app/helpers/ee/projects_helper.rb:
   - show_duo_otel_button?: Will be used in follow-up MR for OTel generation with duo
+ee/app/models/security/scan_profile_project_status.rb:
+  - profile_failed?: Will be used in follow-up MR to expose profile statuses via GraphQL (Task 4, #593133)
 app/models/work_item.rb:
   - descendant_ids_for: will be used in follow-up MR 

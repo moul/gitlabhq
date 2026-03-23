@@ -29649,6 +29649,28 @@ CREATE SEQUENCE security_scan_execution_project_schedules_id_seq
 
 ALTER SEQUENCE security_scan_execution_project_schedules_id_seq OWNED BY security_scan_execution_project_schedules.id;
 
+CREATE TABLE security_scan_profile_project_statuses (
+    id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    security_scan_profile_id bigint NOT NULL,
+    build_id bigint,
+    last_scan_at timestamp with time zone,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    status smallint DEFAULT 0 NOT NULL,
+    consecutive_failure_count smallint DEFAULT 0 NOT NULL,
+    consecutive_success_count smallint DEFAULT 0 NOT NULL
+);
+
+CREATE SEQUENCE security_scan_profile_project_statuses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE security_scan_profile_project_statuses_id_seq OWNED BY security_scan_profile_project_statuses.id;
+
 CREATE TABLE security_scan_profile_triggers (
     id bigint NOT NULL,
     created_at timestamp with time zone NOT NULL,
@@ -36005,6 +36027,8 @@ ALTER TABLE ONLY security_project_tracked_contexts ALTER COLUMN id SET DEFAULT n
 
 ALTER TABLE ONLY security_scan_execution_project_schedules ALTER COLUMN id SET DEFAULT nextval('security_scan_execution_project_schedules_id_seq'::regclass);
 
+ALTER TABLE ONLY security_scan_profile_project_statuses ALTER COLUMN id SET DEFAULT nextval('security_scan_profile_project_statuses_id_seq'::regclass);
+
 ALTER TABLE ONLY security_scan_profile_triggers ALTER COLUMN id SET DEFAULT nextval('security_scan_profile_triggers_id_seq'::regclass);
 
 ALTER TABLE ONLY security_scan_profiles ALTER COLUMN id SET DEFAULT nextval('security_scan_profiles_id_seq'::regclass);
@@ -40119,6 +40143,9 @@ ALTER TABLE ONLY security_project_tracked_contexts
 ALTER TABLE ONLY security_scan_execution_project_schedules
     ADD CONSTRAINT security_scan_execution_project_schedules_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY security_scan_profile_project_statuses
+    ADD CONSTRAINT security_scan_profile_project_statuses_pkey PRIMARY KEY (id);
+
 ALTER TABLE ONLY security_scan_profile_triggers
     ADD CONSTRAINT security_scan_profile_triggers_pkey PRIMARY KEY (id);
 
@@ -44065,6 +44092,12 @@ CREATE INDEX idx_security_policy_dismissals_license_occurrence_uuids ON security
 CREATE INDEX idx_security_policy_dismissals_project_findings_uuids ON security_policy_dismissals USING gin (security_findings_uuids);
 
 CREATE INDEX idx_security_policy_project_links_on_project_id_and_id ON security_policy_project_links USING btree (project_id, id);
+
+CREATE INDEX idx_security_scan_profile_proj_statuses_on_build_id ON security_scan_profile_project_statuses USING btree (build_id);
+
+CREATE INDEX idx_security_scan_profile_proj_statuses_on_profile_id ON security_scan_profile_project_statuses USING btree (security_scan_profile_id);
+
+CREATE UNIQUE INDEX idx_security_scan_profile_proj_statuses_on_project_and_profile ON security_scan_profile_project_statuses USING btree (project_id, security_scan_profile_id);
 
 CREATE INDEX idx_security_scan_profiles_projects_on_security_scan_profile_id ON security_scan_profiles_projects USING btree (security_scan_profile_id);
 
@@ -58622,6 +58655,9 @@ ALTER TABLE ONLY virtual_registries_packages_maven_registry_upstreams
 
 ALTER TABLE ONLY dependency_list_export_parts
     ADD CONSTRAINT fk_rails_83f26c0e6f FOREIGN KEY (dependency_list_export_id) REFERENCES dependency_list_exports(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY security_scan_profile_project_statuses
+    ADD CONSTRAINT fk_rails_840795ce98 FOREIGN KEY (security_scan_profile_id) REFERENCES security_scan_profiles(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY zentao_tracker_data
     ADD CONSTRAINT fk_rails_84efda7be0 FOREIGN KEY (integration_id) REFERENCES integrations(id) ON DELETE CASCADE;

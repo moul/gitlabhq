@@ -311,6 +311,7 @@ merge_requests:
 - policy_dismissals
 - security_scan_profiles
 - security_scan_profiles_projects
+- security_scan_profile_project_statuses
 - duo_workflows
 external_pull_requests:
 - project
@@ -1002,6 +1003,7 @@ project:
 - policy_dismissals
 - security_scan_profiles
 - security_scan_profiles_projects
+- security_scan_profile_project_statuses
 - enabled_foundational_flows
 - enabled_foundational_flow_records
 - provisioned_user_details

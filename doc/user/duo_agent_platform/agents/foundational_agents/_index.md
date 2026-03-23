@@ -45,6 +45,8 @@ The following foundational agents are available in the GitLab UI, VS Code, and J
   security analysis and vulnerability management.
 - [Data Analyst](data_analyst.md), for analysis
   and visualization of platform data.
+- [Pipeline Builder](pipeline_builder.md), for creating,
+  debugging, and optimizing GitLab CI/CD pipelines.
 
 ## Duplicate an agent
 
