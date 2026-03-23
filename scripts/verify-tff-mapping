@@ -695,10 +695,7 @@ tests = [
       ee/spec/features/registrations/saas/standard_flow_with_2fa_spec.rb
       ee/spec/features/registrations/saas/subscription_flow_company_paid_plan_spec.rb
       ee/spec/features/registrations/saas/subscription_flow_just_me_paid_plan_spec.rb
-      ee/spec/features/registrations/saas/trial_flow_company_creating_project_spec.rb
-      ee/spec/features/registrations/saas/trial_flow_company_importing_project_spec.rb
-      ee/spec/features/registrations/saas/trial_flow_just_me_creating_project_spec.rb
-      ee/spec/features/registrations/saas/trial_flow_just_me_importing_project_spec.rb
+      ee/spec/features/registrations/saas/trial_flow_spec.rb
       ee/spec/controllers/registrations/company_controller_spec.rb
       ee/spec/requests/ee/registrations_controller_spec.rb
       ee/spec/requests/trial_registrations_controller_spec.rb

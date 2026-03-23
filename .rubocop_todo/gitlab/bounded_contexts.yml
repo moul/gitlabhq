@@ -1153,6 +1153,7 @@ Gitlab/BoundedContexts:
     - 'app/models/release_highlight.rb'
     - 'app/models/remote_mirror.rb'
     - 'app/models/remote_mirrors/attributes.rb'
+    - 'app/models/remote_mirrors/host_keys_converter.rb'
     - 'app/models/repository.rb'
     - 'app/models/repository_language.rb'
     - 'app/models/resource_event.rb'

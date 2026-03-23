@@ -14,11 +14,12 @@ var (
 	})
 
 	// connectionErrorsTotal counts WebSocket connections that failed at any stage:
-	// WebSocket upgrade, runner initialisation, or runner execution.
-	connectionErrorsTotal = promauto.NewCounter(prometheus.CounterOpts{
+	// WebSocket upgrade, runner initialisation, or runner execution,
+	// labeled by error type (quota_exceeded, locked, other).
+	connectionErrorsTotal = promauto.NewCounterVec(prometheus.CounterOpts{
 		Name: "gitlab_workhorse_duo_workflow_connection_errors_total",
-		Help: "Total number of Duo Workflow WebSocket connections that failed (upgrade, initialisation, or execution).",
-	})
+		Help: "Total number of Duo Workflow WebSocket connections that failed (upgrade, initialisation, or execution), by error type.",
+	}, []string{"error_type"})
 
 	// sessionsTotal counts all gRPC ExecuteWorkflow streams opened to the Duo
 	// Workflow Service.

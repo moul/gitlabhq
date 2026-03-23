@@ -24,6 +24,18 @@ RSpec.describe Namespaces::Groups::TransferWorker, feature_category: :groups_and
         expect(group.reload).to have_attributes(parent: new_parent_group, state: 'ancestor_inherited')
       end
 
+      context 'when the group is already in transfer_scheduled state' do
+        it 'skips schedule_transfer! and proceeds with the transfer' do
+          group.schedule_transfer!(transition_user: user)
+
+          expect(group).not_to receive(:schedule_transfer!)
+
+          perform
+
+          expect(group.reload).to have_attributes(parent: new_parent_group, state: 'ancestor_inherited')
+        end
+      end
+
       context 'when TransferService returns false' do
         it 'cancels the transfer' do
           expect_next_instance_of(::Groups::TransferService, group, user) do |service|
@@ -106,6 +118,7 @@ RSpec.describe Namespaces::Groups::TransferWorker, feature_category: :groups_and
         let(:uuid) { 'other_worker_jid' }
 
         it 'does not call the transfer service and leaves state unchanged when another worker holds the lease' do
+          group.schedule_transfer!(transition_user: user)
           group.start_transfer!(transition_user: user)
 
           expect(exclusive_lease.try_obtain).to eq(uuid)

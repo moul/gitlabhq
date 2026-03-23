@@ -69371,15 +69371,6 @@ definitions:
         type: boolean
         description: Allow force push for all users with push access.
         default: false
-      unprotect_access_level:
-        type: integer
-        format: int32
-        description: 'Access levels allowed to unprotect (defaults: `40`, maintainer
-          access level)'
-        enum:
-        - 30
-        - 40
-        - 60
       allowed_to_push:
         type: array
         description: Array of users, groups, deploy keys, or access levels allowed
@@ -69387,6 +69378,11 @@ definitions:
         items:
           type: object
           properties:
+            deploy_key_id:
+              type: integer
+              format: int32
+              description: Deploy key allowed to push
+              example: 1
             access_level:
               type: integer
               format: int32
@@ -69396,11 +69392,6 @@ definitions:
               - 40
               - 60
               - 0
-            deploy_key_id:
-              type: integer
-              format: int32
-              description: Deploy key allowed to push
-              example: 1
             user_id:
               type: integer
               format: int32
@@ -69419,6 +69410,15 @@ definitions:
             _destroy:
               type: boolean
               description: Delete the object when true
+      unprotect_access_level:
+        type: integer
+        format: int32
+        description: 'Access levels allowed to unprotect (defaults: `40`, maintainer
+          access level)'
+        enum:
+        - 30
+        - 40
+        - 60
       allowed_to_merge:
         type: array
         description: Array of users, groups, or access levels allowed to merge protected
@@ -69498,15 +69498,6 @@ definitions:
       allow_force_push:
         type: boolean
         description: Allow force push for all users with push access.
-      unprotect_access_level:
-        type: integer
-        format: int32
-        description: 'Access levels allowed to unprotect (defaults: `40`, maintainer
-          access level)'
-        enum:
-        - 30
-        - 40
-        - 60
       allowed_to_push:
         type: array
         description: Array of users, groups, deploy keys, or access levels allowed
@@ -69514,6 +69505,11 @@ definitions:
         items:
           type: object
           properties:
+            deploy_key_id:
+              type: integer
+              format: int32
+              description: Deploy key allowed to push
+              example: 1
             access_level:
               type: integer
               format: int32
@@ -69523,11 +69519,6 @@ definitions:
               - 40
               - 60
               - 0
-            deploy_key_id:
-              type: integer
-              format: int32
-              description: Deploy key allowed to push
-              example: 1
             user_id:
               type: integer
               format: int32
@@ -69546,6 +69537,15 @@ definitions:
             _destroy:
               type: boolean
               description: Delete the object when true
+      unprotect_access_level:
+        type: integer
+        format: int32
+        description: 'Access levels allowed to unprotect (defaults: `40`, maintainer
+          access level)'
+        enum:
+        - 30
+        - 40
+        - 60
       allowed_to_merge:
         type: array
         description: Array of users, groups, or access levels allowed to merge protected
@@ -69654,6 +69654,10 @@ definitions:
         items:
           type: object
           properties:
+            deploy_key_id:
+              type: integer
+              format: int32
+              description: ID of a deploy key
             access_level:
               type: integer
               format: int32
@@ -69671,10 +69675,6 @@ definitions:
               type: integer
               format: int32
               description: ID of a group
-            deploy_key_id:
-              type: integer
-              format: int32
-              description: ID of a deploy key
     required:
     - name
     description: Protect a single tag or wildcard

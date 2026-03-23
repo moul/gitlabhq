@@ -328,6 +328,13 @@ class User < ApplicationRecord
   has_many :revoked_user_achievements, class_name: 'Achievements::UserAchievement', foreign_key: 'revoked_by_user_id', inverse_of: :revoked_by_user
   has_many :achievements, through: :user_achievements, class_name: 'Achievements::Achievement', inverse_of: :users
   has_many :vscode_settings, class_name: 'VsCode::Settings::VsCodeSetting', inverse_of: :user
+  has_many :cluster_agent_activity_events, class_name: 'Clusters::Agents::ActivityEvent', foreign_key: :user_id, inverse_of: :user, dependent: :nullify
+  has_many :clusters, class_name: 'Clusters::Cluster', inverse_of: :user, dependent: :nullify
+  has_many :cluster_agents, class_name: 'Clusters::Agent', foreign_key: :created_by_user_id, inverse_of: :created_by_user, dependent: :nullify
+  has_many :cluster_agent_tokens, class_name: 'Clusters::AgentToken', foreign_key: :created_by_user_id, inverse_of: :created_by_user, dependent: :nullify
+  has_many :deploy_tokens, class_name: 'DeployToken', foreign_key: :creator_id, inverse_of: :user, dependent: :nullify
+  has_many :terraform_states, class_name: 'Terraform::State', foreign_key: :locked_by_user_id, inverse_of: :locked_by_user, dependent: :nullify
+  has_many :terraform_state_versions, class_name: 'Terraform::StateVersion', foreign_key: :created_by_user_id, inverse_of: :created_by_user, dependent: :nullify
 
   has_many :broadcast_message_dismissals, class_name: 'Users::BroadcastMessageDismissal'
 

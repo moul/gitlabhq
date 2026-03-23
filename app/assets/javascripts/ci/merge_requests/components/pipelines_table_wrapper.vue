@@ -1,6 +1,5 @@
 <script>
 import {
-  GlButton,
   GlEmptyState,
   GlLoadingIcon,
   GlModal,
@@ -14,6 +13,7 @@ import Api from '~/api';
 import { getQueryHeaders } from '~/ci/pipeline_details/graph/utils';
 import { helpPagePath } from '~/helpers/help_page_helper';
 import PipelinesTable from '~/ci/common/pipelines_table.vue';
+import RunPipelineButton from '~/ci/common/run_pipeline_button.vue';
 import { s__, __ } from '~/locale';
 import getMergeRequestPipelines from '~/ci/merge_requests/graphql/queries/get_merge_request_pipelines.query.graphql';
 import cancelPipelineMutation from '~/ci/pipeline_details/graphql/mutations/cancel_pipeline.mutation.graphql';
@@ -36,7 +36,6 @@ export default {
   name: 'PipelinesTableWrapper',
   components: {
     GlAlert,
-    GlButton,
     GlEmptyState,
     GlKeysetPagination,
     GlLink,
@@ -44,6 +43,7 @@ export default {
     GlModal,
     GlSprintf,
     PipelinesTable,
+    RunPipelineButton,
   },
   mixins: [glFeatureFlagsMixin()],
   inject: ['graphqlPath', 'mergeRequestId', 'targetProjectFullPath'],
@@ -552,7 +552,7 @@ export default {
     },
   },
   modal: {
-    id: 'create-pipeline-for-uork-merge-request-modal',
+    id: 'create-pipeline-for-fork-merge-request-modal',
     actionPrimary: {
       text: s__('Pipeline|Run pipeline'),
       attributes: {
@@ -573,7 +573,6 @@ export default {
       `Pipeline|To run a merge request pipeline, the jobs in the CI/CD configuration file %{ciDocsLinkStart}must be configured%{ciDocsLinkEnd} to run in merge request pipelines
       and you must have %{permissionDocsLinkStart}sufficient permissions%{permissionDocsLinkEnd} in the source project.`,
     ),
-    runPipelineText: s__('Pipeline|Run pipeline'),
     emptyStateTitle: s__('Pipelines|There are currently no pipelines.'),
     pipelineCreationFailed: s__('Pipeline|Pipeline creation failed. Please try again.'),
   },
@@ -646,14 +645,13 @@ export default {
 
         <template #actions>
           <div class="gl-align-middle">
-            <gl-button
+            <run-pipeline-button
               variant="confirm"
-              :loading="showRunPipelineButtonLoader"
               data-testid="run_pipeline_button"
-              @click="tryRunPipeline"
-            >
-              {{ $options.i18n.runPipelineText }}
-            </gl-button>
+              :is-loading="showRunPipelineButtonLoader"
+              :merge-request-id="mergeRequestId"
+              @run-pipeline="tryRunPipeline"
+            />
           </div>
         </template>
       </gl-empty-state>
@@ -664,14 +662,12 @@ export default {
         v-if="canRenderPipelineButton"
         class="gl-flex gl-w-full gl-justify-end gl-px-4 gl-pt-3 @md/panel:gl-hidden"
       >
-        <gl-button
+        <run-pipeline-button
           class="gl-mb-3 gl-mt-3 gl-w-full @md/panel:gl-w-auto"
-          data-testid="run_pipeline_button_mobile"
-          :loading="showRunPipelineButtonLoader"
-          @click="tryRunPipeline"
-        >
-          {{ $options.i18n.runPipelineText }}
-        </gl-button>
+          :is-loading="showRunPipelineButtonLoader"
+          :merge-request-id="mergeRequestId"
+          @run-pipeline="tryRunPipeline"
+        />
       </div>
 
       <pipelines-table
@@ -685,13 +681,12 @@ export default {
       >
         <template #table-header-actions>
           <div v-if="canRenderPipelineButton" class="gl-text-right">
-            <gl-button
+            <run-pipeline-button
               data-testid="run_pipeline_button"
-              :loading="showRunPipelineButtonLoader"
-              @click="tryRunPipeline"
-            >
-              {{ $options.i18n.runPipelineText }}
-            </gl-button>
+              :is-loading="showRunPipelineButtonLoader"
+              :merge-request-id="mergeRequestId"
+              @run-pipeline="tryRunPipeline"
+            />
           </div>
         </template>
       </pipelines-table>

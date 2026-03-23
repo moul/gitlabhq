@@ -279,6 +279,3 @@ ee/app/models/virtual_registries/cache/entry.rb:
 - mark_as_pending_destruction
 ee/app/models/work_items/statuses/system_defined/lifecycle.rb:
 - find_available_status_by_name
-app/helpers/projects_helper.rb:
-- show_auto_devops_implicitly_enabled_banner?
-- show_mobile_devops_project_promo?

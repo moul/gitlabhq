@@ -41,6 +41,7 @@ module Projects
     def execute_transfer(project, new_namespace, user, exclusive_lease)
       project_namespace = project.project_namespace
 
+      project_namespace.schedule_transfer!(transition_user: user) unless project_namespace.transfer_scheduled?
       project_namespace.start_transfer!(transition_user: user)
 
       result = ::Projects::TransferService.new(project, user).execute(new_namespace)

@@ -56,6 +56,12 @@ func (h *Handler) Shutdown(ctx context.Context) error {
 	return shutdown.All(ctx, runners...)
 }
 
+const (
+	errorTypeQuotaExceeded = "quota_exceeded"
+	errorTypeLocked        = "locked"
+	errorTypeOther         = "other"
+)
+
 // Build returns an HTTP handler that processes Duo Workflow WebSocket connections.
 // The handler performs pre-authorization checks, upgrades the connection to WebSocket,
 // and manages the lifecycle of the workflow runner including registration and cleanup.
@@ -65,7 +71,7 @@ func (h *Handler) Build() http.Handler {
 
 		conn, err := h.upgrader.Upgrade(w, r, nil)
 		if err != nil {
-			connectionErrorsTotal.Inc()
+			connectionErrorsTotal.WithLabelValues(errorTypeOther).Inc()
 			fail.Request(w, r, fmt.Errorf("failed to upgrade: %v", err))
 			return
 		}
@@ -77,7 +83,7 @@ func (h *Handler) Build() http.Handler {
 func (h *Handler) handleWebSocketConnection(w http.ResponseWriter, r *http.Request, conn *websocket.Conn, duoWorkflowConfig *api.DuoWorkflow) {
 	runner, err := h.createRunner(conn, duoWorkflowConfig, r)
 	if err != nil {
-		connectionErrorsTotal.Inc()
+		connectionErrorsTotal.WithLabelValues(errorTypeOther).Inc()
 		h.handleInitializationError(w, r, conn, err)
 		return
 	}
@@ -109,8 +115,6 @@ func (h *Handler) registerAndExecuteRunner(r *http.Request, conn *websocket.Conn
 func (h *Handler) executeRunner(r *http.Request, conn *websocket.Conn, runner *runner) {
 	start := time.Now()
 	if err := runner.Execute(r.Context()); err != nil {
-		connectionErrorsTotal.Inc()
-
 		log.WithRequest(r).WithError(err).WithFields(log.Fields{
 			"duration_ms": time.Since(start).Milliseconds(),
 		}).Error("error executing workflow")
@@ -120,18 +124,21 @@ func (h *Handler) executeRunner(r *http.Request, conn *websocket.Conn, runner *r
 }
 
 func (h *Handler) handleExecutionError(r *http.Request, conn *websocket.Conn, err error) {
-	if errors.Is(err, errFailedToAcquireLockError) {
+	switch {
+	case errors.Is(err, errFailedToAcquireLockError):
 		// We provide the client with specific error details
 		// for this case so it can tell the user about the
 		// conflicting flow
+		connectionErrorsTotal.WithLabelValues(errorTypeLocked).Inc()
 		h.sendCloseMessage(r, conn, websocket.CloseTryAgainLater, "Failed to acquire lock on workflow")
-		return
-	}
-
-	if errors.Is(err, errUsageQuotaExceededError) {
+	case errors.Is(err, errUsageQuotaExceededError):
 		// We close the connection with the specific error
-		// so client can process and inform user about the lack of credits
+		// so client can process and inform user about the lack
+		// of credits
+		connectionErrorsTotal.WithLabelValues(errorTypeQuotaExceeded).Inc()
 		h.sendCloseMessage(r, conn, websocket.ClosePolicyViolation, "Insufficient credits: quota exceeded")
+	default:
+		connectionErrorsTotal.WithLabelValues(errorTypeOther).Inc()
 	}
 }
 

@@ -8,6 +8,8 @@ inherits_from:
 project:
   permissions: []
   raw_permissions:
+  - _delete_shared_saved_view
+  - _update_shared_saved_view
   - admin_issue
   - admin_issue_board
   - admin_issue_board_list
@@ -43,6 +45,8 @@ project:
 group:
   permissions: []
   raw_permissions:
+  - _delete_shared_saved_view
+  - _update_shared_saved_view
   - admin_epic
   - admin_epic_board
   - admin_epic_board_list

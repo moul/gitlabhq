@@ -4789,6 +4789,9 @@ msgstr ""
 msgid "Achievements|Achievement has been added."
 msgstr ""
 
+msgid "Achievements|Achievement has been deleted."
+msgstr ""
+
 msgid "Achievements|Achievement name cannot be longer than %{length} characters."
 msgstr ""
 
@@ -4796,6 +4799,9 @@ msgid "Achievements|Achievement name is required."
 msgstr ""
 
 msgid "Achievements|Achievements"
+msgstr ""
+
+msgid "Achievements|Are you sure you want to delete %{name}? This action cannot be undone."
 msgstr ""
 
 msgid "Achievements|Avatar"
@@ -4813,7 +4819,19 @@ msgstr ""
 msgid "Achievements|Awarded %{timeAgo} by a private namespace"
 msgstr ""
 
+msgid "Achievements|Cancel"
+msgstr ""
+
+msgid "Achievements|Delete %{name}?"
+msgstr ""
+
+msgid "Achievements|Delete achievement"
+msgstr ""
+
 msgid "Achievements|Description"
+msgstr ""
+
+msgid "Achievements|Failed to delete achievement. Please try again."
 msgstr ""
 
 msgid "Achievements|Name"
@@ -50977,6 +50995,9 @@ msgstr ""
 msgid "Pipelines|Active"
 msgstr ""
 
+msgid "Pipelines|An error occurred while fetching the merge request details."
+msgstr ""
+
 msgid "Pipelines|An error occurred while loading pipelines"
 msgstr ""
 
@@ -51613,6 +51634,9 @@ msgstr ""
 msgid "Pipeline|Run pipeline"
 msgstr ""
 
+msgid "Pipeline|Run pipeline with modified values"
+msgstr ""
+
 msgid "Pipeline|Running"
 msgstr ""
 
@@ -51719,6 +51743,9 @@ msgid "Pipeline|What is a merge train pipeline?"
 msgstr ""
 
 msgid "Pipeline|What is a merged results pipeline?"
+msgstr ""
+
+msgid "Pipeline|You are creating a pipeline for merge request %{mergeRequestLink}. The pipeline will run on the merge request source branch."
 msgstr ""
 
 msgid "Pipeline|You're about to stop pipeline #%{pipelineId}."

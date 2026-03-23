@@ -296,6 +296,13 @@ RSpec.describe User, :with_current_organization, feature_category: :user_profile
     it { is_expected.to have_many(:ml_candidates).class_name('Ml::Candidate').with_foreign_key(:user_id).inverse_of(:user).dependent(:nullify) }
     it { is_expected.to have_many(:ml_experiments).class_name('Ml::Experiment').with_foreign_key(:user_id).inverse_of(:user).dependent(:nullify) }
     it { is_expected.to have_many(:ml_models).class_name('Ml::Model').with_foreign_key(:user_id).inverse_of(:user).dependent(:nullify) }
+    it { is_expected.to have_many(:cluster_agent_activity_events).class_name('Clusters::Agents::ActivityEvent').with_foreign_key(:user_id).inverse_of(:user).dependent(:nullify) }
+    it { is_expected.to have_many(:clusters).class_name('Clusters::Cluster').inverse_of(:user).dependent(:nullify) }
+    it { is_expected.to have_many(:cluster_agents).class_name('Clusters::Agent').with_foreign_key(:created_by_user_id).inverse_of(:created_by_user).dependent(:nullify) }
+    it { is_expected.to have_many(:cluster_agent_tokens).class_name('Clusters::AgentToken').with_foreign_key(:created_by_user_id).inverse_of(:created_by_user).dependent(:nullify) }
+    it { is_expected.to have_many(:deploy_tokens).class_name('DeployToken').with_foreign_key(:creator_id).inverse_of(:user).dependent(:nullify) }
+    it { is_expected.to have_many(:terraform_states).class_name('Terraform::State').with_foreign_key(:locked_by_user_id).inverse_of(:locked_by_user).dependent(:nullify) }
+    it { is_expected.to have_many(:terraform_state_versions).class_name('Terraform::StateVersion').with_foreign_key(:created_by_user_id).inverse_of(:created_by_user).dependent(:nullify) }
 
     describe '#triggers' do
       let_it_be_with_refind(:user) { create(:user) }

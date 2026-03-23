@@ -290,18 +290,6 @@ module ProjectsHelper
       current_user.require_extra_setup_for_git_auth?
   end
 
-  def show_auto_devops_implicitly_enabled_banner?(project, user)
-    return false unless user_can_see_auto_devops_implicitly_enabled_banner?(project, user)
-
-    cookies[:"hide_auto_devops_implicitly_enabled_banner_#{project.id}"].blank?
-  end
-
-  def show_mobile_devops_project_promo?(project)
-    return false unless (project.project_setting.target_platforms & ::ProjectSetting::ALLOWED_TARGET_PLATFORMS).any?
-
-    cookies[:"hide_mobile_devops_promo_#{project.id}"].blank?
-  end
-
   def no_password_message
     set_password_link_start = '<a href="%{url}">'.html_safe % { url: edit_user_settings_password_path }
     set_up_pat_link_start = '<a href="%{url}">'.html_safe % { url: user_settings_personal_access_tokens_path }
@@ -389,10 +377,6 @@ module ProjectsHelper
       organization_slug: setting.organization_slug,
       slug: setting.project_slug
     }.to_json
-  end
-
-  def directory?
-    @path.present?
   end
 
   def external_classification_label_help_message
@@ -979,13 +963,6 @@ module ProjectsHelper
       feature_flags
       terraform
     ]
-  end
-
-  def user_can_see_auto_devops_implicitly_enabled_banner?(project, user)
-    Ability.allowed?(user, :admin_project, project) &&
-      project.has_auto_devops_implicitly_enabled? &&
-      project.builds_enabled? &&
-      !project.has_ci_config_file?
   end
 
   def show_visibility_confirm_modal?(project)

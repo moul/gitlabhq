@@ -26,6 +26,19 @@ RSpec.describe Projects::TransferWorker, feature_category: :groups_and_projects 
         expect(project_namespace.reload).to be_ancestor_inherited
       end
 
+      context 'when the project namespace is already in transfer_scheduled state' do
+        it 'skips schedule_transfer! and proceeds with the transfer' do
+          project_namespace.schedule_transfer!(transition_user: user)
+
+          expect(project_namespace).not_to receive(:schedule_transfer!)
+
+          perform
+
+          expect(project.reload.namespace).to eq(new_namespace)
+          expect(project_namespace.reload).to be_ancestor_inherited
+        end
+      end
+
       context 'when TransferService returns false' do
         it 'cancels the transfer' do
           expect_next_instance_of(::Projects::TransferService) do |service|
@@ -110,6 +123,7 @@ RSpec.describe Projects::TransferWorker, feature_category: :groups_and_projects 
         let(:uuid) { 'other_worker_jid' }
 
         it 'does not call the transfer service and does not cancel the transfer state' do
+          project_namespace.schedule_transfer!(transition_user: user)
           project_namespace.start_transfer!(transition_user: user)
 
           expect(exclusive_lease.try_obtain).to eq(uuid)

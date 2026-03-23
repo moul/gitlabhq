@@ -1058,8 +1058,10 @@ error_tracking_setting:
 - project
 suggestions:
 - note
+- namespace
 diff_note_positions:
 - note
+- namespace
 protected_environments:
 - project
 - group
@@ -1202,6 +1204,7 @@ epic_issue:
 system_note_metadata:
 - note
 - description_version
+- namespace
 status_page_published_incident:
 - issue
 issuable_sla:

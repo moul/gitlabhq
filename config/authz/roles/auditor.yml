@@ -29,6 +29,7 @@ project:
   - read_project_merge_request_analytics
   - read_project_security_exclusions
   - read_runners
+  - read_saved_view
   - read_security_resource
   - read_security_settings
   - read_snippet
@@ -62,6 +63,7 @@ group:
   - read_namespace_cluster_agent_mapping
   - read_protected_branch
   - read_runners
+  - read_saved_view
   - read_vulnerability
   - read_wiki
   - view_group_ci_cd_analytics

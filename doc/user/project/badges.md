@@ -303,13 +303,13 @@ In addition to the [basic customization options](#basic-customization), custom b
 You can add a custom badge by using the following link:
 
 ```plaintext
-https://gitlab.com/%{project_path}/badges/%{default_branch}/custom.svg
+https://gitlab.com/%{project_path}/-/badges/custom.svg
 ```
 
 For example, you can use [placeholders](#placeholders) to create a badge for the latest tag:
 
 ```plaintext
-https://%{gitlab_server}/%{project_path}/badges/custom.svg?key_text=Latest_tag&key_value=%{latest_tag}&key_color=white&value_color=7bc043
+https://%{gitlab_server}/%{project_path}/-/badges/custom.svg?key_text=Latest_tag&key_value=%{latest_tag}&key_color=white&value_color=7bc043
 ```
 
 > [!warning]

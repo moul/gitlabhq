@@ -255,15 +255,23 @@ Incremented for every inbound request that passes pre-authorization, before the 
 
 ### `gitlab_workhorse_duo_workflow_connection_errors_total`
 
-Incremented whenever a connection fails at any stage:
+Incremented whenever a connection fails at any stage, labelled by `error_type`:
 
-| Stage                 | Trigger                                           |
-| --------------------- | ------------------------------------------------- |
-| WebSocket upgrade     | `websocket.Upgrader.Upgrade` returns an error     |
-| Runner initialisation | `newRunner` / `newStreamManager` returns an error |
-| Runner execution      | `runner.Execute` returns an error                 |
+| Stage                 | Trigger                                           | `error_type`      |
+| --------------------- | ------------------------------------------------- | ----------------- |
+| WebSocket upgrade     | `websocket.Upgrader.Upgrade` returns an error     | `other`           |
+| Runner initialisation | `newRunner` / `newStreamManager` returns an error | `other`           |
+| Runner execution      | Usage quota exceeded                              | `quota_exceeded`  |
+| Runner execution      | Workflow lock cannot be acquired                  | `locked`          |
+| Runner execution      | Any other `runner.Execute` error                  | `other`           |
 
 The ratio `connection_errors_total / connections_total` gives the connection error rate.
+
+Example query to break down errors by type:
+
+```promql
+rate(gitlab_workhorse_duo_workflow_connection_errors_total[5m]) by (error_type)
+```
 
 ### `gitlab_workhorse_duo_workflow_sessions_total`
 

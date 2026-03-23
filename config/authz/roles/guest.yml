@@ -9,6 +9,7 @@ project:
   - award_emoji
   - create_issue
   - create_note
+  - delete_saved_view
   - export_work_items
   - read_ai_catalog_item_consumer
   - read_analytics
@@ -24,19 +25,26 @@ project:
   - read_project
   - read_project_member
   - read_release
+  - read_saved_view
   - read_snippet
   - read_upload
   - read_wiki
+  - update_saved_view
+  - update_saved_view_visibility
   - upload_file
 group:
   permissions: []
   raw_permissions:
   - admin_epic_relation
   - award_emoji
+  - delete_saved_view
   - read_epic_link_relation
   - read_epic_relation
   - read_group
   - read_group_release_stats
   - read_release
+  - read_saved_view
   - read_subgroup_epic
   - read_wiki
+  - update_saved_view
+  - update_saved_view_visibility

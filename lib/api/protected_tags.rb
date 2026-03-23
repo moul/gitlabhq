@@ -76,7 +76,7 @@ module API
           values: ProtectedTag::CreateAccessLevel.allowed_access_levels,
           desc: 'Access levels allowed to create (defaults: `40`, maintainer access level)',
           documentation: { example: 30 }
-        use :optional_params_ee
+        use :optional_params
       end
       route_setting :authorization, permissions: :create_protected_tag, boundary_type: :project
       post ':id/protected_tags' do

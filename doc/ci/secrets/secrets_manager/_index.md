@@ -89,19 +89,32 @@ Prerequisites:
 
 - GitLab Runner 18.6 or later.
 
-To access secrets defined with the secret manager, use the [`secrets`](../../yaml/_index.md#secrets) and `gitlab_secrets_manager` keywords:
+To access secrets defined with the Secret Manager, use the [`secrets`](../../yaml/_index.md#secrets)
+and `gitlab_secrets_manager` keywords.
+
+Similar to [file type variables](../../variables/_index.md#use-file-type-cicd-variables),
+the secret is made available as an environment variable with:
+
+- The secret's key as the environment variable name.
+- The secret's value saved to a temporary file. Unlike masked variables, secrets can have spaces and newlines.
+- The path to the temporary file as the environment variable value.
+
+For example:
 
 ```yaml
 job:
   secrets:
-    TEST_SECRET:
+    KUBE_CA_PEM:
       gitlab_secrets_manager:
-        name: foo
+        name: kube-cert
   script:
-   - cat $TEST_SECRET
+   - kubectl config set-cluster e2e --server="https://example.com" --certificate-authority="$KUBE_CA_PEM"
 ```
 
-## Manage Secrets Permissions
+If a job outputs a secret's value, for example by running `cat $KUBE_CA_PEM`,
+GitLab replaces the value in the job log with `[MASKED]`.
+
+## Manage secrets permissions
 
 ### For a project
 

@@ -54,6 +54,33 @@ func testDuoWorkflowConfig(server *testServer) *api.DuoWorkflow {
 	}
 }
 
+// newServerSideConn opens a loopback WebSocket pair and returns the server-side
+// *websocket.Conn. It is useful when a test needs a real conn to pass into
+// handler methods that call WriteMessage, without standing up a full handler.
+func newServerSideConn(t *testing.T) *websocket.Conn {
+	t.Helper()
+	connCh := make(chan *websocket.Conn, 1)
+	upgrader := websocket.Upgrader{}
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		c, err := upgrader.Upgrade(w, r, nil)
+		assert.NoError(t, err)
+		connCh <- c
+	}))
+	t.Cleanup(srv.Close)
+
+	wsURL := "ws" + strings.TrimPrefix(srv.URL, "http") + "/"
+	clientConn, resp, err := websocket.DefaultDialer.Dial(wsURL, nil)
+	if resp != nil {
+		_ = resp.Body.Close()
+	}
+	require.NoError(t, err)
+	t.Cleanup(func() { _ = clientConn.Close() })
+
+	serverConn := <-connCh
+	t.Cleanup(func() { _ = serverConn.Close() })
+	return serverConn
+}
+
 // dialTestHandler starts a full HTTP/WebSocket server backed by the given handler
 // and returns an open WebSocket connection to it.
 func dialTestHandler(t *testing.T, h http.Handler) *websocket.Conn {
@@ -117,49 +144,12 @@ func TestConnectionsTotal(t *testing.T) {
 		"connectionsTotal should increment by 1 per connection attempt")
 }
 
-// TestConnectionErrorsTotal verifies that connectionErrorsTotal increments for
-// every failure mode: WebSocket upgrade failure, runner execution error. It also
-// verifies it does not increment on a clean EOF.
-//
-// Note: the runner initialisation failure path (handleInitializationError) is not
-// tested here because triggering it requires a network operation (ExecuteWorkflow)
-// to fail, which makes any reliable synchronization with the counter increment
-// impractical in a unit test.
+// TestConnectionErrorsTotal verifies that connectionErrorsTotal increments with
+// the correct error_type label in handleExecutionError, and does not increment
+// on a clean EOF.
 func TestConnectionErrorsTotal(t *testing.T) {
-	t.Run("increments on WebSocket upgrade failure", func(t *testing.T) {
-		testhelper.ConfigureSecret()
-
-		// Serve a plain HTTP handler (not a WebSocket endpoint) so that the
-		// upgrader inside Handler.Build() fails to upgrade every request.
-		apiServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-			w.Header().Set("Content-Type", api.ResponseContentType)
-			w.WriteHeader(http.StatusOK)
-			_, err := w.Write([]byte(`{"DuoWorkflow": {"Service": {"URI": "unused", "Secure": false}}}`))
-			assert.NoError(t, err)
-		}))
-		t.Cleanup(apiServer.Close)
-
-		apiURL, err := url.Parse(apiServer.URL)
-		require.NoError(t, err)
-		apiClient := api.NewAPI(apiURL, "test-version", http.DefaultTransport)
-		srv := httptest.NewServer(NewHandler(apiClient, initRdb(t), http.HandlerFunc(func(_ http.ResponseWriter, _ *http.Request) {})).Build())
-		t.Cleanup(srv.Close)
-
-		before := counterValue(t, connectionErrorsTotal)
-
-		// Plain HTTP GET — not a WebSocket upgrade request — so Upgrade() returns an error.
-		resp, err := http.Get(srv.URL) //nolint:noctx
-		require.NoError(t, err)
-		_ = resp.Body.Close()
-
-		// The counter is incremented before the HTTP response is written, so by
-		// the time http.Get returns the increment has already happened.
-		require.InDelta(t, before+1, counterValue(t, connectionErrorsTotal), 0,
-			"connectionErrorsTotal should increment when WebSocket upgrade fails")
-	})
-
-	t.Run("increments on runner execution error", func(t *testing.T) {
-		before := counterValue(t, connectionErrorsTotal)
+	t.Run("increments with 'other' label on generic runner execution error", func(t *testing.T) {
+		before := counterVecValue(t, connectionErrorsTotal, errorTypeOther)
 
 		h := &Handler{}
 		r := httptest.NewRequest(http.MethodGet, "/", nil)
@@ -169,12 +159,34 @@ func TestConnectionErrorsTotal(t *testing.T) {
 
 		h.executeRunner(r, nil, runner)
 
-		require.InDelta(t, before+1, counterValue(t, connectionErrorsTotal), 0,
-			"connectionErrorsTotal should increment on runner execution error")
+		require.InDelta(t, before+1, counterVecValue(t, connectionErrorsTotal, errorTypeOther), 0,
+			"connectionErrorsTotal{error_type=other} should increment on generic runner execution error")
+	})
+
+	t.Run("increments with 'quota_exceeded' label on usage quota exceeded error", func(t *testing.T) {
+		before := counterVecValue(t, connectionErrorsTotal, errorTypeQuotaExceeded)
+
+		h := &Handler{}
+		r := httptest.NewRequest(http.MethodGet, "/", nil)
+		h.handleExecutionError(r, newServerSideConn(t), errUsageQuotaExceededError)
+
+		require.InDelta(t, before+1, counterVecValue(t, connectionErrorsTotal, errorTypeQuotaExceeded), 0,
+			"connectionErrorsTotal{error_type=quota_exceeded} should increment on quota exceeded error")
+	})
+
+	t.Run("increments with 'locked' label on failed to acquire lock error", func(t *testing.T) {
+		before := counterVecValue(t, connectionErrorsTotal, errorTypeLocked)
+
+		h := &Handler{}
+		r := httptest.NewRequest(http.MethodGet, "/", nil)
+		h.handleExecutionError(r, newServerSideConn(t), errFailedToAcquireLockError)
+
+		require.InDelta(t, before+1, counterVecValue(t, connectionErrorsTotal, errorTypeLocked), 0,
+			"connectionErrorsTotal{error_type=locked} should increment on lock acquisition failure")
 	})
 
 	t.Run("does not increment on clean EOF", func(t *testing.T) {
-		before := counterValue(t, connectionErrorsTotal)
+		seriesBefore := testutil.CollectAndCount(connectionErrorsTotal)
 
 		h := &Handler{}
 		r := httptest.NewRequest(http.MethodGet, "/", nil)
@@ -188,8 +200,8 @@ func TestConnectionErrorsTotal(t *testing.T) {
 
 		h.executeRunner(r, nil, runner)
 
-		require.InDelta(t, before, counterValue(t, connectionErrorsTotal), 0,
-			"connectionErrorsTotal must not increment for a clean EOF")
+		require.Equal(t, seriesBefore, testutil.CollectAndCount(connectionErrorsTotal),
+			"connectionErrorsTotal must not create new series for a clean EOF")
 	})
 }
 

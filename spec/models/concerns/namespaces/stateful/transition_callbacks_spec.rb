@@ -115,6 +115,65 @@ RSpec.describe Namespaces::Stateful::TransitionCallbacks, feature_category: :gro
     end
   end
 
+  describe '#set_transfer_schedule_data', :freeze_time do
+    where(:initial_state) { %i[ancestor_inherited archived] }
+
+    with_them do
+      before do
+        namespace.update!(state: initial_state)
+      end
+
+      it 'sets transfer schedule data on successful transition' do
+        namespace.schedule_transfer!(transition_user: user)
+
+        namespace.reload
+        metadata = namespace.state_metadata
+
+        expect(metadata['transfer_scheduled_at']).to eq(Time.current.as_json)
+        expect(metadata['transfer_scheduled_by_user_id']).to eq(user.id)
+      end
+    end
+  end
+
+  describe '#clear_transfer_data' do
+    where(:initial_state, :event) do
+      :transfer_scheduled   | :cancel_transfer
+      :transfer_in_progress | :cancel_transfer
+      :transfer_in_progress | :complete_transfer
+    end
+
+    with_them do
+      before do
+        namespace.update!(state: initial_state)
+        namespace.state_metadata.merge!(
+          transfer_scheduled_at: 1.day.ago.as_json,
+          transfer_scheduled_by_user_id: user.id,
+          transfer_initiated_at: 1.day.ago.as_json,
+          transfer_initiated_by_user_id: user.id,
+          transfer_target_parent_id: 123,
+          transfer_attempt_count: 1,
+          transfer_last_error: 'some error'
+        )
+        namespace.namespace_details.save!
+      end
+
+      it 'clears all transfer data on successful transition' do
+        namespace.public_send(:"#{event}!", transition_user: user)
+
+        namespace.reload
+        metadata = namespace.state_metadata
+
+        expect(metadata['transfer_scheduled_at']).to be_nil
+        expect(metadata['transfer_scheduled_by_user_id']).to be_nil
+        expect(metadata['transfer_initiated_at']).to be_nil
+        expect(metadata['transfer_initiated_by_user_id']).to be_nil
+        expect(metadata['transfer_target_parent_id']).to be_nil
+        expect(metadata['transfer_attempt_count']).to be_nil
+        expect(metadata['transfer_last_error']).to be_nil
+      end
+    end
+  end
+
   describe '#update_state_metadata_on_failure' do
     before do
       namespace.update!(state: :archived)

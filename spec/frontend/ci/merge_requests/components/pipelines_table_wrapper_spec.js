@@ -11,6 +11,7 @@ import Api from '~/api';
 import PipelinesTable from '~/ci/common/pipelines_table.vue';
 import { DEFAULT_MANUAL_ACTIONS_LIMIT } from '~/ci/constants';
 import PipelinesTableWrapper from '~/ci/merge_requests/components/pipelines_table_wrapper.vue';
+import RunPipelineButton from '~/ci/common/run_pipeline_button.vue';
 import { MR_PIPELINE_TYPE_DETACHED } from '~/ci/merge_requests/constants';
 import getMergeRequestsPipelines from '~/ci/merge_requests/graphql/queries/get_merge_request_pipelines.query.graphql';
 import cancelPipelineMutation from '~/ci/pipeline_details/graphql/mutations/cancel_pipeline.mutation.graphql';
@@ -57,6 +58,7 @@ const defaultProvide = {
   graphqlPath: '/api/graphql/',
   mergeRequestId: 1,
   targetProjectFullPath: '/group/project',
+  newPipelinePath: '/group/project/-/pipelines/new',
 };
 
 const defaultProps = {
@@ -127,8 +129,7 @@ const findLoadingIcon = () => wrapper.findComponent(GlLoadingIcon);
 const findModal = () => wrapper.findComponent(GlModal);
 const findMrPipelinesDocsLink = () => wrapper.findByTestId('mr-pipelines-docs-link');
 const findPipelinesList = () => wrapper.findComponent(PipelinesTable);
-const findRunPipelineBtn = () => wrapper.findByTestId('run_pipeline_button');
-const findRunPipelineBtnMobile = () => wrapper.findByTestId('run_pipeline_button_mobile');
+const findRunPipelineBtn = () => wrapper.findComponent(RunPipelineButton);
 const findCreationFailedAlert = () => wrapper.findComponent(GlAlert);
 const findTableRows = () => wrapper.findAllByTestId('pipeline-table-row');
 const findUserPermissionsDocsLink = () => wrapper.findByTestId('user-permissions-docs-link');
@@ -226,7 +227,7 @@ describe('PipelinesTableWrapper component', () => {
       });
 
       it('should render correct empty state content', () => {
-        expect(findRunPipelineBtn().exists()).toBe(true);
+        expect(findRunPipelineBtn().props()).toMatchObject({ isLoading: false, mergeRequestId: 1 });
         expect(findMrPipelinesDocsLink().attributes('href')).toBe(
           '/help/ci/pipelines/merge_request_pipelines.md#prerequisites',
         );
@@ -340,8 +341,7 @@ describe('PipelinesTableWrapper component', () => {
     });
 
     it('renders the run pipeline button', () => {
-      expect(findRunPipelineBtn().exists()).toBe(true);
-      expect(findRunPipelineBtnMobile().exists()).toBe(true);
+      expect(findRunPipelineBtn().props()).toMatchObject({ isLoading: false, mergeRequestId: 1 });
     });
   });
 
@@ -369,7 +369,7 @@ describe('PipelinesTableWrapper component', () => {
           jest.spyOn(Api, 'postMergeRequestPipeline').mockRejectedValue(response);
           await createComponent({ mountFn: mountExtended });
 
-          await findRunPipelineBtn().trigger('click');
+          await findRunPipelineBtn().vm.$emit('run-pipeline');
 
           await waitForPromises();
 
@@ -401,18 +401,11 @@ describe('PipelinesTableWrapper component', () => {
         jest.spyOn(Api, 'postMergeRequestPipeline').mockResolvedValue();
       });
 
-      it('on desktop, shows a security warning modal', async () => {
-        await findRunPipelineBtn().trigger('click');
+      it('shows a security warning modal', async () => {
+        await findRunPipelineBtn().vm.$emit('run-pipeline');
 
-        expect(findModal()).not.toBeNull();
-        expect(findRunPipelineBtn().props('loading')).toBe(false);
-      });
-
-      it('on mobile, shows a security warning modal', async () => {
-        await findRunPipelineBtnMobile().trigger('click');
-
-        expect(findModal()).not.toBeNull();
-        expect(findRunPipelineBtn().props('loading')).toBe(false);
+        expect(showMock).toHaveBeenCalled();
+        expect(findRunPipelineBtn().props('isLoading')).toBe(false);
       });
     });
 
@@ -435,7 +428,7 @@ describe('PipelinesTableWrapper component', () => {
         expect(findEmptyState().exists()).toBe(true);
         expect(findModal().exists()).toBe(true);
 
-        await findRunPipelineBtn().trigger('click');
+        await findRunPipelineBtn().vm.$emit('run-pipeline');
 
         expect(showMock).toHaveBeenCalled();
       });
@@ -760,7 +753,7 @@ describe('PipelinesTableWrapper component', () => {
 
           await createComponent();
 
-          expect(findRunPipelineBtn().props('loading')).toBe(true);
+          expect(findRunPipelineBtn().props('isLoading')).toBe(true);
         });
 
         it('does not show toast when running pipeline', async () => {
@@ -768,7 +761,7 @@ describe('PipelinesTableWrapper component', () => {
 
           await createComponent();
 
-          await findRunPipelineBtn().trigger('click');
+          await findRunPipelineBtn().vm.$emit('run-pipeline');
           await waitForPromises();
 
           expect($toast.show).not.toHaveBeenCalled();
@@ -784,7 +777,7 @@ describe('PipelinesTableWrapper component', () => {
 
       const clearTimeoutSpy = jest.spyOn(global, 'clearTimeout');
 
-      await findRunPipelineBtn().trigger('click');
+      await findRunPipelineBtn().vm.$emit('run-pipeline');
 
       wrapper.destroy();
 
@@ -867,12 +860,12 @@ describe('PipelinesTableWrapper component', () => {
         setupDetachedPipelineResponse();
         await createComponent();
 
-        expect(findRunPipelineBtn().props('loading')).toBe(false);
+        expect(findRunPipelineBtn().props('isLoading')).toBe(false);
 
         emitSubscriptionUpdate([inProgressRequest]);
         await waitForPromises();
 
-        expect(findRunPipelineBtn().props('loading')).toBe(true);
+        expect(findRunPipelineBtn().props('isLoading')).toBe(true);
       });
 
       it('does not duplicate pipelines already in the list', async () => {

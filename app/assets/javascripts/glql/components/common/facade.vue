@@ -269,9 +269,7 @@ export default {
         />
 
         <template v-if="showEmptyState" #empty>
-          <div class="gl-pt-4">
-            {{ __('No data found for this query.') }}
-          </div>
+          {{ __('No data found for this query.') }}
         </template>
       </crud-component>
       <glql-footnote v-if="!isCollapsed" />
