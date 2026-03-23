@@ -1145,7 +1145,6 @@ RSpec/NamedSubject:
     - 'spec/finders/ci/triggers_finder_spec.rb'
     - 'spec/finders/clusters/agents/authorizations/ci_access/finder_spec.rb'
     - 'spec/finders/clusters/agents/authorizations/user_access/finder_spec.rb'
-    - 'spec/finders/clusters/knative_services_finder_spec.rb'
     - 'spec/finders/container_repositories_finder_spec.rb'
     - 'spec/finders/crm/contacts_finder_spec.rb'
     - 'spec/finders/crm/organizations_finder_spec.rb'

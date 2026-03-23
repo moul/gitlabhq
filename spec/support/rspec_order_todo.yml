@@ -3249,7 +3249,6 @@
 - './spec/finders/cluster_ancestors_finder_spec.rb'
 - './spec/finders/clusters/agents_finder_spec.rb'
 - './spec/finders/clusters_finder_spec.rb'
-- './spec/finders/clusters/knative_services_finder_spec.rb'
 - './spec/finders/clusters/kubernetes_namespace_finder_spec.rb'
 - './spec/finders/concerns/finder_methods_spec.rb'
 - './spec/finders/concerns/finder_with_cross_project_access_spec.rb'

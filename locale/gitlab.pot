@@ -5343,10 +5343,10 @@ msgstr ""
 msgid "Added %{label_references} %{label_text}."
 msgstr ""
 
-msgid "Added %{target} as a linked item blocked by this %{work_item_type}."
+msgid "Added %{target} as a linked item blocked by this %{item_type}."
 msgstr ""
 
-msgid "Added %{target} as a linked item blocking this %{work_item_type}."
+msgid "Added %{target} as a linked item blocking this %{item_type}."
 msgstr ""
 
 msgid "Added %{target} as a linked item related to this %{work_item_type}."
@@ -9275,6 +9275,12 @@ msgid "AnalyticsDashboards|Code Suggestions"
 msgstr ""
 
 msgid "AnalyticsDashboards|Failed to load namespace metadata."
+msgstr ""
+
+msgid "AnalyticsDashboards|Keep your teams aligned around the metrics that matter most."
+msgstr ""
+
+msgid "AnalyticsDashboards|No dashboards found"
 msgstr ""
 
 msgid "AnalyticsDashboards|Root Cause Analysis"
@@ -45733,7 +45739,7 @@ msgstr ""
 msgid "No labels with such name or description"
 msgstr ""
 
-msgid "No linked issue matches the provided parameter."
+msgid "No linked item matches the provided parameter."
 msgstr ""
 
 msgid "No matches found"
@@ -57207,7 +57213,7 @@ msgstr ""
 msgid "Removed identity verification exemption."
 msgstr ""
 
-msgid "Removed linked item %{issue_ref}."
+msgid "Removed linked item %{ref}."
 msgstr ""
 
 msgid "Removed parent epic %{epic_ref}."
@@ -57262,7 +57268,7 @@ msgstr ""
 msgid "Removes email participants."
 msgstr ""
 
-msgid "Removes linked item %{issue_ref}."
+msgid "Removes linked item %{ref}."
 msgstr ""
 
 msgid "Removes parent epic %{epic_ref}."
@@ -66077,10 +66083,10 @@ msgstr ""
 msgid "Set the per-user rate limits for the requests to Organizations API."
 msgstr ""
 
-msgid "Set this %{work_item_type} as blocked by %{target}."
+msgid "Set this %{item_type} as blocked by %{target}."
 msgstr ""
 
-msgid "Set this %{work_item_type} as blocking %{target}."
+msgid "Set this %{item_type} as blocking %{target}."
 msgstr ""
 
 msgid "Set this number to 0 to disable the limit."
