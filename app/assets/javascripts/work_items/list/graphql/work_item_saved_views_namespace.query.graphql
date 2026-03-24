@@ -8,7 +8,7 @@ query savedViews($fullPath: ID!, $subscribedOnly: Boolean, $sort: WorkItemsSaved
         name
         description
         subscribed
-        isPrivate: private
+        isPrivate
         userPermissions {
           updateSavedView
           deleteSavedView

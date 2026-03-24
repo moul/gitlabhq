@@ -32,8 +32,8 @@ The following table illustrates the main differences between ClearCase and Git:
 
 ## Migrate to Git
 
-We do not provide a migration tool for migrating from IBM DevOps ClearCase to Git. For information on
-migrating, see these resources:
+We do not provide a tool to migrate from IBM DevOps ClearCase to Git. For information on migrating, see these
+resources:
 
 - [Bridge for Git and ClearCase](https://github.com/charleso/git-cc)
 - [ClearCase to Git](https://therub.org/2013/07/19/clearcase-to-git/)

@@ -1111,12 +1111,12 @@ export const saveSavedView = async ({
       ? {
           name,
           description,
-          private: isPrivate,
+          isPrivate,
         }
       : {
           name,
           description,
-          private: isPrivate,
+          isPrivate,
           filters: updatedSavedViewFilters,
           displaySettings,
           sort,

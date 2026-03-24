@@ -142,6 +142,8 @@ module Ci
       data = {
         project_id: project.id,
         can_create_runner: can?(current_user, :create_runners, project).to_s,
+        can_assign_runners: can?(current_user, :admin_runners, project).to_s,
+        can_unassign_runners: can?(current_user, :admin_runners, project).to_s,
         allow_registration_token: project.namespace.allow_runner_registration_token?.to_s,
         registration_token: can?(current_user, :read_runners_registration_token, project) ? project.runners_token : nil,
         project_full_path: project.full_path,
@@ -149,9 +151,12 @@ module Ci
 
         # group runners tab
         can_create_runner_for_group: can_create_runner_for_group.to_s,
+        can_toggle_group_runners: can?(current_user, :admin_project, project).to_s,
+        group_runners_enabled: project.group_runners_enabled?.to_s,
         group_runners_path: project&.group ? group_runners_path(project.group) : nil,
 
         # instance runners tab
+        can_toggle_instance_runners: can?(current_user, :admin_runners, project).to_s,
         instance_runners_enabled: project.shared_runners_enabled?.to_s,
         instance_runners_disabled_and_unoverridable: (
           project.group&.shared_runners_setting == Namespace::SR_DISABLED_AND_UNOVERRIDABLE

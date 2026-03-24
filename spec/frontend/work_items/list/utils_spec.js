@@ -532,7 +532,7 @@ describe('saveSavedView', () => {
               namespacePath: 'my-group',
               name: 'My View',
               description: 'A test view',
-              private: false,
+              isPrivate: false,
               filters: { state: 'opened' },
               sort: 'CREATED_DESC',
               displaySettings: { groupBy: 'assignee' },
@@ -571,7 +571,7 @@ describe('saveSavedView', () => {
               namespacePath: 'my-group',
               name: 'My View',
               description: 'A test view',
-              private: false,
+              isPrivate: false,
               filters: { in: 'TITLE', search: 'work__SV__items' },
               sort: 'CREATED_DESC',
               displaySettings: { groupBy: 'assignee' },
@@ -697,7 +697,7 @@ describe('saveSavedView', () => {
               id: 'gid://gitlab/SavedView/1',
               name: 'Updated View',
               description: 'Updated description',
-              private: false,
+              isPrivate: false,
               filters: { state: 'closed' },
               sort: 'UPDATED_DESC',
               displaySettings: { groupBy: 'status' },
@@ -743,7 +743,7 @@ describe('saveSavedView', () => {
         id: 'gid://gitlab/SavedView/1',
         name: 'Updated View',
         description: 'Updated description',
-        private: false,
+        isPrivate: false,
       });
       expect(callArgs.variables.input.filters).toBeUndefined();
       expect(callArgs.variables.input.sort).toBeUndefined();

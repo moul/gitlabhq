@@ -223,34 +223,38 @@ RSpec.describe Ci::RunnersHelper, feature_category: :fleet_visibility do
   end
 
   describe '#project_runners_settings_data' do
-    let_it_be(:group) { create(:group) }
+    let_it_be_with_reload(:group) { create(:group) }
     let_it_be(:project) { create(:project, group: group) }
+
+    before do
+      allow(helper).to receive(:current_user).and_return(user)
+    end
 
     subject(:result) { helper.project_runners_settings_data(project) }
 
-    before do
-      allow(helper).to receive(:can?).and_call_original
-    end
-
     context 'when the user has all permissions' do
+      before_all do
+        group.add_owner(user)
+      end
+
       before do
-        allow(helper).to receive(:can?).with(user, :create_runners, project).and_return(true)
-        allow(helper).to receive(:can?).with(user, :create_runners, project.group).and_return(true)
-        allow(helper).to receive(:can?).with(user, :register_group_runners, project.group).and_return(true)
-        allow(helper).to receive(:can?).with(user, :read_runners_registration_token, project).and_return(true)
-        allow(helper).to receive(:can?).with(user, :admin_group, project.group).and_return(true)
         allow(project.namespace).to receive(:allow_runner_registration_token?).and_return(true)
       end
 
       it 'returns project data to render runners settings' do
         expect(result).to include(
           can_create_runner: 'true',
+          can_assign_runners: 'true',
+          can_unassign_runners: 'true',
           allow_registration_token: 'true',
           registration_token: project.runners_token,
           project_full_path: project.full_path,
           new_project_runner_path: new_project_runner_path(project),
           can_create_runner_for_group: 'true',
+          can_toggle_group_runners: 'true',
+          group_runners_enabled: 'true',
           group_runners_path: group_runners_path(project.group),
+          can_toggle_instance_runners: 'true',
           instance_runners_enabled: 'true',
           instance_runners_disabled_and_unoverridable: 'false',
           instance_runners_update_path: toggle_shared_runners_project_runners_path(project),
@@ -261,24 +265,28 @@ RSpec.describe Ci::RunnersHelper, feature_category: :fleet_visibility do
     end
 
     context 'when user cannot manage runners' do
+      before_all do
+        group.add_developer(user)
+      end
+
       before do
-        allow(helper).to receive(:can?).with(user, :create_runners, project).and_return(false)
-        allow(helper).to receive(:can?).with(user, :create_runners, project.group).and_return(false)
-        allow(helper).to receive(:can?).with(user, :register_group_runners, project.group).and_return(false)
-        allow(helper).to receive(:can?).with(user, :read_runners_registration_token, project).and_return(false)
-        allow(helper).to receive(:can?).with(user, :admin_group, project.group).and_return(false)
         allow(project.namespace).to receive(:allow_runner_registration_token?).and_return(false)
       end
 
       it 'returns appropriate permissions' do
         expect(result).to include(
           can_create_runner: 'false',
+          can_assign_runners: 'false',
+          can_unassign_runners: 'false',
           allow_registration_token: 'false',
           registration_token: nil,
           project_full_path: project.full_path,
           new_project_runner_path: new_project_runner_path(project),
           can_create_runner_for_group: 'false',
+          can_toggle_group_runners: 'false',
+          group_runners_enabled: 'true',
           group_runners_path: group_runners_path(project.group),
+          can_toggle_instance_runners: 'false',
           instance_runners_enabled: 'true',
           instance_runners_disabled_and_unoverridable: 'false',
           instance_runners_update_path: toggle_shared_runners_project_runners_path(project),

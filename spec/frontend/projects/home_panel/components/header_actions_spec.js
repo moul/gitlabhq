@@ -1,6 +1,6 @@
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
-import GroupActionsApp from '~/groups/show/actions/components/app.vue';
-import GroupListItemActions from '~/vue_shared/components/groups_list/group_list_item_actions.vue';
+import ProjectHeaderActions from '~/projects/home_panel/components/header_actions.vue';
+import ProjectListItemActions from '~/vue_shared/components/projects_list/project_list_item_actions.vue';
 import { visitUrlWithAlerts } from '~/lib/utils/url_utility';
 import {
   ACTION_DELETE_IMMEDIATELY,
@@ -10,54 +10,53 @@ import setWindowLocation from 'helpers/set_window_location_helper';
 
 jest.mock('~/lib/utils/url_utility', () => ({
   ...jest.requireActual('~/lib/utils/url_utility'),
-  visitUrl: jest.fn(),
   visitUrlWithAlerts: jest.fn(),
 }));
 
-describe('GroupActionsApp', () => {
+describe('ProjectHeaderActions', () => {
   let wrapper;
 
-  const mockGroup = {
+  const mockProject = {
     id: 1,
-    name: 'Test Group',
-    fullName: 'Test Group',
-    fullPath: 'test-group',
+    name: 'Test Project',
+    nameWithNamespace: 'Test Group / Test Project',
+    fullPath: 'test-group/test-project',
   };
 
   const defaultProps = {
-    group: mockGroup,
-    dashboardPath: '/dashboard/groups',
+    project: mockProject,
+    dashboardPath: '/dashboard/projects',
   };
 
   const createComponent = (props = {}) => {
-    wrapper = shallowMountExtended(GroupActionsApp, {
+    wrapper = shallowMountExtended(ProjectHeaderActions, {
       propsData: { ...defaultProps, ...props },
     });
   };
 
-  const findGroupListItemActions = () => wrapper.findComponent(GroupListItemActions);
+  const findProjectListItemActions = () => wrapper.findComponent(ProjectListItemActions);
 
   beforeEach(() => {
     createComponent();
   });
 
-  it('renders GroupListItemActions component', () => {
-    expect(findGroupListItemActions().exists()).toBe(true);
+  it('renders ProjectListItemActions component', () => {
+    expect(findProjectListItemActions().exists()).toBe(true);
   });
 
-  it('passes group prop to GroupListItemActions', () => {
-    expect(findGroupListItemActions().props('group')).toEqual(mockGroup);
+  it('passes project prop to ProjectListItemActions', () => {
+    expect(findProjectListItemActions().props('project')).toEqual(mockProject);
   });
 
   describe('when action event is emitted', () => {
     describe('when action is ACTION_DELETE_IMMEDIATELY', () => {
       it('redirects to dashboardPath', () => {
-        findGroupListItemActions().vm.$emit('action', ACTION_DELETE_IMMEDIATELY);
+        findProjectListItemActions().vm.$emit('action', ACTION_DELETE_IMMEDIATELY);
 
-        expect(visitUrlWithAlerts).toHaveBeenCalledWith('http://test.host/dashboard/groups', [
+        expect(visitUrlWithAlerts).toHaveBeenCalledWith('http://test.host/dashboard/projects', [
           {
             id: 'namespace-delete-success',
-            message: 'Test Group is being deleted.',
+            message: 'Test Project is being deleted.',
             variant: 'info',
           },
         ]);
@@ -66,12 +65,12 @@ describe('GroupActionsApp', () => {
 
     describe('when action is ACTION_LEAVE', () => {
       it('redirects to dashboardPath with alerts', () => {
-        findGroupListItemActions().vm.$emit('action', ACTION_LEAVE);
+        findProjectListItemActions().vm.$emit('action', ACTION_LEAVE);
 
-        expect(visitUrlWithAlerts).toHaveBeenCalledWith('http://test.host/dashboard/groups', [
+        expect(visitUrlWithAlerts).toHaveBeenCalledWith('http://test.host/dashboard/projects', [
           {
             id: 'namespace-leave-success',
-            message: 'You left the "Test Group" group.',
+            message: 'You left the "Test Group / Test Project" project.',
             variant: 'info',
           },
         ]);
@@ -82,10 +81,10 @@ describe('GroupActionsApp', () => {
       it('redirects to the fullpath', () => {
         setWindowLocation('?leave=1&search=text');
 
-        findGroupListItemActions().vm.$emit('action', 'some-other-action');
+        findProjectListItemActions().vm.$emit('action', 'some-other-action');
 
         expect(visitUrlWithAlerts).toHaveBeenCalledWith(
-          `http://test.host/${mockGroup.fullPath}`,
+          `http://test.host/${mockProject.fullPath}`,
           [],
         );
       });

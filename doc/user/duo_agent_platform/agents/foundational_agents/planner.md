@@ -162,9 +162,6 @@ Then, to use the Planner Agent:
   - "Close this work item as completed and create a new retrospective work item documenting
     what went well and what needs improvement: `<URL>`"
 
-For more example prompts, see the
-[Prompt Library](https://about.gitlab.com/gitlab-duo/prompt-library/).
-
 ## Known issues
 
 - The agent can analyze work items in bulk, but response quality might decrease for requests
