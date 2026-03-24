@@ -96,6 +96,7 @@ module Gitlab
       # Use `push_to_gon_attributes` directly since we have a computed feature flag with
       # an opt-out in ui_for_organizations_enabled?
       push_to_gon_attributes(:features, :ui_for_organizations, ui_for_organizations_enabled?)
+      push_frontend_feature_flag(:page_breadcrumbs_in_top_bar, current_user)
       push_frontend_feature_flag(:organization_switching, current_user)
       push_frontend_feature_flag(:find_and_replace, current_user)
       # To be removed with https://gitlab.com/gitlab-org/gitlab/-/issues/399248

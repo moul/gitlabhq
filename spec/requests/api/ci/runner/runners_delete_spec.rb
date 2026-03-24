@@ -92,6 +92,15 @@ RSpec.describe API::Ci::Runner, :clean_gitlab_redis_shared_state, feature_catego
         it_behaves_like 'storing arguments in the application context for the API' do
           let(:expected_params) { { client_id: "runner/#{runner.id}" } }
         end
+
+        context 'with a group runner' do
+          let_it_be(:group, freeze: true) { create(:group) }
+          let!(:runner) { create(:ci_runner, :group, groups: [group]) }
+
+          it_behaves_like 'storing arguments in the application context for the API' do
+            let(:expected_params) { { organization_id: group.organization_id } }
+          end
+        end
       end
     end
   end

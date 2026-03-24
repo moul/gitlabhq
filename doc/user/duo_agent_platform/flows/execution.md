@@ -267,6 +267,7 @@ cache:
 # Network configuration
 network_policy:
   include_recommended_allowed: true
+  allow_all_unix_sockets: true
   allowed_domains:
     - my-own-site.com
   denied_domains:

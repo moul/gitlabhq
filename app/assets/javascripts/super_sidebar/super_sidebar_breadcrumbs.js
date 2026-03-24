@@ -11,6 +11,11 @@ export function initPageBreadcrumbs() {
 
   staticBreadcrumbs.items = JSON.parse(breadcrumbsJson);
 
+  if (gon.features?.pageBreadcrumbsInTopBar) {
+    document.querySelector('#js-vue-page-breadcrumbs-wrapper')?.remove();
+    return false;
+  }
+
   superSidebarBreadcrumbsApp = new Vue({
     el,
     name: 'SuperSidebarBreadcrumbs',

@@ -6551,7 +6551,7 @@ msgstr ""
 msgid "AdminSettings|To enable Registration Features, first enable optional data in Service Ping."
 msgstr ""
 
-msgid "AdminSettings|To help improve GitLab and its user experience, GitLab periodically collects usage information. %{link_start}What information is shared with GitLab Inc.?%{link_end}"
+msgid "AdminSettings|To help improve GitLab and its user experience, GitLab periodically collects usage information. %{link_start}What information is shared with GitLab Inc.?%{link_end}%{br}%{br}Benefits of enabling Service Ping:%{br}• Get access to DevOps Score for your instance%{br}• Get insights and advice to maximize the value of your GitLab investment%{br}• Analyze your instance usage over time%{br}%{benefits_link_start}Learn more about the benefits of Service Ping%{link_end}"
 msgstr ""
 
 msgid "AdminSettings|Total number of jobs in currently active pipelines"
@@ -12048,6 +12048,9 @@ msgid "BillingPlans|Upgrade and unlock advanced features that boost your team's 
 msgstr ""
 
 msgid "BillingPlans|Upgrade before your trial ends to maintain access to these Premium features."
+msgstr ""
+
+msgid "BillingPlans|Upgrade subscription"
 msgstr ""
 
 msgid "BillingPlans|Upgrade to Premium"
@@ -62428,6 +62431,9 @@ msgstr ""
 msgid "SecurityOrchestration|, and %{count} more"
 msgstr ""
 
+msgid "SecurityOrchestration|, or "
+msgstr ""
+
 msgid "SecurityOrchestration|.yaml mode"
 msgstr ""
 
@@ -62556,6 +62562,14 @@ msgstr ""
 
 msgid "SecurityOrchestration|Allowlist details"
 msgstr ""
+
+msgid "SecurityOrchestration|Allows any new vulnerabilities"
+msgstr ""
+
+msgid "SecurityOrchestration|Allows more than %{count} vulnerability"
+msgid_plural "SecurityOrchestration|Allows more than %{count} vulnerabilities"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "SecurityOrchestration|An error occurred assigning your security policy project"
 msgstr ""
@@ -62828,6 +62842,12 @@ msgid "SecurityOrchestration|Don't show the alert anymore"
 msgstr ""
 
 msgid "SecurityOrchestration|Drag with a mouse to adjust editor's width"
+msgstr ""
+
+msgid "SecurityOrchestration|EPSS score is greater than %{value}"
+msgstr ""
+
+msgid "SecurityOrchestration|EPSS score is less than %{value}"
 msgstr ""
 
 msgid "SecurityOrchestration|Edge case settings"
@@ -63596,6 +63616,9 @@ msgstr ""
 msgid "SecurityOrchestration|Severity and status settings will apply to all scan rules"
 msgstr ""
 
+msgid "SecurityOrchestration|Severity is %{severity}"
+msgstr ""
+
 msgid "SecurityOrchestration|Severity is %{severity}."
 msgstr ""
 
@@ -63863,6 +63886,12 @@ msgstr ""
 msgid "SecurityOrchestration|Vulnerabilities are %{vulnerabilityStates}."
 msgstr ""
 
+msgid "SecurityOrchestration|Vulnerabilities have EPSS score greater than %{value}."
+msgstr ""
+
+msgid "SecurityOrchestration|Vulnerabilities have EPSS score less than %{value}."
+msgstr ""
+
 msgid "SecurityOrchestration|Vulnerability age is greater than %{vulnerabilityAge}."
 msgstr ""
 
@@ -63909,6 +63938,9 @@ msgid "SecurityOrchestration|When license scanner finds any license except %{lic
 msgstr ""
 
 msgid "SecurityOrchestration|When license scanner finds any license matching %{licenses}%{detection} in an open merge request %{targeting}%{branches}%{branchExceptionsString}"
+msgstr ""
+
+msgid "SecurityOrchestration|When the following scanners find any vulnerabilities in an open merge request %{targeting}%{branches}%{branchExceptionsString}%{criteriaApply}"
 msgstr ""
 
 msgid "SecurityOrchestration|With the %{template} security job template"
@@ -64052,7 +64084,13 @@ msgstr ""
 msgid "SecurityOrchestration|are false positives"
 msgstr ""
 
+msgid "SecurityOrchestration|are in the KEV catalog"
+msgstr ""
+
 msgid "SecurityOrchestration|are not false positives"
+msgstr ""
+
+msgid "SecurityOrchestration|are not in the KEV catalog"
 msgstr ""
 
 msgid "SecurityOrchestration|at %{time}"
@@ -64115,6 +64153,9 @@ msgstr ""
 msgid "SecurityOrchestration|for %{branchType}"
 msgstr ""
 
+msgid "SecurityOrchestration|greater than"
+msgstr ""
+
 msgid "SecurityOrchestration|group level branch input"
 msgstr ""
 
@@ -64137,6 +64178,9 @@ msgid "SecurityOrchestration|instance policy"
 msgstr ""
 
 msgid "SecurityOrchestration|latest"
+msgstr ""
+
+msgid "SecurityOrchestration|less than"
 msgstr ""
 
 msgid "SecurityOrchestration|license scan"
@@ -66520,6 +66564,9 @@ msgid "Show whitespace changes"
 msgstr ""
 
 msgid "Show wikis in global search results"
+msgstr ""
+
+msgid "Show work items in global search results"
 msgstr ""
 
 msgid "Show your drafts"

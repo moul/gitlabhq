@@ -800,6 +800,33 @@ RSpec.describe Gitlab::DuoAgentPlatform::Config, feature_category: :duo_agent_pl
         expect(result['denied_domains'].last).to eq("denied#{max_domains}.com")
       end
     end
+
+    context 'with all network_policy fields' do
+      let(:config_content) do
+        <<~YAML
+          network_policy:
+            allowed_domains:
+              - example.com
+              - test.com
+            denied_domains:
+              - blocked.com
+        YAML
+      end
+
+      before do
+        allow(project.repository).to receive(:blob_data_at)
+                                       .with(default_branch, config_path)
+                                       .and_return(config_content)
+      end
+
+      it 'returns normalized policy with all fields' do
+        expected = {
+          'allowed_domains' => ['example.com', 'test.com'],
+          'denied_domains' => ['blocked.com']
+        }
+        expect(config.network_policy).to eq(expected)
+      end
+    end
   end
 
   describe 'caching' do

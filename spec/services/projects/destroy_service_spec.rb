@@ -312,7 +312,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
       merge_request_diffs = merge_request.merge_request_diffs
       expect(merge_request_diffs.size).to eq(1)
 
-      expect { destroy_project(project, user, {}) }.to change(MergeRequestDiff, :count).by(-1)
+      expect { destroy_project(project, user, {}) }.to change { MergeRequestDiff.count }.by(-1)
       expect { another_project_mr.reload }.not_to raise_error
     end
   end
@@ -321,7 +321,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
     let!(:deployment) { create(:deployment, project: project) }
 
     it 'deletes deployments' do
-      expect { destroy_project(project, user, {}) }.to change(Deployment, :count).by(-1)
+      expect { destroy_project(project, user, {}) }.to change { Deployment.count }.by(-1)
     end
   end
 
@@ -394,7 +394,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
     it 'destroys project and export' do
       expect do
         destroy_project(project_with_export, user, {})
-      end.to change(ImportExportUpload, :count).by(-1)
+      end.to change { ImportExportUpload.count }.by(-1)
 
       expect(Project.all).not_to include(project_with_export)
     end
@@ -835,7 +835,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
 
       expect do
         destroy_project(project, user)
-      end.to change(Snippet, :count).by(-2)
+      end.to change { Snippet.count }.by(-2)
     end
 
     context 'when an error is raised deleting snippets' do
@@ -870,7 +870,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
 
       expect do
         destroy_project(project, user)
-      end.to change(WebHook, :count).by(-2)
+      end.to change { WebHook.count }.by(-2)
     end
 
     context 'when an error is raised deleting webhooks' do
@@ -908,7 +908,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
     it 'deletes events from the project' do
       expect do
         destroy_project(project, user)
-      end.to change(Event, :count).by(-1)
+      end.to change { Event.count }.by(-1)
     end
 
     context 'when an error is returned while deleting events' do
@@ -1016,7 +1016,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
           orphaned_commit_status_count: 0
         )
 
-        expect { service.send(:delete_commit_statuses) }.not_to change(::CommitStatus, :count)
+        expect { service.send(:delete_commit_statuses) }.not_to change { ::CommitStatus.count }
       end
     end
 
@@ -1071,7 +1071,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
           deleted_environment_count: 0
         )
 
-        expect { service.send(:delete_environments) }.not_to change(Environment, :count)
+        expect { service.send(:delete_environments) }.not_to change { Environment.count }
       end
     end
 

@@ -67,7 +67,7 @@ When you request a review from `@GitLabDuo`, one of the following features runs:
 - [Code Review Flow](../../duo_agent_platform/flows/foundational_flows/code_review.md):
   The GitLab Duo Agent Platform feature. Uses GitLab Credits.
 - [GitLab Duo Code Review](../../gitlab_duo/code_review_classic.md):
-  The GitLab Duo feature. Available to users with the GitLab Duo Pro or Enterprise add-on.
+  The GitLab Duo feature. Available to users with the GitLab Duo Enterprise add-on.
 
 The review feature that runs depends on the add-on of the user that starts the GitLab Duo review:
 

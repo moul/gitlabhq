@@ -1145,7 +1145,7 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
         end
 
         it 'creates an issue' do
-          expect { post_new_issue(title: 'Some title') }.to change(Issue, :count)
+          expect { post_new_issue(title: 'Some title') }.to change { Issue.count }
         end
       end
 
@@ -1163,7 +1163,7 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
 
           context 'when allow_possible_spam application setting is false' do
             it 'rejects an issue recognized as spam' do
-              expect { post_spam_issue }.not_to change(Issue, :count)
+              expect { post_spam_issue }.not_to change { Issue.count }
             end
 
             it 'creates a spam log' do
@@ -1172,13 +1172,13 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
             end
 
             it 'does not create an issue when it is not valid' do
-              expect { post_new_issue(title: '') }.not_to change(Issue, :count)
+              expect { post_new_issue(title: '') }.not_to change { Issue.count }
             end
 
             it 'does not create an issue when reCAPTCHA is not enabled' do
               stub_application_setting(recaptcha_enabled: false)
 
-              expect { post_spam_issue }.not_to change(Issue, :count)
+              expect { post_spam_issue }.not_to change { Issue.count }
             end
           end
 
@@ -1188,7 +1188,7 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
             end
 
             it 'creates an issue recognized as spam' do
-              expect { post_spam_issue }.to change(Issue, :count)
+              expect { post_spam_issue }.to change { Issue.count }
             end
 
             it 'creates a spam log' do
@@ -1197,7 +1197,7 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
             end
 
             it 'does not create an issue when it is not valid' do
-              expect { post_new_issue(title: '') }.not_to change(Issue, :count)
+              expect { post_new_issue(title: '') }.not_to change { Issue.count }
             end
           end
         end
@@ -1217,7 +1217,7 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
           end
 
           it 'accepts an issue after reCAPTCHA is verified' do
-            expect { post_verified_issue }.to change(Issue, :count)
+            expect { post_verified_issue }.to change { Issue.count }
           end
 
           it 'marks spam log as recaptcha_verified' do
@@ -1241,7 +1241,7 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
       end
 
       it 'creates a user agent detail' do
-        expect { post_new_issue }.to change(UserAgentDetail, :count).by(1)
+        expect { post_new_issue }.to change { UserAgentDetail.count }.by(1)
       end
     end
 
@@ -1267,11 +1267,11 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
       subject { post_new_issue(sentry_issue_attributes: { sentry_issue_identifier: 1234567 }) }
 
       it 'creates an issue' do
-        expect { subject }.to change(Issue, :count)
+        expect { subject }.to change { Issue.count }
       end
 
       it 'creates a sentry issue' do
-        expect { subject }.to change(SentryIssue, :count)
+        expect { subject }.to change { SentryIssue.count }
       end
     end
 
@@ -1433,7 +1433,7 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
     end
 
     it 'creates a new merge request' do
-      expect { create_merge_request }.to change(project.merge_requests, :count).by(1)
+      expect { create_merge_request }.to change { project.merge_requests.count }.by(1)
     end
 
     it 'render merge request as json' do
@@ -1484,7 +1484,7 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
       let(:target_project_id) { target_project.id }
 
       it 'creates a new merge request', :sidekiq_might_not_need_inline do
-        expect { create_merge_request }.to change(target_project.merge_requests, :count).by(1)
+        expect { create_merge_request }.to change { target_project.merge_requests.count }.by(1)
       end
     end
 

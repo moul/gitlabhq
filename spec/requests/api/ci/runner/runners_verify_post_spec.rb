@@ -111,6 +111,15 @@ RSpec.describe API::Ci::Runner, :clean_gitlab_redis_shared_state, feature_catego
           let(:expected_params) { { client_id: "runner/#{runner.id}" } }
         end
 
+        context 'with a group runner' do
+          let_it_be(:group, freeze: true) { create(:group) }
+          let_it_be(:runner, freeze: true) { create(:ci_runner, :group, groups: [group]) }
+
+          it_behaves_like 'storing arguments in the application context for the API' do
+            let(:expected_params) { { organization_id: group.organization_id } }
+          end
+        end
+
         context 'when system_id is provided' do
           let(:params) { { token: runner.token, system_id: 's_some_system_id' } }
 

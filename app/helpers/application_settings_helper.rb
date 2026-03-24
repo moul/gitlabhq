@@ -94,6 +94,11 @@ module ApplicationSettingsHelper
         checkbox_options: { checked: @application_setting.global_search_issues_enabled, multiple: false }
       ),
       form.gitlab_ui_checkbox_component(
+        :global_search_work_items_enabled,
+        _("Show work items in global search results"),
+        checkbox_options: { checked: @application_setting.global_search_work_items_enabled, multiple: false }
+      ),
+      form.gitlab_ui_checkbox_component(
         :global_search_merge_requests_enabled,
         _("Show merge requests in global search results"),
         checkbox_options: { checked: @application_setting.global_search_merge_requests_enabled, multiple: false }
@@ -652,6 +657,7 @@ module ApplicationSettingsHelper
       :global_search_snippet_titles_enabled,
       :global_search_users_enabled,
       :global_search_issues_enabled,
+      :global_search_work_items_enabled,
       :global_search_merge_requests_enabled,
       :global_search_block_anonymous_searches_enabled,
       :enable_language_server_restrictions,

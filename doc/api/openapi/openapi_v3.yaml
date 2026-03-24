@@ -16195,7 +16195,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_d8b92650bee0"
+              "$ref": "#/components/schemas/RequestBody_f2c85bfc79e2"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -73019,6 +73019,8 @@ components:
           type: string
         global_search_issues_enabled:
           type: string
+        global_search_work_items_enabled:
+          type: string
         global_search_merge_requests_enabled:
           type: string
         global_search_block_anonymous_searches_enabled:
@@ -89849,7 +89851,7 @@ components:
           nullable: true
       required:
       - avatar
-    RequestBody_d8b92650bee0:
+    RequestBody_f2c85bfc79e2:
       type: object
       properties:
         admin_mode:
@@ -91718,6 +91720,9 @@ components:
           type: string
           nullable: true
         global_search_issues_enabled:
+          type: string
+          nullable: true
+        global_search_work_items_enabled:
           type: string
           nullable: true
         global_search_merge_requests_enabled:

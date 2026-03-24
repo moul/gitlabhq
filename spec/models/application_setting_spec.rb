@@ -130,6 +130,7 @@ RSpec.describe ApplicationSetting, feature_category: :settings, type: :model do
         gitlab_shell_operation_limit: 600,
         global_search_block_anonymous_searches_enabled: false,
         global_search_issues_enabled: true,
+        global_search_work_items_enabled: true,
         global_search_merge_requests_enabled: true,
         global_search_snippet_titles_enabled: true,
         global_search_users_enabled: true,

@@ -103,6 +103,7 @@ RSpec.describe ApplicationSettingsHelper, feature_category: :shared do
         global_search_snippet_titles_enabled
         global_search_users_enabled
         global_search_issues_enabled
+        global_search_work_items_enabled
         global_search_merge_requests_enabled
         global_search_block_anonymous_searches_enabled
         anonymous_searches_allowed
@@ -408,6 +409,7 @@ RSpec.describe ApplicationSettingsHelper, feature_category: :shared do
 
     before do
       application_setting.global_search_issues_enabled = true
+      application_setting.global_search_work_items_enabled = true
       application_setting.global_search_merge_requests_enabled = false
       application_setting.global_search_users_enabled = false
       application_setting.global_search_snippet_titles_enabled = true
@@ -421,9 +423,10 @@ RSpec.describe ApplicationSettingsHelper, feature_category: :shared do
         expect(result[0]).to have_checked_field('Allow unauthenticated users to use search', with: 1)
         expect(result[1]).to have_checked_field('Restrict global search to authenticated users only', with: 1)
         expect(result[2]).to have_checked_field('Show issues in global search results', with: 1)
-        expect(result[3]).not_to have_checked_field('Show merge requests in global search results', with: 1)
-        expect(result[4]).to have_checked_field('Show snippets in global search results', with: 1)
-        expect(result[5]).not_to have_checked_field('Show users in global search results', with: 1)
+        expect(result[3]).to have_checked_field('Show work items in global search results', with: 1)
+        expect(result[4]).not_to have_checked_field('Show merge requests in global search results', with: 1)
+        expect(result[5]).to have_checked_field('Show snippets in global search results', with: 1)
+        expect(result[6]).not_to have_checked_field('Show users in global search results', with: 1)
       end
     end
   end

@@ -2936,6 +2936,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_489fffe04425() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."project_id" IS NULL THEN
+  SELECT "project_id"
+  INTO NEW."project_id"
+  FROM "packages_helm_metadata_caches"
+  WHERE "packages_helm_metadata_caches"."id" = NEW."packages_helm_metadata_cache_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_49862b4b3035() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -25618,6 +25634,7 @@ CREATE TABLE packages_helm_metadata_cache_states (
     verification_retry_count smallint DEFAULT 0 NOT NULL,
     verification_checksum bytea,
     verification_failure text,
+    project_id bigint,
     CONSTRAINT check_8912e42599 CHECK ((char_length(verification_failure) <= 255))
 );
 
@@ -47544,6 +47561,8 @@ CREATE INDEX index_packages_helm_file_metadata_on_pf_id_and_channel ON packages_
 
 CREATE INDEX index_packages_helm_file_metadata_on_project_id ON packages_helm_file_metadata USING btree (project_id);
 
+CREATE INDEX index_packages_helm_metadata_cache_states_on_project_id ON packages_helm_metadata_cache_states USING btree (project_id);
+
 CREATE UNIQUE INDEX index_packages_helm_metadata_caches_on_project_id_and_channel ON packages_helm_metadata_caches USING btree (project_id, channel);
 
 CREATE INDEX index_packages_maven_metadata_on_package_id_and_path ON packages_maven_metadata USING btree (package_id, path);
@@ -54308,6 +54327,8 @@ CREATE TRIGGER trigger_47b402bdab5f BEFORE INSERT OR UPDATE ON bulk_import_expor
 
 CREATE TRIGGER trigger_47c43d40f0d2 BEFORE INSERT OR UPDATE ON alert_management_alert_metric_image_uploads FOR EACH ROW EXECUTE FUNCTION trigger_47c43d40f0d2();
 
+CREATE TRIGGER trigger_489fffe04425 BEFORE INSERT OR UPDATE ON packages_helm_metadata_cache_states FOR EACH ROW EXECUTE FUNCTION trigger_489fffe04425();
+
 CREATE TRIGGER trigger_49862b4b3035 BEFORE INSERT OR UPDATE ON approval_group_rules_protected_branches FOR EACH ROW EXECUTE FUNCTION trigger_49862b4b3035();
 
 CREATE TRIGGER trigger_49b563d0130b BEFORE INSERT OR UPDATE ON dast_scanner_profiles_builds FOR EACH ROW EXECUTE FUNCTION trigger_49b563d0130b();
@@ -55247,6 +55268,9 @@ ALTER TABLE ONLY resource_milestone_events
 
 ALTER TABLE ONLY project_group_links
     ADD CONSTRAINT fk_28a1244b01 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE NOT VALID;
+
+ALTER TABLE ONLY packages_helm_metadata_cache_states
+    ADD CONSTRAINT fk_2902beee34 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY merge_requests_compliance_violations
     ADD CONSTRAINT fk_290ec1ab02 FOREIGN KEY (merge_request_id) REFERENCES merge_requests(id) ON DELETE CASCADE;
