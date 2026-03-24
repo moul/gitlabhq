@@ -70247,6 +70247,8 @@ components:
           type: string
         matches_auto_dismiss_policy:
           type: string
+        auto_severity_override:
+          type: string
     APIEntitiesVulnerability:
       type: object
       properties:

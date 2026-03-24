@@ -121,12 +121,25 @@ module LoginHelpers
 
   def login_via(provider, user, uid, remember_me: false, additional_info: {})
     mock_auth_hash(provider, uid, user.email, additional_info: additional_info)
-    visit new_user_session_path
-    expect(page).to have_css('.js-oauth-login')
 
-    check 'js-remember-me-omniauth' if remember_me
+    3.times do |_attempt|
+      visit new_user_session_path
+      expect(page).to have_css('.js-oauth-login')
 
-    click_button Gitlab::Auth::OAuth::Provider.label_for(provider)
+      if remember_me
+        within('body.page-initialised') do
+          check 'js-remember-me-omniauth'
+        end
+        find("form[action='/users/auth/#{provider}?remember_me=1']")
+      end
+
+      click_button Gitlab::Auth::OAuth::Provider.label_for(provider)
+      # Chrome sometimes fails to send the cookies in the POST request causing a CSRF issue.
+      # We wait up to 10s for the page to navigate away from /user/sign_in.
+      page.has_no_current_path?(new_user_session_path, wait: 10, ignore_query: true)
+      # Instant check: if we're still (or back) on sign-in page, retry up to 3 times.
+      break unless page.has_current_path?(new_user_session_path, wait: 0, ignore_query: true)
+    end
   end
 
   def sign_in_using_ldap!(user, ldap_tab, ldap_name)

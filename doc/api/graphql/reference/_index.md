@@ -31493,6 +31493,7 @@ Represents finding.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="comparedsecurityreportfinding-airesolutionenabled"></a>`aiResolutionEnabled` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.6. **Status**: Experiment. Indicates whether the specific finding can be resolved with AI. |
+| <a id="comparedsecurityreportfinding-autoseverityoverride"></a>`autoSeverityOverride` {{< icon name="warning-solid" >}} | [`VulnerabilitySeverity`](#vulnerabilityseverity) | **Introduced** in GitLab 18.11. **Status**: Experiment. The severity that will be automatically applied after merge by a severity override policy. Returns `null` if no severity override policy matches. |
 | <a id="comparedsecurityreportfinding-description"></a>`description` | [`String`](#string) | Description of the vulnerability finding. |
 | <a id="comparedsecurityreportfinding-details"></a>`details` {{< icon name="warning-solid" >}} | [`[VulnerabilityDetail!]!`](#vulnerabilitydetail) | **Introduced** in GitLab 17.6. **Status**: Experiment. Details of the vulnerability finding. |
 | <a id="comparedsecurityreportfinding-foundbypipelineiid"></a>`foundByPipelineIid` | [`String`](#string) | IID of the pipeline. |

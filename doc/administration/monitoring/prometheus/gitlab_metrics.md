@@ -552,14 +552,23 @@ and the metrics all have these labels:
 - `host` - the host name used to connect to the database.
 - `port` - the port used to connect to the database.
 
-| Metric                                        | Type  | Since | Description |
-|:----------------------------------------------|:------|:------|:------------|
-| `gitlab_database_connection_pool_size`        | Gauge | 13.0  | Total connection pool capacity |
-| `gitlab_database_connection_pool_connections` | Gauge | 13.0  | Current connections in the pool |
-| `gitlab_database_connection_pool_busy`        | Gauge | 13.0  | Connections in use where the owner is still alive |
-| `gitlab_database_connection_pool_dead`        | Gauge | 13.0  | Connections in use where the owner is not alive |
-| `gitlab_database_connection_pool_idle`        | Gauge | 13.0  | Connections not in use |
-| `gitlab_database_connection_pool_waiting`     | Gauge | 13.0  | Threads currently waiting on this queue |
+| Metric                                              | Type  | Since | Description |
+|:----------------------------------------------------|:------|:------|:------------|
+| `gitlab_database_connection_pool_size`              | Gauge | 13.0  | Total connection pool capacity |
+| `gitlab_database_connection_pool_connections`       | Gauge | 13.0  | Current connections in the pool (= idle + busy + dead) |
+| `gitlab_database_connection_pool_busy`              | Gauge | 13.0  | Connections in use where the owner is still alive |
+| `gitlab_database_connection_pool_dead`              | Gauge | 13.0  | Connections in use where the owner is not alive |
+| `gitlab_database_connection_pool_idle`              | Gauge | 13.0  | Connections created, but not currently in use |
+| `gitlab_database_connection_pool_waiting`           | Gauge | 13.0  | Threads currently waiting on this queue |
+| `gitlab_database_extended_connection_pool_busy`     | Gauge | 17.11 | Connections in use where the owner is still alive, per thread |
+| `gitlab_database_extended_connection_pool_dead`     | Gauge | 17.11 | Connections in use where the owner is not alive, per thread |
+
+The `gitlab_database_extended_connection_pool_busy` and
+`gitlab_database_extended_connection_pool_dead` metrics include a
+`thread_name` label for per-thread granularity. These metrics are
+disabled by default due to high cardinality. To enable them for a
+percentage of pods, use the `per_thread_db_connection_pool_metrics`
+[ops feature flag](../../../development/feature_flags/_index.md).
 
 ## Ruby metrics
 

@@ -137,22 +137,7 @@ If you're on the Free tier and want to try credits, you can start an [Ultimate t
 
 {{< /history >}}
 
-Users on the Free tier on GitLab.com can purchase a Monthly Commitment Pool of GitLab Credits for their group namespace. This provides access to a set of GitLab Duo Agent Platform features, without needing a Premium or Ultimate subscription.
-
-You can use the following features after you purchase credits:
-
-- [GitLab Duo Agentic Chat](../user/gitlab_duo_chat/agentic_chat.md)
-- [AI Catalog](../user/duo_agent_platform/ai_catalog.md)
-- [Custom Agents](../user/duo_agent_platform/agents/custom.md)
-- [Planner Agent](../user/duo_agent_platform/agents/foundational_agents/planner.md)
-- [Custom Flows](../user/duo_agent_platform/flows/custom.md)
-- [Software Development Flow](../user/duo_agent_platform/flows/foundational_flows/software_development.md)
-- [Developer Flow](../user/duo_agent_platform/flows/foundational_flows/developer.md)
-- [Fix CI/CD Pipeline Flow](../user/duo_agent_platform/flows/foundational_flows/fix_pipeline.md)
-- [Convert to GitLab CI/CD Flow](../user/duo_agent_platform/flows/foundational_flows/convert_to_gitlab_ci.md)
-- [Code Review Flow](../user/duo_agent_platform/flows/foundational_flows/code_review.md)
-- [GitLab MCP clients](../user/gitlab_duo/model_context_protocol/mcp_clients.md)
-- [Code Suggestions](../user/duo_agent_platform/code_suggestions/_index.md)
+Users on the Free tier on GitLab.com can purchase a Monthly Commitment Pool of GitLab Credits for their group namespace. This provides access to a set of [GitLab Duo Agent Platform features](../user/duo_agent_platform/_index.md), without needing a Premium or Ultimate subscription.
 
 On-demand usage for Free namespaces is capped at $25,000 for each calendar month. Upon reaching this limit, on-demand usage is automatically turned off and resets at the beginning of the following month.
 

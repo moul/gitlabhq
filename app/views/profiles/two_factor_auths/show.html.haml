@@ -42,7 +42,8 @@
       %p
         %span.gl-font-bold
           = _('Status:')
-        #{@passkeys.present? ? _('Enabled') : _('Disabled')}
+        - passkey_status = current_user.allow_passkey_authentication? && @passkeys.present? ? _('Active') : _('Inactive')
+        = passkey_status
       = render 'passkeys'
 
 - if display_providers_on_profile?
@@ -72,7 +73,7 @@
     %p
       %span.gl-font-bold
         = _('Status:')
-      #{current_user.two_factor_enabled? ? _('Enabled') : _('Disabled')}
+      #{current_user.two_factor_enabled? ? _('Active') : _('Inactive')}
     = render 'default_2fa_method'
     = render 'otp_registration', {troubleshooting_link: troubleshooting_link}
     = render 'webauthn_registration'

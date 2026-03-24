@@ -160,8 +160,10 @@ If the task can only be performed by an administrator, put `Administrator access
 
 `Prerequisites` must always be plural, even if the list includes only one item.
 
-Do not list subscriptions or add-ons in the prerequisites. These should only be included
-in the [product availability details](../styleguide/availability_details.md).
+Do not list subscriptions, add-ons, or specific tool versions in the prerequisites. These should
+only be included in the [product availability details](../styleguide/availability_details.md).
+
+For tools released separately, direct users to install the latest version instead.
 
 If several tasks on a page share prerequisites, you can create a separate
 topic with the title `Prerequisites`.

@@ -132,6 +132,67 @@ func TestLoadSheddingMiddlewareNilShedder(t *testing.T) {
 	assert.Equal(t, "OK", w.Body.String())
 }
 
+func TestLoadSheddingMiddlewareRetryableMethods(t *testing.T) {
+	logger := logrus.New()
+	reg := prometheus.NewRegistry()
+	cfg := &config.LoadSheddingConfig{
+		BacklogThreshold:  100,
+		BacklogHysteresis: 0.8,
+		RetryAfterSeconds: 0,
+		StatusCode:        http.StatusServiceUnavailable,
+	}
+	shedder := NewLoadShedder(cfg, logger, reg)
+	shedder.InitializeMetrics()
+
+	// Set up shedder to shed load
+	controlResp := &puma.ControlResponse{
+		Workers:       1,
+		BootedWorkers: 1,
+		WorkerStatus: []puma.Worker{
+			{
+				Index:  0,
+				Booted: true,
+				LastStatus: puma.WorkerStatus{
+					Backlog: 150,
+				},
+			},
+		},
+	}
+	shedder.UpdateBacklog(controlResp)
+
+	nextHandler := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+	})
+
+	middleware := Middleware(shedder, logger)
+	handler := middleware(nextHandler)
+
+	t.Run("non-retryable methods should not be shed", func(t *testing.T) {
+		for _, method := range []string{http.MethodPost, http.MethodPut, http.MethodPatch, http.MethodDelete} {
+			t.Run(method, func(t *testing.T) {
+				req := httptest.NewRequest(method, "/api/test", nil)
+				w := httptest.NewRecorder()
+				handler.ServeHTTP(w, req)
+				assert.Equal(t, http.StatusOK, w.Code)
+				assert.Empty(t, w.Header().Get("Retry-After"))
+			})
+		}
+	})
+
+	t.Run("retryable methods should be shed", func(t *testing.T) {
+		for _, method := range []string{http.MethodGet, http.MethodHead, http.MethodOptions} {
+			t.Run(method, func(t *testing.T) {
+				req := httptest.NewRequest(method, "/api/test", nil)
+				w := httptest.NewRecorder()
+				handler.ServeHTTP(w, req)
+				assert.Equal(t, http.StatusServiceUnavailable, w.Code)
+				assert.Equal(t, "0", w.Header().Get("Retry-After"))
+			})
+		}
+	})
+}
+
 func TestLoadSheddingMiddlewareCustomStatusCode(t *testing.T) {
 	logger := logrus.New()
 	reg := prometheus.NewRegistry()

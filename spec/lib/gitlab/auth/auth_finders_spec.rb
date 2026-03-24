@@ -637,24 +637,10 @@ RSpec.describe Gitlab::Auth::AuthFinders, feature_category: :system_access do
         set_header(described_class::PRIVATE_TOKEN_HEADER, personal_access_token.token)
       end
 
-      context 'when optimize_pat_lookup feature flag is enabled' do
-        it 'returns user without performing OAuth token lookup' do
-          expect(self).not_to receive(:find_oauth_access_token)
+      it 'returns user without performing OAuth token lookup' do
+        expect(self).not_to receive(:find_oauth_access_token)
 
-          expect(find_user_from_access_token).to eq(user)
-        end
-      end
-
-      context 'when optimize_pat_lookup feature flag is disabled' do
-        before do
-          stub_feature_flags(optimize_pat_lookup: false)
-        end
-
-        it 'returns user after attempting OAuth lookup first' do
-          expect(self).to receive(:find_oauth_access_token).and_call_original
-
-          expect(find_user_from_access_token).to eq(user)
-        end
+        expect(find_user_from_access_token).to eq(user)
       end
     end
 

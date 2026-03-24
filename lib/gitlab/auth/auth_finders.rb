@@ -354,7 +354,7 @@ module Gitlab
 
           if try(:namespace_inheritable, :authentication)
             access_token_from_namespace_inheritable
-          elsif Feature.enabled?(:optimize_pat_lookup, Feature.current_request) && pat_prefix_token?
+          elsif pat_prefix_token?
             # If the token has a PAT prefix (glpat-), skip OAuth lookup entirely.
             # This avoids the expensive PBKDF2 hashing in OauthAccessToken.by_token
             # for tokens that are clearly Personal Access Tokens.

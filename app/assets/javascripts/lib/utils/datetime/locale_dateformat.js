@@ -350,9 +350,9 @@ class DateTimeFormat {
       const message =
         "new Date('yyyy-mm-dd') causes day-off bugs. Convert the date-only string to a Date object with newDate() instead";
       Sentry.captureException(new Error(message));
-    } else if (!(dateish instanceof Date)) {
-      const message = 'Consider passing a Date object with newDate() instead';
-      Sentry.captureException(new Error(message));
+    } else if (!(dateish instanceof Date) && process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.warn('Consider passing a Date object with newDate() instead');
     }
 
     const date = dateish instanceof Date ? dateish : new Date(dateish);

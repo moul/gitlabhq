@@ -1428,7 +1428,7 @@ DELETE /groups/:id
 | Attribute            | Type              | Required | Description |
 |----------------------|-------------------|----------|-------------|
 | `id`                 | integer or string | Yes      | The ID or [URL-encoded path](rest/_index.md#namespaced-paths) of the group. |
-| `full_path`          | string            | Yes       | The full path to the subgroup. Used to confirm deletion of the subgroup. If `permanently_remove` is `true`, this attribute is required. To find the subgroup path, see the [group details](groups.md#retrieve-a-group). |
+| `full_path`          | string            | Yes       | The modified full path of the subgroup after scheduling it for deletion. If `permanently_remove` is `true`, this attribute is required. To confirm the modified full path, [retrieve the group](#retrieve-a-group). |
 | `permanently_remove` | boolean/string    | Yes       | If `true`, permanently deletes a subgroup that is already scheduled for deletion. Cannot delete top-level groups. |
 
 If successful, returns a [`202 Accepted`](rest/troubleshooting.md#status-codes) status code.
@@ -1448,10 +1448,12 @@ curl --request DELETE \
   --url "https://gitlab.example.com/api/v4/groups/:id"
 
 # Permanently delete a group scheduled for deletion
+# Use the modified full_path of the subgroup
 curl --request DELETE \
   --header "PRIVATE-TOKEN: <your_access_token>" \
   --header "Accept: application/json" \
-  --data '{"full_path": <full_path>, "permanently_remove": "true"}' \
+  --header "Content-Type: application/json" \
+  --data '{"full_path": "<path-after-soft-delete>", "permanently_remove": "true"}' \
   --url "https://gitlab.example.com/api/v4/groups/:id"
 ```
 

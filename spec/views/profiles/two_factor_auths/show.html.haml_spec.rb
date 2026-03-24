@@ -87,4 +87,68 @@ RSpec.describe 'profiles/two_factor_auths/show.html.haml', feature_category: :sy
         text: s_('ProfilesAuthentication|Change password'))
     end
   end
+
+  context 'for two-factor authentication status' do
+    context 'when two-factor authentication is enabled' do
+      before do
+        allow(user).to receive(:two_factor_enabled?).and_return(true)
+        render
+      end
+
+      it 'displays Active status for two-factor authentication' do
+        expect(rendered).to have_text(_('Active'))
+      end
+    end
+
+    context 'when two-factor authentication is disabled' do
+      before do
+        allow(user).to receive(:two_factor_enabled?).and_return(false)
+        render
+      end
+
+      it 'displays Inactive status for two-factor authentication' do
+        expect(rendered).to have_text(_('Inactive'))
+      end
+    end
+  end
+
+  context 'for passkey sign-in status' do
+    before do
+      stub_feature_flags(passkeys: true)
+    end
+
+    context 'when passkeys are active' do
+      before do
+        assign(:passkeys, [build_stubbed(:webauthn_registration, user: user)])
+        render
+      end
+
+      it 'displays Active status for passkeys' do
+        expect(rendered).to have_text(_('Active'))
+      end
+    end
+
+    context 'when passkeys are inactive' do
+      before do
+        assign(:passkeys, [])
+        render
+      end
+
+      it 'displays Inactive status for passkeys' do
+        expect(rendered).to have_text(_('Inactive'))
+      end
+    end
+
+    context 'when user is not allowed to use passkey authentication' do
+      before do
+        allow(user).to receive(:allow_passkey_authentication?).and_return(false)
+        assign(:passkeys, [build_stubbed(:webauthn_registration, user: user)])
+        render
+      end
+
+      it 'displays Inactive status for passkeys' do
+        expect(rendered).to have_text(_('Inactive'))
+      end
+    end
+  end
 end

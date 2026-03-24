@@ -11,6 +11,18 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// isRetryableMethod returns true for HTTP methods that are safe to retry.
+// GET, HEAD, and OPTIONS are idempotent and safe for NGINX to retry.
+// Non-idempotent methods like POST, PUT, PATCH, and DELETE must never be shed
+// since retrying could cause duplicate writes or unintended side effects.
+func isRetryableMethod(method string) bool {
+	switch method {
+	case http.MethodGet, http.MethodHead, http.MethodOptions:
+		return true
+	}
+	return false
+}
+
 // Middleware creates HTTP middleware that sheds load based on Puma backlog
 // Returns 503 Service Unavailable when backlog exceeds the configured threshold
 func Middleware(loadShedder *LoadShedder, logger *logrus.Logger) func(http.Handler) http.Handler {
@@ -21,7 +33,7 @@ func Middleware(loadShedder *LoadShedder, logger *logrus.Logger) func(http.Handl
 				return
 			}
 
-			if loadShedder.ShouldShedLoad() {
+			if isRetryableMethod(r.Method) && loadShedder.ShouldShedLoad() {
 				backlog := loadShedder.GetLastBacklog()
 				threshold := loadShedder.GetThreshold()
 				retryAfter := loadShedder.GetRetryAfterSeconds()
