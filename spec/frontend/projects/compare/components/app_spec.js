@@ -171,7 +171,7 @@ describe('CompareApp component', () => {
     });
 
     it('correct input name', () => {
-      expect(findOptionsGroup().attributes('name')).toBe(COMPARE_OPTIONS_INPUT_NAME);
+      expect(findOptionsGroup().props('name')).toBe(COMPARE_OPTIONS_INPUT_NAME);
     });
 
     it('renders "only incoming changes" option', () => {

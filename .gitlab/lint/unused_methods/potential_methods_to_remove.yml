@@ -71,7 +71,6 @@ ee/app/models/ee/project.rb:
 - search_by_visibility
 - group_ldap_synced?
 - upstream_projects_count
-- downstream_projects_count
 ee/app/models/ee/project_member.rb:
 - provisioned_by_this_group?
 ee/app/models/ee/user.rb:

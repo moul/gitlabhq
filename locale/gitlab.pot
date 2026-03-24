@@ -38735,6 +38735,9 @@ msgstr ""
 msgid "JiraCloudApp|only available environment names: %{names}"
 msgstr ""
 
+msgid "JiraConnect|%{detailed_message}. Check the permissions in Jira and try again."
+msgstr ""
+
 msgid "JiraConnect|Are you a GitLab administrator?"
 msgstr ""
 
@@ -38880,6 +38883,12 @@ msgid "JiraConnect|To complete the setup, you must follow a few steps in GitLab:
 msgstr ""
 
 msgid "JiraConnect|To complete the setup, you must meet %{linkStart}certain user requirements%{linkEnd} in Jira."
+msgstr ""
+
+msgid "JiraConnect|User is not a member of any Jira groups. The user must be a member of one of the following groups: %{required_groups}"
+msgstr ""
+
+msgid "JiraConnect|User is not a member of the %{required_groups} group(s). Current groups: %{current_groups}"
 msgstr ""
 
 msgid "JiraConnect|We would love to learn more about your experience with the GitLab for Jira Cloud App."
