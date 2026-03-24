@@ -45,12 +45,14 @@ group:
   - admin_ci_minutes
   - admin_cicd_variables
   - admin_compliance_framework
+  - admin_compliance_pipeline_configuration
   - admin_external_audit_events
   - admin_group
   - admin_group_credentials_inventory
   - admin_group_member
   - admin_integrations
   - admin_licensed_seat
+  - admin_member_role
   - admin_merge_request_approval_settings
   - admin_namespace
   - admin_package
@@ -59,8 +61,10 @@ group:
   - admin_service_account_member
   - admin_service_accounts
   - archive_group
+  - ban_group_member
   - change_group
   - change_new_user_signups_cap
+  - change_prevent_group_forking
   - change_prevent_sharing_groups_outside_hierarchy
   - change_seat_control
   - change_visibility_level
@@ -78,6 +82,7 @@ group:
   - destroy_epic
   - destroy_issue
   - edit_billing
+  - export_group_memberships
   - manage_deploy_tokens
   - manage_merge_request_settings
   - provision_secrets_manager
@@ -87,6 +92,8 @@ group:
   - read_compliance_dashboard
   - read_compliance_violations_report
   - read_group_credentials_inventory
+  - read_group_saml_identity
+  - read_group_scim_identity
   - read_runners
   - read_runners_registration_token
   - read_service_account
@@ -106,3 +113,4 @@ group:
   - update_group_link
   - update_runners_registration_token
   - update_secrets_permission
+  - view_member_roles

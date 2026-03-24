@@ -7463,12 +7463,6 @@ msgstr ""
 msgid "AiImpactAnalytics|Number of chat sessions initiated through GitLab Duo Agent Platform."
 msgstr ""
 
-msgid "AiImpactAnalytics|Number of contributors who used any GitLab Duo feature."
-msgstr ""
-
-msgid "AiImpactAnalytics|Number of users that used at least one GitLab Duo feature."
-msgstr ""
-
 msgid "AiImpactAnalytics|Number of users who used Code Suggestions."
 msgstr ""
 
@@ -7479,6 +7473,9 @@ msgid "AiImpactAnalytics|Number of users who used Duo Chat (non-agentic)."
 msgstr ""
 
 msgid "AiImpactAnalytics|Number of users who used Root Cause Analysis."
+msgstr ""
+
+msgid "AiImpactAnalytics|Number of users who used at least one GitLab Duo or GitLab Duo Agent Platform feature."
 msgstr ""
 
 msgid "AiImpactAnalytics|Root Cause Analysis usage"

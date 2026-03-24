@@ -75,6 +75,7 @@ project:
   - reopen_merge_request
   - resolve_note
   - retry_failed_status_checks
+  - trigger_amazon_q
   - update_alert_management_alert
   - update_container_image
   - update_deployment

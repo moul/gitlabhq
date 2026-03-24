@@ -4562,8 +4562,8 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
             end
           end
 
-          it 'raises an InvalidateReactiveCache error' do
-            expect { subject }.to raise_error(ReactiveCaching::InvalidateReactiveCache)
+          it 'returns parsing status instead of raising an error' do
+            expect(subject[:status]).to eq(:parsing)
           end
         end
       end

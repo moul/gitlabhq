@@ -120,7 +120,7 @@ Link an epic and another:
 Prerequisites:
 
 - You must have the Guest, Planner, Reporter, Developer, Maintainer, or Owner role for both groups, or for the group and project.
-- For GitLab SaaS: the epic that you're editing must be in a group on GitLab Ultimate.
+- For GitLab.com: the epic that you're editing must be in a group on GitLab Ultimate.
   The epics you're linking can be in a group on a lower tier.
 
 To link one epic to another item:

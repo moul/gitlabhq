@@ -22958,7 +22958,8 @@ CREATE TABLE members_deletion_schedules (
     user_id bigint NOT NULL,
     scheduled_by_id bigint NOT NULL,
     created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL
+    updated_at timestamp with time zone NOT NULL,
+    ip_address inet
 );
 
 CREATE SEQUENCE members_deletion_schedules_id_seq
@@ -24203,6 +24204,14 @@ CREATE SEQUENCE namespace_statistics_id_seq
     CACHE 1;
 
 ALTER SEQUENCE namespace_statistics_id_seq OWNED BY namespace_statistics.id;
+
+CREATE TABLE namespace_template_settings (
+    namespace_id bigint NOT NULL,
+    file_template_project_id bigint,
+    custom_project_templates_group_id bigint,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
 
 CREATE TABLE namespace_uploads (
     id bigint NOT NULL,
@@ -39458,6 +39467,9 @@ ALTER TABLE ONLY namespace_settings
 ALTER TABLE ONLY namespace_statistics
     ADD CONSTRAINT namespace_statistics_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY namespace_template_settings
+    ADD CONSTRAINT namespace_template_settings_pkey PRIMARY KEY (namespace_id);
+
 ALTER TABLE ONLY namespace_uploads
     ADD CONSTRAINT namespace_uploads_pkey PRIMARY KEY (id, model_type);
 
@@ -47169,6 +47181,8 @@ CREATE INDEX index_namespace_settings_on_namespace_id_where_archived_true ON nam
 
 CREATE UNIQUE INDEX index_namespace_statistics_on_namespace_id ON namespace_statistics USING btree (namespace_id);
 
+CREATE INDEX index_namespace_template_settings_on_file_template_project_id ON namespace_template_settings USING btree (file_template_project_id);
+
 CREATE UNIQUE INDEX index_namespaces_name_parent_id_type ON namespaces USING btree (name, parent_id, type);
 
 CREATE INDEX index_namespaces_on_created_at ON namespaces USING btree (created_at);
@@ -47262,6 +47276,8 @@ CREATE UNIQUE INDEX index_notifications_on_user_id_and_source_id_and_source_type
 CREATE UNIQUE INDEX index_npm_metadata_caches_on_package_name_project_id_unique ON packages_npm_metadata_caches USING btree (package_name, project_id) WHERE (project_id IS NOT NULL);
 
 CREATE INDEX index_ns_root_stor_stats_on_registry_size_estimated ON namespace_root_storage_statistics USING btree (registry_size_estimated);
+
+CREATE INDEX index_ns_template_settings_on_custom_project_templates_group_id ON namespace_template_settings USING btree (custom_project_templates_group_id) WHERE (custom_project_templates_group_id IS NOT NULL);
 
 CREATE UNIQUE INDEX index_ns_user_callouts_feature ON user_namespace_callouts USING btree (user_id, feature_name, namespace_id);
 
@@ -55311,6 +55327,9 @@ ALTER TABLE ONLY packages_helm_metadata_cache_states
 ALTER TABLE ONLY merge_requests_compliance_violations
     ADD CONSTRAINT fk_290ec1ab02 FOREIGN KEY (merge_request_id) REFERENCES merge_requests(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY namespace_template_settings
+    ADD CONSTRAINT fk_29356a0af3 FOREIGN KEY (custom_project_templates_group_id) REFERENCES namespaces(id) ON DELETE SET NULL;
+
 ALTER TABLE ONLY system_access_group_microsoft_graph_access_tokens
     ADD CONSTRAINT fk_2957addd0d FOREIGN KEY (system_access_group_microsoft_application_id) REFERENCES system_access_group_microsoft_applications(id) ON DELETE CASCADE;
 
@@ -55739,6 +55758,9 @@ ALTER TABLE ONLY approval_group_rules_protected_branches
 
 ALTER TABLE ONLY deploy_tokens
     ADD CONSTRAINT fk_51bf7bfb69 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY namespace_template_settings
+    ADD CONSTRAINT fk_51da239f1a FOREIGN KEY (file_template_project_id) REFERENCES projects(id) ON DELETE SET NULL;
 
 ALTER TABLE ONLY ml_models
     ADD CONSTRAINT fk_51e87f7c50_new FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
@@ -59741,6 +59763,9 @@ ALTER TABLE ONLY dast_pre_scan_verifications
 
 ALTER TABLE ONLY analytics_dashboards_pointers
     ADD CONSTRAINT fk_rails_f0e7c640c3 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY namespace_template_settings
+    ADD CONSTRAINT fk_rails_f0e9412eb5 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY import_export_uploads
     ADD CONSTRAINT fk_rails_f129140f9e FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;

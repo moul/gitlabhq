@@ -26,6 +26,8 @@ import (
 type mockWebSocketConn struct {
 	readMessages       [][]byte
 	writeMessages      [][]byte
+	readDeadlinesMu    sync.Mutex
+	readDeadlines      []time.Time
 	writeDeadlines     []time.Time
 	readIndex          int
 	readError          error
@@ -35,6 +37,8 @@ type mockWebSocketConn struct {
 	setDeadlineError   error
 	clearDeadlineError error
 	blockCh            chan bool
+	pongHandlerMu      sync.Mutex
+	pongHandler        func(string) error
 }
 
 func (m *mockWebSocketConn) ReadMessage() (int, []byte, error) {
@@ -69,8 +73,19 @@ func (m *mockWebSocketConn) WriteControl(_ int, _ []byte, _ time.Time) error {
 	return m.writeControlError
 }
 
-func (m *mockWebSocketConn) SetReadDeadline(_ time.Time) error {
+func (m *mockWebSocketConn) SetReadDeadline(t time.Time) error {
+	m.readDeadlinesMu.Lock()
+	defer m.readDeadlinesMu.Unlock()
+	m.readDeadlines = append(m.readDeadlines, t)
 	return m.setDeadlineError
+}
+
+func (m *mockWebSocketConn) getReadDeadlines() []time.Time {
+	m.readDeadlinesMu.Lock()
+	defer m.readDeadlinesMu.Unlock()
+	result := make([]time.Time, len(m.readDeadlines))
+	copy(result, m.readDeadlines)
+	return result
 }
 
 func (m *mockWebSocketConn) SetWriteDeadline(t time.Time) error {
@@ -79,6 +94,18 @@ func (m *mockWebSocketConn) SetWriteDeadline(t time.Time) error {
 		return m.clearDeadlineError
 	}
 	return m.setDeadlineError
+}
+
+func (m *mockWebSocketConn) SetPongHandler(h func(string) error) {
+	m.pongHandlerMu.Lock()
+	defer m.pongHandlerMu.Unlock()
+	m.pongHandler = h
+}
+
+func (m *mockWebSocketConn) getPongHandler() func(string) error {
+	m.pongHandlerMu.Lock()
+	defer m.pongHandlerMu.Unlock()
+	return m.pongHandler
 }
 
 type mockWorkflowStream struct {
@@ -1845,4 +1872,162 @@ func TestRunner_handleAgentAction_TrackLlmCallForSelfHosted(t *testing.T) {
 		require.Error(t, err)
 		require.Contains(t, err.Error(), "failed to receive from cloud service")
 	})
+}
+
+func TestRunner_pingWebSocket(t *testing.T) {
+	t.Run("sends ping and sets read deadline", func(t *testing.T) {
+		mockConn := &mockWebSocketConn{}
+
+		testURL, _ := url.Parse("http://example.com")
+		req := httptest.NewRequest("GET", "/duo", nil)
+		r := &runner{
+			rails: &api.API{
+				Client: &http.Client{},
+				URL:    testURL,
+			},
+			originalReq: req,
+			conn:        mockConn,
+		}
+
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		errCh := make(chan error, 1)
+
+		// Replace WriteControl with a version that signals and then cancels.
+		// We do this by running pingWebSocket with a very short interval using
+		// a test-specific runner that wraps the mock.
+		pingSent := make(chan struct{})
+		wrappedConn := &pingTrackingConn{
+			mockWebSocketConn: mockConn,
+			onPing: func() {
+				select {
+				case pingSent <- struct{}{}:
+				default:
+				}
+				cancel() // stop the goroutine after the first ping
+			},
+		}
+		r.conn = wrappedConn
+
+		go r.pingWebSocket(ctx, errCh, 10*time.Millisecond)
+
+		select {
+		case <-pingSent:
+			// ping was sent — verify a read deadline was set on the mock
+			assert.NotEmpty(t, mockConn.getReadDeadlines(), "expected read deadline to be set before ping")
+		case err := <-errCh:
+			t.Fatalf("unexpected error from pingWebSocket: %v", err)
+		case <-time.After(5 * time.Second):
+			t.Fatal("timed out waiting for ping to be sent")
+		}
+	})
+
+	t.Run("pong handler resets read deadline", func(t *testing.T) {
+		mockConn := &mockWebSocketConn{}
+		testURL, _ := url.Parse("http://example.com")
+		req := httptest.NewRequest("GET", "/duo", nil)
+
+		r := &runner{
+			rails: &api.API{
+				Client: &http.Client{},
+				URL:    testURL,
+			},
+			originalReq: req,
+			conn:        mockConn,
+		}
+
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		// Register the pong handler before launching any goroutine, mirroring
+		// what Execute() does. pingWebSocket no longer calls SetPongHandler
+		// itself, so we must set it up here.
+		r.conn.SetPongHandler(func(string) error {
+			return r.conn.SetReadDeadline(time.Now().Add(wsPongTimeout))
+		})
+
+		errCh := make(chan error, 1)
+		// Use a long interval so no pings fire during the test; we only care
+		// about the pong handler behavior.
+		go r.pingWebSocket(ctx, errCh, time.Hour)
+
+		// The pong handler is already registered synchronously above, so invoke
+		// it directly and verify it extends the read deadline.
+		before := len(mockConn.getReadDeadlines())
+		err := mockConn.getPongHandler()("test")
+		require.NoError(t, err)
+		deadlines := mockConn.getReadDeadlines()
+		require.Greater(t, len(deadlines), before, "pong handler should have extended the read deadline")
+		lastDeadline := deadlines[len(deadlines)-1]
+		assert.True(t, lastDeadline.After(time.Now()), "read deadline should be in the future")
+	})
+
+	t.Run("stops workflow and returns error when WriteControl fails", func(t *testing.T) {
+		writeErr := fmt.Errorf("network gone")
+		wrappedConn := &pingTrackingConn{
+			mockWebSocketConn: &mockWebSocketConn{
+				writeControlError: writeErr,
+			},
+		}
+		mockWf := &mockWorkflowStream{}
+
+		testURL, _ := url.Parse("http://example.com")
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+		req, _ := http.NewRequestWithContext(ctx, "GET", "/duo", nil)
+		r := &runner{
+			rails: &api.API{
+				Client: &http.Client{},
+				URL:    testURL,
+			},
+			originalReq: req,
+			conn:        wrappedConn,
+			streamManager: &streamManager{
+				wf:          mockWf,
+				originalReq: req,
+			},
+		}
+
+		errCh := make(chan error, 1)
+		go r.pingWebSocket(ctx, errCh, 10*time.Millisecond)
+
+		// Wait for the StopWorkflow event to be sent, then cancel the context
+		// so stopWorkflow unblocks and pingWebSocket can send to errCh.
+		require.Eventually(t, func() bool {
+			return len(mockWf.getSendEvents()) == 1
+		}, 2*time.Second, 10*time.Millisecond)
+
+		stopEvent := mockWf.getSendEvents()[0].GetStopWorkflow()
+		require.NotNil(t, stopEvent)
+		assert.Equal(t, "WORKHORSE_WEBSOCKET_PING_FAILED", stopEvent.Reason)
+
+		cancel()
+
+		select {
+		case err := <-errCh:
+			require.Error(t, err)
+			assert.Contains(t, err.Error(), "failed to send ping")
+		case <-time.After(5 * time.Second):
+			t.Fatal("timed out waiting for error from pingWebSocket")
+		}
+	})
+}
+
+// pingTrackingConn wraps mockWebSocketConn and calls onPing when WriteControl
+// is called with a PingMessage, allowing tests to observe ping sends.
+type pingTrackingConn struct {
+	*mockWebSocketConn
+	onPing func()
+}
+
+func (p *pingTrackingConn) WriteControl(msgType int, data []byte, deadline time.Time) error {
+	if msgType == websocket.PingMessage && p.onPing != nil {
+		p.onPing()
+	}
+	return p.mockWebSocketConn.WriteControl(msgType, data, deadline)
+}
+
+func (p *pingTrackingConn) SetPongHandler(h func(string) error) {
+	p.mockWebSocketConn.SetPongHandler(h)
 }

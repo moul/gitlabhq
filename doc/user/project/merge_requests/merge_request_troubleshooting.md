@@ -162,7 +162,7 @@ This error can happen if your merge request:
 - References a Git LFS file that is locked.
 
 Users on GitLab Self-Managed can request an administrator review server logs
-to determine the cause of the error. GitLab SaaS users should
+to determine the cause of the error. GitLab.com users should
 [contact Support](https://about.gitlab.com/support/#contact-support) for help.
 
 ## Cached merge request count

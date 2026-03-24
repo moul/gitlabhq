@@ -104,9 +104,8 @@ module Gitlab
           parts = segments.filter_map do |seg|
             next DASH_SEGMENT if seg == '-'
 
-            if seg.start_with?('{')
-              param_name = seg[1..-2]
-              camelize(param_name)
+            if seg.include?('{')
+              camelize(seg.gsub(/\{[^}]+\}/) { |m| m[1..-2] })
             else
               camelize(seg)
             end
@@ -163,12 +162,13 @@ module Gitlab
           path = pattern.instance_variable_get(:@origin)
           path
             .gsub(/\(\.:format\)$/, '')
+            .gsub(/[()\\]/, '')
             .gsub(/:\w+/) { |match| "{#{match[1..]}}" }
             .gsub('{version}', config.api_version)
         end
 
         def camelize(string)
-          string.gsub(/[@.-]/, '_').split('_').reject(&:empty?).map(&:capitalize).join
+          string.gsub(/[^a-zA-Z0-9_]/, '_').split('_').reject(&:empty?).map(&:capitalize).join
         end
 
         def http_method

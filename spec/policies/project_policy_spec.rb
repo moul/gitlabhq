@@ -995,14 +995,21 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
         end
       end
 
-      it 'prevents all but seeing a public project in a list when access is denied' do
-        [developer, owner, build(:user), nil].each do |user|
+      context 'when denied by the external authorization service' do
+        before do
           external_service_deny_access(user, project)
-          policy = described_class.new(user, project)
+        end
 
-          expect(policy).not_to be_allowed(:read_project)
-          expect(policy).not_to be_allowed(:owner_access)
-          expect(policy).not_to be_allowed(:change_namespace)
+        subject { described_class.new(user, project) }
+
+        let(:allowed_permissions) { %i[read_issue_iid read_project_for_iids read_merge_request_iid] }
+
+        where(:user) do
+          [developer, owner, build(:user), nil]
+        end
+
+        with_them do
+          it_behaves_like 'prevent all except'
         end
       end
 

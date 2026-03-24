@@ -300,7 +300,7 @@ RSpec.describe GroupChildEntity, feature_category: :groups_and_projects do
 
     before do
       enable_external_authorization_service_check
-      object.add_maintainer(user)
+      object.add_owner(user)
     end
 
     it 'does not hit the external authorization service' do

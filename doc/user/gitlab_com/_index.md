@@ -14,7 +14,7 @@ description: Configuration for the GitLab.com instance.
 {{< /details >}}
 
 These settings are used on GitLab.com, and are available to
-[GitLab SaaS](https://about.gitlab.com/pricing/) customers.
+[GitLab.com](https://about.gitlab.com/pricing/) customers.
 
 See some of these settings on the
 [instance configuration page for GitLab.com](https://gitlab.com/help/instance_configuration).

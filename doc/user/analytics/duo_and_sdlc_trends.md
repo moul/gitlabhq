@@ -60,7 +60,7 @@ For an overview, see [GitLab Duo AI Impact Dashboard](https://youtu.be/FxSWX64aU
 
 {{< /history >}}
 
-- **GitLab Duo users**: Number of users that used at least one GitLab Duo feature in the last 30 days.
+- **GitLab Duo users**: Number of users who used at least one GitLab Duo or GitLab Duo Agent Platform feature in the last 30 days.
 - **Code Suggestions users**: Number of users who used Code Suggestions in the last 30 days.
   For calculating Code Suggestions metrics, GitLab collects data only from code editor extensions.
 - **Code Suggestions acceptance rate**: Percentage of code suggestions provided by GitLab Duo that have been accepted by code contributors in the last 30 days.
@@ -92,7 +92,7 @@ Upward trends are positive (green) for some metrics (like [deployment frequency]
 
 {{< /history >}}
 
-- **Feature usage**: Number of contributors who used any GitLab Duo feature.
+- **Feature usage**: Number of users who used at least one GitLab Duo or GitLab Duo Agent Platform feature.
 - **Agent Platform chats**: Number of chat sessions initiated through GitLab Duo Agent Platform.
 - **Agent Platform flows**: Number of agent flows (excluding chats) executed through GitLab Duo Agent Platform.
 - **Non-Agentic Chat usage**: Number of users who used Non-Agentic Chat.

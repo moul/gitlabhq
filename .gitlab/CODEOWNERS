@@ -483,7 +483,7 @@ Dangerfile
 /ee/app/assets/javascripts/metrics/
 /ee/app/assets/javascripts/tracing/
 
-[Analytics Instrumentation] @gitlab-org/analytics-section/analytics-instrumentation/engineers
+[Analytics Instrumentation] @gitlab-org/analytics-section/analytics-instrumentation/engineers @gitlab-org/analytics-section/analytics-instrumentation/external-reviewers
 /ee/lib/gitlab/usage_data_counters/
 /ee/lib/ee/gitlab/usage_data.rb
 /lib/gitlab/usage_data.rb

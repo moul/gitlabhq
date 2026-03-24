@@ -7,16 +7,24 @@ module Cells
 
       LIMIT = 1000
       GRPC_QUERY_TIMEOUT_IN_SECONDS = 5
+      GRPC_RETRIES = 3
+      GRPC_RETRY_BASE_INTERVAL = 0.5
+      GRPC_RETRIABLE_ERRORS = [GRPC::DeadlineExceeded, GRPC::Unavailable].freeze
 
       attr_reader :model
 
-      def initialize(model, timeout:, start_id: 0)
+      # @param on_batch_processed [Proc] optional callback invoked with the last processed ID after each
+      #   successful batch. The worker uses this to persist progress to Redis mid-loop, so that if a later
+      #   batch fails the Sidekiq retry resumes from the last successful batch rather than restarting from
+      #   the beginning of the run.
+      def initialize(model, timeout:, start_id: 0, &on_batch_processed)
         @claim_service = Gitlab::TopologyServiceClient::ClaimService.instance
         @model = model
         @created_count = 0
         @destroyed_count = 0
         @runtime_limiter = Gitlab::Metrics::RuntimeLimiter.new(timeout)
         @start_id = start_id
+        @on_batch_processed = on_batch_processed
       end
 
       def execute
@@ -56,10 +64,12 @@ module Cells
 
           last_id = local_records.last.read_attribute(model.primary_key)
           ts_records = list_ts_records(model, start_id, last_id)
-
           created, destroyed = process_batch(local_records, ts_records)
 
           @scan_last_id = last_id
+          @on_batch_processed&.call(@scan_last_id)
+
+          over_time = runtime_limiter.over_time?
           Gitlab::AppLogger.info(
             class: self.class.name,
             message: "Cells::Claims::VerificationService batch processed",
@@ -68,11 +78,11 @@ module Cells
             batch_last_id: last_id,
             created: created,
             destroyed: destroyed,
-            over_time: runtime_limiter.was_over_time?,
+            over_time: over_time,
             cell_id: claim_service.cell_id,
             feature_category: :cell
           )
-          break if runtime_limiter.over_time?
+          break if over_time
 
           start_id = last_id
         end
@@ -90,12 +100,8 @@ module Cells
         end_id_bytes = Cells::Serialization.to_bytes(end_id)
 
         loop do
-          response = claim_service.list_records(
-            source_type: model.cells_claims_source_type,
-            bucket_types: model.cells_claims_attributes.values.pluck(:type), # rubocop:disable Database/AvoidUsingPluckWithoutLimit,CodeReuse/ActiveRecord -- not an ActiveRecord relation
-            source_id_gt: current_start_id_bytes,
-            source_id_lte: end_id_bytes,
-            deadline: grpc_deadline
+          response = fetch_ts_records_page(
+            model, current_start_id_bytes, end_id_bytes
           )
 
           records.concat(response.records.to_a)
@@ -114,6 +120,18 @@ module Cells
         records
       end
 
+      def fetch_ts_records_page(model, start_id_bytes, end_id_bytes)
+        Retriable.retriable(on: GRPC_RETRIABLE_ERRORS, tries: GRPC_RETRIES, base_interval: GRPC_RETRY_BASE_INTERVAL) do
+          claim_service.list_records(
+            source_type: model.cells_claims_source_type,
+            bucket_types: model.cells_claims_attributes.values.pluck(:type), # rubocop:disable Database/AvoidUsingPluckWithoutLimit,CodeReuse/ActiveRecord -- not an ActiveRecord relation
+            source_id_gt: start_id_bytes,
+            source_id_lte: end_id_bytes,
+            deadline: grpc_deadline
+          )
+        end
+      end
+
       def process_batch(local_records, ts_records)
         local_records_by_id = local_records.index_by do |r|
           Cells::Serialization.to_bytes(r.read_attribute(model.primary_key))
@@ -121,12 +139,10 @@ module Cells
         ts_records_by_id = ts_records.index_by { |r| r.metadata.source.rails_primary_key_id }
 
         creates, destroys = compute_changes(local_records_by_id, ts_records_by_id)
-        committed = commit_changes(creates:, destroys:)
+        commit_changes(creates:, destroys:)
 
-        if committed
-          @created_count += creates.size
-          @destroyed_count += destroys.size
-        end
+        @created_count += creates.size
+        @destroyed_count += destroys.size
 
         [creates.size, destroys.size]
       end
@@ -164,18 +180,15 @@ module Cells
       end
 
       def commit_changes(creates: [], destroys: [])
-        return true if creates.empty? && destroys.empty?
+        return if creates.empty? && destroys.empty?
 
         response = claim_service.begin_update(
           create_records: Cells::TransactionRecord.sanitize_records_for_grpc(creates),
-          destroy_records: Cells::TransactionRecord.sanitize_records_for_grpc(destroys)
+          destroy_records: Cells::TransactionRecord.sanitize_records_for_grpc(destroys),
+          deadline: grpc_deadline
         )
 
-        claim_service.commit_update(response.lease_uuid.value)
-        true
-      rescue GRPC::BadStatus => e
-        Gitlab::ErrorTracking.log_exception(e)
-        false
+        claim_service.commit_update(response.lease_uuid.value, deadline: grpc_deadline)
       end
 
       def metadata_from_ts_record(record)

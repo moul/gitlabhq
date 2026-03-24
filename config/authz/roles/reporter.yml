@@ -10,6 +10,7 @@ project:
   - _delete_shared_saved_view
   - _update_incident_work_item
   - _update_shared_saved_view
+  - admin_issuable_resource_link
   - admin_issue
   - admin_issue_board
   - admin_issue_board_list
@@ -54,6 +55,7 @@ project:
   - read_grafana
   - read_harbor_registry
   - read_internal_note
+  - read_issuable_resource_link
   - read_licenses
   - read_merge_request
   - read_package

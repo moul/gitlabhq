@@ -78,11 +78,7 @@ When using spring and guard together, use `SPRING=1 bundle exec guard` instead t
 
 ### Eager loading the application code
 
-By default, the application code:
-
-- Isn't eagerly loaded in the `test` environment.
-- Is eagerly loaded in CI/CD (when `ENV['CI'].present?`) to surface any potential loading issues.
-
+By default, the application code is not eager loaded in the test environment in order to speed up test runtime.
 If you need to enable eager loading when executing tests,
 use the `GITLAB_TEST_EAGER_LOAD` environment variable:
 
@@ -90,7 +86,7 @@ use the `GITLAB_TEST_EAGER_LOAD` environment variable:
 GITLAB_TEST_EAGER_LOAD=1 bin/rspec spec/models/project_spec.rb
 ```
 
-If your test depends on all the application code that is being loaded, add the `:eager_load` tag.
+If your test depends on all the application code being loaded, add the `:eager_load` tag.
 This ensures that the application code is eagerly loaded before the test execution.
 
 ### Ruby warnings

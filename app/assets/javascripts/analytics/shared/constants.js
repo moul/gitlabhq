@@ -418,7 +418,9 @@ export const VALUE_STREAM_METRIC_METADATA = {
     }),
   },
   [AI_METRICS.DUO_USED_COUNT]: {
-    description: s__('AiImpactAnalytics|Number of contributors who used any GitLab Duo feature.'),
+    description: s__(
+      'AiImpactAnalytics|Number of users who used at least one GitLab Duo or GitLab Duo Agent Platform feature.',
+    ),
     groupLink: '',
     projectLink: '',
     docsLink: helpPagePath('user/gitlab_duo/feature_summary'),

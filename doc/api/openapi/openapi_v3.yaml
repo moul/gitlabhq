@@ -9386,7 +9386,7 @@ paths:
         example: 5
   "/api/v4/groups/{id}/(-/)epics":
     post:
-      operationId: postApiV4GroupsId()epics
+      operationId: postApiV4GroupsIdDashEpics
       summary: Create a new epic
       description: Creates a new epic
       tags:
@@ -9422,7 +9422,7 @@ paths:
               "$ref": "#/components/schemas/RequestBody_8c8068b5fd09"
   "/api/v4/groups/{id}/(-/)epics/{epic_iid}":
     put:
-      operationId: putApiV4GroupsId()epicsEpicIid
+      operationId: putApiV4GroupsIdDashEpicsEpicIid
       summary: Update an epic
       description: Updates an epic
       tags:
@@ -9463,7 +9463,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/RequestBody_9182400aa1f8"
     delete:
-      operationId: deleteApiV4GroupsId()epicsEpicIid
+      operationId: deleteApiV4GroupsIdDashEpicsEpicIid
       summary: Destroy an epic
       description: Deletes an epic
       tags:
@@ -9493,7 +9493,7 @@ paths:
         example: 5
   "/api/v4/groups/{id}/(-/)epics/{epic_iid}/epics":
     get:
-      operationId: getApiV4GroupsId()epicsEpicIidEpics
+      operationId: getApiV4GroupsIdDashEpicsEpicIidEpics
       summary: Get related epics
       tags:
       - Epics
@@ -9528,7 +9528,7 @@ paths:
         in: path
         example: 1
     post:
-      operationId: postApiV4GroupsId()epicsEpicIidEpics
+      operationId: postApiV4GroupsIdDashEpicsEpicIidEpics
       summary: Create and relate epic to a parent
       tags:
       - Epics
@@ -9572,7 +9572,7 @@ paths:
               "$ref": "#/components/schemas/RequestBody_62cda2b29288"
   "/api/v4/groups/{id}/(-/)epics/{epic_iid}/epics/{child_epic_id}":
     post:
-      operationId: postApiV4GroupsId()epicsEpicIidEpicsChildEpicId
+      operationId: postApiV4GroupsIdDashEpicsEpicIidEpicsChildEpicId
       summary: Relate epics
       tags:
       - Epics
@@ -9618,7 +9618,7 @@ paths:
         in: path
         example: 1
     delete:
-      operationId: deleteApiV4GroupsId()epicsEpicIidEpicsChildEpicId
+      operationId: deleteApiV4GroupsIdDashEpicsEpicIidEpicsChildEpicId
       summary: Remove epics relation
       tags:
       - Epics
@@ -9660,7 +9660,7 @@ paths:
         in: path
         example: 1
     put:
-      operationId: putApiV4GroupsId()epicsEpicIidEpicsChildEpicId
+      operationId: putApiV4GroupsIdDashEpicsEpicIidEpicsChildEpicId
       summary: Reorder child epics
       tags:
       - Epics
@@ -9709,7 +9709,7 @@ paths:
               "$ref": "#/components/schemas/RequestBody_3ceeee5853cc"
   "/api/v4/groups/{id}/(-/)epics/{epic_iid}/issues/{epic_issue_id}":
     put:
-      operationId: putApiV4GroupsId()epicsEpicIidIssuesEpicIssueId
+      operationId: putApiV4GroupsIdDashEpicsEpicIidIssuesEpicIssueId
       summary: Update epic-issue association
       description: Updates an epic-issue association
       tags:
@@ -9768,7 +9768,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/RequestBody_90d3d48f5a75"
     delete:
-      operationId: deleteApiV4GroupsId()epicsEpicIidIssuesEpicIssueId
+      operationId: deleteApiV4GroupsIdDashEpicsEpicIidIssuesEpicIssueId
       summary: Remove an issue from the epic
       description: Removes an epic-issue association
       tags:
@@ -9942,7 +9942,7 @@ paths:
         example: 20
   "/api/v4/groups/{id}/(-/)epics/{epic_iid}/issues/{issue_id}":
     post:
-      operationId: postApiV4GroupsId()epicsEpicIidIssuesIssueId
+      operationId: postApiV4GroupsIdDashEpicsEpicIidIssuesIssueId
       summary: Assign an issue to the epic
       description: Creates an epic-issue association. If the issue in question belongs
         to another epic it is unassigned from that epic
@@ -13177,7 +13177,7 @@ paths:
               "$ref": "#/components/schemas/RequestBody_9b75155e0ec6"
   "/api/v4/vscode/settings_sync(/{settings_context_hash})/v1/manifest":
     get:
-      operationId: getApiV4VscodeSettingsSync(SettingsContextHash}V1Manifest
+      operationId: getApiV4VscodeSettingsSyncSettingsContextHashV1Manifest
       summary: Get the settings manifest for Settings Sync
       tags:
       - VSCode
@@ -13197,7 +13197,7 @@ paths:
         in: path
   "/api/v4/vscode/settings_sync(/{settings_context_hash})/v1/resource/{resource_name}/{id}":
     get:
-      operationId: getApiV4VscodeSettingsSync(SettingsContextHash}V1ResourceResourceNameId
+      operationId: getApiV4VscodeSettingsSyncSettingsContextHashV1ResourceResourceNameId
       summary: Get a specific setting resource
       tags:
       - VSCode
@@ -13244,7 +13244,7 @@ paths:
         in: path
   "/api/v4/vscode/settings_sync(/{settings_context_hash})/v1/resource/{resource_name}":
     get:
-      operationId: getApiV4VscodeSettingsSync(SettingsContextHash}V1ResourceResourceName
+      operationId: getApiV4VscodeSettingsSyncSettingsContextHashV1ResourceResourceName
       summary: Get a list of references to one or more vscode setting resources
       tags:
       - VSCode
@@ -13281,7 +13281,7 @@ paths:
         schema: {}
         in: path
     post:
-      operationId: postApiV4VscodeSettingsSync(SettingsContextHash}V1ResourceResourceName
+      operationId: postApiV4VscodeSettingsSyncSettingsContextHashV1ResourceResourceName
       summary: Creates or updates a specific setting
       tags:
       - VSCode
@@ -13315,7 +13315,7 @@ paths:
         in: path
   "/api/v4/vscode/settings_sync(/{settings_context_hash})/v1/collection":
     delete:
-      operationId: deleteApiV4VscodeSettingsSync(SettingsContextHash}V1Collection
+      operationId: deleteApiV4VscodeSettingsSyncSettingsContextHashV1Collection
       summary: Deletes all user vscode setting resources
       tags:
       - VSCode
@@ -24787,7 +24787,7 @@ paths:
         example: 20
   "/api/v4/groups/{id}/(-/)search":
     get:
-      operationId: getApiV4GroupsId()search
+      operationId: getApiV4GroupsIdDashSearch
       summary: Search on GitLab within a group
       description: This feature was introduced in GitLab 10.5.
       tags:
@@ -24913,7 +24913,7 @@ paths:
         example: 20
   "/api/v4/projects/{id}/(-/)search":
     get:
-      operationId: getApiV4ProjectsId()search
+      operationId: getApiV4ProjectsIdDashSearch
       summary: Search on GitLab within a project
       description: This feature was introduced in GitLab 10.5.
       tags:
@@ -34731,7 +34731,7 @@ paths:
               "$ref": "#/components/schemas/RequestBody_2ce27e3485fd"
   "/api/v4/projects/{id}/packages/nuget/v2/$metadata":
     get:
-      operationId: getApiV4ProjectsIdPackagesNugetV2$metadata
+      operationId: getApiV4ProjectsIdPackagesNugetV2Metadata
       summary: The NuGet V2 Feed Package $metadata endpoint
       description: This feature was introduced in GitLab 16.3
       tags:
@@ -34961,7 +34961,7 @@ paths:
         in: path
   "/api/v4/projects/{project_id}/packages/nuget/v2/FindPackagesById\\(\\)":
     get:
-      operationId: getApiV4ProjectsProjectIdPackagesNugetV2Findpackagesbyid\(\)
+      operationId: getApiV4ProjectsProjectIdPackagesNugetV2Findpackagesbyid
       summary: The NuGet V2 Feed Find Packages by ID endpoint
       description: This feature was introduced in GitLab 16.4
       tags:
@@ -34994,7 +34994,7 @@ paths:
         example: mynugetpkg
   "/api/v4/projects/{project_id}/packages/nuget/v2/Packages\\(\\)":
     get:
-      operationId: getApiV4ProjectsProjectIdPackagesNugetV2Packages\(\)
+      operationId: getApiV4ProjectsProjectIdPackagesNugetV2Packages
       summary: The NuGet V2 Feed Enumerate Packages endpoint
       description: This feature was introduced in GitLab 16.4
       tags:
@@ -35075,7 +35075,7 @@ paths:
         in: path
   "/api/v4/groups/{id}/-/packages/nuget/v2/$metadata":
     get:
-      operationId: getApiV4GroupsIdDashPackagesNugetV2$metadata
+      operationId: getApiV4GroupsIdDashPackagesNugetV2Metadata
       summary: The NuGet V2 Feed Package $metadata endpoint
       description: This feature was introduced in GitLab 16.3
       tags:
@@ -49422,7 +49422,7 @@ paths:
         example: stable
   "/api/v4/projects/{id}/packages/helm/{channel}/charts/{file_name}.tgz":
     get:
-      operationId: getApiV4ProjectsIdPackagesHelmChannelChartsFileName}Tg
+      operationId: getApiV4ProjectsIdPackagesHelmChannelChartsFileNameTgz
       summary: Download a chart
       description: This feature was introduced in GitLab 14.0
       tags:
@@ -60044,7 +60044,7 @@ paths:
         in: query
   "/api/v4/projects/{id}/(ref/{ref}/)trigger/pipeline":
     post:
-      operationId: postApiV4ProjectsId(refRef)triggerPipeline
+      operationId: postApiV4ProjectsIdRefRefTriggerPipeline
       summary: Trigger a GitLab project pipeline
       tags:
       - CI triggers

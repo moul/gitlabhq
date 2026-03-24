@@ -110,7 +110,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       end
 
       it 'commits the update' do
-        expect(mock_claim_service).to receive(:commit_update).with(lease_uuid)
+        expect(mock_claim_service).to receive(:commit_update).with(lease_uuid, deadline: fake_deadline)
         service.execute
       end
 
@@ -298,19 +298,92 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       before do
         stub_list_records([])
         allow(mock_claim_service).to receive(:begin_update).and_raise(GRPC::AlreadyExists.new)
-        allow(Gitlab::ErrorTracking).to receive(:log_exception)
       end
 
-      it 'logs the exception and does not raise' do
-        expect(Gitlab::ErrorTracking).to receive(:log_exception).with(instance_of(GRPC::AlreadyExists))
-        expect { service.execute }.not_to raise_error
+      it 'raises the error to stop processing' do
+        expect { service.execute }.to raise_error(GRPC::AlreadyExists)
+      end
+    end
+
+    context 'when a retriable GRPC error occurs during list_ts_records' do
+      let!(:users) { create_list(:user, 3) }
+
+      before do
+        stub_const("#{described_class}::LIMIT", 2)
+        stub_commit
       end
 
-      it 'does not count records when commit fails' do
+      it 'retries on GRPC::DeadlineExceeded and succeeds' do
+        call_count = 0
+        allow(mock_claim_service).to receive(:list_records) do
+          call_count += 1
+          raise GRPC::DeadlineExceeded, 'context deadline exceeded' if call_count == 1
+
+          Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
+            records: [],
+            truncated: false
+          )
+        end
+
         result = service.execute
+        expect(result[:created]).to eq(3 * User.cells_claims_attributes.size)
+      end
 
-        expect(result[:created]).to eq(0)
-        expect(result[:destroyed]).to eq(0)
+      it 'retries on GRPC::Unavailable and succeeds' do
+        call_count = 0
+        allow(mock_claim_service).to receive(:list_records) do
+          call_count += 1
+          raise GRPC::Unavailable, 'transport closing' if call_count == 1
+
+          Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
+            records: [],
+            truncated: false
+          )
+        end
+
+        result = service.execute
+        expect(result[:created]).to eq(3 * User.cells_claims_attributes.size)
+      end
+
+      it 'raises after exhausting retries to stop processing' do
+        stub_const("#{described_class}::GRPC_RETRIES", 2)
+
+        allow(mock_claim_service).to receive(:list_records)
+          .and_raise(GRPC::DeadlineExceeded.new('context deadline exceeded'))
+
+        expect { service.execute }.to raise_error(GRPC::DeadlineExceeded)
+      end
+    end
+
+    context 'when a non-retriable GRPC error occurs during list_ts_records' do
+      let!(:user) { create(:user) }
+
+      before do
+        allow(mock_claim_service).to receive(:list_records)
+          .and_raise(GRPC::PermissionDenied.new('forbidden'))
+      end
+
+      it 'raises the error without retrying to stop processing' do
+        expect { service.execute }.to raise_error(GRPC::PermissionDenied)
+      end
+    end
+
+    context 'when on_batch_processed callback is provided' do
+      let!(:users) { create_list(:user, 3) }
+      let(:batch_ids) { [] }
+      let(:service) do
+        described_class.new(User, timeout: timeout) { |id| batch_ids << id }
+      end
+
+      before do
+        stub_const("#{described_class}::LIMIT", 2)
+        stub_list_records([])
+        stub_commit
+      end
+
+      it 'invokes the callback after each batch' do
+        service.execute
+        expect(batch_ids).to eq([users[1].id, users.last.id])
       end
     end
   end

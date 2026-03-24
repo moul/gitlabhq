@@ -104,7 +104,8 @@ query getWorkItemsSlim(
         reference(full: true)
         title
         updatedAt
-        webPath
+        webUrl
+        webPath @gl_introduced(version: "18.6.0-pre")
         state
         widgets(onlyTypes: [LABELS]) {
           type

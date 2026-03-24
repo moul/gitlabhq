@@ -3299,6 +3299,16 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
           expect(pipeline).not_to be_latest
         end
       end
+
+      context 'with blank sha' do
+        before do
+          pipeline.update_column(:sha, nil)
+        end
+
+        it 'returns false without hitting Gitaly' do
+          expect(pipeline).not_to be_latest
+        end
+      end
     end
   end
 

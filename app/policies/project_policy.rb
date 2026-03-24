@@ -207,6 +207,8 @@ class ProjectPolicy < BasePolicy
   end
 
   condition(:classification_label_authorized, score: 32) do
+    next true if admin? || auditor? || organization_owner? # rubocop: disable Cop/UserAdmin -- this is the admin condition
+
     ::Gitlab::ExternalAuthorization.access_allowed?(
       @user,
       @subject.external_authorization_classification_label,
@@ -854,7 +856,7 @@ class ProjectPolicy < BasePolicy
     (~guest & can?(:read_project_for_iids) & merge_requests_visible_to_user) | can?(:read_merge_request)
   end.enable :read_merge_request_iid
 
-  rule { ~can?(:read_cross_project) & ~classification_label_authorized }.policy do
+  rule { external_authorization_enabled & ~classification_label_authorized }.prevent_all do
     # Preventing access here still allows the projects to be listed. Listing
     # projects doesn't check the `:read_project` ability. But instead counts
     # on the `project_authorizations` table.
@@ -862,16 +864,11 @@ class ProjectPolicy < BasePolicy
     # All other actions should explicitly check read project, which would
     # trigger the `classification_label_authorized` condition.
     #
-    # `:read_project_for_iids` is not prevented by this condition, as it is
-    # used for cross-project reference checks.
-    prevent :guest_access
-    prevent :planner_access
-    prevent :public_access
-    prevent :public_user_access
-    prevent :reporter_access
-    prevent :developer_access
-    prevent :maintainer_access
-    prevent :owner_access
+    # read_project_for_iids, read_issue_iid, and read_merge_request_iid are not prevented
+    # by this condition, as they are used for cross-project reference checks.
+    except :read_project_for_iids
+    except :read_issue_iid
+    except :read_merge_request_iid
   end
 
   rule { blocked }.policy do

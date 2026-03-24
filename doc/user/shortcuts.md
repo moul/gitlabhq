@@ -47,7 +47,7 @@ These shortcuts are available in most areas of GitLab:
 | <kbd>Shift</kbd>+<kbd>t</kbd>      | Go to your **To-Do List** page. |
 | <kbd>p</kbd>, then <kbd>b</kbd>    | Show or hide the Performance Bar. |
 | <kbd>Escape</kbd>                  | Hide tooltips or popovers. |
-| <kbd>g</kbd>, then <kbd>x</kbd>    | Toggle between [GitLab](https://gitlab.com/) and [GitLab Next](https://next.gitlab.com/) (GitLab SaaS only). |
+| <kbd>g</kbd>, then <kbd>x</kbd>    | Toggle between [GitLab](https://gitlab.com/) and [GitLab Next](https://next.gitlab.com/) (GitLab.com only). |
 | <kbd>.</kbd>                       | Open the [Web IDE](project/web_ide/_index.md). |
 | <kbd>d</kbd>                       | Open GitLab Duo Chat |
 

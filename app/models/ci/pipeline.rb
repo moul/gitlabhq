@@ -929,10 +929,10 @@ module Ci
     end
 
     def latest?
-      return false unless git_ref && commit.present?
+      return false unless git_ref && sha.present?
       return false if lazy_ref_commit.nil?
 
-      lazy_ref_commit.id == commit.id
+      lazy_ref_commit.id == sha
     end
 
     def retried

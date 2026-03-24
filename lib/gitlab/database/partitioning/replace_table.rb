@@ -4,10 +4,12 @@ module Gitlab
   module Database
     module Partitioning
       class ReplaceTable
+        include ::Gitlab::Utils::StrongMemoize
+
         DELIMITER = ";\n\n"
 
         attr_reader :original_table, :replacement_table, :replaced_table, :primary_key_columns,
-          :sequence, :original_primary_key, :replacement_primary_key, :replaced_primary_key
+          :original_primary_key, :replacement_primary_key, :replaced_primary_key
 
         def initialize(connection, original_table, replacement_table, replaced_table, primary_key_columns)
           @connection = connection
@@ -16,11 +18,15 @@ module Gitlab
           @replaced_table = replaced_table
           @primary_key_columns = Array(primary_key_columns)
 
-          @sequence = default_sequence(original_table, @primary_key_columns.first)
           @original_primary_key = default_primary_key(original_table)
           @replacement_primary_key = default_primary_key(replacement_table)
           @replaced_primary_key = default_primary_key(replaced_table)
         end
+
+        def sequence
+          find_sequence(original_table, primary_key_columns.first)
+        end
+        strong_memoize_attr :sequence
 
         def perform
           yield sql_to_replace_table if block_given?
@@ -34,8 +40,10 @@ module Gitlab
 
         delegate :execute, :quote_table_name, :quote_column_name, to: :connection
 
-        def default_sequence(table, column)
-          "#{table}_#{column}_seq"
+        def find_sequence(table, column)
+          connection.select_value(<<~SQL, nil, [table, column])
+            SELECT pg_get_serial_sequence($1, $2)::regclass
+          SQL
         end
 
         def default_primary_key(table)
@@ -50,18 +58,20 @@ module Gitlab
           statements = []
           first_pk_column = primary_key_columns.first
 
-          statements << alter_column_default(original_table, first_pk_column, expression: nil)
-          statements << alter_column_default(replacement_table, first_pk_column,
-            expression: "nextval('#{quote_table_name(sequence)}'::regclass)")
+          if sequence
+            statements << alter_column_default(original_table, first_pk_column, expression: nil)
+            statements << alter_column_default(replacement_table, first_pk_column,
+              expression: "nextval('#{quote_table_name(sequence)}'::regclass)")
 
-          # If a different user owns the old table, the conversion process will fail to reassign the sequence
-          # ownership to the new parent table (as it will be owned by the current user).
-          # Force the old table to be owned by the same user as the replacement table user in that case.
-          if table_owner(original_table) != table_owner(replacement_table)
-            statements << set_table_owner_statement(original_table, table_owner(replacement_table))
+            # If a different user owns the old table, the conversion process will fail to reassign the sequence
+            # ownership to the new parent table (as it will be owned by the current user).
+            # Force the old table to be owned by the same user as the replacement table user in that case.
+            if table_owner(original_table) != table_owner(replacement_table)
+              statements << set_table_owner_statement(original_table, table_owner(replacement_table))
+            end
+
+            statements << alter_sequence_owned_by(sequence, replacement_table, first_pk_column)
           end
-
-          statements << alter_sequence_owned_by(sequence, replacement_table, first_pk_column)
 
           rename_table_objects(statements, original_table, replaced_table, original_primary_key, replaced_primary_key)
           rename_table_objects(statements, replacement_table, original_table, replacement_primary_key, original_primary_key)

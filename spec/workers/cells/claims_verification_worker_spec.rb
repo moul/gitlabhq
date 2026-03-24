@@ -138,8 +138,10 @@ RSpec.describe Cells::ClaimsVerificationWorker, :clean_gitlab_redis_shared_state
 
     context 'when the service exceeds the runtime limit' do
       before do
-        allow(Cells::Claims::VerificationService).to receive(:new)
-          .with(User, timeout: described_class::MAX_RUNTIME, start_id: 0).and_return(mock_service)
+        allow(Cells::Claims::VerificationService).to receive(:new) do |_model, **_kwargs, &block|
+          block.call(5000)
+          mock_service
+        end
         allow(mock_service).to receive(:execute).and_return({
           created: 5,
           destroyed: 0,
@@ -237,6 +239,46 @@ RSpec.describe Cells::ClaimsVerificationWorker, :clean_gitlab_redis_shared_state
         allow(Gitlab::ErrorTracking).to receive(:track_exception)
 
         expect { worker.perform(model_name) }.to raise_error(StandardError, 'something went wrong')
+      end
+    end
+
+    context 'when per-batch progress callback is invoked' do
+      it 'saves progress to Redis after each batch via the callback' do
+        allow(Cells::Claims::VerificationService).to receive(:new) do |_model, **_kwargs, &block|
+          block.call(2000)
+          block.call(4000)
+          mock_service
+        end
+
+        allow(mock_service).to receive(:execute).and_return({
+          created: 0,
+          destroyed: 0,
+          over_time: false,
+          last_id: 4000
+        })
+
+        expect(worker).to receive(:save_last_processed_id).with(2000).ordered
+        expect(worker).to receive(:save_last_processed_id).with(4000).ordered
+        expect(worker).to receive(:save_last_processed_id).with(0).ordered
+
+        worker.perform(model_name)
+      end
+
+      it 'preserves batch progress in Redis when service raises after some batches' do
+        allow(Cells::Claims::VerificationService).to receive(:new) do |_model, **_kwargs, &block|
+          block.call(2000)
+          block.call(4000)
+          mock_service
+        end
+
+        allow(mock_service).to receive(:execute).and_raise(StandardError.new('gRPC timeout'))
+        allow(Gitlab::ErrorTracking).to receive(:track_exception)
+
+        expect { worker.perform(model_name) }.to raise_error(StandardError)
+
+        Gitlab::Redis::SharedState.with do |redis|
+          expect(redis.get(redis_key).to_i).to eq(4000)
+        end
       end
     end
   end

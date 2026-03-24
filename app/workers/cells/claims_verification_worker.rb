@@ -9,6 +9,7 @@ module Cells
     data_consistency :sticky
     feature_category :cell
     urgency :throttled
+    loggable_arguments 0
     idempotent!
 
     LEASE_TIMEOUT = 10.minutes
@@ -26,13 +27,11 @@ module Cells
 
       try_obtain_lease do
         start_id = last_processed_id
-        result = Cells::Claims::VerificationService.new(model, timeout: MAX_RUNTIME, start_id: start_id).execute
+        result = Cells::Claims::VerificationService.new(
+          model, timeout: MAX_RUNTIME, start_id: start_id
+        ) { |batch_last_id| save_last_processed_id(batch_last_id) }.execute
 
-        if result[:over_time]
-          save_last_processed_id(result[:last_id])
-        else
-          save_last_processed_id(0)
-        end
+        save_last_processed_id(0) unless result[:over_time]
 
         log_hash_metadata_on_done(
           message: 'Records verification completed',

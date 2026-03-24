@@ -172,4 +172,66 @@ RSpec.describe Gitlab::Database::Partitioning::ReplaceTable, '#perform', feature
       )
     end
   end
+
+  context 'with a composite primary key without a sequence' do
+    let(:primary_key_columns) { %w[foreign_id relative_order] }
+
+    let(:original_table) { '_test_original_table_no_sequence' }
+    let(:replacement_table) { '_test_replacement_table_no_sequence' }
+    let(:archived_table) { '_test_archived_table_no_sequence' }
+
+    let(:original_primary_key) { "#{original_table}_pkey" }
+    let(:replacement_primary_key) { "#{replacement_table}_pkey" }
+    let(:archived_primary_key) { "#{archived_table}_pkey" }
+
+    before do
+      connection.execute(<<~SQL)
+        CREATE TABLE #{original_table} (
+          foreign_id bigint NOT NULL,
+          relative_order int NOT NULL,
+          original_column text NOT NULL,
+          PRIMARY KEY (foreign_id, relative_order));
+
+        CREATE TABLE #{replacement_table} (
+          foreign_id bigint NOT NULL,
+          relative_order int NOT NULL,
+          replacement_column text NOT NULL,
+          PRIMARY KEY (foreign_id, relative_order))
+          PARTITION BY RANGE (foreign_id);
+      SQL
+    end
+
+    it 'replaces the current table, archiving the old' do
+      expect_table_to_be_replaced { replace_table }
+    end
+
+    it 'does not attempt to transfer sequence ownership' do
+      expect(sequence_owned_by(original_table, 'foreign_id')).to be_nil
+      expect(default_expression_for(original_table, 'foreign_id')).to be_nil
+
+      expect_table_to_be_replaced { replace_table }
+
+      expect(sequence_owned_by(original_table, 'foreign_id')).to be_nil
+      expect(default_expression_for(original_table, 'foreign_id')).to be_nil
+      expect(sequence_owned_by(archived_table, 'foreign_id')).to be_nil
+      expect(default_expression_for(archived_table, 'foreign_id')).to be_nil
+    end
+
+    it 'renames the primary key constraints to match the new table names' do
+      expect_primary_keys_after_tables([original_table, replacement_table])
+
+      expect_table_to_be_replaced { replace_table }
+
+      expect_primary_keys_after_tables([original_table, archived_table])
+    end
+
+    def expect_table_to_be_replaced(&block)
+      super(
+        original_table: original_table,
+        replacement_table: replacement_table,
+        archived_table: archived_table,
+        &block
+      )
+    end
+  end
 end

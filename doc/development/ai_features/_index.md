@@ -38,7 +38,7 @@ This ensures that your instance or group has the correct licenses, settings, and
 
 Be sure to run the Rake task from the GitLab Rails root directory (typically `/path/to/gdk/gitlab`), not from the GDK root directory.
 
-1. GitLab.com (SaaS) mode
+1. GitLab.com mode
 
    ```shell
    GITLAB_SIMULATE_SAAS=1 bundle exec 'rake gitlab:duo:setup'
