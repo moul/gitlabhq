@@ -205,3 +205,4 @@ If you have an offline license, you can set up a fully private infrastructure:
 - [Install the GitLab AI Gateway](../../install/install_ai_gateway.md)
 - [Supported models](supported_models_and_hardware_requirements.md)
 - [Supported platforms](supported_llm_serving_platforms.md)
+- [Tutorial: AWS Bedrock BYOM deployment guide](../../solutions/integrations/aws_bedrock_byom.md)

@@ -173,7 +173,6 @@ export default {
     'ee/app/assets/javascripts/ai/duo_agentic_chat/components/duo_agentic_chat.vue',
     'ee/app/assets/javascripts/ai/duo_agents_platform/pages/show/components/agent_flow_info.vue',
     'ee/app/assets/javascripts/ai/duo_agents_platform/pages/show/duo_agents_platform_show.vue',
-    'ee/app/assets/javascripts/ai/duo_self_hosted/self_hosted_models/components/self_hosted_models_table.vue',
     'ee/app/assets/javascripts/ai/settings/components/ai_models_form.vue',
     'ee/app/assets/javascripts/ai/settings/components/duo_core_features_form.vue',
     'ee/app/assets/javascripts/ai/settings/components/duo_experiment_beta_features_form.vue',

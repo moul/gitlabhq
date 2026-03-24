@@ -50,6 +50,8 @@ DEPLOYMENT_LABEL="app=webservice"
 CONTAINER="webservice"
 SIDEKIQ_DEPLOYMENT_LABEL="app=sidekiq"
 SIDEKIQ_CONTAINER="sidekiq"
+WORKHORSE_CONTAINER="gitlab-workhorse"
+
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -214,7 +216,7 @@ FAILED_FILES=()
 for file in "${CONFIG_FILES[@]}"; do
   local_path="$GITLAB_DIR/$file"
   mkdir -p "$(dirname "$local_path")"
-  $KUBECTL cp -n "$NAMESPACE" -c "$CONTAINER" "$POD_NAME:$POD_BASE/$file" "$local_path" >/dev/null 2>&1
+  $KUBECTL cp -n "$NAMESPACE" -c "$CONTAINER" "$POD_NAME:$POD_BASE/$file" "$local_path" >/dev/null
   if [[ -f "$local_path" ]]; then
     echo "  ✓ $file"
     COPIED_FILES+=("$file")
@@ -263,6 +265,42 @@ if [[ -f "$SIDEKIQ_GITLAB_YML" ]]; then
 else
   warn "config/gitlab-sidekiq.yml not found – skipping address patch"
 fi
+
+# ---------------------------------------------------------------------------
+# 2d. Copy workhorse config and secret from the pod
+#
+#     The workhorse config lives in the gitlab-workhorse container, while
+#     the workhorse secret is mounted in the webservice container.  Both
+#     are generated at deploy time by the Helm chart and are not committed
+#     to the repo.
+# ---------------------------------------------------------------------------
+
+echo ""
+echo "==> Copying workhorse config and secret from pod $POD_NAME..."
+
+# Creating an associative array: container_name="pod_path:local_path"
+declare -A CONTAINER_FILES=(
+  [$WORKHORSE_CONTAINER]="/srv/gitlab/config/workhorse-config.toml:workhorse/workhorse-config.toml"
+  [$CONTAINER]="/etc/gitlab/gitlab-workhorse/secret:workhorse/secret"
+)
+
+for container in "${!CONTAINER_FILES[@]}"; do
+  while IFS= read -r entry; do
+    [[ -z "$entry" ]] && continue
+    IFS=':' read -r pod_path local_rel <<< "$entry"
+    local_path="$GITLAB_DIR/$local_rel"
+    mkdir -p "$(dirname "$local_path")"
+    $KUBECTL cp -n "$NAMESPACE" -c "$container" "$POD_NAME:$pod_path" "$local_path" >/dev/null
+    if [[ -f "$local_path" ]]; then
+      echo "  ✓ $local_rel"
+      COPIED_FILES+=("$local_rel")
+    else
+      warn "could not copy $local_rel (skipping)"
+      FAILED_FILES+=("$local_rel")
+    fi
+  done <<< "${CONTAINER_FILES[$container]}"
+done
+
 
 # ---------------------------------------------------------------------------
 # 3. Rewrite top-level "production:" key → "development:" in YAML configs
