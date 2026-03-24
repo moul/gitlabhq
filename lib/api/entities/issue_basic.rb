@@ -23,7 +23,7 @@ module API
       expose :issue_type,
         as: :type,
         format_with: :upcase,
-        documentation: { type: 'String', example: 'ISSUE', desc: "One of #{::WorkItems::TypesFilter.allowed_types_for_issues.map(&:upcase)}" }
+        documentation: { type: 'String', example: 'ISSUE', desc: "One of #{::WorkItems::TypesFramework::Provider.unfiltered_base_types_for_issues.map(&:upcase)}" }
 
       expose :assignee, using: ::API::Entities::UserBasic do |issue|
         issue.assignees.first

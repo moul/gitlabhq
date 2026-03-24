@@ -9728,7 +9728,7 @@ Input type: `IterationCadenceCreateInput`
 | <a id="mutation-iterationcadencecreate-description"></a>`description` | [`String`](#string) | Description of the iteration cadence. Maximum length is 5000 characters. |
 | <a id="mutation-iterationcadencecreate-durationinweeks"></a>`durationInWeeks` | [`Int`](#int) | Duration in weeks of the iterations within the cadence. |
 | <a id="mutation-iterationcadencecreate-grouppath"></a>`groupPath` | [`ID!`](#id) | Group where the iteration cadence is created. |
-| <a id="mutation-iterationcadencecreate-iterationsinadvance"></a>`iterationsInAdvance` | [`Int`](#int) | Upcoming iterations to be created when iteration cadence is set to automatic. |
+| <a id="mutation-iterationcadencecreate-iterationsinadvance"></a>`iterationsInAdvance` | [`Int`](#int) | Number of future iterations to schedule in addition to the current one. |
 | <a id="mutation-iterationcadencecreate-rollover"></a>`rollOver` | [`Boolean`](#boolean) | Whether the iteration cadence should roll over issues to the next iteration or not. |
 | <a id="mutation-iterationcadencecreate-startdate"></a>`startDate` | [`Time`](#time) | Timestamp of the automation start date. |
 | <a id="mutation-iterationcadencecreate-title"></a>`title` | [`String`](#string) | Title of the iteration cadence. |
@@ -9774,7 +9774,7 @@ Input type: `IterationCadenceUpdateInput`
 | <a id="mutation-iterationcadenceupdate-description"></a>`description` | [`String`](#string) | Description of the iteration cadence. Maximum length is 5000 characters. |
 | <a id="mutation-iterationcadenceupdate-durationinweeks"></a>`durationInWeeks` | [`Int`](#int) | Duration in weeks of the iterations within the cadence. |
 | <a id="mutation-iterationcadenceupdate-id"></a>`id` | [`IterationsCadenceID!`](#iterationscadenceid) | Global ID of the iteration cadence. |
-| <a id="mutation-iterationcadenceupdate-iterationsinadvance"></a>`iterationsInAdvance` | [`Int`](#int) | Upcoming iterations to be created when iteration cadence is set to automatic. |
+| <a id="mutation-iterationcadenceupdate-iterationsinadvance"></a>`iterationsInAdvance` | [`Int`](#int) | Number of future iterations to schedule in addition to the current one. |
 | <a id="mutation-iterationcadenceupdate-rollover"></a>`rollOver` | [`Boolean`](#boolean) | Whether the iteration cadence should roll over issues to the next iteration or not. |
 | <a id="mutation-iterationcadenceupdate-startdate"></a>`startDate` | [`Time`](#time) | Timestamp of the automation start date. |
 | <a id="mutation-iterationcadenceupdate-title"></a>`title` | [`String`](#string) | Title of the iteration cadence. |
@@ -39544,7 +39544,7 @@ Represents an iteration cadence.
 | <a id="iterationcadence-description"></a>`description` | [`String`](#string) | Description of the iteration cadence. Maximum length is 5000 characters. |
 | <a id="iterationcadence-durationinweeks"></a>`durationInWeeks` | [`Int`](#int) | Duration in weeks of the iterations within the cadence. |
 | <a id="iterationcadence-id"></a>`id` | [`IterationsCadenceID!`](#iterationscadenceid) | Global ID of the iteration cadence. |
-| <a id="iterationcadence-iterationsinadvance"></a>`iterationsInAdvance` | [`Int`](#int) | Upcoming iterations to be created when iteration cadence is set to automatic. |
+| <a id="iterationcadence-iterationsinadvance"></a>`iterationsInAdvance` | [`Int`](#int) | Number of future iterations to schedule in addition to the current one. |
 | <a id="iterationcadence-rollover"></a>`rollOver` | [`Boolean!`](#boolean) | Whether the iteration cadence should roll over issues to the next iteration or not. |
 | <a id="iterationcadence-startdate"></a>`startDate` | [`Time`](#time) | Timestamp of the automation start date. |
 | <a id="iterationcadence-title"></a>`title` | [`String!`](#string) | Title of the iteration cadence. |

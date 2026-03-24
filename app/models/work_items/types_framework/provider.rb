@@ -18,6 +18,13 @@ module WorkItems
         def unfiltered_base_types
           WorkItems::Type.base_types.keys
         end
+
+        # Returns base types that can be used as issue types.
+        # This method supports legacy systems that work with issue types
+        # (e.g., API endpoints, issue type enums, build parameters).
+        def unfiltered_base_types_for_issues
+          unfiltered_base_types.excluding('epic', 'key_result', 'objective')
+        end
       end
 
       def initialize(namespace = nil)

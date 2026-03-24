@@ -132,8 +132,8 @@ To create an iteration cadence:
    - Select the automation start date of the iteration cadence. Iterations are scheduled to
      begin on the same day of the week as the day of the week of the start date.
    - From the **Duration** dropdown list, select how many weeks each iteration should last.
-   - From the **Upcoming iterations** dropdown list, select how many upcoming iterations should be
-     created and maintained by GitLab.
+   - From the **Upcoming iterations** dropdown list, select how many future iterations to schedule
+     in addition to the current one.
    - Optional. To move incomplete issues to the next iteration, select the **Enable roll over** checkbox.
      At the end of the current iteration, [Automation Bot](#gitlab-automation-bot-user) moves all open
      issues to the next iteration.

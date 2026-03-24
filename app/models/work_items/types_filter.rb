@@ -10,10 +10,6 @@ module WorkItems
     class << self
       include ::Gitlab::Utils::StrongMemoize
 
-      def allowed_types_for_issues
-        base_types.excluding('epic', *OKR_TYPES)
-      end
-
       def base_types
         ::WorkItems::TypesFramework::Provider.unfiltered_base_types.map(&:to_s)
       end

@@ -38591,7 +38591,7 @@ msgstr ""
 msgid "Iterations|No open iterations."
 msgstr ""
 
-msgid "Iterations|Number of upcoming iterations that should be scheduled at a time."
+msgid "Iterations|Number of future iterations to schedule in addition to the current one."
 msgstr ""
 
 msgid "Iterations|Open"
@@ -68853,6 +68853,9 @@ msgid "SuperSonics|Your subscription is expired"
 msgstr ""
 
 msgid "SuperSonics|Your subscription was successfully activated. You can see the details below."
+msgstr ""
+
+msgid "SuperSonics|Your trial is expired"
 msgstr ""
 
 msgid "SuperSonics|current subscription"
