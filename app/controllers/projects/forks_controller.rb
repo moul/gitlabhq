@@ -101,7 +101,7 @@ class Projects::ForksController < Projects::ApplicationController
     ).execute
 
     # rubocop: disable CodeReuse/ActiveRecord
-    forks.includes(:route, :creator, :group, :topics, namespace: [:route, :owner])
+    forks.includes(:route, :creator, :group, :topics, :project_feature, namespace: [:route, :owner])
     # rubocop: enable CodeReuse/ActiveRecord
   end
 

@@ -78,7 +78,7 @@ Calculates the average value using `AVG()`.
 | `name` | Symbol | Yes | Column name to average. Identifier becomes `:mean_{name}` |
 | `type` | Symbol | No | Data type. Default: `:float` |
 | `expression` | Proc | No | Custom Arel expression instead of column |
-| `scope_proc` | Proc | No | Modifies the ActiveRecord scope (e.g., for JOINs) |
+| `scope_proc` | Proc | No | Modifies the ActiveRecord scope (for example for JOINs) |
 | `formatter` | Proc | No | Formatting function applied to results |
 | `description` | String | No | Human-readable description |
 
@@ -91,7 +91,7 @@ Groups results by a column value.
 | `name` | Symbol | Yes | Column name or identifier |
 | `type` | Symbol | Yes | Data type (`:string`, `:integer`, `:datetime`, etc.) |
 | `expression` | Proc | No | Custom Arel expression instead of column |
-| `scope_proc` | Proc | No | Modifies the ActiveRecord scope (e.g., for JOINs) |
+| `scope_proc` | Proc | No | Modifies the ActiveRecord scope (for example for JOINs) |
 | `formatter` | Proc | No | Formatting function applied to results |
 | `description` | String | No | Human-readable description |
 
@@ -308,6 +308,7 @@ Groups results by a column value.
 | `expression` | Proc | No | Custom expression instead of column |
 | `formatter` | Proc | No | Formatting function applied to results |
 | `description` | String | No | Human-readable description |
+| `association` | Boolean | No | When `true`, the dimension is also accessible without the `_id` suffix as an object. Defaults to `false`. |
 
 #### `date_bucket` dimension
 

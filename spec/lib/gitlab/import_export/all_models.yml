@@ -1316,6 +1316,7 @@ vulnerabilities:
   - user_mentions
   - sbom_occurrences_vulnerabilities
   - sbom_occurrences
+  - security_finding_enrichments
 vulnerability_finding:
   - scanner
   - primary_identifier

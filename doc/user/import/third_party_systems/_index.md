@@ -18,7 +18,7 @@ Migrate to GitLab from third-party systems.
 - [Through a Git URL](../../project/import/repo_by_url.md)
 - [From IBM DevOps ClearCase](clearcase.md)
 - [From Concurrent Versions System (CVS)](cvs.md)
-- [From Perforce Helix](../../project/import/perforce.md)
+- [From Perforce P4](perforce.md)
 - [From TFVC](../../project/import/tfvc.md)
 - [From Jira](../../project/import/jira.md)
 

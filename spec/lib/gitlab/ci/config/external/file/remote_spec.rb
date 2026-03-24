@@ -8,7 +8,7 @@ RSpec.describe Gitlab::Ci::Config::External::File::Remote, feature_category: :pi
   let_it_be(:project) { create(:project, :repository) }
   let_it_be(:user) { project.owner }
 
-  let(:variables) { Gitlab::Ci::Variables::Collection.new([{ 'key' => 'GITLAB_TOKEN', 'value' => 'secret_file', 'masked' => true }]) }
+  let(:variables) { Gitlab::Ci::Variables::Collection.new([{ key: 'GITLAB_TOKEN', value: 'secret_file', masked: true }]) }
   let(:context_params) { { project: project, sha: project.commit.sha, user: user, variables: variables } }
   let(:context) { Gitlab::Ci::Config::External::Context.new(**context_params) }
   let(:params) { { remote: location } }

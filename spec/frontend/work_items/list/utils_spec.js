@@ -37,7 +37,6 @@ import { STATUS_CLOSED } from '~/issues/constants';
 import { CREATED_DESC, UPDATED_DESC, urlSortParams } from '~/work_items/list/constants';
 import getSubscribedSavedViewsQuery from '~/work_items/list/graphql/work_item_saved_views_namespace.query.graphql';
 import {
-  convertOldTypeTokenEnumToGid,
   convertToApiParams,
   convertToSearchQuery,
   convertToUrlParams,
@@ -54,10 +53,6 @@ import {
   updateCacheAfterViewReorder,
   reorderSavedView,
 } from 'ee_else_ce/work_items/list/utils';
-import {
-  TOKEN_TYPE_AUTHOR,
-  TOKEN_TYPE_TYPE,
-} from '~/vue_shared/components/filtered_search_bar/constants';
 import { DEFAULT_PAGE_SIZE } from '~/vue_shared/issuable/list/constants';
 import {
   WORK_ITEM_TYPE_ENUM_INCIDENT,
@@ -65,71 +60,6 @@ import {
   WORK_ITEM_TYPE_ENUM_TASK,
   WORK_ITEM_TYPE_ENUM_TICKET,
 } from '~/work_items/constants';
-
-describe('convertOldTypeTokenEnumToGid', () => {
-  const workItemTypesConfiguration = {
-    Issue: { id: 'gid://gitlab/WorkItems::Type/1', name: 'Issue' },
-    Incident: { id: 'gid://gitlab/WorkItems::Type/2', name: 'Incident' },
-    'Test Case': { id: 'gid://gitlab/WorkItems::Type/3', name: 'Test Case' },
-    Requirement: { id: 'gid://gitlab/WorkItems::Type/4', name: 'Requirement' },
-    Task: { id: 'gid://gitlab/WorkItems::Type/5', name: 'Task' },
-    Objective: { id: 'gid://gitlab/WorkItems::Type/6', name: 'Objective' },
-    'Key Result': { id: 'gid://gitlab/WorkItems::Type/7', name: 'Key Result' },
-    Epic: { id: 'gid://gitlab/WorkItems::Type/8', name: 'Epic' },
-    Ticket: { id: 'gid://gitlab/WorkItems::Type/9', name: 'Ticket' },
-  };
-
-  it('converts lowercase epic to 6', () => {
-    const tokens = [
-      { type: TOKEN_TYPE_AUTHOR, value: { operator: '=', data: 'root' } },
-      { type: TOKEN_TYPE_TYPE, value: { operator: '=', data: 'epic' } },
-    ];
-    expect(convertOldTypeTokenEnumToGid(tokens, workItemTypesConfiguration)).toEqual([
-      { type: TOKEN_TYPE_AUTHOR, value: { operator: '=', data: 'root' } },
-      { type: TOKEN_TYPE_TYPE, value: { operator: '=', data: '8' } },
-    ]);
-  });
-
-  it('converts screaming snake case KEY_RESULT to 7', () => {
-    const tokens = [
-      { type: TOKEN_TYPE_AUTHOR, value: { operator: '=', data: 'root' } },
-      { type: TOKEN_TYPE_TYPE, value: { operator: '=', data: 'KEY_RESULT' } },
-    ];
-    expect(convertOldTypeTokenEnumToGid(tokens, workItemTypesConfiguration)).toEqual([
-      { type: TOKEN_TYPE_AUTHOR, value: { operator: '=', data: 'root' } },
-      { type: TOKEN_TYPE_TYPE, value: { operator: '=', data: '7' } },
-    ]);
-  });
-
-  it('converts multiSelect values', () => {
-    const tokens = [
-      { type: TOKEN_TYPE_AUTHOR, value: { operator: '=', data: 'root' } },
-      { type: TOKEN_TYPE_TYPE, value: { operator: '!=', data: ['ISSUE', 'INCIDENT'] } },
-    ];
-    expect(convertOldTypeTokenEnumToGid(tokens, workItemTypesConfiguration)).toEqual([
-      { type: TOKEN_TYPE_AUTHOR, value: { operator: '=', data: 'root' } },
-      { type: TOKEN_TYPE_TYPE, value: { operator: '!=', data: ['1', '2'] } },
-    ]);
-  });
-
-  it('removes type token when enum value does not exist', () => {
-    const tokens = [
-      { type: TOKEN_TYPE_AUTHOR, value: { operator: '=', data: 'root' } },
-      { type: TOKEN_TYPE_TYPE, value: { operator: '=', data: 'NON_EXISTENT_TYPE' } },
-    ];
-    expect(convertOldTypeTokenEnumToGid(tokens, workItemTypesConfiguration)).toEqual([
-      { type: TOKEN_TYPE_AUTHOR, value: { operator: '=', data: 'root' } },
-    ]);
-  });
-
-  it('makes no changes when type token is already number', () => {
-    const tokens = [
-      { type: TOKEN_TYPE_AUTHOR, value: { operator: '=', data: 'root' } },
-      { type: TOKEN_TYPE_TYPE, value: { operator: '=', data: '8' } },
-    ];
-    expect(convertOldTypeTokenEnumToGid(tokens, workItemTypesConfiguration)).toEqual(tokens);
-  });
-});
 
 describe('getDefaultWorkItemTypes', () => {
   it('returns default work item types', () => {

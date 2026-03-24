@@ -140,25 +140,22 @@ export function fetchDiscussions({ path, filter, persistFilter }) {
 }
 
 export function fetchNotes() {
-  if (this.isFetching) return null;
+  if (this.fetchNotesPromise) return this.fetchNotesPromise;
 
   this.setFetchingState(true);
 
-  return this.fetchDiscussions(this.getFetchDiscussionsConfig)
+  this.fetchNotesPromise = this.fetchDiscussions(this.getFetchDiscussionsConfig)
     .then(() => this.initPolling())
     .then(() => {
-      this.setLoadingState(false);
-      this.setNotesFetchedState(true);
       notesEventHub.$emit('fetchedNotesData');
-      this.setFetchingState(false);
     })
-    .catch(() => {
+    .finally(() => {
       this.setLoadingState(false);
       this.setNotesFetchedState(true);
-      createAlert({
-        message: __('Something went wrong while fetching comments. Please try again.'),
-      });
+      this.setFetchingState(false);
     });
+
+  return this.fetchNotesPromise;
 }
 
 export function initPolling() {

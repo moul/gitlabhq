@@ -35,9 +35,9 @@ A migration tool is available for some third-party platforms. Some support
 | [FogBugz](../project/import/fogbugz.md)                                     | {{< no >}}              | {{< yes >}} | {{< yes >}}    | {{< no >}}             |
 | Git repository through a [manifest file](../project/import/manifest.md)     | {{< no >}}              | {{< yes >}} | {{< yes >}}    | {{< no >}}             |
 | Git repository through a [repository URL](../project/import/repo_by_url.md) | {{< no >}}              | {{< yes >}} | {{< yes >}}    | {{< no >}}             |
-| [ClearCase](../project/import/clearcase.md)                                 | {{< no >}}              | {{< yes >}} | {{< no >}}     | {{< no >}}             |
+| [ClearCase](third_party_systems/clearcase.md)                               | {{< no >}}              | {{< yes >}} | {{< no >}}     | {{< no >}}             |
 | [CVS](../project/import/cvs.md)                                             | {{< no >}}              | {{< yes >}} | {{< no >}}     | {{< no >}}             |
-| [Perforce Helix](../project/import/perforce.md)                             | {{< no >}}              | {{< yes >}} | {{< no >}}     | {{< no >}}             |
+| [Perforce P4](third_party_systems/perforce.md)                              | {{< no >}}              | {{< yes >}} | {{< no >}}     | {{< no >}}             |
 | [Subversion](#migrate-from-subversion)                                      | {{< no >}}              | {{< yes >}} | {{< no >}}     | {{< no >}}             |
 | [Team Foundation Version Control (TFVC)](../project/import/tfvc.md)         | {{< no >}}              | {{< yes >}} | {{< no >}}     | {{< no >}}             |
 | [Jira (issues only)](../project/import/jira.md)                             | {{< no >}}              | {{< no >}}  | {{< yes >}}    | {{< no >}}             |

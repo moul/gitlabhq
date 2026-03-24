@@ -370,9 +370,3 @@ the file system requests that are being made by using `perf`:
 ```shell
 sudo perf trace -e 'nfs4:*' -p $(pgrep -fd ',' puma)
 ```
-
-On Ubuntu 16.04, use:
-
-```shell
-sudo perf trace --no-syscalls --event 'nfs4:*' -p $(pgrep -fd ',' puma)
-```

@@ -3320,6 +3320,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_6b658eff5ad3() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."project_id" IS NULL THEN
+  SELECT "project_id"
+  INTO NEW."project_id"
+  FROM "slsa_attestations"
+  WHERE "slsa_attestations"."id" = NEW."supply_chain_attestation_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_6bf50b363152() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -17092,6 +17108,7 @@ CREATE TABLE ci_namespace_monthly_usages (
     created_at timestamp with time zone,
     amount_used numeric(18,4) DEFAULT 0.0 NOT NULL,
     shared_runners_duration bigint DEFAULT 0 NOT NULL,
+    shard_number integer DEFAULT 1 NOT NULL,
     CONSTRAINT ci_namespace_monthly_usages_year_month_constraint CHECK ((date = date_trunc('month'::text, (date)::timestamp with time zone)))
 );
 
@@ -27021,6 +27038,18 @@ CREATE VIEW postgres_table_sizes AS
           WHERE (pg_total_relation_size((((quote_ident((pg_stat_user_tables.schemaname)::text) || '.'::text) || quote_ident((pg_stat_user_tables.relname)::text)))::regclass) IS NOT NULL)) t
   ORDER BY total_bytes DESC;
 
+CREATE VIEW postgres_triggers AS
+ SELECT concat(nsp.nspname, '.', rel.relname, '.', trgr.tgname) AS identifier,
+    trgr.tgname AS trigger_name,
+    rel.relname AS table_name,
+    nsp.nspname AS schema_name,
+    proc.proname AS function_name
+   FROM (((pg_trigger trgr
+     JOIN pg_class rel ON ((trgr.tgrelid = rel.oid)))
+     JOIN pg_namespace nsp ON ((nsp.oid = rel.relnamespace)))
+     LEFT JOIN pg_proc proc ON ((trgr.tgfoid = proc.oid)))
+  WHERE ((NOT trgr.tgisinternal) AND (nsp.nspname <> ALL (ARRAY['information_schema'::name, 'pg_catalog'::name, 'pg_toast'::name])));
+
 CREATE TABLE programming_languages (
     id bigint NOT NULL,
     name character varying NOT NULL,
@@ -29428,6 +29457,7 @@ CREATE TABLE security_finding_enrichments (
     cve text NOT NULL,
     epss_score double precision,
     is_known_exploit boolean,
+    vulnerability_id bigint,
     CONSTRAINT check_1f198c362f CHECK ((char_length(cve) <= 24))
 );
 
@@ -30544,6 +30574,7 @@ CREATE TABLE supply_chain_attestation_states (
     verification_retry_count smallint DEFAULT 0 NOT NULL,
     verification_checksum bytea,
     verification_failure text,
+    project_id bigint,
     CONSTRAINT check_ef9d3c1760 CHECK ((char_length(verification_failure) <= 255))
 );
 
@@ -31523,7 +31554,6 @@ CREATE TABLE user_preferences (
     work_items_display_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     default_duo_add_on_assignment_id bigint,
     markdown_maintain_indentation boolean DEFAULT false NOT NULL,
-    project_studio_enabled boolean DEFAULT false NOT NULL,
     merge_request_dashboard_show_drafts boolean DEFAULT true NOT NULL,
     duo_default_namespace_id bigint,
     policy_advanced_editor boolean DEFAULT false NOT NULL,
@@ -43671,6 +43701,8 @@ CREATE INDEX idx_catalog_resource_cpmt_last_usages_on_cpmt_project_id ON catalog
 
 CREATE UNIQUE INDEX idx_ci_job_token_authorizations_on_accessed_and_origin_project ON ci_job_token_authorizations USING btree (accessed_project_id, origin_project_id);
 
+CREATE UNIQUE INDEX idx_ci_namespace_monthly_usages_namespace_id_date_shard_number ON ci_namespace_monthly_usages USING btree (namespace_id, date, shard_number);
+
 CREATE INDEX index_ci_runner_taggings_on_runner_id_and_runner_type ON ONLY ci_runner_taggings USING btree (runner_id, runner_type);
 
 CREATE INDEX idx_ci_runner_taggings_group_type_on_runner_id_and_runner_type ON ci_runner_taggings_group_type USING btree (runner_id, runner_type);
@@ -45212,8 +45244,6 @@ CREATE INDEX index_ci_minutes_additional_packs_on_namespace_id_purchase_xid ON c
 CREATE UNIQUE INDEX index_ci_namespace_mirrors_on_namespace_id ON ci_namespace_mirrors USING btree (namespace_id);
 
 CREATE INDEX index_ci_namespace_mirrors_on_traversal_ids_unnest ON ci_namespace_mirrors USING btree ((traversal_ids[1]), (traversal_ids[2]), (traversal_ids[3]), (traversal_ids[4])) INCLUDE (traversal_ids, namespace_id);
-
-CREATE UNIQUE INDEX index_ci_namespace_monthly_usages_on_namespace_id_and_date ON ci_namespace_monthly_usages USING btree (namespace_id, date);
 
 CREATE UNIQUE INDEX index_ci_partitions_on_current_status ON ci_partitions USING btree (status) WHERE (status = 2);
 
@@ -48455,6 +48485,8 @@ CREATE INDEX index_sec_finding_enrichments_on_is_known_exploit ON security_findi
 
 CREATE INDEX index_sec_finding_enrichments_on_project_id ON security_finding_enrichments USING btree (project_id);
 
+CREATE INDEX index_sec_finding_enrichments_on_vulnerability_id ON security_finding_enrichments USING btree (vulnerability_id);
+
 CREATE INDEX index_secret_rotation_infos_on_next_reminder_at ON secret_rotation_infos USING btree (next_reminder_at);
 
 CREATE INDEX index_security_attributes_on_namespace_id ON security_attributes USING btree (namespace_id);
@@ -48744,6 +48776,8 @@ CREATE INDEX index_supply_chain_attestation_states_failed_verification ON supply
 CREATE INDEX index_supply_chain_attestation_states_needs_verification ON supply_chain_attestation_states USING btree (verification_state) WHERE ((verification_state = 0) OR (verification_state = 3));
 
 CREATE UNIQUE INDEX index_supply_chain_attestation_states_on_attestation_id ON supply_chain_attestation_states USING btree (supply_chain_attestation_id);
+
+CREATE INDEX index_supply_chain_attestation_states_on_project_id ON supply_chain_attestation_states USING btree (project_id);
 
 CREATE INDEX index_supply_chain_attestation_states_on_verification_state ON supply_chain_attestation_states USING btree (verification_state);
 
@@ -54375,6 +54409,8 @@ CREATE TRIGGER trigger_67d0d39e2f41 BEFORE INSERT OR UPDATE ON user_permission_e
 
 CREATE TRIGGER trigger_68435a54ee2b BEFORE INSERT OR UPDATE ON packages_debian_project_architectures FOR EACH ROW EXECUTE FUNCTION trigger_68435a54ee2b();
 
+CREATE TRIGGER trigger_6b658eff5ad3 BEFORE INSERT OR UPDATE ON supply_chain_attestation_states FOR EACH ROW EXECUTE FUNCTION trigger_6b658eff5ad3();
+
 CREATE TRIGGER trigger_6bf50b363152 BEFORE INSERT OR UPDATE ON compliance_framework_security_policies FOR EACH ROW EXECUTE FUNCTION trigger_6bf50b363152();
 
 CREATE TRIGGER trigger_6c38ba395cc1 BEFORE INSERT OR UPDATE ON error_tracking_error_events FOR EACH ROW EXECUTE FUNCTION trigger_6c38ba395cc1();
@@ -55839,6 +55875,9 @@ ALTER TABLE ONLY abuse_events
 ALTER TABLE ONLY milestone_releases
     ADD CONSTRAINT fk_5e73b8cad2 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY supply_chain_attestation_states
+    ADD CONSTRAINT fk_5eb250e61f FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY snippet_repository_states
     ADD CONSTRAINT fk_5f750f3182 FOREIGN KEY (snippet_repository_id) REFERENCES snippet_repositories(snippet_id) ON DELETE CASCADE;
 
@@ -56081,6 +56120,9 @@ ALTER TABLE ONLY cluster_agent_tokens
 
 ALTER TABLE ONLY protected_tag_create_access_levels
     ADD CONSTRAINT fk_7537413f9d FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY security_finding_enrichments
+    ADD CONSTRAINT fk_754d1bb8d9 FOREIGN KEY (vulnerability_id) REFERENCES vulnerabilities(id) ON DELETE SET NULL;
 
 ALTER TABLE ONLY integrations
     ADD CONSTRAINT fk_755d734f25 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE NOT VALID;

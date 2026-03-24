@@ -1994,4 +1994,26 @@ RSpec.describe ProjectsHelper, feature_category: :source_code_management do
       it { is_expected.to be(false) }
     end
   end
+
+  describe '#can_show_last_commit_in_list?' do
+    using RSpec::Parameterized::TableSyntax
+
+    subject { helper.send(:can_show_last_commit_in_list?, project) }
+
+    where(:read_cross_project, :read_commit_status, :expected) do
+      true  | true  | true
+      false | true  | false
+      true  | false | false
+      false | false | false
+    end
+
+    with_them do
+      before do
+        allow(helper).to receive(:can?).with(user, :read_cross_project).and_return(read_cross_project)
+        allow(helper).to receive(:can?).with(user, :read_commit_status, project).and_return(read_commit_status)
+      end
+
+      it { is_expected.to eq(expected) }
+    end
+  end
 end

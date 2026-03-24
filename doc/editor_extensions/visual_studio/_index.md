@@ -14,7 +14,7 @@ GitLab for Visual Studio supports:
 - [GitLab Duo Agent Platform](../../user/duo_agent_platform/_index.md) including GitLab Duo
   Agentic Chat, the Software Development Flow, and GitLab Duo Code Suggestions.
 - [GitLab Duo](../../user/gitlab_duo/feature_summary.md) including GitLab
-  Duo Chat (non-agentic) and Code Suggestions.
+  Duo Non-Agentic Chat and Code Suggestions.
 
 To install and configure the extension, see [install and set up](setup.md).
 

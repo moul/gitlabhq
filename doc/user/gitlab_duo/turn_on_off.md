@@ -135,7 +135,7 @@ For information on how to turn GitLab Duo on or off in earlier GitLab versions, 
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/538857) in GitLab 18.0.
 - GitLab Duo availability settings and group, subgroup, and project controls [added](https://gitlab.com/gitlab-org/gitlab/-/issues/551895) in GitLab 18.2.
-- GitLab Duo Chat (non-agentic) [added](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/201721) to GitLab Duo Core in GitLab 18.3.
+- GitLab Duo Non-Agentic Chat [added](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/201721) to GitLab Duo Core in GitLab 18.3.
 
 {{< /history >}}
 

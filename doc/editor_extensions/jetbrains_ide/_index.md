@@ -20,7 +20,7 @@ After you [install and configure](setup.md) the extension, you can access the fo
   GitLab Duo Code Suggestions and review suggestions in
   your file as you author code.
 - On the right tool window bar, **GitLab Duo Chat** ({{< icon name="duo-chat" >}}): Interact with
-  GitLab Duo Chat (non-agentic). Or select some code and then, in the floating toolbar, select
+  GitLab Duo Non-Agentic Chat. Or select some code and then, in the floating toolbar, select
   **GitLab Duo Quick Chat** ({{< icon name="tanuki-ai" >}}) for in-line conversations.
 
 ## Use with remote development

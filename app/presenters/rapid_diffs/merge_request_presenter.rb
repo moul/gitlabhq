@@ -61,6 +61,10 @@ module RapidDiffs
       project_merge_request_path(resource.project, resource)
     end
 
+    def project_path
+      resource.project.full_path
+    end
+
     def user_permissions
       {
         can_create_note: can?(@current_user, :create_note, resource)

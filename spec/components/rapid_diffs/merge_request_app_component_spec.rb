@@ -8,6 +8,7 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
   let(:diff_files_endpoint) { '/diff_files_metadata' }
   let(:diff_file_endpoint) { '/diff_file' }
   let(:mr_path) { '/group/project/-/merge_requests/1' }
+  let(:project_path) { 'group/project' }
   let(:merge_request) { build_stubbed(:merge_request) }
   let(:code_review_enabled) { false }
   let(:discussions_endpoint) { '/discussions' }
@@ -38,6 +39,7 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
       environment: nil,
       resource: merge_request,
       mr_path: mr_path,
+      project_path: project_path,
       versions: versions
     )
   end
@@ -57,6 +59,7 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
       presenter,
       extra_app_data: {
         mr_path: mr_path,
+        project_path: project_path,
         code_review_enabled: false,
         user_permissions: user_permissions,
         discussions_endpoint: discussions_endpoint,

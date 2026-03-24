@@ -48,7 +48,7 @@ at both the group and project level.
 - Meet the [prerequisites for the GitLab Duo Agent Platform](../../duo_agent_platform/_index.md#prerequisites).
 - Be a member of a top-level group that has
   [turned on GitLab Duo experiment and beta features](../turn_on_off.md#on-gitlabcom-2).
-- To add or edit MCP servers, you must have the Owner role for the group.
+- To add or edit MCP servers, you must be an instance administrator.
 - The MCP server must be a:
   - Vetted or partner MCP server. Arbitrary URLs are not allowed.
   - Remote MCP server.

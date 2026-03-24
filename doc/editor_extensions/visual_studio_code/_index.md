@@ -47,7 +47,7 @@ After you install and set up the extension, you can access the following feature
   GitLab Duo Code Suggestions and review suggestions in
   your file as you author code.
 - In the left sidebar, **GitLab Duo Chat** ({{< icon name="duo-chat" >}}): Interact with
-  GitLab Duo Chat (non-agentic).
+  GitLab Duo Non-Agentic Chat.
 
 If these features do not appear, see [troubleshooting](troubleshooting.md#gitlab-duo-features-are-unavailable) for guidance.
 
@@ -87,7 +87,7 @@ To install the pre-release build:
 1. A menu opens under the VS Code search box, and the GitLab for VS Code extension shows the status.
    Any errors are displayed next to **Status:**.
 
-For GitLab Duo Chat (non-agentic), you can also check the [status of Chat](../../user/gitlab_duo_chat/_index.md#check-the-status-of-chat).
+For GitLab Duo Non-Agentic Chat, you can also check the [status of Chat](../../user/gitlab_duo_chat/_index.md#check-the-status-of-chat).
 
 ## Related topics
 

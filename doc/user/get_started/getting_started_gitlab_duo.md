@@ -32,7 +32,7 @@ Try asking Chat a question about a specific issue or merge request, or about Git
 
 For more information, see:
 
-- [GitLab Duo Chat (non-agentic)](../gitlab_duo_chat/_index.md).
+- [GitLab Duo Non-Agentic Chat](../gitlab_duo_chat/_index.md).
 
 ## Step 3: Try other GitLab Duo features
 

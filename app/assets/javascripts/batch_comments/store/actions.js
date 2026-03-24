@@ -32,8 +32,12 @@ export function createNewDraft({ endpoint, data }) {
     .then((res) => {
       this[types.ADD_NEW_DRAFT](res);
 
-      if (res.position?.position_type === FILE_DIFF_POSITION_TYPE) {
-        this.tryStore('legacyDiffs').addDraftToFile({ filePath: res.file_path, draft: res });
+      try {
+        if (res.position?.position_type === FILE_DIFF_POSITION_TYPE) {
+          this.tryStore('legacyDiffs').addDraftToFile({ filePath: res.file_path, draft: res });
+        }
+      } catch {
+        // legacyDiffs store is not available in Rapid Diffs
       }
 
       return res;
@@ -57,24 +61,29 @@ export function deleteDraft(draft) {
 }
 
 export function fetchDrafts() {
-  return service
+  if (this.fetchDraftsPromise) return this.fetchDraftsPromise;
+
+  this.fetchDraftsPromise = service
     .fetchDrafts(this.getNotesData.draftsPath)
-    .then((res) => res.data)
-    .then((data) => this[types.SET_BATCH_COMMENTS_DRAFTS](data))
-    .then(() => {
+    .then(({ data }) => {
+      this[types.SET_BATCH_COMMENTS_DRAFTS](data);
       this.drafts.forEach((draft) => {
-        if (draft.position?.position_type === FILE_DIFF_POSITION_TYPE) {
-          this.tryStore('legacyDiffs').addDraftToFile({ filePath: draft.file_path, draft });
-        } else if (!draft.line_code) {
-          this.tryStore('legacyNotes').convertToDiscussion(draft.discussion_id);
+        try {
+          if (draft.position?.position_type === FILE_DIFF_POSITION_TYPE) {
+            this.tryStore('legacyDiffs').addDraftToFile({ filePath: draft.file_path, draft });
+          } else if (!draft.line_code) {
+            this.tryStore('legacyNotes').convertToDiscussion(draft.discussion_id);
+          }
+        } catch {
+          // legacyDiffs/legacyNotes stores may not be available in Rapid Diffs
         }
       });
     })
-    .catch(() =>
-      createAlert({
-        message: __('An error occurred while fetching pending comments'),
-      }),
-    );
+    .finally(() => {
+      this.isDraftsFetched = true;
+    });
+
+  return this.fetchDraftsPromise;
 }
 
 export function publishReview(noteData = {}) {

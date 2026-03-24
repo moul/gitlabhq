@@ -7604,9 +7604,6 @@ msgstr ""
 msgid "AiPowered|Connection method"
 msgstr ""
 
-msgid "AiPowered|Contact sales for Duo Enterprise"
-msgstr ""
-
 msgid "AiPowered|Container registry for foundational flow images. Leave blank to use registry.gitlab.com"
 msgstr ""
 
@@ -7685,9 +7682,6 @@ msgstr ""
 msgid "AiPowered|GitLab Duo Model Selection"
 msgstr ""
 
-msgid "AiPowered|GitLab Duo Pro or Enterprise"
-msgstr ""
-
 msgid "AiPowered|GitLab Duo Self-Hosted"
 msgstr ""
 
@@ -7758,9 +7752,6 @@ msgid "AiPowered|On by default"
 msgstr ""
 
 msgid "AiPowered|Orchestrate AI agents across your entire software lifecycle to automate complex workflows, accelerate delivery, and keep your team in flow."
-msgstr ""
-
-msgid "AiPowered|Purchase Duo Pro seats"
 msgstr ""
 
 msgid "AiPowered|Purchase credits"
@@ -7841,13 +7832,7 @@ msgstr ""
 msgid "AiPowered|Turn on prompt caching"
 msgstr ""
 
-msgid "AiPowered|Unlock advanced AI-native capabilities with the Premium or Ultimate tier designed for your development needs."
-msgstr ""
-
 msgid "AiPowered|Unlock more credits with Premium"
-msgstr ""
-
-msgid "AiPowered|Upgrade to"
 msgstr ""
 
 msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation."
@@ -11963,9 +11948,6 @@ msgstr ""
 msgid "BillingPlans|Start an Ultimate trial to try the complete set of features from GitLab."
 msgstr ""
 
-msgid "BillingPlans|Start an Ultimate trial with GitLab Duo Enterprise to try the complete set of features from GitLab."
-msgstr ""
-
 msgid "BillingPlans|Start an Ultimate trial with GitLab Duo Enterprise to try the complete set of features from GitLab. GitLab Duo Enterprise gives you access to the full product offering from GitLab, including AI-native features."
 msgstr ""
 
@@ -12077,9 +12059,6 @@ msgstr ""
 msgid "BillingPlans|You have successfully started a GitLab Ultimate trial that will expire on %{exp_date}."
 msgstr ""
 
-msgid "BillingPlans|You have successfully started an Ultimate and GitLab Duo Enterprise trial that will expire on %{exp_date}. To give members access to new GitLab Duo Enterprise features, %{assign_link_start}assign them%{assign_link_end} to GitLab Duo Enterprise seats."
-msgstr ""
-
 msgid "BillingPlans|Your %{platform} is on %{planName}"
 msgstr ""
 
@@ -12150,12 +12129,6 @@ msgid "Billings|400 compute minutes per month"
 msgstr ""
 
 msgid "Billings|5 licensed users"
-msgstr ""
-
-msgid "Billings|AI Chat in the IDE"
-msgstr ""
-
-msgid "Billings|AI Code Suggestions in the IDE"
 msgstr ""
 
 msgid "Billings|At the end of the trial, your subscription changes to Free. Upgrade to Premium to keep using advanced features."
@@ -14885,6 +14858,18 @@ msgid "Check your Docker images for known vulnerabilities."
 msgstr ""
 
 msgid "Check your sign-up restrictions"
+msgstr ""
+
+msgid "CheckAgentStatusService|Unavailable - invalid user"
+msgstr ""
+
+msgid "CheckAgentStatusService|Unavailable - missing default namespace"
+msgstr ""
+
+msgid "CheckAgentStatusService|Unavailable - no credits"
+msgstr ""
+
+msgid "CheckAgentStatusService|Unavailable - unknown reason"
 msgstr ""
 
 msgid "Checkbox"
@@ -27946,9 +27931,6 @@ msgstr ""
 msgid "Enabled OAuth authentication sources"
 msgstr ""
 
-msgid "Enables a free Ultimate + GitLab Duo Enterprise trial when you create a new project."
-msgstr ""
-
 msgid "End Time"
 msgstr ""
 
@@ -32344,9 +32326,6 @@ msgstr ""
 msgid "GitLab Duo Workflow Service at %{host} is operational."
 msgstr ""
 
-msgid "GitLab Duo code features"
-msgstr ""
-
 msgid "GitLab Duo features"
 msgstr ""
 
@@ -36682,12 +36661,6 @@ msgstr ""
 msgid "InProductMarketing|Built-in security"
 msgstr ""
 
-msgid "InProductMarketing|Ensure compliance"
-msgstr ""
-
-msgid "InProductMarketing|Experience the power of Ultimate + GitLab Duo Enterprise"
-msgstr ""
-
 msgid "InProductMarketing|Free guest users"
 msgstr ""
 
@@ -36710,9 +36683,6 @@ msgid "InProductMarketing|Team members collaborating"
 msgstr ""
 
 msgid "InProductMarketing|Try our most advanced features, including GitLab Duo Agent Platform to automate development tasks with AI agents. After your %{duration}-day trial, continue with free features or upgrade to unlock the full value of GitLab."
-msgstr ""
-
-msgid "InProductMarketing|Try our most advanced features, including GitLab Duo Enterprise to automate development tasks with AI. After your %{duration}-day trial, continue with free features or upgrade to unlock the full value of GitLab."
 msgstr ""
 
 msgid "InProductMarketing|Want to host GitLab on your servers?"
@@ -40706,12 +40676,6 @@ msgstr ""
 msgid "LearnGitLab|Assign a GitLab Duo seat to your colleagues"
 msgstr ""
 
-msgid "LearnGitLab|Code completion:"
-msgstr ""
-
-msgid "LearnGitLab|Code generation:"
-msgstr ""
-
 msgid "LearnGitLab|Complete these tasks first so you can enjoy GitLab's features to their fullest."
 msgstr ""
 
@@ -40722,9 +40686,6 @@ msgid "LearnGitLab|Configure a project"
 msgstr ""
 
 msgid "LearnGitLab|Configure your project"
-msgstr ""
-
-msgid "LearnGitLab|Context-aware suggestions:"
 msgstr ""
 
 msgid "LearnGitLab|Create a repository"
@@ -40757,12 +40718,6 @@ msgstr ""
 msgid "LearnGitLab|Follow these steps to get familiar with the GitLab workflow."
 msgstr ""
 
-msgid "LearnGitLab|Generates code based on a natural language code comment block. Write a comment, then press Enter to generate code based on the context of your comment, and the rest of your code."
-msgstr ""
-
-msgid "LearnGitLab|Get familiar with GitLab Duo"
-msgstr ""
-
 msgid "LearnGitLab|Get familiar with GitLab Duo Agent Platform"
 msgstr ""
 
@@ -40770,9 +40725,6 @@ msgid "LearnGitLab|Get started"
 msgstr ""
 
 msgid "LearnGitLab|GitLab Credits:"
-msgstr ""
-
-msgid "LearnGitLab|GitLab Duo Code Suggestions"
 msgstr ""
 
 msgid "LearnGitLab|GitLab University"
@@ -40838,18 +40790,6 @@ msgstr ""
 msgid "LearnGitLab|Submit a merge request (MR)"
 msgstr ""
 
-msgid "LearnGitLab|Suggests completions to the current line you are typing. Use it to complete one or a few lines of code."
-msgstr ""
-
-msgid "LearnGitLab|Support for multiple languages:"
-msgstr ""
-
-msgid "LearnGitLab|Try the walkthrough in a new tab"
-msgstr ""
-
-msgid "LearnGitLab|Try walkthrough"
-msgstr ""
-
 msgid "LearnGitLab|Upload files"
 msgstr ""
 
@@ -40860,12 +40800,6 @@ msgid "LearnGitLab|Use the built-in editor, WebIDE, or upload code using your pr
 msgstr ""
 
 msgid "LearnGitLab|Use the command line"
-msgstr ""
-
-msgid "LearnGitLab|Uses open files in your IDE, content before and after the cursor, filename, and extension type to provide relevant suggestions."
-msgstr ""
-
-msgid "LearnGitLab|Works with various programming languages supported by your development environment."
 msgstr ""
 
 msgid "LearnGitLab|You don't have sufficient access to perform this action"
@@ -73263,9 +73197,6 @@ msgstr ""
 msgid "Trial|Select state or province"
 msgstr ""
 
-msgid "Trial|Start your free Ultimate and GitLab Duo Enterprise trial"
-msgstr ""
-
 msgid "Trial|Start your free Ultimate trial"
 msgstr ""
 
@@ -73765,9 +73696,6 @@ msgid "Unauthorized to update a protection rule for container image tags"
 msgstr ""
 
 msgid "Unauthorized to update the environment"
-msgstr ""
-
-msgid "Unavailable - no credits"
 msgstr ""
 
 msgid "Unban"

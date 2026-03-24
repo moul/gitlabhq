@@ -2313,6 +2313,52 @@ RSpec.describe MergeRequestDiff, feature_category: :code_review_workflow do
     end
   end
 
+  describe '#ensure_commit_shas' do
+    let(:merge_request) { create(:merge_request) }
+
+    subject { merge_request.merge_request_diffs.build }
+
+    before do
+      subject.ensure_commit_shas
+    end
+
+    it { expect(subject.head_commit_sha).to eq('b83d6e391c22777fca1ed3012fce84f633d7fed0') }
+    it { expect(subject.base_commit_sha).to eq('ae73cb07c9eeaf35924a10f713b364d32b2dd34f') }
+    it { expect(subject.start_commit_sha).to eq('0b4bc9a49b562e85de7cc9e834518ea6828729b9') }
+
+    context 'when diff_type is merge_head', :sidekiq_inline do
+      subject do
+        MergeRequests::MergeToRefService
+          .new(project: merge_request.project, current_user: merge_request.author)
+          .execute(merge_request)
+
+        merge_request.build_merge_head_diff
+      end
+
+      it { expect(subject.head_commit_sha).to eq(merge_request.merge_ref_head.diff_refs.head_sha) }
+      it { expect(subject.base_commit_sha).to eq(merge_request.merge_ref_head.diff_refs.base_sha) }
+
+      context 'when head_commit_sha and base_commit_sha are set' do
+        it 'does not call merge_ref_head on merge_request' do
+          expect(subject.merge_request).not_to receive(:merge_ref_head)
+
+          subject.ensure_commit_shas
+        end
+      end
+    end
+
+    context 'when diff_type is regular' do
+      context 'when head_commit_sha and base_commit_sha are set' do
+        it 'does not call find_base_sha or source_branch_sha on merge_request' do
+          expect(subject.merge_request).not_to receive(:source_branch_sha)
+          expect(subject).not_to receive(:find_base_sha)
+
+          subject.ensure_commit_shas
+        end
+      end
+    end
+  end
+
   it_behaves_like 'object storable' do
     let(:locally_stored) do
       merge_request_diff = create(:merge_request_diff)

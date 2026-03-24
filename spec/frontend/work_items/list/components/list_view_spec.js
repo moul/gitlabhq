@@ -84,6 +84,7 @@ import {
   CREATION_CONTEXT_LIST_ROUTE,
   DETAIL_VIEW_QUERY_PARAM_NAME,
   STATE_CLOSED,
+  WORK_ITEM_TYPE_ENUM_EPIC,
   WORK_ITEM_TYPE_NAME_EPIC,
   WORK_ITEM_TYPE_NAME_ISSUE,
   WORK_ITEM_TYPE_NAME_TICKET,
@@ -107,7 +108,6 @@ import {
   singleSavedView,
   sharedSavedView,
   workItemsQueryResponseWithFeatures,
-  mockFullWorkItemTypeConfiguration,
 } from '../../mock_data';
 import {
   exampleSavedViewResponse,
@@ -364,10 +364,6 @@ const mountComponent = ({
       workItemPlanningViewEnabled: false,
       subscribedSavedViewLimit: 5,
       canCreateSavedView: true,
-      getWorkItemTypeConfiguration: jest
-        .fn()
-        .mockReturnValue({ id: 'gid://gitlab/WorkItems::Type/1' }),
-      workItemTypesConfiguration: mockFullWorkItemTypeConfiguration,
       ...provide,
     },
     propsData: {
@@ -479,7 +475,7 @@ describe('when work items are fetched', () => {
         sort: CREATED_DESC,
         state: STATUS_OPEN,
         firstPageSize: 20,
-        workItemTypeIds: 'gid://gitlab/WorkItems::Type/1',
+        types: ['ISSUE', 'INCIDENT', 'TASK', 'TICKET'],
         excludeGroupWorkItems: false,
       }),
     );
@@ -811,7 +807,7 @@ describe('when workItemType is provided', () => {
         includeDescendants: true,
         sort: CREATED_DESC,
         state: STATUS_OPEN,
-        workItemTypeIds: 'gid://gitlab/WorkItems::Type/1',
+        types: WORK_ITEM_TYPE_ENUM_EPIC,
       }),
     );
   });

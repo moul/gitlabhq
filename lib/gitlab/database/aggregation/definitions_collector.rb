@@ -26,6 +26,10 @@ module Gitlab
           @transients.fetch(name)
         end
 
+        def gid_formatter
+          ->(values) { Array.wrap(values).map { |v| GlobalID.parse(v)&.model_id&.to_i || v } }
+        end
+
         def method_missing(method_name, ...)
           return super unless @mapping[method_name]
 

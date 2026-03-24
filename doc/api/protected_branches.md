@@ -307,6 +307,7 @@ Example response:
 {{< history >}}
 
 - `deploy_key_id` configuration [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/166598) in GitLab 17.5.
+- `deploy_key_id` configuration [moved](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224542) from GitLab Premium to GitLab Free in GitLab 18.10.
 
 {{< /history >}}
 
@@ -325,7 +326,7 @@ Supported attributes:
 | `name`                         | string            | Yes      | Name of the branch or wildcard. |
 | `allow_force_push`             | boolean           | No       | If `true`, members who can push to this branch can also force push. Default is `false`. |
 | `allowed_to_merge`             | array             | No       | Array of merge access levels, with each described by a hash of the form `{user_id: integer}`, `{group_id: integer}`, or `{access_level: integer}`. Premium and Ultimate only. |
-| `allowed_to_push`              | array             | No       | Array of push access levels, with each described by a hash of the form `{user_id: integer}`, `{group_id: integer}`, `{deploy_key_id: integer}`, or `{access_level: integer}`. Premium and Ultimate only. |
+| `allowed_to_push`              | array             | No       | Array of push access levels, with each described by a hash of the form `{user_id: integer}`, `{group_id: integer}`, `{deploy_key_id: integer}`, or `{access_level: integer}`. `user_id`, `group_id`, and `access_level` are Premium and Ultimate only. |
 | `allowed_to_unprotect`         | array             | No       | Array of unprotect access levels, with each described by a hash of the form `{user_id: integer}`, `{group_id: integer}`, or `{access_level: integer}`. Access level `No access` is not available for this field. Premium and Ultimate only. |
 | `code_owner_approval_required` | boolean           | No       | If `true`, prevents pushes to this branch if it matches an item in the [`CODEOWNERS` file](../user/project/codeowners/_index.md). Default is `false`. Premium and Ultimate only. |
 | `merge_access_level`           | integer           | No       | Access levels allowed to merge. Default is `40` (Maintainer role). |
@@ -533,16 +534,10 @@ The following example response includes:
 
 ### Example with deploy key access
 
-{{< details >}}
-
-- Tier: Premium, Ultimate
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
-
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/166598) in GitLab 17.5.
+- [Moved](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224542) from GitLab Premium to GitLab Free in GitLab 18.10.
 
 {{< /history >}}
 
@@ -781,7 +776,7 @@ Supported attributes:
 | `name`                         | string            | Yes      | Name of the branch or wildcard. |
 | `allow_force_push`             | boolean           | No       | If `true`, members who can push to this branch can also force push. |
 | `allowed_to_merge`             | array             | No       | Array of merge access levels, with each described by a hash of the form `{user_id: integer}`, `{group_id: integer}`, or `{access_level: integer}`. Premium and Ultimate only. |
-| `allowed_to_push`              | array             | No       | Array of push access levels, with each described by a hash of the form `{user_id: integer}`, `{group_id: integer}`, `{deploy_key_id: integer}`, or `{access_level: integer}`. Premium and Ultimate only. |
+| `allowed_to_push`              | array             | No       | Array of push access levels, with each described by a hash of the form `{user_id: integer}`, `{group_id: integer}`, `{deploy_key_id: integer}`, or `{access_level: integer}`. `user_id`, `group_id`, and `access_level` are Premium and Ultimate only. |
 | `allowed_to_unprotect`         | array             | No       | Array of unprotect access levels, with each described by a hash of the form `{user_id: integer}`, `{group_id: integer}`, `{access_level: integer}`, or `{id: integer, _destroy: true}` to destroy an existing access level. Access level `No access` is not available for this field. Premium and Ultimate only. |
 | `code_owner_approval_required` | boolean           | No       | If `true`, prevents pushes to this branch if it matches an item in the [`CODEOWNERS` file](../user/project/codeowners/_index.md). Premium and Ultimate only. |
 

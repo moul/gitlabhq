@@ -160,7 +160,7 @@ RSpec.describe Gitlab::Ci::Config::External::File::Project, feature_category: :p
         { project: project.full_path, file: '/secret_file.yml' }
       end
 
-      let(:variables) { Gitlab::Ci::Variables::Collection.new([{ 'key' => 'GITLAB_TOKEN', 'value' => 'secret_file', 'masked' => true }]) }
+      let(:variables) { Gitlab::Ci::Variables::Collection.new([{ key: 'GITLAB_TOKEN', value: 'secret_file', masked: true }]) }
 
       around do |example|
         create_and_delete_files(project, { '/secret_file.yml' => '' }) do
@@ -186,7 +186,7 @@ RSpec.describe Gitlab::Ci::Config::External::File::Project, feature_category: :p
     end
 
     context 'when non-existing file is requested' do
-      let(:variables) { Gitlab::Ci::Variables::Collection.new([{ 'key' => 'GITLAB_TOKEN', 'value' => 'secret-invalid-file', 'masked' => true }]) }
+      let(:variables) { Gitlab::Ci::Variables::Collection.new([{ key: 'GITLAB_TOKEN', value: 'secret-invalid-file', masked: true }]) }
 
       let(:params) do
         { project: project.full_path, file: '/secret-invalid-file.yml' }

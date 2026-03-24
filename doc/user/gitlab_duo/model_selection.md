@@ -60,7 +60,7 @@ The following tables list the models you can select for each feature.
 | Codestral 25.08 Vertex | {{< no >}} | {{< yes >}} |
 | Gemini 2.5 Flash Vertex | {{< yes >}} | {{< no >}} |
 
-### GitLab Duo Chat (non-agentic)
+### GitLab Duo Non-Agentic Chat
 
 | Model | General Chat | Code Explanation | Test Generation | Refactor Code | Fix Code | Root Cause Analysis |
 |------------|--------------|------------------|-----------------|---------------|----------|---------------------|

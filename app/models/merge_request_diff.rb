@@ -326,6 +326,8 @@ class MergeRequestDiff < ApplicationRecord
   def ensure_commit_shas
     self.start_commit_sha ||= merge_request.target_branch_sha
 
+    return if self[:head_commit_sha].present? && self[:base_commit_sha].present?
+
     if merge_head? && merge_request.merge_ref_head.present?
       diff_refs = merge_request.merge_ref_head.diff_refs
 
@@ -335,6 +337,8 @@ class MergeRequestDiff < ApplicationRecord
       self.head_commit_sha  ||= merge_request.source_branch_sha
       self.base_commit_sha  ||= find_base_sha
     end
+
+    nil
   end
 
   # Override head_commit_sha to keep compatibility with merge request diff

@@ -134,7 +134,7 @@ Or:
 ```
 
 Although slash commands still work for Agentic Chat, they are not as critical
-as they are in GitLab Duo Chat (non-agentic).
+as they are in GitLab Duo Non-Agentic Chat.
 You can ask Chat to explain or refactor code and it can search across projects,
 create and edit files, and analyze information from multiple sources simultaneously.
 

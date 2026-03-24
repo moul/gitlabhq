@@ -59,7 +59,7 @@ To use GitLab Duo Code Suggestions:
 
 {{< /details >}}
 
-To use GitLab Duo Chat (non-agentic):
+To use GitLab Duo Non-Agentic Chat:
 
 1. In the left sidebar, select **GitLab Duo Chat** ({{< icon name="duo-chat" >}}).
 1. In the message box, enter your question and press <kbd>Enter</kbd> or select **Send**.

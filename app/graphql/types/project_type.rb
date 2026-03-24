@@ -503,7 +503,10 @@ module Types
       type: Types::Ci::PipelineScheduleType.connection_type,
       null: true,
       description: 'Pipeline schedules of the project. This field can only be resolved for one project per request.',
-      resolver: Resolvers::Ci::ProjectPipelineSchedulesResolver
+      resolver: Resolvers::Ci::ProjectPipelineSchedulesResolver,
+      directives: granular_scope_directive(
+        permissions: :read_pipeline_schedule, boundary: :itself, boundary_type: :project
+      )
 
     field :pipeline_triggers,
       Types::Ci::PipelineTriggerType.connection_type,

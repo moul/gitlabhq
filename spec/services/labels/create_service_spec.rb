@@ -216,6 +216,37 @@ RSpec.describe Labels::CreateService, feature_category: :team_planning do
     end
   end
 
+  describe 'internal event tracking' do
+    context 'when creating a project label' do
+      let_it_be(:project) { create(:project) }
+
+      it 'tracks label_created event' do
+        expect { described_class.new(params_with('#FF0000')).execute(project: project) }
+          .to trigger_internal_events('label_created')
+          .with(project: project, namespace: project.namespace)
+      end
+    end
+
+    context 'when creating a group label' do
+      let_it_be(:group) { create(:group) }
+
+      it 'tracks label_created event' do
+        expect { described_class.new(params_with('#FF0000')).execute(group: group) }
+          .to trigger_internal_events('label_created')
+          .with(namespace: group)
+      end
+    end
+
+    context 'when label creation fails' do
+      let_it_be(:project) { create(:project) }
+
+      it 'does not track label_created event' do
+        expect { described_class.new(params_with('')).execute(project: project) }
+          .not_to trigger_internal_events('label_created')
+      end
+    end
+  end
+
   def params_with(color)
     {
       title: 'A Label',

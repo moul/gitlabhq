@@ -41,7 +41,7 @@ title: GitLab Duo Agentic Chat
 
 {{< /history >}}
 
-GitLab Duo Agentic Chat is an enhanced version of GitLab Duo Chat (non-agentic). This new Chat can autonomously
+GitLab Duo Agentic Chat is an enhanced version of GitLab Duo Non-Agentic Chat. This new Chat can autonomously
 perform actions on your behalf, to help you answer complex questions more comprehensively.
 
 While the non-agentic Chat answers questions based on a single context, the agentic Chat searches,
@@ -385,7 +385,7 @@ This also turns off prompt caching for Code Suggestions.
 
 ## Chat feature comparison
 
-| Capability                                              | GitLab Duo Chat (non-agentic) |                                                         GitLab Duo Agentic Chat                                                                                                           |
+| Capability                                              | GitLab Duo Non-Agentic Chat |                                                         GitLab Duo Agentic Chat                                                                                                           |
 | ------------                                            |------|                                                         -------------                                                                                                          |
 | Ask general programming questions |                       Yes  |                                                          Yes                                                                                                                   |
 | Get answers about an open file in the editor |     Yes  |                                                          Yes. Provide the path of the file in your question.                                                                   |

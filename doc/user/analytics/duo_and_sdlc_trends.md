@@ -88,14 +88,14 @@ Upward trends are positive (green) for some metrics (like [deployment frequency]
 - GitLab Duo features usage [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/207562) in GitLab 18.6.
 - GitLab Duo Code Review requests and comments [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/573979) in GitLab 18.7.
 - GitLab Duo Agent Platform chats and flows [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/583375) in GitLab 18.7.
-- GitLab Duo Code Suggestions, Chat (non-agentic), and Root Cause Analysis metrics [changed](https://gitlab.com/gitlab-org/gitlab/-/issues/589605) from percentage rates to absolute user counts in GitLab 18.10.
+- GitLab Duo Code Suggestions, Non-Agentic Chat, and Root Cause Analysis metrics [changed](https://gitlab.com/gitlab-org/gitlab/-/issues/589605) from percentage rates to absolute user counts in GitLab 18.10.
 
 {{< /history >}}
 
 - **Feature usage**: Number of contributors who used any GitLab Duo feature.
 - **Agent Platform chats**: Number of chat sessions initiated through GitLab Duo Agent Platform.
 - **Agent Platform flows**: Number of agent flows (excluding chats) executed through GitLab Duo Agent Platform.
-- **Chat (non-agentic) usage**: Number of users who used Chat (non-agentic).
+- **Non-Agentic Chat usage**: Number of users who used Non-Agentic Chat.
 - **Root Cause Analysis usage**: Number of users who used Root Cause Analysis.
 - **Code Review requests**: Number of Code Review requests made on merge requests.
   This includes requests initiated by both merge request authors and non-authors.

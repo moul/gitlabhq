@@ -73,6 +73,38 @@ RSpec.describe Gitlab::Database::Aggregation::DefinitionsCollector, feature_cate
     end
   end
 
+  describe 'gid_formatter' do
+    let(:formatter) do
+      collector.collect { foo(formatter: gid_formatter) }.first.kwargs[:formatter]
+    end
+
+    let(:mapping) do
+      { foo: dummy_definition_class }
+    end
+
+    it 'extracts model_id from a GlobalID string' do
+      expect(formatter.call("gid://gitlab/User/42")).to eq([42])
+    end
+
+    it 'extracts model_ids from multiple GlobalID strings' do
+      expect(formatter.call(%w[gid://gitlab/User/1 gid://gitlab/User/2])).to eq([1, 2])
+    end
+
+    it 'extracts model_id from a GlobalID object' do
+      gid = GlobalID.parse("gid://gitlab/User/7")
+      expect(formatter.call(gid)).to eq([7])
+    end
+
+    it 'extracts model_ids from multiple GlobalID objects' do
+      gids = [GlobalID.parse("gid://gitlab/User/1"), GlobalID.parse("gid://gitlab/User/2")]
+      expect(formatter.call(gids)).to eq([1, 2])
+    end
+
+    it 'falls back to the original value when the input is not a valid GlobalID' do
+      expect(formatter.call("not-a-gid")).to eq(["not-a-gid"])
+    end
+  end
+
   describe "#respond_to?" do
     it 'returns true if mapped definition class exists' do
       expect(collector.respond_to?(:foo)).to be_truthy

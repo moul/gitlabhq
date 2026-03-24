@@ -5,6 +5,7 @@ import { useDiffsView } from '~/rapid_diffs/stores/diffs_view';
 import { initFileBrowser } from '~/rapid_diffs/app/file_browser';
 import { useDiffsList } from '~/rapid_diffs/stores/diffs_list';
 import { useCodeReview } from '~/diffs/stores/code_review';
+import { useLegacyDiffs } from '~/diffs/stores/legacy_diffs';
 import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request_discussions';
 import { initCompareVersions } from '~/rapid_diffs/app/init_compare_versions';
 import { initNewDiscussionToggle } from '~/rapid_diffs/app/init_new_discussions_toggle';
@@ -110,6 +111,12 @@ describe('Merge Request Rapid Diffs app', () => {
     buildApp({ mr_path: '/namespace/project/-/merge_requests/1' });
     await app.init();
     expect(useCodeReview().setMrPath).not.toHaveBeenCalled();
+  });
+
+  it('sets projectPath on legacyDiffs store', async () => {
+    buildApp({ project_path: 'gitlab-org/gitlab' });
+    await app.init();
+    expect(useLegacyDiffs().projectPath).toBe('gitlab-org/gitlab');
   });
 
   it('fetches notes on init', async () => {

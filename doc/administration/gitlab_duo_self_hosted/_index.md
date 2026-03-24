@@ -72,7 +72,7 @@ or GitLab Duo Pro when GitLab hosts and connects to those models through the clo
 | [GitLab Duo Agent Platform](../../user/duo_agent_platform/_index.md)                                                                   | GitLab 18.8 and later   | Generally available |
 | **GitLab Duo** | | |
 | [Code Suggestions](../../user/project/repository/code_suggestions/_index.md)                                                 | GitLab 17.9 and later   | Generally available |
-| [GitLab Duo Chat (non-agentic)](../../user/gitlab_duo_chat/_index.md)                                                                      | GitLab 17.9 and later   | Generally available |
+| [GitLab Duo Non-Agentic Chat](../../user/gitlab_duo_chat/_index.md)                                                                      | GitLab 17.9 and later   | Generally available |
 | [Code Explanation](../../user/gitlab_duo_chat/examples.md#explain-selected-code)                                                       | GitLab 17.9 and later   | Generally available |
 | [Test Generation](../../user/gitlab_duo_chat/examples.md#write-tests-in-the-ide)                                                       | GitLab 17.9 and later   | Generally available |
 | [Refactor Code](../../user/gitlab_duo_chat/examples.md#refactor-code-in-the-ide)                                                       | GitLab 17.9 and later   | Generally available |
