@@ -210,7 +210,8 @@ export default {
           isGroup: this.isGroup,
           issueAsWorkItem: !this.isGroup,
         });
-      const hasListRoute = this.$router.getRoutes().some((route) => route.name === 'workItem');
+      const hasListRoute =
+        this.$router && this.$router.getRoutes().some((route) => route.name === 'workItem');
       if (shouldDefaultNavigate || !hasListRoute) {
         this.$emit('click', e);
       } else {

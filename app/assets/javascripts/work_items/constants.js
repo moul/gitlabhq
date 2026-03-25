@@ -461,4 +461,5 @@ export const VIEW_CONTEXT = {
   drawerBoard: 'drawer_board',
   drawerList: 'drawer_list',
   drawerWorkItem: 'drawer_work_item',
+  drawerMergeRequest: 'drawer_merge_request',
 };

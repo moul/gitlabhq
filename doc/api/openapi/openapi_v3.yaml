@@ -62961,7 +62961,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_ae9636e4286c"
+              "$ref": "#/components/schemas/RequestBody_b91d36b0df89"
   "/api/v4/jobs/{id}/artifacts":
     post:
       operationId: postApiV4JobsIdArtifacts
@@ -62994,7 +62994,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              "$ref": "#/components/schemas/RequestBody_99d3759bb0d2"
+              "$ref": "#/components/schemas/RequestBody_785e5579e292"
     get:
       operationId: getApiV4JobsIdArtifacts
       summary: Download the artifacts file for job
@@ -104859,7 +104859,7 @@ components:
           type: boolean
           description: Enable or disable the debug trace
           nullable: true
-    RequestBody_ae9636e4286c:
+    RequestBody_b91d36b0df89:
       type: object
       properties:
         token:
@@ -104906,10 +104906,11 @@ components:
           - repository_xray
           - jacoco
           - scip
+          - sarif
           default: archive
           description: The type of artifact
           nullable: true
-    RequestBody_99d3759bb0d2:
+    RequestBody_785e5579e292:
       type: object
       properties:
         file:
@@ -104961,6 +104962,7 @@ components:
           - repository_xray
           - jacoco
           - scip
+          - sarif
           default: archive
           description: The type of artifact
           nullable: true

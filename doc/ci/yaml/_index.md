@@ -1604,7 +1604,7 @@ For more information, see [job execution flow](../jobs/job_execution.md).
 - You can [ignore non-zero exit codes](script.md#ignore-non-zero-exit-codes).
 - [Use color codes with `after_script`](script.md#add-color-codes-to-script-output)
   to make job logs easier to review.
-- [Create custom collapsible sections](../jobs/job_logs.md#custom-collapsible-sections)
+- [Create custom collapsible sections](../jobs/job_logs.md#create-custom-collapsible-sections)
   to simplify job log output.
 - You can [ignore errors in `after_script`](../runners/configure_runners.md#ignore-errors-in-after_script).
 
@@ -2180,7 +2180,7 @@ job:
 - You can [ignore non-zero exit codes](script.md#ignore-non-zero-exit-codes).
 - [Use color codes with `before_script`](script.md#add-color-codes-to-script-output)
   to make job logs easier to review.
-- [Create custom collapsible sections](../jobs/job_logs.md#custom-collapsible-sections)
+- [Create custom collapsible sections](../jobs/job_logs.md#create-custom-collapsible-sections)
   to simplify job log output.
 
 ---
@@ -5975,7 +5975,7 @@ job2:
 - You can [ignore non-zero exit codes](script.md#ignore-non-zero-exit-codes).
 - [Use color codes with `script`](script.md#add-color-codes-to-script-output)
   to make job logs easier to review.
-- [Create custom collapsible sections](../jobs/job_logs.md#custom-collapsible-sections)
+- [Create custom collapsible sections](../jobs/job_logs.md#create-custom-collapsible-sections)
   to simplify job log output.
 
 ---

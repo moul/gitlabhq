@@ -32223,7 +32223,7 @@ Represents a vulnerability. The connection type is countable.
 | <a id="countablevulnerability-project"></a>`project` | [`Project`](#project) | Project on which the vulnerability was found. |
 | <a id="countablevulnerability-reachability"></a>`reachability` {{< icon name="warning-solid" >}} | [`ReachabilityType`](#reachabilitytype) | **Introduced** in GitLab 17.11. **Status**: Experiment. Reachability status of the vulnerability. |
 | <a id="countablevulnerability-removedfromcode"></a>`removedFromCode` | [`Boolean!`](#boolean) | Indicates whether the vulnerability is present in the code or not. |
-| <a id="countablevulnerability-reporttype"></a>`reportType` | [`VulnerabilityReportType`](#vulnerabilityreporttype) | Type of the security report that found the vulnerability (SAST, DEPENDENCY_SCANNING, CONTAINER_SCANNING, DAST, SECRET_DETECTION, COVERAGE_FUZZING, API_FUZZING, CLUSTER_IMAGE_SCANNING, CONTAINER_SCANNING_FOR_REGISTRY, GENERIC). `Scan Type` in the UI. |
+| <a id="countablevulnerability-reporttype"></a>`reportType` | [`VulnerabilityReportType`](#vulnerabilityreporttype) | Type of the security report that found the vulnerability (SAST, DEPENDENCY_SCANNING, CONTAINER_SCANNING, DAST, SECRET_DETECTION, COVERAGE_FUZZING, API_FUZZING, CLUSTER_IMAGE_SCANNING, CONTAINER_SCANNING_FOR_REGISTRY, SARIF, GENERIC). `Scan Type` in the UI. |
 | <a id="countablevulnerability-representationinformation"></a>`representationInformation` {{< icon name="warning-solid" >}} | [`VulnerabilityRepresentationInformation`](#vulnerabilityrepresentationinformation) | **Introduced** in GitLab 17.7. **Status**: Experiment. Information about the representation of the vulnerability, such as resolved commit SHA. |
 | <a id="countablevulnerability-resolvedat"></a>`resolvedAt` | [`Time`](#time) | Timestamp of when the vulnerability state was changed to resolved. |
 | <a id="countablevulnerability-resolvedby"></a>`resolvedBy` | [`UserCore`](#usercore) | User that resolved the vulnerability. |
@@ -34530,6 +34530,7 @@ Types of scans enabled on a merge request.
 | <a id="enabledsecurityscans-dast"></a>`dast` | [`Boolean!`](#boolean) | `true` if there is a Dast scan in the pipeline. |
 | <a id="enabledsecurityscans-dependencyscanning"></a>`dependencyScanning` | [`Boolean!`](#boolean) | `true` if there is a Dependency scanning scan in the pipeline. |
 | <a id="enabledsecurityscans-ready"></a>`ready` | [`Boolean!`](#boolean) | Returns `true` when report processing has been completed. |
+| <a id="enabledsecurityscans-sarif"></a>`sarif` | [`Boolean!`](#boolean) | `true` if there is a Sarif scan in the pipeline. |
 | <a id="enabledsecurityscans-sast"></a>`sast` | [`Boolean!`](#boolean) | `true` if there is a Sast scan in the pipeline. |
 | <a id="enabledsecurityscans-secretdetection"></a>`secretDetection` | [`Boolean!`](#boolean) | `true` if there is a Secret detection scan in the pipeline. |
 
@@ -49725,6 +49726,7 @@ Represents summary of a security report.
 | <a id="securityreportsummary-dast"></a>`dast` | [`SecurityReportSummarySection`](#securityreportsummarysection) | Aggregated counts for the `dast` scan. |
 | <a id="securityreportsummary-dependencyscanning"></a>`dependencyScanning` | [`SecurityReportSummarySection`](#securityreportsummarysection) | Aggregated counts for the `dependency_scanning` scan. |
 | <a id="securityreportsummary-generic"></a>`generic` | [`SecurityReportSummarySection`](#securityreportsummarysection) | Aggregated counts for the `generic` scan. |
+| <a id="securityreportsummary-sarif"></a>`sarif` | [`SecurityReportSummarySection`](#securityreportsummarysection) | Aggregated counts for the `sarif` scan. |
 | <a id="securityreportsummary-sast"></a>`sast` | [`SecurityReportSummarySection`](#securityreportsummarysection) | Aggregated counts for the `sast` scan. |
 | <a id="securityreportsummary-secretdetection"></a>`secretDetection` | [`SecurityReportSummarySection`](#securityreportsummarysection) | Aggregated counts for the `secret_detection` scan. |
 
@@ -51873,7 +51875,7 @@ Represents a vulnerability.
 | <a id="vulnerability-project"></a>`project` | [`Project`](#project) | Project on which the vulnerability was found. |
 | <a id="vulnerability-reachability"></a>`reachability` {{< icon name="warning-solid" >}} | [`ReachabilityType`](#reachabilitytype) | **Introduced** in GitLab 17.11. **Status**: Experiment. Reachability status of the vulnerability. |
 | <a id="vulnerability-removedfromcode"></a>`removedFromCode` | [`Boolean!`](#boolean) | Indicates whether the vulnerability is present in the code or not. |
-| <a id="vulnerability-reporttype"></a>`reportType` | [`VulnerabilityReportType`](#vulnerabilityreporttype) | Type of the security report that found the vulnerability (SAST, DEPENDENCY_SCANNING, CONTAINER_SCANNING, DAST, SECRET_DETECTION, COVERAGE_FUZZING, API_FUZZING, CLUSTER_IMAGE_SCANNING, CONTAINER_SCANNING_FOR_REGISTRY, GENERIC). `Scan Type` in the UI. |
+| <a id="vulnerability-reporttype"></a>`reportType` | [`VulnerabilityReportType`](#vulnerabilityreporttype) | Type of the security report that found the vulnerability (SAST, DEPENDENCY_SCANNING, CONTAINER_SCANNING, DAST, SECRET_DETECTION, COVERAGE_FUZZING, API_FUZZING, CLUSTER_IMAGE_SCANNING, CONTAINER_SCANNING_FOR_REGISTRY, SARIF, GENERIC). `Scan Type` in the UI. |
 | <a id="vulnerability-representationinformation"></a>`representationInformation` {{< icon name="warning-solid" >}} | [`VulnerabilityRepresentationInformation`](#vulnerabilityrepresentationinformation) | **Introduced** in GitLab 17.7. **Status**: Experiment. Information about the representation of the vulnerability, such as resolved commit SHA. |
 | <a id="vulnerability-resolvedat"></a>`resolvedAt` | [`Time`](#time) | Timestamp of when the vulnerability state was changed to resolved. |
 | <a id="vulnerability-resolvedby"></a>`resolvedBy` | [`UserCore`](#usercore) | User that resolved the vulnerability. |
@@ -56552,6 +56554,7 @@ Iteration ID wildcard values.
 | <a id="jobartifactfiletype-repository_xray"></a>`REPOSITORY_XRAY` | REPOSITORY XRAY job artifact file type. |
 | <a id="jobartifactfiletype-requirements"></a>`REQUIREMENTS` | REQUIREMENTS job artifact file type. |
 | <a id="jobartifactfiletype-requirements_v2"></a>`REQUIREMENTS_V2` | REQUIREMENTS V2 job artifact file type. |
+| <a id="jobartifactfiletype-sarif"></a>`SARIF` | SARIF job artifact file type. |
 | <a id="jobartifactfiletype-sast"></a>`SAST` | SAST job artifact file type. |
 | <a id="jobartifactfiletype-scip"></a>`SCIP` | SCIP job artifact file type. |
 | <a id="jobartifactfiletype-secret_detection"></a>`SECRET_DETECTION` | SECRET DETECTION job artifact file type. |
@@ -58710,6 +58713,7 @@ The type of the security scan that found the vulnerability.
 | <a id="vulnerabilityreporttype-dast"></a>`DAST` | DAST report. |
 | <a id="vulnerabilityreporttype-dependency_scanning"></a>`DEPENDENCY_SCANNING` | Dependency scanning report. |
 | <a id="vulnerabilityreporttype-generic"></a>`GENERIC` | Generic report. |
+| <a id="vulnerabilityreporttype-sarif"></a>`SARIF` | Sarif report. |
 | <a id="vulnerabilityreporttype-sast"></a>`SAST` | SAST report. |
 | <a id="vulnerabilityreporttype-secret_detection"></a>`SECRET_DETECTION` | Secret detection report. |
 

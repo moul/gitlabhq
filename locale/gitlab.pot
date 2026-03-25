@@ -15825,6 +15825,9 @@ msgstr ""
 msgid "Closes this %{work_item_type}. Marks as related to, and a duplicate of, %{duplicate_param}."
 msgstr ""
 
+msgid "Closing"
+msgstr ""
+
 msgid "Closing %{issuableType}…"
 msgstr ""
 
@@ -17300,6 +17303,9 @@ msgid "Collapse settings section"
 msgstr ""
 
 msgid "Collapse sidebar"
+msgstr ""
+
+msgid "Collapse work items"
 msgstr ""
 
 msgid "Collapsible section"
@@ -42932,6 +42938,9 @@ msgid "Memory usage"
 msgstr ""
 
 msgid "Mention"
+msgstr ""
+
+msgid "Mentioned"
 msgstr ""
 
 msgid "Mentions"
@@ -72054,6 +72063,9 @@ msgstr ""
 msgid "To learn more about this project, read %{link_to_wiki}"
 msgstr ""
 
+msgid "To link work items, you can add %{linkStart}closing patterns%{linkEnd} to the description."
+msgstr ""
+
 msgid "To manage seats for all members associated with this group and its subgroups and projects, visit the %{link_start}usage quotas page%{link_end}."
 msgstr ""
 
@@ -79200,6 +79212,9 @@ msgstr ""
 msgid "Work Item type %{gid} was not found"
 msgstr ""
 
+msgid "Work Items"
+msgstr ""
+
 msgid "Work Items Onboarding Modal"
 msgstr ""
 
@@ -79219,6 +79234,9 @@ msgid "Work item creation via email is not supported"
 msgstr ""
 
 msgid "Work item creation via email is only supported for projects"
+msgstr ""
+
+msgid "Work item links"
 msgstr ""
 
 msgid "Work item not supported"

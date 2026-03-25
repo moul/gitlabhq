@@ -26459,7 +26459,8 @@ CREATE TABLE plan_limits (
     ci_max_artifact_size_slsa_provenance_statement bigint DEFAULT 0 NOT NULL,
     cargo_max_file_size bigint DEFAULT '5368709120'::bigint NOT NULL,
     ci_max_artifact_size_scip integer DEFAULT 200 NOT NULL,
-    plan_name_uid smallint
+    plan_name_uid smallint,
+    ci_max_artifact_size_sarif integer DEFAULT 10 NOT NULL
 );
 
 CREATE SEQUENCE plan_limits_id_seq
