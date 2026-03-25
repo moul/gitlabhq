@@ -234,15 +234,15 @@ Some GitLab tools are released on their own schedule and use a different version
 independent of the GitLab instance. For example, editor extensions and CLI tools.
 
 Include tool updates in the history section. Each entry must include both the GitLab version and
-tool version, with a link to the tool's changelog entry.
+tool version, with a link to the tool's release page for that version.
 
 When a feature requires both a GitLab instance change and a tool update, nest the tool version
 entries under the related instance history item:
 
 ```markdown
 - Access to user default namespaces for IDEs [introduced](https://issue-link) in GitLab 18.10.
-  - [Introduced](https://changelog-link) in GitLab for VS Code 6.71.7.
-  - [Introduced](https://changelog-link) in GitLab Duo CLI 8.76.0.
+  - [Introduced](https://release-page-link) in GitLab for VS Code 6.71.7.
+  - [Introduced](https://release-page-link) in GitLab Duo CLI 8.76.0.
 ```
 
 When a feature is not dependent on a GitLab instance change, add a single entry with the
@@ -250,7 +250,7 @@ tool version and use `during the GitLab X.Y release` instead of `in GitLab X.Y` 
 instance requirement:
 
 ```markdown
-- [Introduced](https://changelog-link) in GitLab for VS Code 6.14.0 during the GitLab 18.1 release.
+- [Introduced](https://release-page-link) in GitLab for VS Code 6.14.0 during the GitLab 18.1 release.
 ```
 
 #### Removing versions

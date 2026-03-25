@@ -118,7 +118,6 @@ group:
   - read_package
   - read_prometheus
   - read_secret
-  - read_security_attribute
   - update_epic
   - update_issue
   - update_secret

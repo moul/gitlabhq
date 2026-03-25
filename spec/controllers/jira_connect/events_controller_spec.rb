@@ -151,7 +151,9 @@ RSpec.describe JiraConnect::EventsController, :with_current_organization, featur
       end
 
       it 'uses the JiraConnectInstallations::UpdateService' do
-        expect_next_instance_of(JiraConnectInstallations::UpdateService, installation, anything) do |update_service|
+        expect_next_instance_of(
+          JiraConnectInstallations::UpdateService, installation, nil, anything, skip_jira_admin_check: true
+        ) do |update_service|
           expect(update_service).to receive(:execute).and_call_original
         end
 
@@ -163,9 +165,11 @@ RSpec.describe JiraConnect::EventsController, :with_current_organization, featur
           .to receive(:execute)
           .with(
             installation,
+            nil,
             ActionController::Parameters
               .new(shared_secret: shared_secret, organization_id: current_organization.id, base_url: base_url, display_url: display_url)
-              .permit(:shared_secret, :base_url, :organization_id, :display_url))
+              .permit(:shared_secret, :base_url, :organization_id, :display_url),
+            skip_jira_admin_check: true)
           .and_call_original
 
         subject

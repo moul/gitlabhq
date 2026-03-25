@@ -111,6 +111,7 @@ group:
   - read_group_audit_events
   - read_licenses
   - read_observability_portal
+  - read_security_attribute
   - read_security_inventory
   - read_security_scan_profiles
   - read_vulnerability
