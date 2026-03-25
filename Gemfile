@@ -508,7 +508,7 @@ end
 group :development, :test do
   gem 'deprecation_toolkit', '~> 2.2.3', require: false, feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
   gem 'bullet', '~> 8.0.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
-  gem 'parser', '= 3.3.10.1', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+  gem 'parser', '= 3.3.10.2', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
   gem 'pry-byebug', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
   gem 'pry-rails', '~> 0.3.9', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
   gem 'pry-shell', '~> 0.6.4', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
@@ -640,7 +640,7 @@ gem 'ssh_data', '~> 2.0', feature_category: :shared # rubocop:todo Gemfile/Missi
 gem 'spamcheck', '~> 1.3.0', feature_category: :insider_threat
 
 # Gitaly GRPC protocol definitions
-gem 'gitaly', '~> 18.8.0', feature_category: :gitaly
+gem 'gitaly', '~> 18.10.0', feature_category: :gitaly
 
 # KAS GRPC protocol definitions
 gem 'gitlab-kas-grpc', '~> 18.5.0-rc4', feature_category: :deployment_management

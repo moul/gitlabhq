@@ -44,7 +44,7 @@ The GitLab Duo CLI can help you:
 The GitLab Duo CLI offers two modes:
 
 - Interactive mode: Provides a chat experience similar to GitLab Duo Chat in the GitLab UI or in
-  editor extensions.
+  editor extensions. Supports build and plan modes.
 - Headless mode: Enables non-interactive use in runners, scripts, and other automated workflows.
 
 It also supports [custom instructions](../duo_agent_platform/customize/_index.md) set for
@@ -214,7 +214,7 @@ To use the GitLab Duo CLI in interactive mode:
 
    {{< /tabs >}}
 
-1. The prompt `Duo` appears in your terminal window. After the prompt, enter your question or
+1. The prompt `>` appears in your terminal window. After the prompt, enter your question or
    request and press <kbd>Enter</kbd>.
 
    For example:
@@ -231,6 +231,37 @@ To use the GitLab Duo CLI in interactive mode:
 
 To cancel a response while the GitLab Duo CLI is working, press <kbd>Escape</kbd>.
 The GitLab Duo CLI stops the current operation and returns to the prompt.
+
+Use the <kbd>↑</kbd> key to view your prompt history, or <kbd>Control</kbd>+<kbd>R</kbd> to search it.
+
+#### Switch between build and plan modes
+
+In interactive mode, you can switch the GitLab Duo CLI between two modes as you work:
+
+| Mode                 | Permissions | How it works                                                                  |
+|----------------------|-------------|-------------------------------------------------------------------------------|
+| Build mode (default) | Read-write  | GitLab Duo can execute tasks and make changes to your project.               |
+| Plan mode            | Read-only   | GitLab Duo can analyze your project and create plans without making changes. |
+
+For example, start by discussing a problem with GitLab Duo in plan mode. When you're ready, switch
+to build mode and instruct GitLab Duo to implement the plan.
+
+The GitLab Duo CLI displays the current mode under the `>` prompt. To switch between modes, press
+<kbd>Tab</kbd>.
+
+#### Slash commands
+
+In interactive mode, use slash commands to configure the GitLab Duo CLI and perform
+actions. Enter a slash command at the prompt and press <kbd>Enter</kbd>.
+
+The following slash commands are available:
+
+| Command     | Description                                         |
+|-------------|-----------------------------------------------------|
+| `/copy`     | Copy the last GitLab Duo response to the clipboard. |
+| `/help`     | Display a list of available slash commands.         |
+| `/model`    | Switch the AI model for the current session.        |
+| `/sessions` | Browse, search, and switch sessions.                |
 
 ### Headless mode
 
@@ -281,19 +312,6 @@ When you use headless mode, the GitLab Duo CLI:
 - Does not maintain context from previous conversations.
   A new workflow starts every time you execute the `run` command.
 
-## Slash commands
-
-In interactive mode, use slash commands to perform actions without sending a message
-to the AI model. Enter a slash command at the prompt and press <kbd>Enter</kbd>.
-
-The following slash commands are available:
-
-| Command | Description |
-|---------|-------------|
-| `/copy`   | Copy the last GitLab Duo response to the clipboard. |
-| `/help`   | Display a list of available slash commands. |
-| `/model`  | Switch the AI model for the current session. |
-
 ## Select a model
 
 You can select a model for interactive mode or headless mode.
@@ -305,7 +323,7 @@ mid-conversation without losing context.
 
 To select a model for interactive mode:
 
-1. In interactive mode, enter the `/model` command.
+1. In interactive mode, type `/model` and press <kbd>Enter</kbd>.
 1. Use the arrow keys to scroll through the list of available models, or enter a model name to
    filter the list.
 1. Select a model and press <kbd>Enter</kbd> to switch to it.
@@ -375,6 +393,22 @@ To select a model for headless mode:
    {{< /tab >}}
 
    {{< /tabs >}}
+
+## Switch sessions
+
+GitLab Duo Chat sessions store your conversation history and workflow data, and are shared across
+the GitLab Duo CLI, the GitLab UI, and editor extensions.
+
+For example, you can start a conversation in your browser and continue it in your terminal.
+
+To browse and switch to a session:
+
+1. In interactive mode, type `/sessions` and press <kbd>Enter</kbd>.
+1. Use the arrow keys to scroll through the list of available sessions, or enter text to filter the
+   list.
+1. Select a session and press <kbd>Enter</kbd>.
+
+To switch to a session in headless mode, use the `--existing-session-id` option.
 
 ## Model Context Protocol (MCP) connections
 
@@ -544,3 +578,4 @@ For information on contributing to the GitLab Duo CLI, see the
 - [Security considerations for editor extensions](../../editor_extensions/security_considerations.md)
 - [GitLab CLI](https://docs.gitlab.com/cli/)
 - [Customize GitLab Duo Agent Platform](../duo_agent_platform/customize/_index.md)
+- [GitLab Duo Agent Platform sessions](../duo_agent_platform/sessions/_index.md)

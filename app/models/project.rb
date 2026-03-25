@@ -2754,6 +2754,7 @@ class Project < ApplicationRecord
     # Those records are going to be recreated with the next normal creation
     # of a model instance (e.g. an Issue).
     InternalId.flush_records!(project: self)
+    InternalId.flush_records!(namespace: project_namespace, usage: :issues)
     update_project_counter_caches
   end
 

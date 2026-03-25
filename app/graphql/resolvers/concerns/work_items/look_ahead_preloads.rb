@@ -24,8 +24,6 @@ module WorkItems
         web_url: { namespace: :route, project: [:project_namespace, {
           namespace: [:route, :namespace_settings_with_ancestors_inherited_settings]
         }] },
-        features: { work_item_type: :enabled_widget_definitions },
-        widgets: { work_item_type: :enabled_widget_definitions },
         work_item_type: :work_item_type
       }.merge!(widget_preloads)
        .merge!(feature_preloads)

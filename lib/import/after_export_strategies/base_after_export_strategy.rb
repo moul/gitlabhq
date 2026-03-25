@@ -67,6 +67,12 @@ module Import
         retries = 0
 
         loop do
+          if retries > 0
+            Project.uncached do
+              project.association(:import_export_uploads).reset
+            end
+          end
+
           return if project.export_file_exists?(current_user)
 
           retries += 1

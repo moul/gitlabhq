@@ -219,32 +219,6 @@ module Gitlab
             unique_by: :index_work_item_types_on_name_unique,
             update_only: %i[name icon_name base_type]
           )
-
-          upsert_widgets
-        end
-
-        def self.upsert_widgets
-          type_ids_by_name = ::WorkItems::Type.pluck(:name, :id).to_h # rubocop: disable CodeReuse/ActiveRecord
-
-          widgets = WIDGETS_FOR_TYPE.flat_map do |type_sym, widget_syms|
-            type_name = ::WorkItems::Type::TYPE_NAMES[type_sym]
-
-            widget_syms.map do |widget_sym|
-              widget_sym, widget_options = widget_sym if widget_sym.is_a?(Array)
-
-              {
-                work_item_type_id: type_ids_by_name[type_name],
-                name: WIDGET_NAMES[widget_sym],
-                widget_type: ::WorkItems::WidgetDefinition.widget_types[widget_sym],
-                widget_options: widget_options
-              }
-            end
-          end
-
-          ::WorkItems::WidgetDefinition.upsert_all(
-            widgets,
-            unique_by: :index_work_item_widget_definitions_on_type_id_and_name
-          )
         end
       end
     end

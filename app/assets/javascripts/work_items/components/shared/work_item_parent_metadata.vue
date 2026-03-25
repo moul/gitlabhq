@@ -1,6 +1,6 @@
 <script>
 import { GlIcon, GlLink } from '@gitlab/ui';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 import WorkItemPopover from '~/issuable/popover/components/work_item_popover.vue';
 
 export default {

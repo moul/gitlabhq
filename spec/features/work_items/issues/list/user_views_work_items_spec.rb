@@ -2,20 +2,13 @@
 
 require "spec_helper"
 
-RSpec.describe "User views issues", feature_category: :team_planning do
+RSpec.describe "User views work items", feature_category: :team_planning do
   let!(:closed_issue) { create(:closed_issue, project: project) }
   let!(:open_issue1) { create(:issue, project: project) }
   let!(:open_issue2) { create(:issue, project: project) }
   let!(:moved_open_issue) { create(:issue, project: project, moved_to: create(:issue)) }
 
   let_it_be(:user) { create(:user) }
-
-  before do
-    # TODO: When removing the feature flag,
-    # we won't need the tests for the issues listing page, since we'll be using
-    # the work items listing page.
-    stub_feature_flags(work_item_planning_view: false)
-  end
 
   shared_examples "opens issue from list" do
     it "opens issue" do
@@ -26,13 +19,13 @@ RSpec.describe "User views issues", feature_category: :team_planning do
   end
 
   shared_examples "open issues" do
-    context "open issues" do
+    context "with open issues" do
       let(:label) { create(:label, project: project, title: "bug") }
 
       before do
         open_issue1.labels << label
 
-        visit(project_issues_path(project, state: :opened))
+        visit(project_work_items_path(project, state: :opened))
       end
 
       it "shows open issues" do
@@ -61,9 +54,9 @@ RSpec.describe "User views issues", feature_category: :team_planning do
   end
 
   shared_examples "closed issues" do
-    context "closed issues" do
+    context "with closed issues" do
       before do
-        visit(project_issues_path(project, state: :closed))
+        visit(project_work_items_path(project, state: :closed))
       end
 
       it "shows closed issues" do
@@ -82,9 +75,9 @@ RSpec.describe "User views issues", feature_category: :team_planning do
   end
 
   shared_examples "all issues" do
-    context "all issues" do
+    context "with all issues" do
       before do
-        visit(project_issues_path(project, state: :all))
+        visit(project_work_items_path(project, state: :all))
       end
 
       it "shows all issues" do
@@ -118,6 +111,7 @@ RSpec.describe "User views issues", feature_category: :team_planning do
   context "when signed in as developer", :js do
     before do
       project.add_developer(user)
+      create(:callout, user: user, feature_name: :work_items_onboarding_modal)
       sign_in(user)
     end
 

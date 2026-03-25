@@ -69,6 +69,101 @@ Field types should be defined in the `documentation` hash:
   expose :project, documentation: { type: 'API::Entities::BasicProject'}
 ```
 
+### High-impact entities and feature-bounded entities
+
+Some foundational entities like `UserBasic`, `ProjectIdentity`, and `Commit`
+are embedded or nested across many API endpoints. Adding a single `expose`
+call to one of these entities inflates the JSON response of every endpoint
+that uses it, directly or transitively. For example, adding a single `expose`
+call to `UserBasic` would affect 212 endpoints, and to `CustomAttribute` 238.
+
+To prevent uncontrolled growth of API response payloads, a set of
+**high-impact entities** is protected by the
+[`API/EntityExposureGrowth`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/rubocop/cop/api/entity_exposure_growth.rb)
+RuboCop cop. The cop maintains an allowlist of permitted fields per entity in
+[`api_entity_exposure_baseline.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/rubocop/cop/api/config/api_entity_exposure_baseline.yml).
+Any new `expose` call added to a protected entity that is not in the allowlist
+triggers an offense.
+
+#### Why this matters
+
+- **Performance**: every additional field is serialized for every response
+  that includes the entity, increasing payload size and serialization time.
+- **Breaking change risk**: removing an existing exposed field is considered a
+  [breaking change](#breaking-changes). Fields added to foundational entities
+  are especially costly to remove because they affect many consumers.
+- **Cascading impact**: entities compose through inheritance (`class User < UserBasic`)
+  and embedding (`expose :author, using: UserBasic`). A single field added to
+  `UserBasic` cascades to `User`, `UserPublic`, and every entity that embeds it.
+
+#### Recommended pattern
+
+Instead of adding fields to a high-impact entity, create a
+**feature-bounded entity**: a new, purpose-built entity class that
+is used only by the endpoints that need the new field.
+
+The simplest approach is to create a new entity that inherits from the
+foundational one and adds the fields you need:
+
+```ruby
+# bad - adds :notification_email to every endpoint using UserBasic (212 endpoints)
+module API
+  module Entities
+    class UserBasic < UserSafe
+      expose :state
+      expose :avatar_url
+      expose :web_url
+      expose :notification_email  # <-- new field inflates 212 endpoint responses
+    end
+  end
+end
+
+# good - create a domain-scoped entity used only by the endpoints that need it
+module API
+  module Entities
+    module Ci
+      class JobOwner < UserBasic
+        expose :notification_email, documentation: { type: 'String', example: 'user@example.com' }
+      end
+    end
+  end
+end
+```
+
+Name the entity after **what it represents** in its domain context (for example,
+`Ci::JobOwner`), not after the fields it contains (for example,
+`UserWithNotificationEmail`). A name like `UserWithNotificationEmail` invites
+reuse across unrelated domains, which re-creates the cascade problem. A
+domain-scoped name keeps the entity focused on a single use case.
+
+Then use the new entity only in the endpoints that need it:
+
+```ruby
+# In your API endpoint file
+desc 'List CI job owners' do
+  detail 'Returns the owners of CI jobs with notification details.'
+  success Entities::Ci::JobOwner
+  tags ['ci']
+end
+get ':id/ci/job_owners' do
+  owners = find_job_owners(params[:id])
+  present owners, with: Entities::Ci::JobOwner
+end
+```
+
+#### Updating the allowlist
+
+The allowlist in
+[`api_entity_exposure_baseline.yml`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/rubocop/cop/api/config/api_entity_exposure_baseline.yml)
+records the permitted field names for each protected entity. You should
+**not** manually edit the allowlist to add new fields; instead, create a
+feature-bounded entity as described above.
+
+If you believe a field genuinely belongs on a high-impact entity (for example,
+it is needed by the vast majority of consumers), open a discussion with the
+[API Platform team](https://handbook.gitlab.com/handbook/engineering/infrastructure-platforms/developer-experience/api/)
+to evaluate the trade-offs before proceeding.
+
 ## Documentation
 
 Each new or updated API endpoint must come with documentation.

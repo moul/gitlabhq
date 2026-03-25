@@ -2774,7 +2774,7 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
         let!(:job) { downstream_pipeline.builds.first }
 
         context 'when source bridge is dependent on pipeline status' do
-          let!(:bridge) { create(:ci_bridge, :strategy_depend, pipeline: upstream_pipeline) }
+          let!(:bridge) { create(:ci_bridge, :strategy_depend, pipeline: upstream_pipeline, downstream: project) }
 
           it 'schedules the pipeline bridge worker' do
             expect(::Ci::PipelineBridgeStatusWorker).to receive(:perform_async).with(downstream_pipeline.id)
@@ -2828,7 +2828,7 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
             let!(:upstream_of_upstream_pipeline) { create(:ci_pipeline) }
 
             before do
-              upstream_bridge = create(:ci_bridge, :strategy_depend, pipeline: upstream_of_upstream_pipeline)
+              upstream_bridge = create(:ci_bridge, :strategy_depend, pipeline: upstream_of_upstream_pipeline, downstream: project)
               create(:ci_sources_pipeline, pipeline: upstream_pipeline, source_job: upstream_bridge)
             end
 
@@ -6865,7 +6865,7 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
     end
 
     context 'when the downstream has strategy: depend' do
-      let!(:bridge) { create(:ci_bridge, :strategy_depend, pipeline: upstream_pipeline, status: 'created', user: current_user) }
+      let!(:bridge) { create(:ci_bridge, :strategy_depend, pipeline: upstream_pipeline, status: 'created', user: current_user, downstream: project) }
       let_it_be(:current_user) { owner }
 
       before do
@@ -6877,7 +6877,7 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
 
       context 'when the upstream pipeline has an upstream bridge that is dependant on status' do
         let(:upstream_of_upstream) { create(:ci_pipeline, project: create(:project)) }
-        let!(:upstream_bridge) { create(:ci_bridge, :strategy_depend, pipeline: upstream_of_upstream, user: owner) }
+        let!(:upstream_bridge) { create(:ci_bridge, :strategy_depend, pipeline: upstream_of_upstream, user: owner, downstream: project) }
 
         before do
           create(:ci_sources_pipeline, pipeline: upstream_pipeline, source_job: upstream_bridge)
@@ -6894,7 +6894,7 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
     end
 
     context 'when the downstream has strategy: mirror' do
-      let!(:bridge) { create(:ci_bridge, :strategy_mirror, pipeline: upstream_pipeline, status: 'created', user: current_user) }
+      let!(:bridge) { create(:ci_bridge, :strategy_mirror, pipeline: upstream_pipeline, status: 'created', user: current_user, downstream: project) }
       let_it_be(:current_user) { owner }
 
       before do
@@ -6906,7 +6906,7 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
 
       context 'when the upstream pipeline has an upstream bridge that mirrors the status' do
         let(:upstream_of_upstream) { create(:ci_pipeline, project: create(:project)) }
-        let!(:upstream_bridge) { create(:ci_bridge, :strategy_depend, pipeline: upstream_of_upstream, user: owner) }
+        let!(:upstream_bridge) { create(:ci_bridge, :strategy_depend, pipeline: upstream_of_upstream, user: owner, downstream: project) }
 
         before do
           create(:ci_sources_pipeline, pipeline: upstream_pipeline, source_job: upstream_bridge)

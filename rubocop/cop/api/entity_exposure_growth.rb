@@ -37,10 +37,9 @@ module RuboCop
       class EntityExposureGrowth < RuboCop::Cop::Base
         include CodeReuseHelpers
 
-        # TODO: Replace the epic link with the docs (https://gitlab.com/gitlab-org/gitlab/-/work_items/589350
         MSG = 'Do not add `expose` calls to high-impact entities. ' \
           'Create a new, feature-bounded entity instead. ' \
-          'See https://gitlab.com/groups/gitlab-org/-/epics/20829'
+          'See https://docs.gitlab.com/development/api_styleguide/#high-impact-entities-and-feature-bounded-entities'
 
         RESTRICT_ON_SEND = %i[expose].freeze
 

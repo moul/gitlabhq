@@ -251,5 +251,27 @@ RSpec.describe Projects::ImportExport::ExportService, feature_category: :importe
 
       expect { service.execute }.not_to exceed_query_limit(control)
     end
+
+    describe '#exporters' do
+      context 'when import_export_preallocate_iids feature flag is enabled' do
+        before do
+          stub_feature_flags(import_export_preallocate_iids: user)
+        end
+
+        it 'includes MaxIidsSaver' do
+          expect(service.exporters).to include(an_instance_of(Gitlab::ImportExport::Project::MaxIidsSaver))
+        end
+      end
+
+      context 'when import_export_preallocate_iids feature flag is disabled' do
+        before do
+          stub_feature_flags(import_export_preallocate_iids: false)
+        end
+
+        it 'does not include MaxIidsSaver' do
+          expect(service.exporters).not_to include(an_instance_of(Gitlab::ImportExport::Project::MaxIidsSaver))
+        end
+      end
+    end
   end
 end

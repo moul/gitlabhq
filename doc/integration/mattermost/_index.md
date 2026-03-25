@@ -134,7 +134,7 @@ integrations with GitLab add the following on the GitLab Server:
 gitlab_rails['mattermost_host'] = "https://mattermost.example.com"
 ```
 
-By default GitLab Mattermost requires all users to sign up with GitLab and disables the sign-up by email option. See Mattermost [documentation on GitLab SSO](https://docs.mattermost.com/deployment/sso-gitlab.html).
+By default GitLab Mattermost requires all users to sign up with GitLab and disables the option to create an account by email. See Mattermost [documentation on GitLab SSO](https://docs.mattermost.com/deployment/sso-gitlab.html).
 
 ## Manually (re)authorizing GitLab Mattermost with GitLab
 

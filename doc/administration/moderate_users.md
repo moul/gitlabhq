@@ -92,7 +92,7 @@ To trigger a manual update of the daily and historical billable users in your Gi
 A user in a pending approval state requires action by an administrator. A user sign up can be in a
 pending approval state because an administrator has enabled any of the following options:
 
-- [Require administrator approval for new sign-ups](settings/sign_up_restrictions.md#require-administrator-approval-for-new-sign-ups) setting.
+- [Require administrator approval for new user account creation](settings/sign_up_restrictions.md#require-administrator-approval-for-new-user-accounts) setting.
 - [User cap](settings/sign_up_restrictions.md#user-cap).
 - [Block auto-created users (OmniAuth)](../integration/omniauth.md#configure-common-settings)
 - [Block auto-created users (LDAP)](auth/ldap/_index.md#basic-configuration-settings)
@@ -110,7 +110,7 @@ A user pending approval:
 - Does not receive any notifications from GitLab.
 - Does not consume a [seat](../subscriptions/manage_users_and_seats.md#billable-users).
 
-An administrator must [approve their sign up](#approve-or-reject-a-user-sign-up) to allow them to
+An administrator must [approve their sign up](#approve-or-reject-a-new-user-account) to allow them to
 sign in.
 
 ### View user sign ups pending approval
@@ -127,7 +127,7 @@ To view user sign ups pending approval:
 1. Select **Overview** > **Users**.
 1. In the search box, filter by **State=Pending approval**, and press <kbd>Enter</kbd>.
 
-### Approve or reject a user sign up
+### Approve or reject a new user account
 
 {{< history >}}
 

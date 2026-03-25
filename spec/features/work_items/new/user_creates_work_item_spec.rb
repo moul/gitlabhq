@@ -89,26 +89,4 @@ RSpec.describe 'User creates work items', :js, feature_category: :team_planning 
       end
     end
   end
-
-  context 'when projects with issues disabled' do
-    describe 'create issue dropdown' do
-      let_it_be(:user_in_group) { create(:group_member, :maintainer, user: create(:user), group: group).user }
-      let_it_be(:project_with_issues_disabled) { create(:project, :issues_disabled, group: group) }
-
-      before do
-        stub_feature_flags(work_item_planning_view: false)
-        [project, project_with_issues_disabled].each { |project| project.add_maintainer(user_in_group) }
-        sign_in(user_in_group)
-        visit issues_group_path(group)
-      end
-
-      it 'shows projects only with issues feature enabled', :js do
-        click_button 'Select project to create issue', match: :first
-        wait_for_requests
-
-        expect_listbox_item(project.full_name)
-        expect_no_listbox_item(project_with_issues_disabled.full_name)
-      end
-    end
-  end
 end

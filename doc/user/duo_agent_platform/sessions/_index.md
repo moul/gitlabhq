@@ -50,6 +50,8 @@ Because chats are interactive, they require a clearer separation in the UI.
 You can think of the Chat history as a filtered view of sessions that exists
 exclusively for Chats.
 
+To browse and switch Chat sessions in the GitLab Duo CLI, see [switch sessions](../../gitlab_duo_cli/_index.md#switch-sessions).
+
 ## Cancel a running session
 
 You can cancel a session that is running or waiting for input. To cancel a session:

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Multiple issue updating from issues#index', :js, feature_category: :team_planning do
+RSpec.describe 'Multiple work item updating from work items list', :js, feature_category: :team_planning do
   include ListboxHelpers
 
   let!(:project)   { create(:project) }
@@ -10,18 +10,14 @@ RSpec.describe 'Multiple issue updating from issues#index', :js, feature_categor
   let!(:user)      { create(:user) }
 
   before do
-    # TODO: When removing the feature flag,
-    # we won't need the tests for the issues listing page, since we'll be using
-    # the work items listing page.
-    stub_feature_flags(work_item_planning_view: false)
-
     project.add_maintainer(user)
+    create(:callout, user: user, feature_name: :work_items_onboarding_modal)
     sign_in(user)
   end
 
   context 'state' do
     it 'sets to closed', :js do
-      visit project_issues_path(project)
+      visit project_work_items_path(project)
 
       click_button 'Bulk edit'
       check 'Select all'
@@ -33,7 +29,7 @@ RSpec.describe 'Multiple issue updating from issues#index', :js, feature_categor
 
     it 'sets to open', :js do
       create_closed
-      visit project_issues_path(project, state: 'closed')
+      visit project_work_items_path(project, state: 'closed')
 
       click_button 'Bulk edit'
       check 'Select all'
@@ -47,7 +43,7 @@ RSpec.describe 'Multiple issue updating from issues#index', :js, feature_categor
   context 'assignee' do
     it 'updates to current user',
       quarantine: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/issues/16772' do
-      visit project_issues_path(project)
+      visit project_work_items_path(project)
 
       click_button 'Bulk edit'
       check 'Select all'
@@ -63,7 +59,7 @@ RSpec.describe 'Multiple issue updating from issues#index', :js, feature_categor
 
     it 'updates to unassigned' do
       create_assigned
-      visit project_issues_path(project)
+      visit project_work_items_path(project)
 
       expect(find('.issue:first-of-type')).to have_link "Assigned to #{user.name}"
 
@@ -81,7 +77,7 @@ RSpec.describe 'Multiple issue updating from issues#index', :js, feature_categor
     let!(:milestone) { create(:milestone, project: project) }
 
     it 'updates milestone' do
-      visit project_issues_path(project)
+      visit project_work_items_path(project)
 
       click_button 'Bulk edit'
       check 'Select all'
@@ -94,7 +90,7 @@ RSpec.describe 'Multiple issue updating from issues#index', :js, feature_categor
 
     it 'sets to no milestone' do
       create_with_milestone
-      visit project_issues_path(project)
+      visit project_work_items_path(project)
 
       wait_for_requests
 
@@ -114,7 +110,7 @@ RSpec.describe 'Multiple issue updating from issues#index', :js, feature_categor
     let!(:issue_2) { create(:issue, project: project) }
 
     it 'after selecting all issues, unchecking one issue only unselects that one issue' do
-      visit project_issues_path(project)
+      visit project_work_items_path(project)
 
       click_button 'Bulk edit'
       check 'Select all'

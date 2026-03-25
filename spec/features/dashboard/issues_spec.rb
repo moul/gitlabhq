@@ -17,7 +17,6 @@ RSpec.describe 'Dashboard Issues', :js, :with_current_organization, feature_cate
   let_it_be(:other_issue) { create :issue, project: project }
 
   before do
-    stub_feature_flags(work_items_consolidated_list_user: false, work_item_planning_view: false)
     [project, project_with_issues_disabled].each { |project| project.add_maintainer(current_user) }
     sign_in(current_user)
   end
@@ -117,34 +116,13 @@ RSpec.describe 'Dashboard Issues', :js, :with_current_organization, feature_cate
       end
     end
 
-    context 'when work_item_planning_view: true' do
-      before do
-        stub_feature_flags(work_item_planning_view: true)
-      end
+    it 'shows the new issue page' do
+      click_button _('Select project to create issue')
+      wait_for_requests
+      select_listbox_item(project.full_name)
+      click_link format(_('New issue in %{project}'), project: project.name)
 
-      it 'shows the new issue page' do
-        click_button _('Select project to create issue')
-        wait_for_requests
-        select_listbox_item(project.full_name)
-        click_link format(_('New issue in %{project}'), project: project.name)
-
-        expect(page).to have_current_path("/#{project.full_path}/-/work_items/new")
-      end
-    end
-
-    context 'when work_item_planning_view: false' do
-      before do
-        stub_feature_flags(work_item_planning_view: false)
-      end
-
-      it 'shows the new issue page' do
-        click_button _('Select project to create issue')
-        wait_for_requests
-        select_listbox_item(project.full_name)
-        click_link format(_('New issue in %{project}'), project: project.name)
-
-        expect(page).to have_current_path("/#{project.full_path}/-/issues/new")
-      end
+      expect(page).to have_current_path("/#{project.full_path}/-/work_items/new")
     end
   end
 end

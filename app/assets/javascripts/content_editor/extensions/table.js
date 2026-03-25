@@ -1,3 +1,4 @@
+import { mergeAttributes } from '@tiptap/core';
 import { Table } from '@tiptap/extension-table';
 import { debounce } from 'lodash-es';
 import { VARIANT_WARNING } from '~/alert';
@@ -14,6 +15,23 @@ export default Table.extend({
         parseHTML: (element) => Boolean(getMarkdownSource(element)),
       },
     };
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    const stickyEnabled = window.gon?.features?.editorStickyTableHeaders;
+    const divAttrs = stickyEnabled
+      ? {
+          'data-sticky-header': true,
+          class:
+            'gl-overflow-x-auto gl-overflow-y-auto gl-max-h-[70vh] print:gl-max-h-none gl-my-5',
+        }
+      : {};
+
+    return [
+      'div',
+      divAttrs,
+      ['table', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), ['tbody', 0]],
+    ];
   },
 
   onUpdate: debounce(function onUpdate({ editor }) {

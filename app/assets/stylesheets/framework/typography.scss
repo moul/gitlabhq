@@ -414,7 +414,8 @@
     }
   }
 
-  [data-sticky-header] > table:not(.code) > thead th {
+  [data-sticky-header] > table:not(.code) > thead th,
+  [data-sticky-header] > table:not(.code) > tbody > tr:first-child > th {
     @apply gl-sticky;
     @apply gl-top-0;
     @apply gl-z-2;

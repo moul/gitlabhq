@@ -12,6 +12,10 @@ module Ci
     end
 
     def execute
+      if Feature.enabled?(:ci_enqueue_job_authorization, job.project)
+        raise Gitlab::Access::AccessDeniedError unless Ability.allowed?(current_user, :play_job, job) # rubocop:disable Style/SoleNestedConditional -- Readability
+      end
+
       Gitlab::OptimisticLocking.retry_lock_with_transaction(job, name: 'ci_enqueue_job') do |job|
         job.user = current_user
         job.job_variables_attributes = variables if variables

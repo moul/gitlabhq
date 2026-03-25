@@ -199,5 +199,42 @@ RSpec.describe Import::AfterExportStrategies::BaseAfterExportStrategy, feature_c
         expect(service).to have_received(:sleep).with(4).once    # 2 * 2^1
       end
     end
+
+    describe 'clearing cached associations' do
+      it 'resets import_export_uploads association within uncached block on retry' do
+        call_count = 0
+        allow(project).to receive(:export_file_exists?) do
+          call_count += 1
+          call_count >= 2
+        end
+
+        association_mock = instance_double(ActiveRecord::Associations::HasManyAssociation)
+        allow(project).to receive(:association).with(:import_export_uploads).and_return(association_mock)
+        expect(association_mock).to receive(:reset).once
+        allow(Project).to receive(:uncached).and_yield
+
+        expect { service.ensure_export_ready!(user, max_retries: 5, base_delay: 0.01) }.not_to raise_error
+      end
+
+      it 'does not reset association on first check' do
+        allow(project).to receive(:export_file_exists?).and_return(true)
+
+        expect(project).not_to receive(:association)
+
+        service.ensure_export_ready!(user)
+      end
+
+      it 'uses uncached block when clearing association on retry' do
+        call_count = 0
+        allow(project).to receive(:export_file_exists?) do
+          call_count += 1
+          call_count >= 2
+        end
+
+        expect(Project).to receive(:uncached).once.and_yield
+
+        service.ensure_export_ready!(user, max_retries: 5, base_delay: 0.01)
+      end
+    end
   end
 end

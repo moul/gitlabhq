@@ -557,48 +557,6 @@ RSpec.describe Gitlab::ImportExport::Json::StreamingSerializer, :clean_gitlab_re
         subject.serialize_relation({ user_contributions: { only: [:id, :public_email, :username, :name], include: [] } })
       end
     end
-
-    context 'when export_reduce_relation_batch_size` feature flag is enabled' do
-      before do
-        stub_feature_flags(export_reduce_relation_batch_size: true)
-      end
-
-      context 'when exported relation is included in SMALL_BATCH_RELATIONS' do
-        before do
-          stub_const("#{described_class}::SMALL_BATCH_RELATIONS", [:merge_requests])
-        end
-
-        it 'export relations using a smaller batch size' do
-          expect(exportable.merge_requests).to receive(:in_batches).with(of: described_class::SMALLER_BATCH_SIZE)
-
-          subject.serialize_relation({ merge_requests: { include: [] } })
-        end
-      end
-
-      context 'when exported relation is not included in SMALL_BATCH_RELATIONS' do
-        before do
-          stub_const("#{described_class}::SMALL_BATCH_RELATIONS", [])
-        end
-
-        it 'export relations using the regular batch size' do
-          expect(exportable.merge_requests).to receive(:in_batches).with(of: described_class::BATCH_SIZE)
-
-          subject.serialize_relation({ merge_requests: { include: [] } })
-        end
-      end
-    end
-
-    context 'when export_reduce_relation_batch_size` feature flag is disabled' do
-      before do
-        stub_feature_flags(export_reduce_relation_batch_size: false)
-      end
-
-      it 'export relations using the regular batch size' do
-        expect(exportable.merge_requests).to receive(:in_batches).with(of: described_class::BATCH_SIZE)
-
-        subject.serialize_relation({ merge_requests: { include: [] } })
-      end
-    end
   end
 
   describe '#serialize_relation with excluded_relations' do

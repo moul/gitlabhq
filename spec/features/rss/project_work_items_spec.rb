@@ -21,10 +21,6 @@ RSpec.describe 'Project Work Items RSS Feed', feature_category: :team_planning d
     let_it_be(:project) { create(:project) }
     let!(:work_item) { create(:work_item, author: user, project: project) }
 
-    before_all do
-      stub_feature_flags(work_item_planning_view: true)
-    end
-
     context 'when authenticated' do
       context 'with no referer' do
         it 'renders RSS feed' do

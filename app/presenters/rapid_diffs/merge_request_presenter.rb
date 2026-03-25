@@ -44,13 +44,26 @@ module RapidDiffs
           offset: offset,
           skip_old_path: skip_old_path,
           skip_new_path: skip_new_path,
-          view: diff_view
+          view: diff_view,
+          only_context_commits: only_context_commits? || nil
         )
       )
     end
 
     def discussions_endpoint
       discussions_project_merge_request_path(resource.project, resource)
+    end
+
+    def only_context_commits?
+      request_params&.dig(:only_context_commits) == 'true'
+    end
+
+    override(:diffs_slice)
+    def diffs_slice
+      return if offset.to_i == 0
+
+      @diffs_slice ||= transform_file_collection(resource.first_diffs_slice(offset,
+        @diff_options.merge(only_context_commits: only_context_commits?)))
     end
 
     def sorted?

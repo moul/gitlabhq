@@ -1,0 +1,10 @@
+---
+name: ci_enqueue_job_authorization
+description: Adds authorization check to Ci::EnqueueJobService layer, which supports defense in depth.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/524123
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227714
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/593898
+milestone: '18.11'
+group: group::ci platform
+type: gitlab_com_derisk
+default_enabled: false

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Issues > Labels bulk assignment', feature_category: :team_planning do
+RSpec.describe 'Work items > Labels bulk assignment', feature_category: :team_planning do
   include ListboxHelpers
 
   let(:user)      { create(:user) }
@@ -17,17 +17,11 @@ RSpec.describe 'Issues > Labels bulk assignment', feature_category: :team_planni
   let(:issue_1_selector) { "#issuable_#{issue1.id}" }
   let(:issue_2_selector) { "#issuable_#{issue2.id}" }
 
-  before do
-    # TODO: When removing the feature flag,
-    # we won't need the tests for the issues listing page, since we'll be using
-    # the work items listing page.
-    stub_feature_flags(work_item_planning_view: false)
-  end
-
   context 'as an allowed user', :js do
     before do
       project.add_maintainer(user)
 
+      create(:callout, user: user, feature_name: :work_items_onboarding_modal)
       sign_in user
     end
 
@@ -272,7 +266,7 @@ RSpec.describe 'Issues > Labels bulk assignment', feature_category: :team_planni
         end
       end
 
-      context 'unsetting a milestone' do
+      context 'when unsetting a milestone' do
         before do
           issue1.milestone = milestone
           issue2.milestone = milestone
@@ -302,13 +296,13 @@ RSpec.describe 'Issues > Labels bulk assignment', feature_category: :team_planni
       end
     end
 
-    context 'toggling checked issues' do
+    context 'when toggling checked issues' do
       before do
         issue1.labels << bug
         enable_bulk_update
       end
 
-      it do
+      it 'preserves labels when unchecking and rechecking an issue' do
         expect(find(issue_1_selector)).to have_content 'bug'
 
         check issue1.title
@@ -323,7 +317,7 @@ RSpec.describe 'Issues > Labels bulk assignment', feature_category: :team_planni
     end
 
     # Special case https://gitlab.com/gitlab-org/gitlab-foss/issues/24877
-    context 'unmarking common label' do
+    context 'when unmarking a common label' do
       before do
         issue1.labels << bug
         issue1.labels << feature
@@ -355,11 +349,11 @@ RSpec.describe 'Issues > Labels bulk assignment', feature_category: :team_planni
     before do
       sign_in user
 
-      visit project_issues_path(project)
+      visit project_work_items_path(project)
     end
 
-    context 'cannot bulk assign labels' do
-      it do
+    context 'when bulk label assignment is not allowed' do
+      it 'does not show bulk edit controls' do
         expect(page).not_to have_button 'Bulk edit'
         expect(page).not_to have_unchecked_field 'Select all'
         expect(page).not_to have_unchecked_field issue1.title
@@ -399,7 +393,7 @@ RSpec.describe 'Issues > Labels bulk assignment', feature_category: :team_planni
   end
 
   def enable_bulk_update
-    visit project_issues_path(project)
+    visit project_work_items_path(project)
     click_button 'Bulk edit'
   end
 end

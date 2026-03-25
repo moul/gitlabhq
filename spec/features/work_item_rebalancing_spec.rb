@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Issue rebalancing', feature_category: :team_planning do
+RSpec.describe 'Work item rebalancing', feature_category: :team_planning do
   include Features::SortingHelpers
 
   let_it_be(:group) { create(:group) }
@@ -19,12 +19,9 @@ RSpec.describe 'Issue rebalancing', feature_category: :team_planning do
 
   context 'when issue rebalancing is in progress' do
     before do
+      create(:callout, user: user, feature_name: :work_items_onboarding_modal)
       sign_in(user)
 
-      # TODO: When removing the feature flag,
-      # we won't need the tests for the issues listing page, since we'll be using
-      # the work items listing page.
-      stub_feature_flags(work_item_planning_view: false)
       stub_feature_flags(block_issue_repositioning: true)
     end
 
@@ -44,36 +41,36 @@ RSpec.describe 'Issue rebalancing', feature_category: :team_planning do
       expect(page).to have_selector('.gl-alert-info', text: alert_message_regex, count: 1)
     end
 
-    it 'shows an alert in project issues list with manual sort', :js do
-      visit project_issues_path(project, sort: 'relative_position')
+    it 'shows an alert in project work items list with manual sort', :js do
+      visit project_work_items_path(project, sort: 'relative_position')
 
       expect(page).to have_selector('.gl-alert-info',
         text: 'Sort order rebalancing in progress. Reordering is temporarily disabled.', count: 1)
     end
 
-    it 'shows an alert in group issues list with manual sort', :js do
-      visit issues_group_path(group, sort: 'relative_position')
+    it 'shows an alert in group work items list with manual sort', :js do
+      visit group_work_items_path(group, sort: 'relative_position')
 
       expect(page).to have_selector('.gl-alert-info',
         text: 'Sort order rebalancing in progress. Reordering is temporarily disabled.', count: 1)
     end
 
-    it 'does not show an alert in project issues list with other sorts' do
-      visit project_issues_path(project, sort: 'created_date')
+    it 'does not show an alert in project work items list with other sorts' do
+      visit project_work_items_path(project, sort: 'created_date')
 
       expect(page).not_to have_selector('.gl-alert-info',
         text: 'Sort order rebalancing in progress. Reordering is temporarily disabled.')
     end
 
-    it 'does not show an alert in group issues list with other sorts' do
-      visit issues_group_path(group, sort: 'created_date')
+    it 'does not show an alert in group work items list with other sorts' do
+      visit group_work_items_path(group, sort: 'created_date')
 
       expect(page).not_to have_selector('.gl-alert-info',
         text: 'Sort order rebalancing in progress. Reordering is temporarily disabled.')
     end
 
-    it 'shows alert when trying to switch to manual sort via dropdown in project issues list', :js do
-      visit project_issues_path(project)
+    it 'shows alert when trying to switch to manual sort via dropdown in project work items list', :js do
+      visit project_work_items_path(project)
 
       pajamas_sort_by 'Manual', from: 'Created date'
 
@@ -83,8 +80,8 @@ RSpec.describe 'Issue rebalancing', feature_category: :team_planning do
         text: 'Sort order rebalancing in progress. Reordering is temporarily disabled.')
     end
 
-    it 'shows alert when trying to switch to manual sort via dropdown in group issues list', :js do
-      visit issues_group_path(group)
+    it 'shows alert when trying to switch to manual sort via dropdown in group work items list', :js do
+      visit group_work_items_path(group)
 
       pajamas_sort_by 'Manual', from: 'Created date'
 
@@ -94,8 +91,8 @@ RSpec.describe 'Issue rebalancing', feature_category: :team_planning do
         text: 'Sort order rebalancing in progress. Reordering is temporarily disabled.')
     end
 
-    it 'does not show alert when switching to non-manual sort via dropdown in project issues list', :js do
-      visit project_issues_path(project)
+    it 'does not show alert when switching to non-manual sort via dropdown in project work items list', :js do
+      visit project_work_items_path(project)
 
       pajamas_sort_by 'Updated date', from: 'Created date'
 
@@ -105,8 +102,8 @@ RSpec.describe 'Issue rebalancing', feature_category: :team_planning do
         text: 'Sort order rebalancing in progress. Reordering is temporarily disabled.')
     end
 
-    it 'does not show alert when switching to non-manual sort via dropdown in group issues list', :js do
-      visit issues_group_path(group)
+    it 'does not show alert when switching to non-manual sort via dropdown in group work items list', :js do
+      visit group_work_items_path(group)
 
       pajamas_sort_by 'Updated date', from: 'Created date'
 

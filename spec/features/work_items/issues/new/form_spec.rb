@@ -20,7 +20,7 @@ RSpec.describe 'New/edit issue', :js, feature_category: :team_planning do
 
   before do
     stub_licensed_features(multiple_issue_assignees: false, issue_weights: false)
-    stub_feature_flags(work_item_planning_view: false, okrs_mvc: false)
+    stub_feature_flags(okrs_mvc: false)
 
     sign_in(current_user)
   end
@@ -119,7 +119,7 @@ RSpec.describe 'New/edit issue', :js, feature_category: :team_planning do
         within_testid('breadcrumb-links') do
           issue = Issue.find_by(title: 'title')
 
-          expect(page).to have_text("Issues #{issue.to_reference}")
+          expect(page).to have_text("Work items #{issue.to_reference}")
         end
       end
     end

@@ -1806,7 +1806,7 @@ module Ci
     # Using `unscoped` here will be redundant after Rails 6.1
     def object_hierarchy(options = {})
       ::Gitlab::Ci::PipelineObjectHierarchy
-        .new(self.class.unscoped.where(id: id), options: options)
+        .new(self.class.unscoped.where(id: id, partition_id: partition_id), options: options)
     end
 
     def internal_pipeline?

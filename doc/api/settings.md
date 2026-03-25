@@ -479,7 +479,7 @@ to configure other related settings. These requirements are
 | `abuse_notification_email`               | string           | no                                   | If set, [abuse reports](../administration/review_abuse_reports.md) are sent to this address. Abuse reports are always available in the **Admin** area. |
 | `notify_on_unknown_sign_in`              | boolean          | no                                   | Enable sending notification if sign in from unknown IP address happens. |
 | `after_sign_out_path`                    | string           | no                                   | Where to redirect users after logout. |
-| `email_restrictions_enabled`             | boolean          | no                                   | Enable restriction for sign-up by email. |
+| `email_restrictions_enabled`             | boolean          | no                                   | Prevent new users from creating an account by email. |
 | `email_restrictions`                     | string           | required by: `email_restrictions_enabled` | Regular expression that is checked against the email used during registration. |
 | `after_sign_up_text`                     | string           | no                                   | Text shown to the user after signing up. |
 | `akismet_api_key`                        | string           | required by: `akismet_enabled`       | API key for Akismet spam protection. |
@@ -561,9 +561,9 @@ to configure other related settings. These requirements are
 | `disabled_oauth_sign_in_sources`         | array of strings | no                                   | Disabled OAuth sign-in sources. |
 | `disable_password_authentication_for_users_with_sso_identities` | boolean | no                     | Disable password authentication in the web interface for users with an SSO identity. This does not affect Git operations over HTTP(S). Default is `false`. |
 | `dns_rebinding_protection_enabled`       | boolean          | no                                   | Enforce DNS-rebinding attack protection. |
-| `domain_denylist_enabled`                | boolean          | no                                   | (**If enabled, requires**: `domain_denylist`) Allows blocking sign-ups from emails from specific domains. |
+| `domain_denylist_enabled`                | boolean          | no                                   | (**If enabled, requires**: `domain_denylist`) Allows you to block new user accounts with emails from specific domains. |
 | `domain_denylist`                        | array of strings | no                                   | Users with email addresses that match these domains **cannot** sign up. Wildcards allowed. Enter multiple entries on separate lines. For example: `domain.com`, `*.domain.com`. |
-| `domain_allowlist`                       | array of strings | no                                   | Force people to use only corporate emails for sign-up. Default is `null`, meaning there is no restriction. |
+| `domain_allowlist`                       | array of strings | no                                   | Force people to use only corporate emails when creating accounts. Default is `null`, meaning there is no restriction. |
 | `downstream_pipeline_trigger_limit_per_project_user_sha` | integer | no                            | [Maximum downstream pipeline trigger rate](../administration/settings/continuous_integration.md#limit-downstream-pipeline-trigger-rate). Default: `0` (no restriction). [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/144077) in GitLab 16.10. |
 | `dsa_key_restriction`                    | integer          | no                                   | The minimum allowed bit length of an uploaded DSA key. Default is `0` (no restriction). `-1` disables DSA keys. |
 | `ecdsa_key_restriction`                  | integer          | no                                   | The minimum allowed curve size (in bits) of an uploaded ECDSA key. Default is `0` (no restriction). `-1` disables ECDSA keys. |
@@ -649,7 +649,7 @@ to configure other related settings. These requirements are
 | `housekeeping_optimize_repository_period`| integer          | no                                   | Number of Git pushes after which an incremental `git repack` is run. |
 | `html_emails_enabled`                    | boolean          | no                                   | Enable HTML emails. |
 | `import_sources`                         | array of strings | no                                   | Sources to allow project import from, possible values: `github`, `bitbucket`, `bitbucket_server`, `fogbugz`, `git`, `gitlab_project`, `gitea`, and `manifest`. |
-| `invisible_captcha_enabled`              | boolean          | no                                   | Enable Invisible CAPTCHA spam detection during sign-up. Disabled by default. |
+| `invisible_captcha_enabled`              | boolean          | no                                   | Enable Invisible CAPTCHA spam detection during account creation. Disabled by default. |
 | `issues_create_limit`                    | integer          | no                                   | Max number of issue creation requests per minute per user. Disabled by default.|
 | `jira_connect_application_key`           | string           | no                                   | ID of the OAuth application used to authenticate with the GitLab for Jira Cloud app. |
 | `jira_connect_public_key_storage_enabled` | boolean         | no                                   | Enable public key storage for the GitLab for Jira Cloud app. |
@@ -845,7 +845,7 @@ to configure other related settings. These requirements are
 | `time_tracking_limit_to_hours`           | boolean          | no                                   | Limit display of time tracking units to hours. Default is `false`. |
 | `top_level_group_creation_enabled`           | boolean          | no                                   | Allows a user to create top-level-groups. Default is `true`. |
 | `two_factor_grace_period`                | integer          | required by: `require_two_factor_authentication` | Amount of time (in hours) that users are allowed to skip forced configuration of two-factor authentication. |
-| `unconfirmed_users_delete_after_days`    | integer          | no                                   | Specifies how many days after sign-up to delete users who have not confirmed their email. Only applicable if `delete_unconfirmed_users` is set to `true`. Must be `1` or greater. Default is `7`. [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/352514) in GitLab 16.1. GitLab Self-Managed, Premium and Ultimate only. |
+| `unconfirmed_users_delete_after_days`    | integer          | no                                   | Specifies how many days after account creation to delete users who have not confirmed their email. Only applicable if `delete_unconfirmed_users` is set to `true`. Must be `1` or greater. Default is `7`. [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/352514) in GitLab 16.1. GitLab Self-Managed, Premium and Ultimate only. |
 | `unique_ips_limit_enabled`               | boolean          | no                                   | (**If enabled, requires**: `unique_ips_limit_per_user` and `unique_ips_limit_time_window`) Limit sign in from multiple IPs. |
 | `unique_ips_limit_per_user`              | integer          | required by: `unique_ips_limit_enabled` | Maximum number of IPs per user. |
 | `unique_ips_limit_time_window`           | integer          | required by: `unique_ips_limit_enabled` | How many seconds an IP is counted towards the limit. |

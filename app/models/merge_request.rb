@@ -1113,6 +1113,12 @@ class MergeRequest < ApplicationRecord
   end
 
   def diffs_for_streaming(diff_options = {})
+    # Use compare when MR is being created and diffs haven't been persisted yet
+    return compare.diffs_for_streaming(diff_options) if compare
+    # Use context commits diff when only_context_commits is requested and context commits exist
+    return context_commits_diff.diffs(diff_options) if show_context_commits_diff?(diff_options)
+
+    # Default: resolve the diff version (handles version comparisons, specific diff_id, etc.)
     diff = resolve_diff_version(diff_options)
     diff.diffs_for_streaming(diff_options)
   end
@@ -2778,6 +2784,12 @@ class MergeRequest < ApplicationRecord
   end
 
   def first_diffs_slice(limit, diff_options = {})
+    # use compare when MR is being created and diffs haven't been persisted yet
+    return compare.first_diffs_slice(limit, diff_options) if compare
+    # use context commits diff when only_context_commits is requested and context commits exist
+    return context_commits_diff.diffs(diff_options).diff_files.first(limit) if show_context_commits_diff?(diff_options)
+
+    # default: resolve the diff version (handles version comparisons, specific diff_id, etc.)
     diff = resolve_diff_version(diff_options)
     diff.first_diffs_slice(limit, diff_options)
   end
@@ -2976,6 +2988,10 @@ class MergeRequest < ApplicationRecord
       .where(dc[:merge_request_diff_id].eq(merge_request_diff.id))
       .where(dc[:merge_request_commits_metadata_id].eq(nil))
       .where(u[:email].not_eq(nil))
+  end
+
+  def show_context_commits_diff?(diff_options)
+    diff_options[:only_context_commits] && context_commits_diff && !context_commits_diff.empty?
   end
 
   def update_cached_closing_issues_from_description!(issues_to_close_ids)

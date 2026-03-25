@@ -38,7 +38,11 @@ module Projects
       end
 
       def exporters
-        [version_saver, exported_relations_merger]
+        savers = [version_saver, exported_relations_merger]
+
+        savers.append(max_iids_saver) if Feature.enabled?(:import_export_preallocate_iids, current_user)
+
+        savers
       end
 
       def save_exporters
@@ -55,6 +59,10 @@ module Projects
 
       def version_saver
         @version_saver ||= Gitlab::ImportExport::VersionSaver.new(shared: shared)
+      end
+
+      def max_iids_saver
+        @max_iids_saver ||= Gitlab::ImportExport::Project::MaxIidsSaver.new(project: project, shared: shared)
       end
 
       def exported_relations_merger

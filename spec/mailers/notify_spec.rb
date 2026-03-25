@@ -1328,7 +1328,7 @@ RSpec.describe Notify, feature_category: :code_review_workflow do
           let(:model) { issue }
         end
 
-        it_behaves_like 'it should show Gmail Actions View Issue link', group_level
+        it_behaves_like 'it should show Gmail Actions View Issue link'
         it_behaves_like 'an unsubscribeable thread'
         it_behaves_like 'appearance header and footer enabled'
         it_behaves_like 'appearance header and footer not enabled'
@@ -1385,7 +1385,7 @@ RSpec.describe Notify, feature_category: :code_review_workflow do
           let(:model) { issue }
         end
 
-        it_behaves_like 'it should show Gmail Actions View Issue link', group_level
+        it_behaves_like 'it should show Gmail Actions View Issue link'
         it_behaves_like 'an unsubscribeable thread'
         it_behaves_like 'appearance header and footer enabled'
         it_behaves_like 'appearance header and footer not enabled'
@@ -1452,7 +1452,7 @@ RSpec.describe Notify, feature_category: :code_review_workflow do
           let(:model) { issue }
         end
 
-        it_behaves_like 'it should show Gmail Actions View Issue link', group_level
+        it_behaves_like 'it should show Gmail Actions View Issue link'
         it_behaves_like 'a user cannot unsubscribe through footer link'
         it_behaves_like 'an email with a labels subscriptions link in its footer', group_level
         it_behaves_like 'appearance header and footer enabled'
@@ -1500,7 +1500,7 @@ RSpec.describe Notify, feature_category: :code_review_workflow do
           is_expected.to have_body_text(issue.to_reference(full: false))
         end
 
-        it_behaves_like 'it should show Gmail Actions View Issue link', group_level
+        it_behaves_like 'it should show Gmail Actions View Issue link'
         it_behaves_like 'an unsubscribeable thread'
         it_behaves_like 'appearance header and footer enabled'
         it_behaves_like 'appearance header and footer not enabled'
@@ -1515,7 +1515,7 @@ RSpec.describe Notify, feature_category: :code_review_workflow do
           let(:model) { issue }
         end
 
-        it_behaves_like 'it should show Gmail Actions View Issue link', group_level
+        it_behaves_like 'it should show Gmail Actions View Issue link'
         it_behaves_like 'an unsubscribeable thread'
         it_behaves_like 'appearance header and footer enabled'
         it_behaves_like 'appearance header and footer not enabled'
@@ -1541,7 +1541,7 @@ RSpec.describe Notify, feature_category: :code_review_workflow do
           let(:model) { issue }
         end
 
-        it_behaves_like 'it should show Gmail Actions View Issue link', group_level
+        it_behaves_like 'it should show Gmail Actions View Issue link'
         it_behaves_like 'an unsubscribeable thread'
         it_behaves_like 'appearance header and footer enabled'
         it_behaves_like 'appearance header and footer not enabled'
@@ -1623,7 +1623,7 @@ RSpec.describe Notify, feature_category: :code_review_workflow do
             let(:model) { issue }
           end
 
-          it_behaves_like 'it should show Gmail Actions View Issue link', group_level
+          it_behaves_like 'it should show Gmail Actions View Issue link'
           it_behaves_like 'an unsubscribeable thread'
 
           it 'contains description about action taken' do
@@ -1717,7 +1717,7 @@ RSpec.describe Notify, feature_category: :code_review_workflow do
             let(:model) { issue }
           end
 
-          it_behaves_like 'it should show Gmail Actions View Issue link', group_level
+          it_behaves_like 'it should show Gmail Actions View Issue link'
           it_behaves_like 'an unsubscribeable thread', group_level do
             before do
               group.add_developer(recipient)

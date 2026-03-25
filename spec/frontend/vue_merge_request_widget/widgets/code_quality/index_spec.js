@@ -41,9 +41,10 @@ describe('Code Quality widget', () => {
   const findSummary = () => wrapper.findByTestId('widget-extension-top-level-summary');
   const findToggleCollapsedButton = () => wrapper.findByTestId('toggle-button');
 
-  const createComponent = ({ provide } = {}) => {
+  const createComponent = ({ provide = {} } = {}) => {
     wrapper = mountExtended(codeQualityWidget, {
       provide: {
+        glFeatures: { mrReportsTab: true },
         ...provide,
       },
       propsData: {
@@ -91,53 +92,21 @@ describe('Code Quality widget', () => {
 
     describe('when request succeeds', () => {
       it.each`
-        scenario               | response                          | message                                                          | isCollapsible | statusIcon
-        ${'no findings'}       | ${responseNoFindings}             | ${"Code Quality hasn't changed."}                                | ${false}      | ${'neutral'}
-        ${'new findings'}      | ${responseNewFindings}            | ${'Code Quality scans found 1 new finding.'}                     | ${true}       | ${'warning'}
-        ${'resolved findings'} | ${responseResolvedFindings}       | ${'Code Quality scans found 1 fixed finding.'}                   | ${true}       | ${'success'}
-        ${'new and resolved'}  | ${responseNewAndResolvedFindings} | ${'Code Quality scans found 1 new finding and 1 fixed finding.'} | ${true}       | ${'warning'}
-      `(
-        'displays correct summary for $scenario',
-        async ({ response, message, isCollapsible, statusIcon }) => {
-          mockApi(HTTP_STATUS_OK, response);
+        scenario               | response                          | message                                                          | statusIcon
+        ${'no findings'}       | ${responseNoFindings}             | ${"Code Quality hasn't changed."}                                | ${'neutral'}
+        ${'new findings'}      | ${responseNewFindings}            | ${'Code Quality scans found 1 new finding.'}                     | ${'warning'}
+        ${'resolved findings'} | ${responseResolvedFindings}       | ${'Code Quality scans found 1 fixed finding.'}                   | ${'success'}
+        ${'new and resolved'}  | ${responseNewAndResolvedFindings} | ${'Code Quality scans found 1 new finding and 1 fixed finding.'} | ${'warning'}
+      `('displays correct summary for $scenario', async ({ response, message, statusIcon }) => {
+        mockApi(HTTP_STATUS_OK, response);
 
-          createComponent();
+        createComponent();
 
-          await waitForPromises();
+        await waitForPromises();
 
-          expect(findSummary().text()).toBe(message);
-          expect(findToggleCollapsedButton().exists()).toBe(isCollapsible);
-          expect(findWidget().props('statusIconName')).toBe(EXTENSION_ICONS[statusIcon]);
-        },
-      );
-    });
-  });
-
-  describe('expanded data', () => {
-    it('calls transformNewCodeQualityFinding with each new finding', async () => {
-      jest.spyOn(utils, 'transformNewCodeQualityFinding');
-      mockApi(HTTP_STATUS_OK, responseNewFindings);
-
-      createComponent();
-
-      await waitForPromises();
-
-      expect(utils.transformNewCodeQualityFinding).toHaveBeenCalledWith(newFinding, 0, [
-        newFinding,
-      ]);
-    });
-
-    it('calls transformResolvedCodeQualityFinding with each resolved finding', async () => {
-      jest.spyOn(utils, 'transformResolvedCodeQualityFinding');
-      mockApi(HTTP_STATUS_OK, responseResolvedFindings);
-
-      createComponent();
-
-      await waitForPromises();
-
-      expect(utils.transformResolvedCodeQualityFinding).toHaveBeenCalledWith(resolvedFinding, 0, [
-        resolvedFinding,
-      ]);
+        expect(findSummary().text()).toBe(message);
+        expect(findWidget().props('statusIconName')).toBe(EXTENSION_ICONS[statusIcon]);
+      });
     });
   });
 
@@ -160,6 +129,94 @@ describe('Code Quality widget', () => {
       await waitForPromises();
 
       expect(Sentry.captureException).toHaveBeenCalled();
+    });
+  });
+
+  describe('action buttons', () => {
+    afterEach(() => {
+      delete window.mrTabs;
+    });
+
+    it('displays the "View report" button', async () => {
+      mockApi(HTTP_STATUS_OK, responseNewFindings);
+
+      createComponent();
+
+      await waitForPromises();
+
+      const actionButtons = findWidget().props('actionButtons');
+      expect(actionButtons).toHaveLength(1);
+      expect(actionButtons[0]).toMatchObject({
+        href: `${DEFAULT_MR_PROPS.reportsTabPath}/code-quality`,
+        text: 'View report',
+      });
+    });
+
+    it('onClick navigates to the reports tab without page reload', async () => {
+      mockApi(HTTP_STATUS_OK, responseNewFindings);
+
+      createComponent();
+
+      await waitForPromises();
+
+      const replaceStateSpy = jest.spyOn(window.history, 'replaceState');
+      window.mrTabs = { tabShown: jest.fn() };
+
+      const actionButtons = findWidget().props('actionButtons');
+      const event = { preventDefault: jest.fn() };
+      actionButtons[0].onClick(actionButtons[0], event);
+
+      expect(event.preventDefault).toHaveBeenCalled();
+      expect(replaceStateSpy).toHaveBeenCalledWith(
+        null,
+        null,
+        `${DEFAULT_MR_PROPS.reportsTabPath}/code-quality`,
+      );
+      expect(window.mrTabs.tabShown).toHaveBeenCalledWith('reports');
+    });
+
+    it('should not be collapsible', async () => {
+      mockApi(HTTP_STATUS_OK, responseNewFindings);
+
+      createComponent();
+
+      await waitForPromises();
+
+      expect(findWidget().props('isCollapsible')).toBe(false);
+    });
+  });
+
+  describe('when mrReportsTab feature flag is disabled', () => {
+    const createComponentWithFeatureFlagDisabled = () => {
+      createComponent({ provide: { glFeatures: { mrReportsTab: false } } });
+    };
+
+    describe('expanded data', () => {
+      it('calls transformNewCodeQualityFinding with each new finding', async () => {
+        jest.spyOn(utils, 'transformNewCodeQualityFinding');
+        mockApi(HTTP_STATUS_OK, responseNewFindings);
+
+        createComponentWithFeatureFlagDisabled();
+
+        await waitForPromises();
+
+        expect(utils.transformNewCodeQualityFinding).toHaveBeenCalledWith(newFinding, 0, [
+          newFinding,
+        ]);
+      });
+
+      it('calls transformResolvedCodeQualityFinding with each resolved finding', async () => {
+        jest.spyOn(utils, 'transformResolvedCodeQualityFinding');
+        mockApi(HTTP_STATUS_OK, responseResolvedFindings);
+
+        createComponentWithFeatureFlagDisabled();
+
+        await waitForPromises();
+
+        expect(utils.transformResolvedCodeQualityFinding).toHaveBeenCalledWith(resolvedFinding, 0, [
+          resolvedFinding,
+        ]);
+      });
     });
   });
 });

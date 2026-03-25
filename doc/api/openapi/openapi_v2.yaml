@@ -143,6 +143,8 @@ tags:
   description: Operations about ci_runners
 - name: jobs
   description: Operations about jobs
+- name: chaos
+  description: Operations about chaos
 - name: glql
   description: Operations about glqls
 - name: internal_operations
@@ -41698,6 +41700,27 @@ paths:
       tags:
       - jobs
       operationId: getApiV4JobsIdArtifacts
+  "/api/v4/chaos/test":
+    get:
+      summary: Chaos test endpoint for feature flag observability
+      description: |
+        Picks a project by random ID and checks the `ebonet_chaos_tests` feature flag.
+        When enabled, introduces a 20% chance of a 500 error and a 20% chance of
+        a 300ms delay. Returns 200 OK otherwise.
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error (chaos-induced)
+      tags:
+      - chaos
+      operationId: getApiV4ChaosTest
   "/api/v4/group/{id}/-/packages/composer/packages":
     get:
       summary: Composer packages endpoint at group level

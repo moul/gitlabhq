@@ -115,6 +115,26 @@ RSpec.describe Gitlab::Git::Finders::RefsFinder, feature_category: :source_code_
           end
         end
       end
+
+      context 'when ignore_case is true' do
+        let(:params) do
+          { search: "MAST", ref_type: :branches, ignore_case: true }
+        end
+
+        it 'matches branches case-insensitively' do
+          expect(subject.map(&:name)).to include("master")
+        end
+      end
+
+      context 'when ignore_case is false' do
+        let(:params) do
+          { search: "MAST", ref_type: :branches, ignore_case: false }
+        end
+
+        it 'does not match branches with different case' do
+          expect(subject.map(&:name)).not_to include("master")
+        end
+      end
     end
 
     describe 'Wildcard search' do

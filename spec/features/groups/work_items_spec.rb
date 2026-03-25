@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Group issues page', feature_category: :team_planning do
+RSpec.describe 'Group work items page', feature_category: :team_planning do
   include Features::SortingHelpers
   include FilteredSearchHelpers
   include ListboxHelpers
@@ -10,18 +10,19 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
   let(:group) { create(:group) }
   let(:project) { create(:project, :public, group: group) }
   let(:project_with_issues_disabled) { create(:project, :issues_disabled, group: group) }
-  let(:path) { issues_group_path(group) }
+  let(:path) { group_work_items_path(group) }
 
   context 'with shared examples', :js do
     let(:issuable) { create(:issue, project: project, title: "this is my created issuable") }
 
     before do
-      stub_feature_flags(work_item_planning_view: false)
+      create(:callout, user: user_in_group, feature_name: :work_items_onboarding_modal)
+      create(:callout, user: user_outside_group, feature_name: :work_items_onboarding_modal)
     end
 
     include_examples 'project features apply to issuables', Issue
 
-    context 'rss feed' do
+    context 'with rss feed' do
       let(:access_level) { ProjectFeature::ENABLED }
 
       before do
@@ -47,7 +48,7 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
       end
     end
 
-    context 'assignee' do
+    context 'when filtering by assignee' do
       let(:access_level) { ProjectFeature::ENABLED }
       let(:user) { user_in_group }
       let(:user2) { user_outside_group }
@@ -61,7 +62,7 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
     end
   end
 
-  context 'issues list', :js do
+  context 'when listing work items', :js do
     let(:subgroup) { create(:group, parent: group) }
     let(:subgroup_project) { create(:project, :public, group: subgroup) }
     let(:user_in_group) { create(:group_member, :maintainer, user: create(:user), group: group).user }
@@ -69,7 +70,7 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
     let!(:subgroup_issue) { create(:issue, project: subgroup_project, title: 'subgroup issue') }
 
     it 'returns all group and subgroup issues' do
-      visit issues_group_path(group)
+      visit group_work_items_path(group)
 
       expect(page).to have_selector('li.issue', count: 2)
       expect(page).to have_content('root group issue')
@@ -89,15 +90,14 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
     end
   end
 
-  context 'group with no issues', :js do
+  context 'when group has no issues', :js do
     let!(:group_with_no_issues) { create(:group) }
     let!(:subgroup_with_issues) { create(:group, parent: group_with_no_issues) }
     let!(:subgroup_project) { create(:project, :public, group: subgroup_with_issues) }
     let!(:subgroup_issue) { create(:issue, project: subgroup_project) }
 
     before do
-      stub_feature_flags(work_item_planning_view: false)
-      visit issues_group_path(group_with_no_issues)
+      visit group_work_items_path(group_with_no_issues)
     end
 
     it 'shows issues from subgroups on issues list' do
@@ -105,28 +105,7 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
     end
   end
 
-  context 'projects with issues disabled' do
-    describe 'issue dropdown' do
-      let(:user_in_group) { create(:group_member, :maintainer, user: create(:user), group: group).user }
-
-      before do
-        stub_feature_flags(work_item_planning_view: false)
-        [project, project_with_issues_disabled].each { |project| project.add_maintainer(user_in_group) }
-        sign_in(user_in_group)
-        visit issues_group_path(group)
-      end
-
-      it 'shows projects only with issues feature enabled', :js do
-        click_button 'Select project to create issue', match: :first
-        wait_for_requests
-
-        expect_listbox_item(project.full_name)
-        expect_no_listbox_item(project_with_issues_disabled.full_name)
-      end
-    end
-  end
-
-  context 'manual ordering', :js do
+  context 'with manual ordering', :js do
     let(:user_in_group) { create(:group_member, :maintainer, user: create(:user), group: group).user }
 
     let!(:issue1) { create(:issue, project: project, title: 'Issue #1', relative_position: 1) }
@@ -134,30 +113,30 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
     let!(:issue3) { create(:issue, project: project, title: 'Issue #3', relative_position: 3) }
 
     before do
+      create(:callout, user: user_in_group, feature_name: :work_items_onboarding_modal)
       sign_in(user_in_group)
-      stub_feature_flags(work_item_planning_view: false)
     end
 
     it 'displays all issues' do
-      visit issues_group_path(group, sort: 'relative_position')
+      visit group_work_items_path(group, sort: 'relative_position')
 
       expect(page).to have_selector('li.issue', count: 3)
     end
 
     it 'has manual-ordering css applied' do
-      visit issues_group_path(group, sort: 'relative_position')
+      visit group_work_items_path(group, sort: 'relative_position')
 
       expect(page).to have_selector('.manual-ordering')
     end
 
     it 'each issue item has a gl-cursor-grab css applied' do
-      visit issues_group_path(group, sort: 'relative_position')
+      visit group_work_items_path(group, sort: 'relative_position')
 
       expect(page).to have_selector('.issue.gl-cursor-grab', count: 3)
     end
 
     it 'issues should be draggable and persist order' do
-      visit issues_group_path(group)
+      visit group_work_items_path(group)
       select_manual_sort
 
       wait_for_requests
@@ -171,7 +150,7 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
 
       expect_issue_order
 
-      visit issues_group_path(group)
+      visit group_work_items_path(group)
 
       expect_issue_order
     end
@@ -179,7 +158,7 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
     it 'issues should not be draggable when user is not logged in' do
       sign_out(user_in_group)
       wait_for_requests
-      visit issues_group_path(group)
+      visit group_work_items_path(group)
       select_manual_sort
 
       wait_for_requests
@@ -205,7 +184,7 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
     end
   end
 
-  context 'issues pagination', :js do
+  context 'with issues pagination', :js do
     let(:user_in_group) { create(:group_member, :maintainer, user: create(:user), group: group).user }
 
     let!(:issues) do
@@ -213,8 +192,9 @@ RSpec.describe 'Group issues page', feature_category: :team_planning do
     end
 
     before do
+      create(:callout, user: user_in_group, feature_name: :work_items_onboarding_modal)
       sign_in(user_in_group)
-      visit issues_group_path(group)
+      visit group_work_items_path(group)
     end
 
     it 'shows the pagination' do

@@ -1978,6 +1978,7 @@ frontend/**/geo_* @zcuddy
 
 [API Team]
 /gems/gitlab-grape-openapi/**/*.rb @cfeick @mwoolf @vwolanyk @abignotti
+/rubocop/cop/api/config/api_entity_exposure_baseline.yml @cfeick @mwoolf @vwolanyk @abignotti
 
 [Source Code Backend] @gitlab-com/create-team/source-code/backend
 # Repositories & Git Core

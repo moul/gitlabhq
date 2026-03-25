@@ -72,6 +72,10 @@ The cluster cannot assign replica shards to the same node as primary shards.
 > [!warning]
 > Support for Elasticsearch 7.x was [deprecated](https://gitlab.com/gitlab-org/gitlab/-/issues/583544)
 > in GitLab 18.10 and is planned for removal in 19.1.
+>
+> [!note]
+> GitLab.com uses Elasticsearch 9.x in production. For self-managed instances, Elasticsearch 9.x
+> is the recommended version for optimal performance and forward compatibility.
 
 Advanced search works with the following versions of Elasticsearch.
 

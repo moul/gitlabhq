@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe "User sorts issues", feature_category: :team_planning do
+RSpec.describe "User sorts work items", feature_category: :team_planning do
   include Features::SortingHelpers
   include SortingHelper
   include IssueHelpers
@@ -16,23 +16,23 @@ RSpec.describe "User sorts issues", feature_category: :team_planning do
   let_it_be(:newer_due_milestone) { create(:milestone, project: project, due_date: '2013-12-11') }
   let_it_be(:later_due_milestone) { create(:milestone, project: project, due_date: '2013-12-12') }
 
-  before do
-    # TODO: When removing the feature flag,
-    # we won't need the tests for the issues listing page, since we'll be using
-    # the work items listing page.
-    stub_feature_flags(work_item_planning_view: false)
+  before_all do
+    project.add_developer(user)
+  end
 
+  before do
     create_list(:award_emoji, 2, :upvote, awardable: issue1)
     create_list(:award_emoji, 2, :downvote, awardable: issue2)
     create(:award_emoji, :downvote, awardable: issue1)
     create(:award_emoji, :upvote, awardable: issue2)
 
+    create(:callout, user: user, feature_name: :work_items_onboarding_modal)
     sign_in(user)
   end
 
   it 'keeps the sort option', :js,
     quarantine: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/issues/9311' do
-    visit(project_issues_path(project))
+    visit(project_work_items_path(project))
 
     click_button 'Created date'
     click_button 'Milestone'
@@ -41,17 +41,17 @@ RSpec.describe "User sorts issues", feature_category: :team_planning do
 
     expect(page).to have_button 'Milestone'
 
-    visit(project_issues_path(project))
+    visit(project_work_items_path(project))
 
     expect(page).to have_button 'Milestone'
 
-    visit(issues_group_path(group))
+    visit(group_work_items_path(group))
 
     expect(page).to have_button 'Milestone'
   end
 
   it 'sorts by popularity', :js do
-    visit(project_issues_path(project))
+    visit(project_work_items_path(project))
 
     pajamas_sort_by 'Popularity', from: 'Created date'
 
@@ -71,7 +71,7 @@ RSpec.describe "User sorts issues", feature_category: :team_planning do
   end
 
   it 'sorts by newest', :js do
-    visit project_issues_path(project, sort: sort_value_created_date)
+    visit project_work_items_path(project, sort: sort_value_created_date)
 
     expect(first_issue).to include('foo')
     expect(last_issue).to include('baz')
@@ -80,7 +80,7 @@ RSpec.describe "User sorts issues", feature_category: :team_planning do
   it 'sorts by most recently updated', :js do
     issue3.updated_at = Time.zone.now + 100
     issue3.save!
-    visit project_issues_path(project, sort: sort_value_recently_updated)
+    visit project_work_items_path(project, sort: sort_value_recently_updated)
 
     expect(first_issue).to include('baz')
   end
@@ -92,7 +92,7 @@ RSpec.describe "User sorts issues", feature_category: :team_planning do
     end
 
     it 'sorts by due date' do
-      visit project_issues_path(project, sort: sort_value_due_date)
+      visit project_work_items_path(project, sort: sort_value_due_date)
 
       expect(first_issue).to include('foo')
     end
@@ -100,7 +100,7 @@ RSpec.describe "User sorts issues", feature_category: :team_planning do
     it 'sorts by due date by excluding nil due dates' do
       issue2.update!(due_date: nil)
 
-      visit project_issues_path(project, sort: sort_value_due_date)
+      visit project_work_items_path(project, sort: sort_value_due_date)
 
       expect(first_issue).to include('foo')
     end
@@ -115,7 +115,7 @@ RSpec.describe "User sorts issues", feature_category: :team_planning do
       it 'sorts by least recently due date by excluding nil due dates' do
         issue2.update!(due_date: nil)
 
-        visit project_issues_path(project, label_names: [label.name], sort: sort_value_due_date_later)
+        visit project_work_items_path(project, label_names: [label.name], sort: sort_value_due_date_later)
 
         expect(first_issue).to include('foo')
       end
@@ -131,7 +131,7 @@ RSpec.describe "User sorts issues", feature_category: :team_planning do
     end
 
     it 'sorts by milestone' do
-      visit project_issues_path(project, sort: sort_value_milestone)
+      visit project_work_items_path(project, sort: sort_value_milestone)
 
       expect(first_issue).to include('foo')
       expect(last_issue).to include('baz')
@@ -149,7 +149,7 @@ RSpec.describe "User sorts issues", feature_category: :team_planning do
     end
 
     it 'sorts with a filter applied' do
-      visit project_issues_path(project, sort: sort_value_created_date, 'assignee_username[]': user2.username)
+      visit project_work_items_path(project, sort: sort_value_created_date, 'assignee_username[]': user2.username)
 
       expect(first_issue).to include('foo')
       expect(last_issue).to include('bar')

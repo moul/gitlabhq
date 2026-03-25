@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'issues canonical link', feature_category: :team_planning do
+RSpec.describe 'work items canonical link', feature_category: :team_planning do
   include Features::CanonicalLinkHelpers
 
   let_it_be(:original_project) { create(:project, :public) }
@@ -11,7 +11,6 @@ RSpec.describe 'issues canonical link', feature_category: :team_planning do
   let(:canonical_url) { issue_url(canonical_issue, Gitlab::Application.routes.default_url_options) }
 
   before do
-    stub_feature_flags(work_item_planning_view: false)
     stub_feature_flags(work_item_legacy_url: true)
   end
 

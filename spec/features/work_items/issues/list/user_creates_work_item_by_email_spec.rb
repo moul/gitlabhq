@@ -2,21 +2,19 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Issues > User creates issue by email', feature_category: :team_planning do
+RSpec.describe 'Work items > User creates work item by email', feature_category: :team_planning do
   include Spec::Support::Helpers::ModalHelpers
 
   let_it_be(:user) { create(:user) }
   let_it_be(:project) { create(:project, :public) }
 
-  before do
-    # TODO: When removing the feature flag,
-    # we won't need the tests for the issues listing page, since we'll be using
-    # the work items listing page.
-    stub_feature_flags(work_item_planning_view: false)
-
-    sign_in(user)
-
+  before_all do
     project.add_developer(user)
+  end
+
+  before do
+    create(:callout, user: user, feature_name: :work_items_onboarding_modal)
+    sign_in(user)
   end
 
   describe 'new issue by email', :js do
@@ -27,7 +25,7 @@ RSpec.describe 'Issues > User creates issue by email', feature_category: :team_p
         project.issues << issue
         stub_incoming_email_setting(enabled: true, address: "p+%{key}@gl.ab")
 
-        visit project_issues_path(project)
+        visit project_work_items_path(project)
 
         find_by_testid('work-items-list-more-actions-dropdown').click
 

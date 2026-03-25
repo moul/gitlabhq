@@ -26,7 +26,8 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     allow(merge_request).to receive_messages(
       diff_stats: nil,
       merge_request_diff: merge_request_diff,
-      diffable_merge_ref?: false
+      diffable_merge_ref?: false,
+      has_no_commits?: false
     )
   end
 
@@ -46,9 +47,62 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
 
     it 'calls first_diffs_slice on the merge_request with the correct arguments' do
       allow(diff_collection).to receive(:decorate!).and_return(diff_collection)
-      expect(merge_request).to receive(:first_diffs_slice).with(offset, diff_options).and_return(diff_collection)
+      expect(merge_request).to receive(:first_diffs_slice).with(offset, diff_options.merge(only_context_commits: false))
+  .and_return(diff_collection)
 
       presenter.diffs_slice
+    end
+
+    context 'when only_context_commits is true' do
+      let(:request_params) { { only_context_commits: 'true' } }
+
+      it 'calls first_diffs_slice with only_context_commits: true' do
+        allow(diff_collection).to receive(:decorate!).and_return(diff_collection)
+        expect(merge_request).to receive(:first_diffs_slice)
+          .with(offset, diff_options.merge(only_context_commits: true))
+          .and_return(diff_collection)
+
+        presenter.diffs_slice
+      end
+    end
+
+    context 'when offset is 0' do
+      before do
+        allow(presenter).to receive(:offset).and_return(0)
+      end
+
+      it { expect(presenter.diffs_slice).to be_nil }
+    end
+  end
+
+  describe '#only_context_commits?' do
+    subject(:result) { presenter.only_context_commits? }
+
+    context 'when only_context_commits param is true' do
+      let(:request_params) { { only_context_commits: 'true' } }
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when only_context_commits param is false' do
+      let(:request_params) { { only_context_commits: 'false' } }
+
+      it { is_expected.to be(false) }
+    end
+
+    context 'when only_context_commits param is not set' do
+      let(:request_params) { {} }
+
+      it { is_expected.to be(false) }
+    end
+
+    context 'when request_params is nil' do
+      subject(:result) do
+        described_class.new(merge_request, diff_view: diff_view, diff_options: diff_options,
+          request_params: nil).only_context_commits?
+      end
+
+      it { is_expected.to be(false) }
     end
   end
 
@@ -460,6 +514,25 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
 
         expect(yielded_files.first).to be_a(RapidDiffs::MergeRequest::DiffFilePresenter)
         expect(yielded_files.first.conflict).to eq(:both_modified)
+      end
+    end
+
+    describe '#reload_stream_url with context commits' do
+      context 'when only_context_commits param is set' do
+        let(:request_params) { { only_context_commits: 'true' } }
+
+        it 'includes only_context_commits in the URL' do
+          expect(presenter.reload_stream_url)
+            .to eq("#{base_path}/diffs_stream?diff_id=#{resolved_diff_id}&only_context_commits=true")
+        end
+      end
+
+      context 'when only_context_commits param is not set' do
+        let(:request_params) { {} }
+
+        it 'does not include only_context_commits in the URL' do
+          expect(presenter.reload_stream_url).to eq("#{base_path}/diffs_stream?diff_id=#{resolved_diff_id}")
+        end
       end
     end
   end

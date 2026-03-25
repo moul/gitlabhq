@@ -52,14 +52,35 @@ RSpec.describe Ci::EnqueueJobService, '#execute', feature_category: :continuous_
   end
 
   context 'when the job transition is invalid' do
-    let(:bridge) { create(:ci_bridge, :failed, pipeline: pipeline, project: project) }
+    let(:failed_build) { create(:ci_build, :failed, pipeline: pipeline) }
 
     let(:service) do
-      described_class.new(bridge, current_user: user)
+      described_class.new(failed_build, current_user: user)
     end
 
     it 'raises StateMachines::InvalidTransition' do
       expect { execute }.to raise_error StateMachines::InvalidTransition
+    end
+  end
+
+  context 'when the current user cannot play the job' do
+    let(:guest) { create(:user, guest_of: project) }
+
+    let(:service) do
+      described_class.new(build, current_user: guest)
+    end
+
+    it { expect { execute }.to raise_error(Gitlab::Access::AccessDeniedError) }
+
+    context 'when ci_enqueue_job_authorization is disabled' do
+      before do
+        stub_feature_flags(ci_enqueue_job_authorization: false)
+      end
+
+      it 'enqueues the job without checking authorization' do
+        expect(execute).to eq(build)
+        expect(build.reload).to be_pending
+      end
     end
   end
 

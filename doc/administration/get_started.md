@@ -83,10 +83,10 @@ While this isn't an exhaustive list, following these steps gives you a solid sta
 - Use a long root password, stored in a vault.
 - Install trusted SSL certificate and establish a process for renewal and revocation.
 - [Configure SSH key restrictions](../security/ssh_keys_restrictions.md) according to your organization's guidelines.
-- [Turn off new sign-ups](settings/sign_up_restrictions.md#disable-new-sign-ups).
+- [Turn off new user account creation](settings/sign_up_restrictions.md#disable-new-user-account-creation).
 - Require email confirmation.
 - Set password length limit, configure SSO or SAML user management.
-- Limit email domains if allowing sign-up.
+- Limit email domains if allowing new users to create accounts.
 - Require two-factor authentication (2FA).
 - Turn off [password authentication for Git over HTTPS](settings/sign_in_restrictions.md#allow-password-authentication-for-git-over-https).
 - Set up [email notification for unknown sign-ins](settings/sign_in_restrictions.md#email-notification-for-unknown-sign-ins).

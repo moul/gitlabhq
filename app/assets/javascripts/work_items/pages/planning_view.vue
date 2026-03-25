@@ -1,5 +1,5 @@
 <script>
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { s__, __ } from '~/locale';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';

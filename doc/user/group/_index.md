@@ -466,7 +466,7 @@ Prerequisites:
 
 - You must have the Owner role for the group.
 - For GitLab Self-Managed instances:
-  - If [new sign-ups are disabled](../../administration/settings/sign_up_restrictions.md#disable-new-sign-ups), an administrator must add the user.
+  - If [new user account creation is disabled](../../administration/settings/sign_up_restrictions.md#disable-new-user-account-creation), an administrator must add the user.
   - If [user invitations are not allowed](../../administration/settings/visibility_and_access_controls.md#prevent-invitations-to-groups-and-projects), an administrator must add the user.
   - If [administrator approval is enabled](../../administration/settings/sign_up_restrictions.md#turn-on-administrator-approval-for-role-promotions), an administrator must approve the invitation.
 

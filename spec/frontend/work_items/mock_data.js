@@ -6733,11 +6733,6 @@ export const namespaceProjectsList = {
             avatarUrl: null,
             nameWithNamespace: 'Group A / Example project A',
             fullPath: 'group-a/example-project-a',
-            namespace: {
-              id: 'gid://gitlab/Group/1',
-              name: 'Group A',
-              __typename: 'Namespace',
-            },
             __typename: 'Project',
           },
           {
@@ -6746,11 +6741,6 @@ export const namespaceProjectsList = {
             avatarUrl: null,
             nameWithNamespace: 'Group A / Example project B',
             fullPath: 'group-a/example-project-b',
-            namespace: {
-              id: 'gid://gitlab/Group/1',
-              name: 'Group A',
-              __typename: 'Namespace',
-            },
             __typename: 'Project',
           },
           {
@@ -6759,11 +6749,6 @@ export const namespaceProjectsList = {
             avatarUrl: null,
             nameWithNamespace: 'Group A / Example project C',
             fullPath: 'group-a/example-project-c',
-            namespace: {
-              id: 'gid://gitlab/Group/1',
-              name: 'Group A',
-              __typename: 'Namespace',
-            },
             __typename: 'Project',
           },
         ],
@@ -6873,7 +6858,7 @@ export const namespaceGroupsList = {
       id: 'gid://gitlab/Group/33',
       name: 'Group A',
       avatarUrl: 'http://example.com/avatar-url',
-      path: 'group-a',
+      fullName: 'Group A',
       fullPath: 'group-a',
       descendantGroups: {
         nodes: [
@@ -6881,7 +6866,7 @@ export const namespaceGroupsList = {
             id: 'gid://gitlab/Group/99',
             name: 'Group B',
             avatarUrl: null,
-            path: 'group-b',
+            fullName: 'Group A / Group B',
             fullPath: 'group-a/group-b',
             __typename: 'Group',
           },
@@ -6889,7 +6874,7 @@ export const namespaceGroupsList = {
             id: 'gid://gitlab/Group/97',
             name: 'Group C',
             avatarUrl: null,
-            path: 'group-c',
+            fullName: 'Group A / Group C',
             fullPath: 'group-a/group-c',
             __typename: 'Group',
           },

@@ -266,7 +266,7 @@ RSpec.describe 'Admin updates settings', feature_category: :shared do
           it 'changes the setting', :js,
             quarantine: 'https://gitlab.com/gitlab-org/gitlab/-/issues/449030' do
             within_testid('sign-up-restrictions-settings-content') do
-              check 'Require admin approval for new sign-ups'
+              check 'Require admin approval for new user accounts'
               click_button 'Save changes'
             end
 

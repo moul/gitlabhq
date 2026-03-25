@@ -71,6 +71,8 @@ tags:
   description: Operations related to CI triggers.
 - name: CI variables
   description: Operations related to CI variables.
+- name: Chaos
+  description: Operations related to chaos.
 - name: Cluster agents
   description: Operations related to cluster agents.
 - name: Clusters
@@ -59498,6 +59500,25 @@ paths:
           type: string
           nullable: true
         in: path
+  "/api/v4/chaos/test":
+    get:
+      operationId: getApiV4ChaosTest
+      summary: Chaos test endpoint for feature flag observability
+      description: |
+        Picks a project by random ID and checks the `ebonet_chaos_tests` feature flag.
+        When enabled, introduces a 20% chance of a 500 error and a 20% chance of
+        a 300ms delay. Returns 200 OK otherwise.
+      tags:
+      - Chaos
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error (chaos-induced)
   "/api/v4/projects/{id}/packages/cargo/config.json":
     get:
       operationId: getApiV4ProjectsIdPackagesCargoConfigJson

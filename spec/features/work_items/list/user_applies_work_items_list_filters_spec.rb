@@ -398,16 +398,6 @@ RSpec.describe 'Work items list filters', :js, feature_category: :team_planning 
         include_examples 'filters by CRM organization'
         include_examples 'filters by CRM contacts'
       end
-
-      context 'when user is on project issues page' do
-        before do
-          stub_feature_flags(work_item_planning_view: false)
-          visit project_issues_path(project)
-        end
-
-        include_examples 'filters by CRM organization'
-        include_examples 'filters by CRM contacts'
-      end
     end
   end
 end

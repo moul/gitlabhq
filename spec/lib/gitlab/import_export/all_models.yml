@@ -100,8 +100,6 @@ work_item_transition:
 work_item_type:
 - issues
 - namespace
-- widget_definitions
-- enabled_widget_definitions
 - child_restrictions
 - parent_restrictions
 - allowed_child_types_by_name

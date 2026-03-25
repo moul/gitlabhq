@@ -1226,7 +1226,7 @@ RSpec.describe User, :with_current_organization, feature_category: :user_profile
     end
 
     describe 'email' do
-      let(:expected_error) { _('is not allowed for sign-up. Please use your regular email address. Check with your administrator.') }
+      let(:expected_error) { _('is not allowed. Please use your regular email address. Check with your administrator.') }
 
       context 'when no signup domains allowed' do
         before do

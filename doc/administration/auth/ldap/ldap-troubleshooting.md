@@ -256,8 +256,8 @@ To resolve this:
 1. Select **Settings** > **General**.
 1. Expand both of the following:
    - **Account and limit**.
-   - **Sign-up restrictions**.
-1. Check, for example, the **Default projects limit** or **Allowed domains for sign-ups**
+   - **New user account restrictions**.
+1. Check, for example, the **Default projects limit** or **Allowed domains for new user accounts**
    fields and ensure that a relevant value is configured.
 
 #### Debug LDAP user filter

@@ -8350,6 +8350,36 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
         expect(merge_request.diffs_for_streaming).to eq(['HEAD diff'])
       end
     end
+
+    context 'when only_context_commits is true' do
+      let(:context_commits_diff) { instance_double(ContextCommitsDiff) }
+      let(:context_diffs) { ['context diff'] }
+
+      before do
+        allow(merge_request).to receive(:context_commits_diff).and_return(context_commits_diff)
+      end
+
+      context 'when context_commits_diff is not empty' do
+        before do
+          allow(context_commits_diff).to receive(:empty?).and_return(false)
+          allow(context_commits_diff).to receive(:diffs).and_return(context_diffs)
+        end
+
+        it 'returns diffs from context_commits_diff' do
+          expect(merge_request.diffs_for_streaming(only_context_commits: true)).to eq(context_diffs)
+        end
+      end
+
+      context 'when context_commits_diff is empty' do
+        before do
+          allow(context_commits_diff).to receive(:empty?).and_return(true)
+        end
+
+        it 'returns diffs from base diff' do
+          expect(merge_request.diffs_for_streaming(only_context_commits: true)).to eq(['base diff'])
+        end
+      end
+    end
   end
 
   describe '#diffs_for_streaming_by_changed_paths' do
@@ -8493,6 +8523,58 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
 
     it 'returns limited diffs' do
       expect(subject.count).to eq(limit)
+    end
+
+    context 'when compare is present' do
+      let(:compare) { instance_double(Compare) }
+
+      before do
+        merge_request.compare = compare
+      end
+
+      it 'returns diffs from compare' do
+        expect(compare)
+          .to receive(:first_diffs_slice)
+          .with(limit, {})
+          .and_return(['compare diff'])
+
+        expect(merge_request.first_diffs_slice(limit)).to eq(['compare diff'])
+      end
+    end
+
+    context 'when only_context_commits is true' do
+      let(:context_commits_diff) { instance_double(ContextCommitsDiff) }
+      let(:diff_files) { [instance_double(Gitlab::Diff::File), instance_double(Gitlab::Diff::File)] }
+      let(:diffs) { instance_double(Gitlab::Diff::FileCollection::Compare, diff_files: diff_files) }
+
+      before do
+        allow(merge_request).to receive(:context_commits_diff).and_return(context_commits_diff)
+      end
+
+      context 'when context_commits_diff is not empty' do
+        before do
+          allow(context_commits_diff).to receive(:empty?).and_return(false)
+          allow(context_commits_diff).to receive(:diffs).and_return(diffs)
+        end
+
+        it 'returns diff files from context_commits_diff' do
+          result = merge_request.first_diffs_slice(limit, only_context_commits: true)
+
+          expect(result).to eq(diff_files)
+        end
+      end
+
+      context 'when context_commits_diff is empty' do
+        before do
+          allow(context_commits_diff).to receive(:empty?).and_return(true)
+        end
+
+        it 'returns diff files from base diff' do
+          result = merge_request.first_diffs_slice(limit, only_context_commits: true)
+
+          expect(result.count).to eq(limit)
+        end
+      end
     end
   end
 

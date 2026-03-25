@@ -255,7 +255,6 @@ RSpec/FactoryBot/AvoidCreate:
     - 'spec/helpers/projects/pages_helper_spec.rb'
     - 'spec/helpers/projects/pipeline_helper_spec.rb'
     - 'spec/helpers/projects/project_members_helper_spec.rb'
-    - 'spec/helpers/projects/security/configuration_helper_spec.rb'
     - 'spec/helpers/projects/terraform_helper_spec.rb'
     - 'spec/helpers/projects_helper_spec.rb'
     - 'spec/helpers/releases_helper_spec.rb'

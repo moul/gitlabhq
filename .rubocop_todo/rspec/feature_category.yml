@@ -1317,7 +1317,6 @@ RSpec/FeatureCategory:
     - 'spec/helpers/projects/incidents_helper_spec.rb'
     - 'spec/helpers/projects/pages_helper_spec.rb'
     - 'spec/helpers/projects/pipeline_helper_spec.rb'
-    - 'spec/helpers/projects/security/configuration_helper_spec.rb'
     - 'spec/helpers/projects/terraform_helper_spec.rb'
     - 'spec/helpers/recaptcha_helper_spec.rb'
     - 'spec/helpers/routing/packages_helper_spec.rb'

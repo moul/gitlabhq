@@ -2669,6 +2669,7 @@ job token policies or resource-specific access controls.
 
 | Method | Path |
 | ------ | ---- |
+| `GET` | `/chaos/test` |
 | `POST` | `/container_registry_event/events` |
 | `GET` | `/feature_flags/unleash/:project_id` |
 | `GET` | `/feature_flags/unleash/:project_id/client/features` |

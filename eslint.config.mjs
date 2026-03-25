@@ -114,6 +114,10 @@ const restrictedImportsPatterns = {
     group: ['react', 'react-dom/*'],
     message: 'We do not allow usage of React in our codebase except for the graphql_explorer',
   },
+  lodash: {
+    group: ['lodash', 'lodash/*'],
+    message: 'Use lodash-es instead of lodash',
+  },
 };
 
 const restrictedImportsAll = {
@@ -641,7 +645,7 @@ export default [
             },
           ],
 
-          patterns: [restrictedImportsPatterns.gitlabUiDist],
+          patterns: [restrictedImportsPatterns.gitlabUiDist, restrictedImportsPatterns.lodash],
         },
       ],
     },

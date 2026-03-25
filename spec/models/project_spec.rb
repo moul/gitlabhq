@@ -7174,9 +7174,23 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
   describe '#reset_counters_and_iids' do
     let(:project) { build(:project) }
 
-    it 'runs the correct hooks' do
-      expect(project).to receive(:update_project_counter_caches)
+    it 'flushes project-scoped internal ids' do
+      allow(InternalId).to receive(:flush_records!).with(namespace: project.project_namespace, usage: :issues)
       expect(InternalId).to receive(:flush_records!).with(project: project)
+
+      project.reset_counters_and_iids
+    end
+
+    it 'flushes namespace-scoped issue internal ids' do
+      allow(InternalId).to receive(:flush_records!).with(project: project)
+      expect(InternalId).to receive(:flush_records!)
+        .with(namespace: project.project_namespace, usage: :issues)
+
+      project.reset_counters_and_iids
+    end
+
+    it 'updates project counter caches' do
+      expect(project).to receive(:update_project_counter_caches)
 
       project.reset_counters_and_iids
     end

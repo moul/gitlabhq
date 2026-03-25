@@ -8,8 +8,6 @@ module Gitlab
         include Gitlab::Utils::StrongMemoize
 
         BATCH_SIZE = 100
-        SMALLER_BATCH_SIZE = 2
-        SMALL_BATCH_RELATIONS = %i[merge_requests ci_pipelines].freeze
 
         attr_reader :exported_objects_count
 
@@ -89,7 +87,7 @@ module Gitlab
           # https://gitlab.com/gitlab-org/gitlab/-/issues/504684
           key_preloads = preloads&.dig(key) unless [:epic, :epics].include?(key)
 
-          batch(records, key, batch_order: batch_order) do |batch|
+          batch(records, batch_order: batch_order) do |batch|
             next if batch.empty?
 
             batch_enumerator = Enumerator.new do |items|
@@ -165,8 +163,8 @@ module Gitlab
           record.to_authorized_json(keys_to_authorize, current_user, options)
         end
 
-        def batch(relation, key, batch_order:)
-          opts = { of: batch_size(key) }
+        def batch(relation, batch_order:)
+          opts = { of: BATCH_SIZE }
 
           if batch_order
             scope = relation.reorder(batch_order)
@@ -268,13 +266,6 @@ module Gitlab
                 order_expression: arel_order_classes[direction].new(arel_table[klass.primary_key.to_sym])
               )
             ])
-        end
-
-        def batch_size(relation_name)
-          return SMALLER_BATCH_SIZE if Feature.enabled?(:export_reduce_relation_batch_size, exportable, type: :ops) &&
-            SMALL_BATCH_RELATIONS.include?(relation_name)
-
-          BATCH_SIZE
         end
 
         def before_read_callback(record)

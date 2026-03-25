@@ -91,7 +91,7 @@ On GitLab Self-Managed, for trial licenses the users over subscription value is 
 To avoid unexpected overage charges, you can:
 
 - [Turn on restricted access](../user/group/manage.md#turn-on-restricted-access) to prevent adding users when no seats remain.
-- [Require administrator approval for new sign-ups](../administration/settings/sign_up_restrictions.md#require-administrator-approval-for-new-sign-ups).
+- [Require administrator approval for new user accounts](../administration/settings/sign_up_restrictions.md#require-administrator-approval-for-new-user-accounts).
 - Buy more seats proactively when approaching your limit.
 
 ## Free Guest users
@@ -197,18 +197,18 @@ Managing the number of users against the number of subscription seats can be dif
 - If [LDAP is integrated with GitLab](../administration/auth/ldap/_index.md), anyone
   in the configured domain can sign up for a GitLab account. This can result in
   an unexpected bill at time of renewal.
-- If sign-up is turned on in your instance, anyone who can access the instance can
+- If new user accounts are allowed on your instance, anyone who can access the instance can
   sign up for an account.
 
 GitLab has several features to help you manage the number of users. You can:
 
-- [Require administrator approval for new sign ups](../administration/settings/sign_up_restrictions.md#require-administrator-approval-for-new-sign-ups).
+- [Require administrator approval for new user accounts](../administration/settings/sign_up_restrictions.md#require-administrator-approval-for-new-user-accounts).
 - Automatically block new users, either through
   [LDAP](../administration/auth/ldap/_index.md#basic-configuration-settings) or
   [OmniAuth](../integration/omniauth.md#configure-common-settings).
 - [Limit the number of billable users](../administration/settings/sign_up_restrictions.md#user-cap)
   who can sign up or be added to a subscription without administrator approval.
-- [Disable new sign-ups](../administration/settings/sign_up_restrictions.md),
+- [Turn off new user account creation](../administration/settings/sign_up_restrictions.md),
   and instead manage new users manually.
 - View a breakdown of users by role in the
   [Users statistics](../administration/admin_area.md#users-statistics) page.

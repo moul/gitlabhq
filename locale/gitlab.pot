@@ -3083,6 +3083,12 @@ msgstr ""
 msgid "AICatalog|Managed by a private project you don't have access to."
 msgstr ""
 
+msgid "AICatalog|Members of the selected project will be able to use the agent."
+msgstr ""
+
+msgid "AICatalog|Members of the selected project will be able to use the flow."
+msgstr ""
+
 msgid "AICatalog|Model Context Protocol servers extend agent capabilities with external tools and data sources."
 msgstr ""
 
@@ -3171,12 +3177,6 @@ msgid "AICatalog|Private %{itemTypePlural} are best for:"
 msgstr ""
 
 msgid "AICatalog|Project is required."
-msgstr ""
-
-msgid "AICatalog|Project members can use this agent. You must have the Maintainer or Owner role to enable an agent in a project."
-msgstr ""
-
-msgid "AICatalog|Project members can use this flow. You must have the Maintainer or Owner role to enable a flow in a project."
 msgstr ""
 
 msgid "AICatalog|Project-specific automation."
@@ -3464,13 +3464,13 @@ msgstr ""
 msgid "AICatalog|You must have the Maintainer or Owner role to enable a flow in a group. Only top-level groups are shown."
 msgstr ""
 
-msgid "AICatalog|You must have the Maintainer or Owner role to enable a flow."
+msgid "AICatalog|You must have the Maintainer or Owner role to enable a flow in a project."
 msgstr ""
 
 msgid "AICatalog|You must have the Maintainer or Owner role to enable an agent in a group. Only top-level groups are shown."
 msgstr ""
 
-msgid "AICatalog|You must have the Maintainer or Owner role to enable an agent."
+msgid "AICatalog|You must have the Maintainer or Owner role to enable an agent in a project."
 msgstr ""
 
 msgid "AICatalog|agent"
@@ -7343,10 +7343,19 @@ msgstr ""
 msgid "Agent Information"
 msgstr ""
 
+msgid "Agent artifacts"
+msgstr ""
+
 msgid "Agent not found for provided id."
 msgstr ""
 
 msgid "Agent or flow already enabled"
+msgstr ""
+
+msgid "AgentArtifacts|Agent artifacts"
+msgstr ""
+
+msgid "AgentArtifacts|Monitor and observe AI agent behavior and activities across your group."
 msgstr ""
 
 msgid "Agents|Explore other agents"
@@ -9574,16 +9583,13 @@ msgstr ""
 msgid "ApplicationSettings|Administrator approval required for new users. Set a user cap for the maximum number of users who can be added without administrator approval."
 msgstr ""
 
-msgid "ApplicationSettings|After sign-up text"
-msgstr ""
-
-msgid "ApplicationSettings|Allowed domains for sign-ups"
+msgid "ApplicationSettings|Allow new user accounts"
 msgstr ""
 
 msgid "ApplicationSettings|Allows users to delete their own accounts"
 msgstr ""
 
-msgid "ApplicationSettings|Any user that visits %{host} and creates an account must be explicitly approved by an administrator before they can sign in. Only effective if sign-ups are enabled."
+msgid "ApplicationSettings|Any user that visits %{host} and creates an account must be explicitly approved by an administrator before they can sign in. Only effective if new user accounts are allowed."
 msgstr ""
 
 msgid "ApplicationSettings|Any user that visits %{host} can create an account."
@@ -9615,13 +9621,16 @@ msgstr ""
 msgid "ApplicationSettings|Controlled access"
 msgstr ""
 
-msgid "ApplicationSettings|Denied domains for sign-ups"
-msgstr ""
-
 msgid "ApplicationSettings|Denylist file"
 msgstr ""
 
 msgid "ApplicationSettings|Domain denylist"
+msgstr ""
+
+msgid "ApplicationSettings|Domains allowed for new users"
+msgstr ""
+
+msgid "ApplicationSettings|Domains denied to new users"
 msgstr ""
 
 msgid "ApplicationSettings|Email confirmation settings"
@@ -9630,16 +9639,16 @@ msgstr ""
 msgid "ApplicationSettings|Email restrictions"
 msgstr ""
 
-msgid "ApplicationSettings|Email restrictions for sign-ups"
+msgid "ApplicationSettings|Email restrictions for new users"
 msgstr ""
 
 msgid "ApplicationSettings|Enable GitLab for Slack app"
 msgstr ""
 
-msgid "ApplicationSettings|Enable domain denylist for sign-ups"
+msgid "ApplicationSettings|Enable domain denylist for new users"
 msgstr ""
 
-msgid "ApplicationSettings|Enable email restrictions for sign-ups"
+msgid "ApplicationSettings|Enable email restrictions for new users"
 msgstr ""
 
 msgid "ApplicationSettings|Enter denylist manually"
@@ -9651,13 +9660,13 @@ msgstr ""
 msgid "ApplicationSettings|Minimum password length (number of characters)"
 msgstr ""
 
-msgid "ApplicationSettings|New users can sign up without confirming their email address."
+msgid "ApplicationSettings|New users can create an account without confirming their email address."
 msgstr ""
 
 msgid "ApplicationSettings|Off"
 msgstr ""
 
-msgid "ApplicationSettings|Only users with e-mail addresses that match these domain(s) can sign up. Wildcards allowed. Enter multiple entries on separate lines. Example: domain.com, *.domain.com"
+msgid "ApplicationSettings|Only users with email addresses that match these domains can create accounts. Wildcards allowed. Enter multiple entries on separate lines. Example: domain.com, *.domain.com"
 msgstr ""
 
 msgid "ApplicationSettings|Open access"
@@ -9680,7 +9689,7 @@ msgstr ""
 msgid "ApplicationSettings|Proposed user cap exceeds licensed user count"
 msgstr ""
 
-msgid "ApplicationSettings|Require admin approval for new sign-ups"
+msgid "ApplicationSettings|Require admin approval for new user accounts"
 msgstr ""
 
 msgid "ApplicationSettings|Require admin approval when a non-billable user is moving into a billable role."
@@ -9701,7 +9710,7 @@ msgstr ""
 msgid "ApplicationSettings|Restricted access"
 msgstr ""
 
-msgid "ApplicationSettings|Restricts sign-ups for email addresses that match the given regex. %{linkStart}What is the supported syntax?%{linkEnd}"
+msgid "ApplicationSettings|Restricts new user email addresses to those that match this regex. %{linkStart}What is the supported syntax?%{linkEnd}"
 msgstr ""
 
 msgid "ApplicationSettings|Role Promotions"
@@ -9716,22 +9725,22 @@ msgstr ""
 msgid "ApplicationSettings|See %{linkStart}password policy guidelines%{linkEnd}."
 msgstr ""
 
-msgid "ApplicationSettings|Send a confirmation email during sign up. New users can log in immediately, but must confirm their email within three days."
+msgid "ApplicationSettings|Send a confirmation email when a user creates an account. New users can sign in immediately, but must confirm their email address within three days."
 msgstr ""
 
-msgid "ApplicationSettings|Send a confirmation email during sign up. New users must confirm their email address before they can log in."
+msgid "ApplicationSettings|Send a confirmation email when a user creates an account. New users must confirm their email address before they can sign in."
 msgstr ""
 
 msgid "ApplicationSettings|Setting locked. Resolve all %{linkStart}pending approvals%{linkEnd} to unlock."
 msgstr ""
 
-msgid "ApplicationSettings|Sign-up enabled"
-msgstr ""
-
 msgid "ApplicationSettings|Soft"
 msgstr ""
 
-msgid "ApplicationSettings|Text shown after a user signs up. Markdown enabled."
+msgid "ApplicationSettings|Text shown to a new user. Markdown enabled."
+msgstr ""
+
+msgid "ApplicationSettings|Text shown to new users"
 msgstr ""
 
 msgid "ApplicationSettings|To enable Registration Features, first enable Service Ping."
@@ -9746,10 +9755,10 @@ msgstr ""
 msgid "ApplicationSettings|Users added beyond this limit require administrator approval. Leave blank for unlimited."
 msgstr ""
 
-msgid "ApplicationSettings|Users with e-mail addresses that match these domain(s) cannot sign up. Wildcards allowed. Enter multiple entries on separate lines. Example: domain.com, *.domain.com"
+msgid "ApplicationSettings|Users with email addresses that match these domains cannot create accounts. Wildcards allowed. Enter multiple entries on separate lines. Example: domain.com, *.domain.com"
 msgstr ""
 
-msgid "ApplicationSettings|Users with e-mail addresses that match these domain(s) cannot sign up. Wildcards allowed. Use separate lines or commas for multiple entries."
+msgid "ApplicationSettings|Users with email addresses that match these domains cannot create accounts. Wildcards allowed. Use separate lines or commas for multiple entries."
 msgstr ""
 
 msgid "ApplicationSettings|When enabled, new passwords must contain at least one lowercase letter (a-z)."
@@ -14764,13 +14773,13 @@ msgstr ""
 msgid "Check the current instance configuration."
 msgstr ""
 
+msgid "Check the restrictions for new users"
+msgstr ""
+
 msgid "Check with your administrator."
 msgstr ""
 
 msgid "Check your Docker images for known vulnerabilities."
-msgstr ""
-
-msgid "Check your sign-up restrictions"
 msgstr ""
 
 msgid "CheckAgentStatusService|Unavailable - invalid user"
@@ -19712,6 +19721,9 @@ msgstr ""
 msgid "Configure repository storage."
 msgstr ""
 
+msgid "Configure restrictions for new user accounts."
+msgstr ""
+
 msgid "Configure runner management and registration settings."
 msgstr ""
 
@@ -19746,9 +19758,6 @@ msgid "Configure the Git repository"
 msgstr ""
 
 msgid "Configure the default first day of the week, time tracking units, and default language."
-msgstr ""
-
-msgid "Configure the way a user creates a new account."
 msgstr ""
 
 msgid "Configure via Merge Request"
@@ -33284,13 +33293,13 @@ msgstr ""
 msgid "Go to the %{b_open}Activity%{b_close} page for %{project_link}."
 msgstr ""
 
-msgid "Go to the 'Admin area &gt; Sign-up restrictions', and check 'Allowed domains for sign-ups'."
+msgid "Go to the 'Admin area &gt; New user account restrictions', and check 'Domains allowed for new users'."
 msgstr ""
 
-msgid "Go to the 'Admin area &gt; Sign-up restrictions', and check 'Email restrictions for sign-ups'."
+msgid "Go to the 'Admin area &gt; New user account restrictions', and check 'Email restrictions for new users'."
 msgstr ""
 
-msgid "Go to the 'Admin area &gt; Sign-up restrictions', and check the 'Domain denylist'."
+msgid "Go to the 'Admin area &gt; New user account restrictions', and check the 'Domain denylist'."
 msgstr ""
 
 msgid "Go to the activity feed"
@@ -45177,6 +45186,9 @@ msgstr ""
 msgid "New Security findings"
 msgstr ""
 
+msgid "New accounts are not permitted. Please contact a GitLab administrator if you need an account."
+msgstr ""
+
 msgid "New branch"
 msgstr ""
 
@@ -45312,6 +45324,9 @@ msgid "New test case"
 msgstr ""
 
 msgid "New topic"
+msgstr ""
+
+msgid "New user account restrictions"
 msgstr ""
 
 msgid "New wiki page"
@@ -55067,7 +55082,7 @@ msgstr ""
 msgid "ProjectsNew|Migrate your data from another GitLab instance."
 msgstr ""
 
-msgid "ProjectsNew|More templates are available after sign-up."
+msgid "ProjectsNew|More templates are available after you create an account."
 msgstr ""
 
 msgid "ProjectsNew|Must start with a lowercase or uppercase letter, digit, emoji, or underscore. Can also contain dots, pluses, dashes, or spaces."
@@ -66504,7 +66519,7 @@ msgstr ""
 msgid "Sign in"
 msgstr ""
 
-msgid "Sign in as a user with the matching email address, add the email to this account, or sign-up for a new account using the matching email."
+msgid "Sign in as a user with the matching email address, add the email to this account, or create an account that uses the matching email."
 msgstr ""
 
 msgid "Sign in before continuing."
@@ -66550,12 +66565,6 @@ msgid "Sign-in restrictions"
 msgstr ""
 
 msgid "Sign-out page URL"
-msgstr ""
-
-msgid "Sign-up restrictions"
-msgstr ""
-
-msgid "Sign-ups are currently disabled. Please contact a GitLab administrator if you need an account."
 msgstr ""
 
 msgid "SignUp|By clicking %{button_text} or registering through a third party you accept the %{link_start}Terms of Use and acknowledge the Privacy Statement and Cookie Policy%{link_end}."
@@ -83884,9 +83893,6 @@ msgid "is not a descendant of the Group owning the template"
 msgstr ""
 
 msgid "is not a valid X509 certificate."
-msgstr ""
-
-msgid "is not allowed for sign-up. Please use your regular email address."
 msgstr ""
 
 msgid "is not allowed for this group."

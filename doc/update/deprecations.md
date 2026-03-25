@@ -1668,7 +1668,7 @@ The runner's legacy escape sequence mechanism to handle variable expansion imple
 - Removal in GitLab 17.0 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))
 - To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/124461).
 
-The parameters, `sign_in_text` and `help_text`, are deprecated in the [Settings API](https://docs.gitlab.com/api/settings/). To add a custom text to the sign-in and sign-up pages, use the `description` field in the [Appearance API](https://docs.gitlab.com/api/appearance/).
+The parameters, `sign_in_text` and `help_text`, are deprecated in the [Settings API](https://docs.gitlab.com/api/settings/). To add a custom text to the sign-in and new user account pages, use the `description` field in the [Appearance API](https://docs.gitlab.com/api/appearance/).
 
 ### Deprecating Windows Server 2019 in favor of 2022
 

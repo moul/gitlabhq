@@ -701,6 +701,10 @@ This view shows:
 - **Usage statistics**: The number of unique projects that used a component from this catalog resource in a pipeline in the last 30 days.
 - **Components**: A list of components available in the latest version of the catalog resource.
 
+For example:
+
+![The catalog resource analytics page showing 3 components and their usage numbers.](img/catalog_analytics_v18_10.png)
+
 You can use this information to:
 
 - Identify which catalog resources are most widely adopted.

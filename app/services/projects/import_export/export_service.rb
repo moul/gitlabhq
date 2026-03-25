@@ -24,10 +24,14 @@ module Projects
       end
 
       def exporters
-        [
+        savers = [
           version_saver, avatar_saver, project_tree_saver, uploads_saver,
           repo_saver, wiki_repo_saver, lfs_saver, snippets_repo_saver, design_repo_saver
         ]
+
+        savers.append(max_iids_saver) if Feature.enabled?(:import_export_preallocate_iids, current_user)
+
+        savers
       end
 
       protected
@@ -129,6 +133,10 @@ module Projects
 
       def design_repo_saver
         @design_repo_saver ||= Gitlab::ImportExport::DesignRepoSaver.new(exportable: project, shared: shared)
+      end
+
+      def max_iids_saver
+        @max_iids_saver ||= Gitlab::ImportExport::Project::MaxIidsSaver.new(project: project, shared: shared)
       end
 
       def cleanup

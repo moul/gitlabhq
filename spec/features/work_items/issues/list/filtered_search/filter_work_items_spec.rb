@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
+RSpec.describe 'Filter work items', :js, feature_category: :team_planning do
   include FilteredSearchHelpers
 
   let(:project) { create(:project) }
@@ -19,11 +19,6 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
   end
 
   before do
-    # TODO: When removing the feature flag,
-    # we won't need the tests for the issues listing page, since we'll be using
-    # the work items listing page.
-    stub_feature_flags(work_item_planning_view: false)
-
     project.add_maintainer(user)
 
     create(:issue, project: project, author: user2, title: "Bug report 1")
@@ -58,8 +53,9 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
 
     create(:labeled_issue, title: "Issue with multiple words label", project: project, labels: [multiple_words_label])
 
+    create(:callout, user: user, feature_name: :work_items_onboarding_modal)
     sign_in(user)
-    visit project_issues_path(project)
+    visit project_work_items_path(project)
   end
 
   it 'filters by all available tokens' do
@@ -71,7 +67,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
     expect_author_token(user.name)
     expect_label_token(caps_sensitive_label.title)
     expect_milestone_token(milestone.title)
-    expect_issues_list_count(1)
+    expect(page).to have_work_item_count(1)
     expect_search_term(search_term)
   end
 
@@ -81,7 +77,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Author', '=', user.username, submit: true
 
         expect_author_token(user.name)
-        expect_issues_list_count(5)
+        expect(page).to have_work_item_count(5)
         expect_empty_search_term
       end
     end
@@ -93,7 +89,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Assignee', '=', user.username, submit: true
 
         expect_assignee_token(user.name)
-        expect_issues_list_count(5)
+        expect(page).to have_work_item_count(5)
         expect_empty_search_term
       end
 
@@ -101,7 +97,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Assignee', '=', 'None', submit: true
 
         expect_assignee_token 'None'
-        expect_issues_list_count(3)
+        expect(page).to have_work_item_count(3)
         expect_empty_search_term
       end
 
@@ -125,7 +121,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Label', '=', bug_label.title, submit: true
 
         expect_label_token(bug_label.title)
-        expect_issues_list_count(2)
+        expect(page).to have_work_item_count(2)
         expect_empty_search_term
       end
 
@@ -133,7 +129,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Label', '!=', bug_label.title, submit: true
 
         expect_negated_label_token(bug_label.title)
-        expect_issues_list_count(6)
+        expect(page).to have_work_item_count(6)
         expect_empty_search_term
       end
 
@@ -141,7 +137,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Label', '=', 'Any', submit: true
 
         expect_label_token 'Any'
-        expect_issues_list_count(4)
+        expect(page).to have_work_item_count(4)
         expect_empty_search_term
       end
 
@@ -149,7 +145,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Label', '=', 'None', submit: true
 
         expect_label_token 'None'
-        expect_issues_list_count(4)
+        expect(page).to have_work_item_count(4)
         expect_empty_search_term
       end
 
@@ -158,7 +154,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
 
         expect_label_token(bug_label.title)
         expect_label_token(caps_sensitive_label.title)
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_empty_search_term
       end
 
@@ -168,7 +164,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
 
         expect_negated_label_token(bug_label.title)
         expect_label_token(caps_sensitive_label.title)
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_empty_search_term
       end
 
@@ -180,7 +176,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Label', '=', special_label.title, submit: true
 
         expect_label_token(special_label.title)
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_empty_search_term
       end
 
@@ -192,7 +188,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Label', '!=', special_label.title, submit: true
 
         expect_negated_label_token(special_label.title)
-        expect_issues_list_count(8)
+        expect(page).to have_work_item_count(8)
         expect_empty_search_term
       end
 
@@ -216,7 +212,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Label', '=', special_multiple_label.title, submit: true
 
         # Check for search results (which makes sure that the page has changed)
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_label_token(special_multiple_label.title)
         expect_empty_search_term
       end
@@ -224,7 +220,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
       it 'single quotes' do
         select_tokens 'Label', '=', multiple_words_label.title, submit: true
 
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_label_token(multiple_words_label.title)
         expect_empty_search_term
       end
@@ -233,7 +229,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Label', '=', multiple_words_label.title, submit: true
 
         expect_label_token(multiple_words_label.title)
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_empty_search_term
       end
 
@@ -245,7 +241,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Label', '=', double_quotes_label.title, submit: true
 
         expect_label_token(double_quotes_label.title)
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_empty_search_term
       end
 
@@ -257,7 +253,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Label', '=', single_quotes_label.title, submit: true
 
         expect_label_token(single_quotes_label.title)
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_empty_search_term
       end
     end
@@ -273,7 +269,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         expect_author_token(user.name)
         expect_assignee_token(user.name)
         expect_milestone_token(milestone.title)
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_search_term(search_term)
       end
 
@@ -287,7 +283,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         expect_author_token(user.name)
         expect_assignee_token(user.name)
         expect_negated_milestone_token(milestone.title)
-        expect_issues_list_count(0)
+        expect(page).to have_work_item_count(0)
         expect_search_term(search_term)
       end
     end
@@ -296,7 +292,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
       it 'filters and displays in search bar' do
         click_link multiple_words_label.title
 
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_label_token(multiple_words_label.title)
         expect_empty_search_term
       end
@@ -309,7 +305,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Milestone', '=', milestone.title, submit: true
 
         expect_milestone_token(milestone.title)
-        expect_issues_list_count(5)
+        expect(page).to have_work_item_count(5)
         expect_empty_search_term
       end
 
@@ -317,7 +313,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Milestone', '=', 'None', submit: true
 
         expect_milestone_token 'None'
-        expect_issues_list_count(3)
+        expect(page).to have_work_item_count(3)
         expect_empty_search_term
       end
 
@@ -330,7 +326,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
 
         expect_milestone_token 'Upcoming'
 
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_empty_search_term
       end
 
@@ -348,7 +344,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         expect_negated_milestone_token 'Upcoming'
 
         # 5 issues created in test setup + 1 issue created in this spec
-        expect_issues_list_count(6)
+        expect(page).to have_work_item_count(6)
         expect_empty_search_term
       end
 
@@ -356,7 +352,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Milestone', '=', 'Started', submit: true
 
         expect_milestone_token 'Started'
-        expect_issues_list_count(5)
+        expect(page).to have_work_item_count(5)
         expect_empty_search_term
       end
 
@@ -367,7 +363,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Milestone', '!=', 'Started', submit: true
 
         expect_negated_milestone_token 'Started'
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_empty_search_term
       end
 
@@ -378,7 +374,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Milestone', '=', special_milestone.title, submit: true
 
         expect_milestone_token(special_milestone.title)
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_empty_search_term
       end
 
@@ -389,7 +385,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Milestone', '!=', special_milestone.title, submit: true
 
         expect_negated_milestone_token(special_milestone.title)
-        expect_issues_list_count(8)
+        expect(page).to have_work_item_count(8)
         expect_empty_search_term
       end
 
@@ -409,7 +405,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Milestone', '!=', new_milestone.title, submit: true
 
         expect_negated_milestone_token(new_milestone.title)
-        expect_issues_list_count(8)
+        expect(page).to have_work_item_count(8)
         expect_empty_search_term
       end
     end
@@ -421,7 +417,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         search = 'Bug'
         submit_search_term(search)
 
-        expect_issues_list_count(4)
+        expect(page).to have_work_item_count(4)
         expect_search_term(search)
       end
 
@@ -429,7 +425,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         search = 'Bug report'
         submit_search_term(search)
 
-        expect_issues_list_count(3)
+        expect(page).to have_work_item_count(3)
         expect_search_term(search)
       end
 
@@ -437,7 +433,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         search = 'bug report'
         submit_search_term(search)
 
-        expect_issues_list_count(3)
+        expect(page).to have_work_item_count(3)
         expect_search_term(search)
       end
 
@@ -447,7 +443,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         search = 'single quotes'
         submit_search_term "'#{search}'"
 
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_search_term(search)
         expect(page).to have_content(issue.title)
       end
@@ -458,7 +454,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         search = 'double quotes'
         submit_search_term "\"#{search}\""
 
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_search_term(search)
         expect(page).to have_content(issue.title)
       end
@@ -475,7 +471,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         search = '#1'
         submit_search_term(search)
 
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_search_term(search)
       end
     end
@@ -491,7 +487,7 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
         select_tokens 'Milestone', '=', milestone.title
         send_keys 'foo', :enter, :enter
 
-        expect_issues_list_count(1)
+        expect(page).to have_work_item_count(1)
         expect_search_term('bug report foo')
       end
     end
@@ -512,45 +508,16 @@ RSpec.describe 'Filter issues', :js, feature_category: :team_planning do
 
         submit_search_term 'days ago'
 
-        expect_issues_list_count(2)
+        expect(page).to have_work_item_count(2)
         expect(page).to have_button 'Created date'
         expect(page).to have_css('.issue:first-of-type .issue-title', text: new_issue.title)
       end
     end
   end
 
-  describe 'switching issue states' do
-    let!(:closed_issue) { create(:issue, :closed, project: project, title: 'closed bug') }
-
-    before do
-      submit_search_term 'bug'
-
-      # This ensures that the search is performed
-      expect_issues_list_count(4, 1)
-    end
-
-    it 'maintains filter' do
-      click_link 'Closed'
-      wait_for_requests
-
-      expect(page).to have_selector('.issues-list .issue', count: 1)
-      expect(page).to have_link(closed_issue.title)
-
-      click_link 'Open'
-      wait_for_requests
-
-      expect(page).to have_selector('.issues-list .issue', count: 4)
-
-      click_link 'All'
-      wait_for_requests
-
-      expect(page).to have_selector('.issues-list .issue', count: 5)
-    end
-  end
-
   context 'URL has a trailing slash' do
     before do
-      visit "#{project_issues_path(project)}/"
+      visit "#{project_work_items_path(project)}/"
     end
 
     it 'milestone dropdown loads milestones' do

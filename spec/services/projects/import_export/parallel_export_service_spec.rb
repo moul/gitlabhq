@@ -17,6 +17,10 @@ RSpec.describe Projects::ImportExport::ParallelExportService, feature_category: 
     allow_next_instance_of(Gitlab::ImportExport::VersionSaver) do |saver|
       allow(saver).to receive(:save).and_return(true)
     end
+
+    allow_next_instance_of(Gitlab::ImportExport::Project::MaxIidsSaver) do |saver|
+      allow(saver).to receive(:save).and_return(true)
+    end
   end
 
   describe '#execute' do
@@ -37,6 +41,7 @@ RSpec.describe Projects::ImportExport::ParallelExportService, feature_category: 
         'Parallel project export started',
         'Parallel project export - Gitlab::ImportExport::VersionSaver saver started',
         'Parallel project export - Gitlab::ImportExport::Project::ExportedRelationsMerger saver started',
+        'Parallel project export - Gitlab::ImportExport::Project::MaxIidsSaver saver started',
         'Parallel project export finished successfully'
       ]
       messages.each do |message|
@@ -78,6 +83,28 @@ RSpec.describe Projects::ImportExport::ParallelExportService, feature_category: 
         end
 
         service.execute
+      end
+    end
+
+    describe '#exporters' do
+      context 'when import_export_preallocate_iids feature flag is enabled' do
+        before do
+          stub_feature_flags(import_export_preallocate_iids: user)
+        end
+
+        it 'includes MaxIidsSaver' do
+          expect(service.send(:exporters)).to include(an_instance_of(Gitlab::ImportExport::Project::MaxIidsSaver))
+        end
+      end
+
+      context 'when import_export_preallocate_iids feature flag is disabled' do
+        before do
+          stub_feature_flags(import_export_preallocate_iids: false)
+        end
+
+        it 'does not include MaxIidsSaver' do
+          expect(service.send(:exporters)).not_to include(an_instance_of(Gitlab::ImportExport::Project::MaxIidsSaver))
+        end
       end
     end
 

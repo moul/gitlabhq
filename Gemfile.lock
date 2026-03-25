@@ -742,7 +742,7 @@ GEM
     git (1.19.1)
       addressable (~> 2.8)
       rchardet (~> 1.8)
-    gitaly (18.8.3)
+    gitaly (18.10.0)
       grpc (~> 1.0)
     gitlab (4.19.0)
       httparty (~> 0.20)
@@ -1568,7 +1568,7 @@ GEM
       activerecord (>= 6.1)
       request_store (~> 1.4)
     parallel (1.27.0)
-    parser (3.3.10.1)
+    parser (3.3.10.2)
       ast (~> 2.4.1)
       racc
     parslet (1.8.2)
@@ -2267,7 +2267,7 @@ DEPENDENCIES
   gettext (~> 3.5, >= 3.5.1)
   gettext_i18n_rails (~> 1.13.0)
   git (~> 1.8)
-  gitaly (~> 18.8.0)
+  gitaly (~> 18.10.0)
   gitlab-active-context!
   gitlab-backup-cli!
   gitlab-chronic (~> 0.10.5)
@@ -2435,7 +2435,7 @@ DEPENDENCIES
   pact (~> 1.64)
   paper_trail (~> 16.0)
   parallel (~> 1.19)
-  parser (= 3.3.10.1)
+  parser (= 3.3.10.2)
   parslet (~> 1.8)
   peek (~> 1.1)
   pg (~> 1.6.1)
