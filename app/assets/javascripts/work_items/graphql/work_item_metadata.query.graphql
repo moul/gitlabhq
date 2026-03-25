@@ -3,6 +3,7 @@
 query workItemMetadata($fullPath: ID!) {
   namespace(fullPath: $fullPath) {
     id
+    name
     availableFeatures {
       ...WorkItemAvailableFeatures
     }

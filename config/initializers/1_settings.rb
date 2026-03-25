@@ -300,6 +300,13 @@ Settings.ci_secure_files['storage_path'] = Settings.absolute(Settings.ci_secure_
 Settings.ci_secure_files['object_store'] = ObjectStoreSettings.legacy_parse(Settings.ci_secure_files['object_store'], 'secure_files')
 
 #
+# AI Catalog
+#
+Settings['ai_catalog'] ||= {}
+Settings.ai_catalog['storage_path'] = Settings.absolute(Settings.ai_catalog['storage_path'] || File.join(Settings.shared['path'], "ai_catalog"))
+Settings.ai_catalog['object_store'] = ObjectStoreSettings.legacy_parse(Settings.ai_catalog['object_store'], 'ai_catalog')
+
+#
 # Reply by email
 #
 Settings['incoming_email'] ||= {}

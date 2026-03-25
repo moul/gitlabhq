@@ -1,5 +1,4 @@
 import { GlLoadingIcon, GlAlert } from '@gitlab/ui';
-import { cloneDeep } from 'lodash-es';
 import Vue, { nextTick } from 'vue';
 import VueApollo from 'vue-apollo';
 import MockAdapter from 'axios-mock-adapter';
@@ -32,7 +31,6 @@ import {
   RELATIVE_POSITION_ASC,
 } from '~/work_items/list/constants';
 import getUserWorkItemsPreferences from '~/work_items/graphql/get_user_preferences.query.graphql';
-import namespaceWorkItemTypesQuery from '~/work_items/graphql/namespace_work_item_types.query.graphql';
 import getSubscribedSavedViewsQuery from '~/work_items/list/graphql/work_item_saved_views_namespace.query.graphql';
 import namespaceSavedViewQuery from '~/work_items/list/graphql/namespace_saved_view.query.graphql';
 import updateWorkItemListUserPreference from '~/work_items/graphql/update_work_item_list_user_preferences.mutation.graphql';
@@ -71,11 +69,6 @@ import WorkItemUserPreferences from '~/work_items/list/components/work_item_user
 import ListView from '~/work_items/list/list_view.vue';
 import WorkItemsNewSavedViewModal from '~/work_items/list/components/work_items_new_saved_view_modal.vue';
 import WorkItemListActions from '~/work_items/list/components/work_item_list_actions.vue';
-import getWorkItemStateCountsQuery from 'ee_else_ce/work_items/list/graphql/get_work_item_state_counts.query.graphql';
-import getWorkItemsFullQuery from 'ee_else_ce/work_items/list/graphql/get_work_items_full.query.graphql';
-import getWorkItemsSlimQuery from 'ee_else_ce/work_items/list/graphql/get_work_items_slim.query.graphql';
-import hasWorkItemsQuery from '~/work_items/list/graphql/has_work_items.query.graphql';
-import getWorkItemsCountOnlyQuery from 'ee_else_ce/work_items/list/graphql/get_work_items_count_only.query.graphql';
 import WorkItemDrawer from '~/work_items/components/work_item_drawer.vue';
 import NewResourceDropdown from '~/vue_shared/components/new_resource_dropdown/new_resource_dropdown.vue';
 import WorkItemsOnboardingModal from '~/work_items/components/work_items_onboarding_modal/work_items_onboarding_modal.vue';
@@ -95,19 +88,13 @@ import { isLoggedIn } from '~/lib/utils/common_utils';
 import { saveSavedView } from 'ee_else_ce/work_items/list/utils';
 import {
   workItemsQueryResponseCombined,
-  workItemsQueryResponseNoLabels,
-  workItemsQueryResponseNoAssignees,
-  groupWorkItemStateCountsQueryResponse,
-  combinedQueryResultExample,
   workItemsWithSubChildQueryResponse,
-  namespaceWorkItemTypesQueryResponse,
   userPreferenceQueryResponse,
   workItemUserPreferenceUpdateMutationResponse,
   workItemUserPreferenceUpdateMutationResponseWithErrors,
-  workItemCountsOnlyResponse,
   singleSavedView,
   sharedSavedView,
-  workItemsQueryResponseWithFeatures,
+  namespaceWorkItemTypesQueryResponse,
 } from '../../mock_data';
 import {
   exampleSavedViewResponse,
@@ -131,28 +118,6 @@ jest.mock('ee_else_ce/work_items/list/utils', () => ({
 const showToast = jest.fn();
 
 const RELEASES_ENDPOINT = '/test/project/-/releases.json';
-
-const hasWorkItemsData = {
-  data: {
-    namespace: {
-      id: 'namespace',
-      workItems: {
-        nodes: [{ id: 'thing' }],
-      },
-    },
-  },
-};
-
-const emptyHasWorkItemsResponse = {
-  data: {
-    namespace: {
-      id: 'namespace',
-      workItems: {
-        nodes: [],
-      },
-    },
-  },
-};
 
 const emptySavedViewsResult = {
   data: {
@@ -180,14 +145,6 @@ Vue.use(VueRouter);
 
 useLocalStorageSpy();
 
-const defaultQueryHandler = jest.fn().mockResolvedValue(workItemsQueryResponseNoLabels);
-const workItemsSubChildQueryHandler = jest
-  .fn()
-  .mockResolvedValue(workItemsWithSubChildQueryResponse);
-const defaultSlimQueryHandler = jest.fn().mockResolvedValue(workItemsQueryResponseNoAssignees);
-const defaultCountsQueryHandler = jest
-  .fn()
-  .mockResolvedValue(groupWorkItemStateCountsQueryResponse);
 const userPreferenceMutationHandler = jest
   .fn()
   .mockResolvedValue(workItemUserPreferenceUpdateMutationResponse);
@@ -196,9 +153,6 @@ const mockPreferencesQueryHandler = jest.fn().mockResolvedValue({
     currentUser: null,
   },
 });
-const namespaceQueryHandler = jest.fn().mockResolvedValue(namespaceWorkItemTypesQueryResponse);
-const defaultHasWorkItemsHandler = jest.fn().mockResolvedValue(hasWorkItemsData);
-const defaultCountsOnlyHandler = jest.fn().mockResolvedValue(workItemCountsOnlyResponse);
 const namespaceSavedViewHandler = jest.fn().mockResolvedValue(exampleSavedViewResponse);
 
 const subscribedSavedViewsHandler = jest.fn().mockResolvedValue({
@@ -261,11 +215,6 @@ const findViewLimitWarningModal = () => wrapper.findByTestId('view-limit-warning
 
 const mountComponent = ({
   provide = {},
-  queryHandler = defaultQueryHandler,
-  slimQueryHandler = defaultSlimQueryHandler,
-  countsQueryHandler = defaultCountsQueryHandler,
-  hasWorkItemsHandler = defaultHasWorkItemsHandler,
-  countsOnlyHandler = defaultCountsOnlyHandler,
   mockPreferencesHandler = mockPreferencesQueryHandler,
   userPreferenceMutationResponse = userPreferenceMutationHandler,
   savedViewHandler = namespaceSavedViewHandler,
@@ -299,14 +248,8 @@ const mountComponent = ({
   isLoggedIn.mockReturnValue(isLoggedInValue);
 
   const apolloProvider = createMockApollo([
-    [getWorkItemsFullQuery, queryHandler],
-    [getWorkItemsSlimQuery, slimQueryHandler],
-    [getWorkItemStateCountsQuery, countsQueryHandler],
     [getUserWorkItemsPreferences, mockPreferencesHandler],
-    [namespaceWorkItemTypesQuery, namespaceQueryHandler],
     [updateWorkItemListUserPreference, userPreferenceMutationResponse],
-    [hasWorkItemsQuery, hasWorkItemsHandler],
-    [getWorkItemsCountOnlyQuery, countsOnlyHandler],
     [namespaceSavedViewQuery, savedViewHandler],
     [getSubscribedSavedViewsQuery, subscribedSavedViewsHandler],
     [subscribeToSavedViewMutation, subscribeHandler],
@@ -364,10 +307,26 @@ const mountComponent = ({
       workItemPlanningViewEnabled: false,
       subscribedSavedViewLimit: 5,
       canCreateSavedView: true,
+      namespaceName: 'Test',
       ...provide,
     },
     propsData: {
       rootPageFullPath: 'full/path',
+      workItems: workItemsQueryResponseCombined.data.namespace.workItems.nodes,
+      workItemStateCounts: { all: 3, opened: 2, closed: 1 },
+      workItemsCount: 3,
+      hasWorkItems: true,
+      workItemTypes: namespaceWorkItemTypesQueryResponse.data.namespace.workItemTypes.nodes,
+      isInitialLoadComplete: true,
+      initialLoadWasFiltered: false,
+      detailLoading: false,
+      isLoading: false,
+      pageInfo: {
+        hasNextPage: true,
+        hasPreviousPage: false,
+        startCursor: 'startCursor',
+        endCursor: 'endCursor',
+      },
       ...props,
     },
     stubs: {
@@ -404,8 +363,8 @@ const mountComponentWithShowParam = async (issue, mountOptions = {}) => {
   await nextTick();
 };
 
-it('renders loading icon when initially fetching work items', () => {
-  mountComponent();
+it('renders loading icon when isInitialLoadComplete prop is false', () => {
+  mountComponent({ props: { isInitialLoadComplete: false } });
 
   expect(wrapper.findComponent(GlLoadingIcon).exists()).toBe(true);
 });
@@ -467,32 +426,15 @@ describe('when work items are fetched', () => {
     );
   });
 
-  it('calls query to fetch work items', () => {
-    expect(defaultQueryHandler).toHaveBeenCalledWith(
-      expect.objectContaining({
-        fullPath: 'full/path',
-        includeDescendants: true,
-        sort: CREATED_DESC,
-        state: STATUS_OPEN,
-        firstPageSize: 20,
-        types: ['ISSUE', 'INCIDENT', 'TASK', 'TICKET'],
-        excludeGroupWorkItems: false,
-      }),
-    );
-
-    expect(defaultQueryHandler).toHaveBeenCalledWith(
-      expect.objectContaining({
-        excludeProjects: false,
-      }),
-    );
-  });
-
   it('calls `getParameterByName` to get the `show` param', () => {
     expect(getParameterByName).toHaveBeenCalledWith(DETAIL_VIEW_QUERY_PARAM_NAME);
   });
 
   it('does not show tree icon if not searched parent', async () => {
-    mountComponent({ queryHandler: workItemsSubChildQueryHandler, stubs: { IssuableList } });
+    mountComponent({
+      props: { workItems: workItemsWithSubChildQueryResponse.data.namespace.workItems.nodes },
+      stubs: { IssuableList },
+    });
 
     await waitForPromises();
 
@@ -503,7 +445,10 @@ describe('when work items are fetched', () => {
   it('shows tree icon based on a sub child of the searched parent', async () => {
     setWindowLocation('?parent_id=1');
 
-    mountComponent({ queryHandler: workItemsSubChildQueryHandler, stubs: { IssuableList } });
+    mountComponent({
+      props: { workItems: workItemsWithSubChildQueryResponse.data.namespace.workItems.nodes },
+      stubs: { IssuableList },
+    });
 
     await waitForPromises();
 
@@ -596,30 +541,16 @@ describe('when work items are fetched', () => {
       });
     });
   });
+});
 
-  describe('when isGroupIssuesList is true', () => {
-    it('passes excludeGroupWorkItems: true to GraphQL queries', async () => {
-      mountComponent({ provide: { isGroupIssuesList: true } });
+describe('when isGroupIssuesList is true', () => {
+  it('emits update-query with excludeGroupWorkItems: true', async () => {
+    mountComponent({ provide: { isGroupIssuesList: true } });
 
-      await waitForPromises();
+    await waitForPromises();
 
-      expect(defaultQueryHandler).toHaveBeenCalledWith(
-        expect.objectContaining({
-          excludeGroupWorkItems: true,
-        }),
-      );
-
-      expect(defaultSlimQueryHandler).toHaveBeenCalledWith(
-        expect.objectContaining({
-          excludeGroupWorkItems: true,
-        }),
-      );
-
-      expect(defaultCountsQueryHandler).toHaveBeenCalledWith(
-        expect.objectContaining({
-          excludeGroupWorkItems: true,
-        }),
-      );
+    expect(wrapper.emitted('update-query').at(-1)[0]).toMatchObject({
+      excludeGroupWorkItems: true,
     });
   });
 });
@@ -782,11 +713,10 @@ describe('pagination controls', () => {
     ${'when neither hasNextPage nor hasPreviousPage are true'} | ${{ hasNextPage: false, hasPreviousPage: false }} | ${false}
   `('$description', ({ pageInfo, exists }) => {
     it(`${exists ? 'renders' : 'does not render'} pagination controls`, async () => {
-      const response = cloneDeep(workItemsQueryResponseNoLabels);
-      Object.assign(response.data.namespace.workItems.pageInfo, pageInfo);
       mountComponent({
-        slimQueryHandler: jest.fn().mockResolvedValue(response),
-        queryHandler: jest.fn().mockResolvedValue(response),
+        props: {
+          pageInfo,
+        },
       });
       await waitForPromises();
 
@@ -796,110 +726,40 @@ describe('pagination controls', () => {
 });
 
 describe('when workItemType is provided', () => {
-  it('filters work items by workItemType', async () => {
+  it('emits "update-query" with "types" property', async () => {
     mountComponent({ provide: { workItemType: WORK_ITEM_TYPE_NAME_EPIC } });
 
     await waitForPromises();
 
-    expect(defaultQueryHandler).toHaveBeenCalledWith(
-      expect.objectContaining({
-        fullPath: 'full/path',
-        includeDescendants: true,
-        sort: CREATED_DESC,
-        state: STATUS_OPEN,
-        types: WORK_ITEM_TYPE_ENUM_EPIC,
-      }),
-    );
+    expect(wrapper.emitted('update-query')[0][0]).toMatchObject({
+      types: WORK_ITEM_TYPE_ENUM_EPIC,
+    });
   });
 });
 
 describe('when workItemType Epic is provided', () => {
-  it('sends excludeProjects variable in GraphQL query', async () => {
+  it('emits "update-query" with "excludeProjects" property', async () => {
     mountComponent({ provide: { workItemType: WORK_ITEM_TYPE_NAME_EPIC } });
 
     await waitForPromises();
 
-    expect(defaultQueryHandler).toHaveBeenCalledWith(
-      expect.objectContaining({
-        excludeProjects: true,
-      }),
-    );
-  });
-});
-
-describe('slim and full queries', () => {
-  beforeEach(() => {
-    mountComponent();
-
-    return waitForPromises();
-  });
-
-  it('calls the slim query as well as the full query', () => {
-    expect(defaultQueryHandler).toHaveBeenCalled();
-    expect(defaultSlimQueryHandler).toHaveBeenCalled();
-  });
-
-  it('combines the slim and full results correctly and passes the to the list component', () => {
-    expect(findIssuableList().props('issuables')).toEqual(combinedQueryResultExample);
-  });
-});
-
-describe.each`
-  queryName | handlerName
-  ${'full'} | ${'queryHandler'}
-  ${'slim'} | ${'slimQueryHandler'}
-`('when there is an error with the $queryName list query', ({ handlerName }) => {
-  const message = 'Something went wrong when fetching work items. Please try again.';
-
-  beforeEach(async () => {
-    mountComponent({ [handlerName]: jest.fn().mockRejectedValue(new Error('ERROR')) });
-    await waitForPromises();
-  });
-
-  it('renders an error message', () => {
-    expect(findIssuableList().props('error')).toBe(message);
-    expect(Sentry.captureException).toHaveBeenCalledWith(new Error('ERROR'));
-  });
-
-  it('clears error message when "dismiss-alert" event is emitted from IssuableList', async () => {
-    findIssuableList().vm.$emit('dismiss-alert');
-    await nextTick();
-
-    expect(wrapper.text()).not.toContain(message);
-  });
-
-  describe('when workItemPlanningView flag is enabled', () => {
-    beforeEach(async () => {
-      mountComponent({
-        [handlerName]: jest.fn().mockRejectedValue(new Error('ERROR')),
-        workItemPlanningView: true,
-      });
-      await waitForPromises();
-    });
-
-    it('passes empty string as error to IssuableList', () => {
-      expect(findIssuableList().props('error')).toBe('');
-    });
-
-    it('displays error alert in the component', () => {
-      expect(findGlAlert().text()).toContain(message);
+    expect(wrapper.emitted('update-query')[0][0]).toMatchObject({
+      excludeProjects: true,
     });
   });
 });
 
 describe('watcher', () => {
   describe('when eeCreatedWorkItemsCount is updated', () => {
-    it('refetches work items', async () => {
+    it('emits refetch event', async () => {
       mountComponent();
       await waitForPromises();
 
-      expect(defaultQueryHandler).toHaveBeenCalledTimes(1);
-      expect(defaultCountsQueryHandler).toHaveBeenCalledTimes(1);
+      expect(wrapper.emitted('refetch-data')).toBeUndefined();
 
       await wrapper.setProps({ eeWorkItemUpdateCount: 1 });
 
-      expect(defaultQueryHandler).toHaveBeenCalledTimes(2);
-      expect(defaultCountsQueryHandler).toHaveBeenCalledTimes(2);
+      expect(wrapper.emitted('refetch-data')[0]).toEqual(['all']);
     });
   });
 });
@@ -1247,7 +1107,7 @@ describe('events', () => {
   });
 
   describe('when "filter" event is emitted by IssuableList', () => {
-    it('fetches filtered work items', async () => {
+    it('emits the update-query event', async () => {
       mountComponent();
       await waitForPromises();
 
@@ -1258,13 +1118,11 @@ describe('events', () => {
       ]);
       await nextTick();
 
-      expect(defaultQueryHandler).toHaveBeenCalledWith(
-        expect.objectContaining({
-          search: 'find issues',
-          authorUsername: 'homer',
-          in: 'TITLE',
-        }),
-      );
+      expect(wrapper.emitted('update-query').at(-1)[0]).toMatchObject({
+        search: 'find issues',
+        authorUsername: 'homer',
+        in: 'TITLE',
+      });
     });
   });
 
@@ -1287,34 +1145,34 @@ describe('events', () => {
       expect(scrollUp).toHaveBeenCalled();
     });
 
-    it('fetches next/previous work items', () => {
-      expect(defaultQueryHandler).toHaveBeenLastCalledWith(expect.objectContaining(params));
+    it('emits the update-query event', () => {
+      expect(wrapper.emitted('update-query').at(-1)[0]).toMatchObject(params);
     });
   });
 
   describe('when "page-size-change" event is emitted by IssuableList', () => {
-    it('updates list with new page size', async () => {
+    it('emits the update-query event', async () => {
       mountComponent();
       await waitForPromises();
 
       findIssuableList().vm.$emit('page-size-change', 50);
       await nextTick();
 
-      expect(defaultQueryHandler).toHaveBeenLastCalledWith(
-        expect.objectContaining({ firstPageSize: 50 }),
-      );
+      expect(wrapper.emitted('update-query').at(-1)[0]).toMatchObject({ firstPageSize: 50 });
     });
   });
 
   describe('when "sort" event is emitted by IssuableList', () => {
     it.each(Object.keys(urlSortParams))(
-      'updates to the new sort when payload is `%s`',
+      'emits the update-query event with the new sort when payload is `%s`',
       async (sortKey) => {
         // Ensure initial sort key is different so we trigger an update when emitting a sort key
+        let index = 1;
         if (sortKey === CREATED_DESC) {
           mountComponent({
             mockPreferencesHandler: jest.fn().mockResolvedValue(userPreferenceQueryResponse),
           });
+          index = 0;
         } else {
           mountComponent();
         }
@@ -1322,10 +1180,9 @@ describe('events', () => {
 
         findIssuableList().vm.$emit('sort', sortKey);
         await waitForPromises();
+        await nextTick();
 
-        expect(defaultQueryHandler).toHaveBeenCalledWith(
-          expect.objectContaining({ sort: sortKey }),
-        );
+        expect(wrapper.emitted('update-query').at(index)[0]).toMatchObject({ sort: sortKey });
       },
     );
 
@@ -1372,10 +1229,7 @@ describe('events', () => {
 
 describe('work item drawer', () => {
   describe('when rendering issues list', () => {
-    beforeEach(async () => {
-      mountComponent();
-      await waitForPromises();
-    });
+    beforeEach(async () => {});
 
     it.each`
       message              | shouldOpenItemsInSidePanel | drawerExists
@@ -1516,6 +1370,9 @@ describe('work item drawer', () => {
       };
 
       beforeEach(async () => {
+        mountComponent();
+        await waitForPromises();
+
         findIssuableList().vm.$emit('select-issuable', payload);
 
         await nextTick();
@@ -1547,8 +1404,8 @@ describe('work item drawer', () => {
         checkThatDrawerPropsAreEmpty();
       });
 
-      it('refetches counts and resets when work item is deleted', async () => {
-        expect(defaultCountsQueryHandler).toHaveBeenCalledTimes(1);
+      it('emits the refetch event to refetch counts and resets when work item is deleted', async () => {
+        expect(wrapper.emitted('refetch-data')).toBeUndefined();
 
         findDrawer().vm.$emit('work-item-deleted');
 
@@ -1556,11 +1413,11 @@ describe('work item drawer', () => {
 
         checkThatDrawerPropsAreEmpty();
 
-        expect(defaultCountsQueryHandler).toHaveBeenCalledTimes(2);
+        expect(wrapper.emitted('refetch-data')).toHaveLength(1);
       });
 
-      it('refetches counts when the selected work item is closed', async () => {
-        expect(defaultCountsQueryHandler).toHaveBeenCalledTimes(1);
+      it('emits the refetch event to refetch counts when the selected work item is closed', async () => {
+        expect(wrapper.emitted('refetch-data')).toBeUndefined();
 
         // component displays open work items by default
         findDrawer().vm.$emit('work-item-updated', {
@@ -1569,7 +1426,7 @@ describe('work item drawer', () => {
 
         await nextTick();
 
-        expect(defaultCountsQueryHandler).toHaveBeenCalledTimes(2);
+        expect(wrapper.emitted('refetch-data')).toHaveLength(1);
       });
     });
   });
@@ -1664,30 +1521,15 @@ describe('when withTabs is false', () => {
 });
 
 describe('empty states', () => {
-  const emptyWorkItemsResponse = cloneDeep(workItemsQueryResponseNoLabels);
-  emptyWorkItemsResponse.data.namespace.workItems.nodes = [];
-
-  const emptyWorkItemsSlimResponse = cloneDeep(workItemsQueryResponseNoAssignees);
-  emptyWorkItemsSlimResponse.data.namespace.workItems.nodes = [];
-
-  const emptyCountsResponse = cloneDeep(groupWorkItemStateCountsQueryResponse);
-  emptyCountsResponse.data.group.workItemStateCounts = {
-    all: 0,
-    closed: 0,
-    opened: 0,
-  };
-
-  const getEmptyQueryHandler = ({
-    emptyWorkItems = emptyWorkItemsResponse,
-    emptyWorkItemsSlim = emptyWorkItemsSlimResponse,
-    emptyCounts = emptyCountsResponse,
-    emptyHasWorkItems = emptyHasWorkItemsResponse,
+  const getEmptyPropValues = ({
+    workItems = [],
+    workItemStateCounts = { all: 0, closed: 0, opened: 0 },
+    hasWorkItems = false,
   } = {}) => {
     return {
-      queryHandler: jest.fn().mockResolvedValue(emptyWorkItems),
-      slimQueryHandler: jest.fn().mockResolvedValue(emptyWorkItemsSlim),
-      countsQueryHandler: jest.fn().mockResolvedValue(emptyCounts),
-      hasWorkItemsHandler: jest.fn().mockResolvedValue(emptyHasWorkItems),
+      workItems,
+      workItemStateCounts,
+      hasWorkItems,
     };
   };
 
@@ -1695,7 +1537,9 @@ describe('empty states', () => {
     beforeEach(async () => {
       setWindowLocation('?label_name=bug');
       mountComponent({
-        ...getEmptyQueryHandler(),
+        props: {
+          ...getEmptyPropValues(),
+        },
       });
       await waitForPromises();
     });
@@ -1709,7 +1553,9 @@ describe('empty states', () => {
   describe('when there are no work items in group context', () => {
     beforeEach(async () => {
       mountComponent({
-        ...getEmptyQueryHandler(),
+        props: {
+          ...getEmptyPropValues(),
+        },
         provide: {
           isProject: false,
           isGroupIssuesList: true,
@@ -1736,7 +1582,9 @@ describe('empty states', () => {
     describe('when group has no projects', () => {
       beforeEach(async () => {
         mountComponent({
-          ...getEmptyQueryHandler(),
+          props: {
+            ...getEmptyPropValues(),
+          },
           provide: {
             isGroupIssuesList: true,
             hasProjects: false,
@@ -1751,7 +1599,9 @@ describe('empty states', () => {
 
       it('disables the bulk edit button', async () => {
         mountComponent({
-          ...getEmptyQueryHandler(),
+          props: {
+            ...getEmptyPropValues(),
+          },
         });
 
         await waitForPromises();
@@ -1762,17 +1612,10 @@ describe('empty states', () => {
   });
 
   describe('when there are no work items in project context', () => {
-    const projectEmptyCountsResponse = cloneDeep(groupWorkItemStateCountsQueryResponse);
-    projectEmptyCountsResponse.data.project = {
-      id: 'gid://gitlab/Project/1',
-      workItemStateCounts: {
-        all: 0,
-        closed: 0,
-        opened: 0,
-      },
-    };
     const emptyStateConfig = {
-      ...getEmptyQueryHandler({ emptyCounts: projectEmptyCountsResponse }),
+      props: {
+        ...getEmptyPropValues(),
+      },
       provide: {
         isGroup: false,
         isProject: true,
@@ -1801,22 +1644,13 @@ describe('empty states', () => {
 
   describe('when there are work items', () => {
     describe('in group context', () => {
-      const emptyCountsWithIssueResponse = cloneDeep(groupWorkItemStateCountsQueryResponse);
-      emptyCountsWithIssueResponse.data.group.workItemStateCounts = {
-        all: 1,
-        closed: 1,
-        opened: 0,
-      };
-      const emptyStateConfig = {
-        ...getEmptyQueryHandler({
-          emptyCounts: emptyCountsWithIssueResponse,
-          emptyHasWorkItems: hasWorkItemsData,
-        }),
-      };
-
       it('renders the with issues empty state and the new resource dropdown', async () => {
         mountComponent({
-          ...emptyStateConfig,
+          props: {
+            ...getEmptyPropValues({
+              hasWorkItems: true,
+            }),
+          },
           provide: {
             isProject: false,
             isGroupIssuesList: true,
@@ -1831,25 +1665,13 @@ describe('empty states', () => {
     });
 
     describe('in project context', () => {
-      const emptyCountsWithIssueResponse = cloneDeep(groupWorkItemStateCountsQueryResponse);
-      emptyCountsWithIssueResponse.data.project = {
-        id: 'gid://gitlab/Project/1',
-        workItemStateCounts: {
-          all: 1,
-          closed: 1,
-          open: 0,
-        },
-      };
-      const emptyStateConfig = {
-        ...getEmptyQueryHandler({
-          emptyCounts: emptyCountsWithIssueResponse,
-          emptyHasWorkItems: hasWorkItemsData,
-        }),
-      };
-
       it('renders the with issues empty state and the CreateWorkItemModal', async () => {
         mountComponent({
-          ...emptyStateConfig,
+          props: {
+            ...getEmptyPropValues({
+              hasWorkItems: true,
+            }),
+          },
           provide: {
             isProject: true,
             isGroupIssuesList: false,
@@ -1864,22 +1686,18 @@ describe('empty states', () => {
     });
 
     describe('withTabs prop', () => {
-      const emptyCountsWithIssueResponse = cloneDeep(groupWorkItemStateCountsQueryResponse);
-      emptyCountsWithIssueResponse.data.group.workItemStateCounts = {
-        all: 1,
-        closed: 1,
-        opened: 0,
-      };
       const emptyStateConfig = {
-        ...getEmptyQueryHandler({
-          emptyCounts: emptyCountsWithIssueResponse,
-          emptyHasWorkItems: hasWorkItemsData,
+        ...getEmptyPropValues({
+          hasWorkItems: true,
+          workItemStateCounts: { all: 1, closed: 1, opened: 0 },
         }),
       };
 
       it('passes withTabs as true by default', async () => {
         mountComponent({
-          ...emptyStateConfig,
+          props: {
+            ...emptyStateConfig,
+          },
           provide: { isProject: false, isGroupIssuesList: true },
         });
         await waitForPromises();
@@ -1903,7 +1721,7 @@ describe('empty states', () => {
 
 describe('group filter', () => {
   describe('filtering by group', () => {
-    it('query excludes descendants and excludes projects', async () => {
+    it('emits update-query and excludes descendants and excludes projects', async () => {
       mountComponent();
       await waitForPromises();
 
@@ -1915,17 +1733,15 @@ describe('group filter', () => {
       ]);
       await nextTick();
 
-      expect(defaultQueryHandler).toHaveBeenCalledWith(
-        expect.objectContaining({
-          excludeProjects: true,
-          includeDescendants: false,
-        }),
-      );
+      expect(wrapper.emitted('update-query').at(-1)[0]).toMatchObject({
+        excludeProjects: true,
+        includeDescendants: false,
+      });
     });
   });
 
   describe('not filtering by group', () => {
-    it('query includes descendants and includes projects', async () => {
+    it('emits update-query and includes descendants and includes projects', async () => {
       mountComponent();
       await waitForPromises();
 
@@ -1934,12 +1750,10 @@ describe('group filter', () => {
       ]);
       await nextTick();
 
-      expect(defaultQueryHandler).toHaveBeenCalledWith(
-        expect.objectContaining({
-          excludeProjects: false,
-          includeDescendants: true,
-        }),
-      );
+      expect(wrapper.emitted('update-query').at(-1)[0]).toMatchObject({
+        excludeProjects: false,
+        includeDescendants: true,
+      });
     });
   });
 
@@ -1953,11 +1767,10 @@ describe('group filter', () => {
       ${10245} | ${'10,245 items'}
     `('when count is $count', ({ count, expectedText }) => {
       beforeEach(async () => {
-        const mockCountResponse = cloneDeep(workItemCountsOnlyResponse);
-        mockCountResponse.data.namespace.workItems.count = count;
-
         mountComponent({
-          countsOnlyHandler: jest.fn().mockResolvedValue(mockCountResponse),
+          props: {
+            workItemsCount: count,
+          },
           workItemPlanningView: true,
         });
         await waitForPromises();
@@ -2153,14 +1966,6 @@ describe('when workItemPlanningView flag is enabled', () => {
     expect(findWorkItemListActions().props('workItemCount')).toBe(3);
   });
 
-  it('skips the work item queries when metadata is loading', async () => {
-    mountComponent({ provide: { metadataLoading: true } });
-    await waitForPromises();
-
-    expect(defaultQueryHandler).not.toHaveBeenCalled();
-    expect(defaultSlimQueryHandler).not.toHaveBeenCalled();
-  });
-
   it('renders total items count when work items exist', async () => {
     mountComponent({ workItemPlanningView: true });
     await waitForPromises();
@@ -2292,8 +2097,7 @@ describe('Saved Views', () => {
       await nextTick();
 
       expect(Sentry.captureException).toHaveBeenCalledWith(testError);
-      expect(findGlAlert().exists()).toBe(true);
-      expect(findGlAlert().text()).toContain(errorMessage);
+      expect(wrapper.emitted('set-error')[0][0]).toBe(errorMessage);
     });
 
     it('fetches the saved view based on route parameter', () => {
@@ -2553,7 +2357,9 @@ describe('Saved Views', () => {
 
           await waitForPromises();
 
-          expect(findGlAlert().text()).toBe('Something went wrong while saving the view');
+          expect(wrapper.emitted('set-error')[0][0]).toBe(
+            'Something went wrong while saving the view',
+          );
         });
 
         it('sets error when mutation throws error', async () => {
@@ -2563,7 +2369,9 @@ describe('Saved Views', () => {
 
           await waitForPromises();
 
-          expect(findGlAlert().text()).toBe('Something went wrong while saving the view');
+          expect(wrapper.emitted('set-error')[0][0]).toBe(
+            'Something went wrong while saving the view',
+          );
         });
 
         it('does not call saveSavedView when user cancels', async () => {
@@ -2727,7 +2535,7 @@ describe('showWorkItemByEmail computed property', () => {
 });
 
 describe('iid filter search', () => {
-  it('when user enters a number with #', async () => {
+  it('emits update-query when user enters a number with #', async () => {
     mountComponent();
     await waitForPromises();
 
@@ -2736,14 +2544,12 @@ describe('iid filter search', () => {
     ]);
     await nextTick();
 
-    expect(defaultQueryHandler).toHaveBeenCalledWith(
-      expect.objectContaining({
-        iid: '23',
-      }),
-    );
+    expect(wrapper.emitted('update-query').at(-1)[0]).toMatchObject({
+      iid: '23',
+    });
   });
 
-  it('when user enters a number without #', async () => {
+  it('emits update-query when user enters a number without #', async () => {
     mountComponent();
     await waitForPromises();
 
@@ -2752,11 +2558,9 @@ describe('iid filter search', () => {
     ]);
     await nextTick();
 
-    expect(defaultQueryHandler).toHaveBeenCalledWith(
-      expect.objectContaining({
-        search: '23',
-      }),
-    );
+    expect(wrapper.emitted('update-query').at(-1)[0]).toMatchObject({
+      search: '23',
+    });
   });
 
   it('closes the drawer if there is no `show` param', async () => {
@@ -2794,7 +2598,6 @@ describe('when service desk list', () => {
         async ({ workItemType, isServiceDeskSupported, isInfoBannerVisible }) => {
           mountComponent({
             provide: { isServiceDeskSupported, workItemType },
-            hasWorkItemsHandler: jest.fn().mockResolvedValue(hasWorkItemsData),
           });
           await waitForPromises();
 
@@ -2813,7 +2616,9 @@ describe('when service desk list', () => {
       `('never renders InfoBanner', async ({ workItemType, isServiceDeskSupported }) => {
         mountComponent({
           provide: { isServiceDeskSupported, workItemType },
-          hasWorkItemsHandler: jest.fn().mockResolvedValue(emptyHasWorkItemsResponse),
+          props: {
+            hasWorkItems: false,
+          },
         });
         await waitForPromises();
 
@@ -2840,7 +2645,6 @@ describe('when service desk list', () => {
     it('renders EmptyStateWithAnyTickets when there are work items', async () => {
       mountComponent({
         provide: { isServiceDeskSupported: true, workItemType: WORK_ITEM_TYPE_NAME_TICKET },
-        hasWorkItemsHandler: jest.fn().mockResolvedValue(hasWorkItemsData),
       });
       await waitForPromises();
 
@@ -2850,23 +2654,13 @@ describe('when service desk list', () => {
     it('renders EmptyStateWithoutAnyTickets when there are no work items', async () => {
       mountComponent({
         provide: { isServiceDeskSupported: true, workItemType: WORK_ITEM_TYPE_NAME_TICKET },
-        hasWorkItemsHandler: jest.fn().mockResolvedValue(emptyHasWorkItemsResponse),
+        props: {
+          hasWorkItems: false,
+        },
       });
       await waitForPromises();
 
       expect(findServiceDeskEmptyStateWithoutAnyIssues().exists()).toBe(true);
-    });
-  });
-
-  describe('document title', () => {
-    it('renders "Service Desk"', async () => {
-      mountComponent({
-        provide: { isServiceDeskSupported: true, workItemType: WORK_ITEM_TYPE_NAME_TICKET },
-        workItemPlanningView: true,
-      });
-      await waitForPromises();
-
-      expect(document.title).toBe('Service Desk · Test · GitLab');
     });
   });
 
@@ -2879,13 +2673,6 @@ describe('when service desk list', () => {
       await waitForPromises();
 
       expect(document.title).toBe('Current sprint 3 · Work items · Test · GitLab');
-    });
-
-    it('renders generic "Work items" title when not on a saved view', async () => {
-      mountComponent({ workItemPlanningView: true });
-      await waitForPromises();
-
-      expect(document.title).toBe('Work items · Test · GitLab');
     });
 
     it('updates document title when switching between saved views', async () => {
@@ -2959,7 +2746,7 @@ describe('when service desk list', () => {
 
   describe('work item features field feature flag', () => {
     describe('when the feature flag is off', () => {
-      it('does not pass features variable to the query', async () => {
+      it('does not include features variable to the in update-query event', async () => {
         mountComponent({
           provide: {
             isServiceDeskSupported: true,
@@ -2970,35 +2757,27 @@ describe('when service desk list', () => {
 
         await waitForPromises();
 
-        expect(defaultQueryHandler).toHaveBeenCalled();
-        expect(defaultQueryHandler).not.toHaveBeenCalledWith(
-          expect.objectContaining({
-            useWorkItemFeatures: true,
-          }),
-        );
+        expect(wrapper.emitted('update-query').at(-1)[0]).not.toMatchObject({
+          useWorkItemFeatures: true,
+        });
       });
     });
 
     describe('when the feature flag is on', () => {
       it('passes the useWorkItemFeatures to the query', async () => {
-        const mockQueryHandler = jest.fn().mockResolvedValue(workItemsQueryResponseWithFeatures);
-
         mountComponent({
           provide: {
             isServiceDeskSupported: true,
             workItemType: WORK_ITEM_TYPE_NAME_TICKET,
             glFeatures: { workItemFeaturesField: true },
           },
-          queryHandler: mockQueryHandler,
         });
 
         await waitForPromises();
 
-        expect(mockQueryHandler).toHaveBeenCalledWith(
-          expect.objectContaining({
-            useWorkItemFeatures: true,
-          }),
-        );
+        expect(wrapper.emitted('update-query').at(-1)[0]).toMatchObject({
+          useWorkItemFeatures: true,
+        });
       });
     });
   });

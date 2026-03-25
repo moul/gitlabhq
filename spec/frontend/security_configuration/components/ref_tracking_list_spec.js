@@ -16,6 +16,7 @@ import RefTrackingListItem from '~/security_configuration/components/ref_trackin
 import RefUntrackingConfirmation from '~/security_configuration/components/ref_untracking_confirmation.vue';
 import RefTrackingSelection from '~/security_configuration/components/ref_tracking_selection.vue';
 import securityTrackedRefsQuery from '~/security_configuration/graphql/security_tracked_refs.query.graphql';
+import trackSecurityTrackedRefsMutation from '~/security_configuration/graphql/track_security_tracked_refs.mutation.graphql';
 import { createTrackedRef, createMockTrackedRefsResponse } from '../mock_data';
 
 Vue.use(VueApollo);
@@ -49,13 +50,22 @@ const mockTrackedRefsResponseAtMaxLimit = createMockTrackedRefsResponse({
 describe('RefTrackingList component', () => {
   let wrapper;
 
+  const defaultTrackMutationHandler = jest
+    .fn()
+    .mockResolvedValue({ data: { securityRefsTrack: { trackedRefs: [], errors: [] } } });
+
   const createApolloProvider = ({
     queryHandler = jest.fn().mockResolvedValue(mockTrackedRefsResponse),
-  } = {}) => createMockApollo([[securityTrackedRefsQuery, queryHandler]]);
+    trackMutationHandler = defaultTrackMutationHandler,
+  } = {}) =>
+    createMockApollo([
+      [securityTrackedRefsQuery, queryHandler],
+      [trackSecurityTrackedRefsMutation, trackMutationHandler],
+    ]);
 
-  const createComponent = ({ queryHandler } = {}) => {
+  const createComponent = ({ queryHandler, trackMutationHandler } = {}) => {
     wrapper = shallowMountExtended(RefTrackingList, {
-      apolloProvider: createApolloProvider({ queryHandler }),
+      apolloProvider: createApolloProvider({ queryHandler, trackMutationHandler }),
       provide: {
         projectFullPath: 'namespace/project',
         maxTrackedRefs: MAX_TRACKED_REFS,
@@ -464,7 +474,7 @@ describe('RefTrackingList component', () => {
       const selectedRefs = [
         {
           name: 'develop',
-          refType: 'HEAD',
+          refType: 'BRANCH',
           isProtected: false,
           commit: {
             id: 'gid://gitlab/Commit/1',
@@ -478,16 +488,6 @@ describe('RefTrackingList component', () => {
       ];
 
       describe('success', () => {
-        beforeEach(() => {
-          jest.spyOn(wrapper.vm.$apollo, 'mutate').mockResolvedValue({
-            data: {
-              securityTrackedRefsTrack: {
-                errors: [],
-              },
-            },
-          });
-        });
-
         it('closes the tracking modal when the modal emits the "select" event', async () => {
           await openTrackingModal();
           expect(findTrackingSelection().exists()).toBe(true);
@@ -499,43 +499,28 @@ describe('RefTrackingList component', () => {
         });
 
         it('calls the mutation with the correct variables when refs are selected', async () => {
-          const mutateSpy = jest.spyOn(wrapper.vm.$apollo, 'mutate').mockResolvedValue({
-            data: {
-              securityTrackedRefsTrack: {
-                errors: [],
-              },
-            },
-          });
+          const trackMutationHandler = jest
+            .fn()
+            .mockResolvedValue({ data: { securityRefsTrack: { trackedRefs: [], errors: [] } } });
+          createComponent({ trackMutationHandler });
+          await waitForPromises();
 
           await openTrackingModal();
 
           findTrackingSelection().vm.$emit('select', selectedRefs);
           await waitForPromises();
 
-          expect(mutateSpy).toHaveBeenCalledWith(
-            expect.objectContaining({
-              variables: {
-                input: {
-                  projectPath: 'namespace/project',
-                  refs: [
-                    {
-                      name: 'develop',
-                      refType: 'HEAD',
-                      isProtected: false,
-                      commit: {
-                        id: 'gid://gitlab/Commit/1',
-                        sha: 'abc123',
-                        shortId: 'abc123',
-                        title: 'Test commit',
-                        authoredDate: '2024-11-01T10:00:00Z',
-                        webPath: '/project/-/commit/abc123',
-                      },
-                    },
-                  ],
+          expect(trackMutationHandler).toHaveBeenCalledWith({
+            input: {
+              projectPath: 'namespace/project',
+              refs: [
+                {
+                  name: 'develop',
+                  refType: 'BRANCH',
                 },
-              },
-            }),
-          );
+              ],
+            },
+          });
         });
 
         it('shows loading state during tracking', async () => {
@@ -557,67 +542,64 @@ describe('RefTrackingList component', () => {
         });
 
         it('refetches tracked refs query after successful mutation', async () => {
-          // Note: Once we have the actual mutation available on the BE, we can move from using a spy to mocking the actual mutation.
-          // Currently this would cause an error with mock-apollo
-          const mutateSpy = jest.spyOn(wrapper.vm.$apollo, 'mutate').mockResolvedValue({
-            data: {
-              securityTrackedRefsTrack: {
-                errors: [],
-              },
-            },
-          });
+          const queryHandler = jest.fn().mockResolvedValue(mockTrackedRefsResponse);
+          createComponent({ queryHandler });
+          await waitForPromises();
+
+          expect(queryHandler).toHaveBeenCalledTimes(1);
 
           await openTrackingModal();
 
           findTrackingSelection().vm.$emit('select', selectedRefs);
           await waitForPromises();
 
-          expect(mutateSpy).toHaveBeenCalledWith(
-            expect.objectContaining({
-              refetchQueries: [
-                {
-                  query: securityTrackedRefsQuery,
-                  variables: { fullPath: 'namespace/project' },
-                },
-              ],
-              awaitRefetchQueries: true,
-            }),
-          );
+          expect(queryHandler).toHaveBeenCalledTimes(2);
         });
       });
 
       describe('tracking refs errors', () => {
-        let mutateSpy;
-
-        beforeEach(async () => {
-          mutateSpy = jest.spyOn(wrapper.vm.$apollo, 'mutate');
-          createComponent();
+        it('shows dismissible error alert when mutation throws an error', async () => {
+          const trackMutationHandler = jest.fn().mockRejectedValue(new Error('Network error'));
+          createComponent({ trackMutationHandler });
           await waitForPromises();
+
+          await openTrackingModal();
+
+          findTrackingSelection().vm.$emit('select', selectedRefs);
+          await waitForPromises();
+
+          expect(findErrorAlert().exists()).toBe(true);
+          expect(findErrorAlert().text()).toBe(
+            'Could not track refs. Please refresh the page, or try again later.',
+          );
+
+          findErrorAlert().vm.$emit('dismiss');
+          await nextTick();
+
+          expect(findErrorAlert().exists()).toBe(false);
         });
 
-        describe('when mutation fails', () => {
-          it.each`
-            scenario                                 | mockImplementation
-            ${'mutation throws an error'}            | ${() => mutateSpy.mockRejectedValue(new Error('Network error'))}
-            ${'mutation returns errors in response'} | ${() => mutateSpy.mockResolvedValue({ data: { securityTrackedRefsTrack: { errors: ['Something went wrong'] } } })}
-          `('shows dismissible error alert when $scenario', async ({ mockImplementation }) => {
-            mockImplementation();
-
-            await openTrackingModal();
-
-            findTrackingSelection().vm.$emit('select', selectedRefs);
-            await waitForPromises();
-
-            expect(findErrorAlert().exists()).toBe(true);
-            expect(findErrorAlert().text()).toBe(
-              'Could not track refs. Please refresh the page, or try again later.',
-            );
-
-            findErrorAlert().vm.$emit('dismiss');
-            await nextTick();
-
-            expect(findErrorAlert().exists()).toBe(false);
+        it('shows dismissible error alert when mutation returns errors in response', async () => {
+          const trackMutationHandler = jest.fn().mockResolvedValue({
+            data: { securityRefsTrack: { trackedRefs: [], errors: ['Something went wrong'] } },
           });
+          createComponent({ trackMutationHandler });
+          await waitForPromises();
+
+          await openTrackingModal();
+
+          findTrackingSelection().vm.$emit('select', selectedRefs);
+          await waitForPromises();
+
+          expect(findErrorAlert().exists()).toBe(true);
+          expect(findErrorAlert().text()).toBe(
+            'Could not track refs. Please refresh the page, or try again later.',
+          );
+
+          findErrorAlert().vm.$emit('dismiss');
+          await nextTick();
+
+          expect(findErrorAlert().exists()).toBe(false);
         });
       });
     });

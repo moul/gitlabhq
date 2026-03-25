@@ -97,7 +97,7 @@ To use the Planner Agent in VS Code:
 Prerequisites:
 
 - [Turn on](_index.md#turn-foundational-agents-on-or-off) foundational agents.
-- Install and configure [GitLab plugin for JetBrains](../../../../editor_extensions/jetbrains_ide/setup.md)
+- Install and configure the [GitLab Duo plugin for JetBrains IDEs](../../../../editor_extensions/jetbrains_ide/setup.md)
   version 3.11.1 or later.
 - Set a [default GitLab Duo namespace](../../../profile/preferences.md#set-a-default-gitlab-duo-namespace).
 

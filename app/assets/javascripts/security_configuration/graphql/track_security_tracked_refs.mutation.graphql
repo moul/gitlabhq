@@ -1,5 +1,5 @@
-mutation securityTrackedRefsTrack($input: SecurityTrackedRefsTrackInput!) {
-  securityTrackedRefsTrack(input: $input) @client {
+mutation securityRefsTrack($input: SecurityRefsTrackInput!) {
+  securityRefsTrack(input: $input) {
     trackedRefs {
       id
       name
@@ -7,6 +7,7 @@ mutation securityTrackedRefsTrack($input: SecurityTrackedRefsTrackInput!) {
       isDefault
       isProtected
       commit {
+        id
         sha
         shortId
         title

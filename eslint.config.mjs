@@ -669,6 +669,17 @@ export default [
       'import/no-nodejs-modules': 'off',
       'filenames/match-regex': 'off',
       'no-console': 'off',
+      'import/no-unresolved': [
+        'error',
+        {
+          ignore: [
+            // False positive: eslint-plugin-import doesn't read `exports` field.
+            // See https://github.com/import-js/eslint-plugin-import/issues/1810
+            '^vite$',
+            '^lightningcss$',
+          ],
+        },
+      ],
     },
   },
   {

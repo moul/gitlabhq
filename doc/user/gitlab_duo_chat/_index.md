@@ -274,9 +274,9 @@ If you have selected code in the editor, this selection is sent along with your 
 
 Prerequisites:
 
-- You've [installed and configured the GitLab plugin for JetBrains IDEs](../../editor_extensions/jetbrains_ide/setup.md).
+- You've [installed and configured the GitLab Duo plugin for JetBrains IDEs](../../editor_extensions/jetbrains_ide/setup.md).
 
-To use GitLab Duo Chat in the GitLab plugin for JetBrains IDEs:
+To use GitLab Duo Chat in the GitLab Duo plugin for JetBrains IDEs:
 
 1. In a JetBrains IDE, open a project.
 1. Open GitLab Duo Chat in either a chat window or an editor window.

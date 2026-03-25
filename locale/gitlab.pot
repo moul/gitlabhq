@@ -1993,9 +1993,6 @@ msgstr ""
 msgid "/q test is now supported by using /q dev in an issue or merge request. To generate unit tests for this MR, add an inline comment and enter /q dev along with a comment about the tests you want written."
 msgstr ""
 
-msgid "0"
-msgstr ""
-
 msgid "0 B"
 msgstr ""
 
@@ -2122,9 +2119,6 @@ msgstr ""
 msgid "20-29 contributions"
 msgstr ""
 
-msgid "29"
-msgstr ""
-
 msgid "2FA"
 msgstr ""
 
@@ -2198,9 +2192,6 @@ msgid "503|Please contact your GitLab administrator if you think this is a mista
 msgstr ""
 
 msgid "503|Try refreshing the page, or going back and attempting the action again."
-msgstr ""
-
-msgid "99"
 msgstr ""
 
 msgid ":%{startLine} to %{endLine}"
@@ -11501,16 +11492,7 @@ msgstr ""
 msgid "Billing"
 msgstr ""
 
-msgid "BillingPlans|$12 in GitLab Credits per user per month"
-msgstr ""
-
-msgid "BillingPlans|$24 in GitLab Credits per user per month"
-msgstr ""
-
 msgid "BillingPlans|%{group_name} is currently using the %{plan_name}"
-msgstr ""
-
-msgid "BillingPlans|10 GiB adjustable storage"
 msgstr ""
 
 msgid "BillingPlans|10,000 Compute Minutes per Month"
@@ -11523,15 +11505,6 @@ msgid "BillingPlans|10000 compute minutes"
 msgstr ""
 
 msgid "BillingPlans|400 compute minutes"
-msgstr ""
-
-msgid "BillingPlans|400 compute minutes per month"
-msgstr ""
-
-msgid "BillingPlans|5 users per top-level group"
-msgstr ""
-
-msgid "BillingPlans|50,000 compute minutes per month"
 msgstr ""
 
 msgid "BillingPlans|50000 compute minutes"
@@ -11573,9 +11546,6 @@ msgstr ""
 msgid "BillingPlans|Access AI assistance wherever you're most productive"
 msgstr ""
 
-msgid "BillingPlans|Add-ons"
-msgstr ""
-
 msgid "BillingPlans|Additional features"
 msgstr ""
 
@@ -11612,12 +11582,6 @@ msgstr ""
 msgid "BillingPlans|Automatically sync branches, tags, and commits from an external repository."
 msgstr ""
 
-msgid "BillingPlans|Billed annually at $1,188 USD"
-msgstr ""
-
-msgid "BillingPlans|Billed annually at $348 USD"
-msgstr ""
-
 msgid "BillingPlans|Billing"
 msgstr ""
 
@@ -11639,9 +11603,6 @@ msgstr ""
 msgid "BillingPlans|Choose Premium"
 msgstr ""
 
-msgid "BillingPlans|Choose Ultimate"
-msgstr ""
-
 msgid "BillingPlans|Combine one or more agents to solve complex problems. Use pre-built flows for common development tasks or create custom workflows with your own triggers and steps."
 msgstr ""
 
@@ -11652,9 +11613,6 @@ msgid "BillingPlans|Compliance Center"
 msgstr ""
 
 msgid "BillingPlans|Compliance automation"
-msgstr ""
-
-msgid "BillingPlans|Compute Minutes"
 msgstr ""
 
 msgid "BillingPlans|Congratulations, your free trial is activated."
@@ -11675,12 +11633,6 @@ msgstr ""
 msgid "BillingPlans|Cross-team project management"
 msgstr ""
 
-msgid "BillingPlans|Current subscription"
-msgstr ""
-
-msgid "BillingPlans|Currently trialing"
-msgstr ""
-
 msgid "BillingPlans|Customizable pre-receive Git hooks that enforce commit content standards, message formats, branch naming rules, and file requirements."
 msgstr ""
 
@@ -11690,16 +11642,7 @@ msgstr ""
 msgid "BillingPlans|Discover Premium"
 msgstr ""
 
-msgid "BillingPlans|Duo Enterprise"
-msgstr ""
-
-msgid "BillingPlans|Duo Pro"
-msgstr ""
-
 msgid "BillingPlans|Enhanced CI/CD"
-msgstr ""
-
-msgid "BillingPlans|Enterprise Agile Planning Seats"
 msgstr ""
 
 msgid "BillingPlans|Epics"
@@ -11780,9 +11723,6 @@ msgstr ""
 msgid "BillingPlans|GitLab Duo Agent Platform"
 msgstr ""
 
-msgid "BillingPlans|GitLab Duo Agent Platform:"
-msgstr ""
-
 msgid "BillingPlans|GitLab Duo Chat"
 msgstr ""
 
@@ -11790,9 +11730,6 @@ msgid "BillingPlans|GitLab Free"
 msgstr ""
 
 msgid "BillingPlans|GitLab Premium features"
-msgstr ""
-
-msgid "BillingPlans|Governance & Compliance"
 msgstr ""
 
 msgid "BillingPlans|Have a question? We're here to help."
@@ -11861,12 +11798,6 @@ msgstr ""
 msgid "BillingPlans|No credit card required"
 msgstr ""
 
-msgid "BillingPlans|Now with AI features included"
-msgstr ""
-
-msgid "BillingPlans|Now with GitLab Duo Agent Platform"
-msgstr ""
-
 msgid "BillingPlans|Premium"
 msgstr ""
 
@@ -11897,9 +11828,6 @@ msgstr ""
 msgid "BillingPlans|Recommended"
 msgstr ""
 
-msgid "BillingPlans|Release Controls"
-msgstr ""
-
 msgid "BillingPlans|Repository Pull Mirroring"
 msgstr ""
 
@@ -11927,9 +11855,6 @@ msgstr ""
 msgid "BillingPlans|Software Supply Chain Security"
 msgstr ""
 
-msgid "BillingPlans|Source Code Management & CI/CD"
-msgstr ""
-
 msgid "BillingPlans|Start a GitLab Duo Enterprise trial to try all end-to-end AI capabilities from GitLab. You can try it for free for %{duration} days, no credit card required."
 msgstr ""
 
@@ -11952,18 +11877,6 @@ msgid "BillingPlans|Start free trial"
 msgstr ""
 
 msgid "BillingPlans|Start free trial of GitLab Ultimate and GitLab Duo Enterprise"
-msgstr ""
-
-msgid "BillingPlans|Start free with advanced enterprise security and compliance, no credit card required."
-msgstr ""
-
-msgid "BillingPlans|Static Application Security Testing"
-msgstr ""
-
-msgid "BillingPlans|Storage"
-msgstr ""
-
-msgid "BillingPlans|Strategic Portfolio Management"
 msgstr ""
 
 msgid "BillingPlans|Strengthen pipelines with advanced approvals workflows"
@@ -12017,9 +11930,6 @@ msgstr ""
 msgid "BillingPlans|Unlimited Licensed Users"
 msgstr ""
 
-msgid "BillingPlans|Unlimited guest users"
-msgstr ""
-
 msgid "BillingPlans|Unlimited licensed users"
 msgstr ""
 
@@ -12036,9 +11946,6 @@ msgid "BillingPlans|Upgrade to Premium"
 msgstr ""
 
 msgid "BillingPlans|Upgrade to Ultimate"
-msgstr ""
-
-msgid "BillingPlans|Value Stream Management"
 msgstr ""
 
 msgid "BillingPlans|View Usage"
@@ -12095,13 +12002,7 @@ msgstr ""
 msgid "BillingPlans|monthly"
 msgstr ""
 
-msgid "BillingPlans|no credit card required"
-msgstr ""
-
 msgid "BillingPlans|per user"
-msgstr ""
-
-msgid "BillingPlans|per user/month,"
 msgstr ""
 
 msgid "BillingPlans|per user/month, billed annually"
@@ -12489,6 +12390,21 @@ msgid "BlobViewer|View on %{environmentName}"
 msgstr ""
 
 msgid "BlobViewer|You can either %{rawLinkStart}view the raw file%{rawLinkEnd} or %{downloadLinkStart}download it%{downloadLinkEnd}."
+msgstr ""
+
+msgid "Blob|Unable to create file"
+msgstr ""
+
+msgid "Blob|Unable to edit file"
+msgstr ""
+
+msgid "Blob|Unable to load diff"
+msgstr ""
+
+msgid "Blob|Unable to load file content"
+msgstr ""
+
+msgid "Blob|Unable to load preview"
 msgstr ""
 
 msgid "Block"
@@ -32422,6 +32338,9 @@ msgstr ""
 msgid "GitLab is a complete DevOps platform, delivered as a single application, fundamentally changing the way%{br_tag}Development, Security, and Ops teams collaborate"
 msgstr ""
 
+msgid "GitLab is currently unable to handle this request. Please try again later."
+msgstr ""
+
 msgid "GitLab is free to use. Many features for larger teams are part of our %{link_start}paid products%{link_end}. You can try Ultimate for free without any obligation or payment details."
 msgstr ""
 
@@ -37963,9 +37882,6 @@ msgid "InviteMember|Invite your team"
 msgstr ""
 
 msgid "InviteMember|Invited users will be added with developer level permissions. %{linkStart}View the documentation%{linkEnd} to see how to change this later."
-msgstr ""
-
-msgid "InviteMember|Limited time offer. Additional GitLab Credits can be purchased as part of an annual commitment, or on a pay-as-you-go basis at the on-demand rate of $1/credit. %{linkStart}See details and promo terms%{linkEnd}."
 msgstr ""
 
 msgid "InviteReminderEmail|%{inviter} is still waiting for you to join GitLab"
@@ -68315,6 +68231,9 @@ msgstr ""
 msgid "SubscriptionBanner|Upload new license"
 msgstr ""
 
+msgid "SubscriptionGroupsNew|An error occurred while checking eligibility. Please try again."
+msgstr ""
+
 msgid "SubscriptionGroupsNew|Group URL %{error}"
 msgstr ""
 
@@ -68330,7 +68249,13 @@ msgstr ""
 msgid "SubscriptionGroupsNew|The group does not have an active subscription with GitLab Credits"
 msgstr ""
 
+msgid "SubscriptionGroupsNew|The group is a top-level group"
+msgstr ""
+
 msgid "SubscriptionGroupsNew|The group is a top-level group on a Free tier"
+msgstr ""
+
+msgid "SubscriptionGroupsNew|This group is not eligible for %{planName}"
 msgstr ""
 
 msgid "SubscriptionGroupsNew|Why can't I find my group?"

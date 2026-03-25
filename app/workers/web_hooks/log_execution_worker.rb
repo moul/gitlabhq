@@ -10,9 +10,6 @@ module WebHooks
     sidekiq_options retry: 3
     loggable_arguments 0, 2, 3
     max_concurrency_limit_percentage 0.53
-    concurrency_limit -> {
-      500 if Feature.enabled?(:web_hooks_log_execution_worker_concurrency_limit, Feature.current_request)
-    }
 
     idempotent!
 

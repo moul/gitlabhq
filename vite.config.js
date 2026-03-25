@@ -239,12 +239,25 @@ export default defineConfig({
         .map((m) => `@gitlab/ui > ${m}`),
     ],
   },
+  css: {
+    lightningcss: {
+      errorRecovery: true,
+    },
+  },
   build: {
-    // speed up build in CI by disabling sourcemaps and compression
-    // TODO: allow sourcemaps and compression when we are ready for Vite in production
-    sourcemap: false,
-    minify: false,
-    cssMinify: false,
-    reportCompressedSize: false,
+    sourcemap: true,
+    minify: true,
+    cssMinify: true,
+    reportCompressedSize: true,
+    rollupOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            { name: 'shared', test: /^((?!node_modules).)*$/, maxSize: 120000, minShareCount: 50 },
+          ],
+        },
+        strictExecutionOrder: true,
+      },
+    },
   },
 });

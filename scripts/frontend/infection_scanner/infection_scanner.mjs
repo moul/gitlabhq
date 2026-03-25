@@ -3,6 +3,8 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import fs from 'node:fs';
 import { readFile } from 'node:fs/promises';
+import { createServer } from 'node:http';
+import { execSync } from 'node:child_process';
 import { init, parse } from 'es-module-lexer';
 
 const cjsRequire = createRequire(import.meta.url);
@@ -431,6 +433,7 @@ const INFECTION_SPECIFIERS = (() => {
   return Object.keys(CONTEXT_ALIASES);
 })();
 
+
 function getInfectionSourceReason(imports) {
   for (const imp of imports) {
     if (INFECTION_SPECIFIERS.some((s) => imp.source === s || imp.source.startsWith(`${s}/`))) {
@@ -512,9 +515,7 @@ function findNearestInfectionReasons({ file, infectionTriggers, graph, maxShown 
 
 function writeOutput(entrypoints, graph, appRootSet) {
   const dir = path.dirname(OUTPUT_PATH);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
   const { infectedSet, infectionTriggers } = computeInfected(graph, appRootSet);
 
@@ -544,15 +545,282 @@ function writeOutput(entrypoints, graph, appRootSet) {
   return output;
 }
 
+// --- Web server ---
+
+function getRelPath(absPath) {
+  if (!absPath) return absPath;
+  return path.relative(ROOT_PATH, absPath);
+}
+
+function buildSubgraph(graph, rootFile) {
+  const nodes = new Map();
+  const links = [];
+  const visited = new Set();
+  const queue = [rootFile];
+  visited.add(rootFile);
+
+  while (queue.length) {
+    const file = queue.shift();
+    const entry = graph[file];
+    if (!nodes.has(file)) {
+      let type = 'js';
+      if (file.includes('/node_modules/')) {
+        type = 'node_module';
+      } else if (file.endsWith('.vue')) {
+        type = 'vue';
+      }
+
+      nodes.set(file, {
+        id: file,
+        rel: getRelPath(file),
+        type,
+        dynamicImport: false,
+        appRoot: entry ? entry.appRoot : false,
+        infected: entry ? entry.infected : false,
+        infectionSource: entry?.infectionReasons?.some((s) => s.file === file) || false,
+        infectionSourceReason: entry?.infectionReasons?.find((s) => s.file === file)?.reason || null,
+        infectionReasons: entry?.infectionReasons
+          ? entry.infectionReasons.map((s) => ({ file: getRelPath(s.file), reason: s.reason }))
+          : [],
+        infectionReasonCount: entry?.infectionReasonCount || 0,
+      });
+    }
+    const edges = entry ? entry.imports : [];
+    for (const edge of edges) {
+      if (edge.resolved) {
+        links.push({ source: file, target: edge.resolved, dynamic: edge.dynamic });
+        if (!visited.has(edge.resolved)) {
+          visited.add(edge.resolved);
+          queue.push(edge.resolved);
+        }
+      }
+    }
+  }
+
+  for (const link of links) {
+    if (link.dynamic && nodes.has(link.target)) {
+      nodes.get(link.target).dynamicImport = true;
+    }
+  }
+
+  return { nodes: [...nodes.values()], links };
+}
+
+const LOADING_HTML = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="5">
+  <title>Infection Scanner - Analyzing...</title>
+  <style>
+    body { font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #1a1a2e; color: #e0e0e0; }
+    .spinner { border: 4px solid #333; border-top: 4px solid #e94560; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-right: 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .container { display: flex; align-items: center; }
+  </style>
+</head>
+<body>
+  <div class="container"><div class="spinner"></div><h2>Analysis in progress... page will refresh automatically.</h2></div>
+</body>
+</html>`;
+
+const UI_HTML_PATH = path.join(import.meta.dirname, 'infection_scanner-ui.html');
+
+const subgraphCache = new Map();
+let entryStatsCache = null;
+
+function computeEntryStats(entrypoints, graph) {
+  const stats = {};
+  const triggerEntryCount = new Map();
+
+  for (const [name, file] of Object.entries(entrypoints)) {
+    const visited = new Set();
+    const queue = [file];
+    visited.add(file);
+    let infectionSources = 0;
+    let infected = 0;
+    let appRoots = 0;
+    let total = 0;
+    const entryInfectionSources = new Set();
+
+    while (queue.length) {
+      const f = queue.shift();
+      const isNm = f.includes('/node_modules/');
+      const entry = graph[f];
+      if (entry) {
+        if (!isNm) {
+          total += 1;
+          if (entry.appRoot) { appRoots += 1; }
+          if (entry.infected) {
+            infected += 1;
+            if (entry.infectionReasons && entry.infectionReasons.some((s) => s.file === f)) {
+              infectionSources += 1;
+              entryInfectionSources.add(f);
+            }
+          }
+        }
+        for (const imp of entry.imports) {
+          if (imp.resolved && !visited.has(imp.resolved) && graph[imp.resolved]) {
+            visited.add(imp.resolved);
+            queue.push(imp.resolved);
+          }
+        }
+      }
+    }
+
+    for (const t of entryInfectionSources) {
+      triggerEntryCount.set(t, (triggerEntryCount.get(t) || 0) + 1);
+    }
+
+    stats[name] = { infectionSources, infected, appRoots, total };
+  }
+
+  const topTriggers = [...triggerEntryCount.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 20)
+    .map(([file, count]) => {
+      const entry = graph[file];
+      const reason = entry?.infectionReasons?.find((s) => s.file === file)?.reason || null;
+      return { file: getRelPath(file), reason, entryCount: count };
+    });
+
+  return { stats, topInfectionSources: topTriggers };
+}
+
+let analysisResult = null;
+let analysisRunning = false;
+
+function startServer() {
+  const PORT = 9131;
+  const server = createServer((req, res) => {
+    const url = new URL(req.url, `http://localhost:${PORT}`);
+
+    if (url.pathname === '/subgraph' && analysisResult) {
+      const rootFile = url.searchParams.get('root');
+      if (!rootFile || !analysisResult.graph[rootFile]) {
+        res.writeHead(404);
+        res.end('File not found in graph');
+        return;
+      }
+      if (!subgraphCache.has(rootFile)) {
+        subgraphCache.set(rootFile, JSON.stringify(buildSubgraph(analysisResult.graph, rootFile)));
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(subgraphCache.get(rootFile));
+      return;
+    }
+
+    if (url.pathname === '/hybrid-list' && analysisResult) {
+      const rootFile = url.searchParams.get('root');
+      if (!rootFile || !analysisResult.graph[rootFile]) {
+        res.writeHead(404);
+        res.end('File not found in graph');
+        return;
+      }
+      const { graph } = analysisResult;
+      const visited = new Set();
+      const queue = [rootFile];
+      visited.add(rootFile);
+      const projectTriggers = [];
+      const projectTargets = [];
+      const nmTriggers = [];
+      const nmTargets = [];
+      const appRoots = [];
+
+      while (queue.length) {
+        const f = queue.shift();
+        const entry = graph[f];
+        if (entry) {
+          const isNm = f.includes('/node_modules/');
+          if (entry.appRoot && !isNm) {
+            appRoots.push({ id: f, file: getRelPath(f) });
+          }
+          if (entry.infected) {
+            const isSrc = entry.infectionReasons && entry.infectionReasons.some((s) => s.file === f);
+            const reason = isSrc ? entry.infectionReasons.find((s) => s.file === f).reason : null;
+            const item = { id: f, file: getRelPath(f), reason };
+            if (isSrc) {
+              (isNm ? nmTriggers : projectTriggers).push(item);
+            } else {
+              (isNm ? nmTargets : projectTargets).push(item);
+            }
+          }
+          for (const imp of entry.imports) {
+            if (imp.resolved && !visited.has(imp.resolved) && graph[imp.resolved]) {
+              visited.add(imp.resolved);
+              queue.push(imp.resolved);
+            }
+          }
+        }
+      }
+
+      const result = { projectTriggers, projectTargets, nmTriggers, nmTargets, appRoots };
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+      return;
+    }
+
+    if (analysisRunning || !analysisResult) {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(LOADING_HTML);
+      return;
+    }
+
+    if (url.pathname === '/' || url.pathname === '/index.html') {
+      const template = fs.readFileSync(UI_HTML_PATH, 'utf-8');
+      if (!entryStatsCache) {
+        console.log('Computing entry stats...');
+        entryStatsCache = computeEntryStats(analysisResult.entrypoints, analysisResult.graph);
+        console.log('Entry stats computed.');
+      }
+      const dataJson = JSON.stringify({
+        entrypoints: analysisResult.entrypoints,
+        entryStats: entryStatsCache.stats,
+        topInfectionSources: entryStatsCache.topInfectionSources,
+      });
+      const dataScript = `const DATA = ${dataJson};`;
+      const html = template.replace('/* DATA_PLACEHOLDER */', dataScript);
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(html);
+      return;
+    }
+
+    res.writeHead(404);
+    res.end('Not found');
+  });
+
+  server.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+    try {
+      const openCmd = process.platform === 'darwin' ? 'open' : 'xdg-open';
+      execSync(`${openCmd} http://localhost:${PORT}`);
+    } catch { /* ignore if browser open fails */ }
+  });
+}
+
 // --- Main ---
 
 async function runAnalysis() {
+  analysisRunning = true;
   console.log('Discovering entrypoints...');
   const entrypoints = discoverEntries();
   console.log(`Found ${Object.keys(entrypoints).length} entrypoints`);
   console.log('Building import graph...');
   const { graph, appRootSet } = await buildGraph(entrypoints);
-  return writeOutput(entrypoints, graph, appRootSet);
+  const result = writeOutput(entrypoints, graph, appRootSet);
+  analysisResult = result;
+  analysisRunning = false;
+  return result;
 }
 
-await runAnalysis();
+const mode = process.argv[2];
+
+if (mode === 'web') {
+  runAnalysis();
+  startServer();
+} else {
+  runAnalysis().catch((err) => {
+    console.error(err);
+    process.exitCode = 1;
+  });
+}

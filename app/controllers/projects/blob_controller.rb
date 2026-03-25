@@ -11,6 +11,7 @@ class Projects::BlobController < Projects::ApplicationController
   include SourcegraphDecorator
   include DiffHelper
   include ProductAnalyticsTracking
+  include HandlesGitalyErrors
   extend ::Gitlab::Utils::Override
 
   MAX_PREVIEW_CONTENT = 512.kilobytes

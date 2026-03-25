@@ -253,7 +253,7 @@ To use a custom agent in VS Code:
 Prerequisites:
 
 - Enable the agent in the project you want to use it in.
-- Install and configure [GitLab plugin for JetBrains](../../../editor_extensions/jetbrains_ide/setup.md)
+- Install and configure the [GitLab Duo plugin for JetBrains IDEs](../../../editor_extensions/jetbrains_ide/setup.md)
   version 3.19.0 or later.
 - Set a [default GitLab Duo namespace](../../profile/preferences.md#set-a-default-gitlab-duo-namespace).
 

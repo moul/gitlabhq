@@ -129,8 +129,6 @@ export default {
         const refs = selectedRefs.map((ref) => ({
           name: ref.name,
           refType: ref.refType,
-          isProtected: ref.isProtected,
-          commit: ref.commit,
         }));
 
         const { data } = await this.$apollo.mutate({
@@ -141,18 +139,13 @@ export default {
               refs,
             },
           },
-          refetchQueries: [
-            {
-              query: securityTrackedRefs,
-              variables: { fullPath: this.projectFullPath },
-            },
-          ],
-          awaitRefetchQueries: true,
         });
 
-        if (data.securityTrackedRefsTrack.errors?.length) {
+        if (data.securityRefsTrack.errors?.length) {
           throw new Error();
         }
+
+        await this.$apollo.queries.trackedRefs.refetch();
       } catch {
         this.hasTrackError = true;
         this.errorMessage = s__(

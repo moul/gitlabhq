@@ -84,12 +84,12 @@ Prerequisites:
 - You have the [1Password](https://1password.com) desktop app installed.
 - You have the [1Password CLI](https://developer.1password.com/docs/cli/get-started/) tool installed.
 
-To integrate GitLab for JetBrains with the 1Password CLI:
+To integrate the GitLab Duo plugin for JetBrains IDEs with the 1Password CLI:
 
 1. Authenticate with GitLab. Either:
    - [Install the `glab`](https://docs.gitlab.com/cli/#install-the-cli) CLI and
      configure the [1Password shell plugin](https://developer.1password.com/docs/cli/shell-plugins/gitlab/).
-   - Follow the GitLab for JetBrains [set up steps](setup.md).
+   - Follow the GitLab Duo plugin for JetBrains IDEs [set up steps](setup.md).
 1. Open the 1Password item.
 1. [Copy the secret reference](https://developer.1password.com/docs/cli/secret-references/#step-1-copy-secret-references).
 

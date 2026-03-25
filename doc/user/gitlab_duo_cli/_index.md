@@ -23,12 +23,14 @@ title: GitLab Duo CLI (`duo`)
 {{< history >}}
 
 - Introduced as [experiment](../../policy/development_stages_support.md#experiment) in GitLab 18.9.
-- [Added](https://gitlab.com/gitlab-org/cli/-/merge_requests/2838) to the GitLab CLI as an experiment in `glab` 1.87.0.
+- [Added](https://gitlab.com/gitlab-org/cli/-/merge_requests/2838) to the GitLab CLI as an experiment in `glab` 1.87.0, during the GitLab 18.9 release.
+- [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.68.0) model selection option and environment variable in GitLab Duo CLI 8.68.0, during the GitLab 18.10 release.
+- [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.76.0) model selection slash command in GitLab Duo CLI 8.76.0, during the GitLab 18.10 release.
 
 {{< /history >}}
 
 The GitLab Duo CLI is a command-line interface tool that brings [GitLab Duo Agentic Chat](../gitlab_duo_chat/agentic_chat.md)
-to your terminal. Available for use with any operating system and editor, use `duo` to ask complex
+to your terminal. Available for use with any operating system and editor, use the CLI to ask complex
 questions about your codebase and to autonomously perform actions on your behalf.
 
 The GitLab Duo CLI can help you:
@@ -44,6 +46,9 @@ The GitLab Duo CLI offers two modes:
 - Interactive mode: Provides a chat experience similar to GitLab Duo Chat in the GitLab UI or in
   editor extensions.
 - Headless mode: Enables non-interactive use in runners, scripts, and other automated workflows.
+
+It also supports [custom instructions](../duo_agent_platform/customize/_index.md) set for
+the GitLab Duo Agent Platform, including `chat-rules.md`, `AGENTS.md`, and `SKILL.md` files.
 
 ## Prerequisites
 
@@ -63,7 +68,7 @@ and functionality.
 
 Prerequisites:
 
-- [GitLab CLI](https://docs.gitlab.com/cli/) 1.87.0 or later
+- [GitLab CLI](https://docs.gitlab.com/cli/) 1.87.0 or later.
 - GitLab CLI is [authenticated](https://docs.gitlab.com/cli/#authenticate-with-gitlab).
 
 To set up the GitLab Duo CLI for use through the GitLab CLI:
@@ -298,10 +303,6 @@ You can select a model for interactive mode or headless mode.
 The model you select persists across sessions, and you can switch models
 mid-conversation without losing context.
 
-Prerequisites:
-
-- GitLab Duo CLI 8.76.0 or later.
-
 To select a model for interactive mode:
 
 1. In interactive mode, enter the `/model` command.
@@ -312,10 +313,6 @@ To select a model for interactive mode:
 ### For headless mode
 
 The model you select does not persist across sessions.
-
-Prerequisites:
-
-- GitLab Duo CLI 8.68.0 or later.
 
 To select a model for headless mode:
 
@@ -546,3 +543,4 @@ For information on contributing to the GitLab Duo CLI, see the
 
 - [Security considerations for editor extensions](../../editor_extensions/security_considerations.md)
 - [GitLab CLI](https://docs.gitlab.com/cli/)
+- [Customize GitLab Duo Agent Platform](../duo_agent_platform/customize/_index.md)

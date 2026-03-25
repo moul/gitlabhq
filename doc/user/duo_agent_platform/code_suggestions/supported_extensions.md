@@ -145,7 +145,7 @@ To do this:
 Prerequisites:
 
 - You have installed and enabled the
-  [GitLab plugin for JetBrains IDEs](../../../editor_extensions/jetbrains_ide/_index.md).
+  [GitLab Duo plugin for JetBrains IDEs](../../../editor_extensions/jetbrains_ide/_index.md).
 - You have completed the [Jetbrains extension setup](https://gitlab.com/gitlab-org/editor-extensions/gitlab-jetbrains-plugin#setup)
   instructions, and authorized the extension to access your GitLab account.
 

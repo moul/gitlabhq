@@ -1,0 +1,16 @@
+---
+table: issue_assignees
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_issue_assignees
+    priority: 102
+    dedup_by:
+      - issue_id
+      - user_id
+    refresh_on_change:
+      - target_stream_identifier: issues
+        target_keys:
+          - id
+        source_keys:
+          - issue_id

@@ -35,7 +35,10 @@ RSpec::Matchers.define :ignore_sensitive_and_encrypted_columns do |table_config,
       model = class_name.safe_constantize
       next unless model
 
-      postgresql_columns = model.column_names
+      # Use connection.columns instead of model.column_names because the latter
+      # respects ignored_columns, which would exclude the very columns we need
+      # to validate in the ignored_columns check below.
+      postgresql_columns = model.connection.columns(model.table_name).map(&:name)
 
       # Check if all ignored columns actually exist in PG
       missing_in_pg = @ignored_columns - postgresql_columns.to_set

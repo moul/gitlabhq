@@ -78,6 +78,7 @@ export default normalizeRender({
       workItemTypesConfiguration: computed(() => this.workItemTypesConfiguration),
       subscribedSavedViewLimit: computed(() => this.metadata.subscribedSavedViewLimit),
       canCreateSavedView: computed(() => Boolean(this.metadata?.createSavedView)),
+      namespaceName: computed(() => this.metadata?.namespaceName),
     };
   },
   props: {
@@ -108,6 +109,7 @@ export default normalizeRender({
           ...(namespace.userPermissions || {}),
           ...(namespace.metadata || {}),
           id: namespace.id,
+          namespaceName: namespace.name,
           subscribedSavedViewLimit: namespace.subscribedSavedViewLimit,
         };
       },
