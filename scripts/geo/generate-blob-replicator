@@ -519,19 +519,19 @@ module Geo
                  let_it_be(:group_2) { create(:group, organization: organization_2) }
 
                  let!(:first_replicable_and_in_selective_sync) do
-                   create(:geo_#{replicable_name}, parent_model: create(:#{model_factory_name}, organization: organization_1))
+                   create(:geo_#{replicable_name}, parent_model: create(:#{parent_model_factory_name}, organization: organization_1))
                  end
 
                  let!(:second_replicable_and_in_selective_sync) do
-                   create(:geo_#{replicable_name}, parent_model: create(:#{model_factory_name}, organization: organization_1))
+                   create(:geo_#{replicable_name}, parent_model: create(:#{parent_model_factory_name}, organization: organization_1))
                  end
 
                  let!(:third_replicable_on_object_storage_and_in_selective_sync) do
-                   create(:geo_#{replicable_name}, :remote_store, parent_model: create(:#{model_factory_name}, organization: organization_1))
+                   create(:geo_#{replicable_name}, :remote_store, parent_model: create(:#{parent_model_factory_name}, organization: organization_1))
                  end
 
                  let!(:last_replicable_and_not_in_selective_sync) do
-                   create(:geo_#{replicable_name}, parent_model: create(:#{model_factory_name}, organization: organization_2))
+                   create(:geo_#{replicable_name}, parent_model: create(:#{parent_model_factory_name}, organization: organization_2))
                  end
                RUBY
              when 'namespace_id'
@@ -541,19 +541,19 @@ module Geo
                  let_it_be(:nested_group_1) { create(:group, parent: group_1) }
 
                  let!(:first_replicable_and_in_selective_sync) do
-                   create(:geo_#{replicable_name}, parent_model: create(:#{model_factory_name}, group: group_1))
+                   create(:geo_#{replicable_name}, parent_model: create(:#{parent_model_factory_name}, group: group_1))
                  end
 
                  let!(:second_replicable_and_in_selective_sync) do
-                   create(:geo_#{replicable_name}, parent_model: create(:#{model_factory_name}, group: nested_group_1))
+                   create(:geo_#{replicable_name}, parent_model: create(:#{parent_model_factory_name}, group: nested_group_1))
                  end
 
                  let!(:third_replicable_on_object_storage_and_in_selective_sync) do
-                   create(:geo_#{replicable_name}, :remote_store, parent_model: create(:#{model_factory_name}, group: group_1))
+                   create(:geo_#{replicable_name}, :remote_store, parent_model: create(:#{parent_model_factory_name}, group: group_1))
                  end
 
                  let!(:last_replicable_and_not_in_selective_sync) do
-                   create(:geo_#{replicable_name}, parent_model: create(:#{model_factory_name}, group: group_2))
+                   create(:geo_#{replicable_name}, parent_model: create(:#{parent_model_factory_name}, group: group_2))
                  end
                RUBY
              when 'project_id'
@@ -566,19 +566,19 @@ module Geo
                  let_it_be(:project_3) { create(:project, group: group_2) }
 
                  let!(:first_replicable_and_in_selective_sync) do
-                   create(:geo_#{replicable_name}, parent_model: create(:#{model_factory_name}, project: project_1))
+                   create(:geo_#{replicable_name}, parent_model: create(:#{parent_model_factory_name}, project: project_1))
                  end
 
                  let!(:second_replicable_and_in_selective_sync) do
-                   create(:geo_#{replicable_name}, parent_model: create(:#{model_factory_name}, project: project_2))
+                   create(:geo_#{replicable_name}, parent_model: create(:#{parent_model_factory_name}, project: project_2))
                  end
 
                  let!(:third_replicable_on_object_storage_and_in_selective_sync) do
-                   create(:geo_#{replicable_name}, :remote_store, parent_model: create(:#{model_factory_name}, project: project_1))
+                   create(:geo_#{replicable_name}, :remote_store, parent_model: create(:#{parent_model_factory_name}, project: project_1))
                  end
 
                  let!(:last_replicable_and_not_in_selective_sync) do
-                   create(:geo_#{replicable_name}, parent_model: create(:#{model_factory_name}, project: project_3))
+                   create(:geo_#{replicable_name}, parent_model: create(:#{parent_model_factory_name}, project: project_3))
                  end
                RUBY
              end
@@ -661,7 +661,7 @@ module Geo
     end
 
     def upload_model_validation_include
-      upload_partition ? "\n            include ::Geo::Concerns::UploadReplicatorPreDownloadValidation" : ''
+      upload_partition ? "\n    include ::Geo::Concerns::UploadReplicatorPreDownloadValidation" : ''
     end
 
     def generate_replicator
@@ -1475,8 +1475,8 @@ module Geo
       factory = ":geo_#{replicable_name}_registry"
 
       # Align columns like existing entries
-      col1 = registry_class.ljust(40)
-      col2 = registry_type.ljust(51)
+      col1 = registry_class.ljust(42)
+      col2 = registry_type.ljust(53)
 
       "    #{col1}| #{col2}| #{factory}"
     end
@@ -2042,7 +2042,7 @@ module Geo
       puts
 
       run_task('Step 1: Geo tracking DB migration',
-        'bin/rake db:migrate:geo')
+        'bin/rake db:migrate:geo RAILS_ENV=test')
 
       run_task('Step 2: Main DB migration',
         'bin/rake db:migrate')

@@ -14,7 +14,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/gitlab_duo_chat.html
   image_url: https://img.youtube.com/vi/ZQBAuf-CTAY/hqdefault.jpg
   published_at: 2024-04-18
-  release: 16.11
+  release: "16.11"
 
 - name: Understand your users better with Product Analytics
   description: |
@@ -28,7 +28,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/product_analytics/
   image_url: https://img.youtube.com/vi/i8Mze9lRZiY/hqdefault.jpg
   published_at: 2024-04-18
-  release: 16.11
+  release: "16.11"
 
 - name: Security policy scopes
   description: |
@@ -42,7 +42,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/application_security/policies/scan_execution_policies.html#security-policy-scopes
   image_url: https://about.gitlab.com/images/16_11/policy-scoping-release-post-image-optimized.png
   published_at: 2024-04-18
-  release: 16.11
+  release: "16.11"
 
 - name: GitLab Duo Chat available in JetBrains IDEs
   description: |
@@ -56,7 +56,7 @@
   documentation_link: https://docs.gitlab.com/ee/editor_extensions/jetbrains_ide/
   image_url: https://about.gitlab.com/images/16_11/create-duo-chat-in-jetbrains.png
   published_at: 2024-04-18
-  release: 16.11
+  release: "16.11"
 
 - name: Disable personal access tokens for Enterprise Users
   description: |
@@ -70,7 +70,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#disable-personal-access-tokens-for-enterprise-users
   image_url: https://about.gitlab.com/images/16_11/govern-disable-pats.jpg
   published_at: 2024-04-18
-  release: 16.11
+  release: "16.11"
 
 - name: Autocomplete support for links to wiki pages
   description: |
@@ -86,7 +86,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/markdown.html#gitlab-specific-references
   image_url: https://img.youtube.com/vi/qqN6KxMB06E/hqdefault.jpg
   published_at: 2024-04-18
-  release: 16.11
+  release: "16.11"
 
 - name: Sidebar for metadata on the project overview page
   description: |
@@ -98,7 +98,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/working_with_projects.html
   image_url: https://about.gitlab.com/images/16_11/project-overview-sidebar.png
   published_at: 2024-04-18
-  release: 16.11
+  release: "16.11"
 
 - name: Email notifications for changes made using Switchboard
   description: |
@@ -112,7 +112,7 @@
   documentation_link: https://docs.gitlab.com/ee/administration/dedicated/configure_instance.html#manage-notification-preferences
   image_url: https://about.gitlab.com/images/16_11/gitlab-dedicated.png
   published_at: 2024-04-18
-  release: 16.11
+  release: "16.11"
 
 - name: Option to cancel a pipeline immediately if any jobs fails
   description: |
@@ -128,4 +128,4 @@
   documentation_link: https://docs.gitlab.com/ee/ci/yaml/#workflowauto_cancelon_job_failure
   image_url: https://about.gitlab.com/images/16_11/16.11_auto_cancel_on_job_failure.png
   published_at: 2024-04-18
-  release: 16.11
+  release: "16.11"

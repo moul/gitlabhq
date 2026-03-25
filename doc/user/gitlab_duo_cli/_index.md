@@ -321,6 +321,10 @@ You can select a model for interactive mode or headless mode.
 The model you select persists across sessions, and you can switch models
 mid-conversation without losing context.
 
+Prerequisites:
+
+- GitLab Duo CLI 8.76.0 or later.
+
 To select a model for interactive mode:
 
 1. In interactive mode, type `/model` and press <kbd>Enter</kbd>.
@@ -331,6 +335,10 @@ To select a model for interactive mode:
 ### For headless mode
 
 The model you select does not persist across sessions.
+
+Prerequisites:
+
+- GitLab Duo CLI 8.68.0 or later.
 
 To select a model for headless mode:
 

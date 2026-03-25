@@ -20900,6 +20900,43 @@ The edge type for [`Design`](#design).
 | <a id="designedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="designedge-node"></a>`node` | [`Design`](#design) | The item at the end of the edge. |
 
+#### `DesignManagementActionUploadRegistryConnection`
+
+The connection type for [`DesignManagementActionUploadRegistry`](#designmanagementactionuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="designmanagementactionuploadregistryconnection-edges"></a>`edges` | [`[DesignManagementActionUploadRegistryEdge]`](#designmanagementactionuploadregistryedge) | A list of edges. |
+| <a id="designmanagementactionuploadregistryconnection-nodes"></a>`nodes` | [`[DesignManagementActionUploadRegistry]`](#designmanagementactionuploadregistry) | A list of nodes. |
+| <a id="designmanagementactionuploadregistryconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+##### Fields with arguments
+
+###### `DesignManagementActionUploadRegistryConnection.count`
+
+Limited count of collection. Returns limit + 1 for counts greater than the limit.
+
+Returns [`Int!`](#int).
+
+Arguments:
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="designmanagementactionuploadregistryconnection-count-limit"></a>`limit` | [`Int`](#int) | Limit value to be applied to the count query. Default is 1000. |
+
+#### `DesignManagementActionUploadRegistryEdge`
+
+The edge type for [`DesignManagementActionUploadRegistry`](#designmanagementactionuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="designmanagementactionuploadregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="designmanagementactionuploadregistryedge-node"></a>`node` | [`DesignManagementActionUploadRegistry`](#designmanagementactionuploadregistry) | The item at the end of the edge. |
+
 #### `DesignManagementRepositoryRegistryConnection`
 
 The connection type for [`DesignManagementRepositoryRegistry`](#designmanagementrepositoryregistry).
@@ -26160,6 +26197,43 @@ The edge type for [`UserGroupCallout`](#usergroupcallout).
 | ---- | ---- | ----------- |
 | <a id="usergroupcalloutedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="usergroupcalloutedge-node"></a>`node` | [`UserGroupCallout`](#usergroupcallout) | The item at the end of the edge. |
+
+#### `UserUploadRegistryConnection`
+
+The connection type for [`UserUploadRegistry`](#useruploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="useruploadregistryconnection-edges"></a>`edges` | [`[UserUploadRegistryEdge]`](#useruploadregistryedge) | A list of edges. |
+| <a id="useruploadregistryconnection-nodes"></a>`nodes` | [`[UserUploadRegistry]`](#useruploadregistry) | A list of nodes. |
+| <a id="useruploadregistryconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+##### Fields with arguments
+
+###### `UserUploadRegistryConnection.count`
+
+Limited count of collection. Returns limit + 1 for counts greater than the limit.
+
+Returns [`Int!`](#int).
+
+Arguments:
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="useruploadregistryconnection-count-limit"></a>`limit` | [`Int`](#int) | Limit value to be applied to the count query. Default is 1000. |
+
+#### `UserUploadRegistryEdge`
+
+The edge type for [`UserUploadRegistry`](#useruploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="useruploadregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="useruploadregistryedge-node"></a>`node` | [`UserUploadRegistry`](#useruploadregistry) | The item at the end of the edge. |
 
 #### `UsersQueuedForRolePromotionConnection`
 
@@ -33967,6 +34041,36 @@ Returns [`DesignVersion`](#designversion).
 | ---- | ---- | ----------- |
 | <a id="designmanagement-version-id"></a>`id` | [`DesignManagementVersionID!`](#designmanagementversionid) | Global ID of the version. |
 
+### `DesignManagementActionUploadRegistry`
+
+Represents the Geo replication and verification state of a `design_management_action_upload`.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="designmanagementactionuploadregistry-checksummismatch"></a>`checksumMismatch` | [`Boolean`](#boolean) | Indicate if the checksums of the DesignManagementActionUploadRegistry do not match on the primary and secondary. |
+| <a id="designmanagementactionuploadregistry-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the DesignManagementActionUploadRegistry was created. |
+| <a id="designmanagementactionuploadregistry-datamanagementdetailspath"></a>`dataManagementDetailsPath` | [`String`](#string) | Path to the data management view for this DesignManagementActionUploadRegistry. |
+| <a id="designmanagementactionuploadregistry-designmanagementactionuploadid"></a>`designManagementActionUploadId` | [`ID!`](#id) | ID of the Design Management Action Upload. |
+| <a id="designmanagementactionuploadregistry-forcetoredownload"></a>`forceToRedownload` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 17.10. Removed from registry tables in the database in favor of the newer reusable framework. |
+| <a id="designmanagementactionuploadregistry-id"></a>`id` | [`ID!`](#id) | ID of the DesignManagementActionUploadRegistry. |
+| <a id="designmanagementactionuploadregistry-lastsyncfailure"></a>`lastSyncFailure` | [`String`](#string) | Error message during sync of the DesignManagementActionUploadRegistry. |
+| <a id="designmanagementactionuploadregistry-lastsyncedat"></a>`lastSyncedAt` | [`Time`](#time) | Timestamp of the most recent successful sync of the DesignManagementActionUploadRegistry. |
+| <a id="designmanagementactionuploadregistry-missingonprimary"></a>`missingOnPrimary` | [`Boolean`](#boolean) | Indicate if the DesignManagementActionUploadRegistry is missing on primary. |
+| <a id="designmanagementactionuploadregistry-modelrecordid"></a>`modelRecordId` | [`Int`](#int) | ID of the DesignManagementActionUploadRegistry's model record. |
+| <a id="designmanagementactionuploadregistry-retryat"></a>`retryAt` | [`Time`](#time) | Timestamp after which the DesignManagementActionUploadRegistry is resynced. |
+| <a id="designmanagementactionuploadregistry-retrycount"></a>`retryCount` | [`Int`](#int) | Number of consecutive failed sync attempts of the DesignManagementActionUploadRegistry. |
+| <a id="designmanagementactionuploadregistry-state"></a>`state` | [`RegistryState`](#registrystate) | Sync state of the DesignManagementActionUploadRegistry. |
+| <a id="designmanagementactionuploadregistry-verificationchecksum"></a>`verificationChecksum` | [`String`](#string) | The local checksum of the DesignManagementActionUploadRegistry. |
+| <a id="designmanagementactionuploadregistry-verificationchecksummismatched"></a>`verificationChecksumMismatched` | [`String`](#string) | The expected checksum of the DesignManagementActionUploadRegistry in case of mismatch. |
+| <a id="designmanagementactionuploadregistry-verificationfailure"></a>`verificationFailure` | [`String`](#string) | Error message during verification of the DesignManagementActionUploadRegistry. |
+| <a id="designmanagementactionuploadregistry-verificationretryat"></a>`verificationRetryAt` | [`Time`](#time) | Timestamp after which the DesignManagementActionUploadRegistry is reverified. |
+| <a id="designmanagementactionuploadregistry-verificationretrycount"></a>`verificationRetryCount` | [`Int`](#int) | Number of consecutive failed verification attempts of the DesignManagementActionUploadRegistry. |
+| <a id="designmanagementactionuploadregistry-verificationstartedat"></a>`verificationStartedAt` | [`Time`](#time) | Timestamp when the verification of DesignManagementActionUploadRegistry started. |
+| <a id="designmanagementactionuploadregistry-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Verification state of the DesignManagementActionUploadRegistry. |
+| <a id="designmanagementactionuploadregistry-verifiedat"></a>`verifiedAt` | [`Time`](#time) | Timestamp of the most recent successful verification of the DesignManagementActionUploadRegistry. |
+
 ### `DesignManagementRepositoryRegistry`
 
 Represents the Geo replication and verification state of a Design Management Repository.
@@ -35422,6 +35526,31 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="geonode-dependencyproxymanifestregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
 | <a id="geonode-dependencyproxymanifestregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
 
+##### `GeoNode.designManagementActionUploadRegistries`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Find Design Management Action Upload registries on this Geo node. Ignored if `geo_design_management_action_upload_replication` feature flag is disabled.
+
+Returns [`DesignManagementActionUploadRegistryConnection`](#designmanagementactionuploadregistryconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="geonode-designmanagementactionuploadregistries-ids"></a>`ids` | [`[GeoDesignManagementActionUploadRegistryID!]`](#geodesignmanagementactionuploadregistryid) | Filters registries by their ID. |
+| <a id="geonode-designmanagementactionuploadregistries-keyword"></a>`keyword` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 17.9. A keyword search feature on Geo registries will not be built in the UI due to poor search UX and performance. |
+| <a id="geonode-designmanagementactionuploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
+| <a id="geonode-designmanagementactionuploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
+| <a id="geonode-designmanagementactionuploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
+
 ##### `GeoNode.designManagementRepositoryRegistries`
 
 {{< details >}}
@@ -35776,6 +35905,31 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="geonode-uploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
 | <a id="geonode-uploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
 | <a id="geonode-uploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
+
+##### `GeoNode.userUploadRegistries`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Find User Upload registries on this Geo node. Ignored if `geo_user_upload_replication` feature flag is disabled.
+
+Returns [`UserUploadRegistryConnection`](#useruploadregistryconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="geonode-useruploadregistries-ids"></a>`ids` | [`[GeoUserUploadRegistryID!]`](#geouseruploadregistryid) | Filters registries by their ID. |
+| <a id="geonode-useruploadregistries-keyword"></a>`keyword` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 17.9. A keyword search feature on Geo registries will not be built in the UI due to poor search UX and performance. |
+| <a id="geonode-useruploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
+| <a id="geonode-useruploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
+| <a id="geonode-useruploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
 
 ### `GitlabInstanceFeatureFlag`
 
@@ -51538,6 +51692,36 @@ Returns [`String`](#string).
 | <a id="userstatus-message"></a>`message` | [`String`](#string) | User status message. |
 | <a id="userstatus-messagehtml"></a>`messageHtml` | [`String`](#string) | HTML of the user status message. |
 
+### `UserUploadRegistry`
+
+Represents the Geo replication and verification state of a `user_upload`.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="useruploadregistry-checksummismatch"></a>`checksumMismatch` | [`Boolean`](#boolean) | Indicate if the checksums of the UserUploadRegistry do not match on the primary and secondary. |
+| <a id="useruploadregistry-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the UserUploadRegistry was created. |
+| <a id="useruploadregistry-datamanagementdetailspath"></a>`dataManagementDetailsPath` | [`String`](#string) | Path to the data management view for this UserUploadRegistry. |
+| <a id="useruploadregistry-forcetoredownload"></a>`forceToRedownload` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 17.10. Removed from registry tables in the database in favor of the newer reusable framework. |
+| <a id="useruploadregistry-id"></a>`id` | [`ID!`](#id) | ID of the UserUploadRegistry. |
+| <a id="useruploadregistry-lastsyncfailure"></a>`lastSyncFailure` | [`String`](#string) | Error message during sync of the UserUploadRegistry. |
+| <a id="useruploadregistry-lastsyncedat"></a>`lastSyncedAt` | [`Time`](#time) | Timestamp of the most recent successful sync of the UserUploadRegistry. |
+| <a id="useruploadregistry-missingonprimary"></a>`missingOnPrimary` | [`Boolean`](#boolean) | Indicate if the UserUploadRegistry is missing on primary. |
+| <a id="useruploadregistry-modelrecordid"></a>`modelRecordId` | [`Int`](#int) | ID of the UserUploadRegistry's model record. |
+| <a id="useruploadregistry-retryat"></a>`retryAt` | [`Time`](#time) | Timestamp after which the UserUploadRegistry is resynced. |
+| <a id="useruploadregistry-retrycount"></a>`retryCount` | [`Int`](#int) | Number of consecutive failed sync attempts of the UserUploadRegistry. |
+| <a id="useruploadregistry-state"></a>`state` | [`RegistryState`](#registrystate) | Sync state of the UserUploadRegistry. |
+| <a id="useruploadregistry-useruploadid"></a>`userUploadId` | [`ID!`](#id) | ID of the User Upload. |
+| <a id="useruploadregistry-verificationchecksum"></a>`verificationChecksum` | [`String`](#string) | The local checksum of the UserUploadRegistry. |
+| <a id="useruploadregistry-verificationchecksummismatched"></a>`verificationChecksumMismatched` | [`String`](#string) | The expected checksum of the UserUploadRegistry in case of mismatch. |
+| <a id="useruploadregistry-verificationfailure"></a>`verificationFailure` | [`String`](#string) | Error message during verification of the UserUploadRegistry. |
+| <a id="useruploadregistry-verificationretryat"></a>`verificationRetryAt` | [`Time`](#time) | Timestamp after which the UserUploadRegistry is reverified. |
+| <a id="useruploadregistry-verificationretrycount"></a>`verificationRetryCount` | [`Int`](#int) | Number of consecutive failed verification attempts of the UserUploadRegistry. |
+| <a id="useruploadregistry-verificationstartedat"></a>`verificationStartedAt` | [`Time`](#time) | Timestamp when the verification of UserUploadRegistry started. |
+| <a id="useruploadregistry-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Verification state of the UserUploadRegistry. |
+| <a id="useruploadregistry-verifiedat"></a>`verifiedAt` | [`Time`](#time) | Timestamp of the most recent successful verification of the UserUploadRegistry. |
+
 ### `UsersQueuedForRolePromotion`
 
 Represents a Pending Member Approval Queued for Role Promotion.
@@ -56110,6 +56294,7 @@ Geo registry class.
 | <a id="georegistryclass-container_repository_registry"></a>`CONTAINER_REPOSITORY_REGISTRY` | Geo::ContainerRepositoryRegistry registry class. |
 | <a id="georegistryclass-dependency_proxy_blob_registry"></a>`DEPENDENCY_PROXY_BLOB_REGISTRY` | Geo::DependencyProxyBlobRegistry registry class. |
 | <a id="georegistryclass-dependency_proxy_manifest_registry"></a>`DEPENDENCY_PROXY_MANIFEST_REGISTRY` | Geo::DependencyProxyManifestRegistry registry class. |
+| <a id="georegistryclass-design_management_action_upload_registry"></a>`DESIGN_MANAGEMENT_ACTION_UPLOAD_REGISTRY` | Geo::DesignManagementActionUploadRegistry registry class. |
 | <a id="georegistryclass-design_management_repository_registry"></a>`DESIGN_MANAGEMENT_REPOSITORY_REGISTRY` | Geo::DesignManagementRepositoryRegistry registry class. |
 | <a id="georegistryclass-group_upload_registry"></a>`GROUP_UPLOAD_REGISTRY` | Geo::GroupUploadRegistry registry class. |
 | <a id="georegistryclass-group_wiki_repository_registry"></a>`GROUP_WIKI_REPOSITORY_REGISTRY` | Geo::GroupWikiRepositoryRegistry registry class. |
@@ -56128,6 +56313,7 @@ Geo registry class.
 | <a id="georegistryclass-supply_chain_attestation_registry"></a>`SUPPLY_CHAIN_ATTESTATION_REGISTRY` | Geo::SupplyChainAttestationRegistry registry class. |
 | <a id="georegistryclass-terraform_state_version_registry"></a>`TERRAFORM_STATE_VERSION_REGISTRY` | Geo::TerraformStateVersionRegistry registry class. |
 | <a id="georegistryclass-upload_registry"></a>`UPLOAD_REGISTRY` | Geo::UploadRegistry registry class. |
+| <a id="georegistryclass-user_upload_registry"></a>`USER_UPLOAD_REGISTRY` | Geo::UserUploadRegistry registry class. |
 
 ### `GeoRegistrySort`
 
@@ -59617,6 +59803,12 @@ A `GeoDependencyProxyManifestRegistryID` is a global ID. It is encoded as a stri
 
 An example `GeoDependencyProxyManifestRegistryID` is: `"gid://gitlab/Geo::DependencyProxyManifestRegistry/1"`.
 
+### `GeoDesignManagementActionUploadRegistryID`
+
+A `GeoDesignManagementActionUploadRegistryID` is a global ID. It is encoded as a string.
+
+An example `GeoDesignManagementActionUploadRegistryID` is: `"gid://gitlab/Geo::DesignManagementActionUploadRegistry/1"`.
+
 ### `GeoDesignManagementRepositoryRegistryID`
 
 A `GeoDesignManagementRepositoryRegistryID` is a global ID. It is encoded as a string.
@@ -59718,6 +59910,12 @@ An example `GeoTerraformStateVersionRegistryID` is: `"gid://gitlab/Geo::Terrafor
 A `GeoUploadRegistryID` is a global ID. It is encoded as a string.
 
 An example `GeoUploadRegistryID` is: `"gid://gitlab/Geo::UploadRegistry/1"`.
+
+### `GeoUserUploadRegistryID`
+
+A `GeoUserUploadRegistryID` is a global ID. It is encoded as a string.
+
+An example `GeoUserUploadRegistryID` is: `"gid://gitlab/Geo::UserUploadRegistry/1"`.
 
 ### `GitlabErrorTrackingDetailedErrorID`
 
@@ -60645,6 +60843,7 @@ One of:
 - [`ContainerRepositoryRegistry`](#containerrepositoryregistry)
 - [`DependencyProxyBlobRegistry`](#dependencyproxyblobregistry)
 - [`DependencyProxyManifestRegistry`](#dependencyproxymanifestregistry)
+- [`DesignManagementActionUploadRegistry`](#designmanagementactionuploadregistry)
 - [`DesignManagementRepositoryRegistry`](#designmanagementrepositoryregistry)
 - [`GroupUploadRegistry`](#groupuploadregistry)
 - [`GroupWikiRepositoryRegistry`](#groupwikirepositoryregistry)
@@ -60662,6 +60861,7 @@ One of:
 - [`SnippetRepositoryRegistry`](#snippetrepositoryregistry)
 - [`TerraformStateVersionRegistry`](#terraformstateversionregistry)
 - [`UploadRegistry`](#uploadregistry)
+- [`UserUploadRegistry`](#useruploadregistry)
 
 #### `SecurityPolicySource`
 

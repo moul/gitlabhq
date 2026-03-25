@@ -8,7 +8,7 @@
   documentation_link: 'https://docs.gitlab.com/ee/user/permissions.html#create-a-custom-role'
   image_url: 'https://img.youtube.com/vi/pSQ3CCdfaAs/hqdefault.jpg'
   published_at: 2023-09-22
-  release: 16.4
+  release: "16.4"
 
 - name: "Group/sub-group level dependency list"
   stage: Govern
@@ -20,7 +20,7 @@
   documentation_link: 'https://docs.gitlab.com/ee/user/application_security/dependency_list/'
   image_url: 'https://about.gitlab.com/images/16_4/groupsubgroup_level_dependency_list.png'
   published_at: 2023-09-22
-  release: 16.4
+  release: "16.4"
 
 - name: "Access clusters locally using your GitLab user identity"
   stage: Deploy
@@ -36,7 +36,7 @@
   documentation_link: 'https://docs.gitlab.com/ee/user/clusters/agent/user_access.html#access-a-cluster-with-the-kubernetes-api'
   image_url: 'https://img.youtube.com/vi/i9rLhmG7Aog/hqdefault.jpg'
   published_at: 2023-09-22
-  release: 16.4
+  release: "16.4"
 
 - name: "Create workspaces for private projects"
   stage: Create
@@ -50,7 +50,7 @@
   documentation_link: 'https://docs.gitlab.com/ee/user/workspace/#personal-access-token'
   image_url: 'https://about.gitlab.com/images/16_4/create-workspace-from-private-repo.png'
   published_at: 2023-09-22
-  release: 16.4
+  release: "16.4"
 
 - name: "`id_tokens` is now a global CI/CD configuration keyword"
   stage: Verify
@@ -62,4 +62,4 @@
   documentation_link: 'https://docs.gitlab.com/ee/ci/yaml/#id_tokens'
   image_url: 'https://about.gitlab.com/images/16_4/id_tokens_img.png'
   published_at: 2023-09-22
-  release: 16.4
+  release: "16.4"

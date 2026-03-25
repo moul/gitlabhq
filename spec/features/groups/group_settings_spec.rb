@@ -168,6 +168,10 @@ RSpec.describe 'Edit group settings', :with_current_organization, feature_catego
     let(:namespace_select) { find_by_testid('transfer-group-namespace-select') }
     let(:confirm_modal) { find_by_testid('confirm-danger-modal') }
 
+    before do
+      stub_feature_flags(groups_and_projects_async_transfer: false)
+    end
+
     shared_examples 'can transfer the group' do
       before do
         selected_group.add_owner(user)

@@ -14,7 +14,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/components/#cicd-catalog
   image_url: https://img.youtube.com/vi/QDn77nwIb-o/hqdefault.jpg
   published_at: 2024-05-16
-  release: 17.0
+  release: "17.0"
 
 - name: AI Impact analytics in the Value Streams Dashboard
   description: |
@@ -31,7 +31,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/analytics/value_streams_dashboard.html#ai-impact-analytics
   image_url: https://about.gitlab.com/images/17_0/17.0_vsd_ai2.png
   published_at: 2024-05-16
-  release: 17.0
+  release: "17.0"
 
 - name: Introducing hosted runners on Linux Arm
   description: |
@@ -46,7 +46,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/runners/hosted_runners/linux.html
   image_url: https://about.gitlab.com/images/17_0/larger-runners.png
   published_at: 2024-05-16
-  release: 17.0
+  release: "17.0"
 
 - name: Introducing deployment detail pages
   description: |
@@ -60,7 +60,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/environments/deployment_approvals.html#approve-or-reject-a-deployment
   image_url: https://about.gitlab.com/images/17_0/deployment-detail-page.png
   published_at: 2024-05-16
-  release: 17.0
+  release: "17.0"
 
 - name: GitLab Duo Chat now uses Anthropic Claude 3 Sonnet
   description: |
@@ -74,7 +74,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/ai_features.html#gitlab-duo-chat
   image_url: https://about.gitlab.com/images/17_0/gitlabduo.png
   published_at: 2024-05-16
-  release: 17.0
+  release: "17.0"
 
 - name: Enhanced context control with the `rules:exists` CI/CD keyword
   description: |
@@ -88,7 +88,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/yaml/#rulesexistsproject
   image_url: https://about.gitlab.com/images/17_0/exists.png
   published_at: 2024-05-16
-  release: 17.0
+  release: "17.0"
 
 - name: Add a group to the CI/CD job token allowlist
   description: |
@@ -102,7 +102,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/jobs/ci_job_token.html#control-job-token-access-to-your-project
   image_url: https://about.gitlab.com/images/17_0/verify-add-a-group-to-the-job-token-allowlist.png
   published_at: 2024-05-16
-  release: 17.0
+  release: "17.0"
 
 - name: New usage overview panel in the Value Streams Dashboard
   description: |
@@ -116,4 +116,4 @@
   documentation_link: https://docs.gitlab.com/ee/user/analytics/value_streams_dashboard.html#overview-panel
   image_url: https://about.gitlab.com/images/17_0/vsd_overview_17.png
   published_at: 2024-05-16
-  release: 17.0
+  release: "17.0"

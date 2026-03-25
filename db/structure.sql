@@ -1814,6 +1814,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_08ab48583e86() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."organization_id" IS NULL THEN
+  SELECT "organization_id"
+  INTO NEW."organization_id"
+  FROM "user_uploads"
+  WHERE "user_uploads"."id" = NEW."user_upload_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_0a1b0adcf686() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -4476,6 +4492,22 @@ IF NEW."project_id" IS NULL THEN
   INTO NEW."project_id"
   FROM "approval_project_rules"
   WHERE "approval_project_rules"."id" = NEW."approval_project_rule_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
+CREATE FUNCTION trigger_b56b0ea1c259() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."namespace_id" IS NULL THEN
+  SELECT "namespace_id"
+  INTO NEW."namespace_id"
+  FROM "design_management_action_uploads"
+  WHERE "design_management_action_uploads"."id" = NEW."design_management_action_upload_id";
 END IF;
 
 RETURN NEW;
@@ -19490,6 +19522,29 @@ CREATE SEQUENCE description_versions_id_seq
 
 ALTER SEQUENCE description_versions_id_seq OWNED BY description_versions.id;
 
+CREATE TABLE design_management_action_upload_states (
+    id bigint NOT NULL,
+    verification_started_at timestamp with time zone,
+    verification_retry_at timestamp with time zone,
+    verified_at timestamp with time zone,
+    design_management_action_upload_id bigint NOT NULL,
+    namespace_id bigint NOT NULL,
+    verification_state smallint DEFAULT 0 NOT NULL,
+    verification_retry_count smallint DEFAULT 0 NOT NULL,
+    verification_checksum bytea,
+    verification_failure text,
+    CONSTRAINT check_29782d7fc8 CHECK ((char_length(verification_failure) <= 255))
+);
+
+CREATE SEQUENCE design_management_action_upload_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE design_management_action_upload_states_id_seq OWNED BY design_management_action_upload_states.id;
+
 CREATE TABLE design_management_action_uploads (
     id bigint NOT NULL,
     size bigint NOT NULL,
@@ -31674,6 +31729,29 @@ CREATE SEQUENCE user_synced_attributes_metadata_id_seq
 
 ALTER SEQUENCE user_synced_attributes_metadata_id_seq OWNED BY user_synced_attributes_metadata.id;
 
+CREATE TABLE user_upload_states (
+    id bigint NOT NULL,
+    verification_started_at timestamp with time zone,
+    verification_retry_at timestamp with time zone,
+    verified_at timestamp with time zone,
+    user_upload_id bigint NOT NULL,
+    organization_id bigint NOT NULL,
+    verification_state smallint DEFAULT 0 NOT NULL,
+    verification_retry_count smallint DEFAULT 0 NOT NULL,
+    verification_checksum bytea,
+    verification_failure text,
+    CONSTRAINT check_51760a4373 CHECK ((char_length(verification_failure) <= 255))
+);
+
+CREATE SEQUENCE user_upload_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE user_upload_states_id_seq OWNED BY user_upload_states.id;
+
 CREATE TABLE user_uploads (
     id bigint NOT NULL,
     size bigint NOT NULL,
@@ -35370,6 +35448,8 @@ ALTER TABLE ONLY deployments ALTER COLUMN id SET DEFAULT nextval('deployments_id
 
 ALTER TABLE ONLY description_versions ALTER COLUMN id SET DEFAULT nextval('description_versions_id_seq'::regclass);
 
+ALTER TABLE ONLY design_management_action_upload_states ALTER COLUMN id SET DEFAULT nextval('design_management_action_upload_states_id_seq'::regclass);
+
 ALTER TABLE ONLY design_management_designs ALTER COLUMN id SET DEFAULT nextval('design_management_designs_id_seq'::regclass);
 
 ALTER TABLE ONLY design_management_designs_versions ALTER COLUMN id SET DEFAULT nextval('design_management_designs_versions_id_seq'::regclass);
@@ -36313,6 +36393,8 @@ ALTER TABLE ONLY user_project_member_roles ALTER COLUMN id SET DEFAULT nextval('
 ALTER TABLE ONLY user_saved_views ALTER COLUMN id SET DEFAULT nextval('user_saved_views_id_seq'::regclass);
 
 ALTER TABLE ONLY user_synced_attributes_metadata ALTER COLUMN id SET DEFAULT nextval('user_synced_attributes_metadata_id_seq'::regclass);
+
+ALTER TABLE ONLY user_upload_states ALTER COLUMN id SET DEFAULT nextval('user_upload_states_id_seq'::regclass);
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
@@ -38800,6 +38882,9 @@ ALTER TABLE ONLY deployments
 ALTER TABLE ONLY description_versions
     ADD CONSTRAINT description_versions_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY design_management_action_upload_states
+    ADD CONSTRAINT design_management_action_upload_states_pkey PRIMARY KEY (id);
+
 ALTER TABLE ONLY design_management_action_uploads
     ADD CONSTRAINT design_management_action_uploads_pkey PRIMARY KEY (id, model_type);
 
@@ -40572,6 +40657,9 @@ ALTER TABLE ONLY user_statuses
 
 ALTER TABLE ONLY user_synced_attributes_metadata
     ADD CONSTRAINT user_synced_attributes_metadata_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY user_upload_states
+    ADD CONSTRAINT user_upload_states_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY user_uploads
     ADD CONSTRAINT user_uploads_pkey PRIMARY KEY (id, model_type);
@@ -43797,6 +43885,18 @@ CREATE INDEX idx_deployment_clusters_on_cluster_id_and_kubernetes_namespace ON d
 
 CREATE INDEX idx_description_versions_on_namespace_id ON description_versions USING btree (namespace_id);
 
+CREATE INDEX idx_design_management_action_upload_states_failed_verification ON design_management_action_upload_states USING btree (verification_retry_at NULLS FIRST) WHERE (verification_state = 3);
+
+CREATE INDEX idx_design_management_action_upload_states_pending_verification ON design_management_action_upload_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
+
+CREATE UNIQUE INDEX idx_design_management_action_upload_states_upload_id ON design_management_action_upload_states USING btree (design_management_action_upload_id);
+
+CREATE INDEX idx_design_management_action_upload_states_verification_id ON design_management_action_upload_states USING btree (design_management_action_upload_id) WHERE ((verification_state = 0) OR (verification_state = 3));
+
+CREATE INDEX idx_design_management_action_upload_states_verification_started ON design_management_action_upload_states USING btree (design_management_action_upload_id, verification_started_at) WHERE (verification_state = 1);
+
+CREATE INDEX idx_design_management_action_upload_states_verification_state ON design_management_action_upload_states USING btree (verification_state);
+
 CREATE INDEX idx_devops_adoption_segments_namespace_end_time ON analytics_devops_adoption_snapshots USING btree (namespace_id, end_time);
 
 CREATE INDEX idx_devops_adoption_segments_namespace_recorded_at ON analytics_devops_adoption_snapshots USING btree (namespace_id, recorded_at);
@@ -45814,6 +45914,8 @@ CREATE INDEX index_description_versions_on_epic_id ON description_versions USING
 CREATE INDEX index_description_versions_on_issue_id ON description_versions USING btree (issue_id) WHERE (issue_id IS NOT NULL);
 
 CREATE INDEX index_description_versions_on_merge_request_id ON description_versions USING btree (merge_request_id) WHERE (merge_request_id IS NOT NULL);
+
+CREATE INDEX index_design_management_action_upload_states_on_namespace_id ON design_management_action_upload_states USING btree (namespace_id);
 
 CREATE INDEX index_design_management_designs_issue_id_relative_position_id ON design_management_designs USING btree (issue_id, relative_position, id);
 
@@ -49106,6 +49208,20 @@ CREATE INDEX index_user_statuses_on_clear_status_at_not_null ON user_statuses US
 CREATE INDEX index_user_statuses_on_user_id ON user_statuses USING btree (user_id);
 
 CREATE UNIQUE INDEX index_user_synced_attributes_metadata_on_user_id ON user_synced_attributes_metadata USING btree (user_id);
+
+CREATE INDEX index_user_upload_states_failed_verification ON user_upload_states USING btree (verification_retry_at NULLS FIRST) WHERE (verification_state = 3);
+
+CREATE INDEX index_user_upload_states_needs_verification_id ON user_upload_states USING btree (user_upload_id) WHERE ((verification_state = 0) OR (verification_state = 3));
+
+CREATE INDEX index_user_upload_states_on_organization_id ON user_upload_states USING btree (organization_id);
+
+CREATE UNIQUE INDEX index_user_upload_states_on_user_upload_id ON user_upload_states USING btree (user_upload_id);
+
+CREATE INDEX index_user_upload_states_on_verification_started ON user_upload_states USING btree (user_upload_id, verification_started_at) WHERE (verification_state = 1);
+
+CREATE INDEX index_user_upload_states_on_verification_state ON user_upload_states USING btree (verification_state);
+
+CREATE INDEX index_user_upload_states_pending_verification ON user_upload_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
 
 CREATE INDEX index_users_for_active_billable_users ON users USING btree (id) WHERE (((state)::text = 'active'::text) AND (user_type = ANY (ARRAY[0, 6, 4, 13])) AND (user_type = ANY (ARRAY[0, 4, 5])));
 
@@ -54247,6 +54363,8 @@ CREATE TRIGGER trigger_05cc4448a8aa BEFORE INSERT OR UPDATE ON protected_branch_
 
 CREATE TRIGGER trigger_05ce163deddf BEFORE INSERT OR UPDATE ON status_check_responses FOR EACH ROW EXECUTE FUNCTION trigger_05ce163deddf();
 
+CREATE TRIGGER trigger_08ab48583e86 BEFORE INSERT OR UPDATE ON user_upload_states FOR EACH ROW EXECUTE FUNCTION trigger_08ab48583e86();
+
 CREATE TRIGGER trigger_0a1b0adcf686 BEFORE INSERT OR UPDATE ON packages_debian_project_components FOR EACH ROW EXECUTE FUNCTION trigger_0a1b0adcf686();
 
 CREATE TRIGGER trigger_0a29d4d42b62 BEFORE INSERT OR UPDATE ON approval_project_rules_protected_branches FOR EACH ROW EXECUTE FUNCTION trigger_0a29d4d42b62();
@@ -54578,6 +54696,8 @@ CREATE TRIGGER trigger_b0f4298cadff BEFORE INSERT OR UPDATE ON required_code_own
 CREATE TRIGGER trigger_b2612138515d BEFORE INSERT OR UPDATE ON project_relation_exports FOR EACH ROW EXECUTE FUNCTION trigger_b2612138515d();
 
 CREATE TRIGGER trigger_b4520c29ea74 BEFORE INSERT OR UPDATE ON approval_merge_request_rule_sources FOR EACH ROW EXECUTE FUNCTION trigger_b4520c29ea74();
+
+CREATE TRIGGER trigger_b56b0ea1c259 BEFORE INSERT OR UPDATE ON design_management_action_upload_states FOR EACH ROW EXECUTE FUNCTION trigger_b56b0ea1c259();
 
 CREATE TRIGGER trigger_b75e5731e305 BEFORE INSERT OR UPDATE ON dast_profiles_pipelines FOR EACH ROW EXECUTE FUNCTION trigger_b75e5731e305();
 
@@ -55764,6 +55884,9 @@ ALTER TABLE ONLY approval_group_rules_groups
 ALTER TABLE ONLY approval_group_rules_protected_branches
     ADD CONSTRAINT fk_514003db08 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY design_management_action_upload_states
+    ADD CONSTRAINT fk_518cd96118 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY deploy_tokens
     ADD CONSTRAINT fk_51bf7bfb69 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
@@ -56261,6 +56384,9 @@ ALTER TABLE ONLY ssh_signatures
 
 ALTER TABLE ONLY work_item_custom_lifecycles
     ADD CONSTRAINT fk_7d5eb33a21 FOREIGN KEY (default_closed_status_id) REFERENCES work_item_custom_statuses(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY user_upload_states
+    ADD CONSTRAINT fk_7d838de308 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY resource_iteration_events
     ADD CONSTRAINT fk_7d9260dbfb FOREIGN KEY (triggered_by_id) REFERENCES issues(id) ON DELETE SET NULL;
@@ -57420,6 +57546,9 @@ ALTER TABLE ONLY duo_workflows_workflows
 ALTER TABLE ONLY cluster_agent_migrations
     ADD CONSTRAINT fk_ed8ffda028 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY user_upload_states
+    ADD CONSTRAINT fk_ee17d267b8 FOREIGN KEY (user_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY events
     ADD CONSTRAINT fk_eea90e3209 FOREIGN KEY (personal_namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
@@ -57530,6 +57659,9 @@ ALTER TABLE ONLY group_upload_states
 
 ALTER TABLE ONLY abuse_report_user_mentions
     ADD CONSTRAINT fk_f4c2b15ef9 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY design_management_action_upload_states
+    ADD CONSTRAINT fk_f51f732561 FOREIGN KEY (design_management_action_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY scan_result_policy_violations
     ADD CONSTRAINT fk_f53706dbdd FOREIGN KEY (scan_result_policy_id) REFERENCES scan_result_policies(id) ON DELETE CASCADE;

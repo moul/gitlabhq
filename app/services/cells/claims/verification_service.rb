@@ -155,8 +155,10 @@ module Cells
           ts_record = ts_records_map.delete(id)
 
           if ts_record.nil?
-            # exists in local but missing in TS
-            creates.concat(local_record.cells_claims_metadata)
+            # exists in local but missing in TS, reject blank bucket values because some claimable
+            # columns are nullable (e.g. service_desk_settings.custom_email) and not every row has a
+            # value to claim.
+            creates.concat(local_record.cells_claims_metadata.reject { |m| m.dig(:bucket, :value).blank? })
           else
             # exists in both
             create, destroy = diff_record(local_record, ts_record)
@@ -188,7 +190,9 @@ module Cells
           deadline: grpc_deadline
         )
 
-        claim_service.commit_update(response.lease_uuid.value, deadline: grpc_deadline)
+        Retriable.retriable(on: GRPC_RETRIABLE_ERRORS, tries: GRPC_RETRIES, base_interval: GRPC_RETRY_BASE_INTERVAL) do
+          claim_service.commit_update(response.lease_uuid.value, deadline: grpc_deadline)
+        end
       end
 
       def metadata_from_ts_record(record)

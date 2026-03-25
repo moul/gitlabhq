@@ -19,7 +19,7 @@ Migrate to GitLab from third-party systems.
 - [From IBM DevOps ClearCase](clearcase.md)
 - [From Concurrent Versions System (CVS)](cvs.md)
 - [From Perforce P4](perforce.md)
-- [From TFVC](../../project/import/tfvc.md)
+- [From Team Foundation Version Control (TFVC)](tfvc.md)
 - [From Jira](../../project/import/jira.md)
 
 {{< /cards >}}

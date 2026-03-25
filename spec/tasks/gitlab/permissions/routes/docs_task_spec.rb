@@ -2,8 +2,7 @@
 
 require 'spec_helper'
 
-# RSpec.describe Tasks::Gitlab::Permissions::Routes::DocsTask, :silence_stdout, feature_category: :permissions do
-RSpec.describe Tasks::Gitlab::Permissions::Routes::DocsTask, feature_category: :permissions do
+RSpec.describe Tasks::Gitlab::Permissions::Routes::DocsTask, :silence_stdout, feature_category: :permissions do
   let(:task) { described_class.new }
   let(:path) { Rails.root.join('tmp/tests/doc/gitlab/permissions/routes/') }
   let(:doc) { 'granular_pat_rest_api_endpoints.md' }

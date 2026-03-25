@@ -2,7 +2,7 @@
 
 require 'fast_spec_helper'
 
-RSpec.describe 'gitlab:permissions rake tasks', feature_category: :permissions do
+RSpec.describe 'gitlab:permissions rake tasks', :silence_stdout, feature_category: :permissions do
   before do
     Rake.application.rake_require('tasks/gitlab/permissions/permissions')
   end

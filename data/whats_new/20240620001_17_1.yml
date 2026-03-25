@@ -12,7 +12,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/ml/model_registry/
   image_url: https://img.youtube.com/vi/8uyxk0vhifE/hqdefault.jpg
   published_at: 2024-06-20
-  release: 17.1
+  release: "17.1"
 
 - name: See multiple GitLab Duo Code Suggestions in VS Code
   description: |
@@ -24,7 +24,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/repository/code_suggestions/supported_extensions.html#view-multiple-code-suggestions
   image_url: https://about.gitlab.com/images/17_1/multiple-code-suggestions-vs-code.png
   published_at: 2024-06-20
-  release: 17.1
+  release: "17.1"
 
 - name: Secret Push Protection available in beta
   description: |
@@ -46,7 +46,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/application_security/secret_detection/secret_push_protection
   image_url: https://img.youtube.com/vi/2jBC3uBUlyU/hqdefault.jpg
   published_at: 2024-06-20
-  release: 17.1
+  release: "17.1"
 
 - name: GitLab Runner Autoscaler is generally available
   description: |
@@ -60,7 +60,7 @@
   documentation_link: https://docs.gitlab.com/runner/runner_autoscale/
   image_url: https://about.gitlab.com/images/17_1/runner_fleeting_ga.png
   published_at: 2024-06-20
-  release: 17.1
+  release: "17.1"
 
 - name: Improved wiki user experience
   description: |
@@ -78,7 +78,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/wiki/
   image_url: https://img.youtube.com/vi/t2z7sZoJ6oE/hqdefault.jpg
   published_at: 2024-06-20
-  release: 17.1
+  release: "17.1"
 
 - name: Container images linked to signatures
   description: |
@@ -96,7 +96,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/packages/container_registry#container-image-signatures
   image_url: https://about.gitlab.com/images/17_1/container-registry-signatures.png
   published_at: 2024-06-20
-  release: 17.1
+  release: "17.1"
 
 - name: Runner fleet dashboard for groups
   description: |
@@ -110,4 +110,4 @@
   documentation_link: https://docs.gitlab.com/ee/ci/runners/runner_fleet_dashboard_groups.html
   image_url: https://about.gitlab.com/images/17_1/runners-fleet-dashboard-groups-beta.png
   published_at: 2024-06-20
-  release: 17.1
+  release: "17.1"

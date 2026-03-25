@@ -16,7 +16,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/repository/code_suggestions/
   image_url: https://img.youtube.com/vi/hCAyCTacdAQ/hqdefault.jpg
   published_at: 2023-12-21
-  release: 16.7
+  release: "16.7"
 
 - name: New drill-down view from Insights report charts
   description: |  # Do not modify this line, instead modify the lines below.
@@ -30,7 +30,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/group/insights/#drill-down-on-charts
   image_url: https://about.gitlab.com/images/16_7/insights_drill_16_7.gif
   published_at: 2023-12-21
-  release: 16.7
+  release: "16.7"
 
 - name: SAST results in MR changes view
   description: |  # Do not modify this line, instead modify the lines below.
@@ -49,7 +49,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/application_security/sast/#merge-request-changes-view
   image_url: https://img.youtube.com/vi/COaFZ5aNnZs/hqdefault.jpg  # This should be a full URL, generally taken from the release post content. If a video, use the youtube thumbnail URL with the structure of https://img.youtube.com/vi/hCAyCTacdAQ/hqdefault.jpg
   published_at: 2023-12-21
-  release: 16.7
+  release: "16.7"
 
 - name: CI/CD Catalog - Beta release
   description: |  # Do not modify this line, instead modify the lines below.
@@ -65,4 +65,4 @@
   documentation_link: https://docs.gitlab.com/ee/ci/components/#cicd-catalog
   image_url: https://img.youtube.com/vi/NTbUq30NA7U/hqdefault.jpg
   published_at: 2023-12-21
-  release: 16.7
+  release: "16.7"

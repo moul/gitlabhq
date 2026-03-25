@@ -407,7 +407,7 @@ module Gitlab
         end
 
         def importable_foreign_key
-          relation_class.reflect_on_association(importable_class_name.to_sym)&.foreign_key
+          relation_class.try(:reflect_on_association, importable_class_name.to_sym)&.foreign_key
         end
       end
     end

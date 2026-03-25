@@ -8,7 +8,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/gitlab_duo_chat/#in-the-editor-window
   image_url: https://img.youtube.com/vi/5JbAM5g2VbQ/hqdefault.jpg
   published_at: 2024-10-17
-  release: 17.5
+  release: "17.5"
 
 - name: Use self-hosted model for GitLab Duo Code Suggestions
   description: |
@@ -20,7 +20,7 @@
   documentation_link: https://docs.gitlab.com/ee/administration/self_hosted_models/
   image_url: https://about.gitlab.com/images/17_5/self-hosted-beta.png
   published_at: 2024-10-17
-  release: 17.5
+  release: "17.5"
 
 - name: Export Code suggestion usage events
   description: |
@@ -31,7 +31,7 @@
   available_in: [Ultimate]
   documentation_link: https://docs.gitlab.com/ee/api/graphql/reference/#codesuggestionevent
   published_at: 2024-10-17
-  release: 17.5
+  release: "17.5"
 
 - name: Have a conversation with GitLab Duo Chat about your merge request
   description: |
@@ -44,4 +44,4 @@
   documentation_link: https://docs.gitlab.com/ee/user/gitlab_duo_chat/examples#ask-about-a-specific-merge-request
   image_url: https://img.youtube.com/vi/4muvSFuWWL4/hqdefault.jpg
   published_at: 2024-10-17
-  release: 17.5
+  release: "17.5"

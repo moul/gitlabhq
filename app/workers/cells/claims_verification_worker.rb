@@ -14,7 +14,7 @@ module Cells
 
     LEASE_TIMEOUT = 10.minutes
     MAX_RUNTIME = 4.minutes + 30.seconds
-    REDIS_LAST_PROCESSED_ID_TTL = 1.hour
+    REDIS_LAST_PROCESSED_ID_TTL = 3.days
 
     def perform(model_name)
       @model_name = model_name

@@ -251,6 +251,7 @@
     "ContainerRepositoryRegistry",
     "DependencyProxyBlobRegistry",
     "DependencyProxyManifestRegistry",
+    "DesignManagementActionUploadRegistry",
     "DesignManagementRepositoryRegistry",
     "GroupUploadRegistry",
     "GroupWikiRepositoryRegistry",
@@ -267,7 +268,8 @@
     "ProjectWikiRepositoryRegistry",
     "SnippetRepositoryRegistry",
     "TerraformStateVersionRegistry",
-    "UploadRegistry"
+    "UploadRegistry",
+    "UserUploadRegistry"
   ],
   "RegistryInterface": [
     "ContainerRegistry",

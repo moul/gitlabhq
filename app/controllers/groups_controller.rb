@@ -232,14 +232,11 @@ class GroupsController < Groups::ApplicationController
   # rubocop: disable CodeReuse/ActiveRecord
   def transfer
     parent_group = Group.find_by(id: params[:new_parent_group_id])
-    service = ::Groups::TransferService.new(@group, current_user)
 
-    if service.execute(parent_group)
-      flash[:notice] = "Group '#{@group.name}' was successfully transferred."
-      redirect_to group_path(@group)
+    if Feature.enabled?(:groups_and_projects_async_transfer, @group)
+      enqueue_async_transfer(parent_group)
     else
-      flash[:alert] = service.error.html_safe
-      redirect_to edit_group_path(@group)
+      execute_sync_transfer(parent_group)
     end
   end
   # rubocop: enable CodeReuse/ActiveRecord
@@ -392,6 +389,30 @@ class GroupsController < Groups::ApplicationController
   override :has_project_list?
   def has_project_list?
     %w[details show index].include?(action_name)
+  end
+
+  def enqueue_async_transfer(parent_group)
+    service = ::Groups::TransferService.new(@group, current_user)
+
+    if service.schedule_async_transfer(parent_group)
+      flash[:notice] = "Group transfer has been queued. You'll be notified when it completes."
+      redirect_to group_path(@group)
+    else
+      flash[:alert] = "Unable to initiate transfer: #{@group.errors.full_messages.to_sentence}"
+      redirect_to edit_group_path(@group)
+    end
+  end
+
+  def execute_sync_transfer(parent_group)
+    service = ::Groups::TransferService.new(@group, current_user)
+
+    if service.execute(parent_group)
+      flash[:notice] = "Group '#{@group.name}' was successfully transferred."
+      redirect_to group_path(@group)
+    else
+      flash[:alert] = service.error.html_safe
+      redirect_to edit_group_path(@group)
+    end
   end
 
   def destroy_immediately

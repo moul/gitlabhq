@@ -12,7 +12,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/analytics/value_streams_dashboard.html
   image_url: https://about.gitlab.com/images/16_3/16.3_vsd.mr_iss.png
   published_at: 2023-08-22
-  release: 16.3
+  release: "16.3"
 
 - name: More powerful GitLab SaaS runners on Linux
   description: |  # Do not modify this line, instead modify the lines below.
@@ -26,7 +26,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/runners/saas/linux_saas_runner.html
   image_url: https://about.gitlab.com/images/16_3/larger-runners.png
   published_at: 2023-08-22
-  release: 16.3
+  release: "16.3"
 
 - name: Additional filtering for scan result policies
   description: |  # Do not modify this line, instead modify the lines below.
@@ -43,7 +43,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/application_security/policies/merge_request_approval_policies.html
   image_url: https://about.gitlab.com/images/16_3/security-policy-filters-compressed.png
   published_at: 2023-08-22
-  release: 16.3
+  release: "16.3"
 
 - name: Connect to a workspace with SSH
   description: |  # Do not modify this line, instead modify the lines below.
@@ -57,7 +57,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/workspace/configuration.html#connect-to-a-workspace-with-ssh
   image_url: https://about.gitlab.com/images/16_3/create-workspace-ssh.png
   published_at: 2023-08-22
-  release: 16.3
+  release: "16.3"
 
 - name: Flux sync status visualization
   description: |  # Do not modify this line, instead modify the lines below.
@@ -71,4 +71,4 @@
   documentation_link: https://docs.gitlab.com/ee/ci/environments/kubernetes_dashboard.html#flux-sync-status
   image_url: https://about.gitlab.com/images/16_3/flux-badges.png
   published_at: 2023-08-22
-  release: 16.3
+  release: "16.3"

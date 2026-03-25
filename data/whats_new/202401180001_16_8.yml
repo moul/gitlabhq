@@ -8,7 +8,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/secrets/gcp_secret_manager.html
   image_url: https://about.gitlab.com/images/16_8/gcp_secrets_mgr.png
   published_at: 2024-01-18
-  release: 16.8
+  release: "16.8"
 
 - name: Speed up your builds with the Maven dependency proxy
   description: |
@@ -26,7 +26,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/packages/package_registry/dependency_proxy/
   image_url: https://img.youtube.com/vi/9NPTXObsSrE/hqdefault.jpg
   published_at: 2024-01-18
-  release: 16.8
+  release: "16.8"
 
 - name: Workspaces are now generally available
   description: |
@@ -42,7 +42,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/workspace/
   image_url: https://about.gitlab.com/images/16_8/workspaces-ga.png
   published_at: 2024-01-18
-  release: 16.8
+  release: "16.8"
 
 - name: Enforce 2FA for GitLab administrators
   description: |
@@ -54,7 +54,7 @@
   documentation_link: https://docs.gitlab.com/ee/security/two_factor_authentication.html#enforce-2fa-for-administrator-users
   image_url: https://img.youtube.com/vi/fHleeXzoB6k/hqdefault.jpg
   published_at: 2024-01-18
-  release: 16.8
+  release: "16.8"
 
 - name: Deeper insights into velocity in the Issue Analytics report
   description: |
@@ -66,7 +66,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/group/issues_analytics/
   image_url: https://about.gitlab.com/images/16_8/closed_issues_analytics.png
   published_at: 2024-01-18
-  release: 16.8
+  release: "16.8"
 
 - name: New organization-level DevOps view with DORA-based industry benchmarks
   description: |
@@ -82,4 +82,4 @@
   documentation_link: https://docs.gitlab.com/ee/user/analytics/value_streams_dashboard.html#dora-performers-score-panel
   image_url: https://about.gitlab.com/images/16_8/16.8_vsd_dora.png
   published_at: 2024-01-18
-  release: 16.8
+  release: "16.8"

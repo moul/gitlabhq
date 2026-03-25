@@ -12,7 +12,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/tasks.html
   image_url: https://about.gitlab.com/images/15_3/create-tasks.gif
   published_at: 2022-08-22
-  release: 15.3
+  release: "15.3"
 - name: "GitOps features are now free"
   description: |
     When you use GitOps to update a Kubernetes cluster, also called a pull-based deployment, you get an improved security model, better scalability and stability.
@@ -27,7 +27,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/clusters/agent/gitops.html
   image_url: https://img.youtube.com/vi/jgVxOnMfOZA/hqdefault.jpg
   published_at: 2022-08-22
-  release: 15.3
+  release: "15.3"
 - name: "Submit merge request review with summary comment"
   description: |
     When you finish reviewing a merge request, there are probably some common things that you do, like summarizing your review for others or approving the changes if they look good to you. Those common tasks are now quicker and easier: when you submit your review, you can add a summary comment along with any [quick actions](https://docs.gitlab.com/ee/user/project/quick_actions.html) like `/approve`.
@@ -38,7 +38,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/merge_requests/reviews/#submit-a-review
   image_url: https://about.gitlab.com/images/15_3/create-mr-review-summary.png
   published_at: 2022-08-22
-  release: 15.3
+  release: "15.3"
 - name: "Define password complexity requirements"
   description: |
     GitLab administrators can now define password complexity requirements in addition to minimum password length. For new passwords, you can now require:
@@ -56,7 +56,7 @@
   documentation_link: https://docs.gitlab.com/ee/administration/settings/sign_up_restrictions.html#password-complexity-requirements
   image_url: https://about.gitlab.com/images/15_3/manage-password-complexity-policy.png
   published_at: 2022-08-22
-  release: 15.3
+  release: "15.3"
 - name: "Maintain SAML Group Links with API"
   description: |
     Until now, SAML group links had to be configured in the UI. Now, you can manage SAML group links programmatically using the API so you can automate SAML groups management.
@@ -67,4 +67,4 @@
   documentation_link: https://docs.gitlab.com/ee/api/groups.html#saml-group-links
   image_url: https://img.youtube.com/vi/Pft61UFM5LM/hqdefault.jpg
   published_at: 2022-08-22
-  release: 15.3
+  release: "15.3"

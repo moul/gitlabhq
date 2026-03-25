@@ -8,7 +8,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/enterprise_user/#automatic-claims-of-enterprise-users
   image_url: https://about.gitlab.com/images/16_6/automatic-claims-of-enterprise-users.png
   published_at: 2023-11-16
-  release: 16.6
+  release: "16.6"
 
 - name: Minimal forking - only include the default branch
   description: |  # Do not modify this line, instead modify the lines below.
@@ -20,7 +20,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/repository/forking_workflow.html#create-a-fork
   image_url: https://about.gitlab.com/images/16_6/create-minimal-forking-default-branch.png
   published_at: 2023-11-16
-  release: 16.6
+  release: "16.6"
 
 - name: Improved UI for CI/CD variable management
   description: |  # Do not modify this line, instead modify the lines below.
@@ -32,4 +32,4 @@
   documentation_link: https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui
   image_url: https://about.gitlab.com/images/16_6/ci_variables_drawer.png
   published_at: 2023-11-16
-  release: 16.6
+  release: "16.6"

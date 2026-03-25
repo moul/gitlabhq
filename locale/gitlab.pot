@@ -30258,7 +30258,7 @@ msgstr ""
 msgid "FeatureFlag|User List"
 msgstr ""
 
-msgid "FeaturedUpdate|%{releaseNumber} Release"
+msgid "FeaturedUpdate|%{releaseNumber} release"
 msgstr ""
 
 msgid "FeaturedUpdate|Close article"
@@ -31327,6 +31327,12 @@ msgstr ""
 msgid "Geo|Dependency Proxy Manifests"
 msgstr ""
 
+msgid "Geo|Design Management Action Upload"
+msgstr ""
+
+msgid "Geo|Design Management Action Uploads"
+msgstr ""
+
 msgid "Geo|Design Management Repositories"
 msgstr ""
 
@@ -31958,6 +31964,12 @@ msgid "Geo|Upload"
 msgstr ""
 
 msgid "Geo|Uploads"
+msgstr ""
+
+msgid "Geo|User Upload"
+msgstr ""
+
+msgid "Geo|User Uploads"
 msgstr ""
 
 msgid "Geo|Verification"

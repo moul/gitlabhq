@@ -292,7 +292,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       end
     end
 
-    context 'when a GRPC::BadStatus error occurs during commit' do
+    context 'when a non-retriable GRPC error occurs during commit' do
       let!(:user) { create(:user) }
 
       before do
@@ -302,6 +302,46 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
 
       it 'raises the error to stop processing' do
         expect { service.execute }.to raise_error(GRPC::AlreadyExists)
+      end
+    end
+
+    context 'when a retriable GRPC error occurs during commit_update' do
+      let!(:user) { create(:user) }
+
+      before do
+        stub_list_records([])
+        allow(mock_claim_service).to receive(:begin_update).and_return(begin_update_response)
+      end
+
+      it 'retries on GRPC::DeadlineExceeded and succeeds' do
+        call_count = 0
+        allow(mock_claim_service).to receive(:commit_update) do |_uuid, **_args|
+          call_count += 1
+          raise GRPC::DeadlineExceeded, 'context deadline exceeded' if call_count == 1
+        end
+
+        result = service.execute
+        expect(result[:created]).to eq(User.cells_claims_attributes.size)
+      end
+
+      it 'retries on GRPC::Unavailable and succeeds' do
+        call_count = 0
+        allow(mock_claim_service).to receive(:commit_update) do |_uuid, **_args|
+          call_count += 1
+          raise GRPC::Unavailable, 'transport closing' if call_count == 1
+        end
+
+        result = service.execute
+        expect(result[:created]).to eq(User.cells_claims_attributes.size)
+      end
+
+      it 'raises after exhausting retries' do
+        stub_const("#{described_class}::GRPC_RETRIES", 2)
+
+        allow(mock_claim_service).to receive(:commit_update)
+          .and_raise(GRPC::DeadlineExceeded.new('context deadline exceeded'))
+
+        expect { service.execute }.to raise_error(GRPC::DeadlineExceeded)
       end
     end
 
@@ -365,6 +405,71 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
 
       it 'raises the error without retrying to stop processing' do
         expect { service.execute }.to raise_error(GRPC::PermissionDenied)
+      end
+    end
+
+    context 'when a local record has a blank claim attribute value' do
+      let!(:user) { create(:user) }
+
+      before do
+        stub_list_records([])
+        stub_commit
+        allow_any_instance_of(User).to receive(:cells_claims_metadata).and_return([ # rubocop:disable RSpec/AnyInstanceOf -- need to stub on DB-loaded instances
+          { bucket: { type: :user_ids, value: user.id.to_s }, subject: { type: :user, id: 1 },
+            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } },
+          { bucket: { type: :usernames, value: '' }, subject: { type: :user, id: 1 },
+            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } }
+        ])
+      end
+
+      it 'skips metadata entries with blank bucket values' do
+        expect(mock_claim_service).to receive(:begin_update).with(
+          hash_including(create_records: satisfy { |records| records.size == 1 })
+        ).and_return(begin_update_response)
+
+        service.execute
+      end
+    end
+
+    context 'when a local record has a nil claim attribute value' do
+      let!(:user) { create(:user) }
+
+      before do
+        stub_list_records([])
+        stub_commit
+        allow_any_instance_of(User).to receive(:cells_claims_metadata).and_return([ # rubocop:disable RSpec/AnyInstanceOf -- need to stub on DB-loaded instances
+          { bucket: { type: :user_ids, value: user.id.to_s }, subject: { type: :user, id: 1 },
+            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } },
+          { bucket: { type: :usernames, value: nil }, subject: { type: :user, id: 1 },
+            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } }
+        ])
+      end
+
+      it 'skips metadata entries with nil bucket values' do
+        expect(mock_claim_service).to receive(:begin_update).with(
+          hash_including(create_records: satisfy { |records| records.size == 1 })
+        ).and_return(begin_update_response)
+
+        service.execute
+      end
+    end
+
+    context 'when all claim attribute values are blank for a local record' do
+      let!(:user) { create(:user) }
+
+      before do
+        stub_list_records([])
+        allow_any_instance_of(User).to receive(:cells_claims_metadata).and_return([ # rubocop:disable RSpec/AnyInstanceOf -- need to stub on DB-loaded instances
+          { bucket: { type: :user_ids, value: '' }, subject: { type: :user, id: 1 },
+            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } },
+          { bucket: { type: :usernames, value: nil }, subject: { type: :user, id: 1 },
+            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } }
+        ])
+      end
+
+      it 'does not call begin_update when no valid creates exist' do
+        expect(mock_claim_service).not_to receive(:begin_update)
+        service.execute
       end
     end
 

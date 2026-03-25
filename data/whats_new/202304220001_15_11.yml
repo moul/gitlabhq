@@ -10,7 +10,7 @@
   documentation_link: 'https://docs.gitlab.com/ee/user/project/repository/code_suggestions.html#code-suggestions-beta'
   image_url: 'https://about.gitlab.com/images/15_11/code-suggestions-loop.gif'
   published_at: 2023-04-22
-  release: 15.11
+  release: "15.11"
 - name: Manage project compliance frameworks report at group level
   description: |
     Prior to GitLab 15.11, if you wanted to add or remove a compliance framework from a project, you needed to go to each project individually to manage which framework was associated with the project. When managing more than a few projects, this process was tedious and inefficient.
@@ -25,7 +25,7 @@
   documentation_link: 'https://docs.gitlab.com/ee/user/compliance/compliance_center/#compliance-frameworks-report'
   image_url: 'https://about.gitlab.com/images/15_11/govern-compliance-frameworks-report-management.png'
   published_at: 2023-04-22
-  release: 15.11
+  release: "15.11"
 - name: Rerun downstream pipeline trigger jobs
   description: |
     Previously, if you needed to trigger a rerun of an entire downstream pipeline, you had to rerun the full upstream pipeline. This could be a time-consuming and inefficient process, especially if the upstream pipeline has many jobs or other downstream pipelines.
@@ -38,7 +38,7 @@
   documentation_link: 'https://docs.gitlab.com/ee/ci/pipelines/downstream_pipelines.html#recreate-a-downstream-pipeline'
   image_url: 'https://img.youtube.com/vi/xCqGWWRx-1E/hqdefault.jpg'
   published_at: 2023-04-22
-  release: 15.11
+  release: "15.11"
 - name: Vulnerability dismissal reasons
   description: |
     In previous releases, you had to manually add a comment to specify why a vulnerability was dismissed.
@@ -55,4 +55,4 @@
   documentation_link: https://docs.gitlab.com/ee/user/application_security/vulnerabilities/#vulnerability-dismissal-reasons'
   image_url: 'https://about.gitlab.com/images/15_11/vulnerability_dismissal_types__reasons.png'
   published_at: 2023-04-22
-  release: 15.11
+  release: "15.11"

@@ -6,6 +6,8 @@ module Tasks
       class BaseValidateTask
         attr_reader :declarative_policy_permissions
 
+        DOCS_ROOT = 'https://docs.gitlab.com'
+
         def initialize; end
 
         def run
@@ -117,34 +119,26 @@ module Tasks
         end
 
         def implementation_guide_link(anchor: nil)
-          doc_url = Rails.application.routes.url_helpers.help_page_url(
-            'development/permissions/granular_access/rest_api_implementation_guide.md',
-            anchor: anchor
-          )
-          "Learn more: #{doc_url}"
+          build_doc_link('development/permissions/granular_access/rest_api_implementation_guide', anchor: anchor)
         end
 
         def conventions_link(anchor: nil)
-          doc_url = Rails.application.routes.url_helpers.help_page_url(
-            'development/permissions/conventions.md',
-            anchor: anchor
-          )
-          "Learn more: #{doc_url}"
+          build_doc_link('development/permissions/conventions', anchor: anchor)
         end
 
         def permission_definitions_link(anchor: nil)
-          doc_url = Rails.application.routes.url_helpers.help_page_url(
-            'development/permissions/granular_access/permission_definitions.md',
-            anchor: anchor
-          )
-          "Learn more: #{doc_url}"
+          build_doc_link('development/permissions/granular_access/permission_definitions', anchor: anchor)
         end
 
         def assignable_permissions_link(anchor: nil)
-          doc_url = Rails.application.routes.url_helpers.help_page_url(
-            'development/permissions/granular_access/assignable_permissions.md',
-            anchor: anchor
-          )
+          build_doc_link('development/permissions/granular_access/assignable_permissions', anchor: anchor)
+        end
+
+        def build_doc_link(link, anchor: nil)
+          doc_url = "#{DOCS_ROOT}/#{link}"
+
+          doc_url = "#{doc_url}/##{anchor}" if anchor
+
           "Learn more: #{doc_url}"
         end
       end

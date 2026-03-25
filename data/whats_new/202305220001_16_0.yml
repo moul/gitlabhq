@@ -12,7 +12,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/analytics/value_streams_dashboard.html
   image_url: https://about.gitlab.com/images/16_0/16.0_vsd_ga.gif
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: Upsizing GitLab SaaS runners on Linux
   description: |  # Do not modify this line, instead modify the lines below.
@@ -26,7 +26,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/runners/saas/linux_saas_runner.html
   image_url: https://about.gitlab.com/images/16_0/upsize-runners.png
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: GPU-enabled SaaS runners on Linux
   description: |  # Do not modify this line, instead modify the lines below.
@@ -42,7 +42,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/runners/saas/linux_saas_runner.html#gpu-enabled-saas-runners-on-linux
   image_url: https://about.gitlab.com/images/16_0/gpu_standard_runner_tag.png
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: Apple silicon (M1) GitLab SaaS runners on macOS - Beta
   description: |  # Do not modify this line, instead modify the lines below.
@@ -56,7 +56,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/runners/saas/macos_saas_runner.html#example-gitlab-ciyml-file
   image_url: https://about.gitlab.com/images/16_0/macos-m1-runners.png
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: Comment templates
   description: |  # Do not modify this line, instead modify the lines below.
@@ -72,7 +72,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/profile/comment_templates.html
   image_url: https://about.gitlab.com/images/16_0/create-comment-templates.gif
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: Update your fork from the GitLab UI
   description: |  # Do not modify this line, instead modify the lines below.
@@ -86,7 +86,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/repository/forking_workflow.html#update-your-fork
   image_url: https://about.gitlab.com/images/16_0/fetch_new_upstream_contents_when_fork_is_behind.png
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: Mirror specific branches only
   description: |  # Do not modify this line, instead modify the lines below.
@@ -100,7 +100,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/repository/mirror/#mirror-specific-branches
   image_url: https://about.gitlab.com/images/16_0/mirror_specific_branches_only.png
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: New Web IDE experience now generally available
   description: |  # Do not modify this line, instead modify the lines below.
@@ -114,7 +114,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/web_ide/
   image_url: https://about.gitlab.com/images/16_0/web-ide-ga.png
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: Remote development workspaces available in Beta for public projects
   description: |  # Do not modify this line, instead modify the lines below.
@@ -132,7 +132,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/workspace/
   image_url: https://img.youtube.com/vi/yjweL075Cdo/hqdefault.jpg
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: Security training with SecureFlag
   description: |  # Do not modify this line, instead modify the lines below.
@@ -146,7 +146,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/application_security/vulnerabilities/#enable-security-training-for-vulnerabilities
   image_url: https://about.gitlab.com/images/16_0/secureflag.png
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: Token rotation API
   description: |  # Do not modify this line, instead modify the lines below.
@@ -160,7 +160,7 @@
   documentation_link: https://docs.gitlab.com/ee/security/token_overview.html
   image_url: https://img.youtube.com/vi/Lzb7DbPuqBU/hqdefault.jpg
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: AI-powered workflow features
   description: |  # Do not modify this line, instead modify the lines below.
@@ -176,7 +176,7 @@
   documentation_link: https://docs.gitlab.com/ee/development/ai_features.html
   image_url: https://img.youtube.com/vi/ILJeqWoVswM/hqdefault.jpg
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: Code Suggestions improvements
   description: |  # Do not modify this line, instead modify the lines below.
@@ -194,7 +194,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/repository/code_suggestions.html
   image_url: https://about.gitlab.com/images/15_11/code-suggestions-loop.gif
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"
 
 - name: Custom value streams for project-level value stream analytics
   description: |  # Do not modify this line, instead modify the lines below.
@@ -208,4 +208,4 @@
   documentation_link: https://docs.gitlab.com/ee/user/group/value_stream_analytics/
   image_url: https://about.gitlab.com/images/16_0/16_vsaparity.gif
   published_at: 2023-05-22
-  release: 16.0
+  release: "16.0"

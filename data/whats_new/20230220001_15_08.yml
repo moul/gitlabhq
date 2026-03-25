@@ -11,7 +11,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/merge_requests/status_checks.html#block-merges-of-merge-requests-unless-all-status-checks-have-passed
   image_url: https://about.gitlab.com/images/15_8/manage-block-external-status-checks.png
   published_at: 2023-01-22
-  release: 15.8
+  release: "15.8"
 - name: SCIM support for GitLab Self-Managed
   description: |  # Do not modify this line, instead modify the lines below.
     GitLab Self-Managed now supports the open standard System for Cross-domain Identity Management (SCIM), which allows you to automatically:
@@ -27,7 +27,7 @@
   documentation_link: https://docs.gitlab.com/ee/administration/settings/scim_setup.html
   image_url: https://about.gitlab.com/images/15_8/manage-scim-token.png
   published_at: 2023-01-22
-  release: 15.8
+  release: "15.8"
 - name: Migrate projects when migrating groups using direct transfer
   description: |  # Do not modify this line, instead modify the lines below.
     We are excited to announce the availability of migrating GitLab projects by direct transfer Beta. Now, you can migrate group and project resources together when using direct transfer. You can use direct transfers to migrate between GitLab instances or
@@ -55,7 +55,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/group/import/#migrate-groups-by-direct-transfer-recommended
   image_url: https://about.gitlab.com/images/15_8/groups-import-with-projects.png
   published_at: 2023-01-22
-  release: 15.8
+  release: "15.8"
 - name: View estimated queuing time for runners in the Admin area
   description: |  # Do not modify this line, instead modify the lines below.
     A key input in GitLab Runner fleet optimization is having deep insights into queue performance over time. While today there are historical queue duration metrics available for each job on a runner in the Admin area view, there is no simple mechanism to determine the current queue performance for runners.
@@ -69,4 +69,4 @@
   documentation_link: https://docs.gitlab.com/ee/ci/runners/runners_scope.html#view-statistics-for-runner-performance
   image_url: https://about.gitlab.com/images/15_8/admin-runners-estimated-queue-wait-time.png
   published_at: 2023-01-22
-  release: 15.8
+  release: "15.8"

@@ -114,8 +114,18 @@ module API
             job_forbidden!(current_job, 'Job is not processing on runner')
           rescue ::Ci::AuthJobFinder::ExpiredJobTokenError => e
             if fail_on_expired_token
-              e.job.drop!(:job_token_expired)
-              log_job_failed_due_to_expired_token(e.job)
+              dropped = \
+                begin
+                  e.job.drop(:job_token_expired)
+                rescue ActiveRecord::StaleObjectError
+                  false
+                end
+
+              if dropped
+                log_job_dropped_due_to_expired_token(e.job)
+              else
+                log_job_forbidden_due_to_expired_token(e.job)
+              end
             else
               log_job_forbidden_due_to_expired_token(e.job)
             end
@@ -267,7 +277,7 @@ module API
           }.merge(Gitlab::ApplicationContext.current))
         end
 
-        def log_job_failed_due_to_expired_token(job)
+        def log_job_dropped_due_to_expired_token(job)
           Gitlab::AppLogger.info({
             class: self.class.name,
             job_id: job.id,

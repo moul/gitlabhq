@@ -19,6 +19,20 @@ module Groups
       log_transfer(group, new_parent_group, error_message)
     end
 
+    def schedule_async_transfer(new_parent_group)
+      group.state_metadata[:transfer_target_parent_id] = new_parent_group&.id
+
+      return false unless group.schedule_transfer(transition_user: current_user)
+
+      Namespaces::Groups::TransferWorker.perform_async(
+        group.id,
+        new_parent_group&.id,
+        current_user.id
+      )
+
+      true
+    end
+
     def execute(new_parent_group)
       @new_parent_group = new_parent_group
       ensure_allowed_transfer

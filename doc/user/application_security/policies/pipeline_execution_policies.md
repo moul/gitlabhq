@@ -767,6 +767,14 @@ compliance_job:
  ...
 ```
 
+> [!note]
+> When a project's `.gitlab-ci.yml` configuration is included in an `override_project_ci` policy
+> using `include:project`, the project configuration becomes part of the policy pipeline.
+> In this scenario, the included project configuration can assign jobs to the reserved stages
+> (`.pipeline-policy-pre` and `.pipeline-policy-post`), because the use of reserved stages is
+> permitted within a policy pipeline. Aside from this exception,
+> [you cannot assign jobs to reserved stages](#job-stage-best-practice).
+
 ## CI/CD variables
 
 > [!warning]
@@ -1409,6 +1417,69 @@ include:
 ```
 
 To use this approach, the group or project must use the `override_project_ci` strategy.
+
+### Validate pipeline stages and jobs with `CI_JOB_TOKEN`
+
+You can use `CI_JOB_TOKEN` in a `.pipeline-policy-pre` job to call the GitLab API and validate
+that the pipeline stages and jobs is in the list of approved stages or jobs. This pattern is useful when you want to
+prevent projects from using unapproved CI/CD stages and jobs.
+
+The following example script fetches the pipeline's jobs from the API, extracts the unique stages
+and job names, and checks each one against the `APPROVED_STAGES` and `APPROVED_JOBS` variables.
+If an unapproved stage or job is found, the pipeline fails before any other jobs run.
+
+Define `APPROVED_STAGES` and `APPROVED_JOBS` as
+[CI/CD variables](../../../ci/variables/_index.md) in the project, group, or policy configuration.
+
+```yaml
+validate-pipeline:
+  stage: .pipeline-policy-pre
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl jq bash
+  script:
+    - |
+      #!/bin/bash
+
+      echo "Checking pipeline stages and jobs..."
+
+      # Fetch pipeline jobs using CI_JOB_TOKEN
+      api_url="$CI_API_V4_URL/projects/$CI_PROJECT_ID/pipelines/$CI_PIPELINE_ID/jobs"
+      echo "API URL: $api_url"
+
+      jobs=$(curl --silent --header "JOB-TOKEN: $CI_JOB_TOKEN" "$api_url")
+      echo "Fetched Jobs: $jobs"
+
+      if [[ "$jobs" == *"404 Project Not Found"* ]]; then
+        echo "Failed to authenticate with GitLab API: Project not found"
+        exit 1
+      fi
+
+      # Extract stages and jobs
+      pipeline_stages=$(echo "$jobs" | jq -r '.[].stage' | sort | uniq | tr '\n' ',')
+      pipeline_jobs=$(echo "$jobs" | jq -r '.[].name' | sort | uniq | tr '\n' ',')
+
+      echo "Pipeline Stages: $pipeline_stages"
+      echo "Pipeline Jobs: $pipeline_jobs"
+
+      # Check if pipeline stages are approved
+      for stage in $(echo $pipeline_stages | tr ',' ' '); do
+        echo "Checking stage: $stage"
+        if ! [[ ",$APPROVED_STAGES," =~ ",$stage," ]]; then
+          echo "Stage $stage is not approved."
+          exit 1
+        fi
+      done
+
+      # Check if pipeline jobs are approved
+      for job in $(echo $pipeline_jobs | tr ',' ' '); do
+        echo "Checking job: $job"
+        if ! [[ ",$APPROVED_JOBS," =~ ",$job," ]]; then
+          echo "Job $job is not approved."
+          exit 1
+        fi
+      done
+```
 
 ### Enforce a container scanning `component` using a pipeline execution policy
 

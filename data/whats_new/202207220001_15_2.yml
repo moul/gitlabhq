@@ -10,7 +10,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/wiki/#use-the-content-editor
   image_url: https://about.gitlab.com/images/15_2/create-preview-diagrams-in-wysiwyg.png
   published_at: 2022-07-22
-  release: 15.2
+  release: "15.2"
 - name: Incident timeline  # Match the release post entry
   description: |  # Do not modify this line, instead modify the lines below.
     Capturing what happened during an incident is an important practice that facilitates learning and the opportunity for improvement. Yet, asking incident responders to take on additional administrative tasks when they're busy fire-fighting, or trying to reconstruct the timeline of events post incident lead to incomplete or less than accurate information.
@@ -23,7 +23,7 @@
   documentation_link: https://docs.gitlab.com/ee/operations/incident_management/incidents.html#timeline-events
   image_url: https://img.youtube.com/vi/a0brUwOajvQ/hqdefault.jpg
   published_at: 2022-07-22
-  release: 15.2
+  release: "15.2"
 - name: "Merge request reports redesign"  # Match the release post entry
   description: |  # Do not modify this line, instead modify the lines below.
     Merge request reports are an important part of code review, providing insights into the impact of changes and improvements to meet project standards.
@@ -36,7 +36,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/wiki/#use-the-content-editor
   image_url: https://about.gitlab.com/images/15_2/create-merge-request-widget-redesign.png
   published_at: 2022-07-22
-  release: 15.2
+  release: "15.2"
 - name: "Change failure rate chart for visualizing software stability"  # Match the release post entry
   description: |  # Do not modify this line, instead modify the lines below.
     In this release, we added a new trend chart for the DORA [Change failure rate](https://docs.gitlab.com/ee/user/analytics/ci_cd_analytics.html) metric. This chart shows the percentage of deployments that cause an incident in a production environment. GitLab measures the change failure rate as the number of [incidents](https://docs.gitlab.com/ee/operations/incident_management/incidents.html) divided by the number of deployments to a production environment during a given time period.
@@ -49,7 +49,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/analytics/ci_cd_analytics.html#view-change-failure-rate-chart
   image_url: https://about.gitlab.com/images/15_2/dora4_chart_cfr.png
   published_at: 2022-07-22
-  release: 15.2
+  release: "15.2"
 - name: "Enforce IP address restrictions for Git over SSH"  # Match the release post entry
   description: |  # Do not modify this line, instead modify the lines below.
       Limiting access to requests from a trusted set of IP addresses may improve security. Until now, only the API and UI supported such access restrictions; SSH access was blocked entirely. SSH now also adheres to this restriction, and grants access only to requests coming from IP addresses in your list.
@@ -60,7 +60,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/group/#group-access-restriction-by-ip-address
   image_url: https://img.youtube.com/vi/f60EgVK3mWc/hqdefault.jpg
   published_at: 2022-07-22
-  release: 15.2
+  release: "15.2"
 - name: "Group and subgroup scan execution policies"  # Match the release post entry
   description: |  # Do not modify this line, instead modify the lines below.
     Your security and compliance teams can now apply policies uniformly to all projects by scanning execution policies at the group and subgroup levels. This functionality is especially helpful for large organizations who have a large number of projects. Policies defined for the group or subgroup will flow down and apply to all child projects. To get started, ask your group owner to link a security policy project to your group on the **Security & Compliance > Policies** page.
@@ -73,7 +73,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/application_security/policies/scan_execution_policies.html'
   image_url: https://about.gitlab.com/images/15_2/protect_group_policies.png
   published_at: 2022-07-22
-  release: 15.2
+  release: "15.2"
 - name: "Set the image pull policy in pipeline configuration"  # Match the release post entry
   description: |  # Do not modify this line, instead modify the lines below.
     You can select different [pull policies](https://docs.gitlab.com/runner/executors/docker.html#how-pull-policies-work) for how a GitLab Runner downloads Docker images in CI/CD jobs. `always` (the default behavior) ensures the image is always downloaded, `if-not-present` downloads an image only when a local version does not exist, and `never` only uses the local version (never download an image).
@@ -86,4 +86,4 @@
   documentation_link: https://docs.gitlab.com/ee/ci/yaml/#imagepull_policy
   image_url: https://about.gitlab.com/images/15_2/pull_policy.png
   published_at: 2022-07-22
-  release: 15.2
+  release: "15.2"

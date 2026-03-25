@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, feature_category: :permissions do
+RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdout, feature_category: :permissions do
   let(:task) { described_class.new }
 
   # Helper to create a mock directive

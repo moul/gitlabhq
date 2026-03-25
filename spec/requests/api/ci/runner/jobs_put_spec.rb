@@ -347,6 +347,43 @@ RSpec.describe API::Ci::Runner, :clean_gitlab_redis_shared_state, feature_catego
             update_job(job.id, jwt_token, state: 'success')
           end
         end
+
+        shared_examples_for 'forbidden without persistence' do
+          it 'returns 403 Forbidden and logs without raising' do
+            expect(Gitlab::AppLogger).to(
+              receive(:info).with(
+                a_hash_including(
+                  message: "Job forbidden due to expired JWT"
+                )
+              )
+            )
+
+            travel_to(3.hours.from_now) do
+              expect { update_job(job.id, jwt_token, state: 'success') }
+                .not_to raise_error
+            end
+
+            expect(response).to have_gitlab_http_status(:forbidden)
+          end
+        end
+
+        context 'when the job is already in a failed state' do
+          before do
+            job.drop!(:job_execution_server_timeout)
+          end
+
+          it_behaves_like 'forbidden without persistence'
+        end
+
+        context 'when the job was already transitioned by another process (StaleObjectError)' do
+          before do
+            allow_next_found_instance_of(Ci::Build) do |build|
+              allow(build).to receive(:drop).and_raise(ActiveRecord::StaleObjectError)
+            end
+          end
+
+          it_behaves_like 'forbidden without persistence'
+        end
       end
 
       def update_job(job_id = job.id, token = job.token, **params)

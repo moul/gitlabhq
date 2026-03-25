@@ -11,7 +11,11 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
     end
 
     let(:web_endpoint_labels) do
-      [a_hash_including(endpoint_id: "SearchController#show")]
+      [
+        a_hash_including(endpoint_id: "SearchController#show"),
+        a_hash_including(endpoint_id: "SearchController#count"),
+        a_hash_including(endpoint_id: "SearchController#autocomplete")
+      ]
     end
 
     let(:all_endpoint_labels) do
@@ -34,6 +38,53 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
       )
 
       described_class.initialize_slis!
+    end
+
+    where(:search_type, :search_scope, :search_level, :valid) do
+      'basic' | 'issues'     | 'global'  | true
+      'basic' | 'blobs'      | 'project' | true
+      'basic' | 'blobs'      | 'global'  | false
+      'basic' | 'blobs'      | 'group'   | false
+      'basic' | 'wiki_blobs' | 'global'  | false
+      'basic' | 'commits'    | 'global'  | false
+    end
+
+    with_them do
+      it 'initializes valid label combinations and excludes impossible ones' do
+        if valid
+          expect(Gitlab::Metrics::Sli::Apdex).to receive(:initialize_sli).with(
+            :global_search, array_including(a_hash_including(
+              search_type: search_type, search_scope: search_scope, search_level: search_level
+            ))
+          )
+        else
+          expect(Gitlab::Metrics::Sli::Apdex).not_to receive(:initialize_sli).with(
+            :global_search, array_including(a_hash_including(
+              search_type: search_type, search_scope: search_scope, search_level: search_level
+            ))
+          )
+        end
+
+        described_class.initialize_slis!
+      end
+    end
+
+    context 'when initializing search types', unless: Gitlab.ee? do
+      it 'does not include zoekt search type' do
+        expect(Gitlab::Metrics::Sli::Apdex).not_to receive(:initialize_sli).with(
+          :global_search, array_including(a_hash_including(search_type: 'zoekt'))
+        )
+
+        described_class.initialize_slis!
+      end
+
+      it 'does not include advanced search type' do
+        expect(Gitlab::Metrics::Sli::Apdex).not_to receive(:initialize_sli).with(
+          :global_search, array_including(a_hash_including(search_type: 'advanced'))
+        )
+
+        described_class.initialize_slis!
+      end
     end
 
     context "when initializing for limited types" do

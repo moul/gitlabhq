@@ -19,7 +19,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/gitlab_duo_chat.html
   image_url: https://about.gitlab.com/images/16_9/gitlab_duo_chat_beta_now_available_in_premium.png
   published_at: 2024-02-15
-  release: 16.9
+  release: "16.9"
 
 - name: Improvements to the CI/CD variables user interface
   description: |
@@ -39,7 +39,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/variables/
   image_url: https://img.youtube.com/vi/gdL2cEp3kw0/hqdefault.jpg
   published_at: 2024-02-15
-  release: 16.9
+  release: "16.9"
 
 - name: Request changes on merge requests
   description: |
@@ -59,7 +59,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/merge_requests/reviews/#submit-a-review
   image_url: https://about.gitlab.com/images/16_9/create-request-changes-merge-requests.png
   published_at: 2024-02-15
-  release: 16.9
+  release: "16.9"
 
 - name: Expanded options for auto-canceling pipelines
   description: |
@@ -73,7 +73,7 @@
   documentation_link: https://docs.gitlab.com/ee/ci/yaml/#workflowauto_cancelon_new_commit
   image_url: https://about.gitlab.com/images/16_9/interruptible.png
   published_at: 2024-02-15
-  release: 16.9
+  release: "16.9"
 
 - name: Validate Terraform modules from your group or subgroup
   description: |
@@ -87,7 +87,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/packages/package_registry/#view-packages
   image_url: https://img.youtube.com/vi/1Ocypvrrdiw/hqdefault.jpg
   published_at: 2024-02-15
-  release: 16.9
+  release: "16.9"
 
 - name: More detailed security findings in VS Code
   description: |
@@ -110,7 +110,7 @@
   documentation_link: https://docs.gitlab.com/ee/editor_extensions/visual_studio_code/
   image_url: https://about.gitlab.com/images/16_9/vs-code-security-finding-details.png
   published_at: 2024-02-15
-  release: 16.9
+  release: "16.9"
 
 - name: Standards Adherence Report Improvements
   description: |
@@ -135,4 +135,4 @@
   documentation_link: https://docs.gitlab.com/ee/user/compliance/compliance_center/#standards-adherence-dashboard
   image_url: https://about.gitlab.com/images/16_9/standards-adherence-grouping.png
   published_at: 2024-02-15
-  release: 16.9
+  release: "16.9"

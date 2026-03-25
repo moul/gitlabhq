@@ -59,7 +59,7 @@ module Gitlab
         end
 
         def search_types
-          %w[basic advanced]
+          ::SearchService.supported_search_types
         end
 
         def search_levels
@@ -73,7 +73,7 @@ module Gitlab
         def endpoint_ids
           api_endpoints = ['GET /api/:version/search', 'GET /api/:version/projects/:id/(-/)search',
             'GET /api/:version/groups/:id/(-/)search']
-          web_endpoints = ['SearchController#show']
+          web_endpoints = ['SearchController#show', 'SearchController#count', 'SearchController#autocomplete']
 
           endpoints = []
 
@@ -87,7 +87,9 @@ module Gitlab
           search_types.flat_map do |search_type|
             search_levels.flat_map do |search_level|
               search_scopes.flat_map do |search_scope|
-                endpoint_ids.flat_map do |endpoint_id|
+                next [] unless valid_search_type?(search_type, search_scope, search_level)
+
+                endpoint_ids.map do |endpoint_id|
                   {
                     search_type: search_type,
                     search_level: search_level,
@@ -98,6 +100,11 @@ module Gitlab
               end
             end
           end
+        end
+
+        def valid_search_type?(search_type, search_scope, search_level)
+          definition = ::Search::Scopes.scope_definitions[search_scope.to_sym]
+          definition[:availability].fetch(search_level.to_sym, []).include?(search_type.to_sym)
         end
 
         def labels(search_type:, search_level:, search_scope:)
@@ -124,3 +131,5 @@ module Gitlab
     end
   end
 end
+
+Gitlab::Metrics::GlobalSearchSlis.prepend_mod

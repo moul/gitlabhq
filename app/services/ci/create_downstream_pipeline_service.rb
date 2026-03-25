@@ -133,6 +133,7 @@ module Ci
 
     def downstream_project_accessible?
       downstream_project.present? &&
+        downstream_project.organization_id == project.organization_id &&
         can?(current_user, :read_project, downstream_project)
     end
 

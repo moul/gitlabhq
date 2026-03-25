@@ -144,7 +144,6 @@ Search/NamespacedClass:
     - 'lib/gitlab/github_import/clients/search_repos.rb'
     - 'lib/gitlab/group_search_results.rb'
     - 'lib/gitlab/metrics/elasticsearch_rack_middleware.rb'
-    - 'lib/gitlab/metrics/global_search_slis.rb'
     - 'lib/gitlab/project_search_results.rb'
     - 'lib/gitlab/redacted_search_results_logger.rb'
     - 'lib/gitlab/search/abuse_detection.rb'

@@ -8,7 +8,7 @@
   documentation_link: https://docs.gitlab.com/runner/install/openshift.html
   image_url: https://img.youtube.com/vi/ZNBc_QnDUu4/hqdefault.jpg
   published_at: 2021-03-22
-  release: 13.10
+  release: "13.10"
 - name: "View epics on a board (MVC)"
   description: |
     If you work on epics in GitLab, it can be tough to visualize your epics' workflow status. Often, when drafting or writing epics, you might want to use labels (like `Open`, `Doing`, or `Done`) to keep tabs on the next steps when creating your project plan.
@@ -23,7 +23,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/group/epics/epic_boards.html
   image_url: https://about.gitlab.com/images/13_10/view-epics-on-a-board-mvc-1.png
   published_at: 2021-03-22
-  release: 13.10
+  release: "13.10"
 - name: "View Jira issue details in GitLab"
   description: |
     Users of our Jira issue list feature can now view the details of an issue directly inside of GitLab! This MVC enables developers to see the details, labels, and comments on an issue, giving them the ability to stay in GitLab while working on Jira issues.
@@ -38,7 +38,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/integrations/jira.html#view-a-jira-issue
   image_url: https://about.gitlab.com/images/13_10/jira-detail-view.png
   published_at: 2021-03-22
-  release: 13.10
+  release: "13.10"
 - name: "DORA4-based lead time for changes"
   description: |
     Measuring the efficiency of your software development lifecycle is an important step to grow DevOps adoption for any organization. In the previous milestone, we added support for [DORA4-based Deployment Frequency](https://docs.gitlab.com/ee/api/dora/metrics.html). In this release, we are excited to announce the support of a new API for lead time for changes (via merge requests) on the project level. The lead time for changes gives you an indication of how long it takes for code to be committed and deployed to your production environment. Understanding and tracking this data is a great starting point in your journey to continuous improvement in your DevOps process.
@@ -49,7 +49,7 @@
   documentation_link: https://docs.gitlab.com/ee/api/dora/metrics.html#list-project-merge-request-lead-times
   image_url: https://about.gitlab.com/images/13_10/api.png
   published_at: 2021-03-22
-  release: 13.10
+  release: "13.10"
 - name: "Create a release from an existing tag"
   description: |
     Previously, creating a release was supported only for new tags. In GitLab 13.10, you can now create a release by selecting an existing tag, something that will give you more flexibility when planning releases.
@@ -60,7 +60,7 @@
   documentation_link: https://docs.gitlab.com/ee/user/project/releases/#create-a-release
   image_url: https://about.gitlab.com/images/13_10/exiting_tags.png
   published_at: 2021-03-22
-  release: 13.10
+  release: "13.10"
 - name: "Integrate any IT alerting tool with GitLab"
   description: |
     Alert integrations are a critical part of your Incident Management workflows. It's difficult to manage integrations between tools, especially when several monitoring tools like Nagios, Solarwinds, etc. alert on your services. These integrations notify you and your team of incidents, so it's critical for them to be easy to set up and maintain.
@@ -73,7 +73,7 @@
   documentation_link: https://docs.gitlab.com/ee/operations/incident_management/integrations.html#http-endpoints
   image_url: https://about.gitlab.com/images/13_10/integrate_alerts.png
   published_at: 2021-03-22
-  release: 13.10
+  release: "13.10"
 - name: "Merge request test summary usability improvements"
   description: |
     Increasing the number of tests or custom metrics in a pipeline gives you additional confidence and information. However, increasing these to a large number has also come with a degraded visual experience of the merge request page. The merge request test summary widget has been improved so you can better differentiate between the different test jobs in the widget, making it easier to identify which job contains failed tests.
@@ -88,4 +88,4 @@
   documentation_link: https://docs.gitlab.com/ee/ci/unit_test_reports.html
   image_url: https://about.gitlab.com/images/13_10/test_summary_ux_improvements.png
   published_at: 2021-03-22
-  release: 13.10
+  release: "13.10"
