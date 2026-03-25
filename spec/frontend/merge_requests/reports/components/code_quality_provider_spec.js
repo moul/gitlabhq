@@ -5,6 +5,11 @@ import axios from '~/lib/utils/axios_utils';
 import { HTTP_STATUS_OK, HTTP_STATUS_INTERNAL_SERVER_ERROR } from '~/lib/utils/http_status';
 import Poll from '~/lib/utils/poll';
 import CodeQualityProvider from '~/merge_requests/reports/components/code_quality_provider.vue';
+import {
+  responseNewFindings,
+  responseResolvedFindings,
+  responseNoFindings,
+} from 'jest/vue_merge_request_widget/widgets/code_quality/mock_data';
 
 describe('CodeQualityProvider', () => {
   let wrapper;
@@ -14,28 +19,20 @@ describe('CodeQualityProvider', () => {
     codequalityReportsPath: '/codequality_reports',
   };
 
-  const emptyResponse = {
-    new_errors: [],
-    existing_errors: [],
-    resolved_errors: [],
-  };
-
-  const responseWithNewErrors = {
-    new_errors: [
-      { description: 'Method has too many lines', severity: 'major' },
-      { description: 'Cyclomatic complexity is too high', severity: 'minor' },
-    ],
-    existing_errors: [],
-    resolved_errors: [],
-  };
-
   const InjectedChild = {
-    inject: ['isCodeQualityLoading', 'errorMessage', 'newErrorsCount', 'statusIconName'],
+    inject: [
+      'isCodeQualityLoading',
+      'errorMessage',
+      'newErrorsCount',
+      'resolvedErrorsCount',
+      'statusIconName',
+    ],
     template: `
       <div data-testid="child">
         <span data-testid="is-loading">{{ isCodeQualityLoading }}</span>
         <span data-testid="error-message">{{ errorMessage }}</span>
         <span data-testid="new-errors-count">{{ newErrorsCount }}</span>
+        <span data-testid="resolved-errors-count">{{ resolvedErrorsCount }}</span>
         <span data-testid="status-icon-name">{{ statusIconName }}</span>
       </div>
     `,
@@ -60,10 +57,11 @@ describe('CodeQualityProvider', () => {
   const findErrorMessage = () => getTextByTestId('error-message');
   const findStatusIconName = () => getTextByTestId('status-icon-name');
   const findNewErrorsCount = () => getTextByTestId('new-errors-count');
+  const findResolvedErrorsCount = () => getTextByTestId('resolved-errors-count');
 
   beforeEach(() => {
     mock = new MockAdapter(axios);
-    mockApi(HTTP_STATUS_OK, responseWithNewErrors);
+    mockApi(HTTP_STATUS_OK, responseNewFindings);
   });
 
   afterEach(() => {
@@ -118,15 +116,33 @@ describe('CodeQualityProvider', () => {
         createComponent();
         await waitForPromises();
 
-        expect(findNewErrorsCount()).toBe(String(responseWithNewErrors.new_errors.length));
+        expect(findNewErrorsCount()).toBe(String(responseNewFindings.new_errors.length));
       });
 
       it('provides zero count when no new errors', async () => {
-        mockApi(HTTP_STATUS_OK, emptyResponse);
+        mockApi(HTTP_STATUS_OK, responseNoFindings);
         createComponent();
         await waitForPromises();
 
         expect(findNewErrorsCount()).toBe('0');
+      });
+
+      it('provides resolved errors count from response', async () => {
+        mockApi(HTTP_STATUS_OK, responseResolvedFindings);
+        createComponent();
+        await waitForPromises();
+
+        expect(findResolvedErrorsCount()).toBe(
+          String(responseResolvedFindings.resolved_errors.length),
+        );
+      });
+
+      it('provides zero resolved count when no resolved errors', async () => {
+        mockApi(HTTP_STATUS_OK, responseNoFindings);
+        createComponent();
+        await waitForPromises();
+
+        expect(findResolvedErrorsCount()).toBe('0');
       });
     });
 
@@ -164,7 +180,7 @@ describe('CodeQualityProvider', () => {
       });
 
       it('returns success when no new errors', async () => {
-        mockApi(HTTP_STATUS_OK, emptyResponse);
+        mockApi(HTTP_STATUS_OK, responseNoFindings);
         createComponent();
         await waitForPromises();
 

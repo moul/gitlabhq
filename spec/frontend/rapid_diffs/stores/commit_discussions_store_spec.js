@@ -63,6 +63,7 @@ describe('commitDiffDiscussions store', () => {
     'findDiscussionsForPosition',
     'findDiscussionsForFile',
     'findAllDiscussionsForFile',
+    'findAllLineDiscussionsForFile',
   ])('exposes %s getter', (getter) => {
     expect(useCommitDiffDiscussions()[getter]).toBeDefined();
   });

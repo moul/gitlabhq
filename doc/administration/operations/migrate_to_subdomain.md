@@ -3,6 +3,7 @@ stage: GitLab Delivery
 group: Operate
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
 title: Migrate from a relative URL to a subdomain
+description: Reconfigure a GitLab instance to use a subdomain instead of a relative URL.
 ---
 
 {{< details >}}

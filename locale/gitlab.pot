@@ -83194,6 +83194,9 @@ msgstr[1] ""
 msgid "ciReport|Code quality failed loading results"
 msgstr ""
 
+msgid "ciReport|Code quality is loading"
+msgstr ""
+
 msgid "ciReport|Code quality results are not available"
 msgstr ""
 

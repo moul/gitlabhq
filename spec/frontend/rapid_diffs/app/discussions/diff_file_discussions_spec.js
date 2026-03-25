@@ -63,10 +63,10 @@ describe('DiffFileDiscussions', () => {
 
   const createComponent = () => {
     wrapper = shallowMount(DiffFileDiscussions, {
-      propsData: { oldPath, newPath },
       provide: {
         store,
         userPermissions: { can_create_note: true },
+        filePaths: { oldPath, newPath },
       },
     });
   };

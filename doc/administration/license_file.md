@@ -2,7 +2,8 @@
 stage: Fulfillment
 group: Provision
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
-title: Activate GitLab EE with a license file or key
+title: Activate GitLab Enterprise Edition
+description: Activate GitLab Enterprise Edition with a license file or key.
 ---
 
 If you receive a license file from GitLab (for example, for a trial), you can

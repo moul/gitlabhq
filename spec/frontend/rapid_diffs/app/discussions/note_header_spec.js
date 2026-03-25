@@ -122,6 +122,44 @@ describe('NoteHeader', () => {
       });
       expect(findTimeAgoTooltip().attributes('href')).toBe('/custom/url');
     });
+
+    describe('with filePaths injected', () => {
+      const createComponentWithFilePaths = (props = {}, filePaths = {}) => {
+        wrapper = shallowMount(NoteHeader, {
+          propsData: props,
+          provide: { filePaths },
+        });
+      };
+
+      it('builds timestamp link with file_path param when old and new path are the same', () => {
+        createComponentWithFilePaths(
+          { createdAt: '2024-01-01T10:00:00Z', noteId: '456' },
+          { oldPath: 'foo/bar.rb', newPath: 'foo/bar.rb' },
+        );
+        const href = findTimeAgoTooltip().attributes('href');
+        expect(href).toContain('file_path=foo%2Fbar.rb');
+        expect(href).toContain('#note_456');
+      });
+
+      it('builds timestamp link with old_path and new_path params when paths differ', () => {
+        createComponentWithFilePaths(
+          { createdAt: '2024-01-01T10:00:00Z', noteId: '456' },
+          { oldPath: 'old/file.rb', newPath: 'new/file.rb' },
+        );
+        const href = findTimeAgoTooltip().attributes('href');
+        expect(href).toContain('old_path=old%2Ffile.rb');
+        expect(href).toContain('new_path=new%2Ffile.rb');
+        expect(href).toContain('#note_456');
+      });
+
+      it('still prefers noteUrl over filePaths', () => {
+        createComponentWithFilePaths(
+          { createdAt: '2024-01-01T10:00:00Z', noteId: '456', noteUrl: '/custom/url' },
+          { oldPath: 'foo/bar.rb', newPath: 'foo/bar.rb' },
+        );
+        expect(findTimeAgoTooltip().attributes('href')).toBe('/custom/url');
+      });
+    });
   });
 
   describe('imported badge', () => {

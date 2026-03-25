@@ -16,27 +16,13 @@ export default {
   },
   inject: {
     store: { type: Object },
-    userPermissions: {
-      type: Object,
-    },
-  },
-  props: {
-    oldPath: {
-      type: String,
-      required: true,
-    },
-    newPath: {
-      type: String,
-      required: true,
-    },
+    userPermissions: { type: Object },
+    filePaths: { type: Object },
   },
   emits: ['empty'],
   computed: {
     allDiscussions() {
-      return this.store.findAllFileDiscussionsForFile({
-        oldPath: this.oldPath,
-        newPath: this.newPath,
-      });
+      return this.store.findAllFileDiscussionsForFile(this.filePaths);
     },
     collapsedDiscussions() {
       return this.allDiscussions.filter((d) => !d.isForm && d.hidden);
@@ -48,8 +34,8 @@ export default {
       return this.allDiscussions.find((d) => d.isForm);
     },
     autosaveKey() {
-      const path =
-        this.oldPath === this.newPath ? this.oldPath : [this.oldPath, this.newPath].join('-');
+      const { oldPath, newPath } = this.filePaths;
+      const path = oldPath === newPath ? oldPath : [oldPath, newPath].join('-');
       // eslint-disable-next-line @gitlab/require-i18n-strings
       return `${window.location.pathname}-${path}-file`;
     },
@@ -86,7 +72,7 @@ export default {
     <diff-file-discussion-expansion
       v-if="collapsedDiscussions.length"
       :discussions="collapsedDiscussions"
-      @toggle="store.expandFileDiscussions(oldPath, newPath)"
+      @toggle="store.expandFileDiscussions(filePaths.oldPath, filePaths.newPath)"
     />
     <diff-discussions v-if="expandedDiscussions.length" :discussions="expandedDiscussions" />
     <div

@@ -208,7 +208,6 @@ RSpec/FactoryBot/AvoidCreate:
     - 'spec/helpers/auth_helper_spec.rb'
     - 'spec/helpers/auto_devops_helper_spec.rb'
     - 'spec/helpers/avatars_helper_spec.rb'
-    - 'spec/helpers/award_emoji_helper_spec.rb'
     - 'spec/helpers/blob_helper_spec.rb'
     - 'spec/helpers/boards_helper_spec.rb'
     - 'spec/helpers/branches_helper_spec.rb'

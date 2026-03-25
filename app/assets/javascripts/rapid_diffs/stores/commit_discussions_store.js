@@ -109,6 +109,7 @@ export const useCommitDiffDiscussions = defineStore('commitDiffDiscussions', () 
     findDiscussionsForPosition: computed(() => diffDiscussions.findDiscussionsForPosition),
     findDiscussionsForFile: computed(() => diffDiscussions.findDiscussionsForFile),
     findAllDiscussionsForFile: computed(() => diffDiscussions.findAllDiscussionsForFile),
+    findAllLineDiscussionsForFile: computed(() => diffDiscussions.findAllLineDiscussionsForFile),
     timelineDiscussions,
   };
 });

@@ -414,7 +414,27 @@ Here is an example scenario:
 - In 17.4 the migration may be finalized, provided that it's completed in GitLab.com.
 - In 17.6 the code related to the migration may be deleted.
 
-Batched background migration code is routinely deleted when [migrations are squashed](migration_squashing.md).
+There are two strategies for deleting batched background migration code:
+
+1. Wait for [migration squashing](migration_squashing.md) to delete the migration-related files automatically.
+1. Delete the migration-related files manually.
+
+#### Let migration squashing clean up your batched background migration
+
+GitLab has a [migration squashing](migration_squashing.md) process that deletes batched background migrations which have been finalized. For GitLab.com, the script is run after every required stop. If your batched background migration has been finalized, you can simply wait for the next required stop. All files related to your batched background migration will be deleted at that time.
+
+#### Delete your batched background migration code manually
+
+In some cases, you might want to delete batched background migration code after it is finalized but before migration squashing is run. For example, maybe your batched background migration targeted GitLab.com only, and you want to remove some code that is referenced by the migration.
+
+In this case you can manually delete the following files:
+
+1. The batched background migration class file in `lib/`.
+1. The corresponding `spec/` file for the batched background migration class.
+1. The YAML file for the batched background migration in `db/docs/batched_background_migrations/`.
+1. Any migration files in `db/post_migrate/` which enqueued or finalized the batched background migration.
+1. Any corresponding `spec/` files for the enqueue or finalization migrations.
+1. Any files in `schema_migrations/` corresponding to a deleted `db/post_migrate/` migration.
 
 ### Re-queue batched background migrations
 

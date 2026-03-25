@@ -6,6 +6,7 @@ import HelpPopover from '~/vue_shared/components/help_popover.vue';
 import StatusIcon from '~/vue_merge_request_widget/components/widget/status_icon.vue';
 import ActionButtons from '~/vue_merge_request_widget/components/widget/action_buttons.vue';
 import { EXTENSION_ICONS } from '~/vue_merge_request_widget/constants';
+import { generateText } from '~/vue_merge_request_widget/components/widget/utils';
 
 export const SECTION_ITEM_LEVEL = 2;
 
@@ -62,6 +63,9 @@ export default {
     hasActionButtons() {
       return this.actionButtons.length > 0;
     },
+    summaryTitle() {
+      return this.summary.title ? generateText(this.summary.title) : '';
+    },
     hasSections() {
       return this.sections.length > 0;
     },
@@ -83,7 +87,7 @@ export default {
       <template v-else>
         <div class="media-body gl-flex !gl-flex-row gl-self-center">
           <div class="gl-grow">
-            <span v-if="summary.title" v-safe-html="summary.title" data-testid="summary"></span>
+            <span v-if="summaryTitle" v-safe-html="summaryTitle" data-testid="summary"></span>
           </div>
           <div class="gl-flex">
             <help-popover

@@ -262,6 +262,7 @@ CREATE TABLE ci_finished_pipelines
     `source` LowCardinality(String) DEFAULT '',
     `ref` String DEFAULT '',
     `name` String DEFAULT '',
+    `is_default_branch` Bool DEFAULT false,
     PROJECTION by_path_source_ref_finished_at
     (
         SELECT *

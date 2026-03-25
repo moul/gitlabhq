@@ -15,7 +15,7 @@ const useDiscussionsStore = defineStore('discussionsStore', {
     discussions: [],
   }),
   actions: {
-    findAllDiscussionsForFile() {
+    findAllLineDiscussionsForFile() {
       return this.discussions;
     },
     findDiscussionsForPosition() {
@@ -36,7 +36,7 @@ jest.mock('~/rapid_diffs/app/discussions/diff_line_discussions.vue', () => {
   return {
     props: jest.requireActual('~/rapid_diffs/app/discussions/diff_line_discussions.vue').default
       .props,
-    inject: ['userPermissions', 'endpoints', 'noteableType'],
+    inject: ['userPermissions', 'endpoints', 'noteableType', 'filePaths', 'linkedFileData'],
     methods: {
       empty() {
         this.$emit('empty');
@@ -68,6 +68,8 @@ jest.mock('~/rapid_diffs/app/discussions/diff_line_discussions.vue', () => {
         renderAsDataAttr('user-permissions', this.userPermissions),
         renderAsDataAttr('endpoints', this.endpoints),
         renderAsDataAttr('noteable-type', this.noteableType),
+        renderAsDataAttr('file-paths', this.filePaths),
+        renderAsDataAttr('linked-file-data', this.linkedFileData),
       ];
       return h('div', { attrs: { id: 'discussions-component' } }, [...props, ...injected]);
     },
@@ -93,6 +95,7 @@ describe('discussions adapters', () => {
     signIn: 'signInPath',
     reportAbuse: 'reportAbusePath',
   };
+  const linkedFileData = { old_path: oldPath, new_path: newPath };
   const appData = {
     userPermissions,
     previewMarkdownEndpoint: 'previewMarkdownEndpoint',
@@ -101,6 +104,7 @@ describe('discussions adapters', () => {
     signInPath: 'signInPath',
     noteableType: 'Commit',
     reportAbusePath: 'reportAbusePath',
+    linkedFileData,
   };
 
   const getDiffFile = () => document.querySelector('diff-file');
@@ -193,6 +197,12 @@ describe('discussions adapters', () => {
       expect(
         JSON.parse(document.querySelector('[data-noteable-type]').dataset.noteableType),
       ).toStrictEqual('Commit');
+      expect(
+        JSON.parse(document.querySelector('[data-file-paths]').dataset.filePaths),
+      ).toStrictEqual({ oldPath, newPath });
+      expect(
+        JSON.parse(document.querySelector('[data-linked-file-data]').dataset.linkedFileData),
+      ).toStrictEqual(linkedFileData);
     });
 
     it('mounts discussion row for hidden discussions', async () => {

@@ -424,6 +424,72 @@ describe('diffDiscussions store', () => {
     });
   });
 
+  describe('findAllLineDiscussionsForFile', () => {
+    const filePaths = { oldPath: 'file1.js', newPath: 'file1.js' };
+
+    it('returns only line discussions, excluding file and image discussions', () => {
+      useDiscussions().discussions = [
+        {
+          id: 'line',
+          diff_discussion: true,
+          position: {
+            old_path: 'file1.js',
+            new_path: 'file1.js',
+            position_type: 'text',
+            old_line: 1,
+            new_line: 1,
+          },
+        },
+        {
+          id: 'file',
+          diff_discussion: true,
+          position: {
+            old_path: 'file1.js',
+            new_path: 'file1.js',
+            position_type: 'file',
+          },
+        },
+        {
+          id: 'image',
+          diff_discussion: true,
+          position: {
+            old_path: 'file1.js',
+            new_path: 'file1.js',
+            position_type: 'image',
+          },
+        },
+      ];
+
+      const discussions = useDiffDiscussions().findAllLineDiscussionsForFile(filePaths);
+
+      expect(discussions).toHaveLength(1);
+      expect(discussions[0].id).toBe('line');
+    });
+
+    it('includes line discussion forms', () => {
+      useDiffDiscussions().addNewLineDiscussionForm({
+        oldPath: 'file1.js',
+        newPath: 'file1.js',
+        lineRange: { start: { old_line: 1, new_line: 1 }, end: { old_line: 1, new_line: 1 } },
+        lineChange: 'added',
+        lineCode: 'abc',
+      });
+
+      const discussions = useDiffDiscussions().findAllLineDiscussionsForFile(filePaths);
+
+      expect(discussions).toHaveLength(1);
+      expect(discussions[0].isForm).toBe(true);
+    });
+
+    it('excludes file discussion forms', () => {
+      useDiffDiscussions().addNewFileDiscussionForm(filePaths);
+
+      const discussions = useDiffDiscussions().findAllLineDiscussionsForFile(filePaths);
+
+      expect(discussions).toHaveLength(0);
+    });
+  });
+
   describe('findAllFileDiscussionsForFile', () => {
     const filePaths = { oldPath: 'file1.js', newPath: 'file1.js' };
 

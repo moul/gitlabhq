@@ -14,6 +14,7 @@ export default normalizeRender({
       isCodeQualityLoading: computed(() => this.isLoading),
       errorMessage: computed(() => this.errorMessage),
       newErrorsCount: computed(() => this.newErrorsCount),
+      resolvedErrorsCount: computed(() => this.resolvedErrorsCount),
       statusIconName: computed(() => this.statusIconName),
     };
   },
@@ -37,6 +38,9 @@ export default normalizeRender({
     },
     newErrorsCount() {
       return this.responseData?.new_errors?.length || 0;
+    },
+    resolvedErrorsCount() {
+      return this.responseData?.resolved_errors?.length || 0;
     },
     statusIconName() {
       if (this.errorMessage) {

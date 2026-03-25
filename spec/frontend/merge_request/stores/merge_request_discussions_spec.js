@@ -88,6 +88,7 @@ describe('mergeRequestDiscussions store', () => {
     'findDiscussionsForPosition',
     'findDiscussionsForFile',
     'findAllDiscussionsForFile',
+    'findAllLineDiscussionsForFile',
     'findAllFileDiscussionsForFile',
   ])('exposes %s getter', (getter) => {
     expect(store[getter]).toBeDefined();

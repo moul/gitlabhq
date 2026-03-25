@@ -10,16 +10,9 @@ export default {
   },
   inject: {
     store: { type: Object },
+    filePaths: { type: Object },
   },
   props: {
-    oldPath: {
-      type: String,
-      required: true,
-    },
-    newPath: {
-      type: String,
-      required: true,
-    },
     oldLine: {
       type: Number,
       required: false,
@@ -79,7 +72,8 @@ export default {
   },
   methods: {
     pos(oldLine, newLine) {
-      return { oldPath: this.oldPath, newPath: this.newPath, oldLine, newLine };
+      const { oldPath, newPath } = this.filePaths;
+      return { oldPath, newPath, oldLine, newLine };
     },
     allDiscussionsForPosition(position) {
       return this.store.findDiscussionsForPosition(position);

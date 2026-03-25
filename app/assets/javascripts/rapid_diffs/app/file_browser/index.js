@@ -21,7 +21,7 @@ function addFileLinks(diffFiles) {
       href: withLinkedFileUrlParams(new URL(window.location), {
         oldPath: diffFile.old_path,
         newPath: diffFile.new_path,
-        fileId: diffFile.file_hash,
+        hash: diffFile.file_hash,
       }).toString(),
     });
   });

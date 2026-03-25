@@ -213,6 +213,88 @@ describe('infection scanner', () => {
         ),
       );
     });
+
+    it('resolves browser field (string form) as an alternative', () => {
+      const browserResolver = createResolver({
+        aliasMap: {},
+        rootPath: fixture('browser_field'),
+      });
+      const from = fixture('browser_field', 'entry.js');
+      const all = browserResolver.resolveModuleAll('browser-pkg', from);
+      expect(all).toContain(
+        fixture('browser_field', 'node_modules', 'browser-pkg', 'dist', 'index.js'),
+      );
+      expect(all).toContain(
+        fixture('browser_field', 'node_modules', 'browser-pkg', 'dist', 'browser.js'),
+      );
+    });
+
+    it('resolves browser field (object form) as an alternative', () => {
+      const remapResolver = createResolver({
+        aliasMap: {},
+        rootPath: fixture('browser_object_remap'),
+      });
+      const from = fixture('browser_object_remap', 'entry.js');
+      const all = remapResolver.resolveModuleAll('remap-pkg', from);
+      expect(all).toContain(
+        fixture('browser_object_remap', 'node_modules', 'remap-pkg', 'dist', 'index.js'),
+      );
+      expect(all).toContain(
+        fixture('browser_object_remap', 'node_modules', 'remap-pkg', 'dist', 'browser.js'),
+      );
+    });
+
+    it('resolveModuleAll returns all alternatives for pkg with exports + module', () => {
+      const pkgResolver = createResolver({
+        aliasMap: {},
+        rootPath: fixture('pkg_exports'),
+      });
+      const from = fixture('pkg_exports', 'entry.js');
+      const all = pkgResolver.resolveModuleAll('some-pkg', from);
+      expect(all).toContain(
+        fixture('pkg_exports', 'node_modules', 'some-pkg', 'dist', 'index.mjs'),
+      );
+      expect(all).toContain(
+        fixture('pkg_exports', 'node_modules', 'some-pkg', 'dist', 'index.esm.js'),
+      );
+    });
+
+    it('resolveModuleAll returns single-element array for relative imports', () => {
+      const from = fixture('basic', 'entry.js');
+      const all = resolver.resolveModuleAll('./app', from);
+      expect(all).toEqual([fixture('basic', 'app.js')]);
+    });
+
+    it('resolveModuleAll returns null for unresolvable specifiers', () => {
+      const from = fixture('basic', 'entry.js');
+      expect(resolver.resolveModuleAll('nonexistent-package', from)).toBeNull();
+    });
+
+    it('uses fallbackResolve when standard resolution fails', () => {
+      const fallbackPath = fixture('basic', 'utils.js');
+      const fallbackResolver = createResolver({
+        aliasMap: {},
+        rootPath: fixture('basic'),
+        fallbackResolve: () => fallbackPath,
+      });
+      const from = fixture('basic', 'entry.js');
+      expect(fallbackResolver.resolveModule('nonexistent-package', from)).toBe(fallbackPath);
+    });
+
+    it('does not call fallbackResolve when standard resolution succeeds', () => {
+      let called = false;
+      const fallbackResolver = createResolver({
+        aliasMap: {},
+        rootPath: fixture('basic'),
+        fallbackResolve: () => {
+          called = true;
+          return null;
+        },
+      });
+      const from = fixture('basic', 'entry.js');
+      fallbackResolver.resolveModule('vue', from);
+      expect(called).toBe(false);
+    });
   });
 
   describe('analyze', () => {
@@ -453,6 +535,35 @@ describe('infection scanner', () => {
         infectionSpecifiers: ['infection-pkg'],
       });
       expect(result.entrypoints).toEqual(entrypoints);
+    });
+
+    it('includes all resolution alternatives in the graph', async () => {
+      const result = await analyze({
+        rootPath: fixture('pkg_exports'),
+        entrypoints: { main: fixture('pkg_exports', 'entry.js') },
+        infectionSpecifiers: [],
+      });
+      // Both the exports path and the module path should appear in the graph
+      const exportPath = fixture('pkg_exports', 'node_modules', 'some-pkg', 'dist', 'index.mjs');
+      const modulePath = fixture('pkg_exports', 'node_modules', 'some-pkg', 'dist', 'index.esm.js');
+      expect(result.graph[exportPath]).toBeDefined();
+      expect(result.graph[modulePath]).toBeDefined();
+    });
+
+    it('calls onProgress during analysis', async () => {
+      const calls = [];
+      await analyze({
+        rootPath: fixture('basic'),
+        entrypoints: { main: fixture('basic', 'entry.js') },
+        infectionSpecifiers: ['infection-pkg'],
+        onProgress(parsed, total) {
+          calls.push({ parsed, total });
+        },
+      });
+      // Should have at least the final progress call
+      expect(calls.length).toBeGreaterThanOrEqual(1);
+      const last = calls[calls.length - 1];
+      expect(last.parsed).toBe(last.total);
     });
   });
 });

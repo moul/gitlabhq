@@ -1271,7 +1271,6 @@ RSpec/FeatureCategory:
     - 'spec/helpers/application_helper_spec.rb'
     - 'spec/helpers/application_settings_helper_spec.rb'
     - 'spec/helpers/auto_devops_helper_spec.rb'
-    - 'spec/helpers/award_emoji_helper_spec.rb'
     - 'spec/helpers/badges_helper_spec.rb'
     - 'spec/helpers/bizible_helper_spec.rb'
     - 'spec/helpers/boards_helper_spec.rb'

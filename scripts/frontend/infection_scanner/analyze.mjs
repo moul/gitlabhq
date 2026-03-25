@@ -5,6 +5,7 @@
  *   import { analyze, detectAppRoot } from './analyze.mjs';
  *   const result = await analyze({ rootPath, entrypoints, infectionSpecifiers, aliasMap });
  */
+import { isBuiltin } from 'node:module';
 import path from 'node:path';
 import fs from 'node:fs';
 import { readFile } from 'node:fs/promises';
@@ -21,9 +22,12 @@ const CONCURRENCY = 64;
  * @param {Object<string, string>} [options.aliasMap] - Webpack-style alias map.
  *   Keys ending with `$` are exact matches; others are prefix matches.
  * @param {string} options.rootPath - Project root for node_modules lookup.
- * @returns {{ resolveModule: (specifier: string, fromFile: string) => string|null, tryFile: (p: string) => boolean }}
+ * @param {Function} [options.fallbackResolve] - Optional fallback resolver function.
+ *   Called with (specifier, fromDir) when standard resolution fails. Should return
+ *   an absolute path or null.
+ * @returns {{ resolveModule: (specifier: string, fromFile: string) => string|null, resolveModuleAll: (specifier: string, fromFile: string) => string[]|null, tryFile: (p: string) => boolean }}
  */
-export function createResolver({ aliasMap = {}, rootPath }) {
+export function createResolver({ aliasMap = {}, rootPath, fallbackResolve }) {
   const sortedAliasKeys = Object.keys(aliasMap).sort((a, b) => {
     const aExact = a.endsWith('$');
     const bExact = b.endsWith('$');
@@ -86,7 +90,6 @@ export function createResolver({ aliasMap = {}, rootPath }) {
       return tryFile(p) ? p : null;
     }
     if (exportsValue && typeof exportsValue === 'object' && !Array.isArray(exportsValue)) {
-      // Resolve conditions in package.json key order (matching Node/bundler behaviour)
       const supported = new Set(['module', 'import', 'default']);
       for (const key of Object.keys(exportsValue)) {
         if (supported.has(key)) {
@@ -109,7 +112,8 @@ export function createResolver({ aliasMap = {}, rootPath }) {
     }
   }
 
-  function resolveNodeModule(specifier, fromDir = rootPath) {
+  function resolveNodeModuleAll(specifier, fromDir = rootPath) {
+    const results = new Set();
     const parts = specifier.startsWith('@')
       ? specifier.split('/').slice(0, 2)
       : specifier.split('/').slice(0, 1);
@@ -133,18 +137,18 @@ export function createResolver({ aliasMap = {}, rootPath }) {
 
         if (exportsEntry) {
           const resolved = resolveExportsEntry(exportsEntry, pkgDir);
-          if (resolved) return resolved;
+          if (resolved) results.add(resolved);
         }
       }
 
       if (subpath === '.' || subpath === '/') {
         if (pkg.module) {
           const esmPath = path.resolve(pkgDir, pkg.module);
-          if (tryFile(esmPath)) return esmPath;
+          if (tryFile(esmPath)) results.add(esmPath);
         }
         if (pkg.main) {
           const mainPath = path.resolve(pkgDir, pkg.main);
-          if (tryFile(mainPath)) return mainPath;
+          if (tryFile(mainPath)) results.add(mainPath);
         }
       } else {
         const subDir = path.resolve(pkgDir, subpath.startsWith('.') ? subpath : subpath.slice(1));
@@ -153,40 +157,84 @@ export function createResolver({ aliasMap = {}, rootPath }) {
           const subPkg = JSON.parse(fs.readFileSync(subPkgJson, 'utf-8'));
           if (subPkg.module) {
             const esmPath = path.resolve(subDir, subPkg.module);
-            if (tryFile(esmPath)) return esmPath;
+            if (tryFile(esmPath)) results.add(esmPath);
           }
         }
         const subFile = resolveFile(
           path.resolve(pkgDir, subpath.startsWith('.') ? subpath : subpath.slice(1)),
         );
-        if (subFile) return subFile;
+        if (subFile) results.add(subFile);
+      }
+
+      if (typeof pkg.browser === 'string' && (subpath === '.' || subpath === '/')) {
+        const browserPath = path.resolve(pkgDir, pkg.browser);
+        if (tryFile(browserPath)) results.add(browserPath);
+      }
+      // Only file-level remaps are supported; specifier-level mappings
+      // (e.g. { "react": "preact/compat" }) are not applied.
+      if (pkg.browser && typeof pkg.browser === 'object') {
+        const remapped = new Set();
+        const excluded = new Set();
+        for (const resolved of results) {
+          const relPath = `./${path.relative(pkgDir, resolved).replace(/\\/g, '/')}`;
+          if (Object.hasOwn(pkg.browser, relPath)) {
+            if (pkg.browser[relPath] === false) {
+              excluded.add(resolved);
+            } else {
+              const browserPath = path.resolve(pkgDir, pkg.browser[relPath]);
+              if (tryFile(browserPath)) remapped.add(browserPath);
+            }
+          }
+        }
+        for (const p of excluded) results.delete(p);
+        for (const p of remapped) results.add(p);
+      }
+    }
+
+    if (results.size > 0) return [...results];
+
+    if (fallbackResolve) {
+      try {
+        const resolved = fallbackResolve(specifier, fromDir);
+        if (resolved) return [resolved];
+      } catch {
+        // fallback failed
       }
     }
 
     return null;
   }
 
-  function resolveModule(specifier, fromFile) {
+  function resolveModuleAll(specifier, fromFile) {
+    if (isBuiltin(specifier)) return null;
+
     const cacheKey = `${fromFile}\0${specifier}`;
     if (resolveCache.has(cacheKey)) return resolveCache.get(cacheKey);
 
     const aliased = applyAlias(specifier.replace(/\?vue3$/, ''));
 
-    let result;
+    let results;
     if (path.isAbsolute(aliased)) {
-      result = resolveFile(aliased);
+      const r = resolveFile(aliased);
+      results = r ? [r] : null;
     } else if (aliased.startsWith('.')) {
       const dir = path.dirname(fromFile);
-      result = resolveFile(path.resolve(dir, aliased));
+      const r = resolveFile(path.resolve(dir, aliased));
+      results = r ? [r] : null;
     } else {
-      result = resolveNodeModule(aliased, path.dirname(fromFile));
+      results = resolveNodeModuleAll(aliased, path.dirname(fromFile));
     }
 
-    resolveCache.set(cacheKey, result);
-    return result;
+    resolveCache.set(cacheKey, results);
+    return results;
   }
 
-  return { resolveModule, tryFile };
+  function resolveModule(specifier, fromFile) {
+    const all = resolveModuleAll(specifier, fromFile);
+    return all ? all[0] : null;
+  }
+
+  return { resolveModule, resolveModuleAll, tryFile };
 }
 
 /**
@@ -270,7 +318,7 @@ function isJsOrVue(resolved) {
   return resolved.endsWith('.js') || resolved.endsWith('.mjs') || resolved.endsWith('.vue');
 }
 
-async function buildGraph(entrypoints, resolver) {
+async function buildGraph(entrypoints, resolver, { onProgress } = {}) {
   await init;
 
   const graph = {};
@@ -286,6 +334,8 @@ async function buildGraph(entrypoints, resolver) {
   }
 
   let idx = 0;
+  let nextProgressAt = 500;
+  const total = () => queue.length;
 
   while (idx < queue.length) {
     const batch = queue.slice(idx, idx + CONCURRENCY);
@@ -296,8 +346,9 @@ async function buildGraph(entrypoints, resolver) {
       batch.map(async (filePath) => {
         const { imports, appRoot } = await parseFile(filePath);
         const resolved = imports.map((imp) => {
-          const r = resolver.resolveModule(imp.source, filePath);
-          return { source: imp.source, resolved: r, dynamic: imp.dynamic };
+          const all = resolver.resolveModuleAll(imp.source, filePath);
+          const r = all ? all[0] : null;
+          return { source: imp.source, resolved: r, dynamic: imp.dynamic, alternatives: all };
         });
         return { filePath, resolved, appRoot };
       }),
@@ -307,13 +358,23 @@ async function buildGraph(entrypoints, resolver) {
       graph[filePath] = resolved.filter((imp) => !imp.resolved || isJsOrVue(imp.resolved));
       if (appRoot) appRootSet.add(filePath);
       for (const imp of resolved) {
-        if (imp.resolved && isJsOrVue(imp.resolved) && !visited.has(imp.resolved)) {
-          visited.add(imp.resolved);
-          queue.push(imp.resolved);
+        const paths = imp.alternatives || (imp.resolved ? [imp.resolved] : []);
+        for (const p of paths) {
+          if (isJsOrVue(p) && !visited.has(p)) {
+            visited.add(p);
+            queue.push(p);
+          }
         }
       }
     }
+
+    if (onProgress && idx >= nextProgressAt) {
+      onProgress(idx, total());
+      nextProgressAt = idx + 500;
+    }
   }
+
+  if (onProgress) onProgress(total(), total());
 
   return { graph, appRootSet };
 }
@@ -418,12 +479,14 @@ function findNearestInfectionReasons({ file, infectionTriggers, graph, infection
  * @param {string[]} options.infectionSpecifiers - Import specifiers that trigger infection
  *   (e.g. context alias keys). Both exact matches and prefix matches (`spec + '/'`) are checked.
  * @param {Object<string, string>} [options.aliasMap={}] - Webpack-style alias map for module resolution.
+ * @param {Function} [options.fallbackResolve] - Optional fallback resolver (e.g. cjsRequire.resolve).
+ * @param {Function} [options.onProgress] - Optional progress callback (parsed, total).
  * @returns {Promise<{entrypoints: Object, graph: Object}>} The annotated graph. Each graph entry
  *   contains `imports`, `infected`, `appRoot`, and (if infected) `infectionReasons` and `infectionReasonCount`.
  */
-export async function analyze({ rootPath, entrypoints, infectionSpecifiers, aliasMap = {} }) {
-  const resolver = createResolver({ aliasMap, rootPath });
-  const { graph, appRootSet } = await buildGraph(entrypoints, resolver);
+export async function analyze({ rootPath, entrypoints, infectionSpecifiers, aliasMap = {}, fallbackResolve, onProgress }) {
+  const resolver = createResolver({ aliasMap, rootPath, fallbackResolve });
+  const { graph, appRootSet } = await buildGraph(entrypoints, resolver, { onProgress });
   const { infectedSet, infectionTriggers } = computeInfected(
     graph,
     appRootSet,

@@ -55,6 +55,17 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     };
   });
 
+  const isLineDiscussion = (discussion) =>
+    discussion.position?.position_type === 'text' ||
+    (discussion.isForm &&
+      (discussion.position?.old_line !== null || discussion.position?.new_line !== null));
+
+  const findAllLineDiscussionsForFile = computed(() => {
+    return ({ oldPath, newPath }) => {
+      return findAllDiscussionsForFile.value({ oldPath, newPath }).filter(isLineDiscussion);
+    };
+  });
+
   const findAllFileDiscussionsForFile = computed(() => {
     return ({ oldPath, newPath }) => {
       return findAllDiscussionsForFile.value({ oldPath, newPath }).filter(isFileDiscussion);
@@ -190,6 +201,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     addNewFileDiscussionForm,
     removeNewFileDiscussionForm,
     expandFileDiscussions,
+    findAllLineDiscussionsForFile,
     findAllFileDiscussionsForFile,
     setFileDiscussionsHidden,
     setPositionDiscussionsHidden,

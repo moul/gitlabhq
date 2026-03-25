@@ -17,8 +17,6 @@ ee/app/models/cloud_connector/keys.rb:
 - create_new_key!
 - trim!
 - truncated_pem
-ee/app/models/concerns/ee/issuable_link.rb:
-- blocked_issuables_for_collection
 ee/app/models/concerns/geo/blob_replicator_strategy.rb:
 - consume_event_deleted
 ee/app/models/concerns/geo/repository_replicator_strategy.rb:

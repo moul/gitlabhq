@@ -5,6 +5,10 @@ import { preventScrollToFragment } from '~/lib/utils/scroll_utils';
 import setWindowLocation from 'helpers/set_window_location_helper';
 
 jest.mock('~/lib/utils/scroll_utils');
+jest.mock('~/rapid_diffs/utils/scroll_to_linked_fragment', () => ({
+  hasScrolled: jest.fn(() => false),
+  markAsScrolled: jest.fn(),
+}));
 
 describe('lineLinkAdapter', () => {
   const getComponent = () => document.querySelector('diff-file');

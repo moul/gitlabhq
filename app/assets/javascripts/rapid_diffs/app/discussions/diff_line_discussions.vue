@@ -1,13 +1,10 @@
 <script>
 import { GlButton } from '@gitlab/ui';
 import { isLoggedIn } from '~/lib/utils/common_utils';
+import { hasScrolled, markAsScrolled } from '~/rapid_diffs/utils/scroll_to_linked_fragment';
 import NoteSignedOutWidget from '~/rapid_diffs/app/discussions/note_signed_out_widget.vue';
 import NewLineDiscussionForm from './new_line_discussion_form.vue';
 import DiffDiscussions from './diff_discussions.vue';
-
-// we only need to scroll to the note once, this value would be shared across all instances of the component
-// we don't need it to be reactive so we can just use the module closure to store it
-let scrolledToNote = false;
 
 export default {
   name: 'DiffLineDiscussions',
@@ -18,9 +15,9 @@ export default {
     DiffDiscussions,
   },
   inject: {
-    userPermissions: {
-      type: Object,
-    },
+    userPermissions: { type: Object },
+    filePaths: { default: null },
+    linkedFileData: { default: null },
   },
   props: {
     discussions: {
@@ -44,12 +41,21 @@ export default {
   },
   methods: {
     scrollToNoteFragment() {
-      if (!window.location.hash.startsWith('#note_') || scrolledToNote) return;
-      const target = document.querySelector(`a[href="${window.location.hash}"]`);
+      if (hasScrolled() || !window.location.hash.startsWith('#note_')) return;
+      if (this.linkedFileData) {
+        if (!this.filePaths) return;
+        if (
+          this.linkedFileData.old_path !== this.filePaths.oldPath ||
+          this.linkedFileData.new_path !== this.filePaths.newPath
+        )
+          return;
+      }
+      const noteId = window.location.hash.substring(1);
+      const target = document.querySelector(`a[href$="#${noteId}"]`);
       if (!target) return;
       // :target pseudo class applies to the note only if we click the link since the note is rendered client-side
       target.click();
-      scrolledToNote = true;
+      markAsScrolled();
     },
     lineRange(discussion) {
       const { position } = discussion;

@@ -41,7 +41,9 @@ For additional practical examples, see the [GitLab Duo use cases](../gitlab_duo/
 
 ## Use of credits with Chat features
 
-The following Chat features have an agentic version which consumes credits, and a non-agentic version that does not consume credits:
+The following Chat features have an agentic version which consumes
+[GitLab Credits](../../subscriptions/gitlab_credits.md), and a non-agentic version
+that does not consume GitLab Credits:
 
 - Explain selected code.
 - Troubleshoot failed CI/CD jobs with Root Cause Analysis.

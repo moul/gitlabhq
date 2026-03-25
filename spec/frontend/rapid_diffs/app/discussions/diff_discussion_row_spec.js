@@ -38,14 +38,12 @@ describe('DiffDiscussionRow', () => {
   const createComponent = (props = {}) => {
     wrapper = shallowMount(DiffDiscussionRow, {
       propsData: {
-        oldPath,
-        newPath,
         oldLine: 5,
         newLine: null,
         parallel: false,
         ...props,
       },
-      provide: { store },
+      provide: { store, filePaths: { oldPath, newPath } },
     });
   };
 

@@ -30,13 +30,13 @@ function mountDiscussionRow({ lineRow, parallel, appData, store, trigger, id }) 
           reportAbuse: appData.reportAbusePath,
         },
         noteableType: appData.noteableType,
+        filePaths: { oldPath: appData.oldPath, newPath: appData.newPath },
+        linkedFileData: appData.linkedFileData,
       };
     },
     render(h) {
       return h(DiffDiscussionRow, {
         props: {
-          oldPath: appData.oldPath,
-          newPath: appData.newPath,
           oldLine: rowOldLine,
           newLine: rowNewLine,
           parallel,
@@ -81,7 +81,7 @@ export const createLineDiscussionsAdapter = ({ store, parallel, errorMessage }) 
     const { diffElement, appData, trigger, id } = this;
     const { oldPath, newPath } = this.data;
     const stopWatcher = watch(
-      () => store.findAllDiscussionsForFile({ oldPath, newPath }),
+      () => store.findAllLineDiscussionsForFile({ oldPath, newPath }),
       (matchedDiscussions) => {
         matchedDiscussions.forEach(({ position }) => {
           try {
