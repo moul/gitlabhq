@@ -1406,9 +1406,9 @@ describe('URL utility', () => {
       ${undefined}          | ${targetProj}         | ${mrIid}     | ${projectIDEPath}
       ${sourceProj}         | ${undefined}          | ${undefined} | ${projectIDEPath}
       ${sourceProj}         | ${targetProj}         | ${undefined} | ${projectIDEPath}
-      ${sourceProj}         | ${undefined}          | ${mrIid}     | ${`/-/ide/project/${sourceProj}/merge_requests/${mrIid}?target_project=`}
-      ${sourceProj}         | ${sourceProj}         | ${mrIid}     | ${`/-/ide/project/${sourceProj}/merge_requests/${mrIid}?target_project=`}
-      ${sourceProj}         | ${targetProj}         | ${mrIid}     | ${`/-/ide/project/${sourceProj}/merge_requests/${mrIid}?target_project=${encodeURIComponent(targetProj)}`}
+      ${sourceProj}         | ${undefined}          | ${mrIid}     | ${`/-/ide/project/${sourceProj}?merge_request_id=${mrIid}&target_project=`}
+      ${sourceProj}         | ${sourceProj}         | ${mrIid}     | ${`/-/ide/project/${sourceProj}?merge_request_id=${mrIid}&target_project=`}
+      ${sourceProj}         | ${targetProj}         | ${mrIid}     | ${`/-/ide/project/${sourceProj}?merge_request_id=${mrIid}&target_project=${encodeURIComponent(targetProj)}`}
     `(
       'returns $expectedPath for "$sourceProjectFullPath + $targetProjectFullPath + $iid"',
       ({ expectedPath, ...args } = {}) => {

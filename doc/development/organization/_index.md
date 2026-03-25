@@ -31,12 +31,24 @@ The application maps incoming requests to an organization through `Current.organ
 
 ### Where `Current.organization` is available
 
-`Current.organization` is available in:
+`Current.organization` is available in the following contexts. Some are set up automatically, while others require you to call `set_current_organization` explicitly.
 
-- Controllers
-- GraphQL
-- Grape API endpoints (use the `set_current_organization` helper)
-- Sidekiq (it's set in the context that enqueues the jobs)
+Set automatically (platform-wide):
+
+- Controllers — `ApplicationController` includes a `before_action :set_current_organization` that runs for every request.
+- GraphQL — `GraphqlController` inherits from `ApplicationController`, so the same `before_action` applies automatically.
+- Sidekiq — set from the organization context captured when the job is enqueued.
+
+Requires developer setup:
+
+- Grape API endpoints — `Current.organization` is not set automatically. Call the `set_current_organization` helper in a `before` block for each API class that needs it:
+
+  ```ruby
+  before do
+    authenticate_non_get!
+    set_current_organization
+  end
+  ```
 
 ### Passing organization context
 

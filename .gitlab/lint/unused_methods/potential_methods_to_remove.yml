@@ -20,10 +20,8 @@ ee/app/models/cloud_connector/keys.rb:
 ee/app/models/concerns/ee/issuable_link.rb:
 - blocked_issuables_for_collection
 ee/app/models/concerns/geo/blob_replicator_strategy.rb:
-- consume_event_created
 - consume_event_deleted
 ee/app/models/concerns/geo/repository_replicator_strategy.rb:
-- consume_event_created
 - consume_event_deleted
 ee/app/models/concerns/geo/verifiable_replicator.rb:
 - consume_event_checksum_succeeded

@@ -737,9 +737,10 @@ export function constructWebIDEPath({
   }
   return mergeUrlParams(
     {
+      merge_request_id: iid,
       target_project: sourceProjectFullPath !== targetProjectFullPath ? targetProjectFullPath : '',
     },
-    webIDEUrl(`/${sourceProjectFullPath}/merge_requests/${iid}`),
+    webIDEUrl(`/${sourceProjectFullPath}`),
   );
 }
 

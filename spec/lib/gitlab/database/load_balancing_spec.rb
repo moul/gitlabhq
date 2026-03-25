@@ -489,7 +489,7 @@ RSpec.describe Gitlab::Database::LoadBalancing, :suppress_gitlab_schemas_validat
           end
         end
 
-        self.instance_exec(&queries)
+        instance_exec(&queries)
 
         expect(roles).to eql(expected_results)
       ensure
@@ -553,7 +553,7 @@ RSpec.describe Gitlab::Database::LoadBalancing, :suppress_gitlab_schemas_validat
             roles << role if role.present?
           end
 
-          self.instance_exec(&queries)
+          instance_exec(&queries)
 
           expect(roles).to all(eql(expected_role))
         ensure

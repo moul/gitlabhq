@@ -77504,9 +77504,6 @@ msgstr ""
 msgid "VulnerabilityManagement|Add vulnerability finding"
 msgstr ""
 
-msgid "VulnerabilityManagement|Agent session started to resolve vulnerability."
-msgstr ""
-
 msgid "VulnerabilityManagement|An unverified non-confirmed finding"
 msgstr ""
 
@@ -77667,6 +77664,9 @@ msgid "VulnerabilityManagement|Vulnerability set to %{severity} severity"
 msgstr ""
 
 msgid "VulnerabilityManagement|Will not fix or a false-positive"
+msgstr ""
+
+msgid "VulnerabilityManagement|You can track the progress in the AI session via Automate → Sessions."
 msgstr ""
 
 msgid "VulnerabilityManagement|invalid issue link or ID"

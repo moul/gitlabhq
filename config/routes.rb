@@ -186,6 +186,9 @@ InitializerConnections.warn_if_database_connection do
           get '/oauth_redirect', to: 'ide#oauth_redirect'
 
           scope path: 'project/:project_id', as: :project, constraints: { project_id: Gitlab::PathRegex.full_namespace_route_regex } do
+            # Format: /-/ide/project/:project_id/-/*path
+            get '/-/*path', to: 'ide#index'
+
             %w[edit tree blob].each do |action|
               get "/#{action}", to: 'ide#index'
               get "/#{action}/*branch/-/*path", to: 'ide#index'
