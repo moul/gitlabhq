@@ -148,7 +148,7 @@ For more information, see the [Okta configuration example](example_saml_config.m
 
 ### OneLogin
 
-OneLogin supports its own [GitLab (SaaS) application](https://onelogin.service-now.com/support?id=kb_article&sys_id=08e6b9d9879a6990c44486e5cebb3556&kb_category=50984e84db738300d5505eea4b961913).
+OneLogin supports its own [GitLab.com application](https://onelogin.service-now.com/support?id=kb_article&sys_id=08e6b9d9879a6990c44486e5cebb3556&kb_category=50984e84db738300d5505eea4b961913).
 
 To set up OneLogin as your identity provider:
 
@@ -784,7 +784,7 @@ For example:
 - [SAML SSO for GitLab Self-Managed](../../../integration/saml.md)
 - [Glossary](../../../integration/saml.md#glossary)
 - [Blog post: The ultimate guide to enabling SAML and SSO on GitLab.com](https://about.gitlab.com/blog/the-ultimate-guide-to-enabling-saml/)
-- [Authentication comparison between SaaS and GitLab Self-Managed](../../../administration/auth/_index.md#gitlabcom-compared-to-gitlab-self-managed)
+- [Authentication comparison between GitLab.com and GitLab Self-Managed](../../../administration/auth/_index.md#gitlabcom-compared-to-gitlab-self-managed)
 - [Passwords for users created through integrated authentication](../../../security/passwords_for_integrated_authentication_methods.md)
 - [SAML Group Sync](group_sync.md)
 

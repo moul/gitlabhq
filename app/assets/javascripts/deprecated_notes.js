@@ -123,6 +123,11 @@ export default class Notes {
     if ($anchor) {
       this.loadLazyDiff({ currentTarget: $anchor });
     }
+
+    const notesList = document.getElementById('notes-list');
+    if (notesList) {
+      renderGFM(notesList);
+    }
   }
 
   setViewType(view) {
@@ -394,7 +399,7 @@ export default class Notes {
 
   setupNewNote($note) {
     // Update datetime format on the recent note
-    localTimeAgo($note[0].querySelectorAll('.js-timeago'), false);
+    localTimeAgo($note.find('.js-timeago').get(), false);
 
     this.taskList.init();
 
@@ -759,11 +764,11 @@ export default class Notes {
 
     $noteAvatar.append($targetNoteBadge);
     this.revertNoteEditForm($targetNote);
-    renderGFM(Notes.getNodeToRender($noteEntityEl));
     // Find the note's `li` element by ID and replace it with the updated HTML
     const $note_li = $(`.note-row-${noteEntity.id}`);
 
     $note_li.replaceWith($noteEntityEl);
+    renderGFM(Notes.getNodeToRender($noteEntityEl));
     this.setupNewNote($noteEntityEl);
   }
 
@@ -1439,12 +1444,12 @@ export default class Notes {
     const $note = $(noteHtml);
 
     $note.addClass('fade-in-full');
-    renderGFM(Notes.getNodeToRender($note));
     if ($notesList.find('.discussion-reply-holder').length) {
       $notesList.children('.timeline-entry').last().after($note);
     } else {
       $notesList.append($note);
     }
+    renderGFM(Notes.getNodeToRender($note));
     return $note;
   }
 
@@ -1452,8 +1457,8 @@ export default class Notes {
     const $updatedNote = $(noteHtml);
 
     $updatedNote.addClass('fade-in');
-    renderGFM(Notes.getNodeToRender($updatedNote));
     $note.replaceWith($updatedNote);
+    renderGFM(Notes.getNodeToRender($updatedNote));
     return $updatedNote;
   }
 

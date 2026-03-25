@@ -314,13 +314,21 @@ The custom email address you want to use must meet all of the following requirem
 
 Configure and verify a custom email address when you want to send Service Desk emails using your own email address.
 
+> [!warning]
+> When you set up email forwarding, use the address in the
+> **Service Desk email address to forward emails to** field in the custom email form
+> (the `incoming+...` address). Do not forward to the alias address (`contact-project+...`)
+> at the top of the Service Desk settings page. Forwarding to the alias
+> address causes `Incorrect forwarding target` verification failures.
+
 1. In the top bar, select **Search or go to** and find your project.
 1. Select **Settings** > **General**.
 1. Expand **Service Desk** and find the **Configure a custom email address** section.
-1. Note the presented Service Desk address of this project, and with your email provider
-   (for example, Gmail), set up email forwarding from the custom email address to the
-   Service Desk address.
-1. Back in GitLab, complete the fields.
+1. Copy the email address from the **Service Desk email address to forward emails to** field.
+   This is the `incoming+...` address that you must use as the forwarding target.
+1. In your email provider (for example, Gmail or Microsoft 365), set up email forwarding
+   from your custom email address to the address you copied in the previous step.
+1. Back in GitLab, complete the remaining fields.
 1. Select **Save & test connection**.
 
 The configuration has been saved and the verification of the custom email address is triggered.

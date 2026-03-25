@@ -333,7 +333,7 @@ A PDF of the wiki page is created.
 
 With the diagrams.net integration, you can create and embed SVG diagrams on wiki pages! The diagram editor is available in both the plain text editor and the rich text editor.
 
-On GitLab.com, this integration is enabled for all SaaS users and does not require any additional configuration.
+On GitLab.com, this integration is enabled for all users and does not require any additional configuration.
 
 On GitLab Self-Managed, you can integrate with the free diagrams.net website or host your own diagrams.net site in offline environments.
 
