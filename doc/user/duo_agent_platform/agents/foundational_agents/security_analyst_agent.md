@@ -38,6 +38,10 @@ The Security Analyst Agent understands GitLab-specific security implementations,
 vulnerability states, severity levels, and security scanner outputs. It can interpret EPSS scores,
 CVE data, and reachability analysis to provide contextual security guidance.
 
+<i class="fa-youtube-play" aria-hidden="true"></i>
+For an overview, see [How to Use the GitLab Security Analyst Agent for AI-Powered Triage](https://www.youtube.com/watch?v=XqVmrsa9BnM).
+<!-- Video published on 2026-02-25 -->
+
 ## Use the Security Analyst Agent
 
 You can use the Security Analyst Agent in the GitLab UI, VS Code, and JetBrains IDEs.

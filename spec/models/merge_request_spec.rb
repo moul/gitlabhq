@@ -996,6 +996,112 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
         end
       end
     end
+
+    describe '#validate_branch_existence' do
+      let_it_be(:project) { create(:project, :repository) }
+
+      context 'when validate_merge_request_branch_existence feature flag is enabled' do
+        before do
+          stub_feature_flags(validate_merge_request_branch_existence: project)
+        end
+
+        context 'when source branch does not exist' do
+          it 'is invalid on create' do
+            mr = build(:merge_request, source_project: project, target_project: project,
+              source_branch: 'nonexistent-source', target_branch: 'master',
+              skip_branch_existence_check: false)
+
+            expect(mr).not_to be_valid
+            expect(mr.errors[:source_branch]).to include('does not exist')
+          end
+        end
+
+        context 'when target branch does not exist' do
+          it 'is invalid on create' do
+            mr = build(:merge_request, source_project: project, target_project: project,
+              source_branch: 'master', target_branch: 'nonexistent-target',
+              skip_branch_existence_check: false)
+
+            expect(mr).not_to be_valid
+            expect(mr.errors[:target_branch]).to include('does not exist')
+          end
+        end
+
+        context 'when both branches exist' do
+          it 'is valid' do
+            mr = build(:merge_request, source_project: project, target_project: project,
+              source_branch: 'master', target_branch: 'feature',
+              skip_branch_existence_check: false)
+
+            expect(mr).to be_valid
+          end
+        end
+
+        context 'when both branches do not exist' do
+          it 'reports errors for both branches' do
+            mr = build(:merge_request, source_project: project, target_project: project,
+              source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
+              skip_branch_existence_check: false)
+
+            expect(mr).not_to be_valid
+            expect(mr.errors[:source_branch]).to include('does not exist')
+            expect(mr.errors[:target_branch]).to include('does not exist')
+          end
+        end
+
+        context 'when allow_broken is true' do
+          it 'skips the validation' do
+            mr = build(:merge_request, source_project: project, target_project: project,
+              source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
+              allow_broken: true, skip_branch_existence_check: false)
+
+            mr.valid?
+            expect(mr.errors[:source_branch]).not_to include('does not exist')
+            expect(mr.errors[:target_branch]).not_to include('does not exist')
+          end
+        end
+
+        context 'when skip_branch_existence_check is true' do
+          it 'skips the validation' do
+            mr = build(:merge_request, source_project: project, target_project: project,
+              source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
+              skip_branch_existence_check: true)
+
+            mr.valid?
+            expect(mr.errors[:source_branch]).not_to include('does not exist')
+            expect(mr.errors[:target_branch]).not_to include('does not exist')
+          end
+        end
+
+        context 'when importing' do
+          it 'skips the validation' do
+            mr = build(:merge_request, source_project: project, target_project: project,
+              source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
+              skip_branch_existence_check: false, importing: true)
+
+            mr.valid?
+            expect(mr.errors[:source_branch]).not_to include('does not exist')
+            expect(mr.errors[:target_branch]).not_to include('does not exist')
+          end
+        end
+      end
+
+      context 'when validate_merge_request_branch_existence feature flag is disabled' do
+        before do
+          stub_feature_flags(validate_merge_request_branch_existence: false)
+        end
+
+        it 'skips the validation' do
+          mr = build(:merge_request, source_project: project, target_project: project,
+            source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
+            skip_branch_existence_check: false)
+
+          mr.valid?
+          expect(mr.errors[:source_branch]).not_to include('does not exist')
+          expect(mr.errors[:target_branch]).not_to include('does not exist')
+        end
+      end
+    end
   end
 
   describe 'callbacks' do

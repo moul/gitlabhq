@@ -99,7 +99,7 @@ describe('ImageDiffViewerWithDiscussions', () => {
     useDiffDiscussions();
     store = {
       createNewDiscussion: jest.fn().mockResolvedValue(),
-      getImageDiscussions: jest.fn().mockReturnValue([]),
+      findAllImageDiscussionsForFile: jest.fn().mockReturnValue([]),
     };
   });
 
@@ -111,7 +111,7 @@ describe('ImageDiffViewerWithDiscussions', () => {
 
     it('passes props overlay', () => {
       const discussions = [createImageDiscussion('1', 'old.png', 'new.png')];
-      store.getImageDiscussions.mockReturnValue(discussions);
+      store.findAllImageDiscussionsForFile.mockReturnValue(discussions);
       createComponent();
 
       const overlay = findOverlay();
@@ -137,7 +137,7 @@ describe('ImageDiffViewerWithDiscussions', () => {
         createImageDiscussion('1', 'old.png', 'new.png'),
         createImageDiscussion('2', 'old.png', 'new.png'),
       ];
-      store.getImageDiscussions.mockReturnValue(discussions);
+      store.findAllImageDiscussionsForFile.mockReturnValue(discussions);
       createComponent();
 
       expect(findDiffDiscussions().props('discussions')).toHaveLength(2);
@@ -146,7 +146,7 @@ describe('ImageDiffViewerWithDiscussions', () => {
 
     it('filters discussions by path', () => {
       const discussions = [createImageDiscussion('2', 'old.png', 'new.png')];
-      store.getImageDiscussions.mockReturnValue(discussions);
+      store.findAllImageDiscussionsForFile.mockReturnValue(discussions);
       createComponent();
 
       expect(findDiffDiscussions().props('discussions')).toHaveLength(1);

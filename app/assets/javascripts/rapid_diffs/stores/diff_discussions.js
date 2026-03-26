@@ -2,6 +2,13 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { useDiscussions } from '~/notes/store/discussions';
+import {
+  isFileDiscussion,
+  isImageDiscussion,
+  isLineDiscussion,
+  positionMatchesFilePath,
+  positionMatchesLine,
+} from '~/rapid_diffs/utils/discussion_position';
 
 export const useDiffDiscussions = defineStore('diffDiscussions', () => {
   const discussions = useDiscussions();
@@ -11,54 +18,27 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     return [...discussions.discussions, ...discussionForms.value];
   });
 
-  const getImageDiscussions = computed(() => {
-    return (oldPath, newPath) =>
-      discussionsWithForms.value.filter((discussion) => {
-        const position = discussion.notes[0].position || {};
-        return (
-          position.position_type === 'image' &&
-          position.old_path === oldPath &&
-          position.new_path === newPath
-        );
-      });
-  });
-
   const findDiscussionsForPosition = computed(() => {
-    return ({ oldPath, newPath, oldLine, newLine }) => {
-      return discussionsWithForms.value.filter((discussion) => {
-        return (
-          discussion.diff_discussion &&
-          discussion.position.old_path === oldPath &&
-          discussion.position.new_path === newPath &&
-          discussion.position.old_line === oldLine &&
-          discussion.position.new_line === newLine
-        );
+    const items = discussionsWithForms.value;
+    return (linePos) => {
+      return items.filter((discussion) => {
+        return discussion.diff_discussion && positionMatchesLine(discussion.position, linePos);
       });
     };
   });
-
-  const isFileDiscussion = (discussion) =>
-    discussion.position?.position_type === 'file' ||
-    (discussion.isForm &&
-      discussion.position?.old_line === null &&
-      discussion.position?.new_line === null);
 
   const findAllDiscussionsForFile = computed(() => {
+    const items = discussionsWithForms.value;
     return ({ oldPath, newPath }) => {
-      return discussionsWithForms.value.filter((discussion) => {
+      return items.filter((discussion) => {
         return (
           discussion.diff_discussion &&
-          discussion.position?.old_path === oldPath &&
-          discussion.position?.new_path === newPath
+          discussion.position &&
+          positionMatchesFilePath(discussion.position, { oldPath, newPath })
         );
       });
     };
   });
-
-  const isLineDiscussion = (discussion) =>
-    discussion.position?.position_type === 'text' ||
-    (discussion.isForm &&
-      (discussion.position?.old_line !== null || discussion.position?.new_line !== null));
 
   const findAllLineDiscussionsForFile = computed(() => {
     return ({ oldPath, newPath }) => {
@@ -70,6 +50,16 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     return ({ oldPath, newPath }) => {
       return findAllDiscussionsForFile.value({ oldPath, newPath }).filter(isFileDiscussion);
     };
+  });
+
+  const findAllImageDiscussionsForFile = computed(() => {
+    const items = discussionsWithForms.value;
+    return (oldPath, newPath) =>
+      items.filter(
+        (discussion) =>
+          isImageDiscussion(discussion) &&
+          positionMatchesFilePath(discussion.position, { oldPath, newPath }),
+      );
   });
 
   const findDiscussionsForFile = computed(() => {
@@ -84,42 +74,51 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     discussions.discussions.forEach((discussion) => {
       if (
         discussion.diff_discussion &&
-        discussion.position?.old_path === oldPath &&
-        discussion.position?.new_path === newPath
+        discussion.position &&
+        positionMatchesFilePath(discussion.position, { oldPath, newPath })
       ) {
         discussion.hidden = newState;
       }
     });
   }
 
-  function setPositionDiscussionsHidden({ oldPath, newPath, oldLine, newLine }, newState) {
+  function setPositionDiscussionsHidden(linePos, newState) {
     discussions.discussions.forEach((discussion) => {
       if (
         discussion.diff_discussion &&
-        discussion.position?.old_path === oldPath &&
-        discussion.position?.new_path === newPath &&
-        discussion.position?.old_line === oldLine &&
-        discussion.position?.new_line === newLine
+        discussion.position &&
+        positionMatchesLine(discussion.position, linePos)
       ) {
         discussion.hidden = newState;
       }
     });
   }
 
-  function addNewLineDiscussionForm({ oldPath, newPath, lineRange, lineChange, lineCode }) {
+  function addNewLineDiscussionForm({
+    oldPath,
+    newPath,
+    lineRange,
+    lineChange,
+    lineCode,
+    positionExtras,
+  }) {
     const { old_line: oldLine, new_line: newLine } = lineRange.end;
     const id = [oldPath, newPath, oldLine, newLine].join('-');
     if (discussionForms.value.some((discussion) => discussion.id === id)) return id;
+    const position = {
+      old_path: oldPath,
+      new_path: newPath,
+      old_line: oldLine,
+      new_line: newLine,
+      position_type: 'text',
+      line_range: lineRange,
+      ...positionExtras,
+    };
     discussionForms.value.push({
       id,
       diff_discussion: true,
-      position: {
-        old_path: oldPath,
-        new_path: newPath,
-        old_line: oldLine,
-        new_line: newLine,
-        line_range: lineRange,
-      },
+      position,
+      original_position: position,
       lineChange,
       lineCode,
       isForm: true,
@@ -151,8 +150,8 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     discussions.discussions.forEach((discussion) => {
       if (
         discussion.diff_discussion &&
-        discussion.position?.old_path === oldPath &&
-        discussion.position?.new_path === newPath &&
+        discussion.position &&
+        positionMatchesFilePath(discussion.position, { oldPath, newPath }) &&
         isFileDiscussion(discussion)
       ) {
         discussion.hidden = false;
@@ -160,19 +159,22 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     });
   }
 
-  function addNewFileDiscussionForm({ oldPath, newPath }) {
+  function addNewFileDiscussionForm({ oldPath, newPath, positionExtras }) {
     const id = [oldPath, newPath, 'file'].join('-');
     if (discussionForms.value.some((discussion) => discussion.id === id)) return id;
+    const position = {
+      position_type: 'file',
+      old_path: oldPath,
+      new_path: newPath,
+      old_line: null,
+      new_line: null,
+      ...positionExtras,
+    };
     discussionForms.value.push({
       id,
       diff_discussion: true,
-      position: {
-        position_type: 'file',
-        old_path: oldPath,
-        new_path: newPath,
-        old_line: null,
-        new_line: null,
-      },
+      position,
+      original_position: position,
       isForm: true,
       noteBody: '',
       shouldFocus: true,
@@ -187,10 +189,12 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
   return {
     discussionForms,
     discussionsWithForms,
-    getImageDiscussions,
     findDiscussionsForPosition,
     findDiscussionsForFile,
     findAllDiscussionsForFile,
+    findAllLineDiscussionsForFile,
+    findAllFileDiscussionsForFile,
+    findAllImageDiscussionsForFile,
     collapseDiscussion: discussions.collapseDiscussion,
     expandDiscussion: discussions.expandDiscussion,
     addNewLineDiscussionForm,
@@ -201,8 +205,6 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     addNewFileDiscussionForm,
     removeNewFileDiscussionForm,
     expandFileDiscussions,
-    findAllLineDiscussionsForFile,
-    findAllFileDiscussionsForFile,
     setFileDiscussionsHidden,
     setPositionDiscussionsHidden,
     setInitialDiscussions: discussions.setInitialDiscussions,

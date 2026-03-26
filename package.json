@@ -21,6 +21,7 @@
     "jest:scripts": "jest --config jest.config.scripts.js",
     "vitest:eslint": "vitest --config vitest.eslint.config.mjs",
     "vitest:infection-scanner": "vitest --config vitest.infection_scanner.config.mjs",
+    "infection-scanner": "node scripts/frontend/infection_scanner/infection_scanner.mjs",
     "infection-scanner-ui": "node scripts/frontend/infection_scanner/infection_scanner.mjs web",
     "jest:quarantine": "grep -r 'quarantine:' spec/frontend ee/spec/frontend",
     "jest:snapshots": "jest --config jest.config.snapshots.js",
@@ -52,7 +53,7 @@
     "webpack": "scripts/build_frontend_islands && NODE_OPTIONS=\"${NODE_OPTIONS:=--max-old-space-size=10240}\" webpack --config config/webpack.config.js",
     "webpack-vendor": "NODE_OPTIONS=\"${NODE_OPTIONS:=--max-old-space-size=10240}\" webpack --config config/webpack.vendor.config.js",
     "webpack-prod": "scripts/build_frontend_islands && NODE_OPTIONS=\"${NODE_OPTIONS:=--max-old-space-size=10240}\" NODE_ENV=production webpack --config config/webpack.config.js",
-    "vite-prod": "scripts/build_frontend_islands && yarn run tailwindcss:build && yarn run tailwindcss:cqs:build && NODE_ENV=production vite build"
+    "vite-prod": "yarn run infection-scanner && scripts/build_frontend_islands && yarn run tailwindcss:build && yarn run tailwindcss:cqs:build && NODE_ENV=production vite build"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",

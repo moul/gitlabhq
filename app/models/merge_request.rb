@@ -182,7 +182,7 @@ class MergeRequest < ApplicationRecord
 
   # When this attribute is true some MR validation is ignored
   # It allows us to close or modify broken merge requests
-  attr_accessor :allow_broken
+  attr_accessor :allow_broken, :skip_branch_existence_check
 
   # Temporary flag to skip merge_request_diff creation on create.
   # See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/100390
@@ -402,6 +402,12 @@ class MergeRequest < ApplicationRecord
     :closed_or_merged_without_fork?
   ]
   validate :validate_fork, unless: :closed_or_merged_without_fork?
+  validate :validate_branch_existence, on: :create, unless: [
+    :allow_broken,
+    :skip_branch_existence_check,
+    :importing_or_transitioning?,
+    :closed_or_merged_without_fork?
+  ]
   validate :validate_target_project, on: :create, unless: :importing_or_transitioning?
   validate :validate_reviewer_size_length, unless: :importing_or_transitioning?
 
@@ -1391,6 +1397,19 @@ class MergeRequest < ApplicationRecord
     return unless branch
 
     errors.add(attr) unless Gitlab::GitRefValidator.validate_merge_request_branch(branch)
+  end
+
+  def validate_branch_existence
+    return unless source_project && target_project
+    return unless Feature.enabled?(:validate_merge_request_branch_existence, source_project)
+
+    if source_branch.present? && !source_branch_exists?
+      errors.add(:source_branch, _('does not exist'))
+    end
+
+    if target_branch.present? && !target_branch_exists?
+      errors.add(:target_branch, _('does not exist'))
+    end
   end
 
   def validate_target_project

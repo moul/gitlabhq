@@ -5,10 +5,7 @@ export function getLineNumbers(row) {
   ].map((cell) => (cell ? Number(cell.dataset.lineNumber) : null));
 }
 
-export function getLineChange(element, position) {
-  const cell = position
-    ? element.querySelector(`[data-position="${position}"][data-change]`)
-    : element.closest('[data-position]');
+export function getLineChange(cell) {
   return { change: cell.dataset.change, position: cell.dataset.position };
 }
 

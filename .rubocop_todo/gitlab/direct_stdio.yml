@@ -1,6 +1,5 @@
 ---
 Gitlab/DirectStdio:
-  Details: grace period
   Exclude:
     - 'ee/bin/custom-ability'
     - 'ee/lib/geo/system_check/authorized_keys_check.rb'

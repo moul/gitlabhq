@@ -606,7 +606,7 @@ RSpec.describe Gitlab::Repositories::RebuildableSetCache, :clean_gitlab_redis_re
   describe '#fetch' do
     let(:block_value) { %w[main develop] }
 
-    context 'when cache exists' do
+    context 'when cache exists and is trusted' do
       before do
         cache.write(:branch_names, %w[cached_branch])
       end
@@ -619,12 +619,58 @@ RSpec.describe Gitlab::Repositories::RebuildableSetCache, :clean_gitlab_redis_re
       it 'logs the cache hit' do
         expect(Gitlab::AppLogger).to receive(:info).with(
           hash_including(
-            message: 'RebuildableSetCache',
             event: :cache_hit,
-            cache_key: :branch_names,
-            count: 1
+            cache_key: :branch_names
           )
         )
+
+        cache.fetch(:branch_names) { block_value }
+      end
+
+      it 'returns cached data after incremental updates' do
+        cache.handle_ref_change(:branch_names, 'refs/heads/hotfix', false)
+
+        result = cache.fetch(:branch_names) { block_value }
+
+        expect(result).to contain_exactly('cached_branch', 'hotfix')
+      end
+    end
+
+    context 'when cache exists but is not trusted' do
+      before do
+        cache.write(:branch_names, %w[stale_branch])
+        # Manually mark as untrusted
+        Gitlab::Redis::RepositoryCache.with do |redis|
+          redis.del(cache.trust_key(:branch_names))
+        end
+      end
+
+      it 'calls the block and rebuilds the cache' do
+        result = cache.fetch(:branch_names) { block_value }
+
+        expect(result).to contain_exactly('main', 'develop')
+        expect(cache.read(:branch_names)).to contain_exactly('main', 'develop')
+      end
+
+      it 'marks cache as trusted after rebuild' do
+        expect(cache.trusted?(:branch_names)).to be false
+
+        cache.fetch(:branch_names) { block_value }
+
+        expect(cache.trusted?(:branch_names)).to be true
+      end
+
+      it 'logs cache miss with trust info' do
+        expect(Gitlab::AppLogger).to receive(:info).with(
+          hash_including(
+            event: :cache_miss,
+            cache_key: :branch_names,
+            exists: true,
+            trusted: false
+          )
+        ).ordered
+
+        allow(Gitlab::AppLogger).to receive(:info)
 
         cache.fetch(:branch_names) { block_value }
       end
@@ -638,41 +684,221 @@ RSpec.describe Gitlab::Repositories::RebuildableSetCache, :clean_gitlab_redis_re
         expect(cache.read(:branch_names)).to contain_exactly('main', 'develop')
       end
 
-      it 'logs the cache miss' do
+      it 'logs cache miss with exists info' do
         expect(Gitlab::AppLogger).to receive(:info).with(
           hash_including(
-            message: 'RebuildableSetCache',
             event: :cache_miss,
-            cache_key: :branch_names
+            cache_key: :branch_names,
+            exists: false,
+            trusted: false
           )
         ).ordered
 
-        # Allow other log calls from write
         allow(Gitlab::AppLogger).to receive(:info)
 
         cache.fetch(:branch_names) { block_value }
+      end
+
+      it 'sets cache expiry' do
+        cache.fetch(:branch_names) { block_value }
+
+        ttl = cache.ttl(:branch_names)
+        expect(ttl).to be > 0
+        expect(ttl).to be <= 2.weeks
+      end
+    end
+
+    context 'when block raises an error' do
+      it 'propagates the error' do
+        expect do
+          cache.fetch(:branch_names) { raise StandardError, 'Git fetch failed' }
+        end.to raise_error(StandardError, 'Git fetch failed')
+      end
+
+      it 'does not populate the cache' do
+        begin
+          cache.fetch(:branch_names) { raise StandardError }
+        rescue StandardError
+          # expected
+        end
+
+        expect(cache.exist?(:branch_names)).to be false
+      end
+
+      it 'does not mark cache as trusted' do
+        begin
+          cache.fetch(:branch_names) { raise StandardError }
+        rescue StandardError
+          # expected
+        end
+
+        expect(cache.trusted?(:branch_names)).to be false
+      end
+    end
+
+    context 'with pending events from previous failed rebuild' do
+      before do
+        Gitlab::Redis::RepositoryCache.with do |redis|
+          redis.lpush(cache.pending_key(:branch_names), ['+orphan-feature', '-main'])
+        end
+      end
+
+      it 'drains and applies pending events during rebuild' do
+        result = cache.fetch(:branch_names) { %w[main develop] }
+
+        expect(result).to contain_exactly('develop', 'orphan-feature')
+        expect(cache.read(:branch_names)).to contain_exactly('develop', 'orphan-feature')
+      end
+
+      it 'clears the pending queue' do
+        cache.fetch(:branch_names) { %w[main develop] }
+
+        pending_events = Gitlab::Redis::RepositoryCache.with do |redis|
+          redis.lrange(cache.pending_key(:branch_names), 0, -1)
+        end
+
+        expect(pending_events).to be_empty
       end
     end
   end
 
   describe '#search' do
-    before do
-      cache.write(:branch_names, %w[main feature/foo feature/bar develop])
+    context 'when cache exists and is trusted' do
+      before do
+        cache.write(:branch_names, %w[main feature/foo feature/bar develop])
+      end
+
+      it 'returns matching entries without calling the block' do
+        expect { |b| cache.search(:branch_names, 'feature/*', &b) }.not_to yield_control
+
+        results = cache.search(:branch_names, 'feature/*') { [] }.to_a
+        expect(results).to contain_exactly('feature/foo', 'feature/bar')
+      end
+
+      it 'returns matching entries for exact pattern' do
+        result = cache.search(:branch_names, 'main') { [] }
+
+        expect(result.to_a).to contain_exactly('main')
+      end
+
+      it 'returns matching entries for wildcard suffix pattern' do
+        result = cache.search(:branch_names, '*foo') { [] }
+
+        expect(result.to_a).to contain_exactly('feature/foo')
+      end
+
+      it 'returns empty enumerator when no matches' do
+        result = cache.search(:branch_names, 'nonexistent/*') { [] }
+
+        expect(result.to_a).to be_empty
+      end
+
+      it 'returns an Enumerator' do
+        result = cache.search(:branch_names, '*') { [] }
+
+        expect(result).to be_an(Enumerator)
+      end
+
+      it 'reflects incremental updates' do
+        cache.handle_ref_change(:branch_names, 'refs/heads/feature/new-feature', false)
+
+        result = cache.search(:branch_names, 'feature/*') { [] }
+
+        expect(result.to_a).to contain_exactly('feature/foo', 'feature/bar', 'feature/new-feature')
+      end
+
+      it 'reflects incremental deletions' do
+        cache.handle_ref_change(:branch_names, 'refs/heads/feature/foo', true)
+
+        result = cache.search(:branch_names, 'feature/*') { [] }
+
+        expect(result.to_a).to contain_exactly('feature/bar')
+      end
     end
 
-    it 'returns matching entries' do
-      results = cache.search(:branch_names, 'feature/*') { [] }.to_a
+    context 'when cache exists but is not trusted' do
+      before do
+        cache.write(:branch_names, %w[stale/branch])
+        Gitlab::Redis::RepositoryCache.with do |redis|
+          redis.del(cache.trust_key(:branch_names))
+        end
+      end
 
-      expect(results).to contain_exactly('feature/foo', 'feature/bar')
+      it 'rebuilds cache from block before searching' do
+        results = cache.search(:branch_names, 'feature/*') { %w[feature/new main] }.to_a
+
+        expect(results).to contain_exactly('feature/new')
+        expect(cache.read(:branch_names)).to contain_exactly('feature/new', 'main')
+      end
+
+      it 'marks cache as trusted after rebuild' do
+        expect(cache.trusted?(:branch_names)).to be false
+
+        cache.search(:branch_names, 'feature/*') { %w[feature/new] }.to_a
+
+        expect(cache.trusted?(:branch_names)).to be true
+      end
+
+      it 'does not return stale data' do
+        result = cache.search(:branch_names, 'stale/*') { %w[main develop] }
+
+        expect(result.to_a).to be_empty
+      end
     end
 
     context 'when cache does not exist' do
       it 'populates cache from block before searching' do
-        cache.expire(:branch_names)
-
         results = cache.search(:branch_names, 'feat*') { %w[feat-1 feat-2 other] }.to_a
 
         expect(results).to contain_exactly('feat-1', 'feat-2')
+      end
+    end
+
+    context 'with special characters in pattern' do
+      before do
+        cache.write(:branch_names, %w[release-1.0 release-1.1 release-2.0 test-release])
+      end
+
+      it 'handles dot character in pattern' do
+        result = cache.search(:branch_names, 'release-1.*') { [] }
+
+        expect(result.to_a).to contain_exactly('release-1.0', 'release-1.1')
+      end
+
+      it 'handles question mark single character wildcard' do
+        result = cache.search(:branch_names, 'release-?.0') { [] }
+
+        expect(result.to_a).to contain_exactly('release-1.0', 'release-2.0')
+      end
+
+      it 'handles bracket character class' do
+        result = cache.search(:branch_names, 'release-[12].0') { [] }
+
+        expect(result.to_a).to contain_exactly('release-1.0', 'release-2.0')
+      end
+    end
+
+    context 'when iterating lazily' do
+      before do
+        branches = Array.new(100) { |i| "branch-#{i.to_s.rjust(3, '0')}" }
+        cache.write(:branch_names, branches)
+      end
+
+      it 'supports lazy enumeration' do
+        result = cache.search(:branch_names, 'branch-0*') { [] }
+
+        first_five = result.take(5)
+
+        expect(first_five.size).to eq(5)
+        expect(first_five).to all(start_with('branch-0'))
+      end
+
+      it 'supports chaining with other Enumerable methods' do
+        result = cache.search(:branch_names, 'branch-*') { [] }
+
+        count = result.count { |b| b.end_with?('0') }
+
+        expect(count).to eq(10)
       end
     end
   end

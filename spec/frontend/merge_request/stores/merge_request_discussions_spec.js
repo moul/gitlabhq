@@ -84,12 +84,12 @@ describe('mergeRequestDiscussions store', () => {
   it.each([
     'discussionForms',
     'discussionsWithForms',
-    'getImageDiscussions',
     'findDiscussionsForPosition',
     'findDiscussionsForFile',
     'findAllDiscussionsForFile',
     'findAllLineDiscussionsForFile',
     'findAllFileDiscussionsForFile',
+    'findAllImageDiscussionsForFile',
   ])('exposes %s getter', (getter) => {
     expect(store[getter]).toBeDefined();
   });
@@ -274,6 +274,155 @@ describe('mergeRequestDiscussions store', () => {
         isResolved: false,
         discussion: true,
         discussionId: 'discussion-1',
+      });
+    });
+  });
+
+  describe('version-aware discussion matching', () => {
+    const diffRefs = { base_sha: 'base000', head_sha: 'head222', start_sha: 'start111' };
+    const otherRefs = { base_sha: 'other', head_sha: 'other', start_sha: 'other' };
+    const filePaths = { oldPath: 'a.js', newPath: 'a.js' };
+    const makePos = (refs, line = 5) => ({
+      old_path: 'a.js',
+      new_path: 'a.js',
+      old_line: line,
+      new_line: line,
+      position_type: 'text',
+      ...refs,
+    });
+
+    function makeDiscussion(id, overrides = {}) {
+      return {
+        id,
+        diff_discussion: true,
+        position: makePos(diffRefs),
+        original_position: makePos(diffRefs),
+        notes: [],
+        ...overrides,
+      };
+    }
+
+    describe('findAllDiscussionsForFile', () => {
+      it.each([
+        ['includes', diffRefs, 1],
+        ['excludes', otherRefs, 0],
+      ])('%s discussions based on SHA match', (_, refs, expected) => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('d', { position: makePos(refs), original_position: makePos(refs) }),
+        ]);
+
+        expect(store.findAllDiscussionsForFile(filePaths)).toHaveLength(expected);
+      });
+
+      it('returns original reactive discussion objects', () => {
+        const discussion = makeDiscussion('swap', {
+          position: makePos(otherRefs, 99),
+          original_position: makePos(diffRefs),
+        });
+        useDiscussions().setInitialDiscussions([discussion]);
+
+        const [result] = store.findAllDiscussionsForFile(filePaths);
+        expect(result).toBe(useDiscussions().discussions[0]);
+      });
+
+      it('swaps position to applicable version in findAllLineDiscussionsForFile', () => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('swap', {
+            position: makePos(otherRefs, 99),
+            original_position: makePos(diffRefs),
+          }),
+        ]);
+
+        const [result] = store.findAllLineDiscussionsForFile(filePaths);
+        expect(result.position.old_line).toBe(5);
+        expect(result.position).toMatchObject(diffRefs);
+      });
+
+      it('includes forms', () => {
+        store.addNewLineDiscussionForm({
+          ...filePaths,
+          lineRange: { start: { old_line: 1, new_line: 1 }, end: { old_line: 1, new_line: 1 } },
+        });
+
+        const [result] = store.findAllDiscussionsForFile(filePaths);
+        expect(result.isForm).toBe(true);
+      });
+    });
+
+    describe('findDiscussionsForPosition', () => {
+      const linePos = { ...filePaths, oldLine: 5, newLine: 5 };
+
+      it.each([
+        ['position', { position: makePos(diffRefs) }],
+        [
+          'original_position',
+          { position: makePos(otherRefs, 99), original_position: makePos(diffRefs) },
+        ],
+        [
+          'positions array',
+          {
+            position: makePos(otherRefs, 99),
+            original_position: makePos(otherRefs, 99),
+            positions: [makePos(diffRefs)],
+          },
+        ],
+      ])('matches via %s', (_, overrides) => {
+        useDiscussions().setInitialDiscussions([makeDiscussion('d', overrides)]);
+
+        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(1);
+      });
+
+      it('excludes discussions with no matching position', () => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('miss', {
+            position: makePos(otherRefs),
+            original_position: makePos(otherRefs),
+          }),
+        ]);
+
+        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(0);
+      });
+
+      it('matches forms via the same SHA+line path as real discussions', () => {
+        store.addNewLineDiscussionForm({
+          ...filePaths,
+          lineRange: { start: { old_line: 5, new_line: 5 }, end: { old_line: 5, new_line: 5 } },
+        });
+
+        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(1);
+      });
+
+      it('excludes non-diff discussions', () => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('non-diff', { diff_discussion: false }),
+        ]);
+
+        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(0);
+      });
+    });
+
+    describe('findAllImageDiscussionsForFile', () => {
+      it.each([
+        ['returns', diffRefs, 1],
+        ['excludes', otherRefs, 0],
+      ])('%s image discussions with %s SHAs', (_, refs, expected) => {
+        useDiscussions().setInitialDiscussions([
+          {
+            id: 'img',
+            notes: [
+              { position: { position_type: 'image', old_path: 'a.js', new_path: 'a.js', ...refs } },
+            ],
+            position: { position_type: 'image', old_path: 'a.js', new_path: 'a.js', ...refs },
+            original_position: {
+              position_type: 'image',
+              old_path: 'a.js',
+              new_path: 'a.js',
+              ...refs,
+            },
+          },
+        ]);
+
+        expect(store.findAllImageDiscussionsForFile('a.js', 'a.js')).toHaveLength(expected);
       });
     });
   });

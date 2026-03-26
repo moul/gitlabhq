@@ -105,11 +105,11 @@ export const useCommitDiffDiscussions = defineStore('commitDiffDiscussions', () 
     setFileDiscussionsHidden: diffDiscussions.setFileDiscussionsHidden,
     setPositionDiscussionsHidden: diffDiscussions.setPositionDiscussionsHidden,
     discussionsWithForms: computed(() => diffDiscussions.discussionsWithForms),
-    getImageDiscussions: computed(() => diffDiscussions.getImageDiscussions),
     findDiscussionsForPosition: computed(() => diffDiscussions.findDiscussionsForPosition),
     findDiscussionsForFile: computed(() => diffDiscussions.findDiscussionsForFile),
     findAllDiscussionsForFile: computed(() => diffDiscussions.findAllDiscussionsForFile),
     findAllLineDiscussionsForFile: computed(() => diffDiscussions.findAllLineDiscussionsForFile),
+    findAllImageDiscussionsForFile: computed(() => diffDiscussions.findAllImageDiscussionsForFile),
     timelineDiscussions,
   };
 });

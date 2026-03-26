@@ -51,7 +51,7 @@ export default {
       return `${window.location.pathname}-image-${[this.oldPath || '-', this.newPath || '-'].join('-')}`;
     },
     discussions() {
-      return this.store.getImageDiscussions(this.oldPath, this.newPath);
+      return this.store.findAllImageDiscussionsForFile(this.oldPath, this.newPath);
     },
   },
   methods: {

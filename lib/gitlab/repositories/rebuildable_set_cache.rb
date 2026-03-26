@@ -177,19 +177,20 @@ module Gitlab
       def fetch(key)
         full_key = cache_key(key)
 
-        smembers, exists = with do |redis|
+        smembers, exists, is_trusted = with do |redis|
           redis.multi do |multi|
             multi.smembers(full_key)
             multi.exists?(full_key) # rubocop:disable CodeReuse/ActiveRecord -- Not ActiveRecord
+            multi.exists?(trust_key(key)) # rubocop:disable CodeReuse/ActiveRecord -- Not ActiveRecord
           end
         end
 
-        if exists
+        if exists && is_trusted
           log_event(:cache_hit, key, count: smembers.size)
           return smembers
         end
 
-        log_event(:cache_miss, key)
+        log_event(:cache_miss, key, exists: exists, trusted: is_trusted)
 
         write(key, yield)
       end
@@ -202,8 +203,12 @@ module Gitlab
         full_key = cache_key(key)
 
         with do |redis|
-          exists = redis.exists?(full_key) # rubocop:disable CodeReuse/ActiveRecord -- Not ActiveRecord
-          write(key, yield) unless exists
+          exists, is_trusted = redis.pipelined do |pipeline|
+            pipeline.exists?(full_key) # rubocop:disable CodeReuse/ActiveRecord -- Not ActiveRecord
+            pipeline.exists?(trust_key(key)) # rubocop:disable CodeReuse/ActiveRecord -- Not ActiveRecord
+          end
+
+          write(key, yield) unless exists && is_trusted
 
           redis.sscan_each(full_key, match: pattern)
         end

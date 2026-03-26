@@ -624,6 +624,30 @@ describe('discussions adapters', () => {
       );
     });
 
+    it('resolves lineChange for an unchanged line on start-thread from discussion row', async () => {
+      store.discussions = [
+        {
+          id: 'abc',
+          diff_discussion: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 3, new_line: 3 },
+        },
+      ];
+      await nextTick();
+      const row = getDiscussionRows()[0];
+      row.querySelector('#discussions-component').instance().startThread({
+        oldPath,
+        newPath,
+        oldLine: 3,
+        newLine: 3,
+      });
+      expect(store.addNewLineDiscussionForm).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lineChange: { change: undefined, position: 'old' },
+          lineCode: expect.stringMatching(/_\d+_\d+$/),
+        }),
+      );
+    });
+
     it('removes empty row', async () => {
       store.discussions = [
         {

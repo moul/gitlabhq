@@ -70,6 +70,7 @@ describe('diffDiscussions store', () => {
         new_path: defaultPosition.newPath,
         old_line: 10,
         new_line: 20,
+        position_type: 'text',
         line_range: lineRange,
       });
       expect(result).toBe(undefined);
@@ -614,7 +615,7 @@ describe('diffDiscussions store', () => {
     });
   });
 
-  describe('getImageDiscussions', () => {
+  describe('findAllImageDiscussionsForFile', () => {
     it('returns discussions with matching image position type', () => {
       useDiscussions().discussions = [
         {
@@ -623,6 +624,11 @@ describe('diffDiscussions store', () => {
         },
         {
           id: 2,
+          position: {
+            position_type: 'image',
+            old_path: 'old.png',
+            new_path: 'new.png',
+          },
           notes: [
             {
               position: {
@@ -634,9 +640,9 @@ describe('diffDiscussions store', () => {
           ],
         },
       ];
-      expect(useDiffDiscussions().getImageDiscussions('old.png', 'new.png')).toMatchObject([
-        useDiscussions().discussions[1],
-      ]);
+      expect(
+        useDiffDiscussions().findAllImageDiscussionsForFile('old.png', 'new.png'),
+      ).toMatchObject([useDiscussions().discussions[1]]);
     });
   });
 });

@@ -42,29 +42,12 @@ describe('line_utils', () => {
   });
 
   describe('getLineChange', () => {
-    it('returns change info from the closest [data-position] ancestor when no position given', () => {
-      setHTMLFixture(`
-        <table><tbody><tr>
-          <td data-position="old" data-change="removed">
-            <button></button>
-          </td>
-        </tr></tbody></table>
-      `);
-      const button = document.querySelector('button');
-      expect(getLineChange(button)).toEqual({ change: 'removed', position: 'old' });
-    });
-
-    it('returns change info from a child cell matching the given position', () => {
-      setHTMLFixture(`
-        <table><tbody>
-          <tr>
-            <td data-position="old" data-change="removed"></td>
-            <td data-position="new" data-change="added"></td>
-          </tr>
-        </tbody></table>
-      `);
-      const row = document.querySelector('tr');
-      expect(getLineChange(row, 'new')).toEqual({ change: 'added', position: 'new' });
+    it('returns change and position from a cell element', () => {
+      setHTMLFixture(
+        `<table><tbody><tr><td data-position="old" data-change="removed"></td></tr></tbody></table>`,
+      );
+      const cell = document.querySelector('td');
+      expect(getLineChange(cell)).toEqual({ change: 'removed', position: 'old' });
     });
   });
 

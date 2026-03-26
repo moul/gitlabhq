@@ -134,7 +134,7 @@ The false positive flag is removed and the FP confidence score reverts to 0. The
 
 ## Providing feedback
 
-False positive detection is a beta feature and we welcome your feedback. If you encounter issues or have suggestions for improvement, please provide feedback in [issue 583697](https://gitlab.com/gitlab-org/gitlab/-/issues/583697).
+Share your feedback in [issue 583697](https://gitlab.com/gitlab-org/gitlab/-/issues/583697).
 
 ## Related topics
 

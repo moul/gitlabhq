@@ -59,7 +59,7 @@ describe('commitDiffDiscussions store', () => {
 
   it.each([
     'discussionsWithForms',
-    'getImageDiscussions',
+    'findAllImageDiscussionsForFile',
     'findDiscussionsForPosition',
     'findDiscussionsForFile',
     'findAllDiscussionsForFile',

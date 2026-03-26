@@ -29651,9 +29651,6 @@ msgstr ""
 msgid "Failed to clone this item: wrong parameters."
 msgstr ""
 
-msgid "Failed to connect to Advanced Search cluster: %{error}"
-msgstr ""
-
 msgid "Failed to connect to MCP server: %{error}"
 msgstr ""
 
@@ -40635,6 +40632,9 @@ msgid "LearnGitLab|Configure your project"
 msgstr ""
 
 msgid "LearnGitLab|Create a repository"
+msgstr ""
+
+msgid "LearnGitLab|Create a work item"
 msgstr ""
 
 msgid "LearnGitLab|Create a workflow, and learn how GitLab features work together."
@@ -65411,13 +65411,22 @@ msgstr ""
 msgid "Semantic search"
 msgstr ""
 
-msgid "Semantic search will be disabled soon."
+msgid "SemanticSearch|Advanced Search cluster"
+msgstr ""
+
+msgid "SemanticSearch|Configure"
+msgstr ""
+
+msgid "SemanticSearch|Connect"
 msgstr ""
 
 msgid "SemanticSearch|Connect a vector store to index and store embeddings."
 msgstr ""
 
-msgid "SemanticSearch|Current status of the semantic code search."
+msgid "SemanticSearch|Current status of semantic code search."
+msgstr ""
+
+msgid "SemanticSearch|Custom Elasticsearch settings"
 msgstr ""
 
 msgid "SemanticSearch|Disable"
@@ -65429,7 +65438,34 @@ msgstr ""
 msgid "SemanticSearch|Enabled"
 msgstr ""
 
+msgid "SemanticSearch|Enter the password for password-protected Elasticsearch servers."
+msgstr ""
+
+msgid "SemanticSearch|Enter the username for password-protected Elasticsearch servers."
+msgstr ""
+
+msgid "SemanticSearch|Failed to connect: %{error}."
+msgstr ""
+
+msgid "SemanticSearch|In use"
+msgstr ""
+
+msgid "SemanticSearch|Reuse your existing Advanced Search configuration."
+msgstr ""
+
+msgid "SemanticSearch|Save changes"
+msgstr ""
+
+msgid "SemanticSearch|Semantic search will be disabled soon."
+msgstr ""
+
 msgid "SemanticSearch|Status"
+msgstr ""
+
+msgid "SemanticSearch|Successfully connected. Indexing will start soon."
+msgstr ""
+
+msgid "SemanticSearch|The URLs for connecting to the Elasticsearch cluster. For clustering, add the URLs separated by commas."
 msgstr ""
 
 msgid "SemanticSearch|This action is destructive. Disabling semantic search will remove all indexed data. If you reconnect in the future, a full index will be performed."
@@ -68448,9 +68484,6 @@ msgid "Successfully confirmed"
 msgstr ""
 
 msgid "Successfully connected to MCP server"
-msgstr ""
-
-msgid "Successfully created connection for semantic search. Indexing will start soon."
 msgstr ""
 
 msgid "Successfully deactivated"
@@ -74281,6 +74314,9 @@ msgstr ""
 msgid "UsageBilling|GitLab Credits"
 msgstr ""
 
+msgid "UsageBilling|GitLab Credits Overview"
+msgstr ""
+
 msgid "UsageBilling|GitLab Credits dashboard"
 msgstr ""
 
@@ -74384,6 +74420,9 @@ msgid "UsageBilling|This dashboard may not display all current subscription data
 msgstr ""
 
 msgid "UsageBilling|Total credits used"
+msgstr ""
+
+msgid "UsageBilling|Track monthly credit consumption and the main drivers of credit usage."
 msgstr ""
 
 msgid "UsageBilling|Trial"

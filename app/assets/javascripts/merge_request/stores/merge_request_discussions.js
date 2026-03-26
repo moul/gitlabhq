@@ -10,9 +10,16 @@ import {
   buildReplyData,
   buildUpdateNoteData,
 } from '~/merge_request/utils';
+import {
+  isFileDiscussion,
+  isLineDiscussion,
+  findApplicablePosition,
+  discussionMatchesLinePosition,
+} from '~/rapid_diffs/utils/discussion_position';
 
 export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions', () => {
   const diffDiscussions = useDiffDiscussions();
+  const versions = useMergeRequestVersions();
 
   async function fetchNotes() {
     await useNotes().fetchNotes();
@@ -107,6 +114,82 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     });
   }
 
+  function addNewLineDiscussionForm(params) {
+    return diffDiscussions.addNewLineDiscussionForm({
+      ...params,
+      positionExtras: versions.diffRefs,
+    });
+  }
+
+  function addNewFileDiscussionForm(params) {
+    return diffDiscussions.addNewFileDiscussionForm({
+      ...params,
+      positionExtras: versions.diffRefs,
+    });
+  }
+
+  const findAllImageDiscussionsForFile = computed(() => {
+    const { diffRefs } = versions;
+    return (oldPath, newPath) => {
+      return diffDiscussions
+        .findAllImageDiscussionsForFile(oldPath, newPath)
+        .filter((discussion) => findApplicablePosition(discussion, diffRefs));
+    };
+  });
+
+  const findAllDiscussionsForFile = computed(() => {
+    const { diffRefs } = versions;
+    return ({ oldPath, newPath }) => {
+      return diffDiscussions
+        .findAllDiscussionsForFile({ oldPath, newPath })
+        .filter((discussion) => findApplicablePosition(discussion, diffRefs));
+    };
+  });
+
+  const findAllLineDiscussionsForFile = computed(() => {
+    const { diffRefs } = versions;
+    return ({ oldPath, newPath }) => {
+      return diffDiscussions
+        .findAllDiscussionsForFile({ oldPath, newPath })
+        .map((discussion) => {
+          if (!isLineDiscussion(discussion)) return null;
+          const position = findApplicablePosition(discussion, diffRefs);
+          return position ? { ...discussion, position } : null;
+        })
+        .filter(Boolean);
+    };
+  });
+
+  const findDiscussionsForPosition = computed(() => {
+    const { diffRefs } = versions;
+    const { discussionsWithForms } = diffDiscussions;
+    return ({ oldPath, newPath, oldLine, newLine }) => {
+      const linePos = { oldPath, newPath, oldLine, newLine };
+      return discussionsWithForms.filter((discussion) => {
+        if (!discussion.diff_discussion) return false;
+        return discussionMatchesLinePosition(discussion, linePos, diffRefs);
+      });
+    };
+  });
+
+  const findDiscussionsForFile = computed(() => {
+    const { diffRefs } = versions;
+    return ({ oldPath, newPath }) => {
+      return diffDiscussions
+        .findAllDiscussionsForFile({ oldPath, newPath })
+        .filter((discussion) => !discussion.isForm && findApplicablePosition(discussion, diffRefs));
+    };
+  });
+
+  const findAllFileDiscussionsForFile = computed(() => {
+    const { diffRefs } = versions;
+    return ({ oldPath, newPath }) => {
+      return diffDiscussions
+        .findAllDiscussionsForFile({ oldPath, newPath })
+        .filter((d) => isFileDiscussion(d) && findApplicablePosition(d, diffRefs));
+    };
+  });
+
   return {
     fetchNotes,
     createNewDiscussion,
@@ -136,7 +219,7 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     toggleAward: diffDiscussions.toggleAward,
     collapseDiscussion: diffDiscussions.collapseDiscussion,
     expandDiscussion: diffDiscussions.expandDiscussion,
-    addNewLineDiscussionForm: diffDiscussions.addNewLineDiscussionForm,
+    addNewLineDiscussionForm,
     replaceDiscussionForm: diffDiscussions.replaceDiscussionForm,
     removeNewLineDiscussionForm: diffDiscussions.removeNewLineDiscussionForm,
     setDiscussionFormText: diffDiscussions.setDiscussionFormText,
@@ -145,14 +228,14 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     setPositionDiscussionsHidden: diffDiscussions.setPositionDiscussionsHidden,
     discussionForms: computed(() => diffDiscussions.discussionForms),
     discussionsWithForms: computed(() => diffDiscussions.discussionsWithForms),
-    getImageDiscussions: computed(() => diffDiscussions.getImageDiscussions),
-    findDiscussionsForPosition: computed(() => diffDiscussions.findDiscussionsForPosition),
-    findDiscussionsForFile: computed(() => diffDiscussions.findDiscussionsForFile),
-    findAllDiscussionsForFile: computed(() => diffDiscussions.findAllDiscussionsForFile),
-    findAllLineDiscussionsForFile: computed(() => diffDiscussions.findAllLineDiscussionsForFile),
-    findAllFileDiscussionsForFile: computed(() => diffDiscussions.findAllFileDiscussionsForFile),
+    findDiscussionsForPosition,
+    findDiscussionsForFile,
+    findAllDiscussionsForFile,
+    findAllLineDiscussionsForFile,
+    findAllFileDiscussionsForFile,
+    findAllImageDiscussionsForFile,
     expandFileDiscussions: diffDiscussions.expandFileDiscussions,
-    addNewFileDiscussionForm: diffDiscussions.addNewFileDiscussionForm,
+    addNewFileDiscussionForm,
     removeNewFileDiscussionForm: diffDiscussions.removeNewFileDiscussionForm,
   };
 });

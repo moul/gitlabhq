@@ -1029,6 +1029,7 @@ push_event_payload:
 issue_assignees:
 - issue
 - assignee
+- namespace
 search_data:
 - issue
 merge_request_assignees:

@@ -45,7 +45,7 @@ function mountDiscussionRow({ lineRow, parallel, appData, store, trigger, id }) 
         on: {
           'start-thread': ({ oldPath, newPath, oldLine, newLine }) => {
             const side = newLine && !oldLine ? 'new' : 'old';
-            const lineChange = getLineChange(lineRow, side);
+            const lineChange = getLineChange(lineRow.querySelector(`[data-position="${side}"]`));
             const lineCode = getLineCode({ id, row: lineRow, oldLine, newLine });
             const linePos = { old_line: oldLine, new_line: newLine };
             const lineRange = { start: linePos, end: linePos };
@@ -116,7 +116,7 @@ export const createLineDiscussionsAdapter = ({ store, parallel, errorMessage }) 
   },
   clicks: {
     newDiscussion(event, button) {
-      const lineChange = getLineChange(button);
+      const lineChange = getLineChange(button.closest('[data-position]'));
       const row = button.closest('tr');
       const [oldLine, newLine] = getLineNumbers(row);
       const { oldPath, newPath } = this.data;

@@ -1,8 +1,14 @@
 import { createRequire } from 'node:module';
 import { readFile } from 'node:fs/promises';
+import { readFileSync, existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import path from 'node:path';
 
 const require = createRequire(import.meta.url);
-const { CONTEXT_ALIASES, INFECTABLE_RE, INFECTION_BLOCKLIST } = require('./context_aliases_shared');
+const { CONTEXT_ALIASES, INFECTABLE_RE } = require('./context_aliases_shared');
+
+const ROOT_PATH = path.resolve(import.meta.dirname, '..', '..');
+const SCANNER_JSON_PATH = path.join(ROOT_PATH, 'tmp', 'infection_scanner.json');
 
 const VUE3_QUERY = 'vue3';
 const VUE3_SUFFIX = '.vue3-infected';
@@ -19,14 +25,31 @@ const parseId = (id) => {
 const isInfectedByQuery = (id) => parseId(id).params.has(VUE3_QUERY);
 const isInfectedBySuffix = (id) => VUE3_SUFFIX_RE.test(id);
 const isInfected = (id) => isInfectedByQuery(id) || isInfectedBySuffix(id);
-const isBlocked = (id) => INFECTION_BLOCKLIST.some((blocked) => parseId(id).path.endsWith(blocked));
-const isInfectable = (id) => INFECTABLE_RE.test(parseId(id).path) && !isBlocked(id);
 const SPECIAL_QUERIES = ['vue', 'worker', 'raw', 'url', 'inline', 'sharedworker'];
 const hasSpecialQuery = (id) => {
   const { params } = parseId(id);
   return SPECIAL_QUERIES.some((q) => params.has(q));
 };
 const isVirtualModule = (id) => id.startsWith('\0');
+
+function loadScannerData() {
+  if (!existsSync(SCANNER_JSON_PATH)) {
+    throw new Error(
+      `[vue3-infection] Infection scanner data not found at ${SCANNER_JSON_PATH}.\n` +
+        `Run: node scripts/frontend/infection_scanner/infection_scanner.mjs`,
+    );
+  }
+  const data = JSON.parse(readFileSync(SCANNER_JSON_PATH, 'utf-8'));
+  const graph = new Map();
+  for (const [filePath, entry] of Object.entries(data.graph)) {
+    graph.set(filePath, { infected: entry.infected, appRoot: entry.appRoot });
+  }
+  console.log(
+    `[vue3-infection] Loaded scanner data: ${graph.size} files, ` +
+      `${[...graph.values()].filter((e) => e.infected).length} infected`,
+  );
+  return graph;
+}
 
 const cleanInfectedId = (id) => id.replace(VUE3_SUFFIX, '');
 
@@ -49,6 +72,23 @@ const appendVue3Suffix = (resolvedId) => {
 export function Vue3InfectionPlugin() {
   const contextAliasKeys = Object.keys(CONTEXT_ALIASES);
   let isBuild = false;
+  let scannerGraph = null;
+
+  const isInfectable = (id) => {
+    const { path: filePath } = parseId(id);
+    if (!INFECTABLE_RE.test(filePath)) return false;
+    if (!scannerGraph) return true;
+    // Vite pre-bundled deps are not tracked by the scanner — always infectable
+    if (filePath.includes('/tmp/cache/vite/')) return true;
+    const entry = scannerGraph.get(filePath);
+    if (!entry) {
+      throw new Error(
+        `[vue3-infection] File not found in scanner data: ${filePath}\n` +
+          `Re-run: node scripts/frontend/infection_scanner/infection_scanner.mjs`,
+      );
+    }
+    return entry.infected;
+  };
 
   return {
     name: 'gitlab-vue3-infection',
@@ -56,6 +96,27 @@ export function Vue3InfectionPlugin() {
 
     configResolved(config) {
       isBuild = config.command === 'build';
+
+      if (process.env.SKIP_INFECTION_SCANNER) {
+        console.log('[vue3-infection] SKIP_INFECTION_SCANNER set — scanner disabled, all files infectable.');
+        scannerGraph = null;
+        return;
+      }
+
+      if (!isBuild) {
+        const scriptPath = path.join(ROOT_PATH, 'scripts/frontend/infection_scanner/infection_scanner.mjs');
+        console.log('[vue3-infection] Running infection scanner...');
+        const res = spawnSync(process.execPath, [scriptPath], {
+          cwd: ROOT_PATH,
+          stdio: 'inherit',
+          env: process.env,
+        });
+        if (res.status !== 0) {
+          console.warn(`[vue3-infection] Infection scanner failed (code ${res.status}). Continuing with stale data if available.`);
+        }
+      }
+
+      scannerGraph = loadScannerData();
     },
 
     buildEnd() {

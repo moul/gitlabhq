@@ -28,6 +28,9 @@ RSpec.describe Groups::ObservabilityController, feature_category: :observability
       before do
         stub_feature_flags(observability_sass_features: group)
         allow(Observability::O11yToken).to receive(:generate_tokens).and_return({ 'testToken' => 'value' })
+        allow_next_instance_of(Observability::ObservabilityPresenter) do |instance|
+          allow(instance).to receive(:auth_tokens).and_return({ 'test_token' => 'value' })
+        end
       end
 
       context 'with incorrect permissions' do
