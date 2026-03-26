@@ -1,6 +1,0 @@
----
-Rails/AvoidTimeComparison:
-  Exclude:
-    - 'lib/gitlab/chaos.rb'
-    - 'lib/gitlab/database/background_migration/batched_migration.rb'
-    - 'spec/lib/gitlab/ci/cron_parser_spec.rb'

@@ -40484,9 +40484,6 @@ msgstr ""
 msgid "Launch a ready-to-code development environment for your project."
 msgstr ""
 
-msgid "Launch board"
-msgstr ""
-
 msgid "Layout|Fixed"
 msgstr ""
 
@@ -54980,6 +54977,9 @@ msgstr ""
 msgid "ProjectsNew|An error occurred while checking group path. Please refresh and try again."
 msgstr ""
 
+msgid "ProjectsNew|An error occurred while loading groups."
+msgstr ""
+
 msgid "ProjectsNew|Analyze your source code for known security vulnerabilities."
 msgstr ""
 
@@ -55193,10 +55193,19 @@ msgstr ""
 msgid "ProjectsNew|Select"
 msgstr ""
 
+msgid "ProjectsNew|Select a group"
+msgstr ""
+
+msgid "ProjectsNew|Select a group to view its project templates"
+msgstr ""
+
 msgid "ProjectsNew|Select a template"
 msgstr ""
 
 msgid "ProjectsNew|To move or copy an entire GitLab project from another GitLab installation to this one, navigate to the original project's settings page, generate an export file, and upload it here."
+msgstr ""
+
+msgid "ProjectsNew|To view group-level project templates, select a group that has %{linkStart}custom project templates configured%{linkEnd}."
 msgstr ""
 
 msgid "ProjectsNew|Unable to suggest a path. Please refresh and try again."
@@ -64996,9 +65005,6 @@ msgstr ""
 msgid "SecurityTrackedRefs|%{selectedRefsCount} refs selected of %{availableSpots} spots available"
 msgstr ""
 
-msgid "SecurityTrackedRefs|Archive associated vulnerabilities"
-msgstr ""
-
 msgid "SecurityTrackedRefs|Are you sure you want to remove tracking from this %{refType}?"
 msgstr ""
 
@@ -65016,11 +65022,6 @@ msgstr ""
 
 msgid "SecurityTrackedRefs|Currently tracked refs"
 msgstr ""
-
-msgid "SecurityTrackedRefs|If you do not archive associated vulnerabilities, the data for %{count} vulnerability will be permanently deleted."
-msgid_plural "SecurityTrackedRefs|If you do not archive associated vulnerabilities, the data for %{count} vulnerabilities will be permanently deleted."
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "SecurityTrackedRefs|Loading tracked refs. Please wait."
 msgstr ""
@@ -65051,6 +65052,11 @@ msgstr ""
 
 msgid "SecurityTrackedRefs|Search results for \"%{searchTerm}\""
 msgstr ""
+
+msgid "SecurityTrackedRefs|The data for %{count} vulnerability will be permanently deleted."
+msgid_plural "SecurityTrackedRefs|The data for %{count} vulnerabilities will be permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "SecurityTrackedRefs|The default ref cannot be removed from being tracked"
 msgstr ""

@@ -490,7 +490,7 @@ export default {
           {{ issuable.title }}
           <gl-icon v-if="isIssuableUrlExternal" name="external-link" class="gl-ml-2" />
         </gl-link>
-        <slot v-if="hasSlotContents('title-icons')" name="title-icons"></slot>
+        <slot name="title-icons"></slot>
         <span
           v-if="taskStatus"
           class="task-status gl-ml-2 gl-hidden gl-text-sm @sm/panel:!gl-inline-block"

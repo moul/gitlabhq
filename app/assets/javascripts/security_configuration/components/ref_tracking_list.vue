@@ -37,15 +37,7 @@ export default {
     trackedRefs: {
       query: securityTrackedRefs,
       variables() {
-        const { after, before } = this.pageCursor;
-
-        return {
-          fullPath: this.projectFullPath,
-          first: before ? null : this.maxTrackedRefs,
-          last: before ? this.maxTrackedRefs : null,
-          after,
-          before,
-        };
+        return this.trackedRefsQueryVariables;
       },
       update(data) {
         return data.project?.securityTrackedRefs?.nodes || [];
@@ -87,6 +79,17 @@ export default {
   computed: {
     isLoading() {
       return this.$apollo.queries.trackedRefs.loading;
+    },
+    trackedRefsQueryVariables() {
+      const { after, before } = this.pageCursor;
+
+      return {
+        fullPath: this.projectFullPath,
+        first: before ? null : this.maxTrackedRefs,
+        last: before ? this.maxTrackedRefs : null,
+        after,
+        before,
+      };
     },
     hasPreviousPage() {
       return Boolean(this.pageInfo.hasPreviousPage);
@@ -155,25 +158,23 @@ export default {
         this.isTrackingRefs = false;
       }
     },
-    async untrackRef({ refId, archiveVulnerabilities }) {
+    async untrackRef({ refId }) {
       try {
         const { data } = await this.$apollo.mutate({
           mutation: untrackSecurityTrackedRefsMutation,
           variables: {
             input: {
-              projectPath: this.projectFullPath,
               refIds: [refId],
-              archiveVulnerabilities,
             },
           },
           optimisticResponse: untrackRefsOptimisticResponse([refId]),
           update: updateUntrackedRefsCache({
             query: securityTrackedRefs,
-            variables: { fullPath: this.projectFullPath },
+            variables: this.trackedRefsQueryVariables,
           }),
         });
 
-        if (data.securityTrackedRefsUntrack.errors?.length) {
+        if (data.securityRefsUntrack.errors?.length) {
           throw new Error();
         }
       } catch {

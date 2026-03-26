@@ -512,7 +512,7 @@ These changes affect you if your pipelines use the [`auto-build-image`](https://
 
 To continue to use `heroku/builder:22` after GitLab 19.0, set `AUTO_DEVOPS_BUILD_IMAGE_CNB_BUILDER` to `heroku/builder:22`.
 
-### Trending tab in Explore > Projects is deprecated
+### Trending tab in Explore projects page is deprecated
 
 - Announced in GitLab 18.8
 - Removal in GitLab 19.0 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))

@@ -11,6 +11,33 @@ export const SORT_LABEL_UPDATED = __('Updated date');
 export const SORT_LABEL_STARS = __('Stars');
 export const SORT_LABEL_STORAGE_SIZE = __('Storage size');
 
+export const SORT_OPTION_NAME = {
+  value: 'name',
+  text: SORT_LABEL_NAME,
+};
+
+export const SORT_OPTION_CREATED = {
+  value: 'created',
+  text: SORT_LABEL_CREATED,
+};
+
+export const SORT_OPTION_UPDATED = {
+  value: 'latest_activity',
+  text: SORT_LABEL_UPDATED,
+};
+
+export const SORT_OPTION_STARS = {
+  value: 'stars',
+  text: SORT_LABEL_STARS,
+};
+
+export const SORT_OPTIONS = [
+  SORT_OPTION_NAME,
+  SORT_OPTION_CREATED,
+  SORT_OPTION_UPDATED,
+  SORT_OPTION_STARS,
+];
+
 export const FILTERED_SEARCH_TOKEN_LANGUAGE = 'language';
 export const FILTERED_SEARCH_TOKEN_MIN_ACCESS_LEVEL = 'min_access_level';
 export const FILTERED_SEARCH_TOKEN_VISIBILITY_LEVEL = 'visibility_level';

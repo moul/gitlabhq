@@ -1,4 +1,4 @@
-import { GlLoadingIcon, GlAlert } from '@gitlab/ui';
+import { GlLoadingIcon, GlAlert, GlKeysetPagination } from '@gitlab/ui';
 import Vue, { nextTick } from 'vue';
 import VueApollo from 'vue-apollo';
 import MockAdapter from 'axios-mock-adapter';
@@ -23,7 +23,6 @@ import { createAlert, VARIANT_INFO } from '~/alert';
 import setWindowLocation from 'helpers/set_window_location_helper';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { useLocalStorageSpy } from 'helpers/local_storage_helper';
-import { STATUS_CLOSED, STATUS_OPEN } from '~/issues/constants';
 import {
   CREATED_DESC,
   UPDATED_DESC,
@@ -62,7 +61,9 @@ import {
   TOKEN_TYPE_RELEASE,
   TOKEN_TYPE_PARENT,
 } from '~/vue_shared/components/filtered_search_bar/constants';
-import IssuableList from '~/vue_shared/issuable/list/components/issuable_list_root.vue';
+import FilteredSearchBar from '~/vue_shared/components/filtered_search_bar/filtered_search_bar_root.vue';
+import IssuableBulkEditSidebar from '~/vue_shared/issuable/list/components/issuable_bulk_edit_sidebar.vue';
+import PageSizeSelector from '~/vue_shared/components/page_size_selector.vue';
 import IssuableItem from '~/vue_shared/issuable/list/components/issuable_item.vue';
 import CreateWorkItemModal from '~/work_items/components/create_work_item_modal.vue';
 import WorkItemUserPreferences from '~/work_items/list/components/work_item_user_preferences.vue';
@@ -72,7 +73,6 @@ import WorkItemListActions from '~/work_items/list/components/work_item_list_act
 import WorkItemDrawer from '~/work_items/components/work_item_drawer.vue';
 import NewResourceDropdown from '~/vue_shared/components/new_resource_dropdown/new_resource_dropdown.vue';
 import WorkItemsOnboardingModal from '~/work_items/components/work_items_onboarding_modal/work_items_onboarding_modal.vue';
-import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser.vue';
 import {
   CREATION_CONTEXT_LIST_ROUTE,
   DETAIL_VIEW_QUERY_PARAM_NAME,
@@ -181,7 +181,12 @@ const subscribeToSavedViewHandler = jest.fn().mockResolvedValue({
   },
 });
 
-const findIssuableList = () => wrapper.findComponent(IssuableList);
+const findFilteredSearchBar = () => wrapper.findComponent(FilteredSearchBar);
+const findBulkEditSidebarWrapper = () => wrapper.findComponent(IssuableBulkEditSidebar);
+const findWorkItemListWrapper = () => wrapper.findByTestId('work-item-list-wrapper');
+const findPaginationControls = () => wrapper.findComponent(GlKeysetPagination);
+const findPageSizeSelector = () => wrapper.findComponent(PageSizeSelector);
+const findIssuableItems = () => wrapper.findAllComponents(IssuableItem);
 const findIssueCardStatistics = () => wrapper.findComponent(IssueCardStatistics);
 const findIssueCardTimeInfo = () => wrapper.findComponent(IssueCardTimeInfo);
 const findHealthStatus = () => wrapper.findComponent(HealthStatus);
@@ -193,8 +198,8 @@ const findBulkEditStartButton = () => wrapper.findByTestId('bulk-edit-start-butt
 const findBulkEditSidebar = () => wrapper.findComponent(WorkItemBulkEditSidebar);
 const findWorkItemsSavedViewsSelectors = () => wrapper.findComponent(WorkItemsSavedViewsSelectors);
 const findWorkItemUserPreferences = () => wrapper.findComponent(WorkItemUserPreferences);
-const findChildItem1 = () => wrapper.findAllComponents(IssuableItem).at(0);
-const findChildItem2 = () => wrapper.findAllComponents(IssuableItem).at(1);
+const findChildItem1 = () => findIssuableItems().at(0);
+const findChildItem2 = () => findIssuableItems().at(1);
 const findSubChildIndicator = (item) => item.find('[data-testid="sub-child-work-item-indicator"]');
 const findNewResourceDropdown = () => wrapper.findComponent(NewResourceDropdown);
 const findWorkItemListActions = () => wrapper.findComponent(WorkItemListActions);
@@ -229,6 +234,7 @@ const mountComponent = ({
   hasProjects = true,
   stubs = {},
   isLoggedInValue = true,
+  withTabs = false,
 } = {}) => {
   window.gon = {
     ...window.gon,
@@ -321,6 +327,7 @@ const mountComponent = ({
       initialLoadWasFiltered: false,
       detailLoading: false,
       isLoading: false,
+      withTabs,
       pageInfo: {
         hasNextPage: true,
         hasPreviousPage: false,
@@ -375,36 +382,12 @@ describe('when work items are fetched', () => {
     await waitForPromises();
   });
 
-  it('passes active tab count as workItemCount prop to work-item-list-actions', () => {
-    expect(findWorkItemListActions().props('workItemCount')).toBe(2);
-  });
-
-  it('renders IssuableList component', () => {
-    expect(findIssuableList().props()).toMatchObject({
-      currentTab: STATUS_OPEN,
-      error: '',
-      initialSortBy: CREATED_DESC,
-      namespace: 'full/path',
-      recentSearchesStorageKey: 'issues',
-      showWorkItemTypeIcon: true,
-      tabs: ListView.issuableListTabs,
-    });
-  });
-
   it('renders the WorkItemUserPreferences component', () => {
     expect(findWorkItemUserPreferences().props()).toMatchObject({
       isEpicsList: false, // default work item is null so not an epics list
       fullPath: 'full/path',
       commonPreferences: { shouldOpenItemsInSidePanel: true },
       namespacePreferences: {},
-    });
-  });
-
-  it('renders tab counts', () => {
-    expect(findIssuableList().props('tabCounts')).toEqual({
-      all: 3,
-      closed: 1,
-      opened: 2,
     });
   });
 
@@ -421,8 +404,8 @@ describe('when work items are fetched', () => {
   });
 
   it('renders work items', () => {
-    expect(findIssuableList().props('issuables')).toEqual(
-      workItemsQueryResponseCombined.data.namespace.workItems.nodes,
+    expect(findIssuableItems()).toHaveLength(
+      workItemsQueryResponseCombined.data.namespace.workItems.nodes.length,
     );
   });
 
@@ -433,7 +416,6 @@ describe('when work items are fetched', () => {
   it('does not show tree icon if not searched parent', async () => {
     mountComponent({
       props: { workItems: workItemsWithSubChildQueryResponse.data.namespace.workItems.nodes },
-      stubs: { IssuableList },
     });
 
     await waitForPromises();
@@ -447,7 +429,6 @@ describe('when work items are fetched', () => {
 
     mountComponent({
       props: { workItems: workItemsWithSubChildQueryResponse.data.namespace.workItems.nodes },
-      stubs: { IssuableList },
     });
 
     await waitForPromises();
@@ -460,10 +441,6 @@ describe('when work items are fetched', () => {
     beforeEach(async () => {
       mountComponent({ workItemPlanningView: true });
       await waitForPromises();
-    });
-
-    it('passes undefined as error to IssuableList', () => {
-      expect(findIssuableList().props('error')).toBe('');
     });
 
     it('does not display error alert when there is no error', () => {
@@ -529,17 +506,6 @@ describe('when work items are fetched', () => {
         });
       });
     });
-
-    describe('when workItemPlanningView flag is disabled', () => {
-      it('does not render UserCalloutDismisser', async () => {
-        mountComponent({
-          workItemPlanningView: false,
-        });
-        await waitForPromises();
-
-        expect(wrapper.findComponent(UserCalloutDismisser).exists()).toBe(false);
-      });
-    });
   });
 });
 
@@ -568,7 +534,7 @@ describe('sort options', () => {
       });
       await waitForPromises();
 
-      expect(findIssuableList().props('sortOptions')).toEqual([
+      expect(findFilteredSearchBar().props('sortOptions')).toEqual([
         expect.objectContaining({ title: 'Priority' }),
         expect.objectContaining({ title: 'Created date' }),
         expect.objectContaining({ title: 'Updated date' }),
@@ -600,7 +566,7 @@ describe('sort options', () => {
       });
       await waitForPromises();
 
-      expect(findIssuableList().props('sortOptions')).toEqual([
+      expect(findFilteredSearchBar().props('sortOptions')).toEqual([
         expect.objectContaining({ title: 'Priority' }),
         expect.objectContaining({ title: 'Created date' }),
         expect.objectContaining({ title: 'Updated date' }),
@@ -629,7 +595,7 @@ describe('sort options', () => {
       });
       await waitForPromises();
 
-      expect(findIssuableList().props('sortOptions')).toEqual([
+      expect(findFilteredSearchBar().props('sortOptions')).toEqual([
         expect.objectContaining({ title: 'Created date' }),
         expect.objectContaining({ title: 'Updated date' }),
         expect.objectContaining({ title: 'Closed date' }),
@@ -656,7 +622,7 @@ describe('sort options', () => {
         },
       });
       await waitForPromises();
-      const sortOptions = findIssuableList()
+      const sortOptions = findFilteredSearchBar()
         .props('sortOptions')
         .map((sort) => sort.title);
 
@@ -677,7 +643,7 @@ describe('sort options', () => {
     });
 
     it('changes the sort to the default of created descending', () => {
-      expect(findIssuableList().props('initialSortBy')).toBe(CREATED_DESC);
+      expect(findFilteredSearchBar().props('initialSortBy')).toBe(CREATED_DESC);
     });
 
     it('shows an alert to tell the user that manual reordering is disabled', () => {
@@ -693,7 +659,7 @@ describe('sort options', () => {
       });
       await waitForPromises();
 
-      findIssuableList().vm.$emit('sort', RELATIVE_POSITION_ASC);
+      findFilteredSearchBar().vm.$emit('onSort', RELATIVE_POSITION_ASC);
       await nextTick();
 
       expect(createAlert).toHaveBeenCalledWith({
@@ -720,7 +686,7 @@ describe('pagination controls', () => {
       });
       await waitForPromises();
 
-      expect(findIssuableList().props('showPaginationControls')).toBe(exists);
+      expect(findPaginationControls().exists()).toBe(exists);
     });
   });
 });
@@ -768,8 +734,8 @@ describe('tokens', () => {
   it('renders tokens', async () => {
     mountComponent();
     await waitForPromises();
-    const tokens = findIssuableList()
-      .props('searchTokens')
+    const tokens = findFilteredSearchBar()
+      .props('tokens')
       .map((token) => token.type);
 
     expect(tokens).toEqual([
@@ -784,6 +750,7 @@ describe('tokens', () => {
       TOKEN_TYPE_ORGANIZATION,
       TOKEN_TYPE_PARENT,
       TOKEN_TYPE_SEARCH_WITHIN,
+      TOKEN_TYPE_STATE,
       TOKEN_TYPE_SUBSCRIBED,
       TOKEN_TYPE_TYPE,
     ]);
@@ -793,8 +760,8 @@ describe('tokens', () => {
     it('renders all tokens except "Type"', async () => {
       mountComponent({ provide: { workItemType: WORK_ITEM_TYPE_NAME_EPIC } });
       await waitForPromises();
-      const tokens = findIssuableList()
-        .props('searchTokens')
+      const tokens = findFilteredSearchBar()
+        .props('tokens')
         .map((token) => token.type);
 
       expect(tokens).not.toContain(TOKEN_TYPE_TYPE);
@@ -805,8 +772,8 @@ describe('tokens', () => {
     it('renders date-related tokens too', async () => {
       mountComponent({ provide: { hasIssueDateFilterFeature: true } });
       await waitForPromises();
-      const tokens = findIssuableList()
-        .props('searchTokens')
+      const tokens = findFilteredSearchBar()
+        .props('tokens')
         .map((token) => token.type);
 
       expect(tokens).toEqual([
@@ -824,6 +791,7 @@ describe('tokens', () => {
         TOKEN_TYPE_ORGANIZATION,
         TOKEN_TYPE_PARENT,
         TOKEN_TYPE_SEARCH_WITHIN,
+        TOKEN_TYPE_STATE,
         TOKEN_TYPE_SUBSCRIBED,
         TOKEN_TYPE_TYPE,
         TOKEN_TYPE_UPDATED,
@@ -840,8 +808,8 @@ describe('tokens', () => {
       };
       mountComponent({ props: { eeSearchTokens: [customToken] } });
       await waitForPromises();
-      const tokens = findIssuableList()
-        .props('searchTokens')
+      const tokens = findFilteredSearchBar()
+        .props('tokens')
         .map((token) => token.type);
 
       expect(tokens).toEqual([
@@ -857,6 +825,7 @@ describe('tokens', () => {
         TOKEN_TYPE_ORGANIZATION,
         TOKEN_TYPE_PARENT,
         TOKEN_TYPE_SEARCH_WITHIN,
+        TOKEN_TYPE_STATE,
         TOKEN_TYPE_SUBSCRIBED,
         TOKEN_TYPE_TYPE,
       ]);
@@ -871,8 +840,8 @@ describe('tokens', () => {
       });
 
       it('configures organization token with correct properties', () => {
-        const organizationToken = findIssuableList()
-          .props('searchTokens')
+        const organizationToken = findFilteredSearchBar()
+          .props('tokens')
           .find((token) => token.type === TOKEN_TYPE_ORGANIZATION);
 
         expect(organizationToken).toMatchObject({
@@ -891,8 +860,8 @@ describe('tokens', () => {
       });
 
       it('does not include organization token in available tokens', () => {
-        const tokens = findIssuableList()
-          .props('searchTokens')
+        const tokens = findFilteredSearchBar()
+          .props('tokens')
           .map((token) => token.type);
 
         expect(tokens).not.toEqual(
@@ -914,8 +883,8 @@ describe('tokens', () => {
       });
 
       it('configures contact token with correct properties', () => {
-        const contactToken = findIssuableList()
-          .props('searchTokens')
+        const contactToken = findFilteredSearchBar()
+          .props('tokens')
           .find((token) => token.type === TOKEN_TYPE_CONTACT);
 
         expect(contactToken).toMatchObject({
@@ -934,8 +903,8 @@ describe('tokens', () => {
       });
 
       it('does not include contact token in available tokens', () => {
-        const tokens = findIssuableList()
-          .props('searchTokens')
+        const tokens = findFilteredSearchBar()
+          .props('tokens')
           .map((token) => token.type);
 
         expect(tokens).not.toEqual(
@@ -956,8 +925,8 @@ describe('tokens', () => {
     });
 
     it('configures parent token with correct properties', () => {
-      const parentToken = findIssuableList()
-        .props('searchTokens')
+      const parentToken = findFilteredSearchBar()
+        .props('tokens')
         .find((token) => token.type === TOKEN_TYPE_PARENT);
 
       expect(parentToken).toMatchObject({
@@ -987,8 +956,8 @@ describe('tokens', () => {
       });
 
       const getReleaseToken = () =>
-        findIssuableList()
-          .props('searchTokens')
+        findFilteredSearchBar()
+          .props('tokens')
           .find((token) => token.type === TOKEN_TYPE_RELEASE);
 
       it('fetches releases from API when cache is empty', async () => {
@@ -1039,8 +1008,8 @@ describe('tokens', () => {
     it('excludes release token when isGroup is true', async () => {
       mountComponent({ provide: { isGroup: true } });
       await waitForPromises();
-      const tokens = findIssuableList()
-        .props('searchTokens')
+      const tokens = findFilteredSearchBar()
+        .props('tokens')
         .map((token) => token.type);
 
       expect(tokens).not.toContain(TOKEN_TYPE_RELEASE);
@@ -1049,8 +1018,8 @@ describe('tokens', () => {
     it('includes release token when isGroup is false (project context)', async () => {
       mountComponent({ provide: { isGroup: false } });
       await waitForPromises();
-      const tokens = findIssuableList()
-        .props('searchTokens')
+      const tokens = findFilteredSearchBar()
+        .props('tokens')
         .map((token) => token.type);
 
       expect(tokens).toContain(TOKEN_TYPE_RELEASE);
@@ -1064,24 +1033,24 @@ describe('tokens', () => {
     });
 
     it('sets multiSelect to true for assignee token', () => {
-      const assigneeToken = findIssuableList()
-        .props('searchTokens')
+      const assigneeToken = findFilteredSearchBar()
+        .props('tokens')
         .find((token) => token.type === TOKEN_TYPE_ASSIGNEE);
 
       expect(assigneeToken.multiSelect).toBe(true);
     });
 
     it('sets multiSelect to true for author token', () => {
-      const authorToken = findIssuableList()
-        .props('searchTokens')
+      const authorToken = findFilteredSearchBar()
+        .props('tokens')
         .find((token) => token.type === TOKEN_TYPE_AUTHOR);
 
       expect(authorToken.multiSelect).toBe(true);
     });
 
     it('sets multiSelect to true for label token', () => {
-      const labelToken = findIssuableList()
-        .props('searchTokens')
+      const labelToken = findFilteredSearchBar()
+        .props('tokens')
         .find((token) => token.type === TOKEN_TYPE_LABEL);
 
       expect(labelToken.multiSelect).toBe(true);
@@ -1090,28 +1059,12 @@ describe('tokens', () => {
 });
 
 describe('events', () => {
-  describe('when "click-tab" event is emitted by IssuableList', () => {
-    beforeEach(async () => {
-      getParameterByName.mockImplementation((args) =>
-        jest.requireActual('~/lib/utils/url_utility').getParameterByName(args),
-      );
-      mountComponent();
-      await waitForPromises();
-
-      findIssuableList().vm.$emit('click-tab', STATUS_CLOSED);
-    });
-
-    it('updates ui to the new tab', () => {
-      expect(findIssuableList().props('currentTab')).toBe(STATUS_CLOSED);
-    });
-  });
-
-  describe('when "filter" event is emitted by IssuableList', () => {
+  describe('when "filter" event is emitted by FilteredSearchBar', () => {
     it('emits the update-query event', async () => {
       mountComponent();
       await waitForPromises();
 
-      findIssuableList().vm.$emit('filter', [
+      findFilteredSearchBar().vm.$emit('onFilter', [
         { type: FILTERED_SEARCH_TERM, value: { data: 'find issues', operator: 'undefined' } },
         { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
         { type: TOKEN_TYPE_SEARCH_WITHIN, value: { data: 'TITLE', operator: OPERATOR_IS } },
@@ -1127,10 +1080,10 @@ describe('events', () => {
   });
 
   describe.each`
-    event              | params
-    ${'next-page'}     | ${{ afterCursor: 'endCursor', firstPageSize: 20 }}
-    ${'previous-page'} | ${{ beforeCursor: 'startCursor', lastPageSize: 20 }}
-  `('when "$event" event is emitted by IssuableList', ({ event, params }) => {
+    event     | params
+    ${'next'} | ${{ afterCursor: 'endCursor', firstPageSize: 20 }}
+    ${'prev'} | ${{ beforeCursor: 'startCursor', lastPageSize: 20 }}
+  `('when "$event" event is emitted by PaginationControls', ({ event, params }) => {
     beforeEach(async () => {
       getParameterByName.mockImplementation((args) =>
         jest.requireActual('~/lib/utils/url_utility').getParameterByName(args),
@@ -1138,7 +1091,8 @@ describe('events', () => {
       mountComponent();
       await waitForPromises();
 
-      findIssuableList().vm.$emit(event);
+      findPaginationControls().vm.$emit(event);
+      await nextTick();
     });
 
     it('scrolls to the top', () => {
@@ -1150,19 +1104,19 @@ describe('events', () => {
     });
   });
 
-  describe('when "page-size-change" event is emitted by IssuableList', () => {
+  describe('when "page-size-change" event is emitted by PageSizeSelector', () => {
     it('emits the update-query event', async () => {
       mountComponent();
       await waitForPromises();
 
-      findIssuableList().vm.$emit('page-size-change', 50);
+      findPageSizeSelector().vm.$emit('input', 50);
       await nextTick();
 
       expect(wrapper.emitted('update-query').at(-1)[0]).toMatchObject({ firstPageSize: 50 });
     });
   });
 
-  describe('when "sort" event is emitted by IssuableList', () => {
+  describe('when "sort" event is emitted by FilteredSearchBar', () => {
     it.each(Object.keys(urlSortParams))(
       'emits the update-query event with the new sort when payload is `%s`',
       async (sortKey) => {
@@ -1178,7 +1132,7 @@ describe('events', () => {
         }
         await waitForPromises();
 
-        findIssuableList().vm.$emit('sort', sortKey);
+        findFilteredSearchBar().vm.$emit('onSort', sortKey);
         await waitForPromises();
         await nextTick();
 
@@ -1191,7 +1145,7 @@ describe('events', () => {
         mountComponent();
         await waitForPromises();
 
-        findIssuableList().vm.$emit('sort', UPDATED_DESC);
+        findFilteredSearchBar().vm.$emit('onSort', UPDATED_DESC);
 
         expect(userPreferenceMutationHandler).toHaveBeenCalledWith({
           sort: UPDATED_DESC,
@@ -1207,7 +1161,7 @@ describe('events', () => {
         mountComponent({ userPreferenceMutationResponse: mutationMock });
         await waitForPromises();
 
-        findIssuableList().vm.$emit('sort', UPDATED_DESC);
+        findFilteredSearchBar().vm.$emit('onSort', UPDATED_DESC);
         await waitForPromises();
 
         expect(Sentry.captureException).toHaveBeenCalledWith(new Error('oh no!'));
@@ -1219,7 +1173,7 @@ describe('events', () => {
         mountComponent({ isLoggedInValue: false });
         await waitForPromises();
 
-        findIssuableList().vm.$emit('sort', CREATED_DESC);
+        findFilteredSearchBar().vm.$emit('onSort', CREATED_DESC);
 
         expect(userPreferenceMutationHandler).not.toHaveBeenCalled();
       });
@@ -1265,7 +1219,7 @@ describe('work item drawer', () => {
       },
     );
     describe('display settings', () => {
-      it('passes hiddenMetadataKeys to IssuableList', async () => {
+      it('passes hiddenMetadataKeys to IssuableItems', async () => {
         const mockHandler = jest.fn().mockResolvedValue({
           data: {
             currentUser: {
@@ -1286,7 +1240,10 @@ describe('work item drawer', () => {
         mountComponent({ mockPreferencesHandler: mockHandler });
         await waitForPromises();
 
-        expect(findIssuableList().props('hiddenMetadataKeys')).toEqual(['labels', 'milestone']);
+        expect(findIssuableItems().at(1).props('hiddenMetadataKeys')).toEqual([
+          'labels',
+          'milestone',
+        ]);
       });
 
       it('passes hiddenMetadataKeys to IssueCardTimeInfo', async () => {
@@ -1373,7 +1330,7 @@ describe('work item drawer', () => {
         mountComponent();
         await waitForPromises();
 
-        findIssuableList().vm.$emit('select-issuable', payload);
+        findChildItem1().vm.$emit('select-issuable', payload);
 
         await nextTick();
       });
@@ -1384,7 +1341,7 @@ describe('work item drawer', () => {
       });
 
       it('closes drawer when work item is clicked again', async () => {
-        findIssuableList().vm.$emit('select-issuable', payload);
+        findChildItem1().vm.$emit('select-issuable', payload);
         await nextTick();
 
         expect(findDrawer().props('open')).toBe(false);
@@ -1503,32 +1460,24 @@ describe('work item drawer', () => {
   });
 });
 
-describe('when withTabs is false', () => {
+describe('"State" token', () => {
   beforeEach(async () => {
-    mountComponent({ props: { withTabs: false } });
+    mountComponent();
     await waitForPromises();
   });
-  it('includes "State", in searchTokens', () => {
+  it('includes "State", in tokens', () => {
     expect(
-      findIssuableList()
-        .props('searchTokens')
+      findFilteredSearchBar()
+        .props('tokens')
         .map((token) => token.type),
     ).toContain(TOKEN_TYPE_STATE);
-  });
-  it('passes empty array in the tabs props', () => {
-    expect(findIssuableList().props('tabs')).toEqual([]);
   });
 });
 
 describe('empty states', () => {
-  const getEmptyPropValues = ({
-    workItems = [],
-    workItemStateCounts = { all: 0, closed: 0, opened: 0 },
-    hasWorkItems = false,
-  } = {}) => {
+  const getEmptyPropValues = ({ workItems = [], hasWorkItems = false } = {}) => {
     return {
       workItems,
-      workItemStateCounts,
       hasWorkItems,
     };
   };
@@ -1538,15 +1487,14 @@ describe('empty states', () => {
       setWindowLocation('?label_name=bug');
       mountComponent({
         props: {
-          ...getEmptyPropValues(),
+          ...getEmptyPropValues({ hasWorkItems: true }),
         },
       });
       await waitForPromises();
     });
 
-    it('renders IssuableList component with empty results', () => {
-      expect(findIssuableList().exists()).toBe(true);
-      expect(findIssuableList().props('issuables')).toEqual([]);
+    it('renders EmptyStateWithAnyIssues component with empty results', () => {
+      expect(findEmptyStateWithAnyIssues().exists()).toBe(true);
     });
   });
 
@@ -1559,6 +1507,7 @@ describe('empty states', () => {
         provide: {
           isProject: false,
           isGroupIssuesList: true,
+          hasProjects: true,
         },
       });
       await waitForPromises();
@@ -1684,38 +1633,6 @@ describe('empty states', () => {
         expect(findCreateWorkItemModal().exists()).toBe(true);
       });
     });
-
-    describe('withTabs prop', () => {
-      const emptyStateConfig = {
-        ...getEmptyPropValues({
-          hasWorkItems: true,
-          workItemStateCounts: { all: 1, closed: 1, opened: 0 },
-        }),
-      };
-
-      it('passes withTabs as true by default', async () => {
-        mountComponent({
-          props: {
-            ...emptyStateConfig,
-          },
-          provide: { isProject: false, isGroupIssuesList: true },
-        });
-        await waitForPromises();
-
-        expect(findEmptyStateWithAnyIssues().props('withTabs')).toBe(true);
-      });
-
-      it('passes withTabs as false when withTabs prop is false', async () => {
-        mountComponent({
-          ...emptyStateConfig,
-          props: { withTabs: false },
-          provide: { isProject: false, isGroupIssuesList: true },
-        });
-        await waitForPromises();
-
-        expect(findEmptyStateWithAnyIssues().props('withTabs')).toBe(false);
-      });
-    });
   });
 });
 
@@ -1725,7 +1642,7 @@ describe('group filter', () => {
       mountComponent();
       await waitForPromises();
 
-      findIssuableList().vm.$emit('filter', [
+      findFilteredSearchBar().vm.$emit('onFilter', [
         {
           type: TOKEN_TYPE_GROUP,
           value: { data: 'path/to/another/group', operator: OPERATOR_IS },
@@ -1745,7 +1662,7 @@ describe('group filter', () => {
       mountComponent();
       await waitForPromises();
 
-      findIssuableList().vm.$emit('filter', [
+      findFilteredSearchBar().vm.$emit('onFilter', [
         { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
       ]);
       await nextTick();
@@ -1784,12 +1701,12 @@ describe('group filter', () => {
 });
 
 describe('when issue_date_filter is enabled', () => {
-  it('includes created and closed date in searchTokens', async () => {
+  it('includes created and closed date in tokens', async () => {
     mountComponent({ provide: { hasIssueDateFilterFeature: true } });
     await waitForPromises();
 
-    const tokenTypes = findIssuableList()
-      .props('searchTokens')
+    const tokenTypes = findFilteredSearchBar()
+      .props('tokens')
       .map((token) => token.type);
 
     expect(tokenTypes).toEqual(expect.arrayContaining([TOKEN_TYPE_CLOSED, TOKEN_TYPE_CREATED]));
@@ -1918,12 +1835,12 @@ describe('when bulk editing', () => {
     findBulkEditStartButton().vm.$emit('click');
     await waitForPromises();
 
-    expect(findIssuableList().props('showBulkEditSidebar')).toBe(true);
+    expect(findBulkEditSidebarWrapper().props('expanded')).toBe(true);
 
     findBulkEditSidebar().vm.$emit('success');
     await nextTick();
 
-    expect(findIssuableList().props('showBulkEditSidebar')).toBe(false);
+    expect(findBulkEditSidebarWrapper().props('expanded')).toBe(false);
   });
 
   it('does not close the bulk edit sidebar when no "success" event is emitted', async () => {
@@ -1933,12 +1850,12 @@ describe('when bulk editing', () => {
     findBulkEditStartButton().vm.$emit('click');
     await waitForPromises();
 
-    expect(findIssuableList().props('showBulkEditSidebar')).toBe(true);
+    expect(findBulkEditSidebarWrapper().props('expanded')).toBe(true);
 
     findBulkEditSidebar().vm.$emit('finish');
     await nextTick();
 
-    expect(findIssuableList().props('showBulkEditSidebar')).toBe(true);
+    expect(findBulkEditSidebarWrapper().props('expanded')).toBe(true);
   });
 
   it('creates a toast when the success event includes a toast message', async () => {
@@ -1948,7 +1865,7 @@ describe('when bulk editing', () => {
     findBulkEditStartButton().vm.$emit('click');
     await waitForPromises();
 
-    expect(findIssuableList().props('showBulkEditSidebar')).toBe(true);
+    expect(findBulkEditSidebarWrapper().props('expanded')).toBe(true);
 
     findBulkEditSidebar().vm.$emit('success', { toastMessage: 'hello!' });
     await nextTick();
@@ -1985,7 +1902,7 @@ describe('Saved Views', () => {
       it('renders "Save view" button when filters change', async () => {
         await mountDefault();
 
-        findIssuableList().vm.$emit('filter', [
+        findFilteredSearchBar().vm.$emit('onFilter', [
           { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
           { type: TOKEN_TYPE_SEARCH_WITHIN, value: { data: 'TITLE', operator: OPERATOR_IS } },
         ]);
@@ -1997,7 +1914,7 @@ describe('Saved Views', () => {
       it('opens the new saved view modal when clicking "Save view"', async () => {
         await mountDefault();
 
-        findIssuableList().vm.$emit('filter', [
+        findFilteredSearchBar().vm.$emit('onFilter', [
           { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
           { type: TOKEN_TYPE_SEARCH_WITHIN, value: { data: 'TITLE', operator: OPERATOR_IS } },
         ]);
@@ -2016,7 +1933,7 @@ describe('Saved Views', () => {
         });
         await waitForPromises();
 
-        findIssuableList().vm.$emit('filter', [
+        findFilteredSearchBar().vm.$emit('onFilter', [
           { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
           { type: TOKEN_TYPE_SEARCH_WITHIN, value: { data: 'TITLE', operator: OPERATOR_IS } },
         ]);
@@ -2028,7 +1945,7 @@ describe('Saved Views', () => {
       it('persists unsaved changes on "All Items" to localStorage', async () => {
         await mountDefault();
 
-        findIssuableList().vm.$emit('filter', [
+        findFilteredSearchBar().vm.$emit('onFilter', [
           { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
         ]);
         await nextTick();
@@ -2047,7 +1964,7 @@ describe('Saved Views', () => {
       });
 
       it('does not render the "Save view" button when filters change', async () => {
-        findIssuableList().vm.$emit('filter', [
+        findFilteredSearchBar().vm.$emit('onFilter', [
           { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
           { type: TOKEN_TYPE_SEARCH_WITHIN, value: { data: 'TITLE', operator: OPERATOR_IS } },
         ]);
@@ -2057,7 +1974,7 @@ describe('Saved Views', () => {
       });
 
       it('does not render the "Save view" button when sort changes', async () => {
-        findIssuableList().vm.$emit('sort', UPDATED_DESC);
+        findFilteredSearchBar().vm.$emit('onSort', UPDATED_DESC);
         await nextTick();
         await waitForPromises();
 
@@ -2181,7 +2098,7 @@ describe('Saved Views', () => {
     });
 
     it('renders "Save changes" and "Reset to defaults" buttons when filters change', async () => {
-      findIssuableList().vm.$emit('filter', [
+      findFilteredSearchBar().vm.$emit('onFilter', [
         { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
         { type: TOKEN_TYPE_SEARCH_WITHIN, value: { data: 'TITLE', operator: OPERATOR_IS } },
       ]);
@@ -2192,7 +2109,7 @@ describe('Saved Views', () => {
     });
 
     it('renders "Save changes" and "Reset to defaults" button when sort changes', async () => {
-      findIssuableList().vm.$emit('sort', CREATED_DESC);
+      findFilteredSearchBar().vm.$emit('onSort', CREATED_DESC);
       await nextTick();
 
       expect(findResetViewButton().exists()).toBe(true);
@@ -2242,7 +2159,7 @@ describe('Saved Views', () => {
     });
 
     it('resets filters, hides action buttons and resets local storage draft', async () => {
-      findIssuableList().vm.$emit('filter', [
+      findFilteredSearchBar().vm.$emit('onFilter', [
         { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
       ]);
       await waitForPromises();
@@ -2267,7 +2184,7 @@ describe('Saved Views', () => {
           });
           await waitForPromises();
 
-          findIssuableList().vm.$emit('filter', [
+          findFilteredSearchBar().vm.$emit('onFilter', [
             { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
           ]);
           await nextTick();
@@ -2302,7 +2219,7 @@ describe('Saved Views', () => {
           });
           await waitForPromises();
 
-          findIssuableList().vm.$emit('filter', [
+          findFilteredSearchBar().vm.$emit('onFilter', [
             { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
           ]);
 
@@ -2387,7 +2304,7 @@ describe('Saved Views', () => {
     });
 
     it('persists unsaved changes to localStorage', async () => {
-      findIssuableList().vm.$emit('filter', [
+      findFilteredSearchBar().vm.$emit('onFilter', [
         { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
       ]);
       await nextTick();
@@ -2399,7 +2316,7 @@ describe('Saved Views', () => {
     });
 
     it('persists unsaved data when navigating back to the saved view', async () => {
-      findIssuableList().vm.$emit('sort', CREATED_DESC);
+      findFilteredSearchBar().vm.$emit('onSort', CREATED_DESC);
       await nextTick();
 
       await router.push({ name: 'savedView', params: { type: 'work_items', view_id: '4' } });
@@ -2407,7 +2324,7 @@ describe('Saved Views', () => {
       await router.push({ name: 'savedView', params: { type: 'work_items', view_id: '3' } });
       await nextTick();
 
-      expect(findIssuableList().props('initialSortBy')).toBe(CREATED_DESC);
+      expect(findFilteredSearchBar().props('initialSortBy')).toBe(CREATED_DESC);
     });
   });
 
@@ -2421,7 +2338,7 @@ describe('Saved Views', () => {
       });
       await waitForPromises();
 
-      findIssuableList().vm.$emit('filter', [
+      findFilteredSearchBar().vm.$emit('onFilter', [
         { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
       ]);
       await nextTick();
@@ -2441,9 +2358,10 @@ describe('Saved Views', () => {
       });
       await waitForPromises();
 
-      findIssuableList().vm.$emit('filter', [
+      findFilteredSearchBar().vm.$emit('onFilter', [
         { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
       ]);
+      await nextTick();
 
       await findSaveViewButton().trigger('click');
       await nextTick();
@@ -2453,7 +2371,7 @@ describe('Saved Views', () => {
   });
 });
 
-describe('when "reorder" event is emitted by IssuableList', () => {
+describe('when "reorder" event is emitted by VueSortable', () => {
   beforeEach(async () => {
     mountComponent({
       mockPreferencesHandler: jest.fn().mockResolvedValue(userPreferenceQueryResponse),
@@ -2485,7 +2403,7 @@ describe('when "reorder" event is emitted by IssuableList', () => {
           });
           await waitForPromises();
 
-          findIssuableList().vm.$emit('reorder', { oldIndex, newIndex });
+          await findWorkItemListWrapper().trigger('update', { oldIndex, newIndex });
           await waitForPromises();
 
           const expectedInput = {
@@ -2539,7 +2457,7 @@ describe('iid filter search', () => {
     mountComponent();
     await waitForPromises();
 
-    findIssuableList().vm.$emit('filter', [
+    findFilteredSearchBar().vm.$emit('onFilter', [
       { type: FILTERED_SEARCH_TERM, value: { data: '#23', operator: 'undefined' } },
     ]);
     await nextTick();
@@ -2553,7 +2471,7 @@ describe('iid filter search', () => {
     mountComponent();
     await waitForPromises();
 
-    findIssuableList().vm.$emit('filter', [
+    findFilteredSearchBar().vm.$emit('onFilter', [
       { type: FILTERED_SEARCH_TERM, value: { data: '23', operator: 'undefined' } },
     ]);
     await nextTick();
@@ -2645,6 +2563,10 @@ describe('when service desk list', () => {
     it('renders EmptyStateWithAnyTickets when there are work items', async () => {
       mountComponent({
         provide: { isServiceDeskSupported: true, workItemType: WORK_ITEM_TYPE_NAME_TICKET },
+        props: {
+          hasWorkItems: true,
+          workItems: [],
+        },
       });
       await waitForPromises();
 
@@ -2656,6 +2578,7 @@ describe('when service desk list', () => {
         provide: { isServiceDeskSupported: true, workItemType: WORK_ITEM_TYPE_NAME_TICKET },
         props: {
           hasWorkItems: false,
+          workItems: [],
         },
       });
       await waitForPromises();

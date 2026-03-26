@@ -95,7 +95,7 @@ module LoginHelpers
     fill_in "user_login", with: user.email
 
     # When JavaScript is enabled, wait for the password field, with class `.js-password`,
-    # to be replaced by the Vue passsword component,
+    # to be replaced by the Vue password component,
     # `app/assets/javascripts/authentication/password/components/password_input.vue`.
     expect(page).not_to have_selector('.js-password') if javascript_test?
 

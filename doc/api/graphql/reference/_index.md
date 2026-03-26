@@ -57808,6 +57808,7 @@ Lists the status of a virtual registry cleanup policy.
 | Value | Description |
 | ----- | ----------- |
 | <a id="policyviolationerrortype-artifacts_missing"></a>`ARTIFACTS_MISSING` | Represents error which occurs when pipeline is misconfigured and does not include necessary artifacts to evaluate a policy. |
+| <a id="policyviolationerrortype-scan_not_succeeded"></a>`SCAN_NOT_SUCCEEDED` | Represents error which occurs when a security scan job did not complete successfully (e.g., was canceled or failed), preventing policy evaluation. |
 | <a id="policyviolationerrortype-scan_removed"></a>`SCAN_REMOVED` | Represents mismatch between the scans of the source and target pipelines. |
 | <a id="policyviolationerrortype-unknown"></a>`UNKNOWN` | Represents unknown error. |
 

@@ -28,13 +28,13 @@ module Gitlab
 
     # db_spin will query the database in a tight loop for the specified duration
     def self.db_spin(duration_s, interval_s)
-      expected_end_time = Time.now + duration_s
+      expected_end_time = Time.current + duration_s
 
-      while Time.now < expected_end_time
+      while expected_end_time.future?
         ApplicationRecord.connection.execute("SELECT 1")
 
-        end_interval_time = Time.now + [duration_s, interval_s].min
-        rand while Time.now < end_interval_time
+        end_interval_time = Time.current + [duration_s, interval_s].min
+        rand while end_interval_time.future?
       end
     end
 

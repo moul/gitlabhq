@@ -25,13 +25,15 @@ import {
   PERSONAL_TAB,
   STARRED_TAB,
 } from '~/projects/your_work/constants';
-import { MEMBER_TAB as MEMBER_TAB_GROUPS } from '~/groups/your_work/constants';
+import {
+  FILTERED_SEARCH_TERM_KEY,
+  MEMBER_TAB as MEMBER_TAB_GROUPS,
+} from '~/groups/your_work/constants';
 import {
   FILTERED_SEARCH_TOKEN_LANGUAGE,
   FILTERED_SEARCH_TOKEN_MIN_ACCESS_LEVEL,
   PAGINATION_TYPE_OFFSET,
 } from '~/groups_projects/constants';
-import { FILTERED_SEARCH_TERM_KEY } from '~/projects/filtered_search_and_sort/constants';
 import { ACCESS_LEVEL_OWNER_INTEGER, ACCESS_LEVEL_OWNER_STRING } from '~/access_level/constants';
 import { TIMESTAMP_TYPE_CREATED_AT } from '~/vue_shared/components/resource_lists/constants';
 import createMockApollo from 'helpers/mock_apollo_helper';

@@ -186,7 +186,6 @@ RSpec/VerifiedDoubles:
     - 'spec/controllers/concerns/import_url_params_spec.rb'
     - 'spec/controllers/concerns/issuable_actions_spec.rb'
     - 'spec/controllers/concerns/issuable_collections_spec.rb'
-    - 'spec/controllers/concerns/page_limiter_spec.rb'
     - 'spec/controllers/concerns/spammable_actions/akismet_mark_as_spam_action_spec.rb'
     - 'spec/controllers/concerns/spammable_actions/captcha_check/html_format_actions_support_spec.rb'
     - 'spec/controllers/concerns/spammable_actions/captcha_check/json_format_actions_support_spec.rb'

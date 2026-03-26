@@ -2,6 +2,7 @@
 import {
   GlButton,
   GlFilteredSearchToken,
+  GlKeysetPagination,
   GlLoadingIcon,
   GlIcon,
   GlTooltipDirective,
@@ -42,6 +43,9 @@ import {
 } from '~/issues/constants';
 import { AutocompleteCache } from '~/issues/dashboard/utils';
 import NewResourceDropdown from '~/vue_shared/components/new_resource_dropdown/new_resource_dropdown.vue';
+import FilteredSearchBar from '~/vue_shared/components/filtered_search_bar/filtered_search_bar_root.vue';
+import LocalStorageSync from '~/vue_shared/components/local_storage_sync.vue';
+import PageSizeSelector from '~/vue_shared/components/page_size_selector.vue';
 import {
   CREATED_DESC,
   ISSUE_REFERENCE,
@@ -113,8 +117,16 @@ import {
   TOKEN_TITLE_PARENT,
   FILTERED_SEARCH_TERM,
 } from '~/vue_shared/components/filtered_search_bar/constants';
-import IssuableList from '~/vue_shared/issuable/list/components/issuable_list_root.vue';
-import { DEFAULT_PAGE_SIZE, issuableListTabs } from '~/vue_shared/issuable/list/constants';
+import IssuableBulkEditSidebar from '~/vue_shared/issuable/list/components/issuable_bulk_edit_sidebar.vue';
+import ResourceListsLoadingStateList from '~/vue_shared/components/resource_lists/loading_state_list.vue';
+import IssuableItem from '~/vue_shared/issuable/list/components/issuable_item.vue';
+import IssuableTabs from '~/vue_shared/issuable/list/components/issuable_tabs.vue';
+import {
+  DEFAULT_SKELETON_COUNT,
+  PAGE_SIZE_STORAGE_KEY,
+  DEFAULT_PAGE_SIZE,
+  issuableListTabs,
+} from '~/vue_shared/issuable/list/constants';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_via_gl_modal';
 import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser.vue';
@@ -175,19 +187,27 @@ const WorkItemParentToken = () =>
 const WorkItemTypeToken = () =>
   import('~/vue_shared/components/filtered_search_bar/tokens/work_item_type_token.vue');
 
+const VueDraggable = () => import('~/lib/utils/vue3compat/draggable_compat.vue');
+
 export default {
   name: 'ListView',
   CREATION_CONTEXT_LIST_ROUTE,
   VIEW_CONTEXT,
-  issuableListTabs,
   searchProjectsQuery,
   WORK_ITEM_CREATE_SOURCES,
   importModalId: 'work-item-import-modal',
+  issuableListTabs,
   components: {
     GlLoadingIcon,
     GlButton,
+    GlKeysetPagination,
     InfoBanner,
-    IssuableList,
+    IssuableBulkEditSidebar,
+    IssuableItem,
+    IssuableTabs,
+    LocalStorageSync,
+    PageSizeSelector,
+    ResourceListsLoadingStateList,
     IssueCardStatistics,
     IssueCardTimeInfo,
     WorkItemBulkEditSidebar: () =>
@@ -212,6 +232,7 @@ export default {
     UserCalloutDismisser,
     WorkItemsSavedViewsNotFoundModal,
     WorkItemsSavedViewsLimitWarningModal,
+    FilteredSearchBar,
   },
   directives: {
     GlTooltip: GlTooltipDirective,
@@ -256,15 +277,19 @@ export default {
     'namespaceName',
   ],
   props: {
-    eeWorkItemUpdateCount: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
     withTabs: {
       type: Boolean,
       required: false,
       default: true,
+    },
+    workItemStateCounts: {
+      type: Object,
+      required: true,
+    },
+    eeWorkItemUpdateCount: {
+      type: Number,
+      required: false,
+      default: 0,
     },
     workItemTypes: {
       type: Array,
@@ -281,10 +306,6 @@ export default {
     },
     workItems: {
       type: Array,
-      required: true,
-    },
-    workItemStateCounts: {
-      type: Object,
       required: true,
     },
     workItemsCount: {
@@ -357,6 +378,7 @@ export default {
       isNewViewModalVisible: false,
       savedView: null,
       showSavedViewNotFoundModal: false,
+      checkedIssuableIds: [],
       subscribeFromModal: false,
     };
   },
@@ -486,11 +508,11 @@ export default {
           sort: SAVED_VIEW_SORT_RELATIVE_POSITION,
         };
       },
-      update(data) {
-        return data?.namespace?.savedViews?.nodes ?? [];
-      },
       skip() {
         return !this.isPlanningViewsEnabled;
+      },
+      update(data) {
+        return data?.namespace?.savedViews?.nodes ?? [];
       },
       error(e) {
         Sentry.captureException(e);
@@ -498,6 +520,49 @@ export default {
     },
   },
   computed: {
+    tabCounts() {
+      const { all, closed, opened } = this.workItemStateCounts;
+      return {
+        [STATUS_OPEN]: opened,
+        [STATUS_CLOSED]: closed,
+        [STATUS_ALL]: all,
+      };
+    },
+    tabs() {
+      if (this.withTabs) {
+        return this.$options.issuableListTabs;
+      }
+      return [];
+    },
+    currentTabCount() {
+      if (this.withTabs) {
+        return this.tabCounts[this.state] ?? 0;
+      }
+      return this.workItemsCount;
+    },
+    issuablesWrapper() {
+      return this.isManualOrdering ? VueDraggable : 'ul';
+    },
+    isPlanningViewsEnabled() {
+      return this.glFeatures.workItemPlanningView || !this.withTabs;
+    },
+    skeletonItemCount() {
+      const { totalItems, defaultPageSize, currentPage } = this;
+      const totalPages = Math.ceil(totalItems / defaultPageSize);
+
+      if (totalPages) {
+        return currentPage < totalPages
+          ? defaultPageSize
+          : totalItems % defaultPageSize || defaultPageSize;
+      }
+      return DEFAULT_SKELETON_COUNT;
+    },
+    allIssuablesChecked() {
+      return this.checkedIssuables.length === this.workItems.length;
+    },
+    checkedIssuables() {
+      return this.workItems.filter((issuable) => this.checkedIssuableIds.includes(issuable.id));
+    },
     savedViewId() {
       return convertToGraphQLId('WorkItems::SavedViews::SavedView', this.$route.params.view_id);
     },
@@ -756,7 +821,6 @@ export default {
           ],
         });
       }
-
       if (!this.withTabs) {
         tokens.push({
           type: TOKEN_TYPE_STATE,
@@ -883,14 +947,6 @@ export default {
         hasWeight: !this.isEpicsList,
       });
     },
-    tabCounts() {
-      const { all, closed, opened } = this.workItemStateCounts;
-      return {
-        [STATUS_OPEN]: opened,
-        [STATUS_CLOSED]: closed,
-        [STATUS_ALL]: all,
-      };
-    },
     urlFilterParams() {
       return convertToUrlParams(this.filterTokens, {
         hasCustomFieldsFeature: this.hasCustomFieldsFeature,
@@ -914,18 +970,6 @@ export default {
           : this.activeItem?.workItemType;
       return this.workItemType || activeWorkItemTypeName;
     },
-    tabs() {
-      if (this.withTabs) {
-        return this.$options.issuableListTabs;
-      }
-      return [];
-    },
-    enableClientSideBoardsExperiment() {
-      return this.glFeatures.workItemsClientSideBoards;
-    },
-    isPlanningViewsEnabled() {
-      return this.glFeatures.workItemPlanningView || !this.withTabs;
-    },
     preselectedWorkItemType() {
       return this.isEpicsList ? WORK_ITEM_TYPE_NAME_EPIC : WORK_ITEM_TYPE_NAME_ISSUE;
     },
@@ -934,9 +978,6 @@ export default {
     },
     canExport() {
       return !this.isGroup && this.isLoggedIn && this.workItems.length > 0;
-    },
-    currentTabCount() {
-      return this.tabCounts[this.state] ?? 0;
     },
     isManualOrdering() {
       return this.sortKey === RELATIVE_POSITION_ASC;
@@ -1068,7 +1109,7 @@ export default {
       );
     },
     shouldShowSaveView() {
-      return this.canCreateSavedView && this.viewConfigChanged;
+      return this.canCreateSavedView && this.viewConfigChanged && this.isLoggedIn;
     },
     savedViewNotFound() {
       return this.isSavedView && !this.savedView;
@@ -1205,6 +1246,35 @@ export default {
     setPageDefaultWidth();
   },
   methods: {
+    handleClickTab(state) {
+      if (this.state === state) {
+        return;
+      }
+
+      this.state = state;
+      this.pageParams = getInitialPageParams(this.pageSize);
+
+      this.updateRouterQueryParams();
+    },
+    isIssuableChecked(issuable) {
+      return this.checkedIssuableIds.includes(issuable.id);
+    },
+    isIssuableActive(issuable) {
+      return Boolean(getIdFromGraphQLId(issuable.id) === getIdFromGraphQLId(this.activeItem?.id));
+    },
+    updateCheckedIssuableIds(issuable, toCheck) {
+      const isIdChecked = this.checkedIssuableIds.includes(issuable.id);
+      if (toCheck && !isIdChecked) {
+        this.checkedIssuableIds.push(issuable.id);
+      }
+      if (!toCheck && isIdChecked) {
+        const indexToDelete = this.checkedIssuableIds.findIndex((id) => id === issuable.id);
+        this.checkedIssuableIds.splice(indexToDelete, 1);
+      }
+    },
+    handleAllIssuablesCheckedInput(value) {
+      this.workItems.forEach((issuable) => this.updateCheckedIssuableIds(issuable, value));
+    },
     async attemptSubscription(view) {
       try {
         await subscribeToSavedView({ view, cache: this.$apollo, fullPath: this.rootPageFullPath });
@@ -1219,7 +1289,7 @@ export default {
     },
     getFilterTokensFromSavedView(savedViewFilters) {
       const tokens = getSavedViewFilterTokens(savedViewFilters, {
-        includeStateToken: true,
+        includeStateToken: !this.withTabs,
         hasCustomFieldsFeature: this.hasCustomFieldsFeature,
         convertTypeTokens: true,
       });
@@ -1299,16 +1369,6 @@ export default {
       if (event?.toastMessage) {
         this.$toast.show(event.toastMessage);
       }
-    },
-    handleClickTab(state) {
-      if (this.state === state) {
-        return;
-      }
-
-      this.state = state;
-      this.pageParams = getInitialPageParams(this.pageSize);
-
-      this.updateRouterQueryParams();
     },
     handleFilter(tokens) {
       this.filterTokens = tokens;
@@ -1479,7 +1539,7 @@ export default {
       );
 
       // Trigger pageSize UI component update based on URL changes
-      this.pageSize = this.pageParams.firstPageSize;
+      this.pageSize = this.pageParams.firstPageSize || DEFAULT_PAGE_SIZE;
       this.sortKey = sortKey;
       this.state = state || STATUS_OPEN;
     },
@@ -1774,6 +1834,7 @@ export default {
   },
   constants: {
     METADATA_KEYS,
+    PAGE_SIZE_STORAGE_KEY,
   },
 };
 </script>
@@ -1785,15 +1846,12 @@ export default {
     v-else-if="shouldShowList"
     :class="{ 'work-item-list-container': isPlanningViewsEnabled && !isServiceDeskList }"
   >
-    <user-callout-dismisser
-      v-if="isPlanningViewsEnabled"
-      feature-name="work_items_onboarding_modal"
-    >
-      <template #default="{ dismiss, shouldShowCallout }">
-        <work-items-onboarding-modal v-if="shouldShowCallout" @close="dismiss" />
-      </template>
-    </user-callout-dismisser>
     <template v-if="isPlanningViewsEnabled">
+      <user-callout-dismisser feature-name="work_items_onboarding_modal">
+        <template #default="{ dismiss, shouldShowCallout }">
+          <work-items-onboarding-modal v-if="shouldShowCallout" @close="dismiss" />
+        </template>
+      </user-callout-dismisser>
       <work-items-saved-views-not-found-modal
         :show="showSavedViewNotFoundModal"
         data-testid="view-not-found-modal"
@@ -1823,110 +1881,8 @@ export default {
         @work-item-updated="handleStatusChange"
       />
       <info-banner v-if="isInfoBannerVisible" />
-      <issuable-list
-        :active-issuable="activeItem"
-        :current-tab="state"
-        :default-page-size="pageSize"
-        :error="isPlanningViewsEnabled ? undefined : error"
-        :has-next-page="pageInfo.hasNextPage"
-        :has-previous-page="pageInfo.hasPreviousPage"
-        :initial-filter-value="filterTokens"
-        :initial-sort-by="sortKey"
-        :issuables="workItems"
-        :issuables-loading="isLoading"
-        :is-manual-ordering="isManualOrdering"
-        :show-bulk-edit-sidebar="showBulkEditSidebar"
-        label-filter-param="label_name"
-        :namespace="rootPageFullPath"
-        :full-path="rootPageFullPath"
-        recent-searches-storage-key="issues"
-        :search-tokens="searchTokens"
-        show-filtered-search-friendly-text
-        :show-page-size-selector="showPageSizeSelector"
-        :show-pagination-controls="showPaginationControls"
-        show-work-item-type-icon
-        :sort-options="sortOptions"
-        sync-filter-and-sort
-        :tab-counts="tabCounts"
-        :tabs="tabs"
-        use-keyset-pagination
-        :prevent-redirect="workItemDrawerEnabled"
-        :detail-loading="detailLoading"
-        :hidden-metadata-keys="hiddenMetadataKeys"
-        :always-allow-custom-empty-state="isPlanningViewsEnabled"
-        @click-tab="handleClickTab"
-        @dismiss-alert="$emit('dismiss-alert')"
-        @filter="handleFilter"
-        @next-page="handleNextPage"
-        @page-size-change="handlePageSizeChange"
-        @previous-page="handlePreviousPage"
-        @sort="handleSort"
-        @select-issuable="handleToggle"
-        @reorder="handleReorder"
-      >
-        <template #user-preference>
-          <work-item-user-preferences
-            :namespace-preferences="displaySettingsSoT.namespacePreferences"
-            :common-preferences="displaySettings.commonPreferences"
-            :full-path="rootPageFullPath"
-            :is-epics-list="isEpicsList"
-            :is-group="isGroup"
-            :is-service-desk-list="isServiceDeskList"
-            :work-item-type-id="workItemTypeId"
-            :sort-key="sortKey"
-            :prevent-auto-submit="isSavedView"
-            @local-update="handleLocalDisplayPreferencesUpdate"
-          />
-        </template>
-        <template v-if="!isPlanningViewsEnabled && !isServiceDeskList" #nav-actions>
-          <div class="gl-flex gl-justify-end gl-gap-3">
-            <gl-button
-              v-if="enableClientSideBoardsExperiment"
-              data-testid="show-local-board-button"
-              @click="showLocalBoard = true"
-            >
-              {{ __('Launch board') }}
-            </gl-button>
-            <gl-button
-              v-if="allowBulkEditing"
-              :disabled="isBulkEditDisabled"
-              data-testid="bulk-edit-start-button"
-              @click="showBulkEditSidebar = true"
-            >
-              {{ __('Bulk edit') }}
-            </gl-button>
-            <create-work-item-modal
-              v-if="showProjectNewWorkItem"
-              :always-show-work-item-type-select="!isEpicsList"
-              :creation-context="$options.CREATION_CONTEXT_LIST_ROUTE"
-              :full-path="rootPageFullPath"
-              :is-group="isGroup"
-              :preselected-work-item-type="preselectedWorkItemType"
-              :is-epics-list="isEpicsList"
-              :create-source="$options.WORK_ITEM_CREATE_SOURCES.WORK_ITEM_LIST"
-              @work-item-created="handleWorkItemCreated"
-            />
-            <new-resource-dropdown
-              v-if="showGroupNewWorkItem"
-              :query="$options.searchProjectsQuery"
-              :query-variables="newIssueDropdownQueryVariables"
-              :extract-projects="extractProjects"
-              :group-id="groupId"
-            />
-            <work-item-list-actions
-              :can-export="canExport"
-              :show-work-item-by-email-button="showWorkItemByEmail"
-              :work-item-count="currentTabCount"
-              :query-variables="csvExportQueryVariables"
-              :full-path="rootPageFullPath"
-              :url-params="urlParams"
-              :is-epics-list="isEpicsList"
-              :is-group-issues-list="isGroupIssuesList"
-            />
-          </div>
-        </template>
-
-        <template v-if="isPlanningViewsEnabled && !isServiceDeskList" #list-header>
+      <div class="issuable-list-container">
+        <template v-if="!isServiceDeskList">
           <div v-if="error" class="gl-mt-5">
             <gl-alert
               variant="danger"
@@ -1937,7 +1893,56 @@ export default {
             </gl-alert>
           </div>
 
+          <issuable-tabs
+            v-if="withTabs"
+            :tabs="tabs"
+            :tab-counts="tabCounts"
+            :current-tab="state"
+            @click="handleClickTab"
+          >
+            <template #nav-actions>
+              <div class="gl-flex gl-justify-end gl-gap-3">
+                <gl-button
+                  v-if="allowBulkEditing"
+                  :disabled="isBulkEditDisabled"
+                  data-testid="bulk-edit-start-button"
+                  @click="showBulkEditSidebar = true"
+                >
+                  {{ __('Bulk edit') }}
+                </gl-button>
+                <create-work-item-modal
+                  v-if="showProjectNewWorkItem"
+                  :always-show-work-item-type-select="!isEpicsList"
+                  :creation-context="$options.CREATION_CONTEXT_LIST_ROUTE"
+                  :full-path="rootPageFullPath"
+                  :is-group="isGroup"
+                  :preselected-work-item-type="preselectedWorkItemType"
+                  :is-epics-list="isEpicsList"
+                  :create-source="$options.WORK_ITEM_CREATE_SOURCES.WORK_ITEM_LIST"
+                  @work-item-created="handleWorkItemCreated"
+                />
+                <new-resource-dropdown
+                  v-if="showGroupNewWorkItem"
+                  :query="$options.searchProjectsQuery"
+                  :query-variables="newIssueDropdownQueryVariables"
+                  :extract-projects="extractProjects"
+                  :group-id="groupId"
+                />
+                <work-item-list-actions
+                  :can-export="canExport"
+                  :show-work-item-by-email-button="showWorkItemByEmail"
+                  :work-item-count="currentTabCount"
+                  :query-variables="csvExportQueryVariables"
+                  :full-path="rootPageFullPath"
+                  :url-params="urlParams"
+                  :is-epics-list="isEpicsList"
+                  :is-group-issues-list="isGroupIssuesList"
+                />
+              </div>
+            </template>
+          </issuable-tabs>
           <work-items-saved-views-selectors
+            v-else
             :selected-saved-view="savedView"
             :full-path="rootPageFullPath"
             :saved-views="subscribedSavedViews"
@@ -1952,9 +1957,9 @@ export default {
               <work-item-list-actions
                 :can-export="canExport"
                 :show-work-item-by-email-button="showWorkItemByEmail"
-                :work-item-count="workItemsCount"
                 :query-variables="csvExportQueryVariables"
                 :full-path="rootPageFullPath"
+                :work-item-count="currentTabCount"
                 :url-params="urlParams"
                 :is-epics-list="isEpicsList"
                 :is-group-issues-list="isGroupIssuesList"
@@ -1973,8 +1978,73 @@ export default {
             </template>
           </work-items-saved-views-selectors>
         </template>
-
-        <template v-if="isPlanningViewsEnabled && !isServiceDeskList" #before-list-items>
+        <!-- eslint-disable vue/v-on-event-hyphenation -->
+        <filtered-search-bar
+          :namespace="rootPageFullPath"
+          recent-searches-storage-key="issues"
+          :search-input-placeholder="__('Search or filter results…')"
+          :tokens="searchTokens"
+          :sort-options="sortOptions"
+          :initial-filter-value="filterTokens"
+          :initial-sort-by="sortKey"
+          sync-filter-and-sort
+          :show-checkbox="showBulkEditSidebar"
+          :checkbox-checked="allIssuablesChecked"
+          show-friendly-text
+          terms-as-tokens
+          class="row-content-block gl-grow gl-border-t-0 @sm/panel:gl-flex"
+          data-testid="issuable-search-container"
+          @checked-input="handleAllIssuablesCheckedInput"
+          @onFilter="handleFilter"
+          @onSort="handleSort"
+        >
+          <!-- eslint-enable vue/v-on-event-hyphenation -->
+          <template #user-preference>
+            <work-item-user-preferences
+              :namespace-preferences="displaySettingsSoT.namespacePreferences"
+              :common-preferences="displaySettings.commonPreferences"
+              :full-path="rootPageFullPath"
+              :is-epics-list="isEpicsList"
+              :is-group="isGroup"
+              :is-service-desk-list="isServiceDeskList"
+              :work-item-type-id="workItemTypeId"
+              :sort-key="sortKey"
+              :prevent-auto-submit="isSavedView"
+              @local-update="handleLocalDisplayPreferencesUpdate"
+            />
+          </template>
+        </filtered-search-bar>
+        <issuable-bulk-edit-sidebar :expanded="showBulkEditSidebar">
+          <template #bulk-edit-actions>
+            <gl-button
+              :disabled="!checkedIssuables.length || bulkEditInProgress"
+              form="work-item-list-bulk-edit"
+              :loading="bulkEditInProgress"
+              type="submit"
+              variant="confirm"
+            >
+              {{ __('Update selected') }}
+            </gl-button>
+            <gl-button class="gl-float-right" @click="showBulkEditSidebar = false">
+              {{ __('Cancel') }}
+            </gl-button>
+          </template>
+          <template #sidebar-items>
+            <div class="work-item-bulk-edit-sidebar-wrapper gl-overflow-y-auto">
+              <work-item-bulk-edit-sidebar
+                v-if="showBulkEditSidebar"
+                :checked-items="checkedIssuables"
+                :full-path="rootPageFullPath"
+                :is-epics-list="isEpicsList"
+                :is-group="isGroup"
+                @finish="bulkEditInProgress = false"
+                @start="bulkEditInProgress = true"
+                @success="handleBulkEditSuccess"
+              />
+            </div>
+          </template>
+        </issuable-bulk-edit-sidebar>
+        <template v-if="!isServiceDeskList && isPlanningViewsEnabled">
           <!-- state-count -->
           <div class="gl-border-b gl-flex gl-flex-wrap gl-justify-between gl-gap-y-3 gl-py-3">
             <div class="gl-flex gl-items-center">
@@ -2049,155 +2119,195 @@ export default {
           </div>
         </template>
 
-        <template #timeframe="{ issuable = {} }">
-          <issue-card-time-info
-            :issue="issuable"
-            :is-work-item-list="true"
-            :hidden-metadata-keys="hiddenMetadataKeys"
-            :detail-loading="detailLoading"
-          />
-        </template>
-
-        <template #status="{ issuable }">
-          {{ getStatus(issuable) }}
-        </template>
-
-        <template #statistics="{ issuable = {} }">
-          <issue-card-statistics :issue="issuable" />
-        </template>
-
-        <template v-if="!error" #empty-state>
-          <slot
-            name="list-empty-state"
-            :has-search="hasSearch"
-            :is-open-tab="isOpenTab"
-            :with-tabs="withTabs"
+        <resource-lists-loading-state-list
+          v-if="isLoading"
+          :left-lines-count="3"
+          :list-length="skeletonItemCount"
+        />
+        <template v-else>
+          <component
+            :is="issuablesWrapper"
+            v-if="workItems.length > 0"
+            :value="workItems"
+            item-key="id"
+            class="content-list issuable-list issues-list"
+            :class="{ 'manual-ordering': isManualOrdering }"
+            v-bind="$options.vueDraggableAttributes"
+            data-testid="work-item-list-wrapper"
+            @update="handleReorder"
           >
-            <template v-if="isServiceDeskList">
-              <empty-state-with-any-tickets
-                v-if="hasWorkItems"
-                :has-search="hasSearch"
-                :is-open-tab="isOpenTab"
-              />
-              <empty-state-without-any-tickets v-else />
-            </template>
+            <issuable-item
+              v-for="workItem in workItems"
+              :key="workItem.id"
+              :class="{ 'gl-cursor-grab': isManualOrdering }"
+              data-testid="issuable-container"
+              :data-qa-issuable-title="workItem.title"
+              :issuable="workItem"
+              label-filter-param="label_name"
+              issuable-symbol="#"
+              :full-path="rootPageFullPath"
+              :show-checkbox="showBulkEditSidebar"
+              :checked="isIssuableChecked(workItem)"
+              show-work-item-type-icon
+              :prevent-redirect="workItemDrawerEnabled"
+              :is-active="isIssuableActive(workItem)"
+              :detail-loading="detailLoading"
+              :hidden-metadata-keys="hiddenMetadataKeys"
+              @checked-input="updateCheckedIssuableIds(workItem, $event)"
+              @select-issuable="handleToggle"
+            >
+              <template #timeframe>
+                <issue-card-time-info
+                  :issue="workItem"
+                  :is-work-item-list="true"
+                  :hidden-metadata-keys="hiddenMetadataKeys"
+                  :detail-loading="detailLoading"
+                />
+              </template>
 
-            <empty-state-with-any-issues
-              v-else-if="hasWorkItems"
+              <template #status>
+                {{ getStatus(workItem) }}
+              </template>
+
+              <template #statistics>
+                <issue-card-statistics :issue="workItem" />
+              </template>
+
+              <template #health-status>
+                <health-status
+                  v-if="!hiddenMetadataKeys.includes($options.constants.METADATA_KEYS.HEALTH)"
+                  :issue="workItem"
+                />
+              </template>
+
+              <template #custom-status>
+                <slot
+                  v-if="!hiddenMetadataKeys.includes($options.constants.METADATA_KEYS.STATUS)"
+                  name="custom-status"
+                  :issuable="workItem"
+                ></slot>
+              </template>
+
+              <template v-if="parentId" #title-icons>
+                <span
+                  v-if="!detailLoading && isDirectChildOfWorkItem(workItem)"
+                  v-gl-tooltip
+                  data-testid="sub-child-work-item-indicator"
+                  :title="__('This item belongs to a descendant of the filtered parent.')"
+                  class="gl-ml-1 gl-inline-block"
+                >
+                  <gl-icon name="file-tree" variant="subtle" />
+                </span>
+                <gl-skeleton-loader
+                  v-if="detailLoading"
+                  class="gl-ml-1 gl-inline-block"
+                  :width="20"
+                  :lines="1"
+                  equal-width-lines
+                />
+              </template>
+            </issuable-item>
+          </component>
+          <template v-if="!error && workItems.length === 0">
+            <slot
+              name="list-empty-state"
               :has-search="hasSearch"
               :is-open-tab="isOpenTab"
-              :is-epic="isEpicsList"
-              :with-tabs="withTabs"
+              :with-tabs="false"
             >
-              <template #new-issue-button>
-                <create-work-item-modal
-                  v-if="showProjectNewWorkItem"
-                  :always-show-work-item-type-select="!isEpicsList"
-                  :creation-context="$options.CREATION_CONTEXT_LIST_ROUTE"
-                  :full-path="rootPageFullPath"
-                  :is-group="isGroup"
-                  :preselected-work-item-type="preselectedWorkItemType"
-                  :is-epics-list="isEpicsList"
-                  :create-source="$options.WORK_ITEM_CREATE_SOURCES.WORK_ITEM_LIST"
-                  @work-item-created="handleWorkItemCreated"
+              <template v-if="isServiceDeskList">
+                <empty-state-with-any-tickets
+                  v-if="hasWorkItems"
+                  :has-search="hasSearch"
+                  :is-open-tab="isOpenTab"
                 />
-                <new-resource-dropdown
-                  v-if="showGroupNewWorkItem"
-                  :query="$options.searchProjectsQuery"
-                  :query-variables="newIssueDropdownQueryVariables"
-                  :extract-projects="extractProjects"
-                  :group-id="groupId"
-                />
+                <empty-state-without-any-tickets v-else />
               </template>
-            </empty-state-with-any-issues>
-            <empty-state-without-any-issues
-              v-else
-              :show-new-issue-dropdown="showGroupNewWorkItem"
-              :has-projects="hasProjects"
-            >
-              <template #new-issue-button>
-                <create-work-item-modal
-                  v-if="showProjectNewWorkItem"
-                  :always-show-work-item-type-select="!isEpicsList"
-                  :creation-context="$options.CREATION_CONTEXT_LIST_ROUTE"
-                  :full-path="rootPageFullPath"
-                  :is-group="isGroup"
-                  :preselected-work-item-type="preselectedWorkItemType"
-                  :show-project-selector="!hasEpicsFeature"
-                  :create-source="$options.WORK_ITEM_CREATE_SOURCES.WORK_ITEM_LIST"
-                  @work-item-created="handleWorkItemCreated"
-                />
-              </template>
-            </empty-state-without-any-issues>
-          </slot>
-        </template>
 
-        <template #list-body>
-          <slot name="list-body"></slot>
+              <empty-state-with-any-issues
+                v-else-if="hasWorkItems"
+                :has-search="hasSearch"
+                :is-open-tab="isOpenTab"
+                :is-epic="isEpicsList"
+                :with-tabs="false"
+              >
+                <template #new-issue-button>
+                  <create-work-item-modal
+                    v-if="showProjectNewWorkItem"
+                    :always-show-work-item-type-select="!isEpicsList"
+                    :creation-context="$options.CREATION_CONTEXT_LIST_ROUTE"
+                    :full-path="rootPageFullPath"
+                    :is-group="isGroup"
+                    :preselected-work-item-type="preselectedWorkItemType"
+                    :is-epics-list="isEpicsList"
+                    :create-source="$options.WORK_ITEM_CREATE_SOURCES.WORK_ITEM_LIST"
+                    @work-item-created="handleWorkItemCreated"
+                  />
+                  <new-resource-dropdown
+                    v-if="showGroupNewWorkItem"
+                    :query="$options.searchProjectsQuery"
+                    :query-variables="newIssueDropdownQueryVariables"
+                    :extract-projects="extractProjects"
+                    :group-id="groupId"
+                  />
+                </template>
+              </empty-state-with-any-issues>
+              <empty-state-without-any-issues
+                v-else
+                :show-new-issue-dropdown="showGroupNewWorkItem"
+                :has-projects="hasProjects"
+              >
+                <template #new-issue-button>
+                  <create-work-item-modal
+                    v-if="showProjectNewWorkItem"
+                    :always-show-work-item-type-select="!isEpicsList"
+                    :creation-context="$options.CREATION_CONTEXT_LIST_ROUTE"
+                    :full-path="rootPageFullPath"
+                    :is-group="isGroup"
+                    :preselected-work-item-type="preselectedWorkItemType"
+                    :show-project-selector="!hasEpicsFeature"
+                    :create-source="$options.WORK_ITEM_CREATE_SOURCES.WORK_ITEM_LIST"
+                    @work-item-created="handleWorkItemCreated"
+                  />
+                  <new-resource-dropdown
+                    v-if="showGroupNewWorkItem"
+                    :query="$options.searchProjectsQuery"
+                    :query-variables="newIssueDropdownQueryVariables"
+                    :extract-projects="extractProjects"
+                    :group-id="groupId"
+                  />
+                </template>
+              </empty-state-without-any-issues>
+            </slot>
+          </template>
         </template>
+      </div>
 
-        <template #bulk-edit-actions="{ checkedIssuables }">
-          <gl-button
-            :disabled="!checkedIssuables.length || bulkEditInProgress"
-            form="work-item-list-bulk-edit"
-            :loading="bulkEditInProgress"
-            type="submit"
-            variant="confirm"
-          >
-            {{ __('Update selected') }}
-          </gl-button>
-          <gl-button class="gl-float-right" @click="showBulkEditSidebar = false">
-            {{ __('Cancel') }}
-          </gl-button>
-        </template>
+      <div
+        data-testid="list-footer"
+        class="gl-relative gl-mt-6 gl-flex gl-justify-between @md/panel:!gl-justify-center"
+      >
+        <gl-keyset-pagination
+          v-if="showPaginationControls"
+          :has-next-page="pageInfo.hasNextPage"
+          :has-previous-page="pageInfo.hasPreviousPage"
+          @next="handleNextPage"
+          @prev="handlePreviousPage"
+        />
 
-        <template #sidebar-items="{ checkedIssuables }">
-          <div class="work-item-bulk-edit-sidebar-wrapper gl-overflow-y-auto">
-            <work-item-bulk-edit-sidebar
-              v-if="showBulkEditSidebar"
-              :checked-items="checkedIssuables"
-              :full-path="rootPageFullPath"
-              :is-epics-list="isEpicsList"
-              :is-group="isGroup"
-              @finish="bulkEditInProgress = false"
-              @start="bulkEditInProgress = true"
-              @success="handleBulkEditSuccess"
-            />
-          </div>
-        </template>
-
-        <template #health-status="{ issuable = {} }">
-          <health-status
-            v-if="!hiddenMetadataKeys.includes($options.constants.METADATA_KEYS.HEALTH)"
-            :issue="issuable"
+        <local-storage-sync
+          v-if="showPageSizeSelector"
+          :value="pageSize"
+          :storage-key="$options.constants.PAGE_SIZE_STORAGE_KEY"
+          @input="handlePageSizeChange"
+        >
+          <page-size-selector
+            :value="pageSize"
+            class="gl-relative gl-right-0 @md/panel:gl-absolute"
+            @input="handlePageSizeChange"
           />
-        </template>
-        <template #custom-status="{ issuable }">
-          <slot
-            v-if="!hiddenMetadataKeys.includes($options.constants.METADATA_KEYS.STATUS)"
-            name="custom-status"
-            :issuable="issuable"
-          ></slot>
-        </template>
-        <template v-if="parentId" #title-icons="{ issuable }">
-          <span
-            v-if="!detailLoading && isDirectChildOfWorkItem(issuable)"
-            v-gl-tooltip
-            data-testid="sub-child-work-item-indicator"
-            :title="__('This item belongs to a descendant of the filtered parent.')"
-            class="gl-ml-1 gl-inline-block"
-          >
-            <gl-icon name="file-tree" variant="subtle" />
-          </span>
-          <gl-skeleton-loader
-            v-if="detailLoading"
-            class="gl-ml-1 gl-inline-block"
-            :width="20"
-            :lines="1"
-            equal-width-lines
-          />
-        </template>
-      </issuable-list>
+        </local-storage-sync>
+      </div>
     </template>
   </div>
 
