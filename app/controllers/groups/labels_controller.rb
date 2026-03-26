@@ -37,7 +37,7 @@ class Groups::LabelsController < Groups::ApplicationController
   end
 
   def create
-    @label = Labels::CreateService.new(label_params).execute(group: group)
+    @label = Labels::CreateService.new(current_user, label_params).execute(group: group)
 
     respond_to do |format|
       format.html do
@@ -59,7 +59,7 @@ class Groups::LabelsController < Groups::ApplicationController
   end
 
   def update
-    @label = Labels::UpdateService.new(label_params).execute(@label)
+    @label = Labels::UpdateService.new(current_user, label_params).execute(@label)
 
     if @label.valid?
       redirect_back_or_group_labels_path
@@ -69,12 +69,14 @@ class Groups::LabelsController < Groups::ApplicationController
   end
 
   def destroy
-    if @label.destroy
+    label = Labels::DestroyService.new(current_user, @label).execute
+
+    if label.destroyed?
       redirect_to group_labels_path(@group), status: :found,
-        notice: format(_('%{label_name} was removed'), label_name: @label.name)
+        notice: format(_('%{label_name} was removed'), label_name: label.name)
     else
       redirect_to group_labels_path(@group), status: :found,
-        alert: @label.errors.full_messages.to_sentence
+        alert: label.errors.full_messages.to_sentence
     end
   end
 

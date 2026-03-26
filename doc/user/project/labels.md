@@ -638,6 +638,35 @@ To set a label to get locked on merge:
 1. Select the **Lock label after a merge request is merged** checkbox.
 1. Select **Save changes**.
 
+## Audit events for labels
+
+{{< details >}}
+
+- Tier: Premium, Ultimate
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
+
+> - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/415036) in GitLab 18.11.
+
+GitLab records [audit events](../compliance/audit_event_types.md) when you create,
+update, or delete project and group labels. Use these events to track label changes
+for debugging or compliance purposes.
+
+The following label actions generate audit events:
+
+- `label_created`: A project or group label is created.
+- `label_updated`: A project or group label is updated. When the title changes,
+  the audit message includes the old and new title
+  (for example, `Changed label title from Foo to Bar`).
+  For other field changes, the message is generic
+  (for example, `Updated label Foo`).
+- `label_deleted`: A project or group label is deleted.
+
+> [!note]
+> Labels that GitLab creates automatically, for example during Jira imports, do not
+> generate audit events. Only labels created through direct user action are audited.
+
 ## Related topics
 
 - Tutorials:

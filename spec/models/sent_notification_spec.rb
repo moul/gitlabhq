@@ -327,10 +327,23 @@ RSpec.describe SentNotification, :request_store, feature_category: :notification
 
     it { is_expected.to match(described_class::PARTITIONED_REPLY_KEY_REGEX) }
 
+    # This might seem a bit redundant, but here `namespace_id` is not optional
+    it { is_expected.to match(/\A[0-9a-z]{1,4}-[0-9a-z]{25}-[0-9a-z]{1,13}\z/) }
+
     context 'when sent_notification is not persisted' do
       let(:sent_notification) { build(:sent_notification) }
 
       it { is_expected.to eq(sent_notification.reply_key) }
+    end
+
+    context 'when sent_notification_reply_key_with_namespace feature flag is disabled' do
+      before do
+        stub_feature_flags(sent_notification_reply_key_with_namespace: false)
+      end
+
+      it { is_expected.to match(described_class::PARTITIONED_REPLY_KEY_REGEX) }
+
+      it { is_expected.to match(/\A[0-9a-z]{1,4}-[0-9a-z]{25}\z/) }
     end
   end
 

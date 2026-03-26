@@ -46,7 +46,7 @@ class Projects::LabelsController < Projects::ApplicationController
   end
 
   def create
-    @label = Labels::CreateService.new(label_params).execute(project: @project)
+    @label = Labels::CreateService.new(current_user, label_params).execute(project: @project)
 
     if @label.valid?
       respond_to do |format|
@@ -64,7 +64,7 @@ class Projects::LabelsController < Projects::ApplicationController
   def edit; end
 
   def update
-    @label = Labels::UpdateService.new(label_params).execute(@label)
+    @label = Labels::UpdateService.new(current_user, label_params).execute(@label)
 
     if @label.valid?
       redirect_to project_labels_path(@project)
@@ -87,12 +87,14 @@ class Projects::LabelsController < Projects::ApplicationController
   end
 
   def destroy
-    if @label.destroy
+    label = Labels::DestroyService.new(current_user, @label).execute
+
+    if label.destroyed?
       redirect_to project_labels_path(@project), status: :found,
-        notice: format(_('%{label_name} was removed'), label_name: @label.name)
+        notice: format(_('%{label_name} was removed'), label_name: label.name)
     else
       redirect_to project_labels_path(@project), status: :found,
-        alert: @label.errors.full_messages.to_sentence
+        alert: label.errors.full_messages.to_sentence
     end
   end
 

@@ -14997,6 +14997,9 @@ msgstr ""
 msgid "CiCatalog|Edit your search and try again, or %{linkStart}learn how to create a component project%{linkEnd}."
 msgstr ""
 
+msgid "CiCatalog|Failed to load resource versions"
+msgstr ""
+
 msgid "CiCatalog|Get started with the CI/CD Catalog"
 msgstr ""
 
@@ -15019,6 +15022,9 @@ msgid "CiCatalog|No components match your search criteria"
 msgstr ""
 
 msgid "CiCatalog|No release available"
+msgstr ""
+
+msgid "CiCatalog|No versions available"
 msgstr ""
 
 msgid "CiCatalog|Partner"

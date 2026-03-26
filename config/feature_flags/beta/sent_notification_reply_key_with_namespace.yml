@@ -1,0 +1,10 @@
+---
+name: sent_notification_reply_key_with_namespace
+description:
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/594664
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228746
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/594665
+milestone: '18.11'
+group: group::project management
+type: beta
+default_enabled: false

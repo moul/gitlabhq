@@ -4,7 +4,10 @@ module Labels
   class CreateService < Labels::BaseService
     include Gitlab::InternalEventsTracking
 
-    def initialize(params = {})
+    attr_reader :current_user
+
+    def initialize(current_user = nil, params = {})
+      @current_user = current_user
       @params = params.to_h.dup.with_indifferent_access
     end
 
@@ -39,3 +42,5 @@ module Labels
     end
   end
 end
+
+Labels::CreateService.prepend_mod_with('Labels::CreateService')
