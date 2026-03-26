@@ -48,6 +48,12 @@ ee/app/models/ci/secrets/integration.rb:
   - gitlab_secrets_manager?: Dynamically accessed via Ci::Secrets::Integration#secrets_provider?
 ee/app/models/concerns/ee/issuable_link.rb:
   - blocked_issuables_for_collection: Dynamically accessed by Gitlab::Graphql::Aggregations::Issuables::LazyLinksAggregate#load_queued_records
+ee/app/models/concerns/geo/blob_replicator_strategy.rb:
+  - consume_event_deleted: Called by Gitlab::Geo::Replicator#consume
+ee/app/models/concerns/geo/repository_replicator_strategy.rb:
+  - consume_event_deleted: Called by Gitlab::Geo::Replicator#consume
+ee/app/models/concerns/geo/verifiable_replicator.rb:
+  - consume_event_checksum_succeeded: Called by Gitlab::Geo::Replicator#consume
 app/models/work_items/types_framework/provider.rb:
   - by_ids_with_widget_definition_preload: Deprecated method for old WorkItems::Type model; scheduled for removal in https://gitlab.com/gitlab-org/gitlab/-/issues/581931
 ee/app/helpers/ee/projects_helper.rb:

@@ -10,6 +10,7 @@ describe('CodeQualityContent', () => {
 
   const DEFAULT_PROVIDE = {
     isCodeQualityLoading: false,
+    statusMessage: '',
     errorMessage: '',
     newErrorsCount: 2,
     resolvedErrorsCount: 1,
@@ -55,14 +56,37 @@ describe('CodeQualityContent', () => {
 
       expect(codeQualitySummary).toHaveBeenCalledWith({ newCount: 2, resolvedCount: 1 });
     });
+  });
 
-    it('uses errorMessage as summary title when set', () => {
-      const errorMessage = 'Code Quality failed to load results';
+  describe('error handling', () => {
+    const errorMessage = 'Code quality failed loading results';
+    const statusMessage = 'This merge request does not have codequality reports';
 
-      createComponent({ provide: { errorMessage } });
+    it('shows error message as summary text when errorMessage is set', () => {
+      createComponent({
+        provide: { errorMessage, statusIconName: 'error' },
+      });
 
       expect(codeQualitySummary).not.toHaveBeenCalled();
       expect(findReportSection().props('summary').title).toBe(errorMessage);
+    });
+
+    it('shows status message as summary text when statusMessage is set', () => {
+      createComponent({
+        provide: { statusMessage, statusIconName: 'warning' },
+      });
+
+      expect(codeQualitySummary).not.toHaveBeenCalled();
+      expect(findReportSection().props('summary').title).toBe(statusMessage);
+    });
+
+    it('shows statusMessage over errorMessage when both are set', () => {
+      createComponent({
+        provide: { statusMessage, errorMessage, statusIconName: 'warning' },
+      });
+
+      expect(codeQualitySummary).not.toHaveBeenCalled();
+      expect(findReportSection().props('summary').title).toBe(statusMessage);
     });
   });
 

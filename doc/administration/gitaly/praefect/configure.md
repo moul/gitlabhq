@@ -964,6 +964,12 @@ The `dns+tls://` scheme combines DNS-based service discovery with TLS encryption
 You must configure TLS on your Praefect servers before using this scheme. For more
 information, see [Enable TLS](#enable-tls-support).
 
+Each Praefect endpoint's TLS certificate must include a Subject Alternative Name
+(SAN) that matches the hostname used in `PRAEFECT_SERVICE_DISCOVERY_ADDRESS` below.
+For example, if the address is `dns+tls:///praefect.service.consul:3305`, each
+Praefect node's certificate must have `praefect.service.consul` as a SAN entry.
+Connections fail if the SAN does not match.
+
 {{< tabs >}}
 
 {{< tab title="Linux package (Omnibus)" >}}
@@ -987,7 +993,7 @@ information, see [Enable TLS](#enable-tls-support).
    ```ruby
    gitlab_rails['repositories_storages'] = {
      "default" => {
-       "gitaly_address" => 'dns+tls://PRAEFECT_SERVICE_DISCOVERY_ADDRESS:3305',
+       "gitaly_address" => 'dns+tls://DNS_SERVER_ADDRESS:53/PRAEFECT_SERVICE_DISCOVERY_ADDRESS:3305',
        "gitaly_token" => 'PRAEFECT_EXTERNAL_TOKEN'
      }
    }
@@ -1018,7 +1024,7 @@ information, see [Enable TLS](#enable-tls-support).
      repositories:
        storages:
          default:
-           gitaly_address: dns+tls://PRAEFECT_SERVICE_DISCOVERY_ADDRESS:3305
+           gitaly_address: dns+tls://DNS_SERVER_ADDRESS:53/PRAEFECT_SERVICE_DISCOVERY_ADDRESS:3305
    ```
 
 1. Save the file and [restart GitLab](../../restart_gitlab.md#self-compiled-installations).

@@ -76,10 +76,6 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewTool, feature_category: :mcp_s
     let(:saved_view_gid) { saved_view.to_global_id.to_s }
     let(:params) { { group_id: group.id.to_s, saved_view_id: saved_view_gid } }
 
-    before do
-      stub_feature_flags(work_item_planning_view: group)
-    end
-
     it 'executes query with correct variables' do
       allow(GitlabSchema).to receive(:execute).and_call_original
 

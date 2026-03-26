@@ -65,6 +65,7 @@ issues:
 - alert_management_alerts
 - status_page_published_incident
 - namespace
+- notes_with_possible_mentions
 - note_authors
 - user_note_authors
 - issue_email_participants
@@ -287,6 +288,7 @@ merge_requests:
 - deployments
 - user_mentions
 - system_note_metadata
+- notes_with_possible_mentions
 - note_authors
 - user_note_authors
 - cleanup_schedule
@@ -1188,6 +1190,7 @@ epic:
 - resource_label_events
 - resource_state_events
 - user_mentions
+- notes_with_possible_mentions
 - note_authors
 - user_note_authors
 - boards_epic_user_preferences

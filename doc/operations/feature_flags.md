@@ -2,9 +2,8 @@
 stage: Verify
 group: Runner Core
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
-description: Create and maintain a custom feature flag for your GitLab application.
+description: Create and maintain custom feature flags for your application.
 title: Feature flags
-description: Progressive delivery, controlled deployment, and risk reduction.
 ---
 
 {{< details >}}

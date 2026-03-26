@@ -11,6 +11,7 @@ require_relative "../find_changes"
 require "logger"
 require "tmpdir"
 require "open3"
+require "gitlab_quality/test_tooling/click_house/client"
 
 # rubocop:disable Gitlab/Json -- non-rails
 module Tooling
@@ -26,6 +27,13 @@ module Tooling
       JEST_PREDICTIVE_TESTS_SCRIPT_PATH = "scripts/frontend/find_jest_predictive_tests.js"
       # @return [String] event name used by internal events
       PREDICTIVE_TEST_METRICS_EVENT = "glci_predictive_tests_metrics"
+      REQUIRED_CLICKHOUSE_ENV_VARS = %w[
+        GLCI_DA_CLICKHOUSE_URL
+        GLCI_CLICKHOUSE_METRICS_USERNAME
+        GLCI_CLICKHOUSE_METRICS_PASSWORD
+        GLCI_CLICKHOUSE_METRICS_DB
+        GLCI_PREDICTIVE_TESTS_CLICKHOUSE_TABLE
+      ].freeze
       # @return [Hash] Supported test types with strategies
       TEST_TYPES = {
         backend: [:coverage, :described_class],
@@ -308,6 +316,7 @@ module Tooling
 
         save_metrics(metrics, strategy)
         send_metrics_events(metrics, strategy)
+        send_clickhouse_metrics(metrics, strategy)
 
         logger.info("Metrics generation completed for strategy '#{strategy}'")
       end
@@ -391,6 +400,59 @@ module Tooling
 
         send_event("projected_test_runtime_seconds", runtime[:projected_test_runtime_seconds], strategy)
         send_event("test_files_missing_runtime_count", runtime[:test_files_missing_runtime_count], strategy)
+      end
+
+      # Send metrics to ClickHouse
+      #
+      # @param metrics [Hash]
+      # @param strategy [Symbol]
+      # @return [void]
+      def send_clickhouse_metrics(metrics, strategy)
+        unless clickhouse_enabled?
+          missing = REQUIRED_CLICKHOUSE_ENV_VARS.reject { |var| ENV[var] && !ENV[var].empty? }
+          logger.warn("ClickHouse export skipped - missing env vars: #{missing.join(', ')}")
+          return
+        end
+
+        core = metrics[:core_metrics]
+        runtime = core[:runtime_metrics] || {}
+
+        row = {
+          timestamp: metrics[:timestamp],
+          test_type: test_type.to_s,
+          strategy: strategy.to_s,
+          ci_job_id: ENV["CI_JOB_ID"].to_i,
+          ci_pipeline_id: ENV["CI_PIPELINE_ID"].to_i,
+          ci_project_id: ENV["CI_PROJECT_ID"].to_i,
+          ci_project_path: ENV["CI_PROJECT_PATH"].to_s,
+          ci_merge_request_iid: ENV["CI_MERGE_REQUEST_IID"].to_i,
+          changed_files_count: core[:changed_files_count],
+          predicted_test_files_count: core[:predicted_test_files_count],
+          missed_failing_test_files: core[:missed_failing_test_files],
+          predicted_failing_test_files: core[:predicted_failing_test_files],
+          failed_test_files_count: core[:failed_test_files_count],
+          projected_test_runtime_seconds: runtime[:projected_test_runtime_seconds] || 0,
+          test_files_missing_runtime_count: runtime[:test_files_missing_runtime_count] || 0
+        }
+
+        clickhouse_client.insert_json_data(ENV["GLCI_PREDICTIVE_TESTS_CLICKHOUSE_TABLE"], [row])
+        logger.info("Successfully exported metrics to ClickHouse for strategy '#{strategy}'")
+      end
+
+      # @return [Boolean]
+      def clickhouse_enabled?
+        REQUIRED_CLICKHOUSE_ENV_VARS.all? { |var| ENV[var] && !ENV[var].empty? }
+      end
+
+      # @return [GitlabQuality::TestTooling::ClickHouse::Client]
+      def clickhouse_client
+        @clickhouse_client ||= GitlabQuality::TestTooling::ClickHouse::Client.new(
+          url: ENV["GLCI_DA_CLICKHOUSE_URL"],
+          database: ENV["GLCI_CLICKHOUSE_METRICS_DB"],
+          username: ENV["GLCI_CLICKHOUSE_METRICS_USERNAME"],
+          password: ENV["GLCI_CLICKHOUSE_METRICS_PASSWORD"],
+          logger: logger
+        )
       end
 
       # Create projected test runtime metrics hash for rspec tests based on knapsack report

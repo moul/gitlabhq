@@ -10,6 +10,7 @@ export default {
   },
   inject: [
     'isCodeQualityLoading',
+    'statusMessage',
     'errorMessage',
     'newErrorsCount',
     'resolvedErrorsCount',
@@ -20,6 +21,9 @@ export default {
   },
   computed: {
     summaryText() {
+      if (this.statusMessage) {
+        return this.statusMessage;
+      }
       if (this.errorMessage) {
         return this.errorMessage;
       }

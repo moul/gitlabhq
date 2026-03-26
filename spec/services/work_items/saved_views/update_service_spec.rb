@@ -24,19 +24,6 @@ RSpec.describe WorkItems::SavedViews::UpdateService, feature_category: :portfoli
   end
 
   describe '#execute' do
-    context 'when saved views are not enabled for the namespace' do
-      before do
-        stub_feature_flags(work_item_planning_view: false)
-      end
-
-      it 'returns an error' do
-        result = service.execute
-
-        expect(result).to be_error
-        expect(result.message).to eq('Saved views are not enabled for this namespace.')
-      end
-    end
-
     context 'when user does not have permission to update the saved view' do
       let(:service) do
         described_class.new(current_user: other_user, saved_view: saved_view, params: params)

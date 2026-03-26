@@ -158,23 +158,33 @@ Use title case for **Admin Mode**. The UI uses title case.
 
 ## administrator
 
-Use **administrator access** instead of **admin** when talking about a user's access level
-to instance-wide settings on GitLab Self-Managed or GitLab Dedicated.
-
-For GitLab.com, instead of **administrator**, use [**Owner**](#owner) to refer to the most powerful
-access level for groups or projects.
-
 An **administrator** is not a [role](#roles) or [permission](#permissions).
+Do not shorten to **admin**.
 
-On GitLab Self-Managed and GitLab Dedicated, users can be administrators and modify instance-wide settings.
-Use:
+On GitLab Self-Managed and GitLab Dedicated:
 
-- Administrator access.
-- You must have administrator access.
+- Users can be administrators and modify instance-wide settings.
+- When talking about a user's [access level](#access-level) to instance-wide settings,
+  use either:
 
-Instead of:
+  - Administrator access.
+  - You must have administrator access.
 
-- To do this thing, you must have the Admin role.
+  Instead of:
+
+  - To do this thing, you must have the Admin role.
+
+On GitLab.com:
+
+- Only GitLab team members can be administrators and modify instance-wide settings.
+- Other users cannot be administrators
+  for the GitLab.com instance. They can have the [**Owner**](#owner) role, which gives
+  them full control over specific groups or projects.
+- Be specific about what these users can or cannot do compared to GitLab.com administrators.
+  For example:
+
+  - For GitLab.com, you cannot add or edit MCP servers. Only GitLab.com administrators
+    can add or edit MCP servers.
 
 ## advanced search
 

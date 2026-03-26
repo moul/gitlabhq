@@ -49,6 +49,16 @@ RSpec.describe SystemNoteMetadata, feature_category: :team_planning do
       it { expect(described_class.for_notes(notes.map(&:id))).to match_array([metadata1, metadata2]) }
       it { expect(described_class.for_notes(::Note.id_in(notes))).to match_array([metadata1, metadata2]) }
     end
+
+    describe '.with_user_mentions' do
+      let_it_be(:assignee_metadata) { create(:system_note_metadata, action: 'assignee') }
+      let_it_be(:reviewer_metadata) { create(:system_note_metadata, action: 'reviewer') }
+      let_it_be(:other_metadata) { create(:system_note_metadata, action: 'description') }
+
+      it 'returns only metadata with user mention actions' do
+        expect(described_class.with_user_mentions).to match_array([assignee_metadata, reviewer_metadata])
+      end
+    end
   end
 
   describe '#about_relation?' do

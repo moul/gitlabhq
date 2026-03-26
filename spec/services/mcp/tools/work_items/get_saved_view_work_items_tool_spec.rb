@@ -121,6 +121,52 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
       end
     end
 
+    context 'with unsupported filters' do
+      let(:params) do
+        {
+          group_id: group.id.to_s,
+          filters: {
+            'labelName' => ['bug'],
+            'healthStatusFilter' => 'onTrack',
+            'iterationId' => ['gid://gitlab/Iteration/1'],
+            'search' => 'keyword'
+          },
+          sort: nil
+        }
+      end
+
+      it 'detects unsupported filters' do
+        tool.build_variables
+
+        expect(tool.unsupported_filters).to contain_exactly('healthStatusFilter', 'iterationId', 'search')
+      end
+
+      it 'still maps supported filters correctly' do
+        variables = tool.build_variables
+
+        expect(variables[:labelName]).to eq(['bug'])
+      end
+    end
+
+    context 'with only supported filters' do
+      let(:params) do
+        {
+          group_id: group.id.to_s,
+          filters: {
+            'labelName' => ['bug'],
+            'state' => 'opened'
+          },
+          sort: nil
+        }
+      end
+
+      it 'reports no unsupported filters' do
+        tool.build_variables
+
+        expect(tool.unsupported_filters).to be_empty
+      end
+    end
+
     context 'with pagination params' do
       let(:params) do
         {

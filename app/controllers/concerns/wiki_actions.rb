@@ -408,7 +408,7 @@ module WikiActions
   end
 
   # Override CommitsHelper#view_file_button
-  def view_file_button(commit_sha, *args)
+  def view_file_button(commit_sha, *_args)
     path = wiki_page_path(wiki, page, version_id: page.version.id)
 
     helpers.link_button_to(path) do

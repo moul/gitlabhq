@@ -89,7 +89,7 @@ class Projects::ForksController < Projects::ApplicationController
 
   private
 
-  def can_fork_to?(namespace)
+  def can_fork_to?(_namespace)
     ForkTargetsFinder.new(@project, current_user).execute.id_in(current_user.namespace).any?
   end
 

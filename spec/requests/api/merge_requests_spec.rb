@@ -3529,6 +3529,14 @@ RSpec.describe API::MergeRequests, :aggregate_failures, feature_category: :sourc
         expect(json_response['state']).to eq('merged')
       end
 
+      it 'sets auto merge when no pipeline exists' do
+        put api("/projects/#{project.id}/merge_requests/#{merge_request.iid}/merge", user), params: params
+
+        expect(response).to have_gitlab_http_status(:ok)
+        expect(json_response['merge_when_pipeline_succeeds']).to eq(true)
+        expect(merge_request.reload.state).to eq('opened')
+      end
+
       it 'returns 422 when the pipeline succeeds but merge fails' do
         create(:ci_pipeline, :success, sha: merge_request.diff_head_sha, merge_requests_as_head_pipeline: [merge_request])
 
@@ -3577,6 +3585,61 @@ RSpec.describe API::MergeRequests, :aggregate_failures, feature_category: :sourc
         put api("/projects/#{project.id}/merge_requests/#{merge_request.iid}/merge", user), params: params
 
         expect(response).to have_gitlab_http_status(:method_not_allowed)
+      end
+
+      context 'when no pipeline exists' do
+        context 'when merge_immediately_when_no_pipeline feature flag is enabled' do
+          it 'merges immediately' do
+            put api("/projects/#{project.id}/merge_requests/#{merge_request.iid}/merge", user), params: params
+
+            expect(response).to have_gitlab_http_status(:ok)
+            expect(json_response['state']).to eq('merged')
+          end
+        end
+
+        context 'when merge_immediately_when_no_pipeline feature flag is disabled' do
+          before do
+            stub_feature_flags(merge_immediately_when_no_pipeline: false)
+          end
+
+          it 'returns not allowed' do
+            put api("/projects/#{project.id}/merge_requests/#{merge_request.iid}/merge", user), params: params
+
+            expect(response).to have_gitlab_http_status(:method_not_allowed)
+          end
+        end
+      end
+
+      context 'when no pipeline exists but one is being created' do
+        before do
+          allow_next_found_instance_of(MergeRequest) do |mr|
+            allow(mr).to receive(:pipeline_creating?).and_return(true)
+          end
+        end
+
+        context 'when merge_immediately_when_no_pipeline feature flag is enabled' do
+          it 'sets auto merge' do
+            put api("/projects/#{project.id}/merge_requests/#{merge_request.iid}/merge", user), params: params
+
+            expect(response).to have_gitlab_http_status(:ok)
+            expect(json_response['merge_when_pipeline_succeeds']).to eq(true)
+            expect(merge_request.reload.state).to eq('opened')
+          end
+        end
+
+        context 'when merge_immediately_when_no_pipeline feature flag is disabled' do
+          before do
+            stub_feature_flags(merge_immediately_when_no_pipeline: false)
+          end
+
+          it 'sets auto merge' do
+            put api("/projects/#{project.id}/merge_requests/#{merge_request.iid}/merge", user), params: params
+
+            expect(response).to have_gitlab_http_status(:ok)
+            expect(json_response['merge_when_pipeline_succeeds']).to eq(true)
+            expect(merge_request.reload.state).to eq('opened')
+          end
+        end
       end
 
       it "sets auto merge when the pipeline is active" do

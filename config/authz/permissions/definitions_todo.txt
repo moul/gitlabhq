@@ -249,7 +249,6 @@ delete_project_secrets
 delete_project_subscription
 delete_tag
 delete_user
-delete_work_item
 destroy_alert_management_alert
 destroy_alert_management_metric_image
 destroy_approvers

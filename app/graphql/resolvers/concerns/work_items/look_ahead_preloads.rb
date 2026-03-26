@@ -44,7 +44,7 @@ module WorkItems
         [:widgets, :parent] => :work_item_parent,
         [:widgets, :participants] => WorkItem.participant_includes,
         [:widgets, :start_date] => :dates_source,
-        [:widgets, :subscribed] => [:assignees, :award_emoji, { notes: [:author, :award_emoji] }]
+        [:widgets, :subscribed] => WorkItem.participant_includes
       }
     end
 
@@ -62,7 +62,7 @@ module WorkItems
         [:features, :hierarchy, :has_parent] => :work_item_parent,
         [:features, :hierarchy, :parent] => :work_item_parent,
         [:features, :milestone, :milestone] => { milestone: [:project, :group] },
-        [:features, :notifications, :subscribed] => [:assignees, :award_emoji, { notes: [:author, :award_emoji] }],
+        [:features, :notifications, :subscribed] => WorkItem.participant_includes,
         [:features, :participants, :participants] => WorkItem.participant_includes,
         [:features, :start_and_due_date] => :dates_source
       }

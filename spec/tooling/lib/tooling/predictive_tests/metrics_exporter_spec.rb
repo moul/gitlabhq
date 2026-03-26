@@ -22,6 +22,7 @@ RSpec.describe Tooling::PredictiveTests::MetricsExporter, feature_category: :too
   end
 
   let(:event_tracker) { instance_double(Tooling::Events::TrackPipelineEvents, send_event: nil) }
+  let(:clickhouse_client) { instance_double(GitlabQuality::TestTooling::ClickHouse::Client, insert_json_data: nil) }
 
   let(:mapping_fetcher) do
     instance_double(
@@ -95,6 +96,36 @@ RSpec.describe Tooling::PredictiveTests::MetricsExporter, feature_category: :too
     JSON.parse(File.read(File.join(output_dir, test_type.to_s, "metrics_#{strategy}.json"))).except("timestamp")
   end
 
+  def expect_clickhouse_row(
+    strategy, changed_files_count:,
+    predicted_test_files_count:,
+    missed_failing_test_files:,
+    predicted_failing_test_files:,
+    failed_test_files_count:,
+    projected_test_runtime_seconds: 0,
+    test_files_missing_runtime_count: 0
+  )
+    expect(clickhouse_client).to have_received(:insert_json_data).with(
+      "predictive_tests",
+      [hash_including(
+        test_type: test_type.to_s,
+        strategy: strategy,
+        ci_job_id: 123,
+        ci_pipeline_id: 321,
+        ci_project_id: 456,
+        ci_project_path: "gitlab-org/gitlab",
+        ci_merge_request_iid: 789,
+        changed_files_count: changed_files_count,
+        predicted_test_files_count: predicted_test_files_count,
+        missed_failing_test_files: missed_failing_test_files,
+        predicted_failing_test_files: predicted_failing_test_files,
+        failed_test_files_count: failed_test_files_count,
+        projected_test_runtime_seconds: projected_test_runtime_seconds,
+        test_files_missing_runtime_count: test_files_missing_runtime_count
+      )]
+    )
+  end
+
   def expect_events_sent(
     strategy, changed_files_count:,
     predicted_test_files_count:,
@@ -151,7 +182,18 @@ RSpec.describe Tooling::PredictiveTests::MetricsExporter, feature_category: :too
   end
 
   before do
-    stub_env({ "CI_JOB_ID" => extra_properties[:ci_job_id], "CI_PIPELINE_ID" => extra_properties[:ci_pipeline_id] })
+    stub_env({
+      "CI_JOB_ID" => extra_properties[:ci_job_id],
+      "CI_PIPELINE_ID" => extra_properties[:ci_pipeline_id],
+      "GLCI_DA_CLICKHOUSE_URL" => "https://clickhouse.example.com",
+      "GLCI_CLICKHOUSE_METRICS_USERNAME" => "user",
+      "GLCI_CLICKHOUSE_METRICS_PASSWORD" => "pass",
+      "GLCI_CLICKHOUSE_METRICS_DB" => "test_db",
+      "GLCI_PREDICTIVE_TESTS_CLICKHOUSE_TABLE" => "predictive_tests",
+      "CI_PROJECT_ID" => "456",
+      "CI_PROJECT_PATH" => "gitlab-org/gitlab",
+      "CI_MERGE_REQUEST_IID" => "789"
+    })
 
     # create folders and files used as input
     {
@@ -171,6 +213,13 @@ RSpec.describe Tooling::PredictiveTests::MetricsExporter, feature_category: :too
       frontend_fixtures_mapping_pathname: temp_files[:frontend_fixtures]
     ).and_return(find_changes)
     allow(Tooling::Events::TrackPipelineEvents).to receive(:new).with(logger: kind_of(Logger)).and_return(event_tracker)
+    allow(GitlabQuality::TestTooling::ClickHouse::Client).to receive(:new).with(
+      url: "https://clickhouse.example.com",
+      database: "test_db",
+      username: "user",
+      password: "pass",
+      logger: kind_of(Logger)
+    ).and_return(clickhouse_client)
     allow(Tooling::PredictiveTests::MappingFetcher).to receive(:new).with(
       logger: kind_of(Logger)
     ).and_return(mapping_fetcher)
@@ -236,6 +285,36 @@ RSpec.describe Tooling::PredictiveTests::MetricsExporter, feature_category: :too
       )
     end
 
+    it "exports described_class strategy metrics to ClickHouse", :aggregate_failures do
+      exporter.execute
+
+      expect_clickhouse_row(
+        "described_class",
+        changed_files_count: 4,
+        predicted_test_files_count: 1,
+        missed_failing_test_files: 1,
+        predicted_failing_test_files: 1,
+        failed_test_files_count: 2,
+        projected_test_runtime_seconds: 2,
+        test_files_missing_runtime_count: 0
+      )
+    end
+
+    it "exports coverage strategy metrics to ClickHouse", :aggregate_failures do
+      exporter.execute
+
+      expect_clickhouse_row(
+        "coverage",
+        changed_files_count: 4,
+        predicted_test_files_count: 3,
+        missed_failing_test_files: 0,
+        predicted_failing_test_files: 2,
+        failed_test_files_count: 2,
+        projected_test_runtime_seconds: 3,
+        test_files_missing_runtime_count: 1
+      )
+    end
+
     it "creates metrics output files", :aggregate_failures do
       exporter.execute
 
@@ -291,6 +370,21 @@ RSpec.describe Tooling::PredictiveTests::MetricsExporter, feature_category: :too
             "missed_failing_test_files" => 0,
             "predicted_failing_test_files" => 1
           )
+        )
+      end
+
+      it "exports Duo metrics to ClickHouse", :aggregate_failures do
+        exporter.execute
+
+        expect_clickhouse_row(
+          "duo",
+          changed_files_count: 4,
+          predicted_test_files_count: 1,
+          missed_failing_test_files: 0,
+          predicted_failing_test_files: 1,
+          failed_test_files_count: 1,
+          projected_test_runtime_seconds: 0,
+          test_files_missing_runtime_count: 1
         )
       end
 
@@ -373,6 +467,21 @@ RSpec.describe Tooling::PredictiveTests::MetricsExporter, feature_category: :too
       )
     end
 
+    it "exports jest_built_in strategy metrics to ClickHouse", :aggregate_failures do
+      exporter.execute
+
+      expect_clickhouse_row(
+        "jest_built_in",
+        changed_files_count: 4,
+        predicted_test_files_count: 2,
+        missed_failing_test_files: 1,
+        predicted_failing_test_files: 1,
+        failed_test_files_count: 2,
+        projected_test_runtime_seconds: 0,
+        test_files_missing_runtime_count: 0
+      )
+    end
+
     it "creates metrics output files", :aggregate_failures do
       exporter.execute
 
@@ -387,6 +496,44 @@ RSpec.describe Tooling::PredictiveTests::MetricsExporter, feature_category: :too
           "predicted_test_files_count" => 2
         }
       })
+    end
+  end
+
+  context "when ClickHouse env vars are missing" do
+    let(:test_type) { :backend }
+    let(:failed_tests_content) { "#{mappings.dig(:user, :spec)}\n#{mappings.dig(:todo, :spec)}" }
+
+    before do
+      stub_env({
+        "GLCI_DA_CLICKHOUSE_URL" => nil,
+        "GLCI_CLICKHOUSE_METRICS_USERNAME" => nil,
+        "GLCI_CLICKHOUSE_METRICS_PASSWORD" => nil,
+        "GLCI_CLICKHOUSE_METRICS_DB" => nil,
+        "GLCI_PREDICTIVE_TESTS_CLICKHOUSE_TABLE" => nil
+      })
+    end
+
+    it "skips ClickHouse export and still succeeds" do
+      expect(exporter.execute).to be true
+    end
+
+    it "does not instantiate ClickHouse client" do
+      exporter.execute
+
+      expect(GitlabQuality::TestTooling::ClickHouse::Client).not_to have_received(:new)
+    end
+  end
+
+  context "when ClickHouse insert fails" do
+    let(:test_type) { :backend }
+    let(:failed_tests_content) { "#{mappings.dig(:user, :spec)}\n#{mappings.dig(:todo, :spec)}" }
+
+    before do
+      allow(clickhouse_client).to receive(:insert_json_data).and_raise(StandardError, "connection refused")
+    end
+
+    it "propagates the error as strategy failure" do
+      expect(exporter.execute).to be false
     end
   end
 

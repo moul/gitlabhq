@@ -44,6 +44,7 @@ module Mcp
       GRAPHQL_TOOLS = {
         'create_workitem_note' => ::Mcp::Tools::WorkItems::GraphqlCreateWorkItemNoteService,
         'get_workitem_notes' => ::Mcp::Tools::WorkItems::GraphqlGetWorkItemNotesService,
+        'get_saved_view_work_items' => ::Mcp::Tools::WorkItems::GraphqlGetSavedViewWorkItemsService,
         'search_labels' => ::Mcp::Tools::Labels::GraphqlSearchService
       }.freeze
 

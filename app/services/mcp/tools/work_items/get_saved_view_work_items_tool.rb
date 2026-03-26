@@ -136,6 +136,13 @@ module Mcp
           graphql_operation: build_query
         }
 
+        attr_reader :unsupported_filters
+
+        def initialize(current_user:, params:, version: nil)
+          super
+          @unsupported_filters = []
+        end
+
         def build_variables
           parent_info = resolve_parent
           filters = (params[:filters] || {}).stringify_keys
@@ -184,6 +191,11 @@ module Mcp
           filter_mapping.each do |filter_key, variable_key|
             value = filters[filter_key]
             variables[variable_key] = value unless value.nil?
+          end
+
+          # Detect filters present in the saved view but not supported by this tool
+          @unsupported_filters = filters.keys.select do |key|
+            !filter_mapping.key?(key) && filters[key].present?
           end
 
           variables[:sort] = sort if sort.present?

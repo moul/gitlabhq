@@ -133,6 +133,13 @@ module API
         ::Ci::PipelinesForMergeRequestFinder.new(mr, current_user).execute
       end
 
+      def pipeline_allows_merge?(merge_request)
+        return merge_request.diff_head_pipeline_success? unless Feature.enabled?(:merge_immediately_when_no_pipeline, merge_request.project)
+
+        (!merge_request.pipeline_creating? && !merge_request.diff_head_pipeline) ||
+          merge_request.diff_head_pipeline_success?
+      end
+
       def build_merge_params(merge_request)
         check_sha_param!(params, merge_request)
 
@@ -818,7 +825,7 @@ module API
           if strategy_available
             AutoMergeService.new(merge_request.target_project, current_user, merge_params)
               .execute(merge_request, merge_request.default_auto_merge_strategy)
-          elsif merge_request.diff_head_pipeline_success?
+          elsif pipeline_allows_merge?(merge_request)
             render_api_error!('Branch cannot be merged', 422) unless merge_request.mergeable?
 
             ::MergeRequests::MergeService

@@ -2101,7 +2101,7 @@ On each node perform the following:
    # Alternatively, use service discovery DNS with TLS (requires DNS infrastructure and GitLab 18.9+):
    # gitlab_rails['repositories_storages'] = {
    #   "default" => {
-   #     "gitaly_address" => "dns+tls://PRAEFECT_SERVICE_DISCOVERY_ADDRESS:3305",
+   #     "gitaly_address" => "dns+tls://DNS_SERVER_ADDRESS:53/PRAEFECT_SERVICE_DISCOVERY_ADDRESS:3305",
    #     "gitaly_token" => '<praefect_external_token>'
    #   }
    # }

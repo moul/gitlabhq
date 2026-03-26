@@ -2,6 +2,7 @@
 name: delete_work_item
 description: Grants the ability to delete work items
 permissions:
+  - delete_work_item
   - delete_epic
   - delete_epic_award_emoji
   - delete_epic_issue

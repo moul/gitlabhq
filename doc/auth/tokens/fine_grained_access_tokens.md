@@ -1413,6 +1413,8 @@ Grants the ability to read, write, and delete work items.
 | Delete | Project | `DELETE` | `/projects/:id/snippets/:snippet_id/notes/:note_id/award_emoji/:award_id` |
 | Delete | Project | `DELETE` | `/projects/:id/issues/:issue_iid/links/:issue_link_id` |
 | Delete | Project | `DELETE` | `/projects/:id/issues/:issue_iid` |
+| Delete | Project | `DELETE` | `/namespaces/:id/-/work_items/:work_item_iid` |
+| Delete | Project | `DELETE` | `/projects/:id/-/work_items/:work_item_iid` |
 | Delete | Project | `DELETE` | `/projects/:id/boards/:board_id` |
 | Delete | Project | `DELETE` | `/projects/:id/boards/:board_id/lists/:list_id` |
 | Delete | Project | `DELETE` | `/projects/:id/issues/:noteable_id/discussions/:discussion_id/notes/:note_id` |
@@ -1424,6 +1426,8 @@ Grants the ability to read, write, and delete work items.
 | Delete | Project | `DELETE` | `/projects/:id/milestones/:milestone_id` |
 | Delete | Group | `DELETE` | `/groups/:id/epics/:epic_iid/award_emoji/:award_id` |
 | Delete | Group | `DELETE` | `/groups/:id/epics/:epic_iid/notes/:note_id/award_emoji/:award_id` |
+| Delete | Group | `DELETE` | `/namespaces/:id/-/work_items/:work_item_iid` |
+| Delete | Group | `DELETE` | `/groups/:id/-/work_items/:work_item_iid` |
 | Delete | Group | `DELETE` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id/notes/:note_id` |
 | Delete | Group | `DELETE` | `/groups/:id/boards/:board_id/lists/:list_id` |
 | Delete | Group | `DELETE` | `/groups/:id/labels` |

@@ -2,15 +2,6 @@
 # Cop supports --autocorrect.
 Lint/UnusedMethodArgument:
   Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/concerns/authenticates_with_two_factor.rb'
-    - 'app/controllers/concerns/creates_commit.rb'
-    - 'app/controllers/concerns/spammable_actions/captcha_check/common.rb'
-    - 'app/controllers/concerns/wiki_actions.rb'
-    - 'app/controllers/confirmations_controller.rb'
-    - 'app/controllers/import/bitbucket_controller.rb'
-    - 'app/controllers/ldap/omniauth_callbacks_controller.rb'
-    - 'app/controllers/projects/forks_controller.rb'
     - 'app/finders/issuable_finder/params.rb'
     - 'app/graphql/mutations/base_mutation.rb'
     - 'app/graphql/mutations/ci/runner/delete.rb'
