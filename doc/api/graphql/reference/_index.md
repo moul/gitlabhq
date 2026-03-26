@@ -2906,59 +2906,6 @@ Input type: `AiAgentCreateInput`
 | <a id="mutation-aiagentcreate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-aiagentcreate-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 
-### `Mutation.aiAgentDestroy`
-
-{{< details >}}
-**Introduced** in GitLab 16.11.
-**Status**: Experiment.
-{{< /details >}}
-
-Input type: `AiAgentDestroyInput`
-
-#### Arguments
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| <a id="mutation-aiagentdestroy-agentid"></a>`agentId` | [`AiAgentID!`](#aiagentid) | Global ID of the AI Agent to be deleted. |
-| <a id="mutation-aiagentdestroy-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-aiagentdestroy-projectpath"></a>`projectPath` | [`ID!`](#id) | Project to which the agent belongs. |
-
-#### Fields
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| <a id="mutation-aiagentdestroy-agent"></a>`agent` | [`AiAgent`](#aiagent) | Agent after mutation. |
-| <a id="mutation-aiagentdestroy-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-aiagentdestroy-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
-| <a id="mutation-aiagentdestroy-message"></a>`message` | [`String`](#string) | AI Agent deletion result message. |
-
-### `Mutation.aiAgentUpdate`
-
-{{< details >}}
-**Introduced** in GitLab 16.10.
-**Status**: Experiment.
-{{< /details >}}
-
-Input type: `AiAgentUpdateInput`
-
-#### Arguments
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| <a id="mutation-aiagentupdate-agentid"></a>`agentId` | [`AiAgentID!`](#aiagentid) | ID of the agent. |
-| <a id="mutation-aiagentupdate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-aiagentupdate-name"></a>`name` | [`String`](#string) | Name of the agent. |
-| <a id="mutation-aiagentupdate-projectpath"></a>`projectPath` | [`ID!`](#id) | Project to which the agent belongs. |
-| <a id="mutation-aiagentupdate-prompt"></a>`prompt` | [`String`](#string) | Prompt for the agent. |
-
-#### Fields
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| <a id="mutation-aiagentupdate-agent"></a>`agent` | [`AiAgent`](#aiagent) | Agent after mutation. |
-| <a id="mutation-aiagentupdate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-aiagentupdate-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
-
 ### `Mutation.aiCatalogAgentCreate`
 
 {{< details >}}

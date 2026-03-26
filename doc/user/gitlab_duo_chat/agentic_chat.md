@@ -412,7 +412,7 @@ For information on resolving these issues, see [Troubleshooting](troubleshooting
 ## Feedback
 
 Your feedback is valuable in helping us improve this feature.
-Share your experiences, suggestions, or issues in [issue 542198](https://gitlab.com/gitlab-org/gitlab/-/issues/542198).
+Share your experience in [issue 542198](https://gitlab.com/gitlab-org/gitlab/-/issues/542198).
 
 ## Related topics
 

@@ -189,11 +189,7 @@ class IssuePolicy < IssuablePolicy
     prevent :destroy_issue
   end
 
-  # IMPORTANT: keep the prevention rules as last rules defined in the policy, as these are based on
-  # all abilities defined up to this point.
-  rule { ~work_item_type_available }.policy do
-    prevent(*::IssuePolicy.ability_map.map.keys)
-  end
+  rule { ~work_item_type_available }.prevent_all
 end
 
 IssuePolicy.prepend_mod_with('IssuePolicy')

@@ -1359,13 +1359,8 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
   describe '.traversal_ids_type' do
     subject(:traversal_ids_type) { described_class.traversal_ids_type }
 
-    let(:raw_query) do
-      "SELECT typname FROM pg_attribute INNER JOIN pg_type ON pg_attribute.atttypid = pg_type.oid " \
-        "WHERE attname = 'traversal_ids' AND attrelid = 'namespaces'::regclass"
-    end
-
     before do
-      allow(described_class.connection).to receive(:select_value).with(raw_query).and_return(pg_type_name)
+      allow(Gitlab::Database).to receive(:column_type).with(anything, 'namespaces', 'traversal_ids').and_return(pg_type_name)
     end
 
     context 'when the column type is _int4' do
@@ -1387,8 +1382,8 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
     context 'when the column type is unrecognized' do
       let(:pg_type_name) { '_text' }
 
-      it 'returns nil' do
-        expect(traversal_ids_type).to be_nil
+      it 'raises an error' do
+        expect { traversal_ids_type }.to raise_error("unrecognized column type: _text id should be either an _int4 or _int8")
       end
     end
   end

@@ -351,6 +351,15 @@ module Gitlab
       db_config&.database || 'unknown'
     end
 
+    def self.column_type(connection, table_name, column_name)
+      return unless connection
+
+      connection.select_value(
+        "SELECT typname FROM pg_attribute INNER JOIN pg_type ON pg_attribute.atttypid = pg_type.oid " \
+          "WHERE attname = #{connection.quote(column_name)} AND attrelid = #{connection.quote(table_name)}::regclass"
+      )
+    end
+
     # If the `database_tasks: false` is being used,
     # return the expected fallback database for this database configuration
     def self.db_config_share_with(db_config)

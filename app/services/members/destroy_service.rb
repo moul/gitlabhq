@@ -149,7 +149,7 @@ module Members
 
     def destroy_project_members(members)
       members.each do |project_member|
-        service = self.class.new(current_user)
+        service = self.class.new(current_user, params)
         service.mark_as_recursive_call
         service.execute(project_member, skip_authorization: @skip_auth)
       end
@@ -157,7 +157,7 @@ module Members
 
     def destroy_group_members(members)
       members.each do |group_member|
-        service = self.class.new(current_user)
+        service = self.class.new(current_user, params)
         service.mark_as_recursive_call
         service.execute(group_member, skip_authorization: @skip_auth, skip_subresources: true)
       end

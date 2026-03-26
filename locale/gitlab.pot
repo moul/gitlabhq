@@ -982,6 +982,9 @@ msgstr ""
 msgid "%{issuableType} will be removed! Are you sure?"
 msgstr ""
 
+msgid "%{issuable_class_name} does not support time logs."
+msgstr ""
+
 msgid "%{issuable_class_name} doesn't exist or you don't have permission to add timelog to it."
 msgstr ""
 

@@ -42,11 +42,7 @@ class WorkItemPolicy < IssuePolicy
 
   rule { can_report_spam }.enable :report_spam
 
-  # IMPORTANT: keep the prevent rules as last rules defined in the policy, as these are based on
-  # all abilities defined up to this point.
-  rule { ~work_item_type_available }.policy do
-    prevent(*::WorkItemPolicy.ability_map.map.keys)
-  end
+  rule { ~work_item_type_available }.prevent_all
 end
 
 WorkItemPolicy.prepend_mod

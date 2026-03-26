@@ -25,6 +25,7 @@ project:
   - create_requirement_test_report
   - create_saved_view
   - create_ticket
+  - create_timelog
   - create_wiki
   - destroy_design
   - destroy_issue
@@ -63,6 +64,7 @@ group:
   - create_iteration
   - create_iteration_cadence
   - create_saved_view
+  - create_timelog
   - create_wiki
   - destroy_epic
   - destroy_issue

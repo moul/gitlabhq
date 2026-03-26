@@ -28,6 +28,7 @@ project:
   - create_saved_view
   - create_snippet
   - create_ticket
+  - create_timelog
   - daily_statistics
   - delete_project_secrets
   - destroy_design
@@ -97,6 +98,7 @@ group:
   - create_iteration_cadence
   - create_saved_view
   - create_secret
+  - create_timelog
   - delete_secret
   - download_wiki_code
   - mark_note_as_internal

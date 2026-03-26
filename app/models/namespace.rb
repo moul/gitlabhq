@@ -438,15 +438,14 @@ class Namespace < ApplicationRecord
     # namespaces.traversal_ids could be either an integer[] or a bigint[]
     # this utility method exists to help cast arguments when writing raw queries
     def traversal_ids_type
-      type_name = connection.select_value(
-        "SELECT typname FROM pg_attribute INNER JOIN pg_type ON pg_attribute.atttypid = pg_type.oid " \
-          "WHERE attname = 'traversal_ids' AND attrelid = 'namespaces'::regclass"
-      )
+      type_name = Gitlab::Database.column_type(connection, Namespace.table_name, 'traversal_ids')
       case type_name
       when '_int4'
         'integer[]'
       when '_int8'
         'bigint[]'
+      else
+        raise ArgumentError, %(unrecognized column type: #{type_name} id should be either an _int4 or _int8)
       end
     end
   end

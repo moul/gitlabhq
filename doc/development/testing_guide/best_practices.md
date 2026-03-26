@@ -75,6 +75,9 @@ When using spring and guard together, use `SPRING=1 bundle exec guard` instead t
   when you need an ID/IID/access level that doesn't actually exist. Using 123, 1234,
   or even 999 is brittle as these IDs could actually exist in the database in the
   context of a CI run.
+- When writing a new test, verify it fails in the way you expect before asserting it passes.
+  Run the spec with the condition inverted or the behavior under test removed to confirm the failure message is meaningful.
+  A test that cannot fail is not providing coverage.
 
 ### Eager loading the application code
 
@@ -529,6 +532,75 @@ performance gains.
 When combining tests, consider using `:aggregate_failures`, so that the full
 results are available, and not just the first failure.
 
+#### Avoid waiting for elements you expect to be absent
+
+Capybara's default wait time applies whenever you query for an element, including
+negative assertions. When checking that an element does _not_ appear inside a
+container that has already loaded, Capybara waits the full timeout before
+concluding the element is absent. This makes the test slow by design, even when
+the assertion is correct.
+
+##### Custom `have_no_testid` matcher
+
+The `have_testid` matcher uses `has_css?` internally, so negating it with
+`not_to` still waits the full timeout. Use `have_no_testid` instead, which uses
+`has_no_css?` and returns immediately when the element is absent:
+
+```ruby
+# Slow: not_to have_testid uses has_css? internally, waits the full timeout
+expect(page).not_to have_testid('relationship-blocks-icon')
+expect(page).not_to have_testid('issuable-weight-content')
+
+# Fast: have_no_testid uses has_no_css? returns immediately when absent
+expect(page).to have_no_testid('relationship-blocks-icon')
+expect(page).to have_no_testid('issuable-weight-content')
+```
+
+##### Generic Capybara matchers
+
+For other Capybara matchers inside a container you have already confirmed is
+loaded, pass `wait: 0` to skip the timeout:
+
+```ruby
+# Slow: waits the full Capybara default timeout before concluding the link is absent
+within_testid('search-filter') do
+  has_link?(scope)
+end
+
+# Fast: when the container is already confirmed loaded, wait: 0 skips the timeout
+within_testid('search-filter') do
+  has_link?(scope, wait: 0)
+end
+```
+
+Do not use `wait: 0` on the container itself or on any element whose presence you
+cannot guarantee has already been established. Prefer `have_no_testid` over
+`wait: 0` whenever you are asserting on a `data-testid` attribute.
+
+#### Mock expensive external operations
+
+Feature and integration specs that trigger real external processes (compiling
+binaries, running Git commands, making network calls) inherit the full wall-clock
+cost of those processes, even when the logic under test does not require them to
+be real.
+
+Examples from production codebase fixes:
+
+- A spec that triggered a real Go compilation added **~3 minutes** per run.
+- A spec that ran real Git commands added **~10 seconds** per example.
+
+In both cases, the logic under test was already covered by unit tests.
+
+Look for `before` blocks or `let` definitions that shell out, compile, or call an
+external service. Use `allow` / `expect(...).to receive(...)` stubs or RSpec
+doubles to return realistic fixtures instead. See
+[Stubbing methods in factories](#stubbing-methods-within-factories) for stubbing
+approaches compatible with `let_it_be`.
+
+If a unit test already verifies the output of an external operation, stub it in
+higher-level specs. A slow `before(:all)` or `let_it_be` that triggers an external
+process multiplies its cost across every example in the context.
+
 #### In case you're stuck
 
 We have a `backend_testing_performance` [domain expertise](https://handbook.gitlab.com/handbook/engineering/workflow/code-review/#domain-experts) to list people that could help refactor slow backend specs.
@@ -665,6 +737,51 @@ find_field _('Checkbox label'), unchecked: true
 # acceptable when finding a element that is not a button, link, or field
 find_by_testid('element')
 ```
+
+###### Avoid `all()` with `.first` or block iteration
+
+`all()` returns a collection but does not raise if the selector is not found, and
+it does not benefit from Capybara's smart waiting. This makes it both error-prone
+and slow.
+
+Pattern 1 — `all().first` silently fails:
+
+```ruby
+# Avoid: silent no-op if selector not found; slower than find()
+all('[data-testid="download-dropdown"]').first do |button|
+  button.find_by_testid('base-dropdown-toggle').click
+  expect(page).to have_link format, href: uri.to_s
+end
+
+# Prefer: find() raises immediately with a clear error message if not found
+find('[data-testid="unique-download-dropdown"]') do |button|
+  button.find_by_testid('base-dropdown-toggle').click
+  expect(page).to have_link format, href: uri.to_s
+end
+
+# Even better:
+within_testid('unique-download-dropdown') do
+  find_by_testid('base-dropdown-toggle').click
+end
+
+expect(page).to have_link format, href: uri.to_s
+```
+
+Pattern 2 — `all()` with block iteration to filter by child selector:
+
+```ruby
+# Avoid: iterates every card, calling has_selector? on each, very slow and not robust
+card = all("[data-testid='security-testing-card']").find do |node|
+  node.has_selector?('h3', text: title, exact_text: true)
+end
+
+# Prefer: single CSS child selector query, then walk up to the parent
+card = find("[data-testid='security-testing-card'] h3", text: title, exact_text: true)
+          .ancestor("[data-testid='security-testing-card']")
+```
+
+When you need to locate a parent element by the text of a known child, use a CSS
+child selector to find the child first, then call .ancestor() to walk back up.
 
 ##### Matchers
 
@@ -1686,6 +1803,20 @@ expect(:a).to be_one_of(%i[a b c])
 expect(:z).not_to be_one_of(%i[a b c])
 ```
 
+#### `have_no_testid`
+
+The inverse of `have_testid`.
+
+```ruby
+# Prefer have_no_testid over not_to have_testid
+expect(page).to have_no_testid('relationship-blocks-icon')
+```
+
+Prefer `have_no_testid` over `expect(page).not_to have_testid(...)`. The `have_testid`
+matcher uses `has_css?` internally, so negating it with `not_to` waits the full
+Capybara timeout before concluding the element is absent. `have_no_testid` uses
+`has_no_css?` and returns immediately. See [Avoid waiting for elements you expect to be absent](#avoid-waiting-for-elements-you-expect-to-be-absent).
+
 ### Testing query performance
 
 Testing query performance allows us to:
@@ -1729,6 +1860,26 @@ For shared examples used by more than one spec file, placement depends on their 
 - Only move shared examples to the global `spec/support/shared_*` directory when they are actually shared across different bounded contexts
 - Shared examples and shared contexts files typically use naming patterns like `*_contexts.rb`, `*_examples.rb`, `*_shared.rb`, or `*_shared_context_and_examples.rb`
 - The goal is to maintain high cohesion in bounded contexts while keeping coupling between contexts loose
+
+#### Performance impact of slow shared examples
+
+A slow shared example multiplies its cost. A single example that takes 30 seconds
+and is included across 10 spec files costs 300 seconds of CI time, not 30.
+
+Shared examples under `spec/support/shared_*`, included broadly across the
+codebase, are held to a stricter performance standard than single spec examples.
+
+Guidelines:
+
+- Profile and optimize a slow example as a local spec _before_ extracting it into
+  a shared context.
+- Avoid `create` calls in shared examples unless the contract explicitly requires
+  database state. Prefer `build_stubbed` or `build`.
+- If a shared example requires `:js`, consider whether the UI-asserting portion
+  can be split out so the rest runs as a plain request spec.
+- Treat a slow widely-included shared example like a factory cascade: a small fix
+  in one place yields large aggregate savings across the suite. See
+  [Optimize factory usage](#optimize-factory-usage).
 
 ### Helpers
 
