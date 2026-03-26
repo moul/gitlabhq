@@ -111,6 +111,60 @@ RSpec.describe API::Mcp, 'List tools request', feature_category: :mcp_server do
       end
     end
 
+    context 'when x-gitlab-enabled-mcp-server-tools header is present' do
+      def post_list_tools_with_allowed(allowed_tools)
+        post api('/mcp', user, oauth_access_token: access_token),
+          params: params,
+          headers: { 'X-Gitlab-Enabled-Mcp-Server-Tools' => allowed_tools }
+      end
+
+      it 'returns only the tools listed in the header' do
+        post_list_tools_with_allowed('get_issue,create_issue')
+
+        tool_names = json_response['result']['tools'].pluck('name')
+        expect(tool_names).to contain_exactly('get_issue', 'create_issue')
+      end
+
+      it 'excludes tools not in the allowed list' do
+        post_list_tools_with_allowed('get_issue')
+
+        tool_names = json_response['result']['tools'].pluck('name')
+        expect(tool_names).not_to include('create_issue', 'search', 'get_merge_request')
+      end
+
+      it 'handles a single tool correctly' do
+        post_list_tools_with_allowed('search')
+
+        tool_names = json_response['result']['tools'].pluck('name')
+        expect(tool_names).to contain_exactly('search')
+      end
+
+      it 'returns an empty tool list when no allowed tools match' do
+        post_list_tools_with_allowed('nonexistent_tool')
+
+        tools = json_response['result']['tools']
+        expect(tools).to be_empty
+      end
+
+      context 'when the header is blank' do
+        it 'returns all available tools' do
+          post_list_tools_with_allowed('')
+
+          tool_names = json_response['result']['tools'].pluck('name')
+          expect(tool_names).to include('get_issue', 'create_issue', 'search', 'get_merge_request')
+        end
+      end
+    end
+
+    context 'when x-gitlab-enabled-mcp-server-tools header is absent' do
+      it 'returns all available tools unfiltered' do
+        post_list_tools
+
+        tool_names = json_response['result']['tools'].pluck('name')
+        expect(tool_names).to include('get_issue', 'create_issue', 'search', 'get_merge_request')
+      end
+    end
+
     context 'when a tool has no icons' do
       before do
         allow_any_instance_of(::Mcp::Tools::GetServerVersionService).to receive(:icons).and_return([]) # rubocop: disable RSpec/AnyInstanceOf -- tools are initialized on class definition time

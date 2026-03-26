@@ -78,28 +78,7 @@ export default {
         }
 
         const { securityConfiguration: config } = data;
-
-        // Transform GraphQL response to match expected format
-        const features = config.features.map((feature) => {
-          const transformed = {
-            type: feature.type,
-            configured: feature.configured,
-            configuration_path: feature.configurationPath,
-            available: feature.available,
-            can_enable_by_merge_request: feature.canEnableByMergeRequest,
-            meta_info_path: feature.metaInfoPath,
-            on_demand_available: feature.onDemandAvailable,
-            anchor: feature.anchor,
-          };
-
-          if (feature.securityFeatures) {
-            transformed.security_features = feature.securityFeatures;
-          }
-
-          return transformed;
-        });
-
-        const { augmentedSecurityFeatures } = augmentFeatures(features);
+        const { augmentedSecurityFeatures } = augmentFeatures(config.features);
 
         this.graphqlData = {
           augmentedSecurityFeatures,

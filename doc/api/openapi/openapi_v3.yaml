@@ -16197,7 +16197,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_f2c85bfc79e2"
+              "$ref": "#/components/schemas/RequestBody_32956ddd97ee"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -30901,7 +30901,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_6633a41a2a91"
+              "$ref": "#/components/schemas/RequestBody_ce209d325af9"
   "/api/v4/projects/{id}/packages/protection/rules/{package_protection_rule_id}":
     patch:
       operationId: patchApiV4ProjectsIdPackagesProtectionRulesPackageProtectionRuleId
@@ -30947,7 +30947,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_4fc9489bb729"
+              "$ref": "#/components/schemas/RequestBody_bba365003b11"
     delete:
       operationId: deleteApiV4ProjectsIdPackagesProtectionRulesPackageProtectionRuleId
       summary: Delete package protection rule
@@ -72384,8 +72384,6 @@ components:
           type: string
         ci_job_live_trace_enabled:
           type: string
-        ci_partitions_size_limit:
-          type: string
         concurrent_github_import_jobs_limit:
           type: string
         concurrent_bitbucket_import_jobs_limit:
@@ -89974,7 +89972,7 @@ components:
           nullable: true
       required:
       - avatar
-    RequestBody_f2c85bfc79e2:
+    RequestBody_32956ddd97ee:
       type: object
       properties:
         admin_mode:
@@ -91225,9 +91223,6 @@ components:
           type: string
           nullable: true
         ci_delete_pipelines_in_seconds_limit_human_readable:
-          type: string
-          nullable: true
-        ci_partitions_size_limit:
           type: string
           nullable: true
         container_expiration_policies_enable_historic_entries:
@@ -96178,7 +96173,7 @@ components:
             required:
             - action
           nullable: true
-    RequestBody_6633a41a2a91:
+    RequestBody_ce209d325af9:
       type: object
       properties:
         package_name_pattern:
@@ -96190,6 +96185,7 @@ components:
         package_type:
           type: string
           enum:
+          - cargo
           - conan
           - generic
           - helm
@@ -96224,7 +96220,7 @@ components:
       required:
       - package_name_pattern
       - package_type
-    RequestBody_4fc9489bb729:
+    RequestBody_bba365003b11:
       type: object
       properties:
         package_name_pattern:
@@ -96236,6 +96232,7 @@ components:
         package_type:
           type: string
           enum:
+          - cargo
           - conan
           - generic
           - helm

@@ -56,6 +56,16 @@ module API
           true
         end
 
+        # Returns the allowed MCP tool names for this request, as set by the Duo Workflow
+        # executor via the `x-gitlab-enabled-mcp-server-tools` header.
+        # Returns nil when the header is absent or blank (no restriction -- all tools allowed).
+        def enabled_mcp_server_tools
+          header_value = headers['X-Gitlab-Enabled-Mcp-Server-Tools']
+          return if header_value.blank?
+
+          header_value.split(',').map(&:strip).reject(&:blank?)
+        end
+
         def invoke_basic_handler
           method_name = params[:method]
           handler_class = JSONRPC_METHOD_HANDLERS[method_name] || method_not_found!(method_name)
@@ -142,7 +152,8 @@ module API
             when 'tools/call'
               Handlers::CallTool.new(namespace_setting(:mcp_manager)).invoke(request, params[:params], current_user)
             when 'tools/list'
-              Handlers::ListTools.new(namespace_setting(:mcp_manager)).invoke(current_user)
+              Handlers::ListTools.new(namespace_setting(:mcp_manager)).invoke(current_user,
+                allowed_tools: enabled_mcp_server_tools)
             else
               invoke_basic_handler
             end

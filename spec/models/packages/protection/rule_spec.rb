@@ -14,6 +14,7 @@ RSpec.describe Packages::Protection::Rule, type: :model, feature_category: :pack
   describe 'enums' do
     it do
       is_expected.to define_enum_for(:package_type).with_values(
+        cargo: Packages::Package.package_types[:cargo],
         conan: Packages::Package.package_types[:conan],
         generic: Packages::Package.package_types[:generic],
         helm: Packages::Package.package_types[:helm],

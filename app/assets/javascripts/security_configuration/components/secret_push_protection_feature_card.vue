@@ -133,7 +133,7 @@ export default {
       'SecretDetection|This feature has been disabled at the instance level. Please reach out to your instance administrator to request activation.',
     ),
     accessLevelTooltipDescription: s__(
-      'SecretDetection|Only a project maintainer or owner can toggle this feature.',
+      'SecretDetection|Only security managers, maintainers, and owners can toggle this feature.',
     ),
     toastMessageEnabled: s__('SecretDetection|Secret push protection is enabled'),
     toastMessageDisabled: s__('SecretDetection|Secret push protection is disabled'),

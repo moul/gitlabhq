@@ -66794,6 +66794,7 @@ definitions:
         type: string
         description: Package type protected by the rule. For example npm.
         enum:
+        - cargo
         - conan
         - generic
         - helm
@@ -66837,6 +66838,7 @@ definitions:
         type: string
         description: Package type protected by the rule. For example npm.
         enum:
+        - cargo
         - conan
         - generic
         - helm

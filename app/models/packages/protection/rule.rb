@@ -14,7 +14,8 @@ module Packages
         message: ->(_object, _data) { _('should be a valid PyPI package name with optional wildcard characters.') }
       }.freeze
 
-      enum :package_type, Packages::Package.package_types.slice(:conan, :generic, :helm, :maven, :npm, :nuget, :pypi)
+      enum :package_type,
+        Packages::Package.package_types.slice(:cargo, :conan, :generic, :helm, :maven, :npm, :nuget, :pypi)
       enum :minimum_access_level_for_delete, Gitlab::Access.sym_options_with_admin.slice(:owner, :admin),
         prefix: :minimum_access_level_for_delete
       enum :minimum_access_level_for_push, Gitlab::Access.sym_options_with_admin.slice(:maintainer, :owner, :admin),

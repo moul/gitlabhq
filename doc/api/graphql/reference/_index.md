@@ -406,6 +406,21 @@ This field returns a [connection](#connections). It accepts the
 four standard [pagination arguments](#pagination-arguments):
 `before: String`, `after: String`, `first: Int`, and `last: Int`.
 
+### `Query.aiCatalogMcpTools`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+List of MCP tools dynamically discovered from the GitLab MCP server.
+
+Returns [`AiCatalogMcpToolConnection!`](#aicatalogmcptoolconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
 ### `Query.aiChatAvailableModels`
 
 {{< details >}}
@@ -1693,6 +1708,23 @@ Returns [`PackageDetailsType`](#packagedetailstype).
 | ---- | ---- | ----------- |
 | <a id="query-package-id"></a>`id` | [`PackagesPackageID!`](#packagespackageid) | Global ID of the package. |
 
+### `Query.pipelineExecutionSchedulePolicyTestRun`
+
+{{< details >}}
+**Introduced** in GitLab 18.10.
+**Status**: Experiment.
+{{< /details >}}
+
+Find a pipeline execution schedule policy test run by ID.
+
+Returns [`PolicyScheduleTestRun`](#policyscheduletestrun).
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="query-pipelineexecutionschedulepolicytestrun-id"></a>`id` | [`SecurityScheduledPipelineExecutionPolicyTestRunID!`](#securityscheduledpipelineexecutionpolicytestrunid) | Global ID of the policy schedule test run. |
+
 ### `Query.project`
 
 Find a project.
@@ -2943,12 +2975,13 @@ Input type: `AiCatalogAgentCreateInput`
 | <a id="mutation-aicatalogagentcreate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-aicatalogagentcreate-description"></a>`description` | [`String!`](#string) | Description for the agent. |
 | <a id="mutation-aicatalogagentcreate-mcpservers"></a>`mcpServers` {{< icon name="warning-solid" >}} | [`[AiCatalogMcpServerID!]`](#aicatalogmcpserverid) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.10. |
+| <a id="mutation-aicatalogagentcreate-mcptools"></a>`mcpTools` {{< icon name="warning-solid" >}} | [`[String!]`](#string) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
 | <a id="mutation-aicatalogagentcreate-name"></a>`name` | [`String!`](#string) | Name for the agent. |
 | <a id="mutation-aicatalogagentcreate-projectid"></a>`projectId` | [`ProjectID!`](#projectid) | Project for the agent. |
 | <a id="mutation-aicatalogagentcreate-public"></a>`public` | [`Boolean!`](#boolean) | Whether the agent is publicly visible in the catalog. |
 | <a id="mutation-aicatalogagentcreate-release"></a>`release` | [`Boolean`](#boolean) | Whether to release the latest version of the agent. |
 | <a id="mutation-aicatalogagentcreate-systemprompt"></a>`systemPrompt` | [`String!`](#string) | System prompt for the agent. |
-| <a id="mutation-aicatalogagentcreate-tools"></a>`tools` | [`[AiCatalogBuiltInToolID!]`](#aicatalogbuiltintoolid) | List of GitLab tools enabled for the agent. |
+| <a id="mutation-aicatalogagentcreate-tools"></a>`tools` | [`[AiCatalogBuiltInToolID!]`](#aicatalogbuiltintoolid) | List of GitLab built-in tools enabled for the agent. |
 | <a id="mutation-aicatalogagentcreate-userprompt"></a>`userPrompt` | [`String`](#string) | User prompt for the agent. |
 
 #### Fields
@@ -3001,11 +3034,12 @@ Input type: `AiCatalogAgentUpdateInput`
 | <a id="mutation-aicatalogagentupdate-description"></a>`description` | [`String`](#string) | Description for the agent. |
 | <a id="mutation-aicatalogagentupdate-id"></a>`id` | [`AiCatalogItemID!`](#aicatalogitemid) | Global ID of the catalog Agent to update. |
 | <a id="mutation-aicatalogagentupdate-mcpservers"></a>`mcpServers` {{< icon name="warning-solid" >}} | [`[AiCatalogMcpServerID!]`](#aicatalogmcpserverid) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.10. |
+| <a id="mutation-aicatalogagentupdate-mcptools"></a>`mcpTools` {{< icon name="warning-solid" >}} | [`[String!]`](#string) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
 | <a id="mutation-aicatalogagentupdate-name"></a>`name` | [`String`](#string) | Name for the agent. |
 | <a id="mutation-aicatalogagentupdate-public"></a>`public` | [`Boolean`](#boolean) | Whether the agent is publicly visible in the catalog. |
 | <a id="mutation-aicatalogagentupdate-release"></a>`release` | [`Boolean`](#boolean) | Whether to release the latest version of the agent. |
 | <a id="mutation-aicatalogagentupdate-systemprompt"></a>`systemPrompt` | [`String`](#string) | System prompt for the agent. |
-| <a id="mutation-aicatalogagentupdate-tools"></a>`tools` | [`[AiCatalogBuiltInToolID!]`](#aicatalogbuiltintoolid) | List of GitLab tools enabled for the agent. |
+| <a id="mutation-aicatalogagentupdate-tools"></a>`tools` | [`[AiCatalogBuiltInToolID!]`](#aicatalogbuiltintoolid) | List of GitLab built-in tools enabled for the agent. |
 | <a id="mutation-aicatalogagentupdate-userprompt"></a>`userPrompt` | [`String`](#string) | User prompt for the agent. |
 | <a id="mutation-aicatalogagentupdate-versionbump"></a>`versionBump` | [`AiCatalogVersionBump`](#aicatalogversionbump) | Bump version, calculated from the last released version name. |
 
@@ -11872,6 +11906,34 @@ Input type: `PipelineDestroyInput`
 | <a id="mutation-pipelinedestroy-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-pipelinedestroy-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 
+### `Mutation.pipelineExecutionSchedulePolicyTestRun`
+
+{{< details >}}
+**Introduced** in GitLab 18.10.
+**Status**: Experiment.
+{{< /details >}}
+
+Triggers a test-run for a Scheduled Pipeline Execution Policy on a specific project.
+
+Input type: `PipelineExecutionSchedulePolicyTestRunInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-pipelineexecutionschedulepolicytestrun-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-pipelineexecutionschedulepolicytestrun-policyid"></a>`policyId` | [`SecurityPolicyID!`](#securitypolicyid) | Global ID of the pipeline execution schedule policy to test. |
+| <a id="mutation-pipelineexecutionschedulepolicytestrun-projectpath"></a>`projectPath` | [`ID!`](#id) | Full path of the project to run the test on. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-pipelineexecutionschedulepolicytestrun-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-pipelineexecutionschedulepolicytestrun-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+| <a id="mutation-pipelineexecutionschedulepolicytestrun-pipeline"></a>`pipeline` | [`Pipeline`](#pipeline) | Pipeline created by the test-run. |
+| <a id="mutation-pipelineexecutionschedulepolicytestrun-testrun"></a>`testRun` | [`PolicyScheduleTestRun`](#policyscheduletestrun) | Test-run record created. |
+
 ### `Mutation.pipelineRetry`
 
 Input type: `PipelineRetryInput`
@@ -17832,6 +17894,29 @@ The edge type for [`AiCatalogMcpServer`](#aicatalogmcpserver).
 | ---- | ---- | ----------- |
 | <a id="aicatalogmcpserveredge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="aicatalogmcpserveredge-node"></a>`node` | [`AiCatalogMcpServer`](#aicatalogmcpserver) | The item at the end of the edge. |
+
+#### `AiCatalogMcpToolConnection`
+
+The connection type for [`AiCatalogMcpTool`](#aicatalogmcptool).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="aicatalogmcptoolconnection-edges"></a>`edges` | [`[AiCatalogMcpToolEdge]`](#aicatalogmcptooledge) | A list of edges. |
+| <a id="aicatalogmcptoolconnection-nodes"></a>`nodes` | [`[AiCatalogMcpTool]`](#aicatalogmcptool) | A list of nodes. |
+| <a id="aicatalogmcptoolconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `AiCatalogMcpToolEdge`
+
+The edge type for [`AiCatalogMcpTool`](#aicatalogmcptool).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="aicatalogmcptooledge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="aicatalogmcptooledge-node"></a>`node` | [`AiCatalogMcpTool`](#aicatalogmcptool) | The item at the end of the edge. |
 
 #### `AiConversationsThreadConnection`
 
@@ -27878,6 +27963,7 @@ An AI catalog agent version.
 | <a id="aicatalogagentversion-id"></a>`id` | [`ID!`](#id) | ID of the item version. |
 | <a id="aicatalogagentversion-item"></a>`item` | [`AiCatalogItem!`](#aicatalogitem) | Item the version belongs to. |
 | <a id="aicatalogagentversion-mcpservers"></a>`mcpServers` {{< icon name="warning-solid" >}} | [`AiCatalogMcpServerConnection`](#aicatalogmcpserverconnection) | **Introduced** in GitLab 18.10. **Status**: Experiment. MCP servers associated with the item. |
+| <a id="aicatalogagentversion-mcptools"></a>`mcpTools` {{< icon name="warning-solid" >}} | [`[String!]!`](#string) | **Introduced** in GitLab 18.11. **Status**: Experiment. List of MCP tools enabled for the agent. |
 | <a id="aicatalogagentversion-released"></a>`released` | [`Boolean!`](#boolean) | Indicates the item version is released. |
 | <a id="aicatalogagentversion-releasedat"></a>`releasedAt` | [`Time`](#time) | Timestamp of when the item version was released. |
 | <a id="aicatalogagentversion-systemprompt"></a>`systemPrompt` | [`String`](#string) | System prompt for the agent. |
@@ -28067,6 +28153,18 @@ An MCP (Model Context Protocol) server.
 | <a id="aicatalogmcpserver-transport"></a>`transport` | [`AiCatalogMcpServerTransport!`](#aicatalogmcpservertransport) | Transport type for the MCP server. |
 | <a id="aicatalogmcpserver-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp when the MCP server was last updated. |
 | <a id="aicatalogmcpserver-url"></a>`url` | [`String!`](#string) | URL of the MCP server. |
+
+### `AiCatalogMcpTool`
+
+An MCP tool dynamically discovered from the GitLab MCP server.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="aicatalogmcptool-description"></a>`description` | [`String`](#string) | Description of the MCP tool. |
+| <a id="aicatalogmcptool-name"></a>`name` | [`ID!`](#id) | Machine-readable name of the MCP tool. |
+| <a id="aicatalogmcptool-title"></a>`title` | [`String!`](#string) | Human-readable title of the MCP tool. |
 
 ### `AiCatalogThirdPartyFlow`
 
@@ -45101,6 +45199,25 @@ Represents policy violation for `scan_finding` report_type.
 | <a id="policyscanfindingviolation-reporttype"></a>`reportType` | [`VulnerabilityReportType!`](#vulnerabilityreporttype) | Represents the report type. |
 | <a id="policyscanfindingviolation-severity"></a>`severity` | [`VulnerabilitySeverity`](#vulnerabilityseverity) | Severity of the finding. |
 
+### `PolicyScheduleTestRun`
+
+Represents a test run for a scheduled pipeline execution policy.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="policyscheduletestrun-completed"></a>`completed` | [`Boolean!`](#boolean) | Whether the test run has completed. |
+| <a id="policyscheduletestrun-createdat"></a>`createdAt` | [`Time!`](#time) | Timestamp when the test run was created. |
+| <a id="policyscheduletestrun-duration"></a>`duration` | [`Int`](#int) | Duration of the test run in seconds. |
+| <a id="policyscheduletestrun-errormessage"></a>`errorMessage` | [`String`](#string) | Error message if the test run failed. |
+| <a id="policyscheduletestrun-finishedat"></a>`finishedAt` | [`Time`](#time) | Timestamp when the test run finished. |
+| <a id="policyscheduletestrun-id"></a>`id` | [`SecurityScheduledPipelineExecutionPolicyTestRunID!`](#securityscheduledpipelineexecutionpolicytestrunid) | ID of the test run. |
+| <a id="policyscheduletestrun-pipeline"></a>`pipeline` | [`Pipeline`](#pipeline) | Pipeline created by the test run. |
+| <a id="policyscheduletestrun-project"></a>`project` | [`Project!`](#project) | Project the test run was executed on. |
+| <a id="policyscheduletestrun-startedat"></a>`startedAt` | [`Time`](#time) | Timestamp when the test run started. |
+| <a id="policyscheduletestrun-state"></a>`state` | [`PolicyScheduleTestRunState!`](#policyscheduletestrunstate) | State of the test run. |
+
 ### `PolicyScope`
 
 #### Fields
@@ -49908,6 +50025,7 @@ Security scan feature configuration.
 | ---- | ---- | ----------- |
 | <a id="securityscanfeature-available"></a>`available` | [`Boolean!`](#boolean) | Whether the security scan is available for the project. |
 | <a id="securityscanfeature-canenablebymergerequest"></a>`canEnableByMergeRequest` | [`Boolean!`](#boolean) | Whether the security scan can be enabled via merge request. |
+| <a id="securityscanfeature-canuserconfigure"></a>`canUserConfigure` | [`Boolean!`](#boolean) | Whether the current user can configure the security scan. |
 | <a id="securityscanfeature-configurationpath"></a>`configurationPath` | [`String`](#string) | Path to configure the security scan. |
 | <a id="securityscanfeature-configured"></a>`configured` | [`Boolean!`](#boolean) | Whether the security scan is configured for the project. |
 | <a id="securityscanfeature-metainfopath"></a>`metaInfoPath` | [`String`](#string) | Path to additional information about the security scan. |
@@ -57646,6 +57764,16 @@ Types of security policy project created status.
 | <a id="policyprojectcreatedstatus-error"></a>`ERROR` | Creating the security policy project faild. |
 | <a id="policyprojectcreatedstatus-success"></a>`SUCCESS` | Creating the security policy project was successful. |
 
+### `PolicyScheduleTestRunState`
+
+State of a policy schedule test run.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="policyscheduletestrunstate-complete"></a>`COMPLETE` | Test run completed successfully. |
+| <a id="policyscheduletestrunstate-failed"></a>`FAILED` | Test run failed. |
+| <a id="policyscheduletestrunstate-running"></a>`RUNNING` | Test run is in progress. |
+
 ### `PolicyScopeMatchMode`
 
 Specifies how multiple policy scope conditions are combined.
@@ -60442,6 +60570,12 @@ A `SecurityOrchestrationPolicyConfigurationID` is a global ID. It is encoded as 
 
 An example `SecurityOrchestrationPolicyConfigurationID` is: `"gid://gitlab/Security::OrchestrationPolicyConfiguration/1"`.
 
+### `SecurityPolicyID`
+
+A `SecurityPolicyID` is a global ID. It is encoded as a string.
+
+An example `SecurityPolicyID` is: `"gid://gitlab/Security::Policy/1"`.
+
 ### `SecurityProjectSecurityExclusionID`
 
 A `SecurityProjectSecurityExclusionID` is a global ID. It is encoded as a string.
@@ -60459,6 +60593,12 @@ An example `SecurityProjectTrackedContextID` is: `"gid://gitlab/Security::Projec
 A `SecurityScanProfileID` is a global ID. It is encoded as a string.
 
 An example `SecurityScanProfileID` is: `"gid://gitlab/Security::ScanProfile/1"`.
+
+### `SecurityScheduledPipelineExecutionPolicyTestRunID`
+
+A `SecurityScheduledPipelineExecutionPolicyTestRunID` is a global ID. It is encoded as a string.
+
+An example `SecurityScheduledPipelineExecutionPolicyTestRunID` is: `"gid://gitlab/Security::ScheduledPipelineExecutionPolicyTestRun/1"`.
 
 ### `SecurityTrainingProviderID`
 

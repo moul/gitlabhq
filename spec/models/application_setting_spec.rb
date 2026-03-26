@@ -51,7 +51,6 @@ RSpec.describe ApplicationSetting, feature_category: :settings, type: :model do
         ci_job_live_trace_enabled: false,
         ci_max_includes: 150,
         ci_max_total_yaml_size_bytes: 314572800,
-        ci_partitions_size_limit: 100.gigabytes,
         code_suggestions_api_rate_limit: 60,
         commit_email_hostname: "users.noreply.#{Gitlab.config.gitlab.host}",
         concurrent_bitbucket_import_jobs_limit: 100,
@@ -616,7 +615,6 @@ RSpec.describe ApplicationSetting, feature_category: :settings, type: :model do
           autocomplete_users_limit
           autocomplete_users_unauthenticated_limit
           bulk_import_concurrent_pipeline_batch_limit
-          ci_partitions_size_limit
           code_suggestions_api_rate_limit
           concurrent_bitbucket_import_jobs_limit
           concurrent_bitbucket_server_import_jobs_limit

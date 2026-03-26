@@ -7,6 +7,9 @@ project:
   permissions: []
   raw_permissions:
   - _delete_authored_timelog
+  - _read_public_build
+  - _read_public_pipeline
+  - _read_public_pipeline_schedule
   - award_emoji
   - create_issue
   - create_note

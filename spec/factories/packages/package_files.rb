@@ -420,6 +420,13 @@ FactoryBot.define do
       size { 527.bytes }
     end
 
+    trait(:cargo) do
+      package { association(:cargo_package) }
+      file_fixture { 'spec/fixtures/packages/cargo/test-crate-1.0.0.crate' }
+      file_name { 'test-crate-1.0.0.crate' }
+      size { 1205.bytes }
+    end
+
     factory :package_file_with_file, traits: [:jar]
   end
 end

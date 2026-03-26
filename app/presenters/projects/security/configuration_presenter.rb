@@ -98,7 +98,8 @@ module Projects
       end
 
       def scan(type, configured: false)
-        scan = ::Gitlab::Security::ScanConfiguration.new(project: project, type: type, configured: configured)
+        scan = ::Gitlab::Security::ScanConfiguration.new(user: current_user, project: project, type: type,
+          configured: configured)
 
         {
           type: scan.type,
@@ -108,7 +109,8 @@ module Projects
           can_enable_by_merge_request: scan.can_enable_by_merge_request?,
           meta_info_path: scan.meta_info_path,
           on_demand_available: scan.on_demand_available?,
-          security_features: scan.security_features
+          security_features: scan.security_features,
+          can_user_configure: scan.can_user_configure?
         }
       end
 

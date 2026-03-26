@@ -9,10 +9,21 @@ module API
           @manager = manager
         end
 
-        def invoke(current_user)
+        # allowed_tools: optional array of tool name strings to filter the response.
+        # When nil or empty, all available tools are returned (default agentic chat behaviour).
+        # When provided, only tools whose names are in the list are returned, ensuring the
+        # agent's LLM sees exactly the toolset that was configured for it.
+        def invoke(current_user, allowed_tools: nil)
           tools_hash = manager.list_tools
 
+          if allowed_tools.present?
+            known_names = tools_hash.keys.map(&:to_s)
+            unknown = allowed_tools - known_names
+            Gitlab::AppLogger.warn(message: "Unknown MCP tool names in allowed_tools", names: unknown) if unknown.any?
+          end
+
           tools = tools_hash.filter_map do |name, tool|
+            next nil if allowed_tools.present? && allowed_tools.exclude?(name)
             next nil unless tool_available?(tool, current_user)
 
             tool_data = {

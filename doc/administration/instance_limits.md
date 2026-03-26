@@ -1268,6 +1268,7 @@ Plan.default.actual_limits.update!(ci_job_annotations_size: 100.kilobytes)
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/189131) in GitLab 18.0.
+- [Removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/577314) in GitLab 18.11.
 
 {{< /history >}}
 

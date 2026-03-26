@@ -2866,7 +2866,6 @@ RSpec/FeatureCategory:
     - 'spec/presenters/ci/pipeline_presenter_spec.rb'
     - 'spec/presenters/ci/stage_presenter_spec.rb'
     - 'spec/presenters/ci/trigger_presenter_spec.rb'
-    - 'spec/presenters/ci/variable_presenter_spec.rb'
     - 'spec/presenters/commit_status_presenter_spec.rb'
     - 'spec/presenters/deploy_key_presenter_spec.rb'
     - 'spec/presenters/deployments/deployment_presenter_spec.rb'

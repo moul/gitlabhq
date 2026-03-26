@@ -400,6 +400,7 @@ RSpec.describe 'Every Sidekiq worker', feature_category: :sidekiq do
         'ObjectPool::JoinWorker' => 3,
         'ObjectPool::ScheduleJoinWorker' => 3,
         'ObjectStorage::MigrateUploadsWorker' => 3,
+        'Packages::Cargo::ExtractionWorker' => 3,
         'Packages::CleanupPackageFileWorker' => 0,
         'Packages::Cleanup::ExecutePolicyWorker' => 0,
         'Packages::Go::SyncPackagesWorker' => 3,

@@ -357,6 +357,10 @@ class ProjectPolicy < BasePolicy
     enable :request_access
   end
 
+  rule { can?(:public_access) }.policy do
+    enable(*Authz::Role.get(:public_anonymous).direct_permissions(:project))
+  end
+
   # Role permissions are maintained in yaml in config/authz/roles/
   rule { can?(:guest_access) }.policy do
     enable(*Authz::Role.get(:guest).direct_permissions(:project))
@@ -784,7 +788,7 @@ class ProjectPolicy < BasePolicy
   rule { public_or_internal & job_token_builds }.policy do
     # this is additionally needed to download artifacts
     enable :read_commit_status
-    enable :read_build
+    enable :_read_public_build
   end
 
   rule { public_or_internal & job_token_releases }.policy do
@@ -795,55 +799,21 @@ class ProjectPolicy < BasePolicy
     enable :read_environment
   end
 
-  rule { can?(:public_access) }.policy do
-    enable :read_package
-    enable :read_project
-    enable :read_issue_board
-    enable :read_issue_board_list
-    enable :read_wiki
-    enable :read_label
-    enable :read_milestone
-    enable :read_snippet
-    enable :read_project_member
-    enable :read_merge_request
-    enable :read_note
-    enable :read_pipeline
-    enable :read_environment
-    enable :read_deployment
-    enable :read_commit_status
-    enable :read_build
-    enable :read_container_image
-    enable :read_code
-    enable :download_code
-    enable :read_release
-    enable :download_wiki_code
-    enable :read_cycle_analytics
-    enable :read_analytics
-    enable :read_insights
-    enable :read_upload
-
-    # NOTE: may be overridden by IssuePolicy
-    enable :read_issue
+  rule { ~public_builds }.policy do
+    prevent :_read_public_build
+    prevent :_read_public_pipeline
+    prevent :_read_public_pipeline_schedule
+    prevent :_read_public_ci_cd_analytics
   end
 
-  rule { public_builds & can?(:public_access) }.policy do
-    enable :read_ci_cd_analytics
-    enable :read_pipeline_schedule
-  end
-
-  rule { public_builds & can?(:guest_access) }.policy do
-    enable :read_build
-    enable :read_pipeline
-    enable :read_pipeline_schedule
-  end
-
-  rule { ~public_builds & ~can?(:reporter_access) }.policy do
-    prevent :read_build
-  end
+  rule { can?(:_read_public_build) }.enable :read_build
+  rule { can?(:_read_public_pipeline) }.enable :read_pipeline
+  rule { can?(:_read_public_pipeline_schedule) }.enable :read_pipeline_schedule
+  rule { can?(:_read_public_ci_cd_analytics) }.enable :read_ci_cd_analytics
 
   # These rules are included to allow maintainers of projects to push to certain
   # to run pipelines for the branches they have access to.
-  rule { can?(:public_access) & has_merge_requests_allowing_pushes & user_confirmed? }.policy do
+  rule { can?(:public_user_access) & has_merge_requests_allowing_pushes & user_confirmed? }.policy do
     enable :create_build
     enable :create_pipeline
   end

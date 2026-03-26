@@ -296,7 +296,6 @@ module ApplicationSettingsHelper
       :allow_bypass_placeholder_confirmation,
       :ci_delete_pipelines_in_seconds_limit_human_readable,
       :ci_job_live_trace_enabled,
-      :ci_partitions_size_limit,
       :concurrent_github_import_jobs_limit,
       :concurrent_bitbucket_import_jobs_limit,
       :concurrent_bitbucket_server_import_jobs_limit,

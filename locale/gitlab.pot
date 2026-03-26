@@ -7448,6 +7448,9 @@ msgstr ""
 msgid "AiImpactAnalytics|Feature usage"
 msgstr ""
 
+msgid "AiImpactAnalytics|No query found for metric: %{metric}"
+msgstr ""
+
 msgid "AiImpactAnalytics|Number of Duo Code Review comments."
 msgstr ""
 
@@ -14161,7 +14164,7 @@ msgstr ""
 msgid "CVS|Container Scanning for Registry is enabled"
 msgstr ""
 
-msgid "CVS|Only a project maintainer or owner can toggle this feature."
+msgid "CVS|Only security managers, maintainers, and owners can toggle this feature."
 msgstr ""
 
 msgid "CWE ID"
@@ -40508,9 +40511,6 @@ msgstr ""
 msgid "Learn about signing commits with SSH keys."
 msgstr ""
 
-msgid "Learn how to %{link_start}contribute to the built-in templates%{link_end}"
-msgstr ""
-
 msgid "Learn how to %{no_packages_link_start}publish and share your packages%{no_packages_link_end} with GitLab."
 msgstr ""
 
@@ -54804,6 +54804,9 @@ msgstr ""
 msgid "ProjectTemplates|Laravel Framework"
 msgstr ""
 
+msgid "ProjectTemplates|Learn how to %{linkStart}contribute to the built-in templates%{linkEnd}."
+msgstr ""
+
 msgid "ProjectTemplates|NIST 800-53r5"
 msgstr ""
 
@@ -61056,7 +61059,7 @@ msgstr ""
 msgid "SecretDetection|No exclusions yet"
 msgstr ""
 
-msgid "SecretDetection|Only a project maintainer or owner can toggle this feature."
+msgid "SecretDetection|Only security managers, maintainers, and owners can toggle this feature."
 msgstr ""
 
 msgid "SecretDetection|Secret detection configuration"
@@ -70273,6 +70276,9 @@ msgid "The subdomain setting."
 msgstr ""
 
 msgid "The tag name can't be changed for an existing release."
+msgstr ""
+
+msgid "The target branch is scheduled for deletion. Please wait for the branch to be retargeted."
 msgstr ""
 
 msgid "The target topic is not a topic."
