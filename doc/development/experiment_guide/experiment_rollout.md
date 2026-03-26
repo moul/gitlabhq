@@ -20,9 +20,9 @@ In either case, an outcome of the experiment should be posted to the issue with 
 
 ## Turn off all experiments
 
-When there is a case on GitLab.com (SaaS) that necessitates turning off all experiments, we have this control.
+When there is a case on GitLab.com that necessitates turning off all experiments, we have this control.
 
-You can toggle experiments on SaaS on and off using the `gitlab_experiment` [feature flag](../feature_flags/_index.md).
+You can toggle experiments on GitLab.com using the `gitlab_experiment` [feature flag](../feature_flags/_index.md).
 
 This can be done via ChatOps:
 

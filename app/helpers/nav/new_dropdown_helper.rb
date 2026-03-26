@@ -31,12 +31,7 @@ module Nav
           ::Gitlab::Nav::TopNavMenuItem.build(
             id: 'new_project',
             title: _('New project/repository'),
-            href: new_project_path(namespace_id: group.id),
-            data: {
-              track_action: 'click_link_new_project_group',
-              track_label: 'plus_menu_dropdown',
-              track_property: 'navigation_top'
-            }
+            href: new_project_path(namespace_id: group.id)
           )
         )
       end
@@ -46,12 +41,7 @@ module Nav
           ::Gitlab::Nav::TopNavMenuItem.build(
             id: 'new_subgroup',
             title: _('New subgroup'),
-            href: new_group_path(parent_id: group.id, anchor: 'create-group-pane'),
-            data: {
-              track_action: 'click_link_new_subgroup',
-              track_label: 'plus_menu_dropdown',
-              track_property: 'navigation_top'
-            }
+            href: new_group_path(parent_id: group.id, anchor: 'create-group-pane')
           )
         )
       end
@@ -61,13 +51,7 @@ module Nav
           ::Gitlab::Nav::TopNavMenuItem.build(
             id: 'new_group_work_item',
             title: _('New work item'),
-            component: 'create_new_work_item_modal',
-            data: {
-              track_action: 'click_link_new_group_work_item',
-              track_label: 'plus_menu_dropdown',
-              track_property: 'navigation_top',
-              testid: 'new_group_work_item_button'
-            }
+            component: 'create_new_work_item_modal'
           )
         )
       end
@@ -95,13 +79,7 @@ module Nav
             ::Gitlab::Nav::TopNavMenuItem.build(
               id: 'new_work_item',
               title: _('New work item'),
-              component: 'create_new_work_item_modal',
-              data: {
-                track_action: 'click_link_new_work_item',
-                track_label: 'plus_menu_dropdown',
-                track_property: 'navigation_top',
-                testid: 'new_work_item_button'
-              }
+              component: 'create_new_work_item_modal'
             )
           )
         else
@@ -110,13 +88,7 @@ module Nav
               id: 'new_issue',
               title: _('New issue'),
               href: new_project_issue_path(project),
-              component: 'create_new_work_item_modal',
-              data: {
-                track_action: 'click_link_new_issue',
-                track_label: 'plus_menu_dropdown',
-                track_property: 'navigation_top',
-                testid: 'new_issue_link'
-              }
+              component: 'create_new_work_item_modal'
             )
           )
         end
@@ -127,12 +99,7 @@ module Nav
           ::Gitlab::Nav::TopNavMenuItem.build(
             id: 'new_mr',
             title: _('New merge request'),
-            href: project_new_merge_request_path(merge_project),
-            data: {
-              track_action: 'click_link_new_mr',
-              track_label: 'plus_menu_dropdown',
-              track_property: 'navigation_top'
-            }
+            href: project_new_merge_request_path(merge_project)
           )
         )
       end
@@ -142,12 +109,7 @@ module Nav
           ::Gitlab::Nav::TopNavMenuItem.build(
             id: 'new_wiki_page',
             title: _('New wiki page'),
-            href: project_wikis_new_path(project),
-            data: {
-              track_action: 'click_link_new_project_wiki_page',
-              track_label: 'plus_menu_dropdown',
-              track_property: 'navigation_top'
-            }
+            href: project_wikis_new_path(project)
           )
         )
       end
@@ -157,12 +119,7 @@ module Nav
           ::Gitlab::Nav::TopNavMenuItem.build(
             id: 'new_snippet',
             title: _('New snippet'),
-            href: new_project_snippet_path(project),
-            data: {
-              track_action: 'click_link_new_snippet_project',
-              track_label: 'plus_menu_dropdown',
-              track_property: 'navigation_top'
-            }
+            href: new_project_snippet_path(project)
           )
         )
       end
@@ -185,13 +142,7 @@ module Nav
           ::Gitlab::Nav::TopNavMenuItem.build(
             id: 'general_new_project',
             title: _('New project/repository'),
-            href: new_project_path,
-            data: {
-              track_action: 'click_link_new_project',
-              track_label: 'plus_menu_dropdown',
-              track_property: 'navigation_top',
-              testid: 'global-new-project-link'
-            }
+            href: new_project_path
           )
         )
       end
@@ -201,13 +152,7 @@ module Nav
           ::Gitlab::Nav::TopNavMenuItem.build(
             id: 'general_new_group',
             title: _('New group'),
-            href: new_group_path,
-            data: {
-              track_action: 'click_link_new_group',
-              track_label: 'plus_menu_dropdown',
-              track_property: 'navigation_top',
-              testid: 'global-new-group-link'
-            }
+            href: new_group_path
           )
         )
       end
@@ -219,13 +164,7 @@ module Nav
           ::Gitlab::Nav::TopNavMenuItem.build(
             id: 'general_new_organization',
             title: s_('Organization|New organization'),
-            href: new_organization_path,
-            data: {
-              track_action: 'click_link_new_organization_parent',
-              track_label: 'plus_menu_dropdown',
-              track_property: 'navigation_top',
-              testid: 'global_new_organization_link'
-            }
+            href: new_organization_path
           )
         )
       end
@@ -235,13 +174,7 @@ module Nav
           ::Gitlab::Nav::TopNavMenuItem.build(
             id: 'general_new_snippet',
             title: _('New snippet'),
-            href: new_snippet_path,
-            data: {
-              track_action: 'click_link_new_snippet_parent',
-              track_label: 'plus_menu_dropdown',
-              track_property: 'navigation_top',
-              testid: 'global-new-snippet-link'
-            }
+            href: new_snippet_path
           )
         )
       end
@@ -258,11 +191,7 @@ module Nav
         title: s_('InviteMember|Invite members'),
         icon: 'shaking_hands',
         partial: partial,
-        component: 'invite_members',
-        data: {
-          trigger_source: 'top_nav',
-          trigger_element: 'text-emoji'
-        }
+        component: 'invite_members'
       )
     end
 

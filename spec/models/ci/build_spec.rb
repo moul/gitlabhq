@@ -3042,6 +3042,10 @@ RSpec.describe Ci::Build, feature_category: :continuous_integration, factory_def
           { key: 'CI_PIPELINE_SOURCE', value: pipeline.source, public: true, masked: false },
           { key: 'CI_PIPELINE_CREATED_AT', value: pipeline.created_at.iso8601, public: true, masked: false },
           { key: 'CI_PIPELINE_NAME', value: pipeline.name, public: true, masked: false },
+          { key: 'CI_CONFIG_REF_URI',
+            value: "#{Settings.build_server_fqdn}/#{project.full_path}" \
+              "//#{project.ci_config_path_or_default}@#{pipeline.source_ref_path}",
+            public: true, masked: false },
           { key: 'CI_COMMIT_SHA', value: build.sha, public: true, masked: false },
           { key: 'CI_COMMIT_SHORT_SHA', value: build.short_sha, public: true, masked: false },
           { key: 'CI_COMMIT_BEFORE_SHA', value: build.before_sha, public: true, masked: false },

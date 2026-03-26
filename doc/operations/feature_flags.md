@@ -411,8 +411,8 @@ The feature flag API is considered **Unauthenticated traffic (from a given IP ad
 
 The polling rate is configurable in SDKs. Provided that all clients are requesting from the same IP:
 
-- Request once per minute ... 500 clients can be supported.
-- Request once per 15 sec ... 125 clients can be supported.
+- At one request per minute, supports approximately 500 clients (8 RPS).
+- At one request per 15 sec, supports approximately 125 clients.
 
 For applications looking for more scalable solution, you should use [Unleash Proxy](#unleash-proxy-example).
 On GitLab.com, you should use Unleash Proxy to reduce the chance of being rate limited across endpoints.
@@ -436,6 +436,8 @@ Read the documentation in a SDK project for more information.
 Functionality-wise, there are no differences. Both GitLab.com and GitLab Self-Managed behave the same.
 
 In terms of scalability, it's up to the spec of the GitLab instance.
-For example, GitLab.com uses HA architecture so it can handle many concurrent requests. However, GitLab Self-Managed instances on underpowered machines won't deliver comparable performance.
-See [Reference architectures](../administration/reference_architectures/_index.md)
-for more information.
+GitLab.com uses a highly scaled architecture to handle many concurrent requests.
+
+However, GitLab Self-Managed instances with insufficient capacity based on the [reference architectures](../administration/reference_architectures/_index.md#additional-workloads)
+won't deliver comparable performance and can even be overloaded by feature flag traffic.
+Consider the number of users of your deployed application _in addition_ to your GitLab users.

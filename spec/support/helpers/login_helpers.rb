@@ -51,16 +51,13 @@ module LoginHelpers
 
   def gitlab_sign_in_via(provider, user, uid, saml_response = nil)
     mock_auth_hash_with_saml_xml(provider, uid, user.email, saml_response)
-    visit new_user_session_path
-    click_button Gitlab::Auth::OAuth::Provider.label_for(provider)
+    click_oauth_provider(provider)
   end
 
   def gitlab_enable_admin_mode_sign_in_via(provider, user, uid, saml_response: nil, additional_info: {})
     response_object = saml_xml(saml_response) if saml_response.present?
     mock_auth_hash(provider, uid, user.email, response_object: response_object, additional_info: additional_info)
-
-    visit new_admin_session_path
-    click_button Gitlab::Auth::OAuth::Provider.label_for(provider)
+    click_oauth_provider(provider, sign_in_path: new_admin_session_path)
   end
 
   # Requires Javascript driver.
@@ -121,10 +118,14 @@ module LoginHelpers
 
   def login_via(provider, user, uid, remember_me: false, additional_info: {})
     mock_auth_hash(provider, uid, user.email, additional_info: additional_info)
+    click_oauth_provider(provider, remember_me: remember_me)
+  end
 
-    3.times do |_attempt|
-      visit new_user_session_path
-      expect(page).to have_css('.js-oauth-login')
+  # The remember_me functionality requires Javascript driver.
+  def click_oauth_provider(provider, remember_me: false, sign_in_path: new_user_session_path)
+    3.times do
+      visit sign_in_path
+      expect(page).to have_button(Gitlab::Auth::OAuth::Provider.label_for(provider))
 
       if remember_me
         within('body.page-initialised') do
@@ -134,11 +135,10 @@ module LoginHelpers
       end
 
       click_button Gitlab::Auth::OAuth::Provider.label_for(provider)
-      # Chrome sometimes fails to send the cookies in the POST request causing a CSRF issue.
-      # We wait up to 10s for the page to navigate away from /user/sign_in.
-      page.has_no_current_path?(new_user_session_path, wait: 10, ignore_query: true)
-      # Instant check: if we're still (or back) on sign-in page, retry up to 3 times.
-      break unless page.has_current_path?(new_user_session_path, wait: 0, ignore_query: true)
+      # Chrome intermittently fails to send cookies on the POST request, causing a silent
+      # CSRF failure that redirects back to sign-in. Wait for navigation, then retry if needed.
+      page.has_no_current_path?(sign_in_path, wait: 10, ignore_query: true)
+      break unless page.has_current_path?(sign_in_path, wait: 0, ignore_query: true)
     end
   end
 
@@ -154,10 +154,7 @@ module LoginHelpers
 
   def register_via(provider, uid, email, additional_info: {})
     mock_auth_hash(provider, uid, email, additional_info: additional_info)
-    visit new_user_registration_path
-    expect(page).to have_content('Create an account using').or(have_content('Continue with'))
-
-    click_button Gitlab::Auth::OAuth::Provider.label_for(provider)
+    click_oauth_provider(provider, sign_in_path: new_user_registration_path)
   end
 
   def fake_successful_webauthn_authentication

@@ -729,7 +729,7 @@ function mountRelatedWorkItems() {
     return null;
   }
 
-  const { fullPath } = getSidebarOptions();
+  const { fullPath, id } = getSidebarOptions();
 
   return new Vue({
     el,
@@ -737,6 +737,7 @@ function mountRelatedWorkItems() {
     apolloProvider,
     provide: {
       fullPath,
+      id,
       isGroup: false,
       preventRouterNav: true,
     },

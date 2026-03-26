@@ -279,21 +279,33 @@ module SidebarsHelper
       {
         name: show_headers ? section[:title] : '',
         items: section[:menu_items].map do |item|
+                 extra_attrs = base_tracking_attrs(item)
+
+                 if item[:id] == 'new_wiki_page'
+                   label = project&.persisted? ? 'project' : 'group'
+                   extra_attrs[:'data-event-tracking'] = 'click_new_wiki_page_in_create_menu'
+                   extra_attrs[:'data-event-label'] = label
+                 end
+
                  {
                    text: item[:title],
                    href: item[:href].presence,
                    component: item[:component].presence,
-                   extraAttrs: {
-                     'data-track-label': item[:id],
-                     'data-track-action': 'click_link',
-                     'data-track-property': 'nav_create_menu',
-                     'data-testid': 'create_menu_item',
-                     'data-qa-create-menu-item': item[:id]
-                   }
+                   extraAttrs: extra_attrs
                  }
                end
       }
     end
+  end
+
+  def base_tracking_attrs(item)
+    {
+      'data-track-label': item[:id],
+      'data-track-action': 'click_link',
+      'data-track-property': 'nav_create_menu',
+      'data-testid': 'create_menu_item',
+      'data-qa-create-menu-item': item[:id]
+    }
   end
 
   def project_sidebar_context_data(project, user, current_ref, ref_type: nil)

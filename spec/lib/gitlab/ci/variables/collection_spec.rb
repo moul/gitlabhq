@@ -71,6 +71,14 @@ RSpec.describe Gitlab::Ci::Variables::Collection, feature_category: :pipeline_co
     it 'can be initialized without an argument' do
       is_expected.to be_none
     end
+
+    it 'reuses Item objects when initialized with Items' do
+      item = Gitlab::Ci::Variables::Collection::Item.new(key: 'VAR', value: 'value')
+
+      collection = described_class.new([item])
+
+      expect(collection.first.object_id).to eq item.object_id
+    end
   end
 
   describe '#append' do
@@ -162,6 +170,15 @@ RSpec.describe Gitlab::Ci::Variables::Collection, feature_category: :pipeline_co
       expect(subject.concat([key: 'VAR', value: 'test']))
         .to eq subject
     end
+
+    it 'reuses Item objects when concatenating a Collection' do
+      source = described_class.new([{ key: 'VAR', value: '1' }])
+      target = described_class.new
+
+      target.concat(source)
+
+      expect(target.first.object_id).to eq source.first.object_id
+    end
   end
 
   describe '#+' do
@@ -177,6 +194,16 @@ RSpec.describe Gitlab::Ci::Variables::Collection, feature_category: :pipeline_co
       other = described_class.new([{ key: 'TEST', value: '2' }])
 
       expect((collection + other).count).to eq 2
+    end
+
+    it 'reuses Item objects from both collections' do
+      col1 = described_class.new([{ key: 'VAR1', value: '1' }])
+      col2 = described_class.new([{ key: 'VAR2', value: '2' }])
+
+      result = col1 + col2
+
+      expect(result.first.object_id).to eq col1.first.object_id
+      expect(result.to_a.last.object_id).to eq col2.first.object_id
     end
   end
 
@@ -632,5 +659,38 @@ RSpec.describe Gitlab::Ci::Variables::Collection, feature_category: :pipeline_co
     subject(:result) { collection.to_s }
 
     it { is_expected.to eq("[\"VAR\", \"VAR2\"], @errors='circular variable reference detected'") }
+  end
+
+  context 'when ci_skip_item_dup_in_variables_collection is disabled' do
+    before do
+      stub_feature_flags(ci_skip_item_dup_in_variables_collection: false)
+    end
+
+    it 'creates new Item objects in initialize when given Items' do
+      item = Gitlab::Ci::Variables::Collection::Item.new(key: 'VAR', value: 'value')
+
+      collection = described_class.new([item])
+
+      expect(collection.first.object_id).not_to eq item.object_id
+    end
+
+    it 'creates new Item objects when concatenating a Collection' do
+      source = described_class.new([{ key: 'VAR', value: '1' }])
+      target = described_class.new
+
+      target.concat(source)
+
+      expect(target.first.object_id).not_to eq source.first.object_id
+    end
+
+    it 'creates new Item objects when combining collections with +' do
+      col1 = described_class.new([{ key: 'VAR1', value: '1' }])
+      col2 = described_class.new([{ key: 'VAR2', value: '2' }])
+
+      result = col1 + col2
+
+      expect(result.first.object_id).not_to eq col1.first.object_id
+      expect(result.to_a.last.object_id).not_to eq col2.first.object_id
+    end
   end
 end

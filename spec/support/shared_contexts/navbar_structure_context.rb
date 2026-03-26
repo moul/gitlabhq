@@ -91,6 +91,7 @@ RSpec.shared_context 'project navbar structure' do
         nav_item: _('Settings'),
         nav_sub_items: [
           _('General'),
+          _('Service accounts'),
           _('Integrations'),
           _('Webhooks'),
           _('Access tokens'),
@@ -110,6 +111,7 @@ RSpec.shared_context 'project navbar structure' do
   let(:group_owned_structure) do
     structure.last[:nav_sub_items] = [
       _('General'),
+      _('Service accounts'),
       _('Integrations'),
       _('Webhooks'),
       _('Access tokens'),

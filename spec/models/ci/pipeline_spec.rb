@@ -6589,6 +6589,45 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
     end
   end
 
+  describe '#ci_config_ref_uri' do
+    let(:pipeline) { build_stubbed(:ci_pipeline, ref: 'main') }
+
+    it 'returns the fully qualified config ref URI' do
+      expected = "#{Settings.build_server_fqdn}/#{pipeline.project.full_path}" \
+        "//.gitlab-ci.yml@refs/heads/main"
+
+      expect(pipeline.ci_config_ref_uri).to eq(expected)
+    end
+
+    context 'when the project has a custom CI config path' do
+      before do
+        allow(pipeline.project).to receive(:ci_config_path_or_default).and_return('custom/path.yml')
+      end
+
+      it 'uses the custom config path' do
+        expect(pipeline.ci_config_ref_uri).to include('//custom/path.yml@')
+      end
+    end
+
+    context 'when pipeline is for a tag' do
+      let(:pipeline) { build_stubbed(:ci_pipeline, tag: 'v1.0', ref: 'v1.0') }
+
+      it 'uses the tag ref path' do
+        expect(pipeline.ci_config_ref_uri).to end_with('@refs/tags/v1.0')
+      end
+    end
+
+    context 'when source_ref_path is nil' do
+      before do
+        allow(pipeline).to receive(:source_ref_path).and_return(nil)
+      end
+
+      it 'returns a URI ending with @' do
+        expect(pipeline.ci_config_ref_uri).to end_with('@')
+      end
+    end
+  end
+
   describe '#builds_with_coverage' do
     let_it_be(:pipeline) { create(:ci_pipeline, :created) }
 

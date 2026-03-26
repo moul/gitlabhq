@@ -44,7 +44,7 @@ the client layer later.
 
 ### Prerequisites
 
-- [Enable SaaS mode](../ee_features.md#simulate-a-saas-instance) in your local development environment
+- [Enable GitLab.com mode](../ee_features.md#simulate-a-saas-instance) in your local development environment
 
 ### Running the experiment
 

@@ -67197,6 +67197,9 @@ msgstr ""
 msgid "Something went wrong while fetching related merge requests."
 msgstr ""
 
+msgid "Something went wrong while fetching related work items."
+msgstr ""
+
 msgid "Something went wrong while fetching requirements count."
 msgstr ""
 

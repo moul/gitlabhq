@@ -15,9 +15,11 @@ description: Create non-human accounts for automated processes and third-party s
 
 {{< history >}}
 
-- Service accounts on the Free tier [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225913) in GitLab 18.10
-  [with a flag](../../administration/feature_flags/_index.md) named `service_accounts_available_on_free_or_unlicensed`. Disabled by default.
-- Service accounts on the Free tier [enabled on GitLab.com](https://gitlab.com/gitlab-org/gitlab/-/issues/591930) in GitLab 18.10.
+- Service accounts on Free tier:
+  - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225913) in GitLab 18.10
+    [with a flag](../../administration/feature_flags/_index.md) named `service_accounts_available_on_free_or_unlicensed`.
+    Disabled by default.
+  - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/227910) in GitLab 18.11. Feature flag removed.
 - Project service accounts [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/585509) in GitLab 18.10
   [with a flag](../../administration/feature_flags/_index.md) named `allow_projects_to_create_service_accounts`.
   Disabled by default.
@@ -27,10 +29,6 @@ description: Create non-human accounts for automated processes and third-party s
 - Subgroup and project service accounts [generally available](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/225485/) in GitLab 18.11. Feature flags `allow_subgroups_to_create_service_accounts` and `allow_projects_to_create_service_accounts` removed.
 
 {{< /history >}}
-
-> [!flag]
-> On GitLab Self-Managed, the availability of service accounts on the Free
-> tier is controlled by a feature flag. For more information, see the history.
 
 Service accounts are user accounts that represent non-human entities rather than individual people.
 Use service accounts to perform automated actions, access data, or run scheduled processes. Service

@@ -434,6 +434,41 @@ RSpec.describe SidebarsHelper, feature_category: :navigation do
           )
         end
       end
+
+      context 'with wiki menu item internal events tracking' do
+        context 'in a project context' do
+          let(:project) { build_stubbed(:project) }
+
+          before do
+            allow(project).to receive(:persisted?).and_return(true)
+            allow(helper).to receive(:can?).and_return(true)
+          end
+
+          it 'includes data-event-tracking attributes with project label' do
+            wiki_item = subject[:create_new_menu_groups].flat_map { |g| g[:items] }.find do |item|
+              item[:extraAttrs][:'data-qa-create-menu-item'] == 'new_wiki_page'
+            end
+
+            expect(wiki_item).to be_present
+            expect(wiki_item[:extraAttrs]).to include(
+              'data-event-tracking': 'click_new_wiki_page_in_create_menu',
+              'data-event-label': 'project'
+            )
+          end
+
+          it 'does not include data-event-tracking on non-wiki menu items' do
+            non_wiki_items = subject[:create_new_menu_groups].flat_map { |g| g[:items] }.reject do |item|
+              item[:extraAttrs][:'data-qa-create-menu-item'] == 'new_wiki_page'
+            end
+
+            expect(non_wiki_items).not_to be_empty
+            non_wiki_items.each do |item|
+              expect(item[:extraAttrs]).not_to have_key(:'data-event-tracking')
+              expect(item[:extraAttrs]).not_to have_key(:'data-event-label')
+            end
+          end
+        end
+      end
     end
 
     describe 'current context' do

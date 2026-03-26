@@ -164,6 +164,9 @@ RSpec.describe Gitlab::Ci::Variables::Builder, :clean_gitlab_redis_cache, featur
             value: pipeline.created_at.iso8601 },
           { key: 'CI_PIPELINE_NAME',
             value: pipeline.name },
+          { key: 'CI_CONFIG_REF_URI',
+            value: "#{Settings.build_server_fqdn}/#{project.full_path}" \
+              "//#{project.ci_config_path_or_default}@#{pipeline.source_ref_path}" },
           { key: 'CI_COMMIT_SHA',
             value: job.sha },
           { key: 'CI_COMMIT_SHORT_SHA',
@@ -489,6 +492,9 @@ RSpec.describe Gitlab::Ci::Variables::Builder, :clean_gitlab_redis_cache, featur
             value: nil },
           { key: 'CI_PIPELINE_NAME',
             value: pipeline.name },
+          { key: 'CI_CONFIG_REF_URI',
+            value: "#{Settings.build_server_fqdn}/#{project.full_path}" \
+              "//#{project.ci_config_path_or_default}@#{pipeline.source_ref_path}" },
           { key: 'CI_COMMIT_SHA',
             value: pipeline.sha },
           { key: 'CI_COMMIT_SHORT_SHA',

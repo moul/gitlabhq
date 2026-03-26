@@ -58,6 +58,28 @@ The table assumes agents and flows have access to all available tools.
 | Exposure to untrusted data | On multi-tenant GitLab instances: access to public resources outside the top-level group hierarchy | On multi-tenant GitLab instances: access to public resources outside the top-level group hierarchy | Unrestricted network access. On multi-tenant GitLab instances: access to public resources outside the top-level group hierarchy |
 | Risk profile | Sandboxing, scope restrictions, and tool limitations break the lethal trifecta | Without strict tool restrictions, the full trifecta is present. Security relies primarily on human approval | Without strict tool restrictions, the full trifecta is present. Security relies primarily on human approval |
 
+### Content protection layers
+
+GitLab Duo Agent Platform executes in the following modes:
+
+- Flows that execute in GitLab Runner jobs with full sandbox isolation.
+- IDE and CLI agents that execute on your computer through editor extensions or GitLab CLI.
+- GitLab Duo Agentic Chat in the GitLab UI.
+
+The following table describes the security controls and how they apply to each mode:
+
+| Security control | Flows | IDE and CLI agents | GitLab Duo Agentic Chat |
+|------------------|--------------|---------------|------------------|
+| Sandbox | Isolated VM and sandbox | Not applied | Not applied |
+| Network egress controls | Configurable allowlist and denylist | Not applied | Not applied |
+| Identity | [Composite identity](composite_identity.md) of a service account and human user | Human user | Human user |
+| Human-in-the-loop | Not applied | User approves write API tool calls and terminal commands | User approves write API tool calls |
+| Tool restrictions | In each flow definition | In each flow definition | In each flow definition |
+| File access restrictions | Sandbox paths, project denylists, and Git-tracked files | Project denylists and Git-tracked files | Project denylists |
+| Tool response sanitization | Executed on the server | Executed on the server | Executed on the server |
+| Prompt injection detection | Executed on the server through HiddenLayer | Executed on the server HiddenLayer | Executed on the server HiddenLayer |
+| Secret scanning | Client-side Gitleaks redaction | Client-side Gitleaks redaction | Not applied |
+
 ### Example attack sequences
 
 The following sequences show how an attack might occur.

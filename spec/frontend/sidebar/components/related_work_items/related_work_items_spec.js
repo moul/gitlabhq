@@ -1,24 +1,54 @@
-import { nextTick } from 'vue';
-import { GlButton, GlCollapse, GlIcon, GlLink, GlPopover } from '@gitlab/ui';
+import Vue, { nextTick } from 'vue';
+import VueApollo from 'vue-apollo';
+import { GlButton, GlCollapse, GlIcon, GlLink, GlLoadingIcon, GlPopover } from '@gitlab/ui';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
+import createMockApollo from 'helpers/mock_apollo_helper';
+import waitForPromises from 'helpers/wait_for_promises';
+import { createAlert } from '~/alert';
 import WorkItemDrawer from '~/work_items/components/work_item_drawer.vue';
 import MRRelatedWorkItems from '~/sidebar/components/related_work_items/related_work_items.vue';
+import mergeRequestRelatedWorkItemsQuery from '~/sidebar/queries/merge_request_related_work_items.query.graphql';
 import { getParameterByName, removeParams, updateHistory } from '~/lib/utils/url_utility';
 
+jest.mock('~/alert');
 jest.mock('~/lib/utils/url_utility');
 
-const CLOSING_HTML = `
-  <a data-issue="1" data-iid="10" title="Fix bug" data-project-path="group/project">Fix bug</a>
-  <a data-issue="2" data-iid="20" title="Update docs" data-project-path="group/project">Update docs</a>
-`;
+Vue.use(VueApollo);
 
-const MENTIONED_HTML = `
-  <a data-issue="3" data-iid="30" title="Refactor code" data-project-path="group/other">Refactor code</a>
-`;
+const MOCK_MERGE_REQUEST_ID = 'gid://gitlab/MergeRequest/1';
 
-const buildIssuesLinks = ({ closing = null, mentionedButNotClosing = null } = {}) => ({
-  closing,
-  mentioned_but_not_closing: mentionedButNotClosing,
+let workItemCounter = 0;
+const mockLinkedItem = ({ title, linkType }) => {
+  workItemCounter += 1;
+  return {
+    linkType,
+    workItem: {
+      id: `gid://gitlab/WorkItem/${workItemCounter + 100}`,
+      iid: String(workItemCounter),
+      title,
+      namespace: {
+        id: 'gid://gitlab/Project/7',
+        fullPath: 'group/project',
+        __typename: 'Namespace',
+      },
+      __typename: 'WorkItem',
+    },
+    __typename: 'LinkedWorkItem',
+  };
+};
+
+const closingItem1 = mockLinkedItem({ title: 'Fix bug', linkType: 'CLOSES' });
+const closingItem2 = mockLinkedItem({ title: 'Update docs', linkType: 'CLOSES' });
+const mentionedItem = mockLinkedItem({ title: 'Refactor code', linkType: 'MENTIONED' });
+
+const buildQueryResponse = (linkedWorkItems = []) => ({
+  data: {
+    mergeRequest: {
+      id: MOCK_MERGE_REQUEST_ID,
+      linkedWorkItems,
+      __typename: 'MergeRequest',
+    },
+  },
 });
 
 describe('MRRelatedWorkItems', () => {
@@ -31,20 +61,61 @@ describe('MRRelatedWorkItems', () => {
   const findDrawer = () => wrapper.findComponent(WorkItemDrawer);
   const findAllLinks = () => wrapper.findAllComponents(GlLink);
   const findNoneText = () => wrapper.find('.hide-collapsed.gl-text-subtle');
+  const findLoadingIcon = () => wrapper.findComponent(GlLoadingIcon);
 
-  const createComponent = async (issuesLinks = {}) => {
-    window.gl = { mrWidgetData: { issues_links: issuesLinks } };
-
+  const createComponent = ({
+    queryHandler = jest.fn().mockResolvedValue(buildQueryResponse()),
+  } = {}) => {
     wrapper = shallowMountExtended(MRRelatedWorkItems, {
+      apolloProvider: createMockApollo([[mergeRequestRelatedWorkItemsQuery, queryHandler]]),
+      provide: {
+        fullPath: 'group/project',
+        id: '1',
+      },
       stubs: {
         GlCollapse,
       },
     });
-    await nextTick();
   };
 
+  describe('when loading', () => {
+    beforeEach(() => {
+      createComponent();
+    });
+
+    it('renders loading icon while query is in progress', () => {
+      expect(findLoadingIcon().exists()).toBe(true);
+    });
+
+    it('does not render "None" text while loading', () => {
+      expect(findNoneText().exists()).toBe(false);
+    });
+
+    it('does not render info icon while loading', () => {
+      expect(findInfoIcon().exists()).toBe(false);
+    });
+  });
+
+  it('displays an alert when query is rejected', async () => {
+    createComponent({
+      queryHandler: jest.fn().mockRejectedValue(new Error('GraphQL error')),
+    });
+    await waitForPromises();
+
+    expect(createAlert).toHaveBeenCalledWith({
+      message: 'Something went wrong while fetching related work items.',
+    });
+  });
+
   describe('with no items', () => {
-    beforeEach(() => createComponent(buildIssuesLinks()));
+    beforeEach(async () => {
+      createComponent();
+      await waitForPromises();
+    });
+
+    it('does not render loading icon', () => {
+      expect(findLoadingIcon().exists()).toBe(false);
+    });
 
     it('renders "None" text', () => {
       expect(findNoneText().text()).toBe('None');
@@ -67,16 +138,14 @@ describe('MRRelatedWorkItems', () => {
   });
 
   describe('with items (not exceeding collapse threshold)', () => {
-    beforeEach(() =>
-      createComponent(
-        buildIssuesLinks({
-          closing:
-            '<a data-issue="1" data-iid="10" title="Fix bug" data-project-path="group/project">Fix bug</a>',
-          mentionedButNotClosing:
-            '<a data-issue="3" data-iid="30" title="Refactor code" data-project-path="group/other">Refactor code</a>',
-        }),
-      ),
-    );
+    beforeEach(async () => {
+      createComponent({
+        queryHandler: jest
+          .fn()
+          .mockResolvedValue(buildQueryResponse([closingItem1, mentionedItem])),
+      });
+      await waitForPromises();
+    });
 
     it('does not render "None" text', () => {
       expect(wrapper.text()).not.toContain('None');
@@ -102,7 +171,7 @@ describe('MRRelatedWorkItems', () => {
       const link = findAllLinks().at(0);
       expect(link.classes()).toContain('has-popover');
       expect(link.attributes('data-reference-type')).toBe('work_item');
-      expect(link.attributes('data-iid')).toBe('10');
+      expect(link.attributes('data-iid')).toBe('1');
       expect(link.attributes('data-project-path')).toBe('group/project');
     });
 
@@ -116,14 +185,14 @@ describe('MRRelatedWorkItems', () => {
   });
 
   describe('with items exceeding collapse threshold (> 2)', () => {
-    beforeEach(() =>
-      createComponent(
-        buildIssuesLinks({
-          closing: CLOSING_HTML,
-          mentionedButNotClosing: MENTIONED_HTML,
-        }),
-      ),
-    );
+    beforeEach(async () => {
+      createComponent({
+        queryHandler: jest
+          .fn()
+          .mockResolvedValue(buildQueryResponse([closingItem1, closingItem2, mentionedItem])),
+      });
+      await waitForPromises();
+    });
 
     it('renders collapsed summary link', () => {
       const summaryLink = findAllLinks().at(0);
@@ -163,14 +232,12 @@ describe('MRRelatedWorkItems', () => {
   });
 
   describe('drawer interaction', () => {
-    beforeEach(() =>
-      createComponent(
-        buildIssuesLinks({
-          closing:
-            '<a data-issue="1" data-iid="10" title="Fix bug" data-project-path="group/project">Fix bug</a>',
-        }),
-      ),
-    );
+    beforeEach(async () => {
+      createComponent({
+        queryHandler: jest.fn().mockResolvedValue(buildQueryResponse([closingItem1])),
+      });
+      await waitForPromises();
+    });
 
     it('opens drawer when link is clicked', async () => {
       findAllLinks().at(0).vm.$emit('click', { preventDefault: jest.fn() });
@@ -178,9 +245,8 @@ describe('MRRelatedWorkItems', () => {
 
       expect(findDrawer().props('open')).toBe(true);
       expect(findDrawer().props('activeItem')).toMatchObject({
-        iid: '10',
+        iid: '1',
         title: 'Fix bug',
-        fullPath: 'group/project',
       });
     });
 
@@ -196,22 +262,20 @@ describe('MRRelatedWorkItems', () => {
   });
 
   describe('checkDrawerParams', () => {
-    const validItem = { id: 1, iid: '10', full_path: 'group/project' };
+    const validItem = { id: 101, iid: '1', full_path: 'group/project' };
     const encodedParam = btoa(JSON.stringify(validItem));
 
     it('opens drawer when valid show param is present', async () => {
       getParameterByName.mockReturnValue(encodedParam);
 
-      await createComponent(
-        buildIssuesLinks({
-          closing:
-            '<a data-issue="1" data-iid="10" title="Fix bug" data-project-path="group/project">Fix bug</a>',
-        }),
-      );
+      createComponent({
+        queryHandler: jest.fn().mockResolvedValue(buildQueryResponse([closingItem1])),
+      });
+      await waitForPromises();
 
       expect(findDrawer().props('open')).toBe(true);
       expect(findDrawer().props('activeItem')).toMatchObject({
-        iid: '10',
+        iid: '1',
         title: 'Fix bug',
       });
     });
@@ -222,12 +286,10 @@ describe('MRRelatedWorkItems', () => {
       );
       removeParams.mockReturnValue('http://test.host/');
 
-      await createComponent(
-        buildIssuesLinks({
-          closing:
-            '<a data-issue="1" data-iid="10" title="Fix bug" data-project-path="group/project">Fix bug</a>',
-        }),
-      );
+      createComponent({
+        queryHandler: jest.fn().mockResolvedValue(buildQueryResponse([closingItem1])),
+      });
+      await waitForPromises();
 
       expect(updateHistory).toHaveBeenCalledWith({
         url: 'http://test.host/',
@@ -239,12 +301,10 @@ describe('MRRelatedWorkItems', () => {
       getParameterByName.mockReturnValue('not-valid-base64!!!');
       removeParams.mockReturnValue('http://test.host/');
 
-      await createComponent(
-        buildIssuesLinks({
-          closing:
-            '<a data-issue="1" data-iid="10" title="Fix bug" data-project-path="group/project">Fix bug</a>',
-        }),
-      );
+      createComponent({
+        queryHandler: jest.fn().mockResolvedValue(buildQueryResponse([closingItem1])),
+      });
+      await waitForPromises();
 
       expect(updateHistory).toHaveBeenCalled();
       expect(findDrawer().props('open')).toBe(false);
@@ -253,12 +313,10 @@ describe('MRRelatedWorkItems', () => {
     it('sets activeItem to null when no show param', async () => {
       getParameterByName.mockReturnValue(null);
 
-      await createComponent(
-        buildIssuesLinks({
-          closing:
-            '<a data-issue="1" data-iid="10" title="Fix bug" data-project-path="group/project">Fix bug</a>',
-        }),
-      );
+      createComponent({
+        queryHandler: jest.fn().mockResolvedValue(buildQueryResponse([closingItem1])),
+      });
+      await waitForPromises();
 
       expect(findDrawer().props('open')).toBe(false);
     });
@@ -266,12 +324,10 @@ describe('MRRelatedWorkItems', () => {
     it('responds to popstate events', async () => {
       getParameterByName.mockReturnValue(null);
 
-      await createComponent(
-        buildIssuesLinks({
-          closing:
-            '<a data-issue="1" data-iid="10" title="Fix bug" data-project-path="group/project">Fix bug</a>',
-        }),
-      );
+      createComponent({
+        queryHandler: jest.fn().mockResolvedValue(buildQueryResponse([closingItem1])),
+      });
+      await waitForPromises();
 
       expect(findDrawer().props('open')).toBe(false);
 
@@ -280,37 +336,6 @@ describe('MRRelatedWorkItems', () => {
       await nextTick();
 
       expect(findDrawer().props('open')).toBe(true);
-    });
-  });
-
-  describe('extractItemsFromHtml', () => {
-    it('renders no links for null input', async () => {
-      await createComponent(buildIssuesLinks({ closing: null }));
-
-      expect(findAllLinks()).toHaveLength(0);
-      expect(wrapper.html()).not.toContain('Closing');
-    });
-
-    it('renders no links for undefined input', async () => {
-      await createComponent(buildIssuesLinks());
-
-      expect(findAllLinks()).toHaveLength(0);
-      expect(wrapper.html()).not.toContain('Closing');
-    });
-
-    it('extracts id, iid, title, and fullPath from HTML', async () => {
-      await createComponent(
-        buildIssuesLinks({
-          closing:
-            '<a data-issue="42" data-iid="7" title="Test issue" data-project-path="my/project">Test issue</a>',
-        }),
-      );
-
-      expect(findAllLinks()).toHaveLength(1);
-      expect(findAllLinks().at(0).attributes()).toMatchObject(
-        expect.objectContaining({ 'data-iid': '7', 'data-project-path': 'my/project' }),
-      );
-      expect(findAllLinks().at(0).text()).toBe('Test issue');
     });
   });
 });

@@ -78,6 +78,10 @@ module API
         search_type_errors = search_service.search_type_errors
         bad_request!(search_type_errors) if search_type_errors
 
+        if search_service.scope != params[:scope]
+          bad_request!("Scope '#{params[:scope]}' is not available for this search")
+        end
+
         @search_duration_s = Benchmark.realtime do
           @results = search_service.search_objects(preload_method)
         end

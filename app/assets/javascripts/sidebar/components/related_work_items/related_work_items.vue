@@ -1,58 +1,103 @@
 <script>
-import { isNil } from 'lodash-es';
 import {
   GlButton,
   GlCollapse,
   GlIcon,
   GlLink,
+  GlLoadingIcon,
   GlPopover,
   GlTooltipDirective,
   GlSprintf,
 } from '@gitlab/ui';
+import { createAlert } from '~/alert';
 import { __ } from '~/locale';
 import WorkItemDrawer from '~/work_items/components/work_item_drawer.vue';
 import { convertToGraphQLId, getIdFromGraphQLId } from '~/graphql_shared/utils';
+import { TYPENAME_MERGE_REQUEST } from '~/graphql_shared/constants';
+import mergeRequestRelatedWorkItemsQuery from '~/sidebar/queries/merge_request_related_work_items.query.graphql';
 import { DETAIL_VIEW_QUERY_PARAM_NAME, VIEW_CONTEXT } from '~/work_items/constants';
 import { getParameterByName, removeParams, updateHistory } from '~/lib/utils/url_utility';
+import { MR_WORK_ITEM_RELATIONSHIP_TYPES } from '~/sidebar/constants';
 
 export default {
   name: 'MRRelatedWorkItems',
-  components: { GlButton, GlCollapse, GlIcon, GlLink, GlPopover, GlSprintf, WorkItemDrawer },
+  components: {
+    GlButton,
+    GlCollapse,
+    GlIcon,
+    GlLink,
+    GlLoadingIcon,
+    GlPopover,
+    GlSprintf,
+    WorkItemDrawer,
+  },
   viewContext: VIEW_CONTEXT.drawerMergeRequest,
   directives: {
     GlTooltip: GlTooltipDirective,
   },
+  inject: ['fullPath', 'id'],
   data() {
-    const issuesLinks = window.gl?.mrWidgetData?.issues_links || {};
     return {
-      closingIssues: this.extractItemsFromHtml(issuesLinks.closing),
-      mentionedIssues: this.extractItemsFromHtml(issuesLinks.mentioned_but_not_closing),
       activeItem: null,
       isCollapsed: true,
       params: null,
+      allItems: [],
     };
   },
+  apollo: {
+    allItems: {
+      query: mergeRequestRelatedWorkItemsQuery,
+      variables() {
+        return {
+          id: convertToGraphQLId(TYPENAME_MERGE_REQUEST, this.id),
+        };
+      },
+      update(data) {
+        return data?.mergeRequest?.linkedWorkItems || [];
+      },
+      result() {
+        this.checkDrawerParams();
+      },
+      error() {
+        createAlert({
+          message: __('Something went wrong while fetching related work items.'),
+        });
+      },
+    },
+  },
   computed: {
-    allItems() {
-      return [...this.closingIssues, ...this.mentionedIssues];
+    isLoading() {
+      return this.$apollo.queries.allItems.loading;
+    },
+    closingWorkItems() {
+      return this.allItems
+        .filter((i) => i.linkType === MR_WORK_ITEM_RELATIONSHIP_TYPES.closing)
+        .map((i) => i.workItem);
+    },
+    mentionedWorkItems() {
+      return this.allItems
+        .filter((i) => i.linkType === MR_WORK_ITEM_RELATIONSHIP_TYPES.mentioned)
+        .map((i) => i.workItem);
     },
     showCollapsedState() {
       return this.allItems.length > 2;
     },
     collapsedSummary() {
       const parts = [];
-      if (this.closingIssues.length > 0) {
-        parts.push(`${__('Closing')} ${this.closingIssues.length}`);
+      if (this.closingWorkItems.length > 0) {
+        parts.push(`${__('Closing')} ${this.closingWorkItems.length}`);
       }
-      if (this.mentionedIssues.length > 0) {
-        parts.push(`${__('Mentioned')} ${this.mentionedIssues.length}`);
+      if (this.mentionedWorkItems.length > 0) {
+        parts.push(`${__('Mentioned')} ${this.mentionedWorkItems.length}`);
       }
       return parts.join(', ');
     },
   },
   watch: {
     params(newParams) {
-      const item = this.allItems.find((i) => getIdFromGraphQLId(i.id) === newParams.id);
+      const item = this.allItems.find(
+        (i) => getIdFromGraphQLId(i.workItem.id) === newParams.id,
+      )?.workItem;
       if (item) {
         this.activeItem = item;
       } else {
@@ -63,26 +108,12 @@ export default {
     },
   },
   created() {
-    this.checkDrawerParams();
     window.addEventListener('popstate', this.checkDrawerParams);
   },
   beforeDestroy() {
     window.removeEventListener('popstate', this.checkDrawerParams);
   },
   methods: {
-    extractItemsFromHtml(html) {
-      if (isNil(html)) {
-        return [];
-      }
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      return Array.from(doc.querySelectorAll('[data-issue]')).map((el) => ({
-        id: convertToGraphQLId('WorkItem', el.dataset.issue),
-        iid: el.dataset.iid,
-        title: el.getAttribute('title'),
-        fullPath: el.dataset.projectPath,
-      }));
-    },
     openDrawer(item) {
       this.activeItem = item;
     },
@@ -113,6 +144,7 @@ export default {
   <div class="gl-leading-20 gl-text-default">
     <div class="gl-flex gl-items-center gl-font-bold gl-leading-24 gl-text-default">
       <span data-testid="title" class="hide-collapsed">{{ __('Work Items') }}</span>
+      <gl-loading-icon v-if="isLoading" size="sm" inline class="hide-collapsed gl-ml-2" />
       <gl-button
         v-if="showCollapsedState"
         v-show="!isCollapsed"
@@ -125,29 +157,29 @@ export default {
         @click="isCollapsed = true"
       />
       <gl-icon
-        v-if="allItems.length === 0"
+        v-if="!isLoading && allItems.length === 0"
         id="related-work-items-info"
         name="information-o"
         class="gl-ml-auto gl-cursor-pointer gl-text-subtle"
       />
     </div>
-    <template v-if="allItems.length > 0">
+    <template v-if="!isLoading && allItems.length > 0">
       <div v-if="showCollapsedState" v-show="isCollapsed" class="hide-collapsed gl-mt-2">
         <gl-link class="gl-text-sm !gl-text-link" @click="isCollapsed = false">
           {{ collapsedSummary }}
         </gl-link>
       </div>
       <gl-collapse :visible="!showCollapsedState || !isCollapsed" class="hide-collapsed">
-        <div v-if="closingIssues.length > 0" class="gl-mt-2">
+        <div v-if="closingWorkItems.length > 0" class="gl-mt-2">
           <span class="gl-text-sm gl-font-bold gl-text-subtle">{{ __('Closing') }}</span>
           <ul class="gl-m-0 gl-list-none gl-p-0">
-            <li v-for="item in closingIssues" :key="item.id" class="gl-mt-1">
+            <li v-for="item in closingWorkItems" :key="item.id" class="gl-mt-1">
               <gl-link
                 class="has-popover gl-block gl-truncate"
                 data-reference-type="work_item"
                 data-placement="top"
                 :data-iid="item.iid"
-                :data-project-path="item.fullPath"
+                :data-project-path="item.namespace.fullPath"
                 @click.prevent="openDrawer(item)"
               >
                 {{ item.title }}
@@ -155,16 +187,16 @@ export default {
             </li>
           </ul>
         </div>
-        <div v-if="mentionedIssues.length > 0" class="gl-mt-3">
+        <div v-if="mentionedWorkItems.length > 0" class="gl-mt-3">
           <span class="gl-text-sm gl-font-bold gl-text-subtle">{{ __('Mentioned') }}</span>
           <ul class="gl-m-0 gl-list-none gl-p-0">
-            <li v-for="item in mentionedIssues" :key="item.id" class="gl-mt-1">
+            <li v-for="item in mentionedWorkItems" :key="item.id" class="gl-mt-1">
               <gl-link
                 class="has-popover gl-block gl-truncate"
                 data-reference-type="work_item"
                 data-placement="top"
                 :data-iid="item.iid"
-                :data-project-path="item.fullPath"
+                :data-project-path="item.namespace.fullPath"
                 @click.prevent="openDrawer(item)"
               >
                 {{ item.title }}
@@ -174,7 +206,7 @@ export default {
         </div>
       </gl-collapse>
     </template>
-    <template v-else>
+    <template v-else-if="!isLoading">
       <span class="hide-collapsed gl-text-subtle">{{ __('None') }}</span>
       <gl-popover target="related-work-items-info" placement="top">
         <template #title>{{ __('Work item links') }}</template>

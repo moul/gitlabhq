@@ -563,6 +563,7 @@
 - spec/features/webauthn_spec.rb
 - spec/features/whats_new_spec.rb
 - spec/features/work_items/detail/work_item_detail_spec.rb
+- spec/features/work_items/list/user_manage_saved_views_list_spec.rb
 - spec/features/work_items/issues/confidential_notes_spec.rb
 - spec/features/work_items/issues/create_issue_for_discussions_in_merge_request_spec.rb
 - spec/features/work_items/issues/create_issue_for_single_discussion_in_merge_request_spec.rb

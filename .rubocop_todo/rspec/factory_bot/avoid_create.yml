@@ -31,7 +31,6 @@ RSpec/FactoryBot/AvoidCreate:
     - 'ee/spec/helpers/ee/labels_helper_spec.rb'
     - 'ee/spec/helpers/ee/markup_helper_spec.rb'
     - 'ee/spec/helpers/ee/namespaces_helper_spec.rb'
-    - 'ee/spec/helpers/ee/notes_helper_spec.rb'
     - 'ee/spec/helpers/ee/operations_helper_spec.rb'
     - 'ee/spec/helpers/ee/projects/pipeline_helper_spec.rb'
     - 'ee/spec/helpers/ee/projects/project_members_helper_spec.rb'

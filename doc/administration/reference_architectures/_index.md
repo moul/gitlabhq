@@ -353,6 +353,7 @@ You might have to adjust the suggested specifications to compensate if you use:
 - Hundreds of concurrent CI jobs for [large repositories](../../user/project/repository/monorepos/_index.md).
 - Custom scripts that [run at high frequency](../logs/log_parsing.md#print-top-api-user-agents).
 - [Integrations](../../integration/_index.md) in many large projects.
+- [Feature flags](../../operations/feature_flags.md#performance-factors) in projects with large user bases.
 - [Server hooks](../server_hooks.md).
 - [System hooks](../system_hooks.md).
 

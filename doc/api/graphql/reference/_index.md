@@ -28789,7 +28789,7 @@ Returns [`AgentPlatformSessionsAggregationScope`](#agentplatformsessionsaggregat
 | <a id="analytics-agentplatformsessions-createdeventatfrom"></a>`createdEventAtFrom` | [`Time`](#time) | Filter by session creation timestamp. Start of the range. |
 | <a id="analytics-agentplatformsessions-createdeventatto"></a>`createdEventAtTo` | [`Time`](#time) | Filter by session creation timestamp. End of the range. |
 | <a id="analytics-agentplatformsessions-flowtype"></a>`flowType` | [`[String!]`](#string) | Filter by one or many flow types. |
-| <a id="analytics-agentplatformsessions-userid"></a>`userId` | [`[Int!]`](#int) | Filter by one or many user ids. |
+| <a id="analytics-agentplatformsessions-userid"></a>`userId` | [`[String!]`](#string) | Filter by one or many user Global IDs. |
 
 ##### `Analytics.duoCodeSuggestions`
 
@@ -28805,7 +28805,7 @@ Returns [`DuoCodeSuggestionsAggregationScope`](#duocodesuggestionsaggregationsco
 | <a id="analytics-duocodesuggestions-language"></a>`language` | [`[String!]`](#string) | Filter by suggestion language. |
 | <a id="analytics-duocodesuggestions-timestampfrom"></a>`timestampFrom` | [`Time`](#time) | Filter by suggestion timestamp. Start of the range. |
 | <a id="analytics-duocodesuggestions-timestampto"></a>`timestampTo` | [`Time`](#time) | Filter by suggestion timestamp. End of the range. |
-| <a id="analytics-duocodesuggestions-userid"></a>`userId` | [`[Int!]`](#int) | Filter by one or many user ids. |
+| <a id="analytics-duocodesuggestions-userid"></a>`userId` | [`[String!]`](#string) | Filter by one or many user Global IDs. |
 
 ### `AnalyzerGroupStatusType`
 

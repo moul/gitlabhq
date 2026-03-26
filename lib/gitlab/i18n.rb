@@ -46,7 +46,7 @@ module Gitlab
       'bg' => 0,
       'cs_CZ' => 0,
       'da_DK' => 14,
-      'de' => 98,
+      'de' => 97,
       'en' => 100,
       'eo' => 1,
       'es' => 98,
@@ -61,7 +61,7 @@ module Gitlab
       'nb_NO' => 13,
       'nl_NL' => 0,
       'pl_PL' => 1,
-      'pt_BR' => 99,
+      'pt_BR' => 98,
       'ro_RO' => 35,
       'ru' => 61,
       'si_LK' => 7,
@@ -69,7 +69,7 @@ module Gitlab
       'uk' => 27,
       'zh_CN' => 94,
       'zh_HK' => 0,
-      'zh_TW' => 84
+      'zh_TW' => 83
     }.freeze
     private_constant :TRANSLATION_LEVELS
 
