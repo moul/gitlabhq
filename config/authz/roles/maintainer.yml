@@ -42,6 +42,7 @@ project:
   - admin_service_accounts
   - admin_snippet
   - admin_terraform_state
+  - admin_timelog
   - admin_upload
   - admin_vulnerability
   - admin_web_hook
@@ -73,6 +74,7 @@ project:
   - delete_job_artifact
   - delete_protected_tag
   - delete_service_account
+  - delete_timelog
   - destroy_deploy_token
   - destroy_deployment
   - destroy_package

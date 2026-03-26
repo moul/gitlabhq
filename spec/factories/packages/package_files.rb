@@ -367,6 +367,14 @@ FactoryBot.define do
       size { 242.bytes }
     end
 
+    trait(:gemspec_rz) do
+      package { association(:rubygems_package, without_package_files: true) }
+      file_fixture { 'spec/fixtures/packages/rubygems/package-0.0.1.gemspec.rz' }
+      file_name { 'package-0.0.1.gemspec.rz' }
+      file_sha1 { 'e91c11aa61108ecc891641c4440d94e196470691' }
+      size { 543.bytes }
+    end
+
     trait(:pypi) do
       package { association(:pypi_package, package_files: []) }
       file_fixture { 'spec/fixtures/packages/pypi/sample-project.tar.gz' }

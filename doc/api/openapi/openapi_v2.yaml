@@ -38562,6 +38562,8 @@ paths:
           description: Download the gemspec file
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
       tags:

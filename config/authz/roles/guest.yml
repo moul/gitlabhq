@@ -6,6 +6,7 @@ inherits_from: []
 project:
   permissions: []
   raw_permissions:
+  - _delete_authored_timelog
   - award_emoji
   - create_issue
   - create_note

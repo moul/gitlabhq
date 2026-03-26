@@ -479,12 +479,9 @@ displays to the right of the mini graph.
 {{< history >}}
 
 - [Introduced](https://gitlab.com/groups/gitlab-org/-/epics/18311) in GitLab 18.6.
-- Security reports from child pipelines [introduced](https://gitlab.com/groups/gitlab-org/-/work_items/18377) in GitLab 18.9 [with a feature flag](../../administration/feature_flags/_index.md) named `show_child_security_reports_in_mr_widget`. Enabled by default.
+- Security reports from child pipelines [introduced](https://gitlab.com/groups/gitlab-org/-/work_items/18377) in GitLab 18.9.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag. For more information, see the history.
 
 You can view and download reports from child pipelines in merge request widgets.
 This provides a unified view of test results and quality checks across your pipeline hierarchy

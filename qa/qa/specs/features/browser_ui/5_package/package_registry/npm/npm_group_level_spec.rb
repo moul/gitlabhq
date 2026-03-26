@@ -4,22 +4,12 @@ module QA
   RSpec.describe 'Package', feature_category: :package_registry do
     describe 'npm Registry group level endpoint', :object_storage, :external_api_calls,
       feature_category: :package_registry do
-      using RSpec::Parameterized::TableSyntax
       include Runtime::Fixtures
       include Support::Helpers::MaskToken
 
-      let!(:personal_access_token) { Runtime::User::Store.test_user.current_personal_access_token }
       let!(:project) { create(:project, name: 'npm-group-publish') }
       let!(:group) { project.group }
       let!(:registry_scope) { group.sandbox.name }
-      let!(:another_project) { create(:project, name: 'npm-group-install', group: group) }
-      let!(:runner) do
-        create(:group_runner,
-          name: "qa-runner-#{SecureRandom.hex(6)}",
-          tags: ["runner-for-#{group.name}"],
-          executor: :docker,
-          group: group)
-      end
 
       let(:project_deploy_token) do
         create(:project_deploy_token,
@@ -40,31 +30,24 @@ module QA
         Flow::Login.sign_in
       end
 
-      after do
-        runner.remove_via_api!
-      end
-
-      where(:case_name, :authentication_token_type, :token_name, :testcase) do
-        'using personal access token' | :personal_access_token | 'Personal access token' | 'https://gitlab.com/gitlab-org/gitlab/-/quality/test_cases/565158'
-        'using ci job token'          | :ci_job_token          | 'CI Job Token'          | 'https://gitlab.com/gitlab-org/gitlab/-/quality/test_cases/565159'
-        'using project deploy token'  | :project_deploy_token  | 'Deploy Token'          | 'https://gitlab.com/gitlab-org/gitlab/-/quality/test_cases/565157'
-      end
-
-      with_them do
-        let(:auth_token) do
-          case authentication_token_type
-          when :personal_access_token
-            use_ci_variable(name: 'PERSONAL_ACCESS_TOKEN', value: personal_access_token, project: project)
-            use_ci_variable(name: 'PERSONAL_ACCESS_TOKEN', value: personal_access_token, project: another_project)
-          when :ci_job_token
-            '${CI_JOB_TOKEN}'
-          when :project_deploy_token
-            use_ci_variable(name: 'PROJECT_DEPLOY_TOKEN', value: project_deploy_token.token, project: project)
-            use_ci_variable(name: 'PROJECT_DEPLOY_TOKEN', value: project_deploy_token.token, project: another_project)
-          end
+      context 'with ci job token' do
+        let!(:another_project) { create(:project, name: 'npm-group-install', group: group) }
+        let!(:runner) do
+          create(:group_runner,
+            name: "qa-runner-#{SecureRandom.hex(6)}",
+            tags: ["runner-for-#{group.name}"],
+            executor: :docker,
+            group: group)
         end
 
-        it 'push and pull a npm package via CI', testcase: params[:testcase] do
+        let(:auth_token) { '${CI_JOB_TOKEN}' }
+
+        after do
+          runner.remove_via_api!
+        end
+
+        it 'push and pull a npm package via CI',
+          testcase: 'https://gitlab.com/gitlab-org/gitlab/-/quality/test_cases/565159' do
           npm_upload_yaml = ERB.new(read_fixture('package_managers/npm',
             'npm_upload_package_group.yaml.erb')).result(binding)
           package_json = ERB.new(read_fixture('package_managers/npm', 'package.json.erb')).result(binding)
@@ -129,6 +112,69 @@ module QA
           Page::Project::Packages::Show.perform do |show|
             expect(show).to have_package_info(name: package.name, version: "1.0.0")
           end
+        end
+      end
+
+      context 'with other token types' do
+        let(:package_json_file) do
+          {
+            file_path: 'package.json',
+            content: <<~JSON
+              {
+                "name": "#{package.name}",
+                "version": "1.0.0",
+                "description": "Example package for GitLab npm registry",
+                "publishConfig": {
+                  "@#{registry_scope}:registry": "#{gitlab_address_without_port}/api/v4/projects/#{project.id}/packages/npm/"
+                }
+              }
+            JSON
+          }
+        end
+
+        before do
+          with_fixtures([package_json_file]) do |dir|
+            Service::DockerRun::Npm.new(
+              dir,
+              gitlab_address_without_port: gitlab_address_without_port,
+              package_name: package.name,
+              registry_scope: registry_scope,
+              package_project_id: project.id,
+              install_registry_url: "#{gitlab_address_without_port}/api/v4/groups/#{group.id}/-/packages/npm/",
+              token: token
+            ).publish_and_install!
+          end
+        end
+
+        shared_examples 'using a docker container' do |testcase|
+          it 'push and pull a npm package', testcase: testcase do
+            project.visit!
+
+            Page::Project::Menu.perform(&:go_to_package_registry)
+            Page::Project::Packages::Index.perform do |index|
+              expect(index).to have_package(package.name)
+
+              index.click_package(package.name)
+            end
+
+            Page::Project::Packages::Show.perform do |show|
+              expect(show).to have_package_info(name: package.name, version: "1.0.0")
+            end
+          end
+        end
+
+        context 'with a personal access token' do
+          let(:token) { Runtime::User::Store.test_user.current_personal_access_token }
+
+          it_behaves_like 'using a docker container',
+            'https://gitlab.com/gitlab-org/gitlab/-/quality/test_cases/565158'
+        end
+
+        context 'with a project deploy token' do
+          let(:token) { project_deploy_token.token }
+
+          it_behaves_like 'using a docker container',
+            'https://gitlab.com/gitlab-org/gitlab/-/quality/test_cases/565157'
         end
       end
     end

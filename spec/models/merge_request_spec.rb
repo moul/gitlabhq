@@ -7704,14 +7704,6 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
           let!(:child_build) { create(:ci_build, artifact_report, pipeline: child_pipeline) }
 
           it { is_expected.to be_truthy }
-
-          context 'with FF show_child_security_reports_in_mr_widget disabled' do
-            before do
-              stub_feature_flags(show_child_security_reports_in_mr_widget: false)
-            end
-
-            it { is_expected.to be_falsy }
-          end
         end
       end
     end

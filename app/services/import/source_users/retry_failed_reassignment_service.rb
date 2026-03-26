@@ -24,6 +24,7 @@ module Import
 
         if retry_successful
           Import::ReassignPlaceholderUserRecordsWorker.perform_async(import_source_user.id)
+          track_reassignment_event('retry_failed_placeholder_user_reassignment')
 
           ServiceResponse.success(payload: import_source_user)
         else

@@ -153,7 +153,7 @@ module Gitlab
                                 .where('relative_position <= ?', relative_position)
                                 .order(relative_position: :desc)
 
-        find_next_gap(items_with_next_pos, range.first, min_gap: min_gap)
+        find_next_gap(items_with_next_pos, range.first, order: :desc, min_gap: min_gap)
       end
 
       def find_next_gap_after(min_gap: MIN_GAP)
@@ -162,13 +162,14 @@ module Gitlab
                                 .where('relative_position >= ?', relative_position)
                                 .order(:relative_position)
 
-        find_next_gap(items_with_next_pos, range.last, min_gap: min_gap)
+        find_next_gap(items_with_next_pos, range.last, order: :asc, min_gap: min_gap)
       end
 
-      def find_next_gap(items_with_next_pos, default_end, min_gap: MIN_GAP)
+      def find_next_gap(items_with_next_pos, default_end, order:, min_gap: MIN_GAP)
         gap = model_class
           .from(items_with_next_pos, :items)
           .where('next_pos IS NULL OR ABS(pos::bigint - next_pos::bigint) >= ?', min_gap)
+          .order(pos: order)
           .pick(:pos, :next_pos)
 
         return if gap.nil? || gap.first == default_end

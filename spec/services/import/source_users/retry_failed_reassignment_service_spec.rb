@@ -36,6 +36,21 @@ RSpec.describe Import::SourceUsers::RetryFailedReassignmentService, feature_cate
       service.execute
     end
 
+    it 'tracks the retry reassignment event' do
+      expect { service.execute }
+        .to trigger_internal_events('retry_failed_placeholder_user_reassignment')
+        .with(
+          namespace: import_source_user.namespace,
+          user: current_user,
+          additional_properties: {
+            label: Gitlab::GlobalAnonymousId.user_id(import_source_user.placeholder_user),
+            property: Gitlab::GlobalAnonymousId.user_id(import_source_user.reassign_to_user),
+            import_type: import_source_user.import_type,
+            reassign_to_user_state: import_source_user.reassign_to_user.state
+          }
+        )
+    end
+
     shared_examples 'an error response', :aggregate_failures do |error_message:, reason:|
       it 'returns error invalid status' do
         result = service.execute
@@ -55,6 +70,11 @@ RSpec.describe Import::SourceUsers::RetryFailedReassignmentService, feature_cate
         expect { service.execute }
           .to not_change { import_source_user.status }
           .and not_change { import_source_user.reassignment_error }
+      end
+
+      it 'does not track retry reassignment event' do
+        expect { service.execute }
+          .not_to trigger_internal_events('retry_failed_placeholder_user_reassignment')
       end
     end
 

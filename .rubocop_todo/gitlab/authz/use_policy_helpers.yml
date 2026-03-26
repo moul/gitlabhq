@@ -168,7 +168,6 @@ Gitlab/Authz/UsePolicyHelpers:
     - 'spec/policies/system_hook_policy_spec.rb'
     - 'spec/policies/terraform/state_policy_spec.rb'
     - 'spec/policies/terraform/state_version_policy_spec.rb'
-    - 'spec/policies/timelog_policy_spec.rb'
     - 'spec/policies/todo_policy_spec.rb'
     - 'spec/policies/upload_policy_spec.rb'
     - 'spec/policies/user_policy_spec.rb'
