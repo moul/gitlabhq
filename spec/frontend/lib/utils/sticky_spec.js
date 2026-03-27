@@ -90,5 +90,22 @@ describe('Sticky elements utils', () => {
 
       expect(getPanel().scrollBy).not.toHaveBeenCalled();
     });
+
+    it('hides tooltips during measurement', () => {
+      const tooltip = document.createElement('div');
+      tooltip.setAttribute('role', 'tooltip');
+      document.body.appendChild(tooltip);
+
+      jest.spyOn(getElement(), 'getBoundingClientRect').mockReturnValue({ top: 80, left: 10 });
+      elementFromPointSpy.mockImplementation(() => {
+        // Tooltip should be hidden during elementFromPoint calls
+        expect(tooltip.style.display).toBe('none');
+        return getElement();
+      });
+
+      scrollPastCoveringElements(getElement());
+
+      expect(tooltip.style.display).toBe('');
+    });
   });
 });

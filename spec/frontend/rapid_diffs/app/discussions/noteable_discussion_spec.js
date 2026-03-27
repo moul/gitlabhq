@@ -75,6 +75,31 @@ describe('NoteableDiscussion', () => {
     );
   });
 
+  describe('discussion navigation data attributes', () => {
+    it('sets data-discussion-resolvable when discussion is resolvable', () => {
+      createComponent({
+        props: { discussion: createDiscussion({ resolvable: true, resolved: false }) },
+      });
+      expect(wrapper.attributes('data-discussion-resolvable')).toBe('true');
+      expect(wrapper.attributes('data-discussion-resolved')).toBeUndefined();
+    });
+
+    it('sets data-discussion-resolved when discussion is resolved', () => {
+      createComponent({
+        props: { discussion: createDiscussion({ resolvable: true, resolved: true }) },
+      });
+      expect(wrapper.attributes('data-discussion-resolvable')).toBe('true');
+      expect(wrapper.attributes('data-discussion-resolved')).toBe('true');
+    });
+
+    it('does not set data-discussion-resolvable when discussion is not resolvable', () => {
+      createComponent({
+        props: { discussion: createDiscussion({ resolvable: false }) },
+      });
+      expect(wrapper.attributes('data-discussion-resolvable')).toBeUndefined();
+    });
+  });
+
   it('renders signed out widget when not logged in', () => {
     isLoggedIn.mockReturnValue(false);
     createComponent();

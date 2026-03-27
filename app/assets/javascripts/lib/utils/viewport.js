@@ -1,3 +1,28 @@
+const TOOLTIP_SELECTOR = '[role="tooltip"]';
+
+/**
+ * Executes a callback with all tooltips temporarily hidden,
+ * ensuring elementFromPoint-based measurements are not affected by tooltip overlays.
+ *
+ * @param {Function} fn Callback to execute while tooltips are hidden
+ * @returns {*} The return value of the callback
+ */
+export function withHiddenTooltips(fn) {
+  const tooltips = Array.from(document.querySelectorAll(TOOLTIP_SELECTOR)).filter(
+    (el) => getComputedStyle(el).display !== 'none',
+  );
+  tooltips.forEach((el) => {
+    el.style.setProperty('display', 'none', 'important');
+  });
+  try {
+    return fn();
+  } finally {
+    tooltips.forEach((el) => {
+      el.style.removeProperty('display');
+    });
+  }
+}
+
 export const observeIntersectionOnce = (element) => {
   return new Promise((resolve) => {
     const observer = new IntersectionObserver(([entry]) => {

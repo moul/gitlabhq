@@ -1,5 +1,6 @@
 import { useMockIntersectionObserver } from 'helpers/mock_dom_observer';
 import {
+  withHiddenTooltips,
   observeIntersectionOnce,
   findCoveringElementAtPoint,
   getCoveringElementSync,
@@ -8,6 +9,88 @@ import {
 
 describe('Viewport utils', () => {
   const { trigger: triggerIntersection } = useMockIntersectionObserver();
+
+  describe('withHiddenTooltips', () => {
+    afterEach(() => {
+      document.body.innerHTML = '';
+    });
+
+    it('hides tooltips during callback execution', () => {
+      const tooltip = document.createElement('div');
+      tooltip.setAttribute('role', 'tooltip');
+      document.body.appendChild(tooltip);
+
+      withHiddenTooltips(() => {
+        expect(tooltip.style.display).toBe('none');
+      });
+    });
+
+    it('restores tooltips after callback completes', () => {
+      const tooltip = document.createElement('div');
+      tooltip.setAttribute('role', 'tooltip');
+      document.body.appendChild(tooltip);
+
+      withHiddenTooltips(() => {});
+
+      expect(tooltip.style.display).toBe('');
+    });
+
+    it('restores tooltips even when callback throws', () => {
+      const tooltip = document.createElement('div');
+      tooltip.setAttribute('role', 'tooltip');
+      document.body.appendChild(tooltip);
+
+      expect(() => {
+        withHiddenTooltips(() => {
+          throw new Error('test');
+        });
+      }).toThrow('test');
+
+      expect(tooltip.style.display).toBe('');
+    });
+
+    it('returns the callback return value', () => {
+      const result = withHiddenTooltips(() => 42);
+
+      expect(result).toBe(42);
+    });
+
+    it('hides multiple tooltips', () => {
+      const tooltips = [1, 2, 3].map(() => {
+        const el = document.createElement('div');
+        el.setAttribute('role', 'tooltip');
+        document.body.appendChild(el);
+        return el;
+      });
+
+      withHiddenTooltips(() => {
+        tooltips.forEach((el) => {
+          expect(el.style.display).toBe('none');
+        });
+      });
+
+      tooltips.forEach((el) => {
+        expect(el.style.display).toBe('');
+      });
+    });
+
+    it('works when no tooltips exist', () => {
+      expect(() => {
+        withHiddenTooltips(() => {});
+      }).not.toThrow();
+    });
+
+    it('does not hide or restore already-hidden tooltips (reentrant safety)', () => {
+      const tooltip = document.createElement('div');
+      tooltip.setAttribute('role', 'tooltip');
+      tooltip.style.setProperty('display', 'none', 'important');
+      document.body.appendChild(tooltip);
+
+      withHiddenTooltips(() => {});
+
+      expect(tooltip.style.display).toBe('none');
+    });
+  });
 
   describe('observeIntersectionOnce', () => {
     it('returns intersection entry', async () => {

@@ -160,6 +160,8 @@ export default {
   <li
     class="js-discussion-container gl-@container/discussion"
     :data-discussion-id="discussion.id"
+    :data-discussion-resolvable="resolvable || undefined"
+    :data-discussion-resolved="discussion.resolved || undefined"
     data-testid="discussion-content"
   >
     <discussion-notes
