@@ -233,7 +233,6 @@ create_vulnerability_archive_export
 create_vulnerability_feedback
 create_vulnerability_state_transition
 create_web_ide_terminal
-create_work_item
 create_workspace
 daily_statistics
 decline_terms

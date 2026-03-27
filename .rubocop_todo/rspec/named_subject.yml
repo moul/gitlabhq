@@ -2642,7 +2642,6 @@ RSpec/NamedSubject:
     - 'spec/services/award_emojis/base_service_spec.rb'
     - 'spec/services/branches/create_service_spec.rb'
     - 'spec/services/bulk_imports/archive_extraction_service_spec.rb'
-    - 'spec/services/bulk_imports/create_service_spec.rb'
     - 'spec/services/bulk_imports/export_service_spec.rb'
     - 'spec/services/bulk_imports/file_decompression_service_spec.rb'
     - 'spec/services/bulk_imports/file_download_service_spec.rb'

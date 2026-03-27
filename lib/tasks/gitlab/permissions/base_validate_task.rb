@@ -59,9 +59,12 @@ module Tasks
 
           out = "#{error_messages[key]}\n\n"
 
-          violations[key].each_key do |permission|
-            out += "  - #{permission}\n"
-            violations[key][permission].each { |error| out += "      - #{JSONSchemer::Errors.pretty(error)}\n" }
+          violations[key].each_key do |identifier|
+            source = block_given? ? yield(identifier) : nil
+            out += "  - #{identifier}"
+            out += " (#{source})" if source
+            out += "\n"
+            violations[key][identifier].each { |error| out += "      - #{JSONSchemer::Errors.pretty(error)}\n" }
           end
 
           "#{out}\n"
@@ -116,6 +119,10 @@ module Tasks
 
             subdirs.empty? && File.exist?("#{dir}.metadata.yml")
           end
+        end
+
+        def relative_path(file)
+          Pathname.new(file).relative_path_from(Rails.root).to_s
         end
 
         def implementation_guide_link(anchor: nil)

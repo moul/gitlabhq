@@ -5,6 +5,7 @@ permissions:
   - add_issue_spent_time
   - add_merge_request_spent_time
   - clone_issue
+  - create_work_item
   - create_epic
   - create_epic_award_emoji
   - create_epic_discussion

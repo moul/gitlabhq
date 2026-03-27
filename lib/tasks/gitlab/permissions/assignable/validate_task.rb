@@ -149,15 +149,34 @@ module Tasks
           end
 
           def format_all_errors
-            out = format_schema_errors
-            out += format_error_list(:duplicate_name)
+            out = format_schema_errors { |name| assignable_source_path(name) }
+            out += format_duplicate_name_errors
             out += format_duplicate_raw_permission_errors
             out += format_file_errors
             out += format_error_list(:missing_resource_metadata)
-            out += format_schema_errors(:resource_metadata_schema)
-            out += format_schema_errors(:category_metadata_schema)
+            out += format_schema_errors(:resource_metadata_schema) { |id| metadata_path(id) }
+            out += format_schema_errors(:category_metadata_schema) { |id| metadata_path(id) }
             out += format_error_list(:empty_resource_directory)
             out + format_error_list(:empty_category_directory)
+          end
+
+          def metadata_path(identifier)
+            "#{PERMISSION_DIR}/#{identifier}/.metadata.yml"
+          end
+
+          def format_duplicate_name_errors
+            return '' if violations[:duplicate_name].empty?
+
+            out = "#{error_messages[:duplicate_name]}\n\n"
+
+            violations[:duplicate_name].each do |name|
+              sources = assignable_source_paths_by_name(name)
+              out += "  - #{name}"
+              out += " (#{sources.join(', ')})" if sources.any?
+              out += "\n"
+            end
+
+            "#{out}\n"
           end
 
           def format_duplicate_raw_permission_errors
@@ -167,10 +186,24 @@ module Tasks
 
             violations[:duplicate_raw_permission].keys.sort.each do |raw_permission|
               assignable_names = violations[:duplicate_raw_permission][raw_permission]
-              out += "  - #{raw_permission}: found in #{assignable_names.sort.join(', ')}\n"
+              sources = assignable_names.sort.map do |name|
+                "#{name} (#{assignable_source_path(name)})"
+              end
+              out += "  - #{raw_permission}: found in #{sources.join(', ')}\n"
             end
 
             "#{out}\n"
+          end
+
+          def assignable_source_path(name)
+            permission = ::Authz::PermissionGroups::Assignable.all[name.to_sym]
+            relative_path(permission.source_file)
+          end
+
+          def assignable_source_paths_by_name(name)
+            ::Authz::PermissionGroups::Assignable.all.values
+              .select { |p| p.name == name }
+              .map { |p| relative_path(p.source_file) }
           end
 
           def error_messages

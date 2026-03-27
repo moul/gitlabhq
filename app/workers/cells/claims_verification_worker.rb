@@ -3,16 +3,18 @@
 module Cells
   class ClaimsVerificationWorker
     include ApplicationWorker
-    include ExclusiveLeaseGuard
+    include Gitlab::ExclusiveLeaseHelpers
 
-    sidekiq_options retry: 3
+    # Enough retries with exponential backoff (~8m24s) to outlast a stale exclusive lease (LEASE_TIMEOUT)
+    # https://github.com/sidekiq/sidekiq/wiki/Error-Handling#automatic-job-retry
+    sidekiq_options retry: 5
     data_consistency :sticky
     feature_category :cell
     urgency :throttled
     loggable_arguments 0
     idempotent!
 
-    LEASE_TIMEOUT = 10.minutes
+    LEASE_TIMEOUT = 5.minutes
     MAX_RUNTIME = 4.minutes + 30.seconds
     REDIS_LAST_PROCESSED_ID_TTL = 3.days
 
@@ -25,7 +27,8 @@ module Cells
 
       result = nil
 
-      try_obtain_lease do
+      # Don't retry obtaining lock in-process. Fail fast and let Sidekiq retry so the thread is freed for other jobs
+      in_lock(lease_key, ttl: LEASE_TIMEOUT, retries: 0) do
         start_id = last_processed_id
         result = Cells::Claims::VerificationService.new(
           model, timeout: MAX_RUNTIME, start_id: start_id
@@ -46,6 +49,13 @@ module Cells
       end
 
       self.class.perform_async(model_name) if result&.dig(:over_time)
+    rescue FailedToObtainLockError
+      Sidekiq.logger.warn(
+        message: 'Could not obtain exclusive lease, retrying via Sidekiq internal retry',
+        lease_key: lease_key,
+        lease_ttl: LEASE_TIMEOUT
+      )
+      raise
     rescue StandardError => e
       Gitlab::ErrorTracking.track_exception(e, feature_category: :cell)
       raise
@@ -55,10 +65,6 @@ module Cells
 
     def lease_key
       "#{self.class.name.underscore}:#{@model_name}"
-    end
-
-    def lease_timeout
-      LEASE_TIMEOUT
     end
 
     def last_processed_id

@@ -6,10 +6,14 @@ module API
       module ShowParams
         extend Grape::API::Helpers
 
-        params :work_items_show_params do
+        params :work_items_fields_param do
           optional :fields, type: String,
             desc: ["Comma-separated list of base fields to include.",
               "Defaults to #{::API::WorkItems::DEFAULT_FIELDS.join(', ')}."].join(" ")
+        end
+
+        params :work_items_show_params do
+          use :work_items_fields_param
           optional :features, type: String,
             desc: [
               'Comma-separated list of feature payloads to include.',

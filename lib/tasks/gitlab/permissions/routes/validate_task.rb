@@ -15,6 +15,7 @@ module Tasks
               boundary_mismatch: [],
               missing_authorization: []
             }
+            @source_locations = {}.compare_by_identity
           end
 
           private
@@ -30,7 +31,19 @@ module Tasks
           end
 
           def routes
-            API::API.endpoints.flat_map(&:routes)
+            collect_routes(API::API.endpoints)
+          end
+
+          def collect_routes(endpoints)
+            endpoints.flat_map do |endpoint|
+              if endpoint.respond_to?(:endpoints) && endpoint.endpoints
+                collect_routes(endpoint.endpoints)
+              else
+                location = endpoint.source.source_location
+                endpoint.routes.each { |route| @source_locations[route] = location }
+                endpoint.routes
+              end
+            end
           end
 
           def validate_route(route)
@@ -84,7 +97,15 @@ module Tasks
           end
 
           def base_error(route)
-            { method: route.request_method, path: route.origin.delete_prefix('/api/:version') }
+            error = { method: route.request_method, path: route.origin.delete_prefix('/api/:version') }
+
+            location = @source_locations[route]
+            if location
+              file, line = location
+              error[:source] = "#{relative_path(file)}:#{line}"
+            end
+
+            error
           end
 
           def validate_permission_defined(route, permission)
@@ -124,7 +145,7 @@ module Tasks
             out += format_route_errors(:missing_boundary)
             out += format_route_errors(:missing_assignable)
             out += format_boundary_mismatch_errors
-            out + format_missing_authorization_errors
+            out + format_route_errors(:missing_authorization)
           end
 
           def format_route_errors(kind)
@@ -133,19 +154,9 @@ module Tasks
             out = "#{error_messages[kind]}\n\n"
 
             violations[kind].each do |violation|
-              out += "  - #{violation[:method]} #{violation[:path]}: #{violation[:permission]}\n"
-            end
-
-            "#{out}\n"
-          end
-
-          def format_missing_authorization_errors
-            return '' if violations[:missing_authorization].empty?
-
-            out = "#{error_messages[:missing_authorization]}\n\n"
-
-            violations[:missing_authorization].each do |violation|
-              out += "  - #{violation[:method]} #{violation[:path]}\n"
+              out += "  - #{violation[:method]} #{violation[:path]}"
+              out += ": #{violation[:permission]}" if violation[:permission]
+              out += " (#{violation[:source]})\n"
             end
 
             "#{out}\n"
@@ -156,10 +167,10 @@ module Tasks
 
             out = "#{error_messages[:boundary_mismatch]}\n\n"
 
-            violations[:boundary_mismatch].each do |violation|
-              out += "  - #{violation[:method]} #{violation[:path]}: #{violation[:permission]}\n"
-              out += "      Route boundaries: #{violation[:route_boundaries].join(', ')}\n"
-              out += "      Assignable boundaries: #{violation[:assignable_boundaries].join(', ')}\n"
+            violations[:boundary_mismatch].each do |v|
+              out += "  - #{v[:method]} #{v[:path]}: #{v[:permission]} (#{v[:source]})\n"
+              out += "      Route boundaries: #{v[:route_boundaries].join(', ')}\n"
+              out += "      Assignable boundaries: #{v[:assignable_boundaries].join(', ')}\n"
             end
 
             "#{out}\n"

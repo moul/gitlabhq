@@ -177,9 +177,9 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
     end
   end
 
-  describe '#format_invalid_permission_errors' do
+  describe '#format_graphql_errors' do
     it 'returns empty string when there are no violations' do
-      expect(task.send(:format_invalid_permission_errors)).to eq('')
+      expect(task.send(:format_graphql_errors, :invalid_permission)).to eq('')
     end
   end
 
@@ -217,6 +217,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
       allow(GitlabSchema).to receive(:types).and_return({ 'Mutation' => empty_mutation_type })
       allow(Authz::PermissionGroups::Assignable).to receive(:all_permissions)
         .and_return([:read_project, :update_project, :create_issue, :read_something])
+      allow(task).to receive(:class_source_path).and_return('app/graphql/types/test_type.rb')
     end
 
     context 'when there are no directives' do
@@ -285,9 +286,19 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
       end
 
       it 'returns an error with boundary details' do
-        expect { run }.to raise_error(SystemExit).and output(
-          /\[type\] SomethingType: read_something.*Directive boundary_type: user/m
-        ).to_stdout
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following GraphQL types/mutations/fields have a boundary_type that doesn't match the assignable permission boundaries.
+          #  Update the assignable permission to include the directive's boundary_type, or fix the directive's boundary_type.
+          #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#determining-boundaries
+          #
+          #    - [type] SomethingType: read_something (app/graphql/types/test_type.rb)
+          #        Directive boundary_type: user
+          #        Assignable boundaries: project, group
+          #
+          #######################################################################
+        OUTPUT
       end
     end
 
@@ -418,9 +429,19 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
       end
 
       it 'returns an error' do
-        expect { run }.to raise_error(SystemExit).and output(
-          /\[mutation\] CreateIssue: create_issue.*Directive boundary_type: instance/m
-        ).to_stdout
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following GraphQL types/mutations/fields have a boundary_type that doesn't match the assignable permission boundaries.
+          #  Update the assignable permission to include the directive's boundary_type, or fix the directive's boundary_type.
+          #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#determining-boundaries
+          #
+          #    - [mutation] CreateIssue: create_issue (app/graphql/types/test_type.rb)
+          #        Directive boundary_type: instance
+          #        Assignable boundaries: project, group
+          #
+          #######################################################################
+        OUTPUT
       end
     end
 
@@ -538,9 +559,17 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
       end
 
       it 'returns an error listing the invalid permission' do
-        expect { run }.to raise_error(SystemExit).and output(
-          /not included in any assignable permission.*\[type\] BadType: not_a_real_permission/m
-        ).to_stdout
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following GraphQL types/mutations/fields reference permissions not included in any assignable permission.
+          #  Add the permission to an assignable permission group in config/authz/permission_groups/assignable_permissions/.
+          #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#create-the-assignable-permission-file
+          #
+          #    - [type] BadType: not_a_real_permission (app/graphql/types/test_type.rb)
+          #
+          #######################################################################
+        OUTPUT
       end
     end
 
@@ -574,9 +603,19 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
       end
 
       it 'returns an error' do
-        expect { run }.to raise_error(SystemExit).and output(
-          /\[field\] QueryType\.project: read_project.*Directive boundary_type: user/m
-        ).to_stdout
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following GraphQL types/mutations/fields have a boundary_type that doesn't match the assignable permission boundaries.
+          #  Update the assignable permission to include the directive's boundary_type, or fix the directive's boundary_type.
+          #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#determining-boundaries
+          #
+          #    - [field] QueryType.project: read_project (app/graphql/types/test_type.rb)
+          #        Directive boundary_type: user
+          #        Assignable boundaries: project, group
+          #
+          #######################################################################
+        OUTPUT
       end
     end
   end

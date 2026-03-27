@@ -399,7 +399,6 @@ RSpec/ReceiveMessages:
     - 'spec/services/achievements/revoke_service_spec.rb'
     - 'spec/services/auto_merge/merge_when_checks_pass_service_spec.rb'
     - 'spec/services/base_count_service_spec.rb'
-    - 'spec/services/bulk_imports/create_service_spec.rb'
     - 'spec/services/bulk_imports/get_importable_data_service_spec.rb'
     - 'spec/services/bulk_imports/process_service_spec.rb'
     - 'spec/services/bulk_imports/repository_bundle_export_service_spec.rb'

@@ -73682,6 +73682,24 @@ components:
           example: main
         link:
           type: string
+    APIEntitiesWorkItemsFeaturesWeight:
+      type: object
+      properties:
+        weight:
+          type: integer
+          example: 3
+        rolled_up_weight:
+          type: integer
+          example: 8
+        rolled_up_completed_weight:
+          type: integer
+          example: 5
+    APIEntitiesWorkItemsFeaturesHealthStatus:
+      type: object
+      properties:
+        health_status:
+          type: string
+          example: needs_attention
     APIEntitiesWorkItemsFeaturesIteration:
       type: object
       properties:
@@ -73715,12 +73733,6 @@ components:
         text_color:
           type: string
           example: "#1D3557"
-    APIEntitiesWorkItemsFeaturesHealthStatus:
-      type: object
-      properties:
-        health_status:
-          type: string
-          example: needs_attention
     APIEntitiesWorkItemsFeaturesWorkItemReference:
       type: object
       properties:
@@ -73841,14 +73853,16 @@ components:
           "$ref": "#/components/schemas/APIEntitiesMilestone"
         start_and_due_date:
           "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesStartAndDueDate"
-        health_status:
-          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesHealthStatus"
         color:
           "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesColor"
         progress:
           "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesProgress"
         iteration:
           "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesIteration"
+        health_status:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesHealthStatus"
+        weight:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesWeight"
     APIEntitiesWorkItemsPermissions:
       type: object
       properties:
@@ -93175,6 +93189,143 @@ components:
           nullable: true
       required:
       - file
+    RequestBody_fb3311792ee1:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the work item.
+          nullable: true
+        work_item_type_name:
+          type: string
+          enum:
+          - issue
+          - incident
+          - test_case
+          - requirement
+          - task
+          - objective
+          - key_result
+          - epic
+          - ticket
+          description: Name of the work item type (for example, "task", "issue", "epic").
+          nullable: true
+        work_item_type_id:
+          type: integer
+          description: Numeric ID of the work item type.
+          nullable: true
+        confidential:
+          type: boolean
+          description: Whether the work item is confidential.
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp for the creation. Available only for admins and project
+            owners.
+          nullable: true
+        features:
+          type: object
+          description: Input for work item features (widgets).
+          properties:
+            description:
+              type: object
+              description: Input for description feature.
+              properties:
+                description:
+                  type: string
+                  description: Description text for the work item.
+                  nullable: true
+              required:
+              - description
+              nullable: true
+            assignees:
+              type: object
+              description: Input for assignees feature.
+              properties:
+                assignee_ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: IDs of users to assign to the work item. Maximum 30.
+                  nullable: true
+              required:
+              - assignee_ids
+              nullable: true
+            labels:
+              type: object
+              description: Input for labels feature.
+              properties:
+                label_ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: IDs of labels to add to the work item. Maximum 30.
+                  nullable: true
+              required:
+              - label_ids
+              nullable: true
+            milestone:
+              type: object
+              description: Input for milestone feature.
+              properties:
+                milestone_id:
+                  type: integer
+                  description: ID of the milestone to assign. Null to unset.
+                  nullable: true
+              nullable: true
+            hierarchy:
+              type: object
+              description: Input for hierarchy feature.
+              properties:
+                parent_id:
+                  type: integer
+                  description: ID of the parent work item.
+                  nullable: true
+              nullable: true
+            start_and_due_date:
+              type: object
+              description: Input for start and due date feature.
+              properties:
+                start_date:
+                  type: string
+                  format: date
+                  description: Start date for the work item.
+                  nullable: true
+                due_date:
+                  type: string
+                  format: date
+                  description: Due date for the work item.
+                  nullable: true
+              nullable: true
+            linked_items:
+              type: object
+              description: Input for linked items feature.
+              properties:
+                work_items_ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: IDs of work items to link. Maximum 30.
+                  nullable: true
+                link_type:
+                  type: string
+                  enum:
+                  - relates_to
+                  default: relates_to
+                  description: 'Type of link. Supported values: relates_to.'
+                  nullable: true
+              required:
+              - work_items_ids
+              nullable: true
+          nullable: true
+        fields:
+          type: string
+          description: Comma-separated list of base fields to include. Defaults to
+            id, iid, global_id, title.
+          nullable: true
+      required:
+      - title
     RequestBody_085de8932e54:
       type: object
       properties:

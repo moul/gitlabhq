@@ -43,7 +43,7 @@ module API
           not_found!('Work Item') unless work_item
 
           present work_item,
-            with: Entities::WorkItemBasic,
+            with: Entities::WorkItemDetail,
             current_user: current_user,
             requested_features: feature_keys,
             fields: field_keys

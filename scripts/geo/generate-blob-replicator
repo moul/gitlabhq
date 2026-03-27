@@ -713,7 +713,7 @@ module Geo
           class #{registry_class_name} < Geo::BaseRegistry
             include ::Geo::ReplicableRegistry
             include ::Geo::VerifiableRegistry
-
+            #{upload_partition ? "include ::Geo::PartitionUploadRegistry\n" : ''}
             belongs_to :#{replicable_name}, class_name: '#{registry_belongs_to_class}'
 
             def self.model_class
@@ -1301,6 +1301,7 @@ module Geo
           end
 
           include_examples 'a Geo framework registry'
+          #{upload_partition ? "include_examples 'a Geo framework partition upload registry'" : ''}
         end
       RUBY
     end
@@ -1526,8 +1527,21 @@ module Geo
 
       foreign_key_value = "#{replicable_name}.id"
 
+      # Partition upload registries include Geo::PartitionUploadRegistry and are
+      # filtered out by registry_consistency_worker_enabled? when the legacy Upload
+      # replicator is active. They have their own context in the spec with an
+      # allow(Geo::UploadReplicator) stub. Regular blobs go in the main test.
+      if upload_partition
+        anchor_creation = 'abuse_report_upload = create(:geo_abuse_report_upload)'
+        anchor_pre = 'expect(Geo::AbuseReportUploadRegistry.where(abuse_report_upload_id: abuse_report_upload.id).count).to eq(0)'
+        anchor_post = 'expect(Geo::AbuseReportUploadRegistry.where(abuse_report_upload_id: abuse_report_upload.id).count).to eq(1)'
+      else
+        anchor_creation = 'helm_metadata_cache = create(:helm_metadata_cache)'
+        anchor_pre = 'expect(Geo::PackagesHelmMetadataCacheRegistry.where(packages_helm_metadata_cache_id: helm_metadata_cache.id).count).to eq(0)'
+        anchor_post = 'expect(Geo::PackagesHelmMetadataCacheRegistry.where(packages_helm_metadata_cache_id: helm_metadata_cache.id).count).to eq(1)'
+      end
+
       # Add creation line after the last similar creation
-      anchor_creation = 'helm_metadata_cache = create(:helm_metadata_cache)'
       if content.include?(anchor_creation)
         content = content.sub(
           anchor_creation,
@@ -1537,7 +1551,6 @@ module Geo
 
       # Add pre-execution assertion
       pre_assertion = "      expect(Geo::#{registry_class_name}.where(#{foreign_key_name}: #{foreign_key_value}).count).to eq(0)"
-      anchor_pre = 'expect(Geo::PackagesHelmMetadataCacheRegistry.where(packages_helm_metadata_cache_id: helm_metadata_cache.id).count).to eq(0)'
       if content.include?(anchor_pre)
         content = content.sub(
           anchor_pre,
@@ -1547,7 +1560,6 @@ module Geo
 
       # Add post-execution assertion
       post_assertion = "      expect(Geo::#{registry_class_name}.where(#{foreign_key_name}: #{foreign_key_value}).count).to eq(1)"
-      anchor_post = 'expect(Geo::PackagesHelmMetadataCacheRegistry.where(packages_helm_metadata_cache_id: helm_metadata_cache.id).count).to eq(1)'
       if content.include?(anchor_post)
         content = content.sub(
           anchor_post,

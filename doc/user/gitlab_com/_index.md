@@ -288,10 +288,10 @@ which GitLab you use:
 
 ### Import placeholder user limits
 
-Imports into GitLab.com limit the number of [placeholder users](../import/mapping.md#placeholder-users)
+Imports into GitLab.com limit the number of [placeholder users](../import/mapping/post_migration_mapping.md#placeholder-users)
 for each top-level namespace. The limits differ depending on your plan and seat count.
 For more information, see the
-[table of placeholder user limits for GitLab.com](../import/mapping.md#placeholder-user-limits).
+[table of placeholder user limits for GitLab.com](../import/mapping/post_migration_mapping.md#placeholder-user-limits).
 
 ## IP range
 

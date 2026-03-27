@@ -35,6 +35,8 @@ RSpec.describe WorkItems::SavedViews::UpdateService, feature_category: :portfoli
         expect(result).to be_error
         expect(result.message).to eq('You do not have permission to update this saved view.')
       end
+
+      it_behaves_like 'does not track non work item event'
     end
 
     context 'with all optional arguments' do
@@ -63,6 +65,27 @@ RSpec.describe WorkItems::SavedViews::UpdateService, feature_category: :portfoli
         expect(updated_view.private).to be(true)
         expect(updated_view.updated_by).to eq(current_user)
       end
+
+      it_behaves_like 'tracks non work item event', :current_user,
+        Gitlab::WorkItems::Instrumentation::EventActions::SAVED_VIEW_UPDATE
+    end
+
+    context 'when container is a group (non-Project)' do
+      let_it_be(:group) { create(:group, planners: current_user) }
+      let_it_be(:group_saved_view) do
+        create(:saved_view,
+          namespace: group,
+          author: current_user,
+          name: 'Group View'
+        )
+      end
+
+      subject(:service) do
+        described_class.new(current_user: current_user, saved_view: group_saved_view, params: params)
+      end
+
+      it_behaves_like 'tracks non work item event', :current_user,
+        Gitlab::WorkItems::Instrumentation::EventActions::SAVED_VIEW_UPDATE
     end
 
     context 'when updating visibility' do
@@ -100,6 +123,8 @@ RSpec.describe WorkItems::SavedViews::UpdateService, feature_category: :portfoli
           expect(result).to be_success
           expect(other_saved_view.reload.name).to eq('New Name')
         end
+
+        it_behaves_like 'does not track non work item event'
       end
 
       context 'when changing from private to public' do
@@ -303,6 +328,8 @@ RSpec.describe WorkItems::SavedViews::UpdateService, feature_category: :portfoli
 
         expect(saved_view.reload.name).to eq(original_name)
       end
+
+      it_behaves_like 'does not track non work item event'
     end
 
     context 'when filter normalization fails' do
@@ -322,6 +349,8 @@ RSpec.describe WorkItems::SavedViews::UpdateService, feature_category: :portfoli
         expect(result).to be_error
         expect(result.message).to eq('Invalid filter')
       end
+
+      it_behaves_like 'does not track non work item event'
     end
   end
 end

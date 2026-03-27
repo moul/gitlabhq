@@ -209,13 +209,27 @@ RSpec.describe Cells::ClaimsVerificationWorker, :clean_gitlab_redis_shared_state
       it 'does not execute the verification service' do
         expect(Cells::Claims::VerificationService).not_to receive(:new)
 
-        worker.perform(model_name)
+        expect { worker.perform(model_name) }.to raise_error(
+          Gitlab::ExclusiveLeaseHelpers::FailedToObtainLockError
+        )
       end
 
-      it 'does not re-enqueue itself' do
-        expect(described_class).not_to receive(:perform_async)
+      it 'does not track the exception' do
+        expect(Gitlab::ErrorTracking).not_to receive(:track_exception)
 
-        worker.perform(model_name)
+        expect { worker.perform(model_name) }.to raise_error(
+          Gitlab::ExclusiveLeaseHelpers::FailedToObtainLockError
+        )
+      end
+
+      it 'logs the lock failure' do
+        expect(Sidekiq.logger).to receive(:warn).with(
+          hash_including(message: a_string_including('exclusive lease'))
+        )
+
+        expect { worker.perform(model_name) }.to raise_error(
+          Gitlab::ExclusiveLeaseHelpers::FailedToObtainLockError
+        )
       end
     end
 

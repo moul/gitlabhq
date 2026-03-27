@@ -1179,7 +1179,6 @@ RSpec/BeEq:
     - 'spec/services/boards/issues/move_service_spec.rb'
     - 'spec/services/bulk_imports/archive_extraction_service_spec.rb'
     - 'spec/services/bulk_imports/batched_relation_export_service_spec.rb'
-    - 'spec/services/bulk_imports/create_service_spec.rb'
     - 'spec/services/bulk_imports/file_decompression_service_spec.rb'
     - 'spec/services/bulk_imports/file_download_service_spec.rb'
     - 'spec/services/bulk_imports/process_service_spec.rb'

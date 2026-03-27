@@ -40,12 +40,13 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
     end
 
     let(:mock_routes) { [mock_route] }
+    let(:source_proc) { instance_double(Proc, source_location: [Rails.root.join('lib/api/test.rb').to_s, 42]) }
 
     subject(:run) { task.run }
 
     before do
       allow(API::API).to receive(:endpoints).and_return(
-        [instance_double(Grape::Endpoint, routes: mock_routes)]
+        [instance_double(Grape::Endpoint, routes: mock_routes, source: source_proc)]
       )
       allow(described_class::TODO_FILE).to receive_messages(exist?: true, readlines: [])
     end
@@ -112,13 +113,13 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Create definition files using: bin/permission <NAME>
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/permission_definitions/#permission-definition-file
           #
-          #    - GET /projects/:id/test: undefined_permission
+          #    - GET /projects/:id/test: undefined_permission (lib/api/test.rb:42)
           #
           #  The following API routes reference permissions not included in any assignable permission.
           #  Add the permission to an assignable permission group in config/authz/permission_groups/assignable_permissions/
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#create-the-assignable-permission-file
           #
-          #    - GET /projects/:id/test: undefined_permission
+          #    - GET /projects/:id/test: undefined_permission (lib/api/test.rb:42)
           #
           #######################################################################
         OUTPUT
@@ -149,13 +150,13 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Create definition files using: bin/permission <NAME>
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/permission_definitions/#permission-definition-file
           #
-          #    - GET /projects/:id/test: undefined_permission
+          #    - GET /projects/:id/test: undefined_permission (lib/api/test.rb:42)
           #
           #  The following API routes reference permissions not included in any assignable permission.
           #  Add the permission to an assignable permission group in config/authz/permission_groups/assignable_permissions/
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#create-the-assignable-permission-file
           #
-          #    - GET /projects/:id/test: undefined_permission
+          #    - GET /projects/:id/test: undefined_permission (lib/api/test.rb:42)
           #
           #######################################################################
         OUTPUT
@@ -184,15 +185,15 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Create definition files using: bin/permission <NAME>
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/permission_definitions/#permission-definition-file
           #
-          #    - GET /projects/:id/test: undefined_one
-          #    - GET /projects/:id/test: undefined_two
+          #    - GET /projects/:id/test: undefined_one (lib/api/test.rb:42)
+          #    - GET /projects/:id/test: undefined_two (lib/api/test.rb:42)
           #
           #  The following API routes reference permissions not included in any assignable permission.
           #  Add the permission to an assignable permission group in config/authz/permission_groups/assignable_permissions/
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#create-the-assignable-permission-file
           #
-          #    - GET /projects/:id/test: undefined_one
-          #    - GET /projects/:id/test: undefined_two
+          #    - GET /projects/:id/test: undefined_one (lib/api/test.rb:42)
+          #    - GET /projects/:id/test: undefined_two (lib/api/test.rb:42)
           #
           #######################################################################
         OUTPUT
@@ -237,15 +238,15 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Create definition files using: bin/permission <NAME>
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/permission_definitions/#permission-definition-file
           #
-          #    - GET /projects/:id/first: undefined_one
-          #    - POST /projects/:id/second: undefined_two
+          #    - GET /projects/:id/first: undefined_one (lib/api/test.rb:42)
+          #    - POST /projects/:id/second: undefined_two (lib/api/test.rb:42)
           #
           #  The following API routes reference permissions not included in any assignable permission.
           #  Add the permission to an assignable permission group in config/authz/permission_groups/assignable_permissions/
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#create-the-assignable-permission-file
           #
-          #    - GET /projects/:id/first: undefined_one
-          #    - POST /projects/:id/second: undefined_two
+          #    - GET /projects/:id/first: undefined_one (lib/api/test.rb:42)
+          #    - POST /projects/:id/second: undefined_two (lib/api/test.rb:42)
           #
           #######################################################################
         OUTPUT
@@ -268,7 +269,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Add the permission to an assignable permission group in config/authz/permission_groups/assignable_permissions/
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#create-the-assignable-permission-file
           #
-          #    - GET /projects/:id/test: read_something
+          #    - GET /projects/:id/test: read_something (lib/api/test.rb:42)
           #
           #######################################################################
         OUTPUT
@@ -293,7 +294,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Update the assignable permission to include the route's boundary_type, or fix the route's boundary_type.
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#determining-boundaries
           #
-          #    - GET /projects/:id/test: read_something
+          #    - GET /projects/:id/test: read_something (lib/api/test.rb:42)
           #        Route boundaries: user
           #        Assignable boundaries: project, group
           #
@@ -331,7 +332,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Update the assignable permission to include the route's boundary_type, or fix the route's boundary_type.
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#determining-boundaries
           #
-          #    - GET /projects/:id/test: read_something
+          #    - GET /projects/:id/test: read_something (lib/api/test.rb:42)
           #        Route boundaries: group, user
           #        Assignable boundaries: group
           #
@@ -396,7 +397,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Add boundary_type to the route_setting :authorization.
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/rest_api_implementation_guide/#step-5-add-authorization-decorators-to-api-endpoints
           #
-          #    - GET /projects/:id/test: read_something
+          #    - GET /projects/:id/test: read_something (lib/api/test.rb:42)
           #
           #######################################################################
         OUTPUT
@@ -418,7 +419,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Add authorization metadata to the endpoint.
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/rest_api_implementation_guide
           #
-          #    - GET /projects/:id/test
+          #    - GET /projects/:id/test (lib/api/test.rb:42)
           #
           #######################################################################
         OUTPUT
@@ -459,7 +460,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Add authorization metadata to the endpoint.
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/rest_api_implementation_guide
           #
-          #    - POST /projects/:id/second
+          #    - POST /projects/:id/second (lib/api/test.rb:42)
           #
           #######################################################################
         OUTPUT
@@ -493,7 +494,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
           #  Add authorization metadata to the endpoint.
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/rest_api_implementation_guide
           #
-          #    - GET /projects/:id/test
+          #    - GET /projects/:id/test (lib/api/test.rb:42)
           #
           #######################################################################
         OUTPUT

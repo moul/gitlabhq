@@ -237,7 +237,7 @@ might have former employees that contributed on the source instance, but they do
 instance.
 
 In these cases, you can keep the contributions assigned to placeholder users. Placeholder users do not keep
-membership information because they [cannot be members of projects or groups](../mapping.md#placeholder-user-attributes).
+membership information because they [cannot be members of projects or groups](post_migration_mapping.md#placeholder-user-attributes).
 
 Because names and usernames of placeholder users resemble names and usernames of source users, you keep a lot of
 historical context.

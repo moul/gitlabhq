@@ -12,7 +12,8 @@ require 'cgi'
 require 'yaml'
 
 class LintDocsRedirect
-  COLOR_CODE_RED = "\e[31m"
+  COLOR_CODE_RED = "\e[1;31m"
+  COLOR_CODE_GREEN = "\e[1;32m"
   COLOR_CODE_RESET = "\e[0m"
   # All the projects we want this script to run
   PROJECT_PATHS = ['gitlab-org/gitlab',
@@ -25,10 +26,12 @@ class LintDocsRedirect
   def execute
     return unless project_supported?
 
+    puts "#{COLOR_CODE_GREEN}INFO#{COLOR_CODE_RESET} Checking documentation redirects..."
     abort_unless_merge_request_iid_exists
 
     check_renamed_deleted_files
     check_for_circular_redirects
+    puts "#{COLOR_CODE_GREEN}INFO#{COLOR_CODE_RESET} Check of documentation redirects complete."
   end
 
   private
@@ -88,6 +91,7 @@ class LintDocsRedirect
   ##   The navigation.yaml equivalent is:              administration/appearance/
   ##
   def check_for_missing_nav_entry(file)
+    puts "#{COLOR_CODE_GREEN}INFO#{COLOR_CODE_RESET} Checking for missing navigation entry..."
     # Translate the file path to its website path:
     # 1. gsub(docs_path, project_slug) - Replaces the local docs directory with the appropriate project URL prefix
     # 2. gsub(/_?index\.md/, '') - Removes both index.md and _index.md
@@ -146,6 +150,25 @@ class LintDocsRedirect
     WARNING
   end
 
+  # When renaming files, we can't have either:
+  #   - file.md renamed to file/_index.md
+  #   - file/_index.md renamed to file.md
+  # This situation causes Hugo build errors because both paths will publish to the same URL.
+  def check_for_invalid_rename(file)
+    puts "#{COLOR_CODE_GREEN}INFO#{COLOR_CODE_RESET} Checking if file is invalidly renamed..."
+
+    if file['old_path'].delete_suffix('.md') == file['new_path'].delete_suffix('/_index.md') ||
+        file['old_path'].delete_suffix('/_index.md') == file['new_path'].delete_suffix('.md')
+      puts <<~ERROR
+        #{COLOR_CODE_RED}ERROR#{COLOR_CODE_RESET} Invalidly renamed file found! This file would publish to the same URL!
+        #{COLOR_CODE_RED}ERROR#{COLOR_CODE_RESET} Choose an alternative name for the new file or directory.
+      ERROR
+      abort
+    else
+      puts "#{COLOR_CODE_GREEN}INFO#{COLOR_CODE_RESET} File is validly renamed!"
+    end
+  end
+
   # Rake task to use depending on the file being deleted or renamed
   def rake_command(file)
     # The Rake task is only available for gitlab-org/gitlab
@@ -186,7 +209,9 @@ class LintDocsRedirect
   end
 
   def abort_unless_merge_request_iid_exists
-    abort("Error: CI_MERGE_REQUEST_IID environment variable is missing") if merge_request_iid.nil?
+    return if merge_request_iid
+
+    abort "#{COLOR_CODE_RED}ERROR#{COLOR_CODE_RESET} CI_MERGE_REQUEST_IID environment variable is missing!"
   end
 
   # Skip if CI_PROJECT_PATH is not in the designated project paths
@@ -224,6 +249,7 @@ class LintDocsRedirect
 
   # Create a list of hashes of the renamed documentation files
   def check_renamed_deleted_files
+    puts "#{COLOR_CODE_GREEN}INFO#{COLOR_CODE_RESET} Checking for renamed or deleted files..."
     renamed_files = merge_request_diff.select do |file|
       renamed_doc_file?(file)
     end
@@ -235,15 +261,18 @@ class LintDocsRedirect
     # Merge the two arrays
     all_files = renamed_files + deleted_files
 
-    return if all_files.empty?
+    if all_files.empty?
+      puts "#{COLOR_CODE_GREEN}INFO#{COLOR_CODE_RESET} No renamed or deleted files found."
+      return
+    end
 
     all_files.each do |file|
       status = deleted_doc_file?(file) ? 'deleted' : 'renamed'
-      puts "Checking #{status} file..."
-      puts "=> Old_path: #{file['old_path']}"
-      puts "=> New_path: #{file['new_path']}"
-      puts
+      puts "#{COLOR_CODE_GREEN}INFO#{COLOR_CODE_RESET} Found #{status} file..."
+      puts "     - Old_path: #{file['old_path']}"
+      puts "     - New_path: #{file['new_path']}"
 
+      check_for_invalid_rename(file)
       check_for_missing_nav_entry(file)
     end
   end
@@ -270,6 +299,7 @@ class LintDocsRedirect
 
   # Check if a page redirects to itself
   def check_for_circular_redirects
+    puts "#{COLOR_CODE_GREEN}INFO#{COLOR_CODE_RESET} Checking for pages that redirect to themselves..."
     all_doc_files.each do |file|
       next if redirect_to(file).nil?
 
@@ -278,16 +308,16 @@ class LintDocsRedirect
       # Fail if the 'redirect_to' value is the same as the file's basename.
       next unless redirect_to(file) == basename
 
-      warn <<~WARNING
-        #{COLOR_CODE_RED}✖ ERROR: Circular redirect detected. The 'redirect_to' value points to the same file.#{COLOR_CODE_RESET}
+      puts <<~WARNING
+        #{COLOR_CODE_RED}ERROR#{COLOR_CODE_RESET} Circular redirect detected! The 'redirect_to' value points to the same file.
       WARNING
 
-      puts
       puts "File        : #{file['old_path']}"
       puts "Redirect to : #{redirect_to(file)}"
 
       abort
     end
+    puts "#{COLOR_CODE_GREEN}INFO#{COLOR_CODE_RESET} No pages that redirect to themselves found."
   end
 end
 
