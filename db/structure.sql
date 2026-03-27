@@ -27971,6 +27971,9 @@ CREATE TABLE project_settings (
     duo_secret_detection_fp_enabled boolean DEFAULT true NOT NULL,
     code_owner_reviewer_assignment_strategy smallint DEFAULT 0 NOT NULL,
     reviewer_assignment_strategy smallint DEFAULT 0 NOT NULL,
+    pipeline_execution_policy_bot_access_enabled boolean DEFAULT false NOT NULL,
+    pipeline_execution_policy_bot_access_file_patterns text[] DEFAULT '{}'::text[],
+    pipeline_execution_policy_bot_access_group_id bigint,
     CONSTRAINT check_1a30456322 CHECK ((char_length(pages_unique_domain) <= 63)),
     CONSTRAINT check_237486989c CHECK ((char_length(merge_request_title_regex_description) <= 255)),
     CONSTRAINT check_3a03e7557a CHECK ((char_length(previous_default_branch) <= 4096)),
@@ -27983,7 +27986,8 @@ CREATE TABLE project_settings (
     CONSTRAINT check_bde223416c CHECK ((show_default_award_emojis IS NOT NULL)),
     CONSTRAINT check_eaf7cfb6a7 CHECK ((char_length(merge_commit_template) <= 500)),
     CONSTRAINT check_ee0d751d5c CHECK ((char_length(merge_request_title_regex) <= 255)),
-    CONSTRAINT check_f9df7bcee2 CHECK ((char_length(cube_api_base_url) <= 512))
+    CONSTRAINT check_f9df7bcee2 CHECK ((char_length(cube_api_base_url) <= 512)),
+    CONSTRAINT check_project_settings_pep_bot_access_file_patterns_size CHECK ((cardinality(pipeline_execution_policy_bot_access_file_patterns) <= 20))
 );
 
 CREATE VIEW project_snippets_routes_view AS
@@ -44259,6 +44263,8 @@ CREATE INDEX idx_project_repository_check_partial ON projects USING btree (repos
 
 CREATE INDEX idx_project_requirement_statuses_on_framework_id ON project_requirement_compliance_statuses USING btree (compliance_framework_id);
 
+CREATE INDEX idx_project_settings_on_pep_bot_access_group_id ON project_settings USING btree (pipeline_execution_policy_bot_access_group_id);
+
 CREATE INDEX idx_project_type_ci_runners_on_active_and_id ON project_type_ci_runners USING btree (active, id);
 
 CREATE INDEX idx_project_type_ci_runners_on_contacted_at_and_id_desc ON project_type_ci_runners USING btree (contacted_at, id DESC);
@@ -56444,6 +56450,9 @@ ALTER TABLE ONLY project_secrets_manager_maintenance_tasks
 
 ALTER TABLE ONLY related_epic_links
     ADD CONSTRAINT fk_8257080565 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY project_settings
+    ADD CONSTRAINT fk_8264eab4ae FOREIGN KEY (pipeline_execution_policy_bot_access_group_id) REFERENCES namespaces(id) ON DELETE SET NULL;
 
 ALTER TABLE ONLY import_export_uploads
     ADD CONSTRAINT fk_83319d9721 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;

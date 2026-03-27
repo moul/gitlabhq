@@ -35417,12 +35417,6 @@ msgstr ""
 msgid "Home page URL"
 msgstr ""
 
-msgid "HomePageFeedbackWidget|Help us improve the new homepage by sharing your thoughts and suggestions."
-msgstr ""
-
-msgid "HomePageFeedbackWidget|Share your feedback"
-msgstr ""
-
 msgid "HomePageMergeRequestsWidget|Assigned to you"
 msgstr ""
 
@@ -83073,6 +83067,12 @@ msgstr ""
 msgid "cannot contain HTML/XML tags, including any word between angle brackets (&lt;,&gt;)."
 msgstr ""
 
+msgid "cannot contain empty patterns"
+msgstr ""
+
+msgid "cannot contain path traversal"
+msgstr ""
+
 msgid "cannot have more than %{count} controls"
 msgstr ""
 
@@ -83082,10 +83082,16 @@ msgstr ""
 msgid "cannot have more than %{count} requirements"
 msgstr ""
 
+msgid "cannot have more than %{max} file patterns"
+msgstr ""
+
 msgid "cannot include leading slash or directory traversal."
 msgstr ""
 
 msgid "cannot merge"
+msgstr ""
+
+msgid "cannot start with /"
 msgstr ""
 
 msgid "change"
@@ -83914,6 +83920,9 @@ msgstr ""
 msgid "incident"
 msgstr ""
 
+msgid "individual patterns cannot exceed %{max} characters"
+msgstr ""
+
 msgid "instance completed"
 msgid_plural "instances completed"
 msgstr[0] ""
@@ -84543,6 +84552,9 @@ msgid "must be a string"
 msgstr ""
 
 msgid "must be a valid IPv4 or IPv6 address"
+msgstr ""
+
+msgid "must be a valid group"
 msgstr ""
 
 msgid "must be a valid json schema"

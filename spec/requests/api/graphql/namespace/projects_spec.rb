@@ -125,6 +125,10 @@ RSpec.describe 'getting projects', feature_category: :groups_and_projects do
     let(:query) { get_graphql_query_as_string('work_items/graphql/namespace_projects_for_links_widget.query.graphql') }
     let(:variables) { { 'fullPath' => group.full_path } }
 
+    before do
+      create(:project, group: create(:group, parent: group))
+    end
+
     it 'does not execute N+1 queries', :use_sql_query_cache do
       post_graphql(query, current_user: user, variables: variables) # warm-up
 
@@ -135,6 +139,7 @@ RSpec.describe 'getting projects', feature_category: :groups_and_projects do
       expect_graphql_errors_to_be_empty
 
       create_list(:project, 3, group: group)
+      create_list(:project, 2, group: create(:group, parent: group))
 
       expect do
         post_graphql(query, current_user: user, variables: variables)

@@ -612,6 +612,53 @@ must disable the **primary** site:
 1. Verify you can connect to the newly promoted primary using the URL used previously for the secondary.
 1. Success! The secondary has now been promoted to primary.
 
+### Step 4. (Optional) Promote the OpenBao HA cluster
+
+If you have GitLab Secrets Manager enabled, complete the following steps to promote the OpenBao High Availability (HA) cluster
+after promoting the Kubernetes cluster.
+
+#### Restart OpenBao pods
+
+After the PostgreSQL replica is promoted to primary, restart the OpenBao pods so they
+reconnect to the database now that it's writable:
+
+```shell
+kubectl --namespace gitlab rollout restart deployment -l app=openbao
+```
+
+#### (Optional) Configure JWT authentication
+
+Skip this step if you've updated DNS records for the primary domain to point to the secondary site.
+
+Using recovery keys, connect to OpenBao API to reconfigure [JWT authentication](https://openbao.org/docs/auth/jwt/#configuration) for the secondary domain.
+
+For more information, see
+[Geo configuration](https://docs.gitlab.com/charts/charts/openbao/#geo-configuration).
+
+#### Restore the unseal secret if needed
+
+The unseal key on the secondary cluster must be the same as the one on the primary key,
+otherwise OpenBao won't be able to unseal the vault on the secondary.
+
+If there's a mismatch, restore the `gitlab-openbao-unseal` secret on the secondary cluster
+from your [secrets backup](https://docs.gitlab.com/charts/backup-restore/backup/#back-up-the-secrets),
+then restart the OpenBao pods:
+
+```shell
+kubectl --namespace gitlab rollout restart deployment -l app=openbao
+```
+
+#### Verify OpenBao is functional
+
+1. Check that all OpenBao pods are running:
+
+   ```shell
+   kubectl --namespace gitlab get pods -l app=openbao
+   ```
+
+1. Test OpenBao integration by running a CI pipeline that uses a
+   [Secrets Manager variable](../../../ci/secrets/secrets_manager/_index.md).
+
 ## Troubleshooting
 
 This section was moved to [another location](failover_troubleshooting.md#fixing-errors-during-a-failover-or-when-promoting-a-secondary-to-a-primary-site).

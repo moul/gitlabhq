@@ -24,7 +24,6 @@ export default () => {
     mergeRequestsReviewRequestedTitle,
     mergeRequestsYourMergeRequestsTitle,
     lastPushEvent,
-    showFeedbackWidget,
     workItemPlanningViewEnabled,
   } = el.dataset;
 
@@ -53,7 +52,6 @@ export default () => {
           assignedWorkItemsPath,
           authoredWorkItemsPath,
           lastPushEvent: parsedLastPushEvent,
-          showFeedbackWidget: parseBoolean(showFeedbackWidget),
         },
       });
     },

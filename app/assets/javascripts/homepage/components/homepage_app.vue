@@ -25,7 +25,6 @@ import ActivityWidget from './activity_widget.vue';
 import QuickAccessWidget from './quick_access_widget.vue';
 import TodosWidget from './todos_widget.vue';
 import PickUpWidget from './pick_up_widget.vue';
-import FeedbackWidget from './feedback_widget.vue';
 import BaseWidget from './base_widget.vue';
 
 export default {
@@ -35,7 +34,6 @@ export default {
     TodosWidget,
     QuickAccessWidget,
     PickUpWidget,
-    FeedbackWidget,
     UserItemsCountWidget,
     BaseWidget,
   },
@@ -66,10 +64,6 @@ export default {
       type: Object,
       required: false,
       default: null,
-    },
-    showFeedbackWidget: {
-      type: Boolean,
-      required: true,
     },
   },
   data() {
@@ -265,7 +259,6 @@ export default {
       </section>
       <aside class="gl-flex gl-flex-col gl-gap-6">
         <quick-access-widget />
-        <feedback-widget v-if="showFeedbackWidget" />
       </aside>
     </div>
   </div>

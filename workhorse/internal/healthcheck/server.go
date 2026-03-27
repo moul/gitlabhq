@@ -43,6 +43,7 @@ type Server struct {
 	readinessStatus    prometheus.Gauge
 	readinessErrorRate prometheus.Counter
 	checkDuration      prometheus.Histogram
+	probeDuration      *prometheus.HistogramVec
 	individualChecks   map[string]prometheus.Gauge
 }
 
@@ -69,6 +70,10 @@ func NewServer(cfg config.HealthCheckConfig, logger *logrus.Logger, reg promethe
 			Name: "workhorse_health_check_duration_seconds",
 			Help: "Duration of health checks in seconds",
 		}),
+		probeDuration: promFactory.NewHistogramVec(prometheus.HistogramOpts{
+			Name: "workhorse_puma_readiness_probe_duration_seconds",
+			Help: "Duration of HTTP requests to Puma's readiness endpoint in seconds",
+		}, []string{"result"}),
 	}
 
 	hcs.isReady.Store(false)
@@ -92,6 +97,11 @@ func (hcs *Server) GetSuccessRecorder() SuccessRecorder {
 // GetOptimizedReadinessChecker returns the optimized readiness checker interface
 func (hcs *Server) GetOptimizedReadinessChecker() OptimizedReadinessChecker {
 	return hcs.successTracker
+}
+
+// GetProbeDurationHistogram returns the histogram for recording readiness probe durations
+func (hcs *Server) GetProbeDurationHistogram() *prometheus.HistogramVec {
+	return hcs.probeDuration
 }
 
 // AddReadinessChecker adds a readiness checker

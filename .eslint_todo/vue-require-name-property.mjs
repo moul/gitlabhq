@@ -443,7 +443,6 @@ export default {
     'app/assets/javascripts/groups_projects/components/more_actions_dropdown.vue',
     'app/assets/javascripts/groups_projects/unarchive/components/unarchive_settings.vue',
     'app/assets/javascripts/homepage/components/activity_widget.vue',
-    'app/assets/javascripts/homepage/components/feedback_widget.vue',
     'app/assets/javascripts/homepage/components/greeting_header.vue',
     'app/assets/javascripts/homepage/components/homepage_app.vue',
     'app/assets/javascripts/homepage/components/todos_widget.vue',

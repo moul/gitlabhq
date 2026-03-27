@@ -60,6 +60,7 @@ module Resolvers
 
     before_connection_authorization do |projects, current_user|
       ::Preloaders::UserMaxAccessLevelInProjectsPreloader.new(projects, current_user).execute
+      ::Preloaders::GroupPolicyPreloader.new(projects.filter_map(&:group), current_user).execute
     end
 
     def resolve_with_lookahead(args)

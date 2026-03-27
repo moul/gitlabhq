@@ -63893,6 +63893,7 @@ Input type for filtering projects by vulnerability count and severity.
 | <a id="workitemsavedviewfilterinput-updatedbefore"></a>`updatedBefore` | [`Time`](#time) | Filter value for updated before filter. |
 | <a id="workitemsavedviewfilterinput-weight"></a>`weight` | [`String`](#string) | Filter value for weight filter. |
 | <a id="workitemsavedviewfilterinput-weightwildcardid"></a>`weightWildcardId` | [`WeightWildcardId`](#weightwildcardid) | Filter value for weight wildcard id filter. |
+| <a id="workitemsavedviewfilterinput-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter value for work item type global IDs. |
 
 ### `WorkItemSavedViewNegatedFilterInput`
 
@@ -63914,6 +63915,7 @@ Input type for filtering projects by vulnerability count and severity.
 | <a id="workitemsavedviewnegatedfilterinput-releasetag"></a>`releaseTag` | [`[String!]`](#string) | File value for not release tag filter. (maximum is 100 tags). |
 | <a id="workitemsavedviewnegatedfilterinput-types"></a>`types` | [`[IssueType!]`](#issuetype) | Filter value for not types filter. |
 | <a id="workitemsavedviewnegatedfilterinput-weight"></a>`weight` | [`String`](#string) | Filter values for not weight filter. |
+| <a id="workitemsavedviewnegatedfilterinput-workitemtypeids"></a>`workItemTypeIds` | [`[WorkItemsTypeID!]`](#workitemstypeid) | Filter value for not work item type global IDs filter. |
 
 ### `WorkItemSavedViewUnionedFilterInput`
 
