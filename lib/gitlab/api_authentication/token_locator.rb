@@ -71,6 +71,8 @@ module Gitlab
       end
 
       def extract_from_http_basic_auth(request)
+        return unless has_basic_credentials?(request)
+
         username, password = user_name_and_password(request)
         return unless username.present? && password.present?
 

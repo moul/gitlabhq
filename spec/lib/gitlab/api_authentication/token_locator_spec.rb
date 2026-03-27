@@ -42,7 +42,7 @@ RSpec.describe Gitlab::APIAuthentication::TokenLocator, feature_category: :syste
         end
       end
 
-      context 'with credentials' do
+      context 'with basic auth credentials' do
         let(:username) { 'foo' }
         let(:password) { 'bar' }
         let(:request) { double(authorization: "Basic #{::Base64.strict_encode64("#{username}:#{password}")}") }
@@ -50,6 +50,24 @@ RSpec.describe Gitlab::APIAuthentication::TokenLocator, feature_category: :syste
         it 'returns the credentials' do
           expect(subject.username).to eq(username)
           expect(subject.password).to eq(password)
+        end
+      end
+
+      context 'with bearer auth credentials' do
+        context 'with a plain token' do
+          let(:request) { double(authorization: "Bearer foo") }
+
+          it 'returns nil' do
+            expect(subject).to be_nil
+          end
+        end
+
+        context 'when the token decodes to a string containing a colon' do
+          let(:request) { double(authorization: "Bearer e68d6f1ee0a8da27bb71b2ddb54700aeb07546f58c06a3") }
+
+          it 'does not misidentify it as basic auth credentials' do
+            expect(subject).to be_nil
+          end
         end
       end
     end
