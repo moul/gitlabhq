@@ -11,10 +11,6 @@ module Ci
       @subject.project.public?
     end
 
-    condition(:guest) do
-      can?(:guest_access, @subject.project)
-    end
-
     condition(:protected_ref) do
       access = ::Gitlab::UserAccess.new(@user, container: @subject.project)
 

@@ -12380,6 +12380,9 @@ msgstr ""
 msgid "Blame|Older"
 msgstr ""
 
+msgid "Blame|Show age indicator legend"
+msgstr ""
+
 msgid "Blob"
 msgstr ""
 

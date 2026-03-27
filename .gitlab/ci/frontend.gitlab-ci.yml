@@ -141,7 +141,7 @@ generate-js-routes:
     - .default-before_script
     - .ruby-cache
     - .repo-from-artifacts
-    - .frontend:rules:jest
+    - .frontend:rules:generate-js-routes
   stage: prepare
   needs:
     - !reference [.repo-from-artifacts, needs]

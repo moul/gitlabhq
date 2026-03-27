@@ -16,6 +16,8 @@ project:
   - _reopen_authored_work_item
   - _update_assigned_work_item
   - _update_authored_work_item
+  - admin_issue_link
+  - admin_issue_relation
   - award_emoji
   - create_issue
   - create_note
@@ -52,6 +54,8 @@ group:
   - _update_assigned_work_item
   - _update_authored_work_item
   - admin_epic_relation
+  - admin_issue_link
+  - admin_issue_relation
   - award_emoji
   - delete_saved_view
   - read_epic_link_relation

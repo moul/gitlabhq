@@ -256,12 +256,14 @@ actions. Enter a slash command at the prompt and press <kbd>Enter</kbd>.
 
 The following slash commands are available:
 
-| Command     | Description                                         |
-|-------------|-----------------------------------------------------|
-| `/copy`     | Copy the last GitLab Duo response to the clipboard. |
-| `/help`     | Display a list of available slash commands.         |
-| `/model`    | Switch the AI model for the current session.        |
-| `/sessions` | Browse, search, and switch sessions.                |
+| Command      | Description                                         |
+|--------------|-----------------------------------------------------|
+| `/copy`      | Copy the last GitLab Duo response to the clipboard. |
+| `/feedback`  | Submit a bug report or feature request.             |
+| `/help`      | Display a list of available slash commands.         |
+| `/model`     | Switch the AI model for the current session.        |
+| `/new`       | Start a new chat session.                           |
+| `/sessions`  | Browse, search, and switch sessions.                |
 
 ### Headless mode
 
