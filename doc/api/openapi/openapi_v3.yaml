@@ -74864,6 +74864,8 @@ components:
           example: '2020-08-31T15:53:00.073Z'
         active:
           type: boolean
+        granular:
+          type: boolean
         expires_at:
           type: string
           format: date-time
@@ -80145,6 +80147,8 @@ components:
           example: '2020-08-31T15:53:00.073Z'
         active:
           type: boolean
+        granular:
+          type: boolean
         expires_at:
           type: string
           format: date-time
@@ -80180,6 +80184,8 @@ components:
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
         active:
+          type: boolean
+        granular:
           type: boolean
         expires_at:
           type: string
@@ -80224,6 +80230,8 @@ components:
           example: '2020-08-31T15:53:00.073Z'
         active:
           type: boolean
+        granular:
+          type: boolean
         expires_at:
           type: string
           format: date-time
@@ -80259,6 +80267,8 @@ components:
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
         active:
+          type: boolean
+        granular:
           type: boolean
         expires_at:
           type: string
@@ -80299,6 +80309,8 @@ components:
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
         active:
+          type: boolean
+        granular:
           type: boolean
         expires_at:
           type: string
@@ -80344,6 +80356,8 @@ components:
           format: date-time
           example: '2020-08-31T15:53:00.073Z'
         active:
+          type: boolean
+        granular:
           type: boolean
         expires_at:
           type: string

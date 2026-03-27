@@ -12,6 +12,7 @@ import {
 import { mapActions } from 'pinia';
 import { helpPagePath } from '~/helpers/help_page_helper';
 import { __, s__, sprintf } from '~/locale';
+import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import HelpIcon from '~/vue_shared/components/help_icon/help_icon.vue';
 import TimeAgoTooltip from '~/vue_shared/components/time_ago_tooltip.vue';
 import UserDate from '~/vue_shared/components/user_date.vue';
@@ -38,6 +39,7 @@ export default {
   directives: {
     GlTooltip: GlTooltipDirective,
   },
+  mixins: [glFeatureFlagsMixin()],
   props: {
     busy: {
       type: Boolean,
@@ -56,6 +58,11 @@ export default {
     };
   },
   computed: {
+    visibleTokens() {
+      return this.glFeatures?.granularPersonalAccessTokens
+        ? this.tokens
+        : this.tokens.filter((token) => !token.granular);
+    },
     actionPrimary() {
       return {
         text: this.$options.i18n.modal.button[this.action],
@@ -179,7 +186,7 @@ export default {
   <div>
     <gl-table
       data-testid="access-token-table"
-      :items="tokens"
+      :items="visibleTokens"
       :fields="$options.fields"
       :empty-text="s__('AccessTokens|No access tokens')"
       show-empty

@@ -1,4 +1,4 @@
-import { GlBadge, GlDisclosureDropdown, GlIcon, GlModal } from '@gitlab/ui';
+import { GlBadge, GlDisclosureDropdown, GlIcon, GlModal, GlTable } from '@gitlab/ui';
 import { createTestingPinia } from '@pinia/testing';
 import Vue from 'vue';
 import { PiniaVuePlugin } from 'pinia';
@@ -42,6 +42,7 @@ describe('AccessTokenTable', () => {
     findDisclosure().findAll('button.gl-new-dropdown-item-content').at(index);
   const findModal = () => wrapper.findComponent(GlModal);
   const findIcon = (component) => component.findComponent(GlIcon);
+  const findTable = () => wrapper.findComponent(GlTable);
 
   describe('table headers', () => {
     it('usage header should contain a link and an assistive message', () => {
@@ -262,6 +263,15 @@ describe('AccessTokenTable', () => {
           createComponent({ tokens });
 
           expect(findDisclosure().exists()).toBe(false);
+        });
+      });
+
+      describe('when token is granular', () => {
+        it('does not render the token', () => {
+          const tokens = [{ ...defaultToken, granular: true }];
+          createComponent({ tokens });
+
+          expect(findTable().props('items')).toHaveLength(0);
         });
       });
     });

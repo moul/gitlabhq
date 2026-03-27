@@ -6,10 +6,14 @@ module Cells
       PaginationError = Class.new(RuntimeError)
 
       LIMIT = 1000
-      GRPC_QUERY_TIMEOUT_IN_SECONDS = 5
+      GRPC_QUERY_TIMEOUT_IN_SECONDS = 10
       GRPC_RETRIES = 3
       GRPC_RETRY_BASE_INTERVAL = 0.5
       GRPC_RETRIABLE_ERRORS = [GRPC::DeadlineExceeded, GRPC::Unavailable].freeze
+      MAX_GRPC_MESSAGE_BYTES = 3.5.megabytes
+      # Estimated per-record protobuf overhead (subject, source, bucket type, varint framing).
+      # The bucket value size is measured separately; this covers the remaining fixed-size fields.
+      GRPC_PER_RECORD_OVERHEAD_BYTES = 200
 
       attr_reader :model
 
@@ -64,7 +68,7 @@ module Cells
 
           last_id = local_records.last.read_attribute(model.primary_key)
           ts_records = list_ts_records(model, start_id, last_id)
-          created, destroyed = process_batch(local_records, ts_records)
+          created, destroyed, chunk_count = process_batch(local_records, ts_records)
 
           @scan_last_id = last_id
           @on_batch_processed&.call(@scan_last_id)
@@ -78,6 +82,7 @@ module Cells
             batch_last_id: last_id,
             created: created,
             destroyed: destroyed,
+            chunk_count: chunk_count,
             over_time: over_time,
             cell_id: claim_service.cell_id,
             feature_category: :cell
@@ -139,12 +144,12 @@ module Cells
         ts_records_by_id = ts_records.index_by { |r| r.metadata.source.rails_primary_key_id }
 
         creates, destroys = compute_changes(local_records_by_id, ts_records_by_id)
-        commit_changes(creates:, destroys:)
+        chunk_count = commit_changes(creates:, destroys:)
 
         @created_count += creates.size
         @destroyed_count += destroys.size
 
-        [creates.size, destroys.size]
+        [creates.size, destroys.size, chunk_count]
       end
 
       def compute_changes(local_records_by_id, ts_records_map)
@@ -182,17 +187,57 @@ module Cells
       end
 
       def commit_changes(creates: [], destroys: [])
-        return if creates.empty? && destroys.empty?
+        return 0 if creates.empty? && destroys.empty?
 
-        response = claim_service.begin_update(
-          create_records: Cells::TransactionRecord.sanitize_records_for_grpc(creates),
-          destroy_records: Cells::TransactionRecord.sanitize_records_for_grpc(destroys),
-          deadline: grpc_deadline
-        )
+        chunks = chunk_records_by_size(creates, destroys)
 
-        Retriable.retriable(on: GRPC_RETRIABLE_ERRORS, tries: GRPC_RETRIES, base_interval: GRPC_RETRY_BASE_INTERVAL) do
-          claim_service.commit_update(response.lease_uuid.value, deadline: grpc_deadline)
+        chunks.each do |create_chunk, destroy_chunk|
+          response = claim_service.begin_update(
+            create_records: Cells::TransactionRecord.sanitize_records_for_grpc(create_chunk),
+            destroy_records: Cells::TransactionRecord.sanitize_records_for_grpc(destroy_chunk),
+            deadline: grpc_deadline
+          )
+
+          Retriable.retriable(
+            on: GRPC_RETRIABLE_ERRORS, tries: GRPC_RETRIES, base_interval: GRPC_RETRY_BASE_INTERVAL
+          ) do
+            claim_service.commit_update(response.lease_uuid.value, deadline: grpc_deadline)
+          end
         end
+
+        chunks.size
+      end
+
+      # Splits create and destroy records into chunks that fit within MAX_GRPC_MESSAGE_BYTES.
+      # Records are processed in order (creates first, then destroys) and packed greedily:
+      #   chunk_records_by_size([c1, c2], [d1]) => [[[c1, c2], [d1]]]          (single chunk)
+      #   chunk_records_by_size([big1, big2], []) => [[[big1], []], [[big2], []]] (split)
+      def chunk_records_by_size(creates, destroys)
+        tagged = creates.map { |r| [:create, r] } + destroys.map { |r| [:destroy, r] }
+        chunks = []
+        current = { create: [], destroy: [] }
+        current_size = 0
+
+        tagged.each do |type, record|
+          record_size = estimate_record_size(record)
+
+          if current_size + record_size > MAX_GRPC_MESSAGE_BYTES && current.values.any?(&:present?)
+            chunks << [current[:create], current[:destroy]]
+            current = { create: [], destroy: [] }
+            current_size = 0
+          end
+
+          current[type] << record
+          current_size += record_size
+        end
+
+        chunks << [current[:create], current[:destroy]] if current.values.any?(&:present?)
+        chunks
+      end
+
+      def estimate_record_size(record)
+        bucket_value_size = record.dig(:bucket, :value).to_s.bytesize
+        bucket_value_size + GRPC_PER_RECORD_OVERHEAD_BYTES
       end
 
       def metadata_from_ts_record(record)

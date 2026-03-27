@@ -55167,6 +55167,8 @@ definitions:
         example: '2020-08-31T15:53:00.073Z'
       active:
         type: boolean
+      granular:
+        type: boolean
       expires_at:
         type: string
         format: date-time
@@ -55203,6 +55205,7 @@ definitions:
     - user_id
     - last_used_at
     - active
+    - granular
     - expires_at
     - access_level
     - resource_type
@@ -74720,6 +74723,8 @@ definitions:
         example: '2020-08-31T15:53:00.073Z'
       active:
         type: boolean
+      granular:
+        type: boolean
       expires_at:
         type: string
         format: date-time
@@ -74740,6 +74745,7 @@ definitions:
     - user_id
     - last_used_at
     - active
+    - granular
     - expires_at
     - last_used_ips
     description: API_Entities_PersonalAccessTokenWithLastUsedIps model
@@ -74775,6 +74781,8 @@ definitions:
         example: '2020-08-31T15:53:00.073Z'
       active:
         type: boolean
+      granular:
+        type: boolean
       expires_at:
         type: string
         format: date-time
@@ -74789,6 +74797,7 @@ definitions:
     - user_id
     - last_used_at
     - active
+    - granular
     - expires_at
     description: API_Entities_PersonalAccessToken model
   postApiV4PersonalAccessTokensSelfRotate:
@@ -74832,6 +74841,8 @@ definitions:
         example: '2020-08-31T15:53:00.073Z'
       active:
         type: boolean
+      granular:
+        type: boolean
       expires_at:
         type: string
         format: date-time
@@ -74848,6 +74859,7 @@ definitions:
     - user_id
     - last_used_at
     - active
+    - granular
     - expires_at
     - token
     description: API_Entities_PersonalAccessTokenWithToken model

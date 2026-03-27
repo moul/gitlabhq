@@ -21,38 +21,6 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
     allow(GRPC::Core::TimeConsts).to receive(:from_relative_time).and_return(fake_deadline)
   end
 
-  def build_ts_record(user_id)
-    Gitlab::Cells::TopologyService::Claims::V1::Record.new(
-      metadata: Gitlab::Cells::TopologyService::Claims::V1::Metadata.new(
-        bucket: Gitlab::Cells::TopologyService::Claims::V1::Bucket.new(
-          type: Gitlab::Cells::TopologyService::Claims::V1::Bucket::Type::USER_IDS,
-          value: user_id.to_s
-        ),
-        subject: Gitlab::Cells::TopologyService::Claims::V1::Subject.new(
-          type: Gitlab::Cells::TopologyService::Claims::V1::Subject::Type::USER,
-          id: user_id
-        ),
-        source: Gitlab::Cells::TopologyService::Claims::V1::Source.new(
-          type: Gitlab::Cells::TopologyService::Claims::V1::Source::Type::RAILS_TABLE_USERS,
-          rails_primary_key_id: Cells::Serialization.to_bytes(user_id)
-        )
-      )
-    )
-  end
-
-  def stub_list_records(records, truncated: false)
-    response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
-      records: records,
-      truncated: truncated
-    )
-    allow(mock_claim_service).to receive(:list_records).and_return(response)
-  end
-
-  def stub_commit(begin_update_response: self.begin_update_response)
-    allow(mock_claim_service).to receive(:begin_update).and_return(begin_update_response)
-    allow(mock_claim_service).to receive(:commit_update)
-  end
-
   describe '#execute' do
     context 'when model is not claimable' do
       let(:non_claimable_model) do
@@ -491,5 +459,149 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         expect(batch_ids).to eq([users[1].id, users.last.id])
       end
     end
+
+    context 'when records exceed the gRPC message size limit' do
+      let!(:users) { create_list(:user, 3) }
+      let(:large_value) { 'x' * 2.megabytes }
+
+      before do
+        stub_const("#{described_class}::MAX_GRPC_MESSAGE_BYTES", 3.megabytes)
+        stub_list_records([])
+        stub_commit
+        allow_any_instance_of(User).to receive(:cells_claims_metadata).and_return([ # rubocop:disable RSpec/AnyInstanceOf -- need to stub on DB-loaded instances
+          { bucket: { type: :user_ids, value: large_value }, subject: { type: :user, id: 1 },
+            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(1) } }
+        ])
+      end
+
+      it 'splits records across multiple begin_update calls' do
+        expect(mock_claim_service).to receive(:begin_update).at_least(:twice).and_return(begin_update_response)
+        expect(mock_claim_service).to receive(:commit_update).at_least(:twice)
+
+        service.execute
+      end
+
+      it 'returns the correct total create count across all chunks' do
+        result = service.execute
+        expect(result[:created]).to eq(3)
+      end
+    end
+  end
+
+  describe '#chunk_records_by_size' do
+    subject(:chunks) { service.send(:chunk_records_by_size, creates, destroys) }
+
+    let(:small_record) { { bucket: { type: :user_ids, value: 'x' * 100 }, subject: { type: :user, id: 1 } } }
+    let(:large_record) { { bucket: { type: :user_ids, value: 'x' * 2.megabytes }, subject: { type: :user, id: 2 } } }
+
+    before do
+      stub_const("#{described_class}::MAX_GRPC_MESSAGE_BYTES", 3.megabytes)
+    end
+
+    context 'when both creates and destroys are empty' do
+      let(:creates) { [] }
+      let(:destroys) { [] }
+
+      it 'returns an empty array' do
+        expect(chunks).to eq([])
+      end
+    end
+
+    context 'when all records fit within the limit' do
+      let(:creates) { [small_record, small_record] }
+      let(:destroys) { [small_record] }
+
+      it 'returns a single chunk' do
+        expect(chunks.length).to eq(1)
+        expect(chunks[0]).to eq([[small_record, small_record], [small_record]])
+      end
+    end
+
+    context 'when creates exceed the limit' do
+      let(:creates) { [large_record, large_record] }
+      let(:destroys) { [] }
+
+      it 'splits into multiple chunks' do
+        expect(chunks.length).to eq(2)
+        expect(chunks[0]).to eq([[large_record], []])
+        expect(chunks[1]).to eq([[large_record], []])
+      end
+    end
+
+    context 'when destroys exceed the limit' do
+      let(:creates) { [] }
+      let(:destroys) { [large_record, large_record] }
+
+      it 'splits into multiple chunks' do
+        expect(chunks.length).to eq(2)
+        expect(chunks[0]).to eq([[], [large_record]])
+        expect(chunks[1]).to eq([[], [large_record]])
+      end
+    end
+
+    context 'when combined creates and destroys exceed the limit' do
+      let(:creates) { [large_record] }
+      let(:destroys) { [large_record] }
+
+      it 'splits across creates and destroys' do
+        expect(chunks.length).to eq(2)
+        expect(chunks[0]).to eq([[large_record], []])
+        expect(chunks[1]).to eq([[], [large_record]])
+      end
+    end
+
+    context 'when a single record exceeds the limit' do
+      let(:oversized) { { bucket: { type: :user_ids, value: 'x' * 5.megabytes }, subject: { type: :user, id: 3 } } }
+      let(:creates) { [oversized] }
+      let(:destroys) { [] }
+
+      it 'keeps the record in its own chunk' do
+        expect(chunks.length).to eq(1)
+        expect(chunks[0]).to eq([[oversized], []])
+      end
+    end
+
+    context 'when small records follow a large record' do
+      let(:creates) { [large_record, large_record, small_record] }
+      let(:destroys) { [] }
+
+      it 'groups small records with the next large record' do
+        expect(chunks.length).to eq(2)
+        expect(chunks[0]).to eq([[large_record], []])
+        expect(chunks[1]).to eq([[large_record, small_record], []])
+      end
+    end
+  end
+
+  def build_ts_record(user_id)
+    Gitlab::Cells::TopologyService::Claims::V1::Record.new(
+      metadata: Gitlab::Cells::TopologyService::Claims::V1::Metadata.new(
+        bucket: Gitlab::Cells::TopologyService::Claims::V1::Bucket.new(
+          type: Gitlab::Cells::TopologyService::Claims::V1::Bucket::Type::USER_IDS,
+          value: user_id.to_s
+        ),
+        subject: Gitlab::Cells::TopologyService::Claims::V1::Subject.new(
+          type: Gitlab::Cells::TopologyService::Claims::V1::Subject::Type::USER,
+          id: user_id
+        ),
+        source: Gitlab::Cells::TopologyService::Claims::V1::Source.new(
+          type: Gitlab::Cells::TopologyService::Claims::V1::Source::Type::RAILS_TABLE_USERS,
+          rails_primary_key_id: Cells::Serialization.to_bytes(user_id)
+        )
+      )
+    )
+  end
+
+  def stub_list_records(records, truncated: false)
+    response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
+      records: records,
+      truncated: truncated
+    )
+    allow(mock_claim_service).to receive(:list_records).and_return(response)
+  end
+
+  def stub_commit(begin_update_response: self.begin_update_response)
+    allow(mock_claim_service).to receive(:begin_update).and_return(begin_update_response)
+    allow(mock_claim_service).to receive(:commit_update)
   end
 end
