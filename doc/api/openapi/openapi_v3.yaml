@@ -328,7 +328,7 @@ tags:
 - name: Workspaces
   description: Operations related to workspaces.
 servers:
-- url: https://{hostname}/
+- url: https://{hostname}
   description: GitLab REST API
   variables:
     hostname:

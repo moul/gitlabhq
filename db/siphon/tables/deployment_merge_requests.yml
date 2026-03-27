@@ -1,0 +1,9 @@
+---
+table: deployment_merge_requests
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_deployment_merge_requests
+    dedup_by:
+      - deployment_id
+      - merge_request_id

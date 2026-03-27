@@ -252,6 +252,20 @@ RSpec.describe SentNotification, :request_store, feature_category: :notification
 
         it { is_expected.to be_nil }
       end
+
+      context 'when the partitioned table format does not include namespace_id' do
+        let(:reply_key) { sent_notification.partitioned_reply_key.gsub(/-[0-9a-z]+\z/, '') }
+
+        it { is_expected.to eq(sent_notification) }
+      end
+
+      context 'when partition needs not be decoded' do
+        let(:reply_key) { sent_notification.partitioned_reply_key.gsub(/\A[0-9a-z]+/, 'z') }
+
+        it 'decodes the partition before querying the database' do
+          expect { found_sent_notification }.to make_queries_matching(/"partition" = 35/)
+        end
+      end
     end
   end
 

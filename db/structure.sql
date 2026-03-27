@@ -3144,6 +3144,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_5682f7f9cbc0() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."project_id" IS NULL THEN
+  SELECT "project_id"
+  INTO NEW."project_id"
+  FROM "packages_nuget_symbols"
+  WHERE "packages_nuget_symbols"."id" = NEW."packages_nuget_symbol_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_56d49f4ed623() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -25850,6 +25866,7 @@ CREATE TABLE packages_nuget_symbol_states (
     verification_retry_count smallint DEFAULT 0 NOT NULL,
     verification_checksum bytea,
     verification_failure text,
+    project_id bigint,
     CONSTRAINT check_e1484aadc9 CHECK ((char_length(verification_failure) <= 255))
 );
 
@@ -47751,6 +47768,8 @@ CREATE INDEX index_packages_nuget_symbol_states_needs_verification ON packages_n
 
 CREATE UNIQUE INDEX index_packages_nuget_symbol_states_on_packages_nuget_symbol_id ON packages_nuget_symbol_states USING btree (packages_nuget_symbol_id);
 
+CREATE INDEX index_packages_nuget_symbol_states_on_project_id ON packages_nuget_symbol_states USING btree (project_id);
+
 CREATE INDEX index_packages_nuget_symbol_states_on_verification_state ON packages_nuget_symbol_states USING btree (verification_state);
 
 CREATE INDEX index_packages_nuget_symbol_states_pending_verification ON packages_nuget_symbol_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
@@ -54533,6 +54552,8 @@ CREATE TRIGGER trigger_4fc14aa830b1 BEFORE INSERT OR UPDATE ON work_item_current
 
 CREATE TRIGGER trigger_54707c384ad7 BEFORE INSERT OR UPDATE ON security_orchestration_policy_rule_schedules FOR EACH ROW EXECUTE FUNCTION trigger_54707c384ad7();
 
+CREATE TRIGGER trigger_5682f7f9cbc0 BEFORE INSERT OR UPDATE ON packages_nuget_symbol_states FOR EACH ROW EXECUTE FUNCTION trigger_5682f7f9cbc0();
+
 CREATE TRIGGER trigger_56d49f4ed623 BEFORE INSERT OR UPDATE ON workspace_variables FOR EACH ROW EXECUTE FUNCTION trigger_56d49f4ed623();
 
 CREATE TRIGGER trigger_57ad2742ac16 BEFORE INSERT OR UPDATE ON user_achievements FOR EACH ROW EXECUTE FUNCTION trigger_57ad2742ac16();
@@ -55724,6 +55745,9 @@ ALTER TABLE ONLY wiki_page_slugs
 
 ALTER TABLE ONLY security_orchestration_policy_rule_schedules
     ADD CONSTRAINT fk_3e78b9a150 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY packages_nuget_symbol_states
+    ADD CONSTRAINT fk_3e841eeb5d FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY security_scheduled_pipeline_execution_policy_test_runs
     ADD CONSTRAINT fk_3ea4105dd5 FOREIGN KEY (security_policy_id) REFERENCES security_policies(id) ON DELETE CASCADE;

@@ -661,7 +661,7 @@ module Geo
     end
 
     def upload_model_validation_include
-      upload_partition ? "\n    include ::Geo::Concerns::UploadReplicatorPreDownloadValidation" : ''
+      upload_partition ? "\n            include ::Geo::Concerns::UploadReplicatorBehavior" : ''
     end
 
     def generate_replicator
@@ -1282,7 +1282,7 @@ module Geo
           let(:model_record) { create(:geo_#{replicable_name}) }
 
           include_examples 'a blob replicator with a read-only replicable model'
-          include_examples 'a blob replicator with pre-download validation'
+          include_examples 'a blob replicator with upload replicator behavior'
         end
       RUBY
     end

@@ -34,7 +34,7 @@ module Ci
         raw_vars = extract_key_value_pairs_from_push_option(raw_push_options_variables)
 
         raw_vars.map do |key, value|
-          { "key" => key, "variable_type" => "env_var", "secret_value" => value }
+          { "key" => key, "variable_type" => "env_var", "value" => value }
         end
       end
 

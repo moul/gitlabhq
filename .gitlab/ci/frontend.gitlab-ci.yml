@@ -200,7 +200,7 @@ rspec-all frontend_fixture:
   script:
     - !reference [.frontend-fixtures-base, script]
     - rspec_parallelized_job "--tag ~click_house"
-  parallel: 7
+  parallel: 8
 
 rspec-all frontend_fixture clickhouse:
   extends:
@@ -543,6 +543,22 @@ jest-with-fixtures vue3 check quarantined:
   parallel: 1
   variables:
     JEST_FIXTURE_JOBS_ONLY: 1
+
+# Jest integration tests with Mock Service Worker
+jest-msw-integration:
+  extends:
+    - .frontend-test-base
+    - .repo-from-artifacts
+    - .frontend:rules:jest-msw-integration
+  script:
+    - yarn jest:msw-integration --ci
+  needs:
+    # it's ok to wait for the repo artifact as we're waiting for the fixtures (which wait for the repo artifact) anyway
+    - !reference [.repo-from-artifacts, needs]
+    - !reference [.with-fixtures-needs, needs]
+    - !reference [.with-graphql-schema-dump-needs, needs]
+    - job: compile-fe-islands
+      optional: true
 
 jest-integration:
   extends:

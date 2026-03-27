@@ -1,0 +1,8 @@
+---
+table: merge_request_diffs
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_merge_request_diffs
+    dedup_by:
+      - id

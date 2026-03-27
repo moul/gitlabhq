@@ -1,0 +1,11 @@
+---
+table: notes
+database: main
+ignored_columns:
+  - cached_markdown_version
+  - note_html
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_notes
+    dedup_by:
+      - id

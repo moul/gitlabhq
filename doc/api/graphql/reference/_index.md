@@ -373,6 +373,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="query-aicatalogitems-itemtype"></a>`itemType` | [`AiCatalogItemType`](#aicatalogitemtype) | Type of items to retrieve. |
 | <a id="query-aicatalogitems-itemtypes"></a>`itemTypes` | [`[AiCatalogItemType!]`](#aicatalogitemtype) | Types of items to retrieve. |
 | <a id="query-aicatalogitems-search"></a>`search` | [`String`](#string) | Search items by name and description. |
+| <a id="query-aicatalogitems-sort"></a>`sort` | [`AiCatalogItemsSort`](#aicatalogitemssort) | Sort order of items. |
 
 ### `Query.aiCatalogMcpServer`
 
@@ -28360,7 +28361,6 @@ Requires ClickHouse. Premium and Ultimate only.
 | <a id="aimetrics-codesuggestionsacceptedcount"></a>`codeSuggestionsAcceptedCount` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Deprecated** in GitLab 18.0. moved to codeSuggestions field. |
 | <a id="aimetrics-codesuggestionscontributorscount"></a>`codeSuggestionsContributorsCount` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Deprecated** in GitLab 18.0. moved to codeSuggestions field. |
 | <a id="aimetrics-codesuggestionsshowncount"></a>`codeSuggestionsShownCount` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Deprecated** in GitLab 18.0. moved to codeSuggestions field. |
-| <a id="aimetrics-duoassigneduserscount"></a>`duoAssignedUsersCount` | [`Int`](#int) | Total assigned Duo Pro and Enterprise seats. Ignores time period filter. Returns current data. |
 | <a id="aimetrics-duochatcontributorscount"></a>`duoChatContributorsCount` | [`Int`](#int) | Number of contributors who used GitLab Duo Chat features. |
 | <a id="aimetrics-duousedcount"></a>`duoUsedCount` | [`Int`](#int) | Number of contributors who used any GitLab Duo feature. |
 | <a id="aimetrics-mcp"></a>`mcp` | [`mcpMetrics`](#mcpmetrics) | Model Context Protocol metrics. |
@@ -28539,7 +28539,7 @@ Pre-aggregated per-user metrics for GitLab Code Suggestions and GitLab Duo Chat.
 | <a id="aiusermetrics-mcp"></a>`mcp` | [`mcpUserMetrics`](#mcpusermetrics) | Mcp metrics for the user. |
 | <a id="aiusermetrics-totaleventcount"></a>`totalEventCount` | [`Int`](#int) | Total count of all tracked events for the user. |
 | <a id="aiusermetrics-troubleshootjob"></a>`troubleshootJob` | [`troubleshootJobUserMetrics`](#troubleshootjobusermetrics) | Troubleshoot Job metrics for the user. |
-| <a id="aiusermetrics-user"></a>`user` | [`AddOnUser!`](#addonuser) | User associated with metrics. |
+| <a id="aiusermetrics-user"></a>`user` | [`AddOnUser`](#addonuser) | User associated with metrics. |
 
 ### `AiXrayReport`
 
@@ -54579,6 +54579,16 @@ Possible item types for AI items.
 | <a id="aicatalogitemverificationlevel-unverified"></a>`UNVERIFIED` | The item is Unverified. |
 | <a id="aicatalogitemverificationlevel-verified_creator_maintained"></a>`VERIFIED_CREATOR_MAINTAINED` | The item is Verified Creator Maintained. |
 | <a id="aicatalogitemverificationlevel-verified_creator_self_managed"></a>`VERIFIED_CREATOR_SELF_MANAGED` | The item is Verified Creator Self Managed. |
+
+### `AiCatalogItemsSort`
+
+Values for sorting AI Catalog items.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="aicatalogitemssort-catalog_priority"></a>`CATALOG_PRIORITY` | By catalog priority order. |
+| <a id="aicatalogitemssort-usage_count_asc"></a>`USAGE_COUNT_ASC` | Last 30-day usage count by ascending order. |
+| <a id="aicatalogitemssort-usage_count_desc"></a>`USAGE_COUNT_DESC` | Last 30-day usage count by descending order. |
 
 ### `AiCatalogMcpServerAuthType`
 

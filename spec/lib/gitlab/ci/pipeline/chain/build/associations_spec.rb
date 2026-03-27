@@ -12,8 +12,8 @@ RSpec.describe Gitlab::Ci::Pipeline::Chain::Build::Associations, feature_categor
 
   let(:variables_attributes) do
     [
-      { key: 'first', secret_value: 'world' },
-      { key: 'second', secret_value: 'second_world' }
+      { key: 'first', value: 'world' },
+      { key: 'second', value: 'second_world' }
     ]
   end
 
@@ -60,7 +60,7 @@ RSpec.describe Gitlab::Ci::Pipeline::Chain::Build::Associations, feature_categor
     specify do
       step.perform!
 
-      expect(pipeline.variables.map { |var| var.slice(:key, :secret_value) })
+      expect(pipeline.variables.map { |var| var.slice(:key, :value) })
         .to eq variables_attributes.map(&:with_indifferent_access)
     end
 
@@ -199,8 +199,8 @@ RSpec.describe Gitlab::Ci::Pipeline::Chain::Build::Associations, feature_categor
   context 'with duplicate pipeline variables' do
     let(:variables_attributes) do
       [
-        { key: 'first', secret_value: 'world' },
-        { key: 'first', secret_value: 'second_world' }
+        { key: 'first', value: 'world' },
+        { key: 'first', value: 'second_world' }
       ]
     end
 

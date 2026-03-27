@@ -1815,6 +1815,31 @@
     - <<: *if-default-refs
       changes: *code-backstage-spec-patterns
 
+.frontend:rules:jest-msw-integration:
+  rules:
+    - <<: *if-merge-request-labels-pipeline-expedite
+      when: never
+    - if: '$ENABLE_JEST_MSW_INTEGRATION == "true"'
+    - <<: *if-merge-request-labels-run-all-rspec
+    - <<: *if-merge-request-labels-frontend-and-feature-flag
+      changes: *setup-test-env-patterns
+    # Tier-1: only run when the MSW integration tests themselves change
+    - <<: *if-merge-request-tier-1-or-no-tier
+      changes:
+        - "{,ee/,jh/}spec/frontend/msw_integration/**/*"
+    - <<: *if-merge-request-tier-1-or-no-tier
+      when: never
+    # Tier-2+: run on frontend, MSW integration test, GraphQL, or fixture generator changes
+    - <<: *if-merge-request-tier-2-or-above
+      changes:
+        - "{,ee/,jh/}{app/assets/javascripts,spec/frontend}/**/*"
+        - "{,ee/,jh/}spec/frontend/msw_integration/**/*"
+        - "{,ee/,jh/}app/graphql/**/*"
+        - "{,ee/}spec/frontend/fixtures/**/*"
+        - "ee/frontend_islands/apps/**/*"
+    - <<: *if-default-refs
+      changes: *code-backstage-spec-patterns
+
 .frontend:rules:coverage-frontend:
   rules:
     - <<: *if-not-ee

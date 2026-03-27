@@ -11,6 +11,7 @@ import VueApollo from 'vue-apollo';
 import getGroupAchievementsResponse from 'test_fixtures/graphql/get_group_achievements_response.json';
 import getGroupAchievementsEmptyResponse from 'test_fixtures/graphql/get_group_achievements_empty_response.json';
 import getGroupAchievementsPaginatedResponse from 'test_fixtures/graphql/get_group_achievements_paginated_response.json';
+import awardAchievementResponse from 'test_fixtures/graphql/award_achievement_response.json';
 import { mountExtended, shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import createMockApollo from 'helpers/mock_apollo_helper';
 import waitForPromises from 'helpers/wait_for_promises';
@@ -18,6 +19,7 @@ import AchievementsApp from '~/achievements/components/achievements_app.vue';
 import UserAvatarList from '~/vue_shared/components/user_avatar/user_avatar_list.vue';
 import getGroupAchievementsQuery from '~/achievements/components/graphql/get_group_achievements.query.graphql';
 import deleteAchievementMutation from '~/achievements/components/graphql/delete_achievement.mutation.graphql';
+import awardAchievementMutation from '~/achievements/components/graphql/award_achievement.mutation.graphql';
 import CrudComponent from '~/vue_shared/components/crud_component.vue';
 import AwardButton from '~/achievements/components/award_button.vue';
 
@@ -43,6 +45,8 @@ describe('Achievements app', () => {
     canAwardAchievement = true,
     crudStub = false,
     mountFunction = shallowMountExtended,
+    mutationHandler = null,
+    queryHandlerOverride = null,
     queryResponse = getGroupAchievementsResponse,
     deleteMutationHandler = jest.fn().mockResolvedValue({
       data: {
@@ -53,11 +57,15 @@ describe('Achievements app', () => {
       },
     }),
   } = {}) => {
-    queryHandler = jest.fn().mockResolvedValue(queryResponse);
-    fakeApollo = createMockApollo([
+    queryHandler = queryHandlerOverride || jest.fn().mockResolvedValue(queryResponse);
+    const handlers = [
       [getGroupAchievementsQuery, queryHandler],
       [deleteAchievementMutation, deleteMutationHandler],
-    ]);
+    ];
+    if (mutationHandler) {
+      handlers.push([awardAchievementMutation, mutationHandler]);
+    }
+    fakeApollo = createMockApollo(handlers);
     wrapper = mountFunction(AchievementsApp, {
       provide: {
         canAdminAchievement,
@@ -136,6 +144,72 @@ describe('Achievements app', () => {
             getGroupAchievementsResponse.data.group.achievements.nodes[0].uniqueUsers.nodes[0],
             getGroupAchievementsResponse.data.group.achievements.nodes[0].uniqueUsers.nodes[1],
           ]),
+        );
+      });
+    });
+
+    describe('when a user is awarded', () => {
+      const newUser = {
+        id: 'gid://gitlab/User/99',
+        avatarUrl: 'https://example.com/avatar.png',
+        name: 'New User',
+        username: 'newuser',
+        webUrl: 'http://localhost/newuser',
+        webPath: '/newuser',
+        __typename: 'UserCore',
+      };
+
+      const updatedResponse = () => {
+        const original = getGroupAchievementsResponse.data.group.achievements.nodes[0];
+        return {
+          data: {
+            group: {
+              ...getGroupAchievementsResponse.data.group,
+              achievements: {
+                ...getGroupAchievementsResponse.data.group.achievements,
+                nodes: [
+                  {
+                    ...original,
+                    uniqueUsers: {
+                      ...original.uniqueUsers,
+                      nodes: [...original.uniqueUsers.nodes, newUser],
+                      count: original.uniqueUsers.count + 1,
+                    },
+                  },
+                  ...getGroupAchievementsResponse.data.group.achievements.nodes.slice(1),
+                ],
+              },
+            },
+          },
+        };
+      };
+
+      it('shows the newly awarded user without a page refresh', async () => {
+        const mutationHandler = jest.fn().mockResolvedValue(awardAchievementResponse);
+        const sequentialQueryHandler = jest
+          .fn()
+          .mockResolvedValueOnce(getGroupAchievementsResponse)
+          .mockResolvedValue(updatedResponse());
+
+        await mountComponent({
+          mountFunction: mountExtended,
+          mutationHandler,
+          queryHandlerOverride: sequentialQueryHandler,
+        });
+
+        const awardButton = wrapper.findComponent(AwardButton);
+        await awardButton.setData({ usersToAward: [{ id: 99 }] });
+        await awardButton.findComponent(GlModal).vm.$emit('primary');
+
+        await waitForPromises();
+
+        const avatarList = wrapper
+          .findAllComponents(CrudComponent)
+          .at(0)
+          .findComponent(UserAvatarList);
+
+        expect(avatarList.props('items')).toEqual(
+          expect.arrayContaining([expect.objectContaining({ id: newUser.id })]),
         );
       });
     });

@@ -56,9 +56,9 @@ RSpec.describe Ci::PipelineCreation::PushOptions, feature_category: :pipeline_co
 
       it 'returns the extracted key value variable pairs from the push options' do
         extracted_variables = [
-          { "key" => "FOO", "variable_type" => "env_var", "secret_value" => "123" },
-          { "key" => "BAR", "variable_type" => "env_var", "secret_value" => "456" },
-          { "key" => "MNO", "variable_type" => "env_var", "secret_value" => "890=ABC" }
+          { "key" => "FOO", "variable_type" => "env_var", "value" => "123" },
+          { "key" => "BAR", "variable_type" => "env_var", "value" => "456" },
+          { "key" => "MNO", "variable_type" => "env_var", "value" => "890=ABC" }
         ]
 
         expect(push_options.variables).to eq(extracted_variables)
@@ -85,7 +85,7 @@ RSpec.describe Ci::PipelineCreation::PushOptions, feature_category: :pipeline_co
       end
 
       it 'returns an empty string for the only valid format `KEY=`' do
-        variable = ["key" => "ABC", "secret_value" => "", "variable_type" => "env_var"]
+        variable = ["key" => "ABC", "value" => "", "variable_type" => "env_var"]
         expect(push_options.variables).to match_array(variable)
       end
     end

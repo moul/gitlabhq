@@ -411,7 +411,6 @@ read_approvers
 read_attestation
 read_billing
 read_blob
-read_branch_rule
 read_build
 read_build_metadata
 read_build_report_results

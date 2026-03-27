@@ -626,7 +626,7 @@ module ProjectsHelper
   end
 
   def can_view_branch_rules?
-    can?(current_user, :maintainer_access, @project)
+    can?(current_user, :read_branch_rule, @project)
   end
 
   def can_push_code?

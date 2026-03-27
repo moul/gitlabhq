@@ -11,6 +11,7 @@ project:
   - public_user_access
   - read_approvers
   - read_ascp_scan
+  - read_branch_rule
   - read_build
   - read_cluster
   - read_compliance_adherence_report

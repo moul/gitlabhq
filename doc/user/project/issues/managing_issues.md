@@ -655,7 +655,7 @@ To view all issues assigned to you:
 Or:
 
 - To use a [keyboard shortcut](../../shortcuts.md), press <kbd>Shift</kbd>+<kbd>i</kbd>.
-- In the upper-right corner, select **Assigned issues** ({{< icon name="issues" >}}).
+- In the upper-right corner, select **Assigned work items** ({{< icon name="work-items" >}}).
 
 ## Configure child item display preferences
 
@@ -856,7 +856,7 @@ An issue can be assigned to one or [more users](multiple_assignees_for_issues.md
 
 The assignees can be changed as often as needed. The idea is that the assignees are
 people responsible for the issue.
-When an issue is assigned to someone, it appears in their **Assigned issues** page.
+When an issue is assigned to someone, it appears in their **Assigned work items** page.
 
 If a user is not a member of a project, an issue can only be assigned to them if they create it
 themselves or another project member assigns them.

@@ -1,0 +1,9 @@
+---
+table: merge_requests_closing_issues
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_merge_requests_closing_issues
+    dedup_by:
+      - id
+

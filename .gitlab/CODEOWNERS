@@ -55,6 +55,8 @@ config/bounded_contexts.yml @fabiopitino @grzesiek @stanhu @cwoolley-gitlab @tku
 ^[Backend] @gitlab-org/maintainers/rails-backend
 *.rb
 *.rake
+*.builder
+*.erb
 .rubocop_todo/
 Gemfile
 Gemfile.lock
@@ -62,6 +64,18 @@ Gemfile.checksum
 Gemfile.next
 Gemfile.next.lock
 Gemfile.next.checksum
+/config/environments/
+/config/feature_flags/
+/config/initializers_before_autoloader/
+/config/application_setting_columns/
+/config/routes/
+/config/initializers/
+
+# Haml markup is considered ~frontend code. However, Ruby code in Haml templates is considered ~backend code
+^[Backend and/or Frontend] @gitlab-org/maintainers/rails-backend @gitlab-org/maintainers/frontend
+*.haml
+/app/views/**/*.erb
+/ee/app/views/**/*.erb
 
 ^[Frontend] @gitlab-org/maintainers/frontend
 *.scss

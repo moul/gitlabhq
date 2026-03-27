@@ -690,8 +690,8 @@ RSpec.describe 'Pipelines', :js, feature_category: :continuous_integration do
               end
                 .to change { Ci::Pipeline.count }.by(1)
 
-              expect(Ci::Pipeline.last.variables.map { |var| var.slice(:key, :secret_value) })
-                .to eq [{ key: "key_name", secret_value: "value" }.with_indifferent_access]
+              expect(Ci::Pipeline.last.variables.map { |var| var.slice(:key, :value) })
+                .to eq [{ key: "key_name", value: "value" }.with_indifferent_access]
             end
           end
         end

@@ -1,0 +1,10 @@
+---
+table: project_authorizations
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_project_authorizations
+    dedup_by:
+      - user_id
+      - project_id
+      - access_level

@@ -10,7 +10,7 @@ RSpec.describe Ci::CreatePipelineService, feature_category: :pipeline_compositio
     let_it_be(:user)    { project.first_owner }
 
     let(:ref)                  { 'refs/heads/master' }
-    let(:variables_attributes) { [{ key: 'MYVAR', secret_value: 'hello' }] }
+    let(:variables_attributes) { [{ key: 'MYVAR', value: 'hello' }] }
     let(:source)               { :push }
 
     let(:service)  { described_class.new(project, user, { ref: ref, variables_attributes: variables_attributes }) }

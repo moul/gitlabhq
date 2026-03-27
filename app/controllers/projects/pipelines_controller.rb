@@ -250,7 +250,7 @@ class Projects::PipelinesController < Projects::ApplicationController
   end
 
   def create_params
-    params.require(:pipeline).permit(:ref, variables_attributes: %i[key variable_type secret_value])
+    params.require(:pipeline).permit(:ref, variables_attributes: %i[key variable_type value])
   end
 
   def create_execute_params

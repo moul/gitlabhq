@@ -305,6 +305,10 @@ module.exports = (path, options = {}) => {
     Set nothing for CI, because we want to use the auto-logic for the cores
      */
     maxWorkers: process.env.CI ? '' : '60%',
-    testPathIgnorePatterns: ['<rootDir>/ee/frontend_islands'],
+    testPathIgnorePatterns: [
+      '<rootDir>/ee/frontend_islands',
+      '<rootDir>/spec/frontend/msw_integration',
+      '<rootDir>/ee/spec/frontend/msw_integration',
+    ],
   };
 };

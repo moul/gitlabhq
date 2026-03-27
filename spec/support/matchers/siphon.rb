@@ -49,7 +49,9 @@ RSpec::Matchers.define :ignore_sensitive_and_encrypted_columns do |table_config,
       # Check token_authenticatable_fields
       if model.respond_to?(:token_authenticatable_fields)
         token_fields = Array(model.token_authenticatable_fields).map(&:to_s).to_set
-        missing = token_fields - @ignored_columns
+        # token columns might have _encrypted suffix in the DB
+        without_encrypted_suffix = @ignored_columns.map { |c| c.gsub('_encrypted', '') }
+        missing = token_fields - @ignored_columns - without_encrypted_suffix
         unless missing.empty?
           @errors << "missing token_authenticatable_fields in ignored_columns: #{missing.to_a.join(', ')}"
         end

@@ -953,6 +953,7 @@ export const mockLabel1 = {
   color: '#F0AD4E',
   textColor: '#FFFFFF',
   description: null,
+  __typename: 'Label',
 };
 
 export const mockLabel2 = {
@@ -961,6 +962,7 @@ export const mockLabel2 = {
   color: '#F0AD4E',
   textColor: '#FFFFFF',
   description: null,
+  __typename: 'Label',
 };
 
 export const mockProjectLabelsResponse = {

@@ -1193,20 +1193,20 @@ RSpec.describe Ci::CreatePipelineService, :clean_gitlab_redis_cache, feature_cat
 
       context 'with valid pipeline variables' do
         let(:variables_attributes) do
-          [{ key: 'first', secret_value: 'world' },
-            { key: 'second', secret_value: 'second_world' }]
+          [{ key: 'first', value: 'world' },
+            { key: 'second', value: 'second_world' }]
         end
 
         it 'creates a pipeline with specified variables' do
-          expect(pipeline.variables.map { |var| var.slice(:key, :secret_value) })
+          expect(pipeline.variables.map { |var| var.slice(:key, :value) })
             .to eq variables_attributes.map(&:with_indifferent_access)
         end
       end
 
       context 'with duplicate pipeline variables' do
         let(:variables_attributes) do
-          [{ key: 'hello', secret_value: 'world' },
-            { key: 'hello', secret_value: 'second_world' }]
+          [{ key: 'hello', value: 'world' },
+            { key: 'hello', value: 'second_world' }]
         end
 
         it 'fails to create the pipeline' do
@@ -1218,11 +1218,11 @@ RSpec.describe Ci::CreatePipelineService, :clean_gitlab_redis_cache, feature_cat
 
       context 'with more than one duplicate pipeline variable' do
         let(:variables_attributes) do
-          [{ key: 'hello', secret_value: 'world' },
-            { key: 'hello', secret_value: 'second_world' },
-            { key: 'single', secret_value: 'variable' },
-            { key: 'other', secret_value: 'value' },
-            { key: 'other', secret_value: 'other value' }]
+          [{ key: 'hello', value: 'world' },
+            { key: 'hello', value: 'second_world' },
+            { key: 'single', value: 'variable' },
+            { key: 'other', value: 'value' },
+            { key: 'other', value: 'other value' }]
         end
 
         it 'fails to create the pipeline' do

@@ -65,8 +65,8 @@ RSpec.describe Ci::CreatePipelineService, :aggregate_failures,
   context 'with pipeline variables' do
     let(:variables_attributes) do
       [
-        { key: 'SOME_VARIABLE', secret_value: 'SOME_VAL' },
-        { key: 'OTHER_VARIABLE', secret_value: 'OTHER_VAL' }
+        { key: 'SOME_VARIABLE', value: 'SOME_VAL' },
+        { key: 'OTHER_VARIABLE', value: 'OTHER_VAL' }
       ]
     end
 

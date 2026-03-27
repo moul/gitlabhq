@@ -11642,6 +11642,9 @@ msgstr ""
 msgid "BillingPlans|Credits"
 msgstr ""
 
+msgid "BillingPlans|Credits/user"
+msgstr ""
+
 msgid "BillingPlans|Cross-team project management"
 msgstr ""
 
@@ -11798,9 +11801,6 @@ msgstr ""
 msgid "BillingPlans|Merge trains"
 msgstr ""
 
-msgid "BillingPlans|Monthly commitments offer significant discounts off list price. Pool GitLab Credits across your namespace for flexibility and predictable monthly costs."
-msgstr ""
-
 msgid "BillingPlans|Multi-region support"
 msgstr ""
 
@@ -11828,10 +11828,7 @@ msgstr ""
 msgid "BillingPlans|Purchase credits"
 msgstr ""
 
-msgid "BillingPlans|Purchase monthly commitment"
-msgstr ""
-
-msgid "BillingPlans|Purchase monthly credits for your group and unlock AI capabilities. Credits start at $1, with volume discounts available."
+msgid "BillingPlans|Purchase monthly credits for your group and unlock AI capabilities. Credits start at $0.95, with volume discounts available."
 msgstr ""
 
 msgid "BillingPlans|Push Rules"
@@ -11847,9 +11844,6 @@ msgid "BillingPlans|Repository pull mirroring"
 msgstr ""
 
 msgid "BillingPlans|Safeguard testing and production environments by restricting deployment access to authorized users only."
-msgstr ""
-
-msgid "BillingPlans|Save on GitLab Credits with monthly commitments"
 msgstr ""
 
 msgid "BillingPlans|Scale with Confidence"
@@ -11882,6 +11876,9 @@ msgstr ""
 msgid "BillingPlans|Start an Ultimate trial to try the complete set of features from GitLab."
 msgstr ""
 
+msgid "BillingPlans|Start an Ultimate trial with GitLab Duo Agent Platform to try the complete set of features from GitLab."
+msgstr ""
+
 msgid "BillingPlans|Start an Ultimate trial with GitLab Duo Enterprise to try the complete set of features from GitLab. GitLab Duo Enterprise gives you access to the full product offering from GitLab, including AI-native features."
 msgstr ""
 
@@ -11904,6 +11901,9 @@ msgid "BillingPlans|Team Project Management"
 msgstr ""
 
 msgid "BillingPlans|Then %{move_link_start}move any projects%{move_link_end} you wish to use with your subscription to that group."
+msgstr ""
+
+msgid "BillingPlans|These credits are included in your trial, and provide access to AI features. To maintain access after your trial, purchase monthly credits for your group, starting at $0.95, with volume discounts available."
 msgstr ""
 
 msgid "BillingPlans|This group uses the plan associated with its parent group."
@@ -11958,9 +11958,6 @@ msgid "BillingPlans|Upgrade to Premium"
 msgstr ""
 
 msgid "BillingPlans|Upgrade to Ultimate"
-msgstr ""
-
-msgid "BillingPlans|View Usage"
 msgstr ""
 
 msgid "BillingPlans|Visibility & Incident Response"

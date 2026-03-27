@@ -225,14 +225,14 @@ RSpec.describe RuboCop::Cop::ExperimentsTestCoverage, feature_category: :acquisi
           allow(Dir).to receive(:children).with(dir).and_return([child])
 
           stub_file_read(child_path,
-            content: "stub_experiments(premium_trial_positioning: :candidate)"
+            content: "stub_experiments(experiment_with_base_class: :candidate)"
           )
         end
 
         it 'does not register an offense, if the child class has tests' do
           expect_no_offenses(<<~RUBY)
             class BaseClassExample
-              experiment(:premium_trial_positioning, actor: user) do |e|
+              experiment(:experiment_with_base_class, actor: user) do |e|
                 e.candidate { 'candidate' }
               end
             end
@@ -246,8 +246,8 @@ RSpec.describe RuboCop::Cop::ExperimentsTestCoverage, feature_category: :acquisi
 
           expect_offense(<<~RUBY)
             class BaseClassExample
-              experiment(:premium_trial_positioning, actor: user) do |e|
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{block_offense}
+              experiment(:experiment_with_base_class, actor: user) do |e|
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{block_offense}
                 e.candidate { 'candidate' }
               end
             end
@@ -259,8 +259,8 @@ RSpec.describe RuboCop::Cop::ExperimentsTestCoverage, feature_category: :acquisi
 
           expect_offense(<<~RUBY)
             class BaseClassExample
-              experiment(:premium_trial_positioning, actor: user) do |e|
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{block_offense}
+              experiment(:experiment_with_base_class, actor: user) do |e|
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{block_offense}
                 e.candidate { 'candidate' }
               end
             end
@@ -272,7 +272,7 @@ RSpec.describe RuboCop::Cop::ExperimentsTestCoverage, feature_category: :acquisi
 
           expect_no_offenses(<<~RUBY)
             class BaseClassExample
-              experiment(:premium_trial_positioning, actor: user) do |e|
+              experiment(:experiment_with_base_class, actor: user) do |e|
                 e.candidate { 'candidate' }
               end
             end

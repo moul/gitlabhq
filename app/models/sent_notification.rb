@@ -76,8 +76,9 @@ class SentNotification < ApplicationRecord
       return unless matches
 
       result = if matches[:reply_key]
+                 decoded_partition = matches[:partition].to_i(INTEGER_CONVERT_BASE)
                  partition_result = where(
-                   partition: matches[:partition], reply_key: matches[:reply_key]
+                   partition: decoded_partition, reply_key: matches[:reply_key]
                  ).to_a
 
                  if partition_result.any?

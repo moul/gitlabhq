@@ -7,6 +7,8 @@ module Ci
     include Ci::RawVariable
     include Ci::ProjectsWithVariablesQuery
 
+    ignore_column :value, remove_with: '19.1', remove_after: '2026-05-21' # https://gitlab.com/gitlab-org/gitlab/-/work_items/592747
+
     before_validation :ensure_project_id
 
     belongs_to :pipeline,

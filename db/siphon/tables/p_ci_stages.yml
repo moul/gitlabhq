@@ -1,0 +1,11 @@
+---
+table: p_ci_stages
+database: ci
+ignored_columns:
+  - lock_version
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_p_ci_stages
+    dedup_by:
+      - id
+      - partition_id
