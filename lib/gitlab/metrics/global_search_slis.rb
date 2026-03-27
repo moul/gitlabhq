@@ -20,8 +20,10 @@ module Gitlab
         DEFAULT_TARGET_S = 5
 
         def initialize_slis!
-          Gitlab::Metrics::Sli::Apdex.initialize_sli(:global_search, possible_labels)
-          Gitlab::Metrics::Sli::ErrorRate.initialize_sli(:global_search, possible_labels)
+          all_labels = possible_labels + autocomplete_labels
+
+          Gitlab::Metrics::Sli::Apdex.initialize_sli(:global_search, all_labels)
+          Gitlab::Metrics::Sli::ErrorRate.initialize_sli(:global_search, all_labels)
         end
 
         def record_apdex(elapsed:, search_type:, search_level:, search_scope:)
@@ -73,7 +75,7 @@ module Gitlab
         def endpoint_ids
           api_endpoints = ['GET /api/:version/search', 'GET /api/:version/projects/:id/(-/)search',
             'GET /api/:version/groups/:id/(-/)search']
-          web_endpoints = ['SearchController#show', 'SearchController#count', 'SearchController#autocomplete']
+          web_endpoints = ['SearchController#show', 'SearchController#count']
 
           endpoints = []
 
@@ -100,6 +102,17 @@ module Gitlab
               end
             end
           end
+        end
+
+        def autocomplete_labels
+          return [] unless Gitlab::Metrics::Environment.web?
+
+          [{
+            search_type: nil,
+            search_level: nil,
+            search_scope: nil,
+            endpoint_id: 'SearchController#autocomplete'
+          }]
         end
 
         def valid_search_type?(search_type, search_scope, search_level)

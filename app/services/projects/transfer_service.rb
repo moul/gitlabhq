@@ -14,12 +14,32 @@ module Projects
 
     TransferError = Class.new(StandardError)
 
+    attr_reader :error
+
     def log_project_transfer_success(project, new_namespace)
       log_transfer(project, new_namespace, nil)
     end
 
     def log_project_transfer_error(project, new_namespace, error_message)
       log_transfer(project, new_namespace, error_message)
+    end
+
+    def schedule_async_transfer(new_namespace)
+      project_namespace = project.project_namespace
+      project_namespace.state_metadata[:transfer_target_parent_id] = new_namespace.id
+
+      unless project_namespace.schedule_transfer(transition_user: current_user)
+        @error = s_('TransferProject|Unable to initiate transfer. The project may already have a transfer in progress.')
+        return false
+      end
+
+      Projects::TransferWorker.perform_async(
+        project.id,
+        new_namespace.id,
+        current_user.id
+      )
+
+      true
     end
 
     def execute(new_namespace)

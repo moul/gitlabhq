@@ -436,7 +436,7 @@ RSpec.describe GroupsController, feature_category: :groups_and_projects do
 
         expect(response).to have_gitlab_http_status(:found)
         expect(response).to redirect_to(group_path(group))
-        expect(flash[:notice]).to eq("Group transfer has been queued. You'll be notified when it completes.")
+        expect(flash[:notice]).to eq("Group transfer has been queued. You will be notified when it completes.")
       end
 
       it 'transitions the group to transfer_scheduled and stores metadata' do
@@ -458,7 +458,7 @@ RSpec.describe GroupsController, feature_category: :groups_and_projects do
           put transfer_group_path(group), params: { new_parent_group_id: new_parent_group.id }
 
           expect(response).to redirect_to(edit_group_path(group))
-          expect(flash[:alert]).to match(/Unable to initiate transfer/)
+          expect(flash[:alert]).to eq('Unable to initiate transfer. The group may already have a transfer in progress.')
         end
       end
     end

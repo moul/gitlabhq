@@ -45,7 +45,7 @@ brew "libssh2"
 brew "librsvg"
 
 # Needed for Ruby's psych
-brew libyaml
+brew "libyaml"
 
 # Link checking in documents
 brew "lychee"

@@ -41,7 +41,6 @@ RSpec/FeatureCategory:
     - 'ee/spec/helpers/ee/labels_helper_spec.rb'
     - 'ee/spec/helpers/ee/markup_helper_spec.rb'
     - 'ee/spec/helpers/ee/operations_helper_spec.rb'
-    - 'ee/spec/helpers/ee/page_layout_helper_spec.rb'
     - 'ee/spec/helpers/ee/profiles_helper_spec.rb'
     - 'ee/spec/helpers/ee/projects/incidents_helper_spec.rb'
     - 'ee/spec/helpers/ee/projects/project_members_helper_spec.rb'

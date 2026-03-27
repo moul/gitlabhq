@@ -4,6 +4,7 @@ import { renderHtmlStreams } from '~/streaming/render_html_streams';
 import { toPolyfillReadable } from '~/streaming/polyfills';
 import { DiffFile } from '~/rapid_diffs/web_components/diff_file';
 import { performanceMarkAndMeasure } from '~/performance/utils';
+import { removeLinkedFileUrlParams } from '~/rapid_diffs/utils/linked_file';
 
 export const statuses = {
   idle: 'idle',
@@ -18,6 +19,7 @@ export const useDiffsList = defineStore('diffsList', {
       status: statuses.idle,
       loadingController: undefined,
       loadedFiles: {},
+      linkedFileData: null,
     };
   },
   actions: {
@@ -42,6 +44,9 @@ export const useDiffsList = defineStore('diffsList', {
     addLoadedFile({ target }) {
       if (this.status === statuses.fetching) return;
       this.loadedFiles = { ...this.loadedFiles, [target.id]: true };
+    },
+    setLinkedFileData(data) {
+      this.linkedFileData = data;
     },
     fillInLoadedFiles() {
       this.loadedFiles = Object.fromEntries(DiffFile.getAll().map((file) => [file.id, true]));
@@ -87,6 +92,14 @@ export const useDiffsList = defineStore('diffsList', {
         const overlay = document.querySelector('[data-diffs-overlay]');
         if (!initial) overlay.dataset.loading = 'true';
         this.loadedFiles = {};
+        if (this.linkedFileData) {
+          this.setLinkedFileData(null);
+          window.history.replaceState(
+            null,
+            undefined,
+            removeLinkedFileUrlParams(new URL(window.location)),
+          );
+        }
         this.status = statuses.fetching;
         const { body } = await fetch(url, { signal });
         container.innerHTML = '';
@@ -101,6 +114,15 @@ export const useDiffsList = defineStore('diffsList', {
     },
     isLoading() {
       return this.status !== statuses.idle && this.status !== statuses.error;
+    },
+    linkedFilePath() {
+      return this.linkedFileData?.old_path || this.linkedFileData?.new_path || null;
+    },
+    isLinkedFile() {
+      return ({ oldPath, newPath }) => {
+        if (!this.linkedFileData) return false;
+        return oldPath === this.linkedFileData.old_path && newPath === this.linkedFileData.new_path;
+      };
     },
   },
 });

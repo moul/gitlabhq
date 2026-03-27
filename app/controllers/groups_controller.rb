@@ -395,10 +395,10 @@ class GroupsController < Groups::ApplicationController
     service = ::Groups::TransferService.new(@group, current_user)
 
     if service.schedule_async_transfer(parent_group)
-      flash[:notice] = "Group transfer has been queued. You'll be notified when it completes."
+      flash[:notice] = s_("TransferGroup|Group transfer has been queued. You will be notified when it completes.")
       redirect_to group_path(@group)
     else
-      flash[:alert] = "Unable to initiate transfer: #{@group.errors.full_messages.to_sentence}"
+      flash[:alert] = service.error
       redirect_to edit_group_path(@group)
     end
   end

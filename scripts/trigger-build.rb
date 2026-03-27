@@ -673,6 +673,8 @@ module Trigger
         'operator'
       when 'gitlab-org/cli'
         'cli'
+      when 'gitlab-org/orbit/knowledge-graph'
+        'orbit'
       when 'gitlab-org/gitlab-environment-toolkit'
         'get'
       end

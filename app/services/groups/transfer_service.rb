@@ -22,7 +22,10 @@ module Groups
     def schedule_async_transfer(new_parent_group)
       group.state_metadata[:transfer_target_parent_id] = new_parent_group&.id
 
-      return false unless group.schedule_transfer(transition_user: current_user)
+      unless group.schedule_transfer(transition_user: current_user)
+        @error = s_('TransferGroup|Unable to initiate transfer. The group may already have a transfer in progress.')
+        return false
+      end
 
       Namespaces::Groups::TransferWorker.perform_async(
         group.id,

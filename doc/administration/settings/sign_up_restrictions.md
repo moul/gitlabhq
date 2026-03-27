@@ -347,3 +347,10 @@ To turn on approvals for role promotions:
 1. Select **Settings** > **General**.
 1. Expand **New user account restrictions**.
 1. In the **Seat control** section, select **Approve role promotions**.
+
+> [!note]
+> This approval requirement does not apply to memberships granted by
+> [LDAP synchronization](../auth/ldap/ldap_synchronization.md)
+> or [SAML group links](../../user/group/saml_sso/group_sync.md). Users who receive a role promotion
+> through LDAP or SAML do not require administrator approval, regardless of whether they previously
+> had a billable role.

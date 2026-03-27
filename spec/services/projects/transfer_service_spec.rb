@@ -901,6 +901,46 @@ RSpec.describe Projects::TransferService, feature_category: :groups_and_projects
     end
   end
 
+  describe '#schedule_async_transfer' do
+    let_it_be(:user) { create(:user) }
+    let_it_be_with_reload(:project) { create(:project) }
+    let_it_be(:new_namespace) { create(:group) }
+
+    subject(:service) { described_class.new(project, user) }
+
+    before_all do
+      project.add_owner(user)
+      new_namespace.add_owner(user)
+    end
+
+    it 'transitions project namespace to transfer_scheduled and enqueues the worker' do
+      expect(Projects::TransferWorker).to receive(:perform_async).with(
+        project.id,
+        new_namespace.id,
+        user.id
+      )
+
+      expect(service.schedule_async_transfer(new_namespace)).to be true
+
+      project_namespace = project.project_namespace.reload
+      expect(project_namespace.state).to eq('transfer_scheduled')
+      expect(project_namespace.state_metadata['transfer_target_parent_id']).to eq(new_namespace.id)
+    end
+
+    context 'when the state transition fails' do
+      before do
+        project.project_namespace.update_column(:state, Namespace.states[:creation_in_progress])
+      end
+
+      it 'returns false with an error and does not enqueue the worker' do
+        expect(Projects::TransferWorker).not_to receive(:perform_async)
+
+        expect(service.schedule_async_transfer(new_namespace)).to be false
+        expect(service.error).to eq('Unable to initiate transfer. The project may already have a transfer in progress.')
+      end
+    end
+  end
+
   def project_namespace_in_sync(group)
     project.reload
     expect(project.namespace).to eq(group)

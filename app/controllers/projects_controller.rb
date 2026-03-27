@@ -138,11 +138,16 @@ class ProjectsController < Projects::ApplicationController
     return access_denied! unless can?(current_user, :change_namespace, @project)
 
     namespace = Namespace.find_by(id: params[:new_namespace_id])
-    ::Projects::TransferService.new(project, current_user).execute(namespace)
 
-    if @project.errors[:new_namespace].present?
-      flash[:alert] = @project.errors[:new_namespace].first
+    unless namespace
+      flash[:alert] = s_('TransferProject|Please select a new namespace for your project.')
       return redirect_to edit_project_path(@project)
+    end
+
+    if Feature.enabled?(:groups_and_projects_async_transfer, @project)
+      enqueue_async_transfer(namespace)
+    else
+      execute_sync_transfer(namespace)
     end
 
     redirect_to edit_project_path(@project)
@@ -410,6 +415,22 @@ class ProjectsController < Projects::ApplicationController
   end
 
   private
+
+  def enqueue_async_transfer(namespace)
+    service = ::Projects::TransferService.new(@project, current_user)
+
+    if service.schedule_async_transfer(namespace)
+      flash[:notice] = s_("TransferProject|Project transfer has been queued. You will be notified when it completes.")
+    else
+      flash[:alert] = service.error
+    end
+  end
+
+  def execute_sync_transfer(namespace)
+    ::Projects::TransferService.new(project, current_user).execute(namespace)
+
+    flash[:alert] = @project.errors[:new_namespace].first if @project.errors[:new_namespace].present?
+  end
 
   def destroy_immediately
     ::Projects::DestroyService.new(@project, current_user, {}).async_execute

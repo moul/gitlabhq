@@ -754,12 +754,12 @@ RSpec.describe SearchController, feature_category: :global_search do
         let_it_be(:namespace) { create(:group) }
       end
 
-      it 'increments the custom search sli apdex' do
+      it 'records SLI apdex without search context' do
         expect(Gitlab::Metrics::GlobalSearchSlis).to receive(:record_apdex).with(
           elapsed: a_kind_of(Numeric),
-          search_scope: 'projects',
-          search_type: 'basic',
-          search_level: 'global'
+          search_scope: nil,
+          search_type: nil,
+          search_level: nil
         )
 
         get :autocomplete, params: { term: 'setting', scope: 'projects' }
@@ -767,12 +767,12 @@ RSpec.describe SearchController, feature_category: :global_search do
 
       context 'with custom search sli error rate' do
         context 'when the search is successful' do
-          it 'increments the custom search sli error rate with error: false' do
+          it 'records SLI error rate without search context' do
             expect(Gitlab::Metrics::GlobalSearchSlis).to receive(:record_error_rate).with(
               error: false,
-              search_scope: 'projects',
-              search_type: 'basic',
-              search_level: 'global'
+              search_scope: nil,
+              search_type: nil,
+              search_level: nil
             )
 
             get :autocomplete, params: { term: 'setting', scope: 'projects', filter: 'search' }
@@ -784,12 +784,12 @@ RSpec.describe SearchController, feature_category: :global_search do
             allow(controller).to receive(:search_autocomplete_opts).and_raise(ActiveRecord::QueryCanceled)
           end
 
-          it 'increments the custom search sli error rate with error: true' do
+          it 'records SLI error rate with error: true and without search context' do
             expect(Gitlab::Metrics::GlobalSearchSlis).to receive(:record_error_rate).with(
               error: true,
-              search_scope: 'projects',
-              search_type: 'basic',
-              search_level: 'global'
+              search_scope: nil,
+              search_type: nil,
+              search_level: nil
             )
 
             get :autocomplete, params: { term: 'setting', scope: 'projects', filter: 'search' }

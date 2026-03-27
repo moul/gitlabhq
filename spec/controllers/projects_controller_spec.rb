@@ -1152,6 +1152,10 @@ RSpec.describe ProjectsController, feature_category: :groups_and_projects do
     let_it_be(:admin) { create(:admin) }
     let_it_be(:new_namespace) { create(:namespace) }
 
+    before do
+      stub_feature_flags(groups_and_projects_async_transfer: false)
+    end
+
     shared_examples 'project namespace is not changed' do |flash_message|
       it 'project namespace is not changed' do
         controller.instance_variable_set(:@project, project)
@@ -1218,6 +1222,64 @@ RSpec.describe ProjectsController, feature_category: :groups_and_projects do
       let(:new_namespace_id) { project.namespace.id }
 
       it_behaves_like 'project namespace is not changed', s_('TransferProject|Project is already in this namespace.')
+    end
+
+    context 'when groups_and_projects_async_transfer feature flag is enabled' do
+      before do
+        stub_feature_flags(groups_and_projects_async_transfer: true)
+        sign_in(admin)
+      end
+
+      it 'enqueues the async transfer worker and redirects' do
+        expect(Projects::TransferWorker).to receive(:perform_async).with(
+          project.id,
+          new_namespace.id,
+          admin.id
+        )
+
+        put :transfer, params: {
+          namespace_id: project.namespace.path, new_namespace_id: new_namespace.id, id: project.path
+        }, format: :js
+
+        expect(flash[:notice]).to eq("Project transfer has been queued. You will be notified when it completes.")
+        expect(response).to redirect_to(edit_project_path(project))
+      end
+
+      it 'transitions the project namespace to transfer_scheduled' do
+        put :transfer, params: {
+          namespace_id: project.namespace.path, new_namespace_id: new_namespace.id, id: project.path
+        }, format: :js
+
+        expect(project.project_namespace.reload.state).to eq('transfer_scheduled')
+      end
+
+      it 'stores transfer metadata in state_metadata' do
+        put :transfer, params: {
+          namespace_id: project.namespace.path, new_namespace_id: new_namespace.id, id: project.path
+        }, format: :js
+
+        metadata = project.project_namespace.reload.state_metadata
+        expect(metadata['transfer_target_parent_id']).to eq(new_namespace.id)
+        expect(metadata['transfer_scheduled_by_user_id']).to eq(admin.id)
+        expect(metadata['transfer_scheduled_at']).to be_present
+      end
+
+      context 'when the state transition fails' do
+        before do
+          project.project_namespace.update_column(:state, Namespace.states[:creation_in_progress])
+        end
+
+        it 'does not enqueue the worker and shows an error' do
+          expect(Projects::TransferWorker).not_to receive(:perform_async)
+
+          put :transfer, params: {
+            namespace_id: project.namespace.path, new_namespace_id: new_namespace.id, id: project.path
+          }, format: :js
+
+          expect(flash[:alert]).to eq('Unable to initiate transfer. The project may already have a transfer in progress.')
+          expect(response).to redirect_to(edit_project_path(project))
+        end
+      end
     end
   end
 

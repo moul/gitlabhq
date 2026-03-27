@@ -104,6 +104,8 @@ Gitlab/Authz/PermissionCheck:
     - 'app/views/projects/settings/access_tokens/index.html.haml'
     - 'app/views/projects/settings/repository/show.html.haml'
     - 'app/views/shared/members/_requests.html.haml'
+    - 'ee/app/components/duo_chat_panel/chat_component.rb'
+    - 'ee/app/components/duo_chat_panel/empty_state_component.rb'
     - 'ee/app/components/namespaces/combined_storage_users/non_owner_alert_component.rb'
     - 'ee/app/components/namespaces/combined_storage_users/owner_alert_component.rb'
     - 'ee/app/components/namespaces/seats_usage_notification_component.rb'

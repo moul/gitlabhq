@@ -610,9 +610,11 @@ module Gitlab
       # Repositories::LfsApiController normally does the authentication,
       # but Rack Attack runs before those controllers.
       def find_user_for_git_or_lfs_request
-        return unless git_or_lfs_request?
+        strong_memoize(:find_user_for_git_or_lfs_request) do
+          next unless git_or_lfs_request?
 
-        find_user_from_lfs_token || find_user_from_basic_auth_password
+          find_user_from_lfs_token || find_user_from_basic_auth_password
+        end
       end
 
       def find_user_from_personal_access_token_for_api_or_git

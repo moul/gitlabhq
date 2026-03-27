@@ -61,8 +61,15 @@ query getUserPersonalAccessTokens(
               avatarUrl
             }
             permissions {
+              name
               action
+              description
+              category
+              categoryName
               resource
+              resourceName
+              resourceDescription
+              boundaries
             }
           }
         }

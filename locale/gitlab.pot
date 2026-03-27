@@ -4238,6 +4238,9 @@ msgstr ""
 msgid "AccessTokens|All groups and projects that I'm a member of"
 msgstr ""
 
+msgid "AccessTokens|All groups and projects that I'm a member of, including future ones"
+msgstr ""
+
 msgid "AccessTokens|An administrator has set the %{linkStart}maximum expiration date%{linkEnd} to %{days} days (%{maxDate})."
 msgstr ""
 
@@ -4313,13 +4316,13 @@ msgstr ""
 msgid "AccessTokens|Created"
 msgstr ""
 
+msgid "AccessTokens|Created on %{date}"
+msgstr ""
+
 msgid "AccessTokens|Description"
 msgstr ""
 
 msgid "AccessTokens|Description is too long (maximum is 255 characters)."
-msgstr ""
-
-msgid "AccessTokens|Details for '%{name}'"
 msgstr ""
 
 msgid "AccessTokens|Disable access tokens"
@@ -4456,9 +4459,6 @@ msgstr ""
 msgid "AccessTokens|Incoming email token"
 msgstr ""
 
-msgid "AccessTokens|Instance permissions"
-msgstr ""
-
 msgid "AccessTokens|Instance token prefix"
 msgstr ""
 
@@ -4507,6 +4507,9 @@ msgstr ""
 msgid "AccessTokens|Never until revoked"
 msgstr ""
 
+msgid "AccessTokens|No IP activity recorded yet."
+msgstr ""
+
 msgid "AccessTokens|No access tokens"
 msgstr ""
 
@@ -4525,7 +4528,7 @@ msgstr ""
 msgid "AccessTokens|Only my personal projects"
 msgstr ""
 
-msgid "AccessTokens|Only personal projects"
+msgid "AccessTokens|Only my personal projects, including future ones"
 msgstr ""
 
 msgid "AccessTokens|Only specific group or projects that I'm a member of"
@@ -4535,6 +4538,9 @@ msgid "AccessTokens|Only specific groups or projects that I'm a member of"
 msgstr ""
 
 msgid "AccessTokens|Permissions:"
+msgstr ""
+
+msgid "AccessTokens|Personal access token detail"
 msgstr ""
 
 msgid "AccessTokens|Personal access tokens"
@@ -4628,15 +4634,6 @@ msgid "AccessTokens|The token was revoked successfully."
 msgstr ""
 
 msgid "AccessTokens|The token was rotated successfully."
-msgstr ""
-
-msgid "AccessTokens|This token expires soon. If still needed, generate a new token with the same settings."
-msgstr ""
-
-msgid "AccessTokens|This token has expired."
-msgstr ""
-
-msgid "AccessTokens|This token was revoked."
 msgstr ""
 
 msgid "AccessTokens|Token already revoked"
@@ -62946,10 +62943,7 @@ msgstr ""
 msgid "SecurityOrchestration|If one or more %{securityPoliciesPathStart}security policies%{securityPoliciesPathEnd} become enforced, you can't unprotect this branch. %{linkStart}Learn more%{linkEnd}."
 msgstr ""
 
-msgid "SecurityOrchestration|If vulnerabilities are automatically dismissed when found under following criteria:"
-msgstr ""
-
-msgid "SecurityOrchestration|If vulnerabilities have one of the following identifiers:"
+msgid "SecurityOrchestration|If vulnerabilities are found under the following criteria:"
 msgstr ""
 
 msgid "SecurityOrchestration|In each pipeline, a %{boldStart}maximum of 1000%{boldEnd} vulnerabilities that are %{italicStart}no longer detected%{italicEnd} will be set to status %{italicStart}Resolved%{italicEnd} until all have been auto-resolved."
@@ -63463,7 +63457,7 @@ msgstr ""
 msgid "SecurityOrchestration|Select frameworks"
 msgstr ""
 
-msgid "SecurityOrchestration|Select identifier type"
+msgid "SecurityOrchestration|Select identifier type (optional)"
 msgstr ""
 
 msgid "SecurityOrchestration|Select list type"
@@ -63893,9 +63887,6 @@ msgid "SecurityOrchestration|You can't unprotect this branch because its protect
 msgstr ""
 
 msgid "SecurityOrchestration|You can't unprotect this branch because its protection is enforced by one or more %{security_policies_link_start}security policies%{security_policies_link_end}. %{learn_more_link_start}Learn more%{learn_more_link_end}."
-msgstr ""
-
-msgid "SecurityOrchestration|You cannot use auto-dismiss rules with override rules."
 msgstr ""
 
 msgid "SecurityOrchestration|You do not have the permission required to edit policies"
@@ -73017,6 +73008,9 @@ msgstr ""
 msgid "TransferGroup|Group is already associated to the parent group."
 msgstr ""
 
+msgid "TransferGroup|Group transfer has been queued. You will be notified when it completes."
+msgstr ""
+
 msgid "TransferGroup|SAML Provider or SCIM Token is configured for this group."
 msgstr ""
 
@@ -73024,6 +73018,9 @@ msgid "TransferGroup|The parent group already has a subgroup or a project with t
 msgstr ""
 
 msgid "TransferGroup|Transfer failed: %{error_message}"
+msgstr ""
+
+msgid "TransferGroup|Unable to initiate transfer. The group may already have a transfer in progress."
 msgstr ""
 
 msgid "TransferGroup|You don't have enough permissions."
@@ -73068,10 +73065,16 @@ msgstr ""
 msgid "TransferProject|Project is already in this namespace."
 msgstr ""
 
+msgid "TransferProject|Project transfer has been queued. You will be notified when it completes."
+msgstr ""
+
 msgid "TransferProject|Project with same name or path in target namespace already exists"
 msgstr ""
 
 msgid "TransferProject|Root namespace can't be updated if the project has NPM packages scoped to the current root level namespace."
+msgstr ""
+
+msgid "TransferProject|Unable to initiate transfer. The project may already have a transfer in progress."
 msgstr ""
 
 msgid "TransferProject|You don't have permission to transfer projects into that namespace."

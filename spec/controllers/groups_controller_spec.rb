@@ -1304,7 +1304,7 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
               new_parent_group_id: new_parent_group.id
             }
 
-          expect(flash[:notice]).to eq("Group transfer has been queued. You'll be notified when it completes.")
+          expect(flash[:notice]).to eq("Group transfer has been queued. You will be notified when it completes.")
           expect(response).to redirect_to(group_path(group))
         end
 
@@ -1352,7 +1352,7 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
               new_parent_group_id: ''
             }
 
-          expect(flash[:notice]).to eq("Group transfer has been queued. You'll be notified when it completes.")
+          expect(flash[:notice]).to eq("Group transfer has been queued. You will be notified when it completes.")
           expect(response).to redirect_to(group_path(group))
         end
 
@@ -1372,7 +1372,7 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
           group.update_column(:state, Group.states[:creation_in_progress])
         end
 
-        it 'does not enqueue the worker and shows an error' do
+        it 'does not enqueue the worker and shows an error with last_error fallback' do
           expect(Namespaces::Groups::TransferWorker).not_to receive(:perform_async)
 
           put :transfer,
@@ -1381,7 +1381,7 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
               new_parent_group_id: new_parent_group.id
             }
 
-          expect(flash[:alert]).to match(/Unable to initiate transfer/)
+          expect(flash[:alert]).to eq('Unable to initiate transfer. The group may already have a transfer in progress.')
           expect(response).to redirect_to(edit_group_path(group))
         end
       end
@@ -1400,7 +1400,7 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
               new_parent_group_id: new_parent_group.id
             }
 
-          expect(flash[:alert]).to match(/Unable to initiate transfer/)
+          expect(flash[:alert]).to eq('Unable to initiate transfer. The group may already have a transfer in progress.')
           expect(response).to redirect_to(edit_group_path(group))
         end
       end

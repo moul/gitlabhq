@@ -69,6 +69,38 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
       end
     end
 
+    context 'when initializing autocomplete labels' do
+      before do
+        allow(Gitlab::Metrics::Environment).to receive_messages(web?: true, api?: false)
+      end
+
+      it 'registers autocomplete as a single label combination' do
+        expect(Gitlab::Metrics::Sli::Apdex).to receive(:initialize_sli).with(
+          :global_search, array_including(a_hash_including(
+            endpoint_id: 'SearchController#autocomplete',
+            search_type: nil,
+            search_level: nil,
+            search_scope: nil
+          ))
+        )
+
+        described_class.initialize_slis!
+      end
+
+      it 'registers autocomplete error rate as a single label combination' do
+        expect(Gitlab::Metrics::Sli::ErrorRate).to receive(:initialize_sli).with(
+          :global_search, array_including(a_hash_including(
+            endpoint_id: 'SearchController#autocomplete',
+            search_type: nil,
+            search_level: nil,
+            search_scope: nil
+          ))
+        )
+
+        described_class.initialize_slis!
+      end
+    end
+
     context 'when initializing search types', unless: Gitlab.ee? do
       it 'does not include zoekt search type' do
         expect(Gitlab::Metrics::Sli::Apdex).not_to receive(:initialize_sli).with(

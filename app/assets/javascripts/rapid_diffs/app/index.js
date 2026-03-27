@@ -39,6 +39,9 @@ export class RapidDiffsFacade {
     }
 
     this.appData = camelizeKeys(JSON.parse(this.root.dataset.appData));
+    if (this.appData.linkedFileData) {
+      useDiffsList(pinia).setLinkedFileData(this.appData.linkedFileData);
+    }
     this.#populateLegacyFileFragment();
     if (this.#lazy) {
       this.#reloadDiffs(true);

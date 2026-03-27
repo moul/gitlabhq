@@ -40,7 +40,8 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
       resource: merge_request,
       mr_path: mr_path,
       project_path: project_path,
-      versions: versions
+      versions: versions,
+      linked_file: nil
     )
   end
 
@@ -105,7 +106,9 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
     it 'includes startup_js for FOUC prevention when code review is enabled' do
       render_component
 
-      expect(component.helpers.content_for?(:startup_js)).to be(true)
+      startup_js = component.helpers.content_for(:startup_js)
+      expect(startup_js).to be_present
+      expect(startup_js).to include('const linkedFileCodeReviewId = null')
     end
 
     context 'when code review is disabled' do
@@ -115,6 +118,21 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
         render_component
 
         expect(component.helpers.content_for?(:startup_js)).to be(false)
+      end
+    end
+
+    context 'when viewing a linked file' do
+      let(:linked_file) { instance_double(Gitlab::Diff::File, code_review_id: 'linked-file-id') }
+
+      before do
+        allow(presenter).to receive(:linked_file).and_return(linked_file)
+      end
+
+      it 'excludes the linked file from FOUC prevention' do
+        render_component
+
+        startup_js = component.helpers.content_for(:startup_js)
+        expect(startup_js).to include('linked-file-id')
       end
     end
   end

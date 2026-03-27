@@ -39,7 +39,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <span>
     <gl-badge v-if="isTokenRevoked" icon="remove" variant="danger">
       {{ $options.i18n.revoked }}
     </gl-badge>
@@ -54,5 +54,5 @@ export default {
     >
       {{ $options.i18n.expiringSoon }}
     </gl-badge>
-  </div>
+  </span>
 </template>
