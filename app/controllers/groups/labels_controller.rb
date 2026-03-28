@@ -8,10 +8,6 @@ class Groups::LabelsController < Groups::ApplicationController
   before_action :authorize_label_for_admin_label!, only: [:edit, :update, :destroy]
   before_action :save_previous_label_path, only: [:edit]
 
-  before_action only: [:index] do
-    push_frontend_feature_flag(:labels_archive, group)
-  end
-
   respond_to :html
 
   feature_category :team_planning
@@ -105,7 +101,7 @@ class Groups::LabelsController < Groups::ApplicationController
 
   def label_params
     allowed = [:title, :description, :color]
-    allowed << :archived if Feature.enabled?(:labels_archive, group)
+    allowed << :archived
     allowed << :lock_on_merge if @group.supports_lock_on_merge?
 
     params.require(:label).permit(allowed)
@@ -128,7 +124,7 @@ class Groups::LabelsController < Groups::ApplicationController
   end
 
   def available_labels(options = params)
-    archived_param = if Feature.enabled?(:labels_archive, group) && !options[:ignore_archived]
+    archived_param = unless options[:ignore_archived]
                        options[:archived].nil? ? false : options[:archived]
                      end
 

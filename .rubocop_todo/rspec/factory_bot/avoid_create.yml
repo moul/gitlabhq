@@ -455,7 +455,6 @@ RSpec/FactoryBot/AvoidCreate:
     - 'spec/serializers/project_serializer_spec.rb'
     - 'spec/serializers/review_app_setup_entity_spec.rb'
     - 'spec/serializers/runner_entity_spec.rb'
-    - 'spec/serializers/serverless/domain_entity_spec.rb'
     - 'spec/serializers/stage_entity_spec.rb'
     - 'spec/serializers/stage_serializer_spec.rb'
     - 'spec/serializers/suggestion_entity_spec.rb'

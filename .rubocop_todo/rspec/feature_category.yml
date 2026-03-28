@@ -3195,7 +3195,6 @@ RSpec/FeatureCategory:
     - 'spec/serializers/rollout_status_entity_spec.rb'
     - 'spec/serializers/rollout_statuses/ingress_entity_spec.rb'
     - 'spec/serializers/runner_entity_spec.rb'
-    - 'spec/serializers/serverless/domain_entity_spec.rb'
     - 'spec/serializers/stage_serializer_spec.rb'
     - 'spec/serializers/suggestion_entity_spec.rb'
     - 'spec/serializers/test_case_entity_spec.rb'

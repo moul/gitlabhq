@@ -278,13 +278,9 @@ To delete a **group** label:
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/4233) in GitLab 18.3 [with a flag](../../administration/feature_flags/_index.md) named `labels_archive`. Disabled by default.
 - [Changed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/211744) flag `labels_archive` so it can be turned on and off for a group in GitLab 18.7.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/556700) in GitLab 18.11. Feature flag `labels_archive` removed.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
-> This feature is available for testing, but not ready for production use.
 
 You can archive labels that are no longer actively used but need to be preserved
 for historical perspective and search purposes.

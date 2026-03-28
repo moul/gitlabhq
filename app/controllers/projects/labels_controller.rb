@@ -12,10 +12,6 @@ class Projects::LabelsController < Projects::ApplicationController
     :set_priorities]
   before_action :authorize_admin_group_labels!, only: [:promote]
 
-  before_action only: [:index] do
-    push_frontend_feature_flag(:labels_archive, project.group) if project.group
-  end
-
   respond_to :js, :html
 
   feature_category :team_planning
@@ -24,7 +20,7 @@ class Projects::LabelsController < Projects::ApplicationController
   def index
     respond_to do |format|
       format.html do
-        @prioritized_labels = if Feature.enabled?(:labels_archive, @project.group) && params[:archived] == 'true'
+        @prioritized_labels = if params[:archived] == 'true'
                                 Label.none
                               else
                                 @available_labels.prioritized(@project)
@@ -168,7 +164,7 @@ class Projects::LabelsController < Projects::ApplicationController
 
   def label_params
     allowed = [:title, :description, :color]
-    allowed << :archived if Feature.enabled?(:labels_archive, @project.group)
+    allowed << :archived
     allowed << :lock_on_merge if @project.supports_lock_on_merge?
 
     params.require(:label).permit(allowed)
@@ -183,9 +179,7 @@ class Projects::LabelsController < Projects::ApplicationController
   end
 
   def find_labels
-    archived_param = if Feature.enabled?(:labels_archive, @project.group)
-                       params[:archived].nil? ? false : params[:archived]
-                     end
+    archived_param = params[:archived].nil? ? false : params[:archived]
 
     @available_labels ||= LabelsFinder.new(
       current_user,
