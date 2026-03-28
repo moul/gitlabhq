@@ -27,6 +27,7 @@ const createMockUser = ({
   username = 'root',
   compositeIdentityEnforced = false,
   status = {},
+  duoStatus = {},
 } = {}) => ({
   __typename: 'UserCore',
   id: `gid://gitlab/User/${id}`,
@@ -36,9 +37,12 @@ const createMockUser = ({
   webPath: `/${username}`,
   status: {
     availability: 'NOT_SET',
-    disabledForDuoUsage: false,
-    disabledForDuoUsageReason: null,
     ...status,
+  },
+  duoStatus: {
+    disabled: false,
+    disabledReason: null,
+    ...duoStatus,
   },
   compositeIdentityEnforced,
   mergeRequestInteraction: {
@@ -938,9 +942,9 @@ describe('Reviewer dropdown component', () => {
           id: 2,
           name: 'Disabled User',
           username: 'disabled',
-          status: {
-            disabledForDuoUsage: true,
-            disabledForDuoUsageReason: 'Out of credits',
+          duoStatus: {
+            disabled: true,
+            disabledReason: 'Out of credits',
           },
         });
 
@@ -988,9 +992,9 @@ describe('Reviewer dropdown component', () => {
           id: 2,
           name: 'Disabled User',
           username: 'disabled',
-          status: {
-            disabledForDuoUsage: true,
-            disabledForDuoUsageReason: 'Out of credits',
+          duoStatus: {
+            disabled: true,
+            disabledReason: 'Out of credits',
           },
         });
 

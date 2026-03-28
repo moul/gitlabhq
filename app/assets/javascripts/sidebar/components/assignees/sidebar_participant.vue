@@ -38,10 +38,10 @@ export default {
       return this.user?.compositeIdentityEnforced;
     },
     isDisabled() {
-      return this.user?.status?.disabledForDuoUsage === true;
+      return this.user?.duoStatus?.disabled === true;
     },
     disabledReason() {
-      return this.user?.status?.disabledForDuoUsageReason || s__('WorkItem|Cannot be assigned');
+      return this.user?.duoStatus?.disabledReason || s__('WorkItem|Cannot be assigned');
     },
     hasCannotMergeIcon() {
       return this.issuableType === TYPE_MERGE_REQUEST && !this.user.canMerge;

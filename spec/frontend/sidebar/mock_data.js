@@ -19,8 +19,10 @@ export const mockUser1 = createMockUser({
   webPath: '/root',
   status: {
     availability: 'NOT_SET',
-    disabledForDuoUsage: false,
-    disabledForDuoUsageReason: null,
+  },
+  duoStatus: {
+    disabled: false,
+    disabledReason: null,
   },
   compositeIdentityEnforced: false,
 });
@@ -39,8 +41,10 @@ export const mockUser2 = createMockUser({
   webPath: '/rookie',
   status: {
     availability: 'NOT_SET',
-    disabledForDuoUsage: false,
-    disabledForDuoUsageReason: null,
+  },
+  duoStatus: {
+    disabled: false,
+    disabledReason: null,
   },
   compositeIdentityEnforced: false,
 });
@@ -54,8 +58,10 @@ export const mockDisabledUser = createMockUser({
   avatarUrl: 'https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon',
   status: {
     availability: 'NOT_SET',
-    disabledForDuoUsage: true,
-    disabledForDuoUsageReason: 'Out of credits',
+  },
+  duoStatus: {
+    disabled: true,
+    disabledReason: 'Out of credits',
   },
   compositeIdentityEnforced: false,
 });
@@ -639,8 +645,10 @@ export const searchAutocompleteResponseOnMR = {
           webPath: '/franc',
           status: {
             availability: 'BUSY',
-            disabledForDuoUsage: false,
-            disabledForDuoUsageReason: null,
+          },
+          duoStatus: {
+            disabled: false,
+            disabledReason: null,
           },
           compositeIdentityEnforced: false,
           mergeRequestInteraction: {
@@ -671,8 +679,10 @@ export const projectMembersResponse = {
           webPath: '/franc',
           status: {
             availability: 'BUSY',
-            disabledForDuoUsage: false,
-            disabledForDuoUsageReason: null,
+          },
+          duoStatus: {
+            disabled: false,
+            disabledReason: null,
           },
         },
       ],
@@ -713,8 +723,10 @@ export const projectAutocompleteMembersResponse = {
 
           status: {
             availability: 'NOT_SET',
-            disabledForDuoUsage: false,
-            disabledForDuoUsageReason: null,
+          },
+          duoStatus: {
+            disabled: false,
+            disabledReason: null,
           },
         },
         {
@@ -723,8 +735,10 @@ export const projectAutocompleteMembersResponse = {
 
           status: {
             availability: 'NOT_SET',
-            disabledForDuoUsage: false,
-            disabledForDuoUsageReason: null,
+          },
+          duoStatus: {
+            disabled: false,
+            disabledReason: null,
           },
         },
         {
@@ -733,8 +747,10 @@ export const projectAutocompleteMembersResponse = {
 
           status: {
             availability: 'NOT_SET',
-            disabledForDuoUsage: false,
-            disabledForDuoUsageReason: null,
+          },
+          duoStatus: {
+            disabled: false,
+            disabledReason: null,
           },
         },
         {
@@ -748,8 +764,10 @@ export const projectAutocompleteMembersResponse = {
           webPath: '/franc',
           status: {
             availability: 'BUSY',
-            disabledForDuoUsage: false,
-            disabledForDuoUsageReason: null,
+          },
+          duoStatus: {
+            disabled: false,
+            disabledReason: null,
           },
           compositeIdentityEnforced: false,
         },
@@ -776,8 +794,10 @@ export const groupMembersResponse = {
           webPath: '/franc',
           status: {
             availability: 'BUSY',
-            disabledForDuoUsage: false,
-            disabledForDuoUsageReason: null,
+          },
+          duoStatus: {
+            disabled: false,
+            disabledReason: null,
           },
         },
       ],
@@ -812,8 +832,10 @@ export const participantsQueryResponse = {
               webPath: '/franc',
               status: {
                 availability: 'BUSY',
-                disabledForDuoUsage: false,
-                disabledForDuoUsageReason: null,
+              },
+              duoStatus: {
+                disabled: false,
+                disabledReason: null,
               },
             },
             {

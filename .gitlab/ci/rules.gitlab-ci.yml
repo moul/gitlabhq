@@ -1586,10 +1586,10 @@
 # .frontend:rules:eslint-default (for eslint) so the artifact is always available when needed.
 .frontend:rules:generate-js-routes:
   rules:
-    - !reference [.frontend:rules:jest, rules]
     - !reference [.frontend:rules:compile-production-assets, rules]
     - !reference [.frontend:rules:bundle-size-review, rules]
     - !reference [.frontend:rules:eslint-default, rules]
+    - !reference [.frontend:rules:jest, rules]
 
 .frontend:rules:compile-test-assets:
   rules:
@@ -2207,6 +2207,8 @@
     - <<: *if-security-merge-request
       when: never
     - <<: *if-security-schedule
+      when: never
+    - <<: *if-merge-request-labels-pipeline-expedite
       when: never
     - <<: *if-merge-request
       changes: *cng-dependency-patterns

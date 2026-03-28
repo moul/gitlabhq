@@ -140,7 +140,7 @@ export default {
     disabledUsers() {
       const selectedUsersId = this.selectedUsers.map((u) => u.id);
       return (this.users || [])
-        .filter((u) => u?.status?.disabledForDuoUsage === true && !selectedUsersId.includes(u.id))
+        .filter((u) => u?.duoStatus?.disabled === true && !selectedUsersId.includes(u.id))
         .map((u) => u.id);
     },
     selectedUsers() {
