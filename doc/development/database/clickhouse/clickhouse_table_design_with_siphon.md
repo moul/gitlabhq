@@ -70,7 +70,7 @@ Generated `CREATE TABLE` statement:
         lock_on_merge Bool DEFAULT false,
         archived Bool DEFAULT false,
         organization_id Nullable(Int64),
-        _siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now(),
+        _siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now64(6, 'UTC'),
         _siphon_deleted Bool DEFAULT FALSE
       )
       ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
@@ -212,7 +212,7 @@ Generated `CREATE TABLE` statement:
           coalesce(organization_id, 0) != 0, dictGetOrDefault('organization_traversal_paths_dict', 'traversal_path', organization_id, '0/'),
           '0/'
         ),
-        _siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now(),
+        _siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now64(6, 'UTC'),
         _siphon_deleted Bool DEFAULT FALSE,
         PROJECTION pg_pkey_ordered (
           SELECT *
@@ -412,7 +412,7 @@ CREATE TABLE IF NOT EXISTS siphon_merge_requests
   iid Nullable(Int64),
   description Nullable(String),
   traversal_path String DEFAULT multiIf(coalesce(target_project_id, 0) != 0, dictGetOrDefault('project_traversal_paths_dict', 'traversal_path', target_project_id, '0/'), '0/') CODEC(ZSTD(3)),
-  _siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now() CODEC(ZSTD(1)),
+  _siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now64(6, 'UTC') CODEC(ZSTD(1)),
   _siphon_deleted Bool DEFAULT FALSE CODEC(ZSTD(1))
 )
 ENGINE = Null;
@@ -443,7 +443,7 @@ CREATE TABLE IF NOT EXISTS siphon_merge_request_reviewers
   state Int8 DEFAULT 0,
   project_id Int64,
   traversal_path String DEFAULT multiIf(coalesce(project_id, 0) != 0, dictGetOrDefault('project_traversal_paths_dict', 'traversal_path', project_id, '0/'), '0/') CODEC(ZSTD(3)),
-  _siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now() CODEC(ZSTD(1)),
+  _siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now64(6, 'UTC') CODEC(ZSTD(1)),
   _siphon_deleted Bool DEFAULT FALSE CODEC(ZSTD(1)),
   PROJECTION pg_pkey_ordered (
     SELECT *
@@ -480,7 +480,7 @@ CREATE TABLE IF NOT EXISTS merge_requests
   description Nullable(String),
   traversal_path String DEFAULT multiIf(coalesce(target_project_id, 0) != 0, dictGetOrDefault('project_traversal_paths_dict', 'traversal_path', target_project_id, '0/'), '0/') CODEC(ZSTD(3)),
   reviewers Array(Tuple(UInt64, Int8)),
-  _siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now() CODEC(ZSTD(1)),
+  _siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now64(6, 'UTC') CODEC(ZSTD(1)),
   _siphon_deleted Bool DEFAULT FALSE CODEC(ZSTD(1)),
   PROJECTION pg_pkey_ordered (
     SELECT *

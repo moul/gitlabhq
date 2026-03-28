@@ -79,7 +79,7 @@ module Gitlab
           '[]' # For arrays with empty as default
         },
         'now()' => ->(_) {
-          'now64(6)'
+          "now64(6, 'UTC')"
         },
         /^\d+(\.\d+)?$/ => ->(default) {
           default # numeric default
@@ -118,7 +118,7 @@ module Gitlab
       def table_definition
         definitions = [
           *table_columns,
-          "_siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now64(6) CODEC(ZSTD(1))",
+          "_siphon_replicated_at DateTime64(6, 'UTC') DEFAULT now64(6, 'UTC') CODEC(ZSTD(1))",
           "_siphon_deleted Bool DEFAULT FALSE CODEC(ZSTD(1))",
           *table_projection
         ].flatten.compact.join(",\n        ")
