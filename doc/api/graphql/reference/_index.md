@@ -29664,6 +29664,7 @@ four standard [pagination arguments](#pagination-arguments):
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="board-epics-issuefilters"></a>`issueFilters` | [`BoardIssueInput`](#boardissueinput) | Filters applied when selecting issues on the board. |
+| <a id="board-epics-sort"></a>`sort` | [`EpicSort`](#epicsort) | List epics by sort order. |
 
 ##### `Board.lists`
 
