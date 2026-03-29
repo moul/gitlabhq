@@ -70024,6 +70024,13 @@ definitions:
       mirror_branch_regex:
         type: string
         description: Determines if only matched branches are mirrored
+      host_keys:
+        type: array
+        description: SSH host keys in bare format (ssh-ed25519 AAAA...) or full known_hosts
+          format (hostname ssh-ed25519 AAAA...). Bare keys use the hostname from the
+          mirror URL.
+        items:
+          type: string
     required:
     - url
     description: Create remote mirror for a project
@@ -70046,6 +70053,13 @@ definitions:
       mirror_branch_regex:
         type: string
         description: Determines if only matched branches are mirrored
+      host_keys:
+        type: array
+        description: SSH host keys in bare format (ssh-ed25519 AAAA...) or full known_hosts
+          format (hostname ssh-ed25519 AAAA...). Bare keys use the hostname from the
+          mirror URL.
+        items:
+          type: string
     description: Update the attributes of a single remote mirror
   API_Entities_TreeObject:
     type: object
