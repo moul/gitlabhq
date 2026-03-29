@@ -465,7 +465,6 @@ RSpec/FactoryBot/AvoidCreate:
     - 'spec/serializers/test_suite_summary_entity_spec.rb'
     - 'spec/serializers/trigger_variable_entity_spec.rb'
     - 'spec/serializers/user_serializer_spec.rb'
-    - 'spec/serializers/web_ide_terminal_entity_spec.rb'
     - 'spec/serializers/web_ide_terminal_serializer_spec.rb'
     - 'spec/views/admin/application_settings/_ci_cd.html.haml_spec.rb'
     - 'spec/views/admin/application_settings/_eks.html.haml_spec.rb'

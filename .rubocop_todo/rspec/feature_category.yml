@@ -3206,7 +3206,6 @@ RSpec/FeatureCategory:
     - 'spec/serializers/test_suite_summary_entity_spec.rb'
     - 'spec/serializers/trigger_variable_entity_spec.rb'
     - 'spec/serializers/user_serializer_spec.rb'
-    - 'spec/serializers/web_ide_terminal_entity_spec.rb'
     - 'spec/serializers/web_ide_terminal_serializer_spec.rb'
     - 'spec/services/application_settings/update_service_spec.rb'
     - 'spec/services/auto_merge/availability_check_spec.rb'
