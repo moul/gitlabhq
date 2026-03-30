@@ -140,13 +140,6 @@ account if you lose access.
 
 Email OTP allows you to verify your identity by sending a six-digit verification code to your email address.
 
-> [!note]
-> You might be unable to use email OTP if:
->
-> - Your group policy requires the use of other two-factor authentication methods.
-> - Your account uses an external identity provider.
-> - Your account is scheduled for automatic enablement at a future date.
-
 To enable email OTP for your account:
 
 1. In the upper-right corner, select your avatar.
@@ -419,7 +412,8 @@ You can disable the OTP authenticator and WebAuthn devices individually or simul
 1. Select **Disable 2FA**.
 1. On the dialog, enter your current password and select **Disable 2FA**.
 
-This clears all your 2FA registrations, including mobile applications and WebAuthn devices.
+Group or instance settings might require your account to use 2FA.
+On GitLab.com, password-based sign-ins must complete email OTP verification.
 
 ## OAuth credential helpers
 

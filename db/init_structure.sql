@@ -314,7 +314,6 @@ CREATE TABLE projects (
     auto_cancel_pending_pipelines integer DEFAULT 1 NOT NULL,
     service_desk_enabled boolean DEFAULT true,
     cached_markdown_version integer,
-    delete_error text,
     last_repository_updated_at timestamp without time zone,
     disable_overriding_approvers_per_merge_request boolean,
     storage_version smallint,

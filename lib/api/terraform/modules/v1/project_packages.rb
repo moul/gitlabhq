@@ -137,7 +137,7 @@ module API
                     tags %w[terraform]
                   end
 
-                  route_setting :authorization, permissions: :authorize_terraform_module, boundary_type: :project
+                  route_setting :authorization, skip_granular_token_authorization: true
                   put :authorize do
                     authorize_workhorse!(**authorize_workhorse_params)
                   end

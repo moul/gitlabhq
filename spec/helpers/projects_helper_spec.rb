@@ -999,14 +999,12 @@ RSpec.describe ProjectsHelper, feature_category: :source_code_management do
 
     let_it_be(:project) { create(:project, :repository, :public) }
 
-    project_path = '/project/path'
     project_forks_path = '/project/forks'
     project_new_fork_path = '/project/new/fork'
     user_fork_url = '/user/fork'
 
     common_data_attributes = {
       forks_count: 4,
-      project_full_path: project_path,
       project_forks_url: project_forks_path,
       can_fork_project: "true",
       can_read_code: "true",
@@ -1038,7 +1036,6 @@ RSpec.describe ProjectsHelper, feature_category: :source_code_management do
         allow(user).to receive(:has_groups_allowing_project_creation?).and_return(has_groups_allowing_project_creation)
 
         allow(project).to receive(:forks_count).and_return(4)
-        allow(project).to receive(:full_path).and_return(project_path)
 
         user_fork_path = user_fork_url if project_already_forked
         allow(helper).to receive(:namespace_project_path).with(user, anything).and_return(user_fork_path)
@@ -1143,7 +1140,7 @@ RSpec.describe ProjectsHelper, feature_category: :source_code_management do
 
     with_them do
       before do
-        allow(helper).to receive(:groups_projects_more_actions_dropdown_data).and_return(nil)
+        allow(helper).to receive(:project_more_action_data).and_return({})
         allow(helper).to receive(:fork_button_data_attributes).and_return(nil)
         allow(helper).to receive(:notification_data_attributes).and_return(nil)
         allow(helper).to receive(:star_count_data_attributes).and_return({})
@@ -1161,7 +1158,8 @@ RSpec.describe ProjectsHelper, feature_category: :source_code_management do
           is_project_empty: is_empty_repo.to_s,
           project_id: project.id,
           project_name: project.name,
-          project_visibility_level: "private"
+          project_visibility_level: "private",
+          project_full_path: project.full_path
         }
       end
 
@@ -1188,6 +1186,48 @@ RSpec.describe ProjectsHelper, feature_category: :source_code_management do
       subject { helper.home_panel_data_attributes }
 
       it { is_expected.to include({ is_project_marked_for_deletion: "true" }) }
+    end
+
+    describe 'dropdown attributes' do
+      let_it_be(:user) { create(:user) }
+      let_it_be_with_reload(:project) { create(:project, :public) }
+
+      before do
+        assign(:project, project)
+        allow(helper).to receive(:current_user).and_return(user)
+      end
+
+      subject(:result) { helper.home_panel_data_attributes }
+
+      it 'sets path attributes' do
+        expect(result).to include({
+          request_access_path: "/#{project.full_path}/-/project_members/request_access",
+          withdraw_access_request_path: "/#{project.full_path}/-/project_members/leave",
+          dashboard_path: '/dashboard/projects'
+        })
+      end
+
+      context 'when user can request access' do
+        specify { expect(result[:can_request_access]).to eq('true') }
+      end
+
+      context 'when user cannot request access' do
+        before do
+          project.update!(request_access_enabled: false)
+        end
+
+        specify { expect(result[:can_request_access]).to eq('false') }
+      end
+
+      context 'when user can withdraw access' do
+        let_it_be(:access_request) { create(:project_member, :guest, :access_request, project: project, user: user) }
+
+        specify { expect(result[:can_withdraw_access_request]).to eq('true') }
+      end
+
+      context 'when user cannot withdraw access' do
+        specify { expect(result[:can_withdraw_access_request]).to eq('false') }
+      end
     end
   end
 

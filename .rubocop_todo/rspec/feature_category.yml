@@ -3090,7 +3090,6 @@ RSpec/FeatureCategory:
     - 'spec/serializers/admin/user_entity_spec.rb'
     - 'spec/serializers/admin/user_serializer_spec.rb'
     - 'spec/serializers/analytics/cycle_analytics/stage_entity_spec.rb'
-    - 'spec/serializers/analytics_build_serializer_spec.rb'
     - 'spec/serializers/analytics_issue_entity_spec.rb'
     - 'spec/serializers/analytics_issue_serializer_spec.rb'
     - 'spec/serializers/analytics_merge_request_serializer_spec.rb'

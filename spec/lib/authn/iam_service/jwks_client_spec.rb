@@ -11,10 +11,12 @@ RSpec.describe Authn::IamService::JwksClient, :use_clean_rails_redis_caching, fe
   let(:jwk) { JWT::JWK.new(private_key, { use: 'sig', kid: kid }) }
   let(:jwks_response) { { 'keys' => [jwk.export] } }
   let(:cache_key) { "iam:jwks:#{service_url}" }
+  let(:headers) { { 'cache-control' => 'max-age=3600' } }
 
   let(:successful_response) do
     build_response(
       success: true,
+      headers: headers,
       parsed_response: jwks_response,
       code: 200
     )
@@ -41,6 +43,8 @@ RSpec.describe Authn::IamService::JwksClient, :use_clean_rails_redis_caching, fe
         allow(Gitlab::HTTP).to receive(:get).and_return(successful_response)
       end
 
+      let(:headers) { { 'cache-control' => 'max-age=1800' } }
+
       it 'fetches from HTTP and returns the verification key' do
         key = client.verification_key_for(kid)
 
@@ -48,14 +52,55 @@ RSpec.describe Authn::IamService::JwksClient, :use_clean_rails_redis_caching, fe
         expect(Gitlab::HTTP).to have_received(:get).once
       end
 
-      it 'uses the cache TTL from configuration' do
-        allow(Gitlab.config.authn.iam_service).to receive(:jwks_cache_ttl).and_return(1800)
+      shared_examples 'caches with TTL' do |expected_ttl|
+        it "caches with expires_in of #{expected_ttl}" do
+          captured_options = nil
 
-        expect(Rails.cache).to receive(:fetch)
-                                 .with(cache_key, hash_including(expires_in: 1800, race_condition_ttl: 5.seconds))
-                                 .and_call_original
+          expect(Rails.cache).to receive(:fetch)
+            .with(cache_key, hash_including(race_condition_ttl: 5.seconds))
+            .and_wrap_original do |original, *args, &block|
+              original.call(*args) do |key, opts|
+                captured_options = opts
+                block.call(key, opts)
+              end
+            end
 
-        client.verification_key_for(kid)
+          client.verification_key_for(kid)
+
+          expect(captured_options.expires_in).to eq(expected_ttl)
+        end
+      end
+
+      it_behaves_like 'caches with TTL', 1800.seconds
+
+      context 'when the cache control header is capitalised' do
+        let(:headers) { { 'Cache-Control' => 'public, max-age=7200' } }
+
+        it_behaves_like 'caches with TTL', 7200.seconds
+      end
+
+      context 'when headers are not present in the response' do
+        let(:headers) { {} }
+
+        it_behaves_like 'caches with TTL', 3600.seconds
+      end
+
+      context 'when cache TTL is not present in the response' do
+        let(:headers) { { 'cache-control' => 'no-cache, no-store' } }
+
+        it_behaves_like 'caches with TTL', 3600.seconds
+      end
+
+      context 'when cache TTL in the response is too small' do
+        let(:headers) { { 'cache-control' => 'max-age=0' } }
+
+        it_behaves_like 'caches with TTL', 3600.seconds
+      end
+
+      context 'when cache TTL in the response is too large' do
+        let(:headers) { { 'cache-control' => 'max-age=90000' } }
+
+        it_behaves_like 'caches with TTL', 3600.seconds
       end
     end
 
@@ -174,15 +219,6 @@ RSpec.describe Authn::IamService::JwksClient, :use_clean_rails_redis_caching, fe
       end
     end
 
-    context 'when cache TTL is invalid' do
-      it 'raises ConfigurationError' do
-        allow(Gitlab.config.authn.iam_service).to receive(:jwks_cache_ttl).and_return('invalid')
-
-        expect { client.verification_key_for(kid) }
-          .to raise_error(described_class::ConfigurationError, /JWKS cache TTL must be a positive number/)
-      end
-    end
-
     context 'when service URL is not configured' do
       before do
         allow(Gitlab.config.authn.iam_service).to receive(:url).and_return(nil)
@@ -257,10 +293,11 @@ RSpec.describe Authn::IamService::JwksClient, :use_clean_rails_redis_caching, fe
     end
   end
 
-  def build_response(success: true, parsed_response: nil, code: 200)
+  def build_response(success: true, headers: {}, parsed_response: nil, code: 200)
     instance_double(
       HTTParty::Response,
       success?: success,
+      headers: headers,
       parsed_response: parsed_response,
       code: code
     )

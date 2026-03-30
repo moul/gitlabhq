@@ -11,7 +11,7 @@ RSpec.describe 'Projects > Members > User requests access', :js, feature_categor
 
   let(:owner) { project.first_owner }
   let(:more_actions_dropdown) do
-    find_by_testid('groups-projects-more-actions-dropdown')
+    find_by_testid('projects-list-item-actions')
   end
 
   context 'when user has no existing access request' do
@@ -25,7 +25,7 @@ RSpec.describe 'Projects > Members > User requests access', :js, feature_categor
       visit project_path(project)
 
       more_actions_dropdown.click
-      expect(page).not_to have_content 'Request Access'
+      expect(page).not_to have_content 'Request access'
     end
 
     it 'user can request access to a project',
@@ -44,8 +44,8 @@ RSpec.describe 'Projects > Members > User requests access', :js, feature_categor
       expect(page).to have_content 'Your request for access has been queued for review.'
 
       more_actions_dropdown.click
-      expect(page).to have_content 'Withdraw Access Request'
-      expect(page).not_to have_content 'Leave Project'
+      expect(page).to have_content 'Withdraw access request'
+      expect(page).not_to have_content 'Leave project'
     end
 
     context 'code access is restricted' do
@@ -58,7 +58,7 @@ RSpec.describe 'Projects > Members > User requests access', :js, feature_categor
         visit project_path(project)
         more_actions_dropdown.click
 
-        expect(page).to have_content 'Request Access'
+        expect(page).to have_content 'Request access'
       end
     end
   end

@@ -192,12 +192,12 @@ module WorkItems
 
     # Temporary method for adding configuration thought the API
     def service_desk?
-      nil
+      base_type.to_s == "ticket"
     end
 
     # Temporary method for adding configuration thought the API
     def incident_management?
-      nil
+      base_type.to_s == "incident"
     end
 
     # Temporary method for adding configuration thought the API

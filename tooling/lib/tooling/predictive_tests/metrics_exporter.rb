@@ -5,7 +5,6 @@ require_relative "changed_files"
 require_relative "mapping_fetcher"
 
 require_relative "../helpers/file_handler"
-require_relative "../events/track_pipeline_events"
 require_relative "../find_changes"
 
 require "logger"
@@ -25,8 +24,6 @@ module Tooling
 
       # @return [String] script path for jest predictive tests list generation
       JEST_PREDICTIVE_TESTS_SCRIPT_PATH = "scripts/frontend/find_jest_predictive_tests.js"
-      # @return [String] event name used by internal events
-      PREDICTIVE_TEST_METRICS_EVENT = "glci_predictive_tests_metrics"
       REQUIRED_CLICKHOUSE_ENV_VARS = %w[
         GLCI_DA_CLICKHOUSE_URL
         GLCI_CLICKHOUSE_METRICS_USERNAME
@@ -189,13 +186,6 @@ module Tooling
         @output_path ||= File.join(@output_dir, test_type.to_s).tap { |path| FileUtils.mkdir_p(path) }
       end
 
-      # Internal event tracker
-      #
-      # @return [TrackPipelineEvents]
-      def tracker
-        @tracker ||= Tooling::Events::TrackPipelineEvents.new(logger: logger)
-      end
-
       # MR changed files
       #
       # @return [String]
@@ -315,7 +305,6 @@ module Tooling
         )
 
         save_metrics(metrics, strategy)
-        send_metrics_events(metrics, strategy)
         send_clickhouse_metrics(metrics, strategy)
 
         logger.info("Metrics generation completed for strategy '#{strategy}'")
@@ -364,42 +353,6 @@ module Tooling
       # @return [void]
       def save_metrics(metrics, strategy)
         File.write(File.join(output_path, "metrics_#{strategy}.json"), JSON.pretty_generate(metrics))
-      end
-
-      # Send event with specific metrics via internal events
-      # @param label [String]
-      # @param value [Integer|Float]
-      # @param strategy [Symbol]
-      def send_event(label, value, strategy)
-        extra_properties = { ci_job_id: ENV["CI_JOB_ID"], ci_pipeline_id: ENV["CI_PIPELINE_ID"], test_type: test_type }
-        tracker.send_event(
-          PREDICTIVE_TEST_METRICS_EVENT,
-          label: label,
-          value: value,
-          property: strategy.to_s,
-          extra_properties: extra_properties
-        )
-      end
-
-      # Send events containing calculated predictive tests metrics
-      #
-      # @param metrics [Hash]
-      # @param strategy [Symbol]
-      # @return [void]
-      def send_metrics_events(metrics, strategy)
-        core = metrics[:core_metrics]
-
-        send_event("changed_files_count", core[:changed_files_count], strategy)
-        send_event("predicted_test_files_count", core[:predicted_test_files_count], strategy)
-        send_event("missed_failing_test_files", core[:missed_failing_test_files], strategy)
-        send_event("predicted_failing_test_files", core[:predicted_failing_test_files], strategy)
-
-        return unless test_type == :backend
-
-        runtime = core[:runtime_metrics]
-
-        send_event("projected_test_runtime_seconds", runtime[:projected_test_runtime_seconds], strategy)
-        send_event("test_files_missing_runtime_count", runtime[:test_files_missing_runtime_count], strategy)
       end
 
       # Send metrics to ClickHouse

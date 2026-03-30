@@ -690,8 +690,6 @@ export default {
     'app/assets/javascripts/pages/projects/forks/new/components/fork_form.vue',
     'app/assets/javascripts/pages/projects/forks/new/components/project_namespace.vue',
     'app/assets/javascripts/pages/projects/graphs/components/code_coverage.vue',
-    'app/assets/javascripts/pages/projects/home_panel/components/home_panel.vue',
-    'app/assets/javascripts/pages/projects/home_panel/components/home_panel_actions.vue',
     'app/assets/javascripts/pages/projects/pipeline_schedules/shared/components/interval_pattern_input.vue',
     'app/assets/javascripts/pages/projects/shared/permissions/components/ci_catalog_settings.vue',
     'app/assets/javascripts/pages/projects/shared/permissions/components/project_feature_setting.vue',

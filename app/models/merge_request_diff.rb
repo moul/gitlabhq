@@ -264,7 +264,7 @@ class MergeRequestDiff < ApplicationRecord
     reversed_compare_commits_preloaded
     compare_diffs_preloaded
 
-    eager_load_diff_collection if Feature.enabled?(:eager_load_diff_collection, project, type: :gitlab_com_derisk)
+    eager_load_diff_collection
   end
 
   # Collect information about commits and diff from repository

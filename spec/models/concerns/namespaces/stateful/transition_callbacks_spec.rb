@@ -96,10 +96,7 @@ RSpec.describe Namespaces::Stateful::TransitionCallbacks, feature_category: :gro
       before do
         namespace.update!(state: initial_state)
         namespace.update!(deletion_scheduled_at: 1.day.ago)
-        namespace.state_metadata.merge!(
-          deletion_scheduled_at: 1.day.ago.as_json,
-          deletion_scheduled_by_user_id: user.id
-        )
+        namespace.state_metadata[:deletion_scheduled_by_user_id] = user.id
         namespace.namespace_details.save!
       end
 
@@ -109,7 +106,6 @@ RSpec.describe Namespaces::Stateful::TransitionCallbacks, feature_category: :gro
         namespace.reload
 
         expect(namespace.deletion_scheduled_at).to be_nil
-        expect(namespace.state_metadata['deletion_scheduled_at']).to be_nil
         expect(namespace.state_metadata['deletion_scheduled_by_user_id']).to be_nil
       end
     end

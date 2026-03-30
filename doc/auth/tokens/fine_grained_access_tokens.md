@@ -924,41 +924,26 @@ Grants the ability to create, delete and read packages.
 | Create | Project | `POST` | `/projects/:id/packages/composer` |
 | Create | Project | `POST` | `/packages/conan/v1/conans/:package_name/:package_version/:package_username/:package_channel/packages/:conan_package_reference/upload_urls` |
 | Create | Project | `POST` | `/packages/conan/v1/conans/:package_name/:package_version/:package_username/:package_channel/upload_urls` |
-| Create | Project | `POST` | `/projects/:id/packages/helm/api/:channel/charts` |
 | Create | Project | `POST` | `/projects/:id/packages/rubygems/api/v1/gems` |
-| Create | Project | `POST` | `/projects/:id/packages/rubygems/api/v1/gems/authorize` |
 | Create | Project | `POST` | `/projects/:id/packages/conan/v1/conans/:package_name/:package_version/:package_username/:package_channel/packages/:conan_package_reference/upload_urls` |
 | Create | Project | `POST` | `/projects/:id/packages/conan/v1/conans/:package_name/:package_version/:package_username/:package_channel/upload_urls` |
-| Create | Project | `POST` | `/projects/:id/packages/pypi/authorize` |
 | Create | Project | `POST` | `/projects/:id/packages/pypi` |
-| Create | Project | `POST` | `/projects/:id/packages/helm/api/:channel/charts/authorize` |
-| Create | Project | `PUT` | `/packages/npm/-/package/*package_name/dist-tags/:tag` |
-| Create | Project | `PUT` | `/projects/:id/packages/npm/-/package/*package_name/dist-tags/:tag` |
-| Create | Project | `PUT` | `/projects/:id/packages/npm/:package_name/authorize` |
-| Create | Project | `PUT` | `/projects/:id/packages/npm/:package_name` |
-| Create | Project | `PUT` | `/projects/:id/packages/nuget` |
-| Create | Project | `PUT` | `/projects/:id/packages/nuget/authorize` |
-| Create | Project | `PUT` | `/projects/:id/packages/nuget/symbolpackage` |
-| Create | Project | `PUT` | `/projects/:id/packages/nuget/symbolpackage/authorize` |
-| Create | Project | `PUT` | `/projects/:id/packages/nuget/v2` |
-| Create | Project | `PUT` | `/projects/:id/packages/nuget/v2/authorize` |
-| Create | Project | `PUT` | `/projects/:id/packages/terraform/modules/:module_name/:module_system/*module_version/file/authorize` |
+| Create | Project | `POST` | `/projects/:id/packages/helm/api/:channel/charts` |
 | Create | Project | `PUT` | `/projects/:id/packages/terraform/modules/:module_name/:module_system/*module_version/file` |
+| Create | Project | `PUT` | `/projects/:id/packages/nuget/v2` |
+| Create | Project | `PUT` | `/projects/:id/packages/nuget/symbolpackage` |
+| Create | Project | `PUT` | `/projects/:id/packages/nuget` |
+| Create | Project | `PUT` | `/projects/:id/packages/npm/:package_name` |
+| Create | Project | `PUT` | `/projects/:id/packages/npm/-/package/*package_name/dist-tags/:tag` |
+| Create | Project | `PUT` | `/packages/npm/-/package/*package_name/dist-tags/:tag` |
 | Create | Project | `PUT` | `/projects/:id/packages/maven/*path/:file_name` |
 | Create | Project | `PUT` | `/projects/:id/packages/generic/:package_name/*package_version/(*path/):file_name` |
-| Create | Project | `PUT` | `/projects/:id/packages/generic/:package_name/*package_version/(*path/):file_name/authorize` |
 | Create | Project | `PUT` | `/projects/:id/packages/debian/:file_name` |
-| Create | Project | `PUT` | `/projects/:id/packages/conan/v2/conans/:package_name/:package_version/:package_username/:package_channel/revisions/:recipe_revision/packages/:conan_package_reference/revisions/:package_revision/files/:file_name/authorize` |
 | Create | Project | `PUT` | `/projects/:id/packages/conan/v2/conans/:package_name/:package_version/:package_username/:package_channel/revisions/:recipe_revision/packages/:conan_package_reference/revisions/:package_revision/files/:file_name` |
-| Create | Project | `PUT` | `/projects/:id/packages/conan/v2/conans/:package_name/:package_version/:package_username/:package_channel/revisions/:recipe_revision/files/:file_name/authorize` |
 | Create | Project | `PUT` | `/projects/:id/packages/conan/v2/conans/:package_name/:package_version/:package_username/:package_channel/revisions/:recipe_revision/files/:file_name` |
 | Create | Project | `PUT` | `/projects/:id/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/package/:conan_package_reference/:package_revision/:file_name` |
-| Create | Project | `PUT` | `/projects/:id/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/package/:conan_package_reference/:package_revision/:file_name/authorize` |
-| Create | Project | `PUT` | `/projects/:id/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/export/:file_name/authorize` |
 | Create | Project | `PUT` | `/projects/:id/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/export/:file_name` |
 | Create | Project | `PUT` | `/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/package/:conan_package_reference/:package_revision/:file_name` |
-| Create | Project | `PUT` | `/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/package/:conan_package_reference/:package_revision/:file_name/authorize` |
-| Create | Project | `PUT` | `/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/export/:file_name/authorize` |
 | Create | Project | `PUT` | `/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/export/:file_name` |
 | Create | Group | `POST` | `/virtual_registries/packages/maven/:id/*path/upload` |
 | Create | Group | `PUT` | `/groups/:id/-/packages/npm/-/package/*package_name/dist-tags/:tag` |
@@ -1756,7 +1741,6 @@ Grants the ability to create, read, and update commits.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
-| Create | Project | `POST` | `/projects/:id/repository/commits/authorize` |
 | Create | Project | `POST` | `/projects/:id/repository/commits` |
 | Create | Project | `POST` | `/projects/:id/repository/commits/:sha/cherry_pick` |
 | Create | Project | `POST` | `/projects/:id/repository/commits/:sha/revert` |
@@ -2506,20 +2490,18 @@ Grants the ability to start and download group exports.
 
 #### Group Import
 
-Grants the ability to authorize and create group imports.
+Grants the ability to create group imports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
-| Authorize | Instance | `POST` | `/groups/import/authorize` |
 | Create | Instance | `POST` | `/groups/import` |
 
 #### Placeholder Reassignment
 
-Grants the ability to authorize, create, and read placeholder reassignments.
+Grants the ability to create and read placeholder reassignments.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
-| Authorize | Group | `POST` | `/groups/:id/placeholder_reassignments/authorize` |
 | Create | Group | `POST` | `/groups/:id/placeholder_reassignments` |
 | Read | Group | `GET` | `/groups/:id/placeholder_reassignments` |
 
@@ -2535,11 +2517,10 @@ Grants the ability to create, read, and download project exports.
 
 #### Project Import
 
-Grants the ability to authorize and create project imports.
+Grants the ability to create and read project imports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
-| Authorize | Instance | `POST` | `/projects/import/authorize` |
 | Create | Project | `POST` | `/projects/:id/import/git` |
 | Create | Group | `POST` | `/projects/import` |
 | Create | Group | `POST` | `/projects/remote-import` |
@@ -2561,11 +2542,10 @@ Grants the ability to create, read, and download project relation exports.
 
 #### Project Relation Import
 
-Grants the ability to authorize, create, and read project relation imports.
+Grants the ability to create and read project relation imports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
-| Authorize | Instance | `POST` | `/projects/import-relation/authorize` |
 | Create | Project | `POST` | `/projects/import-relation` |
 | Read | Project | `GET` | `/projects/:id/relation-imports` |
 
@@ -2634,11 +2614,10 @@ Grants the ability to update and delete webhook URL variables.
 
 #### Markdown Upload
 
-Grants the ability to authorize, create, delete, and read Markdown uploads.
+Grants the ability to create, delete, and read Markdown uploads.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
-| Authorize | Project | `POST` | `/projects/:id/uploads/authorize` |
 | Create | Project | `POST` | `/projects/:id/uploads` |
 | Delete | Project | `DELETE` | `/projects/:id/uploads/:upload_id` |
 | Delete | Project | `DELETE` | `/projects/:id/uploads/:secret/:filename` |
@@ -2693,32 +2672,61 @@ job token policies or resource-specific access controls.
 | `GET` | `/groups/:id/-/packages/nuget/symbolfiles/*file_name/*signature/*same_file_name` |
 | `GET` | `/groups/:id/-/packages/nuget/v2` |
 | `GET` | `/groups/:id/-/packages/nuget/v2/$metadata` |
+| `POST` | `/groups/:id/placeholder_reassignments/authorize` |
+| `POST` | `/groups/import/authorize` |
 | `GET` | `/internal/orbit/project/:project_id/info` |
 | `GET` | `/internal/orbit/project/:project_id/repository/archive` |
 | `GET` | `/internal/orbit/project/:project_id/repository/changed_paths` |
 | `GET` | `/internal/orbit/project/:project_id/repository/commits` |
 | `POST` | `/internal/orbit/project/:project_id/repository/list_blobs` |
+| `POST` | `/jobs/:id/artifacts/authorize` |
+| `POST` | `/jobs/:id/sbom_scans/authorize` |
 | `GET` | `/orbit/mcp` |
 | `POST` | `/orbit/mcp` |
+| `PUT` | `/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/export/:file_name/authorize` |
+| `PUT` | `/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/package/:conan_package_reference/:package_revision/:file_name/authorize` |
 | `GET` | `/packages/conan/v1/ping` |
 | `GET` | `/packages/npm/*package_name` |
 | `POST` | `/packages/npm/-/npm/v1/security/advisories/bulk` |
 | `POST` | `/packages/npm/-/npm/v1/security/audits/quick` |
 | `POST` | `/projects/:id/(ref/:ref/)trigger/pipeline` |
+| `POST` | `/projects/:id/alert_management_alerts/:alert_iid/metric_images/authorize` |
 | `PATCH` | `/projects/:id/compliance_external_controls/:control_id/status` |
+| `POST` | `/projects/:id/issues/:issue_iid/metric_images/authorize` |
+| `PUT` | `/projects/:id/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/export/:file_name/authorize` |
+| `PUT` | `/projects/:id/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/package/:conan_package_reference/:package_revision/:file_name/authorize` |
 | `GET` | `/projects/:id/packages/conan/v1/ping` |
+| `PUT` | `/projects/:id/packages/conan/v2/conans/:package_name/:package_version/:package_username/:package_channel/revisions/:recipe_revision/files/:file_name/authorize` |
+| `PUT` | `/projects/:id/packages/conan/v2/conans/:package_name/:package_version/:package_username/:package_channel/revisions/:recipe_revision/packages/:conan_package_reference/revisions/:package_revision/files/:file_name/authorize` |
+| `PUT` | `/projects/:id/packages/debian/:file_name/authorize` |
+| `PUT` | `/projects/:id/packages/generic/:package_name/*package_version/(*path/):file_name/authorize` |
+| `POST` | `/projects/:id/packages/helm/api/:channel/charts/authorize` |
+| `PUT` | `/projects/:id/packages/maven/*path/:file_name/authorize` |
+| `PUT` | `/projects/:id/packages/ml_models/:model_version_id/files/(*path/):file_name/authorize` |
 | `POST` | `/projects/:id/packages/npm/-/npm/v1/security/advisories/bulk` |
 | `POST` | `/projects/:id/packages/npm/-/npm/v1/security/audits/quick` |
+| `PUT` | `/projects/:id/packages/npm/:package_name/authorize` |
+| `PUT` | `/projects/:id/packages/nuget/authorize` |
 | `GET` | `/projects/:id/packages/nuget/index` |
 | `GET` | `/projects/:id/packages/nuget/symbolfiles/*file_name/*signature/*same_file_name` |
+| `PUT` | `/projects/:id/packages/nuget/symbolpackage/authorize` |
 | `GET` | `/projects/:id/packages/nuget/v2` |
 | `GET` | `/projects/:id/packages/nuget/v2/$metadata` |
+| `PUT` | `/projects/:id/packages/nuget/v2/authorize` |
+| `POST` | `/projects/:id/packages/pypi/authorize` |
+| `POST` | `/projects/:id/packages/rpm/authorize` |
+| `POST` | `/projects/:id/packages/rubygems/api/v1/gems/authorize` |
+| `PUT` | `/projects/:id/packages/terraform/modules/:module_name/:module_system/*module_version/file/authorize` |
+| `POST` | `/projects/:id/repository/commits/authorize` |
 | `POST` | `/projects/:id/repository/files/:file_path/authorize` |
 | `PUT` | `/projects/:id/repository/files/:file_path/authorize` |
 | `POST` | `/projects/:id/terraform/state/:name/authorize` |
+| `POST` | `/projects/:id/uploads/authorize` |
 | `GET` | `/projects/:project_id/packages/nuget/v2/FindPackagesById\(\)` |
 | `GET` | `/projects/:project_id/packages/nuget/v2/Packages\(Id='*package_name',Version='*package_version'\)` |
 | `GET` | `/projects/:project_id/packages/nuget/v2/Packages\(\)` |
+| `POST` | `/projects/import-relation/authorize` |
+| `POST` | `/projects/import/authorize` |
 | `GET` | `/templates/dockerfiles` |
 | `GET` | `/templates/dockerfiles/:name` |
 | `GET` | `/templates/gitignores` |

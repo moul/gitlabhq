@@ -16,18 +16,6 @@ RSpec.describe Namespaces::AdjournedDeletable, feature_category: :groups_and_pro
   end
 
   describe '#self_deletion_scheduled_deletion_created_on', :freeze_time do
-    context 'when deletion_scheduled_at is present in namespace_details.state_metadata' do
-      before do
-        allow(record).to receive(:namespace_details).and_return(
-          instance_double(Namespace::Detail, state_metadata: { 'deletion_scheduled_at' => Time.current.to_s })
-        )
-      end
-
-      it 'returns parsed deletion_scheduled_at' do
-        expect(record.self_deletion_scheduled_deletion_created_on).to eq(Time.current)
-      end
-    end
-
     context 'when deletion_scheduled_at is not present in namespace_details.state_metadata' do
       before do
         allow(record).to receive(:namespace_details).and_return(instance_double(Namespace::Detail, state_metadata: {}))

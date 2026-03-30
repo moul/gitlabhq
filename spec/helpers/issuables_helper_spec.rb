@@ -224,6 +224,8 @@ RSpec.describe IssuablesHelper, feature_category: :team_planning do
           canCreateIncident: true,
           fullPath: issue.project.full_path,
           iid: issue.iid,
+          isIncidentManagement: false,
+          isServiceDesk: false,
           issuableId: issue.id,
           issueType: 'issue',
           isHidden: false,
@@ -277,6 +279,8 @@ RSpec.describe IssuablesHelper, feature_category: :team_planning do
 
         expected_data = {
           issueType: 'incident',
+          isIncidentManagement: true,
+          isServiceDesk: false,
           hasLinkedAlerts: false,
           canUpdateTimelineEvent: true,
           currentPath: "/foo/bar/-/issues/incident/#{incident.iid}/timeline",
@@ -284,6 +288,54 @@ RSpec.describe IssuablesHelper, feature_category: :team_planning do
         }
 
         expect(helper.issuable_initial_data(incident)).to match(hash_including(expected_data))
+      end
+    end
+
+    context 'for ticket' do
+      let(:ticket) { create(:issue, :ticket) }
+
+      it 'includes ticket attributes' do
+        @project = ticket.project
+
+        expected_data = {
+          issueType: 'ticket',
+          isIncidentManagement: false,
+          isServiceDesk: true
+        }
+
+        expect(helper.issuable_initial_data(ticket)).to match(hash_including(expected_data))
+      end
+    end
+
+    context 'when work_item_type is nil' do
+      let(:issue) { create(:issue) }
+
+      it 'defaults isIncidentManagement and isServiceDesk to false' do
+        @project = issue.project
+        allow(issue).to receive(:work_item_type).and_return(nil)
+
+        expect(helper.issuable_initial_data(issue)).to match(hash_including(
+          isIncidentManagement: false,
+          isServiceDesk: false
+        ))
+      end
+    end
+
+    context 'for service desk issue authored by support bot' do
+      let(:project) { create(:project) }
+      let(:support_bot) { Users::Internal.in_organization(project.organization_id).support_bot }
+      let(:service_desk_issue) { create(:issue, project: project, author: support_bot) }
+
+      it 'sets isServiceDesk to true via from_service_desk? fallback' do
+        @project = service_desk_issue.project
+
+        expected_data = {
+          issueType: 'issue',
+          isIncidentManagement: false,
+          isServiceDesk: true
+        }
+
+        expect(helper.issuable_initial_data(service_desk_issue)).to match(hash_including(expected_data))
       end
     end
 

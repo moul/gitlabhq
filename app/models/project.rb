@@ -58,7 +58,7 @@ class Project < ApplicationRecord
   columns_changing_default :organization_id
 
   ignore_column :emails_disabled, remove_with: '16.3', remove_after: '2023-08-22'
-  ignore_column :delete_error, remove_with: '18.11', remove_after: '2026-03-19'
+  ignore_column :delete_error, remove_with: '19.0', remove_after: '2026-04-22'
 
   extend Gitlab::Cache::RequestCache
   extend Gitlab::Utils::Override

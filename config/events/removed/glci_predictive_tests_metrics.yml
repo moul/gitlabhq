@@ -20,7 +20,10 @@ additional_properties:
     description: type of test, like frontend, backend
 product_group: development_analytics
 milestone: '18.1'
+milestone_removed: '18.11'
 introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/191286
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229202
+status: removed
 tiers:
 - free
 - premium

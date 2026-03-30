@@ -16,6 +16,7 @@ project:
   - create_build
   - create_vulnerability_archive_export
   - create_vulnerability_export
+  - enable_container_scanning_for_registry
   - enable_secret_push_protection
   - manage_project_security_exclusions
   - read_project_security_dashboard

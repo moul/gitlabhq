@@ -493,7 +493,6 @@ module ProjectsHelper
       forks_count: project.forks_count,
       new_fork_url: new_project_fork_path(project),
       project_forks_url: project_forks_path(project),
-      project_full_path: project.full_path,
       user_fork_url: user_fork_url
     }
   end
@@ -527,7 +526,7 @@ module ProjectsHelper
 
   def home_panel_data_attributes
     project = @project.is_a?(ProjectPresenter) ? @project.project : @project
-    dropdown_attributes = groups_projects_more_actions_dropdown_data(project) || {}
+    dropdown_attributes = project_more_action_data(project)
     fork_button_attributes = fork_button_data_attributes(project) || {}
     notification_attributes = notification_data_attributes(project) || {}
     star_count_attributes = star_count_data_attributes(project)
@@ -543,7 +542,8 @@ module ProjectsHelper
       project_avatar: project.avatar_url,
       project_name: project.name,
       project_id: project.id,
-      project_visibility_level: Gitlab::VisibilityLevel.string_level(project.visibility_level)
+      project_visibility_level: Gitlab::VisibilityLevel.string_level(project.visibility_level),
+      project_full_path: project.full_path
     }.merge(
       dropdown_attributes,
       fork_button_attributes,
@@ -1025,6 +1025,18 @@ module ProjectsHelper
     strong_memoize(:delete_dormant_projects_setting) do
       ::Gitlab::CurrentSettings.delete_inactive_projects?
     end
+  end
+
+  def project_more_action_data(project)
+    request = project.requesters.with_user(current_user).first
+
+    {
+      can_request_access: can?(current_user, :request_access, project).to_s,
+      can_withdraw_access_request: can?(current_user, :withdraw_member_access_request, request).to_s,
+      request_access_path: request_access_project_project_members_path(project),
+      withdraw_access_request_path: leave_project_project_members_path(project),
+      dashboard_path: dashboard_projects_path
+    }
   end
 end
 

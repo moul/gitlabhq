@@ -4,7 +4,7 @@ import VueApollo from 'vue-apollo';
 import createDefaultClient from '~/lib/graphql';
 
 import { parseBoolean } from '~/lib/utils/common_utils';
-import HomePanel from './components/home_panel.vue';
+import HomePanelApp from './components/app.vue';
 
 Vue.use(GlToast);
 Vue.use(VueApollo);
@@ -27,16 +27,14 @@ const initHomePanel = () => {
     isProjectEmpty,
     projectAvatar,
     projectId,
+    projectFullPath,
 
     // Dropdown component
-    isGroup,
-    leaveConfirmMessage,
-    leavePath,
+    canRequestAccess,
+    canWithdrawAccessRequest,
     requestAccessPath,
-    withdrawConfirmMessage,
-    withdrawPath,
-    canEdit,
-    editPath,
+    withdrawAccessRequestPath,
+    dashboardPath,
 
     // Fork component
     canForkProject,
@@ -44,7 +42,6 @@ const initHomePanel = () => {
     forksCount,
     newForkUrl,
     projectForksUrl,
-    projectFullPath,
     userForkUrl,
 
     // Notification component
@@ -85,17 +82,11 @@ const initHomePanel = () => {
       isProjectEmpty: parseBoolean(isProjectEmpty),
       projectAvatar,
       projectId: parseInt(projectId, 10),
+      projectFullPath,
 
       // Dropdown component
-      groupOrProjectId: projectId,
-      isGroup: parseBoolean(isGroup),
-      leaveConfirmMessage,
-      leavePath,
-      requestAccessPath,
-      withdrawConfirmMessage,
-      withdrawPath,
-      canEdit: parseBoolean(canEdit),
-      editPath,
+      triggerDeleteLocation: 'header',
+      triggerRestoreLocation: 'header',
 
       // Fork component
       canForkProject: parseBoolean(canForkProject),
@@ -103,7 +94,6 @@ const initHomePanel = () => {
       forksCount: parseInt(forksCount, 10) || 0,
       newForkUrl,
       projectForksUrl,
-      projectFullPath,
       userForkUrl,
 
       // Notification component
@@ -133,7 +123,16 @@ const initHomePanel = () => {
       // CI/CD Catalogue Badge
       cicdCatalogPath,
     },
-    render: (createElement) => createElement(HomePanel),
+    render: (createElement) =>
+      createElement(HomePanelApp, {
+        props: {
+          canRequestAccess: parseBoolean(canRequestAccess),
+          canWithdrawAccessRequest: parseBoolean(canWithdrawAccessRequest),
+          requestAccessPath,
+          withdrawAccessRequestPath,
+          dashboardPath,
+        },
+      }),
   });
 };
 

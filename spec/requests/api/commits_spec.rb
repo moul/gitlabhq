@@ -673,13 +673,6 @@ RSpec.describe API::Commits, feature_category: :source_code_management do
 
     subject(:request) { post api(url, user), headers: workhorse_headers }
 
-    it_behaves_like 'authorizing granular token permissions', :authorize_commit do
-      let(:boundary_object) { project }
-      let(:request) do
-        post api(url, personal_access_token: pat), headers: workhorse_headers
-      end
-    end
-
     context 'with workhorse headers' do
       it 'authorizes the upload' do
         request

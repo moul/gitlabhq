@@ -28,7 +28,12 @@ title: Code Review Flow
 {{< /history >}}
 
 > [!note]
-> Depending on your add-on, you might have access to GitLab Duo Code Review instead.
+> Depending on your add-on, GitLab runs one of two code review features:
+>
+> - Code Review Flow: the agentic version, part of GitLab Duo Agent Platform.
+> - GitLab Duo Code Review: the non-agentic version, available only for users with the GitLab Duo Enterprise add-on.
+>
+> This page describes the agentic version.
 > Learn how [the two features compare](../../../project/merge_requests/duo_in_merge_requests.md#use-gitlab-duo-to-review-your-code).
 
 The Code Review Flow helps you streamline code reviews with agentic AI.

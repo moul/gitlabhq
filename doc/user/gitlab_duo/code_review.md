@@ -2,7 +2,7 @@
 stage: AI-powered
 group: AI Coding
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
-title: GitLab Duo Code Review
+title: GitLab Duo Code Review (non-agentic)
 ---
 
 {{< details >}}
@@ -35,8 +35,17 @@ title: GitLab Duo Code Review
 {{< /history >}}
 
 > [!note]
-> Depending on your add-on, you might have access to Code Review Flow instead.
+> Depending on your add-on, GitLab runs one of two code review features:
+>
+> - Code Review Flow: the agentic version, part of GitLab Duo Agent Platform.
+> - GitLab Duo Code Review: the non-agentic version, available only for users with the GitLab Duo Enterprise add-on.
+>
+> This page describes the non-agentic version.
 > Learn how [the two features compare](../project/merge_requests/duo_in_merge_requests.md#use-gitlab-duo-to-review-your-code).
+
+GitLab Duo Code Review helps you streamline code reviews in your projects.
+
+## Use GitLab Duo Code Review
 
 When your merge request is ready to be reviewed, use GitLab Duo Code Review to perform an initial review:
 

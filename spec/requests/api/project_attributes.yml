@@ -2,7 +2,6 @@
 itself: # project
   unexposed_attributes:
     - bfg_object_map
-    - delete_error
     - detected_repository_languages
     - disable_overriding_approvers_per_merge_request
     - external_authorization_classification_label

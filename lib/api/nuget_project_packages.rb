@@ -333,7 +333,7 @@ module API
             ]
             tags %w[packages]
           end
-          route_setting :authorization, permissions: :authorize_nuget_package, boundary_type: :project
+          route_setting :authorization, skip_granular_token_authorization: true
           put 'authorize', urgency: :low do
             authorize_nuget_upload
           end
@@ -368,7 +368,7 @@ module API
             ]
             tags %w[packages]
           end
-          route_setting :authorization, permissions: :authorize_nuget_package, boundary_type: :project
+          route_setting :authorization, skip_granular_token_authorization: true
           put 'symbolpackage/authorize', urgency: :low do
             authorize_nuget_upload
           end
@@ -430,7 +430,7 @@ module API
               tags %w[packages]
             end
 
-            route_setting :authorization, permissions: :authorize_nuget_package, boundary_type: :project
+            route_setting :authorization, skip_granular_token_authorization: true
             put 'authorize', urgency: :low do
               authorize_nuget_upload
             end

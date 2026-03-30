@@ -3,15 +3,20 @@ import { GlButton, GlTooltipDirective } from '@gitlab/ui';
 import { __, s__, sprintf } from '~/locale';
 import { isLoggedIn } from '~/lib/utils/common_utils';
 import ForksButton from '~/forks/components/forks_button.vue';
-import MoreActionsDropdown from '~/groups_projects/components/more_actions_dropdown.vue';
 import NotificationsDropdown from '~/notifications/components/notifications_dropdown.vue';
 import StarCount from '~/stars/components/star_count.vue';
+import getProjectByPath from '~/graphql_shared/queries/get_project_by_path.graphql';
+import { ACTION_COPY_ID } from '~/vue_shared/components/list_actions/constants';
+import { createAlert } from '~/alert';
+import { formatProject } from '~/projects/home_panel/formatter';
+import ProjectHeaderActions from './header_actions.vue';
 
 export default {
+  name: 'HomePanelApp',
   components: {
     ForksButton,
     GlButton,
-    MoreActionsDropdown,
+    ProjectHeaderActions,
     NotificationsDropdown,
     StarCount,
   },
@@ -31,10 +36,62 @@ export default {
     projectId: {
       default: '',
     },
+    projectFullPath: {
+      default: '',
+    },
+  },
+  props: {
+    canRequestAccess: {
+      type: Boolean,
+      required: true,
+    },
+    canWithdrawAccessRequest: {
+      type: Boolean,
+      required: true,
+    },
+    requestAccessPath: {
+      type: String,
+      required: true,
+    },
+    withdrawAccessRequestPath: {
+      type: String,
+      required: true,
+    },
+    dashboardPath: {
+      type: String,
+      required: true,
+    },
+  },
+  apollo: {
+    project: {
+      query: getProjectByPath,
+      update(data) {
+        return formatProject(data.project, {
+          canWithdrawAccessRequest: this.canWithdrawAccessRequest,
+          canRequestAccess: this.canRequestAccess,
+          requestAccessPath: this.requestAccessPath,
+          withdrawAccessRequestPath: this.withdrawAccessRequestPath,
+        });
+      },
+      variables() {
+        return { fullPath: this.projectFullPath };
+      },
+      error() {
+        createAlert({
+          message: s__(
+            'GroupProjectActions|Something went wrong while loading the actions dropdown list. Please refresh the page and try again.',
+          ),
+        });
+      },
+      skip() {
+        return !isLoggedIn();
+      },
+    },
   },
   data() {
     return {
       isLoggedIn: isLoggedIn(),
+      project: { id: this.projectId, availableActions: [ACTION_COPY_ID] },
     };
   },
   computed: {
@@ -43,6 +100,9 @@ export default {
     },
     copyProjectId() {
       return sprintf(s__('ProjectPage|Project ID: %{id}'), { id: this.projectId });
+    },
+    showActions() {
+      return this.project && !this.$apollo.queries.project.loading;
     },
   },
   i18n: {
@@ -79,6 +139,6 @@ export default {
       </span>
     </template>
 
-    <more-actions-dropdown />
+    <project-header-actions v-if="showActions" :project="project" :dashboard-path="dashboardPath" />
   </div>
 </template>

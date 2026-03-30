@@ -22,7 +22,7 @@ module Namespaces
 
       def clear_deletion_schedule_data(_transition)
         self.deletion_scheduled_at = nil
-        state_metadata.except!('deletion_scheduled_at', 'deletion_scheduled_by_user_id')
+        state_metadata.except!('deletion_scheduled_by_user_id')
       end
 
       def set_deletion_error_data(transition)

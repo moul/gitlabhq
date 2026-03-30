@@ -353,10 +353,8 @@ POST /internal/two_factor_push_otp_check
 POST /internal/two_factor_recovery_codes
 POST /internal/workhorse/authorize_upload
 POST /jobs/:id/artifacts
-POST /jobs/:id/artifacts/authorize
 POST /jobs/:id/sbom_scans
 POST /jobs/:id/sbom_scans/:sbom_digest
-POST /jobs/:id/sbom_scans/authorize
 POST /jobs/request
 POST /license
 POST /markdown
@@ -370,13 +368,11 @@ POST /organizations
 POST /personal_access_tokens/self/rotate
 POST /pipelines/:id/dependency_list_exports
 POST /projects/:id/alert_management_alerts/:alert_iid/metric_images
-POST /projects/:id/alert_management_alerts/:alert_iid/metric_images/authorize
 POST /projects/:id/approval_settings/rules
 POST /projects/:id/error_tracking/client_keys
 POST /projects/:id/integrations/mattermost_slash_commands/trigger
 POST /projects/:id/integrations/slack_slash_commands/trigger
 POST /projects/:id/issues/:issue_iid/metric_images
-POST /projects/:id/issues/:issue_iid/metric_images/authorize
 POST /projects/:id/issues/:issue_iid/todo
 POST /projects/:id/issues/:subscribable_id/subscribe
 POST /projects/:id/issues/:subscribable_id/unsubscribe
@@ -405,7 +401,6 @@ POST /projects/:id/ml/mlflow/api/2.0/mlflow/runs/set-tag
 POST /projects/:id/ml/mlflow/api/2.0/mlflow/runs/update
 POST /projects/:id/packages/protection/rules
 POST /projects/:id/packages/rpm
-POST /projects/:id/packages/rpm/authorize
 POST /projects/:id/security_scans/sast/:sast_endpoint
 POST /projects/:id/service_accounts
 POST /projects/:id/service_accounts/:user_id/personal_access_tokens
@@ -598,10 +593,7 @@ PUT /projects/:id/labels
 PUT /projects/:id/labels/:name
 PUT /projects/:id/labels/:name/promote
 PUT /projects/:id/labels/promote
-PUT /projects/:id/packages/debian/:file_name/authorize
-PUT /projects/:id/packages/maven/*path/:file_name/authorize
 PUT /projects/:id/packages/ml_models/:model_version_id/files/(*path/):file_name
-PUT /projects/:id/packages/ml_models/:model_version_id/files/(*path/):file_name/authorize
 PUT /projects/:id/services/apple-app-store
 PUT /projects/:id/services/asana
 PUT /projects/:id/services/assembla

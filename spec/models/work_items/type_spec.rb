@@ -280,6 +280,8 @@ RSpec.describe WorkItems::Type, feature_category: :team_planning do
 
   describe 'temporary configuration methods' do
     let_it_be(:work_item_type) { create(:work_item_type) }
+    let_it_be(:ticket_type) { create(:work_item_type, :ticket) }
+    let_it_be(:incident_type) { create(:work_item_type, :incident) }
 
     describe '#supports_roadmap_view?' do
       it 'returns nil' do
@@ -312,14 +314,22 @@ RSpec.describe WorkItems::Type, feature_category: :team_planning do
     end
 
     describe '#service_desk?' do
-      it 'returns nil' do
-        expect(work_item_type.service_desk?).to be_nil
+      it 'returns false for issue type' do
+        expect(work_item_type.service_desk?).to be false
+      end
+
+      it 'returns true for ticket type' do
+        expect(ticket_type.service_desk?).to be true
       end
     end
 
     describe '#incident_management?' do
-      it 'returns nil' do
-        expect(work_item_type.incident_management?).to be_nil
+      it 'returns false for issue type' do
+        expect(work_item_type.incident_management?).to be false
+      end
+
+      it 'returns true for incident type' do
+        expect(incident_type.incident_management?).to be true
       end
     end
 

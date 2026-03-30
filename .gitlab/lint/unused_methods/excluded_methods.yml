@@ -39,7 +39,7 @@ app/models/note.rb:
 ee/app/helpers/ee/gitlab_routing_helper.rb:
   - user_group_saml_omniauth_metadata_path: Used to dynamically generate a method via `#url_helper`
 app/helpers/routing/groups/members_helper.rb:
-  - request_access_group_members_path: Dynamically accessed via GroupsHelper#groups_projects_more_actions_dropdown_data
+  - request_access_group_members_path: Dynamically accessed via GroupChildEntity#request_access_path
 ee/app/models/ci/secrets/integration.rb:
   - gcp_secret_manager?: Dynamically accessed via Ci::Secrets::Integration#secrets_provider?
   - azure_key_vault?: Dynamically accessed via Ci::Secrets::Integration#secrets_provider?

@@ -572,7 +572,6 @@ CREATE TABLE projects (
     auto_cancel_pending_pipelines integer DEFAULT 1 NOT NULL,
     service_desk_enabled boolean DEFAULT true,
     cached_markdown_version integer,
-    delete_error text,
     last_repository_updated_at timestamp without time zone,
     disable_overriding_approvers_per_merge_request boolean,
     storage_version smallint,
@@ -47962,6 +47961,8 @@ CREATE UNIQUE INDEX index_pm_advisories_on_advisory_xid_and_source_xid ON pm_adv
 
 CREATE INDEX index_pm_advisories_on_cve ON pm_advisories USING btree (cve);
 
+CREATE INDEX index_pm_advisories_on_identifiers ON pm_advisories USING gin (identifiers);
+
 CREATE INDEX index_pm_affected_packages_on_pm_advisory_id ON pm_affected_packages USING btree (pm_advisory_id);
 
 CREATE INDEX index_pm_affected_packages_on_purl_type_and_package_name ON pm_affected_packages USING btree (purl_type, package_name);
@@ -50151,8 +50152,6 @@ CREATE UNIQUE INDEX snippet_user_mentions_on_snippet_id_index ON snippet_user_me
 CREATE INDEX temp_index_on_users_where_dark_theme ON users USING btree (id) WHERE (theme_id = 11);
 
 CREATE UNIQUE INDEX term_agreements_unique_index ON term_agreements USING btree (user_id, term_id);
-
-CREATE INDEX tmp_idx_backfill_deletion_scheduled_at ON namespace_details USING btree (namespace_id) WHERE ((state_metadata ? 'deletion_scheduled_at'::text) AND (deletion_scheduled_at IS NULL));
 
 CREATE INDEX tmp_idx_orphaned_approval_merge_request_rules ON approval_merge_request_rules USING btree (id) WHERE ((report_type = ANY (ARRAY[2, 4])) AND (security_orchestration_policy_configuration_id IS NULL));
 

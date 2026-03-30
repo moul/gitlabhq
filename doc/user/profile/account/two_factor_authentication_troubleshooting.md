@@ -26,6 +26,7 @@ If a token was provided, it was either incorrect, expired, or improperly scoped.
 This error occurs when:
 
 - You have enabled 2FA and attempted to authenticate with a username and password.
+- You are on GitLab.com and your account requires 2FA (see [email OTP troubleshooting](#email-otp-troubleshooting)).
 - You have not enabled 2FA and attempted to authenticate with an incorrect username or password.
 - You have not enabled 2FA and the [enforce 2FA for all users](../../../security/two_factor_authentication.md#enforce-2fa-for-all-users) setting is active.
 - You have not enabled 2FA and the [**Allow password authentication for Git over HTTP(S)**](../../../administration/settings/sign_in_restrictions.md#allow-password-authentication-for-git-over-https)
@@ -78,6 +79,29 @@ To resolve this, [configure SSH to point to a different directory](../../ssh_adv
 
 ## Email OTP troubleshooting
 
+When working with email OTP, you might encounter the following issues.
+
+> [!note]
+> From April 2026, multi-factor authentication is mandatory on GitLab.com for any sign-in
+> or API request that uses a username and password.
+> [Email OTP](two_factor_authentication.md#sign-in-with-email-otp) is the mandatory
+> second factor on GitLab.com if another factor is not configured.
+
+### Enhanced authentication banner and passcode requirement
+
+The **Enhanced Authentication Coming Soon** banner signals that GitLab will begin to enforce
+[email one-time passcodes](two_factor_authentication.md#sign-in-with-email-otp)
+for your account at password-based sign-in. Users who sign in with SSO or who have 2FA
+already configured are unaffected.
+
+This banner appears 14 days before enforcement. 7 days before enforcement, GitLab sends
+you a one-time passcode at each password-based sign-in. You can skip passcode entry during
+this period.
+
+When the enforcement date passes, you must enter a one-time passcode at every password-based
+sign-in. To avoid being locked out, ensure you can access your primary email address, or
+[change your primary email address](../../profile/_index.md#change-your-primary-email).
+
 ### Didn't receive email verification code or code has expired
 
 Check your spam folder. On GitLab.com, emails are sent from `gitlab@mg.gitlab.com`
@@ -85,14 +109,35 @@ and can be [verified as genuine](https://handbook.gitlab.com/handbook/security/c
 
 If your code expires, you can request a new code. From the sign-in page, select **Resend code**.
 
-### Unable to access your email address
+### Cannot access your email address
 
-If you cannot access your primary email address, try a verified secondary email address associated
-to your account. From the sign-in page, select **Send a code to another address associated with
-this account**.
+If you cannot access your primary email address,
+use another email address associated with your account.
+From the sign-in page, select **Send a code to another address associated with this account**.
 
-On GitLab Self-Managed, if you are unable to access your primary or secondary email addresses,
-contact your GitLab administrator.
+If you cannot access any associated email address:
+
+- If you previously configured SSO, sign in with SSO instead of a username and password.
+- If you are a GitLab.com enterprise user, ask your group owner to
+  [change your email address](../../enterprise_user/_index.md#change-the-email-addresses-for-an-enterprise-user).
+- On GitLab Self-Managed, contact your GitLab administrator.
+- [Contact GitLab Support](https://about.gitlab.com/support/).
+
+### Email OTP cannot be enabled or disabled
+
+You cannot disable email OTP if:
+
+- Your instance requires 2FA and you have not registered
+  an [OTP authenticator](two_factor_authentication.md#register-an-otp-authenticator)
+  or a [WebAuthn device](two_factor_authentication.md#register-a-webauthn-device).
+- Your account is scheduled for automatic enablement at a future date.
+
+You cannot enable email OTP if:
+
+- Your group, instance, or admin policy requires you to use an OTP
+  authenticator or WebAuthn device.
+- Your account uses an external identity provider.
+- Your account is scheduled for automatic enablement at a future date.
 
 ## Recovery options and 2FA reset
 

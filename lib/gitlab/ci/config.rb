@@ -12,6 +12,8 @@ module Gitlab
       TIMEOUT_SECONDS = ENV.fetch('GITLAB_CI_CONFIG_FETCH_TIMEOUT_SECONDS', 30).to_i.clamp(0, 60).seconds
       TIMEOUT_MESSAGE = 'Request timed out when fetching configuration files.'
       GITALY_TIMEOUT_SECONDS = ENV.fetch('GITLAB_CI_CONFIG_GITALY_TIMEOUT_SECONDS', 10).to_i.clamp(1, 60)
+      HTTP_OPEN_TIMEOUT_SECONDS = ENV.fetch('GITLAB_CI_CONFIG_HTTP_OPEN_TIMEOUT_SECONDS', 10).to_i.clamp(1, 60)
+      HTTP_READ_TIMEOUT_SECONDS = ENV.fetch('GITLAB_CI_CONFIG_HTTP_READ_TIMEOUT_SECONDS', 30).to_i.clamp(1, 60)
 
       RESCUE_ERRORS = [
         Gitlab::Config::Loader::FormatError,

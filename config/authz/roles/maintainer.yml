@@ -82,6 +82,7 @@ project:
   - destroy_release
   - destroy_resource_access_tokens
   - destroy_upload
+  - enable_container_scanning_for_registry
   - enable_secret_push_protection
   - import_project_members_from_another_project
   - invite_member

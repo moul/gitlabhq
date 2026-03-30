@@ -38,7 +38,7 @@ module API
         ]
         tags %w[projects]
       end
-      route_setting :authorization, permissions: :authorize_markdown_upload, boundary_type: :project
+      route_setting :authorization, skip_granular_token_authorization: true
       post ':id/uploads/authorize' do
         require_gitlab_workhorse!
 

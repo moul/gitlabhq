@@ -367,6 +367,7 @@ module API
           optional :artifact_type, type: String, desc: 'The type of artifact',
             default: 'archive', values: ::Ci::JobArtifact.file_types.keys
         end
+        route_setting :authorization, skip_granular_token_authorization: true
         post '/:id/artifacts/authorize', feature_category: :job_artifacts, urgency: :low do
           check_rate_limit!(:runner_jobs_api, scope: [Gitlab::CryptoHelper.sha256(job_token)], user: nil)
 

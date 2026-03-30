@@ -38,7 +38,7 @@ are available on GitLab Self-Managed only.
 | [Test Generation](../gitlab_duo_chat/examples.md#write-tests-in-the-ide) in IDEs | {{< yes >}} | {{< yes >}} | {{< yes >}} | {{< yes >}} |
 | [Code Explanation](../project/repository/code_explain.md) in GitLab UI | {{< no >}} | {{< yes >}} | {{< yes >}} | {{< yes >}} |
 | [Discussion Summary](../discussions/_index.md#summarize-issue-discussions-with-gitlab-duo-chat) | {{< no >}} | {{< no >}} | {{< yes >}} | {{< yes >}} |
-| [Code Review<br>](code_review_classic.md) <sup>1</sup> | {{< no >}} | {{< no >}} | {{< yes >}} | {{< yes >}} |
+| [Code Review<br>](code_review.md) <sup>1</sup> | {{< no >}} | {{< no >}} | {{< yes >}} | {{< yes >}} |
 | [Root Cause Analysis](../gitlab_duo_chat/examples.md#troubleshoot-failed-cicd-jobs-with-root-cause-analysis) | {{< no >}} | {{< no >}} | {{< yes >}} | {{< yes >}} |
 | [Vulnerability Explanation](../application_security/analyze/duo.md) | {{< no >}} | {{< no >}} | {{< yes >}} | {{< yes >}} |
 | [Vulnerability Resolution](../application_security/remediate/duo.md) | {{< no >}} | {{< no >}} | {{< yes >}} | {{< yes >}} |
