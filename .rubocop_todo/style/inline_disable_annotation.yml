@@ -1928,7 +1928,6 @@ Style/InlineDisableAnnotation:
     - 'qa/qa/specs/features/api/1_manage/migration/gitlab_migration_large_project_spec.rb'
     - 'qa/qa/specs/features/browser_ui/1_manage/integrations/jira/jira_basic_integration_spec.rb'
     - 'qa/qa/specs/features/ee/browser_ui/1_manage/integrations/jira_issues_list_spec.rb'
-    - 'qa/qa/specs/qa_deprecation_toolkit_env.rb'
     - 'qa/qa/support/fips.rb'
     - 'qa/qa/support/matchers/have_text.rb'
     - 'qa/qa/support/page_error_checker.rb'

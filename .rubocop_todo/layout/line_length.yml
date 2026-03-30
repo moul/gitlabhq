@@ -2287,7 +2287,6 @@ Layout/LineLength:
     - 'spec/controllers/sessions_controller_spec.rb'
     - 'spec/controllers/uploads_controller_spec.rb'
     - 'spec/db/schema_spec.rb'
-    - 'spec/deprecation_toolkit_env.rb'
     - 'spec/factories/ci/job_artifacts.rb'
     - 'spec/factories/ci/pipelines.rb'
     - 'spec/factories/ci/reports/codequality_degradations.rb'

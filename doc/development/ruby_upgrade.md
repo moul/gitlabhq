@@ -239,22 +239,11 @@ for how to proceed.
 
 There are several tools that ease the upgrade process.
 
-### Deprecation Toolkit
-
-A common problem with Ruby upgrades is that deprecation warnings turn into errors. This means that every single
-deprecation warning must be resolved before making the switch. To avoid new warnings from making it into the
-main application branch, we use [`DeprecationToolkitEnv`](https://gitlab.com/gitlab-org/gitlab/blob/master/spec/deprecation_toolkit_env.rb).
-This module observes deprecation warnings emitted from spec runs and turns them into test failures. This prevents
-developers from checking in new code that would fail under a new Ruby.
-
-Sometimes it cannot be avoided to introduce new warnings, for example when a Ruby gem we use emits these warnings
-and we have no control over it. In these cases, add silences, like [this merge request](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/68865) did.
-
 ### Deprecation Logger
 
 We also log Ruby and Rails deprecation warnings to a dedicated log file, `log/deprecation_json.log`
 (see [GitLab Developers Guide to Logging](logging.md) for where to find GitLab log files),
-which can provide clues when there is code that is not adequately covered by tests and hence would slip past `DeprecationToolkitEnv`.
+which can provide clues when there is code that is not adequately covered by tests.
 
 For GitLab.com, GitLab team members can inspect these log events in Kibana
 (`https://log.gprd.gitlab.net/goto/f7cebf1ff05038d901ba2c45925c7e01`).

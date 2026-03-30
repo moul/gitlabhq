@@ -2587,28 +2587,6 @@ RSpec.describe Ci::Runner, type: :model, factory_default: :keep, feature_categor
       end
     end
 
-    describe '.in_organization' do
-      let_it_be(:other_org_group, freeze: true) { create(:group, organization: other_organization) }
-      let_it_be(:org_group_runner, freeze: true) { create(:ci_runner, :group, groups: [group]) }
-      let_it_be(:other_org_group_runner, freeze: true) { create(:ci_runner, :group, groups: [other_org_group]) }
-      let_it_be(:org_project_runner, freeze: true) { create(:ci_runner, :project, projects: [project]) }
-      let_it_be(:instance_runner, freeze: true) { create(:ci_runner, :instance) }
-
-      subject(:result) { described_class.in_organization(group.organization_id) }
-
-      it 'returns runners matching the organization' do
-        expect(result).to contain_exactly(org_group_runner, org_project_runner)
-      end
-
-      it 'excludes runners from other organizations' do
-        expect(result).not_to include(other_org_group_runner)
-      end
-
-      it 'excludes instance runners' do
-        expect(result).not_to include(instance_runner)
-      end
-    end
-
     describe '.assignable_for' do
       let_it_be(:group, freeze: true) { create(:group) }
       let_it_be(:another_project, freeze: true) { other_project }

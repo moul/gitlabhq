@@ -1589,6 +1589,9 @@ Gitlab/PreventOrganizationFirst:
 Gitlab/AvoidDefaultOrganization:
   Enabled: true
 
+Gitlab/AvoidDirectWorkItemTypeUsage:
+  Enabled: true
+
 Gitlab/AvoidConstDefaultOrganizationId:
   Enabled: true
 

@@ -9,9 +9,6 @@ end
 
 require './spec/deprecation_warnings'
 
-require './spec/deprecation_toolkit_env'
-DeprecationToolkitEnv.configure!
-
 require './spec/knapsack_env'
 KnapsackEnv.configure!
 

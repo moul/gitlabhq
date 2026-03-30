@@ -510,8 +510,6 @@ GEM
     debug_inspector (1.1.0)
     declarative (0.0.20)
     declarative_policy (2.1.0)
-    deprecation_toolkit (2.2.4)
-      activesupport (>= 6.1)
     derailed_benchmarks (2.2.1)
       base64
       benchmark-ips (~> 2)
@@ -2224,7 +2222,6 @@ DEPENDENCIES
   database_cleaner-active_record (~> 2.2.0)
   debug (~> 1.11.0)
   declarative_policy (~> 2.1.0)
-  deprecation_toolkit (~> 2.2.3)
   derailed_benchmarks
   devfile (~> 0.5.0)
   device_detector

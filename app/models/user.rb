@@ -2312,11 +2312,8 @@ class User < ApplicationRecord
   # Lists runners that are available to the user
   # (group runners assigned to groups where the user has owner access to
   # and project runners assigned to projects the user has maintainer access to)
-  #
-  # Results are scoped to runners belonging to the user's organizations.
   def ci_available_runners
     Ci::Runner.from_union([ci_available_project_runners, ci_available_group_runners])
-      .in_organization(organizations.pluck(:id))
   end
   strong_memoize_attr :ci_available_runners
 
@@ -2980,7 +2977,7 @@ class User < ApplicationRecord
   def consume_otp!
     if self.consumed_timestep != current_otp_timestep
       self.consumed_timestep = current_otp_timestep
-      return Gitlab::Database.read_only? || save(validate: false)
+      return Gitlab::Database.read_only? ? true : save(validate: false)
     end
 
     false
