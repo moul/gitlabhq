@@ -60,6 +60,9 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
 
   context 'issues feature' do
     let(:current_user) { owner }
+    let(:work_items_disabled_permissions) do
+      Authz::PermissionGroups::Internal.get('project:features:work_items').permissions
+    end
 
     context 'when the feature is disabled' do
       before do
@@ -67,20 +70,15 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
         project.save!
       end
 
-      it 'does not include the issues permissions' do
-        expect_disallowed :read_issue, :read_issue_iid, :create_issue, :update_issue, :admin_issue, :create_incident, :create_work_item, :create_task, :read_work_item
-      end
-
-      it 'disables boards and lists permissions' do
-        expect_disallowed :read_issue_board, :create_board, :update_board
-        expect_disallowed :read_issue_board_list, :create_list, :update_list, :admin_issue_board_list
+      it 'does not include the work item permissions' do
+        expect_disallowed(*work_items_disabled_permissions)
       end
 
       context 'when external tracker configured' do
-        it 'does not include the issues permissions' do
+        it 'does not include the work item permissions' do
           create(:jira_integration, project: project)
 
-          expect_disallowed :read_issue, :read_issue_iid, :create_issue, :update_issue, :admin_issue, :create_incident, :create_work_item, :create_task, :read_work_item
+          expect_disallowed(*work_items_disabled_permissions)
         end
       end
     end

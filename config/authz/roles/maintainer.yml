@@ -66,6 +66,7 @@ project:
   - create_deploy_token
   - create_environment_terminal
   - create_freeze_period
+  - create_pipeline_subscription
   - create_protected_branch
   - create_protected_tags
   - create_resource_access_tokens

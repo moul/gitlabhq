@@ -239,4 +239,41 @@ RSpec.describe Gitlab::Search::Params, feature_category: :global_search do
       end
     end
   end
+
+  describe 'converts legacy scope names' do
+    using RSpec::Parameterized::TableSyntax
+
+    where(:input_scope, :expected_scope) do
+      'issues'         | 'work_items'
+      'work_items'     | 'work_items'
+      'blobs'          | 'blobs'
+      'merge_requests' | 'merge_requests'
+      nil              | nil
+      ''               | ''
+    end
+
+    let(:params) { ActionController::Parameters.new(group_id: 123, search: search, scope: input_scope) }
+
+    with_them do
+      it 'converts scope parameter' do
+        expect(search_params[:scope]).to eq(expected_scope)
+      end
+    end
+
+    context 'when scope is not present' do
+      let(:params) { ActionController::Parameters.new(group_id: 123, search: search) }
+
+      it 'does not add scope parameter' do
+        expect(search_params[:scope]).to be_nil
+      end
+    end
+
+    context 'with Hash params instead of ActionController::Parameters' do
+      let(:params) { { group_id: 123, search: search, scope: 'issues' } }
+
+      it 'converts scope parameter' do
+        expect(search_params[:scope]).to eq('work_items')
+      end
+    end
+  end
 end

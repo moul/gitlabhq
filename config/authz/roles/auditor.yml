@@ -29,6 +29,7 @@ project:
   - read_namespace_cluster_agent_mapping
   - read_on_demand_dast_scan
   - read_pages
+  - read_pipeline_subscription
   - read_project_audit_events
   - read_project_merge_request_analytics
   - read_project_security_exclusions
@@ -40,6 +41,7 @@ project:
   - read_snippet
   - read_software_license_policy
   - read_terraform_state
+  - read_timelog_category
   - read_vulnerability
 group:
   permissions: []

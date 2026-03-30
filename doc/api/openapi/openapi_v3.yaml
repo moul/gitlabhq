@@ -16197,7 +16197,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_32956ddd97ee"
+              "$ref": "#/components/schemas/RequestBody_8185abb492d7"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -73357,6 +73357,8 @@ components:
           type: string
         vulnerability_management_policies_per_configuration_limit:
           type: string
+        dependency_firewall_policies_per_configuration_limit:
+          type: string
         secret_detection_service_auth_token:
           type: string
         secret_detection_service_url:
@@ -90003,7 +90005,7 @@ components:
           nullable: true
       required:
       - avatar
-    RequestBody_32956ddd97ee:
+    RequestBody_8185abb492d7:
       type: object
       properties:
         admin_mode:
@@ -92178,6 +92180,9 @@ components:
           type: string
           nullable: true
         vulnerability_management_policies_per_configuration_limit:
+          type: string
+          nullable: true
+        dependency_firewall_policies_per_configuration_limit:
           type: string
           nullable: true
         secret_detection_service_auth_token:

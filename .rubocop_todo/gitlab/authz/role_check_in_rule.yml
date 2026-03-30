@@ -11,7 +11,6 @@ Gitlab/Authz/RoleCheckInRule:
     - 'app/policies/issuable_policy.rb'
     - 'app/policies/issue_policy.rb'
     - 'app/policies/merge_request_policy.rb'
-    - 'app/policies/namespaces/group_project_namespace_shared_policy.rb'
     - 'app/policies/namespaces/user_namespace_policy.rb'
     - 'app/policies/packages/policies/project_policy.rb'
     - 'app/policies/project_policy.rb'

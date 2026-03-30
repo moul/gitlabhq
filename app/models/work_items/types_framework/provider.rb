@@ -53,7 +53,18 @@ module WorkItems
         resolve_all
       end
 
+      # Temporary method to maintain compatibility for deprecated
+      # name and onlyAvailable args that will be removed in 19.0
+      def allowed_types
+        return [] if resource_parent.blank?
+        return [] unless project_namespace?
+
+        filtered_types
+      end
+
       # Override in EE
+      # TODO: Integrate filtering into .all
+      # https://gitlab.com/gitlab-org/gitlab/-/work_items/585707
       def filtered_types
         all
       end
@@ -116,6 +127,33 @@ module WorkItems
 
       private
 
+      def resource_parent
+        return if namespace.nil?
+        return namespace if namespace.is_a?(::Organizations::Organization)
+
+        # Return nil for user namespaces - these don't support advanced work item types
+        return if namespace.owner_entity_name == :user
+
+        # Return nil for projects under user namespaces - they inherit the user namespace restrictions
+        # return if root_ancestor.owner_entity_name == :user
+
+        ::Gitlab::SafeRequestStore.fetch("work_items_types_provider_resource_parent_#{namespace.id}") do
+          namespace.owner_entity
+        end
+      end
+      strong_memoize_attr :resource_parent
+
+      def root_ancestor
+        return if namespace.nil?
+        return namespace if namespace.is_a?(::Organizations::Organization)
+
+        cache_key = namespace.try(:traversal_ids)&.first || namespace.id
+        ::Gitlab::SafeRequestStore.fetch("work_items_types_provider_root_ancestor_#{cache_key}") do
+          namespace.try(:root_ancestor)
+        end
+      end
+      strong_memoize_attr :root_ancestor
+
       # Override in EE to include custom types via the indexed cache.
       # In CE, resolves from system-defined types only.
       def resolve_by_id(id)
@@ -136,6 +174,10 @@ module WorkItems
 
       def type_class
         WorkItems::TypesFramework::SystemDefined::Type
+      end
+
+      def project_namespace?
+        resource_parent.is_a?(::Project)
       end
     end
   end

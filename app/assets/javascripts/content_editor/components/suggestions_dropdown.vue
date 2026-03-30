@@ -8,6 +8,7 @@ import { REFERENCE_TYPES } from '~/content_editor/constants/reference_types';
 import { s__ } from '~/locale';
 
 export default {
+  name: 'SuggestionsDropdown',
   components: {
     GlAvatar,
     GlLoadingIcon,

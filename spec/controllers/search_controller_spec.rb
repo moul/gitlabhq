@@ -34,7 +34,7 @@ RSpec.describe SearchController, feature_category: :global_search do
           expect(payload[:metadata]['meta.search.group_id']).to eq('123')
           expect(payload[:metadata]['meta.search.project_id']).to eq('456')
           expect(payload[:metadata]).not_to have_key('meta.search.search')
-          expect(payload[:metadata]['meta.search.scope']).to eq('issues')
+          expect(payload[:metadata]['meta.search.scope']).to eq('work_items')
           expect(payload[:metadata]['meta.search.force_search_results']).to eq('true')
           expect(payload[:metadata]['meta.search.filters.confidential']).to eq('true')
           expect(payload[:metadata]['meta.search.filters.state']).to eq('true')
@@ -433,7 +433,7 @@ RSpec.describe SearchController, feature_category: :global_search do
       it 'increments the custom search sli apdex' do
         expect(Gitlab::Metrics::GlobalSearchSlis).to receive(:record_apdex).with(
           elapsed: a_kind_of(Numeric),
-          search_scope: 'issues',
+          search_scope: 'work_items',
           search_type: 'basic',
           search_level: 'global'
         )
@@ -446,7 +446,7 @@ RSpec.describe SearchController, feature_category: :global_search do
           it 'increments the custom search sli error rate with error: false' do
             expect(Gitlab::Metrics::GlobalSearchSlis).to receive(:record_error_rate).with(
               error: false,
-              search_scope: 'issues',
+              search_scope: 'work_items',
               search_type: 'basic',
               search_level: 'global'
             )
@@ -465,7 +465,7 @@ RSpec.describe SearchController, feature_category: :global_search do
           it 'increments the custom search sli error rate with error: true' do
             expect(Gitlab::Metrics::GlobalSearchSlis).to receive(:record_error_rate).with(
               error: true,
-              search_scope: 'issues',
+              search_scope: 'work_items',
               search_type: 'basic',
               search_level: 'global'
             )
@@ -491,7 +491,7 @@ RSpec.describe SearchController, feature_category: :global_search do
 
           expect(assigns(:scope)).to be_present
           expect(assigns(:search_type)).to be_present
-          expect(assigns(:scope)).to eq('issues')
+          expect(assigns(:scope)).to eq('work_items')
 
           expect(flash[:alert]).to include('characters')
         end
@@ -818,7 +818,7 @@ RSpec.describe SearchController, feature_category: :global_search do
           expect(payload[:metadata]['meta.search.group_id']).to eq('123')
           expect(payload[:metadata]['meta.search.project_id']).to eq('456')
           expect(payload[:metadata]).not_to have_key('meta.search.search')
-          expect(payload[:metadata]['meta.search.scope']).to eq('issues')
+          expect(payload[:metadata]['meta.search.scope']).to eq('work_items')
           expect(payload[:metadata]['meta.search.force_search_results']).to eq('true')
           expect(payload[:metadata]['meta.search.filters.confidential']).to eq('true')
           expect(payload[:metadata]['meta.search.filters.state']).to eq('true')

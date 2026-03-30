@@ -123,7 +123,6 @@ Gitlab/Authz/PermissionCheck:
     - 'ee/app/graphql/mutations/audit_events/streaming/instance_headers/base.rb'
     - 'ee/app/graphql/mutations/boards/epic_lists/destroy.rb'
     - 'ee/app/graphql/mutations/boards/lists/update_limit_metrics.rb'
-    - 'ee/app/graphql/mutations/ci/project_subscriptions/create.rb'
     - 'ee/app/graphql/mutations/users/member_roles/assign.rb'
     - 'ee/app/graphql/mutations/virtual_registries/setting/update.rb'
     - 'ee/app/graphql/mutations/vulnerabilities/create_issue.rb'

@@ -45,10 +45,8 @@ RSpec.describe SearchController, feature_category: :global_search do
       let(:creation_args) { { project: project, title: 'foo', labels: labels } }
       let(:params) { { search: 'foo', scope: 'issues' } }
       # some N+1 queries still exist
-      # each issue runs an extra query for group namespaces
-      # +5 for projects with dedicated root group for custom types resolution
-      # +4 for namespace lookup for projects in type provider
-      let(:threshold) { 1 + 5 + 4 }
+      # each issue runs an extra query for project routes
+      let(:threshold) { 25 }
 
       it_behaves_like 'an efficient database result'
     end

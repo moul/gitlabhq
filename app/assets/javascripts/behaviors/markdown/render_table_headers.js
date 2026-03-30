@@ -1,3 +1,5 @@
+import { STICKY_HEADER_CLASSES } from '~/lib/utils/table_sticky_header';
+
 export default function renderStickyTableHeaders(els) {
   if (!window.gon?.features?.editorStickyTableHeaders) return;
 
@@ -8,13 +10,7 @@ export default function renderStickyTableHeaders(els) {
 
     const wrapper = document.createElement('div');
     wrapper.dataset.stickyHeader = '';
-    wrapper.classList.add(
-      'gl-overflow-x-auto',
-      'gl-overflow-y-auto',
-      'gl-max-h-[70vh]',
-      'print:gl-max-h-none',
-      'gl-my-5',
-    );
+    wrapper.classList.add(...STICKY_HEADER_CLASSES);
     table.classList.add('!gl-my-0');
     table.parentNode.insertBefore(wrapper, table);
     wrapper.appendChild(table);

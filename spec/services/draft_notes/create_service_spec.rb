@@ -31,9 +31,6 @@ RSpec.describe DraftNotes::CreateService, feature_category: :code_review_workflo
       diff_refs: diff_refs
     )
 
-    allow_next_instance_of(DraftNote) do |instance|
-      allow(instance).to receive(:project).and_return(project)
-    end
     expect(project.repository).to receive(:keep_around)
 
     create_draft(note: 'Comment on diff', position: position.to_json)

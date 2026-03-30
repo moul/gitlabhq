@@ -53,7 +53,11 @@ module API
 
       def search_service(additional_params = {})
         strong_memoize_with(:search_service, additional_params) do
-          SearchService.new(current_user, search_params.merge(additional_params))
+          # Skip legacy scope conversion for API requests to maintain backward compatibility
+          SearchService.new(
+            current_user,
+            search_params.merge(additional_params).merge(skip_legacy_scope_conversion: true)
+          )
         end
       end
 

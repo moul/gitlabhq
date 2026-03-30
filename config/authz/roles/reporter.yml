@@ -70,6 +70,7 @@ project:
   - read_sentry_issue
   - read_software_license_policy
   - read_statistics
+  - read_timelog_category
   - reopen_issue
   - update_design
   - update_issue
@@ -122,6 +123,8 @@ group:
   - read_package
   - read_prometheus
   - read_secret
+  - read_timelog_category
+  - reopen_issue
   - update_epic
   - update_issue
   - update_secret

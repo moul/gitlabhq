@@ -76,5 +76,6 @@ group:
   - read_crm_contact
   - read_crm_organization
   - read_internal_note
+  - reopen_issue
   - update_epic
   - update_issue

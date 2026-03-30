@@ -61,9 +61,7 @@ export default {
       }"
       :data-testid="`list-item-${itemIndex}`"
     >
-      <div
-        class="gl-str-truncated gl-inline-block gl-max-w-[calc(100%-40px)] gl-pl-2 gl-pt-1 gl-align-top"
-      >
+      <div class="gl-inline-block gl-max-w-[calc(100%-40px)] gl-pl-2 gl-pt-1 gl-align-top">
         <h3 class="!gl-heading-5 !gl-mb-1 gl-truncate">
           <field-presenter :item="item" field-key="title" />
         </h3>

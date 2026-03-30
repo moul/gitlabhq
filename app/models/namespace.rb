@@ -898,14 +898,14 @@ class Namespace < ApplicationRecord
   end
 
   def allowed_work_item_types
-    ::WorkItems::TypesFilter.new(container: self).allowed_types
+    ::WorkItems::TypesFramework::Provider.new(self).allowed_types.map(&:base_type)
   end
   strong_memoize_attr :allowed_work_item_types
 
   def allowed_work_item_type?(type)
     type = type.to_s
 
-    unless ::WorkItems::TypesFilter.base_types.include?(type)
+    unless ::WorkItems::TypesFramework::Provider.unfiltered_base_types.map(&:to_s).include?(type)
       raise ArgumentError,
         %("#{type}" is not a valid WorkItems::Type.base_types)
     end

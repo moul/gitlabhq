@@ -30,6 +30,7 @@ describe('Merge request reports App component', () => {
   const findCodeQualityNavItem = () => wrapper.findComponent({ name: 'CodeQualityNavItem' });
   const findLoadingIcon = () => wrapper.findComponent(GlLoadingIcon);
   const findStatusIcon = () => wrapper.findComponent(StatusIcon);
+  const findKeepAlive = () => wrapper.findByTestId('keep-alive');
   const findRouterView = () => wrapper.findComponent({ name: 'RouterView' });
   const findStatusMessage = () => wrapper.findByTestId('status-message');
 
@@ -75,6 +76,9 @@ describe('Merge request reports App component', () => {
         iid: '1',
       },
       stubs: {
+        'keep-alive': {
+          template: '<div data-testid="keep-alive"><slot /></div>',
+        },
         SecurityScansProvider: {
           name: 'SecurityScansProvider',
           template: '<div><slot /></div>',
@@ -196,6 +200,11 @@ describe('Merge request reports App component', () => {
 
     it('renders router-view', () => {
       expect(findRouterView().exists()).toBe(true);
+    });
+
+    it('keeps the report view mounted so users do not re-fetch data when switching tabs', () => {
+      expect(findKeepAlive().exists()).toBe(true);
+      expect(findKeepAlive().findComponent({ name: 'RouterView' }).exists()).toBe(true);
     });
 
     it('does not show status message', () => {

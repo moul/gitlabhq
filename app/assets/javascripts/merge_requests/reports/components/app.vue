@@ -124,7 +124,11 @@ export default {
       </nav>
     </aside>
     <section class="@md/panel:gl-pt-5">
-      <router-view v-if="pipelineState === $options.PIPELINE_STATE.complete" :mr="mr" />
+      <template v-if="pipelineState === $options.PIPELINE_STATE.complete">
+        <keep-alive>
+          <router-view :mr="mr" />
+        </keep-alive>
+      </template>
       <div
         v-show="statusMessage"
         class="gl-flex gl-px-5 gl-py-4"

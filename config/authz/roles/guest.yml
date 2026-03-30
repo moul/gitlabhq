@@ -33,6 +33,8 @@ project:
   - read_iteration
   - read_label
   - read_milestone
+  - read_namespace
+  - read_namespace_via_membership
   - read_note
   - read_project
   - read_project_member
@@ -41,6 +43,7 @@ project:
   - read_snippet
   - read_upload
   - read_wiki
+  - read_work_item
   - update_saved_view
   - update_saved_view_visibility
   - upload_file
@@ -62,9 +65,14 @@ group:
   - read_epic_relation
   - read_group
   - read_group_release_stats
+  - read_issue
+  - read_namespace
+  - read_namespace_via_membership
+  - read_note
   - read_release
   - read_saved_view
   - read_subgroup_epic
   - read_wiki
+  - read_work_item
   - update_saved_view
   - update_saved_view_visibility

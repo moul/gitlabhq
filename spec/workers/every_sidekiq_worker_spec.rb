@@ -531,6 +531,7 @@ RSpec.describe 'Every Sidekiq worker', feature_category: :sidekiq do
         'Issuable::RelatedLinksCreateWorker' => 3,
         'BulkImports::RelationBatchExportWorker' => 6,
         'BulkImports::RelationExportWorker' => 6,
+        'BulkImports::UserContributionsExportWorker' => 6,
         'Ci::ClickHouse::FinishedPipelinesSyncWorker' => false,
         'Ci::Runners::ExportUsageCsvWorker' => 3,
         'ClickHouse::CiFinishedBuildsSyncWorker' => false,

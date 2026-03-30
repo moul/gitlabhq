@@ -1398,6 +1398,7 @@ Search/NamespacedClass:
     - 'lib/gitlab/sidekiq_middleware/pause_control/strategies/zoekt.rb'
     - 'lib/tasks/**/*.rake'
     - 'ee/lib/tasks/**/*.rake'
+    - 'ee/lib/ee/gitlab/search/params.rb'
     - 'app/services/mcp/tools/**/*.rb'
     - 'ee/app/services/mcp/tools/**/*.rb'
     - 'ee/app/services/ee/mcp/tools/**/*.rb'

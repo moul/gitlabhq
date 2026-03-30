@@ -9,14 +9,9 @@ module Gitlab
       SEARCH_TERM_LIMIT = 64
       MIN_TERM_LENGTH = 2
       BOOLEAN_PARAMS = %i[confidential exclude_forks include_archived].freeze
-
-      # Generic validation
-      validates :query_string, length: { maximum: SEARCH_CHAR_LIMIT }
-      validate :not_too_many_terms
-
-      attr_reader :raw_params, :query_string, :abuse_detection
-      alias_method :search, :query_string
-      alias_method :term, :query_string
+      LEGACY_SCOPE_MAP = {
+        'issues' => 'work_items'
+      }.freeze
 
       def initialize(params, detect_abuse: true)
         @raw_params      = process_params(params)
@@ -26,6 +21,18 @@ module Gitlab
 
         validate
       end
+
+      def legacy_scope_map
+        LEGACY_SCOPE_MAP
+      end
+
+      # Generic validation
+      validates :query_string, length: { maximum: SEARCH_CHAR_LIMIT }
+      validate :not_too_many_terms
+
+      attr_reader :raw_params, :query_string, :abuse_detection
+      alias_method :search, :query_string
+      alias_method :term, :query_string
 
       def [](key)
         if respond_to? key
@@ -91,9 +98,22 @@ module Gitlab
 
       def process_params(params)
         processed_params = params.is_a?(Hash) ? params.with_indifferent_access : params.dup
+        processed_params = convert_legacy_scope(processed_params)
         processed_params = convert_all_boolean_params(processed_params)
         processed_params = convert_type_to_ids(processed_params)
         convert_not_params(processed_params)
+      end
+
+      def convert_legacy_scope(params)
+        return params unless params[:scope].present?
+        # Skip conversion for API requests to maintain backward compatibility
+        return params if params[:skip_legacy_scope_conversion]
+
+        legacy_scope = params[:scope].to_s
+        scope_map = legacy_scope_map
+        return params.merge(scope: scope_map[legacy_scope]) if scope_map.key?(legacy_scope)
+
+        params
       end
 
       def convert_not_params(params)
@@ -126,3 +146,5 @@ module Gitlab
     end
   end
 end
+
+Gitlab::Search::Params.prepend_mod

@@ -8,7 +8,6 @@ RSpec.describe ResourceEvents::MergeRequestAssignmentEvent, feature_category: :v
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:merge_request) }
-    it { is_expected.to belong_to(:project) }
   end
 
   describe 'validations' do

@@ -180,7 +180,7 @@ RSpec.describe SearchService, feature_category: :global_search do
         it 'returns the specified scope' do
           scope = described_class.new(user, scope: 'issues').scope
 
-          expect(scope).to eq 'issues'
+          expect(scope).to eq 'work_items'
         end
       end
 

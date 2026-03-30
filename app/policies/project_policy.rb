@@ -573,23 +573,7 @@ class ProjectPolicy < BasePolicy
   end
 
   rule { issues_disabled }.policy do
-    prevent :read_issue
-    prevent :create_issue
-    prevent :update_issue
-    prevent :admin_issue
-    prevent :destroy_issue
-
-    prevent :read_issue_board
-    prevent :create_issue_board
-    prevent :update_issue_board
-    prevent :admin_issue_board
-    prevent :destroy_issue_board
-
-    prevent :read_issue_board_list
-    prevent :create_issue_board_list
-    prevent :update_issue_board_list
-    prevent :admin_issue_board_list
-    prevent :destroy_issue_board_list
+    prevent(*Authz::PermissionGroups::Internal.get('project:features:work_items').permissions)
   end
 
   rule { merge_requests_disabled | repository_disabled }.policy do
