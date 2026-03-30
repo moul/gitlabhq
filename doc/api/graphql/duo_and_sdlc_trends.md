@@ -517,6 +517,7 @@ query {
       }
       codeContributorsCount
       duoChatContributorsCount
+      duoAssignedUsersCount
       duoUsedCount
     }
   }
@@ -538,6 +539,7 @@ The query returns the following output:
         },
         "codeContributorsCount": 719,
         "duoChatContributorsCount": 681,
+        "duoAssignedUsersCount": 1910,
         "duoUsedCount": 714
       }
     }

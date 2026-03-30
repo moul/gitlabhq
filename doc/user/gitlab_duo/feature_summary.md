@@ -61,7 +61,7 @@ They require a Premium or Ultimate subscription and the GitLab Duo Enterprise ad
 | [Merge Request Summary](../project/merge_requests/duo_in_merge_requests.md#generate-a-description-by-summarizing-code-changes) | {{< no >}} | {{< no >}} | {{< yes >}} | {{< no >}} |
 | [Code Review Summary](../project/merge_requests/duo_in_merge_requests.md#summarize-a-code-review) | {{< no >}} | {{< no >}} | {{< yes >}} | {{< no >}} |
 | [Issue Description Generation](../project/issues/managing_issues.md#populate-an-issue-with-issue-description-generation) | {{< no >}} | {{< no >}} | {{< yes >}} | {{< no >}} |
-| [Pipeline Builder Agent](../duo_agent_platform/agents/foundational_agents/pipeline_builder.md) | {{< no >}} | {{< no >}} | {{< yes >}} | {{< no >}} |
+| [CI Expert Agent](../duo_agent_platform/agents/foundational_agents/ci_expert_agent.md) | {{< no >}} | {{< no >}} | {{< yes >}} | {{< no >}} |
 
 ## Features available in GitLab Duo Self-Hosted
 

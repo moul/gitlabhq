@@ -250,18 +250,14 @@ To view details:
 
 {{< history >}}
 
-- Risk score panel:
+- Risk score panel for group dashboards:
   - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/570504) in GitLab 18.6 [with a flag](../../../administration/feature_flags/_index.md) named `security_dashboard_risk_score`. Disabled by default.
   - [Enabled on GitLab.com, GitLab Self-Managed, and GitLab Dedicated](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/215574) in GitLab 18.7.
   - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/107661) in GitLab 18.8. Feature flag `security_dashboard_risk_score` removed.
 - Risk score chart for project dashboards:
-  - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/591112) in GitLab 18.11 [with a flag](../../../administration/feature_flags/_index.md) named `project_total_risk_score_chart`. Disabled by default.
+  - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/591112) in GitLab 18.11.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of the risk score chart for projects is controlled by a feature flag.
-> For more information, see the history.
 
 The risk score panel shows the overall security risk for the group or project. The panel has two views:
 

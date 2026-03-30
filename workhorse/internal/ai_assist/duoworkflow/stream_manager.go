@@ -32,8 +32,9 @@ type streamManager struct {
 
 func newStreamManager(r *http.Request, cfg *api.DuoWorkflow) (*streamManager, error) {
 	userAgent := r.Header.Get("User-Agent")
+	clientName := r.Header.Get("X-Gitlab-Client-Name")
 
-	client, err := NewClient(cfg.Service, userAgent)
+	client, err := NewClient(cfg.Service, userAgent, clientName)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize client: %v", err)
 	}
@@ -49,7 +50,7 @@ func newStreamManager(r *http.Request, cfg *api.DuoWorkflow) (*streamManager, er
 	var cloudServiceStream selfHostedWorkflowStream
 
 	if cfg.CloudServiceForSelfHosted != nil && cfg.CloudServiceForSelfHosted.URI != "" {
-		cloudServiceClient, err = NewClient(cfg.CloudServiceForSelfHosted, userAgent)
+		cloudServiceClient, err = NewClient(cfg.CloudServiceForSelfHosted, userAgent, clientName)
 		if err != nil {
 			return nil, fmt.Errorf("failed to initialize cloud service client: %v", err)
 		}

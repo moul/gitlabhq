@@ -1059,14 +1059,14 @@ func TestRunner_Close_WithCloudConnector(t *testing.T) {
 			URI:     server.Addr,
 			Headers: map[string]string{},
 			Secure:  false,
-		}, "test-agent")
+		}, "test-agent", "")
 		require.NoError(t, err)
 
 		cloudClient, err := NewClient(&api.DuoWorkflowServiceConfig{
 			URI:     server.Addr,
 			Headers: map[string]string{},
 			Secure:  false,
-		}, "test-agent")
+		}, "test-agent", "")
 		require.NoError(t, err)
 
 		mockConn := &mockWebSocketConn{}
@@ -1095,7 +1095,7 @@ func TestRunner_Close_WithCloudConnector(t *testing.T) {
 			URI:     server.Addr,
 			Headers: map[string]string{},
 			Secure:  false,
-		}, "test-agent")
+		}, "test-agent", "")
 		require.NoError(t, err)
 
 		mockConn := &mockWebSocketConn{}
@@ -1123,7 +1123,7 @@ func TestRunner_Close_WithCloudConnector(t *testing.T) {
 			URI:     server.Addr,
 			Headers: map[string]string{},
 			Secure:  false,
-		}, "test-agent")
+		}, "test-agent", "")
 		require.NoError(t, err)
 
 		mockConn := &mockWebSocketConn{}

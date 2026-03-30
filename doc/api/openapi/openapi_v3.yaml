@@ -82669,6 +82669,8 @@ components:
           type: string
         service_access_tokens_expiration_enforced:
           type: string
+        experiment_features_enabled:
+          type: string
         membership_lock:
           type: string
         ip_restriction_ranges:

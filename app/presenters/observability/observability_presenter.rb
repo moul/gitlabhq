@@ -15,24 +15,138 @@ module Observability
       new(group, nil) if group
     end
 
-    PATHS = {
+    SEGMENT_TITLES = {
       'services' => 'Observability|Services',
-      'traces-explorer' => 'Observability|Traces explorer',
-      'logs/logs-explorer' => 'Observability|Logs explorer',
-      'metrics-explorer/summary' => 'Observability|Metrics explorer',
-      'infrastructure-monitoring/hosts' => 'Observability|Infrastructure monitoring',
+      'service-map' => 'Observability|Service map',
+      'trace' => 'Observability|Traces',
+      'traces' => 'Observability|Traces',
+      'traces-explorer' => 'Observability|Traces',
+      'logs' => 'Observability|Logs',
+      'logs-explorer' => 'Observability|Logs',
       'dashboard' => 'Observability|Dashboard',
-      'messaging-queues' => 'Observability|Messaging queues',
-      'api-monitoring/explorer' => 'Observability|API monitoring',
       'alerts' => 'Observability|Alerts',
       'exceptions' => 'Observability|Exceptions',
-      'service-map' => 'Observability|Service map',
-      'settings/channels' => 'Observability|Notification channels'
+      'metrics-explorer' => 'Observability|Metrics explorer',
+      'infrastructure-monitoring' => 'Observability|Infrastructure monitoring',
+      'messaging-queues' => 'Observability|Messaging queues',
+      'api-monitoring' => 'Observability|API monitoring',
+      'settings' => 'Observability|Notification channels'
     }.freeze
 
-    def initialize(group, path)
-      @group = group
-      @path = path
+    PATHS = %w[
+      services
+      services/:servicename
+      services/:servicename/top-level-operations
+      service-map
+      trace
+      trace/:id
+      traces-explorer
+      traces/saved-views
+      traces/funnels
+      traces/funnels/:funnelId
+      logs
+      logs/logs-explorer
+      logs/old-logs-explorer
+      logs/logs-explorer/live
+      logs/pipelines
+      logs/saved-views
+      logs-explorer/index-fields
+      dashboard
+      dashboard/:dashboardId
+      dashboard/:dashboardId/:widgetId
+      alerts
+      alerts/edit
+      alerts/new
+      alerts/history
+      alerts/overview
+      exceptions
+      metrics-explorer/summary
+      metrics-explorer/explorer
+      metrics-explorer/views
+      infrastructure-monitoring/hosts
+      infrastructure-monitoring/kubernetes
+      messaging-queues
+      messaging-queues/overview
+      messaging-queues/kafka
+      messaging-queues/kafka/detail
+      messaging-queues/celery-task
+      api-monitoring
+      api-monitoring/explorer
+      settings/channels
+    ].freeze
+
+    ALLOWED_QUERY_PARAMS = %w[
+      startTime
+      endTime
+      relativeTime
+      compositeQuery
+      panelTypes
+      resourceAttribute
+      ruleId
+      alertType
+      ruleType
+      tab
+      timelineFilter
+      viewAllTopContributors
+      order
+      offset
+      page
+      pageSize
+      pagination
+      search
+      columnKey
+      selectedExplorerView
+      viewName
+      viewKey
+      activeLogId
+      options
+      limit
+      expandedWidgetId
+      graphType
+      widgetId
+      variables
+      summaryFilters
+      orderParam
+      exceptionType
+      serviceName
+      isMetricDetailsOpen
+      isInspectModalOpen
+      selectedMetricName
+      hostName
+      view
+      hostsFilters
+      logFilters
+      tracesFilters
+      eventsFilters
+      mqServiceView
+      selectedTimelineQuery
+      configDetail
+      consumerGrp
+      topic
+      partition
+      apiMonitoringParams
+    ].freeze
+
+    QUERY_STRING_MAX_BYTES = 4096
+    PARAM_VALUE_MAX_BYTES  = 1024
+
+    # Pre-compiled regexes - one per PATHS template pattern.
+    # A template segment starting with `:` matches any non-empty, non-slash token.
+    PATH_PATTERNS = PATHS.map do |template|
+      regex_src = template.split('/').map do |seg|
+        seg.start_with?(':') ? '[a-zA-Z0-9._-]+' : Regexp.escape(seg)
+      end.join('/')
+      /\A#{regex_src}\z/
+    end.freeze
+
+    def self.valid_path?(path)
+      PATH_PATTERNS.any? { |pattern| pattern.match?(path) }
+    end
+
+    def initialize(group, path, query_params: {})
+      @group        = group
+      @path         = path
+      @query_params = query_params
     end
 
     # Required by ReactiveCaching to generate cache keys
@@ -53,7 +167,8 @@ module Observability
     end
 
     def title
-      PATHS.fetch(path, 'Observability')
+      first_segment = @path.to_s.split('/').first.to_s
+      SEGMENT_TITLES.fetch(first_segment, 'Observability')
     end
 
     def auth_tokens
@@ -75,7 +190,8 @@ module Observability
         o11y_url: observability_setting&.o11y_service_url,
         path: path,
         auth_tokens: auth_tokens,
-        title: title
+        title: title,
+        query_params: @query_params
       }
     end
 

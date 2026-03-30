@@ -6,6 +6,8 @@
 
 .gitlab/CODEOWNERS @gitlab-org/development-leaders @gitlab-org/tw-leadership
 
+/*_VERSION @gitlab-org/maintainers/rails-backend @gitlab-org/delivery
+
 ## Allows release tooling and Gitaly team members to update the Gitaly Version
 /GITALY_SERVER_VERSION @project_278964_bot_e2e6cca5e3b0076fdecec369cccb9e18 @gitlab-org/maintainers/rails-backend @gitlab-org/delivery @gl-gitaly
 
@@ -70,6 +72,14 @@ Gemfile.next.checksum
 /config/application_setting_columns/
 /config/routes/
 /config/initializers/
+/ee/config/feature_flags/
+/ee/config/initializers/
+/ee/config/routes/
+Rakefile
+/bin/
+/gems/
+/generator_templates/
+/vendor/
 
 # Haml markup is considered ~frontend code. However, Ruby code in Haml templates is considered ~backend code
 ^[Backend and/or Frontend] @gitlab-org/maintainers/rails-backend @gitlab-org/maintainers/frontend

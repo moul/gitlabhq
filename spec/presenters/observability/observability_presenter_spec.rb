@@ -24,29 +24,45 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
       .and_return({ 'testToken' => 'value' })
   end
 
+  describe '.valid_path?' do
+    where(:path, :valid) do
+      [
+        ['alerts',                               true],
+        ['not-a-real-path',                      false],
+        ['metrics-explorer',                     false],
+        ['infrastructure-monitoring',            false],
+        ['dashboard/my-board',                   true],
+        ['dashboard/my-board/my-widget',         true],
+        ['trace/abc123',                         true],
+        ['services/my-svc',                      true],
+        ['services/my-svc/top-level-operations', true],
+        ['dashboard/a/b/c',                      false],
+        ['alerts/../admin',                      false],
+        ['trace/test.service',                   true],
+        ['services/my@svc',                      false],
+        ['services/my svc',                      false]
+      ]
+    end
+
+    with_them do
+      it { expect(described_class.valid_path?(path)).to be(valid) }
+    end
+  end
+
   describe '#title' do
-    context 'with a valid path' do
-      it 'returns the correct title' do
-        expect(presenter.title).to eq('Observability|Services')
-      end
+    it 'returns the default title for an unknown path' do
+      expect(described_class.new(group, 'invalid-path').title).to eq('Observability')
     end
 
-    context 'with an invalid path' do
-      let(:path) { 'invalid-path' }
-
-      it 'returns the default title' do
-        expect(presenter.title).to eq('Observability')
-      end
+    it 'inherits the top-level title for a sub-path' do
+      expect(described_class.new(group, 'alerts/edit').title).to eq('Observability|Alerts')
     end
 
-    context 'with different valid paths' do
-      described_class::PATHS.each do |path_key, expected_title|
-        context "with path #{path_key}" do
-          let(:path) { path_key }
-
-          it "returns #{expected_title}" do
-            expect(presenter.title).to eq(expected_title)
-          end
+    context 'with every defined PATHS entry' do
+      described_class::PATHS.each do |path|
+        expected_title = described_class::SEGMENT_TITLES.fetch(path.split('/').first, 'Observability')
+        it "returns '#{expected_title}' for path '#{path}'" do
+          expect(described_class.new(group, path).title).to eq(expected_title)
         end
       end
     end
@@ -115,53 +131,31 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
   end
 
   describe '#url_with_path' do
-    it 'returns a URI with the observability service URL and path' do
+    it 'returns a URI joining the service URL and path' do
       result = presenter.url_with_path
 
       expect(result).to be_a(URI::HTTPS)
       expect(result.to_s).to eq('https://observability.example.com/services')
     end
 
-    context 'with different paths' do
-      let(:path) { 'traces-explorer' }
-
-      it 'joins the service URL with the specified path' do
-        result = presenter.url_with_path
-
-        expect(result.to_s).to eq('https://observability.example.com/traces-explorer')
-      end
-    end
-
     context 'when group has no observability settings' do
-      let(:group_without_settings) { build_stubbed(:group) }
-      let(:presenter_without_settings) { described_class.new(group_without_settings, path) }
-
       before do
-        allow(group_without_settings).to receive(:observability_group_o11y_setting).and_return(nil)
+        allow(group).to receive(:observability_group_o11y_setting).and_return(nil)
       end
 
       it 'returns nil' do
-        result = presenter_without_settings.url_with_path
-
-        expect(result).to be_nil
+        expect(presenter.url_with_path).to be_nil
       end
     end
 
     context 'when observability setting has no service URL' do
-      let!(:observability_setting_without_url) do
-        build_stubbed(:observability_group_o11y_setting,
-          group: group,
-          o11y_service_url: nil)
-      end
-
       before do
-        allow(group).to receive(:observability_group_o11y_setting).and_return(observability_setting_without_url)
+        setting_without_url = build_stubbed(:observability_group_o11y_setting, group: group, o11y_service_url: nil)
+        allow(group).to receive(:observability_group_o11y_setting).and_return(setting_without_url)
       end
 
       it 'returns nil' do
-        result = presenter.url_with_path
-
-        expect(result).to be_nil
+        expect(presenter.url_with_path).to be_nil
       end
     end
   end
@@ -374,7 +368,8 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
           o11y_url: 'https://observability.example.com',
           path: 'services',
           auth_tokens: cached_tokens,
-          title: 'Observability|Services'
+          title: 'Observability|Services',
+          query_params: {}
         )
       end
     end
@@ -385,8 +380,17 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
           o11y_url: 'https://observability.example.com',
           path: 'services',
           auth_tokens: {},
-          title: 'Observability|Services'
+          title: 'Observability|Services',
+          query_params: {}
         )
+      end
+    end
+
+    context 'when query_params are provided' do
+      let(:presenter) { described_class.new(group, path, query_params: { 'ruleId' => 'abc-123' }) }
+
+      it 'includes them in the hash' do
+        expect(presenter.to_h[:query_params]).to eq({ 'ruleId' => 'abc-123' })
       end
     end
 
@@ -395,7 +399,7 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
       let(:presenter_without_settings) { described_class.new(group_without_settings, path) }
 
       before do
-        allow(group_without_settings).to receive(:observability_group_o11y_setting).and_return(nil)
+        allow(group).to receive(:observability_group_o11y_setting).and_return(nil)
       end
 
       it 'returns nil values for observability-specific fields' do

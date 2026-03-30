@@ -28361,6 +28361,7 @@ Requires ClickHouse. Premium and Ultimate only.
 | <a id="aimetrics-codesuggestionsacceptedcount"></a>`codeSuggestionsAcceptedCount` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Deprecated** in GitLab 18.0. moved to codeSuggestions field. |
 | <a id="aimetrics-codesuggestionscontributorscount"></a>`codeSuggestionsContributorsCount` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Deprecated** in GitLab 18.0. moved to codeSuggestions field. |
 | <a id="aimetrics-codesuggestionsshowncount"></a>`codeSuggestionsShownCount` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Deprecated** in GitLab 18.0. moved to codeSuggestions field. |
+| <a id="aimetrics-duoassigneduserscount"></a>`duoAssignedUsersCount` | [`Int`](#int) | Total assigned Duo Pro and Enterprise seats. Ignores time period filter. Returns current data. |
 | <a id="aimetrics-duochatcontributorscount"></a>`duoChatContributorsCount` | [`Int`](#int) | Number of contributors who used GitLab Duo Chat features. |
 | <a id="aimetrics-duousedcount"></a>`duoUsedCount` | [`Int`](#int) | Number of contributors who used any GitLab Duo feature. |
 | <a id="aimetrics-mcp"></a>`mcp` | [`mcpMetrics`](#mcpmetrics) | Model Context Protocol metrics. |
@@ -28539,7 +28540,7 @@ Pre-aggregated per-user metrics for GitLab Code Suggestions and GitLab Duo Chat.
 | <a id="aiusermetrics-mcp"></a>`mcp` | [`mcpUserMetrics`](#mcpusermetrics) | Mcp metrics for the user. |
 | <a id="aiusermetrics-totaleventcount"></a>`totalEventCount` | [`Int`](#int) | Total count of all tracked events for the user. |
 | <a id="aiusermetrics-troubleshootjob"></a>`troubleshootJob` | [`troubleshootJobUserMetrics`](#troubleshootjobusermetrics) | Troubleshoot Job metrics for the user. |
-| <a id="aiusermetrics-user"></a>`user` | [`AddOnUser`](#addonuser) | User associated with metrics. |
+| <a id="aiusermetrics-user"></a>`user` | [`AddOnUser!`](#addonuser) | User associated with metrics. |
 
 ### `AiXrayReport`
 
@@ -54663,6 +54664,8 @@ AI features that can be configured through the Duo self-hosted feature settings.
 | <a id="aifeatures-resolve_vulnerability"></a>`RESOLVE_VULNERABILITY` | Resolve vulnerability feature setting. |
 | <a id="aifeatures-review_merge_request"></a>`REVIEW_MERGE_REQUEST` | Review merge request feature setting. |
 | <a id="aifeatures-sast_vulnerability_fp_detection"></a>`SAST_VULNERABILITY_FP_DETECTION` | Sast vulnerability fp detection feature setting. |
+| <a id="aifeatures-sast_vulnerability_resolution"></a>`SAST_VULNERABILITY_RESOLUTION` | Sast vulnerability resolution feature setting. |
+| <a id="aifeatures-secret_vulnerability_fp_detection"></a>`SECRET_VULNERABILITY_FP_DETECTION` | Secret vulnerability fp detection feature setting. |
 | <a id="aifeatures-summarize_new_merge_request"></a>`SUMMARIZE_NEW_MERGE_REQUEST` | Summarize new merge request feature setting. |
 | <a id="aifeatures-summarize_review"></a>`SUMMARIZE_REVIEW` | Summarize review feature setting. |
 
@@ -54718,6 +54721,8 @@ AI features that can be configured through the Model Selection feature settings.
 | <a id="aimodelselectionfeatures-resolve_vulnerability"></a>`RESOLVE_VULNERABILITY` | Resolve vulnerability feature setting. |
 | <a id="aimodelselectionfeatures-review_merge_request"></a>`REVIEW_MERGE_REQUEST` | Review merge request feature setting. |
 | <a id="aimodelselectionfeatures-sast_vulnerability_fp_detection"></a>`SAST_VULNERABILITY_FP_DETECTION` | Sast vulnerability fp detection feature setting. |
+| <a id="aimodelselectionfeatures-sast_vulnerability_resolution"></a>`SAST_VULNERABILITY_RESOLUTION` | Sast vulnerability resolution feature setting. |
+| <a id="aimodelselectionfeatures-secret_vulnerability_fp_detection"></a>`SECRET_VULNERABILITY_FP_DETECTION` | Secret vulnerability fp detection feature setting. |
 | <a id="aimodelselectionfeatures-summarize_new_merge_request"></a>`SUMMARIZE_NEW_MERGE_REQUEST` | Summarize new merge request feature setting. |
 | <a id="aimodelselectionfeatures-summarize_review"></a>`SUMMARIZE_REVIEW` | Summarize review feature setting. |
 

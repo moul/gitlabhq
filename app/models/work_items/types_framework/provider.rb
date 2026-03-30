@@ -14,9 +14,11 @@ module WorkItems
     class Provider
       include Gitlab::Utils::StrongMemoize
 
+      ALL_BASE_TYPES = %w[issue incident test_case requirement task objective key_result epic ticket].freeze
+
       class << self
         def unfiltered_base_types
-          WorkItems::Type.base_types.keys
+          ALL_BASE_TYPES
         end
 
         # Returns base types that can be used as issue types.

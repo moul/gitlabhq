@@ -3,7 +3,9 @@ package duoworkflow
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 	"net/url"
@@ -15,6 +17,11 @@ import (
 	pb "gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb/contract"
 
 	"google.golang.org/protobuf/proto"
+)
+
+var (
+	errResponseBodySizeLimitExceeded = errors.New("response body exceeded size limit")
+	errRequestAborted                = errors.New("request aborted")
 )
 
 // ActionResponseBodyLimit is the maximum size of response body that can be received.
@@ -31,24 +38,27 @@ type runHTTPActionHandler struct {
 }
 
 type nullResponseWriter struct {
-	header http.Header
-	status int
-	body   bytes.Buffer
-	logger *log.Builder
+	header       http.Header
+	status       int
+	body         bytes.Buffer
+	logger       *log.Builder
+	sizeLimitHit bool
 }
 
 func (w *nullResponseWriter) Write(p []byte) (int, error) {
 	available := ActionResponseBodyLimit - w.body.Len()
 	if available <= 0 {
+		w.sizeLimitHit = true
 		w.logger.WithFields(log.Fields{
 			"current_size":    w.body.Len(),
 			"limit":           ActionResponseBodyLimit,
 			"attempted_write": len(p),
 		}).Error("nullResponseWriter: response body limit exceeded, dropping data")
-		return 0, nil
+		return 0, io.ErrShortWrite
 	}
 
 	if len(p) > available {
+		w.sizeLimitHit = true
 		// Write only what fits within the limit
 		w.logger.WithFields(log.Fields{
 			"requested_bytes": len(p),
@@ -57,7 +67,7 @@ func (w *nullResponseWriter) Write(p []byte) (int, error) {
 			"limit":           ActionResponseBodyLimit,
 		}).Error("nullResponseWriter: partial write due to size limit")
 		n, _ := w.body.Write(p[:available])
-		return n, nil
+		return n, io.ErrShortWrite
 	}
 
 	return w.body.Write(p)
@@ -82,10 +92,12 @@ func serveHTTPSafe(h http.Handler, w http.ResponseWriter, r *http.Request) (err 
 	defer func() {
 		if p := recover(); p != nil {
 			if p == http.ErrAbortHandler {
-				if ctxErr := r.Context().Err(); ctxErr != nil {
-					err = fmt.Errorf("serveHTTPSafe: request aborted with context error: %w", ctxErr)
+				if nrw, ok := w.(*nullResponseWriter); ok && nrw.sizeLimitHit {
+					err = fmt.Errorf("%w (%d bytes)", errResponseBodySizeLimitExceeded, ActionResponseBodyLimit)
+				} else if ctxErr := r.Context().Err(); ctxErr != nil {
+					err = fmt.Errorf("%w: %w", errRequestAborted, ctxErr)
 				} else {
-					err = fmt.Errorf("serveHTTPSafe: request aborted")
+					err = errRequestAborted
 				}
 			} else {
 				panic(p)

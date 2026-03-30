@@ -2582,7 +2582,7 @@ class MergeRequest < ApplicationRecord
   # rubocop: enable CodeReuse/ServiceClass
 
   def first_contribution?
-    return metrics&.first_contribution if merged? & metrics.present?
+    return metrics.first_contribution if merged? && metrics.present?
 
     !project.merge_requests.merged.exists?(author_id: author_id)
   end

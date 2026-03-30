@@ -886,6 +886,7 @@ export default {
                     </div>
                   </gl-disclosure-dropdown>
                 </div>
+                <div class="gl-grow"></div>
                 <div class="gl-my-3 gl-flex gl-shrink-0 gl-gap-3">
                   <gl-button-group>
                     <gl-button

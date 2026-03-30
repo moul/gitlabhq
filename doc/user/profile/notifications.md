@@ -318,25 +318,6 @@ Merge request notifications are sent for the following notification levels:
 | Title or description changed                           | Yes   |             | Yes        |            |          | Any new mentions by username. |
 | New merge request you're eligible to approve.          |       |             |            |            | If **Merge request you're eligible to approve is created** is selected |                    |
 
-Pipeline event notifications are sent for the following notification levels:
-
-| Event      | Watch | Pipeline author | Custom   | Additional Details |
-|------------|-------|-----------------|----------|--------------------|
-| Failed     | Yes   | Yes             | If **Pipeline fails** is selected |                    |
-| Fixed      |       | Yes             | If **Pipeline is fixed** is selected |                    |
-| Successful | Yes   | Yes             | If **Pipeline is successful** is selected | If the pipeline failed previously, a "Fixed pipeline" message is sent for the first successful pipeline after the failure, and then a "Successful pipeline" message for any further successful pipelines. |
-
-Service account pipeline event notifications are sent for the following notification levels:
-
-| Event      | Watch | Custom |
-|------------|-------|--------|
-| Failed     | Yes   | If **Pipeline by Service Account fails** is selected |
-| Fixed      |       | If **Pipeline by Service Account is fixed** is selected |
-| Successful | Yes   | If **Pipeline by Service Account is successful** is selected |
-
-Issue [501083](https://gitlab.com/gitlab-org/gitlab/-/issues/501083) tracks adding all events
-to the **Watch** level.
-
 #### Subscribe to notifications for a specific issue, merge request, or epic
 
 To toggle notifications on a specific issue, merge request, or epic:
@@ -370,6 +351,27 @@ to the epic.
 When you **turn off** notifications, you stop receiving notifications for updates.
 Turning this toggle off only unsubscribes you from updates related to this issue, merge request, or epic.
 Learn how to [opt out of all emails from GitLab](#opt-out-of-all-gitlab-emails).
+
+### CI/CD pipeline events
+
+CI/CD pipeline event notifications are sent to the pipeline creator for the following notification levels:
+
+| Event      | Watch | Custom                                    | Additional Details |
+|------------|-------|-------------------------------------------|--------------------|
+| Failed     | Yes   | If **Pipeline fails** is selected         |                    |
+| Fixed      |       | If **Pipeline is fixed** is selected      |                    |
+| Successful | Yes   | If **Pipeline is successful** is selected | If the pipeline failed previously, a "Fixed pipeline" message is sent for the first successful pipeline after the failure, and then a "Successful pipeline" message for any further successful pipelines. |
+
+Service account pipeline event notifications are sent for the following notification levels:
+
+| Event      | Watch | Custom |
+|------------|-------|--------|
+| Failed     | Yes   | If **Pipeline by Service Account fails** is selected |
+| Fixed      |       | If **Pipeline by Service Account is fixed** is selected |
+| Successful | Yes   | If **Pipeline by Service Account is successful** is selected |
+
+Issue [501083](https://gitlab.com/gitlab-org/gitlab/-/issues/501083) tracks adding all events
+to the **Watch** level.
 
 ### Disable specific events
 

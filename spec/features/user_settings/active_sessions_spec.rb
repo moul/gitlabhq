@@ -172,6 +172,8 @@ RSpec.describe 'Profile > Active sessions', :js, :clean_gitlab_redis_shared_stat
 
         gitlab_disable_admin_mode
 
+        expect(page).to have_content 'Admin mode disabled'
+
         visit user_settings_active_sessions_path
 
         within('.settings-section') do
