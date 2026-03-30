@@ -47,7 +47,9 @@ RSpec.describe 'cross-database foreign keys', feature_category: :database do
       # Plans are static/deprecated tables to be removed
       # https://gitlab.com/groups/gitlab-org/-/work_items/19409
       'gitlab_subscriptions.hosted_plan_id',
-      'plan_limits.plan_id'
+      'plan_limits.plan_id',
+
+      'pool_repositories.shard_id' # https://gitlab.com/gitlab-org/gitlab/-/work_items/594744
     ]
 
     keys

@@ -56,7 +56,10 @@ RSpec.shared_examples 'work item pagination' do
     get api(api_request_path, user), params: { pagination: 'offset' }
 
     expect(response).to have_gitlab_http_status(:method_not_allowed)
-    expect(json_response['error']).to eq('Only keyset pagination is supported for work items endpoints.')
+    expect(json_response['error']).to eq(
+      'Explicitly setting offset pagination is not supported. ' \
+        'Pagination is determined automatically based on the sort parameter.'
+    )
   end
 end
 

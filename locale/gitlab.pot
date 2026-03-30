@@ -7694,6 +7694,12 @@ msgstr ""
 msgid "AiPowered|Have access to"
 msgstr ""
 
+msgid "AiPowered|Increase credits"
+msgstr ""
+
+msgid "AiPowered|Increase credits (opens in new window)"
+msgstr ""
+
 msgid "AiPowered|Indirect connections through GitLab Self-Managed"
 msgstr ""
 
@@ -74344,10 +74350,13 @@ msgstr ""
 msgid "UsageBilling|Included credits"
 msgstr ""
 
-msgid "UsageBilling|Increase monthly commitment"
+msgid "UsageBilling|Increase commitment"
 msgstr ""
 
 msgid "UsageBilling|Increase monthly credit commitment"
+msgstr ""
+
+msgid "UsageBilling|Increase your commitment to unlock higher discounts. Pool GitLab Credits across your namespace for flexibility and predictable monthly costs. Learn more about %{linkStart}GitLab Credit pricing%{linkEnd}."
 msgstr ""
 
 msgid "UsageBilling|Keep your team's GitLab Duo features unblocked"
@@ -74447,9 +74456,6 @@ msgid "UsageBilling|Try the GitLab Duo Agent Platform and agentic chat to delega
 msgstr ""
 
 msgid "UsageBilling|Understand how credits are consumed by different features, explore your billing and commitment options, and learn how to monitor your members' usage."
-msgstr ""
-
-msgid "UsageBilling|Unlock more discounts for your GitLab usage. Pool GitLab Credits across your namespace for flexibility and predictable monthly costs. %{linkStart}GitLab Credit pricing%{linkEnd}."
 msgstr ""
 
 msgid "UsageBilling|Usage Billing is disabled"

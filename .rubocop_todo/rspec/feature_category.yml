@@ -3171,7 +3171,6 @@ RSpec/FeatureCategory:
     - 'spec/serializers/jira_connect/app_data_serializer_spec.rb'
     - 'spec/serializers/jira_connect/group_entity_spec.rb'
     - 'spec/serializers/jira_connect/subscription_entity_spec.rb'
-    - 'spec/serializers/label_serializer_spec.rb'
     - 'spec/serializers/lfs_file_lock_entity_spec.rb'
     - 'spec/serializers/linked_project_issue_entity_spec.rb'
     - 'spec/serializers/member_user_entity_spec.rb'

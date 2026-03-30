@@ -172,12 +172,9 @@ To edit a comment:
 {{< history >}}
 
 - Sending notification emails [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224837) in GitLab 18.10 [with a flag](../../administration/feature_flags/_index.md) named `email_on_added_mentions`. Disabled by default.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/591869) in GitLab 18.11. Feature flag `email_on_added_mentions` removed.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
 
 By default, when you mention a user, GitLab [creates a to-do item](../todos.md#actions-that-create-to-do-items)
 for them, and sends them a [notification email](../profile/notifications.md).
@@ -185,7 +182,7 @@ for them, and sends them a [notification email](../profile/notifications.md).
 If you edit an existing comment to add a user mention that wasn't there before, GitLab:
 
 - Creates a to-do item for the mentioned user.
-- When the `email_on_added_mentions` feature flag is enabled, sends a notification email to the mentioned user.
+- Sends a notification email to the mentioned user.
 
 ## Prevent comments by locking the discussion
 

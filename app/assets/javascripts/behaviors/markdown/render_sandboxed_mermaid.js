@@ -244,17 +244,15 @@ export default function renderMermaid(els) {
 
   renderMermaids(visibleMermaids);
 
-  hiddenMermaids.forEach((el) => {
-    el.closest('details')?.addEventListener(
-      'toggle',
-      ({ target: details }) => {
-        if (details.open) {
-          renderMermaids([...details.querySelectorAll('.js-render-mermaid')]);
-        }
+  if (hiddenMermaids.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        visible.forEach((entry) => observer.unobserve(entry.target));
+        renderMermaids(visible.map((entry) => entry.target));
       },
-      {
-        once: true,
-      },
+      { threshold: 0 },
     );
-  });
+    hiddenMermaids.forEach((el) => observer.observe(el));
+  }
 }

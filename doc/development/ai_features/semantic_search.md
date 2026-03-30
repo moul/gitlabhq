@@ -253,12 +253,20 @@ ActiveContext::adapter.search(
 
 This should return results without errors.
 
-**Vertex AI credentials**
+**Embedding generation**
 
 Test that embedding generation is configured:
 
 ```ruby
-Ai::ActiveContext::Embeddings::Code::VertexText.new(["test"]).execute
+model_definition = ::Gitlab::Llm::Embeddings::ModelDefinition.for_gitlab_provided_code_embeddings(
+  identifier: 'text_embedding_005_vertex'
+)
+Gitlab::Llm::Embeddings::CodeEmbeddings.new(
+  'test',
+  unit_primitive: 'generate_embeddings_codebase',
+  user: User.first,
+  model_definition: model_definition
+).execute
 ```
 
 This should return a vector.

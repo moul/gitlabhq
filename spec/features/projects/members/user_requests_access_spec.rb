@@ -28,7 +28,11 @@ RSpec.describe 'Projects > Members > User requests access', :js, feature_categor
       expect(page).not_to have_content 'Request Access'
     end
 
-    it 'user can request access to a project' do
+    it 'user can request access to a project',
+      quarantine: {
+        issue: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/work_items/39483',
+        type: 'flaky'
+      } do
       perform_enqueued_jobs do
         more_actions_dropdown.click
         request_access

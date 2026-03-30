@@ -355,9 +355,8 @@ This account is assigned the Developer role.
 Prerequisites:
 
 - You must have the Developer, Maintainer, or Owner role for the project.
-- If you created an external agent from the AI Catalog, the agent must be enabled in your project.
-- To allow the agent to push to agent created branches `^duo/(fix|feature|refactor|docs/).*`, you might have to create [branch rules](../../project/repository/branches/branch_rules.md).
-- GitLab Self-Managed only. If you created an external agent from the AI Catalog, the agent must be enabled in your project.
+- For GitLab-managed external agents and custom external agents created in the AI Catalog, the external agent must be enabled in your project.
+- To allow the agent to push to agent-created branches (branches starting with ^duo/(fix|feature|refactor|docs/).*`), you might have to create [branch rules](../../project/repository/branches/branch_rules.md).
 
 1. In your project, open an issue, merge request, or epic.
 1. Mention, assign, or request a review from the service account user.

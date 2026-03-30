@@ -53,6 +53,7 @@ RSpec.describe API::WorkItems, feature_category: :portfolio_management do
 
       it_behaves_like 'work item listing endpoint'
       it_behaves_like 'work item listing filters'
+      it_behaves_like 'work item listing sorting'
 
       it 'supports unescaped namespace full paths' do
         get api("/namespaces/#{namespace_record.full_path}/-/work_items", user)
@@ -128,6 +129,7 @@ RSpec.describe API::WorkItems, feature_category: :portfolio_management do
 
     it_behaves_like 'work item listing endpoint'
     it_behaves_like 'work item listing filters'
+    it_behaves_like 'work item listing sorting'
 
     it 'supports unescaped project full paths' do
       get api("/projects/#{project.full_path}/-/work_items", user)

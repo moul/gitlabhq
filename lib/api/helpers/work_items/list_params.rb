@@ -151,6 +151,14 @@ module API
           use :pagination
           use :work_items_filter_params
           optional :cursor, type: String, desc: 'Cursor for obtaining the next set of records'
+          optional :order_by, type: String,
+            values: ::WorkItems::SortingKeys.order_by_values,
+            default: 'created_at',
+            desc: 'Column to sort work items by. Default: created_at.'
+          optional :sort, type: String,
+            values: %w[asc desc],
+            default: 'desc',
+            desc: 'Sort direction. Default: desc.'
           optional :fields, type: String,
             desc: ["Comma-separated list of base fields to include.",
               "Defaults to #{::API::WorkItems::DEFAULT_FIELDS.join(', ')}."].join(', ')

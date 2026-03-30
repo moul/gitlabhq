@@ -115,7 +115,6 @@ module Notes
     end
 
     def notify_added_mentions(note, old_mentioned_users)
-      return unless Feature.enabled?(:email_on_added_mentions, note.project)
       return unless note.previous_changes.include?('note')
       return unless current_user.can_trigger_notifications?
 

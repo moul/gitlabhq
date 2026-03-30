@@ -839,6 +839,7 @@ export default class Notes {
     if (this.updatedNotesTrackingMap[noteId]) {
       const $newNote = $(this.updatedNotesTrackingMap[noteId].html);
       $note.replaceWith($newNote);
+      renderGFM(Notes.getNodeToRender($newNote));
       this.setupNewNote($newNote);
       // Now that we have taken care of the update, clear it out
       delete this.updatedNotesTrackingMap[noteId];

@@ -272,7 +272,7 @@ RSpec.shared_examples 'work item API filter parity' do
 
   let(:not_filter_parity_wip) { [] }
   let(:or_filter_parity_wip) { [] }
-  let(:parity_wip) { Set.new(%w[in search sort]).merge(filter_parity_wip).to_a }
+  let(:parity_wip) { Set.new(%w[in search]).merge(filter_parity_wip).to_a }
 
   let(:graphql_filter_params) do
     # instad of `iid` we have `iids`

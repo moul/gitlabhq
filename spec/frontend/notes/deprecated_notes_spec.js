@@ -96,6 +96,34 @@ describe('Old Notes (~/deprecated_notes.js)', () => {
     });
   });
 
+  describe('GFM rendering on cancel edit with pending update', () => {
+    it('calls renderGFM after the cached note replaces the original in the DOM', () => {
+      const notes = new Notes('', []);
+      const noteId = 5678;
+      const noteHtml = `<li class="note note-row-${noteId} timeline-entry" id="note_${noteId}" data-note-id="${noteId}">
+        <div class="note-text">original</div>
+      </li>`;
+
+      const notesList = document.getElementById('notes-list');
+      notesList.innerHTML = noteHtml;
+
+      notes.updatedNotesTrackingMap[noteId] = {
+        html: noteHtml.replace('original', 'updated from server'),
+      };
+
+      const spy = jest.spyOn(renderGFMModule, 'renderGFM').mockImplementation((node) => {
+        expect(document.contains(node)).toBe(true);
+      });
+
+      const event = $.Event('click');
+      event.target = notesList.querySelector('.note');
+
+      notes.cancelEdit(event);
+
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
   // quarantine: https://gitlab.com/gitlab-org/gitlab/-/issues/208441
   // eslint-disable-next-line jest/no-disabled-tests
   describe.skip('mass-quarantined', () => {

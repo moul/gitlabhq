@@ -7,7 +7,6 @@ module API
         def render_work_items_collection_for(resource_parent)
           check_work_item_rest_api_feature_flag!
           check_pagination_param!(params)
-          params[:pagination] = 'keyset'
 
           authorize! :read_work_item, resource_parent
           authorize_job_token_policies!(resource_parent) if resource_parent.is_a?(::Project)
@@ -17,6 +16,8 @@ module API
           preloads = preload_associations_for(field_keys, feature_keys, resource_parent)
 
           work_items_relation = build_work_items_relation(resource_parent, preloads: preloads)
+
+          params[:pagination] = 'keyset' if keyset_supported_for_order?
 
           present paginate_with_strategies(work_items_relation),
             with: Entities::WorkItemBasic,
@@ -51,6 +52,10 @@ module API
 
         private
 
+        def keyset_supported_for_order?
+          ::WorkItem.supported_keyset_orderings[params[:order_by].to_sym]&.include?(params[:sort].to_sym)
+        end
+
         def requested_field_keys(requested_fields)
           (::API::WorkItems::DEFAULT_FIELDS + filter_requested_keys(
             requested_fields, ::API::WorkItems::FIELD_NAME_LOOKUP
@@ -64,7 +69,11 @@ module API
         def check_pagination_param!(params)
           return unless params[:pagination].present? && params[:pagination].to_s != 'keyset'
 
-          render_structured_api_error!({ error: 'Only keyset pagination is supported for work items endpoints.' }, 405)
+          render_structured_api_error!(
+            { error: 'Explicitly setting offset pagination is not supported. ' \
+                'Pagination is determined automatically based on the sort parameter.' },
+            405
+          )
         end
 
         def check_work_item_rest_api_feature_flag!

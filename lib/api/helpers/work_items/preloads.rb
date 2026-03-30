@@ -91,10 +91,7 @@ module API
           transformer = ::API::Helpers::WorkItemsFilterParams.new(params)
           filter_params = transformer.transform
 
-          # TODO: Remove once we allow sorting param as part of the API.
-          # But keep `created_at` as default when no param is present, since sorting by just `id`
-          # is not performant.
-          base_params.merge(filter_params).merge(sort: 'created_at_desc')
+          base_params.merge(filter_params).merge(sort: "#{params[:order_by]}_#{params[:sort]}")
         end
       end
     end
