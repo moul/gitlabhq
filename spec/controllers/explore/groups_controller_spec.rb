@@ -72,12 +72,4 @@ RSpec.describe Explore::GroupsController, feature_category: :groups_and_projects
       it_behaves_like 'explore groups'
     end
   end
-
-  it 'pushes groups_list_keyset_pagination feature flag' do
-    stub_feature_flags(groups_list_keyset_pagination: true)
-
-    get :index
-
-    expect(response.body).to have_pushed_frontend_feature_flags(groupsListKeysetPagination: true)
-  end
 end

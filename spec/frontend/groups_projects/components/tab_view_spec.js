@@ -2,6 +2,7 @@ import Vue, { markRaw } from 'vue';
 import MockAdapter from 'axios-mock-adapter';
 import { GlKeysetPagination, GlLoadingIcon, GlPagination } from '@gitlab/ui';
 import VueApollo from 'vue-apollo';
+import childrenResponse from 'test_fixtures/groups/children.json';
 import dashboardGroupsWithChildrenResponse from 'test_fixtures/groups/dashboard/index_with_children.json';
 import starredProjectsGraphQlResponse from 'test_fixtures/graphql/projects/your_work/starred_projects.query.graphql.json';
 import inactiveProjectsGraphQlResponse from 'test_fixtures/graphql/projects/your_work/inactive_projects.query.graphql.json';
@@ -29,15 +30,16 @@ import {
   FILTERED_SEARCH_TERM_KEY,
   MEMBER_TAB as MEMBER_TAB_GROUPS,
 } from '~/groups/your_work/constants';
+import { SUBGROUPS_AND_PROJECTS_TAB } from '~/groups/show/constants';
 import {
   FILTERED_SEARCH_TOKEN_LANGUAGE,
   FILTERED_SEARCH_TOKEN_MIN_ACCESS_LEVEL,
-  PAGINATION_TYPE_OFFSET,
 } from '~/groups_projects/constants';
 import { ACCESS_LEVEL_OWNER_INTEGER, ACCESS_LEVEL_OWNER_STRING } from '~/access_level/constants';
 import { TIMESTAMP_TYPE_CREATED_AT } from '~/vue_shared/components/resource_lists/constants';
 import createMockApollo from 'helpers/mock_apollo_helper';
 import { resolvers } from '~/vue_shared/components/groups_list/resolvers';
+import { resolvers as groupsShowResolvers } from '~/groups/show/graphql/resolvers';
 import waitForPromises from 'helpers/wait_for_promises';
 import { useMockInternalEventsTracking } from 'helpers/tracking_internal_events_helper';
 import { pageInfoMultiplePages, programmingLanguages } from './mock_data';
@@ -85,8 +87,9 @@ describe('TabView', () => {
     handlers = [],
     propsData = {},
     mountFn = shallowMountExtended,
+    resolversFn = resolvers,
   } = {}) => {
-    mockApollo = createMockApollo(handlers, resolvers(endpoint));
+    mockApollo = createMockApollo(handlers, resolversFn(endpoint));
 
     wrapper = mountFn(TabView, {
       apolloProvider: mockApollo,
@@ -337,6 +340,7 @@ describe('TabView', () => {
         it('calls API with parent_id and tab variables', () => {
           expect(mockAxios.history.get[1].params).toEqual({
             parent_id: group.id,
+            pagination: 'keyset',
             ...MEMBER_TAB_GROUPS.variables,
           });
         });
@@ -497,11 +501,11 @@ describe('TabView', () => {
   });
 
   describe('offset pagination', () => {
-    const propsData = { tab: { ...MEMBER_TAB_GROUPS, paginationType: PAGINATION_TYPE_OFFSET } };
+    const propsData = { tab: SUBGROUPS_AND_PROJECTS_TAB };
 
     describe('when there is one page', () => {
       beforeEach(async () => {
-        mockAxios.onGet(endpoint).replyOnce(200, dashboardGroupsResponse, {
+        mockAxios.onGet(endpoint).replyOnce(200, childrenResponse, {
           'x-per-page': 10,
           'x-page': 1,
           'x-total': 9,
@@ -511,6 +515,7 @@ describe('TabView', () => {
         });
         createComponent({
           propsData,
+          resolversFn: groupsShowResolvers,
         });
         await waitForPromises();
       });
@@ -522,7 +527,7 @@ describe('TabView', () => {
 
     describe('when there are multiple pages', () => {
       beforeEach(async () => {
-        mockAxios.onGet(endpoint).replyOnce(200, dashboardGroupsResponse, {
+        mockAxios.onGet(endpoint).replyOnce(200, childrenResponse, {
           'x-per-page': 10,
           'x-page': 2,
           'x-total': 21,
@@ -533,6 +538,7 @@ describe('TabView', () => {
 
         createComponent({
           propsData,
+          resolversFn: groupsShowResolvers,
         });
         await waitForPromises();
       });

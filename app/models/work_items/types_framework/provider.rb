@@ -47,19 +47,6 @@ module WorkItems
         find_by_id(work_item_type_id)
       end
 
-      # This list of types will exclude custom types because they're based on top of the `issue` base type.
-      # We use the base types in cases where we know an item needs to have a certain type
-      # which doesn't apply to custom types.
-      def unfiltered_base_types
-        type_class.all.map(&:base_type)
-      end
-
-      # This method exists here because we want to have full control in this class
-      # about how types are treated in the application.
-      def unfiltered_base_types_for_issue_type
-        unfiltered_base_types.map(&:upcase)
-      end
-
       def all
         resolve_all
       end

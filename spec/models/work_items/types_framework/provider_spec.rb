@@ -91,25 +91,6 @@ RSpec.describe WorkItems::TypesFramework::Provider, feature_category: :team_plan
     end
   end
 
-  describe '#unfiltered_base_types' do
-    subject { provider.unfiltered_base_types }
-
-    it { is_expected.to match_array(WorkItems::TypesFramework::SystemDefined::Type.all.map(&:base_type)) }
-
-    it { is_expected.to all(be_a(String)) }
-  end
-
-  describe '#unfiltered_base_types_for_issue_type' do
-    it 'converts base types to uppercase' do
-      base_types = provider.unfiltered_base_types
-      expected_types = base_types.map(&:upcase)
-
-      result = provider.unfiltered_base_types_for_issue_type
-
-      expect(result).to match_array(expected_types)
-    end
-  end
-
   describe '#type_exists?' do
     context 'when type exists' do
       it 'returns true for issue type' do

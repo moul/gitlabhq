@@ -6,8 +6,6 @@ query exploreGroups(
   $search: String
   $sort: String
   $parentId: Int
-  $page: Int
-  $pagination: String
   $before: String
   $after: String
 ) {
@@ -16,10 +14,9 @@ query exploreGroups(
     search: $search
     sort: $sort
     parentId: $parentId
-    page: $page
-    pagination: $pagination
     before: $before
     after: $after
+    pagination: "keyset"
   ) @client {
     nodes {
       ...Group
@@ -28,10 +25,7 @@ query exploreGroups(
       childrenCount
     }
     pageInfo {
-      total
       perPage
-      nextPage
-      previousPage
       hasNextPage
       hasPreviousPage
       startCursor

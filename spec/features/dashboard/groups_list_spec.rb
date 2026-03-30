@@ -290,61 +290,28 @@ RSpec.describe 'Dashboard Groups page', :js, feature_category: :groups_and_proje
       sign_in(user)
     end
 
-    describe 'when `groups_list_keyset_pagination` flag enabled' do
-      before do
-        visit dashboard_groups_path
-      end
+    it 'loads results for next page' do
+      visit dashboard_groups_path
 
-      it 'loads results for next page' do
-        expect(page).to have_selector('[data-testid="prevButton"]')
-        expect(page).to have_selector('[data-testid="nextButton"]')
+      expect(page).to have_selector('[data-testid="prevButton"]')
+      expect(page).to have_selector('[data-testid="nextButton"]')
 
-        # Check first page
-        expect(page).to have_content(group2.full_name)
-        expect(has_testid?("groups-list-item-#{group2.id}")).to be true
-        expect(page).not_to have_content(group.full_name)
-        expect(has_testid?("groups-list-item-#{group.id}")).to be false
+      # Check first page
+      expect(page).to have_content(group2.full_name)
+      expect(has_testid?("groups-list-item-#{group2.id}")).to be true
+      expect(page).not_to have_content(group.full_name)
+      expect(has_testid?("groups-list-item-#{group.id}")).to be false
 
-        # Go to next page
-        find_by_testid('nextButton').click
+      # Go to next page
+      find_by_testid('nextButton').click
 
-        wait_for_requests
+      wait_for_requests
 
-        # Check second page
-        expect(page).to have_content(group.full_name)
-        expect(has_testid?("groups-list-item-#{group.id}")).to be true
-        expect(page).not_to have_content(group2.full_name)
-        expect(has_testid?("groups-list-item-#{group2.id}")).to be false
-      end
-    end
-
-    describe 'when `groups_list_keyset_pagination` flag disabled' do
-      before do
-        stub_feature_flags(groups_list_keyset_pagination: false)
-        visit dashboard_groups_path
-      end
-
-      it 'loads results for next page' do
-        expect(page).to have_selector('[data-testid="gl-pagination-item"]', count: 2)
-        expect(page).to have_selector('[data-testid="gl-pagination-next"]')
-
-        # Check first page
-        expect(page).to have_content(group2.full_name)
-        expect(has_testid?("groups-list-item-#{group2.id}")).to be true
-        expect(page).not_to have_content(group.full_name)
-        expect(has_testid?("groups-list-item-#{group.id}")).to be false
-
-        # Go to next page
-        find_by_testid('gl-pagination-next').click
-
-        wait_for_requests
-
-        # Check second page
-        expect(page).to have_content(group.full_name)
-        expect(has_testid?("groups-list-item-#{group.id}")).to be true
-        expect(page).not_to have_content(group2.full_name)
-        expect(has_testid?("groups-list-item-#{group2.id}")).to be false
-      end
+      # Check second page
+      expect(page).to have_content(group.full_name)
+      expect(has_testid?("groups-list-item-#{group.id}")).to be true
+      expect(page).not_to have_content(group2.full_name)
+      expect(has_testid?("groups-list-item-#{group2.id}")).to be false
     end
   end
 

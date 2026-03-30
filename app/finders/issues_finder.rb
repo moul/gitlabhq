@@ -28,7 +28,7 @@
 #     updated_after: datetime
 #     updated_before: datetime
 #     confidential: boolean
-#     issue_types: array of strings (one of ::WorkItems::TypesFramework::Provider.new.unfiltered_base_types)
+#     issue_types: array of strings (one of ::WorkItems::TypesFramework::Provider.unfiltered_base_types)
 #
 class IssuesFinder < IssuableFinder
   extend ::Gitlab::Utils::Override

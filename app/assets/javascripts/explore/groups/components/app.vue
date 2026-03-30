@@ -12,8 +12,6 @@ import {
   TIMESTAMP_TYPE_CREATED_AT,
   TIMESTAMP_TYPE_UPDATED_AT,
 } from '~/vue_shared/components/resource_lists/constants';
-import { PAGINATION_TYPE_KEYSET, PAGINATION_TYPE_OFFSET } from '~/groups_projects/constants';
-import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 
 export default {
   EXPLORE_GROUPS_TABS,
@@ -39,24 +37,10 @@ export default {
   },
   name: 'ExploreGroupsApp',
   components: { TabsWithList },
-  mixins: [glFeatureFlagMixin()],
   props: {
     initialSort: {
       type: String,
       required: true,
-    },
-  },
-  computed: {
-    tabs() {
-      const paginationType = this.glFeatures.groupsListKeysetPagination
-        ? PAGINATION_TYPE_KEYSET
-        : PAGINATION_TYPE_OFFSET;
-
-      return this.$options.EXPLORE_GROUPS_TABS.map(({ variables = {}, ...tab }) => ({
-        ...tab,
-        variables: { pagination: paginationType, ...variables },
-        paginationType,
-      }));
     },
   },
 };
@@ -64,7 +48,7 @@ export default {
 
 <template>
   <tabs-with-list
-    :tabs="tabs"
+    :tabs="$options.EXPLORE_GROUPS_TABS"
     :filtered-search-term-key="$options.FILTERED_SEARCH_TERM_KEY"
     :filtered-search-namespace="$options.FILTERED_SEARCH_NAMESPACE"
     :filtered-search-recent-searches-storage-key="$options.RECENT_SEARCHES_STORAGE_KEY_GROUPS"

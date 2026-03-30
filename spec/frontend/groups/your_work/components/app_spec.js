@@ -25,7 +25,6 @@ import {
   TIMESTAMP_TYPE_CREATED_AT,
   TIMESTAMP_TYPE_UPDATED_AT,
 } from '~/vue_shared/components/resource_lists/constants';
-import { PAGINATION_TYPE_KEYSET, PAGINATION_TYPE_OFFSET } from '~/groups_projects/constants';
 import axios from '~/lib/utils/axios_utils';
 import createMockApollo from 'helpers/mock_apollo_helper';
 import { resolvers } from '~/vue_shared/components/groups_list/resolvers';
@@ -55,7 +54,6 @@ describe('YourWorkGroupsApp', () => {
     handlers = [],
     route = defaultRoute,
     stubs = {},
-    glFeatures = {},
   } = {}) => {
     const apolloProvider = createMockApollo(handlers, resolvers(endpoint));
     router = createRouter();
@@ -63,9 +61,6 @@ describe('YourWorkGroupsApp', () => {
 
     wrapper = mountFn(YourWorkGroupsApp, {
       propsData: defaultPropsData,
-      provide: {
-        glFeatures: { groupsListKeysetPagination: true, ...glFeatures },
-      },
       apolloProvider,
       router,
       stubs,
@@ -189,32 +184,4 @@ describe('YourWorkGroupsApp', () => {
       });
     },
   );
-
-  describe('when groupsListKeysetPagination is true', () => {
-    it('passes keyset pagination type to tabs', async () => {
-      await createComponent({ glFeatures: { groupsListKeysetPagination: true } });
-
-      wrapper
-        .findComponent(TabsWithList)
-        .props('tabs')
-        .forEach((tab) => {
-          expect(tab.paginationType).toBe(PAGINATION_TYPE_KEYSET);
-          expect(tab.variables.pagination).toBe(PAGINATION_TYPE_KEYSET);
-        });
-    });
-  });
-
-  describe('when groupsListKeysetPagination is false', () => {
-    it('passes offset pagination type to tabs', async () => {
-      await createComponent({ glFeatures: { groupsListKeysetPagination: false } });
-
-      wrapper
-        .findComponent(TabsWithList)
-        .props('tabs')
-        .forEach((tab) => {
-          expect(tab.paginationType).toBe(PAGINATION_TYPE_OFFSET);
-          expect(tab.variables.pagination).toBe(PAGINATION_TYPE_OFFSET);
-        });
-    });
-  });
 });

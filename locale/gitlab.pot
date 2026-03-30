@@ -11510,6 +11510,12 @@ msgstr ""
 msgid "Billing"
 msgstr ""
 
+msgid "BillingPlans|$12 in GitLab Credits per user per month"
+msgstr ""
+
+msgid "BillingPlans|$24 in GitLab Credits per user per month"
+msgstr ""
+
 msgid "BillingPlans|%{group_name} is currently using the %{plan_name}"
 msgstr ""
 
@@ -11523,6 +11529,9 @@ msgid "BillingPlans|10000 compute minutes"
 msgstr ""
 
 msgid "BillingPlans|400 compute minutes"
+msgstr ""
+
+msgid "BillingPlans|50,000 compute minutes per month"
 msgstr ""
 
 msgid "BillingPlans|50000 compute minutes"
@@ -11571,6 +11580,9 @@ msgid "BillingPlans|Advanced CI/CD"
 msgstr ""
 
 msgid "BillingPlans|Advanced application security"
+msgstr ""
+
+msgid "BillingPlans|Advanced security capabilities"
 msgstr ""
 
 msgid "BillingPlans|Agents"
@@ -11703,6 +11715,9 @@ msgid "BillingPlans|Features include:"
 msgstr ""
 
 msgid "BillingPlans|Flows"
+msgstr ""
+
+msgid "BillingPlans|For enterprises requiring advanced security and compliance capabilities."
 msgstr ""
 
 msgid "BillingPlans|For individuals working on personal projects and open source contributions."
@@ -11862,6 +11877,9 @@ msgid "BillingPlans|See all %{plan_name} features"
 msgstr ""
 
 msgid "BillingPlans|See all features"
+msgstr ""
+
+msgid "BillingPlans|Select your subscription"
 msgstr ""
 
 msgid "BillingPlans|Software Supply Chain Security"
@@ -56527,6 +56545,9 @@ msgid "Recently used"
 msgstr ""
 
 msgid "Recently viewed"
+msgstr ""
+
+msgid "Recommended"
 msgstr ""
 
 msgid "Recommended. Permanently delete an item:"

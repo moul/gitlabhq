@@ -44,7 +44,7 @@ describe('group list resolver', () => {
 
   it(`makes API call to ${endpoint} with correct params`, async () => {
     await makeQuery(dashboardGroupsWithChildrenResponse, {
-      variables: { search: 'foo', sort: 'created_desc', pagination: 'keyset', after: 'current' },
+      variables: { search: 'foo', sort: 'created_desc', after: 'current' },
     });
 
     expect(mockAxios.history.get[0].params).toEqual({
@@ -172,47 +172,23 @@ describe('group list resolver', () => {
     });
   });
 
-  describe('when keyset pagination', () => {
-    it('returns pageInfo with cursor-based pagination data', async () => {
-      const response = await makeQuery(dashboardGroupsWithChildrenResponse, {
-        variables: { pagination: 'keyset' },
-        responseHeaders: {
-          'x-per-page': 10,
-          'x-next-page': 'next',
-          'x-prev-page': 'prev',
-        },
-      });
-
-      expect(response.data.groups.pageInfo).toMatchObject({
-        __typename: 'LocalPageInfo',
-        perPage: 10,
-        startCursor: 'prev',
-        endCursor: 'next',
-        hasNextPage: true,
-        hasPreviousPage: true,
-      });
+  it('returns pageInfo with cursor-based pagination data', async () => {
+    const response = await makeQuery(dashboardGroupsWithChildrenResponse, {
+      variables: { pagination: 'keyset' },
+      responseHeaders: {
+        'x-per-page': 10,
+        'x-next-page': 'next',
+        'x-prev-page': 'prev',
+      },
     });
-  });
 
-  describe('when offset pagination', () => {
-    it('returns pageInfo with offset-based pagination data', async () => {
-      const response = await makeQuery(dashboardGroupsWithChildrenResponse, {
-        variables: { pagination: 'offset' },
-        responseHeaders: {
-          'x-total': 21,
-          'x-per-page': 10,
-          'x-next-page': 3,
-          'x-prev-page': 1,
-        },
-      });
-
-      expect(response.data.groups.pageInfo).toMatchObject({
-        __typename: 'LocalPageInfo',
-        total: 21,
-        perPage: 10,
-        nextPage: 3,
-        previousPage: 1,
-      });
+    expect(response.data.groups.pageInfo).toMatchObject({
+      __typename: 'LocalPageInfo',
+      perPage: 10,
+      startCursor: 'prev',
+      endCursor: 'next',
+      hasNextPage: true,
+      hasPreviousPage: true,
     });
   });
 });

@@ -8,7 +8,7 @@ module Banzai
       def self.filters
         @filters ||= FilterArray[
           Filter::MarkdownFilter,
-          Filter::ConvertTextToDocFilter,
+          Filter::ParseHtmlFilter,
           Filter::MinimumMarkdownSanitizationFilter,
           Filter::SanitizeLinkFilter,
           Filter::AssetProxyFilter,
