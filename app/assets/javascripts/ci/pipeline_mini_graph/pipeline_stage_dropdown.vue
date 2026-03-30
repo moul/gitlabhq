@@ -15,6 +15,7 @@ import CiIcon from '~/vue_shared/components/ci_icon/ci_icon.vue';
 import { getQueryHeaders, toggleQueryPollingByVisibility } from '~/ci/pipeline_details/graph/utils';
 import { graphqlEtagStagePath } from '~/ci/pipeline_details/utils';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
+import { fetchPolicies } from '~/lib/graphql';
 import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import {
   PIPELINE_POLL_INTERVAL_DEFAULT,
@@ -79,6 +80,7 @@ export default {
           featureCategory: 'continuous_integration',
         };
       },
+      fetchPolicy: fetchPolicies.CACHE_AND_NETWORK,
       query: getPipelineStageJobsQuery,
       variables() {
         return {

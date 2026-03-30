@@ -12,7 +12,7 @@ export function initPageBreadcrumbs() {
   staticBreadcrumbs.items = JSON.parse(breadcrumbsJson);
 
   if (gon.features?.pageBreadcrumbsInTopBar) {
-    document.querySelector('#js-vue-page-breadcrumbs-wrapper')?.remove();
+    document.querySelector('.js-static-panel #js-vue-page-breadcrumbs-wrapper')?.remove();
     return false;
   }
 

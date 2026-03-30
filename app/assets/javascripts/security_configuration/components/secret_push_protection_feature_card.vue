@@ -73,7 +73,8 @@ export default {
       };
     },
     isToggleDisabled() {
-      return !this.secretPushProtectionAvailable || !this.userIsProjectAdmin;
+      const toggleable = this.userIsProjectAdmin || this.feature.canUserConfigure;
+      return !this.secretPushProtectionAvailable || !toggleable;
     },
     showLock() {
       return this.isToggleDisabled && this.available;
@@ -82,7 +83,7 @@ export default {
       if (!this.secretPushProtectionAvailable) {
         return this.$options.i18n.tooltipDescription;
       }
-      if (!this.userIsProjectAdmin) {
+      if (!this.userIsProjectAdmin && !this.feature.canUserConfigure) {
         return this.$options.i18n.accessLevelTooltipDescription;
       }
       return '';

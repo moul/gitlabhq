@@ -38,8 +38,7 @@ class DashboardController < Dashboard::ApplicationController
 
   feature_category :notifications, [:home]
   feature_category :user_profile, [:activity]
-  feature_category :team_planning, [:issues, :issues_calendar]
-  feature_category :portfolio_management, [:work_items, :work_items_calendar]
+  feature_category :portfolio_management, [:issues, :issues_calendar, :work_items, :work_items_calendar]
   feature_category :code_review_workflow, [:merge_requests, :search_merge_requests]
 
   urgency :low, [:merge_requests, :activity, :search_merge_requests]

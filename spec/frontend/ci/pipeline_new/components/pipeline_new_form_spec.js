@@ -437,10 +437,6 @@ describe('Pipeline New Form', () => {
         expect(findRefsDropdown().props('value')).toEqual({ shortName: 'feature-branch' });
       });
 
-      it('hides pipeline variables form', () => {
-        expect(findPipelineVariablesForm().exists()).toBe(false);
-      });
-
       it('includes merge request IID in the create pipeline mutation', async () => {
         pipelineCreateMutationHandler.mockResolvedValue(mockPipelineCreateMutationResponse);
 

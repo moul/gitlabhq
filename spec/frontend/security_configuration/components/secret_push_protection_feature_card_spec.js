@@ -189,20 +189,57 @@ describe('SecretPushProtectionFeatureCard component', () => {
   });
 
   describe('when user is not project admin', () => {
-    beforeEach(() => {
-      createComponent({
-        provide: {
-          userIsProjectAdmin: false,
-        },
+    describe('and cannot configure', () => {
+      beforeEach(() => {
+        createComponent({
+          provide: {
+            userIsProjectAdmin: false,
+          },
+          props: {
+            feature: {
+              ...secretPushProtectionMock,
+              canUserConfigure: false,
+            },
+          },
+        });
+      });
+
+      it('disables the toggle', () => {
+        expect(findToggle().props('disabled')).toBe(true);
+      });
+
+      it('renders lock icon', () => {
+        expect(findLockIcon().exists()).toBe(true);
+        expect(findLockIcon().props('name')).toBe('lock');
+      });
+
+      it('shows access level tooltip', () => {
+        expect(findPopover().exists()).toBe(true);
       });
     });
 
-    it('disables the toggle', () => {
-      expect(findToggle().props('disabled')).toBe(true);
-    });
+    describe('but can configure', () => {
+      beforeEach(() => {
+        createComponent({
+          provide: {
+            userIsProjectAdmin: false,
+          },
+          props: {
+            feature: {
+              ...secretPushProtectionMock,
+              canUserConfigure: true,
+            },
+          },
+        });
+      });
 
-    it('shows access level tooltip', () => {
-      expect(findPopover().exists()).toBe(true);
+      it('does not disable the toggle', () => {
+        expect(findToggle().props('disabled')).toBe(false);
+      });
+
+      it('does not render lock icon', () => {
+        expect(findLockIcon().exists()).toBe(false);
+      });
     });
   });
 });

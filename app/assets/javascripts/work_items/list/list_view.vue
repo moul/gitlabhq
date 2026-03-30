@@ -1098,9 +1098,17 @@ export default {
       };
     },
     allItemsDraftFilters() {
-      return {
-        query: this.$route.query,
-      };
+      const {
+        sv_not_found,
+        sv_limit_id,
+        show,
+        first_page_size,
+        last_page_size,
+        page_after,
+        page_before,
+        ...query
+      } = this.$route.query;
+      return { query };
     },
     isSubscriptionLimitReached() {
       return (
@@ -1201,31 +1209,43 @@ export default {
   created() {
     if (this.isSavedView) {
       this.pageParams = getInitialPageParams(this.pageSize);
-    } else {
-      const draft = localStorage.getItem(this.allItemsDraftFiltersStorageKey);
-      const hasUrlQuery = Object.keys(this.$route.query).length > 0;
+      return;
+    }
 
-      if (hasUrlQuery) {
-        localStorage.setItem(
-          this.allItemsDraftFiltersStorageKey,
-          JSON.stringify({ query: this.$route.query }),
-        );
-      } else if (draft) {
-        const parsedData = JSON.parse(draft);
-        if (parsedData.query) {
-          this.$router.replace({ query: parsedData.query }).catch((error) => {
-            if (error.name !== 'NavigationDuplicated') {
-              throw error;
-            }
-          });
-        }
+    const draft = localStorage.getItem(this.allItemsDraftFiltersStorageKey);
+    const hasUrlQuery = Object.keys(this.$route.query).length > 0;
+    const hasSavedViewParam =
+      'sv_not_found' in this.$route.query || 'sv_limit_id' in this.$route.query;
+
+    const {
+      sv_not_found,
+      sv_limit_id,
+      show,
+      first_page_size,
+      last_page_size,
+      page_after,
+      page_before,
+      ...query
+    } = this.$route.query;
+
+    if (hasUrlQuery && !hasSavedViewParam) {
+      localStorage.setItem(this.allItemsDraftFiltersStorageKey, JSON.stringify({ query }));
+    } else if (draft && !hasSavedViewParam) {
+      const parsedData = JSON.parse(draft);
+
+      if (parsedData.query) {
+        this.$router.replace({ query: parsedData.query }).catch((error) => {
+          if (error.name !== 'NavigationDuplicated') {
+            throw error;
+          }
+        });
       }
+    }
 
-      this.updateData(getParameterByName(PARAM_SORT));
+    this.updateData(getParameterByName(PARAM_SORT));
 
-      if (!draft && !hasUrlQuery) {
-        this.addStateToken();
-      }
+    if (!draft && !hasUrlQuery) {
+      this.addStateToken();
     }
     this.autocompleteCache = new AutocompleteCache();
     window.addEventListener('popstate', this.checkDrawerParams);
@@ -1306,7 +1326,7 @@ export default {
           hiddenMetadataKeys: [...newSettings.hiddenMetadataKeys],
         },
       };
-      this.persistDraft();
+      this.persistSavedViewDraft();
     },
     handleToggle(item) {
       if (item && this.activeItem?.iid === item.iid) {
@@ -1377,7 +1397,12 @@ export default {
       this.pageParams = getInitialPageParams(this.pageSize);
 
       this.updateRouterQueryParams();
-      this.persistDraft();
+
+      if (this.isSavedView) {
+        this.persistSavedViewDraft();
+      } else {
+        this.persistAllItemsDraft();
+      }
     },
     updateRouterQueryParams() {
       if (this.isSavedView) {
@@ -1441,7 +1466,7 @@ export default {
       }
 
       this.updateRouterQueryParams();
-      this.persistDraft();
+      this.persistSavedViewDraft();
     },
     async saveSortPreference(sortKey) {
       try {
@@ -1813,19 +1838,23 @@ export default {
       // if custom message is provided, use it
       if (message) this.$emit('set-error', message);
     },
-    persistDraft() {
-      if (!this.isSavedView) {
+    persistSavedViewDraft() {
+      if (!this.viewConfigChanged) {
+        this.clearLocalSavedViewsConfig();
+        return;
+      }
+
+      localStorage.setItem(this.savedViewDraftStorageKey, JSON.stringify(this.viewDraftData));
+    },
+    persistAllItemsDraft() {
+      const hasSavedViewParam =
+        'sv_not_found' in this.$route.query || 'sv_limit_id' in this.$route.query;
+
+      if (!hasSavedViewParam) {
         localStorage.setItem(
           this.allItemsDraftFiltersStorageKey,
           JSON.stringify(this.allItemsDraftFilters),
         );
-      } else {
-        if (!this.viewConfigChanged) {
-          this.clearLocalSavedViewsConfig();
-          return;
-        }
-
-        localStorage.setItem(this.savedViewDraftStorageKey, JSON.stringify(this.viewDraftData));
       }
     },
     clearLocalSavedViewsConfig() {

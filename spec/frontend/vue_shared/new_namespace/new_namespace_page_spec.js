@@ -12,7 +12,6 @@ describe('Experimental new namespace creation app', () => {
 
   const findWelcomePage = () => wrapper.findComponent(WelcomePage);
   const findLegacyContainer = () => wrapper.findComponent(LegacyContainer);
-  const findTopBar = () => wrapper.findByTestId('top-bar');
   const findBreadcrumb = () => wrapper.findComponent(GlBreadcrumb);
   const findAccountVerificationAlert = () => wrapper.findComponent(GlAlert);
   const findMountingPortal = () => wrapper.findComponent(MountingPortal);
@@ -115,15 +114,6 @@ describe('Experimental new namespace creation app', () => {
     await nextTick();
     expect(findWelcomePage().exists()).toBe(false);
     expect(findLegacyContainer().exists()).toBe(true);
-  });
-
-  describe('top bar', () => {
-    it('has correct classes', () => {
-      createComponent();
-
-      expect(findTopBar().classes()).toContain('top-bar-fixed');
-      expect(findTopBar().classes()).toContain('container-fluid');
-    });
   });
 
   describe('account verification alert', () => {

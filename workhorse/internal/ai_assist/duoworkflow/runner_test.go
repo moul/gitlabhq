@@ -611,6 +611,14 @@ func TestRunner_Execute_with_errors(t *testing.T) {
 	}
 }
 
+// timeoutError implements net.Error with Timeout() returning true,
+// simulating the i/o timeout produced when a WebSocket pong deadline expires.
+type timeoutError struct{}
+
+func (e *timeoutError) Error() string   { return "i/o timeout" }
+func (e *timeoutError) Timeout() bool   { return true }
+func (e *timeoutError) Temporary() bool { return false }
+
 func TestRunner_Execute_with_close_errors(t *testing.T) {
 	tests := []struct {
 		name           string
@@ -626,6 +634,11 @@ func TestRunner_Execute_with_close_errors(t *testing.T) {
 			name:           "websocket going away",
 			wsReadError:    &websocket.CloseError{Code: websocket.CloseGoingAway},
 			expectedReason: "WORKHORSE_WEBSOCKET_CLOSE_1001",
+		},
+		{
+			name:           "websocket pong timeout",
+			wsReadError:    &timeoutError{},
+			expectedReason: "WORKHORSE_WEBSOCKET_PONG_TIMEOUT",
 		},
 	}
 

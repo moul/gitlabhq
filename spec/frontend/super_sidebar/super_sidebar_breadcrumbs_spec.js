@@ -16,15 +16,19 @@ const mockBreadcrumbsJson = JSON.stringify([
 describe('Super sidebar breadcrumbs', () => {
   let el;
   let wrapperEl;
+  let panelEl;
 
   const createEl = () => {
     wrapperEl = document.createElement('div');
     wrapperEl.id = 'js-vue-page-breadcrumbs-wrapper';
+    panelEl = document.createElement('div');
+    panelEl.class = 'js-static-panel';
     el = document.createElement('div');
     el.id = 'js-vue-page-breadcrumbs';
     el.dataset.breadcrumbsJson = mockBreadcrumbsJson;
     wrapperEl.appendChild(el);
-    document.body.appendChild(wrapperEl);
+    panelEl.appendChild(wrapperEl);
+    document.body.appendChild(panelEl);
   };
 
   afterEach(() => {
@@ -79,10 +83,12 @@ describe('Super sidebar breadcrumbs', () => {
           expect(staticBreadcrumbs.items).toEqual(JSON.parse(mockBreadcrumbsJson));
         });
 
-        it('removes the HAML breadcrumb wrapper', () => {
+        it('removes the HAML breadcrumb wrapper from the main panel', () => {
           initPageBreadcrumbs();
 
-          expect(document.querySelector('#js-vue-page-breadcrumbs-wrapper')).toBeNull();
+          expect(
+            document.querySelector('.js-static-panel #js-vue-page-breadcrumbs-wrapper'),
+          ).toBeNull();
         });
       });
     });

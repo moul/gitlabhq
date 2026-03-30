@@ -70,8 +70,9 @@ class Projects::IssuesController < Projects::ApplicationController
 
   respond_to :html
 
+  feature_category :portfolio_management, [:index, :calendar]
   feature_category :team_planning, [
-    :index, :calendar, :show, :new, :create, :edit, :update,
+    :show, :new, :create, :edit, :update,
     :destroy, :move, :reorder, :designs, :toggle_subscription,
     :discussions, :bulk_update, :realtime_changes,
     :toggle_award_emoji, :mark_as_spam, :related_branches,

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"slices"
 	"time"
@@ -231,6 +232,14 @@ func (r *runner) handleWebSocketMessages(errCh chan<- error) {
 		if err != nil {
 			if e, ok := err.(*websocket.CloseError); ok && slices.Contains(normalClosureErrCodes, e.Code) {
 				reason := fmt.Sprintf("WORKHORSE_WEBSOCKET_CLOSE_%d", e.Code)
+				stopErr := r.stopWorkflow(reason, err)
+				errCh <- fmt.Errorf("handleWebSocketMessages: %v", stopErr)
+				return
+			}
+
+			var netErr net.Error
+			if errors.As(err, &netErr) && netErr.Timeout() {
+				reason := "WORKHORSE_WEBSOCKET_PONG_TIMEOUT"
 				stopErr := r.stopWorkflow(reason, err)
 				errCh <- fmt.Errorf("handleWebSocketMessages: %v", stopErr)
 				return

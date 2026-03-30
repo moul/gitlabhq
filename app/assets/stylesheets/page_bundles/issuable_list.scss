@@ -80,8 +80,6 @@
 
     @include gl-container-width-down(lg, panel) {
       .task-status,
-      .issuable-due-date,
-      .issuable-weight,
       .project-ref-path {
         display: none;
       }

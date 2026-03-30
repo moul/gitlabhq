@@ -129,17 +129,8 @@ export default {
 
 <template>
   <div>
-    <mounting-portal mount-to=".panel-header" name="breadcrumbs" append>
-      <div
-        class="top-bar-fixed container-fluid gl-border-b gl-top-0 gl-mx-0 gl-w-full"
-        data-testid="top-bar"
-      >
-        <div
-          class="top-bar-container gl-flex gl-items-center gl-border-b-0 gl-border-b-default gl-border-b-solid"
-        >
-          <gl-breadcrumb :items="breadcrumbs" data-testid="breadcrumb-links" class="gl-grow" />
-        </div>
-      </div>
+    <mounting-portal mount-to="#js-vue-page-breadcrumbs-wrapper" name="breadcrumbs" append>
+      <gl-breadcrumb :items="breadcrumbs" data-testid="breadcrumb-links" class="gl-grow" />
     </mounting-portal>
 
     <template v-if="activePanel">

@@ -25681,6 +25681,29 @@ The edge type for [`TerraformState`](#terraformstate).
 | <a id="terraformstateedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="terraformstateedge-node"></a>`node` | [`TerraformState`](#terraformstate) | The item at the end of the edge. |
 
+#### `TerraformStateProtectionRuleConnection`
+
+The connection type for [`TerraformStateProtectionRule`](#terraformstateprotectionrule).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="terraformstateprotectionruleconnection-edges"></a>`edges` | [`[TerraformStateProtectionRuleEdge]`](#terraformstateprotectionruleedge) | A list of edges. |
+| <a id="terraformstateprotectionruleconnection-nodes"></a>`nodes` | [`[TerraformStateProtectionRule]`](#terraformstateprotectionrule) | A list of nodes. |
+| <a id="terraformstateprotectionruleconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `TerraformStateProtectionRuleEdge`
+
+The edge type for [`TerraformStateProtectionRule`](#terraformstateprotectionrule).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="terraformstateprotectionruleedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="terraformstateprotectionruleedge-node"></a>`node` | [`TerraformStateProtectionRule`](#terraformstateprotectionrule) | The item at the end of the edge. |
+
 #### `TerraformStateVersionRegistryConnection`
 
 The connection type for [`TerraformStateVersionRegistry`](#terraformstateversionregistry).
@@ -45433,6 +45456,7 @@ Project-level settings for product analytics provider.
 | <a id="project-suggestioncommitmessage"></a>`suggestionCommitMessage` | [`String`](#string) | Commit message used to apply merge request suggestions. |
 | <a id="project-taglist"></a>`tagList` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 13.12. Use `topics`. |
 | <a id="project-targetbranchrules"></a>`targetBranchRules` | [`ProjectTargetBranchRuleConnection`](#projecttargetbranchruleconnection) | Target branch rules of the project. (see [Connections](#connections)) |
+| <a id="project-terraformstateprotectionrules"></a>`terraformStateProtectionRules` {{< icon name="warning-solid" >}} | [`TerraformStateProtectionRuleConnection`](#terraformstateprotectionruleconnection) | **Introduced** in GitLab 18.11. **Status**: Experiment. Terraform state protection rules for the project. |
 | <a id="project-terraformstates"></a>`terraformStates` | [`TerraformStateConnection`](#terraformstateconnection) | Terraform states associated with the project. (see [Connections](#connections)) |
 | <a id="project-timelogcategories"></a>`timelogCategories` {{< icon name="warning-solid" >}} | [`TimeTrackingTimelogCategoryConnection`](#timetrackingtimelogcategoryconnection) | **Introduced** in GitLab 15.3. **Status**: Experiment. Timelog categories for the project. |
 | <a id="project-topics"></a>`topics` | [`[String!]`](#string) | List of project topics. |
@@ -50696,6 +50720,19 @@ Terraform module metadata submodule.
 | <a id="terraformstate-name"></a>`name` | [`String!`](#string) | Name of the Terraform state. |
 | <a id="terraformstate-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp the Terraform state was updated. |
 
+### `TerraformStateProtectionRule`
+
+A protection rule for Terraform state backends, controlling who can write to a state based on project role and request source.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="terraformstateprotectionrule-allowedfrom"></a>`allowedFrom` {{< icon name="warning-solid" >}} | [`TerraformStateProtectionRuleAllowedFrom!`](#terraformstateprotectionruleallowedfrom) | **Introduced** in GitLab 18.11. **Status**: Experiment. Restriction on the source of write requests. `ANYWHERE` allows all sources, `CI_ONLY` requires a CI job token, `CI_ON_PROTECTED_BRANCH_ONLY` requires a CI job on a protected branch. |
+| <a id="terraformstateprotectionrule-id"></a>`id` {{< icon name="warning-solid" >}} | [`TerraformStateProtectionRuleID!`](#terraformstateprotectionruleid) | **Introduced** in GitLab 18.11. **Status**: Experiment. Global ID of the Terraform state protection rule. |
+| <a id="terraformstateprotectionrule-minimumaccesslevelforwrite"></a>`minimumAccessLevelForWrite` {{< icon name="warning-solid" >}} | [`TerraformStateProtectionRuleAccessLevel!`](#terraformstateprotectionruleaccesslevel) | **Introduced** in GitLab 18.11. **Status**: Experiment. Minimum GitLab access level required to perform write operations on the Terraform state. Valid values include `DEVELOPER`, `MAINTAINER`, `OWNER`, or `ADMIN`. |
+| <a id="terraformstateprotectionrule-statename"></a>`stateName` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 18.11. **Status**: Experiment. Terraform state name protected by the rule. |
+
 ### `TerraformStateVersion`
 
 #### Fields
@@ -52967,7 +53004,7 @@ Represents a triggered workflow for a vulnerability.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="vulnerabilitytriggeredworkflow-workflow"></a>`workflow` | [`DuoWorkflow!`](#duoworkflow) | Associated workflow details. |
+| <a id="vulnerabilitytriggeredworkflow-workflow"></a>`workflow` | [`DuoWorkflow`](#duoworkflow) | Associated workflow details. |
 | <a id="vulnerabilitytriggeredworkflow-workflowname"></a>`workflowName` | [`VulnerabilityWorkflowName!`](#vulnerabilityworkflowname) | Name of the workflow. |
 
 ### `VulnerableDependency`
@@ -55321,6 +55358,7 @@ Values for sorting CI/CD job analytics.
 | <a id="cijobsource-api"></a>`API` | A job initiated by api. |
 | <a id="cijobsource-chat"></a>`CHAT` | A job initiated by chat. |
 | <a id="cijobsource-container_registry_push"></a>`CONTAINER_REGISTRY_PUSH` | A job initiated by container registry push. |
+| <a id="cijobsource-dependency_management_security_update"></a>`DEPENDENCY_MANAGEMENT_SECURITY_UPDATE` | A job initiated by dependency management security update. |
 | <a id="cijobsource-duo_workflow"></a>`DUO_WORKFLOW` | A job initiated by duo workflow. |
 | <a id="cijobsource-external"></a>`EXTERNAL` | A job initiated by external. |
 | <a id="cijobsource-external_pull_request_event"></a>`EXTERNAL_PULL_REQUEST_EVENT` | A job initiated by external pull request event. |
@@ -55412,6 +55450,7 @@ Ci Pipeline sources enum.
 | <a id="cipipelinesources-api"></a>`API` | Pipeline created by an API event. |
 | <a id="cipipelinesources-chat"></a>`CHAT` | Pipeline created by a chat event. |
 | <a id="cipipelinesources-container_registry_push"></a>`CONTAINER_REGISTRY_PUSH` | Pipeline created by a container registry push event. |
+| <a id="cipipelinesources-dependency_management_security_update"></a>`DEPENDENCY_MANAGEMENT_SECURITY_UPDATE` | Pipeline created by a dependency management security update event. |
 | <a id="cipipelinesources-duo_workflow"></a>`DUO_WORKFLOW` | Pipeline created by a duo workflow event. |
 | <a id="cipipelinesources-external"></a>`EXTERNAL` | Pipeline created by an external event. |
 | <a id="cipipelinesources-external_pull_request_event"></a>`EXTERNAL_PULL_REQUEST_EVENT` | Pipeline created by an external pull request event. |
@@ -58474,6 +58513,27 @@ Status of the subscription to an issuable.
 | <a id="subscriptionstatus-explicitly_subscribed"></a>`EXPLICITLY_SUBSCRIBED` | User is explicitly subscribed to the issuable. |
 | <a id="subscriptionstatus-explicitly_unsubscribed"></a>`EXPLICITLY_UNSUBSCRIBED` | User is explicitly unsubscribed from the issuable. |
 
+### `TerraformStateProtectionRuleAccessLevel`
+
+Access level for Terraform state protection rule write operations.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="terraformstateprotectionruleaccesslevel-admin"></a>`ADMIN` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 18.11. **Status**: Experiment. Admin access. |
+| <a id="terraformstateprotectionruleaccesslevel-developer"></a>`DEVELOPER` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 18.11. **Status**: Experiment. Developer access. |
+| <a id="terraformstateprotectionruleaccesslevel-maintainer"></a>`MAINTAINER` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 18.11. **Status**: Experiment. Maintainer access. |
+| <a id="terraformstateprotectionruleaccesslevel-owner"></a>`OWNER` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 18.11. **Status**: Experiment. Owner access. |
+
+### `TerraformStateProtectionRuleAllowedFrom`
+
+Source restriction for Terraform state protection rule write operations.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="terraformstateprotectionruleallowedfrom-anywhere"></a>`ANYWHERE` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 18.11. **Status**: Experiment. Anywhere. |
+| <a id="terraformstateprotectionruleallowedfrom-ci_only"></a>`CI_ONLY` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 18.11. **Status**: Experiment. Ci only. |
+| <a id="terraformstateprotectionruleallowedfrom-ci_on_protected_branch_only"></a>`CI_ON_PROTECTED_BRANCH_ONLY` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 18.11. **Status**: Experiment. Ci on protected branch only. |
+
 ### `TestCaseStatus`
 
 | Value | Description |
@@ -60622,6 +60682,12 @@ An example `SystemNoteMetadataID` is: `"gid://gitlab/SystemNoteMetadata/1"`.
 A `TerraformStateID` is a global ID. It is encoded as a string.
 
 An example `TerraformStateID` is: `"gid://gitlab/Terraform::State/1"`.
+
+### `TerraformStateProtectionRuleID`
+
+A `TerraformStateProtectionRuleID` is a global ID. It is encoded as a string.
+
+An example `TerraformStateProtectionRuleID` is: `"gid://gitlab/Terraform::StateProtectionRule/1"`.
 
 ### `Time`
 

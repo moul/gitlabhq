@@ -229,3 +229,20 @@ ERROR: Job failed (system failure): resolving secrets: getting secret: get secre
 ```
 
 This error happens when a job attempts to fetch a secret that does not exist or has been deleted.
+
+### Error: `inline auth JWT is required`
+
+When a CI/CD pipeline job attempts to fetch a secret, it might return this error:
+
+```plaintext
+ERROR: Job failed (system failure): resolving secrets: creating vault client: configuring inline auth: inline auth JWT is required
+```
+
+This error happens when the secrets manager instance has not been provisioned yet for the project or the group
+that the secret is expected to belong to. The runner cannot configure authentication because no secrets
+manager role exists yet.
+
+To resolve this error, [enable the Secrets Manager](#enable-or-disable-the-gitlab-secrets-manager)
+for your project or group.
+
+Wait for provisioning to complete and create the secret before re-running the pipeline.

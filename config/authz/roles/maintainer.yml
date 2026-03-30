@@ -17,6 +17,7 @@ project:
   - admin_deployment
   - admin_environment
   - admin_feature_flags_client
+  - admin_incident_management_oncall_schedule
   - admin_incident_management_timeline_event_tag
   - admin_integrations
   - admin_issue_board

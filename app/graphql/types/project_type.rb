@@ -689,6 +689,13 @@ module Types
       description: 'Terraform states associated with the project.',
       resolver: Resolvers::Terraform::StatesResolver
 
+    field :terraform_state_protection_rules,
+      Types::Terraform::StateProtectionRuleType.connection_type,
+      null: true,
+      experiment: { milestone: '18.11' },
+      description: 'Terraform state protection rules for the project.',
+      resolver: Resolvers::Terraform::StateProtectionRulesResolver
+
     field :pipeline_analytics, Types::Ci::AnalyticsType,
       null: true,
       description: 'Pipeline analytics.',

@@ -10,7 +10,7 @@ module Cells
       GRPC_RETRIES = 3
       GRPC_RETRY_BASE_INTERVAL = 0.5
       GRPC_RETRIABLE_ERRORS = [GRPC::DeadlineExceeded, GRPC::Unavailable].freeze
-      MAX_GRPC_MESSAGE_BYTES = 3.5.megabytes
+      MAX_GRPC_MESSAGE_BYTES = 10.megabytes
       # Estimated per-record protobuf overhead (subject, source, bucket type, varint framing).
       # The bucket value size is measured separately; this covers the remaining fixed-size fields.
       GRPC_PER_RECORD_OVERHEAD_BYTES = 200
@@ -95,7 +95,7 @@ module Cells
 
       def find_local_records(start_id)
         pk = model.primary_key
-        model.where("#{pk} > ?", start_id).order(pk).limit(LIMIT) # rubocop:disable CodeReuse/ActiveRecord -- dynamic model
+        model.cells_claims_scope.where("#{pk} > ?", start_id).order(pk).limit(LIMIT) # rubocop:disable CodeReuse/ActiveRecord -- dynamic model
       end
 
       def list_ts_records(model, start_id, end_id)
@@ -160,10 +160,7 @@ module Cells
           ts_record = ts_records_map.delete(id)
 
           if ts_record.nil?
-            # exists in local but missing in TS, reject blank bucket values because some claimable
-            # columns are nullable (e.g. service_desk_settings.custom_email) and not every row has a
-            # value to claim.
-            creates.concat(local_record.cells_claims_metadata.reject { |m| m.dig(:bucket, :value).blank? })
+            creates.concat(local_record.cells_claims_metadata)
           else
             # exists in both
             create, destroy = diff_record(local_record, ts_record)

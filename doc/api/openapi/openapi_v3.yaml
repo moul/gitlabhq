@@ -61143,6 +61143,7 @@ paths:
           - container_registry_push
           - duo_workflow
           - pipeline_execution_policy_schedule
+          - dependency_management_security_update
           nullable: true
         in: query
         example: push
@@ -73002,6 +73003,8 @@ components:
           type: string
         allow_runner_registration_token:
           type: string
+        valid_runner_registrars:
+          type: string
         user_defaults_to_private_profile:
           type: string
         deactivation_email_additional_text:
@@ -73385,8 +73388,6 @@ components:
         security_scan_stale_after_days:
           type: string
         enable_member_promotion_management:
-          type: string
-        valid_runner_registrars:
           type: string
         external_auth_client_cert:
           type: string

@@ -144,7 +144,12 @@ module Ci
       builds = queue.build_candidates.limit(MAX_QUEUE_DEPTH + 1)
 
       build_and_partition_ids = retrieve_queue(-> { queue.execute(builds) })
-      queue_size = build_and_partition_ids.size
+      size = build_and_partition_ids.size
+      queue_size = if size > MAX_QUEUE_DEPTH && Feature.enabled?(:ci_register_job_full_queue_count, type: :ops)
+                     queue.build_candidates.count
+                   else
+                     size
+                   end
 
       @metrics.observe_queue_size(-> { queue_size }, @runner.runner_type)
 

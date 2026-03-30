@@ -5,7 +5,10 @@ module Groups
     include SearchRateLimitable
     include WorkItemsCollections
 
+    feature_category :portfolio_management, [:index, :rss, :calendar]
     feature_category :team_planning
+
+    urgency :low, [:rss, :calendar]
 
     before_action do
       push_frontend_feature_flag(:notifications_todos_buttons, current_user)
@@ -24,8 +27,6 @@ module Groups
 
     prepend_before_action(only: [:calendar]) { authenticate_sessionless_user!(:ics) }
     prepend_before_action(only: [:rss]) { authenticate_sessionless_user!(:rss) }
-
-    urgency :low, [:rss, :calendar]
 
     def index
       dismiss_work_items_badge

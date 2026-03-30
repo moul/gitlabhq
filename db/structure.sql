@@ -59579,9 +59579,6 @@ ALTER TABLE ONLY labels
 ALTER TABLE ONLY project_feature_usages
     ADD CONSTRAINT fk_rails_c22a50024b FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
-ALTER TABLE ONLY project_repositories
-    ADD CONSTRAINT fk_rails_c3258dc63b FOREIGN KEY (shard_id) REFERENCES shards(id) ON DELETE RESTRICT;
-
 ALTER TABLE ONLY packages_nuget_dependency_link_metadata
     ADD CONSTRAINT fk_rails_c3313ee2e4 FOREIGN KEY (dependency_link_id) REFERENCES packages_dependency_links(id) ON DELETE CASCADE;
 

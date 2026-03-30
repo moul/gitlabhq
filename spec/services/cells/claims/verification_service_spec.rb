@@ -376,7 +376,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       end
     end
 
-    context 'when a local record has a blank claim attribute value' do
+    context 'when cells_claims_metadata filters out non-claimable entries' do
       let!(:user) { create(:user) }
 
       before do
@@ -384,13 +384,11 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         stub_commit
         allow_any_instance_of(User).to receive(:cells_claims_metadata).and_return([ # rubocop:disable RSpec/AnyInstanceOf -- need to stub on DB-loaded instances
           { bucket: { type: :user_ids, value: user.id.to_s }, subject: { type: :user, id: 1 },
-            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } },
-          { bucket: { type: :usernames, value: '' }, subject: { type: :user, id: 1 },
             source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } }
         ])
       end
 
-      it 'skips metadata entries with blank bucket values' do
+      it 'creates only the entries returned by cells_claims_metadata' do
         expect(mock_claim_service).to receive(:begin_update).with(
           hash_including(create_records: satisfy { |records| records.size == 1 })
         ).and_return(begin_update_response)
@@ -399,45 +397,49 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       end
     end
 
-    context 'when a local record has a nil claim attribute value' do
+    context 'when cells_claims_metadata returns empty for all attributes' do
       let!(:user) { create(:user) }
 
       before do
         stub_list_records([])
-        stub_commit
-        allow_any_instance_of(User).to receive(:cells_claims_metadata).and_return([ # rubocop:disable RSpec/AnyInstanceOf -- need to stub on DB-loaded instances
-          { bucket: { type: :user_ids, value: user.id.to_s }, subject: { type: :user, id: 1 },
-            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } },
-          { bucket: { type: :usernames, value: nil }, subject: { type: :user, id: 1 },
-            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } }
-        ])
+        allow_any_instance_of(User).to receive(:cells_claims_metadata).and_return([]) # rubocop:disable RSpec/AnyInstanceOf -- need to stub on DB-loaded instances
       end
 
-      it 'skips metadata entries with nil bucket values' do
-        expect(mock_claim_service).to receive(:begin_update).with(
-          hash_including(create_records: satisfy { |records| records.size == 1 })
-        ).and_return(begin_update_response)
-
-        service.execute
-      end
-    end
-
-    context 'when all claim attribute values are blank for a local record' do
-      let!(:user) { create(:user) }
-
-      before do
-        stub_list_records([])
-        allow_any_instance_of(User).to receive(:cells_claims_metadata).and_return([ # rubocop:disable RSpec/AnyInstanceOf -- need to stub on DB-loaded instances
-          { bucket: { type: :user_ids, value: '' }, subject: { type: :user, id: 1 },
-            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } },
-          { bucket: { type: :usernames, value: nil }, subject: { type: :user, id: 1 },
-            source: { type: :rails_table_users, rails_primary_key_id: Cells::Serialization.to_bytes(user.id) } }
-        ])
-      end
-
-      it 'does not call begin_update when no valid creates exist' do
+      it 'does not call begin_update when no creates exist' do
         expect(mock_claim_service).not_to receive(:begin_update)
         service.execute
+      end
+    end
+
+    context 'when model defines cells_claims_scope' do
+      let!(:user) { create(:user) }
+
+      it 'uses cells_claims_scope for querying local records' do
+        stub_list_records([])
+        stub_commit
+
+        expect(User).to receive(:cells_claims_scope).at_least(:once).and_call_original
+
+        service.execute
+      end
+
+      context 'when cells_claims_scope filters out records' do
+        let!(:included_user) { create(:user) }
+        let!(:excluded_user) { create(:user) }
+        let(:custom_scope) { User.where(id: included_user.id) }
+
+        before do
+          allow(User).to receive(:cells_claims_scope).and_return(custom_scope)
+          stub_list_records([])
+          stub_commit
+        end
+
+        it 'only processes records within the scope' do
+          result = service.execute
+
+          expect(result[:created]).to eq(User.cells_claims_attributes.size)
+          expect(result[:last_id]).to eq(included_user.id)
+        end
       end
     end
 

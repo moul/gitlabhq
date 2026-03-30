@@ -336,7 +336,7 @@ export default {
         @update-inputs="handleInputsUpdated"
       />
       <pipeline-variables-form
-        v-if="canSetPipelineVariables && !relatedMergeRequest"
+        v-if="canSetPipelineVariables"
         :file-params="fileParams"
         :is-maintainer="isMaintainer"
         :project-path="projectPath"

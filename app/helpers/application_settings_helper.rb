@@ -611,6 +611,7 @@ module ApplicationSettingsHelper
       :allow_contribution_mapping_to_admins,
       :allow_s3_compatible_storage_for_offline_transfer,
       :allow_runner_registration_token,
+      :valid_runner_registrars,
       :user_defaults_to_private_profile,
       :deactivation_email_additional_text,
       :projects_api_rate_limit_unauthenticated,

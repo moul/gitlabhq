@@ -152,11 +152,14 @@ describe('PipelineStageDropdown', () => {
       expect(wrapper.emitted('mini-graph-stage-click')).toHaveLength(1);
     });
 
-    it('has fired the stage query', async () => {
+    it('reactively fetches fresh data when the dropdown opens', async () => {
       await createComponent();
       await clickStageDropdown();
       const { stage } = defaultProps;
 
+      const { stageJobs } = wrapper.vm.$apollo.queries;
+
+      expect(stageJobs.options.fetchPolicy).toBe('cache-and-network');
       expect(pipelineStageResponse).toHaveBeenCalledWith({ id: stage.id });
     });
 

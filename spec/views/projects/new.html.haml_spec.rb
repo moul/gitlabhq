@@ -29,7 +29,7 @@ RSpec.describe 'projects/new', feature_category: :groups_and_projects do
     it 'sets the correct page title' do
       render
 
-      expect(view).to have_received(:page_title).with(_('Create a new project'))
+      expect(view).to have_received(:page_title).with(_('New project'))
     end
   end
 end

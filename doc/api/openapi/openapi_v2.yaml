@@ -12376,6 +12376,7 @@ paths:
         - container_registry_push
         - duo_workflow
         - pipeline_execution_policy_schedule
+        - dependency_management_security_update
         required: false
         example: push
       - in: query

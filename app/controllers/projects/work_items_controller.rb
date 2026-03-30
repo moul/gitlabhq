@@ -26,6 +26,7 @@ class Projects::WorkItemsController < Projects::ApplicationController
   prepend_before_action(only: [:calendar]) { authenticate_sessionless_user!(:ics) }
   prepend_before_action(only: [:rss]) { authenticate_sessionless_user!(:rss) }
 
+  feature_category :portfolio_management, [:index, :rss, :calendar]
   feature_category :team_planning
   urgency :high, [:authorize]
   urgency :low

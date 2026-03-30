@@ -55,6 +55,7 @@ project:
   - read_freeze_period
   - read_grafana
   - read_harbor_registry
+  - read_incident_management_oncall_schedule
   - read_internal_note
   - read_issuable_resource_link
   - read_licenses

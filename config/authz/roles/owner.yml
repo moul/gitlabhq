@@ -76,6 +76,7 @@ group:
   - create_service_account
   - create_subgroup
   - delete_group_link
+  - delete_namespace_ban
   - delete_secrets_permission
   - delete_service_account
   - delete_subgroup

@@ -61,7 +61,8 @@ class GroupsController < Groups::ApplicationController
     :index, :new, :create, :show, :edit, :update,
     :destroy, :details, :transfer, :activity, :restore
   ]
-  feature_category :team_planning, [:issues, :issues_calendar, :preview_markdown]
+  feature_category :portfolio_management, [:issues, :issues_calendar]
+  feature_category :team_planning, [:preview_markdown]
   feature_category :code_review_workflow, [:merge_requests]
   feature_category :importers, [:export, :download_export]
   feature_category :continuous_delivery, [:unfoldered_environment_names]

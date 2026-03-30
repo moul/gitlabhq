@@ -148,7 +148,12 @@ export default {
 
       <organization-switcher v-if="shouldShowOrganizationSwitcher" class="gl-hidden md:gl-block" />
 
-      <div v-if="glFeatures.pageBreadcrumbsInTopBar" class="gl-grow" data-testid="breadcrumb-links">
+      <div
+        v-if="glFeatures.pageBreadcrumbsInTopBar"
+        id="js-vue-page-breadcrumbs-wrapper"
+        class="gl-grow"
+        data-testid="breadcrumb-links"
+      >
         <gl-breadcrumb
           v-if="!$options.staticBreadcrumbs.hasInjectedBreadcrumbs"
           class="gl-grow"

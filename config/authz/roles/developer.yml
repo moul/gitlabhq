@@ -59,6 +59,7 @@ project:
   - read_cluster_agent
   - read_coverage_fuzzing
   - read_feature_flag
+  - read_merge_request_status_check_url
   - read_on_demand_dast_scan
   - read_pod_logs
   - read_project_audit_events
