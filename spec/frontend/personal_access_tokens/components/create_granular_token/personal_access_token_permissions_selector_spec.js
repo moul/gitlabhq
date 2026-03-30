@@ -173,6 +173,102 @@ describe('PersonalAccessTokenPermissionsSelector', () => {
     });
   });
 
+  describe('suggestion handling', () => {
+    beforeEach(async () => {
+      createComponent();
+      await waitForPromises();
+    });
+
+    describe('permissionsToSelect watcher', () => {
+      it('applies permissions immediately when data is already loaded', async () => {
+        await wrapper.setProps({ permissionsToSelect: ['read_project'] });
+
+        expect(wrapper.emitted('input')[0]).toEqual([['read_project']]);
+      });
+
+      it('does nothing when permissionsToSelect is empty', async () => {
+        await wrapper.setProps({ permissionsToSelect: [] });
+
+        expect(wrapper.emitted('input')).toBeUndefined();
+      });
+    });
+
+    describe('permissionsToClear watcher', () => {
+      it('removes the specified permissions', async () => {
+        await findResourcesList().vm.$emit('input', ['project']);
+        await findPermissionsList().vm.$emit('input', ['read_project', 'write_project']);
+        await wrapper.setProps({ value: ['read_project', 'write_project'] });
+
+        await wrapper.setProps({ permissionsToClear: ['read_project'] });
+
+        expect(wrapper.emitted('input').at(-1)).toEqual([['write_project']]);
+      });
+
+      it('does not remove the resource when all its permissions are cleared', async () => {
+        await findResourcesList().vm.$emit('input', ['project']);
+        await findPermissionsList().vm.$emit('input', ['read_project', 'write_project']);
+        await wrapper.setProps({ value: ['read_project', 'write_project'] });
+
+        await wrapper.setProps({ permissionsToClear: ['read_project', 'write_project'] });
+
+        expect(findPermissionsList().props('selectedResources')).toContain('project');
+      });
+
+      it('does nothing when permissionsToClear is empty', async () => {
+        await wrapper.setProps({ permissionsToClear: [] });
+
+        expect(wrapper.emitted('input')).toBeUndefined();
+      });
+    });
+
+    describe('applyPermissions()', () => {
+      it('adds permissions and their resources, emits input', async () => {
+        wrapper.vm.applyPermissions(['read_project', 'write_project']);
+
+        await Vue.nextTick();
+
+        expect(wrapper.vm.selectedResources).toContain('project');
+        expect(wrapper.emitted('input')[0]).toEqual([['read_project', 'write_project']]);
+      });
+
+      it('deduplicates already-selected permissions', async () => {
+        await wrapper.setProps({ value: ['read_project'] });
+
+        wrapper.vm.applyPermissions(['read_project', 'write_project']);
+
+        await Vue.nextTick();
+
+        expect(wrapper.emitted('input').at(-1)).toEqual([['read_project', 'write_project']]);
+      });
+
+      it('does nothing when no permissions match the boundary', () => {
+        wrapper.vm.applyPermissions(['not_a_valid_permission']);
+
+        expect(wrapper.emitted('input')).toBeUndefined();
+      });
+    });
+
+    describe('removePermissions()', () => {
+      beforeEach(async () => {
+        await findResourcesList().vm.$emit('input', ['project']);
+        await findPermissionsList().vm.$emit('input', ['read_project', 'write_project']);
+        await wrapper.setProps({ value: ['read_project', 'write_project'] });
+      });
+
+      it('removes specified permissions and emits input', () => {
+        wrapper.vm.removePermissions(['read_project']);
+
+        expect(wrapper.emitted('input').at(-1)).toEqual([['write_project']]);
+      });
+
+      it('does not remove resources even when all their permissions are removed', () => {
+        wrapper.vm.removePermissions(['read_project', 'write_project']);
+
+        expect(wrapper.vm.selectedResources).toContain('project');
+      });
+    });
+  });
+
   describe('event handling', () => {
     beforeEach(async () => {
       await waitForPromises();

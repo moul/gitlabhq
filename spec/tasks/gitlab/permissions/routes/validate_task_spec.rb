@@ -467,15 +467,53 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
       end
     end
 
-    context 'when a route has skip_granular_token_authorization' do
-      let(:route_settings) { { authorization: { skip_granular_token_authorization: true } } }
-
-      before do
-        allow(described_class::TODO_FILE).to receive(:readlines).and_return([])
+    context 'when a route has skip_granular_token_authorization with a valid reason' do
+      let(:route_settings) do
+        { authorization: { skip_granular_token_authorization: :job_token_auth } }
       end
 
-      it 'is treated as tagged and completes successfully' do
+      it 'completes successfully' do
         expect { run }.to output(/API route permissions are valid/).to_stdout
+      end
+    end
+
+    context 'when a route has skip_granular_token_authorization: true without a reason' do
+      let(:route_settings) { { authorization: { skip_granular_token_authorization: true } } }
+
+      it 'returns an error' do
+        valid_reasons = described_class::VALID_SKIP_REASONS.map { |r| ":#{r}" }.join(', ')
+
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following API routes use a missing or invalid skip_granular_token_authorization reason.
+          #  Use one of: #{valid_reasons}
+          #
+          #    - GET /projects/:id/test: true (lib/api/test.rb:42)
+          #
+          #######################################################################
+        OUTPUT
+      end
+    end
+
+    context 'when a route has skip_granular_token_authorization with an invalid reason' do
+      let(:route_settings) do
+        { authorization: { skip_granular_token_authorization: :not_a_valid_reason } }
+      end
+
+      it 'returns an error' do
+        valid_reasons = described_class::VALID_SKIP_REASONS.map { |r| ":#{r}" }.join(', ')
+
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following API routes use a missing or invalid skip_granular_token_authorization reason.
+          #  Use one of: #{valid_reasons}
+          #
+          #    - GET /projects/:id/test: not_a_valid_reason (lib/api/test.rb:42)
+          #
+          #######################################################################
+        OUTPUT
       end
     end
 

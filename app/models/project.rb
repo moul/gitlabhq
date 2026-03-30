@@ -3387,12 +3387,6 @@ class Project < ApplicationRecord
     !branch_protection.developer_can_push?
   end
 
-  def initial_push_to_default_branch_allowed_for_developer?
-    branch_protection = Gitlab::Access::DefaultBranchProtection.new(self.namespace.default_branch_protection_settings)
-
-    branch_protection.developer_can_push? || branch_protection.developer_can_initial_push?
-  end
-
   def environments_for_scope(scope)
     quoted_scope = ::Gitlab::SQL::Glob.q(scope)
 

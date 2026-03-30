@@ -287,9 +287,8 @@ Prerequisites:
 To delete a group and its contents:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
-1. Expand the **Advanced** section.
-1. In the **Delete group** section, select **Delete**.
+1. On the group overview page, in the upper-right corner, select **Actions** ({{< icon name="ellipsis_v" >}}).
+1. Select **Delete**.
 1. On the confirmation dialog, enter the group path and select **Yes, delete group**.
 
 You can also delete a group from the groups dashboard:
@@ -329,9 +328,8 @@ Prerequisites:
 To permanently delete a group scheduled for deletion:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
-1. Expand **Advanced**.
-1. In the **Delete group** section, select **Delete permanently**.
+1. On the group overview page, in the upper-right corner, select **Actions** ({{< icon name="ellipsis_v" >}}).
+1. Select **Delete permanently**.
 1. On the confirmation dialog, enter the group path and select **Yes, delete group**.
 
 This action deletes the group, its subgroups, projects, and all related resources, including issues and merge requests.
@@ -341,9 +339,8 @@ This action deletes the group, its subgroups, projects, and all related resource
 To restore a group that is scheduled for deletion:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
-1. Expand the **Advanced** section.
-1. In the **Restore group** section, select **Restore group**.
+1. On the group overview page, in the upper-right corner, select **Actions** ({{< icon name="ellipsis_v" >}}).
+1. Select **Restore**.
 
 ## Manage groups with the Actions menu
 
@@ -376,13 +373,13 @@ As a user, you can request to be a member of a group, if an administrator allows
 1. In the upper right, select **Explore groups**.
 1. In the **Search** text box, enter the name of the group you want to join.
 1. In the search results, select the name of the group.
-1. On the group page, under the group name, select **Request Access**.
+1. On the group page, under the group name, select **Request access**.
 
 Up to ten of the most recently active group owners receive an email with your request.
 Any group owner can approve or decline the request.
 
 If you change your mind before your request is approved, select
-**Withdraw Access Request**.
+**Withdraw access request**.
 
 ## View group members
 
@@ -408,7 +405,7 @@ A table displays the member's:
 > The display of group members' **Source** might be inconsistent.
 > For more information, see [issue 23020](https://gitlab.com/gitlab-org/gitlab/-/issues/23020).
 
-To view all namespace members (and their respective occupied seats), in the top-level namespace, [view the **Usage quotas** page](../../subscriptions/manage_users_and_seats.md#view-seat-usage).
+To view all namespace members (and their respective occupied seats), in the top-level namespace, [view the **Usage quotas** page](../../subscriptions/manage_seats.md#view-seat-usage).
 
 ## Filter and sort members in a group
 

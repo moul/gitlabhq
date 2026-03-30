@@ -585,6 +585,7 @@ RSpec.describe Organizations::Transfer::UsersService, :aggregate_failures, featu
 
         let(:ee_migratable_models) do
           [
+            "Ai::Catalog::ItemStar",
             "Ai::Catalog::ItemVersion",
             "Ai::Catalog::McpServer",
             "Ai::Catalog::McpServersUser",
@@ -613,7 +614,8 @@ RSpec.describe Organizations::Transfer::UsersService, :aggregate_failures, featu
               'MemberRole',
               'Ai::Catalog::ItemConsumer',
               'ProjectSnippet',
-              'Snippet'
+              'Snippet',
+              'ImportFailure'
             ]
           end
 

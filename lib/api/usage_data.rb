@@ -128,7 +128,7 @@ module API
         optional :include_paths, type: Boolean, desc: 'Include file paths in the metric definitions',
           documentation: { example: true, default: false }
       end
-      route_setting :authorization, skip_granular_token_authorization: true
+      route_setting :authorization, skip_granular_token_authorization: :usage_data_auth
       get 'metric_definitions', urgency: :low do
         content_type 'application/yaml'
         env['api.format'] = :binary

@@ -29,7 +29,7 @@ This integration works with most LDAP-compliant directory servers, including:
 
 Users added through LDAP:
 
-- Usually use a [licensed seat](../../../subscriptions/manage_users_and_seats.md#billable-users).
+- Usually use a [licensed seat](../../../subscriptions/manage_seats.md#billable-users).
 - Can authenticate with Git using either their GitLab username or their email and LDAP password,
   even if password authentication for Git
   [is disabled](../../settings/sign_in_restrictions.md#allow-password-authentication-for-git-over-https).

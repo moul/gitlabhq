@@ -74,7 +74,7 @@ tickets created through customer support requests, and filter or interact with t
 ![Service Desk ticket tracker](img/service_desk_issue_tracker_v16_10.png)
 
 Messages from the end user are shown as coming from the special
-[Support Bot user](../../../subscriptions/manage_users_and_seats.md#criteria-for-non-billable-users).
+[Support Bot user](../../../subscriptions/manage_seats.md#criteria-for-non-billable-users).
 You can read and write comments as you usually do in GitLab:
 
 - The project's visibility (private, internal, public) does not affect Service Desk.

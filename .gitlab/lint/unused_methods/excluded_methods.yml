@@ -64,3 +64,5 @@ app/models/work_item.rb:
   - descendant_ids_for: will be used in follow-up MR
 ee/app/models/concerns/security/pipeline_execution_policy_bot_access.rb:
   - allows_pipeline_execution_policy_bot_access?: Will be called from CI config file access integration in a follow-up MR
+ee/app/models/ai/catalog/item.rb:
+  - starred_by?: Will be used in follow-up MR adding GraphQL mutation for starring AI catalog items

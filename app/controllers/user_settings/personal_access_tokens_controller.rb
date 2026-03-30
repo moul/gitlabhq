@@ -10,6 +10,9 @@ module UserSettings
     before_action :ensure_granular_tokens_feature_flag, only: [:legacy_new, :granular_new]
     before_action :set_access_token_params, only: [:index, :legacy_new]
     before_action :set_hide_search_settings, only: [:index, :legacy_new, :granular_new]
+    before_action only: [:granular_new] do
+      push_frontend_feature_flag(:pat_permissions_suggestions, current_user)
+    end
 
     before_action only: [:index] do
       push_frontend_feature_flag(:granular_personal_access_tokens, current_user)

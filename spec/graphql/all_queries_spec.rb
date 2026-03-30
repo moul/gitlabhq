@@ -46,8 +46,8 @@ RSpec.describe 'graphql queries', feature_category: :api do
     app/assets/javascripts/sidebar/queries/update_epic_subscription.mutation.graphql
     app/assets/javascripts/sidebar/queries/epic_reference.query.graphql
     app/assets/javascripts/security_configuration/graphql/security_tracked_refs.query.graphql
-    app/assets/javascripts/security_configuration/graphql/track_security_tracked_refs.mutation.graphql
-    app/assets/javascripts/security_configuration/graphql/untrack_security_tracked_refs.mutation.graphql
+    app/assets/javascripts/security_configuration/graphql/track_security_refs.mutation.graphql
+    app/assets/javascripts/security_configuration/graphql/untrack_security_refs.mutation.graphql
     app/assets/javascripts/security_configuration/graphql/security_training_providers.query.graphql
     app/assets/javascripts/sidebar/queries/epic_todo.query.graphql
     app/assets/javascripts/sidebar/queries/update_status.mutation.graphql

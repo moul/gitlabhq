@@ -7,13 +7,16 @@ module Tasks
         class ValidateTask < ::Tasks::Gitlab::Permissions::BaseValidateTask
           TODO_FILE = Rails.root.join('config/authz/routes/authorization_todo.txt')
 
+          VALID_SKIP_REASONS = SkipReasons::VALID_SKIP_REASONS
+
           def initialize
             @violations = {
               undefined_permission: [],
               missing_boundary: [],
               missing_assignable: [],
               boundary_mismatch: [],
-              missing_authorization: []
+              missing_authorization: [],
+              invalid_skip_reason: []
             }
             @source_locations = {}.compare_by_identity
           end
@@ -65,6 +68,8 @@ module Tasks
               validate_boundary_defined(route, permission, boundary_types)
               validate_assignable_permission(route, permission, boundary_types)
             end
+
+            validate_skip_reason(route, authorization)
           end
 
           def has_authorization?(authorization)
@@ -120,6 +125,14 @@ module Tasks
             violations[:missing_boundary] << base_error(route).merge(permission:)
           end
 
+          def validate_skip_reason(route, authorization)
+            reason = authorization[:skip_granular_token_authorization]
+            return unless reason
+            return if VALID_SKIP_REASONS.include?(reason)
+
+            violations[:invalid_skip_reason] << base_error(route).merge(reason: reason)
+          end
+
           def validate_assignable_permission(route, permission, boundary_types)
             return unless boundary_types.any?
 
@@ -145,7 +158,8 @@ module Tasks
             out += format_route_errors(:missing_boundary)
             out += format_route_errors(:missing_assignable)
             out += format_boundary_mismatch_errors
-            out + format_route_errors(:missing_authorization)
+            out += format_route_errors(:missing_authorization)
+            out + format_invalid_skip_reason_errors
           end
 
           def format_route_errors(kind)
@@ -157,6 +171,18 @@ module Tasks
               out += "  - #{violation[:method]} #{violation[:path]}"
               out += ": #{violation[:permission]}" if violation[:permission]
               out += " (#{violation[:source]})\n"
+            end
+
+            "#{out}\n"
+          end
+
+          def format_invalid_skip_reason_errors
+            return '' if violations[:invalid_skip_reason].empty?
+
+            out = "#{error_messages[:invalid_skip_reason]}\n\n"
+
+            violations[:invalid_skip_reason].each do |violation|
+              out += "  - #{violation[:method]} #{violation[:path]}: #{violation[:reason]} (#{violation[:source]})\n"
             end
 
             "#{out}\n"
@@ -198,10 +224,14 @@ module Tasks
                 Update the assignable permission to include the route's boundary_type, or fix the route's boundary_type.
                 #{assignable_permissions_link(anchor: 'determining-boundaries')}
               MSG
-              missing_authorization: <<~MSG.chomp
+              missing_authorization: <<~MSG.chomp,
                 The following API routes are missing route_setting :authorization metadata.
                 Add authorization metadata to the endpoint.
                 #{implementation_guide_link}
+              MSG
+              invalid_skip_reason: <<~MSG.chomp
+                The following API routes use a missing or invalid skip_granular_token_authorization reason.
+                Use one of: #{VALID_SKIP_REASONS.map { |r| ":#{r}" }.join(', ')}
               MSG
             }
           end

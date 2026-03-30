@@ -97,7 +97,7 @@ Group permissions for [group features](group/_index.md):
 | Archive group                                                                               |       |         |          |           |            |   ✓   |
 | Delete group                                                                                |       |         |          |           |            |   ✓   |
 | Transfer group                                                                              |       |         |          |           |            |   ✓   |
-| Manage [subscriptions, storage, and compute minutes](../subscriptions/manage_users_and_seats.md#gitlabcom-billing-and-usage) |       |         |          |           |            |   ✓   |
+| Manage [subscriptions, storage, and compute minutes](../subscriptions/manage_seats.md#gitlabcom-billing-and-usage) |       |         |          |           |            |   ✓   |
 | Manage [group access tokens](group/settings/group_access_tokens.md)                         |       |         |          |           |            |   ✓   |
 | Change group visibility level                                                               |       |         |          |           |            |   ✓   |
 | Edit group settings                                                                         |       |         |          |           |            |   ✓   |
@@ -888,7 +888,7 @@ Users with the Minimal Access role do not:
   projects.
 - Count as licensed seats, provided the user has no other role anywhere on the instance or in the GitLab.com namespace.
 
-If a user with the Minimal Access role is granted a [billable role](../subscriptions/manage_users_and_seats.md#billable-users)
+If a user with the Minimal Access role is granted a [billable role](../subscriptions/manage_seats.md#billable-users)
 in any project or subgroup, they consume a license seat based on their highest role.
 
 You can use the Minimal Access role with [SAML SSO for GitLab.com groups](group/saml_sso/_index.md)

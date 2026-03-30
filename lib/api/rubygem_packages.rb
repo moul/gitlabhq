@@ -129,7 +129,7 @@ module API
             ]
             tags %w[packages]
           end
-          route_setting :authorization, skip_granular_token_authorization: true
+          route_setting :authorization, skip_granular_token_authorization: :workhorse_pre_authorization
           post 'gems/authorize' do
             authorize_workhorse!(
               subject: project,

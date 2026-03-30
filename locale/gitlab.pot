@@ -4439,6 +4439,9 @@ msgstr ""
 msgid "AccessTokens|Group or project"
 msgstr ""
 
+msgid "AccessTokens|Help me choose the right permissions for my access token."
+msgstr ""
+
 msgid "AccessTokens|How do I use DPoP?"
 msgstr ""
 
@@ -4610,6 +4613,9 @@ msgid "AccessTokens|Select permissions"
 msgstr ""
 
 msgid "AccessTokens|Select scopes"
+msgstr ""
+
+msgid "AccessTokens|Set permissions with Duo"
 msgstr ""
 
 msgid "AccessTokens|State"
@@ -19661,7 +19667,7 @@ msgstr ""
 msgid "Configure Container Scanning in `.gitlab-ci.yml`, creating this file if it does not already exist"
 msgstr ""
 
-msgid "Configure Dependency Scanning in `.gitlab-ci.yml` using the GitLab managed template. You can [add variable overrides](https://docs.gitlab.com/user/application_security/dependency_scanning/#customizing-analyzer-behavior) to customize Dependency Scanning settings."
+msgid "Configure Dependency Scanning in `.gitlab-ci.yml` using the GitLab managed template. You can [add variable overrides](https://docs.gitlab.com/user/application_security/dependency_scanning/dependency_scanning_sbom/#customizing-analyzer-behavior) to customize Dependency Scanning settings."
 msgstr ""
 
 msgid "Configure Dependency Scanning in `.gitlab-ci.yml`, creating this file if it does not already exist"
@@ -65053,6 +65059,9 @@ msgstr ""
 msgid "SecurityTrackedRefs|No refs available"
 msgstr ""
 
+msgid "SecurityTrackedRefs|Refs were tracked successfully but the list could not be refreshed. Please refresh the page."
+msgstr ""
+
 msgid "SecurityTrackedRefs|Remove %{refName}"
 msgstr ""
 
@@ -73590,6 +73599,9 @@ msgstr ""
 msgid "Unable to load file contents. Try again later."
 msgstr ""
 
+msgid "Unable to load permissions"
+msgstr ""
+
 msgid "Unable to load refs"
 msgstr ""
 
@@ -79967,7 +79979,13 @@ msgstr ""
 msgid "WorkItem|Enable list item"
 msgstr ""
 
+msgid "WorkItem|Enable this type automatically for all existing projects and any new projects."
+msgstr ""
+
 msgid "WorkItem|Enabled"
+msgstr ""
+
+msgid "WorkItem|Enabled by default"
 msgstr ""
 
 msgid "WorkItem|Enabled types"

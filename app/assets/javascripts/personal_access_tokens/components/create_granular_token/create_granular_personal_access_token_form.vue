@@ -15,6 +15,7 @@ import { scrollTo } from '~/lib/utils/scroll_utils';
 import { helpPagePath } from '~/helpers/help_page_helper';
 import { s__, __ } from '~/locale';
 import { createAlert } from '~/alert';
+import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import createGranularPersonalAccessTokenMutation from '~/personal_access_tokens/graphql/create_granular_personal_access_token.mutation.graphql';
 import {
   ACCESS_SELECTED_MEMBERSHIPS_ENUM,
@@ -46,7 +47,12 @@ export default {
     GlTabs,
     GlLink,
     GlSprintf,
+    AskDapPermissions: () =>
+      import(
+        'ee_component/personal_access_tokens/components/create_granular_token/ask_dap_permissions.vue'
+      ),
   },
+  mixins: [glFeatureFlagsMixin()],
   inject: ['accessTokenMaxDate', 'accessTokenTableUrl'],
   data() {
     return {
@@ -71,6 +77,8 @@ export default {
       },
       isSubmitting: false,
       createdToken: null,
+      permissionsToSelect: [],
+      permissionsToClear: [],
     };
   },
   computed: {
@@ -108,6 +116,12 @@ export default {
     },
   },
   methods: {
+    handlePermissionsSelected(permissionNames) {
+      this.permissionsToSelect = [...permissionNames];
+    },
+    handlePermissionsCleared(permissionNames) {
+      this.permissionsToClear = [...permissionNames];
+    },
     validateForm() {
       // reset the validation
       this.errors = {
@@ -287,16 +301,27 @@ export default {
             </gl-sprintf>
           </p>
           <gl-tabs content-class="!gl-p-0">
+            <template #tabs-end>
+              <ask-dap-permissions
+                v-if="$options.components.AskDapPermissions && glFeatures.patPermissionsSuggestions"
+                @permissions-selected="handlePermissionsSelected"
+                @permissions-cleared="handlePermissionsCleared"
+              />
+            </template>
             <personal-access-token-permissions-selector
               v-model="form.permissions.namespace"
               :error="errors.permissions"
               :target-boundaries="targetBoundaries.namespace"
+              :permissions-to-select="permissionsToSelect"
+              :permissions-to-clear="permissionsToClear"
             />
 
             <personal-access-token-permissions-selector
               v-model="form.permissions.user"
               :error="errors.permissions"
               :target-boundaries="targetBoundaries.user"
+              :permissions-to-select="permissionsToSelect"
+              :permissions-to-clear="permissionsToClear"
             />
           </gl-tabs>
         </section>

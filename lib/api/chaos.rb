@@ -38,7 +38,7 @@ module API
         ]
         tags %w[chaos]
       end
-      route_setting :authorization, skip_granular_token_authorization: true
+      route_setting :authorization, skip_granular_token_authorization: :internal_testing
       get :test do
         # Fetch a random project to use as the feature flag actor.
         # The project itself is not used beyond checking the flag.

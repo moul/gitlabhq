@@ -2649,84 +2649,26 @@ Grants the ability to create, delete, edit, read, and update wikis.
 | Update | Group | `POST` | `/groups/:id/wikis/attachments` |
 | Update | Group | `PUT` | `/groups/:id/wikis/:slug` |
 
-## Unavailable endpoints
+## Always accessible endpoints
 
-The following endpoints cannot authenticate with fine-grained tokens.
-These endpoints use alternative authorization mechanisms, such as
-job token policies or resource-specific access controls.
+The following public endpoints do not require authentication.
+Fine-grained token scope checks are not applied to these endpoints.
 
 | Method | Path |
 | ------ | ---- |
-| `GET` | `/chaos/test` |
-| `POST` | `/container_registry_event/events` |
-| `GET` | `/feature_flags/unleash/:project_id` |
-| `GET` | `/feature_flags/unleash/:project_id/client/features` |
-| `POST` | `/feature_flags/unleash/:project_id/client/metrics` |
-| `POST` | `/feature_flags/unleash/:project_id/client/register` |
-| `GET` | `/feature_flags/unleash/:project_id/features` |
-| `GET` | `/geo/proxy` |
-| `GET` | `/groups/:id/-/packages/npm/*package_name` |
-| `POST` | `/groups/:id/-/packages/npm/-/npm/v1/security/advisories/bulk` |
-| `POST` | `/groups/:id/-/packages/npm/-/npm/v1/security/audits/quick` |
 | `GET` | `/groups/:id/-/packages/nuget/index` |
 | `GET` | `/groups/:id/-/packages/nuget/symbolfiles/*file_name/*signature/*same_file_name` |
 | `GET` | `/groups/:id/-/packages/nuget/v2` |
 | `GET` | `/groups/:id/-/packages/nuget/v2/$metadata` |
-| `POST` | `/groups/:id/placeholder_reassignments/authorize` |
-| `POST` | `/groups/import/authorize` |
-| `GET` | `/internal/orbit/project/:project_id/info` |
-| `GET` | `/internal/orbit/project/:project_id/repository/archive` |
-| `GET` | `/internal/orbit/project/:project_id/repository/changed_paths` |
-| `GET` | `/internal/orbit/project/:project_id/repository/commits` |
-| `POST` | `/internal/orbit/project/:project_id/repository/list_blobs` |
-| `POST` | `/jobs/:id/artifacts/authorize` |
-| `POST` | `/jobs/:id/sbom_scans/authorize` |
-| `GET` | `/orbit/mcp` |
-| `POST` | `/orbit/mcp` |
-| `PUT` | `/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/export/:file_name/authorize` |
-| `PUT` | `/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/package/:conan_package_reference/:package_revision/:file_name/authorize` |
 | `GET` | `/packages/conan/v1/ping` |
-| `GET` | `/packages/npm/*package_name` |
-| `POST` | `/packages/npm/-/npm/v1/security/advisories/bulk` |
-| `POST` | `/packages/npm/-/npm/v1/security/audits/quick` |
-| `POST` | `/projects/:id/(ref/:ref/)trigger/pipeline` |
-| `POST` | `/projects/:id/alert_management_alerts/:alert_iid/metric_images/authorize` |
-| `PATCH` | `/projects/:id/compliance_external_controls/:control_id/status` |
-| `POST` | `/projects/:id/issues/:issue_iid/metric_images/authorize` |
-| `PUT` | `/projects/:id/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/export/:file_name/authorize` |
-| `PUT` | `/projects/:id/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/package/:conan_package_reference/:package_revision/:file_name/authorize` |
 | `GET` | `/projects/:id/packages/conan/v1/ping` |
-| `PUT` | `/projects/:id/packages/conan/v2/conans/:package_name/:package_version/:package_username/:package_channel/revisions/:recipe_revision/files/:file_name/authorize` |
-| `PUT` | `/projects/:id/packages/conan/v2/conans/:package_name/:package_version/:package_username/:package_channel/revisions/:recipe_revision/packages/:conan_package_reference/revisions/:package_revision/files/:file_name/authorize` |
-| `PUT` | `/projects/:id/packages/debian/:file_name/authorize` |
-| `PUT` | `/projects/:id/packages/generic/:package_name/*package_version/(*path/):file_name/authorize` |
-| `POST` | `/projects/:id/packages/helm/api/:channel/charts/authorize` |
-| `PUT` | `/projects/:id/packages/maven/*path/:file_name/authorize` |
-| `PUT` | `/projects/:id/packages/ml_models/:model_version_id/files/(*path/):file_name/authorize` |
-| `POST` | `/projects/:id/packages/npm/-/npm/v1/security/advisories/bulk` |
-| `POST` | `/projects/:id/packages/npm/-/npm/v1/security/audits/quick` |
-| `PUT` | `/projects/:id/packages/npm/:package_name/authorize` |
-| `PUT` | `/projects/:id/packages/nuget/authorize` |
 | `GET` | `/projects/:id/packages/nuget/index` |
 | `GET` | `/projects/:id/packages/nuget/symbolfiles/*file_name/*signature/*same_file_name` |
-| `PUT` | `/projects/:id/packages/nuget/symbolpackage/authorize` |
 | `GET` | `/projects/:id/packages/nuget/v2` |
 | `GET` | `/projects/:id/packages/nuget/v2/$metadata` |
-| `PUT` | `/projects/:id/packages/nuget/v2/authorize` |
-| `POST` | `/projects/:id/packages/pypi/authorize` |
-| `POST` | `/projects/:id/packages/rpm/authorize` |
-| `POST` | `/projects/:id/packages/rubygems/api/v1/gems/authorize` |
-| `PUT` | `/projects/:id/packages/terraform/modules/:module_name/:module_system/*module_version/file/authorize` |
-| `POST` | `/projects/:id/repository/commits/authorize` |
-| `POST` | `/projects/:id/repository/files/:file_path/authorize` |
-| `PUT` | `/projects/:id/repository/files/:file_path/authorize` |
-| `POST` | `/projects/:id/terraform/state/:name/authorize` |
-| `POST` | `/projects/:id/uploads/authorize` |
 | `GET` | `/projects/:project_id/packages/nuget/v2/FindPackagesById\(\)` |
 | `GET` | `/projects/:project_id/packages/nuget/v2/Packages\(Id='*package_name',Version='*package_version'\)` |
 | `GET` | `/projects/:project_id/packages/nuget/v2/Packages\(\)` |
-| `POST` | `/projects/import-relation/authorize` |
-| `POST` | `/projects/import/authorize` |
 | `GET` | `/templates/dockerfiles` |
 | `GET` | `/templates/dockerfiles/:name` |
 | `GET` | `/templates/gitignores` |
@@ -2737,5 +2679,180 @@ job token policies or resource-specific access controls.
 | `GET` | `/templates/licenses/:name` |
 | `GET` | `/topics` |
 | `GET` | `/topics/:id` |
-| `GET` | `/usage_data/metric_definitions` |
-| `GET` | `/usage_data/metric_definitions` |
+
+## Unavailable endpoints
+
+The following endpoints cannot authenticate with fine-grained tokens.
+These endpoints use alternative authentication mechanisms that are
+incompatible with personal access tokens.
+
+| Method | Path | Reason |
+| ------ | ---- | ------ |
+| `GET` | `/api/scim/:version/application/Groups` | SCIM token |
+| `POST` | `/api/scim/:version/application/Groups` | SCIM token |
+| `GET` | `/api/scim/:version/application/Groups/:id` | SCIM token |
+| `PATCH` | `/api/scim/:version/application/Groups/:id` | SCIM token |
+| `PUT` | `/api/scim/:version/application/Groups/:id` | SCIM token |
+| `DELETE` | `/api/scim/:version/application/Groups/:id` | SCIM token |
+| `GET` | `/api/scim/:version/application/Users` | SCIM token |
+| `POST` | `/api/scim/:version/application/Users` | SCIM token |
+| `GET` | `/api/scim/:version/application/Users/:id` | SCIM token |
+| `PATCH` | `/api/scim/:version/application/Users/:id` | SCIM token |
+| `DELETE` | `/api/scim/:version/application/Users/:id` | SCIM token |
+| `GET` | `/api/scim/:version/groups/:group/Users` | SCIM token |
+| `POST` | `/api/scim/:version/groups/:group/Users` | SCIM token |
+| `GET` | `/api/scim/:version/groups/:group/Users/:id` | SCIM token |
+| `PATCH` | `/api/scim/:version/groups/:group/Users/:id` | SCIM token |
+| `DELETE` | `/api/scim/:version/groups/:group/Users/:id` | SCIM token |
+| `GET` | `/chaos/test` | Internal testing |
+| `POST` | `/container_registry_event/events` | Container registry event token |
+| `GET` | `/feature_flags/unleash/:project_id` | Unleash token |
+| `GET` | `/feature_flags/unleash/:project_id/client/features` | Unleash token |
+| `POST` | `/feature_flags/unleash/:project_id/client/metrics` | Unleash token |
+| `POST` | `/feature_flags/unleash/:project_id/client/register` | Unleash token |
+| `GET` | `/feature_flags/unleash/:project_id/features` | Unleash token |
+| `GET` | `/geo/proxy` | Geo proxy |
+| `POST` | `/geo/proxy_git_ssh/info_refs_receive_pack` | GitLab Shell token |
+| `POST` | `/geo/proxy_git_ssh/info_refs_upload_pack` | GitLab Shell token |
+| `POST` | `/geo/proxy_git_ssh/receive_pack` | GitLab Shell token |
+| `POST` | `/geo/proxy_git_ssh/upload_pack` | GitLab Shell token |
+| `GET` | `/geo/repositories/:gl_repository/pipeline_refs` | Geo node JWT |
+| `GET` | `/geo/retrieve/:replicable_name/:replicable_id` | Geo node JWT |
+| `POST` | `/geo/status` | Geo node JWT |
+| `GET` | `/groups/:id/-/packages/npm/*package_name` | External registry redirect |
+| `POST` | `/groups/:id/-/packages/npm/-/npm/v1/security/advisories/bulk` | External registry redirect |
+| `POST` | `/groups/:id/-/packages/npm/-/npm/v1/security/audits/quick` | External registry redirect |
+| `POST` | `/groups/:id/placeholder_reassignments/authorize` | Workhorse pre-authorization |
+| `POST` | `/groups/import/authorize` | Workhorse pre-authorization |
+| `GET` | `/internal/agents/agentk/agent_info` | Kubernetes agent JWT |
+| `GET` | `/internal/agents/agentw/agent_info` | Kubernetes agent JWT |
+| `GET` | `/internal/agents/agentw/authorize_user_access` | Kubernetes agent JWT |
+| `GET` | `/internal/agents/agentw/server_config` | Kubernetes agent JWT |
+| `POST` | `/internal/allowed` | GitLab Shell token |
+| `GET` | `/internal/authorized_certs` | GitLab Shell token |
+| `GET` | `/internal/authorized_keys` | GitLab Shell token |
+| `GET` | `/internal/autoflow/repository_info` | Kubernetes agent JWT |
+| `GET` | `/internal/check` | GitLab Shell token |
+| `GET` | `/internal/ci/agents/runner/info` | Kubernetes agent JWT |
+| `GET` | `/internal/ci/agents/runnerc/info` | Kubernetes agent JWT |
+| `PUT` | `/internal/ci/job_router/jobs/:id` | CI job token |
+| `GET` | `/internal/ci/job_router/runner_controllers/job_admission` | Kubernetes agent JWT |
+| `POST` | `/internal/dast/site_validations/:id/transition` | CI job token |
+| `GET` | `/internal/discover` | GitLab Shell token |
+| `POST` | `/internal/error_tracking/allowed` | Error tracking token |
+| `GET` | `/internal/gitaly/object_pool_members` | GitLab Shell token |
+| `GET` | `/internal/gitlab_subscriptions/namespaces/:id` | Subscription portal JWT |
+| `PUT` | `/internal/gitlab_subscriptions/namespaces/:id` | Subscription portal JWT |
+| `GET` | `/internal/gitlab_subscriptions/namespaces/:id/gitlab_subscription` | Subscription portal JWT |
+| `POST` | `/internal/gitlab_subscriptions/namespaces/:id/gitlab_subscription` | Subscription portal JWT |
+| `PUT` | `/internal/gitlab_subscriptions/namespaces/:id/gitlab_subscription` | Subscription portal JWT |
+| `POST` | `/internal/gitlab_subscriptions/namespaces/:id/minutes` | Subscription portal JWT |
+| `PATCH` | `/internal/gitlab_subscriptions/namespaces/:id/minutes/move/:target_id` | Subscription portal JWT |
+| `GET` | `/internal/gitlab_subscriptions/namespaces/:id/owners` | Subscription portal JWT |
+| `POST` | `/internal/gitlab_subscriptions/namespaces/:id/provision` | Subscription portal JWT |
+| `POST` | `/internal/gitlab_subscriptions/namespaces/:id/subscription_add_on_purchases` | Subscription portal JWT |
+| `GET` | `/internal/gitlab_subscriptions/namespaces/:id/subscription_add_on_purchases/:add_on_name` | Subscription portal JWT |
+| `PUT` | `/internal/gitlab_subscriptions/namespaces/:namespace_id/upcoming_reconciliations` | Subscription portal JWT |
+| `DELETE` | `/internal/gitlab_subscriptions/namespaces/:namespace_id/upcoming_reconciliations` | Subscription portal JWT |
+| `GET` | `/internal/gitlab_subscriptions/namespaces/:namespace_id/user_permissions/:user_id` | Subscription portal JWT |
+| `GET` | `/internal/gitlab_subscriptions/users/:id` | Subscription portal JWT |
+| `PUT` | `/internal/gitlab_subscriptions/users/:user_id/credit_card_validation` | Subscription portal JWT |
+| `POST` | `/internal/jobs/:id/x_ray/dependencies` | CI job token |
+| `POST` | `/internal/jobs/:id/x_ray/scan` | CI job token |
+| `POST` | `/internal/kubernetes/agent_configuration` | Kubernetes agent JWT |
+| `POST` | `/internal/kubernetes/agent_events` | Kubernetes agent JWT |
+| `POST` | `/internal/kubernetes/authorize_proxy_user` | Kubernetes agent JWT |
+| `GET` | `/internal/kubernetes/modules/remote_development/prerequisites` | Kubernetes agent JWT |
+| `POST` | `/internal/kubernetes/modules/remote_development/reconcile` | Kubernetes agent JWT |
+| `PUT` | `/internal/kubernetes/modules/starboard_vulnerability` | Kubernetes agent JWT |
+| `GET` | `/internal/kubernetes/modules/starboard_vulnerability/policies_configuration` | Kubernetes agent JWT |
+| `POST` | `/internal/kubernetes/modules/starboard_vulnerability/scan_result` | Kubernetes agent JWT |
+| `GET` | `/internal/kubernetes/receptive_agents` | Kubernetes agent JWT |
+| `POST` | `/internal/kubernetes/usage_metrics` | Kubernetes agent JWT |
+| `GET` | `/internal/kubernetes/verify_project_access` | Kubernetes agent JWT |
+| `GET` | `/internal/lfs` | GitLab Shell token |
+| `POST` | `/internal/lfs_authenticate` | GitLab Shell token |
+| `POST` | `/internal/mail_room/*mailbox_type` | Mailroom token |
+| `GET` | `/internal/observability/project/:id/read/analytics` | Workhorse verification |
+| `GET` | `/internal/observability/project/:id/read/logs` | Workhorse verification |
+| `GET` | `/internal/observability/project/:id/read/metrics` | Workhorse verification |
+| `GET` | `/internal/observability/project/:id/read/services` | Workhorse verification |
+| `GET` | `/internal/observability/project/:id/read/traces` | Workhorse verification |
+| `POST` | `/internal/observability/project/:id/write/logs` | Workhorse verification |
+| `POST` | `/internal/observability/project/:id/write/metrics` | Workhorse verification |
+| `POST` | `/internal/observability/project/:id/write/traces` | Workhorse verification |
+| `GET` | `/internal/orbit/project/:project_id/info` | Orbit internal token |
+| `GET` | `/internal/orbit/project/:project_id/repository/archive` | Orbit internal token |
+| `GET` | `/internal/orbit/project/:project_id/repository/changed_paths` | Orbit internal token |
+| `GET` | `/internal/orbit/project/:project_id/repository/commits` | Orbit internal token |
+| `POST` | `/internal/orbit/project/:project_id/repository/list_blobs` | Orbit internal token |
+| `GET` | `/internal/pages` | GitLab Pages token |
+| `GET` | `/internal/pages/status` | GitLab Pages token |
+| `POST` | `/internal/personal_access_token` | GitLab Shell token |
+| `POST` | `/internal/post_receive` | GitLab Shell token |
+| `POST` | `/internal/pre_receive` | GitLab Shell token |
+| `POST` | `/internal/search/zoekt/:uuid/callback` | GitLab Shell token |
+| `POST` | `/internal/search/zoekt/:uuid/heartbeat` | GitLab Shell token |
+| `POST` | `/internal/secrets_manager/audit_logs` | OpenBao token |
+| `POST` | `/internal/shellhorse/git_audit_event` | GitLab shared secret |
+| `POST` | `/internal/two_factor_config` | GitLab Shell token |
+| `POST` | `/internal/two_factor_manual_otp_check` | GitLab Shell token |
+| `POST` | `/internal/two_factor_push_otp_check` | GitLab Shell token |
+| `POST` | `/internal/two_factor_recovery_codes` | GitLab Shell token |
+| `POST` | `/internal/workhorse/authorize_upload` | Workhorse verification |
+| `GET` | `/job` | CI job token |
+| `GET` | `/job/allowed_agents` | CI job token |
+| `PUT` | `/jobs/:id` | CI job token |
+| `GET` | `/jobs/:id/artifacts` | CI job token |
+| `POST` | `/jobs/:id/artifacts` | CI job token |
+| `POST` | `/jobs/:id/artifacts/authorize` | CI job token |
+| `POST` | `/jobs/:id/sbom_scans` | CI job token |
+| `POST` | `/jobs/:id/sbom_scans/:sbom_digest` | CI job token |
+| `GET` | `/jobs/:id/sbom_scans/:sbom_scan_id` | CI job token |
+| `POST` | `/jobs/:id/sbom_scans/authorize` | CI job token |
+| `PATCH` | `/jobs/:id/trace` | CI job token |
+| `POST` | `/jobs/request` | Runner token |
+| `GET` | `/orbit/mcp` | Orbit internal token |
+| `POST` | `/orbit/mcp` | Orbit internal token |
+| `PUT` | `/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/export/:file_name/authorize` | Workhorse pre-authorization |
+| `PUT` | `/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/package/:conan_package_reference/:package_revision/:file_name/authorize` | Workhorse pre-authorization |
+| `GET` | `/packages/npm/*package_name` | External registry redirect |
+| `POST` | `/packages/npm/-/npm/v1/security/advisories/bulk` | External registry redirect |
+| `POST` | `/packages/npm/-/npm/v1/security/audits/quick` | External registry redirect |
+| `POST` | `/projects/:id/(ref/:ref/)trigger/pipeline` | CI trigger token |
+| `POST` | `/projects/:id/alert_management_alerts/:alert_iid/metric_images/authorize` | Workhorse pre-authorization |
+| `PATCH` | `/projects/:id/compliance_external_controls/:control_id/status` | Compliance external control token |
+| `POST` | `/projects/:id/issues/:issue_iid/metric_images/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/export/:file_name/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/conan/v1/files/:package_name/:package_version/:package_username/:package_channel/:recipe_revision/package/:conan_package_reference/:package_revision/:file_name/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/conan/v2/conans/:package_name/:package_version/:package_username/:package_channel/revisions/:recipe_revision/files/:file_name/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/conan/v2/conans/:package_name/:package_version/:package_username/:package_channel/revisions/:recipe_revision/packages/:conan_package_reference/revisions/:package_revision/files/:file_name/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/debian/:file_name/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/generic/:package_name/*package_version/(*path/):file_name/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/:id/packages/helm/api/:channel/charts/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/maven/*path/:file_name/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/ml_models/:model_version_id/files/(*path/):file_name/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/:id/packages/npm/-/npm/v1/security/advisories/bulk` | External registry redirect |
+| `POST` | `/projects/:id/packages/npm/-/npm/v1/security/audits/quick` | External registry redirect |
+| `PUT` | `/projects/:id/packages/npm/:package_name/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/nuget/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/nuget/symbolpackage/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/nuget/v2/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/:id/packages/pypi/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/:id/packages/rpm/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/:id/packages/rubygems/api/v1/gems/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/packages/terraform/modules/:module_name/:module_system/*module_version/file/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/:id/repository/commits/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/:id/repository/files/:file_path/authorize` | Workhorse pre-authorization |
+| `PUT` | `/projects/:id/repository/files/:file_path/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/:id/terraform/state/:name/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/:id/uploads/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/import-relation/authorize` | Workhorse pre-authorization |
+| `POST` | `/projects/import/authorize` | Workhorse pre-authorization |
+| `POST` | `/runners` | Runner token |
+| `DELETE` | `/runners` | Runner token |
+| `DELETE` | `/runners/managers` | Runner token |
+| `POST` | `/runners/reset_authentication_token` | Runner token |
+| `GET` | `/runners/router/discovery` | Runner token |
+| `POST` | `/runners/verify` | Runner token |
+| `GET` | `/usage_data/metric_definitions` | Usage data token |

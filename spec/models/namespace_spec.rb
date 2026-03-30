@@ -3408,6 +3408,56 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
     end
   end
 
+  describe '#can_push_initial_commit?' do
+    let_it_be(:group) { create(:group) }
+    let_it_be(:user) { create(:user) }
+
+    context 'when user is admin', :enable_admin_mode do
+      let_it_be(:admin_user) { create(:user, :admin) }
+
+      it 'returns true regardless of protection settings' do
+        allow(group).to receive(:default_branch_protection_settings)
+          .and_return(Gitlab::Access::BranchProtection.protected_fully)
+
+        expect(group.can_push_initial_commit?(admin_user)).to eq(true)
+      end
+    end
+
+    context 'when developer can push' do
+      before_all do
+        group.add_developer(user)
+      end
+
+      it 'returns true for developer' do
+        allow(group).to receive(:default_branch_protection_settings)
+          .and_return(Gitlab::Access::BranchProtection.protection_partial)
+
+        expect(group.can_push_initial_commit?(user)).to eq(true)
+      end
+    end
+
+    context 'when fully protected' do
+      before do
+        allow(group).to receive(:default_branch_protection_settings)
+          .and_return(Gitlab::Access::BranchProtection.protected_fully)
+      end
+
+      it 'returns false for developer and true for maintainer' do
+        group.add_developer(user)
+        expect(group.can_push_initial_commit?(user)).to eq(false)
+
+        group.add_maintainer(user)
+        expect(group.can_push_initial_commit?(user)).to eq(true)
+      end
+    end
+
+    context 'with user namespace' do
+      it 'returns true for the owner' do
+        expect(user.namespace.can_push_initial_commit?(user)).to eq(true)
+      end
+    end
+  end
+
   describe '#supports_work_items?' do
     before do
       namespace.clear_memoization(:supports_work_items?)

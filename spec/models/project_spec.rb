@@ -3970,31 +3970,6 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
     end
   end
 
-  describe 'initial_push_to_default_branch_allowed_for_developer?' do
-    let_it_be(:namespace) { create(:namespace) }
-    let_it_be(:project) { create(:project, namespace: namespace) }
-
-    subject { project.initial_push_to_default_branch_allowed_for_developer? }
-
-    where(:default_branch_protection_level, :result) do
-      Gitlab::Access::BranchProtection.protection_none                    | true
-      Gitlab::Access::BranchProtection.protection_partial                 | true
-      Gitlab::Access::BranchProtection.protected_against_developer_pushes | false
-      Gitlab::Access::BranchProtection.protected_fully                    | false
-      Gitlab::Access::BranchProtection.protected_after_initial_push       | true
-    end
-
-    with_them do
-      before do
-        expect(project.namespace)
-          .to receive(:default_branch_protection_settings)
-                .and_return(default_branch_protection_level)
-      end
-
-      it { is_expected.to eq(result) }
-    end
-  end
-
   describe '.search' do
     let_it_be(:project) { create(:project, description: 'kitten mittens') }
 

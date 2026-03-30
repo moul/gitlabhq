@@ -32,6 +32,16 @@ export default {
       required: false,
       default: '',
     },
+    permissionsToSelect: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
+    permissionsToClear: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
   emits: ['input'],
   data() {
@@ -104,6 +114,18 @@ export default {
         this.removePermissionsForResources(removedResources);
       }
     },
+    permissionsToSelect: {
+      immediate: true,
+      handler(newPermissions) {
+        if (newPermissions.length === 0) return;
+        this.applyPermissions(newPermissions);
+      },
+    },
+    permissionsToClear(newRemovals) {
+      if (newRemovals.length > 0) {
+        this.removePermissions(newRemovals);
+      }
+    },
   },
   methods: {
     handleRemoveResource(resourceToRemove) {
@@ -119,6 +141,25 @@ export default {
       this.selectedPermissions = this.selectedPermissions.filter(
         (permission) => !permissionsToRemove.includes(permission),
       );
+    },
+    applyPermissions(permissionNames) {
+      const namesSet = new Set(permissionNames);
+      const matching = this.permissions.filter((p) => namesSet.has(p.name));
+
+      if (matching.length === 0) return;
+
+      this.selectedResources = [
+        ...new Set([...this.selectedResources, ...matching.map((p) => p.resource)]),
+      ];
+      const newPermissions = [
+        ...new Set([...this.selectedPermissions, ...matching.map((p) => p.name)]),
+      ];
+
+      this.selectedPermissions = newPermissions;
+    },
+    removePermissions(permissionNames) {
+      const removalSet = new Set(permissionNames);
+      this.selectedPermissions = this.selectedPermissions.filter((name) => !removalSet.has(name));
     },
   },
   i18n: {

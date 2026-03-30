@@ -25,6 +25,7 @@ import PersonalAccessTokenNamespaceSelector from '~/personal_access_tokens/compo
 import PersonalAccessTokenPermissionsSelector from '~/personal_access_tokens/components/create_granular_token/personal_access_token_permissions_selector.vue';
 import CreatedPersonalAccessToken from '~/personal_access_tokens/components/created_personal_access_token.vue';
 import createGranularPersonalAccessTokenMutation from '~/personal_access_tokens/graphql/create_granular_personal_access_token.mutation.graphql';
+import getAccessTokenPermissions from '~/personal_access_tokens/graphql/get_access_token_permissions.query.graphql';
 import { MAX_DESCRIPTION_LENGTH } from '~/personal_access_tokens/constants';
 import { mockCreateMutationResponse, mockCreateMutationInput } from '../../mock_data';
 
@@ -38,9 +39,15 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
   let mockApollo;
 
   const mockMutationHandler = jest.fn().mockResolvedValue(mockCreateMutationResponse);
+  const mockPermissionsHandler = jest
+    .fn()
+    .mockResolvedValue({ data: { accessTokenPermissions: [] } });
 
   const createComponent = ({ mutationHandler = mockMutationHandler, provide = {} } = {}) => {
-    mockApollo = createMockApollo([[createGranularPersonalAccessTokenMutation, mutationHandler]]);
+    mockApollo = createMockApollo([
+      [createGranularPersonalAccessTokenMutation, mutationHandler],
+      [getAccessTokenPermissions, mockPermissionsHandler],
+    ]);
 
     wrapper = shallowMountExtended(CreateGranularPersonalAccessTokenForm, {
       apolloProvider: mockApollo,
@@ -51,6 +58,7 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
       },
       stubs: {
         GlSprintf,
+        GlTabs: { template: '<div><slot name="tabs-end" /><slot /></div>' },
       },
     });
   };

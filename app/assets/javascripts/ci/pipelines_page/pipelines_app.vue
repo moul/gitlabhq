@@ -3,7 +3,6 @@ import NO_PIPELINES_SVG from '@gitlab/svgs/dist/illustrations/empty-state/empty-
 import ERROR_STATE_SVG from '@gitlab/svgs/dist/illustrations/empty-state/empty-job-failed-md.svg?url';
 import { GlCollapsibleListbox, GlEmptyState, GlKeysetPagination, GlLoadingIcon } from '@gitlab/ui';
 import { debounce } from 'lodash-es';
-import Visibility from 'visibilityjs';
 import { createAlert, VARIANT_INFO, VARIANT_WARNING } from '~/alert';
 import { s__, __ } from '~/locale';
 import Tracking from '~/tracking';
@@ -189,10 +188,6 @@ export default {
           },
         ) {
           if (ciPipelineStatusesUpdated) {
-            if (Visibility.hidden()) {
-              return previousData;
-            }
-
             const { id: updatedId } = ciPipelineStatusesUpdated;
 
             const { list } = this.pipelines;

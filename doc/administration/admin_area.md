@@ -226,7 +226,7 @@ calculated daily. User changes made after the last update are not reflected. The
 - Blocked users
 - Total users
 
-GitLab billing is based on the number of [billable users](../subscriptions/manage_users_and_seats.md#billable-users).
+GitLab billing is based on the number of [billable users](../subscriptions/manage_seats.md#billable-users).
 
 ### Add email to user
 

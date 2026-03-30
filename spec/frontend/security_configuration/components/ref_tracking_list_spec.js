@@ -16,8 +16,8 @@ import RefTrackingListItem from '~/security_configuration/components/ref_trackin
 import RefUntrackingConfirmation from '~/security_configuration/components/ref_untracking_confirmation.vue';
 import RefTrackingSelection from '~/security_configuration/components/ref_tracking_selection.vue';
 import securityTrackedRefsQuery from '~/security_configuration/graphql/security_tracked_refs.query.graphql';
-import trackSecurityTrackedRefsMutation from '~/security_configuration/graphql/track_security_tracked_refs.mutation.graphql';
-import untrackSecurityTrackedRefsMutation from '~/security_configuration/graphql/untrack_security_tracked_refs.mutation.graphql';
+import trackSecurityRefsMutation from '~/security_configuration/graphql/track_security_refs.mutation.graphql';
+import untrackSecurityRefsMutation from '~/security_configuration/graphql/untrack_security_refs.mutation.graphql';
 import { createTrackedRef, createMockTrackedRefsResponse } from '../mock_data';
 
 Vue.use(VueApollo);
@@ -66,8 +66,8 @@ describe('RefTrackingList component', () => {
   } = {}) =>
     createMockApollo([
       [securityTrackedRefsQuery, queryHandler],
-      [trackSecurityTrackedRefsMutation, trackMutationHandler],
-      [untrackSecurityTrackedRefsMutation, untrackMutationHandler],
+      [trackSecurityRefsMutation, trackMutationHandler],
+      [untrackSecurityRefsMutation, untrackMutationHandler],
     ]);
 
   const createComponent = ({ queryHandler, trackMutationHandler, untrackMutationHandler } = {}) => {
@@ -623,7 +623,7 @@ describe('RefTrackingList component', () => {
 
       describe('tracking refs errors', () => {
         it('shows dismissible error alert when mutation throws an error', async () => {
-          const trackMutationHandler = jest.fn().mockRejectedValue(new Error('Network error'));
+          const trackMutationHandler = jest.fn().mockRejectedValue(new Error());
           createComponent({ trackMutationHandler });
           await waitForPromises();
 
@@ -640,6 +640,24 @@ describe('RefTrackingList component', () => {
           await nextTick();
 
           expect(findErrorAlert().exists()).toBe(false);
+        });
+
+        it('shows refetch error when mutation succeeds but refetch fails', async () => {
+          const queryHandler = jest
+            .fn()
+            .mockResolvedValueOnce(mockTrackedRefsResponse)
+            .mockRejectedValueOnce(new Error('Refetch error'));
+          createComponent({ queryHandler });
+          await waitForPromises();
+
+          await openTrackingModal();
+
+          findTrackingSelection().vm.$emit('select', selectedRefs);
+          await waitForPromises();
+
+          expect(findErrorAlert().text()).toBe(
+            'Refs were tracked successfully but the list could not be refreshed. Please refresh the page.',
+          );
         });
 
         it('shows dismissible error alert when mutation returns errors in response', async () => {

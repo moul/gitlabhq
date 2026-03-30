@@ -152,7 +152,7 @@ Users with the Minimal Access role can authenticate and access the group, but ha
 When seats become available, the users can be promoted to their intended access level.
 Existing users with billable roles are not affected by this behavior.
 
-You can [view seat usage](../../subscriptions/manage_users_and_seats.md#view-seat-usage) and manage users with Minimal Access.
+You can [view seat usage](../../subscriptions/manage_seats.md#view-seat-usage) and manage users with Minimal Access.
 
 ### Known issues
 
@@ -188,7 +188,7 @@ by an administrator. Users can use their account only after they have been appro
 
 If an administrator increases or removes the user cap, users pending approval are automatically approved.
 
-The number of [billable users](../../subscriptions/manage_users_and_seats.md#billable-users) is updated once a day.
+The number of [billable users](../../subscriptions/manage_seats.md#billable-users) is updated once a day.
 The user cap might apply only retrospectively after the cap has already been exceeded.
 If the cap is set to a value below the current number of billable users (for example, `1`), the cap is enabled immediately.
 
@@ -329,7 +329,7 @@ turn on administrator approval for role promotions. You can then approve or reje
 that are [pending administrator approval](../moderate_users.md#view-users-pending-role-promotion).
 
 - If an administrator adds a user to a group or project:
-  - If the new user role is [billable](../../subscriptions/manage_users_and_seats.md#billable-users),
+  - If the new user role is [billable](../../subscriptions/manage_seats.md#billable-users),
     all other membership requests for that user are automatically approved.
   - If the new user role is not billable, other requests for that user remain pending until administrator approval.
 - If a user who isn't an administrator adds a user to a group or project:

@@ -282,6 +282,7 @@ module Types
       [Types::Authz::AccessTokens::PermissionType],
       null: false,
       experiment: { milestone: '18.6' },
+      scopes: [:api, :read_api, :ai_workflows],
       description: 'List of permissions for fine-grained access tokens',
       resolver: Resolvers::Authz::AccessTokens::PermissionsResolver
 

@@ -543,8 +543,6 @@ export default {
     'app/assets/javascripts/security_configuration/graphql/set_pre_receive_secret_detection.graphql',
     'app/assets/javascripts/security_configuration/graphql/set_secret_push_protection.graphql',
     'app/assets/javascripts/security_configuration/graphql/set_validity_checks.graphql',
-    'app/assets/javascripts/security_configuration/graphql/track_security_tracked_refs.mutation.graphql',
-    'app/assets/javascripts/security_configuration/graphql/untrack_security_tracked_refs.mutation.graphql',
     'app/assets/javascripts/sidebar/components/labels/labels_select_widget/graphql/create_label.mutation.graphql',
     'app/assets/javascripts/sidebar/components/labels/labels_select_widget/graphql/epic_labels.query.graphql',
     'app/assets/javascripts/sidebar/components/labels/labels_select_widget/graphql/epic_update_labels.mutation.graphql',

@@ -257,7 +257,7 @@ Bot users have the following properties:
 - They are granted permissions that correspond with the role and scope of the associated access token.
 - They are members of the project, but cannot be removed from the project or added directly
   to any other groups or projects.
-- They are [non-billable users](../../../subscriptions/manage_users_and_seats.md#criteria-for-non-billable-users)
+- They are [non-billable users](../../../subscriptions/manage_seats.md#criteria-for-non-billable-users)
   and do not count towards your license limit.
 - Their contributions are associated with the bot user account.
 - When removed, their contributions are moved to a

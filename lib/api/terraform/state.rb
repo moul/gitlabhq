@@ -108,7 +108,7 @@ module API
             ]
             tags %w[terraform]
           end
-          route_setting :authorization, skip_granular_token_authorization: true
+          route_setting :authorization, skip_granular_token_authorization: :workhorse_pre_authorization
           post 'authorize' do
             status 200
             content_type Gitlab::Workhorse::INTERNAL_API_CONTENT_TYPE

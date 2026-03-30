@@ -13171,6 +13171,24 @@ CREATE SEQUENCE ai_catalog_item_consumers_id_seq
 
 ALTER SEQUENCE ai_catalog_item_consumers_id_seq OWNED BY ai_catalog_item_consumers.id;
 
+CREATE TABLE ai_catalog_item_stars (
+    id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    organization_id bigint NOT NULL,
+    ai_catalog_item_id bigint NOT NULL,
+    user_id bigint NOT NULL
+);
+
+CREATE SEQUENCE ai_catalog_item_stars_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE ai_catalog_item_stars_id_seq OWNED BY ai_catalog_item_stars.id;
+
 CREATE TABLE ai_catalog_item_version_dependencies (
     id bigint NOT NULL,
     ai_catalog_item_version_id bigint NOT NULL,
@@ -13198,6 +13216,9 @@ CREATE TABLE ai_catalog_item_versions (
     version text NOT NULL,
     definition jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_by_id bigint,
+    yaml_definition_file text,
+    yaml_definition_file_store smallint DEFAULT 1 NOT NULL,
+    CONSTRAINT check_481086fa5c CHECK ((char_length(yaml_definition_file) <= 255)),
     CONSTRAINT check_8cabb46fa3 CHECK ((char_length(version) <= 50))
 );
 
@@ -13228,9 +13249,11 @@ CREATE TABLE ai_catalog_items (
     foundational_flow_reference text,
     last_30_day_usage_count integer DEFAULT 0 NOT NULL,
     last_30_day_usage_count_updated_at timestamp with time zone DEFAULT '1970-01-01 00:00:00'::timestamp without time zone NOT NULL,
+    star_count integer DEFAULT 0 NOT NULL,
     CONSTRAINT check_5a87fd2753 CHECK ((char_length(identifier) <= 255)),
     CONSTRAINT check_7e02a4805b CHECK ((char_length(description) <= 1024)),
     CONSTRAINT check_804e59e032 CHECK ((char_length(foundational_flow_reference) <= 255)),
+    CONSTRAINT check_ai_catalog_items_star_count_non_negative CHECK ((star_count >= 0)),
     CONSTRAINT check_edddd6e1fe CHECK ((char_length(name) <= 255))
 );
 
@@ -18979,7 +19002,9 @@ CREATE TABLE dast_profiles_tags (
     dast_profile_id bigint NOT NULL,
     tag_id bigint NOT NULL,
     project_id bigint,
-    CONSTRAINT check_b1aa92f799 CHECK ((project_id IS NOT NULL))
+    tag_name text,
+    CONSTRAINT check_b1aa92f799 CHECK ((project_id IS NOT NULL)),
+    CONSTRAINT dast_profiles_tags_tag_name_length CHECK ((char_length(tag_name) <= 1024))
 );
 
 CREATE SEQUENCE dast_profiles_tags_id_seq
@@ -35024,6 +35049,8 @@ ALTER TABLE ONLY ai_agents ALTER COLUMN id SET DEFAULT nextval('ai_agents_id_seq
 
 ALTER TABLE ONLY ai_catalog_item_consumers ALTER COLUMN id SET DEFAULT nextval('ai_catalog_item_consumers_id_seq'::regclass);
 
+ALTER TABLE ONLY ai_catalog_item_stars ALTER COLUMN id SET DEFAULT nextval('ai_catalog_item_stars_id_seq'::regclass);
+
 ALTER TABLE ONLY ai_catalog_item_version_dependencies ALTER COLUMN id SET DEFAULT nextval('ai_catalog_item_version_dependencies_id_seq'::regclass);
 
 ALTER TABLE ONLY ai_catalog_item_versions ALTER COLUMN id SET DEFAULT nextval('ai_catalog_item_versions_id_seq'::regclass);
@@ -37914,6 +37941,9 @@ ALTER TABLE ONLY ai_agents
 
 ALTER TABLE ONLY ai_catalog_item_consumers
     ADD CONSTRAINT ai_catalog_item_consumers_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY ai_catalog_item_stars
+    ADD CONSTRAINT ai_catalog_item_stars_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY ai_catalog_item_version_dependencies
     ADD CONSTRAINT ai_catalog_item_version_dependencies_pkey PRIMARY KEY (id);
@@ -43751,6 +43781,8 @@ CREATE INDEX idx_addon_purchases_on_last_refreshed_at_desc_nulls_last ON subscri
 
 CREATE INDEX idx_ai_active_context_code_enabled_namespaces_namespace_id ON ONLY p_ai_active_context_code_enabled_namespaces USING btree (namespace_id);
 
+CREATE INDEX idx_ai_catalog_item_stars_on_organization_id ON ai_catalog_item_stars USING btree (organization_id);
+
 CREATE UNIQUE INDEX idx_ai_catalog_item_version_dependencies_version_and_dependency ON ai_catalog_item_version_dependencies USING btree (ai_catalog_item_version_id, dependency_id, organization_id);
 
 CREATE UNIQUE INDEX idx_ai_catalog_item_version_unique ON ai_catalog_item_versions USING btree (ai_catalog_item_id, version);
@@ -44706,6 +44738,10 @@ CREATE INDEX index_ai_catalog_item_consumers_on_parent_item_consumer_id ON ai_ca
 CREATE INDEX index_ai_catalog_item_consumers_on_project_id ON ai_catalog_item_consumers USING btree (project_id);
 
 CREATE UNIQUE INDEX index_ai_catalog_item_consumers_on_service_account_id_unique ON ai_catalog_item_consumers USING btree (service_account_id);
+
+CREATE UNIQUE INDEX index_ai_catalog_item_stars_on_item_and_user ON ai_catalog_item_stars USING btree (ai_catalog_item_id, user_id);
+
+CREATE INDEX index_ai_catalog_item_stars_on_user_id ON ai_catalog_item_stars USING btree (user_id);
 
 CREATE INDEX index_ai_catalog_item_version_dependencies_on_dependency_id ON ai_catalog_item_version_dependencies USING btree (dependency_id);
 
@@ -55349,6 +55385,9 @@ ALTER TABLE ONLY sentry_issues
 ALTER TABLE ONLY x509_certificates
     ADD CONSTRAINT fk_1e0da0fd78 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY ai_catalog_item_stars
+    ADD CONSTRAINT fk_1e5028d2c0 FOREIGN KEY (ai_catalog_item_id) REFERENCES ai_catalog_items(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY zoekt_enabled_namespaces
     ADD CONSTRAINT fk_1effa65b25 FOREIGN KEY (root_namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
@@ -57185,6 +57224,9 @@ ALTER TABLE ONLY agent_activity_events
 ALTER TABLE ONLY agent_activity_events
     ADD CONSTRAINT fk_c8b006d40f FOREIGN KEY (agent_token_id) REFERENCES cluster_agent_tokens(id) ON DELETE SET NULL;
 
+ALTER TABLE ONLY ai_catalog_item_stars
+    ADD CONSTRAINT fk_c8d497a9c7 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY design_user_mentions
     ADD CONSTRAINT fk_c8d8144d72 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
@@ -58915,6 +58957,9 @@ ALTER TABLE ONLY incident_management_timeline_event_tag_links
 
 ALTER TABLE ONLY release_links
     ADD CONSTRAINT fk_rails_753be7ae29 FOREIGN KEY (release_id) REFERENCES releases(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY ai_catalog_item_stars
+    ADD CONSTRAINT fk_rails_754117b7fc FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY milestone_releases
     ADD CONSTRAINT fk_rails_754f27dbfa FOREIGN KEY (release_id) REFERENCES releases(id) ON DELETE CASCADE;

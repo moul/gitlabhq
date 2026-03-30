@@ -47,7 +47,7 @@ Service accounts:
 - Cannot be managed through services such as LDAP.
 - Appear in group and project membership lists as service accounts.
 - Do not receive notification emails unless you add a [custom email address](../../api/service_accounts.md#create-an-instance-service-account).
-- Are not [billable users](../../subscriptions/manage_users_and_seats.md#billable-users) or [internal users](../../administration/internal_users.md).
+- Are not [billable users](../../subscriptions/manage_seats.md#billable-users) or [internal users](../../administration/internal_users.md).
 - Are available on [trial versions](https://gitlab.com/-/trial_registrations/new?glm_source=docs.gitlab.com&glm_content=free-user-limit-faq/ee/user/free_user_limit.html)
   of GitLab. On GitLab.com, the Owner of the top-level group must verify their identity first.
 - Cannot create top-level groups or other service accounts.
@@ -371,7 +371,7 @@ To revoke a personal access token for a service account:
 
 ## Related topics
 
-- [Billable users](../../subscriptions/manage_users_and_seats.md#billable-users)
+- [Billable users](../../subscriptions/manage_seats.md#billable-users)
 - [Associated records](account/delete_account.md#associated-records)
 - [Project access tokens - bot users](../project/settings/project_access_tokens.md#bot-users-for-projects)
 - [Group access tokens - bot users](../group/settings/group_access_tokens.md#bot-users-for-groups)

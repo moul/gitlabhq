@@ -243,7 +243,7 @@ This issue might occur if:
 - You're running GitLab Community Edition. Before you add your license, you
   must upgrade to Enterprise Edition.
 - You're using GitLab.com. You cannot add a GitLab Self-Managed license to GitLab.com.
-  To use paid features on GitLab.com, [purchase a separate subscription](../subscriptions/manage_users_and_seats.md#gitlabcom-billing-and-usage).
+  To use paid features on GitLab.com, [purchase a separate subscription](../subscriptions/manage_seats.md#gitlabcom-billing-and-usage).
 
 ### Users exceed license limit upon renewal
 

@@ -16,8 +16,10 @@ export const SORT_OPTION_NAME = {
   text: SORT_LABEL_NAME,
 };
 
+// TODO: Replace with `value: created` after we fix the performance issue with the date columns
+// https://gitlab.com/gitlab-org/gitlab/-/work_items/588691
 export const SORT_OPTION_CREATED = {
-  value: 'created',
+  value: 'id',
   text: SORT_LABEL_CREATED,
 };
 

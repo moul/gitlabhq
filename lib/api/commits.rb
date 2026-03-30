@@ -295,7 +295,7 @@ module API
         tags %w[commits]
         hidden true
       end
-      route_setting :authorization, skip_granular_token_authorization: true
+      route_setting :authorization, skip_granular_token_authorization: :workhorse_pre_authorization
       post ':id/repository/commits/authorize' do
         workhorse_authorize_commits_body_upload!
       end

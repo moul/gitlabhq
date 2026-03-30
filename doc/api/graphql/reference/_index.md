@@ -24362,6 +24362,29 @@ The edge type for [`PipelineTrigger`](#pipelinetrigger).
 | <a id="pipelinetriggeredge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="pipelinetriggeredge-node"></a>`node` | [`PipelineTrigger`](#pipelinetrigger) | The item at the end of the edge. |
 
+#### `PolicyScheduleTestRunConnection`
+
+The connection type for [`PolicyScheduleTestRun`](#policyscheduletestrun).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="policyscheduletestrunconnection-edges"></a>`edges` | [`[PolicyScheduleTestRunEdge]`](#policyscheduletestrunedge) | A list of edges. |
+| <a id="policyscheduletestrunconnection-nodes"></a>`nodes` | [`[PolicyScheduleTestRun]`](#policyscheduletestrun) | A list of nodes. |
+| <a id="policyscheduletestrunconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `PolicyScheduleTestRunEdge`
+
+The edge type for [`PolicyScheduleTestRun`](#policyscheduletestrun).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="policyscheduletestrunedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="policyscheduletestrunedge-node"></a>`node` | [`PolicyScheduleTestRun`](#policyscheduletestrun) | The item at the end of the edge. |
+
 #### `ProjectComplianceControlStatusTypeConnection`
 
 The connection type for [`ProjectComplianceControlStatusType`](#projectcompliancecontrolstatustype).
@@ -28361,7 +28384,6 @@ Requires ClickHouse. Premium and Ultimate only.
 | <a id="aimetrics-codesuggestionsacceptedcount"></a>`codeSuggestionsAcceptedCount` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Deprecated** in GitLab 18.0. moved to codeSuggestions field. |
 | <a id="aimetrics-codesuggestionscontributorscount"></a>`codeSuggestionsContributorsCount` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Deprecated** in GitLab 18.0. moved to codeSuggestions field. |
 | <a id="aimetrics-codesuggestionsshowncount"></a>`codeSuggestionsShownCount` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Deprecated** in GitLab 18.0. moved to codeSuggestions field. |
-| <a id="aimetrics-duoassigneduserscount"></a>`duoAssignedUsersCount` | [`Int`](#int) | Total assigned Duo Pro and Enterprise seats. Ignores time period filter. Returns current data. |
 | <a id="aimetrics-duochatcontributorscount"></a>`duoChatContributorsCount` | [`Int`](#int) | Number of contributors who used GitLab Duo Chat features. |
 | <a id="aimetrics-duousedcount"></a>`duoUsedCount` | [`Int`](#int) | Number of contributors who used any GitLab Duo feature. |
 | <a id="aimetrics-mcp"></a>`mcp` | [`mcpMetrics`](#mcpmetrics) | Model Context Protocol metrics. |
@@ -28540,7 +28562,7 @@ Pre-aggregated per-user metrics for GitLab Code Suggestions and GitLab Duo Chat.
 | <a id="aiusermetrics-mcp"></a>`mcp` | [`mcpUserMetrics`](#mcpusermetrics) | Mcp metrics for the user. |
 | <a id="aiusermetrics-totaleventcount"></a>`totalEventCount` | [`Int`](#int) | Total count of all tracked events for the user. |
 | <a id="aiusermetrics-troubleshootjob"></a>`troubleshootJob` | [`troubleshootJobUserMetrics`](#troubleshootjobusermetrics) | Troubleshoot Job metrics for the user. |
-| <a id="aiusermetrics-user"></a>`user` | [`AddOnUser!`](#addonuser) | User associated with metrics. |
+| <a id="aiusermetrics-user"></a>`user` | [`AddOnUser`](#addonuser) | User associated with metrics. |
 
 ### `AiXrayReport`
 
@@ -36366,6 +36388,7 @@ GPG signature for a signed commit.
 | <a id="group-autodevopsenabled"></a>`autoDevopsEnabled` | [`Boolean`](#boolean) | Indicates whether Auto DevOps is enabled for all projects within the group. |
 | <a id="group-availablefeatures"></a>`availableFeatures` {{< icon name="warning-solid" >}} | [`NamespaceAvailableFeatures!`](#namespaceavailablefeatures) | **Introduced** in GitLab 18.3. **Status**: Experiment. Features available on the namespace. |
 | <a id="group-avatarurl"></a>`avatarUrl` | [`String`](#string) | Avatar URL of the group. |
+| <a id="group-canpushinitialcommit"></a>`canPushInitialCommit` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.11. **Status**: Experiment. Whether the current user can push the initial commit to the default branch of new projects in the namespace. |
 | <a id="group-cicdsettings"></a>`ciCdSettings` {{< icon name="warning-solid" >}} | [`CiCdSettings`](#cicdsettings) | **Introduced** in GitLab 17.9. **Status**: Experiment. Namespace CI/CD settings for the namespace. |
 | <a id="group-complianceframeworkcoveragesummary"></a>`complianceFrameworkCoverageSummary` {{< icon name="warning-solid" >}} | [`ComplianceFrameworkCoverageSummary`](#complianceframeworkcoveragesummary) | **Introduced** in GitLab 18.1. **Status**: Experiment. Summary of compliance framework coverage in a group and its subgroups. |
 | <a id="group-complianceframeworkscoveragedetails"></a>`complianceFrameworksCoverageDetails` {{< icon name="warning-solid" >}} | [`ComplianceFrameworkCoverageDetailConnection`](#complianceframeworkcoveragedetailconnection) | **Introduced** in GitLab 18.1. **Status**: Experiment. Detailed compliance framework coverage for each framework in the group. |
@@ -38258,6 +38281,8 @@ Returns [`VulnerabilitySeveritiesCount`](#vulnerabilityseveritiescount).
 | <a id="group-vulnerabilityseveritiescount-scannerid"></a>`scannerId` | [`[VulnerabilitiesScannerID!]`](#vulnerabilitiesscannerid) | Filter vulnerabilities by scanner ID. |
 | <a id="group-vulnerabilityseveritiescount-severity"></a>`severity` | [`[VulnerabilitySeverity!]`](#vulnerabilityseverity) | Filter vulnerabilities by severity. |
 | <a id="group-vulnerabilityseveritiescount-state"></a>`state` | [`[VulnerabilityState!]`](#vulnerabilitystate) | Filter vulnerabilities by state. |
+| <a id="group-vulnerabilityseveritiescount-trackedrefids"></a>`trackedRefIds` {{< icon name="warning-solid" >}} | [`[SecurityProjectTrackedContextID!]`](#securityprojecttrackedcontextid) | **Introduced** in GitLab 18.11. **Status**: Experiment. Filter vulnerabilities by tracked ref IDs. To use this argument, you must have advanced search configured, advanced vulnerability management set up and `vulnerabilities_across_contexts` feature flag enabled. |
+| <a id="group-vulnerabilityseveritiescount-trackedrefsscope"></a>`trackedRefsScope` {{< icon name="warning-solid" >}} | [`SecurityTrackedRefScope`](#securitytrackedrefscope) | **Introduced** in GitLab 18.11. **Status**: Experiment. Filter by tracked ref scope. To use this argument, you must have advanced search configured, advanced vulnerability management set up and `vulnerabilities_across_contexts` feature flag enabled. |
 | <a id="group-vulnerabilityseveritiescount-validitycheck"></a>`validityCheck` {{< icon name="warning-solid" >}} | [`[VulnerabilityFindingTokenStatusState!]`](#vulnerabilityfindingtokenstatusstate) | **Introduced** in GitLab 18.5. **Status**: Experiment. Filter vulnerabilities by token status. |
 
 ##### `Group.webhook`
@@ -39439,6 +39464,8 @@ Returns [`VulnerabilitySeveritiesCount`](#vulnerabilityseveritiescount).
 | <a id="instancesecuritydashboard-vulnerabilityseveritiescount-scannerid"></a>`scannerId` | [`[VulnerabilitiesScannerID!]`](#vulnerabilitiesscannerid) | Filter vulnerabilities by scanner ID. |
 | <a id="instancesecuritydashboard-vulnerabilityseveritiescount-severity"></a>`severity` | [`[VulnerabilitySeverity!]`](#vulnerabilityseverity) | Filter vulnerabilities by severity. |
 | <a id="instancesecuritydashboard-vulnerabilityseveritiescount-state"></a>`state` | [`[VulnerabilityState!]`](#vulnerabilitystate) | Filter vulnerabilities by state. |
+| <a id="instancesecuritydashboard-vulnerabilityseveritiescount-trackedrefids"></a>`trackedRefIds` {{< icon name="warning-solid" >}} | [`[SecurityProjectTrackedContextID!]`](#securityprojecttrackedcontextid) | **Introduced** in GitLab 18.11. **Status**: Experiment. Filter vulnerabilities by tracked ref IDs. To use this argument, you must have advanced search configured, advanced vulnerability management set up and `vulnerabilities_across_contexts` feature flag enabled. |
+| <a id="instancesecuritydashboard-vulnerabilityseveritiescount-trackedrefsscope"></a>`trackedRefsScope` {{< icon name="warning-solid" >}} | [`SecurityTrackedRefScope`](#securitytrackedrefscope) | **Introduced** in GitLab 18.11. **Status**: Experiment. Filter by tracked ref scope. To use this argument, you must have advanced search configured, advanced vulnerability management set up and `vulnerabilities_across_contexts` feature flag enabled. |
 | <a id="instancesecuritydashboard-vulnerabilityseveritiescount-validitycheck"></a>`validityCheck` {{< icon name="warning-solid" >}} | [`[VulnerabilityFindingTokenStatusState!]`](#vulnerabilityfindingtokenstatusstate) | **Introduced** in GitLab 18.5. **Status**: Experiment. Filter vulnerabilities by token status. |
 
 ### `IntegerExpression`
@@ -42820,6 +42847,7 @@ Version of a machine learning model.
 | <a id="namespace-aisettings"></a>`aiSettings` {{< icon name="warning-solid" >}} | [`AiNamespaceSettings`](#ainamespacesettings) | **Introduced** in GitLab 18.8. **Status**: Experiment. AI settings for the namespace. |
 | <a id="namespace-availablefeatures"></a>`availableFeatures` {{< icon name="warning-solid" >}} | [`NamespaceAvailableFeatures!`](#namespaceavailablefeatures) | **Introduced** in GitLab 18.3. **Status**: Experiment. Features available on the namespace. |
 | <a id="namespace-avatarurl"></a>`avatarUrl` | [`String`](#string) | URL to avatar image file of the namespace. |
+| <a id="namespace-canpushinitialcommit"></a>`canPushInitialCommit` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.11. **Status**: Experiment. Whether the current user can push the initial commit to the default branch of new projects in the namespace. |
 | <a id="namespace-cicdsettings"></a>`ciCdSettings` {{< icon name="warning-solid" >}} | [`CiCdSettings`](#cicdsettings) | **Introduced** in GitLab 17.9. **Status**: Experiment. Namespace CI/CD settings for the namespace. |
 | <a id="namespace-containslockedprojects"></a>`containsLockedProjects` | [`Boolean`](#boolean) | Includes at least one project where the repository size exceeds the limit. This only applies to namespaces under Project limit enforcement. |
 | <a id="namespace-crossprojectpipelineavailable"></a>`crossProjectPipelineAvailable` | [`Boolean!`](#boolean) | Indicates if the cross_project_pipeline feature is available for the namespace. |
@@ -47797,6 +47825,8 @@ Returns [`VulnerabilitySeveritiesCount`](#vulnerabilityseveritiescount).
 | <a id="project-vulnerabilityseveritiescount-scannerid"></a>`scannerId` | [`[VulnerabilitiesScannerID!]`](#vulnerabilitiesscannerid) | Filter vulnerabilities by scanner ID. |
 | <a id="project-vulnerabilityseveritiescount-severity"></a>`severity` | [`[VulnerabilitySeverity!]`](#vulnerabilityseverity) | Filter vulnerabilities by severity. |
 | <a id="project-vulnerabilityseveritiescount-state"></a>`state` | [`[VulnerabilityState!]`](#vulnerabilitystate) | Filter vulnerabilities by state. |
+| <a id="project-vulnerabilityseveritiescount-trackedrefids"></a>`trackedRefIds` {{< icon name="warning-solid" >}} | [`[SecurityProjectTrackedContextID!]`](#securityprojecttrackedcontextid) | **Introduced** in GitLab 18.11. **Status**: Experiment. Filter vulnerabilities by tracked ref IDs. To use this argument, you must have advanced search configured, advanced vulnerability management set up and `vulnerabilities_across_contexts` feature flag enabled. |
+| <a id="project-vulnerabilityseveritiescount-trackedrefsscope"></a>`trackedRefsScope` {{< icon name="warning-solid" >}} | [`SecurityTrackedRefScope`](#securitytrackedrefscope) | **Introduced** in GitLab 18.11. **Status**: Experiment. Filter by tracked ref scope. To use this argument, you must have advanced search configured, advanced vulnerability management set up and `vulnerabilities_across_contexts` feature flag enabled. |
 | <a id="project-vulnerabilityseveritiescount-validitycheck"></a>`validityCheck` {{< icon name="warning-solid" >}} | [`[VulnerabilityFindingTokenStatusState!]`](#vulnerabilityfindingtokenstatusstate) | **Introduced** in GitLab 18.5. **Status**: Experiment. Filter vulnerabilities by token status. |
 
 ##### `Project.webhook`
@@ -49912,6 +49942,7 @@ Represents the security policy.
 | <a id="securitypolicytype-name"></a>`name` | [`String!`](#string) | Name of the policy. |
 | <a id="securitypolicytype-policyattributes"></a>`policyAttributes` | [`PolicyAttributesUnion!`](#policyattributesunion) | Attributes specific to the policy type. |
 | <a id="securitypolicytype-policyscope"></a>`policyScope` | [`PolicyScope`](#policyscope) | Scope of the policy. |
+| <a id="securitypolicytype-testruns"></a>`testRuns` {{< icon name="warning-solid" >}} | [`PolicyScheduleTestRunConnection`](#policyscheduletestrunconnection) | **Introduced** in GitLab 18.10. **Status**: Experiment. Test runs for this security policy. |
 | <a id="securitypolicytype-type"></a>`type` | [`String`](#string) | Description of the policy type. |
 | <a id="securitypolicytype-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the policy YAML was last updated. |
 | <a id="securitypolicytype-yaml"></a>`yaml` | [`String!`](#string) | YAML definition of the policy. |

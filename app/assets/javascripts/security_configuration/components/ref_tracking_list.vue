@@ -11,8 +11,8 @@ import {
 import { s__ } from '~/locale';
 import { untrackRefsOptimisticResponse, updateUntrackedRefsCache } from '../graphql/cache_utils';
 import securityTrackedRefs from '../graphql/security_tracked_refs.query.graphql';
-import untrackSecurityTrackedRefsMutation from '../graphql/untrack_security_tracked_refs.mutation.graphql';
-import trackSecurityTrackedRefsMutation from '../graphql/track_security_tracked_refs.mutation.graphql';
+import untrackSecurityRefsMutation from '../graphql/untrack_security_refs.mutation.graphql';
+import trackSecurityRefsMutation from '../graphql/track_security_refs.mutation.graphql';
 import RefTrackingListItem from './ref_tracking_list_item.vue';
 import RefUntrackingConfirmation from './ref_untracking_confirmation.vue';
 import RefTrackingSelection from './ref_tracking_selection.vue';
@@ -135,7 +135,7 @@ export default {
         }));
 
         const { data } = await this.$apollo.mutate({
-          mutation: trackSecurityTrackedRefsMutation,
+          mutation: trackSecurityRefsMutation,
           variables: {
             input: {
               projectPath: this.projectFullPath,
@@ -148,12 +148,22 @@ export default {
           throw new Error();
         }
 
-        await this.$apollo.queries.trackedRefs.refetch();
-      } catch {
+        try {
+          await this.$apollo.queries.trackedRefs.refetch();
+        } catch {
+          throw new Error(
+            s__(
+              'SecurityTrackedRefs|Refs were tracked successfully but the list could not be refreshed. Please refresh the page.',
+            ),
+          );
+        }
+      } catch (e) {
         this.hasTrackError = true;
-        this.errorMessage = s__(
-          'SecurityTrackedRefs|Could not track refs. Please refresh the page, or try again later.',
-        );
+        this.errorMessage =
+          e?.message ||
+          s__(
+            'SecurityTrackedRefs|Could not track refs. Please refresh the page, or try again later.',
+          );
       } finally {
         this.isTrackingRefs = false;
       }
@@ -161,7 +171,7 @@ export default {
     async untrackRef({ refId }) {
       try {
         const { data } = await this.$apollo.mutate({
-          mutation: untrackSecurityTrackedRefsMutation,
+          mutation: untrackSecurityRefsMutation,
           variables: {
             input: {
               refIds: [refId],

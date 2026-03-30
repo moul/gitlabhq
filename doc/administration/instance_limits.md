@@ -1051,7 +1051,7 @@ Plan.default.actual_limits.update!(pages_file_entries: 100)
 
 ### Number of custom domains per GitLab Pages website
 
-The total number of custom domains per GitLab Pages website is limited to `150` for [GitLab.com](../subscriptions/manage_users_and_seats.md#gitlabcom-billing-and-usage).
+The total number of custom domains per GitLab Pages website is limited to `150` for [GitLab.com](../subscriptions/manage_seats.md#gitlabcom-billing-and-usage).
 
 The default limit for [GitLab Self-Managed](../subscriptions/manage_subscription.md) is `0` (unlimited).
 To set a limit on your instance, use the

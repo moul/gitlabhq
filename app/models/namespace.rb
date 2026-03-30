@@ -585,6 +585,14 @@ class Namespace < ApplicationRecord
     Gitlab::Access::DefaultBranchProtection.new(default_branch_protection_settings).any?
   end
 
+  def can_push_initial_commit?(user)
+    return true if user.can_admin_all_resources?
+
+    branch_protection = Gitlab::Access::DefaultBranchProtection.new(default_branch_protection_settings)
+    member_access = max_member_access_for_user(user)
+    branch_protection.can_initial_push?(member_access)
+  end
+
   def emails_enabled?
     # If no namespace_settings, we can assume it has not changed from enabled
     return true unless namespace_settings
