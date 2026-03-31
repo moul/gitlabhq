@@ -45,6 +45,10 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     let(:offset) { presenter.send(:offset) }
     let(:diff_collection) { instance_double(Gitlab::Git::DiffCollection) }
 
+    before do
+      presenter.offset = 5
+    end
+
     it 'calls first_diffs_slice on the merge_request with the correct arguments' do
       allow(diff_collection).to receive(:decorate!).and_return(diff_collection)
       expect(merge_request).to receive(:first_diffs_slice).with(offset, diff_options.merge(only_context_commits: false))
@@ -169,6 +173,10 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     describe '#diffs_stream_url' do
       subject(:url) { presenter.diffs_stream_url }
 
+      before do
+        presenter.offset = 5
+      end
+
       it { is_expected.to eq("#{base_path}/diffs_stream?diff_id=#{resolved_diff_id}&offset=5&view=inline") }
 
       context 'when diffs count is the same as streaming offset' do
@@ -247,7 +255,15 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
   describe '#lazy?' do
     subject(:method) { presenter.lazy? }
 
-    it { is_expected.to be(false) }
+    it { is_expected.to be(true) }
+
+    context 'when offset is set' do
+      before do
+        presenter.offset = 5
+      end
+
+      it { is_expected.to be(false) }
+    end
   end
 
   describe '#sorted?' do
@@ -457,6 +473,10 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     end
 
     describe '#diffs_slice' do
+      before do
+        presenter.offset = 5
+      end
+
       it 'returns diff files wrapped in presenter with conflict info' do
         result = presenter.diffs_slice
 

@@ -69,6 +69,10 @@ module WorkItems
         all
       end
 
+      def available_system_defined_types_count
+        filtered_types.count { |type| type.is_a?(::WorkItems::TypesFramework::SystemDefined::Type) }
+      end
+
       def by_base_types(names)
         Array(names).filter_map { |name| resolve_by_base_type(name.to_s) }
       end

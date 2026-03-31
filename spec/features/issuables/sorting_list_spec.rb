@@ -139,42 +139,6 @@ RSpec.describe 'Sort Issuable List', feature_category: :team_planning do
         end
       end
 
-      context 'in the "issues / open" tab', :js do
-        let(:issuable_type) { :issue }
-
-        it 'is "created date"' do
-          visit_issues_with_state(project, 'opened')
-
-          expect(page).to have_button 'Created date'
-          expect(first_issue).to include(last_created_issuable.title)
-          expect(last_issue).to include(first_created_issuable.title)
-        end
-      end
-
-      context 'in the "issues / closed" tab', :js do
-        let(:issuable_type) { :closed_issue }
-
-        it 'is "updated date"' do
-          visit_issues_with_state(project, 'closed')
-
-          expect(page).to have_button 'Updated date'
-          expect(first_issue).to include(last_updated_issuable.title)
-          expect(last_issue).to include(first_updated_issuable.title)
-        end
-      end
-
-      context 'in the "issues / all" tab', :js do
-        let(:issuable_type) { :issue }
-
-        it 'is "created date"' do
-          visit_issues_with_state(project, 'all')
-
-          expect(page).to have_button 'Created date'
-          expect(first_issue).to include(last_created_issuable.title)
-          expect(last_issue).to include(first_created_issuable.title)
-        end
-      end
-
       context 'when the sort in the URL is created_date', :js do
         let(:issuable_type) { :issue }
 

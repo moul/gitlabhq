@@ -5,6 +5,7 @@ module API
     include PaginationParams
 
     helpers ::API::Helpers::NotesHelpers
+    helpers ::API::Helpers::ResourceEventsHelpers
 
     before do
       authenticate!
@@ -36,7 +37,7 @@ module API
 
           events = ResourceStateEventFinder.new(current_user, eventable).execute
 
-          present paginate(events), with: Entities::ResourceStateEvent
+          present_resource_state_event_collection(paginate(events), eventable, eventable_type)
         end
 
         desc "Get a single #{human_eventable_str} resource state event" do
@@ -53,7 +54,7 @@ module API
 
           event = ResourceStateEventFinder.new(current_user, eventable).find(params[:event_id])
 
-          present event, with: Entities::ResourceStateEvent
+          present_single_resource_state_event(event, eventable, eventable_type)
         end
       end
     end

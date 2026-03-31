@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Language: ga-IE\n"
 "X-Crowdin-File: /master/locale/gitlab.pot\n"
 "X-Crowdin-File-ID: 16\n"
-"PO-Revision-Date: 2026-03-30 13:29\n"
+"PO-Revision-Date: 2026-03-31 11:01\n"
 
 msgid " %{start} to %{end}"
 msgstr " %{start} go %{end}"
@@ -20321,8 +20321,8 @@ msgstr "Cumraigh Scanadh Coimeádán i `.gitlab-ci.yml` ag baint úsáide as an 
 msgid "Configure Container Scanning in `.gitlab-ci.yml`, creating this file if it does not already exist"
 msgstr "Cumraigh Scanadh Coimeádán in `.gitlab-ci.yml`, ag cruthú an comhad seo mura bhfuil sé ann cheana féin"
 
-msgid "Configure Dependency Scanning in `.gitlab-ci.yml` using the GitLab managed template. You can [add variable overrides](https://docs.gitlab.com/user/application_security/dependency_scanning/#customizing-analyzer-behavior) to customize Dependency Scanning settings."
-msgstr "Cumraigh Scanadh Spleáchais i `.gitlab-ci.yml` ag baint úsáide as an teimpléad bainistithe GitLab. Is féidir leat [forráidí athróg a chur leis](https://docs.gitlab.com/user/application_security/dependency_scanning/#customizing-analyzer-behavior) chun socruithe Scanadh Spleáchais a shaincheapadh."
+msgid "Configure Dependency Scanning in `.gitlab-ci.yml` using the GitLab managed template. You can [add variable overrides](https://docs.gitlab.com/user/application_security/dependency_scanning/dependency_scanning_sbom/#customizing-analyzer-behavior) to customize Dependency Scanning settings."
+msgstr ""
 
 msgid "Configure Dependency Scanning in `.gitlab-ci.yml`, creating this file if it does not already exist"
 msgstr "Cumraigh Scanadh spleáchais in `.gitlab-ci.yml`, ag cruthú an comhad seo mura bhfuil sé ann cheana féin"
@@ -36146,9 +36146,6 @@ msgstr "Dia duit %{username}!"
 msgid "Hi %{username},"
 msgstr "Dia duit %{username},"
 
-msgid "Hi, %{name}"
-msgstr "Haigh, %{name}"
-
 msgid "Hidden"
 msgstr "I bhfolach"
 
@@ -36331,6 +36328,222 @@ msgstr "Do chuid ranníocaíochtaí, amhail tiomantais agus obair ar shaincheist
 
 msgid "HomepageActivityWidget|Your projects"
 msgstr "Do thionscadail"
+
+msgid "Homepage|A fantastic Friday to ship"
+msgstr ""
+
+msgid "Homepage|A new day for new merge requests"
+msgstr ""
+
+msgid "Homepage|A sparkling Saturday to make things happen"
+msgstr ""
+
+msgid "Homepage|A sunny Sunday to create"
+msgstr ""
+
+msgid "Homepage|A thoughtful Thursday to build things"
+msgstr ""
+
+msgid "Homepage|Afternoon, keep it up"
+msgstr ""
+
+msgid "Homepage|Another great day to code!"
+msgstr ""
+
+msgid "Homepage|Big things await"
+msgstr ""
+
+msgid "Homepage|Coffee and GitLab"
+msgstr ""
+
+msgid "Homepage|Collaborate. Build. Repeat."
+msgstr ""
+
+msgid "Homepage|Come on in"
+msgstr ""
+
+msgid "Homepage|Commit early, commit often"
+msgstr ""
+
+msgid "Homepage|Dive right in"
+msgstr ""
+
+msgid "Homepage|Evening? Challenge accepted."
+msgstr ""
+
+msgid "Homepage|Fresh start, fresh code"
+msgstr ""
+
+msgid "Homepage|Friday mode: activated"
+msgstr ""
+
+msgid "Homepage|Git happens"
+msgstr ""
+
+msgid "Homepage|Good afternoon"
+msgstr ""
+
+msgid "Homepage|Good evening"
+msgstr ""
+
+msgid "Homepage|Good is about to happen"
+msgstr ""
+
+msgid "Homepage|Good morning"
+msgstr ""
+
+msgid "Homepage|Great to have you here"
+msgstr ""
+
+msgid "Homepage|Great to see you again!"
+msgstr ""
+
+msgid "Homepage|Halfway through the day"
+msgstr ""
+
+msgid "Homepage|Happy %{dayName}!"
+msgstr ""
+
+msgid "Homepage|Happy coding!"
+msgstr ""
+
+msgid "Homepage|Hello!"
+msgstr ""
+
+msgid "Homepage|Here we go"
+msgstr ""
+
+msgid "Homepage|Hey there!"
+msgstr ""
+
+msgid "Homepage|Hey you!"
+msgstr ""
+
+msgid "Homepage|Hope your day is going well"
+msgstr ""
+
+msgid "Homepage|It all started with a commit"
+msgstr ""
+
+msgid "Homepage|It works on my machine"
+msgstr ""
+
+msgid "Homepage|It's Tuesday, let's code"
+msgstr ""
+
+msgid "Homepage|It's not a bug, it's a feature"
+msgstr ""
+
+msgid "Homepage|Late night coding session?"
+msgstr ""
+
+msgid "Homepage|Let's get started"
+msgstr ""
+
+msgid "Homepage|Let's get things done"
+msgstr ""
+
+msgid "Homepage|Let's go!"
+msgstr ""
+
+msgid "Homepage|Let's make today count"
+msgstr ""
+
+msgid "Homepage|Make it a mighty Monday"
+msgstr ""
+
+msgid "Homepage|Make it worthwhile"
+msgstr ""
+
+msgid "Homepage|Monday. Let's do this."
+msgstr ""
+
+msgid "Homepage|Nice to see you"
+msgstr ""
+
+msgid "Homepage|No errors, no problems, just great code"
+msgstr ""
+
+msgid "Homepage|Onwards!"
+msgstr ""
+
+msgid "Homepage|Ready to build something great?"
+msgstr ""
+
+msgid "Homepage|Ready to ship?"
+msgstr ""
+
+msgid "Homepage|Ready when you are"
+msgstr ""
+
+msgid "Homepage|Ready, set, go"
+msgstr ""
+
+msgid "Homepage|Rebasing: still not fun"
+msgstr ""
+
+msgid "Homepage|Rise and ship!"
+msgstr ""
+
+msgid "Homepage|Saturday is looking good"
+msgstr ""
+
+msgid "Homepage|Ship something awesome"
+msgstr ""
+
+msgid "Homepage|Small contributions beat big intentions"
+msgstr ""
+
+msgid "Homepage|Start small. Ship big."
+msgstr ""
+
+msgid "Homepage|Sunday is looking good"
+msgstr ""
+
+msgid "Homepage|Thursday. You've got this."
+msgstr ""
+
+msgid "Homepage|Time to make things happen"
+msgstr ""
+
+msgid "Homepage|Today's a great day to ship"
+msgstr ""
+
+msgid "Homepage|Warning: high productivity detected"
+msgstr ""
+
+msgid "Homepage|Wednesday is looking good"
+msgstr ""
+
+msgid "Homepage|Wednesday. Let's keep going."
+msgstr ""
+
+msgid "Homepage|Welcome!"
+msgstr ""
+
+msgid "Homepage|What are you working on today?"
+msgstr ""
+
+msgid "Homepage|What will you create today?"
+msgstr ""
+
+msgid "Homepage|What's on your list today?"
+msgstr ""
+
+msgid "Homepage|Whenever you're ready"
+msgstr ""
+
+msgid "Homepage|You got this!"
+msgstr ""
+
+msgid "Homepage|You made it through the last deploy!"
+msgstr ""
+
+msgid "Homepage|Your best Tuesday ever"
+msgstr ""
+
+msgid "Homepage|Your corner of GitLab"
+msgstr ""
 
 msgid "Hone in on what’s important"
 msgstr "Dírigh aird ar a bhfuil tábhachtach"
@@ -66211,6 +66424,9 @@ msgstr "Nuashonraithe le déanaí"
 msgid "SecurityTrackedRefs|No refs available"
 msgstr "Níl aon tagairtí ar fáil"
 
+msgid "SecurityTrackedRefs|Refs were tracked successfully but the list could not be refreshed. Please refresh the page."
+msgstr ""
+
 msgid "SecurityTrackedRefs|Remove %{refName}"
 msgstr "Bain %{refName}"
 
@@ -73476,9 +73692,6 @@ msgstr "Míreanna le déanamh"
 msgid "Today"
 msgstr "Inniu"
 
-msgid "Today's highlights"
-msgstr "Buaicphointí an lae inniu"
-
 msgid "Todos| What actions create to-do items?"
 msgstr "Cad iad na gníomhartha a chruthaíonn earraí le déanamh?"
 
@@ -80093,6 +80306,9 @@ msgstr "Fáilte go GitLab, %{name}!"
 msgid "Welcome to GitLab,%{br_tag}%{name}!"
 msgstr "Fáilte go GitLab, %{br_tag}%{name}!"
 
+msgid "Welcome!"
+msgstr ""
+
 msgid "Welcome, %{name}!"
 msgstr "Fáilte, %{name}!"
 
@@ -81359,8 +81575,14 @@ msgstr "Cumasaigh"
 msgid "WorkItem|Enable list item"
 msgstr "Cumasaigh mír liosta"
 
+msgid "WorkItem|Enable this type automatically for all existing projects and any new projects."
+msgstr ""
+
 msgid "WorkItem|Enabled"
 msgstr "Cumasaithe"
+
+msgid "WorkItem|Enabled by default"
+msgstr ""
 
 msgid "WorkItem|Enabled types"
 msgstr "Cineálacha cumasaithe"

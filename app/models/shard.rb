@@ -30,3 +30,5 @@ class Shard < ApplicationRecord
     safe_find_or_create_by(name: name)
   end
 end
+
+Shard.prepend_mod

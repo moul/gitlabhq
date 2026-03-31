@@ -60,6 +60,7 @@ project:
   - read_issuable_resource_link
   - read_licenses
   - read_merge_request
+  - read_observability
   - read_package
   - read_pipeline
   - read_pipeline_schedule

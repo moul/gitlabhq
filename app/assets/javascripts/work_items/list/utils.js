@@ -444,7 +444,7 @@ export const getSavedViewFilterTokens = (filterObject, options = {}) => {
     )
     .reduce((acc, [key, value]) => {
       // Here the delimited search values are again formatted into array for filter tokens
-      if (key === 'search' && value.includes(SAVED_VIEW_SEARCH_DELIMITER)) {
+      if (key === 'search' && value?.includes(SAVED_VIEW_SEARCH_DELIMITER)) {
         const { operator, type } = savedViewFilters[key];
         const searchTokens = value.split(SAVED_VIEW_SEARCH_DELIMITER);
         searchTokens.forEach((data) => {

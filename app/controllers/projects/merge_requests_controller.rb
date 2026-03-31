@@ -119,6 +119,7 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
   def rapid_diffs
     return render_404 unless rapid_diffs_page_enabled?
 
+    rapid_diffs_presenter.offset = 5
     show_merge_request
   end
 

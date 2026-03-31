@@ -38,7 +38,7 @@ module RapidDiffs
     end
 
     def linked_file
-      return if lazy? || (linked_file_params[:old_path].nil? && linked_file_params[:new_path].nil?)
+      return if linked_file_params[:old_path].nil? && linked_file_params[:new_path].nil?
 
       @linked_file ||= resource.diffs(@diff_options.merge({
         paths: [linked_file_params[:old_path], linked_file_params[:new_path]].compact
@@ -95,13 +95,11 @@ module RapidDiffs
       offset.nil?
     end
 
+    attr_accessor :offset
+
     protected
 
     attr_reader :request_params
-
-    def offset
-      5
-    end
 
     def transform_file(diff_file)
       diff_file.prevent_syntax_highlighting! unless highlight?

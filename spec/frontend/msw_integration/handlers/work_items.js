@@ -1,3 +1,4 @@
+import canCreateBranchResponse from 'test_fixtures/graphql/work_items/integration/can_create_branch.json';
 import workItemMetadataResponse from 'test_fixtures/graphql/work_items/integration/work_item_metadata.query.graphql.json';
 import stateCountsResponse from 'test_fixtures/graphql/work_items/integration/get_work_item_state_counts.query.graphql.json';
 import workItemsFullResponse from 'test_fixtures/graphql/work_items/integration/get_work_items_full.query.graphql.json';
@@ -41,7 +42,13 @@ import updateMilestoneResponse from 'test_fixtures/graphql/work_items/integratio
 import createNoteResponse from 'test_fixtures/graphql/work_items/integration/create_work_item_note.mutation.graphql.json';
 import { buildUpdateResponse } from '../fixture_utils';
 
-export { labelsResponse, autocompleteUsersResponse, milestonesResponse, baseUpdateResponse };
+export {
+  labelsResponse,
+  autocompleteUsersResponse,
+  milestonesResponse,
+  baseUpdateResponse,
+  canCreateBranchResponse,
+};
 
 const FIXTURE_RESPONSES = {
   workItemMetadataEE: workItemMetadataResponse,
@@ -129,3 +136,7 @@ export function handleWorkItemOperation({ operationName, variables, res, ctx }) 
 
   return null;
 }
+
+export const workItemRestEndpoints = [
+  { method: 'get', path: /issues\/\d+\/can_create_branch/, response: canCreateBranchResponse },
+];

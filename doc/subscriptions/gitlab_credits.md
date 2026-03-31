@@ -218,6 +218,12 @@ Your GitLab Credits are displayed in the subscription card in Customers Portal, 
 Credit usage is calculated based on the features and models they use.
 Some features have multiple model options to choose from, while other features use only one model.
 
+A request represents a single (billable) action initiated by a user (for example, sending a chat message or requesting code generation).
+This represents one interaction from the user's perspective.
+
+A model call represents the underlying API calls made to LLMs to fulfill a user request.
+A single user request might trigger multiple model calls. For example, one call to understand context and another call to generate a response.
+
 ### Models
 
 The following table lists the number of requests you can make with one GitLab Credit for different [models](../user/duo_agent_platform/model_selection.md).
@@ -264,14 +270,14 @@ For premium models with optimized integration:
 
 ### Features
 
-The following table lists the number of requests you can make with one GitLab Credit for different features.
+The following table lists the number of requests or model calls you can make with one GitLab Credit for different features.
 This pricing applies to all models (including self-hosted models) available for the feature.
 
-| Feature | Requests with one credit |
+| Feature | Requests or calls with one credit |
 |---------|---------------------------|
-| [GitLab Duo Code Suggestions](../user/duo_agent_platform/code_suggestions/_index.md) | 50 |
-| Code Review Flow | 4 |
-| SAST False Positive Detection Flow | 1 |
+| [GitLab Duo Code Suggestions](../user/duo_agent_platform/code_suggestions/_index.md) | 50 requests |
+| Code Review Flow | 4 calls |
+| SAST False Positive Detection Flow | 1 call |
 
 [GitLab Duo Agentic Chat](../user/gitlab_duo_chat/agentic_chat.md) doesn't use a fixed model,
 so credit cost varies based on the model selected for the request.

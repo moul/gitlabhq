@@ -1,10 +1,8 @@
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
-import MockAdapter from 'axios-mock-adapter';
 import { waitFor } from '@testing-library/dom';
 import { mount } from '@vue/test-utils';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
-import axios from '~/lib/utils/axios_utils';
 import WorkItemsRoot from '~/work_items/components/app.vue';
 import { createRouter } from '~/work_items/router';
 import { apolloProvider } from '~/graphql_shared/issuable_client';
@@ -25,18 +23,10 @@ const firstLabel = labelsResponse.data.namespace.labels.nodes[0];
 const firstUser = autocompleteUsersResponse.data.namespace.users[0];
 const firstMilestone = milestonesResponse.data.namespace.attributes.nodes[0];
 const workItemId = baseUpdateResponse.data.workItemUpdate.workItem.id;
-const workItemIid = baseUpdateResponse.data.workItemUpdate.workItem.iid;
 
 function getListboxTestId(item) {
   return `listbox-item-${item.id}`;
 }
-
-const mock = new MockAdapter(axios);
-
-mock.onGet(new RegExp(`issues/${workItemIid}/can_create_branch`)).reply(200, {
-  can_create_branch: true,
-  suggested_branch_name: `${workItemIid}-dependent-test-issue`,
-});
 
 Vue.use(VueApollo);
 

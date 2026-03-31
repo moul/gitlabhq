@@ -29,6 +29,7 @@ project:
   - read_licenses
   - read_merge_request_status_check_url
   - read_namespace_cluster_agent_mapping
+  - read_observability
   - read_on_demand_dast_scan
   - read_pages
   - read_pipeline_subscription
@@ -36,6 +37,7 @@ project:
   - read_project_merge_request_analytics
   - read_project_security_exclusions
   - read_runners
+  - read_saved_replies
   - read_saved_view
   - read_security_orchestration_policies
   - read_security_resource
@@ -62,6 +64,7 @@ group:
   - read_dependency
   - read_dependency_proxy
   - read_dora4_analytics
+  - read_enterprise_user
   - read_group
   - read_group_all_available_runners
   - read_group_audit_events
@@ -73,6 +76,8 @@ group:
   - read_namespace_cluster_agent_mapping
   - read_protected_branch
   - read_runners
+  - read_saml_user
+  - read_saved_replies
   - read_saved_view
   - read_vulnerability
   - read_wiki

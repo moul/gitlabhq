@@ -7850,9 +7850,6 @@ msgstr ""
 msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation."
 msgstr ""
 
-msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation. Learn more about %{linkStart}GitLab Credit pricing.%{linkEnd}"
-msgstr ""
-
 msgid "AiPowered|Use TLS for the GitLab Duo Agent Platform service"
 msgstr ""
 
@@ -74584,9 +74581,6 @@ msgstr ""
 msgid "UsageBilling|Go to Customers Portal"
 msgstr ""
 
-msgid "UsageBilling|Have questions?"
-msgstr ""
-
 msgid "UsageBilling|Included credits"
 msgstr ""
 
@@ -74612,9 +74606,6 @@ msgid "UsageBilling|Learn more about %{helpLinkStart}GitLab Credit pricing%{help
 msgstr ""
 
 msgid "UsageBilling|Learn more about GitLab Duo"
-msgstr ""
-
-msgid "UsageBilling|Learn more about the upgrade process and Credits pricing options by talking to sales."
 msgstr ""
 
 msgid "UsageBilling|Location"

@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Language: ko\n"
 "X-Crowdin-File: /master/locale/gitlab.pot\n"
 "X-Crowdin-File-ID: 16\n"
-"PO-Revision-Date: 2026-03-30 13:29\n"
+"PO-Revision-Date: 2026-03-31 11:01\n"
 
 msgid " %{start} to %{end}"
 msgstr " %{start}부터 %{end}까지"
@@ -19449,8 +19449,8 @@ msgstr "GitLab 관리 템플릿을 사용하여 `.gitlab-ci.yml`에서 컨테이
 msgid "Configure Container Scanning in `.gitlab-ci.yml`, creating this file if it does not already exist"
 msgstr "`.gitlab-ci.yml`에서 Container Scanning을 구성하고, 아직 존재하지 않는 경우 이 파일을 생성합니다."
 
-msgid "Configure Dependency Scanning in `.gitlab-ci.yml` using the GitLab managed template. You can [add variable overrides](https://docs.gitlab.com/user/application_security/dependency_scanning/#customizing-analyzer-behavior) to customize Dependency Scanning settings."
-msgstr "GitLab 관리 템플릿을 사용하여 `.gitlab-ci.yml`에서 의존성 검색을 설정합니다. [변수 오버라이드 추가](https://docs.gitlab.com/user/application_security/dependency_scanning/#customizing-analyzer-behavior)를 통해 의존성 검색 설정을 커스터마이징할 수 있습니다."
+msgid "Configure Dependency Scanning in `.gitlab-ci.yml` using the GitLab managed template. You can [add variable overrides](https://docs.gitlab.com/user/application_security/dependency_scanning/dependency_scanning_sbom/#customizing-analyzer-behavior) to customize Dependency Scanning settings."
+msgstr ""
 
 msgid "Configure Dependency Scanning in `.gitlab-ci.yml`, creating this file if it does not already exist"
 msgstr "`.gitlab-ci.yml`에서 의존성 검색을 설정하고 아직 존재하지 않는 경우 이 파일을 생성합니다."
@@ -35058,9 +35058,6 @@ msgstr "안녕하세요, %{username} 님!"
 msgid "Hi %{username},"
 msgstr "안녕하세요 %{username} 님,"
 
-msgid "Hi, %{name}"
-msgstr "안녕하세요, %{name} 님"
-
 msgid "Hidden"
 msgstr "숨김"
 
@@ -35243,6 +35240,222 @@ msgstr "커밋, 이슈에 대한 작업, 머지 리퀘스트와 같은 당신의
 
 msgid "HomepageActivityWidget|Your projects"
 msgstr "당신의 프로젝트"
+
+msgid "Homepage|A fantastic Friday to ship"
+msgstr ""
+
+msgid "Homepage|A new day for new merge requests"
+msgstr ""
+
+msgid "Homepage|A sparkling Saturday to make things happen"
+msgstr ""
+
+msgid "Homepage|A sunny Sunday to create"
+msgstr ""
+
+msgid "Homepage|A thoughtful Thursday to build things"
+msgstr ""
+
+msgid "Homepage|Afternoon, keep it up"
+msgstr ""
+
+msgid "Homepage|Another great day to code!"
+msgstr ""
+
+msgid "Homepage|Big things await"
+msgstr ""
+
+msgid "Homepage|Coffee and GitLab"
+msgstr ""
+
+msgid "Homepage|Collaborate. Build. Repeat."
+msgstr ""
+
+msgid "Homepage|Come on in"
+msgstr ""
+
+msgid "Homepage|Commit early, commit often"
+msgstr ""
+
+msgid "Homepage|Dive right in"
+msgstr ""
+
+msgid "Homepage|Evening? Challenge accepted."
+msgstr ""
+
+msgid "Homepage|Fresh start, fresh code"
+msgstr ""
+
+msgid "Homepage|Friday mode: activated"
+msgstr ""
+
+msgid "Homepage|Git happens"
+msgstr ""
+
+msgid "Homepage|Good afternoon"
+msgstr ""
+
+msgid "Homepage|Good evening"
+msgstr ""
+
+msgid "Homepage|Good is about to happen"
+msgstr ""
+
+msgid "Homepage|Good morning"
+msgstr ""
+
+msgid "Homepage|Great to have you here"
+msgstr ""
+
+msgid "Homepage|Great to see you again!"
+msgstr ""
+
+msgid "Homepage|Halfway through the day"
+msgstr ""
+
+msgid "Homepage|Happy %{dayName}!"
+msgstr ""
+
+msgid "Homepage|Happy coding!"
+msgstr ""
+
+msgid "Homepage|Hello!"
+msgstr ""
+
+msgid "Homepage|Here we go"
+msgstr ""
+
+msgid "Homepage|Hey there!"
+msgstr ""
+
+msgid "Homepage|Hey you!"
+msgstr ""
+
+msgid "Homepage|Hope your day is going well"
+msgstr ""
+
+msgid "Homepage|It all started with a commit"
+msgstr ""
+
+msgid "Homepage|It works on my machine"
+msgstr ""
+
+msgid "Homepage|It's Tuesday, let's code"
+msgstr ""
+
+msgid "Homepage|It's not a bug, it's a feature"
+msgstr ""
+
+msgid "Homepage|Late night coding session?"
+msgstr ""
+
+msgid "Homepage|Let's get started"
+msgstr ""
+
+msgid "Homepage|Let's get things done"
+msgstr ""
+
+msgid "Homepage|Let's go!"
+msgstr ""
+
+msgid "Homepage|Let's make today count"
+msgstr ""
+
+msgid "Homepage|Make it a mighty Monday"
+msgstr ""
+
+msgid "Homepage|Make it worthwhile"
+msgstr ""
+
+msgid "Homepage|Monday. Let's do this."
+msgstr ""
+
+msgid "Homepage|Nice to see you"
+msgstr ""
+
+msgid "Homepage|No errors, no problems, just great code"
+msgstr ""
+
+msgid "Homepage|Onwards!"
+msgstr ""
+
+msgid "Homepage|Ready to build something great?"
+msgstr ""
+
+msgid "Homepage|Ready to ship?"
+msgstr ""
+
+msgid "Homepage|Ready when you are"
+msgstr ""
+
+msgid "Homepage|Ready, set, go"
+msgstr ""
+
+msgid "Homepage|Rebasing: still not fun"
+msgstr ""
+
+msgid "Homepage|Rise and ship!"
+msgstr ""
+
+msgid "Homepage|Saturday is looking good"
+msgstr ""
+
+msgid "Homepage|Ship something awesome"
+msgstr ""
+
+msgid "Homepage|Small contributions beat big intentions"
+msgstr ""
+
+msgid "Homepage|Start small. Ship big."
+msgstr ""
+
+msgid "Homepage|Sunday is looking good"
+msgstr ""
+
+msgid "Homepage|Thursday. You've got this."
+msgstr ""
+
+msgid "Homepage|Time to make things happen"
+msgstr ""
+
+msgid "Homepage|Today's a great day to ship"
+msgstr ""
+
+msgid "Homepage|Warning: high productivity detected"
+msgstr ""
+
+msgid "Homepage|Wednesday is looking good"
+msgstr ""
+
+msgid "Homepage|Wednesday. Let's keep going."
+msgstr ""
+
+msgid "Homepage|Welcome!"
+msgstr ""
+
+msgid "Homepage|What are you working on today?"
+msgstr ""
+
+msgid "Homepage|What will you create today?"
+msgstr ""
+
+msgid "Homepage|What's on your list today?"
+msgstr ""
+
+msgid "Homepage|Whenever you're ready"
+msgstr ""
+
+msgid "Homepage|You got this!"
+msgstr ""
+
+msgid "Homepage|You made it through the last deploy!"
+msgstr ""
+
+msgid "Homepage|Your best Tuesday ever"
+msgstr ""
+
+msgid "Homepage|Your corner of GitLab"
+msgstr ""
 
 msgid "Hone in on what’s important"
 msgstr "중요한 것에 집중하세요"
@@ -64675,6 +64888,9 @@ msgstr "가장 최근에 업데이트"
 msgid "SecurityTrackedRefs|No refs available"
 msgstr "가용한 참조(ref)가 없음"
 
+msgid "SecurityTrackedRefs|Refs were tracked successfully but the list could not be refreshed. Please refresh the page."
+msgstr ""
+
 msgid "SecurityTrackedRefs|Remove %{refName}"
 msgstr "%{refName} 삭제"
 
@@ -71792,9 +72008,6 @@ msgstr "할일 항목"
 msgid "Today"
 msgstr "오늘"
 
-msgid "Today's highlights"
-msgstr "오늘의 하이라이트"
-
 msgid "Todos| What actions create to-do items?"
 msgstr "To-do 항목은 어떤 동작으로 생성되나요?"
 
@@ -78285,6 +78498,9 @@ msgstr "%{name}님 GitLab에 오신 것을 환영합니다!"
 msgid "Welcome to GitLab,%{br_tag}%{name}!"
 msgstr "GitLab에 오신 것을 환영합니다, %{br_tag}%{name}!"
 
+msgid "Welcome!"
+msgstr ""
+
 msgid "Welcome, %{name}!"
 msgstr "%{name}님, 환영합니다!"
 
@@ -79515,8 +79731,14 @@ msgstr "활성화"
 msgid "WorkItem|Enable list item"
 msgstr "리스트 항목 활성화"
 
+msgid "WorkItem|Enable this type automatically for all existing projects and any new projects."
+msgstr ""
+
 msgid "WorkItem|Enabled"
 msgstr "활성화됨"
+
+msgid "WorkItem|Enabled by default"
+msgstr ""
 
 msgid "WorkItem|Enabled types"
 msgstr "활성화된 유형"

@@ -114,8 +114,6 @@ Gitlab/Authz/PermissionCheck:
     - 'ee/app/components/namespaces/storage/repository_limit/alert_component.rb'
     - 'ee/app/controllers/projects/duo_agents_platform_controller.rb'
     - 'ee/app/finders/ai/catalog/project_items_finder.rb'
-    - 'ee/app/finders/authn/enterprise_users_finder.rb'
-    - 'ee/app/finders/authn/group_saml_users_finder.rb'
     - 'ee/app/graphql/mutations/audit_events/instance/amazon_s3_configurations/base.rb'
     - 'ee/app/graphql/mutations/audit_events/instance/audit_event_streaming_destinations/base.rb'
     - 'ee/app/graphql/mutations/audit_events/instance/google_cloud_logging_configurations/base.rb'

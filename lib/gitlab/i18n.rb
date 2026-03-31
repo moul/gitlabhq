@@ -49,7 +49,7 @@ module Gitlab
       'de' => 96,
       'en' => 100,
       'eo' => 2,
-      'es' => 98,
+      'es' => 97,
       'fil_PH' => 0,
       'fr' => 97,
       'gl_ES' => 0,

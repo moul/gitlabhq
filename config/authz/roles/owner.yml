@@ -95,11 +95,13 @@ group:
   - read_compliance_dashboard
   - read_compliance_framework
   - read_compliance_violations_report
+  - read_enterprise_user
   - read_group_credentials_inventory
   - read_group_saml_identity
   - read_group_scim_identity
   - read_runners
   - read_runners_registration_token
+  - read_saml_user
   - read_service_account
   - read_subscription_usage
   - read_usage_quotas
