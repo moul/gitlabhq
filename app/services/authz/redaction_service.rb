@@ -51,15 +51,16 @@ module Authz
     }.freeze
 
     PRELOAD_ASSOCIATIONS = {
-      issue: [{ project: [:namespace, :project_feature, :group] }, :author, :work_item_type],
-      merge_request: [{ target_project: [:namespace, :project_feature, :group] }, :author],
-      project: [:namespace, :project_feature, :group],
-      milestone: [{ project: [:namespace, :project_feature] }, :group],
+      issue: [:namespace, :assignees, { project: [:namespace, :project_feature, :group, :organization] }, :author,
+        :work_item_type],
+      merge_request: [{ target_project: [:namespace, :project_feature, :group, :organization] }, :author],
+      project: [:namespace, :project_feature, :group, :organization],
+      milestone: [{ project: [:namespace, :project_feature, :group, :organization] }, :group],
       snippet: [{ project: [:namespace, :project_feature] }, :author],
       user: [],
       group: [:parent, :organization],
-      work_item: [:author, :work_item_type, { project: [:namespace, :project_feature, :group] },
-        { namespace: :route }]
+      work_item: [:namespace, :assignees, :author, :work_item_type,
+        { project: [:namespace, :project_feature, :group, :organization] }]
     }.freeze
 
     def self.supported_types

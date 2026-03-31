@@ -87,15 +87,6 @@ tests = [
   },
 
   {
-    explanation: 'https://gitlab.com/gitlab-org/gitlab/-/issues/466068#note_1987902951',
-    changed_file: 'ee/lib/audit_events/strategies/instance/amazon_s3_destination_strategy.rb',
-    expected: %w[
-      ee/spec/lib/audit_events/strategies/instance/amazon_s3_destination_strategy_spec.rb
-      ee/spec/lib/audit_events/external_destination_streamer_spec.rb
-    ]
-  },
-
-  {
     explanation: 'Tooling should map to respective spec',
     changed_file: 'tooling/danger/specs/project_factory_suggestion.rb',
     expected: ['spec/tooling/danger/specs/project_factory_suggestion_spec.rb']

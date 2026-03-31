@@ -59,26 +59,33 @@ config/bounded_contexts.yml @fabiopitino @grzesiek @stanhu @cwoolley-gitlab @tku
 *.rake
 *.builder
 *.erb
-.rubocop_todo/
 Gemfile
 Gemfile.lock
 Gemfile.checksum
 Gemfile.next
 Gemfile.next.lock
 Gemfile.next.checksum
-/config/environments/
-/config/feature_flags/
-/config/initializers_before_autoloader/
-/config/application_setting_columns/
-/config/routes/
-/config/initializers/
-/ee/config/feature_flags/
-/ee/config/initializers/
-/ee/config/routes/
 Rakefile
+# By default Backend owns these directories
+# Further sections may override these
+/.rubocop/
+/.rubocop_todo/
+/app/
 /bin/
+/config/
+/ee/
 /gems/
 /generator_templates/
+/haml_lint/
+/keeps/
+/lib/
+/log/
+/metrics_server/
+/rubocop/
+/shared/
+/spec/
+/sidekiq_cluster/
+/tmp/
 /vendor/
 
 # Haml markup is considered ~frontend code. However, Ruby code in Haml templates is considered ~backend code
@@ -90,6 +97,7 @@ Rakefile
 ^[Frontend] @gitlab-org/maintainers/frontend
 *.scss
 *.js
+/storybook/
 /app/assets/
 /ee/app/assets/
 /spec/frontend/

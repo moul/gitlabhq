@@ -34,7 +34,6 @@ RSpec/ReceiveMessages:
     - 'ee/spec/helpers/users/identity_verification_helper_spec.rb'
     - 'ee/spec/helpers/vulnerabilities_helper_spec.rb'
     - 'ee/spec/lib/arkose/verify_response_spec.rb'
-    - 'ee/spec/lib/audit_events/strategies/external_destination_strategy_spec.rb'
     - 'ee/spec/lib/ee/gitlab/auth/request_authenticator_spec.rb'
     - 'ee/spec/lib/ee/gitlab/ci/parsers/security/common_spec.rb'
     - 'ee/spec/lib/ee/gitlab/gon_helper_spec.rb'

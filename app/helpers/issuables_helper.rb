@@ -170,6 +170,7 @@ module IssuablesHelper
       end
 
     {
+      allow_scoped_labels: project.licensed_feature_available?(:scoped_labels).to_s,
       field_name: "#{issuable.class.model_name.param_key}[label_ids][]",
       full_path: project.full_path,
       initial_labels: initial_labels.to_json,

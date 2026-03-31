@@ -499,6 +499,7 @@ RSpec.describe IssuablesHelper, feature_category: :team_planning do
 
       it 'returns the expected data' do
         expect(helper.issuable_label_selector_data(project, issuable)).to match({
+          allow_scoped_labels: project.licensed_feature_available?(:scoped_labels).to_s,
           field_name: "#{issuable.class.model_name.param_key}[label_ids][]",
           full_path: project.full_path,
           initial_labels: '[]',
@@ -540,6 +541,7 @@ RSpec.describe IssuablesHelper, feature_category: :team_planning do
         ]
 
         expect(helper.issuable_label_selector_data(project, issuable)).to match({
+          allow_scoped_labels: project.licensed_feature_available?(:scoped_labels).to_s,
           field_name: "#{issuable.class.model_name.param_key}[label_ids][]",
           full_path: project.full_path,
           initial_labels: initial_labels.to_json,
