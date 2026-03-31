@@ -137,6 +137,7 @@ module API
       end
 
       def add_parent_to_finder_params(finder_params, _noteable_type, parent_type)
+        finder_params[:organization_id] = Current.organization.id
         finder_params[:project] = user_project if parent_type != 'group'
       end
 

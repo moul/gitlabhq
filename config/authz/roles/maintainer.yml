@@ -88,6 +88,7 @@ project:
   - destroy_upload
   - enable_container_scanning_for_registry
   - enable_secret_push_protection
+  - force_cancel_build
   - import_project_members_from_another_project
   - invite_member
   - invite_project_members

@@ -131,14 +131,14 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
     end
   end
 
-  describe '#find_mutation_directive' do
+  describe '#find_mutation_directives' do
     context 'when directive is on the field' do
-      it 'returns the directive from the field without checking the resolver' do
+      it 'returns the directives from the field without checking the resolver' do
         directive = mock_directive(permissions: :read_project, boundary_type: :project)
         field = mock_field(directive: directive)
         resolver = mock_resolver(graphql_name: 'TestMutation')
 
-        expect(task.send(:find_mutation_directive, field, resolver)).to eq(directive)
+        expect(task.send(:find_mutation_directives, field, resolver)).to contain_exactly(directive)
       end
     end
 
@@ -149,7 +149,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
         field.define_singleton_method(:respond_to?) { |_, *| false }
         resolver = mock_resolver(graphql_name: 'TestMutation', directive: directive)
 
-        expect(task.send(:find_mutation_directive, field, resolver)).to eq(directive)
+        expect(task.send(:find_mutation_directives, field, resolver)).to contain_exactly(directive)
       end
     end
   end
@@ -268,6 +268,33 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
       end
 
       it 'completes successfully' do
+        expect { run }.to output(/GraphQL permissions are valid/).to_stdout
+      end
+    end
+
+    context 'when a type has mixed directive types' do
+      let(:directive) { mock_directive(permissions: :read_project, boundary_type: :project) }
+      let(:other_directive) do
+        Object.new.tap do |mocked_directive|
+          allow(mocked_directive).to receive(:is_a?).and_return(false)
+        end
+      end
+
+      let(:type) do
+        mock_type('ProjectType').tap do |mocked_type|
+          allow(mocked_type).to receive(:directives).and_return([other_directive, directive])
+        end
+      end
+
+      let(:mock_assignable) { instance_double(Authz::PermissionGroups::Assignable, boundaries: %w[project]) }
+
+      before do
+        allow(GitlabSchema).to receive(:types).and_return({ 'ProjectType' => type, 'Mutation' => empty_mutation_type })
+        allow(Authz::PermissionGroups::Assignable).to receive(:for_permission)
+          .with(:read_project).and_return([mock_assignable])
+      end
+
+      it 'skips non-GranularScope type directives and validates the granular one' do
         expect { run }.to output(/GraphQL permissions are valid/).to_stdout
       end
     end
@@ -477,6 +504,34 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
       end
     end
 
+    context 'when a field has mixed directive types' do
+      let(:directive) { mock_directive(permissions: :read_project, boundary_type: :project) }
+      let(:other_directive) do
+        Object.new.tap do |mocked_directive|
+          allow(mocked_directive).to receive(:is_a?).and_return(false)
+        end
+      end
+
+      let(:field) do
+        mock_field.tap do |mocked_field|
+          allow(mocked_field).to receive(:directives).and_return([other_directive, directive])
+        end
+      end
+
+      let(:type) { mock_type('QueryType', fields: { 'project' => field }) }
+      let(:mock_assignable) { instance_double(Authz::PermissionGroups::Assignable, boundaries: %w[project]) }
+
+      before do
+        allow(GitlabSchema).to receive(:types).and_return({ 'QueryType' => type, 'Mutation' => empty_mutation_type })
+        allow(Authz::PermissionGroups::Assignable).to receive(:for_permission)
+          .with(:read_project).and_return([mock_assignable])
+      end
+
+      it 'skips non-GranularScope field directives and validates the granular one' do
+        expect { run }.to output(/GraphQL permissions are valid/).to_stdout
+      end
+    end
+
     context 'when a type directive has nil boundary_type' do
       let(:directive) do
         instance_double(
@@ -616,6 +671,35 @@ RSpec.describe Tasks::Gitlab::Permissions::Graphql::ValidateTask, :silence_stdou
           #
           #######################################################################
         OUTPUT
+      end
+    end
+
+    describe 'multi-boundary directive support' do
+      let(:type) do
+        directives = %i[project group instance].map do |bt|
+          mock_directive(permissions: :read_runner, boundary_type: bt)
+        end
+        assignable = instance_double(Authz::PermissionGroups::Assignable, boundaries: %w[group instance project])
+        allow(Authz::PermissionGroups::Assignable).to receive(:for_permission)
+          .with(:read_runner).and_return([assignable])
+
+        type = Object.new
+        type.define_singleton_method(:name) { 'CiRunner' }
+        type.define_singleton_method(:kind) { type }
+        type.define_singleton_method(:object?) { true }
+        type.define_singleton_method(:directives) { directives }
+        type.define_singleton_method(:respond_to?) { |method, *| %i[kind directives].include?(method) }
+        type
+      end
+
+      before do
+        allow(GitlabSchema).to receive(:types).and_return({ 'CiRunner' => type, 'Mutation' => empty_mutation_type })
+        allow(Authz::PermissionGroups::Assignable).to receive(:all_permissions)
+          .and_return([:read_project, :read_runner])
+      end
+
+      it 'validates all directives and completes successfully' do
+        expect { run }.to output(/GraphQL permissions are valid/).to_stdout
       end
     end
   end

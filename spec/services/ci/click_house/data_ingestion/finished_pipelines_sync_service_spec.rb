@@ -183,6 +183,33 @@ RSpec.describe Ci::ClickHouse::DataIngestion::FinishedPipelinesSyncService, '#ex
         end
       end
     end
+
+    context 'when a pipeline finished_at is NULLed after sync event creation' do
+      # Reproduces a ClickHouse CSV parser bug where a DateTime64 epoch value with
+      # fewer than 3 decimal digits (e.g. "0.0" from COALESCE for NULL timestamps)
+      # followed by a Bool column causes the parser to read past the comma delimiter.
+      # In production, a pipeline can have finished_at set when the sync event is
+      # created (via PipelineFinishedWorker), but finished_at becomes NULL by the time
+      # the sync service queries it (e.g. pipeline was retried or reset).
+      let_it_be(:pipeline_retried) do
+        create(:ci_pipeline, :failed, project: project1, ref: 'master', source: :push,
+          started_at: 1.hour.ago, finished_at: 1.hour.ago)
+      end
+
+      before_all do
+        create_sync_events(pipeline_retried)
+        pipeline_retried.update_column(:finished_at, nil)
+      end
+
+      it 'syncs the pipeline with NULL finished_at without CSV parsing errors' do
+        expect { execute }.to change { ci_finished_pipelines_row_count }.by(6)
+
+        record = ci_finished_pipelines.find { |r| r[:id] == pipeline_retried.id }
+        expect(record).to be_present
+        expect(record[:finished_at]).to be_within(0.001.seconds).of(Time.at(0).utc)
+        expect(record[:status]).to eq('failed')
+      end
+    end
   end
 
   context 'when multiple batches are required' do

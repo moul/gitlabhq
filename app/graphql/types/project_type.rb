@@ -814,7 +814,10 @@ module Types
     field :runners, Types::Ci::RunnerType.connection_type,
       null: true,
       resolver: ::Resolvers::Ci::ProjectRunnersResolver,
-      description: "Find runners visible to the current user."
+      description: "Find runners visible to the current user.",
+      directives: granular_scope_directive(
+        permissions: :read_runner, boundary: :itself, boundary_type: :project
+      )
 
     field :data_transfer, Types::DataTransfer::ProjectDataTransferType,
       null: true, # disallow null once data_transfer_monitoring feature flag is rolled-out! https://gitlab.com/gitlab-org/gitlab/-/issues/391682

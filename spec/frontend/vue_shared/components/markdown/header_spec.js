@@ -4,6 +4,7 @@ import { GlToggle, GlButton } from '@gitlab/ui';
 import { createWrapper as createVueTestWrapper } from '@vue/test-utils';
 import { MARKDOWN_EVENT_SHOW } from '~/behaviors/preview_markdown';
 import HeaderComponent from '~/vue_shared/components/markdown/header.vue';
+import { FIND_AND_REPLACE_FOCUSABLE_SELECTOR } from '~/vue_shared/components/markdown/constants';
 import HeaderDividerComponent from '~/vue_shared/components/markdown/header_divider.vue';
 import CommentTemplatesModal from '~/vue_shared/components/markdown/comment_templates_modal.vue';
 import ToolbarButton from '~/vue_shared/components/markdown/toolbar_button.vue';
@@ -427,6 +428,48 @@ describe('Markdown field header component', () => {
       expect(findFindAndReplaceBar().exists()).toBe(true);
       await closeFindAndReplace();
       expect(findFindAndReplaceBar().exists()).toBe(false);
+    });
+
+    describe('focus trap', () => {
+      beforeEach(async () => {
+        await showFindAndReplace();
+      });
+
+      const getFocusableElements = () =>
+        findFindAndReplaceBar().element.querySelectorAll(FIND_AND_REPLACE_FOCUSABLE_SELECTOR);
+
+      it('wraps Tab forward from the last focusable element to the first', async () => {
+        const focusable = getFocusableElements();
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        last.focus();
+        await findFindAndReplaceBar().trigger('keydown', { key: 'Tab' });
+
+        expect(document.activeElement).toBe(first);
+      });
+
+      it('wraps Shift+Tab backward from the first focusable element to the last', async () => {
+        const focusable = getFocusableElements();
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        first.focus();
+        await findFindAndReplaceBar().trigger('keydown', { key: 'Tab', shiftKey: true });
+
+        expect(document.activeElement).toBe(last);
+      });
+
+      it('does not interfere with Tab when focus is not at a boundary', () => {
+        const middle = wrapper.findByTestId('find-next').element;
+
+        middle.focus();
+        const event = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+        const preventDefault = jest.spyOn(event, 'preventDefault');
+        findFindAndReplaceBar().element.dispatchEvent(event);
+
+        expect(preventDefault).not.toHaveBeenCalled();
+      });
     });
 
     it('embeds a clone to div to color highlighted text', async () => {

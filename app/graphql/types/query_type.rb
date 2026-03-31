@@ -87,7 +87,10 @@ module Types
     field :group, Types::GroupType,
       null: true,
       resolver: Resolvers::GroupResolver,
-      description: "Find a group."
+      description: "Find a group.",
+      directives: granular_scope_directive(
+        permissions: :read_group, boundary_argument: :full_path, boundary_type: :group
+      )
     field :groups, Types::GroupType.connection_type,
       null: true,
       resolver: Resolvers::GroupsResolver,
@@ -171,7 +174,15 @@ module Types
     field :runner, Types::Ci::RunnerType,
       null: true,
       resolver: Resolvers::Ci::RunnerResolver,
-      description: "Find a runner."
+      description: "Find a runner.",
+      directives: granular_scope_directive(
+        permissions: :read_runner,
+        boundaries: [
+          { boundary: :owner, boundary_type: :project },
+          { boundary: :owner, boundary_type: :group },
+          { boundary: :instance, boundary_type: :instance }
+        ]
+      )
     field :runner_platforms, resolver: Resolvers::Ci::RunnerPlatformsResolver,
       deprecated: { reason: 'No longer used, use gitlab-runner documentation to learn about supported platforms', milestone: '15.9' }
     field :runner_setup, resolver: Resolvers::Ci::RunnerSetupResolver,
@@ -180,7 +191,10 @@ module Types
       null: true,
       resolver: Resolvers::Ci::RunnersResolver,
       description: "Get all runners in the GitLab instance (project and shared). " \
-        "Access is restricted to users with administrator access."
+        "Access is restricted to users with administrator access.",
+      directives: granular_scope_directive(
+        permissions: :read_runner, boundary: :instance, boundary_type: :instance
+      )
     field :snippets,
       Types::SnippetType.connection_type,
       null: true,

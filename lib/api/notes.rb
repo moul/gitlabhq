@@ -7,7 +7,10 @@ module API
 
     helpers ::API::Helpers::NotesHelpers
 
-    before { authenticate! }
+    before do
+      authenticate!
+      set_current_organization
+    end
 
     allow_access_with_scope :ai_workflows, if: ->(request) do
       request.get? || request.head? || request.post?

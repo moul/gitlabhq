@@ -75461,6 +75461,9 @@ msgstr ""
 msgid "User is not allowed to resolve thread"
 msgstr ""
 
+msgid "User is pending deletion"
+msgstr ""
+
 msgid "User key"
 msgstr ""
 

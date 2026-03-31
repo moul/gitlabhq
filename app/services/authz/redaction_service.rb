@@ -67,17 +67,20 @@ module Authz
       RESOURCE_CLASSES.keys.map(&:to_s)
     end
 
-    def initialize(user:, resources_by_type:, source:, logger: nil)
+    def initialize(user:, resources_by_type:, source:, logger: nil, metrics_observer: nil)
       raise ArgumentError, 'user is required' if user.nil?
 
       @user = user
       @resources_by_type = resources_by_type
       @source = source
       @logger = logger
+      @metrics_observer = metrics_observer
     end
 
     def execute
       return {} if resources_by_type.empty?
+
+      start = ::Gitlab::Metrics::System.monotonic_time
 
       loaded_resources_by_type = load_all_resources
 
@@ -92,14 +95,15 @@ module Authz
         end
       end
 
-      log_redacted_results(results)
+      duration = ::Gitlab::Metrics::System.monotonic_time - start
+      observe_redaction_metrics(results, duration)
 
       results
     end
 
     private
 
-    attr_reader :user, :resources_by_type, :source, :logger
+    attr_reader :user, :resources_by_type, :source, :logger, :metrics_observer
 
     def load_all_resources
       resources_by_type.each_with_object({}) do |(type, config), loaded|
@@ -143,6 +147,16 @@ module Authz
       return false unless DeclarativePolicy.has_policy?(resource)
 
       Ability.allowed?(user, ability.to_sym, resource)
+    end
+
+    def observe_redaction_metrics(results, duration)
+      if metrics_observer
+        total = results.values.sum(&:size)
+        filtered = results.values.sum { |r| r.count { |_, v| !v } }
+        metrics_observer.call(total: total, filtered: filtered, duration: duration)
+      end
+
+      log_redacted_results(results)
     end
 
     def log_redacted_results(results)

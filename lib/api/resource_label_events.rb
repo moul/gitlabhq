@@ -6,7 +6,10 @@ module API
 
     helpers ::API::Helpers::NotesHelpers
 
-    before { authenticate! }
+    before do
+      authenticate!
+      set_current_organization
+    end
 
     Helpers::ResourceEventsHelpers.eventable_types.each do |eventable_type, details|
       parent_type = eventable_type.parent_class.to_s.underscore

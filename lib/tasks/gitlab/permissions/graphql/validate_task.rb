@@ -40,10 +40,11 @@ module Tasks
             GitlabSchema.types.each do |name, type|
               next unless graphql_object_type?(name, type)
 
-              directive = type.directives.find { |d| d.is_a?(Directives::Authz::GranularScope) }
-              next unless directive
+              type.directives.each do |directive|
+                next unless directive.is_a?(Directives::Authz::GranularScope)
 
-              yield({ kind: 'type', name: name, source: class_source_path(type) }, directive)
+                yield({ kind: 'type', name: name, source: class_source_path(type) }, directive)
+              end
             end
           end
 
@@ -52,11 +53,10 @@ module Tasks
               resolver = resolve_mutation_class(field)
               next unless resolver
 
-              directive = find_mutation_directive(field, resolver)
-              next unless directive
-
               mutation_name = resolver.respond_to?(:graphql_name) ? resolver.graphql_name : field_name.camelize
-              yield({ kind: 'mutation', name: mutation_name, source: class_source_path(resolver) }, directive)
+              find_mutation_directives(field, resolver).each do |directive|
+                yield({ kind: 'mutation', name: mutation_name, source: class_source_path(resolver) }, directive)
+              end
             end
           end
 
@@ -68,10 +68,12 @@ module Tasks
               type.fields.each do |field_name, field|
                 next unless field.respond_to?(:directives)
 
-                directive = field.directives.find { |d| d.is_a?(Directives::Authz::GranularScope) }
-                next unless directive
+                field.directives.each do |directive|
+                  next unless directive.is_a?(Directives::Authz::GranularScope)
 
-                yield({ kind: 'field', name: "#{type_name}.#{field_name}", source: class_source_path(type) }, directive)
+                  yield({ kind: 'field', name: "#{type_name}.#{field_name}",
+                          source: class_source_path(type) }, directive)
+                end
               end
             end
           end
@@ -95,16 +97,18 @@ module Tasks
             resolver if resolver && resolver < Mutations::BaseMutation
           end
 
-          def find_mutation_directive(field, resolver)
-            directive = if field.respond_to?(:directives)
-                          field.directives.find { |d| d.is_a?(Directives::Authz::GranularScope) }
-                        end
+          def find_mutation_directives(field, resolver)
+            directives = if field.respond_to?(:directives)
+                           field.directives.select { |d| d.is_a?(Directives::Authz::GranularScope) }
+                         else
+                           []
+                         end
 
-            if directive.nil? && resolver.respond_to?(:directives)
-              directive = resolver.directives.find { |d| d.is_a?(Directives::Authz::GranularScope) }
+            if directives.empty? && resolver.respond_to?(:directives)
+              directives = resolver.directives.select { |d| d.is_a?(Directives::Authz::GranularScope) }
             end
 
-            directive
+            directives
           end
 
           def valid_permissions

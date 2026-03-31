@@ -28,6 +28,7 @@ import DrawioToolbarButton from './drawio_toolbar_button.vue';
 import CommentTemplatesModal from './comment_templates_modal.vue';
 import HeaderDivider from './header_divider.vue';
 import ToolbarMoreDropdown from './toolbar_more_dropdown.vue';
+import { FIND_AND_REPLACE_FOCUSABLE_SELECTOR } from './constants';
 
 export default {
   findAndReplace: {
@@ -405,6 +406,26 @@ export default {
         e.preventDefault();
       } else if (e.key === 'Escape') {
         this.findAndReplace_close();
+      }
+    },
+    findAndReplace_handleFocusTrap(e) {
+      if (e.key !== 'Tab') return;
+
+      const focusable = Array.from(
+        e.currentTarget.querySelectorAll(FIND_AND_REPLACE_FOCUSABLE_SELECTOR),
+      );
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     },
     findAndReplace_handleKeyUp(e) {
@@ -889,7 +910,9 @@ export default {
     <div
       v-if="findAndReplace.shouldShowBar"
       class="gl-border gl-absolute gl-right-0 gl-z-3 gl-rounded-bl-base gl-border-r-0 gl-bg-section gl-p-3 gl-shadow-sm"
+      role="dialog"
       data-testid="find-and-replace"
+      @keydown="findAndReplace_handleFocusTrap"
     >
       <div class="gl-flex gl-items-baseline">
         <div class="gl-mr-3">

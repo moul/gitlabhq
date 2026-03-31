@@ -627,4 +627,36 @@ RSpec.describe Authz::RedactionService, feature_category: :permissions do
       )
     end
   end
+
+  describe 'metrics_observer injection' do
+    let_it_be(:accessible_issue) { create(:issue, project: public_project) }
+    let_it_be(:inaccessible_issue) { create(:issue, project: private_project) }
+    let(:resources_by_type) do
+      { 'issue' => { 'ids' => [accessible_issue.id, inaccessible_issue.id], 'ability' => 'read_issue' } }
+    end
+
+    it 'calls the observer with total, filtered, and duration' do
+      observed = {}
+      observer = ->(total:, filtered:, duration:) {
+        observed = { total: total, filtered: filtered, duration: duration }
+      }
+      service = described_class.new(
+        user: user, resources_by_type: resources_by_type, source: 'test', metrics_observer: observer
+      )
+
+      service.execute
+
+      expect(observed[:total]).to eq(2)
+      expect(observed[:filtered]).to eq(1)
+      expect(observed[:duration]).to be_a(Float).and(be >= 0)
+    end
+
+    it 'does not fail when no observer is provided' do
+      service = described_class.new(
+        user: user, resources_by_type: resources_by_type, source: 'test'
+      )
+
+      expect { service.execute }.not_to raise_error
+    end
+  end
 end

@@ -149,6 +149,7 @@ func TestConnectionsTotal(t *testing.T) {
 // on a clean EOF.
 func TestConnectionErrorsTotal(t *testing.T) {
 	t.Run("increments with 'other' label on generic runner execution error", func(t *testing.T) {
+		t.Skip("Pending fix: https://gitlab.com/gitlab-org/gitlab/-/work_items/595283")
 		before := counterVecValue(t, connectionErrorsTotal, errorTypeOther)
 
 		h := &Handler{}

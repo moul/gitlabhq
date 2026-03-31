@@ -18,7 +18,7 @@ module Ci
 
         PIPELINE_FIELD_NAMES = %i[id duration status source ref].freeze
         PIPELINE_EPOCH_FIELD_NAMES = %i[committed_at created_at started_at finished_at].freeze
-        PIPELINE_COMPUTED_FIELD_NAMES = %i[is_default_branch path].freeze
+        PIPELINE_COMPUTED_FIELD_NAMES = %i[path is_default_branch].freeze
         PIPELINE_META_FIELD_NAMES = %i[name].freeze
 
         CSV_MAPPING = {

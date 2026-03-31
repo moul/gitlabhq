@@ -94,22 +94,33 @@ Examples for such columns:
 
 ### Siphon Configuration
 
-After the table is created, you should update your Siphon configuration in `gdk.yml` and add your table:
+After the table is created, you should configure Siphon to replicate it by creating a YAML file in `db/siphon/tables/`. GDK detects these files automatically during `gdk reconfigure`.
+
+For example, create `db/siphon/tables/labels.yml`:
 
 ```yaml
-siphon:
-  enabled: true
-  tables:
-  - organizations
-  - namespaces
-  - projects
-  - labels
+table: labels
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_labels
 ```
 
-After this change, you can restart the Siphon-related processes in your GDK and eventually you should see data synchronized to your table.
+The configuration fields are:
+
+- **`table`**: The source table name in PostgreSQL.
+- **`database`**: The database identifier (`main`, `ci`, or `sec`).
+- **`ignored_columns`** *(optional)*: Columns to exclude from replication.
+- **`replication_targets`**: Specifies destination details:
+  - **`name`**: Must be `clickhouse_main` for ClickHouse replication.
+  - **`target`**: The destination table name in ClickHouse.
+  - **`priority`** *(optional)*: Lower values replicate first during the initial snapshot.
+
+After creating the file, apply the configuration and restart Siphon:
 
 ```shell
-gdk restart siphon-clickhouse-consumer siphon-producer-main-db
+gdk reconfigure
+gdk restart siphon
 ```
 
 The updated configuration triggers Siphon to perform two actions:

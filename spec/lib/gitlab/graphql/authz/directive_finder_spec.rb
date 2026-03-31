@@ -12,25 +12,25 @@ RSpec.describe Gitlab::Graphql::Authz::DirectiveFinder, feature_category: :permi
 
   subject(:finder) { described_class.new(field) }
 
-  describe '#find' do
-    subject(:find) { finder.find(object) }
+  describe '#find_all' do
+    subject(:find_all) { finder.find_all(object) }
 
     context 'when no directive is found' do
       let(:field) { create_base_field(owner: owner_without_directive) }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to be_empty }
     end
 
     context 'when directive is on the field' do
       let(:field) { field_with_directive }
 
-      it { is_expected.to eq(directive) }
+      it { is_expected.to contain_exactly(directive) }
     end
 
     context 'when directive is on the field owner' do
       let(:field) { create_base_field(owner: field_with_directive) }
 
-      it { is_expected.to eq(directive) }
+      it { is_expected.to contain_exactly(directive) }
     end
 
     context 'when directive is on the implementing type' do
@@ -42,26 +42,26 @@ RSpec.describe Gitlab::Graphql::Authz::DirectiveFinder, feature_category: :permi
         allow(GitlabSchema).to receive(:types).and_return(model.class.name => field_with_directive)
       end
 
-      it { is_expected.to eq(directive) }
+      it { is_expected.to contain_exactly(directive) }
 
       context 'when object is a model' do
         let(:object) { model }
 
-        it { is_expected.to eq(directive) }
+        it { is_expected.to contain_exactly(directive) }
       end
 
       context 'when object is nil' do
         let(:object) { nil }
 
-        it { is_expected.to be_nil }
+        it { is_expected.to be_empty }
       end
 
       context 'when object is wrapped in a presenter' do
         let(:presenter) { IssuePresenter.new(model, current_user: nil) }
         let(:object) { instance_double(Types::BaseObject, object: presenter) }
 
-        it 'unwraps the presenter and finds the directive' do
-          expect(find).to eq(directive)
+        it 'unwraps the presenter and finds the directives' do
+          expect(find_all).to contain_exactly(directive)
         end
       end
 
@@ -70,20 +70,20 @@ RSpec.describe Gitlab::Graphql::Authz::DirectiveFinder, feature_category: :permi
           allow(GitlabSchema).to receive(:types).and_return({})
         end
 
-        it { is_expected.to be_nil }
+        it { is_expected.to be_empty }
       end
 
       context 'when field owner is nil' do
         let(:field) { create_base_field(owner: nil) }
 
-        it { is_expected.to be_nil }
+        it { is_expected.to be_empty }
       end
 
       context 'when field owner kind is nil' do
         let(:owner) { class_double(GraphQL::Schema::Object, kind: nil) }
         let(:field) { create_base_field(owner: owner) }
 
-        it { is_expected.to be_nil }
+        it { is_expected.to be_empty }
       end
     end
 
@@ -96,7 +96,7 @@ RSpec.describe Gitlab::Graphql::Authz::DirectiveFinder, feature_category: :permi
 
       let(:field) { create_base_field(type: return_type, owner: owner_without_directive) }
 
-      it { is_expected.to eq(directive) }
+      it { is_expected.to contain_exactly(directive) }
     end
   end
 end

@@ -17,6 +17,7 @@ title: GitLab Credits and usage billing
 
 - Introduced in GitLab 18.7.
 - GitLab Duo Agent Platform and GitLab Credits supported on GitLab 18.8 and later.
+- Introduced for community subscriptions in GitLab 18.11.
 
 {{< /history >}}
 
@@ -50,6 +51,8 @@ Included credits are allocated to all users on a Premium or Ultimate tier.
 These credits are individual and cannot be shared between users.
 Included credits reset at the beginning of each month.
 Unused credits do not roll over to the next month.
+
+[Community program subscriptions](community_programs.md) do not receive included credits.
 
 For more information about included credits, see [GitLab Promotions Terms & Conditions](https://about.gitlab.com/pricing/terms/).
 

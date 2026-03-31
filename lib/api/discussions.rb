@@ -12,7 +12,10 @@ module API
       request.get? || request.head? || request.post?
     end
 
-    before { authenticate! }
+    before do
+      authenticate!
+      set_current_organization
+    end
 
     urgency :low, [
       '/projects/:id/merge_requests/:noteable_id/discussions',

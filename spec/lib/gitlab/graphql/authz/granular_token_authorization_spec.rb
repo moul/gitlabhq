@@ -100,6 +100,60 @@ RSpec.describe Gitlab::Graphql::Authz::GranularTokenAuthorization, feature_categ
         end
       end
 
+      context 'with multi-boundary directives' do
+        let(:project_directive) do
+          create_directive(boundary: 'itself', permissions: ['read_wiki'], boundary_type: 'project')
+        end
+
+        let(:group_directive) do
+          create_directive(boundary: 'itself', permissions: ['read_wiki'], boundary_type: 'group')
+        end
+
+        before do
+          allow(field).to receive(:directives).and_return([project_directive, group_directive])
+        end
+
+        context 'when a directive is misconfigured and boundary extraction raises ArgumentError' do
+          before do
+            allow_next_instance_of(Gitlab::Graphql::Authz::BoundaryExtractor) do |extractor|
+              allow(extractor).to receive(:extract).and_raise(ArgumentError)
+            end
+          end
+
+          it 'propagates the ArgumentError so misconfigured directives are not silently swallowed' do
+            expect { resolve }.to raise_error(ArgumentError)
+          end
+        end
+
+        context 'when a directive has nil boundary_type' do
+          let(:nil_type_directive) do
+            create_directive(boundary: 'itself', permissions: ['read_wiki'], boundary_type: nil)
+          end
+
+          before do
+            allow(field).to receive(:directives).and_return([nil_type_directive, group_directive])
+          end
+
+          it 'matches the first extractable boundary regardless of type' do
+            expect { resolve }.not_to raise_error
+          end
+        end
+
+        context 'when the first directive does not extract a boundary and a later directive matches' do
+          before do
+            allow(field).to receive(:directives).and_return([group_directive, project_directive])
+            allow(extension).to receive(:boundary).with(object, arguments, context,
+              group_directive).and_return(nil)
+            allow(extension).to receive(:boundary).with(object, arguments, context, project_directive)
+              .and_call_original
+          end
+
+          it 'skips the non-extractable directive and keeps searching' do
+            expect { resolve }.not_to raise_error
+          end
+        end
+      end
+
       context 'with caching' do
         it 'does not call service when cached result exists' do
           expect(::Authz::Tokens::AuthorizeGranularScopesService).not_to receive(:new)
