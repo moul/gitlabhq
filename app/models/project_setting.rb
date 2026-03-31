@@ -13,7 +13,7 @@ class ProjectSetting < ApplicationRecord
 
   REVIEWER_ASSIGNMENT_STRATEGIES = {
     disabled: 0,
-    all_members: 1
+    code_owners: 1
   }.freeze
 
   ALLOWED_TARGET_PLATFORMS = %w[ios osx tvos watchos android].freeze

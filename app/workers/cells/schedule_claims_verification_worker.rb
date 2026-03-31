@@ -15,6 +15,8 @@ module Cells
     SCHEDULE_DELAY = 10.minutes
 
     def perform
+      return unless Gitlab.config.cell.enabled
+
       models = models_with_claims
 
       models.each_with_index do |model, index|

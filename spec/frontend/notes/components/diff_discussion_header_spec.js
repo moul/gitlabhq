@@ -1,5 +1,5 @@
 import Vue, { nextTick } from 'vue';
-import { GlAvatar, GlAvatarLink } from '@gitlab/ui';
+import { GlAvatar, GlAvatarLink, GlSprintf } from '@gitlab/ui';
 import { createTestingPinia } from '@pinia/testing';
 import { PiniaVuePlugin } from 'pinia';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
@@ -24,6 +24,7 @@ describe('diff_discussion_header component', () => {
         discussion: discussionMock,
         ...propsData,
       },
+      stubs: { GlSprintf },
     });
   };
 

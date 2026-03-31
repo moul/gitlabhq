@@ -172,8 +172,7 @@ class Projects::BlobController < Projects::ApplicationController
 
     render hunk_presenter.with_collection(
       diff_hunks,
-      file_hash: blob.file_hash,
-      file_path: blob.path
+      file_hash: blob.short_file_hash
     ), layout: false
   end
 

@@ -43470,10 +43470,10 @@ msgstr ""
 msgid "MergeRequests|started a thread on %{linkStart}the diff%{linkEnd}"
 msgstr ""
 
-msgid "MergeRequests|started a thread on an outdated change in commit %{linkStart}%{commitDisplay}%{linkEnd}"
+msgid "MergeRequests|started a thread on an outdated change in commit %{link}"
 msgstr ""
 
-msgid "MergeRequests|started a thread on commit %{linkStart}%{commitDisplay}%{linkEnd}"
+msgid "MergeRequests|started a thread on commit %{link}"
 msgstr ""
 
 msgid "MergeRequest|Allow merge request pipelines to access protected variables and runners"
@@ -73356,7 +73356,7 @@ msgstr ""
 msgid "TrialWidget|GitLab Duo Pro Trial"
 msgstr ""
 
-msgid "TrialWidget|GitLab Ultimate trial"
+msgid "TrialWidget|GitLab Ultimate Trial"
 msgstr ""
 
 msgid "TrialWidget|Learn more"
@@ -73369,9 +73369,6 @@ msgid "TrialWidget|Ultimate with GitLab Duo Agent Platform"
 msgstr ""
 
 msgid "TrialWidget|Ultimate with GitLab Duo Enterprise"
-msgstr ""
-
-msgid "TrialWidget|Ultimate with GitLab Duo Enterprise Trial"
 msgstr ""
 
 msgid "TrialWidget|Upgrade"
@@ -73387,9 +73384,6 @@ msgid "TrialWidget|Your trial of GitLab Duo Pro has ended"
 msgstr ""
 
 msgid "TrialWidget|Your trial of GitLab Ultimate has ended"
-msgstr ""
-
-msgid "TrialWidget|Your trial of Ultimate with GitLab Duo Enterprise has ended"
 msgstr ""
 
 msgid "Trial|Activate my trial"

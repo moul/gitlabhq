@@ -11,6 +11,7 @@ import getUserStatusQuery from '~/homepage/graphql/queries/user_status.query.gra
 import { createMockDirective, getBinding } from 'helpers/vue_mock_directive';
 import { GREETING_MESSAGES } from '~/homepage/constants';
 import { buildTimeAwareGreetings } from '~/homepage/utils/build_time_aware_greetings';
+import { useFakeDate } from 'helpers/fake_date';
 
 const FIXED_DATE = new Date(2025, 2, 19, 10, 0); // Wednesday 10am
 
@@ -167,6 +168,8 @@ describe('GreetingHeader', () => {
   });
 
   describe('Greeting', () => {
+    useFakeDate(FIXED_DATE);
+
     it('renders a greeting in the h1 element', () => {
       createComponent();
       const greeting = findGreeting();

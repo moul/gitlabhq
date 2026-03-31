@@ -8,6 +8,18 @@ jest.mock('~/vue_merge_request_widget/widgets/code_quality/utils');
 describe('CodeQualityContent', () => {
   let wrapper;
 
+  const MOCK_SECTIONS = [
+    {
+      children: [
+        {
+          text: 'Major - Method has too many lines',
+          icon: { name: 'severityMedium' },
+          link: { href: '#', text: 'in src/foo.js:42' },
+        },
+      ],
+    },
+  ];
+
   const DEFAULT_PROVIDE = {
     isCodeQualityLoading: false,
     statusMessage: '',
@@ -15,6 +27,7 @@ describe('CodeQualityContent', () => {
     newErrorsCount: 2,
     resolvedErrorsCount: 1,
     statusIconName: 'warning',
+    sections: MOCK_SECTIONS,
   };
 
   const findReportSection = () => wrapper.findComponent(ReportSection);
@@ -87,6 +100,20 @@ describe('CodeQualityContent', () => {
 
       expect(codeQualitySummary).not.toHaveBeenCalled();
       expect(findReportSection().props('summary').title).toBe(statusMessage);
+    });
+  });
+
+  describe('sections', () => {
+    it('passes sections from provider to ReportSection', () => {
+      createComponent();
+
+      expect(findReportSection().props('sections')).toBe(MOCK_SECTIONS);
+    });
+
+    it('passes an empty sections array to ReportSection', () => {
+      createComponent({ provide: { sections: [] } });
+
+      expect(findReportSection().props('sections')).toEqual([]);
     });
   });
 

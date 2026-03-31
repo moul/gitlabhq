@@ -14,6 +14,18 @@ RSpec.describe Cells::ScheduleClaimsVerificationWorker, feature_category: :cell 
   it_behaves_like 'an idempotent worker'
 
   describe '#perform' do
+    context 'when cell is not enabled' do
+      before do
+        stub_config_cell(enabled: false)
+      end
+
+      it 'does not enqueue any workers' do
+        expect(Cells::ClaimsVerificationWorker).not_to receive(:perform_in)
+
+        worker.perform
+      end
+    end
+
     context 'when there are models with claims' do
       before do
         allow(Cells::Claimable).to receive(:models_with_claims).and_return([User, Namespace])

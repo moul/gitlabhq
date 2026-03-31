@@ -504,6 +504,12 @@ RSpec.describe Gitlab::Diff::File, feature_category: :source_code_management do
     end
   end
 
+  describe '#short_file_hash' do
+    it 'returns the first 9 characters of file_hash' do
+      expect(diff_file.short_file_hash.length).to eq(9)
+    end
+  end
+
   describe '#file_identifier_hash' do
     it 'returns a hash of file_identifier' do
       expect(diff_file.file_identifier_hash).to eq(Digest::SHA1.hexdigest(diff_file.file_identifier))

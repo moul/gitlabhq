@@ -5,6 +5,10 @@ import { normalizeRender } from '~/lib/utils/vue3compat/normalize_render';
 import axios from '~/lib/utils/axios_utils';
 import { normalizeHeaders } from '~/lib/utils/common_utils';
 import { EXTENSION_ICONS } from '~/vue_merge_request_widget/constants';
+import {
+  transformNewCodeQualityFinding,
+  transformResolvedCodeQualityFinding,
+} from '~/vue_merge_request_widget/widgets/code_quality/utils';
 import Poll from '~/lib/utils/poll';
 
 export default normalizeRender({
@@ -17,6 +21,7 @@ export default normalizeRender({
       newErrorsCount: computed(() => this.newErrorsCount),
       resolvedErrorsCount: computed(() => this.resolvedErrorsCount),
       statusIconName: computed(() => this.statusIconName),
+      sections: computed(() => this.sections),
     };
   },
   props: {
@@ -43,6 +48,16 @@ export default normalizeRender({
     },
     resolvedErrorsCount() {
       return this.responseData?.resolved_errors?.length || 0;
+    },
+    sections() {
+      const newErrors = this.responseData?.new_errors || [];
+      const resolvedErrors = this.responseData?.resolved_errors || [];
+      const children = [
+        ...newErrors.map(transformNewCodeQualityFinding),
+        ...resolvedErrors.map(transformResolvedCodeQualityFinding),
+      ];
+      if (!children.length) return [];
+      return [{ children }];
     },
     statusIconName() {
       if (this.errorMessage) {

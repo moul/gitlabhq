@@ -1856,9 +1856,7 @@ class MergeRequest < ApplicationRecord
       visible_issues = if self.target_project.has_external_issue_tracker?
                          closes_issues(current_user)
                        else
-                         cached_closes_issues.select do |issue|
-                           Ability.allowed?(current_user, :read_issue, issue)
-                         end
+                         Ability.issues_readable_by_user(cached_closes_issues, current_user)
                        end
 
       ActiveRecord::Associations::Preloader.new(

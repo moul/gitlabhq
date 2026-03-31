@@ -282,7 +282,7 @@ RSpec.describe ProjectSetting, type: :model, feature_category: :groups_and_proje
     context 'when feature flag is disabled' do
       before do
         stub_feature_flags(auto_assign_code_owner_reviewers: false)
-        project_setting.update!(reviewer_assignment_strategy: 'all_members')
+        project_setting.update!(reviewer_assignment_strategy: 'code_owners')
       end
 
       it 'returns false' do
@@ -305,9 +305,9 @@ RSpec.describe ProjectSetting, type: :model, feature_category: :groups_and_proje
         end
       end
 
-      context 'when strategy is all_members' do
+      context 'when strategy is code_owners' do
         before do
-          project_setting.update!(reviewer_assignment_strategy: 'all_members')
+          project_setting.update!(reviewer_assignment_strategy: 'code_owners')
         end
 
         it 'returns true' do

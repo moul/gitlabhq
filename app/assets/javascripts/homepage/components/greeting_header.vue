@@ -14,6 +14,11 @@ import { buildTimeAwareGreetings } from '~/homepage/utils/build_time_aware_greet
 
 const DEFAULT_EMOJI_COLOR = 'var(--gl-color-neutral-200)';
 
+const getRandomGreetingMessage = () => {
+  const all = [...GREETING_MESSAGES, ...buildTimeAwareGreetings()];
+  return all.length > 0 ? all[Math.floor(Math.random() * all.length)] : __('Welcome!');
+};
+
 export default {
   components: {
     GlAvatar,
@@ -22,15 +27,12 @@ export default {
   directives: {
     GlTooltip: GlTooltipDirective,
   },
-  greetingMessage: (() => {
-    const all = [...GREETING_MESSAGES, ...buildTimeAwareGreetings()];
-    return all.length > 0 ? all[Math.floor(Math.random() * all.length)] : __('Welcome!');
-  })(),
   data() {
     return {
       userStatus: null,
       emojiColor: DEFAULT_EMOJI_COLOR,
       showStatusModal: false,
+      greetingMessage: getRandomGreetingMessage(),
     };
   },
   computed: {
@@ -175,7 +177,7 @@ export default {
         {{ relevantName }}
       </p>
       <h1 class="gl-heading-display gl-m-0 gl-min-w-0 gl-truncate" data-testid="greeting-message">
-        {{ $options.greetingMessage }}
+        {{ greetingMessage }}
       </h1>
     </header>
     <set-status-modal-wrapper

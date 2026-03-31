@@ -251,6 +251,11 @@ module Gitlab
       end
       strong_memoize_attr :file_hash
 
+      def short_file_hash
+        file_hash[0..8]
+      end
+      strong_memoize_attr :short_file_hash
+
       def added_lines
         strong_memoize(:added_lines) do
           @stats&.additions || diff_lines.count(&:added?)

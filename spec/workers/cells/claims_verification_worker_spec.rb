@@ -25,6 +25,22 @@ RSpec.describe Cells::ClaimsVerificationWorker, :clean_gitlab_redis_shared_state
   describe '#perform' do
     let(:model_name) { 'User' }
 
+    context 'when cell is not enabled' do
+      before do
+        stub_config_cell(enabled: false)
+      end
+
+      it 'does not execute the verification service' do
+        expect(Cells::Claims::VerificationService).not_to receive(:new)
+
+        worker.perform(model_name)
+      end
+
+      it 'is not enabled' do
+        expect(worker.send(:enabled?, User)).to be(false)
+      end
+    end
+
     context 'when feature flag is disabled for the model' do
       before do
         stub_feature_flags(cells_claims_verification_worker_user: false)

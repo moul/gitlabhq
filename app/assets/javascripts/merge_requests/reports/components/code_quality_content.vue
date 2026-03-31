@@ -15,6 +15,7 @@ export default {
     'newErrorsCount',
     'resolvedErrorsCount',
     'statusIconName',
+    'sections',
   ],
   i18n: {
     loading: s__('ciReport|Code quality is loading'),
@@ -46,5 +47,6 @@ export default {
     :loading-text="$options.i18n.loading"
     :summary="summary"
     :status-icon-name="statusIconName"
+    :sections="sections"
   />
 </template>

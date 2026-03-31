@@ -19,7 +19,7 @@ After you [install and configure](setup.md) the extension, you can access the fo
 - In the status bar, **Duo** ({{< icon name="tanuki-ai" >}}): Check the feature status of
   GitLab Duo Code Suggestions and review suggestions in
   your file as you author code.
-- On the right tool window bar, **GitLab Duo Chat** ({{< icon name="duo-chat" >}}): Interact with
+- On the right tool window bar, **GitLab Duo Non-Agentic Chat** ({{< icon name="duo-chat" >}}): Interact with
   GitLab Duo Non-Agentic Chat. Or select some code and then, in the floating toolbar, select
   **GitLab Duo Quick Chat** ({{< icon name="tanuki-ai" >}}) for in-line conversations.
 

@@ -80,8 +80,9 @@ module Cells
     end
 
     def enabled?(model)
-      Feature.enabled?("cells_claims_verification_worker_#{Gitlab::Utils.param_key(model)}", # rubocop:disable Gitlab/FeatureFlagKeyDynamic -- Need to check against model names dynamically
-        :instance)
+      Gitlab.config.cell.enabled &&
+        Feature.enabled?("cells_claims_verification_worker_#{Gitlab::Utils.param_key(model)}", # rubocop:disable Gitlab/FeatureFlagKeyDynamic -- Need to check against model names dynamically
+          :instance)
     end
   end
 end

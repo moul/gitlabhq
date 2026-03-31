@@ -10,8 +10,11 @@ import {
 import Poll from '~/lib/utils/poll';
 import CodeQualityProvider from '~/merge_requests/reports/components/code_quality_provider.vue';
 import {
+  newFinding,
+  resolvedFinding,
   responseNewFindings,
   responseResolvedFindings,
+  responseNewAndResolvedFindings,
   responseNoFindings,
 } from 'jest/vue_merge_request_widget/widgets/code_quality/mock_data';
 
@@ -31,6 +34,7 @@ describe('CodeQualityProvider', () => {
       'newErrorsCount',
       'resolvedErrorsCount',
       'statusIconName',
+      'sections',
     ],
     template: `
       <div data-testid="child">
@@ -40,6 +44,7 @@ describe('CodeQualityProvider', () => {
         <span data-testid="new-errors-count">{{ newErrorsCount }}</span>
         <span data-testid="resolved-errors-count">{{ resolvedErrorsCount }}</span>
         <span data-testid="status-icon-name">{{ statusIconName }}</span>
+        <span data-testid="sections-json">{{ JSON.stringify(sections) }}</span>
       </div>
     `,
   };
@@ -65,6 +70,7 @@ describe('CodeQualityProvider', () => {
   const findStatusIconName = () => getTextByTestId('status-icon-name');
   const findNewErrorsCount = () => getTextByTestId('new-errors-count');
   const findResolvedErrorsCount = () => getTextByTestId('resolved-errors-count');
+  const findSections = () => JSON.parse(getTextByTestId('sections-json'));
 
   beforeEach(() => {
     mock = new MockAdapter(axios);
@@ -214,6 +220,75 @@ describe('CodeQualityProvider', () => {
         await waitForPromises();
 
         expect(findStatusIconName()).toBe('success');
+      });
+    });
+
+    describe('sections', () => {
+      it('provides sections with new findings from response', async () => {
+        createComponent();
+        await waitForPromises();
+
+        const sections = findSections();
+        const [firstSection] = sections;
+        const [firstChild] = firstSection.children;
+
+        expect(sections).toHaveLength(1);
+        expect(firstSection.children).toHaveLength(responseNewFindings.new_errors.length);
+        expect(firstChild.text).toContain(newFinding.description);
+        expect(firstChild.link.href).toBe(newFinding.web_url);
+      });
+
+      it('provides sections with resolved findings from response', async () => {
+        mockApi(HTTP_STATUS_OK, responseResolvedFindings);
+        createComponent();
+        await waitForPromises();
+
+        const sections = findSections();
+        const [firstSection] = sections;
+        const [firstChild] = firstSection.children;
+
+        expect(sections).toHaveLength(1);
+        expect(firstSection.children).toHaveLength(responseResolvedFindings.resolved_errors.length);
+        expect(firstChild.text).toContain(resolvedFinding.description);
+        expect(firstChild.badge.text).toBe('Fixed');
+      });
+
+      it('provides sections with new findings first and resolved findings after', async () => {
+        mockApi(HTTP_STATUS_OK, responseNewAndResolvedFindings);
+        createComponent();
+        await waitForPromises();
+
+        const [firstSection] = findSections();
+        const [firstChild] = firstSection.children;
+
+        expect(firstSection.children).toHaveLength(
+          responseNewAndResolvedFindings.new_errors.length +
+            responseNewAndResolvedFindings.resolved_errors.length,
+        );
+        expect(firstChild.text).toContain(newFinding.description);
+        expect(firstChild.link).toBeDefined();
+        expect(
+          firstSection.children[responseNewAndResolvedFindings.new_errors.length].text,
+        ).toContain(resolvedFinding.description);
+        expect(
+          firstSection.children[responseNewAndResolvedFindings.new_errors.length].badge.text,
+        ).toBe('Fixed');
+      });
+
+      it('provides empty sections when no findings', async () => {
+        mockApi(HTTP_STATUS_OK, responseNoFindings);
+        createComponent();
+        await waitForPromises();
+
+        expect(findSections()).toEqual([]);
+      });
+
+      it('provides empty sections when fetch fails', async () => {
+        mockApi(HTTP_STATUS_INTERNAL_SERVER_ERROR);
+        createComponent();
+        await waitForPromises();
+
+        expect(findSections()).toEqual([]);
       });
     });
 

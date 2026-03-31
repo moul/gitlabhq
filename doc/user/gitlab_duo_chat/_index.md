@@ -285,7 +285,7 @@ To use GitLab Duo Chat in the GitLab Duo plugin for JetBrains IDEs:
 
 To open GitLab Duo Chat in a chat window, use any of these methods:
 
-- On the right tool window bar, select **GitLab Duo Chat**.
+- On the right tool window bar, select **GitLab Duo Non-Agentic Chat**.
 - From a keyboard shortcut:
   - On Windows and Linux: <kbd>ALT</kbd>+<kbd>d</kbd>
   - On macOS: <kbd>Option</kbd>+<kbd>d</kbd>

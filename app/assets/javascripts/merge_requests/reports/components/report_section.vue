@@ -1,5 +1,5 @@
 <script>
-import { GlLink } from '@gitlab/ui';
+import { GlBadge, GlLink } from '@gitlab/ui';
 import { __ } from '~/locale';
 import SafeHtml from '~/vue_shared/directives/safe_html';
 import HelpPopover from '~/vue_shared/components/help_popover.vue';
@@ -13,6 +13,7 @@ export const SECTION_ITEM_LEVEL = 2;
 export default {
   name: 'ReportSection',
   components: {
+    GlBadge,
     GlLink,
     HelpPopover,
     StatusIcon,
@@ -70,6 +71,9 @@ export default {
       return this.sections.length > 0;
     },
   },
+  methods: {
+    generateText,
+  },
   SECTION_ITEM_LEVEL,
   i18n: {
     learnMore: __('Learn more'),
@@ -118,13 +122,13 @@ export default {
     </div>
     <div v-if="hasSections" data-testid="sections">
       <div
-        v-for="section in sections"
-        :key="section.header"
+        v-for="(section, sectionIndex) in sections"
+        :key="section.header || sectionIndex"
         class="gl-border-t gl-flex gl-border-t-section gl-py-3 gl-pl-7"
         data-testid="section"
       >
         <div class="gl-w-full gl-min-w-0">
-          <div class="gl-mb-2">
+          <div v-if="section.header" class="gl-mb-2">
             <strong class="gl-block" data-testid="section-header">{{ section.header }}</strong>
             <span
               v-if="section.text"
@@ -135,7 +139,7 @@ export default {
           </div>
           <div
             v-for="(item, index) in section.children"
-            :key="item.link ? item.link.text : index"
+            :key="index"
             class="gl-border-t gl-flex gl-items-baseline gl-border-t-section gl-py-3"
             :class="{ 'gl-border-t-0': index === 0 }"
             data-testid="section-item"
@@ -148,6 +152,12 @@ export default {
             />
             <div class="gl-flex gl-grow gl-items-baseline">
               <div>
+                <p
+                  v-if="item.text"
+                  v-safe-html="generateText(item.text)"
+                  class="gl-mb-0 gl-mr-1"
+                  data-testid="item-text"
+                ></p>
                 <gl-link v-if="item.link" :href="item.link.href">{{ item.link.text }}</gl-link>
                 <p
                   v-if="item.supportingText"
@@ -156,6 +166,13 @@ export default {
                   data-testid="item-supporting-text"
                 ></p>
               </div>
+              <gl-badge
+                v-if="item.badge"
+                :variant="item.badge.variant || 'info'"
+                data-testid="item-badge"
+              >
+                {{ item.badge.text }}
+              </gl-badge>
             </div>
             <action-buttons
               v-if="item.actions && item.actions.length"
