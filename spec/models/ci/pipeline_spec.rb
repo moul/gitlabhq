@@ -351,6 +351,24 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
   end
 
   describe 'callbacks' do
+    describe '#keep_around_commits' do
+      let(:pipeline) { build(:ci_pipeline, user: user, project: project) }
+
+      it 'calls keep_around_commits on create' do
+        expect(pipeline).to receive(:keep_around_commits)
+
+        pipeline.save!
+      end
+
+      it 'does not call keep_around_commits on update' do
+        pipeline.save!
+
+        expect(pipeline).not_to receive(:keep_around_commits)
+
+        pipeline.update!(ref: 'new-ref')
+      end
+    end
+
     describe '.track_ci_pipeline_created_event' do
       let(:pipeline) { build(:ci_pipeline, user: user) }
 

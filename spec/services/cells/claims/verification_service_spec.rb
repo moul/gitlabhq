@@ -462,6 +462,33 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       end
     end
 
+    context 'when TS has many more records than Rails (sparse local, dense TS)' do
+      let!(:user) { create(:user) }
+
+      before do
+        stub_const("#{described_class}::MAX_RECORDS_PER_CHUNK", 2)
+        stub_commit
+
+        # TS returns many orphaned records for the same ID range
+        orphaned_records = (1..5).map { |i| build_ts_record(user.id + i) }
+        stub_list_records(orphaned_records)
+      end
+
+      it 'splits destroys across multiple chunks respecting MAX_RECORDS_PER_CHUNK' do
+        max_per_chunk = 2
+
+        expect(mock_claim_service).to receive(:begin_update).at_least(:twice) do |args|
+          total = args[:create_records].size + args[:destroy_records].size
+          expect(total).to be <= max_per_chunk
+          begin_update_response
+        end
+        expect(mock_claim_service).to receive(:commit_update).at_least(:twice)
+
+        result = service.execute
+        expect(result[:destroyed]).to eq(5)
+      end
+    end
+
     context 'when records exceed the gRPC message size limit' do
       let!(:users) { create_list(:user, 3) }
       let(:large_value) { 'x' * 2.megabytes }
@@ -490,8 +517,8 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
     end
   end
 
-  describe '#chunk_records_by_size' do
-    subject(:chunks) { service.send(:chunk_records_by_size, creates, destroys) }
+  describe '#chunk_records' do
+    subject(:chunks) { service.send(:chunk_records, creates, destroys) }
 
     let(:small_record) { { bucket: { type: :user_ids, value: 'x' * 100 }, subject: { type: :user, id: 1 } } }
     let(:large_record) { { bucket: { type: :user_ids, value: 'x' * 2.megabytes }, subject: { type: :user, id: 2 } } }
@@ -571,6 +598,36 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         expect(chunks.length).to eq(2)
         expect(chunks[0]).to eq([[large_record], []])
         expect(chunks[1]).to eq([[large_record, small_record], []])
+      end
+    end
+
+    context 'when record count exceeds MAX_RECORDS_PER_CHUNK' do
+      before do
+        stub_const("#{described_class}::MAX_RECORDS_PER_CHUNK", 2)
+      end
+
+      let(:creates) { [small_record, small_record, small_record] }
+      let(:destroys) { [] }
+
+      it 'splits into multiple chunks based on record count' do
+        expect(chunks.length).to eq(2)
+        expect(chunks[0]).to eq([[small_record, small_record], []])
+        expect(chunks[1]).to eq([[small_record], []])
+      end
+    end
+
+    context 'when record count exceeds MAX_RECORDS_PER_CHUNK across creates and destroys' do
+      before do
+        stub_const("#{described_class}::MAX_RECORDS_PER_CHUNK", 2)
+      end
+
+      let(:creates) { [small_record] }
+      let(:destroys) { [small_record, small_record, small_record] }
+
+      it 'splits across both creates and destroys respecting the record cap' do
+        expect(chunks.length).to eq(2)
+        expect(chunks[0]).to eq([[small_record], [small_record]])
+        expect(chunks[1]).to eq([[], [small_record, small_record]])
       end
     end
   end

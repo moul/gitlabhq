@@ -79,7 +79,7 @@ At runtime, the runner checks that the SRT is available and working:
 $ if which srt > /dev/null; then
 $ echo "SRT found, creating config..."
 SRT found, creating config...
-$ echo '{"network":{"allowedDomains":["host.docker.internal","localhost","gitlab.com","*.gitlab.com","duo-workflow-svc.runway.gitlab.net"],"deniedDomains":[],"allowAllUnixSockets":false},"filesystem":{"denyRead":["~/.ssh"],"allowWrite":["./","/tmp/"],"denyWrite":[],"allowGitConfig":true}}' > /tmp/srt-settings.json
+$ echo '{"network":{"allowedDomains":["host.docker.internal","localhost","gitlab.com","*.gitlab.com","duo-workflow-svc.runway.gitlab.net"],"deniedDomains":[],"allowAllUnixSockets":false},"filesystem":{"denyRead":["~/.ssh"],"allowWrite":["./","/tmp/gitlab_duo_agent_platform"],"denyWrite":[],"allowGitConfig":true}}' > /tmp/gitlab_duo_agent_platform/srt-settings.json
 $ echo "Testing SRT sandbox capabilities..."
 Testing SRT sandbox capabilities...
 ```
@@ -123,12 +123,16 @@ By default, the sandbox permits access to the following configurations:
 
 - Default allow-listed domains. These are configured automatically and cannot be changed or updated.
 
+### Environment variables
+
+Only the environment variables and parameters required to run DAP and Git operations are accessible from the sandbox environment.
+
 ### Filesystem configuration
 
 The sandbox enforces the following filesystem restrictions:
 
 - Read restrictions: SSH keys (`~/.ssh`) are blocked.
-- Write allowed: Current directory (`./`) and temporary directory (`/tmp/`).
+- Write allowed: Current directory (`./`) and temporary directory (`/tmp/gitlab_duo_agent_platform`).
 - Git configuration access: Allowed.
 
 ### Configure a network policy

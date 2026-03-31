@@ -217,7 +217,6 @@ export default {
     'ee/app/assets/javascripts/members/components/modals/disable_two_factor_modal.vue',
     'ee/app/assets/javascripts/members/components/modals/ldap_override_confirmation_modal.vue',
     'ee/app/assets/javascripts/members/components/table/drawer/role_updater.vue',
-    'ee/app/assets/javascripts/notes/components/note_actions/ai_summarize_notes.vue',
     'ee/app/assets/javascripts/on_demand_scans/router.js',
     'ee/app/assets/javascripts/product_analytics/onboarding/constants.js',
     'ee/app/assets/javascripts/project_quality_summary/app.vue',

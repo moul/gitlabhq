@@ -363,6 +363,7 @@ module Gitlab
     config.assets.precompile << "page_bundles/observability.css"
     config.assets.precompile << "page_bundles/oncall_schedules.css"
     config.assets.precompile << "page_bundles/operations.css"
+    config.assets.precompile << "page_bundles/orbit.css"
     config.assets.precompile << "page_bundles/organizations.css"
     config.assets.precompile << "page_bundles/paginated_table.css"
     config.assets.precompile << "page_bundles/personal_homepage.css"

@@ -2712,6 +2712,3 @@ RSpec/ContextWording:
     - 'spec/workers/remove_expired_members_worker_spec.rb'
     - 'spec/workers/remove_unaccepted_member_invites_worker_spec.rb'
     - 'spec/workers/repository_fork_worker_spec.rb'
-    - 'spec/workers/stuck_merge_jobs_worker_spec.rb'
-    - 'spec/workers/terraform/states/destroy_worker_spec.rb'
-    - 'spec/workers/x509_issuer_crl_check_worker_spec.rb'

@@ -72,12 +72,16 @@ export default {
     <diff-file-discussion-expansion
       v-if="collapsedDiscussions.length"
       :discussions="collapsedDiscussions"
+      :class="{ 'gl-border-b-0': expandedDiscussions.length === 0 }"
       @toggle="store.expandFileDiscussions(filePaths.oldPath, filePaths.newPath)"
     />
     <diff-discussions v-if="expandedDiscussions.length" :discussions="expandedDiscussions" />
     <div
       v-if="formDiscussion"
       class="gl-rounded-[var(--content-border-radius)] gl-bg-subtle gl-px-5 gl-py-4"
+      :class="{
+        'gl-border-t': expandedDiscussions.length !== 0 || collapsedDiscussions.length !== 0,
+      }"
       :data-discussion-id="formDiscussion.id"
     >
       <note-form

@@ -234,6 +234,15 @@ This error occurs when Code Review Flow cannot create or configure the CI/CD pip
 
 Try to restart the review. If the error persists, contact your administrator.
 
+### `Error DCR4009`
+
+You might get an error that states
+`Code Review Flow could not retrieve the source branch for this merge request. Please request a new review. Error code: DCR4009`.
+
+This error occurs when Code Review Flow is unable to retrieve the source branch for the merge request.
+
+Try to restart the review.
+
 ### `Error DCR5000`
 
 You might get an error that states

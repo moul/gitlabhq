@@ -36,7 +36,10 @@ export default {
       <noteable-discussion
         v-for="(discussion, index) in discussions"
         :key="discussion.id"
-        :class="timelineLayout && index !== 0 && 'gl-mt-4'"
+        :class="{
+          'gl-mt-4': timelineLayout && index !== 0,
+          'gl-border-t': !timelineLayout && index !== 0,
+        }"
         :discussion="discussion"
         :request-last-note-editing="store.requestLastNoteEditing"
         :toggle-resolve-note="store.toggleResolveNote"

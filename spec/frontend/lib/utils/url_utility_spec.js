@@ -1080,6 +1080,22 @@ describe('URL utility', () => {
     it('should treat plus as space when options.preservePlus is not set', () => {
       expect(getParameterByName('ref', '?ref=feature+c++')).toBe('feature c  ');
     });
+
+    it('should return an array when options.gatherArrays is true', () => {
+      expect(getParameterByName('list', 'foo=bar&list[]=one', { gatherArrays: true })).toEqual([
+        'one',
+      ]);
+      expect(getParameterByName('list', '?foo=bar&list[]=one', { gatherArrays: true })).toEqual([
+        'one',
+      ]);
+
+      expect(
+        getParameterByName('list', 'foo=bar&list[]=one&list[]=two', { gatherArrays: true }),
+      ).toEqual(['one', 'two']);
+      expect(
+        getParameterByName('list', '?foo=bar&list[]=one&list[]=two', { gatherArrays: true }),
+      ).toEqual(['one', 'two']);
+    });
   });
 
   describe('objectToQuery', () => {

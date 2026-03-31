@@ -3,6 +3,8 @@
 module Groups
   module ImportExport
     class ImportService
+      include Gitlab::Utils::StrongMemoize
+
       attr_reader :current_user, :group, :shared
 
       def initialize(group:, user:)
@@ -29,7 +31,7 @@ module Groups
       def execute
         Gitlab::Tracking.event(self.class.name, 'create', label: 'import_group_from_file')
 
-        if valid_user_permissions? && import_file && valid_import_file? && restorers.all?(&:restore)
+        if valid_user_permissions? && import_file && valid_import_file? && preallocate_iids && restorers.all?(&:restore)
           remove_import_file
           notify_success
 
@@ -47,6 +49,7 @@ module Groups
         end
 
       ensure
+        flush_iid_records
         remove_base_tmp_dir
       end
 
@@ -60,6 +63,29 @@ module Groups
         Gitlab::Access.human_access(access_level)
         # rubocop:enable Style/MultilineTernaryOperator
       end
+
+      def preallocate_iids
+        if iid_preallocation_enabled?
+          Gitlab::Import::IidPreallocator.from_file(
+            group,
+            File.join(shared.export_path, 'max_iids.json')
+          )
+        end
+
+        true
+      end
+
+      def flush_iid_records
+        return unless iid_preallocation_enabled?
+        return unless group&.persisted?
+
+        InternalId.flush_records!(namespace: group)
+      end
+
+      def iid_preallocation_enabled?
+        Feature.enabled?(:import_export_preallocate_iids, current_user)
+      end
+      strong_memoize_attr :iid_preallocation_enabled?
 
       def import_file
         @import_file ||= Gitlab::ImportExport::FileImporter.import(

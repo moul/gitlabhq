@@ -69,12 +69,15 @@ RSpec.describe Gitlab::Import::IidPreallocator, feature_category: :importers do
       end
     end
 
-    context 'when max_iids.json contains non-integer IID values' do
+    context 'when max_iids.json contains invalid IID values' do
       before do
+        # Test all JSON data types that should be rejected:
+        # string, float, negative integer, null, boolean, array, object
         File.write(
           File.join(export_path, 'max_iids.json'),
-          { issues: 'foo', merge_requests: 17, ci_pipelines: -1,
-            milestones: nil, design_management_designs: 1.5 }.to_json
+          '{"issues": "42", "merge_requests": 17, "ci_pipelines": -1, ' \
+            '"project_milestones": null, "design_management_designs": 1.5, ' \
+            '"group_milestones": true}'
         )
       end
 
@@ -82,7 +85,48 @@ RSpec.describe Gitlab::Import::IidPreallocator, feature_category: :importers do
         expect(Issue).not_to receive(:track_namespace_iid!)
         expect(Ci::Pipeline).not_to receive(:track_project_iid!)
         expect(Milestone).not_to receive(:track_project_iid!)
+        expect(Milestone).not_to receive(:track_group_iid!)
         expect(DesignManagement::Design).not_to receive(:track_project_iid!)
+        expect(MergeRequest).to receive(:track_target_project_iid!).with(project, 17)
+        expect(::Import::Framework::Logger).to receive(:warn).with(
+          hash_including(message: 'IidPreallocator: ignoring invalid IID entries in max_iids file')
+        )
+
+        described_class.from_file(project, File.join(export_path, 'max_iids.json'))
+      end
+    end
+
+    context 'when max_iids.json contains scientific notation values' do
+      before do
+        # Scientific notation in JSON parses as Float, not Integer
+        # e.g., 1e10 becomes 10000000000.0 (Float)
+        File.write(
+          File.join(export_path, 'max_iids.json'),
+          '{"issues": 1e10, "merge_requests": 17}'
+        )
+      end
+
+      it 'rejects scientific notation values (parsed as floats) and logs a warning' do
+        expect(Issue).not_to receive(:track_namespace_iid!)
+        expect(MergeRequest).to receive(:track_target_project_iid!).with(project, 17)
+        expect(::Import::Framework::Logger).to receive(:warn).with(
+          hash_including(message: 'IidPreallocator: ignoring invalid IID entries in max_iids file')
+        )
+
+        described_class.from_file(project, File.join(export_path, 'max_iids.json'))
+      end
+    end
+
+    context 'when max_iids.json contains IID values exceeding PostgreSQL integer limit' do
+      before do
+        File.write(
+          File.join(export_path, 'max_iids.json'),
+          { issues: 2_147_483_648, merge_requests: 17 }.to_json # 2^31 exceeds integer max
+        )
+      end
+
+      it 'rejects values exceeding the limit and logs a warning' do
+        expect(Issue).not_to receive(:track_namespace_iid!)
         expect(MergeRequest).to receive(:track_target_project_iid!).with(project, 17)
         expect(::Import::Framework::Logger).to receive(:warn).with(
           hash_including(message: 'IidPreallocator: ignoring invalid IID entries in max_iids file')
@@ -116,7 +160,7 @@ RSpec.describe Gitlab::Import::IidPreallocator, feature_category: :importers do
 
       it 'does not preallocate and logs a warning' do
         allow(File).to receive(:read).and_call_original
-        allow(File).to receive(:read).with(max_iids_path).and_raise(Errno::EACCES, 'permission denied')
+        allow(File).to receive(:read).with(max_iids_path, anything).and_raise(Errno::EACCES, 'permission denied')
 
         expect(Issue).not_to receive(:track_namespace_iid!)
         expect(::Import::Framework::Logger).to receive(:warn).with(
@@ -179,6 +223,16 @@ RSpec.describe Gitlab::Import::IidPreallocator, feature_category: :importers do
           preallocator.execute
         end
       end
+
+      context 'when the importable is a group' do
+        subject(:preallocator) { described_class.new(group, max_iids) }
+
+        it 'calls track_group_iid! on Milestone with the group itself' do
+          expect(Milestone).to receive(:track_group_iid!).with(group, 3)
+
+          preallocator.execute
+        end
+      end
     end
 
     context 'with ci_pipelines' do
@@ -236,6 +290,68 @@ RSpec.describe Gitlab::Import::IidPreallocator, feature_category: :importers do
         expect(DesignManagement::Design).to receive(:track_project_iid!).with(project, 10)
 
         preallocator.execute
+      end
+    end
+
+    # Group file-based imports export group_milestones (CE), epics, and iterations (EE)
+    # into max_iids.json. The importable is a Group, not a Project.
+    context 'when called from a group file-based importer' do
+      subject(:preallocator) { described_class.new(group, max_iids) }
+
+      let(:max_iids) { { group_milestones: 6 } }
+
+      it 'pre-allocates group_milestones using the group as scope' do
+        expect(Milestone).to receive(:track_group_iid!).with(group, 6)
+
+        preallocator.execute
+      end
+
+      it 'skips project-scoped resources that are inapplicable to groups' do
+        expect(Issue).not_to receive(:track_namespace_iid!)
+        expect(MergeRequest).not_to receive(:track_target_project_iid!)
+        expect(Milestone).not_to receive(:track_project_iid!)
+        expect(Ci::Pipeline).not_to receive(:track_project_iid!)
+        expect(DesignManagement::Design).not_to receive(:track_project_iid!)
+
+        preallocator.execute
+      end
+
+      context 'when max_iids contains maliciously injected project-scoped resources' do
+        let(:max_iids) do
+          {
+            group_milestones: 6,
+            # These should be ignored - they are project-scoped and should not apply to groups
+            issues: 999,
+            merge_requests: 888,
+            ci_pipelines: 777,
+            design_management_designs: 666
+          }
+        end
+
+        it 'ignores project-scoped resources and only tracks group-scoped ones' do
+          expect(Milestone).to receive(:track_group_iid!).with(group, 6)
+
+          # Project-scoped resources should be completely ignored for group imports
+          expect(Issue).not_to receive(:track_namespace_iid!)
+          expect(MergeRequest).not_to receive(:track_target_project_iid!)
+          expect(Ci::Pipeline).not_to receive(:track_project_iid!)
+          expect(DesignManagement::Design).not_to receive(:track_project_iid!)
+
+          preallocator.execute
+        end
+
+        it 'does not create any InternalId records for project-scoped resources' do
+          preallocator.execute
+
+          # Verify no InternalId records were created for project-scoped usages
+          internal_ids = InternalId.where(namespace_id: group.id)
+          usages = internal_ids.pluck(:usage)
+
+          expect(usages).not_to include('issues')
+          expect(usages).not_to include('merge_requests')
+          expect(usages).not_to include('ci_pipelines')
+          expect(usages).not_to include('design_management_designs')
+        end
       end
     end
 

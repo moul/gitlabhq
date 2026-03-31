@@ -14,6 +14,7 @@ import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_via_gl_m
 import setWindowLocation from 'helpers/set_window_location_helper';
 import { isLoggedIn } from '~/lib/utils/common_utils';
 import { useLocalStorageSpy } from 'helpers/local_storage_helper';
+import { useMockInternalEventsTracking } from 'helpers/tracking_internal_events_helper';
 
 import {
   CREATED_DESC,
@@ -1225,6 +1226,8 @@ describe('planning-view', () => {
     expect(defaultSlimQueryHandler).not.toHaveBeenCalled();
   });
   describe('Saved Views', () => {
+    const { bindInternalEventDocument } = useMockInternalEventsTracking();
+
     const mountDefault = async (options = {}) => {
       mountComponent({ workItemPlanningView: true, ...options });
       await waitForPromises();
@@ -1357,6 +1360,13 @@ describe('planning-view', () => {
         });
       });
 
+      it('tracks saved_view_view event when a subscribed saved view is loaded', () => {
+        const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+        expect(trackEventSpy).toHaveBeenCalledTimes(1);
+        expect(trackEventSpy).toHaveBeenCalledWith('saved_view_view', {}, undefined);
+      });
+
       it('navigates to /work_items with sv_not_found query parameter when saved view cannot be found', async () => {
         mountComponent({
           workItemPlanningView: true,
@@ -1372,8 +1382,21 @@ describe('planning-view', () => {
         expect(window.location.search).toContain('sv_not_found');
       });
 
+      it('does not track saved_view_view event when saved view is not found', async () => {
+        mountComponent({
+          workItemPlanningView: true,
+          savedViewHandler: jest.fn().mockResolvedValue(emptySavedViewsResult),
+        });
+        const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+        trackEventSpy.mockClear();
+
+        await waitForPromises();
+
+        expect(trackEventSpy).not.toHaveBeenCalledWith('saved_view_view', {}, undefined);
+      });
+
       describe('when visiting an unsubscribed view', () => {
-        describe('when at subsription limit', () => {
+        describe('when at subscription limit', () => {
           it('navigates to /work_items with sv_limit_id query parameter', async () => {
             mountComponent({
               workItemPlanningView: true,
@@ -1402,8 +1425,6 @@ describe('planning-view', () => {
               savedViewHandler,
             });
 
-            // need to update this so that we don't start an infinte loop
-            // if the saved view is still unsubscribed, we'll try to subscribe again
             savedViewHandler.mockResolvedValue(savedViewResponseFactory({ subscribed: true }));
 
             await waitForPromises();
@@ -1415,6 +1436,21 @@ describe('planning-view', () => {
             });
 
             expect(showToast).toHaveBeenCalledWith('View added to your list.');
+          });
+
+          it('tracks saved_view_view event after auto-subscribing and refetching', async () => {
+            const savedViewHandler = jest
+              .fn()
+              .mockResolvedValue(savedViewResponseFactory({ subscribed: false }));
+
+            mountComponent({ workItemPlanningView: true, savedViewHandler });
+            const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+            savedViewHandler.mockResolvedValue(savedViewResponseFactory({ subscribed: true }));
+
+            await waitForPromises();
+
+            expect(trackEventSpy).toHaveBeenCalledWith('saved_view_view', {}, undefined);
           });
         });
       });

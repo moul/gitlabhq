@@ -257,6 +257,39 @@ instructions:
       - Reference: https://gitlab.com/gitlab-org/gitlab/-/raw/master/doc/development/internal_analytics/internal_event_instrumentation/event_definition_guide.md
       - Reference: https://gitlab.com/gitlab-org/gitlab/-/raw/master/doc/development/internal_analytics/internal_event_instrumentation/metric_definition_guide.md
 
+  - name: ViewComponent Best Practices
+    fileFilters:
+      - "app/components/**/*.rb"
+      - "ee/app/components/**/*.rb"
+      - "app/components/**/*.html.haml"
+      - "ee/app/components/**/*.html.haml"
+    instructions: |
+      For ViewComponent changes, verify:
+      1. Composition over inheritance:
+         - Flag ViewComponents that inherit from another ViewComponent (not ViewComponent::Base or ApplicationComponent)
+         - Remind: "Prefer composition (wrapping one component with another) over inheritance between ViewComponents, as inheritance with separate templates leads to confusion"
+      2. Instance method visibility:
+         - Flag public instance methods that are only used in the component template
+         - Remind: "Most ViewComponent instance methods should be private, even `render?`. Private methods are still accessible from the component template"
+      3. Avoid global state:
+         - Flag components that access `params`, `request`, `session`, or `current_url` directly instead of receiving values through `initialize`
+         - Remind: "Avoid implicit coupling to global state. Pass values into the component explicitly through initialize arguments to keep it reusable and testable"
+      4. Avoid inline Ruby in templates:
+         - Flag logic, variable assignments, or string interpolation in ViewComponent templates (ERB/Haml)
+         - Remind: "Move inline Ruby logic from templates into instance methods on the ViewComponent class"
+      5. Prefer slots over markup arguments:
+         - Flag arguments that accept HTML strings (especially with `.html_safe`)
+         - Remind: "Prefer slots for providing markup to components. Passing markup as an argument bypasses Rails HTML sanitization and creates potential security issues"
+      6. Test against rendered content:
+         - In corresponding specs, flag tests that only assert on component instance methods without rendering
+         - Remind: "ViewComponent tests should use `render_inline` and assert against rendered output, not just instance method return values"
+      7. Naming convention:
+         - Flag ViewComponent classes that do not end with `Component`
+         - Remind: "Include the `Component` suffix in component class names (e.g., `UserAvatarComponent`) to make it clear the class is a component, following Rails naming conventions"
+      8. Reduce permutations:
+         - Flag new components that closely duplicate existing components in the same directory
+         - Remind: "Look for opportunities to consolidate similar patterns into a single component. Consider abstracting once there are three or more similar instances"
+
   - name: Internal Events Tracking Code
     fileFilters:
       - "**/*.rb"

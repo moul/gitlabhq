@@ -80,6 +80,32 @@ RSpec.describe Groups::ImportExport::ExportService, feature_category: :importers
       service.execute
     end
 
+    describe '#savers' do
+      context 'when import_export_preallocate_iids feature flag is enabled' do
+        before do
+          stub_feature_flags(import_export_preallocate_iids: user)
+        end
+
+        it 'saves the max IIDs metadata' do
+          expect(Gitlab::ImportExport::Group::MaxIidsSaver).to receive(:new).and_call_original
+
+          service.execute
+        end
+      end
+
+      context 'when import_export_preallocate_iids feature flag is disabled' do
+        before do
+          stub_feature_flags(import_export_preallocate_iids: false)
+        end
+
+        it 'does not save the max IIDs metadata' do
+          expect(Gitlab::ImportExport::Group::MaxIidsSaver).not_to receive(:new)
+
+          service.execute
+        end
+      end
+    end
+
     it 'compresses and removes tmp files' do
       expect(group.import_export_uploads).to be_empty
       expect(Gitlab::ImportExport::Saver).to receive(:new).and_call_original

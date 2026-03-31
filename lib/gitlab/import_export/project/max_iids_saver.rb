@@ -3,9 +3,7 @@
 module Gitlab
   module ImportExport
     module Project
-      class MaxIidsSaver
-        include DurationMeasuring
-
+      class MaxIidsSaver < BaseMaxIidsSaver
         RESOURCE_QUERIES = {
           issues: ->(project) { project.issues.maximum(:iid) },
           merge_requests: ->(project) { project.merge_requests.maximum(:iid) },
@@ -19,28 +17,7 @@ module Gitlab
         end
 
         def initialize(project:, shared:)
-          @project = project
-          @shared = shared
-        end
-
-        def save
-          with_duration_measuring do
-            json_writer = Gitlab::ImportExport::Json::NdjsonWriter.new(@shared.export_path)
-            json_writer.write_attributes('max_iids', compute_max_iids)
-            true
-          end
-        rescue StandardError => e
-          @shared.error(e)
-          false
-        end
-
-        private
-
-        def compute_max_iids
-          self.class.resource_queries.each_with_object({}) do |(resource, query), result|
-            max = query.call(@project)
-            result[resource.to_s] = max if max
-          end
+          super(exportable: project, shared: shared)
         end
       end
     end

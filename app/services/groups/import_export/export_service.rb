@@ -73,7 +73,9 @@ module Groups
       end
 
       def savers
-        [version_saver, tree_exporter]
+        savers = [version_saver, tree_exporter]
+        savers.append(max_iids_saver) if Feature.enabled?(:import_export_preallocate_iids, current_user)
+        savers
       end
 
       def tree_exporter
@@ -87,6 +89,10 @@ module Groups
 
       def version_saver
         Gitlab::ImportExport::VersionSaver.new(shared: shared)
+      end
+
+      def max_iids_saver
+        Gitlab::ImportExport::Group::MaxIidsSaver.new(group: group, shared: shared)
       end
 
       def file_saver

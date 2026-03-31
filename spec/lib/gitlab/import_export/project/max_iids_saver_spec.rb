@@ -29,6 +29,14 @@ RSpec.describe Gitlab::ImportExport::Project::MaxIidsSaver, feature_category: :i
 
   subject(:saver) { described_class.new(project: project, shared: shared) }
 
+  describe '.resource_queries keys' do
+    it 'are all recognized by IidPreallocator' do
+      expect(described_class.resource_queries.keys).to all(
+        be_in(Gitlab::Import::IidPreallocator.trackable_resources.keys)
+      )
+    end
+  end
+
   describe '#save' do
     it 'returns true' do
       expect(saver.save).to be true

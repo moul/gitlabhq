@@ -7,6 +7,7 @@ import axios from '~/lib/utils/axios_utils';
 import { s__, __, n__, formatNumber, sprintf } from '~/locale';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
+import { InternalEvents } from '~/tracking';
 import { createAlert, VARIANT_INFO } from '~/alert';
 import { TYPENAME_NAMESPACE, TYPENAME_USER } from '~/graphql_shared/constants';
 import {
@@ -198,7 +199,7 @@ export default {
     WorkItemsOnboardingModal,
     UserCalloutDismisser,
   },
-  mixins: [glFeatureFlagMixin()],
+  mixins: [glFeatureFlagMixin(), InternalEvents.mixin()],
   inject: [
     'isIssueRepositioningDisabled',
     'groupId',
@@ -273,6 +274,7 @@ export default {
       namespaceId: null,
       pageInfo: {},
       savedView: null,
+      lastTrackedSavedViewId: null,
       showSavedViewNotFoundModal: false,
       subscribeFromModal: false,
       subscribedSavedViews: [],
@@ -422,6 +424,10 @@ export default {
               }
             }
           } else {
+            if (this.lastTrackedSavedViewId !== this.savedViewId) {
+              this.lastTrackedSavedViewId = this.savedViewId;
+              this.trackEvent('saved_view_view');
+            }
             const draft = localStorage.getItem(this.savedViewDraftStorageKey);
             const tokens = this.getFilterTokensFromSavedView(savedView?.filters || {});
             this.initialViewTokens = tokens;
@@ -1087,7 +1093,9 @@ export default {
       if (newValue.fullPath !== oldValue.fullPath && !this.isSavedView) {
         this.updateData(getParameterByName(PARAM_SORT));
       }
-      if (this.isSavedView) this.restoreViewDraft();
+      if (this.isSavedView) {
+        this.restoreViewDraft();
+      }
     },
     eeSearchTokens() {
       if (this.isSavedView && Boolean(this.savedView)) {

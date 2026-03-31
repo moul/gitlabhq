@@ -3524,9 +3524,6 @@ msgstr ""
 msgid "AICatalog|unable to validate definition"
 msgstr ""
 
-msgid "AISummary|Generates a summary of this issue"
-msgstr ""
-
 msgid "AISummary|View summary"
 msgstr ""
 
@@ -11567,9 +11564,6 @@ msgstr ""
 msgid "BillingPlans|AI-powered features for writing code and automating workflows. Purchase %{creditsLinkStart}credits%{creditsLinkEnd} to unlock AI capabilities for your group, starting at $1 with volume discounts available."
 msgstr ""
 
-msgid "BillingPlans|AI-powered features that help you write code, understand your work, and automate tasks across your workflow."
-msgstr ""
-
 msgid "BillingPlans|Accelerate development with AI guidance and automation"
 msgstr ""
 
@@ -12020,9 +12014,6 @@ msgstr ""
 msgid "BillingPlans|a trial of Ultimate"
 msgstr ""
 
-msgid "BillingPlans|a trial of Ultimate + Duo Enterprise"
-msgstr ""
-
 msgid "BillingPlans|billed annually at %{price_per_year}"
 msgstr ""
 
@@ -12160,10 +12151,7 @@ msgstr ""
 msgid "Billings|You have unlimited seat count."
 msgstr ""
 
-msgid "Billings|Your group is on a trial of Gitlab Ultimate"
-msgstr ""
-
-msgid "Billings|Your group is on a trial of Ultimate + GitLab Duo Enterprise"
+msgid "Billings|Your group is on a trial of GitLab Ultimate"
 msgstr ""
 
 msgid "Billings|Your group is on the Free plan"
@@ -26703,6 +26691,9 @@ msgid "DuoCodeReview|:warning: Code Review Flow could not create the required CI
 msgstr ""
 
 msgid "DuoCodeReview|:warning: Code Review Flow could not obtain the required authentication tokens to connect to the GitLab AI Gateway and API. Please request a new review. If the issue persists, contact your administrator."
+msgstr ""
+
+msgid "DuoCodeReview|:warning: Code Review Flow could not retrieve the source branch for this merge request. Please request a new review."
 msgstr ""
 
 msgid "DuoCodeReview|:warning: Code Review Flow is enabled but the service account needs to be verified. Contact your administrator."
@@ -47833,6 +47824,9 @@ msgstr ""
 msgid "OfflineTransfer|Offline Transfer"
 msgstr ""
 
+msgid "OfflineTransfer|One or more destination paths is invalid."
+msgstr ""
+
 msgid "OfflineTransfer|Unable to access object storage bucket."
 msgstr ""
 
@@ -48550,6 +48544,21 @@ msgstr ""
 msgid "Orbit|All domains"
 msgstr ""
 
+msgid "Orbit|Ask your GitLab anything"
+msgstr ""
+
+msgid "Orbit|Branch"
+msgstr ""
+
+msgid "Orbit|CLI"
+msgstr ""
+
+msgid "Orbit|Clear"
+msgstr ""
+
+msgid "Orbit|Close"
+msgstr ""
+
 msgid "Orbit|Collapse"
 msgstr ""
 
@@ -48559,7 +48568,13 @@ msgstr ""
 msgid "Orbit|Configuration"
 msgstr ""
 
+msgid "Orbit|Connections"
+msgstr ""
+
 msgid "Orbit|Copy tool name"
+msgstr ""
+
+msgid "Orbit|Could not locate the selected node in the graph."
 msgstr ""
 
 msgid "Orbit|Data Explorer"
@@ -48568,16 +48583,49 @@ msgstr ""
 msgid "Orbit|Define how node types connect to each other. Relationships are also known as edges."
 msgstr ""
 
+msgid "Orbit|Definition"
+msgstr ""
+
+msgid "Orbit|Directory"
+msgstr ""
+
+msgid "Orbit|Dismiss"
+msgstr ""
+
+msgid "Orbit|Docs"
+msgstr ""
+
 msgid "Orbit|Domains"
+msgstr ""
+
+msgid "Orbit|Download CSV"
 msgstr ""
 
 msgid "Orbit|Enable"
 msgstr ""
 
+msgid "Orbit|Enable Orbit"
+msgstr ""
+
 msgid "Orbit|Enable Orbit for a top-level group to index its projects and make them queryable"
 msgstr ""
 
+msgid "Orbit|Execute query"
+msgstr ""
+
 msgid "Orbit|Expand"
+msgstr ""
+
+msgid "Orbit|FQN"
+msgstr ""
+
+msgid "Orbit|Failed to execute query. Please try again."
+msgstr ""
+
+msgid "Orbit|Failed to expand node neighbors."
+msgstr ""
+
+msgid "Orbit|Failed to load groups."
 msgstr ""
 
 msgid "Orbit|Failed to load groups. Please try again."
@@ -48589,7 +48637,28 @@ msgstr ""
 msgid "Orbit|Failed to update group setting. Please try again."
 msgstr ""
 
+msgid "Orbit|File"
+msgstr ""
+
+msgid "Orbit|Filter entities..."
+msgstr ""
+
+msgid "Orbit|Finding"
+msgstr ""
+
+msgid "Orbit|Get started with Orbit"
+msgstr ""
+
+msgid "Orbit|Group"
+msgstr ""
+
 msgid "Orbit|Healthy"
+msgstr ""
+
+msgid "Orbit|Hide SQL"
+msgstr ""
+
+msgid "Orbit|ImportedSymbol"
 msgstr ""
 
 msgid "Orbit|Indexed"
@@ -48601,7 +48670,64 @@ msgstr ""
 msgid "Orbit|Indexing…"
 msgstr ""
 
+msgid "Orbit|Invalid JSON query. Please check the syntax."
+msgstr ""
+
+msgid "Orbit|Job"
+msgstr ""
+
+msgid "Orbit|Label"
+msgstr ""
+
+msgid "Orbit|Learn more"
+msgstr ""
+
+msgid "Orbit|Location"
+msgstr ""
+
+msgid "Orbit|MCP"
+msgstr ""
+
+msgid "Orbit|MR count by user"
+msgstr ""
+
+msgid "Orbit|Marketing visual"
+msgstr ""
+
+msgid "Orbit|Maximize"
+msgstr ""
+
+msgid "Orbit|MergeRequest"
+msgstr ""
+
+msgid "Orbit|MergeRequestDiff"
+msgstr ""
+
+msgid "Orbit|MergeRequestDiffFile"
+msgstr ""
+
+msgid "Orbit|Milestone"
+msgstr ""
+
+msgid "Orbit|Minimize"
+msgstr ""
+
+msgid "Orbit|Name"
+msgstr ""
+
+msgid "Orbit|No"
+msgstr ""
+
 msgid "Orbit|No connection"
+msgstr ""
+
+msgid "Orbit|No results"
+msgstr ""
+
+msgid "Orbit|No results. Execute a query to see data."
+msgstr ""
+
+msgid "Orbit|Node Explorer"
 msgstr ""
 
 msgid "Orbit|Node Types"
@@ -48610,31 +48736,79 @@ msgstr ""
 msgid "Orbit|Not indexed"
 msgstr ""
 
+msgid "Orbit|Note"
+msgstr ""
+
+msgid "Orbit|Nullable"
+msgstr ""
+
 msgid "Orbit|Only top-level groups can be indexed"
 msgstr ""
 
 msgid "Orbit|Orbit"
 msgstr ""
 
+msgid "Orbit|Orbit is an SDLC analysis engine that transforms your GitLab into a structured knowledge graph."
+msgstr ""
+
 msgid "Orbit|Overall status"
+msgstr ""
+
+msgid "Orbit|Pipeline"
+msgstr ""
+
+msgid "Orbit|Project"
 msgstr ""
 
 msgid "Orbit|Properties"
 msgstr ""
 
+msgid "Orbit|Query Editor"
+msgstr ""
+
+msgid "Orbit|REST API"
+msgstr ""
+
 msgid "Orbit|Relationships"
+msgstr ""
+
+msgid "Orbit|Resources"
+msgstr ""
+
+msgid "Orbit|Results"
+msgstr ""
+
+msgid "Orbit|Run a query to see results here."
 msgstr ""
 
 msgid "Orbit|Sample prompt"
 msgstr ""
 
+msgid "Orbit|Save"
+msgstr ""
+
 msgid "Orbit|Schema"
+msgstr ""
+
+msgid "Orbit|Search merge requests"
 msgstr ""
 
 msgid "Orbit|Search nodes and relationships..."
 msgstr ""
 
+msgid "Orbit|Search users"
+msgstr ""
+
+msgid "Orbit|SecurityScan"
+msgstr ""
+
+msgid "Orbit|Selected Entity"
+msgstr ""
+
 msgid "Orbit|Settings"
+msgstr ""
+
+msgid "Orbit|Show SQL"
 msgstr ""
 
 msgid "Orbit|Show less"
@@ -48643,10 +48817,22 @@ msgstr ""
 msgid "Orbit|Show more"
 msgstr ""
 
+msgid "Orbit|Stage"
+msgstr ""
+
 msgid "Orbit|Status"
 msgstr ""
 
+msgid "Orbit|Table"
+msgstr ""
+
+msgid "Orbit|Templates"
+msgstr ""
+
 msgid "Orbit|Tools"
+msgstr ""
+
+msgid "Orbit|Type"
 msgstr ""
 
 msgid "Orbit|Unable to load cluster status."
@@ -48655,10 +48841,31 @@ msgstr ""
 msgid "Orbit|Unhealthy"
 msgstr ""
 
+msgid "Orbit|User"
+msgstr ""
+
+msgid "Orbit|User authored MRs"
+msgstr ""
+
+msgid "Orbit|User neighbors"
+msgstr ""
+
 msgid "Orbit|Variants"
 msgstr ""
 
 msgid "Orbit|Version"
+msgstr ""
+
+msgid "Orbit|Vulnerability"
+msgstr ""
+
+msgid "Orbit|VulnerabilityIdentifier"
+msgstr ""
+
+msgid "Orbit|VulnerabilityOccurrence"
+msgstr ""
+
+msgid "Orbit|VulnerabilityScanner"
 msgstr ""
 
 msgid "Orbit|What details can I see about a merge request?"
@@ -48668,6 +48875,15 @@ msgid "Orbit|What issues are blocking the login feature?"
 msgstr ""
 
 msgid "Orbit|What types of data are available?"
+msgstr ""
+
+msgid "Orbit|WorkItem"
+msgstr ""
+
+msgid "Orbit|Yes"
+msgstr ""
+
+msgid "Orbit|rows"
 msgstr ""
 
 msgid "Ordered list"
@@ -73486,9 +73702,6 @@ msgid "Trial|Work email address"
 msgstr ""
 
 msgid "Trial|You have successfully started an Ultimate trial for GitLab."
-msgstr ""
-
-msgid "Trial|Your free Ultimate & GitLab Duo Enterprise Trial lasts for %{duration} days. After this period, you can maintain a GitLab Free account forever, or upgrade to a paid plan."
 msgstr ""
 
 msgid "Trigger"

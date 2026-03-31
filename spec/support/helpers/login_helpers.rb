@@ -239,12 +239,52 @@ module LoginHelpers
     config
   end
 
+  # Adds a provider route for use in controller specs.
+  #
+  # This is the only safe way to add OmniAuth provider routes in tests.
+  # It tags the current example so that an after(:each) hook
+  # (registered in spec/support/omniauth.rb) automatically:
+  #   1. Resets disable_clear_and_finalize
+  #   2. Reloads routes
+  #   3. Re-aliases missing provider actions on OmniauthCallbacksController
+  #
+  # Do NOT manipulate routes.disable_clear_and_finalize or draw provider
+  # routes directly - the cleanup won't run and state will leak.
   def prepare_provider_route(provider_name)
     routes = Rails.application.routes
     routes.disable_clear_and_finalize = true
     routes.formatter.clear
     routes.draw do
       post "/users/auth/#{provider_name}" => "omniauth_callbacks##{provider_name}"
+    end
+
+    # Tag the example so the after hook in spec/support/omniauth.rb
+    # calls cleanup_provider_routes after the test.
+    RSpec.current_example.metadata[:provider_routes_modified] = true
+  end
+
+  # Reverses the global side effects of prepare_provider_route.
+  # Called from the after hook in spec/support/omniauth.rb.
+  #
+  # Must restore:
+  # 1. The route set flag so subsequent draws clear/finalize properly.
+  # 2. The full route table via reload_routes!.
+  # 3. Any provider actions on OmniauthCallbacksController that were lost
+  #    when the controller was autoloaded while Provider.providers was
+  #    stubbed to a subset (e.g. only [:saml]).
+  def self.cleanup_provider_routes
+    Rails.application.routes.disable_clear_and_finalize = false
+    Rails.application.reload_routes!
+
+    # Mirror the filtering from AuthHelper.providers_for_base_controller
+    # (which we can't call here because Provider.providers may still be stubbed):
+    # exclude LDAP providers (handled by Ldap::OmniauthCallbacksController)
+    # and :group_saml (EE group-level provider, handled by Groups::OmniauthCallbacksController).
+    providers = Devise.omniauth_providers.reject { |p| p.to_s.start_with?('ldap') || p == :group_saml }
+    providers.each do |provider|
+      next if OmniauthCallbacksController.method_defined?(provider)
+
+      OmniauthCallbacksController.alias_method provider, :handle_omniauth
     end
   end
 

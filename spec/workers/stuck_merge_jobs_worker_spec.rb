@@ -19,7 +19,7 @@ RSpec.describe StuckMergeJobsWorker, feature_category: :code_review_workflow do
         stub_feature_flags(unstick_locked_merge_requests_redis: false)
       end
 
-      context 'merge job identified as completed' do
+      context 'when a merge job is identified as completed' do
         it 'updates merge request to merged when locked but has merge_commit_sha' do
           allow(Gitlab::SidekiqStatus).to receive(:completed_jids).and_return(%w[123 456])
           mr_with_sha = create(:merge_request, :locked, merge_jid: '123', state: :locked, merge_commit_sha: 'foo-bar-baz')
@@ -66,7 +66,7 @@ RSpec.describe StuckMergeJobsWorker, feature_category: :code_review_workflow do
         end
       end
 
-      context 'merge job not identified as completed' do
+      context 'when a merge job is not identified as completed' do
         it 'does not change merge request state when job is not completed yet' do
           allow(Gitlab::SidekiqStatus).to receive(:completed_jids).and_return([])
 

@@ -654,6 +654,7 @@ export default [
             // See https://github.com/import-js/eslint-plugin-import/issues/1810
             '^vite$',
             '^lightningcss$',
+            '^vite-plugin-ruby$',
           ],
         },
       ],

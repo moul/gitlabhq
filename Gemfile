@@ -438,8 +438,8 @@ gem 'io-event', '~> 1.14', require: false, feature_category: :shared # rubocop:t
 gem 'gitlab-security_report_schemas', '0.2.0.min15.0.0.max15.2.4', feature_category: :vulnerability_management
 
 # Frontend bundling
-gem 'vite_rails', '~> 3.0.17', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
-gem 'vite_ruby', '~> 3.9.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'vite_rails', '~> 3.10.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'vite_ruby', '~> 3.10.1', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 
 # Provide Rails path helpers to the frontend
 gem "js-routes", "~> 2.3", feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839

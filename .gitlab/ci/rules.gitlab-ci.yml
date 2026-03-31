@@ -1580,16 +1580,15 @@
     # to avoid the side effect of "never" rules
     - !reference [".releases:rules:canonical-dot-com-security-gitlab-stable-branch-only", rules]
 
-# generate-js-routes must run whenever any of its consumers run.
-# This combines .frontend:rules:jest (for test jobs), .frontend:rules:compile-production-assets
-# (for build-vite-prod), .frontend:rules:bundle-size-review (bundle-size-review), and
-# .frontend:rules:eslint-default (for eslint) so the artifact is always available when needed.
 .frontend:rules:generate-js-routes:
   rules:
-    - !reference [.frontend:rules:compile-production-assets, rules]
-    - !reference [.frontend:rules:bundle-size-review, rules]
-    - !reference [.frontend:rules:eslint-default, rules]
-    - !reference [.frontend:rules:jest, rules]
+    - <<: *if-not-canonical-namespace
+      when: never
+    - <<: *if-merge-request-labels-pipeline-expedite
+      when: never
+    - <<: *if-merge-train
+      when: never
+    - when: on_success
 
 .frontend:rules:compile-test-assets:
   rules:

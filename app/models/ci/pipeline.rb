@@ -198,8 +198,8 @@ module Ci
     validates :target_sha, length: { maximum: MAX_SHA_LENGTH }, if: :target_sha_changed?
     validates :yaml_errors, bytesize: { maximum: -> { YAML_ERRORS_MAX_LENGTH } }, if: :yaml_errors_changed?
 
-    after_create :keep_around_commits, unless: :importing?
     before_destroy :destroy_job_artifact_associations, prepend: true
+    after_commit :keep_around_commits, on: :create, unless: :importing?
     after_commit :track_ci_pipeline_created_event, on: :create, if: :internal_pipeline?
     after_find :observe_age_in_minutes, unless: :importing?
 

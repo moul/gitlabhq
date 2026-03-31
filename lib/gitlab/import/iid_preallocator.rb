@@ -3,6 +3,12 @@
 module Gitlab
   module Import
     class IidPreallocator
+      # PostgreSQL integer type max value (2^31 - 1).
+      # The internal_ids.last_value column is an integer, so we must reject
+      # values that would overflow it. This also prevents DoS via extremely
+      # large IID reservations from maliciously crafted export archives.
+      MAX_VALID_IID = (2**31) - 1
+
       # Maps each CE resource type to a tracker lambda and a scope_resolver lambda.
       #
       # tracker: called with (scope_value, max_iid) to pre-allocate the IID.
@@ -12,30 +18,40 @@ module Gitlab
       # scope_resolver: called with the importable (Project or Group) to resolve
       #   the correct scope object. Returns nil for inapplicable scopes (e.g.
       #   group_milestones on a project with no group) - execute skips those.
+      #
+      # valid_for: specifies which importable types this resource applies to.
+      #   Array of symbols, e.g. [:project], [:group], or [:project, :group]
+      #   This prevents malicious injection of project-scoped resources in group imports.
       TRACKABLE_RESOURCES = {
         issues: {
           tracker: ->(scope, iid) { ::Issue.track_namespace_iid!(scope, iid) },
-          scope_resolver: ->(importable) { importable.project_namespace }
+          scope_resolver: ->(importable) { importable.project_namespace },
+          valid_for: [:project]
         },
         merge_requests: {
           tracker: ->(scope, iid) { ::MergeRequest.track_target_project_iid!(scope, iid) },
-          scope_resolver: ->(importable) { importable }
+          scope_resolver: ->(importable) { importable },
+          valid_for: [:project]
         },
         project_milestones: {
           tracker: ->(scope, iid) { ::Milestone.track_project_iid!(scope, iid) },
-          scope_resolver: ->(importable) { importable }
+          scope_resolver: ->(importable) { importable },
+          valid_for: [:project]
         },
         group_milestones: {
           tracker: ->(scope, iid) { ::Milestone.track_group_iid!(scope, iid) },
-          scope_resolver: ->(importable) { importable.group }
+          scope_resolver: ->(importable) { importable.is_a?(::Group) ? importable : importable.group },
+          valid_for: [:project, :group]
         },
         ci_pipelines: {
           tracker: ->(scope, iid) { ::Ci::Pipeline.track_project_iid!(scope, iid) },
-          scope_resolver: ->(importable) { importable }
+          scope_resolver: ->(importable) { importable },
+          valid_for: [:project]
         },
         design_management_designs: {
           tracker: ->(scope, iid) { ::DesignManagement::Design.track_project_iid!(scope, iid) },
-          scope_resolver: ->(importable) { importable }
+          scope_resolver: ->(importable) { importable },
+          valid_for: [:project]
         }
       }.freeze
 
@@ -43,10 +59,14 @@ module Gitlab
         TRACKABLE_RESOURCES
       end
 
+      def self.valid_iid_value?(value)
+        value.is_a?(Integer) && value > 0 && value <= MAX_VALID_IID
+      end
+
       def self.from_file(importable, path)
         return unless File.exist?(path)
 
-        content = File.read(path)
+        content = File.read(path, Gitlab::ImportExport::Json::NdjsonReader::MAX_JSON_DOCUMENT_SIZE)
         parsed = Gitlab::Json.safe_parse(content)
 
         unless parsed.is_a?(Hash)
@@ -57,7 +77,7 @@ module Gitlab
         end
 
         symbolized = parsed.transform_keys(&:to_sym)
-        valid, invalid = symbolized.partition { |_, v| v.is_a?(Integer) && v > 0 }.map(&:to_h)
+        valid, invalid = symbolized.partition { |_, v| valid_iid_value?(v) }.map(&:to_h)
 
         if invalid.any?
           ::Import::Framework::Logger.warn(
@@ -90,12 +110,21 @@ module Gitlab
         self.class.trackable_resources.each do |resource, config|
           max_iid = @max_iids[resource]
           next unless max_iid
+          next unless valid_for_importable?(config[:valid_for])
 
           scope_value = config[:scope_resolver].call(@importable)
           next unless scope_value
 
           config[:tracker].call(scope_value, max_iid)
         end
+      end
+
+      private
+
+      def valid_for_importable?(valid_for)
+        importable_type = @importable.is_a?(::Project) ? :project : :group
+
+        valid_for.include?(importable_type)
       end
     end
   end
