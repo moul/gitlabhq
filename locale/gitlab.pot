@@ -26324,6 +26324,9 @@ msgstr ""
 msgid "DuoAgenticChat|The agent associated with this conversation is no longer available. You can view the conversation history but cannot send new messages."
 msgstr ""
 
+msgid "DuoAgenticChat|This Chat conversation has been archived and cannot receive new messages. Please start a new conversation to continue."
+msgstr ""
+
 msgid "DuoAgenticChat|This chat was deleted."
 msgstr ""
 
