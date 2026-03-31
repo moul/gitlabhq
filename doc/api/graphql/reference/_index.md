@@ -3764,6 +3764,35 @@ Input type: `ArtifactDestroyInput`
 | <a id="mutation-artifactdestroy-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-artifactdestroy-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 
+### `Mutation.ascpComponentCreate`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Input type: `AscpComponentCreateInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-ascpcomponentcreate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-ascpcomponentcreate-description"></a>`description` | [`String`](#string) | Component description. |
+| <a id="mutation-ascpcomponentcreate-expecteduserbehavior"></a>`expectedUserBehavior` | [`String`](#string) | Expected user behavior for the component. |
+| <a id="mutation-ascpcomponentcreate-projectpath"></a>`projectPath` | [`ID!`](#id) | Full path of the project. |
+| <a id="mutation-ascpcomponentcreate-scanid"></a>`scanId` | [`SecurityAscpScanID!`](#securityascpscanid) | ID of the scan when the component was discovered. |
+| <a id="mutation-ascpcomponentcreate-subdirectory"></a>`subDirectory` | [`String!`](#string) | Sub-directory path containing the component. |
+| <a id="mutation-ascpcomponentcreate-title"></a>`title` | [`String!`](#string) | Component title. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-ascpcomponentcreate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-ascpcomponentcreate-component"></a>`component` {{< icon name="warning-solid" >}} | [`AscpComponent`](#ascpcomponent) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
+| <a id="mutation-ascpcomponentcreate-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+
 ### `Mutation.ascpScanCreate`
 
 {{< details >}}
@@ -3791,6 +3820,37 @@ Input type: `AscpScanCreateInput`
 | <a id="mutation-ascpscancreate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-ascpscancreate-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 | <a id="mutation-ascpscancreate-scan"></a>`scan` {{< icon name="warning-solid" >}} | [`AscpScan`](#ascpscan) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.10. |
+
+### `Mutation.ascpSecurityContextCreate`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Input type: `AscpSecurityContextCreateInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-ascpsecuritycontextcreate-authenticationmodel"></a>`authenticationModel` | [`String`](#string) | How users authenticate to the component. |
+| <a id="mutation-ascpsecuritycontextcreate-authorizationmodel"></a>`authorizationModel` | [`String`](#string) | How access is controlled. |
+| <a id="mutation-ascpsecuritycontextcreate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-ascpsecuritycontextcreate-componentid"></a>`componentId` | [`SecurityAscpComponentID!`](#securityascpcomponentid) | ID of the component. |
+| <a id="mutation-ascpsecuritycontextcreate-datasensitivity"></a>`dataSensitivity` | [`String`](#string) | Types of sensitive data handled. |
+| <a id="mutation-ascpsecuritycontextcreate-guidelines"></a>`guidelines` | [`[AscpSecurityGuidelineInput!]!`](#ascpsecurityguidelineinput) | List of security guidelines. |
+| <a id="mutation-ascpsecuritycontextcreate-projectpath"></a>`projectPath` | [`ID!`](#id) | Full path of the project. |
+| <a id="mutation-ascpsecuritycontextcreate-scanid"></a>`scanId` | [`SecurityAscpScanID!`](#securityascpscanid) | ID of the scan when the security context was created. |
+| <a id="mutation-ascpsecuritycontextcreate-summary"></a>`summary` | [`String`](#string) | High-level threat model summary. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-ascpsecuritycontextcreate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-ascpsecuritycontextcreate-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+| <a id="mutation-ascpsecuritycontextcreate-securitycontext"></a>`securityContext` {{< icon name="warning-solid" >}} | [`AscpSecurityContext`](#ascpsecuritycontext) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
 
 ### `Mutation.auditEventsAmazonS3ConfigurationCreate`
 
@@ -18294,6 +18354,29 @@ The edge type for [`ApprovalProjectRule`](#approvalprojectrule).
 | <a id="approvalprojectruleedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="approvalprojectruleedge-node"></a>`node` | [`ApprovalProjectRule`](#approvalprojectrule) | The item at the end of the edge. |
 
+#### `AscpComponentConnection`
+
+The connection type for [`AscpComponent`](#ascpcomponent).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="ascpcomponentconnection-edges"></a>`edges` | [`[AscpComponentEdge]`](#ascpcomponentedge) | A list of edges. |
+| <a id="ascpcomponentconnection-nodes"></a>`nodes` | [`[AscpComponent]`](#ascpcomponent) | A list of nodes. |
+| <a id="ascpcomponentconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `AscpComponentEdge`
+
+The edge type for [`AscpComponent`](#ascpcomponent).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="ascpcomponentedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="ascpcomponentedge-node"></a>`node` | [`AscpComponent`](#ascpcomponent) | The item at the end of the edge. |
+
 #### `AscpScanConnection`
 
 The connection type for [`AscpScan`](#ascpscan).
@@ -18316,6 +18399,29 @@ The edge type for [`AscpScan`](#ascpscan).
 | ---- | ---- | ----------- |
 | <a id="ascpscanedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="ascpscanedge-node"></a>`node` | [`AscpScan`](#ascpscan) | The item at the end of the edge. |
+
+#### `AscpSecurityGuidelineConnection`
+
+The connection type for [`AscpSecurityGuideline`](#ascpsecurityguideline).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="ascpsecurityguidelineconnection-edges"></a>`edges` | [`[AscpSecurityGuidelineEdge]`](#ascpsecurityguidelineedge) | A list of edges. |
+| <a id="ascpsecurityguidelineconnection-nodes"></a>`nodes` | [`[AscpSecurityGuideline]`](#ascpsecurityguideline) | A list of nodes. |
+| <a id="ascpsecurityguidelineconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `AscpSecurityGuidelineEdge`
+
+The edge type for [`AscpSecurityGuideline`](#ascpsecurityguideline).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="ascpsecurityguidelineedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="ascpsecurityguidelineedge-node"></a>`node` | [`AscpSecurityGuideline`](#ascpsecurityguideline) | The item at the end of the edge. |
 
 #### `AuditEventDefinitionConnection`
 
@@ -28957,6 +29063,25 @@ Represents the scan result policy.
 | <a id="approvalscanresultpolicy-name"></a>`name` | [`String!`](#string) | Represents the name of the policy. |
 | <a id="approvalscanresultpolicy-reporttype"></a>`reportType` | [`ApprovalReportType!`](#approvalreporttype) | Represents the report_type of the approval rule. |
 
+### `AscpComponent`
+
+A logical component of a project identified by ASCP security scanning.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="ascpcomponent-createdat"></a>`createdAt` | [`Time!`](#time) | Timestamp when the component was created. |
+| <a id="ascpcomponent-dependencies"></a>`dependencies` | [`AscpComponentConnection!`](#ascpcomponentconnection) | Components the component depends on. (see [Connections](#connections)) |
+| <a id="ascpcomponent-description"></a>`description` | [`String`](#string) | Description of the component. |
+| <a id="ascpcomponent-expecteduserbehavior"></a>`expectedUserBehavior` | [`String`](#string) | Expected user behavior for the component. |
+| <a id="ascpcomponent-id"></a>`id` | [`SecurityAscpComponentID!`](#securityascpcomponentid) | Global ID of the component. |
+| <a id="ascpcomponent-scan"></a>`scan` | [`AscpScan!`](#ascpscan) | Scan when the component was identified. |
+| <a id="ascpcomponent-securitycontext"></a>`securityContext` | [`AscpSecurityContext`](#ascpsecuritycontext) | Security context for the component. |
+| <a id="ascpcomponent-subdirectory"></a>`subDirectory` | [`String!`](#string) | Sub-directory containing the component. |
+| <a id="ascpcomponent-title"></a>`title` | [`String!`](#string) | Title of the component. |
+| <a id="ascpcomponent-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp when the component was last updated. |
+
 ### `AscpScan`
 
 An ASCP scan of a project.
@@ -28973,6 +29098,38 @@ An ASCP scan of a project.
 | <a id="ascpscan-scansequence"></a>`scanSequence` | [`Int!`](#int) | Sequence number of the scan within the project. |
 | <a id="ascpscan-scantype"></a>`scanType` | [`AscpScanType!`](#ascpscantype) | Type of scan (full or incremental). |
 | <a id="ascpscan-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp when the scan was last updated. |
+
+### `AscpSecurityContext`
+
+Security context for an ASCP component.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="ascpsecuritycontext-authenticationmodel"></a>`authenticationModel` | [`String`](#string) | How users authenticate to the component. |
+| <a id="ascpsecuritycontext-authorizationmodel"></a>`authorizationModel` | [`String`](#string) | How access is controlled for the component. |
+| <a id="ascpsecuritycontext-datasensitivity"></a>`dataSensitivity` | [`String`](#string) | Types of sensitive data handled by the component. |
+| <a id="ascpsecuritycontext-id"></a>`id` | [`SecurityAscpSecurityContextID!`](#securityascpsecuritycontextid) | ID of the security context. |
+| <a id="ascpsecuritycontext-scan"></a>`scan` | [`AscpScan!`](#ascpscan) | Scan when the security context was generated. |
+| <a id="ascpsecuritycontext-securityguidelines"></a>`securityGuidelines` | [`AscpSecurityGuidelineConnection!`](#ascpsecurityguidelineconnection) | Security guidelines for the context. (see [Connections](#connections)) |
+| <a id="ascpsecuritycontext-summary"></a>`summary` | [`String`](#string) | High-level threat model summary. |
+
+### `AscpSecurityGuideline`
+
+A security guideline for an ASCP component.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="ascpsecurityguideline-businesscontext"></a>`businessContext` | [`String`](#string) | How to assess business impact if violated. |
+| <a id="ascpsecurityguideline-id"></a>`id` | [`SecurityAscpSecurityGuidelineID!`](#securityascpsecurityguidelineid) | ID of the guideline. |
+| <a id="ascpsecurityguideline-legitimateuse"></a>`legitimateUse` | [`String`](#string) | When the operation is expected and acceptable. |
+| <a id="ascpsecurityguideline-name"></a>`name` | [`String!`](#string) | Policy name. |
+| <a id="ascpsecurityguideline-operation"></a>`operation` | [`String!`](#string) | Security-sensitive operation. |
+| <a id="ascpsecurityguideline-securityboundary"></a>`securityBoundary` | [`String`](#string) | When the operation becomes a security risk. |
+| <a id="ascpsecurityguideline-severityifviolated"></a>`severityIfViolated` | [`AscpSeverity!`](#ascpseverity) | Severity level if the guideline is violated. |
 
 ### `AssetType`
 
@@ -45735,6 +45892,28 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="project-approvalpolicies-includeunscoped"></a>`includeUnscoped` | [`Boolean`](#boolean) | Filter policies that are scoped to the project. |
 | <a id="project-approvalpolicies-relationship"></a>`relationship` | [`SecurityPolicyRelationType`](#securitypolicyrelationtype) | Filter policies by the given policy relationship. Default is DIRECT. |
 
+##### `Project.ascpComponents`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+ASCP business components in the project.
+
+Returns [`AscpComponentConnection`](#ascpcomponentconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="project-ascpcomponents-subdirectory"></a>`subDirectory` | [`String`](#string) | Filter by exact sub-directory path. |
+| <a id="project-ascpcomponents-title"></a>`title` | [`String`](#string) | Filter by component title (case-insensitive partial match). |
+
 ##### `Project.ascpScans`
 
 {{< details >}}
@@ -55090,6 +55269,17 @@ Type of ASCP scan (full or incremental).
 | <a id="ascpscantype-full"></a>`FULL` | Full scan of the entire codebase. |
 | <a id="ascpscantype-incremental"></a>`INCREMENTAL` | Incremental scan based on changes since last scan. |
 
+### `AscpSeverity`
+
+Severity levels for ASCP security guidelines.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="ascpseverity-critical"></a>`CRITICAL` | Critical severity. |
+| <a id="ascpseverity-high"></a>`HIGH` | High severity. |
+| <a id="ascpseverity-low"></a>`LOW` | Low severity. |
+| <a id="ascpseverity-medium"></a>`MEDIUM` | Medium severity. |
+
 ### `AssigneeWildcardId`
 
 Assignee ID wildcard values.
@@ -60601,11 +60791,29 @@ A `SbomOccurrenceID` is a global ID. It is encoded as a string.
 
 An example `SbomOccurrenceID` is: `"gid://gitlab/Sbom::Occurrence/1"`.
 
+### `SecurityAscpComponentID`
+
+A `SecurityAscpComponentID` is a global ID. It is encoded as a string.
+
+An example `SecurityAscpComponentID` is: `"gid://gitlab/Security::Ascp::Component/1"`.
+
 ### `SecurityAscpScanID`
 
 A `SecurityAscpScanID` is a global ID. It is encoded as a string.
 
 An example `SecurityAscpScanID` is: `"gid://gitlab/Security::Ascp::Scan/1"`.
+
+### `SecurityAscpSecurityContextID`
+
+A `SecurityAscpSecurityContextID` is a global ID. It is encoded as a string.
+
+An example `SecurityAscpSecurityContextID` is: `"gid://gitlab/Security::Ascp::SecurityContext/1"`.
+
+### `SecurityAscpSecurityGuidelineID`
+
+A `SecurityAscpSecurityGuidelineID` is a global ID. It is encoded as a string.
+
+An example `SecurityAscpSecurityGuidelineID` is: `"gid://gitlab/Security::Ascp::SecurityGuideline/1"`.
 
 ### `SecurityAttributeID`
 
@@ -62920,6 +63128,21 @@ Input type for filtering projects by analyzer type and status.
 | ---- | ---- | ----------- |
 | <a id="analyzerfilterinput-analyzertype"></a>`analyzerType` | [`AnalyzerTypeEnum!`](#analyzertypeenum) | Type of analyzer to filter by. |
 | <a id="analyzerfilterinput-status"></a>`status` | [`AnalyzerStatusEnum!`](#analyzerstatusenum) | Status of the analyzer to filter by. |
+
+### `AscpSecurityGuidelineInput`
+
+Input type for creating a security guideline.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="ascpsecurityguidelineinput-businesscontext"></a>`businessContext` | [`String`](#string) | How to assess business impact if violated. |
+| <a id="ascpsecurityguidelineinput-legitimateuse"></a>`legitimateUse` | [`String`](#string) | When the operation is expected and acceptable. |
+| <a id="ascpsecurityguidelineinput-name"></a>`name` | [`String!`](#string) | Policy name. |
+| <a id="ascpsecurityguidelineinput-operation"></a>`operation` | [`String!`](#string) | Security-sensitive operation. |
+| <a id="ascpsecurityguidelineinput-securityboundary"></a>`securityBoundary` | [`String`](#string) | When the operation becomes a security risk. |
+| <a id="ascpsecurityguidelineinput-severityifviolated"></a>`severityIfViolated` | [`AscpSeverity`](#ascpseverity) | Severity level if the guideline is violated. |
 
 ### `AttributeFilterInput`
 

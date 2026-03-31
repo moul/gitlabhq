@@ -855,6 +855,7 @@ project:
 - pending_builds
 - security_scans
 - security_ascp_scans
+- security_ascp_components
 - ci_feature_usages
 - bulk_import_exports
 - ci_project_mirror

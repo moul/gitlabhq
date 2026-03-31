@@ -1989,7 +1989,6 @@ Style/InlineDisableAnnotation:
     - 'spec/helpers/releases_helper_spec.rb'
     - 'spec/helpers/sidebars_helper_spec.rb'
     - 'spec/initializers/active_record_transaction_observer_spec.rb'
-    - 'spec/initializers/carrierwave_s3_encryption_headers_patch_spec.rb'
     - 'spec/initializers/fog_google_https_private_urls_spec.rb'
     - 'spec/initializers/google_api_client_spec.rb'
     - 'spec/initializers/mail_encoding_patch_spec.rb'

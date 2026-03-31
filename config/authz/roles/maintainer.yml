@@ -60,7 +60,9 @@ project:
   - create_ai_catalog_third_party_flow
   - create_ai_catalog_third_party_flow_item_consumer
   - create_ai_foundational_flow_item_consumer
+  - create_ascp_component
   - create_ascp_scan
+  - create_ascp_security_context
   - create_branch_rule
   - create_cluster
   - create_deploy_token

@@ -54,7 +54,9 @@ project:
   - read_ai_flow_triggers
   - read_ai_foundational_flow
   - read_alert_management_alert
+  - read_ascp_component
   - read_ascp_scan
+  - read_ascp_security_context
   - read_cluster
   - read_cluster_agent
   - read_coverage_fuzzing

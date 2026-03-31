@@ -175,7 +175,6 @@ Style/GuardClause:
     - 'app/workers/repository_update_remote_mirror_worker.rb'
     - 'app/workers/terraform/states/destroy_worker.rb'
     - 'config/initializers/0_inject_enterprise_edition_module.rb'
-    - 'config/initializers/carrierwave_s3_encryption_headers_patch.rb'
     - 'config/initializers/devise_dynamic_password_length_validation.rb'
     - 'config/object_store_settings.rb'
     - 'ee/app/controllers/admin/emails_controller.rb'

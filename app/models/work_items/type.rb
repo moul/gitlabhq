@@ -51,10 +51,6 @@ module WorkItems
 
     enum :base_type, BASE_TYPES.transform_values { |value| value[:enum_value] }
 
-    has_many :user_preferences,
-      class_name: 'WorkItems::UserPreference',
-      inverse_of: :work_item_type
-
     before_validation :strip_whitespace
 
     # TODO: review validation rules

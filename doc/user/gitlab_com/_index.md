@@ -473,7 +473,7 @@ The following table describes the rate limits for GitLab.com:
 | GitLab Duo `aiAction`  requests                                  | 160 requests every 8 hours      |
 | [Pull mirroring](../project/repository/mirror/pull.md) intervals | 5 minutes                       |
 | API requests from a user to `/api/v4/users/:id`                  | 300 requests every 10 minutes   |
-| GitLab package cloud requests for an IP address ([introduced](https://gitlab.com/gitlab-com/gl-infra/production-engineering/-/issues/24083) in GitLab 16.11) | 3,000 requests each minute      |
+| GitLab package hosting system requests for an IP address (introduced in GitLab 16.11) | 3,000 requests each minute      |
 | GitLab repository files | 500 requests each minute        |
 | User followers requests (`/api/v4/users/:id/followers`)            | 100 requests each minute        |
 | User following requests (`/api/v4/users/:id/following`)            | 100 requests each minute        |

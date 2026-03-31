@@ -10,7 +10,9 @@ project:
   - add_project_to_instance_security_dashboard
   - public_user_access
   - read_approvers
+  - read_ascp_component
   - read_ascp_scan
+  - read_ascp_security_context
   - read_branch_rule
   - read_build
   - read_cluster

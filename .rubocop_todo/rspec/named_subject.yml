@@ -1314,7 +1314,6 @@ RSpec/NamedSubject:
     - 'spec/helpers/wiki_helper_spec.rb'
     - 'spec/helpers/wiki_page_version_helper_spec.rb'
     - 'spec/initializers/00_deprecations_spec.rb'
-    - 'spec/initializers/carrierwave_s3_encryption_headers_patch_spec.rb'
     - 'spec/initializers/cookies_serializer_spec.rb'
     - 'spec/initializers/direct_upload_support_spec.rb'
     - 'spec/initializers/doorkeeper_spec.rb'
