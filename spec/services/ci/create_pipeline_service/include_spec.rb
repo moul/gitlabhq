@@ -308,6 +308,7 @@ RSpec.describe Ci::CreatePipelineService, feature_category: :pipeline_compositio
         end
 
         before do
+          stub_feature_flags(ci_config_fetch_timeout_override: false)
           stub_const('Gitlab::Ci::Config::TIMEOUT_SECONDS', 0.3.seconds) # it should take at least 0.3 seconds (0.1 x 3)
           stub_const('Gitlab::Ci::Config::GITALY_TIMEOUT_SECONDS', 1) # allowing it run as log as it takes
 

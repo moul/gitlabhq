@@ -872,6 +872,102 @@ paths:
           description: Not found
         '429':
           description: Too many requests
+  "/api/v4/projects/{id}/(-/)search/semantic":
+    get:
+      operationId: getApiV4ProjectsIdDashSearchSemantic
+      summary: Search project code using natural language
+      description: |
+        Introduced in GitLab 18.11.
+
+        Searches indexed project code using semantic (meaning-based) similarity rather than
+        keyword matching. Use this when you do not know the exact symbol or file name, or
+        to discover how a behavior is implemented across the codebase.
+
+        Primary use cases:
+        - When you do not know the exact symbol or file path
+        - To see how a behavior or feature is implemented across the codebase
+        - To discover related implementations (clients, jobs, workers)
+
+        How to use:
+        - Provide a concise, specific query with concrete keywords
+        - Use directory_path to narrow scope (e.g. "app/services/")
+        - Prefer precise intent over broad terms
+
+        Results are grouped by file. Each file includes merged line ranges with content
+        and a relevance score (0.0-1.0). The response includes an overall confidence
+        level (high/medium/low/unknown) based on score distribution. Results are
+        filtered by Duo context exclusion settings.
+
+        Requires semantic code search to be enabled and indexed for the project namespace.
+      tags:
+      - Search
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIEntitiesAiSemanticCodeResponse"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found - project not found or semantic code search unavailable
+        '422':
+          description: Unprocessable entity - project has no embeddings
+        '429':
+          description: Too many requests
+      parameters:
+      - name: id
+        required: true
+        description: The ID or URL-encoded path of the project
+        schema:
+          oneOf:
+          - type: string
+          - type: integer
+          nullable: true
+        in: path
+      - name: q
+        required: true
+        description: Natural language search query (e.g. "authentication middleware",
+          "rate limiting logic")
+        schema:
+          type: string
+          nullable: true
+          maxLength: 1000
+        in: query
+      - name: directory_path
+        required: false
+        description: Restrict search to files under this directory path (e.g. "app/services/").
+          Must be a relative path — no leading slash, no .. segments.
+        schema:
+          type: string
+          nullable: true
+          maxLength: 100
+        in: query
+      - name: knn
+        required: false
+        description: Number of nearest neighbours to retrieve internally. Higher values
+          improve recall at the cost of latency.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+          nullable: true
+        in: query
+      - name: limit
+        required: false
+        description: Maximum number of results to return
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+          nullable: true
+        in: query
+      x-gitlab-lifecycle: beta
   "/api/v4/ai/third_party_agents/direct_access":
     post:
       operationId: postApiV4AiThirdPartyAgentsDirectAccess
@@ -69854,6 +69950,53 @@ components:
           type: string
         advisory_db_state:
           type: string
+    APIEntitiesAiSemanticCodeResponse:
+      type: object
+      properties:
+        confidence:
+          type: string
+          example: high
+        results:
+          type: array
+          items:
+            "$ref": "#/components/schemas/APIEntitiesAiSemanticCodeGroupedResult"
+    APIEntitiesAiSemanticCodeGroupedResult:
+      type: object
+      properties:
+        path:
+          type: string
+          example: app/models/user.rb
+        blob_id:
+          type: string
+          example: abc123def456
+        file_url:
+          type: string
+          example: https://gitlab.com/group/project/-/blob/main/user.rb
+        score:
+          type: number
+          example: 0.92
+        snippet_ranges:
+          type: array
+          items:
+            "$ref": "#/components/schemas/APIEntitiesAiSemanticCodeSnippetRange"
+    APIEntitiesAiSemanticCodeSnippetRange:
+      type: object
+      properties:
+        start_line:
+          type: integer
+          example: 42
+        end_line:
+          type: integer
+          example: 44
+        content:
+          type: string
+          example: |-
+            def authenticate
+              ...
+            end
+        score:
+          type: number
+          example: 0.85
     APIEntitiesResourceIterationEvent:
       type: object
       properties:

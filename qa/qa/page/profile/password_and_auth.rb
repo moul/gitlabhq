@@ -37,7 +37,7 @@ module QA
           click_element 'configure-it-later-button'
           wait_until(max_duration: 10, message: "Waiting for dashboard page") do
             # Support both old and new homepage flows
-            has_text?("Welcome to GitLab") || has_text?("Today's highlights")
+            has_text?("Welcome to GitLab") || has_element?('homepage-greeting-header')
           end
         end
 

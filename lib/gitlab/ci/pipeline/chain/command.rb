@@ -48,6 +48,10 @@ module Gitlab
             ref_resolver.workload?
           end
 
+          def ondemand_dast_scan?
+            source&.to_sym == :ondemand_dast_scan
+          end
+
           def ref
             Gitlab::Git.ref_name(origin_ref)
           end

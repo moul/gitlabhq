@@ -358,7 +358,6 @@ RSpec/FactoryBot/AvoidCreate:
     - 'spec/serializers/analytics_issue_entity_spec.rb'
     - 'spec/serializers/analytics_issue_serializer_spec.rb'
     - 'spec/serializers/analytics_merge_request_serializer_spec.rb'
-    - 'spec/serializers/analytics_summary_serializer_spec.rb'
     - 'spec/serializers/base_discussion_entity_spec.rb'
     - 'spec/serializers/blob_entity_spec.rb'
     - 'spec/serializers/build_artifact_entity_spec.rb'

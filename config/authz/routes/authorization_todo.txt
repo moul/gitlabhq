@@ -129,6 +129,7 @@ GET /projects/:id/packages/rpm/*package_file_id/*file_name
 GET /projects/:id/packages/rpm/repodata/*file_name
 GET /projects/:id/packages/rubygems/:file_name
 GET /projects/:id/repository/commits/:sha/statuses
+GET /projects/:id/(-/)search/semantic
 GET /projects/:id/service_accounts
 GET /projects/:id/service_accounts/:user_id/personal_access_tokens
 GET /projects/:id/services

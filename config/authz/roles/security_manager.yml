@@ -6,6 +6,8 @@ inherits_from:
 project:
   permissions: []
   raw_permissions:
+  - _create_dast_pipeline
+  - _run_dast_pipeline
   - access_security_and_compliance
   - admin_security_attributes
   - admin_vulnerability
@@ -14,11 +16,14 @@ project:
   - apply_security_scan_profiles
   - cancel_build
   - create_build
+  - create_on_demand_dast_scan
   - create_vulnerability_archive_export
   - create_vulnerability_export
+  - edit_on_demand_dast_scan
   - enable_container_scanning_for_registry
   - enable_secret_push_protection
   - manage_project_security_exclusions
+  - read_on_demand_dast_scan
   - read_project_security_dashboard
   - read_project_security_exclusions
   - read_runners

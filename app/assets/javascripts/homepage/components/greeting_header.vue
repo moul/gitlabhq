@@ -9,6 +9,8 @@ import { gradientStyle } from '~/lib/utils/color_utils';
 import getUserStatusQuery from '~/homepage/graphql/queries/user_status.query.graphql';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { initEmojiMap, getEmojiInfo } from '~/emoji';
+import { GREETING_MESSAGES } from '~/homepage/constants';
+import { buildTimeAwareGreetings } from '~/homepage/utils/build_time_aware_greetings';
 
 const DEFAULT_EMOJI_COLOR = 'var(--gl-color-neutral-200)';
 
@@ -20,6 +22,10 @@ export default {
   directives: {
     GlTooltip: GlTooltipDirective,
   },
+  greetingMessage: (() => {
+    const all = [...GREETING_MESSAGES, ...buildTimeAwareGreetings()];
+    return all.length > 0 ? all[Math.floor(Math.random() * all.length)] : __('Welcome!');
+  })(),
   data() {
     return {
       userStatus: null,
@@ -30,9 +36,6 @@ export default {
   computed: {
     relevantName() {
       return gon.current_user_fullname?.trim() || gon.current_username;
-    },
-    greeting() {
-      return sprintf(__('Hi, %{name}'), { name: this.relevantName }, false);
     },
     avatar() {
       return gon?.current_user_avatar_url;
@@ -164,9 +167,15 @@ export default {
       </div>
     </div>
     <header class="gl-flex gl-min-w-0 gl-flex-col">
-      <p class="gl-heading-5 gl-mb-2 gl-truncate gl-text-subtle">{{ __("Today's highlights") }}</p>
-      <h1 v-if="relevantName" class="gl-heading-display gl-m-0 gl-min-w-0 gl-truncate">
-        {{ greeting }}
+      <p
+        v-if="relevantName"
+        class="gl-heading-5 gl-mb-2 gl-truncate gl-text-subtle"
+        data-testid="greeting-name"
+      >
+        {{ relevantName }}
+      </p>
+      <h1 class="gl-heading-display gl-m-0 gl-min-w-0 gl-truncate" data-testid="greeting-message">
+        {{ $options.greetingMessage }}
       </h1>
     </header>
     <set-status-modal-wrapper
