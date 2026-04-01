@@ -1322,6 +1322,7 @@ Use `detailed_merge_status` instead of `merge_status` to account for all potenti
   - `not_open`: The merge request must be open before merge.
   - `preparing`: Merge request diff is being created.
   - `requested_changes`: The merge request has reviewers who have requested changes.
+  - `security_policy_pipeline_check`: All pipelines for the latest commit must succeed before the merge request is merged when security policies are enforced.
   - `security_policy_violations`: All security policies must be satisfied.
   - `status_checks_must_pass`: All status checks must pass before merge.
   - `unchecked`: Git has not yet tested if a valid merge is possible.

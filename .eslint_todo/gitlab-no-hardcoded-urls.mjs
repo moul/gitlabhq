@@ -177,6 +177,7 @@ export default {
     'ee/app/assets/javascripts/ai/settings/components/duo_experiment_beta_features_form.vue',
     'ee/app/assets/javascripts/ai/tanuki_bot/components/app.vue',
     'ee/app/assets/javascripts/ai/tanuki_bot/components/duo_chat.vue',
+    'ee/app/assets/javascripts/ai/tanuki_bot/constants.js',
     'ee/app/assets/javascripts/analytics/analytics_dashboards/components/visualizations/data_table/metric_label.vue',
     'ee/app/assets/javascripts/analytics/analytics_dashboards/components/visualizations/utils.js',
     'ee/app/assets/javascripts/analytics/analytics_dashboards/data_sources/cube_analytics.js',

@@ -26228,13 +26228,32 @@ msgstr ""
 msgid "DuoAgentPlatform|User messaged agent"
 msgstr ""
 
+msgid "DuoAgenticChat|%{count} character over limit."
+msgid_plural "DuoAgenticChat|%{count} characters over limit."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "DuoAgenticChat|%{count} character remaining."
+msgid_plural "DuoAgenticChat|%{count} characters remaining."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "DuoAgenticChat|As Owner of the group, you can turn on GitLab Duo Agent Platform and its AI features for your team."
 msgstr ""
 
 msgid "DuoAgenticChat|As Owner of the project, you can turn on GitLab Duo Agent Platform and its AI features for your team."
 msgstr ""
 
+msgid "DuoAgenticChat|Cancel"
+msgstr ""
+
 msgid "DuoAgenticChat|Chat about different topics"
+msgstr ""
+
+msgid "DuoAgenticChat|Chat history"
+msgstr ""
+
+msgid "DuoAgenticChat|Chat prompt input"
 msgstr ""
 
 msgid "DuoAgenticChat|Chat with different agents"
@@ -26270,6 +26289,27 @@ msgstr ""
 msgid "DuoAgenticChat|Go to Duo settings"
 msgstr ""
 
+msgid "DuoAgenticChat|Hello, I am %{agentName}!"
+msgstr ""
+
+msgid "DuoAgenticChat|How can I help you today?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I change my password in GitLab?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I clone a repository?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I create a template?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I fork a project?"
+msgstr ""
+
+msgid "DuoAgenticChat|I am GitLab Duo Agentic Chat, your personal AI-powered assistant."
+msgstr ""
+
 msgid "DuoAgenticChat|I don't have access to that resource at the moment. Is there something else I can help you with?"
 msgstr ""
 
@@ -26277,6 +26317,9 @@ msgid "DuoAgenticChat|Invalid chat state provided"
 msgstr ""
 
 msgid "DuoAgenticChat|Learn more"
+msgstr ""
+
+msgid "DuoAgenticChat|Let's work through this together..."
 msgstr ""
 
 msgid "DuoAgenticChat|No GitLab Credits remain for this billing period. Turn off the %{agenticModeStart}Agentic mode%{agenticModeEnd} toggle or ask your administrator for more credits. %{linkStart}Learn more%{linkEnd}."
@@ -26297,10 +26340,16 @@ msgstr ""
 msgid "DuoAgenticChat|Purchase more credits or turn off the Agentic toggle to start a new conversation."
 msgstr ""
 
+msgid "DuoAgenticChat|Responses may be inaccurate. Verify before use."
+msgstr ""
+
 msgid "DuoAgenticChat|Return to non-agentic Chat"
 msgstr ""
 
 msgid "DuoAgenticChat|Select default namespace"
+msgstr ""
+
+msgid "DuoAgenticChat|Send chat message."
 msgstr ""
 
 msgid "DuoAgenticChat|Set up automated workflows and AI agents."
@@ -26337,6 +26386,9 @@ msgid "DuoAgenticChat|Turn on beta and experimental features for early access to
 msgstr ""
 
 msgid "DuoAgenticChat|Turn on flows"
+msgstr ""
+
+msgid "DuoAgenticChat|Type /help to learn more"
 msgstr ""
 
 msgid "DuoAgenticChat|Unable to connect to workflow service. Please try again."
@@ -26642,10 +26694,38 @@ msgstr ""
 msgid "DuoAgentsPlatform|You don't have permission to use GitLab Duo Agent Platform in this %{namespaceType}. %{learnMoreLinkStart}Learn more%{learnMoreLinkEnd}."
 msgstr ""
 
+msgid "DuoChat|%{count} character over limit."
+msgid_plural "DuoChat|%{count} characters over limit."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "DuoChat|%{count} character remaining."
+msgid_plural "DuoChat|%{count} characters remaining."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "DuoChat|Agentic"
 msgstr ""
 
 msgid "DuoChat|Ask a question about GitLab"
+msgstr ""
+
+msgid "DuoChat|Back to chat"
+msgstr ""
+
+msgid "DuoChat|Cancel"
+msgstr ""
+
+msgid "DuoChat|Chat history"
+msgstr ""
+
+msgid "DuoChat|Close chat"
+msgstr ""
+
+msgid "DuoChat|Copy Chat Session ID (%{id})"
+msgstr ""
+
+msgid "DuoChat|Could not copy session ID"
 msgstr ""
 
 msgid "DuoChat|Duo Agentic Chat is not available at the moment in this page. To work with Duo Agentic Chat in pages outside the scope of a project please select a %{strong_start}Default GitLab Duo namespace%{strong_end} in your %{preferences_link_start}User Profile Preferences%{preferences_link_end}."
@@ -26660,7 +26740,31 @@ msgstr ""
 msgid "DuoChat|Give feedback"
 msgstr ""
 
+msgid "DuoChat|How can I help you today?"
+msgstr ""
+
+msgid "DuoChat|How do I change my password in GitLab?"
+msgstr ""
+
+msgid "DuoChat|How do I clone a repository?"
+msgstr ""
+
+msgid "DuoChat|How do I create a template?"
+msgstr ""
+
+msgid "DuoChat|How do I fork a project?"
+msgstr ""
+
+msgid "DuoChat|I am GitLab Duo Chat, your personal AI-powered assistant."
+msgstr ""
+
 msgid "DuoChat|Included references"
+msgstr ""
+
+msgid "DuoChat|Let's work through this together..."
+msgstr ""
+
+msgid "DuoChat|More options"
 msgstr ""
 
 msgid "DuoChat|New chat conversation."
@@ -26669,10 +26773,22 @@ msgstr ""
 msgid "DuoChat|No results found"
 msgstr ""
 
+msgid "DuoChat|Responses may be inaccurate. Verify before use."
+msgstr ""
+
 msgid "DuoChat|Search %{categoryLabel}…"
 msgstr ""
 
+msgid "DuoChat|Send chat message."
+msgstr ""
+
+msgid "DuoChat|Session ID copied to clipboard"
+msgstr ""
+
 msgid "DuoChat|There was an error communicating with GitLab Duo Chat. Please try again later."
+msgstr ""
+
+msgid "DuoChat|Type /help to learn more"
 msgstr ""
 
 msgid "DuoChat|What is a fork?"
@@ -31223,6 +31339,12 @@ msgid "Geo|Abuse Report Upload"
 msgstr ""
 
 msgid "Geo|Abuse Report Uploads"
+msgstr ""
+
+msgid "Geo|Achievement Upload"
+msgstr ""
+
+msgid "Geo|Achievement Uploads"
 msgstr ""
 
 msgid "Geo|Add New Site"
@@ -43317,6 +43439,9 @@ msgstr ""
 msgid "MergeChecks|Pipelines must succeed"
 msgstr ""
 
+msgid "MergeChecks|Security policy pipeline check"
+msgstr ""
+
 msgid "MergeChecks|Skipped pipelines are considered successful"
 msgstr ""
 
@@ -43330,6 +43455,9 @@ msgid "MergeChecks|View locked files"
 msgstr ""
 
 msgid "MergeChecks|View policies"
+msgstr ""
+
+msgid "MergeChecks|When security policies are enforced, all pipelines for the latest commit must succeed before this merge request can be merged."
 msgstr ""
 
 msgid "MergeConflict|&gt;&gt;&gt;&gt;&gt;&gt;&gt; %{commit}: %{message} (our changes)"
@@ -79250,6 +79378,9 @@ msgstr ""
 msgid "When merge requests and commits in the default branch close, any issues they reference also close."
 msgstr ""
 
+msgid "When security policies are enforced, all pipelines for the latest commit must succeed before merge."
+msgstr ""
+
 msgid "When the pipeline for this merge request succeeds, it will %{linkStart}automatically merge%{linkEnd}."
 msgstr ""
 
@@ -84879,6 +85010,9 @@ msgid "mrWidget|Merge blocked: all required approvals must be given."
 msgstr ""
 
 msgid "mrWidget|Merge failed."
+msgstr ""
+
+msgid "mrWidget|Merge request pipeline has passed, but a security policy requires all pipelines to succeed. Another pipeline for this commit has failed. %{linkStart}View policies%{linkEnd}"
 msgstr ""
 
 msgid "mrWidget|Merged by"

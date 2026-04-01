@@ -79,6 +79,12 @@ module Import
         source_user.reassignment_token = SecureRandom.hex
       end
 
+      before_transition any => :failed do |source_user, transition|
+        reassignment_error = transition.args.first
+
+        source_user.reassignment_error = reassignment_error
+      end
+
       before_transition failed: :reassignment_in_progress do |source_user|
         source_user.reassignment_error = nil
       end
@@ -198,6 +204,20 @@ module Import
       return if uri && uri.scheme && uri.host && uri.path.blank?
 
       errors.add(:source_hostname, :invalid, message: 'must contain scheme and host, and not path')
+    end
+
+    def reassignment_error=(message)
+      message = message.to_s
+
+      if message.present?
+        message = Gitlab::UrlSanitizer.sanitize(message)
+        message = ::Projects::ImportErrorFilter.filter_message(message)
+        message = message.truncate(255)
+      else
+        message = nil
+      end
+
+      super
     end
 
     private

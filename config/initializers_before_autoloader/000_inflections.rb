@@ -50,6 +50,7 @@ ActiveSupport::Inflector.inflections do |inflect|
     packages_helm_metadata_cache_registry
     design_management_action_upload_registry
     user_upload_registry
+    achievement_upload_registry
     group_upload_registry
     abuse_report_upload_registry
     project_upload_registry

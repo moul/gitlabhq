@@ -1520,9 +1520,9 @@ module Geo
       # Determine the creation line and variable name based on model type
       creation_line =
         if upload_partition
-          "      #{replicable_name} = create(:geo_#{model_factory_name})"
+          "        #{replicable_name} = create(:geo_#{model_factory_name})"
         else
-          "      #{replicable_name} = create(:#{replicable_name})"
+          "        #{replicable_name} = create(:#{replicable_name})"
         end
 
       foreign_key_value = "#{replicable_name}.id"
@@ -1550,7 +1550,7 @@ module Geo
       end
 
       # Add pre-execution assertion
-      pre_assertion = "      expect(Geo::#{registry_class_name}.where(#{foreign_key_name}: #{foreign_key_value}).count).to eq(0)"
+      pre_assertion = "        expect(Geo::#{registry_class_name}.where(#{foreign_key_name}: #{foreign_key_value}).count).to eq(0)"
       if content.include?(anchor_pre)
         content = content.sub(
           anchor_pre,
@@ -1559,7 +1559,7 @@ module Geo
       end
 
       # Add post-execution assertion
-      post_assertion = "      expect(Geo::#{registry_class_name}.where(#{foreign_key_name}: #{foreign_key_value}).count).to eq(1)"
+      post_assertion = "        expect(Geo::#{registry_class_name}.where(#{foreign_key_name}: #{foreign_key_value}).count).to eq(1)"
       if content.include?(anchor_post)
         content = content.sub(
           anchor_post,

@@ -14,7 +14,6 @@ import { shouldDisableShortcuts } from '~/behaviors/shortcuts/shortcuts_toggle';
 import { sanitize } from '~/lib/dompurify';
 import { TYPENAME_MERGE_REQUEST } from '~/graphql_shared/constants';
 import { convertToGraphQLId } from '~/graphql_shared/utils';
-import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { isLoggedIn } from '~/lib/utils/common_utils';
 import StatusBadge from '~/issuable/components/status_badge.vue';
 import ImportedBadge from '~/vue_shared/components/imported_badge.vue';
@@ -72,7 +71,6 @@ export default {
     SafeHtml,
     GlTooltip: GlTooltipDirective,
   },
-  mixins: [glFeatureFlagsMixin()],
   inject: {
     defaultBranchName: { default: '' },
     projectPath: { default: null },
@@ -127,9 +125,6 @@ export default {
     },
     isSignedIn() {
       return isLoggedIn();
-    },
-    isNotificationsTodosButtons() {
-      return this.glFeatures.notificationsTodosButtons;
     },
     isForked() {
       return this.projectPath !== this.sourceProjectPath;
@@ -289,7 +284,6 @@ export default {
                 issuable-type="merge_request"
               />
               <subscriptions-widget
-                v-if="isNotificationsTodosButtons"
                 :iid="issuableIid"
                 :full-path="projectPath"
                 issuable-type="merge_request"

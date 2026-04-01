@@ -48,12 +48,11 @@ To use full screen mode, your web browser must also support it. If your web brow
 > [!flag]
 > The availability of this feature is controlled by a feature flag. For more information, see the history.
 
-When `FF_SCRIPT_SECTIONS` is enabled, multi-line script commands appear as collapsible
-sections in job logs, which helps reduce scrolling when commands produce long output.
-Single-line commands are printed directly with a `$` prefix.
+When `FF_SCRIPT_SECTIONS` is enabled, multi-line script commands appear as collapsible sections
+in job logs. Single-line commands are printed directly with a `$` prefix. Durations are not
+displayed.
 
-Durations are not displayed for these sections.
-In PowerShell and `pwsh` shells, `FF_SCRIPT_SECTIONS` does not create collapsible sections.
+In `powershell` and `pwsh` shells, `FF_SCRIPT_SECTIONS` does not create collapsible sections.
 Commands are printed with color output only.
 
 ### Create custom collapsible sections

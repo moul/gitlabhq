@@ -20,7 +20,6 @@
       - if signed_in
         - if !is_merge_request
           .js-sidebar-todo-widget-root{ data: { project_path: issuable_sidebar[:project_full_path], iid: issuable_sidebar[:iid], id: issuable_sidebar[:id] } }
-        - if notifications_todos_buttons_enabled?
           .js-sidebar-subscriptions-widget-root
 
     = form_for issuable_type, url: issuable_sidebar[:issuable_json_path], remote: true, html: { class: "issuable-context-form inline-update js-issuable-update #{'!gl-pr-2' if is_merge_request}" } do |f|

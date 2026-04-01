@@ -17570,6 +17570,43 @@ The edge type for [`Achievement`](#achievement).
 | <a id="achievementedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="achievementedge-node"></a>`node` | [`Achievement`](#achievement) | The item at the end of the edge. |
 
+#### `AchievementUploadRegistryConnection`
+
+The connection type for [`AchievementUploadRegistry`](#achievementuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="achievementuploadregistryconnection-edges"></a>`edges` | [`[AchievementUploadRegistryEdge]`](#achievementuploadregistryedge) | A list of edges. |
+| <a id="achievementuploadregistryconnection-nodes"></a>`nodes` | [`[AchievementUploadRegistry]`](#achievementuploadregistry) | A list of nodes. |
+| <a id="achievementuploadregistryconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+##### Fields with arguments
+
+###### `AchievementUploadRegistryConnection.count`
+
+Limited count of collection. Returns limit + 1 for counts greater than the limit.
+
+Returns [`Int!`](#int).
+
+Arguments:
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="achievementuploadregistryconnection-count-limit"></a>`limit` | [`Int`](#int) | Limit value to be applied to the count query. Default is 1000. |
+
+#### `AchievementUploadRegistryEdge`
+
+The edge type for [`AchievementUploadRegistry`](#achievementuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="achievementuploadregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="achievementuploadregistryedge-node"></a>`node` | [`AchievementUploadRegistry`](#achievementuploadregistry) | The item at the end of the edge. |
+
 #### `AddOnUserConnection`
 
 The connection type for [`AddOnUser`](#addonuser).
@@ -27250,6 +27287,36 @@ Permission that belongs to a granular scope.
 | <a id="achievement-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp the achievement was last updated. |
 | <a id="achievement-userachievements"></a>`userAchievements` {{< icon name="warning-solid" >}} | [`UserAchievementConnection`](#userachievementconnection) | **Introduced** in GitLab 15.10. **Status**: Experiment. Recipients for the achievement. |
 
+### `AchievementUploadRegistry`
+
+Represents the Geo replication and verification state of an `achievement_upload`.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="achievementuploadregistry-achievementuploadid"></a>`achievementUploadId` | [`ID!`](#id) | ID of the Achievement Upload. |
+| <a id="achievementuploadregistry-checksummismatch"></a>`checksumMismatch` | [`Boolean`](#boolean) | Indicate if the checksums of the AchievementUploadRegistry do not match on the primary and secondary. |
+| <a id="achievementuploadregistry-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the AchievementUploadRegistry was created. |
+| <a id="achievementuploadregistry-datamanagementdetailspath"></a>`dataManagementDetailsPath` | [`String`](#string) | Path to the data management view for this AchievementUploadRegistry. |
+| <a id="achievementuploadregistry-forcetoredownload"></a>`forceToRedownload` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 17.10. Removed from registry tables in the database in favor of the newer reusable framework. |
+| <a id="achievementuploadregistry-id"></a>`id` | [`ID!`](#id) | ID of the AchievementUploadRegistry. |
+| <a id="achievementuploadregistry-lastsyncfailure"></a>`lastSyncFailure` | [`String`](#string) | Error message during sync of the AchievementUploadRegistry. |
+| <a id="achievementuploadregistry-lastsyncedat"></a>`lastSyncedAt` | [`Time`](#time) | Timestamp of the most recent successful sync of the AchievementUploadRegistry. |
+| <a id="achievementuploadregistry-missingonprimary"></a>`missingOnPrimary` | [`Boolean`](#boolean) | Indicate if the AchievementUploadRegistry is missing on primary. |
+| <a id="achievementuploadregistry-modelrecordid"></a>`modelRecordId` | [`Int`](#int) | ID of the AchievementUploadRegistry's model record. |
+| <a id="achievementuploadregistry-retryat"></a>`retryAt` | [`Time`](#time) | Timestamp after which the AchievementUploadRegistry is resynced. |
+| <a id="achievementuploadregistry-retrycount"></a>`retryCount` | [`Int`](#int) | Number of consecutive failed sync attempts of the AchievementUploadRegistry. |
+| <a id="achievementuploadregistry-state"></a>`state` | [`RegistryState`](#registrystate) | Sync state of the AchievementUploadRegistry. |
+| <a id="achievementuploadregistry-verificationchecksum"></a>`verificationChecksum` | [`String`](#string) | The local checksum of the AchievementUploadRegistry. |
+| <a id="achievementuploadregistry-verificationchecksummismatched"></a>`verificationChecksumMismatched` | [`String`](#string) | The expected checksum of the AchievementUploadRegistry in case of mismatch. |
+| <a id="achievementuploadregistry-verificationfailure"></a>`verificationFailure` | [`String`](#string) | Error message during verification of the AchievementUploadRegistry. |
+| <a id="achievementuploadregistry-verificationretryat"></a>`verificationRetryAt` | [`Time`](#time) | Timestamp after which the AchievementUploadRegistry is reverified. |
+| <a id="achievementuploadregistry-verificationretrycount"></a>`verificationRetryCount` | [`Int`](#int) | Number of consecutive failed verification attempts of the AchievementUploadRegistry. |
+| <a id="achievementuploadregistry-verificationstartedat"></a>`verificationStartedAt` | [`Time`](#time) | Timestamp when the verification of AchievementUploadRegistry started. |
+| <a id="achievementuploadregistry-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Verification state of the AchievementUploadRegistry. |
+| <a id="achievementuploadregistry-verifiedat"></a>`verifiedAt` | [`Time`](#time) | Timestamp of the most recent successful verification of the AchievementUploadRegistry. |
+
 ### `ActiveTrial`
 
 Active trial information.
@@ -35689,6 +35756,31 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="geonode-abusereportuploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
 | <a id="geonode-abusereportuploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
 | <a id="geonode-abusereportuploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
+
+##### `GeoNode.achievementUploadRegistries`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Find Achievement Upload registries on this Geo node. Ignored if `geo_achievement_upload_replication` feature flag is disabled.
+
+Returns [`AchievementUploadRegistryConnection`](#achievementuploadregistryconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="geonode-achievementuploadregistries-ids"></a>`ids` | [`[GeoAchievementUploadRegistryID!]`](#geoachievementuploadregistryid) | Filters registries by their ID. |
+| <a id="geonode-achievementuploadregistries-keyword"></a>`keyword` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 17.9. A keyword search feature on Geo registries will not be built in the UI due to poor search UX and performance. |
+| <a id="geonode-achievementuploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
+| <a id="geonode-achievementuploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
+| <a id="geonode-achievementuploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
 
 ##### `GeoNode.ciSecureFileRegistries`
 
@@ -56631,6 +56723,7 @@ Geo registry class.
 | Value | Description |
 | ----- | ----------- |
 | <a id="georegistryclass-abuse_report_upload_registry"></a>`ABUSE_REPORT_UPLOAD_REGISTRY` | Geo::AbuseReportUploadRegistry registry class. |
+| <a id="georegistryclass-achievement_upload_registry"></a>`ACHIEVEMENT_UPLOAD_REGISTRY` | Geo::AchievementUploadRegistry registry class. |
 | <a id="georegistryclass-ci_secure_file_registry"></a>`CI_SECURE_FILE_REGISTRY` | Geo::CiSecureFileRegistry registry class. |
 | <a id="georegistryclass-container_repository_registry"></a>`CONTAINER_REPOSITORY_REGISTRY` | Geo::ContainerRepositoryRegistry registry class. |
 | <a id="georegistryclass-dependency_proxy_blob_registry"></a>`DEPENDENCY_PROXY_BLOB_REGISTRY` | Geo::DependencyProxyBlobRegistry registry class. |
@@ -60146,6 +60239,12 @@ A `GeoAbuseReportUploadRegistryID` is a global ID. It is encoded as a string.
 
 An example `GeoAbuseReportUploadRegistryID` is: `"gid://gitlab/Geo::AbuseReportUploadRegistry/1"`.
 
+### `GeoAchievementUploadRegistryID`
+
+A `GeoAchievementUploadRegistryID` is a global ID. It is encoded as a string.
+
+An example `GeoAchievementUploadRegistryID` is: `"gid://gitlab/Geo::AchievementUploadRegistry/1"`.
+
 ### `GeoBaseRegistryID`
 
 A `GeoBaseRegistryID` is a global ID. It is encoded as a string.
@@ -61248,6 +61347,7 @@ One of:
 One of:
 
 - [`AbuseReportUploadRegistry`](#abusereportuploadregistry)
+- [`AchievementUploadRegistry`](#achievementuploadregistry)
 - [`CiSecureFileRegistry`](#cisecurefileregistry)
 - [`ContainerRepositoryRegistry`](#containerrepositoryregistry)
 - [`DependencyProxyBlobRegistry`](#dependencyproxyblobregistry)

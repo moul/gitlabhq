@@ -1134,11 +1134,6 @@ class MergeRequest < ApplicationRecord
     diff.diffs_for_streaming_by_changed_paths(diff_options, &)
   end
 
-  def latest_diffs(diff_options = {})
-    diff = resolve_diff_version(diff_options)
-    diff.diffs(diff_options)
-  end
-
   def diffs(diff_options = {})
     if compare
       # When saving MR diffs, `expanded` is implicitly added (because we need

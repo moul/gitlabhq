@@ -14,13 +14,11 @@ module RapidDiffs
       subject, diff_view:, diff_options:,
       current_user: nil, request_params: nil, environment: nil, conflicts: nil
     )
-      super(subject, diff_view:, diff_options:, current_user:, request_params:, environment:)
+      super(
+        ::MergeRequests::VersionedMergeRequest.new(subject),
+        diff_view:, diff_options:, current_user:, request_params:, environment:
+      )
       @conflicts = conflicts
-    end
-
-    override(:diffs_resource)
-    def diffs_resource(options = {})
-      resource.latest_diffs(@diff_options.merge(options))
     end
 
     def diffs_stats_endpoint

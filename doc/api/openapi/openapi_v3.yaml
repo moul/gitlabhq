@@ -71327,6 +71327,26 @@ components:
           type: string
         user_uploads_verification_failed_count:
           type: string
+        achievement_uploads_count:
+          type: string
+        achievement_uploads_checksum_total_count:
+          type: string
+        achievement_uploads_checksummed_count:
+          type: string
+        achievement_uploads_checksum_failed_count:
+          type: string
+        achievement_uploads_synced_count:
+          type: string
+        achievement_uploads_failed_count:
+          type: string
+        achievement_uploads_registry_count:
+          type: string
+        achievement_uploads_verification_total_count:
+          type: string
+        achievement_uploads_verified_count:
+          type: string
+        achievement_uploads_verification_failed_count:
+          type: string
         group_uploads_count:
           type: string
         group_uploads_checksum_total_count:
@@ -71486,6 +71506,10 @@ components:
         user_uploads_synced_in_percentage:
           type: string
         user_uploads_verified_in_percentage:
+          type: string
+        achievement_uploads_synced_in_percentage:
+          type: string
+        achievement_uploads_verified_in_percentage:
           type: string
         group_uploads_synced_in_percentage:
           type: string
@@ -76664,6 +76688,26 @@ components:
           type: string
         user_uploads_verification_failed_count:
           type: string
+        achievement_uploads_count:
+          type: string
+        achievement_uploads_checksum_total_count:
+          type: string
+        achievement_uploads_checksummed_count:
+          type: string
+        achievement_uploads_checksum_failed_count:
+          type: string
+        achievement_uploads_synced_count:
+          type: string
+        achievement_uploads_failed_count:
+          type: string
+        achievement_uploads_registry_count:
+          type: string
+        achievement_uploads_verification_total_count:
+          type: string
+        achievement_uploads_verified_count:
+          type: string
+        achievement_uploads_verification_failed_count:
+          type: string
         group_uploads_count:
           type: string
         group_uploads_checksum_total_count:
@@ -76823,6 +76867,10 @@ components:
         user_uploads_synced_in_percentage:
           type: string
         user_uploads_verified_in_percentage:
+          type: string
+        achievement_uploads_synced_in_percentage:
+          type: string
+        achievement_uploads_verified_in_percentage:
           type: string
         group_uploads_synced_in_percentage:
           type: string

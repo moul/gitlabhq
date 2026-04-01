@@ -56,8 +56,7 @@
             #js-vue-discussion-counter{ data: { blocks_merge: @project.only_allow_merge_if_all_discussions_are_resolved?.to_s, can_resolve_discussion: @merge_request.resolvable_discussions.first&.can_resolve?(current_user).to_s } }
             - if !!@issuable_sidebar.dig(:current_user, :id)
               .js-sidebar-todo-widget-root{ data: { project_path: @issuable_sidebar[:project_full_path], iid: @issuable_sidebar[:iid], id: @issuable_sidebar[:id] } }
-              - if notifications_todos_buttons_enabled?
-                .js-sidebar-subscriptions-widget-root{ data: { full_path: @issuable_sidebar[:project_full_path], iid: @issuable_sidebar[:iid] } }
+              .js-sidebar-subscriptions-widget-root{ data: { full_path: @issuable_sidebar[:project_full_path], iid: @issuable_sidebar[:iid] } }
             #js-submit-review-button
     .tab-content#diff-notes-app
       #js-diff-file-finder

@@ -4274,6 +4274,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_9f4b9e63e741() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."namespace_id" IS NULL THEN
+  SELECT "namespace_id"
+  INTO NEW."namespace_id"
+  FROM "achievement_uploads"
+  WHERE "achievement_uploads"."id" = NEW."achievement_upload_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_a1bc7c70cbdf() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -12776,6 +12792,29 @@ CREATE SEQUENCE abuse_reports_id_seq
     CACHE 1;
 
 ALTER SEQUENCE abuse_reports_id_seq OWNED BY abuse_reports.id;
+
+CREATE TABLE achievement_upload_states (
+    id bigint NOT NULL,
+    verification_started_at timestamp with time zone,
+    verification_retry_at timestamp with time zone,
+    verified_at timestamp with time zone,
+    achievement_upload_id bigint NOT NULL,
+    namespace_id bigint NOT NULL,
+    verification_state smallint DEFAULT 0 NOT NULL,
+    verification_retry_count smallint DEFAULT 0 NOT NULL,
+    verification_checksum bytea,
+    verification_failure text,
+    CONSTRAINT check_0f8844fe3a CHECK ((char_length(verification_failure) <= 255))
+);
+
+CREATE SEQUENCE achievement_upload_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE achievement_upload_states_id_seq OWNED BY achievement_upload_states.id;
 
 CREATE TABLE achievement_uploads (
     id bigint NOT NULL,
@@ -35013,6 +35052,8 @@ ALTER TABLE ONLY abuse_report_user_mentions ALTER COLUMN id SET DEFAULT nextval(
 
 ALTER TABLE ONLY abuse_reports ALTER COLUMN id SET DEFAULT nextval('abuse_reports_id_seq'::regclass);
 
+ALTER TABLE ONLY achievement_upload_states ALTER COLUMN id SET DEFAULT nextval('achievement_upload_states_id_seq'::regclass);
+
 ALTER TABLE ONLY achievements ALTER COLUMN id SET DEFAULT nextval('achievements_id_seq'::regclass);
 
 ALTER TABLE ONLY activation_metrics ALTER COLUMN id SET DEFAULT nextval('activation_metrics_id_seq'::regclass);
@@ -37884,6 +37925,9 @@ ALTER TABLE ONLY abuse_report_user_mentions
 
 ALTER TABLE ONLY abuse_reports
     ADD CONSTRAINT abuse_reports_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY achievement_upload_states
+    ADD CONSTRAINT achievement_upload_states_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY achievement_uploads
     ADD CONSTRAINT achievement_uploads_pkey PRIMARY KEY (id, model_type);
@@ -44652,6 +44696,20 @@ CREATE INDEX index_abuse_reports_on_status_and_updated_at ON abuse_reports USING
 CREATE INDEX index_abuse_reports_on_status_category_and_id ON abuse_reports USING btree (status, category, id);
 
 CREATE INDEX index_abuse_reports_on_status_reporter_id_and_id ON abuse_reports USING btree (status, reporter_id, id);
+
+CREATE INDEX index_achievement_upload_states_failed_verification ON achievement_upload_states USING btree (verification_retry_at NULLS FIRST) WHERE (verification_state = 3);
+
+CREATE INDEX index_achievement_upload_states_needs_verification_id ON achievement_upload_states USING btree (achievement_upload_id) WHERE ((verification_state = 0) OR (verification_state = 3));
+
+CREATE UNIQUE INDEX index_achievement_upload_states_on_achievement_upload_id ON achievement_upload_states USING btree (achievement_upload_id);
+
+CREATE INDEX index_achievement_upload_states_on_namespace_id ON achievement_upload_states USING btree (namespace_id);
+
+CREATE INDEX index_achievement_upload_states_on_verification_started ON achievement_upload_states USING btree (achievement_upload_id, verification_started_at) WHERE (verification_state = 1);
+
+CREATE INDEX index_achievement_upload_states_on_verification_state ON achievement_upload_states USING btree (verification_state);
+
+CREATE INDEX index_achievement_upload_states_pending_verification ON achievement_upload_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
 
 CREATE UNIQUE INDEX "index_achievements_on_namespace_id_LOWER_name" ON achievements USING btree (namespace_id, lower(name));
 
@@ -54729,6 +54787,8 @@ CREATE TRIGGER trigger_9f3745f8fe32 BEFORE INSERT OR UPDATE ON merge_requests_cl
 
 CREATE TRIGGER trigger_9f3de326ea61 BEFORE INSERT OR UPDATE ON ci_pipeline_schedule_variables FOR EACH ROW EXECUTE FUNCTION trigger_9f3de326ea61();
 
+CREATE TRIGGER trigger_9f4b9e63e741 BEFORE INSERT OR UPDATE ON achievement_upload_states FOR EACH ROW EXECUTE FUNCTION trigger_9f4b9e63e741();
+
 CREATE TRIGGER trigger_a1bc7c70cbdf BEFORE INSERT OR UPDATE ON vulnerability_user_mentions FOR EACH ROW EXECUTE FUNCTION trigger_a1bc7c70cbdf();
 
 CREATE TRIGGER trigger_a22be47501db BEFORE INSERT OR UPDATE ON group_wiki_repository_states FOR EACH ROW EXECUTE FUNCTION trigger_a22be47501db();
@@ -55546,6 +55606,9 @@ ALTER TABLE ONLY approval_group_rules
 
 ALTER TABLE ONLY board_labels
     ADD CONSTRAINT fk_2adb910a2e FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY achievement_upload_states
+    ADD CONSTRAINT fk_2bcbb55ad6 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY agent_group_authorizations
     ADD CONSTRAINT fk_2c9f941965 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
@@ -57442,6 +57505,9 @@ ALTER TABLE ONLY software_license_policies
 
 ALTER TABLE ONLY epics
     ADD CONSTRAINT fk_dccd3f98fc FOREIGN KEY (assignee_id) REFERENCES users(id) ON DELETE SET NULL;
+
+ALTER TABLE ONLY achievement_upload_states
+    ADD CONSTRAINT fk_dd96a3fb92 FOREIGN KEY (achievement_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY import_offline_configurations
     ADD CONSTRAINT fk_de42c075bd FOREIGN KEY (offline_export_id) REFERENCES import_offline_exports(id) ON DELETE CASCADE;

@@ -14,7 +14,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
   let(:resolved_diff_id) { merge_request_diff.id }
   let(:request_params) { {} }
   let(:current_user) { build_stubbed(:user) }
-  let(:resource) { merge_request }
+  let(:resource) { presenter.resource }
 
   subject(:presenter) do
     described_class.new(merge_request, diff_view: diff_view, diff_options: diff_options,
@@ -31,15 +31,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     )
   end
 
-  describe '#diffs_resource' do
-    it 'calls latest_diffs on the merge_request with merged options' do
-      extra_options = { expand_all: true }
-
-      expect(merge_request).to receive(:latest_diffs).with(diff_options.merge(extra_options))
-
-      presenter.diffs_resource(extra_options)
-    end
-  end
+  it_behaves_like 'rapid diffs presenter base diffs_resource'
 
   describe '#diffs_slice' do
     let(:offset) { presenter.send(:offset) }
@@ -191,7 +183,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
         let(:request_params) { { file_path: 'test.txt' } }
 
         before do
-          allow(merge_request).to receive(:diffs).and_return(diff_files)
+          allow(resource).to receive(:diffs).and_return(diff_files)
         end
 
         it 'includes diff_id and skip params' do
@@ -208,7 +200,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
         let(:request_params) { { file_path: 'test.txt' } }
 
         before do
-          allow(merge_request).to receive(:diffs).and_return(diff_files)
+          allow(resource).to receive(:diffs).and_return(diff_files)
         end
 
         it { is_expected.to be_nil }
@@ -290,7 +282,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
 
     before do
       allow(presenter_with_user).to receive(:can?).with(current_user, :create_note,
-        merge_request).and_return(can_create_note)
+        presenter_with_user.resource).and_return(can_create_note)
     end
 
     it { is_expected.to eq({ can_create_note: false }) }
@@ -344,7 +336,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     it 'delegates to DiffCompareVersionsEntity' do
       entity = instance_double(RapidDiffs::DiffCompareVersionsEntity)
       expect(RapidDiffs::DiffCompareVersionsEntity).to receive(:represent).with(
-        merge_request,
+        resource,
         diff_id: '10',
         start_sha: 'abc123'
       ).and_return(entity)
@@ -371,7 +363,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     let(:request_params) { { file_path: 'test.txt' } }
 
     before do
-      allow(merge_request).to receive(:diffs).and_return(diff_files)
+      allow(resource).to receive(:diffs).and_return(diff_files)
     end
 
     it 'returns the linked file' do
@@ -434,8 +426,8 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     end
 
     before do
+      allow(resource).to receive(:diffs).and_return(diffs_resource)
       allow(merge_request).to receive_messages(
-        latest_diffs: diffs_resource,
         first_diffs_slice: diff_files_collection,
         diffs_for_streaming: diffs_resource
       )
@@ -509,7 +501,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
       let(:request_params) { { file_path: linked_file.file_path } }
 
       before do
-        allow(merge_request).to receive(:diffs).and_return(diff_files_collection)
+        allow(resource).to receive(:diffs).and_return(diff_files_collection)
       end
 
       it 'returns linked file wrapped in presenter with conflict info' do

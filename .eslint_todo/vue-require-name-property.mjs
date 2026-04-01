@@ -449,7 +449,6 @@ export default {
     'app/assets/javascripts/import_entities/import_projects/components/bitbucket_status_table.vue',
     'app/assets/javascripts/import_entities/import_projects/components/github_organizations_box.vue',
     'app/assets/javascripts/import_entities/import_projects/components/github_status_table.vue',
-    'app/assets/javascripts/incidents/components/incidents_list.vue',
     'app/assets/javascripts/incidents_settings/components/incidents_settings_tabs.vue',
     'app/assets/javascripts/incidents_settings/components/pagerduty_form.vue',
     'app/assets/javascripts/integrations/beyond_identity/components/add_exclusions_drawer.vue',

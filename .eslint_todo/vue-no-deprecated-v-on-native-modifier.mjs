@@ -3,6 +3,8 @@
  */
 export default {
   files: [
+    'ee/app/assets/javascripts/ai/duo_agentic_chat/components/duo_agentic_chat_view.vue',
+    'ee/app/assets/javascripts/ai/tanuki_bot/components/duo_chat_view.vue',
     'app/assets/javascripts/batch_comments/components/draft_note.vue',
     'app/assets/javascripts/ci/pipeline_details/graph/components/job_item.vue',
     'app/assets/javascripts/ci/pipeline_details/graph/components/stage_column_component.vue',

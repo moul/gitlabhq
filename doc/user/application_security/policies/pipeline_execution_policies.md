@@ -80,6 +80,45 @@ Note the following:
 - If any policy applied to a given project has `suffix: never`, the pipeline fails if another job with the same name is already present in the pipeline.
 - Pipeline execution policies are enforced on all branches and pipeline sources. However, for [merge request pipelines](../../../ci/pipelines/merge_request_pipelines.md#configure-merge-request-pipelines), some `rules:` or `workflow:rules` configurations can prevent jobs from running. Use [workflow rules](../../../ci/yaml/workflow.md) to control when pipeline execution policies are enforced.
 
+### Security policy pipeline check
+
+{{< details >}}
+
+- Tier: Ultimate
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+- Status: Experiment
+
+{{< /details >}}
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/589650) in GitLab 18.11 [with a flag](../../../administration/feature_flags/_index.md) named `security_policy_pipeline_check`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
+
+When pipeline execution policies or [scan execution policies](scan_execution_policies.md) are configured
+for a project, the security policy pipeline check requires all pipelines for the latest commit to
+succeed before the merge request can be merged. This check applies to all pipelines that run because of the
+commit, not just pipelines created by security policies.
+
+The security policy pipeline check prevents merging when the merge request pipeline passes but
+another pipeline (such as a branch pipeline created by a security policy) fails, which could otherwise
+allow unverified code to be merged.
+
+The security policy pipeline check behaves as follows:
+
+- If the project setting **Pipelines must succeed** is enabled, a failed pipeline results in a hard block
+  that prevents merging.
+- If **Pipelines must succeed** is not enabled, a failed pipeline results in a warning. The merge request
+  can still be set to [auto-merge](../../project/merge_requests/auto_merge.md).
+- If the project setting **Skipped pipelines are considered successful** is enabled, skipped pipelines
+  are treated as if they passed.
+
 ### `.pipeline-policy-pre` stage
 
 {{< details >}}

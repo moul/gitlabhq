@@ -73181,6 +73181,26 @@ definitions:
         type: string
       user_uploads_verification_failed_count:
         type: string
+      achievement_uploads_count:
+        type: string
+      achievement_uploads_checksum_total_count:
+        type: string
+      achievement_uploads_checksummed_count:
+        type: string
+      achievement_uploads_checksum_failed_count:
+        type: string
+      achievement_uploads_synced_count:
+        type: string
+      achievement_uploads_failed_count:
+        type: string
+      achievement_uploads_registry_count:
+        type: string
+      achievement_uploads_verification_total_count:
+        type: string
+      achievement_uploads_verified_count:
+        type: string
+      achievement_uploads_verification_failed_count:
+        type: string
       group_uploads_count:
         type: string
       group_uploads_checksum_total_count:
@@ -73340,6 +73360,10 @@ definitions:
       user_uploads_synced_in_percentage:
         type: string
       user_uploads_verified_in_percentage:
+        type: string
+      achievement_uploads_synced_in_percentage:
+        type: string
+      achievement_uploads_verified_in_percentage:
         type: string
       group_uploads_synced_in_percentage:
         type: string
@@ -73633,6 +73657,16 @@ definitions:
     - user_uploads_verification_total_count
     - user_uploads_verified_count
     - user_uploads_verification_failed_count
+    - achievement_uploads_count
+    - achievement_uploads_checksum_total_count
+    - achievement_uploads_checksummed_count
+    - achievement_uploads_checksum_failed_count
+    - achievement_uploads_synced_count
+    - achievement_uploads_failed_count
+    - achievement_uploads_registry_count
+    - achievement_uploads_verification_total_count
+    - achievement_uploads_verified_count
+    - achievement_uploads_verification_failed_count
     - group_uploads_count
     - group_uploads_checksum_total_count
     - group_uploads_checksummed_count
@@ -73713,6 +73747,8 @@ definitions:
     - design_management_action_uploads_verified_in_percentage
     - user_uploads_synced_in_percentage
     - user_uploads_verified_in_percentage
+    - achievement_uploads_synced_in_percentage
+    - achievement_uploads_verified_in_percentage
     - group_uploads_synced_in_percentage
     - group_uploads_verified_in_percentage
     - project_uploads_synced_in_percentage
