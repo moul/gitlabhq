@@ -7,8 +7,8 @@ RSpec.describe API::WorkItems::Create, feature_category: :portfolio_management d
   let_it_be(:group) { create(:group, :private, reporters: user) }
   let_it_be(:project) { create(:project, :private, :repository, group: group, reporters: user) }
 
-  let_it_be(:task_type) { WorkItems::Type.default_by_type(:task) }
-  let_it_be(:issue_type) { WorkItems::Type.default_by_type(:issue) }
+  let_it_be(:task_type) { ::WorkItems::TypesFramework::Provider.new.find_by_base_type(:task) }
+  let_it_be(:issue_type) { ::WorkItems::TypesFramework::Provider.new.find_by_base_type(:issue) }
 
   before do
     stub_feature_flags(work_item_rest_api: user)
@@ -423,12 +423,14 @@ RSpec.describe API::WorkItems::Create, feature_category: :portfolio_management d
     let(:milestone) { create(:milestone, group: group) }
 
     context 'when epics license is not enabled' do
-      let_it_be(:epic_type) { WorkItems::Type.default_by_type(:epic) }
+      # We need to move just definitions of EE system defined types to CE and
+      # keep the implementations EE
+      let_it_be(:epic_type_id) { 8 }
 
       it 'returns forbidden for epic type' do
         post api(api_request_path, user), params: {
           title: 'Group epic',
-          work_item_type_id: epic_type.id
+          work_item_type_id: epic_type_id
         }
 
         expect(response).to have_gitlab_http_status(:forbidden)

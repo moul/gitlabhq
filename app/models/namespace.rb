@@ -907,7 +907,7 @@ class Namespace < ApplicationRecord
 
     unless ::WorkItems::TypesFramework::Provider.unfiltered_base_types.map(&:to_s).include?(type)
       raise ArgumentError,
-        %("#{type}" is not a valid WorkItems::Type.base_types)
+        %("#{type}" is not a valid Work Item Type)
     end
 
     allowed_work_item_types.include?(type)

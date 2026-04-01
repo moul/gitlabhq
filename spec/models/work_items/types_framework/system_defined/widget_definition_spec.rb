@@ -66,7 +66,7 @@ RSpec.describe WorkItems::TypesFramework::SystemDefined::WidgetDefinition, featu
     let(:incident_type) { build(:work_item_system_defined_type, :incident) }
 
     it 'generates widget definitions for all work item types' do
-      work_item_type_ids = WorkItems::TypesFramework::SystemDefined::Type.all.map(&:id)
+      work_item_type_ids = ::WorkItems::TypesFramework::Provider.new.all.map(&:id)
       definition_type_ids = fixed_items.pluck(:work_item_type_id).uniq
 
       expect(definition_type_ids).to match_array(work_item_type_ids)

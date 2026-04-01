@@ -3391,7 +3391,7 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
 
     it 'raises ArgumentError for invalid work item type' do
       expect { namespace.allowed_work_item_type?(:unknown) }
-        .to raise_error(ArgumentError, '"unknown" is not a valid WorkItems::Type.base_types')
+        .to raise_error(ArgumentError, '"unknown" is not a valid Work Item Type')
     end
   end
 

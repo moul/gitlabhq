@@ -15,9 +15,9 @@ RSpec.describe WorkItems::TypesFramework::Provider, feature_category: :team_plan
 
   describe '.unfiltered_base_types' do
     it 'returns all base type keys from WorkItems::Type' do
-      expected_types = WorkItems::Type.base_types.keys
-
-      expect(described_class.unfiltered_base_types).to match_array(expected_types)
+      expect(described_class.unfiltered_base_types).to match_array(
+        %w[issue incident test_case requirement task objective key_result epic ticket]
+      )
     end
   end
 

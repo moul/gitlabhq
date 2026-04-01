@@ -263,7 +263,7 @@ class WorkItem < Issue
       hierarchy = ::Gitlab::WorkItems::WorkItemHierarchy.new(base_scope).base_and_descendants
 
       if work_item_type
-        work_item_type_id = ::WorkItems::Type.default_by_type(work_item_type).id
+        work_item_type_id = ::WorkItems::TypesFramework::Provider.new.find_by_base_type(work_item_type).id
         hierarchy = hierarchy.where(work_item_type_id: work_item_type_id)
       end
 

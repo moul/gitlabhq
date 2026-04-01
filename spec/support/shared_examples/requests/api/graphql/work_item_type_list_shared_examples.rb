@@ -25,10 +25,10 @@ RSpec.shared_examples 'graphql work item type list request spec' do |context_nam
       returned_types = graphql_data_at(parent_key, :workItemTypes, :nodes)
       type_names = returned_types.pluck('name')
 
-      system_type_names = WorkItems::TypesFramework::SystemDefined::Type.all.map(&:name)
+      system_type_names = ::WorkItems::TypesFramework::Provider.new.all.map(&:name)
       expect(type_names).to all(be_in(system_type_names))
 
-      expect(returned_types.size).to eq(WorkItems::TypesFramework::SystemDefined::Type.all.count)
+      expect(returned_types.size).to eq(::WorkItems::TypesFramework::Provider.new.all.count)
     end
 
     it 'prevents N+1 queries' do

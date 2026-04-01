@@ -8,7 +8,7 @@ module WorkItems
     # This class aims to abstract that fetching logic away so application code doesn't need to care
     # about the composition of types of a given namespace.
     #
-    # For now we use this interface to fetch types from the database to make the switchover easier.
+    # For now, we use this interface to fetch types from the database to make the switchover easier.
     # We already use the final methods from the POC, but will change the implementation using caching etc.
     # See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/214894
     class Provider
@@ -30,7 +30,7 @@ module WorkItems
       end
 
       def initialize(namespace = nil)
-        # Always try to pass the current namespace or subtypes(Group, Project::Namepsace) and not the root ancestor.
+        # Always try to pass the current namespace or subtypes(Group, Project::Namespace) and not the root ancestor.
         #
         # We will use it to fetch custom types and apply the TypesFilter.
         #

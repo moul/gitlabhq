@@ -48,7 +48,7 @@ module API
           requires :title, type: String, desc: 'Title of the work item.'
 
           optional :work_item_type_name, type: String,
-            values: ::WorkItems::Type.base_types.keys,
+            values: ::WorkItems::TypesFramework::Provider.unfiltered_base_types,
             desc: 'Name of the work item type (for example, "task", "issue", "epic").'
           optional :work_item_type_id, type: Integer,
             desc: 'Numeric ID of the work item type.'
