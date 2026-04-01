@@ -72,7 +72,7 @@ To contribute more languages to the component, open a merge request in the
 [code intelligence component project](https://gitlab.com/components/code-intelligence).
 
 1. Add a GitLab CI/CD component to your project's `.gitlab-ci.yml`. For example, this job generates
-   the LSIF artifact for `golang`:
+   the LSIF artifact for Go:
 
    ```yaml
    include:

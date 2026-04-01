@@ -132,6 +132,10 @@ module Gitlab
       false
     end
 
+    def server_error?
+      false
+    end
+
     def error_type(*)
       nil
     end

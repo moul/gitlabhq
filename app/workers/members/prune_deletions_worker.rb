@@ -45,7 +45,6 @@ module Members
     def remove_user_from_namespace(member_deletion_schedule)
       namespace = member_deletion_schedule.namespace
       user = member_deletion_schedule.user
-      scheduled_by = member_deletion_schedule.scheduled_by
       memberships = ::Member.in_hierarchy(namespace).with_user(user).limit(MEMBER_BATCH_SIZE)
 
       destroyed_count = 0
@@ -54,7 +53,7 @@ module Members
           # limit deletion to execute only for 60s (execution_tracker::MAX_RUNTIME)
           break if execution_tracker.over_limit?
 
-          destroy_member(member, scheduled_by)
+          destroy_member(member, member_deletion_schedule)
           destroyed_count += 1
         end
       end
@@ -72,7 +71,9 @@ module Members
     end
     strong_memoize_attr :member_deletion_schedules
 
-    def destroy_member(member, scheduled_by)
+    def destroy_member(member, member_deletion_schedule)
+      scheduled_by = member_deletion_schedule.scheduled_by
+
       ::Members::DestroyService.new(member, current_user: scheduled_by, skip_subresources: true).execute
     end
 

@@ -131,6 +131,12 @@ RSpec.describe Gitlab::SearchResults, feature_category: :global_search do
       end
     end
 
+    describe '#server_error?' do
+      it 'returns false' do
+        expect(results.server_error?).to be false
+      end
+    end
+
     context 'when count_limit is lower than total amount' do
       before do
         allow(results).to receive(:count_limit).and_return(1)

@@ -1704,6 +1704,8 @@ lib/gitlab/checks/
 ^[Security reports]
 /ee/lib/gitlab/ci/parsers/license_compliance/ @gitlab-org/secure/composition-analysis-be
 /ee/lib/gitlab/ci/parsers/security/ @gitlab-org/security-risk-management/security-insights/backend
+/ee/lib/gitlab/security/parsers/ @gitlab-org/security-risk-management/security-insights/backend
+/ee/spec/lib/gitlab/security/parsers/ @gitlab-org/security-risk-management/security-insights/backend
 /ee/lib/gitlab/ci/reports/coverage_fuzzing/ @gitlab-org/secure/dynamic-analysis
 /ee/lib/gitlab/ci/reports/license_scanning/ @gitlab-org/secure/composition-analysis-be
 /ee/lib/gitlab/ci/reports/security/ @gitlab-org/security-risk-management/security-insights/backend

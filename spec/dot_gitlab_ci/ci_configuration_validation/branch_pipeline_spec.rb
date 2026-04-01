@@ -156,6 +156,11 @@ RSpec.describe 'CI configuration validation - branch pipelines', feature_categor
         context 'with auto-deploy branch pipeilne' do
           let(:ci_commit_branch)  { '17-3-auto-deploy-2024080508' }
           let(:expected_job_name) { 'build-qa-image' }
+          let(:variables_attributes) do
+            # Simulate a subsequent commit push (not branch creation).
+            # CI_COMMIT_BEFORE_SHA is all zeros on branch creation, which skips the pipeline.
+            super() << { key: 'CI_COMMIT_BEFORE_SHA', value: 'abc1234def5678abc1234def5678abc1234def56' }
+          end
 
           it_behaves_like 'default branch pipeline'
         end

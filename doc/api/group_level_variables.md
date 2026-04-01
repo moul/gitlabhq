@@ -20,6 +20,10 @@ title: Group-level Variables API
 
 Use this API to interact with [CI/CD variables](../ci/variables/_index.md#for-a-group) for a group.
 
+Prerequisites:
+
+- You must have the Owner role for the group.
+
 ## List all group variables
 
 Lists all variables for a specified group. Use the `page` and `per_page` [pagination](rest/_index.md#offset-based-pagination)

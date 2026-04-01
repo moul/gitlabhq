@@ -278,27 +278,33 @@ fi
 echo ""
 echo "==> Copying workhorse config and secret from pod $POD_NAME..."
 
-# Creating an associative array: container_name="pod_path:local_path"
-declare -A CONTAINER_FILES=(
-  [$WORKHORSE_CONTAINER]="/srv/gitlab/config/workhorse-config.toml:workhorse/workhorse-config.toml"
-  [$CONTAINER]="/etc/gitlab/gitlab-workhorse/secret:workhorse/secret"
+CONTAINER_FILE_CONTAINERS=(
+  "$WORKHORSE_CONTAINER"
+  "$CONTAINER"
+)
+CONTAINER_FILE_POD_PATHS=(
+  "/srv/gitlab/config/workhorse-config.toml"
+  "/etc/gitlab/gitlab-workhorse/secret"
+)
+CONTAINER_FILE_LOCAL_PATHS=(
+  "workhorse/workhorse-config.toml"
+  "workhorse/secret"
 )
 
-for container in "${!CONTAINER_FILES[@]}"; do
-  while IFS= read -r entry; do
-    [[ -z "$entry" ]] && continue
-    IFS=':' read -r pod_path local_rel <<< "$entry"
-    local_path="$GITLAB_DIR/$local_rel"
-    mkdir -p "$(dirname "$local_path")"
-    $KUBECTL cp -n "$NAMESPACE" -c "$container" "$POD_NAME:$pod_path" "$local_path" >/dev/null
-    if [[ -f "$local_path" ]]; then
-      echo "  ✓ $local_rel"
-      COPIED_FILES+=("$local_rel")
-    else
-      warn "could not copy $local_rel (skipping)"
-      FAILED_FILES+=("$local_rel")
-    fi
-  done <<< "${CONTAINER_FILES[$container]}"
+for i in "${!CONTAINER_FILE_CONTAINERS[@]}"; do
+  container="${CONTAINER_FILE_CONTAINERS[$i]}"
+  pod_path="${CONTAINER_FILE_POD_PATHS[$i]}"
+  local_rel="${CONTAINER_FILE_LOCAL_PATHS[$i]}"
+  local_path="$GITLAB_DIR/$local_rel"
+  mkdir -p "$(dirname "$local_path")"
+  $KUBECTL cp -n "$NAMESPACE" -c "$container" "$POD_NAME:$pod_path" "$local_path" >/dev/null
+  if [[ -f "$local_path" ]]; then
+    echo "  ✓ $local_rel"
+    COPIED_FILES+=("$local_rel")
+  else
+    warn "could not copy $local_rel (skipping)"
+    FAILED_FILES+=("$local_rel")
+  fi
 done
 
 
