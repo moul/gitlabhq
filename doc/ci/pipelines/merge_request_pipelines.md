@@ -106,6 +106,38 @@ For more `workflow` examples, see:
 To [use security scanning tools with merge request pipelines](../../user/application_security/detect/security_configuration.md#use-security-scanning-tools-with-merge-request-pipelines),
 use the CI/CD variable `AST_ENABLE_MR_PIPELINES` or the `latest` template edition.
 
+## Run a merge request pipeline with custom inputs
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/547861) in GitLab 18.11 [with a feature flag](../../administration/feature_flags/_index.md) named `enable_inputs_for_mr_pipelines`. Disabled by default.
+- [Enabled on GitLab.com](https://gitlab.com/gitlab-org/gitlab/-/work_items/593775) in GitLab 18.11.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag. For more information, see the history.
+
+If your `.gitlab-ci.yml` defines [pipeline inputs](../inputs/_index.md), you can customize input values when
+you manually run a new merge request pipeline. You can also set [CI/CD variables](../variables/_index.md) in the same form.
+
+Prerequisites:
+
+- Your `.gitlab-ci.yml` file must be [configured for merge request pipelines](#configure-merge-request-pipelines).
+- Your `.gitlab-ci.yml` file must also define a `spec: inputs` section.
+- You must have at least the Developer role for the source project.
+
+To run a merge request pipeline with custom inputs:
+
+1. In the left sidebar, select **Search or go to** and find your project.
+1. Select **Code** > **Merge requests** and open your merge request.
+1. Select the **Pipelines** tab.
+1. Select the **Run pipeline** dropdown list ({{< icon name="chevron-down" >}}) and
+   choose **Run pipeline with modified values**.
+1. The new pipeline form opens and is pre-filled with the merge request's source branch.
+   Modify the input values and set any CI/CD variables as needed.
+1. Select **Run pipeline**.
+
 ## Use with forked projects
 
 External contributors who work in forks can't create pipelines in the parent project.

@@ -122,6 +122,8 @@ module API
               values: ::WorkItems::Type.base_types.keys,
               desc: 'Exclude work items of these types.',
               coerce_with: ::API::Validations::Types::CommaSeparatedToArray.coerce
+
+            use :work_items_not_filter_params_ee
           end
 
           optional :or, type: Hash,
@@ -135,7 +137,20 @@ module API
             optional :label_names, type: Array[String],
               desc: 'Filter work items with at least one of these labels.',
               coerce_with: ::API::Validations::Types::CommaSeparatedToArray.coerce
+
+            use :work_items_or_filter_params_ee
           end
+
+          use :work_items_filter_params_ee
+        end
+
+        params :work_items_filter_params_ee do # rubocop:disable Lint/EmptyBlock -- Overridden in EE
+        end
+
+        params :work_items_not_filter_params_ee do # rubocop:disable Lint/EmptyBlock -- Overridden in EE
+        end
+
+        params :work_items_or_filter_params_ee do # rubocop:disable Lint/EmptyBlock -- Overridden in EE
         end
 
         params :work_items_group_filter_params do
@@ -178,3 +193,5 @@ module API
     end
   end
 end
+
+API::Helpers::WorkItems::ListParams.prepend_mod_with('API::Helpers::WorkItems::ListParams')

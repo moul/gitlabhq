@@ -91,7 +91,7 @@ module Ci
 
     rule { debug_mode & ~project_update_build }.prevent :read_build_trace
 
-    rule { ~reporter_has_access_to_protected_environment & protected_ref }.policy do
+    rule { ~has_access_to_protected_environment & protected_ref }.policy do
       prevent(*all_job_write_abilities)
     end
 

@@ -238,6 +238,7 @@ module Gitlab
           raise ImpersonationDisabled
         end
 
+        clear_auth_failure_in_application_context(save_auth_context)
         save_current_token_in_env
         access_token
       end
@@ -321,6 +322,24 @@ module Gitlab
           auth_fail_requested_scopes: requested_scopes.join(' '),
           auth_fail_token_type: request_token_type,
           auth_fail_auth_header_type: current_auth_header_type
+        )
+      end
+
+      def clear_auth_failure_in_application_context(save_auth_context)
+        return unless save_auth_context
+
+        # Use Labkit::Context.push directly to avoid triggering `to_lazy_hash`
+        # inside Gitlab::ApplicationContext.push. That path calls `include_client?`,
+        # which evaluates the existing client_id lambda and transitively the user
+        # lazy-attribute reader -- memoizing nil because @current_user hasn't been
+        # assigned yet (we are still inside its computation). Pushing at the Labkit
+        # level bypasses that evaluation entirely.
+        Labkit::Context.push(
+          auth_fail_reason: nil,
+          auth_fail_token_id: nil,
+          auth_fail_requested_scopes: nil,
+          auth_fail_token_type: nil,
+          auth_fail_auth_header_type: nil
         )
       end
 

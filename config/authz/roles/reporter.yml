@@ -9,6 +9,7 @@ project:
   raw_permissions:
   - _delete_shared_saved_view
   - _update_incident_work_item
+  - _update_protected_job
   - _update_shared_saved_view
   - admin_issuable_resource_link
   - admin_issue

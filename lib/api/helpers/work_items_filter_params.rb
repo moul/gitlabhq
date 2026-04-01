@@ -43,3 +43,5 @@ module API
     end
   end
 end
+
+API::Helpers::WorkItemsFilterParams.prepend_mod

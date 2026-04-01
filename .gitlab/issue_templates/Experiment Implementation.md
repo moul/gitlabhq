@@ -13,6 +13,17 @@
 |---------|-----------|
 | | |
 
+# UX Transition Considerations
+<!-- Consider what happens to users when they move between control and candidate groups, or when the experiment is cleaned up.
+     Some experiments involve persistent user state (e.g. pinned items, saved settings, layout preferences) that is tied to
+     one variant. If a user switches groups — or when the experiment concludes — they may experience:
+     - Unexpected UI changes (layout, navigation, or feature availability shifting without warning)
+     - Loss of user-specific state or preferences tied to one variant
+     - Inconsistency between what a user remembers and what they now see
+
+     If your experiment involves persistent state, consider addressing this upfront (e.g. DB persistence, data migration
+     strategy, transitional state, in-app messaging, or phased rollout) rather than deferring it to cleanup. -->
+
 # Rollout strategy
 <!-- This should outline the rollout percentages for variants and if there's more than one step to this, each of those steps and the timing for those steps (e.g. 30 days after initial rollout). -->
 

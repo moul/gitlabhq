@@ -686,6 +686,10 @@ The limit varies depending on your plan and the number of seats in your subscrip
 When the rate limit is reached, all webhooks in the namespace are temporarily disabled and
 automatically re-enabled in the next minute.
 
+When rate limited, a badge appears next to the webhook in the webhook list. On the webhook edit
+page, a message states how many times per minute the namespace limit was exceeded and when webhooks
+are re-enabled.
+
 ### Security policy limits
 
 The maximum number of policies that you can add to a security policy project. These limits apply to each policy type individually. For example, you can have five merge request approval policies and five scan execution policies in the same security policy project.
