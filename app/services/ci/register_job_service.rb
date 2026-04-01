@@ -371,7 +371,7 @@ module Ci
     end
 
     def scheduler_failure!(build)
-      Gitlab::OptimisticLocking.retry_lock_with_transaction(build, 3,
+      Gitlab::OptimisticLocking.retry_lock(build, 3,
         name: 'register_job_scheduler_failure') do |subject|
         subject.drop!(:scheduler_failure)
       end

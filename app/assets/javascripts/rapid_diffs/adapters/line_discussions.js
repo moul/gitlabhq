@@ -5,9 +5,11 @@ import {
   getLineNumbers,
   getLineChange,
   getLineCode,
+  getNewLineRangeContent,
   findLineRow,
 } from '~/rapid_diffs/utils/line_utils';
 import { createAlert } from '~/alert';
+import { pinia } from '~/pinia/instance';
 
 function mountDiscussionRow({ lineRow, parallel, appData, store, trigger, id }) {
   if (lineRow.nextElementSibling?.dataset.discussionRow === 'true') return;
@@ -16,6 +18,7 @@ function mountDiscussionRow({ lineRow, parallel, appData, store, trigger, id }) 
   const placeholder = lineRow.closest('tbody').insertRow(lineRow.sectionRowIndex + 1);
   const instance = new Vue({
     el: placeholder,
+    pinia,
     name: 'DiffDiscussionRowRoot',
     provide() {
       return {
@@ -31,6 +34,7 @@ function mountDiscussionRow({ lineRow, parallel, appData, store, trigger, id }) 
         },
         noteableType: appData.noteableType,
         filePaths: { oldPath: appData.oldPath, newPath: appData.newPath },
+        blobRawPath: appData.blobRawPath,
         linkedFileData: appData.linkedFileData,
       };
     },
@@ -49,7 +53,15 @@ function mountDiscussionRow({ lineRow, parallel, appData, store, trigger, id }) 
             const lineCode = getLineCode({ id, row: lineRow, oldLine, newLine });
             const linePos = { old_line: oldLine, new_line: newLine };
             const lineRange = { start: linePos, end: linePos };
-            store.addNewLineDiscussionForm({ oldPath, newPath, lineChange, lineCode, lineRange });
+            const lines = getNewLineRangeContent(lineRow.closest('table'), lineRange, side);
+            store.addNewLineDiscussionForm({
+              oldPath,
+              newPath,
+              lineChange,
+              lineCode,
+              lineRange,
+              extraOptions: { lines },
+            });
           },
           empty() {
             trigger(CLEAR_HIGHLIGHT);
@@ -79,7 +91,7 @@ function mountDiscussionRow({ lineRow, parallel, appData, store, trigger, id }) 
 export const createLineDiscussionsAdapter = ({ store, parallel, errorMessage }) => ({
   [MOUNTED](addCleanup) {
     const { diffElement, appData, trigger, id } = this;
-    const { oldPath, newPath } = this.data;
+    const { oldPath, newPath, blobRawPath } = this.data;
     const stopWatcher = watch(
       () => store.findAllLineDiscussionsForFile({ oldPath, newPath }),
       (matchedDiscussions) => {
@@ -90,7 +102,7 @@ export const createLineDiscussionsAdapter = ({ store, parallel, errorMessage }) 
             mountDiscussionRow({
               lineRow,
               parallel,
-              appData: { ...appData, oldPath, newPath },
+              appData: { ...appData, oldPath, newPath, blobRawPath },
               store,
               trigger,
               id,
@@ -121,12 +133,14 @@ export const createLineDiscussionsAdapter = ({ store, parallel, errorMessage }) 
       const [oldLine, newLine] = getLineNumbers(row);
       const { oldPath, newPath } = this.data;
       const lineCode = getLineCode({ id: this.id, row, oldLine, newLine });
+      const lines = getNewLineRangeContent(this.diffElement, button.lineRange, lineChange.position);
       const existingDiscussionId = store.addNewLineDiscussionForm({
         oldPath,
         newPath,
         lineChange,
         lineCode,
         lineRange: button.lineRange,
+        extraOptions: { lines },
       });
       if (existingDiscussionId) {
         document

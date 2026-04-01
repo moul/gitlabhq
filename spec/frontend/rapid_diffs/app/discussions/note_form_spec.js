@@ -92,6 +92,28 @@ describe('NoteForm', () => {
     });
   });
 
+  describe('renderMarkdownPath', () => {
+    it('uses base previewMarkdown endpoint when no previewParams', () => {
+      createComponent();
+      expect(findEditor().props('renderMarkdownPath')).toBe(
+        defaultProvisions.endpoints.previewMarkdown,
+      );
+    });
+
+    it('merges previewParams into the markdown path', () => {
+      const previewParams = {
+        preview_suggestions: true,
+        line: 5,
+        file_path: 'app/models/user.rb',
+      };
+      createComponent({ codeSuggestionsConfig: { previewParams } });
+      const path = findEditor().props('renderMarkdownPath');
+      expect(path).toContain('preview_suggestions=true');
+      expect(path).toContain('line=5');
+      expect(path).toContain('file_path=app%2Fmodels%2Fuser.rb');
+    });
+  });
+
   describe('editor', () => {
     it.each`
       shiftKey | ctrlKey  | metaKey

@@ -1,5 +1,5 @@
 import { HIGHLIGHT_LINES, CLEAR_HIGHLIGHT } from '~/rapid_diffs/adapter_events';
-import { findLineRow, getRowPosition } from '~/rapid_diffs/utils/line_utils';
+import { findLineRow, getRowPosition, isRangeBoundary } from '~/rapid_diffs/utils/line_utils';
 import { moveToggle } from '~/rapid_diffs/utils/new_discussion_toggle';
 
 function getToggleSide(toggle) {
@@ -9,10 +9,6 @@ function getToggleSide(toggle) {
     .closest('tr')
     .querySelector('[data-position="old"]:first-child + [data-position="new"]');
   return isInline ? undefined : cell.dataset.position;
-}
-
-function isRangeBoundary(row) {
-  return row.dataset.hunkHeader != null || Boolean(row.querySelector('[data-change="meta"]'));
 }
 
 function isCommentable(row, side) {

@@ -11,10 +11,12 @@ namespace :gitlab do
 
       sequence_names = ENV['SEQUENCE_NAMES']
       sequence_names = sequence_names&.split(',')&.map(&:strip)&.reject(&:blank?).presence
+      skip_trigger_install = Gitlab::Utils.to_boolean(ENV['SKIP_SEQUENCE_TRIGGER_INSTALL'], default: false)
 
       Gitlab::Database::EachDatabase.each_connection do |connection, _database_name|
         Gitlab::Database::AlterLegacyCellSequencesMaxValue.new(
-          args.maxval&.to_i, connection, sequence_names: sequence_names
+          args.maxval&.to_i, connection, sequence_names: sequence_names,
+          skip_trigger_install: skip_trigger_install
         ).execute
       end
     end

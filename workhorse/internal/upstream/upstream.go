@@ -69,53 +69,48 @@ type upstream struct {
 	upgradedConnsManager  *UpgradedConnsManager
 }
 
-// NewUpstream creates a new HTTP handler for handling upstream requests based on the provided configuration.
-func NewUpstream(
-	cfg config.Config,
-	accessLogger *logrus.Logger,
-	watchKeyHandler builds.WatchKeyHandler,
-	rdb *redis.Client,
-	healthCheckServer *healthcheck.Server,
-	shutdownChan <-chan struct{},
-	upgradedConnsManager *UpgradedConnsManager,
-	loadShedder *loadshedding.LoadShedder,
-) http.Handler {
-	return newUpstream(
-		cfg,
-		accessLogger,
-		configureRoutes,
-		watchKeyHandler,
-		rdb,
-		healthCheckServer,
-		shutdownChan,
-		upgradedConnsManager,
-		loadShedder,
-	)
+// Dependencies holds the runtime-injected dependencies for an upstream
+// instance. Unlike config.Config (which holds static, file-based configuration),
+// these are live objects constructed at startup and cannot be expressed in a
+// config file.
+type Dependencies struct {
+	AccessLogger         *logrus.Logger
+	WatchKeyHandler      builds.WatchKeyHandler
+	Rdb                  *redis.Client
+	HealthCheckServer    *healthcheck.Server // optional, may be nil
+	ShutdownChan         <-chan struct{}
+	UpgradedConnsManager *UpgradedConnsManager
+	LoadShedder          *loadshedding.LoadShedder // optional, may be nil
 }
 
-func newUpstream(
-	cfg config.Config,
-	accessLogger *logrus.Logger,
-	routesCallback func(*upstream),
-	watchKeyHandler builds.WatchKeyHandler,
-	rdb *redis.Client,
-	healthCheckServer *healthcheck.Server,
-	shutdownChan <-chan struct{},
-	upgradedConnsManager *UpgradedConnsManager,
-	loadShedder *loadshedding.LoadShedder,
-) http.Handler {
+// normalizeDependencies fills in safe defaults for any Dependencies fields
+// that were not explicitly set by the caller.
+func normalizeDependencies(deps Dependencies) Dependencies {
+	if deps.AccessLogger == nil {
+		deps.AccessLogger = logrus.StandardLogger()
+	}
+	return deps
+}
+
+// NewUpstream creates a new HTTP handler for handling upstream requests based on the provided configuration.
+func NewUpstream(cfg config.Config, deps Dependencies) http.Handler {
+	return newUpstream(cfg, deps, configureRoutes)
+}
+
+func newUpstream(cfg config.Config, deps Dependencies, routesCallback func(*upstream)) http.Handler {
+	deps = normalizeDependencies(deps)
 	up := upstream{
 		Config:       cfg,
-		accessLogger: accessLogger,
-		loadShedder:  loadShedder,
+		accessLogger: deps.AccessLogger,
+		loadShedder:  deps.LoadShedder,
 		// Kind of a feature flag. See https://gitlab.com/groups/gitlab-org/-/epics/5914#note_564974130
 		enableGeoProxyFeature: os.Getenv("GEO_SECONDARY_PROXY") != "0",
 		geoProxyBackend:       &url.URL{},
-		watchKeyHandler:       watchKeyHandler,
-		rdb:                   rdb,
-		healthCheckServer:     healthCheckServer,
-		shutdownChan:          shutdownChan,
-		upgradedConnsManager:  upgradedConnsManager,
+		watchKeyHandler:       deps.WatchKeyHandler,
+		rdb:                   deps.Rdb,
+		healthCheckServer:     deps.HealthCheckServer,
+		shutdownChan:          deps.ShutdownChan,
+		upgradedConnsManager:  deps.UpgradedConnsManager,
 	}
 
 	up.initializeDefaults()

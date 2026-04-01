@@ -9,7 +9,7 @@ module API
 
       expose :created_at, if: ->(user, opts) { Ability.allowed?(opts[:current_user], :read_user_profile, user) }
       expose :bio, :location, :linkedin, :twitter, :discord, :website_url, :github, :job_title, :pronouns
-      # rubocop:disable Style/SymbolProc -- we're not able to pass &:user_detail_organization as this tries to pass Grape::Entity::Options to said method
+      # rubocop:disable Style/SymbolProc -- we're not able to pass &:company as this tries to pass Grape::Entity::Options to said method
       expose :organization do |user|
         user.company
       end

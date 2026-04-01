@@ -308,16 +308,15 @@ func run(boot bootConfig, cfg config.Config) error {
 
 	shutdownCh := make(chan struct{})
 	upgradedConnsManager := &upstream.UpgradedConnsManager{}
-	up := upstream.NewUpstream(
-		cfg,
-		accessLogger,
-		watchKeyFn,
-		rdb,
-		healthCheckServer,
-		shutdownCh,
-		upgradedConnsManager,
-		loadShedder,
-	)
+	up := upstream.NewUpstream(cfg, upstream.Dependencies{
+		AccessLogger:         accessLogger,
+		WatchKeyHandler:      watchKeyFn,
+		Rdb:                  rdb,
+		HealthCheckServer:    healthCheckServer,
+		ShutdownChan:         shutdownCh,
+		UpgradedConnsManager: upgradedConnsManager,
+		LoadShedder:          loadShedder,
+	})
 
 	srv := &http.Server{Handler: wrapRaven(up)}
 

@@ -1709,6 +1709,47 @@ Returns [`PackageDetailsType`](#packagedetailstype).
 | ---- | ---- | ----------- |
 | <a id="query-package-id"></a>`id` | [`PackagesPackageID!`](#packagespackageid) | Global ID of the package. |
 
+### `Query.packageMetadataAdvisories`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Get multiple package metadata advisories.
+
+Returns [`PackageMetadataAdvisoryConnection`](#packagemetadataadvisoryconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="query-packagemetadataadvisories-createdafter"></a>`createdAfter` | [`ISO8601DateTime`](#iso8601datetime) | Filter advisories created after the datetime. |
+| <a id="query-packagemetadataadvisories-identifiers"></a>`identifiers` | [`[String!]!`](#string) | Array of advisory identifiers. |
+| <a id="query-packagemetadataadvisories-updatedafter"></a>`updatedAfter` | [`ISO8601DateTime`](#iso8601datetime) | Filter advisories updated after the datetime. |
+
+### `Query.packageMetadataAdvisory`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Get a package metadata advisory.
+
+Returns [`PackageMetadataAdvisory`](#packagemetadataadvisory).
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="query-packagemetadataadvisory-id"></a>`id` | [`PackageMetadataAdvisoryID`](#packagemetadataadvisoryid) | Global ID of the advisory. |
+| <a id="query-packagemetadataadvisory-identifier"></a>`identifier` | [`String`](#string) | Identifier of the advisory. |
+
 ### `Query.pipelineExecutionSchedulePolicyTestRun`
 
 {{< details >}}
@@ -23942,6 +23983,29 @@ The edge type for [`PackageFileRegistry`](#packagefileregistry).
 | <a id="packagefileregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="packagefileregistryedge-node"></a>`node` | [`PackageFileRegistry`](#packagefileregistry) | The item at the end of the edge. |
 
+#### `PackageMetadataAdvisoryConnection`
+
+The connection type for [`PackageMetadataAdvisory`](#packagemetadataadvisory).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="packagemetadataadvisoryconnection-edges"></a>`edges` | [`[PackageMetadataAdvisoryEdge]`](#packagemetadataadvisoryedge) | A list of edges. |
+| <a id="packagemetadataadvisoryconnection-nodes"></a>`nodes` | [`[PackageMetadataAdvisory]`](#packagemetadataadvisory) | A list of nodes. |
+| <a id="packagemetadataadvisoryconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `PackageMetadataAdvisoryEdge`
+
+The edge type for [`PackageMetadataAdvisory`](#packagemetadataadvisory).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="packagemetadataadvisoryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="packagemetadataadvisoryedge-node"></a>`node` | [`PackageMetadataAdvisory`](#packagemetadataadvisory) | The item at the end of the edge. |
+
 #### `PackageTagConnection`
 
 The connection type for [`PackageTag`](#packagetag).
@@ -44475,6 +44539,41 @@ Represents links to perform actions on the package.
 | ---- | ---- | ----------- |
 | <a id="packagelinks-webpath"></a>`webPath` | [`String`](#string) | Path to the package details page. |
 
+### `PackageMetadataAdvisory`
+
+Represents a security advisory from package metadata sources.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="packagemetadataadvisory-advisoryxid"></a>`advisoryXid` | [`String!`](#string) | External ID of the advisory. |
+| <a id="packagemetadataadvisory-createdat"></a>`createdAt` | [`Time!`](#time) | Timestamp when the advisory was created. |
+| <a id="packagemetadataadvisory-cve"></a>`cve` | [`String`](#string) | CVE identifier if applicable. |
+| <a id="packagemetadataadvisory-cvssv2"></a>`cvssV2` | [`String`](#string) | CVSS v2 vector string. |
+| <a id="packagemetadataadvisory-cvssv3"></a>`cvssV3` | [`String`](#string) | CVSS v3 vector string. |
+| <a id="packagemetadataadvisory-description"></a>`description` | [`String`](#string) | Description of the advisory. |
+| <a id="packagemetadataadvisory-id"></a>`id` | [`ID!`](#id) | ID of the advisory. |
+| <a id="packagemetadataadvisory-identifiers"></a>`identifiers` | [`[PackageMetadataAdvisoryIdentifier!]!`](#packagemetadataadvisoryidentifier) | Additional identifiers for the advisory. |
+| <a id="packagemetadataadvisory-publisheddate"></a>`publishedDate` | [`Date!`](#date) | Date when the advisory was published. |
+| <a id="packagemetadataadvisory-sourcexid"></a>`sourceXid` | [`PackageMetadataAdvisorySource!`](#packagemetadataadvisorysource) | Source of the advisory. |
+| <a id="packagemetadataadvisory-title"></a>`title` | [`String`](#string) | Title of the advisory. |
+| <a id="packagemetadataadvisory-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp when the advisory was last updated. |
+| <a id="packagemetadataadvisory-urls"></a>`urls` | [`[String!]`](#string) | Related URLs for the advisory. |
+
+### `PackageMetadataAdvisoryIdentifier`
+
+Represents an identifier for a package metadata advisory.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="packagemetadataadvisoryidentifier-name"></a>`name` | [`String!`](#string) | Human-readable name of the identifier. |
+| <a id="packagemetadataadvisoryidentifier-type"></a>`type` | [`String!`](#string) | Type of identifier (for example, CVE, CWE, OSVDB, USN). |
+| <a id="packagemetadataadvisoryidentifier-url"></a>`url` | [`String`](#string) | URL of the identifier's documentation. |
+| <a id="packagemetadataadvisoryidentifier-value"></a>`value` | [`String!`](#string) | Value of the identifier, for matching purposes. |
+
 ### `PackagePermissions`
 
 #### Fields
@@ -57853,6 +57952,15 @@ Values for package manager.
 | <a id="packagemanager-setuptools"></a>`SETUPTOOLS` | Package manager: setuptools. |
 | <a id="packagemanager-yarn"></a>`YARN` | Package manager: yarn. |
 
+### `PackageMetadataAdvisorySource`
+
+Source of the package metadata advisory.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="packagemetadataadvisorysource-glad"></a>`GLAD` | Advisory from glad. |
+| <a id="packagemetadataadvisorysource-trivy_db"></a>`TRIVY_DB` | Advisory from trivy-db. |
+
 ### `PackageSort`
 
 Values for sorting package.
@@ -60706,6 +60814,12 @@ An example `OrganizationsOrganizationID` is: `"gid://gitlab/Organizations::Organ
 A `OrganizationsOrganizationUserID` is a global ID. It is encoded as a string.
 
 An example `OrganizationsOrganizationUserID` is: `"gid://gitlab/Organizations::OrganizationUser/1"`.
+
+### `PackageMetadataAdvisoryID`
+
+A `PackageMetadataAdvisoryID` is a global ID. It is encoded as a string.
+
+An example `PackageMetadataAdvisoryID` is: `"gid://gitlab/PackageMetadata::Advisory/1"`.
 
 ### `PackagesConanFileMetadatumID`
 

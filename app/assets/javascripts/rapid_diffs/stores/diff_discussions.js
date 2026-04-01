@@ -101,6 +101,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     lineChange,
     lineCode,
     positionExtras,
+    extraOptions = {},
   }) {
     const { old_line: oldLine, new_line: newLine } = lineRange.end;
     const id = [oldPath, newPath, oldLine, newLine].join('-');
@@ -121,6 +122,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
       original_position: position,
       lineChange,
       lineCode,
+      ...extraOptions,
       isForm: true,
       noteBody: '',
       shouldFocus: true,

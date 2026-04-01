@@ -1,15 +1,20 @@
 import { DiffFile } from '~/rapid_diffs/web_components/diff_file';
 import { DIFF_FILE_MOUNTED } from '~/rapid_diffs/dom_events';
 import { CLICK, INVISIBLE, MOUNTED, VISIBLE } from '~/rapid_diffs/adapter_events';
+import { settledScrollIntoView } from '~/rapid_diffs/utils/settled_scroll_into_view';
+
+jest.mock('~/rapid_diffs/utils/settled_scroll_into_view');
 
 describe('DiffFile Web Component', () => {
   const fileData = JSON.stringify({ viewer: 'current', custom: 'bar' });
   const html = `
-    <diff-file data-file-data='${fileData}' id="fileHash">
-      <article>
-        <button data-click="foo"></button>
-      </article>
-    </diff-file>
+    <div data-rapid-diffs>
+      <diff-file data-file-data='${fileData}' id="fileHash">
+        <article>
+          <button data-click="foo"></button>
+        </article>
+      </diff-file>
+    </div>
   `;
   let app;
   let adapter;
@@ -125,9 +130,10 @@ describe('DiffFile Web Component', () => {
 
   it('#selectFile', () => {
     mount();
-    const spy = jest.spyOn(getWebComponentElement(), 'scrollIntoView');
-    getWebComponentElement().selectFile();
-    expect(spy).toHaveBeenCalled();
+    const element = getWebComponentElement();
+    const root = document.querySelector('[data-rapid-diffs]');
+    element.selectFile();
+    expect(settledScrollIntoView).toHaveBeenCalledWith(element, root);
   });
 
   describe('when visible', () => {

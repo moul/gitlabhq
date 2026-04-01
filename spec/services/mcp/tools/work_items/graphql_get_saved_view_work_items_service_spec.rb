@@ -879,6 +879,139 @@ RSpec.describe Mcp::Tools::WorkItems::GraphqlGetSavedViewWorkItemsService, featu
       end
     end
 
+    context 'with search and in filters' do
+      let_it_be(:searchable_work_item) do
+        create(:work_item, :issue, project: project, title: 'Fix login timeout bug')
+      end
+
+      let_it_be(:saved_view) do
+        create(:saved_view,
+          namespace: group,
+          author: user,
+          name: 'Search login',
+          filter_data: { search: 'login timeout', in: %w[TITLE] }
+        )
+      end
+
+      let(:params_arguments) { { group_id: group.id.to_s, saved_view_id: saved_view.to_global_id.to_s } }
+
+      it 'passes search and in to the work items query' do
+        result = execute_and_verify_variables(search: 'login timeout', in: %w[TITLE])
+
+        expect(result[:isError]).to be(false)
+
+        iids = result[:structuredContent].dig('workItems', 'nodes').pluck('iid')
+        expect(iids).to include(searchable_work_item.iid.to_s)
+      end
+    end
+
+    context 'with hierarchyFilters' do
+      let_it_be(:parent_work_item) { create(:work_item, :epic, namespace: group) }
+      let_it_be(:child_work_item) do
+        create(:work_item, :issue, project: project).tap do |child|
+          create(:parent_link, work_item: child, work_item_parent: parent_work_item)
+        end
+      end
+
+      let_it_be(:saved_view) do
+        create(:saved_view,
+          namespace: group,
+          author: user,
+          name: 'Children of parent',
+          filter_data: {
+            hierarchy_filters: {
+              work_item_parent_ids: [parent_work_item.id.to_s]
+            }
+          }
+        )
+      end
+
+      let(:params_arguments) { { group_id: group.id.to_s, saved_view_id: saved_view.to_global_id.to_s } }
+
+      it 'passes hierarchyFilters with parentIds as GIDs to the work items query' do
+        expected_gid = "gid://gitlab/WorkItem/#{parent_work_item.id}"
+
+        result = execute_and_verify_variables(
+          hierarchyFilters: hash_including('parentIds' => [expected_gid])
+        )
+
+        iids = result[:structuredContent].dig('workItems', 'nodes').pluck('iid')
+        expect(iids).to include(child_work_item.iid.to_s)
+      end
+    end
+
+    context 'with fullPath filter scoping to a subgroup' do
+      let_it_be(:subgroup) { create(:group, parent: group) }
+      let_it_be(:subgroup_project) { create(:project, :public, group: subgroup) }
+      let_it_be(:subgroup_work_item) { create(:work_item, :issue, project: subgroup_project) }
+
+      let_it_be(:saved_view) do
+        create(:saved_view,
+          namespace: group,
+          author: user,
+          name: 'Subgroup scoped',
+          filter_data: { namespace_id: subgroup.id, state: 'opened' }
+        )
+      end
+
+      let(:params_arguments) { { group_id: group.id.to_s, saved_view_id: saved_view.to_global_id.to_s } }
+
+      it 'overrides fullPath to the subgroup and passes other filters' do
+        allow(GitlabSchema).to receive(:execute).and_call_original
+
+        result = service.execute(request: request, params: { arguments: params_arguments })
+
+        expect(result[:isError]).to be(false)
+
+        # The work items query should target the subgroup namespace
+        expect(GitlabSchema).to have_received(:execute).with(
+          a_string_including('GetWorkItemsFull'),
+          variables: hash_including(
+            fullPath: subgroup.full_path,
+            state: 'opened'
+          ),
+          context: anything
+        )
+      end
+
+      it 'does not report fullPath as an unsupported filter' do
+        result = service.execute(request: request, params: { arguments: params_arguments })
+
+        expect(result[:isError]).to be(false)
+        expect(result[:structuredContent]).not_to have_key('warnings')
+      end
+    end
+
+    context 'with fullPath filter scoping to a project' do
+      let_it_be(:scoped_project) { create(:project, :public, group: group) }
+      let_it_be(:project_work_item) { create(:work_item, :issue, project: scoped_project) }
+
+      let_it_be(:saved_view) do
+        create(:saved_view,
+          namespace: group,
+          author: user,
+          name: 'Project scoped',
+          filter_data: { namespace_id: scoped_project.project_namespace.id }
+        )
+      end
+
+      let(:params_arguments) { { group_id: group.id.to_s, saved_view_id: saved_view.to_global_id.to_s } }
+
+      it 'overrides fullPath to the project path' do
+        allow(GitlabSchema).to receive(:execute).and_call_original
+
+        result = service.execute(request: request, params: { arguments: params_arguments })
+
+        expect(result[:isError]).to be(false)
+
+        expect(GitlabSchema).to have_received(:execute).with(
+          a_string_including('GetWorkItemsFull'),
+          variables: hash_including(fullPath: scoped_project.full_path),
+          context: anything
+        )
+      end
+    end
+
     context 'with sort from saved view' do
       let_it_be(:sorted_saved_view) do
         create(:saved_view,

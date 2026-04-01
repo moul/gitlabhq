@@ -325,6 +325,32 @@ RSpec.describe Projects::MergeRequestsController, feature_category: :source_code
           expect(response.body).to include('new content')
         end
       end
+
+      context 'internal events tracking' do
+        subject(:action) { get diffs_project_merge_request_path(project, merge_request, rapid_diffs: true) }
+
+        before do
+          sign_in(user)
+        end
+
+        it 'tracks view_merge_request_diffs internal event', :clean_gitlab_redis_shared_state do
+          expect { action }
+            .to trigger_internal_events('view_merge_request_diffs')
+            .with(
+              user: user,
+              project: project,
+              namespace: project.namespace,
+              category: 'InternalEventTracking',
+              additional_properties: { label: 'rapid_diffs' }
+            )
+            .and increment_usage_metrics(
+              'redis_hll_counters.count_distinct_user_id_from_view_merge_request_diffs_monthly',
+              'redis_hll_counters.count_distinct_user_id_from_view_merge_request_diffs_weekly',
+              'redis_hll_counters.count_distinct_user_id_from_view_merge_request_diffs_using_rapid_diffs_monthly',
+              'redis_hll_counters.count_distinct_user_id_from_view_merge_request_diffs_using_rapid_diffs_weekly'
+            )
+        end
+      end
     end
 
     private
@@ -766,6 +792,32 @@ RSpec.describe Projects::MergeRequestsController, feature_category: :source_code
       end
 
       it { is_expected.to have_gitlab_http_status(:not_found) }
+    end
+  end
+
+  describe 'GET #diffs' do
+    subject(:action) { get diffs_project_merge_request_path(project, merge_request) }
+
+    before do
+      sign_in(user)
+    end
+
+    it 'tracks view_merge_request_diffs internal event', :clean_gitlab_redis_shared_state do
+      expect { action }
+        .to trigger_internal_events('view_merge_request_diffs')
+        .with(
+          user: user,
+          project: project,
+          namespace: project.namespace,
+          category: 'InternalEventTracking',
+          additional_properties: { label: 'legacy_diffs' }
+        )
+        .and increment_usage_metrics(
+          'redis_hll_counters.count_distinct_user_id_from_view_merge_request_diffs_monthly',
+          'redis_hll_counters.count_distinct_user_id_from_view_merge_request_diffs_weekly',
+          'redis_hll_counters.count_distinct_user_id_from_view_merge_request_diffs_using_legacy_diffs_monthly',
+          'redis_hll_counters.count_distinct_user_id_from_view_merge_request_diffs_using_legacy_diffs_weekly'
+        )
     end
   end
 end

@@ -3,7 +3,7 @@ import { s__ } from '~/locale';
 import { createAlert } from '~/alert';
 import { mergeUrlParams } from '~/lib/utils/url_utility';
 import { DATE_RANGES_AS_DAYS, DATE_RANGE_DEFAULT, BRANCH_ANY } from '../../constants';
-import { updateQueryHistory, paramsFromQuery } from '../url_utils';
+import { updateQueryHistory, paramsFromQuery } from '../../url_utils';
 import { calculateDatesFromRelativeDays } from '../../utils';
 import getPipelineAnalytics from '../graphql/queries/get_pipeline_analytics.query.graphql';
 

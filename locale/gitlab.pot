@@ -55816,6 +55816,9 @@ msgstr ""
 msgid "ProjectsNew|Your project will be created at:"
 msgstr ""
 
+msgid "ProjectsNew|Your role does not allow pushing to the default branch of new projects in this namespace."
+msgstr ""
+
 msgid "ProjectsNew|https://mycompany.fogbugz.com"
 msgstr ""
 
@@ -60842,6 +60845,9 @@ msgstr ""
 msgid "ScanResultPolicy|Except"
 msgstr ""
 
+msgid "ScanResultPolicy|Exception settings"
+msgstr ""
+
 msgid "ScanResultPolicy|Exceptions that do not require approval"
 msgstr ""
 
@@ -60888,6 +60894,9 @@ msgid "ScanResultPolicy|Groups"
 msgstr ""
 
 msgid "ScanResultPolicy|High Risk (80%%)"
+msgstr ""
+
+msgid "ScanResultPolicy|If KEV/EPSS data doesn't exist for a vulnerability, the policy will fall back to the severity threshold (High) configured above."
 msgstr ""
 
 msgid "ScanResultPolicy|If Team frequently needs to push infrastructure configuration changes that trigger policy violations but are pre-approved through your change management process, add specific users to bypass infrastructure policies."
@@ -61148,10 +61157,19 @@ msgstr ""
 msgid "ScanResultPolicy|Users"
 msgstr ""
 
+msgid "ScanResultPolicy|Vulnerabilities without KEV/EPSS data will be ignored and will not trigger policy enforcement."
+msgstr ""
+
 msgid "ScanResultPolicy|When %{scanType} runs in an open merge request that targets %{branches} %{branchExceptions} and finds licenses match all of the following criteria:"
 msgstr ""
 
 msgid "ScanResultPolicy|When %{scanners} finds scanner-specific conditions in an open merge request that targets %{branches} %{branchExceptions} and matches %{boldDescription} the following criteria"
+msgstr ""
+
+msgid "ScanResultPolicy|When KEV/EPSS data is unavailable, exclude vulnerability from policy evaluation"
+msgstr ""
+
+msgid "ScanResultPolicy|When KEV/EPSS data is unavailable, fall back to severity-based blocking"
 msgstr ""
 
 msgid "ScanResultPolicy|When a %{scanType} with %{scanners} runs against %{branches} %{branchExceptions} and finds %{vulnerabilitiesNumber} %{boldDescription} all the following criteria:"

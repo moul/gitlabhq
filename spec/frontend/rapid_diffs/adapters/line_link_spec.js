@@ -24,24 +24,26 @@ describe('lineLinkAdapter', () => {
       ...fileData,
     };
     document.body.innerHTML = `
-      <diff-file id="abc" data-file-data='${JSON.stringify(defaultFileData)}'>
-        <div id="wrapper">
-          <div data-file-body>
-            <table>
-              <tbody>
-                <tr id="line_abc_20">
-                  <td data-position="old">
-                    <a data-line-number="20" href="#line_abc_20"></a>
-                  </td>
-                  <td data-position="new">
-                    <a data-line-number="21" href="#line_abc_20"></a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+      <div data-rapid-diffs>
+        <diff-file id="abc" data-file-data='${JSON.stringify(defaultFileData)}'>
+          <div id="wrapper">
+            <div data-file-body>
+              <table>
+                <tbody>
+                  <tr id="line_abc_20">
+                    <td data-position="old">
+                      <a data-line-number="20" href="#line_abc_20"></a>
+                    </td>
+                    <td data-position="new">
+                      <a data-line-number="21" href="#line_abc_20"></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      </diff-file>
+        </diff-file>
+      </div>
     `;
     getComponent().mount({
       adapterConfig: { [viewer]: [lineLinkAdapter] },

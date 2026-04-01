@@ -11,6 +11,8 @@ module Mcp
                 $fullPath: ID!
                 $sort: WorkItemSort
                 $state: IssuableState
+                $search: String
+                $in: [IssuableSearchableField!]
                 $assigneeWildcardId: AssigneeWildcardId
                 $assigneeUsernames: [String!]
                 $authorUsername: String
@@ -22,6 +24,7 @@ module Mcp
                 $types: [IssueType!]
                 $not: NegatedWorkItemFilterInput
                 $or: UnionedWorkItemFilterInput
+                $hierarchyFilters: HierarchyFilterInput
                 $includeDescendants: Boolean
                 $excludeProjects: Boolean
                 $excludeGroupWorkItems: Boolean
@@ -34,6 +37,8 @@ module Mcp
                   workItems(
                     sort: $sort
                     state: $state
+                    search: $search
+                    in: $in
                     assigneeUsernames: $assigneeUsernames
                     assigneeWildcardId: $assigneeWildcardId
                     authorUsername: $authorUsername
@@ -45,6 +50,7 @@ module Mcp
                     types: $types
                     not: $not
                     or: $or
+                    hierarchyFilters: $hierarchyFilters
                     includeDescendants: $includeDescendants
                     excludeProjects: $excludeProjects
                     excludeGroupWorkItems: $excludeGroupWorkItems
@@ -184,9 +190,19 @@ module Mcp
             'confidential' => :confidential,
             'types' => :types,
             'state' => :state,
+            'search' => :search,
+            'in' => :in,
+            'hierarchyFilters' => :hierarchyFilters,
             'not' => :not,
             'or' => :or
           }
+
+          # fullPath overrides the top-level namespace scope rather than
+          # being a workItems argument, so handle it separately.
+          if filters['fullPath'].present?
+            variables[:fullPath] = filters['fullPath']
+            filters = filters.except('fullPath')
+          end
 
           filter_mapping.each do |filter_key, variable_key|
             value = filters[filter_key]

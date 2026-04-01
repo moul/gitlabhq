@@ -590,6 +590,8 @@ describe('discussions adapters', () => {
     it('includes lineCode in the created form', () => {
       let event;
       const button = getDiffFile().querySelector('[data-click="newDiscussion"]');
+      const pos = { old_line: 1, new_line: 1 };
+      button.lineRange = { start: pos, end: pos };
       button.addEventListener('click', (e) => {
         event = e;
       });

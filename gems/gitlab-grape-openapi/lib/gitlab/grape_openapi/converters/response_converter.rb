@@ -13,7 +13,6 @@ module Gitlab
         def convert
           extract_success_response
           extract_failure_responses
-          add_default_if_empty
           @responses
         end
 
@@ -21,9 +20,14 @@ module Gitlab
 
         def extract_success_response
           entity_definition = @route.options[:entity]
-          return unless entity_definition
 
           case entity_definition
+          when nil
+            success_code = infer_success_code
+            add_simple_response(
+              status_code: success_code,
+              description: http_status_text(success_code)
+            )
           when Class
             process_class_entity(entity_definition)
           when Hash
@@ -34,31 +38,34 @@ module Gitlab
         end
 
         def process_class_entity(entity_class)
+          success_code = infer_success_code
           if EntityConverter.grape_entity?(entity_class)
             add_response_with_entity(
-              status_code: infer_success_code,
-              description: http_status_text(infer_success_code),
+              status_code: success_code,
+              description: http_status_text(success_code),
               entity_class: entity_class
             )
           else
             add_simple_response(
-              status_code: infer_success_code,
-              description: http_status_text(infer_success_code)
+              status_code: success_code,
+              description: http_status_text(success_code)
             )
           end
         end
 
         def process_hash_entity(entity_hash)
+          success_code = infer_success_code
+
           if entity_hash[:model] && EntityConverter.grape_entity?(entity_hash[:model])
             add_response_with_entity(
-              status_code: entity_hash[:code] || infer_success_code,
-              description: http_status_text(entity_hash[:code] || infer_success_code),
+              status_code: entity_hash[:code] || success_code,
+              description: http_status_text(entity_hash[:code] || success_code),
               entity_class: entity_hash[:model]
             )
           else
             add_simple_response(
-              status_code: entity_hash[:code] || infer_success_code,
-              description: http_status_text(entity_hash[:code] || infer_success_code)
+              status_code: entity_hash[:code] || success_code,
+              description: http_status_text(entity_hash[:code] || success_code)
             )
           end
         end
@@ -90,19 +97,19 @@ module Gitlab
         end
 
         def extract_failure_responses
-          http_codes = @route.http_codes || []
+          http_codes = @route.http_codes.presence || infer_failure_codes
 
           http_codes.each do |failure_def|
             case failure_def
             when Hash
               add_simple_response(
                 status_code: failure_def[:code],
-                description: failure_def[:message]
+                description: failure_def[:message] || http_status_text(failure_def[:code])
               )
             when Array
               add_simple_response(
                 status_code: failure_def[0],
-                description: failure_def[1]
+                description: failure_def[1] || http_status_text(failure_def[0])
               )
             end
           end
@@ -122,16 +129,6 @@ module Gitlab
           @responses[status_code.to_s] = { description: description }
         end
 
-        def add_default_if_empty
-          return if @responses.any?
-
-          code = infer_success_code
-          add_simple_response(
-            status_code: code,
-            description: http_status_text(code)
-          )
-        end
-
         def infer_success_code
           case http_method
           when 'POST' then 201
@@ -140,12 +137,30 @@ module Gitlab
           end
         end
 
+        def infer_failure_codes
+          codes = []
+          codes << 404 if path_has_resource_parameters?
+          codes << 400 if route_params.any? || %w[POST PUT PATCH].include?(http_method)
+          codes.map { |code| { code: code, message: http_status_text(code) } }
+        end
+
+        def route_params
+          @route.options[:params] || {}
+        end
+
+        def path_has_resource_parameters?
+          path = @route.path
+            .gsub('.:format', '')
+            .gsub(':version', '')
+          path.include?(':')
+        end
+
         def http_status_text(code)
           Rack::Utils::HTTP_STATUS_CODES[code.to_i] || 'Success'
         end
 
         def http_method
-          @route.instance_variable_get(:@options)[:method]
+          @route.options[:method]
         end
       end
     end

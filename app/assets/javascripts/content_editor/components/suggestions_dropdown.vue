@@ -336,7 +336,7 @@ export default {
 
 <template>
   <div class="gl-new-dropdown-container content-editor-suggestions-dropdown">
-    <div v-if="!loading && items.length > 0" class="gl-new-dropdown-panel gl-absolute !gl-block">
+    <div v-if="!loading && items.length > 0" class="gl-new-dropdown-panel gl-relative !gl-block">
       <div class="gl-new-dropdown-inner">
         <ul
           id="content-editor-suggestions"

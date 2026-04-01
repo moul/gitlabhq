@@ -4,7 +4,10 @@ import { GlAlert, GlLoadingIcon } from '@gitlab/ui';
 import { convertToGraphQLId } from '~/graphql_shared/utils';
 import { TYPENAME_PROJECT } from '~/graphql_shared/constants';
 import { __ } from '~/locale';
+import { logError } from '~/lib/logger';
+import { captureException } from '~/sentry/sentry_browser_wrapper';
 import securityConfigurationQuery from '../graphql/security_configuration.query.graphql';
+import projectMergeRequestsEnabledQuery from '../graphql/project_merge_requests_enabled.query.graphql';
 import { augmentFeatures } from '../utils';
 import SecurityConfigurationApp from './app.vue';
 
@@ -62,6 +65,7 @@ export default {
       graphqlError: null,
       // eslint-disable-next-line vue/no-unused-properties
       securityConfiguration: null,
+      mergeRequestsEnabled: true,
     };
   },
   apollo: {
@@ -108,6 +112,7 @@ export default {
           canManageAttributes: config.canManageAttributes,
           securityScanProfilesLicensed: config.securityScanProfilesLicensed,
           groupManageAttributesPath: config.groupManageAttributesPath,
+          mergeRequestsEnabled: this.mergeRequestsEnabled,
         };
 
         return config;
@@ -119,10 +124,30 @@ export default {
         return !this.projectId;
       },
     },
+    mergeRequestsEnabled: {
+      query: projectMergeRequestsEnabledQuery,
+      variables() {
+        return {
+          projectFullPath: this.projectFullPath,
+        };
+      },
+      update: (data) => data.project?.mergeRequestsEnabled ?? true,
+      skip() {
+        return !this.projectFullPath;
+      },
+      error(error) {
+        // eslint-disable-next-line @gitlab/require-i18n-strings
+        logError('Failed to fetch merge requests enabled status', error);
+        captureException(error);
+      },
+    },
   },
   computed: {
     isLoading() {
-      return this.$apollo?.queries?.securityConfiguration?.loading ?? false;
+      return (
+        (this.$apollo?.queries?.securityConfiguration?.loading ?? false) ||
+        (this.$apollo?.queries?.mergeRequestsEnabled?.loading ?? false)
+      );
     },
     errorMessage() {
       if (this.graphqlError) {
@@ -149,6 +174,7 @@ export default {
       :gitlab-ci-history-path="graphqlData.gitlabCiHistoryPath"
       :latest-pipeline-path="graphqlData.latestPipelinePath"
       :security-training-enabled="graphqlData.securityTrainingEnabled"
+      :merge-requests-enabled="mergeRequestsEnabled"
     />
   </div>
 </template>

@@ -770,6 +770,10 @@ module ProjectsHelper
     ::Gitlab::UserAccess.new(current_user, container: project).can_push_to_branch?(ref)
   end
 
+  def can_push_initial_commit_to_namespace?(namespace)
+    namespace.can_push_initial_commit?(current_user)
+  end
+
   # This function is here to solve rubocop error of line too long.
   # Need to remove in the cleanup of the security manager feature flag.
   def localized_security_manager_role_name

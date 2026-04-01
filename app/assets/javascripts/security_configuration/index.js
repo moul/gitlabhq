@@ -104,6 +104,7 @@ export const initSecurityConfiguration = (el) => {
             'autoDevopsEnabled',
             'canEnableAutoDevops',
             'securityTrainingEnabled',
+            'mergeRequestsEnabled',
           ]),
         },
       });

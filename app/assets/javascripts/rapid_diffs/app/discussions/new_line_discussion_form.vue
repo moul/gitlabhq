@@ -14,6 +14,7 @@ export default {
   },
   inject: {
     store: { type: Object },
+    blobRawPath: { default: null },
   },
   props: {
     discussion: {
@@ -22,6 +23,22 @@ export default {
     },
   },
   computed: {
+    codeSuggestionsConfig() {
+      const { lines = [], canSuggest = false, previewParams = null } = this.discussion;
+      const posLineRange = this.discussion.position?.line_range;
+      const lineRange = posLineRange
+        ? { start: posLineRange.start.new_line, end: posLineRange.end.new_line }
+        : null;
+      return {
+        canSuggest,
+        lines,
+        lineType: '',
+        showPopover: false,
+        blobRawPath: this.blobRawPath,
+        previewParams,
+        lineRange,
+      };
+    },
     autosaveKey() {
       const {
         old_path: oldPath,
@@ -84,6 +101,7 @@ export default {
       :note-body="discussion.noteBody"
       :save-button-title="__('Comment')"
       :save-note="saveNote"
+      :code-suggestions-config="codeSuggestionsConfig"
       restore-from-autosave
       @input="store.setDiscussionFormText(discussion, $event)"
       @cancel="cancelReplyForm"

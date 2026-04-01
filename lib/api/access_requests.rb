@@ -126,7 +126,7 @@ module API
           member = source.requesters.find_by!(user_id: params[:user_id])
 
           destroy_conditionally!(member) do
-            ::Members::DestroyService.new(current_user).execute(member, skip_subresources: true)
+            ::Members::DestroyService.new(member, current_user: current_user, skip_subresources: true).execute
           end
         end
         # rubocop: enable CodeReuse/ActiveRecord

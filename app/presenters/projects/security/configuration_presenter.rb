@@ -36,7 +36,8 @@ module Projects
           can_manage_attributes: can_manage_attributes?,
           security_scan_profiles_licensed: security_scan_profiles_licensed?,
           group_manage_attributes_path: group_manage_attributes_path,
-          max_tracked_refs: max_tracked_refs
+          max_tracked_refs: max_tracked_refs,
+          merge_requests_enabled: project.merge_requests_enabled?
         }
       end
 

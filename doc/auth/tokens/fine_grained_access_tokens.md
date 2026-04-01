@@ -655,6 +655,16 @@ Grants the ability to create, delete, and read member roles.
 | Read | Group | `GET` | `/groups/:id/member_roles` |
 | Read | Instance | `GET` | `/member_roles` |
 
+#### Namespace
+
+Grants the ability to read namespaces.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | User | `GET` | `/namespaces` |
+| Read | User | `GET` | `/namespaces/:id` |
+| Read | User | `GET` | `/namespaces/:id/exists` |
+
 #### SAML Identity
 
 Grants the ability to read, update, and delete SAML identities.

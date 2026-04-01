@@ -100,6 +100,54 @@ describe('NewLineDiscussionForm', () => {
     expect(useDiffDiscussions().discussionForms).toHaveLength(1);
   });
 
+  describe('codeSuggestionsConfig', () => {
+    const findNoteFormConfig = () => wrapper.findComponent(NoteForm).props('codeSuggestionsConfig');
+
+    it('passes canSuggest, lines and previewParams from discussion', () => {
+      const lines = ['line 1', 'line 2'];
+      const previewParams = { preview_suggestions: true, line: 10 };
+      createComponent({
+        discussion: {
+          ...createDiscussion(),
+          lines,
+          canSuggest: true,
+          previewParams,
+        },
+      });
+      const config = findNoteFormConfig();
+      expect(config.canSuggest).toBe(true);
+      expect(config.lines).toStrictEqual(lines);
+      expect(config.previewParams).toStrictEqual(previewParams);
+    });
+
+    it('passes blobRawPath from inject', () => {
+      const blobRawPath = '/namespace/project/-/raw/abc/file.rb';
+      createComponent({}, { blobRawPath });
+      expect(findNoteFormConfig().blobRawPath).toBe(blobRawPath);
+    });
+
+    it('builds lineRange from position.line_range', () => {
+      createComponent({
+        discussion: {
+          ...createDiscussion(),
+          position: {
+            ...createDiscussion().position,
+            line_range: {
+              start: { old_line: null, new_line: 5 },
+              end: { old_line: null, new_line: 8 },
+            },
+          },
+        },
+      });
+      expect(findNoteFormConfig().lineRange).toStrictEqual({ start: 5, end: 8 });
+    });
+
+    it('sets lineRange to null when position has no line_range', () => {
+      createComponent();
+      expect(findNoteFormConfig().lineRange).toBeNull();
+    });
+  });
+
   describe('saving note', () => {
     const noteBody = 'Test note body';
 

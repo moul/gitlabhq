@@ -147,6 +147,42 @@ RSpec.describe Gitlab::Database::AlterLegacyCellSequencesMaxValue, feature_categ
       end
     end
 
+    context 'with skip_trigger_install' do
+      let(:alter_legacy_cell_sequences_max_value) do
+        described_class.new(maxval, connection, skip_trigger_install: true, logger: logger)
+      end
+
+      before do
+        execute
+      end
+
+      it 'updates max value for all sequences' do
+        incorrect_max = Gitlab::Database::PostgresSequence.where.not(seq_max: maxval)
+        expect(incorrect_max).to be_empty
+      end
+
+      it 'installs the function' do
+        function = connection.execute(
+          "SELECT proname FROM pg_proc WHERE proname = '#{described_class::FUNCTION_NAME}'"
+        ).first
+
+        expect(function).to be_present
+      end
+
+      it 'does not install the event trigger' do
+        trigger = connection.execute(
+          "SELECT * FROM pg_event_trigger WHERE evtname = '#{described_class::TRIGGER_NAME}'"
+        ).first
+
+        expect(trigger).to be_nil
+      end
+
+      it 'logs that event trigger installation was skipped' do
+        expect(logger).to have_received(:info)
+          .with("Skipping event trigger installation as SKIP_SEQUENCE_TRIGGER_INSTALL is set")
+      end
+    end
+
     context 'with sequence_names' do
       let(:test_table_name) { '_test_legacy_max_value_specific' }
       let(:target_sequence_1) { 'legacy_max_val_seq_1' }

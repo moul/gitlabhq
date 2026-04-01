@@ -1585,7 +1585,7 @@ RSpec.describe API::Commits, feature_category: :source_code_management do
 
               before do
                 # Restrict user from repository
-                Members::DestroyService.new(private_project.owner).execute(fork_owner_membership)
+                Members::DestroyService.new(fork_owner_membership, current_user: private_project.owner).execute
                 Sidekiq::Worker.drain_all
 
                 valid_c_params[:start_branch] = 'master'

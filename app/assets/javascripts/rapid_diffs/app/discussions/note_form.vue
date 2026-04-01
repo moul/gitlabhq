@@ -1,6 +1,7 @@
 <script>
 import { GlButton, GlSprintf, GlLink, GlAlert } from '@gitlab/ui';
 import { __ } from '~/locale';
+import { mergeUrlParams } from '~/lib/utils/url_utility';
 import { clearDraft } from '~/lib/utils/autosave';
 import MarkdownEditor from '~/vue_shared/components/markdown/markdown_editor.vue';
 import { trackSavedUsingEditor } from '~/vue_shared/components/markdown/tracking';
@@ -81,6 +82,11 @@ export default {
       required: false,
       default: false,
     },
+    codeSuggestionsConfig: {
+      type: Object,
+      required: false,
+      default: () => ({ lines: [], lineType: '', canSuggest: false, showPopover: false }),
+    },
     saveNoteErrorMessages: {
       type: Object,
       required: false,
@@ -96,6 +102,11 @@ export default {
     };
   },
   computed: {
+    renderMarkdownPath() {
+      const { previewParams } = this.codeSuggestionsConfig;
+      if (!previewParams) return this.endpoints.previewMarkdown;
+      return mergeUrlParams(previewParams, this.endpoints.previewMarkdown);
+    },
     formFieldProps() {
       return {
         id: 'note_note',
@@ -176,7 +187,8 @@ export default {
       <markdown-editor
         ref="markdownEditor"
         v-model="editedNoteBody"
-        :render-markdown-path="endpoints.previewMarkdown"
+        :code-suggestions-config="codeSuggestionsConfig"
+        :render-markdown-path="renderMarkdownPath"
         :markdown-docs-path="endpoints.markdownDocs"
         :noteable-type="noteableType"
         :form-field-props="formFieldProps"

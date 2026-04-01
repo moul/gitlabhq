@@ -517,7 +517,6 @@ read_merge_request_iid
 read_merge_train_car
 read_model_experiments
 read_model_registry
-read_namespace
 read_namespace_cluster_agent_mapping
 read_namespace_via_membership
 read_nested_project_resources

@@ -14,6 +14,7 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
   include MergeRequestsHelper
   include ParseCommitDate
   include RapidDiffs::Resource
+  include ProductAnalyticsTracking
 
   prepend_before_action(only: [:index]) { authenticate_sessionless_user!(:rss) }
   skip_before_action :merge_request, only: [:index, :bulk_update, :export_csv]
@@ -97,6 +98,9 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
   urgency :low, [:pipeline_status, :pipelines, :exposed_artifacts]
 
   helper_method :rapid_diffs_page_enabled?
+
+  track_internal_event :diffs, name: 'view_merge_request_diffs', additional_properties: { label: 'legacy_diffs' }
+  track_internal_event :rapid_diffs, name: 'view_merge_request_diffs', additional_properties: { label: 'rapid_diffs' }
 
   def index
     @merge_requests = @issuables
@@ -736,6 +740,14 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
 
   def auto_merge_strategy
     params[:auto_merge_strategy] || merge_request.default_auto_merge_strategy
+  end
+
+  def tracking_namespace_source
+    project.namespace
+  end
+
+  def tracking_project_source
+    project
   end
 end
 

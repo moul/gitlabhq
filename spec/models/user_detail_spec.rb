@@ -344,6 +344,24 @@ RSpec.describe UserDetail, feature_category: :system_access do
       it { is_expected.to validate_length_of(:organization).is_at_most(500) }
     end
 
+    describe '#company' do
+      context 'when too long' do
+        subject(:company_validation) { build(:user_detail, company: 'a' * 501) }
+
+        it 'is invalid' do
+          expect(company_validation).not_to be_valid
+        end
+
+        it 'adds error to organization' do
+          company_validation.validate
+
+          expect(company_validation.errors[:organization]).to include('is too long (maximum is 500 characters)')
+        end
+      end
+
+      it { is_expected.to allow_value('a' * 500).for(:company) }
+    end
+
     describe '#website_url' do
       it { is_expected.to validate_length_of(:website_url).is_at_most(500) }
 
@@ -380,7 +398,7 @@ RSpec.describe UserDetail, feature_category: :system_access do
         bluesky: 'did:plc:ewvi7nxzyoun6zhxrhs64oiz',
         orcid: '1234-1234-1234-1234',
         mastodon: '@robin@example.com',
-        user_detail_organization: 'organization',
+        company: 'organization',
         twitter: 'twitter',
         website_url: 'https://example.com'
       }

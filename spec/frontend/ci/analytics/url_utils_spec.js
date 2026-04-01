@@ -1,7 +1,4 @@
-import {
-  updateQueryHistory,
-  paramsFromQuery,
-} from '~/ci/analytics/project_ci_cd_analytics/url_utils';
+import { updateQueryHistory, paramsFromQuery } from '~/ci/analytics/url_utils';
 import { updateHistory } from '~/lib/utils/url_utility';
 
 jest.mock('~/lib/utils/url_utility', () => ({
@@ -15,7 +12,7 @@ const defaults = {
   dateRange: '7d',
 };
 
-describe('dashboard utils', () => {
+describe('CI dashboard url utils', () => {
   const examples = [
     { input: {}, query: '' },
     { input: defaults, query: '' },

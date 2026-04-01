@@ -119,6 +119,7 @@ describe('SecurityConfigurationProvider', () => {
         gitlabCiHistoryPath: '/ci/history',
         latestPipelinePath: '/pipelines/latest',
         securityTrainingEnabled: false,
+        mergeRequestsEnabled: true,
       });
     });
 

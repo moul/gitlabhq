@@ -29,6 +29,7 @@ describe('mergeRequestDiscussions store', () => {
         id: 42,
         diff_head_sha: 'abc123',
         targetType: 'merge_request',
+        can_receive_suggestion: true,
       },
     };
     useNotes.mockReturnValue(mockNotesStore);
@@ -170,6 +171,68 @@ describe('mergeRequestDiscussions store', () => {
         },
       });
       expect(useDiffDiscussions().discussionForms).not.toContainEqual(formDiscussion);
+    });
+  });
+
+  describe('addNewLineDiscussionForm', () => {
+    const lineRange = {
+      start: { old_line: null, new_line: 5 },
+      end: { old_line: null, new_line: 5 },
+    };
+
+    it('sets canSuggest to true for added lines', () => {
+      store.addNewLineDiscussionForm({
+        oldPath: 'a.rb',
+        newPath: 'a.rb',
+        lineRange,
+        lineChange: { change: 'added', position: 'new' },
+        lineCode: 'abc_0_5',
+      });
+      const form = useDiffDiscussions().discussionForms[0];
+      expect(form.canSuggest).toBe(true);
+    });
+
+    it('sets canSuggest to false for removed lines', () => {
+      store.addNewLineDiscussionForm({
+        oldPath: 'a.rb',
+        newPath: 'a.rb',
+        lineRange,
+        lineChange: { change: 'removed', position: 'old' },
+        lineCode: 'abc_5_0',
+      });
+      const form = useDiffDiscussions().discussionForms[0];
+      expect(form.canSuggest).toBe(false);
+    });
+
+    it('builds previewParams when diffRefs and newPath and newLine are present', () => {
+      store.addNewLineDiscussionForm({
+        oldPath: 'a.rb',
+        newPath: 'a.rb',
+        lineRange,
+        lineChange: { change: 'added', position: 'new' },
+        lineCode: 'abc_0_5',
+      });
+      const form = useDiffDiscussions().discussionForms[0];
+      expect(form.previewParams).toStrictEqual({
+        preview_suggestions: true,
+        line: 5,
+        file_path: 'a.rb',
+        base_sha: 'base000',
+        start_sha: 'start111',
+        head_sha: 'head222',
+      });
+    });
+
+    it('sets previewParams to null for removed lines', () => {
+      store.addNewLineDiscussionForm({
+        oldPath: 'a.rb',
+        newPath: 'a.rb',
+        lineRange,
+        lineChange: { change: 'removed', position: 'old' },
+        lineCode: 'abc_5_0',
+      });
+      const form = useDiffDiscussions().discussionForms[0];
+      expect(form.previewParams).toBeNull();
     });
   });
 

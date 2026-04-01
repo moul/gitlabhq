@@ -11,15 +11,16 @@ module Gitlab
       TRIGGER_NAME = 'alter_new_sequences_max_value'
       FUNCTION_NAME = 'alter_new_sequences_max_value'
 
-      attr_reader :maxval, :connection, :sequence_names, :logger
+      attr_reader :maxval, :connection, :sequence_names, :skip_trigger_install, :logger
 
-      def initialize(maxval, connection, sequence_names: nil, logger: Gitlab::AppLogger)
+      def initialize(maxval, connection, sequence_names: nil, skip_trigger_install: false, logger: Gitlab::AppLogger)
         raise MISSING_MAXVAL_MSG unless maxval.present? && maxval.to_i > 0
 
         @maxval = Integer(maxval)
         @connection = connection
         @logger = logger
         @sequence_names = Array(sequence_names)
+        @skip_trigger_install = skip_trigger_install
       end
 
       def execute
@@ -43,7 +44,12 @@ module Gitlab
         return if sequence_names.present?
 
         connection.execute(alter_new_sequences_max_value_function)
-        connection.execute(alter_new_sequences_max_value_trigger)
+
+        if skip_trigger_install
+          logger.info("Skipping event trigger installation as SKIP_SEQUENCE_TRIGGER_INSTALL is set")
+        else
+          connection.execute(alter_new_sequences_max_value_trigger)
+        end
       end
 
       def rollback

@@ -86,6 +86,17 @@ describe('diffDiscussions store', () => {
       expect(newDiscussion.lineCode).toBe(lineCode);
     });
 
+    it('spreads extraOptions onto the form', () => {
+      const lines = ['line one', 'line two'];
+      useDiffDiscussions().addNewLineDiscussionForm({
+        ...defaultPosition,
+        extraOptions: { lines, canSuggest: true },
+      });
+      const form = useDiffDiscussions().discussionForms[0];
+      expect(form.lines).toStrictEqual(lines);
+      expect(form.canSuggest).toBe(true);
+    });
+
     it('shows hidden discussions at the same position', () => {
       useDiffDiscussions().setInitialDiscussions([
         {

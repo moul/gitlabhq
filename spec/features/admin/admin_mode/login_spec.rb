@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Admin Mode Login', :with_current_organization, feature_category: :system_access, quarantine: { issue: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/issues/40243', type: :flaky } do
+RSpec.describe 'Admin Mode Login', :with_current_organization, feature_category: :system_access do
   include TermsHelper
   include UserLoginHelper
   include LdapHelpers
@@ -99,11 +99,9 @@ RSpec.describe 'Admin Mode Login', :with_current_organization, feature_category:
               end
 
               it 'invalidates the used code' do
-                expect do
-                  enter_code(codes.first)
-                  expect_admin_sign_in_success
-                end
-                  .to change { user.reload.otp_backup_codes.size }.by(-1)
+                enter_code(codes.first)
+                expect_admin_sign_in_success
+                expect(user.reload.otp_backup_codes.size).to eq(codes.size - 1)
               end
             end
 

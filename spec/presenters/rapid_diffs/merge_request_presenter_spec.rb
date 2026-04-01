@@ -285,12 +285,12 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
         presenter_with_user.resource).and_return(can_create_note)
     end
 
-    it { is_expected.to eq({ can_create_note: false }) }
+    it { is_expected.to include(can_create_note: false) }
 
     context 'when user can create notes' do
       let(:can_create_note) { true }
 
-      it { is_expected.to eq({ can_create_note: true }) }
+      it { is_expected.to include(can_create_note: true) }
     end
   end
 
@@ -303,7 +303,11 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
   describe '#preview_markdown_endpoint' do
     subject(:method) { presenter.preview_markdown_endpoint }
 
-    it { is_expected.to eq("/#{namespace.to_param}/#{project.to_param}/-/preview_markdown") }
+    it 'includes target_type and target_id params' do
+      expected = "/#{namespace.to_param}/#{project.to_param}" \
+        "/-/preview_markdown?target_id=#{merge_request.iid}&target_type=MergeRequest"
+      is_expected.to eq(expected)
+    end
   end
 
   describe '#markdown_docs_path' do

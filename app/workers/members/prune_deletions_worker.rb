@@ -73,7 +73,7 @@ module Members
     strong_memoize_attr :member_deletion_schedules
 
     def destroy_member(member, scheduled_by)
-      ::Members::DestroyService.new(scheduled_by).execute(member, skip_subresources: true)
+      ::Members::DestroyService.new(member, current_user: scheduled_by, skip_subresources: true).execute
     end
 
     def log_monitoring_data(user_id, namespace_id, destroyed_count, destroy_duration)

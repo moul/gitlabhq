@@ -399,7 +399,6 @@ RSpec/BeEq:
     - 'ee/spec/services/merge_requests/mergeability/check_security_policy_violations_service_spec.rb'
     - 'ee/spec/services/merge_requests/sync_code_owner_approval_rules_spec.rb'
     - 'ee/spec/services/merge_trains/refresh_merge_request_service_spec.rb'
-    - 'ee/spec/services/namespaces/service_accounts/delete_service_spec.rb'
     - 'ee/spec/services/onboarding/progress_service_spec.rb'
     - 'ee/spec/services/onboarding/status_convert_to_invite_service_spec.rb'
     - 'ee/spec/services/package_metadata/compressed_package_data_object_spec.rb'

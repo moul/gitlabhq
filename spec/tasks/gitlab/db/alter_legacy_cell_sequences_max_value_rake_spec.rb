@@ -20,7 +20,7 @@ RSpec.describe 'gitlab:db:alter_legacy_cell_sequences_max_value', :silence_stdou
         Gitlab::Database::EachDatabase.each_connection do |connection, _database_name|
           expect(Gitlab::Database::AlterLegacyCellSequencesMaxValue)
             .to receive(:new)
-            .with(maxval, connection, sequence_names: nil)
+            .with(maxval, connection, sequence_names: nil, skip_trigger_install: false)
             .and_return(alter_legacy_cell_sequences_max_value)
 
           expect(alter_legacy_cell_sequences_max_value).to receive(:execute)
@@ -71,7 +71,7 @@ RSpec.describe 'gitlab:db:alter_legacy_cell_sequences_max_value', :silence_stdou
           Gitlab::Database::EachDatabase.each_connection do |connection, _database_name|
             expect(Gitlab::Database::AlterLegacyCellSequencesMaxValue)
               .to receive(:new)
-              .with(nil, connection, sequence_names: nil)
+              .with(nil, connection, sequence_names: nil, skip_trigger_install: false)
               .and_return(alter_legacy_cell_sequences_max_value)
 
             expect(alter_legacy_cell_sequences_max_value).to receive(:execute)
@@ -110,7 +110,7 @@ RSpec.describe 'gitlab:db:alter_legacy_cell_sequences_max_value', :silence_stdou
             Gitlab::Database::EachDatabase.each_connection do |connection, _database_name|
               expect(Gitlab::Database::AlterLegacyCellSequencesMaxValue)
                 .to receive(:new)
-                .with(maxval, connection, sequence_names: expected_sequence_names)
+                .with(maxval, connection, sequence_names: expected_sequence_names, skip_trigger_install: false)
                 .and_return(alter_legacy_cell_sequences_max_value)
 
               expect(alter_legacy_cell_sequences_max_value).to receive(:execute)
@@ -118,6 +118,25 @@ RSpec.describe 'gitlab:db:alter_legacy_cell_sequences_max_value', :silence_stdou
 
             run_rake
           end
+        end
+      end
+
+      context 'with SKIP_SEQUENCE_TRIGGER_INSTALL env var' do
+        before do
+          stub_env('SKIP_SEQUENCE_TRIGGER_INSTALL', 'true')
+        end
+
+        it 'passes skip_trigger_install as true to AlterLegacyCellSequencesMaxValue' do
+          Gitlab::Database::EachDatabase.each_connection do |connection, _database_name|
+            expect(Gitlab::Database::AlterLegacyCellSequencesMaxValue)
+              .to receive(:new)
+              .with(maxval, connection, sequence_names: nil, skip_trigger_install: true)
+              .and_return(alter_legacy_cell_sequences_max_value)
+
+            expect(alter_legacy_cell_sequences_max_value).to receive(:execute)
+          end
+
+          run_rake
         end
       end
     end

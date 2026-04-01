@@ -17,7 +17,8 @@ RSpec.describe 'projects/new', feature_category: :groups_and_projects do
       remote_mirror_setting_enabled?: false,
       brand_new_project_guidelines: nil,
       push_to_create_project_command: '',
-      namespace_id_from: nil
+      namespace_id_from: nil,
+      can_push_initial_commit_to_namespace?: true
     )
   end
 

@@ -87,7 +87,7 @@ module RapidDiffs
     end
 
     def preview_markdown_endpoint
-      project_preview_markdown_path(resource.project)
+      project_preview_markdown_path(resource.project, target_type: resource.class.name, target_id: resource.iid)
     end
 
     def markdown_docs_path

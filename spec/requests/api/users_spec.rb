@@ -1951,7 +1951,7 @@ RSpec.describe API::Users, :with_current_organization, :aggregate_failures, feat
 
           expect(response).to have_gitlab_http_status(:ok)
           expect(json_response['organization']).to eq(expected_organization)
-          expect(user.reload.user_detail_organization).to eq(expected_organization)
+          expect(user.reload.company).to eq(expected_organization)
         end
       end
 
@@ -1966,7 +1966,7 @@ RSpec.describe API::Users, :with_current_organization, :aggregate_failures, feat
       end
 
       before_all do
-        user.update!(user_detail_organization: 'Previous org')
+        user.update!(company: 'Previous org')
       end
 
       where(:param_organization, :expected_organization, :example) do

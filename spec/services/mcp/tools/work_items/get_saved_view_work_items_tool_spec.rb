@@ -44,11 +44,14 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
 
         expect(query).to include('$sort: WorkItemSort')
         expect(query).to include('$state: IssuableState')
+        expect(query).to include('$search: String')
+        expect(query).to include('$in: [IssuableSearchableField!]')
         expect(query).to include('$assigneeUsernames: [String!]')
         expect(query).to include('$labelName: [String!]')
         expect(query).to include('$milestoneTitle: [String!]')
         expect(query).to include('$authorUsername: String')
         expect(query).to include('$types: [IssueType!]')
+        expect(query).to include('$hierarchyFilters: HierarchyFilterInput')
       end
 
       it 'includes widget fragments' do
@@ -121,6 +124,77 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
       end
     end
 
+    context 'with search and in filters' do
+      let(:params) do
+        {
+          group_id: group.id.to_s,
+          filters: {
+            'search' => 'fix login',
+            'in' => %w[TITLE DESCRIPTION]
+          },
+          sort: nil
+        }
+      end
+
+      it 'maps search and in filters to GraphQL variables' do
+        variables = tool.build_variables
+
+        expect(variables[:search]).to eq('fix login')
+        expect(variables[:in]).to eq(%w[TITLE DESCRIPTION])
+      end
+    end
+
+    context 'with hierarchyFilters' do
+      let(:params) do
+        {
+          group_id: group.id.to_s,
+          filters: {
+            'hierarchyFilters' => {
+              'parentIds' => ['gid://gitlab/WorkItem/100'],
+              'includeDescendantWorkItems' => true
+            }
+          },
+          sort: nil
+        }
+      end
+
+      it 'maps hierarchyFilters to GraphQL variables' do
+        variables = tool.build_variables
+
+        expect(variables[:hierarchyFilters]).to eq({
+          'parentIds' => ['gid://gitlab/WorkItem/100'],
+          'includeDescendantWorkItems' => true
+        })
+      end
+    end
+
+    context 'with fullPath filter' do
+      let_it_be(:subgroup) { create(:group, parent: group) }
+
+      let(:params) do
+        {
+          group_id: group.id.to_s,
+          filters: {
+            'fullPath' => subgroup.full_path,
+            'state' => 'opened'
+          },
+          sort: nil
+        }
+      end
+
+      it 'overrides the namespace fullPath variable' do
+        variables = tool.build_variables
+
+        expect(variables[:fullPath]).to eq(subgroup.full_path)
+      end
+
+      it 'does not report fullPath as unsupported' do
+        tool.build_variables
+
+        expect(tool.unsupported_filters).not_to include('fullPath')
+      end
+    end
+
     context 'with unsupported filters' do
       let(:params) do
         {
@@ -128,8 +202,7 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
           filters: {
             'labelName' => ['bug'],
             'healthStatusFilter' => 'onTrack',
-            'iterationId' => ['gid://gitlab/Iteration/1'],
-            'search' => 'keyword'
+            'iterationId' => ['gid://gitlab/Iteration/1']
           },
           sort: nil
         }
@@ -138,7 +211,7 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
       it 'detects unsupported filters' do
         tool.build_variables
 
-        expect(tool.unsupported_filters).to contain_exactly('healthStatusFilter', 'iterationId', 'search')
+        expect(tool.unsupported_filters).to contain_exactly('healthStatusFilter', 'iterationId')
       end
 
       it 'still maps supported filters correctly' do

@@ -10,7 +10,6 @@ import (
 	"testing"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -142,7 +141,7 @@ func TestAllowedProxyRouteWithRateLimitCache(t *testing.T) {
 	config := newUpstreamConfig(railsServer.URL)
 	config.CircuitBreakerConfig.Enabled = true
 
-	upstreamHandler := newUpstream(*config, logrus.StandardLogger(), configureRoutes, nil, rdb, nil, nil, nil, nil)
+	upstreamHandler := newUpstream(*config, testDependencies(t, withRdb(rdb)), configureRoutes)
 	ws := httptest.NewServer(upstreamHandler)
 	defer ws.Close()
 
