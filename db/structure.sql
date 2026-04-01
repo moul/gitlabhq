@@ -16763,7 +16763,7 @@ CREATE SEQUENCE chat_teams_id_seq
 
 ALTER SEQUENCE chat_teams_id_seq OWNED BY chat_teams.id;
 
-CREATE TABLE ci_build_needs (
+CREATE TABLE p_ci_build_needs (
     name text NOT NULL,
     artifacts boolean DEFAULT true NOT NULL,
     optional boolean DEFAULT false NOT NULL,
@@ -16772,7 +16772,8 @@ CREATE TABLE ci_build_needs (
     id bigint NOT NULL,
     project_id bigint,
     CONSTRAINT check_4fab85ecdc CHECK ((project_id IS NOT NULL))
-);
+)
+PARTITION BY LIST (partition_id);
 
 CREATE SEQUENCE ci_build_needs_id_seq
     START WITH 1
@@ -16781,7 +16782,18 @@ CREATE SEQUENCE ci_build_needs_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER SEQUENCE ci_build_needs_id_seq OWNED BY ci_build_needs.id;
+ALTER SEQUENCE ci_build_needs_id_seq OWNED BY p_ci_build_needs.id;
+
+CREATE TABLE ci_build_needs (
+    name text NOT NULL,
+    artifacts boolean DEFAULT true NOT NULL,
+    optional boolean DEFAULT false NOT NULL,
+    build_id bigint NOT NULL,
+    partition_id bigint NOT NULL,
+    id bigint DEFAULT nextval('ci_build_needs_id_seq'::regclass) NOT NULL,
+    project_id bigint,
+    CONSTRAINT check_4fab85ecdc CHECK ((project_id IS NOT NULL))
+);
 
 CREATE TABLE ci_build_pending_states (
     id bigint NOT NULL,
@@ -34988,6 +35000,8 @@ ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION appearance_uploads FOR VALU
 
 ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION bulk_import_export_upload_uploads FOR VALUES IN ('BulkImports::ExportUpload');
 
+ALTER TABLE ONLY p_ci_build_needs ATTACH PARTITION ci_build_needs FOR VALUES IN ('100', '101', '102', '103', '104', '105', '106', '107', '108', '109', '110', '111');
+
 ALTER TABLE ONLY ci_runner_controller_runner_level_scopings ATTACH PARTITION ci_runner_controller_runner_level_scopings_instance_type FOR VALUES IN ('1');
 
 ALTER TABLE ONLY ci_runner_taggings ATTACH PARTITION ci_runner_taggings_group_type FOR VALUES IN ('2');
@@ -35327,8 +35341,6 @@ ALTER TABLE ONLY catalog_verified_namespaces ALTER COLUMN id SET DEFAULT nextval
 ALTER TABLE ONLY chat_names ALTER COLUMN id SET DEFAULT nextval('chat_names_id_seq'::regclass);
 
 ALTER TABLE ONLY chat_teams ALTER COLUMN id SET DEFAULT nextval('chat_teams_id_seq'::regclass);
-
-ALTER TABLE ONLY ci_build_needs ALTER COLUMN id SET DEFAULT nextval('ci_build_needs_id_seq'::regclass);
 
 ALTER TABLE ONLY ci_build_pending_states ALTER COLUMN id SET DEFAULT nextval('ci_build_pending_states_id_seq'::regclass);
 
@@ -35983,6 +35995,8 @@ ALTER TABLE ONLY p_ai_active_context_code_repositories ALTER COLUMN id SET DEFAU
 ALTER TABLE ONLY p_batched_git_ref_updates_deletions ALTER COLUMN id SET DEFAULT nextval('p_batched_git_ref_updates_deletions_id_seq'::regclass);
 
 ALTER TABLE ONLY p_catalog_resource_sync_events ALTER COLUMN id SET DEFAULT nextval('p_catalog_resource_sync_events_id_seq'::regclass);
+
+ALTER TABLE ONLY p_ci_build_needs ALTER COLUMN id SET DEFAULT nextval('ci_build_needs_id_seq'::regclass);
 
 ALTER TABLE ONLY p_ci_builds_metadata ALTER COLUMN id SET DEFAULT nextval('ci_builds_metadata_id_seq'::regclass);
 
@@ -38562,6 +38576,9 @@ ALTER TABLE packages_conan_recipe_revisions
 ALTER TABLE vulnerability_statistics
     ADD CONSTRAINT check_vulnerability_statistics_traversal_ids_not_empty CHECK ((cardinality(traversal_ids) > 0)) NOT VALID;
 
+ALTER TABLE ONLY p_ci_build_needs
+    ADD CONSTRAINT p_ci_build_needs_pkey PRIMARY KEY (id, partition_id);
+
 ALTER TABLE ONLY ci_build_needs
     ADD CONSTRAINT ci_build_needs_pkey PRIMARY KEY (id, partition_id);
 
@@ -40004,9 +40021,6 @@ ALTER TABLE ONLY pages_domain_acme_orders
 
 ALTER TABLE ONLY pages_domains
     ADD CONSTRAINT pages_domains_pkey PRIMARY KEY (id);
-
-ALTER TABLE ci_build_needs
-    ADD CONSTRAINT partitioning_constraint CHECK ((partition_id = ANY (ARRAY[(100)::bigint, (101)::bigint, (102)::bigint, (103)::bigint, (104)::bigint, (105)::bigint, (106)::bigint, (107)::bigint, (108)::bigint, (109)::bigint, (110)::bigint, (111)::bigint]))) NOT VALID;
 
 ALTER TABLE ONLY path_locks
     ADD CONSTRAINT path_locks_pkey PRIMARY KEY (id);
@@ -45411,9 +45425,11 @@ CREATE INDEX index_chat_names_on_user_id ON chat_names USING btree (user_id);
 
 CREATE UNIQUE INDEX index_chat_teams_on_namespace_id ON chat_teams USING btree (namespace_id);
 
-CREATE UNIQUE INDEX index_ci_build_needs_on_build_id_and_name ON ci_build_needs USING btree (build_id, name);
+CREATE UNIQUE INDEX p_ci_build_needs_build_id_name_partition_id_idx ON ONLY p_ci_build_needs USING btree (build_id, name, partition_id);
 
 CREATE UNIQUE INDEX index_ci_build_needs_on_build_id_and_name_partitioning ON ci_build_needs USING btree (build_id, name, partition_id);
+
+CREATE INDEX p_ci_build_needs_project_id_idx ON ONLY p_ci_build_needs USING btree (project_id);
 
 CREATE INDEX index_ci_build_needs_on_project_id ON ci_build_needs USING btree (project_id);
 
@@ -53821,6 +53837,8 @@ ALTER INDEX index_uploads_9ba88c4165_on_uploaded_by_user_id ATTACH PARTITION bul
 
 ALTER INDEX index_uploads_9ba88c4165_on_uploader_and_path ATTACH PARTITION bulk_import_export_upload_uploads_uploader_path_idx;
 
+ALTER INDEX p_ci_build_needs_pkey ATTACH PARTITION ci_build_needs_pkey;
+
 ALTER INDEX index_ci_rcrl_scopings_on_controller_id_and_runner_id_and_type ATTACH PARTITION ci_runner_controller_runner_l_runner_controller_id_runner_i_idx;
 
 ALTER INDEX index_ci_rcrl_scopings_on_runner_id_and_type ATTACH PARTITION ci_runner_controller_runner_level_sco_runner_id_runner_type_idx;
@@ -53960,6 +53978,10 @@ ALTER INDEX index_uploads_9ba88c4165_on_store ATTACH PARTITION import_export_upl
 ALTER INDEX index_uploads_9ba88c4165_on_uploaded_by_user_id ATTACH PARTITION import_export_upload_uploads_uploaded_by_user_id_idx;
 
 ALTER INDEX index_uploads_9ba88c4165_on_uploader_and_path ATTACH PARTITION import_export_upload_uploads_uploader_path_idx;
+
+ALTER INDEX p_ci_build_needs_build_id_name_partition_id_idx ATTACH PARTITION index_ci_build_needs_on_build_id_and_name_partitioning;
+
+ALTER INDEX p_ci_build_needs_project_id_idx ATTACH PARTITION index_ci_build_needs_on_project_id;
 
 ALTER INDEX index_ci_runner_taggings_on_organization_id ATTACH PARTITION index_ci_runner_taggings_group_type_on_organization_id;
 
@@ -58472,7 +58494,7 @@ ALTER TABLE ONLY chat_teams
 ALTER TABLE ONLY group_scim_auth_access_tokens
     ADD CONSTRAINT fk_rails_3caca5d6d0 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
-ALTER TABLE ONLY ci_build_needs
+ALTER TABLE p_ci_build_needs
     ADD CONSTRAINT fk_rails_3cf221d4ed_p FOREIGN KEY (partition_id, build_id) REFERENCES p_ci_builds(partition_id, id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ONLY cluster_groups

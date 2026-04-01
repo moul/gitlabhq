@@ -74854,6 +74854,9 @@ msgstr ""
 msgid "UsageBilling|Action"
 msgstr ""
 
+msgid "UsageBilling|Active users"
+msgstr ""
+
 msgid "UsageBilling|An error occurred while fetching data"
 msgstr ""
 
@@ -74878,6 +74881,9 @@ msgstr ""
 msgid "UsageBilling|Credits consumed beyond your users included credits, charged at standard on-demand rates."
 msgstr ""
 
+msgid "UsageBilling|Credits per day"
+msgstr ""
+
 msgid "UsageBilling|Credits used after all included user credits and monthly commitment pool have been exhausted. Learn about %{linkStart}GitLab Credit pricing%{linkEnd}."
 msgstr ""
 
@@ -74890,6 +74896,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "UsageBilling|Daily GitLab Credits usage"
+msgstr ""
+
+msgid "UsageBilling|Daily average"
 msgstr ""
 
 msgid "UsageBilling|Date"
@@ -74997,6 +75006,9 @@ msgstr ""
 msgid "UsageBilling|On-demand"
 msgstr ""
 
+msgid "UsageBilling|Peak day usage"
+msgstr ""
+
 msgid "UsageBilling|Purchase monthly commitment"
 msgstr ""
 
@@ -75016,6 +75028,9 @@ msgid "UsageBilling|This dashboard may not display all current subscription data
 msgstr ""
 
 msgid "UsageBilling|Total credits used"
+msgstr ""
+
+msgid "UsageBilling|Total usage"
 msgstr ""
 
 msgid "UsageBilling|Track monthly credit consumption and the main drivers of credit usage."
@@ -75061,6 +75076,9 @@ msgid "UsageBilling|You won't be billed for this usage until you accept the on-d
 msgstr ""
 
 msgid "UsageBilling|Your GitLab evaluation credits are active"
+msgstr ""
+
+msgid "UsageBilling|in selected date range"
 msgstr ""
 
 msgid "UsageQuotas|(of %{totalStorageSize})"
@@ -78524,9 +78542,6 @@ msgid "Vulnerability|Resolve the vulnerability in these dependencies to see addi
 msgstr ""
 
 msgid "Vulnerability|Scanner:"
-msgstr ""
-
-msgid "Vulnerability|Search or filter vulnerabilities..."
 msgstr ""
 
 msgid "Vulnerability|Security Audit"

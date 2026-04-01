@@ -1498,6 +1498,73 @@ describe('legacyDiffs actions', () => {
       const result = store.getLinesForDiscussion({ discussion });
       expect(result).toEqual([{ line_code: 'line2', type: 'new' }]);
     });
+
+    it('stops by new_line when end line_code is stale', () => {
+      // After a force-push the old end line_code hash_16_18 no longer
+      // exists. The new_line fallback (18) matches hash_18_18 instead.
+      const diffLines = [
+        { line_code: 'hash_12_12', type: null, old_line: 12, new_line: 12 },
+        { line_code: 'hash_13_13', type: null, old_line: 13, new_line: 13 },
+        { line_code: 'hash_14_14', type: null, old_line: 14, new_line: 14 },
+        { line_code: 'hash_15_15', type: null, old_line: 15, new_line: 15 },
+        { line_code: 'hash_16_16', type: null, old_line: 16, new_line: 16 },
+        { line_code: 'hash_17_17', type: null, old_line: 17, new_line: 17 },
+        { line_code: 'hash_18_18', type: null, old_line: 18, new_line: 18 },
+        { line_code: null, type: 'match', old_line: null, new_line: null },
+        { line_code: 'hash_30_30', type: null, old_line: 30, new_line: 30 },
+      ];
+
+      store.diffFiles = [{ file_hash: 'abc', [INLINE_DIFF_LINES_KEY]: diffLines }];
+
+      const result = store.getLinesForDiscussion({
+        discussion: {
+          diff_file: { file_hash: 'abc' },
+          position: {
+            line_range: {
+              start: { line_code: 'hash_14_14', old_line: 14, new_line: 14 },
+              end: { line_code: 'hash_16_18', old_line: 16, new_line: 18 },
+            },
+          },
+        },
+      });
+
+      // Collects lines 14-18. The stale hash_16_18 didn't match any
+      // line_code, but new_line=18 matched hash_18_18.
+      expect(result).toEqual([
+        diffLines[2], // 14/14
+        diffLines[3], // 15/15
+        diffLines[4], // 16/16
+        diffLines[5], // 17/17
+        diffLines[6], // 18/18 — matched by new_line fallback
+      ]);
+    });
+
+    it('stops at a meta/match line as a hard boundary', () => {
+      const diffLines = [
+        { line_code: 'hash_14_14', type: null, old_line: 14, new_line: 14 },
+        { line_code: 'hash_15_15', type: null, old_line: 15, new_line: 15 },
+        { line_code: null, type: 'match', old_line: null, new_line: null },
+        { line_code: 'hash_30_30', type: null, old_line: 30, new_line: 30 },
+      ];
+
+      store.diffFiles = [{ file_hash: 'abc', [INLINE_DIFF_LINES_KEY]: diffLines }];
+
+      const result = store.getLinesForDiscussion({
+        discussion: {
+          diff_file: { file_hash: 'abc' },
+          position: {
+            line_range: {
+              start: { line_code: 'hash_14_14', old_line: 14, new_line: 14 },
+              end: { line_code: 'nonexistent', old_line: null, new_line: 999 },
+            },
+          },
+        },
+      });
+
+      expect(result).toEqual([diffLines[0], diffLines[1]]);
+      expect(result).not.toContainEqual(expect.objectContaining({ type: 'match' }));
+      expect(result).not.toContainEqual(expect.objectContaining({ line_code: 'hash_30_30' }));
+    });
   });
 
   describe('goToFile', () => {

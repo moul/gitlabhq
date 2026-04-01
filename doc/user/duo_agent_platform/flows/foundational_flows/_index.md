@@ -130,6 +130,8 @@ Prerequisites:
 1. In the left sidebar, select **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **Flow execution**, select the **Allow flow execution** and **Allow foundational flows** checkboxes.
+1. Optional. In the **Image registry** text box, enter the container registry URL for foundational flow images.
+   Leave this text box empty to use the default `registry.gitlab.com`.
 1. Select **Save changes**.
 
 {{< /tab >}}

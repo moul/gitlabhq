@@ -4,6 +4,13 @@
 
 * @gitlab-org/maintainers/rails-backend @gitlab-org/maintainers/frontend @gitlab-org/maintainers/database @gl-dx/maintainers @gl-dx/tooling-maintainers @gitlab-org/delivery @gitlab-org/maintainers/cicd-templates @gitlab-org/tw-leadership @gitlab-org/maintainers/kas-version-maintainers
 
+# Database
+/db/ @gitlab-org/maintainers/database
+/ee/db/ @gitlab-org/maintainers/database
+/db/click_house/ @gitlab-org/maintainers/clickhouse
+/ee/db/click_house/ @gitlab-org/maintainers/clickhouse
+/db/siphon/ @gitlab-org/maintainers/clickhouse
+
 .gitlab/CODEOWNERS @gitlab-org/development-leaders @gitlab-org/tw-leadership
 
 /*_VERSION @gitlab-org/maintainers/rails-backend @gitlab-org/delivery
@@ -113,10 +120,7 @@ Rakefile
 /scripts/data_seeder/
 
 [Clickhouse] @gitlab-org/maintainers/clickhouse
-/db/click_house/
-/ee/db/click_house/
 /**/click_house/
-/db/siphon/
 
 ## We list db/ subfolders explicitly as we don't want to match Clickhouse files
 [Database] @gitlab-org/maintainers/database

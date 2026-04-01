@@ -34900,6 +34900,7 @@ Check permissions for the current user on a Duo workflow.
 | ---- | ---- | ----------- |
 | <a id="duoworkflowpermissions-deleteduoworkflow"></a>`deleteDuoWorkflow` | [`Boolean!`](#boolean) | If `true`, the user can perform `delete_duo_workflow` on this resource. |
 | <a id="duoworkflowpermissions-readduoworkflow"></a>`readDuoWorkflow` | [`Boolean!`](#boolean) | If `true`, the user can perform `read_duo_workflow` on this resource. |
+| <a id="duoworkflowpermissions-resumeduoworkflow"></a>`resumeDuoWorkflow` | [`Boolean!`](#boolean) | If `true`, the user can perform `resume_duo_workflow` on this resource. |
 | <a id="duoworkflowpermissions-updateduoworkflow"></a>`updateDuoWorkflow` | [`Boolean!`](#boolean) | If `true`, the user can perform `update_duo_workflow` on this resource. |
 
 ### `EgressNode`
@@ -40163,7 +40164,7 @@ Represents the Geo replication and verification state of a job_artifact.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="kas-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether the Kubernetes agent server is enabled. |
+| <a id="kas-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether GitLab Relay (KAS) is enabled. |
 | <a id="kas-externalk8sproxyurl"></a>`externalK8sProxyUrl` | [`String`](#string) | URL used by the Kubernetes tooling to communicate with the KAS Kubernetes API proxy. |
 | <a id="kas-externalurl"></a>`externalUrl` | [`String`](#string) | URL used by the agents to communicate with the server. |
 | <a id="kas-version"></a>`version` | [`String`](#string) | KAS version. |

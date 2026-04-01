@@ -1357,6 +1357,29 @@ Grants the ability to read issue label events.
 | Read | Project | `GET` | `/projects/:id/issues/:eventable_id/resource_label_events` |
 | Read | Project | `GET` | `/projects/:id/issues/:eventable_id/resource_label_events/:event_id` |
 
+#### Label
+
+Permissions for labels
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Project | `POST` | `/projects/:id/labels` |
+| Create | Group | `POST` | `/groups/:id/labels` |
+| Delete | Project | `DELETE` | `/projects/:id/labels` |
+| Delete | Project | `DELETE` | `/projects/:id/labels/:name` |
+| Delete | Group | `DELETE` | `/groups/:id/labels` |
+| Delete | Group | `DELETE` | `/groups/:id/labels/:name` |
+| Promote | Project | `PUT` | `/projects/:id/labels/promote` |
+| Promote | Project | `PUT` | `/projects/:id/labels/:name/promote` |
+| Read | Project | `GET` | `/projects/:id/labels` |
+| Read | Project | `GET` | `/projects/:id/labels/:name` |
+| Read | Group | `GET` | `/groups/:id/labels` |
+| Read | Group | `GET` | `/groups/:id/labels/:name` |
+| Update | Project | `PUT` | `/projects/:id/labels` |
+| Update | Project | `PUT` | `/projects/:id/labels/:name` |
+| Update | Group | `PUT` | `/groups/:id/labels` |
+| Update | Group | `PUT` | `/groups/:id/labels/:name` |
+
 #### Merge Request Label Event
 
 Grants the ability to read merge request label events.
@@ -1415,8 +1438,6 @@ Grants the ability to read, write, and delete work items.
 | Delete | Group | `DELETE` | `/groups/:id/-/work_items/:work_item_iid` |
 | Delete | Group | `DELETE` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id/notes/:note_id` |
 | Delete | Group | `DELETE` | `/groups/:id/boards/:board_id/lists/:list_id` |
-| Delete | Group | `DELETE` | `/groups/:id/labels` |
-| Delete | Group | `DELETE` | `/groups/:id/labels/:name` |
 | Delete | Group | `DELETE` | `/groups/:id/milestones/:milestone_id` |
 | Delete | Group | `DELETE` | `/groups/:id/epics/:noteable_id/notes/:note_id` |
 | Delete | Group | `DELETE` | `/groups/:id/wiki_pages/:noteable_id/notes/:note_id` |
@@ -1508,8 +1529,6 @@ Grants the ability to read, write, and delete work items.
 | Read | Group | `GET` | `/groups/:id/boards/:board_id` |
 | Read | Group | `GET` | `/groups/:id/boards/:board_id/lists` |
 | Read | Group | `GET` | `/groups/:id/boards/:board_id/lists/:list_id` |
-| Read | Group | `GET` | `/groups/:id/labels` |
-| Read | Group | `GET` | `/groups/:id/labels/:name` |
 | Read | Group | `GET` | `/groups/:id/milestones` |
 | Read | Group | `GET` | `/groups/:id/milestones/:milestone_id` |
 | Read | Group | `GET` | `/groups/:id/milestones/:milestone_id/issues` |
@@ -1591,26 +1610,23 @@ Grants the ability to read, write, and delete work items.
 | Write | Group | `POST` | `/groups/:id/wiki_pages/:noteable_id/notes` |
 | Write | Group | `POST` | `/groups/:id/epics/:noteable_id/notes` |
 | Write | Group | `POST` | `/groups/:id/milestones` |
-| Write | Group | `POST` | `/groups/:id/labels` |
 | Write | Group | `POST` | `/groups/:id/epics/:epic_iid/award_emoji` |
-| Write | Group | `POST` | `/groups/:id/boards/:board_id/lists` |
 | Write | Group | `POST` | `/groups/:id/epics/:epic_iid/notes/:note_id/award_emoji` |
 | Write | Group | `POST` | `/namespaces/:id/-/work_items` |
 | Write | Group | `POST` | `/groups/:id/-/work_items` |
 | Write | Group | `POST` | `/groups/:id/epics/:noteable_id/discussions` |
 | Write | Group | `POST` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id/notes` |
-| Write | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid` |
-| Write | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid/epics/:child_epic_id` |
-| Write | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid/issues/:epic_issue_id` |
-| Write | Group | `PUT` | `/groups/:id/wiki_pages/:noteable_id/notes/:note_id` |
+| Write | Group | `POST` | `/groups/:id/boards/:board_id/lists` |
 | Write | Group | `PUT` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id/notes/:note_id` |
+| Write | Group | `PUT` | `/groups/:id/wiki_pages/:noteable_id/notes/:note_id` |
 | Write | Group | `PUT` | `/groups/:id/epics/:noteable_id/notes/:note_id` |
+| Write | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid/issues/:epic_issue_id` |
 | Write | Group | `PUT` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id` |
 | Write | Group | `PUT` | `/groups/:id/milestones/:milestone_id` |
 | Write | Group | `PUT` | `/groups/:id/boards/:board_id` |
-| Write | Group | `PUT` | `/groups/:id/labels/:name` |
-| Write | Group | `PUT` | `/groups/:id/labels` |
+| Write | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid/epics/:child_epic_id` |
 | Write | Group | `PUT` | `/groups/:id/boards/:board_id/lists/:list_id` |
+| Write | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid` |
 
 ### Projects resources
 

@@ -157,7 +157,7 @@ To create a token for the agent:
 1. Select **Connect a cluster**.
 1. Enter a name for your agent and save for later use. For example, `gitlab-workspaces-agentk-eks`.
 1. Select **Create and register**.
-1. Save the token and KAS address for later use.
+1. Save the token and GitLab Relay (KAS) address for later use.
 1. Select **Continue**.
 
 ## Configure GitLab OAuth
@@ -200,7 +200,7 @@ To configure CI/CD variables:
    | `AWS_ACCESS_KEY_ID`                            | AWS access key ID. |
    | `AWS_SECRET_ACCESS_KEY`                        | AWS secret access key. |
    | `TF_VAR_agent_token`                           | GitLab agent for Kubernetes token. |
-   | `TF_VAR_kas_address`                           | GitLab Kubernetes Agent Server address. Required if on a GitLab Self-Managed instance. For example, `wss://kas.gitlab.com`. |
+   | `TF_VAR_kas_address`                           | GitLab Relay (KAS) address. Required if on a GitLab Self-Managed instance. For example, `wss://kas.gitlab.com`. |
    | `TF_VAR_workspaces_proxy_auth_client_id`       | OAuth application client ID. |
    | `TF_VAR_workspaces_proxy_auth_client_secret`   | OAuth application secret. |
    | `TF_VAR_workspaces_proxy_auth_redirect_uri`    | OAuth callback URL. For example, `https://workspaces.example.dev/auth/callback`. |

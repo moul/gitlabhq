@@ -299,14 +299,14 @@ desc 'Get all widgets' do
   tags %w[widgets]
 end
 
-# good -- Specifies "experiment" in as route_setting
+# good -- Specifies "experiment" as route_setting
 route_setting :lifecycle, :experiment
 desc 'Get all widgets' do
   detail 'Introduced in GitLab 18.10.'
   tags %w[widgets]
 end
 
-# good -- Specifies "experiment" in as route_setting
+# good -- Specifies "beta" as route_setting
 route_setting :lifecycle, :beta
 desc 'Get all widgets' do
   detail 'Introduced in GitLab 18.10.'

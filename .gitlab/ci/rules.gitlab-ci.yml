@@ -1582,8 +1582,6 @@
 
 .frontend:rules:generate-js-routes:
   rules:
-    - <<: *if-not-canonical-namespace
-      when: never
     - <<: *if-merge-request-labels-pipeline-expedite
       when: never
     - <<: *if-merge-train
