@@ -737,11 +737,7 @@ module ProjectsHelper
   private
 
   def issues_help_page_path(project)
-    if project.work_items_consolidated_list_enabled?(current_user)
-      help_page_path('user/work_items/_index.md')
-    else
-      help_page_path('user/project/issues/_index.md')
-    end
+    help_page_path('user/work_items/_index.md')
   end
 
   def can_admin_project_clusters?(project)

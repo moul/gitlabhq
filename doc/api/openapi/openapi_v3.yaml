@@ -683,7 +683,6 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_ca3de2b20bbf"
-  "/api/v4/jobs/{id}/sbom_scans/{sbom_scan_id}":
     get:
       operationId: getApiV4JobsIdSbomScansSbomScanId
       summary: Download an SBOM scan result file
@@ -10279,6 +10278,60 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_90d3d48f5a75"
+    post:
+      operationId: postApiV4GroupsIdDashEpicsEpicIidIssuesIssueId
+      summary: Assign an issue to the epic
+      description: Creates an epic-issue association. If the issue in question belongs
+        to another epic it is unassigned from that epic
+      tags:
+      - Epics
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIEntitiesEpicIssueLink"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: No matching issue found
+        '409':
+          description: Issue already assigned
+      parameters:
+      - name: id
+        required: true
+        description: The ID or URL-encoded path of the group owned by the authenticated
+          user
+        schema:
+          oneOf:
+          - type: integer
+          - type: string
+          nullable: true
+        in: path
+        example: '1'
+      - name: epic_iid
+        required: true
+        description: The internal ID of the epic
+        schema:
+          oneOf:
+          - type: integer
+          - type: string
+          nullable: true
+        in: path
+        example: 5
+      - name: issue_id
+        required: true
+        description: The ID of the issue
+        schema:
+          oneOf:
+          - type: integer
+          - type: string
+          nullable: true
+        in: path
+        example: 55
     delete:
       operationId: deleteApiV4GroupsIdDashEpicsEpicIidIssuesEpicIssueId
       summary: Remove an issue from the epic
@@ -10452,61 +10505,6 @@ paths:
           nullable: true
         in: query
         example: 20
-  "/api/v4/groups/{id}/(-/)epics/{epic_iid}/issues/{issue_id}":
-    post:
-      operationId: postApiV4GroupsIdDashEpicsEpicIidIssuesIssueId
-      summary: Assign an issue to the epic
-      description: Creates an epic-issue association. If the issue in question belongs
-        to another epic it is unassigned from that epic
-      tags:
-      - Epics
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/APIEntitiesEpicIssueLink"
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: No matching issue found
-        '409':
-          description: Issue already assigned
-      parameters:
-      - name: id
-        required: true
-        description: The ID or URL-encoded path of the group owned by the authenticated
-          user
-        schema:
-          oneOf:
-          - type: integer
-          - type: string
-          nullable: true
-        in: path
-        example: '1'
-      - name: epic_iid
-        required: true
-        description: The internal ID of the epic
-        schema:
-          oneOf:
-          - type: integer
-          - type: string
-          nullable: true
-        in: path
-        example: 5
-      - name: issue_id
-        required: true
-        description: The ID of the issue
-        schema:
-          oneOf:
-          - type: integer
-          - type: string
-          nullable: true
-        in: path
-        example: 55
   "/api/v4/projects/{id}/dora/metrics":
     get:
       operationId: getApiV4ProjectsIdDoraMetrics
@@ -74958,7 +74956,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
         project:
           "$ref": "#/components/schemas/APIEntitiesProjectIdentity"
         group:
@@ -80231,11 +80229,11 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
         iid:
-          type: string
+          type: integer
         project_id:
-          type: string
+          type: integer
         group_id:
           type: string
         title:
@@ -80253,7 +80251,7 @@ components:
         start_date:
           type: string
         expired:
-          type: string
+          type: boolean
         web_url:
           type: string
     APIEntitiesIssuableEntity:
@@ -81107,7 +81105,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
         web_url:
           type: string
         name:
@@ -81629,7 +81627,7 @@ components:
         message_font_color:
           type: string
         email_header_and_footer_enabled:
-          type: string
+          type: boolean
     APIEntitiesMetricImage:
       type: object
       properties:
@@ -81862,7 +81860,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
         message:
           type: string
         starts_at:
@@ -81879,12 +81877,12 @@ components:
           type: string
         broadcast_type:
           type: string
-        dismissable:
-          type: string
         theme:
           type: string
+        dismissable:
+          type: boolean
         active:
-          type: string
+          type: boolean
     APIEntitiesBatchedBackgroundMigration:
       type: object
       properties:
@@ -83776,11 +83774,11 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
         iid:
-          type: string
+          type: integer
         project_id:
-          type: string
+          type: integer
         group_id:
           type: string
         title:
@@ -83798,7 +83796,7 @@ components:
         start_date:
           type: string
         expired:
-          type: string
+          type: boolean
         web_url:
           type: string
         issue_stats:
@@ -83889,13 +83887,13 @@ components:
         assignee:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         user_notes_count:
-          type: string
+          type: integer
         merge_requests_count:
-          type: string
+          type: integer
         upvotes:
-          type: string
+          type: integer
         downvotes:
-          type: string
+          type: integer
         start_date:
           type: string
           format: date
@@ -83970,11 +83968,11 @@ components:
         source_branch:
           type: string
         user_notes_count:
-          type: string
+          type: integer
         upvotes:
-          type: string
+          type: integer
         downvotes:
-          type: string
+          type: integer
         author:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         assignees:
@@ -83984,24 +83982,24 @@ components:
         reviewers:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         source_project_id:
-          type: string
+          type: integer
         target_project_id:
-          type: string
+          type: integer
         labels:
           type: string
         draft:
-          type: string
+          type: boolean
         imported:
-          type: string
+          type: boolean
         imported_from:
           type: string
           example: bitbucket
         work_in_progress:
-          type: string
+          type: boolean
         milestone:
           "$ref": "#/components/schemas/APIEntitiesMilestone"
         merge_when_pipeline_succeeds:
-          type: string
+          type: boolean
         merge_status:
           type: string
         detailed_merge_status:
@@ -84147,13 +84145,13 @@ components:
         assignee:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         user_notes_count:
-          type: string
+          type: integer
         merge_requests_count:
-          type: string
+          type: integer
         upvotes:
-          type: string
+          type: integer
         downvotes:
-          type: string
+          type: integer
         start_date:
           type: string
           format: date
@@ -84238,13 +84236,13 @@ components:
         assignee:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         user_notes_count:
-          type: string
+          type: integer
         merge_requests_count:
-          type: string
+          type: integer
         upvotes:
-          type: string
+          type: integer
         downvotes:
-          type: string
+          type: integer
         start_date:
           type: string
           format: date
@@ -84355,13 +84353,13 @@ components:
         assignee:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         user_notes_count:
-          type: string
+          type: integer
         merge_requests_count:
-          type: string
+          type: integer
         upvotes:
-          type: string
+          type: integer
         downvotes:
-          type: string
+          type: integer
         start_date:
           type: string
           format: date
@@ -84480,13 +84478,13 @@ components:
         assignee:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         user_notes_count:
-          type: string
+          type: integer
         merge_requests_count:
-          type: string
+          type: integer
         upvotes:
-          type: string
+          type: integer
         downvotes:
-          type: string
+          type: integer
         start_date:
           type: string
           format: date
@@ -84599,11 +84597,11 @@ components:
         source_branch:
           type: string
         user_notes_count:
-          type: string
+          type: integer
         upvotes:
-          type: string
+          type: integer
         downvotes:
-          type: string
+          type: integer
         author:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         assignees:
@@ -84613,24 +84611,24 @@ components:
         reviewers:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         source_project_id:
-          type: string
+          type: integer
         target_project_id:
-          type: string
+          type: integer
         labels:
           type: string
         draft:
-          type: string
+          type: boolean
         imported:
-          type: string
+          type: boolean
         imported_from:
           type: string
           example: bitbucket
         work_in_progress:
-          type: string
+          type: boolean
         milestone:
           "$ref": "#/components/schemas/APIEntitiesMilestone"
         merge_when_pipeline_succeeds:
-          type: string
+          type: boolean
         merge_status:
           type: string
         detailed_merge_status:
@@ -84749,11 +84747,11 @@ components:
         source_branch:
           type: string
         user_notes_count:
-          type: string
+          type: integer
         upvotes:
-          type: string
+          type: integer
         downvotes:
-          type: string
+          type: integer
         author:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         assignees:
@@ -84763,24 +84761,24 @@ components:
         reviewers:
           "$ref": "#/components/schemas/APIEntitiesUserBasic"
         source_project_id:
-          type: string
+          type: integer
         target_project_id:
-          type: string
+          type: integer
         labels:
           type: string
         draft:
-          type: string
+          type: boolean
         imported:
-          type: string
+          type: boolean
         imported_from:
           type: string
           example: bitbucket
         work_in_progress:
-          type: string
+          type: boolean
         milestone:
           "$ref": "#/components/schemas/APIEntitiesMilestone"
         merge_when_pipeline_succeeds:
-          type: string
+          type: boolean
         merge_status:
           type: string
         detailed_merge_status:
@@ -85127,7 +85125,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
         web_url:
           type: string
         name:
@@ -85142,7 +85140,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
         web_url:
           type: string
         name:
@@ -85154,11 +85152,11 @@ components:
         visibility:
           type: string
         share_with_group_lock:
-          type: string
+          type: boolean
         require_two_factor_authentication:
-          type: string
+          type: boolean
         two_factor_grace_period:
-          type: string
+          type: integer
         project_creation_level:
           type: string
         auto_devops_enabled:
@@ -85174,7 +85172,7 @@ components:
         mentions_disabled:
           type: string
         lfs_enabled:
-          type: string
+          type: boolean
         archived:
           type: boolean
         math_rendering_limits_enabled:
@@ -85184,13 +85182,13 @@ components:
         default_branch:
           type: string
         default_branch_protection:
-          type: string
+          type: integer
         default_branch_protection_defaults:
           type: string
         avatar_url:
           type: string
         request_access_enabled:
-          type: string
+          type: boolean
         full_name:
           type: string
         full_path:
@@ -85200,7 +85198,7 @@ components:
         parent_id:
           type: string
         organization_id:
-          type: string
+          type: integer
         shared_runners_setting:
           type: string
         max_artifacts_size:
@@ -85247,7 +85245,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
         web_url:
           type: string
         name:
@@ -85259,11 +85257,11 @@ components:
         visibility:
           type: string
         share_with_group_lock:
-          type: string
+          type: boolean
         require_two_factor_authentication:
-          type: string
+          type: boolean
         two_factor_grace_period:
-          type: string
+          type: integer
         project_creation_level:
           type: string
         auto_devops_enabled:
@@ -85279,7 +85277,7 @@ components:
         mentions_disabled:
           type: string
         lfs_enabled:
-          type: string
+          type: boolean
         archived:
           type: boolean
         math_rendering_limits_enabled:
@@ -85289,13 +85287,13 @@ components:
         default_branch:
           type: string
         default_branch_protection:
-          type: string
+          type: integer
         default_branch_protection_defaults:
           type: string
         avatar_url:
           type: string
         request_access_enabled:
-          type: string
+          type: boolean
         full_name:
           type: string
         full_path:
@@ -85305,7 +85303,7 @@ components:
         parent_id:
           type: string
         organization_id:
-          type: string
+          type: integer
         shared_runners_setting:
           type: string
         max_artifacts_size:
@@ -87230,7 +87228,7 @@ components:
         organization:
           type: string
         bot:
-          type: string
+          type: boolean
         work_information:
           type: string
         followers:
@@ -87386,7 +87384,7 @@ components:
         organization:
           type: string
         bot:
-          type: string
+          type: boolean
         work_information:
           type: string
         followers:
@@ -87437,7 +87435,7 @@ components:
           type: boolean
           example: true
         external:
-          type: string
+          type: boolean
         private_profile:
           type: boolean
           example: :null
@@ -87508,7 +87506,7 @@ components:
         organization:
           type: string
         bot:
-          type: string
+          type: boolean
         work_information:
           type: string
         followers:
@@ -87559,7 +87557,7 @@ components:
           type: boolean
           example: true
         external:
-          type: string
+          type: boolean
         private_profile:
           type: boolean
           example: :null

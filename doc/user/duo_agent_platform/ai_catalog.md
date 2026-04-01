@@ -8,7 +8,7 @@ title: AI Catalog
 {{< details >}}
 
 - Tier: [Free](../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
-- Offering: GitLab.com, GitLab Self-Managed
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
 
 {{< /details >}}
 
@@ -28,10 +28,6 @@ title: AI Catalog
 - Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
 
 The AI Catalog is a central list of agents and flows.
 Add these agents and flows to your project to get started orchestrating agentic AI tasks.
@@ -53,8 +49,6 @@ Use the AI Catalog to:
 Prerequisites:
 
 - You must meet the [prerequisites](_index.md#prerequisites).
-- On GitLab.com, you must be a member of a top-level group that has
-  [turned on GitLab Duo experiment and beta features](../gitlab_duo/turn_on_off.md#on-gitlabcom-2).
 - To enable agents and flows from the AI Catalog:
   - In a group, you must have the Maintainer or Owner role.
   - In a project, you must have the Maintainer or Owner role.

@@ -48292,7 +48292,8 @@ definitions:
     type: object
     properties:
       id:
-        type: string
+        type: integer
+        format: int32
       web_url:
         type: string
       name:
@@ -48304,11 +48305,12 @@ definitions:
       visibility:
         type: string
       share_with_group_lock:
-        type: string
+        type: boolean
       require_two_factor_authentication:
-        type: string
+        type: boolean
       two_factor_grace_period:
-        type: string
+        type: integer
+        format: int32
       project_creation_level:
         type: string
       auto_devops_enabled:
@@ -48324,7 +48326,7 @@ definitions:
       mentions_disabled:
         type: string
       lfs_enabled:
-        type: string
+        type: boolean
       archived:
         type: boolean
       math_rendering_limits_enabled:
@@ -48334,13 +48336,14 @@ definitions:
       default_branch:
         type: string
       default_branch_protection:
-        type: string
+        type: integer
+        format: int32
       default_branch_protection_defaults:
         type: string
       avatar_url:
         type: string
       request_access_enabled:
-        type: string
+        type: boolean
       full_name:
         type: string
       full_path:
@@ -48350,7 +48353,8 @@ definitions:
       parent_id:
         type: string
       organization_id:
-        type: string
+        type: integer
+        format: int32
       shared_runners_setting:
         type: string
       max_artifacts_size:
@@ -49245,7 +49249,8 @@ definitions:
     type: object
     properties:
       id:
-        type: string
+        type: integer
+        format: int32
       web_url:
         type: string
       name:
@@ -49257,11 +49262,12 @@ definitions:
       visibility:
         type: string
       share_with_group_lock:
-        type: string
+        type: boolean
       require_two_factor_authentication:
-        type: string
+        type: boolean
       two_factor_grace_period:
-        type: string
+        type: integer
+        format: int32
       project_creation_level:
         type: string
       auto_devops_enabled:
@@ -49277,7 +49283,7 @@ definitions:
       mentions_disabled:
         type: string
       lfs_enabled:
-        type: string
+        type: boolean
       archived:
         type: boolean
       math_rendering_limits_enabled:
@@ -49287,13 +49293,14 @@ definitions:
       default_branch:
         type: string
       default_branch_protection:
-        type: string
+        type: integer
+        format: int32
       default_branch_protection_defaults:
         type: string
       avatar_url:
         type: string
       request_access_enabled:
-        type: string
+        type: boolean
       full_name:
         type: string
       full_path:
@@ -49303,7 +49310,8 @@ definitions:
       parent_id:
         type: string
       organization_id:
-        type: string
+        type: integer
+        format: int32
       shared_runners_setting:
         type: string
       max_artifacts_size:
@@ -50339,7 +50347,7 @@ definitions:
       organization:
         type: string
       bot:
-        type: string
+        type: boolean
       work_information:
         type: string
       followers:
@@ -50393,7 +50401,7 @@ definitions:
         type: boolean
         example: true
       external:
-        type: string
+        type: boolean
       private_profile:
         type: boolean
         example: 'null'
@@ -50871,7 +50879,8 @@ definitions:
     type: object
     properties:
       id:
-        type: string
+        type: integer
+        format: int32
       web_url:
         type: string
       name:
@@ -53770,13 +53779,17 @@ definitions:
       assignee:
         "$ref": "#/definitions/API_Entities_UserBasic"
       user_notes_count:
-        type: string
+        type: integer
+        format: int32
       merge_requests_count:
-        type: string
+        type: integer
+        format: int32
       upvotes:
-        type: string
+        type: integer
+        format: int32
       downvotes:
-        type: string
+        type: integer
+        format: int32
       start_date:
         type: string
         format: date
@@ -53893,11 +53906,14 @@ definitions:
     type: object
     properties:
       id:
-        type: string
+        type: integer
+        format: int32
       iid:
-        type: string
+        type: integer
+        format: int32
       project_id:
-        type: string
+        type: integer
+        format: int32
       group_id:
         type: string
       title:
@@ -53915,7 +53931,7 @@ definitions:
       start_date:
         type: string
       expired:
-        type: string
+        type: boolean
       web_url:
         type: string
     required:
@@ -54446,11 +54462,14 @@ definitions:
       source_branch:
         type: string
       user_notes_count:
-        type: string
+        type: integer
+        format: int32
       upvotes:
-        type: string
+        type: integer
+        format: int32
       downvotes:
-        type: string
+        type: integer
+        format: int32
       author:
         "$ref": "#/definitions/API_Entities_UserBasic"
       assignees:
@@ -54460,24 +54479,26 @@ definitions:
       reviewers:
         "$ref": "#/definitions/API_Entities_UserBasic"
       source_project_id:
-        type: string
+        type: integer
+        format: int32
       target_project_id:
-        type: string
+        type: integer
+        format: int32
       labels:
         type: string
       draft:
-        type: string
+        type: boolean
       imported:
-        type: string
+        type: boolean
       imported_from:
         type: string
         example: bitbucket
       work_in_progress:
-        type: string
+        type: boolean
       milestone:
         "$ref": "#/definitions/API_Entities_Milestone"
       merge_when_pipeline_succeeds:
-        type: string
+        type: boolean
       merge_status:
         type: string
       detailed_merge_status:
@@ -55026,11 +55047,14 @@ definitions:
     type: object
     properties:
       id:
-        type: string
+        type: integer
+        format: int32
       iid:
-        type: string
+        type: integer
+        format: int32
       project_id:
-        type: string
+        type: integer
+        format: int32
       group_id:
         type: string
       title:
@@ -55048,7 +55072,7 @@ definitions:
       start_date:
         type: string
       expired:
-        type: string
+        type: boolean
       web_url:
         type: string
       issue_stats:
@@ -55789,7 +55813,7 @@ definitions:
       organization:
         type: string
       bot:
-        type: string
+        type: boolean
       work_information:
         type: string
       followers:
@@ -63390,13 +63414,17 @@ definitions:
       assignee:
         "$ref": "#/definitions/API_Entities_UserBasic"
       user_notes_count:
-        type: string
+        type: integer
+        format: int32
       merge_requests_count:
-        type: string
+        type: integer
+        format: int32
       upvotes:
-        type: string
+        type: integer
+        format: int32
       downvotes:
-        type: string
+        type: integer
+        format: int32
       start_date:
         type: string
         format: date
@@ -63618,13 +63646,17 @@ definitions:
       assignee:
         "$ref": "#/definitions/API_Entities_UserBasic"
       user_notes_count:
-        type: string
+        type: integer
+        format: int32
       merge_requests_count:
-        type: string
+        type: integer
+        format: int32
       upvotes:
-        type: string
+        type: integer
+        format: int32
       downvotes:
-        type: string
+        type: integer
+        format: int32
       start_date:
         type: string
         format: date
@@ -64318,11 +64350,14 @@ definitions:
       source_branch:
         type: string
       user_notes_count:
-        type: string
+        type: integer
+        format: int32
       upvotes:
-        type: string
+        type: integer
+        format: int32
       downvotes:
-        type: string
+        type: integer
+        format: int32
       author:
         "$ref": "#/definitions/API_Entities_UserBasic"
       assignees:
@@ -64332,24 +64367,26 @@ definitions:
       reviewers:
         "$ref": "#/definitions/API_Entities_UserBasic"
       source_project_id:
-        type: string
+        type: integer
+        format: int32
       target_project_id:
-        type: string
+        type: integer
+        format: int32
       labels:
         type: string
       draft:
-        type: string
+        type: boolean
       imported:
-        type: string
+        type: boolean
       imported_from:
         type: string
         example: bitbucket
       work_in_progress:
-        type: string
+        type: boolean
       milestone:
         "$ref": "#/definitions/API_Entities_Milestone"
       merge_when_pipeline_succeeds:
-        type: string
+        type: boolean
       merge_status:
         type: string
       detailed_merge_status:
@@ -64571,11 +64608,14 @@ definitions:
       source_branch:
         type: string
       user_notes_count:
-        type: string
+        type: integer
+        format: int32
       upvotes:
-        type: string
+        type: integer
+        format: int32
       downvotes:
-        type: string
+        type: integer
+        format: int32
       author:
         "$ref": "#/definitions/API_Entities_UserBasic"
       assignees:
@@ -64585,24 +64625,26 @@ definitions:
       reviewers:
         "$ref": "#/definitions/API_Entities_UserBasic"
       source_project_id:
-        type: string
+        type: integer
+        format: int32
       target_project_id:
-        type: string
+        type: integer
+        format: int32
       labels:
         type: string
       draft:
-        type: string
+        type: boolean
       imported:
-        type: string
+        type: boolean
       imported_from:
         type: string
         example: bitbucket
       work_in_progress:
-        type: string
+        type: boolean
       milestone:
         "$ref": "#/definitions/API_Entities_Milestone"
       merge_when_pipeline_succeeds:
-        type: string
+        type: boolean
       merge_status:
         type: string
       detailed_merge_status:
@@ -69246,7 +69288,8 @@ definitions:
     type: object
     properties:
       id:
-        type: string
+        type: integer
+        format: int32
       web_url:
         type: string
       name:
@@ -70957,7 +71000,8 @@ definitions:
     type: object
     properties:
       id:
-        type: string
+        type: integer
+        format: int32
       message:
         type: string
       starts_at:
@@ -70974,12 +71018,12 @@ definitions:
         type: string
       broadcast_type:
         type: string
-      dismissable:
-        type: string
       theme:
         type: string
+      dismissable:
+        type: boolean
       active:
-        type: string
+        type: boolean
     required:
     - id
     - message
@@ -70990,8 +71034,8 @@ definitions:
     - target_access_levels
     - target_path
     - broadcast_type
-    - dismissable
     - theme
+    - dismissable
     - active
     description: API_Entities_System_BroadcastMessage model
   postApiV4BroadcastMessages:
@@ -74157,7 +74201,7 @@ definitions:
       organization:
         type: string
       bot:
-        type: string
+        type: boolean
       work_information:
         type: string
       followers:
@@ -74211,7 +74255,7 @@ definitions:
         type: boolean
         example: true
       external:
-        type: string
+        type: boolean
       private_profile:
         type: boolean
         example: 'null'
@@ -75952,7 +75996,7 @@ definitions:
       message_font_color:
         type: string
       email_header_and_footer_enabled:
-        type: string
+        type: boolean
     required:
     - title
     - description

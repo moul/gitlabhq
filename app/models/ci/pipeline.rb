@@ -1262,7 +1262,10 @@ module Ci
 
     # With multi-project and parent-child pipelines
     def upstream_and_all_downstreams
-      object_hierarchy.all_objects
+      pairs = ::Gitlab::Ci::PipelineSourceHierarchy.new(self)
+        .all_objects.pluck(:pipeline_id, :partition_id)
+
+      self.class.where([:id, :partition_id] => pairs)
     end
 
     # With only parent-child pipelines

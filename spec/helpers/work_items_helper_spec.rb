@@ -258,7 +258,7 @@ RSpec.describe WorkItemsHelper, feature_category: :team_planning do
       end
 
       it 'returns minimal server data' do
-        expect(helper.work_item_views_only_data(project, current_user)).to include(
+        expect(helper.work_item_views_only_data(project)).to include(
           {
             full_path: project.full_path,
             issues_list_path: project_issues_path(project),
@@ -268,7 +268,7 @@ RSpec.describe WorkItemsHelper, feature_category: :team_planning do
       end
 
       it 'does not include properties provided by GraphQL' do
-        data = helper.work_item_views_only_data(project, current_user)
+        data = helper.work_item_views_only_data(project)
         # These are now provided by GraphQL metadata provider, not server
         expect(data).not_to have_key(:can_admin_label)
         expect(data).not_to have_key(:can_create_projects)

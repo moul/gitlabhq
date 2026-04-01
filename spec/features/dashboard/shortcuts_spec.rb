@@ -22,7 +22,7 @@ RSpec.describe 'Dashboard shortcuts', :js, feature_category: :navigation do
     it 'navigates to pages' do
       find('body').send_keys([:shift, 'I'])
 
-      check_page_title('Issues')
+      check_page_title('Work items')
 
       find('body').send_keys([:shift, 'M'])
 

@@ -6789,6 +6789,109 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
     end
   end
 
+  describe '#upstream_and_all_downstreams' do
+    subject(:upstream_and_all_downstreams) { pipeline.upstream_and_all_downstreams }
+
+    let(:pipeline) { create(:ci_pipeline, :created) }
+
+    context 'when pipeline has no relatives' do
+      it 'returns only the pipeline itself' do
+        expect(upstream_and_all_downstreams).to contain_exactly(pipeline)
+      end
+    end
+
+    context 'when pipeline has an upstream' do
+      let(:upstream) { create(:ci_pipeline) }
+
+      before do
+        create_source_pipeline(upstream, pipeline)
+      end
+
+      it 'returns upstream and self' do
+        expect(upstream_and_all_downstreams).to contain_exactly(upstream, pipeline)
+      end
+    end
+
+    context 'when pipeline has a downstream' do
+      let(:downstream) { create(:ci_pipeline) }
+
+      before do
+        create_source_pipeline(pipeline, downstream)
+      end
+
+      it 'returns self and downstream' do
+        expect(upstream_and_all_downstreams).to contain_exactly(pipeline, downstream)
+      end
+    end
+
+    context 'when pipeline is in the middle of a chain' do
+      let(:upstream) { create(:ci_pipeline) }
+      let(:downstream) { create(:ci_pipeline) }
+
+      before do
+        create_source_pipeline(upstream, pipeline)
+        create_source_pipeline(pipeline, downstream)
+      end
+
+      it 'returns upstream, self, and downstream' do
+        expect(upstream_and_all_downstreams).to contain_exactly(upstream, pipeline, downstream)
+      end
+    end
+
+    context 'when pipeline is the root of a multi-level hierarchy' do
+      let(:child) { create(:ci_pipeline) }
+      let(:grandchild) { create(:ci_pipeline) }
+      let(:another_grandchild) { create(:ci_pipeline) }
+
+      before do
+        create_source_pipeline(pipeline, child)
+        create_source_pipeline(child, grandchild)
+        create_source_pipeline(child, another_grandchild)
+      end
+
+      it 'returns self and all descendants' do
+        expect(upstream_and_all_downstreams).to contain_exactly(pipeline, child, grandchild, another_grandchild)
+      end
+    end
+
+    context 'when pipeline has cross-project upstream and downstream' do
+      let(:upstream) { create(:ci_pipeline, project: create(:project)) }
+      let(:downstream) { create(:ci_pipeline, project: create(:project)) }
+
+      before do
+        create_source_pipeline(upstream, pipeline)
+        create_source_pipeline(pipeline, downstream)
+      end
+
+      it 'returns all pipelines across projects' do
+        expect(upstream_and_all_downstreams).to contain_exactly(upstream, pipeline, downstream)
+      end
+    end
+
+    context 'when pipeline has a sibling (shares the same upstream)' do
+      let(:ancestor) { create(:ci_pipeline) }
+      let(:sibling) { create(:ci_pipeline) }
+      let(:child) { create(:ci_pipeline) }
+
+      before do
+        create_source_pipeline(ancestor, pipeline)
+        create_source_pipeline(ancestor, sibling)
+        create_source_pipeline(pipeline, child)
+      end
+
+      it 'does not include siblings, only the direct lineage' do
+        expect(upstream_and_all_downstreams).to contain_exactly(ancestor, pipeline, child)
+      end
+    end
+
+    it 'returns an ActiveRecord::Relation that supports includes' do
+      relation = upstream_and_all_downstreams.includes(project: [:route, { namespace: :route }])
+
+      expect(relation).to be_an(ActiveRecord::Relation)
+      expect { relation.to_a }.not_to raise_error
+    end
+  end
+
   describe '#self_and_project_ancestors' do
     subject(:self_and_project_ancestors) { pipeline.self_and_project_ancestors }
 

@@ -386,30 +386,4 @@ RSpec.describe IssuesHelper, feature_category: :team_planning do
       end
     end
   end
-
-  describe "#work_items_page_title" do
-    before do
-      allow(helper).to receive(:current_user).and_return(user)
-    end
-
-    context "when the work_items_consolidated_list_user feature flag is disabled" do
-      before do
-        stub_feature_flags(work_items_consolidated_list_user: false)
-      end
-
-      it "returns 'Issues' as the page title" do
-        expect(helper.work_items_page_title).to eq('Issues')
-      end
-    end
-
-    context "when the work_items_consolidated_list_user feature flag is enabled" do
-      before do
-        stub_feature_flags(work_items_consolidated_list_user: true)
-      end
-
-      it "returns 'Work items' as the page title" do
-        expect(helper.work_items_page_title).to eq('Work items')
-      end
-    end
-  end
 end

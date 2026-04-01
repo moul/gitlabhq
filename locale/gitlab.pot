@@ -4436,10 +4436,22 @@ msgstr ""
 msgid "AccessTokens|Group or project"
 msgstr ""
 
-msgid "AccessTokens|Help me choose the right permissions for my access token."
+msgid "AccessTokens|How do I use DPoP?"
 msgstr ""
 
-msgid "AccessTokens|How do I use DPoP?"
+msgid "AccessTokens|I am your fine-grained permissions assistant. I can help you choose the right permissions for your access token."
+msgstr ""
+
+msgid "AccessTokens|I need read-only access to projects and groups."
+msgstr ""
+
+msgid "AccessTokens|I need to manage CI/CD pipelines and read job logs."
+msgstr ""
+
+msgid "AccessTokens|I want to automate issue and merge request management."
+msgstr ""
+
+msgid "AccessTokens|I want to read and write to repositories via the API."
 msgstr ""
 
 msgid "AccessTokens|IP Usage"
@@ -50740,6 +50752,9 @@ msgstr ""
 msgid "Permissions"
 msgstr ""
 
+msgid "Permissions Assistant"
+msgstr ""
+
 msgid "Permissions Help"
 msgstr ""
 
@@ -60369,9 +60384,6 @@ msgid "Save password"
 msgstr ""
 
 msgid "Save views with your preferred filters and display options to plan and track work easier. Add views shared by your team or create your own."
-msgstr ""
-
-msgid "Saved views are not enabled for this namespace."
 msgstr ""
 
 msgid "Saving"

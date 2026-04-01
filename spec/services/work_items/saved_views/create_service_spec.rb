@@ -140,21 +140,6 @@ RSpec.describe WorkItems::SavedViews::CreateService, feature_category: :portfoli
       end
     end
 
-    context 'when saved views are not enabled' do
-      before do
-        allow(container).to receive(:work_items_consolidated_list_enabled?).and_return(false)
-      end
-
-      it 'returns an error' do
-        result = service.execute
-
-        expect(result).to be_error
-        expect(result.message).to eq('Saved views are not enabled for this namespace.')
-      end
-
-      it_behaves_like 'does not track non work item event'
-    end
-
     context 'when container is nil' do
       let(:container) { nil }
 
@@ -162,7 +147,7 @@ RSpec.describe WorkItems::SavedViews::CreateService, feature_category: :portfoli
         result = service.execute
 
         expect(result).to be_error
-        expect(result.message).to eq('Saved views are not enabled for this namespace.')
+        expect(result.message).to eq('You do not have permission to create saved views in this namespace.')
       end
 
       it_behaves_like 'does not track non work item event'

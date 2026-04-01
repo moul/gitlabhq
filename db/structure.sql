@@ -48601,6 +48601,8 @@ CREATE INDEX index_reviews_on_project_id ON reviews USING btree (project_id);
 
 CREATE INDEX index_route_on_name_trigram ON routes USING gin (name gin_trgm_ops);
 
+CREATE INDEX index_routes_on_id_for_top_level_paths ON routes USING btree (id) WHERE (strpos((path)::text, '/'::text) = 0);
+
 CREATE UNIQUE INDEX index_routes_on_namespace_id ON routes USING btree (namespace_id);
 
 CREATE UNIQUE INDEX index_routes_on_path ON routes USING btree (path);

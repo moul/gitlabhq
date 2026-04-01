@@ -291,10 +291,10 @@ This section lists the features that are not available for GitLab Dedicated.
 
 ### Development and AI features
 
-| Feature                                | Description                                                                          | Impact                                       |
-| -------------------------------------- | ------------------------------------------------------------------------------------ | -------------------------------------------- |
-| Some GitLab Duo AI capabilities        | AI-powered features for code suggestions, vulnerability detection, and productivity. | Limited AI assistance for development tasks. |
-| Features behind disabled feature flags | Experiment and beta features under development.                              | No access to experimental or beta features.       |
+| Feature                                | Description                                                       | Impact                                       |
+|----------------------------------------|-------------------------------------------------------------------|----------------------------------------------|
+| Some GitLab Duo AI capabilities        | AI-powered features for vulnerability detection and productivity. | Limited AI assistance for development tasks. |
+| Features behind disabled feature flags | Experiment and beta features under development.                   | No access to experimental or beta features.  |
 
 For more information about AI features, see [GitLab Duo](../../user/gitlab_duo/_index.md).
 

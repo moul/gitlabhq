@@ -121,12 +121,6 @@ RSpec.describe TimeboxesHelper, feature_category: :team_planning do
       assign(:project, project)
     end
 
-    describe '#milestone_work_items_icon' do
-      it 'returns work-items icon' do
-        expect(helper.milestone_work_items_icon).to eq('work-items')
-      end
-    end
-
     describe '#milestones_issues_path' do
       context 'with project' do
         it 'returns project work items path' do

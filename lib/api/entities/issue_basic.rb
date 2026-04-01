@@ -29,15 +29,15 @@ module API
         issue.assignees.first
       end
 
-      expose(:user_notes_count)     { |issue, options| issuable_metadata.user_notes_count }
-      expose(:merge_requests_count) { |issue, options| issuable_metadata.merge_requests_count }
-      expose(:upvotes)              { |issue, options| issuable_metadata.upvotes }
-      expose(:downvotes)            { |issue, options| issuable_metadata.downvotes }
-      expose :start_date, documentation: { type: 'Date', example: '2022-11-18' }
-      expose :due_date, documentation: { type: 'Date', example: '2022-11-20' }
-      expose :confidential, documentation: { type: 'Boolean' }
-      expose :discussion_locked, documentation: { type: 'Boolean' }
-      expose :issue_type, documentation: { type: 'String', example: 'issue' }
+      expose(:user_notes_count,     documentation: { type: 'Integer' }) { |issue, options| issuable_metadata.user_notes_count }
+      expose(:merge_requests_count, documentation: { type: 'Integer' }) { |issue, options| issuable_metadata.merge_requests_count }
+      expose(:upvotes,              documentation: { type: 'Integer' }) { |issue, options| issuable_metadata.upvotes }
+      expose(:downvotes,            documentation: { type: 'Integer' }) { |issue, options| issuable_metadata.downvotes }
+      expose :start_date,           documentation: { type: 'Date', example: '2022-11-18' }
+      expose :due_date,             documentation: { type: 'Date', example: '2022-11-20' }
+      expose :confidential,         documentation: { type: 'Boolean' }
+      expose :discussion_locked,    documentation: { type: 'Boolean' }
+      expose :issue_type,           documentation: { type: 'String', example: 'issue' }
 
       expose :web_url, documentation: { type: 'String', example: 'http://example.com/example/example/issues/14' } do |issue|
         Gitlab::UrlBuilder.build(issue)

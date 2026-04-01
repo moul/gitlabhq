@@ -2,7 +2,11 @@
 const path = require('path');
 const { readFileSync, existsSync } = require('fs');
 const { spawnSync } = require('child_process');
-const { CONTEXT_ALIASES, INFECTABLE_RE } = require('../helpers/context_aliases_shared');
+const {
+  CONTEXT_ALIASES,
+  INFECTABLE_RE,
+  INFECTION_BLOCKLIST,
+} = require('../helpers/context_aliases_shared');
 
 const ROOT_PATH = path.resolve(__dirname, '..', '..');
 const SCANNER_JSON_PATH = path.join(ROOT_PATH, 'tmp', 'infection_scanner.json');
@@ -61,6 +65,7 @@ function loadScannerData() {
 const createIsInfectable = (scannerGraph) => (id) => {
   const clean = stripQuery(id);
   if (!INFECTABLE_RE.test(clean)) return false;
+  if (INFECTION_BLOCKLIST.some((blocked) => clean.includes(blocked))) return false;
   if (!scannerGraph) return true;
   // Some node_modules are injected by loaders (e.g. core-js via Babel) rather
   // than statically imported in source code, so they never appear in the
@@ -247,7 +252,6 @@ class WebpackVue3InfectionPlugin {
     const isInfectable = createIsInfectable(scannerGraph);
     const infectedDeps = new WeakSet();
     const resolvedTargets = resolveAliasTargets();
-
     // Tag every dependency of an infected module so that beforeResolve can
     // propagate infection without relying on file-path matching.
     // succeedModule fires after a module is built (and its dependencies are
@@ -255,7 +259,16 @@ class WebpackVue3InfectionPlugin {
     // right timing.
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
       compilation.hooks.succeedModule.tap(PLUGIN_NAME, (module) => {
-        if (!hasVue3Query(module.resource)) return;
+        // A module should propagate infection if it directly has ?vue3,
+        // or if it's a vue-loader sub-request (?vue&type=script etc.)
+        // of an infected .vue file.  We check the issuer's resource
+        // (which preserves the full query) instead of a shared path set,
+        // because the same .vue file can be loaded both infected and
+        // non-infected from different entry points.
+        const isInfectedVueSubRequest =
+          hasSpecialQuery(module.resource) && module.issuer && hasVue3Query(module.issuer.resource);
+
+        if (!hasVue3Query(module.resource) && !isInfectedVueSubRequest) return;
 
         const tagBlock = (block) => {
           for (const dep of block.dependencies) {

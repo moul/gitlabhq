@@ -5,7 +5,7 @@ import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 
 const require = createRequire(import.meta.url);
-const { CONTEXT_ALIASES, INFECTABLE_RE } = require('./context_aliases_shared');
+const { CONTEXT_ALIASES, INFECTABLE_RE, INFECTION_BLOCKLIST } = require('./context_aliases_shared');
 
 const ROOT_PATH = path.resolve(import.meta.dirname, '..', '..');
 const SCANNER_JSON_PATH = path.join(ROOT_PATH, 'tmp', 'infection_scanner.json');
@@ -77,9 +77,12 @@ export function Vue3InfectionPlugin() {
   const isInfectable = (id) => {
     const { path: filePath } = parseId(id);
     if (!INFECTABLE_RE.test(filePath)) return false;
+    if (INFECTION_BLOCKLIST.some((blocked) => filePath.includes(blocked))) return false;
     if (!scannerGraph) return true;
-    // Vite pre-bundled deps are not tracked by the scanner — always infectable
-    if (filePath.includes('/tmp/cache/vite/')) return true;
+    // Vite pre-bundled deps have their internal imports resolved at pre-bundle time,
+    // so appending ?vue3 only creates duplicate module instances without changing behavior.
+    // CONTEXT_ALIASES already handle Vue ecosystem packages that need redirection.
+    if (filePath.includes('/tmp/cache/vite/')) return false;
     const entry = scannerGraph.get(filePath);
     if (!entry) {
       throw new Error(
@@ -98,13 +101,18 @@ export function Vue3InfectionPlugin() {
       isBuild = config.command === 'build';
 
       if (process.env.SKIP_INFECTION_SCANNER) {
-        console.log('[vue3-infection] SKIP_INFECTION_SCANNER set — scanner disabled, all files infectable.');
+        console.log(
+          '[vue3-infection] SKIP_INFECTION_SCANNER set — scanner disabled, all files infectable.',
+        );
         scannerGraph = null;
         return;
       }
 
       if (!isBuild) {
-        const scriptPath = path.join(ROOT_PATH, 'scripts/frontend/infection_scanner/infection_scanner.mjs');
+        const scriptPath = path.join(
+          ROOT_PATH,
+          'scripts/frontend/infection_scanner/infection_scanner.mjs',
+        );
         console.log('[vue3-infection] Running infection scanner...');
         const res = spawnSync(process.execPath, [scriptPath], {
           cwd: ROOT_PATH,
@@ -112,7 +120,9 @@ export function Vue3InfectionPlugin() {
           env: process.env,
         });
         if (res.status !== 0) {
-          console.warn(`[vue3-infection] Infection scanner failed (code ${res.status}). Continuing with stale data if available.`);
+          console.warn(
+            `[vue3-infection] Infection scanner failed (code ${res.status}). Continuing with stale data if available.`,
+          );
         }
       }
 
@@ -149,7 +159,7 @@ export function Vue3InfectionPlugin() {
     },
 
     async resolveId(source, importer, options) {
-      const { path: sourcePath, params: sourceParams } = parseId(source);
+      const { params: sourceParams } = parseId(source);
       const explicitlyRequestsInfection = sourceParams.has(VUE3_QUERY);
 
       if (
@@ -161,7 +171,7 @@ export function Vue3InfectionPlugin() {
       }
 
       const resolve = (id) => this.resolve(id, importer, { ...options, skipSelf: true });
-      const sourceToResolve = explicitlyRequestsInfection ? sourcePath : source;
+      const sourceToResolve = explicitlyRequestsInfection ? source.replace(/\?.*$/, '') : source;
       const appendVue3 = isBuild ? appendVue3Suffix : appendVue3Query;
 
       const aliasKey = contextAliasKeys.find((k) => sourceToResolve === k);

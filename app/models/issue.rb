@@ -923,11 +923,7 @@ class Issue < ApplicationRecord
   #
   # Overridden in EE (For OKRs and Epics)
   def show_as_work_item?
-    return false if require_legacy_views?
-    return true if group_level?
-    return true if work_item_type&.task?
-
-    resource_parent.work_items_consolidated_list_enabled?
+    !require_legacy_views?
   end
 
   # Legacy views/workflows only

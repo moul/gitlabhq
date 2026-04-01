@@ -919,7 +919,6 @@ Layout/LineLength:
     - 'ee/spec/features/projects_spec.rb'
     - 'ee/spec/features/read_only_spec.rb'
     - 'ee/spec/features/users/login_spec.rb'
-    - 'ee/spec/features/work_items/issues/list/filtered_search/filter_issues_weight_spec.rb'
     - 'ee/spec/finders/analytics/devops_adoption/enabled_namespaces_finder_spec.rb'
     - 'ee/spec/finders/analytics/devops_adoption/snapshots_finder_spec.rb'
     - 'ee/spec/finders/audit_event_finder_spec.rb'

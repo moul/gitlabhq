@@ -13,10 +13,6 @@ module WorkItems
       end
 
       def execute
-        unless container.work_items_consolidated_list_enabled?(current_user)
-          return ServiceResponse.error(message: _('Saved views are not enabled for this namespace.'))
-        end
-
         unless Ability.allowed?(current_user, :update_saved_view, saved_view)
           return ServiceResponse.error(
             message: _('You do not have permission to update this saved view.')

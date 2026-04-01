@@ -679,8 +679,7 @@ class ProjectsController < Projects::ApplicationController
   end
 
   def push_work_item_planning_view_feature_flag
-    push_force_frontend_feature_flag(:work_item_planning_view,
-      !!@project.work_items_consolidated_list_enabled?(current_user))
+    push_force_frontend_feature_flag(:work_item_planning_view, true)
   end
 end
 

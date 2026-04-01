@@ -50,7 +50,10 @@ that does not consume GitLab Credits:
 - Explain a vulnerability.
 - Slash commands in the GitLab UI.
 
-If you have access to both Agentic Chat and Non-Agentic Chat, the feature version defaults to the Chat version you last selected in the GitLab Duo sidebar.
+If you have access to both Agentic Chat and Non-Agentic Chat, the default feature version depends on the tool you're using:
+
+- In the GitLab UI, the default Chat version is the version you last selected in the GitLab Duo sidebar.
+- In a supported IDE, the default Chat version is determined by your settings.
 
 If you do not have access to Agentic Chat and therefore the GitLab Duo Agent Platform, the feature version defaults to the non-agentic version.
 
@@ -443,7 +446,7 @@ Programming languages that require compiling the source code may throw cryptic e
 
 {{< collapsible title="Editor information" >}}
 
-- GitLab Duo Non-Agentic Chat: Web IDE, VS Code, JetBrains IDEs, Visual Studio, and Eclipse
+- GitLab Duo Non-Agentic Chat: VS Code, JetBrains IDEs, Visual Studio, and Eclipse
 
 {{< /collapsible >}}
 
@@ -457,7 +460,7 @@ Programming languages that require compiling the source code may throw cryptic e
 
 {{< /history >}}
 
-Add repository files to your GitLab Duo Chat conversations in VS Code or JetBrains IDEs
+Add repository files to your GitLab Duo Chat conversations in your supported IDE
 by typing `/include` and choosing the files.
 
 Prerequisites:
@@ -836,4 +839,8 @@ These commands work only when using GitLab Duo Chat in supported IDEs:
 | /explain  | [Explain code](#explain-selected-code)            |
 | /refactor | [Refactor the code](#refactor-code-in-the-ide)    |
 | /fix      | [Fix the code](#fix-code-in-the-ide)              |
-| /include  | [Include file context](#ask-about-specific-files-in-the-ide) |
+| /include  | [Include file context](#ask-about-specific-files-in-the-ide) <sup>1</sup> |
+
+**Footnotes**:
+
+1. Not available when using GitLab Duo Non-Agentic Chat in the Web IDE.

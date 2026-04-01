@@ -14,7 +14,7 @@ module API
         user.company
       end
       # rubocop:enable Style/SymbolProc
-      expose :bot?, as: :bot
+      expose :bot?, as: :bot, documentation: { type: 'Boolean' }
       expose :work_information do |user|
         work_information(user)
       end

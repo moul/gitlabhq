@@ -93,11 +93,7 @@ module SidebarsHelper
       can_sign_out: current_user_menu?(:sign_out),
       sign_out_link: destroy_user_session_path,
 
-      issues_dashboard_path: if user.work_items_consolidated_list_enabled?
-                               work_items_dashboard_path(assignee_username: user.username)
-                             else
-                               issues_dashboard_path(assignee_username: user.username)
-                             end,
+      issues_dashboard_path: work_items_dashboard_path(assignee_username: user.username),
 
       merge_request_dashboard_path: merge_requests_dashboard_path,
       todos_dashboard_path: dashboard_todos_path,
@@ -117,7 +113,7 @@ module SidebarsHelper
       track_visits_path: track_namespace_visits_path,
       work_items: work_items_modal_data(group, project),
       has_multiple_organizations: user.has_multiple_organizations?,
-      work_item_planning_view_enabled: user.work_items_consolidated_list_enabled?
+      work_item_planning_view_enabled: true
     })
   end
 
@@ -151,7 +147,7 @@ module SidebarsHelper
         can_admin_label: can?(current_user, :admin_label, project).to_s,
         has_issue_weights_feature: project.licensed_feature_available?(:issue_weights).to_s,
         has_iterations_feature: project.licensed_feature_available?(:iterations).to_s,
-        work_item_planning_view_enabled: project.work_items_consolidated_list_enabled?(current_user).to_s
+        work_item_planning_view_enabled: 'true'
       }
     end
 
@@ -164,7 +160,7 @@ module SidebarsHelper
       labels_manage_path: group_labels_path(group),
       can_admin_label: can?(current_user, :admin_label, group).to_s,
       has_issue_weights_feature: group.licensed_feature_available?(:issue_weights).to_s,
-      work_item_planning_view_enabled: group.work_items_consolidated_list_enabled?(current_user).to_s
+      work_item_planning_view_enabled: 'true'
     }
   end
 

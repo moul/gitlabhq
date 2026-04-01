@@ -389,7 +389,7 @@ This also turns off prompt caching for Code Suggestions.
 | ------------                                            |------|                                                         -------------                                                                                                          |
 | Ask general programming questions |                       Yes  |                                                          Yes                                                                                                                   |
 | Get answers about an open file in the editor |     Yes  |                                                          Yes. Provide the path of the file in your question.                                                                   |
-| Provide context about specified files |                   Yes. Use `/include` to add a file to the conversation. |        Yes. Provide the path of the file in your question.                                                                   |
+| Provide context about specified files |                   Yes. Use `/include` to add a file to the conversation. <sup>1</sup> |        Yes. Provide the path of the file in your question.                                                                   |
 | Autonomously search project contents |                    No |                                                            Yes                                                                                                                   |
 | Autonomously create files and change files |              No |                                                            Yes. Ask it to change files. Note, it may overwrite changes that you have made manually and have not committed, yet.  |
 | Retrieve issues and MRs without specifying IDs |          No |                                                            Yes. Search by other criteria. For example, an MR or issue's title or assignee.                                       |
@@ -402,6 +402,10 @@ This also turns off prompt caching for Code Suggestions.
 | Use Git write commands |                                                 No |                                                            Yes, UI only                                                  |
 | Run Shell commands |                                      No |                                                            Yes, IDEs only                                                                                                        |
 | Run MCP tools |                                      No |                                                            Yes, IDEs only                                                                                                          |
+
+**Footnotes**:
+
+1. Not available when using GitLab Duo Non-Agentic Chat in the Web IDE.
 
 ## Troubleshooting
 

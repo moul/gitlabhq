@@ -287,13 +287,7 @@ class GroupsController < Groups::ApplicationController
 
     set_sort_order
 
-    return redirect_issues_to_work_items if group&.work_items_consolidated_list_enabled?(current_user)
-
-    return if redirect_if_epic_params
-
-    respond_to do |format|
-      format.html
-    end
+    redirect_issues_to_work_items
   end
 
   protected

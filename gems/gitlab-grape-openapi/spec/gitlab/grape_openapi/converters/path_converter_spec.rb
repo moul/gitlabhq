@@ -46,6 +46,26 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::PathConverter do
       end
     end
 
+    context 'with identical paths differing only by parameter name' do
+      let(:routes) { TestApis::IdenticalPathsApi.routes }
+
+      it 'groups them under a single path entry' do
+        path_keys = paths.keys.select { |k| k.include?('items') }
+
+        expect(path_keys.size).to eq(1)
+      end
+
+      it 'includes both operations under the same path' do
+        path_key = paths.keys.find { |k| k.include?('items') }
+
+        expect(paths[path_key].keys).to contain_exactly('get', 'post')
+      end
+
+      it 'uses the first route parameter name as the path key' do
+        expect(paths.keys).to include('/api/v1/resources/{id}/items/{item_id}')
+      end
+    end
+
     context 'with wildcard routes' do
       # Grape registers catch-all routes with method '*' and '*path' segments.
       # This method builds a fake route that mimics Grape::Router::Route's

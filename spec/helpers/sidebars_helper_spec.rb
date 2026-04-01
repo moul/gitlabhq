@@ -137,7 +137,7 @@ RSpec.describe SidebarsHelper, feature_category: :navigation do
         },
         can_sign_out: helper.current_user_menu?(:sign_out),
         sign_out_link: destroy_user_session_path,
-        issues_dashboard_path: issues_dashboard_path(assignee_username: user.username),
+        issues_dashboard_path: work_items_dashboard_path(assignee_username: user.username),
         todos_dashboard_path: dashboard_todos_path,
         projects_path: dashboard_projects_path,
         groups_path: dashboard_groups_path,
@@ -150,37 +150,17 @@ RSpec.describe SidebarsHelper, feature_category: :navigation do
         track_visits_path: track_namespace_visits_path,
         work_items: nil,
         has_multiple_organizations: false,
-        work_item_planning_view_enabled: false
+        work_item_planning_view_enabled: true
       })
     end
 
-    describe 'work_item_planning_view_enabled feature flag' do
-      context 'when work_items_consolidated_list_user feature flag is enabled' do
-        before do
-          stub_feature_flags(work_items_consolidated_list_user: true)
-        end
-
-        it 'sets work_item_planning_view_enabled to true', :use_clean_rails_memory_store_caching do
-          expect(subject[:work_item_planning_view_enabled]).to be(true)
-        end
-
-        it 'sets issues_dashboard_path to work_items dashboard', :use_clean_rails_memory_store_caching do
-          expect(subject[:issues_dashboard_path]).to eq(work_items_dashboard_path(assignee_username: user.username))
-        end
+    describe 'work_item_planning_view_enabled' do
+      it 'sets work_item_planning_view_enabled to true', :use_clean_rails_memory_store_caching do
+        expect(subject[:work_item_planning_view_enabled]).to be(true)
       end
 
-      context 'when work_items_consolidated_list_user feature flag is disabled' do
-        before do
-          stub_feature_flags(work_items_consolidated_list_user: false)
-        end
-
-        it 'sets work_item_planning_view_enabled to false', :use_clean_rails_memory_store_caching do
-          expect(subject[:work_item_planning_view_enabled]).to be(false)
-        end
-
-        it 'sets issues_dashboard_path to issues dashboard', :use_clean_rails_memory_store_caching do
-          expect(subject[:issues_dashboard_path]).to eq(issues_dashboard_path(assignee_username: user.username))
-        end
+      it 'sets issues_dashboard_path to work_items dashboard', :use_clean_rails_memory_store_caching do
+        expect(subject[:issues_dashboard_path]).to eq(work_items_dashboard_path(assignee_username: user.username))
       end
     end
 

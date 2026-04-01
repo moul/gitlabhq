@@ -1806,6 +1806,17 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
   end
 
   describe 'GET #designs' do
+    before do
+      sign_in(user)
+      project.add_developer(user)
+    end
+
+    it 'redirects to work item path' do
+      get :designs, params: { namespace_id: project.namespace, project_id: project, id: issue.iid }
+
+      expect(response).to redirect_to(project_work_item_path(project, issue.iid, params: {}))
+    end
+
     context 'when project has moved' do
       let(:new_project) { create(:project) }
       let(:issue) { create(:issue, project: new_project) }

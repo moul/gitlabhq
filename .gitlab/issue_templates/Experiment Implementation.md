@@ -30,16 +30,20 @@
 # Target Population
 <!-- These would be the rules for which given context (and are limited to context or resolvable at experiment time details) is included or excluded from the test. An example of this would be to only run an experiment on groups who go through the Trial registration flow. -->
 
+# Experiment Actor
+<!-- Document the specific actor used for this experiment (e.g. User, Namespace, Project). -->
+
 # Tracking Details
 
 - [json schema](https://gitlab.com/gitlab-org/iglu/-/blob/master/public/schemas/com.gitlab/gitlab_experiment/jsonschema/1-0-3) used in `gitlab-experiment` tracking.
-- Due to data tooling limitations, we should only utilize category, action and label. 
+- Due to data tooling limitations, we should only utilize category, action and label.
   i.e. try to keep from using property and value. Be aware if adding the experiment context to existing events that
   use property or value that some concessions will need to be made in order for it to show up in the experiment dashboard.
+- **Frontend/Backend**: set `FE` for frontend events (visible in the Snowplow Chrome browser extension) and `BE` for backend events (not visible in the extension).
 
-| sequence | activity | category | action | label |
-| -------- | -------- | ------ | ----- | ------- |
-|  |  |  |  |  |
+| sequence | activity | category | action | label | FE/BE |
+| -------- | -------- | ------ | ----- | ------- | ----- |
+|  |  |  |  |  |  |
 
 /label ~"growth experiment"
 /label ~"experiment::implementation"

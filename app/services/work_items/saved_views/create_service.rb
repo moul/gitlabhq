@@ -12,10 +12,6 @@ module WorkItems
       end
 
       def execute
-        unless container&.work_items_consolidated_list_enabled?(current_user)
-          return ServiceResponse.error(message: _('Saved views are not enabled for this namespace.'))
-        end
-
         unless Ability.allowed?(current_user, :create_saved_view, container)
           return ServiceResponse.error(
             message: _('You do not have permission to create saved views in this namespace.')

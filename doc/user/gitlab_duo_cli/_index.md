@@ -9,7 +9,7 @@ title: GitLab Duo CLI (`duo`)
 
 - Tier: Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-- Status: Experiment
+- Status: Beta
 
 {{< /details >}}
 
@@ -26,6 +26,7 @@ title: GitLab Duo CLI (`duo`)
 - [Added](https://gitlab.com/gitlab-org/cli/-/merge_requests/2838) to the GitLab CLI as an experiment in `glab` 1.87.0, during the GitLab 18.9 release.
 - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.68.0) model selection option and environment variable in GitLab Duo CLI 8.68.0, during the GitLab 18.10 release.
 - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.76.0) model selection slash command in GitLab Duo CLI 8.76.0, during the GitLab 18.10 release.
+- [Changed](https://gitlab.com/groups/gitlab-org/-/work_items/19716) from experiment to beta in GitLab 18.11.
 
 {{< /history >}}
 
@@ -52,7 +53,10 @@ the GitLab Duo Agent Platform, including `chat-rules.md`, `AGENTS.md`, and `SKIL
 
 ## Prerequisites
 
+- GitLab 18.11 or later.
 - Meet the [prerequisites for GitLab Duo Agent Platform](../duo_agent_platform/_index.md#prerequisites).
+- [Beta and experimental features](../duo_agent_platform/turn_on_off.md#turn-on-beta-and-experimental-features)
+  turned on.
 
 ## Set up the GitLab Duo CLI
 
@@ -268,7 +272,7 @@ The following slash commands are available:
 ### Headless mode
 
 > [!caution]
-> Use headless mode with caution and in a controlled sandbox environment.
+> Use headless mode with caution and in a controlled [sandbox environment](../../editor_extensions/security_considerations.md#use-development-containers-for-isolation).
 
 To run a workflow in non-interactive mode, use the command for your setup:
 

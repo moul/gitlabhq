@@ -28,9 +28,17 @@ module Gitlab
         attr_reader :config, :routes, :schema_registry, :request_body_registry
 
         def grouped_routes
-          routes
-            .reject { |route| skip_route?(route) }
-            .group_by { |route| normalize_path(route) }
+          groups = {}
+
+          routes.each do |route|
+            next if skip_route?(route)
+
+            key = grouping_key(route)
+            groups[key] ||= []
+            groups[key] << route
+          end
+
+          groups.transform_keys { |key| normalize_path(groups[key].first) }
         end
 
         def skip_route?(route)
@@ -52,6 +60,10 @@ module Gitlab
             .gsub(/\(\.:format\)$/, '')
             .gsub(/:\w+/) { |match| "{#{match[1..]}}" }
             .gsub('{version}', config.api_version)
+        end
+
+        def grouping_key(route)
+          normalize_path(route).gsub(/\{[^}]+\}/, '{param}')
         end
 
         def build_path_item(routes_for_path)
