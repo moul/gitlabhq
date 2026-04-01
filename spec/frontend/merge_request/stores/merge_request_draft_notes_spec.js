@@ -89,6 +89,18 @@ describe('mergeRequestDraftNotes store', () => {
       ],
     },
     {
+      method: 'findDraftsAsLineDiscussionsForFile',
+      paths: { oldPath: 'a.js', newPath: 'a.js' },
+      makeMatchingDraft: () => makeDraft(1),
+      makeNonMatchingDrafts: () => [
+        makeFileDraft(1),
+        makeImageDraft(1, {
+          position: { position_type: 'image', old_path: 'a.js', new_path: 'a.js' },
+        }),
+        makeDraft(1, { position: { position_type: 'text', old_path: 'b.js', new_path: 'b.js' } }),
+      ],
+    },
+    {
       method: 'findDraftsAsImageDiscussionsForFile',
       paths: { oldPath: 'a.png', newPath: 'a.png' },
       makeMatchingDraft: () => makeImageDraft(1),
@@ -207,15 +219,15 @@ describe('mergeRequestDraftNotes store', () => {
     });
   });
 
-  describe('findDraftForDiscussion', () => {
+  describe('findDraftsForDiscussion', () => {
     it('returns the draft matching the given discussion id', () => {
       useBatchComments().$patch({ drafts: [makeDraft(1, { discussion_id: 'disc-1' })] });
 
-      expect(store.findDraftForDiscussion('disc-1')).toMatchObject({ id: 1 });
+      expect(store.findDraftsForDiscussion('disc-1')).toMatchObject([{ id: 1 }]);
     });
 
     it('returns undefined when no draft matches', () => {
-      expect(store.findDraftForDiscussion('disc-1')).toBeUndefined();
+      expect(store.findDraftsForDiscussion('disc-1')).toHaveLength(0);
     });
   });
 

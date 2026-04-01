@@ -107,7 +107,6 @@ export const useCommitDiffDiscussions = defineStore('commitDiffDiscussions', () 
     discussionsWithForms: computed(() => diffDiscussions.discussionsWithForms),
     findDiscussionsForPosition: computed(() => diffDiscussions.findDiscussionsForPosition),
     findDiscussionsForFile: computed(() => diffDiscussions.findDiscussionsForFile),
-    findAllDiscussionsForFile: computed(() => diffDiscussions.findAllDiscussionsForFile),
     findAllLineDiscussionsForFile: computed(() => diffDiscussions.findAllLineDiscussionsForFile),
     findAllImageDiscussionsForFile: computed(() => diffDiscussions.findAllImageDiscussionsForFile),
     timelineDiscussions,

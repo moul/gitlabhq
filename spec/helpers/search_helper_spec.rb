@@ -203,6 +203,7 @@ RSpec.describe SearchHelper, feature_category: :global_search do
         let(:search_term) { 'the search term' }
         let(:recent_issues) { instance_double(::Gitlab::Search::RecentIssues) }
         let(:recent_merge_requests) { instance_double(::Gitlab::Search::RecentMergeRequests) }
+        let(:recent_wiki_pages) { instance_double(::Gitlab::Search::RecentWikiPages) }
 
         let_it_be(:project1) { create(:project, namespace: user.namespace) }
         let_it_be(:project2) { create(:project) }
@@ -306,6 +307,35 @@ RSpec.describe SearchHelper, feature_category: :global_search do
             label: 'Merge request 2',
             url: Gitlab::Routing.url_helpers.project_merge_request_path(merge_request2.project, merge_request2),
             avatar_url: '' # This project didn't have an avatar so set this to ''
+          })
+        end
+
+        it 'includes the users recently viewed wiki pages', :aggregate_failures do
+          expect(::Gitlab::Search::RecentWikiPages).to receive(:new).with(user: user)
+            .and_return(recent_wiki_pages)
+
+          wiki_page_meta1 = create(:wiki_page_meta, title: 'Wiki page 1', project: project1, canonical_slug: 'wiki-page-1')
+          wiki_page_meta2 = create(:wiki_page_meta, title: 'Wiki page 2', project: project2, canonical_slug: 'wiki-page-2')
+
+          expect(recent_wiki_pages).to receive(:search).with(search_term)
+            .and_return(WikiPage::Meta.id_in_ordered([wiki_page_meta1.id, wiki_page_meta2.id]))
+
+          results = search_autocomplete_opts(search_term)
+
+          expect(results.count).to eq(2)
+
+          expect(results[0]).to include({
+            category: 'Recent wiki pages',
+            id: wiki_page_meta1.id,
+            label: 'Wiki page 1',
+            url: Gitlab::UrlBuilder.build(wiki_page_meta1)
+          })
+
+          expect(results[1]).to include({
+            category: 'Recent wiki pages',
+            id: wiki_page_meta2.id,
+            label: 'Wiki page 2',
+            url: Gitlab::UrlBuilder.build(wiki_page_meta2)
           })
         end
 

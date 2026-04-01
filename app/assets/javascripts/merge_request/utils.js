@@ -73,3 +73,30 @@ export function buildLineDiscussionData({
     },
   };
 }
+
+export function buildDraftLineDiscussionData({ discussion, noteBody, viewConfig, diffRefs }) {
+  const { position, lineCode } = discussion;
+  return {
+    note: {
+      note: noteBody,
+      position: JSON.stringify({
+        base_sha: diffRefs.base_sha,
+        start_sha: diffRefs.start_sha,
+        head_sha: diffRefs.head_sha,
+        ...position,
+        position_type: position.position_type || TEXT_DIFF_POSITION_TYPE,
+        ignore_whitespace_change: !viewConfig.showWhitespace,
+      }),
+      type: DIFF_NOTE_TYPE,
+      line_code: lineCode || null,
+    },
+  };
+}
+
+export function buildDraftReplyData({ discussion, noteText, diffRefs }) {
+  return {
+    in_reply_to_discussion_id: discussion.reply_id,
+    draft_note: { note: noteText },
+    merge_request_diff_head_sha: diffRefs.head_sha,
+  };
+}

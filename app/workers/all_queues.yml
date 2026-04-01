@@ -3064,16 +3064,6 @@
   :idempotent: true
   :tags: []
   :queue_namespace: :pipeline_processing
-- :name: pipeline_processing:stage_update
-  :worker_name: StageUpdateWorker
-  :feature_category: :continuous_integration
-  :has_external_dependencies: false
-  :urgency: :high
-  :resource_boundary: :unknown
-  :weight: 5
-  :idempotent: true
-  :tags: []
-  :queue_namespace: :pipeline_processing
 - :name: pipeline_processing:update_head_pipeline_for_merge_request
   :worker_name: UpdateHeadPipelineForMergeRequestWorker
   :feature_category: :continuous_integration

@@ -2,6 +2,7 @@ import { watch } from 'vue';
 import { MOUNTED } from '~/rapid_diffs/adapter_events';
 import { createAlert, VARIANT_INFO } from '~/alert';
 import { n__, sprintf } from '~/locale';
+import { isFileDiscussion } from '~/rapid_diffs/utils/discussion_position';
 
 export const createNoPreviewDiscussionsAdapter = (store) => ({
   [MOUNTED](addCleanup) {
@@ -13,7 +14,7 @@ export const createNoPreviewDiscussionsAdapter = (store) => ({
       () =>
         store
           .findDiscussionsForFile({ oldPath, newPath })
-          .filter((d) => d.position?.position_type !== 'file'),
+          .filter((discussion) => !isFileDiscussion(discussion)),
       (lineDiscussions) => {
         alert?.dismiss();
         alert = null;

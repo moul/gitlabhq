@@ -1,4 +1,6 @@
 import { pinia } from '~/pinia/instance';
+import { createAlert } from '~/alert';
+import { __ } from '~/locale';
 import { RapidDiffsFacade } from '~/rapid_diffs/app';
 import { adapters } from '~/rapid_diffs/app/adapter_configs/merge_request';
 import { useCodeReview } from '~/diffs/stores/code_review';
@@ -23,7 +25,15 @@ class MergeRequestRapidDiffsApp extends RapidDiffsFacade {
 
   // eslint-disable-next-line class-methods-use-this
   #initDiscussions() {
-    return useMergeRequestDiscussions().fetchNotes();
+    return useMergeRequestDiscussions()
+      .fetchNotesAndDrafts()
+      .catch((error) => {
+        createAlert({
+          message: __('An error occurred while loading comments'),
+          captureError: true,
+          error,
+        });
+      });
   }
 
   #initCodeReview() {

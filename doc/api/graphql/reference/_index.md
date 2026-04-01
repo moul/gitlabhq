@@ -1130,6 +1130,23 @@ Returns [`GeoNode`](#geonode).
 | ---- | ---- | ----------- |
 | <a id="query-geonode-name"></a>`name` | [`String`](#string) | Name of the Geo node. Defaults to the current Geo node name. |
 
+### `Query.gitlabCreditsAvailable`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Whether GitLab credits are available for the current user.
+
+Returns [`Boolean!`](#boolean).
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="query-gitlabcreditsavailable-namespaceid"></a>`namespaceId` | [`NamespaceID`](#namespaceid) | Global ID of the namespace to check credits for. |
+
 ### `Query.gitpodEnabled`
 
 Whether Ona is enabled in application settings.
@@ -61456,6 +61473,7 @@ One of:
 - [`Epic`](#epic)
 - [`Issue`](#issue)
 - [`MergeRequest`](#mergerequest)
+- [`WikiPage`](#wikipage)
 
 #### `Registrable`
 

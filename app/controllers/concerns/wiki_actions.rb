@@ -140,6 +140,8 @@ module WikiActions
       @path = page.path
       @templates = templates_list
 
+      log_wiki_page_view
+
       render 'shared/wikis/show'
     elsif file_blob
       # This is needed by [GitLab JH](https://gitlab.com/gitlab-jh/gitlab/-/issues/247)
@@ -426,6 +428,13 @@ module WikiActions
 
   def send_wiki_file_blob(wiki, file_blob)
     send_blob(wiki.repository, file_blob)
+  end
+
+  def log_wiki_page_view
+    return unless current_user
+
+    wiki_page_meta = page.find_or_create_meta
+    ::Gitlab::Search::RecentWikiPages.new(user: current_user).log_view(wiki_page_meta)
   end
 
   def load_content?

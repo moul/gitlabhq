@@ -2040,7 +2040,6 @@ Gitlab/BoundedContexts:
     - 'app/workers/ssh_keys/expired_notification_worker.rb'
     - 'app/workers/ssh_keys/expiring_soon_notification_worker.rb'
     - 'app/workers/ssh_keys/update_last_used_at_worker.rb'
-    - 'app/workers/stage_update_worker.rb'
     - 'app/workers/stuck_ci_jobs_worker.rb'
     - 'app/workers/stuck_export_jobs_worker.rb'
     - 'app/workers/stuck_merge_jobs_worker.rb'

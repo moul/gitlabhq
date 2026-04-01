@@ -9048,6 +9048,9 @@ msgstr ""
 msgid "An error occurred while loading chart data"
 msgstr ""
 
+msgid "An error occurred while loading comments"
+msgstr ""
+
 msgid "An error occurred while loading commit signatures"
 msgstr ""
 
@@ -47376,6 +47379,9 @@ msgstr ""
 msgid "Observability|Alerts"
 msgstr ""
 
+msgid "Observability|All endpoints support the full range of OpenTelemetry signal types: traces, metrics, and logs"
+msgstr ""
+
 msgid "Observability|Allocating compute resources"
 msgstr ""
 
@@ -47401,9 +47407,6 @@ msgid "Observability|Authentication failed. Please refresh the page."
 msgstr ""
 
 msgid "Observability|Beta release"
-msgstr ""
-
-msgid "Observability|Both endpoints support the full range of OpenTelemetry signal types: traces, metrics, and logs"
 msgstr ""
 
 msgid "Observability|Bug reports"
@@ -47448,10 +47451,16 @@ msgstr ""
 msgid "Observability|Copy HTTP endpoint"
 msgstr ""
 
+msgid "Observability|Copy HTTPS endpoint"
+msgstr ""
+
 msgid "Observability|Copy curl command"
 msgstr ""
 
 msgid "Observability|Copy gRPC endpoint"
+msgstr ""
+
+msgid "Observability|Copy gRPCS endpoint"
 msgstr ""
 
 msgid "Observability|Create issues from this page to view them as related items here."
@@ -47517,7 +47526,10 @@ msgstr ""
 msgid "Observability|Endpoint details"
 msgstr ""
 
-msgid "Observability|Example curl command"
+msgid "Observability|Example curl command (Non-TLS)"
+msgstr ""
+
+msgid "Observability|Example curl command (TLS)"
 msgstr ""
 
 msgid "Observability|Exception tracking"
@@ -47568,7 +47580,7 @@ msgstr ""
 msgid "Observability|Filter data by month:"
 msgstr ""
 
-msgid "Observability|Firewall configuration: Open outbound access to %{endpoint} on ports 4317-4318"
+msgid "Observability|Firewall configuration: Open outbound access to %{endpoint} on ports 4317-4318 and 14317-14318"
 msgstr ""
 
 msgid "Observability|Free during beta period"
@@ -47608,6 +47620,9 @@ msgid "Observability|Group not found"
 msgstr ""
 
 msgid "Observability|HTTP Endpoint"
+msgstr ""
+
+msgid "Observability|HTTPS Endpoint"
 msgstr ""
 
 msgid "Observability|If you encounter any connectivity issues or require additional configuration assistance, please contact your system administrator with the endpoint details provided above."
@@ -47703,6 +47718,12 @@ msgstr ""
 msgid "Observability|No cost"
 msgstr ""
 
+msgid "Observability|Non-TLS"
+msgstr ""
+
+msgid "Observability|Non-TLS endpoints: HTTP on port 4318 and gRPC on port 4317 provide unencrypted transport"
+msgstr ""
+
 msgid "Observability|Notification channels"
 msgstr ""
 
@@ -47751,7 +47772,7 @@ msgstr ""
 msgid "Observability|Observability settings for group %{group_name} updated successfully."
 msgstr ""
 
-msgid "Observability|Once provisioned, you can test your HTTP endpoint by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
+msgid "Observability|Once provisioned, you can test your endpoints by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
 msgstr ""
 
 msgid "Observability|OpenTelemetry native"
@@ -47773,6 +47794,9 @@ msgid "Observability|Provisioning databases"
 msgstr ""
 
 msgid "Observability|Provisioning time"
+msgstr ""
+
+msgid "Observability|Recommended"
 msgstr ""
 
 msgid "Observability|Related issues"
@@ -47814,16 +47838,16 @@ msgstr ""
 msgid "Observability|Superior query performance and data compression with ClickHouse backend"
 msgstr ""
 
+msgid "Observability|TLS"
+msgstr ""
+
+msgid "Observability|TLS endpoints (recommended): HTTPS on port 14318 and gRPCS on port 14317 provide encrypted transport"
+msgstr ""
+
 msgid "Observability|Testing your endpoints"
 msgstr ""
 
-msgid "Observability|The HTTP endpoint (port 4318) accepts OTLP/HTTP protocol and is suitable for applications using HTTP-based transport"
-msgstr ""
-
 msgid "Observability|The ID of the group for this o11y service configuration."
-msgstr ""
-
-msgid "Observability|The gRPC endpoint (port 4317) accepts OTLP/gRPC protocol and is recommended for applications requiring persistent connections or streaming capabilities"
 msgstr ""
 
 msgid "Observability|The name of the group for this o11y service configuration."
@@ -47907,7 +47931,7 @@ msgstr ""
 msgid "Observability|You can contact us through our %{issue_link_start}feedback issue in GitLab%{issue_link_end}. You can also join our %{discord_link_start}Discord channel%{discord_link_end} for community discussions and support."
 msgstr ""
 
-msgid "Observability|You can test your HTTP endpoint by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
+msgid "Observability|You can test your endpoints by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
 msgstr ""
 
 msgid "Observability|Your OpenTelemetry (OTel) telemetry data collection endpoints are being provisioned. Once complete, they will be ready to receive data. Please configure your instrumentation with the following endpoints:"
@@ -47929,6 +47953,9 @@ msgid "Observability|authTokens must be an object"
 msgstr ""
 
 msgid "Observability|gRPC Endpoint"
+msgstr ""
+
+msgid "Observability|gRPCS Endpoint"
 msgstr ""
 
 msgid "Observability|targetPath must be a non-empty string"
@@ -51510,7 +51537,7 @@ msgstr ""
 msgid "Pipelines|Analyze repository"
 msgstr ""
 
-msgid "Pipelines|Analyze this repository and generate a CI/CD pipeline"
+msgid "Pipelines|Analyze this repository and create a CI/CD pipeline that meets the needs of the project."
 msgstr ""
 
 msgid "Pipelines|Are you sure you want to remove the merge request %{title} from the merge train?"
@@ -66746,6 +66773,9 @@ msgid "Set up CI/CD"
 msgstr ""
 
 msgid "Set up Jira Integration"
+msgstr ""
+
+msgid "Set up a CI/CD pipeline"
 msgstr ""
 
 msgid "Set up a WebAuthn device to enable two-factor authentication (2FA)."

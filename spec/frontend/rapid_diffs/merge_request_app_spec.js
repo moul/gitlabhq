@@ -20,6 +20,21 @@ jest.mock('~/rapid_diffs/app/quirks/content_visibility_fix');
 jest.mock('~/rapid_diffs/app/init_compare_versions');
 jest.mock('~/rapid_diffs/app/init_new_discussions_toggle');
 jest.mock('~/rapid_diffs/app/init_line_range_selection');
+jest.mock('~/merge_request/stores/merge_request_draft_notes', () => ({
+  useMergeRequestDraftNotes: jest.fn(() => ({
+    drafts: [],
+    isPublishing: false,
+    hasDrafts: false,
+    draftsCount: 0,
+    fetchDrafts: jest.fn().mockResolvedValue(),
+    findDraftsForDiscussion: jest.fn().mockReturnValue({}),
+    findDraftsAsDiscussionsForFile: jest.fn().mockReturnValue([]),
+    findDraftsAsLineDiscussionsForFile: jest.fn().mockReturnValue([]),
+    findDraftsAsFileDiscussionsForFile: jest.fn().mockReturnValue([]),
+    findDraftsAsImageDiscussionsForFile: jest.fn().mockReturnValue([]),
+    findDraftsForPosition: jest.fn().mockReturnValue([]),
+  })),
+}));
 
 describe('Merge Request Rapid Diffs app', () => {
   let app;
@@ -73,6 +88,7 @@ describe('Merge Request Rapid Diffs app', () => {
     useDiffsView().loadDiffsStats.mockResolvedValue();
     useDiffsList().reloadDiffs.mockResolvedValue();
     useDiffsList().streamRemainingDiffs.mockResolvedValue();
+    useMergeRequestDiscussions().fetchNotesAndDrafts.mockResolvedValue();
     initFileBrowser.mockResolvedValue();
   });
 
@@ -119,10 +135,10 @@ describe('Merge Request Rapid Diffs app', () => {
     expect(useLegacyDiffs().projectPath).toBe('gitlab-org/gitlab');
   });
 
-  it('fetches notes on init', async () => {
+  it('fetches notes and drafts on init', async () => {
     buildApp();
     await app.init();
-    expect(useMergeRequestDiscussions().fetchNotes).toHaveBeenCalled();
+    expect(useMergeRequestDiscussions().fetchNotesAndDrafts).toHaveBeenCalled();
   });
 
   it('initializes compare versions on init', async () => {

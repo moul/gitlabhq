@@ -261,8 +261,6 @@ ee/app/models/ai/duo_code_review.rb:
 - classic?
 ee/app/models/concerns/ai/user_authorizable.rb:
 - any_group_with_ai_available?
-app/models/ci/stage.rb:
-- update_legacy_status
 ee/app/helpers/ee/projects_helper.rb:
 - paid_duo_tier_for_project
 ee/app/models/virtual_registries/cache/entry.rb:

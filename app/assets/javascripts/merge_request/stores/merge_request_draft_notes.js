@@ -6,6 +6,7 @@ import { useNotes } from '~/notes/store/legacy_notes';
 import {
   isFileDiscussion,
   isImageDiscussion,
+  isLineDiscussion,
   positionMatchesFilePath,
   positionMatchesLine,
 } from '~/rapid_diffs/utils/discussion_position';
@@ -39,9 +40,30 @@ export const useMergeRequestDraftNotes = defineStore('mergeRequestDraftNotes', (
     drafts.value.filter((draft) => draft.position && !draft.discussion_id),
   );
 
+  function findDraftsForDiscussion(discussionId) {
+    return drafts.value.filter((draft) => draft.discussion_id === discussionId);
+  }
+
+  function findDraftsForPosition({ oldPath, newPath, oldLine, newLine }) {
+    return newDrafts.value
+      .filter((draft) =>
+        positionMatchesLine(draft.position, { oldPath, newPath, oldLine, newLine }),
+      )
+      .map(draftAsDiscussion);
+  }
+
   function findDraftsAsDiscussionsForFile({ oldPath, newPath }) {
     return newDrafts.value
       .filter((draft) => positionMatchesFilePath(draft.position, { oldPath, newPath }))
+      .map(draftAsDiscussion);
+  }
+
+  function findDraftsAsLineDiscussionsForFile({ oldPath, newPath }) {
+    return newDrafts.value
+      .filter(
+        (draft) =>
+          isLineDiscussion(draft) && positionMatchesFilePath(draft.position, { oldPath, newPath }),
+      )
       .map(draftAsDiscussion);
   }
 
@@ -61,18 +83,6 @@ export const useMergeRequestDraftNotes = defineStore('mergeRequestDraftNotes', (
           isImageDiscussion(draft) && positionMatchesFilePath(draft.position, { oldPath, newPath }),
       )
       .map(draftAsDiscussion);
-  }
-
-  function findDraftsForPosition({ oldPath, newPath, oldLine, newLine }) {
-    return newDrafts.value
-      .filter((draft) =>
-        positionMatchesLine(draft.position, { oldPath, newPath, oldLine, newLine }),
-      )
-      .map(draftAsDiscussion);
-  }
-
-  function findDraftForDiscussion(discussionId) {
-    return drafts.value.find((draft) => draft.discussion_id === discussionId);
   }
 
   function setPositionDraftsHidden({ oldPath, newPath, oldLine, newLine }, newState) {
@@ -111,11 +121,12 @@ export const useMergeRequestDraftNotes = defineStore('mergeRequestDraftNotes', (
     draftsCount,
     isPublishing,
 
+    findDraftsForDiscussion,
+    findDraftsForPosition,
     findDraftsAsDiscussionsForFile,
+    findDraftsAsLineDiscussionsForFile,
     findDraftsAsFileDiscussionsForFile,
     findDraftsAsImageDiscussionsForFile,
-    findDraftsForPosition,
-    findDraftForDiscussion,
 
     setPositionDraftsHidden,
     setFileDraftsHidden,

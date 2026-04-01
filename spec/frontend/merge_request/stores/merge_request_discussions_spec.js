@@ -5,15 +5,40 @@ import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
 import { useDiffsView } from '~/rapid_diffs/stores/diffs_view';
 import { useDiscussions } from '~/notes/store/discussions';
 import { useNotes } from '~/notes/store/legacy_notes';
+import { useMergeRequestDraftNotes } from '~/merge_request/stores/merge_request_draft_notes';
 
 jest.mock('~/notes/store/legacy_notes');
+jest.mock('~/merge_request/stores/merge_request_draft_notes');
 
 describe('mergeRequestDiscussions store', () => {
   let store;
   let mockNotesStore;
+  let mockDraftNotes;
 
   beforeEach(() => {
     createTestingPinia({ stubActions: false });
+    mockDraftNotes = {
+      drafts: [],
+      isPublishing: false,
+      hasDrafts: false,
+      draftsCount: 0,
+      fetchDrafts: jest.fn().mockResolvedValue(),
+      createNewDraft: jest.fn().mockResolvedValue(),
+      addDraftToDiscussion: jest.fn().mockResolvedValue(),
+      updateDraft: jest.fn().mockResolvedValue(),
+      deleteDraft: jest.fn().mockResolvedValue(),
+      publishReview: jest.fn().mockResolvedValue(),
+      discardDrafts: jest.fn().mockResolvedValue(),
+      findDraftsForDiscussion: jest.fn().mockReturnValue([]),
+      findDraftsAsDiscussionsForFile: jest.fn().mockReturnValue([]),
+      findDraftsAsLineDiscussionsForFile: jest.fn().mockReturnValue([]),
+      findDraftsAsFileDiscussionsForFile: jest.fn().mockReturnValue([]),
+      findDraftsAsImageDiscussionsForFile: jest.fn().mockReturnValue([]),
+      findDraftsForPosition: jest.fn().mockReturnValue([]),
+      setFileDraftsHidden: jest.fn(),
+      setPositionDraftsHidden: jest.fn(),
+    };
+    useMergeRequestDraftNotes.mockReturnValue(mockDraftNotes);
     mockNotesStore = {
       fetchNotes: jest.fn().mockResolvedValue(),
       createNewNote: jest.fn().mockResolvedValue({ id: 'new-1' }),
@@ -31,6 +56,7 @@ describe('mergeRequestDiscussions store', () => {
         targetType: 'merge_request',
         can_receive_suggestion: true,
       },
+      notesData: { draftsPath: '/drafts' },
     };
     useNotes.mockReturnValue(mockNotesStore);
     useMergeRequestVersions().setVersions({
@@ -78,16 +104,16 @@ describe('mergeRequestDiscussions store', () => {
     'toggleAwardOnNote',
     'toggleResolveNote',
     'setPositionDiscussionsHidden',
+    'createDraftLineDiscussion',
+    'createDraftFileDiscussion',
+    'addDraftToDiscussion',
   ])('exposes %s action', (action) => {
     expect(store[action]).toEqual(expect.any(Function));
   });
 
   it.each([
-    'discussionForms',
-    'discussionsWithForms',
     'findDiscussionsForPosition',
     'findDiscussionsForFile',
-    'findAllDiscussionsForFile',
     'findAllLineDiscussionsForFile',
     'findAllFileDiscussionsForFile',
     'findAllImageDiscussionsForFile',
@@ -341,6 +367,149 @@ describe('mergeRequestDiscussions store', () => {
     });
   });
 
+  describe('setFileDiscussionsHidden', () => {
+    it('hides discussions and drafts for the file', () => {
+      useDiscussions().setInitialDiscussions([
+        {
+          id: 'd1',
+          diff_discussion: true,
+          position: { old_path: 'a.js', new_path: 'a.js' },
+          notes: [],
+        },
+      ]);
+
+      store.setFileDiscussionsHidden('a.js', 'a.js', true);
+
+      expect(useDiscussions().discussions[0].hidden).toBe(true);
+      expect(mockDraftNotes.setFileDraftsHidden).toHaveBeenCalledWith(
+        { oldPath: 'a.js', newPath: 'a.js' },
+        true,
+      );
+    });
+  });
+
+  describe('setPositionDiscussionsHidden', () => {
+    it('hides discussions and drafts for the position', () => {
+      const pos = { oldPath: 'a.js', newPath: 'a.js', oldLine: 1, newLine: 1 };
+      useDiscussions().setInitialDiscussions([
+        {
+          id: 'd1',
+          diff_discussion: true,
+          position: {
+            old_path: 'a.js',
+            new_path: 'a.js',
+            old_line: 1,
+            new_line: 1,
+            position_type: 'text',
+          },
+          notes: [],
+        },
+      ]);
+
+      store.setPositionDiscussionsHidden(pos, true);
+
+      expect(useDiscussions().discussions[0].hidden).toBe(true);
+      expect(mockDraftNotes.setPositionDraftsHidden).toHaveBeenCalledWith(pos, true);
+    });
+  });
+
+  describe('findDraftsForDiscussion', () => {
+    it('returns empty array when allCommentsReady is false', () => {
+      mockDraftNotes.findDraftsForDiscussion.mockReturnValue([{ id: 1 }]);
+
+      expect(store.findDraftsForDiscussion('disc-1')).toEqual([]);
+    });
+
+    it('delegates to draftNotes after fetchNotesAndDrafts', async () => {
+      mockDraftNotes.findDraftsForDiscussion.mockReturnValue([{ id: 1 }]);
+
+      await store.fetchNotesAndDrafts();
+
+      expect(store.findDraftsForDiscussion('disc-1')).toEqual([{ id: 1 }]);
+      expect(mockDraftNotes.findDraftsForDiscussion).toHaveBeenCalledWith('disc-1');
+    });
+  });
+
+  describe('createDraftLineDiscussion', () => {
+    const formDiscussion = {
+      id: 'form-1',
+      isForm: true,
+      position: { old_line: 1, new_line: 1, old_path: 'a.rb', new_path: 'a.rb' },
+      lineCode: 'hash_0_1',
+    };
+
+    it('calls createNewDraft with correct params and removes the form', async () => {
+      useDiffDiscussions().discussionForms.push(formDiscussion);
+
+      await store.createDraftLineDiscussion(formDiscussion, 'draft comment');
+
+      expect(mockDraftNotes.createNewDraft).toHaveBeenCalledWith({
+        endpoint: '/drafts',
+        data: {
+          note: {
+            note: 'draft comment',
+            position: JSON.stringify({
+              base_sha: 'base000',
+              start_sha: 'start111',
+              head_sha: 'head222',
+              old_line: 1,
+              new_line: 1,
+              old_path: 'a.rb',
+              new_path: 'a.rb',
+              position_type: 'text',
+              ignore_whitespace_change: !useDiffsView().showWhitespace,
+            }),
+            type: 'DiffNote',
+            line_code: 'hash_0_1',
+          },
+        },
+      });
+      expect(useDiffDiscussions().discussionForms).not.toContainEqual(formDiscussion);
+    });
+  });
+
+  describe('createDraftFileDiscussion', () => {
+    const formDiscussion = {
+      id: 'form-1',
+      isForm: true,
+      position: { position_type: 'file', old_path: 'file.js', new_path: 'file.js' },
+    };
+
+    it('calls createNewDraft and removes the file form', async () => {
+      useDiffDiscussions().discussionForms.push(formDiscussion);
+
+      await store.createDraftFileDiscussion(formDiscussion, 'draft file comment');
+
+      expect(mockDraftNotes.createNewDraft).toHaveBeenCalledWith({
+        endpoint: '/drafts',
+        data: {
+          note: expect.objectContaining({
+            note: 'draft file comment',
+            position: expect.stringContaining('"position_type":"file"'),
+          }),
+        },
+      });
+      expect(useDiffDiscussions().discussionForms).not.toContainEqual(formDiscussion);
+    });
+  });
+
+  describe('addDraftToDiscussion', () => {
+    it('calls addDraftToDiscussion with correct params', async () => {
+      const discussion = { id: 'disc-1', reply_id: 'reply-1' };
+
+      await store.addDraftToDiscussion(discussion, 'draft reply');
+
+      expect(mockDraftNotes.addDraftToDiscussion).toHaveBeenCalledWith({
+        endpoint: '/drafts',
+        data: {
+          in_reply_to_discussion_id: 'reply-1',
+          draft_note: { note: 'draft reply' },
+          merge_request_diff_head_sha: 'head222',
+        },
+      });
+    });
+  });
+
   describe('version-aware discussion matching', () => {
     const diffRefs = { base_sha: 'base000', head_sha: 'head222', start_sha: 'start111' };
     const otherRefs = { base_sha: 'other', head_sha: 'other', start_sha: 'other' };
@@ -364,53 +533,6 @@ describe('mergeRequestDiscussions store', () => {
         ...overrides,
       };
     }
-
-    describe('findAllDiscussionsForFile', () => {
-      it.each([
-        ['includes', diffRefs, 1],
-        ['excludes', otherRefs, 0],
-      ])('%s discussions based on SHA match', (_, refs, expected) => {
-        useDiscussions().setInitialDiscussions([
-          makeDiscussion('d', { position: makePos(refs), original_position: makePos(refs) }),
-        ]);
-
-        expect(store.findAllDiscussionsForFile(filePaths)).toHaveLength(expected);
-      });
-
-      it('returns original reactive discussion objects', () => {
-        const discussion = makeDiscussion('swap', {
-          position: makePos(otherRefs, 99),
-          original_position: makePos(diffRefs),
-        });
-        useDiscussions().setInitialDiscussions([discussion]);
-
-        const [result] = store.findAllDiscussionsForFile(filePaths);
-        expect(result).toBe(useDiscussions().discussions[0]);
-      });
-
-      it('swaps position to applicable version in findAllLineDiscussionsForFile', () => {
-        useDiscussions().setInitialDiscussions([
-          makeDiscussion('swap', {
-            position: makePos(otherRefs, 99),
-            original_position: makePos(diffRefs),
-          }),
-        ]);
-
-        const [result] = store.findAllLineDiscussionsForFile(filePaths);
-        expect(result.position.old_line).toBe(5);
-        expect(result.position).toMatchObject(diffRefs);
-      });
-
-      it('includes forms', () => {
-        store.addNewLineDiscussionForm({
-          ...filePaths,
-          lineRange: { start: { old_line: 1, new_line: 1 }, end: { old_line: 1, new_line: 1 } },
-        });
-
-        const [result] = store.findAllDiscussionsForFile(filePaths);
-        expect(result.isForm).toBe(true);
-      });
-    });
 
     describe('findDiscussionsForPosition', () => {
       const linePos = { ...filePaths, oldLine: 5, newLine: 5 };
@@ -462,6 +584,177 @@ describe('mergeRequestDiscussions store', () => {
 
         expect(store.findDiscussionsForPosition(linePos)).toHaveLength(0);
       });
+
+      it('excludes drafts until comments are ready', () => {
+        mockDraftNotes.findDraftsForPosition.mockReturnValue([{ id: 'draft_1', isDraft: true }]);
+
+        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(0);
+      });
+
+      it('includes drafts after fetchNotesAndDrafts', async () => {
+        mockDraftNotes.findDraftsForPosition.mockReturnValue([{ id: 'draft_1', isDraft: true }]);
+
+        await store.fetchNotesAndDrafts();
+
+        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(1);
+      });
+
+      it('places drafts between notes and forms', async () => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('real', { position: makePos(diffRefs) }),
+        ]);
+        store.addNewLineDiscussionForm({
+          ...filePaths,
+          lineRange: { start: { old_line: 5, new_line: 5 }, end: { old_line: 5, new_line: 5 } },
+        });
+        mockDraftNotes.findDraftsForPosition.mockReturnValue([{ id: 'draft_1', isDraft: true }]);
+
+        await store.fetchNotesAndDrafts();
+
+        const results = store.findDiscussionsForPosition(linePos);
+        expect(results).toHaveLength(3);
+        expect(results[0].id).toBe('real');
+        expect(results[1].id).toBe('draft_1');
+        expect(results[2].isForm).toBe(true);
+      });
+    });
+
+    describe('findDiscussionsForFile', () => {
+      it.each([
+        ['includes', diffRefs, 1],
+        ['excludes', otherRefs, 0],
+      ])('%s discussions based on SHA match', (_, refs, expected) => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('d', { position: makePos(refs), original_position: makePos(refs) }),
+        ]);
+
+        expect(store.findDiscussionsForFile(filePaths)).toHaveLength(expected);
+      });
+
+      it('excludes form discussions', () => {
+        store.addNewLineDiscussionForm({
+          ...filePaths,
+          lineRange: { start: { old_line: 1, new_line: 1 }, end: { old_line: 1, new_line: 1 } },
+        });
+
+        expect(store.findDiscussionsForFile(filePaths)).toHaveLength(0);
+      });
+
+      it('excludes drafts until comments are ready', () => {
+        mockDraftNotes.findDraftsAsDiscussionsForFile.mockReturnValue([
+          { id: 'draft_1', isDraft: true },
+        ]);
+
+        expect(store.findDiscussionsForFile(filePaths)).toHaveLength(0);
+      });
+
+      it('includes drafts after fetchNotesAndDrafts', async () => {
+        mockDraftNotes.findDraftsAsDiscussionsForFile.mockReturnValue([
+          { id: 'draft_1', isDraft: true },
+        ]);
+
+        await store.fetchNotesAndDrafts();
+
+        expect(store.findDiscussionsForFile(filePaths)).toHaveLength(1);
+      });
+    });
+
+    describe('findAllLineDiscussionsForFile', () => {
+      it('swaps position to applicable version', () => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('swap', {
+            position: makePos(otherRefs, 99),
+            original_position: makePos(diffRefs),
+          }),
+        ]);
+
+        const [result] = store.findAllLineDiscussionsForFile(filePaths);
+        expect(result.position.old_line).toBe(5);
+        expect(result.position).toMatchObject(diffRefs);
+      });
+
+      it('excludes non-line discussions', () => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('file-disc', {
+            position: { position_type: 'file', old_path: 'a.js', new_path: 'a.js', ...diffRefs },
+            original_position: {
+              position_type: 'file',
+              old_path: 'a.js',
+              new_path: 'a.js',
+              ...diffRefs,
+            },
+          }),
+        ]);
+
+        expect(store.findAllLineDiscussionsForFile(filePaths)).toHaveLength(0);
+      });
+
+      it('excludes line drafts until comments are ready', () => {
+        mockDraftNotes.findDraftsAsLineDiscussionsForFile.mockReturnValue([
+          { id: 'draft_1', isDraft: true },
+        ]);
+
+        expect(store.findAllLineDiscussionsForFile(filePaths)).toHaveLength(0);
+      });
+
+      it('includes line drafts after fetchNotesAndDrafts', async () => {
+        mockDraftNotes.findDraftsAsLineDiscussionsForFile.mockReturnValue([
+          { id: 'draft_1', isDraft: true },
+        ]);
+
+        await store.fetchNotesAndDrafts();
+
+        expect(store.findAllLineDiscussionsForFile(filePaths)).toHaveLength(1);
+      });
+    });
+
+    describe('findAllFileDiscussionsForFile', () => {
+      const filePos = {
+        position_type: 'file',
+        old_path: 'a.js',
+        new_path: 'a.js',
+        ...diffRefs,
+      };
+
+      it('returns file-level discussions', () => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('file-disc', {
+            position: filePos,
+            original_position: filePos,
+          }),
+        ]);
+
+        expect(store.findAllFileDiscussionsForFile(filePaths)).toHaveLength(1);
+      });
+
+      it('excludes line discussions', () => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('line-disc', {
+            position: makePos(diffRefs),
+            original_position: makePos(diffRefs),
+          }),
+        ]);
+
+        expect(store.findAllFileDiscussionsForFile(filePaths)).toHaveLength(0);
+      });
+
+      it('excludes file drafts until comments are ready', () => {
+        mockDraftNotes.findDraftsAsFileDiscussionsForFile.mockReturnValue([
+          { id: 'draft_1', isDraft: true },
+        ]);
+
+        expect(store.findAllFileDiscussionsForFile(filePaths)).toHaveLength(0);
+      });
+
+      it('includes file drafts after fetchNotesAndDrafts', async () => {
+        mockDraftNotes.findDraftsAsFileDiscussionsForFile.mockReturnValue([
+          { id: 'draft_1', isDraft: true },
+        ]);
+
+        await store.fetchNotesAndDrafts();
+
+        expect(store.findAllFileDiscussionsForFile(filePaths)).toHaveLength(1);
+      });
     });
 
     describe('findAllImageDiscussionsForFile', () => {
@@ -486,6 +779,24 @@ describe('mergeRequestDiscussions store', () => {
         ]);
 
         expect(store.findAllImageDiscussionsForFile('a.js', 'a.js')).toHaveLength(expected);
+      });
+
+      it('excludes image drafts until comments are ready', () => {
+        mockDraftNotes.findDraftsAsImageDiscussionsForFile.mockReturnValue([
+          { id: 'draft_1', isDraft: true },
+        ]);
+
+        expect(store.findAllImageDiscussionsForFile('a.js', 'a.js')).toHaveLength(0);
+      });
+
+      it('includes image drafts after fetchNotesAndDrafts', async () => {
+        mockDraftNotes.findDraftsAsImageDiscussionsForFile.mockReturnValue([
+          { id: 'draft_1', isDraft: true },
+        ]);
+
+        await store.fetchNotesAndDrafts();
+
+        expect(store.findAllImageDiscussionsForFile('a.js', 'a.js')).toHaveLength(1);
       });
     });
   });

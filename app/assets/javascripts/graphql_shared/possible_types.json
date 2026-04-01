@@ -243,7 +243,8 @@
   "RecentlyViewedItemUnion": [
     "Epic",
     "Issue",
-    "MergeRequest"
+    "MergeRequest",
+    "WikiPage"
   ],
   "Registrable": [
     "AbuseReportUploadRegistry",

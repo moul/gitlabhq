@@ -491,7 +491,6 @@ RSpec.describe 'Every Sidekiq worker', feature_category: :sidekiq do
         'SetUserStatusBasedOnUserCapSettingWorker' => 3,
         'Snippets::ScheduleBulkRepositoryShardMovesWorker' => 3,
         'Snippets::UpdateRepositoryStorageWorker' => 3,
-        'StageUpdateWorker' => 3,
         'StatusPage::PublishWorker' => 5,
         'Security::StoreSecurityReportsByProjectWorker' => 3,
         'Security::VulnerabilityScanning::ProcessSbomScanWorker' => false,
