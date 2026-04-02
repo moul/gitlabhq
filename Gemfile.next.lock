@@ -109,6 +109,7 @@ PATH
       activesupport (>= 6.1, < 8)
       gitlab_quality-test_tooling (>= 3.8, < 4)
       rspec (~> 3.0)
+      test-prof (~> 1.5)
 
 PATH
   remote: gems/gitlab-safe_request_store
@@ -131,7 +132,11 @@ PATH
       actionview (>= 6.1.7.2)
       activesupport (>= 6.1.7.2)
       addressable (~> 2.8)
+      bigdecimal (~> 3.2)
+      nokogiri (~> 1.0)
+      oj (~> 3.16)
       rake (~> 13.0)
+      yajl-ruby (~> 1.4)
 
 PATH
   remote: gems/ipynbdiff

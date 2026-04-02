@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe ::Gitlab::XmlConverter, feature_category: :pipeline_composition do
+RSpec.describe ::Gitlab::XmlConverter do
   describe '#to_h' do
     let(:xml_data) { '<root><key>value</key></root>' }
 
@@ -30,7 +30,7 @@ RSpec.describe ::Gitlab::XmlConverter, feature_category: :pipeline_composition d
     end
 
     context "when the xml is too large" do
-      let(:xml_data) { instance_double(String, size: Gitlab::MAX_XML_SIZE + 1) }
+      let(:xml_data) { instance_double(String, size: Gitlab::XmlConverter::MAX_XML_SIZE + 1) }
 
       it "raises an error" do
         expect { to_h }.to raise_error(ArgumentError, "The XML file must be less than 30 MB.")

@@ -19,6 +19,7 @@ import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import createGranularPersonalAccessTokenMutation from '~/personal_access_tokens/graphql/create_granular_personal_access_token.mutation.graphql';
 import {
   ACCESS_SELECTED_MEMBERSHIPS_ENUM,
+  MAX_NAME_LENGTH,
   MAX_DESCRIPTION_LENGTH,
   ACCESS_USER_ENUM,
   ACCESS_NAMESPACE_ENUMS,
@@ -139,8 +140,6 @@ export default {
 
       if (!this.form.description) {
         this.errors.description = this.$options.i18n.descriptionError;
-      } else if (this.form.description.length > MAX_DESCRIPTION_LENGTH) {
-        this.errors.description = this.$options.i18n.descriptionLengthError;
       }
 
       if (this.accessTokenMaxDate && !this.form.expirationDate) {
@@ -161,15 +160,15 @@ export default {
 
       return this.hasErrors;
     },
-    createGranularToken() {
+    async createGranularToken() {
       if (this.validateForm()) {
         return;
       }
 
-      this.isSubmitting = true;
+      try {
+        this.isSubmitting = true;
 
-      this.$apollo
-        .mutate({
+        const response = await this.$apollo.mutate({
           mutation: createGranularPersonalAccessTokenMutation,
           variables: {
             input: {
@@ -179,28 +178,24 @@ export default {
               granularScopes: this.granularScopes,
             },
           },
-          update: (_, { data: { personalAccessTokenCreate } }) => {
-            const { token, errors } = personalAccessTokenCreate;
-
-            if (errors?.length) {
-              throw Error(errors.join(','));
-            }
-
-            this.createdToken = token;
-          },
-        })
-        .catch((error) => {
-          scrollTo({ top: 0, behavior: 'smooth' }, this.$el);
-
-          createAlert({
-            message: this.$options.i18n.createError,
-            captureError: true,
-            error,
-          });
-        })
-        .finally(() => {
-          this.isSubmitting = false;
         });
+
+        const { errors, token } = response.data.personalAccessTokenCreate;
+
+        if (errors[0]) {
+          this.showCreateError(new Error(), errors[0]);
+        } else {
+          this.createdToken = token;
+        }
+      } catch (error) {
+        this.showCreateError(error, this.$options.i18n.createError);
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
+    showCreateError(error, message) {
+      scrollTo({ top: 0, behavior: 'smooth' }, this.$el);
+      createAlert({ message, error, captureError: true });
     },
   },
   i18n: {
@@ -213,9 +208,6 @@ export default {
     nameError: s__('AccessTokens|Token name is required.'),
     descriptionLabel: s__('AccessTokens|Description'),
     descriptionError: s__('AccessTokens|Token description is required.'),
-    descriptionLengthError: s__(
-      'AccessTokens|Description is too long (maximum is 255 characters).',
-    ),
     expirationDateError: s__('AccessTokens|Expiration date is required.'),
     scopeError: s__('AccessTokens|At least one scope is required.'),
     namespaceError: s__('AccessTokens|At least one group or project is required.'),
@@ -229,6 +221,8 @@ export default {
     ),
   },
   fineGrainedTokensDocPath: helpPagePath('auth/tokens/fine_grained_access_tokens.md'),
+  MAX_NAME_LENGTH,
+  MAX_DESCRIPTION_LENGTH,
 };
 </script>
 
@@ -258,7 +252,12 @@ export default {
             :invalid-feedback="errors.name"
             :state="!errors.name"
           >
-            <gl-form-input id="token-name" v-model.trim="form.name" :state="!errors.name" />
+            <gl-form-input
+              id="token-name"
+              v-model.trim="form.name"
+              :state="!errors.name"
+              :maxlength="$options.MAX_NAME_LENGTH"
+            />
           </gl-form-group>
 
           <gl-form-group
@@ -271,6 +270,7 @@ export default {
               id="token-description"
               v-model.trim="form.description"
               :state="!errors.description"
+              :maxlength="$options.MAX_DESCRIPTION_LENGTH"
             />
           </gl-form-group>
 

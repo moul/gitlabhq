@@ -1,16 +1,20 @@
 # frozen_string_literal: true
 
-# rubocop:disable Gitlab/NamespacedClass -- Base method live in the global namespace
-module Gitlab
-  MAX_XML_SIZE = 30.megabytes
+require 'active_support/core_ext/numeric/bytes'
+require 'active_support/isolated_execution_state'
+require 'active_support/xml_mini'
+require 'active_support/xml_mini/nokogiri'
+require 'active_support/core_ext/hash/conversions'
 
+module Gitlab
   class XmlConverter < ActiveSupport::XMLConverter
-    # Override the default Nokogiri parser in to allow parsing huge XML files
+    MAX_XML_SIZE = 30.megabytes
+
     def initialize(xml, disallowed_types = nil)
       return unless xml.present?
 
       if xml.size > MAX_XML_SIZE
-        raise ArgumentError, format(_("The XML file must be less than %{max_size} MB."),
+        raise ArgumentError, format("The XML file must be less than %{max_size} MB.",
           max_size: MAX_XML_SIZE / 1.megabyte)
       end
 
@@ -29,4 +33,3 @@ module Gitlab
     end
   end
 end
-# rubocop:enable Gitlab/NamespacedClass

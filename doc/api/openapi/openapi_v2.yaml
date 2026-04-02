@@ -45272,6 +45272,12 @@ paths:
         default: 20
         required: false
         example: 20
+      - in: query
+        name: non_archived
+        description: Returns merge requests from non archived projects only.
+        type: boolean
+        default: false
+        required: false
       responses:
         '200':
           description: List merge requests
@@ -49900,6 +49906,10 @@ definitions:
         type: boolean
         description: The spp_repository_pipeline_access setting is only visible if
           the security_orchestration_policies feature is available.
+      security_policy_pipeline_must_succeed:
+        type: boolean
+        description: Require all security policy pipelines to succeed before merge
+          requests can be merged.
       merge_request_title_regex:
         type: string
         example: "/Title of merge request/"
@@ -68526,6 +68536,10 @@ definitions:
         type: boolean
         description: The spp_repository_pipeline_access setting is only visible if
           the security_orchestration_policies feature is available.
+      security_policy_pipeline_must_succeed:
+        type: boolean
+        description: Require all security policy pipelines to succeed before merge
+          requests can be merged.
       merge_request_title_regex:
         type: string
         example: "/Title of merge request/"
@@ -69218,6 +69232,10 @@ definitions:
       web_based_commit_signing_enabled:
         type: boolean
         description: Enable web based commit signing for this project
+      security_policy_pipeline_must_succeed:
+        type: boolean
+        description: Require all security policy pipelines to succeed before merge
+          requests can be merged
     description: Update an existing project
   postApiV4ProjectsIdShare:
     type: object

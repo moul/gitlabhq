@@ -268,7 +268,7 @@ module Gitlab
       end
 
       def consume_list_refs_response(response)
-        response.flat_map { |res| res.references.to_ary }
+        RefCollectionWithNextCursor.new(response)
       end
 
       def sort_local_branches_by_param(sort_by)

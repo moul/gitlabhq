@@ -74,6 +74,7 @@ module LoginHelpers
   def gitlab_disable_admin_mode
     find_by_testid('user-menu-toggle').click
     click_on 'Leave Admin Mode'
+    expect(page).to have_selector('[data-testid="alert-info"]', text: _('Admin mode disabled'))
   end
 
   private

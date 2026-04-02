@@ -252,7 +252,7 @@ describe('discussions adapters', () => {
       expect(getDiscussionRows()).toHaveLength(0);
     });
 
-    it('shows an alert when mounting a discussion row fails', async () => {
+    it('skips mounting when discussion line is not found', async () => {
       store.discussions = [
         {
           id: 'abc',
@@ -261,12 +261,8 @@ describe('discussions adapters', () => {
         },
       ];
       await nextTick();
-      expect(createAlert).toHaveBeenCalledWith({
-        message: 'test error',
-        parent: getDiffFile().querySelector('div'),
-        error: expect.any(Error),
-        captureError: true,
-      });
+      expect(createAlert).not.toHaveBeenCalled();
+      expect(getDiscussionRows()).toHaveLength(0);
     });
 
     it('forwards click to store', () => {

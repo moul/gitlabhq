@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'gitlab/utils/all'
 require_relative '../environment'
 
 # See https://docs.gitlab.com/ee/development/utilities.html#override for
@@ -51,9 +50,11 @@ module Gitlab
 
           super_method_arity = find_direct_method(overridden_parent, method_name).arity
 
-          unless arity_compatible?(sub_method_arity, super_method_arity)
-            raise NotImplementedError, "#{subject}\##{method_name} has arity of #{sub_method_arity}, but #{overridden_parent}\##{method_name} has arity of #{super_method_arity}"
-          end
+          return if arity_compatible?(sub_method_arity, super_method_arity)
+
+          raise NotImplementedError,
+            "#{subject}\##{method_name} has arity of #{sub_method_arity}, " \
+            "but #{overridden_parent}\##{method_name} has arity of #{super_method_arity}"
         end
 
         def add_method_name(method_name, arity = nil)
@@ -161,9 +162,9 @@ module Gitlab
         is_not_concern_hack =
           mod.is_a?(Class) || !name&.end_with?('::ClassMethods')
 
-        if mod && is_not_concern_hack
-          queue_verification(mod.singleton_class)
-        end
+        return unless mod && is_not_concern_hack
+
+        queue_verification(mod.singleton_class)
       end
 
       def queue_verification(base, verify: false)
@@ -174,9 +175,9 @@ module Gitlab
         # We also force verification for prepend because it can also override
         # a method like a class, but not the cases for include or extend.
         # This includes Rails helpers but not limited to.
-        if base.is_a?(Class) || verify
-          Override.extensions[self]&.add_class(base)
-        end
+        return unless base.is_a?(Class) || verify
+
+        Override.extensions[self]&.add_class(base)
       end
 
       def self.extensions

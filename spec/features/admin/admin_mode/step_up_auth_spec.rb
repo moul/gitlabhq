@@ -56,11 +56,7 @@ RSpec.describe 'Step-up authentication', :with_current_organization, :js, featur
         expect(page).to have_content('Admin mode enabled')
 
         # Leave admin mode
-        find_by_testid('user-menu-toggle').click
-        click_link('Leave Admin Mode', href: destroy_admin_session_path)
-
-        wait_for_requests
-        expect(page).to have_text 'Admin mode disabled'
+        gitlab_disable_admin_mode
 
         # Attempt to access the admin area again
         visit admin_root_path

@@ -387,10 +387,7 @@ describe('Markdown field header component', () => {
     };
 
     const closeFindAndReplace = async () => {
-      const preventDefault = jest.fn();
-      findFindInput().vm.$emit('keydown', { preventDefault, key: 'Escape' });
-      await nextTick();
-      expect(preventDefault).not.toHaveBeenCalled();
+      await findFindAndReplaceBar().trigger('keydown', { key: 'Escape' });
     };
 
     beforeEach(() => {
@@ -428,6 +425,20 @@ describe('Markdown field header component', () => {
       expect(findFindAndReplaceBar().exists()).toBe(true);
       await closeFindAndReplace();
       expect(findFindAndReplaceBar().exists()).toBe(false);
+    });
+
+    it('closes the bar when Escape is pressed from any element in the dialog', async () => {
+      await showFindAndReplace();
+      wrapper.findByTestId('find-next').element.focus();
+      await findFindAndReplaceBar().trigger('keydown', { key: 'Escape' });
+      expect(findFindAndReplaceBar().exists()).toBe(false);
+    });
+
+    it('returns focus to the textarea when the bar is closed', async () => {
+      await showFindAndReplace();
+      await closeFindAndReplace();
+
+      expect(document.activeElement).toBe(findTextarea());
     });
 
     describe('focus trap', () => {

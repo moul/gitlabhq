@@ -198,9 +198,9 @@ export default {
     @primary.prevent="handleModalPrimary"
   >
     <gl-sprintf :message="modalDescription">
-      <template #tokenName
-        ><strong>{{ token && token.name }}</strong></template
-      >
+      <template #tokenName>
+        <span class="gl-font-bold gl-wrap-anywhere">{{ token && token.name }}</span>
+      </template>
     </gl-sprintf>
   </gl-modal>
 </template>

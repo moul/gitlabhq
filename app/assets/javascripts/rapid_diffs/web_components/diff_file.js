@@ -1,5 +1,7 @@
 /** @typedef {import('../app').RapidDiffsFacade} */
 import { camelizeKeys } from '~/lib/utils/object_utils';
+import { findLineRow } from '~/rapid_diffs/utils/line_utils';
+import { scrollPastCoveringElements } from '~/lib/utils/sticky';
 import { DIFF_FILE_MOUNTED } from '../dom_events';
 import { settledScrollIntoView } from '../utils/settled_scroll_into_view';
 import * as events from '../adapter_events';
@@ -112,6 +114,19 @@ export class DiffFile extends HTMLElement {
   selectFile() {
     settledScrollIntoView(this, this.closest('[data-rapid-diffs]'));
     // TODO: add outline for active file
+  }
+
+  async selectLine(oldLine, newLine) {
+    this.trigger(events.EXPAND_FILE);
+    const linePos = { old_line: oldLine, new_line: newLine };
+    this.trigger(events.HIGHLIGHT_LINES, { start: linePos, end: linePos });
+    const lineRow = findLineRow(this.diffElement, oldLine, newLine);
+    if (lineRow) {
+      await settledScrollIntoView(lineRow, this.closest('[data-rapid-diffs]'));
+      scrollPastCoveringElements(lineRow);
+    } else {
+      this.selectFile();
+    }
   }
 
   focusFirstButton(options) {

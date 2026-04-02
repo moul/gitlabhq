@@ -71,7 +71,7 @@ export function findLineRow(element, oldLine, newLine) {
     .querySelector(
       `[data-position="${oldLine ? 'old' : 'new'}"] [data-line-number="${oldLine || newLine}"]`,
     )
-    .closest('tr');
+    ?.closest('tr');
 }
 
 export function getNewLineRangeContent(diffElement, lineRange, side) {

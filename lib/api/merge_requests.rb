@@ -204,6 +204,9 @@ module API
       params do
         use :merge_requests_params
         use :optional_scope_param
+        optional :non_archived, type: Boolean,
+          default: false,
+          desc: 'Returns merge requests from non archived projects only.'
       end
       route_setting :authorization, permissions: :read_merge_request, boundary_type: :user
       get feature_category: :code_review_workflow, urgency: :low do

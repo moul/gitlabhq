@@ -4,6 +4,14 @@
 # of using `JSON` directly. This allows us to swap the adapter and handle
 # legacy issues.
 
+require 'bigdecimal'
+require 'json'
+require 'oj'
+require 'stringio'
+require 'yajl'
+require 'active_support/core_ext/numeric/bytes'
+require_relative 'json/stream_validator'
+
 module Gitlab
   module Json
     INVALID_LEGACY_TYPES = [String, TrueClass, FalseClass].freeze
@@ -17,6 +25,8 @@ module Gitlab
     }.freeze
 
     class << self
+      attr_accessor :on_limit_exceeded, :on_oversize_object
+
       # Parse a string and convert it to a Ruby object
       #
       # @param string [String] the JSON string to convert to Ruby objects
@@ -126,28 +136,26 @@ module Gitlab
       # @param opts [Hash] an options hash in the standard JSON gem format
       # @return [Boolean, String, Array, Hash]
       # @raise [JSON::ParserError]
-      def adapter_load(string, *args, **opts)
+      def adapter_load(string, *_args, **opts)
         opts = standardize_opts(opts)
 
         Oj.load(string, opts)
-      rescue Oj::ParseError, EncodingError, Encoding::UndefinedConversionError, JSON::GeneratorError => ex
-        raise parser_error, ex
+      rescue Oj::ParseError, EncodingError, Encoding::UndefinedConversionError, JSON::GeneratorError => e
+        raise parser_error, e
       end
 
       def validate!(string, parse_limits)
         Gitlab::Json::StreamValidator.new(parse_limits).validate!(string)
-      rescue Oj::ParseError, EncodingError => ex
-        raise parser_error, ex
-      rescue ::Gitlab::Json::StreamValidator::LimitExceededError => ex
-        log_exceeded_json(ex, parse_limits)
-        message = ::Gitlab::Json::StreamValidator.user_facing_error_message(ex)
+      rescue Oj::ParseError, EncodingError => e
+        raise parser_error, e
+      rescue ::Gitlab::Json::StreamValidator::LimitExceededError => e
+        log_exceeded_json(e, parse_limits)
+        message = ::Gitlab::Json::StreamValidator.user_facing_error_message(e)
         raise parser_error, message
       end
 
       def log_exceeded_json(exception, parse_limits)
-        payload = { message: 'Exceeded allowed limits for parsing JSON input', parse_limits: parse_limits }
-        Gitlab::ExceptionLogFormatter.format!(exception, payload)
-        Gitlab::AppLogger.warn(payload)
+        on_limit_exceeded&.call(exception, parse_limits)
       end
 
       # Take a Ruby object and convert it to a string. This method varies
@@ -169,7 +177,9 @@ module Gitlab
       #   @raise [ArgumentError] when depth limit exceeded
       #
       # @return [String]
-      def adapter_dump(object, *args, **opts)
+      def adapter_dump(object, *_args, **opts)
+        opts = standardize_opts(opts)
+
         Oj.dump(object, opts)
       end
 
@@ -214,57 +224,19 @@ module Gitlab
       end
 
       def log_oversize_object(string)
-        oversize_threshold = ENV['GITLAB_JSON_SIZE_THRESHOLD'].to_i
-
-        return if oversize_threshold <= 0
-
-        # Estimates the total number of values in the JSON response by counting:
-        # : => Number of key-value pairs
-        # , => Number of elements in arrays (off by one since [1, 2, 3] has just 2 commas)
-        # [ => Number of arrays
-        # { => Number of objects
-        total_value_count_estimate = string.count('{[,:')
-
-        return if total_value_count_estimate < oversize_threshold
-
-        Gitlab::AppJsonLogger.info(
-          message: 'Large JSON object',
-          number_of_fields: total_value_count_estimate,
-          caller: Gitlab::BacktraceCleaner.clean_backtrace(caller)
-        )
-      end
-    end
-
-    # GrapeFormatter is a JSON formatter for the Grape API.
-    # This is set in lib/api/api.rb
-
-    class GrapeFormatter
-      # Convert an object to JSON.
-      #
-      # The `env` param is ignored because it's not needed in either our formatter or Grape's,
-      # but it is passed through for consistency.
-      #
-      # If explicitly supplied with a `PrecompiledJson` instance it will skip conversion
-      # and return it directly. This is mostly used in caching.
-      #
-      # @param object [Object]
-      # @return [String]
-      def self.call(object, env = nil)
-        return object.to_s if object.is_a?(PrecompiledJson)
-
-        ::Gitlab::Json.dump(object)
+        on_oversize_object&.call(string)
       end
     end
 
     # Wrapper class used to skip JSON dumping on Grape endpoints.
 
-    class PrecompiledJson
+    class Precompiled
       UnsupportedFormatError = Class.new(StandardError)
 
-      # @overload PrecompiledJson.new("foo")
+      # @overload Precompiled.new("foo")
       #   @param value [String]
       #
-      # @overload PrecompiledJson.new(["foo", "bar"])
+      # @overload Precompiled.new(["foo", "bar"])
       #   @param value [Array<String>]
       def initialize(value)
         @value = value
@@ -275,7 +247,7 @@ module Gitlab
       #
       # @return [String]
       # @raise [NoMethodError] if the objects in an array doesn't support to_s
-      # @raise [PrecompiledJson::UnsupportedFormatError] if the value is neither a String or Array
+      # @raise [Precompiled::UnsupportedFormatError] if the value is neither a String or Array
       def to_s
         return @value if @value.is_a?(String)
         return "[#{@value.join(',')}]" if @value.is_a?(Array)
@@ -342,7 +314,7 @@ module Gitlab
           # BigDecimal#exponent is constant-time and tells us the digit count
           # of the integer part. Negative exponents mean small decimals like
           # 0.000...001 which also expand to many characters in fixed notation.
-          bd = BigDecimal(value)
+          bd = BigDecimal(value.to_s)
           raise NumberLimitExceeded unless bd.finite?
           raise NumberLimitExceeded if bd.exponent.abs > MAXIMUM_NUMERIC_DIGITS
         when Hash
@@ -350,20 +322,6 @@ module Gitlab
         when Array
           value.each { |v| check_numbers!(v) }
         end
-      end
-    end
-
-    class RailsEncoder < ActiveSupport::JSON::Encoding::JSONGemEncoder
-      # Rails doesn't provide a way of changing the JSON adapter for
-      # render calls in controllers, so here we're overriding the parent
-      # class method to use our generator, and it's monkey-patched in
-      # config/initializers/active_support_json.rb
-      def stringify(jsonified)
-        ::Gitlab::Json.dump(jsonified)
-      rescue EncodingError => ex
-        # Raise the same error as the default implementation if we encounter
-        # an error. These are usually related to invalid UTF-8 errors.
-        raise JSON::GeneratorError, ex
       end
     end
   end

@@ -1114,6 +1114,38 @@ RSpec.describe API::MergeRequests, :aggregate_failures, feature_category: :sourc
         end
       end
 
+      context 'with non_archived parameter' do
+        let_it_be(:archived_project) { create(:project, :public, :archived, namespace: user.namespace) }
+        let_it_be(:archived_merge_request) { create(:merge_request, :simple, author: user, source_project: archived_project) }
+
+        it 'returns merge requests including archived projects by default' do
+          get api('/merge_requests', user), params: { scope: 'all' }
+
+          expect(response).to have_gitlab_http_status(:ok)
+          expect(json_response).to be_an Array
+          expect(json_response.map { |mr| mr['id'] }).to include(archived_merge_request.id)
+          expect(json_response.map { |mr| mr['id'] }).to include(merge_request.id)
+        end
+
+        it 'returns merge requests from non-archived projects only when non_archived is true' do
+          get api('/merge_requests', user), params: { non_archived: true, scope: 'all' }
+
+          expect(response).to have_gitlab_http_status(:ok)
+          expect(json_response).to be_an Array
+          expect(json_response.map { |mr| mr['id'] }).not_to include(archived_merge_request.id)
+          expect(json_response.map { |mr| mr['id'] }).to include(merge_request.id)
+        end
+
+        it 'returns merge requests from archived projects when non_archived is false' do
+          get api('/merge_requests', user), params: { non_archived: false, scope: 'all' }
+
+          expect(response).to have_gitlab_http_status(:ok)
+          expect(json_response).to be_an Array
+          expect(json_response.map { |mr| mr['id'] }).to include(archived_merge_request.id)
+          expect(json_response.map { |mr| mr['id'] }).to include(merge_request.id)
+        end
+      end
+
       it 'returns merge requests created before a specific date' do
         merge_request2 = create(:merge_request, :simple, source_project: project, target_project: project, source_branch: 'feature_1', created_at: Date.new(2000, 1, 1))
 

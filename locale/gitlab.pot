@@ -4319,9 +4319,6 @@ msgstr ""
 msgid "AccessTokens|Description"
 msgstr ""
 
-msgid "AccessTokens|Description is too long (maximum is 255 characters)."
-msgstr ""
-
 msgid "AccessTokens|Disable access tokens"
 msgstr ""
 
@@ -26235,6 +26232,12 @@ msgid "DuoAgentPlatform|No GitLab Credits remain for this billing period. %{link
 msgstr ""
 
 msgid "DuoAgentPlatform|Remote GitLab Duo Flows"
+msgstr ""
+
+msgid "DuoAgentPlatform|Request"
+msgstr ""
+
+msgid "DuoAgentPlatform|Response"
 msgstr ""
 
 msgid "DuoAgentPlatform|Session ID"
@@ -54860,6 +54863,9 @@ msgstr ""
 msgid "ProjectSettings|All merge requests and commits are made against this branch unless you specify a different one."
 msgstr ""
 
+msgid "ProjectSettings|All security policy pipelines must succeed"
+msgstr ""
+
 msgid "ProjectSettings|Allow"
 msgstr ""
 
@@ -70464,9 +70470,6 @@ msgstr ""
 msgid "The Web IDE extension host domain was restored to its default value."
 msgstr ""
 
-msgid "The XML file must be less than %{max_size} MB."
-msgstr ""
-
 msgid "The `/merge` quick action requires the SHA of the head of the branch."
 msgstr ""
 
@@ -74401,6 +74404,9 @@ msgid "Unauthorized to delete a package protection rule"
 msgstr ""
 
 msgid "Unauthorized to delete a protection rule for container image tags"
+msgstr ""
+
+msgid "Unauthorized to update a Terraform state protection rule"
 msgstr ""
 
 msgid "Unauthorized to update a container registry protection rule"
@@ -79509,6 +79515,9 @@ msgid "When left blank, default value of %{max_lifetime_in_days} is applied. Whe
 msgstr ""
 
 msgid "When merge requests and commits in the default branch close, any issues they reference also close."
+msgstr ""
+
+msgid "When scan execution policies or pipeline execution policies are configured, both the merge request pipeline and the branch pipeline must succeed before the merge request can be merged."
 msgstr ""
 
 msgid "When security policies are enforced, all pipelines for the latest commit must succeed before merge."

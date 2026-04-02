@@ -58,23 +58,5 @@ RSpec.describe Projects::Security::ConfigurationController, feature_category: :s
       expect(controller).to have_received(:push_frontend_feature_flag)
         .with(:security_scan_profiles_feature, project.root_ancestor).at_least(:once)
     end
-
-    it 'pushes security_attributes licensed feature to the frontend' do
-      allow(controller).to receive(:push_licensed_feature)
-
-      get :show, params: { namespace_id: project.namespace, project_id: project }
-
-      expect(controller).to have_received(:push_licensed_feature)
-        .with(:security_attributes, project.root_ancestor)
-    end
-
-    it 'pushes security_scan_profiles_status_indicators feature flag to the frontend' do
-      allow(controller).to receive(:push_frontend_feature_flag)
-
-      get :show, params: { namespace_id: project.namespace, project_id: project }
-
-      expect(controller).to have_received(:push_frontend_feature_flag)
-        .with(:security_scan_profiles_status_indicators, project.root_ancestor)
-    end
   end
 end

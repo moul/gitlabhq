@@ -43,6 +43,16 @@ module Gitlab
           fogbugz_import: { threshold: 1, interval: 1.minute },
           geo_proxy: { threshold: 60, interval: 1.minute },
           gitea_import: { threshold: 6, interval: 1.minute },
+          git_http_authenticated: {
+            threshold: -> {
+              if application_settings.throttle_authenticated_git_http_enabled
+                application_settings.throttle_authenticated_git_http_requests_per_period
+              else
+                0
+              end
+            },
+            interval: -> { application_settings.throttle_authenticated_git_http_period_in_seconds.seconds }
+          },
           gitlab_shell_operation: { threshold: application_settings.gitlab_shell_operation_limit, interval: 1.minute },
           glql: { threshold: 1, interval: 15.minutes },
           group_api: { threshold: -> { application_settings.group_api_limit }, interval: 1.minute },

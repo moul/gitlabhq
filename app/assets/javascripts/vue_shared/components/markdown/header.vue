@@ -400,15 +400,20 @@ export default {
       this.getCurrentTextArea()?.removeEventListener('scroll', this.findAndReplace_syncScroll);
       this.cloneDiv?.parentElement.removeChild(this.cloneDiv);
       this.cloneDiv = undefined;
+      this.getCurrentTextArea()?.focus();
     },
     findAndReplace_handleKeyDown(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
-      } else if (e.key === 'Escape') {
-        this.findAndReplace_close();
       }
     },
     findAndReplace_handleFocusTrap(e) {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        this.findAndReplace_close();
+        return;
+      }
+
       if (e.key !== 'Tab') return;
 
       const focusable = Array.from(
@@ -911,6 +916,7 @@ export default {
       v-if="findAndReplace.shouldShowBar"
       class="gl-border gl-absolute gl-right-0 gl-z-3 gl-rounded-bl-base gl-border-r-0 gl-bg-section gl-p-3 gl-shadow-sm"
       role="dialog"
+      :aria-label="s__('MarkdownEditor|Find and replace')"
       data-testid="find-and-replace"
       @keydown="findAndReplace_handleFocusTrap"
     >

@@ -1,15 +1,8 @@
 # frozen_string_literal: true
 
-# We're patching `ActiveSupport::Concern` in
-# config/initializers/0_as_concern.rb
-#
-# We want to patch `ActiveSupport::Concern` for two reasons:
-# 1. Allow defining class methods via: `class_methods` method
-# 2. Allow `prepended do; end` work like `included do; end`
-# If we don't need anything above, we don't need this patch nor the concern!
+require 'gitlab/environment'
 
-require_dependency 'gitlab/environment'
-# rubocop:disable Gitlab/ModuleWithInstanceVariables
+# rubocop:disable Gitlab/ModuleWithInstanceVariables, Style/IfUnlessModifier
 module Gitlab
   module Patch
     module Prependable
@@ -72,5 +65,12 @@ module Gitlab
         base.ancestors[0...index].index(self)
       end
     end
+  end
+end
+# rubocop:enable Gitlab/ModuleWithInstanceVariables, Style/IfUnlessModifier
+
+module ActiveSupport
+  module Concern
+    prepend Gitlab::Patch::Prependable
   end
 end

@@ -91,14 +91,18 @@ export default {
     </template>
 
     <template #cell(name)="{ item, value }">
-      <gl-button variant="link" @click="selectTargetToken(item)">
+      <gl-button
+        variant="link"
+        button-text-classes="!gl-whitespace-normal gl-wrap-anywhere gl-text-right @md/panel:gl-text-left"
+        @click="selectTargetToken(item)"
+      >
         {{ value }}
       </gl-button>
     </template>
 
     <template #cell(description)="{ value }">
       <div>
-        <span v-if="value">{{ value }}</span>
+        <span v-if="value" class="gl-wrap-anywhere">{{ value }}</span>
         <span v-else class="gl-text-subtle">
           {{ $options.i18n.noDescription }}
         </span>

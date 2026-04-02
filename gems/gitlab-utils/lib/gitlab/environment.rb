@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'gitlab/utils/strong_memoize'
+
 module Gitlab
   module Environment
     extend ::Gitlab::Utils::StrongMemoize
@@ -17,7 +19,7 @@ module Gitlab
     def self.static_verification?
       static_verification = Gitlab::Utils.to_boolean(ENV['STATIC_VERIFICATION'], default: false)
 
-      if static_verification && Rails.env.production?
+      if static_verification && defined?(Rails) && Rails.env.production?
         warn '[WARNING] Static Verification bypass is enabled in Production.'
       end
 

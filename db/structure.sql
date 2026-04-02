@@ -21301,6 +21301,8 @@ CREATE TABLE group_secrets_managers (
     group_id bigint,
     status smallint DEFAULT 0 NOT NULL,
     group_path text,
+    root_namespace_path text,
+    CONSTRAINT check_7ea8ce3f98 CHECK ((char_length(root_namespace_path) <= 64)),
     CONSTRAINT check_f88f28737e CHECK ((char_length(group_path) <= 64))
 );
 
@@ -28087,6 +28089,7 @@ CREATE TABLE project_settings (
     pipeline_execution_policy_bot_access_enabled boolean DEFAULT false NOT NULL,
     pipeline_execution_policy_bot_access_file_patterns text[] DEFAULT '{}'::text[],
     pipeline_execution_policy_bot_access_group_id bigint,
+    security_policy_pipeline_must_succeed boolean DEFAULT false NOT NULL,
     CONSTRAINT check_1a30456322 CHECK ((char_length(pages_unique_domain) <= 63)),
     CONSTRAINT check_237486989c CHECK ((char_length(merge_request_title_regex_description) <= 255)),
     CONSTRAINT check_3a03e7557a CHECK ((char_length(previous_default_branch) <= 4096)),

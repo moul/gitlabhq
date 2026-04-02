@@ -84,6 +84,8 @@ module Gitlab
 
         check_body_size!
 
+        raise EncodingError, "invalid byte sequence in #{body.encoding}" unless body.valid_encoding?
+
         # Oj.sc_parse does not handle primitive values (see https://github.com/ohler55/oj/issues/979)
         # so we need to handle them separately before calling the streaming parser
         return if %w[true false null].include?(body)

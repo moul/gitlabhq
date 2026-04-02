@@ -15739,6 +15739,35 @@ Input type: `UpdateSnippetInput`
 | <a id="mutation-updatesnippet-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 | <a id="mutation-updatesnippet-snippet"></a>`snippet` | [`Snippet`](#snippet) | Snippet after mutation. |
 
+### `Mutation.updateTerraformStateProtectionRule`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Updates a protection rule for a Terraform state backend.
+
+Input type: `UpdateTerraformStateProtectionRuleInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-updateterraformstateprotectionrule-allowedfrom"></a>`allowedFrom` {{< icon name="warning-solid" >}} | [`TerraformStateProtectionRuleAllowedFrom`](#terraformstateprotectionruleallowedfrom) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
+| <a id="mutation-updateterraformstateprotectionrule-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-updateterraformstateprotectionrule-id"></a>`id` | [`TerraformStateProtectionRuleID!`](#terraformstateprotectionruleid) | Global ID of the Terraform state protection rule to update. |
+| <a id="mutation-updateterraformstateprotectionrule-minimumaccesslevelforwrite"></a>`minimumAccessLevelForWrite` {{< icon name="warning-solid" >}} | [`TerraformStateProtectionRuleAccessLevel`](#terraformstateprotectionruleaccesslevel) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
+| <a id="mutation-updateterraformstateprotectionrule-statename"></a>`stateName` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-updateterraformstateprotectionrule-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-updateterraformstateprotectionrule-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+| <a id="mutation-updateterraformstateprotectionrule-terraformstateprotectionrule"></a>`terraformStateProtectionRule` {{< icon name="warning-solid" >}} | [`TerraformStateProtectionRule`](#terraformstateprotectionrule) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
+
 ### `Mutation.updateVirtualRegistriesSetting`
 
 {{< details >}}
@@ -36450,6 +36479,7 @@ Describes the usage of consumables under the subscription.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="gitlabsubscriptionusage-canacceptoverageterms"></a>`canAcceptOverageTerms` | [`Boolean!`](#boolean) | Indicates whether the subscription is currently eligible to accept overage terms. |
+| <a id="gitlabsubscriptionusage-creditsused"></a>`creditsUsed` | [`Float`](#float) | Total credits used for the subscription. |
 | <a id="gitlabsubscriptionusage-dappromoenabled"></a>`dapPromoEnabled` | [`Boolean!`](#boolean) | Indicates whether the Duo AI promo (DAP) is enabled for the subscription. |
 | <a id="gitlabsubscriptionusage-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates if the Customer Portal GitLab Credits API is enabled. |
 | <a id="gitlabsubscriptionusage-enddate"></a>`endDate` | [`ISO8601Date`](#iso8601date) | End date of the period covered by the usage data. |
@@ -45806,6 +45836,7 @@ Project-level settings for product analytics provider.
 | <a id="project-secretpushprotectionenabled"></a>`secretPushProtectionEnabled` | [`Boolean`](#boolean) | Indicates whether secret push protection is on or not for the project. |
 | <a id="project-securityattributes"></a>`securityAttributes` {{< icon name="warning-solid" >}} | [`SecurityAttributeConnection`](#securityattributeconnection) | **Introduced** in GitLab 18.5. **Status**: Experiment. Security attributes linked to the project. |
 | <a id="project-securitydashboardpath"></a>`securityDashboardPath` | [`String`](#string) | Path to project's security dashboard. |
+| <a id="project-securitypolicypipelinemustsucceed"></a>`securityPolicyPipelineMustSucceed` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.11. **Status**: Experiment. Indicates that all security policy pipelines must succeed before merge requests can be merged. |
 | <a id="project-securitypolicyproject"></a>`securityPolicyProject` | [`Project`](#project) | Security policy project assigned to the project, absent if assigned to a parent group. |
 | <a id="project-securitypolicyprojectlinkednamespaces"></a>`securityPolicyProjectLinkedNamespaces` {{< icon name="warning-solid" >}} | [`NamespaceConnection`](#namespaceconnection) | **Deprecated** in GitLab 17.4. This was renamed. Use: `security_policy_project_linked_groups`. |
 | <a id="project-securitypolicyprojectlinkedprojects"></a>`securityPolicyProjectLinkedProjects` | [`ProjectConnection`](#projectconnection) | Projects linked to the project, when used as Security Policy Project. (see [Connections](#connections)) |

@@ -40,6 +40,8 @@ module Gitlab
           validate_sort_by!
         end
 
+        attr_reader :next_cursor
+
         def execute
           raw_refs = repository.list_refs(
             patterns,
@@ -47,6 +49,8 @@ module Gitlab
             pagination_params: pagination_params,
             ignore_case: ignore_case
           )
+          @next_cursor = raw_refs.next_cursor
+
           raw_refs.map { |ref| Ref.new(repository, ref.name, ref.target, nil) }
         rescue ArgumentError => e
           raise Gitlab::Git::InvalidPageToken, "Invalid page token: #{page_token}" if e.message.include?('page token')

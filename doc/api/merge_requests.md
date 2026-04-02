@@ -88,6 +88,7 @@ Supported attributes:
 | `merge_user_username`       | string        | No       | Returns the merge requests merged by the user with the given `username`. Mutually exclusive with `merge_user_id`. [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/140002) in GitLab 17.0. |
 | `milestone`                 | string        | No       | Returns merge requests for a specific milestone. `None` returns merge requests with no milestone. `Any` returns merge requests that have an assigned milestone. |
 | `my_reaction_emoji`         | string        | No       | Returns merge requests reacted by the authenticated user by the given `emoji`. `None` returns issues not given a reaction. `Any` returns issues given at least one reaction. |
+| `non_archived`              | boolean       | No       | If `true`, returns merge requests from non-archived projects only. Default is `false`. |
 | `not`                       | Hash          | No       | Returns merge requests that do not match the parameters supplied. Accepts: `labels`, `milestone`, `author_id`, `author_username`, `assignee_id`, `assignee_username`, `reviewer_id`, `reviewer_username`, `my_reaction_emoji`. |
 | `order_by`                  | string        | No       | Returns requests ordered by `created_at`, `title`, `merged_at` ([introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/147052) in GitLab 17.2), or `updated_at` fields. Default is `created_at`. |
 | `render_html`               | boolean       | No       | If `true`, the response includes rendered HTML fields `title_html` and `description_html`. |
@@ -653,7 +654,7 @@ Supported attributes:
 | `merge_user_username`       | string            | No       | Returns merge requests merged by the user with the given `username`. Mutually exclusive with `merge_user_id`. [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/140002) in GitLab 17.0. |
 | `milestone`                 | string            | No       | Returns merge requests for a specific milestone. `None` returns merge requests with no milestone. `Any` returns merge requests that have an assigned milestone. |
 | `my_reaction_emoji`         | string            | No       | Returns merge requests reacted by the authenticated user by the given `emoji`. `None` returns issues not given a reaction. `Any` returns issues given at least one reaction. |
-| `non_archived`              | boolean           | No       | When `true`, returns merge requests from non-archived projects only. Default is `true`. |
+| `non_archived`              | boolean           | No       | If `true`, returns merge requests from non-archived projects only. Default is `true`. |
 | `not`                       | hash              | No       | Returns merge requests that do not match the parameters supplied. Can be: `labels`, `milestone`, `author_id`, `author_username`, `assignee_id`, `assignee_username`, `reviewer_id`, `reviewer_username`, `my_reaction_emoji`. |
 | `order_by`                  | string            | No       | Returns merge requests ordered by `created_at`, `label_priority`, `merged_at`, `milestone_due`, `popularity`, `priority`, `title`, or `updated_at` fields. Default is `created_at`. |
 | `page`                      | integer           | No       | Returns the current page number. Defaults to `1`. |

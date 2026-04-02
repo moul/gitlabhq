@@ -469,4 +469,34 @@ RSpec.describe Gitlab::Git::Finders::RefsFinder, feature_category: :source_code_
       end
     end
   end
+
+  describe '#next_cursor' do
+    subject(:next_cursor) { finder.next_cursor }
+
+    context 'when execute has not been called' do
+      let(:params) { { ref_type: :branches } }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with pagination' do
+      let(:params) { { ref_type: :tags, per_page: 2 } }
+
+      before do
+        finder.execute
+      end
+
+      it { is_expected.to be_present }
+    end
+
+    context 'without pagination' do
+      let(:params) { { ref_type: :tags } }
+
+      before do
+        finder.execute
+      end
+
+      it { is_expected.to be_nil }
+    end
+  end
 end

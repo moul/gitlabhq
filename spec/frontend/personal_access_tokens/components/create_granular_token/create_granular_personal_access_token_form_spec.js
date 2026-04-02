@@ -26,7 +26,7 @@ import PersonalAccessTokenPermissionsSelector from '~/personal_access_tokens/com
 import CreatedPersonalAccessToken from '~/personal_access_tokens/components/created_personal_access_token.vue';
 import createGranularPersonalAccessTokenMutation from '~/personal_access_tokens/graphql/create_granular_personal_access_token.mutation.graphql';
 import getAccessTokenPermissions from '~/personal_access_tokens/graphql/get_access_token_permissions.query.graphql';
-import { MAX_DESCRIPTION_LENGTH } from '~/personal_access_tokens/constants';
+import { MAX_NAME_LENGTH, MAX_DESCRIPTION_LENGTH } from '~/personal_access_tokens/constants';
 import { mockCreateMutationResponse, mockCreateMutationInput } from '../../mock_data';
 
 jest.mock('~/alert');
@@ -112,6 +112,12 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
     }
   };
 
+  const fillAndSubmitForm = async (options) => {
+    await fillFormWithValidData(options);
+    findCreateButton().vm.$emit('click');
+    return waitForPromises();
+  };
+
   beforeEach(() => {
     createComponent();
   });
@@ -143,7 +149,10 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
       expect(findNameFormGroup().attributes('label-for')).toBe('token-name');
 
       expect(findNameInput().exists()).toBe(true);
-      expect(findNameInput().attributes('id')).toBe('token-name');
+      expect(findNameInput().attributes()).toMatchObject({
+        id: 'token-name',
+        maxlength: `${MAX_NAME_LENGTH}`,
+      });
     });
 
     it('renders the description field with correct label', () => {
@@ -152,7 +161,10 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
       expect(findDescriptionFormGroup().attributes('label-for')).toBe('token-description');
 
       expect(findDescriptionTextarea().exists()).toBe(true);
-      expect(findDescriptionTextarea().attributes('id')).toBe('token-description');
+      expect(findDescriptionTextarea().attributes()).toMatchObject({
+        id: 'token-description',
+        maxlength: `${MAX_DESCRIPTION_LENGTH}`,
+      });
     });
 
     it('renders the expiration date component', () => {
@@ -224,24 +236,13 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
       );
     });
 
-    it('validates description length', async () => {
-      const longDescription = 'a'.repeat(MAX_DESCRIPTION_LENGTH + 1);
-      findDescriptionTextarea().vm.$emit('input', longDescription);
-
-      await findCreateButton().vm.$emit('click');
-
-      expect(findDescriptionFormGroup().attributes('invalid-feedback')).toBe(
-        'Description is too long (maximum is 255 characters).',
-      );
-    });
-
     it('validates expiration date when `accessTokenMaxDate` is provided', async () => {
       await findCreateButton().vm.$emit('click');
 
       expect(findExpirationDateComponent().props('error')).toBe('Expiration date is required.');
     });
 
-    it('does not validation expiration date when `accessTokenMaxDate` is null', async () => {
+    it('does not validate expiration date when `accessTokenMaxDate` is null', async () => {
       createComponent({ provide: { accessTokenMaxDate: null } });
 
       await findCreateButton().vm.$emit('click');
@@ -313,8 +314,7 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
     });
 
     it('submits form with correct variables when only group permissions are selected', async () => {
-      await fillFormWithValidData({ groupPermissions: false, userPermissions: true });
-      await findCreateButton().vm.$emit('click');
+      await fillAndSubmitForm({ groupPermissions: false, userPermissions: true });
 
       expect(mockMutationHandler).toHaveBeenCalledWith({
         input: {
@@ -332,8 +332,7 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
     });
 
     it('submits form with correct variables when only user permissions are selected', async () => {
-      await fillFormWithValidData({ groupPermissions: true, userPermissions: false });
-      await findCreateButton().vm.$emit('click');
+      await fillAndSubmitForm({ groupPermissions: true, userPermissions: false });
 
       expect(mockMutationHandler).toHaveBeenCalledWith({
         input: {
@@ -352,10 +351,7 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
     });
 
     it('displays the created token and hides the form', async () => {
-      await fillFormWithValidData();
-      await findCreateButton().vm.$emit('click');
-
-      await waitForPromises();
+      await fillAndSubmitForm();
 
       expect(findCreatedToken().exists()).toBe(true);
       expect(findCreatedToken().props('value')).toBe(
@@ -370,37 +366,30 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
         data: {
           personalAccessTokenCreate: {
             token: null,
-            errors: ['Error 1', 'Error 2'],
+            errors: ['Error 1'],
           },
         },
       });
 
       createComponent({ mutationHandler: errorMutationHandler });
-
-      await fillFormWithValidData();
-      await findCreateButton().vm.$emit('click');
-      await waitForPromises();
+      await fillAndSubmitForm();
 
       expect(createAlert).toHaveBeenCalledWith({
-        message: 'Token generation unsuccessful. Please try again.',
+        message: 'Error 1',
         captureError: true,
         error: expect.any(Error),
       });
     });
 
-    it('displays an error message when mutation fails', async () => {
-      const errorMutationHandler = jest.fn().mockRejectedValue(new Error('Mutation failed'));
-      createComponent({ mutationHandler: errorMutationHandler });
-
-      await fillFormWithValidData();
-
-      await findCreateButton().vm.$emit('click');
-      await waitForPromises();
+    it('displays an error message when mutation call fails', async () => {
+      const error = new Error('Mutation call failed');
+      createComponent({ mutationHandler: jest.fn().mockRejectedValue(error) });
+      await fillAndSubmitForm();
 
       expect(createAlert).toHaveBeenCalledWith({
         message: 'Token generation unsuccessful. Please try again.',
         captureError: true,
-        error: expect.any(Error),
+        error,
       });
 
       expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' }, wrapper.element);

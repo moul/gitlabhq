@@ -186,13 +186,11 @@ export const ACCESS_SELECTED_MEMBERSHIPS_ENUM = 'SELECTED_MEMBERSHIPS';
 export const ACCESS_ALL_MEMBERSHIPS_ENUM = 'ALL_MEMBERSHIPS';
 export const ACCESS_USER_ENUM = 'USER';
 export const ACCESS_NAMESPACE_ENUMS = ['GROUP', 'PROJECT'];
-export const ACCESS_INSTANCE_ENUM = 'INSTANCE';
 
+export const MAX_NAME_LENGTH = 200;
 export const MAX_DESCRIPTION_LENGTH = 255;
 
 export const SEARCH = 'search';
-
-export const TYPENAME_PERSONAL_ACCESS_TOKEN = 'PersonalAccessToken';
 
 export const ACTIONS = {
   REVOKE: 'revoke',

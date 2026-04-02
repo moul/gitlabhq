@@ -31025,7 +31025,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              "$ref": "#/components/schemas/RequestBody_83373314ae13"
+              "$ref": "#/components/schemas/RequestBody_540949c631fa"
     delete:
       operationId: deleteApiV4ProjectsId
       summary: Delete a project
@@ -38409,6 +38409,13 @@ paths:
           nullable: true
         in: query
         example: 20
+      - name: non_archived
+        required: false
+        description: Returns merge requests from non archived projects only.
+        schema:
+          type: boolean
+          nullable: true
+        in: query
   "/api/v4/groups/{id}/merge_requests":
     get:
       operationId: getApiV4GroupsIdMergeRequests
@@ -86593,6 +86600,10 @@ components:
           type: boolean
           description: The spp_repository_pipeline_access setting is only visible
             if the security_orchestration_policies feature is available.
+        security_policy_pipeline_must_succeed:
+          type: boolean
+          description: Require all security policy pipelines to succeed before merge
+            requests can be merged.
         merge_request_title_regex:
           type: string
           example: "/Title of merge request/"
@@ -86983,6 +86994,10 @@ components:
           type: boolean
           description: The spp_repository_pipeline_access setting is only visible
             if the security_orchestration_policies feature is available.
+        security_policy_pipeline_must_succeed:
+          type: boolean
+          description: Require all security policy pipelines to succeed before merge
+            requests can be merged.
         merge_request_title_regex:
           type: string
           example: "/Title of merge request/"
@@ -98220,7 +98235,7 @@ components:
           nullable: true
       required:
       - name
-    RequestBody_83373314ae13:
+    RequestBody_540949c631fa:
       type: object
       properties:
         name:
@@ -98863,6 +98878,11 @@ components:
         web_based_commit_signing_enabled:
           type: boolean
           description: Enable web based commit signing for this project
+          nullable: true
+        security_policy_pipeline_must_succeed:
+          type: boolean
+          description: Require all security policy pipelines to succeed before merge
+            requests can be merged
           nullable: true
     RequestBody_8ac230459ce6:
       type: object

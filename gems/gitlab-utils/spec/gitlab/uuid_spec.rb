@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Gitlab::UUID do
-  let_it_be(:name) { "GitLab" }
+  let(:name) { "GitLab" }
 
   describe '.urn' do
     subject(:urn) { described_class.urn }
@@ -22,7 +22,7 @@ RSpec.describe Gitlab::UUID do
     end
 
     context 'in development' do
-      let_it_be(:development_proper_uuid) { "5b593e54-90f5-504b-8805-5394a4d14b94" }
+      let(:development_proper_uuid) { "5b593e54-90f5-504b-8805-5394a4d14b94" }
 
       before do
         allow(Rails).to receive(:env).and_return(:development)
@@ -32,26 +32,28 @@ RSpec.describe Gitlab::UUID do
     end
 
     context 'in test' do
-      let_it_be(:test_proper_uuid) { "5b593e54-90f5-504b-8805-5394a4d14b94" }
+      let(:test_proper_uuid) { "5b593e54-90f5-504b-8805-5394a4d14b94" }
 
       it { is_expected.to eq(test_proper_uuid) }
     end
 
     context 'in staging' do
-      let_it_be(:staging_proper_uuid) { "dd190b37-7754-5c7c-80a0-85621a5823ad" }
+      let(:staging_proper_uuid) { "dd190b37-7754-5c7c-80a0-85621a5823ad" }
 
       before do
         allow(Rails).to receive(:env).and_return(:staging)
+        described_class.default_namespace_id = "a6930898-a1b2-4365-ab18-12aa474d9b26"
       end
 
       it { is_expected.to eq(staging_proper_uuid) }
     end
 
     context 'in production' do
-      let_it_be(:production_proper_uuid) { "4961388b-9d8e-5da0-a499-3ef5da58daf0" }
+      let(:production_proper_uuid) { "4961388b-9d8e-5da0-a499-3ef5da58daf0" }
 
       before do
         allow(Rails).to receive(:env).and_return(:production)
+        described_class.default_namespace_id = "58dc0f06-936c-43b3-93bb-71693f1b6570"
       end
 
       it { is_expected.to eq(production_proper_uuid) }

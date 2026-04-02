@@ -203,8 +203,8 @@ export default {
       </template>
 
       <template #cell(name)="{ item: { name, description } }">
-        <div data-testid="field-name" class="gl-font-bold">{{ name }}</div>
-        <div v-if="description" data-testid="field-description" class="gl-mt-3">
+        <div data-testid="field-name" class="gl-font-bold gl-wrap-anywhere">{{ name }}</div>
+        <div v-if="description" data-testid="field-description" class="gl-mt-3 gl-wrap-anywhere">
           {{ description }}
         </div>
       </template>

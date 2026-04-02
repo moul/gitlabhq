@@ -1,4 +1,3 @@
-import waitForPromises from 'helpers/wait_for_promises';
 import { settledScrollIntoView } from '~/rapid_diffs/utils/settled_scroll_into_view';
 
 describe('settledScrollIntoView', () => {
@@ -35,11 +34,12 @@ describe('settledScrollIntoView', () => {
     expect(element.scrollIntoView).toHaveBeenCalledTimes(1);
   });
 
-  it('does a final corrective scroll after settle timeout', async () => {
-    settledScrollIntoView(element, root);
+  it('returns a promise that resolves after settle timeout', async () => {
+    const promise = settledScrollIntoView(element, root);
+    expect(promise).toBeInstanceOf(Promise);
     element.scrollIntoView.mockClear();
-    await waitForPromises();
     jest.runOnlyPendingTimers();
+    await promise;
     expect(element.scrollIntoView).toHaveBeenCalledTimes(1);
   });
 

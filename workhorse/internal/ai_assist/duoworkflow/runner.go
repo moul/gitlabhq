@@ -46,6 +46,7 @@ const (
 	capabilityIncrementalStreaming capability = "incremental_streaming"
 	capabilityShellCommand         capability = "shell_command"
 	capabilityReadFileChunked      capability = "read_file_chunked"
+	capabilityCommandTimeout       capability = "command_timeout"
 
 	// Server capabilities
 	capabilityAdvancedSearch   capability = "advanced_search"
@@ -64,6 +65,7 @@ var ClientCapabilities = []capability{
 	capabilityIncrementalStreaming,
 	capabilityShellCommand,
 	capabilityReadFileChunked,
+	capabilityCommandTimeout,
 }
 
 // ServerCapabilities defines the list of allowed server capabilities that

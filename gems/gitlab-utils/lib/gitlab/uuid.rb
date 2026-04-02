@@ -1,22 +1,24 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/digest/uuid'
+require 'active_support/core_ext/object/blank'
+
 module Gitlab
   class UUID
-    NAMESPACE_IDS = {
-      development: "a143e9e2-41b3-47bc-9a19-081d089229f4",
-      test: "a143e9e2-41b3-47bc-9a19-081d089229f4",
-      staging: "a6930898-a1b2-4365-ab18-12aa474d9b26",
-      production: "58dc0f06-936c-43b3-93bb-71693f1b6570"
-    }.freeze
+    DEFAULT_NAMESPACE_ID = "a143e9e2-41b3-47bc-9a19-081d089229f4"
 
     UUID_PATTERN = /\A[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\z/i
     UUID_V5_PATTERN = /\h{8}-\h{4}-5\h{3}-\h{4}-\h{12}/
 
     class << self
-      def urn
-        uuid = Digest::UUID.uuid_v4
+      attr_writer :default_namespace_id
 
-        "urn:uuid:#{uuid}"
+      def default_namespace_id
+        @default_namespace_id ||= DEFAULT_NAMESPACE_ID
+      end
+
+      def urn
+        "urn:uuid:#{Digest::UUID.uuid_v4}"
       end
 
       def v5(name, namespace_id: default_namespace_id)
@@ -29,12 +31,6 @@ module Gitlab
 
       def uuid?(string)
         UUID_PATTERN.match?(string)
-      end
-
-      private
-
-      def default_namespace_id
-        NAMESPACE_IDS.fetch(Rails.env.to_sym)
       end
     end
   end

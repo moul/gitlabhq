@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require 'fast_spec_helper'
+require 'spec_helper'
 
-# Patching ActiveSupport::Concern
-require_relative '../../../../config/initializers/0_as_concern'
-
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.describe Gitlab::Utils::Override do
   let(:base) do
     Struct.new(:good) do
@@ -126,7 +124,7 @@ RSpec.describe Gitlab::Utils::Override do
       bad(subject)
       result = instance.bad
 
-      expect(result).to eq(true)
+      expect(result).to be(true)
       described_class.verify!
     end
   end
@@ -252,12 +250,12 @@ RSpec.describe Gitlab::Utils::Override do
         end
 
         context 'when subject is a module, and class is including it' do
-          subject { extension }
+          subject(:mod) { extension }
 
           let(:klass) { including_class }
 
           it 'does not complain when it is overriding something' do
-            good(subject)
+            good(mod)
             result = instance.good
 
             expect(result).to eq(0)
@@ -265,10 +263,10 @@ RSpec.describe Gitlab::Utils::Override do
           end
 
           it 'does not complain when it is not overriding anything' do
-            bad(subject)
+            bad(mod)
             result = instance.bad
 
-            expect(result).to eq(true)
+            expect(result).to be(true)
             described_class.verify!
           end
         end
@@ -302,3 +300,4 @@ RSpec.describe Gitlab::Utils::Override do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'fast_spec_helper'
+require 'spec_helper'
 
-RSpec.describe Gitlab::Json::StreamValidator, feature_category: :shared do
+RSpec.describe Gitlab::Json::StreamValidator do
   using RSpec::Parameterized::TableSyntax
 
   describe '.user_facing_error_message' do
@@ -374,6 +374,7 @@ RSpec.describe Gitlab::Json::StreamValidator, feature_category: :shared do
       where(:json, :error_class, :error_pattern) do
         '[[[[[[1]]]]]]' | described_class::DepthLimitError | /depth 6 exceeds limit/
       end
+
       with_them do
         it 'raises the appropriate error' do
           expect { parse }.to raise_error(error_class, error_pattern)

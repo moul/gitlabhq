@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require 'fast_spec_helper'
-
-# Patching ActiveSupport::Concern
-require_relative '../../../../config/initializers/0_as_concern'
+require 'spec_helper'
 
 RSpec.describe Gitlab::Patch::Prependable do
   before do
@@ -84,7 +81,7 @@ RSpec.describe Gitlab::Patch::Prependable do
       expect(@prepended_modules).to eq([[ce, ee]])
     end
 
-    context 'overriding methods' do
+    context 'overriding methods' do # rubocop:disable RSpec/ContextWording
       before do
         subject.module_eval do
           def self.class_name
@@ -192,7 +189,7 @@ RSpec.describe Gitlab::Patch::Prependable do
       end
     end
 
-    context 'class methods' do
+    context 'class methods' do # rubocop:disable RSpec/ContextWording
       it "has a method" do
         expect(subject).to respond_to(:class_value)
       end
@@ -202,7 +199,7 @@ RSpec.describe Gitlab::Patch::Prependable do
       end
     end
 
-    context 'instance methods' do
+    context 'instance methods' do # rubocop:disable RSpec/ContextWording
       it "has a method" do
         expect(subject.new).to respond_to(:value)
       end
@@ -213,15 +210,15 @@ RSpec.describe Gitlab::Patch::Prependable do
     end
   end
 
-  context 'having two prepended blocks' do
+  context 'having two prepended blocks' do # rubocop:disable RSpec/ContextWording
     subject do
       Module.new do
         extend ActiveSupport::Concern
 
-        prepended do
+        prepended do # rubocop:disable Lint/EmptyBlock
         end
 
-        prepended do
+        prepended do # rubocop:disable Lint/EmptyBlock
         end
       end
     end

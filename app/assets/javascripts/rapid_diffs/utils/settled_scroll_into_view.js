@@ -31,9 +31,12 @@ export function settledScrollIntoView(element, root, options = { block: 'start' 
     { capture: true, signal },
   );
   scrollTo();
-  setTimeout(() => {
-    controller.abort();
-    activeController = undefined;
-    scrollTo();
-  }, SETTLE_TIMEOUT);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      controller.abort();
+      activeController = undefined;
+      scrollTo();
+      resolve();
+    }, SETTLE_TIMEOUT);
+  });
 }

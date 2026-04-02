@@ -78,7 +78,7 @@ RSpec.describe 'Admin mode', :js, feature_category: :shared do
       it 'contains link to leave admin mode' do
         open_user_menu
         click_link('Leave Admin Mode', href: destroy_admin_session_path)
-        expect(page).to have_text 'Admin mode disabled'
+        expect(page).to have_selector('[data-testid="alert-info"]', text: _('Admin mode disabled'))
       end
 
       it 'can open pages not in admin scope' do
