@@ -543,7 +543,11 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
   end
 
   def merge!
-    return :failed unless @merge_request.mergeable?(**skipped_checks)
+    if auto_merge_requested?
+      return :failed unless @merge_request.auto_merge_eligible?(strategy: auto_merge_strategy)
+    else
+      return :failed unless @merge_request.mergeable?
+    end
 
     squashing = params.fetch(:squash, false)
     merge_service = ::MergeRequests::MergeService
@@ -726,16 +730,6 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
   def rapid_diffs_page_enabled?
     ::Feature.enabled?(:rapid_diffs_on_mr_show, current_user, type: :wip) &&
       params[:rapid_diffs] == 'true'
-  end
-
-  def skipped_checks
-    if auto_merge_requested?
-      @merge_request.skipped_auto_merge_checks(
-        auto_merge_strategy: auto_merge_strategy
-      )
-    else
-      {}
-    end
   end
 
   def auto_merge_strategy

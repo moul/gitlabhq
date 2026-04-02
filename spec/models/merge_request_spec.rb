@@ -5293,6 +5293,74 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
     end
   end
 
+  describe '#auto_merge_eligible?' do
+    let(:mr) { build_stubbed(:merge_request) }
+
+    let(:strategy) { AutoMergeService::STRATEGY_MERGE_WHEN_CHECKS_PASS }
+    let(:expected_skips) { mr.skipped_auto_merge_checks(auto_merge_strategy: strategy) }
+
+    it 'delegates to mergeable? with skipped_auto_merge_checks' do
+      expect(mr).to receive(:skipped_auto_merge_checks)
+        .with(auto_merge_strategy: strategy)
+        .at_least(:once)
+        .and_call_original
+
+      expect(mr).to receive(:mergeable?).with(
+        check_mergeability_retry_lease: false,
+        use_cache: true,
+        **expected_skips
+      )
+
+      mr.auto_merge_eligible?(strategy: strategy)
+    end
+
+    it 'passes through check_mergeability_retry_lease' do
+      expect(mr).to receive(:mergeable?).with(
+        check_mergeability_retry_lease: true,
+        use_cache: true,
+        **expected_skips
+      )
+
+      mr.auto_merge_eligible?(strategy: strategy, check_mergeability_retry_lease: true)
+    end
+
+    it 'passes through use_cache' do
+      expect(mr).to receive(:mergeable?).with(
+        check_mergeability_retry_lease: false,
+        use_cache: false,
+        **expected_skips
+      )
+
+      mr.auto_merge_eligible?(strategy: strategy, use_cache: false)
+    end
+
+    it 'skips CI and other checks for merge_when_checks_pass strategy' do
+      expect(mr).to receive(:mergeable?).with(
+        hash_including(
+          skip_ci_check: true,
+          skip_approved_check: true,
+          skip_draft_check: true,
+          skip_discussions_check: true
+        )
+      )
+
+      mr.auto_merge_eligible?(strategy: strategy)
+    end
+
+    it 'does not skip checks for an unknown strategy' do
+      expect(mr).to receive(:mergeable?).with(
+        hash_including(
+          skip_ci_check: false,
+          skip_approved_check: false,
+          skip_draft_check: false,
+          skip_discussions_check: false
+        )
+      )
+
+      mr.auto_merge_eligible?(strategy: 'unknown_strategy')
+    end
+  end
+
   describe '#skipped_auto_merge_checks' do
     subject { merge_request.skipped_auto_merge_checks(options) }
 

@@ -17,7 +17,7 @@ const defaultArgs = {
       name: 'Built in dashboard',
       description: 'Built in dashboard',
       slug: 'built-in', // might need `url` instead once they are shareable
-      user: {
+      createdBy: {
         id: 1337,
         name: 'GitLab',
         username: 'gitlab',
@@ -32,7 +32,7 @@ const defaultArgs = {
       name: 'First custom dashboard',
       description: 'Default dashboard description',
       slug: 'first-custom-dashboard',
-      user: {
+      createdBy: {
         id: 133737,
         name: 'Fake User',
         username: 'fakeuser',
@@ -43,14 +43,14 @@ const defaultArgs = {
       isStarred: false,
       isEditable: true,
       shareLink: '/fake/link/to/share',
-      lastEdited: '2025-09-10',
+      updatedAt: '2025-09-10',
     },
     {
       name: 'Cool dashboard',
       description:
         'Cool custom dashboard that has a description that is very long and will most definitely overflow within its box because its long',
       slug: 'cool-custom-dashboard',
-      user: {
+      createdBy: {
         id: 133737,
         name: 'Fake User',
         username: 'fakeuser',
@@ -61,7 +61,7 @@ const defaultArgs = {
       isStarred: false,
       isEditable: true,
       shareLink: '/fake/link/to/share',
-      lastEdited: '2025-10-28',
+      updatedAt: '2025-10-28',
     },
   ],
 };

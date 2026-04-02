@@ -1601,6 +1601,18 @@ class MergeRequest < ApplicationRecord
     }
   end
 
+  # Checks whether the merge request is eligible for auto-merge with the given strategy.
+  # Unlike `mergeable?`, this skips checks that the auto-merge process will re-evaluate
+  # later (e.g., CI status, approvals, discussions), focusing only on preconditions that
+  # must be met to accept the auto-merge request.
+  def auto_merge_eligible?(strategy:, check_mergeability_retry_lease: false, use_cache: true)
+    mergeable?(
+      check_mergeability_retry_lease: check_mergeability_retry_lease,
+      use_cache: use_cache,
+      **skipped_auto_merge_checks(auto_merge_strategy: strategy)
+    )
+  end
+
   # mergeable_state_check_params allows a hash of merge checks to skip or not
   # skip_ci_check
   # skip_conflict_check

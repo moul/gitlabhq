@@ -31975,6 +31975,7 @@ Represents finding.
 | <a id="comparedsecurityreportfinding-severity"></a>`severity` | [`VulnerabilitySeverity`](#vulnerabilityseverity) | Severity of the vulnerability finding. |
 | <a id="comparedsecurityreportfinding-state"></a>`state` | [`VulnerabilityState`](#vulnerabilitystate) | Finding status. |
 | <a id="comparedsecurityreportfinding-title"></a>`title` | [`String`](#string) | Title of the vulnerability finding. |
+| <a id="comparedsecurityreportfinding-unverified"></a>`unverified` | [`Boolean!`](#boolean) | Indicates whether the finding was detected without an identified source (untrusted input). |
 | <a id="comparedsecurityreportfinding-uuid"></a>`uuid` | [`String`](#string) | UUIDv5 digest based on the vulnerability's report type, primary identifier, location, fingerprint, project identifier. |
 
 ### `ComparedSecurityReportScanner`
@@ -32708,6 +32709,7 @@ Represents a vulnerability. The connection type is countable.
 | <a id="countablevulnerability-statetransitions"></a>`stateTransitions` | [`VulnerabilityStateTransitionTypeConnection`](#vulnerabilitystatetransitiontypeconnection) | List of state transitions related to the vulnerability. (see [Connections](#connections)) |
 | <a id="countablevulnerability-title"></a>`title` | [`String`](#string) | Title of the vulnerability. |
 | <a id="countablevulnerability-trackedref"></a>`trackedRef` {{< icon name="warning-solid" >}} | [`SecurityTrackedRef`](#securitytrackedref) | **Introduced** in GitLab 18.10. **Status**: Experiment. Tracked ref (branch or tag) where the vulnerability was detected. |
+| <a id="countablevulnerability-unverified"></a>`unverified` | [`Boolean!`](#boolean) | Indicates whether the finding was detected without an identified source (untrusted input). |
 | <a id="countablevulnerability-updatedat"></a>`updatedAt` | [`Time`](#time) | Timestamp of when the vulnerability was last updated. |
 | <a id="countablevulnerability-usernotescount"></a>`userNotesCount` | [`Int!`](#int) | Number of user notes attached to the vulnerability. |
 | <a id="countablevulnerability-userpermissions"></a>`userPermissions` | [`VulnerabilityPermissions!`](#vulnerabilitypermissions) | Permissions for the current user on the resource. |
@@ -45385,6 +45387,7 @@ Represents vulnerability finding of a security report on the pipeline.
 | <a id="pipelinesecurityreportfinding-state"></a>`state` | [`VulnerabilityState`](#vulnerabilitystate) | Finding status. |
 | <a id="pipelinesecurityreportfinding-statecomment"></a>`stateComment` | [`String`](#string) | Comment for the state of the security report finding. |
 | <a id="pipelinesecurityreportfinding-title"></a>`title` | [`String`](#string) | Title of the vulnerability finding. |
+| <a id="pipelinesecurityreportfinding-unverified"></a>`unverified` | [`Boolean!`](#boolean) | Indicates whether the finding was detected without an identified source (untrusted input). |
 | <a id="pipelinesecurityreportfinding-userpermissions"></a>`userPermissions` | [`PipelineSecurityReportFindingPermissions!`](#pipelinesecurityreportfindingpermissions) | Permissions for the current user on the resource. |
 | <a id="pipelinesecurityreportfinding-uuid"></a>`uuid` | [`String`](#string) | UUIDv5 digest based on the vulnerability's report type, primary identifier, location, fingerprint, project identifier. |
 | <a id="pipelinesecurityreportfinding-vulnerability"></a>`vulnerability` | [`Vulnerability`](#vulnerability) | Vulnerability related to the security report finding. |
@@ -52596,6 +52599,7 @@ Represents a vulnerability.
 | <a id="vulnerability-statetransitions"></a>`stateTransitions` | [`VulnerabilityStateTransitionTypeConnection`](#vulnerabilitystatetransitiontypeconnection) | List of state transitions related to the vulnerability. (see [Connections](#connections)) |
 | <a id="vulnerability-title"></a>`title` | [`String`](#string) | Title of the vulnerability. |
 | <a id="vulnerability-trackedref"></a>`trackedRef` {{< icon name="warning-solid" >}} | [`SecurityTrackedRef`](#securitytrackedref) | **Introduced** in GitLab 18.10. **Status**: Experiment. Tracked ref (branch or tag) where the vulnerability was detected. |
+| <a id="vulnerability-unverified"></a>`unverified` | [`Boolean!`](#boolean) | Indicates whether the finding was detected without an identified source (untrusted input). |
 | <a id="vulnerability-updatedat"></a>`updatedAt` | [`Time`](#time) | Timestamp of when the vulnerability was last updated. |
 | <a id="vulnerability-usernotescount"></a>`userNotesCount` | [`Int!`](#int) | Number of user notes attached to the vulnerability. |
 | <a id="vulnerability-userpermissions"></a>`userPermissions` | [`VulnerabilityPermissions!`](#vulnerabilitypermissions) | Permissions for the current user on the resource. |

@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
 import createDefaultClient from '~/lib/graphql';
-import App from './components/app.vue';
+import { convertToGraphQLId } from '~/graphql_shared/utils';
+import { TYPE_ORGANIZATION } from '~/graphql_shared/constants';
+import AnalyticsDashboardsApp from './components/app.vue';
 
 export default () => {
   const el = document.getElementById('js-explore-analytics-dashboards');
@@ -15,12 +17,18 @@ export default () => {
     defaultClient: createDefaultClient(),
   });
 
+  const organizationId = convertToGraphQLId(TYPE_ORGANIZATION, gon.current_organization?.id);
+
   return new Vue({
     el,
     name: 'AnalyticsDashboardsRoot',
     apolloProvider,
     render(h) {
-      return h(App);
+      return h(AnalyticsDashboardsApp, {
+        props: {
+          organizationId,
+        },
+      });
     },
   });
 };

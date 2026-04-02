@@ -72876,6 +72876,8 @@ components:
           type: string
         scanner:
           "$ref": "#/components/schemas/VulnerabilitiesScannerEntity"
+        unverified:
+          type: string
         identifiers:
           "$ref": "#/components/schemas/VulnerabilitiesIdentifierEntity"
         uuid:

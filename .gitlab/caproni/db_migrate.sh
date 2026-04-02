@@ -24,7 +24,16 @@ echo "REPO_DIR: ${REPO_DIR}"
 echo "MONOLITH_DIR: ${MONOLITH_DIR}"
 echo "CONFIG: ${CONFIG}"
 
-kubectl wait -n "$NAMESPACE" --for=condition=Available "${TARGET_DEPLOYMENT}" --timeout=60s
+if [[ $OSTYPE == 'darwin'* ]]; then
+  # libpq bins aren't added to the PATH by default, so we
+  # ensure that pg_dump is available for migrations.
+  if command -v brew >/dev/null 2>&1; then
+    libpq_prefix="$(brew --prefix libpq@16 2>/dev/null || brew --prefix libpq 2>/dev/null || true)"
+    if [[ -n "$libpq_prefix" && -d "$libpq_prefix/bin" ]]; then
+      export PATH="$libpq_prefix/bin:$PATH"
+    fi
+  fi
+fi
 
 mirrord exec \
   --config-file "$CONFIG" \

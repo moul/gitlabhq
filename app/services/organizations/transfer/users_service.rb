@@ -27,7 +27,8 @@ module Organizations
 
           ["User", "Project", "Group", "AbuseReport", "GitlabSubscriptions::AddOnPurchase",
             "GitlabSubscriptions::SeatAssignment", "GitlabSubscriptions::UserAddOnAssignment", "Authz::AdminRole",
-            "MemberRole", "Ai::Catalog::ItemConsumer", "ProjectSnippet", "Snippet", "ImportFailure"]
+            "MemberRole", "Ai::Catalog::ItemConsumer", "ProjectSnippet", "Snippet", "ImportFailure",
+            "Clusters::Cluster"]
         end
       end
 

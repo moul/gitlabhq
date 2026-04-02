@@ -615,7 +615,8 @@ RSpec.describe Organizations::Transfer::UsersService, :aggregate_failures, featu
               'Ai::Catalog::ItemConsumer',
               'ProjectSnippet',
               'Snippet',
-              'ImportFailure'
+              'ImportFailure',
+              'Clusters::Cluster'
             ]
           end
 

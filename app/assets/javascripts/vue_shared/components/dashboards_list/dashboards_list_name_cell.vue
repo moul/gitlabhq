@@ -24,7 +24,8 @@ export default {
     },
     isStarred: {
       type: Boolean,
-      required: true,
+      required: false,
+      default: false,
     },
   },
   computed: {

@@ -72,7 +72,7 @@ export default {
       tdClass: '!gl-align-bottom',
     },
     {
-      key: 'lastEdited',
+      key: 'updatedAt',
       label: __('Last edited'),
       tdClass: '!gl-align-middle',
     },
@@ -97,12 +97,12 @@ export default {
         :dashboard-url="dashboardUrl(slug)"
       />
     </template>
-    <template #cell(createdBy)="{ item: { user } }">
-      <gl-avatar-link target="_blank" :href="user.webPath">
+    <template #cell(createdBy)="{ item: { createdBy } }">
+      <gl-avatar-link target="_blank" :href="createdBy.webPath">
         <gl-avatar-labeled
-          :src="user.avatarUrl"
+          :src="createdBy.avatarUrl"
           :size="$options.avatarSize"
-          :label="user.name"
+          :label="createdBy.name"
           shape="circle"
           fallback-on-error
         />

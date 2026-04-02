@@ -7367,10 +7367,31 @@ msgstr ""
 msgid "Agent or flow already enabled"
 msgstr ""
 
+msgid "AgentArtifacts|AI Item"
+msgstr ""
+
 msgid "AgentArtifacts|Agent artifacts"
 msgstr ""
 
+msgid "AgentArtifacts|Audit events"
+msgstr ""
+
+msgid "AgentArtifacts|Credits"
+msgstr ""
+
+msgid "AgentArtifacts|Failed to load agent artifacts."
+msgstr ""
+
 msgid "AgentArtifacts|Monitor and observe AI agent behavior and activities across your group."
+msgstr ""
+
+msgid "AgentArtifacts|No agent artifacts found."
+msgstr ""
+
+msgid "AgentArtifacts|Session ID"
+msgstr ""
+
+msgid "AgentArtifacts|Start time"
 msgstr ""
 
 msgid "Agents|Explore other agents"
@@ -9279,6 +9300,9 @@ msgid "AnalyticsDashboards|Chat (non-agentic)"
 msgstr ""
 
 msgid "AnalyticsDashboards|Code Suggestions"
+msgstr ""
+
+msgid "AnalyticsDashboards|Failed to load dashboards list. Please try again."
 msgstr ""
 
 msgid "AnalyticsDashboards|Failed to load namespace metadata."
@@ -78559,9 +78583,6 @@ msgstr ""
 msgid "Vulnerability|Not an FP"
 msgstr ""
 
-msgid "Vulnerability|Note: Unverified vulnerability does not have a source. This means that the vulnerability was detected without identifying the untrusted input that caused it. Exercise caution when addressing this vulnerability, as the root cause may not be fully understood."
-msgstr ""
-
 msgid "Vulnerability|Policy violation detected"
 msgstr ""
 
@@ -78653,6 +78674,9 @@ msgid "Vulnerability|This vulnerability was auto-dismissed by a security policy.
 msgstr ""
 
 msgid "Vulnerability|This vulnerability was bypassed by a user in a merge request. The user accepted the risk in a security policy configured to use warn mode."
+msgstr ""
+
+msgid "Vulnerability|This vulnerability was found but couldn't be traced back to the untrusted input that caused it. The root cause isn't fully understood, so review it carefully before making changes."
 msgstr ""
 
 msgid "Vulnerability|Tool:"

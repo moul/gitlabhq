@@ -2,42 +2,43 @@ import { GlTable, GlAvatarLabeled } from '@gitlab/ui';
 import { shallowMountExtended, mountExtended } from 'helpers/vue_test_utils_helper';
 import DashboardsList from '~/vue_shared/components/dashboards_list/dashboards_list.vue';
 
-// NOTE: theres no graphql query for this yet, eventually replace with a fixture
 const mockDashboards = [
   {
     name: 'First custom dashboard',
     description: 'Default dashboard description',
     slug: 'first-custom-dashboard',
-    user: {
+    createdBy: {
       id: 133737,
       name: 'Fake User',
       username: 'fakeuser',
       avatarUrl: '/fake/user/avatar.jpg',
       webUrl: '/fakeuser',
+      webPath: '/fakeuser',
     },
     isCustom: true,
     isStarred: false,
     isEditable: true,
     shareLink: '/fake/link/to/share',
-    lastEdited: '2025-09-10',
+    updatedAt: '2025-09-10',
   },
   {
     name: 'Cool dashboard',
     description:
       'Cool custom dashboard that has a description that is very long and will most definitely overflow',
     slug: 'cool-custom-dashboard',
-    user: {
+    createdBy: {
       id: 133737,
       name: 'Fake User',
       username: 'fakeuser',
       avatarUrl: '/fake/user/avatar.jpg',
       webUrl: '/fakeuser',
+      webPath: '/fakeuser',
     },
     isCustom: true,
     isStarred: false,
     isEditable: true,
     shareLink: '/fake/link/to/share',
-    lastEdited: '2025-10-28',
+    updatedAt: '2025-10-28',
   },
 ];
 
@@ -87,26 +88,28 @@ describe('DashboardsList', () => {
       avatars.wrappers.forEach((avatar, index) => {
         const dashboard = mockDashboards[index];
         expect(avatar.props()).toMatchObject({
-          src: dashboard.user.avatarUrl,
+          src: dashboard.createdBy.avatarUrl,
           size: 24,
           shape: 'circle',
           fallbackOnError: true,
-          label: dashboard.user.name,
+          label: dashboard.createdBy.name,
         });
       });
     });
 
-    it('renders user names', () => {
+    it('renders user', () => {
       mockDashboards.forEach((dashboard, index) => {
         const row = findTableRows().at(index);
-        expect(row.text()).toContain(dashboard.user.name);
+        expect(row.text()).toContain(dashboard.createdBy.name);
+
+        expect(row.html()).toContain(dashboard.createdBy.webPath);
       });
     });
 
     it('renders last edited dates', () => {
       mockDashboards.forEach((dashboard, index) => {
         const row = findTableRows().at(index);
-        expect(row.text()).toContain(dashboard.lastEdited);
+        expect(row.text()).toContain(dashboard.updatedAt);
       });
     });
 

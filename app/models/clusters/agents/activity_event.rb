@@ -13,6 +13,9 @@ module Clusters
       belongs_to :agent, class_name: 'Clusters::Agent', optional: false
       belongs_to :user, optional: true
       belongs_to :agent_token, class_name: 'Clusters::AgentToken'
+      belongs_to :project, optional: true
+      belongs_to :merge_request, optional: true
+      belongs_to :agent_project, class_name: '::Project', optional: true
 
       scope :in_timeline_order, -> { order(recorded_at: :desc, id: :desc) }
       scope :recorded_before, ->(cutoff) { where('recorded_at < ?', cutoff) }

@@ -185,7 +185,7 @@ RSpec.shared_context 'group navbar structure' do
     [
       {
         nav_item: _("Manage"),
-        nav_sub_items: [_("Activity"), _("Members"), _("Labels")]
+        nav_sub_items: [_("Activity"), _("Members"), _("Labels"), _("Achievements")]
       },
       {
         nav_item: _("Plan"),
