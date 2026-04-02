@@ -5,7 +5,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/application_security/dast/#schedule-an-on-demand-scan'
+  documentation_link: 'https://docs.gitlab.com/user/application_security/dast/#schedule-an-on-demand-scan'
   image_url: https://about.gitlab.com/images/14_4/dast_on_demand_schedule.png
   published_at: 2021-10-22
   release: "14.4"
@@ -26,12 +26,12 @@
   release: "14.4"
 - name: The GitLab Operator is Generally Available
   description: |
-     GitLab 14.4 is proud to announce the general availability of [the GitLab Operator](https://about.gitlab.com/blog/2021/10/12/open-shift-ga/), with the ability to run production instances of GitLab on Kubernetes platforms, including Red Hat OpenShift. The GitLab Operator also automates day 2 operations such as upgrading components, application reconfiguration, and autoscaling. Check out the [GitLab Operator installation documentation](https://docs.gitlab.com/charts/installation/operator.html) for additional information.
+     GitLab 14.4 is proud to announce the general availability of [the GitLab Operator](https://about.gitlab.com/blog/2021/10/12/open-shift-ga/), with the ability to run production instances of GitLab on Kubernetes platforms, including Red Hat OpenShift. The GitLab Operator also automates day 2 operations such as upgrading components, application reconfiguration, and autoscaling. Check out the [GitLab Operator installation documentation](https://docs.gitlab.com/charts/installation/operator/) for additional information.
   stage: Enablement
   self-managed: true
   gitlab-com: false
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/charts/installation/operator.html'
+  documentation_link: 'https://docs.gitlab.com/charts/installation/operator/'
   image_url: https://img.youtube.com/vi/sEBnuhzYD2I/hqdefault.jpg
   published_at: 2021-10-22
   release: "14.4"
@@ -42,7 +42,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/group/devops_adoption/#adoption-over-time'
+  documentation_link: 'https://docs.gitlab.com/user/group/devops_adoption/#adoption-over-time'
   image_url: https://about.gitlab.com/images/14_4/devops_adop_table.png
   published_at: 2021-10-22
   release: "14.4"
@@ -53,7 +53,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/operations/error_tracking.html#integrated-error-tracking'
+  documentation_link: 'https://docs.gitlab.com/operations/error_tracking/#integrated-error-tracking'
   image_url: https://about.gitlab.com/images/14_4/monitor-integrated-error-tracking.png
   published_at: 2021-10-22
   release: "14.4"

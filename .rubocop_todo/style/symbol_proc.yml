@@ -41,7 +41,6 @@ Style/SymbolProc:
     - 'app/services/two_factor/destroy_service.rb'
     - 'app/workers/bulk_imports/stale_import_worker.rb'
     - 'app/workers/ci/build_trace_chunk_flush_worker.rb'
-    - 'app/workers/gitlab/import/stuck_import_job.rb'
     - 'app/workers/merge_requests/update_head_pipeline_worker.rb'
     - 'app/workers/namespaces/prune_aggregation_schedules_worker.rb'
     - 'app/workers/update_head_pipeline_for_merge_request_worker.rb'

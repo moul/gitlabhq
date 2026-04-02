@@ -105,6 +105,8 @@ RSpec.describe 'issue move to another project', :js, feature_category: :team_pla
 
       visit issue_path(service_desk_issue)
 
+      expand_sidebar
+
       click_button _('Move issue')
       wait_for_requests
       find('.gl-new-dropdown-item', text: project_title).click
@@ -123,6 +125,16 @@ RSpec.describe 'issue move to another project', :js, feature_category: :team_pla
       page.refresh
 
       expect(page).to have_no_selector(warning_selector)
+    end
+  end
+
+  private
+
+  def expand_sidebar
+    return unless page.has_css?('.right-sidebar.right-sidebar-collapsed', wait: 0) # rubocop: disable RSpec/AvoidConditionalStatements -- We need this to support both FOSS and EE runs of this spec
+
+    within '.right-sidebar' do
+      click_button "Expand sidebar"
     end
   end
 

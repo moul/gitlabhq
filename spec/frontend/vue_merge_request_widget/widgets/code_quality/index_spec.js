@@ -133,10 +133,6 @@ describe('Code Quality widget', () => {
   });
 
   describe('action buttons', () => {
-    afterEach(() => {
-      delete window.mrTabs;
-    });
-
     it('displays the "View report" button', async () => {
       mockApi(HTTP_STATUS_OK, responseNewFindings);
 
@@ -159,20 +155,20 @@ describe('Code Quality widget', () => {
 
       await waitForPromises();
 
-      const replaceStateSpy = jest.spyOn(window.history, 'replaceState');
-      window.mrTabs = { tabShown: jest.fn() };
+      const pushStateSpy = jest.spyOn(window.history, 'pushState');
+      const dispatchEventSpy = jest.spyOn(window, 'dispatchEvent');
 
       const actionButtons = findWidget().props('actionButtons');
       const event = { preventDefault: jest.fn() };
       actionButtons[0].onClick(actionButtons[0], event);
 
       expect(event.preventDefault).toHaveBeenCalled();
-      expect(replaceStateSpy).toHaveBeenCalledWith(
+      expect(pushStateSpy).toHaveBeenCalledWith(
         null,
         null,
         `${DEFAULT_MR_PROPS.reportsTabPath}/code-quality`,
       );
-      expect(window.mrTabs.tabShown).toHaveBeenCalledWith('reports');
+      expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(PopStateEvent));
     });
 
     it('should not be collapsible', async () => {

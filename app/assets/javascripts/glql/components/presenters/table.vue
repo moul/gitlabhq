@@ -71,11 +71,11 @@ export default {
               class="gl-l-0 gl-r-0 gl-absolute gl-w-full gl-cursor-pointer gl-truncate gl-bg-default gl-px-5 gl-py-3 hover:gl-bg-subtle"
               @click="sortBy(field.key)"
             >
+              {{ field.label }}
               <gl-icon
                 v-if="sortOptions.fieldName === field.key"
                 :name="sortOptions.ascending ? 'arrow-up' : 'arrow-down'"
               />
-              {{ field.label }}
             </div>
             <div class="gl-pointer-events-none gl-py-3">&nbsp;</div>
           </th-resizable>

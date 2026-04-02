@@ -30,7 +30,7 @@ require (
 	github.com/sirupsen/logrus v1.9.4
 	github.com/sony/gobreaker/v2 v2.4.0
 	github.com/stretchr/testify v1.11.1
-	gitlab.com/gitlab-org/gitaly/v18 v18.9.1
+	gitlab.com/gitlab-org/gitaly/v18 v18.9.2
 	gitlab.com/gitlab-org/labkit v1.45.0
 	gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb v0.0.0-20260127171529-874adaabe522
 	go.uber.org/goleak v1.3.0

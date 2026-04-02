@@ -191,6 +191,21 @@ describe('PersonalAccessTokenPermissionsSelector', () => {
 
         expect(wrapper.emitted('input')).toBeUndefined();
       });
+
+      it('applies permissions when they are set before the permissions query resolves', async () => {
+        createComponent({
+          props: { permissionsToSelect: ['read_project'] },
+        });
+
+        // permissions query hasn't resolved yet — applyPermissions silently did nothing
+        expect(wrapper.emitted('input')).toBeUndefined();
+
+        // Now let the query resolve
+        await waitForPromises();
+
+        // The permissions watcher should re-apply permissionsToSelect
+        expect(wrapper.emitted('input')[0]).toEqual([['read_project']]);
+      });
     });
 
     describe('permissionsToClear watcher', () => {

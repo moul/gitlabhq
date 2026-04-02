@@ -1,11 +1,11 @@
 - name: "Deploy apps to Google Cloud with GitLab Cloud Seed"
   description: |
-    Cloud Seed allows GitLab and Google Cloud customers to migrate to the cloud using a single platform, consolidating their tech stack without slowing down their cloud adoption process. Cloud Seed is built into the GitLab web UI and leverages CI/CD pipeline capabilities. It is specifically tailored to offer a frictionless developer experience for consuming Google Cloud services, supporting [Service Accounts](https://docs.gitlab.com/ee/cloud_seed/#set-up-deployment-credentials), [Regions](https://docs.gitlab.com/ee/cloud_seed/#configure-your-preferred-gcp-region), [Cloud Run](https://docs.gitlab.com/ee/cloud_seed/#deploy-to-google-cloud-run), and [Cloud SQL](https://docs.gitlab.com/ee/cloud_seed/#provision-cloud-sql-databases).
+    Cloud Seed allows GitLab and Google Cloud customers to migrate to the cloud using a single platform, consolidating their tech stack without slowing down their cloud adoption process. Cloud Seed is built into the GitLab web UI and leverages CI/CD pipeline capabilities. It is specifically tailored to offer a frictionless developer experience for consuming Google Cloud services, supporting [Service Accounts](https://docs.gitlab.com/cloud_seed/#set-up-deployment-credentials), [Regions](https://docs.gitlab.com/cloud_seed/#configure-your-preferred-gcp-region), [Cloud Run](https://docs.gitlab.com/cloud_seed/#deploy-to-google-cloud-run), and [Cloud SQL](https://docs.gitlab.com/cloud_seed/#provision-cloud-sql-databases).
   stage: Release
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/cloud_seed/'
+  documentation_link: 'https://docs.gitlab.com/cloud_seed/'
   image_url: 'https://img.youtube.com/vi/zDMGCyAgCPY/hqdefault.jpg'
   published_at: 2022-10-22
   release: "15.5"
@@ -16,7 +16,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/markdown.html#gitlab-specific-references'
+  documentation_link: 'https://docs.gitlab.com/user/markdown/#gitlab-specific-references'
   image_url: 'https://about.gitlab.com/images/15_5/content-editor-suggestions.png'
   published_at: 2022-10-22
   release: "15.5"
@@ -27,7 +27,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/application_security/policies/scan_execution_policies.html'
+  documentation_link: 'https://docs.gitlab.com/user/application_security/policies/scan_execution_policies/'
   image_url: 'https://about.gitlab.com/images/15_5/govern-scan-execution-policy-rule-mode.png'
   published_at: 2022-10-22
   release: "15.5"
@@ -40,18 +40,18 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/profile/notifications.html#notifications-for-attempted-sign-in-using-wrong-two-factor-authentication-codes'
+  documentation_link: 'https://docs.gitlab.com/user/profile/notifications/#notifications-for-attempted-sign-in-using-wrong-two-factor-authentication-codes'
   image_url: 'https://about.gitlab.com/images/15_5/manage-otp-email.png'
   published_at: 2022-10-22
   release: "15.5"
 - name: "Error Tracking Open Beta"
   description: |
-    In GitLab 15.5, we are re-enabling GitLab [integrated error tracking](https://docs.gitlab.com/ee/operations/error_tracking.html#integrated-error-tracking) for GitLab.com in [Open Beta](https://about.gitlab.com/handbook/product/gitlab-the-product/#open-beta). We've reworked the architecture so it uses our new Observability backend, leveraging the ClickHouse database. This improvement will enable scaling and a more performant system for the user. In addition, this sets the groundwork to have errors in the same database as other observability data such as metrics, traces, and logs. We want to allow users to see errors on the same dashboard as other observability data, and enable them to be embedded into issues and incidents.
+    In GitLab 15.5, we are re-enabling GitLab [integrated error tracking](https://docs.gitlab.com/operations/error_tracking/#integrated-error-tracking) for GitLab.com in [Open Beta](https://about.gitlab.com/handbook/product/gitlab-the-product/#open-beta). We've reworked the architecture so it uses our new Observability backend, leveraging the ClickHouse database. This improvement will enable scaling and a more performant system for the user. In addition, this sets the groundwork to have errors in the same database as other observability data such as metrics, traces, and logs. We want to allow users to see errors on the same dashboard as other observability data, and enable them to be embedded into issues and incidents.
   stage: Monitor
   self-managed: false
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/operations/error_tracking.html#integrated-error-tracking'
+  documentation_link: 'https://docs.gitlab.com/operations/error_tracking/#integrated-error-tracking'
   image_url: "https://about.gitlab.com/images/15_5/feature_error_tracking.png"
   published_at: 2022-10-22
   release: "15.5"
@@ -62,18 +62,18 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/ci/environments/#view-environments-and-deployments'
+  documentation_link: 'https://docs.gitlab.com/ci/environments/#view-environments-and-deployments'
   image_url: 'https://about.gitlab.com/images/15_5/release-env-search.png'
   published_at: 2022-10-22
   release: "15.5"
 - name: "Operational container scanning"
   description: |
-    GitLab now officially supports vulnerability scanning of container images in operational or production Kubernetes environments. You can set up scanning either through the [configuration file](https://docs.gitlab.com/ee/user/clusters/agent/vulnerabilities.html#enable-operational-container-scanning) for your GitLab Agent for Kubernetes or by creating a [scan execution policy](https://docs.gitlab.com/ee/user/application_security/policies/scan_execution_policies.html) to require scans to run on a regular cadence.
+    GitLab now officially supports vulnerability scanning of container images in operational or production Kubernetes environments. You can set up scanning either through the [configuration file](https://docs.gitlab.com/user/clusters/agent/vulnerabilities/#enable-operational-container-scanning) for your GitLab Agent for Kubernetes or by creating a [scan execution policy](https://docs.gitlab.com/user/application_security/policies/scan_execution_policies/) to require scans to run on a regular cadence.
   stage: Secure
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/clusters/agent/vulnerabilities.html'
+  documentation_link: 'https://docs.gitlab.com/user/clusters/agent/vulnerabilities/'
   image_url: 'https://about.gitlab.com/images/15_5/secure-operational-vulnerabilities.png'
   published_at: 2022-10-22
   release: "15.5"

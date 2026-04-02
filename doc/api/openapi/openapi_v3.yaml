@@ -789,6 +789,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_fd9004a6664b"
+      x-gitlab-lifecycle: experiment
   "/api/v4/duo_code_review/evaluations":
     post:
       operationId: postApiV4DuoCodeReviewEvaluations
@@ -1003,6 +1004,7 @@ paths:
           description: Not found
         '503':
           description: Service unavailable
+      x-gitlab-lifecycle: experiment
   "/api/v4/ai/duo_workflows/code_review/add_comments":
     post:
       operationId: postApiV4AiDuoWorkflowsCodeReviewAddComments
@@ -1027,6 +1029,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_518c68f555bc"
+      x-gitlab-lifecycle: experiment
   "/api/v4/ai/duo_workflows/revoke_token":
     post:
       operationId: postApiV4AiDuoWorkflowsRevokeToken
@@ -1318,6 +1321,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_bf1705863bae"
+      x-gitlab-lifecycle: experiment
   "/api/v4/ai/duo_workflows/list_tools":
     get:
       operationId: getApiV4AiDuoWorkflowsListTools
@@ -1343,6 +1347,7 @@ paths:
           nullable: true
         in: query
         example: software_developer
+      x-gitlab-lifecycle: experiment
   "/api/v4/ai/duo_workflows/ws":
     get:
       operationId: getApiV4AiDuoWorkflowsWs
@@ -1352,6 +1357,7 @@ paths:
       responses:
         '200':
           description: OK
+      x-gitlab-lifecycle: experiment
   "/api/v4/ai/duo_workflows/workflows":
     post:
       operationId: postApiV4AiDuoWorkflowsWorkflows
@@ -1376,6 +1382,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_39c987677cfb"
+      x-gitlab-lifecycle: experiment
   "/api/v4/ai/duo_workflows/workflows/agent_privileges":
     get:
       operationId: getApiV4AiDuoWorkflowsWorkflowsAgentPrivileges
@@ -5139,6 +5146,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_d2d687755fa0"
+      x-gitlab-lifecycle: experiment
   "/api/v4/vulnerabilities/{id}":
     get:
       operationId: getApiV4VulnerabilitiesId
@@ -5399,6 +5407,7 @@ paths:
           pattern: "\\A[a-z][a-z0-9-]{5,28}[a-z0-9]\\z"
           nullable: true
         in: query
+      x-gitlab-lifecycle: experiment
   "/api/v4/projects/{id}/google_cloud/setup/runner_deployment_project.sh":
     get:
       operationId: getApiV4ProjectsIdGoogleCloudSetupRunnerDeploymentProjectSh
@@ -5431,6 +5440,7 @@ paths:
           pattern: "\\A[a-z][a-z0-9-]{5,28}[a-z0-9]\\z"
           nullable: true
         in: query
+      x-gitlab-lifecycle: experiment
   "/api/v4/projects/{id}/approvals":
     get:
       operationId: getApiV4ProjectsIdApprovals
@@ -11575,6 +11585,7 @@ paths:
           nullable: true
         in: query
         example: 20
+      x-gitlab-lifecycle: experiment
     post:
       operationId: postApiV4RunnerControllersRunnerControllerIdTokens
       summary: Create a runner controller token
@@ -11609,6 +11620,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_7e3e1660f655"
+      x-gitlab-lifecycle: experiment
   "/api/v4/runner_controllers/{runner_controller_id}/tokens/{id}":
     get:
       operationId: getApiV4RunnerControllersRunnerControllerIdTokensId
@@ -11644,6 +11656,7 @@ paths:
           type: integer
           nullable: true
         in: path
+      x-gitlab-lifecycle: experiment
     delete:
       operationId: deleteApiV4RunnerControllersRunnerControllerIdTokensId
       summary: Revoke a runner controller token
@@ -11675,6 +11688,7 @@ paths:
           type: integer
           nullable: true
         in: path
+      x-gitlab-lifecycle: experiment
   "/api/v4/runner_controllers/{runner_controller_id}/tokens/{id}/rotate":
     post:
       operationId: postApiV4RunnerControllersRunnerControllerIdTokensIdRotate
@@ -11711,6 +11725,7 @@ paths:
           type: integer
           nullable: true
         in: path
+      x-gitlab-lifecycle: experiment
   "/api/v4/runner_controllers/{id}/scopes":
     get:
       operationId: getApiV4RunnerControllersIdScopes
@@ -11886,6 +11901,7 @@ paths:
           nullable: true
         in: query
         example: 20
+      x-gitlab-lifecycle: experiment
     post:
       operationId: postApiV4RunnerControllers
       summary: Register a runner controller
@@ -11909,6 +11925,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_7951b0aa051d"
+      x-gitlab-lifecycle: experiment
   "/api/v4/runner_controllers/{id}":
     get:
       operationId: getApiV4RunnerControllersId
@@ -11936,6 +11953,7 @@ paths:
           type: integer
           nullable: true
         in: path
+      x-gitlab-lifecycle: experiment
     put:
       operationId: putApiV4RunnerControllersId
       summary: Update a runner controller
@@ -11970,6 +11988,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_ea780ea7b5ae"
+      x-gitlab-lifecycle: experiment
     delete:
       operationId: deleteApiV4RunnerControllersId
       summary: Delete a runner controller
@@ -11996,6 +12015,7 @@ paths:
           type: integer
           nullable: true
         in: path
+      x-gitlab-lifecycle: experiment
   "/api/v4/audit_events":
     get:
       operationId: getApiV4AuditEvents
@@ -12134,6 +12154,7 @@ paths:
           - type: string
           nullable: true
         in: path
+      x-gitlab-lifecycle: experiment
   "/api/v4/admin/data_management/{model_name}/{record_identifier}/checksum":
     put:
       operationId: putApiV4AdminDataManagementModelNameRecordIdentifierChecksum
@@ -12173,6 +12194,7 @@ paths:
           type: integer
           nullable: true
         in: path
+      x-gitlab-lifecycle: experiment
   "/api/v4/admin/data_management/{model_name}":
     get:
       operationId: getApiV4AdminDataManagementModelName
@@ -12267,6 +12289,7 @@ paths:
           default: asc
           nullable: true
         in: query
+      x-gitlab-lifecycle: experiment
   "/api/v4/admin/data_management/{model_name}/checksum":
     put:
       operationId: putApiV4AdminDataManagementModelNameChecksum
@@ -12305,6 +12328,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_d4810cf859f0"
+      x-gitlab-lifecycle: experiment
   "/api/v4/admin/security/compliance_policy_settings":
     get:
       operationId: getApiV4AdminSecurityCompliancePolicySettings
@@ -67520,6 +67544,7 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_b71288db367d"
+      x-gitlab-lifecycle: experiment
   "/api/v4/groups/{id}/share":
     post:
       operationId: postApiV4GroupsIdShare

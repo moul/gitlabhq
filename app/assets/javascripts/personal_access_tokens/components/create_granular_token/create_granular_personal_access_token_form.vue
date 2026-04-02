@@ -9,14 +9,19 @@ import {
   GlTabs,
   GlLink,
   GlSprintf,
+  GlLoadingIcon,
 } from '@gitlab/ui';
 import PageHeading from '~/vue_shared/components/page_heading.vue';
 import { scrollTo } from '~/lib/utils/scroll_utils';
 import { helpPagePath } from '~/helpers/help_page_helper';
-import { s__, __ } from '~/locale';
+import { getParameterByName } from '~/lib/utils/url_utility';
+import { s__, __, sprintf } from '~/locale';
 import { createAlert } from '~/alert';
 import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
+import { convertToGraphQLId } from '~/graphql_shared/utils';
+import { TYPENAME_USER, TYPENAME_PERSONAL_ACCESS_TOKEN } from '~/graphql_shared/constants';
 import createGranularPersonalAccessTokenMutation from '~/personal_access_tokens/graphql/create_granular_personal_access_token.mutation.graphql';
+import getSourcePersonalAccessToken from '~/personal_access_tokens/graphql/get_source_personal_access_token.query.graphql';
 import {
   ACCESS_SELECTED_MEMBERSHIPS_ENUM,
   MAX_NAME_LENGTH,
@@ -48,6 +53,7 @@ export default {
     GlTabs,
     GlLink,
     GlSprintf,
+    GlLoadingIcon,
     AskDapPermissions: () =>
       import(
         'ee_component/personal_access_tokens/components/create_granular_token/ask_dap_permissions.vue'
@@ -57,6 +63,8 @@ export default {
   inject: ['accessTokenMaxDate', 'accessTokenTableUrl'],
   data() {
     return {
+      sourceTokenId: getParameterByName('source_token_id'),
+      prefillNamespaces: [],
       form: {
         name: '',
         description: '',
@@ -80,7 +88,40 @@ export default {
       createdToken: null,
       permissionsToSelect: [],
       permissionsToClear: [],
+      prefillNamespacePermissions: [],
+      prefillUserPermissions: [],
     };
+  },
+  apollo: {
+    // eslint-disable-next-line @gitlab/vue-no-undef-apollo-properties
+    sourceToken: {
+      query: getSourcePersonalAccessToken,
+      manual: true,
+      variables() {
+        return {
+          userId: convertToGraphQLId(TYPENAME_USER, gon.current_user_id),
+          id: convertToGraphQLId(TYPENAME_PERSONAL_ACCESS_TOKEN, this.sourceTokenId),
+        };
+      },
+      skip() {
+        return !this.sourceTokenId;
+      },
+      result({ data }) {
+        if (!data) return;
+        const token = data.user.personalAccessTokens.nodes[0];
+
+        if (token) {
+          this.applySourceTokenPrefill(token);
+        }
+      },
+      error(error) {
+        createAlert({
+          message: this.$options.i18n.sourceTokenFetchError,
+          captureError: true,
+          error,
+        });
+      },
+    },
   },
   computed: {
     hasErrors() {
@@ -119,9 +160,34 @@ export default {
   methods: {
     handlePermissionsSelected(permissionNames) {
       this.permissionsToSelect = [...permissionNames];
+      // Clear prefill arrays so the ternary fallback in the template doesn't
+      // re-apply them after the user has interacted with permissions via DAP.
+      this.prefillNamespacePermissions = [];
+      this.prefillUserPermissions = [];
     },
     handlePermissionsCleared(permissionNames) {
       this.permissionsToClear = [...permissionNames];
+      this.prefillNamespacePermissions = [];
+      this.prefillUserPermissions = [];
+    },
+    applySourceTokenPrefill(token) {
+      const granularScopes = token.scopes.filter((s) => Boolean(s.access));
+      const namespaceScopes = granularScopes.filter((s) => s.access !== 'USER');
+
+      this.form.name = sprintf(this.$options.i18n.duplicateName, { name: token.name });
+      this.form.description = token.description || '';
+      this.form.access = namespaceScopes[0]?.access || null;
+
+      // For project scopes, use the project directly so IDs and types match the namespace selector
+      this.prefillNamespaces = namespaceScopes.map((s) => s.project || s.namespace).filter(Boolean);
+      this.form.namespaceIds = this.prefillNamespaces.map((s) => s.id);
+
+      const toPermissionNames = (scopes) =>
+        scopes.flatMap((s) => (s.permissions || []).map((p) => `${p.action}_${p.resource}`));
+      const userScopes = granularScopes.filter((s) => s.access === 'USER');
+
+      this.prefillNamespacePermissions = toPermissionNames(namespaceScopes);
+      this.prefillUserPermissions = toPermissionNames(userScopes);
     },
     validateForm() {
       // reset the validation
@@ -212,6 +278,10 @@ export default {
     scopeError: s__('AccessTokens|At least one scope is required.'),
     namespaceError: s__('AccessTokens|At least one group or project is required.'),
     permissionsError: s__('AccessTokens|At least one permission is required.'),
+    duplicateName: s__('AccessTokens|%{name} (copy)'),
+    sourceTokenFetchError: s__(
+      'AccessTokens|Failed to load source token. Please fill in the form manually.',
+    ),
     cancelButton: __('Cancel'),
     createButton: s__('AccessTokens|Generate token'),
     createError: s__('AccessTokens|Token generation unsuccessful. Please try again.'),
@@ -243,7 +313,9 @@ export default {
         </template>
       </page-heading>
 
-      <gl-form class="js-quick-submit">
+      <gl-loading-icon v-if="$apollo.queries.sourceToken.loading" size="lg" />
+
+      <gl-form v-else class="js-quick-submit">
         <section class="gl-w-full lg:gl-w-1/2">
           <h2 class="gl-heading-3">{{ $options.i18n.basicInformation }}</h2>
           <gl-form-group
@@ -284,9 +356,10 @@ export default {
             <template #namespace-selector>
               <personal-access-token-namespace-selector
                 v-if="renderNamespaceSelector"
-                v-model="form.namespaceIds"
+                :prefill-namespaces="prefillNamespaces"
                 :error="errors.namespaceIds"
                 class="gl-mt-4 gl-w-full lg:gl-w-1/2"
+                @input="form.namespaceIds = $event"
               />
             </template>
           </personal-access-token-scope-selector>
@@ -312,7 +385,9 @@ export default {
               v-model="form.permissions.namespace"
               :error="errors.permissions"
               :target-boundaries="targetBoundaries.namespace"
-              :permissions-to-select="permissionsToSelect"
+              :permissions-to-select="
+                permissionsToSelect.length ? permissionsToSelect : prefillNamespacePermissions
+              "
               :permissions-to-clear="permissionsToClear"
             />
 
@@ -320,7 +395,9 @@ export default {
               v-model="form.permissions.user"
               :error="errors.permissions"
               :target-boundaries="targetBoundaries.user"
-              :permissions-to-select="permissionsToSelect"
+              :permissions-to-select="
+                permissionsToSelect.length ? permissionsToSelect : prefillUserPermissions
+              "
               :permissions-to-clear="permissionsToClear"
             />
           </gl-tabs>

@@ -1,4 +1,4 @@
-import { GlModal } from '@gitlab/ui';
+import { GlModal, GlSprintf } from '@gitlab/ui';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import { useMockLocationHelper } from 'helpers/mock_window_location_helper';
 import PersonalAccessTokenDuplicateModal from '~/personal_access_tokens/components/personal_access_token_duplicate_modal.vue';
@@ -13,12 +13,13 @@ describe('PersonalAccessTokenDuplicateModal', () => {
 
   const mockToken = mockTokens[0];
 
-  const createComponent = ({ token = mockToken } = {}) => {
+  const createComponent = ({ token = mockToken, stubs = {} } = {}) => {
     wrapper = shallowMountExtended(PersonalAccessTokenDuplicateModal, {
       propsData: { token },
       provide: {
         accessTokenGranularNewUrl: GRANULAR_NEW_URL,
       },
+      stubs,
     });
   };
 
@@ -55,12 +56,13 @@ describe('PersonalAccessTokenDuplicateModal', () => {
     expect(findModal().props('title')).toBe("Duplicate 'Token 1'?");
   });
 
-  it('shows description text', () => {
-    createComponent();
+  it('shows description with bold token name', () => {
+    createComponent({ stubs: { GlSprintf } });
 
     expect(wrapper.text()).toContain(
-      'Duplicate a token to generate a new token with the same scope as the original token. The original token remains unchanged and both tokens operate independently.',
+      `A new fine-grained token form will open with the resource and permissions from ${mockToken.name} pre-filled. ${mockToken.name} will not be affected.`,
     );
+    expect(wrapper.find('b').text()).toBe(mockToken.name);
   });
 
   it('configures primary action as confirm variant', () => {

@@ -30,7 +30,7 @@ export default {
       default: () => ({}),
     },
   },
-  emits: ['close', 'rotate', 'revoke'],
+  emits: ['close', 'rotate', 'revoke', 'duplicate'],
   computed: {
     isTokenActive() {
       return this.token?.active;
@@ -95,6 +95,7 @@ export default {
     noDescription: s__('AccessTokens|No description provided.'),
     rotate: s__('AccessTokens|Rotate'),
     revoke: s__('AccessTokens|Revoke'),
+    duplicate: s__('AccessTokens|Duplicate'),
     expires: s__('AccessTokens|Expires'),
     lastUsed: s__('AccessTokens|Last used'),
     ipUsage: s__('AccessTokens|IP Usage'),
@@ -139,18 +140,28 @@ export default {
                   </span>
                 </div>
               </div>
-              <div v-if="isTokenActive" class="gl-ml-auto">
-                <gl-button data-testid="rotate-token" @click="handleRotate">
-                  {{ $options.i18n.rotate }}
-                </gl-button>
+              <div class="gl-ml-auto">
                 <gl-button
-                  variant="danger"
-                  category="secondary"
-                  data-testid="revoke-token"
-                  @click="handleRevoke"
+                  v-if="isTokenGranular"
+                  data-testid="duplicate-token"
+                  @click="$emit('duplicate', token)"
                 >
-                  {{ $options.i18n.revoke }}
+                  {{ $options.i18n.duplicate }}
                 </gl-button>
+
+                <template v-if="isTokenActive">
+                  <gl-button data-testid="rotate-token" @click="handleRotate">
+                    {{ $options.i18n.rotate }}
+                  </gl-button>
+                  <gl-button
+                    variant="danger"
+                    category="secondary"
+                    data-testid="revoke-token"
+                    @click="handleRevoke"
+                  >
+                    {{ $options.i18n.revoke }}
+                  </gl-button>
+                </template>
               </div>
             </div>
           </div>

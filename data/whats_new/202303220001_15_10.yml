@@ -1,11 +1,11 @@
 - name: Automatically resolve SAST findings when rules are disabled
   description: |
-      On GitLab.com, GitLab SAST now automatically [resolves](https://docs.gitlab.com/ee/user/application_security/vulnerabilities/#vulnerability-status-values) vulnerabilities from the [Semgrep](https://gitlab.com/gitlab-org/security-products/analyzers/semgrep)- and [KICS](https://gitlab.com/gitlab-org/security-products/analyzers/kics)-based analyzers when either you [disable a predefined rule](https://docs.gitlab.com/ee/user/application_security/sast/customize_rulesets.html#disable-predefined-rules), or we remove a rule from the default ruleset. The Vulnerability Management system then leaves a comment explaining that the rule was removed, so you still have a historical record of the vulnerability. This feature is enabled by default on GitLab.com and in GitLab 15.10.
+      On GitLab.com, GitLab SAST now automatically [resolves](https://docs.gitlab.com/user/application_security/vulnerabilities/#vulnerability-status-values) vulnerabilities from the [Semgrep](https://gitlab.com/gitlab-org/security-products/analyzers/semgrep)- and [KICS](https://gitlab.com/gitlab-org/security-products/analyzers/kics)-based analyzers when either you [disable a predefined rule](https://docs.gitlab.com/user/application_security/sast/customize_rulesets/#disable-predefined-rules), or we remove a rule from the default ruleset. The Vulnerability Management system then leaves a comment explaining that the rule was removed, so you still have a historical record of the vulnerability. This feature is enabled by default on GitLab.com and in GitLab 15.10.
   stage: Secure
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/application_security/sast/#automatic-vulnerability-resolution'
+  documentation_link: 'https://docs.gitlab.com/user/application_security/sast/#automatic-vulnerability-resolution'
   image_url: 'https://about.gitlab.com/images/15_10/automatic-resolution.png'
   published_at: 2023-03-22
   release: "15.10"
@@ -16,7 +16,7 @@
   self-managed: false
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/project/repository/branches/'
+  documentation_link: 'https://docs.gitlab.com/user/project/repository/branches/'
   image_url: 'https://img.youtube.com/vi/AUrwtjIr124/hqdefault.jpg'
   published_at: 2023-03-22
   release: "15.10"
@@ -27,7 +27,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/project/web_ide_beta/#switch-branches'
+  documentation_link: 'https://docs.gitlab.com/user/project/web_ide_beta/#switch-branches'
   image_url: 'https://about.gitlab.com/images/15_10/create-web-ide-manage-branches.png'
   published_at: 2023-03-22
   release: "15.10"
@@ -38,18 +38,18 @@
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/compliance/compliance_center/#compliance-frameworks-report'
+  documentation_link: 'https://docs.gitlab.com/user/compliance/compliance_center/#compliance-frameworks-report'
   image_url: 'https://about.gitlab.com/images/15_10/govern-compliance-framework-report.png'
   published_at: 2023-03-22
   release: "15.10"
 - name: Suggested Reviewers generally available
   description: |
-      Since release in closed beta, Suggested Reviewers has been enabled in over 1,000 projects and suggested over 200,000 reviewers. We've also made the service more reliable and are now making it generally available to all Ultimate customers. Now, GitLab can now recommend a reviewer with [Suggested Reviewers](https://docs.gitlab.com/ee/user/project/merge_requests/reviews/#suggested-reviewers). With this feature, machine learning (ML)-powered suggestions appear in the [reviewer dropdown](https://docs.gitlab.com/ee/user/project/merge_requests/getting_started.html#reviewer) in the merge request sidebar. Suggested Reviewers is our [first of many fully available ML features](https://about.gitlab.com/blog/2023/03/16/what-the-ml-ai/) at GitLab.
+      Since release in closed beta, Suggested Reviewers has been enabled in over 1,000 projects and suggested over 200,000 reviewers. We've also made the service more reliable and are now making it generally available to all Ultimate customers. Now, GitLab can now recommend a reviewer with [Suggested Reviewers](https://docs.gitlab.com/user/project/merge_requests/reviews/#suggested-reviewers). With this feature, machine learning (ML)-powered suggestions appear in the [reviewer dropdown](https://docs.gitlab.com/user/project/merge_requests/getting_started/#reviewer) in the merge request sidebar. Suggested Reviewers is our [first of many fully available ML features](https://about.gitlab.com/blog/2023/03/16/what-the-ml-ai/) at GitLab.
   stage: Modelops
   self-managed: false
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/project/merge_requests/reviews/#suggested-reviewers'
+  documentation_link: 'https://docs.gitlab.com/user/project/merge_requests/reviews/#suggested-reviewers'
   image_url: 'https://about.gitlab.com/images/15_10/create-code-review-suggested-reviewers.png'
   published_at: 2023-03-22
   release: "15.10"
@@ -60,7 +60,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/markdown.html#diagramsnet-editor'
+  documentation_link: 'https://docs.gitlab.com/user/markdown/#diagramsnet-editor'
   image_url: 'https://img.youtube.com/vi/F6kfhpRN3ZE/hqdefault.jpg'
   published_at: 2023-03-22
   release: "15.10"
@@ -71,7 +71,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/project/integrations/apple_app_store.html'
+  documentation_link: 'https://docs.gitlab.com/user/project/integrations/apple_app_store/'
   image_url: 'https://img.youtube.com/vi/CwzAWVgJeK8/hqdefault.jpg'
   published_at: 2023-03-22
   release: "15.10"

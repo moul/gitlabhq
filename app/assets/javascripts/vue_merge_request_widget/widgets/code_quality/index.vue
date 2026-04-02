@@ -81,8 +81,8 @@ export default {
             href: joinPaths(this.mr.reportsTabPath, CODE_QUALITY_ROUTE),
             onClick: (action, e) => {
               e.preventDefault();
-              window.history.replaceState(null, null, action.href);
-              window.mrTabs?.tabShown('reports');
+              window.history.pushState(null, null, action.href);
+              window.dispatchEvent(new PopStateEvent('popstate'));
             },
           },
         ];

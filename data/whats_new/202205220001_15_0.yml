@@ -9,7 +9,7 @@
   self-managed: true  # Boolean value (true or false)
   gitlab-com: true  # Boolean value (true or false)
   available_in: [Free, Premium, Ultimate]  # Array of strings. The Array brackets are required here. e.g., [Free, Starter, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/project/wiki/#content-editor  # This is the documentation URL, but can be a URL to a video if there is one
+  documentation_link: https://docs.gitlab.com/user/project/wiki/#content-editor  # This is the documentation URL, but can be a URL to a video if there is one
   image_url: https://about.gitlab.com/images/15_0/inline-editing-in-wysiwyg.png  # This should be a full URL, generally taken from the release post content. If a video, use the youtube thumbnail URL with the structure of https://img.youtube.com/vi/UNIQUEID/hqdefault.jpg
   published_at: 2022-05-22  # YYYY-MM-DD
   release: "15.0"  # XX.Y
@@ -22,7 +22,7 @@
   self-managed: true  # Boolean value (true or false)
   gitlab-com: true  # Boolean value (true or false)
   available_in: [Premium, Ultimate]  # Array of strings. The Array brackets are required here. e.g., [Free, Starter, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/integration/advanced_search/elasticsearch.html  # This is the documentation URL, but can be a URL to a video if there is one
+  documentation_link: https://docs.gitlab.com/integration/advanced_search/elasticsearch/  # This is the documentation URL, but can be a URL to a video if there is one
   image_url: https://about.gitlab.com/images/15_0/gitlab_advanced_search_is_now_compatible_with_opensearch.png  # This should be a full URL, generally taken from the release post content. If a video, use the youtube thumbnail URL with the structure of https://img.youtube.com/vi/UNIQUEID/hqdefault.jpg
   published_at: 2022-05-22  # YYYY-MM-DD
   release: "15.0"  # XX.Y
@@ -37,7 +37,7 @@
   self-managed: true  # Boolean value (true or false)
   gitlab-com: true  # Boolean value (true or false)
   available_in: [Premium, Ultimate]  # Array of strings. The Array brackets are required here. e.g., [Free, Starter, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/group/iterations/#iteration-cadences  # This is the documentation URL, but can be a URL to a video if there is one
+  documentation_link: https://docs.gitlab.com/user/group/iterations/#iteration-cadences  # This is the documentation URL, but can be a URL to a video if there is one
   image_url: https://about.gitlab.com/images/15_0/iteration-cadences.png  # This should be a full URL, generally taken from the release post content. If a video, use the youtube thumbnail URL with the structure of https://img.youtube.com/vi/UNIQUEID/hqdefault.jpg
   published_at: 2022-05-22  # YYYY-MM-DD
   release: "15.0"  # XX.Y
@@ -52,7 +52,7 @@
   self-managed: true  # Boolean value (true or false)
   gitlab-com: true  # Boolean value (true or false)
   available_in: [Free, Premium, Ultimate]  # Array of strings. The Array brackets are required here. e.g., [Free, Starter, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/discussions/#add-an-internal-note  # This is the documentation URL, but can be a URL to a video if there is one
+  documentation_link: https://docs.gitlab.com/user/discussions/#add-an-internal-note  # This is the documentation URL, but can be a URL to a video if there is one
   image_url: https://about.gitlab.com/images/15_0/add_internal_note_v15_0.png  # This should be a full URL, generally taken from the release post content. If a video, use the youtube thumbnail URL with the structure of https://img.youtube.com/vi/UNIQUEID/hqdefault.jpg
   published_at: 2022-05-22  # YYYY-MM-DD
   release: "15.0"  # XX.Y
@@ -73,42 +73,42 @@
   self-managed: true  # Boolean value (true or false)
   gitlab-com: true  # Boolean value (true or false)
   available_in: [Free, Premium, Ultimate]  # Array of strings. The Array brackets are required here. e.g., [Free, Starter, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/crm/  # This is the documentation URL, but can be a URL to a video if there is one
+  documentation_link: https://docs.gitlab.com/user/crm/  # This is the documentation URL, but can be a URL to a video if there is one
   image_url: https://img.youtube.com/vi/8ubOS80yNvc/hqdefault.jpg  # This should be a full URL, generally taken from the release post content. If a video, use the youtube thumbnail URL with the structure of https://img.youtube.com/vi/UNIQUEID/hqdefault.jpg
   published_at: 2022-05-22  # YYYY-MM-DD
   release: "15.0"  # XX.Y
 - name: Container Scanning available in all tiers  # Match the release post entry
   description: |   # Do not modify this line, instead modify the lines below.
-    [Container Scanning](https://docs.gitlab.com/ee/user/application_security/container_scanning/) helps developers to easily find known security vulnerabilities in dependencies that are installed in their container images. With GitLab 15.0, we are making the basic Container Scanning features available in every [GitLab tier](/pricing/).
+    [Container Scanning](https://docs.gitlab.com/user/application_security/container_scanning/) helps developers to easily find known security vulnerabilities in dependencies that are installed in their container images. With GitLab 15.0, we are making the basic Container Scanning features available in every [GitLab tier](/pricing/).
   stage: protect  # String value of the stage that the feature was created in. e.g., Growth
   self-managed: true  # Boolean value (true or false)
   gitlab-com: true  # Boolean value (true or false)
   available_in: [Free, Premium, Ultimate]  # Array of strings. The Array brackets are required here. e.g., [Free, Starter, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/application_security/container_scanning/#capabilities  # This is the documentation URL, but can be a URL to a video if there is one
+  documentation_link: https://docs.gitlab.com/user/application_security/container_scanning/#capabilities  # This is the documentation URL, but can be a URL to a video if there is one
   image_url: https://img.youtube.com/vi/vge_DQ6af9Y/hqdefault.jpg  # This should be a full URL, generally taken from the release post content. If a video, use the youtube thumbnail URL with the structure of https://img.youtube.com/vi/UNIQUEID/hqdefault.jpg
   published_at: 2022-05-22  # YYYY-MM-DD
   release: "15.0"  # XX.Y
 - name: Limited Availability GitLab SaaS runners on macOS (x86-64)  # Match the release post entry
   description: |   # Do not modify this line, instead modify the lines below.
-    GitLab SaaS runners on macOS are now in [Limited Availability](https://about.gitlab.com/handbook/product/gitlab-the-product/#limited-availability-la). If you use GitLab SaaS and have a Premium or Ultimate subscription, you can build applications that require macOS in a secure, on-demand GitLab Runner build environment that's fully integrated with GitLab CI/CD. As part of the Limited Availability release, CI jobs that run on the macOS runners will count toward your CI/CD minutes quota at a [cost factor](https://docs.gitlab.com/ee/ci/pipelines/compute_minutes.html#cost-factor) of 6.
+    GitLab SaaS runners on macOS are now in [Limited Availability](https://about.gitlab.com/handbook/product/gitlab-the-product/#limited-availability-la). If you use GitLab SaaS and have a Premium or Ultimate subscription, you can build applications that require macOS in a secure, on-demand GitLab Runner build environment that's fully integrated with GitLab CI/CD. As part of the Limited Availability release, CI jobs that run on the macOS runners will count toward your CI/CD minutes quota at a [cost factor](https://docs.gitlab.com/ci/pipelines/compute_minutes/#cost-factor) of 6.
   stage: verify  # String value of the stage that the feature was created in. e.g., Growth
   self-managed: false  # Boolean value (true or false)
   gitlab-com: true  # Boolean value (true or false)
   available_in: [Premium, Ultimate]  # Array of strings. The Array brackets are required here. e.g., [Free, Starter, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/ci/runners/saas/macos_saas_runner.html  # This is the documentation URL, but can be a URL to a video if there is one
+  documentation_link: https://docs.gitlab.com/ci/runners/saas/macos_saas_runner/  # This is the documentation URL, but can be a URL to a video if there is one
   image_url: https://img.youtube.com/vi/G7ektKx8slg/hqdefault.jpg  # This should be a full URL, generally taken from the release post content. If a video, use the youtube thumbnail URL with the structure of https://img.youtube.com/vi/UNIQUEID/hqdefault.jpg
   published_at: 2022-05-22  # YYYY-MM-DD
   release: "15.0"  # XX.Y
 - name: Use nested CI/CD variables with environments in pipeline configuration  # Match the release post entry
   description: |   # Do not modify this line, instead modify the lines below.
-    Using CI/CD variables with the `environments` keyword in your CI/CD configuration is great, because it lets you [create environments dynamically](https://docs.gitlab.com/ee/ci/environments/#create-a-dynamic-environment). While this is already a powerful feature, there were still some limitations, because you could not use nested variables to define environments.
+    Using CI/CD variables with the `environments` keyword in your CI/CD configuration is great, because it lets you [create environments dynamically](https://docs.gitlab.com/ci/environments/#create-a-dynamic-environment). While this is already a powerful feature, there were still some limitations, because you could not use nested variables to define environments.
 
     Starting in GitLab 15.0, you can nest variables inside other variables, and have them all expand the way you expect. This makes dynamic environments even more powerful due to the increased flexibility!
   stage: verify  # String value of the stage that the feature was created in. e.g., Growth
   self-managed: true  # Boolean value (true or false)
   gitlab-com: true  # Boolean value (true or false)
   available_in: [Free, Premium, Ultimate]  # Array of strings. The Array brackets are required here. e.g., [Free, Starter, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/ci/yaml/#environment  # This is the documentation URL, but can be a URL to a video if there is one
+  documentation_link: https://docs.gitlab.com/ci/yaml/#environment  # This is the documentation URL, but can be a URL to a video if there is one
   image_url: https://about.gitlab.com/images/15_0/environment.png  # This should be a full URL, generally taken from the release post content. If a video, use the youtube thumbnail URL with the structure of https://img.youtube.com/vi/UNIQUEID/hqdefault.jpg
   published_at: 2022-05-22  # YYYY-MM-DD
   release: "15.0"  # XX.Y

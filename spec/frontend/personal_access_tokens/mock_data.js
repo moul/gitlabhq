@@ -78,6 +78,7 @@ export const mockGranularGroupScope = {
   access: 'SELECTED_MEMBERSHIPS',
   namespace: {
     id: 'gid://gitlab/Group/1',
+    name: 'My Group',
     fullName: 'My Group',
     fullPath: 'my-group',
     webUrl: 'https://gitlab.com/groups/my-group',
@@ -284,9 +285,14 @@ export const mockAccessTokenPermissionsQueryResponse = {
 export const mockSourceTokenQueryResponse = {
   data: {
     user: {
+      id: 'gid://gitlab/User/42',
+      __typename: 'UserCore',
       personalAccessTokens: {
+        __typename: 'PersonalAccessTokenConnection',
         nodes: [
           {
+            id: 'gid://gitlab/PersonalAccessToken/1',
+            __typename: 'PersonalAccessToken',
             name: mockTokens[0].name,
             description: mockTokens[0].description,
             scopes: [{ ...mockGranularGroupScope, project: null }],

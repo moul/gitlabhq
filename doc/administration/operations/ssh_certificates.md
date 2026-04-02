@@ -26,6 +26,11 @@ In these setups, an external automated process must constantly upload new keys t
 > OpenSSH version 6.9+ is required because `AuthorizedKeysCommand` must be
 > able to accept a fingerprint. Check the version of OpenSSH on your server.
 
+If you use `gitlab-sshd` instead of OpenSSH, you can configure instance-level SSH
+certificate authentication directly in the `gitlab-sshd` configuration file without
+requiring OpenSSH. For more information, see
+[Instance-level SSH certificates with `gitlab-sshd`](gitlab_sshd_ssh_certificates.md).
+
 If you are a GitLab.com group owner, you should instead use a group-scoped SSH certificate feature that uses the GitLab SSH server instead and doesn't require OpenSSH
 configuration. For more information, see [manage group SSH certificates](../../user/group/ssh_certificates.md).
 

@@ -356,11 +356,6 @@ RSpec.configure do |config|
       # See https://gitlab.com/gitlab-org/gitlab/-/merge_requests/220909
       stub_feature_flags(work_item_features_field: false)
 
-      # When `dap_onboarding_empty_states` is enabled, the Duo Chat panel is expanded for free users.
-      # This might cause elements to be laid out differently in the main panel due to container
-      # queries, which in turn can cause some specs to fail.
-      # Due to time constraints, we'll need to address those in follow-ups.
-      stub_feature_flags(dap_onboarding_empty_states: false)
       # This feature is wip and should not be enabled in tests by default
       stub_feature_flags(iam_svc_login: false)
     else

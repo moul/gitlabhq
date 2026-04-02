@@ -8,7 +8,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/ssh/#generate-an-ssh-key-pair-for-a-fidou2f-hardware-security-key'
+  documentation_link: 'https://docs.gitlab.com/ssh/#generate-an-ssh-key-pair-for-a-fidou2f-hardware-security-key'
   image_url: 'https://about.gitlab.com/images/14_8/ssh_key.png'
   published_at: 2022-02-22
   release: "14.8"
@@ -19,7 +19,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/ci/pipeline_editor/#validate-ci-configuration'
+  documentation_link: 'https://docs.gitlab.com/ci/pipeline_editor/#validate-ci-configuration'
   image_url: 'https://about.gitlab.com/images/growth/verify.png'
   published_at: 2022-02-22
   release: "14.8"
@@ -32,12 +32,12 @@
     - A two-step approval process can be enforced for any desired changes to security approval rules.
     - A single set of security policies can be applied to multiple development projects to allow for ease in maintaining a single, centralized ruleset.
 
-    Security approval policies can be used alongside the existing Vulnerability-Check feature, as the two policies are additive and don't conflict. However, we encourage users to migrate their Vulnerability-Check rules over to security approval policies. Vulnerability-Check rules are now [deprecated](https://docs.gitlab.com/ee/update/deprecations.html#vulnerability-check), and are scheduled for removal in GitLab 15.0. Self managed users will need to enable the `scan_result_policy` feature flag prior to using this feature. To get started, navigate to **Security & Compliance > Policies** and create a new Scan Result type policy.
+    Security approval policies can be used alongside the existing Vulnerability-Check feature, as the two policies are additive and don't conflict. However, we encourage users to migrate their Vulnerability-Check rules over to security approval policies. Vulnerability-Check rules are now [deprecated](https://docs.gitlab.com/update/deprecations/#vulnerability-check), and are scheduled for removal in GitLab 15.0. Self managed users will need to enable the `scan_result_policy` feature flag prior to using this feature. To get started, navigate to **Security & Compliance > Policies** and create a new Scan Result type policy.
   stage: protect
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/application_security/policies/scan-result-policies'
+  documentation_link: 'https://docs.gitlab.com/user/application_security/policies/scan-result-policies'
   image_url: 'https://about.gitlab.com/images/14_8/protect-security-approval-policies.png'
   published_at: 2022-02-22
   release: "14.8"
@@ -48,14 +48,14 @@
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/application_security/dast/#view-on-demand-dast-scans'
+  documentation_link: 'https://docs.gitlab.com/user/application_security/dast/#view-on-demand-dast-scans'
   image_url: 'https://about.gitlab.com/images/14_8/dast-on-demand-index-page.png'
   published_at: 2022-02-22
   release: "14.8"
 - name: "User impersonation audit events for groups"
   description: |
     GitLab now provides audit events on the group audit events page for
-    [user impersonation](https://docs.gitlab.com/ee/administration/#user-impersonation) starting and stopping. This was previously
+    [user impersonation](https://docs.gitlab.com/administration/#user-impersonation) starting and stopping. This was previously
     only available on a page unavailable to GitLab SaaS customers. We are excited to bring
     it to the group page which allows both self-managed and SaaS users to view these events!
 
@@ -72,7 +72,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/administration/audit_events.html#group-events'
+  documentation_link: 'https://docs.gitlab.com/administration/audit_events/#group-events'
   image_url: 'https://about.gitlab.com/images/14_8/impersonation_audit_event.png'
   published_at: 2022-02-22
   release: "14.8"
@@ -85,7 +85,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/group/roadmap/#roadmap-settings'
+  documentation_link: 'https://docs.gitlab.com/user/group/roadmap/#roadmap-settings'
   image_url: 'https://about.gitlab.com/images/14_8/rp_roadmap_settings.png'
   published_at: 2022-02-22
   release: "14.8"

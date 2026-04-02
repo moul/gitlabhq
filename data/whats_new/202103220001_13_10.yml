@@ -5,7 +5,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/runner/install/openshift.html
+  documentation_link: https://docs.gitlab.com/runner/install/openshift/
   image_url: https://img.youtube.com/vi/ZNBc_QnDUu4/hqdefault.jpg
   published_at: 2021-03-22
   release: "13.10"
@@ -13,14 +13,14 @@
   description: |
     If you work on epics in GitLab, it can be tough to visualize your epics' workflow status. Often, when drafting or writing epics, you might want to use labels (like `Open`, `Doing`, or `Done`) to keep tabs on the next steps when creating your project plan.
 
-      In this release, we took our awesome [Issue Boards](https://docs.gitlab.com/ee/user/project/issue_board.html) feature and optimized it for viewing epics. You can now visualize the workflow status of your epics on an epic board by applying [labels](https://docs.gitlab.com/ee/user/project/labels.html#label-management) or [scoped labels](https://docs.gitlab.com/ee/user/project/labels.html#scoped-labels) to them.
+      In this release, we took our awesome [Issue Boards](https://docs.gitlab.com/user/project/issue_board/) feature and optimized it for viewing epics. You can now visualize the workflow status of your epics on an epic board by applying [labels](https://docs.gitlab.com/user/project/labels/#label-management) or [scoped labels](https://docs.gitlab.com/user/project/labels/#scoped-labels) to them.
 
       We are releasing this early version of Epic Boards in 13.10, so we can start [gathering customer feedback](https://gitlab.com/gitlab-org/gitlab/-/issues/324677). We will follow it up with [MVC 2](https://gitlab.com/groups/gitlab-org/-/epics/5069) and [MVC 3](https://gitlab.com/groups/gitlab-org/-/epics/5079), which will achieve parity with Issue Boards. Please leave feedback about your experience in the [feedback issue](https://gitlab.com/gitlab-org/gitlab/-/issues/324677).
   stage: Plan
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/group/epics/epic_boards.html
+  documentation_link: https://docs.gitlab.com/user/group/epics/epic_boards/
   image_url: https://about.gitlab.com/images/13_10/view-epics-on-a-board-mvc-1.png
   published_at: 2021-03-22
   release: "13.10"
@@ -30,23 +30,23 @@
 
     Our goal is to empower developers to _stay inside of GitLab_ during the majority of their day, and this is now one less trip to Jira you'll have to make.
 
-    In GitLab 13.10, this feature is available if you [enable a feature flag](https://docs.gitlab.com/ee/user/project/integrations/jira.html#enable-or-disable-jira-issue-detail-view). This feature will be [enabled by default](https://gitlab.com/gitlab-org/gitlab/-/issues/299832) in GitLab 13.11.
+    In GitLab 13.10, this feature is available if you [enable a feature flag](https://docs.gitlab.com/user/project/integrations/jira/#enable-or-disable-jira-issue-detail-view). This feature will be [enabled by default](https://gitlab.com/gitlab-org/gitlab/-/issues/299832) in GitLab 13.11.
   stage: Create
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/project/integrations/jira.html#view-a-jira-issue
+  documentation_link: https://docs.gitlab.com/user/project/integrations/jira/#view-a-jira-issue
   image_url: https://about.gitlab.com/images/13_10/jira-detail-view.png
   published_at: 2021-03-22
   release: "13.10"
 - name: "DORA4-based lead time for changes"
   description: |
-    Measuring the efficiency of your software development lifecycle is an important step to grow DevOps adoption for any organization. In the previous milestone, we added support for [DORA4-based Deployment Frequency](https://docs.gitlab.com/ee/api/dora/metrics.html). In this release, we are excited to announce the support of a new API for lead time for changes (via merge requests) on the project level. The lead time for changes gives you an indication of how long it takes for code to be committed and deployed to your production environment. Understanding and tracking this data is a great starting point in your journey to continuous improvement in your DevOps process.
+    Measuring the efficiency of your software development lifecycle is an important step to grow DevOps adoption for any organization. In the previous milestone, we added support for [DORA4-based Deployment Frequency](https://docs.gitlab.com/api/dora/metrics/). In this release, we are excited to announce the support of a new API for lead time for changes (via merge requests) on the project level. The lead time for changes gives you an indication of how long it takes for code to be committed and deployed to your production environment. Understanding and tracking this data is a great starting point in your journey to continuous improvement in your DevOps process.
   stage: Release
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/api/dora/metrics.html#list-project-merge-request-lead-times
+  documentation_link: https://docs.gitlab.com/api/dora/metrics/#list-project-merge-request-lead-times
   image_url: https://about.gitlab.com/images/13_10/api.png
   published_at: 2021-03-22
   release: "13.10"
@@ -57,7 +57,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/project/releases/#create-a-release
+  documentation_link: https://docs.gitlab.com/user/project/releases/#create-a-release
   image_url: https://about.gitlab.com/images/13_10/exiting_tags.png
   published_at: 2021-03-22
   release: "13.10"
@@ -70,7 +70,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/operations/incident_management/integrations.html#http-endpoints
+  documentation_link: https://docs.gitlab.com/operations/incident_management/integrations/#http-endpoints
   image_url: https://about.gitlab.com/images/13_10/integrate_alerts.png
   published_at: 2021-03-22
   release: "13.10"
@@ -80,12 +80,12 @@
 
     It has also been challenging to understand why a `junit.xml` file was not parsed without errors being presented. Now you can see parsing errors in the Test Summary widget, as well as the Unit Test report, to identify and resolve structural issues and see test results in GitLab.
 
-    The [Metrics Reports](https://docs.gitlab.com/ee/ci/metrics_reports.html) widget [(Premium and Ultimate)](https://about.gitlab.com/pricing/) is now sorted so new, changed, and unchanged metrics are all together, making the experience of finding metrics that have changed as part of the merge request more intuitive.
+    The [Metrics Reports](https://docs.gitlab.com/ci/metrics_reports/) widget [(Premium and Ultimate)](https://about.gitlab.com/pricing/) is now sorted so new, changed, and unchanged metrics are all together, making the experience of finding metrics that have changed as part of the merge request more intuitive.
   stage: Verify
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/ci/unit_test_reports.html
+  documentation_link: https://docs.gitlab.com/ci/unit_test_reports/
   image_url: https://about.gitlab.com/images/13_10/test_summary_ux_improvements.png
   published_at: 2021-03-22
   release: "13.10"

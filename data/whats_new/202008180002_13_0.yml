@@ -8,7 +8,7 @@
   self-managed: true
   gitlab-com: false
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/administration/gitaly/praefect.html
+  documentation_link: https://docs.gitlab.com/administration/gitaly/praefect/
   image_url: https://about.gitlab.com/images/13_0/praefect-architecture.png
   published_at: 2020-05-22
   release: "13.0"
@@ -21,8 +21,8 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/topics/autodevops/#aws-ecs
-  image_url: https://docs.gitlab.com/ee/ci/img/ecs_dashboard_v12_9.png
+  documentation_link: https://docs.gitlab.com/topics/autodevops/#aws-ecs
+  image_url: https://docs.gitlab.com/ci/img/ecs_dashboard_v12_9.png
   published_at: 2020-05-22
   release: "13.0"
 - name: View Epic Hierarchy on a Roadmap
@@ -34,7 +34,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/group/roadmap/
+  documentation_link: https://docs.gitlab.com/user/group/roadmap/
   image_url: https://about.gitlab.com/images/13_0/Expand-Epic-Hierarchy-Roadmap_roadmap.png
   published_at: 2020-05-22
   release: "13.0"
@@ -47,7 +47,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/snippets.html#versioned-snippets
+  documentation_link: https://docs.gitlab.com/user/snippets/#versioned-snippets
   image_url: https://about.gitlab.com/images/13_0/phikai-versioned-snippets.png
   published_at: 2020-05-22
   release: "13.0"
@@ -55,12 +55,12 @@
   description: |
     For people who spend time working in code editors, the ability to customize the environment to match their preferences is important. Dark themes are some of the most [popular](https://marketplace.visualstudio.com/search?target=VSCode&category=Themes&sortBy=Installs) for other editors and important for providing a comfortable experience.
 
-    That's why we're excited that the GitLab Web IDE is now completely themed dark for users who choose the **Dark** [syntax highlighting theme perference](https://docs.gitlab.com/ee/user/profile/preferences.html#syntax-highlighting-theme)!
+    That's why we're excited that the GitLab Web IDE is now completely themed dark for users who choose the **Dark** [syntax highlighting theme perference](https://docs.gitlab.com/user/profile/preferences/#syntax-highlighting-theme)!
   stage: Create
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/project/web_ide/#themes
+  documentation_link: https://docs.gitlab.com/user/project/web_ide/#themes
   image_url: https://about.gitlab.com/images/13_0/phikai-web-ide-dark-theme.png
   published_at: 2020-05-22
   release: "13.0"

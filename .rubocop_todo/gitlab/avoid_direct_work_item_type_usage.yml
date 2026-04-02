@@ -3,7 +3,6 @@ Gitlab/AvoidDirectWorkItemTypeUsage:
   Exclude:
     - 'app/models/work_item.rb'
     - 'app/models/work_items/type.rb'
-    - 'app/models/work_items/types_framework/provider.rb'
     - 'app/models/work_items/types_framework/system_defined/type.rb'
     - 'ee/app/models/ee/work_items/types_framework/provider.rb'
     - 'ee/app/models/work_items/types_framework/custom/type.rb'

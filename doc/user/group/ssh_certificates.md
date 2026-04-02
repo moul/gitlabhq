@@ -19,8 +19,13 @@ SSH certificates are cryptographically signed documents that authenticate a user
 permissions. SSH certificates are issued by a trusted Certificate Authority (CA) and contain
 information such as the user's identity, validity period, and permissions.
 
-If you are a GitLab Self-Managed instance administrator, you should instead use an instance-wide SSH certificate approach configured using the system OpenSSH daemon.
-For more information, see [user lookup with the OpenSSH `AuthorizedPrincipalsCommand`](../../administration/operations/ssh_certificates.md).
+If you are a GitLab Self-Managed instance administrator, you can use an instance-wide
+SSH certificate approach. Choose one of the following methods:
+
+- [Instance-level SSH certificates with `gitlab-sshd`](../../administration/operations/gitlab_sshd_ssh_certificates.md):
+  Configure trusted CA keys directly in `gitlab-sshd` without modifying the system OpenSSH `sshd_config`.
+- [User lookup with the OpenSSH `AuthorizedPrincipalsCommand`](../../administration/operations/ssh_certificates.md):
+  Configure SSH certificates using the system OpenSSH daemon.
 
 The benefits of SSH certificate authentication are:
 

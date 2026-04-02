@@ -8,7 +8,7 @@ import PersonalAccessTokenDrawer from '~/personal_access_tokens/components/perso
 import PersonalAccessTokenGranularScopes from '~/personal_access_tokens/components/personal_access_token_granular_scopes.vue';
 import PersonalAccessTokenLegacyScopes from '~/personal_access_tokens/components/personal_access_token_legacy_scopes.vue';
 import PersonalAccessTokenStatusBadge from '~/personal_access_tokens/components/personal_access_token_status_badge.vue';
-import { mockTokens } from '../mock_data';
+import { mockTokens, mockLegacyScopes } from '../mock_data';
 
 describe('PersonalAccessTokenDrawer', () => {
   let wrapper;
@@ -30,6 +30,7 @@ describe('PersonalAccessTokenDrawer', () => {
   const findAttributeList = () => wrapper.findComponent(GlAttributeList);
   const findRotateButton = () => wrapper.findByTestId('rotate-token');
   const findRevokeButton = () => wrapper.findByTestId('revoke-token');
+  const findDuplicateButton = () => wrapper.findByTestId('duplicate-token');
   const findStatusBadge = () => wrapper.findComponent(PersonalAccessTokenStatusBadge);
 
   const findTokenExpiry = () => wrapper.findByTestId('token-expiry');
@@ -188,13 +189,50 @@ describe('PersonalAccessTokenDrawer', () => {
       expect(wrapper.emitted('revoke')[0]).toEqual([mockToken]);
     });
 
-    it('does not show action buttons when token is not active', () => {
+    it('does not show action buttons when token is not active and not granular', () => {
       createComponent({
-        token: { ...mockToken, active: false },
+        token: { ...mockToken, active: false, granular: false, scopes: mockLegacyScopes },
+        mountFn: mountExtended,
       });
 
       expect(findRotateButton().exists()).toBe(false);
       expect(findRevokeButton().exists()).toBe(false);
+      expect(findDuplicateButton().exists()).toBe(false);
+    });
+
+    it('shows only duplicate button for revoked granular tokens', () => {
+      createComponent({
+        token: { ...mockToken, active: false, revoked: true },
+        mountFn: mountExtended,
+      });
+
+      expect(findDuplicateButton().exists()).toBe(true);
+      expect(findRotateButton().exists()).toBe(false);
+      expect(findRevokeButton().exists()).toBe(false);
+    });
+
+    it('shows duplicate button for active granular tokens', () => {
+      createComponent({ mountFn: mountExtended });
+
+      expect(findDuplicateButton().exists()).toBe(true);
+    });
+
+    it('does not show duplicate button for non-granular tokens', () => {
+      createComponent({
+        token: { ...mockToken, granular: false, scopes: mockLegacyScopes },
+        mountFn: mountExtended,
+      });
+
+      expect(findDuplicateButton().exists()).toBe(false);
+    });
+
+    it('emits `duplicate` event when duplicate is clicked', () => {
+      createComponent({ mountFn: mountExtended });
+
+      findDuplicateButton().vm.$emit('click');
+
+      expect(wrapper.emitted('duplicate')).toHaveLength(1);
+      expect(wrapper.emitted('duplicate')[0]).toEqual([mockToken]);
     });
   });
 

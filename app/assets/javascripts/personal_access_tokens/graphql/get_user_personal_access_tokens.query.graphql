@@ -55,6 +55,7 @@ query getUserPersonalAccessTokens(
             access
             namespace {
               id
+              name
               fullName
               fullPath
               webUrl

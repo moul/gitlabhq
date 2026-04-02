@@ -39,20 +39,20 @@
 
 - name: Migration by direct transfer
   description: |
-    Migration by direct transfer is now generally available. To migrate GitLab groups and projects between GitLab instances by direct transfer, you can use the GitLab UI or the [REST API](https://docs.gitlab.com/ee/api/bulk_imports.html).
+    Migration by direct transfer is now generally available. To migrate GitLab groups and projects between GitLab instances by direct transfer, you can use the GitLab UI or the [REST API](https://docs.gitlab.com/api/bulk_imports/).
 
-    Compared to [migration by uploading an export file](https://docs.gitlab.com/ee/user/project/settings/import_export.html#migrate-projects-by-uploading-an-export-file), direct transfer:
+    Compared to [migration by uploading an export file](https://docs.gitlab.com/user/project/settings/import_export/#migrate-projects-by-uploading-an-export-file), direct transfer:
 
     - Works more reliably with large projects.
     - Supports migrations with a larger version gap between the source and destination instances.
     - Offers better insights into the migration process and results.
 
-    On GitLab.com, migration by direct transfer is enabled by default. On GitLab Self-Managed and GitLab Dedicated, an administrator must [enable the feature](https://docs.gitlab.com/ee/administration/settings/import_and_export_settings.html#enable-migration-of-groups-and-projects-by-direct-transfer).
+    On GitLab.com, migration by direct transfer is enabled by default. On GitLab Self-Managed and GitLab Dedicated, an administrator must [enable the feature](https://docs.gitlab.com/administration/settings/import_and_export_settings/#enable-migration-of-groups-and-projects-by-direct-transfer).
   stage: create
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/group/import/index.html
+  documentation_link: https://docs.gitlab.com/user/group/import/
   image_url: https://about.gitlab.com/images/18_3/migration_history.png
   published_at: 2025-08-21
   release: "18.3"

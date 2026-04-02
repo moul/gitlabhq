@@ -8,6 +8,7 @@ export default {
     'app/assets/javascripts/pages/projects/shared/permissions/components/gitlab_duo_settings.vue',
     'app/assets/javascripts/search/sidebar/components/scope_sidebar_navigation.vue',
     'app/assets/javascripts/security_configuration/components/app.vue',
+    'app/assets/javascripts/vue_shared/components/filtered_search_bar/tokens/work_item_parent_token.vue',
   ],
   rules: {
     'local-rules/no-orphaned-feature-flag-references': 'off',

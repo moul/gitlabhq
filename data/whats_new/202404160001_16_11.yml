@@ -1,6 +1,6 @@
 - name: GitLab Duo Chat now generally available
   description: |
-    GitLab Duo Chat is now [generally available](https://docs.gitlab.com/ee/policy/experiment-beta-support.html#generally-available-ga). As part of this release, we are also making these capabilities generally available:
+    GitLab Duo Chat is now [generally available](https://docs.gitlab.com/policy/experiment-beta-support/#generally-available-ga). As part of this release, we are also making these capabilities generally available:
 
     - Code explanation helps developers and less technical users understand unfamiliar code faster
     - Code refactoring enables developers to simplify and improve existing code
@@ -11,7 +11,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/gitlab_duo_chat.html
+  documentation_link: https://docs.gitlab.com/user/gitlab_duo_chat/
   image_url: https://img.youtube.com/vi/ZQBAuf-CTAY/hqdefault.jpg
   published_at: 2024-04-18
   release: "16.11"
@@ -25,7 +25,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/product_analytics/
+  documentation_link: https://docs.gitlab.com/user/product_analytics/
   image_url: https://img.youtube.com/vi/i8Mze9lRZiY/hqdefault.jpg
   published_at: 2024-04-18
   release: "16.11"
@@ -39,7 +39,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/application_security/policies/scan_execution_policies.html#security-policy-scopes
+  documentation_link: https://docs.gitlab.com/user/application_security/policies/scan_execution_policies/#security-policy-scopes
   image_url: https://about.gitlab.com/images/16_11/policy-scoping-release-post-image-optimized.png
   published_at: 2024-04-18
   release: "16.11"
@@ -48,12 +48,12 @@
   description: |
     As part of GitLab AI offerings, Duo Chat further streamlines the developer experience by directly bringing an interactive chat window into any supported JetBrains IDE and the ability to explain code, write tests, and refactor existing code.
 
-    For a complete list of capabilities, see our [Duo Chat documentation](https://docs.gitlab.com/ee/user/gitlab_duo_chat.html).
+    For a complete list of capabilities, see our [Duo Chat documentation](https://docs.gitlab.com/user/gitlab_duo_chat/).
   stage: govern
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/editor_extensions/jetbrains_ide/
+  documentation_link: https://docs.gitlab.com/editor_extensions/jetbrains_ide/
   image_url: https://about.gitlab.com/images/16_11/create-duo-chat-in-jetbrains.png
   published_at: 2024-04-18
   release: "16.11"
@@ -67,7 +67,7 @@
   self-managed: false
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#disable-personal-access-tokens-for-enterprise-users
+  documentation_link: https://docs.gitlab.com/user/profile/personal_access_tokens/#disable-personal-access-tokens-for-enterprise-users
   image_url: https://about.gitlab.com/images/16_11/govern-disable-pats.jpg
   published_at: 2024-04-18
   release: "16.11"
@@ -83,7 +83,7 @@
   self-managed: false
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/markdown.html#gitlab-specific-references
+  documentation_link: https://docs.gitlab.com/user/markdown/#gitlab-specific-references
   image_url: https://img.youtube.com/vi/qqN6KxMB06E/hqdefault.jpg
   published_at: 2024-04-18
   release: "16.11"
@@ -95,7 +95,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/project/working_with_projects.html
+  documentation_link: https://docs.gitlab.com/user/project/working_with_projects/
   image_url: https://about.gitlab.com/images/16_11/project-overview-sidebar.png
   published_at: 2024-04-18
   release: "16.11"
@@ -109,7 +109,7 @@
   self-managed: true
   gitlab-com: false
   available_in: [Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/administration/dedicated/configure_instance.html#manage-notification-preferences
+  documentation_link: https://docs.gitlab.com/administration/dedicated/configure_instance/#manage-notification-preferences
   image_url: https://about.gitlab.com/images/16_11/gitlab-dedicated.png
   published_at: 2024-04-18
   release: "16.11"
@@ -118,14 +118,14 @@
   description: |
     Sometimes after you notice a job fails, you might manually cancel the rest of the pipeline to save resources while you work on the issue causing the failure. With GitLab 16.11, you can now configure pipelines to be canceled automatically when any job fails. With large pipelines that take a long time to run, especially with many long-running jobs that run in parallel, this can be an effective way to reduce resource usage and costs.
 
-    You can even configure a pipeline to immediately [cancel if a downstream pipeline fails](https://docs.gitlab.com/ee/ci/pipelines/downstream_pipelines.html#auto-cancel-the-parent-pipeline-from-a-downstream-pipeline), which cancels the parent pipeline and all other downstream pipelines.
+    You can even configure a pipeline to immediately [cancel if a downstream pipeline fails](https://docs.gitlab.com/ci/pipelines/downstream_pipelines/#auto-cancel-the-parent-pipeline-from-a-downstream-pipeline), which cancels the parent pipeline and all other downstream pipelines.
 
     Special thanks to [Marco](https://gitlab.com/zillemarco) for contributing to the feature!
   stage: verify
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/ci/yaml/#workflowauto_cancelon_job_failure
+  documentation_link: https://docs.gitlab.com/ci/yaml/#workflowauto_cancelon_job_failure
   image_url: https://about.gitlab.com/images/16_11/16.11_auto_cancel_on_job_failure.png
   published_at: 2024-04-18
   release: "16.11"

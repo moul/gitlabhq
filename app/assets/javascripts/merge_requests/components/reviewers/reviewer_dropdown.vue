@@ -1,13 +1,14 @@
 <script>
 import { debounce, difference } from 'lodash-es';
 import { GlCollapsibleListbox, GlButton, GlAvatar, GlIcon, GlBadge, GlSprintf } from '@gitlab/ui';
-import { __, s__ } from '~/locale';
+import { __ } from '~/locale';
+import { userIsDisabled, userDisabledAttributes } from '~/ai/agents_utils';
+import { FLOW_TRIGGER_EVENTS } from '~/vue_shared/constants';
 import { InternalEvents } from '~/tracking';
 import { DEFAULT_DEBOUNCE_AND_THROTTLE_MS } from '~/lib/utils/constants';
 import { uuids } from '~/lib/utils/uuids';
 import { TYPENAME_MERGE_REQUEST } from '~/graphql_shared/constants';
 import { convertToGraphQLId } from '~/graphql_shared/utils';
-import { ASSIGN_REVIEWER_USERS_QUERY_VARIABLES } from 'ee_else_ce/merge_requests/components/reviewers/queries/constants';
 import userAutocompleteWithMRPermissionsQuery from 'ee_else_ce/graphql_shared/queries/project_autocomplete_users_with_mr_permissions.query.graphql';
 import InviteMembersTrigger from '~/invite_members/components/invite_members_trigger.vue';
 import setReviewersMutation from '~/merge_requests/components/reviewers/queries/set_reviewers.mutation.graphql';
@@ -118,17 +119,19 @@ export default {
           options: this.visibleReviewers.map((user) => this.mapUser(user)),
         });
       }
+
       const filteredUsers = users
         .filter((u) => (this.search ? true : !this.selectedReviewers.find(({ id }) => u.id === id)))
         .map((user) => {
-          const mapped = this.mapUser(user);
-          const isDisabled = Boolean(user?.duoStatus?.disabled);
+          const mappedAttributes = this.mapUser(user);
+          const disabledAttributes = userDisabledAttributes(
+            user,
+            FLOW_TRIGGER_EVENTS.ASSIGN_REVIEWER,
+          );
+
           return {
-            ...mapped,
-            isDisabled,
-            ...(isDisabled && {
-              disabledReason: user?.duoStatus?.disabledReason || s__('WorkItem|Cannot be assigned'),
-            }),
+            ...mappedAttributes,
+            ...disabledAttributes,
           };
         });
 
@@ -194,7 +197,11 @@ export default {
     updateCachedDisabledReviewers() {
       const selectedReviewerIds = this.selectedReviewers.map((r) => r.id);
       this.cachedDisabledReviewers = (this.usersForList || [])
-        .filter((u) => Boolean(u?.duoStatus?.disabled) && !selectedReviewerIds.includes(u.id))
+        .filter(
+          (u) =>
+            userIsDisabled(u, FLOW_TRIGGER_EVENTS.ASSIGN_REVIEWER) &&
+            !selectedReviewerIds.includes(u.id),
+        )
         .map((u) => u.username);
     },
     mapUser(user) {
@@ -226,7 +233,6 @@ export default {
             search,
             fullPath: this.projectPath,
             mergeRequestId: convertToGraphQLId(TYPENAME_MERGE_REQUEST, this.issuableId),
-            ...ASSIGN_REVIEWER_USERS_QUERY_VARIABLES,
           },
           context: {
             fetchOptions: { signal: this.fetchController.signal },
@@ -310,7 +316,7 @@ export default {
 
       // Filter out disabled reviewers from the selection
       const disabledUsernames = (this.usersForList || [])
-        .filter((u) => Boolean(u?.duoStatus?.disabled))
+        .filter((u) => userIsDisabled(u, FLOW_TRIGGER_EVENTS.ASSIGN_REVIEWER))
         .map((u) => u.username);
 
       const filteredReviewers = this.currentSelectedReviewers.filter(

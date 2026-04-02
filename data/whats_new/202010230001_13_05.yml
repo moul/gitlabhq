@@ -12,7 +12,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/project/wiki/
+  documentation_link: https://docs.gitlab.com/user/project/wiki/
   image_url: https://about.gitlab.com/images/13_5/cdybenko-group-wiki.png
   published_at: 2020-10-22
   release: "13.5"
@@ -20,12 +20,12 @@
   description: |
     Last month we introduced the [GitLab Kubernetes Agent](https://about.gitlab.com/releases/2020/09/22/gitlab-13-4-released/#introducing-the-gitlab-kubernetes-agent) for GitLab Self-Managed instances installed with Helm.
 
-    This release adds support for the [official Linux package](https://about.gitlab.com/install/). In this new Kubernetes integration, the Agent orchestrates deployments by pulling new changes from GitLab, rather than GitLab pushing updates to your cluster. You can learn more about [how the Kubernetes Agent works now](https://docs.gitlab.com/ee/user/clusters/agent/) and [check out our vision](https://about.gitlab.com/direction/configure/kubernetes_management/) to see what’s in store.
+    This release adds support for the [official Linux package](https://about.gitlab.com/install/). In this new Kubernetes integration, the Agent orchestrates deployments by pulling new changes from GitLab, rather than GitLab pushing updates to your cluster. You can learn more about [how the Kubernetes Agent works now](https://docs.gitlab.com/user/clusters/agent/) and [check out our vision](https://about.gitlab.com/direction/configure/kubernetes_management/) to see what’s in store.
   stage: Configure
   self-managed: true
   gitlab-com: false
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/clusters/agent/
+  documentation_link: https://docs.gitlab.com/user/clusters/agent/
   image_url: https://about.gitlab.com/images/13_5/gitops-header.png
   published_at: 2020-10-22
   release: "13.5"
@@ -40,7 +40,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/snippets.html#multiple-files-by-snippet
+  documentation_link: https://docs.gitlab.com/user/snippets/#multiple-files-by-snippet
   image_url: https://about.gitlab.com/images/13_5/phikai-snippets-multiple-files.png
   published_at: 2020-10-22
   release: "13.5"
@@ -53,7 +53,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/ci/runners/#disable-shared-runners
+  documentation_link: https://docs.gitlab.com/ci/runners/#disable-shared-runners
   image_url: https://about.gitlab.com/images/13_5/enable_shared_runners_v2.png
   published_at: 2020-10-22
   release: "13.5"
@@ -66,20 +66,20 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/operations/feature_flags.html#percent-rollout
+  documentation_link: https://docs.gitlab.com/operations/feature_flags/#percent-rollout
   image_url: https://about.gitlab.com/images/13_5/percent-rollout.png
   published_at: 2020-10-22
   release: "13.5"
 - name: SAST support for iOS and Android mobile apps
   description: |
-    GitLab [SAST](https://docs.gitlab.com/ee/user/application_security/sast/) now supports mobile applications including iOS apps written in Objective-C and Swift as well as Android apps written in Java and Kotlin powered by the [Mobile Security Framework (MobSF)](https://github.com/MobSF/Mobile-Security-Framework-MobSF).  Initially this analyzer supports source code analysis but we [intend to expand support for binary scanning](https://gitlab.com/gitlab-org/gitlab/-/issues/269915) of `.ipa` and `.apk` files in the near future.
+    GitLab [SAST](https://docs.gitlab.com/user/application_security/sast/) now supports mobile applications including iOS apps written in Objective-C and Swift as well as Android apps written in Java and Kotlin powered by the [Mobile Security Framework (MobSF)](https://github.com/MobSF/Mobile-Security-Framework-MobSF).  Initially this analyzer supports source code analysis but we [intend to expand support for binary scanning](https://gitlab.com/gitlab-org/gitlab/-/issues/269915) of `.ipa` and `.apk` files in the near future.
 
     This feature was a generous contribution by the [H-E-B Digital](https://digital.heb.com/) team.
   stage: Secure
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/application_security/sast/#supported-languages-and-frameworks
+  documentation_link: https://docs.gitlab.com/user/application_security/sast/#supported-languages-and-frameworks
   image_url: https://about.gitlab.com/images/13_5/sast-gitlab-mobile.png
   published_at: 2020-10-22
   release: "13.5"

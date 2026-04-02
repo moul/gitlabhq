@@ -18,7 +18,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/tutorials/left_sidebar/
+  documentation_link: https://docs.gitlab.com/tutorials/left_sidebar/
   image_url: https://img.youtube.com/vi/rGTl9_HIpbY/hqdefault.jpg
   published_at: 2023-06-22
   release: "16.1"
@@ -32,7 +32,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/ci/environments/kubernetes_dashboard.html
+  documentation_link: https://docs.gitlab.com/ci/environments/kubernetes_dashboard/
   image_url: https://about.gitlab.com/images/16_1/whats-new-k8s-visualization.png
   published_at: 2023-06-22
   release: "16.1"
@@ -46,7 +46,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/api/groups.html#service-accounts
+  documentation_link: https://docs.gitlab.com/api/groups/#service-accounts
   image_url: https://img.youtube.com/vi/oZvjg0SCsqY/hqdefault.jpg
   published_at: 2023-06-22
   release: "16.1"
@@ -62,7 +62,7 @@
   self-managed: false
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/subscriptions/gitlab_dedicated/
+  documentation_link: https://docs.gitlab.com/subscriptions/gitlab_dedicated/
   image_url: https://about.gitlab.com/images/16_1/gitlab-dedicated.png
   published_at: 2023-06-22
   release: "16.1"
@@ -78,7 +78,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/ci/jobs/job_artifacts.html#view-all-job-artifacts-in-a-project
+  documentation_link: https://docs.gitlab.com/ci/jobs/job_artifacts/#view-all-job-artifacts-in-a-project
   image_url: https://about.gitlab.com/images/16_1/artifacts-bulk-delete.png
   published_at: 2023-06-22
   release: "16.1"
@@ -92,7 +92,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui
+  documentation_link: https://docs.gitlab.com/ci/variables/#define-a-cicd-variable-in-the-ui
   image_url: https://about.gitlab.com/images/16_1/layout_changes.png
   published_at: 2023-06-22
   release: "16.1"

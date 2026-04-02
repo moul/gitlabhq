@@ -78,17 +78,45 @@ describe('Sidebar participant component', () => {
       expect(findBusyBadge().exists()).toBe(false);
     });
 
-    describe('and not disabled', () => {
+    describe('and not disabled with ASSIGN trigger events', () => {
       beforeEach(() => {
         createComponent({
           compositeIdentityEnforced: true,
           status: { ...user.status },
-          duoStatus: { disabled: false },
+          duoStatus: { disabled: false, flowTriggerEvents: ['ASSIGN'] },
         });
       });
 
       it('does not render the disabled class', () => {
         expect(findAvatar().classes()).not.toContain('sidebar-participant-disabled');
+      });
+    });
+
+    describe('and not disabled with unrelated trigger events', () => {
+      beforeEach(() => {
+        createComponent({
+          compositeIdentityEnforced: true,
+          status: { ...user.status },
+          duoStatus: { disabled: false, flowTriggerEvents: ['ASSIGN_REVIEWER'] },
+        });
+      });
+
+      it('adds the sidebar-participant-disabled class', () => {
+        expect(findAvatar().classes()).toContain('sidebar-participant-disabled');
+      });
+    });
+
+    describe('and not disabled with no trigger events', () => {
+      beforeEach(() => {
+        createComponent({
+          compositeIdentityEnforced: true,
+          status: { ...user.status },
+          duoStatus: { disabled: false, flowTriggerEvents: [] },
+        });
+      });
+
+      it('adds the sidebar-participant-disabled class', () => {
+        expect(findAvatar().classes()).toContain('sidebar-participant-disabled');
       });
     });
 

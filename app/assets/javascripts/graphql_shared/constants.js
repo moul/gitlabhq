@@ -33,6 +33,7 @@ export const TYPENAME_NAMESPACE = 'Namespace';
 export const TYPENAME_PROJECT_NAMESPACE = 'Namespaces::ProjectNamespace';
 export const TYPENAME_NOTE = 'Note';
 export const TYPENAME_PACKAGES_PACKAGE = 'Packages::Package';
+export const TYPENAME_PERSONAL_ACCESS_TOKEN = 'PersonalAccessToken';
 export const TYPENAME_PROJECT = 'Project';
 export const TYPENAME_SCANNER_PROFILE = 'DastScannerProfile';
 export const TYPENAME_SITE_PROFILE = 'DastSiteProfile';

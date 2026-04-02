@@ -7,13 +7,13 @@
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/clusters/agent/
+  documentation_link: https://docs.gitlab.com/user/clusters/agent/
   image_url: https://img.youtube.com/vi/4Sh5bghbAjY/hqdefault.jpg
   published_at: 2021-04-22
   release: "13.11"
 - name: Compliance pipeline configurations
   description: |
-    We are thrilled to announce that it is now possible to define enforceable pipelines that will run for any project assigned a corresponding [compliance framework](https://docs.gitlab.com/ee/user/project/settings/#compliance-framework).
+    We are thrilled to announce that it is now possible to define enforceable pipelines that will run for any project assigned a corresponding [compliance framework](https://docs.gitlab.com/user/project/settings/#compliance-framework).
 
     For teams looking to implement compliance requirements in the pipeline workflow, they can now enforce even more separation of duties by setting up a single pipeline definition for a specific compliance framework. All projects using that framework will include the predefined pipeline automatically. Users extend, but cannot modify, the pipeline configuration in the downstream projects, ensuring that compliance steps are run the same way every time.
 
@@ -24,7 +24,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/project/settings/#compliance-pipeline-configuration
+  documentation_link: https://docs.gitlab.com/user/project/settings/#compliance-pipeline-configuration
   image_url: https://img.youtube.com/vi/upLJ_equomw/hqdefault.jpg
   published_at: 2021-04-22
   release: "13.11"
@@ -37,7 +37,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/operations/incident_management/oncall_schedules.html
+  documentation_link: https://docs.gitlab.com/operations/incident_management/oncall_schedules/
   image_url: https://img.youtube.com/vi/QXfCQ24-Ufo/hqdefault.jpg
   published_at: 2021-04-22
   release: "13.11"
@@ -48,7 +48,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/ci/yaml/#multiple-caches
+  documentation_link: https://docs.gitlab.com/ci/yaml/#multiple-caches
   image_url: https://about.gitlab.com/images/13_11/cache.png
   published_at: 2021-04-22
   release: "13.11"
@@ -59,7 +59,7 @@
   self-managed: false
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/group/saml_sso/#sso-enforcement
+  documentation_link: https://docs.gitlab.com/user/group/saml_sso/#sso-enforcement
   image_url: https://about.gitlab.com/images/sdlc-icons/manage.svg
   published_at: 2021-04-22
   release: "13.11"
@@ -74,7 +74,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/project/merge_requests/cherry_pick_changes.html#cherry-pick-into-a-project
+  documentation_link: https://docs.gitlab.com/user/project/merge_requests/cherry_pick_changes/#cherry-pick-into-a-project
   image_url: https://about.gitlab.com/images/13_11/cherry_pick_commits_from_fork_to_parent.png
   published_at: 2021-04-22
   release: "13.11"
@@ -85,7 +85,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/integration/jira/connect-app.html
+  documentation_link: https://docs.gitlab.com/integration/jira/connect-app/
   image_url: https://about.gitlab.com/images/13_11/jira-connect-app-search.png
   published_at: 2021-04-22
   release: "13.11"
@@ -100,7 +100,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/search/#search-settings
+  documentation_link: https://docs.gitlab.com/user/search/#search-settings
   image_url: https://about.gitlab.com/images/13_11/search-settings.gif
   published_at: 2021-04-22
   release: "13.11"

@@ -1,4 +1,5 @@
 import { userTypes } from '~/sidebar/components/assignees/constants';
+import { FLOW_TRIGGER_EVENTS } from '~/vue_shared/constants';
 
 export const createMockUser = (userDetails) => {
   return {
@@ -23,6 +24,7 @@ export const mockUser1 = createMockUser({
   duoStatus: {
     disabled: false,
     disabledReason: null,
+    flowTriggerEvents: [],
   },
   compositeIdentityEnforced: false,
 });
@@ -45,6 +47,7 @@ export const mockUser2 = createMockUser({
   duoStatus: {
     disabled: false,
     disabledReason: null,
+    flowTriggerEvents: [],
   },
   compositeIdentityEnforced: false,
 });
@@ -62,8 +65,9 @@ export const mockDisabledUser = createMockUser({
   duoStatus: {
     disabled: true,
     disabledReason: 'Out of credits',
+    flowTriggerEvents: [FLOW_TRIGGER_EVENTS.ASSIGN, FLOW_TRIGGER_EVENTS.ASSIGN_REVIEWER],
   },
-  compositeIdentityEnforced: false,
+  compositeIdentityEnforced: true,
 });
 
 export const mockUserWithType2 = {
@@ -530,6 +534,11 @@ export const searchAutocompleteQueryResponse = {
           webPath: '/root',
           status: null,
           compositeIdentityEnforced: false,
+          duoStatus: {
+            disabled: false,
+            disabledReason: null,
+            flowTriggerEvents: [],
+          },
         },
         {
           id: '2',
@@ -540,6 +549,11 @@ export const searchAutocompleteQueryResponse = {
           webPath: '/rookie',
           status: null,
           compositeIdentityEnforced: false,
+          duoStatus: {
+            disabled: false,
+            disabledReason: null,
+            flowTriggerEvents: [],
+          },
         },
         {
           id: '3',
@@ -550,6 +564,11 @@ export const searchAutocompleteQueryResponse = {
           webPath: '/root_external',
           status: null,
           compositeIdentityEnforced: false,
+          duoStatus: {
+            disabled: false,
+            disabledReason: null,
+            flowTriggerEvents: [],
+          },
         },
       ],
     },
@@ -649,6 +668,7 @@ export const searchAutocompleteResponseOnMR = {
           duoStatus: {
             disabled: false,
             disabledReason: null,
+            flowTriggerEvents: [],
           },
           compositeIdentityEnforced: false,
           mergeRequestInteraction: {
@@ -683,6 +703,7 @@ export const projectMembersResponse = {
           duoStatus: {
             disabled: false,
             disabledReason: null,
+            flowTriggerEvents: [],
           },
         },
       ],
@@ -727,6 +748,7 @@ export const projectAutocompleteMembersResponse = {
           duoStatus: {
             disabled: false,
             disabledReason: null,
+            flowTriggerEvents: [],
           },
         },
         {
@@ -739,6 +761,7 @@ export const projectAutocompleteMembersResponse = {
           duoStatus: {
             disabled: false,
             disabledReason: null,
+            flowTriggerEvents: [],
           },
         },
         {
@@ -751,6 +774,7 @@ export const projectAutocompleteMembersResponse = {
           duoStatus: {
             disabled: false,
             disabledReason: null,
+            flowTriggerEvents: [],
           },
         },
         {
@@ -768,6 +792,7 @@ export const projectAutocompleteMembersResponse = {
           duoStatus: {
             disabled: false,
             disabledReason: null,
+            flowTriggerEvents: [],
           },
           compositeIdentityEnforced: false,
         },
@@ -798,6 +823,7 @@ export const groupMembersResponse = {
           duoStatus: {
             disabled: false,
             disabledReason: null,
+            flowTriggerEvents: [],
           },
         },
       ],
@@ -836,7 +862,9 @@ export const participantsQueryResponse = {
               duoStatus: {
                 disabled: false,
                 disabledReason: null,
+                flowTriggerEvents: [],
               },
+              compositeIdentityEnforced: false,
             },
             {
               __typename: 'UserCore',
@@ -847,6 +875,12 @@ export const participantsQueryResponse = {
               webUrl: '/john',
               webPath: '/john',
               status: null,
+              duoStatus: {
+                disabled: false,
+                disabledReason: null,
+                flowTriggerEvents: [],
+              },
+              compositeIdentityEnforced: false,
             },
           ],
         },

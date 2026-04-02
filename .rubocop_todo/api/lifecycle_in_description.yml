@@ -31,4 +31,3 @@ API/LifecycleInDescription:
     - 'lib/api/ml/mlflow/experiments.rb'
     - 'lib/api/ml/mlflow/runs.rb'
     - 'lib/api/organizations.rb'
-    - 'lib/api/work_items.rb'

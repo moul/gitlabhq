@@ -8,7 +8,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/operations/incident_management/
+  documentation_link: https://docs.gitlab.com/operations/incident_management/
   image_url: https://about.gitlab.com/images/13_1/alert_management.png
   published_at: 2020-06-22
   release: "13.1"
@@ -21,7 +21,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/project/merge_requests/accessibility_testing.html#accessibility-merge-request-widget
+  documentation_link: https://docs.gitlab.com/user/project/merge_requests/accessibility_testing/#accessibility-merge-request-widget
   image_url: https://about.gitlab.com/images/13_1/a11y-merge-request-widget.png
   published_at: 2020-06-22
   release: "13.1"
@@ -32,7 +32,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/project/issues/design_management.html#resolve-design-threads
+  documentation_link: https://docs.gitlab.com/user/project/issues/design_management/#resolve-design-threads
   image_url: https://about.gitlab.com/images/13_1/resolve-design-comment.gif
   published_at: 2020-06-22
   release: "13.1"
@@ -43,7 +43,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: https://docs.gitlab.com/ee/user/discussions/#merge-request-reviews
+  documentation_link: https://docs.gitlab.com/user/discussions/#merge-request-reviews
   image_url: https://about.gitlab.com/images/13_1/batch_comments.png
   published_at: 2020-06-22
   release: "13.1"

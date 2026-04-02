@@ -5,7 +5,6 @@ Style/SuperArguments:
     - 'app/finders/merge_requests_finder.rb'
     - 'app/finders/work_items/work_items_finder.rb'
     - 'app/graphql/gitlab_schema.rb'
-    - 'app/graphql/resolvers/issues/base_resolver.rb'
     - 'app/graphql/resolvers/work_items_resolver.rb'
     - 'app/graphql/types/base_argument.rb'
     - 'app/graphql/types/base_enum.rb'

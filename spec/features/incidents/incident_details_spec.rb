@@ -133,6 +133,8 @@ RSpec.describe 'Incident details', :js, feature_category: :incident_management d
       let(:expected_dropdown_options) { escalation_status.class::STATUSES.keys.take(3).map { |key| key.to_s.titleize } }
 
       it 'has an interactable escalation status widget', :aggregate_failures do
+        expand_sidebar
+
         expect(current_status).to have_text(escalation_status.status_name.to_s.titleize)
 
         # list the available statuses
@@ -208,6 +210,16 @@ RSpec.describe 'Incident details', :js, feature_category: :incident_management d
 
     page.within(sticky_header) do
       expect(page).to have_text 'Confidential'
+    end
+  end
+
+  private
+
+  def expand_sidebar
+    return unless page.has_css?('.right-sidebar.right-sidebar-collapsed', wait: 0) # rubocop: disable RSpec/AvoidConditionalStatements -- We need this to support both FOSS and EE runs of this spec
+
+    within '.right-sidebar' do
+      click_button "Expand sidebar"
     end
   end
 

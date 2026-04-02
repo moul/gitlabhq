@@ -121,6 +121,11 @@ export default {
         this.applyPermissions(newPermissions);
       },
     },
+    permissions() {
+      if (this.permissionsToSelect.length > 0) {
+        this.applyPermissions(this.permissionsToSelect);
+      }
+    },
     permissionsToClear(newRemovals) {
       if (newRemovals.length > 0) {
         this.removePermissions(newRemovals);

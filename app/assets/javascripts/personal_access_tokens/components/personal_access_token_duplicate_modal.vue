@@ -1,5 +1,5 @@
 <script>
-import { GlModal } from '@gitlab/ui';
+import { GlModal, GlSprintf } from '@gitlab/ui';
 import { s__, __, sprintf } from '~/locale';
 import { buildDuplicateUrl } from '../utils';
 
@@ -7,6 +7,7 @@ export default {
   name: 'PersonalAccessTokenDuplicateModal',
   components: {
     GlModal,
+    GlSprintf,
   },
   inject: ['accessTokenGranularNewUrl'],
   props: {
@@ -47,7 +48,7 @@ export default {
   i18n: {
     title: s__("AccessTokens|Duplicate '%{tokenName}'?"),
     description: s__(
-      'AccessTokens|Duplicate a token to generate a new token with the same scope as the original token. The original token remains unchanged and both tokens operate independently.',
+      'AccessTokens|A new fine-grained token form will open with the resource and permissions from %{tokenName} pre-filled. %{tokenName} will not be affected.',
     ),
     duplicate: s__('AccessTokens|Duplicate'),
     cancel: __('Cancel'),
@@ -65,6 +66,12 @@ export default {
     @primary="handleConfirm"
     @hidden="handleCancel"
   >
-    <p>{{ $options.i18n.description }}</p>
+    <p>
+      <gl-sprintf :message="$options.i18n.description">
+        <template #tokenName>
+          <b>{{ token.name }}</b>
+        </template>
+      </gl-sprintf>
+    </p>
   </gl-modal>
 </template>

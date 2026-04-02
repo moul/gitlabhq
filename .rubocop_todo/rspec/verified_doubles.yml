@@ -511,7 +511,6 @@ RSpec/VerifiedDoubles:
     - 'spec/lib/gitlab/metrics/samplers/database_sampler_spec.rb'
     - 'spec/lib/gitlab/metrics/samplers/puma_sampler_spec.rb'
     - 'spec/lib/gitlab/metrics/samplers/ruby_sampler_spec.rb'
-    - 'spec/lib/gitlab/metrics/sli_spec.rb'
     - 'spec/lib/gitlab/metrics/subscribers/action_cable_spec.rb'
     - 'spec/lib/gitlab/metrics/subscribers/action_view_spec.rb'
     - 'spec/lib/gitlab/metrics/subscribers/active_record_spec.rb'

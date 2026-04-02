@@ -370,7 +370,6 @@ RSpec/FactoryBot/AvoidCreate:
     - 'spec/serializers/ci/pipeline_entity_spec.rb'
     - 'spec/serializers/ci/trigger_entity_spec.rb'
     - 'spec/serializers/cluster_entity_spec.rb'
-    - 'spec/serializers/cluster_serializer_spec.rb'
     - 'spec/serializers/commit_entity_spec.rb'
     - 'spec/serializers/container_repositories_serializer_spec.rb'
     - 'spec/serializers/container_repository_entity_spec.rb'

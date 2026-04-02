@@ -39,7 +39,7 @@ export default {
       required: true,
     },
   },
-  emits: ['select', 'rotate', 'revoke'],
+  emits: ['select', 'rotate', 'revoke', 'duplicate'],
   methods: {
     selectTargetToken(token) {
       this.$emit('select', token);
@@ -49,6 +49,9 @@ export default {
     },
     revokeTargetToken(token) {
       this.$emit('revoke', token);
+    },
+    duplicateTargetToken(token) {
+      this.$emit('duplicate', token);
     },
     expiryDate(token) {
       return timeFormattedAsDate(token.expiresAt);
@@ -70,6 +73,7 @@ export default {
     lastUsed: s__('AccessTokens|Last used: %{date}'),
     actions: __('Actions'),
     viewDetails: s__('AccessTokens|View details'),
+    duplicate: s__('AccessTokens|Duplicate'),
     rotate: s__('AccessTokens|Rotate'),
     revoke: s__('AccessTokens|Revoke'),
   },
@@ -141,6 +145,9 @@ export default {
       >
         <gl-disclosure-dropdown-item @action="selectTargetToken(item)">
           <template #list-item>{{ $options.i18n.viewDetails }}</template>
+        </gl-disclosure-dropdown-item>
+        <gl-disclosure-dropdown-item v-if="item.granular" @action="duplicateTargetToken(item)">
+          <template #list-item>{{ $options.i18n.duplicate }}</template>
         </gl-disclosure-dropdown-item>
         <gl-disclosure-dropdown-item v-if="item.active" @action="rotateTargetToken(item)">
           <template #list-item>{{ $options.i18n.rotate }}</template>

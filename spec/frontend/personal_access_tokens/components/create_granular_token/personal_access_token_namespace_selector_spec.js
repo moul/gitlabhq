@@ -198,6 +198,36 @@ describe('PersonalAccessTokenNamespaceSelector', () => {
     });
   });
 
+  describe('prefillNamespaces prop', () => {
+    const prefillNamespaces = [
+      {
+        id: 'gid://gitlab/Group/1',
+        name: 'Test Group 1',
+        fullPath: 'test-group-1',
+        __typename: 'Group',
+      },
+    ];
+
+    it('initializes selectedIds from prefillNamespaces', () => {
+      createComponent({ props: { prefillNamespaces } });
+
+      expect(wrapper.vm.selectedIds).toEqual(['gid://gitlab/Group/1']);
+    });
+
+    it('initializes selectedItems from prefillNamespaces', () => {
+      createComponent({ props: { prefillNamespaces } });
+
+      expect(wrapper.vm.selectedItems).toEqual(prefillNamespaces);
+    });
+
+    it('shows pre-populated namespace chips without requiring a search', () => {
+      createComponent({ props: { prefillNamespaces } });
+
+      expect(findSelectedNamespaces().exists()).toBe(true);
+      expect(findSelectedNamespaces().text()).toContain('test-group-1');
+    });
+  });
+
   describe('error handling', () => {
     it('shows fetch error when GraphQL query fails', async () => {
       const error = new Error('GraphQL error');

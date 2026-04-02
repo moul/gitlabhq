@@ -519,10 +519,12 @@ describe('PersonalAccessTokensApp', () => {
       expect(findDuplicateModal().props('token')).toEqual(mockTokens[0]);
     });
 
-    it('sets the duplicate token when drawer emits duplicate', async () => {
+    it('sets the duplicate token and keeps the drawer open when drawer emits duplicate', async () => {
+      await findTable().vm.$emit('select', mockTokens[0]);
       await findDrawer().vm.$emit('duplicate', mockTokens[0]);
 
       expect(findDuplicateModal().props('token')).toEqual(mockTokens[0]);
+      expect(findDrawer().props('token')).toEqual(mockTokens[0]);
     });
 
     it('clears the duplicate token when modal emits cancel', async () => {

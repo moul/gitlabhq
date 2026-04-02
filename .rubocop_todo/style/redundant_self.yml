@@ -212,7 +212,6 @@ Style/RedundantSelf:
     - 'lib/gitlab/ci/reports/test_suite.rb'
     - 'lib/gitlab/ci/trace/stream.rb'
     - 'lib/gitlab/ci/variables/collection.rb'
-    - 'lib/gitlab/ci/variables/collection/item.rb'
     - 'lib/gitlab/config/entry/configurable.rb'
     - 'lib/gitlab/config/entry/node.rb'
     - 'lib/gitlab/config/entry/simplifiable.rb'

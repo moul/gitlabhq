@@ -29,6 +29,11 @@ export default {
       required: false,
       default: '',
     },
+    prefillNamespaces: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
   emits: ['input'],
   apollo: {
@@ -64,8 +69,8 @@ export default {
     return {
       groupsAndProjects: { groups: [], projects: [] },
       searchTerm: '',
-      selectedIds: [],
-      selectedItems: [],
+      selectedIds: this.prefillNamespaces.map((n) => n.id),
+      selectedItems: [...this.prefillNamespaces],
     };
   },
   computed: {

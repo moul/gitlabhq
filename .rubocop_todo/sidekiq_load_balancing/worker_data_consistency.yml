@@ -4,7 +4,6 @@ SidekiqLoadBalancing/WorkerDataConsistency:
     - 'app/workers/ci/archive_traces_cron_worker.rb'
     - 'app/workers/ci/build_prepare_worker.rb'
     - 'app/workers/ci/build_schedule_worker.rb'
-    - 'app/workers/ci/build_trace_chunk_flush_worker.rb'
     - 'app/workers/ci/cancel_pipeline_worker.rb'
     - 'app/workers/ci/delete_objects_worker.rb'
     - 'app/workers/ci/drop_pipeline_worker.rb'

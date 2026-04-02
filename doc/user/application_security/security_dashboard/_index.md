@@ -289,15 +289,11 @@ Risk scores are calculated from multiple factors, including:
 {{< history >}}
 
 - Vulnerabilities by age chart for project dashboards:
-  - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/590979) in GitLab 18.11 [with a flag](../../../administration/feature_flags/_index.md) named `project_vulnerabilities_by_age_chart`. Disabled by default.
+  - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/590979) in GitLab 18.11.
 
 {{< /history >}}
 
-> [!flag]
-> The availability of the vulnerabilities by age chart for projects is controlled by a feature flag.
-> For more information, see the history.
-
-The **Vulnerabilities by age** chart is available on group dashboards and, with a feature flag, on project dashboards. It shows the distribution of unresolved vulnerabilities based on the amount of time since they were first detected. You can group vulnerabilities by severity or by report type, helping you identify where remediation activities may be needed.
+The **Vulnerabilities by age** chart is available on group and project dashboards. It shows the distribution of unresolved vulnerabilities based on the amount of time since they were first detected. You can group vulnerabilities by severity or by report type, helping you identify where remediation activities may be needed.
 
 To view details:
 

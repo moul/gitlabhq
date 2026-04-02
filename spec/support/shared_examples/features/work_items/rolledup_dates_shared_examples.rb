@@ -28,7 +28,7 @@ RSpec.shared_examples 'work items rolled up dates' do
       wait_for_all_requests
     end
 
-    context 'when using inheritable dates', :sidekiq_inline do
+    context 'when using inheritable dates', :sidekiq_inline, :clean_gitlab_redis_shared_state do
       def update_child_milestone(title:, milestone:)
         within_testid('links-child', text: title) do
           click_link(title)

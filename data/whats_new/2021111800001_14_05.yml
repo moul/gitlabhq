@@ -1,22 +1,22 @@
 - name: Introducing Infrastructure as Code (IaC) security scanning
   description: |
-    With GitLab 14.5 we're introducing security scanning for Infrastructure as Code (IaC) configuration files. Like all our SAST scanners, we've chosen to make this capability available for all customers for free to encourage secure coding practices with the rise of IaC. The initial version of this IaC security scanner supports configuration files for Terraform, Ansible, AWS CloudFormation, and Kubernetes and is based on the open-source [Keeping Infrastructure as Code Secure (KICS) project](https://kics.io/). This new IaC scanning capability joins our [existing Kubernetes manifest SAST scanner](https://docs.gitlab.com/ee/user/application_security/sast/#enabling-kubesec-analyzer).
+    With GitLab 14.5 we're introducing security scanning for Infrastructure as Code (IaC) configuration files. Like all our SAST scanners, we've chosen to make this capability available for all customers for free to encourage secure coding practices with the rise of IaC. The initial version of this IaC security scanner supports configuration files for Terraform, Ansible, AWS CloudFormation, and Kubernetes and is based on the open-source [Keeping Infrastructure as Code Secure (KICS) project](https://kics.io/). This new IaC scanning capability joins our [existing Kubernetes manifest SAST scanner](https://docs.gitlab.com/user/application_security/sast/#enabling-kubesec-analyzer).
   stage: Secure
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/application_security/iac_scanning/'
+  documentation_link: 'https://docs.gitlab.com/user/application_security/iac_scanning/'
   image_url: https://about.gitlab.com/images/14_5/gitlab-iac.png
   published_at: 2021-11-22
   release: "14.5"
 - name: Add personal README to profile
   description: |
-    You can now add a README section to your GitLab profile! This is a great way to tell others about, your interests, how you work, or anything else you want! To add a README section, create a new public project with the same name as your user account and add a new [README file](https://docs.gitlab.com/ee/user/project/repository/#readme-and-index-files). The contents of that file are automatically shown on your GitLab profile.
+    You can now add a README section to your GitLab profile! This is a great way to tell others about, your interests, how you work, or anything else you want! To add a README section, create a new public project with the same name as your user account and add a new [README file](https://docs.gitlab.com/user/project/repository/#readme-and-index-files). The contents of that file are automatically shown on your GitLab profile.
   stage: Foundations
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/profile/#add-details-to-your-profile-with-a-readme'
+  documentation_link: 'https://docs.gitlab.com/user/profile/#add-details-to-your-profile-with-a-readme'
   image_url: https://about.gitlab.com/images/14_5/user_profiles_readme.png
   published_at: 2021-11-22
   release: "14.5"
@@ -31,7 +31,7 @@
   self-managed: true
   gitlab-com: false
   available_in: [Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/administration/geo/disaster_recovery/planned_failover.html'
+  documentation_link: 'https://docs.gitlab.com/administration/geo/disaster_recovery/planned_failover/'
   image_url: https://about.gitlab.com/images/growth/enablement.png
   published_at: 2021-11-22
   release: "14.5"
@@ -47,7 +47,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/group/#group-approval-rules'
+  documentation_link: 'https://docs.gitlab.com/user/group/#group-approval-rules'
   image_url: https://about.gitlab.com/images/14_5/group_level_mr_settings_picture.png
   published_at: 2021-11-22
   release: "14.5"
@@ -58,7 +58,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/clusters/agent/'
+  documentation_link: 'https://docs.gitlab.com/user/clusters/agent/'
   image_url: https://about.gitlab.com/images/growth/configure.png
   published_at: 2021-11-22
   release: "14.5"
@@ -71,7 +71,7 @@
   self-managed: true
   gitlab-com: true
   available_in: [Free, Premium, Ultimate]
-  documentation_link: 'https://docs.gitlab.com/ee/user/project/repository/jupyter_notebooks/#cleaner-diffs'
+  documentation_link: 'https://docs.gitlab.com/user/project/repository/jupyter_notebooks/#cleaner-diffs'
   image_url: https://about.gitlab.com/images/14_5/create-code-review-jupyter-notebook-diffs.png
   published_at: 2021-11-22
   release: "14.5"

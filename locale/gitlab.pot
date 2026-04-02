@@ -4193,6 +4193,12 @@ msgstr ""
 msgid "AccessDropdown|Users"
 msgstr ""
 
+msgid "AccessTokens|%{name} (copy)"
+msgstr ""
+
+msgid "AccessTokens|A new fine-grained token form will open with the resource and permissions from %{tokenName} pre-filled. %{tokenName} will not be affected."
+msgstr ""
+
 msgid "AccessTokens|Access token expiration"
 msgstr ""
 
@@ -4331,9 +4337,6 @@ msgstr ""
 msgid "AccessTokens|Duplicate '%{tokenName}'?"
 msgstr ""
 
-msgid "AccessTokens|Duplicate a token to generate a new token with the same scope as the original token. The original token remains unchanged and both tokens operate independently."
-msgstr ""
-
 msgid "AccessTokens|Enable DPoP"
 msgstr ""
 
@@ -4368,6 +4371,9 @@ msgid "AccessTokens|Expiring soon"
 msgstr ""
 
 msgid "AccessTokens|Failed to fetch statistics."
+msgstr ""
+
+msgid "AccessTokens|Failed to load source token. Please fill in the form manually."
 msgstr ""
 
 msgid "AccessTokens|Failed to revoke token"
@@ -7391,7 +7397,13 @@ msgstr ""
 msgid "AgentArtifacts|Start time"
 msgstr ""
 
+msgid "Agents|Cannot be assigned"
+msgstr ""
+
 msgid "Agents|Explore other agents"
+msgstr ""
+
+msgid "Agents|No triggers for this event"
 msgstr ""
 
 msgid "AggregationEngine|Unknown granularity \"%{granularity}\""
@@ -80412,9 +80424,6 @@ msgid "WorkItem|Cancel"
 msgstr ""
 
 msgid "WorkItem|Canceled"
-msgstr ""
-
-msgid "WorkItem|Cannot be assigned"
 msgstr ""
 
 msgid "WorkItem|Cannot be used to create new items."
