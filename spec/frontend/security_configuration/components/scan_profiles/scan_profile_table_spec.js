@@ -47,7 +47,7 @@ describe('ScanProfileTable', () => {
         expect.arrayContaining([
           expect.objectContaining({ key: 'scanType', label: 'Scanner' }),
           expect.objectContaining({ key: 'name', label: 'Profile' }),
-          expect.objectContaining({ key: 'status', label: 'Status' }),
+          expect.objectContaining({ key: 'status', label: 'Scanner health' }),
           expect.objectContaining({ key: 'lastScan', label: 'Last scan' }),
           expect.objectContaining({ key: 'actions', label: '' }),
         ]),

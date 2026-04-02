@@ -41,7 +41,7 @@ export default {
       return [
         { key: 'scanType', label: __('Scanner') },
         { key: 'name', label: __('Profile'), tdClass: '!gl-align-middle' },
-        { key: 'status', label: __('Status'), tdClass: '!gl-align-middle' },
+        { key: 'status', label: __('Scanner health'), tdClass: '!gl-align-middle' },
         { key: 'lastScan', label: __('Last scan'), tdClass: '!gl-align-middle' },
         { key: 'actions', label: '' },
       ];
@@ -170,7 +170,8 @@ export default {
     </template>
 
     <template #cell(lastScan)="{ item }">
-      <span>{{ item.lastScan || '—' }}</span>
+      <slot v-if="$scopedSlots['cell(last-scan)']" name="cell(last-scan)" v-bind="{ item }"></slot>
+      <span v-else>{{ item.lastScan || '—' }}</span>
     </template>
 
     <template #cell(actions)="{ item }">

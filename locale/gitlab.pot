@@ -61331,6 +61331,9 @@ msgstr ""
 msgid "Scanner"
 msgstr ""
 
+msgid "Scanner health"
+msgstr ""
+
 msgid "Scanner profile failed to delete"
 msgstr ""
 
@@ -64866,6 +64869,9 @@ msgstr ""
 msgid "SecurityProfiles|Configure once. Apply everywhere. Profiles make it easier to configure and manage your security tools at scale. Secret push protection is the first type of scan supported by this new feature."
 msgstr ""
 
+msgid "SecurityProfiles|Coverage may be outdated"
+msgstr ""
+
 msgid "SecurityProfiles|Disable"
 msgstr ""
 
@@ -64887,6 +64893,16 @@ msgstr ""
 msgid "SecurityProfiles|Introducing Security Configuration Profiles"
 msgstr ""
 
+msgid "SecurityProfiles|Last %d scan failed"
+msgid_plural "SecurityProfiles|Last %d scans failed"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "SecurityProfiles|Last %d scan successful"
+msgid_plural "SecurityProfiles|Last %d scans successful"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "SecurityProfiles|Learn more"
 msgstr ""
 
@@ -64896,13 +64912,13 @@ msgstr ""
 msgid "SecurityProfiles|No profile applied"
 msgstr ""
 
-msgid "SecurityProfiles|Not configured"
-msgstr ""
-
 msgid "SecurityProfiles|Only a project maintainer or owner can apply or disable profiles."
 msgstr ""
 
 msgid "SecurityProfiles|Preview default profile"
+msgstr ""
+
+msgid "SecurityProfiles|Preview profile"
 msgstr ""
 
 msgid "SecurityProfiles|Profile applied successfully."
@@ -64924,6 +64940,15 @@ msgid "SecurityProfiles|Security configuration illustration"
 msgstr ""
 
 msgid "SecurityProfiles|Static Application Security Testing (SAST)"
+msgstr ""
+
+msgid "SecurityProfiles|Unconfigured"
+msgstr ""
+
+msgid "SecurityProfiles|View failed job #"
+msgstr ""
+
+msgid "SecurityProfiles|View job #"
 msgstr ""
 
 msgid "SecurityProfiles|What are configuration profiles?"
@@ -86144,6 +86169,9 @@ msgid "{group}"
 msgstr ""
 
 msgid "{project}"
+msgstr ""
+
+msgid "—"
 msgstr ""
 
 msgid "✔"

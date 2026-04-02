@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Using WebAuthn Authenticators', :js, feature_category: :system_access do
+RSpec.describe 'Using WebAuthn Authenticators', :js, feature_category: :system_access, quarantine: 'https://gitlab.com/gitlab-org/gitlab/-/issues/595412' do
   include Features::TwoFactorHelpers
   let(:app_id) { "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}" }
 

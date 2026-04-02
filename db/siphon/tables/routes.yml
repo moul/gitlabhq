@@ -1,0 +1,8 @@
+---
+table: routes
+database: main
+replication_targets:
+  - name: clickhouse_main
+    target: siphon_routes
+    dedup_by:
+      - id
