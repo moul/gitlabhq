@@ -57,14 +57,14 @@ For an overview, see [GitLab Duo AI Impact Dashboard](https://youtu.be/FxSWX64aU
 - GitLab Duo Chat usage metric [replaced](https://gitlab.com/gitlab-org/gitlab/-/issues/587301) with GitLab Duo Agentic Chat sessions in GitLab 18.10.
 - Assigned GitLab Duo seat engagement metric [replaced](https://gitlab.com/gitlab-org/gitlab/-/work_items/587298) with GitLab Duo users in GitLab 18.10.
 - GitLab Duo Code Suggestions usage metric [changed](https://gitlab.com/gitlab-org/gitlab/-/work_items/592813) from percentage rate to absolute user count in GitLab 18.10.
+- Code Suggestions acceptance rate metric [replaced](https://gitlab.com/gitlab-org/gitlab/-/work_items/587300) with GitLab Duo agent/flow users in GitLab 18.11.
 
 {{< /history >}}
 
 - **GitLab Duo users**: Number of users who used at least one GitLab Duo or GitLab Duo Agent Platform feature in the last 30 days.
 - **Code Suggestions users**: Number of users who used Code Suggestions in the last 30 days.
   For calculating Code Suggestions metrics, GitLab collects data only from code editor extensions.
-- **Code Suggestions acceptance rate**: Percentage of code suggestions provided by GitLab Duo that have been accepted by code contributors in the last 30 days.
-  It is calculated as the number of accepted code suggestions divided by the total number of generated code suggestions.
+- **GitLab Duo agent/flow users**: Number of users who used at least one GitLab Duo agent or flow in the last 30 days.
 - **GitLab Duo Agent chat sessions**: Number of chat sessions initiated in GitLab Duo Agent Platform in the last 30 days.
 
 ## Metric trends

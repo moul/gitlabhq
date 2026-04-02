@@ -3080,14 +3080,20 @@ RSpec.describe API::MergeRequests, :aggregate_failures, feature_category: :sourc
       end
 
       context 'when composite identity is defined' do
+        # Use a separate human_user rather than the shared `user2` to avoid
+        # contaminating the shared AR object: resolve_composite_identity_user calls
+        # composite_identity_enforced! which sets an in-memory ivar that would
+        # otherwise leak to subsequent tests via the let_it_be(:user2) object.
+        let(:human_user) { create(:user, developer_of: project) }
+
         before do
-          ::Gitlab::Auth::Identity.new(user).link!(user2)
+          ::Gitlab::Auth::Identity.new(user).link!(human_user, context: :authentication)
         end
 
         context 'when both users can create a merge request' do
           before do
             project.add_developer(user)
-            project.add_developer(user2)
+            project.add_developer(human_user)
           end
 
           it 'creates a merge request' do
@@ -3100,7 +3106,7 @@ RSpec.describe API::MergeRequests, :aggregate_failures, feature_category: :sourc
         context 'when scoped user can not create a merge request' do
           before do
             project.add_developer(user)
-            project.add_reporter(user2)
+            project.add_reporter(human_user)
           end
 
           it 'does not create a merge request' do

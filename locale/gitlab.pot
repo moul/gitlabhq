@@ -7466,9 +7466,6 @@ msgstr ""
 msgid "AiImpactAnalytics|Code Suggestions accepted out of total Code Suggestions generated."
 msgstr ""
 
-msgid "AiImpactAnalytics|Code Suggestions accepted out of total Code Suggestions generated. %{linkStart}Learn more%{linkEnd}."
-msgstr ""
-
 msgid "AiImpactAnalytics|Code Suggestions usage"
 msgstr ""
 
@@ -7491,6 +7488,9 @@ msgid "AiImpactAnalytics|Duo users"
 msgstr ""
 
 msgid "AiImpactAnalytics|Feature usage"
+msgstr ""
+
+msgid "AiImpactAnalytics|GitLab Duo agent/flow users"
 msgstr ""
 
 msgid "AiImpactAnalytics|No query found for metric: %{metric}"
@@ -7521,6 +7521,9 @@ msgid "AiImpactAnalytics|Number of users who used Duo Chat (non-agentic)."
 msgstr ""
 
 msgid "AiImpactAnalytics|Number of users who used Root Cause Analysis."
+msgstr ""
+
+msgid "AiImpactAnalytics|Number of users who used at least one GitLab Duo agent or flow."
 msgstr ""
 
 msgid "AiImpactAnalytics|Number of users who used at least one GitLab Duo or GitLab Duo Agent Platform feature."
@@ -7568,6 +7571,9 @@ msgstr ""
 msgid "AiPowered|After the conversation was last updated"
 msgstr ""
 
+msgid "AiPowered|All eligible users"
+msgstr ""
+
 msgid "AiPowered|Allow GitLab Duo agents to execute flows for the instance. %{linkStart}What are flows%{linkEnd}?"
 msgstr ""
 
@@ -7584,9 +7590,6 @@ msgid "AiPowered|Allow GitLab to collect prompts, AI responses, and metadata fro
 msgstr ""
 
 msgid "AiPowered|Allow GitLab to process your code and project data for AI-native features in this group. Your data is sent to GitLab Duo. Groups, subgroups, and projects can opt out individually."
-msgstr ""
-
-msgid "AiPowered|Allow members of these groups access to AI-native features."
 msgstr ""
 
 msgid "AiPowered|Always off"
@@ -7658,7 +7661,13 @@ msgstr ""
 msgid "AiPowered|Control who can access AI-native features executed with or without CI/CD pipelines."
 msgstr ""
 
+msgid "AiPowered|Create group"
+msgstr ""
+
 msgid "AiPowered|Data collection"
+msgstr ""
+
+msgid "AiPowered|Default access for users who can access AI features regardless of group membership."
 msgstr ""
 
 msgid "AiPowered|Direct connections"
@@ -7751,6 +7760,9 @@ msgstr ""
 msgid "AiPowered|Learn more about GitLab Credits (opens in new window)"
 msgstr ""
 
+msgid "AiPowered|Limit access based on group membership"
+msgstr ""
+
 msgid "AiPowered|Local AI Gateway URL"
 msgstr ""
 
@@ -7764,9 +7776,6 @@ msgid "AiPowered|Lock tooltip icon"
 msgstr ""
 
 msgid "AiPowered|Maximum time in seconds to wait for responses from the AI Gateway (up to 600 seconds).%{br}Increasing this value might result in degraded user experience."
-msgstr ""
-
-msgid "AiPowered|Member access"
 msgstr ""
 
 msgid "AiPowered|Members of group"
@@ -7787,13 +7796,10 @@ msgstr ""
 msgid "AiPowered|Never allow GitLab to process your code and project data for AI-native features in this group. Your data is not sent to GitLab Duo."
 msgstr ""
 
-msgid "AiPowered|No access rules configured"
-msgstr ""
-
-msgid "AiPowered|No group"
-msgstr ""
-
 msgid "AiPowered|No groups found"
+msgstr ""
+
+msgid "AiPowered|No limits applied. All eligible users have access to all AI features."
 msgstr ""
 
 msgid "AiPowered|Not enabled"
@@ -7914,6 +7920,9 @@ msgid "AiPowered|When GitLab Duo is not available, experiment and beta features 
 msgstr ""
 
 msgid "AiPowered|When GitLab Duo is not available, prompt caching cannot be turned on."
+msgstr ""
+
+msgid "AiPowered|When configured, access to GitLab Duo or GitLab Duo Agent Platform can be restricted to selected groups. By default all eligible members can access all configured AI features. %{linkStart}How can I control access?%{linkEnd}"
 msgstr ""
 
 msgid "AiPowered|When turned on, members without a Duo Pro or Duo Enterprise seat can access GitLab Duo Agent Platform features. %{linkStart}Which features are included%{linkEnd}?"
@@ -62059,7 +62068,10 @@ msgstr ""
 msgid "SecretsManager|Stored secrets"
 msgstr ""
 
-msgid "SecretsManager|The name should be unique within this project."
+msgid "SecretsManager|The name should be unique within this group and can contain only letters, digits, and '_'."
+msgstr ""
+
+msgid "SecretsManager|The name should be unique within this project and can contain only letters, digits, and '_'."
 msgstr ""
 
 msgid "SecretsManager|This field is required and must be 200 characters or less."

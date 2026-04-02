@@ -13,6 +13,8 @@ import (
 
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/api"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/log"
+	"gitlab.com/gitlab-org/gitlab/workhorse/internal/secret"
+	"gitlab.com/gitlab-org/gitlab/workhorse/internal/version"
 
 	pb "gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb/contract"
 
@@ -187,6 +189,13 @@ func (a *runHTTPActionHandler) buildRequest(ctx context.Context) (*http.Request,
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %v", a.token))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("User-Agent", "Agent-Flow-via-GitLab-Workhorse")
+
+	tokenString, err := secret.JWTTokenString(secret.DefaultClaims)
+	if err != nil {
+		return nil, fmt.Errorf("buildRequest: failed to generate JWT token: %w", err)
+	}
+	req.Header.Set("Gitlab-Workhorse", version.GetApplicationVersion())
+	req.Header.Set(secret.RequestHeader, tokenString)
 
 	if clientIP, _, splitHostErr := net.SplitHostPort(a.originalReq.RemoteAddr); splitHostErr == nil {
 		// If we aren't the first proxy retain prior X-Forwarded-For information as a comma+space separated list and fold multiple headers into one.

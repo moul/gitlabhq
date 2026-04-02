@@ -14,6 +14,8 @@ import (
 	"github.com/stretchr/testify/require"
 	pb "gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb/contract"
 
+	"gitlab.com/gitlab-org/gitlab/workhorse/internal/testhelper"
+
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/api"
 )
 
@@ -47,12 +49,15 @@ func createBackendHandler(client *http.Client) http.Handler {
 }
 
 func TestRunHttpActionHandler_Execute(t *testing.T) {
+	testhelper.ConfigureSecret()
+
 	t.Run("successful request with body", func(t *testing.T) {
 		server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			assert.Equal(t, "/api/projects/123", r.URL.Path)
 			assert.Equal(t, "Bearer test-token", r.Header.Get("Authorization"))
 			assert.Equal(t, "application/json", r.Header.Get("Content-Type"))
 			assert.Equal(t, "Agent-Flow-via-GitLab-Workhorse", r.Header.Get("User-Agent"))
+			assert.NotEmpty(t, r.Header.Get("Gitlab-Workhorse-Api-Request"))
 			assert.Equal(t, "192.0.2.1", r.Header.Get("X-Forwarded-For"))
 			assert.Equal(t, "POST", r.Method)
 			w.WriteHeader(http.StatusCreated)
