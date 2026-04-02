@@ -18,6 +18,18 @@ RSpec.describe Members::DeletionSchedule, feature_category: :seat_cost_managemen
       expect(new_schedule).to be_invalid
       expect(new_schedule.errors.full_messages).to eq ["User already scheduled for deletion"]
     end
+
+    include_examples 'validates IP address' do
+      let(:attribute) { :ip_address }
+      let(:object) { build(:members_deletion_schedules) }
+    end
+
+    it 'allows ip_address to be nil' do
+      deletion_schedule = build(:members_deletion_schedules, ip_address: nil)
+
+      expect(deletion_schedule.save).to be true
+      expect(deletion_schedule.reload.ip_address).to be_nil
+    end
   end
 
   describe '.exists_for?' do

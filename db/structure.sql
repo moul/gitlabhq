@@ -13612,6 +13612,12 @@ CREATE TABLE ai_settings (
     minimum_access_level_execute_async smallint,
     feature_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     self_hosted_duo_agent_platform_service_secure boolean DEFAULT true NOT NULL,
+    include_recommended_allowed boolean DEFAULT false NOT NULL,
+    allow_all_unix_sockets boolean DEFAULT false NOT NULL,
+    enforce_on_local_clients boolean DEFAULT false NOT NULL,
+    allow_project_extension boolean DEFAULT true NOT NULL,
+    allowed_domains text[] DEFAULT '{}'::text[] NOT NULL,
+    denied_domains text[] DEFAULT '{}'::text[] NOT NULL,
     CONSTRAINT check_3cf9826589 CHECK ((char_length(ai_gateway_url) <= 2048)),
     CONSTRAINT check_900d7a89b3 CHECK ((char_length(duo_agent_platform_service_url) <= 2048)),
     CONSTRAINT check_a02bd8868c CHECK ((char_length(amazon_q_role_arn) <= 2048)),
@@ -24051,6 +24057,12 @@ CREATE TABLE namespace_ai_settings (
     feature_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     prompt_injection_protection_level smallint DEFAULT 0 NOT NULL,
     ai_usage_data_collection_enabled boolean DEFAULT false NOT NULL,
+    include_recommended_allowed boolean DEFAULT false NOT NULL,
+    allow_all_unix_sockets boolean DEFAULT false NOT NULL,
+    enforce_on_local_clients boolean DEFAULT false NOT NULL,
+    allow_project_extension boolean DEFAULT true NOT NULL,
+    allowed_domains text[] DEFAULT '{}'::text[] NOT NULL,
+    denied_domains text[] DEFAULT '{}'::text[] NOT NULL,
     CONSTRAINT check_namespace_ai_settings_feature_settings_is_hash CHECK ((jsonb_typeof(feature_settings) = 'object'::text))
 );
 
@@ -44155,6 +44167,8 @@ CREATE UNIQUE INDEX idx_jira_connect_subscriptions_on_installation_id_namespace_
 
 CREATE INDEX idx_keys_expires_at_and_before_expiry_notification_undelivered ON keys USING btree (date(timezone('UTC'::text, expires_at)), before_expiry_notification_delivered_at) WHERE (before_expiry_notification_delivered_at IS NULL);
 
+CREATE INDEX idx_label_links_on_namespace_id_label_id_and_id ON label_links USING btree (namespace_id, label_id, id);
+
 CREATE UNIQUE INDEX idx_lifecycle_statuses_on_lifecycle_and_status ON work_item_custom_lifecycle_statuses USING btree (lifecycle_id, status_id);
 
 CREATE INDEX idx_member_roles_on_base_access_level ON member_roles USING btree (base_access_level);
@@ -46932,8 +46946,6 @@ CREATE UNIQUE INDEX index_knowledge_graph_enabled_namespaces_on_root_namespace_i
 CREATE UNIQUE INDEX index_kubernetes_namespaces_on_cluster_project_environment_id ON clusters_kubernetes_namespaces USING btree (cluster_id, project_id, environment_id);
 
 CREATE INDEX index_label_links_on_label_id_and_target_type ON label_links USING btree (label_id, target_type);
-
-CREATE INDEX index_label_links_on_namespace_id ON label_links USING btree (namespace_id);
 
 CREATE INDEX index_label_links_on_target_id_and_target_type ON label_links USING btree (target_id, target_type);
 

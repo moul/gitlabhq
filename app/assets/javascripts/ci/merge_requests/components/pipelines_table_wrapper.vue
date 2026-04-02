@@ -10,12 +10,13 @@ import {
 } from '@gitlab/ui';
 import { createAlert } from '~/alert';
 import Api from '~/api';
-import { getQueryHeaders } from '~/ci/pipeline_details/graph/utils';
+import { getQueryHeaders, toggleQueryPollingByVisibility } from '~/ci/pipeline_details/graph/utils';
 import { helpPagePath } from '~/helpers/help_page_helper';
 import PipelinesTable from '~/ci/common/pipelines_table.vue';
 import RunPipelineButton from '~/ci/common/run_pipeline_button.vue';
 import { s__, __ } from '~/locale';
 import getMergeRequestPipelines from '~/ci/merge_requests/graphql/queries/get_merge_request_pipelines.query.graphql';
+import getSinglePipeline from '~/ci/pipelines_page/graphql/queries/get_single_pipeline.query.graphql';
 import cancelPipelineMutation from '~/ci/pipeline_details/graphql/mutations/cancel_pipeline.mutation.graphql';
 import retryPipelineMutation from '~/ci/pipeline_details/graphql/mutations/retry_pipeline.mutation.graphql';
 import { TYPENAME_CI_PIPELINE } from '~/graphql_shared/constants';
@@ -99,7 +100,10 @@ export default {
       context() {
         return getQueryHeaders(this.graphqlResourceEtag);
       },
-      pollInterval: 10000,
+      // TODO: Implement proper ETag caching using graphqlEtagMergeRequestPipelines()
+      // once backend support is verified. For now, using 60s polling as backup
+      // for real-time subscriptions.
+      pollInterval: 60000,
       variables() {
         return {
           fullPath: this.targetProjectFullPath,
@@ -307,8 +311,15 @@ export default {
       immediate: true,
     },
   },
+  mounted() {
+    this.pollingVisibilityCleanup = toggleQueryPollingByVisibility(
+      this.$apollo.queries.pipelines,
+      60000,
+    );
+  },
   beforeUnmount() {
     clearTimeout(this.loaderTimeout);
+    this.pollingVisibilityCleanup?.();
   },
   methods: {
     /**
@@ -410,7 +421,7 @@ export default {
           throw new Error(errorMessage);
         }
 
-        this.refreshPipelineTable();
+        this.refetchSinglePipeline(pipeline.graphqlId);
       } catch (error) {
         createAlert({
           message: defaultErrorMessage,
@@ -419,21 +430,50 @@ export default {
         });
       }
     },
-    refreshPipelineTable() {
-      this.pagination = {
-        first: PIPELINES_PER_PAGE,
-        last: null,
-        after: '',
-        before: '',
-      };
-      this.clearAllSubscriptions();
-      this.$apollo.queries.pipelines.refetch();
-    },
     clearAllSubscriptions() {
       this.pipelineSubscriptionHandles.forEach((unsubscribe) => {
         unsubscribe();
       });
       this.pipelineSubscriptionHandles.clear();
+    },
+    async refetchSinglePipeline(pipelineGid) {
+      try {
+        const { data } = await this.$apollo.query({
+          query: getSinglePipeline,
+          variables: {
+            fullPath: this.targetProjectFullPath,
+            id: pipelineGid,
+          },
+          fetchPolicy: 'network-only',
+          context: {
+            featureCategory: 'continuous_integration',
+          },
+        });
+
+        const updatedPipeline = data?.project?.pipeline;
+        if (updatedPipeline) {
+          this.mergePipelineUpdate(updatedPipeline);
+        }
+      } catch (error) {
+        Sentry.captureException(error, {
+          tags: { component: this.$options.name },
+        });
+      }
+    },
+    mergePipelineUpdate(updatedPipeline) {
+      const index = this.pipelines.findIndex((p) => p.graphqlId === updatedPipeline.id);
+      if (index !== -1) {
+        const mergedPipeline = {
+          ...updatedPipeline,
+          id: getIdFromGraphQLId(updatedPipeline.id),
+          graphqlId: updatedPipeline.id,
+        };
+        this.pipelines.splice(index, 1, mergedPipeline);
+        this.subscribeToAlivePipelines();
+      }
+    },
+    onJobActionExecuted(pipeline) {
+      this.refetchSinglePipeline(pipeline.graphqlId);
     },
     /**
      * When the user clicks on the "Run pipeline" button
@@ -672,24 +712,17 @@ export default {
 
       <pipelines-table
         :is-creating-pipeline="isCreatingPipeline"
+        :show-run-pipeline-button="canRenderPipelineButton"
+        :run-pipeline-button-loading="showRunPipelineButtonLoader"
+        :merge-request-id="mergeRequestId"
         :pipelines="pipelines"
         :source-project-full-path="sourceProjectFullPath"
         class="@lg/panel:-gl-mt-px"
         @cancel-pipeline="cancelPipeline"
+        @run-pipeline="tryRunPipeline"
         @retry-pipeline="retryPipeline"
-        @refresh-pipelines-table="refreshPipelineTable"
-      >
-        <template #table-header-actions>
-          <div v-if="canRenderPipelineButton" class="gl-text-right">
-            <run-pipeline-button
-              data-testid="run_pipeline_button"
-              :is-loading="showRunPipelineButtonLoader"
-              :merge-request-id="mergeRequestId"
-              @run-pipeline="tryRunPipeline"
-            />
-          </div>
-        </template>
-      </pipelines-table>
+        @job-action-executed="onJobActionExecuted"
+      />
       <div class="gl-mt-5 gl-flex gl-justify-center">
         <gl-keyset-pagination
           v-if="showPagination"

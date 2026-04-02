@@ -158,7 +158,8 @@ export const toggleQueryPollingByVisibility = (queryRef, interval = 10000) => {
   };
 
   stopStartQuery(queryRef);
-  Visibility.change(stopStartQuery.bind(null, queryRef));
+  const id = Visibility.change(stopStartQuery.bind(null, queryRef));
+  return () => Visibility.unbind(id);
 };
 
 export const etagQueryHeaders = (featureCorrelation, etagResource = '') => {

@@ -59,7 +59,7 @@ module Issuable
       Note.from_union(
         [
           user,
-          system.joins(:system_note_metadata).merge(SystemNoteMetadata.with_user_mentions)
+          system.with_possible_mentions
         ], remove_duplicates: false
       ).extending(Notes::ParticipantAssociationsExtension)
     }, class_name: 'Note', as: :noteable, inverse_of: :noteable

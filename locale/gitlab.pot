@@ -7601,9 +7601,6 @@ msgstr ""
 msgid "AiPowered|Configuration"
 msgstr ""
 
-msgid "AiPowered|Configure AI features"
-msgstr ""
-
 msgid "AiPowered|Configure AI-native GitLab Duo features. %{linkStart}Which features%{linkEnd}?"
 msgstr ""
 
@@ -7815,9 +7812,6 @@ msgid "AiPowered|Start date: %{startDate}"
 msgstr ""
 
 msgid "AiPowered|Talk to Sales"
-msgstr ""
-
-msgid "AiPowered|Tanuki AI icon"
 msgstr ""
 
 msgid "AiPowered|This setting applies to the entire instance. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}Check the required prerequisites%{prerequisitesLinkEnd}."

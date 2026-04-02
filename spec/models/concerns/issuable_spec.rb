@@ -48,18 +48,14 @@ RSpec.describe Issuable, feature_category: :team_planning do
       describe 'notes_with_possible_mentions' do
         let!(:user_note) { create(:note, noteable: issue, project: issue.project) }
         let!(:system_note_with_mention) do
-          create(:system_note, noteable: issue, project: issue.project).tap do |note|
-            create(:system_note_metadata, note: note, action: 'assignee')
-          end
+          create(:system_note, noteable: issue, project: issue.project, note: 'assigned to @user')
         end
 
         let!(:system_note_without_mention) do
-          create(:system_note, noteable: issue, project: issue.project).tap do |note|
-            create(:system_note_metadata, note: note, action: 'merge')
-          end
+          create(:system_note, noteable: issue, project: issue.project, note: 'merged')
         end
 
-        it 'returns user notes and system notes with user mention types' do
+        it 'returns user notes and system notes with mentions' do
           results = issue.notes_with_possible_mentions
 
           expect(results).to contain_exactly(note, user_note, system_note_with_mention)

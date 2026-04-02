@@ -1,6 +1,7 @@
 package loadshedding
 
 import (
+	"bytes"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -191,6 +192,89 @@ func TestLoadSheddingMiddlewareRetryableMethods(t *testing.T) {
 			})
 		}
 	})
+}
+
+func TestLoadSheddingMiddlewareLogsWhenShedding(t *testing.T) {
+	buf := &bytes.Buffer{}
+	logger := logrus.New()
+	logger.Out = buf
+	logger.Level = logrus.DebugLevel
+
+	reg := prometheus.NewRegistry()
+	cfg := &config.LoadSheddingConfig{
+		BacklogThreshold:  100,
+		BacklogHysteresis: 0.8,
+		RetryAfterSeconds: 30,
+		StatusCode:        http.StatusServiceUnavailable,
+	}
+	shedder := NewLoadShedder(cfg, logger, reg)
+	shedder.InitializeMetrics()
+
+	shedder.UpdateBacklog(&puma.ControlResponse{
+		Workers:       1,
+		BootedWorkers: 1,
+		WorkerStatus: []puma.Worker{
+			{Index: 0, Booted: true, LastStatus: puma.WorkerStatus{Backlog: 150}},
+		},
+	})
+
+	nextHandler := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
+	handler := Middleware(shedder, logger)(nextHandler)
+
+	req := httptest.NewRequest("GET", "/api/projects", nil)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusServiceUnavailable, w.Code)
+
+	logOutput := buf.String()
+	assert.Contains(t, logOutput, "Shedding load due to high backlog")
+	assert.Contains(t, logOutput, "backlog=150")
+	assert.Contains(t, logOutput, "threshold=100")
+	assert.Contains(t, logOutput, "retry_after=30")
+	assert.Contains(t, logOutput, "path=/api/projects")
+	assert.Contains(t, logOutput, "method=GET")
+}
+
+func TestLoadSheddingMiddlewareDoesNotLogWhenAllowed(t *testing.T) {
+	buf := &bytes.Buffer{}
+	logger := logrus.New()
+	logger.Out = buf
+	logger.Level = logrus.DebugLevel
+
+	reg := prometheus.NewRegistry()
+	cfg := &config.LoadSheddingConfig{
+		BacklogThreshold:  100,
+		BacklogHysteresis: 0.8,
+		RetryAfterSeconds: 0,
+		StatusCode:        http.StatusServiceUnavailable,
+	}
+	shedder := NewLoadShedder(cfg, logger, reg)
+	shedder.InitializeMetrics()
+
+	shedder.UpdateBacklog(&puma.ControlResponse{
+		Workers:       1,
+		BootedWorkers: 1,
+		WorkerStatus: []puma.Worker{
+			{Index: 0, Booted: true, LastStatus: puma.WorkerStatus{Backlog: 50}},
+		},
+	})
+
+	nextHandler := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
+	handler := Middleware(shedder, logger)(nextHandler)
+
+	req := httptest.NewRequest("GET", "/api/projects", nil)
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NotContains(t, buf.String(), "Shedding load")
 }
 
 func TestLoadSheddingMiddlewareCustomStatusCode(t *testing.T) {

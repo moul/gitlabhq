@@ -34,13 +34,6 @@ class SystemNoteMetadata < ApplicationRecord
     relate_to_child
   ].freeze
 
-  # These notes might contain a user reference in the note body.
-  # We parse these notes to fetch participants for the noteable.
-  TYPES_WITH_USER_MENTIONS = %w[
-    assignee
-    reviewer
-  ].freeze
-
   ICON_TYPES = %w[
     commit description merge confidential visible label assignee cross_reference
     designs_added designs_modified designs_removed designs_discussion_added
@@ -62,13 +55,8 @@ class SystemNoteMetadata < ApplicationRecord
   belongs_to :namespace
 
   scope :for_notes, ->(notes) { where(note_id: notes) }
-  scope :with_user_mentions, -> { where(action: SystemNoteMetadata.user_mention_types) }
 
   delegate_missing_to :note
-
-  def self.user_mention_types
-    TYPES_WITH_USER_MENTIONS
-  end
 
   def declarative_policy_delegate
     note

@@ -68,11 +68,11 @@ export const generateMockPipeline = ({
         name: 'build',
         detailedStatus: {
           id: 'success-1949-1949',
+          name: 'SUCCESS',
           icon: 'status_success',
           text: 'Passed',
           detailsPath: `/gitlab-org/gitlab/-/pipelines/${id}#build`,
           tooltip: 'passed',
-          name: 'SUCCESS',
           __typename: 'DetailedStatus',
         },
         __typename: 'CiStage',
@@ -82,11 +82,11 @@ export const generateMockPipeline = ({
         name: 'test',
         detailedStatus: {
           id: 'success-1950-1950',
+          name: 'SUCCESS',
           icon: 'status_success',
           text: 'Passed',
           detailsPath: `/gitlab-org/gitlab/-/pipelines/${id}#test`,
           tooltip: 'passed',
-          name: 'SUCCESS',
           __typename: 'DetailedStatus',
         },
         __typename: 'CiStage',
@@ -96,11 +96,11 @@ export const generateMockPipeline = ({
         name: 'deploy',
         detailedStatus: {
           id: 'success-1951-1951',
+          name: 'SUCCESS',
           icon: 'status_success',
           text: 'Passed',
           detailsPath: `/gitlab-org/gitlab/-/pipelines/${id}#deploy`,
           tooltip: 'passed',
-          name: 'SUCCESS',
           __typename: 'DetailedStatus',
         },
         __typename: 'CiStage',
@@ -599,4 +599,20 @@ export const generatePipelineCreationRequest = ({
     pipeline ||
     (status === 'SUCCEEDED' ? generateMockPipeline({ id: pipelineId.split('/').pop() }) : null),
   __typename: 'CiPipelineCreationRequest',
+});
+
+export const generateSinglePipelineResponse = (pipeline) => ({
+  data: {
+    project: {
+      id: 'gid://gitlab/Project/1',
+      pipeline: {
+        ...pipeline,
+        downstream: {
+          nodes: [],
+          __typename: 'PipelineConnection',
+        },
+      },
+      __typename: 'Project',
+    },
+  },
 });

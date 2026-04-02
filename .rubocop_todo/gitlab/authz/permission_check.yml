@@ -210,7 +210,6 @@ Gitlab/Authz/PermissionCheck:
     - 'lib/api/entities/namespace.rb'
     - 'lib/api/entities/project.rb'
     - 'lib/api/resource_access_tokens.rb'
-    - 'lib/gitlab/checks/tag_check.rb'
     - 'lib/gitlab/jira_import.rb'
     - 'lib/gitlab/quick_actions/issue_actions.rb'
     - 'lib/gitlab/quick_actions/relate_actions.rb'

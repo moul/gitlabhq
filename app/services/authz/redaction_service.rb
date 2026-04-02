@@ -83,6 +83,7 @@ module Authz
       start = ::Gitlab::Metrics::System.monotonic_time
 
       loaded_resources_by_type = load_all_resources
+      preseed_authorization_caches(loaded_resources_by_type)
 
       results = DeclarativePolicy.user_scope do
         resources_by_type.each_with_object({}) do |(type, config), authorization_results|
@@ -104,6 +105,37 @@ module Authz
     private
 
     attr_reader :user, :resources_by_type, :source, :logger, :metrics_observer
+
+    def preseed_authorization_caches(loaded_resources_by_type)
+      projects, groups = collect_policy_subjects(loaded_resources_by_type)
+
+      ::Preloaders::ProjectPolicyPreloader.new(projects, user).execute if projects.any?
+      ::Preloaders::GroupPolicyPreloader.new(groups, user).execute if groups.any?
+    end
+
+    def collect_policy_subjects(loaded_resources_by_type)
+      projects = []
+      groups = []
+
+      loaded_resources_by_type.each do |type, resources|
+        resources.each_value do |resource|
+          case type
+          when :project then projects << resource
+          when :merge_request then projects << resource.target_project if resource.target_project.is_a?(::Project)
+          when :group then groups << resource
+          else
+            projects << resource.project if resource.respond_to?(:project) && resource.project.is_a?(::Project)
+            groups << resource.group if resource.respond_to?(:group) && resource.group.is_a?(::Group)
+          end
+        end
+      end
+
+      projects.uniq!(&:id)
+      projects.each { |p| groups << p.group if p.group.is_a?(::Group) }
+      groups.uniq!(&:id)
+
+      [projects, groups]
+    end
 
     def load_all_resources
       resources_by_type.each_with_object({}) do |(type, config), loaded|

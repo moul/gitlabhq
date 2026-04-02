@@ -532,7 +532,7 @@ describe('Pipelines table in Commits and Merge requests', () => {
       it('calls the pipelines endpoint again', async () => {
         expect(mock.history.get).toHaveLength(1);
 
-        findPipelinesTable().vm.$emit('refresh-pipelines-table');
+        findPipelinesTable().vm.$emit('job-action-executed');
 
         await waitForPromises();
 
@@ -909,7 +909,7 @@ describe('Pipelines table in Commits and Merge requests', () => {
 
         mock.onGet('endpoint.json').reply(HTTP_STATUS_OK, []);
 
-        findPipelinesTable().vm.$emit('refresh-pipelines-table');
+        findPipelinesTable().vm.$emit('job-action-executed');
         await waitForPromises();
 
         expect(findSkeletonLoader().exists()).toBe(false);
@@ -964,7 +964,7 @@ describe('Pipelines table in Commits and Merge requests', () => {
             },
           },
         ]);
-        findPipelinesTable().vm.$emit('refresh-pipelines-table');
+        findPipelinesTable().vm.$emit('job-action-executed');
         await waitForPromises();
 
         expect(findSkeletonLoader().exists()).toBe(true);

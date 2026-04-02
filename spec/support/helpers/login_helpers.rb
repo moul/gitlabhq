@@ -62,17 +62,12 @@ module LoginHelpers
 
   # Requires Javascript driver.
   def gitlab_sign_out(user = @current_user)
-    if has_testid?('super-sidebar')
+    within_testid('user-dropdown') do
       click_on "#{user.name} user’s menu"
-    else
-      # This can be removed once https://gitlab.com/gitlab-org/gitlab/-/issues/420121 is complete.
-      find(".header-user-dropdown-toggle").click
+      click_link _('Sign out')
     end
-
-    click_link "Sign out"
     @current_user = nil
-
-    expect(page).to have_button('Sign in')
+    expect(page).to have_button(_('Sign in'))
   end
 
   # Requires Javascript driver.

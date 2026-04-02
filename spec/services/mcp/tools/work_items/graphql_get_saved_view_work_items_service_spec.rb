@@ -906,9 +906,9 @@ RSpec.describe Mcp::Tools::WorkItems::GraphqlGetSavedViewWorkItemsService, featu
     end
 
     context 'with hierarchyFilters' do
-      let_it_be(:parent_work_item) { create(:work_item, :epic, namespace: group) }
+      let_it_be(:parent_work_item) { create(:work_item, :issue, namespace: group) }
       let_it_be(:child_work_item) do
-        create(:work_item, :issue, project: project).tap do |child|
+        create(:work_item, :task, project: project).tap do |child|
           create(:parent_link, work_item: child, work_item_parent: parent_work_item)
         end
       end
