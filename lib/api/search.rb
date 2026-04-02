@@ -10,6 +10,7 @@ module API
     SCOPE_ENTITY = {
       merge_requests: Entities::MergeRequestBasic,
       issues: Entities::IssueBasic,
+      work_items: Entities::WorkItem,
       projects: Entities::BasicProjectDetails,
       milestones: Entities::Milestone,
       notes: Entities::Note,
@@ -46,6 +47,7 @@ module API
           merge_requests: :with_api_entity_associations,
           projects: :with_api_entity_associations,
           issues: :with_api_entity_associations,
+          work_items: :with_api_entity_associations,
           milestones: :with_api_entity_associations,
           commits: :with_api_commit_entity_associations
         }.freeze
@@ -73,6 +75,8 @@ module API
 
       def search(additional_params = {})
         return Kaminari.paginate_array([]) if @project.present? && !project_scope_allowed?
+
+        bad_request!('All requested work item types are unavailable or do not exist') if unavailable_work_item_types?
 
         search_service = search_service(additional_params)
         if search_service.global_search? && !search_service.global_search_enabled_for_scope?
@@ -123,6 +127,15 @@ module API
 
       def project_scope_allowed?
         ::Search::Navigation.new(user: current_user, project: @project).tab_enabled_for_project?(params[:scope].to_sym)
+      end
+
+      def unavailable_work_item_types?
+        # If user requested specific work item types but none are available, return true
+        # This prevents returning all work items when unavailable types (e.g., epic on CE) are requested
+        return false unless params[:type].present? && params[:scope] == 'work_items'
+
+        processed_params = Gitlab::Search::Params.new(params)
+        processed_params[:work_item_type_ids].blank?
       end
 
       def snippets?
@@ -177,6 +190,8 @@ module API
       params :params_common do
         optional :state, type: String, desc: 'Filter results by state', values: Helpers::SearchHelpers.search_states
         optional :confidential, type: Boolean, desc: 'Filter results by confidentiality'
+        optional :type, type: Array[String], coerce_with: ::API::Validations::Types::CommaSeparatedToArray.coerce,
+          desc: Helpers::SearchHelpers.work_item_type_filter_desc
       end
 
       params :param_archived_filter do

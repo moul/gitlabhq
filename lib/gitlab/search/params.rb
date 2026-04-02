@@ -139,7 +139,10 @@ module Gitlab
         return params unless params[:type].present?
 
         provider = ::WorkItems::TypesFramework::Provider.new
-        params[:work_item_type_ids] = provider.ids_by_base_types(Array(params[:type]))
+        # Downcase type names to support case-insensitive filtering
+        # (e.g., "TASK", "Task", and "task" should all work)
+        normalized_types = Array(params[:type]).map { |type| type.to_s.downcase }
+        params[:work_item_type_ids] = provider.ids_by_base_types(normalized_types)
         params.delete(:type)
         params
       end

@@ -127,7 +127,6 @@ Gitlab/Authz/PermissionCheck:
     - 'ee/app/graphql/mutations/vulnerabilities/create_issue_link.rb'
     - 'ee/app/graphql/mutations/vulnerabilities/remove_all_from_project.rb'
     - 'ee/app/graphql/resolvers/ai/catalog/available_flows_for_project_resolver.rb'
-    - 'ee/app/graphql/resolvers/gitlab_subscriptions/add_on_eligible_users_resolver.rb'
     - 'ee/app/graphql/resolvers/gitlab_subscriptions/member_management/member_approval_resolver.rb'
     - 'ee/app/helpers/ee/groups/settings_helper.rb'
     - 'ee/app/helpers/ee/groups_helper.rb'

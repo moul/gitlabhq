@@ -268,12 +268,26 @@ This rule enforces the defined actions based on license findings.
 
 ### `licenses_with_package_exclusion` object
 
+Use the `licenses_with_package_exclusion` object to define a license name and optional
+package exclusions.
+
 | Field  | Type     | Required | Possible values   | Description                                        |
 |--------|----------|----------|-------------------|----------------------------------------------------|
 | `name` | `string` | true     | SPDX license name | [SPDX license name](https://spdx.org/licenses).    |
 | `packages` | `object` | false    | `packages` object | List of packages exceptions for the given license. |
 
+> [!note]
+> The `name` field must be a valid [SPDX license name](https://spdx.org/licenses).
+> The value `unknown` is not a recognized SPDX license name, and is not supported in
+> the `licenses` field. Package-level exclusions configured for `unknown` licenses are
+> ignored during merge request approval evaluation. To manage packages with `unknown`
+> licenses, use the [`license_types`](#license_finding-rule-type) field, or allow
+> `unknown` as a license in your policy. For more information, see
+> [license approval policies block merge requests due to `unknown` licenses](../../compliance/license_approval_policies.md#license-approval-policies-block-merge-requests-due-to-unknown-licenses).
+
 ### `packages` object
+
+Use the `packages` object to define package URL exclusions for a license entry.
 
 | Field  | Type     | Required | Possible values                                       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 |--------|----------|----------|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

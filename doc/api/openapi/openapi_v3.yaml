@@ -17311,7 +17311,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_8185abb492d7"
+              "$ref": "#/components/schemas/RequestBody_5335e770f97c"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -26481,6 +26481,7 @@ paths:
           - notes
           - projects
           - issues
+          - work_items
           - merge_requests
           - milestones
           - snippet_titles
@@ -26506,6 +26507,19 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: type
+        required: false
+        description: 'Filter work items by type. Only applies to work_items scope.
+          Available types: issue, task, epic, incident, test_case, requirement, objective,
+          key_result, ticket.'
+        schema:
+          type: array
+          items:
+            type: string
+          nullable: true
+        in: query
+        style: form
+        explode: false
       - name: include_archived
         required: false
         description: Includes archived projects in the search. Introduced in GitLab
@@ -26612,6 +26626,7 @@ paths:
           - notes
           - projects
           - issues
+          - work_items
           - merge_requests
           - milestones
           - users
@@ -26636,6 +26651,19 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: type
+        required: false
+        description: 'Filter work items by type. Only applies to work_items scope.
+          Available types: issue, task, epic, incident, test_case, requirement, objective,
+          key_result, ticket.'
+        schema:
+          type: array
+          items:
+            type: string
+          nullable: true
+        in: query
+        style: form
+        explode: false
       - name: include_archived
         required: false
         description: Includes archived projects in the search. Introduced in GitLab
@@ -26738,6 +26766,7 @@ paths:
           type: string
           enum:
           - issues
+          - work_items
           - merge_requests
           - milestones
           - notes
@@ -26774,6 +26803,19 @@ paths:
           type: boolean
           nullable: true
         in: query
+      - name: type
+        required: false
+        description: 'Filter work items by type. Only applies to work_items scope.
+          Available types: issue, task, epic, incident, test_case, requirement, objective,
+          key_result, ticket.'
+        schema:
+          type: array
+          items:
+            type: string
+          nullable: true
+        in: query
+        style: form
+        explode: false
       - name: fields
         required: false
         description: Array of fields you wish to search. Available with advanced search.
@@ -66309,7 +66351,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              "$ref": "#/components/schemas/RequestBody_c978e3c71914"
+              "$ref": "#/components/schemas/RequestBody_b07df4d70d76"
   "/api/v4/groups/{id}":
     put:
       operationId: putApiV4GroupsId
@@ -66340,7 +66382,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              "$ref": "#/components/schemas/RequestBody_ff500b4523ae"
+              "$ref": "#/components/schemas/RequestBody_f4032c1f550b"
     get:
       operationId: getApiV4GroupsId
       summary: Get a single group, with containing projects.
@@ -76012,6 +76054,10 @@ components:
           type: string
         duo_foundational_flows_availability:
           type: string
+        tool_approval_for_session_enabled:
+          type: string
+        tool_approval_for_session_availability:
+          type: string
         enabled_expanded_logging:
           type: string
         foundational_agents_default_enabled:
@@ -84458,6 +84504,123 @@ components:
           type: integer
           description: Relative position of the issue in the epic tree
           example: 0
+    APIEntitiesWorkItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 84
+        iid:
+          type: integer
+          example: 14
+        project_id:
+          type: integer
+          example: 4
+        title:
+          type: string
+          example: Impedit et ut et dolores vero provident ullam est
+        description:
+          type: string
+          example: Repellendus impedit et vel velit dignissimos.
+        state:
+          type: string
+          example: closed
+        created_at:
+          type: string
+          format: date-time
+          example: '2022-08-17T12:46:35.053Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2022-11-14T17:22:01.470Z'
+        closed_at:
+          type: string
+          format: date-time
+          example: '2022-11-15T08:30:55.232Z'
+        closed_by:
+          "$ref": "#/components/schemas/APIEntitiesUserBasic"
+        labels:
+          type: array
+          example: bug
+          items:
+            type: string
+        milestone:
+          "$ref": "#/components/schemas/APIEntitiesMilestone"
+        assignees:
+          "$ref": "#/components/schemas/APIEntitiesUserBasic"
+        author:
+          "$ref": "#/components/schemas/APIEntitiesUserBasic"
+        type:
+          type: string
+          description: One of ["ISSUE", "INCIDENT", "TEST_CASE", "REQUIREMENT", "TASK",
+            "OBJECTIVE", "KEY_RESULT", "EPIC", "TICKET"]
+          example: TASK
+        assignee:
+          "$ref": "#/components/schemas/APIEntitiesUserBasic"
+        user_notes_count:
+          type: integer
+        merge_requests_count:
+          type: integer
+        upvotes:
+          type: integer
+        downvotes:
+          type: integer
+        start_date:
+          type: string
+          format: date
+          example: '2022-11-18'
+        due_date:
+          type: string
+          format: date
+          example: '2022-11-20'
+        confidential:
+          type: boolean
+        discussion_locked:
+          type: boolean
+        issue_type:
+          type: string
+          example: issue
+        web_url:
+          type: string
+          example: http://example.com/example/example/issues/14
+        time_stats:
+          "$ref": "#/components/schemas/APIEntitiesIssuableTimeStats"
+        task_completion_status:
+          "$ref": "#/components/schemas/APIEntitiesTaskCompletionStatus"
+        weight:
+          type: string
+        blocking_issues_count:
+          type: string
+        has_tasks:
+          type: string
+        task_status:
+          type: string
+        _links:
+          type: string
+        references:
+          "$ref": "#/components/schemas/APIEntitiesIssuableReferences"
+        severity:
+          type: string
+          description: One of ["UNKNOWN", "LOW", "MEDIUM", "HIGH", "CRITICAL"]
+        subscribed:
+          type: string
+        moved_to_id:
+          type: string
+        imported:
+          type: string
+        imported_from:
+          type: string
+          example: github
+        service_desk_reply_to:
+          type: string
+        epic_iid:
+          type: string
+        epic:
+          "$ref": "#/components/schemas/EpicBaseEntity"
+        iteration:
+          "$ref": "#/components/schemas/APIEntitiesIteration"
+        health_status:
+          type: string
     APIEntitiesRelatedIssue:
       type: object
       properties:
@@ -92744,7 +92907,7 @@ components:
           nullable: true
       required:
       - avatar
-    RequestBody_8185abb492d7:
+    RequestBody_5335e770f97c:
       type: object
       properties:
         admin_mode:
@@ -94841,6 +95004,12 @@ components:
           type: string
           nullable: true
         duo_foundational_flows_availability:
+          type: string
+          nullable: true
+        tool_approval_for_session_enabled:
+          type: string
+          nullable: true
+        tool_approval_for_session_availability:
           type: string
           nullable: true
         enabled_expanded_logging:
@@ -108108,7 +108277,7 @@ components:
           example:
             environment: production
           nullable: true
-    RequestBody_c978e3c71914:
+    RequestBody_b07df4d70d76:
       type: object
       properties:
         name:
@@ -108321,6 +108490,10 @@ components:
           type: boolean
           description: Enable GitLab foundational Duo flows for this group
           nullable: true
+        tool_approval_for_session_availability:
+          type: boolean
+          description: Enable tool approval for session for this group
+          nullable: true
         amazon_q_auto_review_enabled:
           type: boolean
           description: Enable Amazon Q auto review for merge request
@@ -108423,7 +108596,7 @@ components:
       required:
       - name
       - path
-    RequestBody_ff500b4523ae:
+    RequestBody_f4032c1f550b:
       type: object
       properties:
         name:
@@ -108636,6 +108809,10 @@ components:
         duo_foundational_flows_availability:
           type: boolean
           description: Enable GitLab foundational Duo flows for this group
+          nullable: true
+        tool_approval_for_session_availability:
+          type: boolean
+          description: Enable tool approval for session for this group
           nullable: true
         amazon_q_auto_review_enabled:
           type: boolean

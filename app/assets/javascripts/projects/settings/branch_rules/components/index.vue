@@ -422,6 +422,13 @@ export default {
       toastMessage = '',
       trackEvent = '',
     }) {
+      // Only include access levels if they're explicitly being changed (when feature flag is enabled)
+      // This prevents empty arrays from being sent to the backend, which would delete all access levels
+      const isExplicitAccessLevelChange =
+        branchProtection?.pushAccessLevels || branchProtection?.mergeAccessLevels;
+      const includeAccessLevels =
+        !this.glFeatures.skipEmptyAccessLevelsInBranchRules || isExplicitAccessLevelChange;
+
       this.$apollo
         .mutate({
           mutation: editBranchRuleMutation,
@@ -434,12 +441,14 @@ export default {
                 ...(this.branchProtection.codeOwnerApprovalRequired !== undefined && {
                   codeOwnerApprovalRequired: this.branchProtection.codeOwnerApprovalRequired,
                 }),
-                pushAccessLevels: this.getAccessLevelInputFromEdges(
-                  this.branchProtection.pushAccessLevels?.edges || [],
-                ),
-                mergeAccessLevels: this.getAccessLevelInputFromEdges(
-                  this.branchProtection.mergeAccessLevels?.edges || [],
-                ),
+                ...(includeAccessLevels && {
+                  pushAccessLevels: this.getAccessLevelInputFromEdges(
+                    this.branchProtection.pushAccessLevels?.edges || [],
+                  ),
+                  mergeAccessLevels: this.getAccessLevelInputFromEdges(
+                    this.branchProtection.mergeAccessLevels?.edges || [],
+                  ),
+                }),
                 ...(branchProtection || {}),
               },
             },

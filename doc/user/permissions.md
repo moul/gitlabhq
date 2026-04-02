@@ -235,7 +235,7 @@ Group permissions for [package registry](packages/_index.md):
 | View epic                                                                           |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
 | [Search](search/_index.md) epics <sup>1</sup>                                       |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
 | Add issues to an [epic](group/epics/_index.md) <sup>2</sup>                         |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
-| Add [child epics](group/epics/manage_epics.md#multi-level-child-epics) <sup>3</sup> |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
+| Add [child epics](work_items/child_items.md#work-with-multi-level-hierarchies) <sup>3</sup> |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
 | Add parent epic <sup>4</sup>                                                        |   ✓   |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
 | Add internal notes                                                                  |       |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |
 | Create epics                                                                        |       |    ✓    |    ✓     |     ✓     |     ✓      |   ✓   |

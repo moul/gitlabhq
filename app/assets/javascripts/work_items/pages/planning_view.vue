@@ -1,5 +1,5 @@
 <script>
-import { GlButton, GlAlert, GlFilteredSearchToken } from '@gitlab/ui';
+import { GlButton, GlAlert, GlFilteredSearchToken, GlIntersectionObserver } from '@gitlab/ui';
 import { isEmpty, isEqual, sortBy } from 'lodash-es';
 import produce from 'immer';
 import fuzzaldrinPlus from 'fuzzaldrin-plus';
@@ -180,6 +180,7 @@ export default {
   components: {
     GlButton,
     GlAlert,
+    GlIntersectionObserver,
     InfoBanner,
     SavedViewsNotFoundModal,
     SavedViewsLimitWarningModal,
@@ -285,6 +286,7 @@ export default {
       displaySettings: {},
       showBulkEditSidebar: false,
       checkedIssuableIds: [],
+      isStickyHeaderVisible: false,
       hasStateToken: false,
       isNewViewModalVisible: false,
       namespaceName: null,
@@ -1186,6 +1188,9 @@ export default {
   },
 
   methods: {
+    toggleStickyHeader(isVisible) {
+      this.isStickyHeaderVisible = isVisible;
+    },
     handleReorder({ newIndex, oldIndex }) {
       if (newIndex === oldIndex) return Promise.resolve();
 
@@ -1952,6 +1957,54 @@ export default {
           />
         </template>
       </filtered-search-bar>
+      <gl-intersection-observer
+        @appear="toggleStickyHeader(false)"
+        @disappear="toggleStickyHeader(true)"
+      >
+        <transition name="issuable-header-slide">
+          <div
+            v-if="isStickyHeaderVisible"
+            class="sticky-filter gl-fixed gl-left-auto gl-right-auto gl-z-3 gl-hidden @md/panel:gl-block"
+          >
+            <!-- eslint-disable vue/v-on-event-hyphenation -->
+            <filtered-search-bar
+              :namespace="rootPageFullPath"
+              recent-searches-storage-key="issues"
+              :search-input-placeholder="__('Search or filter results…')"
+              :tokens="searchTokens"
+              :sort-options="sortOptions"
+              :initial-filter-value="filterTokens"
+              :initial-sort-by="sortKey"
+              sync-filter-and-sort
+              :show-checkbox="showBulkEditSidebar"
+              :checkbox-checked="allIssuablesChecked"
+              show-friendly-text
+              terms-as-tokens
+              class="row-content-block gl-grow gl-border-t-0 @sm/panel:gl-flex"
+              data-testid="issuable-sticky-search-container"
+              @checked-input="handleAllIssuablesCheckedInput"
+              @onFilter="handleFilter"
+              @onSort="handleSort"
+            >
+              <!-- eslint-enable vue/v-on-event-hyphenation -->
+              <template #user-preference>
+                <user-preferences
+                  :namespace-preferences="displaySettingsSoT.namespacePreferences"
+                  :common-preferences="displaySettings.commonPreferences"
+                  :full-path="rootPageFullPath"
+                  :is-epics-list="isEpicsList"
+                  :is-group="isGroup"
+                  :is-service-desk-list="isServiceDeskList"
+                  :work-item-type-id="workItemTypeId"
+                  :sort-key="sortKey"
+                  :prevent-auto-submit="isSavedView"
+                  @local-update="handleLocalDisplayPreferencesUpdate"
+                />
+              </template>
+            </filtered-search-bar>
+          </div>
+        </transition>
+      </gl-intersection-observer>
     </div>
     <template v-if="!isServiceDeskList && isPlanningViewsEnabled">
       <!-- state-count -->

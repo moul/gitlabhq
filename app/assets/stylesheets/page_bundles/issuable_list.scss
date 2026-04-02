@@ -107,7 +107,8 @@
   }
 }
 
-.issuable-list-container {
+.issuable-list-container,
+.planning-view {
   .sticky-filter {
     position: fixed;
     top: $calc-application-header-height;

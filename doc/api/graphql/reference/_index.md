@@ -8891,11 +8891,13 @@ Input type: `GroupUpdateInput`
 | <a id="mutation-groupupdate-fullpath"></a>`fullPath` | [`ID!`](#id) | Full path of the group that will be updated. |
 | <a id="mutation-groupupdate-lockduofeaturesenabled"></a>`lockDuoFeaturesEnabled` | [`Boolean`](#boolean) | Indicates if the GitLab Duo features enabled setting is enforced for all subgroups. Introduced in GitLab 16.10: **Status**: Experiment. |
 | <a id="mutation-groupupdate-lockmathrenderinglimitsenabled"></a>`lockMathRenderingLimitsEnabled` | [`Boolean`](#boolean) | Indicates if math rendering limits are locked for all descendant groups. |
+| <a id="mutation-groupupdate-locktoolapprovalforsessionenabled"></a>`lockToolApprovalForSessionEnabled` | [`Boolean`](#boolean) | Indicates if the tool approval for session setting is enforced for all subgroups. Introduced in GitLab 18.11: **Status**: Experiment. |
 | <a id="mutation-groupupdate-mathrenderinglimitsenabled"></a>`mathRenderingLimitsEnabled` | [`Boolean`](#boolean) | Indicates if math rendering limits are used for the group. |
 | <a id="mutation-groupupdate-name"></a>`name` | [`String`](#string) | Name of the group. |
 | <a id="mutation-groupupdate-path"></a>`path` | [`String`](#string) | Path of the namespace. |
 | <a id="mutation-groupupdate-sharedrunnerssetting"></a>`sharedRunnersSetting` | [`SharedRunnersSetting`](#sharedrunnerssetting) | Shared runners availability for the namespace and its descendants. |
 | <a id="mutation-groupupdate-stepupauthrequiredoauthprovider"></a>`stepUpAuthRequiredOauthProvider` | [`String`](#string) | OAuth provider required for step-up authentication. |
+| <a id="mutation-groupupdate-toolapprovalforsessionenabled"></a>`toolApprovalForSessionEnabled` | [`Boolean`](#boolean) | Indicates whether tool approval for session is enabled for the group. Introduced in GitLab 18.11: **Status**: Experiment. |
 | <a id="mutation-groupupdate-visibility"></a>`visibility` | [`VisibilityLevelsEnum`](#visibilitylevelsenum) | Visibility of the namespace. |
 | <a id="mutation-groupupdate-webbasedcommitsigningenabled"></a>`webBasedCommitSigningEnabled` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.2. |
 
@@ -28604,6 +28606,7 @@ Core Agent available for GitLab features.
 | <a id="aifoundationalchatagent-name"></a>`name` | [`String!`](#string) | Name of the agent. |
 | <a id="aifoundationalchatagent-reference"></a>`reference` | [`String!`](#string) | Reference ID of the agent. |
 | <a id="aifoundationalchatagent-referencewithversion"></a>`referenceWithVersion` | [`String`](#string) | Versioned reference of the agent. |
+| <a id="aifoundationalchatagent-selectableinchat"></a>`selectableInChat` | [`Boolean!`](#boolean) | Whether the agent is selectable in the chat agent selection UI. |
 | <a id="aifoundationalchatagent-version"></a>`version` | [`String`](#string) | Version of the agent. |
 
 ### `AiInstanceUsageData`
@@ -36829,6 +36832,7 @@ GPG signature for a signed commit.
 | <a id="group-linkpaths"></a>`linkPaths` {{< icon name="warning-solid" >}} | [`NamespacesLinkPaths`](#namespaceslinkpaths) | **Introduced** in GitLab 18.1. **Status**: Experiment. Namespace relevant paths to create links on the UI. |
 | <a id="group-lockduofeaturesenabled"></a>`lockDuoFeaturesEnabled` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 16.10. **Status**: Experiment. Indicates if the GitLab Duo features enabled setting is enforced for all subgroups. |
 | <a id="group-lockmathrenderinglimitsenabled"></a>`lockMathRenderingLimitsEnabled` | [`Boolean`](#boolean) | Indicates if math rendering limits are locked for all descendant groups. |
+| <a id="group-locktoolapprovalforsessionenabled"></a>`lockToolApprovalForSessionEnabled` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.11. **Status**: Experiment. Indicates if the tool approval for session setting is enforced for all subgroups. |
 | <a id="group-markdownpaths"></a>`markdownPaths` {{< icon name="warning-solid" >}} | [`MarkdownPaths`](#markdownpaths) | **Introduced** in GitLab 18.1. **Status**: Experiment. Namespace relevant paths to create markdown links on the UI. |
 | <a id="group-markedfordeletion"></a>`markedForDeletion` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.2. **Status**: Experiment. Indicates if group or any ancestor is scheduled to be deleted. |
 | <a id="group-markedfordeletionon"></a>`markedForDeletionOn` {{< icon name="warning-solid" >}} | [`Time`](#time) | **Introduced** in GitLab 16.11. **Status**: Experiment. Date when group was scheduled to be deleted. |
@@ -36870,6 +36874,7 @@ GPG signature for a signed commit.
 | <a id="group-subscriptionhistory"></a>`subscriptionHistory` {{< icon name="warning-solid" >}} | [`GitlabSubscriptionHistoryConnection`](#gitlabsubscriptionhistoryconnection) | **Introduced** in GitLab 17.3. **Status**: Experiment. Find subscription history records. |
 | <a id="group-targetedmessages"></a>`targetedMessages` {{< icon name="warning-solid" >}} | [`[TargetedMessage!]`](#targetedmessage) | **Introduced** in GitLab 18.7. **Status**: Experiment. Targeted messages for the namespace. |
 | <a id="group-timelogcategories"></a>`timelogCategories` {{< icon name="warning-solid" >}} | [`TimeTrackingTimelogCategoryConnection`](#timetrackingtimelogcategoryconnection) | **Introduced** in GitLab 15.3. **Status**: Experiment. Timelog categories for the namespace. |
+| <a id="group-toolapprovalforsessionenabled"></a>`toolApprovalForSessionEnabled` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Introduced** in GitLab 18.11. **Status**: Experiment. Indicates whether tool approval for session is enabled for the group. |
 | <a id="group-totalrepositorysize"></a>`totalRepositorySize` | [`Float`](#float) | Total repository size of all projects in the root namespace in bytes. |
 | <a id="group-totalrepositorysizeexcess"></a>`totalRepositorySizeExcess` | [`Float`](#float) | Total excess repository size of all projects in the root namespace in bytes. This only applies to namespaces under Project limit enforcement. |
 | <a id="group-twofactorgraceperiod"></a>`twoFactorGracePeriod` | [`Int`](#int) | Time before two-factor authentication is enforced. |

@@ -144,12 +144,17 @@ Grants the ability to read and update security settings.
 
 #### Vulnerability
 
-Grants the ability to create and read vulnerabilities.
+Grants the ability to create, read and update vulnerabilities.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
 | Create | Project | `POST` | `/projects/:id/vulnerabilities` |
+| Read | Project | `GET` | `/vulnerabilities/:id` |
 | Read | Project | `GET` | `/projects/:id/vulnerabilities` |
+| Update | Project | `POST` | `/vulnerabilities/:id/resolve` |
+| Update | Project | `POST` | `/vulnerabilities/:id/dismiss` |
+| Update | Project | `POST` | `/vulnerabilities/:id/confirm` |
+| Update | Project | `POST` | `/vulnerabilities/:id/revert` |
 
 #### Vulnerability Export
 

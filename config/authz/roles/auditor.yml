@@ -50,6 +50,7 @@ project:
 group:
   permissions: []
   raw_permissions:
+  - read_add_on_purchase
   - read_billable_member
   - read_billing
   - read_cluster

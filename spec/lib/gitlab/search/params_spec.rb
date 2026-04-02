@@ -240,6 +240,44 @@ RSpec.describe Gitlab::Search::Params, feature_category: :global_search do
     end
   end
 
+  describe 'converts type param to work_item_type_ids' do
+    using RSpec::Parameterized::TableSyntax
+
+    let(:task_type) { create(:work_item_type, :task) }
+    let(:issue_type) { create(:work_item_type, :issue) }
+
+    before do
+      task_type
+      issue_type
+    end
+
+    where(:type_input, :expected_ids) do
+      ['task']                     | lazy { [task_type.id] }
+      ['TASK']                     | lazy { [task_type.id] }
+      ['Task']                     | lazy { [task_type.id] }
+      %w[TASK Issue]               | lazy { [task_type.id, issue_type.id] }
+      ['nonexistent']              | []
+      %w[task nonexistent issue]   | lazy { [task_type.id, issue_type.id] }
+    end
+
+    with_them do
+      let(:params) { ActionController::Parameters.new(search: search, type: type_input) }
+
+      it 'converts type to work_item_type_ids and removes type param' do
+        expect(search_params[:work_item_type_ids]).to match_array(expected_ids)
+        expect(search_params[:type]).to be_nil
+      end
+    end
+
+    context 'when type param is not present' do
+      let(:params) { ActionController::Parameters.new(search: search) }
+
+      it 'does not set work_item_type_ids' do
+        expect(search_params[:work_item_type_ids]).to be_nil
+      end
+    end
+  end
+
   describe 'converts legacy scope names' do
     using RSpec::Parameterized::TableSyntax
 

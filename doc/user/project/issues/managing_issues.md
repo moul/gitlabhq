@@ -22,6 +22,8 @@ You can manage issues to:
 - Use bulk editing to update multiple issues efficiently.
 - Track issue health status to monitor progress and identify risks.
 
+For information on managing child items of an issue, see [child items](../../work_items/child_items.md).
+
 ## Edit an issue
 
 {{< history >}}
@@ -162,21 +164,6 @@ To move an issue:
 1. Select **Move**.
 
 You can also use the [`/move` quick action](../quick_actions.md#move) in a comment or description.
-
-### Moving child items when the parent issue is moved
-
-{{< history >}}
-
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/371252) in GitLab 16.9 [with a flag](../../../administration/feature_flags/_index.md) named `move_issue_children`. Disabled by default.
-- [Enabled on GitLab.com and GitLab Self-Managed](https://gitlab.com/gitlab-org/gitlab/-/issues/371252) in GitLab 16.11.
-- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/371252) in GitLab 17.3. Feature flag `move_issue_children` removed.
-
-{{< /history >}}
-
-When you move an issue to another project, all its child items are also moved to the target project
-and remain as child items of the moved issue.
-Each item is moved the same way as the parent, that is, it's closed in the original project and
-copied to the target project.
 
 ### Bulk move issues
 
@@ -657,37 +644,6 @@ Or:
 - To use a [keyboard shortcut](../../shortcuts.md), press <kbd>Shift</kbd>+<kbd>i</kbd>.
 - In the upper-right corner, select **Assigned work items** ({{< icon name="work-items" >}}).
 
-## Configure child item display preferences
-
-{{< history >}}
-
-- Display options for child items [expanded](https://gitlab.com/gitlab-org/gitlab/-/work_items/551231) in GitLab 18.10.
-
-{{< /history >}}
-
-You can configure what information is displayed in the **Child items** section, so that you can focus on what matters most for your workflow.
-
-> [!note]
-> When you change the information displayed in one issue, you change it for all work items in your groups and projects.
-
-1. At the top-right corner of the **Child items** section header, select **Display options** ({{< icon name="preferences" >}}).
-
-   By default, all options and fields are visible.
-1. To change the displayed information, turn the following toggles on or off:
-
-   - For display options:
-     - **Show closed items**
-   - For fields displayed:
-     - **Status**
-     - **Assignee**
-     - **Labels**
-     - **Weight**
-     - **Milestone**
-     - **Iteration**
-     - **Dates**
-     - **Health**
-     - **Blocked/Blocking**
-
 ## Issue list
 
 The issue list shows all issues in your project or group.
@@ -1022,3 +978,8 @@ You can do the following **only by using quick actions**:
 - Clone an issue to the same or another project ([`/clone`](../quick_actions.md#clone)).
 - Close an issue and mark as a duplicate of another issue ([`/duplicate`](../quick_actions.md#duplicate)).
 - Copy labels and milestone from another merge request or issue in the project ([`/copy_metadata`](../quick_actions.md#copy_metadata)).
+
+## Related topics
+
+- [Linked items](../../work_items/linked_items.md)
+- [Child items](../../work_items/child_items.md)

@@ -451,7 +451,7 @@ To resolve this issue in GitLab 16.8 and later, you can invite service accounts 
 
 #### Administrator privileges not granted
 
-When [Administrator sync](ldap_synchronization.md#administrator-sync) has been configured
+When [you assign an admin role to an LDAP group](ldap_synchronization.md#assign-an-admin-role-to-an-ldap-group),
 but the configured users aren't granted the correct administrator privileges, confirm
 that the following conditions are true:
 
@@ -625,8 +625,8 @@ this line indicates the sync is finished:
 Finished syncing admin users for 'ldapmain' provider
 ```
 
-If [administrator sync](ldap_synchronization.md#administrator-sync) is not configured, you see a message
-stating as such:
+If you have not [assigned an admin role](ldap_synchronization.md#assign-an-admin-role-to-an-ldap-group),
+you see this message:
 
 ```shell
 No `admin_group` configured for 'ldapmain' provider. Skipping

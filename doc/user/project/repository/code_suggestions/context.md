@@ -84,11 +84,11 @@ To change open files being used as context:
 
 {{< tab title="Visual Studio Code" >}}
 
-1. In the top bar, go to **Code** > **Settings** > **Extensions**.
-1. Search for **GitLab** in the list, and select the gear icon.
-1. Select **Settings**.
-1. In your **User** settings, search for `open tabs`.
-1. Under **GitLab** > **Duo Code Suggestions: Open Tabs Context**,
+1. In VS Code, open the Settings editor:
+   - For macOS, press <kbd>Command</kbd>+<kbd>,</kbd>.
+   - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
+1. Select **Extensions** > **GitLab** > **GitLab Duo**.
+1. Under **GitLab › Duo Code Suggestions: Open Tabs Context**,
    select or clear **Use the contents of open tabs as context**.
 
 {{< /tab >}}

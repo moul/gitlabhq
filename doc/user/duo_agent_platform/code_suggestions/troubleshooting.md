@@ -74,21 +74,31 @@ For non-Code Suggestions troubleshooting for VS Code, see [troubleshooting GitLa
 
 If you are on GitLab Self-Managed, ensure that Code Suggestions for the [GitLab Web IDE](../../project/web_ide/_index.md) is enabled. The same settings apply to VS Code as local IDE.
 
-1. In the left sidebar, select **Extensions** > **GitLab**.
-1. Select **Manage** ({{< icon name="settings" >}}), and then select **Settings**.
-1. In **GitLab** > **Duo Code Suggestions**, select the **GitLab Duo Code Suggestions**
-   checkbox.
+1. In your IDE, open the Settings editor:
+   - For macOS, press <kbd>Command</kbd>+<kbd>,</kbd>.
+   - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
+1. Go to the **GitLab Duo** settings:
+   - In VS Code, select **Extensions** > **GitLab** > **GitLab Duo**.
+   - In GitLab Web IDE, select **Extensions** > **GitLab Workflow** > **GitLab Duo**.
+1. Under **GitLab › Duo Code Suggestions: Enabled**, select the checkbox.
 
 #### View Code Suggestions logs
 
 If Code Suggestions is enabled for the IDE, but suggestions are still not displayed:
 
-1. In your IDE, in the GitLab for VS Code **Extension Settings**, enable **GitLab: Debug**.
+1. In your IDE, open the Settings editor:
+   - For macOS, press <kbd>Command</kbd>+<kbd>,</kbd>.
+   - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
+1. Go to the **Other** settings:
+   - In VS Code, select **Extensions** > **GitLab** > **Other**.
+   - In GitLab Web IDE, select **Extensions** > **GitLab Workflow** > **Other**.
+1. Under **GitLab: Debug**, select the checkbox.
    - For Web IDE, you must have the [marketplace extensions](../../project/web_ide/_index.md#manage-extensions) enabled.
 1. On the top menu, select **View** > **Output** to open the bottom panel, then either:
    - In the command palette, select `GitLab: Show Extension Logs`.
    - In the bottom panel, on the right, select the dropdown list to filter the logs. Select **GitLab**.
-1. In the GitLab for VS Code **Extension Settings**, clear and re-select the **GitLab Duo Code Suggestions** checkbox.
+1. In the Settings editor, go to the **GitLab Duo** settings.
+1. Clear and re-select the **GitLab Duo Code Suggestions** checkbox.
 
 ### Disable streaming of code generation results
 
@@ -100,7 +110,9 @@ If you prefer to see code generation results only when they are complete, you ca
 Disabling streaming means that code generation requests might be perceived
 as taking longer to resolve. To disable streaming:
 
-1. In VS Code, in the top bar, go to **Code** > **Settings** > **Settings**.
+1. In VS Code, open the Settings editor:
+   - For macOS, press <kbd>Command</kbd>+<kbd>,</kbd>.
+   - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
 1. In the upper-right corner, select **Open Settings (JSON)** to edit your `settings.json` file:
 
    ![The icons in the upper-right corner of VS Code, including 'Open Settings.'](img/open_settings_v17_5.png)

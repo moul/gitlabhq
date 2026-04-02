@@ -153,6 +153,91 @@ Note that `sendDuoChatCommand` cannot be chained, meaning that you can send one 
 This enhancement allows for a more tailored user experience by guiding the
 conversation in GitLab Duo Chat towards predefined areas of interest or concern.
 
+#### Using Duo Chat to update a form
+
+UI components can listen to Duo Chat tool outputs and update the UI in response.
+This lets you use Duo Chat as an assistant that fills in or modifies form fields,
+for example to help users create tokens, configure CI, edit issues, or make file edits.
+
+The implementation has three parts:
+
+1. A custom agent with its own tool that collects information from the user and
+   returns structured data your form can consume. Each agent must define its own
+   tool — there is no shared generic tool.
+1. A button that opens Duo Chat with that agent pre-selected.
+1. A component that listens for the tool completion event and applies the result.
+
+##### Step 1: Create a custom agent with a form-update tool
+
+Create a flow config in the
+[AI Gateway repository](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist)
+under `duo_workflow_service/agent_platform/v1/flows/configs/`. You must define
+your own tool for the agent. The tool name you choose here is what you listen
+for in the frontend in Step 3.
+
+See [foundational_chat_agents.md](foundational_chat_agents.md) for the full agent
+creation process.
+
+##### Step 2: Open Duo Chat with a pre-selected agent
+
+Use the `OpenAgenticChatButton` component to render a button that opens the Duo
+Chat drawer with your agent pre-selected. Pass `welcomeMessage` and
+`predefinedPrompts` to guide the user when the chat panel is empty.
+
+For a full example, see the reference implementation in
+[merge request 228620](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228620).
+
+##### Step 3: Listen for tool completion events
+
+When your agent's tool completes successfully, Duo Chat dispatches a DOM custom
+event named `duo:tool-completed:<tool_name>`. Listen for it in `mounted` and
+clean up in `beforeDestroy` (Vue 2) or `beforeUnmount` (Vue 3):
+
+```javascript
+// Must match the tool name defined in your agent config
+const TOOL_NAME = 'my_feature_tool';
+
+export default {
+  mounted() {
+    document.addEventListener(`duo:tool-completed:${TOOL_NAME}`, this.handleToolCompleted);
+  },
+  beforeDestroy() {
+    // Vue 2; use beforeUnmount() in Vue 3
+    document.removeEventListener(`duo:tool-completed:${TOOL_NAME}`, this.handleToolCompleted);
+  },
+  methods: {
+    handleToolCompleted(event) {
+      const { args } = event?.detail || {};
+      if (!args || typeof args !== 'object') return;
+
+      // Apply the tool output to your form
+      this.myField = args.my_field;
+    },
+  },
+};
+```
+
+The event `detail` object has the shape:
+
+```javascript
+{
+  args: {
+    // fields defined by your tool
+    my_field: 'value',
+  }
+}
+```
+
+##### Known limitations
+
+- Agents must implement their own tool; AI Catalog agents cannot share tools for this pattern.
+  ([ai-assist#2113](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/work_items/2113))
+- Custom questions cannot be defined in the agent YAML; they must be hardcoded in the calling component.
+  ([GitLab#594533](https://gitlab.com/gitlab-org/gitlab/-/work_items/594533))
+- Agents created for a specific page are still selectable as foundational agents site-wide.
+- Streaming responses are not supported.
+- The agent does not read existing form field values.
+
 ### Adding a new tool
 
 To add a new tool you need to add changes both to [AI Gateway](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist)

@@ -9027,6 +9027,7 @@ paths:
         - notes
         - projects
         - issues
+        - work_items
         - merge_requests
         - milestones
         - users
@@ -9045,6 +9046,15 @@ paths:
         name: confidential
         description: Filter results by confidentiality
         type: boolean
+        required: false
+      - in: query
+        name: type
+        description: 'Filter work items by type. Only applies to work_items scope.
+          Available types: issue, task, epic, incident, test_case, requirement, objective,
+          key_result, ticket.'
+        type: array
+        items:
+          type: string
         required: false
       - in: query
         name: include_archived
@@ -38712,6 +38722,7 @@ paths:
         type: string
         enum:
         - issues
+        - work_items
         - merge_requests
         - milestones
         - notes
@@ -38740,6 +38751,15 @@ paths:
         name: confidential
         description: Filter results by confidentiality
         type: boolean
+        required: false
+      - in: query
+        name: type
+        description: 'Filter work items by type. Only applies to work_items scope.
+          Available types: issue, task, epic, incident, test_case, requirement, objective,
+          key_result, ticket.'
+        type: array
+        items:
+          type: string
         required: false
       - in: query
         name: fields
@@ -46018,6 +46038,7 @@ paths:
         - notes
         - projects
         - issues
+        - work_items
         - merge_requests
         - milestones
         - snippet_titles
@@ -46037,6 +46058,15 @@ paths:
         name: confidential
         description: Filter results by confidentiality
         type: boolean
+        required: false
+      - in: query
+        name: type
+        description: 'Filter work items by type. Only applies to work_items scope.
+          Available types: issue, task, epic, incident, test_case, requirement, objective,
+          key_result, ticket.'
+        type: array
+        items:
+          type: string
         required: false
       - in: query
         name: include_archived
@@ -48764,6 +48794,9 @@ definitions:
       duo_foundational_flows_availability:
         type: boolean
         description: Enable GitLab foundational Duo flows for this group
+      tool_approval_for_session_availability:
+        type: boolean
+        description: Enable tool approval for session for this group
       amazon_q_auto_review_enabled:
         type: boolean
         description: Enable Amazon Q auto review for merge request
@@ -49038,6 +49071,9 @@ definitions:
       duo_foundational_flows_availability:
         type: boolean
         description: Enable GitLab foundational Duo flows for this group
+      tool_approval_for_session_availability:
+        type: boolean
+        description: Enable tool approval for session for this group
       amazon_q_auto_review_enabled:
         type: boolean
         description: Enable Amazon Q auto review for merge request

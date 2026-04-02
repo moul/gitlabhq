@@ -7745,6 +7745,12 @@ msgstr ""
 msgid "AiPowered|Indirect connections through GitLab Self-Managed"
 msgstr ""
 
+msgid "AiPowered|Learn more"
+msgstr ""
+
+msgid "AiPowered|Learn more about GitLab Credits (opens in new window)"
+msgstr ""
+
 msgid "AiPowered|Local AI Gateway URL"
 msgstr ""
 

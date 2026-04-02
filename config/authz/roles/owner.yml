@@ -89,6 +89,7 @@ group:
   - manage_deploy_tokens
   - manage_merge_request_settings
   - provision_secrets_manager
+  - read_add_on_purchase
   - read_billable_member
   - read_billing
   - read_compliance_adherence_report

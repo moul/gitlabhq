@@ -43,8 +43,8 @@ export default {
     getPopoverLink(workItemType) {
       switch (workItemType) {
         case WORK_ITEM_TYPE_NAME_EPIC:
-          return helpPagePath('/user/group/epics/manage_epics', {
-            anchor: 'multi-level-child-epics',
+          return helpPagePath('/user/work_items/child_items', {
+            anchor: 'work-with-multi-level-hierarchies',
           });
         case WORK_ITEM_TYPE_NAME_OBJECTIVE:
           return helpPagePath('/user/okrs', { anchor: 'child-objectives-and-key-results' });

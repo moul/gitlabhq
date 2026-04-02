@@ -99,6 +99,7 @@ describe('View branch rules', () => {
     editMutationHandler = editBranchRuleSuccessHandler,
     editSquashOptionMutationHandler = editSquashOptionSuccessHandler,
     deleteSquashOptionMutationHandler = deleteSquashOptionSuccessHandler,
+    glFeatures = { skipEmptyAccessLevelsInBranchRules: true },
   } = {}) => {
     fakeApollo = createMockApollo([
       [branchRulesQuery, branchRulesQueryHandler],
@@ -118,6 +119,7 @@ describe('View branch rules', () => {
         branchRulesPath,
         canAdminProtectedBranches,
         allowEditSquashSetting,
+        glFeatures,
       },
       stubs: {
         ApprovalRulesApp: true,
@@ -803,6 +805,42 @@ describe('View branch rules', () => {
           },
         }),
       );
+    });
+
+    describe('when skipEmptyAccessLevelsInBranchRules feature flag is enabled', () => {
+      it('does not include access levels in mutation when toggling force push', async () => {
+        findAllowForcePushToggle().vm.$emit('toggle', false);
+        await nextTick();
+        await waitForPromises();
+
+        const callArgs = editBranchRuleSuccessHandler.mock.calls[0][0];
+        const { branchProtection } = callArgs.input;
+
+        expect(branchProtection).toHaveProperty('allowForcePush', false);
+        expect(branchProtection).not.toHaveProperty('pushAccessLevels');
+        expect(branchProtection).not.toHaveProperty('mergeAccessLevels');
+      });
+    });
+
+    describe('when skipEmptyAccessLevelsInBranchRules feature flag is disabled', () => {
+      beforeEach(async () => {
+        await createComponent({
+          glFeatures: { skipEmptyAccessLevelsInBranchRules: false },
+        });
+      });
+
+      it('includes access levels in mutation when toggling force push', async () => {
+        findAllowForcePushToggle().vm.$emit('toggle', false);
+        await nextTick();
+        await waitForPromises();
+
+        const callArgs = editBranchRuleSuccessHandler.mock.calls[0][0];
+        const { branchProtection } = callArgs.input;
+
+        expect(branchProtection).toHaveProperty('allowForcePush', false);
+        expect(branchProtection).toHaveProperty('pushAccessLevels');
+        expect(branchProtection).toHaveProperty('mergeAccessLevels');
+      });
     });
 
     it('emits a tracking event when a toggle is triggered', async () => {

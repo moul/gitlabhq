@@ -40,7 +40,8 @@ RSpec.describe 'Projects > Members > Member leaves project', :with_current_organ
 
     expect(page).to have_current_path(dashboard_projects_path, ignore_query: true)
 
-    sign_in(project.first_owner)
+    sign_out(:user)
+    gitlab_sign_in(project.first_owner)
 
     visit project_project_members_path(project)
 

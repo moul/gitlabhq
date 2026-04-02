@@ -2,6 +2,7 @@ import Vue, { nextTick } from 'vue';
 import VueApollo from 'vue-apollo';
 import VueRouter from 'vue-router';
 import MockAdapter from 'axios-mock-adapter';
+import { GlIntersectionObserver } from '@gitlab/ui';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import axios from '~/lib/utils/axios_utils';
 
@@ -224,6 +225,8 @@ const subscribedSavedViewsHandler = jest.fn().mockResolvedValue({
 
 const findListView = () => wrapper.findComponent(ListView);
 const findFilteredSearchBar = () => wrapper.findComponent(FilteredSearchBar);
+const findGlIntersectionObserver = () => wrapper.findComponent(GlIntersectionObserver);
+const findStickySearchContainer = () => wrapper.findByTestId('issuable-sticky-search-container');
 const findSaveViewButton = () => wrapper.findByTestId('save-view-button');
 const findResetViewButton = () => wrapper.findByTestId('reset-view-button');
 const findUpdateViewButton = () => wrapper.findByTestId('update-view-button');
@@ -917,6 +920,29 @@ describe('planning-view', () => {
           excludeProjects: true,
         }),
       );
+    });
+  });
+
+  describe('sticky filter header', () => {
+    beforeEach(() => {
+      mountComponent();
+    });
+
+    it('shows sticky search container when intersection observer disappears', async () => {
+      findGlIntersectionObserver().vm.$emit('disappear');
+      await nextTick();
+
+      expect(findStickySearchContainer().exists()).toBe(true);
+    });
+
+    it('hides sticky search container when intersection observer appears', async () => {
+      findGlIntersectionObserver().vm.$emit('disappear');
+      await nextTick();
+
+      findGlIntersectionObserver().vm.$emit('appear');
+      await nextTick();
+
+      expect(findStickySearchContainer().exists()).toBe(false);
     });
   });
 
