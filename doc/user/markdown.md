@@ -121,6 +121,26 @@ If there is no otherwise meaningful value for a cell, consider entering **N/A** 
 Describe the image or video in the `[alt text]`. Make the description accurate, succinct, and unique.
 Don't use `image of` or `video of` in the description. For more information, see [WebAim Alternative Text](https://webaim.org/techniques/alttext/).
 
+## Formatting of work item and merge request titles
+
+{{< history >}}
+
+- Full GitLab Flavored Markdown support [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/184070) in GitLab 18.0.
+- Full GitLab Flavored Markdown support [removed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224839) in GitLab 18.11.
+
+{{< /history >}}
+
+Titles of issues, merge requests, epics, and other work items do not support full GitLab Flavored Markdown.
+Titles support only:
+
+- Emoji (`:emoji:` shortcodes and custom emoji).
+- Auto-linked URLs.
+- [GitLab-specific references](#gitlab-specific-references) like `#123`,
+  `@user`, and `!456`.
+
+Standard Markdown syntax like bold, italic, code spans, links, headings, lists, and other block-level formatting is not processed in titles.
+For example, the title `` **Merge request title** `` is not displayed in bold and is displayed with the asterisks.
+
 ## Headings
 
 Create headings from 1 to 6 by using `#`.

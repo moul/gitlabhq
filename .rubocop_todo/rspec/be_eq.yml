@@ -1148,7 +1148,6 @@ RSpec/BeEq:
     - 'spec/scripts/cells/ci_ensure_application_settings_have_definition_file_spec.rb'
     - 'spec/scripts/generate_failed_test_on_omnibus_mr_message_spec.rb'
     - 'spec/scripts/generate_message_to_run_e2e_pipeline_spec.rb'
-    - 'spec/scripts/internal_events/cli/metric_spec.rb'
     - 'spec/scripts/trigger-build_spec.rb'
     - 'spec/serializers/build_details_entity_spec.rb'
     - 'spec/serializers/ci/job_entity_spec.rb'

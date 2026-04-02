@@ -30090,7 +30090,7 @@ Represents an epic on an issue board.
 | <a id="boardepic-subscribed"></a>`subscribed` | [`Boolean!`](#boolean) | Indicates the currently logged in user is subscribed to the epic. |
 | <a id="boardepic-textcolor"></a>`textColor` | [`String`](#string) | Text color generated for the epic. |
 | <a id="boardepic-title"></a>`title` | [`String`](#string) | Title of the epic. |
-| <a id="boardepic-titlehtml"></a>`titleHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `title`. |
+| <a id="boardepic-titlehtml"></a>`titleHtml` | [`String`](#string) | HTML rendering of `title`. |
 | <a id="boardepic-updatedat"></a>`updatedAt` | [`Time`](#time) | Timestamp of when the epic was updated. |
 | <a id="boardepic-upvotes"></a>`upvotes` | [`Int!`](#int) | Number of upvotes the epic has received. |
 | <a id="boardepic-userdiscussionscount"></a>`userDiscussionsCount` | [`Int!`](#int) | Number of user discussions in the epic. |
@@ -31825,7 +31825,7 @@ Represents a summary of the compared codequality report.
 | <a id="commit-descriptionhtml"></a>`descriptionHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `description`. |
 | <a id="commit-diffs"></a>`diffs` | [`[Diff!]`](#diff) | Diffs contained within the commit. This field can only be resolved for 10 diffs in any single request. |
 | <a id="commit-fulltitle"></a>`fullTitle` | [`String`](#string) | Full title of the commit message. |
-| <a id="commit-fulltitlehtml"></a>`fullTitleHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `full_title`. |
+| <a id="commit-fulltitlehtml"></a>`fullTitleHtml` | [`String`](#string) | HTML rendering of `full_title`. |
 | <a id="commit-id"></a>`id` | [`ID!`](#id) | ID (global ID) of the commit. |
 | <a id="commit-message"></a>`message` | [`String`](#string) | Raw commit message. |
 | <a id="commit-name"></a>`name` | [`String`](#string) | Name or title of the object. |
@@ -31835,7 +31835,7 @@ Represents a summary of the compared codequality report.
 | <a id="commit-signature"></a>`signature` | [`CommitSignature`](#commitsignature) | Signature of the commit. |
 | <a id="commit-signaturehtml"></a>`signatureHtml` | [`String`](#string) | Rendered HTML of the commit signature. |
 | <a id="commit-title"></a>`title` | [`String`](#string) | Title of the commit message. |
-| <a id="commit-titlehtml"></a>`titleHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `title`. |
+| <a id="commit-titlehtml"></a>`titleHtml` | [`String`](#string) | HTML rendering of `title`. |
 | <a id="commit-webpath"></a>`webPath` | [`String!`](#string) | Web path of the commit. |
 | <a id="commit-weburl"></a>`webUrl` | [`String!`](#string) | Web URL of the commit. |
 
@@ -35167,7 +35167,7 @@ Represents an epic.
 | <a id="epic-subscribed"></a>`subscribed` | [`Boolean!`](#boolean) | Indicates the currently logged in user is subscribed to the epic. |
 | <a id="epic-textcolor"></a>`textColor` | [`String`](#string) | Text color generated for the epic. |
 | <a id="epic-title"></a>`title` | [`String`](#string) | Title of the epic. |
-| <a id="epic-titlehtml"></a>`titleHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `title`. |
+| <a id="epic-titlehtml"></a>`titleHtml` | [`String`](#string) | HTML rendering of `title`. |
 | <a id="epic-updatedat"></a>`updatedAt` | [`Time`](#time) | Timestamp of when the epic was updated. |
 | <a id="epic-upvotes"></a>`upvotes` | [`Int!`](#int) | Number of upvotes the epic has received. |
 | <a id="epic-userdiscussionscount"></a>`userDiscussionsCount` | [`Int!`](#int) | Number of user discussions in the epic. |
@@ -35459,7 +35459,7 @@ Relationship between an epic and an issue.
 | <a id="epicissue-timeestimate"></a>`timeEstimate` | [`Int!`](#int) | Time estimate of the issue. |
 | <a id="epicissue-timelogs"></a>`timelogs` | [`TimelogConnection!`](#timelogconnection) | Timelogs on the issue. (see [Connections](#connections)) |
 | <a id="epicissue-title"></a>`title` | [`String!`](#string) | Title of the issue. |
-| <a id="epicissue-titlehtml"></a>`titleHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `title`. |
+| <a id="epicissue-titlehtml"></a>`titleHtml` | [`String`](#string) | HTML rendering of `title`. |
 | <a id="epicissue-totaltimespent"></a>`totalTimeSpent` | [`Int!`](#int) | Total time (in seconds) reported as spent on the issue. |
 | <a id="epicissue-type"></a>`type` | [`IssueType`](#issuetype) | Type of the issue. |
 | <a id="epicissue-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the issue was last updated. |
@@ -39925,7 +39925,7 @@ Describes an issuable resource link for incident issues.
 | <a id="issue-timeestimate"></a>`timeEstimate` | [`Int!`](#int) | Time estimate of the issue. |
 | <a id="issue-timelogs"></a>`timelogs` | [`TimelogConnection!`](#timelogconnection) | Timelogs on the issue. (see [Connections](#connections)) |
 | <a id="issue-title"></a>`title` | [`String!`](#string) | Title of the issue. |
-| <a id="issue-titlehtml"></a>`titleHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `title`. |
+| <a id="issue-titlehtml"></a>`titleHtml` | [`String`](#string) | HTML rendering of `title`. |
 | <a id="issue-totaltimespent"></a>`totalTimeSpent` | [`Int!`](#int) | Total time (in seconds) reported as spent on the issue. |
 | <a id="issue-type"></a>`type` | [`IssueType`](#issuetype) | Type of the issue. |
 | <a id="issue-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the issue was last updated. |
@@ -40786,7 +40786,7 @@ Defines which user roles, users, or groups can merge into a protected branch.
 | <a id="mergerequest-timeestimate"></a>`timeEstimate` | [`Int!`](#int) | Time estimate of the merge request. |
 | <a id="mergerequest-timelogs"></a>`timelogs` | [`TimelogConnection!`](#timelogconnection) | Timelogs on the merge request. (see [Connections](#connections)) |
 | <a id="mergerequest-title"></a>`title` | [`String!`](#string) | Title of the merge request. |
-| <a id="mergerequest-titlehtml"></a>`titleHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `title`. |
+| <a id="mergerequest-titlehtml"></a>`titleHtml` | [`String`](#string) | HTML rendering of `title`. |
 | <a id="mergerequest-totaltimespent"></a>`totalTimeSpent` | [`Int!`](#int) | Total time (in seconds) reported as spent on the merge request. |
 | <a id="mergerequest-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the merge request was last updated. |
 | <a id="mergerequest-upvotes"></a>`upvotes` | [`Int!`](#int) | Number of upvotes for the merge request. |
@@ -49712,7 +49712,7 @@ Represents a requirement.
 | <a id="requirement-project"></a>`project` | [`Project!`](#project) | Project to which the requirement belongs. |
 | <a id="requirement-state"></a>`state` | [`RequirementState!`](#requirementstate) | State of the requirement. |
 | <a id="requirement-title"></a>`title` | [`String`](#string) | Title of the requirement. |
-| <a id="requirement-titlehtml"></a>`titleHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `title`. |
+| <a id="requirement-titlehtml"></a>`titleHtml` | [`String`](#string) | HTML rendering of `title`. |
 | <a id="requirement-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the requirement was last updated. |
 | <a id="requirement-userpermissions"></a>`userPermissions` | [`RequirementPermissions!`](#requirementpermissions) | Permissions for the current user on the resource. |
 | <a id="requirement-workitemiid"></a>`workItemIid` | [`String!`](#string) | Work item IID of the requirement, will replace current IID as identifier soon. |
@@ -53570,7 +53570,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="workitem-showplanupgradepromotion"></a>`showPlanUpgradePromotion` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 17.11. **Status**: Experiment. Whether to show the promotional message for the work item. |
 | <a id="workitem-state"></a>`state` | [`WorkItemState!`](#workitemstate) | State of the work item. |
 | <a id="workitem-title"></a>`title` | [`String!`](#string) | Title of the work item. |
-| <a id="workitem-titlehtml"></a>`titleHtml` | [`String`](#string) | GitLab Flavored Markdown rendering of `title`. |
+| <a id="workitem-titlehtml"></a>`titleHtml` | [`String`](#string) | HTML rendering of `title`. |
 | <a id="workitem-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the work item was last updated. |
 | <a id="workitem-userdiscussionscount"></a>`userDiscussionsCount` | [`Int!`](#int) | Number of user discussions in the work item. |
 | <a id="workitem-userpermissions"></a>`userPermissions` | [`WorkItemPermissions!`](#workitempermissions) | Permissions for the current user on the resource. |

@@ -112,6 +112,7 @@ query getWorkItemsFull(
         reference(full: true)
         state
         title
+        titleHtml
         updatedAt
         userDiscussionsCount
         webUrl

@@ -313,7 +313,8 @@ module API
 
         use :issue_params
       end
-      route_setting :mcp, tool_name: :create_issue, params: Helpers::IssuesHelpers.create_issue_mcp_params
+      route_setting :mcp, tool_name: :create_issue, params: Helpers::IssuesHelpers.create_issue_mcp_params,
+        annotations: { readOnlyHint: false, destructiveHint: false }
       route_setting :authorization, permissions: :create_issue, boundary_type: :project
       post ':id/issues' do
         Gitlab::QueryLimiting.disable!('https://gitlab.com/gitlab-org/gitlab/-/issues/21140')

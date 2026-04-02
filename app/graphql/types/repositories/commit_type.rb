@@ -85,8 +85,8 @@ module Types
         description: 'Pipelines of the commit ordered latest first.',
         resolver: Resolvers::CommitPipelinesResolver
 
-      markdown_field :title_html, null: true
-      markdown_field :full_title_html, null: true
+      markdown_field :title_html, null: true, description: "HTML rendering of `title`"
+      markdown_field :full_title_html, null: true, description: "HTML rendering of `full_title`"
       markdown_field :description_html, null: true
 
       def diffs

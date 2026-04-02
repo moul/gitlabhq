@@ -9,14 +9,16 @@ module Gitlab
         DELIMITER = ";\n\n"
 
         attr_reader :original_table, :replacement_table, :replaced_table, :primary_key_columns,
-          :original_primary_key, :replacement_primary_key, :replaced_primary_key
+          :original_primary_key, :replacement_primary_key, :replaced_primary_key,
+          :rename_partitions
 
-        def initialize(connection, original_table, replacement_table, replaced_table, primary_key_columns)
+        def initialize(connection, original_table, replacement_table, replaced_table, primary_key_columns, rename_partitions: true)
           @connection = connection
           @original_table = original_table
           @replacement_table = replacement_table
           @replaced_table = replaced_table
           @primary_key_columns = Array(primary_key_columns)
+          @rename_partitions = rename_partitions
 
           @original_primary_key = default_primary_key(original_table)
           @replacement_primary_key = default_primary_key(replacement_table)
@@ -83,10 +85,10 @@ module Gitlab
           statements << rename_table(old_table, new_table)
           statements << rename_constraint(new_table, old_primary_key, new_primary_key)
 
-          rename_partitions(statements, old_table, new_table)
+          rename_partitions_sql(statements, old_table, new_table) if rename_partitions
         end
 
-        def rename_partitions(statements, old_table_name, new_table_name)
+        def rename_partitions_sql(statements, old_table_name, new_table_name)
           Gitlab::Database::PostgresPartition.for_parent_table(old_table_name).each do |partition|
             new_partition_name = partition.name.sub(/#{old_table_name}/, new_table_name.to_s)
             old_primary_key = default_primary_key(partition.name)

@@ -95896,7 +95896,7 @@ components:
           nullable: true
       required:
       - file
-    RequestBody_fb3311792ee1:
+    RequestBody_ce37efd26d51:
       type: object
       properties:
         title:
@@ -96024,6 +96024,18 @@ components:
                   nullable: true
               required:
               - work_items_ids
+              nullable: true
+            color:
+              type: object
+              description: Input for color feature.
+              properties:
+                color:
+                  type: string
+                  description: Color of the work item as a hex code (for example,
+                    "#e24329").
+                  nullable: true
+              required:
+              - color
               nullable: true
           nullable: true
         fields:

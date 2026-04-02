@@ -361,7 +361,8 @@ module API
           desc: 'The target project of the merge request defaults to the :id of the project.'
         use :optional_params
       end
-      route_setting :mcp, tool_name: :create_merge_request, params: Helpers::MergeRequestsHelpers.create_merge_request_mcp_params
+      route_setting :mcp, tool_name: :create_merge_request, params: Helpers::MergeRequestsHelpers.create_merge_request_mcp_params,
+        annotations: { readOnlyHint: false, destructiveHint: false }
       route_setting :authorization, permissions: :create_merge_request, boundary_type: :project
       post ":id/merge_requests", feature_category: :code_review_workflow, urgency: :low do
         Gitlab::QueryLimiting.disable!('https://gitlab.com/gitlab-org/gitlab/-/issues/20770')

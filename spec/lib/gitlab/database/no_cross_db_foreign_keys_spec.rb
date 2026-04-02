@@ -10,6 +10,7 @@ RSpec.describe 'cross-database foreign keys', feature_category: :database do
   let!(:acceptable_cross_schema_foreign_key_patterns) do
     [
       [:gitlab_main_cell_local, :gitlab_main_org],
+      [:gitlab_main_cell_local, :gitlab_main_user],
       [:gitlab_ci_cell_local, :gitlab_ci]
     ]
   end

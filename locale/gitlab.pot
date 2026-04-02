@@ -24254,6 +24254,9 @@ msgstr ""
 msgid "Dependencies|Locations of dependencies. The locations of transitive dependencies (child dependencies of other dependencies) are shown as the complete set of all paths that import the dependency."
 msgstr ""
 
+msgid "Dependencies|Malware"
+msgstr ""
+
 msgid "Dependencies|No components found."
 msgstr ""
 
@@ -24306,6 +24309,9 @@ msgid "Dependencies|This dependency contains vulnerabilities that violate a secu
 msgstr ""
 
 msgid "Dependencies|This link will expire in %{number} days."
+msgstr ""
+
+msgid "Dependencies|This package has been identified as malware"
 msgstr ""
 
 msgid "Dependencies|To filter by version, filter by one component first"
@@ -36806,6 +36812,9 @@ msgid "ImportProjects|Update of imported projects with realtime changes failed"
 msgstr ""
 
 msgid "ImportProjects|When you import to a personal namespace, all contributions are assigned to the personal namespace owner and they cannot be reassigned. To map contributions to real users, import to a group instead."
+msgstr ""
+
+msgid "ImportProjects|You do not have permission to import into this namespace."
 msgstr ""
 
 msgid "Imported"
@@ -54437,6 +54446,9 @@ msgstr ""
 msgid "ProjectImportByURL|The repository must be accessible over http://, https:// or git://"
 msgstr ""
 
+msgid "ProjectImportByURL|You do not have permission to import projects."
+msgstr ""
+
 msgid "ProjectImport|Bitbucket Cloud"
 msgstr ""
 
@@ -55865,6 +55877,9 @@ msgid "ProjectsNew|You can always change your URL later"
 msgstr ""
 
 msgid "ProjectsNew|You cannot create projects in your personal namespace. Contact your GitLab administrator."
+msgstr ""
+
+msgid "ProjectsNew|You do not have permission to create projects."
 msgstr ""
 
 msgid "ProjectsNew|You have no groups. Create a new one or join an existing group."
@@ -79689,16 +79704,19 @@ msgstr ""
 msgid "WikiPage|Create %{pageTitle}"
 msgstr ""
 
-msgid "WikiPage|Create custom sidebar"
+msgid "WikiPage|Create page"
 msgstr ""
 
-msgid "WikiPage|Create page"
+msgid "WikiPage|Create sidebar"
 msgstr ""
 
 msgid "WikiPage|Create template"
 msgstr ""
 
 msgid "WikiPage|Create template %{pageTitle}"
+msgstr ""
+
+msgid "WikiPage|Delete sidebar"
 msgstr ""
 
 msgid "WikiPage|Format"
@@ -79783,6 +79801,9 @@ msgid "Wiki|Create a new page under \"%{page_title}\""
 msgstr ""
 
 msgid "Wiki|Create a new wiki page using this template"
+msgstr ""
+
+msgid "Wiki|Create custom sidebar"
 msgstr ""
 
 msgid "Wiki|Create from template"

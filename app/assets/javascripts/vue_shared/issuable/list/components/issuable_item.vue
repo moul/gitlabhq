@@ -16,6 +16,7 @@ import { isExternal, visitUrl } from '~/lib/utils/url_utility';
 import { __, n__, sprintf } from '~/locale';
 import IssuableAssignees from '~/issuable/components/issue_assignees.vue';
 import StatusBadge from '~/issuable/components/status_badge.vue';
+import SafeHtml from '~/vue_shared/directives/safe_html';
 
 import timeagoMixin from '~/vue_shared/mixins/timeago';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
@@ -53,6 +54,7 @@ export default {
   },
   directives: {
     GlTooltip: GlTooltipDirective,
+    SafeHtml,
   },
   mixins: [timeagoMixin, glFeatureFlagMixin()],
   inject: {
@@ -472,7 +474,7 @@ export default {
               @mouseover="prefetchWorkItem(issuableIid)"
               @mouseout="clearPrefetching"
             >
-              {{ issuable.title }}
+              <span v-safe-html="issuable.titleHtml"></span>
               <gl-icon v-if="isIssuableUrlExternal" name="external-link" class="gl-ml-2" />
             </gl-link>
           </template>

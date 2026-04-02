@@ -189,7 +189,7 @@ RSpec.describe API::Mcp, 'List tools request', feature_category: :mcp_server do
         get_mcp_server_version get_issue get_merge_request
         get_merge_request_commits get_merge_request_diffs
         get_merge_request_pipelines get_pipeline_jobs
-        get_workitem_notes search
+        get_workitem_notes search search_labels
       ]
 
       read_only_tools.each do |tool_name|
@@ -202,7 +202,7 @@ RSpec.describe API::Mcp, 'List tools request', feature_category: :mcp_server do
       end
     end
 
-    it 'validates write tools have no annotations' do
+    it 'validates write tools have readOnlyHint: false and destructiveHint: false annotations' do
       post_list_tools
 
       tools = json_response['result']['tools']
@@ -212,8 +212,13 @@ RSpec.describe API::Mcp, 'List tools request', feature_category: :mcp_server do
       write_tools.each do |tool_name|
         tool = tools.find { |t| t['name'] == tool_name }
         expect(tool).to be_present, "Expected #{tool_name} to be in tools list"
-        expect(tool).not_to have_key('annotations'),
-          "Expected #{tool_name} to have no annotations field"
+        expect(tool['annotations']).to be_present, "Expected #{tool_name} to have annotations"
+        expect(tool['annotations']['readOnlyHint']).to(
+          be(false), "Expected #{tool_name} to have readOnlyHint annotation set to false"
+        )
+        expect(tool['annotations']['destructiveHint']).to(
+          be(false), "Expected #{tool_name} to have destructiveHint annotation set to false"
+        )
       end
     end
 
@@ -286,13 +291,17 @@ RSpec.describe API::Mcp, 'List tools request', feature_category: :mcp_server do
         )
       end
 
-      it 'returns create_issue tool with correct structure' do
+      it 'returns create_issue tool with correct structure including annotations' do
         tools = json_response['result']['tools']
         create_issue_tool = tools.find { |tool| tool['name'] == 'create_issue' }
 
         expect(create_issue_tool).to include(
           'name' => 'create_issue',
-          'description' => 'Create a new project issue'
+          'description' => 'Create a new project issue',
+          'annotations' => {
+            'readOnlyHint' => false,
+            'destructiveHint' => false
+          }
         )
         expect(create_issue_tool['inputSchema']).to include(
           'type' => 'object',
@@ -305,13 +314,17 @@ RSpec.describe API::Mcp, 'List tools request', feature_category: :mcp_server do
         )
       end
 
-      it 'returns create_merge_request tool with correct structure' do
+      it 'returns create_merge_request tool with correct structure including annotations' do
         tools = json_response['result']['tools']
         create_mr_tool = tools.find { |tool| tool['name'] == 'create_merge_request' }
 
         expect(create_mr_tool).to include(
           'name' => 'create_merge_request',
-          'description' => 'Create merge request'
+          'description' => 'Create merge request',
+          'annotations' => {
+            'readOnlyHint' => false,
+            'destructiveHint' => false
+          }
         )
         expect(create_mr_tool['inputSchema']).to include(
           'type' => 'object',

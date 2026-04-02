@@ -278,7 +278,6 @@ tests = [
       spec/config/metrics/every_metric_definition_spec.rb
       ee/spec/config/metrics/every_metric_definition_spec.rb
       spec/lib/gitlab/usage/metric_definition_validate_all_spec.rb
-      spec/scripts/internal_events/cli_spec.rb
       spec/support_specs/matchers/internal_events_matchers_spec.rb
     ]
   },
@@ -298,7 +297,6 @@ tests = [
     changed_file: 'config/events/schema.json',
     expected: %w[
       spec/lib/gitlab/tracking/event_definition_validator_validate_all_spec.rb
-      spec/scripts/internal_events/cli_spec.rb
       spec/support_specs/matchers/internal_events_matchers_spec.rb
     ]
   },
@@ -308,23 +306,6 @@ tests = [
     changed_file: 'lib/gitlab/internal_events.rb',
     expected: %w[
       spec/lib/gitlab/internal_events_spec.rb
-      spec/scripts/internal_events/cli_spec.rb
-      spec/support_specs/matchers/internal_events_matchers_spec.rb
-    ]
-  },
-  {
-    explanation: 'Internal Events CLI entrypoint maps to internal events tooling',
-    changed_file: 'scripts/internal_events/cli.rb',
-    expected: %w[
-      spec/scripts/internal_events/cli_spec.rb
-      spec/support_specs/matchers/internal_events_matchers_spec.rb
-    ]
-  },
-  {
-    explanation: 'Internal Events CLI logic maps to internal events tooling',
-    changed_file: 'scripts/internal_events/cli/global_state.rb',
-    expected: %w[
-      spec/scripts/internal_events/cli_spec.rb
       spec/support_specs/matchers/internal_events_matchers_spec.rb
     ]
   },
@@ -332,7 +313,6 @@ tests = [
     explanation: 'Internal Events default test setup maps to internal events tooling',
     changed_file: 'spec/support/shared_examples/controllers/internal_event_tracking_examples.rb',
     expected: %w[
-      spec/scripts/internal_events/cli_spec.rb
       spec/support_specs/matchers/internal_events_matchers_spec.rb
     ]
   },
@@ -340,15 +320,6 @@ tests = [
     explanation: 'Internal Events custom test setup maps to internal events tooling',
     changed_file: 'spec/support/matchers/internal_events_matchers.rb',
     expected: %w[
-      spec/scripts/internal_events/cli_spec.rb
-      spec/support_specs/matchers/internal_events_matchers_spec.rb
-    ]
-  },
-  {
-    explanation: 'Internal Events test cases map to internal events tooling',
-    changed_file: 'spec/fixtures/scripts/internal_events/event_definer_examples.yml',
-    expected: %w[
-      spec/scripts/internal_events/cli_spec.rb
       spec/support_specs/matchers/internal_events_matchers_spec.rb
     ]
   },

@@ -1626,58 +1626,58 @@ CREATE FUNCTION table_sync_function_40ecbfb353() RETURNS trigger
     AS $$
 BEGIN
 IF (TG_OP = 'DELETE') THEN
-  DELETE FROM uploads_9ba88c4165 where "id" = OLD."id";
+  DELETE FROM uploads_archived where "id" = OLD."id";
 ELSIF (TG_OP = 'UPDATE') THEN
-  UPDATE uploads_9ba88c4165
+  UPDATE uploads_archived
   SET "size" = NEW."size",
+    "path" = NEW."path",
+    "checksum" = NEW."checksum",
     "model_id" = NEW."model_id",
+    "model_type" = NEW."model_type",
+    "uploader" = NEW."uploader",
+    "created_at" = NEW."created_at",
+    "store" = NEW."store",
+    "mount_point" = NEW."mount_point",
+    "secret" = NEW."secret",
+    "version" = NEW."version",
     "uploaded_by_user_id" = NEW."uploaded_by_user_id",
     "organization_id" = NEW."organization_id",
     "namespace_id" = NEW."namespace_id",
-    "project_id" = NEW."project_id",
-    "created_at" = NEW."created_at",
-    "store" = NEW."store",
-    "version" = NEW."version",
-    "path" = NEW."path",
-    "checksum" = NEW."checksum",
-    "model_type" = NEW."model_type",
-    "uploader" = NEW."uploader",
-    "mount_point" = NEW."mount_point",
-    "secret" = NEW."secret"
-  WHERE uploads_9ba88c4165."id" = NEW."id";
+    "project_id" = NEW."project_id"
+  WHERE uploads_archived."id" = NEW."id";
 ELSIF (TG_OP = 'INSERT') THEN
-  INSERT INTO uploads_9ba88c4165 ("id",
+  INSERT INTO uploads_archived ("id",
     "size",
+    "path",
+    "checksum",
     "model_id",
+    "model_type",
+    "uploader",
+    "created_at",
+    "store",
+    "mount_point",
+    "secret",
+    "version",
     "uploaded_by_user_id",
     "organization_id",
     "namespace_id",
-    "project_id",
-    "created_at",
-    "store",
-    "version",
-    "path",
-    "checksum",
-    "model_type",
-    "uploader",
-    "mount_point",
-    "secret")
+    "project_id")
   VALUES (NEW."id",
     NEW."size",
+    NEW."path",
+    NEW."checksum",
     NEW."model_id",
+    NEW."model_type",
+    NEW."uploader",
+    NEW."created_at",
+    NEW."store",
+    NEW."mount_point",
+    NEW."secret",
+    NEW."version",
     NEW."uploaded_by_user_id",
     NEW."organization_id",
     NEW."namespace_id",
-    NEW."project_id",
-    NEW."created_at",
-    NEW."store",
-    NEW."version",
-    NEW."path",
-    NEW."checksum",
-    NEW."model_type",
-    NEW."uploader",
-    NEW."mount_point",
-    NEW."secret");
+    NEW."project_id");
 END IF;
 RETURN NULL;
 
@@ -12687,7 +12687,7 @@ CREATE SEQUENCE abuse_report_upload_states_id_seq
 
 ALTER SEQUENCE abuse_report_upload_states_id_seq OWNED BY abuse_report_upload_states.id;
 
-CREATE TABLE uploads_9ba88c4165 (
+CREATE TABLE uploads (
     id bigint NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
@@ -12709,8 +12709,17 @@ CREATE TABLE uploads_9ba88c4165 (
 )
 PARTITION BY LIST (model_type);
 
+CREATE SEQUENCE uploads_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
+
 CREATE TABLE abuse_report_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -12817,7 +12826,7 @@ CREATE SEQUENCE achievement_upload_states_id_seq
 ALTER SEQUENCE achievement_upload_states_id_seq OWNED BY achievement_upload_states.id;
 
 CREATE TABLE achievement_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -13682,7 +13691,7 @@ CREATE TABLE ai_user_metrics (
 );
 
 CREATE TABLE ai_vectorizable_file_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -13741,7 +13750,7 @@ CREATE SEQUENCE alert_management_alert_assignees_id_seq
 ALTER SEQUENCE alert_management_alert_assignees_id_seq OWNED BY alert_management_alert_assignees.id;
 
 CREATE TABLE alert_management_alert_metric_image_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -14138,7 +14147,7 @@ CREATE SEQUENCE analyzer_project_statuses_id_seq
 ALTER SEQUENCE analyzer_project_statuses_id_seq OWNED BY analyzer_project_statuses.id;
 
 CREATE TABLE appearance_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -16448,7 +16457,7 @@ CREATE SEQUENCE bulk_import_export_batches_id_seq
 ALTER SEQUENCE bulk_import_export_batches_id_seq OWNED BY bulk_import_export_batches.id;
 
 CREATE TABLE bulk_import_export_upload_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -19247,7 +19256,7 @@ CREATE SEQUENCE dast_sites_id_seq
 ALTER SEQUENCE dast_sites_id_seq OWNED BY dast_sites.id;
 
 CREATE TABLE dependency_list_export_part_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -19291,7 +19300,7 @@ CREATE SEQUENCE dependency_list_export_parts_id_seq
 ALTER SEQUENCE dependency_list_export_parts_id_seq OWNED BY dependency_list_export_parts.id;
 
 CREATE TABLE dependency_list_export_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -19643,7 +19652,7 @@ CREATE SEQUENCE design_management_action_upload_states_id_seq
 ALTER SEQUENCE design_management_action_upload_states_id_seq OWNED BY design_management_action_upload_states.id;
 
 CREATE TABLE design_management_action_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -21540,7 +21549,7 @@ CREATE SEQUENCE identities_id_seq
 ALTER SEQUENCE identities_id_seq OWNED BY identities.id;
 
 CREATE TABLE import_export_upload_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -22207,7 +22216,7 @@ CREATE SEQUENCE ip_restrictions_id_seq
 ALTER SEQUENCE ip_restrictions_id_seq OWNED BY ip_restrictions.id;
 
 CREATE TABLE issuable_metric_image_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -24376,7 +24385,7 @@ CREATE TABLE namespace_template_settings (
 );
 
 CREATE TABLE namespace_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -24968,7 +24977,7 @@ CREATE SEQUENCE organization_cluster_agent_mappings_id_seq
 ALTER SEQUENCE organization_cluster_agent_mappings_id_seq OWNED BY organization_cluster_agent_mappings.id;
 
 CREATE TABLE organization_detail_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -27654,7 +27663,7 @@ CREATE SEQUENCE project_import_data_id_seq
 ALTER SEQUENCE project_import_data_id_seq OWNED BY project_import_data.id;
 
 CREATE TABLE project_import_export_relation_export_upload_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -28177,7 +28186,7 @@ CREATE SEQUENCE project_to_security_attributes_id_seq
 ALTER SEQUENCE project_to_security_attributes_id_seq OWNED BY project_to_security_attributes.id;
 
 CREATE TABLE project_topic_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -28300,7 +28309,7 @@ CREATE SEQUENCE project_upload_states_id_seq
 ALTER SEQUENCE project_upload_states_id_seq OWNED BY project_upload_states.id;
 
 CREATE TABLE project_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -30367,7 +30376,7 @@ CREATE TABLE snippet_statistics (
 );
 
 CREATE TABLE snippet_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -31315,7 +31324,7 @@ CREATE SEQUENCE upload_states_upload_id_seq
 
 ALTER SEQUENCE upload_states_upload_id_seq OWNED BY upload_states.upload_id;
 
-CREATE TABLE uploads (
+CREATE TABLE uploads_archived (
     id bigint NOT NULL,
     size bigint NOT NULL,
     path character varying(511) NOT NULL,
@@ -31334,15 +31343,6 @@ CREATE TABLE uploads (
     project_id bigint,
     CONSTRAINT check_5e9547379c CHECK ((store IS NOT NULL))
 );
-
-CREATE SEQUENCE uploads_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
 
 CREATE TABLE user_achievements (
     id bigint NOT NULL,
@@ -31620,7 +31620,7 @@ CREATE SEQUENCE user_namespace_callouts_id_seq
 ALTER SEQUENCE user_namespace_callouts_id_seq OWNED BY user_namespace_callouts.id;
 
 CREATE TABLE user_permission_export_upload_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -31861,7 +31861,7 @@ CREATE SEQUENCE user_upload_states_id_seq
 ALTER SEQUENCE user_upload_states_id_seq OWNED BY user_upload_states.id;
 
 CREATE TABLE user_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -32373,7 +32373,7 @@ CREATE SEQUENCE vulnerabilities_id_seq
 ALTER SEQUENCE vulnerabilities_id_seq OWNED BY vulnerabilities.id;
 
 CREATE TABLE vulnerability_archive_export_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -32440,7 +32440,7 @@ CREATE SEQUENCE vulnerability_detection_transitions_id_seq
 ALTER SEQUENCE vulnerability_detection_transitions_id_seq OWNED BY vulnerability_detection_transitions.id;
 
 CREATE TABLE vulnerability_export_part_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -32484,7 +32484,7 @@ CREATE SEQUENCE vulnerability_export_parts_id_seq
 ALTER SEQUENCE vulnerability_export_parts_id_seq OWNED BY vulnerability_export_parts.id;
 
 CREATE TABLE vulnerability_export_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -33005,7 +33005,7 @@ CREATE SEQUENCE vulnerability_reads_id_seq
 ALTER SEQUENCE vulnerability_reads_id_seq OWNED BY vulnerability_reads.id;
 
 CREATE TABLE vulnerability_remediation_uploads (
-    id bigint NOT NULL,
+    id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
     model_id bigint NOT NULL,
     uploaded_by_user_id bigint,
@@ -35000,17 +35000,17 @@ ALTER TABLE ONLY work_item_descriptions ATTACH PARTITION gitlab_partitions_stati
 
 ALTER TABLE ONLY work_item_descriptions ATTACH PARTITION gitlab_partitions_static.work_item_descriptions_63 FOR VALUES WITH (modulus 64, remainder 63);
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION abuse_report_uploads FOR VALUES IN ('AbuseReport');
+ALTER TABLE ONLY uploads ATTACH PARTITION abuse_report_uploads FOR VALUES IN ('AbuseReport');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION achievement_uploads FOR VALUES IN ('Achievements::Achievement');
+ALTER TABLE ONLY uploads ATTACH PARTITION achievement_uploads FOR VALUES IN ('Achievements::Achievement');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION ai_vectorizable_file_uploads FOR VALUES IN ('Ai::VectorizableFile');
+ALTER TABLE ONLY uploads ATTACH PARTITION ai_vectorizable_file_uploads FOR VALUES IN ('Ai::VectorizableFile');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION alert_management_alert_metric_image_uploads FOR VALUES IN ('AlertManagement::MetricImage');
+ALTER TABLE ONLY uploads ATTACH PARTITION alert_management_alert_metric_image_uploads FOR VALUES IN ('AlertManagement::MetricImage');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION appearance_uploads FOR VALUES IN ('Appearance');
+ALTER TABLE ONLY uploads ATTACH PARTITION appearance_uploads FOR VALUES IN ('Appearance');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION bulk_import_export_upload_uploads FOR VALUES IN ('BulkImports::ExportUpload');
+ALTER TABLE ONLY uploads ATTACH PARTITION bulk_import_export_upload_uploads FOR VALUES IN ('BulkImports::ExportUpload');
 
 ALTER TABLE ONLY p_ci_build_needs ATTACH PARTITION ci_build_needs FOR VALUES IN ('100', '101', '102', '103', '104', '105', '106', '107', '108', '109', '110', '111');
 
@@ -35022,51 +35022,51 @@ ALTER TABLE ONLY ci_runner_taggings ATTACH PARTITION ci_runner_taggings_instance
 
 ALTER TABLE ONLY ci_runner_taggings ATTACH PARTITION ci_runner_taggings_project_type FOR VALUES IN ('3');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION dependency_list_export_part_uploads FOR VALUES IN ('Dependencies::DependencyListExport::Part');
+ALTER TABLE ONLY uploads ATTACH PARTITION dependency_list_export_part_uploads FOR VALUES IN ('Dependencies::DependencyListExport::Part');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION dependency_list_export_uploads FOR VALUES IN ('Dependencies::DependencyListExport');
+ALTER TABLE ONLY uploads ATTACH PARTITION dependency_list_export_uploads FOR VALUES IN ('Dependencies::DependencyListExport');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION design_management_action_uploads FOR VALUES IN ('DesignManagement::Action');
+ALTER TABLE ONLY uploads ATTACH PARTITION design_management_action_uploads FOR VALUES IN ('DesignManagement::Action');
 
 ALTER TABLE ONLY ci_runner_machines ATTACH PARTITION group_type_ci_runner_machines FOR VALUES IN ('2');
 
 ALTER TABLE ONLY ci_runners ATTACH PARTITION group_type_ci_runners FOR VALUES IN ('2');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION import_export_upload_uploads FOR VALUES IN ('ImportExportUpload');
+ALTER TABLE ONLY uploads ATTACH PARTITION import_export_upload_uploads FOR VALUES IN ('ImportExportUpload');
 
 ALTER TABLE ONLY ci_runner_machines ATTACH PARTITION instance_type_ci_runner_machines FOR VALUES IN ('1');
 
 ALTER TABLE ONLY ci_runners ATTACH PARTITION instance_type_ci_runners FOR VALUES IN ('1');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION issuable_metric_image_uploads FOR VALUES IN ('IssuableMetricImage');
+ALTER TABLE ONLY uploads ATTACH PARTITION issuable_metric_image_uploads FOR VALUES IN ('IssuableMetricImage');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION namespace_uploads FOR VALUES IN ('Namespace');
+ALTER TABLE ONLY uploads ATTACH PARTITION namespace_uploads FOR VALUES IN ('Namespace');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION organization_detail_uploads FOR VALUES IN ('Organizations::OrganizationDetail');
+ALTER TABLE ONLY uploads ATTACH PARTITION organization_detail_uploads FOR VALUES IN ('Organizations::OrganizationDetail');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION project_import_export_relation_export_upload_uploads FOR VALUES IN ('Projects::ImportExport::RelationExportUpload');
+ALTER TABLE ONLY uploads ATTACH PARTITION project_import_export_relation_export_upload_uploads FOR VALUES IN ('Projects::ImportExport::RelationExportUpload');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION project_topic_uploads FOR VALUES IN ('Projects::Topic');
+ALTER TABLE ONLY uploads ATTACH PARTITION project_topic_uploads FOR VALUES IN ('Projects::Topic');
 
 ALTER TABLE ONLY ci_runner_machines ATTACH PARTITION project_type_ci_runner_machines FOR VALUES IN ('3');
 
 ALTER TABLE ONLY ci_runners ATTACH PARTITION project_type_ci_runners FOR VALUES IN ('3');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION project_uploads FOR VALUES IN ('Project');
+ALTER TABLE ONLY uploads ATTACH PARTITION project_uploads FOR VALUES IN ('Project');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION snippet_uploads FOR VALUES IN ('Snippet');
+ALTER TABLE ONLY uploads ATTACH PARTITION snippet_uploads FOR VALUES IN ('Snippet');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION user_permission_export_upload_uploads FOR VALUES IN ('UserPermissionExportUpload');
+ALTER TABLE ONLY uploads ATTACH PARTITION user_permission_export_upload_uploads FOR VALUES IN ('UserPermissionExportUpload');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION user_uploads FOR VALUES IN ('User');
+ALTER TABLE ONLY uploads ATTACH PARTITION user_uploads FOR VALUES IN ('User');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION vulnerability_archive_export_uploads FOR VALUES IN ('Vulnerabilities::ArchiveExport');
+ALTER TABLE ONLY uploads ATTACH PARTITION vulnerability_archive_export_uploads FOR VALUES IN ('Vulnerabilities::ArchiveExport');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION vulnerability_export_part_uploads FOR VALUES IN ('Vulnerabilities::Export::Part');
+ALTER TABLE ONLY uploads ATTACH PARTITION vulnerability_export_part_uploads FOR VALUES IN ('Vulnerabilities::Export::Part');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION vulnerability_export_uploads FOR VALUES IN ('Vulnerabilities::Export');
+ALTER TABLE ONLY uploads ATTACH PARTITION vulnerability_export_uploads FOR VALUES IN ('Vulnerabilities::Export');
 
-ALTER TABLE ONLY uploads_9ba88c4165 ATTACH PARTITION vulnerability_remediation_uploads FOR VALUES IN ('Vulnerabilities::Remediation');
+ALTER TABLE ONLY uploads ATTACH PARTITION vulnerability_remediation_uploads FOR VALUES IN ('Vulnerabilities::Remediation');
 
 ALTER TABLE ONLY abuse_events ALTER COLUMN id SET DEFAULT nextval('abuse_events_id_seq'::regclass);
 
@@ -37940,8 +37940,8 @@ ALTER TABLE ONLY abuse_report_events
 ALTER TABLE ONLY abuse_report_upload_states
     ADD CONSTRAINT abuse_report_upload_states_pkey PRIMARY KEY (id);
 
-ALTER TABLE ONLY uploads_9ba88c4165
-    ADD CONSTRAINT uploads_9ba88c4165_pkey PRIMARY KEY (id, model_type);
+ALTER TABLE ONLY uploads
+    ADD CONSTRAINT uploads_pkey PRIMARY KEY (id, model_type);
 
 ALTER TABLE ONLY abuse_report_uploads
     ADD CONSTRAINT abuse_report_uploads_pkey PRIMARY KEY (id, model_type);
@@ -40703,8 +40703,8 @@ ALTER TABLE ONLY upcoming_reconciliations
 ALTER TABLE ONLY upload_states
     ADD CONSTRAINT upload_states_pkey PRIMARY KEY (upload_id);
 
-ALTER TABLE ONLY uploads
-    ADD CONSTRAINT uploads_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY uploads_archived
+    ADD CONSTRAINT uploads_archived_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY user_achievements
     ADD CONSTRAINT user_achievements_pkey PRIMARY KEY (id);
@@ -43541,35 +43541,35 @@ CREATE INDEX work_item_descriptions_63_last_edited_by_id_idx ON gitlab_partition
 
 CREATE INDEX work_item_descriptions_63_namespace_id_idx ON gitlab_partitions_static.work_item_descriptions_63 USING btree (namespace_id);
 
-CREATE INDEX index_uploads_9ba88c4165_on_checksum ON ONLY uploads_9ba88c4165 USING btree (checksum);
+CREATE INDEX index_uploads_9ba88c4165_on_checksum ON ONLY uploads USING btree (checksum);
 
 CREATE INDEX abuse_report_uploads_checksum_idx ON abuse_report_uploads USING btree (checksum);
 
-CREATE INDEX index_uploads_9ba88c4165_on_model_uploader_created_at ON ONLY uploads_9ba88c4165 USING btree (model_id, model_type, uploader, created_at);
+CREATE INDEX index_uploads_9ba88c4165_on_model_uploader_created_at ON ONLY uploads USING btree (model_id, model_type, uploader, created_at);
 
 CREATE INDEX abuse_report_uploads_model_id_model_type_uploader_created_a_idx ON abuse_report_uploads USING btree (model_id, model_type, uploader, created_at);
 
-CREATE INDEX index_uploads_9ba88c4165_on_namespace_id ON ONLY uploads_9ba88c4165 USING btree (namespace_id);
+CREATE INDEX index_uploads_9ba88c4165_on_namespace_id ON ONLY uploads USING btree (namespace_id);
 
 CREATE INDEX abuse_report_uploads_namespace_id_idx ON abuse_report_uploads USING btree (namespace_id);
 
-CREATE INDEX index_uploads_9ba88c4165_on_organization_id ON ONLY uploads_9ba88c4165 USING btree (organization_id);
+CREATE INDEX index_uploads_9ba88c4165_on_organization_id ON ONLY uploads USING btree (organization_id);
 
 CREATE INDEX abuse_report_uploads_organization_id_idx ON abuse_report_uploads USING btree (organization_id);
 
-CREATE INDEX index_uploads_9ba88c4165_on_project_id ON ONLY uploads_9ba88c4165 USING btree (project_id);
+CREATE INDEX index_uploads_9ba88c4165_on_project_id ON ONLY uploads USING btree (project_id);
 
 CREATE INDEX abuse_report_uploads_project_id_idx ON abuse_report_uploads USING btree (project_id);
 
-CREATE INDEX index_uploads_9ba88c4165_on_store ON ONLY uploads_9ba88c4165 USING btree (store);
+CREATE INDEX index_uploads_9ba88c4165_on_store ON ONLY uploads USING btree (store);
 
 CREATE INDEX abuse_report_uploads_store_idx ON abuse_report_uploads USING btree (store);
 
-CREATE INDEX index_uploads_9ba88c4165_on_uploaded_by_user_id ON ONLY uploads_9ba88c4165 USING btree (uploaded_by_user_id);
+CREATE INDEX index_uploads_9ba88c4165_on_uploaded_by_user_id ON ONLY uploads USING btree (uploaded_by_user_id);
 
 CREATE INDEX abuse_report_uploads_uploaded_by_user_id_idx ON abuse_report_uploads USING btree (uploaded_by_user_id);
 
-CREATE INDEX index_uploads_9ba88c4165_on_uploader_and_path ON ONLY uploads_9ba88c4165 USING btree (uploader, path);
+CREATE INDEX index_uploads_9ba88c4165_on_uploader_and_path ON ONLY uploads USING btree (uploader, path);
 
 CREATE INDEX abuse_report_uploads_uploader_path_idx ON abuse_report_uploads USING btree (uploader, path);
 
@@ -49253,15 +49253,15 @@ CREATE INDEX index_upload_states_on_verification_state ON upload_states USING bt
 
 CREATE INDEX index_upload_states_pending_verification ON upload_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
 
-CREATE INDEX index_uploads_on_checksum ON uploads USING btree (checksum);
+CREATE INDEX index_uploads_on_checksum ON uploads_archived USING btree (checksum);
 
-CREATE INDEX index_uploads_on_model_id_model_type_uploader_created_at ON uploads USING btree (model_id, model_type, uploader, created_at);
+CREATE INDEX index_uploads_on_model_id_model_type_uploader_created_at ON uploads_archived USING btree (model_id, model_type, uploader, created_at);
 
-CREATE INDEX index_uploads_on_store ON uploads USING btree (store);
+CREATE INDEX index_uploads_on_store ON uploads_archived USING btree (store);
 
-CREATE INDEX index_uploads_on_uploaded_by_user_id ON uploads USING btree (uploaded_by_user_id);
+CREATE INDEX index_uploads_on_uploaded_by_user_id ON uploads_archived USING btree (uploaded_by_user_id);
 
-CREATE INDEX index_uploads_on_uploader_and_path ON uploads USING btree (uploader, path);
+CREATE INDEX index_uploads_on_uploader_and_path ON uploads_archived USING btree (uploader, path);
 
 CREATE INDEX index_user_achievements_on_achievement_id_revoked_by_is_null ON user_achievements USING btree (achievement_id, ((revoked_by_user_id IS NULL)));
 
@@ -53751,7 +53751,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION abuse_repo
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION abuse_report_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION abuse_report_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION abuse_report_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION abuse_report_uploads_project_id_idx;
 
@@ -53769,7 +53769,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION achievemen
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION achievement_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION achievement_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION achievement_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION achievement_uploads_project_id_idx;
 
@@ -53787,7 +53787,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION ai_vectori
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION ai_vectorizable_file_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION ai_vectorizable_file_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION ai_vectorizable_file_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION ai_vectorizable_file_uploads_project_id_idx;
 
@@ -53805,7 +53805,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION alert_mana
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION alert_management_alert_metric_image_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION alert_management_alert_metric_image_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION alert_management_alert_metric_image_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION alert_management_alert_metric_image_uploads_project_id_idx;
 
@@ -53823,7 +53823,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION appearance
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION appearance_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION appearance_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION appearance_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION appearance_uploads_project_id_idx;
 
@@ -53841,7 +53841,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION bulk_impor
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION bulk_import_export_upload_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION bulk_import_export_upload_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION bulk_import_export_upload_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION bulk_import_export_upload_uploads_project_id_idx;
 
@@ -53873,7 +53873,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION dependency
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION dependency_list_export_part_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION dependency_list_export_part_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION dependency_list_export_part_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION dependency_list_export_part_uploads_project_id_idx;
 
@@ -53891,7 +53891,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION dependency
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION dependency_list_export_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION dependency_list_export_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION dependency_list_export_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION dependency_list_export_uploads_project_id_idx;
 
@@ -53909,7 +53909,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION design_man
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION design_management_action_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION design_management_action_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION design_management_action_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION design_management_action_uploads_project_id_idx;
 
@@ -53983,7 +53983,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION import_exp
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION import_export_upload_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION import_export_upload_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION import_export_upload_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION import_export_upload_uploads_project_id_idx;
 
@@ -54119,7 +54119,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION issuable_m
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION issuable_metric_image_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION issuable_metric_image_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION issuable_metric_image_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION issuable_metric_image_uploads_project_id_idx;
 
@@ -54137,7 +54137,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION namespace_
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION namespace_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION namespace_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION namespace_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION namespace_uploads_project_id_idx;
 
@@ -54155,7 +54155,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION organizati
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION organization_detail_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION organization_detail_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION organization_detail_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION organization_detail_uploads_project_id_idx;
 
@@ -54179,7 +54179,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION project_impo
 
 ALTER INDEX index_uploads_9ba88c4165_on_checksum ATTACH PARTITION project_import_export_relation_export_upload_uploa_checksum_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION project_import_export_relation_export_upload_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION project_import_export_relation_export_upload_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_store ATTACH PARTITION project_import_export_relation_export_upload_uploads_store_idx;
 
@@ -54191,7 +54191,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION project_to
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION project_topic_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION project_topic_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION project_topic_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION project_topic_uploads_project_id_idx;
 
@@ -54213,7 +54213,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION project_up
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION project_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION project_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION project_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION project_uploads_project_id_idx;
 
@@ -54231,7 +54231,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION snippet_up
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION snippet_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION snippet_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION snippet_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION snippet_uploads_project_id_idx;
 
@@ -54249,7 +54249,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION user_permi
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION user_permission_export_upload_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION user_permission_export_upload_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION user_permission_export_upload_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION user_permission_export_upload_uploads_project_id_idx;
 
@@ -54267,7 +54267,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION user_uploa
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION user_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION user_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION user_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION user_uploads_project_id_idx;
 
@@ -54285,7 +54285,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION vulnerabil
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION vulnerability_archive_export_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION vulnerability_archive_export_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION vulnerability_archive_export_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION vulnerability_archive_export_uploads_project_id_idx;
 
@@ -54303,7 +54303,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION vulnerabil
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION vulnerability_export_part_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION vulnerability_export_part_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION vulnerability_export_part_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION vulnerability_export_part_uploads_project_id_idx;
 
@@ -54321,7 +54321,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION vulnerabil
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION vulnerability_export_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION vulnerability_export_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION vulnerability_export_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION vulnerability_export_uploads_project_id_idx;
 
@@ -54339,7 +54339,7 @@ ALTER INDEX index_uploads_9ba88c4165_on_namespace_id ATTACH PARTITION vulnerabil
 
 ALTER INDEX index_uploads_9ba88c4165_on_organization_id ATTACH PARTITION vulnerability_remediation_uploads_organization_id_idx;
 
-ALTER INDEX uploads_9ba88c4165_pkey ATTACH PARTITION vulnerability_remediation_uploads_pkey;
+ALTER INDEX uploads_pkey ATTACH PARTITION vulnerability_remediation_uploads_pkey;
 
 ALTER INDEX index_uploads_9ba88c4165_on_project_id ATTACH PARTITION vulnerability_remediation_uploads_project_id_idx;
 
@@ -56223,7 +56223,7 @@ ALTER TABLE ONLY user_achievements
     ADD CONSTRAINT fk_60b12fcda3 FOREIGN KEY (awarded_by_user_id) REFERENCES users(id) ON DELETE SET NULL;
 
 ALTER TABLE ONLY abuse_report_upload_states
-    ADD CONSTRAINT fk_6105b8ff69 FOREIGN KEY (abuse_report_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_6105b8ff69 FOREIGN KEY (abuse_report_upload_id) REFERENCES uploads_archived(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY merge_requests
     ADD CONSTRAINT fk_6149611a04 FOREIGN KEY (assignee_id) REFERENCES users(id) ON DELETE SET NULL;
@@ -56934,7 +56934,7 @@ ALTER TABLE ONLY subscription_add_on_purchases
     ADD CONSTRAINT fk_a1db288990 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY project_upload_states
-    ADD CONSTRAINT fk_a21cb2b8a2 FOREIGN KEY (project_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_a21cb2b8a2 FOREIGN KEY (project_upload_id) REFERENCES uploads_archived(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY approval_policy_merge_request_bypass_events
     ADD CONSTRAINT fk_a24f768758 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL;
@@ -57188,7 +57188,7 @@ ALTER TABLE ONLY namespace_commit_emails
 ALTER TABLE ONLY customer_relations_contacts
     ADD CONSTRAINT fk_b91ddd9345 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
-ALTER TABLE ONLY uploads
+ALTER TABLE ONLY uploads_archived
     ADD CONSTRAINT fk_b94f059d73 FOREIGN KEY (uploaded_by_user_id) REFERENCES users(id) ON DELETE SET NULL;
 
 ALTER TABLE ONLY system_access_group_microsoft_graph_access_tokens
@@ -57543,7 +57543,7 @@ ALTER TABLE ONLY epics
     ADD CONSTRAINT fk_dccd3f98fc FOREIGN KEY (assignee_id) REFERENCES users(id) ON DELETE SET NULL;
 
 ALTER TABLE ONLY achievement_upload_states
-    ADD CONSTRAINT fk_dd96a3fb92 FOREIGN KEY (achievement_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_dd96a3fb92 FOREIGN KEY (achievement_upload_id) REFERENCES uploads_archived(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY import_offline_configurations
     ADD CONSTRAINT fk_de42c075bd FOREIGN KEY (offline_export_id) REFERENCES import_offline_exports(id) ON DELETE CASCADE;
@@ -57723,7 +57723,7 @@ ALTER TABLE ONLY cluster_agent_migrations
     ADD CONSTRAINT fk_ed8ffda028 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY user_upload_states
-    ADD CONSTRAINT fk_ee17d267b8 FOREIGN KEY (user_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_ee17d267b8 FOREIGN KEY (user_upload_id) REFERENCES uploads_archived(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY events
     ADD CONSTRAINT fk_eea90e3209 FOREIGN KEY (personal_namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
@@ -57831,13 +57831,13 @@ ALTER TABLE ONLY user_group_member_roles
     ADD CONSTRAINT fk_f3b8fc5e4e FOREIGN KEY (shared_with_group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY group_upload_states
-    ADD CONSTRAINT fk_f47be2f726 FOREIGN KEY (group_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_f47be2f726 FOREIGN KEY (group_upload_id) REFERENCES uploads_archived(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY abuse_report_user_mentions
     ADD CONSTRAINT fk_f4c2b15ef9 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY design_management_action_upload_states
-    ADD CONSTRAINT fk_f51f732561 FOREIGN KEY (design_management_action_upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_f51f732561 FOREIGN KEY (design_management_action_upload_id) REFERENCES uploads_archived(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY scan_result_policy_violations
     ADD CONSTRAINT fk_f53706dbdd FOREIGN KEY (scan_result_policy_id) REFERENCES scan_result_policies(id) ON DELETE CASCADE;
@@ -58943,7 +58943,7 @@ ALTER TABLE ONLY namespace_admin_notes
 ALTER TABLE ONLY approval_group_rules
     ADD CONSTRAINT fk_rails_6727675176 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
-ALTER TABLE uploads_9ba88c4165
+ALTER TABLE uploads
     ADD CONSTRAINT fk_rails_67403e76d7 FOREIGN KEY (uploaded_by_user_id) REFERENCES users(id) ON DELETE SET NULL;
 
 ALTER TABLE ONLY jira_imports
@@ -59015,7 +59015,7 @@ ALTER TABLE ONLY project_custom_attributes
 ALTER TABLE ONLY ci_pending_builds
     ADD CONSTRAINT fk_rails_725a2644a3_p FOREIGN KEY (partition_id, build_id) REFERENCES p_ci_builds(partition_id, id) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE uploads_9ba88c4165
+ALTER TABLE uploads
     ADD CONSTRAINT fk_rails_728a7c799d FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE security_findings
@@ -59799,7 +59799,7 @@ ALTER TABLE ONLY pm_package_versions
     ADD CONSTRAINT fk_rails_cf94c3e601 FOREIGN KEY (pm_package_id) REFERENCES pm_packages(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY upload_states
-    ADD CONSTRAINT fk_rails_d00f153613 FOREIGN KEY (upload_id) REFERENCES uploads(id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_rails_d00f153613 FOREIGN KEY (upload_id) REFERENCES uploads_archived(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY import_source_user_placeholder_references
     ADD CONSTRAINT fk_rails_d0b75c434e FOREIGN KEY (source_user_id) REFERENCES import_source_users(id) ON DELETE CASCADE;
@@ -59885,7 +59885,7 @@ ALTER TABLE ONLY dependency_proxy_blobs
 ALTER TABLE ONLY board_user_preferences
     ADD CONSTRAINT fk_rails_dbebdaa8fe FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;
 
-ALTER TABLE uploads_9ba88c4165
+ALTER TABLE uploads
     ADD CONSTRAINT fk_rails_dc321bb575 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
 ALTER TABLE ai_duo_chat_events
@@ -59966,7 +59966,7 @@ ALTER TABLE ONLY packages_protection_rules
 ALTER TABLE ONLY vulnerability_flags
     ADD CONSTRAINT fk_rails_e59393b48b FOREIGN KEY (vulnerability_occurrence_id) REFERENCES vulnerability_occurrences(id) ON DELETE CASCADE;
 
-ALTER TABLE uploads_9ba88c4165
+ALTER TABLE uploads
     ADD CONSTRAINT fk_rails_e5afc14eb7 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY incident_management_escalation_policies

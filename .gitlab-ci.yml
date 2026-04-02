@@ -194,8 +194,8 @@ workflow:
         <<: *default-ruby-variables
         PIPELINE_NAME: 'Ruby $RUBY_VERSION $CI_COMMIT_BRANCH branch'
     # Do not create a pipeline when an auto-deploy branch is first created (branch creation push),
-    # but allow pipelines for subsequent commits pushed to the branch.
-    - if: '$CI_COMMIT_BRANCH =~ /^\d+-\d+-auto-deploy-\d+$/ && $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"'
+    # but allow pipelines for subsequent commits pushed to the branch or when triggered manually.
+    - if: '$CI_COMMIT_BRANCH =~ /^\d+-\d+-auto-deploy-\d+$/ && $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000" && $CI_PIPELINE_SOURCE == "push"'
       when: never
     - if: '$CI_COMMIT_BRANCH =~ /^\d+-\d+-auto-deploy-\d+$/'
       variables:

@@ -1303,7 +1303,7 @@ RSpec.describe Issuable, feature_category: :team_planning do
   end
 
   describe '#title_html' do
-    let(:expected_title) { 'An <em>issue</em>' }
+    let(:expected_title) { 'An _issue_' }
 
     subject { issue.title_html }
 

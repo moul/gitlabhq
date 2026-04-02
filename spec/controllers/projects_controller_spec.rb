@@ -78,10 +78,10 @@ RSpec.describe ProjectsController, feature_category: :groups_and_projects do
               stub_application_setting(allow_project_creation_for_guest_and_below: false)
             end
 
-            it 'responds with status 404' do
+            it 'responds with status 403' do
               get :new
 
-              expect(response).to have_gitlab_http_status(:not_found)
+              expect(response).to have_gitlab_http_status(:forbidden)
               expect(response).not_to render_template('new')
             end
           end

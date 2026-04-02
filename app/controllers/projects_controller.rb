@@ -97,7 +97,9 @@ class ProjectsController < Projects::ApplicationController
 
     manageable_groups = ::Groups::AcceptingProjectCreationsFinder.new(current_user).execute.limit(2)
 
-    return access_denied! if manageable_groups.empty? && !can?(current_user, :create_projects, current_user.namespace)
+    if manageable_groups.empty? && !can?(current_user, :create_projects, current_user.namespace)
+      return access_denied!(s_('ProjectsNew|You do not have permission to create projects.'))
+    end
 
     @current_user_group = manageable_groups.first if manageable_groups.one?
 

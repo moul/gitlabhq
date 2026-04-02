@@ -6,6 +6,9 @@ module API
       module CreateParams
         extend Grape::API::Helpers
 
+        params :work_item_create_features_ee do # rubocop:disable Lint/EmptyBlock -- Overridden in EE
+        end
+
         params :work_item_create_features do
           optional :features, type: Hash, desc: 'Input for work item features (widgets).' do
             optional :description, type: Hash, desc: 'Input for description feature.' do
@@ -41,6 +44,8 @@ module API
               optional :link_type, type: String, values: %w[relates_to], default: 'relates_to',
                 desc: 'Type of link. Supported values: relates_to.'
             end
+
+            use :work_item_create_features_ee
           end
         end
 

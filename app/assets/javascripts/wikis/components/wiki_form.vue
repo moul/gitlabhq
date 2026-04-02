@@ -145,13 +145,14 @@ export default {
     submitButton: {
       existingPage: s__('WikiPage|Save changes'),
       newPage: s__('WikiPage|Create page'),
-      newSidebar: s__('WikiPage|Create custom sidebar'),
+      newSidebar: s__('WikiPage|Create sidebar'),
       newTemplate: s__('WikiPage|Create template'),
     },
     cancel: s__('WikiPage|Cancel'),
     messageModalTitle: s__('WikiPage|Add a commit message'),
     autoCommitMessageToggle: s__('WikiPage|Use the default commit message for future saves'),
     autoCommitMessageToggleHelp: s__('WikiPage|Wiki pages save without opening this dialog.'),
+    deleteSidebar: s__('WikiPage|Delete sidebar'),
   },
   components: {
     WikiSidebarToggle,
@@ -698,6 +699,7 @@ export default {
       name="wiki[message]"
       type="hidden"
     />
+    <input v-if="isCustomSidebar" value="_sidebar" name="wiki[title]" type="hidden" />
     <div v-if="!glFeatures.wikiImmersiveEditor" class="row">
       <div class="gl-col-12">
         <gl-form-group
@@ -808,7 +810,11 @@ export default {
                   class="flexible-input-container gl-my-2 gl-flex gl-items-center gl-gap-2 gl-overflow-hidden gl-p-2"
                 >
                   <h1 v-if="isCustomSidebar" class="gl-heading-3 !gl-mb-0 md:gl-heading-2">
-                    {{ s__('Wiki|Edit Sidebar') }}
+                    {{
+                      pageInfo.persisted
+                        ? s__('Wiki|Edit Sidebar')
+                        : s__('Wiki|Create custom sidebar')
+                    }}
                   </h1>
                   <input
                     v-else
@@ -851,12 +857,14 @@ export default {
                         />
                       </gl-form-group>
                       <gl-toggle
+                        v-if="!isCustomSidebar"
                         v-model="shouldGeneratePathFromTitle"
                         :label="$options.i18n.path.generateFromTitle"
                         :help="$options.i18n.path.generateFromTitleHelp"
                         label-position="top"
                         label-id="lock-path"
                         class="gl-mb-5"
+                        data-testid="path-generation-toggle"
                       />
                       <gl-form-group :label="$options.i18n.format.label" label-for="wiki_format">
                         <gl-form-select
@@ -919,6 +927,7 @@ export default {
                   >
                     {{ $options.i18n.cancel }}</gl-button
                   >
+                  <delete-wiki-modal v-if="isCustomSidebar" />
                 </div>
               </div>
             </template>

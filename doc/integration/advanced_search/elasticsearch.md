@@ -1076,14 +1076,13 @@ When performing a search, the GitLab index uses the following scopes:
 | `commits`        | Commit data            |
 | `projects`       | Project data (default) |
 | `blobs`          | Code                   |
-| `issues`         | Issue data             |
+| `work_items`     | Work item data         |
 | `merge_requests` | Merge request data     |
 | `milestones`     | Milestone data         |
 | `notes`          | Note data              |
 | `snippets`       | Snippet data           |
 | `wiki_blobs`     | Wiki contents          |
 | `users`          | Users                  |
-| `epics`          | Epic data              |
 
 On GitLab.com and GitLab Dedicated, vulnerability records are always indexed
 for all projects and namespaces to support features outside of search.

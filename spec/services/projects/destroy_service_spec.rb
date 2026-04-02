@@ -99,7 +99,10 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
         context 'with different pipeline sources' do
           before do
             # We're creating many pipelines
-            allow(Gitlab::QueryLimiting).to receive(:threshold).and_return(513)
+            # +1 from uploads table sync trigger (table_sync_function_40ecbfb353)
+            # created by SwapUploadsWithPartitionedTable migration.
+            # Remove after uploads_archived is dropped.
+            allow(Gitlab::QueryLimiting).to receive(:threshold).and_return(514)
 
             external_pull_request = create(:external_pull_request, project: project)
             create(:ci_pipeline, project: project, source: :external_pull_request_event, external_pull_request: external_pull_request)
@@ -419,10 +422,7 @@ RSpec.describe Projects::DestroyService, :aggregate_failures, :event_store_publi
     end
 
     it { expect(Project.all).not_to include(project) }
-
-    it do
-      expect(project.gitlab_shell.repository_exists?(project.repository_storage, path + '.git')).to be_falsey
-    end
+    it { expect(project.gitlab_shell.repository_exists?(project.repository_storage, path + '.git')).to be_falsey }
   end
 
   context 'when flushing caches fail due to Git errors' do

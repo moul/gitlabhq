@@ -119,6 +119,48 @@ RSpec.describe Gitlab::Database::Partitioning::ReplaceTable, '#perform', feature
       end
     end
 
+    context 'when rename_partitions is false' do
+      subject(:replace_table) do
+        described_class.new(
+          connection,
+          original_table, replacement_table, archived_table, primary_key_columns,
+          rename_partitions: false
+        ).perform
+      end
+
+      let(:partition_name) { "#{replacement_table}_202001" }
+
+      before do
+        connection.execute(<<~SQL)
+          CREATE TABLE gitlab_partitions_dynamic.#{partition_name} PARTITION OF #{replacement_table}
+          FOR VALUES FROM ('2020-01-01') TO ('2020-02-01');
+        SQL
+      end
+
+      it 'does not rename partitions' do
+        expect(partitions_for_parent_table(replacement_table).count).to eq(1)
+
+        expect_table_to_be_replaced { replace_table }
+
+        partitions = partitions_for_parent_table(original_table).all
+        expect(partitions.size).to eq(1)
+        expect(partitions[0].name).to eq(partition_name)
+      end
+
+      it 'does not rename partition primary key constraints' do
+        expect_table_to_be_replaced { replace_table }
+
+        constraint = connection.select_value(<<~SQL)
+          SELECT conname
+          FROM pg_constraint
+          WHERE conrelid = 'gitlab_partitions_dynamic.#{partition_name}'::regclass
+          AND contype = 'p'
+        SQL
+
+        expect(constraint).to eq("#{partition_name}_pkey")
+      end
+    end
+
     context 'when the source table is not owned by current user' do
       let(:original_table_owner) { 'random_table_owner' }
       let(:replacement_table_owner) { 'random-table-owner' }

@@ -18,8 +18,7 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
       'packages_nuget_symbol_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/587558
       'packages_package_file_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/587559
       'snippet_repository_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/587561
-      'supply_chain_attestation_states', # https://gitlab.com/gitlab-org/gitlab/-/work_items/588220
-      'uploads_9ba88c4165' # https://gitlab.com/gitlab-org/gitlab/-/issues/398199
+      'supply_chain_attestation_states' # https://gitlab.com/gitlab-org/gitlab/-/work_items/588220
     ]
   end
 
@@ -253,35 +252,8 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
       "fork_networks" => "https://gitlab.com/gitlab-org/gitlab/-/issues/522958",
       "bulk_import_configurations" => "https://gitlab.com/gitlab-org/gitlab/-/issues/536521",
       "web_hook_logs_daily" => "https://gitlab.com/gitlab-org/gitlab/-/work_items/524820",
-      # All the tables below related to uploads are part of the same work to
-      # add sharding key to the table
       "admin_roles" => "https://gitlab.com/gitlab-org/gitlab/-/issues/553437",
-      "uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "abuse_report_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "achievement_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "ai_vectorizable_file_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "alert_management_alert_metric_image_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "appearance_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "bulk_import_export_upload_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "dependency_list_export_part_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "dependency_list_export_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "design_management_action_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "import_export_upload_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "issuable_metric_image_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "namespace_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "organization_detail_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "project_import_export_relation_export_upload_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "project_topic_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "project_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "snippet_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "uploads_9ba88c4165" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "user_permission_export_upload_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "user_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "vulnerability_export_part_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "vulnerability_export_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "vulnerability_archive_export_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      "vulnerability_remediation_uploads" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
-      # End of uploads related tables
+      "uploads_archived" => "https://gitlab.com/gitlab-org/gitlab/-/issues/398199",
       "ci_runner_machines" => "https://gitlab.com/gitlab-org/gitlab/-/issues/525293",
       "instance_type_ci_runner_machines" => "https://gitlab.com/gitlab-org/gitlab/-/issues/525293",
       "clusters" => "https://gitlab.com/gitlab-org/gitlab/-/issues/553452",
@@ -305,7 +277,27 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
       "oauth_applications" => "https://gitlab.com/gitlab-org/gitlab/-/issues/579291"
     }
 
+    # https://gitlab.com/gitlab-org/gitlab/-/issues/398199
+    uploads_partitions_without_organization_id_in_sharding_key = %w[
+      achievement_uploads
+      ai_vectorizable_file_uploads
+      alert_management_alert_metric_image_uploads
+      appearance_uploads
+      bulk_import_export_upload_uploads
+      design_management_action_uploads
+      import_export_upload_uploads
+      issuable_metric_image_uploads
+      namespace_uploads
+      project_import_export_relation_export_upload_uploads
+      project_uploads
+      uploads
+      user_permission_export_upload_uploads
+      vulnerability_archive_export_uploads
+      vulnerability_remediation_uploads
+    ]
+
     columns_to_check = organization_id_columns.reject { |column| work_in_progress[column[0]] }
+      .reject { |column| uploads_partitions_without_organization_id_in_sharding_key.include?(column[0]) }
     messages = columns_to_check.filter_map do |column|
       table_name = column[0]
       violations = column[1..].compact
