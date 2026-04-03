@@ -69,8 +69,6 @@ ee/app/models/ee/user.rb:
 ee/app/models/ee/user_preference.rb:
 - distinct_eligible_duo_add_on_assignments
 - no_eligible_duo_add_on_assignments?
-ee/app/models/ee/vulnerability.rb:
-- report_type_order
 ee/app/models/geo/container_repository_registry.rb:
 - pluck_container_repository_key
 ee/app/models/geo/tracking_base.rb:

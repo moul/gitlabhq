@@ -124,6 +124,7 @@ export default {
             v-model="selected"
             :items="listboxItems(resource.actions)"
             :toggle-text="dropdownText(resource.actions)"
+            placement="bottom-end"
             multiple
           />
           <gl-button

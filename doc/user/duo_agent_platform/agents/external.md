@@ -206,15 +206,26 @@ For GitLab-managed credentials, the following AI models are supported:
 
 Anthropic Claude:
 
-- `claude-3-haiku-20240307`
 - `claude-haiku-4-5-20251001`
+- `claude-opus-4-5-20251101`
+- `claude-opus-4-6`
 - `claude-sonnet-4-20250514`
 - `claude-sonnet-4-5-20250929`
+- `claude-sonnet-4-6`
 
 OpenAI Codex:
 
 - `gpt-5`
 - `gpt-5-codex`
+- `gpt-5-mini-2025-08-07`
+- `gpt-5.1`
+- `gpt-5.1-2025-11-13`
+- `gpt-5.1-codex`
+- `gpt-5.2-2025-12-11`
+- `gpt-5.3-codex`
+- `gpt-5.4-2026-03-05`
+- `gpt-5.4-mini`
+- `gpt-5.4-nano`
 
 ## Configure CI/CD variables
 

@@ -55,7 +55,11 @@ When your merge request is ready to be reviewed, use GitLab Duo Code Review to p
 
 <i class="fa-youtube-play" aria-hidden="true"></i> [Watch an overview](https://www.youtube.com/watch?v=SG3bhD1YjeY&list=PLFGfElNsQthZGazU1ZdfDpegu0HflunXW&index=2)
 
-Data usage: When you use this feature, the following data is sent to the large language model:
+Provide feedback on this feature in [issue 517386](https://gitlab.com/gitlab-org/gitlab/-/issues/517386).
+
+### Contextual awareness
+
+When you use GitLab Duo Code Review, the following data is sent to the large language model:
 
 - Merge request title
 - Merge request description
@@ -64,7 +68,7 @@ Data usage: When you use this feature, the following data is sent to the large l
 - Filenames
 - Custom instructions
 
-Provide feedback on this feature in issue [517386](https://gitlab.com/gitlab-org/gitlab/-/issues/517386).
+To specify content to exclude, see [exclude context from Code Review](context.md#exclude-context-from-code-review).
 
 ## Interact with GitLab Duo in reviews
 
