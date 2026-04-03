@@ -3246,6 +3246,31 @@ Input type: `AiCatalogItemReportInput`
 | <a id="mutation-aicatalogitemreport-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-aicatalogitemreport-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 
+### `Mutation.aiCatalogItemStar`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Input type: `AiCatalogItemStarInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-aicatalogitemstar-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-aicatalogitemstar-id"></a>`id` | [`AiCatalogItemID!`](#aicatalogitemid) | Global ID of the catalog item to star or unstar. |
+| <a id="mutation-aicatalogitemstar-starred"></a>`starred` | [`Boolean!`](#boolean) | Indicates whether to star or unstar the catalog item. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-aicatalogitemstar-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-aicatalogitemstar-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+| <a id="mutation-aicatalogitemstar-starcount"></a>`starCount` | [`Int!`](#int) | Number of stars for the catalog item. |
+
 ### `Mutation.aiCatalogMcpServerCreate`
 
 {{< details >}}
@@ -28175,6 +28200,8 @@ An AI catalog agent.
 | <a id="aicatalogagent-public"></a>`public` | [`Boolean!`](#boolean) | Whether the item is publicly visible in the catalog. |
 | <a id="aicatalogagent-softdeleted"></a>`softDeleted` | [`Boolean`](#boolean) | Indicates if the item has been soft deleted. |
 | <a id="aicatalogagent-softdeletedat"></a>`softDeletedAt` | [`Time`](#time) | Timestamp of when the item was soft deleted. |
+| <a id="aicatalogagent-starcount"></a>`starCount` | [`Int!`](#int) | Number of stars for the item. |
+| <a id="aicatalogagent-starred"></a>`starred` | [`Boolean!`](#boolean) | Whether the current user has starred the item. |
 | <a id="aicatalogagent-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the item was updated. |
 | <a id="aicatalogagent-userpermissions"></a>`userPermissions` | [`AiCatalogItemPermissions!`](#aicatalogitempermissions) | Permissions for the current user on the resource. |
 | <a id="aicatalogagent-verificationlevel"></a>`verificationLevel` | [`AiCatalogItemVerificationLevel!`](#aicatalogitemverificationlevel) | Verification level of the item. |
@@ -28285,6 +28312,8 @@ An AI catalog flow.
 | <a id="aicatalogflow-public"></a>`public` | [`Boolean!`](#boolean) | Whether the item is publicly visible in the catalog. |
 | <a id="aicatalogflow-softdeleted"></a>`softDeleted` | [`Boolean`](#boolean) | Indicates if the item has been soft deleted. |
 | <a id="aicatalogflow-softdeletedat"></a>`softDeletedAt` | [`Time`](#time) | Timestamp of when the item was soft deleted. |
+| <a id="aicatalogflow-starcount"></a>`starCount` | [`Int!`](#int) | Number of stars for the item. |
+| <a id="aicatalogflow-starred"></a>`starred` | [`Boolean!`](#boolean) | Whether the current user has starred the item. |
 | <a id="aicatalogflow-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the item was updated. |
 | <a id="aicatalogflow-userpermissions"></a>`userPermissions` | [`AiCatalogItemPermissions!`](#aicatalogitempermissions) | Permissions for the current user on the resource. |
 | <a id="aicatalogflow-verificationlevel"></a>`verificationLevel` | [`AiCatalogItemVerificationLevel!`](#aicatalogitemverificationlevel) | Verification level of the item. |
@@ -28466,6 +28495,8 @@ An AI catalog third party flow.
 | <a id="aicatalogthirdpartyflow-public"></a>`public` | [`Boolean!`](#boolean) | Whether the item is publicly visible in the catalog. |
 | <a id="aicatalogthirdpartyflow-softdeleted"></a>`softDeleted` | [`Boolean`](#boolean) | Indicates if the item has been soft deleted. |
 | <a id="aicatalogthirdpartyflow-softdeletedat"></a>`softDeletedAt` | [`Time`](#time) | Timestamp of when the item was soft deleted. |
+| <a id="aicatalogthirdpartyflow-starcount"></a>`starCount` | [`Int!`](#int) | Number of stars for the item. |
+| <a id="aicatalogthirdpartyflow-starred"></a>`starred` | [`Boolean!`](#boolean) | Whether the current user has starred the item. |
 | <a id="aicatalogthirdpartyflow-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the item was updated. |
 | <a id="aicatalogthirdpartyflow-userpermissions"></a>`userPermissions` | [`AiCatalogItemPermissions!`](#aicatalogitempermissions) | Permissions for the current user on the resource. |
 | <a id="aicatalogthirdpartyflow-verificationlevel"></a>`verificationLevel` | [`AiCatalogItemVerificationLevel!`](#aicatalogitemverificationlevel) | Verification level of the item. |
@@ -61636,6 +61667,8 @@ Implementations:
 | <a id="aicatalogitem-public"></a>`public` | [`Boolean!`](#boolean) | Whether the item is publicly visible in the catalog. |
 | <a id="aicatalogitem-softdeleted"></a>`softDeleted` | [`Boolean`](#boolean) | Indicates if the item has been soft deleted. |
 | <a id="aicatalogitem-softdeletedat"></a>`softDeletedAt` | [`Time`](#time) | Timestamp of when the item was soft deleted. |
+| <a id="aicatalogitem-starcount"></a>`starCount` | [`Int!`](#int) | Number of stars for the item. |
+| <a id="aicatalogitem-starred"></a>`starred` | [`Boolean!`](#boolean) | Whether the current user has starred the item. |
 | <a id="aicatalogitem-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the item was updated. |
 | <a id="aicatalogitem-userpermissions"></a>`userPermissions` | [`AiCatalogItemPermissions!`](#aicatalogitempermissions) | Permissions for the current user on the resource. |
 | <a id="aicatalogitem-verificationlevel"></a>`verificationLevel` | [`AiCatalogItemVerificationLevel!`](#aicatalogitemverificationlevel) | Verification level of the item. |

@@ -28,6 +28,7 @@ class SessionsController < Devise::SessionsController
   prepend_before_action :check_captcha, only: [:create]
   prepend_before_action :store_redirect_uri, only: [:new]
   prepend_before_action :require_no_authentication_without_flash, only: [:new, :create]
+  prepend_before_action :store_login_challenge, only: [:new]
   prepend_before_action :ensure_password_authentication_enabled!,
     if: -> { action_name == 'create' && password_based_login? }
   before_action :auto_sign_in_with_provider, only: [:new]
@@ -129,6 +130,21 @@ class SessionsController < Devise::SessionsController
       format.html do
         render_404
       end
+    end
+  end
+
+  override :after_sign_in_path_for
+  def after_sign_in_path_for(resource)
+    return super unless iam_login_enabled? && session[:login_challenge].present?
+
+    challenge = session.delete(:login_challenge)
+    result = Authn::IamService::AcceptLoginChallengeService.new(challenge: challenge, user: resource).execute
+
+    if result.success?
+      result.payload[:redirect_to]
+    else
+      flash[:alert] = _('An error occurred. Please try again.')
+      super
     end
   end
 
@@ -383,6 +399,23 @@ class SessionsController < Devise::SessionsController
 
   def set_invite_params
     @invite_email = ActionController::Base.helpers.sanitize(params[:invite_email])
+  end
+
+  def store_login_challenge
+    return unless iam_login_enabled?
+    return if failed_login?
+
+    session.delete(:login_challenge)
+
+    challenge = params.permit(:login_challenge)[:login_challenge]
+    return unless challenge.present?
+
+    session[:login_challenge] = challenge
+  end
+
+  def iam_login_enabled?
+    Feature.enabled?(:iam_svc_login, :instance) &&
+      Gitlab.config.authn.iam_service.enabled
   end
 
   # overridden by EE module

@@ -3833,7 +3833,7 @@
   :queue_namespace:
 - :name: ci_parse_secure_file_metadata
   :worker_name: Ci::ParseSecureFileMetadataWorker
-  :feature_category: :mobile_devops
+  :feature_category: :secrets_management
   :has_external_dependencies: false
   :urgency: :low
   :resource_boundary: :unknown
