@@ -347,6 +347,17 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
           end
         end
       end
+
+      context 'when dropping with a failure reason' do
+        it 'includes the failure_reason in the internal event' do
+          expect { pipeline.drop!(:config_error) }.to trigger_internal_events('completed_pipeline_execution')
+            .with(
+              project: project,
+              user: user,
+              additional_properties: { label: 'failed', failure_reason: 'config_error' }
+            )
+        end
+      end
     end
   end
 

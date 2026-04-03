@@ -11,17 +11,12 @@ class QueueBackfillDescriptionVersionsForEpics < Gitlab::Database::Migration[2.3
   SUB_BATCH_SIZE = 250
 
   def up
-    queue_batched_background_migration(
-      MIGRATION,
-      :epics,
-      :id,
-      job_interval: DELAY_INTERVAL,
-      batch_size: BATCH_SIZE,
-      sub_batch_size: SUB_BATCH_SIZE
-    )
+    # no-op, since the original migration was timing out.
+    # fixed by https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228582
   end
 
   def down
-    delete_batched_background_migration(MIGRATION, :epics, :id, [])
+    # no-op, since the original migration was timing out.
+    # fixed by https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228582
   end
 end

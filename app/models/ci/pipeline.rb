@@ -401,8 +401,9 @@ module Ci
             project: pipeline.project,
             user: pipeline.user,
             additional_properties: {
-              label: pipeline.status
-            }
+              label: pipeline.status,
+              failure_reason: pipeline.failure_reason
+            }.compact
           )
         end
       end
