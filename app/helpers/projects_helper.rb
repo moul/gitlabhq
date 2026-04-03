@@ -355,9 +355,7 @@ module ProjectsHelper
   end
 
   def explore_projects_tab?
-    current_page?(explore_projects_path) ||
-      current_page?(trending_explore_projects_path) ||
-      current_page?(starred_explore_projects_path)
+    current_page?(explore_projects_path) || current_page?(trending_explore_projects_path)
   end
 
   def show_count?(disabled: false, compact_mode: false)

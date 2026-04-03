@@ -30671,8 +30671,8 @@ msgstr ""
 msgid "FoundationalFlow|Code Review"
 msgstr ""
 
-msgid "FoundationalFlow|Convert issues into actionable merge requests."
-msgstr ""
+msgid "FoundationalFlow|Turn feedback into actionable merge requests or issues."
+msgstr "将反馈转化为可操作的合并请求或议题。"
 
 msgid "FoundationalFlow|Convert to GitLab CI/CD"
 msgstr ""

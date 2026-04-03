@@ -427,7 +427,7 @@ RSpec.describe Issue, feature_category: :team_planning do
     end
 
     it 'can be used with other scopes' do
-      expect(in_namespaces_with_cte.with_work_item_type).to match_array(issue)
+      expect(in_namespaces_with_cte.opened).to match_array(issue)
     end
   end
 

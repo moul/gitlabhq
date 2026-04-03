@@ -151,7 +151,7 @@ class Projects::WorkItemsController < Projects::ApplicationController
     # remove order by since we return just one item anyway. In some cases keeping order by confuses PG planner on which
     # index to use to return the result.
     @issuable ||= ::WorkItems::WorkItemsFinder.new(current_user, project_id: project.id)
-      .execute.with_work_item_type.without_order.find_by_iid(show_params[:iid])
+      .execute.without_order.find_by_iid(show_params[:iid])
   end
 end
 

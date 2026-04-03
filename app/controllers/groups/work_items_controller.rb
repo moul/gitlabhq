@@ -35,7 +35,7 @@ module Groups
       not_found unless group.supports_work_items?
 
       @work_item = ::WorkItems::WorkItemsFinder.new(current_user, group_id: group.id)
-        .execute.with_work_item_type.find_by_iid(show_params[:iid])
+        .execute.find_by_iid(show_params[:iid])
     end
 
     def rss

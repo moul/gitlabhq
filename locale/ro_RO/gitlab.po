@@ -31189,8 +31189,8 @@ msgstr ""
 msgid "FoundationalFlow|Code Review"
 msgstr ""
 
-msgid "FoundationalFlow|Convert issues into actionable merge requests."
-msgstr ""
+msgid "FoundationalFlow|Turn feedback into actionable merge requests or issues."
+msgstr "Transformați feedback-ul în cereri de îmbinare sau probleme acționabile."
 
 msgid "FoundationalFlow|Convert to GitLab CI/CD"
 msgstr ""

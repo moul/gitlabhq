@@ -30930,8 +30930,8 @@ msgstr "Analice vulnerabilidades críticas de detección de secretos."
 msgid "FoundationalFlow|Code Review"
 msgstr "Revisión de código"
 
-msgid "FoundationalFlow|Convert issues into actionable merge requests."
-msgstr "Convierta las incidencias en merge requests procesables."
+msgid "FoundationalFlow|Turn feedback into actionable merge requests or issues."
+msgstr "Convierta el feedback en merge requests o incidencias procesables."
 
 msgid "FoundationalFlow|Convert to GitLab CI/CD"
 msgstr "Convertir a CI/CD de GitLab"
