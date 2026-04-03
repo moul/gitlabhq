@@ -86,22 +86,6 @@ export const pipelineStage = {
   },
 };
 
-export const pipelineStageRunning = {
-  __typename: 'CiStage',
-  id: 'gid://gitlab/Ci::Stage/410',
-  name: 'test',
-  scheduled: false,
-  scheduledAt: null,
-  detailedStatus: {
-    __typename: 'DetailedStatus',
-    id: 'running-410-410',
-    name: 'RUNNING',
-    icon: 'status_running',
-    label: 'running',
-    tooltip: 'running',
-  },
-};
-
 // for `job_action_button_spec.js`
 export const mockJobActions = [
   {
@@ -390,23 +374,4 @@ export const stageJobUpdated = {
   name: 'test_job',
   scheduled: false,
   scheduledAt: null,
-};
-
-export const mockStageStatusUpdateResponse = {
-  data: {
-    ciStageStatusUpdated: {
-      id: 'gid://gitlab/Ci::Stage/410',
-      name: 'test',
-      detailedStatus: {
-        __typename: 'DetailedStatus',
-        id: 'success-410-410',
-        name: 'SUCCESS',
-        icon: 'status_success',
-        text: 'Passed',
-        detailsPath: '/root/ci-project/-/pipelines/701#test',
-        tooltip: 'passed',
-      },
-      __typename: 'CiStage',
-    },
-  },
 };

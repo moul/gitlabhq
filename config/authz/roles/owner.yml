@@ -39,6 +39,7 @@ project:
   - set_show_diff_preview_in_email
   - set_warn_about_potentially_unwanted_characters
   - update_group_link
+  - rewrite_repository_history
   - update_security_orchestration_policy_project
 group:
   permissions: []

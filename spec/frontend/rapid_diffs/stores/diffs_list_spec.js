@@ -177,7 +177,7 @@ describe('Diffs list store', () => {
       expect(findDiffsOverlay().dataset.loading).toBe(undefined);
     });
 
-    it('clears linked file data and URL params on reload', async () => {
+    it('clears linked file data on non-initial reload', async () => {
       setWindowLocation('https://example.com/diffs?file_path=app%2Fmodels%2Fuser.rb');
       store.setLinkedFileData({ old_path: 'app/models/user.rb', new_path: 'app/models/user.rb' });
       store.reloadDiffs('/stream');
@@ -186,11 +186,14 @@ describe('Diffs list store', () => {
       expect(window.location.search).not.toContain('file_path');
     });
 
-    it('does not modify URL params when there is no linked file', async () => {
-      setWindowLocation('https://example.com/diffs?view=inline');
-      store.reloadDiffs('/stream');
+    it('preserves linked file data on initial reload', async () => {
+      store.setLinkedFileData({ old_path: 'app/models/user.rb', new_path: 'app/models/user.rb' });
+      store.reloadDiffs('/stream', true);
       await waitForPromises();
-      expect(window.location.search).toContain('view=inline');
+      expect(store.linkedFileData).toEqual({
+        old_path: 'app/models/user.rb',
+        new_path: 'app/models/user.rb',
+      });
     });
   });
 
@@ -199,6 +202,24 @@ describe('Diffs list store', () => {
     jest.spyOn(DiffFile, 'getAll').mockReturnValue([{ id: 'foo' }]);
     store.fillInLoadedFiles();
     expect(store.loadedFiles).toStrictEqual(loadedFiles);
+  });
+
+  describe('#streamInitialDiffs', () => {
+    it('includes linked file params in fetch URL', async () => {
+      store.setLinkedFileData({ old_path: 'app/models/user.rb', new_path: 'app/models/user.rb' });
+      store.streamInitialDiffs('/stream');
+      await waitForPromises();
+      expect(global.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('file_path=app%2Fmodels%2Fuser.rb'),
+        expect.any(Object),
+      );
+    });
+
+    it('fetches without linked file params when none set', async () => {
+      store.streamInitialDiffs('/stream');
+      await waitForPromises();
+      expect(global.fetch).toHaveBeenCalledWith('/stream', expect.any(Object));
+    });
   });
 
   it('#addLoadedFile', () => {

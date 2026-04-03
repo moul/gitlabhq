@@ -17,15 +17,10 @@ import { graphqlEtagStagePath } from '~/ci/pipeline_details/utils';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { fetchPolicies } from '~/lib/graphql';
 import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
-import {
-  PIPELINE_POLL_INTERVAL_DEFAULT,
-  FAILED_STATUS,
-  PIPELINE_ALIVE_STATUSES,
-} from '~/ci/constants';
+import { PIPELINE_POLL_INTERVAL_DEFAULT, FAILED_STATUS } from '~/ci/constants';
 import JobDropdownItem from '~/ci/common/private/job_dropdown_item.vue';
 import getPipelineStageJobsQuery from './graphql/queries/get_pipeline_stage_jobs.query.graphql';
 import stageJobsUpdatedSubscription from './graphql/subscriptions/stage_jobs_updated.subscription.graphql';
-import ciStageStatusUpdatedSubscription from './graphql/subscriptions/ci_stage_status_updated.subscription.graphql';
 
 const searchItemsThreshold = 12;
 
@@ -62,8 +57,6 @@ export default {
       stageJobs: [],
       search: '',
       isSubscribed: false,
-      stageStatusSubscription: null,
-      updatedDetailedStatus: null,
     };
   },
   apollo: {
@@ -116,17 +109,11 @@ export default {
     },
   },
   computed: {
-    stageDetailedStatus() {
-      return this.updatedDetailedStatus || this.stage.detailedStatus;
-    },
-    isStageAlive() {
-      return PIPELINE_ALIVE_STATUSES.includes(this.stageDetailedStatus?.name);
-    },
     dropdownHeaderText() {
       return sprintf(__('Stage: %{stageName}'), { stageName: this.stage.name });
     },
     dropdownTooltipTitle() {
-      return this.isDropdownOpen ? '' : `${this.stage.name}: ${this.stageDetailedStatus.tooltip}`;
+      return this.isDropdownOpen ? '' : `${this.stage.name}: ${this.stage.detailedStatus.tooltip}`;
     },
     failedJobs() {
       return this.stageJobs.filter((job) => job.detailedStatus.group === FAILED_STATUS);
@@ -164,65 +151,16 @@ export default {
         this.unsubscribeFromJobUpdates();
       }
     },
-    stage() {
-      if (!this.useRealTime) return;
-
-      this.updatedDetailedStatus = null;
-      this.unsubscribeFromStageStatusUpdates();
-      if (this.isStageAlive) {
-        this.subscribeToStageStatusUpdates();
-      }
-    },
-    isStageAlive(newValue, oldValue) {
-      if (!this.useRealTime) return;
-
-      if (newValue && !oldValue) {
-        this.subscribeToStageStatusUpdates();
-      } else if (!newValue && oldValue) {
-        this.unsubscribeFromStageStatusUpdates();
-      }
-    },
   },
   mounted() {
     if (!this.useRealTime) {
       toggleQueryPollingByVisibility(this.$apollo.queries.stageJobs);
     }
-    if (this.useRealTime && this.isStageAlive) {
-      this.subscribeToStageStatusUpdates();
-    }
   },
   beforeDestroy() {
     this.unsubscribeFromJobUpdates();
-    this.unsubscribeFromStageStatusUpdates();
   },
   methods: {
-    subscribeToStageStatusUpdates() {
-      if (this.stageStatusSubscription) return;
-
-      this.stageStatusSubscription = this.$apollo
-        .subscribe({
-          query: ciStageStatusUpdatedSubscription,
-          variables: {
-            stageId: this.stage.id,
-          },
-        })
-        .subscribe({
-          next: ({ data: { ciStageStatusUpdated } }) => {
-            if (ciStageStatusUpdated?.detailedStatus) {
-              this.updatedDetailedStatus = ciStageStatusUpdated.detailedStatus;
-            }
-          },
-          error: (error) => {
-            reportToSentry(this.$options.name, error);
-          },
-        });
-    },
-    unsubscribeFromStageStatusUpdates() {
-      if (this.stageStatusSubscription) {
-        this.stageStatusSubscription.unsubscribe();
-        this.stageStatusSubscription = null;
-      }
-    },
     onShowDropdown() {
       this.isDropdownOpen = true;
       this.$emit('mini-graph-stage-click');
@@ -299,7 +237,7 @@ export default {
         class="!gl-rounded-full"
         variant="link"
       >
-        <ci-icon :status="stageDetailedStatus" :show-tooltip="false" :use-link="false" />
+        <ci-icon :status="stage.detailedStatus" :show-tooltip="false" :use-link="false" />
       </gl-button>
     </template>
 

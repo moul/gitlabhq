@@ -5,7 +5,12 @@ export const removeLinkedFileUrlParams = (originalUrl) => {
   url.searchParams.delete('file_path');
   url.searchParams.delete('old_path');
   url.searchParams.delete('new_path');
-  if (url.hash.startsWith('#line_') || fileHashRegex.test(url.hash.substring(1))) url.hash = '';
+  if (
+    url.hash.startsWith('#line_') ||
+    url.hash.startsWith('#note_') ||
+    fileHashRegex.test(url.hash.substring(1))
+  )
+    url.hash = '';
   return url;
 };
 

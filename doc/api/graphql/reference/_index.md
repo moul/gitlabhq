@@ -28588,6 +28588,7 @@ Represents an AI flow trigger.
 | <a id="aiflowtriggertype-eventtypes"></a>`eventTypes` | [`[Int!]!`](#int) | List of events that triggers the flow. |
 | <a id="aiflowtriggertype-filter"></a>`filter` {{< icon name="warning-solid" >}} | [`JSON`](#json) | **Introduced** in GitLab 18.11. **Status**: Experiment. Filter conditions for the AI flow trigger. |
 | <a id="aiflowtriggertype-id"></a>`id` | [`ID!`](#id) | ID of the flow trigger. |
+| <a id="aiflowtriggertype-precondition"></a>`precondition` {{< icon name="warning-solid" >}} | [`JSON`](#json) | **Introduced** in GitLab 18.11. **Status**: Experiment. Enforced filter conditions from the foundational flow definition. |
 | <a id="aiflowtriggertype-project"></a>`project` | [`Project!`](#project) | Project of the flow trigger. |
 | <a id="aiflowtriggertype-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the flow trigger was last updated. |
 | <a id="aiflowtriggertype-user"></a>`user` | [`UserCore`](#usercore) | Service account of the flow trigger. |

@@ -90,7 +90,6 @@ Gitlab/Authz/PermissionCheck:
     - 'app/services/remote_mirrors/destroy_service.rb'
     - 'app/services/remote_mirrors/sync_service.rb'
     - 'app/services/remote_mirrors/update_service.rb'
-    - 'app/services/repositories/rewrite_history_service.rb'
     - 'app/services/terraform/remote_state_handler.rb'
     - 'app/services/terraform/states/trigger_destroy_service.rb'
     - 'app/services/web_hooks/destroy_service.rb'

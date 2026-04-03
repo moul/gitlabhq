@@ -769,6 +769,34 @@ describe('PipelinesTableWrapper component', () => {
         },
       );
 
+      it('passes overall stage status to the pipelines table', async () => {
+        const mockSub = createMockSubscription();
+        subscriptionHandler = jest.fn().mockReturnValue(mockSub);
+
+        const response = generateMRPipelinesResponse({ count: 0 });
+        response.data.project.mergeRequest.pipelines.nodes = [
+          generateMockPipeline({ id: '701', status: 'RUNNING' }),
+        ];
+
+        mergeRequestPipelinesRequest.mockResolvedValue(response);
+        await createComponent();
+
+        const originalPipeline = findPipelinesList().props('pipelines')[0];
+        const originalStageStatuses = originalPipeline.stages.nodes.map(
+          (s) => s.detailedStatus.name,
+        );
+
+        expect(originalStageStatuses).toEqual(['SUCCESS', 'SUCCESS', 'SUCCESS']);
+
+        mockSub.next(mockPipelineUpdateResponse);
+        await waitForPromises();
+
+        const updatedPipeline = findPipelinesList().props('pipelines')[0];
+        const updatedStageStatuses = updatedPipeline.stages.nodes.map((s) => s.detailedStatus.name);
+
+        expect(updatedStageStatuses).toEqual(['RUNNING', 'CREATED', 'CREATED']);
+      });
+
       it('skips subscription when there are no pipelines', async () => {
         mergeRequestPipelinesRequest.mockResolvedValue(generateMRPipelinesResponse({ count: 0 }));
         subscriptionHandler.mockResolvedValue(mockPipelineUpdateResponse);

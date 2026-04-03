@@ -28,7 +28,8 @@ module RapidDiffs
     end
 
     def diff_files_for_streaming(diff_options = {})
-      transform_file_collection(resource.diffs_for_streaming(diff_options).diff_files(sorted: sorted?))
+      collection = resource.diffs_for_streaming(diff_options).diff_files(sorted: sorted?)
+      with_linked_file_first(transform_file_collection(collection))
     end
 
     def diff_files_for_streaming_by_changed_paths(diff_options = {})
@@ -135,6 +136,24 @@ module RapidDiffs
         old_path: request_params[:old_path] || request_params[:file_path],
         new_path: request_params[:new_path] || request_params[:file_path]
       }
+    end
+
+    def with_linked_file_first(collection)
+      old_path = linked_file_params[:old_path]
+      new_path = linked_file_params[:new_path]
+      return collection unless old_path && new_path
+
+      result = []
+      collection.each do |file|
+        if file.old_path == old_path && file.new_path == new_path
+          file.linked = true
+          result.unshift(file)
+        else
+          result << file
+        end
+      end
+
+      result
     end
   end
 end

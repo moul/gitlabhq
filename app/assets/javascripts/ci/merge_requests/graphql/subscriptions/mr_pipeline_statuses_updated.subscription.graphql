@@ -9,7 +9,8 @@ subscription mrPipelineStatusUpdated($pipelineId: CiPipelineID!) {
       nodes {
         id
         detailedStatus {
-          id
+          ...CiIcon
+          tooltip
           name
         }
       }
