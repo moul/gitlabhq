@@ -33639,6 +33639,25 @@ CREATE SEQUENCE work_item_select_field_values_id_seq
 
 ALTER SEQUENCE work_item_select_field_values_id_seq OWNED BY work_item_select_field_values.id;
 
+CREATE TABLE work_item_settings (
+    id bigint NOT NULL,
+    organization_id bigint,
+    namespace_id bigint,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    customizable_type_visibility boolean DEFAULT false NOT NULL,
+    CONSTRAINT check_e3f84892bf CHECK ((num_nonnulls(namespace_id, organization_id) = 1))
+);
+
+CREATE SEQUENCE work_item_settings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE work_item_settings_id_seq OWNED BY work_item_settings.id;
+
 CREATE TABLE work_item_text_field_values (
     id bigint NOT NULL,
     namespace_id bigint NOT NULL,
@@ -33724,6 +33743,43 @@ CREATE SEQUENCE work_item_type_user_preferences_id_seq
     CACHE 1;
 
 ALTER SEQUENCE work_item_type_user_preferences_id_seq OWNED BY work_item_type_user_preferences.id;
+
+CREATE TABLE work_item_type_visibilities (
+    id bigint NOT NULL,
+    namespace_id bigint NOT NULL,
+    work_item_type_id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    enabled boolean DEFAULT true NOT NULL,
+    propagate boolean DEFAULT false NOT NULL
+);
+
+CREATE SEQUENCE work_item_type_visibilities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE work_item_type_visibilities_id_seq OWNED BY work_item_type_visibilities.id;
+
+CREATE TABLE work_item_type_visibility_defaults (
+    id bigint NOT NULL,
+    namespace_id bigint NOT NULL,
+    work_item_type_id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    enabled boolean DEFAULT true NOT NULL
+);
+
+CREATE SEQUENCE work_item_type_visibility_defaults_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE work_item_type_visibility_defaults_id_seq OWNED BY work_item_type_visibility_defaults.id;
 
 CREATE TABLE work_item_types (
     id bigint NOT NULL,
@@ -36655,6 +36711,8 @@ ALTER TABLE ONLY work_item_parent_links ALTER COLUMN id SET DEFAULT nextval('wor
 
 ALTER TABLE ONLY work_item_select_field_values ALTER COLUMN id SET DEFAULT nextval('work_item_select_field_values_id_seq'::regclass);
 
+ALTER TABLE ONLY work_item_settings ALTER COLUMN id SET DEFAULT nextval('work_item_settings_id_seq'::regclass);
+
 ALTER TABLE ONLY work_item_text_field_values ALTER COLUMN id SET DEFAULT nextval('work_item_text_field_values_id_seq'::regclass);
 
 ALTER TABLE ONLY work_item_type_custom_fields ALTER COLUMN id SET DEFAULT nextval('work_item_type_custom_fields_id_seq'::regclass);
@@ -36662,6 +36720,10 @@ ALTER TABLE ONLY work_item_type_custom_fields ALTER COLUMN id SET DEFAULT nextva
 ALTER TABLE ONLY work_item_type_custom_lifecycles ALTER COLUMN id SET DEFAULT nextval('work_item_type_custom_lifecycles_id_seq'::regclass);
 
 ALTER TABLE ONLY work_item_type_user_preferences ALTER COLUMN id SET DEFAULT nextval('work_item_type_user_preferences_id_seq'::regclass);
+
+ALTER TABLE ONLY work_item_type_visibilities ALTER COLUMN id SET DEFAULT nextval('work_item_type_visibilities_id_seq'::regclass);
+
+ALTER TABLE ONLY work_item_type_visibility_defaults ALTER COLUMN id SET DEFAULT nextval('work_item_type_visibility_defaults_id_seq'::regclass);
 
 ALTER TABLE ONLY work_item_widget_definitions ALTER COLUMN id SET DEFAULT nextval('work_item_widget_definitions_id_seq'::regclass);
 
@@ -41040,6 +41102,9 @@ ALTER TABLE ONLY work_item_progresses
 ALTER TABLE ONLY work_item_select_field_values
     ADD CONSTRAINT work_item_select_field_values_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY work_item_settings
+    ADD CONSTRAINT work_item_settings_pkey PRIMARY KEY (id);
+
 ALTER TABLE ONLY work_item_text_field_values
     ADD CONSTRAINT work_item_text_field_values_pkey PRIMARY KEY (id);
 
@@ -41054,6 +41119,12 @@ ALTER TABLE ONLY work_item_type_custom_lifecycles
 
 ALTER TABLE ONLY work_item_type_user_preferences
     ADD CONSTRAINT work_item_type_user_preferences_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY work_item_type_visibilities
+    ADD CONSTRAINT work_item_type_visibilities_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY work_item_type_visibility_defaults
+    ADD CONSTRAINT work_item_type_visibility_defaults_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY work_item_types
     ADD CONSTRAINT work_item_types_pkey PRIMARY KEY (id);
@@ -44653,6 +44724,10 @@ CREATE INDEX idx_wi_type_custom_lifecycles_on_work_item_type_id ON work_item_typ
 CREATE UNIQUE INDEX idx_work_item_custom_types_on_ns_id_and_name ON work_item_custom_types USING btree (namespace_id, lower(name)) WHERE (namespace_id IS NOT NULL);
 
 CREATE UNIQUE INDEX idx_work_item_custom_types_on_org_id_and_name ON work_item_custom_types USING btree (organization_id, lower(name)) WHERE (organization_id IS NOT NULL);
+
+CREATE UNIQUE INDEX idx_work_item_settings_on_namespace_id ON work_item_settings USING btree (namespace_id) WHERE (namespace_id IS NOT NULL);
+
+CREATE UNIQUE INDEX idx_work_item_settings_on_organization_id ON work_item_settings USING btree (organization_id) WHERE (organization_id IS NOT NULL);
 
 CREATE INDEX idx_workflows_status_updated_at_id ON duo_workflows_workflows USING btree (status, updated_at, id);
 
@@ -49834,6 +49909,10 @@ CREATE INDEX index_work_item_type_user_preferences_on_namespace_id ON work_item_
 
 CREATE INDEX index_work_item_type_user_preferences_on_work_item_type_id ON work_item_type_user_preferences USING btree (work_item_type_id);
 
+CREATE INDEX index_work_item_type_visibilities_on_work_item_type_id ON work_item_type_visibilities USING btree (work_item_type_id);
+
+CREATE INDEX index_work_item_type_visibility_defaults_on_work_item_type_id ON work_item_type_visibility_defaults USING btree (work_item_type_id);
+
 CREATE INDEX index_work_item_types_on_base_type_and_id ON work_item_types USING btree (base_type, id);
 
 CREATE UNIQUE INDEX index_work_item_types_on_name_unique ON work_item_types USING btree (TRIM(BOTH FROM lower(name)));
@@ -50377,6 +50456,10 @@ CREATE INDEX uniq_preference_by_user_namespace_and_work_item_type ON work_item_t
 CREATE UNIQUE INDEX uniq_psm_maintenance_tasks_on_psm_id_and_action ON project_secrets_manager_maintenance_tasks USING btree (project_secrets_manager_id, action);
 
 CREATE UNIQUE INDEX uniq_user_project_member_roles_user_project_shared_with_group ON user_project_member_roles USING btree (user_id, project_id, shared_with_group_id) WHERE (shared_with_group_id IS NOT NULL);
+
+CREATE UNIQUE INDEX uniq_wi_type_visibilities_on_namespace_and_type ON work_item_type_visibilities USING btree (namespace_id, work_item_type_id);
+
+CREATE UNIQUE INDEX uniq_wi_type_visibility_defaults_on_namespace_and_type ON work_item_type_visibility_defaults USING btree (namespace_id, work_item_type_id);
 
 CREATE UNIQUE INDEX unique_activation_metric_user_id_namespace_id_and_metric ON activation_metrics USING btree (user_id, namespace_id, metric) NULLS NOT DISTINCT;
 
@@ -55086,6 +55169,10 @@ CREATE TRIGGER validate_work_item_type_on_insert_or_update_issues BEFORE INSERT 
 
 CREATE TRIGGER validate_work_item_type_on_insert_or_update_status_mappings BEFORE INSERT OR UPDATE OF work_item_type_id ON work_item_custom_status_mappings FOR EACH ROW EXECUTE FUNCTION validate_work_item_type_id_is_valid();
 
+CREATE TRIGGER validate_work_item_type_on_insert_or_update_type_visibilities BEFORE INSERT OR UPDATE OF work_item_type_id ON work_item_type_visibilities FOR EACH ROW EXECUTE FUNCTION validate_work_item_type_id_is_valid();
+
+CREATE TRIGGER validate_work_item_type_on_insert_or_update_type_visibility_def BEFORE INSERT OR UPDATE OF work_item_type_id ON work_item_type_visibility_defaults FOR EACH ROW EXECUTE FUNCTION validate_work_item_type_id_is_valid();
+
 CREATE TRIGGER validate_work_item_type_on_insert_or_update_work_item_user_pref BEFORE INSERT OR UPDATE OF work_item_type_id ON work_item_type_user_preferences FOR EACH ROW EXECUTE FUNCTION validate_work_item_type_id_is_valid();
 
 CREATE TRIGGER virtual_registries_container_upstreams_loose_fk_trigger AFTER DELETE ON virtual_registries_container_upstreams REFERENCING OLD TABLE AS old_table FOR EACH STATEMENT EXECUTE FUNCTION insert_into_loose_foreign_keys_deleted_records();
@@ -55748,6 +55835,12 @@ ALTER TABLE ONLY user_project_member_roles
 
 ALTER TABLE ONLY bulk_import_entities
     ADD CONSTRAINT fk_32782a175e FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY work_item_settings
+    ADD CONSTRAINT fk_32ba7871ba FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY work_item_type_visibility_defaults
+    ADD CONSTRAINT fk_32d6e97b9b FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY compliance_framework_security_policies
     ADD CONSTRAINT fk_32fbe15af3 FOREIGN KEY (security_policy_id) REFERENCES security_policies(id) ON DELETE CASCADE NOT VALID;
@@ -56763,6 +56856,9 @@ ALTER TABLE ONLY ai_catalog_mcp_servers_users
 ALTER TABLE ONLY catalog_resource_component_last_usages
     ADD CONSTRAINT fk_909d62907f FOREIGN KEY (component_id) REFERENCES catalog_resource_components(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY work_item_type_visibilities
+    ADD CONSTRAINT fk_9106612777 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY todos
     ADD CONSTRAINT fk_91d1f47b13 FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE;
 
@@ -56972,6 +57068,9 @@ ALTER TABLE ONLY security_orchestration_policy_configurations
 
 ALTER TABLE ONLY project_compliance_violations
     ADD CONSTRAINT fk_a504c811d1 FOREIGN KEY (compliance_requirements_control_id) REFERENCES compliance_requirements_controls(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY work_item_settings
+    ADD CONSTRAINT fk_a5094adb49 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY issuable_metric_images
     ADD CONSTRAINT fk_a53e03ca65 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;

@@ -47,5 +47,5 @@ InitializerConnections Backtrace: config/routes.rb:15:in `block (2 levels) in <m
 InitializerConnections Backtrace: config/routes.rb:9:in `block in <main>'
 InitializerConnections Backtrace: lib/initializer_connections.rb:18:in `warn_if_database_connection'
 InitializerConnections Backtrace: config/routes.rb:6:in `<main>'
-See https://docs.gitlab.com/ee/development/rails_initializers.html#database-connections-in-initializers
+See https://docs.gitlab.com/development/rails_initializers/#database-connections-in-initializers
 ```

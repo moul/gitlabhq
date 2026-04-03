@@ -413,7 +413,7 @@ backend pgbouncer
     server pgbouncer3 10.6.0.33:6432 check
 
 # Praefect load balancing (skip both sections below if using DNS service discovery for Praefect)
-# For more information, see https://docs.gitlab.com/ee/administration/gitaly/praefect/configure.html#service-discovery
+# For more information, see https://docs.gitlab.com/administration/gitaly/praefect/configure/#service-discovery
 frontend internal-praefect-tcp-in
     bind *:2305
     mode tcp

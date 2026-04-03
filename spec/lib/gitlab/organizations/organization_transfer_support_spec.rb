@@ -103,6 +103,7 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       web_hooks
       web_hook_logs_daily
       work_item_custom_types
+      work_item_settings
       zentao_tracker_data
     ]
   end

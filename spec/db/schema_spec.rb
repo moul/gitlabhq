@@ -288,6 +288,8 @@ RSpec.describe 'Database schema',
       work_item_type_custom_fields: %w[work_item_type_id], # Referential integrity will be handled by application code
       work_item_type_custom_lifecycles: %w[work_item_type_id], # Referential integrity will be handled by application code
       work_item_type_user_preferences: %w[work_item_type_id], # Referential integrity will be handled by application code
+      work_item_type_visibilities: %w[work_item_type_id], # work_item_type_id spans system-defined (in-memory) and custom (DB) types; integrity enforced by validate_work_item_type_id_is_valid trigger
+      work_item_type_visibility_defaults: %w[work_item_type_id], # work_item_type_id spans system-defined (in-memory) and custom (DB) types; integrity enforced by validate_work_item_type_id_is_valid trigger
       lfs_objects_projects: %w[lfs_object_id], # Referential integrity will be handled by application code
       project_repositories: %w[shard_id], # Referential integrity will be handled by application code
       group_wiki_repositories: %w[shard_id], # Referential integrity will be handled by application code
