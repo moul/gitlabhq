@@ -77,10 +77,10 @@ A vector store connection must be created before semantic search can be used. Th
 
 **Option 1: Using the GitLab UI**
 
-For Elasticsearch or OpenSearch clusters used by Advanced Search:
+For Elasticsearch or OpenSearch clusters used by advanced search:
 
 1. Navigate to **Admin** > **Settings** > **Search**
-1. Click the button to connect to the Advanced Search cluster
+1. Click the button to connect to the advanced search cluster
 1. The connection is automatically created and configured
 
 **Option 2: Using Rails console**

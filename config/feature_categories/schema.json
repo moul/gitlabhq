@@ -13,6 +13,7 @@
     "api",
     "api_security",
     "application_instrumentation",
+    "artifact_registry",
     "artifact_security",
     "attack_emulation",
     "audit_events",

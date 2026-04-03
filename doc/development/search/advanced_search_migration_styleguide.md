@@ -395,7 +395,7 @@ end
 
 When marking a skippable migration as obsolete, you must keep the `skip_if` condition.
 
-You can test this migration with the `'a deprecated Advanced Search migration'`
+You can test this migration with the `'a deprecated advanced search migration'`
 shared examples. Follow the [process for marking migrations as obsolete](#process-for-marking-migrations-as-obsolete).
 
 #### `Search::Elastic::MigrationCreateIndexHelper`
@@ -1016,7 +1016,7 @@ the Keep:
     ClassName.prepend ::Search::Elastic::MigrationObsolete
    ```
 
-1. Replaces the spec file content with the `'a deprecated Advanced Search migration'` shared example.
+1. Replaces the spec file content with the `'a deprecated advanced search migration'` shared example.
 1. Randomly selects a Global Search backend engineer as an assignee.
 1. Updates the dictionary file to mark the migration as obsolete.
 

@@ -145,6 +145,7 @@ Sort the list of work items by the following:
 - Due date
 - Title
 - Status
+- Weight
 
 To change the sorting criteria:
 

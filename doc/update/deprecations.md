@@ -4265,13 +4265,13 @@ In GitLab 15.0, we will:
 
 If you rely on Java 8 being present in the analyzer environment, you must take action as detailed in the [deprecation issue for this change](https://gitlab.com/gitlab-org/gitlab/-/issues/352549#breaking-change).
 
-### Outdated indices of Advanced Search migrations
+### Outdated indices of advanced search migrations
 
 - Announced in GitLab 14.10
 - Removal in GitLab 15.0 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))
 - To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/gitlab-org/gitlab/-/issues/359133).
 
-As Advanced Search migrations usually require support multiple code paths for a long period of time,
+As advanced search migrations usually require support multiple code paths for a long period of time,
 it's important to clean those up when we safely can. We use GitLab major version upgrades as a safe
 time to remove backward compatibility for indices that have not been fully migrated. See the
 [upgrade documentation](https://docs.gitlab.com/update/#upgrading-to-a-new-major-version) for details.
