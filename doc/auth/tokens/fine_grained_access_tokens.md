@@ -1766,6 +1766,14 @@ Grants the ability to create, delete, protect, and read branches.
 | Read | Project | `GET` | `/projects/:id/repository/branches/:branch` |
 | Read | Project | `HEAD` | `/projects/:id/repository/branches/:branch` |
 
+#### Code
+
+Grants the ability to read, download and push code.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | Project | `GET` | `/projects/:id/(-/)search/semantic` |
+
 #### Commit
 
 Grants the ability to create, read, and update commits.

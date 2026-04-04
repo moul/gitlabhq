@@ -421,7 +421,6 @@ read_ci_minutes_limited_summary
 read_ci_pipeline_schedules_plan_limit
 read_cloud_connector_status
 read_cluster_environments
-read_code
 read_code_review_analytics
 read_commit_committer_check
 read_commit_committer_name_check
