@@ -22,7 +22,7 @@ RSpec::Matchers.define :override_delegates_for do |*abilities|
   end
 
   match do |policy_class|
-    @overrides = policy_class.instance_variable_get(:@overrides) || Set.new
+    @overrides = policy_class.overrides
     @missing = abilities.to_set - @overrides
     @missing.empty?
   end

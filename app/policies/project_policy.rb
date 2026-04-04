@@ -111,6 +111,8 @@ class ProjectPolicy < BasePolicy
 
   desc "Has merge requests allowing pushes to user"
   condition(:has_merge_requests_allowing_pushes) do
+    next false unless user_is_user?
+
     project.merge_requests_allowing_push_to_user(user).any?
   end
 
@@ -258,7 +260,7 @@ class ProjectPolicy < BasePolicy
     !@subject.builds_enabled?
   end
 
-  condition(:user_confirmed?) do
+  condition(:user_confirmed) do
     @user && @user.confirmed?
   end
 
@@ -544,7 +546,7 @@ class ProjectPolicy < BasePolicy
   rule { can?(:planner_access) & can?(:create_work_item) }.enable :import_work_items
   rule { can?(:reporter_access) & can?(:create_work_item) }.enable :import_work_items
 
-  rule { ~user_confirmed? }.policy do
+  rule { ~user_confirmed }.policy do
     prevent :create_pipeline
     prevent :update_pipeline
     prevent :cancel_pipeline
@@ -736,8 +738,24 @@ class ProjectPolicy < BasePolicy
   # If the project is private
   rule { ~project_allowed_for_job_token }.prevent_all
 
+  condition(:job_token_prevent_all_enabled, scope: :subject) do
+    Feature.enabled?(:use_prevent_all_for_job_token_scope, @subject)
+  end
+
+  rule { job_token_prevent_all_enabled & public_or_internal & ~project_allowed_for_job_token_by_scope }.prevent_all do
+    except :build_download_code
+    except :build_read_container_image
+    except :read_build
+
+    except(*::Authz::Role.get(:public_anonymous).direct_permissions(:project))
+  end
+
+  rule { job_token_prevent_all_enabled & public_project & ~project_allowed_for_job_token_by_scope }.policy do
+    prevent :build_download_code
+  end
+
   # If this project is public or internal we want to prevent all aside from a few public policies
-  rule { public_or_internal & ~project_allowed_for_job_token_by_scope }.policy do
+  rule { ~job_token_prevent_all_enabled & public_or_internal & ~project_allowed_for_job_token_by_scope }.policy do
     prevent :guest_access
     prevent :planner_access
     prevent :public_access
@@ -747,7 +765,7 @@ class ProjectPolicy < BasePolicy
     prevent :owner_access
   end
 
-  rule { public_project & ~project_allowed_for_job_token_by_scope }.policy do
+  rule { ~job_token_prevent_all_enabled & public_project & ~project_allowed_for_job_token_by_scope }.policy do
     prevent :public_user_access
   end
 
@@ -767,6 +785,7 @@ class ProjectPolicy < BasePolicy
 
   rule { public_or_internal & job_token_repository }.policy do
     enable :read_project
+    enable :build_download_code
   end
 
   rule { public_or_internal & job_token_builds }.policy do
@@ -797,7 +816,7 @@ class ProjectPolicy < BasePolicy
 
   # These rules are included to allow maintainers of projects to push to certain
   # to run pipelines for the branches they have access to.
-  rule { can?(:public_user_access) & has_merge_requests_allowing_pushes & user_confirmed? }.policy do
+  rule { can?(:public_user_access) & has_merge_requests_allowing_pushes & user_confirmed }.policy do
     enable :create_build
     enable :create_pipeline
   end

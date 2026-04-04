@@ -736,6 +736,16 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
 
       expect_disallowed(*maintainer_abilities)
     end
+
+    context 'when the user is not a User (e.g. deploy token)' do
+      let(:current_user) { create(:deploy_token, projects: [target_project]) }
+
+      it 'does not allow create_build or create_pipeline' do
+        target_project.add_developer(current_user)
+
+        expect_disallowed(*maintainer_abilities)
+      end
+    end
   end
 
   context 'for inviting and adding members' do
@@ -3002,7 +3012,13 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
   describe 'when user is authenticated via CI_JOB_TOKEN', :request_store do
     using RSpec::Parameterized::TableSyntax
 
-    RSpec.shared_examples 'CI_JOB_TOKEN enforces the expected permissions' do
+    let(:disallowed_permissions) { described_class.ability_map.map.keys - allowed_permissions }
+    let(:allowed_permissions) do
+      ::Authz::Role.get(:public_anonymous).direct_permissions(:project) +
+        %i[build_download_code build_read_container_image read_build]
+    end
+
+    shared_examples 'CI_JOB_TOKEN enforces the expected permissions' do
       with_them do
         let(:current_user) { public_send(user_role) }
         let(:project) { public_project }
@@ -3030,11 +3046,27 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
           )
         end
 
-        it "enforces the expected permissions" do
-          if result
-            is_expected.to be_allowed(:"#{user_role}_access")
-          else
-            is_expected.to be_disallowed(:"#{user_role}_access")
+        context 'when use_prevent_all_for_job_token_scope feature flag is disabled' do
+          before do
+            stub_feature_flags(use_prevent_all_for_job_token_scope: false)
+          end
+
+          it "enforces the expected permissions" do
+            if result
+              expect_allowed(:"#{user_role}_access")
+            else
+              expect_disallowed(:"#{user_role}_access")
+            end
+          end
+        end
+
+        context 'when use_prevent_all_for_job_token_scope feature flag is enabled' do
+          it "enforces the expected permissions" do
+            if result
+              expect_allowed(*allowed_permissions)
+            else
+              expect_disallowed(*disallowed_permissions)
+            end
           end
         end
       end
@@ -3126,127 +3158,143 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
         end
       end
     end
-  end
 
-  describe 'public_user_access for internal project' do
-    using RSpec::Parameterized::TableSyntax
+    describe 'public_user_access for internal project' do
+      using RSpec::Parameterized::TableSyntax
 
-    let(:policy) { :public_user_access }
-
-    where(:project_visibility, :external_user, :token_scope_enabled, :role, :allowed) do
-      :private  | false | false | :anonymous | false
-      :private  | false | false | :planner   | true
-      :private  | false | false | :guest     | true
-      :private  | false | false | :reporter  | true
-      :private  | false | false | :developer | true
-      :private  | false | false | :maintainer | true
-      :private  | false | false | :owner | true
-      :public   | false | false | :anonymous | false
-      :public   | false | false | :planner   | true
-      :public   | false | false | :guest     | true
-      :public   | false | false | :reporter  | true
-      :public   | false | false | :developer | true
-      :public   | false | false | :maintainer | true
-      :public   | false | false | :owner | true
-      :internal | false | false | :anonymous | false
-      :internal | false | false | :planner   | true
-      :internal | false | false | :guest     | true
-      :internal | false | false | :reporter  | true
-      :internal | false | false | :developer | true
-      :internal | false | false | :maintainer | true
-      :internal | false | false | :owner | true
-      :private  | true | false | :anonymous | false
-      :private  | true | false | :planner   | false
-      :private  | true | false | :guest     | false
-      :private  | true | false | :reporter  | false
-      :private  | true | false | :developer | false
-      :private  | true | false | :maintainer | false
-      :private  | true | false | :owner | false
-      :public   | true | false | :anonymous | false
-      :public   | true | false | :planner   | false
-      :public   | true | false | :guest     | false
-      :public   | true | false | :reporter  | false
-      :public   | true | false | :developer | false
-      :public   | true | false | :maintainer | false
-      :public   | true | false | :owner | false
-      :internal | true | false | :anonymous | false
-      :internal | true | false | :planner   | false
-      :internal | true | false | :guest     | false
-      :internal | true | false | :reporter  | false
-      :internal | true | false | :developer | false
-      :internal | true | false | :maintainer | false
-      :internal | true | false | :owner | false
-      :private  | false | true | :anonymous | false
-      :private  | false | true | :planner   | true
-      :private  | false | true | :guest     | true
-      :private  | false | true | :reporter  | true
-      :private  | false | true | :developer | true
-      :private  | false | true | :maintainer | true
-      :private  | false | true | :owner | true
-      :public   | false | true | :anonymous | false
-      :public   | false | true | :planner   | true
-      :public   | false | true | :guest     | true
-      :public   | false | true | :reporter  | true
-      :public   | false | true | :developer | true
-      :public   | false | true | :maintainer | true
-      :public   | false | true | :owner | true
-      :internal | false | true | :anonymous | false
-      :internal | false | true | :planner   | true
-      :internal | false | true | :guest     | true
-      :internal | false | true | :reporter  | true
-      :internal | false | true | :developer | true
-      :internal | false | true | :maintainer | true
-      :internal | false | true | :owner | true
-      :private  | true | true | :anonymous | false
-      :private  | true | true | :planner | false
-      :private  | true | true | :guest     | false
-      :private  | true | true | :reporter  | false
-      :private  | true | true | :developer | false
-      :private  | true | true | :maintainer | false
-      :private  | true | true | :owner | false
-      :public   | true | true | :anonymous | false
-      :public   | true | true | :planner   | false
-      :public   | true | true | :guest     | false
-      :public   | true | true | :reporter  | false
-      :public   | true | true | :developer | false
-      :public   | true | true | :maintainer | false
-      :public   | true | true | :owner | false
-      :internal | true | true | :anonymous | false
-      :internal | true | true | :planner   | false
-      :internal | true | true | :guest     | false
-      :internal | true | true | :reporter  | false
-      :internal | true | true | :developer | false
-      :internal | true | true | :maintainer | false
-      :internal | true | true | :owner | false
-    end
-
-    with_them do
-      let(:current_user) do
-        if role == :anonymous
-          anonymous
-        else
-          public_send(role)
-        end
+      where(:project_visibility, :external_user, :token_scope_enabled, :role, :allowed) do
+        :private  | false | false | :anonymous | false
+        :private  | false | false | :planner   | true
+        :private  | false | false | :guest     | true
+        :private  | false | false | :reporter  | true
+        :private  | false | false | :developer | true
+        :private  | false | false | :maintainer | true
+        :private  | false | false | :owner | true
+        :public   | false | false | :anonymous | false
+        :public   | false | false | :planner   | true
+        :public   | false | false | :guest     | true
+        :public   | false | false | :reporter  | true
+        :public   | false | false | :developer | true
+        :public   | false | false | :maintainer | true
+        :public   | false | false | :owner | true
+        :internal | false | false | :anonymous | false
+        :internal | false | false | :planner   | true
+        :internal | false | false | :guest     | true
+        :internal | false | false | :reporter  | true
+        :internal | false | false | :developer | true
+        :internal | false | false | :maintainer | true
+        :internal | false | false | :owner | true
+        :private  | true | false | :anonymous | false
+        :private  | true | false | :planner   | false
+        :private  | true | false | :guest     | false
+        :private  | true | false | :reporter  | false
+        :private  | true | false | :developer | false
+        :private  | true | false | :maintainer | false
+        :private  | true | false | :owner | false
+        :public   | true | false | :anonymous | false
+        :public   | true | false | :planner   | false
+        :public   | true | false | :guest     | false
+        :public   | true | false | :reporter  | false
+        :public   | true | false | :developer | false
+        :public   | true | false | :maintainer | false
+        :public   | true | false | :owner | false
+        :internal | true | false | :anonymous | false
+        :internal | true | false | :planner   | false
+        :internal | true | false | :guest     | false
+        :internal | true | false | :reporter  | false
+        :internal | true | false | :developer | false
+        :internal | true | false | :maintainer | false
+        :internal | true | false | :owner | false
+        :private  | false | true | :anonymous | false
+        :private  | false | true | :planner   | true
+        :private  | false | true | :guest     | true
+        :private  | false | true | :reporter  | true
+        :private  | false | true | :developer | true
+        :private  | false | true | :maintainer | true
+        :private  | false | true | :owner | true
+        :public   | false | true | :anonymous | false
+        :public   | false | true | :planner   | true
+        :public   | false | true | :guest     | true
+        :public   | false | true | :reporter  | true
+        :public   | false | true | :developer | true
+        :public   | false | true | :maintainer | true
+        :public   | false | true | :owner | true
+        :internal | false | true | :anonymous | false
+        :internal | false | true | :planner   | true
+        :internal | false | true | :guest     | true
+        :internal | false | true | :reporter  | true
+        :internal | false | true | :developer | true
+        :internal | false | true | :maintainer | true
+        :internal | false | true | :owner | true
+        :private  | true | true | :anonymous | false
+        :private  | true | true | :planner | false
+        :private  | true | true | :guest     | false
+        :private  | true | true | :reporter  | false
+        :private  | true | true | :developer | false
+        :private  | true | true | :maintainer | false
+        :private  | true | true | :owner | false
+        :public   | true | true | :anonymous | false
+        :public   | true | true | :planner   | false
+        :public   | true | true | :guest     | false
+        :public   | true | true | :reporter  | false
+        :public   | true | true | :developer | false
+        :public   | true | true | :maintainer | false
+        :public   | true | true | :owner | false
+        :internal | true | true | :anonymous | false
+        :internal | true | true | :planner   | false
+        :internal | true | true | :guest     | false
+        :internal | true | true | :reporter  | false
+        :internal | true | true | :developer | false
+        :internal | true | true | :maintainer | false
+        :internal | true | true | :owner | false
       end
 
-      let(:project) { create(:project, :internal, ci_inbound_job_token_scope_enabled: token_scope_enabled) }
-      let(:job) { build_stubbed(:ci_build, project: scope_project, user: current_user) }
-      let(:scope_project) { public_send("#{project_visibility}_project") }
-
-      before do
-        if role != :anonymous
-          # The below two allow statements are to make sure the CI_JOB_TOKEN is used to access the project and the internal project is not in scope
-          allow(current_user).to receive(:ci_job_token_scope).and_return(current_user.set_ci_job_token_scope!(job))
-          allow(Ci::JobToken::Scope).to receive(:accessible?).with(project).and_return(false)
-          current_user.external = external_user
+      with_them do
+        let(:current_user) do
+          if role == :anonymous
+            anonymous
+          else
+            public_send(role)
+          end
         end
-      end
 
-      it "enforces the expected permissions" do
-        if allowed
-          is_expected.to be_allowed(policy)
-        else
-          is_expected.to be_disallowed(policy)
+        let(:project) { create(:project, :internal, ci_inbound_job_token_scope_enabled: token_scope_enabled) }
+        let(:job) { build_stubbed(:ci_build, project: scope_project, user: current_user) }
+        let(:scope_project) { public_send("#{project_visibility}_project") }
+
+        before do
+          if role != :anonymous
+            # The below two allow statements are to make sure the CI_JOB_TOKEN is used to access the project and the internal project is not in scope
+            allow(current_user).to receive(:ci_job_token_scope).and_return(current_user.set_ci_job_token_scope!(job))
+            allow(Ci::JobToken::Scope).to receive(:accessible?).with(project).and_return(false)
+            current_user.external = external_user
+          end
+        end
+
+        context 'when use_prevent_all_for_job_token_scope feature flag is disabled' do
+          let(:permission) { :public_user_access }
+
+          before do
+            stub_feature_flags(use_prevent_all_for_job_token_scope: false)
+          end
+
+          it "enforces the expected permissions" do
+            if allowed
+              expect_allowed(permission)
+            else
+              expect_disallowed(permission)
+            end
+          end
+        end
+
+        context 'when use_prevent_all_for_job_token_scope feature flag is enabled' do
+          it "enforces the expected permissions" do
+            if allowed
+              expect_allowed(:read_project)
+            else
+              expect_disallowed(*disallowed_permissions)
+            end
+          end
         end
       end
     end

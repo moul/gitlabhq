@@ -1,0 +1,9 @@
+---
+name: use_prevent_all_for_job_token_scope
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/523522
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229560
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/595240
+milestone: '18.11'
+group: group::authorization
+type: gitlab_com_derisk
+default_enabled: false
