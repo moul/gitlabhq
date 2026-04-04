@@ -87978,6 +87978,36 @@ components:
       required:
       - started_on
       - expires_on
+    RequestBody_fb6bb57793d6:
+      type: object
+      properties:
+        resources:
+          type: array
+          description: Resources to check
+          items:
+            type: object
+            properties:
+              resource_type:
+                type: string
+                description: Resource type (e.g. project, merge_request)
+                nullable: true
+              resource_ids:
+                type: array
+                items:
+                  type: integer
+                description: Resource IDs
+                nullable: true
+              ability:
+                type: string
+                description: Ability to check (e.g. read_project)
+                nullable: true
+            required:
+            - resource_type
+            - resource_ids
+            - ability
+          nullable: true
+      required:
+      - resources
     RequestBody_2f48b32bde07:
       type: object
       properties:
@@ -88021,19 +88051,12 @@ components:
       required:
       - jsonrpc
       - method
-    RequestBody_db50d60125bd:
+    RequestBody_72c0f4a0fb49:
       type: object
       properties:
         query:
           type: object
           description: Query DSL object
-          nullable: true
-        query_type:
-          type: string
-          enum:
-          - json
-          default: json
-          description: Query language
           nullable: true
         response_format:
           type: string

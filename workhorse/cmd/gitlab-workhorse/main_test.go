@@ -31,6 +31,7 @@ import (
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/gitaly"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/helper"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/helper/nginx"
+	"gitlab.com/gitlab-org/gitlab/workhorse/internal/orbit"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/secret"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/testhelper"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/upstream"
@@ -59,6 +60,7 @@ func TestMain(m *testing.M) {
 	code := m.Run()
 
 	gitaly.CloseConnections()
+	orbit.CloseConnections()
 
 	os.Exit(code)
 }

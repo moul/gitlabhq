@@ -281,6 +281,82 @@ RSpec.describe Gitlab::Workhorse, feature_category: :gitaly do
     end
   end
 
+  describe '.send_orbit_query' do
+    let(:user) { create(:user) }
+    let(:query) { '{"nodes":["MergeRequest"]}' }
+    let(:format) { :raw }
+    let(:endpoint) { 'localhost:50054' }
+    let(:jwt_token) { 'test-jwt-token' }
+
+    subject { described_class.send_orbit_query(query: query, user: user, format: format) }
+
+    before do
+      allow(Analytics::KnowledgeGraph::GrpcClient).to receive(:configured_endpoint).and_return(endpoint)
+      allow(Analytics::KnowledgeGraph::JwtAuth).to receive(:generate_token).with(user: user).and_return(jwt_token)
+      allow(Analytics::KnowledgeGraph::GrpcClient).to receive(:secure_channel?).with(endpoint).and_return(false)
+    end
+
+    it 'sets the header correctly' do
+      key, command, params = decode_workhorse_header(subject)
+
+      expect(key).to eq('Gitlab-Workhorse-Send-Data')
+      expect(command).to eq('orbit-query')
+      expect(params).to eq({
+        'GkgServer' => {
+          'address' => endpoint,
+          'jwt' => jwt_token,
+          'tls' => false
+        },
+        'Query' => query,
+        'Format' => format.to_s,
+        'TimeoutSeconds' => 30
+      })
+    end
+
+    context 'when mcp_id is provided' do
+      subject { described_class.send_orbit_query(query: query, user: user, format: format, mcp_id: 'mcp-123') }
+
+      it 'includes McpId in the params' do
+        _, _, params = decode_workhorse_header(subject)
+
+        expect(params).to include('McpId' => 'mcp-123')
+      end
+    end
+
+    context 'when mcp_id is nil' do
+      it 'does not include McpId in the params' do
+        _, _, params = decode_workhorse_header(subject)
+
+        expect(params).not_to have_key('McpId')
+      end
+    end
+
+    context 'when the channel is secure' do
+      before do
+        allow(Analytics::KnowledgeGraph::GrpcClient).to receive(:secure_channel?).with(endpoint).and_return(true)
+      end
+
+      it 'sets tls to true' do
+        _, _, params = decode_workhorse_header(subject)
+
+        expect(params.dig('GkgServer', 'tls')).to be(true)
+      end
+    end
+
+    context 'when the channel is insecure and not private' do
+      before do
+        allow(Analytics::KnowledgeGraph::GrpcClient).to receive(:secure_channel?).with(endpoint).and_return(false)
+        allow(Analytics::KnowledgeGraph::GrpcClient).to receive(:private_address?).with(endpoint).and_return(false)
+      end
+
+      it 'does not include the JWT' do
+        _, _, params = decode_workhorse_header(subject)
+
+        expect(params.dig('GkgServer', 'jwt')).to be_nil
+      end
+    end
+  end
+
   describe '#verify_api_request!' do
     let(:header_key) { described_class::INTERNAL_API_REQUEST_HEADER }
     let(:payload) { { 'iss' => 'gitlab-workhorse' } }

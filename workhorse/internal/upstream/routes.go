@@ -30,6 +30,7 @@ import (
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/helper"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/imageresizer"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/metrics"
+	"gitlab.com/gitlab-org/gitlab/workhorse/internal/orbit"
 	proxypkg "gitlab.com/gitlab-org/gitlab/workhorse/internal/proxy"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/queueing"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/ratelimitcache"
@@ -270,7 +271,7 @@ func WithSuccessTracking(tracker *healthcheck.SuccessTracker) ProxyOption {
 	}
 }
 
-func buildProxy(backend *url.URL, version string, rt http.RoundTripper, cfg config.Config, dependencyProxyInjector *dependencyproxy.Injector, opts ...ProxyOption) http.Handler {
+func buildProxy(backend *url.URL, version string, rt http.RoundTripper, cfg config.Config, dependencyProxyInjector *dependencyproxy.Injector, api *apipkg.API, opts ...ProxyOption) http.Handler {
 	proxier := proxypkg.NewProxy(backend, version, rt)
 
 	// Apply optional middleware
@@ -279,8 +280,7 @@ func buildProxy(backend *url.URL, version string, rt http.RoundTripper, cfg conf
 		handler = opt(handler)
 	}
 
-	return senddata.SendData(
-		sendfile.SendFile(apipkg.Block(handler)),
+	injecters := []senddata.Injecter{
 		git.SendArchive,
 		git.SendBlob,
 		git.SendChangedPaths,
@@ -292,6 +292,14 @@ func buildProxy(backend *url.URL, version string, rt http.RoundTripper, cfg conf
 		sendurl.SendURL,
 		imageresizer.NewResizer(cfg),
 		dependencyProxyInjector,
+	}
+	if api != nil {
+		injecters = append(injecters, orbit.NewSendQuery(api, version))
+	}
+
+	return senddata.SendData(
+		sendfile.SendFile(apipkg.Block(handler)),
+		injecters...,
 	)
 }
 
@@ -311,7 +319,7 @@ func configureRoutes(u *upstream) {
 		proxyOpts = append(proxyOpts, WithSuccessTracking(u.healthCheckServer.GetSuccessTracker()))
 	}
 
-	proxy := buildProxy(u.Backend, u.Version, u.RoundTripper, u.Config, dependencyProxyInjector, proxyOpts...)
+	proxy := buildProxy(u.Backend, u.Version, u.RoundTripper, u.Config, dependencyProxyInjector, api, proxyOpts...)
 	cableProxy := proxypkg.NewProxy(u.CableBackend, u.Version, u.CableRoundTripper)
 
 	dwHandler := duoworkflow.NewHandler(api, u.rdb, u)
@@ -330,7 +338,7 @@ func configureRoutes(u *upstream) {
 	}
 
 	signingTripper := secret.NewRoundTripper(u.RoundTripper, u.Version)
-	signingProxy := buildProxy(u.Backend, u.Version, signingTripper, u.Config, dependencyProxyInjector)
+	signingProxy := buildProxy(u.Backend, u.Version, signingTripper, u.Config, dependencyProxyInjector, api)
 
 	preparer := upload.NewObjectStoragePreparer(u.Config)
 	requestBodyUploader := upload.RequestBody(api, signingProxy, preparer)
@@ -716,7 +724,7 @@ func allowedProxy(proxy http.Handler, dependencyProxyInjector *dependencyproxy.I
 	if u.CircuitBreakerConfig.Enabled {
 		roundTripperRateLimitCache := ratelimitcache.NewRoundTripper(u.RoundTripper, u.rdb)
 
-		return buildProxy(u.Backend, u.Version, roundTripperRateLimitCache, u.Config, dependencyProxyInjector)
+		return buildProxy(u.Backend, u.Version, roundTripperRateLimitCache, u.Config, dependencyProxyInjector, nil)
 	}
 
 	return proxy

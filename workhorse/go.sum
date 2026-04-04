@@ -714,6 +714,8 @@ gitlab.com/gitlab-org/labkit v1.45.0 h1:poPp8XTsM4+MgogHgRJHdy7nB0Yaz3V2FgxPNf1E
 gitlab.com/gitlab-org/labkit v1.45.0/go.mod h1:TSgFzQbzLZdtFLhqyFEzDBJrfwD3cfZp+zxsqx6UJac=
 gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb v0.0.0-20260127171529-874adaabe522 h1:uTea5tTtTulV+Q0XnFsMzOwwW6yKthEjzsBzzYuIEXY=
 gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb v0.0.0-20260127171529-874adaabe522/go.mod h1:G/uyhLyG53gWlNSoTuWirrqS42PKcobyiQZvEAaJ9o8=
+gitlab.com/gitlab-org/orbit/knowledge-graph/clients/gkgpb v0.21.0 h1:+1WJlZx6OPQDpb09NF/6j3MuFECQESSUp+A/RXoZQtU=
+gitlab.com/gitlab-org/orbit/knowledge-graph/clients/gkgpb v0.21.0/go.mod h1:gIscHhU3TQXmx3Bzgtm82loTCO41BWclUiWUgXB2AQQ=
 go.etcd.io/bbolt v1.3.5/go.mod h1:G5EMThwa9y8QZGBClrRx5EY+Yw9kAhnjy3bSjsnlVTQ=
 go.etcd.io/raft/v3 v3.6.0 h1:5NtvbDVYpnfZWcIHgGRk9DyzkBIXOi8j+DDp1IcnUWQ=
 go.etcd.io/raft/v3 v3.6.0/go.mod h1:nLvLevg6+xrVtHUmVaTcTz603gQPHfh7kUAwV6YpfGo=

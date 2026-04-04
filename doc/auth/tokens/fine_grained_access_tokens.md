@@ -2817,6 +2817,7 @@ incompatible with personal access tokens.
 | `GET` | `/internal/orbit/project/:project_id/repository/changed_paths` | Orbit internal token |
 | `GET` | `/internal/orbit/project/:project_id/repository/commits` | Orbit internal token |
 | `POST` | `/internal/orbit/project/:project_id/repository/list_blobs` | Orbit internal token |
+| `POST` | `/internal/orbit/redaction` | Orbit internal token |
 | `GET` | `/internal/pages` | GitLab Pages token |
 | `GET` | `/internal/pages/status` | GitLab Pages token |
 | `POST` | `/internal/personal_access_token` | GitLab Shell token |
