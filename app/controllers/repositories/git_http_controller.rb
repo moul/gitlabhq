@@ -4,11 +4,6 @@ module Repositories
   class GitHttpController < ::Repositories::GitHttpClientController
     include WorkhorseRequest
 
-    # Rate limit here (not in Rack::Attack) so bcrypt runs only once per request.
-    # Must run after `authenticate_user` (prepend_before_action in the parent) so
-    # that `authenticated_user` is already set; if it isn't, the check silently
-    # no-ops via the `return unless authenticated_user` guard.
-    before_action :check_git_http_rate_limit
     before_action :access_check
     prepend_before_action :deny_head_requests, only: [:info_refs]
 
@@ -138,12 +133,6 @@ module Repositories
 
     def access_klass
       @access_klass ||= repo_type.access_checker_class
-    end
-
-    def check_git_http_rate_limit
-      return unless authenticated_user
-
-      check_rate_limit!(:git_http_authenticated, scope: authenticated_user)
     end
 
     def log_user_activity

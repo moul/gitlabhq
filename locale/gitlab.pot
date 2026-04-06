@@ -48036,6 +48036,18 @@ msgstr ""
 msgid "Offline nodes automatically deleted after"
 msgstr ""
 
+msgid "OfflineTransferExport|Export for offline transfer"
+msgstr ""
+
+msgid "OfflineTransferExport|Export your groups and projects to an object storage service you control. You can import the groups and projects to any GitLab instance, even with no network connection between this instance and the destination instance."
+msgstr ""
+
+msgid "OfflineTransferImport|Import an offline transfer"
+msgstr ""
+
+msgid "OfflineTransferImport|Import groups and projects from a previously exported offline transfer."
+msgstr ""
+
 msgid "OfflineTransfer|Export failed. Entity full paths must be provided."
 msgstr ""
 
@@ -48045,7 +48057,13 @@ msgstr ""
 msgid "OfflineTransfer|Object storage request responded with status %{status}"
 msgstr ""
 
-msgid "OfflineTransfer|Offline Transfer"
+msgid "OfflineTransfer|Offline transfer"
+msgstr ""
+
+msgid "OfflineTransfer|Offline transfer export"
+msgstr ""
+
+msgid "OfflineTransfer|Offline transfer import"
 msgstr ""
 
 msgid "OfflineTransfer|One or more destination paths is invalid."

@@ -405,6 +405,8 @@
   - 1
 - - dependencies_export
   - 1
+- - dependency_management_security_update_scheduler
+  - 1
 - - dependency_proxy
   - 1
 - - dependency_proxy_blob

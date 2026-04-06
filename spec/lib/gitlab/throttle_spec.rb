@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Gitlab::Throttle do
+  using RSpec::Parameterized::TableSyntax
+
   describe '.protected_paths_enabled?' do
     subject { described_class.protected_paths_enabled? }
 
@@ -56,6 +58,22 @@ RSpec.describe Gitlab::Throttle do
       it 'returns the default value with a trailing newline' do
         expect(subject).to eq(response_text + "\n")
       end
+    end
+  end
+
+  describe '.throttle_authenticated_git_http_options' do
+    before do
+      stub_application_setting(
+        throttle_authenticated_git_http_requests_per_period: 50,
+        throttle_authenticated_git_http_period_in_seconds: 30
+      )
+    end
+
+    it 'returns correct options' do
+      options = described_class.throttle_authenticated_git_http_options
+
+      expect(options[:limit].call).to eq(50)
+      expect(options[:period].call).to eq(30)
     end
   end
 end
