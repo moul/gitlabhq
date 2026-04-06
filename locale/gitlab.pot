@@ -64554,6 +64554,12 @@ msgstr ""
 msgid "SecurityOrchestration|When %{scanners} %{vulnerabilitiesAllowed} %{vulnerability} in an open merge request %{targeting}%{branches}%{branchExceptionsString}%{criteriaApply}"
 msgstr ""
 
+msgid "SecurityOrchestration|When KEV or EPSS data is unavailable, block merge requests based on the severity of the vulnerability."
+msgstr ""
+
+msgid "SecurityOrchestration|When KEV or EPSS data is unavailable, exclude the vulnerability from policy evaluation"
+msgstr ""
+
 msgid "SecurityOrchestration|When a %{scanType} with %{scanners} runs against %{branches} %{branchExceptions} and finds %{vulnerabilitiesNumber} vulnerability type that matches all the following criteria:"
 msgstr ""
 

@@ -174,12 +174,8 @@ class SentNotification < ApplicationRecord
     return reply_key unless persisted?
 
     encoded_partition = partition.to_s(INTEGER_CONVERT_BASE)
-
-    if Feature.disabled?(:sent_notification_reply_key_with_namespace, :instance)
-      return "#{encoded_partition}-#{reply_key}"
-    end
-
     encoded_namespace_id = namespace_id.to_s(INTEGER_CONVERT_BASE)
+
     "#{encoded_partition}-#{reply_key}-#{encoded_namespace_id}"
   end
 
