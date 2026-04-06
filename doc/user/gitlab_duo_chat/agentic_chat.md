@@ -119,9 +119,11 @@ Prerequisites:
 
 Turn on GitLab Duo Chat:
 
-1. In VS Code, go to **Settings** > **Settings**.
-1. Search for `agent platform`.
-1. Under **GitLab** > **Duo Agent Platform: Enabled**, select the
+1. In VS Code, open the Settings editor:
+   - For macOS, press <kbd>Command</kbd>+<kbd>,</kbd>.
+   - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
+1. Select **Extensions** > **GitLab** > **GitLab Duo**.
+1. Under **GitLab › Duo Agent Platform: Enabled**, select the
    **Enable GitLab Duo Agent Platform** checkbox.
 
 Then, to use GitLab Duo Chat:

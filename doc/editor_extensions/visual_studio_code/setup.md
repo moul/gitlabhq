@@ -243,8 +243,10 @@ GitLab Duo features are enabled by default in VS Code when you meet the prerequi
 
 To turn off GitLab Duo features in VS Code:
 
-1. Select **Extensions** > **GitLab**.
-1. Select **Manage** ({{< icon name="settings" >}}), and then select **Settings** > **GitLab Duo**.
+1. In VS Code, open the Settings editor:
+   - For macOS, press <kbd>Command</kbd>+<kbd>,</kbd>.
+   - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
+1. Select **Extensions** > **GitLab** > **GitLab Duo**.
 1. Find the feature you want to turn off and clear the checkbox.
 
 ### Configure telemetry
@@ -252,11 +254,10 @@ To turn off GitLab Duo features in VS Code:
 GitLab for VS Code uses the telemetry settings in Visual Studio Code to send usage and error
 information to GitLab. To turn on or customize telemetry in Visual Studio Code:
 
-1. In Visual Studio Code, open settings:
-   - On macOS, go to **Code** > **Settings** > **Settings**.
-   - On Windows or Linux, go to **File** > **Preferences** > **Settings**.
-1. In the search bar, search for `Telemetry`.
-1. In the left sidebar, select **Telemetry**.
+1. In VS Code, open the Settings editor:
+   - For macOS, press <kbd>Command</kbd>+<kbd>,</kbd>.
+   - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
+1. Select **Application** > **Telemetry**.
 1. For **Telemetry Level**, select the data you want to share:
    - `all`: Sends usage data, general error telemetry, and crash reports.
    - `error`: Sends general error telemetry, and crash reports.

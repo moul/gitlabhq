@@ -74832,6 +74832,9 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
+msgid "Upgrade subscription"
+msgstr ""
+
 msgid "Upgrade to Premium"
 msgstr ""
 
