@@ -226,6 +226,7 @@ export const SCAN_PROFILE_I18N = {
   applyDefault: s__('SecurityProfiles|Apply default profile'),
   previewDefault: s__('SecurityProfiles|Preview default profile'),
   disable: s__('SecurityProfiles|Disable'),
+  troubleshootFailure: s__('SecurityProfiles|Troubleshoot failure'),
   errorLoadingProfiles: s__('SecurityProfiles|Error loading profiles. Please try again.'),
   errorApplying: s__('SecurityProfiles|Error applying profile. Please try again.'),
   errorDetaching: s__('SecurityProfiles|Error detaching profile. Please try again.'),

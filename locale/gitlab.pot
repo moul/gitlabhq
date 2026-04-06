@@ -64999,6 +64999,9 @@ msgstr ""
 msgid "SecurityProfiles|Static Application Security Testing (SAST)"
 msgstr ""
 
+msgid "SecurityProfiles|Troubleshoot failure"
+msgstr ""
+
 msgid "SecurityProfiles|Unconfigured"
 msgstr ""
 
