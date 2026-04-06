@@ -35,7 +35,7 @@ type resourceAuth struct {
 	Authorized   map[string]bool `json:"authorized"`
 }
 
-var authHeaders = []string{"Authorization", "Private-Token", "Cookie"}
+var authHeaders = []string{"Authorization", "Private-Token", "Cookie", "X-Csrf-Token"}
 
 func (sq *SendQuery) callRedaction(ctx context.Context, originalReq *http.Request, required *gkgpb.RedactionRequired) (*gkgpb.RedactionResponse, error) {
 	reqBody := buildRedactionRequest(required)

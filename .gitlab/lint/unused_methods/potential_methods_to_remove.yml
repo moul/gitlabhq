@@ -242,7 +242,6 @@ app/models/project.rb:
 - enable_ci
 - valid_runners_token?
 - storage_upgradable?
-- deploy_token_create_url
 app/models/todo.rb:
 - unmergeable?
 - merge_train_removed?

@@ -3377,10 +3377,6 @@ class Project < ApplicationRecord
     ProtectedBranch.none
   end
 
-  def deploy_token_create_url(opts = {})
-    Gitlab::Routing.url_helpers.create_deploy_token_project_settings_repository_path(self, opts)
-  end
-
   def default_branch_protected?
     branch_protection = Gitlab::Access::DefaultBranchProtection.new(self.namespace.default_branch_protection_settings)
 
