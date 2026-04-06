@@ -16,7 +16,7 @@ module QA
       def fabricate!
         project.visit!
 
-        Page::Project::Menu.perform(&:go_to_new_issue)
+        Page::Project::Menu.perform(&:go_to_new_work_item)
 
         Page::Project::WorkItem::New.perform do |new_page|
           new_page.select_type(work_item_type)

@@ -32,7 +32,9 @@ project:
   - read_security_project_tracked_ref
   - read_security_resource
   - read_security_scan_profiles
+  - read_security_settings
   - update_on_demand_dast_scan
+  - update_security_setting
 group:
   permissions: []
   raw_permissions:

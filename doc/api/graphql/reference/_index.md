@@ -30496,6 +30496,7 @@ four standard [pagination arguments](#pagination-arguments):
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="cicatalogresource-versions-name"></a>`name` | [`String`](#string) | Name of the version. |
+| <a id="cicatalogresource-versions-search"></a>`search` | [`String`](#string) | Search term to filter versions by name. |
 
 ### `CiCatalogResourceComponent`
 

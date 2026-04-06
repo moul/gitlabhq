@@ -30,6 +30,7 @@ project:
   - read_compliance_violations_report
   - remove_fork_project
   - remove_project
+  - rewrite_repository_history
   - set_emails_disabled
   - set_issue_created_at
   - set_issue_iid
@@ -39,22 +40,24 @@ project:
   - set_show_diff_preview_in_email
   - set_warn_about_potentially_unwanted_characters
   - update_group_link
-  - rewrite_repository_history
   - update_security_orchestration_policy_project
 group:
   permissions: []
   raw_permissions:
+  - activate_group_member
   - admin_add_on_purchase
   - admin_ci_minutes
   - admin_cicd_variables
   - admin_compliance_framework
   - admin_compliance_pipeline_configuration
+  - admin_dependency_proxy
   - admin_external_audit_events
   - admin_group
   - admin_group_credentials_inventory
   - admin_group_member
   - admin_integrations
   - admin_licensed_seat
+  - admin_member_access_request
   - admin_member_role
   - admin_merge_request_approval_settings
   - admin_namespace
@@ -85,8 +88,10 @@ group:
   - destroy_deploy_token
   - destroy_epic
   - destroy_issue
+  - destroy_user_achievement
   - edit_billing
   - export_group_memberships
+  - invite_group_members
   - manage_deploy_tokens
   - manage_merge_request_settings
   - provision_secrets_manager
@@ -101,6 +106,7 @@ group:
   - read_group_credentials_inventory
   - read_group_saml_identity
   - read_group_scim_identity
+  - read_member_access_request
   - read_runners
   - read_runners_registration_token
   - read_saml_user
@@ -113,6 +119,8 @@ group:
   - set_emails_disabled
   - set_epic_created_at
   - set_epic_updated_at
+  - set_issue_created_at
+  - set_issue_updated_at
   - set_note_created_at
   - set_show_diff_preview_in_email
   - update_approval_rule

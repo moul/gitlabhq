@@ -19,14 +19,10 @@ module QA
             end
           end
 
-          def go_to_new_issue
+          def go_to_new_work_item
             within_new_item_menu do
-              link = has_element?(:create_menu_item, create_menu_item: 'new_work_item') ? 'new_work_item' : 'new_issue'
-              click_element(:create_menu_item, create_menu_item: link)
+              click_element(:create_menu_item, create_menu_item: 'new_work_item')
             end
-
-            # Click the "Open in full page" link if modal appears
-            click_element('new-work-item-modal-link') if has_element?('new-work-item-modal-link')
           end
 
           def go_to_new_merge_request

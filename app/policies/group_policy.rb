@@ -262,12 +262,6 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
     enable :read_achievement
   end
 
-  rule { can?(:owner_access) }.policy do
-    enable :destroy_user_achievement
-    enable :set_issue_created_at
-    enable :set_issue_updated_at
-  end
-
   rule { ~public_group & ~has_access }.prevent :read_counts
 
   rule { ~can_read_group_member }.policy do
@@ -350,9 +344,7 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
   rule { (dependency_proxy_access_allowed | ai_service_account_with_composite_identity) & dependency_proxy_available }
     .enable :read_dependency_proxy
 
-  rule { owner & dependency_proxy_available }.policy do
-    enable :admin_dependency_proxy
-  end
+  rule { ~dependency_proxy_available }.prevent :admin_dependency_proxy
 
   rule { project_bot }.enable :project_bot_access
 
@@ -373,15 +365,6 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
   rule { can?(:project_bot_access) }.policy do
     prevent :create_resource_access_tokens
     prevent :manage_resource_access_tokens
-  end
-
-  rule { can?(:admin_group_member) }.policy do
-    # ability to read, approve or reject member access requests of other users
-    enable :admin_member_access_request
-    enable :read_member_access_request
-
-    # ability to activate group members
-    enable :activate_group_member
   end
 
   rule { support_bot & has_project_with_service_desk_enabled }.policy do
@@ -414,10 +397,6 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
   # with the rollout of the FF allow_guest_plus_roles_to_pull_packages
   # https://gitlab.com/gitlab-org/gitlab/-/issues/512210
   rule { guest & allow_guest_plus_roles_to_pull_packages_enabled }.enable :read_package
-
-  rule { can?(:admin_group_member) }.policy do
-    enable :invite_group_members
-  end
 
   def access_level(for_any_session: false)
     return GroupMember::NO_ACCESS if @user.nil?

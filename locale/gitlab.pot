@@ -21602,6 +21602,9 @@ msgstr ""
 msgid "Create your first page"
 msgstr ""
 
+msgid "Create your first project"
+msgstr ""
+
 msgid "Create, update, or delete a merge request."
 msgstr ""
 

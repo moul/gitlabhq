@@ -95,6 +95,8 @@ class SessionsController < Devise::SessionsController
 
       accept_pending_invitations
 
+      store_location_for(:redirect, new_admin_registrations_group_path) if should_redirect_to_sm_onboarding?(resource)
+
       synchronize_broadcast_message_dismissals(current_user)
 
       log_audit_event(current_user, resource, with: authentication_method)
@@ -149,6 +151,15 @@ class SessionsController < Devise::SessionsController
   end
 
   private
+
+  # TODO: Replace !Group.exists? with a cookie-based approach in a follow-up MR.
+  # See issue #579942 / epic #19488 for the onboarding presenter plan.
+  # Overridden in EE to add SaaS guard.
+  def should_redirect_to_sm_onboarding?(resource)
+    Feature.enabled?(:self_managed_welcome_onboarding, :instance) &&
+      resource.can_admin_all_resources? &&
+      !Group.exists?
+  end
 
   # Overridden in EE
   def determine_sign_in_path
