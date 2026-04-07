@@ -5,6 +5,7 @@ import { hasScrolled, markAsScrolled } from '~/rapid_diffs/utils/scroll_to_linke
 import NoteSignedOutWidget from '~/rapid_diffs/app/discussions/note_signed_out_widget.vue';
 import NewLineDiscussionForm from './new_line_discussion_form.vue';
 import DiffDiscussions from './diff_discussions.vue';
+import DraftNote from './draft_note.vue';
 
 export default {
   name: 'DiffLineDiscussions',
@@ -13,6 +14,7 @@ export default {
     NoteSignedOutWidget,
     NewLineDiscussionForm,
     DiffDiscussions,
+    DraftNote,
   },
   inject: {
     userPermissions: { type: Object },
@@ -24,6 +26,11 @@ export default {
       type: Array,
       required: true,
     },
+    collapsed: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   emits: ['start-thread', 'highlight', 'clear-highlight'],
   data() {
@@ -32,6 +39,12 @@ export default {
     };
   },
   computed: {
+    regularDiscussions() {
+      return this.discussions.filter((discussion) => !discussion.isDraft);
+    },
+    draftDiscussions() {
+      return this.discussions.filter((discussion) => discussion.isDraft);
+    },
     hasForm() {
       return this.discussions.some((discussion) => discussion.isForm);
     },
@@ -78,7 +91,7 @@ export default {
 <template>
   <div class="rd-diff-line-discussions-list">
     <div
-      v-for="(discussion, index) in discussions"
+      v-for="(discussion, index) in regularDiscussions"
       :key="index"
       :class="{ 'gl-border-t': index > 0 }"
       @mouseenter="onMouseenter(discussion)"
@@ -88,11 +101,27 @@ export default {
       <!-- eslint-disable-next-line @gitlab/vue-no-new-non-primitive-in-template -->
       <diff-discussions v-else :discussions="[discussion]" />
     </div>
-    <div v-if="!hasForm" class="gl-border-t gl-flex gl-border-t-subtle gl-px-5 gl-py-4">
+    <div
+      v-if="!hasForm && !collapsed"
+      class="gl-border-t gl-flex gl-border-t-subtle gl-px-5 gl-py-4"
+    >
       <note-signed-out-widget v-if="!isLoggedIn" />
       <gl-button v-else-if="userPermissions.can_create_note" @click="$emit('start-thread')">
         {{ __('Start another thread') }}
       </gl-button>
+    </div>
+    <div
+      v-for="(discussion, index) in draftDiscussions"
+      :key="discussion.id"
+      @mouseenter="onMouseenter(discussion)"
+      @mouseleave="onMouseleave"
+    >
+      <draft-note
+        :class="{
+          'gl-rounded-[var(--content-border-radius)]': index === draftDiscussions.length - 1,
+        }"
+        :draft="discussion.draft"
+      />
     </div>
   </div>
 </template>

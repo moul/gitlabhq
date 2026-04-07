@@ -98,13 +98,18 @@ export default {
     commentType() {
       return this.note.internal ? __('internal note') : __('comment');
     },
+    isDraft() {
+      return Boolean(this.note.isDraft);
+    },
     canAwardEmoji() {
+      if (this.isDraft) return false;
       return this.note.current_user?.can_award_emoji ?? false;
     },
     canEdit() {
       return this.note.current_user?.can_edit ?? false;
     },
     canReportAsAbuse() {
+      if (this.isDraft) return false;
       return Boolean(this.endpoints.reportAbuse) && !isCurrentUser(this.authorId);
     },
   },
@@ -197,6 +202,7 @@ export default {
     :class="{
       'gl-pointer-events-none gl-opacity-5': isSaving || isDeleting,
       'gl-bg-[var(--note-background)]': !timelineLayout,
+      '[--note-background:var(--timeline-entry-draft-note-background-color)]': isDraft,
     }"
     class="[--note-background:initial] target:[--note-background:var(--timeline-entry-target-background-color)]"
     data-testid="noteable-note-container"

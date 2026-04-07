@@ -4,9 +4,6 @@ import { useBatchComments } from '~/batch_comments/store';
 import { globalAccessorPlugin } from '~/pinia/plugins';
 import { useNotes } from '~/notes/store/legacy_notes';
 import { useLegacyDiffs } from '~/diffs/stores/legacy_diffs';
-import draftsService from '~/batch_comments/services/drafts_service';
-
-jest.mock('~/batch_comments/services/drafts_service');
 
 describe('mergeRequestDraftNotes store', () => {
   let store;
@@ -231,72 +228,6 @@ describe('mergeRequestDraftNotes store', () => {
     });
   });
 
-  describe.each([
-    {
-      method: 'setPositionDraftsHidden',
-      args: { oldPath: 'a.js', newPath: 'a.js', oldLine: 1, newLine: 1 },
-      matchingDraft: makeDraft(1),
-      nonMatchingDrafts: [
-        makeDraft(1, {
-          position: {
-            position_type: 'text',
-            old_path: 'a.js',
-            new_path: 'a.js',
-            old_line: 5,
-            new_line: 5,
-          },
-        }),
-        { id: 1 },
-      ],
-    },
-    {
-      method: 'setFileDraftsHidden',
-      args: { oldPath: 'a.js', newPath: 'a.js' },
-      matchingDraft: makeDraft(1),
-      nonMatchingDrafts: [
-        makeDraft(1, {
-          position: {
-            position_type: 'text',
-            old_path: 'b.js',
-            new_path: 'b.js',
-            old_line: 1,
-            new_line: 1,
-          },
-        }),
-        { id: 1 },
-      ],
-    },
-  ])('$method', ({ method, args, matchingDraft, nonMatchingDrafts }) => {
-    it('sets hidden on matching drafts', () => {
-      useBatchComments().$patch({ drafts: [matchingDraft] });
-
-      store[method](args, true);
-
-      expect(matchingDraft.hidden).toBe(true);
-    });
-
-    it.each(nonMatchingDrafts.map((d) => [d]))('does not affect non-matching draft %o', (draft) => {
-      useBatchComments().$patch({ drafts: [draft] });
-
-      store[method](args, true);
-
-      expect(draft.hidden).toBeUndefined();
-    });
-  });
-
-  describe('setFileDraftsHidden', () => {
-    it('sets hidden on all drafts matching the paths regardless of type', () => {
-      const d1 = makeDraft(1);
-      const d2 = makeFileDraft(2);
-      useBatchComments().$patch({ drafts: [d1, d2] });
-
-      store.setFileDraftsHidden({ oldPath: 'a.js', newPath: 'a.js' }, true);
-
-      expect(d1.hidden).toBe(true);
-      expect(d2.hidden).toBe(true);
-    });
-  });
-
   describe('fetchDrafts', () => {
     it.each([
       [true, { current_user_id: 1 }, true],
@@ -316,18 +247,14 @@ describe('mergeRequestDraftNotes store', () => {
     });
   });
 
-  describe('updateDraft', () => {
-    it('calls draftsService.update and refetches drafts', async () => {
-      window.gon = { current_user_id: 1 };
-      useNotes().notesData = { draftsPath: '/drafts' };
-      draftsService.update = jest.fn().mockResolvedValue();
-      const fetchDrafts = jest.fn().mockResolvedValue();
-      useBatchComments().fetchDrafts = fetchDrafts;
-
-      await store.updateDraft({ note: { id: 5 }, noteText: 'updated' });
-
-      expect(draftsService.update).toHaveBeenCalledWith('/drafts', { draftId: 5, note: 'updated' });
-      expect(fetchDrafts).toHaveBeenCalled();
-    });
+  it.each([
+    'createNewDraft',
+    'addDraftToDiscussion',
+    'updateDraft',
+    'deleteDraft',
+    'publishReview',
+    'discardDrafts',
+  ])('exposes %s from batchComments', (action) => {
+    expect(store[action]).toEqual(expect.any(Function));
   });
 });

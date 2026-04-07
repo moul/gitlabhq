@@ -41,7 +41,10 @@ export default {
     GlIntersectionObserver,
     GlLoadingIcon,
   },
-  inject: ['resourceId'],
+  inject: {
+    resourceId: {},
+    resourcePath: { default: undefined },
+  },
   props: {
     value: {
       type: Object,
@@ -156,9 +159,10 @@ export default {
         const { totalPages } = parseIntPagination(normalizeHeaders(headers));
         this.totalPages = totalPages;
 
-        return groupTransferLocations.map(({ id, full_name: humanName }) => ({
+        return groupTransferLocations.map(({ id, full_name: humanName, full_path: fullPath }) => ({
           id,
           humanName,
+          newPath: this.resourcePath ? `${fullPath}/${this.resourcePath}` : undefined,
         }));
       } catch {
         this.handleError();
@@ -188,6 +192,7 @@ export default {
           {
             id: getIdFromGraphQLId(namespace.id),
             humanName: namespace.fullName,
+            newPath: this.resourcePath ? `${namespace.fullPath}/${this.resourcePath}` : undefined,
           },
         ];
       } catch {

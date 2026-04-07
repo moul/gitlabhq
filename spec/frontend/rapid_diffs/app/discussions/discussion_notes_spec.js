@@ -1,6 +1,7 @@
 import { merge } from 'lodash-es';
 import { shallowMount } from '@vue/test-utils';
 import DiscussionNotes from '~/rapid_diffs/app/discussions/discussion_notes.vue';
+import DraftNote from '~/rapid_diffs/app/discussions/draft_note.vue';
 import NoteableNote from '~/rapid_diffs/app/discussions/noteable_note.vue';
 import SystemNote from '~/rapid_diffs/app/discussions/system_note.vue';
 import ToggleRepliesWidget from '~/notes/components/toggle_replies_widget.vue';
@@ -55,6 +56,47 @@ describe('DiscussionNotes', () => {
         expect(noteComponent.props('showReplyButton')).toBe(
           defaultProvisions.userPermissions.can_create_note,
         );
+      });
+
+      it('hides reply button for draft notes', () => {
+        const note = { id: 'foo', isDraft: true };
+        createComponent(
+          { notes: [note] },
+          { provide: { userPermissions: { can_create_note: true } } },
+        );
+        expect(wrapper.findComponent(NoteableNote).props('showReplyButton')).toBe(false);
+      });
+    });
+
+    describe('draft replies', () => {
+      it('renders draft replies via DraftNote component', () => {
+        const draftReply = { id: 'draft-1', isDraft: true };
+        createComponent(
+          { notes: [{ id: 'first' }, draftReply] },
+          { provide: { store: {}, endpoints: {}, userPermissions: { can_create_note: true } } },
+        );
+        expect(wrapper.findComponent(DraftNote).exists()).toBe(true);
+        expect(wrapper.findComponent(DraftNote).props('draft')).toBe(draftReply);
+      });
+
+      it('excludes draft replies from toggle replies widget', () => {
+        const draftReply = { id: 'draft-1', isDraft: true };
+        createComponent(
+          { notes: [{ id: 'first' }, { id: 'regular' }, draftReply] },
+          { provide: { userPermissions: { can_create_note: true } } },
+        );
+        const replies = wrapper.findComponent(ToggleRepliesWidget).props('replies');
+        expect(replies).toHaveLength(1);
+        expect(replies[0].id).toBe('regular');
+      });
+
+      it('shows draft replies even when collapsed', () => {
+        const draftReply = { id: 'draft-1', isDraft: true };
+        createComponent(
+          { notes: [{ id: 'first' }, { id: 'regular' }, draftReply], expanded: false },
+          { provide: { store: {}, endpoints: {}, userPermissions: { can_create_note: true } } },
+        );
+        expect(wrapper.findComponent(DraftNote).exists()).toBe(true);
       });
 
       it('propagates startReplying event', () => {

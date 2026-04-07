@@ -1,11 +1,13 @@
 <script>
 import ToggleRepliesWidget from '~/notes/components/toggle_replies_widget.vue';
+import DraftNote from './draft_note.vue';
 import SystemNote from './system_note.vue';
 import NoteableNote from './noteable_note.vue';
 
 export default {
   name: 'DiscussionNotes',
   components: {
+    DraftNote,
     SystemNote,
     NoteableNote,
     ToggleRepliesWidget,
@@ -61,7 +63,10 @@ export default {
       return Boolean(this.replies.length);
     },
     replies() {
-      return this.notes.slice(1);
+      return this.notes.slice(1).filter((note) => !note.isDraft);
+    },
+    draftReplies() {
+      return this.notes.slice(1).filter((note) => note.isDraft);
     },
     firstNote() {
       return this.notes[0];
@@ -77,7 +82,7 @@ export default {
       v-else
       :note="firstNote"
       :timeline-layout="timelineLayout"
-      :show-reply-button="userPermissions.can_create_note && !individual"
+      :show-reply-button="userPermissions.can_create_note && !individual && !firstNote.isDraft"
       :is-last-discussion="isLastDiscussion"
       :can-resolve="canResolve"
       :is-resolved="isResolved"
@@ -93,7 +98,7 @@ export default {
       </template>
       <template #footer>
         <div
-          v-if="hasReplies || userPermissions.can_create_note"
+          v-if="hasReplies || draftReplies.length || userPermissions.can_create_note"
           class="gl-m-0 gl-rounded-[var(--content-border-radius)] gl-bg-subtle"
         >
           <ul class="gl-list-none gl-p-0">
@@ -125,6 +130,7 @@ export default {
               <slot name="footer" :has-replies="hasReplies"></slot>
             </template>
           </ul>
+          <draft-note v-for="draft in draftReplies" :key="`draft-${draft.id}`" :draft="draft" />
         </div>
       </template>
     </noteable-note>

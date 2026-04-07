@@ -35,8 +35,6 @@ describe('mergeRequestDiscussions store', () => {
       findDraftsAsFileDiscussionsForFile: jest.fn().mockReturnValue([]),
       findDraftsAsImageDiscussionsForFile: jest.fn().mockReturnValue([]),
       findDraftsForPosition: jest.fn().mockReturnValue([]),
-      setFileDraftsHidden: jest.fn(),
-      setPositionDraftsHidden: jest.fn(),
     };
     useMergeRequestDraftNotes.mockReturnValue(mockDraftNotes);
     mockNotesStore = {
@@ -368,7 +366,7 @@ describe('mergeRequestDiscussions store', () => {
   });
 
   describe('setFileDiscussionsHidden', () => {
-    it('hides discussions and drafts for the file', () => {
+    it('hides discussions for the file', () => {
       useDiscussions().setInitialDiscussions([
         {
           id: 'd1',
@@ -381,15 +379,11 @@ describe('mergeRequestDiscussions store', () => {
       store.setFileDiscussionsHidden('a.js', 'a.js', true);
 
       expect(useDiscussions().discussions[0].hidden).toBe(true);
-      expect(mockDraftNotes.setFileDraftsHidden).toHaveBeenCalledWith(
-        { oldPath: 'a.js', newPath: 'a.js' },
-        true,
-      );
     });
   });
 
   describe('setPositionDiscussionsHidden', () => {
-    it('hides discussions and drafts for the position', () => {
+    it('hides discussions for the position', () => {
       const pos = { oldPath: 'a.js', newPath: 'a.js', oldLine: 1, newLine: 1 };
       useDiscussions().setInitialDiscussions([
         {
@@ -409,7 +403,6 @@ describe('mergeRequestDiscussions store', () => {
       store.setPositionDiscussionsHidden(pos, true);
 
       expect(useDiscussions().discussions[0].hidden).toBe(true);
-      expect(mockDraftNotes.setPositionDraftsHidden).toHaveBeenCalledWith(pos, true);
     });
   });
 
@@ -617,6 +610,20 @@ describe('mergeRequestDiscussions store', () => {
         expect(results[1].id).toBe('draft_1');
         expect(results[2].isForm).toBe(true);
       });
+
+      it('appends draft replies to discussion notes', async () => {
+        const draftReply = { id: 'draft-reply', isDraft: true, note: 'reply' };
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('real', { position: makePos(diffRefs), notes: [{ id: 'note-1' }] }),
+        ]);
+        mockDraftNotes.findDraftsForDiscussion.mockReturnValue([draftReply]);
+
+        await store.fetchNotesAndDrafts();
+
+        const [discussion] = store.findDiscussionsForPosition(linePos);
+        expect(discussion.notes).toHaveLength(2);
+        expect(discussion.notes[1]).toBe(draftReply);
+      });
     });
 
     describe('findDiscussionsForFile', () => {
@@ -656,6 +663,20 @@ describe('mergeRequestDiscussions store', () => {
         await store.fetchNotesAndDrafts();
 
         expect(store.findDiscussionsForFile(filePaths)).toHaveLength(1);
+      });
+
+      it('appends draft replies to discussion notes', async () => {
+        const draftReply = { id: 'draft-reply', isDraft: true };
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('d', { position: makePos(diffRefs), notes: [{ id: 'n1' }] }),
+        ]);
+        mockDraftNotes.findDraftsForDiscussion.mockReturnValue([draftReply]);
+
+        await store.fetchNotesAndDrafts();
+
+        const [discussion] = store.findDiscussionsForFile(filePaths);
+        expect(discussion.notes).toHaveLength(2);
+        expect(discussion.notes[1]).toBe(draftReply);
       });
     });
 
@@ -706,6 +727,20 @@ describe('mergeRequestDiscussions store', () => {
 
         expect(store.findAllLineDiscussionsForFile(filePaths)).toHaveLength(1);
       });
+
+      it('appends draft replies to discussion notes', async () => {
+        const draftReply = { id: 'draft-reply', isDraft: true };
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('d', { position: makePos(diffRefs), notes: [{ id: 'n1' }] }),
+        ]);
+        mockDraftNotes.findDraftsForDiscussion.mockReturnValue([draftReply]);
+
+        await store.fetchNotesAndDrafts();
+
+        const [discussion] = store.findAllLineDiscussionsForFile(filePaths);
+        expect(discussion.notes).toHaveLength(2);
+        expect(discussion.notes[1]).toBe(draftReply);
+      });
     });
 
     describe('findAllFileDiscussionsForFile', () => {
@@ -755,6 +790,24 @@ describe('mergeRequestDiscussions store', () => {
 
         expect(store.findAllFileDiscussionsForFile(filePaths)).toHaveLength(1);
       });
+
+      it('appends draft replies to discussion notes', async () => {
+        const draftReply = { id: 'draft-reply', isDraft: true };
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('d', {
+            position: filePos,
+            original_position: filePos,
+            notes: [{ id: 'n1' }],
+          }),
+        ]);
+        mockDraftNotes.findDraftsForDiscussion.mockReturnValue([draftReply]);
+
+        await store.fetchNotesAndDrafts();
+
+        const [discussion] = store.findAllFileDiscussionsForFile(filePaths);
+        expect(discussion.notes).toHaveLength(2);
+        expect(discussion.notes[1]).toBe(draftReply);
+      });
     });
 
     describe('findAllImageDiscussionsForFile', () => {
@@ -797,6 +850,31 @@ describe('mergeRequestDiscussions store', () => {
         await store.fetchNotesAndDrafts();
 
         expect(store.findAllImageDiscussionsForFile('a.js', 'a.js')).toHaveLength(1);
+      });
+
+      it('appends draft replies to discussion notes', async () => {
+        const draftReply = { id: 'draft-reply', isDraft: true };
+        const imagePos = {
+          position_type: 'image',
+          old_path: 'a.js',
+          new_path: 'a.js',
+          ...diffRefs,
+        };
+        useDiscussions().setInitialDiscussions([
+          {
+            id: 'img',
+            notes: [{ id: 'n1', position: imagePos }],
+            position: imagePos,
+            original_position: imagePos,
+          },
+        ]);
+        mockDraftNotes.findDraftsForDiscussion.mockReturnValue([draftReply]);
+
+        await store.fetchNotesAndDrafts();
+
+        const [discussion] = store.findAllImageDiscussionsForFile('a.js', 'a.js');
+        expect(discussion.notes).toHaveLength(2);
+        expect(discussion.notes[1]).toBe(draftReply);
       });
     });
   });

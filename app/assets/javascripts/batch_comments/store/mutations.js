@@ -4,7 +4,6 @@ import * as types from '../stores/modules/batch_comments/mutation_types';
 const processDraft = (draft) => ({
   isEditing: false,
   editedNote: null,
-  hidden: false,
   ...draft,
   isDraft: true,
 });

@@ -5,6 +5,7 @@ import { createTestingPinia } from '@pinia/testing';
 import DiffFileDiscussions from '~/rapid_diffs/app/discussions/diff_file_discussions.vue';
 import DiffDiscussions from '~/rapid_diffs/app/discussions/diff_discussions.vue';
 import DiffFileDiscussionExpansion from '~/diffs/components/diff_file_discussion_expansion.vue';
+import DraftNote from '~/rapid_diffs/app/discussions/draft_note.vue';
 import NoteForm from '~/rapid_diffs/app/discussions/note_form.vue';
 
 const useMockStore = defineStore('fileDiscussionsTestStore', {
@@ -120,5 +121,40 @@ describe('DiffFileDiscussions', () => {
     createComponent();
     await wrapper.findComponent(NoteForm).props('saveNote')('my comment');
     expect(store.createFileDiscussion).toHaveBeenCalledWith(form, 'my comment');
+  });
+
+  describe('draft notes', () => {
+    const createDraftDiscussion = () => ({
+      id: 'draft_1',
+      isDraft: true,
+      draft: { id: 'draft-1', author: { id: 1 }, created_at: new Date().toISOString() },
+      diff_discussion: true,
+      position: {
+        old_path: oldPath,
+        new_path: newPath,
+        position_type: 'file',
+      },
+    });
+
+    it('renders draft notes', () => {
+      store.discussions = [createDraftDiscussion()];
+      createComponent();
+      expect(wrapper.findComponent(DraftNote).exists()).toBe(true);
+    });
+
+    it('always shows drafts even when regular discussions are hidden', () => {
+      store.setInitialDiscussions([
+        { ...createFileDiscussion(), hidden: true },
+        createDraftDiscussion(),
+      ]);
+      createComponent();
+      expect(wrapper.findComponent(DraftNote).exists()).toBe(true);
+    });
+
+    it('does not include drafts in collapsed discussions count', () => {
+      store.setInitialDiscussions([createDraftDiscussion()]);
+      createComponent();
+      expect(wrapper.findComponent(DiffFileDiscussionExpansion).exists()).toBe(false);
+    });
   });
 });

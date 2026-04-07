@@ -6,6 +6,7 @@ import { isLoggedIn } from '~/lib/utils/common_utils';
 import DiffLineDiscussions from '~/rapid_diffs/app/discussions/diff_line_discussions.vue';
 import { useDiffDiscussions } from '~/rapid_diffs/stores/diff_discussions';
 import DiffDiscussions from '~/rapid_diffs/app/discussions/diff_discussions.vue';
+import DraftNote from '~/rapid_diffs/app/discussions/draft_note.vue';
 import NewLineDiscussionForm from '~/rapid_diffs/app/discussions/new_line_discussion_form.vue';
 import NoteSignedOutWidget from '~/rapid_diffs/app/discussions/note_signed_out_widget.vue';
 import { markAsScrolled } from '~/rapid_diffs/utils/scroll_to_linked_fragment';
@@ -27,12 +28,20 @@ describe('DiffLineDiscussions', () => {
     ...overrides,
   });
 
+  const createDraft = (overrides = {}) => ({
+    isDraft: true,
+    draft: { id: 'draft-1', author: { id: 1 }, created_at: new Date().toISOString() },
+    position: { old_line: 5, new_line: 5 },
+    ...overrides,
+  });
+
   const createComponent = (
     discussions = [],
     provide = { userPermissions: { can_create_note: true } },
+    propsOverrides = {},
   ) => {
     wrapper = shallowMount(DiffLineDiscussions, {
-      propsData: { discussions },
+      propsData: { discussions, ...propsOverrides },
       provide,
     });
   };
@@ -204,6 +213,44 @@ describe('DiffLineDiscussions', () => {
       isLoggedIn.mockReturnValue(false);
       createComponent([createDiscussion()]);
       expect(wrapper.findComponent(NoteSignedOutWidget).exists()).toBe(true);
+      expect(wrapper.findComponent(GlButton).exists()).toBe(false);
+    });
+
+    it('hides button when collapsed', () => {
+      isLoggedIn.mockReturnValue(true);
+      createComponent([createDiscussion()], undefined, { collapsed: true });
+      expect(wrapper.findComponent(GlButton).exists()).toBe(false);
+    });
+  });
+
+  describe('draft notes separation', () => {
+    it('renders draft notes via DraftNote component', () => {
+      const draft = createDraft();
+      createComponent([draft]);
+      expect(wrapper.findComponent(DraftNote).exists()).toBe(true);
+      expect(wrapper.findComponent(DraftNote).props('draft')).toBe(draft.draft);
+    });
+
+    it('does not render drafts among regular discussions', () => {
+      const discussion = createDiscussion();
+      const draft = createDraft();
+      createComponent([discussion, draft]);
+      const diffDiscussions = wrapper.findComponent(DiffDiscussions);
+      expect(diffDiscussions.props('discussions')).toHaveLength(1);
+      expect(diffDiscussions.props('discussions')[0].isDraft).toBeUndefined();
+    });
+
+    it('shows drafts when collapsed', () => {
+      const draft = createDraft();
+      createComponent([draft], undefined, { collapsed: true });
+      expect(wrapper.findComponent(DraftNote).exists()).toBe(true);
+    });
+
+    it('only passes draft discussions when collapsed with only drafts', () => {
+      const draft = createDraft();
+      createComponent([draft], undefined, { collapsed: true });
+      expect(wrapper.findComponent(DiffDiscussions).exists()).toBe(false);
+      expect(wrapper.findComponent(DraftNote).exists()).toBe(true);
       expect(wrapper.findComponent(GlButton).exists()).toBe(false);
     });
   });

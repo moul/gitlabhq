@@ -174,6 +174,16 @@ describe('NoteHeader', () => {
     });
   });
 
+  describe('badge slot', () => {
+    it('renders content passed to badge slot', () => {
+      wrapper = shallowMount(NoteHeader, {
+        propsData: {},
+        slots: { badge: '<span data-testid="custom-badge">Custom</span>' },
+      });
+      expect(wrapper.find('[data-testid="custom-badge"]').text()).toBe('Custom');
+    });
+  });
+
   describe('internal note badge', () => {
     it('does not show when isInternalNote is false', () => {
       createComponent({ isInternalNote: false });

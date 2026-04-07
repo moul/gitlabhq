@@ -3,7 +3,6 @@ import { createAlert } from '~/alert';
 import { __ } from '~/locale';
 import { FILE_DIFF_POSITION_TYPE } from '~/diffs/constants';
 import diffsEventHub from '~/diffs/event_hub';
-import { updateNoteErrorMessage } from '~/notes/utils';
 import { CHANGES_TAB, SHOW_TAB } from '../constants';
 import service from '../services/drafts_service';
 import * as types from '../stores/modules/batch_comments/mutation_types';
@@ -127,15 +126,7 @@ export async function publishReviewInBatches(noteData = {}, batchSize = 20) {
   }
 }
 
-export function updateDraft({
-  note,
-  noteText,
-  resolveDiscussion,
-  position,
-  flashContainer,
-  callback,
-  errorCallback,
-}) {
+export async function updateDraft({ note, noteText, resolveDiscussion, position }) {
   const params = {
     draftId: note.id,
     note: noteText,
@@ -145,19 +136,8 @@ export function updateDraft({
   // https://gitlab.com/gitlab-org/gitlab/-/issues/298827
   if (!isEmpty(position)) params.position = JSON.stringify(position);
 
-  return service
-    .update(this.getNotesData.draftsPath, params)
-    .then((res) => res.data)
-    .then((data) => this[types.RECEIVE_DRAFT_UPDATE_SUCCESS](data))
-    .then(callback)
-    .catch((e) => {
-      createAlert({
-        message: updateNoteErrorMessage(e),
-        parent: flashContainer,
-      });
-
-      errorCallback();
-    });
+  const { data } = await service.update(this.getNotesData.draftsPath, params);
+  this[types.RECEIVE_DRAFT_UPDATE_SUCCESS](data);
 }
 
 export function scrollToDraft(draft) {

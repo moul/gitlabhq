@@ -505,9 +505,9 @@ RSpec.describe 'New project', :js, feature_category: :groups_and_projects do
         end
 
         it 'reports error when inaccessible url is provided' do
-          allow(Gitlab::GitalyClient::RemoteService).to receive(:exists?).with('http://foo/bar').and_return(false)
+          allow(Gitlab::GitalyClient::RemoteService).to receive(:exists?).with('http://foo.com/bar.git').and_return(false)
 
-          fill_in 'project_import_url', with: 'http://foo/bar'
+          fill_in 'project_import_url', with: 'http://foo.com/bar.git'
 
           click_on 'Start import'
           wait_for_requests
@@ -516,9 +516,9 @@ RSpec.describe 'New project', :js, feature_category: :groups_and_projects do
         end
 
         it 'initiates import when valid repo url is provided' do
-          allow(Gitlab::GitalyClient::RemoteService).to receive(:exists?).with('http://foo/bar').and_return(true)
+          allow(Gitlab::GitalyClient::RemoteService).to receive(:exists?).with('http://foo.com/bar.git').and_return(true)
 
-          fill_in 'project_import_url', with: 'http://foo/bar'
+          fill_in 'project_import_url', with: 'http://foo.com/bar.git'
 
           click_on 'Start import'
           wait_for_requests

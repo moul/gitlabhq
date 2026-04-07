@@ -279,4 +279,18 @@ describe('NoteableNote', () => {
     await waitForPromises();
     expect(store.toggleAwardOnNote).toHaveBeenCalledWith(note, award);
   });
+
+  describe('draft notes', () => {
+    const createDraftNote = (overrides = {}) => createNote({ isDraft: true, ...overrides });
+
+    it('disables award emoji for draft notes', () => {
+      createComponent({ note: createDraftNote() });
+      expect(findNoteActions().props('canAwardEmoji')).toBe(false);
+    });
+
+    it('disables report as abuse for draft notes', () => {
+      createComponent({ note: createDraftNote() });
+      expect(findNoteActions().props('canReportAsAbuse')).toBe(false);
+    });
+  });
 });

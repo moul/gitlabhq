@@ -138,6 +138,7 @@ export default {
         />
         <time-ago-tooltip v-else :time="createdAt" tooltip-placement="bottom" />
       </template>
+      <slot name="badge"></slot>
       <imported-badge v-if="isImported" />
       <gl-badge
         v-if="isInternalNote"

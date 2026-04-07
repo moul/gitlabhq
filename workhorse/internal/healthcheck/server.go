@@ -3,7 +3,9 @@ package healthcheck
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"net"
 	"net/http"
 	"strings"
 	"sync"
@@ -30,7 +32,8 @@ type Server struct {
 	readinessConsecutiveSuccesses atomic.Int64
 
 	// Shared state
-	isShutdown atomic.Bool
+	isShutdown            atomic.Bool
+	lastFailureWasTimeout atomic.Bool
 
 	mu                 sync.RWMutex
 	lastReadinessError error
@@ -201,10 +204,14 @@ func (hcs *Server) performReadinessChecks(ctx context.Context) {
 	hcs.mu.Unlock()
 
 	// Record error if any check failed
-	if !allHealthy && lastError != nil {
-		hcs.recordReadinessError(lastError)
+	if !allHealthy {
+		if lastError != nil {
+			hcs.recordReadinessError(lastError)
+		}
+		hcs.lastFailureWasTimeout.Store(isTimeoutError(lastError))
 	} else {
 		hcs.clearReadinessError()
+		hcs.lastFailureWasTimeout.Store(false)
 	}
 
 	// Update readiness with consecutive failure/success logic
@@ -217,6 +224,22 @@ func (hcs *Server) performReadinessChecks(ctx context.Context) {
 		hcs.isReady.Store(false)
 		hcs.readinessStatus.Set(0)
 	}
+}
+
+// isTimeoutError returns true if err represents a timeout. It covers both
+// context.DeadlineExceeded and net.Error timeouts, so that overload-induced
+// HTTP timeouts are reliably detected regardless of how the underlying
+// transport wraps the error. context.Canceled is intentionally excluded: it
+// signals cancellation (e.g. server shutdown), not an overloaded upstream.
+func isTimeoutError(err error) bool {
+	if err == nil {
+		return false
+	}
+	if errors.Is(err, context.DeadlineExceeded) {
+		return true
+	}
+	var netErr net.Error
+	return errors.As(err, &netErr) && netErr.Timeout()
 }
 
 // updateReadinessCounters applies consecutive failure/success logic for readiness
@@ -270,6 +293,18 @@ func (hcs *Server) clearReadinessError() {
 // IsReady returns the current readiness status
 func (hcs *Server) IsReady() bool {
 	return hcs.isReady.Load()
+}
+
+// IsShuttingDown returns true if the server has been signaled to shut down
+func (hcs *Server) IsShuttingDown() bool {
+	return hcs.isShutdown.Load()
+}
+
+// LastFailureWasTimeout returns true if the most recent failed readiness check
+// timed out, as opposed to failing fast (e.g. TCP connection refused). This
+// distinguishes an overloaded upstream from one that is simply not yet up.
+func (hcs *Server) LastFailureWasTimeout() bool {
+	return hcs.lastFailureWasTimeout.Load()
 }
 
 // InitiateShutdown marks the service as shutting down

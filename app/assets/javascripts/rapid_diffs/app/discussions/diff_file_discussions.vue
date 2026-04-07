@@ -6,6 +6,7 @@ import { clearDraft } from '~/lib/utils/autosave';
 import DiffFileDiscussionExpansion from '~/diffs/components/diff_file_discussion_expansion.vue';
 import NoteForm from './note_form.vue';
 import DiffDiscussions from './diff_discussions.vue';
+import DraftNote from './draft_note.vue';
 
 export default {
   name: 'DiffFileDiscussions',
@@ -13,6 +14,7 @@ export default {
     DiffFileDiscussionExpansion,
     NoteForm,
     DiffDiscussions,
+    DraftNote,
   },
   inject: {
     store: { type: Object },
@@ -25,10 +27,13 @@ export default {
       return this.store.findAllFileDiscussionsForFile(this.filePaths);
     },
     collapsedDiscussions() {
-      return this.allDiscussions.filter((d) => !d.isForm && d.hidden);
+      return this.allDiscussions.filter((d) => !d.isForm && !d.isDraft && d.hidden);
     },
     expandedDiscussions() {
-      return this.allDiscussions.filter((d) => !d.isForm && !d.hidden);
+      return this.allDiscussions.filter((d) => !d.isForm && !d.isDraft && !d.hidden);
+    },
+    drafts() {
+      return this.allDiscussions.filter((d) => d.isDraft);
     },
     formDiscussion() {
       return this.allDiscussions.find((d) => d.isForm);
@@ -76,6 +81,7 @@ export default {
       @toggle="store.expandFileDiscussions(filePaths.oldPath, filePaths.newPath)"
     />
     <diff-discussions v-if="expandedDiscussions.length" :discussions="expandedDiscussions" />
+    <draft-note v-for="discussion in drafts" :key="discussion.id" :draft="discussion.draft" />
     <div
       v-if="formDiscussion"
       class="gl-rounded-[var(--content-border-radius)] gl-bg-subtle gl-px-5 gl-py-4"

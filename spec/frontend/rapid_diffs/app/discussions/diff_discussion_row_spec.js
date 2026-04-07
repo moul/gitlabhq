@@ -35,6 +35,15 @@ describe('DiffDiscussionRow', () => {
     ...overrides,
   });
 
+  const createDraft = (overrides = {}) => ({
+    id: 'draft_1',
+    isDraft: true,
+    draft: { id: 'draft-1', author: { id: 1 } },
+    diff_discussion: true,
+    position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+    ...overrides,
+  });
+
   const createComponent = (props = {}) => {
     wrapper = shallowMount(DiffDiscussionRow, {
       propsData: {
@@ -294,6 +303,62 @@ describe('DiffDiscussionRow', () => {
       ];
       createComponent({ parallel: true, oldLine: 5, newLine: 3, changed: true });
       expect(wrapper.find('tr').attributes('data-collapsed')).toBe('');
+    });
+  });
+
+  describe('draft notes behaviour', () => {
+    it('excludes drafts from gutter toggle discussions', () => {
+      store.discussions = [createDiscussion(), createDraft()];
+      createComponent();
+      const gutterDiscussions = findGutterToggles().at(0).props('discussions');
+      expect(gutterDiscussions).toHaveLength(1);
+      expect(gutterDiscussions[0].isDraft).toBeUndefined();
+    });
+
+    it('keeps drafts visible when all regular discussions are hidden', () => {
+      store.discussions = [createDiscussion({ hidden: true }), createDraft()];
+      createComponent();
+      expect(findDiscussions()).toHaveLength(1);
+      expect(findDiscussions().at(0).props('discussions')).toEqual([
+        expect.objectContaining({ isDraft: true }),
+      ]);
+    });
+
+    it('passes collapsed true when all regular discussions are hidden and drafts exist', () => {
+      store.discussions = [createDiscussion({ hidden: true }), createDraft()];
+      createComponent();
+      expect(findDiscussions().at(0).props('collapsed')).toBe(true);
+    });
+
+    it('does not set data-collapsed when drafts are present even if regular discussions are hidden', () => {
+      store.discussions = [createDiscussion({ hidden: true }), createDraft()];
+      createComponent();
+      expect(wrapper.find('tr').attributes('data-collapsed')).toBeUndefined();
+    });
+
+    it('does not block resolve-driven collapse when drafts are present', async () => {
+      store.discussions = [createDiscussion({ resolvable: true, resolved: false }), createDraft()];
+      createComponent();
+      store.discussions[0].resolved = true;
+      await nextTick();
+      expect(store.setPositionDiscussionsHidden).toHaveBeenCalledWith(
+        { oldPath, newPath, oldLine: 5, newLine: null },
+        true,
+      );
+    });
+
+    it('allows collapsing in parallel view when one side has only drafts', () => {
+      store.discussions = [
+        createDiscussion({
+          hidden: true,
+          position: { old_path: oldPath, new_path: newPath, old_line: 5, new_line: null },
+        }),
+        createDraft({
+          position: { old_path: oldPath, new_path: newPath, old_line: null, new_line: 3 },
+        }),
+      ];
+      createComponent({ parallel: true, oldLine: 5, newLine: 3, changed: true });
+      expect(findGutterToggles().at(0).props('expanded')).toBe(false);
     });
   });
 

@@ -48,7 +48,7 @@ func TestLoadSheddingMiddlewareSheds(t *testing.T) {
 		w.Write([]byte("OK"))
 	})
 
-	middleware := Middleware(shedder, logger)
+	middleware := Middleware(shedder, nil, logger)
 	handler := middleware(nextHandler)
 
 	// Make request
@@ -96,7 +96,7 @@ func TestLoadSheddingMiddlewareAllows(t *testing.T) {
 		w.Write([]byte("OK"))
 	})
 
-	middleware := Middleware(shedder, logger)
+	middleware := Middleware(shedder, nil, logger)
 	handler := middleware(nextHandler)
 
 	// Make request
@@ -119,7 +119,7 @@ func TestLoadSheddingMiddlewareNilShedder(t *testing.T) {
 		w.Write([]byte("OK"))
 	})
 
-	middleware := Middleware(nil, logger)
+	middleware := Middleware(nil, nil, logger)
 	handler := middleware(nextHandler)
 
 	// Make request
@@ -166,7 +166,7 @@ func TestLoadSheddingMiddlewareRetryableMethods(t *testing.T) {
 		w.Write([]byte("OK"))
 	})
 
-	middleware := Middleware(shedder, logger)
+	middleware := Middleware(shedder, nil, logger)
 	handler := middleware(nextHandler)
 
 	t.Run("non-retryable methods should not be shed", func(t *testing.T) {
@@ -222,7 +222,7 @@ func TestLoadSheddingMiddlewareLogsWhenShedding(t *testing.T) {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	handler := Middleware(shedder, logger)(nextHandler)
+	handler := Middleware(shedder, nil, logger)(nextHandler)
 
 	req := httptest.NewRequest("GET", "/api/projects", nil)
 	w := httptest.NewRecorder()
@@ -231,7 +231,7 @@ func TestLoadSheddingMiddlewareLogsWhenShedding(t *testing.T) {
 	assert.Equal(t, http.StatusServiceUnavailable, w.Code)
 
 	logOutput := buf.String()
-	assert.Contains(t, logOutput, "Shedding load due to high backlog")
+	assert.Contains(t, logOutput, "Shedding load")
 	assert.Contains(t, logOutput, "backlog=150")
 	assert.Contains(t, logOutput, "threshold=100")
 	assert.Contains(t, logOutput, "retry_after=30")
@@ -267,7 +267,7 @@ func TestLoadSheddingMiddlewareDoesNotLogWhenAllowed(t *testing.T) {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	handler := Middleware(shedder, logger)(nextHandler)
+	handler := Middleware(shedder, nil, logger)(nextHandler)
 
 	req := httptest.NewRequest("GET", "/api/projects", nil)
 	w := httptest.NewRecorder()
@@ -311,7 +311,7 @@ func TestLoadSheddingMiddlewareCustomStatusCode(t *testing.T) {
 		w.Write([]byte("OK"))
 	})
 
-	middleware := Middleware(shedder, logger)
+	middleware := Middleware(shedder, nil, logger)
 	handler := middleware(nextHandler)
 
 	// Make request
@@ -323,4 +323,87 @@ func TestLoadSheddingMiddlewareCustomStatusCode(t *testing.T) {
 	// Should return custom status code 529
 	assert.Equal(t, 529, w.Code)
 	assert.Equal(t, "0", w.Header().Get("Retry-After"))
+}
+
+// stubReadiness is a minimal ReadinessProvider for tests.
+type stubReadiness struct {
+	ready        bool
+	shuttingDown bool
+	timedOut     bool
+}
+
+func (s *stubReadiness) IsReady() bool               { return s.ready }
+func (s *stubReadiness) IsShuttingDown() bool        { return s.shuttingDown }
+func (s *stubReadiness) LastFailureWasTimeout() bool { return s.timedOut }
+
+func TestLoadSheddingMiddlewareNotReadySheds(t *testing.T) {
+	logger := logrus.New()
+	reg := prometheus.NewRegistry()
+	cfg := &config.LoadSheddingConfig{
+		BacklogThreshold:  100,
+		BacklogHysteresis: 0.8,
+		RetryAfterSeconds: 5,
+		StatusCode:        http.StatusServiceUnavailable,
+	}
+	shedder := NewLoadShedder(cfg, logger, reg)
+	shedder.InitializeMetrics()
+
+	// Backlog is below threshold — would not shed on its own.
+	controlResp := &puma.ControlResponse{
+		Workers:       1,
+		BootedWorkers: 1,
+		WorkerStatus: []puma.Worker{
+			{Index: 0, Booted: true, LastStatus: puma.WorkerStatus{Backlog: 10}},
+		},
+	}
+	shedder.UpdateBacklog(controlResp)
+
+	nextHandler := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
+	t.Run("not ready with timeout sheds retryable requests", func(t *testing.T) {
+		handler := Middleware(shedder, &stubReadiness{ready: false, timedOut: true}, logger)(nextHandler)
+		req := httptest.NewRequest(http.MethodGet, "/api/test", nil)
+		w := httptest.NewRecorder()
+		handler.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusServiceUnavailable, w.Code)
+		assert.Equal(t, "5", w.Header().Get("Retry-After"))
+	})
+
+	t.Run("not ready with timeout does not shed non-retryable requests", func(t *testing.T) {
+		handler := Middleware(shedder, &stubReadiness{ready: false, timedOut: true}, logger)(nextHandler)
+		req := httptest.NewRequest(http.MethodPost, "/api/test", nil)
+		w := httptest.NewRecorder()
+		handler.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusOK, w.Code)
+	})
+
+	t.Run("not ready due to fast failure does not shed", func(t *testing.T) {
+		// A fast failure (e.g. TCP connection refused) means the worker is not
+		// yet up, not that it is overloaded — do not shed load in this case.
+		handler := Middleware(shedder, &stubReadiness{ready: false, timedOut: false}, logger)(nextHandler)
+		req := httptest.NewRequest(http.MethodGet, "/api/test", nil)
+		w := httptest.NewRecorder()
+		handler.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusOK, w.Code)
+	})
+
+	t.Run("ready allows retryable requests", func(t *testing.T) {
+		handler := Middleware(shedder, &stubReadiness{ready: true}, logger)(nextHandler)
+		req := httptest.NewRequest(http.MethodGet, "/api/test", nil)
+		w := httptest.NewRecorder()
+		handler.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusOK, w.Code)
+	})
+
+	t.Run("not ready during shutdown does not shed", func(t *testing.T) {
+		// During graceful shutdown, isReady is also false, but we must not
+		// shed load so that in-flight requests can drain normally.
+		handler := Middleware(shedder, &stubReadiness{ready: false, timedOut: true, shuttingDown: true}, logger)(nextHandler)
+		req := httptest.NewRequest(http.MethodGet, "/api/test", nil)
+		w := httptest.NewRecorder()
+		handler.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusOK, w.Code)
+	})
 }

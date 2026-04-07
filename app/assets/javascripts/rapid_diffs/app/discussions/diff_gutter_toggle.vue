@@ -34,7 +34,7 @@ export default {
   emits: ['toggle'],
   computed: {
     allNotes() {
-      return this.discussions.flatMap((d) => d.notes || []);
+      return this.discussions.flatMap((d) => d.notes || []).filter((n) => !n.isDraft);
     },
     notesInGutter() {
       return this.allNotes.slice(0, COUNT_OF_AVATARS_IN_GUTTER);

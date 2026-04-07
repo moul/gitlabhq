@@ -82,4 +82,20 @@ describe('DiffGutterToggle', () => {
     await wrapper.find('button').trigger('click');
     expect(document.activeElement).toBe(wrapper.find('button').element);
   });
+
+  it('excludes draft replies from avatars', () => {
+    const discussion = createDiscussion({
+      notes: [
+        { id: 'note-1', note: 'A comment', author: { name: 'Author', avatar_url: 'a.png', id: 1 } },
+        {
+          id: 'draft-1',
+          isDraft: true,
+          note: 'Draft',
+          author: { name: 'Drafter', avatar_url: 'b.png', id: 2 },
+        },
+      ],
+    });
+    createComponent([discussion], false);
+    expect(findGutterAvatars()).toHaveLength(1);
+  });
 });

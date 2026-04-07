@@ -3171,6 +3171,10 @@
 
 .setup:rules:dont-interrupt-me:
   rules:
+    - <<: *if-schedule-pipeline
+      allow_failure: true
+    - <<: *if-auto-deploy-branches
+      allow_failure: true
     - <<: *if-triggered-by-aigw-project
       allow_failure: true
     - <<: *if-merge-request

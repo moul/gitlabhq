@@ -141,7 +141,14 @@ func withBodyLimitMode(bodyLimitMode bodylimit.Mode) func(*routeOptions) {
 
 func (u *upstream) observabilityMiddlewares(handler http.Handler, method string, metadata routeMetadata, opts *routeOptions) http.Handler {
 	if u.loadShedder != nil {
-		handler = loadshedding.Middleware(u.loadShedder, u.accessLogger)(handler)
+		// Pass the readiness provider so that load shedding also activates
+		// when the Puma readiness probe signals not-ready (e.g. after a timeout).
+		// Use a typed nil to avoid a non-nil interface holding a nil pointer.
+		var readiness loadshedding.ReadinessProvider
+		if u.healthCheckServer != nil {
+			readiness = u.healthCheckServer
+		}
+		handler = loadshedding.Middleware(u.loadShedder, readiness, u.accessLogger)(handler)
 	}
 
 	handler = log.AccessLogger(

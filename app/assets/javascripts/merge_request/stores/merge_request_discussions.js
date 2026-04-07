@@ -19,6 +19,7 @@ import {
   findApplicablePosition,
   discussionMatchesLinePosition,
 } from '~/rapid_diffs/utils/discussion_position';
+import { reactiveOverride } from '~/lib/utils/reactive_proxy';
 
 export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions', () => {
   const diffDiscussions = useDiffDiscussions();
@@ -184,6 +185,12 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     });
   }
 
+  function withDraftReplies(discussion) {
+    const drafts = draftNotes.findDraftsForDiscussion(discussion.id);
+    if (!drafts.length) return discussion;
+    return reactiveOverride(discussion, { notes: [...discussion.notes, ...drafts] });
+  }
+
   const findDiscussionsForFile = computed(() => {
     const { diffRefs } = versions;
     return ({ oldPath, newPath }) => {
@@ -191,7 +198,10 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
         .findAllDiscussionsForFile({ oldPath, newPath })
         .filter((discussion) => !discussion.isForm && findApplicablePosition(discussion, diffRefs));
       if (!allCommentsReady.value) return all;
-      return [...all, ...draftNotes.findDraftsAsDiscussionsForFile({ oldPath, newPath })];
+      return [
+        ...all.map(withDraftReplies),
+        ...draftNotes.findDraftsAsDiscussionsForFile({ oldPath, newPath }),
+      ];
     };
   });
 
@@ -205,10 +215,11 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
         return discussionMatchesLinePosition(discussion, linePos, diffRefs);
       });
       if (!allCommentsReady.value) return all;
+      const enriched = all.map((d) => (d.isForm ? d : withDraftReplies(d)));
       const drafts = draftNotes.findDraftsForPosition({ oldPath, newPath, oldLine, newLine });
-      if (!drafts.length) return all;
-      const notes = all.filter((d) => !d.isForm);
-      const forms = all.filter((d) => d.isForm);
+      if (!drafts.length) return enriched;
+      const notes = enriched.filter((d) => !d.isForm);
+      const forms = enriched.filter((d) => d.isForm);
       return [...notes, ...drafts, ...forms];
     };
   });
@@ -225,7 +236,10 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
         })
         .filter(Boolean);
       if (!allCommentsReady.value) return all;
-      return [...all, ...draftNotes.findDraftsAsLineDiscussionsForFile({ oldPath, newPath })];
+      return [
+        ...all.map(withDraftReplies),
+        ...draftNotes.findDraftsAsLineDiscussionsForFile({ oldPath, newPath }),
+      ];
     };
   });
 
@@ -236,33 +250,26 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
         .findAllDiscussionsForFile({ oldPath, newPath })
         .filter((d) => isFileDiscussion(d) && findApplicablePosition(d, diffRefs));
       if (!allCommentsReady.value) return all;
-      return [...all, ...draftNotes.findDraftsAsFileDiscussionsForFile({ oldPath, newPath })];
+      return [
+        ...all.map(withDraftReplies),
+        ...draftNotes.findDraftsAsFileDiscussionsForFile({ oldPath, newPath }),
+      ];
     };
   });
 
   const findAllImageDiscussionsForFile = computed(() => {
     const { diffRefs } = versions;
     return (oldPath, newPath) => {
-      const discussions = diffDiscussions
+      const all = diffDiscussions
         .findAllImageDiscussionsForFile(oldPath, newPath)
         .filter((discussion) => findApplicablePosition(discussion, diffRefs));
-      if (!allCommentsReady.value) return discussions;
+      if (!allCommentsReady.value) return all;
       return [
-        ...discussions,
+        ...all.map(withDraftReplies),
         ...draftNotes.findDraftsAsImageDiscussionsForFile({ oldPath, newPath }),
       ];
     };
   });
-
-  function setFileDiscussionsHidden(oldPath, newPath, newState) {
-    diffDiscussions.setFileDiscussionsHidden(oldPath, newPath, newState);
-    draftNotes.setFileDraftsHidden({ oldPath, newPath }, newState);
-  }
-
-  function setPositionDiscussionsHidden(pos, newState) {
-    diffDiscussions.setPositionDiscussionsHidden(pos, newState);
-    draftNotes.setPositionDraftsHidden(pos, newState);
-  }
 
   return {
     fetchNotes,
@@ -313,8 +320,8 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     removeNewLineDiscussionForm: diffDiscussions.removeNewLineDiscussionForm,
     setDiscussionFormText: diffDiscussions.setDiscussionFormText,
     setNewLineDiscussionFormAutofocus: diffDiscussions.setNewLineDiscussionFormAutofocus,
-    setFileDiscussionsHidden,
-    setPositionDiscussionsHidden,
+    setFileDiscussionsHidden: diffDiscussions.setFileDiscussionsHidden,
+    setPositionDiscussionsHidden: diffDiscussions.setPositionDiscussionsHidden,
     findDiscussionsForFile,
     findDiscussionsForPosition,
     findAllLineDiscussionsForFile,
