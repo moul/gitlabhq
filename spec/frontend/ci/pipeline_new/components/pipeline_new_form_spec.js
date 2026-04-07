@@ -395,7 +395,7 @@ describe('Pipeline New Form', () => {
       setWindowLocation(`?merge_request_iid=${mergeRequestIid}`);
     });
 
-    describe('with enableInputsForMrPipelines feature flag enabled', () => {
+    describe('with successful query', () => {
       beforeEach(async () => {
         mockRelatedMergeRequestQuery.mockResolvedValue({
           data: {
@@ -412,7 +412,6 @@ describe('Pipeline New Form', () => {
 
         await createComponentWithApollo({
           provide: {
-            glFeatures: { enableInputsForMrPipelines: true },
             projectPath: mockProjectPath,
           },
           stubs: { GlSprintf },
@@ -466,29 +465,12 @@ describe('Pipeline New Form', () => {
       });
     });
 
-    describe('with enableInputsForMrPipelines feature flag disabled', () => {
-      beforeEach(async () => {
-        await createComponentWithApollo({
-          provide: { glFeatures: { enableInputsForMrPipelines: false } },
-        });
-      });
-
-      it('does not query for related merge request', () => {
-        expect(mockRelatedMergeRequestQuery).not.toHaveBeenCalled();
-      });
-
-      it('does not display merge request info alert', () => {
-        expect(findMrPipelineInfoAlert().exists()).toBe(false);
-      });
-    });
-
     describe('when merge request query fails', () => {
       beforeEach(async () => {
         mockRelatedMergeRequestQuery.mockRejectedValue(new Error('GraphQL error'));
 
         await createComponentWithApollo({
           provide: {
-            glFeatures: { enableInputsForMrPipelines: true },
             projectPath: mockProjectPath,
           },
         });
@@ -529,7 +511,6 @@ describe('Pipeline New Form', () => {
 
       await createComponentWithApollo({
         provide: {
-          glFeatures: { enableInputsForMrPipelines: true },
           projectPath: mockProjectPath,
         },
       });

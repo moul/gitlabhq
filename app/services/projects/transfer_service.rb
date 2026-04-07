@@ -113,6 +113,12 @@ module Projects
         raise TransferError, s_("TransferProject|Project with same name or path in target namespace already exists")
       end
 
+      if conflicting_project_namespace_from_pending_deletion?
+        raise TransferError,
+          s_("TransferProject|A project with the same name or path was recently deleted in the target namespace. " \
+            "Please wait for the deletion to complete or permanently delete it first.")
+      end
+
       verify_if_container_registry_tags_can_be_handled(project)
 
       if !new_namespace_has_same_root?(project) && project_has_namespaced_npm_packages?
@@ -153,6 +159,16 @@ module Projects
     def new_namespace_has_same_root?(project)
       new_namespace.root_ancestor == project.namespace.root_ancestor
     end
+
+    # rubocop: disable CodeReuse/ActiveRecord
+    def conflicting_project_namespace_from_pending_deletion?
+      Namespaces::ProjectNamespace
+        .where(parent_id: @new_namespace.id)
+        .where('name = ? OR path = ?', project.name, project.path)
+        .where.not(id: project.project_namespace_id)
+        .exists?
+    end
+    # rubocop: enable CodeReuse/ActiveRecord
 
     def proceed_to_transfer
       Gitlab::Database::QueryAnalyzers::PreventCrossDatabaseModification.temporary_ignore_tables_in_transaction(

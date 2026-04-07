@@ -55,6 +55,7 @@ export const findAssigneesWidget = (workItem) =>
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_ASSIGNEES);
 
 export const findAwardEmojiWidget = (workItem) =>
+  workItem?.features?.awardEmoji ||
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_AWARD_EMOJI);
 
 export const findColorWidget = (workItem) =>

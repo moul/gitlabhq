@@ -3264,7 +3264,7 @@ Supported attributes:
 
 {{< /history >}}
 
-If you have the Developer, Maintainer, or Owner role, the following requests could also return the `secret_push_protection_enabled` value.
+If you have the Security Manager, Developer, Maintainer, or Owner role, the following requests could also return the `secret_push_protection_enabled` value.
 Some of these requests have stricter requirements about roles. Refer to the endpoints previously mentioned for clarification.
 Use this information to determine whether secret push protection is enabled for a project.
 To modify the `secret_push_protection_enabled` value, use the [Project Security Settings API](project_security_settings.md).

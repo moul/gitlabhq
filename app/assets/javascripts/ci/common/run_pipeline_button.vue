@@ -2,7 +2,6 @@
 import { GlButton, GlButtonGroup, GlDisclosureDropdown } from '@gitlab/ui';
 import { mergeUrlParams } from '~/lib/utils/url_utility';
 import { s__ } from '~/locale';
-import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 
 export default {
   name: 'RunPipelineButton',
@@ -11,7 +10,6 @@ export default {
     GlButtonGroup,
     GlDisclosureDropdown,
   },
-  mixins: [glFeatureFlagMixin()],
   inject: ['newPipelinePath'],
   props: {
     isLoading: {
@@ -37,7 +35,7 @@ export default {
   },
   computed: {
     showRunWithModifiedValues() {
-      return this.glFeatures.enableInputsForMrPipelines && this.mergeRequestId;
+      return Boolean(this.mergeRequestId);
     },
     newPipelineUrl() {
       return mergeUrlParams({ merge_request_iid: this.mergeRequestId }, this.newPipelinePath);

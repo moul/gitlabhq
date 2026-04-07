@@ -394,11 +394,7 @@ Use `include:template` to include [`.gitlab-ci.yml` templates](https://gitlab.co
 
 **Supported values**:
 
-A [CI/CD template](../examples/_index.md#cicd-templates):
-
-- All templates can be viewed in [`lib/gitlab/ci/templates`](https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates).
-  Not all templates are designed to be used with `include:template`, so check template
-  comments before using one.
+- The filename of a CI/CD template, for example `Auto-DevOps.gitlab-ci.yml`. 
 - You can use [certain CI/CD variables](includes.md#use-variables-with-include).
 
 **Example of `include:template`**:
@@ -419,6 +415,9 @@ include:
 
 **Additional details**:
 
+- All templates can be viewed in [`lib/gitlab/ci/templates`](https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates).
+  Not all templates are designed to be used with `include:template`, so check template
+  comments before using one.
 - All [nested includes](includes.md#use-nested-includes) are executed without context as a public user,
   so you can only include public projects or templates. No variables are available in the `include` section of nested includes.
 

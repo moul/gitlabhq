@@ -279,10 +279,6 @@ This pricing applies to all models (including self-hosted models) available for 
 | Code Review Flow | 4 calls |
 | SAST False Positive Detection Flow | 1 call |
 
-[GitLab Duo Agentic Chat](../user/gitlab_duo_chat/agentic_chat.md) doesn't use a fixed model,
-so credit cost varies based on the model selected for the request.
-With the [default model](../user/duo_agent_platform/model_selection.md#default-models) you can make 6.7 requests with one credit.
-
 Each message sent to GitLab Duo Agentic Chat counts as one billable request.
 One conversation window can include multiple messages, and so multiple billable requests.
 

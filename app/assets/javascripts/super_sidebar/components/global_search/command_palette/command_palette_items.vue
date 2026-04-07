@@ -198,7 +198,8 @@ export default {
           const response = await axios.get(this.projectFilesPath);
           this.projectFiles = response?.data.map(fileMapper.bind(null, this.projectBlobPath));
         } catch (error) {
-          Sentry.captureException(error);
+          // Override gon.feature_category as this code loads on all pages
+          Sentry.captureException(error, { tags: { feature_category: 'global_search' } });
         } finally {
           this.loading = false;
         }
@@ -259,7 +260,8 @@ export default {
           },
         ];
       } catch (error) {
-        Sentry.captureException(error);
+        // Override gon.feature_category as this code loads on all pages
+        Sentry.captureException(error, { tags: { feature_category: 'global_search' } });
       } finally {
         this.loading = false;
       }

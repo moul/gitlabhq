@@ -59,6 +59,14 @@ RSpec.describe 'Work item detail', :js, feature_category: :team_planning do
     it_behaves_like 'work items description'
     it_behaves_like 'work items award emoji'
 
+    context 'when work_item_features_field feature flag is enabled' do
+      before do
+        stub_feature_flags(work_item_features_field: user)
+      end
+
+      it_behaves_like 'work items award emoji'
+    end
+
     context 'with quarantine', quarantine: 'https://gitlab.com/gitlab-org/gitlab/-/issues/554457' do
       it_behaves_like 'work items linked items'
     end

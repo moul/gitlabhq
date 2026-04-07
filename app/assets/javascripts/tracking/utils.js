@@ -192,7 +192,10 @@ export const validateAdditionalProperties = (additionalProperties) => {
 
 export const validateEvent = (event) => {
   if (event && /\s/.test(event)) {
-    Sentry.captureException(new Error(`Event name should not contain whitespace: ${event}`));
+    // Override gon.feature_category as this code loads on all pages
+    Sentry.captureException(new Error(`Event name should not contain whitespace: ${event}`), {
+      tags: { feature_category: 'product_analytics' },
+    });
   }
 };
 

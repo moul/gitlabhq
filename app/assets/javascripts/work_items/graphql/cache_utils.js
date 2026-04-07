@@ -21,6 +21,7 @@ import {
   WIDGET_TYPE_ITERATION,
   WIDGET_TYPE_HEALTH_STATUS,
   WIDGET_TYPE_DESCRIPTION,
+  WIDGET_TYPE_AWARD_EMOJI,
   WIDGET_TYPE_CRM_CONTACTS,
   NEW_WORK_ITEM_IID,
   WIDGET_TYPE_LINKED_ITEMS,
@@ -463,9 +464,22 @@ export const getNewWorkItemSharedCache = ({
       __typename: 'WorkItemWidgetCrmContacts',
     },
     awardEmoji: {
-      __typename: 'WorkItemWidgetAwardEmoji',
+      ...widgetDefinitionsHash[WIDGET_TYPE_AWARD_EMOJI],
       upvotes: 0,
       downvotes: 0,
+      newCustomEmojiPath: '',
+      awardEmoji: {
+        nodes: [],
+        pageInfo: {
+          hasNextPage: false,
+          hasPreviousPage: false,
+          startCursor: null,
+          endCursor: null,
+          __typename: 'PageInfo',
+        },
+        __typename: 'AwardEmojiConnection',
+      },
+      __typename: 'WorkItemWidgetAwardEmoji',
     },
     development: {
       __typename: 'WorkItemWidgetDevelopment',

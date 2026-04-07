@@ -6,7 +6,6 @@ import { s__, __, n__ } from '~/locale';
 import { createAlert } from '~/alert';
 import SafeHtml from '~/vue_shared/directives/safe_html';
 import PipelineInputsForm from '~/ci/common/pipeline_inputs/pipeline_inputs_form.vue';
-import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import createPipelineMutation from '../graphql/mutations/create_pipeline.mutation.graphql';
 import getRelatedMergeRequest from '../graphql/queries/related_merge_request.query.graphql';
 import RefsDropdown from './refs_dropdown.vue';
@@ -42,7 +41,6 @@ export default {
       import('ee_component/vue_shared/components/pipeline_account_verification_alert.vue'),
   },
   directives: { SafeHtml },
-  mixins: [glFeatureFlagMixin()],
   inject: [
     'canViewPipelineEditor',
     'canSetPipelineVariables',
@@ -94,7 +92,7 @@ export default {
         };
       },
       skip() {
-        return !this.mergeRequestIid || !this.glFeatures.enableInputsForMrPipelines;
+        return !this.mergeRequestIid;
       },
       update(data) {
         const mergeRequest = data?.project?.mergeRequest;
@@ -180,7 +178,7 @@ export default {
         variables: this.pipelineVariables,
         inputs: this.pipelineInputs,
       };
-      return this.glFeatures.enableInputsForMrPipelines && this.relatedMergeRequest
+      return this.relatedMergeRequest
         ? { ...baseInput, mergeRequestIid: this.mergeRequestIid }
         : baseInput;
     },

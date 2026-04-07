@@ -16,7 +16,13 @@ const MR_SOURCE_BRANCH = 'merge_request[source_branch]';
 export const buildBlobViewPath = (baseUrl, options) => {
   const { targetPath, branch, filePath } = options;
   const urlObj = new URL(baseUrl);
-  urlObj.pathname = joinPaths(targetPath, '-/blob', branch, filePath);
+  urlObj.pathname = joinPaths(
+    window.gon.relative_url_root || '',
+    targetPath,
+    '-/blob',
+    branch,
+    filePath,
+  );
   return urlObj.toString();
 };
 
@@ -29,7 +35,12 @@ export const buildBlobViewPath = (baseUrl, options) => {
  */
 export const getUrlToExistingMergeRequest = ({ url, projectPath, fromMergeRequestIid }) => {
   const urlCopy = new URL(url);
-  urlCopy.pathname = joinPaths(projectPath, '/-/merge_requests/', fromMergeRequestIid);
+  urlCopy.pathname = joinPaths(
+    window.gon.relative_url_root || '',
+    projectPath,
+    '/-/merge_requests/',
+    fromMergeRequestIid,
+  );
   const cleanUrl = removeParams(['from_merge_request_iid'], urlCopy.toString());
   return cleanUrl;
 };
@@ -79,7 +90,11 @@ export const redirectToForkMergeRequest = ({
   targetBranch,
 }) => {
   const urlCopy = new URL(url);
-  urlCopy.pathname = joinPaths(forkProjectPath, '/-/merge_requests/new');
+  urlCopy.pathname = joinPaths(
+    window.gon.relative_url_root || '',
+    forkProjectPath,
+    '/-/merge_requests/new',
+  );
   const mrParams = {
     'merge_request[source_branch]': sourceBranch,
     'merge_request[target_project_id]': upstreamProjectId,

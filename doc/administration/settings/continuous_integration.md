@@ -670,7 +670,7 @@ Projects not in the allowlist receive a `not authorized to publish` error when a
 > and was removed in 17.0. From 17.4, it is available only behind the feature flag `required_pipelines`, disabled by default.
 > Use [compliance pipelines](../../user/compliance/compliance_pipelines.md) instead. This change is a breaking change.
 
-You can set a [CI/CD template](../../ci/examples/_index.md#cicd-templates)
+You can set a CI/CD template
 as a required pipeline configuration for all projects on a GitLab instance. You can
 use a template from:
 

@@ -121,7 +121,7 @@ For more information on SAST coverage, see [SAST rules](rules.md).
 
 Prerequisites:
 
-- The Developer, Maintainer, or Owner role for the project.
+- The Security Manager, Developer, Maintainer, or Owner role for the project.
 
 To view vulnerabilities in your pipeline:
 

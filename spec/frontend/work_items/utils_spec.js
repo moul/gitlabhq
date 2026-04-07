@@ -4,6 +4,7 @@ import {
   STATE_OPEN,
   WIDGET_TYPE_DESCRIPTION,
   WIDGET_TYPE_ASSIGNEES,
+  WIDGET_TYPE_AWARD_EMOJI,
   WIDGET_TYPE_HIERARCHY,
   WORK_ITEM_TYPE_ENUM_EPIC,
   WORK_ITEM_TYPE_ENUM_INCIDENT,
@@ -28,6 +29,7 @@ import {
   autocompleteDataSources,
   convertTypeEnumToName,
   findAssigneesWidget,
+  findAwardEmojiWidget,
   formatLabelForListbox,
   formatUserForListbox,
   newWorkItemPath,
@@ -1002,5 +1004,29 @@ describe('findAssigneesWidget', () => {
 
   it('returns undefined when neither exists', () => {
     expect(findAssigneesWidget({ widgets: [] })).toBeUndefined();
+  });
+});
+
+describe('findAwardEmojiWidget', () => {
+  const awardEmojiWidget = { type: WIDGET_TYPE_AWARD_EMOJI, awardEmoji: { nodes: [] } };
+  const featuresAwardEmoji = { upvotes: 0, downvotes: 0, awardEmoji: { nodes: [] } };
+
+  it('returns features.awardEmoji when present', () => {
+    const workItem = {
+      features: { awardEmoji: featuresAwardEmoji },
+      widgets: [awardEmojiWidget],
+    };
+
+    expect(findAwardEmojiWidget(workItem)).toBe(featuresAwardEmoji);
+  });
+
+  it('falls back to widgets when features not present', () => {
+    const workItem = { widgets: [awardEmojiWidget] };
+
+    expect(findAwardEmojiWidget(workItem)).toBe(awardEmojiWidget);
+  });
+
+  it('returns undefined when neither exists', () => {
+    expect(findAwardEmojiWidget({ widgets: [] })).toBeUndefined();
   });
 });

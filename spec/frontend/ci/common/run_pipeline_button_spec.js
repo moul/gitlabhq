@@ -13,7 +13,7 @@ describe('RunPipelineButton', () => {
     newPipelinePath: '/project/-/pipelines/new',
   };
 
-  const createComponent = ({ props = {}, enableInputsForMrPipelines = false } = {}) => {
+  const createComponent = ({ props = {} } = {}) => {
     wrapper = shallowMount(RunPipelineButton, {
       propsData: {
         ...defaultProps,
@@ -21,7 +21,6 @@ describe('RunPipelineButton', () => {
       },
       provide: {
         ...defaultProvide,
-        glFeatures: { enableInputsForMrPipelines },
       },
     });
   };
@@ -52,35 +51,19 @@ describe('RunPipelineButton', () => {
   });
 
   describe('dropdown', () => {
-    describe('when enableInputsForMrPipelines feature flag is enabled', () => {
-      beforeEach(() => {
-        createComponent({ enableInputsForMrPipelines: true });
-      });
+    it('renders the dropdown with correct URL', () => {
+      createComponent();
+      const items = findDropdown().props('items');
 
-      it('renders the dropdown with correct URL', () => {
-        const items = findDropdown().props('items');
-
-        expect(items[0].href).toBe('/project/-/pipelines/new?merge_request_iid=123');
-      });
+      expect(items[0].href).toBe('/project/-/pipelines/new?merge_request_iid=123');
     });
 
-    describe('when enableInputsForMrPipelines feature flag is disabled', () => {
-      it('does not render the dropdown', () => {
-        createComponent({ enableInputsForMrPipelines: false });
-
-        expect(findDropdown().exists()).toBe(false);
+    it('does not render the dropdown when mergeRequestId is not provided', () => {
+      createComponent({
+        props: { mergeRequestId: null },
       });
-    });
 
-    describe('when mergeRequestId is not provided', () => {
-      it('does not render the dropdown', () => {
-        createComponent({
-          props: { mergeRequestId: null },
-          enableInputsForMrPipelines: true,
-        });
-
-        expect(findDropdown().exists()).toBe(false);
-      });
+      expect(findDropdown().exists()).toBe(false);
     });
   });
 });

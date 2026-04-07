@@ -163,7 +163,6 @@ RSpec.describe 'PipelineCreate', feature_category: :pipeline_composition do
             rules: [{ when: 'always' }]
           }
         }))
-        stub_feature_flags(enable_inputs_for_mr_pipelines: project)
       end
 
       it 'creates a pipeline linked to the merge request' do
@@ -175,18 +174,6 @@ RSpec.describe 'PipelineCreate', feature_category: :pipeline_composition do
         expect(created_pipeline.merge_request).to eq(merge_request)
         expect(created_pipeline.source).to eq('merge_request_event')
         expect(mutation_response['pipeline']['id']).to eq(created_pipeline.to_global_id.to_s)
-      end
-
-      context 'when feature flag is disabled' do
-        before do
-          stub_feature_flags(enable_inputs_for_mr_pipelines: false)
-        end
-
-        it 'returns an error' do
-          post_graphql_mutation(mutation, current_user: user)
-
-          expect(graphql_errors.first['message']).to include('Feature not available')
-        end
       end
 
       context 'when merge request does not exist' do

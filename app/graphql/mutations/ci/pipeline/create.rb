@@ -47,17 +47,12 @@ module Mutations
 
         argument :merge_request_iid, GraphQL::Types::String,
           required: false,
-          description: 'IID of the merge request to create pipeline for.',
-          experiment: { milestone: '18.11' }
+          description: 'IID of the merge request to create pipeline for.'
 
         authorize :create_pipeline
 
         def resolve(project_path:, ref:, async: false, variables: {}, inputs: [], merge_request_iid: nil)
           project = authorized_find!(project_path)
-
-          if merge_request_iid && !Feature.enabled?(:enable_inputs_for_mr_pipelines, project)
-            raise_resource_not_available_error! 'Feature not available'
-          end
 
           merge_request = find_merge_request(project, merge_request_iid) if merge_request_iid
           creation_params = { ref: ref, variables_attributes: variables.map(&:to_h) }

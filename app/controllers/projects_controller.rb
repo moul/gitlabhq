@@ -146,7 +146,7 @@ class ProjectsController < Projects::ApplicationController
       return redirect_to edit_project_path(@project)
     end
 
-    if Feature.enabled?(:groups_and_projects_async_transfer, @project)
+    if Feature.enabled?(:groups_and_projects_async_transfer, @project.root_ancestor)
       enqueue_async_transfer(namespace)
     else
       execute_sync_transfer(namespace)

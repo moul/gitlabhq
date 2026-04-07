@@ -73827,6 +73827,9 @@ msgstr ""
 msgid "TransferOrganization|You must be an owner of both the group and new organization."
 msgstr ""
 
+msgid "TransferProject|A project with the same name or path was recently deleted in the target namespace. Please wait for the deletion to complete or permanently delete it first."
+msgstr ""
+
 msgid "TransferProject|Please select a new namespace for your project."
 msgstr ""
 

@@ -26,6 +26,26 @@ RSpec.describe Projects::TransferWorker, feature_category: :groups_and_projects 
         expect(project_namespace.reload).to be_ancestor_inherited
       end
 
+      context 'when the project namespace is stuck in transfer_in_progress state' do
+        before do
+          project_namespace.schedule_transfer!(transition_user: user)
+          project_namespace.start_transfer!(transition_user: user)
+        end
+
+        it 'cancels the stale state, logs a warning, and proceeds with the transfer' do
+          allow(Gitlab::AppLogger).to receive(:warn)
+
+          perform
+
+          expect(project.reload.namespace).to eq(new_namespace)
+          expect(project_namespace.reload).to be_ancestor_inherited
+          expect(Gitlab::AppLogger).to have_received(:warn).with(hash_including(
+            message: 'Cancelling stale transfer_in_progress state',
+            project_id: project.id
+          ))
+        end
+      end
+
       context 'when the project namespace is already in transfer_scheduled state' do
         it 'skips schedule_transfer! and proceeds with the transfer' do
           project_namespace.schedule_transfer!(transition_user: user)
@@ -77,7 +97,6 @@ RSpec.describe Projects::TransferWorker, feature_category: :groups_and_projects 
           end
 
           allow_next_found_instance_of(Namespaces::ProjectNamespace) do |ns|
-            allow(ns).to receive(:transfer_in_progress?).and_return(true)
             allow(ns).to receive(:cancel_transfer!).and_raise(StandardError, 'cancel failed')
           end
 

@@ -509,7 +509,6 @@ Use [`include:inputs`](../yaml/_index.md#includeinputs) to set the values for in
 when the included configuration is added to the pipeline, including for:
 
 - [CI/CD components](../components/_index.md)
-- [Custom CI/CD templates](../examples/_index.md#adding-templates-to-your-gitlab-installation)
 - Any other configuration added with `include`.
 
 For example, to include and set the input values for `scan-website-job.yml` from the

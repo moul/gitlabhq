@@ -542,6 +542,22 @@ RSpec.shared_examples 'work items award emoji' do
     emoji_upvote
   end
 
+  it 'renders all award emojis across multiple pages', :aggregate_failures do
+    # Add more than 100 (i.e > page_size) reactions to work item to
+    # ensure that page shows all emojis correctly
+    total_emojis = 120
+    emoji_names = TanukiEmoji.index.all.map(&:name).excluding('thumbsup').first(total_emojis)
+    emoji_names.each do |emoji_name|
+      create(:award_emoji, name: emoji_name, awardable: work_item, user: user2)
+    end
+
+    page.refresh
+    wait_for_requests
+
+    award_buttons = all('[data-testid="award-button"]')
+    expect(award_buttons.count).to be >= total_emojis
+  end
+
   it 'adds and removes award and custom award', :aggregate_failures do
     # user2 has already awarded the `:thumbsup:` emoji
     expect(page).to have_button '👍 1'

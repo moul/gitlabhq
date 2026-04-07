@@ -552,6 +552,23 @@ RSpec.describe Projects::TransferService, feature_category: :groups_and_projects
     end
   end
 
+  context 'when target namespace has a conflicting ProjectNamespace from a deleted project' do
+    let!(:deleted_project) { create(:project, name: project.name, group: group) }
+
+    before do
+      group.add_owner(user)
+      deleted_project.update_columns(pending_delete: true, name: "#{project.name}-deleted", path: "#{project.path}-deleted")
+    end
+
+    it 'does not allow the project transfer' do
+      transfer_result = execute_transfer
+
+      expect(transfer_result).to eq false
+      expect(project.namespace).to eq(user.namespace)
+      expect(project.errors[:new_namespace].first).to include('recently deleted')
+    end
+  end
+
   context 'target namespace matches current namespace' do
     let(:group) { user.namespace }
 

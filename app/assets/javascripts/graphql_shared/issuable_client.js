@@ -129,6 +129,16 @@ export const config = {
           // kills any possibility to handle it on the widget level without hardcoding a string.
           awardEmoji: {
             keyArgs: false,
+            // we want to concat next page of awardEmoji to the existing ones
+            merge(existing, incoming, { variables }) {
+              if (existing && incoming && variables.after) {
+                return {
+                  ...incoming,
+                  nodes: [...existing.nodes, ...incoming.nodes],
+                };
+              }
+              return incoming;
+            },
           },
         },
       },
@@ -179,7 +189,20 @@ export const config = {
           features: {
             keyArgs: false,
             merge(existing = {}, incoming = {}) {
-              return { ...existing, ...incoming };
+              const merged = { ...existing, ...incoming };
+
+              // preserve existing awardEmoji connection when incoming only has summary data
+              // (e.g. upvotes/downvotes from main query or subscription)
+              if (
+                incoming.awardEmoji &&
+                existing.awardEmoji &&
+                !incoming.awardEmoji.awardEmoji &&
+                existing.awardEmoji.awardEmoji
+              ) {
+                merged.awardEmoji = { ...existing.awardEmoji, ...incoming.awardEmoji };
+              }
+
+              return merged;
             },
           },
           // widgets policy because otherwise the subscriptions invalidate the cache

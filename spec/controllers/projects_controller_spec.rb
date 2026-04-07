@@ -1224,6 +1224,26 @@ RSpec.describe ProjectsController, feature_category: :groups_and_projects do
       it_behaves_like 'project namespace is not changed', s_('TransferProject|Project is already in this namespace.')
     end
 
+    context 'when groups_and_projects_async_transfer feature flag is enabled for root ancestor' do
+      let_it_be(:project) { create(:project, group: create(:group)) }
+
+      before do
+        stub_feature_flags(groups_and_projects_async_transfer: true)
+        sign_in(admin)
+      end
+
+      it 'uses async transfer when FF is enabled for the root ancestor group' do
+        expect(Projects::TransferWorker).to receive(:perform_async)
+
+        put :transfer, params: {
+          namespace_id: project.namespace.path, new_namespace_id: new_namespace.id, id: project.path
+        }, format: :js
+
+        expect(flash[:notice]).to eq("Project transfer has been queued. You will be notified when it completes.")
+        expect(response).to redirect_to(edit_project_path(project))
+      end
+    end
+
     context 'when groups_and_projects_async_transfer feature flag is enabled' do
       before do
         stub_feature_flags(groups_and_projects_async_transfer: true)

@@ -191,6 +191,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="query-adminprojects-active"></a>`active` | [`Boolean`](#boolean) | Filters by projects that are not archived and not marked for deletion. |
 | <a id="query-adminprojects-aimedfordeletion"></a>`aimedForDeletion` | [`Boolean`](#boolean) | Return only projects marked for deletion. |
 | <a id="query-adminprojects-archived"></a>`archived` | [`ProjectArchived`](#projectarchived) | Filter projects by archived status. |
+| <a id="query-adminprojects-duolicensedfeature"></a>`duoLicensedFeature` {{< icon name="warning-solid" >}} | [`DuoLicensedFeature`](#duolicensedfeature) | **Introduced** in GitLab 18.11. **Status**: Experiment. Include only projects eligible for the specified GitLab Duo licensed feature. Results are automatically filtered to projects where the user has the Maintainer or Owner role. |
 | <a id="query-adminprojects-fullpaths"></a>`fullPaths` | [`[String!]`](#string) | Filter projects by full paths. You cannot provide more than 50 full paths. |
 | <a id="query-adminprojects-ids"></a>`ids` | [`[ID!]`](#id) | Filter projects by IDs. |
 | <a id="query-adminprojects-includehidden"></a>`includeHidden` | [`Boolean`](#boolean) | Include hidden projects. |
@@ -1923,6 +1924,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="query-projects-active"></a>`active` | [`Boolean`](#boolean) | Filters by projects that are not archived and not marked for deletion. |
 | <a id="query-projects-aimedfordeletion"></a>`aimedForDeletion` | [`Boolean`](#boolean) | Return only projects marked for deletion. |
 | <a id="query-projects-archived"></a>`archived` | [`ProjectArchived`](#projectarchived) | Filter projects by archived status. |
+| <a id="query-projects-duolicensedfeature"></a>`duoLicensedFeature` {{< icon name="warning-solid" >}} | [`DuoLicensedFeature`](#duolicensedfeature) | **Introduced** in GitLab 18.11. **Status**: Experiment. Include only projects eligible for the specified GitLab Duo licensed feature. Results are automatically filtered to projects where the user has the Maintainer or Owner role. |
 | <a id="query-projects-fullpaths"></a>`fullPaths` | [`[String!]`](#string) | Filter projects by full paths. You cannot provide more than 50 full paths. |
 | <a id="query-projects-ids"></a>`ids` | [`[ID!]`](#id) | Filter projects by IDs. |
 | <a id="query-projects-includehidden"></a>`includeHidden` | [`Boolean`](#boolean) | Include hidden projects. |
@@ -11967,7 +11969,7 @@ Input type: `PipelineCreateInput`
 | <a id="mutation-pipelinecreate-async"></a>`async` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.8. |
 | <a id="mutation-pipelinecreate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-pipelinecreate-inputs"></a>`inputs` {{< icon name="warning-solid" >}} | [`[CiInputsInput!]`](#ciinputsinput) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 17.10. |
-| <a id="mutation-pipelinecreate-mergerequestiid"></a>`mergeRequestIid` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.11. |
+| <a id="mutation-pipelinecreate-mergerequestiid"></a>`mergeRequestIid` | [`String`](#string) | IID of the merge request to create pipeline for. |
 | <a id="mutation-pipelinecreate-projectpath"></a>`projectPath` | [`ID!`](#id) | Full path of the project that is triggering the pipeline. |
 | <a id="mutation-pipelinecreate-ref"></a>`ref` | [`String!`](#string) | Ref on which to run the pipeline. |
 | <a id="mutation-pipelinecreate-variables"></a>`variables` | [`[CiVariableInput!]`](#civariableinput) | Variables for the pipeline. |
@@ -44267,6 +44269,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="organization-projects-active"></a>`active` | [`Boolean`](#boolean) | Filters by projects that are not archived and not marked for deletion. |
 | <a id="organization-projects-aimedfordeletion"></a>`aimedForDeletion` | [`Boolean`](#boolean) | Return only projects marked for deletion. |
 | <a id="organization-projects-archived"></a>`archived` | [`ProjectArchived`](#projectarchived) | Filter projects by archived status. |
+| <a id="organization-projects-duolicensedfeature"></a>`duoLicensedFeature` {{< icon name="warning-solid" >}} | [`DuoLicensedFeature`](#duolicensedfeature) | **Introduced** in GitLab 18.11. **Status**: Experiment. Include only projects eligible for the specified GitLab Duo licensed feature. Results are automatically filtered to projects where the user has the Maintainer or Owner role. |
 | <a id="organization-projects-fullpaths"></a>`fullPaths` | [`[String!]`](#string) | Filter projects by full paths. You cannot provide more than 50 full paths. |
 | <a id="organization-projects-ids"></a>`ids` | [`[ID!]`](#id) | Filter projects by IDs. |
 | <a id="organization-projects-includehidden"></a>`includeHidden` | [`Boolean`](#boolean) | Include hidden projects. |
@@ -56691,6 +56694,16 @@ All possible ways that DORA metrics can be aggregated.
 | <a id="dorametricbucketinginterval-all"></a>`ALL` | All data points are combined into a single value. |
 | <a id="dorametricbucketinginterval-daily"></a>`DAILY` | Data points are combined into chunks by day. |
 | <a id="dorametricbucketinginterval-monthly"></a>`MONTHLY` | Data points are combined into chunks by month. |
+
+### `DuoLicensedFeature`
+
+List of GitLab Duo licensed features.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="duolicensedfeature-agentic_chat"></a>`AGENTIC_CHAT` | Agentic Chat feature. |
+| <a id="duolicensedfeature-ai_catalog"></a>`AI_CATALOG` | AI Catalog feature. |
+| <a id="duolicensedfeature-ai_features"></a>`AI_FEATURES` | AI features. |
 
 ### `DuoWorkflowStatus`
 

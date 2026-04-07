@@ -24,6 +24,25 @@ RSpec.describe Namespaces::Groups::TransferWorker, feature_category: :groups_and
         expect(group.reload).to have_attributes(parent: new_parent_group, state: 'ancestor_inherited')
       end
 
+      context 'when the group is stuck in transfer_in_progress state' do
+        before do
+          group.schedule_transfer!(transition_user: user)
+          group.start_transfer!(transition_user: user)
+        end
+
+        it 'cancels the stale state, logs a warning, and proceeds with the transfer' do
+          allow(Gitlab::AppLogger).to receive(:warn)
+
+          perform
+
+          expect(group.reload).to have_attributes(parent: new_parent_group, state: 'ancestor_inherited')
+          expect(Gitlab::AppLogger).to have_received(:warn).with(hash_including(
+            message: 'Cancelling stale transfer_in_progress state',
+            group_id: group.id
+          ))
+        end
+      end
+
       context 'when the group is already in transfer_scheduled state' do
         it 'skips schedule_transfer! and proceeds with the transfer' do
           group.schedule_transfer!(transition_user: user)
@@ -75,7 +94,6 @@ RSpec.describe Namespaces::Groups::TransferWorker, feature_category: :groups_and
           end
 
           allow_next_found_instance_of(Group) do |g|
-            allow(g).to receive(:transfer_in_progress?).and_return(true)
             allow(g).to receive(:cancel_transfer!).and_raise(StandardError, 'cancel failed')
           end
 

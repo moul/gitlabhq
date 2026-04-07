@@ -110,13 +110,9 @@ use the CI/CD variable `AST_ENABLE_MR_PIPELINES` or the `latest` template editio
 
 {{< history >}}
 
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/547861) in GitLab 18.11 [with a feature flag](../../administration/feature_flags/_index.md) named `enable_inputs_for_mr_pipelines`. Disabled by default.
-- [Enabled on GitLab.com](https://gitlab.com/gitlab-org/gitlab/-/work_items/593775) in GitLab 18.11.
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/547861) in GitLab 18.11.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag. For more information, see the history.
 
 If your `.gitlab-ci.yml` defines [pipeline inputs](../inputs/_index.md), you can customize input values when
 you manually run a new merge request pipeline. You can also set [CI/CD variables](../variables/_index.md) in the same form.

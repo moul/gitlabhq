@@ -122,6 +122,10 @@ export default {
 </template>
 ```
 
+### REST API path helpers
+
+JavaScript path helpers are not generated for REST API paths, such as `/api/:version/groups/:id`. Use the reusable pattern for REST API paths and utilities in `app/assets/javascripts/rest_api.js`.
+
 ### Passing URLs with data attributes
 
 > [!note]

@@ -12,9 +12,10 @@ and running quickly.
 | Topic | Description | Good for beginners |
 |-------|-------------|--------------------|
 | [Navigate the GitLab interface](left_sidebar/_index.md) |  Start navigating the GitLab UI. | {{< icon name="star" >}} |
-| [GitLab with Git Essentials](https://university.gitlab.com/courses/gitlab-with-git-essentials-s2)  |  Learn the basics of Git and GitLab in this self-paced course. | {{< icon name="star" >}} |
+| [GitLab 101](https://university.gitlab.com/courses/gitlab101)  |  Learn the basics of GitLab in this self-paced course. | {{< icon name="star" >}} |
 | [Git tutorials](learn_git.md) |  If you're new to Git, try out these tutorials to get familiar with the workflow. | |
 | [Use the personal homepage](personal_homepage/_index.md) |  Learn how to use the personal homepage to keep track of your activity across GitLab. | |
+| [Set up your organization](manage_user/_index.md) | Create groups, subgroups, projects, and users according to your company's needs. | |
 
 ## Contribute as a non-developer
 
