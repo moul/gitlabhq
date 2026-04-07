@@ -16,7 +16,7 @@ RSpec.describe 'Database schema',
 
   # If splitting FK and table removal into two MRs as suggested in the docs, use this constant in the initial FK removal MR.
   # In the subsequent table removal MR, remove the entries.
-  # See: https://docs.gitlab.com/ee/development/migration_style_guide.html#dropping-a-database-table
+  # See: https://docs.gitlab.com/development/migration_style_guide/#dropping-a-database-table
   let(:removed_fks_map) do
     {
       # example_table: %w[example_column]

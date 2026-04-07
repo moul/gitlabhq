@@ -134,8 +134,6 @@ the job keyword takes precedence and the default configuration for that keyword 
 - [`retry`](#retry)
 - [`services`](#services)
 - [`tags`](#tags)
-- [`timeout`](#timeout), though due to [issue 213634](https://gitlab.com/gitlab-org/gitlab/-/issues/213634)
-  this keyword has no effect.
 
 **Example of `default`**:
 
@@ -6724,8 +6722,7 @@ than the timeout, the job fails.
 The job-level timeout can be longer than the [project-level timeout](../pipelines/settings.md#set-a-limit-for-how-long-jobs-can-run),
 but can't be longer than the [runner's timeout](../runners/configure_runners.md#set-the-maximum-job-timeout).
 
-**Keyword type**: Job keyword. You can use it only as part of a job or in the
-[`default` section](#default).
+**Keyword type**: Job keyword. You can use it only as part of a job.
 
 **Supported values**: A period of time written in natural language. For example, these are all equivalent:
 
@@ -6744,6 +6741,11 @@ test:
   script: rspec
   timeout: 3h 30m
 ```
+
+**Additional details**:
+
+- The `timeout` keyword is not supported in the `default` configuration. Define `timeout` in individual job configurations instead.
+  For more information, see [issue 213634](https://gitlab.com/gitlab-org/gitlab/-/issues/213634).
 
 ---
 

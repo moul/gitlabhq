@@ -189,7 +189,6 @@ export default {
 <template>
   <gl-modal
     :visible="isModalVisible"
-    :title="modalTitle"
     :action-cancel="$options.i18n.modal.actionCancel"
     :action-primary="actionPrimary"
     modal-id="token-action-modal"
@@ -197,6 +196,9 @@ export default {
     @hidden="handleModalHide"
     @primary.prevent="handleModalPrimary"
   >
+    <template #modal-title>
+      <span class="gl-line-clamp-1">{{ modalTitle }}</span>
+    </template>
     <gl-sprintf :message="modalDescription">
       <template #tokenName>
         <span class="gl-font-bold gl-wrap-anywhere">{{ token && token.name }}</span>

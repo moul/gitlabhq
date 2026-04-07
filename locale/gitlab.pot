@@ -2831,12 +2831,6 @@ msgstr ""
 msgid "AICatalog|Edit flow"
 msgstr ""
 
-msgid "AICatalog|Enable %{itemType}"
-msgstr ""
-
-msgid "AICatalog|Enable %{itemType} in a %{targetType}"
-msgstr ""
-
 msgid "AICatalog|Enable %{itemType} in your project"
 msgstr ""
 
@@ -2976,9 +2970,6 @@ msgid "AICatalog|GitLab-managed"
 msgstr ""
 
 msgid "AICatalog|GitLab-managed external agents"
-msgstr ""
-
-msgid "AICatalog|Group is required."
 msgstr ""
 
 msgid "AICatalog|HTTP"
@@ -3464,13 +3455,7 @@ msgstr ""
 msgid "AICatalog|You are an expert in [domain]. Your communication style is [style]. When helping users, you should always... Your key strengths include... You approach problems by..."
 msgstr ""
 
-msgid "AICatalog|You must have the Maintainer or Owner role to enable a flow in a group. Only top-level groups are shown."
-msgstr ""
-
 msgid "AICatalog|You must have the Maintainer or Owner role to enable a flow in a project."
-msgstr ""
-
-msgid "AICatalog|You must have the Maintainer or Owner role to enable an agent in a group. Only top-level groups are shown."
 msgstr ""
 
 msgid "AICatalog|You must have the Maintainer or Owner role to enable an agent in a project."
@@ -30005,9 +29990,6 @@ msgid "Failed to load groups and users."
 msgstr ""
 
 msgid "Failed to load groups, users and deploy keys."
-msgstr ""
-
-msgid "Failed to load groups."
 msgstr ""
 
 msgid "Failed to load iterations. Please try again."

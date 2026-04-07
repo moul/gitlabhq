@@ -93,13 +93,9 @@ Note the following:
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/589650) in GitLab 18.11 [with a flag](../../../administration/feature_flags/_index.md) named `security_policy_pipeline_check`. Disabled by default.
+- [Enabled by default](https://gitlab.com/gitlab-org/gitlab/-/issues/592205) in GitLab 18.11.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
-> This feature is available for testing, but not ready for production use.
 
 When pipeline execution policies or [scan execution policies](scan_execution_policies.md) are configured
 for a project, the security policy pipeline check requires all pipelines for the latest commit to

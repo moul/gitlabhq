@@ -532,45 +532,5 @@ describe('SuperTopbar', () => {
         });
       });
     });
-
-    describe('delegateScrollKeysToMain', () => {
-      let mainElement;
-      let eventSpy;
-
-      beforeEach(() => {
-        mainElement = document.createElement('main');
-        eventSpy = jest.fn();
-
-        mainElement.setAttribute('tabindex', '-1');
-        mainElement.addEventListener('keydown', eventSpy);
-        document.body.append(mainElement);
-      });
-
-      afterEach(() => {
-        mainElement.remove();
-      });
-
-      it.each([['ArrowDown'], ['ArrowUp'], ['End'], ['Home'], ['PageDown'], ['PageUp']])(
-        'delegates %s key to main element',
-        async (key) => {
-          await wrapper.find('header').trigger('keydown', { key });
-
-          expect(document.activeElement).toBe(mainElement);
-          expect(eventSpy).toHaveBeenLastCalledWith(
-            expect.objectContaining({
-              key,
-              target: mainElement,
-            }),
-          );
-        },
-      );
-
-      it('does not delegate non-scroll keys to main element', async () => {
-        await wrapper.find('header').trigger('keydown', { key: 'Enter' });
-
-        expect(document.activeElement).not.toBe(mainElement);
-        expect(eventSpy).not.toHaveBeenCalled();
-      });
-    });
   });
 });

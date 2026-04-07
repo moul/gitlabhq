@@ -105,16 +105,16 @@ export default {
     </template>
 
     <template #cell(description)="{ value }">
-      <div>
-        <span v-if="value" class="gl-wrap-anywhere">{{ value }}</span>
-        <span v-else class="gl-text-subtle">
-          {{ $options.i18n.noDescription }}
-        </span>
-      </div>
+      <span v-if="value" class="gl-wrap-anywhere">{{ value }}</span>
+      <span v-else class="gl-text-subtle">
+        {{ $options.i18n.noDescription }}
+      </span>
     </template>
 
     <template #cell(status)="{ item }">
-      <div>
+      <div
+        class="gl-flex gl-flex-wrap gl-items-center gl-justify-end gl-gap-3 gl-text-nowrap @md/panel:gl-flex-nowrap @md/panel:gl-justify-start"
+      >
         <span v-gl-tooltip="expiryTimestamp(item)" data-testid="token-expiry">
           <gl-icon name="expire" class="gl-mr-2" />
           <gl-sprintf :message="$options.i18n.expires">
@@ -124,13 +124,15 @@ export default {
         <personal-access-token-status-badge :token="item" />
       </div>
 
-      <div class="gl-mt-3">
-        <span v-gl-tooltip="lastUsedTimestamp(item)" data-testid="token-last-used">
-          <gl-icon name="hourglass" class="gl-mr-2" />
-          <gl-sprintf :message="$options.i18n.lastUsed">
-            <template #date>{{ lastUsedDate(item) }}</template>
-          </gl-sprintf>
-        </span>
+      <div
+        v-gl-tooltip.d0="lastUsedTimestamp(item)"
+        class="gl-mt-3 gl-justify-self-end gl-text-nowrap @md/panel:gl-justify-self-start"
+        data-testid="token-last-used"
+      >
+        <gl-icon name="hourglass" class="gl-mr-2" />
+        <gl-sprintf :message="$options.i18n.lastUsed">
+          <template #date>{{ lastUsedDate(item) }}</template>
+        </gl-sprintf>
       </div>
     </template>
 

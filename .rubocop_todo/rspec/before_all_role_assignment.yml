@@ -282,7 +282,6 @@ RSpec/BeforeAllRoleAssignment:
     - 'ee/spec/policies/incident_management/oncall_shift_policy_spec.rb'
     - 'ee/spec/policies/issue_policy_spec.rb'
     - 'ee/spec/policies/merge_requests/external_status_check_policy_spec.rb'
-    - 'ee/spec/policies/packages/policies/project_policy_spec.rb'
     - 'ee/spec/policies/project_policy_spec.rb'
     - 'ee/spec/policies/resource_weight_event_policy_spec.rb'
     - 'ee/spec/policies/security/scan_policy_spec.rb'

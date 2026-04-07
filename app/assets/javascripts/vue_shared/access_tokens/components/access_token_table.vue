@@ -302,12 +302,15 @@ export default {
     </gl-table>
     <gl-modal
       v-model="showModal"
-      :title="modalTitle"
       :action-cancel="$options.i18n.modal.actionCancel"
       :action-primary="actionPrimary"
       modal-id="token-action-modal"
       @primary="actionToken"
     >
+      <template #modal-title>
+        <span class="gl-line-clamp-1">{{ modalTitle }}</span>
+      </template>
+
       <gl-sprintf :message="$options.i18n.modal.message[action]">
         <template #tokenName
           ><code>{{ selectedToken && selectedToken.name }}</code></template

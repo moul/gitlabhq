@@ -61,7 +61,6 @@ Gitlab/Authz/UsePolicyHelpers:
     - 'ee/spec/policies/organizations/organization_policy_spec.rb'
     - 'ee/spec/policies/packages/policies/dependency_proxy/group_policy_spec.rb'
     - 'ee/spec/policies/packages/policies/group_policy_spec.rb'
-    - 'ee/spec/policies/packages/policies/project_policy_spec.rb'
     - 'ee/spec/policies/path_lock_policy_spec.rb'
     - 'ee/spec/policies/project_policy_spec.rb'
     - 'ee/spec/policies/project_snippet_policy_spec.rb'

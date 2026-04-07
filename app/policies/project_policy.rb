@@ -53,6 +53,8 @@ class ProjectPolicy < BasePolicy
 
   desc "Project is visible to internal users"
   condition(:internal_access) do
+    next false unless user
+
     project.internal? && !user.external?
   end
 
@@ -728,7 +730,12 @@ class ProjectPolicy < BasePolicy
     prevent :destroy_container_registry_protection_tag_rule
   end
 
-  rule { anonymous & ~public_project }.prevent_all
+  rule { anonymous & ~public_project }.prevent_all do
+    # Private projects can make packages public
+    # This is controlled in Packages::Policies::ProjectPolicy
+    # This exception is needed since Packages::Policies::ProjectPolicy delegates to this one
+    except :read_package
+  end
 
   rule { public_project }.policy do
     enable :public_access

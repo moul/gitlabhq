@@ -111,20 +111,23 @@ export const TABLE_FIELDS = [
   {
     key: 'name',
     label: __('Name'),
+    tdClass: '@md/panel:gl-w-1/2',
   },
   {
     key: 'description',
     label: __('Description'),
+    tdClass: '@md/panel:gl-w-1/2',
   },
   {
     key: 'status',
     label: __('Status'),
+    tdClass: '@md/panel:gl-w-0',
   },
   {
     key: 'actions',
     label: __('Actions'),
     thAlignRight: true,
-    tdClass: 'gl-text-right',
+    tdClass: 'gl-text-right @md/panel:gl-w-0',
   },
 ];
 

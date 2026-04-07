@@ -53,11 +53,7 @@ RSpec.describe 'Project', feature_category: :source_code_management do
         find("#built-in").click
 
         # Jumps down 1 template, skipping the `preview` buttons
-        # Increased from 2 to 3 because tabindex="-1" was added to _page.html.haml to
-        # restore keyboard scroll behavior (!224954). Capybara's send_keys uses
-        # synthetic WebDriver events which, unlike real browser Tab presses, do visit
-        # tabindex="-1" elements.
-        3.times do
+        2.times do
           page.send_keys :tab
         end
 

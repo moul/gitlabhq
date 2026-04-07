@@ -708,7 +708,6 @@ export default {
     'ee/app/assets/javascripts/ai/catalog/components/ai_catalog_item_report_modal.vue',
     'ee/app/assets/javascripts/ai/catalog/components/ai_catalog_list_item.vue',
     'ee/app/assets/javascripts/ai/catalog/components/form_flow_definition.vue',
-    'ee/app/assets/javascripts/ai/catalog/components/form_group_dropdown.vue',
     'ee/app/assets/javascripts/ai/catalog/components/form_project_dropdown.vue',
     'ee/app/assets/javascripts/ai/catalog/components/visibility_level_radio_group.vue',
     'ee/app/assets/javascripts/ai/components/ai_generate_issue_description.vue',

@@ -13,22 +13,12 @@ import BrandLogo from 'jh_else_ce/super_sidebar/components/brand_logo.vue';
 import { parseBoolean } from '~/lib/utils/common_utils';
 import { EVENT_OPEN_GLOBAL_SEARCH } from '~/vue_shared/global_search/constants';
 import { staticBreadcrumbs } from '~/lib/utils/breadcrumbs_state';
-import {
-  ARROW_DOWN_KEY,
-  ARROW_UP_KEY,
-  END_KEY,
-  HOME_KEY,
-  PAGE_DOWN_KEY,
-  PAGE_UP_KEY,
-} from '~/lib/utils/keys';
 import SuperSidebarToggle from './super_sidebar_toggle.vue';
 import CreateMenu from './create_menu.vue';
 import UserMenu from './user_menu.vue';
 import UserCounts from './user_counts.vue';
 import PromoMenu from './promo_menu.vue';
 import { SEARCH_MODAL_ID } from './global_search/constants';
-
-const SCROLL_KEYS = [ARROW_DOWN_KEY, ARROW_UP_KEY, END_KEY, HOME_KEY, PAGE_DOWN_KEY, PAGE_UP_KEY];
 
 export default {
   // "GitLab Next" is a proper noun, so don't translate "Next"
@@ -110,17 +100,6 @@ export default {
         );
       }
     },
-    delegateScrollKeysToMain(event) {
-      if (SCROLL_KEYS.includes(event.key)) {
-        const main = document.querySelector('main');
-        const copy = new KeyboardEvent(event.type, { key: event.key });
-
-        if (!main) return;
-
-        main.focus();
-        main.dispatchEvent(copy);
-      }
-    },
   },
 };
 </script>
@@ -130,7 +109,6 @@ export default {
     class="super-topbar js-super-topbar gl-grid gl-grid-cols-[1fr_1fr] gl-items-center gl-outline-none sm:gl-grid-cols-[1fr_auto_1fr] forced-colors:gl-outline-0"
     tabindex="0"
     autofocus
-    @keydown.self="delegateScrollKeysToMain"
   >
     <gl-button
       class="gl-t-0 gl-sr-only !gl-fixed gl-left-0 gl-z-9999 !gl-m-3 !gl-px-4 focus:gl-not-sr-only"
