@@ -103,7 +103,7 @@ module Routing
       # Disabling of page url masking is only available when Snowplow is configured.
       return if Gitlab::CurrentSettings.snowplow_enabled? && Feature.disabled?(:mask_page_urls, type: :ops)
 
-      mask_helper = MaskHelper.new(request, group, project, ::Current.organization)
+      mask_helper = MaskHelper.new(request, group, project, get_organization)
       mask_helper.mask_params
 
     # We rescue all exception for time being till we test this helper extensively.
@@ -169,6 +169,12 @@ module Routing
     rescue StandardError => e
       Gitlab::ErrorTracking.track_and_raise_for_dev_exception(e, url: request.original_fullpath)
       nil
+    end
+
+    def get_organization
+      return unless ::Current.organization_assigned
+
+      ::Current.organization
     end
   end
 end

@@ -24387,7 +24387,8 @@ CREATE TABLE namespace_template_settings (
     file_template_project_id bigint,
     custom_project_templates_group_id bigint,
     created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL
+    updated_at timestamp with time zone NOT NULL,
+    duo_template_project_id bigint
 );
 
 CREATE TABLE namespace_uploads (
@@ -33605,6 +33606,14 @@ CREATE SEQUENCE work_item_parent_links_id_seq
 
 ALTER SEQUENCE work_item_parent_links_id_seq OWNED BY work_item_parent_links.id;
 
+CREATE TABLE work_item_positions (
+    work_item_id bigint NOT NULL,
+    namespace_id bigint NOT NULL,
+    relative_position bigint,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
 CREATE TABLE work_item_progresses (
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL,
@@ -41096,6 +41105,9 @@ ALTER TABLE ONLY work_item_number_field_values
 ALTER TABLE ONLY work_item_parent_links
     ADD CONSTRAINT work_item_parent_links_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY work_item_positions
+    ADD CONSTRAINT work_item_positions_pkey PRIMARY KEY (work_item_id);
+
 ALTER TABLE ONLY work_item_progresses
     ADD CONSTRAINT work_item_progresses_pkey PRIMARY KEY (issue_id);
 
@@ -47617,6 +47629,8 @@ CREATE INDEX index_ns_root_stor_stats_on_registry_size_estimated ON namespace_ro
 
 CREATE INDEX index_ns_template_settings_on_custom_project_templates_group_id ON namespace_template_settings USING btree (custom_project_templates_group_id) WHERE (custom_project_templates_group_id IS NOT NULL);
 
+CREATE INDEX index_ns_template_settings_on_duo_template_project_id ON namespace_template_settings USING btree (duo_template_project_id) WHERE (duo_template_project_id IS NOT NULL);
+
 CREATE UNIQUE INDEX index_ns_user_callouts_feature ON user_namespace_callouts USING btree (user_id, feature_name, namespace_id);
 
 CREATE INDEX index_oauth_access_grants_on_application_id ON oauth_access_grants USING btree (application_id);
@@ -49884,6 +49898,8 @@ CREATE INDEX index_work_item_parent_links_on_namespace_id ON work_item_parent_li
 CREATE UNIQUE INDEX index_work_item_parent_links_on_work_item_id ON work_item_parent_links USING btree (work_item_id);
 
 CREATE INDEX index_work_item_parent_links_on_work_item_parent_id ON work_item_parent_links USING btree (work_item_parent_id);
+
+CREATE INDEX index_work_item_positions_on_namespace_id_and_relative_position ON work_item_positions USING btree (namespace_id, relative_position);
 
 CREATE INDEX index_work_item_progresses_on_namespace_id ON work_item_progresses USING btree (namespace_id);
 
@@ -55283,6 +55299,9 @@ ALTER TABLE ONLY ai_settings
 ALTER TABLE ONLY merge_requests
     ADD CONSTRAINT fk_06067f5644 FOREIGN KEY (latest_merge_request_diff_id) REFERENCES merge_request_diffs(id) ON DELETE SET NULL;
 
+ALTER TABLE ONLY work_item_positions
+    ADD CONSTRAINT fk_0626c1ce18 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY saved_views
     ADD CONSTRAINT fk_0673753f57 FOREIGN KEY (created_by_id) REFERENCES users(id) ON DELETE SET NULL;
 
@@ -56948,6 +56967,9 @@ ALTER TABLE ONLY projects
 ALTER TABLE ONLY deploy_tokens
     ADD CONSTRAINT fk_9b0d2e92a6 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY namespace_template_settings
+    ADD CONSTRAINT fk_9b12c3eafb FOREIGN KEY (duo_template_project_id) REFERENCES projects(id) ON DELETE SET NULL;
+
 ALTER TABLE ONLY cluster_agent_migrations
     ADD CONSTRAINT fk_9b274efd3a FOREIGN KEY (issue_id) REFERENCES issues(id) ON DELETE SET NULL;
 
@@ -58018,6 +58040,9 @@ ALTER TABLE ONLY clusters_managed_resources
 
 ALTER TABLE ONLY work_item_custom_statuses
     ADD CONSTRAINT fk_fb28a15e7b FOREIGN KEY (created_by_id) REFERENCES users(id) ON DELETE SET NULL;
+
+ALTER TABLE ONLY work_item_positions
+    ADD CONSTRAINT fk_fb5f8027e0 FOREIGN KEY (work_item_id) REFERENCES issues(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY agent_group_authorizations
     ADD CONSTRAINT fk_fb70782616 FOREIGN KEY (agent_id) REFERENCES cluster_agents(id) ON DELETE CASCADE;

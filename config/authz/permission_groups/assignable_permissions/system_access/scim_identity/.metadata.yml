@@ -1,2 +1,3 @@
 ---
-description: Grants the ability to read, update, and delete SCIM identities.
+name: SCIM Identity
+description: Grants the ability to <actions> SCIM identities.

@@ -529,6 +529,25 @@ The settings set in the policy overwrite settings in the project.
 | `require_password_to_approve`       | `boolean`             | false    | `true`, `false`                                               | `Any merge request`  | When enabled, approvers must authenticate again before approving. The approver can re-authenticate using their password or SAML, depending on their configured authentication method. This adds an extra layer of security to ensure the approver's identity. For more information, see [require user re-authentication to approve](../../project/merge_requests/approvals/settings.md#require-user-re-authentication-to-approve). |
 | `prevent_pushing_and_force_pushing` | `boolean`             | false    | `true`, `false`                                               | All                  | When enabled, prevents users from pushing and force pushing to a protected branch if that branch is included in the security policy. This ensures users do not bypass the merge request process to add vulnerable code to a branch. |
 
+### Enforcement scope of approval settings
+
+These settings are enforced only on merge requests that have violations against the policy:
+
+- `prevent_approval_by_author`
+- `prevent_approval_by_commit_author`
+- `remove_approvals_with_new_commit`
+- `require_password_to_approve`
+
+If a merge request has no policy violations, the settings have no effect on that
+merge request.
+
+These settings are always enforced if the policy is active, regardless of whether a merge request has
+policy violations:
+
+- `block_branch_modification`
+- `block_group_branch_modification`
+- `prevent_pushing_and_force_pushing` settings
+
 ## `fallback_behavior`
 
 {{< history >}}

@@ -28,6 +28,7 @@ project:
   - create_coverage_fuzzing_corpus
   - create_deployment
   - create_environment
+  - create_external_issue_link
   - create_feature_flag
   - create_merge_request_from
   - create_on_demand_dast_scan

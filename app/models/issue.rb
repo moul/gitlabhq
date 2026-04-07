@@ -137,6 +137,7 @@ class Issue < ApplicationRecord
     autosave: true
 
   has_one :work_item_transition, class_name: 'WorkItems::Transition', inverse_of: :work_item
+  has_one :work_item_position, class_name: 'WorkItems::Position', inverse_of: :work_item
 
   alias_method :escalation_status, :incident_management_issuable_escalation_status
 

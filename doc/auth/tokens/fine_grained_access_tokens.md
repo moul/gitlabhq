@@ -115,7 +115,7 @@ Grants the ability to read, retry, and update external status checks.
 
 #### External Status Check Service
 
-Grants the ability to create, read, update, and delete external status check services.
+Grants the ability to create, delete, read, and update external status check services.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -124,7 +124,7 @@ Grants the ability to create, read, update, and delete external status check ser
 | Read | Project | `GET` | `/projects/:id/external_status_checks` |
 | Update | Project | `PUT` | `/projects/:id/external_status_checks/:check_id` |
 
-#### Sbom Occurrence
+#### SBOM Occurrence
 
 Grants the ability to read SBOM occurrences.
 
@@ -144,7 +144,7 @@ Grants the ability to read and update security settings.
 
 #### Vulnerability
 
-Grants the ability to create, read and update vulnerabilities.
+Grants the ability to create, read, and update vulnerabilities.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -158,7 +158,7 @@ Grants the ability to create, read and update vulnerabilities.
 
 #### Vulnerability Export
 
-Grants the ability to create vulnerability exports.
+Grants the ability to create and read vulnerability exports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -172,7 +172,7 @@ Grants the ability to create vulnerability exports.
 
 #### Artifact
 
-Grants the ability to delete all artifacts from a project.
+Grants the ability to delete artifacts.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -187,17 +187,9 @@ Grants the ability to read and validate CI/CD configuration.
 | Read | Project | `GET` | `/projects/:id/ci/lint` |
 | Validate | Project | `POST` | `/projects/:id/ci/lint` |
 
-#### Catalog Version
+#### CI Minute
 
-Grants the ability to publish CI catalog versions.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Publish | Project | `POST` | `/projects/:id/catalog/publish` |
-
-#### Ci Minute
-
-Grants the ability to manage CI minutes.
+Grants the ability to create and transfer CI minutes.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -206,9 +198,17 @@ Grants the ability to manage CI minutes.
 | Transfer | Group | `PATCH` | `/namespaces/:id/minutes/move/:target_id` |
 | Transfer | User | `PATCH` | `/namespaces/:id/minutes/move/:target_id` |
 
+#### Catalog Version
+
+Grants the ability to publish CI catalog versions.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Publish | Project | `POST` | `/projects/:id/catalog/publish` |
+
 #### Cluster
 
-Grants the ability to create, read, update, and delete clusters.
+Grants the ability to create, delete, read, and update clusters.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -230,7 +230,7 @@ Grants the ability to create, read, update, and delete clusters.
 
 #### Cluster Agent
 
-Grants the ability to create, read, and delete cluster agents.
+Grants the ability to create, delete, and read cluster agents.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -252,7 +252,7 @@ Grants the ability to create, read, and revoke cluster agent tokens.
 
 #### Cluster Agent URL Configuration
 
-Grants the ability to create, read, and delete cluster agent URL configurations.
+Grants the ability to create, delete, and read cluster agent URL configurations.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -261,9 +261,9 @@ Grants the ability to create, read, and delete cluster agent URL configurations.
 | Read | Project | `GET` | `/projects/:id/cluster_agents/:agent_id/url_configurations` |
 | Read | Project | `GET` | `/projects/:id/cluster_agents/:agent_id/url_configurations/:url_configuration_id` |
 
-#### Deployments
+#### Deployment
 
-Grants the ability to approve, create, read, update, and delete deployments.
+Grants the ability to approve, create, delete, read, and update deployments.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -279,7 +279,7 @@ Grants the ability to approve, create, read, update, and delete deployments.
 
 #### Environment
 
-Grants the ability to create, read, update, stop, and delete environments.
+Grants the ability to create, delete, read, stop, and update environments.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -294,7 +294,7 @@ Grants the ability to create, read, update, stop, and delete environments.
 
 #### Job
 
-Grants the ability to cancel, erase, play, read, and retry jobs.
+Grants the ability to delete, read, run job, and update jobs.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -308,7 +308,7 @@ Grants the ability to cancel, erase, play, read, and retry jobs.
 
 #### Job Artifact
 
-Grants the ability to delete, download, and keep job artifacts from expiring.
+Grants the ability to delete, read, and update job artifacts.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -332,7 +332,7 @@ Grants the ability to read merge trains.
 
 #### Merge Train Merge Request
 
-Grants the ability to add merge requests to merge trains and read merge train status for a specific merge request.
+Grants the ability to add merge requests to merge trains.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -340,7 +340,7 @@ Grants the ability to add merge requests to merge trains and read merge train st
 
 #### Pipeline
 
-Grants the ability to cancel, create, delete, read, and retry pipelines.
+Grants the ability to create, delete, read, and update pipelines.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -360,7 +360,7 @@ Grants the ability to cancel, create, delete, read, and retry pipelines.
 
 #### Pipeline Schedule
 
-Grants the ability to create, delete, play, read, take ownership of, and update pipeline schedules.
+Grants the ability to create, delete, read, and update pipeline schedules.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -381,7 +381,7 @@ Grants the ability to create, delete, play, read, take ownership of, and update 
 
 #### Protected Environment
 
-Grants the ability to create, read, update, and delete protected environments.
+Grants the ability to create, delete, read, and update protected environments.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -408,7 +408,7 @@ Grants the ability to create, read, and update pull mirrors.
 
 #### Repository Storage Move
 
-Grants the ability to create and read repository storage moves.
+Grants the ability to create, manage, and read repository storage moves.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -447,7 +447,7 @@ Grants the ability to read and update resource groups.
 
 #### Runner
 
-Grants the ability to create, delete, and read runners.
+Grants the ability to assign, create, and read runners.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -468,7 +468,7 @@ Grants the ability to reset runner registration tokens.
 
 #### Secure File
 
-Grants the ability to create, read, download, and delete secure files.
+Grants the ability to create, delete, and read secure files.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -480,7 +480,7 @@ Grants the ability to create, read, download, and delete secure files.
 
 #### Terraform State
 
-Grants the ability to read and manage Terraform state.
+Grants the ability to create, delete, lock, and read Terraform state.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -494,7 +494,7 @@ Grants the ability to read and manage Terraform state.
 
 #### Trigger
 
-Grants the ability to create, delete, read, and update pipeline triggers.
+Grants the ability to create, delete, read, and update triggers.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -560,7 +560,7 @@ Grants the ability to create code suggestion direct access.
 | ------ | ------ | ------ | ---- |
 | Create | User | `POST` | `/code_suggestions/direct_access` |
 
-#### Code Suggestion Enabled
+#### Code Suggestion Enabled Status
 
 Grants the ability to read code suggestion enabled status.
 
@@ -572,7 +572,7 @@ Grants the ability to read code suggestion enabled status.
 
 #### Geo Node
 
-Grants the ability to read, create, update, and delete Geo nodes.
+Grants the ability to create, delete, read, repair, and update Geo nodes.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -587,7 +587,7 @@ Grants the ability to read, create, update, and delete Geo nodes.
 
 #### Geo Site
 
-Grants the ability to read, create, update, and delete Geo sites.
+Grants the ability to create, delete, read, repair, and update Geo sites.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -604,7 +604,7 @@ Grants the ability to read, create, update, and delete Geo sites.
 
 #### Admin Member Role
 
-Grants the ability to create, delete, and read admin member roles.
+Grants the ability to create, delete, read, and update admin member roles.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -624,7 +624,7 @@ Grants the ability to read avatars.
 
 #### Group
 
-Grants the ability to manage groups.
+Grants the ability to archive, create, delete, read, share, transfer, and update groups.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -672,7 +672,7 @@ Grants the ability to read namespaces.
 
 #### SAML Identity
 
-Grants the ability to read, update, and delete SAML identities.
+Grants the ability to delete, read, and update SAML identities.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -702,7 +702,7 @@ Grants the ability to read templates.
 
 #### Topic
 
-Grants the ability to create, delete, merge, and update topics.
+Grants the ability to create, delete, merge, read, and update topics.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -713,7 +713,7 @@ Grants the ability to create, delete, merge, and update topics.
 
 #### User Activity
 
-Grants the ability to read user activity.
+Grants the ability to read user activities.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -751,9 +751,9 @@ Grants the ability to read user following.
 | ------ | ------ | ------ | ---- |
 | Read | User | `GET` | `/users/:id/following` |
 
-#### User Gpg Key
+#### User GPG Key
 
-Grants the ability to create, read, revoke, and delete user GPG keys.
+Grants the ability to create, delete, read, and revoke user GPG keys.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -784,7 +784,7 @@ Grants the ability to read user project deploy keys.
 
 #### User Status
 
-Grants the ability to read and update user status.
+Grants the ability to read and update user statuses.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -827,7 +827,7 @@ Grants the ability to read Sidekiq metrics.
 
 #### Vulnerability Note
 
-Grants the ability to manage vulnerability notes.
+Grants the ability to create, delete, read, and update vulnerability notes.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -841,7 +841,7 @@ Grants the ability to manage vulnerability notes.
 
 #### Todo
 
-Grants the ability to read, create, and complete todos.
+Grants the ability to create, read, and update todos.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -855,7 +855,7 @@ Grants the ability to read, create, and complete todos.
 
 #### Knowledge Graph
 
-Grants the ability to query and read knowledge graph data.
+Grants the ability to read knowledge graph data.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -868,7 +868,7 @@ Grants the ability to query and read knowledge graph data.
 
 #### Container Registry Protection Tag Rule
 
-Grants the ability to create, read, update, and delete container repository protection tag rules.
+Grants the ability to create, delete, read, and update container registry protection tag rules.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -879,7 +879,7 @@ Grants the ability to create, read, update, and delete container repository prot
 
 #### Container Repository
 
-Grants the ability to read and delete container repositories.
+Grants the ability to delete and read container repositories.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -894,7 +894,7 @@ Grants the ability to read and delete container repositories.
 
 #### Container Repository Protection Rule
 
-Grants the ability to create, read, update, and delete container repository protection rules.
+Grants the ability to create, delete, read, and update container repository protection rules.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -905,7 +905,7 @@ Grants the ability to create, read, update, and delete container repository prot
 
 #### Debian Distribution
 
-Grants the ability to read, create, update, and delete Debian distribution packages
+Grants the ability to create, delete, read, and update Debian distributions.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -924,7 +924,7 @@ Grants the ability to read, create, update, and delete Debian distribution packa
 
 #### Dependency Proxy Cache
 
-Grants the ability to delete dependency proxy cache.
+Grants the ability to purge dependency proxy caches.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -932,7 +932,7 @@ Grants the ability to delete dependency proxy cache.
 
 #### Package
 
-Grants the ability to create, delete and read packages.
+Grants the ability to create, delete, and read packages.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1087,7 +1087,7 @@ Grants the ability to read package pipelines.
 
 #### Virtual Registry
 
-Grants the ability to create, read, update, and delete virtual registries.
+Grants the ability to create, delete, read, and update virtual registries.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1146,7 +1146,7 @@ Grants the ability to create, read, update, and delete virtual registries.
 
 #### Virtual Registry Cleanup Policy
 
-Grants the ability to create, read, update, and delete virtual registry cleanup policies.
+Grants the ability to create, delete, read, and update virtual registry cleanup policies.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1205,7 +1205,7 @@ Grants the ability to create, delete, read, and update releases.
 
 #### Release Link
 
-Grants the ability to create, read, update, and delete release links.
+Grants the ability to create, delete, read, and update release links.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1217,7 +1217,7 @@ Grants the ability to create, read, update, and delete release links.
 
 #### Remote Mirror
 
-Grants the ability to create, delete, read, sync, and update remote mirrors.
+Grants the ability to create, delete, read, and update remote mirrors.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1263,7 +1263,7 @@ Grants the ability to create, delete, read, and update snippets.
 
 ### Project Model Registry And Experiments resources
 
-#### Ml Flow Artifact
+#### MLflow Artifact
 
 Grants the ability to read MLflow artifacts.
 
@@ -1272,9 +1272,9 @@ Grants the ability to read MLflow artifacts.
 | Read | Project | `GET` | `/projects/:id/ml/mlflow/api/2.0/mlflow-artifacts/artifacts` |
 | Read | Project | `GET` | `/projects/:id/ml/mlflow/api/2.0/mlflow-artifacts/artifacts/:model_version/*file_path` |
 
-#### Ml Flow Run
+#### MLflow Run
 
-Grants the ability to create, read, update, delete and log MLflow runs.
+Grants the ability to create, delete, log, read, and update MLflow runs.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1292,7 +1292,7 @@ Grants the ability to create, read, update, delete and log MLflow runs.
 
 #### Custom Attribute
 
-Grants the ability to read, update, and delete custom attributes.
+Grants the ability to delete, read, and update custom attributes.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1332,7 +1332,7 @@ Grants the ability to create, delete, read, and update feature flags.
 
 #### Feature Flag User List
 
-Grants the ability to create, read, update, and delete feature flag user lists.
+Grants the ability to create, delete, read, and update feature flag user lists.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1374,7 +1374,7 @@ Grants the ability to read issue label events.
 
 #### Label
 
-Permissions for labels
+Grants the ability to create, delete, promote, read, and update labels.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1414,7 +1414,7 @@ Grants the ability to read service ping data.
 
 #### Usage Data Metric
 
-Grants the ability to read and increment usage data metrics.
+Grants the ability to increment and read usage data metrics.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1424,7 +1424,7 @@ Grants the ability to read and increment usage data metrics.
 
 #### Work Item
 
-Grants the ability to read, write, and delete work items.
+Grants the ability to delete, read, and write work items.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1670,7 +1670,7 @@ Grants the ability to create, delete, read, update, and verify pages domains.
 
 #### Project
 
-Grants the ability to archive, create, delete, fork, import members, mark as forked, read, recalculate storage, restore, share, star, transfer, trigger repository housekeeping, unarchive, unstar, update, and view various project attributes including contributed projects, forks, groups, invited groups, languages, page access, share locations, starrers, starred projects, storage, transfer locations, and users, as well as delete project group links.
+Grants the ability to archive, create, delete, fork, read, read starred, share, transfer, and update projects.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1768,7 +1768,7 @@ Grants the ability to create, delete, protect, and read branches.
 
 #### Code
 
-Grants the ability to read, download and push code.
+Grants the ability to download, push, and read code.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1776,7 +1776,7 @@ Grants the ability to read, download and push code.
 
 #### Commit
 
-Grants the ability to create, read, and update commits.
+Grants the ability to create, delete, read, and update commits.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1803,7 +1803,7 @@ Grants the ability to create, read, and update commits.
 
 #### Merge Request
 
-Grants the ability to approve, reset approvals, and unapprove merge requests.
+Grants the ability to approve, create, delete, merge, read, and update merge requests.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1868,7 +1868,7 @@ Grants the ability to create, delete, read, and update merge request approval ru
 
 #### Merge Request Approval State
 
-Grants the ability to read merge request approval state.
+Grants the ability to read merge request approval states.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1889,7 +1889,7 @@ Grants the ability to create, delete, and read merge request dependencies.
 
 #### Protected Branch
 
-Grants the ability to create, delete, read, and update protected branches.
+Grants the ability to read and update protected branches.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1902,7 +1902,7 @@ Grants the ability to create, delete, read, and update protected branches.
 
 #### Protected Tag
 
-Grants the ability to create, delete, and read protected tags.
+Grants the ability to read protected tags.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1926,7 +1926,7 @@ Grants the ability to create, delete, read, and update push rules.
 
 #### Repository
 
-Grants the ability to create and read repositories.
+Grants the ability to create, delete, read, and update repositories.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1971,7 +1971,7 @@ Grants the ability to create, delete, and read repository tags.
 
 #### Tag
 
-Grants the ability to create, delete, and read tags.
+Grants the ability to protect tags.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1992,7 +1992,7 @@ Grants the ability to use global search functionality.
 
 #### Search Migration
 
-Grants the ability to use global search functionality.
+Grants the ability to read search migrations.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2001,7 +2001,7 @@ Grants the ability to use global search functionality.
 
 #### Zoekt Index
 
-Grants the ability to update Zoekt indexes
+Grants the ability to update Zoekt indexes.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2009,7 +2009,7 @@ Grants the ability to update Zoekt indexes
 
 #### Zoekt Namespace
 
-Grants the ability to create, read, update, and delete Zoekt namespace permissions
+Grants the ability to create, delete, and update Zoekt namespaces.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2030,7 +2030,7 @@ Grants the ability to read Zoekt nodes.
 
 #### GitLab Subscription
 
-Grants the ability to read, create, and update GitLab subscriptions.
+Grants the ability to create, read, and update GitLab subscriptions.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2043,7 +2043,7 @@ Grants the ability to read, create, and update GitLab subscriptions.
 
 #### License
 
-Grants the ability to read, create, and delete licenses.
+Grants the ability to create, delete, and read licenses.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2066,7 +2066,7 @@ Grants the ability to refresh billable users for licenses.
 
 #### Access Request
 
-Grants the ability to approve, delete, and read access requests.
+Grants the ability to approve, create, delete, and read access requests.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2092,7 +2092,7 @@ Grants the ability to read and update application appearance settings.
 
 #### Deploy Key
 
-Grants the ability to create, read, update, enable, and delete deploy keys.
+Grants the ability to create, delete, enable, read, and update deploy keys.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2107,7 +2107,7 @@ Grants the ability to create, read, update, enable, and delete deploy keys.
 
 #### Deploy Token
 
-Grants the ability to create, read, and delete deploy tokens.
+Grants the ability to create, delete, and read deploy tokens.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2123,7 +2123,7 @@ Grants the ability to create, read, and delete deploy tokens.
 
 #### Enterprise User
 
-Grants the ability to read, update, delete, and disable two-factor authentication for enterprise users.
+Grants the ability to delete, disable two factor, read, and update enterprise users.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2143,7 +2143,7 @@ Grants the ability to read experiments.
 
 #### Invitation
 
-Grants the ability to create, read, update, and delete invitations.
+Grants the ability to create, delete, read, and update invitations.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2158,7 +2158,7 @@ Grants the ability to create, read, update, and delete invitations.
 
 #### Job Token Scope
 
-Grants the ability to read and update job token scope.
+Grants the ability to read and update job token scopes.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2167,7 +2167,7 @@ Grants the ability to read and update job token scope.
 
 #### Job Token Scope Allowlist
 
-Grants the ability to create, read, and delete job token scope allowlist entries.
+Grants the ability to create, delete, and read job token scope allowlists.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2180,7 +2180,7 @@ Grants the ability to create, read, and delete job token scope allowlist entries
 
 #### LDAP Group Link
 
-Grants the ability to create, read, and delete LDAP group links.
+Grants the ability to create, delete, and read LDAP group links.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2192,7 +2192,7 @@ Grants the ability to create, read, and delete LDAP group links.
 
 #### LDAP Group Sync
 
-Grants the ability to run LDAP group sync.
+Grants the ability to read LDAP group syncs.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2240,7 +2240,7 @@ Grants the ability to read instance metadata.
 
 #### Notification Setting
 
-Grants the ability to manage notification settings.
+Grants the ability to read and update notification settings.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2253,7 +2253,7 @@ Grants the ability to manage notification settings.
 
 #### OAuth Application
 
-Grants the ability to create, read, update, renew secret, and delete OAuth applications.
+Grants the ability to create, delete, read, and renew secret OAuth applications.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2264,7 +2264,7 @@ Grants the ability to create, read, update, renew secret, and delete OAuth appli
 
 #### Personal Access Token
 
-Grants the ability to read, create, revoke, and rotate personal access tokens.
+Grants the ability to create, read, revoke, and rotate personal access tokens.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2276,7 +2276,7 @@ Grants the ability to read, create, revoke, and rotate personal access tokens.
 
 #### Plan Limit
 
-Grants the ability to view and modify plan limits.
+Grants the ability to read and update plan limits.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2293,7 +2293,7 @@ Grants the ability to read provisioned users.
 
 #### Resource Access Token
 
-Grants the ability to create, read, rotate, and delete resource access tokens.
+Grants the ability to create, delete, read, and rotate resource access tokens.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2312,7 +2312,7 @@ Grants the ability to create, read, rotate, and delete resource access tokens.
 
 #### SAML Group Link
 
-Grants the ability to create, read, and delete SAML group links.
+Grants the ability to create, delete, and read SAML group links.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2329,18 +2329,9 @@ Grants the ability to read SAML users.
 | ------ | ------ | ------ | ---- |
 | Read | Group | `GET` | `/groups/:id/saml_users` |
 
-#### SSH Key
+#### SCIM Identity
 
-Grants the ability to view SSH keys by ID or fingerprint.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | Instance | `GET` | `/keys/:id` |
-| Read | Instance | `GET` | `/keys` |
-
-#### Scim Identity
-
-Grants the ability to read, update, and delete SCIM identities.
+Grants the ability to delete, read, and update SCIM identities.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2348,6 +2339,15 @@ Grants the ability to read, update, and delete SCIM identities.
 | Read | Group | `GET` | `/groups/:id/scim/identities` |
 | Read | Group | `GET` | `/groups/:id/scim/:uid` |
 | Update | Group | `PATCH` | `/groups/:id/scim/:uid` |
+
+#### SSH Key
+
+Grants the ability to read SSH keys.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | Instance | `GET` | `/keys/:id` |
+| Read | Instance | `GET` | `/keys` |
 
 #### Service Account
 
@@ -2392,7 +2392,7 @@ Grants the ability to read usage data queries.
 
 #### User
 
-Grants the ability to read, follow, and unfollow users.
+Grants the ability to follow, read, and unfollow users.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2411,7 +2411,7 @@ Grants the ability to read user counts.
 
 #### User Email
 
-Grants the ability to create, read, and delete user emails.
+Grants the ability to create, delete, and read user emails.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2422,7 +2422,7 @@ Grants the ability to create, read, and delete user emails.
 
 #### User SSH Key
 
-Grants the ability to create, read, and delete user SSH keys.
+Grants the ability to create, delete, and read user SSH keys.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2465,7 +2465,7 @@ Grants the ability to create Bitbucket Server imports.
 
 #### Bulk Import
 
-Grants the ability to create, read, and cancel bulk imports.
+Grants the ability to cancel, create, and read bulk imports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2502,7 +2502,7 @@ Grants the ability to mark database migrations.
 
 #### GitHub Gist Import
 
-Grants the ability to import gists from GitHub
+Grants the ability to create GitHub gist imports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2510,7 +2510,7 @@ Grants the ability to import gists from GitHub
 
 #### GitHub Import
 
-Grants the ability to create and cancel GitHub project imports
+Grants the ability to cancel and create GitHub imports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2520,7 +2520,7 @@ Grants the ability to create and cancel GitHub project imports
 
 #### Group Export
 
-Grants the ability to start and download group exports.
+Grants the ability to download and start group exports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2546,7 +2546,7 @@ Grants the ability to create and read placeholder reassignments.
 
 #### Project Export
 
-Grants the ability to create, read, and download project exports.
+Grants the ability to create, download, and read project exports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2571,7 +2571,7 @@ Grants the ability to create and read project imports.
 
 #### Project Relation Export
 
-Grants the ability to create, read, and download project relation exports.
+Grants the ability to create, download, and read project relation exports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2590,7 +2590,7 @@ Grants the ability to create and read project relation imports.
 
 #### Webhook
 
-Grants the ability to create, read, update, test, and delete webhooks.
+Grants the ability to create, delete, read, test, and update webhooks.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2616,7 +2616,7 @@ Grants the ability to create, read, update, test, and delete webhooks.
 
 #### Webhook Custom Header
 
-Grants the ability to update and delete webhook custom headers.
+Grants the ability to delete and update webhook custom headers.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2638,7 +2638,7 @@ Grants the ability to resend webhook events.
 
 #### Webhook URL variable
 
-Grants the ability to update and delete webhook URL variables.
+Grants the ability to delete and update webhook URL variables.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2671,7 +2671,7 @@ Grants the ability to create, delete, and read Markdown uploads.
 
 #### Wiki
 
-Grants the ability to create, delete, edit, read, and update wikis.
+Grants the ability to create, delete, read, and update wikis.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |

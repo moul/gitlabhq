@@ -7757,9 +7757,6 @@ msgstr ""
 msgid "AiPowered|Local URL for the GitLab Duo Agent Platform service"
 msgstr ""
 
-msgid "AiPowered|Lock tooltip icon"
-msgstr ""
-
 msgid "AiPowered|Maximum time in seconds to wait for responses from the AI Gateway (up to 600 seconds).%{br}Increasing this value might result in degraded user experience."
 msgstr ""
 
@@ -7841,22 +7838,25 @@ msgstr ""
 msgid "AiPowered|Talk to Sales"
 msgstr ""
 
+msgid "AiPowered|These settings are disabled because GitLab Duo Agent Platform is turned off."
+msgstr ""
+
+msgid "AiPowered|These settings are disabled because GitLab Duo availability is set to always off."
+msgstr ""
+
 msgid "AiPowered|This setting applies to the entire instance. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}Check the required prerequisites%{prerequisitesLinkEnd}."
 msgstr ""
 
 msgid "AiPowered|This setting applies to the top-level group. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}Check the required prerequisites%{prerequisitesLinkEnd}."
 msgstr ""
 
-msgid "AiPowered|This setting requires Allow flow execution to be on"
+msgid "AiPowered|This setting only applies when GitLab Duo is available."
 msgstr ""
 
-msgid "AiPowered|This setting requires GitLab Duo availability to be on or off by default."
+msgid "AiPowered|This setting only applies when flow execution is on."
 msgstr ""
 
 msgid "AiPowered|To add members to the group that contains the project, see the %{linkStart}prerequisites%{linkEnd}."
-msgstr ""
-
-msgid "AiPowered|To use this setting, GitLab Duo availability must be on by default or off by default."
 msgstr ""
 
 msgid "AiPowered|Track credit consumption across your users and monitor usage trends. View breakdowns by user to understand how your team utilizes GitLab Duo."
@@ -11561,6 +11561,9 @@ msgstr ""
 msgid "BillingPlans|%{group_name} is currently using the %{plan_name}"
 msgstr ""
 
+msgid "BillingPlans|*Limited time offer. %{linkStart}See details and promo terms.%{linkEnd}"
+msgstr ""
+
 msgid "BillingPlans|10,000 Compute Minutes per Month"
 msgstr ""
 
@@ -11916,6 +11919,9 @@ msgid "BillingPlans|See all %{plan_name} features"
 msgstr ""
 
 msgid "BillingPlans|See all features"
+msgstr ""
+
+msgid "BillingPlans|Select your credits"
 msgstr ""
 
 msgid "BillingPlans|Select your subscription"
@@ -78270,6 +78276,9 @@ msgid "VulnerabilityExport|Status"
 msgstr ""
 
 msgid "VulnerabilityExport|Tool"
+msgstr ""
+
+msgid "VulnerabilityExport|Tracked Context Name"
 msgstr ""
 
 msgid "VulnerabilityExport|Vulnerability"

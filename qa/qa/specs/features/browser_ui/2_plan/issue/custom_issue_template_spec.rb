@@ -20,7 +20,7 @@ module QA
 
       it 'creates an issue via custom template', testcase: 'https://gitlab.com/gitlab-org/gitlab/-/quality/test_cases/347945' do
         template_project.visit!
-        Page::Project::Menu.perform(&:go_to_new_work_item)
+        Page::Project::Menu.perform(&:go_to_new_issue)
 
         Resource::WorkItem.fabricate_via_browser_ui! do |issue|
           issue.project = template_project

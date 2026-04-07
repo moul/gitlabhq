@@ -23,6 +23,12 @@ Some [known issues](../_index.md#known-issues) exist.
 > - After the secondary site is promoted, the primary site is detached entirely.
 >   If you wish to restore the primary site, you must add it as a new secondary site.
 
+## Secondary sites with selective synchronization enabled
+
+Promoting a **secondary** site with selective synchronization enabled results in **permanent data loss**  
+for all data that was not replicated to that secondary site. For more information, see 
+[Promoting a secondary site with selective synchronization enabled](../replication/selective_synchronization.md#promoting-a-secondary-site-with-selective-synchronization-enabled).
+
 ## The `gitlab-cluster.json` file
 
 When you promote a secondary site to a primary site with `gitlab-ctl geo promote`,

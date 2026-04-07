@@ -29200,7 +29200,9 @@ Represents the approval policy.
 | <a id="approvalpolicy-editpath"></a>`editPath` | [`String!`](#string) | URL of policy edit page. |
 | <a id="approvalpolicy-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether the policy is enabled. |
 | <a id="approvalpolicy-enforcementtype"></a>`enforcementType` | [`PolicyEnforcementType`](#policyenforcementtype) | Enforcement type of the policy. Can be "enforce" or "warn". |
+| <a id="approvalpolicy-id"></a>`id` {{< icon name="warning-solid" >}} | [`SecurityPolicyID`](#securitypolicyid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy. Returns null if the policy has not been synced to the database yet. |
 | <a id="approvalpolicy-name"></a>`name` | [`String!`](#string) | Name of the policy. |
+| <a id="approvalpolicy-policyconfigurationid"></a>`policyConfigurationId` {{< icon name="warning-solid" >}} | [`SecurityOrchestrationPolicyConfigurationID`](#securityorchestrationpolicyconfigurationid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy configuration the policy belongs to. |
 | <a id="approvalpolicy-policyscope"></a>`policyScope` | [`PolicyScope`](#policyscope) | Scope of the policy. |
 | <a id="approvalpolicy-roleapprovers"></a>`roleApprovers` | [`[MemberAccessLevelName!]`](#memberaccesslevelname) | Approvers of the role type. Users belonging to these role(s) alone will be approvers. |
 | <a id="approvalpolicy-source"></a>`source` | [`SecurityPolicySource!`](#securitypolicysource) | Source of the policy. Its fields depend on the source type. |
@@ -45261,8 +45263,10 @@ Represents the pipeline execution policy.
 | <a id="pipelineexecutionpolicy-description"></a>`description` | [`String!`](#string) | Description of the policy. |
 | <a id="pipelineexecutionpolicy-editpath"></a>`editPath` | [`String!`](#string) | URL of policy edit page. |
 | <a id="pipelineexecutionpolicy-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether the policy is enabled. |
+| <a id="pipelineexecutionpolicy-id"></a>`id` {{< icon name="warning-solid" >}} | [`SecurityPolicyID`](#securitypolicyid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy. Returns null if the policy has not been synced to the database yet. |
 | <a id="pipelineexecutionpolicy-name"></a>`name` | [`String!`](#string) | Name of the policy. |
 | <a id="pipelineexecutionpolicy-policyblobfilepath"></a>`policyBlobFilePath` | [`String!`](#string) | Path to the policy file in the project. |
+| <a id="pipelineexecutionpolicy-policyconfigurationid"></a>`policyConfigurationId` {{< icon name="warning-solid" >}} | [`SecurityOrchestrationPolicyConfigurationID`](#securityorchestrationpolicyconfigurationid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy configuration the policy belongs to. |
 | <a id="pipelineexecutionpolicy-policyscope"></a>`policyScope` | [`PolicyScope`](#policyscope) | Scope of the policy. |
 | <a id="pipelineexecutionpolicy-source"></a>`source` | [`SecurityPolicySource!`](#securitypolicysource) | Source of the policy. Its fields depend on the source type. |
 | <a id="pipelineexecutionpolicy-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the policy YAML was last updated. |
@@ -45293,8 +45297,10 @@ Represents the pipeline execution schedule policy.
 | <a id="pipelineexecutionschedulepolicy-description"></a>`description` | [`String!`](#string) | Description of the policy. |
 | <a id="pipelineexecutionschedulepolicy-editpath"></a>`editPath` | [`String!`](#string) | URL of policy edit page. |
 | <a id="pipelineexecutionschedulepolicy-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether the policy is enabled. |
+| <a id="pipelineexecutionschedulepolicy-id"></a>`id` {{< icon name="warning-solid" >}} | [`SecurityPolicyID`](#securitypolicyid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy. Returns null if the policy has not been synced to the database yet. |
 | <a id="pipelineexecutionschedulepolicy-name"></a>`name` | [`String!`](#string) | Name of the policy. |
 | <a id="pipelineexecutionschedulepolicy-policyblobfilepath"></a>`policyBlobFilePath` | [`String!`](#string) | Path to the policy file in the project. |
+| <a id="pipelineexecutionschedulepolicy-policyconfigurationid"></a>`policyConfigurationId` {{< icon name="warning-solid" >}} | [`SecurityOrchestrationPolicyConfigurationID`](#securityorchestrationpolicyconfigurationid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy configuration the policy belongs to. |
 | <a id="pipelineexecutionschedulepolicy-policyscope"></a>`policyScope` | [`PolicyScope`](#policyscope) | Scope of the policy. |
 | <a id="pipelineexecutionschedulepolicy-source"></a>`source` | [`SecurityPolicySource!`](#securitypolicysource) | Source of the policy. Its fields depend on the source type. |
 | <a id="pipelineexecutionschedulepolicy-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the policy YAML was last updated. |
@@ -50066,7 +50072,9 @@ Represents the scan execution policy.
 | <a id="scanexecutionpolicy-description"></a>`description` | [`String!`](#string) | Description of the policy. |
 | <a id="scanexecutionpolicy-editpath"></a>`editPath` | [`String!`](#string) | URL of policy edit page. |
 | <a id="scanexecutionpolicy-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether the policy is enabled. |
+| <a id="scanexecutionpolicy-id"></a>`id` {{< icon name="warning-solid" >}} | [`SecurityPolicyID`](#securitypolicyid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy. Returns null if the policy has not been synced to the database yet. |
 | <a id="scanexecutionpolicy-name"></a>`name` | [`String!`](#string) | Name of the policy. |
+| <a id="scanexecutionpolicy-policyconfigurationid"></a>`policyConfigurationId` {{< icon name="warning-solid" >}} | [`SecurityOrchestrationPolicyConfigurationID`](#securityorchestrationpolicyconfigurationid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy configuration the policy belongs to. |
 | <a id="scanexecutionpolicy-policyscope"></a>`policyScope` | [`PolicyScope`](#policyscope) | Scope of the policy. |
 | <a id="scanexecutionpolicy-source"></a>`source` | [`SecurityPolicySource!`](#securitypolicysource) | Source of the policy. Its fields depend on the source type. |
 | <a id="scanexecutionpolicy-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the policy YAML was last updated. |
@@ -50117,7 +50125,9 @@ Represents the scan result policy.
 | <a id="scanresultpolicy-editpath"></a>`editPath` | [`String!`](#string) | URL of policy edit page. |
 | <a id="scanresultpolicy-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether the policy is enabled. |
 | <a id="scanresultpolicy-enforcementtype"></a>`enforcementType` | [`PolicyEnforcementType`](#policyenforcementtype) | Enforcement type of the policy. Can be "enforce" or "warn". |
+| <a id="scanresultpolicy-id"></a>`id` {{< icon name="warning-solid" >}} | [`SecurityPolicyID`](#securitypolicyid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy. Returns null if the policy has not been synced to the database yet. |
 | <a id="scanresultpolicy-name"></a>`name` | [`String!`](#string) | Name of the policy. |
+| <a id="scanresultpolicy-policyconfigurationid"></a>`policyConfigurationId` {{< icon name="warning-solid" >}} | [`SecurityOrchestrationPolicyConfigurationID`](#securityorchestrationpolicyconfigurationid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy configuration the policy belongs to. |
 | <a id="scanresultpolicy-policyscope"></a>`policyScope` | [`PolicyScope`](#policyscope) | Scope of the policy. |
 | <a id="scanresultpolicy-roleapprovers"></a>`roleApprovers` | [`[MemberAccessLevelName!]`](#memberaccesslevelname) | Approvers of the role type. Users belonging to these role(s) alone will be approvers. |
 | <a id="scanresultpolicy-source"></a>`source` | [`SecurityPolicySource!`](#securitypolicysource) | Source of the policy. Its fields depend on the source type. |
@@ -50426,8 +50436,10 @@ Represents the security policy.
 | <a id="securitypolicytype-description"></a>`description` | [`String!`](#string) | Description of the policy. |
 | <a id="securitypolicytype-editpath"></a>`editPath` | [`String!`](#string) | URL of policy edit page. |
 | <a id="securitypolicytype-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether the policy is enabled. |
+| <a id="securitypolicytype-id"></a>`id` {{< icon name="warning-solid" >}} | [`SecurityPolicyID`](#securitypolicyid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy. Returns null if the policy has not been synced to the database yet. |
 | <a id="securitypolicytype-name"></a>`name` | [`String!`](#string) | Name of the policy. |
 | <a id="securitypolicytype-policyattributes"></a>`policyAttributes` | [`PolicyAttributesUnion!`](#policyattributesunion) | Attributes specific to the policy type. |
+| <a id="securitypolicytype-policyconfigurationid"></a>`policyConfigurationId` {{< icon name="warning-solid" >}} | [`SecurityOrchestrationPolicyConfigurationID`](#securityorchestrationpolicyconfigurationid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy configuration the policy belongs to. |
 | <a id="securitypolicytype-policyscope"></a>`policyScope` | [`PolicyScope`](#policyscope) | Scope of the policy. |
 | <a id="securitypolicytype-testruns"></a>`testRuns` {{< icon name="warning-solid" >}} | [`PolicyScheduleTestRunConnection`](#policyscheduletestrunconnection) | **Introduced** in GitLab 18.10. **Status**: Experiment. Test runs for this security policy. |
 | <a id="securitypolicytype-type"></a>`type` | [`String`](#string) | Description of the policy type. |
@@ -53262,7 +53274,9 @@ Represents the vulnerability management policy.
 | <a id="vulnerabilitymanagementpolicy-description"></a>`description` | [`String!`](#string) | Description of the policy. |
 | <a id="vulnerabilitymanagementpolicy-editpath"></a>`editPath` | [`String!`](#string) | URL of policy edit page. |
 | <a id="vulnerabilitymanagementpolicy-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether the policy is enabled. |
+| <a id="vulnerabilitymanagementpolicy-id"></a>`id` {{< icon name="warning-solid" >}} | [`SecurityPolicyID`](#securitypolicyid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy. Returns null if the policy has not been synced to the database yet. |
 | <a id="vulnerabilitymanagementpolicy-name"></a>`name` | [`String!`](#string) | Name of the policy. |
+| <a id="vulnerabilitymanagementpolicy-policyconfigurationid"></a>`policyConfigurationId` {{< icon name="warning-solid" >}} | [`SecurityOrchestrationPolicyConfigurationID`](#securityorchestrationpolicyconfigurationid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy configuration the policy belongs to. |
 | <a id="vulnerabilitymanagementpolicy-policyscope"></a>`policyScope` | [`PolicyScope`](#policyscope) | Scope of the policy. |
 | <a id="vulnerabilitymanagementpolicy-source"></a>`source` | [`SecurityPolicySource!`](#securitypolicysource) | Source of the policy. Its fields depend on the source type. |
 | <a id="vulnerabilitymanagementpolicy-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the policy YAML was last updated. |
@@ -62423,7 +62437,9 @@ Implementations:
 | <a id="orchestrationpolicy-description"></a>`description` | [`String!`](#string) | Description of the policy. |
 | <a id="orchestrationpolicy-editpath"></a>`editPath` | [`String!`](#string) | URL of policy edit page. |
 | <a id="orchestrationpolicy-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether the policy is enabled. |
+| <a id="orchestrationpolicy-id"></a>`id` {{< icon name="warning-solid" >}} | [`SecurityPolicyID`](#securitypolicyid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy. Returns null if the policy has not been synced to the database yet. |
 | <a id="orchestrationpolicy-name"></a>`name` | [`String!`](#string) | Name of the policy. |
+| <a id="orchestrationpolicy-policyconfigurationid"></a>`policyConfigurationId` {{< icon name="warning-solid" >}} | [`SecurityOrchestrationPolicyConfigurationID`](#securityorchestrationpolicyconfigurationid) | **Introduced** in GitLab 18.11. **Status**: Experiment. ID of the policy configuration the policy belongs to. |
 | <a id="orchestrationpolicy-policyscope"></a>`policyScope` | [`PolicyScope`](#policyscope) | Scope of the policy. |
 | <a id="orchestrationpolicy-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp of when the policy YAML was last updated. |
 | <a id="orchestrationpolicy-yaml"></a>`yaml` | [`String!`](#string) | YAML definition of the policy. |

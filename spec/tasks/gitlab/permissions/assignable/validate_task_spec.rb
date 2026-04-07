@@ -243,30 +243,9 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
         "config/authz/permission_groups/assignable_permissions/#{category}/#{resource}/modify.yml"
       end
 
-      context 'when resource metadata for the permission does not exist' do
-        before do
-          allow(Authz::PermissionGroups::Resource).to receive(:get)
-            .with("#{category}/#{resource}")
-            .and_return(nil)
-        end
-
-        it 'returns an error' do
-          expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
-            #######################################################################
-            #
-            #  The following assignable permission resource directories are missing a .metadata.yml file.
-            #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#when-do-you-need-metadata-files
-            #
-            #    - config/authz/permission_groups/assignable_permissions/wiki_category/wiki/
-            #
-            #######################################################################
-          OUTPUT
-        end
-      end
-
       context 'when resource metadata for the permission is not in the correct schema' do
         let(:resource_definition) do
-          definition = { name: 'Wiki Resource' } # Missing required 'description' field
+          definition = { invalid_key: 'not allowed' }
           Authz::PermissionGroups::Resource.new(definition, 'source_file')
         end
 
@@ -287,7 +266,37 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
             #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#when-do-you-need-metadata-files
             #
             #    - wiki_category/wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/.metadata.yml)
-            #        - root is missing required keys: description
+            #        - property '/invalid_key' is invalid: error_type=schema
+            #
+            #######################################################################
+          OUTPUT
+        end
+      end
+
+      context 'when resource description does not include <actions> interpolation' do
+        let(:resource_definition) do
+          definition = { description: 'A description without actions interpolation.' }
+          Authz::PermissionGroups::Resource.new(definition, 'source_file')
+        end
+
+        before do
+          allow(Authz::PermissionGroups::Resource).to receive(:get)
+            .with("#{category}/#{resource}")
+            .and_return(resource_definition)
+          allow(JSONSchemer).to receive(:schema)
+            .with(Rails.root.join("#{described_class::PERMISSION_DIR}/resource_metadata_schema.json"))
+            .and_call_original
+        end
+
+        it 'returns an error' do
+          expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+            #######################################################################
+            #
+            #  The following assignable permission resource metadata file failed schema validation.
+            #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#when-do-you-need-metadata-files
+            #
+            #    - wiki_category/wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/.metadata.yml)
+            #        - property '/description' does not match pattern: <actions>
             #
             #######################################################################
           OUTPUT

@@ -6,6 +6,7 @@ module Namespaces
     self.primary_key = :namespace_id
 
     belongs_to :namespace
+    belongs_to :duo_template_project, class_name: 'Project', optional: true
 
     validates :namespace, presence: true
   end

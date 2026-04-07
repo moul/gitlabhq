@@ -1,3 +1,2 @@
 ---
-description: Grants the ability to drop Sidekiq jobs.
-name: Sidekiq Job
+description: Grants the ability to <actions> Sidekiq jobs.

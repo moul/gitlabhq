@@ -82,6 +82,7 @@ issues:
 - current_status
 - work_item_description
 - work_item_transition
+- work_item_position
 work_item_description:
 - namespace
 - work_item
@@ -92,6 +93,9 @@ work_item_transition:
 - promoted_to_epic
 - duplicated_to
 - moved_to
+work_item_position:
+- namespace
+- work_item
 work_item_type:
 - user_preferences
 events:

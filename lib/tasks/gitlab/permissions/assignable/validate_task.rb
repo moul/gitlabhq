@@ -13,7 +13,6 @@ module Tasks
               duplicate_name: [],
               duplicate_raw_permission: {},
               file: {},
-              missing_resource_metadata: [],
               resource_metadata_schema: {},
               category_metadata_schema: {},
               empty_resource_directory: [],
@@ -93,12 +92,6 @@ module Tasks
               resource_identifier = "#{category}/#{resource}"
               assignable_resource = ::Authz::PermissionGroups::Resource.get(resource_identifier)
 
-              unless assignable_resource
-                violations[:missing_resource_metadata] <<
-                  "#{PERMISSION_DIR}/#{category}/#{resource}/"
-                next
-              end
-
               @resource_metadata_schema_validator ||= JSONSchemer.schema(
                 Rails.root.join("#{PERMISSION_DIR}/resource_metadata_schema.json")
               )
@@ -153,7 +146,6 @@ module Tasks
             out += format_duplicate_name_errors
             out += format_duplicate_raw_permission_errors
             out += format_file_errors
-            out += format_error_list(:missing_resource_metadata)
             out += format_schema_errors(:resource_metadata_schema) { |id| metadata_path(id) }
             out += format_schema_errors(:category_metadata_schema) { |id| metadata_path(id) }
             out += format_error_list(:empty_resource_directory)
@@ -218,9 +210,6 @@ module Tasks
                 "\n#{assignable_permissions_link(anchor: 'important-constraints')}",
               file: "The following permission definitions do not exist at the expected path." \
                 "\n#{assignable_permissions_link(anchor: 'understanding-the-directory-structure')}",
-              missing_resource_metadata:
-                "The following assignable permission resource directories are missing a .metadata.yml file." \
-                "\n#{assignable_permissions_link(anchor: 'when-do-you-need-metadata-files')}",
               resource_metadata_schema:
                 "The following assignable permission resource metadata file failed schema validation." \
                 "\n#{assignable_permissions_link(anchor: 'when-do-you-need-metadata-files')}",

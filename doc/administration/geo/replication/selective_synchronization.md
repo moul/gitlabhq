@@ -36,6 +36,44 @@ Selective synchronization:
      Selective synchronization restrictions are implemented on the **secondary** sites,
      not the **primary** site.
 
+## Promoting a secondary site with selective synchronization enabled
+
+> [!warning]
+> Promoting a **secondary** site with selective synchronization enabled to become the **primary** site
+> results in **permanent data loss** for all data that was not replicated to that secondary site.
+
+When selective synchronization is configured on a secondary site, only a subset of data is replicated:
+
+- If synchronizing by **groups**: Only projects in the selected groups are replicated.
+- If synchronizing by **storage shards**: Only projects on the selected shards are replicated.
+- If synchronizing by **organizations**: Only projects in the selected organizations are replicated.
+
+All other data remains only on the original primary site. If you promote a secondary site with
+selective synchronization to become the new primary:
+
+- Data that was **not** selected for replication becomes permanently inaccessible.
+- Users lose access to projects, repositories, and associated data that were excluded from selective sync.
+- This data cannot be recovered unless you still have access to the original primary site.
+
+> [!note]
+> There is no validation or warning in the promotion process to prevent this scenario.
+
+### Recommendations
+
+Before promoting a secondary site with selective synchronization:
+
+1. **Disable selective synchronization** on the secondary site you plan to promote.
+1. **Wait for full replication** to complete. Monitor the Geo dashboard to ensure all data types
+   show 100% synchronization.
+1. **Verify replication** is complete before proceeding with the promotion.
+1. Only then proceed with the [planned failover](../disaster_recovery/planned_failover.md) process.
+
+If you must promote a secondary with selective sync enabled (for example, in an emergency):
+
+- Document which data will be lost.
+- Ensure stakeholders understand and accept the data loss.
+- Plan to restore missing data from backups or the original primary site if it becomes available.
+
 ## Git operations on unreplicated repositories
 
 Git clone, pull, and push operations over HTTP(S) and SSH are supported for repositories that

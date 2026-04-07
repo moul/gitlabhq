@@ -21,49 +21,92 @@ RSpec.describe Authz::PermissionGroups::Resource, feature_category: :permissions
   end
 
   describe '.get' do
-    it 'retrieves a resource by hierarchical identifier' do
-      resource = described_class.get(:"ci_cd/pipeline")
+    context 'when the resource has a metadata file' do
+      it 'retrieves the resource' do
+        resource = described_class.get(:"ci_cd/ci_config")
 
-      expect(resource).to be_present
-      expect(resource.definition).to have_key(:description)
+        expect(resource).to be_present
+        expect(resource.resource_name).to eq('CI Config')
+      end
     end
 
-    it 'returns nil for non-existent resource' do
-      resource = described_class.get(:"nonexistent/resource")
+    context 'when the resource does not have a metadata file' do
+      it 'returns a default resource with an empty definition' do
+        resource = described_class.get(:"ci_cd/pipeline")
 
-      expect(resource).to be_nil
+        expect(resource).to be_present
+        expect(resource.definition).to eq({})
+        expect(resource.resource_name).to eq('Pipeline')
+      end
     end
   end
 
   describe 'instance methods' do
-    let(:definition) { { description: 'Test resource' } }
+    let(:definition) { {} }
     let(:file_path) { "config/authz/permission_groups/assignable_permissions/ci_cd/pipeline/.metadata.yml" }
 
     subject(:resource) { described_class.new(definition, file_path) }
 
     describe '#description' do
-      it 'returns the definition description' do
-        expect(resource.description).to eq(definition[:description])
+      context 'with an explicit description using <actions> interpolation' do
+        let(:definition) { { description: 'Grants the ability to <actions> CI pipelines.' } }
+
+        it 'interpolates the action list' do
+          allow(Dir).to receive(:glob).and_return(
+            %w[/path/create.yml /path/delete.yml /path/read.yml]
+          )
+
+          expect(resource.description).to eq('Grants the ability to create, delete, and read CI pipelines.')
+        end
       end
-    end
 
-    describe '#name' do
-      it 'returns the basename of the parent directory' do
-        expect(resource.name).to eq('pipeline')
+      context 'with an explicit description without interpolation' do
+        let(:definition) { { description: 'Grants the ability to delete all artifacts from a project.' } }
+
+        it 'returns the description as-is' do
+          expect(resource.description).to eq('Grants the ability to delete all artifacts from a project.')
+        end
       end
 
-      context 'with a different file path' do
-        let(:file_path) { "config/authz/permission_groups/assignable_permissions/ci_cd/job/.metadata.yml" }
+      context 'with actions that contain underscores' do
+        let(:definition) { { description: 'Grants the ability to <actions> CI pipelines.' } }
 
-        it 'returns the correct directory name' do
-          expect(resource.name).to eq('job')
+        it 'replaces underscores with spaces in action names' do
+          allow(Dir).to receive(:glob).and_return(
+            %w[/path/admin_read.yml /path/create.yml]
+          )
+
+          expect(resource.description).to eq('Grants the ability to admin read and create CI pipelines.')
+        end
+      end
+
+      context 'without an explicit description' do
+        let(:definition) { {} }
+
+        it 'generates a default description from actions' do
+          allow(Dir).to receive(:glob).and_return(
+            %w[/path/create.yml /path/read.yml]
+          )
+
+          expect(resource.description).to eq('Grants the ability to create and read pipelines.')
+        end
+      end
+
+      context 'without an explicit description but with a name' do
+        let(:definition) { { name: 'SSH Key' } }
+        let(:file_path) { "config/authz/permission_groups/assignable_permissions/system_access/ssh_key/.metadata.yml" }
+
+        it 'preserves casing from the name field' do
+          allow(Dir).to receive(:glob).and_return(%w[/path/read.yml])
+
+          expect(resource.description).to eq('Grants the ability to read SSH Keys.')
         end
       end
     end
 
     describe '#resource_name' do
       context 'when definition includes a name' do
-        let(:definition) { { description: 'Test resource', name: 'Custom Name' } }
+        let(:definition) { { name: 'Custom Name' } }
 
         it 'returns the name from the definition' do
           expect(resource.resource_name).to eq('Custom Name')
@@ -71,8 +114,6 @@ RSpec.describe Authz::PermissionGroups::Resource, feature_category: :permissions
       end
 
       context 'when definition does not include a name' do
-        let(:definition) { { description: 'Test resource' } }
-
         it 'returns the titlecased directory name' do
           expect(resource.resource_name).to eq('Pipeline')
         end
@@ -80,7 +121,6 @@ RSpec.describe Authz::PermissionGroups::Resource, feature_category: :permissions
 
       context 'with multi-word directory name' do
         let(:file_path) { "config/authz/permission_groups/assignable_permissions/ci_cd/merge_request/.metadata.yml" }
-        let(:definition) { { description: 'Test resource' } }
 
         it 'returns the titlecased directory name' do
           expect(resource.resource_name).to eq('Merge Request')

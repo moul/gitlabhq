@@ -1,2 +1,3 @@
 ---
-description: Grants the ability to read MLflow artifacts.
+name: MLflow Artifact
+description: Grants the ability to <actions> MLflow artifacts.

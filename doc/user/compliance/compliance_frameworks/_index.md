@@ -288,6 +288,13 @@ behavior of projects that are assigned to a compliance framework.
 Combine GitLab compliance controls to help you meet
 [compliance standards](compliance_standards.md).
 
+> [!note]
+> Security scanner controls that check for a running scanner fail to detect scanners that are
+> configured in [child pipelines](../../../ci/pipelines/downstream_pipelines.md#parent-child-pipelines).
+> For these controls to pass, you must configure security scanners in the parent pipeline.
+> For more information, see
+> [issue 595632](https://gitlab.com/gitlab-org/gitlab/-/work_items/595632).
+
 <!-- Updates to control names must be reflected also in compliance_standards.md -->
 
 | Control name                                             | Control ID                                                 | Description |

@@ -585,7 +585,6 @@ read_software_license_policy
 read_squash_option
 read_statistics
 read_storage_disk_path
-read_subscription_usage
 read_target_branch_rule
 read_timelog_category
 read_upload

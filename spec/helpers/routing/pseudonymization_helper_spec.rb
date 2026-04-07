@@ -15,6 +15,7 @@ RSpec.describe ::Routing::PseudonymizationHelper, feature_category: :product_ana
 
   before do
     stub_feature_flags(mask_page_urls: true)
+    allow(::Current).to receive(:organization_assigned).and_return(true)
     stub_current_organization(organization)
   end
 
@@ -576,6 +577,21 @@ organization_path: organization.path })
         params = { id: '123', action: 'show' }
         helper.mask_additional_params(params)
         expect(params).to eq({ id: '123', action: 'show' })
+      end
+    end
+  end
+
+  describe 'organization' do
+    let(:helper) { Class.new { include Routing::PseudonymizationHelper }.new }
+
+    context 'when organization has not been assigned' do
+      before do
+        allow(::Current).to receive(:organization_assigned).and_return(false)
+      end
+
+      it 'returns nil without raising errors' do
+        expect(helper.get_organization).to be_nil
+        expect(::Gitlab::Organizations::FallbackOrganizationTracker).not_to receive(:trigger)
       end
     end
   end
