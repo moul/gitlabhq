@@ -3727,54 +3727,6 @@ RSpec.describe User, :with_current_organization, feature_category: :user_profile
     end
   end
 
-  describe '#work_items_consolidated_list_enabled?' do
-    subject { user.work_items_consolidated_list_enabled? }
-
-    let_it_be_with_reload(:user) { create(:user) }
-
-    context 'when work_items_consolidated_list_user feature flag is enabled' do
-      before do
-        stub_feature_flags(work_items_consolidated_list_user: true)
-      end
-
-      it 'returns true' do
-        is_expected.to eq(true)
-      end
-    end
-
-    context 'when work_items_consolidated_list_user feature flag is disabled' do
-      before do
-        stub_feature_flags(work_items_consolidated_list_user: false)
-      end
-
-      it 'returns false' do
-        is_expected.to eq(false)
-      end
-    end
-
-    context 'when work_items_consolidated_list_user feature flag is enabled for specific user' do
-      before do
-        stub_feature_flags(work_items_consolidated_list_user: user)
-      end
-
-      it 'returns true' do
-        is_expected.to eq(true)
-      end
-    end
-
-    context 'when work_items_consolidated_list_user feature flag is enabled for different user' do
-      let(:other_user) { create(:user) }
-
-      before do
-        stub_feature_flags(work_items_consolidated_list_user: other_user)
-      end
-
-      it 'returns false' do
-        is_expected.to eq(false)
-      end
-    end
-  end
-
   describe 'update_otp_secret!', :freeze_time do
     let_it_be_with_refind(:user) { create(:user) }
 

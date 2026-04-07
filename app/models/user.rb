@@ -1507,10 +1507,6 @@ class User < ApplicationRecord
       email_otp_required_after.present? && email_otp_required_after <= Time.zone.now
   end
 
-  def work_items_consolidated_list_enabled?
-    Feature.enabled?(:work_items_consolidated_list_user, self)
-  end
-
   def update_otp_secret!
     self.otp_secret = User.generate_otp_secret(OTP_SECRET_LENGTH)
     self.otp_secret_expires_at = Time.current + OTP_SECRET_TTL

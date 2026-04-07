@@ -3620,12 +3620,10 @@ class Project < ApplicationRecord
     group&.allow_iframes_in_markdown_feature_flag_enabled? || Feature.enabled?(:allow_iframes_in_markdown, self, type: :wip)
   end
 
-  def work_items_consolidated_list_enabled?(user = nil)
+  def work_items_consolidated_list_enabled?
     # work_item_planning_view is the feature flag used to determine whether the consolidated list is enabled or not
     # The global check is required for projects which do not have an associated group (i.e. from a user namespace)
-    return true if group&.work_items_consolidated_list_enabled?(user) || Feature.enabled?(:work_item_planning_view, type: :beta)
-
-    user.present? && Feature.enabled?(:work_items_consolidated_list_user, user)
+    group&.work_items_consolidated_list_enabled? || Feature.enabled?(:work_item_planning_view, type: :beta)
   end
 
   def use_work_item_url?

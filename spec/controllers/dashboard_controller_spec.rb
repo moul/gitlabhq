@@ -36,7 +36,6 @@ RSpec.describe DashboardController, feature_category: :code_review_workflow do
 
     before do
       sign_in(user)
-      stub_feature_flags(work_items_consolidated_list_user: user)
     end
 
     describe 'GET home' do

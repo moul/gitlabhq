@@ -16,7 +16,6 @@ RSpec.describe HomepageData, feature_category: :notifications do
   let(:helpers_proxy) { instance_double(ApplicationHelper) }
 
   before do
-    stub_feature_flags(work_items_consolidated_list_user: user)
     allow(controller).to receive_messages(current_user: user, can?: true)
     allow(controller).to receive(:helpers).and_return(helpers_proxy)
 

@@ -55,8 +55,10 @@ If you are new to dependency scanning, follow these steps to turn it on for your
 
 - Prerequisites for all GitLab instances:
   - The Developer, Maintainer, or Owner role for the project.
-  - A [supported lockfile or dependency graph](https://gitlab.com/gitlab-org/security-products/analyzers/dependency-scanning/#supported-files). Alternatively, a [manifest file](#manifest-fallback) can be used as a fallback option for the supported languages.
-    either in the repository or created in the CI/CD pipeline and passed as an artifact to the `dependency-scanning` job.
+  - A [supported lockfile or dependency graph export](#supported-languages-and-files).
+    Alternatively, a [manifest file](#manifest-fallback) can be used as a fallback option for the
+    supported languages. either in the repository or created in the CI/CD pipeline and passed as an
+    artifact to the `dependency-scanning` job.
   - For self-managed runners, GitLab Runner with the
     [`docker`](https://docs.gitlab.com/runner/executors/docker/) or
     [`kubernetes`](https://docs.gitlab.com/runner/install/kubernetes/) executor.
@@ -84,13 +86,15 @@ To turn on dependency scanning:
 
 1. Select **Commit changes**.
 
-### Create lockfile or dependency graph
+### Create lockfile or dependency graph export
 
-If your project doesn't have a supported lockfile or dependency graph committed to its repository,
-you need to provide one.
+If your project doesn't have a supported [lockfile](../../terminology/_index.md#lockfile) or
+[dependency graph export](../../terminology/_index.md#dependency-graph-export) committed to its
+repository, you need to provide one.
 
 The examples below show how to create a file that is supported by the GitLab analyzer for popular
-languages and package managers. See also the complete list of [Supported languages and files](#supported-languages-and-files).
+languages and package managers. See also the complete list of
+[supported languages and files](#supported-languages-and-files).
 
 #### Go
 
@@ -100,7 +104,7 @@ To benefit from improved component detection and feature coverage, you should pr
 
 The following example `.gitlab-ci.yml` demonstrates how to enable the analyzer
 with [dependency path](../../dependency_list/_index.md#dependency-paths)
-support on a Go project. The dependency graph is output as a job artifact in the `build`
+support on a Go project. The dependency graph export is output as a job artifact in the `build`
 stage, before dependency scanning runs.
 
 ```yaml
@@ -126,7 +130,7 @@ go:build:
 
 #### Gradle
 
-For Gradle projects use either of the following methods to create a dependency graph.
+For Gradle projects use either of the following methods to create a dependency graph export.
 
 - Nebula Gradle Dependency Lock Plugin
 - Gradle's HtmlDependencyReportTask
@@ -254,7 +258,7 @@ done < <(find . -type f -path "*/gradle-html-dependency-report.js -print0)
 #### Maven
 
 The following example `.gitlab-ci.yml` demonstrates how to enable the analyzer
-on a Maven project. The dependency graph is output as a job artifact
+on a Maven project. The dependency graph export is output as a job artifact
 in the `build` stage, before dependency scanning runs.
 
 Requirement: use at least version `3.7.0` of the maven-dependency-plugin.
@@ -294,7 +298,7 @@ Alternatively, your project can provide a `pipdeptree.json` dependency graph exp
 
 The following example `.gitlab-ci.yml` demonstrates how to enable the analyzer
 with [dependency path](../../dependency_list/_index.md#dependency-paths)
-support on a pip project. The `build` stage outputs the dependency graph as a job artifact
+support on a pip project. The `build` stage outputs the dependency graph export as a job artifact
 before dependency scanning runs.
 
 ```yaml
@@ -332,7 +336,7 @@ To benefit from improved feature coverage, you should provide a `pipenv.graph.js
 
 The following example `.gitlab-ci.yml` demonstrates how to enable the analyzer
 with [dependency path](../../dependency_list/_index.md#dependency-paths)
-support on a Pipenv project. The `build` stage outputs the dependency graph as a job artifact
+support on a Pipenv project. The `build` stage outputs the dependency graph export as a job artifact
 before dependency scanning runs.
 
 ```yaml
@@ -365,7 +369,7 @@ To enable the analyzer on an sbt project:
 
 The following example `.gitlab-ci.yml` demonstrates how to enable the analyzer
 with [dependency path](../../dependency_list/_index.md#dependency-paths)
-support in an sbt project. The `build` stage outputs the dependency graph as a job artifact
+support in an sbt project. The `build` stage outputs the dependency graph export as a job artifact
 before dependency scanning runs.
 
 ```yaml
@@ -571,13 +575,13 @@ following [PURL types](https://github.com/package-url/purl-spec/blob/34658984613
 
 ## Supported languages and files
 
-| Language                  | Package manager | File(s)                                         | Description                                                                                                                                                            | Dependency graph support | Static reachability support |
+| Language                  | Package manager | File(s)                                         | Description                                                                                                                                                            | Dependency graph export support | Static reachability support |
 |---------------------------|-----------------|-------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|-----------------------------|
 | C#                        | NuGet           | `packages.lock.json`                            | Lockfiles generated by `nuget`.                                                                                                                                       | {{< yes >}}              | {{< no >}}                  |
 | C/C++                     | Conan           | `conan.lock`                                    | Lockfiles generated by `conan`.                                                                                                                                       | {{< yes >}}              | {{< no >}}                  |
 | C/C++/Fortran/Go/Python/R | Conda           | `conda-lock.yml`                                | Environment files generated by `conda-lock`.                                                                                                                           | {{< no >}}               | {{< no >}}                  |
-| Dart                      | pub             | `pubspec.lock`, `pub.graph.json`                | Lockfiles generated by `pub`. Dependency graph derived from `dart pub deps --json > pub.graph.json`.                                                                  | {{< yes >}}              | {{< no >}}                  |
-| Go                        | go              | `go.mod`, `go.graph`                            | Module files generated by the standard `go` toolchain. Dependency graph derived from `go mod graph > go.graph`.                                                        | {{< yes >}}              | {{< no >}}                  |
+| Dart                      | pub             | `pubspec.lock`, `pub.graph.json`                | Lockfiles generated by `pub`. Dependency graph export derived from `dart pub deps --json > pub.graph.json`.                                                                  | {{< yes >}}              | {{< no >}}                  |
+| Go                        | go              | `go.mod`, `go.graph`                            | Module files generated by the standard `go` toolchain. Dependency graph export derived from `go mod graph > go.graph`.                                                        | {{< yes >}}              | {{< no >}}                  |
 | Java                      | ivy             | `ivy-report.xml`                                | Dependency graph exports generated by the `report` Apache Ant task.                                                                                                    | {{< no >}}               | {{< yes >}}                  |
 | Java                      | Maven           | `maven.graph.json`                              | Dependency graph exports generated by `mvn dependency:tree -DoutputType=json`.                                                                                         | {{< yes >}}              | {{< yes >}}                  |
 | Java/Kotlin               | Gradle          | `dependencies.lock`, `dependencies.direct.lock` | Lockfiles generated by [gradle-dependency-lock-plugin](https://github.com/nebula-plugins/gradle-dependency-lock-plugin).                                              | {{< yes >}}              | {{< yes >}}                  |
@@ -683,7 +687,7 @@ These variables can replace spec inputs and are also compatible with the beta `l
 | `DS_ENABLE_VULNERABILITY_SCAN`| Enable vulnerability scanning of generated SBOM files. Generates a [dependency scanning report](#dependency-scanning-report). Default: `"true"`. |
 | `DS_API_TIMEOUT` | Dependency scanning SBOM API request timeout in seconds (minimum: `5`, maximum: `300`) Default: `10` |
 | `DS_API_SCAN_DOWNLOAD_DELAY` | Initial delay in seconds before downloading scan results (minimum: 1, maximum: 120) Default: `3` |
-| `DS_ENABLE_MANIFEST_FALLBACK` | Enable manifest fallback when no lockfile or dependency graph is available. See [Manifest fallback](#manifest-fallback). Default: `"false"`. |
+| `DS_ENABLE_MANIFEST_FALLBACK` | Enable manifest fallback when no lockfile or dependency graph export is available. See [Manifest fallback](#manifest-fallback). Default: `"false"`. |
 | `SECURE_LOG_LEVEL` | Log level. Default: `"info"`. |
 
 ### Custom TLS certificate authority
@@ -863,7 +867,7 @@ To use the dependency scanning analyzer:
 ## Enforce scanning on multiple projects
 
 Enforce dependency scanning on multiple projects by using a security policy. Dependency scanning
-requires a scannable artifact, either a lockfile or dependency graph file. Whether or not the
+requires a scannable artifact, either a lockfile or dependency graph export. Whether or not the
 scannable artifact is committed to the project's repository determines the choice of policy.
 
 - If the scannable artifact is committed to the repository, use a
@@ -881,12 +885,12 @@ scannable artifact is committed to the project's repository determines the choic
 
   The pipeline execution policy must:
 
-  - Generate lockfiles or dependency graph files as part of the CI/CD pipeline.
+  - Generate lockfiles or dependency graph exports as part of the CI/CD pipeline.
   - Customize the dependency detection process for your specific project requirements.
   - Implement the language-specific instructions for build tools such as Gradle and Maven.
 
-The following example uses the Gradle `nebula` plugin to generate lockfiles. For other languages
-see [Create lockfile or dependency graph](#create-lockfile-or-dependency-graph).
+The following example uses the Gradle `nebula` plugin to generate lock files. For other languages
+see [Create lockfile or dependency graph export](#create-lockfile-or-dependency-graph-export).
 
 ### Example: Pipeline execution policy for a Gradle project
 
@@ -969,7 +973,7 @@ Use the `latest` dependency scanning CI/CD template `Dependency-Scanning.latest.
 
 - The (deprecated) Gemnasium analyzer is used by default.
 - To enable the new dependency scanning analyzer, set the CI/CD variable `DS_ENFORCE_NEW_ANALYZER` to `true`.
-- A [supported lockfile, dependency graph](#create-lockfile-or-dependency-graph), or [trigger file](#trigger-files-for-the-latest-template) must exist in the repository to create the `dependency-scanning` job in pipelines.
+- A [supported lockfile, dependency graph export](#create-lockfile-or-dependency-graph-export), or [trigger file](#trigger-files-for-the-latest-template) must exist in the repository to create the `dependency-scanning` job in pipelines.
 
   ```yaml
   include:
@@ -987,7 +991,7 @@ If you wish to customize the analyzer behavior use the [available CI/CD variable
 
 Trigger files create a `dependency-scanning` CI/CD job when using the [latest dependency scanning CI/CD template](https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Jobs/Dependency-Scanning.latest.gitlab-ci.yml).
 The analyzer does not scan these files.
-Your project can be supported if you use a trigger file to [create a lockfile or dependency graph](#create-lockfile-or-dependency-graph).
+Your project can be supported if you use a trigger file to [create a lockfile or dependency graph export](#create-lockfile-or-dependency-graph-export).
 
 | Language        | Files                                                     |
 |-----------------|-----------------------------------------------------------|
@@ -1016,7 +1020,7 @@ to enable the new dependency scanning analyzer. Before choosing this approach, r
     - component: $CI_SERVER_FQDN/components/dependency-scanning/main@1
   ```
 
-You must also [create a lockfile or dependency graph](#create-lockfile-or-dependency-graph).
+You must also [create a lockfile or dependency graph export](#create-lockfile-or-dependency-graph-export).
 
 When using the dependency scanning CI/CD component, the analyzer can be customized by configuring the [inputs](https://gitlab.com/explore/catalog/components/dependency-scanning).
 
