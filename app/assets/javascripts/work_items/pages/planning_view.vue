@@ -2009,8 +2009,8 @@ export default {
     <template v-if="!isServiceDeskList && isPlanningViewsEnabled">
       <!-- state-count -->
       <div class="gl-border-b gl-flex gl-flex-wrap gl-justify-between gl-gap-y-3 gl-py-3">
-        <div class="gl-flex gl-items-center">
-          <span data-testid="work-item-count" class="gl-mr-3">{{ workItemTotalStateCount }}</span>
+        <div class="gl-flex gl-flex-wrap gl-items-center gl-gap-3">
+          <span data-testid="work-item-count">{{ workItemTotalStateCount }}</span>
           <gl-button
             v-if="allowBulkEditing"
             size="small"
@@ -2021,6 +2021,14 @@ export default {
             @click="showBulkEditSidebar = true"
           >
             {{ __('Bulk edit') }}
+          </gl-button>
+          <gl-button
+            v-if="glFeatures.duoQuickActionWorkItemList"
+            size="small"
+            icon="tanuki-ai"
+            data-testid="analyze-items-button"
+          >
+            {{ s__('WorkItem|Analyze items') }}
           </gl-button>
         </div>
 

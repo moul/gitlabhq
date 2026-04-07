@@ -1514,7 +1514,7 @@ Write it out:
 
 When the Guest role is the minimum required role, use:
 
-- the Guest, Planner, Reporter, Developer, Maintainer, or Owner role
+- the Guest, Planner, Reporter, Security Manager, Developer, Maintainer, or Owner role
 
 Do not use bold.
 
@@ -2257,7 +2257,7 @@ Write it out:
 
 When the Planner role is the minimum required role, use:
 
-- the Planner, Reporter, Developer, Maintainer, or Owner role
+- the Planner, Reporter, Security Manager, Developer, Maintainer, or Owner role
 
 Do not use bold.
 
@@ -2378,7 +2378,7 @@ Write it out:
 
 When the Reporter role is the minimum required role, use:
 
-- the Reporter, Developer, Maintainer, or Owner role
+- the Reporter, Security Manager, Developer, Maintainer, or Owner role
 
 Do not use bold.
 

@@ -20,7 +20,6 @@ Rails/Date:
     - 'ee/app/finders/okrs/checkin_reminder_key_result_finder.rb'
     - 'ee/app/models/burndown.rb'
     - 'ee/app/models/ee/epic.rb'
-    - 'ee/app/models/gitlab_subscription.rb'
     - 'ee/app/models/issuables_analytics.rb'
     - 'ee/app/models/iteration.rb'
     - 'ee/app/models/license.rb'

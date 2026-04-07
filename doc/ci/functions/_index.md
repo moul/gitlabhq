@@ -13,7 +13,7 @@ title: GitLab Functions
 
 {{< /details >}}
 
-GitLab Functions are reusable units of CI/CD job logic that replace the `script` in a GitLab CI/CD job.
+GitLab Functions provides reusable units of CI/CD job logic that replace the `script` in a GitLab CI/CD job.
 
 > [!note]
 > GitLab Functions is an experimental feature in active development and is subject to breaking changes.
@@ -93,7 +93,7 @@ build_and_release:
 
 Each job declares what should happen through steps. The functions themselves contain the implementation.
 
-## GitLab Function glossary
+## GitLab Functions glossary
 
 This glossary provides definitions for terms related to GitLab Functions.
 

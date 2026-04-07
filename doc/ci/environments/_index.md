@@ -261,27 +261,32 @@ Add-Content -Path deploy.env -Value "DYNAMIC_ENVIRONMENT_URL=$DYNAMIC_ENVIRONMEN
 
 ## Deployment tier of environments
 
-Sometimes, instead of using an [industry standard](https://en.wikipedia.org/wiki/Deployment_environment)
-environment name, like `production`, you might want to use a code name, like `customer-portal`.
-While there is no technical reason not to use a name like `customer-portal`, the name
-no longer indicates that the environment is used for production. This can affect how metrics
-like [deployment frequency](../../user/analytics/dora_metrics.md#how-deployment-frequency-is-calculated)
-are calculated.
+Projects in the same group can use different environment names for the same deployment tier.
+For example, one project might use production while another uses custom-portal for the same tier.
+Group protected environments use deployment tiers to handle these differences.
 
-To indicate that a specific environment is for a specific use,
-you can use tiers:
+The following deployment tiers are available:
 
-| Environment tier | Environment name examples |
-|------------------|---------------------------|
-| `production`     | Production, Live          |
-| `staging`        | Staging, Model, Demo      |
-| `testing`        | Test, QC                  |
-| `development`    | Dev, [Review apps](../review_apps/_index.md), Trunk |
-| `other`          |                           |
+- development
+- testing
+- staging
+- production
+- other
 
-By default, GitLab assumes a tier based on [the environment name](../yaml/_index.md#environmentname).
-You cannot set an environment tier using the UI.
-Instead, you can use the [`deployment_tier` keyword](../yaml/_index.md#environmentdeployment_tier) to specify a tier.
+GitLab guesses deployment tiers from [the environment name](../yaml/_index.md#environmentname) based on these patterns:
+
+| Ruby Regexp pattern                                         | Deployment tier |
+|-------------------------------------------------------------|-----------------|
+| `/(dev\|review\|trunk)/i`                                   | development     |
+| `/(test\|tst\|int\|ac(ce\|)pt\|qa\|qc\|control\|quality)/i` | testing         |
+| `/(st(a\|)g\|mod(e\|)l\|pre\|demo\|non)/i`                  | staging         |
+| `/(pr(o\|)d\|live)/i`                                       | production      |
+
+Environment names that don't match any pattern are guessed as `other`.
+
+To avoid the automatic guessing, use the [`deployment_tier` keyword](../yaml/_index.md#environmentdeployment_tier).
+
+You cannot set deployment tiers in the UI.
 
 ### Rename an environment
 

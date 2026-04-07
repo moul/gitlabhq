@@ -17,6 +17,8 @@ project:
   - admin_deployment
   - admin_environment
   - admin_feature_flags_client
+  - admin_google_cloud_artifact_registry
+  - admin_incident_management_escalation_policy
   - admin_incident_management_oncall_schedule
   - admin_incident_management_timeline_event_tag
   - admin_integrations
@@ -38,10 +40,12 @@ project:
   - admin_runners
   - admin_secure_files
   - admin_security_attributes
+  - admin_security_testing
   - admin_sentry
   - admin_service_account_member
   - admin_service_accounts
   - admin_snippet
+  - admin_software_license_policy
   - admin_terraform_state
   - admin_timelog
   - admin_upload
@@ -102,6 +106,8 @@ project:
   - modify_merge_request_author_setting
   - modify_merge_request_committer_setting
   - modify_product_analytics_settings
+  - provision_cloud_runner
+  - provision_gke_runner
   - push_code_to_protected_branches
   - push_to_delete_protected_branch
   - read_approvers
@@ -121,6 +127,8 @@ project:
   - read_reject_non_dco_commits
   - read_reject_unsigned_commits
   - read_resource_access_tokens
+  - read_runner_cloud_provisioning_info
+  - read_runner_gke_provisioning_info
   - read_runner_usage
   - read_runners
   - read_runners_registration_token

@@ -239,6 +239,7 @@ const findWorkItemUserPreferences = () => wrapper.findComponent(WorkItemUserPref
 const findServiceDeskInfoBanner = () => wrapper.findComponent(InfoBanner);
 const findWorkItemListActions = () => wrapper.findComponent(WorkItemListActions);
 const findBulkEditStartButton = () => wrapper.findByTestId('bulk-edit-start-button');
+const findAnalyzeItemsButton = () => wrapper.findByTestId('analyze-items-button');
 const findServiceDeskEmptyStateWithAnyIssues = () =>
   wrapper.findComponent(EmptyStateWithAnyTickets);
 const findServiceDeskEmptyStateWithoutAnyIssues = () =>
@@ -249,6 +250,11 @@ const findEmptyStateWithAnyIssues = () => wrapper.findComponent(EmptyStateWithAn
 const findNewResourceDropdown = () => wrapper.findComponent(NewResourceDropdown);
 
 const RELEASES_ENDPOINT = '/test/project/-/releases.json';
+
+const defaultFeatureFlags = {
+  okrsMvc: true,
+  workItemPlanningView: false,
+};
 
 const mountComponent = ({
   queryHandler = defaultQueryHandler,
@@ -262,10 +268,11 @@ const mountComponent = ({
   userPreferenceMutationResponse = userPreferenceMutationHandler,
   additionalHandlers = [],
   provide = {},
-  workItemPlanningView = false,
   isLoggedInValue = true,
   props = {},
 } = {}) => {
+  const { glFeatures: provideGlFeatures, ...restProvide } = provide;
+
   const apolloProvider = createMockApollo([
     [getWorkItemsFullQuery, queryHandler],
     [getWorkItemsSlimQuery, slimQueryHandler],
@@ -296,8 +303,8 @@ const mountComponent = ({
     router,
     provide: {
       glFeatures: {
-        okrsMvc: true,
-        workItemPlanningView,
+        ...defaultFeatureFlags,
+        ...provideGlFeatures,
       },
       metadataLoading: false,
       isGroup: true,
@@ -331,11 +338,13 @@ const mountComponent = ({
       hasGroupBulkEditFeature: true,
       hasProjects: true,
       workItemPlanningViewEnabled: false,
-      ...provide,
+      ...restProvide,
     },
     propsData: {
       rootPageFullPath: 'full/path',
-      withTabs: !workItemPlanningView,
+      withTabs: !(
+        provideGlFeatures?.workItemPlanningView ?? defaultFeatureFlags.workItemPlanningView
+      ),
       ...props,
     },
     mocks: {
@@ -1108,7 +1117,7 @@ describe('planning-view', () => {
           });
           mountComponent({
             countsOnlyHandler,
-            workItemPlanningView: true,
+            provide: { glFeatures: { workItemPlanningView: true } },
           });
           await waitForPromises();
         });
@@ -1234,8 +1243,11 @@ describe('planning-view', () => {
   describe('document title', () => {
     it('renders "Service Desk"', async () => {
       mountComponent({
-        provide: { isServiceDeskSupported: true, workItemType: WORK_ITEM_TYPE_NAME_TICKET },
-        workItemPlanningView: true,
+        provide: {
+          isServiceDeskSupported: true,
+          workItemType: WORK_ITEM_TYPE_NAME_TICKET,
+          glFeatures: { workItemPlanningView: true },
+        },
       });
       findListView().vm.$emit('update-query', exampleQueryParams);
       await waitForPromises();
@@ -1255,7 +1267,15 @@ describe('planning-view', () => {
     const { bindInternalEventDocument } = useMockInternalEventsTracking();
 
     const mountDefault = async (options = {}) => {
-      mountComponent({ workItemPlanningView: true, ...options });
+      const { provide: mountProvide, ...restOptions } = options;
+      const { glFeatures: mountGlFeatures, ...restProvideOptions } = mountProvide || {};
+      mountComponent({
+        provide: {
+          glFeatures: { workItemPlanningView: true, ...mountGlFeatures },
+          ...restProvideOptions,
+        },
+        ...restOptions,
+      });
       await waitForPromises();
     };
 
@@ -1290,8 +1310,7 @@ describe('planning-view', () => {
 
         it('does not render "Save view" button when canCreateSavedView is false', async () => {
           await mountComponent({
-            workItemPlanningView: true,
-            provide: { canCreateSavedView: false },
+            provide: { canCreateSavedView: false, glFeatures: { workItemPlanningView: true } },
           });
           await waitForPromises();
 
@@ -1395,7 +1414,7 @@ describe('planning-view', () => {
 
       it('navigates to /work_items with sv_not_found query parameter when saved view cannot be found', async () => {
         mountComponent({
-          workItemPlanningView: true,
+          provide: { glFeatures: { workItemPlanningView: true } },
           savedViewHandler: jest.fn().mockResolvedValue(emptySavedViewsResult),
         });
 
@@ -1410,7 +1429,7 @@ describe('planning-view', () => {
 
       it('does not track saved_view_view event when saved view is not found', async () => {
         mountComponent({
-          workItemPlanningView: true,
+          provide: { glFeatures: { workItemPlanningView: true } },
           savedViewHandler: jest.fn().mockResolvedValue(emptySavedViewsResult),
         });
         const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
@@ -1425,7 +1444,7 @@ describe('planning-view', () => {
         describe('when at subscription limit', () => {
           it('navigates to /work_items with sv_limit_id query parameter', async () => {
             mountComponent({
-              workItemPlanningView: true,
+              provide: { glFeatures: { workItemPlanningView: true } },
               savedViewHandler: jest
                 .fn()
                 .mockResolvedValue(savedViewResponseFactory({ subscribed: false, limit: 1 })),
@@ -1447,7 +1466,7 @@ describe('planning-view', () => {
               .fn()
               .mockResolvedValue(savedViewResponseFactory({ subscribed: false }));
             mountComponent({
-              workItemPlanningView: true,
+              provide: { glFeatures: { workItemPlanningView: true } },
               savedViewHandler,
             });
 
@@ -1469,7 +1488,10 @@ describe('planning-view', () => {
               .fn()
               .mockResolvedValue(savedViewResponseFactory({ subscribed: false }));
 
-            mountComponent({ workItemPlanningView: true, savedViewHandler });
+            mountComponent({
+              provide: { glFeatures: { workItemPlanningView: true } },
+              savedViewHandler,
+            });
             const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
 
             savedViewHandler.mockResolvedValue(savedViewResponseFactory({ subscribed: true }));
@@ -1484,7 +1506,7 @@ describe('planning-view', () => {
       it('captures error alert when saved view cannot be fetched', async () => {
         const error = new Error('Network error');
         mountComponent({
-          workItemPlanningView: true,
+          provide: { glFeatures: { workItemPlanningView: true } },
           savedViewHandler: jest.fn().mockRejectedValue(error),
         });
         await waitForPromises();
@@ -1537,7 +1559,7 @@ describe('planning-view', () => {
           }),
         );
         mountComponent({
-          workItemPlanningView: true,
+          provide: { glFeatures: { workItemPlanningView: true } },
           savedViewHandler,
         });
         await waitForPromises();
@@ -1571,7 +1593,7 @@ describe('planning-view', () => {
         describe('for a private view', () => {
           it('saves without prompting for confirmation', async () => {
             mountComponent({
-              workItemPlanningView: true,
+              provide: { glFeatures: { workItemPlanningView: true } },
               workItemsSavedViewsEnabled: true,
               savedViewHandler: jest
                 .fn()
@@ -1606,7 +1628,7 @@ describe('planning-view', () => {
         describe('for a shared view', () => {
           beforeEach(async () => {
             mountComponent({
-              workItemPlanningView: true,
+              provide: { glFeatures: { workItemPlanningView: true } },
               workItemsSavedViewsEnabled: true,
               savedViewHandler: jest
                 .fn()
@@ -1726,9 +1748,9 @@ describe('planning-view', () => {
     describe('subscription limit warning', () => {
       it('passes showSubscriptionLimitWarning as false to modal when not at limit', async () => {
         mountComponent({
-          workItemPlanningView: true,
           provide: {
             subscribedSavedViewLimit: 10,
+            glFeatures: { workItemPlanningView: true },
           },
         });
         await waitForPromises();
@@ -1746,9 +1768,9 @@ describe('planning-view', () => {
 
       it('passes showSubscriptionLimitWarning as true to modal when at limit', async () => {
         mountComponent({
-          workItemPlanningView: true,
           provide: {
             subscribedSavedViewLimit: 1,
+            glFeatures: { workItemPlanningView: true },
           },
         });
         await waitForPromises();
@@ -1809,7 +1831,7 @@ describe('planning-view', () => {
 
   describe('when workItemPlanningView flag is enabled', () => {
     it('passes workItemsCount as workItemCount prop to work-item-list-actions', async () => {
-      mountComponent({ workItemPlanningView: true });
+      mountComponent({ provide: { glFeatures: { workItemPlanningView: true } } });
 
       await waitForPromises();
 
@@ -1817,7 +1839,7 @@ describe('planning-view', () => {
     });
 
     it('renders total items count when work items exist', async () => {
-      mountComponent({ workItemPlanningView: true });
+      mountComponent({ provide: { glFeatures: { workItemPlanningView: true } } });
       await waitForPromises();
 
       expect(wrapper.text()).toContain('3 items');
@@ -1944,12 +1966,28 @@ describe('planning-view', () => {
     });
   });
 
+  describe('analyze items button', () => {
+    it.each([true, false])(
+      'renders=%s based on duoQuickActionWorkItemList feature flag',
+      (duoQuickActionWorkItemList) => {
+        mountComponent({
+          provide: { glFeatures: { workItemPlanningView: true, duoQuickActionWorkItemList } },
+        });
+
+        expect(findAnalyzeItemsButton().exists()).toBe(duoQuickActionWorkItemList);
+      },
+    );
+  });
+
   describe('when service desk list', () => {
     describe('nav actions', () => {
       it('does not render the bulk edit button, create work item modal, or actions dropdown', async () => {
         mountComponent({
-          provide: { isServiceDeskSupported: true, workItemType: WORK_ITEM_TYPE_NAME_TICKET },
-          workItemPlanningView: true,
+          provide: {
+            isServiceDeskSupported: true,
+            workItemType: WORK_ITEM_TYPE_NAME_TICKET,
+            glFeatures: { workItemPlanningView: true },
+          },
         });
         await waitForPromises();
 
@@ -1985,7 +2023,7 @@ describe('planning-view', () => {
 
     describe('document title with saved views', () => {
       it('includes saved view name when on a saved view', async () => {
-        mountComponent({ workItemPlanningView: true });
+        mountComponent({ provide: { glFeatures: { workItemPlanningView: true } } });
         await waitForPromises();
 
         await router.push({ name: 'savedView', params: { type: 'work_items', view_id: '3' } });
@@ -2021,7 +2059,7 @@ describe('planning-view', () => {
         });
 
         mountComponent({
-          workItemPlanningView: true,
+          provide: { glFeatures: { workItemPlanningView: true } },
           savedViewHandler,
         });
         await waitForPromises();
@@ -2051,7 +2089,7 @@ describe('planning-view', () => {
         );
 
         mountComponent({
-          workItemPlanningView: true,
+          provide: { glFeatures: { workItemPlanningView: true } },
           savedViewHandler,
         });
         await waitForPromises();

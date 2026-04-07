@@ -958,3 +958,94 @@ func TestManager_buildTools(t *testing.T) {
 		assert.Contains(t, err.Error(), "failed to list tools")
 	})
 }
+
+func TestManager_buildTools_propagatesTrustedFlag(t *testing.T) {
+	t.Run("sets Trusted on tools from trusted server", func(t *testing.T) {
+		mcpServer := setupMockMcpServer(t, "", []mcpTool{
+			{Name: "tool1", Description: "Tool 1"},
+		})
+
+		req := httptest.NewRequest("GET", "/test", nil)
+
+		servers := map[string]api.McpServerConfig{
+			"trusted-server": {
+				URL:     mcpServer.URL,
+				Headers: map[string]string{},
+				Trusted: true,
+			},
+		}
+
+		mgr, err := newMcpManager(nil, req, servers)
+
+		require.NoError(t, err)
+		require.NotNil(t, mgr)
+		require.Len(t, mgr.tools, 1)
+		require.NotNil(t, mgr.tools[0].Trusted)
+		assert.True(t, *mgr.tools[0].Trusted)
+	})
+
+	t.Run("sets Trusted false on tools from untrusted server", func(t *testing.T) {
+		mcpServer := setupMockMcpServer(t, "", []mcpTool{
+			{Name: "tool1", Description: "Tool 1"},
+		})
+
+		req := httptest.NewRequest("GET", "/test", nil)
+
+		servers := map[string]api.McpServerConfig{
+			"untrusted-server": {
+				URL:     mcpServer.URL,
+				Headers: map[string]string{},
+				Trusted: false,
+			},
+		}
+
+		mgr, err := newMcpManager(nil, req, servers)
+
+		require.NoError(t, err)
+		require.NotNil(t, mgr)
+		require.Len(t, mgr.tools, 1)
+		require.NotNil(t, mgr.tools[0].Trusted)
+		assert.False(t, *mgr.tools[0].Trusted)
+	})
+
+	t.Run("mixed trusted and untrusted servers", func(t *testing.T) {
+		trustedServer := setupMockMcpServer(t, "", []mcpTool{
+			{Name: "safe_tool", Description: "Safe tool"},
+		})
+		untrustedServer := setupMockMcpServer(t, "", []mcpTool{
+			{Name: "ext_tool", Description: "External tool"},
+		})
+
+		req := httptest.NewRequest("GET", "/test", nil)
+
+		servers := map[string]api.McpServerConfig{
+			"internal": {
+				URL:     trustedServer.URL,
+				Headers: map[string]string{},
+				Trusted: true,
+			},
+			"external": {
+				URL:     untrustedServer.URL,
+				Headers: map[string]string{},
+				Trusted: false,
+			},
+		}
+
+		mgr, err := newMcpManager(nil, req, servers)
+
+		require.NoError(t, err)
+		require.NotNil(t, mgr)
+		require.Len(t, mgr.tools, 2)
+
+		toolsByName := make(map[string]*pb.McpTool)
+		for _, tool := range mgr.tools {
+			toolsByName[tool.Name] = tool
+		}
+
+		require.NotNil(t, toolsByName["internal_safe_tool"].Trusted)
+		assert.True(t, *toolsByName["internal_safe_tool"].Trusted)
+
+		require.NotNil(t, toolsByName["external_ext_tool"].Trusted)
+		assert.False(t, *toolsByName["external_ext_tool"].Trusted)
+	})
+}

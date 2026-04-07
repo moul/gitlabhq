@@ -392,7 +392,7 @@ func intersectServerCapabilities(fromServer []string) []string {
 
 func (r *runner) acquireWorkflowLock(startReq *pb.StartWorkflowRequest) error {
 	r.workflowID = startReq.WorkflowID
-	r.workflowDefinition = startReq.WorkflowDefinition
+	r.workflowDefinition = startReq.WorkflowDefinition //lint:ignore SA1019 deprecated but still used by workhorse
 
 	if r.workflowID == "" {
 		log.WithRequest(r.originalReq).Error("No workflow ID provided in StartWorkflowRequest")

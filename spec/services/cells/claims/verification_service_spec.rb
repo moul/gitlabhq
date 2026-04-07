@@ -304,7 +304,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       end
 
       it 'raises after exhausting retries' do
-        stub_const("#{described_class}::GRPC_RETRIES", 2)
+        stub_const("Cells::Claims::BaseService::GRPC_RETRIES", 2)
 
         allow(mock_claim_service).to receive(:commit_update)
           .and_raise(GRPC::DeadlineExceeded.new('context deadline exceeded'))
@@ -354,7 +354,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       end
 
       it 'raises after exhausting retries to stop processing' do
-        stub_const("#{described_class}::GRPC_RETRIES", 2)
+        stub_const("Cells::Claims::BaseService::GRPC_RETRIES", 2)
 
         allow(mock_claim_service).to receive(:list_records)
           .and_raise(GRPC::DeadlineExceeded.new('context deadline exceeded'))
@@ -466,7 +466,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       let!(:user) { create(:user) }
 
       before do
-        stub_const("#{described_class}::MAX_RECORDS_PER_CHUNK", 2)
+        stub_const("Cells::Claims::BaseService::MAX_RECORDS_PER_CHUNK", 2)
         stub_commit
 
         # TS returns many orphaned records for the same ID range
@@ -494,7 +494,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       let(:large_value) { 'x' * 2.megabytes }
 
       before do
-        stub_const("#{described_class}::MAX_GRPC_MESSAGE_BYTES", 3.megabytes)
+        stub_const("Cells::Claims::BaseService::MAX_GRPC_MESSAGE_BYTES", 3.megabytes)
         stub_list_records([])
         stub_commit
         allow_any_instance_of(User).to receive(:cells_claims_metadata).and_return([ # rubocop:disable RSpec/AnyInstanceOf -- need to stub on DB-loaded instances
@@ -524,7 +524,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
     let(:large_record) { { bucket: { type: :user_ids, value: 'x' * 2.megabytes }, subject: { type: :user, id: 2 } } }
 
     before do
-      stub_const("#{described_class}::MAX_GRPC_MESSAGE_BYTES", 3.megabytes)
+      stub_const("Cells::Claims::BaseService::MAX_GRPC_MESSAGE_BYTES", 3.megabytes)
     end
 
     context 'when both creates and destroys are empty' do
@@ -603,7 +603,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
 
     context 'when record count exceeds MAX_RECORDS_PER_CHUNK' do
       before do
-        stub_const("#{described_class}::MAX_RECORDS_PER_CHUNK", 2)
+        stub_const("Cells::Claims::BaseService::MAX_RECORDS_PER_CHUNK", 2)
       end
 
       let(:creates) { [small_record, small_record, small_record] }
@@ -618,7 +618,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
 
     context 'when record count exceeds MAX_RECORDS_PER_CHUNK across creates and destroys' do
       before do
-        stub_const("#{described_class}::MAX_RECORDS_PER_CHUNK", 2)
+        stub_const("Cells::Claims::BaseService::MAX_RECORDS_PER_CHUNK", 2)
       end
 
       let(:creates) { [small_record] }

@@ -2,8 +2,8 @@
 stage: Create
 group: Source Code
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
-description: Sign commits in your GitLab repository with SSH keys.
-title: Sign commits with SSH keys
+description: Sign commits and tags in your GitLab repository with SSH keys.
+title: Sign commits and tags with SSH keys
 ---
 
 {{< details >}}
@@ -13,9 +13,9 @@ title: Sign commits with SSH keys
 
 {{< /details >}}
 
-When you sign commits with SSH keys, GitLab uses the SSH public keys associated
-with your GitLab account to cryptographically verify the commit signature.
-If successful, GitLab displays a **Verified** label on the commit.
+When you sign commits or tags with SSH keys, GitLab uses the SSH public keys
+associated with your GitLab account to cryptographically verify the signature.
+If successful, GitLab displays a **Verified** label on the commit or tag.
 
 For GitLab to consider a commit verified:
 
@@ -36,7 +36,7 @@ It can be verified on the page for [adding an SSH key to your GitLab account](..
 For more information about managing the SSH keys associated with your GitLab account, see
 [use SSH keys to communicate with GitLab](../../../ssh.md).
 
-## Configure Git to sign commits with your SSH key
+## Configure Git to sign commits and tags with your SSH key
 
 After you [create an SSH key](../../../ssh.md#generate-an-ssh-key-pair) and
 [add it to your GitLab account](../../../ssh.md#add-an-ssh-key-to-your-gitlab-account)
@@ -79,7 +79,7 @@ Prerequisites:
 
 - You've [created an SSH key](../../../ssh.md#generate-an-ssh-key-pair).
 - You've [added the key](../../../ssh.md#add-an-ssh-key-to-your-gitlab-account) to your GitLab account.
-- You've [configured Git to sign commits](#configure-git-to-sign-commits-with-your-ssh-key) with your SSH key.
+- You've [configured Git to sign commits](#configure-git-to-sign-commits-and-tags-with-your-ssh-key) with your SSH key.
 - Your Git `user.email` matches a [verified email address](../../../profile/_index.md#change-your-primary-email)
   associated with your GitLab account.
 
@@ -103,6 +103,40 @@ To sign a commit:
 1. Check that your commits [are verified](#verify-commits).
    Signature verification uses the `allowed_signers` file to associate emails and SSH keys.
    For help configuring this file, see [verify commits locally](#verify-commits-locally).
+
+## Sign and verify tags
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/384473) in GitLab 18.3 [with a flag](../../../../administration/feature_flags/_index.md) named `render_ssh_signed_tags_verification_status`. Disabled by default.
+- [Enabled on GitLab.com, GitLab Self-Managed, and GitLab Dedicated](https://gitlab.com/gitlab-org/gitlab/-/issues/561452) in GitLab 18.11.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag.
+> For more information, see the history.
+
+After you [configure Git to sign commits and tags](#configure-git-to-sign-commits-and-tags-with-your-ssh-key)
+with your SSH key, you can sign your tags:
+
+1. When you create a Git tag, add the `-s` flag:
+
+   ```shell
+   git tag -s v1.1.1 -m "My signed tag"
+   ```
+
+1. Push to GitLab and verify your tags are signed with this command:
+
+   ```shell
+   git tag --verify v1.1.1
+   ```
+
+1. Optional. To sign tags automatically without the `-s` flag, run:
+
+   ```shell
+   git config --global tag.gpgsign true
+   ```
 
 ## Verify commits
 

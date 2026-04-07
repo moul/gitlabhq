@@ -16,16 +16,16 @@ export function FixedRubyPlugin() {
     {
       ...rubyPlugin,
       name: 'vite-plugin-ruby-fixed',
-      config: (...args) => {
-        const originalConfig = rubyPlugin.config(...args);
-        const { rollupOptions, rolldownOptions, ...restBuild } = originalConfig.build ?? {};
+      config(...args) {
+        const originalConfig = rubyPlugin.config.call(this, ...args);
+        const { rolldownOptions, ...restBuild } = originalConfig.build ?? {};
         return {
           ...originalConfig,
           resolve: undefined,
           build: {
             ...restBuild,
             rolldownOptions: {
-              ...(rolldownOptions ?? rollupOptions),
+              ...rolldownOptions,
               output: undefined,
             },
           },

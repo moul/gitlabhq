@@ -63141,6 +63141,12 @@ msgstr ""
 msgid "SecurityOrchestration|Add another variable"
 msgstr ""
 
+msgid "SecurityOrchestration|Add directories"
+msgstr ""
+
+msgid "SecurityOrchestration|Add file paths"
+msgstr ""
+
 msgid "SecurityOrchestration|Add job name suffix %{suffixEditor} %{suffixIcon}"
 msgstr ""
 
@@ -63713,9 +63719,6 @@ msgstr ""
 msgid "SecurityOrchestration|Inherited policy"
 msgstr ""
 
-msgid "SecurityOrchestration|Input only one value. Wildcards are supported."
-msgstr ""
-
 msgid "SecurityOrchestration|Invalid Compliance Framework ID(s)"
 msgstr ""
 
@@ -64201,6 +64204,9 @@ msgid "SecurityOrchestration|Select dismiss reason"
 msgstr ""
 
 msgid "SecurityOrchestration|Select frameworks"
+msgstr ""
+
+msgid "SecurityOrchestration|Select identifier type"
 msgstr ""
 
 msgid "SecurityOrchestration|Select identifier type (optional)"
@@ -80382,6 +80388,9 @@ msgid "WorkItem|An error occurred while subscribing to the view. Please try agai
 msgstr ""
 
 msgid "WorkItem|An error occurred while updating the status."
+msgstr ""
+
+msgid "WorkItem|Analyze items"
 msgstr ""
 
 msgid "WorkItem|Ancestor"

@@ -154,7 +154,6 @@ Style/RedundantSelf:
     - 'ee/app/models/ee/project.rb'
     - 'ee/app/models/ee/snippet_repository.rb'
     - 'ee/app/models/ee/user.rb'
-    - 'ee/app/models/gitlab_subscription.rb'
     - 'ee/app/models/gitlab_subscriptions/upcoming_reconciliation.rb'
     - 'ee/app/models/iteration.rb'
     - 'ee/app/models/iterations/cadence.rb'

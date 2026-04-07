@@ -578,7 +578,7 @@ LDAP group lookups. The very last occurrence of this entry should indicate
 exactly which users GitLab believes should be added to the group.
 
 > [!note]
-> 10 is `Guest`, 20 is `Reporter`, 30 is `Developer`, 40 is `Maintainer`
+> 10 is `Guest`, 20 is `Reporter`, 25 is `Security Manager`, 30 is `Developer`, 40 is `Maintainer`
 > and 50 is `Owner`.
 
 ```shell

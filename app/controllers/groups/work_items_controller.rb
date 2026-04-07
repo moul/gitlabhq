@@ -17,6 +17,7 @@ module Groups
       push_force_frontend_feature_flag(:use_work_item_url, !!group&.use_work_item_url?)
       push_force_frontend_feature_flag(:work_item_features_field,
         Feature.enabled?(:work_item_features_field, current_user))
+      push_frontend_feature_flag(:duo_quick_action_work_item_list, current_user)
     end
 
     before_action :handle_new_work_item_path, only: [:show]

@@ -249,7 +249,7 @@ export default defineConfig({
     minify: true,
     cssMinify: true,
     reportCompressedSize: true,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         codeSplitting: {
           groups: [

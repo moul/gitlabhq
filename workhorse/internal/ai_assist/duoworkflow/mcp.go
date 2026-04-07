@@ -205,6 +205,7 @@ func (m *manager) buildTools(ctx context.Context) error {
 					Name:        prefixedName,
 					Description: tool.Description,
 					InputSchema: string(schemaBytes),
+					Trusted:     proto.Bool(s.cfg.Trusted),
 				}
 
 				m.tools = append(m.tools, mcpTool)

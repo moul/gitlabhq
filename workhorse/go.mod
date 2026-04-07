@@ -32,7 +32,7 @@ require (
 	github.com/stretchr/testify v1.11.1
 	gitlab.com/gitlab-org/gitaly/v18 v18.9.2
 	gitlab.com/gitlab-org/labkit v1.45.0
-	gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb v0.0.0-20260127171529-874adaabe522
+	gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb v0.0.0-20260407131834-a3f60a098c37
 	gitlab.com/gitlab-org/orbit/knowledge-graph/clients/gkgpb v0.21.0
 	go.uber.org/goleak v1.3.0
 	gocloud.dev v0.44.1-0.20260129180240-def8b132c64a
