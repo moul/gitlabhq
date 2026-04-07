@@ -24,6 +24,11 @@ RSpec.describe 'getting organizations information', feature_category: :organizat
 
   subject(:request_organization) { post_graphql(query, current_user: current_user) }
 
+  it_behaves_like 'authorizing granular token permissions for GraphQL', :read_organization do
+    let(:boundary_object) { :instance }
+    let(:request) { post_graphql(query, token: { personal_access_token: pat }) }
+  end
+
   context 'without authenticated user' do
     let(:current_user) { nil }
 

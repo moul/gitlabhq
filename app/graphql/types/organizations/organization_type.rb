@@ -8,6 +8,8 @@ module Types
 
       connection_type_class Types::CountableConnectionType
 
+      authorize_granular_token permissions: :read_organization, boundary: :instance, boundary_type: :instance
+
       field :avatar_url,
         type: GraphQL::Types::String,
         null: true,

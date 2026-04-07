@@ -210,7 +210,6 @@ create_note
 create_objective
 create_observability_access_request
 create_on_demand_dast_scan
-create_organization
 create_package
 create_pages
 create_path_lock
@@ -524,9 +523,7 @@ read_observability
 read_observability_portal
 read_on_demand_dast_scan
 read_operations_dashboard
-read_organization
 read_organization_cluster_agent_mapping
-read_organization_user
 read_package_within_public_registries
 read_pages
 read_pages_content
@@ -701,7 +698,6 @@ update_max_pages_size
 update_name
 update_note
 update_o11y_settings
-update_organization_user
 update_owned_user_achievement
 update_package
 update_pages

@@ -619,7 +619,7 @@ message.
 ### Email notifications are enabled, but not received
 
 If you've enabled email notifications in GitLab, but users aren't receiving notifications as expected, ensure that
-your email provider isn't blocking emails from your GitLab instance. Many email providers (like Outlook) block emails
+your email is verified in GitLab and that your email provider isn't blocking emails from your GitLab instance. Many email providers (like Outlook) block emails
 coming from lesser-known self-managed mail server IP addresses. To verify, attempt to send an email
 directly from the SMTP server for your instance. For example, a test email from Sendmail might look something like:
 

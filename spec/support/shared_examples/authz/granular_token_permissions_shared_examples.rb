@@ -52,7 +52,7 @@ RSpec.shared_examples 'authorizing granular token permissions' do |permissions, 
     let(:assignables) do
       granular_permissions.map do |permission|
         ::Authz::PermissionGroups::Assignable.for_permission(permission).first.name
-      end
+      end.uniq
     end
 
     let(:boundary) { ::Authz::Boundary.for(boundary_object) }
