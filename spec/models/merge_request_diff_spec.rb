@@ -2241,14 +2241,14 @@ RSpec.describe MergeRequestDiff, feature_category: :code_review_workflow do
       )
     end
 
-    it 'class #paginated_diffs with limit and options' do
+    it 'calls #paginated_diffs with limit and options' do
       expect(merge_request_diff)
         .to receive(:paginated_diffs)
         .with(1, 5, { expanded: true })
         .and_return(paginated_diffs)
 
       expect(merge_request_diff.first_diffs_slice(5, expanded: true))
-        .to eq(['paginated diffs'])
+        .to eq(paginated_diffs)
     end
   end
 

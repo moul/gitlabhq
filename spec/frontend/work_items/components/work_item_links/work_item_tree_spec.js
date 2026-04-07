@@ -612,7 +612,6 @@ describe('WorkItemTree', () => {
 
     describe('localStorage persistence', () => {
       beforeEach(() => {
-        useLocalStorageSpy();
         jest.spyOn(utils, 'saveToggleToLocalStorage');
         jest.spyOn(utils, 'saveHiddenMetadataKeysToLocalStorage');
       });

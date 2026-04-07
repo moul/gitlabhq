@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Language: ro\n"
 "X-Crowdin-File: /master/locale/gitlab.pot\n"
 "X-Crowdin-File-ID: 16\n"
-"PO-Revision-Date: 2026-03-31 11:02\n"
+"PO-Revision-Date: 2026-04-03 12:41\n"
 
 msgid " %{start} to %{end}"
 msgstr " de la %{start} până la %{end}"
@@ -3700,9 +3700,6 @@ msgstr ""
 msgid "AICatalog|unable to validate definition"
 msgstr ""
 
-msgid "AISummary|Generates a summary of this issue"
-msgstr ""
-
 msgid "AISummary|View summary"
 msgstr ""
 
@@ -4372,6 +4369,12 @@ msgstr ""
 msgid "AccessDropdown|Users"
 msgstr "Utilizatori"
 
+msgid "AccessTokens|%{name} (copy)"
+msgstr ""
+
+msgid "AccessTokens|A new fine-grained token form will open with the resource and permissions from %{tokenName} pre-filled. %{tokenName} will not be affected."
+msgstr ""
+
 msgid "AccessTokens|Access token expiration"
 msgstr ""
 
@@ -4498,9 +4501,6 @@ msgstr ""
 msgid "AccessTokens|Description"
 msgstr ""
 
-msgid "AccessTokens|Description is too long (maximum is 255 characters)."
-msgstr ""
-
 msgid "AccessTokens|Disable access tokens"
 msgstr ""
 
@@ -4511,9 +4511,6 @@ msgid "AccessTokens|Duplicate"
 msgstr ""
 
 msgid "AccessTokens|Duplicate '%{tokenName}'?"
-msgstr ""
-
-msgid "AccessTokens|Duplicate a token to generate a new token with the same scope as the original token. The original token remains unchanged and both tokens operate independently."
 msgstr ""
 
 msgid "AccessTokens|Enable DPoP"
@@ -4550,6 +4547,9 @@ msgid "AccessTokens|Expiring soon"
 msgstr ""
 
 msgid "AccessTokens|Failed to fetch statistics."
+msgstr ""
+
+msgid "AccessTokens|Failed to load source token. Please fill in the form manually."
 msgstr ""
 
 msgid "AccessTokens|Failed to revoke token"
@@ -4615,10 +4615,22 @@ msgstr ""
 msgid "AccessTokens|Group or project"
 msgstr ""
 
-msgid "AccessTokens|Help me choose the right permissions for my access token."
+msgid "AccessTokens|How do I use DPoP?"
 msgstr ""
 
-msgid "AccessTokens|How do I use DPoP?"
+msgid "AccessTokens|I am your fine-grained permissions assistant. I can help you choose the right permissions for your access token."
+msgstr ""
+
+msgid "AccessTokens|I need read-only access to projects and groups."
+msgstr ""
+
+msgid "AccessTokens|I need to manage CI/CD pipelines and read job logs."
+msgstr ""
+
+msgid "AccessTokens|I want to automate issue and merge request management."
+msgstr ""
+
+msgid "AccessTokens|I want to read and write to repositories via the API."
 msgstr ""
 
 msgid "AccessTokens|IP Usage"
@@ -7537,13 +7549,40 @@ msgstr ""
 msgid "Agent or flow already enabled"
 msgstr ""
 
+msgid "AgentArtifacts|AI Item"
+msgstr ""
+
 msgid "AgentArtifacts|Agent artifacts"
+msgstr ""
+
+msgid "AgentArtifacts|Audit events"
+msgstr ""
+
+msgid "AgentArtifacts|Credits"
+msgstr ""
+
+msgid "AgentArtifacts|Failed to load agent artifacts."
 msgstr ""
 
 msgid "AgentArtifacts|Monitor and observe AI agent behavior and activities across your group."
 msgstr ""
 
+msgid "AgentArtifacts|No agent artifacts found."
+msgstr ""
+
+msgid "AgentArtifacts|Session ID"
+msgstr ""
+
+msgid "AgentArtifacts|Start time"
+msgstr ""
+
+msgid "Agents|Cannot be assigned"
+msgstr ""
+
 msgid "Agents|Explore other agents"
+msgstr ""
+
+msgid "Agents|No triggers for this event"
 msgstr ""
 
 msgid "AggregationEngine|Unknown granularity \"%{granularity}\""
@@ -7606,9 +7645,6 @@ msgstr ""
 msgid "AiImpactAnalytics|Code Suggestions accepted out of total Code Suggestions generated."
 msgstr ""
 
-msgid "AiImpactAnalytics|Code Suggestions accepted out of total Code Suggestions generated. %{linkStart}Learn more%{linkEnd}."
-msgstr ""
-
 msgid "AiImpactAnalytics|Code Suggestions usage"
 msgstr ""
 
@@ -7631,6 +7667,9 @@ msgid "AiImpactAnalytics|Duo users"
 msgstr ""
 
 msgid "AiImpactAnalytics|Feature usage"
+msgstr ""
+
+msgid "AiImpactAnalytics|GitLab Duo agent/flow users"
 msgstr ""
 
 msgid "AiImpactAnalytics|No query found for metric: %{metric}"
@@ -7661,6 +7700,9 @@ msgid "AiImpactAnalytics|Number of users who used Duo Chat (non-agentic)."
 msgstr ""
 
 msgid "AiImpactAnalytics|Number of users who used Root Cause Analysis."
+msgstr ""
+
+msgid "AiImpactAnalytics|Number of users who used at least one GitLab Duo agent or flow."
 msgstr ""
 
 msgid "AiImpactAnalytics|Number of users who used at least one GitLab Duo or GitLab Duo Agent Platform feature."
@@ -7708,6 +7750,9 @@ msgstr ""
 msgid "AiPowered|After the conversation was last updated"
 msgstr ""
 
+msgid "AiPowered|All eligible users"
+msgstr ""
+
 msgid "AiPowered|Allow GitLab Duo agents to execute flows for the instance. %{linkStart}What are flows%{linkEnd}?"
 msgstr ""
 
@@ -7724,9 +7769,6 @@ msgid "AiPowered|Allow GitLab to collect prompts, AI responses, and metadata fro
 msgstr ""
 
 msgid "AiPowered|Allow GitLab to process your code and project data for AI-native features in this group. Your data is sent to GitLab Duo. Groups, subgroups, and projects can opt out individually."
-msgstr ""
-
-msgid "AiPowered|Allow members of these groups access to AI-native features."
 msgstr ""
 
 msgid "AiPowered|Always off"
@@ -7771,9 +7813,6 @@ msgstr ""
 msgid "AiPowered|Configuration"
 msgstr ""
 
-msgid "AiPowered|Configure AI features"
-msgstr ""
-
 msgid "AiPowered|Configure AI-native GitLab Duo features. %{linkStart}Which features%{linkEnd}?"
 msgstr ""
 
@@ -7801,7 +7840,13 @@ msgstr ""
 msgid "AiPowered|Control who can access AI-native features executed with or without CI/CD pipelines."
 msgstr ""
 
+msgid "AiPowered|Create group"
+msgstr ""
+
 msgid "AiPowered|Data collection"
+msgstr ""
+
+msgid "AiPowered|Default access for users who can access AI features regardless of group membership."
 msgstr ""
 
 msgid "AiPowered|Direct connections"
@@ -7888,6 +7933,15 @@ msgstr ""
 msgid "AiPowered|Indirect connections through GitLab Self-Managed"
 msgstr ""
 
+msgid "AiPowered|Learn more"
+msgstr ""
+
+msgid "AiPowered|Learn more about GitLab Credits (opens in new window)"
+msgstr ""
+
+msgid "AiPowered|Limit access based on group membership"
+msgstr ""
+
 msgid "AiPowered|Local AI Gateway URL"
 msgstr ""
 
@@ -7901,9 +7955,6 @@ msgid "AiPowered|Lock tooltip icon"
 msgstr ""
 
 msgid "AiPowered|Maximum time in seconds to wait for responses from the AI Gateway (up to 600 seconds).%{br}Increasing this value might result in degraded user experience."
-msgstr ""
-
-msgid "AiPowered|Member access"
 msgstr ""
 
 msgid "AiPowered|Members of group"
@@ -7924,13 +7975,10 @@ msgstr ""
 msgid "AiPowered|Never allow GitLab to process your code and project data for AI-native features in this group. Your data is not sent to GitLab Duo."
 msgstr ""
 
-msgid "AiPowered|No access rules configured"
-msgstr ""
-
-msgid "AiPowered|No group"
-msgstr ""
-
 msgid "AiPowered|No groups found"
+msgstr ""
+
+msgid "AiPowered|No limits applied. All eligible users have access to all AI features."
 msgstr ""
 
 msgid "AiPowered|Not enabled"
@@ -7987,9 +8035,6 @@ msgstr ""
 msgid "AiPowered|Talk to Sales"
 msgstr ""
 
-msgid "AiPowered|Tanuki AI icon"
-msgstr ""
-
 msgid "AiPowered|This setting applies to the entire instance. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}Check the required prerequisites%{prerequisitesLinkEnd}."
 msgstr ""
 
@@ -8029,9 +8074,6 @@ msgstr ""
 msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation."
 msgstr ""
 
-msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation. Learn more about %{linkStart}GitLab Credit pricing.%{linkEnd}"
-msgstr ""
-
 msgid "AiPowered|Use TLS for the GitLab Duo Agent Platform service"
 msgstr ""
 
@@ -8057,6 +8099,9 @@ msgid "AiPowered|When GitLab Duo is not available, experiment and beta features 
 msgstr ""
 
 msgid "AiPowered|When GitLab Duo is not available, prompt caching cannot be turned on."
+msgstr ""
+
+msgid "AiPowered|When configured, access to GitLab Duo or GitLab Duo Agent Platform can be restricted to selected groups. By default all eligible members can access all configured AI features. %{linkStart}How can I control access?%{linkEnd}"
 msgstr ""
 
 msgid "AiPowered|When turned on, members without a Duo Pro or Duo Enterprise seat can access GitLab Duo Agent Platform features. %{linkStart}Which features are included%{linkEnd}?"
@@ -9223,6 +9268,9 @@ msgstr "A apărut o eroare în timpul încărcării unei secțiuni a acestei pag
 msgid "An error occurred while loading chart data"
 msgstr "A apărut o eroare la încărcarea datelor graficului"
 
+msgid "An error occurred while loading comments"
+msgstr ""
+
 msgid "An error occurred while loading commit signatures"
 msgstr "A apărut o eroare la încărcarea semnăturilor commit-ului"
 
@@ -9458,6 +9506,9 @@ msgid "AnalyticsDashboards|Chat (non-agentic)"
 msgstr ""
 
 msgid "AnalyticsDashboards|Code Suggestions"
+msgstr ""
+
+msgid "AnalyticsDashboards|Failed to load dashboards list. Please try again."
 msgstr ""
 
 msgid "AnalyticsDashboards|Failed to load namespace metadata."
@@ -11770,9 +11821,6 @@ msgstr ""
 msgid "BillingPlans|AI-powered features for writing code and automating workflows. Purchase %{creditsLinkStart}credits%{creditsLinkEnd} to unlock AI capabilities for your group, starting at $1 with volume discounts available."
 msgstr ""
 
-msgid "BillingPlans|AI-powered features that help you write code, understand your work, and automate tasks across your workflow."
-msgstr ""
-
 msgid "BillingPlans|Accelerate development with AI guidance and automation"
 msgstr ""
 
@@ -12223,9 +12271,6 @@ msgstr ""
 msgid "BillingPlans|a trial of Ultimate"
 msgstr ""
 
-msgid "BillingPlans|a trial of Ultimate + Duo Enterprise"
-msgstr ""
-
 msgid "BillingPlans|billed annually at %{price_per_year}"
 msgstr "facturat anual cu %{price_per_year}"
 
@@ -12364,10 +12409,7 @@ msgstr ""
 msgid "Billings|You have unlimited seat count."
 msgstr ""
 
-msgid "Billings|Your group is on a trial of Gitlab Ultimate"
-msgstr ""
-
-msgid "Billings|Your group is on a trial of Ultimate + GitLab Duo Enterprise"
+msgid "Billings|Your group is on a trial of GitLab Ultimate"
 msgstr ""
 
 msgid "Billings|Your group is on the Free plan"
@@ -24469,6 +24511,9 @@ msgstr "Locație"
 msgid "Dependencies|Locations of dependencies. The locations of transitive dependencies (child dependencies of other dependencies) are shown as the complete set of all paths that import the dependency."
 msgstr ""
 
+msgid "Dependencies|Malware"
+msgstr ""
+
 msgid "Dependencies|No components found."
 msgstr ""
 
@@ -24521,6 +24566,9 @@ msgid "Dependencies|This dependency contains vulnerabilities that violate a secu
 msgstr ""
 
 msgid "Dependencies|This link will expire in %{number} days."
+msgstr ""
+
+msgid "Dependencies|This package has been identified as malware"
 msgstr ""
 
 msgid "Dependencies|To filter by version, filter by one component first"
@@ -26458,6 +26506,12 @@ msgstr ""
 msgid "DuoAgentPlatform|Remote GitLab Duo Flows"
 msgstr ""
 
+msgid "DuoAgentPlatform|Request"
+msgstr ""
+
+msgid "DuoAgentPlatform|Response"
+msgstr ""
+
 msgid "DuoAgentPlatform|Session ID"
 msgstr ""
 
@@ -26488,13 +26542,34 @@ msgstr ""
 msgid "DuoAgentPlatform|User messaged agent"
 msgstr ""
 
+msgid "DuoAgenticChat|%{count} character over limit."
+msgid_plural "DuoAgenticChat|%{count} characters over limit."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid "DuoAgenticChat|%{count} character remaining."
+msgid_plural "DuoAgenticChat|%{count} characters remaining."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "DuoAgenticChat|As Owner of the group, you can turn on GitLab Duo Agent Platform and its AI features for your team."
 msgstr ""
 
 msgid "DuoAgenticChat|As Owner of the project, you can turn on GitLab Duo Agent Platform and its AI features for your team."
 msgstr ""
 
+msgid "DuoAgenticChat|Cancel"
+msgstr ""
+
 msgid "DuoAgenticChat|Chat about different topics"
+msgstr ""
+
+msgid "DuoAgenticChat|Chat history"
+msgstr ""
+
+msgid "DuoAgenticChat|Chat prompt input"
 msgstr ""
 
 msgid "DuoAgenticChat|Chat with different agents"
@@ -26530,6 +26605,27 @@ msgstr ""
 msgid "DuoAgenticChat|Go to Duo settings"
 msgstr ""
 
+msgid "DuoAgenticChat|Hello, I am %{agentName}!"
+msgstr ""
+
+msgid "DuoAgenticChat|How can I help you today?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I change my password in GitLab?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I clone a repository?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I create a template?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I fork a project?"
+msgstr ""
+
+msgid "DuoAgenticChat|I am GitLab Duo Agentic Chat, your personal AI-powered assistant."
+msgstr ""
+
 msgid "DuoAgenticChat|I don't have access to that resource at the moment. Is there something else I can help you with?"
 msgstr ""
 
@@ -26537,6 +26633,9 @@ msgid "DuoAgenticChat|Invalid chat state provided"
 msgstr ""
 
 msgid "DuoAgenticChat|Learn more"
+msgstr ""
+
+msgid "DuoAgenticChat|Let's work through this together..."
 msgstr ""
 
 msgid "DuoAgenticChat|No GitLab Credits remain for this billing period. Turn off the %{agenticModeStart}Agentic mode%{agenticModeEnd} toggle or ask your administrator for more credits. %{linkStart}Learn more%{linkEnd}."
@@ -26557,10 +26656,16 @@ msgstr ""
 msgid "DuoAgenticChat|Purchase more credits or turn off the Agentic toggle to start a new conversation."
 msgstr ""
 
+msgid "DuoAgenticChat|Responses may be inaccurate. Verify before use."
+msgstr ""
+
 msgid "DuoAgenticChat|Return to non-agentic Chat"
 msgstr ""
 
 msgid "DuoAgenticChat|Select default namespace"
+msgstr ""
+
+msgid "DuoAgenticChat|Send chat message."
 msgstr ""
 
 msgid "DuoAgenticChat|Set up automated workflows and AI agents."
@@ -26570,6 +26675,9 @@ msgid "DuoAgenticChat|Steps to turn on GitLab Duo"
 msgstr ""
 
 msgid "DuoAgenticChat|The agent associated with this conversation is no longer available. You can view the conversation history but cannot send new messages."
+msgstr ""
+
+msgid "DuoAgenticChat|This Chat conversation has been archived and cannot receive new messages. Please start a new conversation to continue."
 msgstr ""
 
 msgid "DuoAgenticChat|This chat was deleted."
@@ -26594,6 +26702,9 @@ msgid "DuoAgenticChat|Turn on beta and experimental features for early access to
 msgstr ""
 
 msgid "DuoAgenticChat|Turn on flows"
+msgstr ""
+
+msgid "DuoAgenticChat|Type /help to learn more"
 msgstr ""
 
 msgid "DuoAgenticChat|Unable to connect to workflow service. Please try again."
@@ -26899,10 +27010,40 @@ msgstr ""
 msgid "DuoAgentsPlatform|You don't have permission to use GitLab Duo Agent Platform in this %{namespaceType}. %{learnMoreLinkStart}Learn more%{learnMoreLinkEnd}."
 msgstr ""
 
+msgid "DuoChat|%{count} character over limit."
+msgid_plural "DuoChat|%{count} characters over limit."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid "DuoChat|%{count} character remaining."
+msgid_plural "DuoChat|%{count} characters remaining."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "DuoChat|Agentic"
 msgstr ""
 
 msgid "DuoChat|Ask a question about GitLab"
+msgstr ""
+
+msgid "DuoChat|Back to chat"
+msgstr ""
+
+msgid "DuoChat|Cancel"
+msgstr ""
+
+msgid "DuoChat|Chat history"
+msgstr ""
+
+msgid "DuoChat|Close chat"
+msgstr ""
+
+msgid "DuoChat|Copy Chat Session ID (%{id})"
+msgstr ""
+
+msgid "DuoChat|Could not copy session ID"
 msgstr ""
 
 msgid "DuoChat|Duo Agentic Chat is not available at the moment in this page. To work with Duo Agentic Chat in pages outside the scope of a project please select a %{strong_start}Default GitLab Duo namespace%{strong_end} in your %{preferences_link_start}User Profile Preferences%{preferences_link_end}."
@@ -26917,7 +27058,31 @@ msgstr ""
 msgid "DuoChat|Give feedback"
 msgstr ""
 
+msgid "DuoChat|How can I help you today?"
+msgstr ""
+
+msgid "DuoChat|How do I change my password in GitLab?"
+msgstr ""
+
+msgid "DuoChat|How do I clone a repository?"
+msgstr ""
+
+msgid "DuoChat|How do I create a template?"
+msgstr ""
+
+msgid "DuoChat|How do I fork a project?"
+msgstr ""
+
+msgid "DuoChat|I am GitLab Duo Chat, your personal AI-powered assistant."
+msgstr ""
+
 msgid "DuoChat|Included references"
+msgstr ""
+
+msgid "DuoChat|Let's work through this together..."
+msgstr ""
+
+msgid "DuoChat|More options"
 msgstr ""
 
 msgid "DuoChat|New chat conversation."
@@ -26926,10 +27091,22 @@ msgstr ""
 msgid "DuoChat|No results found"
 msgstr ""
 
+msgid "DuoChat|Responses may be inaccurate. Verify before use."
+msgstr ""
+
 msgid "DuoChat|Search %{categoryLabel}…"
 msgstr ""
 
+msgid "DuoChat|Send chat message."
+msgstr ""
+
+msgid "DuoChat|Session ID copied to clipboard"
+msgstr ""
+
 msgid "DuoChat|There was an error communicating with GitLab Duo Chat. Please try again later."
+msgstr ""
+
+msgid "DuoChat|Type /help to learn more"
 msgstr ""
 
 msgid "DuoChat|What is a fork?"
@@ -26948,6 +27125,9 @@ msgid "DuoCodeReview|:warning: Code Review Flow could not create the required CI
 msgstr ""
 
 msgid "DuoCodeReview|:warning: Code Review Flow could not obtain the required authentication tokens to connect to the GitLab AI Gateway and API. Please request a new review. If the issue persists, contact your administrator."
+msgstr ""
+
+msgid "DuoCodeReview|:warning: Code Review Flow could not retrieve the source branch for this merge request. Please request a new review."
 msgstr ""
 
 msgid "DuoCodeReview|:warning: Code Review Flow is enabled but the service account needs to be verified. Contact your administrator."
@@ -31189,9 +31369,6 @@ msgstr ""
 msgid "FoundationalFlow|Code Review"
 msgstr ""
 
-msgid "FoundationalFlow|Turn feedback into actionable merge requests or issues."
-msgstr "Transformați feedback-ul în cereri de îmbinare sau probleme acționabile."
-
 msgid "FoundationalFlow|Convert to GitLab CI/CD"
 msgstr ""
 
@@ -31220,6 +31397,9 @@ msgid "FoundationalFlow|Secret Detection False Positive Detection"
 msgstr ""
 
 msgid "FoundationalFlow|Streamline code reviews by analyzing code changes, comments, and linked issues."
+msgstr ""
+
+msgid "FoundationalFlow|Turn feedback into actionable merge requests or issues."
 msgstr ""
 
 msgid "Framework id(s) %{missing_ids} are invalid."
@@ -31496,6 +31676,12 @@ msgid "Geo|Abuse Report Upload"
 msgstr ""
 
 msgid "Geo|Abuse Report Uploads"
+msgstr ""
+
+msgid "Geo|Achievement Upload"
+msgstr ""
+
+msgid "Geo|Achievement Uploads"
 msgstr ""
 
 msgid "Geo|Add New Site"
@@ -36935,6 +37121,9 @@ msgid "ImportProjects|Update of imported projects with realtime changes failed"
 msgstr "Actualizarea proiectelor importate cu modificări în timp real a eșuat"
 
 msgid "ImportProjects|When you import to a personal namespace, all contributions are assigned to the personal namespace owner and they cannot be reassigned. To map contributions to real users, import to a group instead."
+msgstr ""
+
+msgid "ImportProjects|You do not have permission to import into this namespace."
 msgstr ""
 
 msgid "Imported"
@@ -43627,6 +43816,9 @@ msgstr ""
 msgid "MergeChecks|Pipelines must succeed"
 msgstr ""
 
+msgid "MergeChecks|Security policy pipeline check"
+msgstr ""
+
 msgid "MergeChecks|Skipped pipelines are considered successful"
 msgstr ""
 
@@ -43640,6 +43832,9 @@ msgid "MergeChecks|View locked files"
 msgstr ""
 
 msgid "MergeChecks|View policies"
+msgstr ""
+
+msgid "MergeChecks|When security policies are enforced, all pipelines for the latest commit must succeed before this merge request can be merged."
 msgstr ""
 
 msgid "MergeConflict|&gt;&gt;&gt;&gt;&gt;&gt;&gt; %{commit}: %{message} (our changes)"
@@ -43771,11 +43966,11 @@ msgstr "a început un subiect pe %{linkStart}o versiune veche de diff%{linkEnd}"
 msgid "MergeRequests|started a thread on %{linkStart}the diff%{linkEnd}"
 msgstr "a început un subiect pe %{linkStart}diff%{linkEnd}"
 
-msgid "MergeRequests|started a thread on an outdated change in commit %{linkStart}%{commitDisplay}%{linkEnd}"
-msgstr "a început un subiect pe o modificare învechită în commit-ul %{linkStart}%{commitDisplay}%{linkEnd}"
+msgid "MergeRequests|started a thread on an outdated change in commit %{link}"
+msgstr ""
 
-msgid "MergeRequests|started a thread on commit %{linkStart}%{commitDisplay}%{linkEnd}"
-msgstr "a început un subiect pe commit-ul %{linkStart}%{commitDisplay}%{linkEnd}"
+msgid "MergeRequests|started a thread on commit %{link}"
+msgstr ""
 
 msgid "MergeRequest|Allow merge request pipelines to access protected variables and runners"
 msgstr ""
@@ -47557,6 +47752,9 @@ msgstr ""
 msgid "Observability|Alerts"
 msgstr ""
 
+msgid "Observability|All endpoints support the full range of OpenTelemetry signal types: traces, metrics, and logs"
+msgstr ""
+
 msgid "Observability|Allocating compute resources"
 msgstr ""
 
@@ -47582,9 +47780,6 @@ msgid "Observability|Authentication failed. Please refresh the page."
 msgstr ""
 
 msgid "Observability|Beta release"
-msgstr ""
-
-msgid "Observability|Both endpoints support the full range of OpenTelemetry signal types: traces, metrics, and logs"
 msgstr ""
 
 msgid "Observability|Bug reports"
@@ -47629,10 +47824,16 @@ msgstr ""
 msgid "Observability|Copy HTTP endpoint"
 msgstr ""
 
+msgid "Observability|Copy HTTPS endpoint"
+msgstr ""
+
 msgid "Observability|Copy curl command"
 msgstr ""
 
 msgid "Observability|Copy gRPC endpoint"
+msgstr ""
+
+msgid "Observability|Copy gRPCS endpoint"
 msgstr ""
 
 msgid "Observability|Create issues from this page to view them as related items here."
@@ -47698,7 +47899,10 @@ msgstr ""
 msgid "Observability|Endpoint details"
 msgstr ""
 
-msgid "Observability|Example curl command"
+msgid "Observability|Example curl command (Non-TLS)"
+msgstr ""
+
+msgid "Observability|Example curl command (TLS)"
 msgstr ""
 
 msgid "Observability|Exception tracking"
@@ -47749,7 +47953,7 @@ msgstr ""
 msgid "Observability|Filter data by month:"
 msgstr ""
 
-msgid "Observability|Firewall configuration: Open outbound access to %{endpoint} on ports 4317-4318"
+msgid "Observability|Firewall configuration: Open outbound access to %{endpoint} on ports 4317-4318 and 14317-14318"
 msgstr ""
 
 msgid "Observability|Free during beta period"
@@ -47789,6 +47993,9 @@ msgid "Observability|Group not found"
 msgstr ""
 
 msgid "Observability|HTTP Endpoint"
+msgstr ""
+
+msgid "Observability|HTTPS Endpoint"
 msgstr ""
 
 msgid "Observability|If you encounter any connectivity issues or require additional configuration assistance, please contact your system administrator with the endpoint details provided above."
@@ -47884,6 +48091,12 @@ msgstr ""
 msgid "Observability|No cost"
 msgstr ""
 
+msgid "Observability|Non-TLS"
+msgstr ""
+
+msgid "Observability|Non-TLS endpoints: HTTP on port 4318 and gRPC on port 4317 provide unencrypted transport"
+msgstr ""
+
 msgid "Observability|Notification channels"
 msgstr ""
 
@@ -47932,7 +48145,7 @@ msgstr ""
 msgid "Observability|Observability settings for group %{group_name} updated successfully."
 msgstr ""
 
-msgid "Observability|Once provisioned, you can test your HTTP endpoint by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
+msgid "Observability|Once provisioned, you can test your endpoints by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
 msgstr ""
 
 msgid "Observability|OpenTelemetry native"
@@ -47954,6 +48167,9 @@ msgid "Observability|Provisioning databases"
 msgstr ""
 
 msgid "Observability|Provisioning time"
+msgstr ""
+
+msgid "Observability|Recommended"
 msgstr ""
 
 msgid "Observability|Related issues"
@@ -47995,16 +48211,16 @@ msgstr ""
 msgid "Observability|Superior query performance and data compression with ClickHouse backend"
 msgstr ""
 
+msgid "Observability|TLS"
+msgstr ""
+
+msgid "Observability|TLS endpoints (recommended): HTTPS on port 14318 and gRPCS on port 14317 provide encrypted transport"
+msgstr ""
+
 msgid "Observability|Testing your endpoints"
 msgstr ""
 
-msgid "Observability|The HTTP endpoint (port 4318) accepts OTLP/HTTP protocol and is suitable for applications using HTTP-based transport"
-msgstr ""
-
 msgid "Observability|The ID of the group for this o11y service configuration."
-msgstr ""
-
-msgid "Observability|The gRPC endpoint (port 4317) accepts OTLP/gRPC protocol and is recommended for applications requiring persistent connections or streaming capabilities"
 msgstr ""
 
 msgid "Observability|The name of the group for this o11y service configuration."
@@ -48088,7 +48304,7 @@ msgstr ""
 msgid "Observability|You can contact us through our %{issue_link_start}feedback issue in GitLab%{issue_link_end}. You can also join our %{discord_link_start}Discord channel%{discord_link_end} for community discussions and support."
 msgstr ""
 
-msgid "Observability|You can test your HTTP endpoint by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
+msgid "Observability|You can test your endpoints by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
 msgstr ""
 
 msgid "Observability|Your OpenTelemetry (OTel) telemetry data collection endpoints are being provisioned. Once complete, they will be ready to receive data. Please configure your instrumentation with the following endpoints:"
@@ -48110,6 +48326,9 @@ msgid "Observability|authTokens must be an object"
 msgstr ""
 
 msgid "Observability|gRPC Endpoint"
+msgstr ""
+
+msgid "Observability|gRPCS Endpoint"
 msgstr ""
 
 msgid "Observability|targetPath must be a non-empty string"
@@ -48143,6 +48362,9 @@ msgid "OfflineTransfer|Object storage request responded with status %{status}"
 msgstr ""
 
 msgid "OfflineTransfer|Offline Transfer"
+msgstr ""
+
+msgid "OfflineTransfer|One or more destination paths is invalid."
 msgstr ""
 
 msgid "OfflineTransfer|Unable to access object storage bucket."
@@ -48865,6 +49087,21 @@ msgstr ""
 msgid "Orbit|All domains"
 msgstr ""
 
+msgid "Orbit|Ask your GitLab anything"
+msgstr ""
+
+msgid "Orbit|Branch"
+msgstr ""
+
+msgid "Orbit|CLI"
+msgstr ""
+
+msgid "Orbit|Clear"
+msgstr ""
+
+msgid "Orbit|Close"
+msgstr ""
+
 msgid "Orbit|Collapse"
 msgstr ""
 
@@ -48874,7 +49111,13 @@ msgstr ""
 msgid "Orbit|Configuration"
 msgstr ""
 
+msgid "Orbit|Connections"
+msgstr ""
+
 msgid "Orbit|Copy tool name"
+msgstr ""
+
+msgid "Orbit|Could not locate the selected node in the graph."
 msgstr ""
 
 msgid "Orbit|Data Explorer"
@@ -48883,16 +49126,49 @@ msgstr ""
 msgid "Orbit|Define how node types connect to each other. Relationships are also known as edges."
 msgstr ""
 
+msgid "Orbit|Definition"
+msgstr ""
+
+msgid "Orbit|Directory"
+msgstr ""
+
+msgid "Orbit|Dismiss"
+msgstr ""
+
+msgid "Orbit|Docs"
+msgstr ""
+
 msgid "Orbit|Domains"
+msgstr ""
+
+msgid "Orbit|Download CSV"
 msgstr ""
 
 msgid "Orbit|Enable"
 msgstr ""
 
+msgid "Orbit|Enable Orbit"
+msgstr ""
+
 msgid "Orbit|Enable Orbit for a top-level group to index its projects and make them queryable"
 msgstr ""
 
+msgid "Orbit|Execute query"
+msgstr ""
+
 msgid "Orbit|Expand"
+msgstr ""
+
+msgid "Orbit|FQN"
+msgstr ""
+
+msgid "Orbit|Failed to execute query. Please try again."
+msgstr ""
+
+msgid "Orbit|Failed to expand node neighbors."
+msgstr ""
+
+msgid "Orbit|Failed to load groups."
 msgstr ""
 
 msgid "Orbit|Failed to load groups. Please try again."
@@ -48904,7 +49180,28 @@ msgstr ""
 msgid "Orbit|Failed to update group setting. Please try again."
 msgstr ""
 
+msgid "Orbit|File"
+msgstr ""
+
+msgid "Orbit|Filter entities..."
+msgstr ""
+
+msgid "Orbit|Finding"
+msgstr ""
+
+msgid "Orbit|Get started with Orbit"
+msgstr ""
+
+msgid "Orbit|Group"
+msgstr ""
+
 msgid "Orbit|Healthy"
+msgstr ""
+
+msgid "Orbit|Hide SQL"
+msgstr ""
+
+msgid "Orbit|ImportedSymbol"
 msgstr ""
 
 msgid "Orbit|Indexed"
@@ -48916,7 +49213,64 @@ msgstr ""
 msgid "Orbit|Indexing…"
 msgstr ""
 
+msgid "Orbit|Invalid JSON query. Please check the syntax."
+msgstr ""
+
+msgid "Orbit|Job"
+msgstr ""
+
+msgid "Orbit|Label"
+msgstr ""
+
+msgid "Orbit|Learn more"
+msgstr ""
+
+msgid "Orbit|Location"
+msgstr ""
+
+msgid "Orbit|MCP"
+msgstr ""
+
+msgid "Orbit|MR count by user"
+msgstr ""
+
+msgid "Orbit|Marketing visual"
+msgstr ""
+
+msgid "Orbit|Maximize"
+msgstr ""
+
+msgid "Orbit|MergeRequest"
+msgstr ""
+
+msgid "Orbit|MergeRequestDiff"
+msgstr ""
+
+msgid "Orbit|MergeRequestDiffFile"
+msgstr ""
+
+msgid "Orbit|Milestone"
+msgstr ""
+
+msgid "Orbit|Minimize"
+msgstr ""
+
+msgid "Orbit|Name"
+msgstr ""
+
+msgid "Orbit|No"
+msgstr ""
+
 msgid "Orbit|No connection"
+msgstr ""
+
+msgid "Orbit|No results"
+msgstr ""
+
+msgid "Orbit|No results. Execute a query to see data."
+msgstr ""
+
+msgid "Orbit|Node Explorer"
 msgstr ""
 
 msgid "Orbit|Node Types"
@@ -48925,31 +49279,79 @@ msgstr ""
 msgid "Orbit|Not indexed"
 msgstr ""
 
+msgid "Orbit|Note"
+msgstr ""
+
+msgid "Orbit|Nullable"
+msgstr ""
+
 msgid "Orbit|Only top-level groups can be indexed"
 msgstr ""
 
 msgid "Orbit|Orbit"
 msgstr ""
 
+msgid "Orbit|Orbit is an SDLC analysis engine that transforms your GitLab into a structured knowledge graph."
+msgstr ""
+
 msgid "Orbit|Overall status"
+msgstr ""
+
+msgid "Orbit|Pipeline"
+msgstr ""
+
+msgid "Orbit|Project"
 msgstr ""
 
 msgid "Orbit|Properties"
 msgstr ""
 
+msgid "Orbit|Query Editor"
+msgstr ""
+
+msgid "Orbit|REST API"
+msgstr ""
+
 msgid "Orbit|Relationships"
+msgstr ""
+
+msgid "Orbit|Resources"
+msgstr ""
+
+msgid "Orbit|Results"
+msgstr ""
+
+msgid "Orbit|Run a query to see results here."
 msgstr ""
 
 msgid "Orbit|Sample prompt"
 msgstr ""
 
+msgid "Orbit|Save"
+msgstr ""
+
 msgid "Orbit|Schema"
+msgstr ""
+
+msgid "Orbit|Search merge requests"
 msgstr ""
 
 msgid "Orbit|Search nodes and relationships..."
 msgstr ""
 
+msgid "Orbit|Search users"
+msgstr ""
+
+msgid "Orbit|SecurityScan"
+msgstr ""
+
+msgid "Orbit|Selected Entity"
+msgstr ""
+
 msgid "Orbit|Settings"
+msgstr ""
+
+msgid "Orbit|Show SQL"
 msgstr ""
 
 msgid "Orbit|Show less"
@@ -48958,10 +49360,22 @@ msgstr ""
 msgid "Orbit|Show more"
 msgstr ""
 
+msgid "Orbit|Stage"
+msgstr ""
+
 msgid "Orbit|Status"
 msgstr ""
 
+msgid "Orbit|Table"
+msgstr ""
+
+msgid "Orbit|Templates"
+msgstr ""
+
 msgid "Orbit|Tools"
+msgstr ""
+
+msgid "Orbit|Type"
 msgstr ""
 
 msgid "Orbit|Unable to load cluster status."
@@ -48970,10 +49384,31 @@ msgstr ""
 msgid "Orbit|Unhealthy"
 msgstr ""
 
+msgid "Orbit|User"
+msgstr ""
+
+msgid "Orbit|User authored MRs"
+msgstr ""
+
+msgid "Orbit|User neighbors"
+msgstr ""
+
 msgid "Orbit|Variants"
 msgstr ""
 
 msgid "Orbit|Version"
+msgstr ""
+
+msgid "Orbit|Vulnerability"
+msgstr ""
+
+msgid "Orbit|VulnerabilityIdentifier"
+msgstr ""
+
+msgid "Orbit|VulnerabilityOccurrence"
+msgstr ""
+
+msgid "Orbit|VulnerabilityScanner"
 msgstr ""
 
 msgid "Orbit|What details can I see about a merge request?"
@@ -48983,6 +49418,15 @@ msgid "Orbit|What issues are blocking the login feature?"
 msgstr ""
 
 msgid "Orbit|What types of data are available?"
+msgstr ""
+
+msgid "Orbit|WorkItem"
+msgstr ""
+
+msgid "Orbit|Yes"
+msgstr ""
+
+msgid "Orbit|rows"
 msgstr ""
 
 msgid "Ordered list"
@@ -50716,6 +51160,9 @@ msgstr ""
 msgid "Permissions"
 msgstr "Permisiuni"
 
+msgid "Permissions Assistant"
+msgstr ""
+
 msgid "Permissions Help"
 msgstr "Ajutor pentru permisiuni"
 
@@ -51472,7 +51919,7 @@ msgstr ""
 msgid "Pipelines|Analyze repository"
 msgstr ""
 
-msgid "Pipelines|Analyze this repository and generate a CI/CD pipeline"
+msgid "Pipelines|Analyze this repository and create a CI/CD pipeline that meets the needs of the project."
 msgstr ""
 
 msgid "Pipelines|Are you sure you want to remove the merge request %{title} from the merge train?"
@@ -54355,6 +54802,9 @@ msgstr ""
 msgid "ProjectImportByURL|The repository must be accessible over http://, https:// or git://"
 msgstr ""
 
+msgid "ProjectImportByURL|You do not have permission to import projects."
+msgstr ""
+
 msgid "ProjectImport|Bitbucket Cloud"
 msgstr ""
 
@@ -54765,6 +55215,9 @@ msgstr "Setări suplimentare care influențează modul și momentul în care se 
 
 msgid "ProjectSettings|All merge requests and commits are made against this branch unless you specify a different one."
 msgstr "Toate merge-request-urile și commit-urile sunt făcute pe această ramură, cu excepția cazului în care specificați una diferită."
+
+msgid "ProjectSettings|All security policy pipelines must succeed"
+msgstr ""
 
 msgid "ProjectSettings|Allow"
 msgstr "Permiteți"
@@ -55786,6 +56239,9 @@ msgstr ""
 msgid "ProjectsNew|You cannot create projects in your personal namespace. Contact your GitLab administrator."
 msgstr ""
 
+msgid "ProjectsNew|You do not have permission to create projects."
+msgstr ""
+
 msgid "ProjectsNew|You have no groups. Create a new one or join an existing group."
 msgstr ""
 
@@ -55793,6 +56249,9 @@ msgid "ProjectsNew|You've reached your limit of %{limit} projects created. Conta
 msgstr ""
 
 msgid "ProjectsNew|Your project will be created at:"
+msgstr ""
+
+msgid "ProjectsNew|Your role does not allow pushing to the default branch of new projects in this namespace."
 msgstr ""
 
 msgid "ProjectsNew|https://mycompany.fogbugz.com"
@@ -60379,9 +60838,6 @@ msgstr "Salvați parola"
 msgid "Save views with your preferred filters and display options to plan and track work easier. Add views shared by your team or create your own."
 msgstr ""
 
-msgid "Saved views are not enabled for this namespace."
-msgstr ""
-
 msgid "Saving"
 msgstr "Se salvează"
 
@@ -60853,6 +61309,9 @@ msgstr ""
 msgid "ScanResultPolicy|Except"
 msgstr ""
 
+msgid "ScanResultPolicy|Exception settings"
+msgstr ""
+
 msgid "ScanResultPolicy|Exceptions that do not require approval"
 msgstr ""
 
@@ -60899,6 +61358,9 @@ msgid "ScanResultPolicy|Groups"
 msgstr ""
 
 msgid "ScanResultPolicy|High Risk (80%%)"
+msgstr ""
+
+msgid "ScanResultPolicy|If KEV/EPSS data doesn't exist for a vulnerability, the policy will fall back to the severity threshold (High) configured above."
 msgstr ""
 
 msgid "ScanResultPolicy|If Team frequently needs to push infrastructure configuration changes that trigger policy violations but are pre-approved through your change management process, add specific users to bypass infrastructure policies."
@@ -61159,10 +61621,19 @@ msgstr ""
 msgid "ScanResultPolicy|Users"
 msgstr ""
 
+msgid "ScanResultPolicy|Vulnerabilities without KEV/EPSS data will be ignored and will not trigger policy enforcement."
+msgstr ""
+
 msgid "ScanResultPolicy|When %{scanType} runs in an open merge request that targets %{branches} %{branchExceptions} and finds licenses match all of the following criteria:"
 msgstr ""
 
 msgid "ScanResultPolicy|When %{scanners} finds scanner-specific conditions in an open merge request that targets %{branches} %{branchExceptions} and matches %{boldDescription} the following criteria"
+msgstr ""
+
+msgid "ScanResultPolicy|When KEV/EPSS data is unavailable, exclude vulnerability from policy evaluation"
+msgstr ""
+
+msgid "ScanResultPolicy|When KEV/EPSS data is unavailable, fall back to severity-based blocking"
 msgstr ""
 
 msgid "ScanResultPolicy|When a %{scanType} with %{scanners} runs against %{branches} %{branchExceptions} and finds %{vulnerabilitiesNumber} %{boldDescription} all the following criteria:"
@@ -61266,6 +61737,9 @@ msgstr ""
 
 msgid "Scanner"
 msgstr "Scaner"
+
+msgid "Scanner health"
+msgstr ""
 
 msgid "Scanner profile failed to delete"
 msgstr "Profilul scanerului nu a putut fi șters"
@@ -61969,7 +62443,10 @@ msgstr ""
 msgid "SecretsManager|Stored secrets"
 msgstr ""
 
-msgid "SecretsManager|The name should be unique within this project."
+msgid "SecretsManager|The name should be unique within this group and can contain only letters, digits, and '_'."
+msgstr ""
+
+msgid "SecretsManager|The name should be unique within this project and can contain only letters, digits, and '_'."
 msgstr ""
 
 msgid "SecretsManager|This field is required and must be 200 characters or less."
@@ -64828,6 +65305,9 @@ msgstr ""
 msgid "SecurityProfiles|Configure once. Apply everywhere. Profiles make it easier to configure and manage your security tools at scale. Secret push protection is the first type of scan supported by this new feature."
 msgstr ""
 
+msgid "SecurityProfiles|Coverage may be outdated"
+msgstr ""
+
 msgid "SecurityProfiles|Disable"
 msgstr ""
 
@@ -64849,6 +65329,18 @@ msgstr ""
 msgid "SecurityProfiles|Introducing Security Configuration Profiles"
 msgstr ""
 
+msgid "SecurityProfiles|Last %d scan failed"
+msgid_plural "SecurityProfiles|Last %d scans failed"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid "SecurityProfiles|Last %d scan successful"
+msgid_plural "SecurityProfiles|Last %d scans successful"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 msgid "SecurityProfiles|Learn more"
 msgstr ""
 
@@ -64858,13 +65350,13 @@ msgstr ""
 msgid "SecurityProfiles|No profile applied"
 msgstr ""
 
-msgid "SecurityProfiles|Not configured"
-msgstr ""
-
 msgid "SecurityProfiles|Only a project maintainer or owner can apply or disable profiles."
 msgstr ""
 
 msgid "SecurityProfiles|Preview default profile"
+msgstr ""
+
+msgid "SecurityProfiles|Preview profile"
 msgstr ""
 
 msgid "SecurityProfiles|Profile applied successfully."
@@ -64886,6 +65378,15 @@ msgid "SecurityProfiles|Security configuration illustration"
 msgstr ""
 
 msgid "SecurityProfiles|Static Application Security Testing (SAST)"
+msgstr ""
+
+msgid "SecurityProfiles|Unconfigured"
+msgstr ""
+
+msgid "SecurityProfiles|View failed job #"
+msgstr ""
+
+msgid "SecurityProfiles|View job #"
 msgstr ""
 
 msgid "SecurityProfiles|What are configuration profiles?"
@@ -66759,6 +67260,9 @@ msgstr "Configurați CI/CD"
 
 msgid "Set up Jira Integration"
 msgstr "Configurați integrarea Jira"
+
+msgid "Set up a CI/CD pipeline"
+msgstr ""
 
 msgid "Set up a WebAuthn device to enable two-factor authentication (2FA)."
 msgstr ""
@@ -70396,9 +70900,6 @@ msgstr ""
 msgid "The Web IDE extension host domain was restored to its default value."
 msgstr ""
 
-msgid "The XML file must be less than %{max_size} MB."
-msgstr ""
-
 msgid "The `/merge` quick action requires the SHA of the head of the branch."
 msgstr "Acțiunea rapidă „/merge” necesită SHA-ul de HEAD al ramurii."
 
@@ -73786,7 +74287,7 @@ msgstr ""
 msgid "TrialWidget|GitLab Duo Pro Trial"
 msgstr ""
 
-msgid "TrialWidget|GitLab Ultimate trial"
+msgid "TrialWidget|GitLab Ultimate Trial"
 msgstr ""
 
 msgid "TrialWidget|Learn more"
@@ -73799,9 +74300,6 @@ msgid "TrialWidget|Ultimate with GitLab Duo Agent Platform"
 msgstr ""
 
 msgid "TrialWidget|Ultimate with GitLab Duo Enterprise"
-msgstr ""
-
-msgid "TrialWidget|Ultimate with GitLab Duo Enterprise Trial"
 msgstr ""
 
 msgid "TrialWidget|Upgrade"
@@ -73817,9 +74315,6 @@ msgid "TrialWidget|Your trial of GitLab Duo Pro has ended"
 msgstr ""
 
 msgid "TrialWidget|Your trial of GitLab Ultimate has ended"
-msgstr ""
-
-msgid "TrialWidget|Your trial of Ultimate with GitLab Duo Enterprise has ended"
 msgstr ""
 
 msgid "Trial|Activate my trial"
@@ -73922,9 +74417,6 @@ msgid "Trial|Work email address"
 msgstr ""
 
 msgid "Trial|You have successfully started an Ultimate trial for GitLab."
-msgstr ""
-
-msgid "Trial|Your free Ultimate & GitLab Duo Enterprise Trial lasts for %{duration} days. After this period, you can maintain a GitLab Free account forever, or upgrade to a paid plan."
 msgstr ""
 
 msgid "Trigger"
@@ -74378,6 +74870,9 @@ msgid "Unauthorized to delete a package protection rule"
 msgstr ""
 
 msgid "Unauthorized to delete a protection rule for container image tags"
+msgstr ""
+
+msgid "Unauthorized to update a Terraform state protection rule"
 msgstr ""
 
 msgid "Unauthorized to update a container registry protection rule"
@@ -74950,6 +75445,9 @@ msgstr ""
 msgid "UsageBilling|Action"
 msgstr ""
 
+msgid "UsageBilling|Active users"
+msgstr ""
+
 msgid "UsageBilling|An error occurred while fetching data"
 msgstr ""
 
@@ -74974,6 +75472,9 @@ msgstr ""
 msgid "UsageBilling|Credits consumed beyond your users included credits, charged at standard on-demand rates."
 msgstr ""
 
+msgid "UsageBilling|Credits per day"
+msgstr ""
+
 msgid "UsageBilling|Credits used after all included user credits and monthly commitment pool have been exhausted. Learn about %{linkStart}GitLab Credit pricing%{linkEnd}."
 msgstr ""
 
@@ -74987,6 +75488,9 @@ msgstr[1] ""
 msgstr[2] ""
 
 msgid "UsageBilling|Daily GitLab Credits usage"
+msgstr ""
+
+msgid "UsageBilling|Daily average"
 msgstr ""
 
 msgid "UsageBilling|Date"
@@ -75022,9 +75526,6 @@ msgstr ""
 msgid "UsageBilling|Go to Customers Portal"
 msgstr ""
 
-msgid "UsageBilling|Have questions?"
-msgstr ""
-
 msgid "UsageBilling|Included credits"
 msgstr ""
 
@@ -75050,9 +75551,6 @@ msgid "UsageBilling|Learn more about %{helpLinkStart}GitLab Credit pricing%{help
 msgstr ""
 
 msgid "UsageBilling|Learn more about GitLab Duo"
-msgstr ""
-
-msgid "UsageBilling|Learn more about the upgrade process and Credits pricing options by talking to sales."
 msgstr ""
 
 msgid "UsageBilling|Location"
@@ -75100,6 +75598,9 @@ msgstr ""
 msgid "UsageBilling|On-demand"
 msgstr ""
 
+msgid "UsageBilling|Peak day usage"
+msgstr ""
+
 msgid "UsageBilling|Purchase monthly commitment"
 msgstr ""
 
@@ -75119,6 +75620,9 @@ msgid "UsageBilling|This dashboard may not display all current subscription data
 msgstr ""
 
 msgid "UsageBilling|Total credits used"
+msgstr ""
+
+msgid "UsageBilling|Total usage"
 msgstr ""
 
 msgid "UsageBilling|Track monthly credit consumption and the main drivers of credit usage."
@@ -75164,6 +75668,9 @@ msgid "UsageBilling|You won't be billed for this usage until you accept the on-d
 msgstr ""
 
 msgid "UsageBilling|Your GitLab evaluation credits are active"
+msgstr ""
+
+msgid "UsageBilling|in selected date range"
 msgstr ""
 
 msgid "UsageQuotas|(of %{totalStorageSize})"
@@ -75900,6 +76407,9 @@ msgstr "Utilizatorul este blocat"
 
 msgid "User is not allowed to resolve thread"
 msgstr "Utilizatorul nu are voie să rezolve subiectul"
+
+msgid "User is pending deletion"
+msgstr ""
 
 msgid "User key"
 msgstr "Cheie de utilizator"
@@ -78607,9 +79117,6 @@ msgstr ""
 msgid "Vulnerability|Not an FP"
 msgstr ""
 
-msgid "Vulnerability|Note: Unverified vulnerability does not have a source. This means that the vulnerability was detected without identifying the untrusted input that caused it. Exercise caution when addressing this vulnerability, as the root cause may not be fully understood."
-msgstr ""
-
 msgid "Vulnerability|Policy violation detected"
 msgstr ""
 
@@ -78644,9 +79151,6 @@ msgid "Vulnerability|Resolve the vulnerability in these dependencies to see addi
 msgstr ""
 
 msgid "Vulnerability|Scanner:"
-msgstr ""
-
-msgid "Vulnerability|Search or filter vulnerabilities..."
 msgstr ""
 
 msgid "Vulnerability|Security Audit"
@@ -78704,6 +79208,9 @@ msgid "Vulnerability|This vulnerability was auto-dismissed by a security policy.
 msgstr ""
 
 msgid "Vulnerability|This vulnerability was bypassed by a user in a merge request. The user accepted the risk in a security policy configured to use warn mode."
+msgstr ""
+
+msgid "Vulnerability|This vulnerability was found but couldn't be traced back to the untrusted input that caused it. The root cause isn't fully understood, so review it carefully before making changes."
 msgstr ""
 
 msgid "Vulnerability|Tool:"
@@ -79498,6 +80005,12 @@ msgstr ""
 msgid "When merge requests and commits in the default branch close, any issues they reference also close."
 msgstr "Atunci când se închid merge request-urile și commit-urile din ramura implicită, se închid și toate problemele la care fac referire."
 
+msgid "When scan execution policies or pipeline execution policies are configured, both the merge request pipeline and the branch pipeline must succeed before the merge request can be merged."
+msgstr ""
+
+msgid "When security policies are enforced, all pipelines for the latest commit must succeed before merge."
+msgstr ""
+
 msgid "When the pipeline for this merge request succeeds, it will %{linkStart}automatically merge%{linkEnd}."
 msgstr ""
 
@@ -79690,16 +80203,19 @@ msgstr "Conținut"
 msgid "WikiPage|Create %{pageTitle}"
 msgstr "Creați %{pageTitle}"
 
-msgid "WikiPage|Create custom sidebar"
-msgstr ""
-
 msgid "WikiPage|Create page"
 msgstr "Creați pagina"
+
+msgid "WikiPage|Create sidebar"
+msgstr ""
 
 msgid "WikiPage|Create template"
 msgstr ""
 
 msgid "WikiPage|Create template %{pageTitle}"
+msgstr ""
+
+msgid "WikiPage|Delete sidebar"
 msgstr ""
 
 msgid "WikiPage|Format"
@@ -79784,6 +80300,9 @@ msgid "Wiki|Create a new page under \"%{page_title}\""
 msgstr ""
 
 msgid "Wiki|Create a new wiki page using this template"
+msgstr ""
+
+msgid "Wiki|Create custom sidebar"
 msgstr ""
 
 msgid "Wiki|Create from template"
@@ -80390,9 +80909,6 @@ msgid "WorkItem|Cancel"
 msgstr "Anulare"
 
 msgid "WorkItem|Canceled"
-msgstr ""
-
-msgid "WorkItem|Cannot be assigned"
 msgstr ""
 
 msgid "WorkItem|Cannot be used to create new items."
@@ -85180,6 +85696,9 @@ msgstr "Îmbinare blocată: toate aprobările necesare trebuie să fie acordate.
 msgid "mrWidget|Merge failed."
 msgstr "Îmbinarea nu a reușit."
 
+msgid "mrWidget|Merge request pipeline has passed, but a security policy requires all pipelines to succeed. Another pipeline for this commit has failed. %{linkStart}View policies%{linkEnd}"
+msgstr ""
+
 msgid "mrWidget|Merged by"
 msgstr "Îmbinat de"
 
@@ -86226,6 +86745,9 @@ msgstr "{grup}"
 
 msgid "{project}"
 msgstr "{proiect}"
+
+msgid "—"
+msgstr ""
 
 msgid "✔"
 msgstr "✔"

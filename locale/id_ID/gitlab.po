@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Language: id\n"
 "X-Crowdin-File: /master/locale/gitlab.pot\n"
 "X-Crowdin-File-ID: 16\n"
-"PO-Revision-Date: 2026-03-31 11:01\n"
+"PO-Revision-Date: 2026-04-03 12:47\n"
 
 msgid " %{start} to %{end}"
 msgstr " %{start} sampai %{end}"
@@ -1563,10 +1563,10 @@ msgid "'%{lock_path}' is locked in Git LFS by @%{lock_user_name}"
 msgstr "'%{lock_path}' dikunci di Git LFS oleh @%{lock_user_name}"
 
 msgid "'%{name}' is a reserved name and cannot be used."
-msgstr ""
+msgstr "'%{name}' adalah nama yang dicadangkan dan tidak dapat digunakan."
 
 msgid "'%{name}' is already taken."
-msgstr ""
+msgstr "'%{name}' sudah diambil."
 
 msgid "'%{slug}' is a reserved name"
 msgstr "'%{slug}' adalah nama yang dipesan"
@@ -1829,7 +1829,7 @@ msgid "."
 msgstr "."
 
 msgid ".git-blame-ignore-revs is not a file"
-msgstr ".git-blame-ignore-revs bukan sebuah berkas"
+msgstr ".git-blame-ignore-revs bukan berkas"
 
 msgid "/"
 msgstr "/"
@@ -2911,22 +2911,22 @@ msgid "AICatalog|Managed by a private project you don't have access to."
 msgstr "Dikelola oleh proyek pribadi yang aksesnya tidak Anda miliki."
 
 msgid "AICatalog|Members of the selected project will be able to use the agent."
-msgstr ""
+msgstr "Anggota dari proyek terpilih akan dapat menggunakan agen."
 
 msgid "AICatalog|Members of the selected project will be able to use the flow."
-msgstr ""
+msgstr "Anggota dari proyek terpilih akan dapat menggunakan alur."
 
 msgid "AICatalog|Model Context Protocol servers extend agent capabilities with external tools and data sources."
-msgstr ""
+msgstr "Peladen Protokol Konteks Model memperluaskan kemampuan agen dengan alat eksternal dan sumber data."
 
 msgid "AICatalog|Name"
-msgstr ""
+msgstr "Nama"
 
 msgid "AICatalog|Name is required."
 msgstr "Nama diperlukan."
 
 msgid "AICatalog|New MCP server"
-msgstr ""
+msgstr "Peladen MCP baru"
 
 msgid "AICatalog|New agent"
 msgstr "Agen baru"
@@ -2935,28 +2935,28 @@ msgid "AICatalog|New flow"
 msgstr "Alur baru"
 
 msgid "AICatalog|No MCP servers found"
-msgstr ""
+msgstr "Tidak ada peladen MCP ditemukan"
 
 msgid "AICatalog|No MCP servers yet"
-msgstr ""
+msgstr "Belum ada peladen MCP"
 
 msgid "AICatalog|No authentication"
-msgstr ""
+msgstr "Tidak ada otentikasi"
 
 msgid "AICatalog|No triggers configured."
-msgstr ""
+msgstr "Tidak ada pemicu dikonfigurasikan."
 
 msgid "AICatalog|No triggers configured. %{linkStart}Add a trigger%{linkEnd} to make this %{itemType} available."
 msgstr "Tidak ada pemicu yang dikonfigurasikan.%{linkStart}Tambahkan pemicu%{linkEnd} untuk membuat %{itemType} ini tersedia."
 
 msgid "AICatalog|OAuth"
-msgstr ""
+msgstr "OAuth"
 
 msgid "AICatalog|OAuth Client ID"
-msgstr ""
+msgstr "ID Klien OAuth"
 
 msgid "AICatalog|OAuth Client Secret"
-msgstr ""
+msgstr "Rahasia Klien OAuth"
 
 msgid "AICatalog|Only agents enabled in your top-level group are shown."
 msgstr "Hanya agen yang diaktifkan di dalam grup tingkat atas Anda yang ditampilkan."
@@ -2998,7 +2998,7 @@ msgid "AICatalog|Potential security threat"
 msgstr "Ancaman keamanan potensial"
 
 msgid "AICatalog|Private"
-msgstr ""
+msgstr "Privat"
 
 msgid "AICatalog|Private %{itemTypePlural} are best for:"
 msgstr "%{itemTypePlural} pribadi terbaik untuk:"
@@ -3010,7 +3010,7 @@ msgid "AICatalog|Project-specific automation."
 msgstr "Otomasi proyek tertentu."
 
 msgid "AICatalog|Project: %{label}"
-msgstr ""
+msgstr "Proyek: %{label}"
 
 msgid "AICatalog|Projects using this service account"
 msgstr "Proyek menggunakan akun layanan ini"
@@ -3040,7 +3040,7 @@ msgid "AICatalog|Save changes"
 msgstr "Simpan perubahan"
 
 msgid "AICatalog|Search MCP servers."
-msgstr ""
+msgstr "Cari peladen MCP."
 
 msgid "AICatalog|Search tools."
 msgstr "Cari alat."
@@ -3067,10 +3067,10 @@ msgid "AICatalog|Selected %{itemType}"
 msgstr "%{itemType} dipilih"
 
 msgid "AICatalog|Server URL"
-msgstr ""
+msgstr "URL peladen"
 
 msgid "AICatalog|Server URL is required."
-msgstr ""
+msgstr "URL peladen diperlukan."
 
 msgid "AICatalog|Service account"
 msgstr "Akun layanan"
@@ -3115,7 +3115,7 @@ msgid "AICatalog|This %{itemType} was removed from the AI Catalog. You can still
 msgstr "%{itemType} ini dihapus dari Katalog AI. Anda masih dapat menggunakannya di %{targetType} ini."
 
 msgid "AICatalog|This MCP server has tools for finding, creating, and updating objects in..."
-msgstr ""
+msgstr "Peladen MCP ini memiliki alat untuk menemukan, membuat, dan memperbarui objek dalam..."
 
 msgid "AICatalog|This YAML configuration file determines the prompts, tools, and capabilities of your flow. Required properties: injectGatewayToken, image, commands"
 msgstr "Berkas konfigurasi YAML ini menentukan perintah, alat, dan kemampuan alur Anda. Properti yang diperlukan: injectGatewayToken, image, commands"
@@ -3169,13 +3169,13 @@ msgid "AICatalog|Tools are built and maintained by GitLab. %{linkStart}What are 
 msgstr "Alat dibuat dan dikelola oleh GitLab. %{linkStart}Apa itu alat?%{linkEnd}"
 
 msgid "AICatalog|Transport"
-msgstr ""
+msgstr "Transportasi"
 
 msgid "AICatalog|Transport protocol"
-msgstr ""
+msgstr "Protokol transportasi"
 
 msgid "AICatalog|Transport protocol is required."
-msgstr ""
+msgstr "Protokol transportasi diperlukan."
 
 msgid "AICatalog|Triage Issue, Generate Release Notes, Update Docs"
 msgstr "Sortir Isu, Hasilkan Catatan Rilis, Perbarui Dokumentasi"
@@ -3202,7 +3202,7 @@ msgid "AICatalog|Update available"
 msgstr "Pembaruan tersedia"
 
 msgid "AICatalog|Update the settings for this MCP server."
-msgstr ""
+msgstr "Perbarui pengaturan untuk peladen MCP ini."
 
 msgid "AICatalog|Update to %{version}"
 msgstr "Perbarui ke %{version}"
@@ -3250,7 +3250,7 @@ msgid "AICatalog|Visibility & access"
 msgstr "Keterlihatan & akses"
 
 msgid "AICatalog|Visibility: %{label}"
-msgstr ""
+msgstr "Keterlihatan: %{label}"
 
 msgid "AICatalog|Wasting compute or causing performance issues."
 msgstr "Memboroskan komputasi atau menyebabkan isu kinerja."
@@ -3289,16 +3289,16 @@ msgid "AICatalog|You are an expert in [domain]. Your communication style is [sty
 msgstr "Anda adalah ahli dalam [domain]. Gaya komunikasi Anda adalah [style]. Saat membantu pengguna, Anda harus selalu... Kekuatan utama Anda termasuk... Anda menghadapi masalah dengan..."
 
 msgid "AICatalog|You must have the Maintainer or Owner role to enable a flow in a group. Only top-level groups are shown."
-msgstr ""
+msgstr "Anda harus memiliki peran Pemelihara atau Pemilik untuk mengaktifkan alur di grup. Hanya grup tingkat atas yang ditampilkan."
 
 msgid "AICatalog|You must have the Maintainer or Owner role to enable a flow in a project."
-msgstr ""
+msgstr "Anda harus memiliki peran Pemelihara atau Pemilik untuk mengaktifkan alur di proyek."
 
 msgid "AICatalog|You must have the Maintainer or Owner role to enable an agent in a group. Only top-level groups are shown."
-msgstr ""
+msgstr "Anda harus memiliki peran Pemelihara atau Pemilik untuk mengaktifkan agen di grup. Hanya grup tingkat atas yang ditampilkan."
 
 msgid "AICatalog|You must have the Maintainer or Owner role to enable an agent in a project."
-msgstr ""
+msgstr "Anda harus memiliki peran Pemelihara atau Pemilik untuk mengaktifkan agen di proyek."
 
 msgid "AICatalog|agent"
 msgstr "agen"
@@ -3307,19 +3307,19 @@ msgid "AICatalog|agents"
 msgstr "agen"
 
 msgid "AICatalog|can only be set when enabling an agent or flow for a project"
-msgstr ""
+msgstr "dapat hanya diatur ketika mengaktifkan agen atau alur untuk proyek"
 
 msgid "AICatalog|can only be set when enabling an agent or flow for a top-level group"
-msgstr ""
+msgstr "dapat hanya diatur ketika mengaktifkan agen atau alur untuk grup tingkat atas"
 
 msgid "AICatalog|can't be changed because it is released"
-msgstr ""
+msgstr "tidak dapat diubah karena itu dirilis"
 
 msgid "AICatalog|can't be made private because it is enabled in a project or group"
-msgstr ""
+msgstr "tidak dapat dibuat privat karena itu diaktifkan di proyek atau grup"
 
 msgid "AICatalog|can't be made private because it is used by at least one flow"
-msgstr ""
+msgstr "tidak dapat dibuat privat karena itu digunakan oleh setidaknya satu alur"
 
 msgid "AICatalog|flow"
 msgstr "alur"
@@ -3328,16 +3328,16 @@ msgid "AICatalog|flows"
 msgstr "alur"
 
 msgid "AICatalog|is private in another project"
-msgstr ""
+msgstr "privat di proyek lain"
 
 msgid "AICatalog|must be a service account"
 msgstr "harus berupa akun layanan"
 
 msgid "AICatalog|must be enabled in the same organization"
-msgstr ""
+msgstr "harus diaktifkan di organisasi yang sama"
 
 msgid "AICatalog|must be the same service account as the top-level group"
-msgstr ""
+msgstr "harus berupa akun layanan yang sama sebagai grup tingkat atas"
 
 msgid "AICatalog|must belong to this project's top-level group"
 msgstr "harus menjadi bagian grup tingkat atas proyek ini"
@@ -3347,9 +3347,6 @@ msgstr "harus memiliki setidaknya satu simpul"
 
 msgid "AICatalog|unable to validate definition"
 msgstr "tidak dapat memvalidasikan definisi"
-
-msgid "AISummary|Generates a summary of this issue"
-msgstr "Menghasilkan ringkasan dari isu ini"
 
 msgid "AISummary|View summary"
 msgstr "Lihat ringkasan"
@@ -3475,7 +3472,7 @@ msgid "AI|Responses generated by AI"
 msgstr "Tanggapan yang dihasilkan oleh AI"
 
 msgid "AI|Something went wrong. Please try again later"
-msgstr "Terjadi kesalahan. Silakan coba lagi nanti"
+msgstr "Ada yang salah. Silakan coba lagi nanti"
 
 msgid "AI|Summarize the comments on this issue."
 msgstr "Ringkaskan komentar pada isu ini."
@@ -3934,7 +3931,7 @@ msgid "Abusive or offensive"
 msgstr "Kasar atau ofensif"
 
 msgid "AcccessTokens|Basic Information"
-msgstr ""
+msgstr "Informasi Dasar"
 
 msgid "Accept invitation"
 msgstr "Terima undangan"
@@ -3946,7 +3943,7 @@ msgid "Acceptable for use in this project"
 msgstr "Dapat diterima untuk digunakan dalam proyek ini"
 
 msgid "Access"
-msgstr ""
+msgstr "Akses"
 
 msgid "Access Denied"
 msgstr "Akses Ditolak"
@@ -4020,6 +4017,12 @@ msgstr "Pilih"
 msgid "AccessDropdown|Users"
 msgstr "Pengguna"
 
+msgid "AccessTokens|%{name} (copy)"
+msgstr "%{name} (salin)"
+
+msgid "AccessTokens|A new fine-grained token form will open with the resource and permissions from %{tokenName} pre-filled. %{tokenName} will not be affected."
+msgstr ""
+
 msgid "AccessTokens|Access token expiration"
 msgstr "Kedaluwarsa token akses"
 
@@ -4033,7 +4036,7 @@ msgid "AccessTokens|Access tokens"
 msgstr "Token Akses"
 
 msgid "AccessTokens|Access:"
-msgstr ""
+msgstr "Akses:"
 
 msgid "AccessTokens|Active"
 msgstr "Aktif"
@@ -4051,10 +4054,10 @@ msgid "AccessTokens|Add new token"
 msgstr "Tambahkan token baru"
 
 msgid "AccessTokens|Add only the %{linkStart}minimum resource and permissions %{linkEnd} needed for your token. Permissions not included in your assigned role have no effect."
-msgstr ""
+msgstr "Tambahkan hanya %{linkStart}sumber daya dan izin minimum %{linkEnd} diperlukan untuk token Anda. Izin tidak disertakan di peran tertugas Anda tidak memiliki efek."
 
 msgid "AccessTokens|Add resource permissions"
-msgstr ""
+msgstr "Tambahkan izin sumber daya"
 
 msgid "AccessTokens|Adding a group includes its subgroups and projects"
 msgstr "Menambahkan grup mencakup subgrup dan proyeknya"
@@ -4063,7 +4066,7 @@ msgid "AccessTokens|All groups and projects that I'm a member of"
 msgstr "Semua grup dan proyek di mana saya adalah anggotanya"
 
 msgid "AccessTokens|All groups and projects that I'm a member of, including future ones"
-msgstr ""
+msgstr "Semua grup dan proyek yang saya ikuti, mencakup yang masa depan"
 
 msgid "AccessTokens|An administrator has set the %{linkStart}maximum expiration date%{linkEnd} to %{days} days (%{maxDate})."
 msgstr "Seorang administrator telah mengatur %{linkStart}waktu kedaluwarsa maksimal%{linkEnd} menjadi %{days} hari (%{maxDate})."
@@ -4141,13 +4144,10 @@ msgid "AccessTokens|Created"
 msgstr "Dibuat"
 
 msgid "AccessTokens|Created on %{date}"
-msgstr ""
+msgstr "Dibuat pada %{date}"
 
 msgid "AccessTokens|Description"
 msgstr "Deskripsi"
-
-msgid "AccessTokens|Description is too long (maximum is 255 characters)."
-msgstr "Deskripsi terlalu panjang (maksimal 255 karakter)."
 
 msgid "AccessTokens|Disable access tokens"
 msgstr "Nonaktifkan token akses"
@@ -4156,13 +4156,10 @@ msgid "AccessTokens|Disables personal, group, project and impersonation access t
 msgstr "Menonaktifkan token akses pribadi, grup, proyek dan impersonasi. Pengaturan ini juga menonaktifkan token akses pribadi untuk akun layanan."
 
 msgid "AccessTokens|Duplicate"
-msgstr ""
+msgstr "Gandakan"
 
 msgid "AccessTokens|Duplicate '%{tokenName}'?"
-msgstr ""
-
-msgid "AccessTokens|Duplicate a token to generate a new token with the same scope as the original token. The original token remains unchanged and both tokens operate independently."
-msgstr ""
+msgstr "Gandakan '%{tokenName}'?"
 
 msgid "AccessTokens|Enable DPoP"
 msgstr "Aktifkan DPoP"
@@ -4200,6 +4197,9 @@ msgstr "Segera kedaluwarsa"
 msgid "AccessTokens|Failed to fetch statistics."
 msgstr "Gagal mengambil statistik."
 
+msgid "AccessTokens|Failed to load source token. Please fill in the form manually."
+msgstr ""
+
 msgid "AccessTokens|Failed to revoke token"
 msgstr "Gagal mencabut token"
 
@@ -4207,329 +4207,341 @@ msgid "AccessTokens|Feed token"
 msgstr "Token umpan"
 
 msgid "AccessTokens|Filter for %{status}"
-msgstr ""
+msgstr "Saring untuk %{status}"
 
 msgid "AccessTokens|Filter for active tokens"
-msgstr ""
+msgstr "Saring untuk token yang aktif"
 
 msgid "AccessTokens|Filter for expired tokens"
-msgstr ""
+msgstr "Saring untuk token yang kedaluwarsa"
 
 msgid "AccessTokens|Filter for revoked tokens"
-msgstr ""
+msgstr "Saring untuk token yang dicabut"
 
 msgid "AccessTokens|Filter for tokens expiring in 2 weeks"
-msgstr ""
+msgstr "Saring untuk token yang kedaluwarsa dalam 2 minggu"
 
 msgid "AccessTokens|Filter list"
-msgstr ""
+msgstr "Daftar Saring"
 
 msgid "AccessTokens|Fine-grained personal access tokens give you granular control over the specific resources and actions available to the token."
-msgstr ""
+msgstr "Token akses pribadi terperinci memberikan Anda kontrol rinci atas sumber daya dan tindakan spesifik yang tersedia untuk token."
 
 msgid "AccessTokens|Fine-grained token"
-msgstr ""
+msgstr "Token terperinci"
 
 msgid "AccessTokens|For example, the application using the token or the purpose of the token."
-msgstr ""
+msgstr "Contohnya, aplikasi menggunakan token atau tujuan token."
 
 msgid "AccessTokens|For example, the application using the token or the purpose of the token. Do not give sensitive information for the name of the token, as it will be visible to all %{resource_type} members."
-msgstr ""
+msgstr "Contohnya, aplikasi menggunakan token atau tujuan token. Jangan berikan informasi sensitif untuk nama token, karena itu akan terlihat oleh semua anggota %{resource_type}."
 
 msgid "AccessTokens|Forces new personal access tokens for service accounts to require an expiration date. Does not affect existing token expiration dates. %{link_start}How does this affect expiration dates?%{link_end}"
-msgstr ""
+msgstr "Memaksa token akses pribadi baru untuk akun layanan agar memerlukan tanggal kedaluwarsa. Tidak memengaruhi tanggal kedaluwarsa token yang sudah ada. %{link_start}Bagaimana ini memengaruhi tanggal kedaluwarsa?%{link_end}"
 
 msgid "AccessTokens|Forces new personal, group, project and impersonation tokens to require an expiration date. Does not affect existing token expiration dates or personal access tokens for service accounts. This setting overrides the group-level %{link_start}service account token expiration%{link_end} setting."
-msgstr ""
+msgstr "Memaksa token pribadi, grup, proyek dan impersonasi baru agar memerlukan tanggal kedaluwarsa. Tidak memengaruhi tanggal kedaluwarsa token yang sudah ada atau token akses pribadi untuk akun layanan. Pengaturan ini menimpa pengaturan %{link_start}kedaluwarsa token akun layanan%{link_end} tingkat grup."
 
 msgid "AccessTokens|Generate fine-grained token"
-msgstr ""
+msgstr "Hasilkan token terperinci"
 
 msgid "AccessTokens|Generate legacy token"
-msgstr ""
+msgstr "Hasilkan token lama"
 
 msgid "AccessTokens|Generate token"
-msgstr ""
+msgstr "Hasilkan token"
 
 msgid "AccessTokens|Group and project"
-msgstr ""
+msgstr "Grup dan proyek"
 
 msgid "AccessTokens|Group and project access"
-msgstr ""
+msgstr "Akses grup dan proyek"
 
 msgid "AccessTokens|Group and project permissions"
-msgstr ""
+msgstr "Izin grup dan proyek"
 
 msgid "AccessTokens|Group or project"
-msgstr ""
-
-msgid "AccessTokens|Help me choose the right permissions for my access token."
-msgstr ""
+msgstr "Grup atau proyek"
 
 msgid "AccessTokens|How do I use DPoP?"
+msgstr "Bagaimana saya menggunakan DPoP?"
+
+msgid "AccessTokens|I am your fine-grained permissions assistant. I can help you choose the right permissions for your access token."
+msgstr ""
+
+msgid "AccessTokens|I need read-only access to projects and groups."
+msgstr ""
+
+msgid "AccessTokens|I need to manage CI/CD pipelines and read job logs."
+msgstr ""
+
+msgid "AccessTokens|I want to automate issue and merge request management."
+msgstr ""
+
+msgid "AccessTokens|I want to read and write to repositories via the API."
 msgstr ""
 
 msgid "AccessTokens|IP Usage"
-msgstr ""
+msgstr "Penggunaan IP"
 
 msgid "AccessTokens|IP: %{ips}"
 msgid_plural "AccessTokens|IPs: %{ips}"
-msgstr[0] ""
+msgstr[0] "IP: %{ips}"
 
 msgid "AccessTokens|Inactive"
-msgstr ""
+msgstr "Tidak aktif"
 
 msgid "AccessTokens|Inactive: Requires the granular_personal_access_tokens feature flag."
-msgstr ""
+msgstr "Tidak aktif: Memerlukan penanda fitur granular_personal_access_tokens"
 
 msgid "AccessTokens|Incoming email token"
-msgstr ""
+msgstr "Token surel masuk"
 
 msgid "AccessTokens|Instance token prefix"
-msgstr ""
+msgstr "Awalan token instansi"
 
 msgid "AccessTokens|It cannot be used to access any other data."
-msgstr ""
+msgstr "Itu tidak dapat digunakan untuk mengakses data lain apa pun."
 
 msgid "AccessTokens|Keep this token secret. Anyone who has it can access repository static objects as if they were you. If that ever happens, %{linkStart}reset this token%{linkEnd}."
-msgstr ""
+msgstr "Jaga kerahasiaan token ini. Siapa pun yang memilikinya dapat mengakses objek repositori seolah-olah mereka adalah Anda. Jika itu terjadi, %{linkStart}atur ulang token ini%{linkEnd}."
 
 msgid "AccessTokens|Keep this token secret. Anyone who has it can create issues as if they were you. If that happens, %{linkStart}reset this token%{linkEnd}."
-msgstr ""
+msgstr "Jaga kerahasiaan token ini. Siapa pun yang memilikinya dapat membuat isu seolah-olah mereka adalah Anda. Jika itu terjadi, %{linkStart}atur ulang token ini%{linkEnd}."
 
 msgid "AccessTokens|Keep this token secret. Anyone who has it can read activity and issue RSS feeds or your calendar feed as if they were you. If that happens, %{linkStart}reset this token%{linkEnd}."
-msgstr ""
+msgstr "Jaga kerahasiaan token ini. Siapa pun yang memilikinya dapat membaca aktivitas dan menerbitkan umpan RSS atau umpan kalender Anda seolah-olah mereka adalah Anda. Jika itu terjadi, %{linkStart}atur ulang token ini%{linkEnd}."
 
 msgid "AccessTokens|Last used"
-msgstr ""
+msgstr "Terakhir digunakan"
 
 msgid "AccessTokens|Last used:"
-msgstr ""
+msgstr "Terakhir digunakan:"
 
 msgid "AccessTokens|Last used: %{date}"
-msgstr ""
+msgstr "Terakhir digunakan: %{date}"
 
 msgid "AccessTokens|Legacy personal access tokens are scoped to all groups and projects with broad permissions to resources."
-msgstr ""
+msgstr "Token akses pribadi lama mencakup semua grup dan proyek dengan izin luas ke sumber daya."
 
 msgid "AccessTokens|Legacy token"
-msgstr ""
+msgstr "Token lama"
 
 msgid "AccessTokens|Lifetime"
-msgstr ""
+msgstr "Seumur hidup"
 
 msgid "AccessTokens|Limit scope to specific groups and projects and fine-grained permissions to resources."
-msgstr ""
+msgstr "Batasi cakupan ke grup dan proyek tertentu dan izin terperinci ke sumber daya."
 
 msgid "AccessTokens|Make sure you copy your token - you won't be able to access it again."
-msgstr ""
+msgstr "Pastikan Anda menyalin token Anda - Anda tidak akan dapat mengaksesnya lagi."
 
 msgid "AccessTokens|Make sure you save it - you won't be able to access it again."
-msgstr ""
+msgstr "Pastikan Anda menyimpannya - Anda tidak akan dapat mengaksesnya lagi."
 
 msgid "AccessTokens|Name"
-msgstr ""
+msgstr "Nama"
 
 msgid "AccessTokens|Never until revoked"
-msgstr ""
+msgstr "Tidak pernah hingga dicabut"
 
 msgid "AccessTokens|No IP activity recorded yet."
-msgstr ""
+msgstr "Belum ada aktivitas IP direkam."
 
 msgid "AccessTokens|No access tokens"
-msgstr ""
+msgstr "Tidak ada token akses"
 
 msgid "AccessTokens|No description provided."
-msgstr ""
+msgstr "Tidak ada deskripsi yang disediakan."
 
 msgid "AccessTokens|No groups or projects added."
-msgstr ""
+msgstr "Tidak ada grup atau proyek yang ditambahkan."
 
 msgid "AccessTokens|No resources added"
-msgstr ""
+msgstr "Tidak ada sumber daya ditambahkan"
 
 msgid "AccessTokens|Not eligible to rotate tokens with permissions not held by the user"
-msgstr ""
+msgstr "Tidak memenuhi syarat untuk merotasi token dengan izin yang tidak dipegang oleh pengguna."
 
 msgid "AccessTokens|Only my personal projects"
-msgstr ""
+msgstr "Hanya proyek pribadi saya"
 
 msgid "AccessTokens|Only my personal projects, including future ones"
-msgstr ""
+msgstr "Hanya proyek pribadi saya, mencakup yang masa depan"
 
 msgid "AccessTokens|Only specific group or projects that I'm a member of"
-msgstr ""
+msgstr "Hanya grup atau proyek tertentu yang saya adalah anggotanya"
 
 msgid "AccessTokens|Only specific groups or projects that I'm a member of"
-msgstr ""
+msgstr "Hanya grup atau proyek tertentu yang saya adalah anggotanya"
 
 msgid "AccessTokens|Permissions:"
-msgstr ""
+msgstr "Izin:"
 
 msgid "AccessTokens|Personal access token detail"
-msgstr ""
+msgstr "Rincian token akses pribadi"
 
 msgid "AccessTokens|Personal access tokens"
-msgstr ""
+msgstr "Token akses pribadi"
 
 msgid "AccessTokens|Remove group %{name}"
-msgstr ""
+msgstr "Hapus grup %{name}"
 
 msgid "AccessTokens|Remove project %{name}"
-msgstr ""
+msgstr "Hapus proyek %{name}"
 
 msgid "AccessTokens|Require expiration date for service accounts"
-msgstr ""
+msgstr "Memerlukan tanggal kedaluwarsa untuk akun layanan"
 
 msgid "AccessTokens|Require expiration dates for service accounts"
-msgstr ""
+msgstr "Memerlukan tanggal kedaluwarsa untuk akun layanan"
 
 msgid "AccessTokens|Required only if you add group and project resources."
-msgstr ""
+msgstr "Diperlukan hanya jika Anda menambahkan sumber daya grup dan proyek."
 
 msgid "AccessTokens|Revoke"
-msgstr ""
+msgstr "Cabut"
 
 msgid "AccessTokens|Revoke %{name}"
-msgstr ""
+msgstr "Cabut %{name}"
 
 msgid "AccessTokens|Revoke the token '%{tokenName}'?"
-msgstr ""
+msgstr "Cabut token '%{tokenName}'?"
 
 msgid "AccessTokens|Revoked"
-msgstr ""
+msgstr "Dicabut"
 
 msgid "AccessTokens|Revoked tokens"
-msgstr ""
+msgstr "Token tercabut"
 
 msgid "AccessTokens|Rotate"
-msgstr ""
+msgstr "Rotasikan"
 
 msgid "AccessTokens|Rotate the token '%{tokenName}'?"
-msgstr ""
+msgstr "Rotasikan token '%{tokenName}'?"
 
 msgid "AccessTokens|Scoped to all groups and projects with broad permissions to resources."
-msgstr ""
+msgstr "Mencakup semua grup dan proyek dengan perizinan luas ke sumber daya."
 
 msgid "AccessTokens|Scopes"
-msgstr ""
+msgstr "Cakupan"
 
 msgid "AccessTokens|Scopes set the permission levels granted to the token."
-msgstr ""
+msgstr "Cakupan mengatur tingkat izin yang diberikan ke token."
 
 msgid "AccessTokens|Scopes set the permission levels granted to the token. %{linkStart}Learn more%{linkEnd}."
-msgstr ""
+msgstr "Cakupan mengatur tingkat izin yang diberikan kepada token. %{linkStart}Pelajari selengkapnya%{linkEnd}."
 
 msgid "AccessTokens|Search for resources to add"
-msgstr ""
+msgstr "Cari sumber daya untuk ditambahkan"
 
 msgid "AccessTokens|Search or filter access tokens…"
-msgstr ""
+msgstr "Cari atau saring token akses..."
 
 msgid "AccessTokens|Select a role"
-msgstr ""
+msgstr "Pilih peran"
 
 msgid "AccessTokens|Select at least one scope."
-msgstr ""
+msgstr "Pilih setidaknya satu cakupan."
 
 msgid "AccessTokens|Select permissions"
-msgstr ""
+msgstr "Pilih izin"
 
 msgid "AccessTokens|Select scopes"
-msgstr ""
+msgstr "Pilih cakupan"
 
 msgid "AccessTokens|Set permissions with Duo"
-msgstr ""
+msgstr "Atur izin dengan Duo"
 
 msgid "AccessTokens|State"
-msgstr ""
+msgstr "Status"
 
 msgid "AccessTokens|Static object token"
-msgstr ""
+msgstr "Token objek statis"
 
 msgid "AccessTokens|Status"
-msgstr ""
+msgstr "Status"
 
 msgid "AccessTokens|The form contains the following errors:"
-msgstr ""
+msgstr "Formulir berisi galat berikut:"
 
 msgid "AccessTokens|The last five distinct IP addresses from where the token was used"
-msgstr ""
+msgstr "Lima alamat IP berbeda terakhir dari mana token telah digunakan"
 
 msgid "AccessTokens|The last time a token was used"
-msgstr ""
+msgstr "Terakhir kali token telah digunakan"
 
 msgid "AccessTokens|The token was revoked successfully."
-msgstr ""
+msgstr "Token telah berhasil dicabut."
 
 msgid "AccessTokens|The token was rotated successfully."
-msgstr ""
+msgstr "Token telah berhasil dirotasi."
 
 msgid "AccessTokens|Token already revoked"
-msgstr ""
+msgstr "Token sudah dicabut"
 
 msgid "AccessTokens|Token description"
-msgstr ""
+msgstr "Deskripsi token"
 
 msgid "AccessTokens|Token description is required."
-msgstr ""
+msgstr "Deskripsi token diperlukan."
 
 msgid "AccessTokens|Token expires in less than two weeks."
-msgstr ""
+msgstr "Token kedaluwarsa kurang dari dua minggu."
 
 msgid "AccessTokens|Token generation unsuccessful. Please try again."
-msgstr ""
+msgstr "Penghasilan token gagal. Silakan coba lagi."
 
 msgid "AccessTokens|Token name"
-msgstr ""
+msgstr "Nama token"
 
 msgid "AccessTokens|Token name is required."
-msgstr ""
+msgstr "Nama token diperlukan."
 
 msgid "AccessTokens|Token revocation unsuccessful. Please try again."
-msgstr ""
+msgstr "Pencabutan token tidak berhasil. Silakan coba lagi."
 
 msgid "AccessTokens|Token rotated successfully. Make sure you copy your token - you won't be able to access it again."
-msgstr ""
+msgstr "Token berhasil dirotasi. Pastikan Anda salin token Anda - Anda tidak akan dapat mengaksesnya lagi."
 
 msgid "AccessTokens|Token rotation unsuccessful. Please try again."
-msgstr ""
+msgstr "Rotasi token tidak berhasil. Silakan coba lagi."
 
 msgid "AccessTokens|Token scope"
-msgstr ""
+msgstr "Cakupan token"
 
 msgid "AccessTokens|Tokens expiring in 2 weeks"
-msgstr ""
+msgstr "Token kedaluwarsa dalam 2 minggu"
 
 msgid "AccessTokens|Type"
-msgstr ""
+msgstr "Jenis"
 
 msgid "AccessTokens|Usage"
-msgstr ""
+msgstr "Penggunaan"
 
 msgid "AccessTokens|Use DPoP to protect your REST or GraphQL API access when using a personal access token."
-msgstr ""
+msgstr "Gunakan DPoP untuk melindungi akses ke API REST atau GraphQL Anda ketika menggunakan token akses pribadi."
 
 msgid "AccessTokens|Use Demonstrating Proof of Possession (DPoP)"
-msgstr ""
+msgstr "Gunakan Bukti Kepemilikan (DPoP)"
 
 msgid "AccessTokens|User"
-msgstr ""
+msgstr "Pengguna"
 
 msgid "AccessTokens|User permissions"
-msgstr ""
+msgstr "Izin pengguna"
 
 msgid "AccessTokens|View details"
-msgstr ""
+msgstr "Lihat rincian"
 
 msgid "AccessTokens|View token usage information"
-msgstr ""
+msgstr "Lihat informasi penggunaan token"
 
 msgid "AccessTokens|You can generate a personal access token for each application you use that needs access to the GitLab API. You can also use personal access tokens to authenticate against Git over HTTP. They are the only accepted password when you have Two-Factor Authentication (2FA) enabled."
-msgstr ""
+msgstr "Anda dapat menghasilkan token akses pribadi untuk setiap aplikasi yang Anda gunakan yang memerlukan akses ke API GitLab. Anda juga dapat menggunakan token akses pribadi untuk mengotentikasi terhadap Git melalui HTTP. Mereka adalah hanya kata santi yang diterima ketika Anda memiliki Otentikasi Dua Faktor (2FA) diaktifkan."
 
 msgid "AccessTokens|You can only have one active project access token with a trial license. You cannot generate a new token until the existing token is deleted, or you upgrade your subscription."
-msgstr ""
+msgstr "Anda hanya dapat memiliki satu token akses proyek aktif dengan lisensi uji coba. Anda tidak dapat membuat token baru hingga token yang ada dihapus, atau Anda meningkatkan langganan Anda."
 
 msgid "AccessTokens|Your feed token authenticates you when your RSS reader loads a personalized RSS feed or when your calendar application loads a personalized calendar. It is visible in those feed URLs."
 msgstr "Token umpan Anda mengotentikasi Anda ketika pembaca RSS Anda memuat umpan RSS yang dipersonalisasi atau ketika aplikasi kalender Anda memuat kalender yang dipersonalisasi. Itu terlihat di URL umpan tersebut."
@@ -4538,16 +4550,16 @@ msgid "AccessTokens|Your incoming email token authenticates you when you create 
 msgstr "Token surel masuk Anda mengotentikasi Anda saat Anda membuat isu baru dengan surel, dan disertakan di alamat surel khusus proyek pribadi Anda."
 
 msgid "AccessTokens|Your new token has been created"
-msgstr ""
+msgstr "Token baru Anda telah dibuat"
 
 msgid "AccessTokens|Your personal access token"
-msgstr ""
+msgstr "Token akses pribadi Anda"
 
 msgid "AccessTokens|Your static object token authenticates you when repository static objects (such as archives or blobs) are served from an external storage."
 msgstr "Token objek statis Anda mengotentikasi Anda ketika objek statis repositori (seperti arsip atau gumpalan) diladenkan dari penyimpanan eksternal."
 
 msgid "AccessTokens|Your token"
-msgstr ""
+msgstr "Token Anda"
 
 msgid "AccessibilityReport|Collapse accessibility details"
 msgstr ""
@@ -4556,34 +4568,34 @@ msgid "AccessibilityReport|Expand accessibility details"
 msgstr ""
 
 msgid "AccessibilityReport|Message: %{message}"
-msgstr ""
+msgstr "Pesan: %{message}"
 
 msgid "AccessibilityReport|The accessibility scanning found an error of the following type: %{code}"
-msgstr ""
+msgstr "Pemindaian aksesibilitas menemukan galat dari jenis berikut: %{code}"
 
 msgid "Accessible by any user who is logged in."
-msgstr ""
+msgstr "Dapat diakses oleh pengguna apa pun yang masuk."
 
 msgid "Accessible by anyone, regardless of authentication."
 msgstr "Dapat diakses oleh siapa saja, terlepas dari otentikasi."
 
 msgid "Account"
-msgstr ""
+msgstr "Akun"
 
 msgid "Account ID"
-msgstr ""
+msgstr "ID Akun"
 
 msgid "Account and limit"
-msgstr ""
+msgstr "Akun dan batasan"
 
 msgid "Account: %{account}"
-msgstr ""
+msgstr "Akun: %{account}"
 
 msgid "AccountTokens|Service Account"
-msgstr ""
+msgstr "Akun Layanan"
 
 msgid "Achievements"
-msgstr ""
+msgstr "Prestasi"
 
 msgid "Achievements|%{namespace_full_path} awarded you the %{achievement_name} achievement"
 msgstr "%{namespace_full_path} menganugerahkan Anda prestasi %{achievement_name}"
@@ -4595,37 +4607,37 @@ msgid "Achievements|%{namespace_link} awarded you the %{bold_start}%{achievement
 msgstr "%{namespace_link} menganugerahkan Anda prestasi %{bold_start}%{achievement_name}%{bold_end}!"
 
 msgid "Achievements|%{userCount} awarded users"
-msgstr ""
+msgstr "%{userCount} pengguna yang dianugerahkan"
 
 msgid "Achievements|Achievement description cannot be longer than %{length} characters."
-msgstr ""
+msgstr "Deskripsi prestasi tidak dapat lebih panjang dari %{length} karakter."
 
 msgid "Achievements|Achievement has been added."
-msgstr ""
+msgstr "Prestasi telah ditambahkan."
 
 msgid "Achievements|Achievement has been deleted."
-msgstr ""
+msgstr "Prestasi telah dihapus."
 
 msgid "Achievements|Achievement name cannot be longer than %{length} characters."
-msgstr ""
+msgstr "Nama prestasi tidak dapat lebih panjang dari %{length} karakter."
 
 msgid "Achievements|Achievement name is required."
-msgstr ""
+msgstr "Nama prestasi diperlukan."
 
 msgid "Achievements|Achievements"
-msgstr ""
+msgstr "Prestasi"
 
 msgid "Achievements|Are you sure you want to delete %{name}? This action cannot be undone."
-msgstr ""
+msgstr "Apakah Anda yakin ingin menghapus %{name}? Tindakan ini tidak dapat dibatalkan."
 
 msgid "Achievements|Avatar"
-msgstr ""
+msgstr "Avatar"
 
 msgid "Achievements|Award"
-msgstr ""
+msgstr "Penghargaan"
 
 msgid "Achievements|Award achievements"
-msgstr ""
+msgstr "Prestasi penghargaan"
 
 msgid "Achievements|Awarded %{timeAgo} by %{namespace}"
 msgstr "Dianugerahkan %{timeAgo} oleh %{namespace}"
@@ -4634,442 +4646,442 @@ msgid "Achievements|Awarded %{timeAgo} by a private namespace"
 msgstr "Dianugerahkan %{timeAgo} oleh ruang nama pribadi"
 
 msgid "Achievements|Cancel"
-msgstr ""
+msgstr "Batalkan"
 
 msgid "Achievements|Delete %{name}?"
-msgstr ""
+msgstr "Hapus %{name}?"
 
 msgid "Achievements|Delete achievement"
-msgstr ""
+msgstr "Hapus prestasi"
 
 msgid "Achievements|Description"
-msgstr ""
+msgstr "Deskripsi"
 
 msgid "Achievements|Failed to delete achievement. Please try again."
-msgstr ""
+msgstr "Gagal menghapus prestasi. Silakan coba lagi."
 
 msgid "Achievements|Name"
-msgstr ""
+msgstr "Nama"
 
 msgid "Achievements|New achievement"
-msgstr ""
+msgstr "Prestasi baru"
 
 msgid "Achievements|Not yet awarded."
-msgstr ""
+msgstr "Belum dianugerahkan."
 
 msgid "Achievements|There are currently no achievements."
-msgstr ""
+msgstr "Saat ini belum ada prestasi."
 
 msgid "Achievements|View your achievements on your %{link_start}profile%{link_end}."
-msgstr ""
+msgstr "Lihat prestasi Anda di %{link_start}profil%{link_end} Anda."
 
 msgid "Achievements|View your achievements on your profile."
-msgstr ""
+msgstr "Lihat prestasi Anda di profil Anda."
 
 msgid "Achievements|You're awarding users the %{achievementName} achievement"
-msgstr ""
+msgstr "Anda menganugerahkan pengguna prestasi %{achievementName}"
 
 msgid "Acknowledge"
-msgstr ""
+msgstr "Pengakuan"
 
 msgid "Action"
-msgstr ""
+msgstr "Tindakan"
 
 msgid "Action '%{action}' in registries is not supported."
-msgstr ""
+msgstr "Tindakan '%{action}' di registri tidak didukung."
 
 msgid "Action '%{action}' in registry %{registry_id} entry is not supported."
-msgstr ""
+msgstr "Tindakan '%{action}' di entri registri %{registry_id} tidak didukung."
 
 msgid "Action not allowed."
-msgstr ""
+msgstr "Tindakan tidak diizinkan."
 
 msgid "Action required: %{project_name} is read-only"
 msgstr "Tindakan diperlukan: %{project_name} hanya baca"
 
 msgid "Action required: Unusually high storage usage on %{project_name}"
-msgstr ""
+msgstr "Tindakan diperlukan: Penggunaan penyimpanan tinggi secara tidak wajar pada %{project_name}"
 
 msgid "Action to take when receiving an alert. %{docsLink}"
-msgstr ""
+msgstr "Tindakan yang diambil ketika menerima peringatan. %{docsLink}"
 
 msgid "Actions"
-msgstr ""
+msgstr "Tindakan"
 
 msgid "Actions for"
-msgstr ""
+msgstr "Tindakan untuk"
 
 msgid "Activate Service Desk"
-msgstr ""
+msgstr "Aktifkan Meja Layanan"
 
 msgid "Activated"
-msgstr ""
+msgstr "Diaktifkan"
 
 msgid "Active"
-msgstr ""
+msgstr "Aktif"
 
 msgid "Active GitLab Duo Chat"
 msgstr ""
 
 msgid "Active group access tokens"
-msgstr ""
+msgstr "Token akses grup aktif"
 
 msgid "Active pipeline trigger tokens"
-msgstr ""
+msgstr "Token pemicu alur aktif"
 
 msgid "Active project access tokens"
-msgstr ""
+msgstr "Token akses proyek aktif"
 
 msgid "Active sessions"
-msgstr ""
+msgstr "Sesi aktif"
 
 msgid "ActiveSessions|with Step-up Authentication"
 msgstr ""
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktivitas"
 
 msgid "Activity|An error occurred while retrieving activity. Reload the page to try again."
-msgstr ""
+msgstr "Terjadi galat saat menerima aktivitas. Muat ulang halaman untuk mencoba lagi."
 
 msgid "Actual version"
-msgstr ""
+msgstr "Versi aktual"
 
 msgid "Add"
-msgstr ""
+msgstr "Tambahkan"
 
 msgid "Add \"%{value}\""
-msgstr ""
+msgstr "Tambahkan \"%{value}\""
 
 msgid "Add %{child_ref} as a child item."
-msgstr ""
+msgstr "Tambahkan %{child_ref} sebagai item anak."
 
 msgid "Add %{contentType}"
-msgstr ""
+msgstr "Tambahkan %{contentType}"
 
 msgid "Add %{linkStart}assets%{linkEnd} to your Release. GitLab automatically includes read-only assets, like source code and release evidence."
 msgstr "Tambahkan %{linkStart}aset%{linkEnd} ke Rilis Anda. GitLab secara otomatis menyertakan aset hanya baca, seperti kode sumber dan bukti rilis."
 
 msgid "Add %{name} to favorites"
-msgstr ""
+msgstr "Tambahkan %{name} ke favorit"
 
 msgid "Add %{shrug}"
-msgstr ""
+msgstr "Tambahkan %{shrug}"
 
 msgid "Add %{tableflip}"
-msgstr ""
+msgstr "Tambahkan %{tableflip}"
 
 msgid "Add CHANGELOG"
-msgstr ""
+msgstr "Tambahkan CHANGELOG"
 
 msgid "Add CONTRIBUTING"
-msgstr ""
+msgstr "Tambahkan CONTRIBUTING"
 
 msgid "Add Kubernetes cluster"
-msgstr ""
+msgstr "Tambahkan Kubernetes cluster"
 
 msgid "Add LICENSE"
-msgstr ""
+msgstr "Tambahkan LICENSE"
 
 msgid "Add License"
-msgstr ""
+msgstr "Tambahkan Lisensi"
 
 msgid "Add New Site"
-msgstr ""
+msgstr "Tambahkan Situs Baru"
 
 msgid "Add README"
-msgstr ""
+msgstr "Tambahkan README"
 
 msgid "Add Wiki"
-msgstr ""
+msgstr "Tambahkan Wiki"
 
 msgid "Add Zoom meeting"
-msgstr ""
+msgstr "Tambahkan rapat Zoom"
 
 msgid "Add a %{link_start}start date and due date%{link_end} to view a burndown chart."
-msgstr ""
+msgstr "Tambahkan %{link_start}tanggal mulai dan tanggal tenggat%{link_end} untuk melihat bagan burndown."
 
 msgid "Add a GCP region"
-msgstr ""
+msgstr "Tambahkan daerah GCP"
 
 msgid "Add a GPG key"
-msgstr ""
+msgstr "Tambahkan kunci GPG"
 
 msgid "Add a GPG key for secure access to GitLab. %{help_link_start}Learn more%{help_link_end}."
-msgstr ""
+msgstr "Tambahkan kunci GPG untuk akses aman ke GitLab. %{help_link_start} Pelajari lebih lanjut %{help_link_end}."
 
 msgid "Add a Terms of Service agreement and Privacy Policy for users of this GitLab instance."
-msgstr ""
+msgstr "Tambahkan perjanjian Persyaratan Layanan dan Kebijakan Privasi untuk pengguna instansi GitLab ini."
 
 msgid "Add a bullet list"
-msgstr ""
+msgstr "Tambahkan daftar peluru"
 
 msgid "Add a checklist"
-msgstr ""
+msgstr "Tambahkan daftar periksa"
 
 msgid "Add a collapsible section"
-msgstr ""
+msgstr "Tambahkan bagian dapat diciutkan"
 
 msgid "Add a comment to this line"
-msgstr ""
+msgstr "Tambahkan komentar ke baris ini"
 
 msgid "Add a comment to this line or drag for multiple lines"
-msgstr ""
+msgstr "Tambahkan komentar ke baris ini atau seret untuk beberapa baris"
 
 msgid "Add a confidential internal note to this %{noteableDisplayName}."
-msgstr ""
+msgstr "Tambahkan catatan internal rahasia ke %{noteableDisplayName}."
 
 msgid "Add a general comment to this %{noteableDisplayName}."
-msgstr ""
+msgstr "Tambahkan komentar umum ke %{noteableDisplayName} ini."
 
 msgid "Add a homepage to your wiki that contains information about your project and GitLab will display it here instead of this message."
-msgstr ""
+msgstr "Tambahkan beranda pada wiki Anda yang berisi informasi tentang proyek Anda, GitLab akan menampilkannya di sini sebagai pengganti pesan ini."
 
 msgid "Add a numbered list"
-msgstr ""
+msgstr "Tambahkan daftar bernomor"
 
 msgid "Add a quick action"
-msgstr ""
+msgstr "Tambahkan tindakan cepat"
 
 msgid "Add a related epic"
-msgstr ""
+msgstr "Tambahkan epik terkait"
 
 msgid "Add a related issue"
-msgstr ""
+msgstr "Tambahkan isu terkait"
 
 msgid "Add a related ticket"
 msgstr ""
 
 msgid "Add a reply"
-msgstr ""
+msgstr "Tambahkan balasan"
 
 msgid "Add a suffix to Service Desk email address. %{linkStart}Learn more%{linkEnd}."
-msgstr ""
+msgstr "Tambahkan akhiran ke alamat surel Meja Layanan. %{linkStart}Pelajari lebih lanjut%{linkEnd}."
 
 msgid "Add a table"
-msgstr ""
+msgstr "Tambahkan tabel"
 
 msgid "Add a timeline event to incident"
-msgstr ""
+msgstr "Tambahkan peristiwa garis waktu ke insiden"
 
 msgid "Add a title…"
-msgstr ""
+msgstr "Tambahkan judul…"
 
 msgid "Add a to-do item"
 msgstr ""
 
 msgid "Add an SSH key"
-msgstr ""
+msgstr "Tambahkan kunci SSH"
 
 msgid "Add an SSH key for secure access to GitLab. %{help_link_start}Learn more%{help_link_end}."
-msgstr ""
+msgstr "Tambahkan kunci SSH untuk akses aman ke GitLab %{help_link_start} Pelajari lebih lanjut %{help_link_end}."
 
 msgid "Add an SSH key to your GitLab account"
-msgstr ""
+msgstr "Tambahkan kunci SSH ke akun GitLab Anda"
 
 msgid "Add an impersonation token"
-msgstr ""
+msgstr "Tambahkan token impersonasi"
 
 msgid "Add another link"
-msgstr ""
+msgstr "Tambahkan tautan lain"
 
 msgid "Add approval rule"
-msgstr ""
+msgstr "Tambahkan aturan persetujuan"
 
 msgid "Add attributes"
 msgstr ""
 
 msgid "Add branch target"
-msgstr ""
+msgstr "Tambahkan target cabang"
 
 msgid "Add branches"
-msgstr ""
+msgstr "Tambahkan cabang"
 
 msgid "Add child epic to an epic"
-msgstr ""
+msgstr "Tambahkan epik anak ke epik"
 
 msgid "Add child items"
-msgstr ""
+msgstr "Tambahkan item anak"
 
 msgid "Add comment now"
-msgstr ""
+msgstr "Tambahkan komentar sekarang"
 
 msgid "Add comment to design"
-msgstr ""
+msgstr "Tambahkan komentar ke rancangan"
 
 msgid "Add comment to incident timeline"
-msgstr ""
+msgstr "Tambahkan komentar ke garis waktu insiden"
 
 msgid "Add comment to review"
-msgstr ""
+msgstr "Tambahkan komentar untuk ditinjau"
 
 msgid "Add commit messages as comments to Asana tasks."
-msgstr ""
+msgstr "Tambahkan pesan komit sebagai komentar ke tugas Asana."
 
 msgid "Add commit messages as comments to Pivotal Tracker stories."
-msgstr ""
+msgstr "Tambahkan pesan komit sebagai komentar ke cerita Pivotal Tracker."
 
 msgid "Add customer relation contacts"
-msgstr ""
+msgstr "Tambahkan kontak hubungan pelanggan"
 
 msgid "Add customer relation contacts."
-msgstr ""
+msgstr "Tambahkan kontak hubungan pelanggan."
 
 msgid "Add deploy freeze"
-msgstr ""
+msgstr "Tambahkan pembekuan penyerahan"
 
 msgid "Add deploy keys to grant read/write access to this repository. %{link_start}What are deploy keys?%{link_end}"
-msgstr ""
+msgstr "Tambahkan kunci penyerahan untuk memberi akses baca/tulis ke repositori ini. %{link_start}Apa itu kunci penyerahan?%{link_end}"
 
 msgid "Add development item"
 msgstr ""
 
 msgid "Add email participants that don't have a GitLab account."
-msgstr ""
+msgstr "Tambahkan peserta surel yang tidak memiliki akun GitLab."
 
 msgid "Add environment"
-msgstr ""
+msgstr "Tambahkan lingkungan"
 
 msgid "Add exception(s)"
-msgstr ""
+msgstr "Tambahkan pengecualian"
 
 msgid "Add exclusions"
-msgstr ""
+msgstr "Tambahkan pengecualian"
 
 msgid "Add exemption"
 msgstr ""
 
 msgid "Add existing issue"
-msgstr ""
+msgstr "Tambahkan isu yang ada"
 
 msgid "Add files"
-msgstr ""
+msgstr "Tambahkan berkas"
 
 msgid "Add group"
-msgstr ""
+msgstr "Tambahkan grup"
 
 msgid "Add header and footer to emails. Please note that color settings will only be applied within the application interface"
-msgstr ""
+msgstr "Tambahkan header dan footer pada surel. Harap diperhatikan bahwa pengaturan warna hanya akan diterapkan dalam antarmuka aplikasi"
 
 msgid "Add image comment"
-msgstr ""
+msgstr "Tambahkan komentar gambar"
 
 msgid "Add internal note"
-msgstr ""
+msgstr "Tambahkan catatan internal"
 
 msgid "Add key"
-msgstr ""
+msgstr "Tambahkan kunci"
 
 msgid "Add labels"
-msgstr ""
+msgstr "Tambahkan label"
 
 msgid "Add license"
-msgstr ""
+msgstr "Tambahkan lisensi"
 
 msgid "Add new"
-msgstr ""
+msgstr "Tambahkan baru"
 
 msgid "Add new application"
-msgstr ""
+msgstr "Tambahkan aplikasi baru"
 
 msgid "Add new chat"
-msgstr ""
+msgstr "Tambahkan obrolan baru"
 
 msgid "Add new comment template"
-msgstr ""
+msgstr "Tambahkan templat komentar baru"
 
 msgid "Add new directory"
-msgstr ""
+msgstr "Tambahkan direktori baru"
 
 msgid "Add new emoji"
-msgstr ""
+msgstr "Tambahkan emoji baru"
 
 msgid "Add new file"
-msgstr ""
+msgstr "Tambahkan berkas baru"
 
 msgid "Add new key"
-msgstr ""
+msgstr "Tambahkan kunci baru"
 
 msgid "Add new pipeline trigger token"
-msgstr ""
+msgstr "Tambahkan token pemicu alur baru"
 
 msgid "Add new token"
-msgstr ""
+msgstr "Tambahkan token baru"
 
 msgid "Add new webhook"
-msgstr ""
+msgstr "Tambahkan webhook baru"
 
 msgid "Add optional summary content…"
-msgstr ""
+msgstr "Tambahkan konten ringkasan opsional…"
 
 msgid "Add or remove a user."
-msgstr ""
+msgstr "Tambahkan atau hapus pengguna."
 
 msgid "Add or remove previously merged commits"
-msgstr ""
+msgstr "Tambahkan atau hapus perubahan tergabung sebelumnya"
 
 msgid "Add or subtract spent time"
-msgstr ""
+msgstr "Tambahkan atau kurangi waktu terhabiskan"
 
 msgid "Add people"
-msgstr ""
+msgstr "Tambahkan orang"
 
 msgid "Add previously merged commits"
-msgstr ""
+msgstr "Tambahkan komit tergabung sebelumnya"
 
 msgid "Add project"
-msgstr ""
+msgstr "Tambahkan proyek"
 
 msgid "Add projects"
-msgstr ""
+msgstr "Tambahkan proyek"
 
 msgid "Add protected branch"
-msgstr ""
+msgstr "Tambahkan cabang terlindungi"
 
 msgid "Add protected branches"
-msgstr ""
+msgstr "Tambahkan cabang terlindungi"
 
 msgid "Add reaction"
-msgstr ""
+msgstr "Tambahkan reaksi"
 
 msgid "Add reaction to @%{username}"
 msgstr ""
 
 msgid "Add request manually"
-msgstr ""
+msgstr "Tambahkan permintaan secara manual"
 
 msgid "Add role"
-msgstr ""
+msgstr "Tambahkan peran"
 
 msgid "Add search filter"
-msgstr ""
+msgstr "Tambahkan saring pencarian"
 
 msgid "Add suggestion to batch"
-msgstr ""
+msgstr "Tambahkan saran ke batch"
 
 msgid "Add summary"
-msgstr ""
+msgstr "Tambahkan ringkasan"
 
 msgid "Add tag"
-msgstr ""
+msgstr "Tambahkan tag"
 
 msgid "Add thread now"
-msgstr ""
+msgstr "Tambahkan utas sekarang"
 
 msgid "Add thread to review"
-msgstr ""
+msgstr "Tambahkan utas untuk ditinjau"
 
 msgid "Add time entry"
-msgstr ""
+msgstr "Tambahkan waktu masuk"
 
 msgid "Add to board"
-msgstr ""
+msgstr "Tambahkan ke papan"
 
 msgid "Add to favorites"
 msgstr ""
 
 msgid "Add to merge train"
-msgstr ""
+msgstr "Tambahkan ke rentetan penggabungan"
 
 msgid "Add to merge train when all merge checks pass"
 msgstr ""
@@ -5078,67 +5090,67 @@ msgid "Add to merge train when ready"
 msgstr ""
 
 msgid "Add to review"
-msgstr ""
+msgstr "Tambahkan ke tinjauan"
 
 msgid "Add to tree"
-msgstr ""
+msgstr "Tambahkan ke pohon"
 
 msgid "Add token"
-msgstr ""
+msgstr "Tambahkan token"
 
 msgid "Add topics to projects to help users find them."
-msgstr ""
+msgstr "Tambahkan topik ke proyek untuk membantu pengguna menemukannya."
 
 msgid "Add user"
-msgstr ""
+msgstr "Tambahkan pengguna"
 
 msgid "Add variable"
-msgstr ""
+msgstr "Tambahkan variabel"
 
 msgid "Add vulnerability finding"
-msgstr ""
+msgstr "Tambahkan temuan kerentanan"
 
 msgid "Add webhook"
-msgstr ""
+msgstr "Tambahkan webhook"
 
 msgid "Add your comment to a review"
-msgstr ""
+msgstr "Tambahkan komentar Anda ke tinjauan"
 
 msgid "Add your team members and others to GitLab."
-msgstr ""
+msgstr "Tambahkan anggota tim Anda dan orang lain ke GitLab."
 
 msgid "Add/remove"
-msgstr ""
+msgstr "Tambahkan/hapus"
 
 msgid "AddContextCommits|Add previously merged commits"
-msgstr ""
+msgstr "Tambahkan komit tergabung sebelumnya"
 
 msgid "AddContextCommits|Add/remove"
-msgstr ""
+msgstr "Tambahkan/hapus"
 
 msgid "AddMember|Ask a user with the Owner role to purchase more seats."
-msgstr ""
+msgstr "Tanya pengguna dengan peran Pemilik untuk membeli lebih banyak kursi."
 
 msgid "AddMember|Invite email is invalid"
-msgstr ""
+msgstr "Surel undangan tidak valid"
 
 msgid "AddMember|Invite limit of %{daily_invites} per day exceeded."
-msgstr ""
+msgstr "Batas undangan %{daily_invites} per hari dilampaui."
 
 msgid "AddMember|Invites cannot be blank"
-msgstr ""
+msgstr "Undangan tidak boleh kosong"
 
 msgid "AddMember|No invite source provided."
-msgstr ""
+msgstr "Tidak ada sumber undangan yang disediakan."
 
 msgid "AddMember|No users specified."
-msgstr ""
+msgstr "Tidak ada pengguna yang ditentukan."
 
 msgid "AddMember|There are not enough available seats to invite this many users."
-msgstr ""
+msgstr "Tidak tersedia cukup kursi untuk mengundang pengguna sebanyak ini."
 
 msgid "AddMember|Too many users specified (limit is %{user_limit})"
-msgstr ""
+msgstr "Terlalu banyak pengguna yang ditentukan (batasnya adalah %{user_limit})"
 
 msgid "AddPasskey|Add a name to help you identify the passkey later"
 msgstr ""
@@ -5162,13 +5174,13 @@ msgid "AddPasskey|Your browser doesn't support passkeys."
 msgstr ""
 
 msgid "Added"
-msgstr ""
+msgstr "Ditambahkan"
 
 msgid "Added %{epic_ref} as a child epic."
-msgstr ""
+msgstr "Ditambahkan %{epic_ref} sebagai epik anak."
 
 msgid "Added %{label_references} %{label_text}."
-msgstr ""
+msgstr "Ditambahkan %{label_references} %{label_text}."
 
 msgid "Added %{target} as a linked item blocked by this %{item_type}."
 msgstr ""
@@ -5180,83 +5192,83 @@ msgid "Added %{target} as a linked item related to this %{work_item_type}."
 msgstr ""
 
 msgid "Added %{timeAgo} by"
-msgstr ""
+msgstr "Ditambahkan %{timeAgo} oleh"
 
 msgid "Added a to-do item."
 msgstr ""
 
 msgid "Added an issue to an epic."
-msgstr ""
+msgstr "Ditambahkan isu ke epik."
 
 msgid "Added for this merge request"
-msgstr ""
+msgstr "Ditambahkan untuk permintaan penggabungan ini"
 
 msgid "Added identity verification exemption."
 msgstr ""
 
 msgid "Added in this version"
-msgstr ""
+msgstr "Ditambahkan di versi ini"
 
 msgid "Added to merge train."
 msgstr ""
 
 msgid "Adding new applications is disabled in your GitLab instance. Please contact your GitLab administrator to get the permission."
-msgstr ""
+msgstr "Menambahkan aplikasi baru dinonaktifkan di instansi GitLab Anda. Silakan hubungi administrator GitLab Anda untuk mendapatkan izin."
 
 msgid "Additional compute minutes:"
-msgstr ""
+msgstr "Menit komputasi tambahan:"
 
 msgid "Additional diagram formats"
-msgstr ""
+msgstr "Format diagram tambahan"
 
 msgid "Additional text"
-msgstr ""
+msgstr "Teks tambahan"
 
 msgid "Additional text for deactivation email"
-msgstr ""
+msgstr "Teks tambahan untuk surel penonaktifan"
 
 msgid "Additional text for the Help page."
-msgstr ""
+msgstr "Teks tambahan untuk halaman Bantuan."
 
 msgid "Additional text to show on the Help page"
-msgstr ""
+msgstr "Teks tambahan untuk ditampilkan pada halaman Bantuan"
 
 msgid "Additional units"
-msgstr ""
+msgstr "Unit tambahan"
 
 msgid "Address"
-msgstr ""
+msgstr "Alamat"
 
 msgid "Adds"
-msgstr ""
+msgstr "Menambahkan"
 
 msgid "Adds %{epic_ref} as child epic."
-msgstr ""
+msgstr "Menambahkan %{epic_ref} sebagai epik anak."
 
 msgid "Adds %{labels} %{label_text}."
-msgstr ""
+msgstr "Menambahkan %{labels} %{label_text}."
 
 msgid "Adds a Zoom meeting."
-msgstr ""
+msgstr "Menambahkan rapat Zoom."
 
 msgid "Adds a label."
 msgid_plural "Adds %d labels."
-msgstr[0] ""
+msgstr[0] "Menambahkan %d label."
 
 msgid "Adds a resource link"
-msgstr ""
+msgstr "Menambahkan tautan sumber daya"
 
 msgid "Adds a resource link for this incident."
-msgstr ""
+msgstr "Menambahkan tautan sumber daya untuk insiden ini."
 
 msgid "Adds a timeline event to incident."
-msgstr ""
+msgstr "Menambahkan peristiwa garis waktu ke insiden."
 
 msgid "Adds a to-do item."
 msgstr ""
 
 msgid "Adds email participants that don't have a GitLab account."
-msgstr ""
+msgstr "Menambahkan peserta surel yang tidak memiliki akun GitLab."
 
 msgid "Adds this merge request to merge train when ready."
 msgstr ""
@@ -5287,40 +5299,40 @@ msgid "AdherenceReport|To show a status here, you must %{linkStart}create a comp
 msgstr ""
 
 msgid "Adjust how frequently the GitLab UI polls for updates."
-msgstr ""
+msgstr "Sesuaikan seberapa sering UI GitLab melakukan polling untuk pembaruan."
 
 msgid "Admin"
 msgstr ""
 
 msgid "Admin Mode"
-msgstr ""
+msgstr "Mode Admin"
 
 msgid "Admin Note"
-msgstr ""
+msgstr "Catatan Admin"
 
 msgid "Admin Notifications"
-msgstr ""
+msgstr "Notifikasi Admin"
 
 msgid "Admin area"
-msgstr ""
+msgstr "Area admin"
 
 msgid "Admin area / Dashboard"
 msgstr ""
 
 msgid "Admin message"
-msgstr ""
+msgstr "Pesan admin"
 
 msgid "Admin mode already enabled"
-msgstr ""
+msgstr "Mode admin sudah diaktifkan"
 
 msgid "Admin mode disabled"
-msgstr ""
+msgstr "Mode admin dinonaktifkan"
 
 msgid "Admin mode enabled"
-msgstr ""
+msgstr "Mode admin diaktifkan"
 
 msgid "Admin notes"
-msgstr ""
+msgstr "Catatan admin"
 
 msgid "AdminAIPoweredFeatures|AI-native features"
 msgstr ""
@@ -5410,52 +5422,52 @@ msgid "AdminAiPoweredFeatures|Self-hosted model"
 msgstr ""
 
 msgid "AdminArea|%{billable_users_link_start}Learn more%{billable_users_link_end} about what defines a billable user"
-msgstr ""
+msgstr "%{billable_users_link_start}Pelajari lebih lanjut%{billable_users_link_end} tentang apa yang mendefinisikan pengguna yang dapat ditagih"
 
 msgid "AdminArea|Active subscription"
 msgstr ""
 
 msgid "AdminArea|Active users"
-msgstr ""
+msgstr "Pengguna aktif"
 
 msgid "AdminArea|Add new message"
 msgstr ""
 
 msgid "AdminArea|Are you sure?"
-msgstr ""
+msgstr "Apakah Anda yakin?"
 
 msgid "AdminArea|Basic CI/CD features for individual developers. Bring your own runners and storage."
 msgstr ""
 
 msgid "AdminArea|Blocked users"
-msgstr ""
+msgstr "Pengguna terblokir"
 
 msgid "AdminArea|Bots"
-msgstr ""
+msgstr "Bot"
 
 msgid "AdminArea|Breakdown of Billable users"
-msgstr ""
+msgstr "Rincian pengguna yang Dapat Ditagih"
 
 msgid "AdminArea|Breakdown of Non-Billable users"
-msgstr ""
+msgstr "Rincian pengguna yang Tidak Dapat Ditagih"
 
 msgid "AdminArea|Cancel all jobs"
-msgstr ""
+msgstr "Batalkan semua pekerjaan"
 
 msgid "AdminArea|Cancel all running and pending jobs"
-msgstr ""
+msgstr "Batalkan semua pekerjaan yang sedang berjalan dan tertunda"
 
 msgid "AdminArea|Canceling jobs failed"
-msgstr ""
+msgstr "Pembatalan pekerjaan gagal"
 
 msgid "AdminArea|Components"
-msgstr ""
+msgstr "Komponen"
 
 msgid "AdminArea|Current domain doesn't match the Web IDE OAuth configuration"
 msgstr "Domain saat ini tidak cocok dengan konfigurasi OAuth Web IDE"
 
 msgid "AdminArea|Developer"
-msgstr ""
+msgstr "Pengembang"
 
 msgid "AdminArea|Edit OAuth configuration"
 msgstr "Sunting konfigurasi OAuth"
@@ -5467,7 +5479,7 @@ msgid "AdminArea|Failed to fetch version from KAS"
 msgstr ""
 
 msgid "AdminArea|Features"
-msgstr ""
+msgstr "Fitur"
 
 msgid "AdminArea|For teams who need advanced CI/CD and productivity features."
 msgstr ""
@@ -5476,19 +5488,19 @@ msgid "AdminArea|GitLab Free"
 msgstr ""
 
 msgid "AdminArea|Groups"
-msgstr ""
+msgstr "Grup"
 
 msgid "AdminArea|Guest"
-msgstr ""
+msgstr "Tamu"
 
 msgid "AdminArea|Included Free in license"
-msgstr ""
+msgstr "Termasuk Gratis dalam lisensi"
 
 msgid "AdminArea|Instance OAuth applications"
 msgstr "Aplikasi OAuth Instansi"
 
 msgid "AdminArea|Maintainer"
-msgstr ""
+msgstr "Pemelihara"
 
 msgid "AdminArea|Manage applications for your instance that can use GitLab as an %{docs_link_start}OAuth provider%{docs_link_end}."
 msgstr "Kelola aplikasi untuk instansi Anda yang dapat menggunakan GitLab sebagai %{docs_link_start}penyedia OAuth%{docs_link_end}."
@@ -5500,31 +5512,31 @@ msgid "AdminArea|Messages"
 msgstr ""
 
 msgid "AdminArea|Minimal access"
-msgstr ""
+msgstr "Akses minimal"
 
 msgid "AdminArea|New group"
-msgstr ""
+msgstr "Grup baru"
 
 msgid "AdminArea|New project"
-msgstr ""
+msgstr "Proyek baru"
 
 msgid "AdminArea|New user"
-msgstr ""
+msgstr "Pengguna baru"
 
 msgid "AdminArea|No applications found"
-msgstr ""
+msgstr "Tidak ada aplikasi ditemukan"
 
 msgid "AdminArea|Owner"
-msgstr ""
+msgstr "Pemilik"
 
 msgid "AdminArea|Planner"
 msgstr ""
 
 msgid "AdminArea|Projects"
-msgstr ""
+msgstr "Proyek"
 
 msgid "AdminArea|Reporter"
-msgstr ""
+msgstr "Pelapor"
 
 msgid "AdminArea|Start free trial"
 msgstr ""
@@ -5533,19 +5545,19 @@ msgid "AdminArea|The Web IDE OAuth application doesn't have a redirect URL with 
 msgstr "Aplikasi OAuth Web IDE tidak memiliki URL pengalihan dengan domain yang Anda gunakan untuk mengunjungi GitLab. Isu ini akan mencegah pengguna Web IDE dari mengotentikasi dan sering terjadi saat menggunakan proxy terbalik."
 
 msgid "AdminArea|Total Billable users"
-msgstr ""
+msgstr "Total pengguna yang Dapat Ditagih"
 
 msgid "AdminArea|Total Non-Billable users"
-msgstr ""
+msgstr "Total pengguna yang Tidak Dapat Ditagih"
 
 msgid "AdminArea|Total Users"
 msgstr ""
 
 msgid "AdminArea|Total users"
-msgstr ""
+msgstr "Total pengguna"
 
 msgid "AdminArea|Totals"
-msgstr ""
+msgstr "Total"
 
 msgid "AdminArea|Try a 30 day free trial of Ultimate"
 msgstr ""
@@ -5554,82 +5566,82 @@ msgid "AdminArea|Unknown"
 msgstr ""
 
 msgid "AdminArea|Updated %{last_update_time}"
-msgstr ""
+msgstr "Diperbarui %{last_update_time}"
 
 msgid "AdminArea|Users statistics"
-msgstr ""
+msgstr "Statistik pengguna"
 
 msgid "AdminArea|Users with highest role"
-msgstr ""
+msgstr "Pengguna dengan peran tertinggi"
 
 msgid "AdminArea|Users with highest role guest and with a %{strongOpen}Custom Role%{strongClose}."
-msgstr ""
+msgstr "Pengguna dengan peran tamu tertinggi dan dengan %{strongOpen}Peran Kustom%{strongClose}."
 
 msgid "AdminArea|Users without a Group and Project"
-msgstr ""
+msgstr "Pengguna tanpa Grup dan Proyek"
 
 msgid "AdminArea|View latest groups"
-msgstr ""
+msgstr "Lihat grup terbaru"
 
 msgid "AdminArea|View latest projects"
-msgstr ""
+msgstr "Lihat proyek terbaru"
 
 msgid "AdminArea|View latest users"
-msgstr ""
+msgstr "Lihat pengguna terbaru"
 
 msgid "AdminArea|Yes, proceed"
-msgstr ""
+msgstr "Ya, lanjutkan"
 
 msgid "AdminArea|You're about to cancel all running and pending jobs across this instance. Do you want to proceed?"
-msgstr ""
+msgstr "Anda akan membatalkan semua tugas yang sedang berjalan dan tertunda di seluruh instansi ini. Apakah Anda ingin melanjutkan?"
 
 msgid "AdminArea|active users + blocked users"
-msgstr ""
+msgstr "pengguna aktif + pengguna terblokir"
 
 msgid "AdminArea|total billable + total non-billable"
-msgstr ""
+msgstr "total dapat ditagih + total tidak dapat ditagih"
 
 msgid "AdminDashboard|Error loading the statistics. Please try again"
-msgstr ""
+msgstr "Galat saat memuat statistik. Silakan coba lagi"
 
 msgid "AdminEmail|An error occurred fetching the groups and projects. Please refresh the page to try again."
-msgstr ""
+msgstr "Terjadi galat saat mengambil grup dan proyek. Muat ulang halaman untuk mencoba lagi."
 
 msgid "AdminEmail|Body"
-msgstr ""
+msgstr "Isi"
 
 msgid "AdminEmail|Body is required."
-msgstr ""
+msgstr "Isi diperlukan."
 
 msgid "AdminEmail|Loading groups and projects."
-msgstr ""
+msgstr "Memuat grup dan proyek."
 
 msgid "AdminEmail|No groups or projects found."
-msgstr ""
+msgstr "Tidak ada grup atau proyek yang ditemukan."
 
 msgid "AdminEmail|Recipient group or project"
-msgstr ""
+msgstr "Grup atau proyek penerima"
 
 msgid "AdminEmail|Recipient group or project is required."
-msgstr ""
+msgstr "Grup atau proyek penerima diperlukan."
 
 msgid "AdminEmail|Subject"
-msgstr ""
+msgstr "Subjek"
 
 msgid "AdminEmail|Subject is required."
-msgstr ""
+msgstr "Subjek diperlukan."
 
 msgid "AdminGroups|%{planTitle} Plan"
 msgstr ""
 
 msgid "AdminLabels|Define your default set of project labels"
-msgstr ""
+msgstr "Tentukan pengaturan bawaan Anda pada label proyek"
 
 msgid "AdminLabels|Labels created here will be automatically added to new projects."
-msgstr ""
+msgstr "Label yang dibuat di sini akan secara otomatis ditambahkan ke proyek baru."
 
 msgid "AdminLabels|They can be used to categorize issues and merge requests."
-msgstr ""
+msgstr "Mereka dapat digunakan untuk mengkategorikan isu dan permintaan penggabungan."
 
 msgid "AdminMode|Learn more about authentication requirements: "
 msgstr ""
@@ -5659,7 +5671,7 @@ msgid "AdminSelfHostedModels|An error occurred while deleting your self-hosted m
 msgstr ""
 
 msgid "AdminSelfHostedModels|An error occurred while loading self-hosted models. Please try again."
-msgstr ""
+msgstr "Terjadi galat saat memuat model yang dihosting sendiri. Silakan coba lagi."
 
 msgid "AdminSelfHostedModels|An error occurred while loading the self-hosted model. Please try again."
 msgstr ""
@@ -5692,7 +5704,7 @@ msgid "AdminSelfHostedModels|Deployment name"
 msgstr ""
 
 msgid "AdminSelfHostedModels|Edit self-hosted model"
-msgstr ""
+msgstr "Sunting model yang dihosting sendiri"
 
 msgid "AdminSelfHostedModels|Edit the AI model that can be used for GitLab Duo self-hosted features."
 msgstr ""
@@ -5848,19 +5860,19 @@ msgid "AdminSettingsUsageBilling|If selected, individual usernames and their cre
 msgstr ""
 
 msgid "AdminSettings|%{generate_manually_link_start}Generate%{generate_manually_link_end} Service Ping to preview and download service usage data payload."
-msgstr ""
+msgstr "%{generate_manually_link_start}Hasilkan%{generate_manually_link_end} Ping Layanan untuk ditinjau dan unduh muatan data penggunaan layanan."
 
 msgid "AdminSettings|%{setting_name} value used by both Rails and Browser JavaScript SDKs."
-msgstr ""
+msgstr "Nilai %{setting_name} digunakan oleh kedua Rails dan SDK Javascript Peramban."
 
 msgid "AdminSettings|%{setting_name} value used by the Browser JavaScript SDK."
-msgstr ""
+msgstr "Nilai %{setting_name} digunakan di SDK JavaScript Peramban ."
 
 msgid "AdminSettings|%{setting_name} value used by the Rails SDK."
-msgstr ""
+msgstr "Nilai %{setting_name} digunakan di SDK Rails."
 
 msgid "AdminSettings|%{strongStart}WARNING:%{strongEnd} Environment variable %{environment_variable} does not exist or is not pointing to a valid directory. %{icon_link}"
-msgstr ""
+msgstr "%{strongStart}PERHATIAN:%{strongEnd} Variabel lingkungan %{environment_variable} tidak ada atau tidak menunjuk ke direktori yang valid. %{icon_link}"
 
 msgid "AdminSettings|A Let's Encrypt account will be configured for this GitLab instance using this email address. You will receive emails to warn of expiring certificates. %{link_start}Learn more%{link_end}."
 msgstr ""
@@ -5869,7 +5881,7 @@ msgid "AdminSettings|Add a custom message with details about instance runners. T
 msgstr ""
 
 msgid "AdminSettings|Affects all new and existing groups."
-msgstr ""
+msgstr "Mempengaruhi semua grup baru dan yang sudah ada."
 
 msgid "AdminSettings|All new projects can use instance runners by default."
 msgstr ""
@@ -5884,7 +5896,7 @@ msgid "AdminSettings|Allow contribution mapping to administrators %{allow_contri
 msgstr ""
 
 msgid "AdminSettings|Allow migrating GitLab groups and projects by direct transfer"
-msgstr ""
+msgstr "Izinkan migrasi grup dan proyek GitLab melalui transfer langsung"
 
 msgid "AdminSettings|Allow only integrations on this allowlist"
 msgstr ""
@@ -5899,16 +5911,16 @@ msgid "AdminSettings|Are you sure you want to revert to the default extension ho
 msgstr ""
 
 msgid "AdminSettings|Auto DevOps domain"
-msgstr ""
+msgstr "Domain DevOps otomatis"
 
 msgid "AdminSettings|By default, set a limit to 0 to have no limit."
-msgstr ""
+msgstr "Secara bawaan, atur batas ke 0 untuk tidak ada batasan."
 
 msgid "AdminSettings|CI/CD Catalog publishing allowlist"
 msgstr ""
 
 msgid "AdminSettings|CI/CD limits"
-msgstr ""
+msgstr "Batas CI/CD"
 
 msgid "AdminSettings|Code can be imported from enabled sources during project creation. OmniAuth must be configured for GitHub %{github_docs_link_start}%{icon}%{github_docs_link_end} and Bitbucket %{bitbucket_docs_link_start}%{icon}%{bitbucket_docs_link_end}."
 msgstr "Kode dapat di impor dari sumber yang diaktifkan selama proyek dibuat. OmniAuth harus dikonfigurasikan untuk GitHub %{github_docs_link_start}%{icon}%{github_docs_link_end} dan Bitbucket %{bitbucket_docs_link_start}%{icon}%{bitbucket_docs_link_end}."
@@ -5917,10 +5929,10 @@ msgid "AdminSettings|Code search with advanced search"
 msgstr ""
 
 msgid "AdminSettings|Collector host"
-msgstr ""
+msgstr "Host kolektor"
 
 msgid "AdminSettings|Configure Let's Encrypt"
-msgstr ""
+msgstr "Konfigurasikan Let's Encrypt"
 
 msgid "AdminSettings|Configure limits on the number of repositories users can download, clone, or fork in a given time."
 msgstr ""
@@ -7179,13 +7191,40 @@ msgstr ""
 msgid "Agent or flow already enabled"
 msgstr ""
 
+msgid "AgentArtifacts|AI Item"
+msgstr ""
+
 msgid "AgentArtifacts|Agent artifacts"
+msgstr ""
+
+msgid "AgentArtifacts|Audit events"
+msgstr ""
+
+msgid "AgentArtifacts|Credits"
+msgstr ""
+
+msgid "AgentArtifacts|Failed to load agent artifacts."
 msgstr ""
 
 msgid "AgentArtifacts|Monitor and observe AI agent behavior and activities across your group."
 msgstr ""
 
+msgid "AgentArtifacts|No agent artifacts found."
+msgstr ""
+
+msgid "AgentArtifacts|Session ID"
+msgstr ""
+
+msgid "AgentArtifacts|Start time"
+msgstr ""
+
+msgid "Agents|Cannot be assigned"
+msgstr ""
+
 msgid "Agents|Explore other agents"
+msgstr ""
+
+msgid "Agents|No triggers for this event"
 msgstr ""
 
 msgid "AggregationEngine|Unknown granularity \"%{granularity}\""
@@ -7248,9 +7287,6 @@ msgstr ""
 msgid "AiImpactAnalytics|Code Suggestions accepted out of total Code Suggestions generated."
 msgstr ""
 
-msgid "AiImpactAnalytics|Code Suggestions accepted out of total Code Suggestions generated. %{linkStart}Learn more%{linkEnd}."
-msgstr ""
-
 msgid "AiImpactAnalytics|Code Suggestions usage"
 msgstr ""
 
@@ -7273,6 +7309,9 @@ msgid "AiImpactAnalytics|Duo users"
 msgstr ""
 
 msgid "AiImpactAnalytics|Feature usage"
+msgstr ""
+
+msgid "AiImpactAnalytics|GitLab Duo agent/flow users"
 msgstr ""
 
 msgid "AiImpactAnalytics|No query found for metric: %{metric}"
@@ -7303,6 +7342,9 @@ msgid "AiImpactAnalytics|Number of users who used Duo Chat (non-agentic)."
 msgstr ""
 
 msgid "AiImpactAnalytics|Number of users who used Root Cause Analysis."
+msgstr ""
+
+msgid "AiImpactAnalytics|Number of users who used at least one GitLab Duo agent or flow."
 msgstr ""
 
 msgid "AiImpactAnalytics|Number of users who used at least one GitLab Duo or GitLab Duo Agent Platform feature."
@@ -7350,6 +7392,9 @@ msgstr ""
 msgid "AiPowered|After the conversation was last updated"
 msgstr ""
 
+msgid "AiPowered|All eligible users"
+msgstr ""
+
 msgid "AiPowered|Allow GitLab Duo agents to execute flows for the instance. %{linkStart}What are flows%{linkEnd}?"
 msgstr ""
 
@@ -7366,9 +7411,6 @@ msgid "AiPowered|Allow GitLab to collect prompts, AI responses, and metadata fro
 msgstr ""
 
 msgid "AiPowered|Allow GitLab to process your code and project data for AI-native features in this group. Your data is sent to GitLab Duo. Groups, subgroups, and projects can opt out individually."
-msgstr ""
-
-msgid "AiPowered|Allow members of these groups access to AI-native features."
 msgstr ""
 
 msgid "AiPowered|Always off"
@@ -7413,9 +7455,6 @@ msgstr ""
 msgid "AiPowered|Configuration"
 msgstr ""
 
-msgid "AiPowered|Configure AI features"
-msgstr ""
-
 msgid "AiPowered|Configure AI-native GitLab Duo features. %{linkStart}Which features%{linkEnd}?"
 msgstr ""
 
@@ -7443,7 +7482,13 @@ msgstr ""
 msgid "AiPowered|Control who can access AI-native features executed with or without CI/CD pipelines."
 msgstr ""
 
+msgid "AiPowered|Create group"
+msgstr ""
+
 msgid "AiPowered|Data collection"
+msgstr ""
+
+msgid "AiPowered|Default access for users who can access AI features regardless of group membership."
 msgstr ""
 
 msgid "AiPowered|Direct connections"
@@ -7530,6 +7575,15 @@ msgstr ""
 msgid "AiPowered|Indirect connections through GitLab Self-Managed"
 msgstr ""
 
+msgid "AiPowered|Learn more"
+msgstr ""
+
+msgid "AiPowered|Learn more about GitLab Credits (opens in new window)"
+msgstr ""
+
+msgid "AiPowered|Limit access based on group membership"
+msgstr ""
+
 msgid "AiPowered|Local AI Gateway URL"
 msgstr ""
 
@@ -7543,9 +7597,6 @@ msgid "AiPowered|Lock tooltip icon"
 msgstr ""
 
 msgid "AiPowered|Maximum time in seconds to wait for responses from the AI Gateway (up to 600 seconds).%{br}Increasing this value might result in degraded user experience."
-msgstr ""
-
-msgid "AiPowered|Member access"
 msgstr ""
 
 msgid "AiPowered|Members of group"
@@ -7566,13 +7617,10 @@ msgstr ""
 msgid "AiPowered|Never allow GitLab to process your code and project data for AI-native features in this group. Your data is not sent to GitLab Duo."
 msgstr ""
 
-msgid "AiPowered|No access rules configured"
-msgstr ""
-
-msgid "AiPowered|No group"
-msgstr ""
-
 msgid "AiPowered|No groups found"
+msgstr ""
+
+msgid "AiPowered|No limits applied. All eligible users have access to all AI features."
 msgstr ""
 
 msgid "AiPowered|Not enabled"
@@ -7629,9 +7677,6 @@ msgstr ""
 msgid "AiPowered|Talk to Sales"
 msgstr ""
 
-msgid "AiPowered|Tanuki AI icon"
-msgstr ""
-
 msgid "AiPowered|This setting applies to the entire instance. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}Check the required prerequisites%{prerequisitesLinkEnd}."
 msgstr ""
 
@@ -7671,9 +7716,6 @@ msgstr ""
 msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation."
 msgstr ""
 
-msgid "AiPowered|Upgrade to keep using GitLab Duo Agent Platform and access a broad credit allocation. Learn more about %{linkStart}GitLab Credit pricing.%{linkEnd}"
-msgstr ""
-
 msgid "AiPowered|Use TLS for the GitLab Duo Agent Platform service"
 msgstr ""
 
@@ -7699,6 +7741,9 @@ msgid "AiPowered|When GitLab Duo is not available, experiment and beta features 
 msgstr ""
 
 msgid "AiPowered|When GitLab Duo is not available, prompt caching cannot be turned on."
+msgstr ""
+
+msgid "AiPowered|When configured, access to GitLab Duo or GitLab Duo Agent Platform can be restricted to selected groups. By default all eligible members can access all configured AI features. %{linkStart}How can I control access?%{linkEnd}"
 msgstr ""
 
 msgid "AiPowered|When turned on, members without a Duo Pro or Duo Enterprise seat can access GitLab Duo Agent Platform features. %{linkStart}Which features are included%{linkEnd}?"
@@ -7885,7 +7930,7 @@ msgid "AlertMappingBuilder|Title is a required field for alerts in GitLab. Shoul
 msgstr ""
 
 msgid "AlertSettings|A webhook URL and authorization key is generated for the integration. After you save the integration, both are visible under the “View credentials” tab."
-msgstr ""
+msgstr "URL webhook dan kunci otorisasi dihasilkan untuk integrasi. Setelah Anda menyimpan integrasi, keduanya akan terlihat di tab “Lihat kredensial”."
 
 msgid "AlertSettings|Active alerts"
 msgstr ""
@@ -7930,7 +7975,7 @@ msgid "AlertSettings|Free versions of GitLab are limited to one integration per 
 msgstr ""
 
 msgid "AlertSettings|GitLab has created a URL and authorization key for your integration. You can use them to set up a webhook and authorize your endpoint to send alerts to GitLab."
-msgstr ""
+msgstr "GitLab telah membuat URL dan kunci otorisasi untuk integrasi Anda. Anda dapat menggunakannya untuk menyiapkan webhook dan mengotorisasi titik akhir Anda untuk mengirimkan peringatan ke GitLab."
 
 msgid "AlertSettings|HTTP Endpoint"
 msgstr ""
@@ -8008,7 +8053,7 @@ msgid "AlertSettings|View credentials"
 msgstr ""
 
 msgid "AlertSettings|Webhook URL"
-msgstr ""
+msgstr "URL Webhook"
 
 msgid "AlertSettings|You can map default GitLab alert fields to your payload keys in the dropdowns below."
 msgstr ""
@@ -8119,7 +8164,7 @@ msgid "All issues for this milestone are closed."
 msgstr "Semua isu untuk pencapaian ini ditutup."
 
 msgid "All issues for this milestone are closed. You may close this milestone now."
-msgstr "Semua isi untuk pencapaian ini ditutup. Anda dapat menutup pencapaian ini sekarang."
+msgstr "Semua isu untuk pencapaian ini ditutup. Anda dapat menutup pencapaian ini sekarang."
 
 msgid "All merge conflicts were resolved. The merge request can now be merged."
 msgstr ""
@@ -8850,7 +8895,7 @@ msgid "An error occurred while getting merge request counts"
 msgstr ""
 
 msgid "An error occurred while getting work item user preference."
-msgstr ""
+msgstr "Terjadi galat ketika mendapatkan preferensi pengguna item kerja."
 
 msgid "An error occurred while initializing path locks"
 msgstr ""
@@ -8859,6 +8904,9 @@ msgid "An error occurred while loading a section of this page."
 msgstr ""
 
 msgid "An error occurred while loading chart data"
+msgstr ""
+
+msgid "An error occurred while loading comments"
 msgstr ""
 
 msgid "An error occurred while loading commit signatures"
@@ -9094,6 +9142,9 @@ msgid "AnalyticsDashboards|Chat (non-agentic)"
 msgstr ""
 
 msgid "AnalyticsDashboards|Code Suggestions"
+msgstr ""
+
+msgid "AnalyticsDashboards|Failed to load dashboards list. Please try again."
 msgstr ""
 
 msgid "AnalyticsDashboards|Failed to load namespace metadata."
@@ -11017,7 +11068,7 @@ msgid "BackgroundMigrations|Background migrations are used to perform data migra
 msgstr ""
 
 msgid "BackgroundMigrations|Batch size"
-msgstr ""
+msgstr "Ukuran batch"
 
 msgid "BackgroundMigrations|Failed jobs:"
 msgstr ""
@@ -11173,79 +11224,79 @@ msgid "Based on"
 msgstr ""
 
 msgid "Batch size"
-msgstr ""
+msgstr "Ukuran batch"
 
 msgid "BatchedJobs|Background migrations"
-msgstr ""
+msgstr "Migrasi latar belakang"
 
 msgid "BatchedJobs|Batched Job (Id: %{id})"
-msgstr ""
+msgstr "Pekerjaan Ter-batch (Id: %{id})"
 
 msgid "BatchedJob|Attempts"
-msgstr ""
+msgstr "Percobaan"
 
 msgid "BatchedJob|Batch size"
-msgstr ""
+msgstr "Ukuran batch"
 
 msgid "BatchedJob|Batched Jobs"
-msgstr ""
+msgstr "Pekerjaan Ter-batch"
 
 msgid "BatchedJob|Created At"
-msgstr ""
+msgstr "Dibuat Di"
 
 msgid "BatchedJob|Created at"
-msgstr ""
+msgstr "Dibuat di"
 
 msgid "BatchedJob|Exception Class"
-msgstr ""
+msgstr "Kelas Pengecualian"
 
 msgid "BatchedJob|Exception Message"
-msgstr ""
+msgstr "Pesan Pengecualian"
 
 msgid "BatchedJob|Exception class"
-msgstr ""
+msgstr "Kelas pengecualian"
 
 msgid "BatchedJob|Exception message"
-msgstr ""
+msgstr "Pesan pengecualian"
 
 msgid "BatchedJob|Finished at"
-msgstr ""
+msgstr "Selesai pada"
 
 msgid "BatchedJob|Max Value"
-msgstr ""
+msgstr "Nilai Maks"
 
 msgid "BatchedJob|Max value"
-msgstr ""
+msgstr "Nilai maks"
 
 msgid "BatchedJob|Min Value"
-msgstr ""
+msgstr "Nilai Min"
 
 msgid "BatchedJob|Min value"
-msgstr ""
+msgstr "Nilai min"
 
 msgid "BatchedJob|Next Status"
-msgstr ""
+msgstr "Status Selanjutnya"
 
 msgid "BatchedJob|Next status"
-msgstr ""
+msgstr "Status selanjutnya"
 
 msgid "BatchedJob|Pause ms"
-msgstr ""
+msgstr "Jeda md"
 
 msgid "BatchedJob|Pause time (ms)"
-msgstr ""
+msgstr "Waktu jeda (md)"
 
 msgid "BatchedJob|Previous Status"
-msgstr ""
+msgstr "Status Sebelumnya"
 
 msgid "BatchedJob|Previous status"
-msgstr ""
+msgstr "Status sebelumnya"
 
 msgid "BatchedJob|Started at"
-msgstr ""
+msgstr "Dimulai pada"
 
 msgid "BatchedJob|Transition logs:"
-msgstr ""
+msgstr "Log transisi:"
 
 msgid "Be careful. Changing the project's namespace can have unintended side effects."
 msgstr "Hati-hati. Mengubah ruang nama proyek dapat memiliki efek samping yang tidak diinginkan."
@@ -11368,9 +11419,6 @@ msgid "BillingPlans|AI-powered assistants that help you accomplish specific task
 msgstr ""
 
 msgid "BillingPlans|AI-powered features for writing code and automating workflows. Purchase %{creditsLinkStart}credits%{creditsLinkEnd} to unlock AI capabilities for your group, starting at $1 with volume discounts available."
-msgstr ""
-
-msgid "BillingPlans|AI-powered features that help you write code, understand your work, and automate tasks across your workflow."
 msgstr ""
 
 msgid "BillingPlans|Accelerate development with AI guidance and automation"
@@ -11823,9 +11871,6 @@ msgstr ""
 msgid "BillingPlans|a trial of Ultimate"
 msgstr ""
 
-msgid "BillingPlans|a trial of Ultimate + Duo Enterprise"
-msgstr ""
-
 msgid "BillingPlans|billed annually at %{price_per_year}"
 msgstr ""
 
@@ -11962,10 +12007,7 @@ msgstr ""
 msgid "Billings|You have unlimited seat count."
 msgstr ""
 
-msgid "Billings|Your group is on a trial of Gitlab Ultimate"
-msgstr ""
-
-msgid "Billings|Your group is on a trial of Ultimate + GitLab Duo Enterprise"
+msgid "Billings|Your group is on a trial of GitLab Ultimate"
 msgstr ""
 
 msgid "Billings|Your group is on the Free plan"
@@ -12175,31 +12217,31 @@ msgid "BitbucketImport|You are not allowed to import projects in this namespace.
 msgstr ""
 
 msgid "Blame"
-msgstr ""
+msgstr "Blame"
 
 msgid "Blame could not be loaded as a single page."
-msgstr ""
+msgstr "Blame tidak dapat dimuat sebagai halaman tunggal."
 
 msgid "Blame for binary files is not supported."
-msgstr ""
+msgstr "Blame untuk berkas biner tidak didukung."
 
 msgid "Blame|Blame preferences"
-msgstr ""
+msgstr "Preferensi blame"
 
 msgid "Blame|Ignore specific revisions"
-msgstr ""
+msgstr "Abaikan revisi tertentu"
 
 msgid "Blame|Learn to ignore specific revisions"
-msgstr ""
+msgstr "Pelajari untuk mengabaikan revisi tertentu"
 
 msgid "Blame|Newer"
-msgstr ""
+msgstr "Terbaru"
 
 msgid "Blame|Older"
-msgstr ""
+msgstr "Terlama"
 
 msgid "Blame|Show age indicator legend"
-msgstr ""
+msgstr "Tampilkan legenda indikator usia"
 
 msgid "Blob"
 msgstr ""
@@ -13006,7 +13048,7 @@ msgid "Branches|Deleting the %{strongStart}%{branchName}%{strongEnd} branch cann
 msgstr ""
 
 msgid "Branches|Filter by branch name"
-msgstr ""
+msgstr "Saring berdasarkan nama cabang"
 
 msgid "Branches|New branch"
 msgstr ""
@@ -13351,7 +13393,7 @@ msgid "BulkImport|Enter another name to re-import."
 msgstr ""
 
 msgid "BulkImport|Filter by source group"
-msgstr ""
+msgstr "Saring berdasarkan sumber grup"
 
 msgid "BulkImport|Import completed"
 msgstr ""
@@ -14366,7 +14408,7 @@ msgid "Change branches"
 msgstr ""
 
 msgid "Change display preferences"
-msgstr ""
+msgstr "Ubah preferensi tampilan"
 
 msgid "Change failure rate"
 msgstr ""
@@ -15377,7 +15419,7 @@ msgid "Clear all repository checks"
 msgstr ""
 
 msgid "Clear chart filters"
-msgstr ""
+msgstr "Hapus saring bagan"
 
 msgid "Clear due date"
 msgstr ""
@@ -16531,7 +16573,7 @@ msgid "ClusterIntegration|Set a prefix for your namespaces. If not set, defaults
 msgstr ""
 
 msgid "ClusterIntegration|Something went wrong on our end."
-msgstr ""
+msgstr "Ada yang salah pada kami."
 
 msgid "ClusterIntegration|Something went wrong while creating your Kubernetes cluster"
 msgstr ""
@@ -20722,7 +20764,7 @@ msgid "Converts item to %{type}. Widgets not supported in new type are removed."
 msgstr ""
 
 msgid "Cookie Preferences"
-msgstr ""
+msgstr "Preferensi Kuki"
 
 msgid "Cookie domain"
 msgstr ""
@@ -21838,7 +21880,7 @@ msgid "CurrentUser|One of your groups is running out"
 msgstr ""
 
 msgid "CurrentUser|Preferences"
-msgstr ""
+msgstr "Preferensi"
 
 msgid "CurrentUser|Start an Ultimate trial"
 msgstr ""
@@ -22364,7 +22406,7 @@ msgid "DORA4Metrics|You have insufficient permissions to view"
 msgstr ""
 
 msgid "DPoP preference updated."
-msgstr ""
+msgstr "Preferensi DPoP diubah."
 
 msgid "DSA keys are considered deprecated."
 msgstr ""
@@ -24003,6 +24045,9 @@ msgstr ""
 msgid "Dependencies|Locations of dependencies. The locations of transitive dependencies (child dependencies of other dependencies) are shown as the complete set of all paths that import the dependency."
 msgstr ""
 
+msgid "Dependencies|Malware"
+msgstr ""
+
 msgid "Dependencies|No components found."
 msgstr ""
 
@@ -24055,6 +24100,9 @@ msgid "Dependencies|This dependency contains vulnerabilities that violate a secu
 msgstr ""
 
 msgid "Dependencies|This link will expire in %{number} days."
+msgstr ""
+
+msgid "Dependencies|This package has been identified as malware"
 msgstr ""
 
 msgid "Dependencies|To filter by version, filter by one component first"
@@ -25419,7 +25467,7 @@ msgid "Diffs|Side-by-side"
 msgstr ""
 
 msgid "Diffs|Something went wrong while fetching diff lines."
-msgstr ""
+msgstr "Ada yang salah saat mengambil garis yang berbeda."
 
 msgid "Diffs|with %{additions} and %{deletions}"
 msgstr ""
@@ -25603,7 +25651,7 @@ msgid "Display as:"
 msgstr ""
 
 msgid "Display blame info"
-msgstr ""
+msgstr "Tampilkan info blame"
 
 msgid "Display by"
 msgstr ""
@@ -25968,6 +26016,12 @@ msgstr ""
 msgid "DuoAgentPlatform|Remote GitLab Duo Flows"
 msgstr ""
 
+msgid "DuoAgentPlatform|Request"
+msgstr ""
+
+msgid "DuoAgentPlatform|Response"
+msgstr ""
+
 msgid "DuoAgentPlatform|Session ID"
 msgstr ""
 
@@ -25998,13 +26052,30 @@ msgstr ""
 msgid "DuoAgentPlatform|User messaged agent"
 msgstr ""
 
+msgid "DuoAgenticChat|%{count} character over limit."
+msgid_plural "DuoAgenticChat|%{count} characters over limit."
+msgstr[0] ""
+
+msgid "DuoAgenticChat|%{count} character remaining."
+msgid_plural "DuoAgenticChat|%{count} characters remaining."
+msgstr[0] ""
+
 msgid "DuoAgenticChat|As Owner of the group, you can turn on GitLab Duo Agent Platform and its AI features for your team."
 msgstr ""
 
 msgid "DuoAgenticChat|As Owner of the project, you can turn on GitLab Duo Agent Platform and its AI features for your team."
 msgstr ""
 
+msgid "DuoAgenticChat|Cancel"
+msgstr ""
+
 msgid "DuoAgenticChat|Chat about different topics"
+msgstr ""
+
+msgid "DuoAgenticChat|Chat history"
+msgstr ""
+
+msgid "DuoAgenticChat|Chat prompt input"
 msgstr ""
 
 msgid "DuoAgenticChat|Chat with different agents"
@@ -26040,6 +26111,27 @@ msgstr ""
 msgid "DuoAgenticChat|Go to Duo settings"
 msgstr ""
 
+msgid "DuoAgenticChat|Hello, I am %{agentName}!"
+msgstr ""
+
+msgid "DuoAgenticChat|How can I help you today?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I change my password in GitLab?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I clone a repository?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I create a template?"
+msgstr ""
+
+msgid "DuoAgenticChat|How do I fork a project?"
+msgstr ""
+
+msgid "DuoAgenticChat|I am GitLab Duo Agentic Chat, your personal AI-powered assistant."
+msgstr ""
+
 msgid "DuoAgenticChat|I don't have access to that resource at the moment. Is there something else I can help you with?"
 msgstr ""
 
@@ -26047,6 +26139,9 @@ msgid "DuoAgenticChat|Invalid chat state provided"
 msgstr ""
 
 msgid "DuoAgenticChat|Learn more"
+msgstr ""
+
+msgid "DuoAgenticChat|Let's work through this together..."
 msgstr ""
 
 msgid "DuoAgenticChat|No GitLab Credits remain for this billing period. Turn off the %{agenticModeStart}Agentic mode%{agenticModeEnd} toggle or ask your administrator for more credits. %{linkStart}Learn more%{linkEnd}."
@@ -26067,10 +26162,16 @@ msgstr ""
 msgid "DuoAgenticChat|Purchase more credits or turn off the Agentic toggle to start a new conversation."
 msgstr ""
 
+msgid "DuoAgenticChat|Responses may be inaccurate. Verify before use."
+msgstr ""
+
 msgid "DuoAgenticChat|Return to non-agentic Chat"
 msgstr ""
 
 msgid "DuoAgenticChat|Select default namespace"
+msgstr ""
+
+msgid "DuoAgenticChat|Send chat message."
 msgstr ""
 
 msgid "DuoAgenticChat|Set up automated workflows and AI agents."
@@ -26080,6 +26181,9 @@ msgid "DuoAgenticChat|Steps to turn on GitLab Duo"
 msgstr ""
 
 msgid "DuoAgenticChat|The agent associated with this conversation is no longer available. You can view the conversation history but cannot send new messages."
+msgstr ""
+
+msgid "DuoAgenticChat|This Chat conversation has been archived and cannot receive new messages. Please start a new conversation to continue."
 msgstr ""
 
 msgid "DuoAgenticChat|This chat was deleted."
@@ -26104,6 +26208,9 @@ msgid "DuoAgenticChat|Turn on beta and experimental features for early access to
 msgstr ""
 
 msgid "DuoAgenticChat|Turn on flows"
+msgstr ""
+
+msgid "DuoAgenticChat|Type /help to learn more"
 msgstr ""
 
 msgid "DuoAgenticChat|Unable to connect to workflow service. Please try again."
@@ -26409,10 +26516,36 @@ msgstr ""
 msgid "DuoAgentsPlatform|You don't have permission to use GitLab Duo Agent Platform in this %{namespaceType}. %{learnMoreLinkStart}Learn more%{learnMoreLinkEnd}."
 msgstr ""
 
+msgid "DuoChat|%{count} character over limit."
+msgid_plural "DuoChat|%{count} characters over limit."
+msgstr[0] ""
+
+msgid "DuoChat|%{count} character remaining."
+msgid_plural "DuoChat|%{count} characters remaining."
+msgstr[0] ""
+
 msgid "DuoChat|Agentic"
 msgstr ""
 
 msgid "DuoChat|Ask a question about GitLab"
+msgstr ""
+
+msgid "DuoChat|Back to chat"
+msgstr ""
+
+msgid "DuoChat|Cancel"
+msgstr ""
+
+msgid "DuoChat|Chat history"
+msgstr ""
+
+msgid "DuoChat|Close chat"
+msgstr ""
+
+msgid "DuoChat|Copy Chat Session ID (%{id})"
+msgstr ""
+
+msgid "DuoChat|Could not copy session ID"
 msgstr ""
 
 msgid "DuoChat|Duo Agentic Chat is not available at the moment in this page. To work with Duo Agentic Chat in pages outside the scope of a project please select a %{strong_start}Default GitLab Duo namespace%{strong_end} in your %{preferences_link_start}User Profile Preferences%{preferences_link_end}."
@@ -26427,7 +26560,31 @@ msgstr ""
 msgid "DuoChat|Give feedback"
 msgstr ""
 
+msgid "DuoChat|How can I help you today?"
+msgstr ""
+
+msgid "DuoChat|How do I change my password in GitLab?"
+msgstr ""
+
+msgid "DuoChat|How do I clone a repository?"
+msgstr ""
+
+msgid "DuoChat|How do I create a template?"
+msgstr ""
+
+msgid "DuoChat|How do I fork a project?"
+msgstr ""
+
+msgid "DuoChat|I am GitLab Duo Chat, your personal AI-powered assistant."
+msgstr ""
+
 msgid "DuoChat|Included references"
+msgstr ""
+
+msgid "DuoChat|Let's work through this together..."
+msgstr ""
+
+msgid "DuoChat|More options"
 msgstr ""
 
 msgid "DuoChat|New chat conversation."
@@ -26436,10 +26593,22 @@ msgstr ""
 msgid "DuoChat|No results found"
 msgstr ""
 
+msgid "DuoChat|Responses may be inaccurate. Verify before use."
+msgstr ""
+
 msgid "DuoChat|Search %{categoryLabel}…"
 msgstr ""
 
+msgid "DuoChat|Send chat message."
+msgstr ""
+
+msgid "DuoChat|Session ID copied to clipboard"
+msgstr ""
+
 msgid "DuoChat|There was an error communicating with GitLab Duo Chat. Please try again later."
+msgstr ""
+
+msgid "DuoChat|Type /help to learn more"
 msgstr ""
 
 msgid "DuoChat|What is a fork?"
@@ -26458,6 +26627,9 @@ msgid "DuoCodeReview|:warning: Code Review Flow could not create the required CI
 msgstr ""
 
 msgid "DuoCodeReview|:warning: Code Review Flow could not obtain the required authentication tokens to connect to the GitLab AI Gateway and API. Please request a new review. If the issue persists, contact your administrator."
+msgstr ""
+
+msgid "DuoCodeReview|:warning: Code Review Flow could not retrieve the source branch for this merge request. Please request a new review."
 msgstr ""
 
 msgid "DuoCodeReview|:warning: Code Review Flow is enabled but the service account needs to be verified. Contact your administrator."
@@ -28721,28 +28893,28 @@ msgid "Event type '%{type}' is not yet supported"
 msgstr ""
 
 msgid "EventFilterBy|Filter by all"
-msgstr ""
+msgstr "Saring berdasarkan semua"
 
 msgid "EventFilterBy|Filter by comments"
-msgstr ""
+msgstr "Saring berdasarkan komentar"
 
 msgid "EventFilterBy|Filter by designs"
 msgstr ""
 
 msgid "EventFilterBy|Filter by epic events"
-msgstr ""
+msgstr "Saring berdasarkan peristiwa epik"
 
 msgid "EventFilterBy|Filter by issue events"
-msgstr ""
+msgstr "Saring berdasarkan peristiwa isu"
 
 msgid "EventFilterBy|Filter by merge events"
-msgstr ""
+msgstr "Saring berdasarkan peristiwa penggabungan"
 
 msgid "EventFilterBy|Filter by push events"
-msgstr ""
+msgstr "Saring berdasarkan peristiwa pendorongan"
 
 msgid "EventFilterBy|Filter by team"
-msgstr ""
+msgstr "Saring berdasarkan tim"
 
 msgid "EventFilterBy|Filter by wiki"
 msgstr ""
@@ -29695,10 +29867,10 @@ msgid "Failed to save new settings"
 msgstr ""
 
 msgid "Failed to save preferences (%{error_message})."
-msgstr ""
+msgstr "Gagal menyimpan preferensi (%{error_message})."
 
 msgid "Failed to save preferences."
-msgstr ""
+msgstr "Gagal menyimpan preferensi."
 
 msgid "Failed to save timelog"
 msgstr ""
@@ -30671,9 +30843,6 @@ msgstr ""
 msgid "FoundationalFlow|Code Review"
 msgstr ""
 
-msgid "FoundationalFlow|Turn feedback into actionable merge requests or issues."
-msgstr "Ubah umpan balik menjadi permintaan penggabungan atau masalah yang dapat ditindaklanjuti."
-
 msgid "FoundationalFlow|Convert to GitLab CI/CD"
 msgstr ""
 
@@ -30702,6 +30871,9 @@ msgid "FoundationalFlow|Secret Detection False Positive Detection"
 msgstr ""
 
 msgid "FoundationalFlow|Streamline code reviews by analyzing code changes, comments, and linked issues."
+msgstr ""
+
+msgid "FoundationalFlow|Turn feedback into actionable merge requests or issues."
 msgstr ""
 
 msgid "Framework id(s) %{missing_ids} are invalid."
@@ -30968,6 +31140,12 @@ msgid "Geo|Abuse Report Upload"
 msgstr ""
 
 msgid "Geo|Abuse Report Uploads"
+msgstr ""
+
+msgid "Geo|Achievement Upload"
+msgstr ""
+
+msgid "Geo|Achievement Uploads"
 msgstr ""
 
 msgid "Geo|Add New Site"
@@ -32926,7 +33104,7 @@ msgid "GlobalSearch|Users"
 msgstr ""
 
 msgid "GlobalSearch|View blame"
-msgstr ""
+msgstr "Lihat blame"
 
 msgid "GlobalSearch|View line in repository"
 msgstr ""
@@ -36387,6 +36565,9 @@ msgstr ""
 msgid "ImportProjects|When you import to a personal namespace, all contributions are assigned to the personal namespace owner and they cannot be reassigned. To map contributions to real users, import to a group instead."
 msgstr ""
 
+msgid "ImportProjects|You do not have permission to import into this namespace."
+msgstr ""
+
 msgid "Imported"
 msgstr ""
 
@@ -38187,7 +38368,7 @@ msgid "Issues assigned to current user"
 msgstr ""
 
 msgid "Issues can be bugs, tasks or ideas to be discussed. Also, issues are searchable and filterable."
-msgstr ""
+msgstr "Isu dapat berupa bug, tugas atau ide yang akan dibahas. Juga, isu yang dapat dicari dan dapat disaring."
 
 msgid "Issues closed"
 msgstr ""
@@ -41135,7 +41316,7 @@ msgid "Loading accounts"
 msgstr ""
 
 msgid "Loading blame information"
-msgstr ""
+msgstr "Memuat informasi blame"
 
 msgid "Loading custom roles"
 msgstr ""
@@ -41147,7 +41328,7 @@ msgid "Loading files, directories, and submodules in the path %{path} for commit
 msgstr ""
 
 msgid "Loading full blame…"
-msgstr ""
+msgstr "Memuat blame lengkap…"
 
 msgid "Loading groups"
 msgstr ""
@@ -41387,7 +41568,7 @@ msgid "Makes this %{type} confidential."
 msgstr ""
 
 msgid "Malformed .git-blame-ignore-revs"
-msgstr ""
+msgstr ".git-blame-ignore-revs yang salah format"
 
 msgid "Manage"
 msgstr ""
@@ -43025,6 +43206,9 @@ msgstr ""
 msgid "MergeChecks|Pipelines must succeed"
 msgstr ""
 
+msgid "MergeChecks|Security policy pipeline check"
+msgstr ""
+
 msgid "MergeChecks|Skipped pipelines are considered successful"
 msgstr ""
 
@@ -43038,6 +43222,9 @@ msgid "MergeChecks|View locked files"
 msgstr ""
 
 msgid "MergeChecks|View policies"
+msgstr ""
+
+msgid "MergeChecks|When security policies are enforced, all pipelines for the latest commit must succeed before this merge request can be merged."
 msgstr ""
 
 msgid "MergeConflict|&gt;&gt;&gt;&gt;&gt;&gt;&gt; %{commit}: %{message} (our changes)"
@@ -43169,10 +43356,10 @@ msgstr ""
 msgid "MergeRequests|started a thread on %{linkStart}the diff%{linkEnd}"
 msgstr ""
 
-msgid "MergeRequests|started a thread on an outdated change in commit %{linkStart}%{commitDisplay}%{linkEnd}"
+msgid "MergeRequests|started a thread on an outdated change in commit %{link}"
 msgstr ""
 
-msgid "MergeRequests|started a thread on commit %{linkStart}%{commitDisplay}%{linkEnd}"
+msgid "MergeRequests|started a thread on commit %{link}"
 msgstr ""
 
 msgid "MergeRequest|Allow merge request pipelines to access protected variables and runners"
@@ -46933,6 +47120,9 @@ msgstr ""
 msgid "Observability|Alerts"
 msgstr ""
 
+msgid "Observability|All endpoints support the full range of OpenTelemetry signal types: traces, metrics, and logs"
+msgstr ""
+
 msgid "Observability|Allocating compute resources"
 msgstr ""
 
@@ -46958,9 +47148,6 @@ msgid "Observability|Authentication failed. Please refresh the page."
 msgstr ""
 
 msgid "Observability|Beta release"
-msgstr ""
-
-msgid "Observability|Both endpoints support the full range of OpenTelemetry signal types: traces, metrics, and logs"
 msgstr ""
 
 msgid "Observability|Bug reports"
@@ -47005,10 +47192,16 @@ msgstr ""
 msgid "Observability|Copy HTTP endpoint"
 msgstr ""
 
+msgid "Observability|Copy HTTPS endpoint"
+msgstr ""
+
 msgid "Observability|Copy curl command"
 msgstr ""
 
 msgid "Observability|Copy gRPC endpoint"
+msgstr ""
+
+msgid "Observability|Copy gRPCS endpoint"
 msgstr ""
 
 msgid "Observability|Create issues from this page to view them as related items here."
@@ -47074,7 +47267,10 @@ msgstr ""
 msgid "Observability|Endpoint details"
 msgstr ""
 
-msgid "Observability|Example curl command"
+msgid "Observability|Example curl command (Non-TLS)"
+msgstr ""
+
+msgid "Observability|Example curl command (TLS)"
 msgstr ""
 
 msgid "Observability|Exception tracking"
@@ -47125,7 +47321,7 @@ msgstr ""
 msgid "Observability|Filter data by month:"
 msgstr ""
 
-msgid "Observability|Firewall configuration: Open outbound access to %{endpoint} on ports 4317-4318"
+msgid "Observability|Firewall configuration: Open outbound access to %{endpoint} on ports 4317-4318 and 14317-14318"
 msgstr ""
 
 msgid "Observability|Free during beta period"
@@ -47165,6 +47361,9 @@ msgid "Observability|Group not found"
 msgstr ""
 
 msgid "Observability|HTTP Endpoint"
+msgstr ""
+
+msgid "Observability|HTTPS Endpoint"
 msgstr ""
 
 msgid "Observability|If you encounter any connectivity issues or require additional configuration assistance, please contact your system administrator with the endpoint details provided above."
@@ -47260,6 +47459,12 @@ msgstr ""
 msgid "Observability|No cost"
 msgstr ""
 
+msgid "Observability|Non-TLS"
+msgstr ""
+
+msgid "Observability|Non-TLS endpoints: HTTP on port 4318 and gRPC on port 4317 provide unencrypted transport"
+msgstr ""
+
 msgid "Observability|Notification channels"
 msgstr ""
 
@@ -47308,7 +47513,7 @@ msgstr ""
 msgid "Observability|Observability settings for group %{group_name} updated successfully."
 msgstr ""
 
-msgid "Observability|Once provisioned, you can test your HTTP endpoint by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
+msgid "Observability|Once provisioned, you can test your endpoints by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
 msgstr ""
 
 msgid "Observability|OpenTelemetry native"
@@ -47330,6 +47535,9 @@ msgid "Observability|Provisioning databases"
 msgstr ""
 
 msgid "Observability|Provisioning time"
+msgstr ""
+
+msgid "Observability|Recommended"
 msgstr ""
 
 msgid "Observability|Related issues"
@@ -47371,16 +47579,16 @@ msgstr ""
 msgid "Observability|Superior query performance and data compression with ClickHouse backend"
 msgstr ""
 
+msgid "Observability|TLS"
+msgstr ""
+
+msgid "Observability|TLS endpoints (recommended): HTTPS on port 14318 and gRPCS on port 14317 provide encrypted transport"
+msgstr ""
+
 msgid "Observability|Testing your endpoints"
 msgstr ""
 
-msgid "Observability|The HTTP endpoint (port 4318) accepts OTLP/HTTP protocol and is suitable for applications using HTTP-based transport"
-msgstr ""
-
 msgid "Observability|The ID of the group for this o11y service configuration."
-msgstr ""
-
-msgid "Observability|The gRPC endpoint (port 4317) accepts OTLP/gRPC protocol and is recommended for applications requiring persistent connections or streaming capabilities"
 msgstr ""
 
 msgid "Observability|The name of the group for this o11y service configuration."
@@ -47464,7 +47672,7 @@ msgstr ""
 msgid "Observability|You can contact us through our %{issue_link_start}feedback issue in GitLab%{issue_link_end}. You can also join our %{discord_link_start}Discord channel%{discord_link_end} for community discussions and support."
 msgstr ""
 
-msgid "Observability|You can test your HTTP endpoint by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
+msgid "Observability|You can test your endpoints by sending a sample OpenTelemetry payload using curl. This helps verify that your endpoint is accessible and configured correctly."
 msgstr ""
 
 msgid "Observability|Your OpenTelemetry (OTel) telemetry data collection endpoints are being provisioned. Once complete, they will be ready to receive data. Please configure your instrumentation with the following endpoints:"
@@ -47486,6 +47694,9 @@ msgid "Observability|authTokens must be an object"
 msgstr ""
 
 msgid "Observability|gRPC Endpoint"
+msgstr ""
+
+msgid "Observability|gRPCS Endpoint"
 msgstr ""
 
 msgid "Observability|targetPath must be a non-empty string"
@@ -47519,6 +47730,9 @@ msgid "OfflineTransfer|Object storage request responded with status %{status}"
 msgstr ""
 
 msgid "OfflineTransfer|Offline Transfer"
+msgstr ""
+
+msgid "OfflineTransfer|One or more destination paths is invalid."
 msgstr ""
 
 msgid "OfflineTransfer|Unable to access object storage bucket."
@@ -48235,6 +48449,21 @@ msgstr ""
 msgid "Orbit|All domains"
 msgstr ""
 
+msgid "Orbit|Ask your GitLab anything"
+msgstr ""
+
+msgid "Orbit|Branch"
+msgstr ""
+
+msgid "Orbit|CLI"
+msgstr ""
+
+msgid "Orbit|Clear"
+msgstr ""
+
+msgid "Orbit|Close"
+msgstr ""
+
 msgid "Orbit|Collapse"
 msgstr ""
 
@@ -48244,7 +48473,13 @@ msgstr ""
 msgid "Orbit|Configuration"
 msgstr ""
 
+msgid "Orbit|Connections"
+msgstr ""
+
 msgid "Orbit|Copy tool name"
+msgstr ""
+
+msgid "Orbit|Could not locate the selected node in the graph."
 msgstr ""
 
 msgid "Orbit|Data Explorer"
@@ -48253,16 +48488,49 @@ msgstr ""
 msgid "Orbit|Define how node types connect to each other. Relationships are also known as edges."
 msgstr ""
 
+msgid "Orbit|Definition"
+msgstr ""
+
+msgid "Orbit|Directory"
+msgstr ""
+
+msgid "Orbit|Dismiss"
+msgstr ""
+
+msgid "Orbit|Docs"
+msgstr ""
+
 msgid "Orbit|Domains"
+msgstr ""
+
+msgid "Orbit|Download CSV"
 msgstr ""
 
 msgid "Orbit|Enable"
 msgstr ""
 
+msgid "Orbit|Enable Orbit"
+msgstr ""
+
 msgid "Orbit|Enable Orbit for a top-level group to index its projects and make them queryable"
 msgstr ""
 
+msgid "Orbit|Execute query"
+msgstr ""
+
 msgid "Orbit|Expand"
+msgstr ""
+
+msgid "Orbit|FQN"
+msgstr ""
+
+msgid "Orbit|Failed to execute query. Please try again."
+msgstr ""
+
+msgid "Orbit|Failed to expand node neighbors."
+msgstr ""
+
+msgid "Orbit|Failed to load groups."
 msgstr ""
 
 msgid "Orbit|Failed to load groups. Please try again."
@@ -48274,7 +48542,28 @@ msgstr ""
 msgid "Orbit|Failed to update group setting. Please try again."
 msgstr ""
 
+msgid "Orbit|File"
+msgstr ""
+
+msgid "Orbit|Filter entities..."
+msgstr ""
+
+msgid "Orbit|Finding"
+msgstr ""
+
+msgid "Orbit|Get started with Orbit"
+msgstr ""
+
+msgid "Orbit|Group"
+msgstr ""
+
 msgid "Orbit|Healthy"
+msgstr ""
+
+msgid "Orbit|Hide SQL"
+msgstr ""
+
+msgid "Orbit|ImportedSymbol"
 msgstr ""
 
 msgid "Orbit|Indexed"
@@ -48286,7 +48575,64 @@ msgstr ""
 msgid "Orbit|Indexing…"
 msgstr ""
 
+msgid "Orbit|Invalid JSON query. Please check the syntax."
+msgstr ""
+
+msgid "Orbit|Job"
+msgstr ""
+
+msgid "Orbit|Label"
+msgstr ""
+
+msgid "Orbit|Learn more"
+msgstr ""
+
+msgid "Orbit|Location"
+msgstr ""
+
+msgid "Orbit|MCP"
+msgstr ""
+
+msgid "Orbit|MR count by user"
+msgstr ""
+
+msgid "Orbit|Marketing visual"
+msgstr ""
+
+msgid "Orbit|Maximize"
+msgstr ""
+
+msgid "Orbit|MergeRequest"
+msgstr ""
+
+msgid "Orbit|MergeRequestDiff"
+msgstr ""
+
+msgid "Orbit|MergeRequestDiffFile"
+msgstr ""
+
+msgid "Orbit|Milestone"
+msgstr ""
+
+msgid "Orbit|Minimize"
+msgstr ""
+
+msgid "Orbit|Name"
+msgstr ""
+
+msgid "Orbit|No"
+msgstr ""
+
 msgid "Orbit|No connection"
+msgstr ""
+
+msgid "Orbit|No results"
+msgstr ""
+
+msgid "Orbit|No results. Execute a query to see data."
+msgstr ""
+
+msgid "Orbit|Node Explorer"
 msgstr ""
 
 msgid "Orbit|Node Types"
@@ -48295,31 +48641,79 @@ msgstr ""
 msgid "Orbit|Not indexed"
 msgstr ""
 
+msgid "Orbit|Note"
+msgstr ""
+
+msgid "Orbit|Nullable"
+msgstr ""
+
 msgid "Orbit|Only top-level groups can be indexed"
 msgstr ""
 
 msgid "Orbit|Orbit"
 msgstr ""
 
+msgid "Orbit|Orbit is an SDLC analysis engine that transforms your GitLab into a structured knowledge graph."
+msgstr ""
+
 msgid "Orbit|Overall status"
+msgstr ""
+
+msgid "Orbit|Pipeline"
+msgstr ""
+
+msgid "Orbit|Project"
 msgstr ""
 
 msgid "Orbit|Properties"
 msgstr ""
 
+msgid "Orbit|Query Editor"
+msgstr ""
+
+msgid "Orbit|REST API"
+msgstr ""
+
 msgid "Orbit|Relationships"
+msgstr ""
+
+msgid "Orbit|Resources"
+msgstr ""
+
+msgid "Orbit|Results"
+msgstr ""
+
+msgid "Orbit|Run a query to see results here."
 msgstr ""
 
 msgid "Orbit|Sample prompt"
 msgstr ""
 
+msgid "Orbit|Save"
+msgstr ""
+
 msgid "Orbit|Schema"
+msgstr ""
+
+msgid "Orbit|Search merge requests"
 msgstr ""
 
 msgid "Orbit|Search nodes and relationships..."
 msgstr ""
 
+msgid "Orbit|Search users"
+msgstr ""
+
+msgid "Orbit|SecurityScan"
+msgstr ""
+
+msgid "Orbit|Selected Entity"
+msgstr ""
+
 msgid "Orbit|Settings"
+msgstr ""
+
+msgid "Orbit|Show SQL"
 msgstr ""
 
 msgid "Orbit|Show less"
@@ -48328,10 +48722,22 @@ msgstr ""
 msgid "Orbit|Show more"
 msgstr ""
 
+msgid "Orbit|Stage"
+msgstr ""
+
 msgid "Orbit|Status"
 msgstr ""
 
+msgid "Orbit|Table"
+msgstr ""
+
+msgid "Orbit|Templates"
+msgstr ""
+
 msgid "Orbit|Tools"
+msgstr ""
+
+msgid "Orbit|Type"
 msgstr ""
 
 msgid "Orbit|Unable to load cluster status."
@@ -48340,10 +48746,31 @@ msgstr ""
 msgid "Orbit|Unhealthy"
 msgstr ""
 
+msgid "Orbit|User"
+msgstr ""
+
+msgid "Orbit|User authored MRs"
+msgstr ""
+
+msgid "Orbit|User neighbors"
+msgstr ""
+
 msgid "Orbit|Variants"
 msgstr ""
 
 msgid "Orbit|Version"
+msgstr ""
+
+msgid "Orbit|Vulnerability"
+msgstr ""
+
+msgid "Orbit|VulnerabilityIdentifier"
+msgstr ""
+
+msgid "Orbit|VulnerabilityOccurrence"
+msgstr ""
+
+msgid "Orbit|VulnerabilityScanner"
 msgstr ""
 
 msgid "Orbit|What details can I see about a merge request?"
@@ -48353,6 +48780,15 @@ msgid "Orbit|What issues are blocking the login feature?"
 msgstr ""
 
 msgid "Orbit|What types of data are available?"
+msgstr ""
+
+msgid "Orbit|WorkItem"
+msgstr ""
+
+msgid "Orbit|Yes"
+msgstr ""
+
+msgid "Orbit|rows"
 msgstr ""
 
 msgid "Ordered list"
@@ -49951,10 +50387,10 @@ msgid "Performance optimization"
 msgstr ""
 
 msgid "PerformanceBar|%{originalDisplayName} [%{queryCount} queries batched]"
-msgstr ""
+msgstr "%{originalDisplayName} [%{queryCount} kueri di-batch]"
 
 msgid "PerformanceBar|%{queryCount} queries batched"
-msgstr ""
+msgstr "%{queryCount} kueri di-batch"
 
 msgid "PerformanceBar|Backend"
 msgstr ""
@@ -50074,6 +50510,9 @@ msgid "Permalink copied to clipboard."
 msgstr ""
 
 msgid "Permissions"
+msgstr ""
+
+msgid "Permissions Assistant"
 msgstr ""
 
 msgid "Permissions Help"
@@ -50830,7 +51269,7 @@ msgstr ""
 msgid "Pipelines|Analyze repository"
 msgstr ""
 
-msgid "Pipelines|Analyze this repository and generate a CI/CD pipeline"
+msgid "Pipelines|Analyze this repository and create a CI/CD pipeline that meets the needs of the project."
 msgstr ""
 
 msgid "Pipelines|Are you sure you want to remove the merge request %{title} from the merge train?"
@@ -51999,7 +52438,7 @@ msgid "Preferences"
 msgstr ""
 
 msgid "Preferences saved."
-msgstr ""
+msgstr "Preferensi disimpan."
 
 msgid "PreferencesIntegrations|By using the Extension Marketplace, you will send data, such as IP address and other device information, to %{url} in accordance with their independent terms and privacy policy."
 msgstr ""
@@ -52113,16 +52552,16 @@ msgid "Preferences|Enable integrated code intelligence on code views"
 msgstr ""
 
 msgid "Preferences|Enable keyboard shortcuts"
-msgstr ""
+msgstr "Aktifkan pintasan papan ketik"
 
 msgid "Preferences|Failed to save preferences."
-msgstr ""
+msgstr "Gagal menyimpan preferensi."
 
 msgid "Preferences|For example: 30 minutes ago."
-msgstr ""
+msgstr "Contohnya: 30 menit yang lalu."
 
 msgid "Preferences|Homepage"
-msgstr ""
+msgstr "Halaman Beranda"
 
 msgid "Preferences|If you are assigned a GitLab Duo seat in multiple namespaces, you must select a default namespace."
 msgstr ""
@@ -52131,43 +52570,43 @@ msgid "Preferences|Instead of all the files changed, show only one file at a tim
 msgstr ""
 
 msgid "Preferences|Integrations"
-msgstr ""
+msgstr "Integrasi"
 
 msgid "Preferences|Keyboard shortcuts"
-msgstr ""
+msgstr "Pintasan papan ketik"
 
 msgid "Preferences|Layout width"
-msgstr ""
+msgstr "Lebar tata letak"
 
 msgid "Preferences|Light color scheme"
-msgstr ""
+msgstr "Skema warna terang"
 
 msgid "Preferences|Maintain indentation"
-msgstr ""
+msgstr "Pelihara indentasi"
 
 msgid "Preferences|Mode"
-msgstr ""
+msgstr "Mode"
 
 msgid "Preferences|Must be a number between %{min} and %{max}"
-msgstr ""
+msgstr "Harus berupa nomor antara %{min} dan %{max}"
 
 msgid "Preferences|Ona"
-msgstr ""
+msgstr "Ona"
 
 msgid "Preferences|Preview"
-msgstr ""
+msgstr "Pratinjau"
 
 msgid "Preferences|Project overview content"
-msgstr ""
+msgstr "Konten ikhtisar proyek"
 
 msgid "Preferences|Render whitespace characters in the Web IDE"
 msgstr ""
 
 msgid "Preferences|Select a default Duo namespace..."
-msgstr ""
+msgstr "Pilih ruang nama Duo bawaan..."
 
 msgid "Preferences|Select the accent color for the application interface."
-msgstr ""
+msgstr "Pilih warna aksen untuk antarmuka aplikasi."
 
 msgid "Preferences|Show one file at a time on merge request's Changes tab"
 msgstr ""
@@ -52179,28 +52618,28 @@ msgid "Preferences|Show whitespace changes in diffs"
 msgstr ""
 
 msgid "Preferences|Sourcegraph"
-msgstr ""
+msgstr "Sourcegraph"
 
 msgid "Preferences|Surround text selection when typing quotes or brackets"
 msgstr ""
 
 msgid "Preferences|Syntax highlighting"
-msgstr ""
+msgstr "Penyorotan sintaksis"
 
 msgid "Preferences|Tab width"
-msgstr ""
+msgstr "Lebar tab"
 
 msgid "Preferences|Theme"
-msgstr ""
+msgstr "Tema"
 
 msgid "Preferences|This feature is experimental and translations are not yet complete."
 msgstr ""
 
 msgid "Preferences|Time format"
-msgstr ""
+msgstr "Format waktu"
 
 msgid "Preferences|Time preferences"
-msgstr ""
+msgstr "Preferensi waktu"
 
 msgid "Preferences|Turns on or off the ability to follow or be followed by other users."
 msgstr ""
@@ -52212,13 +52651,13 @@ msgid "Preferences|Type in rich text, as you see it."
 msgstr ""
 
 msgid "Preferences|Use relative times"
-msgstr ""
+msgstr "Gunakan waktu relatif"
 
 msgid "Preferences|Web IDE"
-msgstr ""
+msgstr "IDE Web"
 
 msgid "Preferences|Web IDE and Workspaces"
-msgstr ""
+msgstr "IDE Web dan Ruang Kerja"
 
 msgid "Preferences|When you type in a description or comment box, pressing %{kbdOpen}Enter%{kbdClose} creates a new line indented the same as the previous line."
 msgstr ""
@@ -52230,7 +52669,7 @@ msgid "Preferences|When you type in a description or comment box, selected text 
 msgstr ""
 
 msgid "Preferences|Workspaces"
-msgstr ""
+msgstr "Ruang Kerja"
 
 msgid "Premium"
 msgstr ""
@@ -53711,6 +54150,9 @@ msgstr ""
 msgid "ProjectImportByURL|The repository must be accessible over http://, https:// or git://"
 msgstr ""
 
+msgid "ProjectImportByURL|You do not have permission to import projects."
+msgstr ""
+
 msgid "ProjectImport|Bitbucket Cloud"
 msgstr ""
 
@@ -54120,6 +54562,9 @@ msgid "ProjectSettings|Additional settings that influence how and when merges ar
 msgstr ""
 
 msgid "ProjectSettings|All merge requests and commits are made against this branch unless you specify a different one."
+msgstr ""
+
+msgid "ProjectSettings|All security policy pipelines must succeed"
 msgstr ""
 
 msgid "ProjectSettings|Allow"
@@ -55140,6 +55585,9 @@ msgstr ""
 msgid "ProjectsNew|You cannot create projects in your personal namespace. Contact your GitLab administrator."
 msgstr ""
 
+msgid "ProjectsNew|You do not have permission to create projects."
+msgstr ""
+
 msgid "ProjectsNew|You have no groups. Create a new one or join an existing group."
 msgstr ""
 
@@ -55147,6 +55595,9 @@ msgid "ProjectsNew|You've reached your limit of %{limit} projects created. Conta
 msgstr ""
 
 msgid "ProjectsNew|Your project will be created at:"
+msgstr ""
+
+msgid "ProjectsNew|Your role does not allow pushing to the default branch of new projects in this namespace."
 msgstr ""
 
 msgid "ProjectsNew|https://mycompany.fogbugz.com"
@@ -56915,7 +57366,7 @@ msgid "Remove fork relationship"
 msgstr ""
 
 msgid "Remove from batch"
-msgstr ""
+msgstr "Hapus dari batch"
 
 msgid "Remove from epic"
 msgstr ""
@@ -59669,9 +60120,6 @@ msgstr ""
 msgid "Save views with your preferred filters and display options to plan and track work easier. Add views shared by your team or create your own."
 msgstr ""
 
-msgid "Saved views are not enabled for this namespace."
-msgstr ""
-
 msgid "Saving"
 msgstr ""
 
@@ -60143,6 +60591,9 @@ msgstr ""
 msgid "ScanResultPolicy|Except"
 msgstr ""
 
+msgid "ScanResultPolicy|Exception settings"
+msgstr ""
+
 msgid "ScanResultPolicy|Exceptions that do not require approval"
 msgstr ""
 
@@ -60189,6 +60640,9 @@ msgid "ScanResultPolicy|Groups"
 msgstr ""
 
 msgid "ScanResultPolicy|High Risk (80%%)"
+msgstr ""
+
+msgid "ScanResultPolicy|If KEV/EPSS data doesn't exist for a vulnerability, the policy will fall back to the severity threshold (High) configured above."
 msgstr ""
 
 msgid "ScanResultPolicy|If Team frequently needs to push infrastructure configuration changes that trigger policy violations but are pre-approved through your change management process, add specific users to bypass infrastructure policies."
@@ -60449,10 +60903,19 @@ msgstr ""
 msgid "ScanResultPolicy|Users"
 msgstr ""
 
+msgid "ScanResultPolicy|Vulnerabilities without KEV/EPSS data will be ignored and will not trigger policy enforcement."
+msgstr ""
+
 msgid "ScanResultPolicy|When %{scanType} runs in an open merge request that targets %{branches} %{branchExceptions} and finds licenses match all of the following criteria:"
 msgstr ""
 
 msgid "ScanResultPolicy|When %{scanners} finds scanner-specific conditions in an open merge request that targets %{branches} %{branchExceptions} and matches %{boldDescription} the following criteria"
+msgstr ""
+
+msgid "ScanResultPolicy|When KEV/EPSS data is unavailable, exclude vulnerability from policy evaluation"
+msgstr ""
+
+msgid "ScanResultPolicy|When KEV/EPSS data is unavailable, fall back to severity-based blocking"
 msgstr ""
 
 msgid "ScanResultPolicy|When a %{scanType} with %{scanners} runs against %{branches} %{branchExceptions} and finds %{vulnerabilitiesNumber} %{boldDescription} all the following criteria:"
@@ -60555,6 +61018,9 @@ msgid "ScanResultPolicy|vulnerability type that matches"
 msgstr ""
 
 msgid "Scanner"
+msgstr ""
+
+msgid "Scanner health"
 msgstr ""
 
 msgid "Scanner profile failed to delete"
@@ -61227,7 +61693,10 @@ msgstr ""
 msgid "SecretsManager|Stored secrets"
 msgstr ""
 
-msgid "SecretsManager|The name should be unique within this project."
+msgid "SecretsManager|The name should be unique within this group and can contain only letters, digits, and '_'."
+msgstr ""
+
+msgid "SecretsManager|The name should be unique within this project and can contain only letters, digits, and '_'."
 msgstr ""
 
 msgid "SecretsManager|This field is required and must be 200 characters or less."
@@ -64066,6 +64535,9 @@ msgstr ""
 msgid "SecurityProfiles|Configure once. Apply everywhere. Profiles make it easier to configure and manage your security tools at scale. Secret push protection is the first type of scan supported by this new feature."
 msgstr ""
 
+msgid "SecurityProfiles|Coverage may be outdated"
+msgstr ""
+
 msgid "SecurityProfiles|Disable"
 msgstr ""
 
@@ -64087,6 +64559,14 @@ msgstr ""
 msgid "SecurityProfiles|Introducing Security Configuration Profiles"
 msgstr ""
 
+msgid "SecurityProfiles|Last %d scan failed"
+msgid_plural "SecurityProfiles|Last %d scans failed"
+msgstr[0] ""
+
+msgid "SecurityProfiles|Last %d scan successful"
+msgid_plural "SecurityProfiles|Last %d scans successful"
+msgstr[0] ""
+
 msgid "SecurityProfiles|Learn more"
 msgstr ""
 
@@ -64096,13 +64576,13 @@ msgstr ""
 msgid "SecurityProfiles|No profile applied"
 msgstr ""
 
-msgid "SecurityProfiles|Not configured"
-msgstr ""
-
 msgid "SecurityProfiles|Only a project maintainer or owner can apply or disable profiles."
 msgstr ""
 
 msgid "SecurityProfiles|Preview default profile"
+msgstr ""
+
+msgid "SecurityProfiles|Preview profile"
 msgstr ""
 
 msgid "SecurityProfiles|Profile applied successfully."
@@ -64124,6 +64604,15 @@ msgid "SecurityProfiles|Security configuration illustration"
 msgstr ""
 
 msgid "SecurityProfiles|Static Application Security Testing (SAST)"
+msgstr ""
+
+msgid "SecurityProfiles|Unconfigured"
+msgstr ""
+
+msgid "SecurityProfiles|View failed job #"
+msgstr ""
+
+msgid "SecurityProfiles|View job #"
 msgstr ""
 
 msgid "SecurityProfiles|What are configuration profiles?"
@@ -65988,6 +66477,9 @@ msgstr ""
 msgid "Set up Jira Integration"
 msgstr ""
 
+msgid "Set up a CI/CD pipeline"
+msgstr ""
+
 msgid "Set up a WebAuthn device to enable two-factor authentication (2FA)."
 msgstr ""
 
@@ -66298,7 +66790,7 @@ msgid "Show file tree browser"
 msgstr ""
 
 msgid "Show full blame"
-msgstr ""
+msgstr "Tampilkan blame lengkap"
 
 msgid "Show group milestones"
 msgstr ""
@@ -66987,7 +67479,7 @@ msgid "Something went wrong when deleting a comment. Please try again"
 msgstr ""
 
 msgid "Something went wrong when sending the incident link to Slack."
-msgstr ""
+msgstr "Ada yang salah ketika mengirim tautan insiden ke Slack."
 
 msgid "Something went wrong when updating a comment. Please try again"
 msgstr ""
@@ -67107,7 +67599,7 @@ msgid "Something went wrong while resolving this discussion. Please try again."
 msgstr ""
 
 msgid "Something went wrong while saving the preference."
-msgstr ""
+msgstr "Ada yang salah ketika menyimpan preferensi."
 
 msgid "Something went wrong while setting %{issuableType} %{dateType} date."
 msgstr ""
@@ -67428,46 +67920,46 @@ msgid "SourceEditor|`definition` property is expected on the extension."
 msgstr ""
 
 msgid "Sourcegraph"
-msgstr ""
+msgstr "Sourcegraph"
 
 msgid "SourcegraphAdmin|Block on private and internal projects"
-msgstr ""
+msgstr "Blokir pada proyek privat dan internal"
 
 msgid "SourcegraphAdmin|Configure the URL to a Sourcegraph instance which can read your GitLab projects."
-msgstr ""
+msgstr "Konfigurasikan URL ke instansi Sourcegraph yang dapat membaca proyek GitLab Anda."
 
 msgid "SourcegraphAdmin|Enable Sourcegraph"
-msgstr ""
+msgstr "Aktifkan Sourcegraph"
 
 msgid "SourcegraphAdmin|Enable code intelligence powered by %{link_start}Sourcegraph%{link_end} on your GitLab instance's code views and merge requests."
-msgstr ""
+msgstr "Aktifkan code intelligence ditenagai oleh %{link_start}Sourcegraph%{link_end} pada tampilan kode dan permintaan penggabungan instansi GitLab Anda."
 
 msgid "SourcegraphAdmin|Learn more."
-msgstr ""
+msgstr "Pelajari lebih lanjut."
 
 msgid "SourcegraphAdmin|Only public projects have code intelligence enabled and communicate with Sourcegraph."
-msgstr ""
+msgstr "Hanya proyek publik mempunyai code intelligence yang diaktifkan dan berkomunikasi dengan Sourcegraph."
 
 msgid "SourcegraphAdmin|Save changes"
-msgstr ""
+msgstr "Simpan perubahan"
 
 msgid "SourcegraphAdmin|Sourcegraph URL"
-msgstr ""
+msgstr "URL Sourcegraph"
 
 msgid "SourcegraphAdmin|https://sourcegraph.example.com"
-msgstr ""
+msgstr "https://sourcegraph.example.com"
 
 msgid "SourcegraphPreferences|This feature is experimental and limited to public projects."
-msgstr ""
+msgstr "Fitur ini eksperimental dan terbatas untuk proyek publik."
 
 msgid "SourcegraphPreferences|This feature is experimental."
-msgstr ""
+msgstr "Fitur ini eksperimental."
 
 msgid "SourcegraphPreferences|Uses %{linkStart}Sourcegraph.com%{linkEnd}."
-msgstr ""
+msgstr "Menggunakan %{linkStart}Sourcegraph.com%{linkEnd}."
 
 msgid "SourcegraphPreferences|Uses a custom %{linkStart}Sourcegraph instance%{linkEnd}."
-msgstr ""
+msgstr "Menggunakan %{linkStart}instansi Sourcegraph%{linkEnd} kustom."
 
 msgid "Spam Check"
 msgstr ""
@@ -68005,7 +68497,7 @@ msgid "Structural"
 msgstr ""
 
 msgid "Sub-batch size"
-msgstr ""
+msgstr "Ukuran sub-batch"
 
 msgid "Subdomains of the Pages root domain %{root_domain} are reserved and cannot be used as custom Pages domains."
 msgstr ""
@@ -69608,9 +70100,6 @@ msgstr ""
 msgid "The Web IDE extension host domain was restored to its default value."
 msgstr ""
 
-msgid "The XML file must be less than %{max_size} MB."
-msgstr ""
-
 msgid "The `/merge` quick action requires the SHA of the head of the branch."
 msgstr ""
 
@@ -69723,7 +70212,7 @@ msgid "The default CI/CD configuration file and path for new projects."
 msgstr ""
 
 msgid "The default branch for this project has been changed. Please update your bookmarks."
-msgstr ""
+msgstr "Cabang bawaan untuk proyek ini telah diubah. Silakan perbarui markah Anda."
 
 msgid "The dependency list details information about the components used within your project."
 msgstr ""
@@ -70563,10 +71052,10 @@ msgid "There was an error summarizing your pending comments."
 msgstr ""
 
 msgid "There was an error updating your display preferences."
-msgstr ""
+msgstr "Terjadi galat memperbarui preferensi tampilan Anda."
 
 msgid "There was an error updating your show drafts preference."
-msgstr ""
+msgstr "Terjadi galat memperbarui preferensi menampilkan draf Anda."
 
 msgid "There was an error when subscribing to this label."
 msgstr ""
@@ -71808,7 +72297,7 @@ msgid "To approve this merge request, please enter your password. This project r
 msgstr ""
 
 msgid "To avoid future interruption to notifications for %{project_or_group}, update your notification preferences."
-msgstr ""
+msgstr "Untuk menghindari gangguan notifikasi di masa depan untuk %{project_or_group}, perbarui preferensi notifikasi Anda."
 
 msgid "To avoid long-running queries, large tables were skipped."
 msgstr ""
@@ -72926,7 +73415,7 @@ msgstr ""
 msgid "TrialWidget|GitLab Duo Pro Trial"
 msgstr ""
 
-msgid "TrialWidget|GitLab Ultimate trial"
+msgid "TrialWidget|GitLab Ultimate Trial"
 msgstr ""
 
 msgid "TrialWidget|Learn more"
@@ -72939,9 +73428,6 @@ msgid "TrialWidget|Ultimate with GitLab Duo Agent Platform"
 msgstr ""
 
 msgid "TrialWidget|Ultimate with GitLab Duo Enterprise"
-msgstr ""
-
-msgid "TrialWidget|Ultimate with GitLab Duo Enterprise Trial"
 msgstr ""
 
 msgid "TrialWidget|Upgrade"
@@ -72957,9 +73443,6 @@ msgid "TrialWidget|Your trial of GitLab Duo Pro has ended"
 msgstr ""
 
 msgid "TrialWidget|Your trial of GitLab Ultimate has ended"
-msgstr ""
-
-msgid "TrialWidget|Your trial of Ultimate with GitLab Duo Enterprise has ended"
 msgstr ""
 
 msgid "Trial|Activate my trial"
@@ -73062,9 +73545,6 @@ msgid "Trial|Work email address"
 msgstr ""
 
 msgid "Trial|You have successfully started an Ultimate trial for GitLab."
-msgstr ""
-
-msgid "Trial|Your free Ultimate & GitLab Duo Enterprise Trial lasts for %{duration} days. After this period, you can maintain a GitLab Free account forever, or upgrade to a paid plan."
 msgstr ""
 
 msgid "Trigger"
@@ -73371,7 +73851,7 @@ msgid "Unable to generate new instance ID"
 msgstr ""
 
 msgid "Unable to load blame information. Please try again."
-msgstr ""
+msgstr "Tidak dapat memuat informasi blame. Silakan coba lagi."
 
 msgid "Unable to load commits. Try again later."
 msgstr ""
@@ -73422,7 +73902,7 @@ msgid "Unable to save your changes. Please try again."
 msgstr ""
 
 msgid "Unable to save your preference"
-msgstr ""
+msgstr "Tidak dapat menyimpan preferensi Anda."
 
 msgid "Unable to schedule a pipeline to run immediately"
 msgstr ""
@@ -73437,7 +73917,7 @@ msgid "Unable to suggest a path. Please refresh and try again."
 msgstr ""
 
 msgid "Unable to update DPoP preference."
-msgstr ""
+msgstr "Tidak dapat memperbarui preferensi DPoP."
 
 msgid "Unable to update label prioritization at this time"
 msgstr ""
@@ -73518,6 +73998,9 @@ msgid "Unauthorized to delete a package protection rule"
 msgstr ""
 
 msgid "Unauthorized to delete a protection rule for container image tags"
+msgstr ""
+
+msgid "Unauthorized to update a Terraform state protection rule"
 msgstr ""
 
 msgid "Unauthorized to update a container registry protection rule"
@@ -73800,7 +74283,7 @@ msgid "Update username"
 msgstr ""
 
 msgid "Update your bookmarked URLs as filtered/sorted branches URL has been changed."
-msgstr ""
+msgstr "Perbarui URL termarkah Anda sebagai URL cabang tersaring/tersortir telah diubah."
 
 msgid "Update your group name, description, avatar, and visibility."
 msgstr ""
@@ -74088,6 +74571,9 @@ msgstr ""
 msgid "UsageBilling|Action"
 msgstr ""
 
+msgid "UsageBilling|Active users"
+msgstr ""
+
 msgid "UsageBilling|An error occurred while fetching data"
 msgstr ""
 
@@ -74112,6 +74598,9 @@ msgstr ""
 msgid "UsageBilling|Credits consumed beyond your users included credits, charged at standard on-demand rates."
 msgstr ""
 
+msgid "UsageBilling|Credits per day"
+msgstr ""
+
 msgid "UsageBilling|Credits used after all included user credits and monthly commitment pool have been exhausted. Learn about %{linkStart}GitLab Credit pricing%{linkEnd}."
 msgstr ""
 
@@ -74123,6 +74612,9 @@ msgid_plural "UsageBilling|Credits used this month, resets in %{days} days"
 msgstr[0] ""
 
 msgid "UsageBilling|Daily GitLab Credits usage"
+msgstr ""
+
+msgid "UsageBilling|Daily average"
 msgstr ""
 
 msgid "UsageBilling|Date"
@@ -74158,9 +74650,6 @@ msgstr ""
 msgid "UsageBilling|Go to Customers Portal"
 msgstr ""
 
-msgid "UsageBilling|Have questions?"
-msgstr ""
-
 msgid "UsageBilling|Included credits"
 msgstr ""
 
@@ -74186,9 +74675,6 @@ msgid "UsageBilling|Learn more about %{helpLinkStart}GitLab Credit pricing%{help
 msgstr ""
 
 msgid "UsageBilling|Learn more about GitLab Duo"
-msgstr ""
-
-msgid "UsageBilling|Learn more about the upgrade process and Credits pricing options by talking to sales."
 msgstr ""
 
 msgid "UsageBilling|Location"
@@ -74236,6 +74722,9 @@ msgstr ""
 msgid "UsageBilling|On-demand"
 msgstr ""
 
+msgid "UsageBilling|Peak day usage"
+msgstr ""
+
 msgid "UsageBilling|Purchase monthly commitment"
 msgstr ""
 
@@ -74255,6 +74744,9 @@ msgid "UsageBilling|This dashboard may not display all current subscription data
 msgstr ""
 
 msgid "UsageBilling|Total credits used"
+msgstr ""
+
+msgid "UsageBilling|Total usage"
 msgstr ""
 
 msgid "UsageBilling|Track monthly credit consumption and the main drivers of credit usage."
@@ -74300,6 +74792,9 @@ msgid "UsageBilling|You won't be billed for this usage until you accept the on-d
 msgstr ""
 
 msgid "UsageBilling|Your GitLab evaluation credits are active"
+msgstr ""
+
+msgid "UsageBilling|in selected date range"
 msgstr ""
 
 msgid "UsageQuotas|(of %{totalStorageSize})"
@@ -75031,6 +75526,9 @@ msgid "User is blocked"
 msgstr ""
 
 msgid "User is not allowed to resolve thread"
+msgstr ""
+
+msgid "User is pending deletion"
 msgstr ""
 
 msgid "User key"
@@ -76163,13 +76661,13 @@ msgid "View all personal projects"
 msgstr ""
 
 msgid "View blame"
-msgstr ""
+msgstr "Lihat blame"
 
 msgid "View blame as separate pages"
-msgstr ""
+msgstr "Lihat blame sebagai halaman terpisah"
 
 msgid "View blame prior to this change"
-msgstr ""
+msgstr "Lihat blame sebelum perubahan ini"
 
 msgid "View branch"
 msgstr ""
@@ -77703,9 +78201,6 @@ msgstr ""
 msgid "Vulnerability|Not an FP"
 msgstr ""
 
-msgid "Vulnerability|Note: Unverified vulnerability does not have a source. This means that the vulnerability was detected without identifying the untrusted input that caused it. Exercise caution when addressing this vulnerability, as the root cause may not be fully understood."
-msgstr ""
-
 msgid "Vulnerability|Policy violation detected"
 msgstr ""
 
@@ -77740,9 +78235,6 @@ msgid "Vulnerability|Resolve the vulnerability in these dependencies to see addi
 msgstr ""
 
 msgid "Vulnerability|Scanner:"
-msgstr ""
-
-msgid "Vulnerability|Search or filter vulnerabilities..."
 msgstr ""
 
 msgid "Vulnerability|Security Audit"
@@ -77800,6 +78292,9 @@ msgid "Vulnerability|This vulnerability was auto-dismissed by a security policy.
 msgstr ""
 
 msgid "Vulnerability|This vulnerability was bypassed by a user in a merge request. The user accepted the risk in a security policy configured to use warn mode."
+msgstr ""
+
+msgid "Vulnerability|This vulnerability was found but couldn't be traced back to the untrusted input that caused it. The root cause isn't fully understood, so review it carefully before making changes."
 msgstr ""
 
 msgid "Vulnerability|Tool:"
@@ -78586,12 +79081,18 @@ msgid "When enabled, job logs are collected by Datadog and displayed along with 
 msgstr ""
 
 msgid "When enabled, users can embed YouTube videos, Figma designs, and other external content."
-msgstr ""
+msgstr "Ketika diaktifkan, pengguna dapat menyematkan video YouTube, rancangan Figma, dan konten eksternal lain."
 
 msgid "When left blank, default value of %{max_lifetime_in_days} is applied. When set, value must be %{max_lifetime_in_days} or less. When changed, existing access tokens with an expiration date beyond the maximum allowable lifetime are revoked."
 msgstr ""
 
 msgid "When merge requests and commits in the default branch close, any issues they reference also close."
+msgstr ""
+
+msgid "When scan execution policies or pipeline execution policies are configured, both the merge request pipeline and the branch pipeline must succeed before the merge request can be merged."
+msgstr ""
+
+msgid "When security policies are enforced, all pipelines for the latest commit must succeed before merge."
 msgstr ""
 
 msgid "When the pipeline for this merge request succeeds, it will %{linkStart}automatically merge%{linkEnd}."
@@ -78782,16 +79283,19 @@ msgstr ""
 msgid "WikiPage|Create %{pageTitle}"
 msgstr ""
 
-msgid "WikiPage|Create custom sidebar"
+msgid "WikiPage|Create page"
 msgstr ""
 
-msgid "WikiPage|Create page"
+msgid "WikiPage|Create sidebar"
 msgstr ""
 
 msgid "WikiPage|Create template"
 msgstr ""
 
 msgid "WikiPage|Create template %{pageTitle}"
+msgstr ""
+
+msgid "WikiPage|Delete sidebar"
 msgstr ""
 
 msgid "WikiPage|Format"
@@ -78876,6 +79380,9 @@ msgid "Wiki|Create a new page under \"%{page_title}\""
 msgstr ""
 
 msgid "Wiki|Create a new wiki page using this template"
+msgstr ""
+
+msgid "Wiki|Create custom sidebar"
 msgstr ""
 
 msgid "Wiki|Create from template"
@@ -79161,7 +79668,7 @@ msgid "WorkItems|Sort order rebalancing in progress. Reordering is temporarily d
 msgstr ""
 
 msgid "WorkItems|Your preferences"
-msgstr ""
+msgstr "Preferensi Anda"
 
 msgid "WorkItem|%d disabled type"
 msgid_plural "WorkItem|%d disabled types"
@@ -79468,9 +79975,6 @@ msgid "WorkItem|Cancel"
 msgstr ""
 
 msgid "WorkItem|Canceled"
-msgstr ""
-
-msgid "WorkItem|Cannot be assigned"
 msgstr ""
 
 msgid "WorkItem|Cannot be used to create new items."
@@ -81239,7 +81743,7 @@ msgid "You are an administrator, which means authorizing access to %{strong_star
 msgstr ""
 
 msgid "You are attempting to delete a file that has been previously updated."
-msgstr ""
+msgstr "Anda mencoba menghapus berkas yang sebelumnya telah diperbarui."
 
 msgid "You are attempting to update a file that has changed since you started editing it."
 msgstr ""
@@ -84174,6 +84678,9 @@ msgstr ""
 msgid "mrWidget|Merge failed."
 msgstr ""
 
+msgid "mrWidget|Merge request pipeline has passed, but a security policy requires all pipelines to succeed. Another pipeline for this commit has failed. %{linkStart}View policies%{linkEnd}"
+msgstr ""
+
 msgid "mrWidget|Merged by"
 msgstr ""
 
@@ -84190,7 +84697,7 @@ msgid "mrWidget|Naming convention"
 msgstr ""
 
 msgid "mrWidget|Please restore it or use a different %{type} branch."
-msgstr ""
+msgstr "Silakan pulihkan atau gunakan cabang %{type} yang berbeda."
 
 msgid "mrWidget|Rebase"
 msgstr ""
@@ -84235,7 +84742,7 @@ msgid "mrWidget|Set by %{merge_author} to start a merge train when all merge che
 msgstr ""
 
 msgid "mrWidget|The %{type} branch %{codeStart}%{name}%{codeEnd} does not exist."
-msgstr ""
+msgstr "Cabang %{type} %{codeStart}%{name}%{codeEnd} tidak ada."
 
 msgid "mrWidget|The source branch is %{link} the target branch."
 msgstr ""
@@ -84274,7 +84781,7 @@ msgid "mrWidget|Your merge request is almost ready!"
 msgstr ""
 
 msgid "mrWidget|Your password"
-msgstr ""
+msgstr "Kata sandi Anda"
 
 msgid "multi-project"
 msgstr ""
@@ -84538,19 +85045,19 @@ msgid "name: %{name} exists in more than one image pull secret, image pull secre
 msgstr ""
 
 msgid "needs to be between 10 minutes and 1 month"
-msgstr ""
+msgstr "perlu diantara 10 menit dan 1 bulan"
 
 msgid "never"
-msgstr ""
+msgstr "tidak pernah"
 
 msgid "never expires"
-msgstr ""
+msgstr "tidak pernah kedaluwarsa"
 
 msgid "new"
 msgstr ""
 
 msgid "new merge request"
-msgstr ""
+msgstr "permintaan penggabungan baru"
 
 msgid "no"
 msgstr ""
@@ -84559,7 +85066,7 @@ msgid "no expiration"
 msgstr ""
 
 msgid "no name set"
-msgstr ""
+msgstr "tidak ada nama yang diatur"
 
 msgid "no one can merge"
 msgstr ""
@@ -84568,13 +85075,13 @@ msgid "no scopes selected"
 msgstr ""
 
 msgid "none"
-msgstr ""
+msgstr "tidak ada"
 
 msgid "not enough arguments"
 msgstr ""
 
 msgid "not found"
-msgstr ""
+msgstr "tidak ditemukan"
 
 msgid "nounSeries|%{firstItem} and %{lastItem}"
 msgstr ""
@@ -84598,7 +85105,7 @@ msgid "on or after"
 msgstr ""
 
 msgid "only available on top-level groups."
-msgstr ""
+msgstr "hanya tersedia di grup tingkat atas."
 
 msgid "only supports valid HTTP(S) URLs"
 msgstr ""
@@ -84644,7 +85151,7 @@ msgid "personal"
 msgstr ""
 
 msgid "personal access token"
-msgstr ""
+msgstr "akses token pribadi"
 
 msgid "pipelineEditorWalkthrough|You can use the file tree to view your pipeline configuration files. %{linkStart}Learn more%{linkEnd}"
 msgstr ""
@@ -84660,26 +85167,26 @@ msgid "previously merged commits"
 msgstr ""
 
 msgid "private"
-msgstr ""
+msgstr "privat"
 
 msgid "private key does not match certificate."
-msgstr ""
+msgstr "kunci privat tidak cocok dengan sertifikat."
 
 msgid "processing"
-msgstr ""
+msgstr "memproses"
 
 msgid "production/*"
 msgstr ""
 
 msgid "project"
 msgid_plural "projects"
-msgstr[0] ""
+msgstr[0] "proyek"
 
 msgid "project access token"
-msgstr ""
+msgstr "akses token proyek"
 
 msgid "project access tokens"
-msgstr ""
+msgstr "akses token proyek"
 
 msgid "project bots cannot be added to other groups / projects"
 msgstr ""
@@ -84688,7 +85195,7 @@ msgid "project is read-only"
 msgstr "proyek hanya baca"
 
 msgid "project name"
-msgstr ""
+msgstr "nama proyek"
 
 msgid "project namespace cannot be the parent of another namespace"
 msgstr ""
@@ -84700,7 +85207,7 @@ msgid "project_path must be the first element of the sub claim"
 msgstr ""
 
 msgid "projects"
-msgstr ""
+msgstr "proyek"
 
 msgid "protected"
 msgstr ""
@@ -84730,16 +85237,16 @@ msgid "recover"
 msgstr ""
 
 msgid "register"
-msgstr ""
+msgstr "daftar"
 
 msgid "relates to"
-msgstr ""
+msgstr "berhubungan dengan"
 
 msgid "remaining"
-msgstr ""
+msgstr "tersisa"
 
 msgid "remove"
-msgstr ""
+msgstr "hapus"
 
 msgid "remove due date"
 msgstr ""
@@ -84763,7 +85270,7 @@ msgid "rendered diff"
 msgstr ""
 
 msgid "reply should have same confidentiality as top-level note"
-msgstr ""
+msgstr "balasan harus memiliki kerahasiaan yang sama dengan catatan tingkat atas"
 
 msgid "reportType|API Fuzzing"
 msgstr ""
@@ -84806,7 +85313,7 @@ msgid_plural "repositories"
 msgstr[0] ""
 
 msgid "repository:"
-msgstr ""
+msgstr "repositori:"
 
 msgid "requirement"
 msgstr ""
@@ -84822,7 +85329,7 @@ msgid "running"
 msgstr ""
 
 msgid "satisfied"
-msgstr ""
+msgstr "puas"
 
 msgid "scan-execution-policy: policy not applied, %{policy_path} file is invalid"
 msgstr ""
@@ -84859,25 +85366,25 @@ msgid "severity|Critical"
 msgstr ""
 
 msgid "severity|High"
-msgstr ""
+msgstr "Tinggi"
 
 msgid "severity|Info"
-msgstr ""
+msgstr "Info"
 
 msgid "severity|Low"
-msgstr ""
+msgstr "Rendah"
 
 msgid "severity|Major"
-msgstr ""
+msgstr "Besar"
 
 msgid "severity|Medium"
-msgstr ""
+msgstr "Sedang"
 
 msgid "severity|Minor"
-msgstr ""
+msgstr "Kecil"
 
 msgid "severity|Unknown"
-msgstr ""
+msgstr "Tidak diketahui"
 
 msgid "should be a valid Maven artifact ID with optional wildcard characters."
 msgstr ""
@@ -84901,7 +85408,7 @@ msgid "should be a valid json object."
 msgstr ""
 
 msgid "should be an array of %{object_name} objects"
-msgstr ""
+msgstr "harus berupa deretan dari objek %{object_name}"
 
 msgid "should be an array of existing user ids. %{invalid} does not exist"
 msgstr ""
@@ -84928,10 +85435,10 @@ msgid "show fewer"
 msgstr ""
 
 msgid "show less"
-msgstr ""
+msgstr "tampilkan sedikit"
 
 msgid "sign in"
-msgstr ""
+msgstr "masuk"
 
 msgid "site"
 msgstr ""
@@ -84943,7 +85450,7 @@ msgid "snippet"
 msgstr ""
 
 msgid "source"
-msgstr ""
+msgstr "sumber"
 
 msgid "source diff"
 msgstr ""
@@ -84958,7 +85465,7 @@ msgid "spendCommand|%{slash_command} adds or subtracts time already spent."
 msgstr ""
 
 msgid "ssh:"
-msgstr ""
+msgstr "ssh:"
 
 msgid "starred"
 msgstr ""
@@ -84982,13 +85489,13 @@ msgid "stuck"
 msgstr ""
 
 msgid "success"
-msgstr ""
+msgstr "sukses"
 
 msgid "supported SSH public key."
 msgstr ""
 
 msgid "tag name"
-msgstr ""
+msgstr "nama tag"
 
 msgid "target all default branches"
 msgstr ""
@@ -85027,13 +85534,13 @@ msgid "the following issues"
 msgstr ""
 
 msgid "the wiki"
-msgstr ""
+msgstr "wiki"
 
 msgid "then"
-msgstr ""
+msgstr "kemudian"
 
 msgid "this document"
-msgstr ""
+msgstr "dokumen ini"
 
 msgid "ticket"
 msgstr ""
@@ -85081,10 +85588,10 @@ msgid "updated %{timeAgo}"
 msgstr ""
 
 msgid "updated %{time_ago}"
-msgstr ""
+msgstr "diperbarui %{time_ago}"
 
 msgid "uploads"
-msgstr ""
+msgstr "unggahan"
 
 msgid "user"
 msgid_plural "users"
@@ -85103,13 +85610,13 @@ msgid "user not allowed to assign runner"
 msgstr ""
 
 msgid "username"
-msgstr ""
+msgstr "nama pengguna"
 
 msgid "users"
 msgstr ""
 
 msgid "v%{version} published %{timeAgo}"
-msgstr ""
+msgstr "v%{version} diterbitkan %{timeAgo}"
 
 msgid "value \"%{sort}\" is not available on %{namespace}"
 msgstr ""
@@ -85121,10 +85628,10 @@ msgid "value at %{data_pointer} should use only one of: %{requirements}"
 msgstr ""
 
 msgid "value for '%{storage}' must be an integer"
-msgstr ""
+msgstr "nilai untuk '%{storage}' harus berupa bilangan bulat"
 
 msgid "value for '%{storage}' must be between 0 and 100"
-msgstr ""
+msgstr "nilai untuk '%{storage}' harus berupa antara 0 dan 100"
 
 msgid "value: %{value} must be 63 characters or less, and start/end with an alphanumeric character"
 msgstr ""
@@ -85137,7 +85644,7 @@ msgid_plural "variables"
 msgstr[0] ""
 
 msgid "verify ownership"
-msgstr ""
+msgstr "verifikasi kepemilikan"
 
 msgid "version %{versionIndex}"
 msgstr "versi %{versionIndex}"
@@ -85198,9 +85705,12 @@ msgid "yyyy-mm-dd"
 msgstr ""
 
 msgid "{group}"
-msgstr ""
+msgstr "{group}"
 
 msgid "{project}"
+msgstr "{project}"
+
+msgid "—"
 msgstr ""
 
 msgid "✔"

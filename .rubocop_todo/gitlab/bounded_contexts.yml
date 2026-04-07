@@ -11,7 +11,6 @@ Gitlab/BoundedContexts:
     - 'app/finders/access_requests_finder.rb'
     - 'app/finders/achievements/achievements_finder.rb'
     - 'app/finders/admin/plans_finder.rb'
-    - 'app/finders/admin/projects_finder.rb'
     - 'app/finders/alert_management/alerts_finder.rb'
     - 'app/finders/alert_management/http_integrations_finder.rb'
     - 'app/finders/applications_finder.rb'

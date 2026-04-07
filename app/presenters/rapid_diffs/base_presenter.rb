@@ -18,7 +18,7 @@ module RapidDiffs
     end
 
     def diff_files(options = {})
-      transform_file_collection(diffs_resource(options).diff_files(sorted: sorted?))
+      transform_file_collection(diffs_resource(options))
     end
 
     def diffs_slice
@@ -28,7 +28,7 @@ module RapidDiffs
     end
 
     def diff_files_for_streaming(diff_options = {})
-      collection = resource.diffs_for_streaming(diff_options).diff_files(sorted: sorted?)
+      collection = resource.diffs_for_streaming(diff_options)
       with_linked_file_first(transform_file_collection(collection))
     end
 
@@ -102,6 +102,12 @@ module RapidDiffs
 
     attr_reader :request_params
 
+    def transform_file_collection(collection)
+      diff_files = collection.diff_files(sorted: sorted?)
+      diff_files.decorate! { |file| transform_file(file) }
+      diff_files
+    end
+
     def transform_file(diff_file)
       diff_file.prevent_syntax_highlighting! unless highlight?
       diff_file
@@ -113,11 +119,6 @@ module RapidDiffs
       return @highlight if defined?(@highlight)
 
       @highlight = @current_user.nil? || Gitlab::ColorSchemes.for_user(@current_user).css_class != 'none'
-    end
-
-    def transform_file_collection(diff_files)
-      diff_files.decorate! { |file| transform_file(file) }
-      diff_files
     end
 
     def transform_file_array(diff_files)

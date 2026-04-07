@@ -2472,7 +2472,6 @@ Layout/LineLength:
     - 'spec/features/work_items/issues/user_views_issue_spec.rb'
     - 'spec/features/work_items/issues/viewing_issues_with_external_authorization_enabled_spec.rb'
     - 'spec/finders/access_requests_finder_spec.rb'
-    - 'spec/finders/admin/projects_finder_spec.rb'
     - 'spec/finders/alert_management/alerts_finder_spec.rb'
     - 'spec/finders/autocomplete/users_finder_spec.rb'
     - 'spec/finders/award_emojis_finder_spec.rb'

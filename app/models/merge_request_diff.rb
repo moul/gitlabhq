@@ -499,7 +499,7 @@ class MergeRequestDiff < ApplicationRecord
   end
 
   def first_diffs_slice(limit, diff_options = {})
-    paginated_diffs(1, limit, diff_options).diff_files(sorted: true)
+    paginated_diffs(1, limit, diff_options)
   end
 
   def diffs_for_streaming(diff_options = {})

@@ -30,12 +30,6 @@ tests = [
   },
 
   {
-    explanation: 'FOSS code should map to respective spec',
-    changed_file: 'app/finders/admin/projects_finder.rb',
-    expected: ['spec/finders/admin/projects_finder_spec.rb']
-  },
-
-  {
     explanation: 'Map spec support to corresponding support specs',
     changed_file: 'spec/support/database/prevent_cross_joins.rb',
     expected: 'spec/support_specs/database/prevent_cross_joins_spec.rb'

@@ -287,14 +287,6 @@ describe('~/security_configuration/components/app', () => {
     });
   });
 
-  describe('when given latestPipelinePath props', () => {
-    beforeEach(() => {
-      createComponent({
-        latestPipelinePath: 'test/path',
-      });
-    });
-  });
-
   describe('With secret push protection', () => {
     beforeEach(() => {
       createComponent({

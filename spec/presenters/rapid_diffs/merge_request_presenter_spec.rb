@@ -35,16 +35,19 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
 
   describe '#diffs_slice' do
     let(:offset) { presenter.send(:offset) }
-    let(:diff_collection) { instance_double(Gitlab::Git::DiffCollection) }
+    let(:diff_files) { instance_double(Gitlab::Git::DiffCollection) }
+    let(:diff_collection) { instance_double(Gitlab::Diff::FileCollection::Base, diff_files: diff_files) }
 
     before do
       presenter.offset = 5
     end
 
     it 'calls first_diffs_slice on the merge_request with the correct arguments' do
-      allow(diff_collection).to receive(:decorate!).and_return(diff_collection)
-      expect(merge_request).to receive(:first_diffs_slice).with(offset, diff_options.merge(only_context_commits: false))
-  .and_return(diff_collection)
+      allow(diff_files).to receive(:decorate!).and_return(diff_files)
+      expect(merge_request)
+        .to receive(:first_diffs_slice)
+        .with(offset, diff_options.merge(only_context_commits: false))
+        .and_return(diff_collection)
 
       presenter.diffs_slice
     end
@@ -53,7 +56,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
       let(:request_params) { { only_context_commits: 'true' } }
 
       it 'calls first_diffs_slice with only_context_commits: true' do
-        allow(diff_collection).to receive(:decorate!).and_return(diff_collection)
+        allow(diff_files).to receive(:decorate!).and_return(diff_files)
         expect(merge_request).to receive(:first_diffs_slice)
           .with(offset, diff_options.merge(only_context_commits: true))
           .and_return(diff_collection)
@@ -405,7 +408,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
   describe 'diff files with conflicts' do
     let(:diff_file) { build(:diff_file) }
     let(:diff_files_array) { [diff_file] }
-    let(:diff_files_collection) do
+    let(:diff_files) do
       instance_double(Gitlab::Git::DiffCollection).tap do |collection|
         allow(collection).to receive(:decorate!) do |&block|
           diff_files_array.map!(&block)
@@ -414,7 +417,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
       end
     end
 
-    let(:diffs_resource) { instance_double(Gitlab::Diff::FileCollection::Base, diff_files: diff_files_collection) }
+    let(:diff_collection) { instance_double(Gitlab::Diff::FileCollection::Base, diff_files: diff_files) }
     let(:conflicts) do
       {
         diff_file.new_path => {
@@ -430,10 +433,10 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     end
 
     before do
-      allow(resource).to receive(:diffs).and_return(diffs_resource)
-      allow(merge_request).to receive_messages(
-        first_diffs_slice: diff_files_collection,
-        diffs_for_streaming: diffs_resource
+      allow(resource).to receive_messages(
+        diffs: diff_collection,
+        first_diffs_slice: diff_collection,
+        diffs_for_streaming: diff_collection
       )
     end
 

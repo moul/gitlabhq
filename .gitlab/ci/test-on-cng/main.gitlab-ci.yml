@@ -6,10 +6,6 @@ include:
   - local: .gitlab/ci/qa-common/variables.gitlab-ci.yml
   - local: .gitlab/ci/qa-common/rules.gitlab-ci.yml
 
-workflow:
-  rules:
-    - when: always
-
 .default-branch: &default-branch
   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 

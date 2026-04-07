@@ -35,10 +35,10 @@ describe('Global Search Store Getters', () => {
   defaultState.aggregations = MOCK_LABEL_AGGREGATIONS;
   defaultState.aggregations.data.push(SMALL_MOCK_AGGREGATIONS[0]);
 
+  useMockLocationHelper();
+
   beforeEach(() => {
     state = cloneDeep(defaultState);
-
-    useMockLocationHelper();
   });
 
   describe('frequentGroups', () => {
