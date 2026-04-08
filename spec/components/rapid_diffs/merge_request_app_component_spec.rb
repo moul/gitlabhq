@@ -20,6 +20,8 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
   let(:markdown_docs_path) { '/markdown_docs' }
   let(:report_abuse_path) { '/report_abuse' }
   let(:versions) { { 'source_versions' => [], 'target_versions' => [] } }
+  let(:suggestions_help_path) { '/help/suggestions' }
+  let(:default_suggestion_commit_message) { 'Apply suggestion' }
 
   let(:presenter) do
     instance_double(
@@ -41,6 +43,8 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
       mr_path: mr_path,
       project_path: project_path,
       versions: versions,
+      suggestions_help_path: suggestions_help_path,
+      default_suggestion_commit_message: default_suggestion_commit_message,
       linked_file: nil
     )
   end
@@ -70,6 +74,8 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
         sign_in_path: sign_in_path,
         report_abuse_path: report_abuse_path,
         markdown_docs_path: markdown_docs_path,
+        suggestions_help_path: suggestions_help_path,
+        default_suggestion_commit_message: default_suggestion_commit_message,
         versions: versions
       }
     )

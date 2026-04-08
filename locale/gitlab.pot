@@ -4385,6 +4385,12 @@ msgstr ""
 msgid "AccessTokens|Filter list"
 msgstr ""
 
+msgid "AccessTokens|Fine-grained personal access tokens"
+msgstr ""
+
+msgid "AccessTokens|Fine-grained personal access tokens enforcement date"
+msgstr ""
+
 msgid "AccessTokens|Fine-grained personal access tokens give you granular control over the specific resources and actions available to the token."
 msgstr ""
 
@@ -4558,6 +4564,9 @@ msgstr ""
 msgid "AccessTokens|Require expiration dates for service accounts"
 msgstr ""
 
+msgid "AccessTokens|Require fine-grained personal access tokens after a specific date"
+msgstr ""
+
 msgid "AccessTokens|Required only if you add group and project resources."
 msgstr ""
 
@@ -4697,6 +4706,9 @@ msgid "AccessTokens|View details"
 msgstr ""
 
 msgid "AccessTokens|View token usage information"
+msgstr ""
+
+msgid "AccessTokens|When enforced, users can only create fine-grained personal access token after the specified enforcement date. Existing legacy personal access tokens can still be used."
 msgstr ""
 
 msgid "AccessTokens|You can generate a personal access token for each application you use that needs access to the GitLab API. You can also use personal access tokens to authenticate against Git over HTTP. They are the only accepted password when you have Two-Factor Authentication (2FA) enabled."
@@ -52525,6 +52537,9 @@ msgid "Please create a username with only alphanumeric characters."
 msgstr ""
 
 msgid "Please enter a URL for the custom emoji."
+msgstr ""
+
+msgid "Please enter a date value."
 msgstr ""
 
 msgid "Please enter a name for the comment template."

@@ -743,6 +743,20 @@ class ApplicationSetting < ApplicationRecord
 
   validates :resource_access_tokens_settings, json_schema: { filename: 'resource_access_tokens_settings' }
 
+  jsonb_accessor :personal_access_token_settings,
+    enforce_granular_tokens: [:boolean, { default: false }],
+    granular_tokens_enforced_after: [:date, { default: nil }]
+
+  validates :personal_access_token_settings, json_schema: { filename: 'personal_access_token_settings' }
+
+  validates :granular_tokens_enforced_after,
+    presence: true,
+    if: :enforce_granular_tokens?
+
+  validates :granular_tokens_enforced_after,
+    future_date: true,
+    if: :granular_tokens_enforced_after_changed?
+
   jsonb_accessor :group_settings,
     top_level_group_creation_enabled: [:boolean, { default: true }],
     disable_invite_members: [:boolean, { default: false }]

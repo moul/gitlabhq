@@ -156,6 +156,14 @@ RSpec.describe ApplicationSettingsHelper, feature_category: :shared do
     it 'contains :inactive_resource_access_tokens_delete_after_days' do
       expect(helper.visible_attributes).to include(:inactive_resource_access_tokens_delete_after_days)
     end
+
+    it 'includes :enforce_granular_tokens' do
+      expect(helper.visible_attributes).to include(:enforce_granular_tokens)
+    end
+
+    it 'includes :granular_tokens_enforced_after' do
+      expect(helper.visible_attributes).to include(:granular_tokens_enforced_after)
+    end
   end
 
   describe '.integration_expanded?' do

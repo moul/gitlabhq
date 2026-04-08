@@ -10,6 +10,7 @@ import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request
 import { initCompareVersions } from '~/rapid_diffs/app/init_compare_versions';
 import { initNewDiscussionToggle } from '~/rapid_diffs/app/init_new_discussions_toggle';
 import { initLineRangeSelection } from '~/rapid_diffs/app/init_line_range_selection';
+import { globalAccessorPlugin } from '~/pinia/plugins';
 
 jest.mock('~/lib/graphql');
 jest.mock('~/rapid_diffs/app/view_settings');
@@ -20,21 +21,6 @@ jest.mock('~/rapid_diffs/app/quirks/content_visibility_fix');
 jest.mock('~/rapid_diffs/app/init_compare_versions');
 jest.mock('~/rapid_diffs/app/init_new_discussions_toggle');
 jest.mock('~/rapid_diffs/app/init_line_range_selection');
-jest.mock('~/merge_request/stores/merge_request_draft_notes', () => ({
-  useMergeRequestDraftNotes: jest.fn(() => ({
-    drafts: [],
-    isPublishing: false,
-    hasDrafts: false,
-    draftsCount: 0,
-    fetchDrafts: jest.fn().mockResolvedValue(),
-    findDraftsForDiscussion: jest.fn().mockReturnValue({}),
-    findDraftsAsDiscussionsForFile: jest.fn().mockReturnValue([]),
-    findDraftsAsLineDiscussionsForFile: jest.fn().mockReturnValue([]),
-    findDraftsAsFileDiscussionsForFile: jest.fn().mockReturnValue([]),
-    findDraftsAsImageDiscussionsForFile: jest.fn().mockReturnValue([]),
-    findDraftsForPosition: jest.fn().mockReturnValue([]),
-  })),
-}));
 
 describe('Merge Request Rapid Diffs app', () => {
   let app;
@@ -84,7 +70,8 @@ describe('Merge Request Rapid Diffs app', () => {
 
   beforeEach(() => {
     window.gon = { current_user_id: 1 };
-    createTestingPinia();
+    createTestingPinia({ plugins: [globalAccessorPlugin] });
+    useLegacyDiffs();
     useDiffsView().loadDiffsStats.mockResolvedValue();
     useDiffsList().reloadDiffs.mockResolvedValue();
     useDiffsList().streamRemainingDiffs.mockResolvedValue();

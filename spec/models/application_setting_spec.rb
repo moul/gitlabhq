@@ -1901,6 +1901,58 @@ RSpec.describe ApplicationSetting, feature_category: :settings, type: :model do
           .for(:resource_access_tokens_settings)
       end
     end
+
+    describe 'for personal_access_token_settings' do
+      it 'allows enforce_granular_tokens with true' do
+        is_expected.to allow_value({ enforce_granular_tokens: true })
+          .for(:personal_access_token_settings)
+      end
+
+      it 'allows enforce_granular_tokens with false' do
+        is_expected.to allow_value({ enforce_granular_tokens: false })
+          .for(:personal_access_token_settings)
+      end
+
+      it 'allows granular_tokens_enforced_after with nil when enforce_granular_tokens is false' do
+        is_expected.to allow_value({ granular_tokens_enforced_after: nil })
+          .for(:personal_access_token_settings)
+      end
+
+      context 'when enforce_granular_tokens is true' do
+        before do
+          setting.enforce_granular_tokens = true
+        end
+
+        it 'requires granular_tokens_enforced_after' do
+          is_expected.not_to allow_value(nil)
+            .for(:granular_tokens_enforced_after)
+            .with_message("can't be blank")
+        end
+
+        it 'allows granular_tokens_enforced_after with a future date' do
+          is_expected.to allow_value(1.day.from_now.to_date)
+            .for(:granular_tokens_enforced_after)
+        end
+
+        it 'allows granular_tokens_enforced_after with the current date' do
+          is_expected.to allow_value(Date.current)
+            .for(:granular_tokens_enforced_after)
+        end
+
+        it 'does not allow granular_tokens_enforced_after with a past date' do
+          is_expected.not_to allow_value(1.day.ago.to_date)
+            .for(:granular_tokens_enforced_after)
+            .with_message('cannot be a date in the past')
+        end
+
+        it 'allows granular_tokens_enforced_after with a past date when unchanged' do
+          allow(setting).to receive(:granular_tokens_enforced_after_changed?).and_return(false)
+
+          is_expected.to allow_value(1.day.ago.to_date)
+            .for(:granular_tokens_enforced_after)
+        end
+      end
+    end
   end
 
   describe 'callbacks' do

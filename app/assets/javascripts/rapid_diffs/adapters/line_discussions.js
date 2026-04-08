@@ -35,6 +35,8 @@ function mountDiscussionRow({ lineRow, parallel, appData, store, trigger, id }) 
         noteableType: appData.noteableType,
         filePaths: { oldPath: appData.oldPath, newPath: appData.newPath },
         blobRawPath: appData.blobRawPath,
+        suggestionsHelpPath: appData.suggestionsHelpPath,
+        defaultSuggestionCommitMessage: appData.defaultSuggestionCommitMessage,
         linkedFileData: appData.linkedFileData,
       };
     },

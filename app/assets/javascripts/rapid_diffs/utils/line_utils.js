@@ -77,12 +77,9 @@ export function findLineRow(element, oldLine, newLine) {
 export function getNewLineRangeContent(diffElement, lineRange, side) {
   const { start, end } = lineRange;
 
-  let row;
-  try {
-    row = findLineRow(diffElement, start.old_line, start.new_line);
-  } catch {
-    return [];
-  }
+  let row = findLineRow(diffElement, start.old_line, start.new_line);
+
+  if (!row) return [];
 
   const endLine = end.new_line ?? end.old_line;
   const lines = [];

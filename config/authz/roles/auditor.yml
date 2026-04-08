@@ -18,12 +18,14 @@ project:
   - read_cluster
   - read_compliance_adherence_report
   - read_compliance_dashboard
+  - read_compliance_framework
   - read_compliance_violations_report
   - read_dependency
   - read_deployment
   - read_environment
   - read_external_status_check_response
   - read_feature_flag
+  - read_incident_management_escalation_policy
   - read_incident_management_oncall_schedule
   - read_issuable_resource_link
   - read_licenses

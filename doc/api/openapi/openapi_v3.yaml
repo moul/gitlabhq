@@ -17311,7 +17311,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_5335e770f97c"
+              "$ref": "#/components/schemas/RequestBody_5efd4463bcc7"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -75884,6 +75884,10 @@ components:
           type: string
         background_operations_max_jobs:
           type: string
+        enforce_granular_tokens:
+          type: string
+        granular_tokens_enforced_after:
+          type: string
         deactivate_dormant_users:
           type: string
         deactivate_dormant_users_period:
@@ -92930,7 +92934,7 @@ components:
           nullable: true
       required:
       - avatar
-    RequestBody_5335e770f97c:
+    RequestBody_5efd4463bcc7:
       type: object
       properties:
         admin_mode:
@@ -94841,6 +94845,12 @@ components:
           type: string
           nullable: true
         background_operations_max_jobs:
+          type: string
+          nullable: true
+        enforce_granular_tokens:
+          type: string
+          nullable: true
+        granular_tokens_enforced_after:
           type: string
           nullable: true
         deactivate_dormant_users:

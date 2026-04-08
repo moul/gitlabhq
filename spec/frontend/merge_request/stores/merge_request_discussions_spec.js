@@ -46,6 +46,13 @@ describe('mergeRequestDiscussions store', () => {
       deleteNote: jest.fn().mockResolvedValue(),
       toggleAwardRequest: jest.fn().mockResolvedValue(),
       toggleResolveNote: jest.fn().mockResolvedValue(),
+      submitSuggestion: jest.fn().mockResolvedValue(),
+      submitSuggestionBatch: jest.fn().mockResolvedValue(),
+      getSuggestionsFilePaths: jest.fn().mockResolvedValue(),
+      addSuggestionInfoToBatch: jest.fn(),
+      removeSuggestionInfoFromBatch: jest.fn(),
+      batchSuggestionsInfo: [],
+      suggestionsCount: 0,
       noteableData: {
         create_note_path: '/api/notes',
         noteableType: 'MergeRequest',
@@ -105,6 +112,10 @@ describe('mergeRequestDiscussions store', () => {
     'createDraftLineDiscussion',
     'createDraftFileDiscussion',
     'addDraftToDiscussion',
+    'submitSuggestion',
+    'submitSuggestionBatch',
+    'addSuggestionInfoToBatch',
+    'removeSuggestionInfoFromBatch',
   ])('exposes %s action', (action) => {
     expect(store[action]).toEqual(expect.any(Function));
   });
@@ -115,6 +126,9 @@ describe('mergeRequestDiscussions store', () => {
     'findAllLineDiscussionsForFile',
     'findAllFileDiscussionsForFile',
     'findAllImageDiscussionsForFile',
+    'batchSuggestionsInfo',
+    'suggestionsCount',
+    'suggestionsFilePaths',
   ])('exposes %s getter', (getter) => {
     expect(store[getter]).toBeDefined();
   });

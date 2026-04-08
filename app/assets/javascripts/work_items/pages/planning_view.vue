@@ -988,9 +988,13 @@ export default {
       return tokens;
     },
     workItemTypeId() {
+      // We should not be using ENUM and change the mount of work item type lists
+      // with id instead since that is immutable
       const workItemTypeName = this.workItemType || WORK_ITEM_TYPE_NAME_ISSUE;
       return (
-        this.workItemTypes?.find((workItemType) => workItemType.name === workItemTypeName)?.id || ''
+        this.workItemTypes.find((wi) => wi.name === workItemTypeName)?.id ||
+        this.workItemTypes[0]?.id ||
+        ''
       );
     },
     displaySettingsSoT() {

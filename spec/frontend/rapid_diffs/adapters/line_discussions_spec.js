@@ -36,7 +36,16 @@ jest.mock('~/rapid_diffs/app/discussions/diff_line_discussions.vue', () => {
   return {
     props: jest.requireActual('~/rapid_diffs/app/discussions/diff_line_discussions.vue').default
       .props,
-    inject: ['userPermissions', 'endpoints', 'noteableType', 'filePaths', 'linkedFileData'],
+    inject: [
+      'userPermissions',
+      'endpoints',
+      'noteableType',
+      'filePaths',
+      'blobRawPath',
+      'suggestionsHelpPath',
+      'defaultSuggestionCommitMessage',
+      'linkedFileData',
+    ],
     methods: {
       empty() {
         this.$emit('empty');
@@ -69,6 +78,9 @@ jest.mock('~/rapid_diffs/app/discussions/diff_line_discussions.vue', () => {
         renderAsDataAttr('endpoints', this.endpoints),
         renderAsDataAttr('noteable-type', this.noteableType),
         renderAsDataAttr('file-paths', this.filePaths),
+        renderAsDataAttr('blob-raw-path', this.blobRawPath),
+        renderAsDataAttr('suggestions-help-path', this.suggestionsHelpPath),
+        renderAsDataAttr('default-suggestion-commit-message', this.defaultSuggestionCommitMessage),
         renderAsDataAttr('linked-file-data', this.linkedFileData),
       ];
       return h('div', { attrs: { id: 'discussions-component' } }, [...props, ...injected]);
@@ -104,6 +116,8 @@ describe('discussions adapters', () => {
     signInPath: 'signInPath',
     noteableType: 'Commit',
     reportAbusePath: 'reportAbusePath',
+    suggestionsHelpPath: '/help/suggestions',
+    defaultSuggestionCommitMessage: 'Apply suggestion',
     linkedFileData,
   };
 
@@ -203,6 +217,17 @@ describe('discussions adapters', () => {
       expect(
         JSON.parse(document.querySelector('[data-linked-file-data]').dataset.linkedFileData),
       ).toStrictEqual(linkedFileData);
+      expect(
+        JSON.parse(
+          document.querySelector('[data-suggestions-help-path]').dataset.suggestionsHelpPath,
+        ),
+      ).toBe('/help/suggestions');
+      expect(
+        JSON.parse(
+          document.querySelector('[data-default-suggestion-commit-message]').dataset
+            .defaultSuggestionCommitMessage,
+        ),
+      ).toBe('Apply suggestion');
     });
 
     it('mounts discussion row for hidden discussions', async () => {

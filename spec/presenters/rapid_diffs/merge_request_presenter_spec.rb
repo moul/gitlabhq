@@ -297,6 +297,26 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     end
   end
 
+  describe '#suggestions_help_path' do
+    subject(:method) { presenter.suggestions_help_path }
+
+    it { is_expected.to eq('/help/user/project/merge_requests/reviews/suggestions.md') }
+  end
+
+  describe '#default_suggestion_commit_message' do
+    subject(:method) { presenter.default_suggestion_commit_message }
+
+    it 'returns the default message when project has no custom message' do
+      allow(project).to receive(:suggestion_commit_message).and_return(nil)
+      expect(method).to eq(Gitlab::Suggestions::CommitMessage::DEFAULT_SUGGESTION_COMMIT_MESSAGE)
+    end
+
+    it 'returns the project custom message when set' do
+      allow(project).to receive(:suggestion_commit_message).and_return('Custom: %{file_paths}')
+      expect(method).to eq('Custom: %{file_paths}')
+    end
+  end
+
   describe '#noteable_type' do
     subject(:method) { presenter.noteable_type }
 

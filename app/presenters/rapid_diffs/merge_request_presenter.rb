@@ -94,6 +94,15 @@ module RapidDiffs
       help_page_path('user/markdown.md')
     end
 
+    def suggestions_help_path
+      help_page_path('user/project/merge_requests/reviews/suggestions.md')
+    end
+
+    def default_suggestion_commit_message
+      resource.project.suggestion_commit_message.presence ||
+        Gitlab::Suggestions::CommitMessage::DEFAULT_SUGGESTION_COMMIT_MESSAGE
+    end
+
     def register_path
       new_user_registration_path(redirect_to_referer: 'yes')
     end

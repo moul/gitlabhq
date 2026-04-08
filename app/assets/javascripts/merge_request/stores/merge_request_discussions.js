@@ -22,13 +22,14 @@ import {
 import { reactiveOverride } from '~/lib/utils/reactive_proxy';
 
 export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions', () => {
+  const notes = useNotes();
   const diffDiscussions = useDiffDiscussions();
   const versions = useMergeRequestVersions();
   const draftNotes = useMergeRequestDraftNotes();
   const allCommentsReady = ref(false);
 
   async function fetchNotes() {
-    await useNotes().fetchNotes();
+    await notes.fetchNotes();
     const discussionsStore = useDiscussions();
     discussionsStore.discussions.forEach((discussion) => {
       if (discussion.resolvable && discussion.resolved) {
@@ -43,7 +44,6 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   }
 
   async function createNewDiscussion(noteData) {
-    const notes = useNotes();
     await notes.createNewNote({
       endpoint: notes.noteableData.create_note_path,
       data: { note: noteData },
@@ -51,7 +51,6 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   }
 
   async function createLineDiscussion(discussion, noteBody) {
-    const notes = useNotes();
     const { diffRefs } = useMergeRequestVersions();
     await notes.saveNote(
       buildLineDiscussionData({
@@ -66,7 +65,6 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   }
 
   async function createFileDiscussion(discussion, noteBody) {
-    const notes = useNotes();
     const { diffRefs } = useMergeRequestVersions();
     await notes.saveNote(
       buildLineDiscussionData({
@@ -81,7 +79,6 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   }
 
   async function replyToDiscussion(discussion, noteText) {
-    const notes = useNotes();
     const { diffRefs } = useMergeRequestVersions();
     await notes.saveNote(
       buildReplyData({
@@ -94,7 +91,6 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   }
 
   async function saveNote(note, noteText) {
-    const notes = useNotes();
     await notes.updateNote(
       buildUpdateNoteData({
         note,
@@ -105,11 +101,11 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   }
 
   async function destroyNote(note) {
-    await useNotes().deleteNote(note);
+    await notes.deleteNote(note);
   }
 
   async function toggleAwardOnNote(note, name) {
-    await useNotes().toggleAwardRequest({
+    await notes.toggleAwardRequest({
       endpoint: note.toggle_award_path,
       awardName: name,
       noteId: note.id,
@@ -117,7 +113,7 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   }
 
   async function toggleResolveNote(discussion) {
-    await useNotes().toggleResolveNote({
+    await notes.toggleResolveNote({
       endpoint: discussion.resolve_path,
       isResolved: discussion.resolved,
       discussion: true,
@@ -218,9 +214,9 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
       const enriched = all.map((d) => (d.isForm ? d : withDraftReplies(d)));
       const drafts = draftNotes.findDraftsForPosition({ oldPath, newPath, oldLine, newLine });
       if (!drafts.length) return enriched;
-      const notes = enriched.filter((d) => !d.isForm);
+      const discussions = enriched.filter((d) => !d.isForm);
       const forms = enriched.filter((d) => d.isForm);
-      return [...notes, ...drafts, ...forms];
+      return [...discussions, ...drafts, ...forms];
     };
   });
 
@@ -330,5 +326,12 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     expandFileDiscussions: diffDiscussions.expandFileDiscussions,
     addNewFileDiscussionForm,
     removeNewFileDiscussionForm: diffDiscussions.removeNewFileDiscussionForm,
+    submitSuggestion: notes.submitSuggestion,
+    submitSuggestionBatch: notes.submitSuggestionBatch,
+    addSuggestionInfoToBatch: notes.addSuggestionInfoToBatch,
+    removeSuggestionInfoFromBatch: notes.removeSuggestionInfoFromBatch,
+    batchSuggestionsInfo: computed(() => notes.batchSuggestionsInfo),
+    suggestionsCount: computed(() => notes.suggestionsCount),
+    suggestionsFilePaths: computed(() => notes.getSuggestionsFilePaths()),
   };
 });
