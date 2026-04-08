@@ -97,7 +97,9 @@ project:
   - update_saved_replies
   - update_secret_detection_validity_check_status
   - update_sentry_issue
+  - update_vulnerability_flag
   - write_observability
+
 group:
   permissions: []
   raw_permissions:

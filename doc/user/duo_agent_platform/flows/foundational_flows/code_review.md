@@ -14,7 +14,7 @@ title: Code Review Flow
 
 {{< collapsible title="Model information" >}}
 
-- LLM: Anthropic [Claude Sonnet 4 Vertex](https://console.cloud.google.com/vertex-ai/publishers/anthropic/model-garden/claude-sonnet-4)
+- LLM: Anthropic [Claude Sonnet 4.6 Vertex](https://console.cloud.google.com/vertex-ai/publishers/anthropic/model-garden/claude-sonnet-4-6)
 - Available on [GitLab Duo with self-hosted models](../../../../administration/gitlab_duo_self_hosted/_index.md)
 
 {{< /collapsible >}}

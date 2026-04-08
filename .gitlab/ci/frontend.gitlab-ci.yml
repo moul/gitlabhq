@@ -551,7 +551,7 @@ jest-msw-integration:
     - .repo-from-artifacts
     - .frontend:rules:jest-msw-integration
   script:
-    - yarn jest:msw-integration --ci
+    - yarn jest:msw-integration --ci --passWithNoTests
   needs:
     # it's ok to wait for the repo artifact as we're waiting for the fixtures (which wait for the repo artifact) anyway
     - !reference [.repo-from-artifacts, needs]

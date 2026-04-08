@@ -36,7 +36,7 @@ The following table lists the default model for each GitLab Duo feature.
 | Merge Commit Message Generation | Claude Sonnet 4 Vertex|
 | Merge Request Summary | Claude Sonnet 4 Vertex |
 | Code Review Summary | Claude Sonnet 4 Vertex |
-| Code Review | Claude Sonnet 4 Vertex |
+| Code Review | Claude Sonnet 4.6 Vertex |
 | **Other GitLab Duo features** | |
 | Vulnerability Explanation | Claude Sonnet 4.5 Vertex |
 | Vulnerability Resolution | Claude Sonnet 4.5 |

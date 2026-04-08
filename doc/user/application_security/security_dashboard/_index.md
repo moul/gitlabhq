@@ -74,6 +74,9 @@ Both dashboards include:
 - [Charts](#charts)
   - [Vulnerabilities over time](#vulnerabilities-over-time)
   - [Vulnerability severity panels](#vulnerability-severity-panel)
+  - [Risk score](#risk-score-panel)
+  - [Vulnerabilities by age](#vulnerabilities-by-age)
+  - [Top 10 CWEs](#top-10-cwes)
 - [Filter the entire dashboard](#filter-the-entire-dashboard)
 
 To view a security dashboard:
@@ -89,6 +92,7 @@ The project security dashboard shows vulnerabilities detected in the project's d
 - The [**Severity panels**](#vulnerability-severity-panel), which show open vulnerabilities by severity.
 - The [**Risk score**](#risk-score-panel) panel, which shows the overall security risk of the project.
 - The [**Vulnerabilities by age**](#vulnerabilities-by-age) chart, which groups open vulnerabilities by age buckets.
+- The [**Top 10 CWEs**](#top-10-cwes) chart, which shows the 10 most common CWEs.
 
 Open vulnerabilities are those with Needs triage or Confirmed status. Closed vulnerabilities with Dismissed or Resolved status are not included in these charts.
 
@@ -104,6 +108,7 @@ supplies the following:
 - The [**Severity panels**](#vulnerability-severity-panel), which show open vulnerabilities by severity.
 - The [**Risk score**](#risk-score-panel) panel, which shows total risk and risk for each project.
 - The [**Vulnerabilities by age**](#vulnerabilities-by-age) chart, which groups open vulnerabilities by age buckets.
+- The [**Top 10 CWEs**](#top-10-cwes) chart, which shows the 10 most common CWEs.
 
 ### Charts
 
@@ -205,6 +210,26 @@ To view details:
    - **Report type**: SAST, DAST, and dependency scanning and others.
 
 ![vulnerabilities by age](img/vulnerabilities_by_age_chart_v18_9.png)
+
+#### Top 10 CWEs
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/groups/gitlab-org/-/work_items/17422) in GitLab 18.11 [with a feature flag](../../../administration/feature_flags/_index.md) named `new_security_dashboard_vulnerabilities_by_identifier`. Enabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag. For more information, see the history.
+
+The **Top 10 CWEs** chart is available on group and project dashboards. It shows the 10 most common CWE identifiers associated with the open vulnerabilities in the group or project.
+
+To view details:
+
+1. Hover over a data point to see the total number of vulnerabilities of each CWE type.
+1. Use the dropdown list to filter by **Severity** (for example, **Critical**, **Medium**, or **High**).
+
+![top 10 CWEs](img/group_security_dashboard_top_10_cwes_v18_11.png)
 
 ### Filter the entire dashboard
 

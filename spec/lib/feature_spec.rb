@@ -351,6 +351,10 @@ RSpec.describe Feature, :clean_gitlab_redis_feature_flag, stub_feature_flags: fa
         expect(described_class.logged_states).to have_key(:enabled_feature_flag)
         expect(described_class.logged_states[:enabled_feature_flag]).to be_truthy
       end
+
+      it 'formats logged states as key:value strings' do
+        expect(described_class.logged_states_for_log).to include('enabled_feature_flag:1')
+      end
     end
 
     context 'cached feature flag', :request_store do
