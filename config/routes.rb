@@ -134,7 +134,8 @@ InitializerConnections.warn_if_database_connection do
         end
 
         # sandbox
-        get '/sandbox/mermaid' => 'sandbox#mermaid'
+        get '/sandbox/mermaid_v10' => 'sandbox#mermaid_v10'
+        get '/sandbox/mermaid_v11' => 'sandbox#mermaid_v11'
         get '/sandbox/swagger' => 'sandbox#swagger'
 
         get '/:model/:model_id/uploads/:secret/:filename',

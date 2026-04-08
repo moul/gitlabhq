@@ -5070,6 +5070,35 @@ Input type: `BulkRunnerDeleteInput`
 | <a id="mutation-bulkrunnerdelete-deletedids"></a>`deletedIds` | [`[CiRunnerID!]`](#cirunnerid) | IDs of records effectively deleted. Only present if operation was performed synchronously. |
 | <a id="mutation-bulkrunnerdelete-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 
+### `Mutation.bulkSetVulnerabilityFindingsDueDates`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Bulk set due dates for vulnerability findings using individual UUID entries.
+This operation is best-effort: valid updates are applied even if some fail.
+
+Input type: `BulkSetVulnerabilityFindingsDueDatesInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-bulksetvulnerabilityfindingsduedates-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-bulksetvulnerabilityfindingsduedates-projectfullpath"></a>`projectFullPath` | [`String!`](#string) | Full path of the project. |
+| <a id="mutation-bulksetvulnerabilityfindingsduedates-updates"></a>`updates` | [`[FindingDueDatesSetInput!]!`](#findingduedatessetinput) | List of finding UUIDs with due dates. A maximum of 1000 updates is allowed per request. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-bulksetvulnerabilityfindingsduedates-assigned"></a>`assigned` | [`Int`](#int) | Number of findings for which a due date was successfully assigned. |
+| <a id="mutation-bulksetvulnerabilityfindingsduedates-errors"></a>`errors` | [`[FindingDueDatesSetError!]!`](#findingduedatesseterror) | Errors encountered during the mutation. A maximum of 1000 errors are returned per request. |
+| <a id="mutation-bulksetvulnerabilityfindingsduedates-removed"></a>`removed` | [`Int`](#int) | Number of findings for which a due date was successfully removed. |
+| <a id="mutation-bulksetvulnerabilityfindingsduedates-skipped"></a>`skipped` | [`Int`](#int) | Number of findings that were skipped due to errors or not found. |
+
 ### `Mutation.bulkUpdateSecurityAttributes`
 
 Input type: `BulkUpdateSecurityAttributesInput`
@@ -35885,6 +35914,29 @@ Describes an external status check.
 | <a id="fileupload-path"></a>`path` | [`String!`](#string) | Path of the upload. |
 | <a id="fileupload-size"></a>`size` | [`Int!`](#int) | Size of the upload in bytes. |
 
+### `FindingDueDatesSetError`
+
+Represents an error encountered while setting due dates for a vulnerability finding.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="findingduedatesseterror-code"></a>`code` | [`String!`](#string) | Machine-readable error code. |
+| <a id="findingduedatesseterror-findinguuid"></a>`findingUuid` | [`String`](#string) | UUID of the vulnerability finding associated with the error. |
+| <a id="findingduedatesseterror-message"></a>`message` | [`String!`](#string) | Human-readable error message. |
+
+### `FindingDueDatesSetPayload`
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="findingduedatessetpayload-assigned"></a>`assigned` | [`Int`](#int) | Number of findings for which a due date was successfully assigned. |
+| <a id="findingduedatessetpayload-errors"></a>`errors` | [`[FindingDueDatesSetError!]!`](#findingduedatesseterror) | Errors encountered during the mutation. A maximum of 1000 errors are returned per request. |
+| <a id="findingduedatessetpayload-removed"></a>`removed` | [`Int`](#int) | Number of findings for which a due date was successfully removed. |
+| <a id="findingduedatessetpayload-skipped"></a>`skipped` | [`Int`](#int) | Number of findings that were skipped due to errors or not found. |
+
 ### `FindingReportsComparer`
 
 Represents security reports comparison for vulnerability findings.
@@ -38405,6 +38457,7 @@ Returns [`SecurityMetrics`](#securitymetrics).
 | <a id="group-securitymetrics-projectid"></a>`projectId` | [`[ID!]`](#id) | Filter by project IDs in a group. This argument is ignored when we are querying for a project. |
 | <a id="group-securitymetrics-reporttype"></a>`reportType` | [`[VulnerabilityReportType!]`](#vulnerabilityreporttype) | Filter by report types. |
 | <a id="group-securitymetrics-securityattributesfilters"></a>`securityAttributesFilters` {{< icon name="warning-solid" >}} | [`[AttributeFilterInput!]`](#attributefilterinput) | **Introduced** in GitLab 18.8. **Status**: Experiment. Filter by security attributes. |
+| <a id="group-securitymetrics-trackedrefids"></a>`trackedRefIds` {{< icon name="warning-solid" >}} | [`[SecurityProjectTrackedContextID!]`](#securityprojecttrackedcontextid) | **Introduced** in GitLab 18.11. **Status**: Experiment. Filter by tracked ref IDs. This argument is ignored when querying for a group. To use this argument, you must have advanced search configured, advanced vulnerability management set up and `vulnerabilities_across_contexts` feature flag enabled. |
 
 ##### `Group.securityPolicies`
 
@@ -48001,6 +48054,7 @@ Returns [`SecurityMetrics`](#securitymetrics).
 | <a id="project-securitymetrics-projectid"></a>`projectId` | [`[ID!]`](#id) | Filter by project IDs in a group. This argument is ignored when we are querying for a project. |
 | <a id="project-securitymetrics-reporttype"></a>`reportType` | [`[VulnerabilityReportType!]`](#vulnerabilityreporttype) | Filter by report types. |
 | <a id="project-securitymetrics-securityattributesfilters"></a>`securityAttributesFilters` {{< icon name="warning-solid" >}} | [`[AttributeFilterInput!]`](#attributefilterinput) | **Introduced** in GitLab 18.8. **Status**: Experiment. Filter by security attributes. |
+| <a id="project-securitymetrics-trackedrefids"></a>`trackedRefIds` {{< icon name="warning-solid" >}} | [`[SecurityProjectTrackedContextID!]`](#securityprojecttrackedcontextid) | **Introduced** in GitLab 18.11. **Status**: Experiment. Filter by tracked ref IDs. This argument is ignored when querying for a group. To use this argument, you must have advanced search configured, advanced vulnerability management set up and `vulnerabilities_across_contexts` feature flag enabled. |
 
 ##### `Project.securityPolicies`
 
@@ -63898,6 +63952,15 @@ Represents an escalation rule.
 | <a id="escalationruleinput-oncallscheduleiid"></a>`oncallScheduleIid` | [`ID`](#id) | On-call schedule to notify. |
 | <a id="escalationruleinput-status"></a>`status` | [`EscalationRuleStatus!`](#escalationrulestatus) | Status required to prevent the rule from activating. |
 | <a id="escalationruleinput-username"></a>`username` | [`String`](#string) | Username of the user to notify. |
+
+### `FindingDueDatesSetInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="findingduedatessetinput-duedate"></a>`dueDate` | [`Date`](#date) | Due date for the finding. Pass null to remove. |
+| <a id="findingduedatessetinput-findinguuid"></a>`findingUuid` | [`String!`](#string) | UUID of the vulnerability finding. |
 
 ### `GoogleCloudNodePool`
 

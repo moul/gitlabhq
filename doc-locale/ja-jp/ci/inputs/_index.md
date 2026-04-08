@@ -219,7 +219,8 @@ test_job:
 
 {{< /history >}}
 
-> [!flag]この機能の利用は機能フラグによって制御されています。詳細については、履歴を参照してください。この機能はテストには利用できますが、本番環境での使用には適していません。
+> [!flag]
+> この機能の利用は機能フラグによって制御されています。詳細については、履歴を参照してください。この機能はテストには利用できますが、本番環境での使用には適していません。
 
 ブラケット表記とインデックス番号を使用して、配列入力の個々の要素にアクセスします。配列項目は、YAML配列で定義された順序でプラスの数値でインデックス付けされ、`[0]`のインデックス項目が配列の最初の項目になります。
 
@@ -509,7 +510,8 @@ include:
 
 インプットは、型チェック、検証、明確なコントラクトなど、変数よりも利点があります。予期しないインプットは拒否されます。パイプライン用のインプットは、メイン設定ファイルである`.gitlab-ci.yml`の[`spec:inputs`ヘッダー](#define-input-parameters-with-specinputs)で定義する必要があります。パイプラインレベルの設定にはインクルードされたファイルで定義されたインプットを使用することはできません。
 
-> [!note] [GitLab 17.7](../../update/deprecations.md#increased-default-security-for-use-of-pipeline-variables)以降では、[パイプライン変数](../variables/_index.md#use-pipeline-variables)を渡すのではなくパイプラインインプットを使用することが推奨されます。セキュリティを強化するには、インプットを使用する際に[パイプライン変数を無効にする](../variables/_index.md#restrict-pipeline-variables)必要があります。
+> [!note]
+> [GitLab 17.7](../../update/deprecations.md#increased-default-security-for-use-of-pipeline-variables)以降では、[パイプライン変数](../variables/_index.md#use-pipeline-variables)を渡すのではなくパイプラインインプットを使用することが推奨されます。セキュリティを強化するには、インプットを使用する際に[パイプライン変数を無効にする](../variables/_index.md#restrict-pipeline-variables)必要があります。
 
 パイプライン用のインプットを定義する際は、常にデフォルト値を設定する必要があります。そうしないと、新しいパイプラインが自動的にトリガーされる場合、パイプラインが起動に失敗する可能性があります。たとえば、マージリクエストパイプラインは、マージリクエストのソースブランチへの変更に対してトリガーされる可能性があります。マージリクエストパイプラインに対して手動でインプットを設定することはできないため、デフォルトが欠けているインプットがあると、パイプラインの作成に失敗します。これは、ブランチパイプライン、タグパイプライン、およびその他の自動的にトリガーされるパイプラインでも発生する可能性があります。
 
@@ -618,7 +620,8 @@ spec:
 ---
 ```
 
-> [!note] `spec:include`は、[CI/CDコンポーネント](../components/_index.md#component-spec-section)入力には使用できません。
+> [!note]
+> `spec:include`は、[CI/CDコンポーネント](../components/_index.md#component-spec-section)入力には使用できません。
 
 #### 外部ファイルからのオーバーライド入力 {#override-inputs-from-an-external-file}
 
@@ -760,7 +763,8 @@ A string with single ' and double " quotes and   blanks
 
 エスケープされたインプットは、指定されたとおりに特殊文字とスペースを保持します。
 
-> [!warning]信頼できないインプット値を扱う際のセキュリティ対策として`posix_escape`に依存するのは避けてください。
+> [!warning]
+> 信頼できないインプット値を扱う際のセキュリティ対策として`posix_escape`に依存するのは避けてください。
 
 `posix_escape`は、インプット値を正確に保持するために最善を尽くしますが、一部の文字の組み合わせは、予期しない結果を引き起こす可能性があります。`posix_escape`を使用している場合でも、次のことが可能です:
 

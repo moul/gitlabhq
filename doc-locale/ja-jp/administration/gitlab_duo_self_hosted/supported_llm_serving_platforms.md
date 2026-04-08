@@ -138,7 +138,8 @@ curl \
 
 本番環境でvLLMを実行する場合、`--disable-log-requests`フラグを使用してリクエストログを無効にすると、レイテンシーを大幅に削減できます。
 
-> [!note] このフラグは、詳細なリクエストログを必要としない場合にのみ使用してください。
+> [!note]
+> このフラグは、詳細なリクエストログを必要としない場合にのみ使用してください。
 
 リクエストログを無効にすると、特に高負荷時に冗長なログによって発生するオーバーヘッドが最小限に抑えられ、パフォーマンスレベルの向上に役立ちます。
 
@@ -211,7 +212,8 @@ IRSAを使用してAmazon EKSを認証するには:
    ]
    ```
 
-   > [!note]一部のモデルは異なるARN形式を使用する場合があります。たとえば、新しいモデルでは、基盤モデルのARNに加えて、推論プロファイルのARNが必要になる場合があります。特定のモデルのARN形式を確認するには、[Amazon Bedrock model IDs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html)を参照してください。
+   > [!note]
+   > 一部のモデルは異なるARN形式を使用する場合があります。たとえば、新しいモデルでは、基盤モデルのARNに加えて、推論プロファイルのARNが必要になる場合があります。特定のモデルのARN形式を確認するには、[Amazon Bedrock model IDs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html)を参照してください。
 
 1. Amazon EKSサービスアカウントが使用する信頼ポリシーを持つIAMロールを作成します。次の値を置き換えます:
 

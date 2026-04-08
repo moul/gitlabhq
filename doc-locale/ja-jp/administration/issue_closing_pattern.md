@@ -13,7 +13,8 @@ title: イシューのクローズパターン
 
 {{< /details >}}
 
-> [!note] イシューのクローズパターンに関するユーザードキュメントについては、[イシューを自動的にクローズする](../user/project/issues/managing_issues.md#closing-issues-automatically)を参照してください。
+> [!note]
+> イシューのクローズパターンに関するユーザードキュメントについては、[イシューを自動的にクローズする](../user/project/issues/managing_issues.md#closing-issues-automatically)を参照してください。
 
 コミットまたはマージリクエストが1つ以上のイシューを解決する場合、GitLabは、コミットまたはマージリクエストがプロジェクトのデフォルトブランチに着地したときに、それらのイシューをクローズできます。[デフォルトイシューのクローズパターン](../user/project/issues/managing_issues.md#default-closing-pattern)は広範な単語をカバーしており、管理者は必要に応じて単語リストを設定できます。
 

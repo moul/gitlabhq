@@ -41,7 +41,8 @@ CI/CD変数およびRunner認証のようなケースでは、次のような予
 
 失われたシークレットファイルを回避するには、GitLabデータを直接変更する必要があります。
 
-> [!warning]変更を試みる前に、必ず完全なデータベースバックアップを作成してください。
+> [!warning]
+> 変更を試みる前に、必ず完全なデータベースバックアップを作成してください。
 
 ### ユーザーの2要素認証（2FA）を無効にする {#disable-user-two-factor-authentication-2fa}
 
@@ -106,7 +107,8 @@ CI/CD変数およびRunner認証のようなケースでは、次のような予
 
 1. プロジェクト、グループ、およびインスタンス全体のすべてのトークンをクリアします:
 
-   > [!warning]最終的な`UPDATE`操作は、Runnerが新しいジョブを受け取れないようにします。新しいRunnerを登録する必要があります。
+   > [!warning]
+   > 最終的な`UPDATE`操作は、Runnerが新しいジョブを受け取れないようにします。新しいRunnerを登録する必要があります。
 
    ```sql
    -- Clear project tokens
@@ -266,7 +268,8 @@ Problem: <class 'OSError: [Errno 36] File name too long:
 
 1. これらのファイルを削除し、参照されていないすべてのアップロードファイルを削除してもよろしければ、次を実行します:
 
-   > [!warning]次の操作は元に戻せません。
+   > [!warning]
+   > 次の操作は元に戻せません。
 
    ```shell
    bundle exec rake gitlab:cleanup:remote_upload_files RAILS_ENV=production DRY_RUN=false
@@ -386,7 +389,8 @@ Problem: <class 'OSError: [Errno 36] File name too long:
 
 1. 前のクエリからの新しいファイル名が期待されるものであることを検証します。前の手順で見つかったレコードを246文字に切り詰めることを確実にする場合は、次を実行します:
 
-   > [!warning]次の操作は元に戻せません。
+   > [!warning]
+   > 次の操作は元に戻せません。
 
    ```sql
    CREATE TEMP TABLE uploads_with_long_filenames AS

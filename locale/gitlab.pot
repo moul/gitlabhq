@@ -63151,9 +63151,6 @@ msgstr ""
 msgid "SecurityOrchestration|%{cadence} on %{branches}%{timeWindowInfo}%{branchExceptionsString}"
 msgstr ""
 
-msgid "SecurityOrchestration|%{count} pipelines/hour"
-msgstr ""
-
 msgid "SecurityOrchestration|%{hours}"
 msgstr ""
 
@@ -63626,6 +63623,9 @@ msgstr ""
 msgid "SecurityOrchestration|Drag with a mouse to adjust editor's width"
 msgstr ""
 
+msgid "SecurityOrchestration|Duration: %{duration}"
+msgstr ""
+
 msgid "SecurityOrchestration|EPSS score is greater than %{value}"
 msgstr ""
 
@@ -63701,6 +63701,9 @@ msgstr ""
 msgid "SecurityOrchestration|Enter up to %{maxBranches} branch names, separated by commas."
 msgstr ""
 
+msgid "SecurityOrchestration|Error: %{error}"
+msgstr ""
+
 msgid "SecurityOrchestration|Every time a pipeline runs for %{branches}%{pipelineSource}%{branchExceptionsString}"
 msgstr ""
 
@@ -63717,9 +63720,6 @@ msgid "SecurityOrchestration|Exception branches"
 msgstr ""
 
 msgid "SecurityOrchestration|Excluded projects"
-msgstr ""
-
-msgid "SecurityOrchestration|Execution time: %{time}"
 msgstr ""
 
 msgid "SecurityOrchestration|Exploit settings"
@@ -63977,6 +63977,9 @@ msgstr ""
 msgid "SecurityOrchestration|No tags available"
 msgstr ""
 
+msgid "SecurityOrchestration|No test runs found for this policy."
+msgstr ""
+
 msgid "SecurityOrchestration|Non-existing DAST profiles have been detected in the policy yaml. As a result, rule mode has been disabled. To enable rule mode, remove those non-existing profiles from the policy yaml."
 msgstr ""
 
@@ -64115,6 +64118,9 @@ msgid "SecurityOrchestration|Prevent users from skipping pipelines"
 msgstr ""
 
 msgid "SecurityOrchestration|Project cannot be deleted because it is linked as a security policy project"
+msgstr ""
+
+msgid "SecurityOrchestration|Project: %{project}"
 msgstr ""
 
 msgid "SecurityOrchestration|Provide a detailed justification for policy bypass."
@@ -64437,6 +64443,12 @@ msgstr ""
 msgid "SecurityOrchestration|Standard roles"
 msgstr ""
 
+msgid "SecurityOrchestration|Started: %{time}"
+msgstr ""
+
+msgid "SecurityOrchestration|State: %{state}"
+msgstr ""
+
 msgid "SecurityOrchestration|Status"
 msgstr ""
 
@@ -64453,6 +64465,15 @@ msgid "SecurityOrchestration|Technical limitation"
 msgstr ""
 
 msgid "SecurityOrchestration|Template"
+msgstr ""
+
+msgid "SecurityOrchestration|Test complete"
+msgstr ""
+
+msgid "SecurityOrchestration|Test failed"
+msgstr ""
+
+msgid "SecurityOrchestration|Test running"
 msgstr ""
 
 msgid "SecurityOrchestration|Test runs"
@@ -64492,6 +64513,9 @@ msgid "SecurityOrchestration|The schedule is snoozed until %{until}."
 msgstr ""
 
 msgid "SecurityOrchestration|The security findings remain in their current status and are still visible, but will no longer block the merge request."
+msgstr ""
+
+msgid "SecurityOrchestration|The test run failed for an unspecified reason. Please try again."
 msgstr ""
 
 msgid "SecurityOrchestration|There are no exception branches yet."
@@ -65085,6 +65109,9 @@ msgstr ""
 msgid "SecurityProfiles|Coverage may be outdated"
 msgstr ""
 
+msgid "SecurityProfiles|Dependency Scanning"
+msgstr ""
+
 msgid "SecurityProfiles|Disable"
 msgstr ""
 
@@ -65143,6 +65170,9 @@ msgstr ""
 msgid "SecurityProfiles|SAST"
 msgstr ""
 
+msgid "SecurityProfiles|Scans your project's dependencies for known vulnerabilities to identify security risks introduced by third-party packages. %{linkStart}Learn more%{linkEnd}."
+msgstr ""
+
 msgid "SecurityProfiles|Scans your source code using GitLab-managed rules to identify common vulnerabilities like injection flaws and hardcoded secrets. %{linkStart}Learn more%{linkEnd}."
 msgstr ""
 
@@ -65168,6 +65198,9 @@ msgid "SecurityProfiles|View job #"
 msgstr ""
 
 msgid "SecurityProfiles|What are configuration profiles?"
+msgstr ""
+
+msgid "SecurityProfiles|What is Dependency Scanning?"
 msgstr ""
 
 msgid "SecurityProfiles|What is SAST?"

@@ -17,8 +17,9 @@ RSpec.describe 'Sandboxed Mermaid rendering', :js, feature_category: :markdown d
   end
 
   let(:expected) do
-    src = "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}/-/sandbox/mermaid"
-    %(<iframe src="#{src}" sandbox="allow-scripts allow-popups" frameborder="0" scrolling="no")
+    src_prefix = "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}" \
+      '/-/sandbox/mermaid_v'
+    %r{<iframe src="#{Regexp.escape(src_prefix)}\d+" sandbox="allow-scripts allow-popups"}
   end
 
   context 'in an issue' do
@@ -29,7 +30,7 @@ RSpec.describe 'Sandboxed Mermaid rendering', :js, feature_category: :markdown d
 
       wait_for_requests
 
-      expect(page.html).to include(expected)
+      expect(page.html).to match(expected)
     end
   end
 
@@ -50,7 +51,7 @@ RSpec.describe 'Sandboxed Mermaid rendering', :js, feature_category: :markdown d
       wait_for_requests
 
       page.within('.merge-request') do
-        expect(page.html).to include(expected)
+        expect(page.html).to match(expected)
       end
     end
   end
@@ -64,7 +65,7 @@ RSpec.describe 'Sandboxed Mermaid rendering', :js, feature_category: :markdown d
 
       wait_for_requests
 
-      expect(page.html).to include(expected)
+      expect(page.html).to match(expected)
     end
   end
 
@@ -87,7 +88,7 @@ RSpec.describe 'Sandboxed Mermaid rendering', :js, feature_category: :markdown d
         # it can be a flaky test, similar to
         # https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25408
         #
-        expect(page.html).to include(expected)
+        expect(page.html).to match(expected)
       end
     end
   end
@@ -100,7 +101,24 @@ RSpec.describe 'Sandboxed Mermaid rendering', :js, feature_category: :markdown d
 
       wait_for_requests
 
-      expect(page.html).to include(expected)
+      expect(page.html).to match(expected)
+    end
+  end
+
+  context 'with use_mermaid_v11 disabled' do
+    let(:issue) { create(:issue, project: project, description: description) }
+
+    before do
+      stub_feature_flags(use_mermaid_v11: false)
+    end
+
+    it 'uses the mermaid v10 sandbox' do
+      visit project_issue_path(project, issue)
+
+      wait_for_requests
+
+      expect(page.html).to include('/-/sandbox/mermaid_v10')
+      expect(page.html).not_to include('/-/sandbox/mermaid_v11')
     end
   end
 end

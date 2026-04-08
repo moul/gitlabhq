@@ -113,6 +113,13 @@ export default defineConfig({
         find: '~katex',
         replacement: 'katex',
       },
+      {
+        // Mermaid v10's mindmap chunk imports cytoscape's UMD build directly, but
+        // that subpath only has a "require" export condition. Redirect to the ESM
+        // build so Vite's dep optimizer can pre-bundle it.
+        find: 'cytoscape/dist/cytoscape.umd.js',
+        replacement: 'cytoscape/dist/cytoscape.esm.mjs',
+      },
       /*
        Alias for GitLab Fonts
        If we were to import directly from node_modules,

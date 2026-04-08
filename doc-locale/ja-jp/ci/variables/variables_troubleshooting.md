@@ -44,7 +44,8 @@ export CI_PROJECT_TITLE="GitLab"
 
 ## デバッグロギングを有効にする {#enable-debug-logging}
 
-> [!warning]デバッグロギングは重大なセキュリティリスクとなる可能性があります。出力には、ジョブで使用できるすべての変数のコンテンツが含まれます。この出力はGitLabサーバーにアップロードされ、ジョブログに表示されます。
+> [!warning]
+> デバッグロギングは重大なセキュリティリスクとなる可能性があります。出力には、ジョブで使用できるすべての変数のコンテンツが含まれます。この出力はGitLabサーバーにアップロードされ、ジョブログに表示されます。
 
 デバッグログを使用すると、パイプライン設定またはジョブスクリプトの問題のトラブルシューティングに役立ちます。デバッグログは、通常はRunnerによって非表示になっているジョブ実行の詳細を公開し、ジョブログをより詳細にします。また、ジョブで使用できるすべての変数とシークレットも公開します。
 
@@ -142,7 +143,8 @@ if [[ -d "/builds/gitlab-examples/ci-debug-trace/.git" ]]; then
 - [`.gitlab-ci.yml` ファイル](_index.md#define-a-cicd-variable-in-the-gitlab-ciyml-file)。
 - GitLab UIで設定されたCI/CD変数。
 
-> [!warning] `CI_DEBUG_TRACE`をRunnerのローカル変数として追加した場合、デバッグジョブログが生成され、ジョブログにアクセスできるすべてのユーザーに表示されます。権限レベルはRunnerによってチェックされないため、GitLab自体でのみ変数を使用する必要があります。
+> [!warning]
+> `CI_DEBUG_TRACE`をRunnerのローカル変数として追加した場合、デバッグジョブログが生成され、ジョブログにアクセスできるすべてのユーザーに表示されます。権限レベルはRunnerによってチェックされないため、GitLab自体でのみ変数を使用する必要があります。
 
 ## エラー: `argument list too long` {#argument-list-too-long-error}
 

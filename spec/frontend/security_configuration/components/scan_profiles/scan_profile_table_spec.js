@@ -63,6 +63,11 @@ describe('ScanProfileTable', () => {
       expect(wrapper.text()).toContain('Secret Detection');
     });
 
+    it('renders Dependency Scanning scanner type', () => {
+      expect(wrapper.text()).toContain('DS');
+      expect(wrapper.text()).toContain('Dependency Scanning');
+    });
+
     it('renders "No profile applied"', () => {
       expect(wrapper.text()).toContain('No profile applied');
     });

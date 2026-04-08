@@ -89,6 +89,7 @@ describe('lineLinkAdapter', () => {
     document.addEventListener(
       'click',
       (event) => {
+        event.preventDefault();
         clickEvent = event;
       },
       { once: true },

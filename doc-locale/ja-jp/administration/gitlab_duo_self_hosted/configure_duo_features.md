@@ -47,7 +47,8 @@ GitLabインスタンスとローカルAIゲートウェイ間のアクセスを
 1. **ローカルAIゲートウェイURL**に、AIゲートウェイURLを入力します。
 1. **変更を保存**を選択します。
 
-> [!note] AIゲートウェイURLがローカルネットワークまたはプライベートIPアドレス（例 `172.31.x.x`や`ip-172-xx-xx-xx.region.compute.internal`のような内部ホスト名）を指している場合、GitLabはセキュリティ上の理由からリクエストをブロックする可能性があります。このアドレスへのリクエストを許可するには、[アドレスをIP許可リストに追加](../../security/webhooks.md#allow-outbound-requests-to-certain-ip-addresses-and-domains)します。
+> [!note]
+> AIゲートウェイURLがローカルネットワークまたはプライベートIPアドレス（例 `172.31.x.x`や`ip-172-xx-xx-xx.region.compute.internal`のような内部ホスト名）を指している場合、GitLabはセキュリティ上の理由からリクエストをブロックする可能性があります。このアドレスへのリクエストを許可するには、[アドレスをIP許可リストに追加](../../security/webhooks.md#allow-outbound-requests-to-certain-ip-addresses-and-domains)します。
 
 ### AIゲートウェイのタイムアウトを設定する {#configure-timeout-for-the-ai-gateway}
 
@@ -164,7 +165,8 @@ Amazon Bedrockモデルのモデル識別子を設定するには:
 
 ## セルフホストベータモデルと機能をオンにする {#turn-on-self-hosted-beta-models-and-features}
 
-> [!note] ベータ版のセルフホストモデルと機能をオンにすると、[GitLabテスト規約](https://handbook.gitlab.com/handbook/legal/testing-agreement/)にも同意したことになります。
+> [!note]
+> ベータ版のセルフホストモデルと機能をオンにすると、[GitLabテスト規約](https://handbook.gitlab.com/handbook/legal/testing-agreement/)にも同意したことになります。
 
 セルフホストベータモデルと機能を有効にするには:
 
@@ -196,7 +198,8 @@ Amazon Bedrockモデルのモデル識別子を設定するには:
 1. **AIネイティブ機能**タブを選択します。
 1. セルフホストモデルを選択したい機能について、ドロップダウンリストからモデルを選択します。
 
-> [!note] GitLab Duo Chatのサブ機能にモデルを指定しない場合、**General Chat**に設定されているモデルが自動的に使用されます。これにより、サブ機能ごとに個別のモデルを選択する必要なく、すべてのチャット機能が動作します。
+> [!note]
+> GitLab Duo Chatのサブ機能にモデルを指定しない場合、**General Chat**に設定されているモデルが自動的に使用されます。これにより、サブ機能ごとに個別のモデルを選択する必要なく、すべてのチャット機能が動作します。
 
 ### 機能のGitLabマネージドモデルを選択する {#select-a-gitlab-managed-model-for-a-feature}
 

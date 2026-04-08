@@ -113,6 +113,7 @@ class Groups::ApplicationController < ApplicationController
     push_namespace_setting(:math_rendering_limits_enabled, @group)
     push_force_frontend_feature_flag(:allow_iframes_in_markdown,
       @group&.allow_iframes_in_markdown_feature_flag_enabled? == true)
+    push_frontend_feature_flag(:use_mermaid_v11, @group)
   end
 end
 

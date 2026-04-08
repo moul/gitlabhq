@@ -27,7 +27,8 @@ title: コードレビューフロー
 
 {{< /history >}}
 
-> [!note]アドオンによっては、代わりにGitLab Duoコードレビューにアクセスできる場合があります。[2つの機能の比較説明](../../../project/merge_requests/duo_in_merge_requests.md#use-gitlab-duo-to-review-your-code)をご覧ください。
+> [!note]
+> アドオンによっては、代わりにGitLab Duoコードレビューにアクセスできる場合があります。[2つの機能の比較説明](../../../project/merge_requests/duo_in_merge_requests.md#use-gitlab-duo-to-review-your-code)をご覧ください。
 
 コードレビューフローは、エージェント型AIを活用してコードレビューを効率化します。
 

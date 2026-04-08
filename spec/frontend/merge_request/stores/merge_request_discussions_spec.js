@@ -39,6 +39,10 @@ describe('mergeRequestDiscussions store', () => {
     useMergeRequestDraftNotes.mockReturnValue(mockDraftNotes);
     mockNotesStore = {
       fetchNotes: jest.fn().mockResolvedValue(),
+      fetchNotesPromise: null,
+      // eslint-disable-next-line no-empty-function
+      fetchNotesBatches: jest.fn(async function* generator() {}),
+      addOrUpdateDiscussions: jest.fn(),
       createNewNote: jest.fn().mockResolvedValue({ id: 'new-1' }),
       saveNote: jest.fn().mockResolvedValue(),
       replyToDiscussion: jest.fn().mockResolvedValue({ discussion: { id: 'disc-1' } }),
@@ -134,26 +138,59 @@ describe('mergeRequestDiscussions store', () => {
   });
 
   describe('fetchNotes', () => {
-    it('delegates to the legacy notes store', async () => {
-      await store.fetchNotes();
-      expect(mockNotesStore.fetchNotes).toHaveBeenCalled();
+    describe('when fetchNotesPromise is not set (generator path)', () => {
+      const batch1 = [{ id: 'disc-1' }];
+      const batch2 = [{ id: 'disc-2' }];
+
+      beforeEach(() => {
+        mockNotesStore.fetchNotesPromise = null;
+        mockNotesStore.fetchNotesBatches = jest.fn(async function* generator() {
+          yield batch1;
+          yield batch2;
+        });
+        mockNotesStore.addOrUpdateDiscussions = jest.fn();
+      });
+
+      it('iterates batches and adds discussions to the store', async () => {
+        await store.fetchNotes();
+        expect(mockNotesStore.addOrUpdateDiscussions).toHaveBeenCalledWith(batch1);
+        expect(mockNotesStore.addOrUpdateDiscussions).toHaveBeenCalledWith(batch2);
+      });
+
+      it('collapses resolved discussions after each batch', async () => {
+        const resolvedDiscussion = { id: '1', resolvable: true, resolved: true };
+        const unresolvedDiscussion = { id: '2', resolvable: true, resolved: false };
+        useDiscussions().discussions = [resolvedDiscussion, unresolvedDiscussion];
+
+        await store.fetchNotes();
+
+        expect(resolvedDiscussion).toMatchObject({ hidden: true });
+        expect(unresolvedDiscussion).not.toHaveProperty('hidden');
+      });
     });
 
-    it('marks resolved discussions as hidden after fetching', async () => {
-      const resolvedDiscussion = { id: '1', resolvable: true, resolved: true };
-      const unresolvedDiscussion = { id: '2', resolvable: true, resolved: false };
-      const nonResolvableDiscussion = { id: '3', resolvable: false };
-      useDiscussions().discussions = [
-        resolvedDiscussion,
-        unresolvedDiscussion,
-        nonResolvableDiscussion,
-      ];
+    describe('when fetchNotesPromise is already set (await path)', () => {
+      it('awaits existing promise and collapses resolved discussions', async () => {
+        mockNotesStore.fetchNotesPromise = Promise.resolve();
 
-      await store.fetchNotes();
+        const resolvedDiscussion = { id: '1', resolvable: true, resolved: true };
+        const nonResolvableDiscussion = { id: '3', resolvable: false };
+        useDiscussions().discussions = [resolvedDiscussion, nonResolvableDiscussion];
 
-      expect(resolvedDiscussion).toMatchObject({ hidden: true });
-      expect(unresolvedDiscussion).not.toHaveProperty('hidden');
-      expect(nonResolvableDiscussion).not.toHaveProperty('hidden');
+        await store.fetchNotes();
+
+        expect(resolvedDiscussion).toMatchObject({ hidden: true });
+        expect(nonResolvableDiscussion).not.toHaveProperty('hidden');
+      });
+
+      it('does not call fetchNotesBatches', async () => {
+        mockNotesStore.fetchNotesPromise = Promise.resolve();
+        mockNotesStore.fetchNotesBatches = jest.fn();
+
+        await store.fetchNotes();
+
+        expect(mockNotesStore.fetchNotesBatches).not.toHaveBeenCalled();
+      });
     });
   });
 

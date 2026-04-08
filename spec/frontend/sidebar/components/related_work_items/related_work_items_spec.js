@@ -26,6 +26,7 @@ const mockLinkedItem = ({ title, linkType }) => {
       id: `gid://gitlab/WorkItem/${workItemCounter + 100}`,
       iid: String(workItemCounter),
       title,
+      webUrl: `/group/project/-/work_items/${workItemCounter}`,
       webPath: `/group/project/-/work_items/${workItemCounter}`,
       namespace: {
         id: 'gid://gitlab/Project/7',

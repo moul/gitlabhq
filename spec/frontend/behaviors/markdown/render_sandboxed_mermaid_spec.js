@@ -29,6 +29,7 @@ describe('Mermaid diagrams renderer', () => {
 
   beforeEach(() => {
     document.body.dataset.page = '';
+    window.gon = { features: {} };
     jest.clearAllMocks();
   });
 
@@ -162,6 +163,29 @@ describe('Mermaid diagrams renderer', () => {
 
       expect(findMermaidIframes()).toHaveLength(0);
     });
+  });
+
+  describe('mermaid v11 feature flag', () => {
+    beforeEach(() => {
+      setHTMLFixture(
+        '<div class="gl-relative markdown-code-block js-markdown-code"><pre><code class="js-render-mermaid">graph LR</code></pre></div>',
+      );
+    });
+
+    it.each`
+      useMermaidV11 | iframeSrcContains
+      ${false}      | ${'/-/sandbox/mermaid_v10'}
+      ${true}       | ${'/-/sandbox/mermaid_v11'}
+    `(
+      'uses a sandbox path containing $iframeSrcContains when useMermaidV11 is set to $useMermaidV11',
+      ({ useMermaidV11, iframeSrcContains }) => {
+        window.gon.features.useMermaidV11 = useMermaidV11;
+        renderDiagrams();
+
+        const iframe = findMermaidIframes()[0];
+        expect(iframe.src).toContain(iframeSrcContains);
+      },
+    );
   });
 
   describe('resize handling', () => {

@@ -143,6 +143,7 @@ export const i18n = {
 
 export const SCAN_PROFILE_TYPE_SECRET_DETECTION = 'SECRET_DETECTION';
 export const SCAN_PROFILE_TYPE_SAST = 'SAST';
+export const SCAN_PROFILE_TYPE_DEPENDENCY_SCANNING = 'DEPENDENCY_SCANNING';
 
 export const SCAN_TRIGGER_DEFINITIONS = {
   GIT_PUSH_EVENT: {
@@ -208,10 +209,21 @@ export const SCAN_PROFILE_CATEGORIES = {
     ),
     helpLink: helpPagePath('/user/application_security/sast/_index'),
   },
+  [SCAN_PROFILE_TYPE_DEPENDENCY_SCANNING]: {
+    name: s__('SecurityProfiles|Dependency Scanning'),
+    displayName: s__('SecurityProfiles|Dependency Scanning'),
+    label: 'DS',
+    helpTitle: s__('SecurityProfiles|What is Dependency Scanning?'),
+    helpDescription: s__(
+      "SecurityProfiles|Scans your project's dependencies for known vulnerabilities to identify security risks introduced by third-party packages. %{linkStart}Learn more%{linkEnd}.",
+    ),
+    helpLink: helpPagePath('/user/application_security/dependency_scanning/_index'),
+  },
 };
 export const SCAN_PROFILE_PROMO_ITEMS = [
   { scanType: SCAN_PROFILE_TYPE_SECRET_DETECTION, isConfigured: false },
   { scanType: SCAN_PROFILE_TYPE_SAST, isConfigured: false },
+  { scanType: SCAN_PROFILE_TYPE_DEPENDENCY_SCANNING, isConfigured: false },
 ];
 export const SCAN_PROFILE_I18N = {
   noProfile: s__('SecurityProfiles|No profile applied'),

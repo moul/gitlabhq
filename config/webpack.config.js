@@ -119,6 +119,27 @@ const alias = {
   lodash: 'lodash-es',
   shared_queries: path.join(ROOT_PATH, 'app/graphql/queries'),
 
+  // Mermaid v11's transitive deps use package.json "exports" without "main"
+  // fallbacks. Webpack 4 doesn't support the exports field, so we alias them
+  // to their actual entry files.
+  '@mermaid-js/parser': path.join(
+    ROOT_PATH,
+    'node_modules/@mermaid-js/parser/dist/mermaid-parser.core.mjs',
+  ),
+  '@chevrotain/cst-dts-gen': path.join(
+    ROOT_PATH,
+    'node_modules/@chevrotain/cst-dts-gen/lib/src/api.js',
+  ),
+  '@chevrotain/gast': path.join(ROOT_PATH, 'node_modules/@chevrotain/gast/lib/src/api.js'),
+  '@chevrotain/regexp-to-ast': path.join(
+    ROOT_PATH,
+    'node_modules/@chevrotain/regexp-to-ast/lib/src/api.js',
+  ),
+  '@chevrotain/utils': path.join(ROOT_PATH, 'node_modules/@chevrotain/utils/lib/src/api.js'),
+  chevrotain: path.join(ROOT_PATH, 'node_modules/chevrotain/lib/src/api.js'),
+  'chevrotain-allstar': path.join(ROOT_PATH, 'node_modules/chevrotain-allstar/lib/index.js'),
+  langium: path.join(ROOT_PATH, 'node_modules/langium/lib/index.js'),
+
   // the following resolves files which are different between CE and EE
   ee_else_ce: path.join(ROOT_PATH, 'app/assets/javascripts'),
 
@@ -321,7 +342,8 @@ module.exports = {
       coverage_persistence: './entrypoints/coverage_persistence.js',
       performance_bar: './entrypoints/performance_bar.js',
       jira_connect_app: './jira_connect/subscriptions/index.js',
-      sandboxed_mermaid: './lib/mermaid.js',
+      sandboxed_mermaid_v10: './lib/mermaid_v10.js',
+      sandboxed_mermaid_v11: './lib/mermaid_v11.js',
       redirect_listbox: './entrypoints/behaviors/redirect_listbox.js',
       sandboxed_swagger: './lib/swagger.js',
       super_sidebar: './entrypoints/super_sidebar.js',
@@ -407,7 +429,10 @@ module.exports = {
         ],
       },
       {
-        test: /mermaid\/.*\.js?$/,
+        // mermaid v11 and its transitive deps (@mermaid-js/parser, @iconify/utils,
+        // langium, etc.) use modern syntax (optional chaining, static blocks) that
+        // webpack 4 can't parse. Transpile them along with both mermaid versions.
+        test: /(mermaid(-v11)?|@mermaid-js|@iconify\/utils|langium|vscode-\w+|chevrotain(-allstar)?|@chevrotain)\/.*\.m?js$/,
         include: /node_modules/,
         loader: 'babel-loader',
       },

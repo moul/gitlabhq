@@ -1,4 +1,3 @@
-import mermaid from 'mermaid';
 import DOMPurify from 'dompurify';
 import { getParameterByName, isRootRelative } from '~/lib/utils/url_utility';
 import { resetServiceWorkersPublicPath } from '~/lib/utils/webpack';
@@ -27,7 +26,7 @@ const setIframeRenderedSize = (h, w) => {
   window.parent.postMessage({ h, w }, origin);
 };
 
-const drawDiagram = async (source) => {
+const drawDiagram = async (mermaid, source) => {
   const element = document.getElementById('app');
   const insertSvg = (svgCode) => {
     // eslint-disable-next-line no-unsanitized/property
@@ -45,7 +44,7 @@ const drawDiagram = async (source) => {
 
 const darkModeEnabled = () => getParameterByName('darkMode') === 'true';
 
-const initMermaid = () => {
+const initMermaid = (mermaid) => {
   let theme = 'neutral';
 
   if (darkModeEnabled()) {
@@ -105,7 +104,7 @@ const configureDOMPurify = () => {
   });
 };
 
-const addListener = () => {
+const addListener = (mermaid) => {
   window.addEventListener(
     'message',
     (event) => {
@@ -114,13 +113,14 @@ const addListener = () => {
       }
       const { source } = event.data;
       proxiedUrls = event.data.proxiedUrls;
-      drawDiagram(source);
+      drawDiagram(mermaid, source);
     },
     false,
   );
 };
 
-addListener();
-configureDOMPurify();
-initMermaid();
-export default {};
+export function initMermaidSandbox(mermaid) {
+  addListener(mermaid);
+  configureDOMPurify();
+  initMermaid(mermaid);
+}

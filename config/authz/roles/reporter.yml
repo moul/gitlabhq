@@ -53,6 +53,7 @@ project:
   - read_deploy_board
   - read_deployment
   - read_dora4_analytics
+  - read_enterprise_ai_analytics
   - read_environment
   - read_external_emails
   - read_external_status_check_response
@@ -70,6 +71,7 @@ project:
   - read_package
   - read_pipeline
   - read_pipeline_schedule
+  - read_pro_ai_analytics
   - read_project_merge_request_analytics
   - read_project_secrets
   - read_project_secrets_manager_status
@@ -123,6 +125,7 @@ group:
   - read_customizable_dashboards
   - read_cycle_analytics
   - read_dora4_analytics
+  - read_enterprise_ai_analytics
   - read_group_analytics_dashboards
   - read_group_coverage_reports
   - read_group_repository_analytics
@@ -130,6 +133,7 @@ group:
   - read_harbor_registry
   - read_internal_note
   - read_package
+  - read_pro_ai_analytics
   - read_prometheus
   - read_secret
   - read_timelog_category

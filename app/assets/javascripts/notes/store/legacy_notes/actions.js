@@ -226,6 +226,63 @@ export function fetchDiscussionsBatch({ path, config, cursor, perPage }) {
   });
 }
 
+async function* fetchDiscussionPages(path, filter, persistFilter) {
+  const params = {
+    notes_filter: filter ?? 0,
+    persist_filter: persistFilter ?? false,
+  };
+  let cursor;
+  let perPage = 50;
+
+  do {
+    const reqParams = { ...params, per_page: perPage };
+    if (cursor) reqParams.cursor = cursor;
+
+    // eslint-disable-next-line no-await-in-loop
+    const { data, headers } = await axios.get(path, { params: reqParams });
+    yield data;
+
+    cursor = headers?.['x-next-page-cursor'];
+    perPage = Math.min(Math.round(perPage * 1.5), 200);
+    delete params.notes_filter;
+    delete params.persist_filter;
+  } while (cursor);
+}
+
+export async function* fetchNotesBatches() {
+  let resolveFetchNotes;
+  let rejectFetchNotes;
+  this.fetchNotesPromise = new Promise((resolve, reject) => {
+    resolveFetchNotes = resolve;
+    rejectFetchNotes = reject;
+  });
+
+  this.setFetchingState(true);
+
+  try {
+    const { path, filter, persistFilter } = this.getFetchDiscussionsConfig;
+    yield* fetchDiscussionPages(path, filter, persistFilter);
+
+    this[types.SET_DONE_FETCHING_BATCH_DISCUSSIONS](true);
+    this[types.SET_FETCHING_DISCUSSIONS](false);
+    this.updateResolvableDiscussionsCounts();
+    this.initPolling();
+    notesEventHub.$emit('fetchedNotesData');
+    resolveFetchNotes();
+  } catch (e) {
+    rejectFetchNotes(e);
+    throw e;
+  } finally {
+    this.setLoadingState(false);
+    this.setNotesFetchedState(true);
+    this.setFetchingState(false);
+  }
+}
+
+export function addOrUpdateDiscussions(discussionsData) {
+  this[types.ADD_OR_UPDATE_DISCUSSIONS](discussionsData);
+}
+
 export function updateDiscussion(discussion) {
   if (discussion == null) return null;
 

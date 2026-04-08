@@ -7,6 +7,7 @@ import {
   SCAN_PROFILE_CATEGORIES,
   SCAN_PROFILE_TYPE_SECRET_DETECTION,
   SCAN_PROFILE_TYPE_SAST,
+  SCAN_PROFILE_TYPE_DEPENDENCY_SCANNING,
 } from '~/security_configuration/constants';
 
 describe('ScanProfileConfiguration', () => {
@@ -42,6 +43,10 @@ describe('ScanProfileConfiguration', () => {
         },
         {
           scanType: SCAN_PROFILE_TYPE_SAST,
+          isConfigured: false,
+        },
+        {
+          scanType: SCAN_PROFILE_TYPE_DEPENDENCY_SCANNING,
           isConfigured: false,
         },
       ]);

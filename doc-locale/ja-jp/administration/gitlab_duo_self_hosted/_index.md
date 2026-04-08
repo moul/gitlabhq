@@ -100,7 +100,8 @@ GitLab Duo Self-HostedでGitLab Duo機能を使用するには、GitLab Duo Ente
 
 完全なセルフホスト設定では、独自のAIゲートウェイをデプロイし、GitLabインフラストラクチャやAIベンダーモデルを使用せずに、自社のインフラストラクチャで[サポートされているLLM](supported_models_and_hardware_requirements.md)のみを使用します。これにより、データとセキュリティを完全に制御できます。
 
-> [!note] この設定には、セルフホストAIゲートウェイを介して設定されたモデルのみが含まれます。いずれかの機能で[GitLab管理モデル](configure_duo_features.md#select-a-gitlab-managed-model-for-a-feature)を使用する場合、それらの機能はセルフホストゲートウェイではなくGitLabホストのAIゲートウェイに接続されるため、完全にセルフホストではなくハイブリッド設定となります。
+> [!note]
+> この設定には、セルフホストAIゲートウェイを介して設定されたモデルのみが含まれます。いずれかの機能で[GitLab管理モデル](configure_duo_features.md#select-a-gitlab-managed-model-for-a-feature)を使用する場合、それらの機能はセルフホストゲートウェイではなくGitLabホストのAIゲートウェイに接続されるため、完全にセルフホストではなくハイブリッド設定となります。
 
 独自のAIゲートウェイをデプロイしている間も、[AWS Bedrock](https://aws.amazon.com/bedrock/)や[Azure OpenAI](https://azure.microsoft.com/en-us/products/ai-services/openai-service)のようなクラウドベースのLLMサービスをモデルバックエンドとして使用でき、セルフホストAIゲートウェイを介して接続し続けることができます。
 
@@ -127,7 +128,8 @@ GitLab Duo Self-HostedでGitLab Duo機能を使用するには、GitLab Duo Ente
 - 完全な制御が必要な機能には独自のセルフホスティング型モデルを使用する。
 - GitLabがキュレーションしたモデルを優先する特定の機能には、GitLab管理のベンダーモデルを使用する。
 
-> [!note]機能がGitLab管理モデルを使用するように設定されている場合:
+> [!note]
+> 機能がGitLab管理モデルを使用するように設定されている場合:
 >
 > - これらの機能へのすべての呼び出しは、セルフホストAIゲートウェイではなく、GitLabでホストされているAIゲートウェイを使用します。
 > - これらの機能にはインターネット接続が必要です。
@@ -141,7 +143,8 @@ AIネイティブ機能で使用するデフォルトのGitLabモデルを選択
 
 特定のGitLab管理モデルを選択すると、その機能のすべてのリクエストはそのモデルのみを使用します。モデルが利用できなくなった場合、AIゲートウェイへのリクエストは失敗し、別のモデルが選択されるまで、ユーザーはその機能を使用できません。
 
-> [!note] GitLab管理モデルを使用するように機能を設定する場合:
+> [!note]
+> GitLab管理モデルを使用するように機能を設定する場合:
 >
 > - これらの機能への呼び出しは、セルフホストAIゲートウェイではなく、GitLabでホストされているAIゲートウェイを使用します。
 > - これらの機能にはインターネット接続が必要です。

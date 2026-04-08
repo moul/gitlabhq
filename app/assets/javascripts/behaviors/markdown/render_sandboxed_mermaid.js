@@ -27,11 +27,15 @@ import { unrestrictedPages } from './constants';
 // </pre>
 //
 
-const SANDBOX_FRAME_PATH = '/-/sandbox/mermaid';
+const SANDBOX_FRAME_PATH_V10 = '/-/sandbox/mermaid_v10';
+const SANDBOX_FRAME_PATH_V11 = '/-/sandbox/mermaid_v11';
+
 // This is an arbitrary number; Can be iterated upon when suitable.
 export const MAX_CHAR_LIMIT = 2000;
+
 // Max # of mermaid blocks that can be rendered in a page.
 export const MAX_MERMAID_BLOCK_LIMIT = 50;
+
 // Max # of `&` allowed in Chaining of links syntax
 const MAX_CHAINING_OF_LINKS_LIMIT = 30;
 
@@ -73,7 +77,9 @@ function fixElementSource(el) {
 }
 
 export function getSandboxFrameSrc() {
-  const path = joinPaths(gon.relative_url_root || '', SANDBOX_FRAME_PATH);
+  const useMermaidV11 = gon?.features?.useMermaidV11;
+  const framePath = useMermaidV11 ? SANDBOX_FRAME_PATH_V11 : SANDBOX_FRAME_PATH_V10;
+  const path = joinPaths(gon.relative_url_root || '', framePath);
   let absoluteUrl = relativePathToAbsolute(path, getBaseURL());
   if (darkModeEnabled()) {
     absoluteUrl = setUrlParams({ darkMode: darkModeEnabled() }, { url: absoluteUrl });

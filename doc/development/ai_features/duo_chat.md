@@ -184,31 +184,67 @@ Use the `OpenAgenticChatButton` component to render a button that opens the Duo
 Chat drawer with your agent pre-selected. Pass `welcomeMessage` and
 `predefinedPrompts` to guide the user when the chat panel is empty.
 
-For a full example, see the reference implementation in
-[merge request 228620](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228620).
+```javascript
+import OpenAgenticChatButton from 'ee/ai/shared/widgets/open_agentic_chat_button.vue';
+import { convertToGraphQLId } from '~/graphql_shared/utils';
+import { TYPENAME_USER } from '~/graphql_shared/constants';
+import { s__, __ } from '~/locale';
+
+const AGENT = { name: __('My Feature Assistant') };
+const WELCOME_MESSAGE = s__('MyFeature|I can help you configure this feature.');
+const PREDEFINED_PROMPTS = [
+  s__('MyFeature|Enable read access to repositories.'),
+  s__('MyFeature|Set up CI/CD pipeline permissions.'),
+];
+
+export default {
+  components: { OpenAgenticChatButton },
+  computed: {
+    resourceId() {
+      return convertToGraphQLId(TYPENAME_USER, window.gon?.current_user_id);
+    },
+  },
+  // ...
+  AGENT,
+  WELCOME_MESSAGE,
+  PREDEFINED_PROMPTS,
+};
+```
+
+```html
+<open-agentic-chat-button
+  button-text="Configure with Duo"
+  :resource-id="resourceId"
+  :agent="$options.AGENT"
+  :welcome-message="$options.WELCOME_MESSAGE"
+  :predefined-prompts="$options.PREDEFINED_PROMPTS"
+  @tool-completed="handleToolCompleted"
+/>
+```
+
+`predefinedPrompts` is an array of strings displayed as suggestion chips when
+the chat panel is empty. Use `welcomeMessage` to explain to the user what the
+agent can do. Both are optional but recommended to reduce time-to-first-prompt.
 
 ##### Step 3: Listen for tool completion events
 
-When your agent's tool completes successfully, Duo Chat dispatches a DOM custom
-event named `duo:tool-completed:<tool_name>`. Listen for it in `mounted` and
-clean up in `beforeDestroy` (Vue 2) or `beforeUnmount` (Vue 3):
+When your agent's tool completes successfully, `OpenAgenticChatButton` emits a
+`tool-completed` Vue event. Listen for it with `@tool-completed` on the button
+component. The payload has the shape `{ name, args }` where `name` is the tool
+name and `args` is the object of arguments returned by the tool.
+
+Because all tool completions are broadcast through the same event, your handler
+must check that `name` matches the tool name defined in your agent config before
+acting on the payload.
 
 ```javascript
 // Must match the tool name defined in your agent config
 const TOOL_NAME = 'my_feature_tool';
 
 export default {
-  mounted() {
-    document.addEventListener(`duo:tool-completed:${TOOL_NAME}`, this.handleToolCompleted);
-  },
-  beforeDestroy() {
-    // Vue 2; use beforeUnmount() in Vue 3
-    document.removeEventListener(`duo:tool-completed:${TOOL_NAME}`, this.handleToolCompleted);
-  },
   methods: {
-    handleToolCompleted(event) {
-      const { args } = event?.detail || {};
-      if (!args || typeof args !== 'object') return;
+    handleToolCompleted({ name, args } = {}) {
+      if (name !== TOOL_NAME || !args || typeof args !== 'object') return;
 
       // Apply the tool output to your form
       this.myField = args.my_field;
@@ -217,10 +253,18 @@ export default {
 };
 ```
 
-The event `detail` object has the shape:
+```html
+<open-agentic-chat-button
+  ...
+  @tool-completed="handleToolCompleted"
+/>
+```
+
+The event payload has the shape:
 
 ```javascript
 {
+  name: 'my_feature_tool', // tool name as defined in your agent config
   args: {
     // fields defined by your tool
     my_field: 'value',

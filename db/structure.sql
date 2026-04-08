@@ -45615,6 +45615,8 @@ CREATE INDEX index_ci_pending_builds_id_on_protected_partial ON ci_pending_build
 
 CREATE UNIQUE INDEX index_ci_pending_builds_on_build_id ON ci_pending_builds USING btree (build_id);
 
+CREATE INDEX index_ci_pending_builds_on_created_at_and_id ON ci_pending_builds USING btree (created_at, id);
+
 CREATE INDEX index_ci_pending_builds_on_namespace_id ON ci_pending_builds USING btree (namespace_id);
 
 CREATE UNIQUE INDEX index_ci_pending_builds_on_partition_id_build_id ON ci_pending_builds USING btree (partition_id, build_id);

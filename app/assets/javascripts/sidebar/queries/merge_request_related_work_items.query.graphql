@@ -9,6 +9,7 @@ query mergeRequestRelatedWorkItems($id: MergeRequestID!) {
         iid
         title
         webPath
+        webUrl
         namespace {
           id
           fullPath

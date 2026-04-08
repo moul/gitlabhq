@@ -54,7 +54,8 @@ title: サインアップの制限
 
 管理者がこの設定を無効にすると、承認待ち状態のユーザーはバックグラウンドジョブで自動的に承認されます。
 
-> [!note]この設定は、LDAPまたはOmniAuthユーザーには適用されません。OmniAuthまたはLDAPを使用してサインアップする新規ユーザーの承認を適用するには、[OmniAuthの設定](../../integration/omniauth.md#configure-common-settings)または[LDAP設定](../auth/ldap/_index.md#basic-configuration-settings)で`block_auto_created_users`を`true`に設定します。[ユーザー制限](#user-cap)を使用して、新規ユーザーの承認を適用することもできます。
+> [!note]
+> この設定は、LDAPまたはOmniAuthユーザーには適用されません。OmniAuthまたはLDAPを使用してサインアップする新規ユーザーの承認を適用するには、[OmniAuthの設定](../../integration/omniauth.md#configure-common-settings)または[LDAP設定](../auth/ldap/_index.md#basic-configuration-settings)で`block_auto_created_users`を`true`に設定します。[ユーザー制限](#user-cap)を使用して、新規ユーザーの承認を適用することもできます。
 
 ## ユーザーメールの確認 {#confirm-user-email}
 
@@ -100,7 +101,8 @@ title: サインアップの制限
 
 制限付きアクセスを有効にすると、インスタンスは、サブスクリプションにライセンスされたシートが残っていない場合、新しい請求対象ユーザーを追加できません。
 
-> [!note]インスタンスまたは保留中のメンバーがいるグループに対してユーザーキャパシティが有効になっている場合、制限付きアクセスを有効にすると、保留中のメンバーはすべてグループから自動的に削除されます。
+> [!note]
+> インスタンスまたは保留中のメンバーがいるグループに対してユーザーキャパシティが有効になっている場合、制限付きアクセスを有効にすると、保留中のメンバーはすべてグループから自動的に削除されます。
 
 ### 制限付きアクセスをオンにする {#turn-on-restricted-access}
 
@@ -127,7 +129,8 @@ title: サインアップの制限
 
 {{< /history >}}
 
-> [!flag]この機能の可用性は、機能フラグによって制御されます。詳細については、履歴を参照してください。
+> [!flag]
+> この機能の可用性は、機能フラグによって制御されます。詳細については、履歴を参照してください。
 
 制限付きアクセスが有効になっていて、サブスクリプションのコード行が利用できない場合、SAML、SCIM、またはLDAPを介してプロビジョンされたユーザーには、設定されたアクセスレベルの代わりに最小アクセスロールが割り当てられます。この動作により、GitLab.comおよびGitLab Self-Managed Ultimateで、請求対象のコード行を消費せずに、同期を続行できます。
 
@@ -167,7 +170,8 @@ title: サインアップの制限
 
 [個々のグループのユーザー制限を設定する](../../user/group/manage.md#user-cap-for-groups)こともできます。
 
-> [!note] LDAPまたはOmniAuthを使用するインスタンスの場合、[新規サインアップの管理者承認](#require-administrator-approval-for-new-sign-ups)が有効または無効になっている場合、Rails設定の変更によりダウンタイムが発生する可能性があります。新しいユーザーの承認を適用するために、ユーザー制限を設定できます。
+> [!note]
+> LDAPまたはOmniAuthを使用するインスタンスの場合、[新規サインアップの管理者承認](#require-administrator-approval-for-new-sign-ups)が有効または無効になっている場合、Rails設定の変更によりダウンタイムが発生する可能性があります。新しいユーザーの承認を適用するために、ユーザー制限を設定できます。
 
 ### ユーザー制限を設定する {#set-a-user-cap}
 

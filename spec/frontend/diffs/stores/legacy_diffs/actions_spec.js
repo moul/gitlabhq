@@ -767,21 +767,21 @@ describe('legacyDiffs actions', () => {
       ]);
     });
 
-    it('should prevent default event', () => {
+    it('should prevent default event', async () => {
       const preventDefault = jest.fn();
       const target = { href: TEST_HOST };
       const event = { target, preventDefault };
-      testAction(store.setHighlightedRow, { lineCode: 'ABC_123', event }, {}, [
+      await testAction(store.setHighlightedRow, { lineCode: 'ABC_123', event }, {}, [
         { type: store[types.SET_HIGHLIGHTED_ROW], payload: 'ABC_123' },
         { type: store[types.SET_CURRENT_DIFF_FILE], payload: 'ABC' },
       ]);
       expect(preventDefault).toHaveBeenCalled();
     });
 
-    it('should filter out linked file param', () => {
+    it('should filter out linked file param', async () => {
       const target = { href: `${TEST_HOST}/diffs?file=foo#abc_11` };
       const event = { target, preventDefault: jest.fn() };
-      testAction(store.setHighlightedRow, { lineCode: 'ABC_123', event }, {}, [
+      await testAction(store.setHighlightedRow, { lineCode: 'ABC_123', event }, {}, [
         { type: store[types.SET_HIGHLIGHTED_ROW], payload: 'ABC_123' },
         { type: store[types.SET_CURRENT_DIFF_FILE], payload: 'ABC' },
       ]);
@@ -909,7 +909,7 @@ describe('legacyDiffs actions', () => {
 
   describe('removeDiscussionsFromDiff', () => {
     it('does not call mutation if no diff file is on discussion', () => {
-      testAction(
+      return testAction(
         store.removeDiscussionsFromDiff,
         {
           id: '1',
@@ -2414,10 +2414,10 @@ describe('legacyDiffs actions', () => {
   });
 
   describe('unlinkFile', () => {
-    it('unlinks linked file', () => {
+    it('unlinks linked file', async () => {
       const linkedFile = getDiffFileMock();
       setWindowLocation(`${TEST_HOST}/?file=${linkedFile.file_hash}#${linkedFile.file_hash}_10_10`);
-      testAction(
+      await testAction(
         store.unlinkFile,
         undefined,
         { diffFiles: [linkedFile], linkedFileHash: linkedFile.file_hash },
@@ -2429,13 +2429,13 @@ describe('legacyDiffs actions', () => {
     });
 
     it('does nothing when no linked file present', () => {
-      testAction(store.unlinkFile, undefined, {}, [], []);
+      return testAction(store.unlinkFile, undefined, {}, [], []);
     });
   });
 
   describe('expandAllFiles', () => {
     it('triggers mutation', () => {
-      testAction(
+      return testAction(
         store.expandAllFiles,
         undefined,
         {},
@@ -2452,7 +2452,7 @@ describe('legacyDiffs actions', () => {
 
   describe('collapseAllFiles', () => {
     it('triggers mutation', () => {
-      testAction(
+      return testAction(
         store.collapseAllFiles,
         undefined,
         {},

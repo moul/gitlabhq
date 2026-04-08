@@ -28,14 +28,25 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   const draftNotes = useMergeRequestDraftNotes();
   const allCommentsReady = ref(false);
 
-  async function fetchNotes() {
-    await notes.fetchNotes();
+  function collapseResolvedDiscussions() {
     const discussionsStore = useDiscussions();
     discussionsStore.discussions.forEach((discussion) => {
-      if (discussion.resolvable && discussion.resolved) {
+      if (discussion.resolvable && discussion.resolved && !discussion.hidden) {
         discussionsStore.collapseDiscussion(discussion);
       }
     });
+  }
+
+  async function fetchNotes() {
+    if (notes.fetchNotesPromise) {
+      await notes.fetchNotesPromise;
+      collapseResolvedDiscussions();
+      return;
+    }
+    for await (const batch of notes.fetchNotesBatches()) {
+      notes.addOrUpdateDiscussions(batch);
+      collapseResolvedDiscussions();
+    }
   }
 
   async function fetchNotesAndDrafts() {
@@ -122,7 +133,7 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   }
 
   async function createDraftNote(discussion, noteBody) {
-    const { draftsPath } = useNotes().notesData;
+    const { draftsPath } = notes.notesData;
     const { diffRefs } = useMergeRequestVersions();
     const data = buildDraftLineDiscussionData({
       discussion,
@@ -144,7 +155,7 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
   }
 
   async function addDraftToDiscussion(discussion, noteText) {
-    const { draftsPath } = useNotes().notesData;
+    const { draftsPath } = notes.notesData;
     const { diffRefs } = useMergeRequestVersions();
     const data = buildDraftReplyData({ discussion, noteText, diffRefs });
     await draftNotes.addDraftToDiscussion({ endpoint: draftsPath, data });
@@ -155,7 +166,7 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     const { diffRefs } = versions;
     const newLine = lineRange?.end?.new_line;
     const canSuggest =
-      useNotes().noteableData?.can_receive_suggestion && lineChange?.change !== 'removed';
+      notes.noteableData?.can_receive_suggestion && lineChange?.change !== 'removed';
     const previewParams =
       canSuggest && diffRefs && newPath && newLine
         ? {
