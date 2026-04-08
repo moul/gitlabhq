@@ -37,6 +37,8 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     it { is_expected.to have_many(:labels).class_name('GroupLabel') }
     it { is_expected.to have_many(:variables).class_name('Ci::GroupVariable') }
     it { is_expected.to have_many(:uploads) }
+    it { is_expected.to have_many(:provisioned_user_details).inverse_of(:provisioned_by_group) }
+    it { is_expected.to have_many(:provisioned_users) }
     it { is_expected.to have_one(:chat_team) }
     it { is_expected.to have_one(:deletion_schedule) }
     it { is_expected.to have_many(:custom_attributes).class_name('GroupCustomAttribute') }

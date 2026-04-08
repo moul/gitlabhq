@@ -7,6 +7,8 @@ module Gitlab
       class GranularTokenAuthorization < GraphQL::Schema::FieldExtension
         include ::Gitlab::Graphql::Authorize::AuthorizeResource
 
+        BOUNDARY_TYPE_EVALUATION_ORDER = %w[project group user instance].freeze
+
         def resolve(object:, arguments:, context:, **rest)
           authorize_field(object, arguments, context)
 
@@ -56,7 +58,12 @@ module Gitlab
         def find_matching_directive(directives, object, arguments, context)
           return directives.first if directives.size <= 1
 
-          directives.each do |d|
+          sorted = directives.sort_by do |d|
+            BOUNDARY_TYPE_EVALUATION_ORDER.index(d.arguments[:boundary_type].to_s) ||
+              BOUNDARY_TYPE_EVALUATION_ORDER.size
+          end
+
+          sorted.each do |d|
             extracted = boundary(object, arguments, context, d)
             next unless extracted
 

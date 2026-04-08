@@ -113,6 +113,75 @@ RSpec.describe Gitlab::Graphql::Authz::GranularTokenAuthorization, feature_categ
           allow(field).to receive(:directives).and_return([project_directive, group_directive])
         end
 
+        context 'when the correct boundary needs to be selected among multiple directives' do
+          let_it_be(:group) { create(:group) }
+          let_it_be(:project_in_group) { create(:project, group: group) }
+          let_it_be(:group_member) { create(:user, developer_of: group) }
+          let_it_be(:project_member) { create(:user, developer_of: project_in_group) }
+
+          let(:group_scoped_token) do
+            create(:granular_pat, boundary: Authz::Boundary.for(group), permissions: [:read_wiki], user: group_member)
+          end
+
+          let(:project_scoped_token) do
+            create(:granular_pat, boundary: Authz::Boundary.for(project_in_group), permissions: [:read_wiki],
+              user: project_member)
+          end
+
+          let(:instance_scoped_token) do
+            create(:granular_pat, boundary: Authz::Boundary.for(:instance), permissions: [:read_wiki],
+              user: group_member)
+          end
+
+          let(:instance_directive) do
+            create_directive(boundary: 'instance', permissions: ['read_wiki'], boundary_type: 'instance')
+          end
+
+          def expect_boundary_selected(directives_order, expected_boundary_class)
+            allow(field).to receive(:directives).and_return(directives_order)
+            expect(extension).to receive(:authorize_with_cache!).with(
+              context, instance_of(expected_boundary_class), anything
+            ).and_call_original
+            resolve
+          end
+
+          context 'when the object is a group, and both group and a standalone directive are present' do
+            let(:object) { group }
+            let(:context) { { access_token: group_scoped_token } }
+
+            it 'selects group over instance when instance is listed first' do
+              expect_boundary_selected([instance_directive, group_directive], Authz::Boundary::GroupBoundary)
+            end
+          end
+
+          context 'when the object is a project, and both project and group directives are present' do
+            let(:object) { project_in_group }
+            let(:context) { { access_token: project_scoped_token } }
+
+            it 'selects project over group when group is listed first' do
+              expect_boundary_selected([group_directive, project_directive], Authz::Boundary::ProjectBoundary)
+            end
+          end
+
+          context 'when the object is a group, and both project and group directives are present' do
+            let(:object) { group }
+            let(:context) { { access_token: group_scoped_token } }
+
+            it 'tries project first, fails to match, then falls back to group' do
+              expect_boundary_selected([group_directive, project_directive], Authz::Boundary::GroupBoundary)
+            end
+          end
+
+          context 'when the object is instance-level, and both group and a standalone directive are present' do
+            let(:object) { nil }
+            let(:context) { { access_token: instance_scoped_token } }
+
+            it 'tries group first, fails to extract, then falls back to instance' do
+              expect_boundary_selected([group_directive, instance_directive], Authz::Boundary::NilBoundary)
+            end
+          end
+        end
+
         context 'when a directive is misconfigured and boundary extraction raises ArgumentError' do
           before do
             allow_next_instance_of(Gitlab::Graphql::Authz::BoundaryExtractor) do |extractor|

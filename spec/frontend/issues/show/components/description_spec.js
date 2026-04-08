@@ -1,5 +1,6 @@
 import Vue, { nextTick } from 'vue';
 import VueApollo from 'vue-apollo';
+import Sortable from 'sortablejs';
 import getIssueDetailsQuery from 'ee_else_ce/work_items/graphql/get_issue_details.query.graphql';
 import { TEST_HOST } from 'helpers/test_constants';
 import createMockApollo from 'helpers/mock_apollo_helper';
@@ -226,6 +227,15 @@ describe('Description component', () => {
       });
       expect(dragIcon.find('use').attributes()).toEqual({
         href: `${mockSpriteIcons}#grip`,
+      });
+    });
+
+    it('creates Sortable with forceFallback enabled', () => {
+      expect(Sortable.create).toHaveBeenCalled();
+      const options = Sortable.create.mock.calls[0][1];
+      expect(options).toMatchObject({
+        forceFallback: true,
+        handle: '.drag-icon',
       });
     });
   });

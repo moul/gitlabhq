@@ -18903,6 +18903,29 @@ The edge type for [`CiCatalogResource`](#cicatalogresource).
 | <a id="cicatalogresourceedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="cicatalogresourceedge-node"></a>`node` | [`CiCatalogResource`](#cicatalogresource) | The item at the end of the edge. |
 
+#### `CiCatalogResourceProjectUsageConnection`
+
+The connection type for [`CiCatalogResourceProjectUsage`](#cicatalogresourceprojectusage).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="cicatalogresourceprojectusageconnection-edges"></a>`edges` | [`[CiCatalogResourceProjectUsageEdge]`](#cicatalogresourceprojectusageedge) | A list of edges. |
+| <a id="cicatalogresourceprojectusageconnection-nodes"></a>`nodes` | [`[CiCatalogResourceProjectUsage]`](#cicatalogresourceprojectusage) | A list of nodes. |
+| <a id="cicatalogresourceprojectusageconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `CiCatalogResourceProjectUsageEdge`
+
+The edge type for [`CiCatalogResourceProjectUsage`](#cicatalogresourceprojectusage).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="cicatalogresourceprojectusageedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="cicatalogresourceprojectusageedge-node"></a>`node` | [`CiCatalogResourceProjectUsage`](#cicatalogresourceprojectusage) | The item at the end of the edge. |
+
 #### `CiCatalogResourceVersionConnection`
 
 The connection type for [`CiCatalogResourceVersion`](#cicatalogresourceversion).
@@ -30476,6 +30499,7 @@ Check user's permission for the car.
 | <a id="cicatalogresource-last30dayusagecount"></a>`last30DayUsageCount` {{< icon name="warning-solid" >}} | [`Int!`](#int) | **Introduced** in GitLab 17.0. **Status**: Experiment. Number of projects that used a component from this catalog project in a pipeline, by using `include:component` in the last 30 days. |
 | <a id="cicatalogresource-latestreleasedat"></a>`latestReleasedAt` {{< icon name="warning-solid" >}} | [`Time`](#time) | **Introduced** in GitLab 16.5. **Status**: Experiment. Release date of the catalog resource's latest version. |
 | <a id="cicatalogresource-name"></a>`name` | [`String`](#string) | Name of the catalog resource. |
+| <a id="cicatalogresource-projectcomponentusages"></a>`projectComponentUsages` {{< icon name="warning-solid" >}} | [`CiCatalogResourceProjectUsageConnection`](#cicatalogresourceprojectusageconnection) | **Introduced** in GitLab 18.11. **Status**: Experiment. Projects using components from this catalog resource. Only available to maintainers of the catalog resource project. This field can only be resolved for one catalog resource in any single request. |
 | <a id="cicatalogresource-starcount"></a>`starCount` | [`Int!`](#int) | Number of times the catalog resource has been starred. |
 | <a id="cicatalogresource-starrerspath"></a>`starrersPath` | [`String`](#string) | Relative path to the starrers page for the catalog resource project. |
 | <a id="cicatalogresource-topics"></a>`topics` | [`[String!]`](#string) | Topics for the catalog resource. |
@@ -30526,6 +30550,30 @@ Represents a component usage in a project.
 | <a id="cicatalogresourcecomponentusage-lastuseddate"></a>`lastUsedDate` | [`ISO8601Date`](#iso8601date) | When the component was last used. |
 | <a id="cicatalogresourcecomponentusage-name"></a>`name` | [`String`](#string) | Name of the component. |
 | <a id="cicatalogresourcecomponentusage-version"></a>`version` | [`String`](#string) | Version of the component. |
+
+### `CiCatalogResourceComponentUsageDetail`
+
+Details of a project's usage of a component from a catalog resource.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="cicatalogresourcecomponentusagedetail-component"></a>`component` {{< icon name="warning-solid" >}} | [`CiCatalogResourceComponent!`](#cicatalogresourcecomponent) | **Introduced** in GitLab 18.11. **Status**: Experiment. Component being used. |
+| <a id="cicatalogresourcecomponentusagedetail-lastuseddate"></a>`lastUsedDate` {{< icon name="warning-solid" >}} | [`ISO8601Date!`](#iso8601date) | **Introduced** in GitLab 18.11. **Status**: Experiment. Date when the component was last used by the project. |
+| <a id="cicatalogresourcecomponentusagedetail-outdated"></a>`outdated` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.11. **Status**: Experiment. Whether the project is using a component version older than the catalog resource latest version. |
+| <a id="cicatalogresourcecomponentusagedetail-version"></a>`version` {{< icon name="warning-solid" >}} | [`CiCatalogResourceVersion`](#cicatalogresourceversion) | **Introduced** in GitLab 18.11. **Status**: Experiment. Version of the component being used. |
+
+### `CiCatalogResourceProjectUsage`
+
+A project that uses components from a catalog resource.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="cicatalogresourceprojectusage-componentsused"></a>`componentsUsed` {{< icon name="warning-solid" >}} | [`[CiCatalogResourceComponentUsageDetail!]!`](#cicatalogresourcecomponentusagedetail) | **Introduced** in GitLab 18.11. **Status**: Experiment. List of components from the catalog resource used by the project. |
+| <a id="cicatalogresourceprojectusage-project"></a>`project` {{< icon name="warning-solid" >}} | [`Project`](#project) | **Introduced** in GitLab 18.11. **Status**: Experiment. Project using the components. Returns null if user cannot access the project. |
 
 ### `CiCatalogResourceSemver`
 

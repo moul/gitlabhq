@@ -57,6 +57,8 @@ class Group < Namespace
 
   has_many :users, through: :group_members
   has_many :owners, through: :all_owner_members, source: :user
+  has_many :provisioned_user_details, class_name: 'UserDetail', foreign_key: 'provisioned_by_group_id', inverse_of: :provisioned_by_group
+  has_many :provisioned_users, through: :provisioned_user_details, source: :user
 
   has_many :requesters, -> { where.not(requested_at: nil) }, dependent: :destroy, as: :source, class_name: 'GroupMember' # rubocop:disable Cop/ActiveRecordDependent
   has_many :namespace_requesters, -> { where.not(requested_at: nil).unscope(where: %i[source_id source_type]) },

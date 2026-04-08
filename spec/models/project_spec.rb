@@ -38,6 +38,8 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
     it { is_expected.to belong_to(:pool_repository) }
     it { is_expected.to belong_to(:deleting_user) }
     it { is_expected.to have_many(:users) }
+    it { is_expected.to have_many(:provisioned_user_details).inverse_of(:provisioned_by_project) }
+    it { is_expected.to have_many(:provisioned_users) }
     it { is_expected.to have_many(:maintainers).through(:project_members).source(:user).conditions(members: { access_level: Gitlab::Access::MAINTAINER }) }
     it { is_expected.to have_many(:owners_and_maintainers).through(:project_members).source(:user).conditions(members: { access_level: Gitlab::Access::MAINTAINER }) }
     it { is_expected.to have_many(:events) }

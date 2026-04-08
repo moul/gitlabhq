@@ -860,7 +860,7 @@ CREATE TABLE siphon_deployment_merge_requests
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY (traversal_path, deployment_id, merge_request_id)
 ORDER BY (traversal_path, deployment_id, merge_request_id)
-SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192;
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 2048;
 
 CREATE TABLE siphon_deployments
 (
@@ -892,7 +892,7 @@ CREATE TABLE siphon_deployments
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY (traversal_path, id)
 ORDER BY (traversal_path, id)
-SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192;
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 2048;
 
 CREATE TABLE siphon_environments
 (
@@ -928,7 +928,7 @@ CREATE TABLE siphon_environments
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY (traversal_path, id)
 ORDER BY (traversal_path, id)
-SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192;
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 2048;
 
 CREATE TABLE siphon_events
 (
@@ -1104,7 +1104,7 @@ CREATE TABLE siphon_knowledge_graph_enabled_namespaces
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY (root_namespace_id, id)
 ORDER BY (root_namespace_id, id)
-SETTINGS index_granularity = 8192;
+SETTINGS index_granularity = 2048;
 
 CREATE TABLE siphon_label_links
 (
@@ -1195,7 +1195,7 @@ CREATE TABLE siphon_members
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY (traversal_path, id)
 ORDER BY (traversal_path, id)
-SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192;
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 2048;
 
 CREATE TABLE siphon_merge_request_assignees
 (
@@ -1470,7 +1470,7 @@ CREATE TABLE siphon_namespace_details
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY namespace_id
 ORDER BY namespace_id
-SETTINGS index_granularity = 8192;
+SETTINGS index_granularity = 2048;
 
 CREATE TABLE siphon_namespaces
 (
@@ -1529,7 +1529,7 @@ CREATE TABLE siphon_namespaces
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY id
 ORDER BY id
-SETTINGS index_granularity = 8192;
+SETTINGS index_granularity = 2048;
 
 CREATE TABLE siphon_notes
 (
@@ -1758,7 +1758,7 @@ CREATE TABLE siphon_project_authorizations
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY (traversal_path, user_id, project_id, access_level)
 ORDER BY (traversal_path, user_id, project_id, access_level)
-SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192;
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 2048;
 
 CREATE TABLE siphon_projects
 (
@@ -1856,7 +1856,7 @@ CREATE TABLE siphon_projects
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY id
 ORDER BY id
-SETTINGS index_granularity = 8192, deduplicate_merge_projection_mode = 'rebuild';
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 2048;
 
 CREATE TABLE siphon_routes
 (
@@ -2004,7 +2004,7 @@ CREATE TABLE siphon_users
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY id
 ORDER BY id
-SETTINGS index_granularity = 8192;
+SETTINGS index_granularity = 2048;
 
 CREATE TABLE siphon_vulnerabilities
 (

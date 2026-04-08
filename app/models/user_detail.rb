@@ -6,6 +6,10 @@ class UserDetail < ApplicationRecord
 
   belongs_to :user
   belongs_to :bot_namespace, class_name: 'Namespace', optional: true, inverse_of: :bot_user_details
+  belongs_to :provisioned_by_group, class_name: 'Group', optional: true, inverse_of: :provisioned_user_details
+  belongs_to :provisioned_by_project, class_name: 'Project', optional: true, inverse_of: :provisioned_user_details
+
+  scope :project_provisioned, -> { where.not(provisioned_by_project_id: nil) }
 
   validates :pronouns, length: { maximum: 50 }
   validates :pronunciation, length: { maximum: 255 }
@@ -16,6 +20,7 @@ class UserDetail < ApplicationRecord
   validates :email_otp_last_sent_to, length: { maximum: 511 }, allow_nil: true
 
   validate :bot_namespace_user_type, if: :bot_namespace_id_changed?
+  validate :provisioning_source_mutually_exclusive
 
   ignore_column :skype, remove_after: '2026-03-14', remove_with: '18.11'
   ignore_column :email_reset_offered_at, remove_after: '2026-01-16', remove_with: '18.8'
@@ -143,6 +148,12 @@ class UserDetail < ApplicationRecord
     return if bot_namespace_id.nil?
 
     errors.add(:bot_namespace, _('must only be set for bot user types'))
+  end
+
+  def provisioning_source_mutually_exclusive
+    return unless provisioned_by_group_id.present? && provisioned_by_project_id.present?
+
+    errors.add(:base, _('User cannot be provisioned by both group and project'))
   end
 end
 

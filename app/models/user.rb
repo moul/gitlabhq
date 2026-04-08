@@ -546,6 +546,12 @@ class User < ApplicationRecord
   delegate :company, :company=, to: :user_detail, allow_nil: true
   delegate :discord, :discord=, to: :user_detail, allow_nil: true
   delegate :github, :github=, to: :user_detail, allow_nil: true
+  delegate :provisioned_by_group, :provisioned_by_group=,
+    :provisioned_by_group_id, :provisioned_by_group_id=,
+    to: :user_detail, allow_nil: true
+  delegate :provisioned_by_project, :provisioned_by_project=,
+    :provisioned_by_project_id, :provisioned_by_project_id=,
+    to: :user_detail, allow_nil: true
   delegate :project_authorizations_recalculated_at, :project_authorizations_recalculated_at=, to: :user_detail, allow_nil: true
   delegate :bot_namespace, :bot_namespace=, to: :user_detail, allow_nil: true
   delegate :email_otp, :email_otp=, to: :user_detail, allow_nil: true
@@ -787,6 +793,15 @@ class User < ApplicationRecord
 
   scope :member_of_organization, ->(organization) do
     joins(:organization_users).where(organization_users: { organization: organization })
+  end
+  scope :with_provisioning_group, ->(group) do
+    joins(:user_detail).where(user_detail: { provisioned_by_group: group })
+  end
+  scope :with_provisioning_project, ->(project) do
+    joins(:user_detail).where(user_detail: { provisioned_by_project: project })
+  end
+  scope :with_provisioning_project_in, ->(namespaces) do
+    joins(user_detail: :provisioned_by_project).where(projects: { namespace_id: namespaces })
   end
 
   def self.supported_keyset_orderings

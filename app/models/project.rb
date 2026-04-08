@@ -389,6 +389,8 @@ class Project < ApplicationRecord
 
   has_many :users, -> { allow_cross_joins_across_databases(url: "https://gitlab.com/gitlab-org/gitlab/-/issues/422405") },
     through: :project_members
+  has_many :provisioned_user_details, class_name: 'UserDetail', foreign_key: 'provisioned_by_project_id', inverse_of: :provisioned_by_project
+  has_many :provisioned_users, through: :provisioned_user_details, source: :user
 
   has_many :maintainers,
     -> do

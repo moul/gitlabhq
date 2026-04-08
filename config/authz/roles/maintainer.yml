@@ -24,6 +24,7 @@ project:
   - admin_integrations
   - admin_issue_board
   - admin_member_access_request
+  - admin_merge_request_approval_settings
   - admin_note
   - admin_operations
   - admin_package
@@ -46,6 +47,7 @@ project:
   - admin_service_accounts
   - admin_snippet
   - admin_software_license_policy
+  - admin_target_branch_rule
   - admin_terraform_state
   - admin_timelog
   - admin_upload
@@ -106,6 +108,7 @@ project:
   - modify_merge_request_author_setting
   - modify_merge_request_committer_setting
   - modify_product_analytics_settings
+  - pages_multiple_versions
   - provision_cloud_runner
   - provision_gke_runner
   - push_code_to_protected_branches
@@ -137,6 +140,7 @@ project:
   - read_web_hook
   - remove_pages
   - rename_project
+  - set_license_information_source
   - stop_environment
   - update_approvers
   - update_cluster

@@ -1817,6 +1817,110 @@ RSpec.describe User, :with_current_organization, feature_category: :user_profile
   end
 
   describe 'scopes' do
+    describe '.with_provisioning_group' do
+      let_it_be(:user) { create(:user) }
+      let_it_be(:group) { create(:group) }
+
+      subject(:with_provisioning_group) { described_class.with_provisioning_group(group) }
+
+      it 'does not find users without a provisioning group' do
+        expect(with_provisioning_group).to be_empty
+      end
+
+      context 'when users have a provisioning group' do
+        before do
+          user.provisioned_by_group = group
+          user.save!
+        end
+
+        it 'finds the matching users' do
+          expect(with_provisioning_group).to match_array([user])
+        end
+
+        it 'does not find users with a different provisioning group' do
+          group = create(:group)
+
+          expect(described_class.with_provisioning_group(group)).to be_empty
+        end
+      end
+    end
+
+    describe '.with_provisioning_project' do
+      let_it_be(:user) { create(:user) }
+      let_it_be(:project) { create(:project) }
+
+      subject(:with_provisioning_project) { described_class.with_provisioning_project(project) }
+
+      it 'does not find users without a provisioning project' do
+        expect(with_provisioning_project).to be_empty
+      end
+
+      context 'when users have a provisioning project' do
+        before do
+          user.provisioned_by_project = project
+          user.save!
+        end
+
+        it 'finds the matching users' do
+          expect(with_provisioning_project).to match_array([user])
+        end
+
+        it 'does not find users with a different provisioning project' do
+          project = create(:project)
+
+          expect(described_class.with_provisioning_project(project)).to be_empty
+        end
+      end
+    end
+
+    describe '.with_provisioning_project_in' do
+      let_it_be(:group) { create(:group) }
+      let_it_be(:subgroup) { create(:group, parent: group) }
+      let_it_be(:project_in_group) { create(:project, namespace: group) }
+      let_it_be(:project_in_subgroup) { create(:project, namespace: subgroup) }
+
+      let_it_be(:sa_in_group_project) do
+        create(:user, :service_account).tap do |user|
+          user.user_detail.update!(provisioned_by_project_id: project_in_group.id)
+        end
+      end
+
+      let_it_be(:sa_in_subgroup_project) do
+        create(:user, :service_account).tap do |user|
+          user.user_detail.update!(provisioned_by_project_id: project_in_subgroup.id)
+        end
+      end
+
+      it 'finds users provisioned by projects in the given namespaces' do
+        result = described_class.with_provisioning_project_in(group)
+
+        expect(result).to include(sa_in_group_project)
+        expect(result).not_to include(sa_in_subgroup_project)
+      end
+
+      it 'finds users across multiple namespaces' do
+        result = described_class.with_provisioning_project_in(group.self_and_descendants)
+
+        expect(result).to include(sa_in_group_project, sa_in_subgroup_project)
+      end
+
+      it 'excludes users provisioned by projects in other namespaces' do
+        other_group = create(:group)
+
+        expect(described_class.with_provisioning_project_in(other_group)).not_to include(
+          sa_in_group_project, sa_in_subgroup_project
+        )
+      end
+
+      it 'excludes users without a provisioning project' do
+        create(:user, :service_account)
+
+        result = described_class.with_provisioning_project_in(group.self_and_descendants)
+
+        expect(result).to match_array([sa_in_group_project, sa_in_subgroup_project])
+      end
+    end
+
     describe '.ordered_by_name_asc_id_desc' do
       it 'returns users ordered by name ASC, id DESC' do
         user1 = create(:user, name: 'BBB')
