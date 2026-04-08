@@ -39,6 +39,14 @@ RSpec.describe WorkItems::TypesFramework::Provider, feature_category: :team_plan
         expect(provider.namespace).to be_nil
       end
     end
+
+    context 'when a Project is passed' do
+      it 'converts it to project_namespace' do
+        provider = described_class.new(project)
+
+        expect(provider.namespace).to eq(project.project_namespace)
+      end
+    end
   end
 
   describe '#fetch_work_item_type' do

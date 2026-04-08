@@ -8644,18 +8644,6 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
 
       subject.add_to_locked_set
     end
-
-    context 'when unstick_locked_merge_requests_redis is disabled' do
-      before do
-        stub_feature_flags(unstick_locked_merge_requests_redis: false)
-      end
-
-      it 'does not call Gitlab::MergeRequests::LockedSet.add' do
-        expect(Gitlab::MergeRequests::LockedSet).not_to receive(:add)
-
-        subject.add_to_locked_set
-      end
-    end
   end
 
   describe '#remove_from_locked_set' do
@@ -8665,18 +8653,6 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
         .with(subject.id)
 
       subject.remove_from_locked_set
-    end
-
-    context 'when unstick_locked_merge_requests_redis is disabled' do
-      before do
-        stub_feature_flags(unstick_locked_merge_requests_redis: false)
-      end
-
-      it 'does not call Gitlab::MergeRequests::LockedSet.remove' do
-        expect(Gitlab::MergeRequests::LockedSet).not_to receive(:remove)
-
-        subject.remove_from_locked_set
-      end
     end
   end
 

@@ -39,7 +39,10 @@ module WorkItems
         # 2. fetch types by the root group for Saas
         #
         # See https://gitlab.com/groups/gitlab-org/-/work_items/20291
-        @namespace = namespace
+        #
+        # NOTE: If a `Project` instance is passed, we automatically use its `project_namespace`.
+        # Projects are not Namespace objects and will cause unexpected behaviour otherwise.
+        @namespace = namespace.is_a?(::Project) ? namespace.project_namespace : namespace
       end
 
       attr_reader :namespace

@@ -158,7 +158,7 @@ To impersonate a user:
   1. In the left sidebar, select **Overview** > **Users**.
   1. From the list of users, select a user.
   1. In the upper right, select **Impersonate**.
-  1. To stop impersonating, in the left sidebar at the top, select **Stop impersonating** ({{< icon name="incognito" >}}).
+  1. To stop impersonating, in the upper-right corner, select **Stop impersonating** ({{< icon name="incognito" >}}).
 - With the API, using [impersonation tokens](../api/rest/authentication.md#impersonation-tokens).
 
 All impersonation activities are [captured with audit events](compliance/audit_event_reports.md#user-impersonation).

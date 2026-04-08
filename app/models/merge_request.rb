@@ -937,10 +937,6 @@ class MergeRequest < ApplicationRecord
     [:assignees, :reviewers] + super
   end
 
-  def self.use_locked_set?
-    Feature.enabled?(:unstick_locked_merge_requests_redis) # rubocop:disable Gitlab/FeatureFlagWithoutActor -- pre-existing feature flag
-  end
-
   def recent_commits(limit: MergeRequestDiff::COMMITS_SAFE_SIZE, load_from_gitaly: false, page: nil, preload_metadata: false)
     if preload_metadata && !load_from_gitaly
       preload_commits_metadata
@@ -2788,14 +2784,10 @@ class MergeRequest < ApplicationRecord
   end
 
   def add_to_locked_set
-    return unless self.class.use_locked_set?
-
     Gitlab::MergeRequests::LockedSet.add(self.id, rescue_connection_error: false)
   end
 
   def remove_from_locked_set
-    return unless self.class.use_locked_set?
-
     Gitlab::MergeRequests::LockedSet.remove(self.id)
   end
 
