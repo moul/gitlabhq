@@ -262,6 +262,89 @@ describe('NoteableDiscussion', () => {
     expect(props.internal).toBe(true);
   });
 
+  describe('draft review support', () => {
+    it('hides reply wrapper for draft discussions', () => {
+      createComponent({
+        props: { discussion: createDiscussion({ isDraft: true }) },
+      });
+      expect(wrapper.find('[data-testid="reply-wrapper"]').exists()).toBe(false);
+    });
+
+    describe('saveDraft', () => {
+      beforeEach(() => {
+        detectAndConfirmSensitiveTokens.mockResolvedValue(true);
+        store.addDraftToDiscussion = jest.fn().mockResolvedValue();
+      });
+
+      it('passes saveDraft to NoteForm when canStartReview', () => {
+        createComponent({
+          props: { discussion: createDiscussion({ isReplying: true }) },
+        });
+        expect(wrapper.findComponent(NoteForm).props('saveDraft')).toEqual(expect.any(Function));
+      });
+
+      it('does not pass saveDraft when store lacks addDraftToDiscussion', () => {
+        delete store.addDraftToDiscussion;
+        createComponent({
+          props: { discussion: createDiscussion({ isReplying: true }) },
+        });
+        expect(wrapper.findComponent(NoteForm).props('saveDraft')).toBeNull();
+      });
+
+      it('does not pass saveDraft when discussion already has a draft reply', () => {
+        const discussion = createDiscussion({ isReplying: true });
+        discussion.notes.push({ id: 'draft-1', isDraft: true });
+        createComponent({ props: { discussion } });
+        expect(wrapper.findComponent(NoteForm).props('saveDraft')).toBeNull();
+      });
+
+      it('passes hasDrafts to NoteForm', () => {
+        store.hasDrafts = true;
+        createComponent({
+          props: { discussion: createDiscussion({ isReplying: true }) },
+        });
+        expect(wrapper.findComponent(NoteForm).props('hasDrafts')).toBe(true);
+      });
+
+      it('calls store.addDraftToDiscussion and closes form', async () => {
+        const discussion = createDiscussion({ isReplying: true });
+        createComponent({ props: { discussion } });
+        await wrapper.findComponent(NoteForm).props('saveDraft')('draft text');
+        expect(store.addDraftToDiscussion).toHaveBeenCalledWith(discussion, 'draft text');
+        expect(wrapper.emitted('stopReplying')).toStrictEqual([[]]);
+      });
+
+      it('does not save draft when sensitive token detection is declined', async () => {
+        detectAndConfirmSensitiveTokens.mockResolvedValue(false);
+        createComponent({
+          props: { discussion: createDiscussion({ isReplying: true }) },
+        });
+        await wrapper.findComponent(NoteForm).props('saveDraft')('draft text');
+        expect(store.addDraftToDiscussion).not.toHaveBeenCalled();
+      });
+
+      it('shows alert when draft save fails', async () => {
+        store.addDraftToDiscussion.mockRejectedValue({
+          response: { data: {}, status: 500 },
+        });
+        createComponent({
+          props: { discussion: createDiscussion({ isReplying: true }) },
+        });
+        await wrapper.findComponent(NoteForm).props('saveDraft')('draft text');
+        expect(createAlert).toHaveBeenCalled();
+        expect(wrapper.emitted('stopReplying')).toBe(undefined);
+      });
+
+      it('cancels form when empty text is passed', async () => {
+        createComponent({
+          props: { discussion: createDiscussion({ isReplying: true }) },
+        });
+        await wrapper.findComponent(NoteForm).props('saveDraft')('');
+        expect(store.addDraftToDiscussion).not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('resolve button', () => {
     const resolvableNote = {
       id: 'note-1',

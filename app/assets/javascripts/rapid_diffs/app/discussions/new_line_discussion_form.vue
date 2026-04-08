@@ -85,6 +85,20 @@ export default {
         });
       }
     },
+    async saveDraft(noteBody) {
+      try {
+        await this.store.createDraftLineDiscussion(this.discussion, noteBody);
+      } catch (e) {
+        const reason = e.response?.data?.errors;
+        const errorMessage = reason
+          ? sprintf(SAVING_THE_COMMENT_FAILED, { reason })
+          : SOMETHING_WENT_WRONG;
+        createAlert({
+          message: errorMessage,
+          parent: this.$refs.root,
+        });
+      }
+    },
   },
 };
 </script>
@@ -102,6 +116,8 @@ export default {
       :save-button-title="__('Comment')"
       :save-note="saveNote"
       :code-suggestions-config="codeSuggestionsConfig"
+      :save-draft="store.createDraftLineDiscussion ? saveDraft : null"
+      :has-drafts="Boolean(store.hasDrafts)"
       restore-from-autosave
       @input="store.setDiscussionFormText(discussion, $event)"
       @cancel="cancelReplyForm"

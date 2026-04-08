@@ -73,7 +73,11 @@ export default {
       return this.discussion.internal ? __('Reply internally') : __('Reply');
     },
     canReply() {
-      return !this.discussion.notes[0]?.system && !this.discussion.individual_note;
+      return (
+        !this.discussion.isDraft &&
+        !this.discussion.notes[0]?.system &&
+        !this.discussion.individual_note
+      );
     },
     resolvable() {
       return this.discussion.resolvable;
@@ -85,6 +89,12 @@ export default {
     },
     resolveButtonTitle() {
       return this.discussion.resolved ? __('Reopen thread') : __('Resolve thread');
+    },
+    hasDraftReply() {
+      return this.discussion.notes.some((note) => note.isDraft);
+    },
+    canStartReview() {
+      return Boolean(this.store.addDraftToDiscussion) && !this.hasDraftReply;
     },
   },
   methods: {
@@ -152,6 +162,28 @@ export default {
         createAlert({ message, parent: this.$el });
       }
     },
+    async saveDraft(noteText) {
+      if (!noteText) {
+        this.cancelReplyForm();
+        return;
+      }
+
+      const confirmSubmit = await detectAndConfirmSensitiveTokens({ content: noteText });
+
+      if (!confirmSubmit) {
+        return;
+      }
+
+      try {
+        await this.store.addDraftToDiscussion(this.discussion, noteText);
+        this.$emit('stopReplying');
+      } catch (e) {
+        const message = e.response
+          ? createNoteErrorMessages(e.response.data, e.response.status)[0]
+          : COMMENT_FORM.GENERIC_UNSUBMITTABLE_NETWORK;
+        createAlert({ message, parent: this.$el });
+      }
+    },
   },
 };
 </script>
@@ -198,6 +230,8 @@ export default {
             :internal="discussion.internal"
             :save-button-title="saveButtonTitle"
             :save-note="saveNote"
+            :save-draft="canStartReview ? saveDraft : null"
+            :has-drafts="Boolean(store.hasDrafts)"
             :request-last-note-editing="() => requestLastNoteEditing(discussion)"
             autofocus
             :autosave-key="autosaveKey"

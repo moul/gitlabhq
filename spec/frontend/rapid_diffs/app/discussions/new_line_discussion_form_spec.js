@@ -173,4 +173,47 @@ describe('NewLineDiscussionForm', () => {
       );
     });
   });
+
+  describe('draft review support', () => {
+    describe('when store has createDraftLineDiscussion', () => {
+      beforeEach(() => {
+        store.createDraftLineDiscussion = jest.fn().mockResolvedValue();
+        store.hasDrafts = false;
+      });
+
+      it('passes saveDraft to NoteForm', () => {
+        createComponent();
+        expect(findNoteForm().props('saveDraft')).toEqual(expect.any(Function));
+      });
+
+      it('passes hasDrafts to NoteForm', () => {
+        store.hasDrafts = true;
+        createComponent();
+        expect(findNoteForm().props('hasDrafts')).toBe(true);
+      });
+
+      it('calls store.createDraftLineDiscussion on saveDraft', async () => {
+        const discussion = createDiscussion();
+        createComponent({ discussion });
+        await findNoteForm().props('saveDraft')('draft text');
+        expect(store.createDraftLineDiscussion).toHaveBeenCalledWith(discussion, 'draft text');
+      });
+
+      it('shows alert on draft save failure', async () => {
+        store.createDraftLineDiscussion.mockRejectedValue(new Error('fail'));
+        createComponent();
+        await findNoteForm().props('saveDraft')('draft text');
+        expect(createAlert).toHaveBeenCalledWith(
+          expect.objectContaining({ message: SOMETHING_WENT_WRONG }),
+        );
+      });
+    });
+
+    describe('when store does not have createDraftLineDiscussion', () => {
+      it('does not pass saveDraft to NoteForm', () => {
+        createComponent();
+        expect(findNoteForm().props('saveDraft')).toBeNull();
+      });
+    });
+  });
 });

@@ -44,6 +44,9 @@ export default {
       // eslint-disable-next-line @gitlab/require-i18n-strings
       return `${window.location.pathname}-${path}-file`;
     },
+    canStartReview() {
+      return Boolean(this.store.createDraftFileDiscussion);
+    },
   },
   watch: {
     allDiscussions(value) {
@@ -67,6 +70,9 @@ export default {
     }),
     async saveNote(noteBody) {
       await this.store.createFileDiscussion(this.formDiscussion, noteBody);
+    },
+    async saveDraft(noteBody) {
+      await this.store.createDraftFileDiscussion(this.formDiscussion, noteBody);
     },
   },
 };
@@ -96,6 +102,8 @@ export default {
         :note-body="formDiscussion.noteBody"
         :save-button-title="__('Comment')"
         :save-note="saveNote"
+        :save-draft="canStartReview ? saveDraft : null"
+        :has-drafts="Boolean(store.hasDrafts)"
         restore-from-autosave
         @input="store.setDiscussionFormText(formDiscussion, $event)"
         @cancel="cancelReplyForm"

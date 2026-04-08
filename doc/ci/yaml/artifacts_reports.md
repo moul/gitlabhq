@@ -361,6 +361,50 @@ artifact and existing [requirements](../../user/project/requirements/_index.md) 
 GitLab can display the results of one or more reports in the
 [project requirements](../../user/project/requirements/_index.md#view-a-requirement).
 
+## `artifacts:reports:sarif`
+
+{{< details >}}
+
+- Tier: Ultimate
+
+{{< /details >}}
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/452042) in GitLab 18.11
+  with a [feature flag](../../administration/feature_flags/_index.md) named `sarif_ingestion`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag named `sarif_ingestion`.
+> For more information, see the history.
+
+The `sarif` report collects security findings from tools that emit
+[SARIF 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html) output.
+The collected SARIF report uploads to GitLab as an artifact.
+
+Use this report type to ingest findings from any SARIF-compatible scanner,
+such as Semgrep, ESLint security plugins, or GitHub Advanced Security tools.
+
+GitLab can display the results of one or more reports in:
+
+- The pipeline [**Security** tab](../../user/application_security/detect/security_scanning_results.md).
+- The [security dashboard](../../user/application_security/security_dashboard/_index.md).
+- The [Project Vulnerability report](../../user/application_security/vulnerability_report/_index.md).
+
+**Example**:
+
+```yaml
+semgrep:
+  image: returntocorp/semgrep
+  script:
+    - semgrep ci --sarif --output gl-sarif-report.sarif
+  artifacts:
+    reports:
+      sarif: gl-sarif-report.sarif
+```
+
 ## `artifacts:reports:sast`
 
 The `sast` report collects [SAST vulnerabilities](../../user/application_security/sast/_index.md).

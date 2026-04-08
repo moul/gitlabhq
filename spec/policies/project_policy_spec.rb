@@ -3046,27 +3046,11 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
           )
         end
 
-        context 'when use_prevent_all_for_job_token_scope feature flag is disabled' do
-          before do
-            stub_feature_flags(use_prevent_all_for_job_token_scope: false)
-          end
-
-          it "enforces the expected permissions" do
-            if result
-              expect_allowed(:"#{user_role}_access")
-            else
-              expect_disallowed(:"#{user_role}_access")
-            end
-          end
-        end
-
-        context 'when use_prevent_all_for_job_token_scope feature flag is enabled' do
-          it "enforces the expected permissions" do
-            if result
-              expect_allowed(*allowed_permissions)
-            else
-              expect_disallowed(*disallowed_permissions)
-            end
+        it "enforces the expected permissions" do
+          if result
+            expect_allowed(*allowed_permissions)
+          else
+            expect_disallowed(*disallowed_permissions)
           end
         end
       end
@@ -3271,29 +3255,11 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
           end
         end
 
-        context 'when use_prevent_all_for_job_token_scope feature flag is disabled' do
-          let(:permission) { :public_user_access }
-
-          before do
-            stub_feature_flags(use_prevent_all_for_job_token_scope: false)
-          end
-
-          it "enforces the expected permissions" do
-            if allowed
-              expect_allowed(permission)
-            else
-              expect_disallowed(permission)
-            end
-          end
-        end
-
-        context 'when use_prevent_all_for_job_token_scope feature flag is enabled' do
-          it "enforces the expected permissions" do
-            if allowed
-              expect_allowed(:read_project)
-            else
-              expect_disallowed(*disallowed_permissions)
-            end
+        it "enforces the expected permissions" do
+          if allowed
+            expect_allowed(:read_project)
+          else
+            expect_disallowed(*disallowed_permissions)
           end
         end
       end

@@ -82,7 +82,7 @@ export default {
       v-else
       :note="firstNote"
       :timeline-layout="timelineLayout"
-      :show-reply-button="userPermissions.can_create_note && !individual && !firstNote.isDraft"
+      :show-reply-button="userPermissions.can_create_note && !individual"
       :is-last-discussion="isLastDiscussion"
       :can-resolve="canResolve"
       :is-resolved="isResolved"

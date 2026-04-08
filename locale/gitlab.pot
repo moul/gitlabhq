@@ -11573,6 +11573,9 @@ msgstr ""
 msgid "BillingPlans|10000 compute minutes"
 msgstr ""
 
+msgid "BillingPlans|12 credits/user/month included in plan for:"
+msgstr ""
+
 msgid "BillingPlans|400 compute minutes"
 msgstr ""
 
@@ -11627,7 +11630,13 @@ msgstr ""
 msgid "BillingPlans|Advanced security capabilities"
 msgstr ""
 
+msgid "BillingPlans|After purchasing your subscription, you'll complete a separate checkout for credits."
+msgstr ""
+
 msgid "BillingPlans|Agents"
+msgstr ""
+
+msgid "BillingPlans|All included credits, plus shared credits for:"
 msgstr ""
 
 msgid "BillingPlans|All stages of the DevOps lifecycle"
@@ -11654,6 +11663,9 @@ msgstr ""
 msgid "BillingPlans|Automatically sync branches, tags, and commits from an external repository."
 msgstr ""
 
+msgid "BillingPlans|Best for teams just getting started with AI. Included in the cost of your %{planName} subscription.*"
+msgstr ""
+
 msgid "BillingPlans|Billing"
 msgstr ""
 
@@ -11667,6 +11679,9 @@ msgid "BillingPlans|Build smarter with intelligent AI"
 msgstr ""
 
 msgid "BillingPlans|Built to grow with your team"
+msgstr ""
+
+msgid "BillingPlans|Cannot exceed 999,999 credits"
 msgstr ""
 
 msgid "BillingPlans|Chat that can be used throughout the GitLab platform, granting a much more fluid and efficient workflow experience."
@@ -11693,6 +11708,9 @@ msgstr ""
 msgid "BillingPlans|Consolidate your toolchain in one place"
 msgstr ""
 
+msgid "BillingPlans|Continue to checkout"
+msgstr ""
+
 msgid "BillingPlans|Continue with GitLab Premium to keep shipping faster, together."
 msgstr ""
 
@@ -11712,6 +11730,9 @@ msgid "BillingPlans|Customizable pre-receive Git hooks that enforce commit conte
 msgstr ""
 
 msgid "BillingPlans|Customize approval workflows with rules defining who must review code before merging, including options to prevent self-approvals and require authentication."
+msgstr ""
+
+msgid "BillingPlans|Discounted bulk credits shared across your group, this is best for teams looking to scale their AI usage. Billed annually."
 msgstr ""
 
 msgid "BillingPlans|Discover Premium"
@@ -11816,6 +11837,9 @@ msgstr ""
 msgid "BillingPlans|If you would like to downgrade your plan please contact %{support_link_start}Customer Support%{support_link_end}."
 msgstr ""
 
+msgid "BillingPlans|Included credits"
+msgstr ""
+
 msgid "BillingPlans|Includes $12 in GitLab Credits per user per month"
 msgstr ""
 
@@ -11864,10 +11888,19 @@ msgstr ""
 msgid "BillingPlans|Merge trains"
 msgstr ""
 
+msgid "BillingPlans|Minimum 5 credits"
+msgstr ""
+
+msgid "BillingPlans|Monthly commitment"
+msgstr ""
+
 msgid "BillingPlans|Multi-region support"
 msgstr ""
 
 msgid "BillingPlans|Multiple approval rules"
+msgstr ""
+
+msgid "BillingPlans|Must be a valid number"
 msgstr ""
 
 msgid "BillingPlans|No credit card required"
@@ -12014,6 +12047,18 @@ msgstr ""
 msgid "BillingPlans|Unlimited licensed users"
 msgstr ""
 
+msgid "BillingPlans|Up to 4 additional code reviews per credit"
+msgstr ""
+
+msgid "BillingPlans|Up to 48 code reviews"
+msgstr ""
+
+msgid "BillingPlans|Up to 50 additional code suggestions per credit"
+msgstr ""
+
+msgid "BillingPlans|Up to 600 code suggestions"
+msgstr ""
+
 msgid "BillingPlans|Upgrade and unlock advanced features that boost your team's productivity instantly."
 msgstr ""
 
@@ -12032,7 +12077,13 @@ msgstr ""
 msgid "BillingPlans|Visibility & Incident Response"
 msgstr ""
 
+msgid "BillingPlans|Volume discounts available"
+msgstr ""
+
 msgid "BillingPlans|Vulnerability Management"
+msgstr ""
+
+msgid "BillingPlans|We recommend starting with 20 credits per month."
 msgstr ""
 
 msgid "BillingPlans|You don't have any groups. You'll need to %{create_group_link_start}create one%{create_group_link_end} and %{move_link_start}move your projects to it%{move_link_end}."
@@ -12075,6 +12126,9 @@ msgid "BillingPlans|instance"
 msgstr ""
 
 msgid "BillingPlans|monthly"
+msgstr ""
+
+msgid "BillingPlans|per GitLab Credit"
 msgstr ""
 
 msgid "BillingPlans|per user"
@@ -21942,6 +21996,9 @@ msgid "Credit card"
 msgstr ""
 
 msgid "Credit card validation record saved"
+msgstr ""
+
+msgid "Credits per month"
 msgstr ""
 
 msgid "Critical - S1"

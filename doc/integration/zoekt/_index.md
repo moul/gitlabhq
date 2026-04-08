@@ -734,6 +734,25 @@ Adjust resources based on your specific workload characteristics, including:
 - Frequency of code changes
 - Indexing patterns
 
+### Memory architecture
+
+The webserver and indexer have different memory usage patterns.
+
+The webserver memory-maps index shards from disk into virtual memory.
+The operating system pages shard data in and out of physical memory as searches
+are served. Resident memory usage grows with the active working set.
+Nodes with larger indices or higher query volume require more webserver
+memory to avoid page thrashing and out-of-memory conditions.
+
+The indexer processes Git object data in memory when it builds or rebuilds
+indices. Memory usage spikes when indexing large repositories or when multiple
+tasks run in parallel. You can control peak indexer memory by adjusting the
+[number of parallel processes per indexing task](#set-the-number-of-parallel-processes-per-indexing-task)
+and the [indexing CPU to tasks multiplier](#set-concurrent-indexing-tasks).
+
+On VM and bare metal deployments, the webserver and indexer share the same
+system memory.
+
 ### Nodes
 
 For optimal performance, proper sizing of Zoekt nodes is crucial.
@@ -793,7 +812,6 @@ You can allocate these resources only to the entire node.
 For VM and bare metal deployments:
 
 - Monitor CPU, memory, and disk usage to identify bottlenecks.
-  Both webserver and indexer processes share the same CPU and memory resources.
 - Consider using SSD storage for better indexing performance.
 - Ensure adequate network bandwidth for data transfer between GitLab and Zoekt nodes.
 

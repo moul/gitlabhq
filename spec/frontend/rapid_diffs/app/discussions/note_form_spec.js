@@ -357,4 +357,107 @@ describe('NoteForm', () => {
       });
     });
   });
+
+  describe('draft review support', () => {
+    const saveDraft = jest.fn().mockResolvedValue();
+
+    const findAddToReviewButton = () => wrapper.findByTestId('add-to-review-button');
+    const findCommentButton = () => wrapper.findByTestId('reply-comment-button');
+
+    describe('when saveDraft is not provided', () => {
+      it('does not show add-to-review button', () => {
+        createComponent({ noteBody: 'test' });
+        expect(findAddToReviewButton().exists()).toBe(false);
+      });
+
+      it('shows comment button as primary with saveButtonTitle', () => {
+        createComponent({ noteBody: 'test', saveButtonTitle: 'Comment' });
+        expect(findCommentButton().text()).toBe('Comment');
+        expect(findCommentButton().props('category')).toBe('primary');
+      });
+    });
+
+    describe('when saveDraft is provided', () => {
+      it('shows add-to-review button', () => {
+        createComponent({ saveDraft, noteBody: 'test' });
+        expect(findAddToReviewButton().exists()).toBe(true);
+      });
+
+      it('shows "Start a review" when hasDrafts is false', () => {
+        createComponent({ saveDraft, noteBody: 'test', hasDrafts: false });
+        expect(findAddToReviewButton().text()).toBe('Start a review');
+      });
+
+      it('shows "Add to review" when hasDrafts is true', () => {
+        createComponent({ saveDraft, noteBody: 'test', hasDrafts: true });
+        expect(findAddToReviewButton().text()).toBe('Add to review');
+      });
+
+      it('shows comment button as secondary with "Add comment now"', () => {
+        createComponent({ saveDraft, noteBody: 'test' });
+        expect(findCommentButton().text()).toBe('Add comment now');
+        expect(findCommentButton().props('category')).toBe('secondary');
+      });
+
+      it('disables add-to-review button when text is empty', () => {
+        createComponent({ saveDraft });
+        expect(findAddToReviewButton().props('disabled')).toBe(true);
+      });
+
+      it('calls saveDraft on add-to-review button click', async () => {
+        createComponent({ saveDraft, noteBody: 'draft text' }, undefined, {
+          MarkdownEditor: stubComponent(MarkdownEditor, {
+            template: '<div></div>',
+            computed: {
+              isContentEditorActive() {
+                return false;
+              },
+            },
+          }),
+        });
+        await findAddToReviewButton().vm.$emit('click');
+        await nextTick();
+        expect(saveDraft).toHaveBeenCalledWith('draft text');
+      });
+
+      it('calls saveDraft on shift+cmd+enter', async () => {
+        createComponent({ saveDraft, noteBody: 'draft text' }, undefined, {
+          MarkdownEditor: stubComponent(MarkdownEditor, {
+            template: '<div></div>',
+            computed: {
+              isContentEditorActive() {
+                return false;
+              },
+            },
+          }),
+        });
+        findEditor().vm.$emit('input', 'draft text');
+        findEditor().vm.$emit(
+          'keydown',
+          new KeyboardEvent('keydown', { key: ENTER_KEY, shiftKey: true, metaKey: true }),
+        );
+        await nextTick();
+        expect(saveDraft).toHaveBeenCalledWith('draft text');
+        expect(defaultProps.saveNote).not.toHaveBeenCalled();
+      });
+
+      it('shows alert on draft save failure', async () => {
+        const failingSaveDraft = jest.fn().mockRejectedValue({ response: null });
+        createComponent({ saveDraft: failingSaveDraft, noteBody: 'test' }, undefined, {
+          MarkdownEditor: stubComponent(MarkdownEditor, {
+            template: '<div></div>',
+            computed: {
+              isContentEditorActive() {
+                return false;
+              },
+            },
+          }),
+        });
+        await findAddToReviewButton().vm.$emit('click');
+        await nextTick();
+        await nextTick();
+        expect(createAlert).toHaveBeenCalled();
+      });
+    });
+  });
 });

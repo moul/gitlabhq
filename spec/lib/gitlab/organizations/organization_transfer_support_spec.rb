@@ -40,7 +40,6 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       dependency_list_export_parts
       dependency_list_export_uploads
       fork_networks
-      granular_scopes
       group_type_ci_runner_machines
       group_type_ci_runners
       group_upload_states
@@ -65,7 +64,6 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       organization_settings
       organization_user_details
       organization_users
-      personal_access_token_granular_scopes
       personal_access_token_last_used_ips
       pool_repositories
       project_secrets_manager_maintenance_tasks

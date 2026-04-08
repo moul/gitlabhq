@@ -57,15 +57,6 @@ describe('DiscussionNotes', () => {
           defaultProvisions.userPermissions.can_create_note,
         );
       });
-
-      it('hides reply button for draft notes', () => {
-        const note = { id: 'foo', isDraft: true };
-        createComponent(
-          { notes: [note] },
-          { provide: { userPermissions: { can_create_note: true } } },
-        );
-        expect(wrapper.findComponent(NoteableNote).props('showReplyButton')).toBe(false);
-      });
     });
 
     describe('draft replies', () => {

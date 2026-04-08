@@ -52575,6 +52575,7 @@ Represents vulnerability metrics by identifier with filtering.
 | <a id="vulnerabilitiesbyidentifier-byseverity"></a>`bySeverity` | [`[VulnerabilitySeverityCount!]`](#vulnerabilityseveritycount) | Vulnerability counts grouped by severity level. |
 | <a id="vulnerabilitiesbyidentifier-count"></a>`count` | [`Int`](#int) | Number of vulnerabilities for the identifier. |
 | <a id="vulnerabilitiesbyidentifier-name"></a>`name` | [`String!`](#string) | Identifier name. |
+| <a id="vulnerabilitiesbyidentifier-url"></a>`url` | [`String`](#string) | URL to the identifier on the MITRE website. |
 
 ### `VulnerabilitiesCountByDay`
 

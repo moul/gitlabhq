@@ -745,11 +745,7 @@ class ProjectPolicy < BasePolicy
   # If the project is private
   rule { ~project_allowed_for_job_token }.prevent_all
 
-  condition(:job_token_prevent_all_enabled, scope: :subject) do
-    Feature.enabled?(:use_prevent_all_for_job_token_scope, @subject)
-  end
-
-  rule { job_token_prevent_all_enabled & public_or_internal & ~project_allowed_for_job_token_by_scope }.prevent_all do
+  rule { public_or_internal & ~project_allowed_for_job_token_by_scope }.prevent_all do
     except :build_download_code
     except :build_read_container_image
     except :read_build
@@ -757,23 +753,8 @@ class ProjectPolicy < BasePolicy
     except(*::Authz::Role.get(:public_anonymous).direct_permissions(:project))
   end
 
-  rule { job_token_prevent_all_enabled & public_project & ~project_allowed_for_job_token_by_scope }.policy do
+  rule { public_project & ~project_allowed_for_job_token_by_scope }.policy do
     prevent :build_download_code
-  end
-
-  # If this project is public or internal we want to prevent all aside from a few public policies
-  rule { ~job_token_prevent_all_enabled & public_or_internal & ~project_allowed_for_job_token_by_scope }.policy do
-    prevent :guest_access
-    prevent :planner_access
-    prevent :public_access
-    prevent :reporter_access
-    prevent :developer_access
-    prevent :maintainer_access
-    prevent :owner_access
-  end
-
-  rule { ~job_token_prevent_all_enabled & public_project & ~project_allowed_for_job_token_by_scope }.policy do
-    prevent :public_user_access
   end
 
   rule { can?(:developer_access) & push_repository_for_job_token_allowed }.policy do

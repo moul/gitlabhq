@@ -157,4 +157,42 @@ describe('DiffFileDiscussions', () => {
       expect(wrapper.findComponent(DiffFileDiscussionExpansion).exists()).toBe(false);
     });
   });
+
+  describe('draft review support', () => {
+    describe('when store has createDraftFileDiscussion', () => {
+      beforeEach(() => {
+        store.createDraftFileDiscussion = jest.fn().mockResolvedValue();
+        store.hasDrafts = false;
+      });
+
+      it('passes saveDraft to NoteForm', () => {
+        store.discussions = [createFileForm()];
+        createComponent();
+        expect(wrapper.findComponent(NoteForm).props('saveDraft')).toEqual(expect.any(Function));
+      });
+
+      it('passes hasDrafts to NoteForm', () => {
+        store.hasDrafts = true;
+        store.discussions = [createFileForm()];
+        createComponent();
+        expect(wrapper.findComponent(NoteForm).props('hasDrafts')).toBe(true);
+      });
+
+      it('calls store.createDraftFileDiscussion on saveDraft', async () => {
+        const form = createFileForm();
+        store.discussions = [form];
+        createComponent();
+        await wrapper.findComponent(NoteForm).props('saveDraft')('draft comment');
+        expect(store.createDraftFileDiscussion).toHaveBeenCalledWith(form, 'draft comment');
+      });
+    });
+
+    describe('when store does not have createDraftFileDiscussion', () => {
+      it('does not pass saveDraft to NoteForm', () => {
+        store.discussions = [createFileForm()];
+        createComponent();
+        expect(wrapper.findComponent(NoteForm).props('saveDraft')).toBeNull();
+      });
+    });
+  });
 });
