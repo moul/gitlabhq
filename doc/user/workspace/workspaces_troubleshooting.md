@@ -87,7 +87,7 @@ Verify the agent is connected to GitLab:
    kubectl logs -f -l app=gitlab-agent -n gitlab-workspaces
    ```
 
-## Error: `unsupported scheme in GitLab Relay (KAS) address`
+## Error: `unsupported scheme in kas address`
 
 This error occurs when the GitLab Relay (KAS) address is missing the required protocol
 scheme.

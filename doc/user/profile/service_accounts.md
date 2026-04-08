@@ -40,18 +40,18 @@ They can interact with [package and container registries](../packages/_index.md)
 perform [Git operations](personal_access_tokens.md#clone-repository-using-personal-access-token),
 and access the API.
 
-Service accounts:
+Service accounts have the following characteristics:
 
-- Do not use a seat.
-- Cannot sign in to GitLab through the UI.
-- Cannot be managed through services such as LDAP.
-- Appear in group and project membership lists as service accounts.
-- Do not receive notification emails unless you add a [custom email address](../../api/service_accounts.md#create-an-instance-service-account).
-- Are not [billable users](../../subscriptions/manage_seats.md#billable-users) or [internal users](../../administration/internal_users.md).
-- Are available on [trial versions](https://gitlab.com/-/trial_registrations/new?glm_source=docs.gitlab.com&glm_content=free-user-limit-faq/ee/user/free_user_limit.html)
+- They do not use a seat.
+- They are not [billable users](../../subscriptions/manage_seats.md#billable-users) or [internal users](../../administration/internal_users.md).
+- They are always marked as [external users](../../administration/external_users.md).
+- They cannot sign in to GitLab through the UI.
+- They cannot be managed through services such as LDAP.
+- They cannot create top-level groups or other service accounts when provisioned by a subgroup or project.
+- They are listed in group and project membership lists as service accounts, not as regular users.
+- They do not receive notification emails unless you add a [custom email address](../../api/service_accounts.md#create-an-instance-service-account).
+- They are available on [trial versions](https://gitlab.com/-/trial_registrations/new?glm_source=docs.gitlab.com&glm_content=free-user-limit-faq/ee/user/free_user_limit.html)
   of GitLab. On GitLab.com, the Owner of the top-level group must verify their identity first.
-- Cannot create top-level groups or other service accounts.
-  when provisioned by a subgroup or project.
 
 You can also manage service accounts through the [service accounts API](../../api/service_accounts.md).
 
@@ -61,7 +61,8 @@ The number of service accounts you can create depends on your subscription and o
 - On GitLab Free, limits vary by offering:
   - For GitLab.com, you can create up to 100 service accounts for each top-level group.
     This includes service accounts created in subgroups or projects.
-  - For GitLab Self-Managed, you cannot create service accounts.
+  - For GitLab Self-Managed Enterprise Edition (EE), you can create up to 100 service accounts instance-wide.
+  - For GitLab Self-Managed Community Edition (CE), you cannot create service accounts.
 
 ## Types of service accounts
 
@@ -179,7 +180,8 @@ The number of service accounts you can create depends on your subscription and o
 - On GitLab Free, limits vary by offering:
   - For GitLab.com, you can create up to 100 service accounts for each top-level group.
     This includes service accounts created in subgroups or projects.
-  - For GitLab Self-Managed, you cannot create service accounts.
+  - For GitLab Self-Managed Enterprise Edition (EE), you can create up to 100 service accounts instance-wide.
+  - For GitLab Self-Managed Community Edition (CE), you cannot create service accounts.
 
 To create a service account:
 

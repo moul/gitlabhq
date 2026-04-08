@@ -316,7 +316,6 @@ following the [release schedule](../../administration/dedicated/maintenance.md) 
 | Feature                | Description                                                     | Impact |
 | ---------------------- | --------------------------------------------------------------- | ------ |
 | Custom domains         | Host GitLab Pages sites on custom domain names.                 | Pages sites accessible only using `tenant_name.gitlab-dedicated.site`. |
-| PrivateLink access     | Private network access to GitLab Pages through AWS PrivateLink. | Pages sites are accessible over the public internet only. You can configure IP allowlists to restrict access to specific IP addresses. |
 | Namespaces in URL path | Organize Pages sites with namespace-based URL structure.        | Limited URL organization options. |
 
 ### Operational features

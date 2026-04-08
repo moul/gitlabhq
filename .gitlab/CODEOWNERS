@@ -46,6 +46,7 @@ Rakefile @gitlab-org/maintainers/rails-backend
 # HAML markup is considered ~frontend code.
 # However, Ruby code in HAML templates is considered ~backend code
 *.haml @gitlab-org/maintainers/rails-backend @gitlab-org/maintainers/frontend
+/public/ @gitlab-org/maintainers/rails-backend @gitlab-org/maintainers/frontend
 /app/views/**/*.erb @gitlab-org/maintainers/rails-backend @gitlab-org/maintainers/frontend
 /ee/app/views/**/*.erb @gitlab-org/maintainers/rails-backend @gitlab-org/maintainers/frontend
 
@@ -95,6 +96,9 @@ Rakefile @gitlab-org/maintainers/rails-backend
 !/doc/**/*.png
 !/doc/**/*.svg
 !/data/**/*.yml
+
+# API docs can be approved by BE
+/doc/api/ @gitlab-org/technical-writing/tw-docops @gitlab-org/tw-leadership @gitlab-org/maintainers/rails-backend
 
 ## Technical writing files that do not need `*` rule approval,
 ## but still require an approval from a TW team DRI for each file.
