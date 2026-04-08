@@ -18,7 +18,7 @@ import setWindowLocation from 'helpers/set_window_location_helper';
 import waitForPromises from 'helpers/wait_for_promises';
 import { createAlert } from '~/alert';
 import { helpPagePath } from '~/helpers/help_page_helper';
-import { scrollTo } from '~/lib/utils/scroll_utils';
+import { scrollTo, scrollToElement } from '~/lib/utils/scroll_utils';
 import PageHeading from '~/vue_shared/components/page_heading.vue';
 import CreateGranularPersonalAccessTokenForm from '~/personal_access_tokens/components/create_granular_token/create_granular_personal_access_token_form.vue';
 import PersonalAccessTokenExpirationDate from '~/personal_access_tokens/components/create_granular_token/personal_access_token_expiration_date.vue';
@@ -242,21 +242,21 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
     it('validates name is required', async () => {
       await findCreateButton().vm.$emit('click');
 
-      expect(findNameFormGroup().attributes('invalid-feedback')).toBe('Token name is required.');
+      expect(findNameFormGroup().attributes('invalid-feedback')).toBe('Add token name.');
     });
 
     it('validates description is required', async () => {
       await findCreateButton().vm.$emit('click');
 
       expect(findDescriptionFormGroup().attributes('invalid-feedback')).toBe(
-        'Token description is required.',
+        'Add token description.',
       );
     });
 
     it('validates expiration date when `accessTokenMaxDate` is provided', async () => {
       await findCreateButton().vm.$emit('click');
 
-      expect(findExpirationDateComponent().props('error')).toBe('Expiration date is required.');
+      expect(findExpirationDateComponent().props('error')).toBe('Add token expiration date.');
     });
 
     it('does not validate expiration date when `accessTokenMaxDate` is null', async () => {
@@ -272,7 +272,7 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
 
       await findCreateButton().vm.$emit('click');
 
-      expect(findScopeSelectorComponent().props('error')).toBe('At least one scope is required.');
+      expect(findScopeSelectorComponent().props('error')).toBe('Set group and project access.');
     });
 
     it('validates namespaces are required if access `SELECTED_MEMBERSHIPS`', async () => {
@@ -288,10 +288,10 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
       await findCreateButton().vm.$emit('click');
 
       expect(findGroupPermissionsSelector().props('error')).toBe(
-        'At least one permission is required.',
+        'Add at least one resource with permissions.',
       );
       expect(findUserPermissionsSelector().props('error')).toBe(
-        'At least one permission is required.',
+        'Add at least one resource with permissions.',
       );
     });
   });
@@ -304,6 +304,18 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
       await findCreateButton().vm.$emit('click');
 
       expect(mockMutationHandler).not.toHaveBeenCalled();
+    });
+
+    it('scrolls to the first invalid field when validation fails', async () => {
+      findNameFormGroup().element.classList.add('invalid-feedback');
+
+      await findCreateButton().vm.$emit('click');
+      await nextTick();
+
+      expect(scrollToElement).toHaveBeenCalledWith(findNameFormGroup().element, {
+        behavior: 'smooth',
+        offset: -100,
+      });
     });
 
     it('submits form with correct variables when both group & user permissions are selected', async () => {

@@ -4208,6 +4208,9 @@ msgstr ""
 msgid "AccessTokens|Add a %{type}"
 msgstr ""
 
+msgid "AccessTokens|Add at least one resource with permissions."
+msgstr ""
+
 msgid "AccessTokens|Add group or project"
 msgstr ""
 
@@ -4218,6 +4221,15 @@ msgid "AccessTokens|Add only the %{linkStart}minimum resource and permissions %{
 msgstr ""
 
 msgid "AccessTokens|Add resource permissions"
+msgstr ""
+
+msgid "AccessTokens|Add token description."
+msgstr ""
+
+msgid "AccessTokens|Add token expiration date."
+msgstr ""
+
+msgid "AccessTokens|Add token name."
 msgstr ""
 
 msgid "AccessTokens|Adding a group includes its subgroups and projects"
@@ -4275,9 +4287,6 @@ msgid "AccessTokens|Are you sure? Any issue email addresses currently in use wil
 msgstr ""
 
 msgid "AccessTokens|At least one group or project is required."
-msgstr ""
-
-msgid "AccessTokens|At least one permission is required."
 msgstr ""
 
 msgid "AccessTokens|At least one scope is required."
@@ -4621,6 +4630,9 @@ msgstr ""
 msgid "AccessTokens|Select scopes"
 msgstr ""
 
+msgid "AccessTokens|Set group and project access."
+msgstr ""
+
 msgid "AccessTokens|Set permissions with Duo"
 msgstr ""
 
@@ -4654,7 +4666,7 @@ msgstr ""
 msgid "AccessTokens|Token description"
 msgstr ""
 
-msgid "AccessTokens|Token description is required."
+msgid "AccessTokens|Token details"
 msgstr ""
 
 msgid "AccessTokens|Token expires in less than two weeks."
@@ -26370,6 +26382,15 @@ msgid_plural "DuoAgenticChat|%{count} characters remaining."
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "DuoAgenticChat|AGENTS.md"
+msgstr ""
+
+msgid "DuoAgenticChat|AGENTS.md included"
+msgstr ""
+
+msgid "DuoAgenticChat|AGENTS.md was not found in this page"
+msgstr ""
+
 msgid "DuoAgenticChat|As Owner of the group, you can turn on GitLab Duo Agent Platform and its AI features for your team."
 msgstr ""
 
@@ -26392,6 +26413,9 @@ msgid "DuoAgenticChat|Chat with different agents"
 msgstr ""
 
 msgid "DuoAgenticChat|Collaborate with AI agents to accomplish  tasks and answer questions, or use a multi-agent flow to solve a complex problem."
+msgstr ""
+
+msgid "DuoAgenticChat|Current page"
 msgstr ""
 
 msgid "DuoAgenticChat|Get targeted help for tasks with specialized agents"
@@ -26445,6 +26469,12 @@ msgstr ""
 msgid "DuoAgenticChat|I don't have access to that resource at the moment. Is there something else I can help you with?"
 msgstr ""
 
+msgid "DuoAgenticChat|Ignore previous AGENTS.md"
+msgstr ""
+
+msgid "DuoAgenticChat|Ignore previous chat-rules.md"
+msgstr ""
+
 msgid "DuoAgenticChat|Invalid chat state provided"
 msgstr ""
 
@@ -26464,6 +26494,12 @@ msgid "DuoAgenticChat|No credits remain on your trial"
 msgstr ""
 
 msgid "DuoAgenticChat|Optional. Turn on preview features"
+msgstr ""
+
+msgid "DuoAgenticChat|Page context"
+msgstr ""
+
+msgid "DuoAgenticChat|Prompted to ignore it"
 msgstr ""
 
 msgid "DuoAgenticChat|Purchase more credits"
@@ -26536,6 +26572,15 @@ msgid "DuoAgenticChat|Your GitLab Duo Agent Platform trial has ended"
 msgstr ""
 
 msgid "DuoAgenticChat|Your trial has ended. Repurchase to resume using GitLab Duo Agent Platform."
+msgstr ""
+
+msgid "DuoAgenticChat|chat-rules.md"
+msgstr ""
+
+msgid "DuoAgenticChat|chat-rules.md included"
+msgstr ""
+
+msgid "DuoAgenticChat|chat-rules.md was not found in this page"
 msgstr ""
 
 msgid "DuoAgentsPlatform|AI Catalog"
@@ -86043,6 +86088,9 @@ msgid "should be a valid NPM package name with optional wildcard characters."
 msgstr ""
 
 msgid "should be a valid PyPI package name with optional wildcard characters."
+msgstr ""
+
+msgid "should be a valid Terraform module package name with optional wildcard characters."
 msgstr ""
 
 msgid "should be a valid container repository path with optional wildcard characters."

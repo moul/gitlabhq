@@ -19,6 +19,7 @@ describe('PersonalAccessTokenScopeSelector', () => {
   const findFormGroup = () => wrapper.findComponent(GlFormGroup);
   const findRadioGroup = () => wrapper.findComponent(GlFormRadioGroup);
   const findRadioButtons = () => wrapper.findAllComponents(GlFormRadio);
+  const findErrorMessage = () => wrapper.find('.invalid-feedback');
 
   beforeEach(() => {
     createComponent();
@@ -69,12 +70,11 @@ describe('PersonalAccessTokenScopeSelector', () => {
   });
 
   describe('error handling', () => {
-    it('passes error state to form group', () => {
-      createComponent({ error: 'At least one scope is required.' });
+    it('shows error message when error prop is provided', () => {
+      createComponent({ error: 'Set group and project access.' });
 
-      expect(findFormGroup().attributes('invalid-feedback')).toBe(
-        'At least one scope is required.',
-      );
+      expect(findErrorMessage().exists()).toBe(true);
+      expect(findErrorMessage().text()).toBe('Set group and project access.');
     });
   });
 });

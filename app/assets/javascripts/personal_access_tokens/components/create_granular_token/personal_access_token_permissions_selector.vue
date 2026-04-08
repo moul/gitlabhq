@@ -211,8 +211,6 @@ export default {
         @remove-resource="handleRemoveResource"
       />
     </div>
-    <div v-if="error" class="gl-font-sm gl-mt-2 gl-text-red-500">
-      {{ error }}
-    </div>
+    <div v-if="error" class="invalid-feedback gl-block gl-pb-4">{{ error }}</div>
   </gl-tab>
 </template>

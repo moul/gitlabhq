@@ -15,7 +15,7 @@ module Gitlab
               value.is_a?(String) || value.nil?
 
             @variable = { key: key, value: value, public: public, file: file, masked: masked, raw: raw }
-            @variable.freeze if Collection.skip_item_dup_enabled?
+            @variable.freeze
           end
 
           def key
@@ -81,7 +81,7 @@ module Gitlab
             when ::Ci::HasVariable, ::Ci::PipelineVariableItem
               new(**resource.to_hash_variable)
             when self
-              Collection.skip_item_dup_enabled? ? resource : resource.dup
+              resource
             else
               raise ArgumentError, "Unknown `#{resource.class}` variable resource!"
             end

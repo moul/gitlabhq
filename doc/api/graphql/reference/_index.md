@@ -31951,6 +31951,7 @@ Represents a summary of the compared codequality report.
 | <a id="commit-shortid"></a>`shortId` | [`String!`](#string) | Short SHA1 ID of the commit. |
 | <a id="commit-signature"></a>`signature` | [`CommitSignature`](#commitsignature) | Signature of the commit. |
 | <a id="commit-signaturehtml"></a>`signatureHtml` | [`String`](#string) | Rendered HTML of the commit signature. |
+| <a id="commit-tags"></a>`tags` | [`[String!]`](#string) | Tag names pointing to the commit. |
 | <a id="commit-title"></a>`title` | [`String`](#string) | Title of the commit message. |
 | <a id="commit-titlehtml"></a>`titleHtml` | [`String`](#string) | HTML rendering of `title`. |
 | <a id="commit-webpath"></a>`webPath` | [`String!`](#string) | Web path of the commit. |
@@ -58217,6 +58218,7 @@ Package type of a package protection rule resource.
 | <a id="packagesprotectionrulepackagetype-npm"></a>`NPM` | Packages of the npm format. |
 | <a id="packagesprotectionrulepackagetype-nuget"></a>`NUGET` | Packages of the NuGet format. |
 | <a id="packagesprotectionrulepackagetype-pypi"></a>`PYPI` | Packages of the PyPI format. |
+| <a id="packagesprotectionrulepackagetype-terraform_module"></a>`TERRAFORM_MODULE` | Packages of the Terraform module format. |
 
 ### `PermissionBoundary`
 

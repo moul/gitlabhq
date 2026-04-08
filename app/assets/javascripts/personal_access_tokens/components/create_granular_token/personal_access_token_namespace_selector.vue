@@ -230,8 +230,6 @@ export default {
       </div>
     </crud-component>
 
-    <div v-if="error" class="gl-font-sm gl-mt-2 gl-text-red-500">
-      {{ error }}
-    </div>
+    <div v-if="error" class="invalid-feedback gl-block">{{ error }}</div>
   </div>
 </template>

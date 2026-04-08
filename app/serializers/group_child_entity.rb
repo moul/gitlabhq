@@ -21,6 +21,10 @@ class GroupChildEntity < Grape::Entity
     can_archive?
   end
 
+  expose :can_transfer do |_instance|
+    can_transfer?
+  end
+
   expose :edit_path do |instance|
     # We know `type` will be one either `project` or `group`.
     # The `edit_polymorphic_path` helper would try to call the path helper
@@ -144,6 +148,12 @@ class GroupChildEntity < Grape::Entity
 
   def can_archive?
     ability = project? ? :archive_project : :archive_group
+
+    cross_project_ability_allowed?(ability)
+  end
+
+  def can_transfer?
+    ability = project? ? :change_namespace : :change_group
 
     cross_project_ability_allowed?(ability)
   end

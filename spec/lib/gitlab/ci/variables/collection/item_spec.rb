@@ -188,28 +188,6 @@ RSpec.describe Gitlab::Ci::Variables::Collection::Item, feature_category: :pipel
 
       expect { item.to_hash_variable[:key] = 'MUTATED' }.to raise_error(FrozenError)
     end
-
-    context 'when ci_skip_item_dup_in_variables_collection is disabled' do
-      before do
-        stub_feature_flags(ci_skip_item_dup_in_variables_collection: false)
-      end
-
-      it 'returns a different object for Item input (defensive copy)' do
-        item = described_class.new(**variable)
-
-        resource = described_class.fabricate(item)
-
-        expect(resource).to be_a(described_class)
-        expect(resource).to eq variable
-        expect(resource.object_id).not_to eq item.object_id
-      end
-
-      it 'does not freeze the internal variable hash' do
-        item = described_class.new(**variable)
-
-        expect { item.to_hash_variable[:key] = 'MUTATED' }.not_to raise_error
-      end
-    end
   end
 
   describe '#==' do

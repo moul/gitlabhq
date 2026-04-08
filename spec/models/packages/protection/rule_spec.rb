@@ -21,7 +21,8 @@ RSpec.describe Packages::Protection::Rule, type: :model, feature_category: :pack
         maven: Packages::Package.package_types[:maven],
         npm: Packages::Package.package_types[:npm],
         nuget: Packages::Package.package_types[:nuget],
-        pypi: Packages::Package.package_types[:pypi]
+        pypi: Packages::Package.package_types[:pypi],
+        terraform_module: Packages::Package.package_types[:terraform_module]
       )
     end
 
@@ -60,11 +61,11 @@ RSpec.describe Packages::Protection::Rule, type: :model, feature_category: :pack
     shared_examples 'validates package_name formats' do |column_name|
       context 'for different package types' do
         subject(:rule) do
-          build(:package_protection_rule, {
+          build(:package_protection_rule,
             package_type: package_type,
             pattern_type: :wildcard,
             target_field: :package_name
-          })
+          )
         end
 
         where(:package_type, :value, :allowed) do
@@ -95,6 +96,19 @@ RSpec.describe Packages::Protection::Rule, type: :model, feature_category: :pack
           :pypi | '$my-scope/my-package-with space sign'            | false
           :pypi | 'my-scope/my-package-with-@at@-sign'              | false
           :pypi | 'my-scope/my-package-with-@at@-sign-and-widlcard' | false
+
+          :terraform_module | '*'                        | true
+          :terraform_module | 'my-module/my-system'      | true
+          :terraform_module | 'my-module/*'              | true
+          :terraform_module | '*/my-system'              | true
+          :terraform_module | 'my-module/my-system*'     | true
+          :terraform_module | '*my-module/my-system'     | true
+          :terraform_module | 'my-module/my-system/%'    | false
+          :terraform_module | 'My-Module/my-system'      | false
+          :terraform_module | 'my_module/my_system'      | false
+          :terraform_module | 'my-module'                | false
+          :terraform_module | 'my module/my system'      | false
+          :terraform_module | '@scope/my-module/system'  | false
         end
 
         with_them do
@@ -105,7 +119,9 @@ RSpec.describe Packages::Protection::Rule, type: :model, feature_category: :pack
               is_expected.not_to(
                 allow_value(value)
                 .for(column_name)
-                .with_message(/should be a valid #{package_type} package name with optional wildcard characters./i)
+                .with_message(
+                  /should be a valid #{package_type.to_s.gsub('_', '[_ ]')} package name with optional wildcard/i
+                )
               )
             end
           end

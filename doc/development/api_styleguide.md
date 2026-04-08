@@ -269,7 +269,12 @@ Instead, format the response based on the endpoint response:
 When deprecating an endpoint, add the following to the `desc` block:
 
 - Add a `deprecated true` [option](https://github.com/ruby-grape/grape-swagger?tab=readme-ov-file#deprecating-routes).
-- Add a note on the deprecation timing to the detail option.
+  This sets the standard OpenAPI `deprecated: true` flag on the operation.
+- Add a note on the deprecation timing and any migration guidance to the `detail` option.
+
+Do not use `route_setting :lifecycle` for deprecated endpoints. Unlike experiment and
+beta stages, deprecation is natively supported by the OpenAPI specification through
+the `deprecated` field, which `deprecated true` maps to directly.
 
 ```ruby
 desc 'Get legacy broadcast messages' do

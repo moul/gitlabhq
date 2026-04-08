@@ -114,7 +114,11 @@ export default {
     window.removeEventListener('popstate', this.checkDrawerParams);
   },
   methods: {
-    openDrawer(item) {
+    openDrawer(event, item) {
+      if (event.metaKey || event.ctrlKey) {
+        return;
+      }
+      event.preventDefault();
       this.activeItem = item;
     },
     checkDrawerParams() {
@@ -175,12 +179,13 @@ export default {
           <ul class="gl-m-0 gl-list-none gl-p-0">
             <li v-for="item in closingWorkItems" :key="item.id" class="gl-mt-1">
               <gl-link
+                :href="item.webPath"
                 class="has-popover gl-block gl-truncate"
                 data-reference-type="work_item"
                 data-placement="top"
                 :data-iid="item.iid"
                 :data-project-path="item.namespace.fullPath"
-                @click.prevent="openDrawer(item)"
+                @click="openDrawer($event, item)"
               >
                 {{ item.title }}
               </gl-link>
@@ -192,12 +197,13 @@ export default {
           <ul class="gl-m-0 gl-list-none gl-p-0">
             <li v-for="item in mentionedWorkItems" :key="item.id" class="gl-mt-1">
               <gl-link
+                :href="item.webPath"
                 class="has-popover gl-block gl-truncate"
                 data-reference-type="work_item"
                 data-placement="top"
                 :data-iid="item.iid"
                 :data-project-path="item.namespace.fullPath"
-                @click.prevent="openDrawer(item)"
+                @click="openDrawer($event, item)"
               >
                 {{ item.title }}
               </gl-link>

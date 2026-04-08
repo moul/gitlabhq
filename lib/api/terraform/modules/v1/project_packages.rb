@@ -181,7 +181,10 @@ module API
                       .new(authorized_user_project, current_user, create_package_file_params)
                       .execute
 
-                    render_api_error!(result.message, result.reason) if result.error?
+                    if result.error?
+                      forbidden!(result.message) if result.cause.package_protected?
+                      render_api_error!(result.message, result.reason)
+                    end
 
                     track_package_event('push_package', :terraform_module, project: authorized_user_project,
                       namespace: authorized_user_project.namespace)

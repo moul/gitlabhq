@@ -68,6 +68,10 @@ module Types
       field :committer_name, type: GraphQL::Types::String, null: true,
         description: "Name of the committer."
 
+      field :tags, [GraphQL::Types::String], null: true,
+        description: 'Tag names pointing to the commit.',
+        method: :tags_for_display
+
       # models/commit lazy loads the author by email
       field :author, type: Types::UserType, null: true,
         description: 'Author of the commit.'

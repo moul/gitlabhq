@@ -30,10 +30,6 @@ This table lists the default model for each feature in the Agent Platform.
 This table lists the models you can select for features
 in the Agent Platform.
 
-> [!note]
-> The OpenAI models used in GitLab Duo Agentic Chat have experimental support, specifically for GPT-5, GPT-5 mini, and GPT-5-Codex.
-> Share your feedback about OpenAI models in GitLab Duo Agentic Chat in this [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/572864).
-
 | Model | GitLab Duo Agentic Chat | All other agents |
 |-------|--------------|------------------|
 | Claude Sonnet 4 | {{< yes >}} | {{< yes >}} |

@@ -26,6 +26,7 @@ const mockLinkedItem = ({ title, linkType }) => {
       id: `gid://gitlab/WorkItem/${workItemCounter + 100}`,
       iid: String(workItemCounter),
       title,
+      webPath: `/group/project/-/work_items/${workItemCounter}`,
       namespace: {
         id: 'gid://gitlab/Project/7',
         fullPath: 'group/project',
@@ -240,7 +241,7 @@ describe('MRRelatedWorkItems', () => {
     });
 
     it('opens drawer when link is clicked', async () => {
-      findAllLinks().at(0).vm.$emit('click', { preventDefault: jest.fn() });
+      findAllLinks().at(0).vm.$emit('click', { preventDefault: jest.fn(), metaKey: false });
       await nextTick();
 
       expect(findDrawer().props('open')).toBe(true);
@@ -250,8 +251,22 @@ describe('MRRelatedWorkItems', () => {
       });
     });
 
+    it('does not open drawer on meta+click', async () => {
+      findAllLinks().at(0).vm.$emit('click', { preventDefault: jest.fn(), metaKey: true });
+      await nextTick();
+
+      expect(findDrawer().props('open')).toBe(false);
+    });
+
+    it('does not open drawer on ctrl+click', async () => {
+      findAllLinks().at(0).vm.$emit('click', { preventDefault: jest.fn(), ctrlKey: true });
+      await nextTick();
+
+      expect(findDrawer().props('open')).toBe(false);
+    });
+
     it('closes drawer on close event', async () => {
-      findAllLinks().at(0).vm.$emit('click', { preventDefault: jest.fn() });
+      findAllLinks().at(0).vm.$emit('click', { preventDefault: jest.fn(), metaKey: false });
       await nextTick();
       expect(findDrawer().props('open')).toBe(true);
 

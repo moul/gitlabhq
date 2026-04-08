@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# Move this back to 'fast_spec_helper' when the FF `ci_skip_item_dup_in_variables_collection` is removed.
-require 'spec_helper'
+require 'fast_spec_helper'
 require 'rspec-parameterized'
 
 RSpec.describe ExpandVariables, feature_category: :pipeline_composition do

@@ -66,13 +66,11 @@ export default {
 <template>
   <div>
     <h2 class="gl-heading-3 gl-mb-2">{{ $options.i18n.groupAccess }}</h2>
-    <div class="gl-mb-4 gl-text-subtle">{{ $options.i18n.groupAccessDescription }}</div>
-    <gl-form-group
-      :invalid-feedback="error"
-      :state="!error"
-      label-for="group-access"
-      class="gl-mb-0"
-    >
+    <div class="gl-mb-2 gl-text-subtle">{{ $options.i18n.groupAccessDescription }}</div>
+
+    <div v-if="error" class="invalid-feedback gl-block">{{ error }}</div>
+
+    <gl-form-group :state="!error" label-for="group-access" class="gl-mb-0 gl-mt-4">
       <gl-form-radio-group id="group-access" v-model="selectedGroupAccessOption">
         <gl-form-radio
           v-for="option in groupAccessOptions"

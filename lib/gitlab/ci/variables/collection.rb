@@ -23,12 +23,6 @@ module Gitlab
           end
         end
 
-        def self.skip_item_dup_enabled?
-          Gitlab::SafeRequestStore.fetch(:ci_skip_item_dup_enabled) do
-            Feature.enabled?(:ci_skip_item_dup_in_variables_collection, Feature.current_request)
-          end
-        end
-
         def initialize(variables = [], errors = nil)
           @variables = []
           @variables_by_key = Hash.new { |h, k| h[k] = [] }

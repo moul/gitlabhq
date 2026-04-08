@@ -43,6 +43,7 @@ describe('PersonalAccessTokenPermissionsSelector', () => {
   const findResourcesList = () => wrapper.findComponent(PersonalAccessTokenResourcesList);
   const findPermissionsList = () =>
     wrapper.findComponent(PersonalAccessTokenGranularPermissionsList);
+  const findErrorMessage = () => wrapper.find('.invalid-feedback');
 
   beforeEach(() => {
     createComponent();
@@ -75,7 +76,8 @@ describe('PersonalAccessTokenPermissionsSelector', () => {
     it('shows error message when error prop is provided', () => {
       createComponent({ props: { error: 'At least one permission is required.' } });
 
-      expect(wrapper.text()).toContain('At least one permission is required.');
+      expect(findErrorMessage().exists()).toBe(true);
+      expect(findErrorMessage().text()).toBe('At least one permission is required.');
     });
   });
 

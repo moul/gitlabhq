@@ -66896,6 +66896,7 @@ definitions:
         - npm
         - nuget
         - pypi
+        - terraform_module
       minimum_access_level_for_delete:
         type: string
         description: Minimum GitLab access level required to delete a package. Valid
@@ -66940,6 +66941,7 @@ definitions:
         - npm
         - nuget
         - pypi
+        - terraform_module
       minimum_access_level_for_delete:
         type: string
         description: Minimum GitLab access level required to delete a package. Valid

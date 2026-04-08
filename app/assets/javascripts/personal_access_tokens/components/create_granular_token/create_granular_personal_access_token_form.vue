@@ -12,7 +12,7 @@ import {
   GlLoadingIcon,
 } from '@gitlab/ui';
 import PageHeading from '~/vue_shared/components/page_heading.vue';
-import { scrollTo } from '~/lib/utils/scroll_utils';
+import { scrollTo, scrollToElement } from '~/lib/utils/scroll_utils';
 import { helpPagePath } from '~/helpers/help_page_helper';
 import { getParameterByName } from '~/lib/utils/url_utility';
 import { s__, __, sprintf } from '~/locale';
@@ -228,6 +228,13 @@ export default {
     },
     async createGranularToken() {
       if (this.validateForm()) {
+        this.$nextTick(() => {
+          const firstError = this.$el.querySelector('.invalid-feedback');
+          if (firstError) {
+            scrollToElement(firstError, { behavior: 'smooth', offset: -100 });
+          }
+        });
+
         return;
       }
 
@@ -271,13 +278,13 @@ export default {
     ),
     basicInformation: s__('AcccessTokens|Basic Information'),
     nameLabel: s__('AccessTokens|Name'),
-    nameError: s__('AccessTokens|Token name is required.'),
+    nameError: s__('AccessTokens|Add token name.'),
     descriptionLabel: s__('AccessTokens|Description'),
-    descriptionError: s__('AccessTokens|Token description is required.'),
-    expirationDateError: s__('AccessTokens|Expiration date is required.'),
-    scopeError: s__('AccessTokens|At least one scope is required.'),
+    descriptionError: s__('AccessTokens|Add token description.'),
+    expirationDateError: s__('AccessTokens|Add token expiration date.'),
+    scopeError: s__('AccessTokens|Set group and project access.'),
     namespaceError: s__('AccessTokens|At least one group or project is required.'),
-    permissionsError: s__('AccessTokens|At least one permission is required.'),
+    permissionsError: s__('AccessTokens|Add at least one resource with permissions.'),
     duplicateName: s__('AccessTokens|%{name} (copy)'),
     sourceTokenFetchError: s__(
       'AccessTokens|Failed to load source token. Please fill in the form manually.',
@@ -403,7 +410,7 @@ export default {
           </gl-tabs>
         </section>
 
-        <section class="gl-mt-6">
+        <div class="settings-sticky-footer gl-flex gl-flex-wrap gl-gap-3">
           <gl-button variant="confirm" :loading="isSubmitting" @click="createGranularToken">
             {{ $options.i18n.createButton }}
           </gl-button>
@@ -411,7 +418,7 @@ export default {
           <gl-button :href="accessTokenTableUrl">
             {{ $options.i18n.cancelButton }}
           </gl-button>
-        </section>
+        </div>
       </gl-form>
     </div>
   </div>

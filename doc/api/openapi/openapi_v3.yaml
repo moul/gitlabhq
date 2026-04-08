@@ -32865,7 +32865,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_ce209d325af9"
+              "$ref": "#/components/schemas/RequestBody_a70447d56bab"
   "/api/v4/projects/{id}/packages/protection/rules/{package_protection_rule_id}":
     patch:
       operationId: patchApiV4ProjectsIdPackagesProtectionRulesPackageProtectionRuleId
@@ -32911,7 +32911,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_bba365003b11"
+              "$ref": "#/components/schemas/RequestBody_1445074d64a2"
     delete:
       operationId: deleteApiV4ProjectsIdPackagesProtectionRulesPackageProtectionRuleId
       summary: Delete package protection rule
@@ -99320,7 +99320,7 @@ components:
             required:
             - action
           nullable: true
-    RequestBody_ce209d325af9:
+    RequestBody_a70447d56bab:
       type: object
       properties:
         package_name_pattern:
@@ -99340,6 +99340,7 @@ components:
           - npm
           - nuget
           - pypi
+          - terraform_module
           description: Package type protected by the rule. For example npm.
           minLength: 1
         minimum_access_level_for_delete:
@@ -99367,7 +99368,7 @@ components:
       required:
       - package_name_pattern
       - package_type
-    RequestBody_bba365003b11:
+    RequestBody_1445074d64a2:
       type: object
       properties:
         package_name_pattern:
@@ -99387,6 +99388,7 @@ components:
           - npm
           - nuget
           - pypi
+          - terraform_module
           description: Package type protected by the rule. For example npm.
           nullable: true
         minimum_access_level_for_delete:
