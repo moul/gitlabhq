@@ -17,7 +17,7 @@ describe('EmptyStateWithoutAnyIssues component', () => {
     showNewIssueLink: false,
     signInPath: 'sign/in/path',
     groupId: '',
-    isProject: false,
+    isGroup: true,
     hasEpicsFeature: false,
   };
 
@@ -70,7 +70,7 @@ describe('EmptyStateWithoutAnyIssues component', () => {
             it('renders', () => {
               mountComponent({
                 props: { hasProjects: false },
-                provide: { canCreateProjects: true, isProject: false },
+                provide: { canCreateProjects: true },
               });
 
               expect(findNewProjectLink().attributes('href')).toBe(defaultProvide.newProjectPath);
@@ -81,7 +81,7 @@ describe('EmptyStateWithoutAnyIssues component', () => {
             it('does not render', () => {
               mountComponent({
                 props: { hasProjects: false },
-                provide: { canCreateProjects: true, isProject: true },
+                provide: { canCreateProjects: true, isGroup: false },
               });
 
               expect(findNewProjectLink().exists()).toBe(false);
@@ -102,7 +102,6 @@ describe('EmptyStateWithoutAnyIssues component', () => {
                 props: { hasProjects: false },
                 provide: {
                   canCreateProjects: true,
-                  isProject: false,
                   hasEpicsFeature: true,
                 },
               });

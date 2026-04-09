@@ -212,7 +212,6 @@ export default {
     'canReadCrmContact',
     'showNewWorkItem',
     'releasesPath',
-    'isProject',
     'hasBlockedIssuesFeature',
     'hasIssuableHealthStatusFeature',
     'hasIssueDateFilterFeature',
@@ -833,7 +832,6 @@ export default {
           token: WorkItemTypeToken,
           operators: OPERATORS_IS_NOT_OR,
           multiSelect: true,
-          fetchWorkItemTypes: this.fetchWorkItemTypes,
           fullPath: this.rootPageFullPath,
         });
       }
@@ -1465,15 +1463,6 @@ export default {
       this.pageSize = this.pageParams.firstPageSize || DEFAULT_PAGE_SIZE;
       this.sortKey = sortKey;
       this.state = state || STATUS_OPEN;
-    },
-    fetchWorkItemTypes() {
-      return this.$apollo.query({
-        query: namespaceWorkItemTypesQuery,
-        variables: {
-          fullPath: this.rootPageFullPath,
-          onlyAvailable: this.isProject,
-        },
-      });
     },
     fetchReleases(search) {
       if (this.areReleasesFetched) {

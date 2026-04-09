@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'issuable list', :js, feature_category: :team_planning do
+RSpec.describe 'issuable list', :js, feature_category: :portfolio_management do
   let(:project) { create(:project) }
   let(:user)    { create(:user) }
 

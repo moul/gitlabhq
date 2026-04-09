@@ -73,9 +73,7 @@ module Groups
       end
 
       def savers
-        savers = [version_saver, tree_exporter]
-        savers.append(max_iids_saver) if Feature.enabled?(:import_export_preallocate_iids, current_user)
-        savers
+        [version_saver, tree_exporter, max_iids_saver]
       end
 
       def tree_exporter

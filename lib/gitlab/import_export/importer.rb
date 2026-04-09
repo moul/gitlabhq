@@ -68,12 +68,10 @@ module Gitlab
       end
 
       def preallocate_iids
-        if Feature.enabled?(:import_export_preallocate_iids, current_user)
-          Gitlab::Import::IidPreallocator.from_file(
-            project,
-            File.join(shared.export_path, 'max_iids.json')
-          )
-        end
+        Gitlab::Import::IidPreallocator.from_file(
+          project,
+          File.join(shared.export_path, 'max_iids.json')
+        )
 
         true
       end

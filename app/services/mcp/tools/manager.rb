@@ -48,11 +48,20 @@ module Mcp
         'search_labels' => ::Mcp::Tools::Labels::GraphqlSearchService
       }.freeze
 
-      attr_reader :tools, :alias_map
-
       def initialize
-        @tools = build_tools
-        @alias_map = build_alias_map
+        # Do not call build_tools here. Route discovery (discover_api_tools) reads
+        # API::API.routes which is lazily memoized by Grape. When Manager is instantiated
+        # at class-definition time (via namespace_setting in API::Mcp::Base), EE modules
+        # haven't been prepended yet, so EE-only routes (e.g. SemanticCodeSearch) would be
+        # missed. Deferring to the first call of #tools ensures routes are fully compiled.
+      end
+
+      def tools
+        @tools ||= build_tools
+      end
+
+      def alias_map
+        @alias_map ||= build_alias_map
       end
 
       def list_tools

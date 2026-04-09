@@ -217,14 +217,14 @@ describe('Pipelines App', () => {
 
       await waitForPromises();
 
-      findTabs().vm.$emit('onChangeTab', 'tags');
+      findTabs().vm.$emit('on-change-tab', 'tags');
 
       await waitForPromises();
 
       expect(findEmptyState().exists()).toBe(true);
       expect(findEmptyState().props('title')).toBe('There are currently no pipelines.');
 
-      findTabs().vm.$emit('onChangeTab', 'finished');
+      findTabs().vm.$emit('on-change-tab', 'finished');
 
       await waitForPromises();
 
@@ -390,7 +390,7 @@ describe('Pipelines App', () => {
 
         await waitForPromises();
 
-        findTabs().vm.$emit('onChangeTab', scope);
+        findTabs().vm.$emit('on-change-tab', scope);
 
         await waitForPromises();
 
@@ -425,7 +425,7 @@ describe('Pipelines App', () => {
 
       await waitForPromises();
 
-      findNavControls().vm.$emit('resetRunnersCache');
+      findNavControls().vm.$emit('reset-runners-cache');
 
       expect(clearCacheMutationSuccessHandler).toHaveBeenCalledWith({
         input: {
@@ -451,7 +451,7 @@ describe('Pipelines App', () => {
 
       await waitForPromises();
 
-      findNavControls().vm.$emit('resetRunnersCache');
+      findNavControls().vm.$emit('reset-runners-cache');
 
       await waitForPromises();
 
@@ -511,7 +511,7 @@ describe('Pipelines App', () => {
 
       await waitForPromises();
 
-      findFilteredSearch().vm.$emit('filterPipelines', mockPipelinesFilteredSearch);
+      findFilteredSearch().vm.$emit('filter-pipelines', mockPipelinesFilteredSearch);
 
       await waitForPromises();
 
@@ -526,7 +526,7 @@ describe('Pipelines App', () => {
 
       await waitForPromises();
 
-      findFilteredSearch().vm.$emit('filterPipelines', ['rawText']);
+      findFilteredSearch().vm.$emit('filter-pipelines', ['rawText']);
 
       await waitForPromises();
 
@@ -863,7 +863,7 @@ describe('Pipelines App', () => {
 
         await waitForPromises();
 
-        findTabs().vm.$emit('onChangeTab', scope);
+        findTabs().vm.$emit('on-change-tab', scope);
 
         mockSubscription.next({
           data: {
@@ -942,7 +942,7 @@ describe('Pipelines App', () => {
 
       await waitForPromises();
 
-      findFilteredSearch().vm.$emit('filterPipelines', mockPipelinesFilteredSearch);
+      findFilteredSearch().vm.$emit('filter-pipelines', mockPipelinesFilteredSearch);
 
       await waitForPromises();
 

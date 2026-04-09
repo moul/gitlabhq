@@ -19970,6 +19970,34 @@ CREATE SEQUENCE draft_notes_id_seq
 
 ALTER SEQUENCE draft_notes_id_seq OWNED BY draft_notes.id;
 
+CREATE TABLE duo_workflow_session_artifacts (
+    id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    workflow_id bigint NOT NULL,
+    project_id bigint,
+    namespace_id bigint,
+    user_id bigint NOT NULL,
+    status smallint DEFAULT 0 NOT NULL,
+    workflow_definition text DEFAULT 'software_development'::text NOT NULL,
+    credits_used double precision DEFAULT 0.0 NOT NULL,
+    model_used text DEFAULT ''::text NOT NULL,
+    workflow_created_at timestamp with time zone NOT NULL,
+    workflow_updated_at timestamp with time zone NOT NULL,
+    CONSTRAINT check_6928cf5db3 CHECK ((char_length(workflow_definition) <= 255)),
+    CONSTRAINT check_7b8006375a CHECK ((char_length(model_used) <= 255)),
+    CONSTRAINT check_ff5e4d9247 CHECK ((num_nonnulls(namespace_id, project_id) = 1))
+);
+
+CREATE SEQUENCE duo_workflow_session_artifacts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE duo_workflow_session_artifacts_id_seq OWNED BY duo_workflow_session_artifacts.id;
+
 CREATE TABLE duo_workflows_checkpoint_writes (
     id bigint NOT NULL,
     workflow_id bigint NOT NULL,
@@ -35664,6 +35692,8 @@ ALTER TABLE ONLY dora_performance_scores ALTER COLUMN id SET DEFAULT nextval('do
 
 ALTER TABLE ONLY draft_notes ALTER COLUMN id SET DEFAULT nextval('draft_notes_id_seq'::regclass);
 
+ALTER TABLE ONLY duo_workflow_session_artifacts ALTER COLUMN id SET DEFAULT nextval('duo_workflow_session_artifacts_id_seq'::regclass);
+
 ALTER TABLE ONLY duo_workflows_checkpoint_writes ALTER COLUMN id SET DEFAULT nextval('duo_workflows_checkpoint_writes_id_seq'::regclass);
 
 ALTER TABLE ONLY duo_workflows_events ALTER COLUMN id SET DEFAULT nextval('duo_workflows_events_id_seq'::regclass);
@@ -39134,6 +39164,9 @@ ALTER TABLE ONLY dora_performance_scores
 
 ALTER TABLE ONLY draft_notes
     ADD CONSTRAINT draft_notes_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY duo_workflow_session_artifacts
+    ADD CONSTRAINT duo_workflow_session_artifacts_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY duo_workflows_checkpoint_writes
     ADD CONSTRAINT duo_workflows_checkpoint_writes_pkey PRIMARY KEY (id);
@@ -46238,6 +46271,14 @@ CREATE INDEX index_dts_on_expiring_at_seven_days_notification_sent_at ON deploy_
 CREATE INDEX index_dts_on_expiring_at_sixty_days_notification_sent_at ON deploy_tokens USING btree (expires_at, id) WHERE ((revoked = false) AND (sixty_days_notification_sent_at IS NULL));
 
 CREATE INDEX index_dts_on_expiring_at_thirty_days_notification_sent_at ON deploy_tokens USING btree (expires_at, id) WHERE ((revoked = false) AND (thirty_days_notification_sent_at IS NULL));
+
+CREATE INDEX index_duo_wf_session_artifacts_on_namespace_id_updated_at ON duo_workflow_session_artifacts USING btree (namespace_id, workflow_updated_at DESC);
+
+CREATE INDEX index_duo_wf_session_artifacts_on_project_id_updated_at ON duo_workflow_session_artifacts USING btree (project_id, workflow_updated_at DESC);
+
+CREATE INDEX index_duo_wf_session_artifacts_on_user_id ON duo_workflow_session_artifacts USING btree (user_id);
+
+CREATE UNIQUE INDEX index_duo_wf_session_artifacts_on_workflow_id ON duo_workflow_session_artifacts USING btree (workflow_id);
 
 CREATE INDEX index_duo_workflows_checkpoint_writes_on_namespace_id ON duo_workflows_checkpoint_writes USING btree (namespace_id);
 
@@ -56457,6 +56498,9 @@ ALTER TABLE ONLY compliance_framework_security_policies
 ALTER TABLE ONLY tag_x509_signatures
     ADD CONSTRAINT fk_6d4c24da42 FOREIGN KEY (x509_certificate_id) REFERENCES x509_certificates(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY duo_workflow_session_artifacts
+    ADD CONSTRAINT fk_6d6f6b3157 FOREIGN KEY (workflow_id) REFERENCES duo_workflows_workflows(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY organization_cluster_agent_mappings
     ADD CONSTRAINT fk_6d8bfa275e FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
 
@@ -56498,6 +56542,9 @@ ALTER TABLE ONLY ai_catalog_item_consumers
 
 ALTER TABLE ONLY protected_branch_push_access_levels
     ADD CONSTRAINT fk_7111b68cdb FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY duo_workflow_session_artifacts
+    ADD CONSTRAINT fk_7177a5d143 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY import_source_users
     ADD CONSTRAINT fk_719b74231d FOREIGN KEY (reassigned_by_user_id) REFERENCES users(id) ON DELETE SET NULL;
@@ -56996,6 +57043,9 @@ ALTER TABLE ONLY work_item_parent_links
 
 ALTER TABLE ONLY agent_activity_events
     ADD CONSTRAINT fk_9c07afa098 FOREIGN KEY (agent_project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY duo_workflow_session_artifacts
+    ADD CONSTRAINT fk_9c28ddf213 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY issues
     ADD CONSTRAINT fk_9c4516d665 FOREIGN KEY (duplicated_to_id) REFERENCES issues(id) ON DELETE SET NULL;
@@ -57962,6 +58012,9 @@ ALTER TABLE ONLY status_check_responses
 
 ALTER TABLE ONLY approval_policy_merge_request_bypass_events
     ADD CONSTRAINT fk_f39e177609 FOREIGN KEY (merge_request_id) REFERENCES merge_requests(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY duo_workflow_session_artifacts
+    ADD CONSTRAINT fk_f39fa2b44a FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY user_group_member_roles
     ADD CONSTRAINT fk_f3b8fc5e4e FOREIGN KEY (shared_with_group_id) REFERENCES namespaces(id) ON DELETE CASCADE;

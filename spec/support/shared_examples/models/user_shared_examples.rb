@@ -148,6 +148,7 @@ RSpec.shared_examples 'associations with defined deletion strategies', :aggregat
       custom_dashboard_search_data
       custom_dashboard_versions
       early_access_program_tracking_events
+      duo_workflow_session_artifacts
     ]
   end
 

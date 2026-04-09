@@ -15908,6 +15908,33 @@ Input type: `UpsertFlatUserCapInput`
 | <a id="mutation-upsertflatusercap-flatusercap"></a>`flatUserCap` | [`Float`](#float) | Updated flat per-user budget cap. |
 | <a id="mutation-upsertflatusercap-flatusercapenabled"></a>`flatUserCapEnabled` | [`Boolean`](#boolean) | Whether the flat per-user budget cap is enabled. |
 
+### `Mutation.upsertUserBudgetCapOverrides`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Bulk upsert per-user budget cap overrides.
+
+Input type: `UpsertUserBudgetCapOverridesInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-upsertuserbudgetcapoverrides-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-upsertuserbudgetcapoverrides-namespacepath"></a>`namespacePath` | [`String`](#string) | Path of the top-level group namespace. Omit for self-managed instance scope. |
+| <a id="mutation-upsertuserbudgetcapoverrides-overrides"></a>`overrides` | [`[BudgetCapUserOverrideInput!]!`](#budgetcapuseroverrideinput) | List of per-user budget cap overrides to upsert. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-upsertuserbudgetcapoverrides-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-upsertuserbudgetcapoverrides-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+| <a id="mutation-upsertuserbudgetcapoverrides-useroverrides"></a>`userOverrides` | [`[GitlabSubscriptionBudgetCapUserOverride!]`](#gitlabsubscriptionbudgetcapuseroverride) | Updated user budget cap overrides. |
+
 ### `Mutation.userAchievementPrioritiesUpdate`
 
 {{< details >}}
@@ -21490,6 +21517,30 @@ The edge type for [`DuoCodeSuggestionsAggregationResponse`](#duocodesuggestionsa
 | <a id="duocodesuggestionsaggregationresponseedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="duocodesuggestionsaggregationresponseedge-node"></a>`node` | [`DuoCodeSuggestionsAggregationResponse`](#duocodesuggestionsaggregationresponse) | The item at the end of the edge. |
 
+#### `DuoUsageEventsAggregationResponseConnection`
+
+The connection type for [`DuoUsageEventsAggregationResponse`](#duousageeventsaggregationresponse).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="duousageeventsaggregationresponseconnection-count"></a>`count` | [`Int!`](#int) | Total number of aggregated rows. |
+| <a id="duousageeventsaggregationresponseconnection-edges"></a>`edges` | [`[DuoUsageEventsAggregationResponseEdge]`](#duousageeventsaggregationresponseedge) | A list of edges. |
+| <a id="duousageeventsaggregationresponseconnection-nodes"></a>`nodes` | [`[DuoUsageEventsAggregationResponse]`](#duousageeventsaggregationresponse) | A list of nodes. |
+| <a id="duousageeventsaggregationresponseconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `DuoUsageEventsAggregationResponseEdge`
+
+The edge type for [`DuoUsageEventsAggregationResponse`](#duousageeventsaggregationresponse).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="duousageeventsaggregationresponseedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="duousageeventsaggregationresponseedge-node"></a>`node` | [`DuoUsageEventsAggregationResponse`](#duousageeventsaggregationresponse) | The item at the end of the edge. |
+
 #### `DuoWorkflowConnection`
 
 The connection type for [`DuoWorkflow`](#duoworkflow).
@@ -21900,6 +21951,30 @@ The edge type for [`FeatureFlag`](#featureflag).
 | ---- | ---- | ----------- |
 | <a id="featureflagedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="featureflagedge-node"></a>`node` | [`FeatureFlag`](#featureflag) | The item at the end of the edge. |
+
+#### `FinishedPipelinesAggregationResponseConnection`
+
+The connection type for [`FinishedPipelinesAggregationResponse`](#finishedpipelinesaggregationresponse).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="finishedpipelinesaggregationresponseconnection-count"></a>`count` | [`Int!`](#int) | Total number of aggregated rows. |
+| <a id="finishedpipelinesaggregationresponseconnection-edges"></a>`edges` | [`[FinishedPipelinesAggregationResponseEdge]`](#finishedpipelinesaggregationresponseedge) | A list of edges. |
+| <a id="finishedpipelinesaggregationresponseconnection-nodes"></a>`nodes` | [`[FinishedPipelinesAggregationResponse]`](#finishedpipelinesaggregationresponse) | A list of nodes. |
+| <a id="finishedpipelinesaggregationresponseconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `FinishedPipelinesAggregationResponseEdge`
+
+The edge type for [`FinishedPipelinesAggregationResponse`](#finishedpipelinesaggregationresponse).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="finishedpipelinesaggregationresponseedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="finishedpipelinesaggregationresponseedge-node"></a>`node` | [`FinishedPipelinesAggregationResponse`](#finishedpipelinesaggregationresponse) | The item at the end of the edge. |
 
 #### `GitlabSubscriptionBudgetCapUserOverrideConnection`
 
@@ -29226,6 +29301,40 @@ Returns [`DuoCodeSuggestionsAggregationScope`](#duocodesuggestionsaggregationsco
 | <a id="analytics-duocodesuggestions-timestampto"></a>`timestampTo` | [`Time`](#time) | Filter by suggestion timestamp. End of the range. |
 | <a id="analytics-duocodesuggestions-userid"></a>`userId` | [`[String!]`](#string) | Filter by one or many user Global IDs. |
 
+##### `Analytics.duoUsageEvents`
+
+Aggregation engine for GitLab Duo AI usage events.
+
+Returns [`DuoUsageEventsAggregationScope`](#duousageeventsaggregationscope).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="analytics-duousageevents-event"></a>`event` | [`[String!]`](#string) | Filter by one or many events. |
+| <a id="analytics-duousageevents-feature"></a>`feature` | [`[String!]`](#string) | Filter by one or many features. |
+| <a id="analytics-duousageevents-timestampfrom"></a>`timestampFrom` | [`Time`](#time) | Filter by event timestamp. Start of the range. |
+| <a id="analytics-duousageevents-timestampto"></a>`timestampTo` | [`Time`](#time) | Filter by event timestamp. End of the range. |
+| <a id="analytics-duousageevents-userid"></a>`userId` | [`[String!]`](#string) | Filter by one or many user Global IDs. |
+
+##### `Analytics.finishedPipelines`
+
+Aggregation engine for finished pipelines analytics.
+
+Returns [`FinishedPipelinesAggregationScope`](#finishedpipelinesaggregationscope).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="analytics-finishedpipelines-finishedatfrom"></a>`finishedAtFrom` | [`Time`](#time) | Filter by pipeline finish timestamp. Start of the range. |
+| <a id="analytics-finishedpipelines-finishedatto"></a>`finishedAtTo` | [`Time`](#time) | Filter by pipeline finish timestamp. End of the range. |
+| <a id="analytics-finishedpipelines-ref"></a>`ref` | [`[String!]`](#string) | Filter by one or many pipeline refs. |
+| <a id="analytics-finishedpipelines-source"></a>`source` | [`[String!]`](#string) | Filter by one or many pipeline sources. |
+| <a id="analytics-finishedpipelines-startedatfrom"></a>`startedAtFrom` | [`Time`](#time) | Filter by pipeline start timestamp. Start of the range. |
+| <a id="analytics-finishedpipelines-startedatto"></a>`startedAtTo` | [`Time`](#time) | Filter by pipeline start timestamp. End of the range. |
+| <a id="analytics-finishedpipelines-status"></a>`status` | [`[String!]`](#string) | Filter by one or many pipeline statuses. |
+
 ### `AnalyzerGroupStatusType`
 
 Counts for each analyzer status in the group and subgroups.
@@ -35093,6 +35202,67 @@ GitLab Duo settings.
 | <a id="duosettings-selfhostedduoagentplatformservicesecure"></a>`selfHostedDuoAgentPlatformServiceSecure` | [`Boolean`](#boolean) | Whether local Duo Agent Platform service uses secure transport (TLS). |
 | <a id="duosettings-updatedat"></a>`updatedAt` {{< icon name="warning-solid" >}} | [`Time!`](#time) | **Introduced** in GitLab 17.9. **Status**: Experiment. Timestamp of last GitLab Duo setting update. |
 
+### `DuoUsageEventsAggregationResponse`
+
+Response for `DuoUsageEvents` aggregation engine.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="duousageeventsaggregationresponse-dimensions"></a>`dimensions` | [`DuoUsageEventsAggregationResponseDimensions`](#duousageeventsaggregationresponsedimensions) | Aggregation dimensions. Every selected dimension will be used for aggregation. |
+| <a id="duousageeventsaggregationresponse-featurescount"></a>`featuresCount` | [`Int`](#int) | Number of unique features. |
+| <a id="duousageeventsaggregationresponse-totalcount"></a>`totalCount` | [`Int`](#int) | Total number of events. |
+| <a id="duousageeventsaggregationresponse-userscount"></a>`usersCount` | [`Int`](#int) | Number of unique users. |
+
+### `DuoUsageEventsAggregationResponseDimensions`
+
+Response dimensions for `DuoUsageEvents` aggregation engine.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="duousageeventsaggregationresponsedimensions-event"></a>`event` | [`String`](#string) | Event identifier. |
+| <a id="duousageeventsaggregationresponsedimensions-feature"></a>`feature` | [`String`](#string) | Feature identifier. |
+| <a id="duousageeventsaggregationresponsedimensions-user"></a>`user` | [`UserCore`](#usercore) | Event owner. |
+
+#### Fields with arguments
+
+##### `DuoUsageEventsAggregationResponseDimensions.timestamp`
+
+Event timestamp.
+
+Returns [`Time`](#time).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="duousageeventsaggregationresponsedimensions-timestamp-granularity"></a>`granularity` | [`String`](#string) |  |
+
+### `DuoUsageEventsAggregationScope`
+
+Aggregation scope for `DuoUsageEvents`. Apply ordering and pagination on the aggregation.
+
+#### Fields with arguments
+
+##### `DuoUsageEventsAggregationScope.aggregated`
+
+Aggregated data.
+
+Returns [`DuoUsageEventsAggregationResponseConnection`](#duousageeventsaggregationresponseconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="duousageeventsaggregationscope-aggregated-orderby"></a>`orderBy` | [`[AggregationOrder!]`](#aggregationorder) | Sorting order list for the aggregated data. |
+
 ### `DuoWorkflow`
 
 GitLab Duo Agent Platform session.
@@ -36004,6 +36174,95 @@ Represents security reports comparison for vulnerability findings.
 | <a id="findingreportscomparer-status"></a>`status` | [`FindingReportsComparerStatus`](#findingreportscomparerstatus) | Comparison status. |
 | <a id="findingreportscomparer-statusreason"></a>`statusReason` | [`String`](#string) | Text explaining the status. |
 
+### `FinishedPipelinesAggregationResponse`
+
+Response for `FinishedPipelines` aggregation engine.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="finishedpipelinesaggregationresponse-canceledrate"></a>`canceledRate` | [`Float`](#float) | Pipeline canceled rate. |
+| <a id="finishedpipelinesaggregationresponse-dimensions"></a>`dimensions` | [`FinishedPipelinesAggregationResponseDimensions`](#finishedpipelinesaggregationresponsedimensions) | Aggregation dimensions. Every selected dimension will be used for aggregation. |
+| <a id="finishedpipelinesaggregationresponse-failurerate"></a>`failureRate` | [`Float`](#float) | Pipeline failure rate. |
+| <a id="finishedpipelinesaggregationresponse-skippedrate"></a>`skippedRate` | [`Float`](#float) | Pipeline skipped rate. |
+| <a id="finishedpipelinesaggregationresponse-successrate"></a>`successRate` | [`Float`](#float) | Pipeline success rate. |
+| <a id="finishedpipelinesaggregationresponse-totalcount"></a>`totalCount` | [`Int`](#int) | Total number of pipelines. |
+
+#### Fields with arguments
+
+##### `FinishedPipelinesAggregationResponse.durationQuantile`
+
+Pipeline duration quantile in seconds.
+
+Returns [`Float`](#float).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="finishedpipelinesaggregationresponse-durationquantile-quantile"></a>`quantile` | [`Float`](#float) |  |
+
+### `FinishedPipelinesAggregationResponseDimensions`
+
+Response dimensions for `FinishedPipelines` aggregation engine.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="finishedpipelinesaggregationresponsedimensions-ref"></a>`ref` | [`String`](#string) | Pipeline ref. |
+| <a id="finishedpipelinesaggregationresponsedimensions-source"></a>`source` | [`String`](#string) | Pipeline source. |
+| <a id="finishedpipelinesaggregationresponsedimensions-status"></a>`status` | [`String`](#string) | Pipeline status. |
+
+#### Fields with arguments
+
+##### `FinishedPipelinesAggregationResponseDimensions.finishedAt`
+
+Pipeline finish time.
+
+Returns [`Time`](#time).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="finishedpipelinesaggregationresponsedimensions-finishedat-granularity"></a>`granularity` | [`String`](#string) |  |
+
+##### `FinishedPipelinesAggregationResponseDimensions.startedAt`
+
+Pipeline start time.
+
+Returns [`Time`](#time).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="finishedpipelinesaggregationresponsedimensions-startedat-granularity"></a>`granularity` | [`String`](#string) |  |
+
+### `FinishedPipelinesAggregationScope`
+
+Aggregation scope for `FinishedPipelines`. Apply ordering and pagination on the aggregation.
+
+#### Fields with arguments
+
+##### `FinishedPipelinesAggregationScope.aggregated`
+
+Aggregated data.
+
+Returns [`FinishedPipelinesAggregationResponseConnection`](#finishedpipelinesaggregationresponseconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="finishedpipelinesaggregationscope-aggregated-orderby"></a>`orderBy` | [`[AggregationOrder!]`](#aggregationorder) | Sorting order list for the aggregated data. |
+
 ### `ForkDetails`
 
 Details of the fork project compared to its upstream project.
@@ -36737,6 +36996,21 @@ Describes the usage of consumables under the subscription.
 | <a id="gitlabsubscriptionusage-subscriptionportalusagedashboardurl"></a>`subscriptionPortalUsageDashboardUrl` | [`String`](#string) | Full URL to the GitLab Credits usage dashboard in the Customer Portal. |
 | <a id="gitlabsubscriptionusage-usersusage"></a>`usersUsage` | [`GitlabSubscriptionUsageUsersUsage`](#gitlabsubscriptionusageusersusage) | Consumption usage for users under the subscription. |
 
+#### Fields with arguments
+
+##### `GitlabSubscriptionUsage.dailyUsage`
+
+Daily usage for the subscription.
+
+Returns [`[GitlabSubscriptionDailyUsage!]`](#gitlabsubscriptiondailyusage).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionusage-dailyusage-limit"></a>`limit` | [`Int`](#int) | Maximum number of daily usage entries to return. |
+| <a id="gitlabsubscriptionusage-dailyusage-sort"></a>`sort` | [`DailyUsageSort`](#dailyusagesort) | Sort daily usage entries by the selected criteria. |
+
 ### `GitlabSubscriptionUsageFlowTypeInfo`
 
 Information about a GitLab Credits flow type.
@@ -36821,7 +37095,8 @@ Describes the usage of consumables by users under the subscription.
 | ---- | ---- | ----------- |
 | <a id="gitlabsubscriptionusageusersusage-creditsused"></a>`creditsUsed` | [`Float`](#float) | GitLab Credits used by consumers of the subscription. |
 | <a id="gitlabsubscriptionusageusersusage-dailyusage"></a>`dailyUsage` | [`[GitlabSubscriptionDailyUsage!]`](#gitlabsubscriptiondailyusage) | Array of daily usage of GitLab Credits. |
-| <a id="gitlabsubscriptionusageusersusage-totalusersusingcredits"></a>`totalUsersUsingCredits` | [`Int`](#int) | Total number of users consuming GitLab Credits. |
+| <a id="gitlabsubscriptionusageusersusage-totalactiveusers"></a>`totalActiveUsers` | [`Int`](#int) | Total number of users with usage in the subscription. |
+| <a id="gitlabsubscriptionusageusersusage-totalusersusingcredits"></a>`totalUsersUsingCredits` | [`Int`](#int) | Total number of users consuming GitLab Credits from their included allocation. |
 | <a id="gitlabsubscriptionusageusersusage-totalusersusingmonthlycommitment"></a>`totalUsersUsingMonthlyCommitment` | [`Int`](#int) | Total number of users consuming GitLab Credits from the subscription monthly commitment. |
 | <a id="gitlabsubscriptionusageusersusage-totalusersusingoverage"></a>`totalUsersUsingOverage` | [`Int`](#int) | Total number of users consuming overage. |
 
@@ -56707,6 +56982,17 @@ Values for a CVSS severity.
 | <a id="cvssseverity-medium"></a>`MEDIUM` | Medium severity. |
 | <a id="cvssseverity-none"></a>`NONE` | Not a vulnerability. |
 
+### `DailyUsageSort`
+
+Values for sorting daily usage entries.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="dailyusagesort-credits_used_asc"></a>`CREDITS_USED_ASC` | Credits used by ascending order. |
+| <a id="dailyusagesort-credits_used_desc"></a>`CREDITS_USED_DESC` | Credits used by descending order. |
+| <a id="dailyusagesort-date_asc"></a>`DATE_ASC` | Date by ascending order. |
+| <a id="dailyusagesort-date_desc"></a>`DATE_DESC` | Date by descending order. |
+
 ### `DastPreScanVerificationCheckType`
 
 Check type of the pre scan verification step.
@@ -63802,6 +64088,18 @@ Input type for filtering projects by security attributes.
 | <a id="branchprotectioninput-codeownerapprovalrequired"></a>`codeOwnerApprovalRequired` | [`Boolean`](#boolean) | Enforce code owner approvals before allowing a merge. |
 | <a id="branchprotectioninput-mergeaccesslevels"></a>`mergeAccessLevels` | [`[MergeAccessLevelInput!]`](#mergeaccesslevelinput) | Details about who can merge into the branch rule target. |
 | <a id="branchprotectioninput-pushaccesslevels"></a>`pushAccessLevels` | [`[PushAccessLevelInput!]`](#pushaccesslevelinput) | Details about who can push to the branch rule target. |
+
+### `BudgetCapUserOverrideInput`
+
+Input for a per-user budget cap override.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="budgetcapuseroverrideinput-cap"></a>`cap` | [`Float!`](#float) | Budget cap amount for the user. |
+| <a id="budgetcapuseroverrideinput-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Whether the budget cap is enabled for the user. |
+| <a id="budgetcapuseroverrideinput-userid"></a>`userId` | [`UserID!`](#userid) | Global ID of the user. |
 
 ### `CiInputsInput`
 

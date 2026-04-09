@@ -590,10 +590,10 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
         end
 
         context 'for a html request' do
-          it 'redirects to group path' do
+          it 'redirects to groups dashboard' do
             subject
 
-            expect(response).to redirect_to(group_path(group.reload))
+            expect(response).to redirect_to(dashboard_groups_path)
           end
         end
 
@@ -649,12 +649,12 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
           let(:params) { { permanently_remove: true } }
 
           context 'for a html request' do
-            it 'deletes the group immediately and redirects to root path' do
+            it 'deletes the group immediately and redirects to groups dashboard' do
               expect(GroupDestroyWorker).to receive(:perform_async)
 
               subject
 
-              expect(response).to redirect_to(root_path)
+              expect(response).to redirect_to(dashboard_groups_path)
               expect(flash[:toast]).to include "#{group.name} is being deleted."
             end
           end

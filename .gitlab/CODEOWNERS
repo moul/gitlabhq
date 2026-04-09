@@ -43,6 +43,7 @@ Rakefile @gitlab-org/maintainers/rails-backend
 /sidekiq_cluster/ @gitlab-org/maintainers/rails-backend
 /tmp/ @gitlab-org/maintainers/rails-backend
 /vendor/ @gitlab-org/maintainers/rails-backend
+/locale/ @gitlab-org/maintainers/rails-backend @gitlab-org/maintainers/frontend
 
 # HAML markup is considered ~frontend code.
 # However, Ruby code in HAML templates is considered ~backend code

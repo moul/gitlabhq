@@ -82,7 +82,6 @@ RSpec.describe Gitlab::PDF::Security::GenerateDashboardPdfService, feature_categ
       service.execute
 
       expect(Gitlab::PDF::Security::GroupVulnerabilitiesProjectsGrades).not_to have_received(:render)
-      expect(Gitlab::PDF::Security::VulnerabilitiesByAge).not_to have_received(:render)
     end
 
     it 'renders vulnerabilities by severity count' do
@@ -177,10 +176,23 @@ RSpec.describe Gitlab::PDF::Security::GenerateDashboardPdfService, feature_categ
         )
       end
 
-      it 'renders vulnerabilities by age' do
+      it 'renders vulnerabilities by age for a group' do
         service.execute
 
         expect(Gitlab::PDF::Security::VulnerabilitiesByAge).to have_received(:render)
+      end
+
+      context 'when exportable is a project' do
+        let(:exportable) { project }
+
+        it 'renders vulnerabilities by age with correct data for a project' do
+          service.execute
+
+          expect(Gitlab::PDF::Security::VulnerabilitiesByAge).to have_received(:render).with(
+            anything,
+            data: { svg: vulnerabilities_by_age_svg }
+          )
+        end
       end
     end
 

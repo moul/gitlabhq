@@ -601,13 +601,13 @@ export default {
         class="top-area scrolling-tabs-container inner-page-scroll-tabs gl-border-none"
       >
         <!-- Navigation -->
-        <navigation-tabs :tabs="tabs" scope="pipelines" @onChangeTab="onChangeTab" />
+        <navigation-tabs :tabs="tabs" scope="pipelines" @on-change-tab="onChangeTab" />
 
         <navigation-controls
           :new-pipeline-path="newPipelinePath"
           :reset-cache-path="resetCachePath"
           :is-reset-cache-button-loading="clearCacheLoading"
-          @resetRunnersCache="clearRunnerCache"
+          @reset-runners-cache="clearRunnerCache"
         />
       </div>
 
@@ -619,7 +619,7 @@ export default {
           <pipelines-filtered-search
             class="gl-flex gl-max-w-full gl-flex-grow"
             :params="filterParams"
-            @filterPipelines="filterPipelines"
+            @filter-pipelines="filterPipelines"
           />
 
           <gl-collapsible-listbox

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Dashboard Issues filtering', :js, feature_category: :team_planning do
+RSpec.describe 'Dashboard Issues filtering', :js, feature_category: :portfolio_management do
   include Features::SortingHelpers
   include FilteredSearchHelpers
 

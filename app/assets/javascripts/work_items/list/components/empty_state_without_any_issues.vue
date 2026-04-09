@@ -37,7 +37,7 @@ export default {
     'showNewIssueLink',
     'signInPath',
     'groupId',
-    'isProject',
+    'isGroup',
     'hasEpicsFeature',
   ],
   props: {
@@ -66,10 +66,7 @@ export default {
     showNewProjectButton() {
       const canCreateGroupLevelWorkItems = this.hasEpicsFeature;
       return (
-        this.canCreateProjects &&
-        !this.isProject &&
-        !this.hasProjects &&
-        !canCreateGroupLevelWorkItems
+        this.canCreateProjects && this.isGroup && !this.hasProjects && !canCreateGroupLevelWorkItems
       );
     },
   },
@@ -87,8 +84,8 @@ export default {
   <div
     v-if="isLoggedIn"
     data-testid="signed-in-empty-state-block"
-    :data-track-action="isProject && 'render'"
-    :data-track-label="isProject && 'project_issues_empty_list'"
+    :data-track-action="!isGroup && 'render'"
+    :data-track-label="!isGroup && 'project_issues_empty_list'"
   >
     <div>
       <gl-empty-state
@@ -139,8 +136,8 @@ export default {
           {{ s__('JiraService|Using Jira for issue tracking?') }}
           <gl-link
             :href="$options.jiraIntegrationPath"
-            :data-track-action="isProject && 'click_jira_int_project_issues_empty_list_page'"
-            :data-track-label="isProject && 'jira_int_project_issues_empty_list'"
+            :data-track-action="!isGroup && 'click_jira_int_project_issues_empty_list_page'"
+            :data-track-label="!isGroup && 'jira_int_project_issues_empty_list'"
           >
             {{ s__('JiraService|See integration options') }}
           </gl-link>

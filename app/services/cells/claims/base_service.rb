@@ -19,7 +19,11 @@ module Cells
 
       private
 
-      attr_reader :claim_service, :model
+      attr_reader :model
+
+      def claim_service
+        @claim_service ||= Gitlab::TopologyServiceClient::ClaimService.instance
+      end
 
       def claimable_model?
         Cells::Claimable.models_with_claims.include?(model)

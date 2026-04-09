@@ -528,6 +528,80 @@ RSpec.describe Cells::Claimable, feature_category: :cell do
     end
   end
 
+  describe '.cells_claims_enabled_for_attribute?' do
+    context 'when feature_flag is nil' do
+      it 'returns true' do
+        config = { type: Cells::Claimable::CLAIMS_BUCKET_TYPE::ORGANIZATION_PATH, feature_flag: nil, if: nil }
+        expect(test_klass.cells_claims_enabled_for_attribute?(config)).to be(true)
+      end
+    end
+
+    context 'when feature flag is enabled' do
+      it 'returns true' do
+        config = test_klass.cells_claims_attributes[:path]
+        expect(test_klass.cells_claims_enabled_for_attribute?(config)).to be(true)
+      end
+    end
+
+    context 'when feature flag is disabled' do
+      before do
+        stub_feature_flags(cells_claims_organizations: false)
+      end
+
+      it 'returns false' do
+        config = test_klass.cells_claims_attributes[:path]
+        expect(test_klass.cells_claims_enabled_for_attribute?(config)).to be(false)
+      end
+    end
+  end
+
+  describe '#cells_claims_metadata_for_attribute' do
+    context 'when attribute is not configured' do
+      it 'returns nil' do
+        expect(instance.cells_claims_metadata_for_attribute(:nonexistent)).to be_nil
+      end
+    end
+
+    context 'when attribute is configured with an if: condition that returns false' do
+      let(:conditional_klass) do
+        Class.new(ActiveRecord::Base) do
+          self.table_name = 'organizations'
+          include Cells::Claimable
+        end
+      end
+
+      let(:conditional_instance) { conditional_klass.create!(path: 'group/nested') }
+
+      before do
+        conditional_klass.cells_claims_attribute :path,
+          type: Cells::Claimable::CLAIMS_BUCKET_TYPE::ORGANIZATION_PATH,
+          feature_flag: :cells_claims_organizations,
+          if: ->(record) { record.path.exclude?('/') }
+        conditional_klass.cells_claims_metadata subject_type: Cells::Claimable::CLAIMS_SUBJECT_TYPE::ORGANIZATION,
+          subject_key: :id
+      end
+
+      after do
+        described_class.models_with_claims.delete(conditional_klass)
+      end
+
+      it 'returns nil' do
+        expect(conditional_instance.cells_claims_metadata_for_attribute(:path)).to be_nil
+      end
+    end
+
+    context 'when attribute is configured and claimable' do
+      it 'returns the claim metadata' do
+        metadata = instance.cells_claims_metadata_for_attribute(:path)
+
+        expect(metadata).to include(
+          bucket: { type: Cells::Claimable::CLAIMS_BUCKET_TYPE::ORGANIZATION_PATH, value: instance.path },
+          subject: { type: Cells::Claimable::CLAIMS_SUBJECT_TYPE::ORGANIZATION, id: instance.id }
+        )
+      end
+    end
+  end
+
   describe "#handle_grpc_error" do
     let(:model) { build(:organization) }
 

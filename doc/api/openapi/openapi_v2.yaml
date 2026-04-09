@@ -349,17 +349,9 @@ paths:
         required: true
       responses:
         '200':
-          description: successful operation
+          description: Requests access for the authenticated user to a group.
           schema:
             "$ref": "#/definitions/API_Entities_AccessRequester"
-          examples:
-            successfull_response:
-              id: 1
-              username: raymond_smith
-              name: Raymond Smith
-              state: active
-              created_at: '2012-10-22T14:13:35Z'
-              access_level: 20
       tags:
       - access_requests
       operationId: postApiV4GroupsIdAccessRequests
@@ -390,18 +382,10 @@ paths:
         schema:
           "$ref": "#/definitions/putApiV4GroupsIdAccessRequestsUserIdApprove"
       responses:
-        '200':
-          description: successful operation
+        '201':
+          description: Approves an access request for the given user.
           schema:
-            "$ref": "#/definitions/API_Entities_AccessRequester"
-          examples:
-            successfull_response:
-              id: 1
-              username: raymond_smith
-              name: Raymond Smith
-              state: active
-              created_at: '2012-10-22T14:13:35Z'
-              access_level: 20
+            "$ref": "#/definitions/API_Entities_Member"
       tags:
       - access_requests
       operationId: putApiV4GroupsIdAccessRequestsUserIdApprove
@@ -9355,17 +9339,9 @@ paths:
         required: true
       responses:
         '200':
-          description: successful operation
+          description: Requests access for the authenticated user to a project.
           schema:
             "$ref": "#/definitions/API_Entities_AccessRequester"
-          examples:
-            successfull_response:
-              id: 1
-              username: raymond_smith
-              name: Raymond Smith
-              state: active
-              created_at: '2012-10-22T14:13:35Z'
-              access_level: 20
       tags:
       - access_requests
       operationId: postApiV4ProjectsIdAccessRequests
@@ -9396,18 +9372,10 @@ paths:
         schema:
           "$ref": "#/definitions/putApiV4ProjectsIdAccessRequestsUserIdApprove"
       responses:
-        '200':
-          description: successful operation
+        '201':
+          description: Approves an access request for the given user.
           schema:
-            "$ref": "#/definitions/API_Entities_AccessRequester"
-          examples:
-            successfull_response:
-              id: 1
-              username: raymond_smith
-              name: Raymond Smith
-              state: active
-              created_at: '2012-10-22T14:13:35Z'
-              access_level: 20
+            "$ref": "#/definitions/API_Entities_Member"
       tags:
       - access_requests
       operationId: putApiV4ProjectsIdAccessRequestsUserIdApprove
@@ -45665,7 +45633,6 @@ paths:
       summary: Create an organization
       description: |-
         This feature was introduced in GitLab 17.5. \
-                            This feature is currently in an experimental state. \
                             This feature is behind the `allow_organization_creation` feature flag. \
                             In GitLab 18.3, feature flag changed to `organization_switching`.
       produces:
@@ -48138,46 +48105,76 @@ definitions:
         description: 'A valid access level (defaults: `30`, the Developer role)'
         default: 30
     description: Approves an access request for the given user.
-  API_Entities_AwardEmoji:
+  API_Entities_Member:
     type: object
     properties:
       id:
         type: integer
         format: int32
         example: 1
+      username:
+        type: string
+        example: admin
+      public_email:
+        type: string
+        example: john@example.com
       name:
         type: string
-        example: lizard
-      user:
-        "$ref": "#/definitions/API_Entities_UserBasic"
+        example: Administrator
+      state:
+        type: string
+        example: active
+      locked:
+        type: boolean
+      avatar_url:
+        type: string
+        example: https://gravatar.com/avatar/1
+      avatar_path:
+        type: string
+        example: "/user/avatar/28/The-Big-Lebowski-400-400.png"
+      custom_attributes:
+        type: array
+        items:
+          "$ref": "#/definitions/API_Entities_CustomAttribute"
+      web_url:
+        type: string
+        example: https://gitlab.example.com/root
+      access_level:
+        type: string
       created_at:
         type: string
-        format: date-time
-        example: '2019-01-10T13:39:08Z'
-      updated_at:
+      created_by:
+        "$ref": "#/definitions/API_Entities_UserBasic"
+      expires_at:
         type: string
-        format: date-time
-        example: '2020-06-28T10:52:04Z'
-      awardable_id:
-        type: integer
-        format: int32
-        example: 42
-      awardable_type:
+      group_saml_identity:
+        "$ref": "#/definitions/API_Entities_Identity"
+      group_scim_identity:
+        "$ref": "#/definitions/API_Entities_ScimIdentity"
+      email:
         type: string
-        example: Issue
-      url:
+      is_using_seat:
         type: string
-        example: https://example.com/emojis/example.gif
+      override:
+        type: string
+      membership_state:
+        type: string
+      member_role:
+        "$ref": "#/definitions/API_Entities_MemberRole"
     required:
     - id
+    - username
+    - public_email
     - name
-    - user
+    - state
+    - locked
+    - avatar_url
+    - web_url
+    - access_level
     - created_at
-    - updated_at
-    - awardable_id
-    - awardable_type
-    - url
-    description: API_Entities_AwardEmoji model
+    - expires_at
+    - membership_state
+    description: API_Entities_Member model
   API_Entities_UserBasic:
     type: object
     properties:
@@ -48222,6 +48219,217 @@ definitions:
     - avatar_url
     - web_url
     description: API_Entities_UserBasic model
+  API_Entities_Identity:
+    type: object
+    properties:
+      provider:
+        type: string
+      extern_uid:
+        type: string
+      saml_provider_id:
+        type: string
+    required:
+    - provider
+    - extern_uid
+    - saml_provider_id
+  API_Entities_ScimIdentity:
+    type: object
+    properties:
+      extern_uid:
+        type: string
+      group_id:
+        type: string
+      active:
+        type: string
+    required:
+    - extern_uid
+    - group_id
+    - active
+  API_Entities_MemberRole:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 2
+      group_id:
+        type: integer
+        format: int32
+        example: 2
+      name:
+        type: text
+        example: Custom guest
+      description:
+        type: text
+        example: Guest user who can also read_code
+      base_access_level:
+        type: integer
+        format: int32
+        enum:
+        - 5
+        - 10
+        - 15
+        - 20
+        - 30
+        - 40
+        example: 40
+      apply_security_scan_profiles:
+        type: boolean
+      admin_merge_request:
+        type: boolean
+      archive_project:
+        type: boolean
+      remove_project:
+        type: boolean
+      remove_group:
+        type: boolean
+      manage_security_policy_link:
+        type: boolean
+      admin_compliance_framework:
+        type: boolean
+      admin_cicd_variables:
+        type: boolean
+      manage_deploy_tokens:
+        type: boolean
+      manage_group_access_tokens:
+        type: boolean
+      admin_group_member:
+        type: boolean
+      admin_integrations:
+        type: boolean
+      manage_merge_request_settings:
+        type: boolean
+      manage_project_access_tokens:
+        type: boolean
+      admin_protected_branch:
+        type: boolean
+      admin_protected_environments:
+        type: boolean
+      manage_protected_tags:
+        type: boolean
+      admin_push_rules:
+        type: boolean
+      admin_runners:
+        type: boolean
+      admin_security_attributes:
+        type: boolean
+      admin_terraform_state:
+        type: boolean
+      admin_vulnerability:
+        type: boolean
+      admin_web_hook:
+        type: boolean
+      read_compliance_dashboard:
+        type: boolean
+      read_security_scan_profiles:
+        type: boolean
+      read_admin_cicd:
+        type: boolean
+      read_crm_contact:
+        type: boolean
+      read_dependency:
+        type: boolean
+      read_admin_groups:
+        type: boolean
+      read_admin_projects:
+        type: boolean
+      read_code:
+        type: boolean
+      read_runners:
+        type: boolean
+      read_security_attribute:
+        type: boolean
+      read_admin_subscription:
+        type: boolean
+      read_admin_monitoring:
+        type: boolean
+      read_admin_users:
+        type: boolean
+      read_vulnerability:
+        type: boolean
+    required:
+    - id
+    - group_id
+    - name
+    - description
+    - base_access_level
+    - apply_security_scan_profiles
+    - admin_merge_request
+    - archive_project
+    - remove_project
+    - remove_group
+    - manage_security_policy_link
+    - admin_compliance_framework
+    - admin_cicd_variables
+    - manage_deploy_tokens
+    - manage_group_access_tokens
+    - admin_group_member
+    - admin_integrations
+    - manage_merge_request_settings
+    - manage_project_access_tokens
+    - admin_protected_branch
+    - admin_protected_environments
+    - manage_protected_tags
+    - admin_push_rules
+    - admin_runners
+    - admin_security_attributes
+    - admin_terraform_state
+    - admin_vulnerability
+    - admin_web_hook
+    - read_compliance_dashboard
+    - read_security_scan_profiles
+    - read_admin_cicd
+    - read_crm_contact
+    - read_dependency
+    - read_admin_groups
+    - read_admin_projects
+    - read_code
+    - read_runners
+    - read_security_attribute
+    - read_admin_subscription
+    - read_admin_monitoring
+    - read_admin_users
+    - read_vulnerability
+  API_Entities_AwardEmoji:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 1
+      name:
+        type: string
+        example: lizard
+      user:
+        "$ref": "#/definitions/API_Entities_UserBasic"
+      created_at:
+        type: string
+        format: date-time
+        example: '2019-01-10T13:39:08Z'
+      updated_at:
+        type: string
+        format: date-time
+        example: '2020-06-28T10:52:04Z'
+      awardable_id:
+        type: integer
+        format: int32
+        example: 42
+      awardable_type:
+        type: string
+        example: Issue
+      url:
+        type: string
+        example: https://example.com/emojis/example.gif
+    required:
+    - id
+    - name
+    - user
+    - created_at
+    - updated_at
+    - awardable_id
+    - awardable_type
+    - url
+    description: API_Entities_AwardEmoji model
   postApiV4GroupsIdEpicsEpicIidAwardEmoji:
     type: object
     properties:
@@ -50504,32 +50712,6 @@ definitions:
     - extra_shared_runners_minutes_limit
     - scim_identities
     description: API_Entities_UserPublic model
-  API_Entities_Identity:
-    type: object
-    properties:
-      provider:
-        type: string
-      extern_uid:
-        type: string
-      saml_provider_id:
-        type: string
-    required:
-    - provider
-    - extern_uid
-    - saml_provider_id
-  API_Entities_ScimIdentity:
-    type: object
-    properties:
-      extern_uid:
-        type: string
-      group_id:
-        type: string
-      active:
-        type: string
-    required:
-    - extern_uid
-    - group_id
-    - active
   API_Entities_SshCertificate:
     type: object
     properties:
@@ -54149,221 +54331,6 @@ definitions:
     - username
     - public_email
     - name
-  API_Entities_Member:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int32
-        example: 1
-      username:
-        type: string
-        example: admin
-      public_email:
-        type: string
-        example: john@example.com
-      name:
-        type: string
-        example: Administrator
-      state:
-        type: string
-        example: active
-      locked:
-        type: boolean
-      avatar_url:
-        type: string
-        example: https://gravatar.com/avatar/1
-      avatar_path:
-        type: string
-        example: "/user/avatar/28/The-Big-Lebowski-400-400.png"
-      custom_attributes:
-        type: array
-        items:
-          "$ref": "#/definitions/API_Entities_CustomAttribute"
-      web_url:
-        type: string
-        example: https://gitlab.example.com/root
-      access_level:
-        type: string
-      created_at:
-        type: string
-      created_by:
-        "$ref": "#/definitions/API_Entities_UserBasic"
-      expires_at:
-        type: string
-      group_saml_identity:
-        "$ref": "#/definitions/API_Entities_Identity"
-      group_scim_identity:
-        "$ref": "#/definitions/API_Entities_ScimIdentity"
-      email:
-        type: string
-      is_using_seat:
-        type: string
-      override:
-        type: string
-      membership_state:
-        type: string
-      member_role:
-        "$ref": "#/definitions/API_Entities_MemberRole"
-    required:
-    - id
-    - username
-    - public_email
-    - name
-    - state
-    - locked
-    - avatar_url
-    - web_url
-    - access_level
-    - created_at
-    - expires_at
-    - membership_state
-    description: API_Entities_Member model
-  API_Entities_MemberRole:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int32
-        example: 2
-      group_id:
-        type: integer
-        format: int32
-        example: 2
-      name:
-        type: text
-        example: Custom guest
-      description:
-        type: text
-        example: Guest user who can also read_code
-      base_access_level:
-        type: integer
-        format: int32
-        enum:
-        - 5
-        - 10
-        - 15
-        - 20
-        - 30
-        - 40
-        example: 40
-      apply_security_scan_profiles:
-        type: boolean
-      admin_merge_request:
-        type: boolean
-      archive_project:
-        type: boolean
-      remove_project:
-        type: boolean
-      remove_group:
-        type: boolean
-      manage_security_policy_link:
-        type: boolean
-      admin_compliance_framework:
-        type: boolean
-      admin_cicd_variables:
-        type: boolean
-      manage_deploy_tokens:
-        type: boolean
-      manage_group_access_tokens:
-        type: boolean
-      admin_group_member:
-        type: boolean
-      admin_integrations:
-        type: boolean
-      manage_merge_request_settings:
-        type: boolean
-      manage_project_access_tokens:
-        type: boolean
-      admin_protected_branch:
-        type: boolean
-      admin_protected_environments:
-        type: boolean
-      manage_protected_tags:
-        type: boolean
-      admin_push_rules:
-        type: boolean
-      admin_runners:
-        type: boolean
-      admin_security_attributes:
-        type: boolean
-      admin_terraform_state:
-        type: boolean
-      admin_vulnerability:
-        type: boolean
-      admin_web_hook:
-        type: boolean
-      read_compliance_dashboard:
-        type: boolean
-      read_security_scan_profiles:
-        type: boolean
-      read_admin_cicd:
-        type: boolean
-      read_crm_contact:
-        type: boolean
-      read_dependency:
-        type: boolean
-      read_admin_groups:
-        type: boolean
-      read_admin_projects:
-        type: boolean
-      read_code:
-        type: boolean
-      read_runners:
-        type: boolean
-      read_security_attribute:
-        type: boolean
-      read_admin_subscription:
-        type: boolean
-      read_admin_monitoring:
-        type: boolean
-      read_admin_users:
-        type: boolean
-      read_vulnerability:
-        type: boolean
-    required:
-    - id
-    - group_id
-    - name
-    - description
-    - base_access_level
-    - apply_security_scan_profiles
-    - admin_merge_request
-    - archive_project
-    - remove_project
-    - remove_group
-    - manage_security_policy_link
-    - admin_compliance_framework
-    - admin_cicd_variables
-    - manage_deploy_tokens
-    - manage_group_access_tokens
-    - admin_group_member
-    - admin_integrations
-    - manage_merge_request_settings
-    - manage_project_access_tokens
-    - admin_protected_branch
-    - admin_protected_environments
-    - manage_protected_tags
-    - admin_push_rules
-    - admin_runners
-    - admin_security_attributes
-    - admin_terraform_state
-    - admin_vulnerability
-    - admin_web_hook
-    - read_compliance_dashboard
-    - read_security_scan_profiles
-    - read_admin_cicd
-    - read_crm_contact
-    - read_dependency
-    - read_admin_groups
-    - read_admin_projects
-    - read_code
-    - read_runners
-    - read_security_attribute
-    - read_admin_subscription
-    - read_admin_monitoring
-    - read_admin_users
-    - read_vulnerability
   postApiV4GroupsIdMembers:
     type: object
     properties:
@@ -75605,6 +75572,10 @@ definitions:
               format: int32
               description: Project ID
               example: 1234
+            project_path:
+              type: string
+              description: Project path (used to resolve project_id if not provided)
+              example: namespace/project
             additional_properties:
               type: object
               description: Additional properties to be tracked
@@ -75638,6 +75609,10 @@ definitions:
         format: int32
         description: Project ID
         example: 1234
+      project_path:
+        type: string
+        description: Project path (used to resolve project_id if not provided)
+        example: namespace/project
       additional_properties:
         type: object
         description: Additional properties to be tracked

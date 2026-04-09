@@ -53,8 +53,7 @@ module Gitlab
         end
 
         def normalize_path(route)
-          pattern = route.instance_variable_get(:@pattern)
-          path = pattern.instance_variable_get(:@origin)
+          path = route.pattern.origin
 
           path
             .gsub(/\(\.:format\)$/, '')
@@ -79,8 +78,7 @@ module Gitlab
         end
 
         def extract_method(route)
-          options = route.instance_variable_get(:@options)
-          options[:method]
+          route.options[:method]
         end
       end
     end

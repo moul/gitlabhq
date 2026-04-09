@@ -1320,7 +1320,7 @@ RSpec.describe ProjectsController, feature_category: :groups_and_projects do
         expect(project.reload.self_deletion_scheduled?).to be_truthy
         expect(project.reload.hidden?).to be_falsey
         expect(response).to have_gitlab_http_status(:found)
-        expect(response).to redirect_to(project_path(project))
+        expect(response).to redirect_to(dashboard_projects_path)
         expect(flash[:toast]).to be_nil
       end
     end

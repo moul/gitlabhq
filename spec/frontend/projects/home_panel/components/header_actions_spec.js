@@ -3,6 +3,7 @@ import ProjectHeaderActions from '~/projects/home_panel/components/header_action
 import ProjectListItemActions from '~/vue_shared/components/projects_list/project_list_item_actions.vue';
 import { visitUrlWithAlerts } from '~/lib/utils/url_utility';
 import {
+  ACTION_DELETE,
   ACTION_DELETE_IMMEDIATELY,
   ACTION_LEAVE,
 } from '~/vue_shared/components/list_actions/constants';
@@ -49,6 +50,20 @@ describe('ProjectHeaderActions', () => {
   });
 
   describe('when action event is emitted', () => {
+    describe('when action is ACTION_DELETE', () => {
+      it('redirects to dashboardPath with scheduled deletion alert', () => {
+        findProjectListItemActions().vm.$emit('action', ACTION_DELETE);
+
+        expect(visitUrlWithAlerts).toHaveBeenCalledWith('http://test.host/dashboard/projects', [
+          {
+            id: 'namespace-delete-scheduled-success',
+            message: 'Test Project moved to pending deletion.',
+            variant: 'info',
+          },
+        ]);
+      });
+    });
+
     describe('when action is ACTION_DELETE_IMMEDIATELY', () => {
       it('redirects to dashboardPath', () => {
         findProjectListItemActions().vm.$emit('action', ACTION_DELETE_IMMEDIATELY);

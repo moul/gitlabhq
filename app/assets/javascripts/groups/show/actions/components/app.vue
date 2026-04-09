@@ -21,6 +21,10 @@ export default {
   },
   computed: {
     redirectConfig() {
+      const deleteScheduledMessage = sprintf(__('%{group_name} moved to pending deletion.'), {
+        group_name: this.group.name,
+      });
+
       const deleteMessage = sprintf(__('%{group_name} is being deleted.'), {
         group_name: this.group.name,
       });
@@ -31,6 +35,7 @@ export default {
 
       return buildRedirectConfig({
         path: this.dashboardPath,
+        deleteScheduledMessage,
         deleteMessage,
         leaveMessage,
       });

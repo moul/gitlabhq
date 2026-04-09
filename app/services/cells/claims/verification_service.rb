@@ -18,7 +18,6 @@ module Cells
       #   batch fails the Sidekiq retry resumes from the last successful batch rather than restarting from
       #   the beginning of the run.
       def initialize(model, timeout:, start_id: 0, &on_batch_processed)
-        @claim_service = Gitlab::TopologyServiceClient::ClaimService.instance
         @model = model
         @created_count = 0
         @destroyed_count = 0

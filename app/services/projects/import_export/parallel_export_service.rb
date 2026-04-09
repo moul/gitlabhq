@@ -38,11 +38,7 @@ module Projects
       end
 
       def exporters
-        savers = [version_saver, exported_relations_merger]
-
-        savers.append(max_iids_saver) if Feature.enabled?(:import_export_preallocate_iids, current_user)
-
-        savers
+        [version_saver, exported_relations_merger, max_iids_saver]
       end
 
       def save_exporters

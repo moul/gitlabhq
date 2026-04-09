@@ -60,7 +60,9 @@ module Gitlab
             add_response_with_entity(
               status_code: entity_hash[:code] || success_code,
               description: http_status_text(entity_hash[:code] || success_code),
-              entity_class: entity_hash[:model]
+              entity_class: entity_hash[:model],
+              example: entity_hash[:example],
+              examples: entity_hash[:examples]
             )
           else
             add_simple_response(
@@ -86,7 +88,9 @@ module Gitlab
             add_response_with_entity(
               status_code: definition[:code] || infer_success_code,
               description: definition[:message] || http_status_text(definition[:code] || infer_success_code),
-              entity_class: definition[:model]
+              entity_class: definition[:model],
+              example: definition[:example],
+              examples: definition[:examples]
             )
           else
             add_simple_response(
@@ -115,11 +119,13 @@ module Gitlab
           end
         end
 
-        def add_response_with_entity(status_code:, description:, entity_class:)
+        def add_response_with_entity(status_code:, description:, entity_class:, example: nil, examples: nil)
           response = Models::Response.new(
             status_code: status_code,
             description: description,
-            entity_class: entity_class
+            entity_class: entity_class,
+            example: example,
+            examples: examples
           )
 
           @responses[response.status_code] = response.to_h(@schema_registry)

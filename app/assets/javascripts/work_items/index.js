@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueApollo from 'vue-apollo';
 import { DESIGN_MARK_APP_START, DESIGN_MEASURE_BEFORE_APP } from '~/performance/constants';
 import { performanceMarkAndMeasure } from '~/performance/utils';
-import { NAMESPACE_GROUP } from '~/issues/constants';
 import { addShortcutsExtension } from '~/behaviors/shortcuts';
 import ShortcutsNavigation from '~/behaviors/shortcuts/shortcuts_navigation';
 import { parseBoolean } from '~/lib/utils/common_utils';
@@ -40,7 +39,6 @@ export const initWorkItemsRoot = ({ workItemType, namespaceType, withTabs } = {}
     serviceDeskSettingsPath,
   } = el.dataset;
 
-  const isGroup = namespaceType === NAMESPACE_GROUP;
   const router = createRouter({ fullPath, namespaceType, defaultBranch, workItemType });
 
   const breadcrumbParams = { workItemType };
@@ -71,8 +69,6 @@ export const initWorkItemsRoot = ({ workItemType, namespaceType, withTabs } = {}
     apolloProvider,
     provide: {
       fullPath,
-      isGroup,
-      isProject: !isGroup,
       isGroupIssuesList: parseBoolean(isGroupIssuesList),
       workItemType,
       // service desk list

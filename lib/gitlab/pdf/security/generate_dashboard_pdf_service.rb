@@ -174,7 +174,7 @@ module Gitlab
         # Vulnerabilities by Age
 
         def should_render_vulnerabilities_by_age?
-          exportable_group? && report_data['vulnerabilities_by_age'].present?
+          report_data['vulnerabilities_by_age'].present?
         end
 
         def render_vulnerabilities_by_age

@@ -100,8 +100,7 @@ class Groups::LabelsController < Groups::ApplicationController
   end
 
   def label_params
-    allowed = [:title, :description, :color]
-    allowed << :archived
+    allowed = [:title, :description, :color, :archived]
     allowed << :lock_on_merge if @group.supports_lock_on_merge?
 
     params.require(:label).permit(allowed)
@@ -124,9 +123,7 @@ class Groups::LabelsController < Groups::ApplicationController
   end
 
   def available_labels(options = params)
-    archived_param = unless options[:ignore_archived]
-                       options[:archived].nil? ? false : options[:archived]
-                     end
+    archived_param = options[:archived].nil? ? false : options[:archived] unless options[:ignore_archived]
 
     @available_labels ||=
       LabelsFinder.new(

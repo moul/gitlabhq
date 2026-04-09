@@ -323,7 +323,6 @@ const mountComponent = ({
       hasStatusFeature: false,
       showNewWorkItem: true,
       releasesPath: RELEASES_ENDPOINT,
-      isProject: false,
       hasBlockedIssuesFeature: false,
       hasIssuableHealthStatusFeature: false,
       hasIssueDateFilterFeature: false,
@@ -2197,7 +2196,6 @@ describe('planning-view', () => {
         mountComponent({
           hasWorkItemsHandler: emptyHasWorkItemsHandler,
           provide: {
-            isProject: false,
             isGroupIssuesList: true,
             hasProjects: true,
             hasEpicsFeature: true,
@@ -2249,7 +2247,6 @@ describe('planning-view', () => {
         },
         provide: {
           isGroup: false,
-          isProject: true,
         },
         stubs: {
           EmptyStateWithoutAnyIssues: {
@@ -2284,7 +2281,6 @@ describe('planning-view', () => {
               }),
             },
             provide: {
-              isProject: false,
               isGroupIssuesList: true,
             },
           });
@@ -2305,7 +2301,6 @@ describe('planning-view', () => {
               }),
             },
             provide: {
-              isProject: true,
               isGroupIssuesList: false,
             },
           });

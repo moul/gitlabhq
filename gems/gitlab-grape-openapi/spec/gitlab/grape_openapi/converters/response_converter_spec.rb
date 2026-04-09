@@ -55,6 +55,43 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ResponseConverter do
           } }
         )
       end
+
+      context 'with example' do
+        let(:options) do
+          { method: 'GET', entity: { code: 200, model: entity_class, example: { id: 1, name: 'Jane' } } }
+        end
+
+        it 'includes example in the response content' do
+          result = described_class.new(route, schema_registry).convert
+
+          expect(result['200'][:content]['application/json'][:example]).to eq({ id: 1, name: 'Jane' })
+        end
+      end
+
+      context 'with examples' do
+        let(:options) do
+          {
+            method: 'GET',
+            entity: {
+              code: 200,
+              model: entity_class,
+              examples: {
+                'NewUser' => { summary: 'A new user', value: { id: 1, name: 'Jane' } },
+                'AdminUser' => { summary: 'An admin user', value: { id: 2, name: 'Bob', admin: true } }
+              }
+            }
+          }
+        end
+
+        it 'includes examples in the response content' do
+          result = described_class.new(route, schema_registry).convert
+
+          expect(result['200'][:content]['application/json'][:examples]).to eq(
+            'NewUser' => { summary: 'A new user', value: { id: 1, name: 'Jane' } },
+            'AdminUser' => { summary: 'An admin user', value: { id: 2, name: 'Bob', admin: true } }
+          )
+        end
+      end
     end
 
     context 'with entity as Hash with code only' do
@@ -250,6 +287,43 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ResponseConverter do
             description: 'Created'
           } }
         )
+      end
+
+      context 'with example' do
+        let(:options) do
+          { method: 'POST', entity: [{ code: 201, model: entity_class, example: { id: 1, name: 'Jane' } }] }
+        end
+
+        it 'includes example in the response content' do
+          result = described_class.new(route, schema_registry).convert
+
+          expect(result['201'][:content]['application/json'][:example]).to eq({ id: 1, name: 'Jane' })
+        end
+      end
+
+      context 'with examples' do
+        let(:options) do
+          {
+            method: 'POST',
+            entity: [{
+              code: 201,
+              model: entity_class,
+              examples: {
+                'NewUser' => { summary: 'A new user', value: { id: 1, name: 'Jane' } },
+                'AdminUser' => { summary: 'An admin user', value: { id: 2, name: 'Bob', admin: true } }
+              }
+            }]
+          }
+        end
+
+        it 'includes examples in the response content' do
+          result = described_class.new(route, schema_registry).convert
+
+          expect(result['201'][:content]['application/json'][:examples]).to eq(
+            'NewUser' => { summary: 'A new user', value: { id: 1, name: 'Jane' } },
+            'AdminUser' => { summary: 'An admin user', value: { id: 2, name: 'Bob', admin: true } }
+          )
+        end
       end
     end
 

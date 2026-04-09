@@ -96,6 +96,7 @@ group:
   - invite_group_members
   - manage_deploy_tokens
   - manage_merge_request_settings
+  - modify_security_policy
   - provision_secrets_manager
   - read_add_on_purchase
   - read_billable_member
@@ -131,5 +132,6 @@ group:
   - update_group_link
   - update_runners_registration_token
   - update_secrets_permission
+  - update_security_orchestration_policy_project
   - update_subscription_usage_cap
   - view_member_roles

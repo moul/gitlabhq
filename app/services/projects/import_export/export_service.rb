@@ -24,14 +24,11 @@ module Projects
       end
 
       def exporters
-        savers = [
+        [
           version_saver, avatar_saver, project_tree_saver, uploads_saver,
-          repo_saver, wiki_repo_saver, lfs_saver, snippets_repo_saver, design_repo_saver
+          repo_saver, wiki_repo_saver, lfs_saver, snippets_repo_saver, design_repo_saver,
+          max_iids_saver
         ]
-
-        savers.append(max_iids_saver) if Feature.enabled?(:import_export_preallocate_iids, current_user)
-
-        savers
       end
 
       protected

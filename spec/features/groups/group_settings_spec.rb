@@ -411,7 +411,7 @@ RSpec.describe 'Edit group settings', :with_current_organization, feature_catego
       it 'allows delayed deletion' do
         remove_with_confirm('Delete', group.path)
 
-        expect(page).to have_content "This group and all its data will be permanently deleted on #{permanent_deletion_date_formatted}."
+        expect(page).to have_current_path(dashboard_groups_path, ignore_query: true)
       end
     end
 

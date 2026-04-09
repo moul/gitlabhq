@@ -48187,6 +48187,9 @@ msgstr ""
 msgid "OfflineTransfer|Export failed. You do not have permission to export the following resources or they do not exist: %{paths}"
 msgstr ""
 
+msgid "OfflineTransfer|Import"
+msgstr ""
+
 msgid "OfflineTransfer|Object storage request responded with status %{status}"
 msgstr ""
 
@@ -48194,9 +48197,6 @@ msgid "OfflineTransfer|Offline transfer"
 msgstr ""
 
 msgid "OfflineTransfer|Offline transfer export"
-msgstr ""
-
-msgid "OfflineTransfer|Offline transfer import"
 msgstr ""
 
 msgid "OfflineTransfer|One or more destination paths is invalid."
@@ -75273,6 +75273,9 @@ msgstr ""
 msgid "UsageBilling|Credits per day"
 msgstr ""
 
+msgid "UsageBilling|Credits used"
+msgstr ""
+
 msgid "UsageBilling|Credits used after all included user credits and monthly commitment pool have been exhausted. Learn about %{linkStart}GitLab Credit pricing%{linkEnd}."
 msgstr ""
 
@@ -75383,6 +75386,9 @@ msgstr ""
 msgid "UsageBilling|Monthly waiver limit"
 msgstr ""
 
+msgid "UsageBilling|No product data available"
+msgstr ""
+
 msgid "UsageBilling|No user data available"
 msgstr ""
 
@@ -75398,6 +75404,9 @@ msgstr ""
 msgid "UsageBilling|Peak day usage"
 msgstr ""
 
+msgid "UsageBilling|Product"
+msgstr ""
+
 msgid "UsageBilling|Purchase monthly commitment"
 msgstr ""
 
@@ -75405,6 +75414,9 @@ msgid "UsageBilling|Read the documentation"
 msgstr ""
 
 msgid "UsageBilling|Save on GitLab Credits with monthly commitment"
+msgstr ""
+
+msgid "UsageBilling|Share"
 msgstr ""
 
 msgid "UsageBilling|Shared pool of credits available to all users in the subscription."
@@ -75438,6 +75450,9 @@ msgid "UsageBilling|Understand how credits are consumed by different features, e
 msgstr ""
 
 msgid "UsageBilling|Usage Billing is disabled"
+msgstr ""
+
+msgid "UsageBilling|Usage by product"
 msgstr ""
 
 msgid "UsageBilling|Usage by user"

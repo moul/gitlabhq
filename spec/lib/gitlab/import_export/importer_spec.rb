@@ -136,31 +136,13 @@ RSpec.describe Gitlab::ImportExport::Importer, feature_category: :importers do
         allow(subject).to receive(:overwrite_project).and_return(true)
       end
 
-      context 'when import_export_preallocate_iids feature flag is enabled' do
-        before do
-          stub_feature_flags(import_export_preallocate_iids: user)
-        end
+      it 'calls IidPreallocator.from_file with the project and max_iids.json path' do
+        expect(Gitlab::Import::IidPreallocator).to receive(:from_file).with(
+          project,
+          File.join(shared.export_path, 'max_iids.json')
+        )
 
-        it 'calls IidPreallocator.from_file with the project and max_iids.json path' do
-          expect(Gitlab::Import::IidPreallocator).to receive(:from_file).with(
-            project,
-            File.join(shared.export_path, 'max_iids.json')
-          )
-
-          subject.execute
-        end
-      end
-
-      context 'when import_export_preallocate_iids feature flag is disabled' do
-        before do
-          stub_feature_flags(import_export_preallocate_iids: false)
-        end
-
-        it 'does not call IidPreallocator' do
-          expect(Gitlab::Import::IidPreallocator).not_to receive(:from_file)
-
-          subject.execute
-        end
+        subject.execute
       end
     end
 

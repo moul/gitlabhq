@@ -3,8 +3,6 @@
 module Groups
   module ImportExport
     class ImportService
-      include Gitlab::Utils::StrongMemoize
-
       attr_reader :current_user, :group, :shared
 
       def initialize(group:, user:)
@@ -65,27 +63,19 @@ module Groups
       end
 
       def preallocate_iids
-        if iid_preallocation_enabled?
-          Gitlab::Import::IidPreallocator.from_file(
-            group,
-            File.join(shared.export_path, 'max_iids.json')
-          )
-        end
+        Gitlab::Import::IidPreallocator.from_file(
+          group,
+          File.join(shared.export_path, 'max_iids.json')
+        )
 
         true
       end
 
       def flush_iid_records
-        return unless iid_preallocation_enabled?
         return unless group&.persisted?
 
         InternalId.flush_records!(namespace: group)
       end
-
-      def iid_preallocation_enabled?
-        Feature.enabled?(:import_export_preallocate_iids, current_user)
-      end
-      strong_memoize_attr :iid_preallocation_enabled?
 
       def import_file
         @import_file ||= Gitlab::ImportExport::FileImporter.import(

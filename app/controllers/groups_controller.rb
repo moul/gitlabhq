@@ -191,7 +191,7 @@ class GroupsController < Groups::ApplicationController
     if result.success?
       respond_to do |format|
         format.html do
-          redirect_to group_path(group), status: :found
+          redirect_to dashboard_groups_path, status: :found
         end
 
         format.json do
@@ -417,7 +417,7 @@ class GroupsController < Groups::ApplicationController
     respond_to do |format|
       format.html do
         flash[:toast] = message
-        redirect_to root_path, status: :found
+        redirect_to dashboard_groups_path, status: :found
       end
 
       format.json do

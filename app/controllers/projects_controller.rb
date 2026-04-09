@@ -215,7 +215,7 @@ class ProjectsController < Projects::ApplicationController
     result = ::Projects::MarkForDeletionService.new(@project, current_user).execute
 
     if result.success?
-      redirect_to project_path(@project), status: :found
+      redirect_to dashboard_projects_path, status: :found
     else
       flash.now[:alert] = result.message
 
