@@ -37,7 +37,7 @@ syntax of `<field> <operator> <value> and ...`.
 
 ### Data sources
 
-GLQL can query different data sources such as work items and merge requests.
+GLQL can query different data sources such as work items, merge requests, pipelines, jobs, and projects.
 
 For a full list of supported data sources, see [GLQL data sources](data_sources/_index.md).
 

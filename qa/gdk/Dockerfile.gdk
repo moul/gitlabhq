@@ -6,7 +6,7 @@ ARG RAILS_ENV=test
 ARG NODE_ENV=test
 ARG NODE_OPTIONS=--max-old-space-size=10240
 
-ARG GDK_SHA=12fc694d8fb90ac55ef31fd06f630b216b36f7c5
+ARG GDK_SHA=cb9b5b5cebc40c05246ee4ea1631417564ee5683
 # Use tag prefix when running on 'stable' branch to make sure 'protected' image is used which is not deleted by registry cleanup
 ARG GDK_BASE_TAG_PREFIX
 

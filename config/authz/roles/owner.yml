@@ -13,6 +13,7 @@ project:
   - add_catalog_resource
   - admin_project_secrets_manager
   - archive_project
+  - cancel_project_import
   - change_namespace
   - change_visibility_level
   - clone_project_configuration
@@ -28,6 +29,7 @@ project:
   - read_compliance_adherence_report
   - read_compliance_dashboard
   - read_compliance_violations_report
+  - read_project_import
   - remove_fork_project
   - remove_project
   - rewrite_repository_history

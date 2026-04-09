@@ -21,8 +21,7 @@ module HomepageData
       duo_code_review_bot_username: duo_code_review_bot_username(user),
       merge_requests_review_requested_title: dashboard_list_title(mr_requested_id),
       merge_requests_your_merge_requests_title: dashboard_list_title(mr_requests_id),
-      last_push_event: prepare_last_push_event_data(last_push_event)&.to_json,
-      work_item_planning_view_enabled: 'true'
+      last_push_event: prepare_last_push_event_data(last_push_event)&.to_json
     }
   end
 

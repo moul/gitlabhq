@@ -343,6 +343,8 @@ For example, if a subscription is valid from January 1, 2024 until January 1, 20
 - It expires at 11:59:59 PM UTC December 31, 2024.
 - It is considered expired from 12:00:00 AM UTC January 1, 2025.
 
+If your subscription has expired, you can still renew it manually within 15 days after the expiration date. After 15 days, the manual renewal option is no longer available and you must purchase a new subscription to restore access to paid features.
+
 ### For GitLab.com
 
 {{< details >}}

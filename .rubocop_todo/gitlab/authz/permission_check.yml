@@ -2,7 +2,6 @@
 Gitlab/Authz/PermissionCheck:
   Details: grace period
   Exclude:
-    - 'app/controllers/import/github_controller.rb'
     - 'app/controllers/search_controller.rb'
     - 'app/finders/autocomplete/deploy_keys_with_write_access_finder.rb'
     - 'app/finders/ci/triggers_finder.rb'

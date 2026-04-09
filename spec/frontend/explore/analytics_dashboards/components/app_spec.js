@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
 import { shallowMount } from '@vue/test-utils';
-import { GlSkeletonLoader } from '@gitlab/ui';
+import { GlSkeletonLoader, GlTabs, GlTab, GlSearchBoxByType } from '@gitlab/ui';
 import createMockApollo from 'helpers/mock_apollo_helper';
 import waitForPromises from 'helpers/wait_for_promises';
+import { extendedWrapper } from 'helpers/vue_test_utils_helper';
 import { createAlert } from '~/alert';
 import EmptyState from '~/vue_shared/components/dashboards_list/empty_state.vue';
 import DashboardsList from '~/vue_shared/components/dashboards_list/dashboards_list.vue';
@@ -20,6 +21,7 @@ describe('ExploreAnalyticsDashboardsApp', () => {
 
   const defaultPropsData = {
     organizationId: 'gid://gdktest/Organizations::Organization/1',
+    currentUserId: 20,
   };
 
   const mockResolvedQuery = (queryResponse = mockDashboardsListResponse) =>
@@ -28,16 +30,23 @@ describe('ExploreAnalyticsDashboardsApp', () => {
   const mockRejectedQuery = (queryResponse = {}) =>
     createMockApollo([[getDashboardsQuery, jest.fn().mockRejectedValue({ data: queryResponse })]]);
 
-  const createComponent = (requestHandlers) => {
-    wrapper = shallowMount(ExploreAnalyticsDashboardsApp, {
-      propsData: {
-        ...defaultPropsData,
-      },
-      apolloProvider: requestHandlers || mockResolvedQuery(),
-    });
+  const createComponent = ({ requestHandlers, props = {} } = {}) => {
+    wrapper = extendedWrapper(
+      shallowMount(ExploreAnalyticsDashboardsApp, {
+        propsData: {
+          ...defaultPropsData,
+          ...props,
+        },
+        apolloProvider: requestHandlers || mockResolvedQuery(),
+      }),
+    );
   };
 
   const findSkeletonLoader = () => wrapper.findComponent(GlSkeletonLoader);
+  const findTabFilters = () => wrapper.findComponent(GlTabs);
+  const findTabs = () => wrapper.findAllComponents(GlTab);
+  const findActiveTab = () => wrapper.findByTestId('dashboard-list-tab-active');
+  const findSearchBox = () => wrapper.findComponent(GlSearchBoxByType);
   const findEmptyState = () => wrapper.findComponent(EmptyState);
   const findDashboardsList = () => wrapper.findComponent(DashboardsList);
 
@@ -61,7 +70,7 @@ describe('ExploreAnalyticsDashboardsApp', () => {
 
   describe('with an error', () => {
     beforeEach(async () => {
-      createComponent(mockRejectedQuery());
+      createComponent({ requestHandlers: mockRejectedQuery() });
 
       await waitForPromises();
     });
@@ -114,7 +123,7 @@ describe('ExploreAnalyticsDashboardsApp', () => {
 
   describe('with no dashboards', () => {
     beforeEach(async () => {
-      createComponent(mockResolvedQuery(mockEmptyDashboardsListResponse));
+      createComponent({ requestHandlers: mockResolvedQuery(mockEmptyDashboardsListResponse) });
 
       await waitForPromises();
     });
@@ -129,6 +138,93 @@ describe('ExploreAnalyticsDashboardsApp', () => {
 
     it('renders the empty state', () => {
       expect(findEmptyState().exists()).toBe(true);
+    });
+  });
+
+  describe('filters', () => {
+    const { nodes: mockNodes } = mockDashboardsListResponse.customDashboards;
+
+    describe('tab filters', () => {
+      beforeEach(async () => {
+        createComponent();
+
+        await waitForPromises();
+      });
+
+      it('renders the tab filters', () => {
+        expect(findTabFilters().exists()).toBe(true);
+
+        ['Created by me', 'Created by GitLab', 'All'].forEach((title, index) => {
+          expect(findTabs().at(index).attributes('title')).toBe(title);
+        });
+      });
+
+      it('renders the `All` tab by default', () => {
+        expect(findActiveTab().attributes('title')).toBe('All');
+      });
+
+      it('updates the active tab when changed', async () => {
+        expect(findActiveTab().attributes('title')).toBe('All');
+
+        await findTabFilters().vm.$emit('input', 1);
+
+        expect(findActiveTab().attributes('title')).toBe('Created by GitLab');
+      });
+
+      it('renders the `Created by me` tab with the correct count', () => {
+        expect(findTabs().at(0).props('tabCount')).toBe(0);
+      });
+    });
+
+    describe('when the current user is the dashboard author', () => {
+      beforeEach(async () => {
+        createComponent({ props: { currentUserId: 1 } });
+        await waitForPromises();
+      });
+
+      it('renders the `Created by me` tab with the correct count', () => {
+        expect(findTabs().at(0).props('tabCount')).toBe(1);
+      });
+    });
+
+    describe('search', () => {
+      beforeEach(async () => {
+        createComponent();
+
+        await waitForPromises();
+      });
+
+      it('renders the search box', () => {
+        expect(findSearchBox().exists()).toBe(true);
+      });
+
+      it('does not trigger search with less than 3 characters', async () => {
+        expect(findEmptyState().exists()).toBe(false);
+        expect(findDashboardsList().props('dashboards')).toHaveLength(mockNodes.length);
+
+        await findSearchBox().vm.$emit('input', 'tr');
+
+        expect(findEmptyState().exists()).toBe(false);
+        expect(findDashboardsList().props('dashboards')).toHaveLength(mockNodes.length);
+      });
+
+      it('updates the dashboard list when filtered', async () => {
+        expect(findEmptyState().exists()).toBe(false);
+        expect(findDashboardsList().props('dashboards')).toHaveLength(mockNodes.length);
+
+        await findSearchBox().vm.$emit('input', 'does not exist');
+
+        expect(findEmptyState().exists()).toBe(true);
+      });
+
+      it('returns any matching dashboards', async () => {
+        expect(findEmptyState().exists()).toBe(false);
+        expect(findDashboardsList().props('dashboards')).toHaveLength(mockNodes.length);
+
+        await findSearchBox().vm.$emit('input', 'trends');
+
+        expect(findDashboardsList().props('dashboards')[0].name).toBe('Fake trends');
+      });
     });
   });
 });

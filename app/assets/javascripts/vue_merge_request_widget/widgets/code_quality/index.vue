@@ -73,8 +73,11 @@ export default {
       }
       return true;
     },
+    hasReportsTab() {
+      return this.glFeatures.mrReportsTab && Boolean(this.mr.reportsTabPath);
+    },
     actionButtons() {
-      if (this.glFeatures.mrReportsTab) {
+      if (this.hasReportsTab) {
         return [
           {
             text: s__('MrReports|View report'),
@@ -135,7 +138,7 @@ export default {
     :summary="summary"
     :widget-name="$options.name"
     :status-icon-name="statusIcon"
-    :is-collapsible="glFeatures.mrReportsTab ? false : shouldCollapse"
+    :is-collapsible="hasReportsTab ? false : shouldCollapse"
     :expand-button-label="s__('ciReport|Expand Code Quality details')"
     :collapse-button-label="s__('ciReport|Collapse Code Quality details')"
   />

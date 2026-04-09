@@ -149,19 +149,12 @@ RSpec.describe SidebarsHelper, feature_category: :navigation do
         shortcut_links: global_shortcut_links,
         track_visits_path: track_namespace_visits_path,
         work_items: nil,
-        has_multiple_organizations: false,
-        work_item_planning_view_enabled: true
+        has_multiple_organizations: false
       })
     end
 
-    describe 'work_item_planning_view_enabled' do
-      it 'sets work_item_planning_view_enabled to true', :use_clean_rails_memory_store_caching do
-        expect(subject[:work_item_planning_view_enabled]).to be(true)
-      end
-
-      it 'sets issues_dashboard_path to work_items dashboard', :use_clean_rails_memory_store_caching do
-        expect(subject[:issues_dashboard_path]).to eq(work_items_dashboard_path(assignee_username: user.username))
-      end
+    it 'sets issues_dashboard_path to work_items dashboard', :use_clean_rails_memory_store_caching do
+      expect(subject[:issues_dashboard_path]).to eq(work_items_dashboard_path(assignee_username: user.username))
     end
 
     it 'returns sidebar values for work item context with group id', :use_clean_rails_memory_store_caching do
@@ -172,8 +165,7 @@ RSpec.describe SidebarsHelper, feature_category: :navigation do
           has_issue_weights_feature: "false",
           issues_list_path: issues_group_path(group_with_id),
           labels_manage_path: group_labels_path(group_with_id),
-          can_admin_label: "true",
-          work_item_planning_view_enabled: "true"
+          can_admin_label: "true"
         }
       })
     end

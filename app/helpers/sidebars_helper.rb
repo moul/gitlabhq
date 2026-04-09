@@ -112,8 +112,7 @@ module SidebarsHelper
       shortcut_links: shortcut_links(user: user, project: project),
       track_visits_path: track_namespace_visits_path,
       work_items: work_items_modal_data(group, project),
-      has_multiple_organizations: user.has_multiple_organizations?,
-      work_item_planning_view_enabled: true
+      has_multiple_organizations: user.has_multiple_organizations?
     })
   end
 
@@ -146,8 +145,7 @@ module SidebarsHelper
         labels_manage_path: project_labels_path(project),
         can_admin_label: can?(current_user, :admin_label, project).to_s,
         has_issue_weights_feature: project.licensed_feature_available?(:issue_weights).to_s,
-        has_iterations_feature: project.licensed_feature_available?(:iterations).to_s,
-        work_item_planning_view_enabled: 'true'
+        has_iterations_feature: project.licensed_feature_available?(:iterations).to_s
       }
     end
 
@@ -159,8 +157,7 @@ module SidebarsHelper
       issues_list_path: issues_group_path(group),
       labels_manage_path: group_labels_path(group),
       can_admin_label: can?(current_user, :admin_label, group).to_s,
-      has_issue_weights_feature: group.licensed_feature_available?(:issue_weights).to_s,
-      work_item_planning_view_enabled: 'true'
+      has_issue_weights_feature: group.licensed_feature_available?(:issue_weights).to_s
     }
   end
 

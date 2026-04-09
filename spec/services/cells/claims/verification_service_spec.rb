@@ -2,12 +2,14 @@
 
 require 'spec_helper'
 
-RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_state, feature_category: :cell do
+RSpec.describe Cells::Claims::VerificationService, feature_category: :cell do
   let(:mock_claim_service) { instance_double(::Gitlab::TopologyServiceClient::ClaimService) }
   let(:lease_uuid) { SecureRandom.uuid }
   let(:fake_deadline) { 'fake-deadline' }
   let(:timeout) { 1.minute }
   let(:service) { described_class.new(User, timeout: timeout) }
+  let(:user_id_bucket_type) { Gitlab::Cells::TopologyService::Claims::V1::Bucket::Type::USER_IDS }
+  let(:username_bucket_type) { Gitlab::Cells::TopologyService::Claims::V1::Bucket::Type::USERNAMES }
   let(:begin_update_response) do
     Gitlab::Cells::TopologyService::Claims::V1::BeginUpdateResponse.new(
       lease_uuid: Gitlab::Cells::TopologyService::Types::V1::UUID.new(value: lease_uuid)
@@ -19,6 +21,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
     allow(Gitlab::TopologyServiceClient::ClaimService).to receive(:instance).and_return(mock_claim_service)
     allow(mock_claim_service).to receive(:cell_id).and_return(1)
     allow(GRPC::Core::TimeConsts).to receive(:from_relative_time).and_return(fake_deadline)
+    stub_const("#{described_class}::RECENTLY_CHANGED_THRESHOLD", 0.seconds)
   end
 
   describe '#execute' do
@@ -50,12 +53,13 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         stub_list_records([])
       end
 
-      it 'returns zero creates and destroys' do
-        expect(service.execute).to include(created: 0, destroyed: 0, over_time: false)
+      it 'returns zero creates and destroys with nil last_id' do
+        expect(service.execute).to include(created: 0, destroyed: 0, over_time: false, last_id: nil)
       end
 
       it 'does not call begin_update' do
         expect(mock_claim_service).not_to receive(:begin_update)
+
         service.execute
       end
     end
@@ -84,12 +88,14 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
 
       it 'returns the correct create count' do
         result = service.execute
+
         expect(result[:created]).to eq(1 * User.cells_claims_attributes.size)
         expect(result[:destroyed]).to eq(0)
       end
 
       it 'returns last_id' do
         result = service.execute
+
         expect(result[:last_id]).to eq(user.id)
       end
 
@@ -111,11 +117,12 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
 
     context 'when a Topology Service record is missing from local' do
       let(:user) { create(:user) }
-      let(:orphaned_ts_record) { build_ts_record(user.id + 9999) }
+      let(:orphaned_ts_records) { [build_ts_record(user.id + 9999, subject_id: user.organization_id)] }
 
       before do
-        stub_list_records([orphaned_ts_record])
+        stub_list_records(orphaned_ts_records)
         stub_commit
+        allow(Gitlab::ErrorTracking).to receive(:track_exception)
       end
 
       it 'destroys the orphaned Topology Service record' do
@@ -130,18 +137,27 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         result = service.execute
         expect(result[:destroyed]).to eq(1)
       end
+
+      it 'tracks drift to Sentry' do
+        expect(Gitlab::ErrorTracking).to receive(:track_exception).with(
+          instance_of(described_class::DriftError), hash_including(model: 'User')
+        )
+
+        service.execute
+      end
     end
 
     context 'when local and Topology Service records are in sync' do
-      let(:user) { create(:user) }
-      let(:ts_record) { build_ts_record(user.id) }
+      let!(:user) { create(:user) }
+      let(:ts_records) { build_ts_records_for(user) }
 
       before do
-        stub_list_records([ts_record])
+        stub_list_records(ts_records)
       end
 
       it 'does not call begin_update' do
         expect(mock_claim_service).not_to receive(:begin_update)
+
         service.execute
       end
 
@@ -150,13 +166,127 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       end
     end
 
+    context 'when local and Topology Service records have different values' do
+      let(:user) { create(:user) }
+      let(:ts_records) do
+        records = build_ts_records_for(user)
+        # Override the username record with a stale value
+        records[1] = build_ts_record(user.id, subject_id: user.organization_id,
+          bucket_type: username_bucket_type, bucket_value: "old_username")
+        records
+      end
+
+      before do
+        stub_list_records(ts_records)
+        stub_commit
+        allow(Gitlab::ErrorTracking).to receive(:track_exception)
+      end
+
+      it 'calls begin_update' do
+        expect(mock_claim_service).to receive(:begin_update).and_return(begin_update_response)
+
+        service.execute
+      end
+
+      it 'tracks drift to Sentry' do
+        expect(Gitlab::ErrorTracking).to receive(:track_exception).with(
+          instance_of(described_class::DriftError),
+          hash_including(model: 'User', local_value: user.username, ts_value: 'old_username')
+        )
+
+        service.execute
+      end
+
+      it 'creates the new value and destroys the old one' do
+        expect(mock_claim_service).to receive(:begin_update).with(
+          hash_including(
+            create_records: match_array([hash_including(
+              bucket: { type: Gitlab::Cells::TopologyService::Claims::V1::Bucket::Type::USERNAMES,
+                        value: user.username }
+            )]),
+            destroy_records: match_array([hash_including(
+              bucket: { type: Gitlab::Cells::TopologyService::Claims::V1::Bucket::Type::USERNAMES,
+                        value: "old_username" }
+            )])
+          )
+        ).and_return(begin_update_response)
+
+        service.execute
+      end
+
+      it 'returns correct counts' do
+        expect(service.execute).to include(created: 1, destroyed: 1, over_time: false)
+      end
+    end
+
+    context 'when local has a claim attribute that Topology Service does not' do
+      let!(:user) { create(:user) }
+      let(:ts_records) do
+        # TS only has USER_IDS, missing USERNAMES (as if a new claim attribute was added locally)
+        [build_ts_record(user.id, subject_id: user.organization_id,
+          bucket_type: user_id_bucket_type, bucket_value: user.id.to_s)]
+      end
+
+      before do
+        stub_list_records(ts_records)
+        stub_commit
+      end
+
+      it 'creates the missing claim attribute in TS' do
+        expect(mock_claim_service).to receive(:begin_update).with(
+          hash_including(
+            create_records: [hash_including(
+              bucket: { type: username_bucket_type, value: user.username }
+            )],
+            destroy_records: []
+          )
+        ).and_return(begin_update_response)
+
+        service.execute
+      end
+
+      it 'returns the correct create count' do
+        expect(service.execute).to include(created: 1, destroyed: 0)
+      end
+    end
+
+    context 'when Topology Service has an extra bucket type not in local' do
+      let!(:user) { create(:user) }
+      let(:extra_bucket_type) { Gitlab::Cells::TopologyService::Claims::V1::Bucket::Type::EMAILS }
+      let(:ts_records) do
+        build_ts_records_for(user) + [
+          build_ts_record(user.id, subject_id: user.organization_id,
+            bucket_type: extra_bucket_type, bucket_value: "stale@example.com")
+        ]
+      end
+
+      before do
+        stub_list_records(ts_records)
+        stub_commit
+      end
+
+      it 'destroys the extra TS record' do
+        expect(mock_claim_service).to receive(:begin_update).with(
+          hash_including(destroy_records: [hash_including(
+            bucket: hash_including(value: "stale@example.com")
+          )])
+        ).and_return(begin_update_response)
+
+        service.execute
+      end
+
+      it 'returns the correct destroy count' do
+        expect(service.execute).to include(created: 0, destroyed: 1)
+      end
+    end
+
     context 'when list_records response is truncated' do
       let!(:user) { create(:user) }
-      let(:ts_record) { build_ts_record(user.id) }
+      let(:ts_records) { build_ts_records_for(user) }
 
       it 'recursively fetches until not truncated' do
         truncated_response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
-          records: [ts_record],
+          records: ts_records,
           truncated: true
         )
         final_response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
@@ -173,11 +303,11 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
       context 'when the pagination cursor does not advance' do
         it 'raises an infinite loop error on the second iteration' do
           first_response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
-            records: [ts_record],
+            records: ts_records,
             truncated: true
           )
           stale_response = Gitlab::Cells::TopologyService::Claims::V1::ListRecordsResponse.new(
-            records: [ts_record],
+            records: ts_records,
             truncated: true
           )
 
@@ -203,11 +333,13 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
 
       it 'processes all records across batches' do
         result = service.execute
+
         expect(result[:created]).to eq(3 * User.cells_claims_attributes.size)
       end
 
       it 'returns the last_id of the final batch' do
         result = service.execute
+
         expect(result[:last_id]).to eq(users.last.id)
       end
     end
@@ -470,7 +602,7 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         stub_commit
 
         # TS returns many orphaned records for the same ID range
-        orphaned_records = (1..5).map { |i| build_ts_record(user.id + i) }
+        orphaned_records = (1..5).map { |i| build_ts_record(user.id + i, subject_id: user.organization_id) }
         stub_list_records(orphaned_records)
       end
 
@@ -515,25 +647,161 @@ RSpec.describe Cells::Claims::VerificationService, :clean_gitlab_redis_shared_st
         expect(result[:created]).to eq(3)
       end
     end
+
+    context 'when a local record was updated less than 1 hour ago' do
+      let!(:user) { create(:user) }
+
+      before do
+        stub_const("#{described_class}::RECENTLY_CHANGED_THRESHOLD", 1.hour)
+        stub_list_records([])
+      end
+
+      it 'skips the recently-created local record' do
+        expect(mock_claim_service).not_to receive(:begin_update)
+
+        service.execute
+      end
+
+      it 'returns zero creates' do
+        expect(service.execute).to include(created: 0, destroyed: 0)
+      end
+    end
+
+    context 'when a local record was updated more than 1 hour ago' do
+      let!(:user) { create(:user, updated_at: 2.hours.ago) }
+
+      before do
+        stub_const("#{described_class}::RECENTLY_CHANGED_THRESHOLD", 1.hour)
+        stub_list_records([])
+        stub_commit
+      end
+
+      it 'processes the record normally' do
+        expect(mock_claim_service).to receive(:begin_update).and_return(begin_update_response)
+
+        service.execute
+      end
+
+      it 'returns the correct create count' do
+        expect(service.execute).to include(created: User.cells_claims_attributes.size, destroyed: 0)
+      end
+
+      context 'and a matched TS record was updated less than 1 hour ago' do
+        let(:ts_records) do
+          build_ts_records_for(user).map do |r|
+            build_ts_record(
+              user.id,
+              subject_id: user.organization_id,
+              bucket_type: r.metadata.bucket.type,
+              bucket_value: "stale_value",
+              updated_at: 30.minutes.ago
+            )
+          end
+        end
+
+        before do
+          stub_list_records(ts_records)
+        end
+
+        it 'skips the diff and does not create or destroy' do
+          expect(mock_claim_service).not_to receive(:begin_update)
+
+          service.execute
+        end
+
+        it 'returns zero creates and destroys' do
+          expect(service.execute).to include(created: 0, destroyed: 0)
+        end
+      end
+    end
+
+    context 'when a TS orphan record was updated less than 1 hour ago' do
+      let(:user) { create(:user, updated_at: 2.hours.ago) }
+      let(:ts_records) do
+        build_ts_records_for(user) + [
+          build_ts_record(user.id + 9999, subject_id: user.organization_id, updated_at: 30.minutes.ago)
+        ]
+      end
+
+      before do
+        stub_const("#{described_class}::RECENTLY_CHANGED_THRESHOLD", 1.hour)
+        stub_list_records(ts_records)
+      end
+
+      it 'skips the recently-created TS orphan and does not destroy it' do
+        expect(mock_claim_service).not_to receive(:begin_update)
+
+        service.execute
+      end
+
+      it 'returns zero destroys' do
+        expect(service.execute).to include(created: 0, destroyed: 0)
+      end
+    end
+
+    context 'when a TS orphan record was updated more than 1 hour ago' do
+      let(:user) { create(:user, updated_at: 2.hours.ago) }
+      let(:ts_records) do
+        build_ts_records_for(user) + [
+          build_ts_record(user.id + 9999, subject_id: user.organization_id, updated_at: 2.hours.ago)
+        ]
+      end
+
+      before do
+        stub_const("#{described_class}::RECENTLY_CHANGED_THRESHOLD", 1.hour)
+        stub_list_records(ts_records)
+        stub_commit
+        allow(Gitlab::ErrorTracking).to receive(:track_exception)
+      end
+
+      it 'destroys the orphaned TS record' do
+        expect(mock_claim_service).to receive(:begin_update).with(
+          hash_including(destroy_records: be_present)
+        ).and_return(begin_update_response)
+
+        service.execute
+      end
+
+      it 'returns the correct destroy count' do
+        expect(service.execute).to include(destroyed: 1)
+      end
+    end
   end
 
-  def build_ts_record(user_id)
-    Gitlab::Cells::TopologyService::Claims::V1::Record.new(
+  # Builds a single TS claim record. Use build_ts_records_for to build all claims for a user.
+  def build_ts_record(
+    user_id, subject_id:, bucket_type: user_id_bucket_type, bucket_value: user_id.to_s,
+    updated_at: nil
+  )
+    attrs = {
       metadata: Gitlab::Cells::TopologyService::Claims::V1::Metadata.new(
         bucket: Gitlab::Cells::TopologyService::Claims::V1::Bucket.new(
-          type: Gitlab::Cells::TopologyService::Claims::V1::Bucket::Type::USER_IDS,
-          value: user_id.to_s
+          type: bucket_type,
+          value: bucket_value
         ),
         subject: Gitlab::Cells::TopologyService::Claims::V1::Subject.new(
-          type: Gitlab::Cells::TopologyService::Claims::V1::Subject::Type::USER,
-          id: user_id
+          type: Gitlab::Cells::TopologyService::Claims::V1::Subject::Type::ORGANIZATION,
+          id: subject_id
         ),
         source: Gitlab::Cells::TopologyService::Claims::V1::Source.new(
           type: Gitlab::Cells::TopologyService::Claims::V1::Source::Type::RAILS_TABLE_USERS,
           rails_primary_key_id: Cells::Serialization.to_bytes(user_id)
         )
       )
-    )
+    }
+    attrs[:updated_at] = Google::Protobuf::Timestamp.new(seconds: updated_at.to_i) if updated_at
+
+    Gitlab::Cells::TopologyService::Claims::V1::Record.new(**attrs)
+  end
+
+  # Builds TS records for all claim attributes (USER_IDS + USERNAMES) matching a local user.
+  def build_ts_records_for(user)
+    [
+      build_ts_record(user.id, subject_id: user.organization_id,
+        bucket_type: user_id_bucket_type, bucket_value: user.id.to_s),
+      build_ts_record(user.id, subject_id: user.organization_id,
+        bucket_type: username_bucket_type, bucket_value: user.username)
+    ]
   end
 
   def stub_list_records(records, truncated: false)

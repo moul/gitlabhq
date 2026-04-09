@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
+require 'google/protobuf/well_known_types'
+
 module Cells
   module Claims
     class VerificationService < BaseService
       PaginationError = Class.new(RuntimeError)
+      DriftError = Class.new(RuntimeError)
 
       LIMIT = 1000
+      RECENTLY_CHANGED_THRESHOLD = 1.hour
 
       attr_reader :model
 
@@ -55,7 +59,8 @@ module Cells
           break if local_records.empty?
 
           last_id = local_records.last.read_attribute(model.primary_key)
-          ts_records = list_ts_records(model, start_id, last_id)
+          ts_records = list_ts_records(start_id, last_id)
+
           created, destroyed, chunk_count = process_batch(local_records, ts_records)
 
           @scan_last_id = last_id
@@ -86,7 +91,7 @@ module Cells
         model.cells_claims_scope.where("#{pk} > ?", start_id).order(pk).limit(LIMIT) # rubocop:disable CodeReuse/ActiveRecord -- dynamic model
       end
 
-      def list_ts_records(model, start_id, end_id)
+      def list_ts_records(start_id, end_id)
         records = []
         previous_cursor = nil
         current_start_id_bytes = Cells::Serialization.to_bytes(start_id)
@@ -126,10 +131,10 @@ module Cells
       end
 
       def process_batch(local_records, ts_records)
-        local_records_by_id = local_records.index_by do |r|
-          Cells::Serialization.to_bytes(r.read_attribute(model.primary_key))
-        end
-        ts_records_by_id = ts_records.index_by { |r| r.metadata.source.rails_primary_key_id }
+        local_records_by_id = local_records.reject { |r| recently_changed_record?(r) }
+          .index_by { |r| Cells::Serialization.to_bytes(r.read_attribute(model.primary_key)) }
+
+        ts_records_by_id = ts_records.group_by { |r| r.metadata.source.rails_primary_key_id }
 
         creates, destroys = compute_changes(local_records_by_id, ts_records_by_id)
         chunk_count = commit_changes(creates:, destroys:)
@@ -145,38 +150,104 @@ module Cells
         destroys = []
 
         local_records_by_id.each do |id, local_record|
-          ts_record = ts_records_map.delete(id)
+          matched_ts_records = ts_records_map.delete(id)
 
-          if ts_record.nil?
+          if matched_ts_records.nil?
             creates.concat(local_record.cells_claims_metadata)
           else
-            # exists in both
-            create, destroy = diff_record(local_record, ts_record)
-            creates.push(*create)
-            destroys.push(*destroy)
+            # exists in both - compare individual claim attributes
+            create, destroy = diff_record(local_record, matched_ts_records)
+            creates.concat(create)
+            destroys.concat(destroy)
           end
         end
 
-        ts_records_map.each_value do |ts_record|
-          # exists in TS but missing in local, delete them
+        ts_records_map.each_value do |ts_records|
+          # exists in TS but missing in local, delete them all
+          ts_records.each do |r|
+            next if recently_changed_record?(r)
+
+            log_drift(:missing_record_in_local, nil, r.metadata.bucket.type, nil, metadata_from_ts_record(r))
+            destroys << metadata_from_ts_record(r)
+          end
+        end
+
+        [creates, destroys]
+      end
+
+      def diff_record(local_record, ts_records)
+        return [[], []] if ts_records.any? { |r| recently_changed_record?(r) }
+
+        creates = []
+        destroys = []
+
+        local_metadata_by_bucket = local_record.cells_claims_metadata.index_by { |m| m[:bucket][:type] }
+        ts_records_by_bucket = ts_records.index_by do |r|
+          Cells::Claimable::CLAIMS_BUCKET_TYPE.resolve(r.metadata.bucket.type)
+        end
+
+        local_metadata_by_bucket.each do |bucket_type, local_meta|
+          ts_record = ts_records_by_bucket.delete(bucket_type)
+
+          if ts_record.nil?
+            creates << local_meta
+            next
+          end
+
+          ts_meta = metadata_from_ts_record(ts_record)
+          next if local_meta.except(:record) == ts_meta
+
+          # metadata has changed - destroy old, create new
+          log_drift(:changed, local_record, bucket_type, local_meta, ts_meta)
+          destroys << ts_meta
+          creates << local_meta
+        end
+
+        # remaining TS records have no matching local claim attribute
+        ts_records_by_bucket.each_value do |ts_record|
+          # TODO: log_drift once we have enabled claiming and backfilled
           destroys << metadata_from_ts_record(ts_record)
         end
 
         [creates, destroys]
       end
 
-      def diff_record(_local_record, _ts_record)
-        # TODO: noop for now, will be implemented in later MR
-        # as part of https://gitlab.com/gitlab-com/gl-infra/tenant-scale/cells-infrastructure/team/-/work_items/468
-        [nil, nil]
+      # Checking updated_at covers both recently created and recently updated records
+      def recently_changed_record?(record)
+        return false unless record.updated_at
+
+        record.updated_at.to_time.after?(RECENTLY_CHANGED_THRESHOLD.ago)
+      end
+
+      def log_drift(kind, local_record, bucket_type, local_meta, ts_meta)
+        error = DriftError.new("Claims drift detected: #{kind}")
+        extra = {
+          model: model.name,
+          record_id: local_record&.read_attribute(model.primary_key),
+          bucket_type: bucket_type,
+          local_value: local_meta&.dig(:bucket, :value),
+          ts_value: ts_meta.dig(:bucket, :value),
+          feature_category: :cell
+        }
+
+        Gitlab::ErrorTracking.track_exception(error, **extra)
       end
 
       def metadata_from_ts_record(record)
         meta = record.metadata
         {
-          bucket: { type: meta.bucket.type, value: meta.bucket.value },
-          subject: { type: meta.subject.type, id: meta.subject.id },
-          source: { type: meta.source.type, rails_primary_key_id: meta.source.rails_primary_key_id }
+          bucket: {
+            type: Cells::Claimable::CLAIMS_BUCKET_TYPE.resolve(meta.bucket.type),
+            value: meta.bucket.value
+          },
+          subject: {
+            type: Cells::Claimable::CLAIMS_SUBJECT_TYPE.resolve(meta.subject.type),
+            id: meta.subject.id
+          },
+          source: {
+            type: Cells::Claimable::CLAIMS_SOURCE_TYPE.resolve(meta.source.type),
+            rails_primary_key_id: meta.source.rails_primary_key_id
+          }
         }
       end
     end

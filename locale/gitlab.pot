@@ -9324,10 +9324,28 @@ msgstr ""
 msgid "Analytics settings"
 msgstr ""
 
+msgid "AnalyticsDashboards|All"
+msgstr ""
+
+msgid "AnalyticsDashboards|All available dashboards"
+msgstr ""
+
 msgid "AnalyticsDashboards|Chat (non-agentic)"
 msgstr ""
 
 msgid "AnalyticsDashboards|Code Suggestions"
+msgstr ""
+
+msgid "AnalyticsDashboards|Created by GitLab"
+msgstr ""
+
+msgid "AnalyticsDashboards|Created by me"
+msgstr ""
+
+msgid "AnalyticsDashboards|Dashboards created by GitLab"
+msgstr ""
+
+msgid "AnalyticsDashboards|Dashboards created by me"
 msgstr ""
 
 msgid "AnalyticsDashboards|Failed to load dashboards list. Please try again."
@@ -17669,6 +17687,12 @@ msgid "Commit|Tags"
 msgstr ""
 
 msgid "Commit|There was an error fetching the commit references. Please try again later."
+msgstr ""
+
+msgid "Commit|Unable to load commit"
+msgstr ""
+
+msgid "Commit|Unable to load diff files"
 msgstr ""
 
 msgid "Commit|containing commit"
@@ -48591,10 +48615,16 @@ msgstr ""
 msgid "Ona"
 msgstr ""
 
+msgid "Onboarding|Group failed to be created"
+msgstr ""
+
 msgid "Onboarding|If you can't find your organization, request an invite from your company's GitLab administrator."
 msgstr ""
 
 msgid "Onboarding|Looking for your team?"
+msgstr ""
+
+msgid "Onboarding|Project failed to be created"
 msgstr ""
 
 msgid "Once imported, repositories can be mirrored over SSH. Read more %{link_start}here%{link_end}."

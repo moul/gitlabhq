@@ -77,11 +77,21 @@ For JetBrains IDEs:
 
 ## Allow external MCP tools
 
-To allow the IDE to access external MCP tools:
+Allow the IDE to access external MCP tools in the top-level group where GitLab Duo is configured.
+
+### On GitLab.com
 
 1. In the top bar, select **Search or go to** and find your group.
 1. Select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
+1. Under **External MCP tools**, select the **Allow external MCP tools** checkbox.
+1. Select **Save changes**.
+
+### On GitLab Self-Managed
+
+1. In the top bar, select **Search or go to** and find your group.
+1. Select **Settings** > **General**.
+1. Expand **GitLab Duo features**.
 1. Under **External MCP tools**, select the **Allow external MCP tools** checkbox.
 1. Select **Save changes**.
 

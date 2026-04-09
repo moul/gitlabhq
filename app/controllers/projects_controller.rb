@@ -61,8 +61,6 @@ class ProjectsController < Projects::ApplicationController
     end
   end
 
-  before_action :push_work_item_planning_view_feature_flag, only: [:edit]
-
   layout :determine_layout
 
   feature_category :groups_and_projects, [
@@ -678,10 +676,6 @@ class ProjectsController < Projects::ApplicationController
   def enforce_step_up_auth_for_namespace_on_create
     namespace_id = params.dig(:project, :namespace_id)
     enforce_step_up_auth_for_namespace_id(namespace_id)
-  end
-
-  def push_work_item_planning_view_feature_flag
-    push_force_frontend_feature_flag(:work_item_planning_view, true)
   end
 end
 

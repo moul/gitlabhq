@@ -8,7 +8,7 @@ export const mockDashboardsListResponse = {
   customDashboards: {
     nodes: [
       {
-        id: 'gid://gdktest/Analytics::CustomDashboards::Dashboard/3',
+        id: 'gid://gitlab/Analytics::CustomDashboards::Dashboard/3',
         name: 'Fake trends',
         description: 'Visualize fake trend data that is definitly fake',
         config: {
@@ -40,12 +40,12 @@ export const mockDashboardsListResponse = {
           description: 'A very much more specific description',
         },
         organization: {
-          id: 'gid://gdktest/Organizations::Organization/1',
+          id: 'gid://gitlab/Organizations::Organization/1',
           __typename: 'Organization',
         },
         namespace: null,
         createdBy: {
-          id: 'gid://gdktest/User/1',
+          id: 'gid://gitlab/User/1',
           name: 'Administrator',
           username: 'root',
           webUrl: 'http://gdk.test:3001/root',

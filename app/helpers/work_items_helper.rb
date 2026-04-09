@@ -86,8 +86,7 @@ module WorkItemsHelper
       can_read_crm_organization: can?(current_user, :read_crm_organization, resource_parent.crm_group).to_s,
       rss_path: rss_path_for(resource_parent),
       calendar_path: calendar_path_for(resource_parent),
-      has_projects: has_group_projects?(resource_parent).to_s,
-      work_item_planning_view_enabled: 'true'
+      has_projects: has_group_projects?(resource_parent).to_s
     }
   end
 
@@ -95,8 +94,7 @@ module WorkItemsHelper
     {
       full_path: resource_parent.full_path,
       issues_list_path: issues_path_for(resource_parent),
-      default_branch: resource_parent.is_a?(Project) ? resource_parent.default_branch_or_main : nil,
-      work_item_planning_view_enabled: 'true'
+      default_branch: resource_parent.is_a?(Project) ? resource_parent.default_branch_or_main : nil
     }
   end
 

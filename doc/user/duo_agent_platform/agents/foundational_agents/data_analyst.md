@@ -7,7 +7,7 @@ title: Data Analyst Agent
 
 {{< details >}}
 
-- Tier: Premium, Ultimate
+- Tier: [Free](../../../../subscriptions/gitlab_credits.md#for-the-free-tier-on-gitlabcom), Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
 - Status: Beta
 
@@ -33,6 +33,7 @@ title: Data Analyst Agent
 The Data Analyst Agent is a specialized AI assistant that helps you query, visualize, and surface
 data across the GitLab platform. It uses [GitLab Query Language (GLQL)](../../../glql/_index.md)
 to retrieve and analyze data, then provides clear, actionable insights about your projects and groups.
+For information about which data sources and fields are available on your tier, see [GLQL data sources](../../../glql/data_sources/_index.md).
 
 Use the Data Analyst Agent when you need help with:
 

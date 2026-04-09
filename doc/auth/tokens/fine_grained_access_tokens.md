@@ -76,6 +76,8 @@ Grants the ability to read audit events.
 | ------ | ------ | ------ | ---- |
 | Read | Group | `GET` | `/groups/:id/audit_events` |
 | Read | Group | `GET` | `/groups/:id/audit_events/:audit_event_id` |
+| Read | Instance | `GET` | `/audit_events` |
+| Read | Instance | `GET` | `/audit_events/:id` |
 
 #### Compliance Policy Setting
 

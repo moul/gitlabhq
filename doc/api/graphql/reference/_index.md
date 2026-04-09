@@ -6171,7 +6171,7 @@ Input type: `CreateCustomDashboardInput`
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="mutation-createcustomdashboard-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-createcustomdashboard-config"></a>`config` | [`JSON!`](#json) | Dashboard layout/config JSON. |
+| <a id="mutation-createcustomdashboard-config"></a>`config` | [`CustomDashboardConfigInput!`](#customdashboardconfiginput) | Dashboard layout/config. |
 | <a id="mutation-createcustomdashboard-description"></a>`description` | [`String`](#string) | Dashboard description. |
 | <a id="mutation-createcustomdashboard-name"></a>`name` | [`String!`](#string) | Dashboard name. |
 | <a id="mutation-createcustomdashboard-namespaceid"></a>`namespaceId` | [`NamespaceID`](#namespaceid) | Namespace to scope the dashboard to. |
@@ -15355,7 +15355,7 @@ Input type: `UpdateCustomDashboardInput`
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="mutation-updatecustomdashboard-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
-| <a id="mutation-updatecustomdashboard-config"></a>`config` | [`JSON`](#json) | Dashboard layout/config JSON. |
+| <a id="mutation-updatecustomdashboard-config"></a>`config` | [`CustomDashboardConfigInput`](#customdashboardconfiginput) | Dashboard layout/config. |
 | <a id="mutation-updatecustomdashboard-description"></a>`description` | [`String`](#string) | Dashboard description. |
 | <a id="mutation-updatecustomdashboard-id"></a>`id` | [`AnalyticsCustomDashboardsDashboardID!`](#analyticscustomdashboardsdashboardid) | Global ID of the dashboard to update. |
 | <a id="mutation-updatecustomdashboard-name"></a>`name` | [`String`](#string) | Dashboard name. |
@@ -15878,6 +15878,35 @@ Input type: `UploadDeleteInput`
 | <a id="mutation-uploaddelete-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-uploaddelete-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 | <a id="mutation-uploaddelete-upload"></a>`upload` | [`FileUpload`](#fileupload) | Deleted upload. |
+
+### `Mutation.upsertFlatUserCap`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Update the flat per-user budget cap for a subscription.
+
+Input type: `UpsertFlatUserCapInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-upsertflatusercap-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-upsertflatusercap-flatusercap"></a>`flatUserCap` | [`Float!`](#float) | Default per-user budget cap applied to all users. |
+| <a id="mutation-upsertflatusercap-flatusercapenabled"></a>`flatUserCapEnabled` | [`Boolean!`](#boolean) | Whether the flat per-user budget cap is enabled. |
+| <a id="mutation-upsertflatusercap-namespacepath"></a>`namespacePath` | [`String`](#string) | Path of the top-level group namespace. Omit for self-managed instance scope. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-upsertflatusercap-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-upsertflatusercap-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+| <a id="mutation-upsertflatusercap-flatusercap"></a>`flatUserCap` | [`Float`](#float) | Updated flat per-user budget cap. |
+| <a id="mutation-upsertflatusercap-flatusercapenabled"></a>`flatUserCapEnabled` | [`Boolean`](#boolean) | Whether the flat per-user budget cap is enabled. |
 
 ### `Mutation.userAchievementPrioritiesUpdate`
 
@@ -45846,9 +45875,11 @@ Represents a test run for a scheduled pipeline execution policy.
 | ---- | ---- | ----------- |
 | <a id="policyscope-complianceframeworks"></a>`complianceFrameworks` | [`ComplianceFrameworkConnection!`](#complianceframeworkconnection) | Compliance Frameworks linked to the policy. (see [Connections](#connections)) |
 | <a id="policyscope-excludingarchivedprojects"></a>`excludingArchivedProjects` | [`Boolean!`](#boolean) | Boolean indicating whether archived projects are excluded from the policy. |
+| <a id="policyscope-excludingbusinessimpactattributes"></a>`excludingBusinessImpactAttributes` {{< icon name="warning-solid" >}} | [`SecurityAttributeConnection!`](#securityattributeconnection) | **Introduced** in GitLab 18.11. **Status**: Experiment. Business Impact security attributes that the policy does not apply to. |
 | <a id="policyscope-excludinggroups"></a>`excludingGroups` | [`GroupConnection!`](#groupconnection) | Groups to which the policy should not be applied. (see [Connections](#connections)) |
 | <a id="policyscope-excludingpersonalprojects"></a>`excludingPersonalProjects` | [`Boolean!`](#boolean) | Boolean indicating whether personal projects are excluded from the policy. |
 | <a id="policyscope-excludingprojects"></a>`excludingProjects` | [`ProjectConnection!`](#projectconnection) | Projects to which the policy should not be applied. (see [Connections](#connections)) |
+| <a id="policyscope-includingbusinessimpactattributes"></a>`includingBusinessImpactAttributes` {{< icon name="warning-solid" >}} | [`SecurityAttributeConnection!`](#securityattributeconnection) | **Introduced** in GitLab 18.11. **Status**: Experiment. Business Impact security attributes that the policy applies to. |
 | <a id="policyscope-includinggroups"></a>`includingGroups` | [`GroupConnection!`](#groupconnection) | Groups to which the policy should be applied. (see [Connections](#connections)) |
 | <a id="policyscope-includingprojects"></a>`includingProjects` | [`ProjectConnection!`](#projectconnection) | Projects to which the policy should be applied. (see [Connections](#connections)) |
 | <a id="policyscope-matchmode"></a>`matchMode` {{< icon name="warning-solid" >}} | [`PolicyScopeMatchMode!`](#policyscopematchmode) | **Introduced** in GitLab 18.10. **Status**: Experiment. Specifies how multiple policy scope conditions are combined. |
@@ -55293,6 +55324,7 @@ Possible item types for AI items.
 | ----- | ----------- |
 | <a id="aicatalogitemtype-agent"></a>`AGENT` | Agent. |
 | <a id="aicatalogitemtype-flow"></a>`FLOW` | Flow. |
+| <a id="aicatalogitemtype-foundational_agent"></a>`FOUNDATIONAL_AGENT` | Foundational agent. |
 | <a id="aicatalogitemtype-third_party_flow"></a>`THIRD_PARTY_FLOW` | Third party flow. |
 
 ### `AiCatalogItemVerificationLevel`
@@ -56561,6 +56593,62 @@ Values for sorting tags.
 | <a id="containerrepositorytagsort-name_desc"></a>`NAME_DESC` | Ordered by name in descending order. |
 | <a id="containerrepositorytagsort-published_at_asc"></a>`PUBLISHED_AT_ASC` | Ordered by published_at in ascending order. Only available for GitLab.com. |
 | <a id="containerrepositorytagsort-published_at_desc"></a>`PUBLISHED_AT_DESC` | Ordered by published_at in descending order. Only available for GitLab.com. |
+
+### `CustomDashboardDateRangeOption`
+
+Preset date range options available for dashboard filters.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="customdashboarddaterangeoption-custom"></a>`CUSTOM` | Custom date range. |
+| <a id="customdashboarddaterangeoption-days_180"></a>`DAYS_180` | Last 180 days. |
+| <a id="customdashboarddaterangeoption-days_30"></a>`DAYS_30` | Last 30 days. |
+| <a id="customdashboarddaterangeoption-days_365"></a>`DAYS_365` | Last 365 days. |
+| <a id="customdashboarddaterangeoption-days_60"></a>`DAYS_60` | Last 60 days. |
+| <a id="customdashboarddaterangeoption-days_7"></a>`DAYS_7` | Last 7 days. |
+| <a id="customdashboarddaterangeoption-days_90"></a>`DAYS_90` | Last 90 days. |
+| <a id="customdashboarddaterangeoption-today"></a>`TODAY` | Current day. |
+
+### `CustomDashboardFilteredSearchOperator`
+
+Comparison operators for filtered search tokens.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="customdashboardfilteredsearchoperator-is"></a>`IS` | Matches the given value. |
+| <a id="customdashboardfilteredsearchoperator-is_not"></a>`IS_NOT` | Does not match the given value. |
+| <a id="customdashboardfilteredsearchoperator-is_not_or"></a>`IS_NOT_OR` | Does not match any of the given values. |
+
+### `CustomDashboardFilteredSearchToken`
+
+Token types available for filtered search.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="customdashboardfilteredsearchtoken-assignee"></a>`ASSIGNEE` | Filter by assignee. |
+| <a id="customdashboardfilteredsearchtoken-author"></a>`AUTHOR` | Filter by author. |
+| <a id="customdashboardfilteredsearchtoken-label"></a>`LABEL` | Filter by label. |
+| <a id="customdashboardfilteredsearchtoken-milestone"></a>`MILESTONE` | Filter by milestone. |
+| <a id="customdashboardfilteredsearchtoken-source_branch"></a>`SOURCE_BRANCH` | Filter by source branch. |
+| <a id="customdashboardfilteredsearchtoken-target_branch"></a>`TARGET_BRANCH` | Filter by target branch. |
+
+### `CustomDashboardGridHeight`
+
+Grid height display mode for the dashboard.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="customdashboardgridheight-compact"></a>`COMPACT` | Compact grid height. |
+| <a id="customdashboardgridheight-default"></a>`DEFAULT` | Default grid height. |
+
+### `CustomDashboardStatus`
+
+Maturity status of the dashboard.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="customdashboardstatus-beta"></a>`BETA` | Dashboard is in beta. |
+| <a id="customdashboardstatus-experiment"></a>`EXPERIMENT` | Dashboard is experimental. |
 
 ### `CustomFieldType`
 
@@ -63865,6 +63953,160 @@ Attributes to create value stream stage.
 | <a id="createvaluestreamstageinput-name"></a>`name` | [`String!`](#string) | Name of the stage. |
 | <a id="createvaluestreamstageinput-starteventidentifier"></a>`startEventIdentifier` | [`ValueStreamStageEvent`](#valuestreamstageevent) | Start event identifier. |
 | <a id="createvaluestreamstageinput-starteventlabelid"></a>`startEventLabelId` | [`LabelID`](#labelid) | Label ID associated with the start event identifier. |
+
+### `CustomDashboardConfigInput`
+
+Configuration input for a custom analytics dashboard.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardconfiginput-description"></a>`description` | [`String`](#string) | Description of the dashboard. |
+| <a id="customdashboardconfiginput-filters"></a>`filters` | [`CustomDashboardFiltersInput`](#customdashboardfiltersinput) | Filter controls available on the dashboard. |
+| <a id="customdashboardconfiginput-gridheight"></a>`gridHeight` | [`CustomDashboardGridHeight`](#customdashboardgridheight) | Grid height display mode. |
+| <a id="customdashboardconfiginput-panels"></a>`panels` | [`[CustomDashboardPanelInput!]!`](#customdashboardpanelinput) | Panels to display on the dashboard. |
+| <a id="customdashboardconfiginput-status"></a>`status` | [`CustomDashboardStatus`](#customdashboardstatus) | Maturity status of the dashboard. |
+| <a id="customdashboardconfiginput-title"></a>`title` | [`String!`](#string) | Display title of the dashboard. |
+
+### `CustomDashboardDateRangeFilterInput`
+
+Date range filter configuration for the dashboard.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboarddaterangefilterinput-defaultoption"></a>`defaultOption` | [`CustomDashboardDateRangeOption`](#customdashboarddaterangeoption) | Default selected date range option. |
+| <a id="customdashboarddaterangefilterinput-enabled"></a>`enabled` | [`Boolean`](#boolean) | Whether the date range filter is enabled. |
+| <a id="customdashboarddaterangefilterinput-numberofdayslimit"></a>`numberOfDaysLimit` | [`Float`](#float) | Maximum number of days allowed in a custom range. |
+| <a id="customdashboarddaterangefilterinput-options"></a>`options` | [`[CustomDashboardDateRangeOption!]`](#customdashboarddaterangeoption) | Preset date range options to display. |
+
+### `CustomDashboardFilterInput`
+
+Toggleable dashboard-level filter.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardfilterinput-enabled"></a>`enabled` | [`Boolean`](#boolean) | Whether the filter is enabled. |
+
+### `CustomDashboardFilteredSearchFilterInput`
+
+Filtered search filter configuration for the dashboard.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardfilteredsearchfilterinput-enabled"></a>`enabled` | [`Boolean`](#boolean) | Whether filtered search is enabled. |
+| <a id="customdashboardfilteredsearchfilterinput-options"></a>`options` | [`[CustomDashboardFilteredSearchFilterOptionInput!]`](#customdashboardfilteredsearchfilteroptioninput) | Token options available in the filtered search. |
+
+### `CustomDashboardFilteredSearchFilterOptionInput`
+
+Configuration for a single filtered search token.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardfilteredsearchfilteroptioninput-maxsuggestions"></a>`maxSuggestions` | [`Float`](#float) | Maximum number of suggestions to display. |
+| <a id="customdashboardfilteredsearchfilteroptioninput-operator"></a>`operator` | [`CustomDashboardFilteredSearchOperator`](#customdashboardfilteredsearchoperator) | Comparison operator for the token. |
+| <a id="customdashboardfilteredsearchfilteroptioninput-token"></a>`token` | [`CustomDashboardFilteredSearchToken!`](#customdashboardfilteredsearchtoken) | Token type for the filter option. |
+| <a id="customdashboardfilteredsearchfilteroptioninput-unique"></a>`unique` | [`Boolean`](#boolean) | Whether only one value can be selected for the token. |
+
+### `CustomDashboardFiltersInput`
+
+Filter controls available on the dashboard.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardfiltersinput-daterange"></a>`dateRange` | [`CustomDashboardDateRangeFilterInput`](#customdashboarddaterangefilterinput) | Date range filter configuration. |
+| <a id="customdashboardfiltersinput-excludeanonymoususers"></a>`excludeAnonymousUsers` | [`CustomDashboardFilterInput`](#customdashboardfilterinput) | Filter to exclude anonymous users from metrics. |
+| <a id="customdashboardfiltersinput-filteredsearch"></a>`filteredSearch` | [`CustomDashboardFilteredSearchFilterInput`](#customdashboardfilteredsearchfilterinput) | Filtered search configuration. |
+| <a id="customdashboardfiltersinput-projects"></a>`projects` | [`CustomDashboardFilterInput`](#customdashboardfilterinput) | Project filter configuration. |
+
+### `CustomDashboardGridAttributesInput`
+
+Position and size of a panel within the dashboard grid.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardgridattributesinput-height"></a>`height` | [`Int!`](#int) | Number of grid rows the panel spans. |
+| <a id="customdashboardgridattributesinput-maxheight"></a>`maxHeight` | [`Int`](#int) | Maximum height the panel can be resized to. |
+| <a id="customdashboardgridattributesinput-maxwidth"></a>`maxWidth` | [`Int`](#int) | Maximum width the panel can be resized to. |
+| <a id="customdashboardgridattributesinput-minheight"></a>`minHeight` | [`Int`](#int) | Minimum height the panel can be resized to. |
+| <a id="customdashboardgridattributesinput-minwidth"></a>`minWidth` | [`Int`](#int) | Minimum width the panel can be resized to. |
+| <a id="customdashboardgridattributesinput-width"></a>`width` | [`Int!`](#int) | Number of grid columns the panel spans. |
+| <a id="customdashboardgridattributesinput-xpos"></a>`xPos` | [`Int`](#int) | Horizontal grid position of the panel. |
+| <a id="customdashboardgridattributesinput-ypos"></a>`yPos` | [`Int`](#int) | Vertical grid position of the panel. |
+
+### `CustomDashboardPanelInput`
+
+Single panel within a custom dashboard.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardpanelinput-gridattributes"></a>`gridAttributes` | [`CustomDashboardGridAttributesInput!`](#customdashboardgridattributesinput) | Grid position and size of the panel. |
+| <a id="customdashboardpanelinput-options"></a>`options` | [`CustomDashboardPanelOptionsInput`](#customdashboardpaneloptionsinput) | Display options for the panel. |
+| <a id="customdashboardpanelinput-queryoverrides"></a>`queryOverrides` | [`CustomDashboardQueryOverridesInput`](#customdashboardqueryoverridesinput) | Query overrides applied to the visualization. |
+| <a id="customdashboardpanelinput-title"></a>`title` | [`String!`](#string) | Display title of the panel. |
+| <a id="customdashboardpanelinput-tooltip"></a>`tooltip` | [`CustomDashboardTooltipInput`](#customdashboardtooltipinput) | Tooltip for the panel. |
+| <a id="customdashboardpanelinput-visualization"></a>`visualization` | [`String!`](#string) | ID of the visualization to render. |
+
+### `CustomDashboardPanelOptionsInput`
+
+Display options for a dashboard panel.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardpaneloptionsinput-decimalplaces"></a>`decimalPlaces` | [`Int`](#int) | Number of decimal places to display for numeric values. |
+
+### `CustomDashboardQueryFiltersInput`
+
+Filters applied to the underlying visualization query.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardqueryfiltersinput-excludemetrics"></a>`excludeMetrics` | [`[String!]`](#string) | Metrics to exclude from the query. |
+| <a id="customdashboardqueryfiltersinput-include"></a>`include` | [`[String!]`](#string) | Additional include filters. |
+| <a id="customdashboardqueryfiltersinput-includemetrics"></a>`includeMetrics` | [`[String!]`](#string) | Metrics to include in the query. |
+| <a id="customdashboardqueryfiltersinput-labels"></a>`labels` | [`[String!]`](#string) | Labels to filter by. |
+| <a id="customdashboardqueryfiltersinput-projecttopics"></a>`projectTopics` | [`[String!]`](#string) | Project topics to filter by. |
+
+### `CustomDashboardQueryOverridesInput`
+
+Overrides applied to the visualization query at the panel level.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardqueryoverridesinput-filters"></a>`filters` | [`CustomDashboardQueryFiltersInput`](#customdashboardqueryfiltersinput) | Query filter overrides. |
+| <a id="customdashboardqueryoverridesinput-namespace"></a>`namespace` | [`String`](#string) | Namespace override for the query. |
+| <a id="customdashboardqueryoverridesinput-timedimensions"></a>`timeDimensions` | [`JSON`](#json) | Time dimension overrides for the query. |
+
+### `CustomDashboardTooltipInput`
+
+Tooltip displayed on a dashboard panel.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="customdashboardtooltipinput-description"></a>`description` | [`String!`](#string) | Tooltip text. Must include %{linkStart} and %{linkEnd} if descriptionLink is set. |
+| <a id="customdashboardtooltipinput-descriptionlink"></a>`descriptionLink` | [`String`](#string) | URI linked from within the tooltip description. |
 
 ### `CustomFieldSelectOptionInput`
 

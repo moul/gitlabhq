@@ -1180,7 +1180,6 @@
 - './ee/spec/models/ee/namespace_ci_cd_setting_spec.rb'
 - './ee/spec/models/ee/namespace/root_storage_statistics_spec.rb'
 - './ee/spec/models/ee/namespaces/namespace_ban_spec.rb'
-- './ee/spec/models/ee/namespace_spec.rb'
 - './ee/spec/models/ee/namespace_statistics_spec.rb'
 - './ee/spec/models/ee/notification_setting_spec.rb'
 - './ee/spec/models/ee/pages_deployment_spec.rb'

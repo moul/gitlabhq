@@ -18,6 +18,7 @@ export default () => {
   });
 
   const organizationId = convertToGraphQLId(TYPE_ORGANIZATION, gon.current_organization?.id);
+  const currentUserId = gon.current_user_id;
 
   return new Vue({
     el,
@@ -27,6 +28,7 @@ export default () => {
       return h(AnalyticsDashboardsApp, {
         props: {
           organizationId,
+          currentUserId,
         },
       });
     },

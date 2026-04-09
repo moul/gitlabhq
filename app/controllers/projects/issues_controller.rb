@@ -56,7 +56,6 @@ class Projects::IssuesController < Projects::ApplicationController
 
   before_action do
     push_frontend_feature_flag(:notifications_todos_buttons, current_user)
-    push_force_frontend_feature_flag(:work_item_planning_view, true)
     push_force_frontend_feature_flag(:glql_load_on_click, !!project&.glql_load_on_click_feature_flag_enabled?)
     push_frontend_feature_flag(:hide_incident_management_features, project)
     push_force_frontend_feature_flag(:work_item_features_field,

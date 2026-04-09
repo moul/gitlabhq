@@ -11,6 +11,9 @@ GLQL can query the following data sources:
 |---|---|---|
 | [Work items](work_items.md) | `Issue`, `Incident`, `TestCase`, `Requirement`, `Task`, `Ticket`, `Objective`, `KeyResult`, `Epic` | Issues, epics, and other work item types. Default when `type` is omitted. |
 | [Merge requests](merge_requests.md) | `MergeRequest` | Code review and merge workflow. |
+| [Pipelines](pipelines.md) | `Pipeline` | CI/CD pipelines. |
+| [Jobs](jobs.md) | `Job` | CI/CD jobs within pipelines. |
+| [Projects](projects.md) | `Project` | Projects within a namespace. |
 
 Each data source has its own set of supported fields for filtering, display, and sorting.
 

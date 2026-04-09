@@ -36,6 +36,7 @@ project:
   - read_pages
   - read_pipeline_subscription
   - read_project_audit_events
+  - read_project_import
   - read_project_merge_request_analytics
   - read_project_security_exclusions
   - read_runners

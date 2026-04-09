@@ -38,7 +38,8 @@ Rakefile @gitlab-org/maintainers/rails-backend
 /metrics_server/ @gitlab-org/maintainers/rails-backend
 /rubocop/ @gitlab-org/maintainers/rails-backend
 /shared/ @gitlab-org/maintainers/rails-backend
-/spec/ @gitlab-org/maintainers/rails-backend
+/spec/ @gitlab-org/maintainers/rails-backend @gl-dx/maintainers
+/qa/ @gitlab-org/maintainers/rails-backend @gl-dx/maintainers
 /sidekiq_cluster/ @gitlab-org/maintainers/rails-backend
 /tmp/ @gitlab-org/maintainers/rails-backend
 /vendor/ @gitlab-org/maintainers/rails-backend
@@ -225,9 +226,6 @@ Dangerfile
 /rubocop/
 /spec/rubocop/
 /spec/rubocop*
-
-^[End-to-end] @gl-dx
-/qa/
 
 ^[Unused method linting script] @kerrizor @splattael
 /.gitlab/lint/unused_methods/

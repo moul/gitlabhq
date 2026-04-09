@@ -327,10 +327,6 @@ RSpec.describe Mcp::Tools::WorkItems::GraphqlGetSavedViewWorkItemsService, featu
 
     let_it_be(:closed_work_item) { create(:work_item, :issue, project: project, state: :closed) }
 
-    before do
-      stub_feature_flags(work_item_planning_view: group)
-    end
-
     # Helper to execute the service and verify the work items query received the expected variables
     def execute_and_verify_variables(expected_variables)
       allow(GitlabSchema).to receive(:execute).and_call_original

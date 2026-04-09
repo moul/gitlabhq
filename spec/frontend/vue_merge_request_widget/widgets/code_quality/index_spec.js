@@ -41,7 +41,7 @@ describe('Code Quality widget', () => {
   const findSummary = () => wrapper.findByTestId('widget-extension-top-level-summary');
   const findToggleCollapsedButton = () => wrapper.findByTestId('toggle-button');
 
-  const createComponent = ({ provide = {} } = {}) => {
+  const createComponent = ({ provide = {}, mrProps = {} } = {}) => {
     wrapper = mountExtended(codeQualityWidget, {
       provide: {
         glFeatures: { mrReportsTab: true },
@@ -50,6 +50,7 @@ describe('Code Quality widget', () => {
       propsData: {
         mr: {
           ...DEFAULT_MR_PROPS,
+          ...mrProps,
         },
       },
     });
@@ -133,52 +134,59 @@ describe('Code Quality widget', () => {
   });
 
   describe('action buttons', () => {
-    it('displays the "View report" button', async () => {
-      mockApi(HTTP_STATUS_OK, responseNewFindings);
+    describe('when reports tab path is provided', () => {
+      beforeEach(async () => {
+        mockApi(HTTP_STATUS_OK, responseNewFindings);
+        createComponent();
+        await waitForPromises();
+      });
 
-      createComponent();
+      it('displays the "View report" button', () => {
+        const actionButtons = findWidget().props('actionButtons');
 
-      await waitForPromises();
+        expect(actionButtons).toHaveLength(1);
+        expect(actionButtons[0]).toMatchObject({
+          href: `${DEFAULT_MR_PROPS.reportsTabPath}/code-quality`,
+          text: 'View report',
+        });
+      });
 
-      const actionButtons = findWidget().props('actionButtons');
-      expect(actionButtons).toHaveLength(1);
-      expect(actionButtons[0]).toMatchObject({
-        href: `${DEFAULT_MR_PROPS.reportsTabPath}/code-quality`,
-        text: 'View report',
+      it('onClick navigates to the reports tab without page reload', () => {
+        const pushStateSpy = jest.spyOn(window.history, 'pushState');
+        const dispatchEventSpy = jest.spyOn(window, 'dispatchEvent');
+        const actionButtons = findWidget().props('actionButtons');
+        const event = { preventDefault: jest.fn() };
+
+        actionButtons[0].onClick(actionButtons[0], event);
+
+        expect(event.preventDefault).toHaveBeenCalled();
+        expect(pushStateSpy).toHaveBeenCalledWith(
+          null,
+          null,
+          `${DEFAULT_MR_PROPS.reportsTabPath}/code-quality`,
+        );
+        expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(PopStateEvent));
+      });
+
+      it('should not be collapsible', () => {
+        expect(findWidget().props('isCollapsible')).toBe(false);
       });
     });
 
-    it('onClick navigates to the reports tab without page reload', async () => {
-      mockApi(HTTP_STATUS_OK, responseNewFindings);
+    describe('when reports tab path is not provided', () => {
+      beforeEach(async () => {
+        mockApi(HTTP_STATUS_OK, responseNewFindings);
+        createComponent({ mrProps: { reportsTabPath: undefined } });
+        await waitForPromises();
+      });
 
-      createComponent();
+      it('does not display the "View report" button', () => {
+        expect(findWidget().props('actionButtons')).toHaveLength(0);
+      });
 
-      await waitForPromises();
-
-      const pushStateSpy = jest.spyOn(window.history, 'pushState');
-      const dispatchEventSpy = jest.spyOn(window, 'dispatchEvent');
-
-      const actionButtons = findWidget().props('actionButtons');
-      const event = { preventDefault: jest.fn() };
-      actionButtons[0].onClick(actionButtons[0], event);
-
-      expect(event.preventDefault).toHaveBeenCalled();
-      expect(pushStateSpy).toHaveBeenCalledWith(
-        null,
-        null,
-        `${DEFAULT_MR_PROPS.reportsTabPath}/code-quality`,
-      );
-      expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(PopStateEvent));
-    });
-
-    it('should not be collapsible', async () => {
-      mockApi(HTTP_STATUS_OK, responseNewFindings);
-
-      createComponent();
-
-      await waitForPromises();
-
-      expect(findWidget().props('isCollapsible')).toBe(false);
+      it('is collapsible', () => {
+        expect(findWidget().props('isCollapsible')).toBe(true);
+      });
     });
   });
 
