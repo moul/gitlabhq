@@ -12,7 +12,8 @@ title: GitLab Duoのユースケース
 - GitLab Duo根本原因分析を使用して、失敗したジョブのトラブルシューティングを行う。
 - セキュリティ脆弱性を修正する。
 
-> [!note] GitLab Self-Managedをお使いの場合: GitLab Duoで最適なユーザーエクスペリエンスと結果を得るには、GitLab 17.2以降が必要です。それ以前のバージョンでも動作する可能性はありますが、エクスペリエンスが低下するおそれがあります。
+> [!note]
+> GitLab Self-Managedをお使いの場合: GitLab Duoで最適なユーザーエクスペリエンスと結果を得るには、GitLab 17.2以降が必要です。それ以前のバージョンでも動作する可能性はありますが、エクスペリエンスが低下するおそれがあります。
 
 ## GitLab Duoを使用して開発課題を解決する {#use-gitlab-duo-to-solve-development-challenges}
 
@@ -431,7 +432,8 @@ fun main() {
 
 ### PowerShellのスタートガイド {#get-started-with-powershell}
 
-> [!note] PowerShellのサポートは[実験的](../project/repository/code_suggestions/supported_extensions.md#add-support-for-more-languages)です。
+> [!note]
+> PowerShellのサポートは[実験的](../project/repository/code_suggestions/supported_extensions.md#add-support-for-more-languages)です。
 
 1. GitLab Duo Chatを使用して、現在のディレクトリのファイルサイズを出力するPowerShellスクリプトを開始する方法を尋ねます。
 

@@ -118,9 +118,6 @@ export const PROJECT_SOURCE_FRECENT = 'FRECENT';
 export const PROJECT_SOURCE_STARRED = 'STARRED';
 export const PROJECT_SOURCE_PERSONAL = 'PERSONAL';
 
-export const WORK_ITEMS_ICON = 'work-items';
-export const WORK_ITEM_ISSUE_ICON = 'work-item-issue';
-
 export const PROJECT_SOURCE_LABELS = {
   [PROJECT_SOURCE_FRECENT]: __('Frequently visited'),
   [PROJECT_SOURCE_PERSONAL]: __('Personal'),

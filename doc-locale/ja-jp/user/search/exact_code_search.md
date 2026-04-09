@@ -24,7 +24,8 @@ title: 完全一致コードの検索
 
 {{< /history >}}
 
-> [!warning]この機能は[限定提供](../../policy/development_stages_support.md#limited-availability)です。詳細については、[エピック9404](https://gitlab.com/groups/gitlab-org/-/epics/9404)を参照してください。[イシュー420920](https://gitlab.com/gitlab-org/gitlab/-/issues/420920)でフィードバックを提供してください。
+> [!warning]
+> この機能は[限定提供](../../policy/development_stages_support.md#limited-availability)です。詳細については、[エピック9404](https://gitlab.com/groups/gitlab-org/-/epics/9404)を参照してください。[イシュー420920](https://gitlab.com/gitlab-org/gitlab/-/issues/420920)でフィードバックを提供してください。
 
 完全一致コードの検索を使用すると、完全一致モードと正規表現モードを使用して、GitLab全体または特定のプロジェクト内のコードを検索できます。
 

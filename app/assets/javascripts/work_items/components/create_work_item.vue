@@ -129,9 +129,6 @@ export default {
     projectNamespaceFullPath: {
       default: '',
     },
-    workItemPlanningViewEnabled: {
-      default: false,
-    },
     hasEpicsFeature: {
       default: false,
     },
@@ -682,10 +679,7 @@ export default {
         : this.groupPath;
     },
     shouldShowNamespaceSelector() {
-      if (this.workItemPlanningViewEnabled) {
-        return this.fromGlobalMenu || (this.isGroup && this.hasEpicsFeature);
-      }
-      return false;
+      return this.fromGlobalMenu || (this.isGroup && this.hasEpicsFeature);
     },
     workItemWidgetsAutoSaveKey() {
       return getNewWorkItemWidgetsAutoSaveKey({

@@ -41,6 +41,7 @@ project:
   - read_runners
   - read_saved_replies
   - read_saved_view
+  - read_security_inventory
   - read_security_orchestration_policies
   - read_security_resource
   - read_security_settings
@@ -82,6 +83,7 @@ group:
   - read_saml_user
   - read_saved_replies
   - read_saved_view
+  - read_security_inventory
   - read_vulnerability
   - read_wiki
   - view_group_ci_cd_analytics

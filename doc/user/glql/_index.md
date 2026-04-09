@@ -22,44 +22,13 @@ title: GitLab Query Language (GLQL)
 
 {{< /history >}}
 
-GitLab Query Language (GLQL) is an attempt to create a single query language for all of GitLab.
+GitLab Query Language (GLQL) is a single query language for all of GitLab.
 Use it to filter and embed content from anywhere in the platform, using familiar syntax.
 
 Embed queries in Markdown code blocks.
 An embedded view is the rendered output of a GLQL source code block.
 
 Share your feedback in the [embedded views, powered by GLQL, feedback issue](https://gitlab.com/gitlab-org/gitlab/-/issues/509792).
-
-## Advanced search integration
-
-{{< details >}}
-
-- Tier: Premium, Ultimate
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
-
-{{< history >}}
-
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/210854) in GitLab 18.6 as a [beta](../../policy/development_stages_support.md#beta) with [feature flags](../../administration/feature_flags/_index.md) named `glql_work_items` and `glql_es_integration`. Enabled by default.
-- Feature flag `glql_work_items` removed in GitLab 18.10.
-
-{{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
-
-GLQL uses advanced search when available to speed up queries. Advanced search
-provides faster response times for complex queries across large datasets.
-
-Advanced search is:
-
-- Enabled by default for GitLab.com and GitLab Dedicated paid subscriptions.
-- Available for GitLab Self-Managed when an administrator
-  [enables advanced search](../../integration/advanced_search/elasticsearch.md#enable-advanced-search).
-
-If advanced search isn't available, GLQL uses PostgreSQL instead.
 
 ## Query syntax
 
@@ -68,22 +37,17 @@ syntax of `<field> <operator> <value> and ...`.
 
 ### Data sources
 
-GLQL can query the following data sources:
+GLQL can query different data sources such as work items and merge requests.
 
-- Work items
-- Merge requests
-
-Each data source has one or more types. For example, `Issue` is a work item type.
-
-Specify the data source in your query by using the `type` field. For example, `type = Issue` or `type = MergeRequest`.
+For a full list of supported data sources, see [GLQL data sources](data_sources/_index.md).
 
 ### Fields
 
 Use fields to filter, display, and sort results.
 
-The fields you can use depend on the type of data you want to query. For example, the `Issue` type has fields like `assignee`, `author`, and `milestone`.
-
-For a full list of supported fields, operators, and types, see [GLQL fields](fields.md).
+The fields you can use depend on the data source you are querying.
+For a full list of supported fields, operators, and values for each data source,
+see [GLQL fields](fields.md).
 
 ### Operators
 
@@ -191,9 +155,9 @@ Supported parameters:
 | `collapsed`   | `false`                                       | Whether to collapse or expand the view. |
 | `description` | None                                          | An optional description to display below the title. |
 | `display`     | `table`                                       | How to display the data. Supported options: `table`, `list`, or `orderedList`. |
-| `fields`      | `title`                                       | A comma-separated list of [fields](fields.md#fields-in-embedded-views) to include in the view. |
+| `fields`      | `title`                                       | A comma-separated list of [fields](fields.md) to include in the view. |
 | `limit`       | `100`                                         | How many items to display on the first page. The maximum value is `100`. |
-| `sort`        | `updated desc`                                | The [field to sort the data by](fields.md#fields-to-sort-embedded-views-by) followed by a sort order (`asc` or `desc`). |
+| `sort`        | `updated desc`                                | The [field to sort the data by](fields.md) followed by a sort order (`asc` or `desc`). |
 | `title`       | `Embedded table view` or `Embedded list view` | A title displayed at the top of the embedded view. |
 
 For example, to display the first five issues assigned to the current user in the `gitlab-org/gitlab`
@@ -272,3 +236,34 @@ Supported actions:
 | Copy source   | Copy the source of the view to clipboard.                      |
 | Copy contents | Copy the table or list contents to clipboard. |
 | Reload        | Reload this view.                                              |
+
+## Advanced Search integration
+
+{{< details >}}
+
+- Tier: Premium, Ultimate
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/210854) in GitLab 18.6 as a [beta](../../policy/development_stages_support.md#beta) with [feature flags](../../administration/feature_flags/_index.md) named `glql_work_items` and `glql_es_integration`. Enabled by default.
+- Feature flag `glql_work_items` removed in GitLab 18.10.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag.
+> For more information, see the history.
+
+GLQL uses Advanced Search when available to speed up queries. Advanced Search
+provides faster response times for complex queries across large datasets.
+
+Advanced Search is:
+
+- Enabled by default for GitLab.com and GitLab Dedicated paid subscriptions.
+- Available for GitLab Self-Managed when an administrator
+  [enables Advanced Search](../../integration/advanced_search/elasticsearch.md#enable-advanced-search).
+
+If Advanced Search isn't available, GLQL uses PostgreSQL instead.

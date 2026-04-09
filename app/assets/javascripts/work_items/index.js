@@ -31,7 +31,6 @@ export const initWorkItemsRoot = ({ workItemType, namespaceType, withTabs } = {}
     epicsListPath,
     defaultBranch,
     isGroupIssuesList,
-    workItemPlanningViewEnabled,
     // service desk list
     isServiceDeskEnabled,
     isServiceDeskSupported,
@@ -76,7 +75,6 @@ export const initWorkItemsRoot = ({ workItemType, namespaceType, withTabs } = {}
       isProject: !isGroup,
       isGroupIssuesList: parseBoolean(isGroupIssuesList),
       workItemType,
-      workItemPlanningViewEnabled: parseBoolean(workItemPlanningViewEnabled),
       // service desk list
       isServiceDeskEnabled: parseBoolean(isServiceDeskEnabled),
       isServiceDeskSupported: parseBoolean(isServiceDeskSupported),

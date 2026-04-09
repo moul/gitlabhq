@@ -85,7 +85,6 @@ const findGlAlert = () => wrapper.findComponent(GlAlert);
 
 const mountComponent = ({
   provide = {},
-  workItemPlanningView = false,
   workItemFeaturesField = false,
   props = {},
   additionalHandlers = [],
@@ -125,7 +124,6 @@ const mountComponent = ({
     provide: {
       glFeatures: {
         okrsMvc: true,
-        workItemPlanningView,
         workItemFeaturesField,
       },
       canReadCrmOrganization,
@@ -167,7 +165,6 @@ const mountComponent = ({
       isIssueRepositioningDisabled,
       hasProjects,
       newIssuePath: '',
-      workItemPlanningViewEnabled: false,
       subscribedSavedViewLimit: 5,
       canCreateSavedView: true,
       namespaceName: 'Test',
@@ -294,15 +291,10 @@ describe('when work items are fetched', () => {
     expect(findSubChildIndicator(findChildItem2()).exists()).toBe(false);
   });
 
-  describe('when workItemPlanningView flag is enabled', () => {
-    beforeEach(async () => {
-      mountComponent({ workItemPlanningView: true });
-      await waitForPromises();
-    });
-
-    it('does not display error alert when there is no error', () => {
-      expect(findGlAlert().exists()).toBe(false);
-    });
+  it('does not display error alert when there is no error', async () => {
+    mountComponent();
+    await waitForPromises();
+    expect(findGlAlert().exists()).toBe(false);
   });
 });
 
@@ -650,7 +642,6 @@ describe('when service desk list', () => {
     it('does not render the bulk edit button, create work item modal, or actions dropdown', async () => {
       mountComponent({
         provide: { isServiceDeskSupported: true, workItemType: WORK_ITEM_TYPE_NAME_TICKET },
-        workItemPlanningView: true,
       });
       await waitForPromises();
 

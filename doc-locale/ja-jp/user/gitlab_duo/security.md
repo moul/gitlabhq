@@ -13,7 +13,8 @@ title: GitLab Duoの認証と認可
 
 GitLab Duo with Amazon Qは、複合アイデンティティを使用してリクエストを認証します。
 
-> [!note]製品の他の領域における複合IDのサポートは、[イシュー511373](https://gitlab.com/gitlab-org/gitlab/-/issues/511373)で提案されています。
+> [!note]
+> 製品の他の領域における複合IDのサポートは、[イシュー511373](https://gitlab.com/gitlab-org/gitlab/-/issues/511373)で提案されています。
 
 リクエストを認証するトークンは、次の2つのアイデンティティを組み合わせたものです:
 

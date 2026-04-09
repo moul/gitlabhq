@@ -379,7 +379,7 @@ describe('Create work item component', () => {
     it('renders with the current namespace selected by default', async () => {
       createComponent({
         props: { isGroup: true },
-        provide: { workItemPlanningViewEnabled: true, hasEpicsFeature: true },
+        provide: { hasEpicsFeature: true },
       });
       await resolveAll();
 
@@ -388,23 +388,17 @@ describe('Create work item component', () => {
     });
 
     it.each`
-      scenario                   | isGroup  | fromGlobalMenu | hasEpicsFeature | workItemPlanningViewEnabled | expected
-      ${'group list page'}       | ${true}  | ${false}       | ${true}         | ${true}                     | ${true}
-      ${'project global menu'}   | ${false} | ${true}        | ${false}        | ${true}                     | ${true}
-      ${'EE with epics'}         | ${true}  | ${false}       | ${true}         | ${true}                     | ${true}
-      ${'disabled feature flag'} | ${true}  | ${false}       | ${false}        | ${false}                    | ${false}
+      scenario                 | isGroup  | fromGlobalMenu | hasEpicsFeature | expected
+      ${'group list page'}     | ${true}  | ${false}       | ${true}         | ${true}
+      ${'project global menu'} | ${false} | ${true}        | ${false}        | ${true}
+      ${'EE with epics'}       | ${true}  | ${false}       | ${true}         | ${true}
+      ${'CE group no epics'}   | ${true}  | ${false}       | ${false}        | ${false}
     `(
       '$scenario shows selector: $expected',
-      async ({
-        isGroup,
-        fromGlobalMenu,
-        hasEpicsFeature,
-        workItemPlanningViewEnabled,
-        expected,
-      }) => {
+      async ({ isGroup, fromGlobalMenu, hasEpicsFeature, expected }) => {
         createComponent({
           props: { isGroup, fromGlobalMenu },
-          provide: { workItemPlanningViewEnabled, hasEpicsFeature },
+          provide: { hasEpicsFeature },
         });
 
         await resolveAll();
@@ -415,7 +409,7 @@ describe('Create work item component', () => {
     it('updates available work item types when new namespace is selected', async () => {
       createComponent({
         props: { isGroup: true },
-        provide: { workItemPlanningViewEnabled: true, hasEpicsFeature: true },
+        provide: { hasEpicsFeature: true },
       });
       await resolveAll();
 
@@ -1453,7 +1447,7 @@ describe('Create work item component', () => {
       beforeEach(async () => {
         createComponent({
           props: { isGroup: true },
-          provide: { workItemPlanningViewEnabled: true, hasEpicsFeature: true },
+          provide: { hasEpicsFeature: true },
         });
         await resolveAll();
       });

@@ -19,6 +19,9 @@ export default {
     NoteHeader,
     ToggleRepliesWidget,
   },
+  inject: {
+    navigateToDiffNote: { default: null },
+  },
   props: {
     discussion: {
       type: Object,
@@ -92,6 +95,11 @@ export default {
     toggleDiscussionHandler() {
       this.toggleDiscussion({ discussionId: this.discussion.id });
     },
+    handleDiscussionLinkClick(event) {
+      if (!this.navigateToDiffNote) return;
+      event.preventDefault();
+      this.navigateToDiffNote(this.discussion);
+    },
   },
 };
 </script>
@@ -113,7 +121,7 @@ export default {
       <note-header :author="author" :created-at="firstNote.created_at" :note-id="firstNote.id">
         <gl-sprintf :message="headerMessage">
           <template #link="{ content } = {}">
-            <a :href="discussion.discussion_path">
+            <a :href="discussion.discussion_path" @click="handleDiscussionLinkClick">
               <span v-if="isCommitLink" class="commit-sha">{{ truncatedCommitId }}</span>
               <template v-else>{{ content }}</template>
             </a>

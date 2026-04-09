@@ -17,12 +17,16 @@ describe('diff_discussion_header component', () => {
   let pinia;
   let wrapper;
 
-  const createComponent = ({ propsData = {} } = {}) => {
+  const createComponent = ({ propsData = {}, provide = {} } = {}) => {
     wrapper = shallowMountExtended(diffDiscussionHeader, {
       pinia,
       propsData: {
         discussion: discussionMock,
         ...propsData,
+      },
+      provide: {
+        navigateToDiffNote: null,
+        ...provide,
       },
       stubs: { GlSprintf },
     });
@@ -219,6 +223,42 @@ describe('diff_discussion_header component', () => {
       });
       wrapper.findComponent(ToggleRepliesWidget).vm.$emit('toggle');
       expect(useNotes().toggleDiscussion).toHaveBeenCalledWith({ discussionId: discussionMock.id });
+    });
+  });
+
+  describe('Rapid Diffs navigation', () => {
+    const diffDiscussion = {
+      ...discussionMock,
+      diff_discussion: true,
+      discussion_path: '/project/-/merge_requests/1/diffs#abc123',
+    };
+
+    const findDiscussionLink = () => wrapper.find(`a[href="${diffDiscussion.discussion_path}"]`);
+
+    describe('when navigateToDiffNote is not provided', () => {
+      it('renders the discussion link', async () => {
+        createComponent({ propsData: { discussion: diffDiscussion } });
+        await nextTick();
+        expect(findDiscussionLink().exists()).toBe(true);
+      });
+    });
+
+    describe('when navigateToDiffNote is provided', () => {
+      let navigateToDiffNoteMock;
+
+      beforeEach(async () => {
+        navigateToDiffNoteMock = jest.fn();
+        createComponent({
+          propsData: { discussion: diffDiscussion },
+          provide: { navigateToDiffNote: navigateToDiffNoteMock },
+        });
+        await nextTick();
+      });
+
+      it('calls navigateToDiffNote on link click', async () => {
+        await findDiscussionLink().trigger('click');
+        expect(navigateToDiffNoteMock).toHaveBeenCalledWith(diffDiscussion);
+      });
     });
   });
 });

@@ -91,6 +91,7 @@ For GitLab Duo Non-Agentic Chat, you can also check the [status of Chat](../../u
 
 ## Related topics
 
+- [GitLab for VS Code releases](https://gitlab.com/gitlab-org/gitlab-vscode-extension/-/releases)
 - [Security considerations for editor extensions](../security_considerations.md)
 - [Command Palette commands](settings.md#command-palette-commands)
 - [Troubleshooting the GitLab for VS Code extension](troubleshooting.md)

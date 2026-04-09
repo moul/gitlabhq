@@ -7,7 +7,8 @@ title: GitLab Release CLIツール (非推奨)
 
 <!--- start_remove The following content will be removed on remove_date: '2026-06-19' -->
 
-> [!warning]この機能はGitLab 18.0で[非推奨](https://gitlab.com/gitlab-org/cli/-/issues/7859)になり、20.0で削除される予定です。代わりに[GitLab CLI](../../../editor_extensions/gitlab_cli/_index.md)を使用してください。
+> [!warning]
+> この機能はGitLab 18.0で[非推奨](https://gitlab.com/gitlab-org/cli/-/issues/7859)になり、20.0で削除される予定です。代わりに[GitLab CLI](../../../editor_extensions/gitlab_cli/_index.md)を使用してください。
 >
 > これは破壊的な変更です。
 

@@ -71,7 +71,8 @@ SSH認証を使用してリポジトリをミラーリングするには:
 1. **新しく追加する**を選択します。
 1. **GitリポジトリのURL**を入力します。`ssh://gitlab.com/gitlab-org/gitlab.git`の形式でURLを指定してください。
 
-   > [!note] SSH URLは、SCPスタイルのURL (`git@host:path/to/repo.git`) ではなく、`ssh://host/path/to/repo.git`の形式を使用する必要があります。コロン (`:`) をスラッシュ (`/`) に置き換え、`ssh://`プレフィックスを追加してください。
+   > [!note]
+   > SSH URLは、SCPスタイルのURL (`git@host:path/to/repo.git`) ではなく、`ssh://host/path/to/repo.git`の形式を使用する必要があります。コロン (`:`) をスラッシュ (`/`) に置き換え、`ssh://`プレフィックスを追加してください。
 
 1. **ミラーの方向**を選択します。詳細については、[プルミラーリング](pull.md)と[プッシュミラーリング](push.md)を参照してください。
 1. **ホストキーを検出**または**ホストキーの手動入力**を選択します。
@@ -112,7 +113,8 @@ SSH認証を使用してリポジトリをミラーリングするには:
 - GitLab.comでは、最大で5分ごとに1回更新します。
 - Self-Managedインスタンスで管理者が設定した[プルミラーリング間隔制限](../../../../administration/instance_limits.md#pull-mirroring-interval)に従って。
 
-> [!note] [GitLab Silent Mode](../../../../administration/silent_mode/_index.md)は、プッシュとプルの両方の更新を無効にします。
+> [!note]
+> [GitLab Silent Mode](../../../../administration/silent_mode/_index.md)は、プッシュとプルの両方の更新を無効にします。
 
 ### 強制的に更新する {#force-an-update}
 
@@ -169,7 +171,8 @@ SSH経由でミラーリングする場合（`ssh://`URLを使用する）は、
 
 キーを変更する必要がある場合はいつでも、ミラーを削除して再度追加して新しいキーを生成できます。ミラーの実行を維持するには、新しいキーで他のリポジトリを更新します。
 
-> [!note]生成されたキーは、ファイルシステムではなく、GitLabデータベースに保存されます。そのため、ミラー用のSSH公開キーの認証は、事前受信フックでは使用できません。
+> [!note]
+> 生成されたキーは、ファイルシステムではなく、GitLabデータベースに保存されます。そのため、ミラー用のSSH公開キーの認証は、事前受信フックでは使用できません。
 
 ### ホストキーを検証する {#verify-a-host-key}
 

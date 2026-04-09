@@ -9,6 +9,14 @@ import { scrollTo, scrollToElement } from '~/lib/utils/scroll_utils';
 import { NO_SCROLL_TO_HASH_CLASS } from '~/lib/utils/constants';
 import { getScrollingElement } from '~/lib/utils/panels';
 import { parseUrlPathname, visitUrl } from '~/lib/utils/url_utility';
+import { pinia } from '~/pinia/instance';
+import { useMergeRequestVersions } from '~/merge_request/stores/merge_request_versions';
+import { useDiffsList } from '~/rapid_diffs/stores/diffs_list';
+import { findApplicablePosition } from '~/rapid_diffs/utils/discussion_position';
+import {
+  removeLinkedFileUrlParams,
+  withLinkedFileUrlParams,
+} from '~/rapid_diffs/utils/linked_file';
 import createEventHub from '~/helpers/event_hub_factory';
 import { renderGFM } from '~/behaviors/markdown/render_gfm';
 import BlobForkSuggestion from './blob/blob_fork_suggestion';
@@ -486,8 +494,7 @@ export default class MergeRequestTabs {
         document.title,
         window.location.href,
       );
-      const newState = pathname + location.search + location.hash;
-      return newState;
+      return pathname + location.search;
     }
 
     // Remove a trailing '/commits' '/diffs' '/pipelines'
@@ -502,8 +509,9 @@ export default class MergeRequestTabs {
       newStatePathname += `/${this.currentAction}`;
     }
 
-    // Ensure parameters and hash come along for the ride
-    const newState = newStatePathname + location.search + location.hash;
+    // Strip linked file params and note hash when switching tabs
+    const cleanUrl = removeLinkedFileUrlParams(newStatePathname + location.search + location.hash);
+    const newState = cleanUrl.pathname + cleanUrl.search + cleanUrl.hash;
 
     if (pathname !== newStatePathname) {
       window.history.pushState(
@@ -679,5 +687,68 @@ export default class MergeRequestTabs {
     this.pageLayout.className = this.cachedPageLayoutClasses;
     this.sidebar.style.width = '';
     delete this.cachedPageLayoutClasses;
+  }
+
+  async navigateToDiffNote(discussion) {
+    if (!this.createRapidDiffsApp) {
+      visitUrl(discussion.discussion_path);
+      return;
+    }
+
+    const position = discussion.position || discussion.original_position;
+    if (!position || discussion.for_commit || discussion.commit_id) {
+      this.#visitLegacyDiffNote(discussion);
+      return;
+    }
+
+    const { diffRefs } = useMergeRequestVersions(pinia);
+    const canSpaNavigate = this.rapidDiffsApp
+      ? diffRefs && findApplicablePosition(discussion, diffRefs)
+      : discussion.active;
+
+    if (!canSpaNavigate) {
+      this.#visitDiffNote(discussion);
+      return;
+    }
+
+    await this.#spaNavigateToDiffNote(discussion, position);
+  }
+
+  async #spaNavigateToDiffNote(discussion, position) {
+    this.storeScroll();
+    if (!this.rapidDiffsApp) {
+      useDiffsList(pinia).setLinkedFileData({
+        old_path: position.old_path,
+        new_path: position.new_path,
+      });
+    }
+
+    const noteId = discussion.notes?.[0]?.id;
+    if (noteId) {
+      const url = new URL(window.location.href);
+      url.hash = `note_${noteId}`;
+      window.history.replaceState(null, '', url);
+    }
+    await this.tabShown('diffs', null, false);
+    this.rapidDiffsApp.scrollToDiffNote(discussion);
+  }
+
+  #visitDiffNote(discussion) {
+    const position = discussion.position || discussion.original_position;
+    const noteId = discussion.notes?.[0]?.id;
+    const url = withLinkedFileUrlParams(discussion.discussion_path, {
+      oldPath: position?.old_path,
+      newPath: position?.new_path,
+      hash: noteId ? `note_${noteId}` : undefined,
+    });
+    url.searchParams.set('rapid_diffs', 'true');
+    visitUrl(url.toString());
+  }
+
+  #visitLegacyDiffNote(discussion) {
+    const url = new URL(discussion.discussion_path, window.location.origin);
+    url.searchParams.set('rapid_diffs_disabled', 'true');
+    url.searchParams.set('reason', 'unsupported');
+    visitUrl(url.toString());
   }
 }

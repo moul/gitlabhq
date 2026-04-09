@@ -45,7 +45,8 @@ company_namespace/artifact_management/ # top-level group
 └── generic-packages/        # Generic file packages
 ```
 
-> [!note]パッケージのライフサイクルや安定性に基づいて、さらに分離したい組織もあると思います。たとえば、`java-releases/`用と`java-snapshots/`用でプロジェクトを分けて作成することが考えられます。こうすることで、安定版パッケージと開発用パッケージに対して、それぞれ異なるクリーンアップポリシー、アクセス制御、承認ワークフローを適用できます。
+> [!note]
+> パッケージのライフサイクルや安定性に基づいて、さらに分離したい組織もあると思います。たとえば、`java-releases/`用と`java-snapshots/`用でプロジェクトを分けて作成することが考えられます。こうすることで、安定版パッケージと開発用パッケージに対して、それぞれ異なるクリーンアップポリシー、アクセス制御、承認ワークフローを適用できます。
 
 ### グループとプロジェクトを作成する {#create-the-group-and-projects}
 

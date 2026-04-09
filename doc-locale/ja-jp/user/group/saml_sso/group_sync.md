@@ -333,7 +333,8 @@ Self-Managedを設定するには:
 
 {{< /history >}}
 
-> [!note] Microsoftは、Azure Active Directory (AD) がEntra IDに名称変更されることを[発表しました](https://azure.microsoft.com/en-us/updates/azure-ad-is-becoming-microsoft-entra-id/)。
+> [!note]
+> Microsoftは、Azure Active Directory (AD) がEntra IDに名称変更されることを[発表しました](https://azure.microsoft.com/en-us/updates/azure-ad-is-becoming-microsoft-entra-id/)。
 
 <i class="fa-youtube-play" aria-hidden="true"></i> Microsoft Azureを使用したグループ同期のデモについては、[デモ: SAMLグループ同期](https://youtu.be/Iqvo2tJfXjg)。
 

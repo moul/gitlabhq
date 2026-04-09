@@ -234,7 +234,6 @@ export default {
     'hasEpicsFeature',
     'hasQualityManagementFeature',
     'hasProjects',
-    'workItemPlanningViewEnabled',
   ],
   props: {
     rootPageFullPath: {
@@ -315,7 +314,7 @@ export default {
         return data?.namespace?.workItems.count || 0;
       },
       skip() {
-        return isEmpty(this.queryVariables) || this.metadataLoading || !this.isPlanningViewsEnabled;
+        return isEmpty(this.queryVariables) || this.metadataLoading;
       },
       error(error) {
         Sentry.captureException(error);
@@ -333,7 +332,7 @@ export default {
       },
       skip() {
         return (
-          (this.isPlanningViewsEnabled && !this.isServiceDeskList) ||
+          !this.isServiceDeskList ||
           isEmpty(this.queryVariables) ||
           this.metadataLoading ||
           this.shouldSkipDueToSavedViewState
@@ -673,8 +672,7 @@ export default {
         return this.canAdminIssue;
       }
       // Groups require EE bulk edit feature, or CE planning view with projects
-      const hasCEBulkEdit =
-        this.workItemPlanningViewEnabled && this.hasProjects && !this.hasEpicsFeature;
+      const hasCEBulkEdit = this.hasProjects && !this.hasEpicsFeature;
       return this.canAdminIssue && (this.hasGroupBulkEditFeature || hasCEBulkEdit);
     },
     urlFilterParams() {
@@ -1060,12 +1058,9 @@ export default {
       return Boolean(this.$route.query.sv_limit_id && !this.$route.query.sv_source_modal);
     },
     showProjectNewWorkItem() {
-      if (this.workItemPlanningViewEnabled) {
-        // In CE, groups cannot enable create_work_items, so showNewWorkItem is always false (only enabled in EE).
-        // However, we need to show the button for CE groups with projects (!hasEpicsFeature indicates CE).
-        return (this.isGroup && this.hasProjects && !this.hasEpicsFeature) || this.showNewWorkItem;
-      }
-      return this.showNewWorkItem && !this.isGroupIssuesList;
+      // In CE, groups cannot enable create_work_items, so showNewWorkItem is always false (only enabled in EE).
+      // However, we need to show the button for CE groups with projects (!hasEpicsFeature indicates CE).
+      return (this.isGroup && this.hasProjects && !this.hasEpicsFeature) || this.showNewWorkItem;
     },
     showGroupNewWorkItem() {
       return this.isGroupIssuesList && this.hasProjects;
@@ -1078,9 +1073,6 @@ export default {
     },
     isServiceDeskList() {
       return this.workItemType === WORK_ITEM_TYPE_NAME_TICKET;
-    },
-    isPlanningViewsEnabled() {
-      return this.glFeatures.workItemPlanningView || !this.withTabs;
     },
     viewDraftData() {
       return {
@@ -1770,16 +1762,10 @@ export default {
       if (savedViewName) {
         return `${savedViewName} · ${s__('WorkItem|Work items')} · ${middleCrumb} · GitLab`;
       }
-      if (this.isPlanningViewsEnabled) {
-        return `${s__('WorkItem|Work items')} · ${middleCrumb} · GitLab`;
-      }
       if (this.isGroup && this.isEpicsList) {
         return `${__('Epics')} · ${middleCrumb} · GitLab`;
       }
-      if (this.isGroup && !this.isGroupIssuesList) {
-        return `${s__('WorkItem|Work items')} · ${middleCrumb} · GitLab`;
-      }
-      return `${__('Issues')} · ${middleCrumb} · GitLab`;
+      return `${s__('WorkItem|Work items')} · ${middleCrumb} · GitLab`;
     },
     handleSavedViewSkipState(newValue) {
       this.shouldSkipDueToSavedViewState = newValue;
@@ -1811,10 +1797,7 @@ export default {
 
 <template>
   <div class="planning-view">
-    <user-callout-dismisser
-      v-if="isPlanningViewsEnabled"
-      feature-name="work_items_onboarding_modal"
-    >
+    <user-callout-dismisser feature-name="work_items_onboarding_modal">
       <template #default="{ dismiss, shouldShowCallout }">
         <work-items-onboarding-modal v-if="shouldShowCallout" @close="dismiss" />
       </template>
@@ -2010,7 +1993,7 @@ export default {
         </transition>
       </gl-intersection-observer>
     </div>
-    <template v-if="!isServiceDeskList && isPlanningViewsEnabled">
+    <template v-if="!isServiceDeskList">
       <!-- state-count -->
       <div class="gl-border-b gl-flex gl-flex-wrap gl-justify-between gl-gap-y-3 gl-py-3">
         <div class="gl-flex gl-flex-wrap gl-items-center gl-gap-3">

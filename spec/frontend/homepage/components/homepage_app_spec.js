@@ -42,14 +42,10 @@ describe('HomepageApp', () => {
     'The number of merge requests is not available. Please refresh the page to try again, or visit the dashboard.';
   const MOCK_ASSIGNED_MERGE_REQUESTS_TEXT = 'Assigned to you';
   const MOCK_ASSIGNED_WORK_ITEMS_PATH = '/work/items/assigned/to/you/path';
-  const MOCK_ASSIGNED_WORK_ITEMS_ERROR_TEXT =
-    'The number of issues is not available. Please refresh the page to try again, or visit the issue list.';
   const MOCK_ASSIGNED_WORK_ITEMS_ERROR_TEXT_PLANNING_VIEW =
     'The number of work items is not available. Please refresh the page to try again, or visit the work items list.';
   const MOCK_ASSIGNED_WORK_ITEMS_TEXT = 'Assigned to you';
   const MOCK_AUTHORED_WORK_ITEMS_PATH = '/work/items/authored/to/you/path';
-  const MOCK_AUTHORED_WORK_ITEMS_ERROR_TEXT =
-    'The number of issues is not available. Please refresh the page to try again, or visit the issue list.';
   const MOCK_AUTHORED_WORK_ITEMS_TEXT = 'Authored by you';
   const MOCK_ACTIVITY_PATH = '/activity/path';
   const MOCK_DUO_CODE_REVIEW_BOT_USERNAME = 'GitLabDuo';
@@ -68,7 +64,6 @@ describe('HomepageApp', () => {
     wrapper = shallowMountExtended(HomepageApp, {
       provide: {
         duoCodeReviewBotUsername: MOCK_DUO_CODE_REVIEW_BOT_USERNAME,
-        workItemPlanningViewEnabled: false,
       },
       propsData: {
         reviewRequestedPath: MOCK_MERGE_REQUESTS_REVIEW_REQUESTED_PATH,
@@ -95,7 +90,6 @@ describe('HomepageApp', () => {
       workItemsDataWithItems,
     ),
     assignedWorkItemsCount = 5,
-    workItemPlanningViewEnabled = false,
   } = {}) {
     userCounts.assigned_issues = assignedWorkItemsCount;
 
@@ -107,7 +101,6 @@ describe('HomepageApp', () => {
       apolloProvider: mockApollo,
       provide: {
         duoCodeReviewBotUsername: MOCK_DUO_CODE_REVIEW_BOT_USERNAME,
-        workItemPlanningViewEnabled,
       },
       propsData: {
         reviewRequestedPath: MOCK_MERGE_REQUESTS_REVIEW_REQUESTED_PATH,
@@ -175,16 +168,16 @@ describe('HomepageApp', () => {
       await waitForPromises();
 
       expect(findAssignedWorkItemsWidget().props()).toEqual({
-        errorText: MOCK_ASSIGNED_WORK_ITEMS_ERROR_TEXT,
+        errorText: MOCK_ASSIGNED_WORK_ITEMS_ERROR_TEXT_PLANNING_VIEW,
         hasError: false,
-        cardText: 'Issues',
+        cardText: 'Work items',
         linkText: MOCK_ASSIGNED_WORK_ITEMS_TEXT,
         path: MOCK_ASSIGNED_WORK_ITEMS_PATH,
         userItems: {
           ...workItemsDataWithItems.data.currentUser.assigned,
           count: 5,
         },
-        iconName: 'work-item-issue',
+        iconName: 'work-items',
       });
     });
 
@@ -192,13 +185,13 @@ describe('HomepageApp', () => {
       await waitForPromises();
 
       expect(findAuthoredWorkItemsWidget().props()).toEqual({
-        errorText: MOCK_AUTHORED_WORK_ITEMS_ERROR_TEXT,
+        errorText: MOCK_ASSIGNED_WORK_ITEMS_ERROR_TEXT_PLANNING_VIEW,
         hasError: false,
-        cardText: 'Issues',
+        cardText: 'Work items',
         linkText: MOCK_AUTHORED_WORK_ITEMS_TEXT,
         path: MOCK_AUTHORED_WORK_ITEMS_PATH,
         userItems: workItemsDataWithItems.data.currentUser.authored,
-        iconName: 'work-item-issue',
+        iconName: 'work-items',
       });
     });
 
@@ -225,33 +218,6 @@ describe('HomepageApp', () => {
           userItems: null,
         }),
       );
-    });
-
-    describe('when workItemPlanningViewEnabled is true', () => {
-      beforeEach(async () => {
-        createApolloWrapper({ workItemPlanningViewEnabled: true });
-        await waitForPromises();
-      });
-
-      it('passes correct work items props to the assigned work items widget', () => {
-        expect(findAssignedWorkItemsWidget().props()).toEqual(
-          expect.objectContaining({
-            cardText: 'Work items',
-            iconName: 'work-items',
-            errorText: MOCK_ASSIGNED_WORK_ITEMS_ERROR_TEXT_PLANNING_VIEW,
-          }),
-        );
-      });
-
-      it('passes correct work items props to the authored work items widget', () => {
-        expect(findAuthoredWorkItemsWidget().props()).toEqual(
-          expect.objectContaining({
-            cardText: 'Work items',
-            iconName: 'work-items',
-            errorText: MOCK_ASSIGNED_WORK_ITEMS_ERROR_TEXT_PLANNING_VIEW,
-          }),
-        );
-      });
     });
 
     describe('query errors', () => {

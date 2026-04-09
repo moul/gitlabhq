@@ -752,11 +752,6 @@ msgid_plural "%{count} issues"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "%{count} issue selected"
-msgid_plural "%{count} issues selected"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "%{count} item"
 msgid_plural "%{count} items"
 msgstr[0] ""
@@ -35755,12 +35750,6 @@ msgstr ""
 msgid "HomePageWorkItemsWidget|Authored by you"
 msgstr ""
 
-msgid "HomePageWorkItemsWidget|Issues"
-msgstr ""
-
-msgid "HomePageWorkItemsWidget|The number of issues is not available. Please refresh the page to try again, or visit the issue list."
-msgstr ""
-
 msgid "HomePageWorkItemsWidget|The number of work items is not available. Please refresh the page to try again, or visit the work items list."
 msgstr ""
 
@@ -38825,9 +38814,6 @@ msgid "IssuesAnalytics|To widen your search, change or remove filters in the fil
 msgstr ""
 
 msgid "IssuesAnalytics|Total:"
-msgstr ""
-
-msgid "Issues|An error occurred while importing issues."
 msgstr ""
 
 msgid "Issues|No closed issues"
@@ -55220,9 +55206,6 @@ msgstr ""
 msgid "ProjectSettings|Feature flags"
 msgstr ""
 
-msgid "ProjectSettings|Flexible tool to collaboratively develop ideas and plan work in this project."
-msgstr ""
-
 msgid "ProjectSettings|For Gitaly, location of data on the storage. For Gitaly Cluster, location of data on the virtual storage."
 msgstr ""
 
@@ -55269,9 +55252,6 @@ msgid "ProjectSettings|Instrumentation details"
 msgstr ""
 
 msgid "ProjectSettings|Internal"
-msgstr ""
-
-msgid "ProjectSettings|Issues"
 msgstr ""
 
 msgid "ProjectSettings|LFS objects from this repository are available to forks. %{linkStart}How do I remove them?%{linkEnd}"
@@ -63383,13 +63363,13 @@ msgstr ""
 msgid "SecurityOrchestration|Approval settings might be affected by rules in the following policies if the policies change from warn mode to strictly enforced:"
 msgstr ""
 
-msgid "SecurityOrchestration|Approval settings might be affected by rules in the following policies:"
+msgid "SecurityOrchestration|Approval settings might be affected by rules in the following policies. Enforcement of these properties is conditional on merge request policy violations:"
 msgstr ""
 
 msgid "SecurityOrchestration|Approval settings might be affected by the rules in policy %{policyName} if the policy changes from warn mode to strictly enforced."
 msgstr ""
 
-msgid "SecurityOrchestration|Approval settings might be affected by the rules in policy %{policyName}."
+msgid "SecurityOrchestration|Approval settings might be affected by the rules in policy %{policyName}. Enforcement of these properties is conditional on merge request policy violations."
 msgstr ""
 
 msgid "SecurityOrchestration|Are you sure you want to change the compliance and security policy group?"
@@ -80513,9 +80493,6 @@ msgstr ""
 msgid "WorkItem|An error occurred while deleting the view. Please try again."
 msgstr ""
 
-msgid "WorkItem|An error occurred while exporting issues."
-msgstr ""
-
 msgid "WorkItem|An error occurred while exporting work items."
 msgstr ""
 
@@ -80949,9 +80926,6 @@ msgid "WorkItem|Existing task"
 msgstr ""
 
 msgid "WorkItem|Export as CSV"
-msgstr ""
-
-msgid "WorkItem|Export issues"
 msgstr ""
 
 msgid "WorkItem|Export work items"

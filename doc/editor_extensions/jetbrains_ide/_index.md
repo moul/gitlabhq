@@ -126,6 +126,7 @@ built-in error reporting tool:
 
 ## Related topics
 
+- [GitLab Duo plugin for JetBrains IDEs releases](https://gitlab.com/gitlab-org/editor-extensions/gitlab-jetbrains-plugin/-/releases)
 - [Security considerations for editor extensions](../security_considerations.md)
 - [JetBrains troubleshooting](jetbrains_troubleshooting.md)
 - [GitLab Language Server documentation](../language_server/_index.md)

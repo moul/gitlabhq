@@ -3012,7 +3012,7 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
   describe 'when user is authenticated via CI_JOB_TOKEN', :request_store do
     using RSpec::Parameterized::TableSyntax
 
-    let(:disallowed_permissions) { described_class.ability_map.map.keys - allowed_permissions }
+    let(:disallowed_permissions) { Set.new(described_class.ability_map.map.keys) - allowed_permissions }
     let(:allowed_permissions) do
       ::Authz::Role.get(:public_anonymous).direct_permissions(:project) +
         %i[build_download_code build_read_container_image read_build]

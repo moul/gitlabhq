@@ -49,7 +49,8 @@ GitLab SAML SSO SCIMを設定するには:
 - [Azure Active Directory](#configure-microsoft-entra-id-formerly-azure-active-directory)。
 - [Okta](#configure-okta)。
 
-> [!note]その他のプロバイダーもGitLabで動作する可能性がありますが、テストされておらずサポートされていません。サポートについては、プロバイダーに連絡してください。GitLabサポートは、関連するログエントリをレビューして支援できます。
+> [!note]
+> その他のプロバイダーもGitLabで動作する可能性がありますが、テストされておらずサポートされていません。サポートについては、プロバイダーに連絡してください。GitLabサポートは、関連するログエントリをレビューして支援できます。
 
 ### Microsoft Entra ID（以前のAzure Active Directory）を設定する {#configure-microsoft-entra-id-formerly-azure-active-directory}
 
@@ -66,7 +67,8 @@ GitLab SAML SSO SCIMを設定するには:
 
 [シングルサインオン](_index.md)のセットアップ中に作成された[Azure Active Directory](https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/view-applications-portal)用のSAMLアプリケーションは、SCIM用に設定する必要があります。例については、[設定例](example_saml_config.md#scim-mapping)を参照してください。
 
-> [!note] SCIMプロビジョニングは、次の手順に詳しく記載されているとおりに設定する必要があります。設定が誤っている場合、ユーザープロビジョニングやサインインで問題が発生し、その解決には多大な労力が必要です。いずれかの手順で問題や質問がある場合は、GitLabサポートに連絡してください。
+> [!note]
+> SCIMプロビジョニングは、次の手順に詳しく記載されているとおりに設定する必要があります。設定が誤っている場合、ユーザープロビジョニングやサインインで問題が発生し、その解決には多大な労力が必要です。いずれかの手順で問題や質問がある場合は、GitLabサポートに連絡してください。
 
 Microsoft Entra IDのSCIMを設定するには:
 
@@ -87,7 +89,8 @@ Microsoft Entra IDのSCIMを設定するには:
 1. **Provision Microsoft Entra ID Groups**を選択します。
 1. 属性マッピングページで、**有効**切替をオフにします。SCIMグループプロビジョニングはGitLabではサポートされていません。グループプロビジョニングを有効のままにしてもSCIMユーザープロビジョニングが中断されることはありませんが、Entra ID SCIMプロビジョニングログで混乱や誤解を招くようなエラーが発生する可能性があります。
 
-   > [!note] **Provision Microsoft Entra ID Groups**が無効になっている場合でも、マッピングセクションには「有効: 可能」と表示される場合があります。この動作は、安全に無視できる表示バグです。
+   > [!note]
+   > **Provision Microsoft Entra ID Groups**が無効になっている場合でも、マッピングセクションには「有効: 可能」と表示される場合があります。この動作は、安全に無視できる表示バグです。
 
 1. **Save**を選択します。
 
@@ -120,11 +123,13 @@ Microsoft Entra IDのSCIMを設定するには:
 
 マッピングと設定を設定したら、アプリの概要ページに戻り、**Start provisioning**を選択して、GitLabでのユーザーの自動SCIMプロビジョニングを開始します。
 
-> [!warning]一度同期されると、`id`と`externalId`にマップされたフィールドを変更するとエラーが発生する可能性があります。これにはプロビジョニングエラー、重複ユーザーが含まれ、既存のユーザーがGitLabグループにアクセスするのを妨げる可能性があります。
+> [!warning]
+> 一度同期されると、`id`と`externalId`にマップされたフィールドを変更するとエラーが発生する可能性があります。これにはプロビジョニングエラー、重複ユーザーが含まれ、既存のユーザーがGitLabグループにアクセスするのを妨げる可能性があります。
 
 #### 属性マッピングを設定する {#configure-attribute-mappings}
 
-> [!note] MicrosoftがAzure Active DirectoryからEntra IDへの命名スキームに移行している間、ユーザーインターフェースに一貫性のない点が見られる場合があります。問題が発生した場合は、このドキュメントの古いバージョンを表示するか、GitLabサポートに連絡してください。
+> [!note]
+> MicrosoftがAzure Active DirectoryからEntra IDへの命名スキームに移行している間、ユーザーインターフェースに一貫性のない点が見られる場合があります。問題が発生した場合は、このドキュメントの古いバージョンを表示するか、GitLabサポートに連絡してください。
 
 [Entra IDのSCIMを設定](#configure-microsoft-entra-id-formerly-azure-active-directory)する際に、属性マッピングを設定します。例については、[設定例](example_saml_config.md#scim-mapping)を参照してください。
 
@@ -206,7 +211,8 @@ OktaのSCIMを設定するには:
 
 {{< /history >}}
 
-> [!flag]この機能は機能フラグによって制御されます。詳細については、履歴を参照してください。
+> [!flag]
+> この機能は機能フラグによって制御されます。詳細については、履歴を参照してください。
 
 [制限付きアクセス](../manage.md#restricted-access)が有効でサブスクリプションシートが利用可能でない場合、SCIMを通じてプロビジョニングされたユーザーには最小アクセスロールが割り当てられます。
 
@@ -268,7 +274,8 @@ Identity Providerが設定されたスケジュールに基づいて同期を実
 
 SCIMを有効にしても、SAMLアイデンティティを持たない既存のユーザーが自動的に削除されることはありません。
 
-> [!note]プロビジョニング解除では、GitLabユーザーアカウントは削除されません。
+> [!note]
+> プロビジョニング解除では、GitLabユーザーアカウントは削除されません。
 
 ```mermaid
 %%{init: { "fontFamily": "GitLab Sans" }}%%

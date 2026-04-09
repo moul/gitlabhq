@@ -12,7 +12,8 @@ title: サービスデスク
 
 {{< /details >}}
 
-> [!note]この機能は現在活発に開発されていませんが、[コミュニティからの貢献](https://about.gitlab.com/community/contribute/)は歓迎されています。既存のドキュメントを確認するか、[サービスデスクカテゴリのオープンなイシュー](https://gitlab.com/gitlab-org/gitlab/-/issues/?sort=updated_desc&state=opened&label_name%5B%5D=Category%3AService%20Desk&first_page_size=100)を参照して、現状の機能がニーズを満たすかどうかを判断し、まだ行われていない作業について学習してください。サービスデスクのカテゴリも長期的に利益を得る作業アイテムフレームワークの構築と拡張に注力するため、サービスデスクの優先順位を下げる決定がなされました。
+> [!note]
+> この機能は現在活発に開発されていませんが、[コミュニティからの貢献](https://about.gitlab.com/community/contribute/)は歓迎されています。既存のドキュメントを確認するか、[サービスデスクカテゴリのオープンなイシュー](https://gitlab.com/gitlab-org/gitlab/-/issues/?sort=updated_desc&state=opened&label_name%5B%5D=Category%3AService%20Desk&first_page_size=100)を参照して、現状の機能がニーズを満たすかどうかを判断し、まだ行われていない作業について学習してください。サービスデスクのカテゴリも長期的に利益を得る作業アイテムフレームワークの構築と拡張に注力するため、サービスデスクの優先順位を下げる決定がなされました。
 >
 > サービスデスクを作業アイテムフレームワークに移行するための情報については、[エピック10772](https://gitlab.com/groups/gitlab-org/-/epics/10772)を参照してください。
 

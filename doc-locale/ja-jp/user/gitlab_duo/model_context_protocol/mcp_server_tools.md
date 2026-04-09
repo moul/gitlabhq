@@ -14,7 +14,8 @@ title: GitLab MCPサーバーツール
 
 {{< /details >}}
 
-> [!warning] この機能に関するフィードバックを提供するには、[イシュー561564](https://gitlab.com/gitlab-org/gitlab/-/issues/561564)にコメントしてください。
+> [!warning]
+> この機能に関するフィードバックを提供するには、[イシュー561564](https://gitlab.com/gitlab-org/gitlab/-/issues/561564)にコメントしてください。
 
 GitLab MCPサーバーは、既存のGitLabワークフローと連携して動作する一連のツールを提供します。これらのツールを使用して、GitLabと直接やり取りし、一般的なGitLabの操作を実行できます。
 

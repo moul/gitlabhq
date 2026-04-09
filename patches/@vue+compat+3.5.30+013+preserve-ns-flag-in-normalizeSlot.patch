@@ -10,18 +10,6 @@ index 50a3a50..1232094 100644
    return normalized;
  };
  const normalizeObjectSlots = (rawSlots, slots, instance) => {
-diff --git a/node_modules/@vue/compat/dist/vue.esm-bundler.js b/node_modules/@vue/compat/dist/vue.esm-bundler.js
-index aaaaaaa..bbbbbbb 100644
---- a/node_modules/@vue/compat/dist/vue.esm-bundler.js
-+++ b/node_modules/@vue/compat/dist/vue.esm-bundler.js
-@@ -9255,6 +9255,7 @@ const normalizeSlot = (key, rawSlot, ctx) => {
-     return normalizeSlotValue(rawSlot(...args));
-   }, ctx);
-   normalized._c = false;
-+  if (rawSlot._ns) normalized._ns = true;
-   return normalized;
- };
- const normalizeObjectSlots = (rawSlots, slots, instance) => {
 diff --git a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
 index a6e8a78..f63ecf2 100644
 --- a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js

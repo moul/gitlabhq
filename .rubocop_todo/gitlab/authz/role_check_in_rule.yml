@@ -20,6 +20,4 @@ Gitlab/Authz/RoleCheckInRule:
     - 'ee/app/policies/ee/group_policy.rb'
     - 'ee/app/policies/ee/namespaces/user_namespace_policy.rb'
     - 'ee/app/policies/ee/project_policy.rb'
-    - 'ee/app/policies/security/analyzer_namespace_status_policy.rb'
-    - 'ee/app/policies/security/analyzer_project_status_policy.rb'
     - 'ee/app/policies/vulnerability_policy.rb'

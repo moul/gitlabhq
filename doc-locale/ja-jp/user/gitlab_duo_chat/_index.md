@@ -61,7 +61,8 @@ GitLab Duo Chatは、以下で使用できます:
 - [Eclipse](../../editor_extensions/eclipse/setup.md)
 - [Visual Studio](../../editor_extensions/visual_studio/setup.md)
 
-> [!note] GitLab Self-Managedをお使いの場合: 最適なユーザーエクスペリエンスと結果を得るには、GitLab 17.2以降を使用してください。以前のバージョンでも動作する可能性がありますが、ユーザーエクスペリエンスが低下する可能性があります。
+> [!note]
+> GitLab Self-Managedをお使いの場合: 最適なユーザーエクスペリエンスと結果を得るには、GitLab 17.2以降を使用してください。以前のバージョンでも動作する可能性がありますが、ユーザーエクスペリエンスが低下する可能性があります。
 
 ## GitLab UIでGitLab Duo Chatを使用する {#use-gitlab-duo-chat-in-the-gitlab-ui}
 

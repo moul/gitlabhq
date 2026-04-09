@@ -30,7 +30,8 @@ title: ワークスペースの設定
 
 ワークスペース設定が機能しない場合は、[ワークスペースのトラブルシューティング](workspaces_troubleshooting.md)を参照してください。
 
-> [!note]設定が無効な値を持つ場合、その値を修正するまで、どの設定も更新できません。`enabled`を除くこれらの設定を更新しても、既存のワークスペースには影響しません。
+> [!note]
+> 設定が無効な値を持つ場合、その値を修正するまで、どの設定も更新できません。`enabled`を除くこれらの設定を更新しても、既存のワークスペースには影響しません。
 
 ## 設定リファレンス {#configuration-reference}
 
@@ -72,7 +73,8 @@ remote_development:
   enabled: true
 ```
 
-> [!note]アクティブまたは停止中のワークスペースを持つエージェントに対して`enabled`が`false`に設定されている場合、これらのワークスペースは孤立し、使用できなくなります。
+> [!note]
+> アクティブまたは停止中のワークスペースを持つエージェントに対して`enabled`が`false`に設定されている場合、これらのワークスペースは孤立し、使用できなくなります。
 >
 > エージェントでリモート開発を無効にする前に:
 >
@@ -219,7 +221,8 @@ remote_development:
 
 ワークスペースは、`requests`と`limits`に設定した値を超えると失敗します。
 
-> [!note] [`shared_namespace`](#shared_namespace)が設定されている場合、`max_resources_per_workspace`は空のハッシュである必要があります。ユーザーは`shared_namespace`にKubernetes [リソースクォータ](https://kubernetes.io/docs/concepts/policy/resource-quotas/)を作成することで、ここにこの値を指定した場合と同じ結果を得ることができます。
+> [!note]
+> [`shared_namespace`](#shared_namespace)が設定されている場合、`max_resources_per_workspace`は空のハッシュである必要があります。ユーザーは`shared_namespace`にKubernetes [リソースクォータ](https://kubernetes.io/docs/concepts/policy/resource-quotas/)を作成することで、ここにこの値を指定した場合と同じ結果を得ることができます。
 
 設定例: 
 

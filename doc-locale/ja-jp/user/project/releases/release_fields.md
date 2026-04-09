@@ -206,7 +206,8 @@ release:
     - glab release create $env:CI_COMMIT_TAG --name "Release $env:CI_COMMIT_TAG" --notes "Release $env:CI_COMMIT_TAG" --ref $env:CI_COMMIT_TAG --assets-links=$env:assetsjson
 ```
 
-> [!note] [ジョブアーティファクト](../../../ci/jobs/job_artifacts.md)リンクをリリースに直接添付することは推奨されません。なぜなら、アーティファクトは一時的なものであり、同じパイプライン内でデータを渡すために使用されるためです。これは、それらが期限切れになるか、誰かが手動で削除する可能性があるというリスクを意味します。
+> [!note]
+> [ジョブアーティファクト](../../../ci/jobs/job_artifacts.md)リンクをリリースに直接添付することは推奨されません。なぜなら、アーティファクトは一時的なものであり、同じパイプライン内でデータを渡すために使用されるためです。これは、それらが期限切れになるか、誰かが手動で削除する可能性があるというリスクを意味します。
 
 ### 新規および合計機能の数 {#number-of-new-and-total-features}
 

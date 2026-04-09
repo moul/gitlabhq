@@ -34,7 +34,8 @@ title: GitLab Duoコードレビュー
 
 {{< /history >}}
 
-> [!note]お使いのアドオンによっては、代わりにCode Review Flowにアクセスできる場合があります。[2つの機能の比較説明](../project/merge_requests/duo_in_merge_requests.md#use-gitlab-duo-to-review-your-code)をご覧ください。
+> [!note]
+> お使いのアドオンによっては、代わりにCode Review Flowにアクセスできる場合があります。[2つの機能の比較説明](../project/merge_requests/duo_in_merge_requests.md#use-gitlab-duo-to-review-your-code)をご覧ください。
 
 マージリクエストをレビューする準備ができたら、GitLab Duoコードレビューを使用して初期レビューを実行します: 
 

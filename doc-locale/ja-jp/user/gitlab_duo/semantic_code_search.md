@@ -57,7 +57,8 @@ GitLabインスタンスで高度な検索にElasticsearchまたはOpenSearchを
 
 Elasticsearch、OpenSearch、またはPostgreSQL用のカスタムベクターストア接続を作成するには、Railsコンソールで`adapter`と`options`を使用して接続を作成します。
 
-> [!note]中規模から大規模のリポジトリには、ElasticsearchまたはOpenSearchを使用してください。`pgvector`は、少数の小さなリポジトリを持つセットアップでのみPostgreSQLと共に使用してください。インデックス作成とクエリ実行のパフォーマンスは`pgvector`で制限される可能性があります。
+> [!note]
+> 中規模から大規模のリポジトリには、ElasticsearchまたはOpenSearchを使用してください。`pgvector`は、少数の小さなリポジトリを持つセットアップでのみPostgreSQLと共に使用してください。インデックス作成とクエリ実行のパフォーマンスは`pgvector`で制限される可能性があります。
 
 #### Elasticsearch {#elasticsearch}
 

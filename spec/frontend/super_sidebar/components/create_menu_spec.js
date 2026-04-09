@@ -9,7 +9,7 @@ import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import InviteMembersTrigger from '~/invite_members/components/invite_members_trigger.vue';
 import CreateWorkItemModal from '~/work_items/components/create_work_item_modal.vue';
 import CreateMenu from '~/super_sidebar/components/create_menu.vue';
-import { CREATION_CONTEXT_SUPER_SIDEBAR, WORK_ITEM_TYPE_NAME_EPIC } from '~/work_items/constants';
+import { CREATION_CONTEXT_SUPER_SIDEBAR } from '~/work_items/constants';
 import { createMockDirective, getBinding } from 'helpers/vue_mock_directive';
 import { createNewMenuGroups, createNewMenuProjects } from '../mock_data';
 
@@ -162,34 +162,7 @@ describe('CreateMenu component', () => {
       });
 
       describe('link', () => {
-        it('renders link', () => {
-          createWrapper({
-            provide: { workItemPlanningViewEnabled: false },
-            props: { groups: createNewMenuProjects },
-            stubs: { GlDisclosureDropdownItem },
-          });
-
-          expect(findCreateWorkItemModalTrigger().findComponent(GlLink).attributes('href')).toBe(
-            'issues/new',
-          );
-        });
-
-        it('opens modal when clicked', async () => {
-          createWrapper({
-            provide: { workItemPlanningViewEnabled: false },
-            props: { groups: createNewMenuProjects },
-            stubs: { GlDisclosureDropdownItem },
-          });
-
-          findCreateWorkItemModalTrigger()
-            .findComponent(GlLink)
-            .vm.$emit('click', { stopPropagation: jest.fn() });
-          await nextTick();
-
-          expect(findCreateWorkItemModal().exists()).toBe(true);
-        });
-
-        it('does not render when workItemPlanningViewEnabled=true', () => {
+        it('does not render', () => {
           createWrapper({
             provide: { workItemPlanningViewEnabled: true },
             props: { groups: createNewMenuProjects },
@@ -201,25 +174,23 @@ describe('CreateMenu component', () => {
       });
 
       describe('preselected work item type', () => {
-        it.each`
-          isGroup  | workItemPlanningViewEnabled | preselectedWorkItemType
-          ${true}  | ${false}                    | ${WORK_ITEM_TYPE_NAME_EPIC}
-          ${true}  | ${true}                     | ${null}
-          ${false} | ${true}                     | ${null}
-          ${false} | ${false}                    | ${null}
-        `(
-          'only returns Epic when group and workItemPlanningViewEnabled=false',
-          async ({ isGroup, workItemPlanningViewEnabled, preselectedWorkItemType }) => {
-            createWrapper({ provide: { isGroup, workItemPlanningViewEnabled } });
+        it('does not preselect a work item type when in a group', async () => {
+          createWrapper({ provide: { isGroup: true } });
 
-            findCreateWorkItemModalTrigger().vm.$emit('action');
-            await nextTick();
+          findCreateWorkItemModalTrigger().vm.$emit('action');
+          await nextTick();
 
-            expect(findCreateWorkItemModal().props('preselectedWorkItemType')).toBe(
-              preselectedWorkItemType,
-            );
-          },
-        );
+          expect(findCreateWorkItemModal().props('preselectedWorkItemType')).toBe(null);
+        });
+
+        it('does not preselect a work item type when not in a group', async () => {
+          createWrapper({ provide: { isGroup: false } });
+
+          findCreateWorkItemModalTrigger().vm.$emit('action');
+          await nextTick();
+
+          expect(findCreateWorkItemModal().props('preselectedWorkItemType')).toBe(null);
+        });
       });
     });
 

@@ -57,6 +57,7 @@ export default {
       default: false,
     },
   },
+  emits: ['customDateRangeSelected', 'selected'],
   data() {
     return {
       selectedValue: this.selected || this.dateRangeOptions[0].value,

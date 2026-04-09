@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
 import createDefaultClient from '~/lib/graphql';
-import { parseBoolean } from '~/lib/utils/common_utils';
 import HomepageApp from './components/homepage_app.vue';
 
 Vue.use(VueApollo);
@@ -24,7 +23,6 @@ export default () => {
     mergeRequestsReviewRequestedTitle,
     mergeRequestsYourMergeRequestsTitle,
     lastPushEvent,
-    workItemPlanningViewEnabled,
   } = el.dataset;
 
   // Parse lastPushEvent - it's already JSON string from backend
@@ -38,7 +36,6 @@ export default () => {
       duoCodeReviewBotUsername,
       mergeRequestsReviewRequestedTitle,
       mergeRequestsYourMergeRequestsTitle,
-      workItemPlanningViewEnabled: parseBoolean(workItemPlanningViewEnabled),
     },
     apolloProvider: new VueApollo({
       defaultClient: createDefaultClient(),

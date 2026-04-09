@@ -44,6 +44,7 @@ Use the `Bug` or `Feature Proposal` template.
 
 ## Related topics
 
+- [GitLab for Eclipse releases](https://gitlab.com/gitlab-org/editor-extensions/gitlab-eclipse-plugin/-/releases)
 - [Security considerations for editor extensions](../security_considerations.md)
 - [Eclipse troubleshooting](troubleshooting.md)
 - [GitLab Language Server documentation](../language_server/_index.md)

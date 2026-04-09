@@ -15,7 +15,8 @@ title: GPGでコミットに署名する
 
 GitLabリポジトリで行うコミットに、[GPG (GNU Privacy Guard)](https://gnupg.org/)キーで署名できます。
 
-> [!note]GitLabでは、OpenPGP、PGP、およびGPGに関連するすべての資料と実装にGPGという用語を使用します。
+> [!note]
+> GitLabでは、OpenPGP、PGP、およびGPGに関連するすべての資料と実装にGPGという用語を使用します。
 
 コミットが検証済みとみなされるためのGitLabの条件:
 
@@ -267,4 +268,5 @@ gpg: signing failed: Inappropriate ioctl for device
    - ターミナルを再起動します。
    - `source ~/.bashrc`または`source ~/.zshrc`を実行します。
 
-> [!note]正確な手順は、お使いのオペレーティングシステムとShellの設定によって異なる場合があります。
+> [!note]
+> 正確な手順は、お使いのオペレーティングシステムとShellの設定によって異なる場合があります。

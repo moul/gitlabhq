@@ -11,6 +11,12 @@ import searchProjectsQuery from '../graphql/search_projects.query.graphql';
 
 export default {
   name: 'EmptyStateWithoutAnyIssues',
+  i18n: {
+    title: s__('WorkItem|Track bugs, plan features, and organize your efforts with work items'),
+    description: s__(
+      'WorkItem|Use work items (also known as tickets or stories on other platforms) to collaborate on ideas, solve problems, and plan your project.',
+    ),
+  },
   emptyStateSvg,
   issuesHelpPagePath: helpPagePath('user/project/issues/_index'),
   jiraIntegrationPath: helpPagePath('integration/jira/_index'),
@@ -32,7 +38,6 @@ export default {
     'signInPath',
     'groupId',
     'isProject',
-    'workItemPlanningViewEnabled',
     'hasEpicsFeature',
   ],
   props: {
@@ -59,27 +64,13 @@ export default {
       };
     },
     showNewProjectButton() {
-      const canCreateGroupLevelWorkItems = this.workItemPlanningViewEnabled && this.hasEpicsFeature;
+      const canCreateGroupLevelWorkItems = this.hasEpicsFeature;
       return (
         this.canCreateProjects &&
         !this.isProject &&
         !this.hasProjects &&
         !canCreateGroupLevelWorkItems
       );
-    },
-    title() {
-      return this.workItemPlanningViewEnabled
-        ? s__('WorkItem|Track bugs, plan features, and organize your efforts with work items')
-        : s__('Issues|Track bugs, plan features, and organize your work with issues');
-    },
-    description() {
-      return this.workItemPlanningViewEnabled
-        ? s__(
-            'WorkItem|Use work items (also known as tickets or stories on other platforms) to collaborate on ideas, solve problems, and plan your project.',
-          )
-        : s__(
-            'Issues|Use issues (also known as tickets or stories on other platforms) to collaborate on ideas, solve problems, and plan your project.',
-          );
     },
   },
   methods: {
@@ -101,8 +92,8 @@ export default {
   >
     <div>
       <gl-empty-state
-        :title="title"
-        :description="description"
+        :title="$options.i18n.title"
+        :description="$options.i18n.description"
         :svg-path="$options.emptyStateSvg"
         data-testid="issuable-empty-state"
       >

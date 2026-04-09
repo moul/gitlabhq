@@ -28323,7 +28323,7 @@ An AI catalog agent version.
 | <a id="aicatalogagentversion-id"></a>`id` | [`ID!`](#id) | ID of the item version. |
 | <a id="aicatalogagentversion-item"></a>`item` | [`AiCatalogItem!`](#aicatalogitem) | Item the version belongs to. |
 | <a id="aicatalogagentversion-mcpservers"></a>`mcpServers` {{< icon name="warning-solid" >}} | [`AiCatalogMcpServerConnection`](#aicatalogmcpserverconnection) | **Introduced** in GitLab 18.10. **Status**: Experiment. MCP servers associated with the item. |
-| <a id="aicatalogagentversion-mcptools"></a>`mcpTools` {{< icon name="warning-solid" >}} | [`[String!]!`](#string) | **Introduced** in GitLab 18.11. **Status**: Experiment. List of MCP tools enabled for the agent. |
+| <a id="aicatalogagentversion-mcptools"></a>`mcpTools` {{< icon name="warning-solid" >}} | [`[String!]`](#string) | **Introduced** in GitLab 18.11. **Status**: Experiment. List of MCP tools enabled for the agent. |
 | <a id="aicatalogagentversion-released"></a>`released` | [`Boolean!`](#boolean) | Indicates the item version is released. |
 | <a id="aicatalogagentversion-releasedat"></a>`releasedAt` | [`Time`](#time) | Timestamp of when the item version was released. |
 | <a id="aicatalogagentversion-systemprompt"></a>`systemPrompt` | [`String`](#string) | System prompt for the agent. |
@@ -32819,6 +32819,7 @@ Represents a vulnerability. The connection type is countable.
 | <a id="countablevulnerability-dismissalreason"></a>`dismissalReason` | [`VulnerabilityDismissalReason`](#vulnerabilitydismissalreason) | Reason for dismissal. Returns `null` for states other than `dismissed`. |
 | <a id="countablevulnerability-dismissedat"></a>`dismissedAt` | [`Time`](#time) | Timestamp of when the vulnerability state was changed to dismissed. |
 | <a id="countablevulnerability-dismissedby"></a>`dismissedBy` | [`UserCore`](#usercore) | User that dismissed the vulnerability. |
+| <a id="countablevulnerability-duedate"></a>`dueDate` {{< icon name="warning-solid" >}} | [`ISO8601Date`](#iso8601date) | **Introduced** in GitLab 18.11. **Status**: Experiment. Vulnerability finding due date. |
 | <a id="countablevulnerability-externalissuelinks"></a>`externalIssueLinks` | [`VulnerabilityExternalIssueLinkConnection!`](#vulnerabilityexternalissuelinkconnection) | List of external issue links related to the vulnerability. (see [Connections](#connections)) |
 | <a id="countablevulnerability-falsepositive"></a>`falsePositive` | [`Boolean`](#boolean) | Indicates whether the vulnerability is a false positive. |
 | <a id="countablevulnerability-findingtokenstatus"></a>`findingTokenStatus` | [`VulnerabilityFindingTokenStatus`](#vulnerabilityfindingtokenstatus) | Status of the secret token associated with this vulnerability. |
@@ -52750,6 +52751,7 @@ Represents a vulnerability.
 | <a id="vulnerability-dismissalreason"></a>`dismissalReason` | [`VulnerabilityDismissalReason`](#vulnerabilitydismissalreason) | Reason for dismissal. Returns `null` for states other than `dismissed`. |
 | <a id="vulnerability-dismissedat"></a>`dismissedAt` | [`Time`](#time) | Timestamp of when the vulnerability state was changed to dismissed. |
 | <a id="vulnerability-dismissedby"></a>`dismissedBy` | [`UserCore`](#usercore) | User that dismissed the vulnerability. |
+| <a id="vulnerability-duedate"></a>`dueDate` {{< icon name="warning-solid" >}} | [`ISO8601Date`](#iso8601date) | **Introduced** in GitLab 18.11. **Status**: Experiment. Vulnerability finding due date. |
 | <a id="vulnerability-externalissuelinks"></a>`externalIssueLinks` | [`VulnerabilityExternalIssueLinkConnection!`](#vulnerabilityexternalissuelinkconnection) | List of external issue links related to the vulnerability. (see [Connections](#connections)) |
 | <a id="vulnerability-falsepositive"></a>`falsePositive` | [`Boolean`](#boolean) | Indicates whether the vulnerability is a false positive. |
 | <a id="vulnerability-findingtokenstatus"></a>`findingTokenStatus` | [`VulnerabilityFindingTokenStatus`](#vulnerabilityfindingtokenstatus) | Status of the secret token associated with this vulnerability. |

@@ -150,7 +150,8 @@ JetBrains IDEの場合、またはVS Codeでファイルを手動で作成する
 }
 ```
 
-> [!note]他のMCPクライアントの場合、Atlassianのドキュメントではサンプル設定ファイルに`mcp.servers`を使用しています。GitLabでは、代わりに`mcpServers`を使用します。
+> [!note]
+> 他のMCPクライアントの場合、Atlassianのドキュメントではサンプル設定ファイルに`mcp.servers`を使用しています。GitLabでは、代わりに`mcpServers`を使用します。
 
 ### ツール承認を設定します {#configure-tool-approval}
 
@@ -165,7 +166,8 @@ JetBrains IDEの場合、またはVS Codeでファイルを手動で作成する
 
 このフィールドを含めない場合、セッション内のすべてのツールを手動で承認する必要があります（これがデフォルトの動作です）。
 
-> [!warning]完全に信頼できるサーバーにのみ`"approvedTools": true`を使用してください。
+> [!warning]
+> 完全に信頼できるサーバーにのみ`"approvedTools": true`を使用してください。
 
 例: 
 

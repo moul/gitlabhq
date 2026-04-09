@@ -32,12 +32,9 @@ To update your extension to the latest version:
 
 ## Related topics
 
+- [GitLab for Visual Studio releases](https://gitlab.com/gitlab-org/editor-extensions/gitlab-visual-studio-extension/-/releases)
 - [Security considerations for editor extensions](../security_considerations.md)
+- [Troubleshooting GitLab for Visual Studio](visual_studio_troubleshooting.md)
 - [Open issues for this plugin](https://gitlab.com/gitlab-org/editor-extensions/gitlab-visual-studio-extension/-/issues/)
 - [View source code](https://gitlab.com/gitlab-org/editor-extensions/gitlab-visual-studio-extension)
 - [GitLab Language Server documentation](../language_server/_index.md)
-
-## Troubleshooting
-
-For troubleshooting information about the extension, see
-[troubleshooting](visual_studio_troubleshooting.md).

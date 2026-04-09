@@ -22,30 +22,6 @@ index fe072bd..2b5dce0 100644
      normalizeChildren(vnode, slots);
    }
    return vnode;
-diff --git a/node_modules/@vue/compat/dist/vue.esm-bundler.js b/node_modules/@vue/compat/dist/vue.esm-bundler.js
-index aaaaaaa..bbbbbbb 100644
---- a/node_modules/@vue/compat/dist/vue.esm-bundler.js
-+++ b/node_modules/@vue/compat/dist/vue.esm-bundler.js
-@@ -6114,7 +6114,9 @@ function convertLegacyDirectives(vnode, props) {
- function convertLegacySlots(vnode) {
-   const { props, children } = vnode;
-   let slots;
-+  let hadArrayChildren = false;
-   if (vnode.shapeFlag & 6 && isArray(children)) {
-+    hadArrayChildren = true;
-     slots = {};
-     for (let i = 0; i < children.length; i++) {
-       const child = children[i];
-@@ -6160,6 +6162,9 @@ function convertLegacySlots(vnode) {
-     }
-   }
-   if (slots) {
-+    if (hadArrayChildren) {
-+      slots.$stable = false;
-+    }
-     normalizeChildren(vnode, slots);
-   }
-   return vnode;
 diff --git a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
 index 3d4f234..c9e127e 100644
 --- a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js

@@ -145,7 +145,8 @@ With custom text: [[Backend API Standards|backend/api:api-standards]]
 
 [GitLab Query Language（GLQL）](../../glql/_index.md)を使用して、Wikiページをライブダッシュボードに変換します。データが変更されると、埋め込みビューは自動的に更新され、Wikiを離れることなく計画データのリアルタイムの表示レベルを提供します。
 
-> [!note]埋め込みビューにはパフォーマンス上の考慮事項があります。大規模なクエリは、タイムアウトするか、レート制限される可能性があります。もしタイムアウトが発生した場合は、より多くのフィルターを追加するか、`limit`パラメータを減らすことで、クエリのスコープを縮小してください。
+> [!note]
+> 埋め込みビューにはパフォーマンス上の考慮事項があります。大規模なクエリは、タイムアウトするか、レート制限される可能性があります。もしタイムアウトが発生した場合は、より多くのフィルターを追加するか、`limit`パラメータを減らすことで、クエリのスコープを縮小してください。
 
 ### 基本的な埋め込みビューの構文 {#basic-embedded-view-syntax}
 
@@ -169,7 +170,8 @@ query: project = "gitlab-org/gitlab" and milestone = "18.5" and opened = true
 
 Wikiページで直接、包括的な計画ダッシュボードを作成します。
 
-> [!note]このセクションの例では、`project = "group/project"`を実際のプロジェクトパス（`project = "gitlab-org/gitlab"`や`project = "my-team/my-project"`など）に置き換えてください。
+> [!note]
+> このセクションの例では、`project = "group/project"`を実際のプロジェクトパス（`project = "gitlab-org/gitlab"`や`project = "my-team/my-project"`など）に置き換えてください。
 
 前提条件: 
 
