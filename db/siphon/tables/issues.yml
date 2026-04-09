@@ -20,3 +20,7 @@ replication_targets:
     dedup_by_table: work_items
     dedup_by:
       - id
+    reconcile:
+      column: traversal_path
+      expression_key_columns:
+        - namespace_id

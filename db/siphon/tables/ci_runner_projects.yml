@@ -6,3 +6,7 @@ replication_targets:
     target: siphon_ci_runner_projects
     dedup_by:
       - id
+    reconcile:
+      column: traversal_path
+      expression_key_columns:
+        - project_id

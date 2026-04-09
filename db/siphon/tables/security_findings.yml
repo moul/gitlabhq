@@ -7,3 +7,7 @@ replication_targets:
     dedup_by:
       - id
       - partition_number
+    reconcile:
+      column: traversal_path
+      expression_key_columns:
+        - project_id

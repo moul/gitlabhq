@@ -2244,7 +2244,9 @@ Returns [`GitlabSubscriptionUsage`](#gitlabsubscriptionusage).
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="query-subscriptionusage-enddate"></a>`endDate` | [`ISO8601Date`](#iso8601date) | End date of the usage period to query. Defaults to the end of the current month. |
 | <a id="query-subscriptionusage-namespacepath"></a>`namespacePath` | [`ID`](#id) | Path of the top-level namespace. Leave it blank if querying the instance subscription. |
+| <a id="query-subscriptionusage-startdate"></a>`startDate` | [`ISO8601Date`](#iso8601date) | Start date of the usage period to query. Defaults to the beginning of the current month. |
 
 ### `Query.syntheticNote`
 
@@ -21870,6 +21872,29 @@ The edge type for [`FeatureFlag`](#featureflag).
 | <a id="featureflagedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="featureflagedge-node"></a>`node` | [`FeatureFlag`](#featureflag) | The item at the end of the edge. |
 
+#### `GitlabSubscriptionBudgetCapUserOverrideConnection`
+
+The connection type for [`GitlabSubscriptionBudgetCapUserOverride`](#gitlabsubscriptionbudgetcapuseroverride).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionbudgetcapuseroverrideconnection-edges"></a>`edges` | [`[GitlabSubscriptionBudgetCapUserOverrideEdge]`](#gitlabsubscriptionbudgetcapuseroverrideedge) | A list of edges. |
+| <a id="gitlabsubscriptionbudgetcapuseroverrideconnection-nodes"></a>`nodes` | [`[GitlabSubscriptionBudgetCapUserOverride]`](#gitlabsubscriptionbudgetcapuseroverride) | A list of nodes. |
+| <a id="gitlabsubscriptionbudgetcapuseroverrideconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `GitlabSubscriptionBudgetCapUserOverrideEdge`
+
+The edge type for [`GitlabSubscriptionBudgetCapUserOverride`](#gitlabsubscriptionbudgetcapuseroverride).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionbudgetcapuseroverrideedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="gitlabsubscriptionbudgetcapuseroverrideedge-node"></a>`node` | [`GitlabSubscriptionBudgetCapUserOverride`](#gitlabsubscriptionbudgetcapuseroverride) | The item at the end of the edge. |
+
 #### `GitlabSubscriptionHistoryConnection`
 
 The connection type for [`GitlabSubscriptionHistory`](#gitlabsubscriptionhistory).
@@ -36538,6 +36563,51 @@ A feature flag for the GitLab instance.
 | <a id="gitlabinstancefeatureflag-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates whether the GitLab instance feature flag is enabled or not. |
 | <a id="gitlabinstancefeatureflag-name"></a>`name` | [`String!`](#string) | Name of the GitLab instance feature flag. |
 
+### `GitlabSubscriptionBudgetCapUserOverride`
+
+Per-user budget cap override.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionbudgetcapuseroverride-cap"></a>`cap` | [`Float!`](#float) | Budget cap amount for the user. |
+| <a id="gitlabsubscriptionbudgetcapuseroverride-capenabled"></a>`capEnabled` | [`Boolean!`](#boolean) | Whether the budget cap is enabled for the user. |
+| <a id="gitlabsubscriptionbudgetcapuseroverride-createdat"></a>`createdAt` | [`Time`](#time) | When the override was created. |
+| <a id="gitlabsubscriptionbudgetcapuseroverride-updatedat"></a>`updatedAt` | [`Time`](#time) | When the override was last updated. |
+| <a id="gitlabsubscriptionbudgetcapuseroverride-user"></a>`user` | [`UserCore`](#usercore) | GitLab user the override applies to. |
+
+### `GitlabSubscriptionBudgetCaps`
+
+Budget cap controls for a subscription.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionbudgetcaps-flatusercap"></a>`flatUserCap` | [`Float`](#float) | Default per-user budget cap applied to all users. |
+| <a id="gitlabsubscriptionbudgetcaps-flatusercapenabled"></a>`flatUserCapEnabled` | [`Boolean`](#boolean) | Whether the flat per-user budget cap is enabled. |
+| <a id="gitlabsubscriptionbudgetcaps-subscriptioncap"></a>`subscriptionCap` | [`Float`](#float) | Maximum budget cap for the subscription. |
+| <a id="gitlabsubscriptionbudgetcaps-subscriptioncapenabled"></a>`subscriptionCapEnabled` | [`Boolean`](#boolean) | Whether the subscription-level budget cap is enabled. |
+
+#### Fields with arguments
+
+##### `GitlabSubscriptionBudgetCaps.userOverrides`
+
+Per-user budget cap overrides. CDot returns a maximum of 20 overrides per page.
+
+Returns [`GitlabSubscriptionBudgetCapUserOverrideConnection`](#gitlabsubscriptionbudgetcapuseroverrideconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionbudgetcaps-useroverrides-userids"></a>`userIds` | [`[UserID!]`](#userid) | Filter overrides to specific users. |
+
 ### `GitlabSubscriptionDailyUsage`
 
 Describes daily the usage of GitLab Credits.
@@ -36620,6 +36690,7 @@ Describes the usage of consumables under the subscription.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionusage-budgetcaps"></a>`budgetCaps` | [`GitlabSubscriptionBudgetCaps`](#gitlabsubscriptionbudgetcaps) | Budget cap controls for the subscription. |
 | <a id="gitlabsubscriptionusage-canacceptoverageterms"></a>`canAcceptOverageTerms` | [`Boolean!`](#boolean) | Indicates whether the subscription is currently eligible to accept overage terms. |
 | <a id="gitlabsubscriptionusage-creditsused"></a>`creditsUsed` | [`Float`](#float) | Total credits used for the subscription. |
 | <a id="gitlabsubscriptionusage-dappromoenabled"></a>`dapPromoEnabled` | [`Boolean!`](#boolean) | Indicates whether the Duo AI promo (DAP) is enabled for the subscription. |

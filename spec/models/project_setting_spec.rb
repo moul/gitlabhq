@@ -26,6 +26,11 @@ RSpec.describe ProjectSetting, type: :model, feature_category: :groups_and_proje
     it { is_expected.to allow_value([]).for(:target_platforms) }
     it { is_expected.to validate_length_of(:issue_branch_template).is_at_most(255) }
 
+    it 'validates length of mr_default_title_template' do
+      is_expected.to validate_length_of(:mr_default_title_template)
+        .is_at_most(Project::MAX_MR_TITLE_TEMPLATE_LENGTH)
+    end
+
     it 'validates the length of merge_request_title_regex_description' do
       is_expected.to validate_length_of(:merge_request_title_regex_description)
         .is_at_most(Project::MAX_MERGE_REQUEST_TITLE_REGEX_DESCRIPTION)

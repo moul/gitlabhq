@@ -95,6 +95,7 @@ class Project < ApplicationRecord
 
   MAX_SUGGESTIONS_TEMPLATE_LENGTH = 255
   MAX_COMMIT_TEMPLATE_LENGTH = 500
+  MAX_MR_TITLE_TEMPLATE_LENGTH = 100
   MAX_MERGE_REQUEST_TITLE_REGEX = 255
   MAX_MERGE_REQUEST_TITLE_REGEX_DESCRIPTION = 255
 
@@ -628,6 +629,7 @@ class Project < ApplicationRecord
     with_options allow_nil: true do
       delegate :merge_commit_template, :merge_commit_template=
       delegate :squash_commit_template, :squash_commit_template=
+      delegate :mr_default_title_template, :mr_default_title_template=
       delegate :issue_branch_template, :issue_branch_template=
       delegate :show_default_award_emojis, :show_default_award_emojis=
       delegate :enforce_auth_checks_on_uploads, :enforce_auth_checks_on_uploads=

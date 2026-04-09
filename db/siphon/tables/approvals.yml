@@ -6,6 +6,10 @@ replication_targets:
     target: siphon_approvals
     dedup_by:
       - id
+    reconcile:
+      column: traversal_path
+      expression_key_columns:
+        - project_id
     refresh_on_change:
       - target_stream_identifier: merge_requests
         target_keys:

@@ -8,3 +8,7 @@ replication_targets:
       - user_id
       - project_id
       - access_level
+    reconcile:
+      column: traversal_path
+      expression_key_columns:
+        - project_id

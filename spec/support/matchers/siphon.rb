@@ -82,6 +82,42 @@ RSpec::Matchers.define :ignore_sensitive_and_encrypted_columns do |table_config,
   end
 end
 
+RSpec::Matchers.define :have_correct_reconcile_config do
+  match do |content|
+    @errors = []
+
+    target = Array(content['replication_targets']).first
+    next true unless target&.key?('reconcile')
+
+    reconcile = target['reconcile']
+
+    doc_path = Rails.root.join('db', 'docs', "#{content['table']}.yml")
+    unless File.exist?(doc_path)
+      @errors << "db/docs/#{content['table']}.yml not found for reconcile validation"
+      next false
+    end
+
+    doc = YAML.safe_load_file(doc_path)
+    expected_columns = doc['sharding_key']&.keys&.sort || []
+
+    if expected_columns.empty?
+      @errors << "no sharding_key found in db/docs/#{content['table']}.yml"
+    else
+      actual_columns = Array(reconcile['expression_key_columns'])
+      if actual_columns != expected_columns
+        @errors << "expression_key_columns [#{actual_columns.join(', ')}] does not match " \
+          "sharding_key columns [#{expected_columns.join(', ')}] from db/docs/#{content['table']}.yml"
+      end
+    end
+
+    @errors.empty?
+  end
+
+  failure_message do |content|
+    "expected #{content['table']} to have correct reconcile config, but:\n  " + @errors.join("\n  ")
+  end
+end
+
 RSpec::Matchers.define :have_correct_replication_target do |clickhouse_table_names|
   def ch_primary_keys(table)
     query =

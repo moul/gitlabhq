@@ -7596,6 +7596,9 @@ msgstr ""
 msgid "AiPowered|Allow GitLab to process your code and project data for AI-native features in this group. Your data is sent to GitLab Duo. Groups, subgroups, and projects can opt out individually."
 msgstr ""
 
+msgid "AiPowered|Allow users without a GitLab Duo Pro or Enterprise seat to access GitLab Duo Agent Platform features. %{linkStart}Which features are included%{linkEnd}?"
+msgstr ""
+
 msgid "AiPowered|Always off"
 msgstr ""
 
@@ -7863,10 +7866,10 @@ msgstr ""
 msgid "AiPowered|These settings are disabled because GitLab Duo availability is set to always off."
 msgstr ""
 
-msgid "AiPowered|This setting applies to the entire instance. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}Check the required prerequisites%{prerequisitesLinkEnd}."
+msgid "AiPowered|This setting applies to the entire instance. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}What are the prerequisites for the GitLab Duo Agent Platform%{prerequisitesLinkEnd}?"
 msgstr ""
 
-msgid "AiPowered|This setting applies to the top-level group. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}Check the required prerequisites%{prerequisitesLinkEnd}."
+msgid "AiPowered|This setting applies to the top-level group. By turning on these features, you accept the %{termsLinkStart}GitLab Duo AI Terms%{termsLinkEnd} unless your organization has a separate agreement with GitLab that governs AI usage. %{prerequisitesLinkStart}What are the prerequisites for the GitLab Duo Agent Platform%{prerequisitesLinkEnd}?"
 msgstr ""
 
 msgid "AiPowered|This setting only applies when GitLab Duo is available."
@@ -7884,7 +7887,7 @@ msgstr ""
 msgid "AiPowered|Turn on GitLab Duo Agent Platform access"
 msgstr ""
 
-msgid "AiPowered|Turn on GitLab Duo Chat (agentic), agents, and flows"
+msgid "AiPowered|Turn on GitLab Duo Agentic Chat, agents, and flows"
 msgstr ""
 
 msgid "AiPowered|Turn on experiment and beta GitLab Duo features"
@@ -7927,9 +7930,6 @@ msgid "AiPowered|When GitLab Duo is not available, prompt caching cannot be turn
 msgstr ""
 
 msgid "AiPowered|When configured, access to GitLab Duo or GitLab Duo Agent Platform can be restricted to selected groups. By default all eligible members can access all configured AI features. %{linkStart}How can I control access?%{linkEnd}"
-msgstr ""
-
-msgid "AiPowered|When turned on, members without a Duo Pro or Duo Enterprise seat can access GitLab Duo Agent Platform features. %{linkStart}Which features are included%{linkEnd}?"
 msgstr ""
 
 msgid "AiPowered|When you save, GitLab Duo will be turned off for all groups, subgroups, and projects."
@@ -15236,6 +15236,9 @@ msgid "CiCatalog|This project is set as a Catalog project, but has not yet been 
 msgstr ""
 
 msgid "CiCatalog|To publish CI/CD components to the Catalog, you must use the %{linkStart}release%{linkEnd} keyword in a CI/CD job."
+msgstr ""
+
+msgid "CiCatalog|To set the project as a catalog resource, provide a brief description in the %{linkStart}project settings%{linkEnd}."
 msgstr ""
 
 msgid "CiCatalog|Unable to remove project as a CI/CD Catalog project."
@@ -78255,6 +78258,15 @@ msgstr ""
 msgid "Vulnerabilities"
 msgstr ""
 
+msgid "Vulnerabilities By Age"
+msgstr ""
+
+msgid "Vulnerabilities By Severity Count"
+msgstr ""
+
+msgid "Vulnerabilities History"
+msgstr ""
+
 msgid "Vulnerabilities Over Time"
 msgstr ""
 
@@ -79775,6 +79787,9 @@ msgid "Whether to enforce minimum language server version."
 msgstr ""
 
 msgid "Which API requests are affected?"
+msgstr ""
+
+msgid "Which data is collected"
 msgstr ""
 
 msgid "Which project deploy token events trigger webhooks"
@@ -84308,9 +84323,6 @@ msgstr ""
 msgid "ciReport|License scan results"
 msgstr ""
 
-msgid "ciReport|License scanning is waiting for the pipeline to complete."
-msgstr ""
-
 msgid "ciReport|Load performance test metrics detected %{strong_start}%{changesFound}%{strong_end} change"
 msgid_plural "ciReport|Load performance test metrics detected %{strong_start}%{changesFound}%{strong_end} changes"
 msgstr[0] ""
@@ -84386,9 +84398,6 @@ msgid "ciReport|Security scanning"
 msgstr ""
 
 msgid "ciReport|Security scanning is loading"
-msgstr ""
-
-msgid "ciReport|Security scanning is waiting for the pipeline to complete."
 msgstr ""
 
 msgid "ciReport|Showing %{fetchedItems} of %{totalItems} items"

@@ -4783,7 +4783,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_ab32f2337a80"
+              "$ref": "#/components/schemas/RequestBody_3c400bb4e6e3"
   "/api/v4/security/groups/{id}/vulnerability_exports":
     post:
       operationId: postApiV4SecurityGroupsIdVulnerabilityExports
@@ -4814,7 +4814,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_ab32f2337a80"
+              "$ref": "#/components/schemas/RequestBody_3c400bb4e6e3"
   "/api/v4/security/vulnerability_exports":
     post:
       operationId: postApiV4SecurityVulnerabilityExports
@@ -89823,7 +89823,7 @@ components:
           type: boolean
           description: Whether hidden groups should be removed
           nullable: true
-    RequestBody_ab32f2337a80:
+    RequestBody_3c400bb4e6e3:
       type: object
       properties:
         export_format:
@@ -89877,6 +89877,108 @@ components:
             vulnerabilities_by_age:
               type: object
               description: Data for rendering the vulnerabilities by age in PDF reports
+              nullable: true
+            vulnerabilities_by_severity_count:
+              type: object
+              description: Data for rendering the vulnerabilities by severity count
+                in PDF reports
+              properties:
+                critical:
+                  type: object
+                  properties:
+                    count:
+                      type: integer
+                      description: Number of vulnerabilities
+                      nullable: true
+                    medianAge:
+                      type: number
+                      description: Median age in days
+                      nullable: true
+                    color:
+                      type: string
+                      description: Severity color hex code
+                      nullable: true
+                  nullable: true
+                high:
+                  type: object
+                  properties:
+                    count:
+                      type: integer
+                      description: Number of vulnerabilities
+                      nullable: true
+                    medianAge:
+                      type: number
+                      description: Median age in days
+                      nullable: true
+                    color:
+                      type: string
+                      description: Severity color hex code
+                      nullable: true
+                  nullable: true
+                medium:
+                  type: object
+                  properties:
+                    count:
+                      type: integer
+                      description: Number of vulnerabilities
+                      nullable: true
+                    medianAge:
+                      type: number
+                      description: Median age in days
+                      nullable: true
+                    color:
+                      type: string
+                      description: Severity color hex code
+                      nullable: true
+                  nullable: true
+                low:
+                  type: object
+                  properties:
+                    count:
+                      type: integer
+                      description: Number of vulnerabilities
+                      nullable: true
+                    medianAge:
+                      type: number
+                      description: Median age in days
+                      nullable: true
+                    color:
+                      type: string
+                      description: Severity color hex code
+                      nullable: true
+                  nullable: true
+                unknown:
+                  type: object
+                  properties:
+                    count:
+                      type: integer
+                      description: Number of vulnerabilities
+                      nullable: true
+                    medianAge:
+                      type: number
+                      description: Median age in days
+                      nullable: true
+                    color:
+                      type: string
+                      description: Severity color hex code
+                      nullable: true
+                  nullable: true
+                info:
+                  type: object
+                  properties:
+                    count:
+                      type: integer
+                      description: Number of vulnerabilities
+                      nullable: true
+                    medianAge:
+                      type: number
+                      description: Median age in days
+                      nullable: true
+                    color:
+                      type: string
+                      description: Severity color hex code
+                      nullable: true
+                  nullable: true
               nullable: true
             dashboard_type:
               type: string

@@ -86,6 +86,7 @@ RSpec.describe 'ClickHouse siphon tables', :click_house, feature_category: :data
         expect(content).to match_database_schema(table_config)
         expect(content).to ignore_sensitive_and_encrypted_columns(table_config, skip_ignore_columns[name])
         expect(content).to have_correct_replication_target(clickhouse_table_names)
+        expect(content).to have_correct_reconcile_config
       end
     end
   end

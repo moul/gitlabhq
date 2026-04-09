@@ -21,7 +21,7 @@ module Gitlab
           ['var(--risk-score-gauge-text-critical)', '#b91c1c']
         ].freeze
 
-        TOTAL_HEIGHT = 300
+        TOTAL_HEIGHT = 280
 
         private
 

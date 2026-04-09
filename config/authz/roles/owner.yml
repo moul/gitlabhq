@@ -129,4 +129,5 @@ group:
   - update_group_link
   - update_runners_registration_token
   - update_secrets_permission
+  - update_subscription_usage_cap
   - view_member_roles

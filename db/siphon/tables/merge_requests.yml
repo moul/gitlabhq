@@ -10,3 +10,7 @@ replication_targets:
     dedup_by_table: merge_requests
     dedup_by:
       - id
+    reconcile:
+      column: traversal_path
+      expression_key_columns:
+        - target_project_id

@@ -8,3 +8,7 @@ replication_targets:
     target: siphon_members
     dedup_by:
       - id
+    reconcile:
+      column: traversal_path
+      expression_key_columns:
+        - member_namespace_id

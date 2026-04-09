@@ -9,3 +9,9 @@ replication_targets:
     target: siphon_notes
     dedup_by:
       - id
+    reconcile:
+      column: traversal_path
+      expression_key_columns:
+        - namespace_id
+        - organization_id
+        - project_id

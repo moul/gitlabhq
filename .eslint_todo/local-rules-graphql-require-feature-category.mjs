@@ -82,7 +82,6 @@ export default {
     'app/assets/javascripts/ci/catalog/graphql/queries/get_ci_catalog_resource_shared_data.query.graphql',
     'app/assets/javascripts/ci/catalog/graphql/queries/get_ci_catalog_resources.query.graphql',
     'app/assets/javascripts/ci/catalog/graphql/queries/get_ci_catalog_resources_count.query.graphql',
-    'app/assets/javascripts/ci/catalog/graphql/queries/get_ci_catalog_settings.query.graphql',
     'app/assets/javascripts/ci/ci_environments_dropdown/graphql/queries/group_environments.query.graphql',
     'app/assets/javascripts/ci/ci_environments_dropdown/graphql/queries/project_environments.query.graphql',
     'app/assets/javascripts/ci/ci_variable_list/graphql/mutations/admin_add_variable.mutation.graphql',

@@ -257,12 +257,104 @@ Every endpoint must have a `success` value for each `desc` block.
 The value should accurately describe a success response for the endpoint.
 
 Do not use the `http_codes` option to document the success response.
-Instead, format the response based on the endpoint response:
 
-- If the endpoint responds with an object, include the `Grape::Entity` class.
-  For example, `success Entities::System::BroadcastMessage`
-- If the endpoint does not respond with an object, include a status code and message.
-  For example, `success code: 204, message: 'Record was deleted'`
+The `success` option accepts either:
+
+- A `Grape::Entity` class directly
+- A hash of options
+
+When using the hash form, the following options are available:
+
+| Option | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | Integer | No | The HTTP status code. Although it is not required always specify the intended response code. |
+| `model` | `Entities::*` | Required for JSON responses | The `Grape::Entity` class returned in response body. Without a `model`, no response schema or examples are emitted in the OpenAPI spec. Omit only for responses with no body, such as `204 No Content` or redirects. |
+| `message` | String | No | A short description of the response. |
+| `is_array` | Boolean | No | Set to `true` if the response is an array of the model. Only needed in the hash form. Wrapping the entity class in an array (`success [Entities::MyEntity]`) is equivalent. |
+| `example` | Hash | No | A single inline example of the response body. Mutually exclusive with `examples`. Requires `model`. |
+| `examples` | Hash | No | Named examples of the response body. Mutually exclusive with `example`. Requires `model`. |
+
+Format the `success` value based on what the endpoint returns:
+
+- If the endpoint responds with an object, pass the `Grape::Entity` class directly or using the `model:` option:
+
+  ```ruby
+  # Direct form
+  success Entities::System::BroadcastMessage
+
+  # Hash form
+  success code: 200, model: Entities::System::BroadcastMessage
+  ```
+
+- If the endpoint responds with a collection, either wrap the entity class in an array or use `is_array: true` in the hash form. Both are equivalent:
+
+  ```ruby
+  # Direct form
+  success [Entities::System::BroadcastMessage]
+
+  # Hash form — use when you also need to specify other options
+  success code: 200, model: Entities::System::BroadcastMessage, is_array: true
+  ```
+
+- If the endpoint does not respond with an object, include a status code and message:
+
+  ```ruby
+  success code: 204, message: 'Record was deleted'
+  ```
+
+- If the endpoint returns multiple possible success codes, pass an array:
+
+  ```ruby
+  success [
+    { code: 200, model: Entities::Security::VulnerabilityScanning::SbomScan },
+    { code: 202, message: 'Scan in progress' }
+  ]
+  ```
+
+- If no `example:` or `examples:` is provided, and a `model:` is defined, an example is
+generated automatically — either from `documentation: { example: ... }` values on the
+entity fields, or from field types if no field-level examples are defined.
+- If the endpoint responds with an object and you want to illustrate a complete response
+  body or provide multiple possible response body examples, use `example:` for a single
+  inline value or `examples:` for multiple named scenarios.
+  Both require `model:` and are mutually exclusive:
+
+  ```ruby
+  # Single example
+  success code: 200, model: Entities::System::BroadcastMessage,
+          example: {
+            id: 1,
+            message: 'Scheduled maintenance at 23:00',
+            starts_at: '2024-03-01T23:00:00.000Z',
+            ends_at: '2024-03-02T01:00:00.000Z',
+            active: false
+          }
+
+  # Multiple named examples
+  success code: 200, model: Entities::System::BroadcastMessage,
+          examples: {
+            active_message: {
+              summary: 'An active broadcast message',
+              value: {
+                id: 1,
+                message: 'Scheduled maintenance at 23:00',
+                starts_at: '2024-03-01T23:00:00.000Z',
+                ends_at: '2024-03-02T01:00:00.000Z',
+                active: true
+              }
+            },
+            expired_message: {
+              summary: 'An expired broadcast message',
+              value: {
+                id: 2,
+                message: 'Maintenance complete',
+                starts_at: '2024-03-01T23:00:00.000Z',
+                ends_at: '2024-03-02T01:00:00.000Z',
+                active: false
+              }
+            }
+          }
+  ```
 
 ### Marking endpoints as deprecated
 
