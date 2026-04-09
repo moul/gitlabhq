@@ -70,6 +70,7 @@ group:
   - read_namespace
   - read_namespace_via_membership
   - read_note
+  - read_package_within_public_registries
   - read_release
   - read_saved_replies
   - read_saved_view

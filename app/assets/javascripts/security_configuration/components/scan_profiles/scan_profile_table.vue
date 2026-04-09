@@ -106,13 +106,12 @@ export default {
     <template #cell(scanType)="{ item }">
       <div class="gl-flex gl-items-center">
         <div
-          class="gl-border gl-mr-3 gl-flex gl-items-center gl-justify-center gl-rounded-lg gl-p-2"
+          class="gl-border gl-mr-3 gl-flex gl-h-7 gl-w-7 gl-items-center gl-justify-center gl-rounded-lg gl-p-2"
           :class="
             item.isConfigured
               ? 'gl-border-green-500 gl-bg-green-100 gl-text-green-800'
               : 'gl-border-dashed gl-border-strong gl-bg-default gl-text-strong'
           "
-          style="width: 32px; height: 32px"
         >
           <span class="gl-font-weight-bold gl-text-xs">{{
             getScannerMetadata(item.scanType).label

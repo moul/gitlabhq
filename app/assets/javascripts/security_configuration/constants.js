@@ -169,7 +169,6 @@ export const SCAN_TRIGGER_DEFINITIONS = {
     targetBranch: s__('ScanProfiles|All'),
     scope: s__('ScanProfiles|Full repository'),
     results: s__('ScanProfiles|New vulnerabilities only'),
-    helpLink: helpPagePath('/user/application_security/secret_detection/pipeline/_index.md'),
   },
   DEFAULT_BRANCH_PIPELINE: {
     anchor: 'default-branch-pipeline',
@@ -182,7 +181,6 @@ export const SCAN_TRIGGER_DEFINITIONS = {
     targetBranch: s__('ScanProfiles|Default'),
     scope: s__('ScanProfiles|Full repository'),
     results: s__('ScanProfiles|All vulnerabilities'),
-    helpLink: helpPagePath('/user/application_security/secret_detection/pipeline/_index.md'),
   },
 };
 
@@ -220,11 +218,13 @@ export const SCAN_PROFILE_CATEGORIES = {
     helpLink: helpPagePath('/user/application_security/dependency_scanning/_index'),
   },
 };
+
 export const SCAN_PROFILE_PROMO_ITEMS = [
   { scanType: SCAN_PROFILE_TYPE_SECRET_DETECTION, isConfigured: false },
   { scanType: SCAN_PROFILE_TYPE_SAST, isConfigured: false },
   { scanType: SCAN_PROFILE_TYPE_DEPENDENCY_SCANNING, isConfigured: false },
 ];
+
 export const SCAN_PROFILE_I18N = {
   noProfile: s__('SecurityProfiles|No profile applied'),
   notConfigured: s__('SecurityProfiles|Unconfigured'),
@@ -242,6 +242,8 @@ export const SCAN_PROFILE_I18N = {
   errorLoadingProfiles: s__('SecurityProfiles|Error loading profiles. Please try again.'),
   errorApplying: s__('SecurityProfiles|Error applying profile. Please try again.'),
   errorDetaching: s__('SecurityProfiles|Error detaching profile. Please try again.'),
+  errorLoadingJobData: s__('SecurityProfiles|Failed to load scan details. Please try again.'),
+  errorLoadingJobLink: s__('SecurityProfiles|The job link failed to load. Please try again.'),
   successApplying: s__('SecurityProfiles|Profile applied successfully.'),
   successDetaching: s__('SecurityProfiles|Profile disabled successfully.'),
   tooltipTitle: s__('SecurityProfiles|Action unavailable'),
@@ -258,3 +260,27 @@ export const SCAN_PROFILE_SCANNER_HEALTH_ACTIVE = 'active';
 export const SCAN_PROFILE_SCANNER_HEALTH_WARNING = 'warning';
 export const SCAN_PROFILE_SCANNER_HEALTH_FAILED = 'failed';
 export const SCAN_PROFILE_SCANNER_HEALTH_STALE = 'stale';
+
+export const SCAN_PROFILE_SOURCE_LABELS = {
+  push: __('Push'),
+  web: __('Web'),
+  webide: __('Web IDE'),
+  api: __('API'),
+  merge_request_event: __('Merge request'),
+  schedule: __('Schedule'),
+  trigger: __('Trigger'),
+  pipeline: __('Pipeline'),
+  parent_pipeline: __('Parent pipeline'),
+  external_pull_request_event: __('External pull request'),
+  external: __('External'),
+  scan_execution_policy: __('Scan execution policy'),
+  pipeline_execution_policy: __('Pipeline execution policy'),
+  pipeline_execution_policy_schedule: __('Scheduled policy'),
+  security_orchestration_policy: __('Security policy'),
+  security_scan_profiles: __('Security profile'),
+  ondemand_dast_scan: __('On-demand DAST scan'),
+  ondemand_dast_validation: __('On-demand DAST validation'),
+  duo_workflow: __('Duo workflow'),
+  container_registry_push: __('Container registry push'),
+  chat: __('Unknown'),
+};

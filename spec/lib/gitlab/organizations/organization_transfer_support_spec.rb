@@ -31,17 +31,12 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       bulk_import_entities
       bulk_import_failures
       bulk_import_trackers
-      ci_runner_taggings_group_type
-      ci_runner_taggings_project_type
       clusters
       custom_dashboard_search_data
       custom_dashboards
       dependency_list_export_part_uploads
       dependency_list_export_parts
-      dependency_list_export_uploads
       fork_networks
-      group_type_ci_runner_machines
-      group_type_ci_runners
       group_upload_states
       import_failures
       import_offline_configurations
@@ -68,8 +63,6 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       pool_repositories
       project_secrets_manager_maintenance_tasks
       project_topic_uploads
-      project_type_ci_runner_machines
-      project_type_ci_runners
       project_upload_states
       project_uploads
       queries_service_pings
@@ -86,18 +79,15 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       snippet_repositories
       snippet_repository_storage_moves
       snippet_statistics
-      snippet_uploads
       snippet_user_mentions
       subscription_user_add_on_assignment_versions
       todos
       topics
       upcoming_reconciliations
       user_agent_details
-      user_uploads
       user_upload_states
       vulnerability_export_part_uploads
       vulnerability_export_parts
-      vulnerability_export_uploads
       web_hooks
       web_hook_logs_daily
       work_item_custom_types

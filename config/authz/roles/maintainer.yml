@@ -152,6 +152,7 @@ project:
   - update_secret_detection_validity_check
   - update_security_setting
   - update_snippet
+  - use_protected_cache
   - view_edit_page
 group:
   permissions: []

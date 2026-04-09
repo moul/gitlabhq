@@ -35,4 +35,7 @@ project:
   - read_wiki
 group:
   permissions: []
-  raw_permissions: []
+  raw_permissions:
+  - read_group
+  - read_package
+  - read_package_within_public_registries

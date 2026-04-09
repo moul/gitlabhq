@@ -37011,6 +37011,17 @@ Returns [`[GitlabSubscriptionDailyUsage!]`](#gitlabsubscriptiondailyusage).
 | <a id="gitlabsubscriptionusage-dailyusage-limit"></a>`limit` | [`Int`](#int) | Maximum number of daily usage entries to return. |
 | <a id="gitlabsubscriptionusage-dailyusage-sort"></a>`sort` | [`DailyUsageSort`](#dailyusagesort) | Sort daily usage entries by the selected criteria. |
 
+### `GitlabSubscriptionUsageBlockedStatus`
+
+Describes the blocked status of a user under the subscription budget cap.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionusageblockedstatus-blocked"></a>`blocked` | [`Boolean!`](#boolean) | Whether the user is blocked from using credits due to reaching their cap. |
+| <a id="gitlabsubscriptionusageblockedstatus-captype"></a>`capType` | [`GitlabSubscriptionUsageBlockedCapType`](#gitlabsubscriptionusageblockedcaptype) | Type of cap that caused the block. Null when not blocked. |
+
 ### `GitlabSubscriptionUsageFlowTypeInfo`
 
 Information about a GitLab Credits flow type.
@@ -37031,6 +37042,7 @@ Describes the user with their usage data.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="gitlabsubscriptionusageuser-avatarurl"></a>`avatarUrl` | [`String`](#string) | URL of the user's avatar. |
+| <a id="gitlabsubscriptionusageuser-blockedstatus"></a>`blockedStatus` | [`GitlabSubscriptionUsageBlockedStatus`](#gitlabsubscriptionusageblockedstatus) | Blocked status of the user under the subscription budget cap. |
 | <a id="gitlabsubscriptionusageuser-id"></a>`id` | [`UserID!`](#userid) | Global ID of the user. |
 | <a id="gitlabsubscriptionusageuser-name"></a>`name` | [`String!`](#string) | Human-readable name of the user. |
 | <a id="gitlabsubscriptionusageuser-usage"></a>`usage` | [`GitlabSubscriptionUsageUserUsage`](#gitlabsubscriptionusageuserusage) | Usage of consumables for a user under the subscription. |
@@ -57529,6 +57541,15 @@ Values for sorting Geo registries.
 | <a id="georegistrysort-last_synced_at_desc"></a>`LAST_SYNCED_AT_DESC` | Latest sync date by descending order. |
 | <a id="georegistrysort-verified_at_asc"></a>`VERIFIED_AT_ASC` | Latest verification date by ascending order. |
 | <a id="georegistrysort-verified_at_desc"></a>`VERIFIED_AT_DESC` | Latest verification date by descending order. |
+
+### `GitlabSubscriptionUsageBlockedCapType`
+
+Type of budget cap that caused a user to be blocked.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="gitlabsubscriptionusageblockedcaptype-flat_user_cap"></a>`FLAT_USER_CAP` | Blocked by the flat per-user cap. |
+| <a id="gitlabsubscriptionusageblockedcaptype-user_override_cap"></a>`USER_OVERRIDE_CAP` | Blocked by a per-user override cap. |
 
 ### `GitlabSubscriptionUsageUserSort`
 

@@ -48,7 +48,6 @@ export default {
     'app/assets/javascripts/super_sidebar/components/organization_switcher.vue',
     'app/assets/javascripts/vue_merge_request_widget/components/mr_widget_author.vue',
     'app/assets/javascripts/vue_merge_request_widget/stores/mr_widget_store.js',
-    'app/assets/javascripts/vue_merge_request_widget/widgets/code_quality/index.vue',
     'app/assets/javascripts/vue_shared/components/groups_list/formatter.js',
     'app/assets/javascripts/vue_shared/components/new_resource_dropdown/new_resource_dropdown.vue',
     'app/assets/javascripts/vue_shared/components/web_ide/confirm_fork_modal.vue',

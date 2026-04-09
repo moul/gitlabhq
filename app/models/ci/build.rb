@@ -1346,7 +1346,7 @@ module Ci
       return false unless user
       return false unless project.ci_separated_caches
 
-      project.team.max_member_access(user.id) >= Gitlab::Access::MAINTAINER
+      Ability.allowed?(user, :use_protected_cache, project)
     end
 
     def harbor_integration

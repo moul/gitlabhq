@@ -79,6 +79,8 @@ group:
   - read_group_stage
   - read_licenses
   - read_namespace_cluster_agent_mapping
+  - read_package
+  - read_package_within_public_registries
   - read_protected_branch
   - read_runners
   - read_saml_user

@@ -23,8 +23,8 @@ RSpec.describe Tasks::Gitlab::EmailOtp::ManageEnrollment, :silence_stdout, featu
     let!(:in_scope_passwordless_user) do
       create(:user, state: 'active', user_type: :human, password_automatically_set: false,
         otp_required_for_login: false).tap do |user|
-        # Passwordless WebAuthN is distinct from Second Factor WebAuthN
-        create(:webauthn_registration, user: user, authentication_mode: :passwordless)
+        # Passkeys do not enable two-factor authentication currently.
+        create(:webauthn_registration, :passkey, user: user)
       end
     end
 
@@ -34,7 +34,7 @@ RSpec.describe Tasks::Gitlab::EmailOtp::ManageEnrollment, :silence_stdout, featu
     let_it_be(:webauthn_2fa_user, freeze: true) do
       create(:user, state: 'active', user_type: :human, password_automatically_set: false,
         otp_required_for_login: false).tap do |user|
-        create(:webauthn_registration, user: user, authentication_mode: :second_factor)
+        create(:webauthn_registration, :second_factor, user: user)
       end
     end
 

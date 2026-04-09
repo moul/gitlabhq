@@ -144,6 +144,10 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
     prevent(*Authz::PermissionGroups::Internal.get('group:archived').permissions)
   end
 
+  rule { public_group }.policy do
+    enable(*Authz::Role.get(:public_anonymous).direct_permissions(:group))
+  end
+
   # Role permissions are maintained in yaml in config/authz/roles/
   rule { guest }.policy do
     enable :guest_access
@@ -206,11 +210,6 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
 
   rule { can?(:read_group) & design_management_enabled }.policy do
     enable :read_design_activity
-  end
-
-  rule { public_group }.policy do
-    enable :read_group
-    enable :read_package
   end
 
   rule { logged_in_viewable }.enable :read_group
