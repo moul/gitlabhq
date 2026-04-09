@@ -87,7 +87,8 @@ RSpec.describe 'issue move to another project', :js, feature_category: :team_pla
     end
   end
 
-  context 'service desk issue moved to a project with service desk disabled', :saas do
+  context 'service desk issue moved to a project with service desk disabled', :saas,
+    quarantine: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/work_items/41273' do
     let(:project_title) { 'service desk disabled project' }
     let(:warning_selector) { '.js-alert-moved-from-service-desk-warning' }
     let(:namespace) { create(:namespace) }
