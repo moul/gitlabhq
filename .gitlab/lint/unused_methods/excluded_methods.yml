@@ -68,3 +68,5 @@ ee/app/models/concerns/security/pipeline_execution_policy_bot_access.rb:
   - allows_pipeline_execution_policy_bot_access?: Will be called from CI config file access integration in a follow-up MR
 app/models/work_items/types_framework/provider.rb:
   - by_base_types_ordered_by_name: Public method on Provider, tested in specs. Temporarily unused but will be used in follow-up work
+app/models/project_team.rb:
+  - developer?: Accessed dynamically or used in contexts not detected by the linter

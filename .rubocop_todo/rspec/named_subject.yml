@@ -458,7 +458,6 @@ RSpec/NamedSubject:
     - 'ee/spec/models/ee/list_spec.rb'
     - 'ee/spec/models/ee/merge_request/metrics_spec.rb'
     - 'ee/spec/models/ee/namespace/root_storage_statistics_spec.rb'
-    - 'ee/spec/models/ee/namespace_spec.rb'
     - 'ee/spec/models/ee/namespaces/namespace_ban_spec.rb'
     - 'ee/spec/models/ee/notification_setting_spec.rb'
     - 'ee/spec/models/ee/pages_domain_spec.rb'

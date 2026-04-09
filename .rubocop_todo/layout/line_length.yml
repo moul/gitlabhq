@@ -1226,7 +1226,6 @@ Layout/LineLength:
     - 'ee/spec/models/ee/iterations/cadence_spec.rb'
     - 'ee/spec/models/ee/member_spec.rb'
     - 'ee/spec/models/ee/merge_request_diff_spec.rb'
-    - 'ee/spec/models/ee/namespace_spec.rb'
     - 'ee/spec/models/ee/namespace_statistics_spec.rb'
     - 'ee/spec/models/ee/preloaders/group_policy_preloader_spec.rb'
     - 'ee/spec/models/ee/project_authorization_spec.rb'

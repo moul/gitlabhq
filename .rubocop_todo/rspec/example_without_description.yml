@@ -70,7 +70,6 @@ RSpec/ExampleWithoutDescription:
     - 'ee/spec/models/ee/design_management/repository_spec.rb'
     - 'ee/spec/models/ee/group_spec.rb'
     - 'ee/spec/models/ee/lfs_object_spec.rb'
-    - 'ee/spec/models/ee/namespace_spec.rb'
     - 'ee/spec/models/ee/namespaces/namespace_ban_spec.rb'
     - 'ee/spec/models/ee/namespaces/storage/limit_exclusion_spec.rb'
     - 'ee/spec/models/ee/pages_deployment_spec.rb'

@@ -68044,7 +68044,7 @@ msgstr ""
 msgid "Something went wrong trying to change the locked state of the discussion"
 msgstr ""
 
-msgid "Something went wrong trying to load issue contacts."
+msgid "Something went wrong trying to load work item contacts."
 msgstr ""
 
 msgid "Something went wrong when deleting a comment. Please try again"
@@ -77446,6 +77446,9 @@ msgid "View usage details"
 msgstr ""
 
 msgid "View users statistics"
+msgstr ""
+
+msgid "View work items"
 msgstr ""
 
 msgid "View your group: %{group_url}"

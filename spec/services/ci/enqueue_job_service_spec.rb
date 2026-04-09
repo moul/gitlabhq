@@ -71,17 +71,6 @@ RSpec.describe Ci::EnqueueJobService, '#execute', feature_category: :continuous_
     end
 
     it { expect { execute }.to raise_error(Gitlab::Access::AccessDeniedError) }
-
-    context 'when ci_enqueue_job_authorization is disabled' do
-      before do
-        stub_feature_flags(ci_enqueue_job_authorization: false)
-      end
-
-      it 'enqueues the job without checking authorization' do
-        expect(execute).to eq(build)
-        expect(build.reload).to be_pending
-      end
-    end
   end
 
   context 'when the job is manually triggered another user' do

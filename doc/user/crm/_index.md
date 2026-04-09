@@ -215,7 +215,7 @@ To view a contact's work items, select a contact from the work item sidebar, or:
 
 1. In the top bar, select **Search or go to** and find your group.
 1. Select **Plan** > **Customer relations**.
-1. Next to the contact whose work items you wish to view, select **View issues** ({{< icon name="work-item-issue" >}}).
+1. Next to the contact whose work items you wish to view, select **View work items** ({{< icon name="work-items" >}}).
 
 ### View work items linked to an organization
 
@@ -228,7 +228,7 @@ To view an organization's work items:
 1. In the top bar, select **Search or go to** and find your group.
 1. Select **Plan** > **Customer relations**.
 1. In the upper right, select **Organizations**.
-1. Next to the organization whose work items you wish to view, select **View issues** ({{< icon name="work-item-issue" >}}).
+1. Next to the organization whose work items you wish to view, select **View work items** ({{< icon name="work-items" >}}).
 
 ### View contacts linked to a work item
 
