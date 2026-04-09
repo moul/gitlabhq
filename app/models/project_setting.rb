@@ -109,6 +109,12 @@ class ProjectSetting < ApplicationRecord
     ::Projects::AllBranchesRule.new(project)
   end
 
+  def automatic_rebase_available?
+    ::Feature.enabled?(:rebase_on_merge_automatic, project) &&
+      automatic_rebase_enabled
+  end
+  strong_memoize_attr :automatic_rebase_available?
+
   def reviewer_auto_assignment_enabled?
     ::Feature.enabled?(:auto_assign_code_owner_reviewers, project) &&
       !reviewer_assignment_disabled?

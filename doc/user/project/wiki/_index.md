@@ -241,6 +241,12 @@ may not be able to check out the wiki locally afterward.
 
 ## Edit a wiki page
 
+{{< history >}}
+
+- Sticky **Edit** in preview mode [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/590255) in GitLab 18.11.
+
+{{< /history >}}
+
 Prerequisites:
 
 - You must have the Developer, Maintainer, or Owner role.
@@ -252,6 +258,9 @@ Prerequisites:
    - Select **Edit**.
 1. Edit the content.
 1. Select **Save changes**.
+
+When you preview a page and scroll, a sticky bar at the top of the page keeps
+the **Edit** button and other actions accessible.
 
 Unsaved changes to a wiki page are preserved in local browser storage to prevent accidental data loss.
 

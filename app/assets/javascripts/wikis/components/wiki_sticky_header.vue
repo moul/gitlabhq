@@ -50,7 +50,7 @@ export default {
 <template>
   <div
     data-testid="wiki-sticky-header"
-    class="gl-duration-200 gl-border-b gl-fixed gl-left-0 gl-right-0 gl-top-0 gl-z-3 gl-bg-default gl-py-2 gl-transition-all"
+    class="gl-duration-200 gl-border-b gl-fixed gl-left-0 gl-right-0 gl-top-0 gl-z-3 gl-bg-default gl-py-2 gl-transition-all print:gl-hidden"
     :class="{
       '-gl-translate-y-full': !isStickyHeaderShowing,
       'gl-translate-y-0': isStickyHeaderShowing,

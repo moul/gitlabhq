@@ -9,7 +9,7 @@ import {
   GlLink,
   GlAlert,
 } from '@gitlab/ui';
-import { s__ } from '~/locale';
+import { __, s__, sprintf } from '~/locale';
 import { ROUTES } from '~/work_items/constants';
 import { subscribeWithLimitEnforce } from 'ee_else_ce/work_items/list/utils';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
@@ -35,9 +35,15 @@ export default {
   i18n: {
     title: s__('WorkItem|Views'),
     searchPlaceholder: s__('WorkItem|Search by view name or description'),
-    emptyViews: s__('WorkItem|No views currently exist'),
+    emptyViews: s__('WorkItem|No views yet'),
     emptyViewsDescription: s__(
       'WorkItem|Views created by you or shared by others will show up here.',
+    ),
+    noPermissionAlert: s__(
+      "WorkItem|You don't have permission to create views in this %{namespaceType}, but you can use views members of this %{namespaceType} have shared with you.",
+    ),
+    noPermissionEmptyDescription: s__(
+      "WorkItem|You don't have permission to create views in this %{namespaceType}. Views shared by members of this %{namespaceType} will appear here.",
     ),
     notFound: s__('WorkItem|No results found'),
     notFoundDescription: s__('WorkItem|Edit your search and try again.'),
@@ -50,7 +56,7 @@ export default {
   savedViewLimitsHelpPath: helpPagePath('user/work_items/saved_views.md', {
     anchor: 'saved-view-limits',
   }),
-  inject: ['canCreateSavedView', 'subscribedSavedViewLimit'],
+  inject: ['canCreateSavedView', 'subscribedSavedViewLimit', 'isGroup'],
   model: {
     prop: 'show',
     event: 'hide',
@@ -101,6 +107,20 @@ export default {
   computed: {
     isLoading() {
       return this.$apollo.queries.savedViews.loading;
+    },
+    namespaceType() {
+      return this.isGroup ? __('group') : __('project');
+    },
+    noPermissionAlertMessage() {
+      return sprintf(this.$options.i18n.noPermissionAlert, { namespaceType: this.namespaceType });
+    },
+    emptyStateDescription() {
+      if (!this.canCreateSavedView) {
+        return sprintf(this.$options.i18n.noPermissionEmptyDescription, {
+          namespaceType: this.namespaceType,
+        });
+      }
+      return this.$options.i18n.emptyViewsDescription;
     },
     hasSavedViews() {
       return this.savedViews.length > 0;
@@ -203,10 +223,18 @@ export default {
         </gl-link>
       </span>
     </div>
+    <div
+      v-if="!canCreateSavedView && hasSavedViews"
+      class="gl-mb-4 gl-flex gl-gap-3 gl-rounded-base gl-bg-feedback-info gl-p-3"
+      data-testid="no-permission-alert"
+    >
+      <gl-icon name="information-o" :size="16" class="gl-mt-1 gl-shrink-0 gl-text-feedback-info" />
+      <span class="gl-text-sm">{{ noPermissionAlertMessage }}</span>
+    </div>
     <gl-search-box-by-type
+      v-if="hasSavedViews || isLoading"
       ref="savedViewSearch"
       v-model="searchInput"
-      :disabled="!hasSavedViews"
       autofocus
       :placeholder="$options.i18n.searchPlaceholder"
     />
@@ -216,7 +244,7 @@ export default {
         <h3 class="gl-mb-2 gl-text-lg gl-text-default">
           {{ $options.i18n.emptyViews }}
         </h3>
-        <span>{{ $options.i18n.emptyViewsDescription }}</span>
+        <span>{{ emptyStateDescription }}</span>
         <gl-button
           v-if="canCreateSavedView"
           variant="confirm"

@@ -11,7 +11,7 @@ RSpec.describe 'projects/settings/integrations/edit', feature_category: :integra
     assign :integration, integration
   end
 
-  it do
+  it 'does not display recent events' do
     render
 
     expect(rendered).not_to have_text('Recent events')
@@ -22,7 +22,7 @@ RSpec.describe 'projects/settings/integrations/edit', feature_category: :integra
       assign(:web_hook_logs, [])
     end
 
-    it do
+    it 'displays recent events' do
       render
 
       expect(rendered).to have_text('Recent events')

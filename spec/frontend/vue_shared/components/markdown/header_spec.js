@@ -688,5 +688,81 @@ describe('Markdown field header component', () => {
       expect(findTextarea().value).toBe('LOREM ipsum dolor sit amet LOREM <img src="prompt">');
       expect(findAndReplaceMatchCount()).toBe('No results');
     });
+
+    describe('keyboard shortcuts', () => {
+      beforeEach(async () => {
+        await showFindAndReplace();
+        findFindInput().vm.$emit('keyup', { target: { value: 'lorem' } });
+        findFindInput().vm.$emit('input', 'lorem');
+        await nextTick();
+      });
+
+      it('navigates to next match when F3 is pressed', async () => {
+        const matches = findCloneDiv().element.querySelectorAll('.js-highlight');
+        expect(Array.from(matches[0].classList)).toContain('js-highlight-active');
+
+        findFindAndReplaceBar().trigger('keydown', { key: 'F3' });
+        await nextTick();
+
+        expect(Array.from(matches[0].classList)).not.toContain('js-highlight-active');
+        expect(Array.from(matches[1].classList)).toContain('js-highlight-active');
+      });
+
+      it('navigates to previous match when Shift+F3 is pressed', async () => {
+        // Move to second match first
+        findFindAndReplaceBar().trigger('keydown', { key: 'F3' });
+        await nextTick();
+
+        const matches = findCloneDiv().element.querySelectorAll('.js-highlight');
+        expect(Array.from(matches[1].classList)).toContain('js-highlight-active');
+
+        findFindAndReplaceBar().trigger('keydown', { key: 'F3', shiftKey: true });
+        await nextTick();
+
+        expect(Array.from(matches[0].classList)).toContain('js-highlight-active');
+      });
+
+      it('does not replace when Alt+R is pressed and replace section is closed', () => {
+        document.execCommand = jest.fn();
+        const originalValue = findTextarea().value;
+
+        findFindAndReplaceBar().trigger('keydown', { altKey: true, code: 'KeyR' });
+
+        expect(findTextarea().value).toBe(originalValue);
+      });
+
+      it('does not replace when Alt+A is pressed and replace section is closed', () => {
+        document.execCommand = jest.fn();
+        const originalValue = findTextarea().value;
+
+        findFindAndReplaceBar().trigger('keydown', { altKey: true, code: 'KeyA' });
+
+        expect(findTextarea().value).toBe(originalValue);
+      });
+
+      it('replaces next match when Alt+R is pressed and replace section is open', async () => {
+        document.execCommand = jest.fn();
+
+        findToggleReplaceSectionButton().vm.$emit('click');
+        await nextTick();
+
+        findReplaceInput().vm.$emit('input', 'LOREM');
+        findFindAndReplaceBar().trigger('keydown', { altKey: true, code: 'KeyR' });
+
+        expect(findTextarea().value).toBe('LOREM ipsum dolor sit amet lorem <img src="prompt">');
+      });
+
+      it('replaces all matches when Alt+A is pressed and replace section is open', async () => {
+        document.execCommand = jest.fn();
+
+        findToggleReplaceSectionButton().vm.$emit('click');
+        await nextTick();
+
+        findReplaceInput().vm.$emit('input', 'LOREM');
+        findFindAndReplaceBar().trigger('keydown', { altKey: true, code: 'KeyA' });
+
+        expect(findTextarea().value).toBe('LOREM ipsum dolor sit amet LOREM <img src="prompt">');
+      });
+    });
   });
 });

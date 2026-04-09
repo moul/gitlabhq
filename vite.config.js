@@ -6,7 +6,6 @@ import vue2 from '@vitejs/plugin-vue2';
 // eslint-disable-next-line import/no-unresolved -- False positive: eslint doesn't read `exports` and reports `unresolved`. See https://github.com/import-js/eslint-plugin-import/issues/1810
 import vue3 from '@vitejs/plugin-vue';
 import graphql from '@rollup/plugin-graphql';
-import glob from 'glob';
 import webpackConfig from './config/webpack.config';
 import {
   IS_EE,
@@ -64,7 +63,6 @@ const aliasArr = Object.entries(webpackConfig.resolve.alias).map(([find, replace
 }));
 
 const assetsPath = path.resolve(__dirname, 'app/assets');
-const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const javascriptsPath = path.resolve(assetsPath, 'javascripts');
 
 const emptyComponent = path.resolve(javascriptsPath, 'vue_shared/components/empty_component.js');
@@ -233,17 +231,6 @@ export default defineConfig({
             '@gitlab/vuedraggable-vue3',
           ]
         : []),
-    ],
-    include: [
-      // When building @gitlab/ui from source, lodash imports fail in vite because lodash publishes commonjs modules.
-      // Vite supports glob expansions in `optimizeDeps.include` that solves this, but it adds a `.js` extension in the
-      // resulting `includes` entries so lodash imports do not get re-included correctly. Make our own glob expansion
-      // that expands to:
-      //   [ '@gitlab/ui > lodash/add', '@gitlab/ui > lodash/after', '@gitlab/ui > lodash/array', ... ]
-      ...glob
-        .sync('lodash/**/[a-zA-Z]*.js', { cwd: nodeModulesPath })
-        .map((m) => m.replace('.js', ''))
-        .map((m) => `@gitlab/ui > ${m}`),
     ],
   },
   css: {

@@ -42193,7 +42193,13 @@ msgstr ""
 msgid "MarkdownEditor|Find next"
 msgstr ""
 
+msgid "MarkdownEditor|Find next (F3)"
+msgstr ""
+
 msgid "MarkdownEditor|Find previous"
+msgstr ""
+
+msgid "MarkdownEditor|Find previous (Shift+F3)"
 msgstr ""
 
 msgid "MarkdownEditor|Go full screen"
@@ -42230,6 +42236,15 @@ msgid "MarkdownEditor|Preview (%{shiftKey}%{modifierKey}P)"
 msgstr ""
 
 msgid "MarkdownEditor|Replace"
+msgstr ""
+
+msgid "MarkdownEditor|Replace (%{altKey}R)"
+msgstr ""
+
+msgid "MarkdownEditor|Replace all"
+msgstr ""
+
+msgid "MarkdownEditor|Replace all (%{altKey}A)"
 msgstr ""
 
 msgid "MarkdownEditor|Suggest code changes which can be immediately applied in one click. Try it out!"
@@ -57324,6 +57339,9 @@ msgstr ""
 msgid "Rebase source branch?"
 msgstr ""
 
+msgid "Rebase with pipeline"
+msgstr ""
+
 msgid "Recaptcha verified"
 msgstr ""
 
@@ -63741,9 +63759,6 @@ msgstr ""
 msgid "SecurityOrchestration|False positive"
 msgstr ""
 
-msgid "SecurityOrchestration|Fetching"
-msgstr ""
-
 msgid "SecurityOrchestration|Fetching the scope information."
 msgstr ""
 
@@ -68444,6 +68459,9 @@ msgid "Source branch name"
 msgstr ""
 
 msgid "Source branch will be deleted."
+msgstr ""
+
+msgid "Source branch will be rebased without pipeline."
 msgstr ""
 
 msgid "Source branch will not be deleted."
@@ -80829,6 +80847,9 @@ msgstr ""
 msgid "WorkItem|Disable"
 msgstr ""
 
+msgid "WorkItem|Disable for all projects"
+msgstr ""
+
 msgid "WorkItem|Disable list item"
 msgstr ""
 
@@ -80902,6 +80923,9 @@ msgid "WorkItem|Emoji reactions"
 msgstr ""
 
 msgid "WorkItem|Enable"
+msgstr ""
+
+msgid "WorkItem|Enable for all projects"
 msgstr ""
 
 msgid "WorkItem|Enable list item"
@@ -81289,7 +81313,7 @@ msgstr ""
 msgid "WorkItem|No template"
 msgstr ""
 
-msgid "WorkItem|No views currently exist"
+msgid "WorkItem|No views yet"
 msgstr ""
 
 msgid "WorkItem|None"
@@ -81926,6 +81950,12 @@ msgid "WorkItem|You can create a new work item inside this project by sending an
 msgstr ""
 
 msgid "WorkItem|You cannot add another child %{workItemType}. You’ve reached the maximum number of nested levels."
+msgstr ""
+
+msgid "WorkItem|You don't have permission to create views in this %{namespaceType}, but you can use views members of this %{namespaceType} have shared with you."
+msgstr ""
+
+msgid "WorkItem|You don't have permission to create views in this %{namespaceType}. Views shared by members of this %{namespaceType} will appear here."
 msgstr ""
 
 msgid "WorkItem|You don't have the necessary permission to view the ancestor."

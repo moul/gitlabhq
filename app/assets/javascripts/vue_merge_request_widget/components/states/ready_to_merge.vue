@@ -354,6 +354,12 @@ export default {
     canRebase() {
       return this.sourceHasDivergedFromTarget && this.mr.canPushToSourceBranch;
     },
+    showAutomaticRebaseInfo() {
+      return this.mr.showAutomaticRebaseInfo;
+    },
+    rebaseButtonLabel() {
+      return this.showAutomaticRebaseInfo ? __('Rebase with pipeline') : __('Rebase source branch');
+    },
   },
   watch: {
     'mr.state': function mrStateWatcher() {
@@ -721,14 +727,21 @@ export default {
                         variant="link"
                         data-testid="rebase-button"
                         :loading="isRebaseInProgress"
-                        :aria-label="__('Rebase source branch')"
+                        :aria-label="rebaseButtonLabel"
                         @click="handleRebaseClick"
                       >
-                        {{ __('Rebase source branch') }}
+                        {{ rebaseButtonLabel }}
                       </gl-button>
                     </div>
                   </li>
                 </template>
+                <li
+                  v-if="showAutomaticRebaseInfo"
+                  class="gl-leading-normal"
+                  data-testid="automatic-rebase-info"
+                >
+                  {{ __('Source branch will be rebased without pipeline.') }}
+                </li>
                 <li>
                   <added-commit-message
                     :is-squash-enabled="squashBeforeMerge"
@@ -854,12 +867,19 @@ export default {
                       variant="link"
                       data-testid="rebase-button"
                       :loading="isRebaseInProgress"
-                      :aria-label="__('Rebase source branch')"
+                      :aria-label="rebaseButtonLabel"
                       @click="handleRebaseClick"
                     >
-                      {{ __('Rebase source branch') }}
+                      {{ rebaseButtonLabel }}
                     </gl-button>
                   </div>
+                </li>
+                <li
+                  v-if="showAutomaticRebaseInfo"
+                  class="gl-leading-normal"
+                  data-testid="automatic-rebase-info"
+                >
+                  {{ __('Source branch will be rebased without pipeline.') }}
                 </li>
                 <li class="gl-leading-normal">
                   <added-commit-message

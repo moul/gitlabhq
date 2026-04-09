@@ -107,6 +107,7 @@ describe('WorkItemsExistingSavedViewsModal', () => {
       provide: {
         canCreateSavedView: true,
         subscribedSavedViewLimit: 10,
+        isGroup: true,
         ...provide,
       },
       mocks: {
@@ -131,6 +132,7 @@ describe('WorkItemsExistingSavedViewsModal', () => {
   const findSavedViewItems = () => wrapper.findAllByTestId('saved-view-item');
   const findSubscribedIcons = () => wrapper.findAllByTestId('subscribed-view-icon');
   const findLoadingIcon = () => wrapper.findComponent(GlLoadingIcon);
+  const findNoPermissionAlert = () => wrapper.findByTestId('no-permission-alert');
   const findWarningMessage = () => wrapper.find('.gl-bg-orange-50');
   const findWarningIcon = () => findWarningMessage().findComponent(GlIcon);
   const findLearnMoreLink = () => findWarningMessage().findComponent(GlLink);
@@ -243,18 +245,18 @@ describe('WorkItemsExistingSavedViewsModal', () => {
   });
 
   describe('when there are no saved views available', () => {
-    beforeEach(() => {
-      createComponent({
+    beforeEach(async () => {
+      await createComponent({
         mockSavedViewsHandler: emptySavedViewsHandler,
       });
     });
 
-    it('disables the search input', () => {
-      expect(findSearch().props('disabled')).toBe(true);
+    it('hides the search input', () => {
+      expect(findSearch().exists()).toBe(false);
     });
 
     it('renders empty state and redirects to New View Modal', async () => {
-      expect(wrapper.text()).toContain('No views currently exist');
+      expect(wrapper.text()).toContain('No views yet');
       expect(findNewViewButton().exists()).toBe(true);
 
       findNewViewButton().vm.$emit('click');
@@ -266,18 +268,18 @@ describe('WorkItemsExistingSavedViewsModal', () => {
   });
 
   describe('when there is an error', () => {
-    beforeEach(() => {
-      createComponent({
+    beforeEach(async () => {
+      await createComponent({
         mockSavedViewsHandler: simulatedErrorHandler,
       });
     });
 
-    it('disables the search input', () => {
-      expect(findSearch().props('disabled')).toBe(true);
+    it('hides the search input', () => {
+      expect(findSearch().exists()).toBe(false);
     });
 
     it('renders empty state and redirects to New View Modal', async () => {
-      expect(wrapper.text()).toContain('No views currently exist');
+      expect(wrapper.text()).toContain('No views yet');
       expect(findNewViewButton().exists()).toBe(true);
 
       findNewViewButton().vm.$emit('click');
@@ -330,6 +332,66 @@ describe('WorkItemsExistingSavedViewsModal', () => {
       });
 
       expect(findNewViewButton().exists()).toBe(false);
+    });
+
+    describe('when user cannot create saved views and views exist', () => {
+      beforeEach(async () => {
+        await createComponent({ provide: { canCreateSavedView: false } });
+      });
+
+      it('shows no-permission alert', () => {
+        expect(findNoPermissionAlert().exists()).toBe(true);
+      });
+
+      it.each`
+        isGroup  | namespaceType
+        ${true}  | ${'group'}
+        ${false} | ${'project'}
+      `(
+        'shows $namespaceType namespace type in the alert message',
+        async ({ isGroup, namespaceType }) => {
+          await createComponent({ provide: { canCreateSavedView: false, isGroup } });
+
+          expect(findNoPermissionAlert().text()).toContain(
+            `You don't have permission to create views in this ${namespaceType}`,
+          );
+        },
+      );
+    });
+
+    describe('when user cannot create saved views and no views exist', () => {
+      it('does not show no-permission alert', async () => {
+        await createComponent({
+          provide: { canCreateSavedView: false },
+          mockSavedViewsHandler: emptySavedViewsHandler,
+        });
+
+        expect(findNoPermissionAlert().exists()).toBe(false);
+      });
+
+      it.each`
+        isGroup  | namespaceType
+        ${true}  | ${'group'}
+        ${false} | ${'project'}
+      `(
+        'shows $namespaceType namespace type in the empty state description',
+        async ({ isGroup, namespaceType }) => {
+          await createComponent({
+            provide: { canCreateSavedView: false, isGroup },
+            mockSavedViewsHandler: emptySavedViewsHandler,
+          });
+
+          expect(wrapper.text()).toContain(
+            `You don't have permission to create views in this ${namespaceType}`,
+          );
+        },
+      );
+    });
+
+    describe('when user can create saved views', () => {
+      it('does not show no-permission alert even when views exist', () => {
+        expect(findNoPermissionAlert().exists()).toBe(false);
+      });
     });
   });
 });

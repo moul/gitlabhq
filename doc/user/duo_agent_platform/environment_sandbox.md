@@ -176,9 +176,17 @@ Use the `allow_all_unix_sockets` setting to grant the flow access to all Unix do
 > [!warning]
 > Enabling `allow_all_unix_sockets` grants access to all Unix sockets. Enable this only when necessary and only in trusted environments.
 
-### Default allowed domain list
+### Turn on allowed domains
 
-The setting `include_recommended_allowed` includes a list of domains used for packages and development:
+To give your flows access to a set of external domains used for package registries and development tools,
+turn on the `include_recommended_allowed` setting.
+
+This setting is disabled by default (`false`). To turn it on, in your `agent-config.yml` file, set `include_recommended_allowed` to `true`.
+
+> [!warning]
+> Enabling `include_recommended_allowed` permits network access to a broad set of external domains. These egress endpoints could potentially be used to exfiltrate data from your environment. Enable this only when necessary and only in trusted environments.
+
+This setting turns on access to the following domains:
 
 - `github.com`
 - `www.github.com`
