@@ -171,6 +171,7 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
   describe '#record_apdex' do
     before do
       allow(::Gitlab::ApplicationContext).to receive(:current_context_attribute).with(:caller_id).and_return('end')
+      allow(Gitlab::AppJsonLogger).to receive(:info)
     end
 
     where(:search_type, :code_search, :duration_target) do
@@ -199,6 +200,16 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
           success: true
         )
 
+        expect(Gitlab::AppJsonLogger).to receive(:info).with(
+          message: "Global Search Apdex SLI",
+          duration_s: duration,
+          target_s: duration_target,
+          success: true,
+          search_type: search_type,
+          search_level: 'global',
+          search_scope: search_scope
+        )
+
         described_class.record_apdex(
           elapsed: duration,
           search_type: search_type,
@@ -220,6 +231,16 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
           success: false
         )
 
+        expect(Gitlab::AppJsonLogger).to receive(:info).with(
+          message: "Global Search Apdex SLI",
+          duration_s: duration,
+          target_s: duration_target,
+          success: false,
+          search_type: search_type,
+          search_level: 'global',
+          search_scope: search_scope
+        )
+
         described_class.record_apdex(
           elapsed: duration,
           search_type: search_type,
@@ -239,6 +260,16 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
             endpoint_id: 'end'
           },
           success: true
+        )
+
+        expect(Gitlab::AppJsonLogger).to receive(:info).with(
+          message: "Global Search Apdex SLI",
+          duration_s: 14,
+          target_s: 15,
+          success: true,
+          search_type: 'basic',
+          search_level: 'global',
+          search_scope: 'merge_requests'
         )
 
         described_class.record_apdex(
@@ -271,8 +302,21 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
   end
 
   describe '#record_error_rate' do
-    it 'calls increment on the error rate SLI' do
+    before do
+      allow(::Gitlab::ApplicationContext).to receive(:current_context_attribute).with(:caller_id).and_return('end')
+      allow(Gitlab::AppJsonLogger).to receive(:info)
+    end
+
+    it 'calls increment on the error rate SLI and logs the error' do
       expect(Gitlab::Metrics::Sli::ErrorRate[:global_search]).to receive(:increment)
+
+      expect(Gitlab::AppJsonLogger).to receive(:info).with(
+        message: "Global Search Error Rate SLI",
+        error: true,
+        search_type: 'basic',
+        search_level: 'global',
+        search_scope: 'issues'
+      )
 
       described_class.record_error_rate(
         error: true,

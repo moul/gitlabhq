@@ -237,7 +237,7 @@ GitLab Duo features are enabled by default in VS Code when you meet the prerequi
   needed.
 - You have a [default GitLab Duo namespace](../../user/profile/preferences.md#namespace-resolution-in-your-local-environment)
   set or have a project open that has GitLab Duo access.
-- For GitLab Duo Code Suggestions, you [meet the additional prerequisites](../../user/duo_agent_platform/code_suggestions/set_up.md#prerequisites).
+- For GitLab Duo Code Suggestions, you [meet the additional prerequisites](../../user/project/repository/code_suggestions/set_up.md#prerequisites).
 
 #### Turn off GitLab Duo
 

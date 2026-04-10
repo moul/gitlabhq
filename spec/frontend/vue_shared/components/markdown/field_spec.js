@@ -501,6 +501,18 @@ describe('Markdown field component', () => {
 
       expect(findMarkdownToolbar().props('showContentEditorSwitcher')).toBe(true);
     });
+
+    it('adds gl-border-t class to toolbar when showContentEditorSwitcher is true', () => {
+      createSubject({ showContentEditorSwitcher: true });
+
+      expect(findMarkdownToolbar().classes()).toContain('gl-border-t');
+    });
+
+    it('does not add gl-border-t class to toolbar when showContentEditorSwitcher is false', () => {
+      createSubject({ showContentEditorSwitcher: false });
+
+      expect(findMarkdownToolbar().classes()).not.toContain('gl-border-t');
+    });
   });
 
   describe('immersive mode', () => {

@@ -27,9 +27,22 @@ module Gitlab
         end
 
         def record_apdex(elapsed:, search_type:, search_level:, search_scope:)
+          target = duration_target(search_type, search_scope)
+          success = elapsed < target
+
           Gitlab::Metrics::Sli::Apdex[:global_search].increment(
             labels: labels(search_type: search_type, search_level: search_level, search_scope: search_scope),
-            success: elapsed < duration_target(search_type, search_scope)
+            success: success
+          )
+
+          Gitlab::AppJsonLogger.info(
+            message: "Global Search Apdex SLI",
+            duration_s: elapsed,
+            target_s: target,
+            success: success,
+            search_type: search_type,
+            search_level: search_level,
+            search_scope: search_scope
           )
         end
 
@@ -37,6 +50,14 @@ module Gitlab
           Gitlab::Metrics::Sli::ErrorRate[:global_search].increment(
             labels: labels(search_type: search_type, search_level: search_level, search_scope: search_scope),
             error: error
+          )
+
+          Gitlab::AppJsonLogger.info(
+            message: "Global Search Error Rate SLI",
+            error: error,
+            search_type: search_type,
+            search_level: search_level,
+            search_scope: search_scope
           )
         end
 

@@ -49,6 +49,12 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
         [instance_double(Grape::Endpoint, routes: mock_routes, source: source_proc)]
       )
       allow(described_class::TODO_FILE).to receive_messages(exist?: true, readlines: [])
+
+      # Skip test coverage validation by default -- tested separately below
+      allow(task).to receive(:register_test_coverage).with(any_args)
+      mock_scanner = instance_double(Tasks::Gitlab::Permissions::Routes::SpecPermissionScanner,
+        insufficient_test_coverage: [])
+      allow(task).to receive(:spec_permission_scanner).and_return(mock_scanner)
     end
 
     context 'when routes have no authorization settings but are listed in the TODO file' do
@@ -552,6 +558,80 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::ValidateTask, :silence_stdout
       end
 
       it 'ignores comments and blank lines and completes successfully' do
+        expect { run }.to output(/API route permissions are valid/).to_stdout
+      end
+    end
+
+    context 'when a route permission has insufficient test coverage' do
+      let(:route_settings) { { authorization: { permissions: :read_project, boundary_type: :project } } }
+      let(:mock_assignable) { instance_double(Authz::PermissionGroups::Assignable, boundaries: %w[project]) }
+
+      let(:mock_scanner) do
+        instance_double(
+          Tasks::Gitlab::Permissions::Routes::SpecPermissionScanner,
+          insufficient_test_coverage: [{
+            permission: 'read_project',
+            route_count: 1,
+            test_count: 0,
+            routes: [{
+              method: 'GET', path: '/projects/:id/test',
+              source: 'lib/api/test.rb:42', permission: :read_project,
+              spec_file: 'spec/requests/api/test_spec.rb'
+            }]
+          }],
+          derive_spec_path: 'spec/requests/api/test_spec.rb'
+        )
+      end
+
+      before do
+        allow(task).to receive(:register_test_coverage).and_call_original
+        allow(task).to receive(:spec_permission_scanner).and_return(mock_scanner)
+        allow(mock_scanner).to receive(:add_route)
+        allow(Authz::Permission).to receive(:defined?).with(:read_project).and_return(true)
+        allow(Authz::PermissionGroups::Assignable).to receive(:for_permission)
+          .with(:read_project).and_return([mock_assignable])
+      end
+
+      it 'returns an error with route details' do
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following permissions have fewer tests than routes using them.
+          #  Each route should have its own `it_behaves_like 'authorizing granular token permissions'` test.
+          #  Add test coverage.
+          #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/rest_api_implementation_guide/#step-6-add-request-specs-for-the-endpoint
+          #
+          #    - read_project: 1 routes, 0 tests
+          #        GET /projects/:id/test (lib/api/test.rb:42)
+          #          Suggested spec: spec/requests/api/test_spec.rb
+          #
+          #######################################################################
+        OUTPUT
+      end
+    end
+
+    context 'when a route permission has sufficient test coverage' do
+      let(:route_settings) { { authorization: { permissions: :read_project, boundary_type: :project } } }
+      let(:mock_assignable) { instance_double(Authz::PermissionGroups::Assignable, boundaries: %w[project]) }
+
+      let(:mock_scanner) do
+        instance_double(
+          Tasks::Gitlab::Permissions::Routes::SpecPermissionScanner,
+          insufficient_test_coverage: [],
+          derive_spec_path: 'spec/requests/api/test_spec.rb'
+        )
+      end
+
+      before do
+        allow(task).to receive(:register_test_coverage).and_call_original
+        allow(task).to receive(:spec_permission_scanner).and_return(mock_scanner)
+        allow(mock_scanner).to receive(:add_route)
+        allow(Authz::Permission).to receive(:defined?).with(:read_project).and_return(true)
+        allow(Authz::PermissionGroups::Assignable).to receive(:for_permission)
+          .with(:read_project).and_return([mock_assignable])
+      end
+
+      it 'completes successfully' do
         expect { run }.to output(/API route permissions are valid/).to_stdout
       end
     end

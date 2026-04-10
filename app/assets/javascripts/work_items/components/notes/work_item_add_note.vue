@@ -376,7 +376,7 @@ export default {
 <template>
   <li :class="timelineEntryClass">
     <work-item-note-signed-out v-if="!signedIn" />
-    <work-item-comment-locked v-else-if="showLockedBanner" :work-item-type="workItemType" />
+    <work-item-comment-locked v-else-if="showLockedBanner" />
     <div v-else-if="!isProjectArchived" :class="timelineEntryInnerClass">
       <div :class="timelineContentClass">
         <gl-alert

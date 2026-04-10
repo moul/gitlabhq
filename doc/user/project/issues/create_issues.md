@@ -228,7 +228,7 @@ the appropriate project and followed up from there.
 
 When you're creating a new issue, you can complete the following fields:
 
-- Title
+- Title: [limited formatting support](../../markdown.md#work-item-and-merge-request-titles)
 - Project: defaults to the current project
 - Type: either issue (default) or incident
 - [Description template](../description_templates.md): overwrites anything in the Description text box

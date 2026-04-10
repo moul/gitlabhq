@@ -9,7 +9,7 @@ class ProjectSetting < ApplicationRecord
   include AfterCommitQueue
   include SafelyChangeColumnDefault
 
-  columns_changing_default :auto_duo_code_review_enabled, :duo_remote_flows_enabled
+  columns_changing_default :auto_duo_code_review_enabled, :duo_remote_flows_enabled, :duo_secret_detection_fp_enabled
 
   REVIEWER_ASSIGNMENT_STRATEGIES = {
     disabled: 0,

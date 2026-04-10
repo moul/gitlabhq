@@ -413,7 +413,6 @@ export default {
         :work-item-iid="workItemIid"
         :work-item-full-path="workItemFullPath"
         :children-ids="childrenIds"
-        :work-item-type="workItemType"
         :has-blocked-work-items-feature="hasBlockedWorkItemsFeature"
         @submitted="hideLinkItemForm"
         @cancel="hideLinkItemForm"

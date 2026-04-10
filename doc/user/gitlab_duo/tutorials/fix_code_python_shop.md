@@ -125,7 +125,7 @@ For more information, see [Use GitLab Duo Chat in VS Code](../../gitlab_duo_chat
 To use Code Suggestions:
 
 1. Open your Git project in a
-   [supported IDE](../../duo_agent_platform/code_suggestions/supported_extensions.md#supported-editor-extensions).
+   [supported IDE](../../project/repository/code_suggestions/supported_extensions.md#supported-editor-extensions).
 1. Add the project as a remote of your local repository using
    [`git remote add`](../../../topics/git/commands.md#git-remote-add).
 1. Add your project directory, including the hidden `.git/` folder, to your IDE workspace or project.

@@ -37,7 +37,8 @@ Foundational agents are built and maintained by GitLab and display a GitLab-main
 
 ## Available foundational agents
 
-The following foundational agents are available in the GitLab UI, VS Code, and JetBrains IDEs:
+The following foundational agents are available in the GitLab UI, VS Code, and JetBrains IDEs.
+Tier availability varies by agent. For details, see each agent's page.
 
 - [Planner](planner.md), for product management and
   planning workflows.

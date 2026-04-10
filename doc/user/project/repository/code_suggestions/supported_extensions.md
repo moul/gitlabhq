@@ -3,23 +3,8 @@ stage: AI-powered
 group: AI Coding
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
 description: Code Suggestions supports multiple editors and languages.
-title: Supported extensions and languages for Code Suggestions
+title: Supported extensions and languages
 ---
-
-{{< details >}}
-
-- Tier: Premium, Ultimate
-- Add-on: GitLab Duo Core, Pro, or Enterprise, GitLab Duo with Amazon Q
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
-
-{{< history >}}
-
-- Changed to require GitLab Duo add-on in GitLab 17.6 and later.
-- Changed to include GitLab Duo Core in GitLab 18.0.
-
-{{< /history >}}
 
 Code Suggestions is available in the following editor extensions and
 for the following languages.

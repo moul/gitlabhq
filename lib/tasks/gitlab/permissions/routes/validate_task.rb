@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'spec_permission_scanner'
+
 module Tasks
   module Gitlab
     module Permissions
@@ -16,7 +18,8 @@ module Tasks
               missing_assignable: [],
               boundary_mismatch: [],
               missing_authorization: [],
-              invalid_skip_reason: []
+              invalid_skip_reason: [],
+              insufficient_tests: []
             }
             @source_locations = {}.compare_by_identity
           end
@@ -29,6 +32,8 @@ module Tasks
             @todo_entries = load_todo_entries
 
             routes.each { |route| validate_route(route) }
+
+            violations[:insufficient_tests] = spec_permission_scanner.insufficient_test_coverage
 
             super
           end
@@ -67,6 +72,7 @@ module Tasks
               validate_permission_defined(route, permission)
               validate_boundary_defined(route, permission, boundary_types)
               validate_assignable_permission(route, permission, boundary_types)
+              register_test_coverage(route, permission) unless authorization[:skip_granular_token_authorization]
             end
 
             validate_skip_reason(route, authorization)
@@ -153,13 +159,35 @@ module Tasks
             )
           end
 
+          def register_test_coverage(route, permission)
+            location = @source_locations[route]
+            return unless location
+
+            source_file = relative_path(location.first)
+            scanner = spec_permission_scanner
+
+            scanner.add_route(
+              route_id: route_id(route),
+              permission: permission,
+              route_info: base_error(route).merge(
+                permission: permission,
+                spec_file: scanner.derive_spec_path(source_file)
+              )
+            )
+          end
+
+          def spec_permission_scanner
+            @spec_permission_scanner ||= SpecPermissionScanner.new
+          end
+
           def format_all_errors
             out = format_route_errors(:undefined_permission)
             out += format_route_errors(:missing_boundary)
             out += format_route_errors(:missing_assignable)
             out += format_boundary_mismatch_errors
             out += format_route_errors(:missing_authorization)
-            out + format_invalid_skip_reason_errors
+            out += format_invalid_skip_reason_errors
+            out + format_insufficient_test_errors
           end
 
           def format_route_errors(kind)
@@ -202,6 +230,22 @@ module Tasks
             "#{out}\n"
           end
 
+          def format_insufficient_test_errors
+            return '' if violations[:insufficient_tests].empty?
+
+            out = "#{error_messages[:insufficient_tests]}\n\n"
+
+            violations[:insufficient_tests].each do |v|
+              out += "  - #{v[:permission]}: #{v[:route_count]} routes, #{v[:test_count]} tests\n"
+              v[:routes].each do |route|
+                out += "      #{route[:method]} #{route[:path]} (#{route[:source]})\n"
+                out += "        Suggested spec: #{route[:spec_file]}\n"
+              end
+            end
+
+            "#{out}\n"
+          end
+
           def error_messages
             {
               undefined_permission: <<~MSG.chomp,
@@ -229,9 +273,15 @@ module Tasks
                 Add authorization metadata to the endpoint.
                 #{implementation_guide_link}
               MSG
-              invalid_skip_reason: <<~MSG.chomp
+              invalid_skip_reason: <<~MSG.chomp,
                 The following API routes use a missing or invalid skip_granular_token_authorization reason.
                 Use one of: #{VALID_SKIP_REASONS.map { |r| ":#{r}" }.join(', ')}
+              MSG
+              insufficient_tests: <<~MSG.chomp
+                The following permissions have fewer tests than routes using them.
+                Each route should have its own `it_behaves_like 'authorizing granular token permissions'` test.
+                Add test coverage.
+                #{implementation_guide_link(anchor: 'step-6-add-request-specs-for-the-endpoint')}
               MSG
             }
           end

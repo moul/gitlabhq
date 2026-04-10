@@ -445,3 +445,7 @@ mapping:
   - source:
       - 'app/models/(?<model>.+)\.rb'
     test: 'spec/cells/claims/**/%{model}_spec.rb'
+
+  # GLQL shared examples should trigger the feature spec that includes them
+  - source: 'spec/support/shared_examples/features/glql/glql_shared_examples\.rb'
+    test: 'spec/features/work_items/issues/new/user_creates_issue_spec.rb'

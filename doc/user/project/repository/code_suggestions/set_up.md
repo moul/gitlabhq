@@ -6,20 +6,6 @@ description: Set up Code Suggestions in your IDE.
 title: Set up Code Suggestions
 ---
 
-{{< details >}}
-
-- Tier: Premium, Ultimate
-- Add-on: GitLab Duo Core, Pro, or Enterprise, GitLab Duo with Amazon Q
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
-
-{{< history >}}
-
-- Changed to include GitLab Duo Core in GitLab 18.0.
-
-{{< /history >}}
-
 You can use GitLab Duo Code Suggestions in several different IDEs.
 
 To set up Code Suggestions, follow the instructions for your IDE.
@@ -168,7 +154,7 @@ To turn off Code Suggestions in VS Code:
    - For macOS, press <kbd>Command</kbd>+<kbd>,</kbd>.
    - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
 1. Select **Extensions** > **GitLab** > **GitLab Duo**.
-1. Clear the **GitLab Duo Code Suggestions** checkbox.
+1. Under **GitLab › Duo Code Suggestions: Enabled**, clear the checkbox.
 
 Instead, you can [set `gitlab.duoCodeSuggestions.enabled` to `false` in the VS Code `settings.json` file](../../../../editor_extensions/visual_studio_code/settings.md#extension-settings).
 

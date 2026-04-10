@@ -122,6 +122,28 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
 
     rapid_diffs_presenter.offset = 5
     show_merge_request
+  rescue StandardError => exception
+    log_exception(exception)
+
+    # Turns off the rapid diffs toggle
+    cookies.delete(:rapid_diffs_enabled)
+
+    feedback_link = view_context.link_to(
+      _("Leave feedback"),
+      "https://gitlab.com/gitlab-org/gitlab/-/work_items/596236",
+      class: 'gl-link',
+      target: '_blank',
+      rel: 'noopener noreferrer'
+    )
+
+    redirect_to(
+      diffs_project_merge_request_path(project, @merge_request),
+      alert: safe_format(
+        _("Rapid Diffs encountered an error and has been temporarily disabled. " \
+          "The page has loaded using the standard diff view. %{feedback_link}"),
+        feedback_link: feedback_link
+      )
+    )
   end
 
   def commits

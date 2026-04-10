@@ -38348,6 +38348,23 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="group-labels-searchterm"></a>`searchTerm` | [`String`](#string) | Search term to find labels with. |
 | <a id="group-labels-title"></a>`title` | [`String`](#string) | Exact match on title. Cannot be used with `searchTerm`. `searchIn` will be ignored if `title` argument is provided. |
 
+##### `Group.licensedFeatureAvailability`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Check whether a licensed feature is available.
+
+Returns [`LicensedFeatureAvailability!`](#licensedfeatureavailability).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="group-licensedfeatureavailability-feature"></a>`feature` | [`LicensedFeature!`](#licensedfeature) | Feature to check availability for (for example, EPICS). |
+
 ##### `Group.memberRoles`
 
 {{< details >}}
@@ -40995,6 +41012,17 @@ Represents an entry from the Cloud License history.
 | <a id="licensehistoryentry-startsat"></a>`startsAt` | [`Date`](#date) | Date when the license started. |
 | <a id="licensehistoryentry-type"></a>`type` | [`String!`](#string) | Type of the license. |
 | <a id="licensehistoryentry-usersinlicensecount"></a>`usersInLicenseCount` | [`Int`](#int) | Number of paid users in the license. |
+
+### `LicensedFeatureAvailability`
+
+Represents the availability of a licensed feature for a namespace or project.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="licensedfeatureavailability-available"></a>`available` | [`Boolean!`](#boolean) | Whether the feature is available on the current plan. |
+| <a id="licensedfeatureavailability-requiredplan"></a>`requiredPlan` | [`String`](#string) | The minimum plan required to access this feature. Returns null if the required plan cannot be determined. |
 
 ### `LinkedWorkItemType`
 
@@ -43973,6 +44001,23 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="namespace-importsourceusers-search"></a>`search` | [`String`](#string) | Query to search mappings by name or username of users on source instance. |
 | <a id="namespace-importsourceusers-sort"></a>`sort` | [`SourceUserSort`](#sourceusersort) | Sort mapping of users on source instance to users on destination instance by the criteria. |
 | <a id="namespace-importsourceusers-statuses"></a>`statuses` | [`[ImportSourceUserStatus!]`](#importsourceuserstatus) | Filter mapping of users on source instance to users on destination instance by status. |
+
+##### `Namespace.licensedFeatureAvailability`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Check whether a licensed feature is available.
+
+Returns [`LicensedFeatureAvailability!`](#licensedfeatureavailability).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="namespace-licensedfeatureavailability-feature"></a>`feature` | [`LicensedFeature!`](#licensedfeature) | Feature to check availability for (for example, EPICS). |
 
 ##### `Namespace.pagesDeployments`
 
@@ -47779,6 +47824,23 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="project-labels-searchin"></a>`searchIn` | [`[LabelSearchFieldList!]!`](#labelsearchfieldlist) | Specify which fields to search in. Ignored if using `title`. |
 | <a id="project-labels-searchterm"></a>`searchTerm` | [`String`](#string) | Search term to find labels with. |
 | <a id="project-labels-title"></a>`title` | [`String`](#string) | Exact match on title. Cannot be used with `searchTerm`. `searchIn` will be ignored if `title` argument is provided. |
+
+##### `Project.licensedFeatureAvailability`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Check whether a licensed feature is available.
+
+Returns [`LicensedFeatureAvailability!`](#licensedfeatureavailability).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="project-licensedfeatureavailability-feature"></a>`feature` | [`LicensedFeature!`](#licensedfeature) | Feature to check availability for (for example, SECURITY_DASHBOARD). |
 
 ##### `Project.memberRoles`
 
@@ -58024,6 +58086,264 @@ All LDAP admin role sync statuses.
 | <a id="ldapadminrolesyncstatus-queued"></a>`QUEUED` | A sync that is queued. |
 | <a id="ldapadminrolesyncstatus-running"></a>`RUNNING` | A sync that is running. |
 | <a id="ldapadminrolesyncstatus-successful"></a>`SUCCESSFUL` | A sync that is successful. |
+
+### `LicensedFeature`
+
+Licensed features that can be checked for availability on a namespace or project.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="licensedfeature-admin_merge_request_approvers_rules"></a>`ADMIN_MERGE_REQUEST_APPROVERS_RULES` | Admin merge request approvers rules feature. |
+| <a id="licensedfeature-agentic_chat"></a>`AGENTIC_CHAT` | Agentic chat feature. |
+| <a id="licensedfeature-agent_managed_resources"></a>`AGENT_MANAGED_RESOURCES` | Agent managed resources feature. |
+| <a id="licensedfeature-ai_agents"></a>`AI_AGENTS` | Ai agents feature. |
+| <a id="licensedfeature-ai_analytics"></a>`AI_ANALYTICS` | Ai analytics feature. |
+| <a id="licensedfeature-ai_catalog"></a>`AI_CATALOG` | Ai catalog feature. |
+| <a id="licensedfeature-ai_chat"></a>`AI_CHAT` | Ai chat feature. |
+| <a id="licensedfeature-ai_config_chat"></a>`AI_CONFIG_CHAT` | Ai config chat feature. |
+| <a id="licensedfeature-ai_features"></a>`AI_FEATURES` | Ai features feature. |
+| <a id="licensedfeature-ai_workflows"></a>`AI_WORKFLOWS` | Ai workflows feature. |
+| <a id="licensedfeature-allow_personal_snippets"></a>`ALLOW_PERSONAL_SNIPPETS` | Allow personal snippets feature. |
+| <a id="licensedfeature-api_discovery"></a>`API_DISCOVERY` | Api discovery feature. |
+| <a id="licensedfeature-api_fuzzing"></a>`API_FUZZING` | Api fuzzing feature. |
+| <a id="licensedfeature-audit_events"></a>`AUDIT_EVENTS` | Audit events feature. |
+| <a id="licensedfeature-auto_rollback"></a>`AUTO_ROLLBACK` | Auto rollback feature. |
+| <a id="licensedfeature-blocked_issues"></a>`BLOCKED_ISSUES` | Blocked issues feature. |
+| <a id="licensedfeature-blocked_work_items"></a>`BLOCKED_WORK_ITEMS` | Blocked work items feature. |
+| <a id="licensedfeature-blocking_merge_requests"></a>`BLOCKING_MERGE_REQUESTS` | Blocking merge requests feature. |
+| <a id="licensedfeature-board_assignee_lists"></a>`BOARD_ASSIGNEE_LISTS` | Board assignee lists feature. |
+| <a id="licensedfeature-board_iteration_lists"></a>`BOARD_ITERATION_LISTS` | Board iteration lists feature. |
+| <a id="licensedfeature-board_milestone_lists"></a>`BOARD_MILESTONE_LISTS` | Board milestone lists feature. |
+| <a id="licensedfeature-board_status_lists"></a>`BOARD_STATUS_LISTS` | Board status lists feature. |
+| <a id="licensedfeature-branch_rule_squash_options"></a>`BRANCH_RULE_SQUASH_OPTIONS` | Branch rule squash options feature. |
+| <a id="licensedfeature-ci_cd_catalog_publish_restriction"></a>`CI_CD_CATALOG_PUBLISH_RESTRICTION` | Ci cd catalog publish restriction feature. |
+| <a id="licensedfeature-ci_cd_projects"></a>`CI_CD_PROJECTS` | Ci cd projects feature. |
+| <a id="licensedfeature-ci_component_usages_in_projects"></a>`CI_COMPONENT_USAGES_IN_PROJECTS` | Ci component usages in projects feature. |
+| <a id="licensedfeature-ci_job_analytics_for_projects"></a>`CI_JOB_ANALYTICS_FOR_PROJECTS` | Ci job analytics for projects feature. |
+| <a id="licensedfeature-ci_pipeline_cancellation_restrictions"></a>`CI_PIPELINE_CANCELLATION_RESTRICTIONS` | Ci pipeline cancellation restrictions feature. |
+| <a id="licensedfeature-ci_project_subscriptions"></a>`CI_PROJECT_SUBSCRIPTIONS` | Ci project subscriptions feature. |
+| <a id="licensedfeature-ci_runner_controllers"></a>`CI_RUNNER_CONTROLLERS` | Ci runner controllers feature. |
+| <a id="licensedfeature-ci_secrets_management"></a>`CI_SECRETS_MANAGEMENT` | Ci secrets management feature. |
+| <a id="licensedfeature-cluster_agents_ci_impersonation"></a>`CLUSTER_AGENTS_CI_IMPERSONATION` | Cluster agents ci impersonation feature. |
+| <a id="licensedfeature-cluster_agents_user_impersonation"></a>`CLUSTER_AGENTS_USER_IMPERSONATION` | Cluster agents user impersonation feature. |
+| <a id="licensedfeature-cluster_deployments"></a>`CLUSTER_DEPLOYMENTS` | Cluster deployments feature. |
+| <a id="licensedfeature-cluster_image_scanning"></a>`CLUSTER_IMAGE_SCANNING` | Cluster image scanning feature. |
+| <a id="licensedfeature-cluster_receptive_agents"></a>`CLUSTER_RECEPTIVE_AGENTS` | Cluster receptive agents feature. |
+| <a id="licensedfeature-code_owners"></a>`CODE_OWNERS` | Code owners feature. |
+| <a id="licensedfeature-code_owner_approval_required"></a>`CODE_OWNER_APPROVAL_REQUIRED` | Code owner approval required feature. |
+| <a id="licensedfeature-code_review_analytics"></a>`CODE_REVIEW_ANALYTICS` | Code review analytics feature. |
+| <a id="licensedfeature-code_suggestions"></a>`CODE_SUGGESTIONS` | Code suggestions feature. |
+| <a id="licensedfeature-commit_committer_check"></a>`COMMIT_COMMITTER_CHECK` | Commit committer check feature. |
+| <a id="licensedfeature-commit_committer_name_check"></a>`COMMIT_COMMITTER_NAME_CHECK` | Commit committer name check feature. |
+| <a id="licensedfeature-compliance_framework"></a>`COMPLIANCE_FRAMEWORK` | Compliance framework feature. |
+| <a id="licensedfeature-compliance_pipeline_configuration"></a>`COMPLIANCE_PIPELINE_CONFIGURATION` | Compliance pipeline configuration feature. |
+| <a id="licensedfeature-configurable_work_item_types"></a>`CONFIGURABLE_WORK_ITEM_TYPES` | Configurable work item types feature. |
+| <a id="licensedfeature-container_registry_immutable_tag_rules"></a>`CONTAINER_REGISTRY_IMMUTABLE_TAG_RULES` | Container registry immutable tag rules feature. |
+| <a id="licensedfeature-container_scanning"></a>`CONTAINER_SCANNING` | Container scanning feature. |
+| <a id="licensedfeature-container_scanning_for_registry"></a>`CONTAINER_SCANNING_FOR_REGISTRY` | Container scanning for registry feature. |
+| <a id="licensedfeature-container_virtual_registry"></a>`CONTAINER_VIRTUAL_REGISTRY` | Container virtual registry feature. |
+| <a id="licensedfeature-contribution_analytics"></a>`CONTRIBUTION_ANALYTICS` | Contribution analytics feature. |
+| <a id="licensedfeature-coverage_check_approval_rule"></a>`COVERAGE_CHECK_APPROVAL_RULE` | Coverage check approval rule feature. |
+| <a id="licensedfeature-coverage_fuzzing"></a>`COVERAGE_FUZZING` | Coverage fuzzing feature. |
+| <a id="licensedfeature-credentials_inventory"></a>`CREDENTIALS_INVENTORY` | Credentials inventory feature. |
+| <a id="licensedfeature-cross_project_pipelines"></a>`CROSS_PROJECT_PIPELINES` | Cross project pipelines feature. |
+| <a id="licensedfeature-custom_compliance_frameworks"></a>`CUSTOM_COMPLIANCE_FRAMEWORKS` | Custom compliance frameworks feature. |
+| <a id="licensedfeature-custom_fields"></a>`CUSTOM_FIELDS` | Custom fields feature. |
+| <a id="licensedfeature-custom_file_templates_for_namespace"></a>`CUSTOM_FILE_TEMPLATES_FOR_NAMESPACE` | Custom file templates for namespace feature. |
+| <a id="licensedfeature-custom_roles"></a>`CUSTOM_ROLES` | Custom roles feature. |
+| <a id="licensedfeature-cycle_analytics_for_groups"></a>`CYCLE_ANALYTICS_FOR_GROUPS` | Cycle analytics for groups feature. |
+| <a id="licensedfeature-cycle_analytics_for_projects"></a>`CYCLE_ANALYTICS_FOR_PROJECTS` | Cycle analytics for projects feature. |
+| <a id="licensedfeature-dast"></a>`DAST` | Dast feature. |
+| <a id="licensedfeature-default_project_deletion_protection"></a>`DEFAULT_PROJECT_DELETION_PROTECTION` | Default project deletion protection feature. |
+| <a id="licensedfeature-default_roles_assignees"></a>`DEFAULT_ROLES_ASSIGNEES` | Default roles assignees feature. |
+| <a id="licensedfeature-delete_unconfirmed_users"></a>`DELETE_UNCONFIRMED_USERS` | Delete unconfirmed users feature. |
+| <a id="licensedfeature-dependency_firewall"></a>`DEPENDENCY_FIREWALL` | Dependency firewall feature. |
+| <a id="licensedfeature-dependency_proxy_for_packages"></a>`DEPENDENCY_PROXY_FOR_PACKAGES` | Dependency proxy for packages feature. |
+| <a id="licensedfeature-dependency_scanning"></a>`DEPENDENCY_SCANNING` | Dependency scanning feature. |
+| <a id="licensedfeature-description_composer"></a>`DESCRIPTION_COMPOSER` | Description composer feature. |
+| <a id="licensedfeature-description_diffs"></a>`DESCRIPTION_DIFFS` | Description diffs feature. |
+| <a id="licensedfeature-devops_adoption"></a>`DEVOPS_ADOPTION` | Devops adoption feature. |
+| <a id="licensedfeature-disable_deleting_account_for_users"></a>`DISABLE_DELETING_ACCOUNT_FOR_USERS` | Disable deleting account for users feature. |
+| <a id="licensedfeature-disable_extensions_marketplace_for_enterprise_users"></a>`DISABLE_EXTENSIONS_MARKETPLACE_FOR_ENTERPRISE_USERS` | Disable extensions marketplace for enterprise users feature. |
+| <a id="licensedfeature-disable_invite_members"></a>`DISABLE_INVITE_MEMBERS` | Disable invite members feature. |
+| <a id="licensedfeature-disable_name_update_for_users"></a>`DISABLE_NAME_UPDATE_FOR_USERS` | Disable name update for users feature. |
+| <a id="licensedfeature-disable_personal_access_tokens"></a>`DISABLE_PERSONAL_ACCESS_TOKENS` | Disable personal access tokens feature. |
+| <a id="licensedfeature-disable_ssh_keys"></a>`DISABLE_SSH_KEYS` | Disable ssh keys feature. |
+| <a id="licensedfeature-domain_verification"></a>`DOMAIN_VERIFICATION` | Domain verification feature. |
+| <a id="licensedfeature-dora4_analytics"></a>`DORA4_ANALYTICS` | Dora4 analytics feature. |
+| <a id="licensedfeature-email_additional_text"></a>`EMAIL_ADDITIONAL_TEXT` | Email additional text feature. |
+| <a id="licensedfeature-environment_alerts"></a>`ENVIRONMENT_ALERTS` | Environment alerts feature. |
+| <a id="licensedfeature-epics"></a>`EPICS` | Epics feature. |
+| <a id="licensedfeature-epic_colors"></a>`EPIC_COLORS` | Epic colors feature. |
+| <a id="licensedfeature-escalation_policies"></a>`ESCALATION_POLICIES` | Escalation policies feature. |
+| <a id="licensedfeature-evaluate_group_level_compliance_pipeline"></a>`EVALUATE_GROUP_LEVEL_COMPLIANCE_PIPELINE` | Evaluate group level compliance pipeline feature. |
+| <a id="licensedfeature-experimental_features"></a>`EXPERIMENTAL_FEATURES` | Experimental features feature. |
+| <a id="licensedfeature-explain_code"></a>`EXPLAIN_CODE` | Explain code feature. |
+| <a id="licensedfeature-export_user_permissions"></a>`EXPORT_USER_PERMISSIONS` | Export user permissions feature. |
+| <a id="licensedfeature-external_audit_events"></a>`EXTERNAL_AUDIT_EVENTS` | External audit events feature. |
+| <a id="licensedfeature-external_status_checks"></a>`EXTERNAL_STATUS_CHECKS` | External status checks feature. |
+| <a id="licensedfeature-feature_flags_code_references"></a>`FEATURE_FLAGS_CODE_REFERENCES` | Feature flags code references feature. |
+| <a id="licensedfeature-feature_flags_related_issues"></a>`FEATURE_FLAGS_RELATED_ISSUES` | Feature flags related issues feature. |
+| <a id="licensedfeature-file_locks"></a>`FILE_LOCKS` | File locks feature. |
+| <a id="licensedfeature-full_codequality_report"></a>`FULL_CODEQUALITY_REPORT` | Full codequality report feature. |
+| <a id="licensedfeature-generate_commit_message"></a>`GENERATE_COMMIT_MESSAGE` | Generate commit message feature. |
+| <a id="licensedfeature-generate_description"></a>`GENERATE_DESCRIPTION` | Generate description feature. |
+| <a id="licensedfeature-generate_test_file"></a>`GENERATE_TEST_FILE` | Generate test file feature. |
+| <a id="licensedfeature-generic_alert_fingerprinting"></a>`GENERIC_ALERT_FINGERPRINTING` | Generic alert fingerprinting feature. |
+| <a id="licensedfeature-github_integration"></a>`GITHUB_INTEGRATION` | Github integration feature. |
+| <a id="licensedfeature-git_two_factor_enforcement"></a>`GIT_TWO_FACTOR_ENFORCEMENT` | Git two factor enforcement feature. |
+| <a id="licensedfeature-glab_ask_git_command"></a>`GLAB_ASK_GIT_COMMAND` | Glab ask git command feature. |
+| <a id="licensedfeature-group_activity_analytics"></a>`GROUP_ACTIVITY_ANALYTICS` | Group activity analytics feature. |
+| <a id="licensedfeature-group_allowed_email_domains"></a>`GROUP_ALLOWED_EMAIL_DOMAINS` | Group allowed email domains feature. |
+| <a id="licensedfeature-group_bulk_edit"></a>`GROUP_BULK_EDIT` | Group bulk edit feature. |
+| <a id="licensedfeature-group_ci_cd_analytics_pipelines"></a>`GROUP_CI_CD_ANALYTICS_PIPELINES` | Group ci cd analytics pipelines feature. |
+| <a id="licensedfeature-group_ci_cd_analytics_releases"></a>`GROUP_CI_CD_ANALYTICS_RELEASES` | Group ci cd analytics releases feature. |
+| <a id="licensedfeature-group_coverage_reports"></a>`GROUP_COVERAGE_REPORTS` | Group coverage reports feature. |
+| <a id="licensedfeature-group_forking_protection"></a>`GROUP_FORKING_PROTECTION` | Group forking protection feature. |
+| <a id="licensedfeature-group_ip_restriction"></a>`GROUP_IP_RESTRICTION` | Group ip restriction feature. |
+| <a id="licensedfeature-group_level_analytics_dashboard"></a>`GROUP_LEVEL_ANALYTICS_DASHBOARD` | Group level analytics dashboard feature. |
+| <a id="licensedfeature-group_level_compliance_adherence_report"></a>`GROUP_LEVEL_COMPLIANCE_ADHERENCE_REPORT` | Group level compliance adherence report feature. |
+| <a id="licensedfeature-group_level_compliance_dashboard"></a>`GROUP_LEVEL_COMPLIANCE_DASHBOARD` | Group level compliance dashboard feature. |
+| <a id="licensedfeature-group_level_compliance_violations_report"></a>`GROUP_LEVEL_COMPLIANCE_VIOLATIONS_REPORT` | Group level compliance violations report feature. |
+| <a id="licensedfeature-group_level_devops_adoption"></a>`GROUP_LEVEL_DEVOPS_ADOPTION` | Group level devops adoption feature. |
+| <a id="licensedfeature-group_level_merge_checks_setting"></a>`GROUP_LEVEL_MERGE_CHECKS_SETTING` | Group level merge checks setting feature. |
+| <a id="licensedfeature-group_milestone_project_releases"></a>`GROUP_MILESTONE_PROJECT_RELEASES` | Group milestone project releases feature. |
+| <a id="licensedfeature-group_project_templates"></a>`GROUP_PROJECT_TEMPLATES` | Group project templates feature. |
+| <a id="licensedfeature-group_protected_branches"></a>`GROUP_PROTECTED_BRANCHES` | Group protected branches feature. |
+| <a id="licensedfeature-group_repository_analytics"></a>`GROUP_REPOSITORY_ANALYTICS` | Group repository analytics feature. |
+| <a id="licensedfeature-group_saml"></a>`GROUP_SAML` | Group saml feature. |
+| <a id="licensedfeature-group_saved_replies"></a>`GROUP_SAVED_REPLIES` | Group saved replies feature. |
+| <a id="licensedfeature-group_scoped_ci_variables"></a>`GROUP_SCOPED_CI_VARIABLES` | Group scoped ci variables feature. |
+| <a id="licensedfeature-group_usage_billing"></a>`GROUP_USAGE_BILLING` | Group usage billing feature. |
+| <a id="licensedfeature-group_webhooks"></a>`GROUP_WEBHOOKS` | Group webhooks feature. |
+| <a id="licensedfeature-group_wikis"></a>`GROUP_WIKIS` | Group wikis feature. |
+| <a id="licensedfeature-ide_schema_config"></a>`IDE_SCHEMA_CONFIG` | Ide schema config feature. |
+| <a id="licensedfeature-incident_management"></a>`INCIDENT_MANAGEMENT` | Incident management feature. |
+| <a id="licensedfeature-incident_metric_upload"></a>`INCIDENT_METRIC_UPLOAD` | Incident metric upload feature. |
+| <a id="licensedfeature-incident_sla"></a>`INCIDENT_SLA` | Incident sla feature. |
+| <a id="licensedfeature-incident_timeline_view"></a>`INCIDENT_TIMELINE_VIEW` | Incident timeline view feature. |
+| <a id="licensedfeature-increased_saved_views_limit"></a>`INCREASED_SAVED_VIEWS_LIMIT` | Increased saved views limit feature. |
+| <a id="licensedfeature-inline_codequality"></a>`INLINE_CODEQUALITY` | Inline codequality feature. |
+| <a id="licensedfeature-insights"></a>`INSIGHTS` | Insights feature. |
+| <a id="licensedfeature-instance_level_devops_adoption"></a>`INSTANCE_LEVEL_DEVOPS_ADOPTION` | Instance level devops adoption feature. |
+| <a id="licensedfeature-issuable_default_templates"></a>`ISSUABLE_DEFAULT_TEMPLATES` | Issuable default templates feature. |
+| <a id="licensedfeature-issuable_health_status"></a>`ISSUABLE_HEALTH_STATUS` | Issuable health status feature. |
+| <a id="licensedfeature-issuable_resource_links"></a>`ISSUABLE_RESOURCE_LINKS` | Issuable resource links feature. |
+| <a id="licensedfeature-issues_analytics"></a>`ISSUES_ANALYTICS` | Issues analytics feature. |
+| <a id="licensedfeature-issues_completed_analytics"></a>`ISSUES_COMPLETED_ANALYTICS` | Issues completed analytics feature. |
+| <a id="licensedfeature-issue_weights"></a>`ISSUE_WEIGHTS` | Issue weights feature. |
+| <a id="licensedfeature-iterations"></a>`ITERATIONS` | Iterations feature. |
+| <a id="licensedfeature-jira_issues_integration"></a>`JIRA_ISSUES_INTEGRATION` | Jira issues integration feature. |
+| <a id="licensedfeature-jira_issue_association_enforcement"></a>`JIRA_ISSUE_ASSOCIATION_ENFORCEMENT` | Jira issue association enforcement feature. |
+| <a id="licensedfeature-jira_vulnerabilities_integration"></a>`JIRA_VULNERABILITIES_INTEGRATION` | Jira vulnerabilities integration feature. |
+| <a id="licensedfeature-kubernetes_cluster_vulnerabilities"></a>`KUBERNETES_CLUSTER_VULNERABILITIES` | Kubernetes cluster vulnerabilities feature. |
+| <a id="licensedfeature-license_information_source"></a>`LICENSE_INFORMATION_SOURCE` | License information source feature. |
+| <a id="licensedfeature-license_scanning"></a>`LICENSE_SCANNING` | License scanning feature. |
+| <a id="licensedfeature-linked_items_epics"></a>`LINKED_ITEMS_EPICS` | Linked items epics feature. |
+| <a id="licensedfeature-maintenance_mode"></a>`MAINTENANCE_MODE` | Maintenance mode feature. |
+| <a id="licensedfeature-mcp_server"></a>`MCP_SERVER` | Mcp server feature. |
+| <a id="licensedfeature-measure_comment_temperature"></a>`MEASURE_COMMENT_TEMPERATURE` | Measure comment temperature feature. |
+| <a id="licensedfeature-member_lock"></a>`MEMBER_LOCK` | Member lock feature. |
+| <a id="licensedfeature-merge_pipelines"></a>`MERGE_PIPELINES` | Merge pipelines feature. |
+| <a id="licensedfeature-merge_request_approvers"></a>`MERGE_REQUEST_APPROVERS` | Merge request approvers feature. |
+| <a id="licensedfeature-merge_request_performance_metrics"></a>`MERGE_REQUEST_PERFORMANCE_METRICS` | Merge request performance metrics feature. |
+| <a id="licensedfeature-merge_request_title_regex_check"></a>`MERGE_REQUEST_TITLE_REGEX_CHECK` | Merge request title regex check feature. |
+| <a id="licensedfeature-merge_trains"></a>`MERGE_TRAINS` | Merge trains feature. |
+| <a id="licensedfeature-metrics_reports"></a>`METRICS_REPORTS` | Metrics reports feature. |
+| <a id="licensedfeature-microsoft_group_sync"></a>`MICROSOFT_GROUP_SYNC` | Microsoft group sync feature. |
+| <a id="licensedfeature-milestone_charts"></a>`MILESTONE_CHARTS` | Milestone charts feature. |
+| <a id="licensedfeature-minimal_access_role"></a>`MINIMAL_ACCESS_ROLE` | Minimal access role feature. |
+| <a id="licensedfeature-multiple_alert_http_integrations"></a>`MULTIPLE_ALERT_HTTP_INTEGRATIONS` | Multiple alert http integrations feature. |
+| <a id="licensedfeature-multiple_approval_rules"></a>`MULTIPLE_APPROVAL_RULES` | Multiple approval rules feature. |
+| <a id="licensedfeature-multiple_group_issue_boards"></a>`MULTIPLE_GROUP_ISSUE_BOARDS` | Multiple group issue boards feature. |
+| <a id="licensedfeature-multiple_issue_assignees"></a>`MULTIPLE_ISSUE_ASSIGNEES` | Multiple issue assignees feature. |
+| <a id="licensedfeature-multiple_merge_request_assignees"></a>`MULTIPLE_MERGE_REQUEST_ASSIGNEES` | Multiple merge request assignees feature. |
+| <a id="licensedfeature-multiple_merge_request_reviewers"></a>`MULTIPLE_MERGE_REQUEST_REVIEWERS` | Multiple merge request reviewers feature. |
+| <a id="licensedfeature-native_secrets_management"></a>`NATIVE_SECRETS_MANAGEMENT` | Native secrets management feature. |
+| <a id="licensedfeature-observability"></a>`OBSERVABILITY` | Observability feature. |
+| <a id="licensedfeature-oidc_client_groups_claim"></a>`OIDC_CLIENT_GROUPS_CLAIM` | Oidc client groups claim feature. |
+| <a id="licensedfeature-okrs"></a>`OKRS` | Okrs feature. |
+| <a id="licensedfeature-oncall_schedules"></a>`ONCALL_SCHEDULES` | Oncall schedules feature. |
+| <a id="licensedfeature-operations_dashboard"></a>`OPERATIONS_DASHBOARD` | Operations dashboard feature. |
+| <a id="licensedfeature-orbit"></a>`ORBIT` | Orbit feature. |
+| <a id="licensedfeature-packages_virtual_registry"></a>`PACKAGES_VIRTUAL_REGISTRY` | Packages virtual registry feature. |
+| <a id="licensedfeature-package_forwarding"></a>`PACKAGE_FORWARDING` | Package forwarding feature. |
+| <a id="licensedfeature-pages_multiple_versions"></a>`PAGES_MULTIPLE_VERSIONS` | Pages multiple versions feature. |
+| <a id="licensedfeature-personal_access_token_expiration_policy"></a>`PERSONAL_ACCESS_TOKEN_EXPIRATION_POLICY` | Personal access token expiration policy feature. |
+| <a id="licensedfeature-productivity_analytics"></a>`PRODUCTIVITY_ANALYTICS` | Productivity analytics feature. |
+| <a id="licensedfeature-product_analytics"></a>`PRODUCT_ANALYTICS` | Product analytics feature. |
+| <a id="licensedfeature-project_level_analytics_dashboard"></a>`PROJECT_LEVEL_ANALYTICS_DASHBOARD` | Project level analytics dashboard feature. |
+| <a id="licensedfeature-project_level_compliance_adherence_report"></a>`PROJECT_LEVEL_COMPLIANCE_ADHERENCE_REPORT` | Project level compliance adherence report feature. |
+| <a id="licensedfeature-project_level_compliance_dashboard"></a>`PROJECT_LEVEL_COMPLIANCE_DASHBOARD` | Project level compliance dashboard feature. |
+| <a id="licensedfeature-project_level_compliance_violations_report"></a>`PROJECT_LEVEL_COMPLIANCE_VIOLATIONS_REPORT` | Project level compliance violations report feature. |
+| <a id="licensedfeature-project_merge_request_analytics"></a>`PROJECT_MERGE_REQUEST_ANALYTICS` | Project merge request analytics feature. |
+| <a id="licensedfeature-project_quality_summary"></a>`PROJECT_QUALITY_SUMMARY` | Project quality summary feature. |
+| <a id="licensedfeature-project_saved_replies"></a>`PROJECT_SAVED_REPLIES` | Project saved replies feature. |
+| <a id="licensedfeature-protected_environments"></a>`PROTECTED_ENVIRONMENTS` | Protected environments feature. |
+| <a id="licensedfeature-protected_refs_for_users"></a>`PROTECTED_REFS_FOR_USERS` | Protected refs for users feature. |
+| <a id="licensedfeature-push_rules"></a>`PUSH_RULES` | Push rules feature. |
+| <a id="licensedfeature-quality_management"></a>`QUALITY_MANAGEMENT` | Quality management feature. |
+| <a id="licensedfeature-reject_non_dco_commits"></a>`REJECT_NON_DCO_COMMITS` | Reject non dco commits feature. |
+| <a id="licensedfeature-reject_unsigned_commits"></a>`REJECT_UNSIGNED_COMMITS` | Reject unsigned commits feature. |
+| <a id="licensedfeature-related_epics"></a>`RELATED_EPICS` | Related epics feature. |
+| <a id="licensedfeature-release_evidence_test_artifacts"></a>`RELEASE_EVIDENCE_TEST_ARTIFACTS` | Release evidence test artifacts feature. |
+| <a id="licensedfeature-remote_development"></a>`REMOTE_DEVELOPMENT` | Remote development feature. |
+| <a id="licensedfeature-report_approver_rules"></a>`REPORT_APPROVER_RULES` | Report approver rules feature. |
+| <a id="licensedfeature-repository_mirrors"></a>`REPOSITORY_MIRRORS` | Repository mirrors feature. |
+| <a id="licensedfeature-requested_changes_block_merge_request"></a>`REQUESTED_CHANGES_BLOCK_MERGE_REQUEST` | Requested changes block merge request feature. |
+| <a id="licensedfeature-requirements"></a>`REQUIREMENTS` | Requirements feature. |
+| <a id="licensedfeature-resource_access_token"></a>`RESOURCE_ACCESS_TOKEN` | Resource access token feature. |
+| <a id="licensedfeature-review_merge_request"></a>`REVIEW_MERGE_REQUEST` | Review merge request feature. |
+| <a id="licensedfeature-runner_maintenance_note_for_namespace"></a>`RUNNER_MAINTENANCE_NOTE_FOR_NAMESPACE` | Runner maintenance note for namespace feature. |
+| <a id="licensedfeature-runner_performance_insights_for_namespace"></a>`RUNNER_PERFORMANCE_INSIGHTS_FOR_NAMESPACE` | Runner performance insights for namespace feature. |
+| <a id="licensedfeature-runner_upgrade_management_for_namespace"></a>`RUNNER_UPGRADE_MANAGEMENT_FOR_NAMESPACE` | Runner upgrade management for namespace feature. |
+| <a id="licensedfeature-saml_group_sync"></a>`SAML_GROUP_SYNC` | Saml group sync feature. |
+| <a id="licensedfeature-sarif"></a>`SARIF` | Sarif feature. |
+| <a id="licensedfeature-sast"></a>`SAST` | Sast feature. |
+| <a id="licensedfeature-sast_advanced"></a>`SAST_ADVANCED` | Sast advanced feature. |
+| <a id="licensedfeature-sast_custom_rulesets"></a>`SAST_CUSTOM_RULESETS` | Sast custom rulesets feature. |
+| <a id="licensedfeature-sast_fp_reduction"></a>`SAST_FP_REDUCTION` | Sast fp reduction feature. |
+| <a id="licensedfeature-sast_iac"></a>`SAST_IAC` | Sast iac feature. |
+| <a id="licensedfeature-scoped_issue_board"></a>`SCOPED_ISSUE_BOARD` | Scoped issue board feature. |
+| <a id="licensedfeature-scoped_labels"></a>`SCOPED_LABELS` | Scoped labels feature. |
+| <a id="licensedfeature-seat_control"></a>`SEAT_CONTROL` | Seat control feature. |
+| <a id="licensedfeature-secret_detection"></a>`SECRET_DETECTION` | Secret detection feature. |
+| <a id="licensedfeature-secret_detection_validity_checks"></a>`SECRET_DETECTION_VALIDITY_CHECKS` | Secret detection validity checks feature. |
+| <a id="licensedfeature-secret_push_protection"></a>`SECRET_PUSH_PROTECTION` | Secret push protection feature. |
+| <a id="licensedfeature-security_attributes"></a>`SECURITY_ATTRIBUTES` | Security attributes feature. |
+| <a id="licensedfeature-security_configuration_in_ui"></a>`SECURITY_CONFIGURATION_IN_UI` | Security configuration in ui feature. |
+| <a id="licensedfeature-security_dashboard"></a>`SECURITY_DASHBOARD` | Security dashboard feature. |
+| <a id="licensedfeature-security_exclusions"></a>`SECURITY_EXCLUSIONS` | Security exclusions feature. |
+| <a id="licensedfeature-security_inventory"></a>`SECURITY_INVENTORY` | Security inventory feature. |
+| <a id="licensedfeature-security_on_demand_scans"></a>`SECURITY_ON_DEMAND_SCANS` | Security on demand scans feature. |
+| <a id="licensedfeature-security_orchestration_policies"></a>`SECURITY_ORCHESTRATION_POLICIES` | Security orchestration policies feature. |
+| <a id="licensedfeature-security_scans_api"></a>`SECURITY_SCANS_API` | Security scans api feature. |
+| <a id="licensedfeature-security_scan_profiles"></a>`SECURITY_SCAN_PROFILES` | Security scan profiles feature. |
+| <a id="licensedfeature-security_training"></a>`SECURITY_TRAINING` | Security training feature. |
+| <a id="licensedfeature-self_hosted_models"></a>`SELF_HOSTED_MODELS` | Self hosted models feature. |
+| <a id="licensedfeature-semantic_code_search"></a>`SEMANTIC_CODE_SEARCH` | Semantic code search feature. |
+| <a id="licensedfeature-send_emails_from_admin_area"></a>`SEND_EMAILS_FROM_ADMIN_AREA` | Send emails from admin area feature. |
+| <a id="licensedfeature-smartcard_auth"></a>`SMARTCARD_AUTH` | Smartcard auth feature. |
+| <a id="licensedfeature-ssh_certificates"></a>`SSH_CERTIFICATES` | Ssh certificates feature. |
+| <a id="licensedfeature-ssh_key_expiration_policy"></a>`SSH_KEY_EXPIRATION_POLICY` | Ssh key expiration policy feature. |
+| <a id="licensedfeature-stale_runner_cleanup_for_namespace"></a>`STALE_RUNNER_CLEANUP_FOR_NAMESPACE` | Stale runner cleanup for namespace feature. |
+| <a id="licensedfeature-status_page"></a>`STATUS_PAGE` | Status page feature. |
+| <a id="licensedfeature-subepics"></a>`SUBEPICS` | Subepics feature. |
+| <a id="licensedfeature-suggested_reviewers"></a>`SUGGESTED_REVIEWERS` | Suggested reviewers feature. |
+| <a id="licensedfeature-summarize_comments"></a>`SUMMARIZE_COMMENTS` | Summarize comments feature. |
+| <a id="licensedfeature-summarize_mr_changes"></a>`SUMMARIZE_MR_CHANGES` | Summarize mr changes feature. |
+| <a id="licensedfeature-summarize_new_merge_request"></a>`SUMMARIZE_NEW_MERGE_REQUEST` | Summarize new merge request feature. |
+| <a id="licensedfeature-summarize_review"></a>`SUMMARIZE_REVIEW` | Summarize review feature. |
+| <a id="licensedfeature-swimlanes"></a>`SWIMLANES` | Swimlanes feature. |
+| <a id="licensedfeature-target_branch_rules"></a>`TARGET_BRANCH_RULES` | Target branch rules feature. |
+| <a id="licensedfeature-troubleshoot_job"></a>`TROUBLESHOOT_JOB` | Troubleshoot job feature. |
+| <a id="licensedfeature-type_of_work_analytics"></a>`TYPE_OF_WORK_ANALYTICS` | Type of work analytics feature. |
+| <a id="licensedfeature-unique_project_download_limit"></a>`UNIQUE_PROJECT_DOWNLOAD_LIMIT` | Unique project download limit feature. |
+| <a id="licensedfeature-unprotection_restrictions"></a>`UNPROTECTION_RESTRICTIONS` | Unprotection restrictions feature. |
+| <a id="licensedfeature-vulnerability_finding_signatures"></a>`VULNERABILITY_FINDING_SIGNATURES` | Vulnerability finding signatures feature. |
+| <a id="licensedfeature-wip_limits"></a>`WIP_LIMITS` | Wip limits feature. |
+| <a id="licensedfeature-work_item_status"></a>`WORK_ITEM_STATUS` | Work item status feature. |
+| <a id="licensedfeature-zentao_issues_integration"></a>`ZENTAO_ISSUES_INTEGRATION` | Zentao issues integration feature. |
 
 ### `ListLimitMetric`
 

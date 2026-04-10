@@ -377,7 +377,7 @@ re-processing of cached prompt and input data.
 
 ### Turn off prompt caching
 
-You can [turn off prompt caching](../duo_agent_platform/code_suggestions/_index.md#turn-off-prompt-caching)
+You can [turn off prompt caching](../project/repository/code_suggestions/_index.md#turn-off-prompt-caching)
 in the GitLab Duo settings, depending on the offering:
 
 - On GitLab.com, you can turn off caching for individual top-level groups.

@@ -1,25 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'database_helper'
+
 RSpec.configure do |config|
   config.before(:suite) do
-    db_name = "gitlab_data_isolation_test"
-
-    # Load from `gitlab-rails/config/database.yml`
-    # Inject a `gitlab_data_isolation_test` database
-    config_path = File.expand_path('../../../../config/database.yml', __dir__)
-    db_config = YAML.load_file(config_path)['test']['main']
-    ActiveRecord::Base.establish_connection(db_config.merge(database: "postgres"))
-    begin
-      ActiveRecord::Base.connection.drop_database(db_name)
-    rescue StandardError
-      nil
-    end
-    begin
-      ActiveRecord::Base.connection.create_database(db_name)
-    rescue StandardError
-      nil
-    end
-    ActiveRecord::Base.establish_connection(db_config.merge(database: db_name))
+    DatabaseHelper.setup_database
 
     ActiveRecord::Schema.define do
       create_table :projects do |t|
@@ -53,5 +38,9 @@ RSpec.configure do |config|
         t.integer :user_id
       end
     end
+  end
+
+  config.after(:suite) do
+    DatabaseHelper.teardown_database
   end
 end

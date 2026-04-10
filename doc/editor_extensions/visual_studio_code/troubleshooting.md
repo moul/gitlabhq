@@ -127,7 +127,7 @@ To troubleshoot GitLab Duo errors in VS Code:
 For additional support:
 
 - [Troubleshooting the GitLab Duo Agent Platform in your IDE](../../user/duo_agent_platform/troubleshooting_ide.md)
-- Troubleshooting [Code Suggestions](../../user/duo_agent_platform/code_suggestions/troubleshooting.md#vs-code-troubleshooting)
+- Troubleshooting [Code Suggestions](../../user/project/repository/code_suggestions/troubleshooting.md#vs-code-troubleshooting)
 
 ## Known issue: GitLab Duo Chat fails to initialize in remote environments
 

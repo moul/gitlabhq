@@ -386,19 +386,17 @@ export default {
           :aria-label="__('Exit full screen')"
           ><gl-icon variant="subtle" :size="24" name="minimize"
         /></a>
-        <div class="gl-border-t">
-          <markdown-toolbar
-            v-if="!immersive"
-            :markdown-docs-path="markdownDocsPath"
-            :can-attach-file="canAttachFile"
-            :show-comment-tool-bar="showCommentToolBar"
-            :show-content-editor-switcher="showContentEditorSwitcher"
-            :class="{ showContentEditorSwitcher: 'gl-border-t' }"
-            @enableContentEditor="$emit('enableContentEditor')"
-          >
-            <template #toolbar><slot name="toolbar"></slot></template>
-          </markdown-toolbar>
-        </div>
+        <markdown-toolbar
+          v-if="!immersive"
+          :markdown-docs-path="markdownDocsPath"
+          :can-attach-file="canAttachFile"
+          :show-comment-tool-bar="showCommentToolBar"
+          :show-content-editor-switcher="showContentEditorSwitcher"
+          :class="{ 'gl-border-t': showContentEditorSwitcher }"
+          @enableContentEditor="$emit('enableContentEditor')"
+        >
+          <template #toolbar><slot name="toolbar"></slot></template>
+        </markdown-toolbar>
       </div>
     </div>
     <div

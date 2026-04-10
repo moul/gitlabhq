@@ -76,7 +76,7 @@ Unlike the `FullPipeline`, this pipeline does not run the Markdown parser (`Mark
 - reference filters - resolve GitLab references like `#123`, `@user`, and `!456`.
 
 This means titles do not support bold, italic, code spans, Markdown links, or any other standard Markdown formatting. For more information about what
-formatting is available in titles, see [formatting in titles](../../user/markdown.md#formatting-of-work-item-and-merge-request-titles).
+formatting is available in titles, see [work item and merge request titles](../../user/markdown.md#work-item-and-merge-request-titles).
 
 ### Performance
 

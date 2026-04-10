@@ -345,6 +345,12 @@ The dashboard displays the following information:
 
 ### View the GitLab Credits dashboard
 
+{{< history >}}
+
+- Historical usage period selection [introduced](https://gitlab.com/gitlab-org/customers-gitlab-com/-/work_items/15910) in GitLab 18.11.
+
+{{< /history >}}
+
 {{< tabs >}}
 
 {{< tab title="Customers Portal" >}}
@@ -355,6 +361,7 @@ Prerequisites:
 
 1. Sign in to [Customers Portal](https://customers.gitlab.com/).
 1. On the subscription card, select **GitLab Credits dashboard**.
+1. Optional. To view a previous month, from the **Usage period** dropdown list, select a period you want to view.
 1. Optional. To sort the results by **User** or **Total credits used**, select the respective column.
 
 {{< /tab >}}
@@ -388,6 +395,42 @@ Prerequisites:
 
 By default, individual user data is not displayed in the GitLab Credits dashboard.
 To display it, you must enable this setting for your [group](../user/group/manage.md#display-gitlab-credits-user-data) or [instance](../administration/settings/visibility_and_access_controls.md#display-gitlab-credits-user-data).
+
+### Usage control status
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/594635) in GitLab 18.11.
+
+{{< /history >}}
+
+When per-user credit caps are enabled, the **Usage by user** tab on the
+GitLab Credits dashboard displays a **Usage control status** column.
+This column shows whether each user can access
+[GitLab Duo Agent Platform](../user/duo_agent_platform/_index.md) features
+or is blocked because they reached their credit cap.
+
+The column displays one of the following statuses:
+
+| Status | Description |
+|--------|-------------|
+| **Regular** | The user has not reached their credit cap and can use GitLab Duo Agent Platform features. |
+| **Blocked - subscription cap reached** | The user reached the flat per-user cap set at the subscription level. |
+| **Blocked - user cap reached** | The user reached a per-user override cap set specifically for them. |
+
+#### Unblock a user who reached their credit cap
+
+You can restore access for a blocked user by using the per-user override GraphQL API.
+
+To unblock a user, either:
+
+- Increase the cap: Set a higher per-user override cap so the user's
+  usage falls below the new limit.
+- Remove the cap: Delete the per-user override so the user is no longer
+  subject to an individual cap.
+
+After you update the cap, the user's status changes to **Regular** and they
+can use GitLab Duo Agent Platform features again.
 
 ### View user credit usage details
 
@@ -424,4 +467,5 @@ Prerequisites:
 
 1. Sign in to [Customers Portal](https://customers.gitlab.com/).
 1. On the subscription card, select **GitLab Credits dashboard**.
+1. From the **Usage period** dropdown list, select the period you want to export data for.
 1. Select **Export usage data**.

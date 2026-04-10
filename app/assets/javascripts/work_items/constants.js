@@ -193,12 +193,6 @@ export const SAVED_VIEW_VISIBILITY = {
   SHARED: 'shared',
 };
 
-export const LINK_ITEM_FORM_HEADER_LABEL = {
-  [WORK_ITEM_TYPE_NAME_OBJECTIVE]: s__('WorkItem|The current objective'),
-  [WORK_ITEM_TYPE_NAME_KEY_RESULT]: s__('WorkItem|The current key result'),
-  [WORK_ITEM_TYPE_NAME_TASK]: s__('WorkItem|The current task'),
-};
-
 export const LINKED_ITEMS_ANCHOR = 'linkeditems';
 export const CHILD_ITEMS_ANCHOR = 'childitems';
 export const TASKS_ANCHOR = 'tasks';

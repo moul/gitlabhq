@@ -369,6 +369,33 @@ RSpec.describe Projects::MergeRequestsController, feature_category: :source_code
             )
         end
       end
+
+      context 'when an error occurs during rendering' do
+        it 'logs the exception, deletes the cookie, and redirects with an alert' do
+          cookies['rapid_diffs_enabled'] = 'true'
+
+          expect_next_instance_of(described_class) do |instance|
+            allow(instance)
+              .to receive(:show_merge_request)
+              .and_raise(StandardError, 'something went wrong')
+
+            expect(instance)
+              .to receive(:log_exception)
+              .with(instance_of(StandardError))
+          end
+
+          get diffs_project_merge_request_path(project, merge_request)
+
+          expect(response).to redirect_to(diffs_project_merge_request_path(project, merge_request))
+          expect(response.cookies['rapid_diffs_enabled']).to be_nil
+          expect(flash[:alert]).to eq(
+            _("Rapid Diffs encountered an error and has been temporarily disabled. " \
+              "The page has loaded using the standard diff view. " \
+              "<a class=\"gl-link\" target=\"_blank\" rel=\"noopener noreferrer\" " \
+              "href=\"https://gitlab.com/gitlab-org/gitlab/-/work_items/596236\">Leave feedback</a>")
+          )
+        end
+      end
     end
 
     private

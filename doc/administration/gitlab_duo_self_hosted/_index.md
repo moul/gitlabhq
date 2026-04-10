@@ -40,7 +40,7 @@ Use GitLab Duo Agent Platform Self-Hosted for on-premise models or private cloud
 
 For customers with an offline license, billing is seat based and you must have the [GitLab Duo Agent Platform Self-Hosted](../../subscriptions/subscription-add-ons.md#gitlab-duo-agent-platform-self-hosted) add-on.
 
-For customers with an online license, billing is usage based. You can also use GitLab-managed models in a hybrid deployment.
+For customers with an online license, billing is [usage based](../../subscriptions/gitlab_credits.md). You can also use GitLab-managed models in a hybrid deployment.
 
 Inference data (including code inputs, model prompts, and model responses) does not leave the customer network.
 Anonymized billing metadata (instance ID, call count, anonymized user ID) is sent to GitLab for usage billing.

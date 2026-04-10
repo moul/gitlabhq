@@ -121,7 +121,7 @@ If there is no otherwise meaningful value for a cell, consider entering **N/A** 
 Describe the image or video in the `[alt text]`. Make the description accurate, succinct, and unique.
 Don't use `image of` or `video of` in the description. For more information, see [WebAim Alternative Text](https://webaim.org/techniques/alttext/).
 
-## Formatting of work item and merge request titles
+## Work item and merge request titles
 
 {{< history >}}
 
@@ -1282,7 +1282,7 @@ When an image is selected, it opens in an overlay.
 If an image has transparent areas, hover over it and select **Toggle transparency checkerboard**
 to show a checkerboard background.
 The checkerboard makes transparent areas visible against any theme.
-**Toggle transparency checkerboard** appears on PNG, WebP, and GIF images if at least 5% of their pixels have some degree of transparency (are not fully opaque). 
+**Toggle transparency checkerboard** appears on PNG, WebP, and GIF images if at least 5% of their pixels have some degree of transparency (are not fully opaque).
 Images with fewer than 5% transparent pixels do not show the toggle.
 
 ### Videos

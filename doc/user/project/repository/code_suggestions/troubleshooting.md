@@ -6,21 +6,6 @@ description: Troubleshooting tips for common problems in Code Suggestions.
 title: Troubleshooting Code Suggestions
 ---
 
-{{< details >}}
-
-- Tier: Premium, Ultimate
-- Add-on: GitLab Duo Core, Pro, or Enterprise, GitLab Duo with Amazon Q
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
-
-{{< history >}}
-
-- Changed to require GitLab Duo add-on in GitLab 17.6 and later.
-- Changed to include GitLab Duo Core in GitLab 18.0.
-
-{{< /history >}}
-
 When working with GitLab Duo Code Suggestions, you might encounter the following issues.
 
 You can run a [health check](../../../gitlab_duo/turn_on_off.md) to test if your instance meets the requirements to run Code Suggestions.
