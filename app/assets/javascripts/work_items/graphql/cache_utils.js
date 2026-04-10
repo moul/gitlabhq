@@ -661,10 +661,6 @@ export const legacyGetNewWorkItemSharedCache = ({
       }
 
       if (widgetName === WIDGET_TYPE_WEIGHT) {
-        const weightWidgetData = widgetDefinitions.find(
-          (definition) => definition.type === WIDGET_TYPE_WEIGHT,
-        );
-
         widgets.push({
           type: 'WEIGHT',
           weight: sharedCacheWidgets[WIDGET_TYPE_WEIGHT]
@@ -672,10 +668,6 @@ export const legacyGetNewWorkItemSharedCache = ({
             : null,
           rolledUpWeight: null,
           rolledUpCompletedWeight: null,
-          widgetDefinition: {
-            editable: weightWidgetData?.editable,
-            rollUp: weightWidgetData?.rollUp,
-          },
           __typename: 'WorkItemWidgetWeight',
         });
       }

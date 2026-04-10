@@ -1926,6 +1926,7 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
           auto_rollback_enabled
           merge_trains_skip_train_allowed
           restrict_pipeline_cancellation_role
+          max_pipelines_per_merge_train
         ]
       end
     end

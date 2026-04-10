@@ -139,6 +139,19 @@ module RapidDiffs
       # rubocop: enable CodeReuse/Presenter
     end
 
+    override(:transform_file_collection)
+    def transform_file_collection(collection)
+      collection_unfolder.unfold!(collection)
+      super
+    end
+
+    private
+
+    def collection_unfolder
+      ::Gitlab::Diff::CollectionUnfolder.new(resource, @current_user)
+    end
+    strong_memoize_attr :collection_unfolder
+
     def diff_options_from_params
       {
         diff_id: request_params[:diff_id] || resolved_diff_id,

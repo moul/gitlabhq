@@ -65,6 +65,7 @@ Audit event types belong to the following product categories.
 | [`duo_features_enabled_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/145509) | GitLab Duo Features enabled setting on group or project changed | {{< yes >}} | GitLab [16.10](https://gitlab.com/gitlab-org/gitlab/-/issues/442485) | Group, Project |
 | [`duo_foundational_flows_enabled_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228472) | GitLab Duo foundational flows enabled setting on group changed | {{< yes >}} | GitLab [18.11](https://gitlab.com/groups/gitlab-org/-/work_items/593017) | Group |
 | [`duo_remote_flows_enabled_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228438) | GitLab Duo remote flows enabled setting on group changed | {{< yes >}} | GitLab [18.11](https://gitlab.com/groups/gitlab-org/-/work_items/593016) | Group |
+| [`enabled_foundational_flows_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228497) | Enabled foundational flows selection on group changed | {{< yes >}} | GitLab [18.11](https://gitlab.com/gitlab-org/gitlab/-/work_items/593019) | Group |
 | [`q_onbarding_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/175501) | Amazon Q instance settings changed | {{< yes >}} | GitLab [17.8](https://gitlab.com/gitlab-org/gitlab/-/issues/508250) | Instance |
 
 ### Audit events

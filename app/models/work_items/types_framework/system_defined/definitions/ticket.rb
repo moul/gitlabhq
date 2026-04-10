@@ -32,7 +32,7 @@ module WorkItems
             end
 
             def widget_options
-              { weight: { editable: true, rollup: false } }
+              {}
             end
 
             def configuration

@@ -570,6 +570,14 @@ Grants the ability to read code suggestion enabled status.
 | ------ | ------ | ------ | ---- |
 | Read | Project | `POST` | `/code_suggestions/enabled` |
 
+#### Duo Workflows
+
+Grants the ability to resume duo workflows.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Resume | User | `POST` | `/ai/duo_workflows/workflows/:workflow_id/resume` |
+
 ### Geo resources
 
 #### Geo Node

@@ -1950,7 +1950,6 @@ export const workItemResponseFactory = ({
   blockedByCount = mockEmptyLinkedItems.blockedByCount,
   blockingCount = mockEmptyLinkedItems.blockingCount,
   color = '#1068bf',
-  editableWeightWidget = true,
   hasParent = false,
   healthStatus = 'onTrack',
   rolledUpHealthStatus = [],
@@ -2075,11 +2074,6 @@ export const workItemResponseFactory = ({
               weight,
               rolledUpWeight,
               rolledUpCompletedWeight,
-              widgetDefinition: {
-                editable: editableWeightWidget,
-                rollUp: !editableWeightWidget,
-                __typename: 'WorkItemWidgetDefinitionWeight',
-              },
               __typename: 'WorkItemWidgetWeight',
             }
           : { type: 'MOCK TYPE' },
@@ -7143,11 +7137,6 @@ export const createWorkItemQueryResponse = (widgets = []) => ({
             weight: 2,
             rolledUpWeight: 0,
             rolledUpCompletedWeight: 0,
-            widgetDefinition: {
-              editable: true,
-              rollUp: false,
-              __typename: 'WorkItemWidgetDefinitionWeight',
-            },
             __typename: 'WorkItemWidgetWeight',
           },
           {
@@ -7751,7 +7740,6 @@ export const mockCreateWorkItemDraftData = {
           weight: 5,
           rolledUpWeight: null,
           rolledUpCompletedWeight: null,
-          widgetDefinition: { editable: false, rollUp: true },
         },
         {
           __typename: 'WorkItemWidgetStartAndDueDate',
@@ -7922,8 +7910,6 @@ export const mockNewWorkItemCache = {
     {
       __typename: 'WorkItemWidgetDefinitionWeight',
       type: 'WEIGHT',
-      editable: false,
-      rollUp: true,
     },
     {
       __typename: 'WorkItemWidgetDefinitionCustomFields',
@@ -7969,7 +7955,6 @@ export const restoredDraftDataWidgets = [
     weight: 5,
     rolledUpWeight: null,
     rolledUpCompletedWeight: null,
-    widgetDefinition: { editable: false, rollUp: true },
     __typename: 'WorkItemWidgetWeight',
   },
   {
@@ -8063,10 +8048,6 @@ export const restoredDraftDataWidgetsEmpty = [
     weight: null,
     rolledUpWeight: null,
     rolledUpCompletedWeight: null,
-    widgetDefinition: {
-      editable: false,
-      rollUp: true,
-    },
     __typename: 'WorkItemWidgetWeight',
   },
   {
@@ -8322,8 +8303,6 @@ export const namespaceWorkItemTypesQueryResponse = {
               },
               {
                 type: 'WEIGHT',
-                editable: false,
-                rollUp: true,
                 __typename: 'WorkItemWidgetDefinitionWeight',
               },
             ],
@@ -8572,8 +8551,6 @@ export const namespaceWorkItemTypesQueryResponse = {
               },
               {
                 type: 'WEIGHT',
-                editable: true,
-                rollUp: false,
                 __typename: 'WorkItemWidgetDefinitionWeight',
               },
               {
@@ -9048,8 +9025,6 @@ export const namespaceWorkItemTypesQueryResponse = {
               },
               {
                 type: 'WEIGHT',
-                editable: true,
-                rollUp: false,
                 __typename: 'WorkItemWidgetDefinitionWeight',
               },
               {
@@ -9295,8 +9270,6 @@ export const namespaceWorkItemTypesQueryResponse = {
               },
               {
                 type: 'WEIGHT',
-                editable: true,
-                rollUp: false,
                 __typename: 'WorkItemWidgetDefinitionWeight',
               },
             ],
@@ -9555,8 +9528,6 @@ export const namespaceWorkItemTypesWithOKRsQueryResponse = {
               },
               {
                 type: 'WEIGHT',
-                editable: true,
-                rollUp: false,
                 __typename: 'WorkItemWidgetDefinitionWeight',
               },
             ],

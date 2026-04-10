@@ -26669,7 +26669,8 @@ CREATE TABLE plan_limits (
     cargo_max_file_size bigint DEFAULT '5368709120'::bigint NOT NULL,
     ci_max_artifact_size_scip integer DEFAULT 200 NOT NULL,
     plan_name_uid smallint,
-    ci_max_artifact_size_sarif integer DEFAULT 10 NOT NULL
+    ci_max_artifact_size_sarif integer DEFAULT 10 NOT NULL,
+    max_pipelines_per_merge_train smallint DEFAULT 20 NOT NULL
 );
 
 CREATE SEQUENCE plan_limits_id_seq
@@ -27388,7 +27389,8 @@ CREATE TABLE project_ci_cd_settings (
     delete_pipelines_in_seconds integer,
     allow_composite_identities_to_run_pipelines boolean DEFAULT false NOT NULL,
     display_pipeline_variables boolean DEFAULT false NOT NULL,
-    resource_group_default_process_mode smallint DEFAULT 0 NOT NULL
+    resource_group_default_process_mode smallint DEFAULT 0 NOT NULL,
+    max_pipelines_per_merge_train smallint
 );
 
 CREATE SEQUENCE project_ci_cd_settings_id_seq

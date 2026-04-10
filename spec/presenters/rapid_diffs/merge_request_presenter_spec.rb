@@ -29,6 +29,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
       diffable_merge_ref?: false,
       has_no_commits?: false
     )
+    allow_any_instance_of(Gitlab::Diff::CollectionUnfolder).to receive(:unfold!) # rubocop:disable RSpec/AnyInstanceOf -- simplifies global stub
   end
 
   it_behaves_like 'rapid diffs presenter base diffs_resource'
@@ -573,6 +574,55 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
           expect(presenter.reload_stream_url).to eq("#{base_path}/diffs_stream?diff_id=#{resolved_diff_id}")
         end
       end
+    end
+  end
+
+  describe 'expanding context for discussions' do
+    let(:diff_file) { build(:diff_file) }
+    let(:diff_files_collection) do
+      instance_double(Gitlab::Git::DiffCollection).tap do |collection|
+        allow(collection).to receive(:decorate!).and_return(collection)
+      end
+    end
+
+    let(:diff_collection) do
+      instance_double(
+        Gitlab::Diff::FileCollection::Base,
+        diff_files: diff_files_collection,
+        diff_file_paths: [diff_file.new_path]
+      )
+    end
+
+    let(:unfolder) { instance_double(Gitlab::Diff::CollectionUnfolder) }
+
+    before do
+      allow(Gitlab::Diff::CollectionUnfolder).to receive(:new)
+        .with(resource, current_user).and_return(unfolder)
+      allow(unfolder).to receive(:unfold!)
+      allow(resource).to receive_messages(
+        diffs: diff_collection,
+        first_diffs_slice: diff_collection,
+        diffs_for_streaming: diff_collection
+      )
+    end
+
+    it 'unfolds diff_files collection' do
+      expect(unfolder).to receive(:unfold!).with(diff_collection)
+
+      presenter.diff_files
+    end
+
+    it 'unfolds diffs_slice collection' do
+      presenter.offset = 5
+      expect(unfolder).to receive(:unfold!).with(diff_collection)
+
+      presenter.diffs_slice
+    end
+
+    it 'unfolds diff_files_for_streaming collection' do
+      expect(unfolder).to receive(:unfold!).with(diff_collection)
+
+      presenter.diff_files_for_streaming
     end
   end
 end

@@ -1226,6 +1226,23 @@ four standard [pagination arguments](#pagination-arguments):
 | ---- | ---- | ----------- |
 | <a id="query-groupsecrets-grouppath"></a>`groupPath` | [`ID!`](#id) | Group the secrets belong to. |
 
+### `Query.groupSecretsCount`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Total number of secrets in a group.
+
+Returns [`Int`](#int).
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="query-groupsecretscount-grouppath"></a>`groupPath` | [`ID!`](#id) | Full path of the group. |
+
 ### `Query.groupSecretsManager`
 
 {{< details >}}
@@ -1847,6 +1864,23 @@ four standard [pagination arguments](#pagination-arguments):
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="query-projectsecrets-projectpath"></a>`projectPath` | [`ID!`](#id) | Project the secrets belong to. |
+
+### `Query.projectSecretsCount`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Total number of secrets in a project.
+
+Returns [`Int`](#int).
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="query-projectsecretscount-projectpath"></a>`projectPath` | [`ID!`](#id) | Full path of the project. |
 
 ### `Query.projectSecretsManager`
 
@@ -15577,7 +15611,7 @@ Input type: `UpdateIssueInput`
 | <a id="mutation-updateissue-iid"></a>`iid` | [`String!`](#string) | IID of the issue to mutate. |
 | <a id="mutation-updateissue-labelids"></a>`labelIds` | [`[ID!]`](#id) | IDs of labels to be set. Replaces existing issue labels. |
 | <a id="mutation-updateissue-locked"></a>`locked` | [`Boolean`](#boolean) | Indicates discussion is locked on the issue. |
-| <a id="mutation-updateissue-milestoneid"></a>`milestoneId` | [`ID`](#id) | ID of the milestone to assign to the issue. On update milestone will be removed if set to null. |
+| <a id="mutation-updateissue-milestoneid"></a>`milestoneId` | [`ID`](#id) | ID of the milestone to assign to the issue. Accepts either a global ID, for example `"gid://gitlab/Milestone/42"`, or a numeric ID, for example `"42"`. On update milestone will be removed if set to null. |
 | <a id="mutation-updateissue-projectpath"></a>`projectPath` | [`ID!`](#id) | Project the issue to mutate is in. |
 | <a id="mutation-updateissue-removelabelids"></a>`removeLabelIds` | [`[ID!]`](#id) | IDs of labels to be removed from the issue. |
 | <a id="mutation-updateissue-stateevent"></a>`stateEvent` | [`IssueStateEvent`](#issuestateevent) | Close or reopen an issue. |
@@ -54718,8 +54752,8 @@ Represents a weight widget definition.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="workitemwidgetdefinitionweight-editable"></a>`editable` | [`Boolean!`](#boolean) | Indicates whether editable weight is available. |
-| <a id="workitemwidgetdefinitionweight-rollup"></a>`rollUp` | [`Boolean!`](#boolean) | Indicates whether rolled up weight is available. |
+| <a id="workitemwidgetdefinitionweight-editable"></a>`editable` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Deprecated** in GitLab 18.11. All work item types with weight widget now support editing. |
+| <a id="workitemwidgetdefinitionweight-rollup"></a>`rollUp` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Deprecated** in GitLab 18.11. All work item types with weight widget now support rolled up weight. |
 | <a id="workitemwidgetdefinitionweight-type"></a>`type` | [`WorkItemWidgetType!`](#workitemwidgettype) | Widget type. |
 
 ### `WorkItemWidgetDescription`
@@ -55130,7 +55164,7 @@ Represents a weight widget.
 | <a id="workitemwidgetweight-rolledupweight"></a>`rolledUpWeight` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Introduced** in GitLab 17.2. **Status**: Experiment. Rolled up weight from descendant work items. |
 | <a id="workitemwidgetweight-type"></a>`type` | [`WorkItemWidgetType`](#workitemwidgettype) | Widget type. |
 | <a id="workitemwidgetweight-weight"></a>`weight` | [`Int`](#int) | Weight of the work item. |
-| <a id="workitemwidgetweight-widgetdefinition"></a>`widgetDefinition` | [`WorkItemWidgetDefinitionWeight`](#workitemwidgetdefinitionweight) | Weight widget definition. |
+| <a id="workitemwidgetweight-widgetdefinition"></a>`widgetDefinition` {{< icon name="warning-solid" >}} | [`WorkItemWidgetDefinitionWeight`](#workitemwidgetdefinitionweight) | **Deprecated** in GitLab 18.11. All work item types with weight widget now support editing and rolled up weight. |
 
 ### `Workspace`
 

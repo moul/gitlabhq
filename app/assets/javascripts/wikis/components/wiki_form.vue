@@ -927,7 +927,7 @@ export default {
                   >
                     {{ $options.i18n.cancel }}</gl-button
                   >
-                  <delete-wiki-modal />
+                  <delete-wiki-modal v-if="isCustomSidebar" />
                 </div>
               </div>
             </template>

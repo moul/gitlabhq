@@ -62,7 +62,7 @@ module Gitlab
             :time_tracking,
             :vulnerabilities,
             :linked_resources,
-            [:weight, { editable: true, rollup: false }],
+            :weight,
             :status
           ],
           incident: [
@@ -126,7 +126,7 @@ module Gitlab
             :participants,
             :start_and_due_date,
             :time_tracking,
-            [:weight, { editable: true, rollup: false }],
+            :weight,
             :status
           ],
           objective: [
@@ -179,7 +179,7 @@ module Gitlab
             :start_and_due_date,
             :verification_status,
             :time_tracking,
-            [:weight, { editable: false, rollup: true }]
+            :weight
           ],
           ticket: [
             :assignees,
@@ -201,7 +201,7 @@ module Gitlab
             :participants,
             :start_and_due_date,
             :time_tracking,
-            [:weight, { editable: true, rollup: false }]
+            :weight
           ]
         }.freeze
 

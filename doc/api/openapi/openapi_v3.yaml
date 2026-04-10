@@ -1392,6 +1392,40 @@ paths:
           description: OK
         '401':
           description: Unauthorized
+  "/api/v4/ai/duo_workflows/workflows/{workflow_id}/resume":
+    post:
+      operationId: postApiV4AiDuoWorkflowsWorkflowsWorkflowIdResume
+      summary: Resume a paused workflow
+      tags:
+      - GitLab Duo workflows
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Validation failed
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+        '422':
+          description: Unprocessable entity
+      parameters:
+      - name: workflow_id
+        required: true
+        description: The ID of the workflow to resume
+        schema:
+          type: string
+          nullable: true
+        in: path
+        example: '1'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RequestBody_7139042d9372"
   "/api/v4/ai/llm/git_command":
     post:
       operationId: postApiV4AiLlmGitCommand
@@ -89065,6 +89099,22 @@ components:
             with.
           example: 123
           nullable: true
+    RequestBody_7139042d9372:
+      type: object
+      properties:
+        human_approval:
+          type: boolean
+          description: Whether the human approves resuming the workflow
+          example: true
+          nullable: true
+        human_message:
+          type: string
+          description: Optional message accompanying the human decision
+          example: Looks good, please proceed
+          nullable: true
+          maxLength: 2000
+      required:
+      - human_approval
     RequestBody_ef2061658f9e:
       type: object
       properties:

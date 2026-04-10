@@ -223,6 +223,12 @@ describe('WikiForm', () => {
     expect(findMarkdownEditor().find('[data-testid="wiki-form-actions"]').exists()).toBe(true);
   });
 
+  it('does not render the delete wiki modal', () => {
+    createWrapper();
+
+    expect(wrapper.findComponent(DeleteWikiModal).exists()).toBe(false);
+  });
+
   describe('when wiki page is a template', () => {
     beforeEach(() => {
       mockLocation('http://gitlab.com/gitlab-org/gitlab/-/wikis/templates/abc');
