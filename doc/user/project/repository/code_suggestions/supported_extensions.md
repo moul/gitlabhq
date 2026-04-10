@@ -165,7 +165,7 @@ Prerequisites:
 
 To do this:
 
-1. In your Eclipse bottom menu, select the GitLab icon.
+1. In the Eclipse bottom toolbar, select the GitLab icon.
 1. Select **Show Settings**.
 1. Scroll down to the **Code Suggestions Enabled Languages** section.
 1. In **Additional Languages**, add a comma-separated list of language identifiers. Don't

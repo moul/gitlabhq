@@ -358,9 +358,9 @@ Prerequisites:
 To use GitLab Duo Chat in the GitLab for Eclipse plugin:
 
 1. Open a project in Eclipse.
-1. Select **GitLab Duo Chat** ({{< icon name="duo-chat" >}}), or use the keyboard shortcut:
-   - On Windows and Linux: <kbd>ALT</kbd>+<kbd>d</kbd>
-   - On macOS: <kbd>Option</kbd>+<kbd>d</kbd>
+1. In the upper right corner, select **GitLab Duo Chat** ({{< icon name="duo-chat" >}}), or use the keyboard shortcut:
+   - For Windows and Linux: <kbd>Alt</kbd>+<kbd>D</kbd>
+   - For macOS: <kbd>Option</kbd>+<kbd>D</kbd>
 1. In the message box, enter your question and press <kbd>Enter</kbd> or select **Send**.
 
 ## Configure Chat conversation expiration
@@ -384,6 +384,10 @@ Prerequisites:
    - **After the conversation was last updated**.
    - **After the conversation was created**.
 1. Select **Save changes**.
+
+## IDE shortcuts
+
+When you use Chat in a supported IDE, you can use [keyboard shortcuts](../shortcuts.md#gitlab-duo-chat).
 
 ## Available language models
 

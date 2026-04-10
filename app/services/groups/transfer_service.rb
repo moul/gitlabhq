@@ -75,6 +75,7 @@ module Groups
 
     def proceed_to_transfer
       old_root_ancestor_id = @group.root_ancestor.id
+      old_path = @group.full_path
       was_root_group = @group.root?
 
       Gitlab::Database::QueryAnalyzers::PreventCrossDatabaseModification.temporary_ignore_tables_in_transaction(
@@ -99,6 +100,7 @@ module Groups
       post_update_hooks(@updated_project_ids, old_root_ancestor_id)
       propagate_integrations
       update_pending_builds
+      send_transfer_instructions(old_path)
 
       true
     end
@@ -113,6 +115,14 @@ module Groups
 
     # Overridden in EE
     def transfer_status_data(old_root_ancestor_id); end
+
+    def send_transfer_instructions(old_path)
+      group = @group
+
+      group.run_after_commit_or_now do
+        NotificationService.new.group_was_transferred(group, old_path)
+      end
+    end
 
     # Overridden in EE
     def post_update_hooks(updated_project_ids, old_root_ancestor_id)

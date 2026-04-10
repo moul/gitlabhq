@@ -183,7 +183,7 @@ module Gitlab
             end
           end
 
-          return unless hosts_force_released > 0 || hosts_force_query_cache_cleared > 0
+          return unless can_log_force_released_hosts?(hosts_force_released, hosts_force_query_cache_cleared)
 
           ::Gitlab::Database::LoadBalancing::Logger.warn(
             event: :force_released_hosts,
@@ -366,6 +366,12 @@ module Gitlab
         end
 
         private
+
+        def can_log_force_released_hosts?(hosts_force_released, hosts_force_query_cache_cleared)
+          return false unless Feature.enabled?(:log_force_released_hosts, Feature.current_request)
+
+          hosts_force_released > 0 || hosts_force_query_cache_cleared > 0
+        end
 
         def ensure_caching!
           return unless Rails.application.executor.active?

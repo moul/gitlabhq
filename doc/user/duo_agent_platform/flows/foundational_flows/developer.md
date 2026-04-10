@@ -60,12 +60,8 @@ To help the Developer Flow produce better results, you should configure your pro
 Prerequisites:
 
 - The event types **Mention** and **Assign** are [configured](../../triggers/_index.md) in the trigger for the Developer Flow.
-You can start the Developer Flow in several ways. Some methods use the Duo Developer service account, which you can assign to issues or mention in discussions.
 
-To start the Developer Flow, you can use the Duo Developer service account to generate a merge request, or mention Duo Developer
-in discussions in merge requests and issues.
-
-### Mention Developer Flow in a discussion
+### Mention Duo Developer in a discussion
 
 To turn your comment into an actionable task for the Developer Flow, mention it with `@duo-developer-<namespace>`
 in a discussion. Replace `<namespace>` with your GitLab namespace path (for example, `gitlab-org`).
@@ -85,6 +81,7 @@ promising approach.
 ```
 
 The Developer Flow responds with a link to its session.
+
 Alternatively, to monitor progress, in the left sidebar, select **Automate** > **Sessions**.
 
 ### Generate a merge request from an issue
@@ -115,9 +112,9 @@ The same practices that help a human collaborator apply here:
 - Specify exact file paths when you know them.
 - Include code examples of existing patterns to maintain consistency.
 
-### Be explicit when mentioning Developer Flow in discussions
+### Be explicit when mentioning Duo Developer in discussions
 
-When you mention the Developer Flow in a discussion, tell it exactly
+When you mention Duo Developer in a discussion, tell it exactly
 what you want it to do. For example:
 
 - "Create a draft merge request that implements pagination for the `/api/users` endpoint."

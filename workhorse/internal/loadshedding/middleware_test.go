@@ -9,6 +9,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/config"
 	"gitlab.com/gitlab-org/gitlab/workhorse/internal/puma"
@@ -326,6 +327,26 @@ func TestLoadSheddingMiddlewareCustomStatusCode(t *testing.T) {
 }
 
 // stubReadiness is a minimal ReadinessProvider for tests.
+// shedLoadActiveGauge gathers workhorse_load_shedding_active from the registry,
+// avoiding direct access to the unexported shedLoadGauge field.
+// It fails the test immediately if the metric is not found, so a missing
+// InitializeMetrics() call or registration change produces a clear failure
+// rather than a silent 0.
+func shedLoadActiveGauge(t *testing.T, reg *prometheus.Registry) float64 {
+	t.Helper()
+	mfs, err := reg.Gather()
+	require.NoError(t, err)
+	for _, mf := range mfs {
+		if mf.GetName() == "workhorse_load_shedding_active" {
+			if m := mf.GetMetric(); len(m) > 0 {
+				return m[0].GetGauge().GetValue()
+			}
+		}
+	}
+	require.Fail(t, "metric workhorse_load_shedding_active not found in registry")
+	return 0 // unreachable
+}
+
 type stubReadiness struct {
 	ready        bool
 	shuttingDown bool
@@ -335,6 +356,44 @@ type stubReadiness struct {
 func (s *stubReadiness) IsReady() bool               { return s.ready }
 func (s *stubReadiness) IsShuttingDown() bool        { return s.shuttingDown }
 func (s *stubReadiness) LastFailureWasTimeout() bool { return s.timedOut }
+
+func TestLoadSheddingMiddlewareReadinessUpdatesGauge(t *testing.T) {
+	logger := logrus.New()
+	reg := prometheus.NewRegistry()
+	cfg := &config.LoadSheddingConfig{
+		BacklogThreshold:  100,
+		BacklogHysteresis: 0.8,
+		RetryAfterSeconds: 5,
+		StatusCode:        http.StatusServiceUnavailable,
+	}
+	shedder := NewLoadShedder(cfg, logger, reg)
+	shedder.InitializeMetrics()
+
+	// Backlog is below threshold — gauge should start at 0.
+	shedder.UpdateBacklog(&puma.ControlResponse{
+		Workers: 1, BootedWorkers: 1,
+		WorkerStatus: []puma.Worker{
+			{Index: 0, Booted: true, LastStatus: puma.WorkerStatus{Backlog: 10}},
+		},
+	})
+	assert.InDelta(t, 0.0, shedLoadActiveGauge(t, reg), 0.001, "gauge should start at 0")
+
+	nextHandler := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
+	// A request that triggers readiness-based shedding should set the gauge to 1.
+	handler := Middleware(shedder, &stubReadiness{ready: false, timedOut: true}, logger)(nextHandler)
+	req := httptest.NewRequest(http.MethodGet, "/api/test", nil)
+	handler.ServeHTTP(httptest.NewRecorder(), req)
+	assert.InDelta(t, 1.0, shedLoadActiveGauge(t, reg), 0.001, "gauge should be 1 while readiness-based shedding is active")
+
+	// Once the readiness probe recovers the gauge should return to 0.
+	handler = Middleware(shedder, &stubReadiness{ready: true}, logger)(nextHandler)
+	req = httptest.NewRequest(http.MethodGet, "/api/test", nil)
+	handler.ServeHTTP(httptest.NewRecorder(), req)
+	assert.InDelta(t, 0.0, shedLoadActiveGauge(t, reg), 0.001, "gauge should return to 0 when readiness recovers")
+}
 
 func TestLoadSheddingMiddlewareNotReadySheds(t *testing.T) {
 	logger := logrus.New()

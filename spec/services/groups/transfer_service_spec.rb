@@ -1080,6 +1080,32 @@ RSpec.describe Groups::TransferService, :sidekiq_inline, feature_category: :grou
       end
     end
 
+    context 'when transfer succeeds' do
+      let_it_be_with_reload(:group) { create(:group, :nested) }
+      let_it_be(:target) { create(:group) }
+
+      before do
+        group.add_owner(user)
+        target.add_owner(user)
+      end
+
+      it 'sends transfer notification email with the old path' do
+        old_path = group.full_path
+
+        expect_next_instance_of(NotificationService) do |notification|
+          expect(notification).to receive(:group_was_transferred).with(group, old_path)
+        end
+
+        transfer_service.execute(target)
+      end
+
+      it 'does not send notification when transfer fails' do
+        expect(NotificationService).not_to receive(:new)
+
+        transfer_service.execute(group.parent)
+      end
+    end
+
     context 'with namespace_commit_emails concerns' do
       let_it_be(:group, reload: true) { create(:group) }
       let_it_be(:target) { create(:group) }

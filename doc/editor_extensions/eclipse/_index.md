@@ -26,7 +26,7 @@ The GitLab for Eclipse plugin integrates with GitLab Duo to offer the following 
 - [GitLab Duo Non-Agentic Chat](../../user/gitlab_duo_chat/_index.md)
 - [GitLab Duo Code Suggestions](../../user/project/repository/code_suggestions/_index.md)
 
-To install and configure the extension, see [install and set up](setup.md).
+To install and configure the plugin, see [install and set up](setup.md).
 
 ## Update the plugin
 

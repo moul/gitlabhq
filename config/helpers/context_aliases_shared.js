@@ -23,6 +23,6 @@ const CONTEXT_ALIASES = {
 };
 
 const INFECTABLE_RE = /\.(js|mjs|vue)$/;
-const INFECTION_BLOCKLIST = [];
+const INFECTION_BLOCKLIST = ['app/assets/javascripts/lib/utils/breadcrumbs_state.js'];
 
 module.exports = { CONTEXT_ALIASES, INFECTABLE_RE, INFECTION_BLOCKLIST };

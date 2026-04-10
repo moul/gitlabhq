@@ -172,14 +172,43 @@ To regenerate recovery codes with the UI:
 
 ### Regenerate recovery codes with SSH
 
-If you added an SSH key to your GitLab account, you can regenerate your recovery codes with SSH:
+If you [added an SSH key to your GitLab account](../../ssh.md#add-an-ssh-key-to-your-gitlab-account),
+you can regenerate your recovery codes with SSH.
+
+Prerequisites:
+
+- Access to the private SSH key associated with the SSH public key registered to your GitLab account.
 
 > [!note]
 > You cannot use `gitlab-sshd` to regenerate recovery codes.
 
 To regenerate recovery codes with SSH:
 
-1. In a terminal, run:
+1. In the terminal, verify SSH agent is running on your device.
+   - On macOS and Linux, run the following command:
+
+     ```shell
+     eval "$(ssh-agent -s)"
+     ```
+
+   - On Microsoft Windows, run the following command in PowerShell:
+
+     ```pwsh
+     Set-Service -Name ssh-agent -StartupType Automatic; Start-Service ssh-agent
+     ```
+
+     For more information, see [SSH setup instructions for Windows](../../ssh_advanced.md#use-ssh-on-microsoft-windows).
+
+1. Load the private key into SSH agent with the following command:
+   - On macOS and Linux, run the following command:
+
+     ```shell
+     ssh-add <directory to private SSH key>
+     ```
+
+   For more information, see [Use SSH keys in another directory](../../ssh_advanced.md#use-ssh-keys-in-another-directory).
+
+1. Open an SSH connection with the following command:
 
    ```shell
    ssh git@gitlab.com 2fa_recovery_codes

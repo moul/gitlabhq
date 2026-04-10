@@ -10,9 +10,15 @@ title: ClickHouse
 
 - Tier: Free, Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-- Status: Beta on GitLab Self-Managed and GitLab Dedicated
+- Status: Beta on GitLab Dedicated
 
 {{< /details >}}
+
+{{< history >}}
+
+- [Generally available](https://gitlab.com/groups/gitlab-org/-/work_items/20337) for GitLab Self-Managed in GitLab 18.11.
+
+{{< /history >}}
 
 [ClickHouse](https://clickhouse.com) is an open-source column-oriented database management system. It can efficiently filter, aggregate, and query across large data sets.
 

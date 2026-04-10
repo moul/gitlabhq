@@ -25,7 +25,7 @@ RSpec.describe 'Admin Mode Login', :with_current_organization, feature_category:
     end
 
     def expect_admin_sign_in_success
-      expect(page).to have_content(_('Admin mode enabled'))
+      expect(page).to have_content(_('Admin mode is active.'))
       expect(page).to have_current_path admin_root_path, ignore_query: true
     end
 

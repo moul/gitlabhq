@@ -28633,6 +28633,7 @@ An AI catalog item configuration.
 | <a id="aicatalogitemconsumer-project"></a>`project` | [`Project`](#project) | Project in which the catalog item is configured. |
 | <a id="aicatalogitemconsumer-serviceaccount"></a>`serviceAccount` | [`UserCore`](#usercore) | Service account associated with the item consumer. |
 | <a id="aicatalogitemconsumer-userpermissions"></a>`userPermissions` | [`AiCatalogItemConsumerPermissions!`](#aicatalogitemconsumerpermissions) | Permissions for the current user on the resource. |
+| <a id="aicatalogitemconsumer-webpath"></a>`webPath` | [`String`](#string) | Web path of the catalog item consumer configuration page. |
 
 ### `AiCatalogItemConsumerPermissions`
 
@@ -44614,6 +44615,7 @@ Settings for the namespace.
 | <a id="namespacesidebar-openepicscount"></a>`openEpicsCount` | [`Int`](#int) | Number of open epics of the namespace. |
 | <a id="namespacesidebar-openissuescount"></a>`openIssuesCount` | [`Int`](#int) | Number of open issues of the namespace. |
 | <a id="namespacesidebar-openmergerequestscount"></a>`openMergeRequestsCount` | [`Int`](#int) | Number of open merge requests of the namespace. |
+| <a id="namespacesidebar-openworkitemscount"></a>`openWorkItemsCount` {{< icon name="warning-solid" >}} | [`Int`](#int) | **Introduced** in GitLab 18.11. **Status**: Experiment. Number of open work items in the namespace (limited to 10,000). |
 
 ### `NestedEnvironment`
 

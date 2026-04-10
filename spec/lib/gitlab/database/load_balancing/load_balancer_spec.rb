@@ -355,40 +355,74 @@ RSpec.describe Gitlab::Database::LoadBalancing::LoadBalancer, :request_store, fe
           lb.release_host(force: true)
         end
 
-        it 'logs hosts_force_released and hosts_force_query_cache_cleared', :skip_disconnect do
-          cached_host = lb.host
-
-          host_with_conn = instance_double(Gitlab::Database::LoadBalancing::Host,
-            pool: double(:pool, active_connection?: true, query_cache: double(:qc, empty?: true)))
-
-          host_with_cache = instance_double(Gitlab::Database::LoadBalancing::Host,
-            pool: double(:pool, active_connection?: false, query_cache: double(:qc, empty?: false)))
-
-          [host_with_conn, host_with_cache].each do |h|
-            allow(h).to receive(:disable_query_cache!)
-            allow(h).to receive(:clear_query_cache)
-            allow(h).to receive(:release_connection)
+        context 'when log_force_released_hosts feature flag is enabled' do
+          before do
+            stub_feature_flags(log_force_released_hosts: true)
           end
 
-          allow(lb.host_list).to receive(:hosts).and_return([cached_host, host_with_conn, host_with_cache])
+          it 'logs hosts_force_released and hosts_force_query_cache_cleared', :skip_disconnect do
+            cached_host = lb.host
 
-          expect(Gitlab::Database::LoadBalancing::Logger).to receive(:warn).with(
-            hash_including(
-              event: :force_released_hosts,
-              hosts_force_released: 2,
-              hosts_force_query_cache_cleared: 1
+            host_with_conn = instance_double(Gitlab::Database::LoadBalancing::Host,
+              pool: double(:pool, active_connection?: true, query_cache: double(:qc, empty?: true)))
+
+            host_with_cache = instance_double(Gitlab::Database::LoadBalancing::Host,
+              pool: double(:pool, active_connection?: false, query_cache: double(:qc, empty?: false)))
+
+            [host_with_conn, host_with_cache].each do |h|
+              allow(h).to receive(:disable_query_cache!)
+              allow(h).to receive(:clear_query_cache)
+              allow(h).to receive(:release_connection)
+            end
+
+            allow(lb.host_list).to receive(:hosts).and_return([cached_host, host_with_conn, host_with_cache])
+
+            expect(Gitlab::Database::LoadBalancing::Logger).to receive(:warn).with(
+              hash_including(
+                event: :force_released_hosts,
+                hosts_force_released: 2,
+                hosts_force_query_cache_cleared: 1
+              )
             )
-          )
 
-          lb.release_host(force: true)
+            lb.release_host(force: true)
+          end
+
+          it 'does not log when no extra hosts need releasing' do
+            lb.host
+
+            expect(Gitlab::Database::LoadBalancing::Logger).not_to receive(:warn)
+
+            lb.release_host(force: true)
+          end
         end
 
-        it 'does not log when no extra hosts need releasing' do
-          lb.host
+        context 'when log_force_released_hosts feature flag is disabled' do
+          before do
+            stub_feature_flags(log_force_released_hosts: false)
+          end
 
-          expect(Gitlab::Database::LoadBalancing::Logger).not_to receive(:warn)
+          it 'does not log force release information', :skip_disconnect do
+            cached_host = lb.host
 
-          lb.release_host(force: true)
+            host_with_conn = instance_double(Gitlab::Database::LoadBalancing::Host,
+              pool: double(:pool, active_connection?: true, query_cache: double(:qc, empty?: true)))
+
+            host_with_cache = instance_double(Gitlab::Database::LoadBalancing::Host,
+              pool: double(:pool, active_connection?: false, query_cache: double(:qc, empty?: false)))
+
+            [host_with_conn, host_with_cache].each do |h|
+              allow(h).to receive(:disable_query_cache!)
+              allow(h).to receive(:clear_query_cache)
+              allow(h).to receive(:release_connection)
+            end
+
+            allow(lb.host_list).to receive(:hosts).and_return([cached_host, host_with_conn, host_with_cache])
+
+            expect(Gitlab::Database::LoadBalancing::Logger).not_to receive(:warn)
+
+            lb.release_host(force: true)
+          end
         end
 
         it 'skips hosts that do not respond to pool', :skip_disconnect do

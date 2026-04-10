@@ -29990,6 +29990,7 @@ CREATE TABLE security_project_tracked_contexts (
     is_default boolean DEFAULT false NOT NULL,
     context_name text NOT NULL,
     traversal_ids bigint[] DEFAULT '{}'::bigint[] NOT NULL,
+    uuid_version smallint DEFAULT 1 NOT NULL,
     CONSTRAINT check_032d33c1cc CHECK ((char_length(context_name) <= 1024))
 );
 

@@ -58,6 +58,11 @@ func Middleware(loadShedder *LoadShedder, readiness ReadinessProvider, logger *l
 				readiness.LastFailureWasTimeout() &&
 				!readiness.IsShuttingDown()
 
+			// Keep the workhorse_load_shedding_active gauge in sync with both
+			// signals; SetReadinessShedActive is a no-op when the state has
+			// not changed, so calling it per-request is inexpensive.
+			loadShedder.SetReadinessShedActive(notReady)
+
 			if isRetryableMethod(r.Method) && (shouldShedBacklog || notReady) {
 				backlog := loadShedder.GetLastBacklog()
 				threshold := loadShedder.GetThreshold()

@@ -71,10 +71,10 @@ module LoginHelpers
   end
 
   # Requires Javascript driver.
-  def gitlab_disable_admin_mode
+  def leave_admin_mode
     find_by_testid('user-menu-toggle').click
-    click_on 'Leave Admin Mode'
-    expect(page).to have_selector('[data-testid="alert-info"]', text: _('Admin mode disabled'))
+    click_link(s_('CurrentUser|Leave Admin Mode'), href: destroy_admin_session_path)
+    expect(page).to have_selector('[data-testid="alert-info"]', text: _('Admin mode is inactive.'))
   end
 
   private

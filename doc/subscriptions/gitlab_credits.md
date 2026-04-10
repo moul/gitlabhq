@@ -282,6 +282,80 @@ This pricing applies to all models (including self-hosted models) available for 
 Each message sent to GitLab Duo Agentic Chat counts as one billable request.
 One conversation window can include multiple messages, and so multiple billable requests.
 
+## Usage caps
+
+{{< details >}}
+
+- Tier: Premium, Ultimate
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+- Status: Beta
+
+{{< /details >}}
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/groups/gitlab-org/-/work_items/19881) in GitLab 18.11 [with a feature flag](../administration/feature_flags/_index.md) named `budget_caps_graphql_api`. Enabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag.
+> For more information, see the history.
+
+You can set a monthly GitLab Credits cap at the subscription and user level to prevent
+unexpected overage charges. When credit consumption reaches the configured cap,
+access to features that consume GitLab Credits (for example, GitLab Duo Agent Platform)
+is automatically suspended until the next billing period begins,
+or until an administrator adjusts or disables the cap.
+
+The following cap types are available:
+
+| Cap type | Applies to | Credit sources counted | Managed through |
+|---|---|---|---|
+| Subscription cap | All users on the subscription | On-Demand only | Customers Portal |
+| Flat user cap | Individual users (default limit) | All | GraphQL API |
+| Per-user override | Specific users (overrides the flat cap) | All | GraphQL API |
+
+When on-demand usage in the current billing period reaches or exceeds the configured cap,
+all Agent Platform features (Duo Chat, Code Suggestions, Flows, and Agents)
+are suspended for all users on that subscription or instance. For user-level caps,
+only the individual user who reached their cap is suspended.
+
+Users who have reached their cap are unable to access Agent Platform features
+until the cap is raised or the next billing period begins.
+
+Usage counters reset automatically at the start of each billing period.
+Cap values persist across billing periods unless changed.
+
+Caps are enforced using the most recent usage data available. Because data
+is not real time, limited additional GitLab Credits usage may occur before
+enforcement takes effect.
+
+When subscription on-demand usage reaches the configured cap, GitLab sends an
+email notification to billing account managers.
+
+### Set a subscription-level usage cap
+
+Prerequisites:
+
+- You must be a billing account manager.
+
+1. Sign in to [Customers Portal](https://customers.gitlab.com/).
+1. On the subscription card, select **GitLab Credits dashboard**.
+1. In the **On-demand Credit Cap** panel, turn on the **Monthly On-demand Credits cap** toggle.
+1. Enter the maximum number of on-demand GitLab Credits allowed per billing period.
+1. Select **Save**.
+
+If the cap is set below the currently reported total on-demand usage
+for the current billing period, the cap is considered reached immediately on
+the next enforcement check.
+
+To disable the cap, turn off the **Monthly On-demand Credits cap** toggle. When disabled,
+no subscription-level on-demand GitLab Credits cap is enforced, and behavior falls back to
+existing billing behavior.
+
+You can use the GraphQL API to [view usage caps](../api/graphql/reference/_index.md#gitlabsubscriptionbudgetcaps) and set a [flat user-level cap](../api/graphql/reference/_index.md#mutationupsertflatusercap) or a [per-user override cap](../api/graphql/reference/_index.md#mutationupsertuserbudgetcapoverrides).
+
 ## GitLab Credits dashboard
 
 {{< details >}}
@@ -331,6 +405,8 @@ The dashboard displays summary cards of key metrics:
 - On-Demand usage: Credits consumed beyond your included and committed amounts.
   If you have enough waiver credits to offset all On-Demand credits, the GitLab Credits Dashboard hides
   the **On-Demand** card and displays the **Monthly Waiver** card instead.
+- Usage control status: Whether individual users have been blocked from
+  Agent Platform access due to reaching their per-user credit cap.
 
 ### In GitLab
 

@@ -16,6 +16,7 @@ class Projects::WorkItemsController < Projects::ApplicationController
     push_force_frontend_feature_flag(:work_item_features_field,
       Feature.enabled?(:work_item_features_field, current_user))
     push_frontend_feature_flag(:duo_quick_action_work_item_list, current_user)
+    push_frontend_feature_flag(:vue3_migrate_work_items, current_user)
   end
 
   before_action :check_search_rate_limit!, if: ->(c) do

@@ -12,6 +12,7 @@ module Groups
       push_force_frontend_feature_flag(:use_work_item_url, !!group&.use_work_item_url?)
       push_force_frontend_feature_flag(:work_item_features_field,
         Feature.enabled?(:work_item_features_field, current_user))
+      push_frontend_feature_flag(:vue3_migrate_work_items, current_user)
     end
 
     def show
