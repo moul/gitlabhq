@@ -128,7 +128,6 @@ RSpec.describe ApplicationSetting, feature_category: :settings, type: :model do
         gitlab_product_usage_data_enabled: Settings.gitlab['initial_gitlab_product_usage_data'],
         gitlab_shell_operation_limit: 600,
         global_search_block_anonymous_searches_enabled: false,
-        global_search_issues_enabled: true,
         global_search_work_items_enabled: true,
         global_search_merge_requests_enabled: true,
         global_search_snippet_titles_enabled: true,
@@ -805,7 +804,7 @@ RSpec.describe ApplicationSetting, feature_category: :settings, type: :model do
       end
 
       it 'allows valid scopes' do
-        %w[projects issues merge_requests blobs users milestones snippet_titles wiki_blobs commits
+        %w[blobs commits merge_requests milestones projects snippet_titles users wiki_blobs work_items
           notes].each do |scope|
           setting.default_search_scope = scope
 

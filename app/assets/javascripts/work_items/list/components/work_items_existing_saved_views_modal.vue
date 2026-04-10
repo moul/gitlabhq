@@ -13,7 +13,11 @@ import { __, s__, sprintf } from '~/locale';
 import { ROUTES } from '~/work_items/constants';
 import { subscribeWithLimitEnforce } from 'ee_else_ce/work_items/list/utils';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
-import { SAVED_VIEW_SORT_NAME_ASC } from '~/work_items/list/constants';
+import { DEFAULT_DEBOUNCE_AND_THROTTLE_MS } from '~/lib/utils/constants';
+import {
+  SAVED_VIEW_SORT_NAME_ASC,
+  BROWSE_SAVED_VIEWS_PAGE_SIZE,
+} from '~/work_items/list/constants';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { helpPagePath } from '~/helpers/help_page_helper';
 import getNamespaceSavedViewsQuery from '../graphql/work_item_saved_views_namespace.query.graphql';
@@ -56,6 +60,7 @@ export default {
   savedViewLimitsHelpPath: helpPagePath('user/work_items/saved_views.md', {
     anchor: 'saved-view-limits',
   }),
+  DEFAULT_DEBOUNCE_AND_THROTTLE_MS,
   inject: ['canCreateSavedView', 'subscribedSavedViewLimit', 'isGroup'],
   model: {
     prop: 'show',
@@ -82,22 +87,28 @@ export default {
   data() {
     return {
       searchInput: '',
-      savedViews: [],
+      savedViewsConnection: null,
+      isLoadingMore: false,
       error: undefined,
     };
   },
   apollo: {
-    savedViews: {
+    savedViewsConnection: {
       query: getNamespaceSavedViewsQuery,
       variables() {
         return {
           fullPath: this.fullPath,
           subscribedOnly: false,
           sort: SAVED_VIEW_SORT_NAME_ASC,
+          first: BROWSE_SAVED_VIEWS_PAGE_SIZE,
+          search: this.searchInput || undefined,
         };
       },
+      skip() {
+        return !this.show;
+      },
       update(data) {
-        return data.namespace?.savedViews.nodes ?? [];
+        return data.namespace?.savedViews ?? null;
       },
       error(e) {
         Sentry.captureException(e);
@@ -106,7 +117,10 @@ export default {
   },
   computed: {
     isLoading() {
-      return this.$apollo.queries.savedViews.loading;
+      return this.$apollo.queries.savedViewsConnection.loading;
+    },
+    savedViews() {
+      return this.savedViewsConnection?.nodes ?? [];
     },
     namespaceType() {
       return this.isGroup ? __('group') : __('project');
@@ -128,16 +142,35 @@ export default {
     hasSearchInput() {
       return this.searchInput.trim().length > 0;
     },
-    filteredViews() {
-      if (!this.hasSearchInput) {
-        return this.savedViews;
+    pageInfo() {
+      return this.savedViewsConnection?.pageInfo;
+    },
+    hasNextPage() {
+      return this.pageInfo?.hasNextPage ?? false;
+    },
+    endCursor() {
+      return this.pageInfo?.endCursor ?? null;
+    },
+    isInitialLoading() {
+      return this.isLoading && !this.isLoadingMore;
+    },
+    shouldShowEmptyState() {
+      return !this.isLoading && !this.hasSavedViews && !this.hasSearchInput;
+    },
+    shouldShowNoSearchResults() {
+      return this.hasSearchInput && !this.hasSavedViews;
+    },
+    shouldShowSearchBox() {
+      if (!this.canCreateSavedView) {
+        return this.hasSavedViews || this.hasSearchInput;
       }
-
-      return this.savedViews.filter(({ name, description }) =>
-        [name, description].some((field) =>
-          field?.toLowerCase().includes(this.searchInput.trim().toLowerCase()),
-        ),
-      );
+      return this.hasSavedViews || this.hasSearchInput;
+    },
+    shouldShowNoPermissionAlert() {
+      if (this.hasSearchInput) {
+        return !this.canCreateSavedView;
+      }
+      return !this.canCreateSavedView && this.hasSavedViews;
     },
   },
   methods: {
@@ -151,6 +184,20 @@ export default {
     redirectToNewViewModal() {
       this.$emit('hide', false);
       this.$emit('show-new-view-modal');
+    },
+    async fetchMoreViews() {
+      if (this.isLoadingMore || !this.hasNextPage) return;
+      this.isLoadingMore = true;
+
+      try {
+        await this.$apollo.queries.savedViewsConnection.fetchMore({
+          variables: { after: this.endCursor },
+        });
+      } catch (e) {
+        Sentry.captureException(e);
+      } finally {
+        this.isLoadingMore = false;
+      }
     },
     async redirectToView(view) {
       const viewId = getIdFromGraphQLId(view.id).toString();
@@ -224,7 +271,7 @@ export default {
       </span>
     </div>
     <div
-      v-if="!canCreateSavedView && hasSavedViews"
+      v-if="shouldShowNoPermissionAlert"
       class="gl-mb-4 gl-flex gl-gap-3 gl-rounded-base gl-bg-feedback-info gl-p-3"
       data-testid="no-permission-alert"
     >
@@ -232,14 +279,15 @@ export default {
       <span class="gl-text-sm">{{ noPermissionAlertMessage }}</span>
     </div>
     <gl-search-box-by-type
-      v-if="hasSavedViews || isLoading"
+      v-if="shouldShowSearchBox"
       ref="savedViewSearch"
       v-model="searchInput"
+      :debounce="$options.DEFAULT_DEBOUNCE_AND_THROTTLE_MS"
       autofocus
       :placeholder="$options.i18n.searchPlaceholder"
     />
-    <gl-loading-icon v-if="isLoading" class="gl-mt-5" size="lg" />
-    <template v-if="!hasSavedViews">
+    <gl-loading-icon v-if="isInitialLoading" class="gl-mt-5" size="lg" />
+    <template v-if="shouldShowEmptyState">
       <div class="gl-mt-4 gl-pb-7 gl-text-center">
         <h3 class="gl-mb-2 gl-text-lg gl-text-default">
           {{ $options.i18n.emptyViews }}
@@ -257,7 +305,7 @@ export default {
       </div>
     </template>
 
-    <template v-else-if="hasSearchInput && !filteredViews.length > 0">
+    <template v-else-if="shouldShowNoSearchResults">
       <div class="gl-mt-6 gl-pb-7 gl-text-center">
         <h3 class="gl-mb-2 gl-text-lg gl-text-default">
           {{ $options.i18n.notFound }}
@@ -266,14 +314,14 @@ export default {
       </div>
     </template>
 
-    <template v-else>
+    <template v-else-if="hasSavedViews">
       <div v-if="error" class="gl-mt-5">
         <gl-alert variant="danger" @dismiss="error = undefined">
           {{ error }}
         </gl-alert>
       </div>
       <ul class="gl-mb-3 gl-mt-[6px] gl-max-h-[25rem] gl-overflow-auto gl-p-0 gl-px-1">
-        <li v-for="view in filteredViews" :key="view.id" class="gl-my-1">
+        <li v-for="view in savedViews" :key="view.id" class="gl-my-1">
           <button
             class="saved-view-item gl-flex gl-min-h-[36px] gl-w-full gl-cursor-pointer gl-rounded-base gl-border-none gl-px-4 gl-py-3 hover:gl-bg-gray-50 focus:gl-bg-gray-50"
             data-testid="saved-view-item"
@@ -322,6 +370,20 @@ export default {
               />
             </template>
           </button>
+        </li>
+        <li v-if="hasNextPage" class="gl-flex gl-justify-center gl-py-3">
+          <gl-button
+            v-if="!isLoadingMore"
+            variant="confirm"
+            category="tertiary"
+            size="small"
+            data-testid="load-more-button"
+            class="!gl-py-2"
+            @click="fetchMoreViews"
+          >
+            {{ __('Load more') }}
+          </gl-button>
+          <gl-loading-icon v-else size="md" />
         </li>
       </ul>
     </template>

@@ -13,6 +13,14 @@ module Gitlab
         'issues' => 'work_items'
       }.freeze
 
+      # Generic validation
+      validates :query_string, length: { maximum: SEARCH_CHAR_LIMIT }
+      validate :not_too_many_terms
+
+      attr_reader :raw_params, :query_string, :abuse_detection
+      alias_method :search, :query_string
+      alias_method :term, :query_string
+
       def initialize(params, detect_abuse: true)
         @raw_params      = process_params(params)
         @query_string    = strip_surrounding_whitespace(@raw_params[:search] || @raw_params[:term])
@@ -21,18 +29,6 @@ module Gitlab
 
         validate
       end
-
-      def legacy_scope_map
-        LEGACY_SCOPE_MAP
-      end
-
-      # Generic validation
-      validates :query_string, length: { maximum: SEARCH_CHAR_LIMIT }
-      validate :not_too_many_terms
-
-      attr_reader :raw_params, :query_string, :abuse_detection
-      alias_method :search, :query_string
-      alias_method :term, :query_string
 
       def [](key)
         if respond_to? key
@@ -78,6 +74,10 @@ module Gitlab
 
       private
 
+      def legacy_scope_map
+        LEGACY_SCOPE_MAP
+      end
+
       def detect_abuse?
         @detect_abuse
       end
@@ -110,8 +110,7 @@ module Gitlab
         return params if params[:skip_legacy_scope_conversion]
 
         legacy_scope = params[:scope].to_s
-        scope_map = legacy_scope_map
-        return params.merge(scope: scope_map[legacy_scope]) if scope_map.key?(legacy_scope)
+        return params.merge(scope: legacy_scope_map[legacy_scope]) if legacy_scope_map.key?(legacy_scope)
 
         params
       end

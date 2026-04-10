@@ -11,9 +11,6 @@ export default {
     workItemType: {
       default: null,
     },
-    listPath: {
-      default: null,
-    },
   },
   props: {
     staticBreadcrumbs: {

@@ -395,6 +395,7 @@
     "WorkItemTextFieldValue"
   ],
   "WorkItemWidget": [
+    "WorkItemWidgetAiSession",
     "WorkItemWidgetAssignees",
     "WorkItemWidgetAwardEmoji",
     "WorkItemWidgetColor",

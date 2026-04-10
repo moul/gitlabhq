@@ -13,7 +13,7 @@ module API
         # When nil or empty, all available tools are returned (default agentic chat behaviour).
         # When provided, only tools whose names are in the list are returned, ensuring the
         # agent's LLM sees exactly the toolset that was configured for it.
-        def invoke(current_user, allowed_tools: nil)
+        def invoke(current_user, allowed_tools: nil, tool_name_prefix: nil)
           tools_hash = manager.list_tools
 
           if allowed_tools.present?
@@ -27,7 +27,7 @@ module API
             next nil unless tool_available?(tool, current_user)
 
             tool_data = {
-              name: name,
+              name: "#{tool_name_prefix}#{name}",
               description: tool.description,
               inputSchema: tool.input_schema
             }

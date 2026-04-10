@@ -1060,10 +1060,12 @@ export const saveSavedView = async ({
   // A space cannot be used as the delimiter since search terms may contain spaces.
   const updatedSavedViewFilters = {
     ...filters,
-    search: Array.isArray(filters.search)
-      ? filters.search.join(SAVED_VIEW_SEARCH_DELIMITER)
-      : filters.search,
   };
+  if (filters.search) {
+    updatedSavedViewFilters.search = Array.isArray(filters.search)
+      ? filters.search.join(SAVED_VIEW_SEARCH_DELIMITER)
+      : filters.search;
+  }
 
   const commonInput =
     isEdit && isForm

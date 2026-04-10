@@ -50,7 +50,7 @@ If you are near or over the repository size limit, you can:
 To back up an entire project on GitLab.com, you can export it:
 
 - [Through the UI](../project/settings/import_export.md).
-- [Through the API](../../api/project_import_export.md#schedule-an-export). You
+- [Through the API](../../api/project_import_export.md#export-a-project). You
   can also use the API to programmatically upload exports to a storage platform,
   such as Amazon S3.
 

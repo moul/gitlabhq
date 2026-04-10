@@ -11,14 +11,12 @@ describe('WorkItemBreadcrumb', () => {
   const createComponent = ({
     workItemType = null,
     $route = {},
-    listPath = '/work_items',
     isGroup = true,
     props = {},
   } = {}) => {
     wrapper = shallowMount(WorkItemBreadcrumb, {
       provide: {
         workItemType,
-        listPath,
         isGroup,
       },
       mocks: {

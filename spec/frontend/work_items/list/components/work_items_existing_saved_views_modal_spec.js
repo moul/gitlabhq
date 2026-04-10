@@ -8,7 +8,7 @@ import getNamespaceSavedViewsQuery from '~/work_items/list/graphql/work_item_sav
 import waitForPromises from 'helpers/wait_for_promises';
 import { subscribeWithLimitEnforce } from 'ee_else_ce/work_items/list/utils';
 import WorkItemsExistingSavedViewsModal from '~/work_items/list/components/work_items_existing_saved_views_modal.vue';
-import { CREATED_DESC } from '~/work_items/list/constants';
+import { CREATED_DESC, BROWSE_SAVED_VIEWS_PAGE_SIZE } from '~/work_items/list/constants';
 import { helpPagePath } from '~/helpers/help_page_helper';
 
 jest.mock('ee_else_ce/work_items/list/utils', () => ({
@@ -65,6 +65,14 @@ describe('WorkItemsExistingSavedViewsModal', () => {
     },
   ];
 
+  const defaultPageInfo = {
+    __typename: 'PageInfo',
+    hasNextPage: false,
+    hasPreviousPage: false,
+    startCursor: null,
+    endCursor: null,
+  };
+
   const savedViewsHandler = jest.fn().mockResolvedValue({
     data: {
       namespace: {
@@ -73,6 +81,7 @@ describe('WorkItemsExistingSavedViewsModal', () => {
         savedViews: {
           __typename: 'SavedViewConnection',
           nodes: mockSavedViewsData,
+          pageInfo: defaultPageInfo,
         },
       },
     },
@@ -83,6 +92,27 @@ describe('WorkItemsExistingSavedViewsModal', () => {
       namespace: {
         savedViews: {
           nodes: [],
+          pageInfo: defaultPageInfo,
+        },
+      },
+    },
+  });
+
+  const paginatedSavedViewsHandler = jest.fn().mockResolvedValue({
+    data: {
+      namespace: {
+        __typename: 'Namespace',
+        id: 'namespace',
+        savedViews: {
+          __typename: 'SavedViewConnection',
+          nodes: mockSavedViewsData,
+          pageInfo: {
+            __typename: 'PageInfo',
+            hasNextPage: true,
+            hasPreviousPage: false,
+            startCursor: 'cursor-start',
+            endCursor: 'cursor-end',
+          },
         },
       },
     },
@@ -133,6 +163,7 @@ describe('WorkItemsExistingSavedViewsModal', () => {
   const findSubscribedIcons = () => wrapper.findAllByTestId('subscribed-view-icon');
   const findLoadingIcon = () => wrapper.findComponent(GlLoadingIcon);
   const findNoPermissionAlert = () => wrapper.findByTestId('no-permission-alert');
+  const findLoadMoreButton = () => wrapper.findByTestId('load-more-button');
   const findWarningMessage = () => wrapper.find('.gl-bg-orange-50');
   const findWarningIcon = () => findWarningMessage().findComponent(GlIcon);
   const findLearnMoreLink = () => findWarningMessage().findComponent(GlLink);
@@ -146,14 +177,22 @@ describe('WorkItemsExistingSavedViewsModal', () => {
     expect(findLoadingIcon().exists()).toBe(true);
   });
 
-  it('fetches saved views sorted by name ascending', () => {
+  it('fetches saved views with correct variables', () => {
     expect(savedViewsHandler).toHaveBeenCalledWith(
       expect.objectContaining({
         sort: 'NAME_ASC',
         subscribedOnly: false,
         fullPath: 'test-project-path',
+        first: BROWSE_SAVED_VIEWS_PAGE_SIZE,
       }),
     );
+  });
+
+  it('does not fetch saved views when modal is hidden', async () => {
+    savedViewsHandler.mockClear();
+    await createComponent({ props: { show: false } });
+
+    expect(savedViewsHandler).not.toHaveBeenCalled();
   });
 
   it('focuses the search input on showing modal', async () => {
@@ -226,21 +265,93 @@ describe('WorkItemsExistingSavedViewsModal', () => {
   describe('search filtering', () => {
     it('filters views by name or description', async () => {
       findSearch().vm.$emit('input', 'team');
-
       await waitForPromises();
 
-      expect(findSavedViewItems()).toHaveLength(1);
-      expect(wrapper.text()).toContain('Team View');
-      expect(wrapper.text()).not.toContain('My Private View');
+      expect(savedViewsHandler).toHaveBeenCalledWith(expect.objectContaining({ search: 'team' }));
     });
 
-    it('shows "No results found" when there are no matches', async () => {
+    it('shows "No results found" when server returns no matches for search term', async () => {
+      const noResultsHandler = jest.fn().mockImplementation(({ search }) => {
+        if (search) {
+          return Promise.resolve({
+            data: {
+              namespace: {
+                __typename: 'Namespace',
+                id: 'namespace',
+                savedViews: {
+                  __typename: 'SavedViewConnection',
+                  nodes: [],
+                  pageInfo: defaultPageInfo,
+                },
+              },
+            },
+          });
+        }
+        return Promise.resolve({
+          data: {
+            namespace: {
+              __typename: 'Namespace',
+              id: 'namespace',
+              savedViews: {
+                __typename: 'SavedViewConnection',
+                nodes: mockSavedViewsData,
+                pageInfo: defaultPageInfo,
+              },
+            },
+          },
+        });
+      });
+
+      await createComponent({ mockSavedViewsHandler: noResultsHandler });
+
       findSearch().vm.$emit('input', 'foo');
+
       await waitForPromises();
 
       expect(wrapper.text()).toContain('No results found');
       expect(wrapper.text()).toContain('Edit your search and try again.');
       expect(findSavedViewItems()).toHaveLength(0);
+    });
+  });
+
+  describe('pagination', () => {
+    describe('when there is a next page', () => {
+      beforeEach(async () => {
+        await createComponent({ mockSavedViewsHandler: paginatedSavedViewsHandler });
+      });
+
+      it('renders a load more button at the end of the list', () => {
+        expect(findLoadMoreButton().exists()).toBe(true);
+      });
+
+      it('shows a loading spinner while fetching the next page', async () => {
+        findLoadMoreButton().vm.$emit('click');
+
+        await nextTick();
+
+        expect(findLoadingIcon().exists()).toBe(true);
+      });
+
+      it('calls fetchMore with the end cursor when load more button is clicked', async () => {
+        await findLoadMoreButton().vm.$emit('click');
+
+        await waitForPromises();
+
+        expect(paginatedSavedViewsHandler).toHaveBeenCalledWith({
+          after: 'cursor-end',
+          first: 100,
+          fullPath: 'test-project-path',
+          search: undefined,
+          sort: 'NAME_ASC',
+          subscribedOnly: false,
+        });
+      });
+    });
+
+    describe('when there is no next page', () => {
+      it('does not render a load more button', () => {
+        expect(findLoadMoreButton().exists()).toBe(false);
+      });
     });
   });
 

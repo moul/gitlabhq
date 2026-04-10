@@ -278,6 +278,7 @@ This pricing applies to all models (including self-hosted models) available for 
 | [GitLab Duo Code Suggestions](../user/duo_agent_platform/code_suggestions/_index.md) | 50 requests |
 | Code Review Flow | 4 calls |
 | SAST False Positive Detection Flow | 1 call |
+| SAST Vulnerability Resolution Flow | 0.25 calls |
 
 Each message sent to GitLab Duo Agentic Chat counts as one billable request.
 One conversation window can include multiple messages, and so multiple billable requests.

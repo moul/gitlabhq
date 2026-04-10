@@ -4,7 +4,7 @@ require 'spec_helper'
 
 # Features not yet implemented in the REST API
 UNIMPLEMENTED_FEATURES = %w[
-  award_emoji crm_contacts current_user_todos custom_fields designs development
+  ai_session award_emoji crm_contacts current_user_todos custom_fields designs development
   email_participants error_tracking hierarchy linked_items linked_resources notes
   notifications participants requirement_legacy status test_reports time_tracking
   verification_status vulnerabilities

@@ -336,6 +336,11 @@ RSpec.describe API::Ci::Runner, :clean_gitlab_redis_shared_state, feature_catego
         end
 
         it 'logs the job failure' do
+          # TODO: remove this expectation once the following issue is resolved
+          # https://gitlab.com/gitlab-org/gitlab/-/work_items/594564
+          expect(Gitlab::AppLogger).to receive(:info).with(a_hash_including(
+            class: "Ci::Runners::PartitionedTokenFinder"
+          )).at_least(:once)
           expect(Gitlab::AppLogger).to receive(:info).with(a_hash_including(
             job_id: job.id,
             job_user_id: job.user_id,
@@ -350,6 +355,11 @@ RSpec.describe API::Ci::Runner, :clean_gitlab_redis_shared_state, feature_catego
 
         shared_examples_for 'forbidden without persistence' do
           it 'returns 403 Forbidden and logs without raising' do
+            # TODO: remove this expectation once the following issue is resolved
+            # https://gitlab.com/gitlab-org/gitlab/-/work_items/594564
+            expect(Gitlab::AppLogger).to receive(:info).with(a_hash_including(
+              class: "Ci::Runners::PartitionedTokenFinder"
+            )).at_least(:once)
             expect(Gitlab::AppLogger).to(
               receive(:info).with(
                 a_hash_including(

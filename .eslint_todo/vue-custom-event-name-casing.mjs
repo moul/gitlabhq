@@ -89,7 +89,6 @@ export default {
     'app/assets/javascripts/filtered_search/components/recent_searches_dropdown_content.vue',
     'app/assets/javascripts/glql/components/common/actions.vue',
     'app/assets/javascripts/glql/components/common/pagination.vue',
-    'app/assets/javascripts/groups/components/groups_list_with_filtered_search_app.vue',
     'app/assets/javascripts/issuable/components/related_issuable_item.vue',
     'app/assets/javascripts/issues/show/components/app.vue',
     'app/assets/javascripts/issues/show/components/description.vue',

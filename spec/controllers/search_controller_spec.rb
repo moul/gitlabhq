@@ -45,7 +45,7 @@ RSpec.describe SearchController, feature_category: :global_search do
           expect(payload[:metadata][:global_search_duration_s]).to be_a_kind_of(Numeric)
         end
         params = {
-          scope: 'issues', search: 'hello world', group_id: '123', page: '2', project_id: '456', language: ['ruby'],
+          scope: 'work_items', search: 'hello world', group_id: '123', page: '2', project_id: '456', language: ['ruby'],
           confidential: true, include_archived: true, state: true, force_search_results: true
         }
         get action, params: params
@@ -68,7 +68,7 @@ RSpec.describe SearchController, feature_category: :global_search do
     shared_examples_for 'rate limit scope handling' do |action, base_params|
       describe 'rate limit scope' do
         it 'uses current_user and search scope' do
-          %w[projects blobs users issues merge_requests].each do |scope|
+          %w[blobs merge_requests projects users work_items].each do |scope|
             expect(::Gitlab::ApplicationRateLimiter).to receive(:throttled?).with(:search_rate_limit,
               scope: [user, scope], users_allowlist: [])
             get action, params: base_params.merge(scope: scope)
@@ -312,7 +312,7 @@ RSpec.describe SearchController, feature_category: :global_search do
           subject(:show) { get :show, params: { scope: scope, search: 'term' }, format: :html }
 
           where(:admin_setting, :scope) do
-            :global_search_issues_enabled         | 'issues'
+            :global_search_work_items_enabled     | 'work_items'
             :global_search_merge_requests_enabled | 'merge_requests'
             :global_search_users_enabled          | 'users'
           end
@@ -438,7 +438,7 @@ RSpec.describe SearchController, feature_category: :global_search do
           search_level: 'global'
         )
 
-        get :show, params: { scope: 'issues', search: 'hello world' }
+        get :show, params: { scope: 'work_items', search: 'hello world' }
       end
 
       context 'with custom search sli error rate' do
@@ -451,7 +451,7 @@ RSpec.describe SearchController, feature_category: :global_search do
               search_level: 'global'
             )
 
-            get :show, params: { scope: 'issues', search: 'hello world' }
+            get :show, params: { scope: 'work_items', search: 'hello world' }
           end
         end
 
@@ -470,7 +470,7 @@ RSpec.describe SearchController, feature_category: :global_search do
               search_level: 'global'
             )
 
-            get :show, params: { scope: 'issues', search: 'hello world' }
+            get :show, params: { scope: 'work_items', search: 'hello world' }
           end
         end
 
@@ -478,7 +478,7 @@ RSpec.describe SearchController, feature_category: :global_search do
           it 'does not increment the error rate' do
             expect(Gitlab::Metrics::GlobalSearchSlis).not_to receive(:record_error_rate)
 
-            get :show, params: { scope: 'issues' } # no search query
+            get :show, params: { scope: 'work_items' } # no search query
           end
         end
       end
@@ -487,7 +487,7 @@ RSpec.describe SearchController, feature_category: :global_search do
         it 'sets @scope even when search_term_valid? returns false' do
           long_search_term = 'a' * (Gitlab::Search::Params::SEARCH_CHAR_LIMIT + 1)
 
-          get :show, params: { search: long_search_term, scope: 'issues' }
+          get :show, params: { search: long_search_term, scope: 'work_items' }
 
           expect(assigns(:scope)).to be_present
           expect(assigns(:search_type)).to be_present
@@ -829,7 +829,7 @@ RSpec.describe SearchController, feature_category: :global_search do
         end
 
         get :show, params: {
-          scope: 'issues',
+          scope: 'work_items',
           search: 'hello world',
           group_id: '123',
           page: '2',
@@ -970,9 +970,9 @@ RSpec.describe SearchController, feature_category: :global_search do
         'basic'    | 'blobs'
         'advanced' | 'blobs'
         'zoekt'    | 'blobs'
-        'basic'    | 'issues'
-        'advanced' | 'issues'
-        'zoekt'    | 'issues'
+        'basic'    | 'work_items'
+        'advanced' | 'work_items'
+        'zoekt'    | 'work_items'
       end
 
       with_them do

@@ -84,7 +84,7 @@ RSpec.describe Search::Navigation, feature_category: :global_search do
 
     it 'calls label when it is a proc' do
       # All labels in SCOPE_DEFINITIONS are procs that return strings
-      expect(tabs[:issues][:label]).to be_a(String)
+      expect(tabs[:work_items][:label]).to be_a(String)
       expect(tabs[:merge_requests][:label]).to be_a(String)
     end
 
@@ -141,12 +141,6 @@ RSpec.describe Search::Navigation, feature_category: :global_search do
       end
     end
 
-    context 'for issues tab' do
-      it 'always returns false as issues scope is disabled' do
-        expect(tabs[:issues][:condition]).to be_falsey
-      end
-    end
-
     context 'for work_items tab' do
       where(:tab_enabled, :setting_enabled, :project, :condition) do
         false | false | nil | false
@@ -162,7 +156,7 @@ RSpec.describe Search::Navigation, feature_category: :global_search do
       with_them do
         before do
           allow(search_navigation).to receive(:tab_enabled_for_project?).with(:work_items).and_return(tab_enabled)
-          stub_application_setting(global_search_issues_enabled: setting_enabled)
+          stub_application_setting(global_search_work_items_enabled: setting_enabled)
         end
 
         it 'data item condition is set correctly' do

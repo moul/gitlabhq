@@ -239,14 +239,30 @@ RSpec.describe WorkItemsHelper, feature_category: :team_planning do
 
   describe '#work_item_views_only_data' do
     before do
-      allow(helper).to receive(:current_user).and_return(current_user)
       allow(helper).to receive(:generate_feed_token).with(:atom).and_return('atom-feed-token')
       allow(helper).to receive(:generate_feed_token).with(:ics).and_return('ics-feed-token')
     end
 
+    describe 'with group context' do
+      let_it_be(:group) { build(:group) }
+
+      before do
+        allow(helper).to receive_messages(can?: true)
+      end
+
+      it 'returns minimal server data' do
+        expect(helper.work_item_views_only_data(group)).to include(
+          {
+            full_path: group.full_path,
+            default_branch: nil,
+            router_path: group_work_items_path(group)
+          }
+        )
+      end
+    end
+
     describe 'with project context' do
       let_it_be(:project) { build(:project) }
-      let_it_be(:current_user) { build(:user, owner_of: project) }
 
       before do
         allow(helper).to receive_messages(
@@ -261,8 +277,8 @@ RSpec.describe WorkItemsHelper, feature_category: :team_planning do
         expect(helper.work_item_views_only_data(project)).to include(
           {
             full_path: project.full_path,
-            issues_list_path: project_issues_path(project),
-            default_branch: project.default_branch_or_main
+            default_branch: project.default_branch_or_main,
+            router_path: project_work_items_path(project)
           }
         )
       end

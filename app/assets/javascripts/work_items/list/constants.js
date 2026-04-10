@@ -799,3 +799,5 @@ export const NEW_SAVED_VIEWS_GID = 'gid://gitlab/WorkItems::SavedViews::SavedVie
 
 export const SAVED_VIEW_SORT_RELATIVE_POSITION = 'RELATIVE_POSITION';
 export const SAVED_VIEW_SORT_NAME_ASC = 'NAME_ASC';
+
+export const BROWSE_SAVED_VIEWS_PAGE_SIZE = 100;

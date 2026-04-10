@@ -62,7 +62,6 @@ metadata database version.
 - Metadata import for existing registries requires a period of read-only time.
 - Prior to 18.3, registry regular schema and post-deployment database migrations must be run manually when upgrading versions.
 - No guarantee for registry [zero downtime during upgrades](../../update/zero_downtime.md) on multi-node Linux package environments.
-- Backup and restore jobs do not include the registry database. For more information, see [Backup with metadata database](#backup-with-metadata-database).
 - During metadata imports for existing registries, the `createdAt` and `publishedAt` timestamp values for image tags are set to the import date. This is intentional to ensure consistency, because the legacy registry does not collect tag published dates for all images. While some images have build dates in their metadata, many do not. For more information, see [issue 1384](https://gitlab.com/gitlab-org/container-registry/-/issues/1384).
 
 ## Metadata database feature support
@@ -180,6 +179,107 @@ decrease. This is a normal and expected part of online garbage collection, as th
 delay ensures that online garbage collection does not interfere with image pushes.
 Check out the [monitor online garbage collection](#online-garbage-collection-monitoring) section
 to see how to monitor the progress and health of the online garbage collector.
+
+## Prefer mode
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/omnibus-gitlab/-/work_items/9411) in GitLab 18.7.
+
+{{< /history >}}
+
+Prefer mode is a configuration option for the metadata database
+that lets the registry fall back to
+legacy metadata storage when an existing registry
+has not been imported to the database yet.
+
+### Enable prefer mode
+
+To enable prefer mode:
+
+1. In `/etc/gitlab/gitlab.rb`, set `database.enabled` to `"prefer"`
+   instead of `true` or `false`:
+
+   ```ruby
+   registry['database'] = {
+     'enabled' => 'prefer',
+     'host' => '<your_database_host>',
+     'port' => 5432,
+     'user' => '<your_database_user>',
+     'password' => '<your_database_password>',
+     'dbname' => '<your_database_name>',
+   }
+   ```
+
+1. Save the file and [reconfigure GitLab](../restart_gitlab.md).
+
+After you reconfigure GitLab, the registry evaluates which metadata backend to use at startup
+based on lockfiles that track previous writes to the filesystem or database:
+
+- Filesystem lockfile exists: The registry has existing filesystem metadata.
+  It falls back to legacy metadata storage and logs a warning.
+  The registry operates identically to `enabled: false` until you complete
+  a [metadata import](#enable-the-database-for-existing-registries).
+- Database lockfile exists: The registry already uses the database.
+  It connects to the database normally, identical to `enabled: true`.
+- Neither lockfile exists: The registry is a fresh installation.
+  It requires a configured and reachable database to start
+  and does not fall back to legacy storage.
+- Both lockfiles exist: The registry refuses to start. This indicates a
+  configuration error that you must resolve manually.
+
+The fallback decision occurs once at startup and does not change while the
+registry is running. There is no automatic retry or reconnection to the
+database after a fallback. To move from filesystem to database mode after a
+fallback, complete the standard [metadata import](#enable-the-database-for-existing-registries)
+and restart the registry.
+
+### Verify which metadata backend is active
+
+To verify which metadata backend your registry is using,
+use one of the following methods.
+
+#### Check the registry API response header
+
+1. Send a request to the registry `/v2/` endpoint:
+
+   ```shell
+   curl --silent --head "https://registry.example.com/v2/" | grep --ignore-case gitlabcontainer-registry-database-enabled
+   ```
+
+1. Inspect the
+`gitlab-container-registry-database-enabled` response header:
+
+   - A value of `true` means the registry is using the metadata database.
+   - A value of `false` means it is using legacy filesystem storage.
+
+#### Check lockfiles on disk
+
+To check lockfiles on disk, look for these files in the configured storage backend at
+`<rootdirectory>/docker/registry/lockfiles/`:
+
+- `database-in-use`: The registry is using the metadata database.
+- `filesystem-in-use`: The registry is using legacy filesystem storage.
+
+If both lockfiles exist, the registry is in an invalid state and does not start.
+
+#### Check registry logs
+
+The registry logs which metadata backend it selects at startup.
+
+To check registry logs, look for one of the following messages:
+
+- If the registry falls back to legacy storage (prefer mode only):
+
+  ```plaintext
+  database prefer mode enabled, but found filesystem metadata: falling back to legacy metadata
+  ```
+
+- If the registry connects to the database:
+
+  ```plaintext
+  using the metadata database
+  ```
 
 ## Database migrations
 
@@ -395,10 +495,10 @@ LIMIT
 
 Check the number of tasks eligible for review by running the following queries:
 
-  ```sql
-  SELECT COUNT(*) FROM gc_blob_review_queue WHERE review_after < NOW();
-  SELECT COUNT(*) FROM gc_manifest_review_queue WHERE review_after < NOW();
-  ```
+```sql
+SELECT COUNT(*) FROM gc_blob_review_queue WHERE review_after < NOW();
+SELECT COUNT(*) FROM gc_manifest_review_queue WHERE review_after < NOW();
+```
 
 {{< /tab >}}
 
@@ -514,15 +614,74 @@ registry['database'] = {
 
 ## Backup with metadata database
 
-> [!note]
-> If you have configured your own database for container registry metadata,
-> you must manage backups manually. `gitlab-backup` does not backup the metadata database.
-> For progress on automatic database backups see [issue 532507](https://gitlab.com/gitlab-org/gitlab/-/issues/532507).
+{{< history >}}
 
-When the metadata database is enabled, backups must capture both the object storage
-used by the registry, as before, but also the database. Backups of object storage
-and the database should be coordinated to capture the state of the registry as close as possible
-to each other. To restore the registry, you must apply both backups together.
+- Automatic backup support for the registry metadata database [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/581279) in GitLab 18.10.
+
+{{< /history >}}
+
+When the metadata database is turned on, backups must include both the registry storage backend
+and the database.
+
+The backup method depends on your storage type:
+
+- Local filesystem storage: `gitlab-backup` includes the registry automatically.
+- Object storage: You must back up object storage separately.
+
+Back up storage and database as close together in time as possible to ensure a consistent
+registry state. To restore the registry, you must apply both backups.
+
+### Automatic backup
+
+In GitLab 18.10 and later, `gitlab-backup create` and `gitlab-backup restore` include the
+registry metadata database automatically when the metadata database is configured. On Helm chart
+(Kubernetes) installations, `backup-utility` behaves the same way.
+
+The metadata database must be configured in `gitlab.rb` or in your Helm values file.
+
+No additional configuration is required. The backup tools read the registry
+database connection settings from the existing configuration.
+
+If you call the backup Rake task directly, you must set the following
+environment variables on the node that runs the backup:
+
+| Variable | Required | Description |
+|---|---|---|
+| `REGISTRY_DATABASE_HOST` | Yes | The database host. |
+| `REGISTRY_DATABASE_NAME` | Yes | The database name. |
+| `REGISTRY_DATABASE_USER` | Yes | The database user. |
+| `REGISTRY_DATABASE_PORT` | No | The database port. Defaults to `5432`. |
+| `REGISTRY_DATABASE_PASSWORD` | No | The database password. |
+| `REGISTRY_DATABASE_SSLMODE` | No | Whether or not to require SSL mode. Set to `require` or omit. |
+| `REGISTRY_DATABASE_SSLCERT` | No | The path to the client certificate. |
+| `REGISTRY_DATABASE_SSLKEY` | No | The path to the client private key. |
+| `REGISTRY_DATABASE_SSLROOTCERT` | No | The path to the CA certificate. |
+| `REGISTRY_DATABASE_CONNECT_TIMEOUT` | No | The connection timeout in seconds. |
+
+The backup Rake task activates the registry database backup when it detects
+any of the following credentials:
+
+- `REGISTRY_DATABASE_PASSWORD`
+- `REGISTRY_DATABASE_SSLCERT`
+- `REGISTRY_DATABASE_SSLKEY`
+- `REGISTRY_DATABASE_SSLROOTCERT`
+
+Without
+credentials, the registry database is not included in the backup. The same
+environment variables must be set when restoring.
+
+### Manual backup
+
+If you use GitLab 18.9 or earlier, or if you prefer to manage registry database
+backups separately, use standard PostgreSQL tools like `pg_dump` and `pg_restore`
+to back up and restore the registry database independently.
+
+### Geo considerations
+
+When using [Geo](#database-architecture-with-geo), each site maintains its own
+registry database and object storage. Back up the registry database and object
+storage at each site independently. Geo does not replicate the registry database
+between sites.
 
 ## Downgrade a registry
 

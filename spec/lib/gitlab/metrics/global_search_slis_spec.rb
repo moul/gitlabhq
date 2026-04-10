@@ -41,7 +41,7 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
     end
 
     where(:search_type, :search_scope, :search_level, :valid) do
-      'basic' | 'issues'     | 'global'  | true
+      'basic' | 'work_items' | 'global'  | true
       'basic' | 'blobs'      | 'project' | true
       'basic' | 'blobs'      | 'global'  | false
       'basic' | 'blobs'      | 'group'   | false
@@ -185,7 +185,7 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
     end
 
     with_them do
-      let(:search_scope) { code_search ? 'blobs' : 'issues' }
+      let(:search_scope) { code_search ? 'blobs' : 'work_items' }
 
       it 'increments the global_search SLI as a success if the elapsed time is within the target' do
         duration = duration_target - 0.1
@@ -315,14 +315,14 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
         error: true,
         search_type: 'basic',
         search_level: 'global',
-        search_scope: 'issues'
+        search_scope: 'work_items'
       )
 
       described_class.record_error_rate(
         error: true,
         search_type: 'basic',
         search_level: 'global',
-        search_scope: 'issues'
+        search_scope: 'work_items'
       )
     end
   end
@@ -335,7 +335,7 @@ RSpec.describe Gitlab::Metrics::GlobalSearchSlis, feature_category: :global_sear
 
     it 'includes expected scopes' do
       result = described_class.send(:search_scopes)
-      expect(result).to include('blobs', 'issues', 'merge_requests', 'projects')
+      expect(result).to include('blobs', 'merge_requests', 'projects', 'work_items')
     end
   end
 end

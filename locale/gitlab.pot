@@ -26310,9 +26310,6 @@ msgstr ""
 msgid "DuoAgentPlatform|Action"
 msgstr ""
 
-msgid "DuoAgentPlatform|Activity"
-msgstr ""
-
 msgid "DuoAgentPlatform|Activity deleted after 30 days of inactivity. %{linkStart}Learn more.%{linkEnd}"
 msgstr ""
 
@@ -26338,9 +26335,6 @@ msgid "DuoAgentPlatform|Created session"
 msgstr ""
 
 msgid "DuoAgentPlatform|Creating session"
-msgstr ""
-
-msgid "DuoAgentPlatform|Details"
 msgstr ""
 
 msgid "DuoAgentPlatform|Duo Agent Platform Settings have been saved"
@@ -26443,7 +26437,7 @@ msgstr ""
 msgid "DuoAgenticChat|Chat with different agents"
 msgstr ""
 
-msgid "DuoAgenticChat|Collaborate with AI agents to accomplish  tasks and answer questions, or use a multi-agent flow to solve a complex problem."
+msgid "DuoAgenticChat|Collaborate with AI agents to accomplish tasks and answer questions, or use a multi-agent flow to solve a complex problem."
 msgstr ""
 
 msgid "DuoAgenticChat|Conversations expire after more than 30 days of inactivity. Start a new conversation, or select an active conversation from your chat history."
@@ -26714,6 +26708,9 @@ msgid "DuoAgentsPlatform|Create trigger"
 msgstr ""
 
 msgid "DuoAgentsPlatform|Create triggers to automatically run pipelines when specified events occur in your project."
+msgstr ""
+
+msgid "DuoAgentsPlatform|Data Analyst"
 msgstr ""
 
 msgid "DuoAgentsPlatform|Default"
@@ -29695,9 +29692,6 @@ msgid "Explore groups"
 msgstr ""
 
 msgid "Explore paid plans"
-msgstr ""
-
-msgid "Explore plans"
 msgstr ""
 
 msgid "Explore projects"
@@ -35072,9 +35066,6 @@ msgid "GroupsEmptyState|If you organize your projects under a group, it works li
 msgstr ""
 
 msgid "GroupsEmptyState|No groups found"
-msgstr ""
-
-msgid "GroupsEmptyState|No public or internal groups"
 msgstr ""
 
 msgid "GroupsEmptyState|Organize your work with projects and subgroups"
@@ -67548,9 +67539,6 @@ msgstr ""
 msgid "Show details"
 msgstr ""
 
-msgid "Show epics in global search results"
-msgstr ""
-
 msgid "Show file browser"
 msgstr ""
 
@@ -67564,9 +67552,6 @@ msgid "Show full blame"
 msgstr ""
 
 msgid "Show group milestones"
-msgstr ""
-
-msgid "Show issues in global search results"
 msgstr ""
 
 msgid "Show labels"

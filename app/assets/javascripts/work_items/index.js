@@ -10,12 +10,11 @@ import { apolloProvider } from '~/graphql_shared/issuable_client';
 import App from './components/app.vue';
 import WorkItemBreadcrumb from './components/work_item_breadcrumb.vue';
 import activeDiscussionQuery from './components/design_management/graphql/client/active_design_discussion.query.graphql';
-import { WORK_ITEM_TYPE_NAME_EPIC } from './constants';
 import { createRouter } from './router';
 
 Vue.use(VueApollo);
 
-export const initWorkItemsRoot = ({ workItemType, namespaceType, withTabs } = {}) => {
+export const initWorkItemsRoot = ({ workItemType, withTabs } = {}) => {
   const el = document.querySelector('#js-work-items');
 
   if (!el) {
@@ -26,9 +25,9 @@ export const initWorkItemsRoot = ({ workItemType, namespaceType, withTabs } = {}
 
   const {
     fullPath,
-    issuesListPath,
-    epicsListPath,
     defaultBranch,
+    routerPath,
+    // group work items list
     isGroupIssuesList,
     // service desk list
     isServiceDeskEnabled,
@@ -39,17 +38,9 @@ export const initWorkItemsRoot = ({ workItemType, namespaceType, withTabs } = {}
     serviceDeskSettingsPath,
   } = el.dataset;
 
-  const router = createRouter({ fullPath, namespaceType, defaultBranch, workItemType });
+  const router = createRouter({ fullPath, defaultBranch, routerPath });
 
-  const breadcrumbParams = { workItemType };
-
-  if (workItemType === WORK_ITEM_TYPE_NAME_EPIC) {
-    breadcrumbParams.listPath = epicsListPath;
-  } else {
-    breadcrumbParams.listPath = issuesListPath;
-  }
-
-  injectVueAppBreadcrumbs(router, WorkItemBreadcrumb, apolloProvider, breadcrumbParams);
+  injectVueAppBreadcrumbs(router, WorkItemBreadcrumb, apolloProvider, { workItemType });
 
   apolloProvider.clients.defaultClient.cache.writeQuery({
     query: activeDiscussionQuery,
@@ -69,8 +60,9 @@ export const initWorkItemsRoot = ({ workItemType, namespaceType, withTabs } = {}
     apolloProvider,
     provide: {
       fullPath,
-      isGroupIssuesList: parseBoolean(isGroupIssuesList),
       workItemType,
+      // group work items list
+      isGroupIssuesList: parseBoolean(isGroupIssuesList),
       // service desk list
       isServiceDeskEnabled: parseBoolean(isServiceDeskEnabled),
       isServiceDeskSupported: parseBoolean(isServiceDeskSupported),

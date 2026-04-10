@@ -118,6 +118,13 @@ const emptySavedViewsResult = {
       savedViews: {
         __typename: 'SavedViewConnection',
         nodes: [],
+        pageInfo: {
+          __typename: 'PageInfo',
+          hasNextPage: false,
+          hasPreviousPage: false,
+          startCursor: null,
+          endCursor: null,
+        },
       },
     },
   },
@@ -218,6 +225,13 @@ const subscribedSavedViewsHandler = jest.fn().mockResolvedValue({
       savedViews: {
         __typename: 'SavedViewConnection',
         nodes: mockSavedViewsData,
+        pageInfo: {
+          __typename: 'PageInfo',
+          hasNextPage: false,
+          hasPreviousPage: false,
+          startCursor: null,
+          endCursor: null,
+        },
       },
     },
   },

@@ -68,6 +68,7 @@ and provide different methods to configure the GitLab MCP server settings.
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/577575) in GitLab 18.6.
+- Tool prefixing [added](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230406) in GitLab 18.11.
 
 {{< /history >}}
 
@@ -83,6 +84,27 @@ To configure the GitLab MCP server by using HTTP transport, use this format:
     "GitLab": {
       "type": "http",
       "url": "https://<gitlab.example.com>/api/v4/mcp"
+    }
+  }
+}
+```
+
+You can add a prefix to tool names by configuring an
+`X-Gitlab-Mcp-Server-Tool-Name-Prefix` HTTP header.
+Prefixing can help you avoid tool name conflicts with other MCP servers
+or with multiple GitLab instances in your configuration.
+
+The prefix is truncated to the first 32 characters if it exceeds this limit.
+
+```json
+{
+  "mcpServers": {
+    "GitLab": {
+      "type": "http",
+      "url": "https://<gitlab.example.com>/api/v4/mcp",
+      "headers": {
+        "X-Gitlab-Mcp-Server-Tool-Name-Prefix": "gitlab_"
+      }
     }
   }
 }

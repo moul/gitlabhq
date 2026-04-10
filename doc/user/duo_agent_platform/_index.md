@@ -80,6 +80,7 @@ Features available on the Free tier for GitLab.com customers require the purchas
 | [Software Development Flow](flows/foundational_flows/software_development.md) <br /> Create a full, multi-step plan before executing it. | {{< yes >}} | {{< yes >}}  | {{< yes >}} |
 | [MCP clients](../gitlab_duo/model_context_protocol/mcp_clients.md) <br /> Access GitLab resources and tools from any MCP-compatible AI client or IDE extension. <sup>1</sup> | {{< yes >}} | {{< yes >}} | {{< yes >}} |
 | [SAST False Positive Detection Flow](flows/foundational_flows/sast_false_positive_detection.md) <br /> Automatically identify and filter out false positives in SAST security scans. | {{< no >}} | {{< no >}}  | {{< yes >}} |
+| [SAST Vulnerability Resolution Flow](flows/foundational_flows/agentic_sast_vulnerability_resolution.md) <br /> Automatically generate fixes and remediation steps for SAST vulnerabilities. | {{< no >}} | {{< no >}}  | {{< yes >}} |
 | [Security Analyst Agent](agents/foundational_agents/security_analyst_agent.md) <br /> Automate repetitive security tasks: Triage issues, analyze vulnerabilities, and generate fixes. | {{< no >}} | {{< no >}}  | {{< yes >}} |
 
 **Footnotes**:
@@ -100,7 +101,6 @@ but you require credits in your Monthly Commitment Pool to access them.
 | Feature | Free | Premium | Ultimate |
 |---------|---|---|---|
 | [Custom flows](flows/custom.md) <br /> Combine multiple agents to solve your business problems. | {{< yes >}} | {{< yes >}} | {{< yes >}} |
-| [SAST Vulnerability Resolution Flow](flows/foundational_flows/agentic_sast_vulnerability_resolution.md) <br /> Automatically generate fixes and remediation steps for SAST vulnerabilities. | {{< no >}} | {{< no >}}  | {{< yes >}} |
 | [MCP server](../gitlab_duo/model_context_protocol/mcp_server.md) <br /> Securely connect AI tools and applications to your GitLab instance. | {{< no >}} | {{< yes >}} | {{< yes >}} |
 | [Data Analyst Agent](agents/foundational_agents/data_analyst.md) <br /> Analyze data and generate insights from your development metrics and project data. | {{< no >}} | {{< yes >}} | {{< yes >}} |
 | [External MCP servers](../gitlab_duo/model_context_protocol/ai_catalog_mcp_servers.md) <br /> Connect custom agents to external data sources and third-party services using MCP servers. | {{< no >}} | {{< yes >}} | {{< yes >}} |

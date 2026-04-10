@@ -160,7 +160,7 @@ For more information, see the documentation on:
 
 - [User statistics](../administration/admin_area.md#users-statistics).
 - [License usage](../administration/license_usage.md).
-- [Managing users and subscription seats](manage_seats.md#manage-users-and-subscription-seats).
+- [Managing users and subscription seats](manage_seats.md).
 
 ## Upgrade subscription tier
 

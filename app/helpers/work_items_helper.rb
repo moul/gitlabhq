@@ -93,8 +93,8 @@ module WorkItemsHelper
   def base_data_legacy_only(resource_parent)
     {
       full_path: resource_parent.full_path,
-      issues_list_path: issues_path_for(resource_parent),
-      default_branch: resource_parent.is_a?(Project) ? resource_parent.default_branch_or_main : nil
+      default_branch: resource_parent.is_a?(Project) ? resource_parent.default_branch_or_main : nil,
+      router_path: router_path_for(resource_parent)
     }
   end
 
@@ -104,6 +104,10 @@ module WorkItemsHelper
 
   def labels_path_for(resource_parent)
     resource_parent.is_a?(Group) ? group_labels_path(resource_parent) : project_labels_path(resource_parent)
+  end
+
+  def router_path_for(resource_parent)
+    resource_parent.is_a?(Group) ? group_work_items_path(resource_parent) : project_work_items_path(resource_parent)
   end
 
   def rss_path_for(resource_parent)

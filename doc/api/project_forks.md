@@ -14,9 +14,9 @@ title: Project forks API
 
 Use this API to manage forks of GitLab projects. For more information, see [forks](../user/project/repository/forking_workflow.md).
 
-## Fork a project
+## Create a fork of a project
 
-Fork a project into your personal namespace or the namespace provided.
+Create a fork of the specified project.
 
 Prerequisites:
 
@@ -48,9 +48,9 @@ POST /projects/:id/fork
 > Service accounts cannot fork projects to their personal namespace. For more information, see
 > [add a service account to a group or project](../user/profile/service_accounts.md#add-a-service-account-to-a-group-or-project).
 
-## List forks of a project
+## List all forks of a project
 
-List the projects accessible to you that have an established forked relationship with the specified project.
+List all forks of the specified project. Only returns forks that are accessible to you.
 
 ```plaintext
 GET /projects/:id/forks
@@ -169,9 +169,9 @@ Example responses:
 ]
 ```
 
-## Create a fork relationship between projects
+## Create a fork relationship
 
-Create a fork relationship between projects.
+Create a fork relationship between two specified projects.
 
 Prerequisites:
 
@@ -188,9 +188,9 @@ Supported attributes:
 | `forked_from_id` | ID                | Yes      | The ID of the project that was forked from. |
 | `id`             | integer or string | Yes      | The ID or [URL-encoded path of the project](rest/_index.md#namespaced-paths). |
 
-## Delete a fork relationship between projects
+## Delete a fork relationship
 
-Delete a fork relationship between projects.
+Delete a fork relationship between two specified projects.
 
 Prerequisites:
 

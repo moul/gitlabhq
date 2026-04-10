@@ -43,16 +43,15 @@ RSpec.describe Admin::Registrations::GroupsController, feature_category: :onboar
         end
       end
 
-      context 'when admin cannot admin all resources' do
+      context 'when admin mode is not enabled' do
         before do
           sign_in(admin)
-          allow(admin).to receive(:can_admin_all_resources?).and_return(true, false)
         end
 
-        it 'returns not found' do
+        it 'redirects to admin mode login' do
           get_new
 
-          expect(response).to have_gitlab_http_status(:not_found)
+          expect(response).to redirect_to(new_admin_session_path)
         end
       end
 

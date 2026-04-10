@@ -225,6 +225,7 @@ module Gitlab
     # - Sentry DSN (:sentry_dsn)
     # - File content from Web Editor (:content)
     # - Jira shared secret (:sharedSecret)
+    # - IAM login and consent challenges and verifiers (:login_challenge, :login_verifier, :consent_challenge, :consent_verifier)
     # - Titles, bodies, and descriptions for notes, issues, etc.
     #
     # NOTE: It is **IMPORTANT** to also update labkit's filter when
@@ -264,6 +265,10 @@ module Gitlab
       question
       SAMLResponse
       selectedText
+      login_challenge
+      login_verifier
+      consent_challenge
+      consent_verifier
     ]
 
     # Enable escaping HTML in JSON.

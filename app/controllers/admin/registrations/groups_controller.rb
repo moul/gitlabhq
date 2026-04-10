@@ -5,7 +5,6 @@ module Admin
     class GroupsController < Admin::ApplicationController
       skip_before_action :set_confirm_warning
       before_action :verify_available!
-      before_action :authorize_create_group!
 
       layout 'minimal'
 
@@ -17,10 +16,6 @@ module Admin
 
       def verify_available!
         render_404 unless Feature.enabled?(:self_managed_welcome_onboarding, :instance)
-      end
-
-      def authorize_create_group!
-        access_denied! unless current_user.can_admin_all_resources?
       end
     end
   end

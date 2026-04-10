@@ -165,6 +165,26 @@ RSpec.describe API::Mcp, 'List tools request', feature_category: :mcp_server do
       end
     end
 
+    context 'when x-gitlab-mcp-server-tool-name-prefix header is present' do
+      it 'prefixes all tools with header value' do
+        post api('/mcp', user, oauth_access_token: access_token),
+          params: params,
+          headers: { 'X-Gitlab-Mcp-Server-Tool-Name-Prefix' => 'test_' }
+
+        tool_names = json_response['result']['tools'].pluck('name')
+        expect(tool_names).to all start_with('test_')
+      end
+
+      it 'truncates prefix to 32 chars' do
+        post api('/mcp', user, oauth_access_token: access_token),
+          params: params,
+          headers: { 'X-Gitlab-Mcp-Server-Tool-Name-Prefix' => 'a' * 33 }
+
+        tool_names = json_response['result']['tools'].pluck('name')
+        expect(tool_names).to include("#{'a' * 32}search")
+      end
+    end
+
     context 'when a tool has no icons' do
       before do
         allow_any_instance_of(::Mcp::Tools::GetServerVersionService).to receive(:icons).and_return([]) # rubocop: disable RSpec/AnyInstanceOf -- tools are initialized on class definition time

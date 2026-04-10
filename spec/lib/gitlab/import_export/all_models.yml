@@ -83,6 +83,7 @@ issues:
 - work_item_description
 - work_item_transition
 - work_item_position
+- duo_workflows
 work_item_description:
 - namespace
 - work_item

@@ -54320,6 +54320,7 @@ Returns [`[WorkItemWidget!]`](#workitemwidget).
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="workitemfeatures-aisession"></a>`aiSession` | [`WorkItemWidgetAiSession`](#workitemwidgetaisession) | Ai session widget of the work item. Returns `null` if the widget is not available for the work item. |
 | <a id="workitemfeatures-assignees"></a>`assignees` | [`WorkItemWidgetAssignees`](#workitemwidgetassignees) | Assignees widget of the work item. Returns `null` if the widget is not available for the work item. |
 | <a id="workitemfeatures-awardemoji"></a>`awardEmoji` | [`WorkItemWidgetAwardEmoji`](#workitemwidgetawardemoji) | Award emoji widget of the work item. Returns `null` if the widget is not available for the work item. |
 | <a id="workitemfeatures-color"></a>`color` | [`WorkItemWidgetColor`](#workitemwidgetcolor) | Color widget of the work item. Returns `null` if the widget is not available for the work item. |
@@ -54606,6 +54607,17 @@ Represents an available icon for work item types.
 | <a id="workitemtypesuserpreference-namespace"></a>`namespace` | [`Namespace!`](#namespace) | Namespace for the user preference. |
 | <a id="workitemtypesuserpreference-sort"></a>`sort` | [`WorkItemSort`](#workitemsort) | Sort order for work item lists. |
 | <a id="workitemtypesuserpreference-workitemtype"></a>`workItemType` | [`WorkItemType`](#workitemtype) | Type assigned to the work item. |
+
+### `WorkItemWidgetAiSession`
+
+Represents an AI session widget.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="workitemwidgetaisession-duoworkflows"></a>`duoWorkflows` | [`DuoWorkflowConnection`](#duoworkflowconnection) | Duo Workflow sessions associated with the work item. (see [Connections](#connections)) |
+| <a id="workitemwidgetaisession-type"></a>`type` | [`WorkItemWidgetType`](#workitemwidgettype) | Widget type. |
 
 ### `WorkItemWidgetAssignees`
 
@@ -60734,6 +60746,7 @@ Type of a work item widget.
 
 | Value | Description |
 | ----- | ----------- |
+| <a id="workitemwidgettype-ai_session"></a>`AI_SESSION` | Ai Session widget. |
 | <a id="workitemwidgettype-assignees"></a>`ASSIGNEES` | Assignees widget. |
 | <a id="workitemwidgettype-award_emoji"></a>`AWARD_EMOJI` | Award Emoji widget. |
 | <a id="workitemwidgettype-color"></a>`COLOR` | Color widget. |
@@ -64151,6 +64164,7 @@ Implementations:
 
 Implementations:
 
+- [`WorkItemWidgetAiSession`](#workitemwidgetaisession)
 - [`WorkItemWidgetAssignees`](#workitemwidgetassignees)
 - [`WorkItemWidgetAwardEmoji`](#workitemwidgetawardemoji)
 - [`WorkItemWidgetColor`](#workitemwidgetcolor)

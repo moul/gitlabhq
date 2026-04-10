@@ -89,11 +89,6 @@ module ApplicationSettingsHelper
         }
       ),
       form.gitlab_ui_checkbox_component(
-        :global_search_issues_enabled,
-        _("Show issues in global search results"),
-        checkbox_options: { checked: @application_setting.global_search_issues_enabled, multiple: false }
-      ),
-      form.gitlab_ui_checkbox_component(
         :global_search_work_items_enabled,
         _("Show work items in global search results"),
         checkbox_options: { checked: @application_setting.global_search_work_items_enabled, multiple: false }
@@ -117,11 +112,11 @@ module ApplicationSettingsHelper
   end
 
   def default_search_scope_options_for_select
-    options = Search::Scopes.scope_definitions.map do |scope, definition|
+    # Exclude API-only scopes from UI
+    scope_defs = Search::Scopes.scope_definitions(include_api_only: false)
+    sorted_options = scope_defs.to_a.sort_by { |_, definition| definition[:sort] }.map do |scope, definition|
       [definition[:label].call, scope.to_s]
     end
-
-    sorted_options = options.sort_by { |_label, value| Search::Scopes.scope_definitions[value.to_sym][:sort] }
     sorted_options.prepend([_('System default (automatic)'), 'system default'])
   end
 
@@ -656,7 +651,6 @@ module ApplicationSettingsHelper
       :ropc_without_client_credentials,
       :global_search_snippet_titles_enabled,
       :global_search_users_enabled,
-      :global_search_issues_enabled,
       :global_search_work_items_enabled,
       :global_search_merge_requests_enabled,
       :global_search_block_anonymous_searches_enabled,

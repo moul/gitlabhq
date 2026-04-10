@@ -39,7 +39,7 @@ Seat usage is reviewed [quarterly or annually](quarterly_reconciliation.md).
 To prevent unexpectedly adding new billable users, which may result in overage fees, you should:
 
 - [Prevent inviting groups outside the group hierarchy](../user/project/members/sharing_projects_groups.md#prevent-inviting-groups-outside-the-group-hierarchy).
-- [Turn on restricted access](../user/group/manage.md#turn-on-restricted-access).
+- Turn on restricted access for a [group](../user/group/manage.md#turn-on-restricted-access) or an [instance](../user/group/manage.md#restricted-access).
 
 ## Criteria for non-billable users
 
@@ -190,32 +190,7 @@ The number of maximum users reflects the highest number of billable users on you
 You can view and manage your [billable users](../administration/moderate_users.md#billable-users)
 and [license usage](../administration/license_usage.md).
 
-### Manage users and subscription seats
-
-Managing the number of users against the number of subscription seats can be difficult:
-
-- If [LDAP is integrated with GitLab](../administration/auth/ldap/_index.md), anyone
-  in the configured domain can sign up for a GitLab account. This can result in
-  an unexpected bill at time of renewal.
-- If new user accounts are allowed on your instance, anyone who can access the instance can
-  sign up for an account.
-
-GitLab has several features to help you manage the number of users. You can:
-
-- [Require administrator approval for new user accounts](../administration/settings/sign_up_restrictions.md#require-administrator-approval-for-new-user-accounts).
-- Automatically block new users, either through
-  [LDAP](../administration/auth/ldap/_index.md#basic-configuration-settings) or
-  [OmniAuth](../integration/omniauth.md#configure-common-settings).
-- [Limit the number of billable users](../administration/settings/sign_up_restrictions.md#user-cap)
-  who can sign up or be added to a subscription without administrator approval.
-- [Turn off new user account creation](../administration/settings/sign_up_restrictions.md),
-  and instead manage new users manually.
-- View a breakdown of users by role in the
-  [Users statistics](../administration/admin_area.md#users-statistics) page.
-- [Turn on administrator approval for role promotions](../administration/settings/sign_up_restrictions.md#turn-on-administrator-approval-for-role-promotions).
-- [Prevent users with the Guest role from creating projects and groups](../administration/settings/account_and_limit_settings.md#prevent-non-members-from-creating-projects-and-groups).
-
-To increase the number of users covered by your license, [buy more seats](#buy-more-seats)
+To increase the number of users covered by your license, buy more seats
 during the subscription period. The cost of seats added during the subscription
 period is prorated from the date of purchase through to the end of the subscription
 period. You can continue to add users even if you reach the number of users in
@@ -223,8 +198,13 @@ license count. GitLab [bills you for the overage](quarterly_reconciliation.md).
 
 If your subscription was activated with an activation code, the additional seats are reflected in
 your instance immediately. If you're using a license file, you receive an updated file.
-To add the seats, [add the license file](../administration/license_file.md)
-to your instance.
+To add the seats, add the license file to your instance.
+
+If [LDAP is integrated with GitLab](../administration/auth/ldap/_index.md), anyone in the configured domain can sign up for a GitLab account.
+This can result in an unexpected bill at time of renewal.
+If new user accounts are allowed on your instance, anyone who can access the instance can sign up for an account.
+
+To prevent unexpected overages, see the best practices for seat management.
 
 ## GitLab.com billing and usage
 
@@ -393,3 +373,22 @@ you can use [global SAML group membership lock](../user/group/saml_sso/group_syn
 You can view the number of Enterprise Agile Planning seats used in your
 [subscription details](manage_subscription.md#view-subscription) and in [Customers Portal](billing_account.md).
 On GitLab Self-Managed, you can also view the total number of users by role in [user statistics](../administration/admin_area.md#users-statistics).
+
+## Best practices
+
+To effectively manage your subscription seats and control costs, follow these best practices:
+
+- Initial setup
+  - [Turn off new user account creation](../administration/settings/sign_up_restrictions.md).
+  - Automatically block new users through [LDAP](../administration/auth/ldap/_index.md#basic-configuration-settings) or [OmniAuth](../integration/omniauth.md#configure-common-settings).
+  - Require approval for [new accounts](../administration/settings/sign_up_restrictions.md#require-administrator-approval-for-new-user-accounts) and [role promotions](../administration/settings/sign_up_restrictions.md#turn-on-administrator-approval-for-role-promotions) to maintain control over seat allocation from the start.
+  - Use seat controls to turn on restricted access, or set a user cap for a [group](../user/group/manage.md#user-cap-for-groups) or an [instance](../administration/settings/sign_up_restrictions.md#user-cap) to prevent unintended seat usage.
+  - Assign non-billable roles like Guest (on Free and Ultimate) or Minimal Access when possible to minimize seat usage.
+- Regular activities
+  - Monitor seat usage and [users statistics](../administration/admin_area.md#users-statistics) regularly to identify potential overages.
+  - Act on seat usage alerts that notify you when seats are running low.
+  - Automatically [deactivate](../administration/moderate_users.md#automatically-deactivate-dormant-users) or [remove](../user/group/moderate_users.md#automatically-remove-dormant-members) dormant members to free up seats for active team members.
+- Strategic planning
+  - Leverage Enterprise Agile Planning seats for non-engineering team members instead of full Ultimate seats.
+  - Plan ahead for growth by buying seats when approaching your limit.
+  - Export and analyze your seat usage history to forecast future needs.

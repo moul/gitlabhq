@@ -223,7 +223,7 @@ To disable the job token allowlist:
 1. Recommended. When finished testing, select **This project and any groups and projects in the allowlist** to re-enable the job token allowlist.
 
 You can also modify this setting with the [GraphQL](../../api/graphql/reference/_index.md#mutationprojectcicdsettingsupdate)
-(`inboundJobTokenScopeEnabled`) or [REST](../../api/project_job_token_scopes.md#patch-a-projects-cicd-job-token-access-settings) API.
+(`inboundJobTokenScopeEnabled`) or [REST](../../api/project_job_token_scopes.md#update-the-cicd-job-token-access-settings-for-a-project) API.
 
 ### Allow Git push requests to your project repository
 
