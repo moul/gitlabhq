@@ -20,7 +20,7 @@ title: AGENTS.md customization files
   - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.47.0) in GitLab Duo CLI 8.47.0.
 - Support for `AGENTS.md` in agentic flows [introduced](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/issues/1509) in GitLab 18.8.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/585273) in GitLab 18.8.
-- Support for Web UI [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228790) in GitLab 18.11.
+- Support for GitLab UI [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/593279) in GitLab 18.11 with a [feature flag](../../../administration/feature_flags/_index.md) named `web_agentic_chat_rules_context_injection`. Disabled by default.
 
 {{< /history >}}
 
@@ -38,12 +38,13 @@ Specify `AGENTS.md` files for GitLab Duo to use with:
 
 ## How GitLab Duo uses `AGENTS.md` files
 
-You can create `AGENTS.md` files at multiple levels:
+You can create `AGENTS.md` files at multiple levels, depending on how you use GitLab Duo:
 
-- User-level: Apply to all of your projects and workspaces. Supported in Editor Extensions and Duo CLI only.
-- Workspace-level: Apply only to a specific project or workspace.
-- Subdirectory-level: Apply only to a specific project within a monorepo
-  or within a project with distinct components. Supported in Editor Extensions and Duo CLI only.
+| Level                                                           | Agentic Chat in the GitLab UI | Editor extensions | GitLab Duo CLI |
+|-----------------------------------------------------------------|--------------------------|------------------|--------------|
+| User-level: Apply to all of your projects and workspaces        | {{< no >}}  |  {{< yes >}}    | {{< yes >}} |
+| Workspace-level: Apply only to a specific project or workspace  | {{< yes >}} | {{< yes >}}         | {{< yes >}} |
+| Subdirectory-level: Apply only to a specific project within a monorepo or within a project with distinct components | {{< no >}} | {{< yes >}} | {{< yes >}} |
 
 GitLab Duo Chat combines available instructions from user-level and workspace-level `AGENTS.md`
 files for all conversations. If a task requires working with files in a directory that contains an

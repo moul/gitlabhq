@@ -21,7 +21,7 @@ title: Custom rules
   - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.43.0) in GitLab Duo CLI 8.43.0.
 - User-level custom rules [added](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/merge_requests/2452) in GitLab 18.7.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/585273) in GitLab 18.8.
-- Support for Web UI [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228790) in GitLab 18.11.
+- Support for GitLab UI [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/593279) in GitLab 18.11 with a [feature flag](../../../administration/feature_flags/_index.md) named `web_agentic_chat_rules_context_injection`. Disabled by default.
 
 {{< /history >}}
 
@@ -38,10 +38,12 @@ The following Agent Platform features support custom rules:
 
 ## Create custom rules
 
-You can create custom rules at two levels:
+You can create custom rules at two levels, depending on how you use GitLab Duo:
 
-- User-level rules: Apply to all of your projects and workspaces. Supported in Editor Extensions and Duo CLI only.
-- Workspace-level rules: Apply only to a specific project or workspace.
+| Level                                                           | Agentic Chat in the GitLab UI | Editor extensions | GitLab Duo CLI |
+|-----------------------------------------------------------------|--------------------------|------------------|--------------|
+| User-level: Apply to all of your projects and workspaces        | {{< no >}}  |  {{< yes >}}    | {{< yes >}} |
+| Workspace-level: Apply only to a specific project or workspace  | {{< yes >}} | {{< yes >}}         | {{< yes >}} |
 
 If both user-level and workspace-level rules exist, GitLab Duo Chat applies both to conversations.
 

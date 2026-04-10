@@ -63,6 +63,11 @@ export default {
       required: false,
       default: null,
     },
+    toggleAriaLabel: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -163,6 +168,7 @@ export default {
       ref="dropdown"
       :class="dropdownClass"
       :placement="placement"
+      :toggle-aria-label="toggleAriaLabel"
       @shown="onShow"
       @hidden="onHide"
     >

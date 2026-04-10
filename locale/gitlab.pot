@@ -63876,6 +63876,9 @@ msgstr ""
 msgid "SecurityOrchestration|For large groups, there may be a significant delay in applying policy changes to pre-existing merge requests. Policy changes typically apply almost immediately for newly created merge requests."
 msgstr ""
 
+msgid "SecurityOrchestration|Give feedback"
+msgstr ""
+
 msgid "SecurityOrchestration|Global Settings"
 msgstr ""
 
@@ -63886,6 +63889,9 @@ msgid "SecurityOrchestration|Group cannot be deleted because it has projects tha
 msgstr ""
 
 msgid "SecurityOrchestration|Groups"
+msgstr ""
+
+msgid "SecurityOrchestration|Help us improve scheduled pipeline execution policies by sharing your thoughts and suggestions."
 msgstr ""
 
 msgid "SecurityOrchestration|Hide extra items"
@@ -64499,6 +64505,9 @@ msgid "SecurityOrchestration|Severity is %{severity}"
 msgstr ""
 
 msgid "SecurityOrchestration|Severity is %{severity}."
+msgstr ""
+
+msgid "SecurityOrchestration|Share your feedback"
 msgstr ""
 
 msgid "SecurityOrchestration|Show all included projects"

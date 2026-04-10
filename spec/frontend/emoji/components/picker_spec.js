@@ -59,6 +59,20 @@ describe('Emoji Picker component', () => {
     expect(findReactionToggle().props('category')).toBe('tertiary');
   });
 
+  describe('toggleAriaLabel prop', () => {
+    it('passes toggleAriaLabel to GlDisclosureDropdown', () => {
+      createComponent({ toggleAriaLabel: 'Add reaction to @root' });
+
+      expect(findDropdown().props('toggleAriaLabel')).toBe('Add reaction to @root');
+    });
+
+    it('defaults toggleAriaLabel to null', () => {
+      createComponent();
+
+      expect(findDropdown().props('toggleAriaLabel')).toBeNull();
+    });
+  });
+
   describe('when dropdown is hidden', () => {
     beforeEach(() => {
       createComponent();
