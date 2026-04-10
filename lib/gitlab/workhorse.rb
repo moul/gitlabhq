@@ -167,38 +167,6 @@ module Gitlab
         ]
       end
 
-      ORBIT_DEFAULT_TIMEOUT_SECONDS = 30
-
-      def send_orbit_query(query:, user:, format:, mcp_id: nil)
-        endpoint = ::Analytics::KnowledgeGraph::GrpcClient.configured_endpoint
-        secure = ::Analytics::KnowledgeGraph::GrpcClient.secure_channel?(endpoint)
-        private_addr = ::Analytics::KnowledgeGraph::GrpcClient.private_address?(endpoint)
-        jwt = ::Analytics::KnowledgeGraph::JwtAuth.generate_token(user: user) if secure || private_addr
-
-        params = {
-          'GkgServer' => {
-            'address' => endpoint,
-            'jwt' => jwt,
-            'tls' => secure
-          },
-          'Query' => query,
-          'Format' => format.to_s,
-          'TimeoutSeconds' => orbit_timeout_seconds
-        }
-        params['McpId'] = mcp_id unless mcp_id.nil?
-
-        [
-          SEND_DATA_HEADER,
-          "orbit-query:#{encode(params)}"
-        ]
-      end
-
-      def orbit_timeout_seconds
-        Gitlab.config.knowledge_graph.streaming_timeout_seconds
-      rescue GitlabSettings::MissingSetting
-        ENV.fetch('KNOWLEDGE_GRAPH_STREAMING_TIMEOUT', ORBIT_DEFAULT_TIMEOUT_SECONDS).to_i
-      end
-
       def send_list_blobs(repository, revisions, bytes_limit:)
         params = {
           'GitalyServer' => gitaly_server_hash(repository),
@@ -495,3 +463,5 @@ module Gitlab
     end
   end
 end
+
+Gitlab::Workhorse.prepend_mod

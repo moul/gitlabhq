@@ -13,8 +13,7 @@ import updateWorkItemMutation from '~/work_items/graphql/update_parent.mutation.
 import groupWorkItemsQuery from '~/work_items/graphql/group_work_items.query.graphql';
 import projectWorkItemsQuery from '~/work_items/graphql/project_work_items.query.graphql';
 import workItemsByReferencesQuery from '~/work_items/graphql/work_items_by_references.query.graphql';
-import getAllowedWorkItemParentTypes from '~/work_items/graphql/work_item_allowed_parent_types.query.graphql';
-import { WORK_ITEM_TYPE_ENUM_EPIC } from '~/work_items/constants';
+import workItemAllowedParentTypesQuery from '~/work_items/graphql/work_item_allowed_parent_types.query.graphql';
 import {
   availableObjectivesResponse,
   mockParentWidgetResponse,
@@ -26,7 +25,6 @@ import {
   allowedParentTypesResponse,
   groupEpicsWithMilestonesQueryResponse,
   groupEpicsWithMilestonesQueryResponseWithFeatures,
-  mockFullWorkItemTypeConfiguration,
   mockMilestone,
   mockFeaturesMilestone,
   availableObjectivesResponseWithoutParent,
@@ -52,8 +50,18 @@ describe('WorkItemParent component', () => {
     .mockResolvedValue(groupEpicsWithMilestonesQueryResponse);
   const availableWorkItemsSuccessHandler = jest.fn().mockResolvedValue(availableObjectivesResponse);
   const failedQueryHandler = jest.fn().mockRejectedValue(new Error());
-  const allowedParentTypesHandler = jest.fn().mockResolvedValue(allowedParentTypesResponse);
-
+  const allowedParentTypesHandler = jest.fn().mockResolvedValue({
+    data: {
+      workItem: {
+        id: 'gid://gitlab/WorkItem/634',
+        workItemType: {
+          id: 'gid://gitlab/WorkItems::Type/6',
+          name: 'Objective',
+          widgetDefinitions: [],
+        },
+      },
+    },
+  });
   const workItemReferencesSuccessHandler = jest
     .fn()
     .mockResolvedValue(mockWorkItemReferenceQueryResponse);
@@ -97,6 +105,7 @@ describe('WorkItemParent component', () => {
     searchQueryHandler = availableWorkItemsSuccessHandler,
     groupSearchQueryHandler = groupWorkItemsSuccessHandler,
     mutationHandler = successUpdateWorkItemMutationHandler,
+    allowedParentTypesQueryHandler = allowedParentTypesHandler,
     hasParent = true,
     provide = {},
   } = {}) => {
@@ -106,7 +115,7 @@ describe('WorkItemParent component', () => {
         [groupWorkItemsQuery, groupSearchQueryHandler],
         [updateWorkItemMutation, mutationHandler],
         [workItemsByReferencesQuery, workItemReferencesSuccessHandler],
-        [getAllowedWorkItemParentTypes, allowedParentTypesHandler],
+        [workItemAllowedParentTypesQuery, allowedParentTypesQueryHandler],
       ]),
       propsData: {
         canUpdate,
@@ -118,8 +127,21 @@ describe('WorkItemParent component', () => {
         allowedParentTypesForNewWorkItem,
       },
       provide: {
+        glFeatures: {
+          workItemConfigurableTypes: true,
+        },
         getWorkItemTypeConfiguration: mockWorkItemConfigGetter,
-        workItemTypesConfiguration: mockFullWorkItemTypeConfiguration,
+        workItemTypesConfiguration: [
+          { id: 'gid://gitlab/WorkItems::Type/1', name: 'Issue', isGroupWorkItemType: false },
+          { id: 'gid://gitlab/WorkItems::Type/2', name: 'Incident', isGroupWorkItemType: false },
+          { id: 'gid://gitlab/WorkItems::Type/3', name: 'Test Case', isGroupWorkItemType: false },
+          { id: 'gid://gitlab/WorkItems::Type/4', name: 'Requirement', isGroupWorkItemType: false },
+          { id: 'gid://gitlab/WorkItems::Type/5', name: 'Task', isGroupWorkItemType: false },
+          { id: 'gid://gitlab/WorkItems::Type/6', name: 'Objective', isGroupWorkItemType: false },
+          { id: 'gid://gitlab/WorkItems::Type/7', name: 'Key Result', isGroupWorkItemType: false },
+          { id: 'gid://gitlab/WorkItems::Type/8', name: 'Epic', isGroupWorkItemType: true },
+          { id: 'gid://gitlab/WorkItems::Type/9', name: 'Ticket', isGroupWorkItemType: false },
+        ],
         ...provide,
       },
       stubs: {
@@ -182,7 +204,11 @@ describe('WorkItemParent component', () => {
         searchByIid: false,
         searchByText: true,
         searchTerm: '',
-        types: ['ISSUE', 'INCIDENT', 'TICKET'],
+        workItemTypeIds: [
+          'gid://gitlab/WorkItems::Type/1',
+          'gid://gitlab/WorkItems::Type/2',
+          'gid://gitlab/WorkItems::Type/9',
+        ],
       });
     });
   });
@@ -308,7 +334,7 @@ describe('WorkItemParent component', () => {
       ]);
     });
 
-    it('skips the work item query when the getAllowedWorkItemParentTypes query fails', () => {
+    it('skips the work item query when the workItemAllowedParentTypesQuery query fails', () => {
       createComponent({ allowedParentTypesHandler: failedQueryHandler });
 
       expect(availableWorkItemsSuccessHandler).not.toHaveBeenCalled();
@@ -324,28 +350,28 @@ describe('WorkItemParent component', () => {
       expect(searchedItemQueryHandler).toHaveBeenCalledWith({
         fullPath: 'full-path',
         searchTerm: '',
-        types: [WORK_ITEM_TYPE_ENUM_EPIC],
         in: undefined,
         iid: null,
         isNumber: false,
         searchByIid: false,
         searchByText: true,
         includeAncestors: true,
+        workItemTypeIds: [],
       });
 
       findSidebarDropdownWidget().vm.$emit('searchStarted', mockText);
       await waitForPromises();
 
-      expect(searchedItemQueryHandler).toHaveBeenCalledWith({
+      expect(searchedItemQueryHandler).toHaveBeenLastCalledWith({
         fullPath: 'full-path',
         searchTerm: mockText,
-        types: [WORK_ITEM_TYPE_ENUM_EPIC],
         in: 'TITLE',
         iid: null,
         isNumber: false,
         searchByIid: false,
         searchByText: true,
         includeAncestors: true,
+        workItemTypeIds: [],
       });
       expect(workItemReferencesSuccessHandler).not.toHaveBeenCalled();
       expect(findSidebarDropdownWidget().props('listItems')).toStrictEqual([
@@ -366,13 +392,13 @@ describe('WorkItemParent component', () => {
       expect(availableWorkItemsSuccessHandler).toHaveBeenCalledWith({
         fullPath: mockFullPath,
         searchTerm: '',
-        types: [WORK_ITEM_TYPE_ENUM_EPIC],
         in: undefined,
         iid: null,
         isNumber: false,
         searchByIid: false,
         searchByText: true,
         includeAncestors: true,
+        workItemTypeIds: [],
       });
 
       findSidebarDropdownWidget().vm.$emit('searchStarted', input);
@@ -549,28 +575,13 @@ describe('WorkItemParent component', () => {
 
   describe('on group level', () => {
     beforeEach(() => {
-      const typesConfig = {
-        ...mockFullWorkItemTypeConfiguration,
-        Epic: {
-          ...mockFullWorkItemTypeConfiguration.Epic,
-          isGroupWorkItemType: true,
-        },
-      };
       mockWorkItemConfigGetter.mockImplementation(() => ({
-        isGroupWorkItemType: true,
-        widgetDefinitions: [
-          {
-            autoExpandTreeOnMove: null,
-            propagatesMilestone: true,
-            type: 'HIERARCHY',
-            __typename: 'WorkItemWidgetDefinitionHierarchy',
-          },
-        ],
+        widgetDefinitions: [{ type: 'HIERARCHY', propagatesMilestone: true }],
       }));
       createComponent({
         hasParent: false,
         workItemType: 'Epic',
-        provide: { workItemTypesConfiguration: typesConfig },
+        allowedParentTypesQueryHandler: jest.fn().mockResolvedValue(allowedParentTypesResponse),
       });
     });
 
@@ -597,20 +608,12 @@ describe('WorkItemParent component', () => {
           .fn()
           .mockResolvedValue(groupEpicsWithMilestonesQueryResponseWithFeatures);
 
-        const typesConfig = {
-          ...mockFullWorkItemTypeConfiguration,
-          Epic: {
-            ...mockFullWorkItemTypeConfiguration.Epic,
-            isGroupWorkItemType: true,
-          },
-        };
-
         createComponent({
           hasParent: false,
           workItemType: 'Epic',
           groupSearchQueryHandler: featuresHandler,
+          allowedParentTypesQueryHandler: jest.fn().mockResolvedValue(allowedParentTypesResponse),
           provide: {
-            workItemTypesConfiguration: typesConfig,
             glFeatures: { workItemFeaturesField: true },
           },
         });
@@ -656,17 +659,9 @@ describe('WorkItemParent component', () => {
             return { isGroupWorkItemType };
           });
 
-          const typesConfig = {
-            ...mockFullWorkItemTypeConfiguration,
-            Epic: {
-              ...mockFullWorkItemTypeConfiguration.Epic,
-              isGroupWorkItemType,
-            },
-          };
-
           createComponent({
             workItemType,
-            provide: { workItemTypesConfiguration: typesConfig },
+            allowedParentTypesQueryHandler: jest.fn().mockResolvedValue(allowedParentTypesResponse),
           });
 
           showDropdown();
@@ -706,17 +701,9 @@ describe('WorkItemParent component', () => {
             };
           });
 
-          const configWithGroupType = {
-            ...mockFullWorkItemTypeConfiguration,
-            Epic: {
-              ...mockFullWorkItemTypeConfiguration.Epic,
-              isGroupWorkItemType: true,
-            },
-          };
-
           createComponent({
             workItemType,
-            provide: { workItemTypesConfiguration: configWithGroupType },
+            allowedParentTypesQueryHandler: jest.fn().mockResolvedValue(allowedParentTypesResponse),
           });
           showDropdown();
           await waitForPromises();

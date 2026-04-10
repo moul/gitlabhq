@@ -385,6 +385,28 @@ export default {
 
 ## Experiment development best practices
 
+### Validate event structure locally before staging
+
+Event structure validation must happen during local development, not in staging or production.
+In staging and production, only verify that events are received in Snowplow as expected.
+
+Use [Snowplow Micro](../internal_analytics/internal_event_instrumentation/local_setup_and_debugging.md#snowplow-micro)
+to validate event structure locally:
+
+1. Set up Snowplow Micro in your local GDK environment.
+1. Trigger all tracking events through the experiment flow for each variant (control and candidate).
+1. Paste the raw Snowplow Micro output into the experiment rollout issue as proof of correct event structure.
+
+By the time an experiment reaches staging, the event structure should already be verified.
+Staging and production validation then focuses only on confirming that events flow through
+the pipeline and appear in Tableau dashboards.
+
+### Multi-page experiment
+
+If the experiment runs on many pages, you should verify it sticks to the same variant by visiting all pages with partial rollout:
+
+`Feature.enable_percentage_of_actors(:my_experiment, 50)`
+
 ### Use `only_assigned` for secondary experiment blocks
 
 Experiment blocks that are not the entry point into an experiment should use the

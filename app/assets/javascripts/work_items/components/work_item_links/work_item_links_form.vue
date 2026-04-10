@@ -13,7 +13,6 @@ import {
   MAX_WORK_ITEMS,
   WIDGET_TYPE_MILESTONE,
   WIDGET_TYPE_ITERATION,
-  WORK_ITEM_TYPE_NAME_TASK,
   WORK_ITEM_CREATE_SOURCES,
 } from '../../constants';
 import WorkItemProjectsListbox from './work_item_projects_listbox.vue';
@@ -82,9 +81,9 @@ export default {
       default: '',
     },
     childrenType: {
-      type: String,
+      type: Object,
       required: false,
-      default: WORK_ITEM_TYPE_NAME_TASK,
+      default: () => ({}),
     },
     fullName: {
       type: String,
@@ -123,12 +122,12 @@ export default {
   },
   computed: {
     workItemChildIsEpic() {
-      return this.childrenType === WORK_ITEM_TYPE_NAME_EPIC;
+      return this.childrenType.name === WORK_ITEM_TYPE_NAME_EPIC;
     },
     workItemInput() {
       let workItemInput = {
         title: this.search?.title || this.search,
-        workItemTypeId: this.childWorkItemTypeId,
+        workItemTypeId: this.childrenType.id,
         hierarchyWidget: {
           parentId: this.issuableGid,
         },
@@ -179,16 +178,16 @@ export default {
     addOrCreateButtonLabel() {
       if (this.isCreateForm) {
         return sprintf(s__('WorkItem|Create %{workItemType}'), {
-          workItemType: this.childrenType,
+          workItemType: this.childrenType.name,
         });
       }
       if (this.workItemsToAdd.length > 1) {
         return sprintf(s__('WorkItem|Add %{workItemType}s'), {
-          workItemType: this.childrenType,
+          workItemType: this.childrenType.name,
         });
       }
       return sprintf(s__('WorkItem|Add %{workItemType}'), {
-        workItemType: this.childrenType,
+        workItemType: this.childrenType.name,
       });
     },
     confidentialityCheckboxLabel() {
@@ -205,7 +204,7 @@ export default {
           'WorkItem|A non-confidential %{workItemType} cannot be assigned to a confidential parent %{parentWorkItemType}.',
         ),
         {
-          workItemType: this.childrenType,
+          workItemType: this.childrenType.name,
           parentWorkItemType: this.parentWorkItemType,
         },
       );
@@ -215,9 +214,6 @@ export default {
     },
     addOrCreateMethod() {
       return this.isCreateForm ? this.createChild : this.addChild;
-    },
-    childWorkItemTypeId() {
-      return this.workItemTypes.find((type) => type.name === this.childrenType)?.id;
     },
     parentIterationId() {
       return this.parentIteration?.id;
@@ -266,7 +262,7 @@ export default {
         ),
         {
           invalidWorkItemsList: this.invalidWorkItemsToAdd.map(({ title }) => title).join(', '),
-          childWorkItemType: this.childrenType,
+          childWorkItemType: this.childrenType.name,
           parentWorkItemType: this.parentWorkItemType,
         },
       );
@@ -389,7 +385,7 @@ export default {
       this.$emit('cancel');
     },
     isWidgetSupported(widgetType) {
-      const childrenType = this.workItemTypes.find((type) => type.name === this.childrenType);
+      const childrenType = this.workItemTypes.find((type) => type.id === this.childrenType.id);
       const widgetDefinitions = childrenType?.widgetDefinitions?.flatMap((i) => i.type) || [];
       return widgetDefinitions.indexOf(widgetType) !== -1;
     },

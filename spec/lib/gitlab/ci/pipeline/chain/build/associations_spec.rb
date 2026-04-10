@@ -173,6 +173,122 @@ RSpec.describe Gitlab::Ci::Pipeline::Chain::Build::Associations, feature_categor
 
         it_behaves_like 'does not break the chain'
       end
+
+      context 'when source is :trigger with TRIGGER_PAYLOAD and trigger_api_request is false' do
+        let(:command) do
+          Gitlab::Ci::Pipeline::Chain::Command.new(
+            source: :trigger,
+            origin_ref: 'master',
+            checkout_sha: project.commit.id,
+            after_sha: nil,
+            before_sha: nil,
+            schedule: nil,
+            merge_request: nil,
+            project: project,
+            current_user: user,
+            bridge: bridge,
+            trigger_api_request: false,
+            variables_attributes: variables_attributes)
+        end
+
+        let(:variables_attributes) do
+          [{ key: 'TRIGGER_PAYLOAD', value: 'some payload' }]
+        end
+
+        it 'still allows TRIGGER_PAYLOAD since source is :trigger' do
+          step.perform!
+
+          expect(step.break?).to be false
+          expect(pipeline.variables.map(&:key)).to include('TRIGGER_PAYLOAD')
+        end
+      end
+
+      context 'when trigger_api_request is true with only TRIGGER_PAYLOAD (CI_JOB_TOKEN path)' do
+        let(:command) do
+          Gitlab::Ci::Pipeline::Chain::Command.new(
+            source: :pipeline,
+            origin_ref: 'master',
+            checkout_sha: project.commit.id,
+            after_sha: nil,
+            before_sha: nil,
+            schedule: nil,
+            merge_request: nil,
+            project: project,
+            current_user: user,
+            bridge: bridge,
+            trigger_api_request: true,
+            variables_attributes: variables_attributes)
+        end
+
+        let(:variables_attributes) do
+          [{ key: 'TRIGGER_PAYLOAD', value: 'some payload' }]
+        end
+
+        it_behaves_like 'does not break the chain'
+
+        it 'allows TRIGGER_PAYLOAD variable' do
+          step.perform!
+
+          expect(pipeline.variables.map(&:key)).to include('TRIGGER_PAYLOAD')
+        end
+      end
+
+      context 'when trigger_api_request is true with variables other than TRIGGER_PAYLOAD (CI_JOB_TOKEN path)' do
+        let(:command) do
+          Gitlab::Ci::Pipeline::Chain::Command.new(
+            source: :pipeline,
+            origin_ref: 'master',
+            checkout_sha: project.commit.id,
+            after_sha: nil,
+            before_sha: nil,
+            schedule: nil,
+            merge_request: nil,
+            project: project,
+            current_user: user,
+            bridge: bridge,
+            trigger_api_request: true,
+            variables_attributes: variables_attributes)
+        end
+
+        let(:variables_attributes) do
+          [{ key: 'CUSTOM_VAR', value: 'value' }]
+        end
+
+        it 'returns an insufficient permissions error' do
+          step.perform!
+
+          expect(pipeline.errors.full_messages).to eq(['Insufficient permissions to set pipeline variables'])
+        end
+      end
+
+      context 'when trigger_api_request is false (bridge-triggered pipeline)' do
+        let(:source) { :pipeline }
+        let(:bridge) { build(:ci_bridge) }
+
+        let(:variables_attributes) do
+          [{ key: 'TRIGGER_PAYLOAD', value: 'user-controlled' }]
+        end
+
+        it 'returns an insufficient permissions error' do
+          step.perform!
+
+          expect(pipeline.errors.full_messages).to eq(['Insufficient permissions to set pipeline variables'])
+        end
+      end
+
+      context 'when trigger_api_request is nil with variables' do
+        let(:source) { :pipeline }
+
+        let(:variables_attributes) do
+          [{ key: 'first', value: 'world' }]
+        end
+
+        it 'returns an insufficient permissions error' do
+          step.perform!
+
+          expect(pipeline.errors.full_messages).to eq(['Insufficient permissions to set pipeline variables'])
+        end
+      end
     end
   end
 

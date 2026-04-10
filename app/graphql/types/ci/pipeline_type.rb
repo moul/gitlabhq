@@ -212,7 +212,7 @@ module Types
 
       field :merge_request, Types::MergeRequestType, null: true, description: "MR which the Pipeline is attached to."
 
-      field :stuck, GraphQL::Types::Boolean, method: :stuck?, null: false, description: "If the pipeline is stuck."
+      field :stuck, GraphQL::Types::Boolean, null: false, description: "If the pipeline is stuck."
 
       field :yaml_errors, GraphQL::Types::Boolean, method: :yaml_errors?, null: false, description: "If the pipeline has YAML errors."
 
@@ -317,7 +317,30 @@ module Types
         end
       end
 
+      def stuck
+        BatchLoader::GraphQL.for([object.id, object.partition_id]).batch(default_value: false, key: :pipeline_stuck_builds) do |items, loader|
+          pending_builds_by_pipeline = pending_builds_grouped_by_pipeline(items)
+
+          items.each do |key|
+            loader.call(key, ::Ci::Build.any_stuck?(pending_builds_by_pipeline[key] || []))
+          end
+        end
+      end
+
       alias_method :pipeline, :object
+
+      private
+
+      # rubocop: disable CodeReuse/ActiveRecord -- batch loading across multiple pipelines for performance
+      def pending_builds_grouped_by_pipeline(items)
+        ::Ci::Build
+          .where([:commit_id, :partition_id] => items)
+          .pending
+          .eager_load_tags
+          .select(:id, :commit_id, :partition_id, :project_id, :status, :protected)
+          .group_by { |b| [b.commit_id, b.partition_id] }
+      end
+      # rubocop: enable CodeReuse/ActiveRecord
     end
   end
 end

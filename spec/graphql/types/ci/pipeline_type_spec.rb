@@ -395,4 +395,144 @@ RSpec.describe Types::Ci::PipelineType, feature_category: :continuous_integratio
       end
     end
   end
+
+  describe 'stuck' do
+    let_it_be(:user) { create(:user) }
+    let_it_be(:project) { create(:project, :repository) }
+    let_it_be(:pipeline) { create(:ci_pipeline, project: project) }
+
+    let(:query) do
+      %(
+        {
+          project(fullPath: "#{project.full_path}") {
+            pipeline(iid: "#{pipeline.iid}") {
+              stuck
+            }
+          }
+        }
+      )
+    end
+
+    let(:stuck) { data.dig('data', 'project', 'pipeline', 'stuck') }
+
+    subject(:data) { GitlabSchema.execute(query, context: { current_user: user }).as_json }
+
+    before_all do
+      project.add_developer(user)
+    end
+
+    context 'when pipeline has no pending jobs' do
+      before do
+        create(:ci_build, :running, pipeline: pipeline)
+      end
+
+      it 'returns false' do
+        expect(stuck).to eq(false)
+      end
+    end
+
+    context 'when pipeline has a pending job and no runners are available' do
+      before do
+        create(:ci_build, :pending, pipeline: pipeline)
+      end
+
+      it 'returns true' do
+        expect(stuck).to eq(true)
+      end
+    end
+
+    context 'when project has a matching online runner' do
+      let_it_be(:runner) { create(:ci_runner, :project, projects: [project], contacted_at: 1.second.ago) }
+
+      before do
+        create(:ci_build, :pending, pipeline: pipeline)
+      end
+
+      it 'returns false' do
+        expect(stuck).to eq(false)
+      end
+    end
+
+    context 'when project has a runner but it does not match the build tags' do
+      let_it_be(:runner) do
+        create(:ci_runner, :project, projects: [project], contacted_at: 1.second.ago, tag_list: ['windows'])
+      end
+
+      before do
+        create(:ci_build, :pending, pipeline: pipeline, tag_list: ['linux'])
+      end
+
+      it 'returns true' do
+        expect(stuck).to eq(true)
+      end
+    end
+
+    context 'when multiple pipelines are queried' do
+      let_it_be(:pipeline2) { create(:ci_pipeline, project: project) }
+
+      let(:query) do
+        %(
+          {
+            project(fullPath: "#{project.full_path}") {
+              pipeline1: pipeline(iid: "#{pipeline.iid}") { stuck }
+              pipeline2: pipeline(iid: "#{pipeline2.iid}") { stuck }
+            }
+          }
+        )
+      end
+
+      before do
+        create(:ci_build, :pending, pipeline: pipeline)
+        create(:ci_build, :pending, pipeline: pipeline2)
+      end
+
+      it 'does not scale queries with the number of pipelines' do
+        baseline = ActiveRecord::QueryRecorder.new do
+          GitlabSchema.execute(query, context: { current_user: user }).as_json
+        end
+
+        pipeline3 = create(:ci_pipeline, project: project)
+        create(:ci_build, :pending, pipeline: pipeline3)
+
+        three_pipeline_query = %(
+          {
+            project(fullPath: "#{project.full_path}") {
+              pipeline1: pipeline(iid: "#{pipeline.iid}") { stuck }
+              pipeline2: pipeline(iid: "#{pipeline2.iid}") { stuck }
+              pipeline3: pipeline(iid: "#{pipeline3.iid}") { stuck }
+            }
+          }
+        )
+
+        expect { GitlabSchema.execute(three_pipeline_query, context: { current_user: user }).as_json }
+          .not_to exceed_query_limit(baseline)
+      end
+
+      context 'when builds have persisted tags and a matching online runner' do
+        let_it_be(:runner) do
+          create(:ci_runner, :project, projects: [project], contacted_at: 1.second.ago,
+            run_untagged: true)
+        end
+
+        it 'does not issue extra queries per build when loading tags' do
+          create(:ci_build, :pending, pipeline: pipeline)
+          create(:ci_build, :pending, pipeline: pipeline2)
+
+          baseline = ActiveRecord::QueryRecorder.new do
+            GitlabSchema.execute(query, context: { current_user: user }).as_json
+          end
+
+          Gitlab::SafeRequestStore.clear!
+          Ci::ApplicationRecord.connection.clear_query_cache
+          BatchLoader::Executor.clear_current
+
+          2.times { create(:ci_build, :pending, pipeline: pipeline) }
+          2.times { create(:ci_build, :pending, pipeline: pipeline2) }
+
+          expect { GitlabSchema.execute(query, context: { current_user: user }).as_json }
+            .not_to exceed_query_limit(baseline).with_threshold(4)
+        end
+      end
+    end
+  end
 end

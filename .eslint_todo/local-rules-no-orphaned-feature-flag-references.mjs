@@ -9,6 +9,9 @@ export default {
     'app/assets/javascripts/search/sidebar/components/scope_sidebar_navigation.vue',
     'app/assets/javascripts/security_configuration/components/app.vue',
     'app/assets/javascripts/vue_shared/components/filtered_search_bar/tokens/work_item_parent_token.vue',
+    'app/assets/javascripts/work_items/components/shared/work_item_token_input.vue',
+    'app/assets/javascripts/work_items/components/work_item_parent.vue',
+    'app/assets/javascripts/work_items/list/components/work_item_bulk_edit_parent.vue',
   ],
   rules: {
     'local-rules/no-orphaned-feature-flag-references': 'off',

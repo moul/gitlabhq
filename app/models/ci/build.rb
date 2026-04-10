@@ -542,6 +542,19 @@ module Ci
       left_joins(:job_definition_instance).limit(1).pick(:job_id).present?
     end
 
+    def self.any_stuck?(pending_builds)
+      return false if pending_builds.empty?
+
+      projects_by_id = Project.where(id: pending_builds.map(&:project_id).uniq).index_by(&:id)
+
+      pending_builds.any? do |build|
+        project = projects_by_id[build.project_id]
+        next true unless project
+
+        !project.any_online_runners? { |runner| runner.match_build_if_online?(build) }
+      end
+    end
+
     def needs_maintainer_role_for_artifact_access?
       return false if job_artifacts_archive.nil?
 

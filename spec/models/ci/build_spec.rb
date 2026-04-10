@@ -2878,6 +2878,76 @@ RSpec.describe Ci::Build, feature_category: :continuous_integration, factory_def
     end
   end
 
+  describe '.any_stuck?' do
+    subject(:any_stuck?) { described_class.any_stuck?(pending_builds) }
+
+    context 'when pending_builds collection is empty' do
+      let(:pending_builds) { [] }
+
+      it { is_expected.to be(false) }
+    end
+
+    context 'when project has no online runners' do
+      let(:pending_builds) { [create(:ci_build, :pending, pipeline: pipeline)] }
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when build project cannot be found' do
+      let(:pending_builds) { [create(:ci_build, :pending, pipeline: pipeline)] }
+
+      before do
+        allow(Project).to receive(:where).and_return(Project.none)
+      end
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when one build has a missing project and another has a valid project' do
+      let(:other_pipeline) { create(:ci_pipeline, project: create(:project)) }
+      let(:build_with_missing_project) { create(:ci_build, :pending, pipeline: pipeline) }
+      let(:build_with_valid_project) { create(:ci_build, :pending, pipeline: other_pipeline) }
+      let(:pending_builds) { [build_with_valid_project, build_with_missing_project] }
+
+      before do
+        build_with_missing_project # ensure build is persisted before stubbing
+        build_with_valid_project
+
+        allow(Project).to receive(:where).and_return(
+          Project.where(id: other_pipeline.project_id)
+        )
+      end
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when project has a matching online runner' do
+      let!(:runner) { create(:ci_runner, :project, projects: [project], contacted_at: 1.second.ago) }
+
+      context 'when all pending builds have a matching runner online' do
+        let(:pending_builds) { create_list(:ci_build, 2, :pending, pipeline: pipeline) }
+
+        it { is_expected.to be(false) }
+      end
+
+      it 'does not issue more queries when builds increase for the same project' do
+        single_pending_build = create_list(:ci_build, 1, :pending, pipeline: pipeline)
+        multi_pending_builds = create_list(:ci_build, 3, :pending, pipeline: pipeline)
+
+        baseline = ActiveRecord::QueryRecorder.new { described_class.any_stuck?(single_pending_build) }
+
+        expect { described_class.any_stuck?(multi_pending_builds) }.not_to exceed_query_limit(baseline)
+      end
+    end
+
+    context 'when project has runners but none match the build tags' do
+      let!(:runner) { create(:ci_runner, :project, projects: [project], contacted_at: 1.second.ago, tag_list: ['windows']) }
+      let(:pending_builds) { [create(:ci_build, :pending, pipeline: pipeline, tag_list: ['linux'])] }
+
+      it { is_expected.to be(true) }
+    end
+  end
+
   describe '#has_expired_locked_archive_artifacts?' do
     subject { build.has_expired_locked_archive_artifacts? }
 

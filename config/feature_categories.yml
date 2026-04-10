@@ -58,6 +58,7 @@
 - dora_metrics
 - duo_agent_platform
 - duo_chat
+- duo_code_review
 - duo_setting
 - durability_metrics
 - dynamic_application_security_testing

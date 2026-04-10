@@ -49,13 +49,41 @@ Are there any other stages or teams involved that need to be kept in the loop?
 
 Note: you can use the [CXL calculator](https://cxl.com/ab-test-calculator/) to determine if your experiment has reached significance. The calculator includes an estimate for how much longer an experiment must run for before reaching significance.
 
-### Analysis Dashboards
+### Pre-staging validation (Development)
 
-The following Tableau dashboards are available for experiment analysis:
-- [Growth Experiment Event Validation Dashboard](https://10az.online.tableau.com/#/site/gitlab/views/DRAFTPDExperimentEventValidation/GrowthExperimentEventValidationDashboard) - for initial event validation
-- [GLEX Experiment Analysis Dashboard](https://10az.online.tableau.com/#/site/gitlab/views/USETHISFINALGLEX/GLEXExperimentAnalysisDashboard) - for detailed experiment analysis
-- [General Snowplow Event Exploration Dashboard](https://10az.online.tableau.com/#/site/gitlab/views/SnowplowEventExplorationLast30Days/SnowplowEventExplorationLast30D)
-provides additional event analysis capabilities, but for production only.
+Before deploying to staging, engineers must validate event structure locally using [Snowplow Micro](https://docs.gitlab.com/development/internal_analytics/internal_event_instrumentation/local_setup_and_debugging/#snowplow-micro).
+
+**Event structure validation should happen during development, not in staging or production.**
+
+After triggering all experiment events locally for each variant (control and candidate), paste the raw Snowplow Micro output below as proof that events are correctly structured.
+
+<details>
+<summary>Snowplow Micro raw dump (expand to view)</summary>
+
+<!-- Paste the raw JSON response from Snowplow Micro's /micro/good endpoint here. -->
+
+</details>
+
+### Staging validation
+
+In staging, validate **only** that events are being received in Snowplow — not their structure (which was validated locally).
+
+**UX validation:**
+- [ ] Verify the control experience renders correctly
+- [ ] Verify the candidate experience renders correctly
+- [ ] Verify transitions between control and candidate are smooth
+
+**Tracking event validation:**
+- [ ] Confirm assignment events appear in the [Growth Experiment Event Validation Dashboard](https://10az.online.tableau.com/#/site/gitlab/views/DRAFTPDExperimentEventValidation/GrowthExperimentEventValidationDashboard)
+- [ ] Confirm all expected events are received (events may take 24+ hours to appear)
+
+### Production validation
+
+In production, validate that events are flowing correctly into Snowflake.
+
+**Tracking event validation:**
+- [ ] Confirm events appear in the [GLEX Experiment Analysis Dashboard](https://10az.online.tableau.com/#/site/gitlab/views/USETHISFINALGLEX/GLEXExperimentAnalysisDashboard)
+- [ ] Confirm events appear in the [General Snowplow Event Exploration Dashboard](https://10az.online.tableau.com/#/site/gitlab/views/SnowplowEventExplorationLast30Days/SnowplowEventExplorationLast30D)
 
 **Note:** Events may take 24+ hours to appear in Tableau dashboards.
 

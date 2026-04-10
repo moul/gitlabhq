@@ -18,6 +18,25 @@ After the deadline, the issue must be resolved and either:
 
 In either case, an outcome of the experiment should be posted to the issue with the reasoning for the decision.
 
+## Experiment validation approach
+
+Validate an experiment at different stages of the development lifecycle:
+
+| Stage | What to validate | Tools |
+|-------|-----------------|-------|
+| Local development | Event structure (schema, fields, values). | [Snowplow Micro](../internal_analytics/internal_event_instrumentation/local_setup_and_debugging.md#snowplow-micro). |
+| Staging | Events are received in Snowplow. | [Growth Experiment Event Validation Dashboard](https://10az.online.tableau.com/#/site/gitlab/views/DRAFTPDExperimentEventValidation/GrowthExperimentEventValidationDashboard). |
+| Production | Events flow into Snowflake correctly. | [GLEX Experiment Analysis Dashboard](https://10az.online.tableau.com/#/site/gitlab/views/USETHISFINALGLEX/GLEXExperimentAnalysisDashboard). |
+
+Event structure validation must happen during local development.
+By the time an experiment reaches staging, the event structure should already be verified.
+Staging and production validation focuses only on confirming events flow through the pipeline.
+
+Before deploying to staging, paste the raw Snowplow Micro output into the rollout issue
+as proof of correct event structure.
+For the expected format, see the
+[Experiment Rollout issue template](https://gitlab.com/gitlab-org/gitlab/-/blob/master/.gitlab/issue_templates/Experiment%20Rollout.md).
+
 ## Turn off all experiments
 
 When there is a case on GitLab.com that necessitates turning off all experiments, we have this control.

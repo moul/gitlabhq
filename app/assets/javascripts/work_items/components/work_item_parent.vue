@@ -13,7 +13,6 @@ import {
   findHierarchyWidgetDefinition,
   isReference,
   newWorkItemId,
-  convertTypeEnumToName,
 } from '~/work_items/utils';
 import { updateParent } from '../graphql/cache_utils';
 import groupWorkItemsQuery from '../graphql/group_work_items.query.graphql';
@@ -87,7 +86,7 @@ export default {
       searchStarted: false,
       localSelectedItem: this.parent?.id,
       oldParent: this.parent,
-      workspaceWorkItems: [],
+      namespaceWorkItems: [],
       workItemsByReference: [],
       allowedParentTypes: [],
     };
@@ -98,12 +97,12 @@ export default {
     },
     isLoading() {
       return (
-        this.$apollo.queries.workspaceWorkItems.loading ||
+        this.$apollo.queries.namespaceWorkItems.loading ||
         this.$apollo.queries.workItemsByReference.loading
       );
     },
     availableWorkItems() {
-      return this.isSearchingByReference ? this.workItemsByReference : this.workspaceWorkItems;
+      return this.isSearchingByReference ? this.workItemsByReference : this.namespaceWorkItems;
     },
     shouldAddParent() {
       if (!this.parent) return false;
@@ -133,7 +132,7 @@ export default {
       return this.parent?.webUrl;
     },
     visibleWorkItems() {
-      return this.workItemsByReference.concat(this.workspaceWorkItems);
+      return this.workItemsByReference.concat(this.namespaceWorkItems);
     },
     isSelectedParentAvailable() {
       return this.localSelectedItem && this.visibleWorkItems.length;
@@ -152,9 +151,6 @@ export default {
     isSearchingByReference() {
       return isReference(this.searchTerm) || isValidURL(this.searchTerm);
     },
-    allowedParentTypesForNewWorkItemEnums() {
-      return this.allowedParentTypesForNewWorkItem.map((type) => NAME_TO_ENUM_MAP[type.name]) || [];
-    },
     workItemConfig() {
       return this.getWorkItemTypeConfiguration(this.workItemType) || {};
     },
@@ -165,9 +161,9 @@ export default {
       return hierarchyWidgetDefinition?.propagatesMilestone;
     },
     areAnyAllowedParentTypesGroupWorkItems() {
-      return [...this.allowedParentTypes, ...this.allowedParentTypesForNewWorkItemEnums].some(
-        (typename) =>
-          this.workItemTypesConfiguration[convertTypeEnumToName(typename)]?.isGroupWorkItemType,
+      return [...this.allowedParentTypes, ...this.allowedParentTypesForNewWorkItem].some(
+        ({ id }) =>
+          this.workItemTypesConfiguration.find((type) => type.id === id)?.isGroupWorkItemType,
       );
     },
   },
@@ -182,7 +178,7 @@ export default {
     },
   },
   apollo: {
-    workspaceWorkItems: {
+    namespaceWorkItems: {
       query() {
         // The logic to fetch the Parent seems to be different than other pages
         // Below issue targets to have a common logic across work items app
@@ -196,7 +192,18 @@ export default {
         const baseVariables = {
           fullPath: this.isIssue ? this.groupPath : this.fullPath,
           searchTerm: this.searchTerm,
-          types: [...this.allowedParentTypes, ...this.allowedParentTypesForNewWorkItemEnums],
+          ...(this.glFeatures.workItemConfigurableTypes
+            ? {
+                workItemTypeIds: [
+                  ...this.allowedParentTypes,
+                  ...this.allowedParentTypesForNewWorkItem,
+                ].map((type) => type.id),
+              }
+            : {
+                types: [...this.allowedParentTypes, ...this.allowedParentTypesForNewWorkItem].map(
+                  (type) => NAME_TO_ENUM_MAP[type.name],
+                ),
+              }),
           in: this.searchTerm ? 'TITLE' : undefined,
           iid: null,
           isNumber: false,
@@ -255,11 +262,7 @@ export default {
         return this.workItemId === newWorkItemId(this.workItemType);
       },
       update(data) {
-        return (
-          findHierarchyWidgetDefinition(data.workItem)?.allowedParentTypes?.nodes.map(
-            (el) => NAME_TO_ENUM_MAP[el.name],
-          ) || []
-        );
+        return findHierarchyWidgetDefinition(data.workItem)?.allowedParentTypes?.nodes ?? [];
       },
     },
   },

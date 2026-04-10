@@ -216,12 +216,12 @@ export default {
       const reorderedChildTypes = childTypes.slice().sort((a, b) => a.id.localeCompare(b.id));
       return reorderedChildTypes.map((type) => {
         const depthLimitByType =
-          this.depthLimitReachedByType?.find((item) => item.workItemType?.name === type.name) || {};
+          this.depthLimitReachedByType?.find((item) => item.workItemType?.id === type.id) || {};
 
         return {
           name: type.name,
           atDepthLimit: depthLimitByType.depthLimitReached,
-          items: this.genericActionItems(type.name).map((item) => ({
+          items: this.genericActionItems(type).map((item) => ({
             text: item.title,
             action: item.action,
             extraAttrs: {
@@ -313,20 +313,20 @@ export default {
     this.showClosed = getToggleFromLocalStorage(WORKITEM_TREE_SHOWCLOSED_LOCALSTORAGEKEY);
   },
   methods: {
-    genericActionItems(workItemType) {
-      const workItemName = workItemType;
+    genericActionItems(type) {
+      const workItemName = type.name;
       return [
-        ...(workItemType === WORK_ITEM_TYPE_NAME_TICKET
+        ...(type.name === WORK_ITEM_TYPE_NAME_TICKET
           ? []
           : [
               {
                 title: sprintf(s__('WorkItem|New %{workItemName}'), { workItemName }),
-                action: () => this.showAddForm(FORM_TYPES.create, workItemType),
+                action: () => this.showAddForm(FORM_TYPES.create, type),
               },
             ]),
         {
           title: sprintf(s__('WorkItem|Existing %{workItemName}'), { workItemName }),
-          action: () => this.showAddForm(FORM_TYPES.add, workItemType),
+          action: () => this.showAddForm(FORM_TYPES.add, type),
         },
       ];
     },

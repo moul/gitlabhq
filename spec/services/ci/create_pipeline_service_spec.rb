@@ -1920,6 +1920,60 @@ RSpec.describe Ci::CreatePipelineService, :clean_gitlab_redis_cache, feature_cat
     end
   end
 
+  describe '#extra_options' do
+    let(:service) { described_class.new(project, user, ref: ref_name) }
+
+    it 'returns provided content' do
+      result = service.send(:extra_options, content: 'custom content')
+
+      expect(result[:content]).to eq('custom content')
+    end
+
+    it 'returns dry_run as true when provided' do
+      result = service.send(:extra_options, dry_run: true)
+
+      expect(result[:dry_run]).to be true
+    end
+
+    it 'returns linting as true when provided' do
+      result = service.send(:extra_options, linting: true)
+
+      expect(result[:linting]).to be true
+    end
+
+    it 'returns duo_workflow_definition when provided' do
+      definition = { 'key' => 'value' }
+      result = service.send(:extra_options, duo_workflow_definition: definition)
+
+      expect(result[:duo_workflow_definition]).to eq(definition)
+    end
+
+    it 'returns trigger_api_request as true when provided' do
+      result = service.send(:extra_options, trigger_api_request: true)
+
+      expect(result[:trigger_api_request]).to be true
+    end
+
+    it 'returns all provided options' do
+      definition = { 'key' => 'value' }
+      result = service.send(:extra_options,
+        content: 'test content',
+        dry_run: true,
+        linting: true,
+        duo_workflow_definition: definition,
+        trigger_api_request: true
+      )
+
+      expect(result).to include(
+        content: 'test content',
+        dry_run: true,
+        linting: true,
+        duo_workflow_definition: definition,
+        trigger_api_request: true
+      )
+    end
+  end
+
   describe 'SEQUENCE ordering' do
     it 'has AssignPartition before EvaluatePolicies to be able to set consistent partition_id for policy jobs' do
       assign_partition_index, find_configs_index = indexes_in_sequence(

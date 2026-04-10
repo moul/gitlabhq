@@ -20,7 +20,6 @@ import {
   WIDGET_TYPE_COLOR,
   WIDGET_TYPE_CRM_CONTACTS,
   WORK_ITEM_TYPE_NAME_EPIC,
-  NAME_TO_ENUM_MAP,
   WIDGET_TYPE_CUSTOM_FIELDS,
   WIDGET_TYPE_STATUS,
   STATE_CLOSED,
@@ -121,11 +120,7 @@ export default {
         };
       },
       update(data) {
-        return (
-          findHierarchyWidgetDefinition(data.workItem)?.allowedParentTypes?.nodes.map(
-            (el) => NAME_TO_ENUM_MAP[el.name],
-          ) || []
-        );
+        return findHierarchyWidgetDefinition(data.workItem)?.allowedParentTypes?.nodes ?? [];
       },
       error(e) {
         Sentry.captureException(e);

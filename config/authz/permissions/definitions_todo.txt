@@ -327,7 +327,6 @@ get_user_associations_count
 guest_access
 import_issues
 import_project_members_from_another_project
-import_projects
 import_requirements
 import_work_items
 invite_group_members

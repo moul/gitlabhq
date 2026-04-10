@@ -75614,6 +75614,9 @@ msgstr ""
 msgid "UsageBilling|Usage trends"
 msgstr ""
 
+msgid "UsageBilling|User"
+msgstr ""
+
 msgid "UsageBilling|You are currently using temporary evaluation credits to access GitLab Duo features. Your subscription's included credits for users will be available after your evaluation ends. If you have access to the %{linkStart}Customers Portal%{linkEnd}, you can view your usage breakdown, remaining balance, and some usage details."
 msgstr ""
 

@@ -163,12 +163,12 @@ module Ci
     def validate_options!(_)
       raise ArgumentError, "Param `partition_id` is not allowed" if params[:partition_id]
     end
+
+    def extra_options(content: nil, dry_run: false, linting: false, duo_workflow_definition: nil, trigger_api_request: false)
+      { content: content, dry_run: dry_run, linting: linting, duo_workflow_definition: duo_workflow_definition, trigger_api_request: trigger_api_request }
+    end
     # :nocov:
     # rubocop:enable Gitlab/NoCodeCoverageComment
-
-    def extra_options(content: nil, dry_run: false, linting: false, duo_workflow_definition: nil)
-      { content: content, dry_run: dry_run, linting: linting, duo_workflow_definition: duo_workflow_definition }
-    end
 
     def build_logger
       Gitlab::Ci::Pipeline::Logger.new(project: project) do |l|
