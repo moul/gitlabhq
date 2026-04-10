@@ -1863,6 +1863,33 @@ export const customFieldsWidgetResponseFactory = (customFieldValues = null) => {
   };
 };
 
+export const mockWorkItemFeaturesData = ({ discussionLocked = false } = {}) => ({
+  __typename: 'WorkItemFeatures',
+  description: {
+    description: '',
+    descriptionHtml: '',
+    lastEditedAt: null,
+    lastEditedBy: null,
+    taskCompletionStatus: null,
+  },
+  assignees: {
+    allowsMultipleAssignees: true,
+    assignees: { nodes: [], __typename: 'UserCoreConnection' },
+  },
+  awardEmoji: { upvotes: 0, downvotes: 0 },
+  milestone: { milestone: null },
+  startAndDueDate: { startDate: null, dueDate: null, rollUp: false, isFixed: false },
+  timeTracking: { humanReadableAttributes: { timeEstimate: '' } },
+  notes: { discussionLocked, __typename: 'WorkItemWidgetNotes' },
+  development: { closingMergeRequests: { count: 0 } },
+  hierarchy: { parent: null },
+  healthStatus: { healthStatus: null },
+  weight: { weight: null },
+  linkedItems: { blockedByCount: 0, blockingCount: 0 },
+  iteration: { iteration: null },
+  status: null,
+});
+
 export const workItemResponseFactory = ({
   iid = '1',
   id = 'gid://gitlab/WorkItem/1',
@@ -1945,6 +1972,7 @@ export const workItemResponseFactory = ({
   hidden = false,
   imported = false,
   archived = false,
+  features = null,
 } = {}) => ({
   data: {
     workItem: {
@@ -2325,6 +2353,7 @@ export const workItemResponseFactory = ({
             }
           : { type: 'MOCK TYPE' },
       ],
+      ...(features && { features: { ...mockWorkItemFeaturesData(), ...features } }),
     },
   },
 });
@@ -7138,6 +7167,7 @@ export const createWorkItemQueryResponse = (widgets = []) => ({
 export const createWorkItemQueryResponseWithFeatures = (widgets = []) => {
   const base = createWorkItemQueryResponse(widgets);
   base.data.namespace.workItem.features = {
+    ...mockWorkItemFeaturesData(),
     description: {
       description: '',
       descriptionHtml: '',
@@ -7153,38 +7183,6 @@ export const createWorkItemQueryResponseWithFeatures = (widgets = []) => {
         __typename: 'TaskCompletionStatus',
       },
     },
-    assignees: {
-      allowsMultipleAssignees: true,
-      assignees: {
-        nodes: [],
-        __typename: 'UserCoreConnection',
-      },
-    },
-    awardEmoji: {
-      upvotes: 0,
-      downvotes: 0,
-    },
-    milestone: {
-      milestone: null,
-    },
-    startAndDueDate: {
-      startDate: null,
-      dueDate: null,
-    },
-    timeTracking: {
-      humanReadableAttributes: {
-        timeEstimate: '',
-      },
-    },
-    development: {
-      closingMergeRequests: {
-        count: 0,
-      },
-    },
-    hierarchy: {
-      parent: null,
-    },
-    __typename: 'WorkItemFeatures',
   };
   return base;
 };

@@ -398,6 +398,11 @@ Dependency scanning analyzer outputs:
 - A CycloneDX SBOM for each supported lockfile or dependency graph export detected.
 - A single dependency scanning report for all scanned SBOM documents (GitLab.com and GitLab Self-Managed only).
 
+> [!note]
+> If the analyzer does not find any [supported file](#supported-languages-and-files),
+> the dependency scanning job completes successfully and prints a warning in the CI/CD job log.
+> No CycloneDX SBOM or dependency scanning reports are generated in this case.
+
 ### CycloneDX Software Bill of Materials
 
 The dependency scanning analyzer outputs a [CycloneDX](https://cyclonedx.org/) Software Bill of Materials (SBOM)
@@ -1075,6 +1080,25 @@ When using SBOM-based dependency scanning on GitLab Self-Managed instances, ther
 Workaround for Self-Managed instances: If you need to pass compliance framework checks that require the "Dependency scanning running" control, you can use the `v2` template (`Jobs/Dependency-Scanning.v2.gitlab-ci.yml`) which generates both SBOM and dependency scanning reports
 
 For more information about compliance controls, see [GitLab compliance controls](../../../compliance/compliance_frameworks/_index.md#gitlab-compliance-controls).
+
+### Dependency scanning job succeeds but produces no reports
+
+If the dependency scanning job completes successfully but does not produce any SBOM or dependency
+scanning report artifacts, the project likely does not contain any
+[supported file](#supported-languages-and-files).
+
+Check the CI/CD job log for a warning message similar to:
+
+```plaintext
+No compatible file found in <directory>.
+```
+
+To resolve this issue, either:
+
+- Add a supported lockfile or dependency graph export to your project. For instructions, see
+  [Create lockfile or dependency graph export](#create-lockfile-or-dependency-graph-export).
+- Enable [manifest fallback](#manifest-fallback) by setting `DS_ENABLE_MANIFEST_FALLBACK` to `"true"`
+  if your project has a supported manifest file but no lockfile.
 
 ### Error: `failed to verify certificate: x509: certificate signed by unknown authority`
 

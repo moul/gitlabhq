@@ -96,7 +96,6 @@ module Types
 
       field :retryable, GraphQL::Types::Boolean,
         description: 'Specifies if a pipeline\'s jobs can be retried.',
-        method: :retryable?,
         null: false
 
       field :cancelable, GraphQL::Types::Boolean,
@@ -306,6 +305,15 @@ module Types
           pipelines.each do |pipeline|
             loader.call(pipeline, pipeline.limited_failed_jobs.size)
           end
+        end
+      end
+
+      def retryable
+        return false if object.archived?
+
+        BatchLoader::GraphQL.for([object.id, object.partition_id]).batch(default_value: false, key: :pipeline_retryable_builds) do |items, loader|
+          keys = ::Ci::Build.retryable_pipeline_keys(items)
+          items.each { |key| loader.call(key, keys.include?(key)) }
         end
       end
 

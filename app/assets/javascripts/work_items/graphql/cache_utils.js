@@ -22,6 +22,7 @@ import {
   WIDGET_TYPE_HEALTH_STATUS,
   WIDGET_TYPE_DESCRIPTION,
   WIDGET_TYPE_AWARD_EMOJI,
+  WIDGET_TYPE_NOTES,
   WIDGET_TYPE_CRM_CONTACTS,
   NEW_WORK_ITEM_IID,
   WIDGET_TYPE_LINKED_ITEMS,
@@ -480,6 +481,11 @@ export const getNewWorkItemSharedCache = ({
         __typename: 'AwardEmojiConnection',
       },
       __typename: 'WorkItemWidgetAwardEmoji',
+    },
+    notes: {
+      ...widgetDefinitionsHash[WIDGET_TYPE_NOTES],
+      discussionLocked: false,
+      __typename: 'WorkItemWidgetNotes',
     },
     development: {
       __typename: 'WorkItemWidgetDevelopment',

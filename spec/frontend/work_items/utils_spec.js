@@ -5,6 +5,7 @@ import {
   WIDGET_TYPE_DESCRIPTION,
   WIDGET_TYPE_ASSIGNEES,
   WIDGET_TYPE_AWARD_EMOJI,
+  WIDGET_TYPE_NOTES,
   WIDGET_TYPE_HIERARCHY,
   WORK_ITEM_TYPE_ENUM_EPIC,
   WORK_ITEM_TYPE_ENUM_INCIDENT,
@@ -30,6 +31,7 @@ import {
   convertTypeEnumToName,
   findAssigneesWidget,
   findAwardEmojiWidget,
+  findNotesWidget,
   formatLabelForListbox,
   formatUserForListbox,
   newWorkItemPath,
@@ -1028,5 +1030,43 @@ describe('findAwardEmojiWidget', () => {
 
   it('returns undefined when neither exists', () => {
     expect(findAwardEmojiWidget({ widgets: [] })).toBeUndefined();
+  });
+});
+
+describe('findNotesWidget', () => {
+  describe('when features.notes is present', () => {
+    const featuresNotes = { discussionLocked: true };
+    const notesWidget = { type: WIDGET_TYPE_NOTES, discussionLocked: false };
+    let workItem;
+
+    beforeEach(() => {
+      workItem = {
+        features: { notes: featuresNotes },
+        widgets: [notesWidget],
+      };
+    });
+
+    it('returns features.notes', () => {
+      expect(findNotesWidget(workItem)).toBe(featuresNotes);
+    });
+  });
+
+  describe('when features.notes is not present', () => {
+    const notesWidget = { type: WIDGET_TYPE_NOTES, discussionLocked: false };
+    let workItem;
+
+    beforeEach(() => {
+      workItem = { widgets: [notesWidget] };
+    });
+
+    it('falls back to widgets', () => {
+      expect(findNotesWidget(workItem)).toBe(notesWidget);
+    });
+  });
+
+  describe('when neither exists', () => {
+    it('returns undefined', () => {
+      expect(findNotesWidget({ widgets: [] })).toBeUndefined();
+    });
   });
 });

@@ -518,6 +518,7 @@ export default {
                 discussionLocked: !this.isDiscussionLocked,
               },
             },
+            useWorkItemFeatures: Boolean(this.glFeatures?.workItemFeaturesField),
           },
         })
         .then(({ data }) => {

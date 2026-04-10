@@ -419,6 +419,22 @@ describe('MergeRequestTabs', () => {
       });
     });
 
+    it.each`
+      tab          | hidden
+      ${'show'}    | ${true}
+      ${'diffs'}   | ${false}
+      ${'commits'} | ${true}
+    `('rapid diffs toggle hidden=$hidden on $tab tab', ({ tab, hidden }) => {
+      const toggle = document.createElement('div');
+      toggle.id = 'js-rapid-diffs-toggle';
+      document.body.appendChild(toggle);
+
+      testContext.class = new MergeRequestTabs({ stubLocation });
+      testContext.class.tabShown(tab, 'foobar');
+
+      expect(toggle.classList.contains('!gl-hidden')).toBe(hidden);
+    });
+
     describe('when switching tabs', () => {
       const SCROLL_TOP = 100;
 

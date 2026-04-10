@@ -224,6 +224,7 @@ export default class MergeRequestTabs {
     this.sidebar = document.querySelector('.js-right-sidebar');
     this.pageLayout = document.querySelector('.layout-page');
     this.expandSidebar = document.querySelectorAll('.js-expand-sidebar, .js-sidebar-toggle');
+    this.rapidDiffsToggle = document.getElementById('js-rapid-diffs-toggle');
     this.paddingTop = 16;
     this.actionRegex = /\/(commits|diffs|pipelines|reports(?:\/[^/]+)?)(\.html)?\/?$/;
 
@@ -369,6 +370,7 @@ export default class MergeRequestTabs {
       }
 
       this.expandSidebar?.forEach((el) => el.classList.toggle('!gl-hidden', action !== 'show'));
+      this.rapidDiffsToggle?.classList.toggle('!gl-hidden', action !== 'diffs');
       this.rapidDiffsApp?.hide?.();
 
       if (action === 'commits') {

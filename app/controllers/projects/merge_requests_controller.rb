@@ -727,7 +727,7 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
 
   def rapid_diffs_page_enabled?
     ::Feature.enabled?(:rapid_diffs_on_mr_show, current_user, type: :wip) &&
-      params[:rapid_diffs] == 'true'
+      (params[:rapid_diffs] == 'true' || cookies[:rapid_diffs_enabled] == 'true')
   end
 
   def auto_merge_strategy

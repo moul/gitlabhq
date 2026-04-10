@@ -58,7 +58,8 @@ RSpec.describe API::Applications, :aggregate_failures, :api, :with_current_organ
 
       it 'does not allow creating an application with a forbidden URI format' do
         expect do
-          post api(path, admin, admin_mode: true), params: { name: 'application_name', redirect_uri: 'javascript://alert()', scopes: scopes }
+          post api(path, admin, admin_mode: true),
+            params: { name: 'application_name', redirect_uri: 'javascript://alert()', scopes: scopes }
         end.not_to change { Authn::OauthApplication.count }
 
         expect(response).to have_gitlab_http_status(:bad_request)
@@ -180,6 +181,20 @@ RSpec.describe API::Applications, :aggregate_failures, :api, :with_current_organ
       get api(path, admin, admin_mode: true)
 
       expect(json_response).to be_a(Array)
+    end
+
+    it 'returns scopes as an array' do
+      get api(path, admin, admin_mode: true)
+
+      expect(json_response).to be_a(Array)
+      expect(json_response.first['scopes']).to eq(['api'])
+    end
+
+    it 'returns multiple scopes as an array' do
+      application.update!(scopes: 'api read_user')
+      get api(path, admin, admin_mode: true)
+
+      expect(json_response.first['scopes']).to eq(%w[api read_user])
     end
 
     context 'non-authenticated user' do

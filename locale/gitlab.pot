@@ -7635,6 +7635,9 @@ msgstr ""
 msgid "AiPowered|By turning on these features, you accept the %{linkStart}GitLab Testing Agreement%{linkEnd}."
 msgstr ""
 
+msgid "AiPowered|Capture detailed information about AI-related activities and requests."
+msgstr ""
+
 msgid "AiPowered|Change configuration"
 msgstr ""
 
@@ -7684,6 +7687,9 @@ msgid "AiPowered|Default access for users who can access AI features regardless 
 msgstr ""
 
 msgid "AiPowered|Direct connections"
+msgstr ""
+
+msgid "AiPowered|Enable AI logs"
 msgstr ""
 
 msgid "AiPowered|Enabled"
@@ -11850,9 +11856,6 @@ msgstr ""
 msgid "BillingPlans|Get the most out of GitLab with Ultimate"
 msgstr ""
 
-msgid "BillingPlans|Get the most out of GitLab with Ultimate and GitLab Duo Enterprise"
-msgstr ""
-
 msgid "BillingPlans|Get unlimited user licenses, which includes guest user licenses, up from a maximum of 5 users on the Free plan."
 msgstr ""
 
@@ -12024,13 +12027,7 @@ msgstr ""
 msgid "BillingPlans|Start an Ultimate trial with GitLab Duo Agent Platform to try the complete set of features from GitLab."
 msgstr ""
 
-msgid "BillingPlans|Start an Ultimate trial with GitLab Duo Enterprise to try the complete set of features from GitLab. GitLab Duo Enterprise gives you access to the full product offering from GitLab, including AI-native features."
-msgstr ""
-
 msgid "BillingPlans|Start free trial"
-msgstr ""
-
-msgid "BillingPlans|Start free trial of GitLab Ultimate and GitLab Duo Enterprise"
 msgstr ""
 
 msgid "BillingPlans|Strengthen pipelines with advanced approvals workflows"
@@ -57184,6 +57181,9 @@ msgstr[1] ""
 msgid "RapidDiffs|Added line %d"
 msgstr ""
 
+msgid "RapidDiffs|Beta"
+msgstr ""
+
 msgid "RapidDiffs|Changes view"
 msgstr ""
 
@@ -57214,6 +57214,12 @@ msgstr ""
 msgid "RapidDiffs|File moved from %{old} to %{new}"
 msgstr ""
 
+msgid "RapidDiffs|Improved performance loading diffs"
+msgstr ""
+
+msgid "RapidDiffs|Leave feedback"
+msgstr ""
+
 msgid "RapidDiffs|Line %d"
 msgstr ""
 
@@ -57224,6 +57230,9 @@ msgid "RapidDiffs|Original line"
 msgstr ""
 
 msgid "RapidDiffs|Original line number"
+msgstr ""
+
+msgid "RapidDiffs|Rapid Diffs"
 msgstr ""
 
 msgid "RapidDiffs|Removed %d line."
@@ -57252,7 +57261,16 @@ msgstr ""
 msgid "RapidDiffs|Some discussions for this file could not be displayed. View them in the Overview tab."
 msgstr ""
 
+msgid "RapidDiffs|Speeds up diff loading and interactions when reviewing code changes."
+msgstr ""
+
 msgid "RapidDiffs|Submodule"
+msgstr ""
+
+msgid "RapidDiffs|Switch to classic loading"
+msgstr ""
+
+msgid "RapidDiffs|Try Rapid Diffs"
 msgstr ""
 
 msgid "RapidDiffs|View controls"
@@ -63435,6 +63453,9 @@ msgstr ""
 msgid "SecurityOrchestration|An error occurred while fetching the scan result policies."
 msgstr ""
 
+msgid "SecurityOrchestration|An error occurred while starting the test run."
+msgstr ""
+
 msgid "SecurityOrchestration|And scans to be performed:"
 msgstr ""
 
@@ -63823,6 +63844,9 @@ msgid "SecurityOrchestration|Failed to load images."
 msgstr ""
 
 msgid "SecurityOrchestration|Failed to load projects"
+msgstr ""
+
+msgid "SecurityOrchestration|Failed to start dry run. Please try again."
 msgstr ""
 
 msgid "SecurityOrchestration|Fallback behavior in case of policy failure"
@@ -64511,6 +64535,9 @@ msgid "SecurityOrchestration|Source"
 msgstr ""
 
 msgid "SecurityOrchestration|Standard roles"
+msgstr ""
+
+msgid "SecurityOrchestration|Start dry run"
 msgstr ""
 
 msgid "SecurityOrchestration|Started: %{time}"

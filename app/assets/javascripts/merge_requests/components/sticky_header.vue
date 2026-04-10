@@ -23,6 +23,8 @@ import TodoWidget from '~/sidebar/components/todo_toggle/sidebar_todo_widget.vue
 import SubscriptionsWidget from '~/sidebar/components/subscriptions/sidebar_subscriptions_widget.vue';
 import ClipboardButton from '~/vue_shared/components/clipboard_button.vue';
 import SubmitReviewButton from '~/batch_comments/components/submit_review_button.vue';
+import RapidDiffsToggle from '~/rapid_diffs/app/rapid_diffs_toggle.vue';
+import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { badgeState } from '~/merge_requests/badge_state';
 import { useMrNotes } from '~/mr_notes/store/legacy_mr_notes';
 import { useNotes } from '~/notes/store/legacy_notes';
@@ -66,11 +68,13 @@ export default {
     TodoWidget,
     SubscriptionsWidget,
     ClipboardButton,
+    RapidDiffsToggle,
   },
   directives: {
     SafeHtml,
     GlTooltip: GlTooltipDirective,
   },
+  mixins: [glFeatureFlagMixin()],
   inject: {
     defaultBranchName: { default: '' },
     projectPath: { default: null },
@@ -271,6 +275,7 @@ export default {
             </li>
           </ul>
           <div class="gl-flex gl-shrink-0 gl-flex-nowrap gl-items-center gl-gap-3">
+            <rapid-diffs-toggle v-if="glFeatures.rapidDiffsOnMrShow && activeTab === 'diffs'" />
             <discussion-counter
               :blocks-merge="blocksMerge"
               :can-resolve-discussion="canResolveDiscussion"

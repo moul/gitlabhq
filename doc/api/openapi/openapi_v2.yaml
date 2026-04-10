@@ -71230,6 +71230,11 @@ definitions:
       confidential:
         type: boolean
         example: true
+      scopes:
+        type: array
+        example:
+        - api
+        - read_user
       secret:
         type: string
         example: ee1dd64b6adc89cf7e2c23099301ccc2c61b441064e9324d963c46902a85ec34
@@ -71239,6 +71244,7 @@ definitions:
     - application_name
     - callback_url
     - confidential
+    - scopes
     - secret
     description: API_Entities_ApplicationWithSecret model
   API_Entities_Application:
@@ -71258,12 +71264,18 @@ definitions:
       confidential:
         type: boolean
         example: true
+      scopes:
+        type: array
+        example:
+        - api
+        - read_user
     required:
     - id
     - application_id
     - application_name
     - callback_url
     - confidential
+    - scopes
     description: API_Entities_Application model
   API_Entities_Avatar:
     type: object

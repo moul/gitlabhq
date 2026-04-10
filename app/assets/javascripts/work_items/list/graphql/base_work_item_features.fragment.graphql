@@ -49,6 +49,9 @@ fragment BaseWorkItemFeatures on WorkItemFeatures {
       timeEstimate
     }
   }
+  notes {
+    discussionLocked
+  }
   development {
     closingMergeRequests {
       count

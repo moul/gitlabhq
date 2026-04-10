@@ -232,6 +232,113 @@ RSpec.describe Types::Ci::PipelineType, feature_category: :continuous_integratio
     end
   end
 
+  describe 'retryable' do
+    let_it_be(:user) { create(:user) }
+    let_it_be(:project) { create(:project, :repository) }
+    let_it_be(:pipeline) { create(:ci_pipeline, project: project) }
+
+    let(:query) do
+      %(
+        {
+          project(fullPath: "#{project.full_path}") {
+            pipeline(iid: "#{pipeline.iid}") {
+              retryable
+            }
+          }
+        }
+      )
+    end
+
+    let(:retryable) { data.dig('data', 'project', 'pipeline', 'retryable') }
+
+    subject(:data) { GitlabSchema.execute(query, context: { current_user: user }).as_json }
+
+    before_all do
+      project.add_developer(user)
+    end
+
+    context 'when pipeline is archived' do
+      before do
+        pipeline.update_column(:created_at, 1.year.ago)
+        stub_application_setting(archive_builds_in_seconds: 3600)
+      end
+
+      it 'returns false without querying builds' do
+        expect(::Ci::Build).not_to receive(:retryable_pipeline_keys)
+        expect(retryable).to eq(false)
+      end
+    end
+
+    context 'when pipeline has no failed or canceled jobs' do
+      before do
+        create(:ci_build, :success, pipeline: pipeline)
+      end
+
+      it 'returns false' do
+        expect(retryable).to eq(false)
+      end
+    end
+
+    context 'when pipeline has failed jobs' do
+      before do
+        create(:ci_build, :failed, pipeline: pipeline)
+      end
+
+      it 'returns true' do
+        expect(retryable).to eq(true)
+      end
+    end
+
+    context 'when pipeline has canceled jobs' do
+      before do
+        create(:ci_build, :canceled, pipeline: pipeline)
+      end
+
+      it 'returns true' do
+        expect(retryable).to eq(true)
+      end
+    end
+
+    context 'when querying retryable across multiple pipelines' do
+      let_it_be(:second_user) { create(:user) }
+
+      let(:multi_pipeline_query) do
+        %(
+          {
+            project(fullPath: "#{project.full_path}") {
+              pipelines {
+                nodes {
+                  retryable
+                }
+              }
+            }
+          }
+        )
+      end
+
+      before_all do
+        project.add_developer(second_user)
+      end
+
+      it 'does not issue N+1 queries' do
+        pipeline_2 = create(:ci_pipeline, project: project)
+        create(:ci_build, :failed, pipeline: pipeline)
+        create(:ci_build, :failed, pipeline: pipeline_2)
+
+        control = ActiveRecord::QueryRecorder.new do
+          GitlabSchema.execute(multi_pipeline_query, context: { current_user: user })
+        end
+
+        pipeline_3 = create(:ci_pipeline, project: project)
+        create(:ci_build, :failed, pipeline: pipeline_3)
+
+        expect do
+          GitlabSchema.execute(multi_pipeline_query, context: { current_user: second_user })
+        end.not_to exceed_query_limit(control)
+      end
+    end
+  end
+
   describe 'pipeline_schedule' do
     let_it_be(:user) { create(:user) }
     let_it_be(:project) { create(:project, :repository, public_builds: false) }

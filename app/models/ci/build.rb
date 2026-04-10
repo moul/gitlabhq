@@ -482,6 +482,16 @@ module Ci
       end
     end
 
+    def self.retryable_pipeline_keys(items)
+      where([:commit_id, :partition_id] => items)
+        .latest
+        .failed_or_canceled
+        .group(:commit_id, :partition_id)
+        .count
+        .keys
+        .to_set
+    end
+
     def self.build_matchers(project)
       unique_params = [
         :protected,

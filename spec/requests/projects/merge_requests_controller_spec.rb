@@ -296,6 +296,24 @@ RSpec.describe Projects::MergeRequestsController, feature_category: :source_code
         expect(response.body).to include('data-page="projects:merge_requests:diffs"')
       end
 
+      it 'enables rapid diffs when rapid_diffs_enabled cookie is set' do
+        cookies[:rapid_diffs_enabled] = 'true'
+
+        get diffs_project_merge_request_path(project, merge_request)
+
+        expect(response).to have_gitlab_http_status(:ok)
+        expect(response.body).to include('data-page="projects:merge_requests:rapid_diffs"')
+      end
+
+      it 'returns 404 when cookie is set but feature flag is disabled' do
+        stub_feature_flags(rapid_diffs_on_mr_show: false)
+        cookies[:rapid_diffs_enabled] = 'true'
+
+        get diffs_project_merge_request_path(project, merge_request)
+
+        expect(response).to have_gitlab_http_status(:not_found)
+      end
+
       it 'shows only first 5 files' do
         get diffs_project_merge_request_path(project, merge_request, rapid_diffs: 'true')
 

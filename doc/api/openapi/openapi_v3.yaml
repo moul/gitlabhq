@@ -81519,6 +81519,11 @@ components:
         confidential:
           type: boolean
           example: true
+        scopes:
+          type: array
+          example:
+          - api
+          - read_user
     APIEntitiesAppearance:
       type: object
       properties:
@@ -86192,6 +86197,11 @@ components:
         confidential:
           type: boolean
           example: true
+        scopes:
+          type: array
+          example:
+          - api
+          - read_user
         secret:
           type: string
           example: ee1dd64b6adc89cf7e2c23099301ccc2c61b441064e9324d963c46902a85ec34

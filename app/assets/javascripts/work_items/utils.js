@@ -107,6 +107,7 @@ export const findMilestoneWidget = (workItem) =>
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_MILESTONE);
 
 export const findNotesWidget = (workItem) =>
+  workItem?.features?.notes ||
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_NOTES);
 
 export const findStartAndDueDateWidget = (workItem) =>

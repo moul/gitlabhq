@@ -377,6 +377,19 @@ describe('WorkItemActions component', () => {
       });
     });
 
+    it('passes useWorkItemFeatures as true to the mutation when workItemFeaturesField FF is enabled', async () => {
+      createComponent({ provide: { glFeatures: { workItemFeaturesField: true } } });
+
+      expect(lockDiscussionMutationResolver).not.toHaveBeenCalled();
+
+      findLockDiscussionButton().vm.$emit('action');
+      await waitForPromises();
+
+      expect(lockDiscussionMutationResolver).toHaveBeenCalledWith(
+        expect.objectContaining({ useWorkItemFeatures: true }),
+      );
+    });
+
     it('emits error when update mutation fails', async () => {
       createComponent({
         lockDiscussionMutationHandler: jest.fn().mockRejectedValue(new Error('oh no!')),
