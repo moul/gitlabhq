@@ -9,7 +9,7 @@ import { createAlert } from '~/alert';
 import { createNoteErrorMessages } from '~/notes/utils';
 import { COMMENT_FORM } from '~/notes/i18n';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
-import ResolveDiscussionButton from '~/notes/components/discussion_resolve_button.vue';
+import ResolveDiscussionButton from '~/notes/components/resolve_discussion_button.vue';
 import NoteSignedOutWidget from './note_signed_out_widget.vue';
 import NoteForm from './note_form.vue';
 import DiscussionNotes from './discussion_notes.vue';
@@ -219,7 +219,7 @@ export default {
         <div
           v-if="canReply"
           data-testid="reply-wrapper"
-          class="gl-list-none gl-rounded-[var(--content-border-radius)] gl-border-t-subtle gl-bg-subtle gl-px-5 gl-py-4"
+          class="gl-list-none gl-rounded-[var(--content-border-radius)] gl-border-t-subtle gl-bg-subtle gl-px-4 gl-py-4"
           :class="{ 'gl-border-t': !hasReplies, 'gl-pt-0': hasReplies }"
         >
           <div class="flash-container !gl-mt-0 gl-mb-2"></div>
@@ -237,11 +237,14 @@ export default {
             :autosave-key="autosaveKey"
             @cancel="cancelReplyForm"
           />
-          <div v-else-if="userPermissions.can_create_note" class="gl-flex gl-gap-3">
-            <discussion-reply-placeholder @focus="showReplyForm" />
+          <div v-else-if="userPermissions.can_create_note" class="gl-flex gl-flex-wrap gl-gap-4">
+            <discussion-reply-placeholder
+              class="gl-min-w-0 gl-flex-[9999] gl-basis-15"
+              @focus="showReplyForm"
+            />
             <resolve-discussion-button
               v-if="toggleResolveNote && resolvable && canResolve"
-              class="gl-flex-none"
+              class="!gl-m-0 !gl-w-auto !gl-min-w-0 gl-flex-1 gl-basis-auto"
               :is-resolving="isResolving"
               :button-title="resolveButtonTitle"
               @on-click="toggleResolve"

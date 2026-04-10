@@ -30,7 +30,6 @@ describe('CreateMenu component', () => {
         isImpersonating: false,
         fullPath: 'full-path',
         isGroup: false,
-        workItemPlanningViewEnabled: true,
         ...provide,
       },
       propsData: {
@@ -151,7 +150,6 @@ describe('CreateMenu component', () => {
 
       it('does not include href on dropdown item, to prevent it being rendered as an `<a>`', () => {
         createWrapper({
-          provide: { workItemPlanningViewEnabled: false },
           props: { groups: createNewMenuProjects },
           stubs: { GlDisclosureDropdownItem },
         });
@@ -164,7 +162,6 @@ describe('CreateMenu component', () => {
       describe('link', () => {
         it('does not render', () => {
           createWrapper({
-            provide: { workItemPlanningViewEnabled: true },
             props: { groups: createNewMenuProjects },
             stubs: { GlDisclosureDropdownItem },
           });

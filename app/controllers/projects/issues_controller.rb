@@ -439,7 +439,6 @@ class Projects::IssuesController < Projects::ApplicationController
 
   def redirect_index_to_work_items
     return unless index_html_request?
-    return unless project.work_items_consolidated_list_enabled?
 
     redirect_to project_work_items_path(project, params: work_items_redirect_params(request.query_parameters))
   end

@@ -132,10 +132,12 @@ PATH
       actionview (>= 6.1.7.2)
       activesupport (>= 6.1.7.2)
       addressable (~> 2.8)
+      batch-loader (~> 2.0)
       bigdecimal (~> 3.2)
       nokogiri (~> 1.0)
       oj (~> 3.16)
       rake (~> 13.0)
+      toml-rb (~> 4.1)
       yajl-ruby (~> 1.4)
 
 PATH

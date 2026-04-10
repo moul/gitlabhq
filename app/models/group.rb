@@ -1166,15 +1166,8 @@ class Group < Namespace
     feature_flag_enabled_for_self_or_ancestor?(:allow_iframes_in_markdown, type: :wip)
   end
 
-  def work_items_consolidated_list_enabled?
-    # work_item_planning_view is the feature flag used to determine whether the consolidated list is enabled or not
-    feature_flag_enabled_for_self_or_ancestor?(:work_item_planning_view, type: :beta)
-  end
-
   def use_work_item_url?
-    return false if feature_flag_enabled_for_self_or_ancestor?(:work_item_legacy_url, type: :gitlab_com_derisk)
-
-    work_items_consolidated_list_enabled?
+    !feature_flag_enabled_for_self_or_ancestor?(:work_item_legacy_url, type: :gitlab_com_derisk)
   end
 
   # overriden in EE

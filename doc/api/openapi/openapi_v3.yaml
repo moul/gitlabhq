@@ -72713,6 +72713,41 @@ components:
           type: integer
           description: Number of issues. Limited to 1000
           example: 3
+    SecurityPolicyDismissalEntity:
+      type: object
+      properties:
+        id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        project_id:
+          type: string
+        project_name:
+          type: string
+        project_path:
+          type: string
+        merge_request_id:
+          type: string
+        security_policy_id:
+          type: string
+        user_id:
+          type: string
+        security_findings_uuids:
+          type: string
+        comment:
+          type: string
+        dismissal_types:
+          type: string
+        user_name:
+          type: string
+        user_path:
+          type: string
+        merge_request_path:
+          type: string
+        merge_request_reference:
+          type: string
     DependencyEntityLicenseEntity:
       type: object
       properties:
@@ -72768,6 +72803,8 @@ components:
           "$ref": "#/components/schemas/DependencyEntityVulnerabilityEntity"
         licenses:
           "$ref": "#/components/schemas/DependencyEntityLicenseEntity"
+        policy_dismissals:
+          "$ref": "#/components/schemas/SecurityPolicyDismissalEntity"
         occurrence_count:
           type: string
         project_count:

@@ -34,17 +34,31 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
 
   it_behaves_like 'rapid diffs presenter base diffs_resource'
 
+  shared_examples 'calls write_cache on the collection' do
+    it 'calls write_cache on the collection' do
+      expect(collection).to receive(:write_cache)
+      subject
+    end
+  end
+
   describe '#diffs_slice' do
     let(:offset) { presenter.send(:offset) }
     let(:diff_files) { instance_double(Gitlab::Git::DiffCollection) }
     let(:diff_collection) { instance_double(Gitlab::Diff::FileCollection::Base, diff_files: diff_files) }
+    let(:collection) { diff_collection }
+
+    subject { presenter.diffs_slice }
 
     before do
       presenter.offset = 5
+      allow(diff_collection).to receive(:write_cache)
+      allow(diff_files).to receive(:decorate!).and_return(diff_files)
+      allow(merge_request).to receive(:first_diffs_slice).and_return(diff_collection)
     end
 
+    it_behaves_like 'calls write_cache on the collection'
+
     it 'calls first_diffs_slice on the merge_request with the correct arguments' do
-      allow(diff_files).to receive(:decorate!).and_return(diff_files)
       expect(merge_request)
         .to receive(:first_diffs_slice)
         .with(offset, diff_options.merge(only_context_commits: false))
@@ -57,7 +71,6 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
       let(:request_params) { { only_context_commits: 'true' } }
 
       it 'calls first_diffs_slice with only_context_commits: true' do
-        allow(diff_files).to receive(:decorate!).and_return(diff_files)
         expect(merge_request).to receive(:first_diffs_slice)
           .with(offset, diff_options.merge(only_context_commits: true))
           .and_return(diff_collection)
@@ -73,6 +86,36 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
 
       it { expect(presenter.diffs_slice).to be_nil }
     end
+  end
+
+  describe '#diff_files' do
+    let(:diff_files) { instance_double(Gitlab::Git::DiffCollection) }
+    let(:collection) { instance_double(Gitlab::Diff::FileCollection::Base, diff_files: diff_files) }
+
+    subject { presenter.diff_files }
+
+    before do
+      allow(resource).to receive(:diffs).and_return(collection)
+      allow(collection).to receive(:write_cache)
+      allow(diff_files).to receive(:decorate!)
+    end
+
+    it_behaves_like 'calls write_cache on the collection'
+  end
+
+  describe '#diff_files_for_streaming' do
+    let(:diff_files) { instance_double(Gitlab::Git::DiffCollection) }
+    let(:collection) { instance_double(Gitlab::Diff::FileCollection::Base, diff_files: diff_files) }
+
+    subject { presenter.diff_files_for_streaming }
+
+    before do
+      allow(resource).to receive(:diffs_for_streaming).and_return(collection)
+      allow(collection).to receive(:write_cache)
+      allow(diff_files).to receive(:decorate!)
+    end
+
+    it_behaves_like 'calls write_cache on the collection'
   end
 
   describe '#only_context_commits?' do
@@ -454,6 +497,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     end
 
     before do
+      allow(diff_collection).to receive(:write_cache)
       allow(resource).to receive_messages(
         diffs: diff_collection,
         first_diffs_slice: diff_collection,
@@ -598,6 +642,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
     before do
       allow(Gitlab::Diff::CollectionUnfolder).to receive(:new)
         .with(resource, current_user).and_return(unfolder)
+      allow(diff_collection).to receive(:write_cache)
       allow(unfolder).to receive(:unfold!)
       allow(resource).to receive_messages(
         diffs: diff_collection,

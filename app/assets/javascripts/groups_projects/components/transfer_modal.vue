@@ -1,5 +1,5 @@
 <script>
-import { GlModal } from '@gitlab/ui';
+import { GlFormCheckbox, GlModal, GlSprintf } from '@gitlab/ui';
 import { uniqueId } from 'lodash-es';
 import { __ } from '~/locale';
 import TransferLocations from './transfer_locations.vue';
@@ -9,8 +9,10 @@ export default {
   components: {
     GlModal,
     TransferLocations,
+    GlFormCheckbox,
+    GlSprintf,
   },
-  inject: ['resourceId', 'resourcePath'],
+  inject: ['resourceId', 'resourceFullPath'],
   model: {
     prop: 'visible',
     event: 'change',
@@ -51,11 +53,20 @@ export default {
       modalId: uniqueId('transfer-modal-'),
       selectedLocation: null,
       isLoading: false,
+      urlChangeConfirmed: false,
     };
   },
   computed: {
+    requireUrlChangeConfirmation() {
+      return this.resourceFullPath && this.selectedLocation?.newPath;
+    },
+    showUrlChangeCheckbox() {
+      return this.selectedLocation && this.requireUrlChangeConfirmation;
+    },
     isTransferDisabled() {
-      return !this.selectedLocation;
+      if (!this.selectedLocation) return true;
+
+      return Boolean(this.requireUrlChangeConfirmation && !this.urlChangeConfirmed);
     },
     modalActionProps() {
       return {
@@ -95,6 +106,7 @@ export default {
     },
     resetForm() {
       this.selectedLocation = null;
+      this.urlChangeConfirmed = false;
     },
   },
 };
@@ -118,6 +130,22 @@ export default {
         :additional-dropdown-items="additionalDropdownItems"
         :group-transfer-locations-api-method="groupTransferLocationsApiMethod"
       />
+      <gl-form-checkbox
+        v-if="showUrlChangeCheckbox"
+        v-model="urlChangeConfirmed"
+        data-testid="url-change-confirmation"
+      >
+        <gl-sprintf
+          :message="__('I understand that the URL will change from %{oldPath} to %{newPath}')"
+        >
+          <template #oldPath>
+            <code>{{ resourceFullPath }}</code>
+          </template>
+          <template #newPath>
+            <code>{{ selectedLocation.newPath }}</code>
+          </template>
+        </gl-sprintf>
+      </gl-form-checkbox>
     </div>
   </gl-modal>
 </template>

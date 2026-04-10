@@ -2025,7 +2025,6 @@ RSpec/NamedSubject:
     - 'spec/lib/gitlab/usage_data_metrics_spec.rb'
     - 'spec/lib/gitlab/usage_data_spec.rb'
     - 'spec/lib/gitlab/utils/deep_size_spec.rb'
-    - 'spec/lib/gitlab/utils/delegator_override_spec.rb'
     - 'spec/lib/gitlab/utils/file_info_spec.rb'
     - 'spec/lib/gitlab/utils/gzip_spec.rb'
     - 'spec/lib/gitlab/utils/inline_hash_spec.rb'

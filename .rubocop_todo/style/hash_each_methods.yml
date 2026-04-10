@@ -72,7 +72,6 @@ Style/HashEachMethods:
     - 'lib/gitlab/repo_path.rb'
     - 'lib/gitlab/seeder.rb'
     - 'lib/gitlab/sidekiq_config.rb'
-    - 'lib/gitlab/utils/batch_loader.rb'
     - 'lib/tasks/gitlab/db.rake'
     - 'lib/tasks/gitlab/setup.rake'
     - 'qa/spec/specs/runner_spec.rb'

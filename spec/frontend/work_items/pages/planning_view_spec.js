@@ -335,7 +335,6 @@ const mountComponent = ({
       canCreateProjects: true,
       hasGroupBulkEditFeature: true,
       hasProjects: true,
-      workItemPlanningViewEnabled: false,
       ...restProvide,
     },
     propsData: {
@@ -1733,7 +1732,6 @@ describe('planning-view', () => {
         mountComponent({
           provide: {
             subscribedSavedViewLimit: 10,
-            glFeatures: { workItemPlanningView: true },
           },
         });
         await waitForPromises();
@@ -1753,7 +1751,6 @@ describe('planning-view', () => {
         mountComponent({
           provide: {
             subscribedSavedViewLimit: 1,
-            glFeatures: { workItemPlanningView: true },
           },
         });
         await waitForPromises();
@@ -1957,7 +1954,7 @@ describe('planning-view', () => {
       'renders=%s based on duoQuickActionWorkItemList feature flag',
       (duoQuickActionWorkItemList) => {
         mountComponent({
-          provide: { glFeatures: { workItemPlanningView: true, duoQuickActionWorkItemList } },
+          provide: { glFeatures: { duoQuickActionWorkItemList } },
         });
 
         expect(findAnalyzeItemsButton().exists()).toBe(duoQuickActionWorkItemList);

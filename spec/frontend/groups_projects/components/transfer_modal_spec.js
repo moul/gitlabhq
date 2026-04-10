@@ -1,4 +1,4 @@
-import { GlModal } from '@gitlab/ui';
+import { GlModal, GlSprintf } from '@gitlab/ui';
 import { nextTick } from 'vue';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import waitForPromises from 'helpers/wait_for_promises';
@@ -9,7 +9,6 @@ describe('GroupsProjectsTransferModal', () => {
   let wrapper;
 
   const resourceId = '1';
-  const resourcePath = 'test-group';
   const resourceFullPath = 'parent/test-group';
 
   const groupTransferLocationsApiMethod = jest.fn();
@@ -17,7 +16,6 @@ describe('GroupsProjectsTransferModal', () => {
 
   const defaultProvide = {
     resourceId,
-    resourcePath,
     resourceFullPath,
   };
 
@@ -28,22 +26,42 @@ describe('GroupsProjectsTransferModal', () => {
     transferApiMethod,
   };
 
-  const createComponent = (propsData = {}) => {
+  const location = {
+    id: 2,
+    humanName: 'New Parent',
+    newPath: 'new-parent/test-group',
+  };
+
+  const createComponent = (propsData = {}, provide = {}) => {
     wrapper = shallowMountExtended(GroupsProjectsTransferModal, {
-      provide: defaultProvide,
+      provide: {
+        ...defaultProvide,
+        ...provide,
+      },
       propsData: {
         ...defaultPropsData,
         ...propsData,
+      },
+      stubs: {
+        GlSprintf,
       },
     });
   };
 
   const findModal = () => wrapper.findComponent(GlModal);
   const findTransferLocations = () => wrapper.findComponent(TransferLocations);
+  const findUrlChangeCheckbox = () => wrapper.findByTestId('url-change-confirmation');
 
-  const selectLocation = async (location) => {
-    findTransferLocations().vm.$emit('input', location);
+  const selectLocation = async (value) => {
+    findTransferLocations().vm.$emit('input', value);
     await nextTick();
+  };
+
+  const confirmTransfer = async () => {
+    if (findUrlChangeCheckbox().exists()) {
+      findUrlChangeCheckbox().vm.$emit('input', true);
+      await nextTick();
+    }
   };
 
   describe('default', () => {
@@ -58,6 +76,13 @@ describe('GroupsProjectsTransferModal', () => {
       });
     });
 
+    it('sets transfer button text and variant', () => {
+      const primaryAction = findModal().props('actionPrimary');
+
+      expect(primaryAction.text).toBe('Transfer');
+      expect(primaryAction.attributes.variant).toBe('danger');
+    });
+
     it('renders TransferLocations component with correct props', () => {
       expect(findTransferLocations().props()).toMatchObject({
         value: null,
@@ -68,6 +93,10 @@ describe('GroupsProjectsTransferModal', () => {
     });
 
     describe('when no location is selected', () => {
+      it('does not render checkboxes', () => {
+        expect(findUrlChangeCheckbox().exists()).toBe(false);
+      });
+
       it('disables transfer button', () => {
         const primaryAction = findModal().props('actionPrimary');
 
@@ -77,15 +106,33 @@ describe('GroupsProjectsTransferModal', () => {
   });
 
   describe('when location is selected', () => {
-    const selectedLocation = {
-      id: 2,
-      humanName: 'New Parent',
-      newPath: 'new-parent/test-group',
-    };
-
     beforeEach(async () => {
       createComponent();
-      await selectLocation(selectedLocation);
+      await selectLocation(location);
+    });
+
+    it('renders URL change confirmation checkbox with correct text', () => {
+      const checkbox = findUrlChangeCheckbox();
+
+      expect(checkbox.text()).toBe(
+        `I understand that the URL will change from ${resourceFullPath} to ${location.newPath}`,
+      );
+    });
+
+    describe('when URL change checkbox is not checked', () => {
+      it('keeps transfer button disabled', () => {
+        const primaryAction = findModal().props('actionPrimary');
+
+        expect(primaryAction.attributes.disabled).toBe(true);
+      });
+    });
+  });
+
+  describe('when URL change confirmation is checked', () => {
+    beforeEach(async () => {
+      createComponent();
+      await selectLocation(location);
+      await confirmTransfer();
     });
 
     it('enables transfer button', () => {
@@ -93,33 +140,21 @@ describe('GroupsProjectsTransferModal', () => {
 
       expect(primaryAction.attributes.disabled).toBe(false);
     });
-
-    it('sets transfer button text and variant', () => {
-      const primaryAction = findModal().props('actionPrimary');
-
-      expect(primaryAction.text).toBe('Transfer');
-      expect(primaryAction.attributes.variant).toBe('danger');
-    });
   });
 
   describe('when transfer is submitted', () => {
-    const selectedLocation = {
-      id: 2,
-      humanName: 'New Parent',
-      newPath: 'new-parent/test-group',
-    };
-
     beforeEach(async () => {
       transferApiMethod.mockResolvedValue({});
       createComponent();
-      await selectLocation(selectedLocation);
+      await selectLocation(location);
+      await confirmTransfer();
     });
 
     it('calls transfer API method with correct parameters', async () => {
       findModal().vm.$emit('primary', { preventDefault: jest.fn() });
       await nextTick();
 
-      expect(transferApiMethod).toHaveBeenCalledWith(resourceId, selectedLocation.id);
+      expect(transferApiMethod).toHaveBeenCalledWith(resourceId, location.id);
     });
 
     describe('when transfer is in progress', () => {
@@ -185,21 +220,16 @@ describe('GroupsProjectsTransferModal', () => {
     });
 
     describe('when modal is closed', () => {
-      const selectedLocation = {
-        id: 2,
-        humanName: 'New Parent',
-        newPath: 'new-parent/test-group',
-      };
-
       beforeEach(async () => {
         createComponent({ visible: true });
-        await selectLocation(selectedLocation);
+        await selectLocation(location);
       });
 
       it('resets the form', async () => {
         findModal().vm.$emit('change', false);
         await nextTick();
 
+        expect(findUrlChangeCheckbox().exists()).toBe(false);
         expect(findTransferLocations().props('value')).toBeNull();
       });
     });
@@ -223,6 +253,41 @@ describe('GroupsProjectsTransferModal', () => {
       createComponent({ additionalDropdownItems: additionalItems });
 
       expect(findTransferLocations().props('additionalDropdownItems')).toEqual(additionalItems);
+    });
+  });
+
+  describe('URL change checkbox visibility', () => {
+    describe('when resourceFullPath is nullish', () => {
+      it('hides URL change checkbox and enables transfer immediately', async () => {
+        createComponent({}, { resourceFullPath: undefined });
+        await selectLocation(location);
+
+        expect(findUrlChangeCheckbox().exists()).toBe(false);
+
+        const primaryAction = findModal().props('actionPrimary');
+        expect(primaryAction.attributes.disabled).toBe(false);
+      });
+    });
+
+    describe('when selected location newPath is nullish', () => {
+      it('hides URL change checkbox and enables transfer immediately', async () => {
+        createComponent();
+        await selectLocation({ id: 2, humanName: 'New Parent' });
+
+        expect(findUrlChangeCheckbox().exists()).toBe(false);
+
+        const primaryAction = findModal().props('actionPrimary');
+        expect(primaryAction.attributes.disabled).toBe(false);
+      });
+    });
+
+    describe('when both resourceFullPath and selected location newPath are present', () => {
+      it('shows URL change checkbox', async () => {
+        createComponent();
+        await selectLocation(location);
+
+        expect(findUrlChangeCheckbox().exists()).toBe(true);
+      });
     });
   });
 });

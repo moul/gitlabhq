@@ -48,6 +48,7 @@ const Template = (args, { argTypes }) => ({
   provide: {
     resourceId: '1',
     resourcePath: 'test-group',
+    resourceFullPath: 'parent/test-group',
   },
   data() {
     return {
@@ -89,7 +90,7 @@ export const WithAdditionalItems = Template.bind({});
 WithAdditionalItems.args = {
   ...Default.args,
   additionalDropdownItems: [
-    { id: -1, humanName: 'No parent' },
+    { id: -1, humanName: 'No parent', newPath: 'test-group' },
     { id: -2, humanName: 'Special option' },
   ],
 };

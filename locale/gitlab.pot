@@ -24327,6 +24327,9 @@ msgstr ""
 msgid "Dependencies|+%{remainingLicensesCount} more"
 msgstr ""
 
+msgid "Dependencies|A security policy was bypassed for this dependency in the following projects: %{projects}"
+msgstr ""
+
 msgid "Dependencies|Component"
 msgstr ""
 
@@ -36155,6 +36158,9 @@ msgstr ""
 msgid "I understand"
 msgstr ""
 
+msgid "I understand that the URL will change from %{oldPath} to %{newPath}"
+msgstr ""
+
 msgid "I want to explore GitLab to see if it’s worth switching to"
 msgstr ""
 
@@ -45805,9 +45811,6 @@ msgid "New email address added"
 msgstr ""
 
 msgid "New environment"
-msgstr ""
-
-msgid "New epic"
 msgstr ""
 
 msgid "New error tracking access token has been generated!"

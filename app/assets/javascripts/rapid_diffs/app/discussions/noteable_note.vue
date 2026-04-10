@@ -249,6 +249,7 @@ export default {
             </template>
           </note-header>
           <note-actions
+            class="gl-pt-1"
             :author-id="authorId"
             :note-url="note.noteable_note_url"
             :access-level="note.human_access"

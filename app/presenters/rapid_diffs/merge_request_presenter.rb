@@ -142,6 +142,7 @@ module RapidDiffs
     override(:transform_file_collection)
     def transform_file_collection(collection)
       collection_unfolder.unfold!(collection)
+      collection.write_cache
       super
     end
 

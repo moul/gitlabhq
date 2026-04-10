@@ -178,7 +178,6 @@ Lint/UnusedBlockArgument:
     - 'lib/gitlab/suggestions/commit_message.rb'
     - 'lib/gitlab/testing/request_inspector_middleware.rb'
     - 'lib/gitlab/throttle.rb'
-    - 'lib/gitlab/utils/batch_loader.rb'
     - 'lib/gitlab/utils/merge_hash.rb'
     - 'lib/google_api/cloud_platform/client.rb'
     - 'lib/peek/views/gitaly.rb'

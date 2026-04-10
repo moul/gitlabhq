@@ -575,7 +575,6 @@ Style/IfUnlessModifier:
     - 'lib/gitlab/untrusted_regexp.rb'
     - 'lib/gitlab/usage_data_counters/base_counter.rb'
     - 'lib/gitlab/usage_data_counters/hll_redis_counter.rb'
-    - 'lib/gitlab/utils/delegator_override.rb'
     - 'lib/gitlab/utils/override.rb'
     - 'lib/gitlab/view/presenter/delegated.rb'
     - 'lib/google_api/auth.rb'

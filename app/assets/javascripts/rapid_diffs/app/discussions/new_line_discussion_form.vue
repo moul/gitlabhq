@@ -106,7 +106,7 @@ export default {
 <template>
   <div
     ref="root"
-    class="gl-rounded-[var(--content-border-radius)] gl-bg-subtle gl-px-5 gl-py-4"
+    class="gl-rounded-[var(--content-border-radius)] gl-bg-subtle gl-px-4 gl-py-4"
     :data-discussion-id="discussion.id"
   >
     <note-form

@@ -15,6 +15,12 @@ Gitlab::Json.on_limit_exceeded = ->(exception, parse_limits) do
   Gitlab::AppLogger.warn(payload)
 end
 
+Gitlab::Utils::Email.email_validation_regexp = Devise.email_regexp
+
+Gitlab::Utils::TomlParser.timeout_logger = ->(exception) do
+  Gitlab::ErrorTracking.log_exception(exception)
+end
+
 Gitlab::Json.on_oversize_object = ->(string) do
   oversize_threshold = ENV['GITLAB_JSON_SIZE_THRESHOLD'].to_i
 

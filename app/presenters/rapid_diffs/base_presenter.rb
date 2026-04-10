@@ -28,12 +28,16 @@ module RapidDiffs
     end
 
     def diff_files_for_streaming(diff_options = {})
-      collection = resource.diffs_for_streaming(diff_options)
+      # Duplicate `diff_options` so in case it gets mutated during the rest of
+      # code path, it won't affect other callers of that `diff_options`.
+      collection = resource.diffs_for_streaming(diff_options.dup)
       with_linked_file_first(transform_file_collection(collection))
     end
 
     def diff_files_for_streaming_by_changed_paths(diff_options = {})
-      resource.diffs_for_streaming_by_changed_paths(diff_options) do |diff_files|
+      # Duplicate `diff_options` so in case it gets mutated during the rest of
+      # code path, it won't affect other callers of that `diff_options`.
+      resource.diffs_for_streaming_by_changed_paths(diff_options.dup) do |diff_files|
         yield transform_file_array(diff_files) if block_given?
       end
     end

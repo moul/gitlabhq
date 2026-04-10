@@ -8,7 +8,7 @@ import { detectAndConfirmSensitiveTokens } from '~/lib/utils/secret_detection';
 import { createAlert } from '~/alert';
 import { COMMENT_FORM } from '~/notes/i18n';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
-import ResolveDiscussionButton from '~/notes/components/discussion_resolve_button.vue';
+import ResolveDiscussionButton from '~/notes/components/resolve_discussion_button.vue';
 import NoteForm from '~/rapid_diffs/app/discussions/note_form.vue';
 import NoteSignedOutWidget from '~/rapid_diffs/app/discussions/note_signed_out_widget.vue';
 import NoteableDiscussion from '~/rapid_diffs/app/discussions/noteable_discussion.vue';

@@ -7,7 +7,7 @@ import Tracking from '~/tracking';
 import { __ } from '~/locale';
 import { clearDraft } from '~/lib/utils/autosave';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
-import ResolveDiscussionButton from '~/notes/components/discussion_resolve_button.vue';
+import ResolveDiscussionButton from '~/notes/components/resolve_discussion_button.vue';
 import { ASC, DESC } from '~/notes/constants';
 import { updateCacheAfterCreatingNote } from '../../graphql/cache_utils';
 import createNoteMutation from '../../graphql/notes/create_work_item_note.mutation.graphql';

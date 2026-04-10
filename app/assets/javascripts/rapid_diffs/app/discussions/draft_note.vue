@@ -104,7 +104,7 @@ export default {
           </gl-badge>
         </template>
       </note-header>
-      <div class="gl-flex gl-min-h-7 gl-flex-1 gl-items-center gl-justify-end">
+      <div class="gl-flex gl-min-h-7 gl-flex-1 gl-items-center gl-justify-end gl-pt-1">
         <gl-button
           v-gl-tooltip
           :title="__('Edit comment')"

@@ -103,7 +103,7 @@ export default {
     </div>
     <div
       v-if="!hasForm && !collapsed"
-      class="gl-border-t gl-flex gl-border-t-subtle gl-px-5 gl-py-4"
+      class="gl-border-t gl-flex gl-border-t-subtle gl-px-4 gl-py-4"
     >
       <note-signed-out-widget v-if="!isLoggedIn" />
       <gl-button v-else-if="userPermissions.can_create_note" @click="$emit('start-thread')">

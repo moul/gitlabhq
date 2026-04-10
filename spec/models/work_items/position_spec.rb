@@ -17,4 +17,14 @@ RSpec.describe WorkItems::Position, feature_category: :team_planning do
     expect(position).to be_valid
     expect(position.namespace).to eq(work_item.namespace)
   end
+
+  it 'syncs work_item_positions from issue' do
+    work_item = create(:work_item, project: project, relative_position: nil)
+
+    expect(work_item.work_item_position.relative_position).to be_nil
+
+    work_item.update!(relative_position: 5)
+
+    expect(work_item.reload.work_item_position.relative_position).to eq(5)
+  end
 end

@@ -102,13 +102,15 @@ export default {
           class="gl-m-0 gl-rounded-[var(--content-border-radius)] gl-bg-subtle"
         >
           <ul class="gl-list-none gl-p-0">
-            <toggle-replies-widget
-              v-if="hasReplies"
-              :collapsed="!expanded"
-              :replies="replies"
-              class="gl-border-t !gl-border-x-0 gl-border-t-subtle"
-              @toggle="$emit('toggleDiscussionReplies')"
-            />
+            <li v-if="hasReplies" class="gl-border-t gl-px-5" :aria-expanded="expanded">
+              <toggle-replies-widget
+                tag="div"
+                :collapsed="!expanded"
+                :replies="replies"
+                class="gl-mx-2 !gl-border-0 gl-border-t-subtle !gl-px-0"
+                @toggle="$emit('toggleDiscussionReplies')"
+              />
+            </li>
             <template v-if="expanded">
               <template v-for="note in replies">
                 <system-note

@@ -2066,7 +2066,6 @@ Style/InlineDisableAnnotation:
     - 'spec/lib/gitlab/usage_data_counters/jetbrains_bundled_plugin_activity_unique_counter_spec.rb'
     - 'spec/lib/gitlab/usage_data_counters/jetbrains_plugin_activity_unique_counter_spec.rb'
     - 'spec/lib/gitlab/usage_data_counters/vscode_extension_activity_unique_counter_spec.rb'
-    - 'spec/lib/gitlab/utils/batch_loader_spec.rb'
     - 'spec/lib/gitlab_settings/options_spec.rb'
     - 'spec/lib/mattermost/command_spec.rb'
     - 'spec/lib/mattermost/team_spec.rb'

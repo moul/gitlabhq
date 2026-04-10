@@ -21,10 +21,12 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "actionview", ">= 6.1.7.2"
   spec.add_runtime_dependency "activesupport", ">= 6.1.7.2"
   spec.add_runtime_dependency "addressable", "~> 2.8"
+  spec.add_runtime_dependency "batch-loader", "~> 2.0"
   spec.add_runtime_dependency "bigdecimal", "~> 3.2"
   spec.add_runtime_dependency "nokogiri", "~> 1.0"
   spec.add_runtime_dependency "oj", "~> 3.16"
   spec.add_runtime_dependency "rake", "~> 13.0"
+  spec.add_runtime_dependency "toml-rb", "~> 4.1"
   spec.add_runtime_dependency "yajl-ruby", "~> 1.4"
 
   spec.add_development_dependency 'base64', '~> 0.2.0'

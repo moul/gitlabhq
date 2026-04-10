@@ -46,9 +46,9 @@ RSpec.shared_examples 'rapid diffs presenter syntax highlighting' do
         allow(Gitlab::ColorSchemes).to receive(:for_user).with(current_user).and_return(
           Gitlab::ColorSchemes::Scheme.new(6, 'None', 'none')
         )
-        allow(resource).to receive(:diffs_for_streaming).and_return(
-          instance_double(Gitlab::Diff::FileCollection::Base, diff_files: diff_files_collection)
-        )
+        streaming_diffs_double = instance_double(Gitlab::Diff::FileCollection::Base, diff_files: diff_files_collection)
+        allow(streaming_diffs_double).to receive(:write_cache)
+        allow(resource).to receive(:diffs_for_streaming).and_return(streaming_diffs_double)
       end
 
       let(:diff_files_collection) do
@@ -84,6 +84,7 @@ RSpec.shared_examples 'rapid diffs presenter diffs methods' do |sorted:|
     before do
       allow(presenter).to receive(:diffs_resource).and_return(diffs)
       allow(diffs).to receive(:diff_files).and_return(diff_files)
+      allow(diffs).to receive(:write_cache)
       allow(diff_files).to receive(:decorate!).and_return(diff_files)
     end
 
@@ -111,6 +112,7 @@ RSpec.shared_examples 'rapid diffs presenter diffs methods' do |sorted:|
     before do
       allow(resource).to receive(:diffs_for_streaming).and_return(streaming_diffs)
       allow(streaming_diffs).to receive(:diff_files).and_return(diff_files)
+      allow(streaming_diffs).to receive(:write_cache)
       allow(diff_files).to receive(:decorate!).and_return(diff_files)
     end
 

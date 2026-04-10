@@ -2866,6 +2866,7 @@ Gitlab/BoundedContexts:
     - 'ee/app/models/package_metadata/sync_configuration.rb'
     - 'ee/app/models/path_lock.rb'
     - 'ee/app/models/preloaders/environments/protected_environment_preloader.rb'
+    - 'ee/app/models/preloaders/sbom/policy_dismissals_preloader.rb'
     - 'ee/app/models/preloaders/user_member_roles_for_admin_preloader.rb'
     - 'ee/app/models/preloaders/user_member_roles_in_groups_preloader.rb'
     - 'ee/app/models/preloaders/user_member_roles_in_projects_preloader.rb'

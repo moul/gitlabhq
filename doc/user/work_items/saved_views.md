@@ -15,15 +15,9 @@ title: Saved views
 
 {{< history >}}
 
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/479571) in GitLab 18.9 [with flags](../../administration/feature_flags/_index.md) named `work_items_saved_views` and `work_item_planning_view`.
-  Disabled by default.
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/479571) in GitLab 18.9.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
-> This feature is available for testing, but not ready for production use.
 
 Saved views are custom filter combinations for your list of work items that you can reuse and share.
 Create multiple views for different workflows, like filters for assignee, status, or priority, and switch between them quickly.

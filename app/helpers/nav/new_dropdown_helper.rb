@@ -56,7 +56,6 @@ module Nav
         )
       end
 
-      menu_items.push(create_epic_menu_item(group))
       menu_items.push(create_group_wiki_menu_item(group))
 
       if can?(current_user, :admin_group_member, group)
@@ -182,11 +181,6 @@ module Nav
         partial: partial,
         component: 'invite_members'
       )
-    end
-
-    # Overridden in EE
-    def create_epic_menu_item(group)
-      nil
     end
 
     # Overridden in EE

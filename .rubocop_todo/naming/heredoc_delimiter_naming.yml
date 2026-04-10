@@ -11,7 +11,6 @@ Naming/HeredocDelimiterNaming:
     - 'lib/gitlab/database/migration_helpers.rb'
     - 'lib/gitlab/database/migration_helpers/v2.rb'
     - 'lib/gitlab/exclusive_lease.rb'
-    - 'lib/gitlab/utils/delegator_override/validator.rb'
     - 'lib/tasks/gitlab/docs/compile_deprecations.rake'
     - 'lib/tasks/gitlab/password.rake'
     - 'spec/controllers/projects/pipelines_controller_spec.rb'

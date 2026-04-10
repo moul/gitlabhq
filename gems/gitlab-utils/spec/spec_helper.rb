@@ -8,7 +8,7 @@ require 'rspec-parameterized'
 require 'gitlab/rspec/all'
 require 'gitlab/utils/all'
 
-Digest::UUID.use_rfc4122_namespaced_uuids = true
+Digest::UUID.use_rfc4122_namespaced_uuids = true if Digest::UUID.respond_to?(:use_rfc4122_namespaced_uuids=)
 
 RSpec.configure do |config|
   config.include RSpec::Benchmark::Matchers
