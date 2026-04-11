@@ -1388,7 +1388,11 @@ class Group < Namespace
   # Overriding of Namespaces::AdjournedDeletable method
   override :ancestors_scheduled_for_deletion
   def ancestors_scheduled_for_deletion
-    ancestors(hierarchy_order: :asc).joins(:deletion_schedule)
+    cache_key = "ancestors_scheduled_for_deletion:#{ancestor_ids(hierarchy_order: :desc).join(',')}"
+
+    Gitlab::SafeRequestStore.fetch(cache_key) do
+      ancestors(hierarchy_order: :asc).joins(:deletion_schedule).to_a
+    end
   end
 end
 

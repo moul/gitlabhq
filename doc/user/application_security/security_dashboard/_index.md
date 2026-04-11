@@ -78,6 +78,7 @@ Both dashboards include:
   - [Vulnerabilities by age](#vulnerabilities-by-age)
   - [Top 10 CWEs](#top-10-cwes)
 - [Filter the entire dashboard](#filter-the-entire-dashboard)
+- [Export as PDF](#export-as-pdf)
 
 To view a security dashboard:
 
@@ -258,6 +259,27 @@ To apply a filter to the whole dashboard:
 1. In the filter bar at the top of the dashboard, select **Filter results...**.
 1. From the dropdown list, choose the filter type.
 1. Select one or more filter values.
+
+### Export as PDF
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/224664) in GitLab 18.10 [with a flag](../../../administration/feature_flags/_index.md) named `new_security_dashboard_pdf_export`. Disabled by default.
+- [Enabled on GitLab.com, GitLab Self-Managed, and GitLab Dedicated](https://gitlab.com/gitlab-org/gitlab/-/issues/589201) in GitLab 18.11.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag. For more information, see the history.
+
+You can export the security dashboard as a PDF for use in reports and presentations. The export captures the current state of all of the charts and panels in the dashboard, including any active filters.
+
+To export the dashboard as a PDF:
+
+1. In the top bar, select **Search or go to** and find your project or group.
+1. Select **Secure** > **Security dashboard**.
+1. Optional. Apply filters to customize the data included in the export.
+1. Select **Export as PDF**.
 
 ## Legacy security dashboards
 

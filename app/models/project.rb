@@ -4122,7 +4122,13 @@ class Project < ApplicationRecord
   # Overriding of Namespaces::AdjournedDeletable method
   override :ancestors_scheduled_for_deletion
   def ancestors_scheduled_for_deletion
-    ancestors(hierarchy_order: :asc).joins(:deletion_schedule)
+    return [] unless namespace.is_a?(Group)
+
+    cache_key = "ancestors_scheduled_for_deletion:#{namespace.traversal_ids.join(',')}"
+
+    Gitlab::SafeRequestStore.fetch(cache_key) do
+      ancestors(hierarchy_order: :asc).joins(:deletion_schedule).to_a
+    end
   end
 
   def validate_unsafe_import_url?

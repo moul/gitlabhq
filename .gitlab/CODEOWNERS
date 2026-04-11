@@ -2006,6 +2006,8 @@ ee/app/workers/ai/repository_xray/
 /doc/**/geo/**.md @luciezhao @nhxnguyen @axil @phillipwells @aqualls @kpaizee @sselhorn @fneill
 /doc/**/geo_**.md @luciezhao @nhxnguyen @axil @phillipwells @aqualls @kpaizee @sselhorn @fneill
 /ee/**/geo/ @gitlab-org/geo-team/geo-backend
+/ee/lib/gitlab/geo.rb @gitlab-org/geo-team/geo-backend
+/ee/spec/lib/gitlab/geo_spec.rb @gitlab-org/geo-team/geo-backend
 /qa/**/geo/ @gitlab-org/geo-team/geo-backend
 /node_modules/**/geo/ @gitlab-org/geo-team/geo-backend
 
