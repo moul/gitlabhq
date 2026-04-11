@@ -491,6 +491,7 @@ Audit event types belong to the following product categories.
 
 | Type name | Event triggered when | Saved to database | Introduced in | Scope |
 |:----------|:---------------------|:------------------|:--------------|:------|
+| [`group_force_pages_access_control_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229638) | A group's Pages public access control setting is updated | {{< yes >}} | GitLab [18.11](https://gitlab.com/gitlab-org/gitlab/-/issues/595288) | Group |
 | [`project_feature_pages_access_level_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/106919) | A project's page access level setting is updated | {{< yes >}} | GitLab [15.7](https://gitlab.com/gitlab-org/gitlab/-/issues/369297) | Project |
 
 ### Permissions
