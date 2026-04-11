@@ -45,6 +45,10 @@
   }
 }
 
+diff-file[data-line-range-dragging] .rd-discussion-row {
+  pointer-events: none;
+}
+
 .rd-discussion-row.rd-discussion-row:last-child {
   border-bottom: 0;
   border-bottom-left-radius: var(--rd-row-bottom-left-radius);

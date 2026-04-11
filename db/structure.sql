@@ -29985,7 +29985,7 @@ CREATE TABLE security_project_tracked_contexts (
     updated_at timestamp with time zone NOT NULL,
     context_type smallint DEFAULT 1 NOT NULL,
     state smallint DEFAULT 1 NOT NULL,
-    is_default boolean DEFAULT false NOT NULL,
+    is_default boolean NOT NULL,
     context_name text NOT NULL,
     traversal_ids bigint[] DEFAULT '{}'::bigint[] NOT NULL,
     uuid_version smallint DEFAULT 1 NOT NULL,

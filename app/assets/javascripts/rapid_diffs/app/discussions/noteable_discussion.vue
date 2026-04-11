@@ -6,8 +6,7 @@ import { ignoreWhilePending } from '~/lib/utils/ignore_while_pending';
 import { s__, __, sprintf } from '~/locale';
 import { detectAndConfirmSensitiveTokens } from '~/lib/utils/secret_detection';
 import { createAlert } from '~/alert';
-import { createNoteErrorMessages } from '~/notes/utils';
-import { COMMENT_FORM } from '~/notes/i18n';
+import { getNoteFormErrorMessages } from '~/notes/utils';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
 import ResolveDiscussionButton from '~/notes/components/resolve_discussion_button.vue';
 import NoteSignedOutWidget from './note_signed_out_widget.vue';
@@ -156,9 +155,7 @@ export default {
         await this.store.replyToDiscussion(this.discussion, noteText);
         this.$emit('stopReplying');
       } catch (e) {
-        const message = e.response
-          ? createNoteErrorMessages(e.response.data, e.response.status)[0]
-          : COMMENT_FORM.GENERIC_UNSUBMITTABLE_NETWORK;
+        const message = getNoteFormErrorMessages(e.response)[0];
         createAlert({ message, parent: this.$el });
       }
     },
@@ -178,9 +175,7 @@ export default {
         await this.store.addDraftToDiscussion(this.discussion, noteText);
         this.$emit('stopReplying');
       } catch (e) {
-        const message = e.response
-          ? createNoteErrorMessages(e.response.data, e.response.status)[0]
-          : COMMENT_FORM.GENERIC_UNSUBMITTABLE_NETWORK;
+        const message = getNoteFormErrorMessages(e.response)[0];
         createAlert({ message, parent: this.$el });
       }
     },
