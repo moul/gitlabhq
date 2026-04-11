@@ -570,7 +570,7 @@ RSpec.describe Blob, feature_category: :source_code_management do
   end
 
   describe 'policy' do
-    let(:project) { build(:project) }
+    let(:project) { build_stubbed(:project) }
 
     subject { described_class.new(fake_blob(path: 'foo'), project) }
 

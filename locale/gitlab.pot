@@ -63507,7 +63507,7 @@ msgstr ""
 msgid "SecurityOrchestration|Approval settings might be affected by rules in the following policies if the policies change from warn mode to strictly enforced:"
 msgstr ""
 
-msgid "SecurityOrchestration|Approval settings might be affected by rules in the following policies. Enforcement of these properties is conditional on merge request policy violations:"
+msgid "SecurityOrchestration|Approval settings might be affected by rules in the following policies. These properties are only enforced when there are merge request policy violations:"
 msgstr ""
 
 msgid "SecurityOrchestration|Approval settings might be affected by the rules in policy %{policyName} if the policy changes from warn mode to strictly enforced."

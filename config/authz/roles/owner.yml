@@ -53,10 +53,12 @@ group:
   - admin_compliance_framework
   - admin_compliance_pipeline_configuration
   - admin_dependency_proxy
+  - admin_duo_workflow
   - admin_external_audit_events
   - admin_group
   - admin_group_credentials_inventory
   - admin_group_member
+  - admin_group_model_selection
   - admin_integrations
   - admin_licensed_seat
   - admin_member_access_request
@@ -68,6 +70,7 @@ group:
   - admin_runners
   - admin_service_account_member
   - admin_service_accounts
+  - admin_web_hook
   - archive_group
   - ban_group_member
   - change_group
@@ -116,6 +119,7 @@ group:
   - read_service_account
   - read_subscription_usage
   - read_usage_quotas
+  - read_web_hook
   - register_group_runners
   - remove_group
   - security_manager_access
@@ -130,6 +134,7 @@ group:
   - update_default_branch_protection
   - update_git_access_protocol
   - update_group_link
+  - update_knowledge_graph_setting
   - update_runners_registration_token
   - update_secrets_permission
   - update_security_orchestration_policy_project

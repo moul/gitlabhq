@@ -59,6 +59,7 @@ module Resolvers
     type Types::ProjectType, null: true
 
     before_connection_authorization do |projects, current_user|
+      ActiveRecord::Associations::Preloader.new(records: projects, associations: :namespace).call
       ::Preloaders::UserMaxAccessLevelInProjectsPreloader.new(projects, current_user).execute
       ::Preloaders::GroupPolicyPreloader.new(projects.filter_map(&:group), current_user).execute
     end

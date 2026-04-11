@@ -9,6 +9,7 @@ import TabView from '~/groups_projects/components/tab_view.vue';
 import { createRouter as projectsYourWorkCreateRouter } from '~/projects/your_work';
 import { createRouter as groupsShowCreateRouter } from '~/groups/show';
 import { stubComponent } from 'helpers/stub_component';
+import { useConfigurePathHelpers } from 'helpers/configure_path_helpers';
 import {
   CONTRIBUTED_TAB,
   DASHBOARD_ROUTE_NAME,
@@ -783,8 +784,9 @@ describe('TabsWithList', () => {
     });
 
     describe('when gon.relative_url_root is set', () => {
+      useConfigurePathHelpers('/gitlab');
+
       beforeEach(async () => {
-        gon.relative_url_root = '/gitlab';
         await createComponent({
           propsData: {
             tabs: GROUPS_SHOW_TABS,
@@ -802,7 +804,7 @@ describe('TabsWithList', () => {
 
         if (router.options.base) {
           // Vue router 3
-          expect(router.options.base).toBe('/gitlab');
+          expect(router.options.base).toBe('/gitlab/');
         } else {
           // Vue router 4
           expect(router.currentRoute.href).toMatch(/^\/gitlab\//);

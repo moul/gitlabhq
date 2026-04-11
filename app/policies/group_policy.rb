@@ -388,7 +388,7 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
     prevent :update_runners_registration_token
   end
 
-  rule { can?(:admin_group) | can?(:admin_runners) }.enable :admin_group_or_admin_runners
+  rule { can?(:admin_runners) }.enable :admin_group_or_admin_runners
 
   rule { can?(:remove_group) | can?(:archive_group) }.enable :view_edit_page
 
