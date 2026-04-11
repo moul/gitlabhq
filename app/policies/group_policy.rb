@@ -347,13 +347,13 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
 
   rule { project_bot }.enable :project_bot_access
 
-  rule { can?(:admin_group) & resource_access_token_feature_available }.policy do
-    enable :read_resource_access_tokens
-    enable :destroy_resource_access_tokens
+  rule { ~resource_access_token_feature_available }.policy do
+    prevent :read_resource_access_tokens
+    prevent :destroy_resource_access_tokens
   end
 
-  rule { can?(:admin_group) & resource_access_token_create_feature_available }.policy do
-    enable :admin_setting_to_allow_resource_access_token_creation
+  rule { ~resource_access_token_create_feature_available }.policy do
+    prevent :admin_setting_to_allow_resource_access_token_creation
   end
 
   rule { resource_access_token_creation_allowed & can?(:read_resource_access_tokens) }.policy do

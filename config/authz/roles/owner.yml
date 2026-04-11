@@ -70,6 +70,7 @@ group:
   - admin_runners
   - admin_service_account_member
   - admin_service_accounts
+  - admin_setting_to_allow_resource_access_token_creation
   - admin_web_hook
   - archive_group
   - ban_group_member
@@ -93,6 +94,7 @@ group:
   - destroy_deploy_token
   - destroy_epic
   - destroy_issue
+  - destroy_resource_access_tokens
   - destroy_user_achievement
   - edit_billing
   - export_group_memberships
@@ -113,6 +115,7 @@ group:
   - read_group_saml_identity
   - read_group_scim_identity
   - read_member_access_request
+  - read_resource_access_tokens
   - read_runners
   - read_runners_registration_token
   - read_saml_user
