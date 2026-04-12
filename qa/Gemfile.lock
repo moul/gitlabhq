@@ -266,7 +266,7 @@ GEM
       ostruct (>= 0.2)
     os (1.1.4)
     ostruct (0.6.3)
-    parallel (1.27.0)
+    parallel (1.28.0)
     parallel_tests (5.6.0)
       parallel
     parser (3.3.7.0)
@@ -428,7 +428,7 @@ DEPENDENCIES
   knapsack (~> 4.0)
   nokogiri (~> 1.18, >= 1.18.9)
   octokit (~> 9.2.0)
-  parallel (~> 1.27)
+  parallel (~> 1.28)
   parallel_tests (~> 5.6)
   pry-byebug (~> 3.12.0)
   rainbow (~> 3.1.1)
