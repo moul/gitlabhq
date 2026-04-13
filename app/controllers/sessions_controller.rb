@@ -426,7 +426,7 @@ class SessionsController < Devise::SessionsController
 
   def iam_login_enabled?
     Feature.enabled?(:iam_svc_login, :instance) &&
-      Gitlab.config.authn.iam_service.enabled
+      Authn::IamAuthService.enabled?
   end
 
   # overridden by EE module

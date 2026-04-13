@@ -13234,7 +13234,7 @@ CREATE TABLE ai_catalog_item_consumers (
     pinned_version_prefix text,
     service_account_id bigint,
     parent_item_consumer_id bigint,
-    CONSTRAINT check_55026cf703 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1)),
+    CONSTRAINT check_0acef721fa CHECK ((num_nonnulls(group_id, project_id) = 1)),
     CONSTRAINT check_a788d1fdfa CHECK ((char_length(pinned_version_prefix) <= 50))
 );
 
@@ -25070,6 +25070,8 @@ CREATE TABLE organization_details (
     description text,
     description_html text,
     avatar text,
+    deletion_scheduled_at timestamp with time zone,
+    state_metadata jsonb DEFAULT '{}'::jsonb NOT NULL,
     CONSTRAINT check_71dfb7807f CHECK ((char_length(description) <= 1024)),
     CONSTRAINT check_9fbd483b51 CHECK ((char_length(avatar) <= 255))
 );
@@ -25197,6 +25199,7 @@ CREATE TABLE organizations (
     name text DEFAULT ''::text NOT NULL,
     path text NOT NULL,
     visibility_level smallint DEFAULT 0 NOT NULL,
+    state smallint DEFAULT 0 NOT NULL,
     CONSTRAINT check_0b4296b5ea CHECK ((char_length(path) <= 255)),
     CONSTRAINT check_d130d769e0 CHECK ((char_length(name) <= 255))
 );
@@ -47863,6 +47866,8 @@ CREATE INDEX index_organization_users_on_user_id ON organization_users USING btr
 CREATE INDEX index_organizations_on_name_trigram ON organizations USING gin (name gin_trgm_ops);
 
 CREATE INDEX index_organizations_on_path_trigram ON organizations USING gin (path gin_trgm_ops);
+
+CREATE INDEX index_organizations_on_state ON organizations USING btree (state);
 
 CREATE UNIQUE INDEX index_organizations_on_unique_name_per_group ON customer_relations_organizations USING btree (group_id, lower(name), id);
 

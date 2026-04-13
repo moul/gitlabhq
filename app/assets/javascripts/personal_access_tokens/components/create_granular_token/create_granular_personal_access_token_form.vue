@@ -29,6 +29,8 @@ import {
   ACCESS_USER_ENUM,
   ACCESS_NAMESPACE_ENUMS,
 } from '~/personal_access_tokens/constants';
+import ConfirmUnsavedChangesDialog from '~/vue_shared/components/confirm_unsaved_changes_dialog.vue';
+import { defaultDate } from '~/vue_shared/access_tokens/utils';
 import CreatedPersonalAccessToken from '../created_personal_access_token.vue';
 import PersonalAccessTokenExpirationDate from './personal_access_token_expiration_date.vue';
 import PersonalAccessTokenScopeSelector from './personal_access_token_scope_selector.vue';
@@ -48,6 +50,7 @@ export default {
     PersonalAccessTokenNamespaceSelector,
     PersonalAccessTokenPermissionsSelector,
     GlButton,
+    ConfirmUnsavedChangesDialog,
     CreatedPersonalAccessToken,
     GlExperimentBadge,
     GlTabs,
@@ -68,7 +71,7 @@ export default {
       form: {
         name: '',
         description: '',
-        expirationDate: null,
+        expirationDate: defaultDate(this.accessTokenMaxDate),
         access: null,
         namespaceIds: [],
         permissions: {
@@ -84,6 +87,7 @@ export default {
         namespaceIds: '',
         permissions: '',
       },
+      isFormDirty: false,
       isSubmitting: false,
       createdToken: null,
       permissionsToSelect: [],
@@ -155,6 +159,14 @@ export default {
       }
 
       return scopes;
+    },
+  },
+  watch: {
+    form: {
+      deep: true,
+      handler() {
+        this.isFormDirty = true;
+      },
     },
   },
   methods: {
@@ -259,6 +271,7 @@ export default {
           this.showCreateError(new Error(), errors[0]);
         } else {
           this.createdToken = token;
+          this.isFormDirty = false;
         }
       } catch (error) {
         this.showCreateError(error, this.$options.i18n.createError);
@@ -305,6 +318,7 @@ export default {
 
 <template>
   <div>
+    <confirm-unsaved-changes-dialog :has-unsaved-changes="isFormDirty" />
     <created-personal-access-token v-if="createdToken" v-model="createdToken" />
 
     <div v-else>
@@ -376,7 +390,9 @@ export default {
           <p class="gl-text-subtle">
             <gl-sprintf :message="$options.i18n.addPermissionsDescription">
               <template #link="{ content }">
-                <gl-link :href="$options.fineGrainedTokensDocPath">{{ content }}</gl-link>
+                <gl-link :href="$options.fineGrainedTokensDocPath" target="_blank">
+                  {{ content }}
+                </gl-link>
               </template>
             </gl-sprintf>
           </p>

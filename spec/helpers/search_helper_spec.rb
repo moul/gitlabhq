@@ -98,9 +98,11 @@ RSpec.describe SearchHelper, feature_category: :global_search do
           let(:secondary_email) { create(:email, :confirmed, user: user_with_other_email, email: term) }
           let(:ids) { search_autocomplete_opts(term).pluck(:id) }
 
-          context 'when current_user is an admin' do
+          context 'when current_user is an admin', :enable_admin_mode do
+            let_it_be(:admin_user) { create(:admin) }
+
             before do
-              allow(current_user).to receive(:can_admin_all_resources?).and_return(true)
+              allow(self).to receive(:current_user).and_return(admin_user)
             end
 
             it 'includes users with matching public emails' do
@@ -133,10 +135,6 @@ RSpec.describe SearchHelper, feature_category: :global_search do
           end
 
           context 'when current_user is not an admin' do
-            before do
-              allow(current_user).to receive(:can_admin_all_resources?).and_return(false)
-            end
-
             it 'includes users with matching public emails' do
               public_email_user
               project.add_developer(public_email_user)

@@ -712,8 +712,8 @@ gitlab.com/gitlab-org/go/reopen v1.0.0 h1:6BujZ0lkkjGIejTUJdNO1w56mN1SI10qcVQyQl
 gitlab.com/gitlab-org/go/reopen v1.0.0/go.mod h1:D6OID8YJDzEVZNYW02R/Pkj0v8gYFSIhXFTArAsBQw8=
 gitlab.com/gitlab-org/labkit v1.45.0 h1:poPp8XTsM4+MgogHgRJHdy7nB0Yaz3V2FgxPNf1E81s=
 gitlab.com/gitlab-org/labkit v1.45.0/go.mod h1:TSgFzQbzLZdtFLhqyFEzDBJrfwD3cfZp+zxsqx6UJac=
-gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb v0.0.0-20260407131834-a3f60a098c37 h1:CngXwO6ckIwiJ2WnauADRze/VM0ZXIis7h5ysfEMk04=
-gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb v0.0.0-20260407131834-a3f60a098c37/go.mod h1:G/uyhLyG53gWlNSoTuWirrqS42PKcobyiQZvEAaJ9o8=
+gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb v0.0.0-20260410162454-bfb54cd16908 h1:OfwEK0YJNzQrq4n9qbOzGKXgf4ClwP0WqPDYuMN9Z8M=
+gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/clients/gopb v0.0.0-20260410162454-bfb54cd16908/go.mod h1:G/uyhLyG53gWlNSoTuWirrqS42PKcobyiQZvEAaJ9o8=
 gitlab.com/gitlab-org/orbit/knowledge-graph/clients/gkgpb v0.21.0 h1:+1WJlZx6OPQDpb09NF/6j3MuFECQESSUp+A/RXoZQtU=
 gitlab.com/gitlab-org/orbit/knowledge-graph/clients/gkgpb v0.21.0/go.mod h1:gIscHhU3TQXmx3Bzgtm82loTCO41BWclUiWUgXB2AQQ=
 go.etcd.io/bbolt v1.3.5/go.mod h1:G5EMThwa9y8QZGBClrRx5EY+Yw9kAhnjy3bSjsnlVTQ=

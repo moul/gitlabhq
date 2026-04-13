@@ -118,7 +118,7 @@ Chat interface. The following example shows how to open the GitLab Duo Chat
 drawer by using an event listener and the GitLab Duo Chat global state:
 
 ```javascript
-import { duoChatGlobalState } from '~/super_sidebar/constants';
+import { duoChatGlobalState } from '~/super_sidebar/state';
 myFancyToggleToOpenChat.addEventListener('click', () => {
   duoChatGlobalState.isShown = true;
 });

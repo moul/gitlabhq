@@ -6,7 +6,6 @@ import LegacyContainer from '~/vue_shared/new_namespace/components/legacy_contai
 import WelcomePage from '~/vue_shared/new_namespace/components/welcome.vue';
 import NewNamespacePage from '~/vue_shared/new_namespace/new_namespace_page.vue';
 
-jest.mock('~/super_sidebar/constants');
 describe('Experimental new namespace creation app', () => {
   let wrapper;
 

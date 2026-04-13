@@ -1690,6 +1690,19 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
         it { is_expected.to be_disallowed(:create_container_image) }
       end
 
+      context 'a deploy token with read_repository scope' do
+        let(:deploy_token) { create(:deploy_token, read_repository: true, read_registry: false, projects: [project]) }
+
+        it { is_expected.to be_allowed(:download_code) }
+        it { is_expected.to be_allowed(:download_wiki_code) }
+      end
+
+      context 'a deploy token without read_repository scope' do
+        let(:deploy_token) { create(:deploy_token, read_repository: false, read_registry: true, projects: [project]) }
+
+        it { is_expected.to be_disallowed(:download_code) }
+      end
+
       context 'a deploy token with read_package_registry scope' do
         let(:deploy_token) { create(:deploy_token, read_repository: false, read_registry: false, read_package_registry: true, projects: [project]) }
 

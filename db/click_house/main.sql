@@ -1631,7 +1631,8 @@ CREATE TABLE siphon_organizations
     `path` String DEFAULT '',
     `visibility_level` Int8 DEFAULT 0,
     `_siphon_replicated_at` DateTime64(6, 'UTC') DEFAULT now64(6, 'UTC'),
-    `_siphon_deleted` Bool DEFAULT false
+    `_siphon_deleted` Bool DEFAULT false,
+    `state` Int16 DEFAULT 0
 )
 ENGINE = ReplacingMergeTree(_siphon_replicated_at, _siphon_deleted)
 PRIMARY KEY id

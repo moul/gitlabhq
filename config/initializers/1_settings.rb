@@ -1284,19 +1284,18 @@ Gitlab.ee do
 end
 
 #
-# Authentication
+# IAM Auth Service
 #
-Settings['authn'] ||= {}
-
-#
-# IAM Service
-#
-# Environment variables (IAM_SERVICE_ENABLED, IAM_SERVICE_URL, IAM_SERVICE_AUDIENCE) can be used
-# to override defaults for testing in sandbox environments. They are temporary and will be removed.
-Settings.authn['iam_service'] ||= {}
-Settings.authn.iam_service['enabled'] ||= Gitlab::Utils.to_boolean(ENV['IAM_SERVICE_ENABLED']) || false
-Settings.authn.iam_service['url'] ||= ENV['IAM_SERVICE_URL'] || 'http://localhost:8084'
-Settings.authn.iam_service['audience'] ||= ENV['IAM_SERVICE_AUDIENCE'] || 'gitlab-rails'
+Settings['iam_auth_service'] ||= {}
+Settings.iam_auth_service['enabled'] ||= false
+Settings.iam_auth_service['secret_file'] ||= nil
+Settings.iam_auth_service['http'] ||= {}
+Settings.iam_auth_service.http['host'] ||= 'localhost'
+Settings.iam_auth_service.http['port'] ||= 8084
+Settings.iam_auth_service['grpc'] ||= {}
+Settings.iam_auth_service.grpc['host'] ||= 'localhost'
+Settings.iam_auth_service.grpc['port'] ||= 8085
+Settings.iam_auth_service['jwt_audience'] ||= 'gitlab-rails'
 
 #
 # Gitlab Secrets Manager Openbao Integration

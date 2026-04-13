@@ -84,6 +84,17 @@ RSpec.describe DraftNotes::CreateService, feature_category: :code_review_workflo
     end
   end
 
+  context 'when replying to a system note' do
+    it 'returns an error' do
+      system_note = create(:note_on_merge_request, :system, noteable: merge_request, project: project)
+
+      draft = create_draft(note: 'A reply!', in_reply_to_discussion_id: system_note.discussion_id)
+
+      expect(draft.errors[:base]).to include('Replies to system notes are not allowed')
+      expect(draft).not_to be_persisted
+    end
+  end
+
   context 'in a thread' do
     it 'creates a draft note with discussion_id' do
       discussion = create(:discussion_note_on_merge_request, noteable: merge_request, project: project).discussion

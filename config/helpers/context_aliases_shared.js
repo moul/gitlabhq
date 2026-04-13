@@ -23,6 +23,10 @@ const CONTEXT_ALIASES = {
 };
 
 const INFECTABLE_RE = /\.(js|mjs|vue)$/;
-const INFECTION_BLOCKLIST = ['app/assets/javascripts/lib/utils/breadcrumbs_state.js'];
+const INFECTION_BLOCKLIST = [
+  // Global state vars should not be duplicated
+  'app/assets/javascripts/lib/utils/breadcrumbs_state.js',
+  'app/assets/javascripts/super_sidebar/state.js',
+];
 
 module.exports = { CONTEXT_ALIASES, INFECTABLE_RE, INFECTION_BLOCKLIST };

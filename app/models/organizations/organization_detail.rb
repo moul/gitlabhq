@@ -19,6 +19,16 @@ module Organizations
 
     validates :organization, presence: true
     validates :description, length: { maximum: 1024 }
+    validates :state_metadata,
+      json_schema: { filename: 'organization_detail_state_metadata', size_limit: 64.kilobytes },
+      if: :state_metadata_changed?
+
+    jsonb_accessor :state_metadata,
+      last_updated_at: :datetime,
+      last_changed_by_user_id: :integer,
+      last_error: :string,
+      deletion_error: :string,
+      deletion_scheduled_by_user_id: :integer
 
     def uploads_sharding_key
       { organization_id: organization_id }

@@ -712,6 +712,145 @@ If you use GitLab 18.9 or earlier, or if you prefer to manage registry database
 backups separately, use standard PostgreSQL tools like `pg_dump` and `pg_restore`
 to back up and restore the registry database independently.
 
+### Helm chart (Kubernetes) backup and restore
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/charts/gitlab/-/work_items/6207) in GitLab 18.10.
+
+{{< /history >}}
+
+For Helm chart (Kubernetes) deployments, configure the toolbox pod with 
+dedicated database credentials for backup and restore operations.
+Two separate PostgreSQL users are required:
+
+- The backup user must have read-only permissions.
+- The restore user must have write permissions.
+
+Configure one or both users, depending on which operations you need.
+
+Before you begin, enable the container registry metadata database by setting `registry.database.enabled: true`.
+
+#### Create the Kubernetes Secret
+
+You must manually create the Kubernetes Secret before deploying. The chart does not
+auto-generate this secret.
+
+For example, to create a secret with both backup and restore passwords:
+
+```shell
+kubectl create secret generic my-registry-db-password-secret \
+  --from-literal=backupPassword="BACKUP_USER_PASSWORD" \
+  --from-literal=restorePassword="RESTORE_USER_PASSWORD"
+```
+
+#### Configure registry database credentials
+
+Add the required YAML to your Helm `values.yaml` to configure backup and restore users. Refer to the following table for configuration setting definitions. 
+
+| Setting | Default | Description |
+|---|---|---|
+| `backupUser` | | PostgreSQL username for backup operations. Required to enable registry database backups. |
+| `restoreUser` | | PostgreSQL username for restore operations. Required to enable registry database restores. |
+| `password.secret` | `<release-name>-toolbox-registry-database-password` | Name of the Kubernetes Secret containing the passwords. |
+| `password.backupPasswordKey` | `backupPassword` | Key in the Kubernetes Secret for the backup user's password. |
+| `password.restorePasswordKey` | `restorePassword` | Key in the Kubernetes Secret for the restore user's password. |
+
+The following example configures both
+backup and restore users:
+
+```yaml
+gitlab:
+  toolbox:
+    backups:
+      registry:
+        database:
+          # PostgreSQL username for backing up the registry database
+          backupUser: "registry_backup"
+          # PostgreSQL username for restoring the registry database
+          restoreUser: "registry_restore"
+          password:
+            # Name of the Kubernetes Secret containing the passwords
+            secret: "my-registry-db-password-secret"
+            # Key in the Secret for the backup user's password
+            backupPasswordKey: "backupPassword"
+            # Key in the Secret for the restore user's password
+            restorePasswordKey: "restorePassword"
+```
+
+If no `backupUser` or `restoreUser` is configured, the registry database backup
+is silently skipped and the toolbox pod operates normally.
+
+#### PostgreSQL user permissions
+
+The backup user requires read-only access to dump the registry database.
+The restore user requires superuser privileges to restore it.
+
+For Linux package installations, these users and permissions are created
+automatically when `database_backup_username`, `database_backup_password`,
+`database_restore_username`, and `database_restore_password` are configured.
+
+For self-compiled or external database installations, create the users and
+grant permissions manually:
+
+```sql
+-- Create the backup user with minimal privileges for pg_dump.
+-- The registry database uses both the 'public' and 'partitions' schemas.
+CREATE ROLE registry_backup WITH LOGIN PASSWORD 'password'
+  NOINHERIT NOCREATEDB NOSUPERUSER NOREPLICATION;
+
+GRANT CONNECT ON DATABASE registry TO registry_backup;
+
+-- Grant read-only access on both schemas
+GRANT USAGE ON SCHEMA public TO registry_backup;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO registry_backup;
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO registry_backup;
+ALTER DEFAULT PRIVILEGES FOR ROLE registry IN SCHEMA public
+  GRANT SELECT ON TABLES TO registry_backup;
+ALTER DEFAULT PRIVILEGES FOR ROLE registry IN SCHEMA public
+  GRANT SELECT ON SEQUENCES TO registry_backup;
+
+GRANT USAGE ON SCHEMA partitions TO registry_backup;
+GRANT SELECT ON ALL TABLES IN SCHEMA partitions TO registry_backup;
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA partitions TO registry_backup;
+ALTER DEFAULT PRIVILEGES FOR ROLE registry IN SCHEMA partitions
+  GRANT SELECT ON TABLES TO registry_backup;
+ALTER DEFAULT PRIVILEGES FOR ROLE registry IN SCHEMA partitions
+  GRANT SELECT ON SEQUENCES TO registry_backup;
+
+-- Create the restore user with superuser privileges.
+-- SUPERUSER is required for database restore operations because the
+-- restore process must SET ROLE to the registry owner and
+-- CREATE TRIGGER on all tables.
+CREATE ROLE registry_restore WITH LOGIN PASSWORD 'password' SUPERUSER;
+```
+
+#### Credential volume workflow
+
+When configured, the chart creates a volume mounted at `/etc/gitlab/registry-db/` in both the
+toolbox Deployment and the backup CronJob. The volume is read-only and includes the
+following:
+
+- Connection parameters: A ConfigMap created by the registry chart containing
+  the database host, port, name, SSL mode, and connection timeout.
+- Backup and restore usernames: A ConfigMap created by the toolbox chart
+  with the configured `backupUser` and `restoreUser`.
+- Passwords: The user-provided Kubernetes Secret containing the backup
+  and restore passwords.
+
+The `backup-utility` in the toolbox pod reads these files and includes the registry
+metadata database in backup and restore operations.
+
+If any required credential files are missing, the `backup-utility` logs a warning
+and continues with the backup of other resources.
+
+#### Mutual TLS limitation
+
+SSL certificate paths for mutual TLS authentication with PostgreSQL are only
+included when SSL is configured globally (`global.psql.ssl`). If SSL is
+configured only at the registry subchart level (`registry.database.ssl`), those
+settings are not passed to the toolbox.
+
 ### Geo considerations
 
 When using [Geo](#database-architecture-with-geo), each site maintains its own

@@ -400,7 +400,8 @@ RSpec.describe 'getting a work item list for a project', feature_category: :port
       GRAPHQL
     end
 
-    it 'executes limited number of N+1 queries', :use_sql_query_cache do
+    it 'executes limited number of N+1 queries', :use_sql_query_cache,
+      quarantine: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/issues/2599' do
       control = ActiveRecord::QueryRecorder.new(skip_cached: false) do
         post_graphql(query, current_user: current_user)
       end

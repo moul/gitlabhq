@@ -25,6 +25,7 @@ import PersonalAccessTokenExpirationDate from '~/personal_access_tokens/componen
 import PersonalAccessTokenScopeSelector from '~/personal_access_tokens/components/create_granular_token/personal_access_token_scope_selector.vue';
 import PersonalAccessTokenNamespaceSelector from '~/personal_access_tokens/components/create_granular_token/personal_access_token_namespace_selector.vue';
 import PersonalAccessTokenPermissionsSelector from '~/personal_access_tokens/components/create_granular_token/personal_access_token_permissions_selector.vue';
+import ConfirmUnsavedChangesDialog from '~/vue_shared/components/confirm_unsaved_changes_dialog.vue';
 import CreatedPersonalAccessToken from '~/personal_access_tokens/components/created_personal_access_token.vue';
 import createGranularPersonalAccessTokenMutation from '~/personal_access_tokens/graphql/create_granular_personal_access_token.mutation.graphql';
 import getAccessTokenPermissions from '~/personal_access_tokens/graphql/get_access_token_permissions.query.graphql';
@@ -105,6 +106,7 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
   const findCreateButton = () => wrapper.findAllComponents(GlButton).at(0);
   const findCancelButton = () => wrapper.findAllComponents(GlButton).at(1);
 
+  const findConfirmDialog = () => wrapper.findComponent(ConfirmUnsavedChangesDialog);
   const findCreatedToken = () => wrapper.findComponent(CreatedPersonalAccessToken);
   const findLoadingIcon = () => wrapper.findComponent(GlLoadingIcon);
 
@@ -201,14 +203,19 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
     });
 
     it('displays the add permissions heading and description', () => {
-      expect(wrapper.text()).toContain('Add resource permissions');
-      expect(wrapper.text()).toContain(
-        'Add only the minimum resource and permissions  needed for your token. Permissions not included in your assigned role have no effect.',
+      const text = wrapper.text().replace(/\s+/g, ' ');
+      expect(text).toContain('Add resource permissions');
+      expect(text).toContain(
+        'Add only the minimum resource and permissions needed for your token. Permissions not included in your assigned role have no effect.',
       );
 
       expect(findLink().attributes('href')).toBe(
         helpPagePath('auth/tokens/fine_grained_access_tokens.md'),
       );
+    });
+
+    it('opens the documentation link in a new tab', () => {
+      expect(findLink().attributes('target')).toBe('_blank');
     });
 
     it('renders permissions selectors for group and user scope', () => {
@@ -253,12 +260,6 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
       );
     });
 
-    it('validates expiration date when `accessTokenMaxDate` is provided', async () => {
-      await findCreateButton().vm.$emit('click');
-
-      expect(findExpirationDateComponent().props('error')).toBe('Add token expiration date.');
-    });
-
     it('does not validate expiration date when `accessTokenMaxDate` is null', async () => {
       createComponent({ provide: { accessTokenMaxDate: null } });
 
@@ -293,6 +294,36 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
       expect(findUserPermissionsSelector().props('error')).toBe(
         'Add at least one resource with permissions.',
       );
+    });
+  });
+
+  describe('unsaved changes dialog', () => {
+    it('renders the confirm unsaved changes dialog', () => {
+      expect(findConfirmDialog().exists()).toBe(true);
+    });
+
+    it('passes hasUnsavedChanges as false when form is pristine', () => {
+      expect(findConfirmDialog().props('hasUnsavedChanges')).toBe(false);
+    });
+
+    it.each`
+      field               | action
+      ${'name'}           | ${() => findNameInput().vm.$emit('input', 'test')}
+      ${'description'}    | ${() => findDescriptionTextarea().vm.$emit('input', 'test')}
+      ${'expirationDate'} | ${() => findExpirationDateComponent().vm.$emit('input', new Date())}
+      ${'access'}         | ${() => findScopeSelectorComponent().vm.$emit('input', 'ALL_MEMBERSHIPS')}
+    `('passes hasUnsavedChanges as true when $field is changed', async ({ action }) => {
+      action();
+      await nextTick();
+
+      expect(findConfirmDialog().props('hasUnsavedChanges')).toBe(true);
+    });
+
+    it('passes hasUnsavedChanges as true when permissions are changed', async () => {
+      findGroupPermissionsSelector().vm.$emit('input', ['read_project']);
+      await nextTick();
+
+      expect(findConfirmDialog().props('hasUnsavedChanges')).toBe(true);
     });
   });
 
@@ -388,6 +419,18 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
       );
 
       expect(findForm().exists()).toBe(false);
+    });
+
+    it('resets isFormDirty after successful submission', async () => {
+      await fillFormWithValidData();
+      await nextTick();
+
+      expect(findConfirmDialog().props('hasUnsavedChanges')).toBe(true);
+
+      await findCreateButton().vm.$emit('click');
+      await waitForPromises();
+
+      expect(findConfirmDialog().props('hasUnsavedChanges')).toBe(false);
     });
 
     it('displays an error message when mutation returns an error', async () => {

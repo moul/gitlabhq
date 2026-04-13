@@ -20,14 +20,10 @@ This feature uses [GitLab Credits](../../../../subscriptions/gitlab_credits.md).
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/587460) as a [beta](../../../../policy/development_stages_support.md#beta) in GitLab 18.10
   [with a feature flag](../../../../administration/feature_flags/_index.md) named `foundational_pipeline_authoring_agent`.
   Disabled by default.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/588564) in GitLab 19.0.
+  Feature flag `foundational_pipeline_authoring_agent` removed.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
-> This feature is available for testing, but not ready for production use.
-
 The CI Expert Agent is a specialized agent that helps you create, debug, and
 optimize GitLab CI/CD pipelines. It combines:
 

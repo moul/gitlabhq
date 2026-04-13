@@ -4,6 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Authn::IamService::AcceptLoginChallengeService, feature_category: :system_access do
   let_it_be(:user) { create(:user) }
+  let(:iam_secret) { 'test-secret-token' }
 
   let(:iam_service_url) { 'https://iam.example.com' }
   let(:challenge) { 'a' * 64 }
@@ -14,9 +15,9 @@ RSpec.describe Authn::IamService::AcceptLoginChallengeService, feature_category:
   subject(:result) { service.execute }
 
   before do
-    allow(Gitlab.config.authn.iam_service).to receive_messages(
-      enabled: true,
-      url: iam_service_url
+    allow(Authn::IamAuthService).to receive_messages(
+      url: iam_service_url,
+      secret: iam_secret
     )
   end
 
@@ -56,11 +57,23 @@ RSpec.describe Authn::IamService::AcceptLoginChallengeService, feature_category:
           "#{iam_service_url}#{described_class::ACCEPT_PATH}?challenge=#{challenge}",
           hash_including(
             body: { id: user.id.to_s, subject: user.id.to_s, name: user.name, email: user.email }.to_json,
-            headers: { 'Content-Type' => 'application/json' },
+            headers: { 'Content-Type' => 'application/json',
+                       Authn::IamAuthService::IAM_AUTH_TOKEN_HEADER => iam_secret },
             timeout: described_class::TIMEOUT_SECONDS
           )
         )
       end
+    end
+
+    context 'when the IAM service returns unauthorized' do
+      let(:http_response) do
+        instance_double(Gitlab::HTTP::Response, success?: false, code: 401,
+          body: { error: 'Unauthorized' }.to_json)
+      end
+
+      include_examples 'returns IAM accept error',
+        reason: :iam_request_failed,
+        message: 'IAM login accept failed: HTTP 401'
     end
 
     context 'when the IAM service rejects the challenge' do
@@ -182,6 +195,19 @@ RSpec.describe Authn::IamService::AcceptLoginChallengeService, feature_category:
         expect(result).to be_error
         expect(result.reason).to eq(:service_unavailable)
         expect(result.message).to eq('Failed to connect to IAM service')
+      end
+    end
+
+    context 'when the IAM service is not configured' do
+      before do
+        allow(Authn::IamAuthService).to receive(:url)
+          .and_raise(Authn::IamAuthService::ConfigurationError, 'IAM service is not configured')
+      end
+
+      it 'returns a service_unavailable error' do
+        expect(result).to be_error
+        expect(result.reason).to eq(:service_unavailable)
+        expect(result.message).to eq('IAM service is not configured')
       end
     end
 

@@ -10,6 +10,7 @@ import awardAchievementMutation from './graphql/award_achievement.mutation.graph
 import getGroupAchievements from './graphql/get_group_achievements.query.graphql';
 
 export default {
+  name: 'AwardButton',
   components: {
     GlButton,
     GlModal,

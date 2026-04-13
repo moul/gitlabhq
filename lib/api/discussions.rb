@@ -186,6 +186,8 @@ module API
 
           break not_found!("Discussion") if notes.empty?
 
+          break bad_request!("Replies to system notes are not allowed.") if first_note.system?
+
           unless first_note.part_of_discussion? || first_note.to_discussion.can_convert_to_discussion?
             break bad_request!("Discussion can not be replied to.")
           end

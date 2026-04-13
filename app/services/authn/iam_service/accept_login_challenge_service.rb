@@ -3,7 +3,7 @@
 module Authn
   module IamService
     class AcceptLoginChallengeService
-      ACCEPT_PATH = '/oauth2/auth/requests/login/accept'
+      ACCEPT_PATH = '/oauth2/internal/auth/requests/login/accept'
       TIMEOUT_SECONDS = 5
 
       def initialize(challenge:, user:)
@@ -28,6 +28,8 @@ module Authn
         return error_response if error_response
 
         ServiceResponse.success(payload: { redirect_to: redirect_to })
+      rescue Authn::IamAuthService::ConfigurationError => e
+        ServiceResponse.error(message: e.message, reason: :service_unavailable)
       rescue *Gitlab::HTTP_V2::HTTP_ERRORS, JSON::ParserError => e
         Gitlab::ErrorTracking.track_exception(e)
         ServiceResponse.error(message: 'Failed to connect to IAM service', reason: :service_unavailable)
@@ -39,7 +41,8 @@ module Authn
         Gitlab::HTTP.put(
           accept_url,
           body: request_body.to_json,
-          headers: { 'Content-Type' => 'application/json' },
+          headers: { 'Content-Type' => 'application/json',
+                     Authn::IamAuthService::IAM_AUTH_TOKEN_HEADER => Authn::IamAuthService.secret },
           timeout: TIMEOUT_SECONDS
         )
       end
@@ -63,7 +66,7 @@ module Authn
       end
 
       def accept_url
-        uri = URI.parse(iam_config.url)
+        uri = URI.parse(Authn::IamAuthService.url)
         uri.path = ACCEPT_PATH
         uri.query = URI.encode_www_form(challenge: @challenge)
         uri.to_s
@@ -80,7 +83,7 @@ module Authn
 
       def valid_redirect_url?(url)
         parsed_uri = URI.parse(url)
-        iam_base = URI.parse(iam_config.url)
+        iam_base = URI.parse(Authn::IamAuthService.url)
 
         allowed_schemes = Rails.env.development? ? %w[http https] : %w[https]
         allowed_schemes.include?(parsed_uri.scheme&.downcase) &&
@@ -88,10 +91,6 @@ module Authn
           parsed_uri.port == iam_base.port
       rescue URI::InvalidURIError
         false
-      end
-
-      def iam_config
-        Gitlab.config.authn.iam_service
       end
 
       def log_failure(reason:, http_status: nil, response_body: nil)

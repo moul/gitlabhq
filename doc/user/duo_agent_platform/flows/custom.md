@@ -104,8 +104,7 @@ To create a flow:
    1. Select **Flow**.
    1. In the editor, enter your flow configuration:
 
-      - For more information on custom flow YAML, see [flow registry v1 specification](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/main/docs/flow_registry/v1.md).
-      - For fields that differ from the v1 specification, see [custom flow YAML schema](custom_flows_schema.md).
+      - For more information on the YAML syntax and schema, see [custom flow YAML schema](custom_flows_schema.md).
 1. Select **Create flow**.
 
 {{< /tab >}}
@@ -123,8 +122,7 @@ To create a flow:
    1. Select **Flow**.
    1. In the editor, enter your flow configuration:
 
-      - For more information on custom flow YAML, see [flow registry v1 specification](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/main/docs/flow_registry/v1.md).
-      - For fields that differ from the v1 specification, see [custom flow YAML schema](custom_flows_schema.md).
+      - For more information on the YAML syntax and schema, see [custom flow YAML schema](custom_flows_schema.md).
 1. Select **Create flow**.
 
 {{< /tab >}}

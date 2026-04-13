@@ -37016,6 +37016,7 @@ Describes the usage of consumables under the subscription.
 | <a id="gitlabsubscriptionusage-budgetcaps"></a>`budgetCaps` | [`GitlabSubscriptionBudgetCaps`](#gitlabsubscriptionbudgetcaps) | Budget cap controls for the subscription. |
 | <a id="gitlabsubscriptionusage-canacceptoverageterms"></a>`canAcceptOverageTerms` | [`Boolean!`](#boolean) | Indicates whether the subscription is currently eligible to accept overage terms. |
 | <a id="gitlabsubscriptionusage-creditsused"></a>`creditsUsed` | [`Float`](#float) | Total credits used for the subscription. |
+| <a id="gitlabsubscriptionusage-dailyaverage"></a>`dailyAverage` | [`Float`](#float) | Average daily credits used for the subscription. |
 | <a id="gitlabsubscriptionusage-dappromoenabled"></a>`dapPromoEnabled` | [`Boolean!`](#boolean) | Indicates whether the Duo AI promo (DAP) is enabled for the subscription. |
 | <a id="gitlabsubscriptionusage-enabled"></a>`enabled` | [`Boolean!`](#boolean) | Indicates if the Customer Portal GitLab Credits API is enabled. |
 | <a id="gitlabsubscriptionusage-enddate"></a>`endDate` | [`ISO8601Date`](#iso8601date) | End date of the period covered by the usage data. |

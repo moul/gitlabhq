@@ -25,6 +25,7 @@ import createAchievementMutation from './graphql/create_achievement.mutation.gra
 const maxLength = { name: 255, description: 1024 };
 
 export default {
+  name: 'AchievementsForm',
   components: {
     GlAlert,
     GlAvatar,

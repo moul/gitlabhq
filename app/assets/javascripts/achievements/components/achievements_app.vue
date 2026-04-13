@@ -24,6 +24,7 @@ import AwardButton from './award_button.vue';
 const ENTRIES_PER_PAGE = 20;
 
 export default {
+  name: 'AchievementsApp',
   components: {
     AwardButton,
     PageHeading,

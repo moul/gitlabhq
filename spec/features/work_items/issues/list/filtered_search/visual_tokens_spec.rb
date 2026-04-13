@@ -40,7 +40,8 @@ RSpec.describe 'Visual tokens', :js, feature_category: :team_planning do
       expect_suggestion_count 1
     end
 
-    it 'ends editing mode when document is clicked' do
+    it 'ends editing mode when document is clicked',
+      quarantine: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/issues/40862' do
       find('body').click(x: 0, y: 0)
 
       expect_empty_search_term

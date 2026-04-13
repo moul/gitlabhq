@@ -23,11 +23,7 @@ RSpec.describe Authn::IamService::JwksClient, :use_clean_rails_redis_caching, fe
   end
 
   before do
-    allow(Gitlab.config.authn.iam_service).to receive_messages(
-      enabled: true,
-      url: service_url,
-      audience: 'gitlab-rails'
-    )
+    allow(Authn::IamAuthService).to receive(:url).and_return(service_url)
   end
 
   describe '#verification_key_for' do
@@ -219,25 +215,15 @@ RSpec.describe Authn::IamService::JwksClient, :use_clean_rails_redis_caching, fe
       end
     end
 
-    context 'when service URL is not configured' do
+    context 'when service is not configured' do
       before do
-        allow(Gitlab.config.authn.iam_service).to receive(:url).and_return(nil)
+        allow(Authn::IamAuthService).to receive(:url)
+          .and_raise(Authn::IamAuthService::ConfigurationError, 'IAM service is not configured')
       end
 
       it 'raises ConfigurationError' do
         expect { client.verification_key_for(kid) }
           .to raise_error(described_class::ConfigurationError, /not configured/)
-      end
-    end
-
-    context 'when service URL is invalid' do
-      before do
-        allow(Gitlab.config.authn.iam_service).to receive(:url).and_return('not a valid url')
-      end
-
-      it 'raises ConfigurationError' do
-        expect { client.verification_key_for(kid) }
-          .to raise_error(described_class::ConfigurationError, /Invalid IAM service URL/)
       end
     end
   end

@@ -38,6 +38,12 @@ module Authn
 
       private
 
+      def service_url
+        Authn::IamAuthService.url
+      rescue Authn::IamAuthService::ConfigurationError => e
+        raise ConfigurationError, e.message
+      end
+
       def fetch_keyset
         response = Gitlab::HTTP.get(endpoint, timeout: HTTP_TIMEOUT_SECONDS)
 
@@ -93,13 +99,6 @@ module Authn
         ttl = match.present? ? match[1].to_i.seconds : 0
 
         ttl >= MIN_CACHE_TTL && ttl <= MAX_CACHE_TTL ? ttl : DEFAULT_CACHE_TTL
-      end
-
-      def service_url
-        url = Gitlab.config.authn.iam_service.url
-        raise ConfigurationError, 'IAM service URL is not configured' if url.nil?
-
-        url
       end
     end
   end

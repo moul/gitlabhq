@@ -104,6 +104,65 @@ To configure instance-level SSH certificate authentication:
 1. Add the CA public key file path to the `gitlab-sshd`
    configuration.
 
+   {{< tabs >}}
+
+   {{< tab title="Linux package (Omnibus)" >}}
+
+   1. Edit `/etc/gitlab/gitlab.rb`:
+
+      ```ruby
+      gitlab_sshd['trusted_user_ca_keys'] = ['/etc/gitlab/ssh_user_ca.pub']
+      ```
+
+   1. Save the file and reconfigure GitLab:
+
+      ```shell
+      sudo gitlab-ctl reconfigure
+      ```
+
+   {{< /tab >}}
+
+   {{< tab title="Helm chart (Kubernetes)" >}}
+
+   1. Create a Kubernetes Secret containing the CA public key:
+
+      ```shell
+      kubectl create secret generic my-ssh-ca-keys \
+        --from-file=ca.pub=ssh_user_ca.pub
+      ```
+
+   1. Export the Helm values:
+
+      ```shell
+      helm get values gitlab > gitlab_values.yaml
+      ```
+
+   1. Edit `gitlab_values.yaml` to reference the secret:
+
+      ```yaml
+      gitlab:
+        gitlab-shell:
+          sshDaemon: gitlab-sshd
+          config:
+            trustedUserCAKeys:
+              secret: my-ssh-ca-keys
+              keys:
+                - ca.pub
+      ```
+
+   1. Save the file and apply the new values:
+
+   ```shell
+   helm upgrade -f gitlab_values.yaml gitlab gitlab/gitlab
+   ```
+
+   For more information about the Helm chart configuration, see the
+   [GitLab Shell chart documentation](https://docs.gitlab.com/charts/charts/gitlab/gitlab-shell/#instance-level-ssh-certificates-gitlab-sshd).
+
+   {{< /tab >}}
+
+   {{< /tabs >}}
+
 1. Verify `gitlab-sshd` started successfully by checking the
    logs for:
 
@@ -152,14 +211,68 @@ your users:
 ## Use multiple certificate authorities
 
 You can specify multiple CA public key files for CA rotation
-or multi-CA setups:
+or multi-CA setups.
 
-```yaml
-sshd:
-  trusted_user_ca_keys:
-    - /etc/gitlab/ssh_user_ca_current.pub
-    - /etc/gitlab/ssh_user_ca_next.pub
-```
+{{< tabs >}}
+
+{{< tab title="Linux package (Omnibus)" >}}
+
+1. Edit `/etc/gitlab/gitlab.rb`:
+
+   ```ruby
+   gitlab_sshd['trusted_user_ca_keys'] = [
+     '/etc/gitlab/ssh_user_ca_current.pub',
+     '/etc/gitlab/ssh_user_ca_next.pub'
+   ]
+   ```
+
+1. Save the file and reconfigure GitLab:
+
+   ```shell
+   sudo gitlab-ctl reconfigure
+   ```
+
+{{< /tab >}}
+
+{{< tab title="Helm chart (Kubernetes)" >}}
+
+1. Create a Kubernetes Secret containing both CA public keys:
+
+   ```shell
+   kubectl create secret generic my-ssh-ca-keys \
+     --from-file=ca_current.pub=ssh_user_ca_current.pub \
+     --from-file=ca_next.pub=ssh_user_ca_next.pub
+   ```
+
+1. Export the Helm values:
+
+   ```shell
+   helm get values gitlab > gitlab_values.yaml
+   ```
+
+1. Edit `gitlab_values.yaml` to reference the secret:
+
+   ```yaml
+   gitlab:
+     gitlab-shell:
+       sshDaemon: gitlab-sshd
+       config:
+         trustedUserCAKeys:
+           secret: my-ssh-ca-keys
+           keys:
+             - ca_current.pub
+             - ca_next.pub
+   ```
+
+1. Save the file and apply the new values:
+
+   ```shell
+   helm upgrade -f gitlab_values.yaml gitlab gitlab/gitlab
+   ```
+
+{{< /tab >}}
+
+{{< /tabs >}}
 
 A single file can also contain multiple CA public keys, one per
 line. `gitlab-sshd` automatically deduplicates keys across files.
@@ -199,9 +312,10 @@ authentication attempts with fields including `ssh_user`,
 ### Clustered deployments
 
 In environments with multiple `gitlab-sshd` nodes, synchronize
-the `config.yml` and CA public key files across all nodes.
+the configuration and CA public key files across all nodes.
 Inconsistent configurations can cause intermittent
-authentication failures.
+authentication failures. For Helm chart deployments, the
+Kubernetes Secret is shared across pods automatically.
 
 ## Troubleshooting
 

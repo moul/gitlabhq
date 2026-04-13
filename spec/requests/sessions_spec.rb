@@ -68,7 +68,7 @@ RSpec.describe 'Sessions', feature_category: :system_access do
 
     before do
       stub_feature_flags(iam_svc_login: true)
-      allow(Gitlab.config.authn.iam_service).to receive_messages(enabled: true, url: iam_service_url)
+      allow(Authn::IamAuthService).to receive(:enabled?).and_return(true)
     end
 
     context 'when storing the challenge' do
@@ -105,7 +105,7 @@ RSpec.describe 'Sessions', feature_category: :system_access do
 
       context 'when IAM service is not enabled' do
         before do
-          allow(Gitlab.config.authn.iam_service).to receive_messages(enabled: false, url: iam_service_url)
+          allow(Authn::IamAuthService).to receive(:enabled?).and_return(false)
         end
 
         it 'does not store the challenge' do

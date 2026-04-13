@@ -219,8 +219,8 @@ curl --request POST \
 
 Adds a new note to the thread. This can also [create a thread from a single comment](../user/discussions/_index.md#create-a-thread-by-replying-to-a-standard-comment).
 
-> [!warning]
-> Notes can be added to other items than comments, such as system notes, making them threads.
+> [!note]
+> Notes cannot be added to system notes. Attempting to do so returns a `400 Bad Request` error.
 
 ```plaintext
 POST /projects/:id/issues/:issue_iid/discussions/:discussion_id/notes

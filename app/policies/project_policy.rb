@@ -148,9 +148,9 @@ class ProjectPolicy < BasePolicy
     user.is_a?(DeployToken) && user.has_access_to?(project) && user.write_package_registry
   end
 
-  desc "Deploy token with read access"
+  desc "Deploy token with read_repository scope and project access"
   condition(:download_code_deploy_token) do
-    user.is_a?(DeployToken) && user.has_access_to?(project)
+    user.is_a?(DeployToken) && user.read_repository && user.has_access_to?(project)
   end
 
   desc "If user is authenticated via CI job token then the target project should be in scope"
@@ -644,6 +644,7 @@ class ProjectPolicy < BasePolicy
   end
 
   rule { download_code_deploy_token }.policy do
+    enable :download_code
     enable :download_wiki_code
   end
 

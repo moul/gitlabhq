@@ -9,7 +9,7 @@ import { __, s__ } from '~/locale';
 import { InternalEvents } from '~/tracking';
 import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { unwrapStagesFromMutation } from '~/ci/pipeline_details/utils/unwrapping_utils';
-import ConfirmUnsavedChangesDialog from './components/ui/confirm_unsaved_changes_dialog.vue';
+import ConfirmUnsavedChangesDialog from '~/vue_shared/components/confirm_unsaved_changes_dialog.vue';
 import PipelineEditorEmptyState from './components/ui/pipeline_editor_empty_state.vue';
 import PipelineEditorNewEmptyState from './components/ui/pipeline_editor_new_empty_state.vue';
 import PipelineEditorMessages from './components/ui/pipeline_editor_messages.vue';
