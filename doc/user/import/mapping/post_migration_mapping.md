@@ -8,7 +8,7 @@ title: Post-migration contribution and membership mapping
 {{< details >}}
 
 - Tier: Free, Premium, Ultimate
-- Offering: GitLab.com, GitLab Self-Managed
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
 
 {{< /details >}}
 
@@ -279,11 +279,11 @@ This method is not recommended, and any problems found are unlikely to be fixed.
 
 The alternative method of mapping:
 
-- Requires some preparation before migration, including disabling feature flags.
+- Is available only for migrations to GitLab Self-Managed.
+- Requires some preparation before migration, including disabling applicable `*_user_mapping` feature flags.
 - Is available for migrations from:
   - GitHub.
   - Bitbucket Server.
   - Gitea (for GitLab 18.5 and earlier).
-- Is available for migrations to GitLab Self-Managed and GitLab Dedicated.
 
 For more information, see the alternative method of mapping documentation for each importer.

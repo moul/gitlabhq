@@ -4,7 +4,6 @@ group: Composition Analysis
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
 title: License scanning of CycloneDX files
 ---
-
 {{< details >}}
 
 - Tier: Ultimate
@@ -336,6 +335,11 @@ To remove the unneeded data:
    PackageMetadata::PackageVersionLicense.delete_all
    PackageMetadata::PackageVersion.delete_all
    ```
+
+### Vulnerability scanning produces no results for a CycloneDX SBOM
+
+If your CycloneDX file is scanned for licenses but vulnerability scanning produces no results, see
+[Vulnerability scanning produces no results for custom or merged CycloneDX SBOMs](../../application_security/dependency_scanning/troubleshooting_dependency_scanning.md#vulnerability-scanning-produces-no-results-for-custom-or-merged-cyclonedx-sboms).
 
 ### Dependency licenses are unknown
 

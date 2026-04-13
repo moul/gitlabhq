@@ -358,6 +358,7 @@ module API
         mount ::API::Terraform::Modules::V1::NamespacePackages
         mount ::API::Terraform::Modules::V1::ProjectPackages
         mount ::API::Terraform::State
+        mount ::API::Terraform::StateProtectionRules
         mount ::API::Terraform::StateVersion
         mount ::API::Topics
         mount ::API::Unleash

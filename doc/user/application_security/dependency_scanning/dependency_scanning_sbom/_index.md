@@ -442,41 +442,6 @@ The following CycloneDX SBOMs are created as job artifacts:
     └── gl-sbom-packagist-composer.cdx.json
 ```
 
-### Merging multiple CycloneDX SBOMs
-
-You can use a CI/CD job to merge the multiple CycloneDX SBOMs into a single SBOM.
-
-> [!note]
-> GitLab uses [CycloneDX Properties](https://cyclonedx.org/use-cases/#properties--name-value-store)
-> to store implementation-specific details in the metadata of each CycloneDX SBOM, such as the
-> location of dependency graph exports and lockfiles. If multiple CycloneDX SBOMs are merged together,
-> this information is removed from the resulting merged file.
-
-For example, the following `.gitlab-ci.yml` extract demonstrates how the Cyclone SBOM files can be
-merged, and the resulting file validated.
-
-```yaml
-stages:
-  - test
-  - merge-cyclonedx-sboms
-
-include:
-  - component: $CI_SERVER_FQDN/components/dependency-scanning/main@1
-
-merge cyclonedx sboms:
-  stage: merge-cyclonedx-sboms
-  image:
-    name: cyclonedx/cyclonedx-cli:0.27.1
-    entrypoint: [""]
-  script:
-    - find . -name "gl-sbom-*.cdx.json" -exec cyclonedx merge --output-file gl-sbom-all.cdx.json --input-files "{}" +
-    # optional: validate the merged sbom
-    - cyclonedx validate --input-version v1_6 --input-file gl-sbom-all.cdx.json
-  artifacts:
-    paths:
-      - gl-sbom-all.cdx.json
-```
-
 ### Dependency scanning report
 
 {{< details >}}

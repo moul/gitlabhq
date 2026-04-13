@@ -25056,6 +25056,37 @@ paths:
         required: true
         schema: {}
         in: path
+  "/api/v4/projects/{id}/terraform/state_protection_rules":
+    get:
+      operationId: getApiV4ProjectsIdTerraformStateProtectionRules
+      summary: List all Terraform state protection rules for a project
+      description: Lists all Terraform state protection rules for a project. This
+        feature was introduced in GitLab 18.11.
+      tags:
+      - Projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIEntitiesTerraformStateProtectionRule"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      parameters:
+      - name: id
+        required: true
+        description: The ID or URL-encoded path of the project
+        schema:
+          oneOf:
+          - type: string
+          - type: integer
+          nullable: true
+        in: path
   "/api/v4/projects/{id}/terraform/state/{name}":
     get:
       operationId: getApiV4ProjectsIdTerraformStateName
@@ -76868,6 +76899,24 @@ components:
           type: string
         avatar_url:
           type: string
+    APIEntitiesTerraformStateProtectionRule:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        project_id:
+          type: integer
+          example: 1
+        state_name:
+          type: string
+          example: production
+        minimum_access_level_for_write:
+          type: string
+          example: maintainer
+        allowed_from:
+          type: string
+          example: ci_only
     APIEntitiesTerraformModuleVersion:
       type: object
       properties:

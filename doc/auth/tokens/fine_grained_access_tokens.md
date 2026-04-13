@@ -492,6 +492,7 @@ Grants the ability to create, delete, lock, and read Terraform state.
 | Lock | Project | `POST` | `/projects/:id/terraform/state/:name/lock` |
 | Lock | Project | `DELETE` | `/projects/:id/terraform/state/:name/lock` |
 | Read | Project | `GET` | `/projects/:id/terraform/state/:name` |
+| Read | Project | `GET` | `/projects/:id/terraform/state_protection_rules` |
 | Read | Project | `GET` | `/projects/:id/terraform/state/:name/versions/:serial` |
 
 #### Trigger

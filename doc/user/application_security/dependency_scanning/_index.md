@@ -263,39 +263,6 @@ Then the Gemnasium scanner generates the following CycloneDX SBOMs:
     └── gl-sbom-go-go.cdx.json
 ```
 
-#### Merging multiple CycloneDX SBOMs
-
-You can use a CI/CD job to merge the multiple CycloneDX SBOMs into a single SBOM. GitLab uses
-[CycloneDX Properties](https://cyclonedx.org/use-cases/#properties--name-value-store) to store
-implementation-specific details in the metadata of each CycloneDX SBOM, such as the location of
-build and lockfiles. If multiple CycloneDX SBOMs are merged together, this information is removed
-from the resulting merged file.
-
-For example, the following `.gitlab-ci.yml` extract demonstrates how the Cyclone SBOM files can be
-merged, and the resulting file validated.
-
-```yaml
-stages:
-  - test
-  - merge-cyclonedx-sboms
-
-include:
-  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
-
-merge cyclonedx sboms:
-  stage: merge-cyclonedx-sboms
-  image:
-    name: cyclonedx/cyclonedx-cli:0.25.1
-    entrypoint: [""]
-  script:
-    - find . -name "gl-sbom-*.cdx.json" -exec cyclonedx merge --output-file gl-sbom-all.cdx.json --input-files "{}" +
-    # optional: validate the merged sbom
-    - cyclonedx validate --input-version v1_4 --input-file gl-sbom-all.cdx.json
-  artifacts:
-    paths:
-      - gl-sbom-all.cdx.json
-```
-
 ## Roll out
 
 After you are confident in the dependency scanning results for a single project, you can extend its implementation to additional projects:

@@ -293,6 +293,42 @@ To reduce downtime during upgrades, you can skip post-deployment migrations and 
 
 ### Apply database migrations
 
+{{< tabs >}}
+
+{{< tab title="GitLab 18.7 and later" >}}
+
+To apply both regular schema and post-deployment migrations before the application starts:
+
+1. Run database migrations:
+
+   ```shell
+   sudo gitlab-ctl registry-database migrate up
+   ```
+
+To skip post-deployment migrations:
+
+1. Run regular schema migrations only:
+
+   ```shell
+   sudo gitlab-ctl registry-database migrate up --skip-post-deployment
+   ```
+
+   As an alternative to the `--skip-post-deployment` flag, you can also set the `SKIP_POST_DEPLOYMENT_MIGRATIONS` environment variable to `true`:
+
+   ```shell
+   SKIP_POST_DEPLOYMENT_MIGRATIONS=true sudo gitlab-ctl registry-database migrate up
+   ```
+
+1. After starting the application, apply any pending post-deployment migrations:
+
+   ```shell
+   sudo gitlab-ctl registry-database migrate up
+   ```
+
+{{< /tab >}}
+
+{{< tab title="GitLab 18.6 and earlier" >}}
+
 To apply both regular schema and post-deployment migrations before the application starts:
 
 1. Run database migrations:
@@ -320,6 +356,10 @@ To skip post-deployment migrations:
    ```shell
    sudo -u registry gitlab-ctl registry-database migrate up
    ```
+
+{{< /tab >}}
+
+{{< /tabs >}}
 
 > [!note]
 > The `migrate up` command offers some extra flags that can be used to control how the migrations are applied.
@@ -361,7 +401,7 @@ Monitor the health and status of garbage collection task queues for blobs and ma
 The following command displays information related to online garbage collection.
 
 ```shell
-sudo -u registry gitlab-ctl registry-database gc-stats
+sudo gitlab-ctl registry-database gc-stats
 ```
 
 Example Output:
@@ -607,10 +647,6 @@ registry['database'] = {
   'sslrootcert' => '</path/to/ca.pem>'
 }
 ```
-
-> [!note]
-> When using an external database, omit the `-u registry` option from the
-> commands throughout this documentation.
 
 ## Backup with metadata database
 
