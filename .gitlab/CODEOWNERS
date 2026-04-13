@@ -98,10 +98,8 @@ Rakefile @gitlab-org/maintainers/rails-backend
 !/doc/**/*.jpg
 !/doc/**/*.png
 !/doc/**/*.svg
+!/doc/api/openapi/**/*.yaml
 !/data/**/*.yml
-
-# API docs can be approved by BE
-/doc/api/ @gitlab-org/technical-writing/tw-docops @gitlab-org/tw-leadership @gitlab-org/maintainers/rails-backend
 
 ## Technical writing files that do not need `*` rule approval,
 ## but still require an approval from a TW team DRI for each file.

@@ -229,6 +229,12 @@ describe('TransferLocations', () => {
     });
   });
 
+  it('displays dropdown placeholder', () => {
+    createComponent();
+
+    expect(findDropdown().props('text')).toBe('Select namespace');
+  });
+
   it('displays transfer location as selected', () => {
     const [{ id, full_name: humanName }] = transferLocationsResponsePage1;
 
@@ -418,14 +424,12 @@ describe('TransferLocations', () => {
     });
   });
 
-  describe('when `label` prop is passed', () => {
-    it('renders label', () => {
-      const label = 'Foo bar';
+  it('renders default label', () => {
+    createComponent();
 
-      createComponent({ propsData: { label } });
-
-      expect(wrapper.findByRole('group', { name: label }).exists()).toBe(true);
-    });
+    expect(wrapper.findByRole('group', { name: 'Select destination namespace' }).exists()).toBe(
+      true,
+    );
   });
 
   describe('when there are no results', () => {

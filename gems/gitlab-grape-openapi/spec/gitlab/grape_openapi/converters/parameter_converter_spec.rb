@@ -966,6 +966,24 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
           expect(converter.schema[:nullable]).to be true
         end
       end
+
+      context 'when parameter is a path parameter' do
+        let(:name) { 'user_id' }
+
+        [
+          { type: 'String' },
+          { type: 'String', allow_blank: true },
+          { type: 'String', allow_blank: false }
+        ].each do |param_options|
+          context "with options #{param_options}" do
+            let(:options) { param_options }
+
+            it 'never adds nullable' do
+              expect(converter.schema[:nullable]).to be_nil
+            end
+          end
+        end
+      end
     end
   end
 

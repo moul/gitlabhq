@@ -7392,7 +7392,13 @@ msgstr ""
 msgid "AgentArtifacts|Credits"
 msgstr ""
 
+msgid "AgentArtifacts|Failed to load AI item names."
+msgstr ""
+
 msgid "AgentArtifacts|Failed to load agent artifacts."
+msgstr ""
+
+msgid "AgentArtifacts|Filter agent artifacts"
 msgstr ""
 
 msgid "AgentArtifacts|Monitor and observe AI agent behavior and activities across your group."
@@ -9663,6 +9669,9 @@ msgid "ApplicationSettings|%{ldapSyncConfiguredStart}LDAP sync%{ldapSyncConfigur
 msgstr ""
 
 msgid "ApplicationSettings|%{ldapSyncConfiguredStart}LDAP sync%{ldapSyncConfiguredEnd} is active. With restricted access turned on and if no seats are available, new users provisioned through LDAP are assigned the non-billable Minimal Access role."
+msgstr ""
+
+msgid "ApplicationSettings|%{restrictedAccessStart}Restricted access%{restrictedAccessEnd} is turned on for your license by default. This setting prevents overages when no seats are available. %{purchaseSeatsStart}Purchase more seats%{purchaseSeatsEnd} to add users."
 msgstr ""
 
 msgid "ApplicationSettings|%{samlConfiguredStart}SAML%{samlConfiguredEnd}/%{scimConfiguredStart}SCIM%{scimConfiguredEnd} is active. With restricted access turned on and if no seats are available, new users provisioned through SAML/SCIM are assigned the non-billable Minimal Access role."
@@ -27017,9 +27026,6 @@ msgstr ""
 msgid "DuoCodeReview|:warning: %{user_reference}, you need to set a default GitLab Duo namespace to use Code Review Flow in this project. Please set a default GitLab Duo namespace in your [preferences](%{docs_url})."
 msgstr ""
 
-msgid "DuoCodeReview|:warning: Code Review Flow could not add the service account to this project. Contact your administrator to verify that the service account has the required project access."
-msgstr ""
-
 msgid "DuoCodeReview|:warning: Code Review Flow could not create the required CI/CD pipeline. Please request a new review. If the problem persists, contact your administrator."
 msgstr ""
 
@@ -34717,6 +34723,9 @@ msgstr ""
 msgid "GroupSettingsUsageBilling|If selected, individual usernames and their credit usage are visible on the GitLab Credits dashboard. If your organization needs to restrict access to individual user activity for compliance or privacy reasons, clear this checkbox."
 msgstr ""
 
+msgid "GroupSettings|%{restricted_access_start}Restricted access%{restricted_access_end} is turned on for your subscription by default. This setting prevents overages when no seats are available. %{purchase_seats_start}Purchase more seats%{purchase_seats_end} to add users."
+msgstr ""
+
 msgid "GroupSettings|Add additional webhook triggers for group access token expiration"
 msgstr ""
 
@@ -34931,9 +34940,6 @@ msgid "GroupSettings|Select a project"
 msgstr ""
 
 msgid "GroupSettings|Select a subgroup to use as a source of custom templates for new projects in this group. %{link_start}Learn more%{link_end}."
-msgstr ""
-
-msgid "GroupSettings|Select parent group"
 msgstr ""
 
 msgid "GroupSettings|Select the project containing %{link_start}Analytics Dashboards%{link_end} configuration files."
@@ -45568,6 +45574,12 @@ msgid "NamespaceTransfer|Change its repository URL path."
 msgstr ""
 
 msgid "NamespaceTransfer|Change its visibility settings to match the new namespace."
+msgstr ""
+
+msgid "NamespaceTransfer|Select destination namespace"
+msgstr ""
+
+msgid "NamespaceTransfer|Select namespace"
 msgstr ""
 
 msgid "NamespaceTransfer|Transfer - %{name}"
@@ -66345,9 +66357,6 @@ msgstr ""
 msgid "Select a milestone"
 msgstr ""
 
-msgid "Select a new namespace"
-msgstr ""
-
 msgid "Select a project"
 msgstr ""
 
@@ -81986,9 +81995,6 @@ msgid "WorkItem|This view either no longer exists or you do not have access to i
 msgstr ""
 
 msgid "WorkItem|This work item is not available. It either doesn't exist or you don't have permission to view it."
-msgstr ""
-
-msgid "WorkItem|Ticket"
 msgstr ""
 
 msgid "WorkItem|Time tracking"

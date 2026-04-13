@@ -3,13 +3,10 @@
 *.mo
 *.edit.po
 *.rej
-/AGENTS.local.md
 /opencode.json
 /.claude
-/CLAUDE.md
 .dir-locals.el
 .DS_Store
-/OpenCode.md
 .bundle
 .chef
 .directory
@@ -147,3 +144,10 @@ yalc.lock
 # Ignore automatically generated js-routes files.
 /app/assets/javascripts/lib/utils/path_helpers
 /ee/app/assets/javascripts/lib/utils/path_helpers
+
+# AI agent instruction files (https://gitlab.com/gitlab-org/gitlab/-/work_items/594821)
+# Non-rooted patterns apply at all directory levels. Committed .ai/ modules use git add --force.
+AGENTS.local.md
+CLAUDE.local.md
+/OpenCode.md
+.ai/*

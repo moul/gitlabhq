@@ -22,9 +22,11 @@ project:
   - destroy_issue
   - destroy_merge_request
   - destroy_pipeline
+  - destroy_requirement
   - grant_protected_ref_access
   - link_forked_project
   - manage_owners
+  - mark_issue_for_publication
   - modify_security_policy
   - read_compliance_adherence_report
   - read_compliance_dashboard

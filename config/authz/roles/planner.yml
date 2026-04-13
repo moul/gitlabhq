@@ -20,10 +20,12 @@ project:
   - admin_wiki
   - admin_work_item
   - create_design
+  - create_epic
   - create_iteration
   - create_requirement
   - create_requirement_test_report
   - create_saved_view
+  - create_test_case
   - create_ticket
   - create_timelog
   - create_wiki

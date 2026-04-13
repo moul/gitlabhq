@@ -39,7 +39,7 @@ Seat usage is reviewed [quarterly or annually](quarterly_reconciliation.md).
 To prevent unexpectedly adding new billable users, which may result in overage fees, you should:
 
 - [Prevent inviting groups outside the group hierarchy](../user/project/members/sharing_projects_groups.md#prevent-inviting-groups-outside-the-group-hierarchy).
-- Turn on restricted access for a [group](../user/group/manage.md#turn-on-restricted-access) or an [instance](../user/group/manage.md#restricted-access).
+- Turn on restricted access for a [group](../user/group/manage.md#turn-on-restricted-access) or an [instance](../administration/settings/sign_up_restrictions.md#turn-on-restricted-access).
 
 ## Criteria for non-billable users
 
@@ -50,7 +50,7 @@ A user is not counted as a billable user if:
   [banned](../user/group/moderate_users.md#ban-a-user),
   or [blocked](../administration/moderate_users.md#block-a-user).
 - They are not a member of any projects or groups (Ultimate subscriptions only).
-- They have only the [Guest role](#free-guest-users) (Ultimate subscriptions only).
+- They have only the Guest role (Ultimate subscriptions only).
 - They have only the [Minimal Access role](../user/permissions.md#users-with-minimal-access).
 - The account is a GitLab-created service account:
   - [Ghost User](../user/profile/account/delete_account.md#associated-records).
@@ -83,14 +83,14 @@ For example, you purchase a subscription for 10 seats, and during the billing pe
 In this case, you have 3 users over subscription (13 maximum users - 10 purchased seats).
 
 When you exceed your subscription limit, you must pay for the additional users
-[before or at the time of renewal](quarterly_reconciliation.md).
+before or at the time of renewal.
 The cost is based on the maximum number of users during the billing period, not the current number of users.
 
 On GitLab Self-Managed, for trial licenses the users over subscription value is always zero.
 
 To avoid unexpected overage charges, you can:
 
-- [Turn on restricted access](../user/group/manage.md#turn-on-restricted-access) to prevent adding users when no seats remain.
+- Turn on restricted access to prevent adding users when no seats remain.
 - [Require administrator approval for new user accounts](../administration/settings/sign_up_restrictions.md#require-administrator-approval-for-new-user-accounts).
 - Buy more seats proactively when approaching your limit.
 
@@ -132,11 +132,11 @@ confirm that they have no other role assignments in the instance or namespace be
 
 Your subscription cost is based on the maximum number of seats you use during the billing period.
 
-If [restricted access](../user/group/manage.md#turn-on-restricted-access) is:
+If restricted access is:
 
 - On, when there are no seats left in your subscription you must purchase more seats for groups to add new billable users.
 - Off, when there are no seats left in your subscription groups can continue to add billable users.
-  GitLab [bills you for the overage](quarterly_reconciliation.md).
+  GitLab bills you for the overage.
 
 You cannot buy seats for your subscription if either:
 
@@ -194,7 +194,7 @@ To increase the number of users covered by your license, buy more seats
 during the subscription period. The cost of seats added during the subscription
 period is prorated from the date of purchase through to the end of the subscription
 period. You can continue to add users even if you reach the number of users in
-license count. GitLab [bills you for the overage](quarterly_reconciliation.md).
+license count. GitLab bills you for the overage.
 
 If your subscription was activated with an activation code, the additional seats are reflected in
 your instance immediately. If you're using a license file, you receive an updated file.
@@ -222,7 +222,7 @@ its subgroups and projects during the billing period.
 You can add and remove users during the subscription period without incurring additional charges,
 as long as the total number of users at any given time doesn't exceed the number of seats in the subscription.
 If you add more users and exceed the number of purchased seats, you incur an overage,
-which will be included in your next [invoice](quarterly_reconciliation.md).
+which will be included in your next invoice.
 
 ### Seat usage alerts
 
@@ -234,7 +234,7 @@ which will be included in your next [invoice](quarterly_reconciliation.md).
 {{< /history >}}
 
 If you have the Owner role for a top-level group that is linked to a subscription enrolled in
-[quarterly subscription reconciliations](quarterly_reconciliation.md),
+quarterly subscription reconciliations,
 you receive alerts about the seat usage in the subscription.
 
 The alert displays on group, subgroup, and project pages.
@@ -326,7 +326,7 @@ To remove a billable user from your GitLab.com subscription:
 1. In the row for the user you want to remove, on the right side, select **Remove user**.
 1. Re-type the username and select **Remove user**.
 
-If you add a member to a group by using the [share a group with another group](../user/project/members/sharing_projects_groups.md#invite-a-group-to-a-group) feature, you can't remove the member by using this method. Instead, you can either:
+If you add a member to a group by sharing the group with another group, you can't remove the member by using this method. Instead, you can either:
 
 - [Remove the member from the shared group](../user/group/_index.md#remove-a-member-from-the-group).
 - [Remove the invited group](../user/project/members/sharing_projects_groups.md#remove-an-invited-group).
@@ -376,19 +376,24 @@ On GitLab Self-Managed, you can also view the total number of users by role in [
 
 ## Best practices
 
-To effectively manage your subscription seats and control costs, follow these best practices:
+To effectively manage your subscription seats and control costs, follow these best practices.
 
-- Initial setup
-  - [Turn off new user account creation](../administration/settings/sign_up_restrictions.md).
-  - Automatically block new users through [LDAP](../administration/auth/ldap/_index.md#basic-configuration-settings) or [OmniAuth](../integration/omniauth.md#configure-common-settings).
-  - Require approval for [new accounts](../administration/settings/sign_up_restrictions.md#require-administrator-approval-for-new-user-accounts) and [role promotions](../administration/settings/sign_up_restrictions.md#turn-on-administrator-approval-for-role-promotions) to maintain control over seat allocation from the start.
-  - Use seat controls to turn on restricted access, or set a user cap for a [group](../user/group/manage.md#user-cap-for-groups) or an [instance](../administration/settings/sign_up_restrictions.md#user-cap) to prevent unintended seat usage.
-  - Assign non-billable roles like Guest (on Free and Ultimate) or Minimal Access when possible to minimize seat usage.
-- Regular activities
-  - Monitor seat usage and [users statistics](../administration/admin_area.md#users-statistics) regularly to identify potential overages.
-  - Act on seat usage alerts that notify you when seats are running low.
-  - Automatically [deactivate](../administration/moderate_users.md#automatically-deactivate-dormant-users) or [remove](../user/group/moderate_users.md#automatically-remove-dormant-members) dormant members to free up seats for active team members.
-- Strategic planning
-  - Leverage Enterprise Agile Planning seats for non-engineering team members instead of full Ultimate seats.
-  - Plan ahead for growth by buying seats when approaching your limit.
-  - Export and analyze your seat usage history to forecast future needs.
+Initial setup:
+
+- [Turn off new user account creation](../administration/settings/sign_up_restrictions.md#disable-new-user-account-creation).
+- Automatically block new users through [LDAP](../administration/auth/ldap/_index.md#basic-configuration-settings) or [OmniAuth](../integration/omniauth.md#configure-common-settings).
+- Require approval for [new accounts](../administration/settings/sign_up_restrictions.md#require-administrator-approval-for-new-user-accounts) and [role promotions](../administration/settings/sign_up_restrictions.md#turn-on-administrator-approval-for-role-promotions) to maintain control over seat allocation from the start.
+- Use seat controls to turn on restricted access, or set a user cap for a [group](../user/group/manage.md#user-cap-for-groups) or an [instance](../administration/settings/sign_up_restrictions.md#user-cap) to prevent unintended seat usage.
+- Assign non-billable roles like Guest (on Free and Ultimate) or Minimal Access when possible to minimize seat usage.
+
+Regular activities:
+
+- Monitor seat usage and user statistics regularly to identify potential overages.
+- Act on seat usage alerts that notify you when seats are running low.
+- Automatically [deactivate](../administration/moderate_users.md#automatically-deactivate-dormant-users) or [remove](../user/group/moderate_users.md#automatically-remove-dormant-members) dormant members to free up seats for active team members.
+
+Strategic planning:
+
+- Use Enterprise Agile Planning seats for non-engineering team members instead of full Ultimate seats.
+- Plan ahead for growth by buying seats when approaching your limit.
+- Export and analyze your seat usage history to forecast future needs.

@@ -30,7 +30,6 @@ module BulkImports # rubocop:disable Gitlab/BoundedContexts -- will be moved wit
 
         def load(_context, data)
           return unless data.present?
-          return unless Feature.enabled?(:direct_transfer_preallocate_iids, current_user)
 
           ::Gitlab::Import::IidPreallocator.new(portable, data).execute
         end

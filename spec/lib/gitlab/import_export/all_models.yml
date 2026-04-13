@@ -285,6 +285,7 @@ merge_requests:
 - generated_ref_commits
 - policy_dismissals
 - duo_workflows
+- vulnerability_merge_request_links
 external_pull_requests:
 merge_data:
 - merge_request

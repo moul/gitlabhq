@@ -79,8 +79,6 @@ itself: # project
     - repository_object_format
     - marked_for_deletion_at
     - marked_for_deletion_on
-    - pre_receive_secret_detection_enabled
-    - secret_push_protection_enabled
 
 build_auto_devops: # auto_devops
   unexposed_attributes:

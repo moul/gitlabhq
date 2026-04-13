@@ -18,7 +18,6 @@ import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import currentUserNamespace from '~/projects/settings/graphql/queries/current_user_namespace.query.graphql';
 
 export const i18n = {
-  SELECT_A_NAMESPACE: __('Select a new namespace'),
   GROUPS: __('Groups'),
   USERS: __('Users'),
   ERROR_MESSAGE: s__(
@@ -67,11 +66,6 @@ export default {
         return [];
       },
     },
-    label: {
-      type: String,
-      required: false,
-      default: i18n.SELECT_A_NAMESPACE,
-    },
   },
   data() {
     return {
@@ -98,7 +92,7 @@ export default {
       return this.filteredAdditionalDropdownItems.length;
     },
     selectedText() {
-      return this.value?.humanName || this.label;
+      return this.value?.humanName || s__('NamespaceTransfer|Select namespace');
     },
     hasNextPageOfGroups() {
       return this.page < this.totalPages;
@@ -240,7 +234,7 @@ export default {
       @dismiss="handleAlertDismiss"
       >{{ $options.i18n.ERROR_MESSAGE }}</gl-alert
     >
-    <gl-form-group :label="label">
+    <gl-form-group :label="s__('NamespaceTransfer|Select destination namespace')">
       <gl-dropdown
         ref="transferLocationsDropdown"
         :text="selectedText"

@@ -162,7 +162,8 @@ module Gitlab
         def apply_allow_blank(schema)
           if options[:allow_blank] == false || (options[:required] && options[:values])
             schema[:minLength] = 1 if schema[:type] == 'string'
-          else
+          elsif in_value != 'path'
+            # path parameters are never nullable because they are required URL segments
             schema[:nullable] = true
           end
         end

@@ -168,7 +168,9 @@ You might get an error that states
 This error occurs when Code Review Flow is turned on, but the service account for the top-level group
 is not ready or is still being created.
 
-Wait a few minutes for the service account to activate, then try again. If the error persists, contact your administrator.
+Wait a few minutes for the service account to activate, then try again. If the error persists,
+contact your administrator and ask them to verify that a service account has been created
+in the top-level group with the Developer role.
 
 ### `Error DCR4002`
 

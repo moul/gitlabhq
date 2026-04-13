@@ -22,6 +22,7 @@ project:
   - admin_value_stream
   - admin_work_item
   - create_design
+  - create_epic
   - create_incident
   - create_iteration
   - create_project_secrets
@@ -29,6 +30,7 @@ project:
   - create_requirement_test_report
   - create_saved_view
   - create_snippet
+  - create_test_case
   - create_ticket
   - create_timelog
   - daily_statistics

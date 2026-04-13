@@ -43,6 +43,8 @@ Use the Data Analyst Agent when you need help with:
 <i class="fa-youtube-play" aria-hidden="true"></i>
 For an overview, see the [GitLab Duo Data Analyst demo](https://youtu.be/9MTT2P_t-CU).
 
+You can leave feedback in [issue 574028](https://gitlab.com/gitlab-org/gitlab/-/issues/574028).
+
 ## Known issues
 
 - The agent can perform light aggregation on queried data, but results may be

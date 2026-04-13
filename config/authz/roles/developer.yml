@@ -49,8 +49,11 @@ project:
   - edit_on_demand_dast_scan
   - enable_continuous_vulnerability_scans
   - execute_ai_catalog_item
+  - keep_job_artifacts
+  - play_job
   - provide_status_check_response
   - publish_catalog_version
+  - publish_status_page
   - push_code
   - read_ai_catalog_flow
   - read_ai_catalog_third_party_flow
@@ -71,6 +74,7 @@ project:
   - read_project_audit_events
   - read_project_security_exclusions
   - read_resource_group
+  - read_secret_push_protection_info
   - read_secure_files
   - read_security_configuration
   - read_security_inventory
@@ -84,8 +88,11 @@ project:
   - reopen_merge_request
   - resolve_note
   - retry_failed_status_checks
+  - retry_job
   - trigger_amazon_q
+  - unschedule_job
   - update_alert_management_alert
+  - update_build
   - update_container_image
   - update_deployment
   - update_environment
@@ -100,7 +107,6 @@ project:
   - update_sentry_issue
   - update_vulnerability_flag
   - write_observability
-
 group:
   permissions: []
   raw_permissions:

@@ -386,8 +386,6 @@ class ProjectPolicy < BasePolicy
 
   rule { can?(:developer_access) }.policy do
     enable(*Authz::Role.get(:developer).direct_permissions(:project))
-
-    enable(*all_job_update_abilities)
   end
 
   rule { can?(:maintainer_access) }.policy do

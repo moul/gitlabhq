@@ -183,7 +183,7 @@ RSpec.describe 'Edit group settings', :with_current_organization, feature_catego
         visit edit_group_path(selected_group)
 
         within_testid('transfer-locations-dropdown') do
-          click_button _('Select parent group')
+          click_button s_('NamespaceTransfer|Select namespace')
           fill_in _('Search'), with: target_group&.name || ''
           wait_for_requests
           click_button(target_group&.name || 'No parent group')

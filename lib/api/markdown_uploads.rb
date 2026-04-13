@@ -60,7 +60,7 @@ module API
       end
       route_setting :authorization, permissions: :create_markdown_upload, boundary_type: :project
       post ':id/uploads' do
-        upload = UploadService.new(user_project, params[:file], uploaded_by_user_id: current_user&.id).execute
+        upload = UploadService.new(user_project, params[:file], uploaded_by_user_id: current_user.id).execute
 
         present upload, with: Entities::ProjectUpload
       end

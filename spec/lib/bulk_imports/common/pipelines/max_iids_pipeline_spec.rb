@@ -142,38 +142,16 @@ RSpec.describe BulkImports::Common::Pipelines::MaxIidsPipeline, feature_category
         write_max_iids_json(max_iids_data)
       end
 
-      context 'when feature flag is enabled' do
-        before do
-          stub_feature_flags(direct_transfer_preallocate_iids: true)
+      it 'calls IidPreallocator with the parsed data' do
+        expect_next_instance_of(Gitlab::Import::IidPreallocator, project, { issues: 42, merge_requests: 17 }) do |p|
+          expect(p).to receive(:execute)
         end
 
-        it 'calls IidPreallocator with the parsed data' do
-          expect_next_instance_of(Gitlab::Import::IidPreallocator, project, { issues: 42, merge_requests: 17 }) do |p|
-            expect(p).to receive(:execute)
-          end
-
-          pipeline.run
-        end
-      end
-
-      context 'when feature flag is disabled' do
-        before do
-          stub_feature_flags(direct_transfer_preallocate_iids: false)
-        end
-
-        it 'does not call IidPreallocator' do
-          expect(Gitlab::Import::IidPreallocator).not_to receive(:new)
-
-          pipeline.run
-        end
+        pipeline.run
       end
 
       context 'when max_iids data is empty' do
         let(:max_iids_data) { {} }
-
-        before do
-          stub_feature_flags(direct_transfer_preallocate_iids: true)
-        end
 
         it 'does not call IidPreallocator' do
           expect(Gitlab::Import::IidPreallocator).not_to receive(:new)
@@ -222,7 +200,6 @@ RSpec.describe BulkImports::Common::Pipelines::MaxIidsPipeline, feature_category
         end
 
         write_max_iids_json(max_iids_data)
-        stub_feature_flags(direct_transfer_preallocate_iids: true)
       end
 
       it 'calls IidPreallocator with the parsed data' do
