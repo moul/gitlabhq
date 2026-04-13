@@ -121,6 +121,7 @@ import {
   PARAM_PAGE_BEFORE,
   PARAM_STATE,
 } from '~/work_items/list/constants';
+import { getSortedWorkItems, combineWorkItemLists } from '~/work_items/utils';
 
 import searchProjectsQuery from '../list/graphql/search_projects.query.graphql';
 
@@ -137,8 +138,6 @@ import EmptyStateWithoutAnyTickets from '../list/components/empty_state_without_
 import InfoBanner from '../list/components/info_banner.vue';
 import NewSavedViewModal from '../list/components/work_items_new_saved_view_modal.vue';
 import WorkItemsOnboardingModal from '../components/work_items_onboarding_modal/work_items_onboarding_modal.vue';
-
-import { combineWorkItemLists } from '../utils';
 
 import {
   WORK_ITEM_TYPE_NAME_TICKET,
@@ -523,11 +522,13 @@ export default {
 
   computed: {
     workItems() {
-      return combineWorkItemLists(
+      const combined = combineWorkItemLists(
         this.workItemsSlim,
         this.workItemsFull,
         Boolean(this.glFeatures.workItemFeaturesField),
       );
+      const sortKey = this.queryVariables.sort || CREATED_DESC;
+      return getSortedWorkItems(combined, sortKey);
     },
     hasSearch() {
       return Boolean(this.searchQuery);

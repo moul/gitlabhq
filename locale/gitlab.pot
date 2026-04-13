@@ -37228,6 +37228,9 @@ msgstr ""
 msgid "Incident creation cancelled."
 msgstr ""
 
+msgid "Incident management inbound alert requests"
+msgstr ""
+
 msgid "Incident template (optional)."
 msgstr ""
 

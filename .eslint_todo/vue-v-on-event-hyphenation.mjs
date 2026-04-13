@@ -3,7 +3,6 @@
  */
 export default {
   files: [
-    'app/assets/javascripts/admin/abuse_reports/components/abuse_reports_filtered_search_bar.vue',
     'app/assets/javascripts/alerts_settings/components/alerts_settings_wrapper.vue',
     'app/assets/javascripts/analytics/cycle_analytics/components/base.vue',
     'app/assets/javascripts/analytics/cycle_analytics/components/filter_bar.vue',

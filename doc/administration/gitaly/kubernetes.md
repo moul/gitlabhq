@@ -312,3 +312,16 @@ gitlab:
 
 Monitor disk usage regularly for long-running Gitaly containers because log file growth can cause storage issues if
 [log rotation is not enabled](https://docs.gitlab.com/charts/charts/globals/#log-rotation).
+
+## Migrate to Gitaly on Kubernetes
+
+To migrate existing repositories from non-Kubernetes Gitaly nodes to Gitaly on Kubernetes:
+
+1. Deploy your Gitaly on Kubernetes nodes and [add them as new repository storages](../repository_storage_paths.md#configure-where-new-repositories-are-stored).
+   in the GitLab Admin area. Configure storage weights so that all new repositories are created on the new repository storages.
+   This prevents new projects from being created on the old repository storages while the migration is in progress.
+1. Use the repository move API to move existing repositories to the new storages.
+   GitLab repositories can be associated with projects, groups, and snippets, and each type has a separate API.
+   For complete instructions, see [moving repositories managed by GitLab](../operations/moving_repositories.md).
+
+Each repository is made read-only for the duration of the move and is not writable until the move is complete.

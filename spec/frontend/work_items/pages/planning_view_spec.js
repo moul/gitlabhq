@@ -19,6 +19,10 @@ import { useMockInternalEventsTracking } from 'helpers/tracking_internal_events_
 
 import {
   CREATED_DESC,
+  CREATED_ASC,
+  TITLE_ASC,
+  TITLE_DESC,
+  UPDATED_ASC,
   RELATIVE_POSITION_ASC,
   UPDATED_DESC,
   urlSortParams,
@@ -2321,6 +2325,98 @@ describe('planning-view', () => {
           expect(findEmptyStateWithAnyIssues().exists()).toBe(true);
           expect(findCreateWorkItemModal().exists()).toBe(true);
         });
+      });
+    });
+
+    describe('sorting work items', () => {
+      it('sorts work items by created date in descending order by default', async () => {
+        mountComponent();
+        await waitForPromises();
+
+        const workItems = findListView().props('workItems');
+        // Verify that items are sorted by created date descending
+        // The default mock data should be sorted by creation date
+        expect(workItems.length).toBeGreaterThan(0);
+        if (workItems.length > 1) {
+          const firstCreatedAt = new Date(workItems[0].createdAt);
+          const secondCreatedAt = new Date(workItems[1].createdAt);
+          expect(firstCreatedAt.getTime()).toBeGreaterThanOrEqual(secondCreatedAt.getTime());
+        }
+      });
+
+      it('sorts work items by created date in ascending order', async () => {
+        mountComponent();
+        findFilteredSearchBar().vm.$emit('onSort', CREATED_ASC);
+        await waitForPromises();
+
+        const workItems = findListView().props('workItems');
+        // Verify that items are sorted by created date ascending
+        expect(workItems.length).toBeGreaterThan(0);
+        if (workItems.length > 1) {
+          const firstCreatedAt = new Date(workItems[0].createdAt);
+          const secondCreatedAt = new Date(workItems[1].createdAt);
+          expect(firstCreatedAt.getTime()).toBeLessThanOrEqual(secondCreatedAt.getTime());
+        }
+      });
+
+      it('sorts work items by title in ascending order', async () => {
+        mountComponent();
+        findFilteredSearchBar().vm.$emit('onSort', TITLE_ASC);
+        await waitForPromises();
+
+        const workItems = findListView().props('workItems');
+        // Verify that items are sorted by title ascending
+        expect(workItems.length).toBeGreaterThan(0);
+        if (workItems.length > 1) {
+          const firstTitle = (workItems[0].title || '').toLowerCase();
+          const secondTitle = (workItems[1].title || '').toLowerCase();
+          expect(firstTitle.localeCompare(secondTitle)).toBeLessThanOrEqual(0);
+        }
+      });
+
+      it('sorts work items by title in descending order', async () => {
+        mountComponent();
+        findFilteredSearchBar().vm.$emit('onSort', TITLE_DESC);
+        await waitForPromises();
+
+        const workItems = findListView().props('workItems');
+        // Verify that items are sorted by title descending
+        expect(workItems.length).toBeGreaterThan(0);
+        if (workItems.length > 1) {
+          const firstTitle = (workItems[0].title || '').toLowerCase();
+          const secondTitle = (workItems[1].title || '').toLowerCase();
+          expect(firstTitle.localeCompare(secondTitle)).toBeGreaterThanOrEqual(0);
+        }
+      });
+
+      it('sorts work items by updated date in descending order', async () => {
+        mountComponent();
+        findFilteredSearchBar().vm.$emit('onSort', UPDATED_DESC);
+        await waitForPromises();
+
+        const workItems = findListView().props('workItems');
+        // Verify that items are sorted by updated date descending
+        expect(workItems.length).toBeGreaterThan(0);
+        if (workItems.length > 1) {
+          const firstUpdatedAt = new Date(workItems[0].updatedAt);
+          const secondUpdatedAt = new Date(workItems[1].updatedAt);
+          expect(firstUpdatedAt.getTime()).toBeGreaterThanOrEqual(secondUpdatedAt.getTime());
+        }
+      });
+
+      it('sorts work items by updated date in ascending order', async () => {
+        mountComponent();
+        findFilteredSearchBar().vm.$emit('onSort', UPDATED_ASC);
+        await waitForPromises();
+
+        const workItems = findListView().props('workItems');
+        // Verify that items are sorted by updated date ascending
+        expect(workItems.length).toBeGreaterThan(0);
+        if (workItems.length > 1) {
+          const firstUpdatedAt = new Date(workItems[0].updatedAt);
+          const secondUpdatedAt = new Date(workItems[1].updatedAt);
+          expect(firstUpdatedAt.getTime()).toBeLessThanOrEqual(secondUpdatedAt.getTime());
+        }
       });
     });
   });

@@ -20,7 +20,7 @@ title: AGENTS.md customization files
   - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.47.0) in GitLab Duo CLI 8.47.0.
 - Support for `AGENTS.md` in agentic flows [introduced](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/issues/1509) in GitLab 18.8.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/585273) in GitLab 18.8.
-- Support for GitLab UI [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/593279) in GitLab 18.11 with a [feature flag](../../../administration/feature_flags/_index.md) named `web_agentic_chat_rules_context_injection`. Disabled by default.
+- Support for GitLab UI [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/593279) in GitLab 18.11.
 
 {{< /history >}}
 

@@ -355,6 +355,40 @@ You can now start a new chat and ask a question depending on the [available tool
 > You're responsible for guarding against prompt injection when you use these tools.
 > Exercise extreme caution or use MCP tools only on GitLab objects you trust.
 
+## Connect Kiro IDE and CLI to the GitLab MCP server
+
+Kiro IDE and CLI use HTTP transport for direct connection without additional dependencies.
+To configure the GitLab MCP server in Kiro IDE or CLI:
+
+1. Edit `~/.kiro/settings/mcp.json` and add the GitLab MCP server.
+   - Replace `<gitlab.example.com>` with:
+     - On GitLab Self-Managed, your GitLab instance URL.
+     - On GitLab.com, `gitlab.com`.
+
+   ```json
+   {
+     "mcpServers": {
+       "GitLab": {
+         "type": "http",
+         "url": "https://<gitlab.example.com>/api/v4/mcp"
+       }
+     }
+   }
+   ```
+
+1. Save the configuration.
+
+   The OAuth authorization page should appear.
+   Otherwise, open Kiro CLI and run the `/mcp` command.
+
+1. In your browser, review and approve the authorization request.
+
+You can now start a new chat and ask a question depending on the [available tools](mcp_server_tools.md).
+
+> [!warning]
+> You're responsible for guarding against prompt injection when you use these tools.
+> Exercise extreme caution or use MCP tools only on GitLab objects you trust.
+
 ## Connect OpenAI Codex to the GitLab MCP server
 
 OpenAI Codex uses HTTP transport for direct connection without additional dependencies.

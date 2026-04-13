@@ -25,6 +25,8 @@ import {
   WORK_ITEM_TYPE_NAME_TASK,
   WORK_ITEM_TYPE_NAME_TEST_CASE,
   WORK_ITEM_TYPE_NAME_TICKET,
+  WIDGET_TYPE_MILESTONE,
+  WIDGET_TYPE_START_AND_DUE_DATE,
 } from '~/work_items/constants';
 import {
   autocompleteDataSources,
@@ -57,9 +59,28 @@ import {
   getLastUsedWorkItemTypeIdForNamespace,
   combineWorkItemLists,
   isCurrentViewWorkItem,
+  getSortValue,
 } from '~/work_items/utils';
 import { useLocalStorageSpy } from 'helpers/local_storage_helper';
 import { TYPE_EPIC } from '~/issues/constants';
+import {
+  CLOSED_AT_ASC,
+  CLOSED_AT_DESC,
+  CREATED_ASC,
+  CREATED_DESC,
+  DUE_DATE_ASC,
+  DUE_DATE_DESC,
+  MILESTONE_DUE_ASC,
+  MILESTONE_DUE_DESC,
+  POPULARITY_ASC,
+  POPULARITY_DESC,
+  START_DATE_ASC,
+  START_DATE_DESC,
+  TITLE_ASC,
+  TITLE_DESC,
+  UPDATED_ASC,
+  UPDATED_DESC,
+} from '~/work_items/list/constants';
 import { workItemQueryResponse } from './mock_data';
 
 describe('formatLabelForListbox', () => {
@@ -1006,6 +1027,81 @@ describe('findAssigneesWidget', () => {
 
   it('returns undefined when neither exists', () => {
     expect(findAssigneesWidget({ widgets: [] })).toBeUndefined();
+  });
+});
+
+describe('getSortValue', () => {
+  const mockItem = {
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-02-20T14:30:00Z',
+    closedAt: '2024-03-10T16:45:00Z',
+    title: 'Test Work Item',
+    widgets: [
+      {
+        type: WIDGET_TYPE_AWARD_EMOJI,
+        upvotes: 5,
+      },
+      {
+        type: WIDGET_TYPE_START_AND_DUE_DATE,
+        dueDate: '2024-05-15',
+        startDate: '2024-05-01',
+      },
+      {
+        type: WIDGET_TYPE_MILESTONE,
+        milestone: {
+          dueDate: '2024-04-30',
+          startDate: '2024-04-01',
+        },
+      },
+    ],
+  };
+
+  it.each`
+    sortKey               | itemModifier                                          | expectedResult
+    ${CREATED_ASC}        | ${(item) => item}                                     | ${new Date('2024-01-15T10:00:00Z')}
+    ${CREATED_DESC}       | ${(item) => item}                                     | ${new Date('2024-01-15T10:00:00Z')}
+    ${UPDATED_ASC}        | ${(item) => item}                                     | ${new Date('2024-02-20T14:30:00Z')}
+    ${UPDATED_DESC}       | ${(item) => item}                                     | ${new Date('2024-02-20T14:30:00Z')}
+    ${CLOSED_AT_ASC}      | ${(item) => item}                                     | ${new Date('2024-03-10T16:45:00Z')}
+    ${CLOSED_AT_DESC}     | ${(item) => item}                                     | ${new Date('2024-03-10T16:45:00Z')}
+    ${MILESTONE_DUE_ASC}  | ${(item) => item}                                     | ${new Date('2024-04-30')}
+    ${MILESTONE_DUE_DESC} | ${(item) => item}                                     | ${new Date('2024-04-30')}
+    ${DUE_DATE_ASC}       | ${(item) => item}                                     | ${new Date('2024-05-15')}
+    ${DUE_DATE_DESC}      | ${(item) => item}                                     | ${new Date('2024-05-15')}
+    ${START_DATE_ASC}     | ${(item) => item}                                     | ${new Date('2024-05-01')}
+    ${START_DATE_DESC}    | ${(item) => item}                                     | ${new Date('2024-05-01')}
+    ${TITLE_ASC}          | ${(item) => item}                                     | ${'test work item'}
+    ${TITLE_DESC}         | ${(item) => item}                                     | ${'test work item'}
+    ${TITLE_ASC}          | ${(item) => ({ ...item, title: 'MiXeD CaSe TiTlE' })} | ${'mixed case title'}
+    ${POPULARITY_ASC}     | ${(item) => item}                                     | ${5}
+    ${POPULARITY_DESC}    | ${(item) => item}                                     | ${5}
+  `('returns $expectedResult for $sortKey', ({ sortKey, itemModifier, expectedResult }) => {
+    const item = itemModifier(mockItem);
+    const result = getSortValue(item, sortKey);
+    expect(result).toEqual(expectedResult);
+  });
+
+  it.each`
+    sortKey               | itemModifier                                                                                                                              | expectedResult
+    ${CLOSED_AT_ASC}      | ${(item) => ({ ...item, closedAt: null })}                                                                                                | ${null}
+    ${CLOSED_AT_DESC}     | ${(item) => ({ ...item, closedAt: null })}                                                                                                | ${null}
+    ${TITLE_ASC}          | ${(item) => ({ ...item, title: null })}                                                                                                   | ${''}
+    ${TITLE_DESC}         | ${(item) => ({ ...item, title: null })}                                                                                                   | ${''}
+    ${POPULARITY_DESC}    | ${(item) => ({ ...item, widgets: item.widgets.map((w) => (w.type === WIDGET_TYPE_AWARD_EMOJI ? { ...w, upvotes: undefined } : w)) })}     | ${null}
+    ${MILESTONE_DUE_ASC}  | ${(item) => ({ ...item, widgets: item.widgets.filter((w) => w.type !== WIDGET_TYPE_MILESTONE) })}                                         | ${null}
+    ${MILESTONE_DUE_DESC} | ${(item) => ({ ...item, widgets: item.widgets.filter((w) => w.type !== WIDGET_TYPE_MILESTONE) })}                                         | ${null}
+    ${MILESTONE_DUE_ASC}  | ${(item) => ({ ...item, widgets: item.widgets.map((w) => (w.type === WIDGET_TYPE_MILESTONE ? { ...w, milestone: {} } : w)) })}            | ${null}
+    ${MILESTONE_DUE_DESC} | ${(item) => ({ ...item, widgets: item.widgets.map((w) => (w.type === WIDGET_TYPE_MILESTONE ? { ...w, milestone: {} } : w)) })}            | ${null}
+    ${DUE_DATE_ASC}       | ${(item) => ({ ...item, widgets: item.widgets.filter((w) => w.type !== WIDGET_TYPE_START_AND_DUE_DATE) })}                                | ${null}
+    ${DUE_DATE_DESC}      | ${(item) => ({ ...item, widgets: item.widgets.map((w) => (w.type === WIDGET_TYPE_START_AND_DUE_DATE ? { ...w, dueDate: null } : w)) })}   | ${null}
+    ${START_DATE_ASC}     | ${(item) => ({ ...item, widgets: item.widgets.filter((w) => w.type !== WIDGET_TYPE_START_AND_DUE_DATE) })}                                | ${null}
+    ${START_DATE_DESC}    | ${(item) => ({ ...item, widgets: item.widgets.map((w) => (w.type === WIDGET_TYPE_START_AND_DUE_DATE ? { ...w, startDate: null } : w)) })} | ${null}
+    ${'UNKNOWN_SORT_KEY'} | ${(item) => item}                                                                                                                         | ${null}
+    ${''}                 | ${(item) => item}                                                                                                                         | ${null}
+  `('returns null for $sortKey', ({ sortKey, itemModifier, expectedResult }) => {
+    const item = itemModifier(mockItem);
+    const result = getSortValue(item, sortKey);
+    expect(result).toEqual(expectedResult);
   });
 });
 

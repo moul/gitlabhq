@@ -21,7 +21,7 @@ title: Custom rules
   - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.43.0) in GitLab Duo CLI 8.43.0.
 - User-level custom rules [added](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/merge_requests/2452) in GitLab 18.7.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/585273) in GitLab 18.8.
-- Support for GitLab UI [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/593279) in GitLab 18.11 with a [feature flag](../../../administration/feature_flags/_index.md) named `web_agentic_chat_rules_context_injection`. Disabled by default.
+- Support for GitLab UI [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/593279) in GitLab 18.11.
 
 {{< /history >}}
 
