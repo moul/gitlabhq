@@ -44660,7 +44660,7 @@ CREATE INDEX idx_slack_integrations_scopes_on_slack_api_scope_id ON slack_integr
 
 CREATE UNIQUE INDEX idx_software_license_policies_unique_on_custom_license_project ON software_license_policies USING btree (project_id, custom_software_license_id, scan_result_policy_id);
 
-CREATE INDEX idx_spep_test_runs_pipeline_id ON security_scheduled_pipeline_execution_policy_test_runs USING btree (pipeline_id);
+CREATE UNIQUE INDEX idx_spep_test_runs_pipeline_id_unique ON security_scheduled_pipeline_execution_policy_test_runs USING btree (pipeline_id) WHERE (pipeline_id IS NOT NULL);
 
 CREATE INDEX idx_spep_test_runs_policy_id ON security_scheduled_pipeline_execution_policy_test_runs USING btree (security_policy_id);
 

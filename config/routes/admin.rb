@@ -2,7 +2,7 @@
 
 namespace :admin do
   namespace :registrations do
-    resources :groups, only: [:new]
+    resources :groups, only: [:new, :create]
   end
 
   resources :users, constraints: { id: %r{[a-zA-Z./0-9_\-]+} } do

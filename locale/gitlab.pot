@@ -21696,9 +21696,6 @@ msgstr ""
 msgid "Create your first page"
 msgstr ""
 
-msgid "Create your first project"
-msgstr ""
-
 msgid "Create, update, or delete a merge request."
 msgstr ""
 
@@ -45561,6 +45558,24 @@ msgstr ""
 msgid "NamespaceStorage|You have used %{used_storage_percentage} of the storage quota for %{name} (%{current_size} of %{limit})."
 msgstr ""
 
+msgid "NamespaceTransfer|An error occurred while transferring the project. Please refresh the page to try again."
+msgstr ""
+
+msgid "NamespaceTransfer|Change its repository URL path."
+msgstr ""
+
+msgid "NamespaceTransfer|Change its visibility settings to match the new namespace."
+msgstr ""
+
+msgid "NamespaceTransfer|Transfer - %{name}"
+msgstr ""
+
+msgid "NamespaceTransfer|Transfer this project to a different namespace. %{linkStart}How does project transfer work?%{linkEnd}"
+msgstr ""
+
+msgid "NamespaceTransfer|Transferring this project will:"
+msgstr ""
+
 msgid "NamespaceUserCap|Pending users must be reviewed and approved by a group owner. Learn more about %{user_caps_link_start}user caps%{link_end} and %{users_pending_approval_link_start}users pending approval%{link_end}."
 msgstr ""
 
@@ -48666,7 +48681,19 @@ msgstr ""
 msgid "Ona"
 msgstr ""
 
+msgid "Onboarding|Continue"
+msgstr ""
+
+msgid "Onboarding|Create your first project"
+msgstr ""
+
+msgid "Onboarding|Group"
+msgstr ""
+
 msgid "Onboarding|Group failed to be created"
+msgstr ""
+
+msgid "Onboarding|Group name"
 msgstr ""
 
 msgid "Onboarding|If you can't find your organization, request an invite from your company's GitLab administrator."
@@ -48675,7 +48702,19 @@ msgstr ""
 msgid "Onboarding|Looking for your team?"
 msgstr ""
 
+msgid "Onboarding|Project"
+msgstr ""
+
 msgid "Onboarding|Project failed to be created"
+msgstr ""
+
+msgid "Onboarding|Project name"
+msgstr ""
+
+msgid "Onboarding|Projects help you organize your work. They contain your file repository, issues, merge requests, and so much more."
+msgstr ""
+
+msgid "Onboarding|Skip"
 msgstr ""
 
 msgid "Once imported, repositories can be mirrored over SSH. Read more %{link_start}here%{link_end}."

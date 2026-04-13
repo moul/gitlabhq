@@ -3,7 +3,7 @@
 # rubocop:disable RSpec/VerifiedDoubles
 RSpec.describe Gitlab::GrapeOpenapi::Models::RequestBody::ParameterSchema do
   subject(:parameter_schema) do
-    described_class.new(route: route)
+    described_class.new(route: route, key: key, param_options: param_options)
   end
 
   let(:route) do
@@ -24,7 +24,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Models::RequestBody::ParameterSchema do
 
   describe '#build' do
     subject(:method_call) do
-      parameter_schema.build(key, param_options)
+      parameter_schema.build
     end
 
     describe 'allow_blank behavior' do

@@ -22,6 +22,11 @@ Use cases:
 - Multi-platform builds: Compile for different platforms without waiting for all builds to finish.
 - Faster feedback: Get test results and errors earlier.
 
+> [!note]
+> The `needs: project` and `needs: pipeline` keywords are not used to specify job dependencies.
+> Use [`needs: project`](_index.md#needsproject) to fetch artifacts from other pipelines.
+> Use [`needs: pipeline`](_index.md#needspipeline) to mirror the pipeline status from an upstream pipeline.
+
 ## How `needs` works
 
 By default, jobs run in stages. A job waits for all jobs in the previous stage to finish before it starts.
