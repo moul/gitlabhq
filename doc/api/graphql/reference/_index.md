@@ -38576,6 +38576,7 @@ Returns [`PipelineAnalytics`](#pipelineanalytics).
 | <a id="group-pipelineanalytics-fromtime"></a>`fromTime` | [`Time`](#time) | Start of the requested time (in UTC). Defaults to the pipelines started in the past week. |
 | <a id="group-pipelineanalytics-ref"></a>`ref` | [`String`](#string) | Branch that triggered the pipeline. |
 | <a id="group-pipelineanalytics-source"></a>`source` | [`CiPipelineSources`](#cipipelinesources) | Source of the pipeline. |
+| <a id="group-pipelineanalytics-subgroupfullpaths"></a>`subgroupFullPaths` {{< icon name="warning-solid" >}} | [`[String!]`](#string) | **Introduced** in GitLab 18.11. **Status**: Experiment. Full paths of subgroups to filter by. Only applies when querying pipeline analytics for a group (maximum is 10). |
 | <a id="group-pipelineanalytics-totime"></a>`toTime` | [`Time`](#time) | End of the requested time (in UTC). Defaults to the pipelines started before the current date. |
 
 ##### `Group.pipelineExecutionPolicies`
@@ -48195,6 +48196,7 @@ Returns [`PipelineAnalytics`](#pipelineanalytics).
 | <a id="project-pipelineanalytics-fromtime"></a>`fromTime` | [`Time`](#time) | Start of the requested time (in UTC). Defaults to the pipelines started in the past week. |
 | <a id="project-pipelineanalytics-ref"></a>`ref` | [`String`](#string) | Branch that triggered the pipeline. |
 | <a id="project-pipelineanalytics-source"></a>`source` | [`CiPipelineSources`](#cipipelinesources) | Source of the pipeline. |
+| <a id="project-pipelineanalytics-subgroupfullpaths"></a>`subgroupFullPaths` {{< icon name="warning-solid" >}} | [`[String!]`](#string) | **Introduced** in GitLab 18.11. **Status**: Experiment. Full paths of subgroups to filter by. Only applies when querying pipeline analytics for a group (maximum is 10). |
 | <a id="project-pipelineanalytics-totime"></a>`toTime` | [`Time`](#time) | End of the requested time (in UTC). Defaults to the pipelines started before the current date. |
 
 ##### `Project.pipelineCounts`

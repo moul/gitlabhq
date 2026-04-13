@@ -14,8 +14,6 @@ DELETE /projects/:id/approval_settings/rules/:approval_rule_id
 DELETE /projects/:id/error_tracking/client_keys/:key_id
 DELETE /projects/:id/integrations/:slug
 DELETE /projects/:id/issues/:issue_iid/metric_images/:metric_image_id
-DELETE /projects/:id/labels
-DELETE /projects/:id/labels/:name
 DELETE /projects/:id/managed_licenses/:managed_license_id
 DELETE /projects/:id/ml/mlflow/api/2.0/mlflow/registered-models/delete
 DELETE /projects/:id/packages/:package_id/package_files/:package_file_id
@@ -106,8 +104,6 @@ GET /projects/:id/google_cloud/setup/runner_deployment_project.sh
 GET /projects/:id/integrations
 GET /projects/:id/integrations/:slug
 GET /projects/:id/issues/:issue_iid/metric_images
-GET /projects/:id/labels
-GET /projects/:id/labels/:name
 GET /projects/:id/managed_licenses
 GET /projects/:id/managed_licenses/:managed_license_id
 GET /projects/:id/merge_requests/:merge_request_iid/approval_settings
@@ -218,7 +214,6 @@ POST /projects/:id/integrations/slack_slash_commands/trigger
 POST /projects/:id/issues/:issue_iid/metric_images
 POST /projects/:id/issues/:subscribable_id/subscribe
 POST /projects/:id/issues/:subscribable_id/unsubscribe
-POST /projects/:id/labels
 POST /projects/:id/labels/:subscribable_id/subscribe
 POST /projects/:id/labels/:subscribable_id/unsubscribe
 POST /projects/:id/managed_licenses
@@ -399,10 +394,6 @@ PUT /projects/:id/integrations/webex-teams
 PUT /projects/:id/integrations/youtrack
 PUT /projects/:id/integrations/zentao
 PUT /projects/:id/issues/:issue_iid/metric_images/:metric_image_id
-PUT /projects/:id/labels
-PUT /projects/:id/labels/:name
-PUT /projects/:id/labels/:name/promote
-PUT /projects/:id/labels/promote
 PUT /projects/:id/packages/ml_models/:model_version_id/files/(*path/):file_name
 PUT /projects/:id/services/apple-app-store
 PUT /projects/:id/services/asana

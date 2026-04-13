@@ -49,52 +49,6 @@ The diff also includes navigation and comment aids to the left of the file, in t
     a line number, then select **Copy link address**.
   - To highlight a line, select the line number.
 
-## Rapid Diffs
-
-{{< details >}}
-
-- Tier: Free, Premium, Ultimate
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
-
-{{< history >}}
-
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/590833) in GitLab 18.1 [with a flag](../../../administration/feature_flags/_index.md) named `rapid_diffs_on_mr_show`. Disabled by default.
-
-{{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag.
-> For more information, see the history.
-> This feature is available for testing, but not ready for production use.
-
-Rapid Diffs is a faster way to load and interact with code changes in merge requests.
-It reduces the time before you see the first file when reviewing a diff.
-
-### Turn on Rapid Diffs
-
-To turn on Rapid Diffs for all merge requests:
-
-1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Code** > **Merge requests** and find your merge request.
-1. Below the merge request title, select **Changes**.
-1. Select **Try Rapid Diffs**.
-
-The page reloads with the new experience. Your preference persists across sessions.
-
-To share feedback about Rapid Diffs, select **Rapid Diffs** > **Leave feedback**.
-
-### Turn off Rapid Diffs
-
-To turn off Rapid Diffs and switch back to the classic diff loading experience:
-
-1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Code** > **Merge requests** and find your merge request.
-1. Below the merge request title, select **Changes**.
-1. Select **Rapid Diffs** to open the dropdown list.
-1. Select **Switch to classic loading**.
-
 ## Show a list of changed files
 
 Use the file browser to view a list of files changed in a merge request:
@@ -285,6 +239,50 @@ To change how a merge request shows changed lines:
    {{< /tab >}}
 
    {{< /tabs >}}
+
+## Rapid Diffs
+
+{{< details >}}
+
+- Status: Beta
+
+{{< /details >}}
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/590833) in GitLab 18.1 [with a flag](../../../administration/feature_flags/_index.md) named `rapid_diffs_on_mr_show`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of this feature is controlled by a feature flag.
+> For more information, see the history.
+
+Rapid Diffs is a faster way to load and interact with code changes in merge requests.
+It reduces the time before you see the first file when reviewing a diff.
+
+### Turn on Rapid Diffs
+
+To turn on Rapid Diffs for all merge requests:
+
+1. In the top bar, select **Search or go to** and find your project.
+1. In the left sidebar, select **Code** > **Merge requests** and find your merge request.
+1. Below the merge request title, select **Changes**.
+1. Select **Try Rapid Diffs**.
+
+The page reloads with the new experience. Your preference persists across sessions.
+
+To share feedback about Rapid Diffs, select **Rapid Diffs** > **Leave feedback**.
+
+### Turn off Rapid Diffs
+
+To turn off Rapid Diffs and switch back to the classic diff loading experience:
+
+1. In the top bar, select **Search or go to** and find your project.
+1. In the left sidebar, select **Code** > **Merge requests** and find your merge request.
+1. Below the merge request title, select **Changes**.
+1. Select **Rapid Diffs** to open the dropdown list.
+1. Select **Switch to classic loading**.
 
 ## Explain code in a merge request
 

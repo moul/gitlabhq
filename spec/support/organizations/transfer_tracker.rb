@@ -79,19 +79,42 @@ module Gitlab
       end
 
       def build_partition_map
-        Gitlab::Database::Dictionary.entries.each_with_object({}) do |entry, map|
-          next unless entry.sharding_key.is_a?(Hash) && entry.sharding_key.key?('organization_id')
+        entries = org_sharded_dictionary_entries
+        partitions_by_parent = fetch_partitions_by_parent(entries)
 
-          entry.classes&.each do |klass_name|
-            klass = klass_name.safe_constantize
-            next unless klass.respond_to?(:table_name)
-
-            base = klass.table_name
+        entries.each_with_object({}) do |entry, map|
+          resolve_base_table_names(entry).each do |base|
             next if base == entry.table_name
+
+            partitions = partitions_by_parent[base] || []
+            # Skip unless entry.table_name is an actual Postgres partition of the base table,
+            # not just a table that happens to share a model class (e.g. Upload).
+            next unless partitions.any? { |p| p.name == entry.table_name }
 
             (map[base] ||= []) << entry.table_name
           end
         end
+      end
+
+      def org_sharded_dictionary_entries
+        Gitlab::Database::Dictionary.entries.select do |e|
+          e.sharding_key.is_a?(Hash) && e.sharding_key.key?('organization_id')
+        end
+      end
+
+      def resolve_base_table_names(entry)
+        entry.classes&.filter_map do |klass_name|
+          klass = klass_name.safe_constantize
+          klass.table_name if klass.respond_to?(:table_name)
+        end || []
+      end
+
+      def fetch_partitions_by_parent(entries)
+        base_table_names = entries.flat_map { |e| resolve_base_table_names(e) }.uniq
+
+        Gitlab::Database::PostgresPartition
+          .with_parent_tables(base_table_names)
+          .group_by { |p| p.parent_identifier.split('.').last }
       end
 
       def find_service_caller_location

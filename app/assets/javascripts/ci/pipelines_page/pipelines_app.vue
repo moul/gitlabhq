@@ -4,12 +4,12 @@ import ERROR_STATE_SVG from '@gitlab/svgs/dist/illustrations/empty-state/empty-j
 import { GlCollapsibleListbox, GlEmptyState, GlKeysetPagination, GlLoadingIcon } from '@gitlab/ui';
 import { debounce } from 'lodash-es';
 import { createAlert, VARIANT_INFO, VARIANT_WARNING } from '~/alert';
+import { reportToSentry } from '~/ci/utils';
 import { s__, __ } from '~/locale';
 import Tracking from '~/tracking';
 import { fetchPolicies } from '~/lib/graphql';
 import { limitedCounterWithDelimiter } from '~/lib/utils/text_utility';
 import { getParameterByName, setUrlParams, updateHistory } from '~/lib/utils/url_utility';
-import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { isLoggedIn } from '~/lib/utils/common_utils';
 import NavigationTabs from '~/vue_shared/components/navigation_tabs.vue';
 import PipelinesTable from '~/ci/common/pipelines_table.vue';
@@ -163,11 +163,12 @@ export default {
           this.cancelBatch();
         }
       },
-      error() {
+      error(err) {
         this.pipelinesError = true;
         createAlert({
           message: s__('Pipelines|An error occurred while loading pipelines'),
         });
+        this.captureError(err);
       },
       subscribeToMore: {
         document: ciPipelineStatusesUpdatedSubscription,
@@ -226,10 +227,11 @@ export default {
       update(data) {
         return data?.project?.pipelines?.count || 0;
       },
-      error() {
+      error(err) {
         createAlert({
           message: s__('Pipelines|An error occurred while loading pipelines count'),
         });
+        this.captureError(err);
       },
     },
   },
@@ -412,10 +414,11 @@ export default {
           message: s__('Pipelines|Project cache successfully reset.'),
           variant: VARIANT_INFO,
         });
-      } catch {
+      } catch (err) {
         createAlert({
           message: s__('Pipelines|Something went wrong while cleaning runners cache.'),
         });
+        reportToSentry(this.$options.name, err);
       } finally {
         this.clearCacheLoading = false;
       }
@@ -457,8 +460,8 @@ export default {
         defaultErrorMessage: s__('Pipelines|The pipeline could not be canceled.'),
       });
     },
-    captureError(exception) {
-      Sentry.captureException(exception);
+    captureError(err) {
+      reportToSentry(this.$options.name, err);
     },
     changeVisibilityPipelineIDType(idType) {
       this.visibilityPipelineIdType = idType;
@@ -484,8 +487,8 @@ export default {
             throw new Error(data.userPreferencesUpdate.errors);
           }
         })
-        .catch((error) => {
-          Sentry.captureException(error);
+        .catch((err) => {
+          this.captureError(err);
         });
     },
     filterPipelines(filters) {
@@ -555,11 +558,11 @@ export default {
           query: getPipelinesQuery,
           variables: { fullPath: this.fullPath, ids: idsToFetch, first: idsToFetch.length },
         });
-      } catch (error) {
+      } catch (err) {
         createAlert({
           message: s__('Pipelines|Something went wrong while updating pipeline information'),
         });
-        Sentry.captureException(error);
+        this.captureError(err);
       }
     },
     async fetchNewPipeline(newPipelineId) {
@@ -575,8 +578,8 @@ export default {
         if (newPipeline && isNotAlreadyInList) {
           this.pipelines.list = [newPipeline, ...this.pipelines.list].slice(0, 15);
         }
-      } catch (error) {
-        Sentry.captureException(error);
+      } catch (err) {
+        this.captureError(err);
       }
     },
     cancelBatch() {

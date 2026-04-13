@@ -1,4 +1,5 @@
 <script>
+import { reportToSentry } from '~/ci/utils';
 import { sanitize } from '~/lib/dompurify';
 import { convertToGraphQLId } from '~/graphql_shared/utils';
 import { TYPENAME_CI_PIPELINE } from '~/graphql_shared/constants';
@@ -58,6 +59,9 @@ export default {
           if (!data.ciPipelineStatusUpdated) return;
 
           this.mr.setPipelineStatusData(data.ciPipelineStatusUpdated, this.isPostMerge);
+        },
+        error(err) {
+          reportToSentry(this.$options.name, err);
         },
       },
     },

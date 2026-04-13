@@ -68767,7 +68767,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              "$ref": "#/components/schemas/RequestBody_0e97cd64a431"
+              "$ref": "#/components/schemas/RequestBody_ceb01d2e3cc1"
   "/api/v4/projects/{id}/alert_management_alerts/{alert_iid}/metric_images/authorize":
     post:
       operationId: postApiV4ProjectsIdAlertManagementAlertsAlertIidMetricImagesAuthorize
@@ -79579,7 +79579,9 @@ components:
         message_font_color:
           type: string
         email_header_and_footer_enabled:
-          type: boolean
+          type: string
+        site_name:
+          type: string
     APIEntitiesMetricImage:
       type: object
       properties:
@@ -107496,7 +107498,7 @@ components:
       - name
       - redirect_uri
       - scopes
-    RequestBody_0e97cd64a431:
+    RequestBody_ceb01d2e3cc1:
       type: object
       properties:
         title:
@@ -107570,6 +107572,10 @@ components:
         email_header_and_footer_enabled:
           type: boolean
           description: Add header and footer to all outgoing emails if enabled
+          nullable: true
+        site_name:
+          type: string
+          description: Last part of the webpage title. Defaults to empty.
           nullable: true
     RequestBody_127c7c206a2b:
       type: object

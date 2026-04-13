@@ -36,6 +36,7 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       custom_dashboards
       dependency_list_export_part_uploads
       dependency_list_export_parts
+      dependency_list_export_uploads
       fork_networks
       group_upload_states
       import_failures
@@ -79,15 +80,18 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       snippet_repositories
       snippet_repository_storage_moves
       snippet_statistics
+      snippet_uploads
       snippet_user_mentions
       subscription_user_add_on_assignment_versions
       todos
       topics
       upcoming_reconciliations
       user_agent_details
+      user_uploads
       user_upload_states
       vulnerability_export_part_uploads
       vulnerability_export_parts
+      vulnerability_export_uploads
       web_hooks
       web_hook_logs_daily
       work_item_custom_types

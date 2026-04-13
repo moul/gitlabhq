@@ -229,7 +229,7 @@ export default {
     },
   },
   mounted() {
-    if (this.glFeatures.repositoryFileTreeBrowser) {
+    if (this.glFeatures.repositoryFileTreeBrowser && !this.isReadmeView) {
       this.initializeFileTreeBrowser();
       this.bindShortcuts();
     }
@@ -299,6 +299,7 @@ export default {
       }"
     >
       <file-tree-browser-toggle
+        v-if="!isReadmeView"
         v-show="showFileTreeBrowserToggle"
         ref="toggle"
         :aria-keyshortcuts="toggleFileBrowserShortcutKey"

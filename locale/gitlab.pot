@@ -5018,6 +5018,9 @@ msgstr ""
 msgid "Add a confidential internal note to this %{noteableDisplayName}."
 msgstr ""
 
+msgid "Add a custom site name after the page title in the browser tab. Visible to all visitors and users."
+msgstr ""
+
 msgid "Add a general comment to this %{noteableDisplayName}."
 msgstr ""
 
@@ -7566,16 +7569,19 @@ msgstr ""
 msgid "AiModelDeprecation|The following models have been deprecated and will stop working after GitLab removes them. Please change to an alternative model before the removal version to avoid disruption."
 msgstr ""
 
-msgid "AiPowered| Turn off only if your local service endpoint does not support TLS."
-msgstr ""
-
 msgid "AiPowered|AI Gateway request timeout"
 msgstr ""
 
 msgid "AiPowered|AI logs"
 msgstr ""
 
+msgid "AiPowered|Access AI features prior to general availability."
+msgstr ""
+
 msgid "AiPowered|Access to GitLab Duo Agent Platform"
+msgstr ""
+
+msgid "AiPowered|Accomplish specific tasks and get answers to complex questions."
 msgstr ""
 
 msgid "AiPowered|Add group"
@@ -7585,6 +7591,9 @@ msgid "AiPowered|After the conversation was created"
 msgstr ""
 
 msgid "AiPowered|After the conversation was last updated"
+msgstr ""
+
+msgid "AiPowered|Agents"
 msgstr ""
 
 msgid "AiPowered|All eligible users"
@@ -7653,6 +7662,9 @@ msgstr ""
 msgid "AiPowered|Collect usage data"
 msgstr ""
 
+msgid "AiPowered|Combine one or more agents to solve a complex problem."
+msgstr ""
+
 msgid "AiPowered|Configuration"
 msgstr ""
 
@@ -7674,6 +7686,9 @@ msgstr ""
 msgid "AiPowered|Container registry for foundational flow images. Leave blank to use registry.gitlab.com"
 msgstr ""
 
+msgid "AiPowered|Control AI access to your data or external networks."
+msgstr ""
+
 msgid "AiPowered|Control whether AI-powered features are available."
 msgstr ""
 
@@ -7686,10 +7701,16 @@ msgstr ""
 msgid "AiPowered|Create group"
 msgstr ""
 
+msgid "AiPowered|Data and privacy"
+msgstr ""
+
 msgid "AiPowered|Data collection"
 msgstr ""
 
 msgid "AiPowered|Default access for users who can access AI features regardless of group membership."
+msgstr ""
+
+msgid "AiPowered|Define how your GitLab instance communicates with AI infrastructure."
 msgstr ""
 
 msgid "AiPowered|Direct connections"
@@ -7737,6 +7758,9 @@ msgstr ""
 msgid "AiPowered|Features without CI/CD pipelines"
 msgstr ""
 
+msgid "AiPowered|Flows"
+msgstr ""
+
 msgid "AiPowered|GitLab Credits"
 msgstr ""
 
@@ -7770,6 +7794,9 @@ msgstr ""
 msgid "AiPowered|Have access to"
 msgstr ""
 
+msgid "AiPowered|Hosting"
+msgstr ""
+
 msgid "AiPowered|Increase credits"
 msgstr ""
 
@@ -7777,6 +7804,9 @@ msgid "AiPowered|Increase credits (opens in new window)"
 msgstr ""
 
 msgid "AiPowered|Indirect connections through GitLab Self-Managed"
+msgstr ""
+
+msgid "AiPowered|Interact directly with GitLab and perform common GitLab operations."
 msgstr ""
 
 msgid "AiPowered|Learn more"
@@ -7899,7 +7929,13 @@ msgstr ""
 msgid "AiPowered|To add members to the group that contains the project, see the %{linkStart}prerequisites%{linkEnd}."
 msgstr ""
 
+msgid "AiPowered|Tools"
+msgstr ""
+
 msgid "AiPowered|Track credit consumption across your users and monitor usage trends. View breakdowns by user to understand how your team utilizes GitLab Duo."
+msgstr ""
+
+msgid "AiPowered|Turn off only if your local service endpoint does not support TLS."
 msgstr ""
 
 msgid "AiPowered|Turn on GitLab Duo Agent Platform access"
@@ -42592,6 +42628,9 @@ msgstr ""
 msgid "Maximum job timeout has a value which could not be accepted"
 msgstr ""
 
+msgid "Maximum length is 255 characters."
+msgstr ""
+
 msgid "Maximum lines in a diff"
 msgstr ""
 
@@ -67873,6 +67912,9 @@ msgstr ""
 msgid "Single component can be selected for component filter to be able to filter by version."
 msgstr ""
 
+msgid "Site name"
+msgstr ""
+
 msgid "Site profile failed to delete"
 msgstr ""
 
@@ -70212,9 +70254,6 @@ msgstr ""
 msgid "TagsPage|New tag"
 msgstr ""
 
-msgid "TagsPage|Only a project maintainer or owner can delete a protected tag"
-msgstr ""
-
 msgid "TagsPage|Optionally, add a message to the tag. Leaving this blank creates a %{link_start}lightweight tag.%{link_end}"
 msgstr ""
 
@@ -70246,6 +70285,9 @@ msgid "TagsPage|Yes, delete protected tag"
 msgstr ""
 
 msgid "TagsPage|Yes, delete tag"
+msgstr ""
+
+msgid "TagsPage|You do not have permission to delete this protected tag"
 msgstr ""
 
 msgid "TagsPage|protected"

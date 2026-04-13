@@ -47279,6 +47279,11 @@ paths:
         description: Add header and footer to all outgoing emails if enabled
         type: boolean
         required: false
+      - in: formData
+        name: site_name
+        description: Last part of the webpage title. Defaults to empty.
+        type: string
+        required: false
       responses:
         '200':
           description: Modify appearance
@@ -76095,7 +76100,9 @@ definitions:
       message_font_color:
         type: string
       email_header_and_footer_enabled:
-        type: boolean
+        type: string
+      site_name:
+        type: string
     required:
     - title
     - description
@@ -76114,6 +76121,7 @@ definitions:
     - message_background_color
     - message_font_color
     - email_header_and_footer_enabled
+    - site_name
     description: API_Entities_Appearance model
   API_Entities_ApplicationStatistics:
     type: object
