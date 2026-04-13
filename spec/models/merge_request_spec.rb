@@ -5885,6 +5885,45 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
       expect(service).to have_received(:execute)
     end
 
+    context 'when the primary state matches the replica state' do
+      it 'proceeds with reload_diff' do
+        expect(MergeRequests::ReloadDiffsService).to receive(:new).and_call_original
+
+        subject.reload_diff
+      end
+    end
+
+    context 'when the primary state differs from the replica state' do
+      before do
+        allow(subject.class).to receive(:where).with(id: subject.id) do
+          relation = instance_double(ActiveRecord::Relation)
+          allow(relation).to receive(:pick).with(:state_id).and_return(MergeRequest.available_states[:merged])
+          relation
+        end
+      end
+
+      it 'skips reload_diff and logs a warning' do
+        expect(MergeRequests::ReloadDiffsService).not_to receive(:new)
+        expect(Gitlab::AppLogger).to receive(:warn).with(
+          hash_including(message: 'reload_diff skipped: stale replica state detected, MR state on primary differs from replica')
+        )
+
+        subject.reload_diff
+      end
+    end
+
+    context 'when mr_refresh_use_primary feature flag is disabled' do
+      before do
+        stub_feature_flags(mr_refresh_use_primary: false)
+      end
+
+      it 'does not check for stale replica state and proceeds with reload_diff' do
+        expect(MergeRequests::ReloadDiffsService).to receive(:new).and_call_original
+
+        subject.reload_diff
+      end
+    end
+
     context 'when using the after_update hook to update' do
       context 'when the branches are updated' do
         it 'uses the new heads to generate the diff' do

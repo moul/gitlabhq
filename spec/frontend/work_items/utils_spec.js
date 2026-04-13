@@ -6,6 +6,7 @@ import {
   WIDGET_TYPE_ASSIGNEES,
   WIDGET_TYPE_AWARD_EMOJI,
   WIDGET_TYPE_NOTES,
+  WIDGET_TYPE_CRM_CONTACTS,
   WIDGET_TYPE_HIERARCHY,
   WORK_ITEM_TYPE_ENUM_EPIC,
   WORK_ITEM_TYPE_ENUM_INCIDENT,
@@ -34,6 +35,7 @@ import {
   findAssigneesWidget,
   findAwardEmojiWidget,
   findNotesWidget,
+  findCrmContactsWidget,
   formatLabelForListbox,
   formatUserForListbox,
   newWorkItemPath,
@@ -1164,5 +1166,29 @@ describe('findNotesWidget', () => {
     it('returns undefined', () => {
       expect(findNotesWidget({ widgets: [] })).toBeUndefined();
     });
+  });
+});
+
+describe('findCrmContactsWidget', () => {
+  const crmContactsWidget = { type: WIDGET_TYPE_CRM_CONTACTS, contacts: { nodes: [] } };
+  const featuresCrmContacts = { contactsAvailable: true, contacts: { nodes: [] } };
+
+  it('returns features.crmContacts when present', () => {
+    const workItem = {
+      features: { crmContacts: featuresCrmContacts },
+      widgets: [crmContactsWidget],
+    };
+
+    expect(findCrmContactsWidget(workItem)).toBe(featuresCrmContacts);
+  });
+
+  it('falls back to widgets when features not present', () => {
+    const workItem = { widgets: [crmContactsWidget] };
+
+    expect(findCrmContactsWidget(workItem)).toBe(crmContactsWidget);
+  });
+
+  it('returns undefined when neither exists', () => {
+    expect(findCrmContactsWidget({ widgets: [] })).toBeUndefined();
   });
 });

@@ -936,6 +936,10 @@ describe('Create work item component', () => {
       it('renders the work item assignees widget from features', () => {
         expect(findAssigneesWidget().exists()).toBe(true);
       });
+
+      it('renders the work item CRM contacts widget from features', () => {
+        expect(findCrmContactsWidget().exists()).toBe(true);
+      });
     });
   });
 

@@ -80,6 +80,7 @@ export const findColorWidget = (workItem) =>
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_COLOR);
 
 export const findCrmContactsWidget = (workItem) =>
+  workItem?.features?.crmContacts ||
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_CRM_CONTACTS);
 
 export const findCurrentUserTodosWidget = (workItem) =>

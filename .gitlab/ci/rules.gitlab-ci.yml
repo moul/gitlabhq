@@ -951,6 +951,21 @@
 .static-analysis-patterns: &static-analysis-patterns
   - ".{haml-lint,haml-lint_todo}.yml"
 
+# this is a combination of ruby-patterns and additional paths that contain ruby scripts without extension
+.rubocop-target-patterns: &rubocop-target-patterns
+  - "**/Rakefile"
+  - "**/Dangerfile"
+  - "**/Gemfile"
+  - "**/Gemfile.next"
+  - "**/Guardfile"
+  - "**/*.rake"
+  - "**/*.rb"
+  - "**/*.ru"
+  - "**/*.haml"
+  - "**/*.builder"
+  - "scripts/**/*"
+  - "bin/*"
+
 .rubocop-patterns: &rubocop-patterns
   - ".{rubocop,rubocop_todo}.yml"
   - "{,spec/}rubocop/cop/.rubocop.yml"
@@ -2940,25 +2955,16 @@
       changes: *rubocop-patterns
       variables:
         RUN_ALL_RUBOCOP: "false"
+    - <<: *if-merge-request-tier-3
+      changes: *rubocop-target-patterns
+      variables:
+        RUN_ALL_RUBOCOP: "true"
     - <<: *if-default-refs
       changes: *rubocop-patterns
       variables:
         RUN_ALL_RUBOCOP: "true"
     - <<: *if-default-refs
-      # this is a combination of ruby-patterns and additional paths that contain ruby scripts without extension
-      changes:
-        - "**/Rakefile"
-        - "**/Dangerfile"
-        - "**/Gemfile"
-        - "**/Gemfile.next"
-        - "**/Guardfile"
-        - "**/*.rake"
-        - "**/*.rb"
-        - "**/*.ru"
-        - "**/*.haml"
-        - "**/*.builder"
-        - "scripts/**/*"
-        - "bin/*"
+      changes: *rubocop-target-patterns
 
 .static-analysis:rules:ensure-application-settings-have-definition-file:
   rules:
@@ -3615,6 +3621,13 @@
   rules:
     - <<: *if-merge-request-tier-3
       when: never
+
+##################
+# API docs rules #
+##################
+.api-docs:rules:trigger-api-docs-pipeline:
+  rules:
+    - <<: *if-dot-com-gitlab-org-default-branch
 
 .test-metadata:rules:export-predictive-test-metrics:
   rules:

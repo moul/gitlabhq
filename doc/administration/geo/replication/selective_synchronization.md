@@ -36,6 +36,17 @@ Selective synchronization:
      Selective synchronization restrictions are implemented on the **secondary** sites,
      not the **primary** site.
 
+## Enable selective synchronization
+
+By default, selective synchronization is disabled. To enable it:
+
+1. In the upper-right corner, select **Admin**.
+1. Select **Geo > Sites**.
+1. Next to the secondary site you want to edit, select the pencil icon.
+1. From the **Selective synchronization** dropdown list, select **Projects in certain groups** or **Projects in certain storage shards**.
+1. Depending on your selection, configure **Groups to synchronize** or **Shards to synchronize**.
+1. Select **Save changes**.
+
 ## Promoting a secondary site with selective synchronization enabled
 
 > [!warning]

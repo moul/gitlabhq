@@ -28,6 +28,7 @@ import WorkItemMetadataProvider from '~/work_items/components/work_item_metadata
 import PageHeading from '~/vue_shared/components/page_heading.vue';
 import {
   findAssigneesWidget,
+  findCrmContactsWidget,
   getDisplayReference,
   getNewWorkItemAutoSaveKey,
   getNewWorkItemWidgetsAutoSaveKey,
@@ -465,7 +466,7 @@ export default {
       return Boolean(this.workItemHierarchy);
     },
     workItemCrmContacts() {
-      return findWidget(WIDGET_TYPE_CRM_CONTACTS, this.workItem);
+      return findCrmContactsWidget(this.workItem);
     },
     workItemTypesForSelect() {
       return this.workItemTypes

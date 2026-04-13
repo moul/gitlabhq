@@ -6135,7 +6135,7 @@ msgstr ""
 msgid "AdminSettings|Configure when dormant projects should be automatically deleted. %{linkStart}What are dormant projects?%{linkEnd}"
 msgstr ""
 
-msgid "AdminSettings|Control which projects can publish components to the CI/CD Catalog. Enter one project path or regular expression pattern per line.  For example: %{code_start}gitlab-org/my-project%{code_end}, %{code_start}gitlab-org/.*%{code_end}, or %{code_start}gitlab-org/security-.*%{code_end}. If empty, any project can publish."
+msgid "AdminSettings|Control which projects can publish components to the CI/CD Catalog. Enter one project path or regular expression pattern per line. For example: %{code_start}gitlab-org/my-project%{code_end}, %{code_start}gitlab-org/.*%{code_end}, or %{code_start}gitlab-org/security-.*%{code_end}. If empty, any project can publish."
 msgstr ""
 
 msgid "AdminSettings|Could not update extension host domain"
@@ -65853,7 +65853,7 @@ msgstr ""
 msgid "SecurityReports|Operational vulnerabilities"
 msgstr ""
 
-msgid "SecurityReports|Panels that categorize vulnerabilities as open include those with Needs triage or Confirmed status. Hover over the info icon (%{infoIcon}) to view more information about the data shown in each panel. To interact with a link in a chart popover, click to pin the popover first. To unstick it, click outside the popover. %{learnMoreStart}Learn more%{learnMoreEnd}"
+msgid "SecurityReports|Panels that categorize vulnerabilities as open include those with Needs triage or Confirmed status. Hover over the info icon (%{infoIcon}) to view more information about the data shown in each panel. To interact with a link in a chart popover, click to pin the popover first. To unstick it, click outside the popover. This dashboard might show higher vulnerability totals than the vulnerability report, which splits results across the Development, Operational, and Container registry tabs. %{learnMoreStart}Learn more%{learnMoreEnd}"
 msgstr ""
 
 msgid "SecurityReports|Parsing errors and warnings in pipeline"

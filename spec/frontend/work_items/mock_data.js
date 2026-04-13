@@ -1887,6 +1887,14 @@ export const mockWorkItemFeaturesData = ({ discussionLocked = false } = {}) => (
   weight: { weight: null },
   linkedItems: { blockedByCount: 0, blockingCount: 0 },
   iteration: { iteration: null },
+  crmContacts: {
+    contactsAvailable: false,
+    contacts: {
+      nodes: [],
+      __typename: 'CustomerRelationsContactConnection',
+    },
+    __typename: 'WorkItemWidgetCrmContacts',
+  },
   status: null,
 });
 

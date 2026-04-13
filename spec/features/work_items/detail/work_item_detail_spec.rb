@@ -65,6 +65,7 @@ RSpec.describe 'Work item detail', :js, feature_category: :team_planning do
       end
 
       it_behaves_like 'work items award emoji'
+      it_behaves_like 'work items crm contacts'
     end
 
     context 'with quarantine', quarantine: 'https://gitlab.com/gitlab-org/gitlab/-/issues/554457' do

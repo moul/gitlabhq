@@ -1520,6 +1520,7 @@ class MergeRequest < ApplicationRecord
   # rubocop: disable CodeReuse/ServiceClass
   def reload_diff(current_user = nil)
     return unless open?
+    return if stale_replica_state_mismatch?
 
     MergeRequests::ReloadDiffsService.new(self, current_user).execute
   end
@@ -2959,6 +2960,33 @@ class MergeRequest < ApplicationRecord
   end
 
   private
+
+  # Detects a stale replica read where the state from a replica shows
+  # the MR as open, but the primary database has already transitioned it to a
+  # different state (e.g. merged or locked). If a mismatch is detected, we log a
+  # warning and return true so the caller can skip reload_diff preventing an
+  # empty diff from being written on top of a valid merged diff.
+  def stale_replica_state_mismatch?
+    return false unless Feature.enabled?(:mr_refresh_use_primary, target_project)
+
+    primary_state_id = ::Gitlab::Database::LoadBalancing::SessionMap
+      .current(self.class.load_balancer)
+      .use_primary { self.class.where(id: id).pick(:state_id) }
+
+    return false if primary_state_id == state_id
+
+    Gitlab::AppLogger.warn(
+      message: 'reload_diff skipped: stale replica state detected, MR state on primary differs from replica',
+      merge_request_id: id,
+      merge_request_iid: iid,
+      project_id: target_project_id,
+      replica_state_id: state_id,
+      primary_state_id: primary_state_id,
+      backtrace: Gitlab::BacktraceCleaner.clean_backtrace(caller)
+    )
+
+    true
+  end
 
   def committer_emails_from_diff
     return [] unless merge_request_diff&.persisted?

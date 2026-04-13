@@ -18,13 +18,16 @@ import {
   WIDGET_TYPE_TIME_TRACKING,
   WIDGET_TYPE_WEIGHT,
   WIDGET_TYPE_COLOR,
-  WIDGET_TYPE_CRM_CONTACTS,
   WORK_ITEM_TYPE_NAME_EPIC,
   WIDGET_TYPE_CUSTOM_FIELDS,
   WIDGET_TYPE_STATUS,
   STATE_CLOSED,
 } from '../constants';
-import { findAssigneesWidget, findHierarchyWidgetDefinition } from '../utils';
+import {
+  findAssigneesWidget,
+  findCrmContactsWidget,
+  findHierarchyWidgetDefinition,
+} from '../utils';
 import workItemParticipantsQuery from '../graphql/work_item_participants.query.graphql';
 import workItemAllowedParentTypesQuery from '../graphql/work_item_allowed_parent_types.query.graphql';
 import WorkItemAssignees from './work_item_assignees.vue';
@@ -206,7 +209,7 @@ export default {
       return this.workItem.state === STATE_CLOSED;
     },
     workItemCrmContacts() {
-      const crmContactsWidget = this.isWidgetPresent(WIDGET_TYPE_CRM_CONTACTS);
+      const crmContactsWidget = findCrmContactsWidget(this.workItem);
       return crmContactsWidget && crmContactsWidget.contactsAvailable ? crmContactsWidget : null;
     },
     customFields() {

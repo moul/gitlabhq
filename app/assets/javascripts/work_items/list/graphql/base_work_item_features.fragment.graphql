@@ -62,4 +62,23 @@ fragment BaseWorkItemFeatures on WorkItemFeatures {
       id
     }
   }
+  crmContacts {
+    contactsAvailable
+    contacts {
+      nodes {
+        id
+        email
+        firstName
+        lastName
+        phone
+        description
+        organization {
+          id
+          name
+          description
+          defaultRate
+        }
+      }
+    }
+  }
 }
