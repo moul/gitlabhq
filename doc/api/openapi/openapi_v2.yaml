@@ -7366,8 +7366,9 @@ paths:
       operationId: getApiV4GroupsIdPackagesMaven*pathFileName
   "/api/v4/groups/{id}/members":
     get:
-      description: Gets a list of group or project members viewable by the authenticated
-        user.
+      description: |-
+        Gets a list of group or project members viewable by the authenticated user,
+                  excluding those with inherited membership from ancestor groups.
       produces:
       - application/json
       parameters:
@@ -7425,8 +7426,9 @@ paths:
         example: 20
       responses:
         '200':
-          description: Gets a list of group or project members viewable by the authenticated
-            user.
+          description: |-
+            Gets a list of group or project members viewable by the authenticated user,
+                      excluding those with inherited membership from ancestor groups.
           schema:
             type: array
             items:
@@ -7461,8 +7463,9 @@ paths:
       operationId: postApiV4GroupsIdMembers
   "/api/v4/groups/{id}/members/all":
     get:
-      description: Gets a list of group or project members viewable by the authenticated
-        user, including those who gained membership through ancestor group.
+      description: |-
+        Gets a list of group or project members viewable by the authenticated user,
+                  including those with inherited membership from ancestor groups.
       produces:
       - application/json
       parameters:
@@ -7515,8 +7518,9 @@ paths:
         example: 20
       responses:
         '200':
-          description: Gets a list of group or project members viewable by the authenticated
-            user, including those who gained membership through ancestor group.
+          description: |-
+            Gets a list of group or project members viewable by the authenticated user,
+                      including those with inherited membership from ancestor groups.
           schema:
             type: array
             items:
@@ -26560,8 +26564,9 @@ paths:
       operationId: putApiV4ProjectsIdPackagesMaven*pathFileNameAuthorize
   "/api/v4/projects/{id}/members":
     get:
-      description: Gets a list of group or project members viewable by the authenticated
-        user.
+      description: |-
+        Gets a list of group or project members viewable by the authenticated user,
+                  excluding those with inherited membership from ancestor groups.
       produces:
       - application/json
       parameters:
@@ -26619,8 +26624,9 @@ paths:
         example: 20
       responses:
         '200':
-          description: Gets a list of group or project members viewable by the authenticated
-            user.
+          description: |-
+            Gets a list of group or project members viewable by the authenticated user,
+                      excluding those with inherited membership from ancestor groups.
           schema:
             type: array
             items:
@@ -26655,8 +26661,9 @@ paths:
       operationId: postApiV4ProjectsIdMembers
   "/api/v4/projects/{id}/members/all":
     get:
-      description: Gets a list of group or project members viewable by the authenticated
-        user, including those who gained membership through ancestor group.
+      description: |-
+        Gets a list of group or project members viewable by the authenticated user,
+                  including those with inherited membership from ancestor groups.
       produces:
       - application/json
       parameters:
@@ -26709,8 +26716,9 @@ paths:
         example: 20
       responses:
         '200':
-          description: Gets a list of group or project members viewable by the authenticated
-            user, including those who gained membership through ancestor group.
+          description: |-
+            Gets a list of group or project members viewable by the authenticated user,
+                      including those with inherited membership from ancestor groups.
           schema:
             type: array
             items:

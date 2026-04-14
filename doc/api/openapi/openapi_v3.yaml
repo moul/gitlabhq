@@ -7221,7 +7221,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_33c6e8711d8c"
+              "$ref": "#/components/schemas/RequestBody_0234de4577e7"
   "/api/v4/groups/{id}/member_roles/{member_role_id}":
     delete:
       operationId: deleteApiV4GroupsIdMemberRolesMemberRoleId
@@ -7288,7 +7288,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_33c6e8711d8c"
+              "$ref": "#/components/schemas/RequestBody_0234de4577e7"
   "/api/v4/member_roles/{member_role_id}":
     delete:
       operationId: deleteApiV4MemberRolesMemberRoleId
@@ -39346,8 +39346,9 @@ paths:
   "/api/v4/groups/{id}/members":
     get:
       operationId: getApiV4GroupsIdMembers
-      summary: Gets a list of group or project members viewable by the authenticated
-        user.
+      summary: |-
+        Gets a list of group or project members viewable by the authenticated user,
+                  excluding those with inherited membership from ancestor groups.
       tags:
       - Members
       responses:
@@ -39461,8 +39462,9 @@ paths:
   "/api/v4/groups/{id}/members/all":
     get:
       operationId: getApiV4GroupsIdMembersAll
-      summary: Gets a list of group or project members viewable by the authenticated
-        user, including those who gained membership through ancestor group.
+      summary: |-
+        Gets a list of group or project members viewable by the authenticated user,
+                  including those with inherited membership from ancestor groups.
       tags:
       - Members
       responses:
@@ -39676,8 +39678,9 @@ paths:
   "/api/v4/projects/{id}/members":
     get:
       operationId: getApiV4ProjectsIdMembers
-      summary: Gets a list of group or project members viewable by the authenticated
-        user.
+      summary: |-
+        Gets a list of group or project members viewable by the authenticated user,
+                  excluding those with inherited membership from ancestor groups.
       tags:
       - Members
       responses:
@@ -39791,8 +39794,9 @@ paths:
   "/api/v4/projects/{id}/members/all":
     get:
       operationId: getApiV4ProjectsIdMembersAll
-      summary: Gets a list of group or project members viewable by the authenticated
-        user, including those who gained membership through ancestor group.
+      summary: |-
+        Gets a list of group or project members viewable by the authenticated user,
+                  including those with inherited membership from ancestor groups.
       tags:
       - Members
       responses:
@@ -88631,7 +88635,7 @@ components:
           nullable: true
       required:
       - extern_uid
-    RequestBody_33c6e8711d8c:
+    RequestBody_0234de4577e7:
       type: object
       properties:
         base_access_level:
@@ -88812,7 +88816,7 @@ components:
         read_security_attribute:
           type: boolean
           description: Allows read-only access to the security categories and attributes
-            belonging to a top-level group.
+            that belong to a top-level group.
           nullable: true
         read_admin_subscription:
           type: boolean

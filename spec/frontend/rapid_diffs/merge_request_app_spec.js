@@ -117,12 +117,6 @@ describe('Merge Request Rapid Diffs app', () => {
     expect(useCodeReview().setMrPath).not.toHaveBeenCalled();
   });
 
-  it('sets projectPath on legacyDiffs store', async () => {
-    buildApp({ project_path: 'gitlab-org/gitlab' });
-    await app.init();
-    expect(useLegacyDiffs().projectPath).toBe('gitlab-org/gitlab');
-  });
-
   it('fetches notes and drafts on init', async () => {
     buildApp();
     await app.init();

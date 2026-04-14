@@ -5,7 +5,6 @@ import { __ } from '~/locale';
 import { RapidDiffsFacade } from '~/rapid_diffs/app';
 import { adapters } from '~/rapid_diffs/app/adapter_configs/merge_request';
 import { useCodeReview } from '~/diffs/stores/code_review';
-import { useLegacyDiffs } from '~/diffs/stores/legacy_diffs';
 import { useMergeRequestDiscussions } from '~/merge_request/stores/merge_request_discussions';
 import { useDiffsList } from '~/rapid_diffs/stores/diffs_list';
 import { DiffFile } from '~/rapid_diffs/web_components/diff_file';
@@ -19,7 +18,6 @@ class MergeRequestRapidDiffsApp extends RapidDiffsFacade {
   async init() {
     this.#initCodeReview();
     super.init();
-    this.#initProjectPath();
     this.#initCompareVersions();
     await this.#initDiscussions();
     initNewDiscussionToggle(this.root, { allowExpandedLines: true });
@@ -82,12 +80,6 @@ class MergeRequestRapidDiffsApp extends RapidDiffsFacade {
     store.setMrPath(mrPath);
     store.restoreFromAutosave();
     store.restoreFromLegacyMrReviews();
-  }
-
-  #initProjectPath() {
-    // The review drawer reads projectPath from the legacyDiffs store
-    // to make GraphQL queries for approval permissions.
-    useLegacyDiffs(pinia).$patch({ projectPath: this.appData.projectPath });
   }
 
   #initCompareVersions() {

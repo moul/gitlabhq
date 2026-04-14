@@ -10,7 +10,6 @@ ee/app/helpers/ee/sorting_titles_values_helper.rb:
 - sort_value_version_desc
 ee/app/helpers/gitlab_subscriptions/trials_helper.rb:
 - trial_submit_text
-- namespace_selector_data
 ee/app/models/ai/feature_setting.rb:
 - compatible_self_hosted_models
 ee/app/models/cloud_connector/keys.rb:

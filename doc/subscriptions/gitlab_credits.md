@@ -287,8 +287,6 @@ One conversation window can include multiple messages, and so multiple billable 
 
 {{< details >}}
 
-- Tier: Premium, Ultimate
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
 - Status: Beta
 
 {{< /details >}}
@@ -361,7 +359,6 @@ You can use the GraphQL API to [view usage caps](../api/graphql/reference/_index
 
 {{< details >}}
 
-- Tier: Premium, Ultimate
 - Offering: GitLab.com, GitLab Self-Managed
 
 {{< /details >}}

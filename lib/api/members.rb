@@ -20,7 +20,8 @@ module API
         requires :id, type: String, desc: "The #{source_type} ID"
       end
       resource source_type.pluralize, requirements: API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
-        desc 'Gets a list of group or project members viewable by the authenticated user.' do
+        desc 'Gets a list of group or project members viewable by the authenticated user,
+          excluding those with inherited membership from ancestor groups.' do
           success Entities::Member
           is_array true
           tags %w[members]
@@ -45,7 +46,8 @@ module API
           present_members members
         end
 
-        desc 'Gets a list of group or project members viewable by the authenticated user, including those who gained membership through ancestor group.' do
+        desc 'Gets a list of group or project members viewable by the authenticated user,
+          including those with inherited membership from ancestor groups.' do
           success Entities::Member
           is_array true
           tags %w[members]

@@ -440,8 +440,8 @@ class Member < ApplicationRecord
       when 'oldest_sign_in' then order_oldest_sign_in
       when 'recent_created_user' then order_recent_created_user
       when 'oldest_created_user' then order_oldest_created_user
-      when 'recent_last_activity' then order_recent_last_activity
-      when 'oldest_last_activity' then order_oldest_last_activity
+      when 'last_activity_on_desc' then order_recent_last_activity
+      when 'last_activity_on_asc' then order_oldest_last_activity
       when 'last_joined' then order_created_desc
       when 'oldest_joined' then order_created_asc
       else

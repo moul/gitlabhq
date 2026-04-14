@@ -33,6 +33,8 @@ module Gitlab
 
             ::InternalId.flush_records!(project: project, usage: :ci_pipelines)
             error("Failed to persist the pipeline, please retry")
+          rescue ActiveRecord::ValueTooLong => e
+            error("Failed to persist the pipeline: #{e.message}")
           end
 
           def break?
@@ -63,6 +65,9 @@ module Gitlab
             end
           rescue ActiveRecord::RecordInvalid => e
             error("Failed to persist the pipeline: #{e}")
+            cleanup_bulk_insert_on_failure!
+          rescue ActiveRecord::ValueTooLong => e
+            error("Failed to persist the pipeline: #{e.message}")
             cleanup_bulk_insert_on_failure!
           end
 

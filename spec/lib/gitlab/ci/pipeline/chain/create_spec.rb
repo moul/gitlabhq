@@ -355,6 +355,30 @@ RSpec.describe Gitlab::Ci::Pipeline::Chain::Create, feature_category: :pipeline_
         end
       end
     end
+
+    context 'when tag name exceeds maximum length' do
+      let(:pipeline) { build(:ci_empty_pipeline, project: project, ref: 'master', user: user) }
+      let(:stage) { build(:ci_stage, pipeline: pipeline, project: project) }
+      let(:job) { build(:ci_build, ci_stage: stage, pipeline: pipeline, project: project, tag_list: ['a' * 256]) }
+
+      before do
+        pipeline.stages = [stage]
+        stage.statuses = [job]
+
+        error_message = "value too long for type character varying(255)"
+        allow(pipeline).to receive(:save!).and_raise(ActiveRecord::ValueTooLong.new(error_message))
+        step.perform!
+      end
+
+      it 'breaks the chain' do
+        expect(step.break?).to be true
+      end
+
+      it 'appends error message about value too long' do
+        expect(pipeline.errors.to_a)
+          .to include(/value too long for type character varying/)
+      end
+    end
   end
 
   # shared_examples 'pipeline creation'

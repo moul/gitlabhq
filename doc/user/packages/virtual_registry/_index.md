@@ -64,6 +64,12 @@ To turn off the virtual registry:
 
 ## Authenticate to the virtual registry
 
+{{< history >}}
+
+- Access for direct members of projects within the top-level group [removed](https://gitlab.com/gitlab-org/gitlab/-/issues/580977) in GitLab 18.9.
+
+{{< /history >}}
+
 The virtual registry endpoint can be used by any of following tokens:
 
 - A [personal access token](../../profile/personal_access_tokens.md).
@@ -80,7 +86,10 @@ Access tokens and the CI/CD job token are resolved to users. The resolved user m
 
 - A direct member of the top-level group with the Guest, Planner, Reporter, Developer, Maintainer, or Owner role.
 - A GitLab instance administrator.
-- A direct member of one of the projects included in the top-level group.
+
+> [!note]
+> CI/CD job tokens resolve to the user who triggered the pipeline. That user must
+> be a direct member of the top-level group to access the virtual registry.
 
 ## Manage virtual registries
 

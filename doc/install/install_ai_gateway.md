@@ -51,14 +51,35 @@ A GPU is not needed for the GitLab AI Gateway.
 
 ### Find the AI Gateway image
 
-The GitLab official Docker image is available:
+The GitLab official Docker image is available in the following locations:
 
-- In the container registry:
+- The container registry:
   - [Stable](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/container_registry/3809284?orderBy=PUBLISHED_AT&search%5B%5D=self-hosted)
   - [Nightly](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/container_registry/8086262)
-- On DockerHub:
+- DockerHub:
   - [Stable](https://hub.docker.com/r/gitlab/model-gateway/tags)
   - [Nightly](https://hub.docker.com/r/gitlab/model-gateway-self-hosted/tags)
+
+#### FIPS-validated images
+
+For environments that require FIPS 140-3 validated cryptography,
+a FIPS-validated variant of the self-hosted AI Gateway image is available.
+This image is built on Red Hat UBI 9 and uses the CMVP-validated
+[Red Hat OpenSSL FIPS provider](https://access.redhat.com/compliance/fips).
+
+FIPS images are available in the following locations:
+
+- The container registry: [Stable](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/container_registry/9518478)
+- DockerHub: [Stable](https://hub.docker.com/r/gitlab/model-gateway-self-hosted-fips/tags)
+
+Use the same version tag format as the standard image (`self-hosted-vX.Y.Z-ee`).
+
+To start the FIPS-validated container, replace the image reference in the
+[Docker run command](#start-a-container-from-the-image) with the FIPS image:
+
+```shell
+registry.gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/model-gateway/self-hosted-fips:<ai-gateway-tag>
+```
 
 [View the release process for the self-hosted AI Gateway](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/main/docs/delivery/release.md).
 

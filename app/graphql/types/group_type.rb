@@ -10,6 +10,10 @@ module Types
 
     authorize :read_group
 
+    authorize_granular_token permissions: :read_group,
+      boundary: :itself,
+      boundary_type: :group
+
     expose_permissions Types::PermissionTypes::Group
 
     field :web_url,

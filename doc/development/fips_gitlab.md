@@ -103,6 +103,16 @@ As stated above, GitLab follows FedRAMP guidance and, as such, we strive to incl
 includes FIPS-approved algorithms (CMVP-approved security functions). GitLab favors security over compliance in situations where it is not possible to achieve
 both with respect to FIPS 140-2.
 
+### AI Gateway
+
+A FIPS-validated AI Gateway Docker image is available for
+GitLab Duo Self-Hosted deployments.
+The image is built on Red Hat UBI 9 and uses
+the CMVP-validated OpenSSL FIPS provider.
+
+For installation instructions, see
+[FIPS-validated images](../install/install_ai_gateway.md#fips-validated-images).
+
 ### Unsupported features in FIPS mode
 
 Some GitLab features may not work when FIPS mode is enabled. The following features

@@ -2120,11 +2120,11 @@ RSpec.describe Member, feature_category: :groups_and_projects do
     end
 
     it 'sort users by recent last activity' do
-      expect(described_class.sort_by_attribute('recent_last_activity')).to eq([member1, member2, member3])
+      expect(described_class.sort_by_attribute('last_activity_on_desc')).to eq([member1, member2, member3])
     end
 
     it 'sort users by oldest last activity' do
-      expect(described_class.sort_by_attribute('oldest_last_activity')).to eq([member3, member2, member1])
+      expect(described_class.sort_by_attribute('last_activity_on_asc')).to eq([member3, member2, member1])
     end
   end
 

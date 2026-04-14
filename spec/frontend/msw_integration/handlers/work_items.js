@@ -48,6 +48,7 @@ export {
   milestonesResponse,
   baseUpdateResponse,
   canCreateBranchResponse,
+  workItemsFullResponse,
 };
 
 const FIXTURE_RESPONSES = {
@@ -110,6 +111,79 @@ export function handleWorkItemOperation({ operationName, variables, res, ctx }) 
                   __typename: 'WorkItemWidgetNotifications',
                 },
               ],
+            },
+          },
+        },
+      }),
+    );
+  }
+
+  if (operationName === 'savedViews') {
+    return res(
+      ctx.json({
+        data: {
+          namespace: {
+            id: 'gid://gitlab/Group/1',
+            savedViews: { nodes: [] },
+          },
+        },
+      }),
+    );
+  }
+
+  if (operationName === 'getUser') {
+    return res(
+      ctx.json({
+        data: {
+          currentUser: {
+            id: 'gid://gitlab/User/1',
+            callouts: {
+              nodes: [{ featureName: 'work_items_onboarding_modal', __typename: 'UserCallout' }],
+            },
+            __typename: 'UserCore',
+          },
+        },
+      }),
+    );
+  }
+
+  if (operationName === 'getWorkItemsCountOnlyEE') {
+    return res(
+      ctx.json({
+        data: {
+          namespace: {
+            id: 'gid://gitlab/Group/1',
+            name: 'group1',
+            workItems: { count: workItemsFullResponse.data.namespace.workItems.nodes.length },
+          },
+        },
+      }),
+    );
+  }
+
+  if (operationName === 'updateWorkItemListUserPreference') {
+    return res(
+      ctx.json({
+        data: {
+          workItemUserPreferenceUpdate: {
+            errors: [],
+            userPreferences: {
+              displaySettings: variables.displaySettings,
+              sort: variables.sort || null,
+            },
+          },
+        },
+      }),
+    );
+  }
+
+  if (operationName === 'updateWorkItemsDisplaySettings') {
+    return res(
+      ctx.json({
+        data: {
+          userPreferencesUpdate: {
+            userPreferences: {
+              workItemsDisplaySettings: variables.input?.workItemsDisplaySettings || {},
             },
           },
         },
