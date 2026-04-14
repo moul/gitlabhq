@@ -86,7 +86,10 @@ RSpec.describe Ci::AuthJobFinder, feature_category: :continuous_integration do
     it 'raises error if the job is succeeded' do
       job.success!
 
-      expect { execute }.to raise_error described_class::NotRunningJobError, 'Job is not running'
+      expect { execute }.to raise_error(described_class::NotRunningJobError) do |error|
+        expect(error.message).to eq('Job is not running')
+        expect(error.job).to eq(job)
+      end
     end
 
     context 'when the job is canceling' do
@@ -101,14 +104,20 @@ RSpec.describe Ci::AuthJobFinder, feature_category: :continuous_integration do
       expect(finder).to receive(:find_job_by_token).and_return(job)
       expect(job).to receive(:erased?).and_return(true)
 
-      expect { execute }.to raise_error described_class::ErasedJobError, 'Job has been erased!'
+      expect { execute }.to raise_error(described_class::ErasedJobError) do |error|
+        expect(error.message).to eq('Job has been erased!')
+        expect(error.job).to eq(job)
+      end
     end
 
     it 'raises error if the the project is missing' do
       expect(finder).to receive(:find_job_by_token).and_return(job)
       expect(job).to receive(:project).and_return(nil)
 
-      expect { execute }.to raise_error described_class::DeletedProjectError, 'Project has been deleted!'
+      expect { execute }.to raise_error(described_class::DeletedProjectError) do |error|
+        expect(error.message).to eq('Project has been deleted!')
+        expect(error.job).to eq(job)
+      end
     end
 
     it 'raises error if the the project is being removed' do
@@ -118,7 +127,10 @@ RSpec.describe Ci::AuthJobFinder, feature_category: :continuous_integration do
       expect(job).to receive(:project).twice.and_return(project)
       expect(project).to receive(:pending_delete?).and_return(true)
 
-      expect { execute }.to raise_error described_class::DeletedProjectError, 'Project has been deleted!'
+      expect { execute }.to raise_error(described_class::DeletedProjectError) do |error|
+        expect(error.message).to eq('Project has been deleted!')
+        expect(error.job).to eq(job)
+      end
     end
 
     context 'when the job token is a valid JWT' do

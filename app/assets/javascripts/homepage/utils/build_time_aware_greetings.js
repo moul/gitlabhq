@@ -1,4 +1,3 @@
-import { s__, sprintf } from '~/locale';
 import {
   MORNING_GREETINGS,
   AFTERNOON_GREETINGS,
@@ -10,7 +9,7 @@ import {
   THURSDAY_GREETINGS,
   FRIDAY_GREETINGS,
   SATURDAY_GREETINGS,
-  DAY_NAMES,
+  HAPPY_DAY_GREETINGS,
 } from '~/homepage/constants';
 
 const DAY_GREETINGS = [
@@ -34,7 +33,7 @@ export function buildTimeAwareGreetings(now = new Date()) {
   const greetings = [];
 
   // Happy <day of week>!
-  greetings.push(sprintf(s__('Homepage|Happy %{dayName}!'), { dayName: DAY_NAMES[day] }, false));
+  greetings.push(HAPPY_DAY_GREETINGS[day]);
 
   // Time-of-day greetings
   if (hour >= 5 && hour < 12) {

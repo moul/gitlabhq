@@ -122,6 +122,68 @@ The enterprise application is created in Microsoft Entra ID.
 
 {{< /tab >}}
 
+{{< tab title="OneLogin" >}}
+
+1. Sign in to OneLogin as an administrator.
+1. Select **Administration** > **Applications**.
+1. Select **Add App**.
+1. Search for **SAML Test Connector (Advanced)** and select it.
+1. In the **Display Name** field, enter a name for your application. For example, `GitLab SAML`.
+1. Select **Save**.
+1. Select the **Configuration** tab.
+1. Complete the fields with the values from Step 1:
+   - **Audience (EntityID)**: Enter the **Identifier**.
+   - **Recipient**: Enter the **Assertion consumer service URL**.
+   - **ACS (Consumer) URL Validator**: Enter the **Assertion consumer service URL** as a regex.
+     For example, `https://gitlab\.com/groups/your-group/-/saml/callback`.
+   - **ACS (Consumer) URL**: Enter the **Assertion consumer service URL**.
+   - **Login URL**: Enter the **GitLab single sign-on URL**.
+1. Select **Save**.
+1. Select the **Parameters** tab.
+1. Add the required attribute by selecting **Add parameter**:
+   - **Field name**: `email`, **Value**: Email
+1. For **NameID**, select **OneLogin ID** in the value field.
+1. Select **Save**.
+1. Select the **Access** tab to assign users or roles to the application.
+
+The SAML application is created in OneLogin.
+
+For more information about SAML attributes and advanced configuration options,
+see the [SAML SSO documentation](../../user/group/saml_sso/_index.md#onelogin).
+
+{{< /tab >}}
+
+{{< tab title="Google Workspace" >}}
+
+1. Sign in to the [Google Admin console](https://admin.google.com/).
+1. Select **Apps** > **Web and mobile apps**.
+1. Select **Add App** > **Add custom SAML app**.
+1. In the **App Details** page, enter a name for your application. For example, `GitLab SAML`.
+1. Select **Continue**.
+1. On the **Google Identity Provider details** page, leave this page open. You need these values in Step 3.
+1. Select **Continue**.
+1. On the **Service provider details** page, complete the fields with the values from Step 1:
+   - **ACS URL**: Enter the **Assertion consumer service URL**.
+   - **Entity ID**: Enter the **Identifier**.
+   - **Start URL**: Enter the **GitLab single sign-on URL**.
+   - **Name ID format**: Select **EMAIL**.
+   - **Name ID**: Select **Basic Information** > **Primary email**.
+1. Select **Continue**.
+1. On the **Attribute mapping** page, add these attributes:
+   - **Google Directory attribute**: `Primary email`, **App attribute**: `email`
+   - **Google Directory attribute**: `First name`, **App attribute**: `first_name`
+   - **Google Directory attribute**: `Last name`, **App attribute**: `last_name`
+1. Select **Finish**.
+   The SAML application is created in Google Workspace.
+1. Turn on the application for your users:
+   - On the **User access** section, select **ON for everyone**.
+   - Select **Save**.
+
+For more information about SAML attributes and advanced configuration options,
+see the [SAML SSO documentation](../../user/group/saml_sso/_index.md#google-workspace).
+
+{{< /tab >}}
+
 {{< /tabs >}}
 
 ## Step 3: Gather the connection details
@@ -155,11 +217,30 @@ To gather the connection details:
 
 {{< tab title="Entra ID" >}}
 
-1. In your enterprise application, select **Single sign-on**.
-1. In the **SAML Signing Certificate** section, note the **Thumbprint** value.
-   The thumbprint looks like `A1B2C3D4E5F6...`.
+1. In your Entra ID enterprise application, select **Single sign-on**.
 1. In the **Set up GitLab SAML** section, note the **Login URL**.
    The name of this section is based on the name of your enterprise application.
+1. In the **SAML Signing Certificate** section, note the **Thumbprint** value.
+   The thumbprint looks like `A1B2C3D4E5F6...`.
+
+{{< /tab >}}
+
+{{< tab title="Google Workspace" >}}
+
+1. In your Google Workspace SAML app, go to the app details page.
+1. Note the **SSO URL** value.
+1. Note the **SHA-256 fingerprint** value displayed for the certificate.
+   The fingerprint looks like `A1:B2:C3:D4:E5:F6:...`.
+
+{{< /tab >}}
+
+{{< tab title="OneLogin" >}}
+
+1. In your OneLogin SAML app, select the **SSO** tab.
+1. Note the **SAML 2.0 Endpoint (HTTP)** URL.
+1. In the **X.509 Certificate** section, select **View Details**.
+1. Note the **SHA-256 Fingerprint** value.
+   The fingerprint looks like `A1:B2:C3:D4:E5:F6:...`.
 
 {{< /tab >}}
 

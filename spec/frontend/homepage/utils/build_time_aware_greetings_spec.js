@@ -14,6 +14,28 @@ describe('buildTimeAwareGreetings', () => {
     });
   });
 
+  describe('happy day greetings', () => {
+    it.each`
+      date  | dayName        | expected
+      ${23} | ${'Sunday'}    | ${'Happy Sunday!'}
+      ${17} | ${'Monday'}    | ${'Happy Monday!'}
+      ${18} | ${'Tuesday'}   | ${'Happy Tuesday!'}
+      ${19} | ${'Wednesday'} | ${'Happy Wednesday!'}
+      ${20} | ${'Thursday'}  | ${'Happy Thursday!'}
+      ${21} | ${'Friday'}    | ${'Happy Friday!'}
+      ${22} | ${'Saturday'}  | ${'Happy Saturday!'}
+    `('includes "$expected" on $dayName', ({ date, expected }) => {
+      const greetings = buildTimeAwareGreetings(new Date(2025, 2, date, 10, 0));
+      expect(greetings).toContain(expected);
+    });
+
+    it('does not include other days happy greeting', () => {
+      const greetings = buildTimeAwareGreetings(new Date(2025, 2, 18, 10, 0)); // Tuesday
+      expect(greetings).toContain('Happy Tuesday!');
+      expect(greetings).not.toContain('Happy Saturday!');
+    });
+  });
+
   describe('day-of-week greetings', () => {
     it.each`
       date  | dayName        | expected

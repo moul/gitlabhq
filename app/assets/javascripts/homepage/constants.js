@@ -50,14 +50,14 @@ export const GREETING_MESSAGES = [
   s__("Homepage|It's not a bug, it's a feature"),
 ];
 
-export const DAY_NAMES = [
-  __('Sunday'),
-  __('Monday'),
-  __('Tuesday'),
-  __('Wednesday'),
-  __('Thursday'),
-  __('Friday'),
-  __('Saturday'),
+export const HAPPY_DAY_GREETINGS = [
+  s__('Homepage|Happy Sunday!'),
+  s__('Homepage|Happy Monday!'),
+  s__('Homepage|Happy Tuesday!'),
+  s__('Homepage|Happy Wednesday!'),
+  s__('Homepage|Happy Thursday!'),
+  s__('Homepage|Happy Friday!'),
+  s__('Homepage|Happy Saturday!'),
 ];
 
 export const MORNING_GREETINGS = [

@@ -27,7 +27,8 @@ title: GitLab Duo CLI (`duo`)
 - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.68.0) model selection option and environment variable in GitLab Duo CLI 8.68.0, during the GitLab 18.10 release.
 - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.76.0) model selection slash command in GitLab Duo CLI 8.76.0, during the GitLab 18.10 release.
 - [Changed](https://gitlab.com/groups/gitlab-org/-/work_items/19716) from experiment to beta in GitLab 18.11.
-
+- Environment variable and option to enable user-level Agent Skills [introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.83.0) in GitLab Duo CLI 8.83.0 as an [experiment](../../policy/development_stages_support.md#experiment), during the GitLab 19.0 release.
+ 
 {{< /history >}}
 
 The GitLab Duo CLI is a command-line interface tool that brings [GitLab Duo Agentic Chat](../gitlab_duo_chat/agentic_chat.md)
@@ -438,6 +439,7 @@ The GitLab Duo CLI supports these options:
   `duo run --help`.
 - `--log-level <level>`: Set the logging level (`debug`, `info`, `warn`, `error`).
 - `-v`, `--version`: Display version information.
+- `--enable-global-skills`: (Experimental) Enable [user-level Agent Skills](../duo_agent_platform/customize/agent_skills.md#create-user-level-skills).
 - `--model <model>`: Select the AI model to use for the session.
 
 Additional options for headless mode:
@@ -490,6 +492,7 @@ You can configure the GitLab Duo CLI using environment variables:
 - `DUO_WORKFLOW_GIT_HTTP_USER`: Git HTTP authentication username.
 - `GITLAB_BASE_URL` or `GITLAB_URL`: GitLab instance URL.
 - `GITLAB_DUO_MODEL`: AI model to use for the session.
+- `GITLAB_ENABLE_GLOBAL_SKILLS`: (Experimental) Enable [user-level Agent Skills](../duo_agent_platform/customize/agent_skills.md#create-user-level-skills).
 - `GITLAB_OAUTH_TOKEN` or `GITLAB_TOKEN`: Authentication token.
 - `LOG_LEVEL`: Logging level.
 

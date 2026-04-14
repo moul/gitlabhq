@@ -17,6 +17,8 @@ title: Agent Skills
 - Support for workspace-level Agent Skills [added](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/merge_requests/2951) in GitLab 18.10.
   - [Introduced](https://gitlab.com/gitlab-org/gitlab-vscode-extension/-/releases/v6.71.4) in GitLab for VS Code 6.71.4.
   - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.73.0) in GitLab Duo CLI 8.73.0.
+- Support for user-level Agent Skills [introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/merge_requests/3140) in GitLab 19.0
+  - [Introduced](https://gitlab.com/gitlab-org/editor-extensions/gitlab-lsp/-/releases/v8.83.0) in GitLab Duo CLI 8.83.0 as an [experiment](../../../policy/development_stages_support.md#experiment).
 
 {{< /history >}}
 
@@ -53,8 +55,11 @@ You can also manually direct GitLab Duo to use a skill by name, file path, or sl
 
 - Meet the [Agent Platform prerequisites](../_index.md#prerequisites).
 - For GitLab Duo Chat in your local environment, install and configure one of the following:
-  - [GitLab for VS Code](../../../editor_extensions/visual_studio_code/setup.md) 6.71.4 or later.
-  - [GitLab Duo CLI](../../gitlab_duo_cli/_index.md#set-up-the-gitlab-duo-cli) 8.73.0 or later.
+  - For workspace-level skills:
+    - [GitLab for VS Code](../../../editor_extensions/visual_studio_code/setup.md) 6.71.4 or later.
+    - [GitLab Duo CLI](../../gitlab_duo_cli/_index.md#set-up-the-gitlab-duo-cli) 8.73.0 or later.
+  - For user-level skills:
+    - [GitLab Duo CLI](../../gitlab_duo_cli/_index.md#set-up-the-gitlab-duo-cli) 8.83.0 or later.
 - For custom flows, update the flow's configuration file to access the `workspace_agent_skills`
   context passed from the executor:
 
@@ -163,7 +168,85 @@ To create a workspace-level skill:
 1. Start a new conversation or flow. You should do this every time you change or add a `SKILL.md`
    file to avoid context confusion for the agent.
 
-#### Expose skills as slash commands
+### Create user-level skills
+
+{{< details >}}
+
+- Status: Experiment
+
+{{< /details >}}
+
+User-level skills apply across all of your projects. You define them in a `SKILL.md` file in one
+of the following directories:
+
+- The agents directory in your home directory:
+  - For Linux or macOS, at `~/.agents/skills/<skill_name>/SKILL.md`
+  - For Windows, at `%USERPROFILE%\.agents\skills\<skill_name>\SKILL.md`
+- The GitLab Duo configuration directory:
+  - For Linux or macOS, at `~/.gitlab/duo/skills/<skill_name>/SKILL.md`
+  - For Windows, at `%APPDATA%\GitLab\duo\skills\<skill_name>\SKILL.md`
+    (for example, `C:\Users\<username>\AppData\Roaming\GitLab\duo\skills\<skill_name>\SKILL.md`)
+
+If you have set one of the following environment variables, the GitLab Duo configuration
+directory path is different. `GLAB_CONFIG_DIR` takes priority over `XDG_CONFIG_HOME`.
+
+- For `GLAB_CONFIG_DIR`, at `$GLAB_CONFIG_DIR/skills/<skill_name>/SKILL.md`
+- For `XDG_CONFIG_HOME`, at `$XDG_CONFIG_HOME/gitlab/duo/skills/<skill_name>/SKILL.md`
+
+If a user-level skill and a workspace-level skill share the same name, the workspace-level skill
+takes precedence. This allows you to override a user-level skill with a project-specific version.
+
+To create a user-level skill:
+
+1. Enable global skills when starting the GitLab Duo CLI:
+
+   {{< tabs >}}
+
+   {{< tab title="glab" >}}
+
+   ```shell
+   glab duo cli --enable-global-skills
+   ```
+
+   {{< /tab >}}
+
+   {{< tab title="duo" >}}
+
+   ```shell
+   duo --enable-global-skills
+   ```
+
+   {{< /tab >}}
+
+   {{< /tabs >}}
+
+   Alternatively, set the environment variable:
+
+   ```shell
+   export GITLAB_ENABLE_GLOBAL_SKILLS=true
+   ```
+
+1. Create a skill directory in one of the supported locations:
+
+   ```shell
+   mkdir -p ~/.agents/skills/<skill_name>
+   ```
+
+1. Create a `SKILL.md` file and include instructions using the following format.
+   The `name` and `description` YAML front matter fields are required.
+
+   ```markdown
+   ---
+   name: <skill_name>
+   description: <skill_description>
+   ---
+
+   <your_instructions_and_context_for_the_skill>
+   ```
+
+1. Start a new conversation. The skill is available in any project.
+
+### Expose skills as slash commands
 
 To enable a skill as a custom slash command, add `slash-command: enabled` to the metadata in the
 YAML front matter of your `SKILL.md` file:

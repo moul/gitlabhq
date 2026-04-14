@@ -1255,7 +1255,7 @@ module Ci
     def drop_with_exit_code!(failure_reason, exit_code)
       failure_reason ||= :unknown_failure
       result = drop!(::Gitlab::Ci::Build::Status::Reason.new(self, failure_reason, exit_code))
-      ::Ci::TrackFailedBuildWorker.perform_async(id, exit_code, failure_reason)
+      ::Ci::TrackFailedBuildWorker.perform_async(id, exit_code, failure_reason.to_s)
       result
     end
 

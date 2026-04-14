@@ -26,7 +26,6 @@ Gitlab/FeatureFlagWithoutActor:
     - 'app/models/user.rb'
     - 'app/serializers/web_ide_terminal_entity.rb'
     - 'app/services/ci/register_job_service.rb'
-    - 'app/services/concerns/measurable.rb'
     - 'app/services/groups/participants_service.rb'
     - 'app/services/projects/participants_service.rb'
     - 'app/services/user_project_access_changed_service.rb'

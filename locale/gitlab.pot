@@ -36170,7 +36170,25 @@ msgstr ""
 msgid "Homepage|Halfway through the day"
 msgstr ""
 
-msgid "Homepage|Happy %{dayName}!"
+msgid "Homepage|Happy Friday!"
+msgstr ""
+
+msgid "Homepage|Happy Monday!"
+msgstr ""
+
+msgid "Homepage|Happy Saturday!"
+msgstr ""
+
+msgid "Homepage|Happy Sunday!"
+msgstr ""
+
+msgid "Homepage|Happy Thursday!"
+msgstr ""
+
+msgid "Homepage|Happy Tuesday!"
+msgstr ""
+
+msgid "Homepage|Happy Wednesday!"
 msgstr ""
 
 msgid "Homepage|Happy coding!"

@@ -46,7 +46,6 @@ Style/SuperArguments:
     - 'app/serializers/merge_request_serializer.rb'
     - 'app/serializers/pipeline_serializer.rb'
     - 'app/services/branches/create_service.rb'
-    - 'app/services/concerns/measurable.rb'
     - 'app/services/ide/terminal_config_service.rb'
     - 'app/services/import/placeholder_references/load_service.rb'
     - 'app/services/issuable/destroy_service.rb'

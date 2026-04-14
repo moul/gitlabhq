@@ -2,12 +2,7 @@
 
 module Ci
   class AuthJobFinder
-    AuthError = Class.new(StandardError)
-    NotRunningJobError = Class.new(AuthError)
-    ErasedJobError = Class.new(AuthError)
-    DeletedProjectError = Class.new(AuthError)
-
-    class ExpiredJobTokenError < AuthError
+    class AuthError < StandardError
       attr_reader :job
 
       def initialize(message, job:)
@@ -15,6 +10,11 @@ module Ci
         @job = job
       end
     end
+
+    NotRunningJobError = Class.new(AuthError)
+    ErasedJobError = Class.new(AuthError)
+    DeletedProjectError = Class.new(AuthError)
+    ExpiredJobTokenError = Class.new(AuthError)
 
     def initialize(token:)
       @token = token
@@ -79,15 +79,21 @@ module Ci
     end
 
     def validate_executing_job!(job)
-      raise NotRunningJobError, 'Job is not running' unless Ci::HasStatus::EXECUTING_STATUSES.include?(job.status)
+      return if Ci::HasStatus::EXECUTING_STATUSES.include?(job.status)
+
+      raise NotRunningJobError.new('Job is not running',
+        job: job)
     end
 
     def validate_job_not_erased!(job)
-      raise ErasedJobError, 'Job has been erased!' if job.erased?
+      raise ErasedJobError.new('Job has been erased!', job: job) if job.erased?
     end
 
     def validate_project_presence!(job)
-      raise DeletedProjectError, 'Project has been deleted!' if job.project.nil? || job.project.pending_delete?
+      return unless job.project.nil? || job.project.pending_delete?
+
+      raise DeletedProjectError.new('Project has been deleted!',
+        job: job)
     end
 
     def log_successful_job_auth(job)

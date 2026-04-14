@@ -117,6 +117,34 @@ RSpec.describe API::Ci::Runner, :clean_gitlab_redis_shared_state, feature_catego
         end
       end
 
+      context 'when job token JWT has expired' do
+        let!(:jwt_token) { ::Ci::JobToken::Jwt.encode(job) }
+
+        before do
+          # Ensure middleware classes are loaded before we set message expectations
+          require 'gitlab/metrics/middleware/path_traversal_check'
+        end
+
+        it 'returns 403 and logs the auth failure' do
+          # TODO: remove this expectation once the following issue is resolved
+          # https://gitlab.com/gitlab-org/gitlab/-/work_items/594564
+          expect(Gitlab::AppLogger).to receive(:info).with(a_hash_including(
+            class: "Ci::Runners::PartitionedTokenFinder"
+          )).at_least(:once)
+          expect(Gitlab::AppLogger).to receive(:info).with(a_hash_including(
+            job_id: job.id,
+            auth_fail_reason: 'job_token_expired',
+            message: 'Job auth error'
+          ))
+
+          travel_to(3.hours.from_now) do
+            authorize_artifacts({ token: jwt_token }, headers)
+          end
+
+          expect(response).to have_gitlab_http_status(:forbidden)
+        end
+      end
+
       context 'when using token as parameter' do
         context 'and the artifact is too large' do
           it_behaves_like 'rejecting artifacts that are too large' do

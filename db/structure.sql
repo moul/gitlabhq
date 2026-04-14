@@ -6074,7 +6074,8 @@ CREATE TABLE p_ci_build_trace_metadata (
     archival_attempts smallint DEFAULT 0 NOT NULL,
     checksum bytea,
     remote_checksum bytea,
-    project_id bigint
+    project_id bigint,
+    CONSTRAINT check_2478349559 CHECK ((project_id IS NOT NULL))
 )
 PARTITION BY LIST (partition_id);
 
