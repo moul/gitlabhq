@@ -343,7 +343,7 @@ export default {
             data-testid="access-level-dropdown"
             :roles="roleDropdownItems"
             :loading="isLoadingRoles"
-            class="gl-max-w-30"
+            class="gl-w-full"
             header-text=""
           />
         </gl-form-group>

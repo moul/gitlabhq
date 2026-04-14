@@ -296,7 +296,7 @@ Grants the ability to create, delete, read, stop, and update environments.
 
 #### Job
 
-Grants the ability to delete, read, run job, and update jobs.
+Grants the ability to delete, read, run, and update jobs.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -304,8 +304,8 @@ Grants the ability to delete, read, run job, and update jobs.
 | Read | Project | `GET` | `/projects/:id/jobs` |
 | Read | Project | `GET` | `/projects/:id/jobs/:job_id` |
 | Read | Project | `GET` | `/projects/:id/jobs/:job_id/trace` |
-| Run Job | Project | `POST` | `/projects/:id/jobs/:job_id/retry` |
-| Run Job | Project | `POST` | `/projects/:id/jobs/:job_id/play` |
+| Run | Project | `POST` | `/projects/:id/jobs/:job_id/retry` |
+| Run | Project | `POST` | `/projects/:id/jobs/:job_id/play` |
 | Update | Project | `POST` | `/projects/:id/jobs/:job_id/cancel` |
 
 #### Job Artifact
@@ -571,7 +571,7 @@ Grants the ability to read code suggestion enabled status.
 | ------ | ------ | ------ | ---- |
 | Read | Project | `POST` | `/code_suggestions/enabled` |
 
-#### Duo Workflows
+#### Duo Workflow
 
 Grants the ability to resume duo workflows.
 
@@ -2203,11 +2203,11 @@ Grants the ability to create, delete, and read LDAP group links.
 
 #### LDAP Group Sync
 
-Grants the ability to read LDAP group syncs.
+Grants the ability to run LDAP group syncs.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
-| Read | Group | `POST` | `/groups/:id/ldap_sync` |
+| Run | Group | `POST` | `/groups/:id/ldap_sync` |
 
 #### Member
 

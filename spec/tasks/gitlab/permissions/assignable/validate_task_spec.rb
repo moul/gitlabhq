@@ -152,33 +152,41 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
     end
 
     context 'when raw permissions are used in multiple assignable permissions' do
+      let(:zebra_source_file) do
+        'config/authz/permission_groups/assignable_permissions/wiki_category/zebra/modify.yml'
+      end
+
+      let(:apple_source_file) do
+        'config/authz/permission_groups/assignable_permissions/wiki_category/apple/modify.yml'
+      end
+
       let(:zebra_assignable) do
         Authz::PermissionGroups::Assignable.new(
           {
-            name: 'zebra_assignable',
+            name: 'modify_zebra',
             description: 'Zebra assignable',
             permissions: %w[beta_permission alpha_permission unique_one],
             boundaries: ['project']
           },
-          Rails.root.join(permission_source_file).to_s
+          Rails.root.join(zebra_source_file).to_s
         )
       end
 
       let(:apple_assignable) do
         Authz::PermissionGroups::Assignable.new(
           {
-            name: 'apple_assignable',
+            name: 'modify_apple',
             description: 'Apple assignable',
             permissions: %w[beta_permission alpha_permission unique_two],
             boundaries: ['project']
           },
-          Rails.root.join(permission_source_file).to_s
+          Rails.root.join(apple_source_file).to_s
         )
       end
 
       before do
         allow(Authz::PermissionGroups::Assignable).to receive(:all).and_return(
-          { zebra_assignable: zebra_assignable, apple_assignable: apple_assignable }
+          { modify_zebra: zebra_assignable, modify_apple: apple_assignable }
         )
         allow(Authz::Permission).to receive(:defined?).with(anything).and_return(true)
       end
@@ -191,8 +199,8 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
           #  Each raw permission should only belong to one assignable permission.
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#important-constraints
           #
-          #    - alpha_permission: found in apple_assignable (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml), zebra_assignable (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml)
-          #    - beta_permission: found in apple_assignable (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml), zebra_assignable (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml)
+          #    - alpha_permission: found in modify_apple (config/authz/permission_groups/assignable_permissions/wiki_category/apple/modify.yml), modify_zebra (config/authz/permission_groups/assignable_permissions/wiki_category/zebra/modify.yml)
+          #    - beta_permission: found in modify_apple (config/authz/permission_groups/assignable_permissions/wiki_category/apple/modify.yml), modify_zebra (config/authz/permission_groups/assignable_permissions/wiki_category/zebra/modify.yml)
           #
           #######################################################################
         OUTPUT
@@ -202,13 +210,13 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
         let(:apple_assignable) do
           Authz::PermissionGroups::Assignable.new(
             {
-              name: 'apple_assignable',
+              name: 'modify_apple',
               description: 'Apple assignable',
               permissions: %w[beta_permission alpha_permission unique_two],
               boundaries: ['project'],
               deprecated: true
             },
-            Rails.root.join(permission_source_file).to_s
+            Rails.root.join(apple_source_file).to_s
           )
         end
 
@@ -219,6 +227,8 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
     end
 
     context 'when file path does not match /<category>/<resource>/<action>.yml' do
+      let(:permission_name) { 'update_weekee' }
+      let(:raw_permissions) { %w[update_wiki] }
       let(:permission_source_file) { 'config/authz/permission_groups/assignable_permissions/weekee/update.yml' }
 
       it 'returns an error' do
@@ -228,11 +238,44 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
           #  The following permission definitions do not exist at the expected path.
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#understanding-the-directory-structure
           #
-          #    - modify_wiki in config/authz/permission_groups/assignable_permissions/weekee/update.yml
+          #    - update_weekee in config/authz/permission_groups/assignable_permissions/weekee/update.yml
           #      Expected path: config/authz/permission_groups/assignable_permissions/<category>/weekee/update.yml
           #
           #######################################################################
         OUTPUT
+      end
+    end
+
+    context 'when permission name does not match path-derived name' do
+      let(:permission_name) { 'modify_old_wiki' }
+      let(:permission_source_file) do
+        'config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml'
+      end
+
+      it 'returns an error' do
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following permission names do not match their file path.
+          #  The permission name must equal '<action>_<resource>' derived from the path.
+          #  Learn more: https://docs.gitlab.com/development/permissions/conventions/#naming-permissions
+          #
+          #    - modify_old_wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml)
+          #      Path must match 'config/authz/permission_groups/assignable_permissions/<category>/<resource>/<action>.yml' based on <resource> and <action> values from 'modify_old_wiki' ('<action>_<resource>')
+          #
+          #######################################################################
+        OUTPUT
+      end
+    end
+
+    context 'when permission name matches path-derived name' do
+      let(:permission_name) { 'modify_wiki' }
+      let(:permission_source_file) do
+        'config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml'
+      end
+
+      it 'completes successfully' do
+        expect { run }.to output(/Assignable permission definitions are up-to-date/).to_stdout
       end
     end
 

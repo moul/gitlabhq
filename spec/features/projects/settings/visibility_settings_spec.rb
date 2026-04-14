@@ -34,7 +34,15 @@ RSpec.describe 'Projects > Settings > Visibility settings', :js, feature_categor
       end
 
       it 'accepts the changed state' do
-        find('.js-emails-enabled input[type="checkbox"]').click
+        email_notifications_checkbox = find('.js-emails-enabled input[type="checkbox"]')
+
+        email_notifications_checkbox.click
+        expect(page).to have_field(
+          'project[project_setting_attributes][emails_enabled]',
+          type: 'hidden',
+          with: 'false',
+          visible: false
+        )
 
         expect { save_permissions_group }.to change { updated_emails_disabled? }.to(true)
       end

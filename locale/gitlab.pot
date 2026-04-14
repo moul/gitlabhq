@@ -7671,7 +7671,7 @@ msgstr ""
 msgid "AiPowered|Data collection"
 msgstr ""
 
-msgid "AiPowered|Default access for users who can access AI features regardless of group membership."
+msgid "AiPowered|Default access regardless of group membership."
 msgstr ""
 
 msgid "AiPowered|Define how your GitLab instance communicates with AI infrastructure."
@@ -7731,9 +7731,6 @@ msgstr ""
 msgid "AiPowered|GitLab Credits dashboard"
 msgstr ""
 
-msgid "AiPowered|GitLab Duo"
-msgstr ""
-
 msgid "AiPowered|GitLab Duo Agent Platform"
 msgstr ""
 
@@ -7744,6 +7741,9 @@ msgid "AiPowered|GitLab Duo Core available to all users"
 msgstr ""
 
 msgid "AiPowered|GitLab Duo Model Selection"
+msgstr ""
+
+msgid "AiPowered|GitLab Duo Non-Agentic"
 msgstr ""
 
 msgid "AiPowered|GitLab Duo Self-Hosted"
@@ -7815,9 +7815,6 @@ msgstr ""
 msgid "AiPowered|No groups found"
 msgstr ""
 
-msgid "AiPowered|No limits applied. All eligible users have access to all AI features."
-msgstr ""
-
 msgid "AiPowered|Not enabled"
 msgstr ""
 
@@ -7837,6 +7834,9 @@ msgid "AiPowered|Purchase credits (opens in new window)"
 msgstr ""
 
 msgid "AiPowered|Remove"
+msgstr ""
+
+msgid "AiPowered|Restrict access to GitLab Duo Non-Agentic or GitLab Duo Agent Platform. By default, all eligible users can access all configured AI features."
 msgstr ""
 
 msgid "AiPowered|Save on GitLab Credits with monthly commitments"
@@ -7945,9 +7945,6 @@ msgid "AiPowered|When GitLab Duo is not available, experiment and beta features 
 msgstr ""
 
 msgid "AiPowered|When GitLab Duo is not available, prompt caching cannot be turned on."
-msgstr ""
-
-msgid "AiPowered|When configured, access to GitLab Duo or GitLab Duo Agent Platform can be restricted to selected groups. By default all eligible members can access all configured AI features. %{linkStart}How can I control access?%{linkEnd}"
 msgstr ""
 
 msgid "AiPowered|When you save, GitLab Duo will be turned off for all groups, subgroups, and projects."
@@ -38335,6 +38332,9 @@ msgstr ""
 msgid "InviteMembersModal| To get more members, the owner of this top-level group can %{trialLinkStart}start a trial%{trialLinkEnd} or %{upgradeLinkStart}upgrade%{upgradeLinkEnd} to a paid tier."
 msgstr ""
 
+msgid "InviteMembersModal|%{linkStart}What are roles?%{linkEnd}"
+msgstr ""
+
 msgid "InviteMembersModal|Access expiration date"
 msgstr ""
 
@@ -38380,9 +38380,6 @@ msgstr ""
 msgid "InviteMembersModal|Invite members"
 msgstr ""
 
-msgid "InviteMembersModal|Invited members are assigned the selected role or the role they have in the group, whichever is lower. Learn more about %{linkStart}roles%{linkEnd}."
-msgstr ""
-
 msgid "InviteMembersModal|Inviting a group %{linkStart}adds its members to your group%{linkEnd}, including members who join after the invite. This might put your group over the free %{count} user limit."
 msgstr ""
 
@@ -38407,13 +38404,13 @@ msgstr ""
 msgid "InviteMembersModal|Review the invite errors and try again:"
 msgstr ""
 
+msgid "InviteMembersModal|Role"
+msgstr ""
+
 msgid "InviteMembersModal|Search for a group to invite"
 msgstr ""
 
 msgid "InviteMembersModal|Select a group to invite"
-msgstr ""
-
-msgid "InviteMembersModal|Select a role"
 msgstr ""
 
 msgid "InviteMembersModal|Select from GitLab usernames or enter email addresses"
@@ -43027,6 +43024,9 @@ msgstr ""
 msgid "MemberRole|Failed to schedule LDAP sync. Please retry syncing."
 msgstr ""
 
+msgid "MemberRole|Full control of project settings."
+msgstr ""
+
 msgid "MemberRole|Group cn:"
 msgstr ""
 
@@ -43054,10 +43054,22 @@ msgstr ""
 msgid "MemberRole|No active LDAP synchronizations. Add synchronization to connect your LDAP directory with custom admin roles."
 msgstr ""
 
+msgid "MemberRole|No code access. View and comment on issues and epics."
+msgstr ""
+
 msgid "MemberRole|No description"
 msgstr ""
 
+msgid "MemberRole|No project access. View limited group information only."
+msgstr ""
+
 msgid "MemberRole|Overridden"
+msgstr ""
+
+msgid "MemberRole|Push code to non-protected branches. Create merge requests and run pipelines. Cannot manage project settings."
+msgstr ""
+
+msgid "MemberRole|Push code. Manage branches, merge requests, CI/CD settings, and members. Cannot delete the project."
 msgstr ""
 
 msgid "MemberRole|Remove LDAP synchronization"
@@ -43226,6 +43238,15 @@ msgid "MemberRole|User filter:"
 msgstr ""
 
 msgid "MemberRole|View LDAP synced users"
+msgstr ""
+
+msgid "MemberRole|View and manage security features for the group or project."
+msgstr ""
+
+msgid "MemberRole|View code only. Create and manage issues, epics, milestones, and iterations."
+msgstr ""
+
+msgid "MemberRole|View code only. Create issues and generate reports."
 msgstr ""
 
 msgid "MemberRole|View permissions"

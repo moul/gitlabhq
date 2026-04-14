@@ -198,7 +198,8 @@ Existing queries already work without the added indexes, and
 would not critical to operating the application.
 
 If indexing takes a long time to finish
-(a post-deployment migration should take less than [10 minutes](../migration_style_guide.md#how-long-a-migration-should-take))
+(concurrent operations in a post-deployment migration should take less than
+[20 minutes](query_performance.md#timing-guidelines-for-queries)),
 consider [indexing asynchronously](#create-indexes-asynchronously).
 
 ### Add an index to support new or updated queries

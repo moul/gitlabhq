@@ -25,7 +25,7 @@ export const IMPORT_PROJECT_MEMBERS_MODAL_TRACKING_CATEGORY = 'invite_project_me
 export const IMPORT_PROJECT_MEMBERS_MODAL_TRACKING_LABEL = 'project-members-page';
 export const INVITE_GROUP_MODAL_TRACKING_CATEGORY = 'invite_group_modal';
 export const MEMBERS_MODAL_DEFAULT_TITLE = s__('InviteMembersModal|Invite members');
-export const MEMBERS_MODAL_ROLE_SELECT_LABEL = s__('InviteMembersModal|Select a role');
+export const MEMBERS_MODAL_ROLE_SELECT_LABEL = s__('InviteMembersModal|Role');
 export const MEMBERS_MODAL_CELEBRATE_TITLE = s__(
   'InviteMembersModal|GitLab is better with colleagues!',
 );
@@ -90,9 +90,7 @@ export const QUEUED_MESSAGE_SUCCESSFUL = s__(
   'InviteMembersModal|Some invitations have been queued for administrator approval.',
 );
 export const INVALID_FEEDBACK_MESSAGE_DEFAULT = s__('InviteMembersModal|Something went wrong');
-export const READ_MORE_TEXT = s__(
-  `InviteMembersModal|Invited members are assigned the selected role or the role they have in the group, whichever is lower. Learn more about %{linkStart}roles%{linkEnd}.`,
-);
+export const READ_MORE_TEXT = s__(`InviteMembersModal|%{linkStart}What are roles?%{linkEnd}`);
 export const READ_MORE_ACCESS_EXPIRATION_TEXT = s__(
   `InviteMembersModal|After this date, the user cannot access the group or project. %{linkStart}Learn more about access%{linkEnd}.`,
 );

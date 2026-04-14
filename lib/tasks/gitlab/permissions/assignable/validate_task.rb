@@ -13,6 +13,7 @@ module Tasks
               duplicate_name: [],
               duplicate_raw_permission: {},
               file: {},
+              name_path_mismatch: {},
               resource_metadata_schema: {},
               category_metadata_schema: {},
               empty_resource_directory: [],
@@ -43,6 +44,7 @@ module Tasks
           def validate_permission(permission)
             validate_schema(permission)
             validate_file(permission)
+            validate_name_path(permission)
 
             # Collect unique resources and categories for metadata validation
             return unless permission.category.present? && permission.resource.present?
@@ -58,6 +60,18 @@ module Tasks
 
             name_and_actual_path = "#{permission.name} in #{expected_file_path_data[:actual_path]}"
             violations[:file][name_and_actual_path] = expected_file_path_data[:expected]
+          end
+
+          # Ensure resource and action based on the path matches name field value
+          def validate_name_path(permission)
+            return unless permission.resource.present? && permission.action.present?
+
+            name_from_path = "#{permission.action}_#{permission.resource}"
+            return if name_from_path == permission.name
+
+            violations[:name_path_mismatch][permission.name] =
+              "Path must match '#{PERMISSION_DIR}/<category>/<resource>/<action>.yml' " \
+                "based on <resource> and <action> values from '#{permission.name}' ('<action>_<resource>')"
           end
 
           def validate_names
@@ -146,6 +160,7 @@ module Tasks
             out += format_duplicate_name_errors
             out += format_duplicate_raw_permission_errors
             out += format_file_errors
+            out += format_name_path_mismatch_errors
             out += format_schema_errors(:resource_metadata_schema) { |id| metadata_path(id) }
             out += format_schema_errors(:category_metadata_schema) { |id| metadata_path(id) }
             out += format_error_list(:empty_resource_directory)
@@ -187,6 +202,18 @@ module Tasks
             "#{out}\n"
           end
 
+          def format_name_path_mismatch_errors
+            return '' if violations[:name_path_mismatch].empty?
+
+            out = "#{error_messages[:name_path_mismatch]}\n"
+
+            violations[:name_path_mismatch].each do |permission, expected|
+              out += "\n  - #{permission} (#{assignable_source_path(permission)})\n    #{expected}\n"
+            end
+
+            "#{out}\n"
+          end
+
           def assignable_source_path(name)
             permission = ::Authz::PermissionGroups::Assignable.all[name.to_sym]
             relative_path(permission.source_file)
@@ -210,6 +237,9 @@ module Tasks
                 "\n#{assignable_permissions_link(anchor: 'important-constraints')}",
               file: "The following permission definitions do not exist at the expected path." \
                 "\n#{assignable_permissions_link(anchor: 'understanding-the-directory-structure')}",
+              name_path_mismatch: "The following permission names do not match their file path." \
+                "\nThe permission name must equal '<action>_<resource>' derived from the path." \
+                "\n#{conventions_link(anchor: 'naming-permissions')}",
               resource_metadata_schema:
                 "The following assignable permission resource metadata file failed schema validation." \
                 "\n#{assignable_permissions_link(anchor: 'when-do-you-need-metadata-files')}",

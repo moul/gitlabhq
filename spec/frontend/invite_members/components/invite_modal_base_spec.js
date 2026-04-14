@@ -245,8 +245,7 @@ describe('InviteModalBase', () => {
     });
 
     describe('when users limit is not reached', () => {
-      const textRegex =
-        /Select maximum role\s*Invited members are assigned the selected role or the role they have in the group, whichever is lower. Learn more about roles.\s*Grant temporary access/;
+      const textRegex = /Select maximum role\s*What are roles\?\s*Grant temporary access/;
 
       beforeEach(() => {
         createComponent({ props: { reachedLimit: false }, stubs: { GlModal, GlFormGroup } });

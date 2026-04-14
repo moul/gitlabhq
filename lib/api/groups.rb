@@ -260,7 +260,7 @@ module API
       end
 
       def check_query_limit
-        ::Gitlab::QueryLimiting.disable!('https://gitlab.com/gitlab-org/gitlab/-/issues/586401', new_threshold: 101)
+        ::Gitlab::QueryLimiting.disable!('https://gitlab.com/gitlab-org/gitlab/-/issues/586401', new_threshold: 107)
       end
     end
 

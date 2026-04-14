@@ -1,0 +1,10 @@
+---
+name: duo_chat_monolith_components
+description: Use migrated Duo Chat view components from the GitLab monolith instead of the @gitlab/duo-ui package
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231056
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/595622
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/593464
+milestone: '18.11'
+group: group::duo chat
+type: gitlab_com_derisk
+default_enabled: false

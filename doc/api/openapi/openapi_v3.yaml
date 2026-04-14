@@ -817,6 +817,7 @@ paths:
   "/api/v4/code_suggestions/completions":
     post:
       operationId: postApiV4CodeSuggestionsCompletions
+      summary: Generate code completion suggestions
       responses:
         '201':
           description: Created
@@ -12697,6 +12698,7 @@ paths:
   "/api/v4/internal/gitaly/object_pool_members":
     get:
       operationId: getApiV4InternalGitalyObjectPoolMembers
+      summary: List Gitaly object pool members
       responses:
         '200':
           description: OK

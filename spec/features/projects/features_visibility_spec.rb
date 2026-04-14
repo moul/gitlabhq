@@ -215,6 +215,8 @@ RSpec.describe 'Edit Project Settings', feature_category: :groups_and_projects d
       visit activity_project_path(project)
       wait_for_requests
 
+      expect(page).to have_selector('.event-filter', visible: :all)
+
       page.within(".event-filter") do
         expect(page).to have_content("All")
         expect(page).not_to have_content("Push events")
@@ -256,6 +258,8 @@ RSpec.describe 'Edit Project Settings', feature_category: :groups_and_projects d
 
       visit activity_project_path(project)
       wait_for_requests
+
+      expect(page).to have_selector('.event-filter', visible: :all)
 
       page.within(".event-filter") do
         yield

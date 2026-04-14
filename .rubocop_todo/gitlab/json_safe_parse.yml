@@ -172,7 +172,6 @@ Gitlab/JsonSafeParse:
     - 'ee/spec/lib/gitlab/llm/ai_gateway/client_spec.rb'
     - 'ee/spec/lib/gitlab/llm/concerns/exponential_backoff_spec.rb'
     - 'ee/spec/lib/gitlab/llm/vertex_ai/client_spec.rb'
-    - 'ee/spec/lib/gitlab/search/zoekt/response_spec.rb'
     - 'ee/spec/lib/gitlab/spdx/catalogue_spec.rb'
     - 'ee/spec/lib/sbom/spdx_spec.rb'
     - 'ee/spec/lib/search/elastic/filters/confidentiality_filters_spec.rb'
