@@ -492,3 +492,15 @@ to generate a JWT token due to the certificate issue.
 If you do not use TLS to connect your self-hosted model with the Agent Platform, to resolve this issue,
 [turn off](configure_duo_features.md#configure-access-to-the-gitlab-duo-agent-platform)
 TLS connection to the GitLab Duo Agent Platform service.
+
+## Response from Agentic Chat does not display in the UI
+
+Chat responses require a persistent WebSocket connection between your browser and GitLab. If your reverse proxy does not support WebSocket upgrades, responses are generated successfully but do not appear in the chat in the GitLab UI.
+
+### Symptoms
+
+- `llm.log` shows `chunk_received`, `streaming_finished`, and `final_answer_received` with no errors.
+- AI Gateway logs show a successful model response.
+- The GitLab Duo Chat UI appears to process the request but never displays a response.
+
+To resolve this issue, ensure your reverse proxy is configured to meet the [inbound connection requirements](../gitlab_duo/configure/_index.md#allow-inbound-connections-from-clients-to-the-gitlab-instance).

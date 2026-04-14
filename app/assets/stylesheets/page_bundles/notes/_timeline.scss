@@ -90,7 +90,7 @@
   .timeline-entry:not(.timeline-entry .timeline-entry):last-child::before {
     @apply gl-bg-default;
 
-    .modal-body, .work-item-drawer & {
+    .modal-body, .work-item-detail-panel & {
       @apply gl-bg-overlap;
     }
   }

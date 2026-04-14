@@ -15,7 +15,14 @@ module ActiveContext
           remove_content: false,
           next_model_only: false
         )
-          with_batch_handling(refs) do
+          infinite_retry_errors =
+            if defined?(::Gitlab::Llm::Concerns::ExponentialBackoff::RateLimitError)
+              [::Gitlab::Llm::Concerns::ExponentialBackoff::RateLimitError]
+            else
+              []
+            end
+
+          with_batch_handling(refs, infinite_retry_error_types: infinite_retry_errors) do
             docs_to_process = refs.flat_map do |ref|
               models = ref.indexing_embedding_models(next_model_only: next_model_only)
 

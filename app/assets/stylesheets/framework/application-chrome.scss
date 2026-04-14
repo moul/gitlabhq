@@ -205,7 +205,7 @@
   }
 
   // work item drawer correct background colors
-  .work-item-drawer {
+  .work-item-detail-panel {
     .description-more::before {
       background: linear-gradient(180deg, transparent 0%, var(--gl-background-color-default) 100%) !important;
     }
@@ -279,7 +279,7 @@
     --top-bar-height: 0px; // stylelint-disable-line length-zero-no-unit
 
     .panel-content-inner,
-    .vue-portal-target .work-item-drawer-content {
+    .vue-portal-target .work-item-detail-panel-content {
       // This prevents the scrollbar transparency rule above from breaking scrollbars in dropdown menus
       .dropdown-menu {
         background: var(--gl-background-color-overlap);
@@ -395,7 +395,7 @@
 
   // Panel header
   .panel-header .top-bar-fixed,
-  .work-item-drawer-header {
+  .work-item-detail-panel-header {
     @apply gl-bg-default gl-shadow-none gl-relative gl-px-4 lg:gl-px-5 #{!important};
     z-index: 99;
     border-bottom: 1px solid var(--super-sidebar-bg);
@@ -408,7 +408,7 @@
 
   // Panel content
   .panel-content,
-  .work-item-drawer {
+  .work-item-detail-panel {
     // a slight padding is added to the panel itself so that scrollbar does not get covered by the rounded edge of the panel
     // we're using padding instead of margin so that fixed elements connect with the bottom edge of the panel
     @apply gl-pb-3;
@@ -423,19 +423,19 @@
   }
 
   &.issue-boards-page .panel-content,
-  &.issue-boards-page .work-item-drawer {
+  &.issue-boards-page .work-item-detail-panel {
     @apply gl-pb-0;
   }
 
   .panel-content-inner,
-  .work-item-drawer-content {
+  .work-item-detail-panel-content {
     overflow-x: hidden;
     overflow-y: scroll;
   }
 
   .panel-content-inner,
-  .work-item-drawer-content,
-  .work-item-drawer-header {
+  .work-item-detail-panel-content,
+  .work-item-detail-panel-header {
     margin-right: calc(var(--scrollbar-width, 0) * -1);
   }
 
@@ -444,13 +444,13 @@
     flex: 1;
   }
 
-  .work-item-drawer-content {
+  .work-item-detail-panel-content {
     @apply gl-px-5;
     flex: 1;
   }
 
   // duplicate class to override Tailwind
-  .work-item-drawer-header.work-item-drawer-header {
+  .work-item-detail-panel-header.work-item-detail-panel-header {
     @apply gl-py-4;
     width: auto;
   }
@@ -471,7 +471,7 @@
     @apply gl-rounded-[1rem] #{!important};
 
     // Work item drawer
-    .work-item-drawer {
+    .work-item-detail-panel {
       @apply gl-h-full gl-pt-0;
     }
 
@@ -484,7 +484,7 @@
       }
     }
 
-    .work-item-drawer .issue-sticky-header:not(.merge-request-sticky-header) {
+    .work-item-detail-panel .issue-sticky-header:not(.merge-request-sticky-header) {
       top: $header-height !important;
 
       .work-item-sticky-header-text {
@@ -871,7 +871,7 @@
   }
 
   .panel-header .top-bar-fixed,
-  .work-item-drawer-header,
+  .work-item-detail-panel-header,
   .ai-panel-header {
     border-bottom: 1px solid var(--theme-border-color);
   }
@@ -965,7 +965,7 @@
     }
   }
 
-  .work-item-drawer .work-item-overview-right-sidebar {
+  .work-item-detail-panel .work-item-overview-right-sidebar {
     @apply gl-pb-10;
   }
 }

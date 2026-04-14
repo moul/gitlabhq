@@ -302,7 +302,7 @@ export const getToggleFromLocalStorage = (key, defaultValue = true) => {
  * @param {string} issuableType
  * @returns {string}
  */
-export const makeDrawerItemFullPath = (activeItem, fullPath, issuableType = TYPE_ISSUE) => {
+export const makeDetailPanelItemFullPath = (activeItem, fullPath, issuableType = TYPE_ISSUE) => {
   if (activeItem?.fullPath) {
     return activeItem.fullPath;
   }
@@ -324,11 +324,11 @@ export const makeDrawerItemFullPath = (activeItem, fullPath, issuableType = TYPE
  * @param {string} issuableType
  * @returns {{iid: string, full_path: string, id: number}}
  */
-export const makeDrawerUrlParam = (activeItem, fullPath, issuableType = TYPE_ISSUE) => {
+export const makeDetailPanelUrlParam = (activeItem, fullPath, issuableType = TYPE_ISSUE) => {
   return btoa(
     JSON.stringify({
       iid: activeItem.iid,
-      full_path: makeDrawerItemFullPath(activeItem, fullPath, issuableType),
+      full_path: makeDetailPanelItemFullPath(activeItem, fullPath, issuableType),
       id: getIdFromGraphQLId(activeItem.id),
     }),
   );

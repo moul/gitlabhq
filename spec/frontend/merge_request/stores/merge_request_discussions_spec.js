@@ -125,9 +125,9 @@ describe('mergeRequestDiscussions store', () => {
   });
 
   it.each([
-    'findDiscussionsForPosition',
     'findDiscussionsForFile',
-    'findAllLineDiscussionsForFile',
+    'findLinePositionsForFile',
+    'findLineDiscussionsForPosition',
     'findAllFileDiscussionsForFile',
     'findAllImageDiscussionsForFile',
     'batchSuggestionsInfo',
@@ -578,105 +578,6 @@ describe('mergeRequestDiscussions store', () => {
       };
     }
 
-    describe('findDiscussionsForPosition', () => {
-      const linePos = { ...filePaths, oldLine: 5, newLine: 5 };
-
-      it.each([
-        ['position', { position: makePos(diffRefs) }],
-        [
-          'original_position',
-          { position: makePos(otherRefs, 99), original_position: makePos(diffRefs) },
-        ],
-        [
-          'positions array',
-          {
-            position: makePos(otherRefs, 99),
-            original_position: makePos(otherRefs, 99),
-            positions: [makePos(diffRefs)],
-          },
-        ],
-      ])('matches via %s', (_, overrides) => {
-        useDiscussions().setInitialDiscussions([makeDiscussion('d', overrides)]);
-
-        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(1);
-      });
-
-      it('excludes discussions with no matching position', () => {
-        useDiscussions().setInitialDiscussions([
-          makeDiscussion('miss', {
-            position: makePos(otherRefs),
-            original_position: makePos(otherRefs),
-          }),
-        ]);
-
-        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(0);
-      });
-
-      it('matches forms via the same SHA+line path as real discussions', () => {
-        store.addNewLineDiscussionForm({
-          ...filePaths,
-          lineRange: { start: { old_line: 5, new_line: 5 }, end: { old_line: 5, new_line: 5 } },
-        });
-
-        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(1);
-      });
-
-      it('excludes non-diff discussions', () => {
-        useDiscussions().setInitialDiscussions([
-          makeDiscussion('non-diff', { diff_discussion: false }),
-        ]);
-
-        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(0);
-      });
-
-      it('excludes drafts until comments are ready', () => {
-        mockDraftNotes.findDraftsForPosition.mockReturnValue([{ id: 'draft_1', isDraft: true }]);
-
-        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(0);
-      });
-
-      it('includes drafts after fetchNotesAndDrafts', async () => {
-        mockDraftNotes.findDraftsForPosition.mockReturnValue([{ id: 'draft_1', isDraft: true }]);
-
-        await store.fetchNotesAndDrafts();
-
-        expect(store.findDiscussionsForPosition(linePos)).toHaveLength(1);
-      });
-
-      it('places drafts between notes and forms', async () => {
-        useDiscussions().setInitialDiscussions([
-          makeDiscussion('real', { position: makePos(diffRefs) }),
-        ]);
-        store.addNewLineDiscussionForm({
-          ...filePaths,
-          lineRange: { start: { old_line: 5, new_line: 5 }, end: { old_line: 5, new_line: 5 } },
-        });
-        mockDraftNotes.findDraftsForPosition.mockReturnValue([{ id: 'draft_1', isDraft: true }]);
-
-        await store.fetchNotesAndDrafts();
-
-        const results = store.findDiscussionsForPosition(linePos);
-        expect(results).toHaveLength(3);
-        expect(results[0].id).toBe('real');
-        expect(results[1].id).toBe('draft_1');
-        expect(results[2].isForm).toBe(true);
-      });
-
-      it('appends draft replies to discussion notes', async () => {
-        const draftReply = { id: 'draft-reply', isDraft: true, note: 'reply' };
-        useDiscussions().setInitialDiscussions([
-          makeDiscussion('real', { position: makePos(diffRefs), notes: [{ id: 'note-1' }] }),
-        ]);
-        mockDraftNotes.findDraftsForDiscussion.mockReturnValue([draftReply]);
-
-        await store.fetchNotesAndDrafts();
-
-        const [discussion] = store.findDiscussionsForPosition(linePos);
-        expect(discussion.notes).toHaveLength(2);
-        expect(discussion.notes[1]).toBe(draftReply);
-      });
-    });
-
     describe('findDiscussionsForFile', () => {
       it.each([
         ['includes', diffRefs, 1],
@@ -731,7 +632,7 @@ describe('mergeRequestDiscussions store', () => {
       });
     });
 
-    describe('findAllLineDiscussionsForFile', () => {
+    describe('findLinePositionsForFile', () => {
       it('swaps position to applicable version', () => {
         useDiscussions().setInitialDiscussions([
           makeDiscussion('swap', {
@@ -740,9 +641,9 @@ describe('mergeRequestDiscussions store', () => {
           }),
         ]);
 
-        const [result] = store.findAllLineDiscussionsForFile(filePaths);
-        expect(result.position.old_line).toBe(5);
-        expect(result.position).toMatchObject(diffRefs);
+        const [result] = store.findLinePositionsForFile(filePaths);
+        expect(result.old_line).toBe(5);
+        expect(result).toMatchObject(diffRefs);
       });
 
       it('excludes non-line discussions', () => {
@@ -758,25 +659,86 @@ describe('mergeRequestDiscussions store', () => {
           }),
         ]);
 
-        expect(store.findAllLineDiscussionsForFile(filePaths)).toHaveLength(0);
+        expect(store.findLinePositionsForFile(filePaths)).toHaveLength(0);
       });
 
       it('excludes line drafts until comments are ready', () => {
         mockDraftNotes.findDraftsAsLineDiscussionsForFile.mockReturnValue([
-          { id: 'draft_1', isDraft: true },
+          { id: 'draft_1', isDraft: true, position: makePos(diffRefs) },
         ]);
 
-        expect(store.findAllLineDiscussionsForFile(filePaths)).toHaveLength(0);
+        expect(store.findLinePositionsForFile(filePaths)).toHaveLength(0);
       });
 
       it('includes line drafts after fetchNotesAndDrafts', async () => {
         mockDraftNotes.findDraftsAsLineDiscussionsForFile.mockReturnValue([
-          { id: 'draft_1', isDraft: true },
+          { id: 'draft_1', isDraft: true, position: makePos(diffRefs) },
         ]);
 
         await store.fetchNotesAndDrafts();
 
-        expect(store.findAllLineDiscussionsForFile(filePaths)).toHaveLength(1);
+        expect(store.findLinePositionsForFile(filePaths)).toHaveLength(1);
+      });
+    });
+
+    describe('findLineDiscussionsForPosition', () => {
+      it('returns discussions matching the given position', () => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('match', {
+            position: makePos(diffRefs, 5),
+            original_position: makePos(diffRefs, 5),
+          }),
+          makeDiscussion('no-match', {
+            position: makePos(diffRefs, 10),
+            original_position: makePos(diffRefs, 10),
+          }),
+        ]);
+
+        const result = store.findLineDiscussionsForPosition({
+          ...filePaths,
+          oldLine: 5,
+          newLine: 5,
+        });
+        expect(result).toHaveLength(1);
+        expect(result[0].id).toBe('match');
+      });
+
+      it('swaps position to applicable version for matching', () => {
+        useDiscussions().setInitialDiscussions([
+          makeDiscussion('swap', {
+            position: makePos(otherRefs, 99),
+            original_position: makePos(diffRefs, 5),
+          }),
+        ]);
+
+        const result = store.findLineDiscussionsForPosition({
+          ...filePaths,
+          oldLine: 5,
+          newLine: 5,
+        });
+        expect(result).toHaveLength(1);
+        expect(result[0].id).toBe('swap');
+      });
+
+      it('excludes drafts until comments are ready', () => {
+        mockDraftNotes.findDraftsForPosition.mockReturnValue([{ id: 'draft_1', isDraft: true }]);
+
+        expect(
+          store.findLineDiscussionsForPosition({ ...filePaths, oldLine: 5, newLine: 5 }),
+        ).toHaveLength(0);
+      });
+
+      it('includes drafts after fetchNotesAndDrafts', async () => {
+        mockDraftNotes.findDraftsForPosition.mockReturnValue([{ id: 'draft_1', isDraft: true }]);
+
+        await store.fetchNotesAndDrafts();
+
+        const result = store.findLineDiscussionsForPosition({
+          ...filePaths,
+          oldLine: 5,
+          newLine: 5,
+        });
+        expect(result).toHaveLength(1);
       });
 
       it('appends draft replies to discussion notes', async () => {
@@ -788,7 +750,11 @@ describe('mergeRequestDiscussions store', () => {
 
         await store.fetchNotesAndDrafts();
 
-        const [discussion] = store.findAllLineDiscussionsForFile(filePaths);
+        const [discussion] = store.findLineDiscussionsForPosition({
+          ...filePaths,
+          oldLine: 5,
+          newLine: 5,
+        });
         expect(discussion.notes).toHaveLength(2);
         expect(discussion.notes[1]).toBe(draftReply);
       });

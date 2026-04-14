@@ -11,6 +11,8 @@ module Cells
 
     MissingPrimaryKeyError = Class.new(RuntimeError)
 
+    BULK_CLAIMS_BATCH_SIZE = 500
+
     included do
       after_save :cells_claims_save_changes
       before_destroy :cells_claims_destroy_changes
@@ -58,7 +60,11 @@ module Cells
       end
 
       # rubocop:disable Gitlab/FeatureFlagKeyDynamic -- need to check against feature flag name dynamically
-      def cells_claims_enabled_for_attribute?(attribute_config)
+      def cells_claims_enabled_for_attribute?(attribute_name)
+        return false unless Gitlab.config.cell.enabled
+
+        attribute_config = cells_claims_attributes[attribute_name]
+        return false unless attribute_config
         return true if attribute_config[:feature_flag].nil?
 
         Feature.enabled?(attribute_config[:feature_flag], :current_request)
@@ -67,6 +73,22 @@ module Cells
     end
 
     mattr_reader :models_with_claims, default: Set.new
+
+    # Builds a JSON-serializable Hash for passing through Sidekiq args.
+    def build_destroy_metadata_for_worker(attribute_name)
+      config = self.class.cells_claims_attributes[attribute_name]
+      return unless config
+      return unless cells_claims_attribute_claimable?(config)
+
+      {
+        'bucket_type' => config[:type],
+        'bucket_value' => self[attribute_name].to_s,
+        'subject_type' => self.class.cells_claims_subject_type,
+        'subject_id' => cells_claims_subject_key,
+        'source_type' => self.class.cells_claims_source_type,
+        'primary_key' => read_attribute(self.class.primary_key)
+      }
+    end
 
     def handle_grpc_error(error)
       case error.code
@@ -122,7 +144,7 @@ module Cells
       return unless transaction_record
 
       self.class.cells_claims_attributes.each do |attribute, config|
-        next unless self.class.cells_claims_enabled_for_attribute?(config)
+        next unless self.class.cells_claims_enabled_for_attribute?(attribute)
         next unless saved_change_to_attribute?(attribute)
 
         was, is = saved_change_to_attribute(attribute)
@@ -144,7 +166,7 @@ module Cells
       return unless transaction_record
 
       self.class.cells_claims_attributes.each do |attribute, config|
-        next unless self.class.cells_claims_enabled_for_attribute?(config)
+        next unless self.class.cells_claims_enabled_for_attribute?(attribute)
 
         transaction_record.destroy_record(
           cells_claims_metadata_for(config[:type], public_send(attribute))) # rubocop:disable GitlabSecurity/PublicSend -- developer hard coded

@@ -263,6 +263,64 @@ RSpec.describe Route do
     end
   end
 
+  describe '#delete_conflicting_redirects cells claims' do
+    let(:route) { create(:project).route }
+
+    context 'when cells claims are enabled for RedirectRoute' do
+      before do
+        stub_config_cell(enabled: true)
+      end
+
+      it 'collects destroy metadata from conflicting redirects' do
+        redirect = route.create_redirect("#{route.path}/foo")
+
+        expect(redirect).to respond_to(:build_destroy_metadata_for_worker)
+
+        metadata = redirect.build_destroy_metadata_for_worker(:path)
+        expect(metadata).to be_a(Hash)
+        expect(metadata).to include(
+          'bucket_type', 'bucket_value', 'subject_type', 'subject_id', 'source_type', 'primary_key'
+        )
+      end
+
+      it 'queues BulkClaimsWorker in after_commit when conflicting redirects exist' do
+        redirect = route.create_redirect("#{route.path}/foo")
+        metadata = redirect.build_destroy_metadata_for_worker(:path)
+
+        expect(metadata).to be_present
+
+        # Verify the method collects metadata and passes it to run_after_commit
+        expect(route).to receive(:run_after_commit).and_yield
+
+        expect(Cells::BulkClaimsWorker).to receive(:perform_async).with(
+          'RedirectRoute', 'path', hash_including('destroy_metadata' => [metadata])
+        )
+
+        route.delete_conflicting_redirects
+      end
+
+      it 'deletes the redirect routes' do
+        route.create_redirect("#{route.path}/foo")
+
+        expect { route.delete_conflicting_redirects }.to change { RedirectRoute.count }.by(-1)
+      end
+    end
+
+    context 'when cells claims are disabled' do
+      before do
+        stub_config_cell(enabled: false)
+      end
+
+      it 'does not schedule BulkClaimsWorker' do
+        route.create_redirect("#{route.path}/foo")
+
+        expect(Cells::BulkClaimsWorker).not_to receive(:perform_async)
+
+        route.delete_conflicting_redirects
+      end
+    end
+  end
+
   describe '#conflicting_redirects' do
     let(:route) { create(:project).route }
 

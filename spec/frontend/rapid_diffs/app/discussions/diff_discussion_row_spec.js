@@ -11,7 +11,7 @@ const useMockStore = defineStore('discussionRowTestStore', {
     discussions: [],
   }),
   actions: {
-    findDiscussionsForPosition() {
+    findLineDiscussionsForPosition() {
       return this.discussions;
     },
     setPositionDiscussionsHidden() {},

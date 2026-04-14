@@ -18,15 +18,6 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     return [...discussions.discussions, ...discussionForms.value];
   });
 
-  const findDiscussionsForPosition = computed(() => {
-    const items = discussionsWithForms.value;
-    return (linePos) => {
-      return items.filter((discussion) => {
-        return discussion.diff_discussion && positionMatchesLine(discussion.position, linePos);
-      });
-    };
-  });
-
   const findAllDiscussionsForFile = computed(() => {
     const items = discussionsWithForms.value;
     return ({ oldPath, newPath }) => {
@@ -40,9 +31,24 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     };
   });
 
-  const findAllLineDiscussionsForFile = computed(() => {
+  const findLinePositionsForFile = computed(() => {
     return ({ oldPath, newPath }) => {
-      return findAllDiscussionsForFile.value({ oldPath, newPath }).filter(isLineDiscussion);
+      return findAllDiscussionsForFile
+        .value({ oldPath, newPath })
+        .filter(isLineDiscussion)
+        .map((discussion) => discussion.position);
+    };
+  });
+
+  const findLineDiscussionsForPosition = computed(() => {
+    return ({ oldPath, newPath, oldLine, newLine }) => {
+      return findAllDiscussionsForFile
+        .value({ oldPath, newPath })
+        .filter(
+          (discussion) =>
+            isLineDiscussion(discussion) &&
+            positionMatchesLine(discussion.position, { oldPath, newPath, oldLine, newLine }),
+        );
     };
   });
 
@@ -191,10 +197,10 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
   return {
     discussionForms,
     discussionsWithForms,
-    findDiscussionsForPosition,
     findDiscussionsForFile,
     findAllDiscussionsForFile,
-    findAllLineDiscussionsForFile,
+    findLinePositionsForFile,
+    findLineDiscussionsForPosition,
     findAllFileDiscussionsForFile,
     findAllImageDiscussionsForFile,
     collapseDiscussion: discussions.collapseDiscussion,

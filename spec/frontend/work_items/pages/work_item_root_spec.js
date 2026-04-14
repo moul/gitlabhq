@@ -53,7 +53,7 @@ describe('Work items root component', () => {
       workItemId: null,
       workItemIid: '1',
       workItemFullPath: 'full-path',
-      isDrawer: false,
+      isDetailPanel: false,
       isBoard: false,
     });
   });

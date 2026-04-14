@@ -45,10 +45,11 @@ export default {
       if (!this.parallel) return 3;
       return this.positions.length === 1 ? 4 : 2;
     },
+    discussionsByPosition() {
+      return this.positions.map((p) => this.store.findLineDiscussionsForPosition(p));
+    },
     regularDiscussionsByPosition() {
-      return this.positions.map((p) =>
-        this.store.findDiscussionsForPosition(p).filter((d) => !d.isDraft),
-      );
+      return this.discussionsByPosition.map((discussions) => discussions.filter((d) => !d.isDraft));
     },
     allResolved() {
       return this.regularDiscussionsByPosition.every((discussions) => {
@@ -63,12 +64,10 @@ export default {
       );
     },
     hasDrafts() {
-      return this.positions.some((p) =>
-        this.store.findDiscussionsForPosition(p).some((d) => d.isDraft),
-      );
+      return this.discussionsByPosition.some((discussions) => discussions.some((d) => d.isDraft));
     },
     empty() {
-      return this.positions.every((p) => this.store.findDiscussionsForPosition(p).length === 0);
+      return this.discussionsByPosition.every((discussions) => discussions.length === 0);
     },
   },
   watch: {
@@ -84,15 +83,12 @@ export default {
       const { oldPath, newPath } = this.filePaths;
       return { oldPath, newPath, oldLine, newLine };
     },
-    allDiscussionsForPosition(position) {
-      return this.store.findDiscussionsForPosition(position);
-    },
     discussionsForGutter(index) {
       return this.regularDiscussionsByPosition[index].filter((d) => !d.isForm);
     },
-    visibleDiscussions(position) {
-      if (this.allHidden) return this.allDiscussionsForPosition(position).filter((d) => d.isDraft);
-      return this.allDiscussionsForPosition(position);
+    visibleDiscussions(index) {
+      if (this.allHidden) return this.discussionsByPosition[index].filter((d) => d.isDraft);
+      return this.discussionsByPosition[index];
     },
     toggle(expanded) {
       this.positions.forEach((p) => this.store.setPositionDiscussionsHidden(p, expanded));
@@ -115,8 +111,8 @@ export default {
         @toggle="toggle"
       />
       <diff-line-discussions
-        v-if="visibleDiscussions(position).length"
-        :discussions="visibleDiscussions(position)"
+        v-if="visibleDiscussions(index).length"
+        :discussions="visibleDiscussions(index)"
         :collapsed="allHidden"
         @start-thread="$emit('start-thread', position)"
         @highlight="$emit('highlight', $event)"

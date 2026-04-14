@@ -27,6 +27,10 @@ export default {
         commitsText: this.formatCommitsText(v.commits_count),
       }));
     },
+    selectedTargetIsBranch() {
+      const selected = this.targetVersions.find((v) => v.selected);
+      return Boolean(selected?.branch);
+    },
     formattedTargetVersions() {
       return this.targetVersions.map((v) => {
         if (v.version_index == null) {
@@ -63,27 +67,39 @@ export default {
     },
   },
   i18n: {
-    compareMessage: s__('MergeRequest|Compare %{target} and %{source}'),
+    compareMessage: s__(
+      'MergeRequest|%{targetStart}Compare%{targetEnd} %{sourceStart}and%{sourceEnd}',
+    ),
   },
 };
 </script>
 
 <template>
-  <div class="gl-flex gl-min-w-0 gl-items-center">
+  <div class="gl-max-w-[max-content] gl-flex-1 gl-py-2 @sm/panel:gl-flex @sm/panel:gl-items-center">
     <gl-sprintf :message="$options.i18n.compareMessage">
-      <template #target>
-        <compare-dropdown-layout
-          :versions="formattedTargetVersions"
-          class="mr-version-compare-dropdown gl-mx-1"
-          data-testid="target-version-dropdown"
-        />
+      <template #target="{ content }">
+        <span class="gl-inline-flex gl-items-center gl-whitespace-nowrap">
+          {{ content }}
+          <compare-dropdown-layout
+            :versions="formattedTargetVersions"
+            :truncate="selectedTargetIsBranch"
+            class="mr-version-compare-dropdown gl-mx-1"
+            :class="{
+              'gl-min-w-18 gl-max-w-[300px] gl-flex-1': selectedTargetIsBranch,
+            }"
+            data-testid="target-version-dropdown"
+          />
+        </span>
       </template>
-      <template #source>
-        <compare-dropdown-layout
-          :versions="formattedSourceVersions"
-          class="mr-version-dropdown gl-mx-1"
-          data-testid="source-version-dropdown"
-        />
+      <template #source="{ content }">
+        <span class="gl-inline-flex gl-items-center gl-whitespace-nowrap">
+          {{ content }}
+          <compare-dropdown-layout
+            :versions="formattedSourceVersions"
+            class="mr-version-dropdown gl-mx-1"
+            data-testid="source-version-dropdown"
+          />
+        </span>
       </template>
     </gl-sprintf>
   </div>

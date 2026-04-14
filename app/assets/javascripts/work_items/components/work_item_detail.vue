@@ -89,7 +89,7 @@ import WorkItemAncestors from './work_item_ancestors/work_item_ancestors.vue';
 import WorkItemTitle from './work_item_title.vue';
 import WorkItemLoading from './work_item_loading.vue';
 import WorkItemAbuseModal from './work_item_abuse_modal.vue';
-import WorkItemDrawer from './work_item_drawer.vue';
+import WorkItemDetailPanel from './work_item_detail_panel.vue';
 import DesignWidget from './design_management/design_management_widget.vue';
 import DesignUploadButton from './design_management/upload_button.vue';
 import WorkItemDevelopment from './work_item_development/work_item_development.vue';
@@ -142,7 +142,7 @@ export default {
     WorkItemTitle,
     WorkItemLoading,
     WorkItemAbuseModal,
-    WorkItemDrawer,
+    WorkItemDetailPanel,
     WorkItemDevelopment,
     WorkItemCreateBranchMergeRequestSplitButton,
     WorkItemVulnerabilities: () =>
@@ -188,7 +188,7 @@ export default {
       required: false,
       default: '',
     },
-    isDrawer: {
+    isDetailPanel: {
       type: Boolean,
       required: false,
       default: false,
@@ -281,7 +281,7 @@ export default {
           this.refetchError = null;
         }
 
-        if (!(this.isModal || this.isDrawer) && this.workItem.namespace) {
+        if (!(this.isModal || this.isDetailPanel) && this.workItem.namespace) {
           const path = this.workItem.namespace.fullPath
             ? ` · ${this.workItem.namespace.fullPath}`
             : '';
@@ -537,8 +537,8 @@ export default {
     hasChildren() {
       return this.workItemHierarchy?.hasChildren;
     },
-    isModalOrDrawer() {
-      return this.isModal || this.isDrawer;
+    isModalOrDetailPanel() {
+      return this.isModal || this.isDetailPanel;
     },
     workItemActionProps() {
       return {
@@ -559,7 +559,7 @@ export default {
         workItemReference: this.workItem.reference,
         workItemWebUrl: this.workItem.webUrl,
         workItemCreateNoteEmail: this.workItem.createNoteEmail,
-        isModal: this.isModalOrDrawer,
+        isModal: this.isModalOrDetailPanel,
         workItemState: this.workItem.state,
         hasChildren: this.hasChildren,
         hasParent: this.shouldShowAncestors,
@@ -688,7 +688,7 @@ export default {
         return;
       }
 
-      if (modalWorkItem.workItemType?.name === WORK_ITEM_TYPE_NAME_INCIDENT || this.isDrawer) {
+      if (modalWorkItem.workItemType?.name === WORK_ITEM_TYPE_NAME_INCIDENT || this.isDetailPanel) {
         return;
       }
       if (event) {
@@ -961,7 +961,7 @@ export default {
       <!-- Do not remove the element below, it allows for scrolling to top on click of sticky header -->
       <div id="top"></div>
       <section class="work-item-view">
-        <component :is="isModalOrDrawer ? 'h2' : 'h1'" v-if="editMode" class="gl-sr-only">{{
+        <component :is="isModalOrDetailPanel ? 'h2' : 'h1'" v-if="editMode" class="gl-sr-only">{{
           s__('WorkItem|Edit work item')
         }}</component>
         <gl-alert
@@ -980,7 +980,9 @@ export default {
         </section>
         <section
           v-if="refetchError"
-          :class="isDrawer ? 'gl-sticky gl-top-0' : 'flash-container flash-container-page sticky'"
+          :class="
+            isDetailPanel ? 'gl-sticky gl-top-0' : 'flash-container flash-container-page sticky'
+          "
           :style="{ zIndex: 100 }"
           data-testid="work-item-refetch-alert"
         >
@@ -1028,7 +1030,7 @@ export default {
                   v-if="workItem.title"
                   ref="title"
                   :is-editing="editMode"
-                  :is-modal="isModalOrDrawer"
+                  :is-modal="isModalOrDetailPanel"
                   :title="workItem.title"
                   :title-html="workItem.titleHtml"
                   @updateWorkItem="updateWorkItem"
@@ -1094,7 +1096,7 @@ export default {
                 v-if="workItem.title && shouldShowAncestors"
                 ref="title"
                 :is-editing="editMode"
-                :is-modal="isModalOrDrawer"
+                :is-modal="isModalOrDetailPanel"
                 :class="titleClassComponent"
                 :title="workItem.title"
                 :title-html="workItem.titleHtml"
@@ -1132,7 +1134,7 @@ export default {
               :parent-work-item-confidentiality="parentWorkItemConfidentiality"
               :full-path="workItemFullPath"
               :is-modal="isModal"
-              :is-drawer="isDrawer"
+              :is-drawer="isDetailPanel"
               :work-item="workItem"
               :is-sticky-header-showing="isStickyHeaderShowing"
               :archived="workItem.archived"
@@ -1186,8 +1188,8 @@ export default {
                   :work-item-id="workItem.id"
                   :work-item-iid="workItem.iid"
                   :update-in-progress="updateInProgress"
-                  :without-heading-anchors="isDrawer"
-                  :hide-fullscreen-markdown-button="isDrawer"
+                  :without-heading-anchors="isDetailPanel"
+                  :hide-fullscreen-markdown-button="isDetailPanel"
                   :truncation-enabled="truncationEnabled"
                   @updateWorkItem="updateWorkItem"
                   @updateDraft="updateDraft('description', $event)"
@@ -1255,7 +1257,7 @@ export default {
               >
                 <h2 class="gl-sr-only">{{ s__('WorkItem|Attributes') }}</h2>
                 <work-item-attributes-wrapper
-                  :class="{ 'gl-top-9': isDrawer }"
+                  :class="{ 'gl-top-9': isDetailPanel }"
                   :full-path="workItemFullPath"
                   :work-item="workItem"
                   :group-path="groupPath"
@@ -1278,7 +1280,7 @@ export default {
 
               <design-widget
                 v-if="hasDesignWidget"
-                :class="{ 'gl-mt-0': isDrawer }"
+                :class="{ 'gl-mt-0': isDetailPanel }"
                 :work-item-id="workItem.id"
                 :work-item-iid="iid"
                 :work-item-full-path="workItemFullPath"
@@ -1327,7 +1329,7 @@ export default {
                 :can-update-children="canUpdateChildren"
                 :confidential="workItem.confidential"
                 :allowed-child-types="allowedChildTypes"
-                :is-drawer="isDrawer"
+                :is-drawer="isDetailPanel"
                 contextual-view-enabled
                 @show-modal="openContextualView"
                 @add-child="$emit('add-child')"
@@ -1369,7 +1371,7 @@ export default {
                 :work-item-type="workItemType"
                 :work-item-type-id="workItemTypeId"
                 :is-modal="isModal"
-                :is-drawer="isDrawer"
+                :is-drawer="isDetailPanel"
                 :assignees="workItemAssignees && workItemAssignees.assignees.nodes"
                 :can-set-work-item-metadata="canAssignUnassignUser"
                 :can-summarize-comments="canSummarizeComments"
@@ -1378,10 +1380,10 @@ export default {
                 :is-work-item-confidential="workItem.confidential"
                 :new-comment-template-paths="workItem.commentTemplatesPaths"
                 class="gl-pt-5"
-                :use-h2="!isModalOrDrawer"
+                :use-h2="!isModalOrDetailPanel"
                 :small-header-style="isModal"
                 :parent-id="parentWorkItemId"
-                :hide-fullscreen-markdown-button="isDrawer"
+                :hide-fullscreen-markdown-button="isDetailPanel"
                 @error="updateError = $event"
                 @openReportAbuse="openReportAbuseModal"
                 @start-editing="isAddingNotes = true"
@@ -1393,8 +1395,8 @@ export default {
           </div>
         </section>
       </section>
-      <work-item-drawer
-        v-if="!isDrawer"
+      <work-item-detail-panel
+        v-if="!isDetailPanel"
         :active-item="activeChildItem"
         :open="isItemSelected"
         :issuable-type="activeChildItemType"

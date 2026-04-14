@@ -26927,7 +26927,28 @@ msgid_plural "DuoChat|%{count} characters remaining."
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "DuoChat|%{tool} is %{transition} an answer"
+msgstr ""
+
+msgid "DuoChat|Accurate information"
+msgstr ""
+
 msgid "DuoChat|Agentic"
+msgstr ""
+
+msgid "DuoChat|Always approve this tool"
+msgstr ""
+
+msgid "DuoChat|Approve Once"
+msgstr ""
+
+msgid "DuoChat|Approve for session"
+msgstr ""
+
+msgid "DuoChat|Approved"
+msgstr ""
+
+msgid "DuoChat|Approving..."
 msgstr ""
 
 msgid "DuoChat|Ask a question about GitLab"
@@ -26936,34 +26957,133 @@ msgstr ""
 msgid "DuoChat|Back to chat"
 msgstr ""
 
+msgid "DuoChat|Back to history"
+msgstr ""
+
 msgid "DuoChat|Cancel"
+msgstr ""
+
+msgid "DuoChat|Change permissions for file %{filePath}"
+msgstr ""
+
+msgid "DuoChat|Chat can autonomously change code. Responses and changes can be inaccurate. Review carefully."
 msgstr ""
 
 msgid "DuoChat|Chat history"
 msgstr ""
 
+msgid "DuoChat|Clock icon with circular arrow, indicating chat history or time-based functionality"
+msgstr ""
+
 msgid "DuoChat|Close chat"
+msgstr ""
+
+msgid "DuoChat|Collapse details"
+msgstr ""
+
+msgid "DuoChat|Commit and push to a new branch in repository %{repository}."
+msgstr ""
+
+msgid "DuoChat|Commit and push to a new branch."
+msgstr ""
+
+msgid "DuoChat|Commit and push to branch %{branch} in repository %{repository}."
+msgstr ""
+
+msgid "DuoChat|Commit and push to branch %{branch}."
+msgstr ""
+
+msgid "DuoChat|Commit and push to repository"
 msgstr ""
 
 msgid "DuoChat|Copy Chat Session ID (%{id})"
 msgstr ""
 
+msgid "DuoChat|Copy session ID: %{id}"
+msgstr ""
+
 msgid "DuoChat|Could not copy session ID"
+msgstr ""
+
+msgid "DuoChat|Create file %{filePath}"
+msgstr ""
+
+msgid "DuoChat|Created and maintained by GitLab"
+msgstr ""
+
+msgid "DuoChat|Delete file %{filePath}"
+msgstr ""
+
+msgid "DuoChat|Delete this chat"
+msgstr ""
+
+msgid "DuoChat|Denying..."
+msgstr ""
+
+msgid "DuoChat|Dismissal reason"
+msgstr ""
+
+msgid "DuoChat|Display tool details"
 msgstr ""
 
 msgid "DuoChat|Duo Agentic Chat is not available at the moment in this page. To work with Duo Agentic Chat in pages outside the scope of a project please select a %{strong_start}Default GitLab Duo namespace%{strong_end} in your %{preferences_link_start}User Profile Preferences%{preferences_link_end}."
 msgstr ""
 
+msgid "DuoChat|Duo wants to execute %{count} tools."
+msgstr ""
+
+msgid "DuoChat|Duo:"
+msgstr ""
+
+msgid "DuoChat|Error sending the message"
+msgstr ""
+
+msgid "DuoChat|Expand command output"
+msgstr ""
+
+msgid "DuoChat|Expand details"
+msgstr ""
+
+msgid "DuoChat|Expand file changes"
+msgstr ""
+
+msgid "DuoChat|Explain why you're rejecting this tool execution..."
+msgstr ""
+
 msgid "DuoChat|For example, %{linkStart}what is a fork%{linkEnd}?"
+msgstr ""
+
+msgid "DuoChat|GitLab Duo Agentic Chat wants to execute a tool. Do you want to proceed?"
 msgstr ""
 
 msgid "DuoChat|GitLab Duo Chat"
 msgstr ""
 
+msgid "DuoChat|GitLab team members cannot view your conversation. Please be as descriptive as possible."
+msgstr ""
+
 msgid "DuoChat|Give feedback"
 msgstr ""
 
+msgid "DuoChat|Give feedback on GitLab Duo Chat"
+msgstr ""
+
+msgid "DuoChat|Good examples"
+msgstr ""
+
+msgid "DuoChat|Hello, I’m %{agentName}!"
+msgstr ""
+
+msgid "DuoChat|Helpful"
+msgstr ""
+
+msgid "DuoChat|Hide tool details"
+msgstr ""
+
 msgid "DuoChat|How can I help you today?"
+msgstr ""
+
+msgid "DuoChat|How could the response be improved?"
 msgstr ""
 
 msgid "DuoChat|How do I change my password in GitLab?"
@@ -26978,28 +27098,106 @@ msgstr ""
 msgid "DuoChat|How do I fork a project?"
 msgstr ""
 
+msgid "DuoChat|How the response might better meet your needs."
+msgstr ""
+
+msgid "DuoChat|I am GitLab Duo Agentic Chat, your personal AI-powered assistant."
+msgstr ""
+
 msgid "DuoChat|I am GitLab Duo Chat, your personal AI-powered assistant."
+msgstr ""
+
+msgid "DuoChat|Inactive chats are deleted after 30 days."
 msgstr ""
 
 msgid "DuoChat|Included references"
 msgstr ""
 
+msgid "DuoChat|Item content could not be displayed."
+msgstr ""
+
 msgid "DuoChat|Let's work through this together..."
+msgstr ""
+
+msgid "DuoChat|Loading chat history..."
+msgstr ""
+
+msgid "DuoChat|Me:"
+msgstr ""
+
+msgid "DuoChat|Missing steps"
+msgstr ""
+
+msgid "DuoChat|Modify file %{filePath}"
 msgstr ""
 
 msgid "DuoChat|More options"
 msgstr ""
 
+msgid "DuoChat|Move file %{filePath}"
+msgstr ""
+
+msgid "DuoChat|New chat"
+msgstr ""
+
 msgid "DuoChat|New chat conversation."
+msgstr ""
+
+msgid "DuoChat|No parameters will be sent with this request."
 msgstr ""
 
 msgid "DuoChat|No results found"
 msgstr ""
 
+msgid "DuoChat|Not helpful"
+msgstr ""
+
+msgid "DuoChat|Open chat: %{title}"
+msgstr ""
+
+msgid "DuoChat|Outdated/incorrect"
+msgstr ""
+
+msgid "DuoChat|Pending"
+msgstr ""
+
+msgid "DuoChat|Provide Rejection Reason"
+msgstr ""
+
+msgid "DuoChat|Read commit message"
+msgstr ""
+
+msgid "DuoChat|Read description"
+msgstr ""
+
+msgid "DuoChat|Read note's content"
+msgstr ""
+
+msgid "DuoChat|Rejection reason"
+msgstr ""
+
+msgid "DuoChat|Request parameters"
+msgstr ""
+
 msgid "DuoChat|Responses may be inaccurate. Verify before use."
 msgstr ""
 
+msgid "DuoChat|Saved me time"
+msgstr ""
+
 msgid "DuoChat|Search %{categoryLabel}…"
+msgstr ""
+
+msgid "DuoChat|Search chat history"
+msgstr ""
+
+msgid "DuoChat|Search chats..."
+msgstr ""
+
+msgid "DuoChat|See request parameters as JSON"
+msgstr ""
+
+msgid "DuoChat|See your chat history"
 msgstr ""
 
 msgid "DuoChat|Send chat message."
@@ -27008,13 +27206,94 @@ msgstr ""
 msgid "DuoChat|Session ID copied to clipboard"
 msgstr ""
 
+msgid "DuoChat|Share your feedback..."
+msgstr ""
+
+msgid "DuoChat|Solved my problem"
+msgstr ""
+
+msgid "DuoChat|Start branch"
+msgstr ""
+
+msgid "DuoChat|Submit Rejection"
+msgstr ""
+
+msgid "DuoChat|Tell Duo why you're rejecting this tool execution..."
+msgstr ""
+
+msgid "DuoChat|Tell us more"
+msgstr ""
+
+msgid "DuoChat|Thanks for the feedback!"
+msgstr ""
+
+msgid "DuoChat|The commit does not contain changes."
+msgstr ""
+
+msgid "DuoChat|The situation in which you interacted with GitLab Duo Chat."
+msgstr ""
+
 msgid "DuoChat|There was an error communicating with GitLab Duo Chat. Please try again later."
+msgstr ""
+
+msgid "DuoChat|This action does not have any content."
+msgstr ""
+
+msgid "DuoChat|Too generic"
+msgstr ""
+
+msgid "DuoChat|Tool Approval Required"
+msgstr ""
+
+msgid "DuoChat|Tool:"
 msgstr ""
 
 msgid "DuoChat|Type /help to learn more"
 msgstr ""
 
+msgid "DuoChat|Untitled Chat"
+msgstr ""
+
+msgid "DuoChat|Update file %{filePath}"
+msgstr ""
+
 msgid "DuoChat|What is a fork?"
+msgstr ""
+
+msgid "DuoChat|What made this helpful?"
+msgstr ""
+
+msgid "DuoChat|What were you doing?"
+msgstr ""
+
+msgid "DuoChat|What would have been more helpful?"
+msgstr ""
+
+msgid "DuoChat|Wrong context"
+msgstr ""
+
+msgid "DuoChat|You are about to reject the tool execution. Would you like to provide a reason?"
+msgstr ""
+
+msgid "DuoChat|Your previous chats will appear here."
+msgstr ""
+
+msgid "DuoChat|finding"
+msgstr ""
+
+msgid "DuoChat|generating"
+msgstr ""
+
+msgid "DuoChat|producing"
+msgstr ""
+
+msgid "DuoChat|working on"
+msgstr ""
+
+msgid "DuoChat|👋 I am GitLab Duo Agentic Chat, your personal AI-powered assistant. How can I help you today?"
+msgstr ""
+
+msgid "DuoChat|👋 I am GitLab Duo Chat, your personal AI-powered assistant. How can I help you today?"
 msgstr ""
 
 msgid "DuoCodeReview|:warning: %{user_reference}, you don't have permission to create a pipeline for Code Review Flow in this project. Contact your administrator to update your permissions."
@@ -32794,34 +33073,10 @@ msgstr ""
 msgid "GitLab.com import"
 msgstr ""
 
-msgid "GitLabDuo|Be specific and include any requirements."
+msgid "GitLabDuo|GitLab Duo"
 msgstr ""
 
-msgid "GitLabDuo|Cancel"
-msgstr ""
-
-msgid "GitLabDuo|Collapse"
-msgstr ""
-
-msgid "GitLabDuo|Expand"
-msgstr ""
-
-msgid "GitLabDuo|Generate plan"
-msgstr ""
-
-msgid "GitLabDuo|Goal"
-msgstr ""
-
-msgid "GitLabDuo|Image"
-msgstr ""
-
-msgid "GitLabDuo|It should have any tools necessary for the workflow installed."
-msgstr ""
-
-msgid "GitLabDuo|The container image to run the workflow in."
-msgstr ""
-
-msgid "GitLabDuo|What would you like to do and how."
+msgid "GitLabDuo|GitLab Duo Agentic Chat"
 msgstr ""
 
 msgid "GitLabPagesDomains|Retry"
@@ -43861,6 +44116,9 @@ msgid "MergeRequests|started a thread on an outdated change in commit %{link}"
 msgstr ""
 
 msgid "MergeRequests|started a thread on commit %{link}"
+msgstr ""
+
+msgid "MergeRequest|%{targetStart}Compare%{targetEnd} %{sourceStart}and%{sourceEnd}"
 msgstr ""
 
 msgid "MergeRequest|Allow merge request pipelines to access protected variables and runners"
@@ -77542,6 +77800,9 @@ msgid "View"
 msgstr ""
 
 msgid "View %{project} project"
+msgstr ""
+
+msgid "View All"
 msgstr ""
 
 msgid "View File Metadata"

@@ -15,10 +15,10 @@ const useDiscussionsStore = defineStore('discussionsStore', {
     discussions: [],
   }),
   actions: {
-    findAllLineDiscussionsForFile() {
-      return this.discussions;
+    findLinePositionsForFile() {
+      return this.discussions.map((d) => d.position);
     },
-    findDiscussionsForPosition() {
+    findLineDiscussionsForPosition() {
       return this.discussions;
     },
     addNewLineDiscussionForm() {},

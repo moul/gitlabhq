@@ -17,12 +17,12 @@ $work-item-overview-gap-width: 2rem;
 // stylelint-disable-next-line gitlab/no-gl-class
 .gl-modal .work-item-view,
 :where(.page-with-panels) .work-item-view, // when it's in a panel, treat work items like drawers
-.work-item-drawer .work-item-view:not(:has(.design-detail)) {
+.work-item-detail-panel .work-item-view:not(:has(.design-detail)) {
   container-name: work-item-view;
   container-type: inline-size;
 }
 
-.work-item-drawer {
+.work-item-detail-panel {
   transition: none;
 }
 
@@ -287,7 +287,7 @@ $disclosure-hierarchy-chevron-dimension: 1.2rem;
     width: 100%;
     background: linear-gradient(180deg, transparent 0%, var(--gl-background-color-default) 100%);
 
-    .work-item-drawer & {
+    .work-item-detail-panel & {
       background: linear-gradient(180deg, transparent 0%, var(--gl-background-color-overlap) 100%);
     }
   }
@@ -296,7 +296,7 @@ $disclosure-hierarchy-chevron-dimension: 1.2rem;
     pointer-events: auto;
     background-color: var(--gl-background-color-default);
 
-    .work-item-drawer & {
+    .work-item-detail-panel & {
       background-color: var(--gl-background-color-overlap);
     }
 
@@ -497,11 +497,11 @@ ul.content-list {
   top: calc(#{$calc-application-header-height} + var(--work-item-sticky-header-height, 3rem) + $gl-spacing-scale-3);
 }
 
-.work-item-drawer .flash-container.sticky {
+.work-item-detail-panel .flash-container.sticky {
   top: 0;
 }
 
-.work-item-drawer [data-testid="work-item-detail"]:has(.issue-sticky-header) .flash-container.sticky {
+.work-item-detail-panel [data-testid="work-item-detail"]:has(.issue-sticky-header) .flash-container.sticky {
   top: calc(var(--work-item-sticky-header-height, 3rem) + $gl-spacing-scale-3);
 }
 

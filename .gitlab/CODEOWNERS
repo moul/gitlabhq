@@ -73,6 +73,7 @@ Rakefile @gitlab-org/maintainers/rails-backend
 /ee/db/click_house/ @gitlab-org/maintainers/clickhouse
 /db/siphon/ @gitlab-org/maintainers/clickhouse
 
+/.gitlab/ @gitlab-org/maintainers/rails-backend
 .gitlab/CODEOWNERS @gitlab-org/development-leaders @gitlab-org/tw-leadership
 
 /*_VERSION @gitlab-org/maintainers/rails-backend @gitlab-org/delivery

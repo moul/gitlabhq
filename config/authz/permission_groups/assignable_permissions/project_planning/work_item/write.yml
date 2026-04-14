@@ -1,6 +1,7 @@
 ---
 name: write_work_item
 description: Grants the ability to create and update work items
+deprecated: true
 permissions:
   - add_issue_spent_time
   - add_merge_request_spent_time
@@ -36,7 +37,6 @@ permissions:
   - create_snippet_note
   - create_snippet_note_award_emoji
   - create_wiki_page_meta_note
-  - move_issue
   - move_issue
   - promote_milestone
   - reorder_issue

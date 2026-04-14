@@ -8762,6 +8762,31 @@ CREATE TABLE gitlab_partitions_static.namespace_descendants_31 (
     CONSTRAINT check_60ae9ef706 CHECK ((all_unarchived_project_ids IS NOT NULL))
 );
 
+CREATE TABLE p_ci_builds_partition_overrides (
+    build_id bigint NOT NULL,
+    partition_id bigint NOT NULL,
+    project_id bigint NOT NULL
+)
+PARTITION BY HASH (build_id);
+
+CREATE TABLE gitlab_partitions_static.p_ci_builds_partition_overrides_0 (
+    build_id bigint NOT NULL,
+    partition_id bigint NOT NULL,
+    project_id bigint NOT NULL
+);
+
+CREATE TABLE gitlab_partitions_static.p_ci_builds_partition_overrides_1 (
+    build_id bigint NOT NULL,
+    partition_id bigint NOT NULL,
+    project_id bigint NOT NULL
+);
+
+CREATE TABLE gitlab_partitions_static.p_ci_builds_partition_overrides_2 (
+    build_id bigint NOT NULL,
+    partition_id bigint NOT NULL,
+    project_id bigint NOT NULL
+);
+
 CREATE TABLE p_ci_pipeline_iids (
     project_id bigint NOT NULL,
     iid integer NOT NULL
@@ -17301,7 +17326,8 @@ CREATE TABLE ci_partitions (
     updated_at timestamp with time zone NOT NULL,
     status smallint DEFAULT 0 NOT NULL,
     current_from timestamp with time zone,
-    current_until timestamp with time zone
+    current_until timestamp with time zone,
+    builds_id_range int8range
 );
 
 CREATE TABLE ci_pending_builds (
@@ -34662,6 +34688,12 @@ ALTER TABLE ONLY namespace_descendants ATTACH PARTITION gitlab_partitions_static
 
 ALTER TABLE ONLY namespace_descendants ATTACH PARTITION gitlab_partitions_static.namespace_descendants_31 FOR VALUES WITH (modulus 32, remainder 31);
 
+ALTER TABLE ONLY p_ci_builds_partition_overrides ATTACH PARTITION gitlab_partitions_static.p_ci_builds_partition_overrides_0 FOR VALUES WITH (modulus 3, remainder 0);
+
+ALTER TABLE ONLY p_ci_builds_partition_overrides ATTACH PARTITION gitlab_partitions_static.p_ci_builds_partition_overrides_1 FOR VALUES WITH (modulus 3, remainder 1);
+
+ALTER TABLE ONLY p_ci_builds_partition_overrides ATTACH PARTITION gitlab_partitions_static.p_ci_builds_partition_overrides_2 FOR VALUES WITH (modulus 3, remainder 2);
+
 ALTER TABLE ONLY p_ci_pipeline_iids ATTACH PARTITION gitlab_partitions_static.p_ci_pipeline_iids_00 FOR VALUES WITH (modulus 64, remainder 0);
 
 ALTER TABLE ONLY p_ci_pipeline_iids ATTACH PARTITION gitlab_partitions_static.p_ci_pipeline_iids_01 FOR VALUES WITH (modulus 64, remainder 1);
@@ -37334,6 +37366,18 @@ ALTER TABLE ONLY gitlab_partitions_static.namespace_descendants_30
 ALTER TABLE ONLY gitlab_partitions_static.namespace_descendants_31
     ADD CONSTRAINT namespace_descendants_31_pkey PRIMARY KEY (namespace_id);
 
+ALTER TABLE ONLY p_ci_builds_partition_overrides
+    ADD CONSTRAINT p_ci_builds_partition_overrides_pkey PRIMARY KEY (build_id);
+
+ALTER TABLE ONLY gitlab_partitions_static.p_ci_builds_partition_overrides_0
+    ADD CONSTRAINT p_ci_builds_partition_overrides_0_pkey PRIMARY KEY (build_id);
+
+ALTER TABLE ONLY gitlab_partitions_static.p_ci_builds_partition_overrides_1
+    ADD CONSTRAINT p_ci_builds_partition_overrides_1_pkey PRIMARY KEY (build_id);
+
+ALTER TABLE ONLY gitlab_partitions_static.p_ci_builds_partition_overrides_2
+    ADD CONSTRAINT p_ci_builds_partition_overrides_2_pkey PRIMARY KEY (build_id);
+
 ALTER TABLE ONLY p_ci_pipeline_iids
     ADD CONSTRAINT p_ci_pipeline_iids_pkey PRIMARY KEY (project_id, iid);
 
@@ -38671,6 +38715,9 @@ ALTER TABLE sprints
 
 ALTER TABLE group_import_states
     ADD CONSTRAINT check_cda75c7c3f CHECK ((user_id IS NOT NULL)) NOT VALID;
+
+ALTER TABLE ONLY ci_partitions
+    ADD CONSTRAINT check_ci_partitions_builds_id_range_no_overlap EXCLUDE USING gist (builds_id_range WITH &&) WHERE ((builds_id_range IS NOT NULL));
 
 ALTER TABLE work_item_custom_statuses
     ADD CONSTRAINT check_custom_status_name_characters CHECK ((name !~ '^["''`]|["''`]$|[\x00-\x1F\x7F]'::text)) NOT VALID;
@@ -42697,6 +42744,14 @@ CREATE INDEX namespace_descendants_29_namespace_id_idx ON gitlab_partitions_stat
 CREATE INDEX namespace_descendants_30_namespace_id_idx ON gitlab_partitions_static.namespace_descendants_30 USING btree (namespace_id) WHERE (outdated_at IS NOT NULL);
 
 CREATE INDEX namespace_descendants_31_namespace_id_idx ON gitlab_partitions_static.namespace_descendants_31 USING btree (namespace_id) WHERE (outdated_at IS NOT NULL);
+
+CREATE INDEX index_p_ci_builds_partition_overrides_on_project_id ON ONLY p_ci_builds_partition_overrides USING btree (project_id);
+
+CREATE INDEX p_ci_builds_partition_overrides_0_project_id_idx ON gitlab_partitions_static.p_ci_builds_partition_overrides_0 USING btree (project_id);
+
+CREATE INDEX p_ci_builds_partition_overrides_1_project_id_idx ON gitlab_partitions_static.p_ci_builds_partition_overrides_1 USING btree (project_id);
+
+CREATE INDEX p_ci_builds_partition_overrides_2_project_id_idx ON gitlab_partitions_static.p_ci_builds_partition_overrides_2 USING btree (project_id);
 
 CREATE UNIQUE INDEX idx_uniq_vreg_cont_cache_remote_rel_path_key ON ONLY virtual_registries_container_cache_remote_entries USING btree (group_id, relative_path, object_storage_key);
 
@@ -52498,6 +52553,18 @@ ALTER INDEX index_on_namespace_descendants_outdated ATTACH PARTITION gitlab_part
 
 ALTER INDEX namespace_descendants_pkey ATTACH PARTITION gitlab_partitions_static.namespace_descendants_31_pkey;
 
+ALTER INDEX p_ci_builds_partition_overrides_pkey ATTACH PARTITION gitlab_partitions_static.p_ci_builds_partition_overrides_0_pkey;
+
+ALTER INDEX index_p_ci_builds_partition_overrides_on_project_id ATTACH PARTITION gitlab_partitions_static.p_ci_builds_partition_overrides_0_project_id_idx;
+
+ALTER INDEX p_ci_builds_partition_overrides_pkey ATTACH PARTITION gitlab_partitions_static.p_ci_builds_partition_overrides_1_pkey;
+
+ALTER INDEX index_p_ci_builds_partition_overrides_on_project_id ATTACH PARTITION gitlab_partitions_static.p_ci_builds_partition_overrides_1_project_id_idx;
+
+ALTER INDEX p_ci_builds_partition_overrides_pkey ATTACH PARTITION gitlab_partitions_static.p_ci_builds_partition_overrides_2_pkey;
+
+ALTER INDEX index_p_ci_builds_partition_overrides_on_project_id ATTACH PARTITION gitlab_partitions_static.p_ci_builds_partition_overrides_2_project_id_idx;
+
 ALTER INDEX p_ci_pipeline_iids_pkey ATTACH PARTITION gitlab_partitions_static.p_ci_pipeline_iids_00_pkey;
 
 ALTER INDEX p_ci_pipeline_iids_pkey ATTACH PARTITION gitlab_partitions_static.p_ci_pipeline_iids_01_pkey;
@@ -58876,6 +58943,9 @@ ALTER TABLE ONLY upcoming_reconciliations
 
 ALTER TABLE ONLY custom_fields
     ADD CONSTRAINT fk_rails_4a74c8558e FOREIGN KEY (created_by_id) REFERENCES users(id) ON DELETE SET NULL;
+
+ALTER TABLE p_ci_builds_partition_overrides
+    ADD CONSTRAINT fk_rails_4b774ba747 FOREIGN KEY (partition_id, build_id) REFERENCES p_ci_builds(partition_id, id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ONLY group_deletion_schedules
     ADD CONSTRAINT fk_rails_4b8c694a6c FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;

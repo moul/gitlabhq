@@ -142,6 +142,27 @@ describe('CompareVersions', () => {
       });
     });
 
+    it('passes truncate when selected target is a branch', () => {
+      expect(findTargetDropdown().props('truncate')).toBe(true);
+    });
+
+    it('does not pass truncate when selected target is a version', () => {
+      const versionTargets = [
+        {
+          id: 2,
+          version_index: 2,
+          selected: true,
+          href: '/project/-/merge_requests/1/diffs?diff_id=2',
+          short_commit_sha: 'def456',
+          created_at: '2024-01-02T00:00:00Z',
+        },
+      ];
+
+      createComponent({ targetVersions: versionTargets });
+
+      expect(findTargetDropdown().props('truncate')).toBe(false);
+    });
+
     it('only passes title for base versions', () => {
       const targetVersionsWithBase = [
         {

@@ -19,7 +19,7 @@ title: Developer Flow
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/work_items/585273) in GitLab 18.8.
 - Feature flags `duo_workflow_in_ci`, `duo_developer_button`, and `duo_workflow` removed in GitLab 18.9.
 - Available on the Free tier on GitLab.com with GitLab Credits in GitLab 18.10.
-- Mention and assign triggers [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228817) in GitLab 18.11.
+- Mention triggers [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228817) in GitLab 18.11.
 
 {{< /history >}}
 
@@ -91,7 +91,7 @@ To create a merge request from an issue:
 1. In the top bar, select **Search or go to** and find your project.
 1. Select **Plan** > **Work items**, then filter by **Type** = **Issue**.
 1. Select the issue you want to create a merge request for.
-1. To create a merge request from the issue, either: 
+1. To create a merge request from the issue, either:
    - Assign the Duo Developer service account to the issue:
      1. In the right sidebar, in the **Assignees** section, select **Edit**.
      1. Type `duo developer` and select it from the search results.

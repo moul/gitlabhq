@@ -31,7 +31,7 @@ import {
 } from '~/vue_shared/issuable/list/constants';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser.vue';
-import WorkItemDrawer from '../components/work_item_drawer.vue';
+import WorkItemDetailPanel from '../components/work_item_detail_panel.vue';
 import {
   DETAIL_VIEW_QUERY_PARAM_NAME,
   STATE_CLOSED,
@@ -63,7 +63,7 @@ export default {
     IssueCardTimeInfo,
     WorkItemBulkEditSidebar: () =>
       import('~/work_items/list/components/work_item_bulk_edit_sidebar.vue'),
-    WorkItemDrawer,
+    WorkItemDetailPanel,
     HealthStatus,
     GlIcon,
     GlSkeletonLoader,
@@ -201,7 +201,7 @@ export default {
     isItemSelected() {
       return !isEmpty(this.activeItem);
     },
-    workItemDrawerEnabled() {
+    workItemDetailPanelEnabled() {
       return this.displaySettings?.commonPreferences?.shouldOpenItemsInSidePanel ?? true;
     },
     isServiceDeskList() {
@@ -249,24 +249,24 @@ export default {
     workItems: {
       handler(value) {
         if (value.length > 0) {
-          this.checkDrawerParams();
+          this.checkDetailPanelParams();
         }
       },
       immediate: true,
     },
     $route(newValue) {
       if (newValue.query[DETAIL_VIEW_QUERY_PARAM_NAME] && !this.detailLoading) {
-        this.checkDrawerParams();
+        this.checkDetailPanelParams();
       } else {
         this.activeItem = null;
       }
     },
   },
   created() {
-    window.addEventListener('popstate', this.checkDrawerParams);
+    window.addEventListener('popstate', this.checkDetailPanelParams);
   },
   beforeDestroy() {
-    window.removeEventListener('popstate', this.checkDrawerParams);
+    window.removeEventListener('popstate', this.checkDetailPanelParams);
   },
   methods: {
     handleReorder({ oldIndex, newIndex }) {
@@ -353,7 +353,7 @@ export default {
       }
       this.$emit('evict-cache');
     },
-    checkDrawerParams() {
+    checkDetailPanelParams() {
       const queryParam = getParameterByName(DETAIL_VIEW_QUERY_PARAM_NAME);
 
       if (!queryParam) {
@@ -400,8 +400,8 @@ export default {
     :class="{ 'work-item-list-container': !isServiceDeskList }"
     class="issuable-list-container"
   >
-    <work-item-drawer
-      v-if="workItemDrawerEnabled"
+    <work-item-detail-panel
+      v-if="workItemDetailPanelEnabled"
       :active-item="activeItem"
       :open="isItemSelected"
       :issuable-type="activeWorkItemType"
@@ -473,7 +473,7 @@ export default {
           :show-checkbox="showBulkEditSidebar"
           :checked="isIssuableChecked(workItem)"
           show-work-item-type-icon
-          :prevent-redirect="workItemDrawerEnabled"
+          :prevent-redirect="workItemDetailPanelEnabled"
           :is-active="isIssuableActive(workItem)"
           :detail-loading="detailLoading"
           :hidden-metadata-keys="hiddenMetadataKeys"

@@ -44,8 +44,8 @@ import {
   workItemRoadmapPath,
   saveHiddenMetadataKeysToLocalStorage,
   getHiddenMetadataKeysFromLocalStorage,
-  makeDrawerUrlParam,
-  makeDrawerItemFullPath,
+  makeDetailPanelUrlParam,
+  makeDetailPanelItemFullPath,
   getItems,
   canRouterNav,
   formatSelectOptionForCustomField,
@@ -357,28 +357,28 @@ describe('utils for remembering hidden metadata keys', () => {
   });
 });
 
-describe('`makeDrawerItemFullPath`', () => {
+describe('`makeDetailPanelItemFullPath`', () => {
   it('returns the items `fullPath` if present', () => {
-    const result = makeDrawerItemFullPath(
+    const result = makeDetailPanelItemFullPath(
       { fullPath: 'this/should/be/returned' },
       'this/should/not',
     );
     expect(result).toBe('this/should/be/returned');
   });
   it('returns the fallback `fullPath` if `activeItem` does not have a `referencePath`', () => {
-    const result = makeDrawerItemFullPath({}, 'this/should/be/returned');
+    const result = makeDetailPanelItemFullPath({}, 'this/should/be/returned');
     expect(result).toBe('this/should/be/returned');
   });
   describe('when `activeItem` has a `referencePath`', () => {
     it('handles the default `issuableType` of `ISSUE`', () => {
-      const result = makeDrawerItemFullPath(
+      const result = makeDetailPanelItemFullPath(
         { referencePath: 'this/should/be/returned#100' },
         'this/should/not',
       );
       expect(result).toBe('this/should/be/returned');
     });
     it('handles case where `issuableType` is an `EPIC`', () => {
-      const result = makeDrawerItemFullPath(
+      const result = makeDetailPanelItemFullPath(
         { referencePath: 'this/should/be/returned&100' },
         'this/should/not',
         TYPE_EPIC,
@@ -388,9 +388,9 @@ describe('`makeDrawerItemFullPath`', () => {
   });
 });
 
-describe('`makeDrawerUrlParam`', () => {
+describe('`makeDetailPanelUrlParam`', () => {
   it('returns iid, full_path, and id', () => {
-    const result = makeDrawerUrlParam(
+    const result = makeDetailPanelUrlParam(
       { id: 'gid://gitlab/Issue/1', iid: '123', fullPath: 'gitlab-org/gitlab' },
       'gitlab-org/gitlab',
     );

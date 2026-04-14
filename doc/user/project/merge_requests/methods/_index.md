@@ -118,6 +118,10 @@ The squash merge graph is also equivalent to these commands:
   git merge --no-ff $SOURCE_SHA
   ```
 
+If you continue working on a long-running source branch after a squash merge, subsequent
+merge requests may show previously merged commits and a warning that the source branch is behind the target branch.
+For more information, see [long-running branch behavior](../squash_and_merge.md#long-running-branch-behavior).
+
 ## Merge commit with semi-linear history
 
 A merge commit is created for every merge, but the branch is only merged if
@@ -270,6 +274,7 @@ considered equivalent to rebasing.
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/183928) in GitLab 18.0 [with a feature flag](../../../../administration/feature_flags/_index.md) named `rebase_on_merge_automatic`. Disabled by default.
+- [Enabled on GitLab.com](https://gitlab.com/gitlab-org/gitlab/-/work_items/524048) in GitLab 18.11.
 
 {{< /history >}}
 

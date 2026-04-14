@@ -95,9 +95,9 @@ export const createLineDiscussionsAdapter = ({ store, parallel, errorMessage }) 
     const { diffElement, appData, trigger, id } = this;
     const { oldPath, newPath, blobRawPath } = this.data;
     const stopWatcher = watch(
-      () => store.findAllLineDiscussionsForFile({ oldPath, newPath }),
-      (matchedDiscussions) => {
-        matchedDiscussions.forEach(({ position }) => {
+      () => store.findLinePositionsForFile({ oldPath, newPath }),
+      (matchedPositions) => {
+        matchedPositions.forEach((position) => {
           try {
             const lineRow = findLineRow(diffElement, position.old_line, position.new_line);
             if (!lineRow) return;

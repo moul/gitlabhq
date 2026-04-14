@@ -5,7 +5,7 @@ import produce from 'immer';
 import Draggable from '~/lib/utils/vue3compat/draggable_compat.vue';
 import BoardAddNewColumn from 'ee_else_ce/boards/components/board_add_new_column.vue';
 import BoardAddNewColumnTrigger from '~/boards/components/board_add_new_column_trigger.vue';
-import WorkItemDrawer from '~/work_items/components/work_item_drawer.vue';
+import WorkItemDetailPanel from '~/work_items/components/work_item_detail_panel.vue';
 import { s__ } from '~/locale';
 import { removeParams, updateHistory } from '~/lib/utils/url_utility';
 import { defaultSortableOptions, DRAG_DELAY } from '~/sortable/constants';
@@ -36,7 +36,7 @@ export default {
     BoardDrawerWrapper,
     EpicsSwimlanes: () => import('ee_component/boards/components/epics_swimlanes.vue'),
     GlAlert,
-    WorkItemDrawer,
+    WorkItemDetailPanel,
   },
   inject: [
     'boardType',
@@ -374,7 +374,7 @@ export default {
           onStateUpdated,
         }"
       >
-        <work-item-drawer
+        <work-item-detail-panel
           :open="Boolean(activeIssuable && activeIssuable.iid)"
           :active-item="activeIssuable"
           :issuable-type="issuableType"

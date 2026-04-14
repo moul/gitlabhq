@@ -3688,6 +3688,16 @@
   :idempotent: true
   :tags: []
   :queue_namespace:
+- :name: cells_bulk_claims
+  :worker_name: Cells::BulkClaimsWorker
+  :feature_category: :cell
+  :has_external_dependencies: false
+  :urgency: :low
+  :resource_boundary: :unknown
+  :weight: 1
+  :idempotent: true
+  :tags: []
+  :queue_namespace:
 - :name: cells_claims_verification
   :worker_name: Cells::ClaimsVerificationWorker
   :feature_category: :cell

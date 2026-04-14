@@ -11,7 +11,7 @@ import {
 } from '@gitlab/ui';
 import { createAlert } from '~/alert';
 import { __ } from '~/locale';
-import WorkItemDrawer from '~/work_items/components/work_item_drawer.vue';
+import WorkItemDetailPanel from '~/work_items/components/work_item_detail_panel.vue';
 import { convertToGraphQLId, getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { TYPENAME_MERGE_REQUEST } from '~/graphql_shared/constants';
 import mergeRequestRelatedWorkItemsQuery from '~/sidebar/queries/merge_request_related_work_items.query.graphql';
@@ -29,7 +29,7 @@ export default {
     GlLoadingIcon,
     GlPopover,
     GlSprintf,
-    WorkItemDrawer,
+    WorkItemDetailPanel,
   },
   viewContext: VIEW_CONTEXT.drawerMergeRequest,
   directives: {
@@ -56,7 +56,7 @@ export default {
         return data?.mergeRequest?.linkedWorkItems || [];
       },
       result() {
-        this.checkDrawerParams();
+        this.checkDetailPanelParams();
       },
       error() {
         createAlert({
@@ -108,20 +108,20 @@ export default {
     },
   },
   created() {
-    window.addEventListener('popstate', this.checkDrawerParams);
+    window.addEventListener('popstate', this.checkDetailPanelParams);
   },
   beforeDestroy() {
-    window.removeEventListener('popstate', this.checkDrawerParams);
+    window.removeEventListener('popstate', this.checkDetailPanelParams);
   },
   methods: {
-    openDrawer(event, item) {
+    openDetailPanel(event, item) {
       if (event.metaKey || event.ctrlKey) {
         return;
       }
       event.preventDefault();
       this.activeItem = item;
     },
-    checkDrawerParams() {
+    checkDetailPanelParams() {
       const queryParam = getParameterByName(DETAIL_VIEW_QUERY_PARAM_NAME);
 
       if (!queryParam) {
@@ -129,9 +129,9 @@ export default {
         return;
       }
 
-      this.parseDrawerParams(queryParam);
+      this.parseDetailPanelParams(queryParam);
     },
-    parseDrawerParams(queryParam) {
+    parseDetailPanelParams(queryParam) {
       try {
         this.params = JSON.parse(atob(queryParam));
       } catch {
@@ -185,7 +185,7 @@ export default {
                 data-placement="top"
                 :data-iid="item.iid"
                 :data-project-path="item.namespace.fullPath"
-                @click="openDrawer($event, item)"
+                @click="openDetailPanel($event, item)"
               >
                 {{ item.title }}
               </gl-link>
@@ -203,7 +203,7 @@ export default {
                 data-placement="top"
                 :data-iid="item.iid"
                 :data-project-path="item.namespace.fullPath"
-                @click="openDrawer($event, item)"
+                @click="openDetailPanel($event, item)"
               >
                 {{ item.title }}
               </gl-link>
@@ -234,7 +234,7 @@ export default {
         </gl-sprintf>
       </gl-popover>
     </template>
-    <work-item-drawer
+    <work-item-detail-panel
       :active-item="activeItem"
       :view-context="$options.viewContext"
       :open="activeItem !== null"

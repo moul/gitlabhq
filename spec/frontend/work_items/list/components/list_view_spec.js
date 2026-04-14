@@ -20,7 +20,7 @@ import PageSizeSelector from '~/vue_shared/components/page_size_selector.vue';
 import IssuableItem from '~/vue_shared/issuable/list/components/issuable_item.vue';
 import CreateWorkItemModal from '~/work_items/components/create_work_item_modal.vue';
 import ListView from '~/work_items/list/list_view.vue';
-import WorkItemDrawer from '~/work_items/components/work_item_drawer.vue';
+import WorkItemDetailPanel from '~/work_items/components/work_item_detail_panel.vue';
 import {
   DETAIL_VIEW_QUERY_PARAM_NAME,
   STATE_CLOSED,
@@ -74,7 +74,7 @@ const findIssuableItems = () => wrapper.findAllComponents(IssuableItem);
 const findIssueCardStatistics = () => wrapper.findComponent(IssueCardStatistics);
 const findIssueCardTimeInfo = () => wrapper.findComponent(IssueCardTimeInfo);
 const findHealthStatus = () => wrapper.findComponent(HealthStatus);
-const findDrawer = () => wrapper.findComponent(WorkItemDrawer);
+const findDetailPanel = () => wrapper.findComponent(WorkItemDetailPanel);
 const findCreateWorkItemModal = () => wrapper.findComponent(CreateWorkItemModal);
 const findBulkEditStartButton = () => wrapper.findByTestId('bulk-edit-start-button');
 const findBulkEditSidebar = () => wrapper.findComponent(WorkItemBulkEditSidebar);
@@ -417,7 +417,7 @@ describe('work item drawer', () => {
 
         await waitForPromises();
 
-        expect(findDrawer().exists()).toBe(drawerExists);
+        expect(findDetailPanel().exists()).toBe(drawerExists);
       },
     );
 
@@ -439,25 +439,25 @@ describe('work item drawer', () => {
       });
 
       it('opens drawer when work item is selected', () => {
-        expect(findDrawer().props('open')).toBe(true);
-        expect(findDrawer().props('activeItem')).toEqual(payload);
+        expect(findDetailPanel().props('open')).toBe(true);
+        expect(findDetailPanel().props('activeItem')).toEqual(payload);
       });
 
       it('closes drawer when work item is clicked again', async () => {
         findChildItem1().vm.$emit('select-issuable', payload);
         await nextTick();
 
-        expect(findDrawer().props('open')).toBe(false);
-        expect(findDrawer().props('activeItem')).toBeNull();
+        expect(findDetailPanel().props('open')).toBe(false);
+        expect(findDetailPanel().props('activeItem')).toBeNull();
       });
 
       const checkThatDrawerPropsAreEmpty = () => {
-        expect(findDrawer().props('activeItem')).toBeNull();
-        expect(findDrawer().props('open')).toBe(false);
+        expect(findDetailPanel().props('activeItem')).toBeNull();
+        expect(findDetailPanel().props('open')).toBe(false);
       };
 
       it('resets the selected item when the drawer is closed', async () => {
-        findDrawer().vm.$emit('close');
+        findDetailPanel().vm.$emit('close');
 
         await nextTick();
 
@@ -467,7 +467,7 @@ describe('work item drawer', () => {
       it('emits the refetch event to refetch counts and resets when work item is deleted', async () => {
         expect(wrapper.emitted('refetch-data')).toBeUndefined();
 
-        findDrawer().vm.$emit('work-item-deleted');
+        findDetailPanel().vm.$emit('work-item-deleted');
 
         await nextTick();
 
@@ -480,7 +480,7 @@ describe('work item drawer', () => {
         expect(wrapper.emitted('refetch-data')).toBeUndefined();
 
         // component displays open work items by default
-        findDrawer().vm.$emit('work-item-updated', {
+        findDetailPanel().vm.$emit('work-item-updated', {
           state: STATE_CLOSED,
         });
 
@@ -502,7 +502,7 @@ describe('work item drawer', () => {
     });
 
     it('uses work item drawer', () => {
-      expect(findDrawer().exists()).toBe(true);
+      expect(findDetailPanel().exists()).toBe(true);
     });
   });
 
@@ -511,8 +511,8 @@ describe('work item drawer', () => {
       const issue = workItemsQueryResponseCombined.data.namespace.workItems.nodes[0];
       await mountComponentWithShowParam(issue);
 
-      expect(findDrawer().props('open')).toBe(true);
-      expect(findDrawer().props('activeItem')).toMatchObject(issue);
+      expect(findDetailPanel().props('open')).toBe(true);
+      expect(findDetailPanel().props('activeItem')).toMatchObject(issue);
     });
   });
 
@@ -543,8 +543,8 @@ describe('work item drawer', () => {
       const nextIssue = workItemsQueryResponseCombined.data.namespace.workItems.nodes[1];
       await mountComponentWithShowParam(issue);
 
-      expect(findDrawer().props('open')).toBe(true);
-      expect(findDrawer().props('activeItem')).toMatchObject(issue);
+      expect(findDetailPanel().props('open')).toBe(true);
+      expect(findDetailPanel().props('activeItem')).toMatchObject(issue);
 
       const showParams = {
         id: getIdFromGraphQLId(nextIssue.id),
@@ -557,8 +557,8 @@ describe('work item drawer', () => {
       window.dispatchEvent(new Event('popstate'));
       await waitForPromises();
 
-      expect(findDrawer().props('open')).toBe(true);
-      expect(findDrawer().props('activeItem')).toMatchObject(issue);
+      expect(findDetailPanel().props('open')).toBe(true);
+      expect(findDetailPanel().props('activeItem')).toMatchObject(issue);
     });
   });
 });
@@ -623,8 +623,8 @@ it('closes the drawer if there is no `show` param', async () => {
     queryHandler: jest.fn().mockResolvedValue(workItemsQueryResponseCombined),
   });
   await waitForPromises();
-  expect(findDrawer().props('open')).toBe(true);
-  expect(findDrawer().props('activeItem')).toMatchObject({
+  expect(findDetailPanel().props('open')).toBe(true);
+  expect(findDetailPanel().props('activeItem')).toMatchObject({
     id: issue.id,
     iid: issue.iid,
   });
@@ -634,7 +634,7 @@ it('closes the drawer if there is no `show` param', async () => {
   window.dispatchEvent(new Event('popstate'));
 
   await waitForPromises();
-  expect(findDrawer().props('open')).toBe(false);
+  expect(findDetailPanel().props('open')).toBe(false);
 });
 
 describe('when service desk list', () => {

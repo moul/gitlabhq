@@ -275,70 +275,6 @@ describe('diffDiscussions store', () => {
     });
   });
 
-  describe('findDiscussionsForPosition', () => {
-    const position = {
-      oldPath: 'file1.js',
-      newPath: 'file2.js',
-      oldLine: 5,
-      newLine: 10,
-    };
-    const matchingDiscussion = {
-      id: 'match',
-      isForm: false,
-      diff_discussion: true,
-      position: {
-        old_path: position.oldPath,
-        new_path: position.newPath,
-        old_line: position.oldLine,
-        new_line: position.newLine,
-      },
-    };
-
-    it('returns matching discussions', () => {
-      useDiscussions().discussions = [
-        matchingDiscussion,
-        { ...matchingDiscussion, id: 'match2' },
-        { ...matchingDiscussion, diff_discussion: false, id: 'notmatch2' },
-        {
-          ...matchingDiscussion,
-          id: 'notmatch3',
-          position: { ...matchingDiscussion.position, old_path: 'other.js' },
-        },
-        {
-          ...matchingDiscussion,
-          id: 'notmatch4',
-          position: { ...matchingDiscussion.position, old_line: 6 },
-        },
-      ];
-
-      const found = useDiffDiscussions().findDiscussionsForPosition(position);
-
-      expect(found).toHaveLength(2);
-      expect(found.map((d) => d.id)).toEqual(['match', 'match2']);
-    });
-
-    it('returns an empty array if no discussions match', () => {
-      useDiscussions().discussions = [
-        { ...matchingDiscussion, diff_discussion: false, id: 'notmatch2' },
-      ];
-
-      const found = useDiffDiscussions().findDiscussionsForPosition(position);
-
-      expect(found).toHaveLength(0);
-    });
-
-    it('includes form discussions in results', () => {
-      const formDiscussion = { ...matchingDiscussion, isForm: true, id: 'form1' };
-      useDiscussions().discussions = [matchingDiscussion];
-      useDiffDiscussions().discussionForms = [formDiscussion];
-
-      const found = useDiffDiscussions().findDiscussionsForPosition(position);
-
-      expect(found).toHaveLength(2);
-      expect(found.map((d) => d.id)).toEqual(['match', 'form1']);
-    });
-  });
-
   describe('findDiscussionsForFile', () => {
     beforeEach(() => {
       useDiscussions().discussions = [
@@ -436,10 +372,10 @@ describe('diffDiscussions store', () => {
     });
   });
 
-  describe('findAllLineDiscussionsForFile', () => {
+  describe('findLinePositionsForFile', () => {
     const filePaths = { oldPath: 'file1.js', newPath: 'file1.js' };
 
-    it('returns only line discussions, excluding file and image discussions', () => {
+    it('returns only line positions, excluding file and image discussions', () => {
       useDiscussions().discussions = [
         {
           id: 'line',
@@ -472,13 +408,14 @@ describe('diffDiscussions store', () => {
         },
       ];
 
-      const discussions = useDiffDiscussions().findAllLineDiscussionsForFile(filePaths);
+      const positions = useDiffDiscussions().findLinePositionsForFile(filePaths);
 
-      expect(discussions).toHaveLength(1);
-      expect(discussions[0].id).toBe('line');
+      expect(positions).toHaveLength(1);
+      expect(positions[0].old_line).toBe(1);
+      expect(positions[0].new_line).toBe(1);
     });
 
-    it('includes line discussion forms', () => {
+    it('includes positions from line discussion forms', () => {
       useDiffDiscussions().addNewLineDiscussionForm({
         oldPath: 'file1.js',
         newPath: 'file1.js',
@@ -487,16 +424,78 @@ describe('diffDiscussions store', () => {
         lineCode: 'abc',
       });
 
-      const discussions = useDiffDiscussions().findAllLineDiscussionsForFile(filePaths);
+      const positions = useDiffDiscussions().findLinePositionsForFile(filePaths);
 
-      expect(discussions).toHaveLength(1);
-      expect(discussions[0].isForm).toBe(true);
+      expect(positions).toHaveLength(1);
+      expect(positions[0].old_line).toBe(1);
     });
 
     it('excludes file discussion forms', () => {
       useDiffDiscussions().addNewFileDiscussionForm(filePaths);
 
-      const discussions = useDiffDiscussions().findAllLineDiscussionsForFile(filePaths);
+      const positions = useDiffDiscussions().findLinePositionsForFile(filePaths);
+
+      expect(positions).toHaveLength(0);
+    });
+  });
+
+  describe('findLineDiscussionsForPosition', () => {
+    const filePaths = { oldPath: 'file1.js', newPath: 'file1.js' };
+
+    it('returns discussions matching the given position', () => {
+      useDiscussions().discussions = [
+        {
+          id: 'match',
+          diff_discussion: true,
+          position: {
+            old_path: 'file1.js',
+            new_path: 'file1.js',
+            position_type: 'text',
+            old_line: 1,
+            new_line: 1,
+          },
+        },
+        {
+          id: 'no-match',
+          diff_discussion: true,
+          position: {
+            old_path: 'file1.js',
+            new_path: 'file1.js',
+            position_type: 'text',
+            old_line: 5,
+            new_line: 5,
+          },
+        },
+      ];
+
+      const discussions = useDiffDiscussions().findLineDiscussionsForPosition({
+        ...filePaths,
+        oldLine: 1,
+        newLine: 1,
+      });
+
+      expect(discussions).toHaveLength(1);
+      expect(discussions[0].id).toBe('match');
+    });
+
+    it('excludes file and image discussions', () => {
+      useDiscussions().discussions = [
+        {
+          id: 'file',
+          diff_discussion: true,
+          position: {
+            old_path: 'file1.js',
+            new_path: 'file1.js',
+            position_type: 'file',
+          },
+        },
+      ];
+
+      const discussions = useDiffDiscussions().findLineDiscussionsForPosition({
+        ...filePaths,
+        oldLine: null,
+        newLine: null,
+      });
 
       expect(discussions).toHaveLength(0);
     });

@@ -3029,6 +3029,16 @@ RSpec.describe NotificationService, :mailer, feature_category: :team_planning do
             # @u_participant_mentioned, @subscribed_participant,
             # @subscriber, @watcher_and_subscriber, @u_guest_watcher
           end
+
+          it "emails the approver with own_activity reason if they've opted into notifications about their activity" do
+            merge_request.author.notified_of_own_activity = true
+
+            notification.approve_mr(merge_request, merge_request.author)
+
+            should_email(merge_request.author)
+            email = find_email_for(merge_request.author)
+            expect(email).to have_header('X-GitLab-NotificationReason', NotificationReason::OWN_ACTIVITY)
+          end
         end
 
         describe '#unapprove_mr' do
@@ -3053,6 +3063,16 @@ RSpec.describe NotificationService, :mailer, feature_category: :team_planning do
             # assignee, author, @u_watcher,
             # @u_participant_mentioned, @subscribed_participant,
             # @subscriber, @watcher_and_subscriber, @u_guest_watcher
+          end
+
+          it "emails the unapprover with own_activity reason if they've opted into notifications about their activity" do
+            merge_request.author.notified_of_own_activity = true
+
+            notification.unapprove_mr(merge_request, merge_request.author)
+
+            should_email(merge_request.author)
+            email = find_email_for(merge_request.author)
+            expect(email).to have_header('X-GitLab-NotificationReason', NotificationReason::OWN_ACTIVITY)
           end
         end
       end

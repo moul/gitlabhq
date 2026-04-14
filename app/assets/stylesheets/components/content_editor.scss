@@ -71,6 +71,10 @@
     }
   }
 
+  [data-sticky-header] > table:not(.code) > tbody > tr:first-child > th {
+    @apply gl-z-1;
+  }
+
   li,
   dd,
   dt,

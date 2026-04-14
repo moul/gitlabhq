@@ -13,14 +13,14 @@ import {
   DETAIL_VIEW_QUERY_PARAM_NAME,
   DETAIL_VIEW_DESIGN_VERSION_PARAM_NAME,
 } from '~/work_items/constants';
-import WorkItemDrawer from '~/work_items/components/work_item_drawer.vue';
+import WorkItemDetailPanel from '~/work_items/components/work_item_detail_panel.vue';
 import WorkItemDetail from '~/work_items/components/work_item_detail.vue';
 import deleteWorkItemMutation from '~/work_items/graphql/delete_work_item.mutation.graphql';
 import workspacePermissionsQuery from '~/work_items/graphql/workspace_permissions.query.graphql';
 import workItemMetadataQuery from 'ee_else_ce/work_items/graphql/work_item_metadata.query.graphql';
 import { shallowMountExtended, mountExtended } from 'helpers/vue_test_utils_helper';
 import { visitUrl, updateHistory, setUrlParams, removeParams } from '~/lib/utils/url_utility';
-import { makeDrawerUrlParam } from '~/work_items/utils';
+import { makeDetailPanelUrlParam } from '~/work_items/utils';
 import {
   mockProjectPermissionsQueryResponse,
   workItemMetadataProviderResponse,
@@ -37,7 +37,7 @@ const workspacePermissionsHandler = jest
   .fn()
   .mockResolvedValue(mockProjectPermissionsQueryResponse());
 
-describe('WorkItemDrawer', () => {
+describe('WorkItemDetailPanel', () => {
   let wrapper;
 
   const mockListener = jest.fn();
@@ -45,7 +45,7 @@ describe('WorkItemDrawer', () => {
 
   const findGlDrawer = () => wrapper.findComponent(GlDrawer);
   const findWorkItem = () => wrapper.findComponent(WorkItemDetail);
-  const findLinkButton = () => wrapper.findByTestId('work-item-drawer-link-button');
+  const findLinkButton = () => wrapper.findByTestId('work-item-detail-panel-link-button');
   const findReferenceLink = () => wrapper.findComponent(GlLink);
 
   const createComponent = ({
@@ -60,7 +60,7 @@ describe('WorkItemDrawer', () => {
       MountingPortal: { template: '<div data-testid="mounting-portal"><slot /></div>' },
     },
   } = {}) => {
-    wrapper = mountFn(WorkItemDrawer, {
+    wrapper = mountFn(WorkItemDetailPanel, {
       attachTo: document.body,
       propsData: {
         activeItem,
@@ -131,14 +131,16 @@ describe('WorkItemDrawer', () => {
   it('displays the correct URL in the full page button', () => {
     createComponent();
 
-    expect(wrapper.findByTestId('work-item-drawer-link-button').attributes('href')).toBe('test');
+    expect(wrapper.findByTestId('work-item-detail-panel-link-button').attributes('href')).toBe(
+      'test',
+    );
   });
 
   it('has a copy to clipboard button for the item URL', () => {
     createComponent();
 
     expect(
-      wrapper.findByTestId('work-item-drawer-copy-button').attributes('data-clipboard-text'),
+      wrapper.findByTestId('work-item-detail-panel-copy-button').attributes('data-clipboard-text'),
     ).toBe('test');
   });
 
@@ -198,7 +200,7 @@ describe('WorkItemDrawer', () => {
       expect(wrapper.emitted('work-item-deleted')).toHaveLength(1);
     });
 
-    it('emits `deleteWorkItemError` event when mutation failed', async () => {
+    it('does not emit `work-item-deleted` event when mutation failed', async () => {
       deleteWorkItemMutationHandler.mockRejectedValue('Houston, we have a problem');
 
       createComponent({ open: true });
@@ -206,7 +208,7 @@ describe('WorkItemDrawer', () => {
 
       await waitForPromises();
 
-      expect(wrapper.emitted('deleteWorkItemError')).toHaveLength(1);
+      expect(wrapper.emitted('work-item-deleted')).toBeUndefined();
     });
   });
 
@@ -328,7 +330,7 @@ describe('WorkItemDrawer', () => {
       fullPath: 'gitlab-org/gitlab',
       id: 'gid://gitlab/WorkItem/1',
     };
-    const showParam = makeDrawerUrlParam(activeItem, 'gitlab-org/gitlab');
+    const showParam = makeDetailPanelUrlParam(activeItem, 'gitlab-org/gitlab');
     beforeEach(async () => {
       createComponent();
       await wrapper.setProps({

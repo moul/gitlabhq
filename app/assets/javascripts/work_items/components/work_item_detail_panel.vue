@@ -14,11 +14,11 @@ import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { visitUrl, setUrlParams, updateHistory, removeParams } from '~/lib/utils/url_utility';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { routeForWorkItemTypeName } from '../router/utils';
-import { makeDrawerItemFullPath, makeDrawerUrlParam, canRouterNav } from '../utils';
+import { makeDetailPanelItemFullPath, makeDetailPanelUrlParam, canRouterNav } from '../utils';
 import WorkItemMetadataProvider from './work_item_metadata_provider.vue';
 
 export default {
-  name: 'WorkItemDrawer',
+  name: 'WorkItemDetailPanel',
   directives: {
     GlTooltip: GlTooltipDirective,
   },
@@ -68,6 +68,7 @@ export default {
       required: true,
     },
   },
+  emits: ['work-item-deleted', 'close', 'work-item-updated', 'workItemTypeChanged'],
   data() {
     return {
       copyTooltipText: this.$options.i18n.copyTooltipText,
@@ -76,7 +77,7 @@ export default {
   },
   computed: {
     activeItemFullPath() {
-      return makeDrawerItemFullPath(this.activeItem, this.fullPath, this.issuableType);
+      return makeDetailPanelItemFullPath(this.activeItem, this.fullPath, this.issuableType);
     },
     headerReference() {
       const path = this.activeItemFullPath.substring(this.activeItemFullPath.lastIndexOf('/') + 1);
@@ -89,8 +90,8 @@ export default {
       immediate: true,
       handler(newValue, oldValue) {
         if (newValue?.iid) {
-          this.setDrawerParams();
-          // focus on header link when drawer is updated
+          this.setDetailPanelParams();
+          // focus on header link when detail-panel is updated
           this.$nextTick(() => {
             if (!oldValue || oldValue?.iid !== newValue?.iid) {
               this.focusOnHeaderLink();
@@ -103,7 +104,7 @@ export default {
       immediate: true,
       handler(newValue) {
         if (newValue) {
-          // focus on header link when drawer is updated
+          // focus on header link when detail-panel is updated
           this.$nextTick(() => {
             this.focusOnHeaderLink();
           });
@@ -130,7 +131,6 @@ export default {
         }
         this.$emit('work-item-deleted', { id: workItemId });
       } catch (error) {
-        this.$emit('deleteWorkItemError');
         Sentry.captureException(error);
       }
     },
@@ -146,7 +146,7 @@ export default {
         this.$router &&
         canRouterNav({
           fullPath: this.fullPath,
-          webUrl: workItem.webUrl,
+          webUrl: workItem.webUrl, // eslint-disable-line local-rules/no-web-url
           isGroup: this.isGroup,
           issueAsWorkItem: !this.isGroup,
         });
@@ -165,7 +165,7 @@ export default {
           },
         });
       } else {
-        visitUrl(workItem.webUrl);
+        visitUrl(workItem.webUrl); // eslint-disable-line local-rules/no-web-url
       }
     },
     handleCopyToClipboard() {
@@ -174,8 +174,8 @@ export default {
         this.copyTooltipText = this.$options.i18n.copyTooltipText;
       }, 2000);
     },
-    setDrawerParams() {
-      const params = makeDrawerUrlParam(this.activeItem, this.fullPath, this.issuableType);
+    setDetailPanelParams() {
+      const params = makeDetailPanelUrlParam(this.activeItem, this.fullPath, this.issuableType);
       updateHistory({
         // we're using `show` to match the modal view parameter
         url: setUrlParams({ [DETAIL_VIEW_QUERY_PARAM_NAME]: params }),
@@ -220,7 +220,7 @@ export default {
     handleWorkItemUpdated(e) {
       this.$emit('work-item-updated', e);
 
-      // Force to close the drawer after 100ms even if requests are still pending
+      // Force to close the detail-panel after 100ms even if requests are still pending
       // to not let UI hanging.
       if (this.isWaitingForMutation) {
         setTimeout(() => {
@@ -245,14 +245,18 @@ export default {
 
 <template>
   <mounting-portal v-if="open" mount-to="#contextual-panel-portal" append>
-    <div data-testid="work-item-drawer" class="work-item-drawer gl-pt-4 gl-leading-reset">
+    <div
+      data-testid="work-item-detail-panel"
+      class="work-item-detail-panel gl-pt-4 gl-leading-reset"
+    >
       <div
-        class="work-item-drawer-header gl-flex gl-w-full gl-items-start gl-gap-x-2 gl-px-4 @xl/panel:gl-px-6"
+        class="work-item-detail-panel-header gl-flex gl-w-full gl-items-start gl-gap-x-2 gl-px-4 @xl/panel:gl-px-6"
       >
         <div class="gl-flex gl-grow gl-items-center gl-gap-2">
+          <!-- eslint-disable local-rules/vue-no-web-url -->
           <gl-link
             ref="workItemUrl"
-            data-testid="work-item-drawer-ref-link"
+            data-testid="work-item-detail-panel-ref-link"
             :href="activeItem.webUrl"
             class="gl-text-sm gl-font-bold gl-text-default"
             @click="redirectToWorkItem"
@@ -261,7 +265,7 @@ export default {
           </gl-link>
           <gl-button
             v-gl-tooltip.bottom
-            data-testid="work-item-drawer-copy-button"
+            data-testid="work-item-detail-panel-copy-button"
             :title="copyTooltipText"
             category="tertiary"
             icon="link"
@@ -273,7 +277,7 @@ export default {
         </div>
         <gl-button
           v-gl-tooltip.bottom
-          data-testid="work-item-drawer-link-button"
+          data-testid="work-item-detail-panel-link-button"
           :href="activeItem.webUrl"
           :title="$options.i18n.openTooltipText"
           category="tertiary"
@@ -282,9 +286,10 @@ export default {
           :aria-label="$options.i18n.openTooltipText"
           @click="redirectToWorkItem"
         />
+        <!-- eslint-enable local-rules/vue-no-web-url -->
         <gl-button
           v-gl-tooltip.bottom
-          class="gl-drawer-close-button"
+          class="gl-detail-panel-close-button"
           category="tertiary"
           icon="close"
           size="small"
@@ -294,18 +299,20 @@ export default {
         />
       </div>
       <work-item-metadata-provider :full-path="activeItemFullPath">
+        <!-- eslint-disable vue/custom-event-name-casing, vue/v-on-event-hyphenation-->
         <work-item-detail
           :key="activeItem.iid"
           :work-item-iid="activeItem.iid"
           :work-item-full-path="activeItemFullPath"
           :is-board="isBoard"
-          is-drawer
-          class="js-dynamic-panel-inner work-item-drawer-content !gl-pt-0"
+          is-detail-panel
+          class="js-dynamic-panel-inner work-item-detail-panel-content !gl-pt-0"
           @deleteWorkItem="deleteWorkItem"
           @work-item-updated="handleWorkItemUpdated"
           @workItemTypeChanged="$emit('workItemTypeChanged', $event)"
           v-on="$listeners"
         />
+        <!-- eslint-enable vue/custom-event-name-casing, vue/v-on-event-hyphenation -->
       </work-item-metadata-provider>
     </div>
   </mounting-portal>

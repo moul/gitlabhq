@@ -56,6 +56,7 @@ RSpec.describe Cells::Claimable, feature_category: :cell do
     let(:transaction_record) { instance_double(Cells::TransactionRecord) }
 
     before do
+      stub_config_cell(enabled: true)
       allow(Cells::TransactionRecord)
         .to receive(:current_transaction).with(instance.connection).and_return(transaction_record)
     end
@@ -193,6 +194,7 @@ RSpec.describe Cells::Claimable, feature_category: :cell do
     let(:transaction_record) { instance_double(Cells::TransactionRecord) }
 
     before do
+      stub_config_cell(enabled: true)
       conditional_klass.cells_claims_attribute :path,
         type: Cells::Claimable::CLAIMS_BUCKET_TYPE::ORGANIZATION_PATH,
         feature_flag: :cells_claims_organizations,
@@ -529,28 +531,105 @@ RSpec.describe Cells::Claimable, feature_category: :cell do
   end
 
   describe '.cells_claims_enabled_for_attribute?' do
+    context 'when attribute is not configured' do
+      it 'returns false' do
+        expect(test_klass.cells_claims_enabled_for_attribute?(:nonexistent)).to be(false)
+      end
+    end
+
     context 'when feature_flag is nil' do
-      it 'returns true' do
-        config = { type: Cells::Claimable::CLAIMS_BUCKET_TYPE::ORGANIZATION_PATH, feature_flag: nil, if: nil }
-        expect(test_klass.cells_claims_enabled_for_attribute?(config)).to be(true)
-      end
-    end
-
-    context 'when feature flag is enabled' do
-      it 'returns true' do
-        config = test_klass.cells_claims_attributes[:path]
-        expect(test_klass.cells_claims_enabled_for_attribute?(config)).to be(true)
-      end
-    end
-
-    context 'when feature flag is disabled' do
       before do
-        stub_feature_flags(cells_claims_organizations: false)
+        stub_config_cell(enabled: true)
+      end
+
+      it 'returns true' do
+        test_klass.cells_claims_attribute :no_flag_attr,
+          type: Cells::Claimable::CLAIMS_BUCKET_TYPE::ORGANIZATION_PATH
+
+        expect(test_klass.cells_claims_enabled_for_attribute?(:no_flag_attr)).to be(true)
+      end
+    end
+
+    context 'when cell config is disabled' do
+      before do
+        stub_config_cell(enabled: false)
       end
 
       it 'returns false' do
-        config = test_klass.cells_claims_attributes[:path]
-        expect(test_klass.cells_claims_enabled_for_attribute?(config)).to be(false)
+        expect(test_klass.cells_claims_enabled_for_attribute?(:path)).to be(false)
+      end
+    end
+
+    context 'when cell config is enabled' do
+      before do
+        stub_config_cell(enabled: true)
+      end
+
+      context 'when feature flag is enabled' do
+        it 'returns true' do
+          expect(test_klass.cells_claims_enabled_for_attribute?(:path)).to be(true)
+        end
+      end
+
+      context 'when feature flag is disabled' do
+        before do
+          stub_feature_flags(cells_claims_organizations: false)
+        end
+
+        it 'returns false' do
+          expect(test_klass.cells_claims_enabled_for_attribute?(:path)).to be(false)
+        end
+      end
+    end
+  end
+
+  describe '#build_destroy_metadata_for_worker' do
+    context 'when attribute is not configured' do
+      it 'returns nil' do
+        expect(instance.build_destroy_metadata_for_worker(:nonexistent)).to be_nil
+      end
+    end
+
+    context 'when attribute is configured and claimable' do
+      it 'returns a JSON-serializable hash with all metadata' do
+        metadata = instance.build_destroy_metadata_for_worker(:path)
+
+        expect(metadata).to eq({
+          'bucket_type' => Cells::Claimable::CLAIMS_BUCKET_TYPE::ORGANIZATION_PATH,
+          'bucket_value' => instance.path,
+          'subject_type' => Cells::Claimable::CLAIMS_SUBJECT_TYPE::ORGANIZATION,
+          'subject_id' => instance.id,
+          'source_type' => Cells::Claimable::CLAIMS_SOURCE_TYPE::RAILS_TABLE_ORGANIZATIONS,
+          'primary_key' => instance.id
+        })
+      end
+    end
+
+    context 'when if: condition returns false' do
+      let(:conditional_klass) do
+        Class.new(ActiveRecord::Base) do
+          self.table_name = 'organizations'
+          include Cells::Claimable
+        end
+      end
+
+      let(:conditional_instance) { conditional_klass.create!(path: 'group/nested') }
+
+      before do
+        conditional_klass.cells_claims_attribute :path,
+          type: Cells::Claimable::CLAIMS_BUCKET_TYPE::ORGANIZATION_PATH,
+          feature_flag: :cells_claims_organizations,
+          if: ->(record) { record.path.exclude?('/') }
+        conditional_klass.cells_claims_metadata subject_type: Cells::Claimable::CLAIMS_SUBJECT_TYPE::ORGANIZATION,
+          subject_key: :id
+      end
+
+      after do
+        described_class.models_with_claims.delete(conditional_klass)
+      end
+
+      it 'returns nil' do
+        expect(conditional_instance.build_destroy_metadata_for_worker(:path)).to be_nil
       end
     end
   end

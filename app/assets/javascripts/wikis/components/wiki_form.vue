@@ -228,7 +228,6 @@ export default {
       placeholderActive: false,
       placeholderText: this.$options.i18n.title.newPagePlaceholder,
       parentPath: '',
-      initialTitleValue: '',
       useAutoCommitMessage: false,
       savingPreference: false,
       commitMessageModalOpen: false,
@@ -349,8 +348,14 @@ export default {
           : this.pageTitle;
       this.onTitleUpdate();
     },
-    shouldGeneratePathFromTitle() {
-      this.legacyUpdateFrontMatterTitle();
+    shouldGeneratePathFromTitle(newValue) {
+      if (this.glFeatures.wikiImmersiveEditor) {
+        if (newValue) {
+          this.generatePathFromTitle();
+        }
+      } else {
+        this.legacyUpdateFrontMatterTitle();
+      }
     },
   },
   mounted() {
@@ -380,7 +385,7 @@ export default {
     },
 
     generatePathFromTitle() {
-      this.path = this.pageTitle.replace(/ +/g, '-');
+      this.path = this.parentPath + this.pageTitle.replace(/ +/g, '-');
     },
 
     onTitleUpdate() {
@@ -389,11 +394,14 @@ export default {
         return;
       }
 
-      this.frontMatter.title = this.pageTitle;
-      this.frontMatter = { ...this.frontMatter };
+      if (!this.placeholderActive) {
+        this.frontMatter.title = this.pageTitle;
+        this.frontMatter = { ...this.frontMatter };
+      }
 
       if (
         this.shouldGeneratePathFromTitle &&
+        !this.placeholderActive &&
         this.pageTitle !== this.$options.i18n.title.defaultTitle &&
         this.pageTitle.trim().length
       ) {
@@ -515,28 +523,30 @@ export default {
     },
 
     async initializeTitlePlaceholder() {
-      if (!this.pageInfo.persisted) {
-        this.initialTitleValue = this.pageTitle;
+      if (this.pageInfo.persisted) return;
 
-        if (this.initialTitleValue.endsWith('{new_page_title}')) {
-          // Extract parent path by removing the placeholder
-          this.parentPath = this.initialTitleValue.replace(/\{new_page_title\}$/, '');
+      if (!this.pageTitle.endsWith('{new_page_title}')) return;
 
-          // Set the title with placeholder text
-          this.pageTitle = `${this.parentPath}${this.placeholderText}`;
-          this.placeholderActive = true;
+      this.parentPath = this.pageTitle.replace(/\{new_page_title\}$/, '');
 
-          // Position cursor after parent path on next tick
-          await this.$nextTick();
-          this.positionCursorAfterParentPath();
+      if (this.glFeatures.wikiImmersiveEditor) {
+        this.pageTitle = this.placeholderText;
+        if (this.shouldGeneratePathFromTitle) {
+          this.path = this.parentPath;
         }
+      } else {
+        this.pageTitle = `${this.parentPath}${this.placeholderText}`;
       }
+      this.placeholderActive = true;
+
+      await this.$nextTick();
+      this.positionCursorForPlaceholder();
     },
 
-    positionCursorAfterParentPath() {
+    positionCursorForPlaceholder() {
       const input = this.$refs.titleInput?.$el || this.$refs.titleInput;
       if (input) {
-        const cursorPosition = this.parentPath.length;
+        const cursorPosition = this.glFeatures.wikiImmersiveEditor ? 0 : this.parentPath.length;
         input.setSelectionRange(cursorPosition, cursorPosition);
         input.focus();
       }
@@ -557,22 +567,26 @@ export default {
 
     async handleTitleKeydown(event) {
       if (this.placeholderActive && this.isPrintableKey(event)) {
-        // Clear the placeholder
         this.placeholderActive = false;
-        this.pageTitle = this.parentPath;
 
-        // Position cursor at the end
+        if (this.glFeatures.wikiImmersiveEditor) {
+          this.pageTitle = '';
+        } else {
+          this.pageTitle = this.parentPath;
+        }
+
         await this.$nextTick();
         const input = this.$refs.titleInput?.$el || this.$refs.titleInput;
         if (input) {
-          input.setSelectionRange(this.parentPath.length, this.parentPath.length);
+          const cursorPosition = this.glFeatures.wikiImmersiveEditor ? 0 : this.parentPath.length;
+          input.setSelectionRange(cursorPosition, cursorPosition);
         }
       }
     },
 
     handleTitleFocus() {
       if (this.placeholderActive) {
-        this.positionCursorAfterParentPath();
+        this.positionCursorForPlaceholder();
       }
     },
 

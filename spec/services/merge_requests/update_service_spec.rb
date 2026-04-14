@@ -1040,6 +1040,31 @@ RSpec.describe MergeRequests::UpdateService, :mailer, :request_store, feature_ca
           end
         end
       end
+
+      context 'when draft status does not change (draft title rename)' do
+        before do
+          merge_request.update_attribute(:title, "Draft: Old title")
+        end
+
+        it 'does not send notifications', :sidekiq_inline do
+          perform_enqueued_jobs do
+            described_class.new(project: project, current_user: user, params: { title: 'Draft: New title' }).execute(merge_request)
+          end
+
+          should_not_email(subscriber)
+          should_not_email(non_subscriber)
+        end
+
+        it 'does not trigger GraphQL subscription mergeRequestMergeStatusUpdated' do
+          expect(GraphqlTriggers).not_to receive(:merge_request_merge_status_updated)
+
+          update_merge_request(title: 'Draft: New title')
+        end
+
+        it 'does not publish a DraftStateChangeEvent' do
+          expect { update_merge_request(title: 'Draft: New title') }.not_to publish_event(MergeRequests::DraftStateChangeEvent)
+        end
+      end
     end
 
     context 'when the merge request is relabeled' do

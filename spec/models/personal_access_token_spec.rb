@@ -383,7 +383,7 @@ RSpec.describe PersonalAccessToken, feature_category: :system_access do
     let_it_be(:user) { create(:user) }
     let_it_be(:project) { create(:project, developers: user) }
     let_it_be(:boundary) { Authz::Boundary.for(project) }
-    let_it_be(:granular_pat) { create(:granular_pat, user: user, boundary: boundary, permissions: :write_work_item) }
+    let_it_be(:granular_pat) { create(:granular_pat, user: user, boundary: boundary, permissions: :create_work_item) }
 
     let(:methods) { PolicyActor.instance_methods }
 

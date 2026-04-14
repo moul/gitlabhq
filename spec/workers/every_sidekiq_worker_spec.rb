@@ -147,6 +147,7 @@ RSpec.describe 'Every Sidekiq worker', feature_category: :sidekiq do
         'BulkImports::PipelineBatchWorker' => 6,
         'BulkImports::FinishProjectImportWorker' => 3,
         'BulkImports::TransformReferencesWorker' => 3,
+        'Cells::BulkClaimsWorker' => 5,
         'Cells::LostTransactionRecoveryWorker' => 3,
         'Cells::ClaimsVerificationWorker' => 5,
         'Chaos::CpuSpinWorker' => 3,

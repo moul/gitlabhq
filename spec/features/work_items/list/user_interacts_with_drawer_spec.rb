@@ -38,7 +38,7 @@ RSpec.describe 'Work Items List Drawer', :js, feature_category: :team_planning d
       it_behaves_like 'work item drawer on the list page'
 
       it 'updates start and due date on the list', :aggregate_failures do
-        within_testid('work-item-drawer') do
+        within_testid('work-item-detail-panel') do
           within_testid 'work-item-due-dates' do
             click_button 'Edit'
             fill_in 'Start', with: '2025-01-01'

@@ -418,7 +418,6 @@
   [data-sticky-header] > table:not(.code) > tbody > tr:first-child > th {
     @apply gl-sticky;
     @apply gl-top-0;
-    @apply gl-z-2;
     @apply gl-bg-default;
     border-top: 0;
     border-bottom: 0;

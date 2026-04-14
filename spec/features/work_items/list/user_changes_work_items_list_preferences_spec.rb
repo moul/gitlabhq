@@ -41,14 +41,14 @@ RSpec.describe 'Work Items List User Preferences', :js, feature_category: :team_
           toggle_display_option('Open items in side panel')
           first_card.click
           wait_for_requests
-          expect(page).not_to have_testid('work-item-drawer')
+          expect(page).not_to have_testid('work-item-detail-panel')
         end
 
         it 'enables drawer when toggled on', :aggregate_failures do
           2.times { toggle_display_option('Open items in side panel') }
           first_card.click
           wait_for_requests
-          expect(page).to have_testid('work-item-drawer')
+          expect(page).to have_testid('work-item-detail-panel')
         end
       end
     end

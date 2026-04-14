@@ -410,7 +410,7 @@ Grants the ability to create, read, and update pull mirrors.
 
 #### Repository Storage Move
 
-Grants the ability to create, manage, and read repository storage moves.
+Grants the ability to create and read repository storage moves.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1435,10 +1435,48 @@ Grants the ability to increment and read usage data metrics.
 
 #### Work Item
 
-Grants the ability to delete, read, and write work items.
+Grants the ability to create, delete, read, and update work items.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
+| Create | Project | `POST` | `/projects/:id/issues/:issue_iid/award_emoji` |
+| Create | Project | `POST` | `/projects/:id/issues/:issue_iid/notes/:note_id/award_emoji` |
+| Create | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/award_emoji` |
+| Create | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/notes/:note_id/award_emoji` |
+| Create | Project | `POST` | `/projects/:id/snippets/:snippet_id/award_emoji` |
+| Create | Project | `POST` | `/projects/:id/snippets/:snippet_id/notes/:note_id/award_emoji` |
+| Create | Project | `POST` | `/projects/:id/issues/:issue_iid/links` |
+| Create | Project | `POST` | `/projects/:id/issues` |
+| Create | Project | `POST` | `/projects/:id/issues/:issue_iid/clone` |
+| Create | Project | `POST` | `/namespaces/:id/-/work_items` |
+| Create | Project | `POST` | `/projects/:id/-/work_items` |
+| Create | Project | `POST` | `/projects/:id/boards` |
+| Create | Project | `POST` | `/projects/:id/boards/:board_id/lists` |
+| Create | Project | `POST` | `/projects/:id/issues/:noteable_id/discussions` |
+| Create | Project | `POST` | `/projects/:id/issues/:noteable_id/discussions/:discussion_id/notes` |
+| Create | Project | `POST` | `/projects/:id/snippets/:noteable_id/discussions` |
+| Create | Project | `POST` | `/projects/:id/snippets/:noteable_id/discussions/:discussion_id/notes` |
+| Create | Project | `POST` | `/projects/:id/issues/:noteable_id/notes` |
+| Create | Project | `POST` | `/projects/:id/merge_requests/:noteable_id/notes` |
+| Create | Project | `POST` | `/projects/:id/snippets/:noteable_id/notes` |
+| Create | Project | `POST` | `/projects/:id/wiki_pages/:noteable_id/notes` |
+| Create | Project | `POST` | `/projects/:id/milestones` |
+| Create | Group | `POST` | `/groups/:id/epics/:epic_iid/award_emoji` |
+| Create | Group | `POST` | `/groups/:id/epics/:epic_iid/notes/:note_id/award_emoji` |
+| Create | Group | `POST` | `/namespaces/:id/-/work_items` |
+| Create | Group | `POST` | `/groups/:id/-/work_items` |
+| Create | Group | `POST` | `/groups/:id/epics/:noteable_id/discussions` |
+| Create | Group | `POST` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id/notes` |
+| Create | Group | `POST` | `/groups/:id/boards/:board_id/lists` |
+| Create | Group | `POST` | `/groups/:id/milestones` |
+| Create | Group | `POST` | `/groups/:id/epics/:noteable_id/notes` |
+| Create | Group | `POST` | `/groups/:id/wiki_pages/:noteable_id/notes` |
+| Create | Group | `POST` | `/groups/:id/boards` |
+| Create | Group | `POST` | `/groups/:id/(-/)epics/:epic_iid/issues/:issue_id` |
+| Create | Group | `POST` | `/groups/:id/(-/)epics/:epic_iid/epics/:child_epic_id` |
+| Create | Group | `POST` | `/groups/:id/(-/)epics/:epic_iid/epics` |
+| Create | Group | `POST` | `/groups/:id/(-/)epics` |
+| Create | Group | `POST` | `/groups/:id/epics/:epic_iid/related_epics` |
 | Delete | Project | `DELETE` | `/projects/:id/issues/:issue_iid/award_emoji/:award_id` |
 | Delete | Project | `DELETE` | `/projects/:id/issues/:issue_iid/notes/:note_id/award_emoji/:award_id` |
 | Delete | Project | `DELETE` | `/projects/:id/merge_requests/:merge_request_iid/award_emoji/:award_id` |
@@ -1583,76 +1621,38 @@ Grants the ability to delete, read, and write work items.
 | Read | User | `GET` | `/issues_statistics` |
 | Read | User | `GET` | `/issues` |
 | Read | Instance | `GET` | `/issues/:id` |
-| Write | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/reset_time_estimate` |
-| Write | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/add_spent_time` |
-| Write | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/reset_spent_time` |
-| Write | Project | `POST` | `/namespaces/:id/-/work_items` |
-| Write | Project | `POST` | `/projects/:id/-/work_items` |
-| Write | Project | `POST` | `/projects/:id/boards` |
-| Write | Project | `POST` | `/projects/:id/boards/:board_id/lists` |
-| Write | Project | `POST` | `/projects/:id/issues/:noteable_id/discussions` |
-| Write | Project | `POST` | `/projects/:id/issues/:noteable_id/discussions/:discussion_id/notes` |
-| Write | Project | `POST` | `/projects/:id/snippets/:noteable_id/discussions` |
-| Write | Project | `POST` | `/projects/:id/snippets/:noteable_id/discussions/:discussion_id/notes` |
-| Write | Project | `POST` | `/projects/:id/issues/:noteable_id/notes` |
-| Write | Project | `POST` | `/projects/:id/merge_requests/:noteable_id/notes` |
-| Write | Project | `POST` | `/projects/:id/snippets/:noteable_id/notes` |
-| Write | Project | `POST` | `/projects/:id/wiki_pages/:noteable_id/notes` |
-| Write | Project | `POST` | `/projects/:id/milestones` |
-| Write | Project | `POST` | `/projects/:id/milestones/:milestone_id/promote` |
-| Write | Project | `POST` | `/projects/:id/issues/:issue_iid/award_emoji` |
-| Write | Project | `POST` | `/projects/:id/issues/:issue_iid/notes/:note_id/award_emoji` |
-| Write | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/award_emoji` |
-| Write | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/notes/:note_id/award_emoji` |
-| Write | Project | `POST` | `/projects/:id/snippets/:snippet_id/award_emoji` |
-| Write | Project | `POST` | `/projects/:id/snippets/:snippet_id/notes/:note_id/award_emoji` |
-| Write | Project | `POST` | `/projects/:id/issues/:issue_iid/links` |
-| Write | Project | `POST` | `/projects/:id/issues/:issue_iid/time_estimate` |
-| Write | Project | `POST` | `/projects/:id/issues/:issue_iid/reset_time_estimate` |
-| Write | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/time_estimate` |
-| Write | Project | `POST` | `/projects/:id/issues/:issue_iid/clone` |
-| Write | Project | `POST` | `/projects/:id/issues/:issue_iid/move` |
-| Write | Project | `POST` | `/projects/:id/issues` |
-| Write | Project | `POST` | `/projects/:id/issues/:issue_iid/reset_spent_time` |
-| Write | Project | `POST` | `/projects/:id/issues/:issue_iid/add_spent_time` |
-| Write | Project | `PUT` | `/projects/:id/boards/:board_id` |
-| Write | Project | `PUT` | `/projects/:id/snippets/:noteable_id/discussions/:discussion_id/notes/:note_id` |
-| Write | Project | `PUT` | `/projects/:id/issues/:noteable_id/discussions/:discussion_id` |
-| Write | Project | `PUT` | `/projects/:id/issues/:noteable_id/notes/:note_id` |
-| Write | Project | `PUT` | `/projects/:id/issues/:issue_iid` |
-| Write | Project | `PUT` | `/projects/:id/merge_requests/:noteable_id/notes/:note_id` |
-| Write | Project | `PUT` | `/projects/:id/issues/:issue_iid/reorder` |
-| Write | Project | `PUT` | `/projects/:id/snippets/:noteable_id/notes/:note_id` |
-| Write | Project | `PUT` | `/projects/:id/issues/:noteable_id/discussions/:discussion_id/notes/:note_id` |
-| Write | Project | `PUT` | `/projects/:id/wiki_pages/:noteable_id/notes/:note_id` |
-| Write | Project | `PUT` | `/projects/:id/boards/:board_id/lists/:list_id` |
-| Write | Project | `PUT` | `/projects/:id/milestones/:milestone_id` |
-| Write | Group | `POST` | `/groups/:id/epics/:epic_iid/related_epics` |
-| Write | Group | `POST` | `/groups/:id/(-/)epics` |
-| Write | Group | `POST` | `/groups/:id/(-/)epics/:epic_iid/epics` |
-| Write | Group | `POST` | `/groups/:id/(-/)epics/:epic_iid/epics/:child_epic_id` |
-| Write | Group | `POST` | `/groups/:id/(-/)epics/:epic_iid/issues/:issue_id` |
-| Write | Group | `POST` | `/groups/:id/boards` |
-| Write | Group | `POST` | `/groups/:id/wiki_pages/:noteable_id/notes` |
-| Write | Group | `POST` | `/groups/:id/epics/:noteable_id/notes` |
-| Write | Group | `POST` | `/groups/:id/milestones` |
-| Write | Group | `POST` | `/groups/:id/epics/:epic_iid/award_emoji` |
-| Write | Group | `POST` | `/groups/:id/epics/:epic_iid/notes/:note_id/award_emoji` |
-| Write | Group | `POST` | `/namespaces/:id/-/work_items` |
-| Write | Group | `POST` | `/groups/:id/-/work_items` |
-| Write | Group | `POST` | `/groups/:id/epics/:noteable_id/discussions` |
-| Write | Group | `POST` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id/notes` |
-| Write | Group | `POST` | `/groups/:id/boards/:board_id/lists` |
-| Write | Group | `PUT` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id/notes/:note_id` |
-| Write | Group | `PUT` | `/groups/:id/wiki_pages/:noteable_id/notes/:note_id` |
-| Write | Group | `PUT` | `/groups/:id/epics/:noteable_id/notes/:note_id` |
-| Write | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid/issues/:epic_issue_id` |
-| Write | Group | `PUT` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id` |
-| Write | Group | `PUT` | `/groups/:id/milestones/:milestone_id` |
-| Write | Group | `PUT` | `/groups/:id/boards/:board_id` |
-| Write | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid/epics/:child_epic_id` |
-| Write | Group | `PUT` | `/groups/:id/boards/:board_id/lists/:list_id` |
-| Write | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid` |
+| Update | Project | `POST` | `/projects/:id/milestones/:milestone_id/promote` |
+| Update | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/reset_spent_time` |
+| Update | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/add_spent_time` |
+| Update | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/reset_time_estimate` |
+| Update | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/time_estimate` |
+| Update | Project | `POST` | `/projects/:id/issues/:issue_iid/move` |
+| Update | Project | `POST` | `/projects/:id/issues/:issue_iid/reset_spent_time` |
+| Update | Project | `POST` | `/projects/:id/issues/:issue_iid/add_spent_time` |
+| Update | Project | `POST` | `/projects/:id/issues/:issue_iid/reset_time_estimate` |
+| Update | Project | `POST` | `/projects/:id/issues/:issue_iid/time_estimate` |
+| Update | Project | `PUT` | `/projects/:id/issues/:issue_iid/reorder` |
+| Update | Project | `PUT` | `/projects/:id/issues/:issue_iid` |
+| Update | Project | `PUT` | `/projects/:id/boards/:board_id` |
+| Update | Project | `PUT` | `/projects/:id/boards/:board_id/lists/:list_id` |
+| Update | Project | `PUT` | `/projects/:id/issues/:noteable_id/discussions/:discussion_id/notes/:note_id` |
+| Update | Project | `PUT` | `/projects/:id/issues/:noteable_id/discussions/:discussion_id` |
+| Update | Project | `PUT` | `/projects/:id/snippets/:noteable_id/discussions/:discussion_id/notes/:note_id` |
+| Update | Project | `PUT` | `/projects/:id/issues/:noteable_id/notes/:note_id` |
+| Update | Project | `PUT` | `/projects/:id/merge_requests/:noteable_id/notes/:note_id` |
+| Update | Project | `PUT` | `/projects/:id/snippets/:noteable_id/notes/:note_id` |
+| Update | Project | `PUT` | `/projects/:id/wiki_pages/:noteable_id/notes/:note_id` |
+| Update | Project | `PUT` | `/projects/:id/milestones/:milestone_id` |
+| Update | Group | `PUT` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id/notes/:note_id` |
+| Update | Group | `PUT` | `/groups/:id/epics/:noteable_id/discussions/:discussion_id` |
+| Update | Group | `PUT` | `/groups/:id/boards/:board_id` |
+| Update | Group | `PUT` | `/groups/:id/boards/:board_id/lists/:list_id` |
+| Update | Group | `PUT` | `/groups/:id/milestones/:milestone_id` |
+| Update | Group | `PUT` | `/groups/:id/epics/:noteable_id/notes/:note_id` |
+| Update | Group | `PUT` | `/groups/:id/wiki_pages/:noteable_id/notes/:note_id` |
+| Update | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid/issues/:epic_issue_id` |
+| Update | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid/epics/:child_epic_id` |
+| Update | Group | `PUT` | `/groups/:id/(-/)epics/:epic_iid` |
 
 ### Projects resources
 

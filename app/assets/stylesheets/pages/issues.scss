@@ -196,7 +196,7 @@ ul.related-merge-requests > li gl-emoji {
 }
 
 // stylelint-disable-next-line gitlab/no-gl-class
-.work-item-drawer .gl-drawer-header-sticky,
+.work-item-detail-panel .gl-drawer-header-sticky,
 .issue-sticky-header {
   @include translucent-glass-background;
 }

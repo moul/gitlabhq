@@ -50,14 +50,50 @@ RSpec.describe Ci::Jobs::PartitionedTokenFinder, feature_category: :continuous_i
         allow(::Ci::Builds::TokenPrefix).to receive(:decode_partition).with(token).and_return(nil)
       end
 
-      it 'queries all partitions without partition filter' do
+      it 'returns nil without querying the database' do
         recorder = ActiveRecord::QueryRecorder.new do
-          expect(finder.execute).to eq(job)
+          expect(finder.execute).to be_nil
         end
 
-        expect(recorder.count).to eq(1)
-        expect(recorder.log.first).to match(/"p_ci_builds"."token_encrypted" IN/)
-        expect(recorder.log.first).not_to match(/"p_ci_builds"."partition_id" =/)
+        expect(recorder.count).to eq(0)
+      end
+    end
+
+    context 'when the token has a known non-job prefix' do
+      let(:token) { 'glpat-abc123' }
+
+      it 'returns nil without querying the database' do
+        recorder = ActiveRecord::QueryRecorder.new do
+          expect(finder.execute).to be_nil
+        end
+
+        expect(recorder.count).to eq(0)
+      end
+    end
+
+    context 'when the token has no prefix (legacy token)' do
+      let(:token) { 'abc123xyz' }
+
+      it 'does not exclude the token and queries the database' do
+        recorder = ActiveRecord::QueryRecorder.new { finder.execute }
+
+        expect(recorder.count).to be > 0
+      end
+    end
+
+    context 'when the token has the CI job prefix but partition_key is blank' do
+      let(:token) { "#{Ci::Build::TOKEN_PREFIX}invalidpartition" }
+
+      before do
+        allow(::Ci::Builds::TokenPrefix).to receive(:decode_partition).with(token).and_return(nil)
+      end
+
+      it 'returns nil without querying the database' do
+        recorder = ActiveRecord::QueryRecorder.new do
+          expect(finder.execute).to be_nil
+        end
+
+        expect(recorder.count).to eq(0)
       end
     end
   end
