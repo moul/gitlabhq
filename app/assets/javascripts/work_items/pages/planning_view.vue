@@ -10,6 +10,7 @@ import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { InternalEvents } from '~/tracking';
 import { createAlert, VARIANT_INFO } from '~/alert';
 import { TYPENAME_NAMESPACE, TYPENAME_USER } from '~/graphql_shared/constants';
+import { getParameterByName, removeParams, updateHistory } from '~/lib/utils/url_utility';
 import {
   STATUS_ALL,
   STATUS_OPEN,
@@ -18,7 +19,7 @@ import {
   STATUS_CLOSED,
 } from '~/issues/constants';
 import { DEFAULT_PAGE_SIZE, issuableListTabs } from '~/vue_shared/issuable/list/constants';
-import { convertToGraphQLId } from '~/graphql_shared/utils';
+import { convertToGraphQLId, getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { fetchPolicies } from '~/lib/graphql';
 import { isPositiveInteger } from '~/lib/utils/number_utils';
 import { AutocompleteCache } from '~/issues/dashboard/utils';
@@ -106,8 +107,6 @@ import {
   convertToSearchQuery,
 } from 'ee_else_ce/work_items/list/utils';
 
-import { getParameterByName } from '~/lib/utils/url_utility';
-
 import {
   CREATED_DESC,
   RELATIVE_POSITION_ASC,
@@ -138,6 +137,7 @@ import EmptyStateWithoutAnyTickets from '../list/components/empty_state_without_
 import InfoBanner from '../list/components/info_banner.vue';
 import NewSavedViewModal from '../list/components/work_items_new_saved_view_modal.vue';
 import WorkItemsOnboardingModal from '../components/work_items_onboarding_modal/work_items_onboarding_modal.vue';
+import WorkItemDetailPanel from '../components/work_item_detail_panel.vue';
 
 import {
   WORK_ITEM_TYPE_NAME_TICKET,
@@ -147,6 +147,8 @@ import {
   ROUTES,
   WORK_ITEM_CREATE_SOURCES,
   CREATION_CONTEXT_LIST_ROUTE,
+  DETAIL_VIEW_QUERY_PARAM_NAME,
+  VIEW_CONTEXT,
 } from '../constants';
 
 const DateToken = () => import('~/vue_shared/components/filtered_search_bar/tokens/date_token.vue');
@@ -174,6 +176,7 @@ export default {
   issuableListTabs,
   WORK_ITEM_CREATE_SOURCES,
   CREATION_CONTEXT_LIST_ROUTE,
+  VIEW_CONTEXT,
   searchProjectsQuery,
   name: 'PlanningView',
   components: {
@@ -198,6 +201,7 @@ export default {
     ListView,
     WorkItemsOnboardingModal,
     UserCalloutDismisser,
+    WorkItemDetailPanel,
   },
   mixins: [glFeatureFlagMixin(), InternalEvents.mixin()],
   inject: [
@@ -253,6 +257,7 @@ export default {
   data() {
     const loggedIn = isLoggedIn();
     return {
+      activeItem: null,
       sortKey: CREATED_DESC,
       error: undefined,
       initialSortKey: CREATED_DESC,
@@ -529,6 +534,19 @@ export default {
       );
       const sortKey = this.queryVariables.sort || CREATED_DESC;
       return getSortedWorkItems(combined, sortKey);
+    },
+    workItemDetailPanelEnabled() {
+      return this.displaySettings?.commonPreferences?.shouldOpenItemsInSidePanel ?? true;
+    },
+    isItemSelected() {
+      return !isEmpty(this.activeItem);
+    },
+    activeWorkItemType() {
+      const activeWorkItemTypeName =
+        typeof this.activeItem?.workItemType === 'object'
+          ? this.activeItem?.workItemType?.name
+          : this.activeItem?.workItemType;
+      return this.workItemType || activeWorkItemTypeName;
     },
     hasSearch() {
       return Boolean(this.searchQuery);
@@ -1087,6 +1105,11 @@ export default {
 
   watch: {
     $route(newValue, oldValue) {
+      if (newValue.query[DETAIL_VIEW_QUERY_PARAM_NAME] && !this.detailLoading) {
+        this.checkDetailPanelParams();
+      } else {
+        this.activeItem = null;
+      }
       if (newValue.fullPath !== oldValue.fullPath && !this.isSavedView) {
         this.updateData(getParameterByName(PARAM_SORT));
       }
@@ -1105,6 +1128,14 @@ export default {
           this.filterTokens = tokens;
         }
       }
+    },
+    workItems: {
+      handler(value) {
+        if (value.length > 0) {
+          this.checkDetailPanelParams();
+        }
+      },
+      immediate: true,
     },
     displaySettings: {
       immediate: true,
@@ -1135,6 +1166,7 @@ export default {
   },
   beforeDestroy() {
     setPageDefaultWidth();
+    window.removeEventListener('popstate', this.checkDetailPanelParams);
   },
 
   created() {
@@ -1180,9 +1212,61 @@ export default {
     this.autocompleteCache = new AutocompleteCache();
     this.releasesCache = [];
     this.areReleasesFetched = false;
+    window.addEventListener('popstate', this.checkDetailPanelParams);
   },
 
   methods: {
+    checkDetailPanelParams() {
+      const queryParam = getParameterByName(DETAIL_VIEW_QUERY_PARAM_NAME);
+
+      if (!queryParam) {
+        this.activeItem = null;
+        return;
+      }
+
+      const params = JSON.parse(atob(queryParam));
+      if (params.id) {
+        const issue = this.workItems.find((i) => getIdFromGraphQLId(i.id) === params.id);
+        if (issue) {
+          this.activeItem = {
+            ...issue,
+            // we need fullPath here to prevent cache invalidation
+            fullPath: params.full_path,
+          };
+        } else {
+          updateHistory({
+            url: removeParams([DETAIL_VIEW_QUERY_PARAM_NAME]),
+          });
+        }
+      }
+    },
+    handleToggle(item) {
+      if (item && this.activeItem?.iid === item.iid) {
+        this.activeItem = null;
+        const queryParam = getParameterByName(DETAIL_VIEW_QUERY_PARAM_NAME);
+        if (queryParam) {
+          updateHistory({
+            url: removeParams([DETAIL_VIEW_QUERY_PARAM_NAME]),
+          });
+        }
+      } else {
+        this.activeItem = item;
+      }
+    },
+    deleteItem() {
+      this.activeItem = null;
+      this.refetchItems({ refetchCounts: true });
+    },
+    handleStatusChange(workItem) {
+      if (this.state === STATUS_ALL) {
+        return;
+      }
+
+      // Work item state can be either 'OPEN' or 'CLOSED', this.state can be 'opened' or 'closed'
+      if (!this.state.includes(workItem.state.toLowerCase())) {
+        this.refetchItems({ refetchCounts: true });
+      }
+    },
     toggleStickyHeader(isVisible) {
       this.isStickyHeaderVisible = isVisible;
     },
@@ -1804,6 +1888,18 @@ export default {
       data-testid="view-limit-warning-modal"
     />
     <info-banner v-if="isInfoBannerVisible" />
+    <work-item-detail-panel
+      v-if="workItemDetailPanelEnabled"
+      :active-item="activeItem"
+      :open="isItemSelected"
+      :issuable-type="activeWorkItemType"
+      :view-context="$options.VIEW_CONTEXT.drawerList"
+      click-outside-exclude-selector=".issuable-list"
+      @close="activeItem = null"
+      @add-child="refetchItems"
+      @work-item-deleted="deleteItem"
+      @work-item-updated="handleStatusChange"
+    />
     <div>
       <template v-if="!isServiceDeskList">
         <div v-if="error" class="gl-mt-5">
@@ -2086,6 +2182,7 @@ export default {
       :sort-key="sortKey"
       :is-sort-key-initialized="isSortKeyInitialized"
       :state="state"
+      :active-item="activeItem"
       @toggle-bulk-edit-sidebar="($evt) => (showBulkEditSidebar = $evt)"
       @skip-due-to-saved-view="handleSavedViewSkipState"
       @reset-initial-load-state="isInitialLoadComplete = false"
@@ -2098,6 +2195,7 @@ export default {
       @reorder="handleReorder"
       @set-page-params="($evt) => (pageParams = $evt)"
       @set-page-size="($evt) => (pageSize = $evt)"
+      @select-item="handleToggle"
     >
       <template #list-empty-state>
         <template v-if="isServiceDeskList">

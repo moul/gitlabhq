@@ -10,24 +10,16 @@ import HealthStatus from '~/work_items/list/components/health_status.vue';
 import createMockApollo from 'helpers/mock_apollo_helper';
 import waitForPromises from 'helpers/wait_for_promises';
 import setWindowLocation from 'helpers/set_window_location_helper';
-import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { useLocalStorageSpy } from 'helpers/local_storage_helper';
 import namespaceWorkItemTypesQuery from '~/work_items/graphql/namespace_work_item_types.query.graphql';
 import { scrollUp } from '~/lib/utils/scroll_utils';
-import { getParameterByName, removeParams, updateHistory } from '~/lib/utils/url_utility';
+import { getParameterByName } from '~/lib/utils/url_utility';
 import IssuableBulkEditSidebar from '~/vue_shared/issuable/list/components/issuable_bulk_edit_sidebar.vue';
 import PageSizeSelector from '~/vue_shared/components/page_size_selector.vue';
 import IssuableItem from '~/vue_shared/issuable/list/components/issuable_item.vue';
 import CreateWorkItemModal from '~/work_items/components/create_work_item_modal.vue';
 import ListView from '~/work_items/list/list_view.vue';
-import WorkItemDetailPanel from '~/work_items/components/work_item_detail_panel.vue';
-import {
-  DETAIL_VIEW_QUERY_PARAM_NAME,
-  STATE_CLOSED,
-  WORK_ITEM_TYPE_NAME_EPIC,
-  WORK_ITEM_TYPE_NAME_ISSUE,
-  WORK_ITEM_TYPE_NAME_TICKET,
-} from '~/work_items/constants';
+import { WORK_ITEM_TYPE_NAME_TICKET } from '~/work_items/constants';
 import { CREATED_DESC } from '~/work_items/list/constants';
 import { STATUS_OPEN } from '~/issues/constants';
 import { routes } from '~/work_items/router/routes';
@@ -74,7 +66,6 @@ const findIssuableItems = () => wrapper.findAllComponents(IssuableItem);
 const findIssueCardStatistics = () => wrapper.findComponent(IssueCardStatistics);
 const findIssueCardTimeInfo = () => wrapper.findComponent(IssueCardTimeInfo);
 const findHealthStatus = () => wrapper.findComponent(HealthStatus);
-const findDetailPanel = () => wrapper.findComponent(WorkItemDetailPanel);
 const findCreateWorkItemModal = () => wrapper.findComponent(CreateWorkItemModal);
 const findBulkEditStartButton = () => wrapper.findByTestId('bulk-edit-start-button');
 const findBulkEditSidebar = () => wrapper.findComponent(WorkItemBulkEditSidebar);
@@ -204,28 +195,6 @@ const mountComponent = ({
   });
 };
 
-const mountComponentWithShowParam = async (issue, mountOptions = {}) => {
-  const showParams = {
-    id: getIdFromGraphQLId(issue.id),
-    iid: issue.iid,
-    full_path: issue.namespace.fullPath,
-  };
-  const show = btoa(JSON.stringify(showParams));
-  setWindowLocation(`?${DETAIL_VIEW_QUERY_PARAM_NAME}=${show}`);
-  getParameterByName.mockReturnValue(show);
-
-  const { provide = {}, ...restOptions } = mountOptions;
-  mountComponent({
-    provide: {
-      workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
-      ...provide,
-    },
-    ...restOptions,
-  });
-  await waitForPromises();
-  await nextTick();
-};
-
 it('renders loading icon when isInitialLoadComplete prop is false', () => {
   mountComponent({ props: { isInitialLoadComplete: false } });
 
@@ -254,10 +223,6 @@ describe('when work items are fetched', () => {
     expect(findIssuableItems()).toHaveLength(
       workItemsQueryResponseCombined.data.namespace.workItems.nodes.length,
     );
-  });
-
-  it('calls `getParameterByName` to get the `show` param', () => {
-    expect(getParameterByName).toHaveBeenCalledWith(DETAIL_VIEW_QUERY_PARAM_NAME);
   });
 
   it('does not show tree icon if not searched parent', async () => {
@@ -396,173 +361,6 @@ describe('display settings', () => {
   });
 });
 
-describe('work item drawer', () => {
-  describe('when rendering issues list', () => {
-    it.each`
-      message              | shouldOpenItemsInSidePanel | drawerExists
-      ${'is rendered'}     | ${true}                    | ${true}
-      ${'is not rendered'} | ${false}                   | ${false}
-    `(
-      '$message when shouldOpenItemsInSidePanel is $shouldOpenItemsInSidePanel',
-      async ({ shouldOpenItemsInSidePanel, drawerExists }) => {
-        mountComponent({
-          props: {
-            displaySettings: {
-              commonPreferences: {
-                shouldOpenItemsInSidePanel,
-              },
-            },
-          },
-        });
-
-        await waitForPromises();
-
-        expect(findDetailPanel().exists()).toBe(drawerExists);
-      },
-    );
-
-    describe('selecting issues', () => {
-      const issue = workItemsQueryResponseCombined.data.namespace.workItems.nodes[0];
-      const payload = {
-        iid: issue.iid,
-        webUrl: issue.webUrl,
-        fullPath: issue.namespace.fullPath,
-      };
-
-      beforeEach(async () => {
-        mountComponent();
-        await waitForPromises();
-
-        findChildItem1().vm.$emit('select-issuable', payload);
-
-        await nextTick();
-      });
-
-      it('opens drawer when work item is selected', () => {
-        expect(findDetailPanel().props('open')).toBe(true);
-        expect(findDetailPanel().props('activeItem')).toEqual(payload);
-      });
-
-      it('closes drawer when work item is clicked again', async () => {
-        findChildItem1().vm.$emit('select-issuable', payload);
-        await nextTick();
-
-        expect(findDetailPanel().props('open')).toBe(false);
-        expect(findDetailPanel().props('activeItem')).toBeNull();
-      });
-
-      const checkThatDrawerPropsAreEmpty = () => {
-        expect(findDetailPanel().props('activeItem')).toBeNull();
-        expect(findDetailPanel().props('open')).toBe(false);
-      };
-
-      it('resets the selected item when the drawer is closed', async () => {
-        findDetailPanel().vm.$emit('close');
-
-        await nextTick();
-
-        checkThatDrawerPropsAreEmpty();
-      });
-
-      it('emits the refetch event to refetch counts and resets when work item is deleted', async () => {
-        expect(wrapper.emitted('refetch-data')).toBeUndefined();
-
-        findDetailPanel().vm.$emit('work-item-deleted');
-
-        await nextTick();
-
-        checkThatDrawerPropsAreEmpty();
-
-        expect(wrapper.emitted('refetch-data')).toHaveLength(1);
-      });
-
-      it('emits the refetch event to refetch counts when the selected work item is closed', async () => {
-        expect(wrapper.emitted('refetch-data')).toBeUndefined();
-
-        // component displays open work items by default
-        findDetailPanel().vm.$emit('work-item-updated', {
-          state: STATE_CLOSED,
-        });
-
-        await nextTick();
-
-        expect(wrapper.emitted('refetch-data')).toHaveLength(1);
-      });
-    });
-  });
-
-  describe('when rendering epics list', () => {
-    beforeEach(async () => {
-      mountComponent({
-        provide: {
-          workItemType: WORK_ITEM_TYPE_NAME_EPIC,
-        },
-      });
-      await waitForPromises();
-    });
-
-    it('uses work item drawer', () => {
-      expect(findDetailPanel().exists()).toBe(true);
-    });
-  });
-
-  describe('When the `show` parameter matches an item in the list', () => {
-    it('displays the item in the drawer', async () => {
-      const issue = workItemsQueryResponseCombined.data.namespace.workItems.nodes[0];
-      await mountComponentWithShowParam(issue);
-
-      expect(findDetailPanel().props('open')).toBe(true);
-      expect(findDetailPanel().props('activeItem')).toMatchObject(issue);
-    });
-  });
-
-  describe('When the `show` parameter does not match an item in the list', () => {
-    beforeEach(async () => {
-      const showParams = { id: 9999, iid: '9999', full_path: 'does/not/match' };
-      const show = btoa(JSON.stringify(showParams));
-      setWindowLocation(`?${DETAIL_VIEW_QUERY_PARAM_NAME}=${show}`);
-      getParameterByName.mockReturnValue(show);
-      mountComponent({
-        provide: {
-          workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
-        },
-      });
-      await waitForPromises();
-    });
-    it('calls `updateHistory', () => {
-      expect(updateHistory).toHaveBeenCalled();
-    });
-    it('calls `removeParams` to remove the `show` param', () => {
-      expect(removeParams).toHaveBeenCalledWith([DETAIL_VIEW_QUERY_PARAM_NAME]);
-    });
-  });
-
-  describe('when window `popstate` event is triggered', () => {
-    it('updates the drawer with the new item if there is a `show` param', async () => {
-      const issue = workItemsQueryResponseCombined.data.namespace.workItems.nodes[0];
-      const nextIssue = workItemsQueryResponseCombined.data.namespace.workItems.nodes[1];
-      await mountComponentWithShowParam(issue);
-
-      expect(findDetailPanel().props('open')).toBe(true);
-      expect(findDetailPanel().props('activeItem')).toMatchObject(issue);
-
-      const showParams = {
-        id: getIdFromGraphQLId(nextIssue.id),
-        iid: nextIssue.iid,
-        full_path: nextIssue.namespace.fullPath,
-      };
-      const show = btoa(JSON.stringify(showParams));
-      setWindowLocation(`?${DETAIL_VIEW_QUERY_PARAM_NAME}=${show}`);
-
-      window.dispatchEvent(new Event('popstate'));
-      await waitForPromises();
-
-      expect(findDetailPanel().props('open')).toBe(true);
-      expect(findDetailPanel().props('activeItem')).toMatchObject(issue);
-    });
-  });
-});
-
 describe('when bulk editing', () => {
   it('closes the bulk edit sidebar when the "success" event is emitted', async () => {
     mountComponent({ props: { showBulkEditSidebar: true } });
@@ -615,26 +413,6 @@ describe('when "update" event is emitted by VueSortable', () => {
 
     expect(wrapper.emitted('reorder')).toEqual([[{ oldIndex, newIndex }]]);
   });
-});
-
-it('closes the drawer if there is no `show` param', async () => {
-  const issue = workItemsQueryResponseCombined.data.namespace.workItems.nodes[0];
-  await mountComponentWithShowParam(issue, {
-    queryHandler: jest.fn().mockResolvedValue(workItemsQueryResponseCombined),
-  });
-  await waitForPromises();
-  expect(findDetailPanel().props('open')).toBe(true);
-  expect(findDetailPanel().props('activeItem')).toMatchObject({
-    id: issue.id,
-    iid: issue.iid,
-  });
-
-  setWindowLocation('?');
-  getParameterByName.mockReturnValue(null);
-  window.dispatchEvent(new Event('popstate'));
-
-  await waitForPromises();
-  expect(findDetailPanel().props('open')).toBe(false);
 });
 
 describe('when service desk list', () => {

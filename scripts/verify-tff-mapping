@@ -579,7 +579,7 @@ tests = [
     changed_file: 'ee/app/policies/ee/group_policy.rb',
     expected: %w[
       spec/policies/group_policy_spec.rb
-      ee/spec/policies/group_policy_spec.rb
+      ee/spec/policies/ee/group_policy_spec.rb
       ee/spec/features/groups/groups_security_credentials_spec.rb
     ]
   },

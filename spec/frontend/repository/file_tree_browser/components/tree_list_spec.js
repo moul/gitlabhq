@@ -824,6 +824,34 @@ describe('Tree List', () => {
       expect(fileRow.props('file').name).toBe(expectedName);
     });
 
+    it.each([
+      { metaKey: true, ctrlKey: false, altKey: false },
+      { metaKey: false, ctrlKey: true, altKey: false },
+      { metaKey: false, ctrlKey: false, altKey: true },
+    ])('does not intercept keydown when a modifier key is pressed', async (modifiers) => {
+      await createComponent();
+
+      const activeItemBefore = findTreeItems().wrappers.find(
+        (item) => item.attributes('tabindex') === '0',
+      );
+      const activeItemIdBefore = activeItemBefore?.attributes('data-item-id');
+
+      const event = new KeyboardEvent('keydown', {
+        key: 'ArrowDown',
+        ...modifiers,
+        bubbles: true,
+      });
+
+      findTree().element.dispatchEvent(event);
+      await waitForPromises();
+
+      const activeItemAfter = findTreeItems().wrappers.find(
+        (item) => item.attributes('tabindex') === '0',
+      );
+
+      expect(activeItemAfter.attributes('data-item-id')).toBe(activeItemIdBefore);
+    });
+
     it('expands sibling directories at same level with * key', async () => {
       const response = cloneDeep(mockResponse);
       const treeNode = response.data.project.repository.paginatedTree.nodes[0];

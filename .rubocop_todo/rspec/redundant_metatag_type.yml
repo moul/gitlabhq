@@ -87,7 +87,6 @@ RSpec/RedundantMetatagType:
     - 'ee/spec/models/vulnerabilities/export/part_spec.rb'
     - 'ee/spec/models/vulnerabilities/read_spec.rb'
     - 'ee/spec/models/vulnerabilities/state_transition_spec.rb'
-    - 'ee/spec/requests/admin/credentials_controller_spec.rb'
     - 'ee/spec/requests/admin/namespace_limits_controller_spec.rb'
     - 'ee/spec/requests/customers_dot/proxy_controller_spec.rb'
     - 'ee/spec/requests/ee/application_controller_spec.rb'

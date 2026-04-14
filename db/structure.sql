@@ -47739,8 +47739,6 @@ CREATE INDEX index_notes_on_created_at ON notes USING btree (created_at);
 
 CREATE INDEX index_notes_on_discussion_id ON notes USING btree (discussion_id);
 
-CREATE INDEX index_notes_on_id_where_confidential ON notes USING btree (id) WHERE (confidential = true);
-
 CREATE INDEX index_notes_on_id_where_internal ON notes USING btree (id) WHERE (internal = true);
 
 CREATE INDEX index_notes_on_line_code ON notes USING btree (line_code);

@@ -27,7 +27,6 @@ RSpec/VerifiedDoubleReference:
     - 'ee/spec/lib/security/security_orchestration_policies/event_publisher_spec.rb'
     - 'ee/spec/lib/security/security_orchestration_policies/policy_diff/rules_diff_spec.rb'
     - 'ee/spec/migrations/geo/resync_direct_upload_job_artifact_registry_spec.rb'
-    - 'ee/spec/models/analytics/cycle_analytics/aggregation_context_spec.rb'
     - 'ee/spec/models/concerns/projects/custom_branch_rule_spec.rb'
     - 'ee/spec/models/container_repository_spec.rb'
     - 'ee/spec/models/ee/user_spec.rb'

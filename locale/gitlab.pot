@@ -45849,13 +45849,22 @@ msgstr ""
 msgid "NamespaceStorage|You have used %{used_storage_percentage} of the storage quota for %{name} (%{current_size} of %{limit})."
 msgstr ""
 
+msgid "NamespaceTransfer|An error occurred while transferring the group. Please refresh the page to try again."
+msgstr ""
+
 msgid "NamespaceTransfer|An error occurred while transferring the project. Please refresh the page to try again."
 msgstr ""
 
 msgid "NamespaceTransfer|Change its repository URL path."
 msgstr ""
 
+msgid "NamespaceTransfer|Change its repository URL paths."
+msgstr ""
+
 msgid "NamespaceTransfer|Change its visibility settings to match the new namespace."
+msgstr ""
+
+msgid "NamespaceTransfer|Change its visibility settings to match the new parent group."
 msgstr ""
 
 msgid "NamespaceTransfer|Select destination namespace"
@@ -45867,7 +45876,13 @@ msgstr ""
 msgid "NamespaceTransfer|Transfer - %{name}"
 msgstr ""
 
+msgid "NamespaceTransfer|Transfer this group and all its projects to a different parent group, or convert it to a top-level group. %{linkStart}How does group transfer work?%{linkEnd}"
+msgstr ""
+
 msgid "NamespaceTransfer|Transfer this project to a different namespace. %{linkStart}How does project transfer work?%{linkEnd}"
+msgstr ""
+
+msgid "NamespaceTransfer|Transferring this group will:"
 msgstr ""
 
 msgid "NamespaceTransfer|Transferring this project will:"

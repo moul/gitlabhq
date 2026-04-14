@@ -56740,6 +56740,7 @@ Comparable security report type.
 | <a id="comparablesecurityreporttype-coverage_fuzzing"></a>`COVERAGE_FUZZING` | Coverage fuzzing report. |
 | <a id="comparablesecurityreporttype-dast"></a>`DAST` | DAST report. |
 | <a id="comparablesecurityreporttype-dependency_scanning"></a>`DEPENDENCY_SCANNING` | Dependency scanning report. |
+| <a id="comparablesecurityreporttype-sarif"></a>`SARIF` | Sarif report. |
 | <a id="comparablesecurityreporttype-sast"></a>`SAST` | SAST report. |
 | <a id="comparablesecurityreporttype-secret_detection"></a>`SECRET_DETECTION` | Secret detection report. |
 

@@ -450,97 +450,101 @@ export default {
       const current = items.findIndex((i) => i.id === this.activeItemId);
       const item = items[current];
 
-      // Enter/Space
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        if (item?.isShowMore) this.handleShowMore(item.parentPath, event);
-        if (item?.type === 'tree') this.toggleDirectory(item.path, { toggleClose: false });
-        if (item?.submodule && item?.webUrl) visitUrl(item.webUrl);
-        if (item?.routerPath && !this.isCurrentPath(item?.path)) this.$router.push(item.routerPath);
-        return;
-      }
-
-      // Home/End
-      if (event.key === 'Home' || event.key === 'End') {
-        event.preventDefault();
-        const index = event.key === 'Home' ? 0 : items.length - 1;
-        if (items.length) {
-          this.activeItemId = items[index].id;
-          this.$nextTick(() => this.focusActiveItemThrottled());
-        }
-        return;
-      }
-
-      // Asterisk (*)
-      if (event.key === '*' && item) {
-        event.preventDefault();
-        items
-          .filter((i) => i.type === 'tree' && !i.opened && i.parentPath === item.parentPath)
-          .forEach((i) => this.toggleDirectory(i.path, { toggleClose: false }));
-      }
-
-      // a-z
-      if (/^[a-zA-Z]$/.test(event.key)) {
-        event.preventDefault();
-        const key = event.key.toLowerCase();
-        const idx = items.findIndex((i) => i.id === this.activeItemId);
-
-        // Search after current, then wrap to beginning
-        const match =
-          items.slice(idx + 1).find((i) => i.name?.[0]?.toLowerCase() === key) ||
-          items.slice(0, idx + 1).find((i) => i.name?.[0]?.toLowerCase() === key);
-
-        if (match) {
-          this.activeItemId = match.id;
-          this.$nextTick(() => this.focusActiveItemThrottled());
-        }
-        return;
-      }
-
-      // Right Arrow
-      if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        if (item?.type === 'tree' && !item.opened) {
-          this.toggleDirectory(item.path, { toggleClose: false });
+      // Allow all browser/OS shortcuts to pass through
+      if (!event.metaKey && !event.ctrlKey && !event.altKey) {
+        // Enter/Space
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          if (item?.isShowMore) this.handleShowMore(item.parentPath, event);
+          if (item?.type === 'tree') this.toggleDirectory(item.path, { toggleClose: false });
+          if (item?.submodule && item?.webUrl) visitUrl(item.webUrl);
+          if (item?.routerPath && !this.isCurrentPath(item?.path))
+            this.$router.push(item.routerPath);
           return;
         }
-        const child = items[current + 1];
-        if (item?.type === 'tree' && child?.level > item.level) {
-          this.activeItemId = child.id;
-          this.$nextTick(() => this.focusActiveItemThrottled());
-        }
-        return;
-      }
 
-      // Left Arrow
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        if (item?.type === 'tree' && item.opened) {
-          this.toggleDirectory(item.path);
+        // Home/End
+        if (event.key === 'Home' || event.key === 'End') {
+          event.preventDefault();
+          const index = event.key === 'Home' ? 0 : items.length - 1;
+          if (items.length) {
+            this.activeItemId = items[index].id;
+            this.$nextTick(() => this.focusActiveItemThrottled());
+          }
           return;
         }
-        const parent = items
-          .slice(0, current)
-          .reverse()
-          .find((i) => i.level === item.level - 1);
-        if (parent) {
-          this.activeItemId = parent.id;
-          this.$nextTick(() => this.focusActiveItemThrottled());
+
+        // Asterisk (*)
+        if (event.key === '*' && item) {
+          event.preventDefault();
+          items
+            .filter((i) => i.type === 'tree' && !i.opened && i.parentPath === item.parentPath)
+            .forEach((i) => this.toggleDirectory(i.path, { toggleClose: false }));
         }
-        return;
+
+        // a-z
+        if (/^[a-zA-Z]$/.test(event.key)) {
+          event.preventDefault();
+          const key = event.key.toLowerCase();
+          const idx = items.findIndex((i) => i.id === this.activeItemId);
+
+          // Search after current, then wrap to beginning
+          const match =
+            items.slice(idx + 1).find((i) => i.name?.[0]?.toLowerCase() === key) ||
+            items.slice(0, idx + 1).find((i) => i.name?.[0]?.toLowerCase() === key);
+
+          if (match) {
+            this.activeItemId = match.id;
+            this.$nextTick(() => this.focusActiveItemThrottled());
+          }
+          return;
+        }
+
+        // Right Arrow
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          if (item?.type === 'tree' && !item.opened) {
+            this.toggleDirectory(item.path, { toggleClose: false });
+            return;
+          }
+          const child = items[current + 1];
+          if (item?.type === 'tree' && child?.level > item.level) {
+            this.activeItemId = child.id;
+            this.$nextTick(() => this.focusActiveItemThrottled());
+          }
+          return;
+        }
+
+        // Left Arrow
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          if (item?.type === 'tree' && item.opened) {
+            this.toggleDirectory(item.path);
+            return;
+          }
+          const parent = items
+            .slice(0, current)
+            .reverse()
+            .find((i) => i.level === item.level - 1);
+          if (parent) {
+            this.activeItemId = parent.id;
+            this.$nextTick(() => this.focusActiveItemThrottled());
+          }
+          return;
+        }
+
+        // Arrow keys (Up/Down)
+        if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+
+        event.preventDefault();
+        const move = event.key === 'ArrowDown' ? 1 : -1;
+        const next = current + move;
+
+        if (next < 0 || next >= items.length) return;
+
+        this.activeItemId = items[next].id;
+        this.$nextTick(() => this.focusActiveItemThrottled());
       }
-
-      // Arrow keys (Up/Down)
-      if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
-
-      event.preventDefault();
-      const move = event.key === 'ArrowDown' ? 1 : -1;
-      const next = current + move;
-
-      if (next < 0 || next >= items.length) return;
-
-      this.activeItemId = items[next].id;
-      this.$nextTick(() => this.focusActiveItemThrottled());
     },
     observeListItems() {
       this.$nextTick(() => observeElements(this.$refs.fileTreeList, this.itemObserver));

@@ -9,17 +9,15 @@ import {
   GlModalDirective,
   GlAlert,
 } from '@gitlab/ui';
-import { isEmpty } from 'lodash-es';
 import IssueCardStatistics from 'ee_else_ce/work_items/list/components/issue_card_statistics.vue';
 import IssueCardTimeInfo from 'ee_else_ce/work_items/list/components/issue_card_time_info.vue';
 import { convertToSearchQuery, getInitialPageParams } from 'ee_else_ce/work_items/list/utils';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
-import { STATUS_ALL, STATUS_OPEN } from '~/issues/constants';
+import { STATUS_OPEN } from '~/issues/constants';
 import LocalStorageSync from '~/vue_shared/components/local_storage_sync.vue';
 import PageSizeSelector from '~/vue_shared/components/page_size_selector.vue';
 import { RELATIVE_POSITION_ASC } from '~/work_items/list/constants';
 import { scrollUp } from '~/lib/utils/scroll_utils';
-import { getParameterByName, removeParams, updateHistory } from '~/lib/utils/url_utility';
 import { __ } from '~/locale';
 import IssuableBulkEditSidebar from '~/vue_shared/issuable/list/components/issuable_bulk_edit_sidebar.vue';
 import ResourceListsLoadingStateList from '~/vue_shared/components/resource_lists/loading_state_list.vue';
@@ -31,14 +29,11 @@ import {
 } from '~/vue_shared/issuable/list/constants';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser.vue';
-import WorkItemDetailPanel from '../components/work_item_detail_panel.vue';
 import {
-  DETAIL_VIEW_QUERY_PARAM_NAME,
   STATE_CLOSED,
   WORK_ITEM_TYPE_NAME_TICKET,
   WORK_ITEM_TYPE_NAME_EPIC,
   METADATA_KEYS,
-  VIEW_CONTEXT,
 } from '../constants';
 import { findHierarchyWidget } from '../utils';
 
@@ -48,7 +43,6 @@ const VueDraggable = () => import('~/lib/utils/vue3compat/draggable_compat.vue')
 
 export default {
   name: 'ListView',
-  VIEW_CONTEXT,
   importModalId: 'work-item-import-modal',
   components: {
     GlLoadingIcon,
@@ -63,7 +57,6 @@ export default {
     IssueCardTimeInfo,
     WorkItemBulkEditSidebar: () =>
       import('~/work_items/list/components/work_item_bulk_edit_sidebar.vue'),
-    WorkItemDetailPanel,
     HealthStatus,
     GlIcon,
     GlSkeletonLoader,
@@ -155,6 +148,11 @@ export default {
       type: String,
       required: true,
     },
+    activeItem: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   emits: [
     'refetch-data',
@@ -164,11 +162,11 @@ export default {
     'set-page-params',
     'set-page-size',
     'reorder',
+    'select-item',
   ],
   data() {
     return {
       bulkEditInProgress: false,
-      activeItem: null,
     };
   },
   computed: {
@@ -198,9 +196,6 @@ export default {
         !this.isEpicsList
       );
     },
-    isItemSelected() {
-      return !isEmpty(this.activeItem);
-    },
     workItemDetailPanelEnabled() {
       return this.displaySettings?.commonPreferences?.shouldOpenItemsInSidePanel ?? true;
     },
@@ -225,13 +220,6 @@ export default {
     showPageSizeSelector() {
       return this.workItems.length > 0;
     },
-    activeWorkItemType() {
-      const activeWorkItemTypeName =
-        typeof this.activeItem?.workItemType === 'object'
-          ? this.activeItem?.workItemType?.name
-          : this.activeItem?.workItemType;
-      return this.workItemType || activeWorkItemTypeName;
-    },
     hiddenMetadataKeys() {
       return this.displaySettings?.namespacePreferences?.hiddenMetadataKeys || [];
     },
@@ -244,29 +232,6 @@ export default {
     shouldLoad() {
       return !this.isInitialLoadComplete || (!this.isSortKeyInitialized && !this.error);
     },
-  },
-  watch: {
-    workItems: {
-      handler(value) {
-        if (value.length > 0) {
-          this.checkDetailPanelParams();
-        }
-      },
-      immediate: true,
-    },
-    $route(newValue) {
-      if (newValue.query[DETAIL_VIEW_QUERY_PARAM_NAME] && !this.detailLoading) {
-        this.checkDetailPanelParams();
-      } else {
-        this.activeItem = null;
-      }
-    },
-  },
-  created() {
-    window.addEventListener('popstate', this.checkDetailPanelParams);
-  },
-  beforeDestroy() {
-    window.removeEventListener('popstate', this.checkDetailPanelParams);
   },
   methods: {
     handleReorder({ oldIndex, newIndex }) {
@@ -286,20 +251,6 @@ export default {
       if (!toCheck && isIdChecked) {
         const indexToDelete = this.checkedIssuableIds.findIndex((id) => id === issuable.id);
         this.$emit('set-checked-issuable-ids', this.checkedIssuableIds.toSpliced(indexToDelete, 1));
-      }
-    },
-
-    handleToggle(item) {
-      if (item && this.activeItem?.iid === item.iid) {
-        this.activeItem = null;
-        const queryParam = getParameterByName(DETAIL_VIEW_QUERY_PARAM_NAME);
-        if (queryParam) {
-          updateHistory({
-            url: removeParams([DETAIL_VIEW_QUERY_PARAM_NAME]),
-          });
-        }
-      } else {
-        this.activeItem = item;
       }
     },
     getStatus(issue) {
@@ -333,49 +284,11 @@ export default {
       });
       scrollUp();
     },
-    deleteItem() {
-      this.activeItem = null;
-      this.refetchItems({ refetchCounts: true });
-    },
-    handleStatusChange(workItem) {
-      if (this.state === STATUS_ALL) {
-        return;
-      }
-
-      // Work item state can be either 'OPEN' or 'CLOSED', this.state can be 'opened' or 'closed'
-      if (!this.state.includes(workItem.state.toLowerCase())) {
-        this.refetchItems({ refetchCounts: true });
-      }
-    },
     async refetchItems({ refetchCounts = false } = {}) {
       if (refetchCounts) {
         this.$emit('refetch-data', 'counts');
       }
       this.$emit('evict-cache');
-    },
-    checkDetailPanelParams() {
-      const queryParam = getParameterByName(DETAIL_VIEW_QUERY_PARAM_NAME);
-
-      if (!queryParam) {
-        this.activeItem = null;
-        return;
-      }
-
-      const params = JSON.parse(atob(queryParam));
-      if (params.id) {
-        const issue = this.workItems.find((i) => getIdFromGraphQLId(i.id) === params.id);
-        if (issue) {
-          this.activeItem = {
-            ...issue,
-            // we need fullPath here to prevent cache invalidation
-            fullPath: params.full_path,
-          };
-        } else {
-          updateHistory({
-            url: removeParams([DETAIL_VIEW_QUERY_PARAM_NAME]),
-          });
-        }
-      }
     },
     isDirectChildOfWorkItem(workItem) {
       if (!workItem) {
@@ -400,18 +313,6 @@ export default {
     :class="{ 'work-item-list-container': !isServiceDeskList }"
     class="issuable-list-container"
   >
-    <work-item-detail-panel
-      v-if="workItemDetailPanelEnabled"
-      :active-item="activeItem"
-      :open="isItemSelected"
-      :issuable-type="activeWorkItemType"
-      :view-context="$options.VIEW_CONTEXT.drawerList"
-      click-outside-exclude-selector=".issuable-list"
-      @close="activeItem = null"
-      @add-child="refetchItems"
-      @work-item-deleted="deleteItem"
-      @work-item-updated="handleStatusChange"
-    />
     <issuable-bulk-edit-sidebar :expanded="showBulkEditSidebar">
       <template #bulk-edit-actions>
         <gl-button
@@ -478,7 +379,7 @@ export default {
           :detail-loading="detailLoading"
           :hidden-metadata-keys="hiddenMetadataKeys"
           @checked-input="updateCheckedIssuableIds(workItem, $event)"
-          @select-issuable="handleToggle"
+          @select-issuable="$emit('select-item', $event)"
         >
           <template #timeframe>
             <issue-card-time-info

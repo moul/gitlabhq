@@ -13,6 +13,9 @@ title: Manage seats
 
 {{< /details >}}
 
+Seat management is the process of controlling and monitoring which users occupy seats in your subscription.
+Effective seat management helps you control costs, prevent unexpected overage charges, and ensure your team members have the access they need.
+
 ## Billable users
 
 Billable users are users who occupy seats in a subscription and count toward the number of seats purchased in your subscription.

@@ -885,4 +885,16 @@ describe('MrWidgetOptions', () => {
       });
     });
   });
+
+  it('calls getState GraphQL query with target branches variable', async () => {
+    createComponent();
+
+    await waitForPromises();
+
+    expect(stateQueryHandler).toHaveBeenCalledWith(
+      expect.objectContaining({
+        targetBranches: ['main'],
+      }),
+    );
+  });
 });
