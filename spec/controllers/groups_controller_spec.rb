@@ -182,8 +182,6 @@ RSpec.describe GroupsController, factory_default: :keep, feature_category: :code
 
     subject { get :details, params: { id: group.to_param }, format: format }
 
-    it { is_expected.to redirect_to(group_path(group)) }
-
     it_behaves_like 'details view as atom'
   end
 

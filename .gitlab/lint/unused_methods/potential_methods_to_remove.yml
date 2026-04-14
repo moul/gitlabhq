@@ -100,7 +100,6 @@ app/helpers/ci/catalog/resources_helper.rb:
 - can_view_namespace_catalog?
 - js_ci_catalog_data
 app/helpers/ci/runners_helper.rb:
-- runner_status_icon
 - runner_link
 app/helpers/events_helper.rb:
 - event_feed_title

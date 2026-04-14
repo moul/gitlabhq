@@ -166,6 +166,7 @@ To optimize GitLab Advanced SAST, use any of the following methods:
 - Multi-core scanning
 - Diff-based scanning
 - Report unverified vulnerabilities
+- Incremental scanning
 
 If scans still run longer than expected, see [troubleshooting](gitlab_advanced_sast_troubleshooting.md).
 
@@ -329,6 +330,107 @@ gitlab-advanced-sast:
 > These findings are stored in the vulnerability database and may impact vulnerability management workflows,
 > including triage effort and reporting.
 
+### Incremental scanning
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/groups/gitlab-org/-/work_items/15545) in GitLab 18.11.
+
+{{< /history >}}
+
+Incremental scanning caches taint signature analysis results between pipeline runs. On subsequent
+scans, unchanged code reuses cached signatures instead of being reanalyzed, while changed or new code
+is fully analyzed. This reduces scan times on large codebases where most files don't change between
+commits.
+
+Incremental scanning works like this:
+
+1. First scan (cold run): The analyzer performs a full analysis and creates a cache of taint
+   signatures. The cache is stored as a CI artifact (`ts-cache.sqlite.gz`).
+1. Subsequent scans (warm runs): The analyzer searches previous commits for a successful pipeline
+   containing a cache artifact. If found, the cache is fetched and unchanged results are reused.
+   After the scan completes, the updated cache is stored as a new artifact.
+
+#### Cache invalidation
+
+The cache is invalidated to ensure accuracy while maximizing reuse:
+
+Partial invalidation: only affected entries are recomputed, the rest of the cache is reused:
+
+- New or changed files: When a file is added, modified, deleted, or renamed, its cached
+  signatures are invalidated and recomputed on the next scan.
+- New or changed rules: When detection rules are added or modified, only those specific rules
+  are recomputed against the codebase.
+
+Full invalidation: the entire cache is rebuilt:
+
+- Engine changes: When engine-level changes make the existing cache incompatible, a new cache
+  is generated automatically from a full scan.
+
+#### Turn on incremental scanning
+
+Prerequisites:
+
+- The Maintainer or Owner role for the project.
+
+To turn on incremental scanning:
+
+- Set the `GITLAB_ADV_SAST_INCR_SCAN` CI/CD variable to `true` in the project's
+  `.gitlab-ci.yml` file:
+
+  ```yaml
+  gitlab-advanced-sast:
+    variables:
+      GITLAB_ADV_SAST_INCR_SCAN: "true"
+  ```
+
+#### Configure cache retention
+
+The SAST CI/CD template stores the cache artifact with a default expiry of 3 days. The
+`GITLAB_ADV_SAST_INCR_SCAN_SEARCH_PERIOD` variable controls how far back the analyzer searches for a
+cache artifact (default: `3 days`).
+
+These two values should be aligned. The search period should not exceed the artifact expiry, or the
+analyzer may search for artifacts that have already expired.
+
+To customize both values, override the `artifacts:expire_in` and set the search period variable:
+
+```yaml
+gitlab-advanced-sast:
+  variables:
+    GITLAB_ADV_SAST_INCR_SCAN: "true"
+    GITLAB_ADV_SAST_INCR_SCAN_SEARCH_PERIOD: "7 days"
+  artifacts:
+    paths:
+      - gl-sast-report.json
+      - ts-cache.sqlite.gz
+    expire_in: 7 days
+```
+
+The search period supports a number followed by `d`, `day`, or `days` (for example, `7 days`,
+`14d`).
+
+#### Configure custom job name
+
+The analyzer uses the CI/CD job name to identify which job's artifacts contain the cache. If you rename
+the `gitlab-advanced-sast` job, set `GITLAB_ADV_SAST_INCR_SCAN_CUSTOM_JOB_NAME` to the custom name
+so the cache lookup finds the correct job:
+
+```yaml
+my-custom-sast-job:
+  variables:
+    GITLAB_ADV_SAST_INCR_SCAN: "true"
+    GITLAB_ADV_SAST_INCR_SCAN_CUSTOM_JOB_NAME: "my-custom-sast-job"
+```
+
+#### Cache size limits
+
+The cache is stored as a compressed CI/CD artifact. Artifact size limits apply:
+
+- GitLab.com: 1 GB maximum artifact size.
+- GitLab Self-Managed: 100 MB default maximum artifact size. An administrator can adjust this
+  limit in [CI/CD settings](../../../administration/settings/continuous_integration.md#set-maximum-artifacts-size).
+
 ## Roll out
 
 After you are confident in GitLab Advanced SAST results for one project, extend it to additional
@@ -438,13 +540,16 @@ When analyzing PHP code, GitLab Advanced SAST has the following known issues:
 
 You can adjust GitLab Advanced SAST behavior using the following variables:
 
-| CI/CD variable                      | Default | Description                                                                           |
-|-------------------------------------|---------|---------------------------------------------------------------------------------------|
-| `GITLAB_ADVANCED_SAST_ENABLED`      | `false` | Enable GitLab Advanced SAST scanning for all supported languages except C and C++.    |
-| `GITLAB_ADVANCED_SAST_CPP_ENABLED`  | `false` | Enable GitLab Advanced SAST scanning specifically for C and C++ projects.             |
-| `ADVANCED_SAST_PARTIAL_SCAN`        | `false` | Enable GitLab Advanced SAST diff-scanning mode by setting to `differential`.          |
-| `GITLAB_ADVANCED_SAST_RULE_TIMEOUT` | `30`    | Timeout in seconds per rule per file. When exceeded, that analysis is skipped.        |
-| `REPORT_UNVERIFIED_VULNS`           | `false` | Include unverified findings in scan results. Set to `true`, `1`, or `True` to enable. |
+| CI/CD variable                               | Default                | Description                                                                           |
+|----------------------------------------------|------------------------|---------------------------------------------------------------------------------------|
+| `GITLAB_ADVANCED_SAST_ENABLED`               | `false`                | Enable GitLab Advanced SAST scanning for all supported languages except C and C++.    |
+| `GITLAB_ADVANCED_SAST_CPP_ENABLED`           | `false`                | Enable GitLab Advanced SAST scanning specifically for C and C++ projects.             |
+| `ADVANCED_SAST_PARTIAL_SCAN`                 | `false`                | Enable GitLab Advanced SAST diff-scanning mode by setting to `differential`.          |
+| `GITLAB_ADVANCED_SAST_RULE_TIMEOUT`          | `30`                   | Timeout in seconds per rule per file. When exceeded, that analysis is skipped.        |
+| `REPORT_UNVERIFIED_VULNS`                    | `false`                | Include unverified findings in scan results. Set to `true`, `1`, or `True` to enable. |
+| `GITLAB_ADV_SAST_INCR_SCAN`                 | `false`                | Enable [incremental scanning](#incremental-scanning) to cache taint signatures between pipeline runs. |
+| `GITLAB_ADV_SAST_INCR_SCAN_SEARCH_PERIOD`   | `3 days`               | How far back to search for a cached taint signature artifact. Supported format: number followed by `d`, `day`, or `days` (for example, `7 days`). Should not exceed the artifact expiry period. |
+| `GITLAB_ADV_SAST_INCR_SCAN_CUSTOM_JOB_NAME` | `gitlab-advanced-sast` | Custom job name for cache artifact lookup. Set this if you renamed the `gitlab-advanced-sast` job. |
 
 GitLab Advanced SAST scanning is disabled by default. To explicitly disable it when enabled at a
 higher level (for example, for a group), set `GITLAB_ADVANCED_SAST_ENABLED` (or

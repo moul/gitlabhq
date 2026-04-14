@@ -91,7 +91,6 @@ export default {
     'app/assets/javascripts/projects/commit_box/info/components/commit_refs.vue',
     'app/assets/javascripts/projects/commits/mock_commits.js',
     'app/assets/javascripts/projects/commits/store/actions.js',
-    'app/assets/javascripts/projects/projects_filterable_list.js',
     'app/assets/javascripts/projects/settings/api/access_dropdown_api.js',
     'app/assets/javascripts/projects/your_work/constants.js',
     'app/assets/javascripts/releases/components/ci_cd_catalog_wrapper.vue',

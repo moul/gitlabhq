@@ -4,53 +4,6 @@ module Ci
   module RunnersHelper
     include IconsHelper
 
-    def runner_status_icon(runner, size: 16, icon_class: '')
-      status = runner.status
-      contacted_at = runner.contacted_at
-
-      title = ''
-      icon = 'warning-solid'
-      span_class = ''
-
-      case status
-      when :online
-        title = safe_format(s_("Runners|Runner is online; last contact was %{runner_contact} ago"),
-          runner_contact: time_ago_in_words(contacted_at))
-        icon = 'status-active'
-        span_class = 'gl-text-success'
-      when :never_contacted
-        title = s_("Runners|Runner has never contacted this instance")
-        icon = 'warning-solid'
-      when :offline
-        title =
-          if contacted_at
-            safe_format(s_("Runners|Runner is offline; last contact was %{runner_contact} ago"),
-              runner_contact: time_ago_in_words(contacted_at))
-          else
-            s_("Runners|Runner is offline; it has never contacted this instance")
-          end
-
-        icon = 'status-waiting'
-        span_class = 'gl-text-subtle'
-      when :stale
-        # runner may have contacted (or not) and be stale: consider both cases.
-        title = if contacted_at
-                  safe_format(s_("Runners|Runner is stale; last contact was %{runner_contact} ago"),
-                    runner_contact: time_ago_in_words(contacted_at))
-                else
-                  s_("Runners|Runner is stale; it has never contacted this instance")
-                end
-
-        icon = 'time-out'
-        span_class = 'gl-text-warning'
-      end
-
-      content_tag(:span, class: span_class, title: title,
-        data: { toggle: 'tooltip', container: 'body', testid: 'runner-status-icon', qa_status: status }) do
-        sprite_icon(icon, size: size, css_class: icon_class)
-      end
-    end
-
     def runner_short_name(runner)
       "##{runner.id} (#{runner.short_sha})"
     end

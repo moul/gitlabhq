@@ -133,15 +133,7 @@ class GroupsController < Groups::ApplicationController
   end
 
   def details
-    respond_to do |format|
-      format.html do
-        redirect_to group_path(group)
-      end
-
-      format.atom do
-        render_details_view_atom
-      end
-    end
+    render_details_view_atom
   end
 
   def activity

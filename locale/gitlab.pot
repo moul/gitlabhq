@@ -2544,9 +2544,6 @@ msgstr ""
 msgid "AICatalog|Agent"
 msgstr ""
 
-msgid "AICatalog|Agent ID: %{id}"
-msgstr ""
-
 msgid "AICatalog|Agent configuration"
 msgstr ""
 
@@ -2572,9 +2569,6 @@ msgid "AICatalog|Agent hidden."
 msgstr ""
 
 msgid "AICatalog|Agent is now at version %{newVersion}."
-msgstr ""
-
-msgid "AICatalog|Agent is required."
 msgstr ""
 
 msgid "AICatalog|Agent not found."
@@ -2829,13 +2823,7 @@ msgstr ""
 msgid "AICatalog|Enable %{itemType} in your project"
 msgstr ""
 
-msgid "AICatalog|Enable agent in your project"
-msgstr ""
-
 msgid "AICatalog|Enable experiment and beta features in admin settings to use this tool."
-msgstr ""
-
-msgid "AICatalog|Enable flow in your project"
 msgstr ""
 
 msgid "AICatalog|Excessive resource usage"
@@ -2883,12 +2871,6 @@ msgstr ""
 msgid "AICatalog|Failed to load MCP server"
 msgstr ""
 
-msgid "AICatalog|Failed to load group agents"
-msgstr ""
-
-msgid "AICatalog|Failed to load group flows"
-msgstr ""
-
 msgid "AICatalog|Failed to load project memberships. Please try again."
 msgstr ""
 
@@ -2899,9 +2881,6 @@ msgid "AICatalog|Failed to report flow. %{error}"
 msgstr ""
 
 msgid "AICatalog|Flow"
-msgstr ""
-
-msgid "AICatalog|Flow ID: %{id}"
 msgstr ""
 
 msgid "AICatalog|Flow configuration"
@@ -2929,9 +2908,6 @@ msgid "AICatalog|Flow hidden."
 msgstr ""
 
 msgid "AICatalog|Flow is now at version %{newVersion}."
-msgstr ""
-
-msgid "AICatalog|Flow is required."
 msgstr ""
 
 msgid "AICatalog|Flow not found."
@@ -3126,12 +3102,6 @@ msgstr ""
 msgid "AICatalog|OAuth Client Secret"
 msgstr ""
 
-msgid "AICatalog|Only agents enabled in your top-level group are shown."
-msgstr ""
-
-msgid "AICatalog|Only flows enabled in your top-level group are shown."
-msgstr ""
-
 msgid "AICatalog|Only members of this project can edit or delete this agent."
 msgstr ""
 
@@ -3213,13 +3183,7 @@ msgstr ""
 msgid "AICatalog|Search tools."
 msgstr ""
 
-msgid "AICatalog|Select a flow"
-msgstr ""
-
 msgid "AICatalog|Select a flow from the AI Catalog"
-msgstr ""
-
-msgid "AICatalog|Select an agent"
 msgstr ""
 
 msgid "AICatalog|Select an agent from the AI Catalog"
@@ -60192,22 +60156,7 @@ msgstr ""
 msgid "Runners|Runner is locked and available for currently assigned projects only. Only administrators can change the assigned projects."
 msgstr ""
 
-msgid "Runners|Runner is offline; it has never contacted this instance"
-msgstr ""
-
-msgid "Runners|Runner is offline; last contact was %{runner_contact} ago"
-msgstr ""
-
 msgid "Runners|Runner is older than %{elapsedTime} and has never contacted GitLab"
-msgstr ""
-
-msgid "Runners|Runner is online; last contact was %{runner_contact} ago"
-msgstr ""
-
-msgid "Runners|Runner is stale; it has never contacted this instance"
-msgstr ""
-
-msgid "Runners|Runner is stale; last contact was %{runner_contact} ago"
 msgstr ""
 
 msgid "Runners|Runner managers registered under this configuration are listed here. Register and start at least one runner manager."

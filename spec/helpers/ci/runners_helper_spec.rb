@@ -11,35 +11,6 @@ RSpec.describe Ci::RunnersHelper, feature_category: :fleet_visibility do
     allow(helper).to receive(:current_user).and_return(user)
   end
 
-  describe '#runner_status_icon', :clean_gitlab_redis_cache do
-    it "returns online text" do
-      runner = create(:ci_runner, contacted_at: 1.second.ago)
-      expect(helper.runner_status_icon(runner)).to include("is online")
-    end
-
-    it "returns never contacted" do
-      runner = create(:ci_runner, :unregistered)
-      expect(helper.runner_status_icon(runner)).to include("never contacted")
-    end
-
-    it "returns offline text" do
-      runner = create(:ci_runner, :offline)
-      expect(helper.runner_status_icon(runner)).to include("is offline")
-    end
-
-    it "returns stale text" do
-      runner = create(:ci_runner, :stale)
-      expect(helper.runner_status_icon(runner)).to include("is stale")
-      expect(helper.runner_status_icon(runner)).to include("last contact was")
-    end
-
-    it "returns stale text, when runner never contacted" do
-      runner = create(:ci_runner, :unregistered, :stale)
-      expect(helper.runner_status_icon(runner)).to include("is stale")
-      expect(helper.runner_status_icon(runner)).to include("never contacted")
-    end
-  end
-
   describe '#runner_short_name' do
     it 'shows runner short name' do
       runner = build_stubbed(:ci_runner, id: non_existing_record_id)

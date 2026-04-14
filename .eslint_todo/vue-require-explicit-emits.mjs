@@ -694,8 +694,6 @@ export default {
     'ee/app/assets/javascripts/ai/components/navigation_rail.vue',
     'ee/app/assets/javascripts/ai/components/new_chat_button.vue',
     'ee/app/assets/javascripts/ai/duo_agentic_chat/components/duo_agentic_chat.vue',
-    'ee/app/assets/javascripts/ai/duo_agents_platform/components/catalog/add_project_item_consumer_modal.vue',
-    'ee/app/assets/javascripts/ai/duo_agents_platform/components/catalog/group_item_consumer_dropdown.vue',
     'ee/app/assets/javascripts/ai/duo_agents_platform/components/common/agent_flow_list.vue',
     'ee/app/assets/javascripts/ai/duo_agents_platform/pages/flow_triggers/components/flow_trigger_form.vue',
     'ee/app/assets/javascripts/ai/duo_agents_platform/pages/flow_triggers/index/components/flow_triggers_table.vue',
