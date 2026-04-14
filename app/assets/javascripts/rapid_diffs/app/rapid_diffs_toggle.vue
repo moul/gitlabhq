@@ -11,7 +11,7 @@ import { helpPagePath } from '~/helpers/help_page_helper';
 import { setCookie, removeCookie, getCookie } from '~/lib/utils/common_utils';
 import { RAPID_DIFFS_COOKIE_NAME } from '~/rapid_diffs/constants';
 
-const FEEDBACK_ISSUE_PATH = 'https://gitlab.com/gitlab-org/gitlab/-/issues/590833';
+const FEEDBACK_ISSUE_PATH = 'https://gitlab.com/gitlab-org/gitlab/-/work_items/596236';
 
 export default {
   name: 'RapidDiffsToggle',

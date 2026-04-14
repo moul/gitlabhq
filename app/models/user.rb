@@ -1637,6 +1637,7 @@ class User < ApplicationRecord
   # Returns a relation of groups the user has access to, including their parent
   # and child groups (recursively).
   def all_expanded_groups
+    groups = groups_with_at_least_minimal_access
     return groups if groups.empty?
 
     Gitlab::ObjectHierarchy.new(groups).all_objects
@@ -1649,7 +1650,7 @@ class User < ApplicationRecord
   def source_groups_of_two_factor_authentication_requirement
     Gitlab::ObjectHierarchy.new(expanded_groups_requiring_two_factor_authentication)
       .all_objects
-      .where(id: groups)
+      .where(id: groups_with_at_least_minimal_access)
   end
 
   def direct_groups_with_route
@@ -2995,6 +2996,11 @@ class User < ApplicationRecord
   end
 
   private
+
+  # method overridden in EE
+  def groups_with_at_least_minimal_access
+    groups
+  end
 
   def self_managed_admin?
     can_admin_all_resources?

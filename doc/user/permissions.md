@@ -884,6 +884,7 @@ For more information, see
 
 - Support for inviting users with Minimal Access role [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/106438) in GitLab 15.9.
 - Minimal Access users [changed](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/216727) to non-billable in GitLab 18.9.
+- [Enforce](https://gitlab.com/gitlab-org/gitlab/-/work_items/534094) two-factor authentication requirements for users with Minimal Access role in GitLab 18.11.
 
 {{< /history >}}
 

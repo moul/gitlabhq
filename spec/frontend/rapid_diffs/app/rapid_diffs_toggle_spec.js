@@ -6,7 +6,7 @@ import { RAPID_DIFFS_COOKIE_NAME } from '~/rapid_diffs/constants';
 import { helpPagePath } from '~/helpers/help_page_helper';
 
 jest.mock('~/lib/utils/common_utils');
-const FEEDBACK_ISSUE_PATH = 'https://gitlab.com/gitlab-org/gitlab/-/issues/590833';
+const FEEDBACK_ISSUE_PATH = 'https://gitlab.com/gitlab-org/gitlab/-/work_items/596236';
 const DOCS_URL = helpPagePath('user/project/merge_requests/changes', { anchor: 'rapid-diffs' });
 
 describe('RapidDiffsToggle', () => {
