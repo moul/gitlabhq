@@ -1408,7 +1408,6 @@ module Ci
     def prepare_pending_build_args
       return unless project
       return unless status_event_transition&.to == 'pending'
-      return unless Feature.enabled?(:precompute_pending_build_args, project, type: :gitlab_com_derisk)
 
       @pending_build_args = ::Ci::PendingBuild.args_from_build(self)
     end

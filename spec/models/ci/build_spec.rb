@@ -4604,42 +4604,22 @@ RSpec.describe Ci::Build, feature_category: :continuous_integration, factory_def
       end
     end
 
-    context 'when precompute_pending_build_args is enabled' do
-      it 'pre-computes pending build args outside the transaction' do
-        expect(Ci::PendingBuild).to receive(:args_from_build).with(build).and_wrap_original do |method, *args|
-          expect(Ci::ApplicationRecord).not_to be_inside_transaction
+    it 'pre-computes pending build args outside the transaction' do
+      expect(Ci::PendingBuild).to receive(:args_from_build).with(build).and_wrap_original do |method, *args|
+        expect(Ci::ApplicationRecord).not_to be_inside_transaction
 
-          method.call(*args)
-        end
-
-        build.enqueue
+        method.call(*args)
       end
 
-      it 'upserts using the pre-computed args inside the transaction' do
-        expect(Ci::PendingBuild).to receive(:upsert_from_args!)
-          .with(a_hash_including(:build, :project, :namespace))
-          .and_call_original
-
-        build.enqueue
-      end
+      build.enqueue
     end
 
-    context 'when precompute_pending_build_args is disabled' do
-      before do
-        stub_feature_flags(precompute_pending_build_args: false)
-      end
+    it 'upserts using the pre-computed args inside the transaction' do
+      expect(Ci::PendingBuild).to receive(:upsert_from_args!)
+        .with(a_hash_including(:build, :project, :namespace))
+        .and_call_original
 
-      it 'does not set pending_build_args on the build' do
-        build.enqueue
-
-        expect(build.pending_build_args).to be_nil
-      end
-
-      it 'computes args inline inside the transaction via create_queuing_entry!' do
-        expect(build).to receive(:create_queuing_entry!).and_call_original
-
-        build.enqueue
-      end
+      build.enqueue
     end
   end
 

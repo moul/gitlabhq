@@ -1166,6 +1166,10 @@ class Group < Namespace
     feature_flag_enabled_for_self_or_ancestor?(:allow_iframes_in_markdown, type: :wip)
   end
 
+  def use_mermaid_v11_feature_flag_enabled?
+    feature_flag_enabled_for_self_or_ancestor?(:use_mermaid_v11, type: :gitlab_com_derisk)
+  end
+
   def use_work_item_url?
     !feature_flag_enabled_for_self_or_ancestor?(:work_item_legacy_url, type: :gitlab_com_derisk)
   end

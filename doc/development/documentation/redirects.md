@@ -160,9 +160,11 @@ of the following must be true:
 
 ## Troubleshooting
 
+These sections contain solutions to problems you might encounter with documentation redirects.
+
 ### Error: `Duplicate content path` after moving a page
 
-If you move a file into a directory of the same name, you might get a `Duplicate content path` error.
+If you move a file into a directory of the same name, you might get a `Duplicate content path` error from Hugo.
 For example:
 
 - Source file: `doc/development/testing.md` (becomes the new redirect)
@@ -179,7 +181,12 @@ to an identical URL path. In this example both files would need to be published 
 
 To avoid this issue, review the content of the source page and choose an alternative name
 for the new file or directory. Choosing a different directory name allows you to use `_index.md`
-for the file name. For example:
+for the filename. For example:
 
 - Source file: `doc/development/testing.md` (becomes the new redirect)
 - Target file: `doc/development/backend_testing/_index.md`
+
+### Error: `File <filepath> is invalidly renamed!` after moving a page
+
+This error can occur in CI/CD pipelines for the same reason as the `Duplicate content path` Hugo error. The solution
+to this error is the same as for the Hugo error.

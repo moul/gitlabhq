@@ -9,8 +9,9 @@
 # from (and cached by) the backend.
 #
 # The converted `<img>` tags carry through the `src`, `width`, and `height` attributes,
-# are later picked up by IframeLinkFilter which checks the allowlist, and on match adds
-# the `js-render-iframe` class for frontend conversion into actual sandboxed iframes.
+# are later picked up by IframeLinkFilter which applies URL transforms, checks the allowlist,
+# and on match, adds the `js-render-iframe` class for frontend conversion into actual
+# sandboxed iframes.
 #
 # If they don't match, they're left as harmless `<img>` tags.
 module Banzai

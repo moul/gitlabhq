@@ -3624,6 +3624,10 @@ class Project < ApplicationRecord
     group&.allow_iframes_in_markdown_feature_flag_enabled? || Feature.enabled?(:allow_iframes_in_markdown, self, type: :wip)
   end
 
+  def use_mermaid_v11_feature_flag_enabled?
+    group&.use_mermaid_v11_feature_flag_enabled? || Feature.enabled?(:use_mermaid_v11, self, type: :gitlab_com_derisk)
+  end
+
   def use_work_item_url?
     return false if Feature.enabled?(:work_item_legacy_url, self, type: :gitlab_com_derisk)
     return true if group.blank?

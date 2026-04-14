@@ -3,7 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe 'Sandboxed Mermaid rendering', :js, feature_category: :markdown do
-  let_it_be(:project) { create(:project, :public, :repository) }
+  let_it_be(:group) { create(:group) }
+  let_it_be(:subgroup) { create(:group, parent: group) }
+  let_it_be(:project) { create(:project, :public, :repository, group: subgroup) }
   let_it_be(:description) do
     <<~MERMAID
     ```mermaid
@@ -16,15 +18,15 @@ RSpec.describe 'Sandboxed Mermaid rendering', :js, feature_category: :markdown d
     MERMAID
   end
 
+  let_it_be(:issue) { create(:issue, project: project, description: description) }
+
   let(:expected) do
     src_prefix = "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}" \
       '/-/sandbox/mermaid_v'
-    %r{<iframe src="#{Regexp.escape(src_prefix)}\d+" sandbox="allow-scripts allow-popups"}
+    %r{<iframe src="#{Regexp.escape(src_prefix)}\d+(?:\?darkMode=true)?" sandbox="allow-scripts allow-popups"}
   end
 
   context 'in an issue' do
-    let(:issue) { create(:issue, project: project, description: description) }
-
     it 'includes mermaid frame correctly', :with_license do
       visit project_issue_path(project, issue)
 
@@ -105,20 +107,59 @@ RSpec.describe 'Sandboxed Mermaid rendering', :js, feature_category: :markdown d
     end
   end
 
-  context 'with use_mermaid_v11 disabled' do
-    let(:issue) { create(:issue, project: project, description: description) }
+  describe 'use_mermaid_v11 feature flag' do
+    shared_examples_for 'v10' do
+      it 'uses the mermaid v10 sandbox' do
+        visit project_issue_path(project, issue)
 
-    before do
-      stub_feature_flags(use_mermaid_v11: false)
+        wait_for_requests
+
+        expect(page.html).to include('/-/sandbox/mermaid_v10')
+        expect(page.html).not_to include('/-/sandbox/mermaid_v11')
+      end
     end
 
-    it 'uses the mermaid v10 sandbox' do
-      visit project_issue_path(project, issue)
+    shared_examples_for 'v11' do
+      it 'uses the mermaid v11 sandbox' do
+        visit project_issue_path(project, issue)
 
-      wait_for_requests
+        wait_for_requests
 
-      expect(page.html).to include('/-/sandbox/mermaid_v10')
-      expect(page.html).not_to include('/-/sandbox/mermaid_v11')
+        expect(page.html).not_to include('/-/sandbox/mermaid_v10')
+        expect(page.html).to include('/-/sandbox/mermaid_v11')
+      end
+    end
+
+    context 'with FF disabled' do
+      before do
+        stub_feature_flags(use_mermaid_v11: false)
+      end
+
+      it_behaves_like 'v10'
+    end
+
+    context 'with FF set for the project' do
+      before do
+        stub_feature_flags(use_mermaid_v11: project)
+      end
+
+      it_behaves_like 'v11'
+    end
+
+    context 'with FF set for the immediate group' do
+      before do
+        stub_feature_flags(use_mermaid_v11: subgroup)
+      end
+
+      it_behaves_like 'v11'
+    end
+
+    context 'with FF set for an ancestor group' do
+      before do
+        stub_feature_flags(use_mermaid_v11: group)
+      end
+
+      it_behaves_like 'v11'
     end
   end
 end
