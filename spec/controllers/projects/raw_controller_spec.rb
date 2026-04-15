@@ -372,5 +372,38 @@ RSpec.describe Projects::RawController, feature_category: :source_code_managemen
         end
       end
     end
+
+    context 'when gitaly is unavailable' do
+      let(:file_path) { 'master/README.md' }
+
+      before do
+        allow_next_instance_of(Gitlab::Git::Repository) do |repository|
+          allow(repository).to receive(:blob_at)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      context 'when graceful_gitaly_degradation is enabled' do
+        before do
+          stub_feature_flags(graceful_gitaly_degradation: true)
+        end
+
+        it 'returns 503' do
+          get_show
+
+          expect(response).to have_gitlab_http_status(:service_unavailable)
+        end
+      end
+
+      context 'when graceful_gitaly_degradation is disabled' do
+        before do
+          stub_feature_flags(graceful_gitaly_degradation: false)
+        end
+
+        it 'raises the error' do
+          expect { get_show }.to raise_error(Gitlab::Git::CommandError)
+        end
+      end
+    end
   end
 end

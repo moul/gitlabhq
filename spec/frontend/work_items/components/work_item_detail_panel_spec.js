@@ -266,7 +266,7 @@ describe('WorkItemDetailPanel', () => {
       expect(visitUrl).not.toHaveBeenCalled();
       expect(mockRouterPush).toHaveBeenCalledWith({
         name: 'workItem',
-        params: { iid: '1', type: 'issues' },
+        params: { iid: '1', type: 'work_items' },
       });
     });
 
@@ -283,7 +283,7 @@ describe('WorkItemDetailPanel', () => {
 
       expect(mockRouterPush).toHaveBeenCalledWith({
         name: 'workItem',
-        params: { iid: '1', type: 'issues' },
+        params: { iid: '1', type: 'work_items' },
       });
     });
 
@@ -302,7 +302,7 @@ describe('WorkItemDetailPanel', () => {
       expect(visitUrl).not.toHaveBeenCalled();
       expect(mockRouterPush).toHaveBeenCalledWith({
         name: 'workItem',
-        params: { iid: '1', type: 'issues' },
+        params: { iid: '1', type: 'work_items' },
       });
     });
 

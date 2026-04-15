@@ -34,7 +34,6 @@ import {
   findLinkedItemsWidget,
   canRouterNav,
 } from '~/work_items/utils';
-import { routeForWorkItemTypeName } from '~/work_items/router/utils';
 
 export default {
   components: {
@@ -360,15 +359,11 @@ export default {
       });
 
       if (shouldRouterNav) {
-        const { useWorkItemUrl } = this.glFeatures;
-        const workItemTypeParameter = useWorkItemUrl
-          ? WORK_ITEM_TYPE_ROUTE_WORK_ITEM
-          : routeForWorkItemTypeName(this.issuable.workItemType?.name);
         this.$router.push({
           name: 'workItem',
           params: {
             iid: this.issuableIid,
-            type: workItemTypeParameter,
+            type: WORK_ITEM_TYPE_ROUTE_WORK_ITEM,
           },
         });
       } else {

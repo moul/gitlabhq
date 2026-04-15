@@ -401,6 +401,17 @@
     border-bottom: 1px solid var(--super-sidebar-bg);
   }
 
+  // Only display breadcrumb-free panel-header when it has action buttons or feedback badges
+  // See `page_breadcrumbs_in_top_bar` feature flag
+  .panel-header .top-bar-fixed.without-breadcrumbs {
+    display: none;
+
+    &:has(> .top-bar-container :is(.gl-badge, .gl-button)) {
+      display: flex;
+      justify-content: end;
+    }
+  }
+
   .content-wrapper {
     display: flex;
     flex-direction: column;

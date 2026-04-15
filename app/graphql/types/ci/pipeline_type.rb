@@ -331,6 +331,17 @@ module Types
         end
       end
 
+      # This duplicates the logic in Ci::Pipeline#type (app/models/ci/pipeline.rb) for
+      # performance reasons, avoiding N+1 queries by using pre-loaded GraphQL data.
+      def type
+        return 'merge_train' if object.merge_train_pipeline?
+        return 'merged_result' if object.merge_request_id? && object.target_sha.present?
+        return 'merge_request' if object.merge_request_id?
+        return 'tag' if object.tag?
+
+        'branch'
+      end
+
       alias_method :pipeline, :object
 
       private

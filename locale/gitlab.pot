@@ -19866,9 +19866,6 @@ msgstr ""
 msgid "Configure Sentry integration for error tracking"
 msgstr ""
 
-msgid "Configure a pipeline to automate your builds, tests, and deployments"
-msgstr ""
-
 msgid "Configure advanced permissions"
 msgstr ""
 
@@ -19894,9 +19891,6 @@ msgid "Configure import sources and settings related to import and export featur
 msgstr ""
 
 msgid "Configure it later"
-msgstr ""
-
-msgid "Configure pipeline"
 msgstr ""
 
 msgid "Configure pipelines to deploy web apps, backend services, APIs and static resources to Google Cloud"
@@ -21538,9 +21532,6 @@ msgid "Create %{humanized_resource_name}"
 msgstr ""
 
 msgid "Create %{workspace} label"
-msgstr ""
-
-msgid "Create a %{codeStart}.gitlab-ci.yml%{codeEnd} file in your repository to configure and run your first pipeline."
 msgstr ""
 
 msgid "Create a Kubernetes cluster"
@@ -32111,6 +32102,12 @@ msgid "Geo|If you believe this is an error, see the %{linkStart}Geo troubleshoot
 msgstr ""
 
 msgid "Geo|If you want to make changes, you must visit the primary site."
+msgstr ""
+
+msgid "Geo|Import/Export Archive Upload"
+msgstr ""
+
+msgid "Geo|Import/Export Archive Uploads"
 msgstr ""
 
 msgid "Geo|Internal URL"
@@ -52176,9 +52173,6 @@ msgid "Pipelines|%{counterLabel} more downstream pipeline"
 msgid_plural "Pipelines|%{counterLabel} more downstream pipelines"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Pipelines|%{jobName} job"
-msgstr ""
 
 msgid "Pipelines|AI-generated pipeline"
 msgstr ""

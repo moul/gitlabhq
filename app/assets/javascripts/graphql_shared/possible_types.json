@@ -257,6 +257,7 @@
     "DesignManagementRepositoryRegistry",
     "GroupUploadRegistry",
     "GroupWikiRepositoryRegistry",
+    "ImportExportUploadUploadRegistry",
     "JobArtifactRegistry",
     "LfsObjectRegistry",
     "MergeRequestDiffRegistry",

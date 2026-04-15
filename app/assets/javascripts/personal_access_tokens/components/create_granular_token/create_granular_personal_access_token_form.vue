@@ -319,7 +319,11 @@ export default {
 <template>
   <div>
     <confirm-unsaved-changes-dialog :has-unsaved-changes="isFormDirty" />
-    <created-personal-access-token v-if="createdToken" v-model="createdToken" />
+    <created-personal-access-token
+      v-if="createdToken"
+      :token="createdToken"
+      :href="accessTokenTableUrl"
+    />
 
     <div v-else>
       <page-heading>

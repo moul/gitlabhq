@@ -221,11 +221,7 @@ export default {
       return !shouldDisableShortcuts();
     },
     showSetupCiPipelineButton() {
-      return (
-        this.isProjectOverview &&
-        this.glAbilities.accessDuoAgenticChat &&
-        this.glFeatures.updateVisualLanguage
-      );
+      return this.isProjectOverview && this.glAbilities.accessDuoAgenticChat;
     },
   },
   mounted() {

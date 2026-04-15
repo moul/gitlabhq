@@ -5,7 +5,6 @@ import { __, s__, sprintf } from '~/locale';
 import { isMetaClick } from '~/lib/utils/common_utils';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { newWorkItemPath, canRouterNav, getDraftWorkItemType } from '~/work_items/utils';
-import { routeForWorkItemTypeName } from '~/work_items/router/utils';
 
 import {
   NAME_TO_ENUM_MAP,
@@ -160,7 +159,6 @@ export default {
       return newWorkItemPath({
         fullPath: this.fullPath,
         isGroup: this.isGroup,
-        workItemType: this.selectedWorkItemTypeName,
         query: this.newWorkItemPathQuery,
       });
     },
@@ -265,14 +263,12 @@ export default {
                 issueAsWorkItem: true,
               })
             ) {
-              const { useWorkItemUrl } = this.glFeatures;
-              const workItemTypeName = workItem?.workItemType?.name.toLowerCase();
-              const workItemTypeParameter = useWorkItemUrl
-                ? WORK_ITEM_TYPE_ROUTE_WORK_ITEM
-                : routeForWorkItemTypeName(workItemTypeName);
               this.$router.push({
                 name: 'workItem',
-                params: { iid: workItem.iid, type: workItemTypeParameter },
+                params: {
+                  iid: workItem.iid,
+                  type: WORK_ITEM_TYPE_ROUTE_WORK_ITEM,
+                },
               });
             } else {
               visitUrl(workItem.webUrl);

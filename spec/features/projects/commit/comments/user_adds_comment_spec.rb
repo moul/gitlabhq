@@ -20,6 +20,7 @@ RSpec.describe "User adds a comment on a commit", :js, feature_category: :source
   with_them do
     before do
       stub_feature_flags(rapid_diffs_on_commit_show: rapid_diffs_enabled)
+      stub_feature_flags(page_breadcrumbs_in_top_bar: false)
       sign_in(user)
       project.add_developer(user)
     end

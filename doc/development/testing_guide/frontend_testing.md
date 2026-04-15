@@ -1272,10 +1272,10 @@ MSW integration tests live in `spec/frontend/msw_integration/`. The structure is
 
 ```plaintext
 spec/frontend/msw_integration/
-├── fixture_utils.js        # Helpers for building dynamic mutation responses
+├── fixture_utils.js        # Auto-loading and helpers for fixture responses
 ├── handlers.js             # GraphQL router: composes feature handlers
 ├── handlers/
-│   └── work_items.js       # Work item fixtures and resolver
+│   └── work_items.js       # Work item resolver and operation overrides
 ├── server.js               # MSW server setup (imported by test_setup.js)
 ├── test_setup.js           # Global setup: polyfills, server lifecycle
 ├── polyfills.js            # TextEncoder/TextDecoder polyfills for jsdom
@@ -1333,26 +1333,10 @@ operation to the relevant feature handler file.
 To add MSW handlers for a new feature area (for example, merge
 requests):
 
-1. Create a resolver file in `handlers/`:
-
-   ```javascript
-   // spec/frontend/msw_integration/handlers/merge_requests.js
-   import mrListResponse from 'test_fixtures/graphql/merge_requests/integration/mr_list.query.graphql.json';
-
-   const FIXTURE_RESPONSES = {
-     mergeRequestList: mrListResponse,
-   };
-
-   export function handleMergeRequestOperation({ operationName, variables, res, ctx }) {
-     const fixture = FIXTURE_RESPONSES[operationName];
-
-     if (fixture) {
-       return res(ctx.json({ data: fixture.data }));
-     }
-
-     return null;
-   }
-   ```
+1. Create a resolver file in `handlers/` that uses `loadFixturesMap`
+   to auto-load fixtures and build the handler. For details on
+   auto-loading and building handlers, see
+   [Write feature handlers](#write-feature-handlers).
 
 1. Register the resolver in `handlers.js`:
 
@@ -1380,8 +1364,8 @@ bundle exec rspec ee/spec/frontend/fixtures/work_items_integration.rb
 ```
 
 This writes JSON files to `tmp/tests/frontend/fixtures-ee/graphql/`.
-These fixtures are then imported by feature handler files and served
-by MSW.
+These fixtures are then auto-loaded by `loadFixturesMap` in the
+feature handler files and served by MSW.
 
 To add a new fixture, add a new `it` block to the fixture generator
 spec. The test name determines the output file path:
@@ -1394,31 +1378,101 @@ it "graphql/work_items/integration/my_query.query.graphql.json" do
 end
 ```
 
+#### Fixture naming convention for auto-loading
+
+For fixture filenames to map correctly to GraphQL operation names,
+follow the naming convention described in
+[Auto-load fixtures with `loadFixturesMap`](#auto-load-fixtures-with-loadfixturesmap).
+
 ### Write feature handlers
 
-Each feature handler file in `handlers/` owns the fixture imports,
-operation-to-fixture map, and mutation logic for its feature area.
-For queries, add the operation name and its fixture to the
-`FIXTURE_RESPONSES` map:
+Each feature handler file in `handlers/` owns the operation-to-fixture
+map and mutation logic for its feature area.
+
+#### Auto-load fixtures with `loadFixturesMap`
+
+Use `loadFixturesMap` from `fixture_utils.js` to automatically load
+all JSON fixtures from a directory and map them to operation names.
+The function reads every `.json` file in the given path, strips the
+`.query.graphql.json` or `.mutation.graphql.json` suffix, converts
+the remaining filename to `camelCase`, and uses the result as the
+operation name key.
+
+For example, a file named `get_work_items_full.query.graphql.json`
+maps to the key `getWorkItemsFull`.
+
+The fixture filename must match the GraphQL operation name after
+this `camelCase` conversion. For example, if your GraphQL operation
+is named `getWorkItemStateCounts`, name the fixture file
+`get_work_item_state_counts.query.graphql.json`. The loader converts
+this to `getWorkItemStateCounts`, which matches the operation name
+sent by the Apollo client.
+
+If an operation name does not match the derived filename (for example,
+EE-suffixed operations like `getWorkItemsFullEE`), add an entry to
+`OPERATION_NAME_OVERRIDES` in the handler file:
 
 ```javascript
-import myQueryResponse from 'test_fixtures/graphql/my_feature/integration/my_query.query.graphql.json';
-
-const FIXTURE_RESPONSES = {
-  // ...existing entries
-  myQueryOperationName: myQueryResponse,
+const OPERATION_NAME_OVERRIDES = {
+  getWorkItemsFullEE: fixtures.getWorkItemsFull,
 };
 ```
 
-The resolver looks up `operationName` in this map and returns the
-corresponding fixture. For mutations that need dynamic responses based
-on input variables, add a dedicated `if` block before the generic
-lookup:
+```javascript
+import { join } from 'node:path';
+import { loadFixturesMap } from '../fixture_utils';
+
+const FIXTURES_PATH = join('tmp/tests/frontend/fixtures-ee/graphql/my_feature/integration/');
+const fixtures = loadFixturesMap(FIXTURES_PATH);
+```
+
+With this approach, you do not need to manually import each fixture
+file. The `fixtures` object contains every fixture keyed by its
+derived `camelCase` operation name.
+
+#### Build the handler from the fixtures map
+
+Spread the auto-loaded `fixtures` into `FIXTURE_RESPONSES`, along
+with any `OPERATION_NAME_OVERRIDES` needed for mismatched names
+(see [above](#auto-load-fixtures-with-loadfixturesmap)):
 
 ```javascript
-if (operationName === 'myMutation') {
-  // Build response based on variables.input
-  return res(ctx.json(mutationResponse));
+const FIXTURE_RESPONSES = {
+  ...fixtures,
+  ...OPERATION_NAME_OVERRIDES,
+};
+```
+
+Static operations (queries) are turned into handlers automatically.
+For mutations that need dynamic responses based on input variables,
+add an entry to `MUTATION_OPERATION_HANDLERS`:
+
+```javascript
+const MUTATION_OPERATION_HANDLERS = {
+  myMutation: ({ variables }) => buildMyResponse(variables),
+};
+```
+
+Combine both into a single `OPERATION_HANDLERS` map and look up the
+operation in the resolver:
+
+```javascript
+const STATIC_OPERATION_HANDLERS = Object.fromEntries(
+  Object.entries(FIXTURE_RESPONSES).map(([op, fixture]) => [
+    op,
+    () => ({ data: fixture.data }),
+  ]),
+);
+
+const OPERATION_HANDLERS = {
+  ...STATIC_OPERATION_HANDLERS,
+  ...MUTATION_OPERATION_HANDLERS,
+};
+
+export function handleMyFeatureOperation({ operationName, variables, res, ctx }) {
+  const handler = OPERATION_HANDLERS[operationName];
+  if (!handler) return null;
+  return res(ctx.json(handler({ operationName, variables })));
 }
 ```
 

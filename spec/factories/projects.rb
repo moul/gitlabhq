@@ -723,4 +723,18 @@ FactoryBot.define do
       project.import_data.merge_data({ user_contribution_mapping_enabled: true })
     end
   end
+
+  trait :with_code_review_custom_instructions do
+    repository
+
+    transient do
+      instructions { nil }
+    end
+
+    after(:build, :stub) do |project, evaluator|
+      stub_method(project.repository, :code_review_custom_instructions_for) do |*_args|
+        evaluator.instructions
+      end
+    end
+  end
 end

@@ -670,6 +670,8 @@ func TestRunner_Execute_with_close_errors(t *testing.T) {
 				return len(mockWf.getSendEvents()) == 1
 			}, 2*time.Second, 50*time.Millisecond)
 
+			require.True(t, r.websocketClosed.Load())
+
 			blockCh <- true // Unblock WF stream
 			require.NoError(t, <-errCh)
 
@@ -1976,7 +1978,7 @@ func TestRunner_pingWebSocket(t *testing.T) {
 		assert.True(t, lastDeadline.After(time.Now()), "read deadline should be in the future")
 	})
 
-	t.Run("stops workflow and returns error when WriteControl fails", func(t *testing.T) {
+	t.Run("stops workflow, marks websocket closed and returns error when WriteControl fails", func(t *testing.T) {
 		writeErr := fmt.Errorf("network gone")
 		wrappedConn := &pingTrackingConn{
 			mockWebSocketConn: &mockWebSocketConn{
@@ -2014,6 +2016,7 @@ func TestRunner_pingWebSocket(t *testing.T) {
 		stopEvent := mockWf.getSendEvents()[0].GetStopWorkflow()
 		require.NotNil(t, stopEvent)
 		assert.Equal(t, "WORKHORSE_WEBSOCKET_PING_FAILED", stopEvent.Reason)
+		assert.True(t, r.websocketClosed.Load())
 
 		cancel()
 

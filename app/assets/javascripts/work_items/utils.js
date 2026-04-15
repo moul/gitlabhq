@@ -11,7 +11,6 @@ import Tracking from '~/tracking';
 import {
   DEFAULT_PAGE_SIZE_CHILD_ITEMS,
   NAME_TO_ENUM_MAP,
-  NAME_TO_ROUTE_MAP,
   NEW_WORK_ITEM_GID,
   STATE_CLOSED,
   WIDGET_TYPE_ASSIGNEES,
@@ -38,8 +37,6 @@ import {
   WIDGET_TYPE_TIME_TRACKING,
   WIDGET_TYPE_VULNERABILITIES,
   WIDGET_TYPE_WEIGHT,
-  WORK_ITEM_TYPE_NAME_ISSUE,
-  WORK_ITEM_TYPE_ROUTE_WORK_ITEM,
 } from './constants';
 import {
   CLOSED_AT_ASC,
@@ -209,17 +206,13 @@ export const autocompleteDataSources = (autocompleteSourcesPaths = {}) => {
   return sources;
 };
 
-// the path for creating a new work item of that type, e.g. /groups/gitlab-org/-/epics/new
-export const newWorkItemPath = ({ fullPath, isGroup = false, workItemType, query = '' }) => {
+/**
+ * Constructs the path for creating a new work item
+ */
+export const newWorkItemPath = ({ fullPath, isGroup = false, query = '' }) => {
   const domain = gon.relative_url_root || '';
   const basePath = isGroup ? `groups/${fullPath}` : fullPath;
-  // We have a special case to redirect to /groups/my-group/-/work_items/new
-  // instead of /groups/my-group/-/issues/new
-  const type =
-    isGroup && workItemType === WORK_ITEM_TYPE_NAME_ISSUE
-      ? WORK_ITEM_TYPE_ROUTE_WORK_ITEM
-      : NAME_TO_ROUTE_MAP[workItemType] || WORK_ITEM_TYPE_ROUTE_WORK_ITEM;
-  return `${domain}/${basePath}/-/${type}/new${query}`;
+  return `${domain}/${basePath}/-/work_items/new${query}`;
 };
 
 export const getDisplayReference = (workItemFullPath, workitemReference) => {

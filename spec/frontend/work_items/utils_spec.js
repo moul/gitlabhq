@@ -199,36 +199,16 @@ describe('newWorkItemPath', () => {
     );
   });
 
-  it('returns correct path for workItemType', () => {
-    expect(
-      newWorkItemPath({ fullPath: 'group/project', workItemType: WORK_ITEM_TYPE_NAME_ISSUE }),
-    ).toBe('/foobar/group/project/-/issues/new');
-  });
-
   it('returns correct data sources with group context', () => {
-    expect(
-      newWorkItemPath({
-        fullPath: 'group',
-        isGroup: true,
-        workItemType: WORK_ITEM_TYPE_NAME_EPIC,
-      }),
-    ).toBe('/foobar/groups/group/-/epics/new');
+    expect(newWorkItemPath({ fullPath: 'group', isGroup: true })).toBe(
+      '/foobar/groups/group/-/work_items/new',
+    );
   });
 
   it('appends a query string to the path', () => {
     expect(newWorkItemPath({ fullPath: 'project', query: '?foo=bar' })).toBe(
       '/foobar/project/-/work_items/new?foo=bar',
     );
-  });
-
-  it('returns `work_items` path for group issues', () => {
-    expect(
-      newWorkItemPath({
-        fullPath: 'my-group',
-        isGroup: true,
-        workItemType: WORK_ITEM_TYPE_NAME_ISSUE,
-      }),
-    ).toBe('/foobar/groups/my-group/-/work_items/new');
   });
 });
 

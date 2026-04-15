@@ -1415,6 +1415,30 @@ RSpec.describe Ci::PipelineProcessing::AtomicProcessingService, feature_category
       end
     end
 
+    describe 'pipeline cache expiration' do
+      before do
+        create_build('linux', stage_idx: 0)
+      end
+
+      it 'passes skip_cache_expiration: true when updating pipeline status' do
+        expect(pipeline).to receive(:set_status).with(anything, skip_cache_expiration: true).and_call_original
+
+        process_pipeline
+      end
+
+      context 'when FF `ci_skip_redundant_pipeline_cache_expiration` is disabled' do
+        before do
+          stub_feature_flags(ci_skip_redundant_pipeline_cache_expiration: false)
+        end
+
+        it 'does not pass skip_cache_expiration when updating pipeline status' do
+          expect(pipeline).to receive(:set_status).with(anything).and_call_original
+
+          process_pipeline
+        end
+      end
+    end
+
     private
 
     def all_builds

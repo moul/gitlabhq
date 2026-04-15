@@ -226,4 +226,19 @@ RSpec.describe 'Gitaly unavailable graceful degradation', feature_category: :sou
       it_behaves_like 'handles Gitaly errors for json format'
     end
   end
+
+  describe 'Projects::RawController' do
+    describe '#show' do
+      let(:make_request) { get project_raw_path(project, 'master/README.md') }
+
+      let(:allow_gitaly_to_raise_error) do
+        allow_next_instance_of(Gitlab::Git::Repository) do |repository|
+          allow(repository).to receive(:blob_at)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      it_behaves_like 'handles Gitaly errors for request specs'
+    end
+  end
 end

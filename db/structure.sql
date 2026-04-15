@@ -1921,6 +1921,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_0b497498ae51() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."namespace_id" IS NULL THEN
+  SELECT "namespace_id"
+  INTO NEW."namespace_id"
+  FROM "import_export_upload_uploads"
+  WHERE "import_export_upload_uploads"."id" = NEW."import_export_upload_upload_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_0c326daf67cf() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -2202,6 +2218,22 @@ IF NEW."project_id" IS NULL THEN
   INTO NEW."project_id"
   FROM "ci_resource_groups"
   WHERE "ci_resource_groups"."id" = NEW."resource_group_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
+CREATE FUNCTION trigger_1e75dc6149d6() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."project_id" IS NULL THEN
+  SELECT "project_id"
+  INTO NEW."project_id"
+  FROM "import_export_upload_uploads"
+  WHERE "import_export_upload_uploads"."id" = NEW."import_export_upload_upload_id";
 END IF;
 
 RETURN NEW;
@@ -21663,6 +21695,31 @@ CREATE SEQUENCE identities_id_seq
 
 ALTER SEQUENCE identities_id_seq OWNED BY identities.id;
 
+CREATE TABLE import_export_upload_upload_states (
+    id bigint NOT NULL,
+    verification_started_at timestamp with time zone,
+    verification_retry_at timestamp with time zone,
+    verified_at timestamp with time zone,
+    import_export_upload_upload_id bigint NOT NULL,
+    project_id bigint,
+    namespace_id bigint,
+    verification_state smallint DEFAULT 0 NOT NULL,
+    verification_retry_count smallint DEFAULT 0 NOT NULL,
+    verification_checksum bytea,
+    verification_failure text,
+    CONSTRAINT check_0b6386d67b CHECK ((num_nonnulls(namespace_id, project_id) = 1)),
+    CONSTRAINT check_a8187d1571 CHECK ((char_length(verification_failure) <= 255))
+);
+
+CREATE SEQUENCE import_export_upload_upload_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE import_export_upload_upload_states_id_seq OWNED BY import_export_upload_upload_states.id;
+
 CREATE TABLE import_export_upload_uploads (
     id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
@@ -35918,6 +35975,8 @@ ALTER TABLE ONLY historical_data ALTER COLUMN id SET DEFAULT nextval('historical
 
 ALTER TABLE ONLY identities ALTER COLUMN id SET DEFAULT nextval('identities_id_seq'::regclass);
 
+ALTER TABLE ONLY import_export_upload_upload_states ALTER COLUMN id SET DEFAULT nextval('import_export_upload_upload_states_id_seq'::regclass);
+
 ALTER TABLE ONLY import_export_uploads ALTER COLUMN id SET DEFAULT nextval('import_export_uploads_id_seq'::regclass);
 
 ALTER TABLE ONLY import_failures ALTER COLUMN id SET DEFAULT nextval('import_failures_id_seq'::regclass);
@@ -39504,6 +39563,9 @@ ALTER TABLE ONLY historical_data
 
 ALTER TABLE ONLY identities
     ADD CONSTRAINT identities_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY import_export_upload_upload_states
+    ADD CONSTRAINT import_export_upload_upload_states_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY import_export_upload_uploads
     ADD CONSTRAINT import_export_upload_uploads_pkey PRIMARY KEY (id, model_type);
@@ -44346,6 +44408,20 @@ CREATE INDEX idx_hosted_runner_usage_on_project_billing_month ON ci_gitlab_hoste
 
 CREATE UNIQUE INDEX idx_hosted_runner_usage_unique ON ci_gitlab_hosted_runner_monthly_usages USING btree (runner_id, billing_month, root_namespace_id, project_id);
 
+CREATE INDEX idx_ie_upload_upload_states_failed_verification ON import_export_upload_upload_states USING btree (verification_retry_at NULLS FIRST) WHERE (verification_state = 3);
+
+CREATE INDEX idx_ie_upload_upload_states_needs_verification_id ON import_export_upload_upload_states USING btree (import_export_upload_upload_id) WHERE ((verification_state = 0) OR (verification_state = 3));
+
+CREATE INDEX idx_ie_upload_upload_states_on_verification_started ON import_export_upload_upload_states USING btree (import_export_upload_upload_id, verification_started_at) WHERE (verification_state = 1);
+
+CREATE INDEX idx_ie_upload_upload_states_on_verification_state ON import_export_upload_upload_states USING btree (verification_state);
+
+CREATE INDEX idx_ie_upload_upload_states_pending_verification ON import_export_upload_upload_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
+
+CREATE UNIQUE INDEX idx_ie_upload_uploads_on_id ON import_export_upload_uploads USING btree (id);
+
+CREATE UNIQUE INDEX idx_import_export_upload_upload_states_on_upload_id ON import_export_upload_upload_states USING btree (import_export_upload_upload_id);
+
 CREATE INDEX idx_import_export_uploads_updated_at_id_import_file ON import_export_uploads USING btree (updated_at, id) WHERE (import_file IS NOT NULL);
 
 CREATE UNIQUE INDEX idx_import_placeholder_memberships_on_source_user_group_id ON import_placeholder_memberships USING btree (source_user_id, group_id);
@@ -46875,6 +46951,10 @@ CREATE INDEX index_im_timeline_events_project_id ON incident_management_timeline
 CREATE INDEX index_im_timeline_events_promoted_from_note_id ON incident_management_timeline_events USING btree (promoted_from_note_id);
 
 CREATE INDEX index_im_timeline_events_updated_by_user_id ON incident_management_timeline_events USING btree (updated_by_user_id);
+
+CREATE INDEX index_import_export_upload_upload_states_on_namespace_id ON import_export_upload_upload_states USING btree (namespace_id);
+
+CREATE INDEX index_import_export_upload_upload_states_on_project_id ON import_export_upload_upload_states USING btree (project_id);
 
 CREATE INDEX index_import_export_uploads_on_group_id_non_unique ON import_export_uploads USING btree (group_id) WHERE (group_id IS NOT NULL);
 
@@ -54816,6 +54896,8 @@ CREATE TRIGGER trigger_0aea02e5a699 BEFORE INSERT OR UPDATE ON protected_branch_
 
 CREATE TRIGGER trigger_0af180e1ec89 BEFORE INSERT OR UPDATE ON packages_debian_project_component_files FOR EACH ROW EXECUTE FUNCTION trigger_0af180e1ec89();
 
+CREATE TRIGGER trigger_0b497498ae51 BEFORE INSERT OR UPDATE ON import_export_upload_upload_states FOR EACH ROW EXECUTE FUNCTION trigger_0b497498ae51();
+
 CREATE TRIGGER trigger_0c326daf67cf BEFORE INSERT OR UPDATE ON analytics_cycle_analytics_value_stream_settings FOR EACH ROW EXECUTE FUNCTION trigger_0c326daf67cf();
 
 CREATE TRIGGER trigger_0d96daa4d734 BEFORE INSERT OR UPDATE ON bulk_import_export_uploads FOR EACH ROW EXECUTE FUNCTION trigger_0d96daa4d734();
@@ -54851,6 +54933,8 @@ CREATE TRIGGER trigger_1a052e65e9d9 BEFORE INSERT OR UPDATE ON import_export_upl
 CREATE TRIGGER trigger_1a41d368edd5 BEFORE INSERT OR UPDATE ON import_export_upload_uploads FOR EACH ROW EXECUTE FUNCTION trigger_1a41d368edd5();
 
 CREATE TRIGGER trigger_1c0f1ca199a3 BEFORE INSERT OR UPDATE ON ci_resources FOR EACH ROW EXECUTE FUNCTION trigger_1c0f1ca199a3();
+
+CREATE TRIGGER trigger_1e75dc6149d6 BEFORE INSERT OR UPDATE ON import_export_upload_upload_states FOR EACH ROW EXECUTE FUNCTION trigger_1e75dc6149d6();
 
 CREATE TRIGGER trigger_1ed40f4d5f4e BEFORE INSERT OR UPDATE ON packages_maven_metadata FOR EACH ROW EXECUTE FUNCTION trigger_1ed40f4d5f4e();
 
@@ -55592,6 +55676,9 @@ ALTER TABLE ONLY security_policy_project_links
 
 ALTER TABLE ONLY import_placeholder_user_details
     ADD CONSTRAINT fk_0f2747626d FOREIGN KEY (placeholder_user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY import_export_upload_upload_states
+    ADD CONSTRAINT fk_0f56bd3f10 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY deployment_approvals
     ADD CONSTRAINT fk_0f58311058 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
@@ -57582,6 +57669,9 @@ ALTER TABLE ONLY oauth_device_grants
 ALTER TABLE ONLY zoekt_indices
     ADD CONSTRAINT fk_bf205d4773 FOREIGN KEY (zoekt_enabled_namespace_id) REFERENCES zoekt_enabled_namespaces(id) ON DELETE SET NULL;
 
+ALTER TABLE ONLY import_export_upload_upload_states
+    ADD CONSTRAINT fk_c00443947b FOREIGN KEY (import_export_upload_upload_id) REFERENCES import_export_upload_uploads(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY gpg_key_subkeys
     ADD CONSTRAINT fk_c0b9a5787c FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
@@ -58043,6 +58133,9 @@ ALTER TABLE ONLY duo_workflows_workflows
 
 ALTER TABLE ONLY cluster_agent_migrations
     ADD CONSTRAINT fk_ed8ffda028 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY import_export_upload_upload_states
+    ADD CONSTRAINT fk_edcbc44d1e FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY user_upload_states
     ADD CONSTRAINT fk_ee17d267b8 FOREIGN KEY (user_upload_id) REFERENCES uploads_archived(id) ON DELETE CASCADE;

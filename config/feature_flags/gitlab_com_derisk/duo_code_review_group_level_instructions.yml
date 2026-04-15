@@ -1,0 +1,10 @@
+---
+name: duo_code_review_group_level_instructions
+description: Controls when a GitLab Duo Code Review instructions can be loaded from a template project.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/595535
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230090
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/595945
+milestone: '19.0'
+type: gitlab_com_derisk
+group: group::ai coding
+default_enabled: false

@@ -413,10 +413,10 @@ describe('CreateGranularPersonalAccessTokenForm', () => {
     it('displays the created token and hides the form', async () => {
       await fillAndSubmitForm();
 
-      expect(findCreatedToken().exists()).toBe(true);
-      expect(findCreatedToken().props('value')).toBe(
-        mockCreateMutationResponse.data.personalAccessTokenCreate.token,
-      );
+      expect(findCreatedToken().props()).toMatchObject({
+        token: 'xx',
+        href: '/-/personal_access_tokens',
+      });
 
       expect(findForm().exists()).toBe(false);
     });

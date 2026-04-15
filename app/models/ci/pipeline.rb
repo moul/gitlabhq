@@ -297,7 +297,9 @@ module Ci
       end
 
       before_transition any => :failed do |pipeline, transition|
-        transition.args.first.try do |reason|
+        positional_args, _ = pipeline.class.parse_transition_args(transition)
+
+        positional_args.first.try do |reason|
           pipeline.failure_reason = reason
         end
       end
@@ -327,6 +329,8 @@ module Ci
       after_transition do |pipeline, transition|
         next if transition.loopback?
 
+        _, keyword_args = pipeline.class.parse_transition_args(transition)
+
         pipeline.run_after_commit do
           unless pipeline.user&.blocked?
             Gitlab::AppLogger.info(
@@ -344,6 +348,25 @@ module Ci
             seq_id = ::Atlassian::JiraConnect::Client.generate_update_sequence_id
             ::JiraConnect::SyncBuildsWorker.perform_async(pipeline.id, seq_id)
           end
+
+          if Feature.enabled?(:ci_skip_redundant_pipeline_cache_expiration, pipeline.project) &&
+              keyword_args[:skip_cache_expiration]
+            Gitlab::AppLogger.info(
+              message: 'Skipping pipeline cache expiration from state machine transition',
+              class: self.class.name,
+              pipeline_id: pipeline.id,
+              project_id: pipeline.project_id,
+              pipeline_status: pipeline.status)
+
+            next
+          end
+
+          Gitlab::AppLogger.info(
+            message: 'Expiring pipeline cache from state machine transition',
+            class: self.class.name,
+            pipeline_id: pipeline.id,
+            project_id: pipeline.project_id,
+            pipeline_status: pipeline.status)
 
           if Feature.enabled?(:ci_expire_pipeline_cache_workers, pipeline.project)
             Ci::ExpirePipelineCacheWorker.perform_async(pipeline.id, { 'partition_id' => pipeline.partition_id })
@@ -748,6 +771,16 @@ module Ci
       connection.select_values(sanitize_sql_array([project_ids_sql, project_ids, limit]))
     end
 
+    def self.parse_transition_args(transition)
+      last = transition.args.last
+
+      if last.is_a?(Hash)
+        [transition.args[0..-2], last]
+      else
+        [transition.args, {}]
+      end
+    end
+
     def ci_pipeline_statuses_rate_limited?
       Gitlab::ApplicationRateLimiter.throttled?(
         :ci_pipeline_statuses_subscription,
@@ -1090,22 +1123,22 @@ module Ci
     end
 
     # rubocop: disable Metrics/CyclomaticComplexity -- breaking apart hurts readability
-    def set_status(new_status)
+    def set_status(new_status, ...)
       Gitlab::OptimisticLocking.retry_lock(self, name: 'ci_pipeline_set_status') do
         case new_status
         when 'created' then nil
-        when 'waiting_for_resource' then request_resource
-        when 'preparing' then prepare
-        when 'waiting_for_callback' then wait_for_callback
-        when 'pending' then enqueue
-        when 'running' then run
-        when 'success' then succeed
-        when 'failed' then drop
-        when 'canceling' then start_cancel
-        when 'canceled' then cancel
-        when 'skipped' then skip
-        when 'manual' then block
-        when 'scheduled' then delay
+        when 'waiting_for_resource' then request_resource(...)
+        when 'preparing' then prepare(...)
+        when 'waiting_for_callback' then wait_for_callback(...)
+        when 'pending' then enqueue(...)
+        when 'running' then run(...)
+        when 'success' then succeed(...)
+        when 'failed' then drop(...)
+        when 'canceling' then start_cancel(...)
+        when 'canceled' then cancel(...)
+        when 'skipped' then skip(...)
+        when 'manual' then block(...)
+        when 'scheduled' then delay(...)
         else
           raise Ci::HasStatus::UnknownStatusError, "Unknown status `#{new_status}`"
         end

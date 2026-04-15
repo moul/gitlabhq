@@ -22472,6 +22472,43 @@ The edge type for [`GroupWikiRepositoryRegistry`](#groupwikirepositoryregistry).
 | <a id="groupwikirepositoryregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="groupwikirepositoryregistryedge-node"></a>`node` | [`GroupWikiRepositoryRegistry`](#groupwikirepositoryregistry) | The item at the end of the edge. |
 
+#### `ImportExportUploadUploadRegistryConnection`
+
+The connection type for [`ImportExportUploadUploadRegistry`](#importexportuploaduploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="importexportuploaduploadregistryconnection-edges"></a>`edges` | [`[ImportExportUploadUploadRegistryEdge]`](#importexportuploaduploadregistryedge) | A list of edges. |
+| <a id="importexportuploaduploadregistryconnection-nodes"></a>`nodes` | [`[ImportExportUploadUploadRegistry]`](#importexportuploaduploadregistry) | A list of nodes. |
+| <a id="importexportuploaduploadregistryconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+##### Fields with arguments
+
+###### `ImportExportUploadUploadRegistryConnection.count`
+
+Limited count of collection. Returns limit + 1 for counts greater than the limit.
+
+Returns [`Int!`](#int).
+
+Arguments:
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="importexportuploaduploadregistryconnection-count-limit"></a>`limit` | [`Int`](#int) | Limit value to be applied to the count query. Default is 1000. |
+
+#### `ImportExportUploadUploadRegistryEdge`
+
+The edge type for [`ImportExportUploadUploadRegistry`](#importexportuploaduploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="importexportuploaduploadregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="importexportuploaduploadregistryedge-node"></a>`node` | [`ImportExportUploadUploadRegistry`](#importexportuploaduploadregistry) | The item at the end of the edge. |
+
 #### `ImportSourceUserConnection`
 
 The connection type for [`ImportSourceUser`](#importsourceuser).
@@ -36589,6 +36626,31 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="geonode-groupwikirepositoryregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
 | <a id="geonode-groupwikirepositoryregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
 
+##### `GeoNode.importExportUploadUploadRegistries`
+
+{{< details >}}
+**Introduced** in GitLab 19.0.
+**Status**: Experiment.
+{{< /details >}}
+
+Find import/export archive upload registries on this Geo node. Ignored if `geo_import_export_upload_upload_replication` feature flag is disabled.
+
+Returns [`ImportExportUploadUploadRegistryConnection`](#importexportuploaduploadregistryconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="geonode-importexportuploaduploadregistries-ids"></a>`ids` | [`[GeoImportExportUploadUploadRegistryID!]`](#geoimportexportuploaduploadregistryid) | Filters registries by their ID. |
+| <a id="geonode-importexportuploaduploadregistries-keyword"></a>`keyword` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 17.9. A keyword search feature on Geo registries will not be built in the UI due to poor search UX and performance. |
+| <a id="geonode-importexportuploaduploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
+| <a id="geonode-importexportuploaduploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
+| <a id="geonode-importexportuploaduploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
+
 ##### `GeoNode.jobArtifactRegistries`
 
 Find Job Artifact registries on this Geo node.
@@ -40179,6 +40241,36 @@ IDE settings and feature flags.
 | ---- | ---- | ----------- |
 | <a id="imagepullsecrets-name"></a>`name` | [`String!`](#string) | Name of the Kubernetes image pull secret. |
 | <a id="imagepullsecrets-namespace"></a>`namespace` | [`String!`](#string) | Namespace of the kubernetes image pull secret. |
+
+### `ImportExportUploadUploadRegistry`
+
+Represents the Geo replication and verification state of an import/export archive upload.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="importexportuploaduploadregistry-checksummismatch"></a>`checksumMismatch` | [`Boolean`](#boolean) | Indicate if the checksums of the ImportExportUploadUploadRegistry do not match on the primary and secondary. |
+| <a id="importexportuploaduploadregistry-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the ImportExportUploadUploadRegistry was created. |
+| <a id="importexportuploaduploadregistry-datamanagementdetailspath"></a>`dataManagementDetailsPath` | [`String`](#string) | Path to the data management view for this ImportExportUploadUploadRegistry. |
+| <a id="importexportuploaduploadregistry-forcetoredownload"></a>`forceToRedownload` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 17.10. Removed from registry tables in the database in favor of the newer reusable framework. |
+| <a id="importexportuploaduploadregistry-id"></a>`id` | [`ID!`](#id) | ID of the ImportExportUploadUploadRegistry. |
+| <a id="importexportuploaduploadregistry-importexportuploaduploadid"></a>`importExportUploadUploadId` | [`ID!`](#id) | ID of the import/export archive upload. |
+| <a id="importexportuploaduploadregistry-lastsyncfailure"></a>`lastSyncFailure` | [`String`](#string) | Error message during sync of the ImportExportUploadUploadRegistry. |
+| <a id="importexportuploaduploadregistry-lastsyncedat"></a>`lastSyncedAt` | [`Time`](#time) | Timestamp of the most recent successful sync of the ImportExportUploadUploadRegistry. |
+| <a id="importexportuploaduploadregistry-missingonprimary"></a>`missingOnPrimary` | [`Boolean`](#boolean) | Indicate if the ImportExportUploadUploadRegistry is missing on primary. |
+| <a id="importexportuploaduploadregistry-modelrecordid"></a>`modelRecordId` | [`Int`](#int) | ID of the ImportExportUploadUploadRegistry's model record. |
+| <a id="importexportuploaduploadregistry-retryat"></a>`retryAt` | [`Time`](#time) | Timestamp after which the ImportExportUploadUploadRegistry is resynced. |
+| <a id="importexportuploaduploadregistry-retrycount"></a>`retryCount` | [`Int`](#int) | Number of consecutive failed sync attempts of the ImportExportUploadUploadRegistry. |
+| <a id="importexportuploaduploadregistry-state"></a>`state` | [`RegistryState`](#registrystate) | Sync state of the ImportExportUploadUploadRegistry. |
+| <a id="importexportuploaduploadregistry-verificationchecksum"></a>`verificationChecksum` | [`String`](#string) | The local checksum of the ImportExportUploadUploadRegistry. |
+| <a id="importexportuploaduploadregistry-verificationchecksummismatched"></a>`verificationChecksumMismatched` | [`String`](#string) | The expected checksum of the ImportExportUploadUploadRegistry in case of mismatch. |
+| <a id="importexportuploaduploadregistry-verificationfailure"></a>`verificationFailure` | [`String`](#string) | Error message during verification of the ImportExportUploadUploadRegistry. |
+| <a id="importexportuploaduploadregistry-verificationretryat"></a>`verificationRetryAt` | [`Time`](#time) | Timestamp after which the ImportExportUploadUploadRegistry is reverified. |
+| <a id="importexportuploaduploadregistry-verificationretrycount"></a>`verificationRetryCount` | [`Int`](#int) | Number of consecutive failed verification attempts of the ImportExportUploadUploadRegistry. |
+| <a id="importexportuploaduploadregistry-verificationstartedat"></a>`verificationStartedAt` | [`Time`](#time) | Timestamp when the verification of ImportExportUploadUploadRegistry started. |
+| <a id="importexportuploaduploadregistry-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Verification state of the ImportExportUploadUploadRegistry. |
+| <a id="importexportuploaduploadregistry-verifiedat"></a>`verifiedAt` | [`Time`](#time) | Timestamp of the most recent successful verification of the ImportExportUploadUploadRegistry. |
 
 ### `ImportSourceUser`
 
@@ -57651,6 +57743,7 @@ Geo registry class.
 | <a id="georegistryclass-design_management_repository_registry"></a>`DESIGN_MANAGEMENT_REPOSITORY_REGISTRY` | Geo::DesignManagementRepositoryRegistry registry class. |
 | <a id="georegistryclass-group_upload_registry"></a>`GROUP_UPLOAD_REGISTRY` | Geo::GroupUploadRegistry registry class. |
 | <a id="georegistryclass-group_wiki_repository_registry"></a>`GROUP_WIKI_REPOSITORY_REGISTRY` | Geo::GroupWikiRepositoryRegistry registry class. |
+| <a id="georegistryclass-import_export_upload_upload_registry"></a>`IMPORT_EXPORT_UPLOAD_UPLOAD_REGISTRY` | Geo::ImportExportUploadUploadRegistry registry class. |
 | <a id="georegistryclass-job_artifact_registry"></a>`JOB_ARTIFACT_REGISTRY` | Geo::JobArtifactRegistry registry class. |
 | <a id="georegistryclass-lfs_object_registry"></a>`LFS_OBJECT_REGISTRY` | Geo::LfsObjectRegistry registry class. |
 | <a id="georegistryclass-merge_request_diff_registry"></a>`MERGE_REQUEST_DIFF_REGISTRY` | Geo::MergeRequestDiffRegistry registry class. |
@@ -61496,6 +61589,12 @@ A `GeoGroupWikiRepositoryRegistryID` is a global ID. It is encoded as a string.
 
 An example `GeoGroupWikiRepositoryRegistryID` is: `"gid://gitlab/Geo::GroupWikiRepositoryRegistry/1"`.
 
+### `GeoImportExportUploadUploadRegistryID`
+
+A `GeoImportExportUploadUploadRegistryID` is a global ID. It is encoded as a string.
+
+An example `GeoImportExportUploadUploadRegistryID` is: `"gid://gitlab/Geo::ImportExportUploadUploadRegistry/1"`.
+
 ### `GeoJobArtifactRegistryID`
 
 A `GeoJobArtifactRegistryID` is a global ID. It is encoded as a string.
@@ -62560,6 +62659,7 @@ One of:
 - [`DesignManagementRepositoryRegistry`](#designmanagementrepositoryregistry)
 - [`GroupUploadRegistry`](#groupuploadregistry)
 - [`GroupWikiRepositoryRegistry`](#groupwikirepositoryregistry)
+- [`ImportExportUploadUploadRegistry`](#importexportuploaduploadregistry)
 - [`JobArtifactRegistry`](#jobartifactregistry)
 - [`LfsObjectRegistry`](#lfsobjectregistry)
 - [`MergeRequestDiffRegistry`](#mergerequestdiffregistry)

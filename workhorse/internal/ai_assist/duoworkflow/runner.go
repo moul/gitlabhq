@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	"slices"
+	"sync/atomic"
 	"time"
 
 	redsync "github.com/go-redsync/redsync/v4"
@@ -131,6 +132,7 @@ type runner struct {
 	streamManager      *streamManager
 	mcpManager         mcpManager
 	workflowDefinition string
+	websocketClosed    atomic.Bool
 }
 
 func newRunner(conn websocketConn, rails *api.API, backend http.Handler, r *http.Request, cfg *api.DuoWorkflow, rdb *redis.Client) (*runner, error) {
@@ -220,6 +222,7 @@ func (r *runner) pingWebSocket(ctx context.Context, errCh chan<- error, interval
 			return
 		case <-ticker.C:
 			if err := r.conn.WriteControl(websocket.PingMessage, nil, time.Now().Add(wsWriteDeadline)); err != nil {
+				r.websocketClosed.Store(true)
 				stopErr := r.stopWorkflow("WORKHORSE_WEBSOCKET_PING_FAILED", err)
 				errCh <- fmt.Errorf("pingWebSocket: failed to send ping: %w", stopErr)
 				return
@@ -232,6 +235,8 @@ func (r *runner) handleWebSocketMessages(errCh chan<- error) {
 	for {
 		_, message, err := r.conn.ReadMessage()
 		if err != nil {
+			r.websocketClosed.Store(true)
+
 			if e, ok := err.(*websocket.CloseError); ok && slices.Contains(normalClosureErrCodes, e.Code) {
 				reason := fmt.Sprintf("WORKHORSE_WEBSOCKET_CLOSE_%d", e.Code)
 				stopErr := r.stopWorkflow(reason, err)
@@ -300,6 +305,10 @@ func (r *runner) Close() error {
 }
 
 func (r *runner) closeWebSocketConnection() error {
+	if r.websocketClosed.Load() {
+		return nil
+	}
+
 	deadline := time.Now().Add(wsCloseTimeout)
 	if err := r.conn.WriteControl(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""), deadline); err != nil {
 		// If we can't send the close message, just close the connection
@@ -458,6 +467,11 @@ func (r *runner) handleAgentAction(ctx context.Context, action *pb.Action) error
 }
 
 func (r *runner) sendActionToWs(action *pb.Action) error {
+	if r.websocketClosed.Load() {
+		log.WithRequest(r.originalReq).Info("sendActionToWs: skipping sending WS message because websocket already closed")
+		return nil
+	}
+
 	var err error
 	r.marshalBuf, err = marshaler.MarshalAppend(r.marshalBuf[:0], action)
 	if err != nil {

@@ -13,7 +13,6 @@ import {
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { visitUrl, setUrlParams, updateHistory, removeParams } from '~/lib/utils/url_utility';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
-import { routeForWorkItemTypeName } from '../router/utils';
 import { makeDetailPanelItemFullPath, makeDetailPanelUrlParam, canRouterNav } from '../utils';
 import WorkItemMetadataProvider from './work_item_metadata_provider.vue';
 
@@ -152,16 +151,11 @@ export default {
         });
 
       if (shouldRouterNav) {
-        const { useWorkItemUrl } = this.glFeatures;
-        const workItemTypeName = this.issuableType.toLowerCase();
-        const workItemTypeParameter = useWorkItemUrl
-          ? WORK_ITEM_TYPE_ROUTE_WORK_ITEM
-          : routeForWorkItemTypeName(workItemTypeName);
         this.$router.push({
           name: 'workItem',
           params: {
             iid: workItem.iid,
-            type: workItemTypeParameter,
+            type: WORK_ITEM_TYPE_ROUTE_WORK_ITEM,
           },
         });
       } else {

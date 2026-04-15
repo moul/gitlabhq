@@ -73289,6 +73289,26 @@ definitions:
         type: string
       packages_helm_metadata_caches_verification_failed_count:
         type: string
+      import_export_upload_uploads_count:
+        type: string
+      import_export_upload_uploads_checksum_total_count:
+        type: string
+      import_export_upload_uploads_checksummed_count:
+        type: string
+      import_export_upload_uploads_checksum_failed_count:
+        type: string
+      import_export_upload_uploads_synced_count:
+        type: string
+      import_export_upload_uploads_failed_count:
+        type: string
+      import_export_upload_uploads_registry_count:
+        type: string
+      import_export_upload_uploads_verification_total_count:
+        type: string
+      import_export_upload_uploads_verified_count:
+        type: string
+      import_export_upload_uploads_verification_failed_count:
+        type: string
       design_management_action_uploads_count:
         type: string
       design_management_action_uploads_checksum_total_count:
@@ -73500,6 +73520,10 @@ definitions:
       packages_helm_metadata_caches_synced_in_percentage:
         type: string
       packages_helm_metadata_caches_verified_in_percentage:
+        type: string
+      import_export_upload_uploads_synced_in_percentage:
+        type: string
+      import_export_upload_uploads_verified_in_percentage:
         type: string
       design_management_action_uploads_synced_in_percentage:
         type: string
@@ -73785,6 +73809,16 @@ definitions:
     - packages_helm_metadata_caches_verification_total_count
     - packages_helm_metadata_caches_verified_count
     - packages_helm_metadata_caches_verification_failed_count
+    - import_export_upload_uploads_count
+    - import_export_upload_uploads_checksum_total_count
+    - import_export_upload_uploads_checksummed_count
+    - import_export_upload_uploads_checksum_failed_count
+    - import_export_upload_uploads_synced_count
+    - import_export_upload_uploads_failed_count
+    - import_export_upload_uploads_registry_count
+    - import_export_upload_uploads_verification_total_count
+    - import_export_upload_uploads_verified_count
+    - import_export_upload_uploads_verification_failed_count
     - design_management_action_uploads_count
     - design_management_action_uploads_checksum_total_count
     - design_management_action_uploads_checksummed_count
@@ -73891,6 +73925,8 @@ definitions:
     - supply_chain_attestations_verified_in_percentage
     - packages_helm_metadata_caches_synced_in_percentage
     - packages_helm_metadata_caches_verified_in_percentage
+    - import_export_upload_uploads_synced_in_percentage
+    - import_export_upload_uploads_verified_in_percentage
     - design_management_action_uploads_synced_in_percentage
     - design_management_action_uploads_verified_in_percentage
     - user_uploads_synced_in_percentage
