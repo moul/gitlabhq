@@ -6,6 +6,7 @@ import {
   LIST_ITEM_TYPE_GROUP,
 } from '~/vue_shared/components/nested_groups_projects_list/constants';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
+import { useConfigurePathHelpers } from 'helpers/configure_path_helpers';
 
 const {
   data: {
@@ -41,8 +42,9 @@ const mockGroupsAndProjects = [
 ];
 
 describe('formatGraphQLGroupsAndProjects', () => {
+  useConfigurePathHelpers('/gitlab');
+
   it('correctly formats the groups and projects', () => {
-    window.gon = { relative_url_root: '/gitlab' };
     const [firstItem] = formatGraphQLGroupsAndProjects(
       mockGroupsAndProjects,
       (group) => ({

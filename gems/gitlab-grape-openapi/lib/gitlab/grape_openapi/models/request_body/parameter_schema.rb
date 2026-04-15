@@ -224,6 +224,8 @@ module Gitlab
           def apply_allow_blank(schema)
             if param_options[:allow_blank] == false || (param_options[:required] && param_options[:values])
               schema[:minLength] = 1 if schema[:type] == 'string'
+            elsif schema[:oneOf]
+              schema[:oneOf].each { |s| s[:nullable] = true }
             else
               schema[:nullable] = true
             end

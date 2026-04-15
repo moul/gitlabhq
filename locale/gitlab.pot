@@ -75947,11 +75947,19 @@ msgstr ""
 msgid "UsageBilling|This dashboard may not display all current subscription data. For complete visibility, please upgrade to the latest version of GitLab or visit the %{linkStart}Customer Portal%{linkEnd}."
 msgstr ""
 
+msgid "UsageBilling|Total credit consumption"
+msgstr ""
+
 msgid "UsageBilling|Total credits used"
 msgstr ""
 
 msgid "UsageBilling|Total usage"
 msgstr ""
+
+msgid "UsageBilling|Total: %{count} credit"
+msgid_plural "UsageBilling|Total: %{count} credits"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "UsageBilling|Track monthly credit consumption and the main drivers of credit usage."
 msgstr ""

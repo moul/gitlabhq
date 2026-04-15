@@ -813,7 +813,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_b8e76fe6dc60"
+              "$ref": "#/components/schemas/RequestBody_e1213847c669"
   "/api/v4/code_suggestions/completions":
     post:
       operationId: postApiV4CodeSuggestionsCompletions
@@ -6250,7 +6250,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_a8cab86e12ae"
+              "$ref": "#/components/schemas/RequestBody_0f2b66d0bb55"
   "/api/v4/projects/{id}/merge_requests/{merge_request_iid}/blocks/{block_id}":
     get:
       operationId: getApiV4ProjectsIdMergeRequestsMergeRequestIidBlocksBlockId
@@ -10044,7 +10044,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_90d3d48f5a75"
+              "$ref": "#/components/schemas/RequestBody_762bc8bc4768"
     post:
       operationId: postApiV4GroupsIdDashEpicsEpicIidIssuesIssueId
       summary: Assign an issue to the epic
@@ -11930,10 +11930,11 @@ paths:
           - type: array
             items:
               type: integer
+            nullable: true
           - type: array
             items:
               type: string
-          nullable: true
+            nullable: true
         in: query
       - name: checksum_state
         required: false
@@ -12004,7 +12005,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_d4810cf859f0"
+              "$ref": "#/components/schemas/RequestBody_3c9462404b91"
       x-gitlab-lifecycle: experiment
   "/api/v4/admin/security/compliance_policy_settings":
     get:
@@ -12471,7 +12472,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_f59951ffc765"
+              "$ref": "#/components/schemas/RequestBody_55fe1bae2c8d"
   "/api/v4/admin_member_roles":
     get:
       operationId: getApiV4AdminMemberRoles
@@ -16881,7 +16882,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_61c839e95e41"
+              "$ref": "#/components/schemas/RequestBody_54e484e969cd"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -19749,7 +19750,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_fb3b23c01c35"
+              "$ref": "#/components/schemas/RequestBody_f8df00b9df82"
     get:
       operationId: getApiV4Mcp
       summary: Get MCP response listener
@@ -28240,7 +28241,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_8f5eec8be912"
+              "$ref": "#/components/schemas/RequestBody_32b5495b0b6c"
   "/api/v4/projects/{id}/releases/{tag_name}":
     get:
       operationId: getApiV4ProjectsIdReleasesTagName
@@ -28325,7 +28326,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_2b905a07dfb8"
+              "$ref": "#/components/schemas/RequestBody_bdc9945ede2c"
     delete:
       operationId: deleteApiV4ProjectsIdReleasesTagName
       summary: Delete a release
@@ -35132,7 +35133,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_acbb3f83afdf"
+              "$ref": "#/components/schemas/RequestBody_915ff4cbf3a7"
   "/api/v4/projects/{id}/pages/domains/{domain}":
     get:
       operationId: getApiV4ProjectsIdPagesDomainsDomain
@@ -35199,7 +35200,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_7c87b2d9af12"
+              "$ref": "#/components/schemas/RequestBody_f9dd251a5b26"
     delete:
       operationId: deleteApiV4ProjectsIdPagesDomainsDomain
       summary: Delete a pages domain
@@ -36916,8 +36917,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: assignee_username
         required: false
@@ -36978,8 +36980,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: state
         required: false
@@ -37189,8 +37192,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: not[assignee_username]
         required: false
@@ -37311,8 +37315,9 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
-          nullable: true
+            nullable: true
         in: query
       - name: approved_by_ids
         required: false
@@ -37321,8 +37326,9 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
-          nullable: true
+            nullable: true
         in: query
       - name: approved_by_usernames
         required: false
@@ -37332,8 +37338,9 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
-          nullable: true
+            nullable: true
         in: query
       - name: page
         required: false
@@ -37412,8 +37419,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: assignee_username
         required: false
@@ -37474,8 +37482,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: state
         required: false
@@ -37684,8 +37693,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: not[assignee_username]
         required: false
@@ -37806,8 +37816,9 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
-          nullable: true
+            nullable: true
         in: query
       - name: approved_by_ids
         required: false
@@ -37816,8 +37827,9 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
-          nullable: true
+            nullable: true
         in: query
       - name: approved_by_usernames
         required: false
@@ -37827,8 +37839,9 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
-          nullable: true
+            nullable: true
         in: query
       - name: page
         required: false
@@ -38088,8 +38101,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: assignee_username
         required: false
@@ -38150,8 +38164,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: state
         required: false
@@ -38360,8 +38375,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: not[assignee_username]
         required: false
@@ -38482,8 +38498,9 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
-          nullable: true
+            nullable: true
         in: query
       - name: approved_by_ids
         required: false
@@ -38492,8 +38509,9 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
-          nullable: true
+            nullable: true
         in: query
       - name: approved_by_usernames
         required: false
@@ -38503,8 +38521,9 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
-          nullable: true
+            nullable: true
         in: query
       - name: page
         required: false
@@ -39458,7 +39477,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_abe520ad8e91"
+              "$ref": "#/components/schemas/RequestBody_88e7019e0a78"
   "/api/v4/groups/{id}/members/all":
     get:
       operationId: getApiV4GroupsIdMembersAll
@@ -39790,7 +39809,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_abe520ad8e91"
+              "$ref": "#/components/schemas/RequestBody_88e7019e0a78"
   "/api/v4/projects/{id}/members/all":
     get:
       operationId: getApiV4ProjectsIdMembersAll
@@ -40982,8 +41001,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: assignee_username
         required: false
@@ -41119,8 +41139,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: not[iteration_title]
         required: false
@@ -41164,8 +41185,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: epic_id
         required: false
@@ -41173,8 +41195,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: health_status
         required: false
@@ -41197,8 +41220,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: iteration_title
         required: false
@@ -41394,8 +41418,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: assignee_username
         required: false
@@ -41531,8 +41556,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: not[iteration_title]
         required: false
@@ -41578,8 +41604,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: epic_id
         required: false
@@ -41587,8 +41614,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: health_status
         required: false
@@ -41611,8 +41639,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: iteration_title
         required: false
@@ -41866,8 +41895,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: assignee_username
         required: false
@@ -42003,8 +42033,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: not[iteration_title]
         required: false
@@ -42049,8 +42080,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: epic_id
         required: false
@@ -42058,8 +42090,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: health_status
         required: false
@@ -42082,8 +42115,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: iteration_title
         required: false
@@ -42216,8 +42250,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: assignee_username
         required: false
@@ -42353,8 +42388,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: not[iteration_title]
         required: false
@@ -42399,8 +42435,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: epic_id
         required: false
@@ -42408,8 +42445,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: health_status
         required: false
@@ -42432,8 +42470,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: iteration_title
         required: false
@@ -42818,8 +42857,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: assignee_username
         required: false
@@ -42955,8 +42995,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: not[iteration_title]
         required: false
@@ -43001,8 +43042,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: epic_id
         required: false
@@ -43010,8 +43052,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: health_status
         required: false
@@ -43034,8 +43077,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: iteration_title
         required: false
@@ -43200,8 +43244,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: assignee_username
         required: false
@@ -43337,8 +43382,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: not[iteration_title]
         required: false
@@ -43383,8 +43429,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: epic_id
         required: false
@@ -43392,8 +43439,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: health_status
         required: false
@@ -43416,8 +43464,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: iteration_title
         required: false
@@ -44007,7 +44056,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_0192e54bebdc"
+              "$ref": "#/components/schemas/RequestBody_0259e0e80b82"
   "/api/v4/projects/{id}/issues/{issue_iid}/links/{issue_link_id}":
     get:
       operationId: getApiV4ProjectsIdIssuesIssueIidLinksIssueLinkId
@@ -52623,7 +52672,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_21d1b4c9e854"
+              "$ref": "#/components/schemas/RequestBody_85aa94c04f69"
     delete:
       operationId: deleteApiV4FeaturesName
       summary: Delete a feature
@@ -54370,8 +54419,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: assignee_username
         required: false
@@ -54432,8 +54482,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: state
         required: false
@@ -54642,8 +54693,9 @@ paths:
         schema:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         in: query
       - name: not[assignee_username]
         required: false
@@ -61043,7 +61095,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_78b3b4fad83b"
+              "$ref": "#/components/schemas/RequestBody_d842037a61dc"
   "/api/v4/projects/{id}/pipeline_schedules/{pipeline_schedule_id}":
     get:
       operationId: getApiV4ProjectsIdPipelineSchedulesPipelineScheduleId
@@ -61122,7 +61174,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_8cc1ca301eda"
+              "$ref": "#/components/schemas/RequestBody_3d224084a74b"
     delete:
       operationId: deleteApiV4ProjectsIdPipelineSchedulesPipelineScheduleId
       summary: Delete a pipeline schedule
@@ -61944,10 +61996,11 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
             items:
               type: string
-          nullable: true
+            nullable: true
         in: query
         example:
         - pending
@@ -62010,10 +62063,11 @@ paths:
         schema:
           oneOf:
           - type: string
+            nullable: true
           - type: array
             items:
               type: string
-          nullable: true
+            nullable: true
         in: query
         example:
         - pending
@@ -86200,7 +86254,7 @@ components:
           nullable: true
       required:
       - revisions
-    RequestBody_fb3b23c01c35:
+    RequestBody_f8df00b9df82:
       type: object
       properties:
         jsonrpc:
@@ -86220,8 +86274,9 @@ components:
         params:
           oneOf:
           - type: object
+            nullable: true
           - type: array
-          nullable: true
+            nullable: true
       required:
       - jsonrpc
       - method
@@ -86711,7 +86766,7 @@ components:
       - mr_title
       - mr_description
       - files_content
-    RequestBody_b8e76fe6dc60:
+    RequestBody_e1213847c669:
       type: object
       properties:
         content:
@@ -86736,8 +86791,9 @@ components:
         resource_id:
           oneOf:
           - type: string
+            nullable: true
           - type: integer
-          nullable: true
+            nullable: true
         referer_url:
           type: string
           description: Referer URL
@@ -88347,7 +88403,7 @@ components:
           - denied
           description: The approval status of the license.
           nullable: true
-    RequestBody_a8cab86e12ae:
+    RequestBody_0f2b66d0bb55:
       type: object
       properties:
         blocking_merge_request_id:
@@ -88361,8 +88417,9 @@ components:
         blocking_project_id:
           oneOf:
           - type: string
+            nullable: true
           - type: integer
-          nullable: true
+            nullable: true
     RequestBody_367c5b2057bb:
       type: object
       properties:
@@ -89800,19 +89857,21 @@ components:
             epic
           example: 1
           nullable: true
-    RequestBody_90d3d48f5a75:
+    RequestBody_762bc8bc4768:
       type: object
       properties:
         move_before_id:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         move_after_id:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         page:
           type: integer
           default: 1
@@ -90217,7 +90276,7 @@ components:
           - dry_run
           description: State of the runner controller (disabled, enabled, dry_run)
           nullable: true
-    RequestBody_d4810cf859f0:
+    RequestBody_3c9462404b91:
       type: object
       properties:
         identifiers:
@@ -90225,10 +90284,11 @@ components:
           - type: array
             items:
               type: integer
+            nullable: true
           - type: array
             items:
               type: string
-          nullable: true
+            nullable: true
         checksum_state:
           type: string
           enum:
@@ -90294,14 +90354,15 @@ components:
           type: integer
           description: Connection ID (defaults to active connection)
           nullable: true
-    RequestBody_f59951ffc765:
+    RequestBody_55fe1bae2c8d:
       type: object
       properties:
         namespace_id:
           oneOf:
           - type: string
+            nullable: true
           - type: integer
-          nullable: true
+            nullable: true
         state:
           type: string
           enum:
@@ -91222,7 +91283,7 @@ components:
           nullable: true
       required:
       - avatar
-    RequestBody_61c839e95e41:
+    RequestBody_54e484e969cd:
       type: object
       properties:
         admin_mode:
@@ -91757,7 +91818,7 @@ components:
           nullable: true
         repository_storages_weighted:
           type: object
-          additional_properties:
+          additionalProperties:
             type: integer
           description: Storage paths for new projects with a weighted value ranging
             from 0 to 100
@@ -95430,7 +95491,7 @@ components:
           description: 'The type of the link: `other`, `runbook`, `image`, or `package`.
             Defaults to `other`'
           nullable: true
-    RequestBody_8f5eec8be912:
+    RequestBody_32b5495b0b6c:
       type: object
       properties:
         tag_name:
@@ -95504,8 +95565,9 @@ components:
         milestone_ids:
           oneOf:
           - type: string
+            nullable: true
           - type: integer
-          nullable: true
+            nullable: true
         released_at:
           type: string
           format: date-time
@@ -95523,7 +95585,7 @@ components:
           nullable: true
       required:
       - tag_name
-    RequestBody_2b905a07dfb8:
+    RequestBody_bdc9945ede2c:
       type: object
       properties:
         name:
@@ -95552,8 +95614,9 @@ components:
         milestone_ids:
           oneOf:
           - type: string
+            nullable: true
           - type: integer
-          nullable: true
+            nullable: true
     RequestBody_f7e232007bcb:
       type: object
       properties:
@@ -100222,7 +100285,7 @@ components:
       required:
       - name
       - platform_kubernetes_attributes
-    RequestBody_acbb3f83afdf:
+    RequestBody_915ff4cbf3a7:
       type: object
       properties:
         domain:
@@ -100232,13 +100295,15 @@ components:
         certificate:
           oneOf:
           - type: string
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         key:
           oneOf:
           - type: string
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         auto_ssl_enabled:
           type: boolean
           description: Enables automatic generation of SSL certificates issued by
@@ -100252,19 +100317,21 @@ components:
           nullable: true
       required:
       - domain
-    RequestBody_7c87b2d9af12:
+    RequestBody_f9dd251a5b26:
       type: object
       properties:
         certificate:
           oneOf:
           - type: string
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         key:
           oneOf:
           - type: string
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         auto_ssl_enabled:
           type: boolean
           description: Enables automatic generation of SSL certificates issued by
@@ -100806,7 +100873,7 @@ components:
           type: boolean
           description: Set to true to skip creating a CI pipeline.
           nullable: true
-    RequestBody_abe520ad8e91:
+    RequestBody_88e7019e0a78:
       type: object
       properties:
         access_level:
@@ -100816,8 +100883,9 @@ components:
         user_id:
           oneOf:
           - type: integer
+            nullable: true
           - type: string
-          nullable: true
+            nullable: true
         username:
           type: string
           description: The username of the new member or multiple usernames separated
@@ -101177,19 +101245,21 @@ components:
           type: string
           description: A description of the image or URL
           nullable: true
-    RequestBody_0192e54bebdc:
+    RequestBody_0259e0e80b82:
       type: object
       properties:
         target_project_id:
           oneOf:
           - type: string
+            nullable: true
           - type: integer
-          nullable: true
+            nullable: true
         target_issue_iid:
           oneOf:
           - type: string
+            nullable: true
           - type: integer
-          nullable: true
+            nullable: true
         link_type:
           type: string
           enum:
@@ -104814,14 +104884,15 @@ components:
           nullable: true
       required:
       - file
-    RequestBody_21d1b4c9e854:
+    RequestBody_85aa94c04f69:
       type: object
       properties:
         value:
           oneOf:
           - type: string
+            nullable: true
           - type: integer
-          nullable: true
+            nullable: true
         key:
           type: string
           description: "`percentage_of_actors` or `percentage_of_time` (default)"
@@ -105907,7 +105978,7 @@ components:
           type: string
           description: The trigger token description
           nullable: true
-    RequestBody_78b3b4fad83b:
+    RequestBody_d842037a61dc:
       type: object
       properties:
         description:
@@ -105951,11 +106022,15 @@ components:
               value:
                 oneOf:
                 - type: string
+                  nullable: true
                 - type: array
+                  nullable: true
                 - type: number
+                  nullable: true
                 - type: boolean
+                  nullable: true
                 - type: boolean
-                nullable: true
+                  nullable: true
             required:
             - name
             - value
@@ -105964,7 +106039,7 @@ components:
       - description
       - ref
       - cron
-    RequestBody_8cc1ca301eda:
+    RequestBody_3d224084a74b:
       type: object
       properties:
         description:
@@ -106010,11 +106085,15 @@ components:
               value:
                 oneOf:
                 - type: string
+                  nullable: true
                 - type: array
+                  nullable: true
                 - type: number
+                  nullable: true
                 - type: boolean
+                  nullable: true
                 - type: boolean
-                nullable: true
+                  nullable: true
             required:
             - name
             - value

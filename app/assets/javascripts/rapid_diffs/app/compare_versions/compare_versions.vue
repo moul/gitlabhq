@@ -85,7 +85,7 @@ export default {
             :truncate="selectedTargetIsBranch"
             class="mr-version-compare-dropdown gl-mx-1"
             :class="{
-              'gl-min-w-18 gl-max-w-[300px] gl-flex-1': selectedTargetIsBranch,
+              'gl-min-w-min !gl-max-w-[300px] gl-flex-1': selectedTargetIsBranch,
             }"
             data-testid="target-version-dropdown"
           />

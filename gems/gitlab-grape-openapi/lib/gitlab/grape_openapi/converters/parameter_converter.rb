@@ -164,7 +164,11 @@ module Gitlab
             schema[:minLength] = 1 if schema[:type] == 'string'
           elsif in_value != 'path'
             # path parameters are never nullable because they are required URL segments
-            schema[:nullable] = true
+            if schema[:oneOf]
+              schema[:oneOf].each { |s| s[:nullable] = true }
+            else
+              schema[:nullable] = true
+            end
           end
         end
       end

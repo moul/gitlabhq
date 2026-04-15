@@ -755,6 +755,12 @@ class ApplicationSetting < ApplicationRecord
     future_date: true,
     if: :granular_tokens_enforced_after_changed?
 
+  jsonb_accessor :diff_limits,
+    diff_max_versions: [:integer, { default: 1_000 }],
+    diff_max_commits: [:integer, { default: 1_000_000 }]
+
+  validates :diff_limits, json_schema: { filename: "application_setting_diff_limits" }
+
   jsonb_accessor :group_settings,
     top_level_group_creation_enabled: [:boolean, { default: true }],
     disable_invite_members: [:boolean, { default: false }]

@@ -1,7 +1,7 @@
 import { convertToGraphQLId, getIdFromGraphQLId } from '~/graphql_shared/utils';
-import { joinPaths } from '~/lib/utils/url_utility';
 import { TYPENAME_GROUP } from '~/graphql_shared/constants';
 import { ACCESS_LEVEL_NO_ACCESS_INTEGER } from '~/access_level/constants';
+import { groupPath } from '~/lib/utils/path_helpers/group';
 import { availableGraphQLGroupActions } from './utils';
 
 export const formatGraphQLGroup = (
@@ -20,7 +20,7 @@ export const formatGraphQLGroup = (
     childrenLoading: false,
     hasChildren: Boolean(hasChildren),
     fullPath,
-    relativeWebUrl: joinPaths('/', gon.relative_url_root, fullPath),
+    relativeWebUrl: groupPath(fullPath),
   };
 
   return {

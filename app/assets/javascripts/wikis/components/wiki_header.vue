@@ -112,7 +112,7 @@ export default {
     },
   },
   mounted() {
-    if (this.editButtonUrl) {
+    if (this.showEditButton) {
       document.addEventListener('keyup', this.onKeyUp);
     }
   },

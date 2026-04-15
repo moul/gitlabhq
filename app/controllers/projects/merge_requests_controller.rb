@@ -118,15 +118,15 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
   end
 
   def rapid_diffs
-    return render_404 unless rapid_diffs_page_enabled?
+    unless rapid_diffs_page_enabled?
+      cookies.delete(:rapid_diffs_enabled)
+      return redirect_to(diffs_project_merge_request_path(project, @merge_request))
+    end
 
     rapid_diffs_presenter.offset = 5
     show_merge_request
   rescue StandardError => exception
     log_exception(exception)
-
-    # Turns off the rapid diffs toggle
-    cookies.delete(:rapid_diffs_enabled)
 
     feedback_link = view_context.link_to(
       _("Leave feedback"),
@@ -137,7 +137,7 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
     )
 
     redirect_to(
-      diffs_project_merge_request_path(project, @merge_request),
+      diffs_project_merge_request_path(project, @merge_request, rapid_diffs_disabled: 'true'),
       alert: safe_format(
         _("Rapid Diffs encountered an error and has been temporarily disabled. " \
           "The page has loaded using the standard diff view. %{feedback_link}"),
@@ -749,6 +749,7 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
 
   def rapid_diffs_page_enabled?
     ::Feature.enabled?(:rapid_diffs_on_mr_show, current_user, type: :wip) &&
+      params[:rapid_diffs_disabled] != 'true' &&
       (params[:rapid_diffs] == 'true' || cookies[:rapid_diffs_enabled] == 'true')
   end
 

@@ -305,13 +305,14 @@ RSpec.describe Projects::MergeRequestsController, feature_category: :source_code
         expect(response.body).to include('data-page="projects:merge_requests:rapid_diffs"')
       end
 
-      it 'returns 404 when cookie is set but feature flag is disabled' do
+      it 'deletes the cookie and redirects to legacy diffs when feature flag is disabled' do
         stub_feature_flags(rapid_diffs_on_mr_show: false)
         cookies[:rapid_diffs_enabled] = 'true'
 
         get diffs_project_merge_request_path(project, merge_request)
 
-        expect(response).to have_gitlab_http_status(:not_found)
+        expect(response).to redirect_to(diffs_project_merge_request_path(project, merge_request))
+        expect(response.cookies['rapid_diffs_enabled']).to be_nil
       end
 
       it 'shows only first 5 files' do
@@ -370,8 +371,20 @@ RSpec.describe Projects::MergeRequestsController, feature_category: :source_code
         end
       end
 
+      context 'when rapid_diffs_disabled param is present' do
+        it 'falls through to the legacy diffs action' do
+          cookies[:rapid_diffs_enabled] = 'true'
+
+          get diffs_project_merge_request_path(project, merge_request, rapid_diffs_disabled: 'true')
+
+          expect(response).to have_gitlab_http_status(:ok)
+          expect(response.body).to include('data-page="projects:merge_requests:diffs"')
+          expect(response.cookies).not_to have_key('rapid_diffs_enabled')
+        end
+      end
+
       context 'when an error occurs during rendering' do
-        it 'logs the exception, deletes the cookie, and redirects with an alert' do
+        it 'logs the exception, preserves the cookie, and redirects with rapid_diffs_disabled param' do
           cookies['rapid_diffs_enabled'] = 'true'
 
           expect_next_instance_of(described_class) do |instance|
@@ -386,8 +399,10 @@ RSpec.describe Projects::MergeRequestsController, feature_category: :source_code
 
           get diffs_project_merge_request_path(project, merge_request)
 
-          expect(response).to redirect_to(diffs_project_merge_request_path(project, merge_request))
-          expect(response.cookies['rapid_diffs_enabled']).to be_nil
+          expect(response).to redirect_to(
+            diffs_project_merge_request_path(project, merge_request, rapid_diffs_disabled: 'true')
+          )
+          expect(response.cookies).not_to have_key('rapid_diffs_enabled')
           expect(flash[:alert]).to eq(
             _("Rapid Diffs encountered an error and has been temporarily disabled. " \
               "The page has loaded using the standard diff view. " \

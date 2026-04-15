@@ -222,7 +222,8 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
         let(:type) { "[String, Integer]" }
 
         it 'sets schema as oneOf with resolved types' do
-          expect(parameter.schema).to eq({ nullable: true, oneOf: [{ type: 'string' }, { type: 'integer' }] })
+          expect(parameter.schema).to eq({ oneOf: [{ type: 'string', nullable: true },
+            { type: 'integer', nullable: true }] })
         end
       end
 
@@ -230,7 +231,8 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
         let(:type) { "[String, Grape::API::Boolean]" }
 
         it 'resolves Boolean type correctly' do
-          expect(parameter.schema).to eq({ nullable: true, oneOf: [{ type: 'string' }, { type: 'boolean' }] })
+          expect(parameter.schema).to eq({ oneOf: [{ type: 'string', nullable: true },
+            { type: 'boolean', nullable: true }] })
         end
       end
 
@@ -447,10 +449,9 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
         it 'generates oneOf schema with both types' do
           expect(converter.schema).to eq({
             oneOf: [
-              { type: 'string' },
-              { type: 'integer' }
-            ],
-            nullable: true
+              { type: 'string', nullable: true },
+              { type: 'integer', nullable: true }
+            ]
           })
         end
       end
@@ -461,11 +462,10 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
         it 'generates oneOf schema with all types resolved' do
           expect(converter.schema).to eq({
             oneOf: [
-              { type: 'string' },
-              { type: 'integer' },
-              { type: 'object' }
-            ],
-            nullable: true
+              { type: 'string', nullable: true },
+              { type: 'integer', nullable: true },
+              { type: 'object', nullable: true }
+            ]
           })
         end
       end
@@ -476,10 +476,9 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
         it 'resolves Grape Boolean type to boolean' do
           expect(converter.schema).to eq({
             oneOf: [
-              { type: 'string' },
-              { type: 'boolean' }
-            ],
-            nullable: true
+              { type: 'string', nullable: true },
+              { type: 'boolean', nullable: true }
+            ]
           })
         end
       end
@@ -835,8 +834,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
 
         it 'generates clean oneOf schema' do
           expect(converter.schema).to eq({
-            oneOf: [{ type: 'string' }, { type: 'integer' }],
-            nullable: true
+            oneOf: [{ type: 'string', nullable: true }, { type: 'integer', nullable: true }]
           })
         end
       end
@@ -964,6 +962,24 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
 
         it 'adds nullable: true' do
           expect(converter.schema[:nullable]).to be true
+        end
+      end
+
+      context 'when parameter has multiple types (oneOf schema)' do
+        let(:options) { { type: '[String, Integer]' } }
+
+        it 'adds nullable: true to each oneOf member instead of the top level' do
+          expect(converter.schema[:nullable]).to be_nil
+          expect(converter.schema[:oneOf]).to all(include(nullable: true))
+        end
+      end
+
+      context 'when parameter has multiple types and allow_blank: false' do
+        let(:options) { { type: '[String, Integer]', allow_blank: false } }
+
+        it 'omits nullable from all oneOf members' do
+          expect(converter.schema[:nullable]).to be_nil
+          expect(converter.schema[:oneOf]).to all(satisfy { |s| !s.key?(:nullable) })
         end
       end
 
@@ -1445,8 +1461,8 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
         ]
       end
 
-      it "generates object schema with additional_properties" do
-        expect(converter.schema).to eq({ type: "object", additional_properties: { type: "integer" }, nullable: true })
+      it "generates object schema with additionalProperties" do
+        expect(converter.schema).to eq({ type: "object", additionalProperties: { type: "integer" }, nullable: true })
       end
     end
 

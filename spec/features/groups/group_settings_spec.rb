@@ -9,6 +9,12 @@ RSpec.describe 'Edit group settings', :with_current_organization, feature_catego
   include ActionView::Helpers::TagHelper
   include Namespaces::DeletableHelper
 
+  def archive_group(group, user)
+    result = Namespaces::Groups::ArchiveService.new(group, user).execute
+
+    expect(result).to be_success
+  end
+
   let_it_be(:user) { create(:user, organization: current_organization) }
   let_it_be(:admin) { create(:user, :admin, organization: current_organization) }
   let_it_be_with_reload(:group) { create(:group, path: 'foo', owners: [user]) }
@@ -339,7 +345,7 @@ RSpec.describe 'Edit group settings', :with_current_organization, feature_catego
 
     context 'when group is archived' do
       before do
-        subgroup.namespace_settings.update!(archived: true)
+        archive_group(subgroup, user)
 
         visit edit_group_path(subgroup)
       end
@@ -357,7 +363,7 @@ RSpec.describe 'Edit group settings', :with_current_organization, feature_catego
 
     context 'when ancestor is archived' do
       before do
-        ancestor.namespace_settings.update!(archived: true)
+        archive_group(ancestor, user)
 
         visit edit_group_path(subgroup)
       end
@@ -602,6 +608,8 @@ RSpec.describe 'Edit group settings', :with_current_organization, feature_catego
       fill_in 'group_path', with: new_group_path
       click_button 'Change group URL'
     end
+
+    wait_for_requests
   end
 
   def save_general_group

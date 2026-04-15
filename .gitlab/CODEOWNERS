@@ -6,8 +6,16 @@
 # The `*` line is a fallback.
 # Whenever possible, we want changes to be reviewed and approved by team members
 # that have appropriate competence to validate the change
+#
+# The fallback list should be reduced over time:
+#   * BE maintainers group was removed in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228392
 [Maintainers] @gitlab-org/maintainers/frontend @gitlab-org/maintainers/database @gl-dx/maintainers @gl-dx/tooling-maintainers @gitlab-org/delivery @gitlab-org/maintainers/cicd-templates @gitlab-org/tw-leadership @gitlab-org/maintainers/kas-version-maintainers
 *
+
+# All maintainer groups can approve /scripts/ and /.gitlab/
+# https://gitlab.com/gitlab-org/gitlab/-/work_items/594402#note_3249020797
+/scripts/ @gitlab-org/maintainers/frontend @gitlab-org/maintainers/database @gl-dx/maintainers @gl-dx/tooling-maintainers @gitlab-org/delivery @gitlab-org/maintainers/cicd-templates @gitlab-org/tw-leadership @gitlab-org/maintainers/kas-version-maintainers @gitlab-org/maintainers/rails-backend
+/.gitlab/ @gitlab-org/maintainers/frontend @gitlab-org/maintainers/database @gl-dx/maintainers @gl-dx/tooling-maintainers @gitlab-org/delivery @gitlab-org/maintainers/cicd-templates @gitlab-org/tw-leadership @gitlab-org/maintainers/kas-version-maintainers @gitlab-org/maintainers/rails-backend
 
 # Backend
 *.rb @gitlab-org/maintainers/rails-backend
@@ -73,7 +81,6 @@ Rakefile @gitlab-org/maintainers/rails-backend
 /ee/db/click_house/ @gitlab-org/maintainers/clickhouse
 /db/siphon/ @gitlab-org/maintainers/clickhouse
 
-/.gitlab/ @gitlab-org/maintainers/rails-backend
 .gitlab/CODEOWNERS @gitlab-org/development-leaders @gitlab-org/tw-leadership
 
 /*_VERSION @gitlab-org/maintainers/rails-backend @gitlab-org/delivery

@@ -402,3 +402,13 @@ ping-appsec-for-dependency-review:
   script:
     - docker run --interactive --rm -e DEPSCORE_ANTHROPIC_KEY="$DEPSCORE_ANTHROPIC_KEY" "$DEPENDENCY_REVIEW_BOT_CI_REG:latest" -t "$DEPENDENCY_REVIEW_PAT" -p "$CI_PROJECT_ID" -m "$CI_MERGE_REQUEST_IID" -s "$DISABLE_SCORING" -c "$DISABLE_COMMENTING"
   allow_failure: true
+
+validate-codeowners-coverage:
+  extends:
+    - .static-analysis-base
+    - .static-analysis:rules:static-analysis
+  variables:
+    SETUP_DB: "false"
+    USE_BUNDLE_INSTALL: "false"
+  script:
+    - tooling/bin/validate_codeowners_coverage

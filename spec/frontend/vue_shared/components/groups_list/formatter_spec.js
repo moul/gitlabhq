@@ -7,6 +7,7 @@ import {
 } from '~/vue_shared/components/groups_list/formatter';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import { TYPENAME_GROUP } from '~/graphql_shared/constants';
+import { useConfigurePathHelpers } from 'helpers/configure_path_helpers';
 
 const {
   data: {
@@ -48,8 +49,9 @@ const itCorrectlyFormatsWithoutActions = (formattedGroup, mockGroup) => {
 };
 
 describe('formatGraphQLGroup', () => {
+  useConfigurePathHelpers('/gitlab');
+
   it('correctly formats the group with edit, delete, and leave permissions', () => {
-    window.gon = { relative_url_root: '/gitlab' };
     const [mockGroup] = organizationGroups;
     const formattedGroup = formatGraphQLGroup(mockGroup, (group) => ({
       customProperty: group.fullName,
@@ -67,8 +69,9 @@ describe('formatGraphQLGroup', () => {
 });
 
 describe('formatGraphQLGroups', () => {
+  useConfigurePathHelpers('/gitlab');
+
   it('correctly formats the groups with edit, delete, and leave permissions', () => {
-    window.gon = { relative_url_root: '/gitlab' };
     const [firstMockGroup] = organizationGroups;
     const formattedGroups = formatGraphQLGroups(organizationGroups, (group) => ({
       customProperty: group.fullName,

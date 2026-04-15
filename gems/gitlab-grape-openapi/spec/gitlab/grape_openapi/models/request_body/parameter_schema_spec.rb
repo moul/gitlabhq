@@ -80,6 +80,24 @@ RSpec.describe Gitlab::GrapeOpenapi::Models::RequestBody::ParameterSchema do
           expect(method_call[:nullable]).to be true
         end
       end
+
+      context 'when parameter has multiple types (oneOf schema)' do
+        let(:param_options) { { type: '[String, Integer]', required: false } }
+
+        it 'adds nullable: true to each oneOf member instead of the top level' do
+          expect(method_call[:nullable]).to be_nil
+          expect(method_call[:oneOf]).to all(include(nullable: true))
+        end
+      end
+
+      context 'when parameter has multiple types and allow_blank: false' do
+        let(:param_options) { { type: '[String, Integer]', allow_blank: false, required: false } }
+
+        it 'omits nullable from all oneOf members' do
+          expect(method_call[:nullable]).to be_nil
+          expect(method_call[:oneOf]).to all(satisfy { |s| !s.key?(:nullable) })
+        end
+      end
     end
 
     describe 'limit validation behaviour' do
@@ -225,10 +243,9 @@ RSpec.describe Gitlab::GrapeOpenapi::Models::RequestBody::ParameterSchema do
         it 'generates complete oneOf schema' do
           expect(method_call).to eq(
             oneOf: [
-              { type: 'string' },
-              { type: 'integer' }
-            ],
-            nullable: true
+              { type: 'string', nullable: true },
+              { type: 'integer', nullable: true }
+            ]
           )
         end
       end
@@ -1017,7 +1034,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Models::RequestBody::ParameterSchema do
           expect(method_call).to eq(
             {
               type: "object",
-              additional_properties: { type: "integer" },
+              additionalProperties: { type: "integer" },
               description: "Counts by category",
               nullable: true
             }

@@ -186,7 +186,6 @@ Layout/EmptyLineAfterMagicComment:
     - 'ee/spec/lib/ee/gitlab/hook_data/group_member_builder_spec.rb'
     - 'ee/spec/lib/ee/gitlab/hook_data/issue_builder_spec.rb'
     - 'ee/spec/lib/ee/gitlab/import_export/project/tree_restorer_spec.rb'
-    - 'ee/spec/lib/ee/gitlab/snippet_search_results_spec.rb'
     - 'ee/spec/lib/gitlab/analytics/cycle_analytics/summary/group/stage_summary_spec.rb'
     - 'ee/spec/lib/gitlab/analytics/cycle_analytics/summary/stage_time_summary_spec.rb'
     - 'ee/spec/lib/gitlab/auth/group_saml/membership_enforcer_spec.rb'
