@@ -41,6 +41,63 @@ Each advisory has a page with the following details:
 - **Solution**: How to remediate the vulnerability.
 - **Last Modified**: The date when the advisory was last modified.
 
+### GraphQL API
+
+{{< details >}}
+
+- Status: Experiment
+- Tier: Ultimate
+- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+
+{{< /details >}}
+
+> [!flag]
+> This feature is an [experiment](../../../policy/development_stages_support.md).
+> This feature is disabled by default. To make it available, an administrator can [enable the feature flag](../../../administration/feature_flags/_index.md) named `pm_advisory_graphql`.
+
+Use the following GraphQL endpoints to look up individual or multiple advisories by identifier:
+
+- [`Query.packageMetadataAdvisory` to look up a single advisory](../../../api/graphql/reference/_index.md#querypackagemetadataadvisory)
+- [`Query.packageMetadataAdvisories` to look up multiple advisories](../../../api/graphql/reference/_index.md#querypackagemetadataadvisories)
+
+#### Examples
+
+To look up a single advisory by identifier:
+
+```graphql
+{
+  packageMetadataAdvisory(identifier: "CVE-2026-34598") {
+    id,
+    title,
+    description,
+    publishedDate
+    identifiers {
+      name
+      url
+    }
+  }
+}
+```
+
+To look up multiple advisories by identifiers:
+
+```graphql
+{
+  packageMetadataAdvisories(identifiers: ["CVE-2026-34598", "CVE-2026-34601"]) {
+    nodes {
+      id
+      title
+      description
+      publishedDate
+      identifiers {
+        name
+        url
+      }
+    }
+  }
+}
+```
+
 ## Open source edition
 
 GitLab provides a free and open-source version of the database, the [GitLab advisory database (open source edition)](https://gitlab.com/gitlab-org/advisories-community).

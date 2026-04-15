@@ -3,3 +3,4 @@
     .gl-grow.gl-basis-0.gl-flex.gl-items-center.gl-justify-start.gl-gap-3
       = render "layouts/nav/breadcrumbs/breadcrumbs"
       = render "layouts/nav/work_items/feedback_popup"
+      = yield(:top_bar_actions) if content_for?(:top_bar_actions)

@@ -33,11 +33,11 @@ The default framework for the group has a **default** badge.
 
 Prerequisites:
 
-- You must be an administrator or have the Security Manager or Owner role for the project or group.
+- You must be an administrator or have the Security Manager or Owner role for the group.
 
 To view the compliance projects report:
 
-1. In the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Secure** > **Compliance center**.
 1. On the page, select the **Projects** tab.
 

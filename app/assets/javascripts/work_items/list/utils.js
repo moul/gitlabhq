@@ -406,9 +406,6 @@ const wildcardTokens = [
 const isWildcardValue = (tokenType, value) =>
   wildcardTokens.includes(tokenType) && wildcardFilterValues.includes(value);
 
-const requiresUpperCaseValue = (tokenType, value) =>
-  tokenType === TOKEN_TYPE_TYPE || isWildcardValue(tokenType, value);
-
 const convertToTokenValue = (token, baseValue) => {
   switch (token) {
     case TOKEN_TYPE_CONFIDENTIAL:
@@ -417,7 +414,7 @@ const convertToTokenValue = (token, baseValue) => {
     case TOKEN_TYPE_TYPE:
       return baseValue.toUpperCase();
     case TOKEN_TYPE_HEALTH:
-      if (requiresUpperCaseValue(token, capitalize(baseValue))) {
+      if (isWildcardValue(token, capitalize(baseValue))) {
         return baseValue.toUpperCase();
       }
       return camelCase(baseValue);
@@ -602,14 +599,6 @@ export const isParentIdParam = (type) => {
   return type === TOKEN_TYPE_PARENT;
 };
 
-export const isSubscribedParam = (type) => {
-  return type === TOKEN_TYPE_SUBSCRIBED;
-};
-
-export const isHealthStatusParam = (type) => {
-  return type === TOKEN_TYPE_HEALTH;
-};
-
 const getFilterType = ({ type, value: { data, operator } }) => {
   const isUnionedAuthor = type === TOKEN_TYPE_AUTHOR && operator === OPERATOR_OR;
   const isUnionedLabel = type === TOKEN_TYPE_LABEL && operator === OPERATOR_OR;
@@ -638,11 +627,17 @@ const formatData = (token) => {
     return data.map((item) => formatData({ ...token, value: { ...token.value, data: item } }));
   }
 
-  if (requiresUpperCaseValue(token.type, data)) {
+  if (isWildcardValue(token.type, data)) {
     return data.toUpperCase();
   }
   if ([TOKEN_TYPE_CONFIDENTIAL, TOKEN_TYPE_DRAFT].includes(token.type)) {
     return data === 'yes';
+  }
+  if (token.type === TOKEN_TYPE_TYPE) {
+    return data.toUpperCase();
+  }
+  if (token.type === TOKEN_TYPE_HEALTH) {
+    return camelCase(data);
   }
 
   return data;
@@ -713,10 +708,6 @@ export const convertToApiParams = (filterTokens) => {
           includeDescendantWorkItems: true,
         });
       }
-    } else if (isSubscribedParam(token.type)) {
-      obj.set(apiField, data.toUpperCase());
-    } else if (isHealthStatusParam(token.type)) {
-      obj.set(apiField, isWildcardValue(token.type, capitalize(data)) ? data : camelCase(data));
     } else {
       obj.set(apiField, obj.has(apiField) ? [obj.get(apiField), data].flat() : data);
     }

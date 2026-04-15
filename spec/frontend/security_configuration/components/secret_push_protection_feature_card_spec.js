@@ -24,7 +24,6 @@ const feature = secretPushProtectionMock;
 const defaultProvide = {
   secretPushProtectionAvailable: true,
   secretPushProtectionEnabled: false,
-  userIsProjectAdmin: true,
   projectFullPath: 'flightjs/flight',
   secretDetectionConfigurationPath: 'flightjs/Flight/-/security/configuration/secret_detection',
 };
@@ -188,58 +187,29 @@ describe('SecretPushProtectionFeatureCard component', () => {
     });
   });
 
-  describe('when user is not project admin', () => {
-    describe('and cannot configure', () => {
-      beforeEach(() => {
-        createComponent({
-          provide: {
-            userIsProjectAdmin: false,
+  describe('when user cannot configure', () => {
+    beforeEach(() => {
+      createComponent({
+        props: {
+          feature: {
+            ...secretPushProtectionMock,
+            canUserConfigure: false,
           },
-          props: {
-            feature: {
-              ...secretPushProtectionMock,
-              canUserConfigure: false,
-            },
-          },
-        });
-      });
-
-      it('disables the toggle', () => {
-        expect(findToggle().props('disabled')).toBe(true);
-      });
-
-      it('renders lock icon', () => {
-        expect(findLockIcon().exists()).toBe(true);
-        expect(findLockIcon().props('name')).toBe('lock');
-      });
-
-      it('shows access level tooltip', () => {
-        expect(findPopover().exists()).toBe(true);
+        },
       });
     });
 
-    describe('but can configure', () => {
-      beforeEach(() => {
-        createComponent({
-          provide: {
-            userIsProjectAdmin: false,
-          },
-          props: {
-            feature: {
-              ...secretPushProtectionMock,
-              canUserConfigure: true,
-            },
-          },
-        });
-      });
+    it('disables the toggle', () => {
+      expect(findToggle().props('disabled')).toBe(true);
+    });
 
-      it('does not disable the toggle', () => {
-        expect(findToggle().props('disabled')).toBe(false);
-      });
+    it('renders lock icon', () => {
+      expect(findLockIcon().exists()).toBe(true);
+      expect(findLockIcon().props('name')).toBe('lock');
+    });
 
-      it('does not render lock icon', () => {
-        expect(findLockIcon().exists()).toBe(false);
-      });
+    it('shows access level tooltip', () => {
+      expect(findPopover().exists()).toBe(true);
     });
   });
 });

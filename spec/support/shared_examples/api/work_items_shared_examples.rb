@@ -232,7 +232,7 @@ RSpec.shared_examples 'work item N+1 query prevention' do
     2.times do
       work_item_label = create_label_for_namespace(namespace_record)
       ms = create_milestone_for_namespace(namespace_record)
-      create_namespace_work_item(namespace_record, labels: [work_item_label], milestone: ms)
+      create_namespace_work_item(namespace_record, author: user, labels: [work_item_label], milestone: ms)
     end
 
     get api(api_request_path, user), params: request_params
@@ -246,7 +246,7 @@ RSpec.shared_examples 'work item N+1 query prevention' do
     2.times do
       new_label = create_label_for_namespace(namespace_record)
       new_milestone = create_milestone_for_namespace(namespace_record)
-      create_namespace_work_item(namespace_record, labels: [new_label], milestone: new_milestone)
+      create_namespace_work_item(namespace_record, author: user, labels: [new_label], milestone: new_milestone)
     end
 
     expect do

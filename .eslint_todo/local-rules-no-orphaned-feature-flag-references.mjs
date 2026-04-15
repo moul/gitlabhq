@@ -14,6 +14,7 @@ export default {
     'app/assets/javascripts/work_items/components/shared/work_item_token_input.vue',
     'app/assets/javascripts/work_items/components/work_item_parent.vue',
     'app/assets/javascripts/work_items/list/components/work_item_bulk_edit_parent.vue',
+    'app/assets/javascripts/work_items/pages/planning_view.vue',
   ],
   rules: {
     'local-rules/no-orphaned-feature-flag-references': 'off',

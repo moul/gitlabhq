@@ -360,6 +360,20 @@ const mountComponent = ({
       canCreateProjects: true,
       hasGroupBulkEditFeature: true,
       hasProjects: true,
+      getWorkItemTypeConfiguration: jest
+        .fn()
+        .mockReturnValue({ id: 'gid://gitlab/WorkItems::Type/1' }),
+      workItemTypesConfiguration: [
+        { id: 'gid://gitlab/WorkItems::Type/1', name: 'Issue', isGroupWorkItemType: false },
+        { id: 'gid://gitlab/WorkItems::Type/2', name: 'Incident', isGroupWorkItemType: false },
+        { id: 'gid://gitlab/WorkItems::Type/3', name: 'Test Case', isGroupWorkItemType: false },
+        { id: 'gid://gitlab/WorkItems::Type/4', name: 'Requirement', isGroupWorkItemType: false },
+        { id: 'gid://gitlab/WorkItems::Type/5', name: 'Task', isGroupWorkItemType: false },
+        { id: 'gid://gitlab/WorkItems::Type/6', name: 'Objective', isGroupWorkItemType: false },
+        { id: 'gid://gitlab/WorkItems::Type/7', name: 'Key Result', isGroupWorkItemType: false },
+        { id: 'gid://gitlab/WorkItems::Type/8', name: 'Epic', isGroupWorkItemType: true },
+        { id: 'gid://gitlab/WorkItems::Type/9', name: 'Ticket', isGroupWorkItemType: false },
+      ],
       ...restProvide,
     },
     propsData: {

@@ -9,7 +9,11 @@ import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { InternalEvents } from '~/tracking';
 import { createAlert, VARIANT_INFO } from '~/alert';
-import { TYPENAME_NAMESPACE, TYPENAME_USER } from '~/graphql_shared/constants';
+import {
+  TYPENAME_NAMESPACE,
+  TYPENAME_USER,
+  TYPENAME_WORK_ITEMS_TYPE,
+} from '~/graphql_shared/constants';
 import { getParameterByName, removeParams, updateHistory } from '~/lib/utils/url_utility';
 import {
   STATUS_ALL,
@@ -73,7 +77,6 @@ import {
   TOKEN_TITLE_PARENT,
 } from '~/vue_shared/components/filtered_search_bar/constants';
 
-import namespaceWorkItemTypesQuery from '~/work_items/graphql/namespace_work_item_types.query.graphql';
 import searchLabelsQuery from '~/work_items/list/graphql/search_labels.query.graphql';
 import getWorkItemStateCountsQuery from 'ee_else_ce/work_items/list/graphql/get_work_item_state_counts.query.graphql';
 import getWorkItemsQuery from 'ee_else_ce/work_items/list/graphql/get_work_items_full.query.graphql';
@@ -94,7 +97,6 @@ import ListView from 'ee_else_ce/work_items/list/list_view.vue';
 
 import {
   getSortOptions,
-  getDefaultWorkItemTypes,
   getInitialPageParams,
   subscribeToSavedView,
   convertToApiParams,
@@ -236,6 +238,8 @@ export default {
     'hasEpicsFeature',
     'hasQualityManagementFeature',
     'hasProjects',
+    'getWorkItemTypeConfiguration',
+    'workItemTypesConfiguration',
   ],
   props: {
     rootPageFullPath: {
@@ -263,7 +267,6 @@ export default {
       initialSortKey: CREATED_DESC,
       initialViewSortKey: null,
       filterTokens: [],
-      workItemTypes: [],
       workItemsFull: [],
       workItemsSlim: [],
       workItemStateCounts: {},
@@ -349,10 +352,9 @@ export default {
     hasWorkItems: {
       query: hasWorkItemsQuery,
       variables() {
-        const singleWorkItemType = this.workItemType ? NAME_TO_ENUM_MAP[this.workItemType] : null;
         return {
           fullPath: this.rootPageFullPath,
-          types: singleWorkItemType || this.defaultWorkItemTypes,
+          ...this.apiTypesArgument,
         };
       },
       update(data) {
@@ -367,21 +369,6 @@ export default {
           this.isInitialLoadComplete = true;
           this.initialLoadWasFiltered = this.filterTokens.length > 0;
         }
-      },
-    },
-
-    workItemTypes: {
-      query: namespaceWorkItemTypesQuery,
-      variables() {
-        return {
-          fullPath: this.rootPageFullPath,
-        };
-      },
-      update(data) {
-        return data?.namespace?.workItemTypes?.nodes;
-      },
-      error(error) {
-        Sentry.captureException(error);
       },
     },
 
@@ -699,28 +686,26 @@ export default {
       });
     },
     defaultWorkItemTypes() {
-      return getDefaultWorkItemTypes({
-        hasEpicsFeature: this.hasEpicsFeature,
-        hasOkrsFeature: this.hasOkrsFeature,
-        hasQualityManagementFeature: this.hasQualityManagementFeature,
-        isGroupIssuesList: this.isGroupIssuesList,
-      });
+      return this.workItemTypesConfiguration
+        .filter((type) => type.isFilterableListView)
+        .map((type) =>
+          this.glFeatures.workItemConfigurableTypes ? type.id : NAME_TO_ENUM_MAP[type.name],
+        );
     },
     queryVariables() {
       const hasGroupFilter = Boolean(this.urlFilterParams.group_path);
-      const singleWorkItemType = this.workItemType ? NAME_TO_ENUM_MAP[this.workItemType] : null;
       const isIidSearch = ISSUE_REFERENCE.test(this.searchQuery);
       return {
         fullPath: this.rootPageFullPath,
         sort: this.sortKey,
         state: this.state,
         ...this.apiFilterParams,
+        ...this.apiTypesArgument,
         ...this.pageParams,
         iid: isIidSearch ? this.searchQuery.slice(1) : undefined,
         search: isIidSearch ? undefined : this.searchQuery,
         excludeProjects: hasGroupFilter || this.isEpicsList,
         includeDescendants: !hasGroupFilter,
-        types: this.apiFilterParams.types || singleWorkItemType || this.defaultWorkItemTypes,
         isGroup: this.isGroup,
         excludeGroupWorkItems: this.isGroupIssuesList,
         useWorkItemFeatures: Boolean(this.glFeatures.workItemFeaturesField),
@@ -849,7 +834,6 @@ export default {
           icon: 'work-item-issue',
           unique: true,
           token: WorkItemTypeToken,
-          operators: OPERATORS_IS_NOT_OR,
           multiSelect: true,
           fullPath: this.rootPageFullPath,
         });
@@ -1006,11 +990,7 @@ export default {
       // We should not be using ENUM and change the mount of work item type lists
       // with id instead since that is immutable
       const workItemTypeName = this.workItemType || WORK_ITEM_TYPE_NAME_ISSUE;
-      return (
-        this.workItemTypes.find((wi) => wi.name === workItemTypeName)?.id ||
-        this.workItemTypes[0]?.id ||
-        ''
-      );
+      return this.getWorkItemTypeConfiguration(workItemTypeName)?.id || '';
     },
     displaySettingsSoT() {
       return this.isSavedView ? this.localDisplaySettings : this.displaySettings;
@@ -1025,23 +1005,42 @@ export default {
       return this.isServiceDeskList && this.isServiceDeskSupported && this.hasWorkItems;
     },
     csvExportQueryVariables() {
-      const singleWorkItemType = this.workItemType ? NAME_TO_ENUM_MAP[this.workItemType] : null;
       return {
         ...this.apiFilterParams,
+        ...this.apiTypesArgument,
         projectPath: this.rootPageFullPath,
         state: this.state,
         search: this.searchQuery,
-        types: this.apiFilterParams.types || singleWorkItemType || this.defaultWorkItemTypes,
       };
     },
     searchQuery() {
       return convertToSearchQuery(this.filterTokens);
     },
     apiFilterParams() {
-      return convertToApiParams(this.filterTokens, {
+      const params = convertToApiParams(this.filterTokens, {
         hasCustomFieldsFeature: this.hasCustomFieldsFeature,
         hasStatusFeature: this.hasStatusFeature,
       });
+      if (this.glFeatures.workItemConfigurableTypes) {
+        if (params.types) {
+          params.workItemTypeIds = this.convertToGid(params.types);
+          delete params.types;
+        }
+        if (params.not?.types) {
+          params.not.workItemTypeIds = this.convertToGid(params.not.types);
+          delete params.not.types;
+        }
+      }
+      return params;
+    },
+    apiTypesArgument() {
+      const singleWorkItemType = this.glFeatures.workItemConfigurableTypes
+        ? this.getWorkItemTypeConfiguration(this.workItemType)?.id
+        : NAME_TO_ENUM_MAP[this.workItemType];
+      const field = this.glFeatures.workItemConfigurableTypes ? 'workItemTypeIds' : 'types';
+      return {
+        [field]: this.apiFilterParams[field] || singleWorkItemType || this.defaultWorkItemTypes,
+      };
     },
     showWorkItemByEmail() {
       return Boolean(this.canCreateWorkItem && !this.isGroup && this.newWorkItemEmailAddress);
@@ -1266,6 +1265,11 @@ export default {
       if (!this.state.includes(workItem.state.toLowerCase())) {
         this.refetchItems({ refetchCounts: true });
       }
+    },
+    convertToGid(value) {
+      return Array.isArray(value)
+        ? value.map((el) => convertToGraphQLId(TYPENAME_WORK_ITEMS_TYPE, el))
+        : convertToGraphQLId(TYPENAME_WORK_ITEMS_TYPE, value);
     },
     toggleStickyHeader(isVisible) {
       this.isStickyHeaderVisible = isVisible;
@@ -2167,7 +2171,6 @@ export default {
       :work-item-state-counts="workItemStateCounts"
       :work-items-count="workItemsCount"
       :has-work-items="hasWorkItems"
-      :work-item-types="workItemTypes"
       :is-initial-load-complete="isInitialLoadComplete"
       :is-loading="isLoading"
       :detail-loading="detailLoading"

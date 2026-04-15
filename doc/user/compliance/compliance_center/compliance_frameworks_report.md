@@ -32,7 +32,7 @@ The default framework for the group has a **default** badge.
 
 To view the compliance frameworks report:
 
-1. In the top bar, select **Search or go to** and find your project or group.
+1. In the top bar, select **Search or go to** and find your group.
 1. Select **Secure** > **Compliance center**.
 1. On the page, select the **Frameworks** tab.
 

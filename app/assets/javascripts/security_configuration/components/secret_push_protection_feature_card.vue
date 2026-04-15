@@ -29,7 +29,6 @@ export default {
   inject: [
     'secretPushProtectionAvailable',
     'secretPushProtectionEnabled',
-    'userIsProjectAdmin',
     'projectFullPath',
     'secretDetectionConfigurationPath',
   ],
@@ -73,8 +72,7 @@ export default {
       };
     },
     isToggleDisabled() {
-      const toggleable = this.userIsProjectAdmin || this.feature.canUserConfigure;
-      return !this.secretPushProtectionAvailable || !toggleable;
+      return !this.secretPushProtectionAvailable || !this.feature.canUserConfigure;
     },
     showLock() {
       return this.isToggleDisabled && this.available;
@@ -83,7 +81,7 @@ export default {
       if (!this.secretPushProtectionAvailable) {
         return this.$options.i18n.tooltipDescription;
       }
-      if (!this.userIsProjectAdmin && !this.feature.canUserConfigure) {
+      if (!this.feature.canUserConfigure) {
         return this.$options.i18n.accessLevelTooltipDescription;
       }
       return '';

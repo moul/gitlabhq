@@ -48187,6 +48187,12 @@ msgstr ""
 msgid "Observability|GitLab Observability is an open source, OpenTelemetry-native observability platform that unifies logs, metrics, and traces in a single application. Monitor application performance with APM dashboards, visualize distributed traces across microservices, manage centralized logs with powerful querying, and set up intelligent alerts."
 msgstr ""
 
+msgid "Observability|Give feedback"
+msgstr ""
+
+msgid "Observability|Give feedback on this experience"
+msgstr ""
+
 msgid "Observability|Group ID"
 msgstr ""
 
@@ -48329,6 +48335,9 @@ msgid "Observability|Observability Service Configuration"
 msgstr ""
 
 msgid "Observability|Observability configuration"
+msgstr ""
+
+msgid "Observability|Observability feedback"
 msgstr ""
 
 msgid "Observability|Observability for CI/CD is enabled! Your CI/CD pipelines are automatically configured to export telemetry data, giving you comprehensive insights into your build and deployment processes."
@@ -48494,6 +48503,9 @@ msgid "Observability|Visualize distributed traces with flamegraphs across micros
 msgstr ""
 
 msgid "Observability|We value your feedback"
+msgstr ""
+
+msgid "Observability|We would love to learn more about your experience with GitLab Observability."
 msgstr ""
 
 msgid "Observability|Welcome to GitLab Observability!"

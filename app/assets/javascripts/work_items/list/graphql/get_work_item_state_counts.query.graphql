@@ -27,6 +27,7 @@ query getWorkItemStateCounts(
   $types: [IssueType!]
   $updatedAfter: Time
   $updatedBefore: Time
+  $workItemTypeIds: [WorkItemsTypeID!]
   $crmOrganizationId: String
   $crmContactId: String
   $releaseTag: [String!]
@@ -64,6 +65,7 @@ query getWorkItemStateCounts(
       types: $types
       updatedAfter: $updatedAfter
       updatedBefore: $updatedBefore
+      workItemTypeIds: $workItemTypeIds
       crmOrganizationId: $crmOrganizationId
       crmContactId: $crmContactId
       hierarchyFilters: $hierarchyFilters
@@ -101,6 +103,7 @@ query getWorkItemStateCounts(
       types: $types
       updatedAfter: $updatedAfter
       updatedBefore: $updatedBefore
+      workItemTypeIds: $workItemTypeIds
       crmOrganizationId: $crmOrganizationId
       crmContactId: $crmContactId
       releaseTag: $releaseTag
