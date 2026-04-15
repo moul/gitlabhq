@@ -658,12 +658,25 @@ RSpec.describe Gitlab::Ci::Components::InstancePath, feature_category: :pipeline
       end
 
       describe '#sha' do
-        it 'uses legacy_find_version_sha without SafeRequestStore caching' do
+        it 'does not use SafeRequestStore caching' do
           path1 = described_class.new(address: address)
+          path2 = described_class.new(address: address)
 
-          expect(path1).to receive(:legacy_find_version_sha).and_call_original
+          expect(path1).to receive(:find_catalog_version).and_call_original
+          expect(path2).to receive(:find_catalog_version).and_call_original
 
           path1.sha
+          path2.sha
+        end
+
+        it 'falls back to sha_by_released_tag when catalog version is not found' do
+          branch_address = "acme.com/#{project_path}/secret-detection@main"
+          path = described_class.new(address: branch_address)
+
+          expect(path).to receive(:find_catalog_version).and_return(nil)
+          expect(path).to receive(:sha_by_released_tag).and_call_original
+
+          path.sha
         end
       end
 
@@ -678,6 +691,93 @@ RSpec.describe Gitlab::Ci::Components::InstancePath, feature_category: :pipeline
           path2.fetch_content!(current_user: user)
         end
       end
+    end
+  end
+
+  describe 'content fetching optimizations', :request_store, :clean_gitlab_redis_repository_cache do
+    let_it_be(:project) do
+      create(
+        :project, :custom_repo,
+        files: {
+          'templates/component-a.yml' => 'job_a: { script: echo a }',
+          'templates/component-b.yml' => 'job_b: { script: echo b }'
+        }
+      )
+    end
+
+    let(:version) { 'master' }
+    let(:project_path) { project.full_path }
+
+    before_all do
+      project.add_developer(user)
+    end
+
+    context 'when ci_optimize_component_fetching is disabled' do
+      before do
+        stub_feature_flags(ci_optimize_component_fetching: false)
+      end
+
+      it 'does not write to cache' do
+        address = "acme.com/#{project_path}/component-a@#{version}"
+        path = described_class.new(address: address)
+        cache_store = Gitlab::Redis::RepositoryCache.cache_store
+
+        result = path.fetch_content!(current_user: user)
+        expect(result.content).not_to be_nil
+
+        sha = project.commit('master').sha
+        cache_key = "ci_component_content:v1:#{project.id}:#{sha}:templates/component-a.yml"
+
+        expect(cache_store.read(cache_key)).to be_nil
+      end
+
+      it 'does not read from cache' do
+        address = "acme.com/#{project_path}/component-a@#{version}"
+        path = described_class.new(address: address)
+        cache_store = Gitlab::Redis::RepositoryCache.cache_store
+        sha = project.commit('master').sha
+        cache_key = "ci_component_content:v1:#{project.id}:#{sha}:templates/component-a.yml"
+
+        cache_store.write(cache_key, 'cached: value')
+
+        result = path.fetch_content!(current_user: user)
+
+        expect(result.content).to eq('job_a: { script: echo a }')
+        expect(result.content).not_to eq('cached: value')
+      end
+    end
+
+    it 'caches content across multiple requests' do
+      address = "acme.com/#{project_path}/component-a@#{version}"
+      path1 = described_class.new(address: address)
+
+      first_result = path1.fetch_content!(current_user: user)
+      first_content = first_result.content
+
+      expect(project.repository).not_to receive(:blobs_at)
+
+      path2 = described_class.new(address: address)
+      second_result = path2.fetch_content!(current_user: user)
+
+      expect(second_result.content).to eq(first_content)
+      expect(second_result.path).to eq(first_result.path)
+    end
+
+    it 'generates cache keys for both simple and complex template paths' do
+      address = "acme.com/#{project_path}/component-a@#{version}"
+      path = described_class.new(address: address)
+
+      result = path.fetch_content!(current_user: user)
+      expect(result.content).to eq('job_a: { script: echo a }')
+
+      cache_store = Gitlab::Redis::RepositoryCache.cache_store
+      sha = project.commit('master').sha
+
+      simple_cache_key = "ci_component_content:v1:#{project.id}:#{sha}:templates/component-a.yml"
+      complex_cache_key = "ci_component_content:v1:#{project.id}:#{sha}:templates/component-a/template.yml"
+
+      expect(cache_store.read(simple_cache_key)).to eq('job_a: { script: echo a }')
+      expect(cache_store.read(complex_cache_key)).to be_nil
     end
   end
 end

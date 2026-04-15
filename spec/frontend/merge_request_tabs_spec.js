@@ -474,7 +474,7 @@ describe('MergeRequestTabs', () => {
         let show;
 
         beforeEach(() => {
-          setWindowLocation('https://example.com?rapid_diffs=true');
+          setWindowLocation('https://example.com');
           init = jest.fn();
           hide = jest.fn();
           show = jest.fn();
@@ -701,12 +701,11 @@ describe('MergeRequestTabs', () => {
       });
     });
 
-    describe('full page navigation with rapid_diffs=true', () => {
+    describe('full page navigation', () => {
       it('navigates when discussion is not active and app is not loaded', async () => {
         const disc = { ...discussion, active: false };
         await testContext.class.navigateToDiffNote(disc);
         const url = new URL(visitUrl.mock.calls[0][0]);
-        expect(url.searchParams.get('rapid_diffs')).toBe('true');
         expect(url.pathname).toBe('/project/-/merge_requests/1/diffs');
       });
 
@@ -717,8 +716,7 @@ describe('MergeRequestTabs', () => {
           targetVersions: [{ selected: true, start_sha: 'z' }],
         });
         await testContext.class.navigateToDiffNote(discussion);
-        const url = new URL(visitUrl.mock.calls[0][0]);
-        expect(url.searchParams.get('rapid_diffs')).toBe('true');
+        expect(visitUrl).toHaveBeenCalled();
       });
 
       it('includes linked file params from discussion position', async () => {

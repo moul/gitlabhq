@@ -130,7 +130,6 @@ RSpec.describe RapidDiffs::DiffSourceVersionEntity, feature_category: :code_revi
           project,
           merge_request,
           merge_request_diff,
-          rapid_diffs: true,
           start_sha: start_sha
         )
 
@@ -143,8 +142,7 @@ RSpec.describe RapidDiffs::DiffSourceVersionEntity, feature_category: :code_revi
         expected_path = merge_request_version_path(
           project,
           merge_request,
-          merge_request_diff,
-          rapid_diffs: true
+          merge_request_diff
         )
 
         expect(serialized[:href]).to eq(expected_path)

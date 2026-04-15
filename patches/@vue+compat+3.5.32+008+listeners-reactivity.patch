@@ -1,27 +1,41 @@
 diff --git a/node_modules/@vue/compat/dist/vue.cjs.js b/node_modules/@vue/compat/dist/vue.cjs.js
-index 194a402..00c2cda 100644
+index aaaaaaa..bbbbbbb 100644
 --- a/node_modules/@vue/compat/dist/vue.cjs.js
 +++ b/node_modules/@vue/compat/dist/vue.cjs.js
-@@ -6720,6 +6720,9 @@ const PublicInstanceProxyHandlers = {
+@@ -6749,6 +6749,9 @@
        if (key === "$attrs") {
          track(instance.attrs, "get", "");
          markAttrsAccessed();
 +      } else if (key === "$listeners") {
-+        // Track attrs changes so $listeners reactively updates when parent listeners change
++        /*! Track attrs changes so $listeners reactively updates when parent listeners change */
 +        track(instance.attrs, "get", "");
        } else if (key === "$slots") {
          track(instance, "get", key);
        }
-diff --git a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
-index c3eadcf..f348d05 100644
---- a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
-+++ b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
-@@ -6629,6 +6629,9 @@ const PublicInstanceProxyHandlers = {
+diff --git a/node_modules/@vue/compat/dist/vue.esm-bundler.js b/node_modules/@vue/compat/dist/vue.esm-bundler.js
+index aaaaaaa..bbbbbbb 100644
+--- a/node_modules/@vue/compat/dist/vue.esm-bundler.js
++++ b/node_modules/@vue/compat/dist/vue.esm-bundler.js
+@@ -6729,6 +6729,9 @@
        if (key === "$attrs") {
          track(instance.attrs, "get", "");
          !!(process.env.NODE_ENV !== "production") && markAttrsAccessed();
 +      } else if (key === "$listeners") {
-+        // Track attrs changes so $listeners reactively updates when parent listeners change
++        /*! Track attrs changes so $listeners reactively updates when parent listeners change */
++        track(instance.attrs, "get", "");
+       } else if (!!(process.env.NODE_ENV !== "production") && key === "$slots") {
+         track(instance, "get", key);
+       }
+diff --git a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
+index aaaaaaa..bbbbbbb 100644
+--- a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
++++ b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
+@@ -6656,6 +6656,9 @@
+       if (key === "$attrs") {
+         track(instance.attrs, "get", "");
+         !!(process.env.NODE_ENV !== "production") && markAttrsAccessed();
++      } else if (key === "$listeners") {
++        /*! Track attrs changes so $listeners reactively updates when parent listeners change */
 +        track(instance.attrs, "get", "");
        } else if (!!(process.env.NODE_ENV !== "production") && key === "$slots") {
          track(instance, "get", key);

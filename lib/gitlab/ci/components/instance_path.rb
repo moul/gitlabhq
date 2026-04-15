@@ -60,7 +60,7 @@ module Gitlab
                 find_catalog_version&.sha || sha_by_released_tag || sha_by_ref
               end
             else
-              legacy_find_version_sha
+              find_catalog_version&.sha || sha_by_released_tag || sha_by_ref
             end
           end
         end
@@ -89,17 +89,75 @@ module Gitlab
         private
 
         def fetch_component_content
-          return fetch_component_content_uncached if ::Feature.disabled?(:ci_optimize_component_fetching, project)
+          component_data = try_cached_template_path(simple_template_path)
 
-          Rails.cache.fetch("ci_component_content:#{project_full_path}:#{sha}:#{component_name}",
-            expires_in: 1.day) do
-            fetch_component_content_uncached
-          end
+          return component_data if component_data.present?
+
+          component_data = try_cached_template_path(complex_template_path)
+
+          return component_data if component_data.present?
+
+          fetch_from_gitaly
         end
 
-        def fetch_component_content_uncached
-          component_project = ::Ci::Catalog::ComponentsProject.new(project, sha)
-          component_project.fetch_component(component_name)
+        def content_fetcher
+          ::Gitlab::Ci::Config::External::CachedContentFetcher.new(
+            project: project,
+            cache_enabled: cache_enabled?
+          )
+        end
+        strong_memoize_attr :content_fetcher
+
+        def try_cached_template_path(template_path)
+          cache_key = component_cache_key_for(sha, template_path)
+          content = content_fetcher.read_cache(cache_key)
+          return unless content
+
+          ::Ci::Catalog::ComponentsProject::ComponentData.new(
+            content: content,
+            path: template_path
+          )
+        end
+
+        def fetch_from_gitaly
+          simple_sha_path = [sha, simple_template_path]
+          complex_sha_path = [sha, complex_template_path]
+
+          items = [
+            [simple_sha_path, component_cache_key_for(sha, simple_template_path)],
+            [complex_sha_path, component_cache_key_for(sha, complex_template_path)]
+          ]
+
+          content_by_sha_path = content_fetcher.fetch_batch(items)
+
+          [simple_sha_path, complex_sha_path].each do |sha_path|
+            content = content_by_sha_path[sha_path]
+
+            if content.present?
+              return ::Ci::Catalog::ComponentsProject::ComponentData.new(
+                content: content,
+                path: sha_path[1]
+              )
+            end
+          end
+
+          ::Ci::Catalog::ComponentsProject::ComponentData.new
+        end
+
+        def simple_template_path
+          File.join('templates', "#{component_name}.yml")
+        end
+
+        def complex_template_path
+          File.join('templates', component_name, 'template.yml')
+        end
+
+        def component_cache_key_for(sha, path)
+          "ci_component_content:v1:#{project.id}:#{sha}:#{path}"
+        end
+
+        def cache_enabled?
+          ::Feature.enabled?(:ci_optimize_component_fetching, project)
         end
 
         def access_allowed?(current_user)
@@ -116,12 +174,6 @@ module Gitlab
 
         def cache_key(*parts)
           [self.class.name, *parts]
-        end
-
-        def legacy_find_version_sha
-          return legacy_find_latest_sha if reference == LATEST
-
-          legacy_sha_by_shorthand_semver || sha_by_released_tag || sha_by_ref
         end
 
         def find_catalog_version
@@ -147,19 +199,6 @@ module Gitlab
           else
             project.catalog_resource.versions.by_name(reference).first
           end
-        end
-
-        def legacy_find_latest_sha
-          return unless project.catalog_resource
-
-          catalog_resource_version_latest&.sha
-        end
-
-        def legacy_sha_by_shorthand_semver
-          return unless reference.match?(SHORTHAND_SEMVER_PATTERN)
-          return unless project.catalog_resource
-
-          catalog_resource_version_by_short_semver&.sha
         end
 
         def catalog_resource_version_latest

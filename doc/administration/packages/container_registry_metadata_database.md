@@ -479,10 +479,19 @@ Tasks with >10 review attempts - may indicate persistent issues.
 
 {{< tab title="GitLab 18.9 and earlier" >}}
 
-The following queries return tasks that were retried more than 10 times,
-or were eligible for review for longer than 24 hours. The online garbage collector should
-pick up an item for review within 24 hours with few failed attempts. If any rows are returned,
-investigate the health of your online garbage collector.
+### Connect to the GitLab container registry metadata database
+
+Use the following command to connect to the registry metadata database:
+
+```shell
+gitlab-psql -d registry
+```
+
+### Queries to determine status of online garbage collection tasks 
+
+The following queries return tasks that were retried more than 10 times, or were eligible for review for longer than 24 hours. 
+The online garbage collector should pick up an item for review within 24 hours with few failed attempts. 
+If any rows are returned, investigate the health of your online garbage collector.
 
 For manifests:
 

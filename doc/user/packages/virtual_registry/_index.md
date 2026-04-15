@@ -90,6 +90,8 @@ Access tokens and the CI/CD job token are resolved to users. The resolved user m
 > [!note]
 > CI/CD job tokens resolve to the user who triggered the pipeline. That user must
 > be a direct member of the top-level group to access the virtual registry.
+> [CI/CD job token allowlists](../../../ci/jobs/ci_job_token.md#control-job-token-access-to-your-project)
+> do not apply to virtual registry authentication.
 
 ## Manage virtual registries
 

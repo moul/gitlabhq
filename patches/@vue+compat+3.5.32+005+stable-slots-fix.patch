@@ -1,8 +1,8 @@
 diff --git a/node_modules/@vue/compat/dist/vue.cjs.js b/node_modules/@vue/compat/dist/vue.cjs.js
-index fe072bd..2b5dce0 100644
+index aaaaaaa..bbbbbbb 100644
 --- a/node_modules/@vue/compat/dist/vue.cjs.js
 +++ b/node_modules/@vue/compat/dist/vue.cjs.js
-@@ -6142,7 +6142,9 @@ function convertLegacyDirectives(vnode, props) {
+@@ -6160,7 +6160,9 @@
  function convertLegacySlots(vnode) {
    const { props, children } = vnode;
    let slots;
@@ -12,7 +12,31 @@ index fe072bd..2b5dce0 100644
      slots = {};
      for (let i = 0; i < children.length; i++) {
        const child = children[i];
-@@ -6172,6 +6174,9 @@ function convertLegacySlots(vnode) {
+@@ -6190,6 +6192,9 @@
+     }
+   }
+   if (slots) {
++    if (hadArrayChildren) {
++      slots.$stable = false;
++    }
+     normalizeChildren(vnode, slots);
+   }
+   return vnode;
+diff --git a/node_modules/@vue/compat/dist/vue.esm-bundler.js b/node_modules/@vue/compat/dist/vue.esm-bundler.js
+index aaaaaaa..bbbbbbb 100644
+--- a/node_modules/@vue/compat/dist/vue.esm-bundler.js
++++ b/node_modules/@vue/compat/dist/vue.esm-bundler.js
+@@ -6140,7 +6140,9 @@
+ function convertLegacySlots(vnode) {
+   const { props, children } = vnode;
+   let slots;
++  let hadArrayChildren = false;
+   if (vnode.shapeFlag & 6 && isArray(children)) {
++    hadArrayChildren = true;
+     slots = {};
+     for (let i = 0; i < children.length; i++) {
+       const child = children[i];
+@@ -6170,6 +6172,9 @@
      }
    }
    if (slots) {
@@ -23,10 +47,10 @@ index fe072bd..2b5dce0 100644
    }
    return vnode;
 diff --git a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
-index 3d4f234..c9e127e 100644
+index aaaaaaa..bbbbbbb 100644
 --- a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
 +++ b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
-@@ -6049,7 +6049,9 @@ function convertLegacyDirectives(vnode, props) {
+@@ -6067,7 +6067,9 @@
  function convertLegacySlots(vnode) {
    const { props, children } = vnode;
    let slots;
@@ -36,7 +60,7 @@ index 3d4f234..c9e127e 100644
      slots = {};
      for (let i = 0; i < children.length; i++) {
        const child = children[i];
-@@ -6079,6 +6081,9 @@ function convertLegacySlots(vnode) {
+@@ -6097,6 +6099,9 @@
      }
    }
    if (slots) {

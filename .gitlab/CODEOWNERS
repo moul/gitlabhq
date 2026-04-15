@@ -135,6 +135,11 @@ config/bounded_contexts.yml @fabiopitino @grzesiek @stanhu @cwoolley-gitlab @tku
 ^[Frontend dependency patches] @markrian @xanf @thutterer
 /patches/
 
+# @vue/compat patches need special care, and are tricky to regenerate.
+# See https://gitlab.com/gitlab-org/frontend/vuejs-core/-/blob/v3.5.30-gitlab-hybrid/README.md.
+[Vue 3 compat patches] @xanf @mrincon @psjakubowska @ntepluhina @markrian
+/patches/@vue+compat*.patch
+
 [Data Seeder] @gl-dx
 /ee/db/seeds/data_seeder/
 /scripts/data_seeder/

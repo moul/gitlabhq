@@ -33,8 +33,7 @@ module RapidDiffs
       # as we should show the latest diff when it is selected.
       diffs_project_merge_request_path(
         merge_request.target_project,
-        merge_request,
-        path_options
+        merge_request
       )
     end
 
@@ -51,7 +50,7 @@ module RapidDiffs
         merge_request.target_project,
         merge_request,
         current_merge_request_diff || merge_request_diffs.first,
-        path_options.merge(start_sha: merge_request_diff.head_commit_sha)
+        { start_sha: merge_request_diff.head_commit_sha }
       )
     end
   end

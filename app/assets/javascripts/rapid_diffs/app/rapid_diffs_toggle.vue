@@ -60,11 +60,15 @@ export default {
   methods: {
     enable() {
       setCookie(RAPID_DIFFS_COOKIE_NAME, 'true');
-      window.location.reload();
+      const url = new URL(window.location.href);
+      url.searchParams.delete('rapid_diffs_disabled');
+      window.location.assign(url.toString());
     },
     disable() {
       removeCookie(RAPID_DIFFS_COOKIE_NAME);
-      window.location.reload();
+      const url = new URL(window.location.href);
+      url.searchParams.delete('rapid_diffs');
+      window.location.assign(url.toString());
     },
   },
   i18n: {

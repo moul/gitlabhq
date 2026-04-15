@@ -23,8 +23,7 @@ module RapidDiffs
       merge_request_version_path(
         merge_request.target_project,
         merge_request,
-        merge_request_diff,
-        path_options
+        merge_request_diff
       )
     end
 
@@ -35,7 +34,7 @@ module RapidDiffs
         merge_request.target_project,
         merge_request,
         merge_request_diff,
-        path_options.merge(start_sha: options[:start_sha])
+        { start_sha: options[:start_sha] }
       )
     end
   end

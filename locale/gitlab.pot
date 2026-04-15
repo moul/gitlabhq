@@ -79253,6 +79253,9 @@ msgstr ""
 msgid "VulnerabilityStatusTypes|Resolved"
 msgstr ""
 
+msgid "Vulnerability|%{file} is not part of this repository. It belongs to an %{linkStart}included submodule%{linkEnd}."
+msgstr ""
+
 msgid "Vulnerability|%{file} was not found in commit %{ref}"
 msgstr ""
 

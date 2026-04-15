@@ -743,7 +743,6 @@ export default class MergeRequestTabs {
       newPath: position?.new_path,
       hash: noteId ? `note_${noteId}` : undefined,
     });
-    url.searchParams.set('rapid_diffs', 'true');
     visitUrl(url.toString());
   }
 

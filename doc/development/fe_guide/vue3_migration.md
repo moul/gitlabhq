@@ -282,3 +282,7 @@ Some libraries rely on Vue.js 2 internals. They might not work with `@vue/compat
 
 For more information about implementing or fixing tests that fail while using Vue 3, read the
 [Vue 3 testing guide](../testing_guide/testing_vue3.md).
+
+## Updating `@vue/compat` patches
+
+See [this document](https://gitlab.com/gitlab-org/frontend/vuejs-core/-/blob/v3.5.30-gitlab-hybrid/README.md) for information about how to update our `@vue/compat` patches, as it can be tricky.

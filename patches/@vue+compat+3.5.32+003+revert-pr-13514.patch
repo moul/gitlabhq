@@ -1,27 +1,29 @@
 diff --git a/node_modules/@vue/compat/dist/vue.cjs.js b/node_modules/@vue/compat/dist/vue.cjs.js
-index 2977a69..d6fcbe4 100644
+index aaaaaaa..bbbbbbb 100644
 --- a/node_modules/@vue/compat/dist/vue.cjs.js
 +++ b/node_modules/@vue/compat/dist/vue.cjs.js
-@@ -6664,6 +6664,7 @@ const PublicInstanceProxyHandlers = {
-       return true;
-     }
-     const { ctx, setupState, data, props, accessCache, type, appContext } = instance;
-+    let normalizedProps;
+@@ -6689,6 +6689,7 @@
      if (key === "__isVue") {
        return true;
      }
-@@ -6686,7 +6687,9 @@ const PublicInstanceProxyHandlers = {
++    let normalizedProps;
+     if (key[0] !== "$") {
+       const n = accessCache[key];
+       if (n !== void 0) {
+@@ -6708,7 +6709,11 @@
        } else if (data !== EMPTY_OBJ && hasOwn(data, key)) {
          accessCache[key] = 2 /* DATA */;
          return data[key];
 -      } else if (hasOwn(props, key)) {
 +      } else if (
++        // only cache other properties when instance has declared (thus stable)
++        // props
 +        (normalizedProps = instance.propsOptions[0]) && hasOwn(normalizedProps, key)
 +      ) {
          accessCache[key] = 3 /* PROPS */;
          return props[key];
        } else if (ctx !== EMPTY_OBJ && hasOwn(ctx, key)) {
-@@ -6777,10 +6780,10 @@ const PublicInstanceProxyHandlers = {
+@@ -6799,10 +6804,10 @@
      return true;
    },
    has({
@@ -36,18 +38,18 @@ index 2977a69..d6fcbe4 100644
    defineProperty(target, key, descriptor) {
      if (descriptor.get != null) {
 diff --git a/node_modules/@vue/compat/dist/vue.esm-bundler.js b/node_modules/@vue/compat/dist/vue.esm-bundler.js
-index 9bb7121..d33e679 100644
+index aaaaaaa..bbbbbbb 100644
 --- a/node_modules/@vue/compat/dist/vue.esm-bundler.js
 +++ b/node_modules/@vue/compat/dist/vue.esm-bundler.js
-@@ -6644,6 +6644,7 @@ const PublicInstanceProxyHandlers = {
-       return true;
-     }
-     const { ctx, setupState, data, props, accessCache, type, appContext } = instance;
-+    let normalizedProps;
+@@ -6669,6 +6669,7 @@
      if (!!(process.env.NODE_ENV !== "production") && key === "__isVue") {
        return true;
      }
-@@ -6666,7 +6667,11 @@ const PublicInstanceProxyHandlers = {
++    let normalizedProps;
+     if (key[0] !== "$") {
+       const n = accessCache[key];
+       if (n !== void 0) {
+@@ -6688,7 +6689,11 @@
        } else if (__VUE_OPTIONS_API__ && data !== EMPTY_OBJ && hasOwn(data, key)) {
          accessCache[key] = 2 /* DATA */;
          return data[key];
@@ -60,7 +62,7 @@ index 9bb7121..d33e679 100644
          accessCache[key] = 3 /* PROPS */;
          return props[key];
        } else if (ctx !== EMPTY_OBJ && hasOwn(ctx, key)) {
-@@ -6757,10 +6762,10 @@ const PublicInstanceProxyHandlers = {
+@@ -6779,10 +6784,10 @@
      return true;
    },
    has({
@@ -75,18 +77,18 @@ index 9bb7121..d33e679 100644
    defineProperty(target, key, descriptor) {
      if (descriptor.get != null) {
 diff --git a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
-index 7794465..33bd9dc 100644
+index aaaaaaa..bbbbbbb 100644
 --- a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
 +++ b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
-@@ -6571,6 +6571,7 @@ const PublicInstanceProxyHandlers = {
-       return true;
-     }
-     const { ctx, setupState, data, props, accessCache, type, appContext } = instance;
-+    let normalizedProps;
+@@ -6596,6 +6596,7 @@
      if (!!(process.env.NODE_ENV !== "production") && key === "__isVue") {
        return true;
      }
-@@ -6593,7 +6594,11 @@ const PublicInstanceProxyHandlers = {
++    let normalizedProps;
+     if (key[0] !== "$") {
+       const n = accessCache[key];
+       if (n !== void 0) {
+@@ -6615,7 +6616,11 @@
        } else if (__VUE_OPTIONS_API__ && data !== EMPTY_OBJ && hasOwn(data, key)) {
          accessCache[key] = 2 /* DATA */;
          return data[key];
@@ -99,7 +101,7 @@ index 7794465..33bd9dc 100644
          accessCache[key] = 3 /* PROPS */;
          return props[key];
        } else if (ctx !== EMPTY_OBJ && hasOwn(ctx, key)) {
-@@ -6684,10 +6689,10 @@ const PublicInstanceProxyHandlers = {
+@@ -6706,10 +6711,10 @@
      return true;
    },
    has({

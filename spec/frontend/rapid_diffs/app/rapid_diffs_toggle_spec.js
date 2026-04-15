@@ -1,5 +1,6 @@
 import { GlPopover, GlDisclosureDropdownGroup } from '@gitlab/ui';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
+import { useMockLocationHelper } from 'helpers/mock_window_location_helper';
 import RapidDiffsToggle from '~/rapid_diffs/app/rapid_diffs_toggle.vue';
 import { setCookie, removeCookie, getCookie } from '~/lib/utils/common_utils';
 import { RAPID_DIFFS_COOKIE_NAME } from '~/rapid_diffs/constants';
@@ -11,6 +12,8 @@ const DOCS_URL = helpPagePath('user/project/merge_requests/changes', { anchor: '
 
 describe('RapidDiffsToggle', () => {
   let wrapper;
+
+  useMockLocationHelper();
 
   const findTryButton = () => wrapper.findByTestId('rapid-diffs-try-button');
   const findBadge = () => wrapper.findByTestId('rapid-diffs-beta-badge');
@@ -24,13 +27,11 @@ describe('RapidDiffsToggle', () => {
     wrapper = shallowMountExtended(RapidDiffsToggle);
   };
 
-  beforeEach(() => {
-    delete window.location;
-    window.location = { reload: jest.fn() };
-  });
-
   describe('when disabled', () => {
-    beforeEach(() => createComponent(null));
+    beforeEach(() => {
+      window.location.href = 'https://example.com/diffs?rapid_diffs_disabled=true';
+      createComponent(null);
+    });
 
     it('renders the try button with beta badge and popover', () => {
       expect(findTryButton().props()).toMatchObject({ variant: 'confirm', category: 'tertiary' });
@@ -39,15 +40,18 @@ describe('RapidDiffsToggle', () => {
       expect(findLearnMoreButton().attributes('href')).toBe(DOCS_URL);
     });
 
-    it('sets cookie and reloads on click', () => {
+    it('sets cookie and navigates without rapid_diffs_disabled param on click', () => {
       findTryButton().vm.$emit('click');
       expect(setCookie).toHaveBeenCalledWith(RAPID_DIFFS_COOKIE_NAME, 'true');
-      expect(window.location.reload).toHaveBeenCalled();
+      expect(window.location.assign).toHaveBeenCalledWith('https://example.com/diffs');
     });
   });
 
   describe('when enabled', () => {
-    beforeEach(() => createComponent('true'));
+    beforeEach(() => {
+      window.location.href = 'https://example.com/diffs?rapid_diffs=true';
+      createComponent('true');
+    });
 
     it('renders the dropdown with two groups separated by a divider', () => {
       const dropdown = findDropdown();
@@ -75,11 +79,11 @@ describe('RapidDiffsToggle', () => {
       ]);
     });
 
-    it('removes cookie and reloads when switching to classic', () => {
+    it('removes cookie and navigates without rapid_diffs param when switching to classic', () => {
       const switchGroup = findDropdownGroups().at(1);
       switchGroup.props('group').items[0].action();
       expect(removeCookie).toHaveBeenCalledWith(RAPID_DIFFS_COOKIE_NAME);
-      expect(window.location.reload).toHaveBeenCalled();
+      expect(window.location.assign).toHaveBeenCalledWith('https://example.com/diffs');
     });
   });
 });

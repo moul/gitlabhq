@@ -24,7 +24,8 @@ RSpec.describe 'Edit group settings', :with_current_organization, feature_catego
   end
 
   describe 'when the group path is changed' do
-    let(:new_group_path) { 'bar' }
+    let(:new_group_path) { "bar-#{SecureRandom.hex(4)}" }
+    let(:group) { create(:group, path: "foo-#{SecureRandom.hex(4)}", owners: [user]) }
     let(:old_group_full_path) { "/#{group.path}" }
     let(:new_group_full_path) { "/#{new_group_path}" }
 

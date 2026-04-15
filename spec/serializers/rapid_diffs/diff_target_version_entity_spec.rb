@@ -205,8 +205,7 @@ RSpec.describe RapidDiffs::DiffTargetVersionEntity, feature_category: :code_revi
       it 'returns diffs_project_merge_request_path without start_sha' do
         expected_path = diffs_project_merge_request_path(
           project,
-          merge_request,
-          rapid_diffs: true
+          merge_request
         )
 
         expect(serialized[:href]).to eq(expected_path)
@@ -224,8 +223,7 @@ RSpec.describe RapidDiffs::DiffTargetVersionEntity, feature_category: :code_revi
       it 'returns diffs_project_merge_request_path without start_sha' do
         expected_path = diffs_project_merge_request_path(
           project,
-          merge_request,
-          rapid_diffs: true
+          merge_request
         )
 
         expect(serialized[:href]).to eq(expected_path)
@@ -245,7 +243,6 @@ RSpec.describe RapidDiffs::DiffTargetVersionEntity, feature_category: :code_revi
           project,
           merge_request,
           merge_request.latest_merge_request_diff,
-          rapid_diffs: true,
           start_sha: merge_request_diff.head_commit_sha
         )
 
@@ -270,7 +267,6 @@ RSpec.describe RapidDiffs::DiffTargetVersionEntity, feature_category: :code_revi
             project,
             merge_request,
             diff_1,
-            rapid_diffs: true,
             start_sha: merge_request_diff.head_commit_sha
           )
 

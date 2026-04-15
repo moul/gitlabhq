@@ -1,8 +1,8 @@
 diff --git a/node_modules/@vue/compat/dist/vue.cjs.js b/node_modules/@vue/compat/dist/vue.cjs.js
-index 3d48821..194a402 100644
+index aaaaaaa..bbbbbbb 100644
 --- a/node_modules/@vue/compat/dist/vue.cjs.js
 +++ b/node_modules/@vue/compat/dist/vue.cjs.js
-@@ -6486,7 +6486,7 @@ function legacyCheckKeyCodes(instance, eventKeyCode, key, builtInKeyCode, eventK
+@@ -6513,7 +6513,7 @@
    const configKeyCodes = config.keyCodes || {};
    const mappedKeyCode = configKeyCodes[key] || builtInKeyCode;
    if (builtInKeyName && eventKeyName && !configKeyCodes[key]) {
@@ -11,7 +11,7 @@ index 3d48821..194a402 100644
    } else if (mappedKeyCode) {
      return isKeyNotMatch(mappedKeyCode, eventKeyCode);
    } else if (eventKeyName) {
-@@ -6497,9 +6497,14 @@ function legacyCheckKeyCodes(instance, eventKeyCode, key, builtInKeyCode, eventK
+@@ -6524,9 +6524,14 @@
  function normalizeKeyForComparison(key) {
    return typeof key === "string" ? key.toLowerCase() : key;
  }
@@ -19,8 +19,37 @@ index 3d48821..194a402 100644
 +function isKeyNotMatch(expect, actual, modifierKey) {
    const normalizedActual = normalizeKeyForComparison(actual);
    if (isArray(expect)) {
-+    // patch-package: also check if actual matches the modifier key name
-+    // Vue 3 test-utils sends key: 'space' instead of key: ' '
++    /*! patch-package: also check if actual matches the modifier key name
++     * Vue 3 test-utils sends key: 'space' instead of key: ' ' */
++    if (modifierKey && normalizedActual === normalizeKeyForComparison(modifierKey)) {
++      return false;
++    }
+     return !expect.map(normalizeKeyForComparison).includes(normalizedActual);
+   } else {
+     return normalizeKeyForComparison(expect) !== normalizedActual;
+diff --git a/node_modules/@vue/compat/dist/vue.esm-bundler.js b/node_modules/@vue/compat/dist/vue.esm-bundler.js
+index aaaaaaa..bbbbbbb 100644
+--- a/node_modules/@vue/compat/dist/vue.esm-bundler.js
++++ b/node_modules/@vue/compat/dist/vue.esm-bundler.js
+@@ -6493,7 +6493,7 @@
+   const configKeyCodes = config.keyCodes || {};
+   const mappedKeyCode = configKeyCodes[key] || builtInKeyCode;
+   if (builtInKeyName && eventKeyName && !configKeyCodes[key]) {
+-    return isKeyNotMatch(builtInKeyName, eventKeyName);
++    return isKeyNotMatch(builtInKeyName, eventKeyName, key);
+   } else if (mappedKeyCode) {
+     return isKeyNotMatch(mappedKeyCode, eventKeyCode);
+   } else if (eventKeyName) {
+@@ -6504,9 +6504,14 @@
+ function normalizeKeyForComparison(key) {
+   return typeof key === "string" ? key.toLowerCase() : key;
+ }
+-function isKeyNotMatch(expect, actual) {
++function isKeyNotMatch(expect, actual, modifierKey) {
+   const normalizedActual = normalizeKeyForComparison(actual);
+   if (isArray(expect)) {
++    /*! patch-package: also check if actual matches the modifier key name
++     * Vue 3 test-utils sends key: 'space' instead of key: ' ' */
 +    if (modifierKey && normalizedActual === normalizeKeyForComparison(modifierKey)) {
 +      return false;
 +    }
@@ -28,10 +57,10 @@ index 3d48821..194a402 100644
    } else {
      return normalizeKeyForComparison(expect) !== normalizedActual;
 diff --git a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
-index d9b5733..c3eadcf 100644
+index aaaaaaa..bbbbbbb 100644
 --- a/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
 +++ b/node_modules/@vue/compat/dist/vue.runtime.esm-bundler.js
-@@ -6393,7 +6393,7 @@ function legacyCheckKeyCodes(instance, eventKeyCode, key, builtInKeyCode, eventK
+@@ -6420,7 +6420,7 @@
    const configKeyCodes = config.keyCodes || {};
    const mappedKeyCode = configKeyCodes[key] || builtInKeyCode;
    if (builtInKeyName && eventKeyName && !configKeyCodes[key]) {
@@ -40,7 +69,7 @@ index d9b5733..c3eadcf 100644
    } else if (mappedKeyCode) {
      return isKeyNotMatch(mappedKeyCode, eventKeyCode);
    } else if (eventKeyName) {
-@@ -6404,9 +6404,14 @@ function legacyCheckKeyCodes(instance, eventKeyCode, key, builtInKeyCode, eventK
+@@ -6431,9 +6431,14 @@
  function normalizeKeyForComparison(key) {
    return typeof key === "string" ? key.toLowerCase() : key;
  }
@@ -48,8 +77,8 @@ index d9b5733..c3eadcf 100644
 +function isKeyNotMatch(expect, actual, modifierKey) {
    const normalizedActual = normalizeKeyForComparison(actual);
    if (isArray(expect)) {
-+    // patch-package: also check if actual matches the modifier key name
-+    // Vue 3 test-utils sends key: 'space' instead of key: ' '
++    /*! patch-package: also check if actual matches the modifier key name
++     * Vue 3 test-utils sends key: 'space' instead of key: ' ' */
 +    if (modifierKey && normalizedActual === normalizeKeyForComparison(modifierKey)) {
 +      return false;
 +    }
