@@ -1,4 +1,6 @@
 <script>
+import { getNoteIdFromHash, discussionsContainNote } from '~/notes/utils/note_hash';
+import { hasScrolled } from '~/rapid_diffs/utils/scroll_to_linked_fragment';
 import DiffGutterToggle from './diff_gutter_toggle.vue';
 import DiffLineDiscussions from './diff_line_discussions.vue';
 
@@ -78,7 +80,21 @@ export default {
       this.positions.forEach((p) => this.store.setPositionDiscussionsHidden(p, resolved));
     },
   },
+  mounted() {
+    this.expandDiscussionForNoteFragment();
+  },
   methods: {
+    expandDiscussionForNoteFragment() {
+      if (hasScrolled()) return;
+      const noteId = getNoteIdFromHash();
+      if (!noteId) return;
+      for (const position of this.positions) {
+        if (discussionsContainNote(this.store.findLineDiscussionsForPosition(position), noteId)) {
+          this.toggle(false);
+          return;
+        }
+      }
+    },
     pos(oldLine, newLine) {
       const { oldPath, newPath } = this.filePaths;
       return { oldPath, newPath, oldLine, newLine };

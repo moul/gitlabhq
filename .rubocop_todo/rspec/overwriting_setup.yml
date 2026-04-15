@@ -1,7 +1,6 @@
 ---
 RSpec/OverwritingSetup:
   Exclude:
-    - 'ee/spec/features/groups/analytics/ci_cd_analytics_spec.rb'
     - 'ee/spec/lib/gitlab/analytics/type_of_work/tasks_by_type_spec.rb'
     - 'ee/spec/requests/api/namespaces_spec.rb'
     - 'spec/finders/packages/helm/packages_finder_spec.rb'

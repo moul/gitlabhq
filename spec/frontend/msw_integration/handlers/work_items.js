@@ -90,125 +90,115 @@ const FIXTURE_RESPONSES = {
   projectMilestones: milestonesResponse,
 };
 
-export function handleWorkItemOperation({ operationName, variables, res, ctx }) {
-  if (operationName === 'createWorkItemNote') {
-    return res(ctx.json(createNoteResponse));
-  }
+// static fixtures
+const STATIC_OPERATION_HANDLERS = Object.fromEntries(
+  Object.entries(FIXTURE_RESPONSES).map(([operationName, fixture]) => [
+    operationName,
+    () => ({ data: fixture.data }),
+  ]),
+);
 
-  if (operationName === 'workItemSubscribe') {
-    return res(
-      ctx.json({
-        data: {
-          workItemSubscribe: {
-            errors: [],
-            workItem: {
-              __typename: 'WorkItem',
-              id: variables.input.id,
-              widgets: [
-                {
-                  type: 'NOTIFICATIONS',
-                  subscribed: variables.input.subscribed,
-                  __typename: 'WorkItemWidgetNotifications',
-                },
-              ],
+// Dynamic / mutation handlers
+const MUTATION_OPERATION_HANDLERS = {
+  createWorkItemNote: () => createNoteResponse,
+
+  workItemSubscribe: ({ variables }) => ({
+    data: {
+      workItemSubscribe: {
+        errors: [],
+        workItem: {
+          __typename: 'WorkItem',
+          id: variables.input.id,
+          widgets: [
+            {
+              type: 'NOTIFICATIONS',
+              subscribed: variables.input.subscribed,
+              __typename: 'WorkItemWidgetNotifications',
             },
-          },
+          ],
         },
-      }),
-    );
-  }
+      },
+    },
+  }),
 
-  if (operationName === 'savedViews') {
-    return res(
-      ctx.json({
-        data: {
-          namespace: {
-            id: 'gid://gitlab/Group/1',
-            savedViews: { nodes: [] },
-          },
+  savedViews: () => ({
+    data: {
+      namespace: {
+        id: 'gid://gitlab/Group/1',
+        savedViews: { nodes: [] },
+      },
+    },
+  }),
+
+  getUser: () => ({
+    data: {
+      currentUser: {
+        id: 'gid://gitlab/User/1',
+        callouts: {
+          nodes: [{ featureName: 'work_items_onboarding_modal', __typename: 'UserCallout' }],
         },
-      }),
-    );
-  }
+        __typename: 'UserCore',
+      },
+    },
+  }),
 
-  if (operationName === 'getUser') {
-    return res(
-      ctx.json({
-        data: {
-          currentUser: {
-            id: 'gid://gitlab/User/1',
-            callouts: {
-              nodes: [{ featureName: 'work_items_onboarding_modal', __typename: 'UserCallout' }],
-            },
-            __typename: 'UserCore',
-          },
+  getWorkItemsCountOnlyEE: () => ({
+    data: {
+      namespace: {
+        id: 'gid://gitlab/Group/1',
+        name: 'group1',
+        workItems: { count: workItemsFullResponse.data.namespace.workItems.nodes.length },
+      },
+    },
+  }),
+
+  updateWorkItemListUserPreference: ({ variables }) => ({
+    data: {
+      workItemUserPreferenceUpdate: {
+        errors: [],
+        userPreferences: {
+          displaySettings: variables.displaySettings,
+          sort: variables.sort || null,
         },
-      }),
-    );
-  }
+      },
+    },
+  }),
 
-  if (operationName === 'getWorkItemsCountOnlyEE') {
-    return res(
-      ctx.json({
-        data: {
-          namespace: {
-            id: 'gid://gitlab/Group/1',
-            name: 'group1',
-            workItems: { count: workItemsFullResponse.data.namespace.workItems.nodes.length },
-          },
+  updateWorkItemsDisplaySettings: ({ variables }) => ({
+    data: {
+      userPreferencesUpdate: {
+        userPreferences: {
+          workItemsDisplaySettings: variables.input?.workItemsDisplaySettings || {},
         },
-      }),
-    );
-  }
+      },
+    },
+  }),
 
-  if (operationName === 'updateWorkItemListUserPreference') {
-    return res(
-      ctx.json({
-        data: {
-          workItemUserPreferenceUpdate: {
-            errors: [],
-            userPreferences: {
-              displaySettings: variables.displaySettings,
-              sort: variables.sort || null,
-            },
-          },
-        },
-      }),
-    );
-  }
-
-  if (operationName === 'updateWorkItemsDisplaySettings') {
-    return res(
-      ctx.json({
-        data: {
-          userPreferencesUpdate: {
-            userPreferences: {
-              workItemsDisplaySettings: variables.input?.workItemsDisplaySettings || {},
-            },
-          },
-        },
-      }),
-    );
-  }
-
-  if (operationName === 'workItemUpdate') {
-    const updateResult = buildUpdateResponse({
+  workItemUpdate: ({ variables }) =>
+    buildUpdateResponse({
       baseResponse: baseUpdateResponse,
       labelsFixture: updateLabelsResponse,
       assigneesFixture: updateAssigneesResponse,
       milestoneFixture: updateMilestoneResponse,
       input: variables.input,
-    });
-    return res(ctx.json(updateResult));
+    }),
+};
+
+const OPERATION_HANDLERS = {
+  ...STATIC_OPERATION_HANDLERS,
+  ...MUTATION_OPERATION_HANDLERS,
+};
+
+export function handleWorkItemOperation({ operationName, variables, res, ctx }) {
+  const handler = OPERATION_HANDLERS[operationName];
+
+  if (!handler) {
+    return null;
   }
 
-  const fixture = FIXTURE_RESPONSES[operationName];
+  const payload = handler({ operationName, variables });
 
-  if (fixture) {
-    return res(ctx.json({ data: fixture.data }));
-  }
-
-  return null;
+  return res(ctx.json(payload));
 }
 
 export const workItemRestEndpoints = [

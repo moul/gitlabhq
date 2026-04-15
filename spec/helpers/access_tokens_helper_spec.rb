@@ -85,13 +85,14 @@ RSpec.describe AccessTokensHelper, feature_category: :system_access do
           min_date: '2022-03-02'
         }
       )
+      allow(Gitlab::Auth).to receive(:available_scopes_for).and_return([])
     end
 
     it 'returns data for the PATs UI in the user settings' do
       expect(helper.personal_access_token_data({ name: 'My token',
         description: 'My description',
-        scopes: [:api, :sudo] }, 'dummy_user')).to match(a_hash_including({
-          access_token: {
+        scopes: [:api, :sudo] }, build_stubbed(:user))).to match({
+          access_token: a_hash_including({
             max_date: '2022-03-02',
             min_date: '2022-03-02',
             available_scopes: '[]',
@@ -105,8 +106,8 @@ RSpec.describe AccessTokensHelper, feature_category: :system_access do
             revoke: '/api/v4/personal_access_tokens',
             rotate: '/api/v4/personal_access_tokens',
             show: '/api/v4/personal_access_tokens?user_id=:id'
-          }
-        }))
+          })
+        })
     end
   end
 

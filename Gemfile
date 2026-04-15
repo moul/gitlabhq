@@ -524,7 +524,7 @@ group :development, :test do
   gem 'spring', '~> 4.3.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
   gem 'spring-commands-rspec', '~> 1.0.4', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 
-  gem 'gitlab-styles', '~> 13.1.0', feature_category: :tooling, require: false
+  gem 'gitlab-styles', '~> 14.0', feature_category: :tooling, require: false
   gem 'haml_lint', '~> 0.58', feature_category: :tooling, require: false
 
   # Benchmarking & profiling

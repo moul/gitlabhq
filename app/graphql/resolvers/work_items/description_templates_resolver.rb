@@ -71,6 +71,4 @@ module Resolvers
   end
 end
 
-# rubocop:disable Layout/LineLength -- prepend statement is too long
 Resolvers::WorkItems::DescriptionTemplatesResolver.prepend_mod_with('Resolvers::WorkItems::DescriptionTemplatesResolver')
-# rubocop:enable Layout/LineLength

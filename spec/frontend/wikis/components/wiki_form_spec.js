@@ -696,6 +696,29 @@ describe('WikiForm', () => {
     });
   });
 
+  describe('title newline prevention', () => {
+    beforeEach(() => {
+      createWrapper({
+        mountFn: mountExtended,
+        persisted: true,
+      });
+    });
+
+    it('prevents Enter key from inserting a newline', () => {
+      const titleInput = findTitle();
+      const event = new KeyboardEvent('keydown', { key: 'Enter', cancelable: true });
+      titleInput.element.dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(true);
+    });
+
+    it('replaces newlines with spaces in pasted content', async () => {
+      await inputTitle('line1\nline2\rline3\u2028line4\u2029line5');
+
+      expect(findTitle().element.value).toBe('line1 line2 line3 line4 line5');
+    });
+  });
+
   describe.each`
     case                                                                                    | persisted | originalTitle                     | originalPath                      | titleInput   | expectedTitle | expectedPath
     ${'new page with parent path and title'}                                                | ${false}  | ${'parent/path/{new_page_title}'} | ${'parent/path/{new_page_title}'} | ${'My page'} | ${'My page'}  | ${'parent/path/My-page'}

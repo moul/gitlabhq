@@ -11,7 +11,7 @@ module AiHarness
       module PerformDoctorChecks
         class CheckAiReferences
           CHECK_NAME = '.ai/ reference resolution'
-          AI_REF_PATTERN = %r{\.ai/[\w.\-/]+[\w]}
+          AI_REF_PATTERN = %r{\.ai/[\w.\-/]+\w}
 
           # @param context [Hash] the ROP chain context
           # @return [Hash]

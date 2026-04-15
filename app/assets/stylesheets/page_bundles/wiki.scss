@@ -241,9 +241,10 @@
 }
 
 .wiki-page-details, .wiki-comments {
-  @apply gl-w-full;
   @apply gl-mx-auto;
   @apply gl-relative;
+  min-width: 0;
+  flex: 1 1 0;
   max-width: $wiki-content-default-width;
 }
 
@@ -317,6 +318,8 @@ ul.wiki-pages-list.content-list {
     .flexible-input {
       // stylelint-disable-next-line property-no-unknown
       field-sizing: content;
+      overflow-wrap: break-word;
+      max-width: 100%;
     }
 
     .flexible-input-container {

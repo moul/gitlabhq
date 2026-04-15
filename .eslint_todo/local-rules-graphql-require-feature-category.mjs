@@ -1366,7 +1366,6 @@ export default {
     'ee/app/assets/javascripts/security_dashboard/graphql/queries/vulnerability_blob_info.query.graphql',
     'ee/app/assets/javascripts/security_dashboard/graphql/queries/vulnerability_discussions.query.graphql',
     'ee/app/assets/javascripts/security_dashboard/graphql/queries/vulnerability_external_issues.query.graphql',
-    'ee/app/assets/javascripts/security_dashboard/graphql/queries/vulnerability_severities_count.query.graphql',
     'ee/app/assets/javascripts/security_inventory/graphql/group_avatar_and_parent.query.graphql',
     'ee/app/assets/javascripts/security_inventory/graphql/subgroups.query.graphql',
     'ee/app/assets/javascripts/security_inventory/graphql/subgroups_and_projects.query.graphql',

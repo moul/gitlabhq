@@ -553,7 +553,10 @@ export default {
     },
 
     handleTitleInput(event) {
-      const newValue = event.target ? event.target.value : event;
+      const newValue = (event.target ? event.target.value : event).replace(
+        /[\r\n\u2028\u2029]/g,
+        ' ',
+      );
 
       if (this.placeholderActive) {
         // Check if user has modified the placeholder area
@@ -566,6 +569,11 @@ export default {
     },
 
     async handleTitleKeydown(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        return;
+      }
+
       if (this.placeholderActive && this.isPrintableKey(event)) {
         this.placeholderActive = false;
 
@@ -821,7 +829,7 @@ export default {
                   <wiki-sidebar-toggle action="open" />
                 </div>
                 <div
-                  class="flexible-input-container gl-my-2 gl-flex gl-items-center gl-gap-2 gl-overflow-hidden gl-p-2"
+                  class="flexible-input-container gl-my-2 gl-flex gl-items-start gl-gap-2 gl-overflow-hidden gl-p-2"
                 >
                   <h1 v-if="isCustomSidebar" class="gl-heading-3 !gl-mb-0 md:gl-heading-2">
                     {{
@@ -830,12 +838,12 @@ export default {
                         : s__('Wiki|Create custom sidebar')
                     }}
                   </h1>
-                  <input
+                  <textarea
                     v-else
                     id="wiki_title"
                     ref="titleInput"
                     v-model="pageTitle"
-                    class="flexible-input gl-heading-3 !gl-mb-0 gl-flex-1 gl-overflow-hidden gl-rounded-md gl-border-none gl-bg-transparent gl-shadow-none md:gl-heading-2"
+                    class="flexible-input gl-heading-3 !gl-mb-0 gl-max-h-[4lh] gl-flex-1 gl-resize-none gl-overflow-x-hidden gl-overflow-y-scroll gl-rounded-md gl-border-none gl-bg-transparent gl-shadow-none md:gl-heading-2"
                     data-testid="wiki-title-textbox"
                     required
                     :autofocus="!pageInfo.persisted"
@@ -844,7 +852,7 @@ export default {
                     @input="handleTitleInput"
                     @keydown="handleTitleKeydown"
                     @focus="handleTitleFocus"
-                  />
+                  ></textarea>
                   <gl-disclosure-dropdown
                     icon="chevron-down"
                     :toggle-text="s__('Wiki|Edit page options')"

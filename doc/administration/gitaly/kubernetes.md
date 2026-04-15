@@ -21,8 +21,6 @@ title: Gitaly on Kubernetes
 
 {{< /history >}}
 
-> [!disclaimer]
-
 Running Gitaly on Kubernetes has availability trade-offs, so consider these trade-offs when planing a production environment and set expectations accordingly.
 This document describes and provides guidance on how to minimize, and plan for existing limitations.
 

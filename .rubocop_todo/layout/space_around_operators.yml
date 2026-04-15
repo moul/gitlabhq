@@ -1,0 +1,6 @@
+---
+# Cop supports --autocorrect.
+Layout/SpaceAroundOperators:
+  Details: grace period
+  Exclude:
+    - 'ee/app/services/remote_development/service_response_factory.rb'

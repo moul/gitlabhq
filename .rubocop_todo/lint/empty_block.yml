@@ -77,7 +77,6 @@ Lint/EmptyBlock:
     - 'spec/lib/gitlab/memory/reports_daemon_spec.rb'
     - 'spec/lib/gitlab/metrics/background_transaction_spec.rb'
     - 'spec/lib/gitlab/metrics/web_transaction_spec.rb'
-    - 'spec/lib/gitlab/patch/prependable_spec.rb'
     - 'spec/lib/gitlab/profiler_spec.rb'
     - 'spec/lib/gitlab/quick_actions/extractor_spec.rb'
     - 'spec/lib/gitlab/search_context/builder_spec.rb'

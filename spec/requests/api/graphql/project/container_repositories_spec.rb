@@ -189,9 +189,7 @@ RSpec.describe 'getting container repositories in a project', feature_category: 
     end
 
     def pagination_results_data(data)
-      # rubocop:disable Rails/Pluck -- doing .pluck is only valid inside model hence disabling
       data.map { |container_repository| container_repository['name'] }
-      # rubocop:enable Rails/Pluck
     end
 
     context 'when sorting by name' do

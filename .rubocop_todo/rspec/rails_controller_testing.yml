@@ -9,7 +9,6 @@ RSpec/RailsControllerTesting:
     - 'ee/spec/controllers/admin/users_controller_spec.rb'
     - 'ee/spec/controllers/concerns/ee/enforces_admin_authentication_spec.rb'
     - 'ee/spec/controllers/ee/admin/sessions_controller_spec.rb'
-    - 'ee/spec/controllers/ee/dashboard_controller_spec.rb'
     - 'ee/spec/controllers/ee/groups/boards_controller_spec.rb'
     - 'ee/spec/controllers/ee/groups/group_members_controller_spec.rb'
     - 'ee/spec/controllers/ee/groups/settings/ci_cd_controller_spec.rb'

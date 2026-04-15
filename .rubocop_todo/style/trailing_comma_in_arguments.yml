@@ -1,0 +1,6 @@
+---
+# Cop supports --autocorrect.
+Style/TrailingCommaInArguments:
+  Details: grace period
+  Exclude:
+    - 'lib/banzai/pipeline/pre_process_pipeline.rb'

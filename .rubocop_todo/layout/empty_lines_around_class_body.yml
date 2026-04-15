@@ -1,0 +1,6 @@
+---
+# Cop supports --autocorrect.
+Layout/EmptyLinesAroundClassBody:
+  Details: grace period
+  Exclude:
+    - 'scripts/setup/tests-metadata.rb'

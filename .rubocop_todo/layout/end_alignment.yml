@@ -1,0 +1,6 @@
+---
+# Cop supports --autocorrect.
+Layout/EndAlignment:
+  Details: grace period
+  Exclude:
+    - 'ee/app/graphql/types/time_report_stats_type.rb'

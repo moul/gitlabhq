@@ -2,11 +2,13 @@ inherit_gem:
   gitlab-styles:
     - rubocop-default.yml
 
+plugins:
+  # Always load these cop even if disabled by default so RuboCop knows about rules in TODOs.
+  - rubocop-internal_affairs
+
 require:
   - ./rubocop/rubocop
   - rubocop-rspec
-  # Always load these cop even if disabled by default so RuboCop knows about rules in TODOs.
-  - rubocop/cop/internal_affairs
 
 inherit_from:
   <% unless ENV['REVEAL_RUBOCOP_TODO'] == '1' %>
@@ -118,6 +120,13 @@ InternalAffairs/DeprecateCopHelper:
   Enabled: true
   Include:
     - spec/rubocop/**/*.rb
+
+# Override the default Include path since GitLab's cops live under rubocop/cop/
+# rather than the standard lib/rubocop/cop/ path (added in rubocop 1.81.7).
+InternalAffairs/OnSendWithoutOnCSend:
+  Enabled: true
+  Include:
+    - 'rubocop/cop/**/*.rb'
 
 Layout/LineLength:
   AllowedPatterns: ['^RSpec\.describe\s.*\sdo']
@@ -805,7 +814,7 @@ RSpec/WebMockEnable:
   Exclude:
     - 'spec/support/webmock.rb'
 
-Naming/PredicateName:
+Naming/PredicatePrefix:
   Enabled: true
   Exclude:
     - 'spec/**/*'
@@ -1022,6 +1031,12 @@ Graphql/AuthorizeTypes:
     - 'ee/spec/**/*.rb'
 
 Graphql/IDType:
+  Enabled: true
+  Include:
+    - 'app/graphql/**/*'
+    - 'ee/app/graphql/**/*'
+
+Graphql/AccessLevelEnum:
   Enabled: true
   Include:
     - 'app/graphql/**/*'

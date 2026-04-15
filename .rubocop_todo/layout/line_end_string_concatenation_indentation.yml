@@ -471,7 +471,6 @@ Layout/LineEndStringConcatenationIndentation:
     - 'spec/lib/gitlab/usage/metrics/instrumentations/count_imported_projects_total_metric_spec.rb'
     - 'spec/lib/gitlab/usage/metrics/instrumentations/gitlab_for_jira_app_direct_installations_count_metric_spec.rb'
     - 'spec/lib/gitlab/usage/metrics/instrumentations/gitlab_for_jira_app_proxy_installations_count_metric_spec.rb'
-    - 'spec/lib/gitlab/utils/gzip_spec.rb'
     - 'spec/lib/rouge/formatters/html_gitlab_spec.rb'
     - 'spec/lib/slack/manifest_spec.rb'
     - 'spec/lib/system_check/incoming_email/imap_authentication_check_spec.rb'

@@ -210,7 +210,7 @@ export default {
       <div
         class="js-wiki-page-header wiki-page-header has-sidebar-toggle detail-page-header gl-flex gl-flex-wrap gl-border-b-0 gl-px-3 !gl-pt-0"
       >
-        <page-heading class="gl-w-full">
+        <page-heading class="gl-wrap-break-word gl-w-full">
           <template #heading>
             <wiki-sidebar-toggle action="open" class="gl-mr-2 @lg/panel:gl-hidden" />
             <span>{{ pageHeadingComputed }}</span>
