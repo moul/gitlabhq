@@ -21,6 +21,10 @@ module Groups
 
     private
 
+    def participation_object
+      group
+    end
+
     def all_members
       return [] if group.nil? || Feature.enabled?(:disable_all_mention)
 

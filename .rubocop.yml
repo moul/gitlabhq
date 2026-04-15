@@ -1467,6 +1467,12 @@ Search/NamespacedClass:
     - 'ee/app/services/ee/mcp/tools/**/*.rb'
     - 'ee/app/finders/security/*.rb'
 
+Search/VulnerabilityBulkOperationElasticsearchSync:
+  Enabled: true
+  Include:
+    - 'ee/app/*/security/**/*.rb'
+    - 'ee/app/*/vulnerabilities/**/*.rb'
+
 SidekiqLoadBalancing/WorkerDataConsistency:
   Enabled: true
   Include:

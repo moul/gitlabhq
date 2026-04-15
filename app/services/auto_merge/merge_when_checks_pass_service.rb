@@ -22,7 +22,8 @@ module AutoMerge
         logger.info("Pipeline Success - MWCP")
       end
 
-      return unless merge_request.mergeable?
+      use_cache = Feature.disabled?(:automerge_skip_mergeability_cache, merge_request.project)
+      return unless merge_request.mergeable?(use_cache: use_cache)
 
       logger.info("Merge request mergeable - MWCP")
 

@@ -89,7 +89,8 @@ FactoryBot.define do
         report_type: report_type,
         primary_identifier_fingerprint: identifiers.first&.fingerprint,
         location_fingerprint: location.fingerprint,
-        project_id: n
+        project_id: n,
+        tracked_context: nil
       )
     end
     vulnerability_finding_signatures_enabled { false }

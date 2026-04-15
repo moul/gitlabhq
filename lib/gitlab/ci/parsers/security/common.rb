@@ -146,7 +146,8 @@ module Gitlab
                 project_id: @project.id,
                 found_by_pipeline: report.pipeline,
                 vulnerability_finding_signatures_enabled: @signatures_enabled,
-                cvss: data['cvss_vectors'] || []
+                cvss: data['cvss_vectors'] || [],
+                tracked_context: report.tracked_context
               )
             )
           end
@@ -307,7 +308,8 @@ module Gitlab
               report_type: uuid_v5_name_components[:report_type],
               primary_identifier_fingerprint: uuid_v5_name_components[:primary_identifier_fingerprint],
               location_fingerprint: uuid_v5_name_components[:location_fingerprint],
-              project_id: uuid_v5_name_components[:project_id]
+              project_id: uuid_v5_name_components[:project_id],
+              tracked_context: report.tracked_context
             )
           end
         end

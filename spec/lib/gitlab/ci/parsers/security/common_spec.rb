@@ -390,7 +390,8 @@ RSpec.describe Gitlab::Ci::Parsers::Security::Common, feature_category: :vulnera
               report_type: "sast",
               primary_identifier_fingerprint: report.findings[0].identifiers.first.fingerprint,
               location_fingerprint: location.fingerprint,
-              project_id: pipeline.project_id
+              project_id: pipeline.project_id,
+              tracked_context: nil
             )
           end
 
@@ -399,7 +400,8 @@ RSpec.describe Gitlab::Ci::Parsers::Security::Common, feature_category: :vulnera
               report_type: "sast",
               primary_identifier_fingerprint: report.findings[1].identifiers.first.fingerprint,
               location_fingerprint: location.fingerprint,
-              project_id: pipeline.project_id
+              project_id: pipeline.project_id,
+              tracked_context: nil
             )
           end
 

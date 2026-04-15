@@ -9207,6 +9207,30 @@ Input type: `ImportSourceUserResendNotificationInput`
 | <a id="mutation-importsourceuserresendnotification-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 | <a id="mutation-importsourceuserresendnotification-importsourceuser"></a>`importSourceUser` | [`ImportSourceUser`](#importsourceuser) | Mapping of a user on source instance to a user on destination instance after mutation. |
 
+### `Mutation.importSourceUserRetryFailedReassignment`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Input type: `ImportSourceUserRetryFailedReassignmentInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-importsourceuserretryfailedreassignment-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-importsourceuserretryfailedreassignment-id"></a>`id` | [`ImportSourceUserID!`](#importsourceuserid) | Global ID of the mapping of a user on source instance to a user on destination instance. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-importsourceuserretryfailedreassignment-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-importsourceuserretryfailedreassignment-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+| <a id="mutation-importsourceuserretryfailedreassignment-importsourceuser"></a>`importSourceUser` | [`ImportSourceUser`](#importsourceuser) | Mapping of a user on source instance to a user on destination instance after mutation. |
+
 ### `Mutation.importSourceUserUndoKeepAsPlaceholder`
 
 {{< details >}}
@@ -28233,7 +28257,7 @@ Agent platform aggregated metrics by flow type.
 | <a id="agentplatformflowmetric-completionrate"></a>`completionRate` | [`Float`](#float) | Completion rate as a percentage. |
 | <a id="agentplatformflowmetric-flowtype"></a>`flowType` | [`String!`](#string) | Type of the flow. |
 | <a id="agentplatformflowmetric-medianexecutiontime"></a>`medianExecutionTime` | [`Float`](#float) | Median flow execution time in seconds. |
-| <a id="agentplatformflowmetric-sessionscount"></a>`sessionsCount` | [`Int!`](#int) | Total number of sessions. |
+| <a id="agentplatformflowmetric-sessionscount"></a>`sessionsCount` | [`Int!`](#int) | Total number of sessions, equivalent to the count of the `agent_platform_session_created` event. |
 | <a id="agentplatformflowmetric-userscount"></a>`usersCount` | [`Int!`](#int) | Number of unique users. |
 
 ### `AgentPlatformSessionsAggregationResponse`
@@ -56116,6 +56140,7 @@ Enum for types of analyzers.
 | ----- | ----------- |
 | <a id="analyzerstatusenum-failed"></a>`FAILED` | Last analyzer execution failed. |
 | <a id="analyzerstatusenum-not_configured"></a>`NOT_CONFIGURED` | Analyzer is not configured. |
+| <a id="analyzerstatusenum-stale"></a>`STALE` {{< icon name="warning-solid" >}} | **Introduced** in GitLab 19.0. **Status**: Experiment. Analyzer is configured, but has not run in any recent pipelines. |
 | <a id="analyzerstatusenum-success"></a>`SUCCESS` | Last analyzer execution finished successfully. |
 
 ### `AnalyzerTypeEnum`

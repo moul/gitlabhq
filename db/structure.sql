@@ -14165,7 +14165,8 @@ CREATE TABLE analyzer_namespace_statuses (
     analyzer_type smallint NOT NULL,
     success bigint DEFAULT 0 NOT NULL,
     failure bigint DEFAULT 0 NOT NULL,
-    traversal_ids bigint[] DEFAULT '{}'::bigint[] NOT NULL
+    traversal_ids bigint[] DEFAULT '{}'::bigint[] NOT NULL,
+    stale bigint DEFAULT 0 NOT NULL
 );
 
 CREATE SEQUENCE analyzer_namespace_statuses_id_seq
@@ -14187,7 +14188,8 @@ CREATE TABLE analyzer_project_statuses (
     last_call timestamp with time zone NOT NULL,
     traversal_ids bigint[] DEFAULT '{}'::bigint[] NOT NULL,
     build_id bigint,
-    archived boolean DEFAULT false NOT NULL
+    archived boolean DEFAULT false NOT NULL,
+    consecutive_absence_count integer DEFAULT 0 NOT NULL
 );
 
 CREATE SEQUENCE analyzer_project_statuses_id_seq
@@ -45148,7 +45150,7 @@ CREATE INDEX index_ai_flow_triggers_on_ai_catalog_item_consumer_id ON ai_flow_tr
 
 CREATE INDEX index_ai_flow_triggers_on_project_id ON ai_flow_triggers USING btree (project_id);
 
-CREATE INDEX index_ai_flow_triggers_on_user_id ON ai_flow_triggers USING btree (user_id);
+CREATE INDEX index_ai_flow_triggers_on_user_id_and_project_id ON ai_flow_triggers USING btree (user_id, project_id);
 
 CREATE UNIQUE INDEX index_ai_iaer_on_through_namespace_on_accessible_entity ON ai_instance_accessible_entity_rules USING btree (through_namespace_id, accessible_entity);
 

@@ -15,7 +15,7 @@ module RapidDiffs
       current_user: nil, request_params: nil, environment: nil, conflicts: nil
     )
       super(
-        ::MergeRequests::VersionedMergeRequest.new(subject),
+        ::MergeRequests::VersionedMergeRequest.from_diff_options(subject, diff_options),
         diff_view:, diff_options:, current_user:, request_params:, environment:
       )
       @conflicts = conflicts

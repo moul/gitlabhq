@@ -6069,6 +6069,9 @@ msgstr ""
 msgid "AdminSettings|Auto DevOps domain"
 msgstr ""
 
+msgid "AdminSettings|Built-in project templates"
+msgstr ""
+
 msgid "AdminSettings|By default, set a limit to 0 to have no limit."
 msgstr ""
 
@@ -6100,6 +6103,9 @@ msgid "AdminSettings|Configure the Web IDE extension host domain."
 msgstr ""
 
 msgid "AdminSettings|Configure when dormant projects should be automatically deleted. %{linkStart}What are dormant projects?%{linkEnd}"
+msgstr ""
+
+msgid "AdminSettings|Control whether built-in project templates are available for new projects. You can enforce this setting for all groups."
 msgstr ""
 
 msgid "AdminSettings|Control which projects can publish components to the CI/CD Catalog. Enter one project path or regular expression pattern per line. For example: %{code_start}gitlab-org/my-project%{code_end}, %{code_start}gitlab-org/.*%{code_end}, or %{code_start}gitlab-org/security-.*%{code_end}. If empty, any project can publish."
@@ -6156,6 +6162,9 @@ msgstr ""
 msgid "AdminSettings|Enable automatic generation of Service Ping data. When disabled, Service Ping data will not be automatically generated."
 msgstr ""
 
+msgid "AdminSettings|Enable built-in project templates"
+msgstr ""
+
 msgid "AdminSettings|Enable collection of application metrics. Restart required. %{link_start}Learn how to export metrics to Prometheus%{link_end}."
 msgstr ""
 
@@ -6204,6 +6213,9 @@ msgstr ""
 msgid "AdminSettings|Enforce PIPL compliance for all users"
 msgstr ""
 
+msgid "AdminSettings|Enforce for all groups"
+msgstr ""
+
 msgid "AdminSettings|Enforce invitation flow for groups and projects"
 msgstr ""
 
@@ -6226,6 +6238,9 @@ msgid "AdminSettings|GitLab uses the %{bold_start}Rails%{bold_end} and %{bold_st
 msgstr ""
 
 msgid "AdminSettings|Group runners expiration"
+msgstr ""
+
+msgid "AdminSettings|Groups cannot change this setting."
 msgstr ""
 
 msgid "AdminSettings|I have read and agree to the Let's Encrypt %{link_start}Terms of Service%{link_end} (PDF)."
@@ -6562,6 +6577,9 @@ msgid "AdminSettings|Users and groups must accept the invitation before they're 
 msgstr ""
 
 msgid "AdminSettings|When disabled, runner registration tokens are disabled from runner pages, and maintainers and owners cannot use registration tokens to register runners. They can use runner authentication tokens instead as the more secure runner registration method."
+msgstr ""
+
+msgid "AdminSettings|When selected, built-in templates are available in the template selector."
 msgstr ""
 
 msgid "AdminSettings|When to delete dormant projects"
@@ -21192,6 +21210,9 @@ msgstr ""
 msgid "Copy evidence SHA"
 msgstr ""
 
+msgid "Copy failed"
+msgstr ""
+
 msgid "Copy failed. Please manually copy the value."
 msgstr ""
 
@@ -26575,7 +26596,7 @@ msgstr ""
 msgid "DuoAgenticChat|This conversation has expired"
 msgstr ""
 
-msgid "DuoAgenticChat|To use Chat, select a default namespace in your %{preferencesLinkStart}user profile preferences%{preferencesLinkEnd}. Alternatively, turn off the  %{agenticModeStart}Agentic toggle%{agenticModeEnd} to return to non-agentic Chat."
+msgid "DuoAgenticChat|To use Chat, select a default namespace in your %{preferencesLinkStart}user profile preferences%{preferencesLinkEnd}. Alternatively, turn off the %{agenticModeStart}Agentic toggle%{agenticModeEnd} to return to non-agentic Chat."
 msgstr ""
 
 msgid "DuoAgenticChat|To use Chat, select a default namespace in your user profile preferences. Alternatively, turn off the Agentic toggle to return to non-agentic Chat."
@@ -37367,6 +37388,9 @@ msgid "Import|Placeholder user record reassignment complete"
 msgstr ""
 
 msgid "Import|Reassign contributions"
+msgstr ""
+
+msgid "Import|Reassignment retry has failed multiple times. Repeated failures suggest an unexpected error that may need time to resolve. Please try again in %{retry_cooldown_in_words}."
 msgstr ""
 
 msgid "Import|Show errors"

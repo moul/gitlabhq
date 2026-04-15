@@ -10,7 +10,7 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
   let(:diff_options) { { ignore_whitespace_changes: true } }
   let(:diffs_count) { 20 }
   let(:base_path) { "/#{namespace.to_param}/#{project.to_param}/-/merge_requests/#{merge_request.to_param}" }
-  let(:merge_request_diff) { instance_double(MergeRequestDiff, id: 999, merge_head?: false) }
+  let(:merge_request_diff) { instance_double(MergeRequestDiff, id: 999, merge_head?: false, diff_stats: nil) }
   let(:resolved_diff_id) { merge_request_diff.id }
   let(:request_params) { {} }
   let(:current_user) { build_stubbed(:user) }
@@ -253,12 +253,9 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
         it { is_expected.to be_nil }
       end
 
-      context 'when diff_stats is available' do
+      context 'when diff_stats is available on the resolved diff' do
         let(:stats) { instance_double(Gitlab::Git::DiffStatsCollection, count: 42) }
-
-        before do
-          allow(merge_request).to receive(:diff_stats).and_return(stats)
-        end
+        let(:merge_request_diff) { instance_double(MergeRequestDiff, id: 999, merge_head?: false, diff_stats: stats) }
 
         it 'uses stats count without calling diffs_for_streaming' do
           expect(merge_request).not_to receive(:diffs_for_streaming)
@@ -267,9 +264,8 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
         end
       end
 
-      context 'when diff_stats returns nil' do
+      context 'when diff_stats returns nil on the resolved diff' do
         before do
-          allow(merge_request).to receive(:diff_stats).and_return(nil)
           allow(merge_request).to receive_message_chain(:diffs_for_streaming, :diff_files,
             :count).and_return(diffs_count)
         end

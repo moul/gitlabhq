@@ -1019,6 +1019,32 @@ paths:
             schema:
               "$ref": "#/components/schemas/RequestBody_518c68f555bc"
       x-gitlab-lifecycle: experiment
+  "/api/v4/ai/duo_workflows/agent_workflows":
+    post:
+      operationId: postApiV4AiDuoWorkflowsAgentWorkflows
+      summary: Create workflow persistence (agent-initiated, limited privileges)
+      description: Accessible via ai_workflows scope token. Does not accept agent_privileges
+        or pre_approved_agent_privileges.
+      tags:
+      - GitLab Duo workflows
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Validation failed
+        '401':
+          description: Unauthorized
+        '403':
+          description: 403 Forbidden
+        '404':
+          description: Not found
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RequestBody_752e903252d0"
+      x-gitlab-lifecycle: experiment
   "/api/v4/ai/duo_workflows/revoke_token":
     post:
       operationId: postApiV4AiDuoWorkflowsRevokeToken
@@ -87004,6 +87030,114 @@ components:
       - project_id
       - merge_request_iid
       - review_output
+    RequestBody_752e903252d0:
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: The ID or path of the workflow project
+          example: '1'
+          nullable: true
+        namespace_id:
+          type: string
+          description: The ID or path of the workflow namespace
+          example: '1'
+          nullable: true
+        ai_catalog_item_consumer_id:
+          type: integer
+          description: The ID of AI Catalog ItemConsumer that configures which catalog
+            item to execute.
+          example: 1
+          nullable: true
+        start_workflow:
+          type: boolean
+          description: Optional parameter to start workflow in a CI pipeline.This
+            feature is currently in an experimental state.
+          example: true
+          nullable: true
+        goal:
+          type: string
+          description: Goal of the workflow
+          example: Fix pipeline for merge request 1 in project 1
+          nullable: true
+        workflow_definition:
+          type: string
+          description: workflow type based on its capability
+          example: software_developer
+          nullable: true
+        allow_agent_to_request_user:
+          type: boolean
+          description: When this is enabled Duo Agent Platform may stop to ask the
+            user questions before proceeding. When it is disabled Duo Agent Platform
+            will always just run through the workflow without ever asking for user
+            input. Defaults to true.
+          example: true
+          nullable: true
+        image:
+          type: string
+          description: Container image to use for running the workflow in CI pipeline.
+          example: registry.gitlab.com/gitlab-org/duo-workflow/custom-image:latest
+          nullable: true
+        source_branch:
+          type: string
+          description: Source branch for the CI pipeline. Uses default branch when
+            not specified.
+          example: main
+          nullable: true
+        environment:
+          type: string
+          enum:
+          - ide
+          - web
+          - chat_partial
+          - chat
+          - ambient
+          description: Environment for the workflow.
+          nullable: true
+        ai_catalog_item_version_id:
+          type: integer
+          description: The ID of AI Catalog ItemVersion that sourced flow config used
+            by the workflow.
+          example: 1
+          nullable: true
+        additional_context:
+          type: array
+          description: Additional Context required by the Flow, in JSON format. Contains
+            an array of context details, where each detail is a Hash with a minimum
+            of "Category" and "Content" keys.
+          items:
+            type: object
+            properties:
+              Category:
+                type: string
+                description: The category of the context detail
+                nullable: true
+              Content:
+                type: string
+                description: The content type of the context detail
+                nullable: true
+            required:
+            - Category
+            - Content
+          nullable: true
+        shallow_clone:
+          type: boolean
+          default: true
+          description: Whether or not the workflow should use a shallow clone of the
+            repository during its execution.  Defaults to true.
+          example: true
+          nullable: true
+        issue_id:
+          type: integer
+          description: IID of the Issue noteable that the workflow is associated with.
+          example: 123
+          nullable: true
+        merge_request_id:
+          type: integer
+          description: IID of the MergeRequest noteable that the workflow is associated
+            with.
+          example: 123
+          nullable: true
     RequestBody_a82603b1cd84:
       type: object
       properties:

@@ -12,6 +12,9 @@ import {
 applyGitLabUIConfig({
   firstDayOfWeek: gon.first_day_of_week,
   translations: {
+    'ClipboardButton.copied': __('Copied'),
+    'ClipboardButton.error': __('Copy failed'),
+    'ClipboardButton.title': __('Copy to clipboard'),
     'CloseButton.title': __('Close'),
     'GlAlert.closeButtonTitle': __('Dismiss'),
     'GlBanner.closeButtonTitle': __('Dismiss'),

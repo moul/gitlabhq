@@ -2703,6 +2703,7 @@ incompatible with personal access tokens.
 
 | Method | Path | Reason |
 | ------ | ---- | ------ |
+| `POST` | `/ai/duo_workflows/agent_workflows` | AI workflows OAuth token |
 | `GET` | `/api/scim/:version/application/Groups` | SCIM token |
 | `POST` | `/api/scim/:version/application/Groups` | SCIM token |
 | `GET` | `/api/scim/:version/application/Groups/:id` | SCIM token |

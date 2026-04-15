@@ -37,6 +37,10 @@ module Projects
 
     private
 
+    def participation_object
+      project
+    end
+
     def organization
       project.organization
     end

@@ -42,6 +42,7 @@ module Gitlab
           attr_reader :original_data
           attr_reader :found_by_pipeline
           attr_reader :cvss
+          attr_reader :project_tracked_context
 
           delegate :file_path, :start_line, :end_line, to: :location
 
@@ -73,6 +74,7 @@ module Gitlab
             @vulnerability_finding_signatures_enabled = args.fetch(:vulnerability_finding_signatures_enabled, false)
             @found_by_pipeline = args[:found_by_pipeline]
             @cvss = args.fetch(:cvss, [])
+            @project_tracked_context = args[:tracked_context]
           end
 
           def to_hash

@@ -17,6 +17,9 @@
 /scripts/ @gitlab-org/maintainers/frontend @gitlab-org/maintainers/database @gl-dx/maintainers @gl-dx/tooling-maintainers @gitlab-org/delivery @gitlab-org/maintainers/cicd-templates @gitlab-org/tw-leadership @gitlab-org/maintainers/kas-version-maintainers @gitlab-org/maintainers/rails-backend
 /.gitlab/ @gitlab-org/maintainers/frontend @gitlab-org/maintainers/database @gl-dx/maintainers @gl-dx/tooling-maintainers @gitlab-org/delivery @gitlab-org/maintainers/cicd-templates @gitlab-org/tw-leadership @gitlab-org/maintainers/kas-version-maintainers @gitlab-org/maintainers/rails-backend
 
+# Workhorse
+/workhorse/ @gitlab-org/maintainers/gitlab-workhorse
+
 # Backend
 *.rb @gitlab-org/maintainers/rails-backend
 *.rake @gitlab-org/maintainers/rails-backend
@@ -622,10 +625,6 @@ Dangerfile
 
 ^[Legal] @gitlab-org/legal-reviewers
 /config/dependency_decisions.yml
-
-# https://gitlab.com/groups/gitlab-org/maintainers/gitlab-workhorse/-/group_members?with_inherited_permissions=exclude
-^[Workhorse] @gitlab-org/maintainers/gitlab-workhorse
-/workhorse/
 
 [Application Security] @gitlab-com/gl-security/appsec
 /doc/development/application_secrets.md
@@ -1903,7 +1902,6 @@ ee/app/workers/ai/repository_xray/
 [Advanced Search Framework] @gitlab-org/search-team/maintainers/advanced-framework
 /ee/lib/gem_extensions/elasticsearch/
 /ee/lib/elastic/
-/ee/lib/search/elastic/
 /ee/lib/search/cluster_health_check/
 /ee/lib/gitlab/elastic/bulk_indexer.rb
 /ee/lib/gitlab/elastic/document_reference.rb
@@ -1914,6 +1912,8 @@ ee/app/workers/ai/repository_xray/
 /ee/app/models/concerns/search/elastic/
 /ee/app/services/elastic/
 /ee/app/services/search/elastic/
+/ee/app/workers/concerns/elastic/
+/ee/app/workers/concerns/search/
 /ee/app/workers/search/elastic/
 /ee/app/workers/search/wiki/
 /ee/app/workers/elastic/
@@ -1927,6 +1927,29 @@ ee/app/workers/ai/repository_xray/
 /ee/app/workers/elastic_remove_expired_namespace_subscriptions_from_index_cron_worker.rb
 /ee/app/workers/elastic_wiki_indexer_worker.rb
 /ee/spec/support/elastic.rb
+# Core framework abstractions - require framework maintainer approval
+/ee/lib/search/elastic/aggregations.rb
+/ee/lib/search/elastic/bool_expr.rb
+/ee/lib/search/elastic/concerns/
+/ee/lib/search/elastic/dsl/
+/ee/lib/search/elastic/filters.rb
+/ee/lib/search/elastic/filters/
+/ee/lib/search/elastic/formats.rb
+/ee/lib/search/elastic/pagination.rb
+/ee/lib/search/elastic/preloaders/base.rb
+/ee/lib/search/elastic/queries.rb
+/ee/lib/search/elastic/query_builder.rb
+/ee/lib/search/elastic/record_proxy/base.rb
+/ee/lib/search/elastic/reference.rb
+/ee/lib/search/elastic/references/legacy.rb
+/ee/lib/search/elastic/relation.rb
+/ee/lib/search/elastic/response_mapper.rb
+/ee/lib/search/elastic/task_status.rb
+
+^[Advanced Search Framework - Entity Implementations] @gitlab-org/search-team/maintainers/advanced-framework
+# Everything else under search/elastic defaults to optional - new entity implementations
+# (query builders, types, references, preloaders, etc.) are covered automatically
+/ee/lib/search/elastic/
 
 # Necessary for availability, similar to DB migrations
 [Advanced Search Migration] @gitlab-org/search-team/maintainers/advanced-migrations

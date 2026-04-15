@@ -6,6 +6,7 @@ module Tasks
       module Routes
         module SkipReasons
           REASON_LABELS = {
+            ai_workflows_oauth_auth: 'AI workflows OAuth token',
             compliance_external_auth: 'Compliance external control token',
             container_registry_event_auth: 'Container registry event token',
             error_tracking_token_auth: 'Error tracking token',

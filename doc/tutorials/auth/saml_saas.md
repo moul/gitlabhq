@@ -122,6 +122,37 @@ The enterprise application is created in Microsoft Entra ID.
 
 {{< /tab >}}
 
+{{< tab title="Google Workspace" >}}
+
+1. Sign in to the [Google Admin console](https://admin.google.com/).
+1. Select **Apps** > **Web and mobile apps**.
+1. Select **Add App** > **Add custom SAML app**.
+1. In the **App Details** page, enter a name for your application. For example, `GitLab SAML`.
+1. Select **Continue**.
+1. On the **Google Identity Provider details** page, leave this page open. You need these values in Step 3.
+1. Select **Continue**.
+1. On the **Service provider details** page, complete the fields with the values from Step 1:
+   - **ACS URL**: Enter the **Assertion consumer service URL**.
+   - **Entity ID**: Enter the **Identifier**.
+   - **Start URL**: Enter the **GitLab single sign-on URL**.
+   - **Name ID format**: Select **EMAIL**.
+   - **Name ID**: Select **Basic Information** > **Primary email**.
+1. Select **Continue**.
+1. On the **Attribute mapping** page, add these attributes:
+   - **Google Directory attribute**: `Primary email`, **App attribute**: `email`
+   - **Google Directory attribute**: `First name`, **App attribute**: `first_name`
+   - **Google Directory attribute**: `Last name`, **App attribute**: `last_name`
+1. Select **Finish**.
+   The SAML application is created in Google Workspace.
+1. Turn on the application for your users:
+   - On the **User access** section, select **ON for everyone**.
+   - Select **Save**.
+
+For more information about SAML attributes and advanced configuration options,
+see the [SAML SSO documentation](../../user/group/saml_sso/_index.md#google-workspace).
+
+{{< /tab >}}
+
 {{< tab title="OneLogin" >}}
 
 1. Sign in to OneLogin as an administrator.
@@ -153,34 +184,70 @@ see the [SAML SSO documentation](../../user/group/saml_sso/_index.md#onelogin).
 
 {{< /tab >}}
 
-{{< tab title="Google Workspace" >}}
+{{< tab title="Keycloak" >}}
 
-1. Sign in to the [Google Admin console](https://admin.google.com/).
-1. Select **Apps** > **Web and mobile apps**.
-1. Select **Add App** > **Add custom SAML app**.
-1. In the **App Details** page, enter a name for your application. For example, `GitLab SAML`.
-1. Select **Continue**.
-1. On the **Google Identity Provider details** page, leave this page open. You need these values in Step 3.
-1. Select **Continue**.
-1. On the **Service provider details** page, complete the fields with the values from Step 1:
-   - **ACS URL**: Enter the **Assertion consumer service URL**.
-   - **Entity ID**: Enter the **Identifier**.
-   - **Start URL**: Enter the **GitLab single sign-on URL**.
-   - **Name ID format**: Select **EMAIL**.
-   - **Name ID**: Select **Basic Information** > **Primary email**.
-1. Select **Continue**.
-1. On the **Attribute mapping** page, add these attributes:
-   - **Google Directory attribute**: `Primary email`, **App attribute**: `email`
-   - **Google Directory attribute**: `First name`, **App attribute**: `first_name`
-   - **Google Directory attribute**: `Last name`, **App attribute**: `last_name`
-1. Select **Finish**.
-   The SAML application is created in Google Workspace.
-1. Turn on the application for your users:
-   - On the **User access** section, select **ON for everyone**.
+1. Sign in to Keycloak as an administrator.
+1. Go to **Clients** and select **Create client**.
+1. In the **General Settings** page, select **SAML** as the **Client type**.
+1. Complete the fields with the values from Step 1:
+   - **Client ID**: Enter the **Identifier**.
+   - **Valid redirect URIs**: Enter the **Assertion consumer service URL**.
+   - **Assertion Consumer Service POST Binding URL**: Enter the **Assertion consumer service URL**.
+   - **Home URL**: Enter the **GitLab single sign-on URL**.
+1. Select **Save**.
+1. On the **Settings** tab, in the **SAML capabilities** section:
+   - **Name ID format**: Select `persistent`.
+   - Turn on the **Force name ID format** toggle.
+   - Turn on the **Force POST binding** toggle.
+   - Turn on the **Include AuthnStatement** toggle.
+1. In the **Signature and Encryption** section, turn on the **Sign documents** toggle.
+1. On the **Keys** tab, make sure all sections are disabled.
+1. On the **Client scopes** tab:
+   - Select the client scope for GitLab.
+   - Select **Configure a new mapper**, and select **User Attribute** in the window that opens.
+   - On the **Add mapper** page, set the **Name**, **User Attribute**, and **SAML Attribute Name** fields to `email`.
    - Select **Save**.
 
+The SAML client is created in Keycloak.
+
+> [!note]
+> For more information about SAML attributes and advanced configuration options,
+> see the [SAML SSO documentation](../../user/group/saml_sso/_index.md#keycloak).
+
+{{< /tab >}}
+
+{{< tab title="AWS IAM Identity Center" >}}
+
+1. Sign in to the AWS IAM Identity Center console.
+1. Select **Applications**, then select **Add application**.
+1. Select **I have an application I want to set up**.
+1. Select **SAML 2.0** as the application type.
+1. Select **Next**.
+1. On the **Configure application** page, enter a display name for your application. For example, `GitLab SAML`.
+1. Complete the fields with the values from Step 1:
+   - **Application ACS URL**: Enter the **Assertion consumer service URL**.
+   - **Application SAML audience**: Enter the **Identifier**.
+   - **Application start URL**: Enter the **GitLab single sign-on URL**.
+1. Under **Attribute mappings**, configure these attributes:
+   - **Subject**: `${user:email}`, **Format**: `unspecified`
+   - **email**: `${user:email}`, **Format**: `unspecified`
+   - **first_name**: `${user:givenName}`, **Format**: `unspecified`
+   - **last_name**: `${user:familyName}`, **Format**: `unspecified`
+
+   > [!warning]
+   > To avoid authentication errors for existing GitLab users, do not set the format to
+   > `persistent` or `transient`.
+
+1. Select **Submit**.
+   The SAML application is created in AWS IAM Identity Center.
+1. Assign users to the GitLab application.
+
 For more information about SAML attributes and advanced configuration options,
-see the [SAML SSO documentation](../../user/group/saml_sso/_index.md#google-workspace).
+see the [SAML SSO documentation](../../user/group/saml_sso/_index.md#aws-iam-identity-center).
+
+> [!note]
+> AWS IAM Identity Center defaults to IdP-initiated login. To link existing GitLab accounts,
+> users must sign in from the **GitLab single sign-on URL** or the **Application start URL**.
 
 {{< /tab >}}
 
@@ -241,6 +308,43 @@ To gather the connection details:
 1. In the **X.509 Certificate** section, select **View Details**.
 1. Note the **SHA-256 Fingerprint** value.
    The fingerprint looks like `A1:B2:C3:D4:E5:F6:...`.
+
+{{< /tab >}}
+
+{{< tab title="Keycloak" >}}
+
+1. In your Keycloak SAML client, in the **Action** dropdown list, select **Download adapter config**.
+1. In the **Download adapter config** dialog, select **mod-auth-mellon** from the dropdown list.
+1. Select **Download**.
+1. Extract the downloaded archive and open `idp-metadata.xml`.
+1. Locate the `<md:SingleSignOnService>` tag and note the value of the `Location` attribute.
+1. Generate a certificate fingerprint:
+   1. Locate the `<ds:X509Certificate>` tag and copy the value to a separate file.
+   1. Convert the value to PEM format. Add `-----BEGIN CERTIFICATE-----` at the beginning of the file and `-----END CERTIFICATE-----` at the end of the file as new lines.
+
+{{< /tab >}}
+
+{{< tab title="AWS IAM Identity Center" >}}
+
+1. In your AWS IAM Identity Center SAML app, select the application you created.
+1. In the **IAM Identity Center SAML metadata** section, note the **IAM Identity Center sign-in URL**.
+1. Download the certificate.
+1. Generate a certificate fingerprint:
+   1. Open a terminal and go to the directory where you saved the certificate file.
+   1. Run this command to generate the certificate fingerprint:
+
+   ```shell
+   # Replace `<certificate_filename>` with the actual filename of your downloaded certificate.
+   # You might need to install OpenSSL or use an alternative method to generate the fingerprint.
+   openssl x509 -noout -fingerprint -sha256 -in <certificate_filename>.pem
+   ```
+
+1. Copy the fingerprint value after `SHA1 Fingerprint=`.
+   The fingerprint looks like `A1:B2:C3:D4:E5:F6:...`.
+
+> [!note]
+> AWS IAM Identity Center requires a SHA1 fingerprint. For more information, see
+> the [SAML SSO documentation](../../user/group/saml_sso/_index.md#aws-iam-identity-center).
 
 {{< /tab >}}
 
