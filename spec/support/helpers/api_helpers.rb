@@ -82,6 +82,13 @@ module ApiHelpers
     expect(json_response.map { |item| item['id'] }).to contain_exactly(*items)
   end
 
+  def expect_paginated_array_response_in_order(*items)
+    expect(response).to have_gitlab_http_status(:ok)
+    expect(response).to include_pagination_headers
+    expect(json_response).to be_an Array
+    expect(json_response.map { |item| item['id'] }).to eq(items.flatten)
+  end
+
   def stub_last_activity_update
     allow_next_instance_of(Users::ActivityService) do |service|
       allow(service).to receive(:execute)

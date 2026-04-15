@@ -68,10 +68,17 @@ GitLab provides default profiles that are preconfigured scanner settings so you 
 When you apply the secret detection profile, you enable the recommended baseline protection for secrets across your entire development workflow. The profile activates the following scan triggers:
 
 - **Push protection**: Scans all Git push events and blocks pushes where secrets are detected, preventing secrets from ever entering your codebase.
-- **Merge Request Pipelines**: Automatically runs a scan each time new commits are pushed to a branch with an open merge request. Results are scoped to new vulnerabilities introduced by the merge request. Target: all branches.
-- **Branch Pipelines (default only)**: Runs automatically when changes are merged or pushed to the default branch, providing a complete picture of your default branch's secret detection posture. Target: default branch.
+- **Merge Request Pipelines**: Automatically runs a scan each time new commits are pushed to a branch with an open merge request. Results are scoped to new vulnerabilities introduced by the merge request. Targets all branches.
+- **Branch Pipelines (default only)**: Runs automatically when changes are merged or pushed to the default branch, providing a complete picture of your default branch's secret detection posture. Targets all branches.
 
-### Profile details
+### SAST profile
+
+When you apply the SAST profile, you enable static application security testing across your projects using the recommended configuration. The profile activates the following scan triggers:
+
+- **Merge Request Pipelines**: Automatically runs a SAST scan each time new commits are pushed to a branch with an open merge request. Results include only new vulnerabilities introduced by the merge request. Targets all branches.
+- **Branch Pipelines (default only)**: Runs automatically when changes are merged or pushed to the default branch, providing a complete picture of your default branch's SAST posture. Targets the default branch.
+
+### View details about a profile
 
 To view technical details about the secret detection profile:
 
@@ -79,7 +86,7 @@ To view technical details about the secret detection profile:
 1. Select **Secure** > **Security inventory**.
 1. Select the **Secret Detection** profile.
 1. Review the following information:
-   - **Analyzer type**: The type of profile (for example, **Secret Detection**).
+   - **Analyzer type**: The type of profile (for example, **Secret Detection**, **SAST**).
    - **Scan triggers**: The triggers that the profile supports (for example, **Push Protection**, **Merge Request Pipelines**, **Branch Pipelines**).
    - **Status**: Displays whether the profile is currently **Active** or **Disabled** for the current context using coverage status indicators.
 

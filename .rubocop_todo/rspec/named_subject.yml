@@ -1775,7 +1775,6 @@ RSpec/NamedSubject:
     - 'spec/lib/gitlab/git/lfs_changes_spec.rb'
     - 'spec/lib/gitlab/git/lfs_pointer_file_spec.rb'
     - 'spec/lib/gitlab/git/object_pool_spec.rb'
-    - 'spec/lib/gitlab/git/push_spec.rb'
     - 'spec/lib/gitlab/git/repository_spec.rb'
     - 'spec/lib/gitlab/git/tag_spec.rb'
     - 'spec/lib/gitlab/git/user_spec.rb'

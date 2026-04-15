@@ -64467,6 +64467,9 @@ msgstr ""
 msgid "SecurityOrchestration|No tags available"
 msgstr ""
 
+msgid "SecurityOrchestration|No test runs found for this policy on this project."
+msgstr ""
+
 msgid "SecurityOrchestration|No test runs found for this policy."
 msgstr ""
 
