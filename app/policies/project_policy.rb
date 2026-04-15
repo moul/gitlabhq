@@ -564,7 +564,6 @@ class ProjectPolicy < BasePolicy
   end
 
   rule { (mirror_available & can?(:admin_project)) | admin }.enable :admin_remote_mirror
-  rule { can?(:push_code) }.enable :admin_tag
 
   rule { self_deletion_in_progress }.policy do
     prevent(*Authz::PermissionGroups::Internal.get('project:pending_deletion').permissions)
@@ -696,6 +695,7 @@ class ProjectPolicy < BasePolicy
   end
 
   rule { repository_disabled }.policy do
+    prevent :admin_tag
     prevent :build_push_code
     prevent :push_code
     prevent :read_code
@@ -866,6 +866,7 @@ class ProjectPolicy < BasePolicy
   end
 
   rule { push_code_deploy_key }.policy do
+    enable :admin_tag
     enable :push_code
   end
 

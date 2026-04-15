@@ -18,6 +18,7 @@ project:
   - admin_incident_management_timeline_event
   - admin_issue_board
   - admin_merge_request
+  - admin_tag
   - admin_vulnerability_merge_request_link
   - approve_merge_request
   - cancel_build

@@ -55,6 +55,61 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
       end
     end
 
+    context 'when permission is deprecated' do
+      let(:permission_name) { 'manage_user_widget' }
+      let(:permission_source_file) do
+        'config/authz/permission_groups/assignable_permissions/wiki_category/user_widget/manage.yml'
+      end
+
+      let(:permission_definition) do
+        {
+          name: permission_name,
+          description: 'Manage user widgets',
+          permissions: %w[update_wiki],
+          boundaries: ['user'],
+          deprecated: true
+        }
+      end
+
+      it 'skips boundary and action validations' do
+        expect { run }.to output(/Assignable permission definitions are up-to-date/).to_stdout
+      end
+    end
+
+    context 'when resource name starts with a boundary prefix' do
+      let(:permission_name) { 'read_user_ssh_key' }
+      let(:permission_source_file) do
+        'config/authz/permission_groups/assignable_permissions/system_access/user_ssh_key/read.yml'
+      end
+
+      let(:permission_definition) do
+        {
+          name: permission_name,
+          description: 'Grants the ability to read user SSH keys',
+          permissions: %w[read_user_ssh_key],
+          boundaries: ['user']
+        }
+      end
+
+      before do
+        allow(Authz::Permission).to receive(:defined?).with('read_user_ssh_key').and_return(true)
+      end
+
+      it 'returns an error' do
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following assignable permissions encode a resource boundary in their name.
+          #  The permission name should not include the boundary (project, group, user) as a prefix.
+          #  Learn more: https://docs.gitlab.com/development/permissions/conventions/#avoiding-resource-boundaries-in-permission-names
+          #
+          #    - read_user_ssh_key: Resource should not start with boundary 'user'. (config/authz/permission_groups/assignable_permissions/system_access/user_ssh_key/read.yml)
+          #
+          #######################################################################
+        OUTPUT
+      end
+    end
+
     context 'when schema is invalid' do
       context 'with missing and invalid keys' do
         let(:permission_definition) do

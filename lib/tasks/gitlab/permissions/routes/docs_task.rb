@@ -124,7 +124,7 @@ module Tasks
 
           def route_permissions(route)
             Array(route.settings.dig(:authorization, :permissions)).map do |p|
-              ::Authz::PermissionGroups::Assignable.for_permission(p).first
+              ::Authz::PermissionGroups::Assignable.available_for_permission(p).first
             end
           end
 

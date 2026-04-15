@@ -1,5 +1,6 @@
 ---
 name: update_user_preference
+deprecated: true
 description: Grants the ability to update user preferences
 boundaries:
   - user

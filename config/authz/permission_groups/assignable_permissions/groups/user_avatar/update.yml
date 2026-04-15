@@ -1,5 +1,6 @@
 ---
 name: update_user_avatar
+deprecated: true
 description: Grants the ability to update user avatar
 boundaries:
   - user

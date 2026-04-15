@@ -6,10 +6,12 @@ module Tasks
       module Assignable
         class ValidateTask < ::Tasks::Gitlab::Permissions::BaseValidateTask
           PERMISSION_DIR = ::Authz::PermissionGroups::Assignable::BASE_PATH
+          BOUNDARIES = ::Authz::Validation::BOUNDARIES
 
           def initialize
             @violations = {
               schema: {},
+              boundary_in_name: {},
               duplicate_name: [],
               duplicate_raw_permission: {},
               file: {},
@@ -28,7 +30,7 @@ module Tasks
           attr_reader :violations, :resources, :categories
 
           def validate!
-            defined_permissions = ::Authz::PermissionGroups::Assignable.all.values
+            defined_permissions = ::Authz::PermissionGroups::Assignable.available_definitions
             defined_permissions.each { |p| validate_permission(p) }
 
             validate_names
@@ -43,6 +45,7 @@ module Tasks
 
           def validate_permission(permission)
             validate_schema(permission)
+            validate_boundary_in_name(permission)
             validate_file(permission)
             validate_name_path(permission)
 
@@ -51,6 +54,13 @@ module Tasks
 
             @resources << { category: permission.category, resource: permission.resource }
             @categories << permission.category
+          end
+
+          def validate_boundary_in_name(permission)
+            boundary = BOUNDARIES.find { |b| permission.resource.start_with?("#{b}_") }
+            return unless boundary
+
+            violations[:boundary_in_name][permission.name] = boundary
           end
 
           def validate_file(permission)
@@ -157,6 +167,7 @@ module Tasks
 
           def format_all_errors
             out = format_schema_errors { |name| assignable_source_path(name) }
+            out += format_boundary_in_name_errors
             out += format_duplicate_name_errors
             out += format_duplicate_raw_permission_errors
             out += format_file_errors
@@ -169,6 +180,20 @@ module Tasks
 
           def metadata_path(identifier)
             "#{PERMISSION_DIR}/#{identifier}/.metadata.yml"
+          end
+
+          def format_boundary_in_name_errors
+            return '' if violations[:boundary_in_name].empty?
+
+            out = "#{error_messages[:boundary_in_name]}\n\n"
+
+            violations[:boundary_in_name].each do |permission, boundary|
+              source = assignable_source_path(permission)
+
+              out += "  - #{permission}: Resource should not start with boundary '#{boundary}'. (#{source})\n"
+            end
+
+            "#{out}\n"
           end
 
           def format_duplicate_name_errors
@@ -229,6 +254,9 @@ module Tasks
             {
               schema: "The following permissions failed schema validation." \
                 "\n#{assignable_permissions_link(anchor: 'create-the-assignable-permission-file')}",
+              boundary_in_name: "The following assignable permissions encode a resource boundary in their name." \
+                "\nThe permission name should not include the boundary (project, group, user) as a prefix." \
+                "\n#{conventions_link(anchor: 'avoiding-resource-boundaries-in-permission-names')}",
               duplicate_name: "The following permissions have duplicate names." \
                 "\nAssignable permissions must have unique names." \
                 "\n#{assignable_permissions_link(anchor: 'important-constraints')}",

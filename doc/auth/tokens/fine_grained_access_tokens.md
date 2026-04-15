@@ -613,6 +613,14 @@ Grants the ability to create, delete, read, repair, and update Geo sites.
 
 ### Groups resources
 
+#### Activity
+
+Grants the ability to read activities.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | User | `GET` | `/user/activities` |
+
 #### Admin Member Role
 
 Grants the ability to create, delete, read, and update admin member roles.
@@ -623,15 +631,54 @@ Grants the ability to create, delete, read, and update admin member roles.
 | Delete | Instance | `DELETE` | `/admin_member_roles/:member_role_id` |
 | Read | Instance | `GET` | `/admin_member_roles` |
 
+#### Association
+
+Grants the ability to read associations.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | User | `GET` | `/users/:id/associations_count` |
+
 #### Avatar
 
-Grants the ability to read avatars.
+Grants the ability to read and update avatars.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
 | Read | Project | `GET` | `/projects/:id/avatar` |
 | Read | Group | `GET` | `/groups/:id/avatar` |
 | Read | User | `GET` | `/avatar` |
+| Update | User | `PUT` | `/user/avatar` |
+
+#### Follower
+
+Grants the ability to read followers.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | User | `GET` | `/users/:id/followers` |
+
+#### Following
+
+Grants the ability to read followings.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | User | `GET` | `/users/:id/following` |
+
+#### GPG Key
+
+Grants the ability to create, delete, read, and revoke GPG keys.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | User | `POST` | `/user/gpg_keys` |
+| Delete | User | `DELETE` | `/user/gpg_keys/:key_id` |
+| Read | User | `GET` | `/users/:id/gpg_keys` |
+| Read | User | `GET` | `/users/:id/gpg_keys/:key_id` |
+| Read | User | `GET` | `/user/gpg_keys` |
+| Read | User | `GET` | `/user/gpg_keys/:key_id` |
+| Revoke | User | `POST` | `/user/gpg_keys/:key_id/revoke` |
 
 #### Group
 
@@ -681,6 +728,15 @@ Grants the ability to read namespaces.
 | Read | User | `GET` | `/namespaces/:id` |
 | Read | User | `GET` | `/namespaces/:id/exists` |
 
+#### Preference
+
+Grants the ability to read and update preferences.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | User | `GET` | `/user/preferences` |
+| Update | User | `PUT` | `/user/preferences` |
+
 #### SAML Identity
 
 Grants the ability to delete, read, and update SAML identities.
@@ -702,6 +758,26 @@ Grants the ability to create, delete, and read SSH certificates.
 | Delete | Group | `DELETE` | `/groups/:id/ssh_certificates/:ssh_certificates_id` |
 | Read | Group | `GET` | `/groups/:id/ssh_certificates` |
 
+#### Status
+
+Grants the ability to read and update statuses.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | User | `GET` | `/users/:user_id/status` |
+| Read | User | `GET` | `/user/status` |
+| Update | User | `PATCH` | `/user/status` |
+| Update | User | `PUT` | `/user/status` |
+
+#### Support PIN
+
+Grants the ability to create and read support PINs.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | User | `POST` | `/user/support_pin` |
+| Read | User | `GET` | `/user/support_pin` |
+
 #### Template
 
 Grants the ability to read templates.
@@ -721,97 +797,6 @@ Grants the ability to create, delete, merge, read, and update topics.
 | Delete | Instance | `DELETE` | `/topics/:id` |
 | Merge | Instance | `POST` | `/topics/merge` |
 | Update | Instance | `PUT` | `/topics/:id` |
-
-#### User Activity
-
-Grants the ability to read user activities.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | User | `GET` | `/user/activities` |
-
-#### User Association
-
-Grants the ability to read user associations.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | User | `GET` | `/users/:id/associations_count` |
-
-#### User Avatar
-
-Grants the ability to update user avatars.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Update | User | `PUT` | `/user/avatar` |
-
-#### User Follower
-
-Grants the ability to read user followers.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | User | `GET` | `/users/:id/followers` |
-
-#### User Following
-
-Grants the ability to read user following.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | User | `GET` | `/users/:id/following` |
-
-#### User GPG Key
-
-Grants the ability to create, delete, read, and revoke user GPG keys.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | User | `POST` | `/user/gpg_keys` |
-| Delete | User | `DELETE` | `/user/gpg_keys/:key_id` |
-| Read | User | `GET` | `/users/:id/gpg_keys` |
-| Read | User | `GET` | `/users/:id/gpg_keys/:key_id` |
-| Read | User | `GET` | `/user/gpg_keys` |
-| Read | User | `GET` | `/user/gpg_keys/:key_id` |
-| Revoke | User | `POST` | `/user/gpg_keys/:key_id/revoke` |
-
-#### User Preference
-
-Grants the ability to read and update user preferences.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | User | `GET` | `/user/preferences` |
-| Update | User | `PUT` | `/user/preferences` |
-
-#### User Project Deploy Key
-
-Grants the ability to read user project deploy keys.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | User | `GET` | `/users/:user_id/project_deploy_keys` |
-
-#### User Status
-
-Grants the ability to read and update user statuses.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | User | `GET` | `/users/:user_id/status` |
-| Read | User | `GET` | `/user/status` |
-| Update | User | `PATCH` | `/user/status` |
-| Update | User | `PUT` | `/user/status` |
-
-#### User Support Pin
-
-Grants the ability to create and read user support pins.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | User | `POST` | `/user/support_pin` |
-| Read | User | `GET` | `/user/support_pin` |
 
 ### Monitoring resources
 
@@ -1168,6 +1153,17 @@ Grants the ability to create, delete, read, and update virtual registry cleanup 
 
 ### Project Features resources
 
+#### Alias
+
+Grants the ability to create, delete, and read aliases.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Instance | `POST` | `/project_aliases` |
+| Delete | Instance | `DELETE` | `/project_aliases/:name` |
+| Read | Instance | `GET` | `/project_aliases` |
+| Read | Instance | `GET` | `/project_aliases/:name` |
+
 #### Badge
 
 Grants the ability to create, delete, read, and update badges.
@@ -1186,17 +1182,6 @@ Grants the ability to create, delete, read, and update badges.
 | Read | Group | `GET` | `/groups/:id/badges/:badge_id` |
 | Update | Project | `PUT` | `/projects/:id/badges/:badge_id` |
 | Update | Group | `PUT` | `/groups/:id/badges/:badge_id` |
-
-#### Project Alias
-
-Grants the ability to create, delete, and read project aliases.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Instance | `POST` | `/project_aliases` |
-| Delete | Instance | `DELETE` | `/project_aliases/:name` |
-| Read | Instance | `GET` | `/project_aliases` |
-| Read | Instance | `GET` | `/project_aliases/:name` |
 
 #### Release
 
@@ -2101,6 +2086,14 @@ Grants the ability to read and update application appearance settings.
 | Read | Instance | `GET` | `/application/appearance` |
 | Update | Instance | `PUT` | `/application/appearance` |
 
+#### Counts
+
+Grants the ability to read counts.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | User | `GET` | `/user_counts` |
+
 #### Deploy Key
 
 Grants the ability to create, delete, enable, read, and update deploy keys.
@@ -2113,6 +2106,7 @@ Grants the ability to create, delete, enable, read, and update deploy keys.
 | Enable | Project | `POST` | `/projects/:id/deploy_keys/:key_id/enable` |
 | Read | Project | `GET` | `/projects/:id/deploy_keys` |
 | Read | Project | `GET` | `/projects/:id/deploy_keys/:key_id` |
+| Read | User | `GET` | `/users/:user_id/project_deploy_keys` |
 | Read | Instance | `GET` | `/deploy_keys` |
 | Update | Project | `PUT` | `/projects/:id/deploy_keys/:key_id` |
 
@@ -2131,6 +2125,17 @@ Grants the ability to create, delete, and read deploy tokens.
 | Read | Group | `GET` | `/groups/:id/deploy_tokens` |
 | Read | Group | `GET` | `/groups/:id/deploy_tokens/:token_id` |
 | Read | Instance | `GET` | `/deploy_tokens` |
+
+#### Email
+
+Grants the ability to create, delete, and read emails.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | User | `POST` | `/user/emails` |
+| Delete | User | `DELETE` | `/user/emails/:email_id` |
+| Read | User | `GET` | `/user/emails` |
+| Read | User | `GET` | `/user/emails/:email_id` |
 
 #### Enterprise User
 
@@ -2353,10 +2358,16 @@ Grants the ability to delete, read, and update SCIM identities.
 
 #### SSH Key
 
-Grants the ability to read SSH keys.
+Grants the ability to create, delete, and read SSH keys.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
+| Create | User | `POST` | `/user/keys` |
+| Delete | User | `DELETE` | `/user/keys/:key_id` |
+| Read | User | `GET` | `/users/:user_id/keys` |
+| Read | User | `GET` | `/users/:id/keys/:key_id` |
+| Read | User | `GET` | `/user/keys` |
+| Read | User | `GET` | `/user/keys/:key_id` |
 | Read | Instance | `GET` | `/keys/:id` |
 | Read | Instance | `GET` | `/keys` |
 
@@ -2411,38 +2422,6 @@ Grants the ability to follow, read, and unfollow users.
 | Read | User | `GET` | `/users/:id` |
 | Read | User | `GET` | `/user` |
 | Unfollow | User | `POST` | `/users/:id/unfollow` |
-
-#### User Counts
-
-Grants the ability to read user counts.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | User | `GET` | `/user_counts` |
-
-#### User Email
-
-Grants the ability to create, delete, and read user emails.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | User | `POST` | `/user/emails` |
-| Delete | User | `DELETE` | `/user/emails/:email_id` |
-| Read | User | `GET` | `/user/emails` |
-| Read | User | `GET` | `/user/emails/:email_id` |
-
-#### User SSH Key
-
-Grants the ability to create, delete, and read user SSH keys.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | User | `POST` | `/user/keys` |
-| Delete | User | `DELETE` | `/user/keys/:key_id` |
-| Read | User | `GET` | `/users/:user_id/keys` |
-| Read | User | `GET` | `/users/:id/keys/:key_id` |
-| Read | User | `GET` | `/user/keys` |
-| Read | User | `GET` | `/user/keys/:key_id` |
 
 ### System Migration And Integration resources
 
@@ -2511,6 +2490,18 @@ Grants the ability to mark database migrations.
 | ------ | ------ | ------ | ---- |
 | Mark | Instance | `POST` | `/admin/migrations/:timestamp/mark` |
 
+#### Export
+
+Grants the ability to create, download, and read exports.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Project | `POST` | `/projects/:id/export` |
+| Create | Group | `POST` | `/groups/:id/export` |
+| Download | Project | `GET` | `/projects/:id/export/download` |
+| Download | Group | `GET` | `/groups/:id/export/download` |
+| Read | Project | `GET` | `/projects/:id/export` |
+
 #### GitHub Gist Import
 
 Grants the ability to create GitHub gist imports.
@@ -2529,45 +2520,9 @@ Grants the ability to cancel and create GitHub imports.
 | Create | Group | `POST` | `/import/github` |
 | Create | User | `POST` | `/import/github` |
 
-#### Group Export
+#### Import
 
-Grants the ability to download and start group exports.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Download | Group | `GET` | `/groups/:id/export/download` |
-| Start | Group | `POST` | `/groups/:id/export` |
-
-#### Group Import
-
-Grants the ability to create group imports.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Instance | `POST` | `/groups/import` |
-
-#### Placeholder Reassignment
-
-Grants the ability to create and read placeholder reassignments.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Group | `POST` | `/groups/:id/placeholder_reassignments` |
-| Read | Group | `GET` | `/groups/:id/placeholder_reassignments` |
-
-#### Project Export
-
-Grants the ability to create, download, and read project exports.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Project | `POST` | `/projects/:id/export` |
-| Download | Project | `GET` | `/projects/:id/export/download` |
-| Read | Project | `GET` | `/projects/:id/export` |
-
-#### Project Import
-
-Grants the ability to create and read project imports.
+Grants the ability to create and read imports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2578,11 +2533,21 @@ Grants the ability to create and read project imports.
 | Create | User | `POST` | `/projects/import` |
 | Create | User | `POST` | `/projects/remote-import` |
 | Create | User | `POST` | `/projects/remote-import-s3` |
+| Create | Instance | `POST` | `/groups/import` |
 | Read | Project | `GET` | `/projects/:id/import` |
 
-#### Project Relation Export
+#### Placeholder Reassignment
 
-Grants the ability to create, download, and read project relation exports.
+Grants the ability to create and read placeholder reassignments.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Group | `POST` | `/groups/:id/placeholder_reassignments` |
+| Read | Group | `GET` | `/groups/:id/placeholder_reassignments` |
+
+#### Relation Export
+
+Grants the ability to create, download, and read relation exports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -2590,9 +2555,9 @@ Grants the ability to create, download, and read project relation exports.
 | Download | Project | `GET` | `/projects/:id/export_relations/download` |
 | Read | Project | `GET` | `/projects/:id/export_relations/status` |
 
-#### Project Relation Import
+#### Relation Import
 
-Grants the ability to create and read project relation imports.
+Grants the ability to create and read relation imports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |

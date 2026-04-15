@@ -4,5 +4,7 @@ description: Grants the ability to view deploy keys
 boundaries:
   - instance
   - project
+  - user
 permissions:
   - read_deploy_key
+  - read_user_project_deploy_key

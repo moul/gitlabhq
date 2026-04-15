@@ -1,5 +1,6 @@
 ---
 name: download_group_export
+deprecated: true
 description: Grants the ability to download a group export.
 boundaries:
   - group

@@ -1,5 +1,6 @@
 ---
 name: create_user_gpg_key
+deprecated: true
 description: Grants the ability to create user GPG keys
 boundaries:
   - user

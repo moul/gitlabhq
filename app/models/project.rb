@@ -530,6 +530,7 @@ class Project < ApplicationRecord
   has_many :timelogs
 
   has_one :ci_project_mirror, class_name: 'Ci::ProjectMirror'
+  has_one :ci_project_metric, class_name: 'Ci::ProjectMetric'
   has_many :sync_events, class_name: 'Projects::SyncEvent'
 
   has_one :build_artifacts_size_refresh, class_name: 'Projects::BuildArtifactsSizeRefresh'

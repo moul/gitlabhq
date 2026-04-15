@@ -1,5 +1,6 @@
 ---
 name: create_project_alias
+deprecated: true
 description: Grants the ability to create project aliases
 boundaries:
   - instance

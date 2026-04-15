@@ -1,5 +1,6 @@
 ---
 name: download_project_export
+deprecated: true
 description: Grants the ability to download project exports
 permissions:
   - download_project_export

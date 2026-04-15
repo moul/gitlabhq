@@ -1,0 +1,7 @@
+---
+name: create_email
+description: Grants the ability to create emails
+boundaries:
+  - user
+permissions:
+  - create_user_email

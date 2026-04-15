@@ -1,5 +1,6 @@
 ---
 name: update_user_status
+deprecated: true
 description: Grants the ability to update user status
 boundaries:
   - user

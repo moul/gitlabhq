@@ -74471,6 +74471,46 @@ components:
           example: main
         link:
           type: string
+    APIEntitiesWorkItemsFeaturesVerificationStatus:
+      type: object
+      properties:
+        verification_status:
+          type: string
+          example: satisfied
+    APIEntitiesWorkItemsFeaturesStatusStatusObject:
+      type: object
+      properties:
+        id:
+          type: string
+          example: gid://gitlab/WorkItems::Statuses::SystemDefined::Status/1
+        name:
+          type: string
+          example: To do
+        icon_name:
+          type: string
+          example: status-waiting
+        color:
+          type: string
+          example: "#737278"
+        position:
+          type: integer
+          example: 0
+        description:
+          type: string
+        category:
+          type: string
+          example: to_do
+    APIEntitiesWorkItemsFeaturesStatus:
+      type: object
+      properties:
+        status:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesStatusStatusObject"
+    APIEntitiesWorkItemsFeaturesRequirementLegacy:
+      type: object
+      properties:
+        legacy_iid:
+          type: integer
+          example: 1
     APIEntitiesWorkItemsFeaturesWeight:
       type: object
       properties:
@@ -74522,6 +74562,65 @@ components:
         text_color:
           type: string
           example: "#1D3557"
+    APIEntitiesWorkItemsFeaturesErrorTracking:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          example: 12345
+    APIEntitiesWorkItemsFeaturesTimeTrackingTimelog:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        spent_at:
+          type: string
+          format: date-time
+          example: '2024-01-15T10:00:00.000Z'
+        time_spent:
+          type: integer
+          example: 3600
+        user:
+          "$ref": "#/components/schemas/APIEntitiesUserBasic"
+        summary:
+          type: string
+          example: Reviewed MR
+    APIEntitiesWorkItemsFeaturesTimeTrackingHumanReadableAttributes:
+      type: object
+      properties:
+        time_estimate:
+          type: string
+          example: 3h 30m
+        total_time_spent:
+          type: string
+          example: 1h 15m
+    APIEntitiesWorkItemsFeaturesTimeTracking:
+      type: object
+      properties:
+        time_estimate:
+          type: integer
+          example: 12600
+        total_time_spent:
+          type: integer
+          example: 4500
+        human_readable_attributes:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesTimeTrackingHumanReadableAttributes"
+        timelogs:
+          type: array
+          items:
+            "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesTimeTrackingTimelog"
+    APIEntitiesWorkItemsFeaturesDesignsDesignCollection:
+      type: object
+      properties:
+        copy_state:
+          type: string
+          example: ready
+    APIEntitiesWorkItemsFeaturesDesigns:
+      type: object
+      properties:
+        design_collection:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesDesignsDesignCollection"
     APIEntitiesWorkItemsFeaturesWorkItemReference:
       type: object
       properties:
@@ -74642,6 +74741,12 @@ components:
           "$ref": "#/components/schemas/APIEntitiesMilestone"
         start_and_due_date:
           "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesStartAndDueDate"
+        designs:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesDesigns"
+        time_tracking:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesTimeTracking"
+        error_tracking:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesErrorTracking"
         color:
           "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesColor"
         progress:
@@ -74652,6 +74757,12 @@ components:
           "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesHealthStatus"
         weight:
           "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesWeight"
+        requirement_legacy:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesRequirementLegacy"
+        status:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesStatus"
+        verification_status:
+          "$ref": "#/components/schemas/APIEntitiesWorkItemsFeaturesVerificationStatus"
     APIEntitiesWorkItemsPermissions:
       type: object
       properties:

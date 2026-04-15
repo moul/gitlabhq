@@ -10,8 +10,16 @@ module Authz
           definitions.flat_map(&:permissions).uniq
         end
 
+        def available_permissions
+          available_definitions.flat_map(&:permissions).uniq
+        end
+
         def for_permission(permission)
           definitions.filter { |a| a.permissions.include?(permission.to_sym) }
+        end
+
+        def available_for_permission(permission)
+          available_definitions.filter { |a| a.permissions.include?(permission.to_sym) }
         end
 
         def config_path

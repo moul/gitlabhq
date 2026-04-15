@@ -1,5 +1,6 @@
 ---
 name: create_group_import
+deprecated: true
 description: Grants the ability to create a group import
 boundaries:
   - instance

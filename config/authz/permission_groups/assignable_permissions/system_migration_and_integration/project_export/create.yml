@@ -1,5 +1,6 @@
 ---
 name: create_project_export
+deprecated: true
 description: Grants the ability to start project exports
 permissions:
   - create_project_export

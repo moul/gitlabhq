@@ -1,0 +1,7 @@
+---
+name: create_gpg_key
+description: Grants the ability to create GPG keys
+boundaries:
+  - user
+permissions:
+  - create_user_gpg_key

@@ -865,6 +865,7 @@ project:
 - ci_feature_usages
 - bulk_import_exports
 - ci_project_mirror
+- ci_project_metric
 - sync_events
 - secure_files
 - security_trainings

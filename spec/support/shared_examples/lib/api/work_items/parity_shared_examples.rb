@@ -67,25 +67,23 @@ RSpec.shared_examples 'work item API field parity' do
         award_emoji
         crm_contacts
         current_user_todos
-        designs
         development
         email_participants
-        error_tracking
         hierarchy
         linked_items
         linked_resources
         notes
         notifications
         participants
-        time_tracking
       ]).merge(extra_graphql_feature_exceptions)
     end
 
     # REST currently reuses generic entities for the assignee and milestone widgets, so their
     # field sets don't match the dedicated GraphQL widget types. Skip them until REST exposes
     # feature-specific entities and the payloads can be aligned.
+    # error_tracking exposes only identifier, stack_trace and status require external API calls.
     let(:skipped_feature_comparison) do
-      Set.new(%w[assignees milestone]).merge(extra_skipped_feature_comparison)
+      Set.new(%w[assignees milestone error_tracking]).merge(extra_skipped_feature_comparison)
     end
 
     it 'keeps feature payloads aligned with known differences' do

@@ -1,5 +1,6 @@
 ---
 name: download_project_relation_export
+deprecated: true
 description: Grants the ability to download project relation exports
 permissions:
   - download_project_relation_export

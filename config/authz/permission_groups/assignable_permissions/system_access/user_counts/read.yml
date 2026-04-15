@@ -1,5 +1,6 @@
 ---
 name: read_user_counts
+deprecated: true
 description: Grants the ability to view user counts (assigned open issues, assigned MRs, etc.)
 boundaries:
   - user

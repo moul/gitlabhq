@@ -1,5 +1,6 @@
 ---
 name: read_user_ssh_key
+deprecated: true
 description: Grants the ability to read user SSH keys
 boundaries:
   - user

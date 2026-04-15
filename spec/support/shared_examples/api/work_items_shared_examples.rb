@@ -186,10 +186,14 @@ RSpec.shared_examples 'work item listing payload' do
 end
 
 RSpec.shared_examples 'avoids N+1 queries' do
+  let_it_be(:timelog_user) { create(:user) }
+
   before do
     create(:issue_assignee, issue: primary_work_item, assignee: user)
     create(:discussion_note_on_work_item, noteable: primary_work_item, project: project)
     create(:work_items_dates_source, :fixed, work_item: primary_work_item)
+    create(:timelog, issue: primary_work_item, user: timelog_user, time_spent: 3600)
+    create(:timelog, issue: secondary_work_item, user: timelog_user, time_spent: 1800)
 
     primary_work_item.update_columns(last_edited_by_id: editor.id, last_edited_at: 2.days.ago)
   end
@@ -209,6 +213,7 @@ RSpec.shared_examples 'avoids N+1 queries' do
     create(:issue_assignee, issue: extra_work_item, assignee: user)
     create(:discussion_note_on_work_item, noteable: extra_work_item, project: project)
     create(:work_items_dates_source, :fixed, work_item: extra_work_item)
+    create(:timelog, issue: extra_work_item, user: timelog_user, time_spent: 1800)
     extra_work_item.update_columns(last_edited_by_id: editor.id, last_edited_at: 1.day.ago)
 
     expect do

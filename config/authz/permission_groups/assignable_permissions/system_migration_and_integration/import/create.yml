@@ -1,0 +1,11 @@
+---
+name: create_import
+description: Grants the ability to create imports
+boundaries:
+  - project
+  - group
+  - user
+  - instance
+permissions:
+  - create_project_import
+  - create_group_import

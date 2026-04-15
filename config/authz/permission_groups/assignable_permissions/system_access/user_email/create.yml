@@ -1,5 +1,6 @@
 ---
 name: create_user_email
+deprecated: true
 description: Grants the ability to create user email addresses
 boundaries:
   - user

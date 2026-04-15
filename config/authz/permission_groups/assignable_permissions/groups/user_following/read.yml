@@ -1,5 +1,6 @@
 ---
 name: read_user_following
+deprecated: true
 description: Grants the ability to read user following information
 boundaries:
   - user

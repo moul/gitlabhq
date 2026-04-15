@@ -1,5 +1,6 @@
 ---
 name: create_project_import
+deprecated: true
 description: Grants the ability to import projects
 permissions:
   - create_project_import

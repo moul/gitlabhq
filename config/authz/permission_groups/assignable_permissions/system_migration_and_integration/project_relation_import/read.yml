@@ -1,5 +1,6 @@
 ---
 name: read_project_relation_import
+deprecated: true
 description: Grants the ability to read project relation import status
 permissions:
   - read_project_relation_import

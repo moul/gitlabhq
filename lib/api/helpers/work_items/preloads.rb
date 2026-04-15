@@ -9,7 +9,9 @@ module API
           assignees: [:assignees],
           labels: [:labels],
           milestone: [:milestone],
-          start_and_due_date: [:dates_source]
+          start_and_due_date: [:dates_source],
+          time_tracking: [{ timelogs: :user }],
+          error_tracking: [:sentry_issue]
         }.freeze
 
         PROJECT_FEATURE_PRELOADS = {

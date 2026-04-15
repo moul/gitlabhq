@@ -1,5 +1,6 @@
 ---
 name: delete_user_email
+deprecated: true
 description: Grants the ability to delete user email addresses
 boundaries:
   - user

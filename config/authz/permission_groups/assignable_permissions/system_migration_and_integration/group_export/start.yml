@@ -1,5 +1,6 @@
 ---
 name: start_group_export
+deprecated: true
 description: Grants the ability to start a group export.
 boundaries:
   - group

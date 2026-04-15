@@ -1,0 +1,7 @@
+---
+name: create_relation_import
+description: Grants the ability to create relation imports
+boundaries:
+  - project
+permissions:
+  - create_project_relation_import

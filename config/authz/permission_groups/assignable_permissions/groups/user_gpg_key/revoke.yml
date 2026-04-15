@@ -1,5 +1,6 @@
 ---
 name: revoke_user_gpg_key
+deprecated: true
 description: Grants the ability to revoke user GPG keys
 boundaries:
   - user

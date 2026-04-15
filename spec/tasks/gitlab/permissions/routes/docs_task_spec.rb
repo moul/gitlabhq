@@ -24,7 +24,8 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::DocsTask, :silence_stdout, fe
       resource_name: 'Job',
       resource_description: 'Grants the ability to read jobs',
       action: 'read',
-      permissions: %i[read_job]
+      permissions: %i[read_job],
+      deprecated?: false
     )
   end
 
@@ -34,7 +35,8 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::DocsTask, :silence_stdout, fe
       resource_name: 'Package',
       resource_description: 'Grants the ability to read, uploaad, and delete packages',
       action: 'read',
-      permissions: %i[download_package delete_package]
+      permissions: %i[download_package delete_package],
+      deprecated?: false
     )
   end
 
@@ -44,7 +46,8 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::DocsTask, :silence_stdout, fe
       resource_name: 'Package',
       resource_description: 'Grants the ability to read, uploaad, and delete packages',
       action: 'create',
-      permissions: %i[upload_package]
+      permissions: %i[upload_package],
+      deprecated?: false
     )
   end
 
@@ -54,7 +57,8 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::DocsTask, :silence_stdout, fe
       resource_name: 'Package',
       resource_description: 'Grants the ability to read, uploaad, and delete packages',
       action: 'delete',
-      permissions: %i[delete_package]
+      permissions: %i[delete_package],
+      deprecated?: false
     )
   end
 
@@ -190,6 +194,34 @@ RSpec.describe Tasks::Gitlab::Permissions::Routes::DocsTask, :silence_stdout, fe
     # 4. Routes with additional permissions are marked with a <sup> footnote
     it 'returns the expected markdown' do
       expect(task.allowed_endpoints).to eq(expected_markdown)
+    end
+
+    context 'when a raw permission exists in both a deprecated and active assignable permission' do
+      let(:deprecated_read_job_assignable) do
+        instance_double(::Authz::PermissionGroups::Assignable,
+          category_name: 'Another Category',
+          resource_name: 'Deprecated Job',
+          resource_description: '',
+          action: 'read',
+          permissions: %i[read_job],
+          deprecated?: true
+        )
+      end
+
+      before do
+        allow(::Authz::PermissionGroups::Assignable).to receive(:all).and_return({
+          create_package: create_package_assignable,
+          read_package: read_package_assignable,
+          read_job: read_job_assignable,
+          delete_package: delete_package_assignable,
+          deprecated_read_job: deprecated_read_job_assignable
+        })
+      end
+
+      it 'uses the non-deprecated assignable permission' do
+        expect(task.allowed_endpoints).to include('#### Job')
+        expect(task.allowed_endpoints).not_to include('Deprecated Job')
+      end
     end
 
     context 'when the API route list contains duplicates' do

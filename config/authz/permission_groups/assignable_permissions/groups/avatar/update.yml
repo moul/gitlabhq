@@ -1,0 +1,7 @@
+---
+name: update_avatar
+description: Grants the ability to update avatar
+boundaries:
+  - user
+permissions:
+  - update_user_avatar

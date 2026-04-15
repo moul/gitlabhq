@@ -17525,6 +17525,23 @@ CREATE SEQUENCE ci_pipelines_id_seq
 
 ALTER SEQUENCE ci_pipelines_id_seq OWNED BY p_ci_pipelines.id;
 
+CREATE TABLE ci_project_metrics (
+    id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    project_id bigint NOT NULL,
+    first_pipeline_succeeded_at timestamp with time zone
+);
+
+CREATE SEQUENCE ci_project_metrics_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE ci_project_metrics_id_seq OWNED BY ci_project_metrics.id;
+
 CREATE TABLE ci_project_mirrors (
     id bigint NOT NULL,
     project_id bigint NOT NULL,
@@ -35577,6 +35594,8 @@ ALTER TABLE ONLY ci_pipeline_schedule_variables ALTER COLUMN id SET DEFAULT next
 
 ALTER TABLE ONLY ci_pipeline_schedules ALTER COLUMN id SET DEFAULT nextval('ci_pipeline_schedules_id_seq'::regclass);
 
+ALTER TABLE ONLY ci_project_metrics ALTER COLUMN id SET DEFAULT nextval('ci_project_metrics_id_seq'::regclass);
+
 ALTER TABLE ONLY ci_project_mirrors ALTER COLUMN id SET DEFAULT nextval('ci_project_mirrors_id_seq'::regclass);
 
 ALTER TABLE ONLY ci_project_monthly_usages ALTER COLUMN id SET DEFAULT nextval('ci_project_monthly_usages_id_seq'::regclass);
@@ -38881,6 +38900,9 @@ ALTER TABLE ONLY ci_pipeline_schedule_variables
 
 ALTER TABLE ONLY ci_pipeline_schedules
     ADD CONSTRAINT ci_pipeline_schedules_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY ci_project_metrics
+    ADD CONSTRAINT ci_project_metrics_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY ci_project_mirrors
     ADD CONSTRAINT ci_project_mirrors_pkey PRIMARY KEY (id);
@@ -45813,6 +45835,8 @@ CREATE INDEX index_ci_pipeline_schedules_on_owner_id ON ci_pipeline_schedules US
 CREATE INDEX index_ci_pipeline_schedules_on_owner_id_and_id_and_active ON ci_pipeline_schedules USING btree (owner_id, id) WHERE (active = true);
 
 CREATE INDEX index_ci_pipeline_schedules_on_project_id ON ci_pipeline_schedules USING btree (project_id);
+
+CREATE UNIQUE INDEX index_ci_project_metrics_on_project_id ON ci_project_metrics USING btree (project_id);
 
 CREATE INDEX index_ci_project_mirrors_on_namespace_id ON ci_project_mirrors USING btree (namespace_id);
 
