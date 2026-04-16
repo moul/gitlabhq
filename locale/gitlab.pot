@@ -2589,7 +2589,7 @@ msgstr ""
 msgid "AICatalog|Agents successfully added to AI Catalog."
 msgstr ""
 
-msgid "AICatalog|All project members will be able to use it, after a Maintainer enables it in a project."
+msgid "AICatalog|All project members will be able to use it."
 msgstr ""
 
 msgid "AICatalog|An agent or flow can only be enabled once per group or project"
@@ -2985,7 +2985,7 @@ msgstr ""
 msgid "AICatalog|Is visible to everyone, including users outside your organization."
 msgstr ""
 
-msgid "AICatalog|Learn more about composite identity."
+msgid "AICatalog|Learn more about composite identity"
 msgstr ""
 
 msgid "AICatalog|Learn more about foundational agents"
