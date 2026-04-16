@@ -51,34 +51,44 @@ Share any feedback on the new dependency scanning analyzer in this [feedback iss
 
 ## Turn on dependency scanning
 
-If you are new to dependency scanning, follow these steps to turn it on for your project.
+Turn on dependency scanning for your project.
 
-- Prerequisites for all GitLab instances:
-  - The Developer, Maintainer, or Owner role for the project.
-  - A [supported lockfile or dependency graph export](#supported-languages-and-files),
-    either committed to the repository or created in the CI/CD pipeline and passed as an artifact
-    to the `dependency-scanning` job. Alternatively, [dependency resolution](#dependency-resolution)
-    can generate the required files for supported ecosystems, or a
-    [manifest file](#manifest-fallback) can be used as a fallback option.
-  - For self-managed runners, GitLab Runner with the
-    [`docker`](https://docs.gitlab.com/runner/executors/docker/) or
-    [`kubernetes`](https://docs.gitlab.com/runner/install/kubernetes/) executor.
-  - For hosted runners on GitLab.com, this configuration is enabled by default.
-- Additional prerequisites for GitLab Self-Managed only:
-  - [Package metadata](../../../../administration/settings/security_and_compliance.md#choose-package-registry-metadata-to-sync)
-    for all PURL types to be scanned must be synchronized in the GitLab instance.
+### Prerequisites
 
-    > [!note]
-    > If this data is not available in the GitLab instance, dependency scanning cannot identify
-    > vulnerabilities.
+Prerequisites for all GitLab instances:
 
-To turn on dependency scanning:
+- The Developer, Maintainer, or Owner role for the project.
+- A [supported lockfile or dependency graph export](#supported-languages-and-files),
+  either committed to the repository or created in the CI/CD pipeline and passed as an artifact
+  to the `dependency-scanning` job. Alternatively, [dependency resolution](#dependency-resolution)
+  can generate the required files for supported ecosystems, or a
+  [manifest file](#manifest-fallback) can be used as a fallback option.
+- For self-managed runners, GitLab Runner with the
+  [`docker`](https://docs.gitlab.com/runner/executors/docker/) or
+  [`kubernetes`](https://docs.gitlab.com/runner/install/kubernetes/) executor.
+- For hosted runners on GitLab.com, this configuration is enabled by default.
+
+For GitLab Self-Managed only, [package metadata](../../../../administration/settings/security_and_compliance.md#choose-package-registry-metadata-to-sync)
+for all PURL types to be scanned must be synchronized in the GitLab instance. If this data is not available in the GitLab instance,
+dependency scanning cannot identify vulnerabilities.
+
+### Update project pipeline configuration
+
+To turn on dependency scanning, you must add the dependency scanning template to the project pipeline configuration.
+
+By default, the `Dependency-Scanning.v2.gitlab-ci.yml` template runs the dependency scanning job
+in merge request pipelines. If your project does not use merge request pipelines for other jobs,
+this causes only the dependency scanning job to appear in the merge request pipeline, while all
+other jobs run in a separate branch pipeline. To disable this behavior, see
+[disable MR pipelines for dependency scanning](#disable-merge-request-pipelines-for-dependency-scanning).
+
+To turn on dependency scanning through the GitLab UI:
 
 1. In the top bar, select **Search or go to** and find your project.
 1. Select **Code** > **Repository**.
 1. Select the `.gitlab-ci.yml` file.
 1. Select **Edit** > **Edit single file**.
-1. Add the `v2` dependency scanning CI/CD template:
+1. Add the `Dependency-Scanning.v2` CI/CD template:
 
    ```yaml
    include:
@@ -342,7 +352,7 @@ These variables can replace spec inputs and are also compatible with the beta `l
 
 | CI/CD variables                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `AST_ENABLE_MR_PIPELINES`                      | Control whether dependency scanning job runs in MR or branch pipeline. Default: `"true"`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `AST_ENABLE_MR_PIPELINES`                      | Control whether dependency scanning job runs in MR or branch pipeline. Default: `"true"`. If your project does not use MR pipelines, disable this to avoid duplicate pipelines.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `ADDITIONAL_CA_CERT_BUNDLE`                    | CA certificate bundle to trust. The CA bundle provided here is added to the system's certificates and also used by other tools during the scanning process. For more details, see [Custom TLS certificate authority](#custom-tls-certificate-authority).                                                                                                                                                                                                                                                                                                                                         |
 | `ANALYZER_ARTIFACT_DIR`                        | Directory where CycloneDX reports (SBOMs) are saved. Default `${CI_PROJECT_DIR}/sca-artifacts`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `DS_EXCLUDED_ANALYZERS`                        | Specify the analyzers (by name) to exclude from dependency scanning.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -363,6 +373,14 @@ These variables can replace spec inputs and are also compatible with the beta `l
 | `DS_MAVEN_RESOLUTION_IMAGE`                    | The image used by the Maven dependency resolution job.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `DS_PYTHON_RESOLUTION_IMAGE`                   | The image used by the Python dependency resolution job.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `DS_GRADLE_RESOLUTION_IMAGE`                   | The image used by the Gradle dependency resolution job.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+
+### Disable merge request pipelines for dependency scanning
+
+By default, the `Dependency-Scanning.v2.gitlab-ci.yml` template runs the dependency scanning job in
+merge request pipelines. If your project does not use merge request pipelines for other jobs, this
+can cause a duplicate pipelines problem where other jobs run in a separate branch pipeline. To
+disable this behavior, set the spec input `enable_mr_pipelines: false` or CI/CD variable
+`AST_ENABLE_MR_PIPELINES: "false"`.
 
 ### Custom TLS certificate authority
 
@@ -1231,3 +1249,11 @@ dependency-scanning:
     - echo "$ADDITIONAL_CA_CERT_BUNDLE" > /tmp/cacert.pem
     - export SSL_CERT_FILE="/tmp/cacert.pem"
 ```
+
+### Only dependency scanning runs in merge request pipelines, other jobs appear skipped
+
+By default, the `Dependency-Scanning.v2.gitlab-ci.yml` template runs the dependency scanning job in
+merge request pipelines. If your project does not use merge request pipelines for other jobs, this
+causes only the dependency scanning job to appear in the merge request pipeline, while all other
+jobs run in a separate branch pipeline. To disable this behavior, see
+[Disable MR pipelines for dependency scanning](#disable-merge-request-pipelines-for-dependency-scanning).
