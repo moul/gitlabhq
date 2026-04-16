@@ -297,6 +297,33 @@ Consult the Database team, reviewers, or maintainers to plan the work.
 
 For more information, see [Unique constraints in Cells](../cells/_index.md#unique-constraints).
 
+### Unique indexes on nullable columns
+
+By default, PostgreSQL treats `NULL` values as distinct in unique indexes.
+This means a unique index on `(project_id, name)` allows multiple rows where
+`name IS NULL` for the same `project_id`.
+
+PostgreSQL 15 introduced the [`NULLS NOT DISTINCT`](https://www.postgresql.org/about/featurematrix/detail/unique-nulls-not-distinct/)
+clause for unique indexes. When enabled, PostgreSQL treats `NULL` values as equal,
+so the index permits at most one `NULL` per unique combination.
+
+Use `nulls_not_distinct: true` when you need to enforce full uniqueness
+including `NULL` values:
+
+```ruby
+add_concurrent_index(
+  :vulnerability_finding_links,
+  %i[vulnerability_occurrence_id name url],
+  unique: true,
+  nulls_not_distinct: true,
+  name: "finding_link_occurrence_id_name_url_idx"
+)
+```
+
+This replaces the previous pattern of combining two indexes: one regular unique
+index for non-null rows and a partial unique index with a `WHERE column IS NULL`
+condition. A single `NULLS NOT DISTINCT` index is simpler and uses less disk space.
+
 ## Dropping unused indexes
 
 Unused indexes should be dropped because they increase [maintenance overhead](#maintenance-overhead), consume

@@ -49,25 +49,37 @@ Higher RAM and disk capacity can enhance the AI Gateway's efficiency during peak
 
 A GPU is not needed for the GitLab AI Gateway.
 
-### Find the AI Gateway image
+### AI Gateway images
 
-The GitLab official Docker image is available in the following locations:
+#### Standard images
 
-- The container registry:
-  - [Stable](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/container_registry/3809284?orderBy=PUBLISHED_AT&search%5B%5D=self-hosted)
-  - [Nightly](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/container_registry/8086262)
-- DockerHub:
-  - [Stable](https://hub.docker.com/r/gitlab/model-gateway/tags)
-  - [Nightly](https://hub.docker.com/r/gitlab/model-gateway-self-hosted/tags)
+Standard AI Gateway images are available in the following locations:
+
+- The container registry: [Stable](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/container_registry/3809284?orderBy=PUBLISHED_AT&search%5B%5D=self-hosted)
+- DockerHub: [Stable](https://hub.docker.com/r/gitlab/model-gateway/tags)
+
+If your GitLab version is `vX.Y.*-ee`, use the AI Gateway image with the latest `self-hosted-vX.Y.*-ee` tag.
+For example:
+
+- If GitLab is on `v18.2.1-ee` and the AI Gateway image has
+  versions `self-hosted-v18.2.0-ee`, `self-hosted-v18.2.1-ee`, and `self-hosted-v18.2.2-ee`, use `self-hosted-v18.2.2-ee`.
+- If GitLab is on `v18.2.1-ee` and the AI Gateway image has
+  version `self-hosted-v18.2.0-ee` only, use `self-hosted-v18.2.0-ee`.
+
+For more information, see the [release process for self-hosted AI Gateway](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/main/docs/delivery/release.md).
+
+> [!note]
+> Backward compatibility is not guaranteed with nightly builds.
+> Always use stable releases with an explicit version tag.
 
 #### FIPS-validated images
 
 For environments that require FIPS 140-3 validated cryptography,
-a FIPS-validated variant of the self-hosted AI Gateway image is available.
+use a FIPS-validated AI Gateway image.
 This image is built on Red Hat UBI 9 and uses the CMVP-validated
 [Red Hat OpenSSL FIPS provider](https://access.redhat.com/compliance/fips).
 
-FIPS images are available in the following locations:
+FIPS-validated AI Gateway images are available in the following locations:
 
 - The container registry: [Stable](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/container_registry/9518478)
 - DockerHub: [Stable](https://hub.docker.com/r/gitlab/model-gateway-self-hosted-fips/tags)
@@ -80,19 +92,6 @@ To start the FIPS-validated container, replace the image reference in the
 ```shell
 registry.gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/model-gateway/self-hosted-fips:<ai-gateway-tag>
 ```
-
-[View the release process for the self-hosted AI Gateway](https://gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/-/blob/main/docs/delivery/release.md).
-
-If your GitLab version is `vX.Y.*-ee`, use the AI Gateway Docker image with the latest `self-hosted-vX.Y.*-ee` tag. For example, if GitLab is on version `v18.2.1-ee`, and the AI Gateway Docker image has:
-
-- Versions `self-hosted-v18.2.0-ee`, `self-hosted-v18.2.1-ee`, and `self-hosted-v18.2.2-ee`, use `self-hosted-v18.2.2-ee`.
-- Versions `self-hosted-v18.2.0-ee` and `self-hosted-v18.2.1-ee`, use `self-hosted-v18.2.1-ee`.
-- Only one version, `self-hosted-v18.2.0-ee`, use `self-hosted-v18.2.0-ee`.
-
-Newer features are available from nightly builds, but backwards compatibility is not guaranteed.
-
-> [!note]
-> Using the nightly version is **not recommended** because it can cause incompatibility if your GitLab version is behind or ahead of the AI Gateway release. Always use an explicit version tag.
 
 ### Start a container from the image
 

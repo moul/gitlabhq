@@ -138,22 +138,40 @@ RSpec.describe PersonalAccessTokens::RotateService, feature_category: :system_ac
       end
     end
 
-    context "for service account's token" do
-      let_it_be(:current_user) { create(:user, :service_account) }
-      let_it_be(:token, reload: true) do
-        create(:personal_access_token, user: current_user, expires_at: Time.zone.today + 30.days)
-      end
-
-      it_behaves_like "rotates token successfully"
-
-      # See https://gitlab.com/gitlab-org/gitlab/-/issues/526327
-      context 'with membership expiration date' do
-        let_it_be(:membership_with_expiration_date) do
-          create(:project_member, user: current_user, expires_at: 30.days.since)
+    context 'with bot users', :freeze_time do
+      context "with a project_bot user" do
+        let_it_be(:current_user) { create(:user, :project_bot) }
+        let_it_be_with_reload(:token) do
+          create(:personal_access_token, user: current_user, expires_at: Time.zone.today + 30.days)
         end
 
-        it 'does not update membership expiration date' do
-          expect { response }.not_to change { membership_with_expiration_date.reload.expires_at }
+        it_behaves_like "rotates token successfully"
+
+        context 'with membership expiration' do
+          it 'updates membership expiration date to nil' do
+            membership_with_expiration_date = create(:project_member, user: current_user, expires_at: 30.days.since)
+            # Prevents automatic bot membership deletion by RemoveExpiredMembersWorker to
+            # preserve the association between the token and its bot user
+            expect { response }.to change { membership_with_expiration_date.reload.expires_at }.to(nil)
+          end
+        end
+      end
+
+      # See https://gitlab.com/gitlab-org/gitlab/-/issues/526327 (has many duplicates)
+      context 'with a service_account user' do
+        let_it_be(:current_user) { create(:user, :service_account) }
+        let_it_be_with_reload(:token) do
+          create(:personal_access_token, user: current_user, expires_at: Time.zone.today + 30.days)
+        end
+
+        it_behaves_like "rotates token successfully"
+
+        context 'with membership expiration' do
+          it 'does not update membership expiration date' do
+            membership_with_expiration_date = create(:project_member, user: current_user, expires_at: 30.days.since)
+
+            expect { response }.not_to change { membership_with_expiration_date.reload.expires_at }
+          end
         end
       end
     end

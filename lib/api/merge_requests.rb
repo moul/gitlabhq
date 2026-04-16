@@ -589,7 +589,7 @@ module API
         commit_ids = params[:commits]
         merge_request = find_merge_request_with_access(params[:merge_request_iid])
 
-        authorize!(:destroy_merge_request, merge_request)
+        authorize!(:update_merge_request, merge_request)
         project = merge_request.target_project
         commits = project.repository.commits_by(oids: commit_ids)
 

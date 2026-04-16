@@ -3532,6 +3532,13 @@ RSpec.describe API::MergeRequests, :aggregate_failures, feature_category: :sourc
         expect(response).to have_gitlab_http_status(:bad_request)
       end
 
+      it 'deletes context commit for developer role' do
+        developer = create(:user)
+        project.add_developer(developer)
+        delete api("/projects/#{project.id}/merge_requests/#{merge_request_iid}/context_commits", developer), params: params
+        expect(response).to have_gitlab_http_status(:no_content)
+      end
+
       it 'returns 403 when deleting existing context commit for guest role' do
         guest = create(:user)
         project.add_guest(guest)

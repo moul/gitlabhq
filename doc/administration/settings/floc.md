@@ -34,7 +34,7 @@ Prerequisites:
 To enable user tracking for interest-based advertising:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Federated Learning of Cohorts (FLoC)**.
 1. Select the **Participate in FLoC** checkbox.
 1. Select **Save changes**.

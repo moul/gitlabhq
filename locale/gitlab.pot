@@ -51734,13 +51734,10 @@ msgstr ""
 msgid "PipelineEditor|Configuration content has changed. Re-run validation for updated results."
 msgstr ""
 
-msgid "PipelineEditor|Current content in the Edit tab will be used for the simulation."
+msgid "PipelineEditor|Current content in the Edit tab will be used for the simulation or %{linkStart}lint CI/CD sample%{linkEnd}."
 msgstr ""
 
 msgid "PipelineEditor|Editor accessibility guide"
-msgstr ""
-
-msgid "PipelineEditor|Lint CI/CD sample"
 msgstr ""
 
 msgid "PipelineEditor|Pipeline behavior will be simulated including the %{codeStart}rules%{codeEnd} %{codeStart}only%{codeEnd} %{codeStart}except%{codeEnd} and %{codeStart}needs%{codeEnd} job dependencies."

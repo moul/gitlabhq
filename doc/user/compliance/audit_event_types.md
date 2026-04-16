@@ -326,6 +326,7 @@ Audit event types belong to the following product categories.
 
 | Type name | Event triggered when | Saved to database | Introduced in | Scope |
 |:----------|:---------------------|:------------------|:--------------|:------|
+| [`composite_oauth_token_created`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231162) | A composite OAuth token was created for a Duo workflow | {{< yes >}} | GitLab [19.0](https://gitlab.com/gitlab-org/gitlab/-/work_items/593023) | Group, Project, User |
 | [`duo_session_created`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/216689) | Duo session is created | {{< yes >}} | GitLab [18.8](https://gitlab.com/gitlab-org/gitlab/-/issues/581004) | Project |
 | [`duo_session_failed`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/216689) | Duo session has failed | {{< yes >}} | GitLab [18.8](https://gitlab.com/gitlab-org/gitlab/-/issues/581004) | Project |
 | [`duo_session_finished`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/216689) | Duo session is finished | {{< yes >}} | GitLab [18.8](https://gitlab.com/gitlab-org/gitlab/-/issues/581004) | Project |

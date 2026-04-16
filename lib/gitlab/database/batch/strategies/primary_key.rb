@@ -17,12 +17,13 @@ module Gitlab
           # batch_min_value - The minimum value which the next batch will start at
           # batch_size - The size of the next batch
           # job_class - The migration job class
-          def next_batch(table_name, batch_min_value:, batch_size:, job_class: nil)
+          def next_batch(table_name, batch_min_value:, batch_size:, job_class: nil, job_arguments: [])
             base_class = Gitlab::Database.application_record_for_connection(connection)
             model_class = define_batchable_model(table_name, connection: connection, base_class: base_class)
 
             cursor_columns = job_class.cursor_columns
-            iterator = create_keyset_iterator(model_class, cursor_columns, batch_min_value)
+            scope = apply_scope_to(model_class, job_class, table_name, cursor_columns, job_arguments)
+            iterator = create_keyset_iterator(scope, cursor_columns, batch_min_value)
 
             extract_batch_bounds(iterator, batch_size, cursor_columns)
           end
@@ -30,15 +31,28 @@ module Gitlab
           private
 
           # rubocop:disable GitlabSecurity/SqlInjection -- no user input
-          def create_keyset_iterator(model_class, cursor_columns, batch_min_value)
-            tuple_columns = cursor_columns.map { |col| "#{model_class.table_name}.#{col}" }.join(', ')
+          def create_keyset_iterator(scope, cursor_columns, batch_min_value)
+            tuple_columns = cursor_columns.map { |col| "#{scope.table_name}.#{col}" }.join(', ')
             tuple_values = batch_min_value.map { |v| connection.quote(v) }.join(', ')
 
             Gitlab::Pagination::Keyset::Iterator.new(
-              scope: model_class.where("(#{tuple_columns}) >= (#{tuple_values})").order(cursor_columns)
+              scope: scope.where("(#{tuple_columns}) >= (#{tuple_values})").order(cursor_columns)
             )
           end
           # rubocop:enable GitlabSecurity/SqlInjection
+
+          def apply_scope_to(model_class, job_class, table_name, cursor_columns, job_arguments)
+            job_instance = job_class.new(
+              batch_table: table_name,
+              batch_column: cursor_columns,
+              sub_batch_size: 0,
+              pause_ms: 0,
+              connection: connection,
+              job_arguments: job_arguments
+            )
+
+            job_instance.filter_batch(model_class)
+          end
 
           # rubocop:disable Lint/UnreachableLoop -- we need to use each_batch to pull one batch out
           def extract_batch_bounds(iterator, batch_size, cursor_columns)

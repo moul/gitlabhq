@@ -18,6 +18,13 @@ export const useMergeRequestVersions = defineStore('mergeRequestVersions', {
       const source = this.selectedSourceVersion;
       const target = this.selectedTargetVersion;
       if (!source || !target) return null;
+      if (target.head) {
+        return {
+          base_sha: target.start_sha,
+          head_sha: target.head_sha,
+          start_sha: target.start_sha,
+        };
+      }
       return {
         base_sha: source.base_sha,
         head_sha: source.head_sha,

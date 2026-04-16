@@ -244,8 +244,9 @@ Dangerfile
 /spec/rubocop*
 
 ^[Unused method linting script] @kerrizor @splattael
-/.gitlab/lint/unused_methods/
 /scripts/lint/unused_methods.rb
+/scripts/lint/excluded_methods.yml
+/scripts/lint/potential_methods_to_remove.yml
 
 ^[LDAP] @dblessing @mkozono
 /ee/lib/ee/gitlab/auth/ldap/

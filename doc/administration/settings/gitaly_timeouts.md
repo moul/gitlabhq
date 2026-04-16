@@ -28,7 +28,7 @@ Prerequisites:
 To configure the call timeouts:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Preferences**.
+1. In the left sidebar, select **Settings** > **Preferences**.
 1. Expand the **Gitaly timeouts** section.
 1. Set each timeout as required.
 

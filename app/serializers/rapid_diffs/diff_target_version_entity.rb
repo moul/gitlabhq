@@ -19,6 +19,10 @@ module RapidDiffs
       end
     end
 
+    expose :head_sha, if: ->(diff, _) { latest_or_merge_head?(diff) } do |merge_request_diff| # rubocop:disable Style/SymbolProc -- head_commit_sha takes 0 args; &:head_commit_sha passes options as argument
+      merge_request_diff.head_commit_sha
+    end
+
     expose :selected do |merge_request_diff|
       next merge_request_diff.head_commit_sha == options[:start_sha] if options[:start_sha].present?
       next true if latest_or_merge_head?(merge_request_diff)

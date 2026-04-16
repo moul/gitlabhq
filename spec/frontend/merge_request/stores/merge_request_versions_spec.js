@@ -57,10 +57,25 @@ describe('mergeRequestVersions store', () => {
   });
 
   describe('diffRefs', () => {
-    it('combines selected source and target versions into diff refs', () => {
+    it('uses target refs when target is head', () => {
       store.setVersions({
         sourceVersions: [{ selected: true, base_sha: 'base000', head_sha: 'head222' }],
-        targetVersions: [{ selected: true, start_sha: 'start111' }],
+        targetVersions: [
+          { selected: true, head: true, start_sha: 'start111', head_sha: 'target_head' },
+        ],
+      });
+
+      expect(store.diffRefs).toEqual({
+        base_sha: 'start111',
+        head_sha: 'target_head',
+        start_sha: 'start111',
+      });
+    });
+
+    it('combines source and target refs when target is not head', () => {
+      store.setVersions({
+        sourceVersions: [{ selected: true, base_sha: 'base000', head_sha: 'head222' }],
+        targetVersions: [{ selected: true, head: false, start_sha: 'start111' }],
       });
 
       expect(store.diffRefs).toEqual({

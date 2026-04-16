@@ -64,6 +64,7 @@ include:
     QA_GITLAB_URL: http://gdk.test:3000
     QA_RUN_IN_PARALLEL: "true"
     QA_PARALLEL_PROCESSES: 4
+    QA_PARALLEL_BROWSER_STAGGER_SECONDS: "5"
     RSPEC_LAST_RUN_RESULTS_FILE: "$CI_PROJECT_DIR/qa/tmp/examples.txt"
     GIT_STRATEGY: "none"
   after_script:

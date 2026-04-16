@@ -51,7 +51,7 @@ Prerequisites:
 To create an OAuth application on your GitLab Self-Managed instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Applications**.
+1. In the left sidebar, select **Applications**.
 1. Select **New application**.
 1. In **Redirect URI**:
    - If you're installing the app from the Atlassian Marketplace listing, enter `https://gitlab.com/-/jira_connect/oauth_callbacks`.
@@ -141,7 +141,7 @@ Alternatively, you might want to [install the GitLab for Jira Cloud app manually
 To set up your GitLab Self-Managed instance for Atlassian Marketplace installation in GitLab 15.7 and later:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **GitLab for Jira App**.
 1. In **Jira Connect Proxy URL**, enter `https://gitlab.com` to install the app from the Atlassian Marketplace.
 1. Select **Save changes**.
@@ -219,7 +219,7 @@ To support your GitLab Self-Managed instance with Jira Cloud, do one of the foll
 To set up your GitLab Self-Managed instance for manual installation in GitLab 15.7 and later:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **GitLab for Jira App**.
 1. Leave **Jira Connect Proxy URL** blank to install the app manually.
 1. Select **Save changes**.
@@ -330,7 +330,7 @@ You might want to use a proxy if you're managing multiple GitLab instances but o
 To configure your GitLab instance to serve as a proxy:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **GitLab for Jira App**.
 1. Select **Enable public key storage**.
 1. Select **Save changes**.
@@ -501,7 +501,7 @@ the reverse proxy FQDN as an additional JWT audience.
 To set an additional JWT audience:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **GitLab for Jira App**.
 1. In **Jira Connect Additional Audience URL**, enter the additional audience
    (for example, `https://gitlab.mycompany.com`).

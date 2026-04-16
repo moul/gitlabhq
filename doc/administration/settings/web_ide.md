@@ -77,7 +77,7 @@ should adapt this guide to other installation methods.
 
 1. Save the file and [reconfigure GitLab](../restart_gitlab.md#reconfigure-a-linux-package-installation) for the changes to take effect. Then, open the GitLab application.
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Web IDE**.
 1. In the **Extension host domain** text box, enter the custom extension host domain.
 1. Select **Save changes**.
@@ -103,7 +103,7 @@ Prerequisites:
 To configure this setting:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Web IDE**.
 1. Select or clear the **Enable single origin fallback** checkbox.
 1. Select **Save changes**.

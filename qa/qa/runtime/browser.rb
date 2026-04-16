@@ -29,6 +29,8 @@ module QA
         return if QA::Runtime::Env.dry_run
         return if @configured
 
+        stagger_browser_startup!
+
         RSpec.configure do |config|
           config.define_derived_metadata(file_path: %r{/qa/specs/features/}) do |metadata|
             metadata[:type] = :feature
@@ -251,6 +253,26 @@ module QA
       rescue StandardError => e
         QA::Runtime::Logger.info("Chrome policy creation failed: #{e.message}")
       end
+
+      # Stagger browser startup across parallel workers to avoid a burst of connections
+      # to the http-router when all workers start their first browser session at the
+      # same time. Controlled by QA_PARALLEL_BROWSER_STAGGER_SECONDS (seconds per worker index)
+      # TEST_ENV_NUMBER is "1", "2", "3"... when parallel_tests runs with --first-is-1 set in parallel_runner.rb
+      # Worker 1 (TEST_ENV_NUMBER="1") always sleeps 0s.
+      def self.stagger_browser_startup!
+        stagger = Integer(ENV.fetch('QA_PARALLEL_BROWSER_STAGGER_SECONDS', '0'), exception: false) || 0
+        return if stagger <= 0
+
+        worker_index = [ENV['TEST_ENV_NUMBER'].to_i - 1, 0].max
+        sleep_time = worker_index * stagger
+        return if sleep_time <= 0
+
+        QA::Runtime::Logger.info(
+          "Staggering browser startup: worker #{worker_index + 1} sleeping #{sleep_time}s"
+        )
+        sleep(sleep_time)
+      end
+      private_class_method :stagger_browser_startup!
 
       ##
       # Visit a page that belongs to a GitLab instance under given address.

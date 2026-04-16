@@ -261,8 +261,8 @@ docker exec -it <ai-gateway-container> sh
 echo $AIGW_CUSTOM_MODELS__ENABLED # must be true
 ```
 
-If the environment variables are not set up correctly, set them by
-[creating a container](../../install/install_ai_gateway.md#find-the-ai-gateway-image).
+If the environment variables are not set up correctly,
+[create a container](../../install/install_ai_gateway.md#ai-gateway-images).
 
 ## Check if the model is reachable from AI Gateway
 
@@ -300,7 +300,7 @@ If not successful, verify your network configurations.
 
 ## The image's platform does not match the host
 
-When [finding the AI Gateway release](../../install/install_ai_gateway.md#find-the-ai-gateway-image),
+When you [use an AI Gateway image](../../install/install_ai_gateway.md#ai-gateway-images),
 you might get an error that states `The requested image's platform (linux/amd64) does not match the detected host`.
 
 To work around this error, add `--platform linux/amd64` to the `docker run` command:
