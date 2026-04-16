@@ -105,6 +105,7 @@ query getWorkItemsSlim(
         }
         reference(full: true)
         title
+        titleHtml
         updatedAt
         webUrl
         webPath

@@ -3099,59 +3099,67 @@ RSpec.describe ProjectPolicy, feature_category: :system_access do
     include_examples "CI_JOB_TOKEN enforces the expected permissions"
 
     context "when the project is public or internal and not on the allowlist" do
-      where(:feature, :permissions) do
-        :container_registry | [:build_read_container_image, :read_container_image]
-        :package_registry   | [:read_package, :read_project]
-        :builds             | [:read_commit_status]
-        :releases           | [:read_release]
-        :environments       | [:read_environment]
-        :repository         | [:read_project]
+      let_it_be(:current_user) { create(:user) }
+      let_it_be(:project) { public_project }
+      let_it_be(:scope_project) { create(:project, :private) }
+      let(:job) { build_stubbed(:ci_build, project: scope_project, user: current_user) }
+
+      context 'with all features enabled' do
+        it { expect_allowed(*::Authz::Role.get(:public_anonymous).permissions(:project)) }
       end
 
-      with_them do
-        let(:current_user) { developer }
-        let(:project) { public_project }
-        let(:job) { build_stubbed(:ci_build, project: scope_project, user: current_user) }
-        let(:scope_project) { create(:project, :private) }
-
-        before do
-          current_user.set_ci_job_token_scope!(job)
-
-          scope_project.update!(ci_inbound_job_token_scope_enabled: true)
-
-          # disable all features so that they don't interfere with each other:
-          ProjectFeature::FEATURES.each do |feature|
-            project.project_feature.update!("#{feature}_access_level": ProjectFeature::DISABLED)
-          end
+      context 'with selective feature enablement' do
+        where(:feature, :permissions) do
+          :container_registry | [:build_read_container_image, :read_container_image]
+          :package_registry   | [:read_package]
+          :builds             | [:read_commit_status]
+          :releases           | [:read_release]
+          :environments       | [:read_environment]
+          :repository         | [:build_download_code]
         end
 
-        it 'allows the permissions based on the feature access level' do
-          update_access_level(project, feature, ProjectFeature::ENABLED)
-          permissions.each { |p| expect_allowed(p) }
-        end
+        with_them do
+          before do
+            current_user.set_ci_job_token_scope!(job)
 
-        it 'disallows the permissions if feature access level is restricted' do
-          update_access_level(project, feature, ProjectFeature::PRIVATE)
-          permissions.each { |p| expect_disallowed(p) }
-        end
+            scope_project.update!(ci_inbound_job_token_scope_enabled: true)
 
-        it 'disallows the permissions if feature access level is disabled' do
-          update_access_level(project, feature, ProjectFeature::DISABLED)
-
-          permissions.each { |p| expect_disallowed(p) }
-        end
-
-        def update_access_level(project, feature, state)
-          # builds require repository access level to the same level:
-          project.project_feature.update!(repository_access_level: state) if feature == :builds
-
-          # environments require repository and builds to be set to the same state if enabled:
-          if feature == :environments
-            project.project_feature.update!(repository_access_level: state)
-            project.project_feature.update!(builds_access_level: state)
+            # disable all features so that they don't interfere with each other:
+            ProjectFeature::FEATURES.each do |feature|
+              project.project_feature.update!("#{feature}_access_level": ProjectFeature::DISABLED)
+            end
           end
 
-          project.project_feature.update!("#{feature}_access_level": state)
+          it 'allows the permissions based on the feature access level' do
+            update_access_level(project, feature, ProjectFeature::ENABLED)
+
+            expect_allowed(*permissions)
+          end
+
+          it 'disallows the permissions if feature access level is restricted' do
+            update_access_level(project, feature, ProjectFeature::PRIVATE)
+
+            expect_disallowed(*permissions)
+          end
+
+          it 'disallows the permissions if feature access level is disabled' do
+            update_access_level(project, feature, ProjectFeature::DISABLED)
+
+            expect_disallowed(*permissions)
+          end
+
+          def update_access_level(project, feature, state)
+            # builds require repository access level to the same level:
+            project.project_feature.update!(repository_access_level: state) if feature == :builds
+
+            # environments require repository and builds to be set to the same state if enabled:
+            if feature == :environments
+              project.project_feature.update!(repository_access_level: state)
+              project.project_feature.update!(builds_access_level: state)
+            end
+
+            project.project_feature.update!("#{feature}_access_level": state)
+          end
         end
       end
     end

@@ -104,6 +104,7 @@ project:
   - manage_project_security_exclusions
   - manage_protected_tags
   - manage_resource_access_tokens
+  - manage_trigger
   - modify_approvers_rules
   - modify_merge_request_author_setting
   - modify_merge_request_committer_setting

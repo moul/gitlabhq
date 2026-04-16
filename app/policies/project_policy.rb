@@ -553,8 +553,6 @@ class ProjectPolicy < BasePolicy
     prevent :create_pipeline_schedule
   end
 
-  rule { can?(:admin_build) }.enable :manage_trigger
-
   rule { public_project & metrics_dashboard_allowed }.policy do
     enable :metrics_dashboard
   end
@@ -652,6 +650,7 @@ class ProjectPolicy < BasePolicy
     prevent :create_build
     prevent :admin_build
     prevent :destroy_build
+    prevent :manage_trigger
     prevent :admin_cicd_variables
 
     prevent :read_pipeline_schedule
@@ -750,10 +749,6 @@ class ProjectPolicy < BasePolicy
     except :read_build
 
     except(*::Authz::Role.get(:public_anonymous).direct_permissions(:project))
-  end
-
-  rule { public_project & ~project_allowed_for_job_token_by_scope }.policy do
-    prevent :build_download_code
   end
 
   rule { can?(:developer_access) & push_repository_for_job_token_allowed }.policy do
