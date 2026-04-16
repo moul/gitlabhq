@@ -99,6 +99,7 @@ export const findEmailParticipantsWidget = (workItem) =>
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_EMAIL_PARTICIPANTS);
 
 export const findErrorTrackingWidget = (workItem) =>
+  workItem?.features?.errorTracking ||
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_ERROR_TRACKING);
 
 export const findHealthStatusWidget = (workItem) =>

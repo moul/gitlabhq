@@ -3,6 +3,7 @@ import fuzzaldrinPlus from 'fuzzaldrin-plus';
 import axios from '~/lib/utils/axios_utils';
 import AutocompleteHelper, {
   defaultSorter,
+  commandSorter,
   customSorter,
   createDataSource,
 } from '~/content_editor/services/autocomplete_helper';
@@ -161,6 +162,36 @@ describe('defaultSorter', () => {
       { name: 'wabc', description: 'xyz' },
       { name: 'bcd', description: 'wxy' },
       { name: 'cde', description: 'vwx' },
+    ]);
+  });
+});
+
+describe('commandSorter', () => {
+  const sorter = commandSorter(['name', 'search']);
+  it('returns items as is if query is empty', () => {
+    const items = [
+      { name: 'assign', aliases: [] },
+      { name: 'close', aliases: [] },
+    ];
+    expect(sorter(items, '')).toBe(items);
+  });
+  it('falls back to default sorter when no aliases match', () => {
+    const items = [
+      { name: 'abc', aliases: [], search: 'abc' },
+      { name: 'bcd', aliases: [], search: 'bcd' },
+    ];
+    expect(sorter(items, 'b')[0].name).toBe('bcd');
+  });
+  it('ranks name prefix above alias prefix above substring', () => {
+    const items = [
+      { name: 'close', aliases: [] },
+      { name: 'request_review', aliases: ['assign_reviewer', 'reviewer'] },
+      { name: 'assign', aliases: [] },
+    ];
+    expect(sorter(items, 'assign').map((i) => i.name)).toEqual([
+      'assign', // name starts with 'assign'
+      'request_review', // alias 'assign_reviewer' starts with 'assign'
+      'close', // no match
     ]);
   });
 });

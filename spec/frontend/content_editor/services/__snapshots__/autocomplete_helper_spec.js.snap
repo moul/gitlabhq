@@ -152,6 +152,7 @@ exports[`AutocompleteHelper for reference type "command", searches for "re" corr
   "relate",
   "remove_epic",
   "reassign",
+  "unlabel",
   "create_merge_request",
 ]
 `;

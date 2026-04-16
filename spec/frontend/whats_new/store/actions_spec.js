@@ -100,14 +100,6 @@ describe('whats new actions', () => {
     });
   });
 
-  describe('setDrawerBodyHeight', () => {
-    it('should commit setDrawerBodyHeight', () => {
-      return testAction(actions.setDrawerBodyHeight, 42, {}, [
-        { type: types.SET_DRAWER_BODY_HEIGHT, payload: 42 },
-      ]);
-    });
-  });
-
   describe('setReadArticles', () => {
     it('should commit setReadArticles', () => {
       return testAction(actions.setReadArticles, [1], {}, [

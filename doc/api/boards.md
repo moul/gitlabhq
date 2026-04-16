@@ -100,7 +100,7 @@ Example response:
 ]
 ```
 
-Another example response when no board has been activated or exist in the project:
+Another example response when no board has been activated or exists in the project:
 
 ```json
 []
@@ -458,7 +458,7 @@ POST /projects/:id/boards/:board_id/lists
 
 > [!note]
 > Label, assignee and milestone arguments are mutually exclusive,
-> that is, only one of them are accepted in a request.
+> that is, only one of them is accepted in a request.
 > Check the [issue board documentation](../user/project/issue_board.md)
 > for more information regarding the required license for each list type.
 

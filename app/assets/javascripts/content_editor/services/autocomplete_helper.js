@@ -36,6 +36,35 @@ export function defaultSorter(searchFields) {
   };
 }
 
+export function commandSorter(searchFields) {
+  const fallback = defaultSorter(searchFields);
+
+  return (items, query) => {
+    if (!query) return items;
+
+    const lowerQuery = query.toLocaleLowerCase();
+
+    const hasNamePrefix = (item) => (item.name || '').toLocaleLowerCase().startsWith(lowerQuery);
+    const hasAliasPrefix = (item) =>
+      (item.aliases || []).some((alias) => alias.toLocaleLowerCase().startsWith(lowerQuery));
+
+    // Use default sorting when no alias is available for this command
+    if (!items.some(hasAliasPrefix)) return fallback(items, query);
+
+    // Map score based on command name and alias
+    const scores = new Map(
+      items.map((item) => {
+        let score = 1;
+        if (hasNamePrefix(item)) score = 3;
+        else if (hasAliasPrefix(item)) score = 2;
+        return [item, score];
+      }),
+    );
+
+    return [...items].sort((a, b) => scores.get(b) - scores.get(a));
+  };
+}
+
 export function customSorter(sorter) {
   return (items) => items.sort(sorter);
 }
@@ -64,6 +93,13 @@ function mapMilestone(milestone) {
   }
 
   return milestonesMap.get(milestone);
+}
+
+function mapCommand(command) {
+  return {
+    ...command,
+    search: [command.name, ...(command.aliases || [])].join(' '),
+  };
 }
 
 function sortMilestones(milestoneA, milestoneB) {
@@ -200,7 +236,7 @@ export default class AutocompleteHelper {
       vulnerability: ['id', 'title'],
       merge_request: ['iid', 'title'],
       milestone: ['title', 'iid'],
-      command: ['name'],
+      command: ['name', 'search'],
       wiki: ['title'],
       emoji: [],
     };
@@ -307,6 +343,7 @@ export default class AutocompleteHelper {
 
     const sorters = {
       milestone: customSorter(sortMilestones),
+      command: commandSorter(searchFields[referenceType]),
       default: defaultSorter(searchFields[referenceType]),
       // do not sort emoji
       emoji: customSorter(() => 0),
@@ -314,6 +351,7 @@ export default class AutocompleteHelper {
 
     const mappers = {
       milestone: mapMilestone,
+      command: mapCommand,
       default: identity,
     };
 

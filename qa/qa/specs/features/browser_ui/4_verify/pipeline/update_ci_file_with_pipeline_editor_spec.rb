@@ -33,7 +33,11 @@ module QA
       end
 
       it 'creates new pipelines, target branch, and merge request',
-        testcase: 'https://gitlab.com/gitlab-org/gitlab/-/quality/test_cases/349005' do
+        testcase: 'https://gitlab.com/gitlab-org/gitlab/-/quality/test_cases/349005',
+        quarantine: {
+          issue: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/work_items/37822',
+          type: 'flaky'
+        } do
         # Verify a new MR is created from the update
         Page::MergeRequest::Show.perform do |show|
           expect(show).to have_title('Update .gitlab-ci.yml file')

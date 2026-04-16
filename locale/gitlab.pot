@@ -7377,6 +7377,9 @@ msgstr ""
 msgid "AgentArtifacts|Credits"
 msgstr ""
 
+msgid "AgentArtifacts|Credits used in this session"
+msgstr ""
+
 msgid "AgentArtifacts|Failed to load AI item names."
 msgstr ""
 
@@ -7386,16 +7389,28 @@ msgstr ""
 msgid "AgentArtifacts|Filter agent artifacts"
 msgstr ""
 
+msgid "AgentArtifacts|Model used"
+msgstr ""
+
 msgid "AgentArtifacts|Monitor and observe AI agent behavior and activities across your group."
 msgstr ""
 
 msgid "AgentArtifacts|No agent artifacts found."
 msgstr ""
 
+msgid "AgentArtifacts|Session"
+msgstr ""
+
 msgid "AgentArtifacts|Session ID"
 msgstr ""
 
+msgid "AgentArtifacts|Session details"
+msgstr ""
+
 msgid "AgentArtifacts|Start time"
+msgstr ""
+
+msgid "AgentArtifacts|View full session details"
 msgstr ""
 
 msgid "Agents|Cannot be assigned"
@@ -31850,6 +31865,12 @@ msgid "Geo|%{titlePlural} verified"
 msgstr ""
 
 msgid "Geo|1000+ Registries"
+msgstr ""
+
+msgid "Geo|AI Vectorizable File Upload"
+msgstr ""
+
+msgid "Geo|AI Vectorizable File Uploads"
 msgstr ""
 
 msgid "Geo|Abuse Report Upload"

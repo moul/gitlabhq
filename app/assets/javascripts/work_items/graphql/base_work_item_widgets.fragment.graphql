@@ -58,7 +58,7 @@ fragment BaseWorkItemWidgets on WorkItemWidget {
       count
     }
   }
-  ... on WorkItemWidgetErrorTracking {
+  ... on WorkItemWidgetErrorTracking @skip(if: $useWorkItemFeatures) {
     identifier
   }
   ... on WorkItemWidgetHierarchy {

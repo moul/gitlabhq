@@ -249,6 +249,7 @@
   "Registrable": [
     "AbuseReportUploadRegistry",
     "AchievementUploadRegistry",
+    "AiVectorizableFileUploadRegistry",
     "CiSecureFileRegistry",
     "ContainerRepositoryRegistry",
     "DependencyProxyBlobRegistry",

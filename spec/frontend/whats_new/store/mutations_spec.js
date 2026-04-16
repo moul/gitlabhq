@@ -50,13 +50,6 @@ describe('whats new mutations', () => {
     });
   });
 
-  describe('setDrawerBodyHeight', () => {
-    it('sets drawerBodyHeight', () => {
-      mutations[types.SET_DRAWER_BODY_HEIGHT](state, 840);
-      expect(state.drawerBodyHeight).toBe(840);
-    });
-  });
-
   describe('setReadArticles', () => {
     it('sets readArticles', () => {
       mutations[types.SET_READ_ARTICLES](state, [1]);

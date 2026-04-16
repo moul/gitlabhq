@@ -1887,6 +1887,9 @@ export const mockWorkItemFeaturesData = ({ discussionLocked = false } = {}) => (
   weight: { weight: null },
   linkedItems: { blockedByCount: 0, blockingCount: 0 },
   iteration: { iteration: null },
+  errorTracking: {
+    identifier: null,
+  },
   crmContacts: {
     contactsAvailable: false,
     contacts: {
@@ -7572,7 +7575,11 @@ export const workItemEmailParticipantsEmptyResponse = {
   },
 };
 
-export const getErrorTrackingQueryResponse = ({ nodes = [], status = 'SUCCESS' }) => ({
+export const getErrorTrackingQueryResponse = ({
+  nodes = [],
+  status = 'SUCCESS',
+  withFeatures = false,
+}) => ({
   data: {
     namespace: {
       __typename: 'Namespace',
@@ -7591,6 +7598,19 @@ export const getErrorTrackingQueryResponse = ({ nodes = [], status = 'SUCCESS' }
             status,
           },
         ],
+        ...(withFeatures && {
+          features: {
+            errorTracking: {
+              __typename: 'WorkItemWidgetErrorTracking',
+              type: 'ERROR_TRACKING',
+              identifier: '1',
+              stackTrace: {
+                nodes,
+              },
+              status,
+            },
+          },
+        }),
       },
     },
   },

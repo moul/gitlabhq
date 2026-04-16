@@ -23,6 +23,9 @@ module Import
         filename: 'import_offline_configuration_s3_compatible_credentials', size_limit: 64.kilobytes
       }, if: :s3_compatible?
       validates :endpoint, addressable_url: true, length: { maximum: 255 }, if: :s3_compatible?
+      validates :entity_prefix_mapping, json_schema: {
+        filename: 'import_offline_configuration_entity_prefix_mapping', size_limit: 64.kilobytes
+      }
 
       validates_with ExactlyOnePresentValidator, fields: [:offline_export, :bulk_import],
         message: ->(_fields) { _('must belong to either an offline export or bulk import') }

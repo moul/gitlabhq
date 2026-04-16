@@ -4,15 +4,7 @@ import Vue, { nextTick } from 'vue';
 // eslint-disable-next-line no-restricted-imports
 import Vuex from 'vuex';
 import { mockTracking, unmockTracking } from 'helpers/tracking_helper';
-import { createMockDirective, getBinding } from 'helpers/vue_mock_directive';
 import App from '~/whats_new/components/app.vue';
-import { getDrawerBodyHeight } from '~/whats_new/utils/get_drawer_body_height';
-
-const MOCK_DRAWER_BODY_HEIGHT = 42;
-
-jest.mock('~/whats_new/utils/get_drawer_body_height', () => ({
-  getDrawerBodyHeight: jest.fn().mockImplementation(() => MOCK_DRAWER_BODY_HEIGHT),
-}));
 
 Vue.use(Vuex);
 
@@ -37,7 +29,6 @@ describe('App', () => {
       openDrawer: jest.fn(),
       closeDrawer: jest.fn(),
       fetchItems: jest.fn(),
-      setDrawerBodyHeight: jest.fn(),
       setReadArticles: jest.fn(),
     };
 
@@ -46,9 +37,8 @@ describe('App', () => {
       state: {
         open: false,
         features: [],
-        drawerBodyHeight: MOCK_DRAWER_BODY_HEIGHT,
         fetching: false,
-        pageInfo: {},
+        pageInfo: { nextPage: null },
         readArticles: [],
         ...stateOverrides,
       },
@@ -65,9 +55,6 @@ describe('App', () => {
       },
       ...(Object.keys(glFeatures).length > 0 && { provide: { glFeatures } }),
       ...(!shallow && {
-        directives: {
-          GlResizeObserver: createMockDirective('gl-resize-observer'),
-        },
         attachTo: document.body,
       }),
     };
@@ -161,19 +148,6 @@ describe('App', () => {
         expect(actions.fetchItems).toHaveBeenCalled();
         expect(wrapper.find('[data-testid="toggle-feature-name"]').text()).toBe('Whats New Drawer');
       });
-
-      it('calls getDrawerBodyHeight and setDrawerBodyHeight when resize directive is triggered', () => {
-        const { value } = getBinding(getDrawer().element, 'gl-resize-observer');
-
-        value();
-
-        expect(getDrawerBodyHeight).toHaveBeenCalledWith(wrapper.findComponent(GlDrawer).element);
-
-        expect(actions.setDrawerBodyHeight).toHaveBeenCalledWith(
-          expect.any(Object),
-          MOCK_DRAWER_BODY_HEIGHT,
-        );
-      });
     });
 
     describe('focus', () => {
@@ -182,6 +156,213 @@ describe('App', () => {
         expect(document.activeElement).not.toBe(getDrawer().element);
         getDrawer().vm.$emit('opened');
         expect(document.activeElement).toBe(getDrawer().element);
+      });
+    });
+
+    describe('fetchInitialItems', () => {
+      it('fetches up to 3 pages sequentially', async () => {
+        document.body.dataset.page = 'test-page';
+        document.body.dataset.namespaceId = 'namespace-840';
+
+        let fetchCount = 0;
+        const fetchItemsMock = jest.fn().mockImplementation(() => {
+          fetchCount += 1;
+          if (fetchCount < 3) {
+            store.state.pageInfo = { nextPage: fetchCount + 1 };
+          } else {
+            store.state.pageInfo = { nextPage: null };
+          }
+          return Promise.resolve();
+        });
+
+        actions = {
+          openDrawer: jest.fn(),
+          closeDrawer: jest.fn(),
+          fetchItems: fetchItemsMock,
+          setReadArticles: jest.fn(),
+        };
+
+        store = new Vuex.Store({
+          actions,
+          state: {
+            open: true,
+            features: [],
+            fetching: false,
+            pageInfo: { nextPage: null },
+            readArticles: [],
+          },
+        });
+
+        wrapper = mount(App, {
+          store,
+          propsData: {
+            versionDigest: 'version-digest',
+            initialReadArticles: [],
+            mostRecentReleaseItemsCount: 3,
+            updateHelpMenuUnreadBadge,
+          },
+          attachTo: document.body,
+        });
+
+        await nextTick();
+        await nextTick();
+        await nextTick();
+        await nextTick();
+
+        expect(fetchItemsMock).toHaveBeenCalledTimes(3);
+        expect(fetchItemsMock).toHaveBeenNthCalledWith(1, expect.any(Object), {
+          page: undefined,
+          versionDigest: 'version-digest',
+        });
+        expect(fetchItemsMock).toHaveBeenNthCalledWith(2, expect.any(Object), {
+          page: 2,
+          versionDigest: 'version-digest',
+        });
+        expect(fetchItemsMock).toHaveBeenNthCalledWith(3, expect.any(Object), {
+          page: 3,
+          versionDigest: 'version-digest',
+        });
+      });
+
+      it('stops fetching when fetchItems returns false', async () => {
+        document.body.dataset.page = 'test-page';
+        document.body.dataset.namespaceId = 'namespace-840';
+
+        let fetchCount = 0;
+        const fetchItemsMock = jest.fn().mockImplementation(() => {
+          fetchCount += 1;
+          if (fetchCount === 1) {
+            store.state.pageInfo = { nextPage: 2 };
+            return Promise.resolve();
+          }
+          return Promise.resolve(false);
+        });
+
+        actions = {
+          openDrawer: jest.fn(),
+          closeDrawer: jest.fn(),
+          fetchItems: fetchItemsMock,
+          setReadArticles: jest.fn(),
+        };
+
+        store = new Vuex.Store({
+          actions,
+          state: {
+            open: true,
+            features: [],
+            fetching: false,
+            pageInfo: { nextPage: null },
+            readArticles: [],
+          },
+        });
+
+        wrapper = mount(App, {
+          store,
+          propsData: {
+            versionDigest: 'version-digest',
+            initialReadArticles: [],
+            mostRecentReleaseItemsCount: 3,
+            updateHelpMenuUnreadBadge,
+          },
+          attachTo: document.body,
+        });
+
+        await nextTick();
+        await nextTick();
+        await nextTick();
+
+        expect(fetchItemsMock).toHaveBeenCalledTimes(2);
+      });
+
+      it('stops fetching when there is no next page', async () => {
+        document.body.dataset.page = 'test-page';
+        document.body.dataset.namespaceId = 'namespace-840';
+
+        const fetchItemsMock = jest.fn().mockImplementation(() => {
+          store.state.pageInfo = { nextPage: null };
+          return Promise.resolve();
+        });
+
+        actions = {
+          openDrawer: jest.fn(),
+          closeDrawer: jest.fn(),
+          fetchItems: fetchItemsMock,
+          setReadArticles: jest.fn(),
+        };
+
+        store = new Vuex.Store({
+          actions,
+          state: {
+            open: true,
+            features: [],
+            fetching: false,
+            pageInfo: { nextPage: null },
+            readArticles: [],
+          },
+        });
+
+        wrapper = mount(App, {
+          store,
+          propsData: {
+            versionDigest: 'version-digest',
+            initialReadArticles: [],
+            mostRecentReleaseItemsCount: 3,
+            updateHelpMenuUnreadBadge,
+          },
+          attachTo: document.body,
+        });
+
+        await nextTick();
+        await nextTick();
+
+        expect(fetchItemsMock).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('handleLoadMore', () => {
+      it('fetches next page when nextPage exists', async () => {
+        document.body.dataset.page = 'test-page';
+        document.body.dataset.namespaceId = 'namespace-840';
+
+        createWrapper({
+          stateOverrides: {
+            open: true,
+            features: [{ name: 'Feature', documentation_link: 'www.url.com', release: 3.11 }],
+            pageInfo: { nextPage: 2 },
+          },
+        });
+
+        await nextTick();
+
+        actions.fetchItems.mockClear();
+
+        wrapper.findComponent({ name: 'OtherUpdates' }).vm.$emit('load-more');
+
+        expect(actions.fetchItems).toHaveBeenCalledWith(expect.any(Object), {
+          page: 2,
+          versionDigest: 'version-digest',
+        });
+      });
+
+      it('does not fetch when nextPage is null', async () => {
+        document.body.dataset.page = 'test-page';
+        document.body.dataset.namespaceId = 'namespace-840';
+
+        createWrapper({
+          stateOverrides: {
+            open: true,
+            features: [{ name: 'Feature', documentation_link: 'www.url.com', release: 3.11 }],
+            pageInfo: { nextPage: null },
+          },
+        });
+
+        await nextTick();
+
+        actions.fetchItems.mockClear();
+
+        wrapper.findComponent({ name: 'OtherUpdates' }).vm.$emit('load-more');
+
+        expect(actions.fetchItems).not.toHaveBeenCalled();
       });
     });
   });

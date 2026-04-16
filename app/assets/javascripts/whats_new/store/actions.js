@@ -39,9 +39,6 @@ export default {
         commit(types.SET_FETCHING, false);
       });
   },
-  setDrawerBodyHeight({ commit }, height) {
-    commit(types.SET_DRAWER_BODY_HEIGHT, height);
-  },
   setReadArticles({ commit }, readArticles) {
     commit(types.SET_READ_ARTICLES, readArticles);
   },

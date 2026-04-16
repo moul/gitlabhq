@@ -16851,6 +16851,35 @@ Input type: `WorkItemAddLinkedItemsInput`
 | <a id="mutation-workitemaddlinkeditems-message"></a>`message` | [`String`](#string) | Linked items update result message. |
 | <a id="mutation-workitemaddlinkeditems-workitem"></a>`workItem` | [`WorkItem`](#workitem) | Updated work item. |
 
+### `Mutation.workItemAvailabilityToggle`
+
+{{< details >}}
+**Introduced** in GitLab 18.11.
+**Status**: Experiment.
+{{< /details >}}
+
+Enables or disables a work item type for a namespace. Only available when the `work_item_configurable_types` feature flag is enabled for the namespace.
+
+Input type: `WorkItemAvailabilityToggleInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-workitemavailabilitytoggle-action"></a>`action` | [`WorkItemAvailabilityAction!`](#workitemavailabilityaction) | Whether to enable or disable the work item type. |
+| <a id="mutation-workitemavailabilitytoggle-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-workitemavailabilitytoggle-fullpath"></a>`fullPath` | [`ID!`](#id) | Full path of the group or project. |
+| <a id="mutation-workitemavailabilitytoggle-scope"></a>`scope` | [`WorkItemAvailabilityScope!`](#workitemavailabilityscope) | Whether to apply to the namespace or propagate to all existing children. |
+| <a id="mutation-workitemavailabilitytoggle-workitemtypeid"></a>`workItemTypeId` | [`WorkItemsTypeID!`](#workitemstypeid) | Global ID of the work item type. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-workitemavailabilitytoggle-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-workitemavailabilitytoggle-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+| <a id="mutation-workitemavailabilitytoggle-workitemtype"></a>`workItemType` | [`WorkItemType`](#workitemtype) | Work item type after the availability change. |
+
 ### `Mutation.workItemBulkMove`
 
 {{< details >}}
@@ -18490,6 +18519,43 @@ The edge type for [`AiUserMetrics`](#aiusermetrics).
 | ---- | ---- | ----------- |
 | <a id="aiusermetricsedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="aiusermetricsedge-node"></a>`node` | [`AiUserMetrics`](#aiusermetrics) | The item at the end of the edge. |
+
+#### `AiVectorizableFileUploadRegistryConnection`
+
+The connection type for [`AiVectorizableFileUploadRegistry`](#aivectorizablefileuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="aivectorizablefileuploadregistryconnection-edges"></a>`edges` | [`[AiVectorizableFileUploadRegistryEdge]`](#aivectorizablefileuploadregistryedge) | A list of edges. |
+| <a id="aivectorizablefileuploadregistryconnection-nodes"></a>`nodes` | [`[AiVectorizableFileUploadRegistry]`](#aivectorizablefileuploadregistry) | A list of nodes. |
+| <a id="aivectorizablefileuploadregistryconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+##### Fields with arguments
+
+###### `AiVectorizableFileUploadRegistryConnection.count`
+
+Limited count of collection. Returns limit + 1 for counts greater than the limit.
+
+Returns [`Int!`](#int).
+
+Arguments:
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="aivectorizablefileuploadregistryconnection-count-limit"></a>`limit` | [`Int`](#int) | Limit value to be applied to the count query. Default is 1000. |
+
+#### `AiVectorizableFileUploadRegistryEdge`
+
+The edge type for [`AiVectorizableFileUploadRegistry`](#aivectorizablefileuploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="aivectorizablefileuploadregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="aivectorizablefileuploadregistryedge-node"></a>`node` | [`AiVectorizableFileUploadRegistry`](#aivectorizablefileuploadregistry) | The item at the end of the edge. |
 
 #### `AiXrayReportConnection`
 
@@ -29184,6 +29250,36 @@ Pre-aggregated per-user metrics for GitLab Code Suggestions and GitLab Duo Chat.
 | <a id="aiusermetrics-troubleshootjob"></a>`troubleshootJob` | [`troubleshootJobUserMetrics`](#troubleshootjobusermetrics) | Troubleshoot Job metrics for the user. |
 | <a id="aiusermetrics-user"></a>`user` | [`AddOnUser`](#addonuser) | User associated with metrics. |
 
+### `AiVectorizableFileUploadRegistry`
+
+Represents the Geo replication and verification state of an `ai_vectorizable_file_upload`.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="aivectorizablefileuploadregistry-aivectorizablefileuploadid"></a>`aiVectorizableFileUploadId` | [`ID!`](#id) | ID of the AI Vectorizable File Upload. |
+| <a id="aivectorizablefileuploadregistry-checksummismatch"></a>`checksumMismatch` | [`Boolean`](#boolean) | Indicate if the checksums of the AiVectorizableFileUploadRegistry do not match on the primary and secondary. |
+| <a id="aivectorizablefileuploadregistry-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the AiVectorizableFileUploadRegistry was created. |
+| <a id="aivectorizablefileuploadregistry-datamanagementdetailspath"></a>`dataManagementDetailsPath` | [`String`](#string) | Path to the data management view for this AiVectorizableFileUploadRegistry. |
+| <a id="aivectorizablefileuploadregistry-forcetoredownload"></a>`forceToRedownload` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 17.10. Removed from registry tables in the database in favor of the newer reusable framework. |
+| <a id="aivectorizablefileuploadregistry-id"></a>`id` | [`ID!`](#id) | ID of the AiVectorizableFileUploadRegistry. |
+| <a id="aivectorizablefileuploadregistry-lastsyncfailure"></a>`lastSyncFailure` | [`String`](#string) | Error message during sync of the AiVectorizableFileUploadRegistry. |
+| <a id="aivectorizablefileuploadregistry-lastsyncedat"></a>`lastSyncedAt` | [`Time`](#time) | Timestamp of the most recent successful sync of the AiVectorizableFileUploadRegistry. |
+| <a id="aivectorizablefileuploadregistry-missingonprimary"></a>`missingOnPrimary` | [`Boolean`](#boolean) | Indicate if the AiVectorizableFileUploadRegistry is missing on primary. |
+| <a id="aivectorizablefileuploadregistry-modelrecordid"></a>`modelRecordId` | [`Int`](#int) | ID of the AiVectorizableFileUploadRegistry's model record. |
+| <a id="aivectorizablefileuploadregistry-retryat"></a>`retryAt` | [`Time`](#time) | Timestamp after which the AiVectorizableFileUploadRegistry is resynced. |
+| <a id="aivectorizablefileuploadregistry-retrycount"></a>`retryCount` | [`Int`](#int) | Number of consecutive failed sync attempts of the AiVectorizableFileUploadRegistry. |
+| <a id="aivectorizablefileuploadregistry-state"></a>`state` | [`RegistryState`](#registrystate) | Sync state of the AiVectorizableFileUploadRegistry. |
+| <a id="aivectorizablefileuploadregistry-verificationchecksum"></a>`verificationChecksum` | [`String`](#string) | The local checksum of the AiVectorizableFileUploadRegistry. |
+| <a id="aivectorizablefileuploadregistry-verificationchecksummismatched"></a>`verificationChecksumMismatched` | [`String`](#string) | The expected checksum of the AiVectorizableFileUploadRegistry in case of mismatch. |
+| <a id="aivectorizablefileuploadregistry-verificationfailure"></a>`verificationFailure` | [`String`](#string) | Error message during verification of the AiVectorizableFileUploadRegistry. |
+| <a id="aivectorizablefileuploadregistry-verificationretryat"></a>`verificationRetryAt` | [`Time`](#time) | Timestamp after which the AiVectorizableFileUploadRegistry is reverified. |
+| <a id="aivectorizablefileuploadregistry-verificationretrycount"></a>`verificationRetryCount` | [`Int`](#int) | Number of consecutive failed verification attempts of the AiVectorizableFileUploadRegistry. |
+| <a id="aivectorizablefileuploadregistry-verificationstartedat"></a>`verificationStartedAt` | [`Time`](#time) | Timestamp when the verification of AiVectorizableFileUploadRegistry started. |
+| <a id="aivectorizablefileuploadregistry-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Verification state of the AiVectorizableFileUploadRegistry. |
+| <a id="aivectorizablefileuploadregistry-verifiedat"></a>`verifiedAt` | [`Time`](#time) | Timestamp of the most recent successful verification of the AiVectorizableFileUploadRegistry. |
+
 ### `AiXrayReport`
 
 #### Fields
@@ -36445,6 +36541,31 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="geonode-achievementuploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
 | <a id="geonode-achievementuploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
 | <a id="geonode-achievementuploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
+
+##### `GeoNode.aiVectorizableFileUploadRegistries`
+
+{{< details >}}
+**Introduced** in GitLab 19.0.
+**Status**: Experiment.
+{{< /details >}}
+
+Find AI Vectorizable File Upload registries on this Geo node. Ignored if `geo_ai_vectorizable_file_upload_replication` feature flag is disabled.
+
+Returns [`AiVectorizableFileUploadRegistryConnection`](#aivectorizablefileuploadregistryconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="geonode-aivectorizablefileuploadregistries-ids"></a>`ids` | [`[GeoAiVectorizableFileUploadRegistryID!]`](#geoaivectorizablefileuploadregistryid) | Filters registries by their ID. |
+| <a id="geonode-aivectorizablefileuploadregistries-keyword"></a>`keyword` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 17.9. A keyword search feature on Geo registries will not be built in the UI due to poor search UX and performance. |
+| <a id="geonode-aivectorizablefileuploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
+| <a id="geonode-aivectorizablefileuploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
+| <a id="geonode-aivectorizablefileuploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
 
 ##### `GeoNode.ciSecureFileRegistries`
 
@@ -57735,6 +57856,7 @@ Geo registry class.
 | ----- | ----------- |
 | <a id="georegistryclass-abuse_report_upload_registry"></a>`ABUSE_REPORT_UPLOAD_REGISTRY` | Geo::AbuseReportUploadRegistry registry class. |
 | <a id="georegistryclass-achievement_upload_registry"></a>`ACHIEVEMENT_UPLOAD_REGISTRY` | Geo::AchievementUploadRegistry registry class. |
+| <a id="georegistryclass-ai_vectorizable_file_upload_registry"></a>`AI_VECTORIZABLE_FILE_UPLOAD_REGISTRY` | Geo::AiVectorizableFileUploadRegistry registry class. |
 | <a id="georegistryclass-ci_secure_file_registry"></a>`CI_SECURE_FILE_REGISTRY` | Geo::CiSecureFileRegistry registry class. |
 | <a id="georegistryclass-container_repository_registry"></a>`CONTAINER_REPOSITORY_REGISTRY` | Geo::ContainerRepositoryRegistry registry class. |
 | <a id="georegistryclass-dependency_proxy_blob_registry"></a>`DEPENDENCY_PROXY_BLOB_REGISTRY` | Geo::DependencyProxyBlobRegistry registry class. |
@@ -60732,6 +60854,24 @@ Weight ID wildcard values.
 | <a id="weightwildcardid-any"></a>`ANY` | Weight is assigned. |
 | <a id="weightwildcardid-none"></a>`NONE` | No weight is assigned. |
 
+### `WorkItemAvailabilityAction`
+
+Action to apply to work item type availability.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="workitemavailabilityaction-disable"></a>`DISABLE` | Disable the work item type in the namespace. |
+| <a id="workitemavailabilityaction-enable"></a>`ENABLE` | Enable the work item type in the namespace. |
+
+### `WorkItemAvailabilityScope`
+
+Scope to which a work item type availability change applies.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="workitemavailabilityscope-all_children"></a>`ALL_CHILDREN` | Apply to the namespace and propagate to all existing child namespaces. |
+| <a id="workitemavailabilityscope-this"></a>`THIS` | Apply only to the namespace. |
+
 ### `WorkItemAwardEmojiUpdateAction`
 
 Values for work item award emoji update enum.
@@ -61534,6 +61674,12 @@ An example `GeoAbuseReportUploadRegistryID` is: `"gid://gitlab/Geo::AbuseReportU
 A `GeoAchievementUploadRegistryID` is a global ID. It is encoded as a string.
 
 An example `GeoAchievementUploadRegistryID` is: `"gid://gitlab/Geo::AchievementUploadRegistry/1"`.
+
+### `GeoAiVectorizableFileUploadRegistryID`
+
+A `GeoAiVectorizableFileUploadRegistryID` is a global ID. It is encoded as a string.
+
+An example `GeoAiVectorizableFileUploadRegistryID` is: `"gid://gitlab/Geo::AiVectorizableFileUploadRegistry/1"`.
 
 ### `GeoBaseRegistryID`
 
@@ -62651,6 +62797,7 @@ One of:
 
 - [`AbuseReportUploadRegistry`](#abusereportuploadregistry)
 - [`AchievementUploadRegistry`](#achievementuploadregistry)
+- [`AiVectorizableFileUploadRegistry`](#aivectorizablefileuploadregistry)
 - [`CiSecureFileRegistry`](#cisecurefileregistry)
 - [`ContainerRepositoryRegistry`](#containerrepositoryregistry)
 - [`DependencyProxyBlobRegistry`](#dependencyproxyblobregistry)

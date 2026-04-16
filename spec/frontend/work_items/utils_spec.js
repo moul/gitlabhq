@@ -6,6 +6,7 @@ import {
   WIDGET_TYPE_ASSIGNEES,
   WIDGET_TYPE_AWARD_EMOJI,
   WIDGET_TYPE_NOTES,
+  WIDGET_TYPE_ERROR_TRACKING,
   WIDGET_TYPE_CRM_CONTACTS,
   WIDGET_TYPE_HIERARCHY,
   WORK_ITEM_TYPE_ENUM_EPIC,
@@ -34,6 +35,7 @@ import {
   convertTypeEnumToName,
   findAssigneesWidget,
   findAwardEmojiWidget,
+  findErrorTrackingWidget,
   findNotesWidget,
   findCrmContactsWidget,
   formatLabelForListbox,
@@ -1146,6 +1148,35 @@ describe('findNotesWidget', () => {
     it('returns undefined', () => {
       expect(findNotesWidget({ widgets: [] })).toBeUndefined();
     });
+  });
+});
+
+describe('findErrorTrackingWidget', () => {
+  const errorTrackingWidget = {
+    type: WIDGET_TYPE_ERROR_TRACKING,
+    identifier: '1',
+    stackTrace: { nodes: [] },
+    status: 'SUCCESS',
+  };
+  const featuresErrorTracking = { identifier: '1', stackTrace: { nodes: [] }, status: 'SUCCESS' };
+
+  it('returns features.errorTracking when present', () => {
+    const workItem = {
+      features: { errorTracking: featuresErrorTracking },
+      widgets: [errorTrackingWidget],
+    };
+
+    expect(findErrorTrackingWidget(workItem)).toBe(featuresErrorTracking);
+  });
+
+  it('falls back to widgets when features not present', () => {
+    const workItem = { widgets: [errorTrackingWidget] };
+
+    expect(findErrorTrackingWidget(workItem)).toBe(errorTrackingWidget);
+  });
+
+  it('returns undefined when neither exists', () => {
+    expect(findErrorTrackingWidget({ widgets: [] })).toBeUndefined();
   });
 });
 

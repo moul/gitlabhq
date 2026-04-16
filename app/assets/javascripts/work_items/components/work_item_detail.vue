@@ -39,7 +39,6 @@ import {
   WORK_ITEM_TYPE_NAME_EPIC,
   WIDGET_TYPE_DEVELOPMENT,
   STATE_OPEN,
-  WIDGET_TYPE_ERROR_TRACKING,
   WIDGET_TYPE_ITERATION,
   WIDGET_TYPE_LINKED_RESOURCES,
   WIDGET_TYPE_MILESTONE,
@@ -56,6 +55,7 @@ import workspacePermissionsQuery from '../graphql/workspace_permissions.query.gr
 import {
   findAssigneesWidget,
   findAwardEmojiWidget,
+  findErrorTrackingWidget,
   findHierarchyWidgetDefinition,
   activeWorkItemIds,
 } from '../utils';
@@ -423,7 +423,7 @@ export default {
       return findAwardEmojiWidget(this.workItem);
     },
     workItemErrorTracking() {
-      return this.findWidget(WIDGET_TYPE_ERROR_TRACKING) ?? {};
+      return findErrorTrackingWidget(this.workItem) ?? {};
     },
     workItemLinkedResources() {
       return this.findWidget(WIDGET_TYPE_LINKED_RESOURCES)?.linkedResources.nodes ?? [];

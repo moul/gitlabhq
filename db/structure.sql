@@ -4110,6 +4110,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_940b0d0d96a8() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."project_id" IS NULL THEN
+  SELECT "project_id"
+  INTO NEW."project_id"
+  FROM "ai_vectorizable_file_uploads"
+  WHERE "ai_vectorizable_file_uploads"."id" = NEW."ai_vectorizable_file_upload_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_94514aeadc50() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -13754,6 +13770,29 @@ CREATE TABLE ai_user_metrics (
     last_duo_activity_on date NOT NULL
 );
 
+CREATE TABLE ai_vectorizable_file_upload_states (
+    id bigint NOT NULL,
+    verification_started_at timestamp with time zone,
+    verification_retry_at timestamp with time zone,
+    verified_at timestamp with time zone,
+    ai_vectorizable_file_upload_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    verification_state smallint DEFAULT 0 NOT NULL,
+    verification_retry_count smallint DEFAULT 0 NOT NULL,
+    verification_checksum bytea,
+    verification_failure text,
+    CONSTRAINT check_d587502ef6 CHECK ((char_length(verification_failure) <= 255))
+);
+
+CREATE SEQUENCE ai_vectorizable_file_upload_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE ai_vectorizable_file_upload_states_id_seq OWNED BY ai_vectorizable_file_upload_states.id;
+
 CREATE TABLE ai_vectorizable_file_uploads (
     id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
@@ -21781,6 +21820,7 @@ CREATE TABLE import_offline_configurations (
     export_prefix text NOT NULL,
     object_storage_credentials jsonb NOT NULL,
     bulk_import_id bigint,
+    entity_prefix_mapping jsonb DEFAULT '{}'::jsonb NOT NULL,
     CONSTRAINT check_94d334d71c CHECK ((char_length(bucket) <= 256)),
     CONSTRAINT check_9c4751c29c CHECK ((num_nonnulls(bulk_import_id, offline_export_id) = 1)),
     CONSTRAINT check_f28fa120fe CHECK ((char_length(export_prefix) <= 255))
@@ -35388,6 +35428,8 @@ ALTER TABLE ONLY ai_troubleshoot_job_events ALTER COLUMN id SET DEFAULT nextval(
 
 ALTER TABLE ONLY ai_usage_events ALTER COLUMN id SET DEFAULT nextval('ai_usage_events_id_seq'::regclass);
 
+ALTER TABLE ONLY ai_vectorizable_file_upload_states ALTER COLUMN id SET DEFAULT nextval('ai_vectorizable_file_upload_states_id_seq'::regclass);
+
 ALTER TABLE ONLY ai_vectorizable_files ALTER COLUMN id SET DEFAULT nextval('ai_vectorizable_files_id_seq'::regclass);
 
 ALTER TABLE ONLY alert_management_alert_assignees ALTER COLUMN id SET DEFAULT nextval('alert_management_alert_assignees_id_seq'::regclass);
@@ -38333,6 +38375,9 @@ ALTER TABLE ONLY ai_usage_events
 
 ALTER TABLE ONLY ai_user_metrics
     ADD CONSTRAINT ai_user_metrics_pkey PRIMARY KEY (user_id);
+
+ALTER TABLE ONLY ai_vectorizable_file_upload_states
+    ADD CONSTRAINT ai_vectorizable_file_upload_states_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY ai_vectorizable_file_uploads
     ADD CONSTRAINT ai_vectorizable_file_uploads_pkey PRIMARY KEY (id, model_type);
@@ -44161,6 +44206,20 @@ CREATE UNIQUE INDEX idx_ai_nfar_default_rule_on_root_ns_accessible_entity ON ai_
 
 CREATE UNIQUE INDEX idx_ai_usage_events_uniqueness ON ONLY ai_usage_events USING btree (namespace_id, user_id, event, "timestamp") NULLS NOT DISTINCT;
 
+CREATE UNIQUE INDEX idx_ai_vec_file_upl_on_id_unique ON ai_vectorizable_file_uploads USING btree (id);
+
+CREATE INDEX idx_ai_vec_file_upload_states_failed_verification ON ai_vectorizable_file_upload_states USING btree (verification_retry_at NULLS FIRST) WHERE (verification_state = 3);
+
+CREATE INDEX idx_ai_vec_file_upload_states_needs_verification_id ON ai_vectorizable_file_upload_states USING btree (ai_vectorizable_file_upload_id) WHERE ((verification_state = 0) OR (verification_state = 3));
+
+CREATE INDEX idx_ai_vec_file_upload_states_on_verification_started ON ai_vectorizable_file_upload_states USING btree (ai_vectorizable_file_upload_id, verification_started_at) WHERE (verification_state = 1);
+
+CREATE INDEX idx_ai_vec_file_upload_states_on_verification_state ON ai_vectorizable_file_upload_states USING btree (verification_state);
+
+CREATE INDEX idx_ai_vec_file_upload_states_pending_verification ON ai_vectorizable_file_upload_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
+
+CREATE UNIQUE INDEX idx_ai_vectorizable_file_upload_states_on_upload_id ON ai_vectorizable_file_upload_states USING btree (ai_vectorizable_file_upload_id);
+
 CREATE INDEX idx_alert_management_alerts_on_created_at_project_id_with_issue ON alert_management_alerts USING btree (created_at, project_id) WHERE (issue_id IS NOT NULL);
 
 CREATE INDEX idx_analytics_devops_adoption_segments_on_namespace_id ON analytics_devops_adoption_segments USING btree (namespace_id);
@@ -45236,6 +45295,8 @@ CREATE INDEX index_ai_usage_events_on_namespace_id_event_timestamp_and_id ON ONL
 CREATE INDEX index_ai_usage_events_on_organization_id ON ONLY ai_usage_events USING btree (organization_id);
 
 CREATE INDEX index_ai_usage_events_on_user_id ON ONLY ai_usage_events USING btree (user_id);
+
+CREATE INDEX index_ai_vectorizable_file_upload_states_on_project_id ON ai_vectorizable_file_upload_states USING btree (project_id);
 
 CREATE INDEX index_ai_vectorizable_files_on_project_id ON ai_vectorizable_files USING btree (project_id);
 
@@ -55149,6 +55210,8 @@ CREATE TRIGGER trigger_9259aae92378 BEFORE INSERT OR UPDATE ON packages_build_in
 
 CREATE TRIGGER trigger_93a5b044f4e8 BEFORE INSERT OR UPDATE ON snippet_user_mentions FOR EACH ROW EXECUTE FUNCTION trigger_93a5b044f4e8();
 
+CREATE TRIGGER trigger_940b0d0d96a8 BEFORE INSERT OR UPDATE ON ai_vectorizable_file_upload_states FOR EACH ROW EXECUTE FUNCTION trigger_940b0d0d96a8();
+
 CREATE TRIGGER trigger_94514aeadc50 BEFORE INSERT OR UPDATE ON deployment_approvals FOR EACH ROW EXECUTE FUNCTION trigger_94514aeadc50();
 
 CREATE TRIGGER trigger_951ac22c24d7 BEFORE INSERT OR UPDATE ON required_code_owners_sections FOR EACH ROW EXECUTE FUNCTION trigger_951ac22c24d7();
@@ -56665,6 +56728,9 @@ ALTER TABLE ONLY duo_workflows_events
 ALTER TABLE ONLY routes
     ADD CONSTRAINT fk_679ff8213d FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY ai_vectorizable_file_upload_states
+    ADD CONSTRAINT fk_67ce8e7b4d FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY slack_integrations_scopes
     ADD CONSTRAINT fk_67e0ce7a40 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
 
@@ -57807,6 +57873,9 @@ ALTER TABLE ONLY bulk_import_entities
 
 ALTER TABLE ONLY subscription_user_add_on_assignments
     ADD CONSTRAINT fk_d1074a6e16 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY ai_vectorizable_file_upload_states
+    ADD CONSTRAINT fk_d1b201a906 FOREIGN KEY (ai_vectorizable_file_upload_id) REFERENCES ai_vectorizable_file_uploads(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY environments
     ADD CONSTRAINT fk_d1c8c1da6a FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;

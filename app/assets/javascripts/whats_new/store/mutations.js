@@ -16,9 +16,6 @@ export default {
   [types.SET_FETCHING](state, fetching) {
     state.fetching = fetching;
   },
-  [types.SET_DRAWER_BODY_HEIGHT](state, height) {
-    state.drawerBodyHeight = height;
-  },
   [types.SET_READ_ARTICLES](state, readArticles) {
     state.readArticles = readArticles;
   },

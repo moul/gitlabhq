@@ -168,6 +168,7 @@ module Gitlab
           merged_yaml: @config&.deep_stringify_keys&.to_yaml
         }
       end
+      strong_memoize_attr :metadata
 
       private
 

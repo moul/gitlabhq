@@ -104,21 +104,4 @@ RSpec.describe 'Group navbar', :with_license, :js, feature_category: :navigation
 
     it_behaves_like 'verified navigation bar'
   end
-
-  context 'when ai_catalog_public_explore is enabled' do
-    before do
-      stub_feature_flags(ai_catalog_public_explore: true)
-      insert_after_nav_item(
-        _('Plan'),
-        new_nav_item: {
-          nav_item: s_('DuoAgentsPlatform|AI'),
-          nav_sub_items: [s_('AICatalog|Agents')]
-        }
-      )
-
-      visit group_path(group)
-    end
-
-    it_behaves_like 'verified navigation bar'
-  end
 end
