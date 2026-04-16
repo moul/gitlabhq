@@ -124,7 +124,7 @@ Prerequisites:
 You can view the status of your subscription:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Subscription**.
+1. In the left sidebar, select **Subscription**.
 
 The **Subscription** page includes the following information:
 
@@ -422,7 +422,7 @@ Prerequisites:
 You can also manually synchronize subscription data at any time.
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Subscription**.
+1. In the left sidebar, select **Subscription**.
 1. In the **Subscription details** section, select **Sync** ({{< icon name="retry" >}}).
 
 A synchronization job is then queued. When the job finishes, the subscription

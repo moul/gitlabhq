@@ -56,7 +56,7 @@ If your GitLab instance uses Elasticsearch or OpenSearch for advanced search,
 you can enable semantic code search by connecting to the same cluster:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Semantic search**.
 1. Select **Connect to the advanced search cluster**.
 

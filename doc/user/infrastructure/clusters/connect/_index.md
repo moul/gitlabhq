@@ -59,7 +59,7 @@ Prerequisites:
 - Administrator access.
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Kubernetes**.
+1. In the left sidebar, select **Kubernetes**.
 
 ## Security implications for clusters connected with certificates
 

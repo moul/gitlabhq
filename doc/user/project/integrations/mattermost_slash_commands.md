@@ -75,7 +75,7 @@ To get configuration values from GitLab:
 1. In a different browser tab, sign in to
    GitLab as a user with administrator access.
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Integrations**.
+1. In the left sidebar, select **Settings** > **Integrations**.
 1. Select **Mattermost slash commands**. GitLab displays potential values for Mattermost settings.
 1. Copy the **Request URL** value. All other values are suggestions.
 1. Do not close this browser tab. You need it in a later step.

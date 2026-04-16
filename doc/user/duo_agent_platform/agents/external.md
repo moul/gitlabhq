@@ -173,7 +173,7 @@ Prerequisites:
 To add external agents to your instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **GitLab Duo**.
+1. In the left sidebar, select **GitLab Duo**.
 1. Under **GitLab-managed external agents**, select **Add to AI Catalog**.
 
 You can also add external agents with the [API](../../../api/admin/ai_catalog.md).

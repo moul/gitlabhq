@@ -471,6 +471,12 @@ export default [
           message:
             "Vue 2's set/delete methods are not available in Vue 3. Create/assign new objects with the desired properties instead.",
         },
+        {
+          object: 'Vue',
+          property: 'observable',
+          message:
+            'Use `observable()` from `~/lib/utils/observable` instead. Vue.observable is not shared across Vue 2/Vue 3 module boundaries.',
+        },
       ],
 
       'no-restricted-imports': [
@@ -605,6 +611,12 @@ export default [
           property: 'set',
           message:
             "Vue 2's set/delete methods are not available in Vue 3. Create/assign new objects with the desired properties instead.",
+        },
+        {
+          object: 'Vue',
+          property: 'observable',
+          message:
+            'Use `observable()` from `~/lib/utils/observable` instead. Vue.observable is not shared across Vue 2/Vue 3 module boundaries.',
         },
       ],
 

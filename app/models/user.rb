@@ -542,7 +542,6 @@ class User < ApplicationRecord
   delegate :twitter, :twitter=, to: :user_detail, allow_nil: true
   delegate :website_url, :website_url=, to: :user_detail, allow_nil: true
   delegate :location, :location=, to: :user_detail, allow_nil: true
-  delegate :organization, :organization=, to: :user_detail, prefix: true, allow_nil: true
   delegate :company, :company=, to: :user_detail, allow_nil: true
   delegate :discord, :discord=, to: :user_detail, allow_nil: true
   delegate :github, :github=, to: :user_detail, allow_nil: true

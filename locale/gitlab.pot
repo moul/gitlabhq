@@ -26635,6 +26635,9 @@ msgstr ""
 msgid "DuoAgenticChat|chat-rules.md was not found in this page"
 msgstr ""
 
+msgid "DuoAgentsPlatform|AI"
+msgstr ""
+
 msgid "DuoAgentsPlatform|AI Catalog"
 msgstr ""
 

@@ -328,7 +328,7 @@ GitLab administrators can limit the display of time units to hours.
 To do so:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Preferences**.
+1. In the left sidebar, select **Settings** > **Preferences**.
 1. Expand **Localization**.
 1. Under **Time tracking**, select the **Limit display of time tracking units to hours** checkbox.
 1. Select **Save changes**.

@@ -54,6 +54,7 @@ Audit event types belong to the following product categories.
 
 | Type name | Event triggered when | Saved to database | Introduced in | Scope |
 |:----------|:---------------------|:------------------|:--------------|:------|
+| [`ai_usage_data_collection_enabled_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/230130) | Collect usage data setting on group changed | {{< yes >}} | GitLab [19.0](https://gitlab.com/gitlab-org/gitlab/-/issues/595736) | Group |
 | [`feature_access_rules_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/217749) | GitLab Duo feature access rules were updated | {{< yes >}} | GitLab [18.8](https://gitlab.com/gitlab-org/gitlab/-/issues/584380) | Instance |
 | [`namespace_feature_access_rules_updated`](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/217896) | GitLab Duo namespace feature access rules were updated | {{< yes >}} | GitLab [18.8](https://gitlab.com/gitlab-org/gitlab/-/work_items/584381) | Group |
 

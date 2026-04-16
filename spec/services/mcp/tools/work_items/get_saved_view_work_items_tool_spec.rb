@@ -15,6 +15,22 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
   end
 
   describe 'class methods' do
+    describe '.filter_definitions' do
+      it 'returns CE filter definitions' do
+        keys = described_class.filter_definitions.pluck(:key)
+
+        expect(keys).to include(
+          'assigneeUsernames', 'assigneeWildcardId', 'authorUsername',
+          'confidential', 'labelName', 'milestoneTitle', 'milestoneWildcardId',
+          'myReactionEmoji', 'types', 'state', 'not', 'or'
+        )
+      end
+
+      it 'includes type information for each filter' do
+        expect(described_class.filter_definitions).to all(include(key: a_kind_of(String), type: a_kind_of(String)))
+      end
+    end
+
     describe '.build_query' do
       it 'returns the work items GraphQL query string' do
         query = described_class.build_query
@@ -23,6 +39,25 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
         expect(query).to include('$fullPath: ID!')
         expect(query).to include('namespace(fullPath: $fullPath)')
         expect(query).to include('workItems(')
+      end
+
+      it 'includes filter variables derived from filter_definitions' do
+        query = described_class.build_query
+
+        described_class.filter_definitions.each do |f|
+          expect(query).to include("$#{f[:key]}: #{f[:type]}")
+          expect(query).to include("#{f[:key]}: $#{f[:key]}")
+        end
+      end
+
+      it 'includes structural variables' do
+        query = described_class.build_query
+
+        expect(query).to include('$sort: WorkItemSort')
+        expect(query).to include('$includeDescendants: Boolean')
+        expect(query).to include('$excludeProjects: Boolean')
+        expect(query).to include('$afterCursor: String')
+        expect(query).to include('$firstPageSize: Int')
       end
 
       it 'includes pagination fields' do
@@ -37,21 +72,6 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
 
         work_item_fields = %w[nodes id iid title state webUrl workItemType]
         work_item_fields.each { |field| expect(query).to include(field) }
-      end
-
-      it 'includes filter variables' do
-        query = described_class.build_query
-
-        expect(query).to include('$sort: WorkItemSort')
-        expect(query).to include('$state: IssuableState')
-        expect(query).to include('$search: String')
-        expect(query).to include('$in: [IssuableSearchableField!]')
-        expect(query).to include('$assigneeUsernames: [String!]')
-        expect(query).to include('$labelName: [String!]')
-        expect(query).to include('$milestoneTitle: [String!]')
-        expect(query).to include('$authorUsername: String')
-        expect(query).to include('$types: [IssueType!]')
-        expect(query).to include('$hierarchyFilters: HierarchyFilterInput')
       end
 
       it 'includes widget fragments' do
@@ -77,9 +97,10 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
 
     it 'has correct GraphQL operation for version 0.1.0' do
       operation = tool.graphql_operation
+      query = operation.respond_to?(:call) ? operation.call : operation
 
-      expect(operation).to include('query GetWorkItemsFull')
-      expect(operation).to include('namespace(fullPath: $fullPath)')
+      expect(query).to include('query GetWorkItemsFull')
+      expect(query).to include('namespace(fullPath: $fullPath)')
     end
   end
 
@@ -201,8 +222,7 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
           group_id: group.id.to_s,
           filters: {
             'labelName' => ['bug'],
-            'healthStatusFilter' => 'onTrack',
-            'iterationId' => ['gid://gitlab/Iteration/1']
+            'unsupportedFilter' => 'keyword'
           },
           sort: nil
         }
@@ -211,7 +231,7 @@ RSpec.describe Mcp::Tools::WorkItems::GetSavedViewWorkItemsTool, feature_categor
       it 'detects unsupported filters' do
         tool.build_variables
 
-        expect(tool.unsupported_filters).to contain_exactly('healthStatusFilter', 'iterationId')
+        expect(tool.unsupported_filters).to contain_exactly('unsupportedFilter')
       end
 
       it 'still maps supported filters correctly' do

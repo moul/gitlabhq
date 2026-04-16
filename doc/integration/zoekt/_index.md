@@ -74,7 +74,7 @@ Prerequisites:
 To enable [exact code search](../../user/search/exact_code_search.md) from the GitLab UI:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. Select the **Enable indexing** and **Enable searching** checkboxes.
 1. Select **Save changes**.
@@ -342,7 +342,7 @@ Prerequisites:
 To pause indexing for [exact code search](../../user/search/exact_code_search.md):
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. Select the **Pause indexing** checkbox.
 1. Select **Save changes**.
@@ -366,7 +366,7 @@ You can index both existing and new root namespaces automatically.
 To index all root namespaces automatically:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. Select the **Index root namespaces automatically** checkbox.
 1. Select **Save changes**.
@@ -401,7 +401,7 @@ This feature is enabled by default and caches results for five minutes.
 To cache search results:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. Select the **Cache search results for five minutes** checkbox.
 1. Select **Save changes**.
@@ -428,7 +428,7 @@ You can adjust this value based on the node's performance and workload.
 To set the number of concurrent indexing tasks:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Indexing CPU to tasks multiplier** text box, enter a value.
 
@@ -459,7 +459,7 @@ A higher percentage increases indexing load, especially for very large repositor
 To define the probability of random force reindexing:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Probability of random force reindexing (percentage)** text box,
    enter a number between `0` and `100`.
@@ -486,7 +486,7 @@ You can adjust this value based on the node's performance and workload.
 To set the number of parallel processes per indexing task:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Number of parallel processes per indexing task** text box, enter a value.
 1. Select **Save changes**.
@@ -510,7 +510,7 @@ You can adjust this value based on the node's performance and workload.
 To set the number of namespaces per indexing rollout:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Number of namespaces per indexing rollout** text box,
    enter a number greater than zero.
@@ -537,7 +537,7 @@ Use this setting to manage your Zoekt infrastructure and prevent orphaned resour
 To define when offline nodes are automatically deleted:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Offline nodes automatically deleted after** text box, enter a value
    (for example, `30m` (30 minutes), `2h` (two hours), or `1d` (one day)).
@@ -562,7 +562,7 @@ The default value is `30m` (30 minutes).
 To define the indexing timeout for a project:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Indexing timeout per project** text box, enter a value
    (for example, `30m` (30 minutes), `2h` (two hours), or `1d` (one day)).
@@ -589,7 +589,7 @@ You can adjust this value based on the node's performance and workload.
 To set the maximum number of files in a project to be indexed:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Maximum number of files per project to be indexed** text box, enter a number greater than zero.
 1. Select **Save changes**.
@@ -614,7 +614,7 @@ You can search these files only by filename.
 To set maximum file size for indexing:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Maximum file size for indexing** text box, enter a value
    (for example, `512B`, `50KB`, `2MB`, or `1GB`).
@@ -643,7 +643,7 @@ A higher limit affects both indexing and search performance.
 To set the maximum trigram count for indexing:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Maximum trigrams per file** text box, enter a number greater than zero.
 1. Select **Save changes**.
@@ -667,7 +667,7 @@ A value of `0` means failed namespaces never retry.
 To define the retry interval for failed namespaces:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Retry interval for failed namespaces** text box, enter a value
    (for example, `30m` (30 minutes), `2h` (two hours), or `1d` (one day)).
@@ -695,7 +695,7 @@ More replicas increase storage requirements.
 To set the number of replicas per namespace:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Search**.
+1. In the left sidebar, select **Settings** > **Search**.
 1. Expand **Exact code search**.
 1. In the **Number of replicas per namespace** text box,
    enter a number greater than zero.
@@ -847,7 +847,7 @@ It could be calculated as `Search::Zoekt::Index.global_buffer_factor` which is m
 To view `repository_git_size`:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Projects**.
+1. In the left sidebar, select **Overview** > **Projects**.
 1. In the **Repository** column, view the Git object size.
 
 For the initial provisioning target, start with three times

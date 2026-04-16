@@ -150,7 +150,7 @@ Before you can migrate projects on GitLab Self-Managed using file exports, GitLa
 To enable file exports as an import source for the destination instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Import and export settings**.
 1. Scroll to **Import sources**.
 1. Select the **GitLab export** checkbox.

@@ -266,6 +266,54 @@ export default {
 the props default value factory is passed the raw props as an argument, and can
 also access injections.
 
+### `Vue.observable`
+
+**Why?**
+
+`Vue.observable` creates reactive state that is tied to the Vue version that created it.
+In the hybrid Vue 2/Vue 3 infection system, modules can be duplicated — one copy for
+each Vue version. When these modules use `Vue.observable()`, each copy creates its own
+separate reactive object, so state changes in one are invisible to the other.
+
+**What to use instead**
+
+Use `observable()` from `~/lib/utils/observable`:
+
+```javascript
+import { observable } from '~/lib/utils/observable';
+
+// Before
+export const state = Vue.observable({ count: 0 });
+
+// After
+export const state = observable('unique_key', { count: 0 });
+```
+
+The `observable(key, defaults)` function:
+
+- Stores a single canonical state in a global registry keyed by `key`
+- Creates a per-Vue-context reactive mirror via `Vue.observable()` internally
+- Returns a Proxy that syncs writes to all mirrors across Vue versions
+- Supports flat objects, getters, and methods
+
+The `key` must be a unique string identifier (for example, `'super_sidebar_state'`). It ensures
+both module copies share the same underlying state.
+
+An ESLint rule (`no-restricted-properties`) enforces this — direct `Vue.observable` usage
+produces a lint error.
+
+**Limitations**
+
+- **Flat objects only**: Nested mutations like `state.nested.prop = value` or `state.array.push(item)` do not sync across Vue versions. Refactor to top-level property replacement instead:
+
+  ```javascript
+  // Instead of: state.items.push(newItem)
+  state.items = [...state.items, newItem];
+
+  // Instead of: state.config[key] = value
+  state.config = { ...state.config, [key]: value };
+  ```
+
 ### Handling libraries that do not work with `@vue/compat`
 
 **Problem**

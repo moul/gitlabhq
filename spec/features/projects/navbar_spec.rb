@@ -20,6 +20,7 @@ RSpec.describe 'Project navbar', :with_license, :js, feature_category: :groups_a
   before do
     stub_feature_flags(hide_incident_management_features: false)
     stub_feature_flags(slsa_provenance_statement: false)
+    stub_feature_flags(ai_catalog_public_explore: false)
     sign_in(user)
 
     stub_config(registry: { enabled: false })
@@ -117,5 +118,27 @@ RSpec.describe 'Project navbar', :with_license, :js, feature_category: :groups_a
 
       it_behaves_like 'verified navigation bar'
     end
+  end
+
+  context 'when ai_catalog_public_explore is enabled' do
+    before do
+      stub_feature_flags(ai_catalog_public_explore: true)
+      stub_feature_flags(work_item_configurable_types: false)
+      remove_nav_item(_('Error Tracking'))
+      insert_after_nav_item(
+        _('Plan'),
+        new_nav_item: {
+          nav_item: s_('DuoAgentsPlatform|AI'),
+          nav_sub_items: [
+            s_('AICatalog|Agents'),
+            s_('DuoAgentsPlatform|Sessions')
+          ]
+        }
+      )
+
+      visit project_path(project)
+    end
+
+    it_behaves_like 'verified navigation bar'
   end
 end

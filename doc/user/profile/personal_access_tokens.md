@@ -274,7 +274,7 @@ Prerequisites:
 - You must be an administrator for your GitLab Self-Managed instance.
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Account and limit**.
 1. Clear the **Service account token expiration** checkbox.
 
@@ -314,7 +314,7 @@ When you disable access tokens, the following rules apply:
 To disable access tokens for the instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Account and limit**.
 1. Select the **Disable access tokens** checkbox.
 1. Select **Save changes**.

@@ -340,7 +340,7 @@ ApplicationSetting.last.update(container_registry_expiration_policies_worker_cap
 To change these settings in the **Admin** area:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Container Registry**.
 
 ### Use the cleanup policy API

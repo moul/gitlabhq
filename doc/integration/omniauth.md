@@ -286,7 +286,7 @@ Administrators can enable or disable sign-in for some OmniAuth providers.
 To enable or disable an OmniAuth provider:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Sign-in restrictions**.
 1. In the **Enabled OAuth authentication sources** section, select or clear the checkbox for each provider you want to enable or disable.
 

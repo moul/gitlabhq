@@ -125,7 +125,7 @@ You will now manually create the users for your organization. These users are te
 users. To create the first test user, Alex Smith:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. Select **New user**.
 1. Complete the required fields:
    - **Name**: `Alex Smith`

@@ -201,7 +201,7 @@ Prerequisites:
 - Your instance must be able to synchronize your subscription data with GitLab.
 
 1. In the upper-right corner, select **Admin**.
-1. Select **GitLab Credits**.
+1. In the left sidebar, select **GitLab Credits**.
 1. Select **Purchase monthly commitment** or **Increase monthly commitment**.
 1. In the Customers Portal form, enter the number of credits you want to buy.
 1. Select **Review order**. Verify that the number of credits, customer information, and payment method are correct.
@@ -460,7 +460,7 @@ Prerequisites:
 - Your instance must be able to synchronize your subscription data with GitLab.
 
 1. In the upper-right corner, select **Admin**.
-1. Select **GitLab Credits**.
+1. In the left sidebar, select **GitLab Credits**.
 1. Optional. To sort the results by **User** or **Total credits used**, select the respective column.
 
 {{< /tab >}}

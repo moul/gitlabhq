@@ -292,7 +292,7 @@ Prerequisites:
 To turn on GitLab Duo experiment and beta features for an instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **GitLab Duo**.
+1. In the left sidebar, select **Settings** > **GitLab Duo**.
 1. Expand **Change configuration**.
 1. Under **Feature preview**, select **Use experiment and beta GitLab Duo features**.
 1. Select **Save changes**.
@@ -310,7 +310,7 @@ Prerequisites:
 To turn on GitLab Duo experiment and beta features for an instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **GitLab Duo**.
+1. In the left sidebar, select **Settings** > **GitLab Duo**.
 1. Expand **Change configuration**.
 1. Under **Feature preview**, select **Use experiment and beta GitLab Duo features**.
 1. Select **Save changes**.

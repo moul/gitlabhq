@@ -688,6 +688,7 @@ describe('Tree List', () => {
 
       getQueryHandlerSuccess = jest.fn().mockResolvedValueOnce(response);
 
+      // eslint-disable-next-line no-restricted-properties
       const route = Vue.observable({ params: {} });
       wrapper = shallowMountExtended(TreeList, {
         apolloProvider: createMockApollo([[paginatedTreeQuery, getQueryHandlerSuccess]]),

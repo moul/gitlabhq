@@ -10,13 +10,14 @@ import { parseBoolean } from '~/lib/utils/common_utils';
 import { initMrMoreDropdown } from '~/mr_more_dropdown';
 import { pinia } from '~/pinia/instance';
 import ReviewDrawer from '~/batch_comments/components/review_drawer.vue';
+import { observable } from '~/lib/utils/observable';
 import { initRapidDiffsToggle } from '~/rapid_diffs/app/init_rapid_diffs_toggle';
 import initShow from './init_merge_request_show';
 import getStateQuery from './queries/get_state.query.graphql';
 
 Vue.use(VueApollo);
 
-const tabData = Vue.observable({
+const tabData = observable('mr_page_tab_data', {
   tabs: [],
 });
 

@@ -134,7 +134,7 @@ The service accounts page displays information about service accounts in your gr
 To view service accounts for the entire instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Service accounts**.
+1. In the left sidebar, select **Settings** > **Service accounts**.
 
 {{< /tab >}}
 

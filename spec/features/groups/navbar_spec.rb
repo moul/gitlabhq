@@ -21,6 +21,7 @@ RSpec.describe 'Group navbar', :with_license, :js, feature_category: :navigation
       insert_customer_relations_nav(Gitlab.ee? ? _('Iterations') : _('Milestones'))
     end
 
+    stub_feature_flags(ai_catalog_public_explore: false)
     stub_config(dependency_proxy: { enabled: false })
     stub_config(registry: { enabled: false })
     stub_group_wikis(false)
@@ -97,6 +98,23 @@ RSpec.describe 'Group navbar', :with_license, :js, feature_category: :navigation
       stub_feature_flags(contributions_analytics_dashboard: false)
 
       insert_contribution_analytics_nav if Gitlab.ee?
+
+      visit group_path(group)
+    end
+
+    it_behaves_like 'verified navigation bar'
+  end
+
+  context 'when ai_catalog_public_explore is enabled' do
+    before do
+      stub_feature_flags(ai_catalog_public_explore: true)
+      insert_after_nav_item(
+        _('Plan'),
+        new_nav_item: {
+          nav_item: s_('DuoAgentsPlatform|AI'),
+          nav_sub_items: [s_('AICatalog|Agents')]
+        }
+      )
 
       visit group_path(group)
     end

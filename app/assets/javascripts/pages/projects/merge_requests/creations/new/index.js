@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { observable } from '~/lib/utils/observable';
 
 import { initMarkdownEditor } from 'ee_else_ce/pages/projects/merge_requests/init_markdown_editor';
 import { findTargetBranch } from 'ee_else_ce/pages/projects/merge_requests/creations/new/branch_finder';
@@ -17,10 +18,10 @@ if (mrNewCompareNode) {
   const targetCompareEl = document.getElementById('js-target-project-dropdown');
   const sourceCompareEl = document.getElementById('js-source-project-dropdown');
   const compareEl = document.querySelector('.js-merge-request-new-compare');
-  const targetBranch = Vue.observable({ name: '' });
+  const targetBranch = observable('mr_new_target_branch', { name: '' });
   const currentSourceBranch = JSON.parse(sourceCompareEl.dataset.currentBranch);
   const sourceBranchErrorDescriptionId = sourceCompareEl.dataset.branchErrorDescriptionId || null;
-  const sourceBranch = Vue.observable(currentSourceBranch);
+  const sourceBranch = observable('mr_new_source_branch', currentSourceBranch);
 
   // eslint-disable-next-line no-new
   new Vue({
@@ -65,7 +66,7 @@ if (mrNewCompareNode) {
     render(h) {
       return h(CompareApp, {
         props: {
-          currentBranch: currentSourceBranch,
+          currentBranch: sourceBranch,
         },
         on: {
           'select-branch': this.selectedBranch,

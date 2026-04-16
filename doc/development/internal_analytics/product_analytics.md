@@ -158,7 +158,7 @@ Prerequisites:
 To enable product analytics on your instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Analytics**.
+1. In the left sidebar, select **Settings** > **Analytics**.
 1. Enter the configuration values.
 1. Select **Save changes**.
 

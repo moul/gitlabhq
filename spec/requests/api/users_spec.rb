@@ -1960,7 +1960,7 @@ RSpec.describe API::Users, :with_current_organization, :aggregate_failures, feat
           put api(path, admin, admin_mode: true), params: { organization: param_organization }
 
           expect(response).to have_gitlab_http_status(:bad_request)
-          expect(json_response['message']).to eq({ 'user_detail.organization' => ['is too long (maximum is 500 characters)'] })
+          expect(json_response['message']).to eq({ 'user_detail.base' => ['Organization is too long (maximum is 500 characters)'] })
           expect(user.reload.company).to eq(expected_organization)
         end
       end

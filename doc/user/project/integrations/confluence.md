@@ -68,7 +68,7 @@ Prerequisites:
 To set up the integration for your instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Integrations**.
+1. In the left sidebar, select **Settings** > **Integrations**.
 1. Next to **Confluence Workspace**, select **Configure**.
 1. Under **Enable integration**, select the **Active** checkbox.
 1. In **Confluence Workspace URL**, enter your Confluence Workspace URL.

@@ -107,7 +107,7 @@ To start a trial:
    The activation code is valid for only one use.
 1. Sign in to GitLab as an administrator.
 1. In the upper-right corner, select **Admin**.
-1. Select **Subscription**.
+1. In the left sidebar, select **Subscription**.
 1. Paste the activation code in **Activation code**.
 1. Read and accept the terms of service.
 1. Select **Activate**.

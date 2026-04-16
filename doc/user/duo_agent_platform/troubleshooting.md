@@ -48,6 +48,18 @@ To fix this issue:
 1. Enable the same flows in the top-level group and save the configuration.
 1. Wait a few minutes for the setting to propagate across projects in the group.
 
+## Error: `Your request was valid but Workflow failed to complete it`
+
+Flows require the project repository to have at least one commit.
+If you run a flow in a project with no commits, you get the error:
+`Your request was valid but Workflow failed to complete it. Please try again.`
+
+This error occurs because the flow cannot find the default branch
+in a repository with no commits.
+
+To fix this issue, push an initial commit to the project before you run a flow.
+For example, add a `README.md` file.
+
 ## Session is stuck in created state
 
 If a session for your flow does not start:
@@ -89,6 +101,6 @@ To configure push rules for a project:
 To create push rules for the instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Push rules**.
+1. In the left sidebar, select **Push rules**.
 1. Follow the previous steps to allow **Commit author's email** and **Branch name**.
 1. Select **Save push rules**.

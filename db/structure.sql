@@ -4718,27 +4718,6 @@ RETURN NEW;
 END
 $$;
 
-CREATE FUNCTION trigger_c48e4298f362() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-BEGIN
-  IF TG_OP = 'INSERT' THEN
-    IF NEW.company IS NOT NULL AND NEW.company != '' THEN
-      NEW.organization := NEW.company;
-    ELSE
-      NEW.company := NEW.organization;
-    END IF;
-  ELSIF TG_OP = 'UPDATE' THEN
-    IF OLD.company IS DISTINCT FROM NEW.company THEN
-      NEW.organization := NEW.company;
-    ELSIF OLD.organization IS DISTINCT FROM NEW.organization THEN
-      NEW.company := NEW.organization;
-    END IF;
-  END IF;
-  RETURN NEW;
-END;
-$$;
-
 CREATE FUNCTION trigger_c52d215d50a1() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -44910,7 +44889,7 @@ CREATE INDEX idx_vreg_mvn_cache_remote_entry_states_pending_verification ON virt
 
 CREATE INDEX idx_vreg_pkgs_mvn_local_upstreams_on_name_trigram ON virtual_registries_packages_maven_local_upstreams USING gin (name gin_trgm_ops);
 
-CREATE INDEX idx_vuln_detection_transitions_on_occurrence_id_detected_id ON vulnerability_detection_transitions USING btree (vulnerability_occurrence_id, detected, id);
+CREATE INDEX idx_vuln_detection_transitions_on_occurrence_id_id ON vulnerability_detection_transitions USING btree (vulnerability_occurrence_id, id);
 
 CREATE INDEX idx_vuln_flip_guards_on_project_and_finding_id ON vulnerability_flip_guards USING btree (project_id, vulnerability_finding_id);
 
@@ -55247,8 +55226,6 @@ CREATE TRIGGER trigger_c17a166692a2 BEFORE INSERT OR UPDATE ON audit_events_stre
 CREATE TRIGGER trigger_c24a252f7b04 BEFORE INSERT OR UPDATE ON design_management_action_uploads FOR EACH ROW EXECUTE FUNCTION trigger_c24a252f7b04();
 
 CREATE TRIGGER trigger_c40a5bb7c1c3 BEFORE INSERT OR UPDATE ON bulk_import_export_upload_uploads FOR EACH ROW EXECUTE FUNCTION trigger_c40a5bb7c1c3();
-
-CREATE TRIGGER trigger_c48e4298f362 BEFORE INSERT OR UPDATE ON user_details FOR EACH ROW EXECUTE FUNCTION trigger_c48e4298f362();
 
 CREATE TRIGGER trigger_c52d215d50a1 BEFORE INSERT OR UPDATE ON incident_management_pending_issue_escalations FOR EACH ROW EXECUTE FUNCTION trigger_c52d215d50a1();
 

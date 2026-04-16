@@ -101,7 +101,7 @@ Prerequisites:
 To create a custom admin role:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Roles and permissions**.
+1. In the left sidebar, select **Settings** > **Roles and permissions**.
 1. Select **New role**.
 1. Select **Admin role**.
 1. Enter a name and description for the custom role.
@@ -219,7 +219,7 @@ Prerequisites:
 To assign a custom admin role to an existing user:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. Select **Edit** for a user.
 1. In the **Access** section, set the access level to either **Regular** or **Auditor**.
 1. From the **Admin area** dropdown list, select a custom admin role.

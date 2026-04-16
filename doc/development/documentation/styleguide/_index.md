@@ -1321,7 +1321,7 @@ To open project settings:
 
 ```markdown
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **General pipelines**.
 ```
 
@@ -1329,7 +1329,7 @@ To open group settings:
 
 ```markdown
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **General pipelines**.
 ```
 
@@ -1338,7 +1338,7 @@ To open settings for a top-level group:
 ```markdown
 1. In the top bar, select **Search or go to** and find your group.
    This group must be at the top level.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **General pipelines**.
 ```
 
@@ -1346,7 +1346,7 @@ To open either project or group settings:
 
 ```markdown
 1. In the top bar, select **Search or go to** and find your project or group.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **General pipelines**.
 ```
 
@@ -1366,10 +1366,8 @@ To open the **Admin** area:
 
 ```markdown
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 ```
-
-You do not have to repeat `In the left sidebar` in your second step.
 
 To open the **Your work** menu item:
 
@@ -1444,7 +1442,7 @@ Use the phrase **Complete the fields**.
 For example:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **Repository**.
+1. In the left sidebar, select **Settings** > **Repository**.
 1. Expand **Push rules**.
 1. Complete the fields.
 
