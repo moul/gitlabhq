@@ -136,3 +136,25 @@ The following fields are required: [Project](#pipeline-project)
 | Warnings           | `warnings`                         | Display pipeline warnings |
 | YAML errors        | `yamlErrors`                       | Display whether the pipeline has YAML errors |
 | YAML error messages| `yamlErrorMessages`                | Display YAML error messages |
+
+## Known issues
+
+- Queries with large date ranges can cause timeouts.
+
+## Examples
+
+- List all pipelines in the `gitlab-org/gitlab` project that failed today:
+
+  ````yaml
+  display: table
+  fields: id, ref, status, startedAt
+  query: type = Pipeline and project = "gitlab-org/gitlab" and status = failed and updated = today()
+  ````
+
+- List all Duo agent pipelines in the `gitlab-org/gitlab` project:
+
+  ````yaml
+  display: table
+  fields: id, ref, status, source, startedAt
+  query: type = Pipeline and project = "gitlab-org/gitlab" and source = "duo_workflow"
+  ````

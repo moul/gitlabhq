@@ -107,4 +107,21 @@ The following fields are required: [Project](#job-project)
 | Tags               | `tags`                             | Display the runner tags |
 | Triggered          | `triggered`                        | Display whether the job was triggered |
 | Web path           | `webPath`                          | Display the web path to the job |
-| With artifacts     | `withArtifacts`                    | Display whether the job has artifacts |
+
+## Examples
+
+- List all failed jobs in the `gitlab-org/gitlab` project:
+
+  ````yaml
+  display: table
+  fields: name, status, stage, startedAt
+  query: type = Job and project = "gitlab-org/gitlab" and status = failed
+  ````
+
+- List all jobs with artifacts in the `gitlab-org/gitlab` project:
+
+  ````yaml
+  display: table
+  fields: name, status, stage
+  query: type = Job and project = "gitlab-org/gitlab" and withArtifacts = true
+  ````

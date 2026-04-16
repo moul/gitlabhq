@@ -125,26 +125,22 @@ You can use either `namespace` or `group` as the field name.
 
 - `lastActivity` only supports descending (`desc`) sort order.
 
-**Examples**:
+## Examples
 
 - List all projects in the `gitlab-org` group sorted by path:
 
   ````yaml
-  ```glql
   display: table
   fields: name, fullPath, starCount, openIssuesCount
   sort: path asc
   query: type = Project and group = "gitlab-org"
-  ```
   ````
 
 - List all projects in the `gitlab-org` group sorted by most recently active:
 
   ````yaml
-  ```glql
   display: table
   fields: name, fullPath, lastActivity
   sort: lastActivity desc
   query: type = Project and group = "gitlab-org"
-  ```
   ````

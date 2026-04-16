@@ -132,6 +132,27 @@ registry.gitlab.com/gitlab-org/modelops/applied-ml/code-suggestions/ai-assist/mo
    1. Select **GitLab Duo** > **Change configuration**.
    1. Select the **Use TLS for the GitLab Duo Agent Platform service** checkbox.
 
+### Restrict network access
+
+To harden your system, make the following network configurations: 
+
+- Restrict the AI Gateway container's outbound network access.
+- Block all other outbound traffic from the container.
+
+The AI Gateway requires outbound access to the following. Ensure that you include these as exceptions to your network restrictions:
+
+- Your GitLab instance (`AIGW_GITLAB_URL`).
+- Your configured AI model provider endpoints (for example, Anthropic, Google Vertex AI,
+  or Azure OpenAI).
+- `customers.gitlab.com` for license validation, unless you use an offline license.
+
+> [!warning]
+> Test firewall rules in a non-production environment before applying them.
+> Overly restrictive rules can break AI Gateway functionality.
+
+To restrict outbound access on Linux hosts, use `iptables` rules in the `DOCKER-USER` chain.
+For more information, see [Docker packet filtering and firewalls](https://docs.docker.com/engine/network/packet-filtering-firewalls/).
+
 ## Set up Docker with NGINX and SSL
 
 > [!note]

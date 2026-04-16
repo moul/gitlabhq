@@ -89,7 +89,7 @@ guide GitLab Duo to:
 - Target specific file patterns with tailored review criteria.
 - Provide more detailed explanations for certain types of changes.
 
-To configure custom instructions, see [customize instructions for GitLab Duo](../../../gitlab_duo/customize_duo/review_instructions.md).
+To configure custom instructions, see [customize instructions for GitLab Duo](../../customize/review_instructions.md).
 
 ## Automatic reviews from GitLab Duo for a project
 
@@ -115,6 +115,9 @@ To enable `@GitLabDuo` to automatically review merge requests:
 1. Select **Settings** > **Merge requests**.
 1. In the **GitLab Duo Code Review** section, select **Enable automatic reviews by GitLab Duo**.
 1. Select **Save changes**.
+
+For information on how credit usage is attributed for automatic reviews, see
+[determine which code review feature runs](../../../project/merge_requests/duo_in_merge_requests.md#determine-which-review-feature-runs).
 
 ## Automatic reviews from GitLab Duo for groups and applications
 
@@ -148,6 +151,9 @@ To enable automatic reviews for all projects:
 1. Select **Save changes**.
 
 Settings cascade from application to group to project. More specific settings override broader ones.
+
+For information on how credit usage is attributed for automatic reviews, see
+[determine which code review feature runs](../../../project/merge_requests/duo_in_merge_requests.md#determine-which-review-feature-runs).
 
 ## Troubleshooting
 

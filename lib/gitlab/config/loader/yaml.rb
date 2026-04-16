@@ -26,6 +26,14 @@ module Gitlab
             aliases: true,
             filename: filename
           )
+        rescue Psych::SyntaxError => e
+          if Feature.enabled?(:ci_yaml_syntax_error_normalization, Feature.current_request) &&
+              html_content?(config)
+            message = e.file ? "(#{e.file}): Invalid configuration format" : 'Invalid configuration format'
+            raise Loader::FormatError, message
+          end
+
+          raise Loader::FormatError, e.message
         rescue Psych::Exception => e
           raise Loader::FormatError, e.message
         rescue ArgumentError
@@ -59,6 +67,11 @@ module Gitlab
 
         def too_big?
           !deep_size.valid?
+        end
+
+        def html_content?(content)
+          prefix = content.to_s[0, 512].downcase
+          prefix.include?('<!doctype html') || prefix.include?('<html')
         end
 
         def content_too_large?

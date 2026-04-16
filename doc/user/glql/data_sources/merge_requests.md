@@ -414,16 +414,14 @@ title: Merge requests
 | Title         | `title`                | Sort by title                                   |
 | Updated at    | `updated`, `updatedAt` | Sort by last updated date                       |
 
-**Examples**:
+## Examples
 
 - List all merge requests in the `gitlab-org` group created by me sorted by the merge date (latest first):
 
   ````yaml
-  ```glql
   display: table
   fields: title, reviewer, merged
   sort: merged desc
   query: group = "gitlab-org" and type = MergeRequest and state = merged and author = currentUser()
   limit: 10
-  ```
   ````
