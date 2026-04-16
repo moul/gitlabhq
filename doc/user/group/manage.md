@@ -173,6 +173,12 @@ This action is also available on other list pages.
 
 ## Transfer a group
 
+{{< history >}}
+
+- Asynchronous transfers for groups [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/594575) in GitLab 18.11 [with a feature flag](../../administration/feature_flags/_index.md) named `groups_and_projects_async_transfer`. Disabled by default.
+
+{{< /history >}}
+
 Transfer a group to move it from one location to another in the same GitLab instance. You can:
 
 - Transfer a subgroup to a different parent group.
@@ -181,8 +187,8 @@ Transfer a group to move it from one location to another in the same GitLab inst
 
 Prerequisites:
 
-- The Owner role for the source and target groups.
-- Enable subgroup creation in the target group (if applicable).
+- The Owner role for the source and destination groups.
+- Enable subgroup creation in the destination group (if applicable).
 
 > [!note]
 > You cannot transfer a group if it's archived or pending deletion.
@@ -195,6 +201,12 @@ To transfer a group:
 1. Select **Transfer group**.
 1. From the dropdown list, select the group.
 1. Select **Transfer group**.
+
+After you confirm the transfer:
+
+- The group is transferred asynchronously.
+- A confirmation email is sent after the transfer completes or fails.
+- The old group URL is redirected to the new group URL. Refresh the page to see the new group URL. For large groups, you must wait until the transfer completes before you can view the group under the destination namespace.
 
 After you transfer a group, make sure you:
 
@@ -227,13 +239,13 @@ Membership restrictions:
 
 Visibility and access restrictions:
 
-- If a target parent group has lower visibility, the visibility settings of all subgroups and projects
-  are adjusted to match the visibility of the target parent group.
+- If a destination parent group has lower visibility, the visibility settings of all subgroups and projects
+  are adjusted to match the visibility of the destination parent group.
 - Repository URLs change. You must update your local repositories to point to the new location. For more information, see [Repository page changes](../project/repository/_index.md#repository-path-changes).
 
 Package and container registry restrictions:
 
-- Transfers fail if the target group is a top-level group where npm packages that follow the [npm naming convention](../packages/npm_registry/_index.md#naming-convention) exist in any of the projects in the group, or in any of its subgroups.
+- Transfers fail if the destination group is a top-level group where npm packages that follow the [npm naming convention](../packages/npm_registry/_index.md#naming-convention) exist in any of the projects in the group, or in any of its subgroups.
 - Existing packages that use a group endpoint must be updated per the package's steps for setting up the group-level endpoint.
 - Existing package names must be updated if the package uses an instance-level endpoint and the group was moved to another top-level group.
 

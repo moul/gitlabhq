@@ -5,11 +5,11 @@ module Namespaces
     extend ActiveSupport::Concern
 
     included do
-      include TransitionContext
+      include ::Gitlab::TenantContainerLifecycle::Stateful::TransitionContext
       include TransitionCallbacks
       include StatePreservation
       include TransitionValidation
-      include TransitionLogging
+      include ::Gitlab::TenantContainerLifecycle::Stateful::TransitionLogging
 
       attribute :state, :integer, limit: 2, default: 0
 
@@ -113,6 +113,16 @@ module Namespaces
 
         after_failure :update_state_metadata_on_failure
         after_failure :log_transition_failure
+      end
+
+      private
+
+      def stateful_detail
+        namespace_details
+      end
+
+      def stateful_log_metadata
+        { message: 'Namespace state transition', namespace_id: id }
       end
     end
   end

@@ -8,7 +8,8 @@ title: Manage subscription
 
 ## Buy a subscription
 
-You can buy a subscription for GitLab.com or GitLab Self-Managed.
+After you [sign up](https://gitlab.com/users/sign_up) for GitLab,
+you can buy a subscription for GitLab.com or GitLab Self-Managed.
 The subscription determines which features are available for your private projects.
 
 After you subscribe to GitLab, you can manage the details of your subscription.
@@ -30,7 +31,9 @@ You don't need to install anything to use GitLab.com, you only need to [sign up]
 When you sign up, you choose:
 
 - [A subscription](https://about.gitlab.com/pricing/).
+  View the [GitLab.com feature comparison](https://about.gitlab.com/pricing/feature-comparison/) and decide which tier you want.
 - The number of seats you want.
+- A GitLab Credits option.
 
 A GitLab.com subscription applies to a top-level group.
 Members of every subgroup and project in the group:
@@ -46,16 +49,15 @@ In this case, the user sees only the features available to that subscription.
 
 To subscribe to GitLab.com:
 
-1. View the [GitLab.com feature comparison](https://about.gitlab.com/pricing/feature-comparison/)
-   and decide which tier you want.
-1. Create a user account for yourself by using the
-   [sign up page](https://gitlab.com/users/sign_up).
-1. Create a [group](../user/group/_index.md#create-a-group). Your subscription tier applies to the top-level group, its subgroups, and projects.
-1. Create additional users and
-   [add them to the group](../user/group/_index.md#add-users-to-a-group). The users in this group, its subgroups, and projects can use
-   the features of your subscription tier, and they consume a seat in your subscription.
-1. In the left sidebar, select **Settings** > **Billing** and choose a tier. You are taken to the Customers Portal.
-1. Fill out the form to complete your purchase.
+1. In the top bar, select **Search or go to** and find your group.
+1. Select **Settings** > **Billing**.
+1. Select **Upgrade subscription**.
+1. Select a tier and a GitLab Credits option.
+1. Select **Continue to checkout**. You are redirected to the Customers Portal.
+1. In the **Seats** field, enter the number of seats you want.
+1. Review the subscription details and billing information.
+1. Select the **I accept the Privacy Statement and Terms of Service** checkbox.
+1. Select **Buy subscription**.
 
 ### For GitLab Self-Managed
 
@@ -171,11 +173,17 @@ For more information, see the documentation on:
 
 {{< /details >}}
 
+Prerequisites:
+
+- You must be a billing account manager.
+
 To upgrade your [GitLab tier](https://about.gitlab.com/pricing/):
 
 1. Sign in to the [Customers Portal](https://customers.gitlab.com/customers/sign_in).
 1. Select **Upgrade plan** on the relevant subscription card.
-1. Confirm the active form of payment, or add a new form of payment.
+1. Select the plan you want to upgrade to.
+1. Select **Continue to checkout**.
+1. Review the upgrade details and billing information.
 1. Select the **I accept the Privacy Statement and Terms of Service** checkbox.
 1. Select **Upgrade subscription**.
 
@@ -188,6 +196,8 @@ The following is emailed to you:
 On GitLab Self-Managed, the new tier takes effect on the next subscription sync.
 You can also [synchronize your subscription manually](#subscription-data-synchronization)
 to upgrade right away.
+
+On GitLab.com, you can also select a GitLab Credits option when you buy a subscription.
 
 ## Renew subscription
 

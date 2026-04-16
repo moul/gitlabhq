@@ -501,6 +501,7 @@ This action is also available on other list pages.
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/499163) in GitLab 17.7 [with a flag](../../administration/feature_flags/_index.md) named `transfer_project_with_tags`. Disabled by default.
 - [Enabled on GitLab.com](https://gitlab.com/gitlab-org/gitlab/-/issues/499163) in GitLab 17.7. Feature flag removed.
+- Asynchronous transfers for projects [introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/594575) in GitLab 18.11 [with a flag](../../administration/feature_flags/_index.md) named `groups_and_projects_async_transfer`. Disabled by default.
 
 {{< /history >}}
 
@@ -516,9 +517,9 @@ You can transfer a project from:
 
 Prerequisites:
 
-- The Maintainer or Owner role for the target group.
+- The Maintainer or Owner role for the destination group.
 - The Owner role of the project you want to transfer.
-- Enable project creation for the target group.
+- Enable project creation for the destination group.
 
 > [!note]
 > You cannot transfer a project if it's archived or pending deletion.
@@ -532,8 +533,11 @@ To transfer a project:
 1. Select **Transfer project**.
 1. Enter the project's name and select **Confirm**.
 
-You are directed to the new project page and the previous
-URL is redirected to the new project URL.
+After you confirm the transfer:
+
+- The project is transferred asynchronously.
+- A confirmation email is sent after the transfer completes or fails.
+- The old project URL is redirected to the new project URL. Refresh the page to see the new project URL. For large projects, you must wait until the transfer completes before you can view the project under the destination namespace.
 
 After you transfer a project, make sure you:
 
@@ -560,9 +564,9 @@ A project transfer includes:
   - Pending membership invitations
 - Automated adjustments:
   - New project labels are created if matching group labels do not exist
-  - Epic copies are created in the target group if necessary, with separate copies per project
+  - Epic copies are created in the destination group if necessary, with separate copies per project
     - When you transfer multiple projects
-      with issues assigned to the same epic, separate copies of that epic are created in the target
+      with issues assigned to the same epic, separate copies of that epic are created in the destination
       group for each project.
 
 > [!warning]
@@ -576,8 +580,8 @@ following restrictions in mind.
 For projects with inherited memberships:
 
 - Members with [inherited membership](members/_index.md#membership-types)
-  in the project lose access unless they are also members of the target group.
-- The project inherits new member permissions from the target group.
+  in the project lose access unless they are also members of the destination group.
+- The project inherits new member permissions from the destination group.
 
 For projects where the container registry is enabled:
 

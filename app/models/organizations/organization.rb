@@ -8,6 +8,7 @@ module Organizations
     include Gitlab::Routing.url_helpers
     include FeatureGate
     include Organizations::Isolatable
+    include Organizations::Stateful
     include Cells::Claimable
 
     cells_claims_attribute :path, type: CLAIMS_BUCKET_TYPE::ORGANIZATION_PATH, feature_flag: :cells_claims_organizations
@@ -64,7 +65,18 @@ module Organizations
     validate :check_visibility_level, if: -> { new_record? || visibility_level_changed? }
     validate :check_organization_reserved_name, if: -> { new_record? }
 
-    delegate :description, :description_html, :avatar, :avatar_url, :remove_avatar!, to: :organization_detail
+    delegate :description,
+      :description_html,
+      :avatar,
+      :avatar_url,
+      :remove_avatar!,
+      :deletion_error,
+      :deletion_error=,
+      :state_metadata,
+      :state_metadata=,
+      :deletion_scheduled_at,
+      :deletion_scheduled_at=,
+      to: :organization_detail
 
     accepts_nested_attributes_for :organization_detail
     accepts_nested_attributes_for :organization_users

@@ -259,7 +259,8 @@ For premium models with optimized integration:
 | `claude-sonnet-4.5` <sup>1</sup> | 2.0 |
 | `claude-sonnet-4.6` | 2.0 |
 | `claude-opus-4.5` | 1.2 |
-| `claude-opus-4.6`  | 1.2 |
+| `claude-opus-4.6`  | 1.1 |
+| `claude-opus-4.7` | 1.1 |
 | `claude-sonnet-4` <sup>2</sup> | 1.1 |
 | `claude-sonnet-4.5` <sup>2</sup> | 1.1 |
 

@@ -129,7 +129,7 @@ You do not need to do the following in preparation before importing:
 > to continuous online garbage collection, by default deleting any untagged and unreferenced manifests
 > and layers that remain for longer than 24 hours.
 
-#### How to choose the right import method
+### Choose the right import method
 
 If you regularly run [offline garbage collection](container_registry.md#container-registry-garbage-collection),
 use the [one-step import](container_registry_metadata_database_one_step_import.md) method.
@@ -144,7 +144,7 @@ external database connection before proceeding with a migration path.
 
 For more information, see [Using an external database](#using-an-external-database).
 
-#### Restore interrupted imports
+### Restore interrupted imports
 
 {{< history >}}
 
@@ -172,13 +172,20 @@ For example:
 
 For more information about valid duration units, see [Go duration strings](https://pkg.go.dev/time#ParseDuration).
 
-#### Post import
+### Post import
 
-It may take approximately 48 hours post import to see your registry storage
-decrease. This is a normal and expected part of online garbage collection, as this
-delay ensures that online garbage collection does not interfere with image pushes.
-Check out the [monitor online garbage collection](#online-garbage-collection-monitoring) section
-to see how to monitor the progress and health of the online garbage collector.
+After completing a large import, hundreds of thousands or even millions of blobs can be queued for garbage collection review. This is normal.
+
+Because tagged images are imported before dangling blobs are inventoried, the garbage collector initially reviews blobs that are still referenced by tagged images. Garbage collection removes these blobs from the queue, but does not delete them from storage.
+
+Storage decreases only after the garbage collector reaches the dangling blobs. Registry storage might take 48 hours or more to decrease after a post-import, because the garbage collector delays review to avoid interference with image blobs.
+
+To monitor and manage the post-import garbage collection backlog:
+
+- [Check the health of online garbage collection](#check-the-health-of-online-garbage-collection)
+  to see the size and status of the review queues.
+- [Adjust the garbage collector worker interval](#adjust-the-garbage-collector-worker-interval)
+  to temporarily speed up processing for large backlogs.
 
 ## Prefer mode
 
