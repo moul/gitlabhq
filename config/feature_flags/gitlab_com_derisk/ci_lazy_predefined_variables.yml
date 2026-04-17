@@ -1,0 +1,10 @@
+---
+name: ci_lazy_predefined_variables
+description: Enable lazy evaluation of expensive predefined CI variables (Gitaly and DB queries) to improve pipeline creation performance
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/410143
+introduced_by_url:
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/594448
+milestone: '19.0'
+group: group::pipeline authoring
+type: gitlab_com_derisk
+default_enabled: false

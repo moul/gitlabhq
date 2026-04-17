@@ -15133,6 +15133,9 @@ msgstr[1] ""
 msgid "CiCatalog|All"
 msgstr ""
 
+msgid "CiCatalog|An error occurred while fetching usage statistics. Refresh the page or try again later."
+msgstr ""
+
 msgid "CiCatalog|Analytics"
 msgstr ""
 
@@ -15158,6 +15161,9 @@ msgid "CiCatalog|Component ID not found, or you do not have permission to access
 msgstr ""
 
 msgid "CiCatalog|Components"
+msgstr ""
+
+msgid "CiCatalog|Components used"
 msgstr ""
 
 msgid "CiCatalog|Components:"
@@ -15208,13 +15214,22 @@ msgstr ""
 msgid "CiCatalog|No release available"
 msgstr ""
 
+msgid "CiCatalog|No usage data available"
+msgstr ""
+
 msgid "CiCatalog|No versions available"
+msgstr ""
+
+msgid "CiCatalog|Outdated"
 msgstr ""
 
 msgid "CiCatalog|Partner"
 msgstr ""
 
 msgid "CiCatalog|Private - This component project can only be viewed by project members."
+msgstr ""
+
+msgid "CiCatalog|Project path"
 msgstr ""
 
 msgid "CiCatalog|Projects"
@@ -15244,7 +15259,19 @@ msgstr ""
 msgid "CiCatalog|Search keyword must have at least 3 characters"
 msgstr ""
 
+msgid "CiCatalog|See less"
+msgstr ""
+
+msgid "CiCatalog|See more"
+msgstr ""
+
 msgid "CiCatalog|Set component project as a CI/CD Catalog project. %{linkStart}What is the CI/CD Catalog?%{linkEnd}"
+msgstr ""
+
+msgid "CiCatalog|Status"
+msgstr ""
+
+msgid "CiCatalog|The list of projects that included a component from this project in a pipeline in the last 30 days. Only displays projects you have permission to view."
 msgstr ""
 
 msgid "CiCatalog|The number of projects that used a component from this catalog project in their pipelines in the last 30 days."
@@ -15257,6 +15284,9 @@ msgid "CiCatalog|The project and any released versions will be removed from the 
 msgstr ""
 
 msgid "CiCatalog|The project will be findable in the CI/CD Catalog after the project has at least one release."
+msgstr ""
+
+msgid "CiCatalog|There are no projects using this resource in the last 30 days, or you don't have permission to view them."
 msgstr ""
 
 msgid "CiCatalog|There was a problem fetching the CI/CD Catalog releases."
@@ -15296,6 +15326,9 @@ msgid "CiCatalog|Unable to set project as a CI/CD Catalog project."
 msgstr ""
 
 msgid "CiCatalog|Unreleased"
+msgstr ""
+
+msgid "CiCatalog|Up to date"
 msgstr ""
 
 msgid "CiCatalog|Usage statistics"

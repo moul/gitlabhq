@@ -118,21 +118,22 @@ type selfHostedWorkflowStream interface {
 }
 
 type runner struct {
-	rails              *api.API
-	backend            http.Handler
-	token              string
-	originalReq        *http.Request
-	marshalBuf         []byte
-	conn               websocketConn
-	lockManager        *workflowLockManager
-	workflowID         string
-	mutex              *redsync.Mutex
-	lockFlow           bool
-	serverCapabilities []string
-	streamManager      *streamManager
-	mcpManager         mcpManager
-	workflowDefinition string
-	websocketClosed    atomic.Bool
+	rails                     *api.API
+	backend                   http.Handler
+	token                     string
+	originalReq               *http.Request
+	marshalBuf                []byte
+	conn                      websocketConn
+	lockManager               *workflowLockManager
+	workflowID                string
+	mutex                     *redsync.Mutex
+	lockFlow                  bool
+	serverCapabilities        []string
+	streamManager             *streamManager
+	mcpManager                mcpManager
+	workflowDefinition        string
+	websocketClosed           atomic.Bool
+	shouldTimeoutHTTPRequests bool
 }
 
 func newRunner(conn websocketConn, rails *api.API, backend http.Handler, r *http.Request, cfg *api.DuoWorkflow, rdb *redis.Client) (*runner, error) {
@@ -158,17 +159,18 @@ func newRunner(conn websocketConn, rails *api.API, backend http.Handler, r *http
 	}
 
 	return &runner{
-		rails:              rails,
-		backend:            backend,
-		token:              cfg.Service.Headers["x-gitlab-oauth-token"],
-		originalReq:        r,
-		marshalBuf:         make([]byte, ActionResponseBodyLimit),
-		conn:               conn,
-		lockManager:        newWorkflowLockManager(rdb),
-		lockFlow:           lockFlow,
-		serverCapabilities: cfg.ServerCapabilities,
-		streamManager:      streamManager,
-		mcpManager:         mcpManager,
+		rails:                     rails,
+		backend:                   backend,
+		token:                     cfg.Service.Headers["x-gitlab-oauth-token"],
+		originalReq:               r,
+		marshalBuf:                make([]byte, ActionResponseBodyLimit),
+		conn:                      conn,
+		lockManager:               newWorkflowLockManager(rdb),
+		lockFlow:                  lockFlow,
+		serverCapabilities:        cfg.ServerCapabilities,
+		streamManager:             streamManager,
+		mcpManager:                mcpManager,
+		shouldTimeoutHTTPRequests: cfg.TimeoutHTTPRequests,
 	}, nil
 }
 
@@ -421,11 +423,12 @@ func (r *runner) handleAgentAction(ctx context.Context, action *pb.Action) error
 	switch action.Action.(type) {
 	case *pb.Action_RunHTTPRequest:
 		handler := &runHTTPActionHandler{
-			rails:       r.rails,
-			backend:     r.backend,
-			token:       r.token,
-			originalReq: r.originalReq,
-			action:      action,
+			rails:                     r.rails,
+			backend:                   r.backend,
+			token:                     r.token,
+			originalReq:               r.originalReq,
+			action:                    action,
+			shouldTimeoutHTTPRequests: r.shouldTimeoutHTTPRequests,
 		}
 
 		event, err := handler.Execute(ctx)

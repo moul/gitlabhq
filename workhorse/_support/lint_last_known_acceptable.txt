@@ -19,5 +19,5 @@ internal/config/config.go:318:18: G204: Subprocess launched with variable (gosec
 internal/config/config.go:499:8: G101: Potential hardcoded credentials (gosec)
 internal/listener/listener.go:28:16: G402: TLS MinVersion too low. (gosec)
 internal/testhelper/testhelper.go:251:21: G302: Expect file permissions to be 0600 or less (gosec)
-internal/ai_assist/duoworkflow/runner.go:404:25: SA1019: startReq.WorkflowDefinition is deprecated: Marked as deprecated in contract/contract.proto. (staticcheck)
+internal/ai_assist/duoworkflow/runner.go:406:25: SA1019: startReq.WorkflowDefinition is deprecated: Marked as deprecated in contract/contract.proto. (staticcheck)
 cmd/gitlab-workhorse/gitaly_test.go:894:18: buildPbRepo - relativePath always receives "foo/bar.git" (unparam)

@@ -44,6 +44,7 @@ apply only to that method. All other items apply to all installation methods.
 
 Before upgrading to GitLab 18.10, review the following:
 
+- [18.10.0 - 18.10.3] - [Geo blob download failures on Ubuntu 24.04 with kernel 6.8+](#geo-blob-download-failures-on-ubuntu-2404-with-kernel-68) (Linux package, Geo)
 - [18.10.0] - [Geo blob download timeout setting](#geo-blob-download-timeout-setting) (Geo)
 
 ### Upgrade to 18.9
@@ -160,6 +161,50 @@ The current 8-hour (28,800 seconds) hardcoded Geo blob download timeout causes s
 
 - Default: `28800` (8 hours).
 - Maximum: `86400` (24 hours).
+
+### Geo blob download failures on Ubuntu 24.04 with kernel 6.8+
+
+{{< details >}}
+
+- Tier: Premium, Ultimate
+
+{{< /details >}}
+
+- Affects: Linux package, Geo
+- Affected versions:
+
+  | Release | Affected patch releases | Fixed patch level |
+  | ------- | ----------------------- | ----------------- |
+  | 18.10   |  18.10.0 - 18.10.3      | 18.10.4           |
+
+Linux package installations running Ubuntu 24.04 with kernel 6.8 or later may experience
+Geo blob sync failures (uploads, LFS objects, job artifacts). Affected secondaries
+show blobs stuck in "started" or "pending" state, and Sidekiq logs may contain
+segfaults or `HPE_USER Span callback error in on_header_field` errors.
+
+The issue is caused by an interaction between rugged 1.9.0 (upgraded in GitLab 18.10) and the
+Linux package-bundled `libffi` 3.2.1, which corrupts FFI callbacks used by the `llhttp-ffi`
+HTTP parser on newer kernels with stricter memory protections.
+
+In GitLab 18.11.0 and GitLab 18.10.4, you can use a feature flag to work around this issue:
+
+1. Enable the `geo_blob_download_with_gitlab_http` feature
+   flag, which switches blob downloads to use `Gitlab::HTTP` (`Net::HTTP`) instead of
+   the FFI-dependent `http` gem:
+
+   ```shell
+   sudo gitlab-rails console
+   Feature.enable(:geo_blob_download_with_gitlab_http)
+   exit
+   ```
+
+1. Restart Sidekiq:
+
+   ```shell
+   sudo gitlab-ctl restart sidekiq
+   ```
+
+For more information, see [issue 595139](https://gitlab.com/gitlab-org/gitlab/-/issues/595139).
 
 ### Upgrade to 18.9 fails with PostgreSQL CheckViolation
 

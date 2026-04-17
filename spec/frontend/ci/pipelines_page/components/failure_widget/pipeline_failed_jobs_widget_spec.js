@@ -57,7 +57,6 @@ describe('PipelineFailedJobsWidget component', () => {
   const findFailedJobsList = () => wrapper.findComponent(FailedJobsList);
   const findCrudComponent = () => wrapper.findComponent(CrudComponent);
   const findCount = () => wrapper.findComponent(GlBadge);
-  const findFeedbackButton = () => wrapper.findByTestId('feedback-button');
 
   describe('when there are failed jobs', () => {
     beforeEach(async () => {
@@ -96,10 +95,6 @@ describe('PipelineFailedJobsWidget component', () => {
     it('the failed jobs button has the correct "aria-expanded" attribute value', () => {
       expect(findFailedJobsButton().attributes('aria-expanded')).toBe('true');
     });
-
-    it('displays feedback button', () => {
-      expect(findFeedbackButton().exists()).toBe(true);
-    });
   });
 
   describe('when the job details are not expanded', () => {
@@ -113,10 +108,6 @@ describe('PipelineFailedJobsWidget component', () => {
 
     it('the failed jobs button has the correct "aria-expanded" attribute value', () => {
       expect(findFailedJobsButton().attributes('aria-expanded')).toBe('false');
-    });
-
-    it('does not display feedback button', () => {
-      expect(findFeedbackButton().exists()).toBe(false);
     });
   });
 

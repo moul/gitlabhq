@@ -28,8 +28,8 @@ RSpec.describe Gitlab::Ci::Config::External::Context, feature_category: :pipelin
       it { expect(subject.expandset).to eq([]) }
       it { expect(subject.execution_deadline).to eq(0) }
       it { expect(subject.variables).to be_instance_of(Gitlab::Ci::Variables::Collection) }
-      it { expect(subject.variables_hash).to be_instance_of(ActiveSupport::HashWithIndifferentAccess) }
-      it { expect(subject.variables_hash).to include('a' => 'b') }
+      it { expect(subject.variables_hash).to be_instance_of(Gitlab::Ci::Variables::Collection::LazyHash) }
+      it { expect(subject.variables_hash['a']).to have_attributes(key: 'a', value: 'b') }
       it { expect(subject.pipeline_config).to eq(pipeline_config) }
       it { expect(subject.component_data).to eq({}) }
     end
@@ -41,7 +41,7 @@ RSpec.describe Gitlab::Ci::Config::External::Context, feature_category: :pipelin
       it { expect(subject.expandset).to eq([]) }
       it { expect(subject.execution_deadline).to eq(0) }
       it { expect(subject.variables).to be_instance_of(Gitlab::Ci::Variables::Collection) }
-      it { expect(subject.variables_hash).to be_instance_of(ActiveSupport::HashWithIndifferentAccess) }
+      it { expect(subject.variables_hash).to be_instance_of(Gitlab::Ci::Variables::Collection::LazyHash) }
       it { expect(subject.pipeline_config).to be_nil }
       it { expect(subject.component_data).to eq({}) }
     end

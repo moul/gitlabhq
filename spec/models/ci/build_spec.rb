@@ -3210,6 +3210,7 @@ RSpec.describe Ci::Build, feature_category: :continuous_integration, factory_def
           end
 
           before do
+            stub_feature_flags(ci_lazy_predefined_variables: false)
             environment = create(:environment, project: build.project, name: 'staging')
 
             stub_ci_job_definition(build, yaml_variables: [{ key: 'YAML_VARIABLE', value: 'var', public: true }])

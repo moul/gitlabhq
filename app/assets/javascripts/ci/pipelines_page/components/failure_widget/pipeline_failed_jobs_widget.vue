@@ -151,16 +151,6 @@ export default {
         {{ failedJobsCountBadge }}
       </gl-badge>
     </template>
-    <template #actions>
-      <gl-button
-        v-if="isExpanded"
-        href="https://gitlab.com/gitlab-org/gitlab/-/issues/502436"
-        data-testid="feedback-button"
-        size="small"
-      >
-        {{ __('Leave feedback') }}
-      </gl-button>
-    </template>
     <failed-jobs-list
       v-if="isExpanded"
       :is-maximum-job-limit-reached="isMaximumJobLimitReached"

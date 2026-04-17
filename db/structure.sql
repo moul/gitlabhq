@@ -29905,6 +29905,9 @@ CREATE TABLE security_inventory_filters (
     project_id bigint NOT NULL,
     traversal_ids bigint[] DEFAULT '{}'::bigint[] NOT NULL,
     project_name text NOT NULL,
+    has_scanners boolean DEFAULT false NOT NULL,
+    has_failed_or_warning boolean DEFAULT false NOT NULL,
+    has_stale boolean DEFAULT false NOT NULL,
     CONSTRAINT check_aeacee81ba CHECK ((char_length(project_name) <= 255))
 );
 
