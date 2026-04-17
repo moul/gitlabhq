@@ -1326,7 +1326,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_bf1705863bae"
+              "$ref": "#/components/schemas/RequestBody_2aa84e0ec349"
       x-gitlab-lifecycle: experiment
   "/api/v4/ai/duo_workflows/list_tools":
     get:
@@ -64530,7 +64530,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              "$ref": "#/components/schemas/RequestBody_b07df4d70d76"
+              "$ref": "#/components/schemas/RequestBody_1db5667b70bf"
   "/api/v4/groups/{id}":
     put:
       operationId: putApiV4GroupsId
@@ -64560,7 +64560,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              "$ref": "#/components/schemas/RequestBody_f4032c1f550b"
+              "$ref": "#/components/schemas/RequestBody_b82f7488262a"
     get:
       operationId: getApiV4GroupsId
       summary: Get a single group, with containing projects.
@@ -87360,7 +87360,7 @@ components:
           minLength: 1
       required:
       - event_status
-    RequestBody_bf1705863bae:
+    RequestBody_2aa84e0ec349:
       type: object
       properties:
         workflow_definition:
@@ -87371,6 +87371,11 @@ components:
         root_namespace_id:
           type: string
           description: the ID of the root namespace
+          example: '1'
+          nullable: true
+        project_id:
+          type: string
+          description: The ID or path of the project
           example: '1'
           nullable: true
     RequestBody_39c987677cfb:
@@ -106907,7 +106912,7 @@ components:
           example:
             environment: production
           nullable: true
-    RequestBody_b07df4d70d76:
+    RequestBody_1db5667b70bf:
       type: object
       properties:
         name:
@@ -107121,8 +107126,13 @@ components:
           description: Enable GitLab foundational Duo flows for this group
           nullable: true
         tool_approval_for_session_availability:
-          type: boolean
-          description: Enable tool approval for session for this group
+          type: string
+          enum:
+          - default_on
+          - default_off
+          - never_on
+          description: Tool approval for session availability. One of `default_on`,
+            `default_off` or `never_on`
           nullable: true
         amazon_q_auto_review_enabled:
           type: boolean
@@ -107226,7 +107236,7 @@ components:
       required:
       - name
       - path
-    RequestBody_f4032c1f550b:
+    RequestBody_b82f7488262a:
       type: object
       properties:
         name:
@@ -107441,8 +107451,13 @@ components:
           description: Enable GitLab foundational Duo flows for this group
           nullable: true
         tool_approval_for_session_availability:
-          type: boolean
-          description: Enable tool approval for session for this group
+          type: string
+          enum:
+          - default_on
+          - default_off
+          - never_on
+          description: Tool approval for session availability. One of `default_on`,
+            `default_off` or `never_on`
           nullable: true
         amazon_q_auto_review_enabled:
           type: boolean

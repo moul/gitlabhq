@@ -12902,6 +12902,7 @@ Input type: `ProjectSettingsUpdateInput`
 | <a id="mutation-projectsettingsupdate-duocontextexclusionsettings"></a>`duoContextExclusionSettings` | [`DuoContextExclusionSettingsInput`](#duocontextexclusionsettingsinput) | Settings for excluding files from Duo context. |
 | <a id="mutation-projectsettingsupdate-duofeaturesenabled"></a>`duoFeaturesEnabled` | [`Boolean`](#boolean) | Indicates whether GitLab Duo features are enabled for the project. |
 | <a id="mutation-projectsettingsupdate-fullpath"></a>`fullPath` | [`ID!`](#id) | Full Path of the project the settings belong to. |
+| <a id="mutation-projectsettingsupdate-toolapprovalforsessionenabled"></a>`toolApprovalForSessionEnabled` | [`Boolean`](#boolean) | Indicates whether tool approval for Duo Workflow sessions is enabled for the project. |
 | <a id="mutation-projectsettingsupdate-webbasedcommitsigningenabled"></a>`webBasedCommitSigningEnabled` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated**: **Status**: Experiment. Introduced in GitLab 18.2. |
 
 #### Fields
@@ -49925,6 +49926,7 @@ Represents the source of a security policy belonging to a project.
 | <a id="projectsetting-duocontextexclusionsettings"></a>`duoContextExclusionSettings` | [`DuoContextExclusionSettings`](#duocontextexclusionsettings) | Settings for excluding files from Duo context. |
 | <a id="projectsetting-duofeaturesenabled"></a>`duoFeaturesEnabled` | [`Boolean`](#boolean) | Indicates whether GitLab Duo features are enabled for the project. |
 | <a id="projectsetting-project"></a>`project` | [`Project`](#project) | Project the settings belong to. |
+| <a id="projectsetting-toolapprovalforsessionenabled"></a>`toolApprovalForSessionEnabled` | [`Boolean`](#boolean) | Indicates whether tool approval for Duo Workflow sessions is enabled for the project. |
 | <a id="projectsetting-webbasedcommitsigningenabled"></a>`webBasedCommitSigningEnabled` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.2. **Status**: Experiment. Indicates whether web-based commit signing is enabled for the project. |
 
 ### `ProjectStatistics`

@@ -49045,8 +49045,13 @@ definitions:
         type: boolean
         description: Enable GitLab foundational Duo flows for this group
       tool_approval_for_session_availability:
-        type: boolean
-        description: Enable tool approval for session for this group
+        type: string
+        description: Tool approval for session availability. One of `default_on`,
+          `default_off` or `never_on`
+        enum:
+        - default_on
+        - default_off
+        - never_on
       amazon_q_auto_review_enabled:
         type: boolean
         description: Enable Amazon Q auto review for merge request
@@ -49322,8 +49327,13 @@ definitions:
         type: boolean
         description: Enable GitLab foundational Duo flows for this group
       tool_approval_for_session_availability:
-        type: boolean
-        description: Enable tool approval for session for this group
+        type: string
+        description: Tool approval for session availability. One of `default_on`,
+          `default_off` or `never_on`
+        enum:
+        - default_on
+        - default_off
+        - never_on
       amazon_q_auto_review_enabled:
         type: boolean
         description: Enable Amazon Q auto review for merge request

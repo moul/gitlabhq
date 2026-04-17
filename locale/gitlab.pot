@@ -9372,6 +9372,9 @@ msgstr ""
 msgid "Analytics settings"
 msgstr ""
 
+msgid "AnalyticsDashboards|%{count} groups selected"
+msgstr ""
+
 msgid "AnalyticsDashboards|All"
 msgstr ""
 
@@ -22440,6 +22443,9 @@ msgstr ""
 msgid "CycleAnalyticsStage|is not available for the selected group"
 msgstr ""
 
+msgid "CycleAnalytics|%{count} projects selected"
+msgstr ""
+
 msgid "CycleAnalytics|%{selectedLabelsCount} label selected (%{maxLabels} max)"
 msgid_plural "CycleAnalytics|%{selectedLabelsCount} labels selected (%{maxLabels} max)"
 msgstr[0] ""
@@ -22501,11 +22507,6 @@ msgstr ""
 
 msgid "CycleAnalytics|Only %{maxLabels} labels can be selected at this time"
 msgstr ""
-
-msgid "CycleAnalytics|Project selected"
-msgid_plural "CycleAnalytics|%d projects selected"
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "CycleAnalytics|Select labels"
 msgstr ""

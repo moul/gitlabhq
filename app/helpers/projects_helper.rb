@@ -1015,6 +1015,11 @@ module ProjectsHelper
         :duo_foundational_flows_enabled,
         project,
         method(:edit_group_path)
+      ),
+      tool_approval_for_session_cascading_settings: project_cascading_namespace_settings_tooltip_data(
+        :tool_approval_for_session_enabled,
+        project,
+        method(:edit_group_path)
       )
     }
   end

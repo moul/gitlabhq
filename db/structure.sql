@@ -14897,7 +14897,7 @@ CREATE TABLE application_settings (
     diagram_proxy jsonb DEFAULT '{}'::jsonb NOT NULL,
     built_in_project_templates_enabled boolean DEFAULT true NOT NULL,
     lock_built_in_project_templates_enabled boolean DEFAULT false NOT NULL,
-    tool_approval_for_session_enabled boolean DEFAULT true NOT NULL,
+    tool_approval_for_session_enabled boolean DEFAULT false NOT NULL,
     lock_tool_approval_for_session_enabled boolean DEFAULT false NOT NULL,
     personal_access_token_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     diff_limits jsonb DEFAULT '{}'::jsonb NOT NULL,
@@ -28287,6 +28287,7 @@ CREATE TABLE project_settings (
     pipeline_execution_policy_bot_access_group_id bigint,
     security_policy_pipeline_must_succeed boolean DEFAULT false NOT NULL,
     mr_default_title_template text,
+    tool_approval_for_session_enabled boolean,
     CONSTRAINT check_1a30456322 CHECK ((char_length(pages_unique_domain) <= 63)),
     CONSTRAINT check_237486989c CHECK ((char_length(merge_request_title_regex_description) <= 255)),
     CONSTRAINT check_3a03e7557a CHECK ((char_length(previous_default_branch) <= 4096)),
@@ -30393,6 +30394,8 @@ CREATE TABLE service_desk_settings (
     add_external_participants_from_cc boolean DEFAULT false NOT NULL,
     reopen_issue_on_external_participant_note boolean DEFAULT false NOT NULL,
     tickets_confidential_by_default boolean DEFAULT true NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
     CONSTRAINT check_57a79552e1 CHECK ((char_length(custom_email) <= 255))
 );
 
