@@ -191,7 +191,7 @@ export default {
 
     <template #cell(lastScan)="{ item }">
       <slot v-if="$scopedSlots['cell(last-scan)']" name="cell(last-scan)" v-bind="{ item }"></slot>
-      <span v-else>{{ item.lastScan || '—' }}</span>
+      <span v-else>{{ item.lastScan || __('—') }}</span>
     </template>
 
     <template #cell(actions)="{ item }">

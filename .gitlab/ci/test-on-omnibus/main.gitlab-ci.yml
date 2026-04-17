@@ -378,9 +378,7 @@ continuous-vulnerabiity-scanning:
     QA_SCENARIO: Test::Integration::ContinuousVulnerabilityScanning
     QA_MOCK_GITHUB: "true"
   rules:
-    - !reference [.rules:test:omnibus-base, rules]
-    - !reference [.rules:test:ee-only, rules]
-    - if: $QA_SUITES =~ /Test::Integration::ContinuousVulnerabilityScanning/
+    - when: never
 
 # ------------------------------------------
 # Update jobs

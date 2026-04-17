@@ -63095,7 +63095,7 @@ msgstr ""
 msgid "SecurityAttributes|Security attributes for %{projectName}"
 msgstr ""
 
-msgid "SecurityAttributes|Security attributes help classify and organize your projects. Attributes are managed at the group level."
+msgid "SecurityAttributes|Security attributes help classify and organize your projects. Attributes are managed at the group level. Project Owners and Maintainers can add or remove attributes to this project as needed."
 msgstr ""
 
 msgid "SecurityAttributes|Select security attributes"
@@ -63149,9 +63149,6 @@ msgstr ""
 msgid "SecurityAttributes|View the attributes available in this category"
 msgstr ""
 
-msgid "SecurityAttributes|You can add or remove attributes to this project as needed."
-msgstr ""
-
 msgid "SecurityAttributes|You cannot change the selection type after the category is created. To use a different selection type, create a new category."
 msgstr ""
 
@@ -63159,6 +63156,9 @@ msgid "SecurityAttributes|You cannot delete or edit this category. You cannot mo
 msgstr ""
 
 msgid "SecurityAttributes|You cannot delete this category, but you can edit the attributes."
+msgstr ""
+
+msgid "SecurityAttributes|You must have at least the Maintainer role in this group to manage security attributes."
 msgstr ""
 
 msgid "SecurityConfiguration|%{featureName} merge request creation mutation failed"

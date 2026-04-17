@@ -12,7 +12,8 @@ module Ci
 
     enum :source, {
       scan_execution_policy: 1001,
-      pipeline_execution_policy: 1002
+      pipeline_execution_policy: 1002,
+      security_scan_profiles: 1003
     }.merge(::Enums::Ci::Pipeline.sources)
 
     query_constraints :build_id, :partition_id

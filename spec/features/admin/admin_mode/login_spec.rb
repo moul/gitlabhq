@@ -52,7 +52,7 @@ RSpec.describe 'Admin Mode Login', :with_current_organization, feature_category:
 
         context 'not re-using codes' do
           it 'allows login with valid code' do
-            # Cannot reuse the TOTP
+            # TOTP has already been used for GitLab sign-in, wait 30 seconds for a new one
             travel_to(30.seconds.from_now) do
               enter_code(user.current_otp)
               expect_admin_sign_in_success
@@ -68,7 +68,7 @@ RSpec.describe 'Admin Mode Login', :with_current_organization, feature_category:
             enter_code('foo')
             expect_admin_sign_in_fail
 
-            # Cannot reuse the TOTP
+            # TOTP has already been used for GitLab sign-in, wait 30 seconds for a new one
             travel_to(30.seconds.from_now) do
               enter_code(user.current_otp)
               expect_admin_sign_in_success
@@ -153,7 +153,7 @@ RSpec.describe 'Admin Mode Login', :with_current_organization, feature_category:
           end
 
           it 'shows 2FA prompt after omniauth login' do
-            # Cannot reuse the TOTP
+            # TOTP has already been used for GitLab sign-in, wait 30 seconds for a new one
             travel_to(30.seconds.from_now) do
               enter_code(user.current_otp)
               expect_admin_sign_in_success
@@ -201,7 +201,7 @@ RSpec.describe 'Admin Mode Login', :with_current_organization, feature_category:
           end
 
           it 'shows 2FA prompt after ldap login' do
-            # Cannot reuse the TOTP
+            # TOTP has already been used for GitLab sign-in, wait 30 seconds for a new one
             travel_to(30.seconds.from_now) do
               enter_code(user.current_otp)
               expect_admin_sign_in_success

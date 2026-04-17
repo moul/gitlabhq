@@ -56858,6 +56858,7 @@ Values for sorting CI/CD job analytics.
 | <a id="cijobsource-scan_execution_policy"></a>`SCAN_EXECUTION_POLICY` | A job initiated by scan execution policy. |
 | <a id="cijobsource-schedule"></a>`SCHEDULE` | A job initiated by schedule. |
 | <a id="cijobsource-security_orchestration_policy"></a>`SECURITY_ORCHESTRATION_POLICY` | A job initiated by security orchestration policy. |
+| <a id="cijobsource-security_scan_profiles"></a>`SECURITY_SCAN_PROFILES` | A job initiated by security scan profiles. |
 | <a id="cijobsource-trigger"></a>`TRIGGER` | A job initiated by trigger. |
 | <a id="cijobsource-unknown"></a>`UNKNOWN` | A job initiated by unknown. |
 | <a id="cijobsource-web"></a>`WEB` | A job initiated by web. |
