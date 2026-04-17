@@ -2,6 +2,6 @@
 
 module StubCurrentOrganization
   def stub_current_organization(organization)
-    allow(::Current).to receive(:organization).and_return(organization)
+    allow(::Current).to receive_messages(organization: organization, organization_assigned: true)
   end
 end

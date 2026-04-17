@@ -26,7 +26,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ResponseConverter do
           { '200' => {
             content: {
               'application/json' => {
-                schema: { '$ref': '#/components/schemas/TestEntitiesUserEntity' }
+                schema: { '$ref' => '#/components/schemas/TestEntitiesUserEntity' }
               }
             },
             description: 'OK'
@@ -48,7 +48,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ResponseConverter do
           { '201' => {
             content: {
               'application/json' => {
-                schema: { '$ref': '#/components/schemas/TestEntitiesUserEntity' }
+                schema: { '$ref' => '#/components/schemas/TestEntitiesUserEntity' }
               }
             },
             description: 'Created'
@@ -143,7 +143,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ResponseConverter do
             description: 'OK',
             content: {
               'application/json' => {
-                schema: { '$ref': '#/components/schemas/TestEntitiesUserEntity' }
+                schema: { '$ref' => '#/components/schemas/TestEntitiesUserEntity' }
               }
             }
           },
@@ -182,7 +182,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ResponseConverter do
           { '201' => {
             content: {
               'application/json' => {
-                schema: { '$ref': '#/components/schemas/TestEntitiesUserEntity' }
+                schema: { '$ref' => '#/components/schemas/TestEntitiesUserEntity' }
               }
             },
             description: 'Created'
@@ -204,7 +204,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ResponseConverter do
           { '204' => {
             content: {
               'application/json' => {
-                schema: { '$ref': '#/components/schemas/TestEntitiesUserEntity' }
+                schema: { '$ref' => '#/components/schemas/TestEntitiesUserEntity' }
               }
             },
             description: 'No Content'
@@ -259,7 +259,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ResponseConverter do
           { '200' => {
             content: {
               'application/json' => {
-                schema: { '$ref': '#/components/schemas/TestEntitiesUserEntity' }
+                schema: { '$ref' => '#/components/schemas/TestEntitiesUserEntity' }
               }
             },
             description: 'OK'
@@ -281,7 +281,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ResponseConverter do
           { '201' => {
             content: {
               'application/json' => {
-                schema: { '$ref': '#/components/schemas/TestEntitiesUserEntity' }
+                schema: { '$ref' => '#/components/schemas/TestEntitiesUserEntity' }
               }
             },
             description: 'Created'
@@ -340,7 +340,7 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ResponseConverter do
           { '200' => {
               content: {
                 'application/json' => {
-                  schema: { '$ref': '#/components/schemas/TestEntitiesUserEntity' }
+                  schema: { '$ref' => '#/components/schemas/TestEntitiesUserEntity' }
                 }
               }, description: 'OK'
             },

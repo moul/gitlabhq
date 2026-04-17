@@ -30,6 +30,7 @@ gem 'rails', '~> 7.2.3', feature_category: :shared # rubocop:todo Gemfile/Missin
 gem 'zeitwerk', '= 2.6.18', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 
 gem 'activerecord-gitlab', path: 'gems/activerecord-gitlab', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'gitlab-database-data_isolation', path: 'gems/gitlab-database-data_isolation', feature_category: :organization
 
 gem 'action_dispatch-draw_all',
   path: 'gems/action_dispatch-draw_all',
@@ -213,7 +214,7 @@ gem 'fog-local', '~> 0.8', feature_category: :shared # rubocop:todo Gemfile/Miss
 # We may want to update this dependency if this is ever addressed upstream, e.g. via
 # https://github.com/aliyun/aliyun-oss-ruby-sdk/pull/93
 gem 'fog-aliyun', '~> 0.4', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
-gem 'gitlab-fog-azure-rm', '~> 2.4.0', require: 'fog/azurerm', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'gitlab-fog-azure-rm', '~> 2.5.0', require: 'fog/azurerm', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 
 # for Google storage
 

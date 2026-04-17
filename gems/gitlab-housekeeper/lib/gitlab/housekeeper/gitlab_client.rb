@@ -2,6 +2,7 @@
 
 require 'httparty'
 require 'json'
+require 'gitlab/housekeeper/logger'
 
 module Gitlab
   module Housekeeper
@@ -11,6 +12,7 @@ module Gitlab
       def initialize
         @token = ENV.fetch("HOUSEKEEPER_GITLAB_API_TOKEN")
         @base_uri = 'https://gitlab.com/api/v4'
+        @logger = Logger.new($stdout)
       end
 
       # This looks at the system notes of the merge request to detect if it has been updated by anyone other than the
@@ -192,8 +194,14 @@ module Gitlab
       end
 
       def usernames_to_ids(usernames)
-        Array(usernames).map do |username|
+        Array(usernames).filter_map do |username|
           data = request(:get, "/users", query: { username: username })
+
+          if data.empty?
+            @logger.warn("No user found for username: #{username}")
+            next
+          end
+
           data[0]['id']
         end
       end

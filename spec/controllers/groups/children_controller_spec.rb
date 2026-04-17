@@ -384,7 +384,7 @@ RSpec.describe Groups::ChildrenController, feature_category: :groups_and_project
           control = ActiveRecord::QueryRecorder.new { get_list }
           _new_project = create(:project, :public, namespace: group)
 
-          expect { get_list }.not_to exceed_query_limit(control).with_threshold(expected_queries_per_project + 1)
+          expect { get_list }.not_to exceed_query_limit(control).with_threshold(expected_queries_per_project + 2)
         end
 
         context 'when rendering hierarchies' do

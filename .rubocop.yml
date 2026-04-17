@@ -649,6 +649,7 @@ Gitlab/AvoidCurrentOrganization:
     - 'ee/app/workers/**/*'
     - 'lib/gitlab/current_settings.rb'
     - 'lib/gitlab/middleware/organizations/current.rb'
+    - 'config/initializers/gitlab_database_data_isolation.rb'
     - 'spec/**/*'
     - 'ee/spec/**/*'
 

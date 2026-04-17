@@ -2,12 +2,13 @@
 import { captureException, addBreadcrumb, SDK_VERSION } from '@sentry/browser';
 import * as Sentry from '@sentry/browser';
 
-import { initSentry } from '~/sentry/init_sentry';
+import { initSentry, isExternalOriginError } from '~/sentry/init_sentry';
 
 const mockDsn = 'https://123@sentry.gitlab.test/123';
 const mockEnvironment = 'development';
 const mockCurrentUserId = 1;
 const mockGitlabUrl = 'https://gitlab.com';
+const mockAssetHost = 'https://assets.gitlab-static.net';
 const mockVersion = '1.0.0';
 const mockRevision = '00112233';
 const mockFeatureCategory = 'my_feature_category';
@@ -34,6 +35,7 @@ describe('SentryConfig', () => {
       sentry_environment: mockEnvironment,
       current_user_id: mockCurrentUserId,
       gitlab_url: mockGitlabUrl,
+      asset_host: mockAssetHost,
       version: mockVersion,
       revision: mockRevision,
       feature_category: mockFeatureCategory,
@@ -67,6 +69,7 @@ describe('SentryConfig', () => {
             release: mockRevision,
             allowUrls: [mockGitlabUrl, 'webpack-internal://'],
             environment: mockEnvironment,
+            beforeSend: expect.any(Function),
             ignoreErrors: [
               /Network Error/i,
               /NetworkError/i,
@@ -122,6 +125,138 @@ describe('SentryConfig', () => {
           captureException,
           addBreadcrumb,
           SDK_VERSION,
+        });
+      });
+
+      describe('isExternalOriginError', () => {
+        const buildEvent = (frames) => ({
+          exception: {
+            values: [
+              {
+                type: 'TypeError',
+                value: 'Failed to fetch',
+                stacktrace: { frames },
+              },
+            ],
+          },
+        });
+
+        it('returns true when all frames are anonymous', () => {
+          const event = buildEvent([
+            { filename: '<anonymous>', in_app: true },
+            { filename: '<anonymous>', in_app: true },
+          ]);
+
+          expect(isExternalOriginError(event)).toBe(true);
+        });
+
+        it('returns true when frames point to external domains', () => {
+          const event = buildEvent([
+            { filename: 'https://malicious-extension.com/script.js', in_app: true },
+            { filename: '<anonymous>', in_app: true },
+          ]);
+
+          expect(isExternalOriginError(event)).toBe(true);
+        });
+
+        it('returns true for chrome-extension frames', () => {
+          const event = buildEvent([
+            { filename: 'chrome-extension://abc123/content.js', in_app: true },
+          ]);
+
+          expect(isExternalOriginError(event)).toBe(true);
+        });
+
+        it('returns true for any error type with external frames', () => {
+          const event = {
+            exception: {
+              values: [
+                {
+                  type: 'ReferenceError',
+                  value: 'x is not defined',
+                  stacktrace: {
+                    frames: [{ filename: '<anonymous>', in_app: true }],
+                  },
+                },
+              ],
+            },
+          };
+
+          expect(isExternalOriginError(event)).toBe(true);
+        });
+
+        it('returns true when frames have no filename', () => {
+          const event = buildEvent([{ in_app: true }, { filename: '<anonymous>', in_app: true }]);
+
+          expect(isExternalOriginError(event)).toBe(true);
+        });
+
+        it('returns false when a GitLab origin frame is present', () => {
+          const event = buildEvent([
+            { filename: '<anonymous>', in_app: true },
+            { filename: `${mockGitlabUrl}/assets/webpack/app.abc123.chunk.js`, in_app: true },
+          ]);
+
+          expect(isExternalOriginError(event)).toBe(false);
+        });
+
+        it('returns false when a CDN asset host frame is present', () => {
+          const event = buildEvent([
+            { filename: '<anonymous>', in_app: true },
+            {
+              filename: `${mockAssetHost}/assets/webpack/pages.abc123.chunk.js`,
+              in_app: true,
+            },
+          ]);
+
+          expect(isExternalOriginError(event)).toBe(false);
+        });
+
+        it('returns false when mixed CDN and GitLab origin frames are present', () => {
+          const event = buildEvent([
+            {
+              filename: `${mockAssetHost}/assets/webpack/runtime.abc123.js`,
+              in_app: true,
+            },
+            { filename: `${mockGitlabUrl}/assets/webpack/app.abc123.chunk.js`, in_app: true },
+          ]);
+
+          expect(isExternalOriginError(event)).toBe(false);
+        });
+
+        it('returns true when asset_host is not set and frames are external', () => {
+          window.gon.asset_host = undefined;
+          const event = buildEvent([
+            { filename: 'https://malicious-extension.com/script.js', in_app: true },
+          ]);
+
+          expect(isExternalOriginError(event)).toBe(true);
+        });
+
+        it('returns false when event has no exception', () => {
+          expect(isExternalOriginError({})).toBe(false);
+        });
+
+        it('returns false when frames are empty', () => {
+          const event = buildEvent([]);
+
+          expect(isExternalOriginError(event)).toBe(false);
+        });
+
+        it('returns false when gon.gitlab_url is not set', () => {
+          window.gon.gitlab_url = undefined;
+          const event = buildEvent([{ filename: '<anonymous>', in_app: true }]);
+
+          expect(isExternalOriginError(event)).toBe(false);
+        });
+
+        it('keeps GitLab errors even when mixed with external frames', () => {
+          const event = buildEvent([
+            { filename: 'https://third-party.com/tracker.js', in_app: true },
+            { filename: `${mockGitlabUrl}/assets/webpack/pages.abc123.chunk.js`, in_app: true },
+          ]);
+
+          expect(isExternalOriginError(event)).toBe(false);
         });
       });
     });

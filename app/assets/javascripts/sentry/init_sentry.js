@@ -10,6 +10,26 @@ import {
   SDK_VERSION,
 } from '@sentry/browser';
 
+export function isExternalOriginError(event) {
+  const exception = event.exception?.values?.[0];
+  if (!exception) return false;
+
+  const frames = exception.stacktrace?.frames;
+  if (!frames || frames.length === 0) return false;
+
+  const gitlabUrl = window.gon?.gitlab_url;
+  if (!gitlabUrl) return false;
+
+  const assetHost = window.gon?.asset_host;
+
+  return frames.every(
+    (f) =>
+      !f.filename ||
+      f.filename === '<anonymous>' ||
+      (!f.filename.startsWith(gitlabUrl) && !(assetHost && f.filename.startsWith(assetHost))),
+  );
+}
+
 const initSentry = () => {
   if (!gon?.sentry_dsn) {
     return;
@@ -25,6 +45,11 @@ const initSentry = () => {
         ? [gon.gitlab_url]
         : [gon.gitlab_url, 'webpack-internal://'],
     environment: gon.sentry_environment,
+
+    beforeSend(event) {
+      if (isExternalOriginError(event)) return null;
+      return event;
+    },
 
     ignoreErrors: [
       // Network errors create noise in Sentry and can't be fixed, ignore them.

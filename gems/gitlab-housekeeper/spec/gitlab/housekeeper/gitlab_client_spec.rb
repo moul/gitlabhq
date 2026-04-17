@@ -559,6 +559,48 @@ RSpec.describe ::Gitlab::Housekeeper::GitlabClient do
       end
     end
 
+    context 'when a username is not found' do
+      before do
+        stub_request(:get, "https://gitlab.com/api/v4/users")
+          .with(
+            query: { username: 'thegitlabassignee' },
+            headers: {
+              'Private-Token' => 'the-api-token'
+            }
+          )
+          .to_return(status: 200, body: [].to_json)
+      end
+
+      it 'logs a warning and skips the unknown user' do
+        api_response = {
+          iid: 5678,
+          web_url: 'https://example.com/api/v4/merge_requests/abc123/5678'
+        }
+        stub = stub_request(:post, "https://gitlab.com/api/v4/projects/123/merge_requests")
+          .with(
+            body: {
+              title: "The change title",
+              description: change.mr_description,
+              labels: "some-label-1,some-label-2",
+              source_branch: "the-source-branch",
+              target_branch: "the-target-branch",
+              target_project_id: 456,
+              remove_source_branch: true,
+              assignee_ids: [],
+              reviewer_ids: [reviewer_id],
+              squash: true
+            },
+            headers: {
+              'Content-Type' => 'application/json',
+              'Private-Token' => 'the-api-token'
+            })
+          .to_return(status: 200, body: api_response.to_json)
+
+        expect(client.create_or_update_merge_request(**params)).to include('iid' => 5678)
+        expect(stub).to have_been_requested
+      end
+    end
+
     it 'raises an error when unsuccessful response' do
       stub_request(:post, "https://gitlab.com/api/v4/projects/123/merge_requests")
           .to_return(status: 400, body: "Real bad error")

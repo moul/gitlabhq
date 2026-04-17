@@ -650,7 +650,10 @@ export default {
       return this.sortKey !== compareSort;
     },
     viewConfigChanged() {
-      return this.filtersChanged || this.sortChanged || this.preferencesChanged;
+      if (this.isSavedView) {
+        return this.filtersChanged || this.sortChanged || this.preferencesChanged;
+      }
+      return this.filtersChanged;
     },
     isSubscriptionLimitReached() {
       return (

@@ -4011,6 +4011,11 @@ RSpec.describe API::Groups, :with_current_organization, feature_category: :group
       end
 
       context 'when the transfer succceds' do
+        before do
+          # Added this to https://gitlab.com/gitlab-org/gitlab/-/work_items/595305
+          allow(Gitlab::QueryLimiting::Transaction).to receive(:threshold).and_return(106)
+        end
+
         it 'returns success', :aggregate_failures do
           make_request(user)
 

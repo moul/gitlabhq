@@ -2,8 +2,8 @@
 stage: AI-powered
 group: Custom Models
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
-description: Deploying GPT OSS 120B with vLLM, from GPU selection through production monitoring.
-title: Deploy GPT OSS 120B with vLLM
+description: An example deployment of a model with vLLM, using GPT OSS 120B, from GPU selection through production monitoring.
+title: Example model deployment with vLLM
 ---
 
 {{< details >}}
@@ -13,7 +13,7 @@ title: Deploy GPT OSS 120B with vLLM
 
 {{< /details >}}
 
-Use this page to deploy GPT OSS 120B with vLLM, from GPU selection through production monitoring.
+GPT OSS 120B serves as an example model for deploying with vLLM, covering GPU selection through production monitoring.
 
 ## GPU selection
 

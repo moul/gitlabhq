@@ -415,7 +415,7 @@ const convertToTokenValue = (token, baseValue) => {
       return baseValue.toUpperCase();
     case TOKEN_TYPE_HEALTH:
       if (isWildcardValue(token, capitalize(baseValue))) {
-        return baseValue.toUpperCase();
+        return capitalize(baseValue);
       }
       return camelCase(baseValue);
     case TOKEN_TYPE_STATUS:

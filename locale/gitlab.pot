@@ -36330,9 +36330,6 @@ msgstr ""
 msgid "Homepage|Today's a great day to ship"
 msgstr ""
 
-msgid "Homepage|Warning: high productivity detected"
-msgstr ""
-
 msgid "Homepage|Wednesday is looking good"
 msgstr ""
 
@@ -72461,7 +72458,7 @@ msgstr ""
 msgid "This deployment job does not run automatically and must be started manually, but you do not have access to this job's protected environment. The job can only be started by a project member allowed to deploy to the environment."
 msgstr ""
 
-msgid "This device has already been registered with us."
+msgid "This device has already been registered as a passkey or WebAuthn device. Delete it and try again."
 msgstr ""
 
 msgid "This device has not been registered with us."
