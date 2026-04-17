@@ -287,7 +287,7 @@ func buildQueryResponse(result *gkgpb.ExecuteQueryResult, format gkgpb.ResponseF
 
 	switch format {
 	case gkgpb.ResponseFormat_RESPONSE_FORMAT_LLM:
-		resp.Result, _ = json.Marshal(result.GetFormattedText())
+		resp.Result = json.RawMessage(result.GetFormattedText())
 	default:
 		raw := result.GetResultJson()
 		if json.Valid([]byte(raw)) {

@@ -88,7 +88,7 @@ frequently.
 You can change how often Gitaly is asked to optimize a repository.
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **Repository**.
+1. In the left sidebar, select **Settings** > **Repository**.
 1. Expand **Repository maintenance**.
 1. In the **Housekeeping** section, configure the housekeeping options.
 1. Select **Save changes**.

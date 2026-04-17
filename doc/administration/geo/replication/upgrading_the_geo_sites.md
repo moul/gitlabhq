@@ -41,6 +41,8 @@ and all **secondary** sites:
 
 1. Optional. [Pause replication on each **secondary** site](pause_resume_replication.md)
    to protect the disaster recovery (DR) capability of the **secondary** sites.
+   Pause replication when your priority is preserving a clean DR checkpoint during a higher-risk upgrade window.
+   Do not pause replication if your priority is keeping the secondary current and serving read traffic normally during the upgrade, especially in a zero-downtime approach.
 1. SSH into each node of the **primary** site.
 1. [Upgrade GitLab on the **primary** site](../../../update/package/_index.md).
 1. Perform testing on the **primary** site, particularly if you paused replication in step 1 to protect DR.

@@ -91,7 +91,7 @@ Prerequisites:
 On the **primary** site:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Geo** > **Sites**.
+1. In the left sidebar, select **Geo** > **Sites**.
 1. Find the affected **secondary** site and select **Edit**.
 1. Ensure the **URL** field matches the value found in `/etc/gitlab/gitlab.rb`
    in `external_url "https://gitlab.example.com"` on the **Rails nodes of the secondary** site.

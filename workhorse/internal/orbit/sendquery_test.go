@@ -403,10 +403,10 @@ func TestBuildQueryResponse(t *testing.T) {
 		require.Equal(t, `"not valid json"`, string(resp.Result))
 	})
 
-	t.Run("LLM format returns formatted text as JSON string", func(t *testing.T) {
+	t.Run("LLM format passes formatted text through as raw JSON", func(t *testing.T) {
 		result := &gkgpb.ExecuteQueryResult{
 			Content: &gkgpb.ExecuteQueryResult_FormattedText{
-				FormattedText: "compact text output",
+				FormattedText: `{"nodes":[{"id":1,"name":"test"}],"edges":[]}`,
 			},
 			Metadata: &gkgpb.QueryMetadata{
 				QueryType: "search",
@@ -417,7 +417,7 @@ func TestBuildQueryResponse(t *testing.T) {
 		resp := buildQueryResponse(result, gkgpb.ResponseFormat_RESPONSE_FORMAT_LLM)
 		require.Equal(t, "search", resp.QueryType)
 		require.Equal(t, int32(3), resp.RowCount)
-		require.Equal(t, `"compact text output"`, string(resp.Result))
+		require.JSONEq(t, `{"nodes":[{"id":1,"name":"test"}],"edges":[]}`, string(resp.Result))
 	})
 
 	t.Run("nil metadata produces zero-value fields", func(t *testing.T) {

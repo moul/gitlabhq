@@ -42,7 +42,7 @@ Prerequisites:
 To enable merge request approval settings:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Push rules**.
+1. In the left sidebar, select **Push rules**.
 1. Expand **Merge request approvals**.
 1. Select the checkbox for any of the approval rules.
 1. Select **Save changes**.

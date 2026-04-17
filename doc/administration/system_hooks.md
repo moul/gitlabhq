@@ -77,7 +77,7 @@ Prerequisites:
 To create a system hook:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **System hooks**.
+1. In the left sidebar, select **System hooks**.
 1. Select **Add new webhook**.
 1. In **URL**, enter the URL of the webhook endpoint.
    The URL must be percent-encoded if it contains one or more special characters.

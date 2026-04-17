@@ -100,11 +100,6 @@ class ProjectPolicy < BasePolicy
     end
   end
 
-  desc "Container registry is enabled for everyone with access to the project"
-  condition(:container_registry_enabled_for_everyone_with_access, scope: :subject) do
-    project.container_registry_access_level == ProjectFeature::ENABLED
-  end
-
   desc "Project has an external wiki"
   condition(:has_external_wiki, scope: :subject, score: 0) { project.has_external_wiki? }
 
@@ -358,6 +353,7 @@ class ProjectPolicy < BasePolicy
     enable :public_access
 
     enable :build_download_code
+    enable :build_read_container_image
     enable :request_access
   end
 
@@ -444,10 +440,6 @@ class ProjectPolicy < BasePolicy
   rule { guest & can?(:read_container_image) }.enable :build_read_container_image
 
   rule { guest & ~public_project }.enable :read_grafana
-
-  rule { container_registry_enabled_for_everyone_with_access & can?(:public_user_access) }.policy do
-    enable :build_read_container_image
-  end
 
   rule { (can?(:public_user_access) | can?(:reporter_access)) & forking_allowed }.policy do
     enable :fork_project
@@ -542,9 +534,8 @@ class ProjectPolicy < BasePolicy
   rule { owner | admin | organization_owner | guest | group_member | group_requester }.prevent :request_access
   rule { ~request_access_enabled }.prevent :request_access
 
-  rule { (can?(:planner_access) | can?(:developer_access)) & can?(:create_issue) }.enable :import_issues
-  rule { can?(:planner_access) & can?(:create_work_item) }.enable :import_work_items
-  rule { can?(:reporter_access) & can?(:create_work_item) }.enable :import_work_items
+  rule { ~can?(:create_issue) }.prevent :import_issues
+  rule { ~can?(:create_work_item) }.prevent :import_work_items
 
   rule { ~user_confirmed }.policy do
     prevent :create_pipeline
@@ -719,6 +710,7 @@ class ProjectPolicy < BasePolicy
   end
 
   rule { container_registry_disabled }.policy do
+    prevent :build_read_container_image
     prevent :read_container_image
     prevent :create_container_image
     prevent :update_container_image

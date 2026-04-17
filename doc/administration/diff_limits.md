@@ -47,7 +47,7 @@ Prerequisites:
 To set maximum values for diff display in merge requests:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Diff limits**.
 1. Enter a value for the diff limit.
 1. Select **Save changes**.

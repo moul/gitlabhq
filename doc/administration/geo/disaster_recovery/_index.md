@@ -212,7 +212,7 @@ When you run `gitlab-ctl geo promote`, a [`gitlab-cluster.json`](#the-gitlab-clu
 file is created on the node. The file overrides Geo role settings in `gitlab.rb`
 when you reconfigure.
 
-### Step 3. (Optional) Removing the former secondary's tracking database
+### Step 3. Removing the former secondary's tracking database
 
 If you have any `geo_secondary[]` configuration options enabled in your `/etc/gitlab/gitlab.rb`
 file, comment them out or remove them, and then [reconfigure GitLab](../../restart_gitlab.md#reconfigure-a-linux-package-installation)
@@ -607,7 +607,7 @@ must disable the **primary** site:
 
    To promote the **secondary** cluster to a **primary** cluster, update `role: secondary` to `role: primary`.
 
-   If the cluster remains as a primary site, you can remove the entire `psql` section; it refers to the tracking database and is ignored while the cluster is acting as a primary site.
+   If the cluster remains as a primary site, you must remove the entire `psql` section under `geo`; it refers to the tracking database. If left in place, the application identifies the node as a secondary at boot time, which causes route registration issues that break authentication when a new secondary is added with a unified URL.
 
    Update the cluster with the new configuration:
 

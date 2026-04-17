@@ -254,7 +254,7 @@ Prerequisites:
 To update the internal URL of the primary Geo site:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Geo** > **Sites**.
+1. In the left sidebar, select **Geo** > **Sites**.
 1. Select **Edit** on the primary site.
 1. Change the **Internal URL**, then select **Save changes**.
 

@@ -41,4 +41,4 @@ Prerequisites:
 To view usage trends:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Analytics** > **Usage trends**.
+1. In the left sidebar, select **Analytics** > **Usage trends**.

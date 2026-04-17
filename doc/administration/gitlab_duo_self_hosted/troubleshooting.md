@@ -177,7 +177,7 @@ Prerequisites:
 To check if GitLab Duo was configured correctly:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Self-hosted models**
+1. In the left sidebar, select **Self-hosted models**
 1. Expand **AI-native features**.
 1. Under **Features**, check that **Code Suggestions** and **Code generation** are set to **Self-hosted model**.
 

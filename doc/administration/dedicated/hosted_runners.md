@@ -130,7 +130,7 @@ Prerequisites:
 To view hosted runners in GitLab:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **CI/CD** > **Runners**.
+1. In the left sidebar, select **CI/CD** > **Runners**.
 1. Optional. Select **Fleet dashboard**.
 
 #### Configure hosted runners in GitLab

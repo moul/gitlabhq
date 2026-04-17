@@ -17,12 +17,14 @@ import paginatedTreeQuery from 'shared_queries/repository/paginated_tree.query.g
 import { Mousetrap } from '~/lib/mousetrap';
 import { waitForElement } from '~/lib/utils/dom_utils';
 import refQuery from '~/repository/queries/ref.query.graphql';
+import blobInfoQuery from 'shared_queries/repository/blob_info.query.graphql';
 import FileTreeBrowserToggle from '~/repository/file_tree_browser/components/file_tree_browser_toggle.vue';
 import FileTreeBrowserPopover from '~/repository/file_tree_browser/components/file_tree_browser_popover.vue';
 import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser.vue';
 import { makeMockUserCalloutDismisser } from 'helpers/mock_user_callout_dismisser';
 import { visitUrl } from '~/lib/utils/url_utility';
 import { scrollUp } from '~/lib/utils/scroll_utils';
+import { createMockDirective, getBinding } from 'helpers/vue_mock_directive';
 import { mockResponse } from '../mock_data';
 
 Vue.use(VueApollo);
@@ -60,7 +62,10 @@ describe('Tree List', () => {
     getQueryHandlerSuccess = jest.fn().mockResolvedValue(apiResponse);
     userCalloutDismissSpy = jest.fn();
 
-    apolloProvider = createMockApollo([[paginatedTreeQuery, getQueryHandlerSuccess]]);
+    apolloProvider = createMockApollo([
+      [paginatedTreeQuery, getQueryHandlerSuccess],
+      ...(options.blobQueryHandler ? [[blobInfoQuery, options.blobQueryHandler]] : []),
+    ]);
     apolloProvider.defaultClient.cache.writeQuery({
       query: refQuery,
       data: { ref: currentRef, escapedRef: currentRef },
@@ -73,6 +78,9 @@ describe('Tree List', () => {
         currentRef: 'main',
         refType: 'heads',
         ...options.propsData,
+      },
+      directives: {
+        GlHoverLoad: createMockDirective('gl-hover-load'),
       },
       mocks: {
         $router: { push: jest.fn() },
@@ -217,6 +225,22 @@ describe('Tree List', () => {
 
     expect(treeItems.at(1).attributes('aria-setsize')).toBe('2');
     expect(treeItems.at(1).attributes('aria-posinset')).toBe('2');
+  });
+
+  it('renders a gl-hover-load directive on file rows', () => {
+    const fileRow = findFileRows().at(0); // tree item (type: 'tree')
+    const hoverLoadDirective = getBinding(fileRow.element, 'gl-hover-load');
+
+    expect(hoverLoadDirective).not.toBeUndefined();
+    expect(hoverLoadDirective.value).toBeInstanceOf(Function);
+  });
+
+  it('renders a gl-hover-load directive on blob rows', () => {
+    const fileRow = findFileRows().at(1); // blob item (type: 'blob')
+    const hoverLoadDirective = getBinding(fileRow.element, 'gl-hover-load');
+
+    expect(hoverLoadDirective).not.toBeUndefined();
+    expect(hoverLoadDirective.value).toBeInstanceOf(Function);
   });
 
   describe('pagination', () => {
@@ -1296,6 +1320,61 @@ describe('Tree List', () => {
 
         expect(userCalloutDismissSpy).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('hover preload', () => {
+    let getBlobQueryHandlerSuccess;
+
+    beforeEach(async () => {
+      getBlobQueryHandlerSuccess = jest.fn().mockResolvedValue({ data: { project: null } });
+      await createComponent(mockResponse, { blobQueryHandler: getBlobQueryHandlerSuccess });
+    });
+
+    it('preloads folder data on hover over a tree item', async () => {
+      const hoverLoadDirective = getBinding(findFileRows().at(0).element, 'gl-hover-load');
+      hoverLoadDirective.value();
+      await waitForPromises();
+
+      expect(getQueryHandlerSuccess).toHaveBeenCalledWith(
+        expect.objectContaining({ path: 'dir_1/dir_2' }),
+      );
+    });
+
+    it('preloads blob data on hover over a blob item', () => {
+      const hoverLoadDirective = getBinding(findFileRows().at(1).element, 'gl-hover-load');
+      hoverLoadDirective.value();
+
+      expect(getBlobQueryHandlerSuccess).toHaveBeenCalledWith(
+        expect.objectContaining({ filePath: ['dir_1/file.txt'] }),
+      );
+    });
+
+    it('does not preload on hover over a submodule item', async () => {
+      const response = cloneDeep(mockResponse);
+      response.data.project.repository.paginatedTree.nodes[0].submodules.nodes.push({
+        __typename: 'Submodule',
+        id: 'gid://Submodule123',
+        sha: '1234567890abcdef',
+        name: 'submodule-project',
+        flatPath: 'submodule-project',
+        type: 'commit',
+        path: 'submodule-project',
+        treeUrl: 'https://example.com/submodule-project',
+        webUrl: 'https://example.com/submodule-project',
+      });
+      await createComponent(response, { blobQueryHandler: getBlobQueryHandlerSuccess });
+      triggerIntersectionForAll();
+      await nextTick();
+
+      const callCountBefore = getQueryHandlerSuccess.mock.calls.length;
+      const submoduleRow = findFileRows().wrappers.find((w) => w.props('file').submodule);
+      const hoverLoadDirective = getBinding(submoduleRow.element, 'gl-hover-load');
+      hoverLoadDirective.value();
+      await waitForPromises();
+
+      expect(getQueryHandlerSuccess.mock.calls).toHaveLength(callCountBefore);
+      expect(getBlobQueryHandlerSuccess).not.toHaveBeenCalled();
     });
   });
 

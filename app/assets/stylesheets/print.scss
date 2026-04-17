@@ -58,6 +58,7 @@
     }
   }
 
+  /* stylelint-disable gitlab/no-js-class */
   header,
   nav,
   .super-sidebar,
@@ -78,6 +79,7 @@
   #js-peek {
     display: none !important;
   }
+  /* stylelint-enable gitlab/no-js-class */
 
   pre {
     page-break-before: avoid;

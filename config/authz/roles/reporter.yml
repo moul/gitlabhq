@@ -40,6 +40,7 @@ project:
   - download_wiki_code
   - export_requirements
   - import_requirements
+  - import_work_items
   - mark_note_as_internal
   - metrics_dashboard
   - move_design

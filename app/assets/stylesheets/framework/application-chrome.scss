@@ -240,8 +240,10 @@
   }
 
   // Unset fixed positions
+  /* stylelint-disable gitlab/no-js-class */
   #js-peek,
   #super-sidebar {
+  /* stylelint-enable gitlab/no-js-class */
     @apply gl-relative #{!important};
     @apply gl-top-0;
   }

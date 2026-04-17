@@ -1,6 +1,12 @@
 <script>
 import { mapState } from 'pinia';
-import { GlTooltipDirective, GlLoadingIcon, GlTooltip, GlButton } from '@gitlab/ui';
+import {
+  GlTooltipDirective,
+  GlLoadingIcon,
+  GlTooltip,
+  GlButton,
+  GlHoverLoadDirective,
+} from '@gitlab/ui';
 import { createAlert } from '~/alert';
 import FileRow from '~/vue_shared/components/file_row.vue';
 import FileTreeBrowserToggle from '~/repository/file_tree_browser/components/file_tree_browser_toggle.vue';
@@ -20,6 +26,7 @@ import { EVENT_OPEN_GLOBAL_SEARCH } from '~/vue_shared/global_search/constants';
 import getRefMixin from '~/repository/mixins/get_ref';
 import FileTreeBrowserPopover from '~/repository/file_tree_browser/components/file_tree_browser_popover.vue';
 import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser.vue';
+import blobInfoQuery from 'shared_queries/repository/blob_info.query.graphql';
 import { createItemVisibilityObserver, observeElements } from '~/lib/utils/lazy_render_utils';
 import { scrollUp } from '~/lib/utils/scroll_utils';
 import {
@@ -38,6 +45,7 @@ export default {
   FOCUS_FILE_TREE_BROWSER_FILTER_BAR,
   directives: {
     GlTooltip: GlTooltipDirective,
+    GlHoverLoad: GlHoverLoadDirective,
   },
   components: {
     UserCalloutDismisser,
@@ -594,6 +602,44 @@ export default {
       this.toggleDirectory(item.path, { toggleClose: false });
       this.handleNavigate(item.path, item.routerPath);
     },
+    handlePreload(item) {
+      if (item.submodule || item.isSkeleton || item.isShowMore) return;
+      if (item.type === 'tree') {
+        this.preloadFolder(item.path);
+      } else {
+        this.preloadBlob(item.path);
+      }
+    },
+    preloadFolder(path) {
+      const apiPath = normalizePath(path);
+      if (this.directoriesCache[apiPath] || this.loadingPathsMap[apiPath]) return;
+      this.$apollo.query({
+        query: paginatedTreeQuery,
+        fetchPolicy: 'cache-first',
+        variables: {
+          projectPath: this.projectPath,
+          ref: this.currentRef,
+          refType: getRefType(this.refType),
+          path: apiPath === '/' ? apiPath : apiPath.substring(1),
+          nextPageCursor: '',
+          pageSize: TREE_PAGE_SIZE,
+        },
+      });
+    },
+    preloadBlob(path) {
+      const apiPath = normalizePath(path).substring(1);
+      this.$apollo.query({
+        query: blobInfoQuery,
+        fetchPolicy: 'cache-first',
+        variables: {
+          projectPath: this.projectPath,
+          filePath: [apiPath],
+          ref: this.currentRef,
+          refType: getRefType(this.refType),
+          shouldFetchRawText: true,
+        },
+      });
+    },
   },
   searchLabel: s__('Repository|Search files (*.vue, *.rb...)'),
 };
@@ -678,6 +724,7 @@ export default {
         >
           <file-row
             v-if="item.isSkeleton || appearedItems[item.id]"
+            v-gl-hover-load="() => handlePreload(item)"
             :file="item"
             :level="item.level"
             :opened="item.opened"

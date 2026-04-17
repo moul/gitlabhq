@@ -138,6 +138,7 @@ ul.related-merge-requests > li gl-emoji {
     }
   }
 
+  // stylelint-disable-next-line gitlab/no-js-class
   .js-create-merge-request {
     flex-grow: 1;
     flex-shrink: 0;

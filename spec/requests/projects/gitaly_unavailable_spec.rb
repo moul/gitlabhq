@@ -241,4 +241,49 @@ RSpec.describe 'Gitaly unavailable graceful degradation', feature_category: :sou
       it_behaves_like 'handles Gitaly errors for request specs'
     end
   end
+
+  describe 'Projects::CommitsController' do
+    describe '#show' do
+      let(:allow_gitaly_to_raise_error) do
+        allow_next_instance_of(Repository) do |repository|
+          allow(repository).to receive(:commits)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      context 'with HTML format' do
+        let(:make_request) { get project_commits_path(project, 'master') }
+
+        it_behaves_like 'handles Gitaly errors for request specs'
+      end
+
+      context 'with JSON format' do
+        let(:make_request) { get project_commits_path(project, 'master', format: :json) }
+
+        it_behaves_like 'handles Gitaly errors for json format'
+      end
+
+      context 'with Atom format' do
+        let(:make_request) { get project_commits_path(project, 'master', format: :atom) }
+
+        it_behaves_like 'handles Gitaly errors for request specs'
+      end
+    end
+
+    describe '#signatures' do
+      let(:make_request) do
+        get namespace_project_signatures_path(namespace_id: project.namespace, project_id: project, id: 'master',
+          format: :json)
+      end
+
+      let(:allow_gitaly_to_raise_error) do
+        allow_next_instance_of(Repository) do |repository|
+          allow(repository).to receive(:commits)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      it_behaves_like 'handles Gitaly errors for json format'
+    end
+  end
 end

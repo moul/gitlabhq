@@ -50,6 +50,7 @@ project:
   - edit_on_demand_dast_scan
   - enable_continuous_vulnerability_scans
   - execute_ai_catalog_item
+  - import_issues
   - keep_job_artifacts
   - play_job
   - provide_status_check_response

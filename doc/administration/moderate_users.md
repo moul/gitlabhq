@@ -24,7 +24,7 @@ If you are an instance administrator, you have several options to moderate and c
 To view all the users in your instance:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 
 Select a user to view their account information.
 
@@ -42,7 +42,7 @@ to display only human or [bot users](internal_users.md).
 To view users by type:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. In the search box, enter a filter.
    - To display human users, enter **Type=Humans**.
    - To display bot users, enter **Type=Bots**.
@@ -124,7 +124,7 @@ sign in.
 To view user sign ups pending approval:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. In the search box, filter by **State=Pending approval**, and press <kbd>Enter</kbd>.
 
 ### Approve or reject a new user account
@@ -140,7 +140,7 @@ A user sign up pending approval can be approved or rejected from the **Admin** a
 To approve or reject a user sign up:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. In the search box, filter by **State=Pending approval** and press <kbd>Enter</kbd>.
 1. For the user sign up you want to approve or reject, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}), then **Approve** or **Reject**.
 
@@ -162,7 +162,7 @@ If [administrator approval for role promotions](settings/sign_up_restrictions.md
 To view users pending role promotion:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. Select **Role Promotions**.
 
 A list of users with the highest role requested is displayed.
@@ -191,7 +191,7 @@ You can block a user's access to the instance.
 To block a user:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. For the user you want to block, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}), then **Block**.
 
 To report abuse from other users, see [report abuse](../user/report_abuse.md). For more information on abuse reports in the **Admin** area, see [resolving abuse reports](review_abuse_reports.md#resolving-abuse-reports).
@@ -209,7 +209,7 @@ You can unblock a user so they regain access to the instance.
 To unblock a user:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. In the search box, filter by **State=Blocked** and press <kbd>Enter</kbd>.
 1. For the user you want to unblock, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}), then **Unblock**.
 
@@ -223,7 +223,7 @@ The unblock option may be unavailable for LDAP users. To enable the unblock opti
 the LDAP identity first needs to be deleted:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. In the search box, filter by **State=Blocked** and press <kbd>Enter</kbd>.
 1. Select a user.
 1. Select the **Identities** tab.
@@ -253,7 +253,7 @@ Prerequisites:
 To deactivate a user:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. For the user you want to deactivate, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}) and then **Deactivate**.
 1. On the dialog, select **Deactivate**.
 
@@ -282,7 +282,7 @@ Administrators can enable automatic deactivation of users who either:
 To automatically deactivate dormant members:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Account and limit** section.
 1. Under **Dormant users**, check **Deactivate dormant users after a period of inactivity**.
 1. Under **Days of inactivity before deactivation**, enter the number of days before deactivation. Minimum value is 90 days.
@@ -348,7 +348,7 @@ A maximum of 240,000 users can be deleted per day.
 To reactivate a user:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. In the search box, filter by **State=Deactivated** and press <kbd>Enter</kbd>.
 1. For the user you want to reactivate, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}), then **Activate**.
 
@@ -387,7 +387,7 @@ You can ban a user to block them and hide their contributions.
 To ban a user:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. Next to the member you want to ban, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}).
 1. From the dropdown list, select **Ban member**.
 
@@ -402,7 +402,7 @@ To ban a user:
 To unban a user:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. In the search box, filter by **State=Banned** and press <kbd>Enter</kbd>.
 1. Next to the member you want to ban, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}).
 1. From the dropdown list, select **Unban member**.
@@ -415,7 +415,7 @@ The user's state is set to active and they consume a
 To delete a user:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. For the user you want to delete, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}), then **Delete user**.
 1. Type the username.
 1. Select either:
@@ -441,7 +441,7 @@ By default, users are not trusted and are blocked from creating issues, notes, a
 To trust a user:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. Select a user.
 1. From the **User administration** dropdown list, select **Trust user**.
 1. On the confirmation dialog, select **Trust user**.
@@ -451,7 +451,7 @@ To trust a user:
 To untrust a user:
 
 1. In the upper-right corner, select **Admin**.
-1. Select **Overview** > **Users**.
+1. In the left sidebar, select **Overview** > **Users**.
 1. In the search box, filter by **State=Trusted** and press <kbd>Enter</kbd>.
 1. Select a user.
 1. From the **User administration** dropdown list, select **Untrust user**.

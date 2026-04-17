@@ -17710,6 +17710,9 @@ msgstr ""
 msgid "Commits|Something went wrong while loading the commit description. Please try again."
 msgstr ""
 
+msgid "Commits|Unable to load commits"
+msgstr ""
+
 msgid "Committed by"
 msgstr ""
 
@@ -64416,6 +64419,9 @@ msgstr ""
 msgid "SecurityOrchestration|List branches in the format %{boldStart}branch-name@group-name/project-name,%{boldEnd} separated by a comma (,)."
 msgstr ""
 
+msgid "SecurityOrchestration|Loading approvers..."
+msgstr ""
+
 msgid "SecurityOrchestration|Logic error"
 msgstr ""
 
@@ -74669,6 +74675,9 @@ msgid "Trial|Activate my trial"
 msgstr ""
 
 msgid "Trial|Allowed characters: +, 0-9, -, and spaces."
+msgstr ""
+
+msgid "Trial|Any purchased GitLab Credits will continue to be used during your trial."
 msgstr ""
 
 msgid "Trial|By clicking \"%{buttonText}\" you accept the %{gitlabSubscriptionAgreement} and acknowledge the %{privacyStatement} and %{cookiePolicy}"
