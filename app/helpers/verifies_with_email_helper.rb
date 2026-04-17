@@ -30,7 +30,7 @@ module VerifiesWithEmailHelper
   def in_email_otp_warning_period?(user)
     return false unless user.email_otp_required_after.present?
 
-    days_until_enrollment = (user.email_otp_required_after.to_date - Date.current).to_i
-    days_until_enrollment.between?(1, 7)
+    user.email_otp_required_after.future? &&
+      user.email_otp_required_after <= 7.days.from_now
   end
 end

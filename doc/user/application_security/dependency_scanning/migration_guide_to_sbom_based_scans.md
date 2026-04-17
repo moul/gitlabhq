@@ -117,7 +117,7 @@ When migrating to SBOM-based dependency scanning, be aware of potential impacts 
 - This issue does not affect GitLab.com instances.
 - If your organization uses compliance frameworks with dependency scanning controls, test the migration in a non-production environment first.
 
-For more information, see [compliance framework compatibility](dependency_scanning_sbom/_index.md#compliance-framework-compatibility).
+For more information, see [compliance framework compatibility](dependency_scanning_sbom/troubleshooting_ds_sbom_analyzer.md#compliance-framework-compatibility).
 
 ## Identify affected projects
 

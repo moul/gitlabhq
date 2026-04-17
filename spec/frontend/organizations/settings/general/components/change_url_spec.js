@@ -31,7 +31,7 @@ describe('ChangeUrl', () => {
       name: 'GitLab',
       path: 'foo-bar',
     },
-    organizationsPath: '/-/organizations',
+    organizationsPath: '/o',
     rootUrl: 'http://127.0.0.1:3000/',
   };
 

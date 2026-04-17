@@ -226,8 +226,6 @@ export default {
     'ee/app/assets/javascripts/boards/components/issues_lane_list.vue',
     'ee/app/assets/javascripts/boards/components/labels_select.vue',
     'ee/app/assets/javascripts/ci/pipeline_details/tabs/pipeline_tabs.vue',
-    'ee/app/assets/javascripts/ci/pipeline_subscriptions/components/pipeline_subscriptions_table.vue',
-    'ee/app/assets/javascripts/ci/pipeline_subscriptions/pipeline_subscriptions_app.vue',
     'ee/app/assets/javascripts/codequality_report/codequality_report.vue',
     'ee/app/assets/javascripts/compliance_dashboard/components/dashboard/components/status_chart.vue',
     'ee/app/assets/javascripts/compliance_dashboard/components/dashboard/framework_coverage.vue',

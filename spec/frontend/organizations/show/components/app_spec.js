@@ -18,8 +18,8 @@ describe('OrganizationShowApp', () => {
       projects: 5,
       users: 6,
     },
-    groupsAndProjectsOrganizationPath: '/-/organizations/default/groups_and_projects',
-    usersOrganizationPath: '/-/organizations/default/users',
+    groupsAndProjectsOrganizationPath: '/o/default/-/groups_and_projects',
+    usersOrganizationPath: '/o/default/-/users',
   };
 
   const createComponent = ({ propsData } = {}) => {

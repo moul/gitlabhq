@@ -30,6 +30,14 @@ module API
         rewrite_param_name(transformed, :release_tag_wildcard_id, :release_tag)
         transformed[:non_archived] = !transformed.delete(:include_archived) if transformed.key?(:include_archived)
 
+        transformed[:in] = transformed[:in].join(',') if transformed[:in].present?
+
+        if transformed[:timeframe]
+          transformed[:start_date] = transformed.dig(:timeframe, :start)
+          transformed[:end_date] = transformed.dig(:timeframe, :end)
+          transformed.delete(:timeframe)
+        end
+
         transformed
       end
 

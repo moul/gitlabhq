@@ -106,6 +106,7 @@ group:
   - modify_security_policy
   - provision_secrets_manager
   - read_add_on_purchase
+  - read_ai_domain_settings
   - read_billable_member
   - read_billing
   - read_compliance_adherence_report

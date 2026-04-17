@@ -500,6 +500,28 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="query-aiconversationthreads-conversationtype"></a>`conversationType` | [`AiConversationsThreadsConversationType`](#aiconversationsthreadsconversationtype) | Conversation type of the thread. |
 | <a id="query-aiconversationthreads-id"></a>`id` | [`AiConversationThreadID`](#aiconversationthreadid) | Id of the thread. |
 
+### `Query.aiDomainSettings`
+
+{{< details >}}
+**Introduced** in GitLab 19.0.
+**Status**: Experiment.
+{{< /details >}}
+
+List of allowed or denied domains for AI features.
+
+Returns [`StringConnection`](#stringconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="query-aidomainsettings-domainsettingtype"></a>`domainSettingType` | [`AiDomainSettingType!`](#aidomainsettingtype) | Type of domain setting to retrieve. |
+| <a id="query-aidomainsettings-search"></a>`search` | [`String`](#string) | Filter domains by substring match. |
+
 ### `Query.aiFeatureSettings`
 
 {{< details >}}
@@ -26222,6 +26244,29 @@ The edge type for [`StandardRole`](#standardrole).
 | <a id="standardroleedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="standardroleedge-node"></a>`node` | [`StandardRole`](#standardrole) | The item at the end of the edge. |
 
+#### `StringConnection`
+
+The connection type for [`String`](#string).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="stringconnection-edges"></a>`edges` | [`[StringEdge]`](#stringedge) | A list of edges. |
+| <a id="stringconnection-nodes"></a>`nodes` | [`[String]`](#string) | A list of nodes. |
+| <a id="stringconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `StringEdge`
+
+The edge type for [`String`](#string).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="stringedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="stringedge-node"></a>`node` | [`String`](#string) | The item at the end of the edge. |
+
 #### `SubmoduleConnection`
 
 The connection type for [`Submodule`](#submodule).
@@ -37709,6 +37754,28 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="group-addoneligibleusers-search"></a>`search` | [`String`](#string) | Search the user list. |
 | <a id="group-addoneligibleusers-sort"></a>`sort` | [`GitlabSubscriptionsUserSort`](#gitlabsubscriptionsusersort) | Sort the user list. |
 
+##### `Group.aiDomainSettings`
+
+{{< details >}}
+**Introduced** in GitLab 19.0.
+**Status**: Experiment.
+{{< /details >}}
+
+List of allowed or denied domains for AI features.
+
+Returns [`StringConnection`](#stringconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="group-aidomainsettings-domainsettingtype"></a>`domainSettingType` | [`AiDomainSettingType!`](#aidomainsettingtype) | Type of domain setting to retrieve. |
+| <a id="group-aidomainsettings-search"></a>`search` | [`String`](#string) | Filter domains by substring match. |
+
 ##### `Group.aiMetrics`
 
 {{< details >}}
@@ -44157,6 +44224,28 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="namespace-addoneligibleusers-filterbyassignedseat"></a>`filterByAssignedSeat` | [`String`](#string) | Filter users list by assigned seat. |
 | <a id="namespace-addoneligibleusers-search"></a>`search` | [`String`](#string) | Search the user list. |
 | <a id="namespace-addoneligibleusers-sort"></a>`sort` | [`GitlabSubscriptionsUserSort`](#gitlabsubscriptionsusersort) | Sort the user list. |
+
+##### `Namespace.aiDomainSettings`
+
+{{< details >}}
+**Introduced** in GitLab 19.0.
+**Status**: Experiment.
+{{< /details >}}
+
+List of allowed or denied domains for AI features.
+
+Returns [`StringConnection`](#stringconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="namespace-aidomainsettings-domainsettingtype"></a>`domainSettingType` | [`AiDomainSettingType!`](#aidomainsettingtype) | Type of domain setting to retrieve. |
+| <a id="namespace-aidomainsettings-search"></a>`search` | [`String`](#string) | Filter domains by substring match. |
 
 ##### `Namespace.approvalPolicies`
 
@@ -56021,6 +56110,15 @@ Conversation type of the thread.
 | <a id="aiconversationsthreadsconversationtype-duo_chat_legacy"></a>`DUO_CHAT_LEGACY` | duo_chat_legacy thread. |
 | <a id="aiconversationsthreadsconversationtype-duo_code_review"></a>`DUO_CODE_REVIEW` | duo_code_review thread. |
 | <a id="aiconversationsthreadsconversationtype-duo_quick_chat"></a>`DUO_QUICK_CHAT` | duo_quick_chat thread. |
+
+### `AiDomainSettingType`
+
+Type of domain setting to retrieve for AI features.
+
+| Value | Description |
+| ----- | ----------- |
+| <a id="aidomainsettingtype-allowed"></a>`ALLOWED` | Domains that are allowed. |
+| <a id="aidomainsettingtype-denied"></a>`DENIED` | Domains that are denied. |
 
 ### `AiFeatureProviders`
 

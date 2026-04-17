@@ -389,20 +389,35 @@ RSpec.describe API::Invitations, feature_category: :user_profile do
         let_it_be(:other_organization) { create(:organization) }
         let_it_be(:other_user) { create(:user, organization: other_organization) }
 
-        it 'shows error for email' do
-          post invitations_url(source, maintainer),
-            params: { email: other_user.email, access_level: Member::GUEST }
+        it 'adds a new member by email' do
+          expect do
+            post invitations_url(source, maintainer),
+              params: { email: email, access_level: Member::DEVELOPER }
 
-          expect(json_response['status']).to eq 'error'
-          expect(json_response['message'][other_user.email]).to eq('already belongs to another organization')
+            expect(response).to have_gitlab_http_status(:created)
+          end.to change { source.members.invite.count }.by(1)
         end
 
-        it 'shows error for user_id' do
-          post invitations_url(source, maintainer),
-            params: { user_id: other_user.id, access_level: Member::GUEST }
+        context 'when the organization is isolated' do
+          before do
+            source.organization.mark_as_isolated!
+          end
 
-          expect(json_response['status']).to eq 'error'
-          expect(json_response['message'][other_user.username]).to eq('already belongs to another organization')
+          it 'shows error for email' do
+            post invitations_url(source, maintainer),
+              params: { email: other_user.email, access_level: Member::GUEST }
+
+            expect(json_response['status']).to eq 'error'
+            expect(json_response['message'][other_user.email]).to eq('already belongs to another organization')
+          end
+
+          it 'shows error for user_id' do
+            post invitations_url(source, maintainer),
+              params: { user_id: other_user.id, access_level: Member::GUEST }
+
+            expect(json_response['status']).to eq 'error'
+            expect(json_response['message'][other_user.username]).to eq('already belongs to another organization')
+          end
         end
       end
     end

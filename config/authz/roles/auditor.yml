@@ -55,6 +55,7 @@ group:
   permissions: []
   raw_permissions:
   - read_add_on_purchase
+  - read_ai_domain_settings
   - read_billable_member
   - read_billing
   - read_cluster

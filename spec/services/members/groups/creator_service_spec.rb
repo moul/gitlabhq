@@ -27,6 +27,10 @@ RSpec.describe Members::Groups::CreatorService, feature_category: :groups_and_pr
       let_it_be(:member_type) { GroupMember }
     end
 
+    it_behaves_like 'member creation with organization isolation' do
+      let_it_be(:source_type) { Group }
+    end
+
     context 'authorized projects update' do
       it 'schedules a single project authorization update job when called multiple times' do
         # this is inline with the overridden behaviour in stubbed_member.rb

@@ -198,7 +198,7 @@ module Members
 
       assign_member_attributes
 
-      return add_not_valid_org_error unless same_org?
+      return add_not_valid_org_error if source.organization&.isolated? && !same_org?
 
       commit_changes
     end

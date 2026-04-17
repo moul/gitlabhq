@@ -182,9 +182,9 @@ RSpec.describe Organizations::OrganizationHelper, feature_category: :organizatio
             'avatar_url' => 'avatar.jpg',
             'visibility' => organization.visibility
           },
-          'groups_and_projects_organization_path' => "/-/organizations/#{organization.path}/groups_and_projects",
-          'users_organization_path' => "/-/organizations/#{organization.path}/users",
-          'new_group_path' => "/-/organizations/#{organization.path}/groups/new",
+          'groups_and_projects_organization_path' => "/o/#{organization.path}/-/groups_and_projects",
+          'users_organization_path' => "/o/#{organization.path}/-/users",
+          'new_group_path' => "/o/#{organization.path}/-/groups/new",
           'new_project_path' => '/projects/new',
           'association_counts' => stubbed_results,
           'organization_groups_projects_sort' => 'name_asc',
@@ -227,7 +227,7 @@ RSpec.describe Organizations::OrganizationHelper, feature_category: :organizatio
       ).to include(
         {
           'organization_gid' => "gid://gitlab/Organizations::Organization/#{organization.id}",
-          'new_group_path' => "/-/organizations/#{organization.path}/groups/new",
+          'new_group_path' => "/o/#{organization.path}/-/groups/new",
           'new_project_path' => '/projects/new',
           'organization_groups_projects_sort' => 'name_asc',
           'organization_groups_projects_display' => 'groups',
@@ -250,7 +250,7 @@ RSpec.describe Organizations::OrganizationHelper, feature_category: :organizatio
         {
           'organizations_path' => '/o',
           'root_url' => 'http://test.host/',
-          'preview_markdown_path' => '/-/organizations/preview_markdown'
+          'preview_markdown_path' => '/o/-/preview_markdown'
         }
       )
     end
@@ -271,7 +271,7 @@ RSpec.describe Organizations::OrganizationHelper, feature_category: :organizatio
           },
           'organizations_path' => '/o',
           'root_url' => 'http://test.host/',
-          'preview_markdown_path' => '/-/organizations/preview_markdown'
+          'preview_markdown_path' => '/o/-/preview_markdown'
         }
       )
     end
@@ -300,8 +300,8 @@ RSpec.describe Organizations::OrganizationHelper, feature_category: :organizatio
         {
           'base_path' => 'http://test.host/',
           'groups_and_projects_organization_path' =>
-            "/-/organizations/#{organization.path}/groups_and_projects?display=groups",
-          'groups_organization_path' => "/-/organizations/#{organization.path}/groups",
+            "/o/#{organization.path}/-/groups_and_projects?display=groups",
+          'groups_organization_path' => "/o/#{organization.path}/-/groups",
           'available_visibility_levels' => [
             Gitlab::VisibilityLevel::PRIVATE,
             Gitlab::VisibilityLevel::INTERNAL,
@@ -343,8 +343,8 @@ RSpec.describe Organizations::OrganizationHelper, feature_category: :organizatio
           },
           'base_path' => 'http://test.host/',
           'groups_and_projects_organization_path' =>
-            "/-/organizations/#{organization.path}/groups_and_projects?display=groups",
-          'groups_organization_path' => "/-/organizations/#{organization.path}/groups",
+            "/o/#{organization.path}/-/groups_and_projects?display=groups",
+          'groups_organization_path' => "/o/#{organization.path}/-/groups",
           'available_visibility_levels' => [
             Gitlab::VisibilityLevel::PRIVATE,
             Gitlab::VisibilityLevel::INTERNAL,
@@ -382,8 +382,8 @@ RSpec.describe Organizations::OrganizationHelper, feature_category: :organizatio
     it 'returns expected json' do
       expect(Gitlab::Json.parse(helper.organization_projects_edit_app_data(organization, project))).to eq(
         {
-          'projects_organization_path' => "/-/organizations/#{organization.path}/groups_and_projects?display=projects",
-          'preview_markdown_path' => '/-/organizations/preview_markdown',
+          'projects_organization_path' => "/o/#{organization.path}/-/groups_and_projects?display=projects",
+          'preview_markdown_path' => '/o/-/preview_markdown',
           'project' => {
             'id' => project.id,
             'name' => project.name,
@@ -399,7 +399,7 @@ RSpec.describe Organizations::OrganizationHelper, feature_category: :organizatio
     it 'returns expected data object' do
       expect(Gitlab::Json.parse(helper.organization_activity_app_data(organization))).to match(
         {
-          'organization_activity_path' => "/-/organizations/#{organization.path}/activity.json",
+          'organization_activity_path' => "/o/#{organization.path}/-/activity.json",
           'organization_activity_event_types' => array_including(
             {
               'title' => 'Comment',

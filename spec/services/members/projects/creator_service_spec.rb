@@ -25,6 +25,10 @@ RSpec.describe Members::Projects::CreatorService, feature_category: :groups_and_
       let_it_be(:member_type) { ProjectMember }
     end
 
+    it_behaves_like 'member creation with organization isolation' do
+      let_it_be(:source_type) { Project }
+    end
+
     context 'authorized projects update' do
       it 'schedules a single project authorization update job when called multiple times' do
         stub_feature_flags(do_not_run_safety_net_auth_refresh_jobs: false)

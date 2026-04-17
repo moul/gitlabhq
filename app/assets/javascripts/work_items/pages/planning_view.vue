@@ -1158,6 +1158,15 @@ export default {
         }
       },
     },
+    workItemTypesConfiguration: {
+      handler(newValue) {
+        // When workItemTypesConfiguration becomes available and isSortKeyInitialized is still false,
+        // set it to true to prevent the loading indicator from showing indefinitely
+        if (newValue && newValue.length > 0 && !this.isSortKeyInitialized && this.isLoggedIn) {
+          this.isSortKeyInitialized = true;
+        }
+      },
+    },
   },
 
   mounted() {

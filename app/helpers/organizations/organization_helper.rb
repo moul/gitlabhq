@@ -101,7 +101,7 @@ module Organizations
     def shared_new_settings_general_app_data
       {
         preview_markdown_path: preview_markdown_organizations_path,
-        organizations_path: organizations_scope_path,
+        organizations_path: organizations_path,
         root_url: root_url
       }
     end

@@ -11,7 +11,7 @@ describe('OrganizationShowGroupsAndProjects', () => {
     push: jest.fn(),
   };
   const defaultPropsData = {
-    groupsAndProjectsOrganizationPath: '/-/organizations/default/groups_and_projects',
+    groupsAndProjectsOrganizationPath: '/o/default/-/groups_and_projects',
   };
 
   let wrapper;

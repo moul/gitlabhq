@@ -76039,7 +76039,7 @@ components:
           example: '2022-02-24T20:22:30.097Z'
         web_url:
           type: string
-          example: https://example.com/-/organizations/gitlab
+          example: https://example.com/o/gitlab/-/overview
         avatar_url:
           type: string
           example: https://example.com/uploads/-/system/organizations/organization_detail/avatar/1/avatar.png

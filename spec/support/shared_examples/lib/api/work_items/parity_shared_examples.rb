@@ -265,12 +265,12 @@ end
 RSpec.shared_examples 'work item API filter parity' do
   # These are filters that we have not yet migrated to the REST API. See EE parity_spec where we override them.
   let(:filter_parity_wip) do
-    %w[exclude_group_work_items exclude_projects timeframe]
+    %w[exclude_group_work_items exclude_projects]
   end
 
   let(:not_filter_parity_wip) { [] }
   let(:or_filter_parity_wip) { [] }
-  let(:parity_wip) { Set.new(%w[in search]).merge(filter_parity_wip).to_a }
+  let(:parity_wip) { filter_parity_wip }
 
   let(:graphql_filter_params) do
     # instad of `iid` we have `iids`
@@ -307,7 +307,12 @@ RSpec.shared_examples 'work item API filter parity' do
   end
 
   let(:rest_filter_params) do
-    rest_params.reject { |key| key.starts_with?("or") || key.starts_with?("not") }
+    # Normalize nested bracket params (e.g. `timeframe[start]` -> `timeframe`) so that
+    # Hash-typed filter params compare correctly against single GraphQL argument names.
+    rest_params
+      .reject { |key| key.starts_with?("or") || key.starts_with?("not") }
+      .map { |key| key.split('[').first }
+      .uniq
   end
 
   let(:rest_not_filter_params) do
