@@ -52115,6 +52115,7 @@ Terraform module metadata submodule.
 | <a id="terraformstate-lockedat"></a>`lockedAt` | [`Time`](#time) | Timestamp the Terraform state was locked. |
 | <a id="terraformstate-lockedbyuser"></a>`lockedByUser` | [`UserCore`](#usercore) | User currently holding a lock on the Terraform state. |
 | <a id="terraformstate-name"></a>`name` | [`String!`](#string) | Name of the Terraform state. |
+| <a id="terraformstate-protectionruleexists"></a>`protectionRuleExists` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 19.0. **Status**: Experiment. Whether a protection rule exists for the Terraform state. |
 | <a id="terraformstate-updatedat"></a>`updatedAt` | [`Time!`](#time) | Timestamp the Terraform state was updated. |
 
 ### `TerraformStateProtectionRule`

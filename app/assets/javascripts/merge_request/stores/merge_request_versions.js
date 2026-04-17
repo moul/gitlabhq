@@ -5,6 +5,7 @@ export const useMergeRequestVersions = defineStore('mergeRequestVersions', {
     return {
       sourceVersions: [],
       targetVersions: [],
+      commit: null,
     };
   },
   getters: {
@@ -14,7 +15,13 @@ export const useMergeRequestVersions = defineStore('mergeRequestVersions', {
     selectedTargetVersion() {
       return this.targetVersions.find((v) => v.selected);
     },
+    commitId() {
+      if (!this.commit) return null;
+      return this.commit.id;
+    },
     diffRefs() {
+      if (this.commit) return this.commit.diff_refs;
+
       const source = this.selectedSourceVersion;
       const target = this.selectedTargetVersion;
       if (!source || !target) return null;
@@ -25,6 +32,7 @@ export const useMergeRequestVersions = defineStore('mergeRequestVersions', {
           start_sha: target.start_sha,
         };
       }
+
       return {
         base_sha: source.base_sha,
         head_sha: source.head_sha,
@@ -36,6 +44,9 @@ export const useMergeRequestVersions = defineStore('mergeRequestVersions', {
     setVersions({ sourceVersions, targetVersions }) {
       this.sourceVersions = sourceVersions;
       this.targetVersions = targetVersions;
+    },
+    setCommit(commit) {
+      this.commit = commit;
     },
   },
 });

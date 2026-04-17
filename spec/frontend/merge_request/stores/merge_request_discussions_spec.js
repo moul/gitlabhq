@@ -311,6 +311,49 @@ describe('mergeRequestDiscussions store', () => {
     });
   });
 
+  describe('commit view forms', () => {
+    const commitDiffRefs = { base_sha: 'parent', start_sha: 'parent', head_sha: 'commit_sha' };
+
+    beforeEach(() => {
+      useMergeRequestVersions().setCommit({
+        id: 'commit_sha',
+        diff_refs: commitDiffRefs,
+      });
+    });
+
+    it('passes commitId to line discussion form', () => {
+      store.addNewLineDiscussionForm({
+        oldPath: 'a.rb',
+        newPath: 'a.rb',
+        lineRange: { start: { old_line: null, new_line: 5 }, end: { old_line: null, new_line: 5 } },
+        lineChange: { change: 'added', position: 'new' },
+        lineCode: 'abc_0_5',
+      });
+      const form = useDiffDiscussions().discussionForms[0];
+      expect(form.commitId).toBe('commit_sha');
+    });
+
+    it('passes commitId to file discussion form', () => {
+      store.addNewFileDiscussionForm({
+        oldPath: 'a.rb',
+        newPath: 'a.rb',
+      });
+      const form = useDiffDiscussions().discussionForms[0];
+      expect(form.commitId).toBe('commit_sha');
+    });
+
+    it('merges caller extraOptions in file discussion form', () => {
+      store.addNewFileDiscussionForm({
+        oldPath: 'a.rb',
+        newPath: 'a.rb',
+        extraOptions: { custom: 'value' },
+      });
+      const form = useDiffDiscussions().discussionForms[0];
+      expect(form.custom).toBe('value');
+      expect(form.commitId).toBe('commit_sha');
+    });
+  });
+
   describe('createFileDiscussion', () => {
     it('delegates to notes store saveNote and removes the form', async () => {
       const position = {

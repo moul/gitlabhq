@@ -12,7 +12,8 @@ import { findHierarchyWidget, findNotesWidget, getWorkItemWidgets } from '~/work
 import getWorkItemTreeQuery from '~/work_items/graphql/work_item_tree.query.graphql';
 import workItemLinkedItemsSlimQuery from '~/work_items/graphql/work_items_linked_items_slim.query.graphql';
 import waitForPromises from 'helpers/wait_for_promises';
-import { apolloProvider, linkedItems } from '~/graphql_shared/issuable_client';
+import { apolloProvider } from '~/graphql_shared/issuable_client';
+import { linkedItems } from '~/graphql_shared/issuable_client_state';
 import {
   childrenWorkItems,
   createWorkItemNoteResponse,

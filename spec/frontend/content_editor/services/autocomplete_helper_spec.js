@@ -31,7 +31,7 @@ jest.mock('~/emoji', () => ({
   getAllEmoji: () => [{ name: 'thumbsup' }],
 }));
 
-jest.mock('~/graphql_shared/issuable_client', () => ({
+jest.mock('~/graphql_shared/issuable_client_state', () => ({
   currentAssignees: jest.fn().mockReturnValue({
     1: [
       {

@@ -3,6 +3,8 @@
 module Members
   module Projects
     class CreatorService < Members::CreatorService
+      include Gitlab::Utils::StrongMemoize
+
       private
 
       def can_create_new_member?
@@ -17,10 +19,21 @@ module Members
         current_user.can?(:update_project_member, member)
       end
 
+      # Overrides Members::CreatorService#same_org? to allow the personal namespace
+      # holder to be added to their own project even without an organization_users record.
+      def same_org?
+        return true if adding_the_creator_as_owner_in_a_personal_project?
+
+        super
+      end
+
+      # This condition is checked in both can_create_new_member? and same_org?,
+      # so memoize to avoid repeated evaluation.
+      # This condition is reached during testing setup a lot due to use of `.add_member`
       def adding_the_creator_as_owner_in_a_personal_project?
-        # this condition is reached during testing setup a lot due to use of `.add_member`
         member.project.personal_namespace_holder?(member.user)
       end
+      strong_memoize_attr :adding_the_creator_as_owner_in_a_personal_project?
     end
   end
 end

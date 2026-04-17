@@ -1,7 +1,15 @@
 import { GlTable, GlButton, GlSkeletonLoader } from '@gitlab/ui';
-import { mountExtended } from 'helpers/vue_test_utils_helper';
+import { mountExtended, shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import ScanProfileTable from '~/security_configuration/components/scan_profiles/scan_profile_table.vue';
-import { SCAN_PROFILE_PROMO_ITEMS } from '~/security_configuration/constants';
+import {
+  SCAN_PROFILE_PROMO_ITEMS,
+  SCAN_PROFILE_SCANNER_HEALTH_ACTIVE,
+  SCAN_PROFILE_SCANNER_HEALTH_FAILED,
+  SCAN_PROFILE_SCANNER_HEALTH_PENDING,
+  SCAN_PROFILE_SCANNER_HEALTH_STALE,
+  SCAN_PROFILE_SCANNER_HEALTH_UNCONFIGURED,
+  SCAN_PROFILE_SCANNER_HEALTH_WARNING,
+} from '~/security_configuration/constants';
 
 describe('ScanProfileTable', () => {
   let wrapper;
@@ -82,6 +90,30 @@ describe('ScanProfileTable', () => {
 
     it('renders disabled preview button', () => {
       expect(findPreviewButton().props('disabled')).toBe(true);
+    });
+  });
+
+  describe('scanTypeBadgeClass', () => {
+    const createWrapperForStatus = (status) =>
+      shallowMountExtended(ScanProfileTable, {
+        propsData: {
+          loading: false,
+          tableItems: [{ scanType: 'SECRET_DETECTION', status }],
+        },
+      });
+
+    it.each`
+      status                                      | expectedClasses
+      ${SCAN_PROFILE_SCANNER_HEALTH_ACTIVE}       | ${'gl-border-feedback-success gl-bg-status-success gl-text-status-success'}
+      ${SCAN_PROFILE_SCANNER_HEALTH_WARNING}      | ${'gl-border-feedback-warning gl-bg-status-warning gl-text-status-warning'}
+      ${SCAN_PROFILE_SCANNER_HEALTH_FAILED}       | ${'gl-border-feedback-danger gl-bg-status-danger gl-text-status-danger'}
+      ${SCAN_PROFILE_SCANNER_HEALTH_PENDING}      | ${'gl-border-strong gl-bg-status-neutral gl-text-strong'}
+      ${SCAN_PROFILE_SCANNER_HEALTH_STALE}        | ${'gl-border-strong gl-bg-status-neutral gl-text-strong'}
+      ${SCAN_PROFILE_SCANNER_HEALTH_UNCONFIGURED} | ${'gl-border-dashed gl-border-strong gl-bg-default gl-text-strong'}
+      ${null}                                     | ${'gl-border-dashed gl-border-strong gl-bg-default gl-text-strong'}
+    `('returns correct classes for "$status" status', ({ status, expectedClasses }) => {
+      wrapper = createWrapperForStatus(status);
+      expect(wrapper.vm.scanTypeBadgeClass(status)).toBe(expectedClasses);
     });
   });
 

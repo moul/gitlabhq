@@ -527,6 +527,22 @@ Additionally, restricted access might block the standard non-overage flows:
 - Service bots that are updated or added to a billable role are incorrectly blocked.
 - Inviting or updating existing billable users through email is blocked unexpectedly.
 
+### Dormant enterprise user reactivation
+
+When restricted access is active and no seats are available, dormant
+[enterprise users](../enterprise_user/_index.md) who attempt to sign back in are
+set to [pending approval](#approve-pending-members-for-a-group) instead of being reactivated. Their existing group and
+project memberships are preserved. A group Owner can approve the users when seats
+become available.
+
+Non-enterprise dormant members have their group membership removed instead of
+being deactivated. When they rejoin through SAML, SCIM, or LDAP sync,
+[provisioning behavior](#provisioning-behavior-with-saml-scim-and-ldap)
+applies and they receive the Minimal Access role if no seats are available.
+
+For more information, see
+[automatically remove dormant members](moderate_users.md#automatically-remove-dormant-members).
+
 ## User cap for groups
 
 {{< details >}}

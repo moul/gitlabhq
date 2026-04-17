@@ -2,7 +2,6 @@ import produce from 'immer';
 import VueApollo from 'vue-apollo';
 import { unionBy } from 'lodash-es';
 import { concatPagination } from '@apollo/client/utilities';
-import { makeVar } from '@apollo/client/core';
 import errorQuery from '~/boards/graphql/client/error.query.graphql';
 import isShowingLabelsQuery from '~/graphql_shared/client/is_showing_labels.query.graphql';
 import getIssueStateQuery from '~/issues/show/queries/get_issue_state.query.graphql';
@@ -24,12 +23,12 @@ import activeBoardItemQuery from 'ee_else_ce/boards/graphql/client/active_board_
 import activeDiscussionQuery from '~/work_items/components/design_management/graphql/client/active_design_discussion.query.graphql';
 import { updateNewWorkItemCache, workItemBulkEdit } from '~/work_items/graphql/resolvers';
 import { preserveDetailsState } from '~/work_items/utils';
-
-export const linkedItems = makeVar({});
-export const currentAssignees = makeVar({});
-export const currentReviewers = makeVar([]);
-export const appliedLabels = makeVar([]);
-export const availableStatuses = makeVar({});
+import {
+  linkedItems,
+  currentAssignees,
+  appliedLabels,
+  availableStatuses,
+} from './issuable_client_state';
 
 export const config = {
   typeDefs,

@@ -43,7 +43,7 @@ export function buildLineDiscussionData({
   viewConfig,
   diffRefs,
 }) {
-  const { position, lineChange, lineCode } = discussion;
+  const { position, lineChange, lineCode, commitId } = discussion;
   return {
     endpoint: noteableData.create_note_path,
     data: {
@@ -66,7 +66,7 @@ export function buildLineDiscussionData({
         }),
         noteable_type: noteableData.noteableType,
         noteable_id: noteableData.id,
-        commit_id: null,
+        commit_id: commitId || null,
         type: DIFF_NOTE_TYPE,
         line_code: lineCode || null,
       },

@@ -196,7 +196,7 @@ The `gitlab:zoekt:info` Rake task returns an output similar to the following:
 
 ```console
 Exact Code Search
-GitLab version:                                      18.9.0
+GitLab version:                                      19.0.0
 Enable indexing:                                     yes
 Enable searching:                                    yes
 Pause indexing:                                      no
@@ -213,12 +213,13 @@ Maximum file size for indexing:                      1MB
 Maximum trigrams per file:                           20000
 Retry interval for failed namespaces:                1d
 Number of replicas per namespace:                    1
+Maximum projects for legacy search:                  1000
 
 Nodes
 # Number of Zoekt nodes and their status
 Node count:                   2 (online: 2, offline: 0)
-Last seen at:                 2025-11-21 22:58:09 UTC (less than a minute ago)
-Max schema_version:           2531
+Last seen at:                 2026-04-16 22:58:09 UTC (less than a minute ago)
+Max schema_version:           2601
 Storage reserved / usable:    71.1 MiB / 124 GiB (0.06%)
 Storage indexed / reserved:   42.7 MiB / 71.1 MiB (60.0%)
 Storage used / total:         797 GiB / 921 GiB (86.54%)
@@ -240,27 +241,31 @@ Repositories count:               10
 Tasks count:                      10
   - done: 10
 Tasks pending/processing by type: (none)
-Storage buffer factor:            0.831× [static fallback (FF disabled)]
+Storage buffer factor:            0.831× [dynamic (observed)]
+
+Feature Flags (Non-Default Values)
+- zoekt_offset_pagination:      disabled
 
 Feature Flags (Default Values)
-- zoekt_too_many_replicas_event: disabled
+- zoekt_batch_update_index_storage_bytes:  disabled
+- zoekt_cap_file_match_results:            disabled
 
 Node Details
 Node 1 - test-zoekt-hostname-1:
   Status:                       Online
-  Last seen at:                 2025-11-21 22:58:09 UTC (less than a minute ago)
+  Last seen at:                 2026-04-16 22:58:09 UTC (less than a minute ago)
   Disk utilization:             86.54%
   Unclaimed storage:            62 GiB
   # Zoekt build version on the node. Must match GitLab version.
-  Zoekt version:                2025.11.20-v1.7.6-28-gb9a0fd8
-  Schema version:               2531
+  Zoekt version:                2026.04.15-v1.4.0-1-g89a8871
+  Schema version:               2601
 Node 2 - test-zoekt-hostname-2:
   Status:                       Online
-  Last seen at:                 2025-11-21 22:58:09 UTC (less than a minute ago)
+  Last seen at:                 2026-04-16 22:58:09 UTC (less than a minute ago)
   Disk utilization:             86.54%
   Unclaimed storage:            62 GiB
-  Zoekt version:                2025.11.20-v1.7.6-28-gb9a0fd8
-  Schema version:               2531
+  Zoekt version:                2026.04.15-v1.4.0-1-g89a8871
+  Schema version:               2601
 ```
 
 ## Run a health check
@@ -868,8 +873,7 @@ You can view the current buffer factor in use by running:
 sudo gitlab-rake gitlab:zoekt:info
 ```
 
-The output includes a `Storage buffer factor` line showing the value the planner
-is currently using and whether it is dynamic or the static fallback.
+The output includes a `Storage buffer factor` line showing the dynamic value the planner is currently using.
 
 To monitor Zoekt node storage, see [check indexing status](#check-indexing-status).
 If namespaces are not indexed due to low disk space, add nodes or increase disk capacity.

@@ -1,3 +1,10 @@
+- if Feature.enabled?(:inline_blame, @project)
+  - blob_path = project_blob_path(@project, @id, ref_type: @ref_type.presence, blame: 1)
+  - content_for :startup_js do
+    = javascript_tag nonce: content_security_policy_nonce do
+      :plain
+        window.location.replace("#{j blob_path}" + window.location.hash);
+  - return
 - page_title _("Blame"), @blob.path, @ref
 - add_page_specific_style 'page_bundles/tree'
 - add_page_specific_style 'page_bundles/projects'

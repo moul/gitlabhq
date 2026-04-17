@@ -144,6 +144,18 @@ describe('Merge request utils', () => {
       });
     });
 
+    it('passes commitId from discussion when provided', () => {
+      const result = buildLineDiscussionData({
+        discussion: { ...discussion, commitId: 'abc123' },
+        noteBody: 'test comment',
+        noteableData,
+        viewConfig,
+        diffRefs,
+      });
+
+      expect(result.data.note.commit_id).toBe('abc123');
+    });
+
     it('sets ignore_whitespace_change to true when whitespace is hidden', () => {
       const result = buildLineDiscussionData({
         discussion,

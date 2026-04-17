@@ -123,7 +123,8 @@ module RapidDiffs
       ::RapidDiffs::DiffCompareVersionsEntity.represent(
         resource,
         diff_id: request_params[:diff_id],
-        start_sha: request_params[:start_sha]
+        start_sha: request_params[:start_sha],
+        commit_id: request_params[:commit_id]
       ).as_json
     end
 

@@ -25,7 +25,7 @@ import {
   currentAssignees,
   currentReviewers,
   appliedLabels,
-} from '~/graphql_shared/issuable_client';
+} from '~/graphql_shared/issuable_client_state';
 import {
   eventlistenersMockDefaultMap,
   crmContactsMock,
@@ -37,7 +37,7 @@ import { InternalEvents } from '~/tracking';
 
 const mockSpriteIcons = '/icons.svg';
 
-jest.mock('~/graphql_shared/issuable_client', () => ({
+jest.mock('~/graphql_shared/issuable_client_state', () => ({
   linkedItems: jest.fn(),
   currentAssignees: jest.fn(),
   currentReviewers: jest.fn().mockReturnValue([]),

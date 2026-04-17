@@ -3,6 +3,7 @@
 module RapidDiffs
   class DiffCompareVersionsEntity < Grape::Entity
     include Gitlab::Utils::StrongMemoize
+    include Gitlab::Routing
 
     expose :source_versions do |merge_request|
       ::RapidDiffs::DiffSourceVersionEntity.represent(
@@ -22,6 +23,26 @@ module RapidDiffs
         diff_id: options[:diff_id],
         start_sha: options[:start_sha]
       )
+    end
+
+    expose :commit, if: ->(_, opts) { opts[:commit_id].present? } do |merge_request|
+      next unless merge_request.commit_exists?(options[:commit_id])
+
+      commit = merge_request.project.commit(options[:commit_id])
+      next unless commit
+
+      diff_refs = commit.diff_refs
+
+      {
+        id: commit.id,
+        short_id: Commit.truncate_sha(commit.id),
+        commit_url: project_commit_path(merge_request.project, commit),
+        diff_refs: {
+          base_sha: diff_refs.base_sha,
+          start_sha: diff_refs.start_sha,
+          head_sha: diff_refs.head_sha
+        }
+      }
     end
 
     private

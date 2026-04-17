@@ -41,6 +41,28 @@ RSpec.describe Members::Projects::CreatorService, feature_category: :groups_and_
       end
     end
 
+    context 'when adding the creator as owner in a personal project' do
+      let_it_be(:current_user) { create(:user, :with_namespace) }
+      let_it_be(:personal_project) do
+        create(:project, namespace: current_user.namespace, organization: current_user.namespace.organization)
+      end
+
+      context 'when the user is not a member of the project organization' do
+        before do
+          personal_project.members.find_by(user_id: current_user.id)&.destroy!
+          Organizations::OrganizationUser.where(
+            user_id: current_user.id,
+            organization_id: personal_project.organization_id
+          ).delete_all
+        end
+
+        it 'bypasses the organization check and creates the member' do
+          member = described_class.add_member(personal_project, current_user, :owner, current_user: current_user)
+          expect(member).to be_persisted
+        end
+      end
+    end
+
     context 'with immediately_sync_authorizations: true' do
       it 'immediate creates a ProjectAuthorization' do
         described_class.add_member(source, user, :maintainer, immediately_sync_authorizations: true)

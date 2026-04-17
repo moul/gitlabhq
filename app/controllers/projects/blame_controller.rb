@@ -16,6 +16,9 @@ class Projects::BlameController < Projects::ApplicationController
 
   def show
     @ref_type = ref_type
+
+    return if Feature.enabled?(:inline_blame, @project)
+
     load_environment
     load_blame
   rescue Gitlab::Git::Blame::IgnoreRevsFormatError

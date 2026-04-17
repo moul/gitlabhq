@@ -15,7 +15,7 @@ import {
   currentReviewers,
   appliedLabels,
   linkedItems,
-} from '~/graphql_shared/issuable_client';
+} from '~/graphql_shared/issuable_client_state';
 import { ISSUABLE_EPIC } from '~/work_items/constants';
 import { InternalEvents } from '~/tracking';
 import {

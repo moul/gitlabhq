@@ -381,6 +381,9 @@ RSpec.describe "User browses files", :js, feature_category: :source_code_managem
     end
 
     it "is possible to blame" do
+      # Disable inline_blame so the legacy blame page renders (not the blob redirect)
+      stub_feature_flags(inline_blame: false)
+
       click_link("Blame")
 
       expect(page).to have_content("*.rb")

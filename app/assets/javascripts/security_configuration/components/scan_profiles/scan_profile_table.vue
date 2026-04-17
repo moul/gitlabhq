@@ -12,7 +12,16 @@ import {
 import { __ } from '~/locale';
 import { PROMO_URL } from '~/constants';
 import { helpPagePath } from '~/helpers/help_page_helper';
-import { SCAN_PROFILE_CATEGORIES, SCAN_PROFILE_I18N } from '~/security_configuration/constants';
+import {
+  SCAN_PROFILE_CATEGORIES,
+  SCAN_PROFILE_I18N,
+  SCAN_PROFILE_SCANNER_HEALTH_ACTIVE,
+  SCAN_PROFILE_SCANNER_HEALTH_FAILED,
+  SCAN_PROFILE_SCANNER_HEALTH_PENDING,
+  SCAN_PROFILE_SCANNER_HEALTH_STALE,
+  SCAN_PROFILE_SCANNER_HEALTH_UNCONFIGURED,
+  SCAN_PROFILE_SCANNER_HEALTH_WARNING,
+} from '~/security_configuration/constants';
 
 export default {
   name: 'ScanProfileTable',
@@ -55,6 +64,22 @@ export default {
   methods: {
     getScannerMetadata(scanType) {
       return SCAN_PROFILE_CATEGORIES[scanType] || {};
+    },
+    scanTypeBadgeClass(status) {
+      const classMap = {
+        [SCAN_PROFILE_SCANNER_HEALTH_ACTIVE]:
+          'gl-border-feedback-success gl-bg-status-success gl-text-status-success',
+        [SCAN_PROFILE_SCANNER_HEALTH_WARNING]:
+          'gl-border-feedback-warning gl-bg-status-warning gl-text-status-warning',
+        [SCAN_PROFILE_SCANNER_HEALTH_FAILED]:
+          'gl-border-feedback-danger gl-bg-status-danger gl-text-status-danger',
+        [SCAN_PROFILE_SCANNER_HEALTH_PENDING]:
+          'gl-border-strong gl-bg-status-neutral gl-text-strong',
+        [SCAN_PROFILE_SCANNER_HEALTH_STALE]: 'gl-border-strong gl-bg-status-neutral gl-text-strong',
+        [SCAN_PROFILE_SCANNER_HEALTH_UNCONFIGURED]:
+          'gl-border-dashed gl-border-strong gl-bg-default gl-text-strong',
+      };
+      return classMap[status] || 'gl-border-dashed gl-border-strong gl-bg-default gl-text-strong';
     },
   },
   LEARN_MORE_LINK: `${PROMO_URL}/solutions/application-security-testing/`,
@@ -107,11 +132,7 @@ export default {
       <div class="gl-flex gl-items-center">
         <div
           class="gl-border gl-mr-3 gl-flex gl-h-7 gl-w-7 gl-items-center gl-justify-center gl-rounded-lg gl-p-2"
-          :class="
-            item.isConfigured
-              ? 'gl-border-green-500 gl-bg-green-100 gl-text-green-800'
-              : 'gl-border-dashed gl-border-strong gl-bg-default gl-text-strong'
-          "
+          :class="scanTypeBadgeClass(item.status)"
         >
           <span class="gl-font-weight-bold gl-text-xs">{{
             getScannerMetadata(item.scanType).label

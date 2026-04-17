@@ -44065,6 +44065,12 @@ msgstr ""
 msgid "MergeConflict|Edit inline"
 msgstr ""
 
+msgid "MergeConflict|Resolve with Duo"
+msgstr ""
+
+msgid "MergeConflict|Use GitLab Duo to automatically analyze and resolve merge conflicts"
+msgstr ""
+
 msgid "MergeConflict|Use ours"
 msgstr ""
 
@@ -65652,6 +65658,9 @@ msgid "SecurityProfiles|Apply default profile"
 msgstr ""
 
 msgid "SecurityProfiles|Apply profile to enable"
+msgstr ""
+
+msgid "SecurityProfiles|Awaiting first pipeline"
 msgstr ""
 
 msgid "SecurityProfiles|Block secrets such as keys and API tokens from being pushed to your repositories. Secret push protection is triggered when commits are pushed to a repository. If any secrets are detected, the push is blocked. %{linkStart}Learn more%{linkEnd}."

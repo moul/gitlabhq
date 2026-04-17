@@ -405,11 +405,27 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
       expect(RapidDiffs::DiffCompareVersionsEntity).to receive(:represent).with(
         resource,
         diff_id: '10',
-        start_sha: 'abc123'
+        start_sha: 'abc123',
+        commit_id: nil
       ).and_return(entity)
       expect(entity).to receive(:as_json).and_return({ 'source_versions' => [], 'target_versions' => [] })
 
       expect(presenter.versions).to eq({ 'source_versions' => [], 'target_versions' => [] })
+    end
+
+    context 'when commit_id is present' do
+      let(:request_params) { { commit_id: 'abc123' } }
+
+      it 'passes commit_id to the entity' do
+        entity = instance_double(RapidDiffs::DiffCompareVersionsEntity)
+        expect(RapidDiffs::DiffCompareVersionsEntity).to receive(:represent).with(
+          resource,
+          hash_including(commit_id: 'abc123')
+        ).and_return(entity)
+        allow(entity).to receive(:as_json).and_return({})
+
+        presenter.versions
+      end
     end
   end
 

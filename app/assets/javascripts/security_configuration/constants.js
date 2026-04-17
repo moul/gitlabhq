@@ -229,6 +229,7 @@ export const SCAN_PROFILE_I18N = {
   noProfile: s__('SecurityProfiles|No profile applied'),
   notConfigured: s__('SecurityProfiles|Unconfigured'),
   applyToEnable: s__('SecurityProfiles|Apply profile to enable'),
+  awaitingFirstPipeline: s__('SecurityProfiles|Awaiting first pipeline'),
   coverageMayBeOutdated: s__('SecurityProfiles|Coverage may be outdated'),
   active: s__('SecurityProfiles|Active'),
   profileHelpTitle: s__('SecurityProfiles|What are configuration profiles?'),
@@ -255,6 +256,7 @@ export const SCAN_PROFILE_STATUS_APPLIED = 'enabled';
 export const SCAN_PROFILE_STATUS_MIXED = 'mixed';
 export const SCAN_PROFILE_STATUS_DISABLED = 'disabled';
 
+export const SCAN_PROFILE_SCANNER_HEALTH_PENDING = 'pending';
 export const SCAN_PROFILE_SCANNER_HEALTH_UNCONFIGURED = 'unconfigured';
 export const SCAN_PROFILE_SCANNER_HEALTH_ACTIVE = 'active';
 export const SCAN_PROFILE_SCANNER_HEALTH_WARNING = 'warning';

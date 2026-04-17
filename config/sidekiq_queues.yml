@@ -973,6 +973,8 @@
   - 1
 - - search_zoekt_group_archived_event
   - 1
+- - search_zoekt_group_path_changed_event
+  - 1
 - - search_zoekt_index_mark_as_pending_eviction_event
   - 1
 - - search_zoekt_index_marked_as_ready_event
@@ -996,6 +998,8 @@
 - - search_zoekt_project_features_changed_event
   - 1
 - - search_zoekt_project_marked_as_archived_event
+  - 1
+- - search_zoekt_project_path_changed_event
   - 1
 - - search_zoekt_project_transfer
   - 1

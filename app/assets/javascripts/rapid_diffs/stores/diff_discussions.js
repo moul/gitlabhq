@@ -167,7 +167,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
     });
   }
 
-  function addNewFileDiscussionForm({ oldPath, newPath, positionExtras }) {
+  function addNewFileDiscussionForm({ oldPath, newPath, positionExtras, extraOptions = {} }) {
     const id = [oldPath, newPath, 'file'].join('-');
     if (discussionForms.value.some((discussion) => discussion.id === id)) return id;
     const position = {
@@ -183,6 +183,7 @@ export const useDiffDiscussions = defineStore('diffDiscussions', () => {
       diff_discussion: true,
       position,
       original_position: position,
+      ...extraOptions,
       isForm: true,
       noteBody: '',
       shouldFocus: true,

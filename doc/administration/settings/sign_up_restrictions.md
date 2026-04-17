@@ -172,6 +172,18 @@ Additionally, restricted access might block the standard non-overage flows:
 - Service bots that are updated or added to a billable role are incorrectly blocked.
 - Inviting or updating existing billable users through email is blocked unexpectedly.
 
+### Dormant user reactivation
+
+When restricted access is active and no licensed seats are available,
+[dormant users](../moderate_users.md#automatically-deactivate-dormant-users) who
+attempt to sign back in are set to
+[pending approval](../moderate_users.md#users-pending-approval) instead of
+being reactivated. Their existing group and project memberships are preserved.
+An administrator can approve the users when seats become available.
+
+Users with only the [Minimal Access](../../user/permissions.md#users-with-minimal-access)
+role are reactivated directly, because they do not consume a billable seat.
+
 ## User cap
 
 {{< details >}}

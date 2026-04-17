@@ -163,7 +163,7 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
 
   function addNewLineDiscussionForm(params) {
     const { lineChange, lineRange, newPath, extraOptions = {} } = params;
-    const { diffRefs } = versions;
+    const { diffRefs, commitId } = versions;
     const newLine = lineRange?.end?.new_line;
     const canSuggest =
       notes.noteableData?.can_receive_suggestion && lineChange?.change !== 'removed';
@@ -181,14 +181,17 @@ export const useMergeRequestDiscussions = defineStore('mergeRequestDiscussions',
     return diffDiscussions.addNewLineDiscussionForm({
       ...params,
       positionExtras: diffRefs,
-      extraOptions: { ...extraOptions, canSuggest, previewParams },
+      extraOptions: { ...extraOptions, canSuggest, previewParams, commitId },
     });
   }
 
   function addNewFileDiscussionForm(params) {
+    const { extraOptions = {} } = params;
+    const { diffRefs, commitId } = versions;
     return diffDiscussions.addNewFileDiscussionForm({
       ...params,
-      positionExtras: versions.diffRefs,
+      positionExtras: diffRefs,
+      extraOptions: { ...extraOptions, commitId },
     });
   }
 

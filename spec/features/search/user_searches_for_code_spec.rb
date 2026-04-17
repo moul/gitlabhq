@@ -71,6 +71,9 @@ RSpec.describe 'User searches for code', :js, :disable_rate_limiter, feature_cat
         end
 
         it 'finds code and links to blame' do
+          # Disable inline_blame so the legacy blame URL is not redirected
+          stub_feature_flags(inline_blame: false)
+
           expect(page).to have_selector('.results', text: expected_result)
 
           find("#blame-L3").click

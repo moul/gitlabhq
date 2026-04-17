@@ -278,6 +278,17 @@ enterprise user functionality.
 Allowing group Owners to change primary emails is proposed in
 [issue 412966](https://gitlab.com/gitlab-org/gitlab/-/issues/412966).
 
+### Dormant enterprise user reactivation
+
+When [automatic removal of dormant members](../group/moderate_users.md#automatically-remove-dormant-members)
+is active, dormant enterprise users are deactivated instead of being removed
+from the group. When these users sign back in, their accounts are reactivated.
+
+However, when [restricted access](../group/manage.md#restricted-access) is
+active on the enterprise group and no seats are available, the user is set to
+pending approval instead of being reactivated. Their existing group and project
+memberships are preserved.
+
 ### Enable the Extension Marketplace for enterprise users
 
 {{< history >}}

@@ -8,7 +8,7 @@ import {
   appliedLabels,
   linkedItems,
   availableStatuses,
-} from '~/graphql_shared/issuable_client';
+} from '~/graphql_shared/issuable_client_state';
 import { REFERENCE_TYPES } from '~/content_editor/constants/reference_types';
 import { isCurrentViewWorkItem } from '~/work_items/utils';
 import { COMMANDS, COMMANDS_WITH_LOCAL_DATA } from '../constants';

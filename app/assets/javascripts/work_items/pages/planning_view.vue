@@ -997,7 +997,12 @@ export default {
       return this.getWorkItemTypeConfiguration(workItemTypeName)?.id || '';
     },
     displaySettingsSoT() {
-      return this.isSavedView ? this.localDisplaySettings : this.displaySettings;
+      return this.isSavedView
+        ? {
+            ...this.localDisplaySettings,
+            commonPreferences: this.displaySettings.commonPreferences,
+          }
+        : this.displaySettings;
     },
     savedViewId() {
       return convertToGraphQLId('WorkItems::SavedViews::SavedView', this.$route.params.view_id);
