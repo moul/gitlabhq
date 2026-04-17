@@ -10,7 +10,10 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
   let(:diff_options) { { ignore_whitespace_changes: true } }
   let(:diffs_count) { 20 }
   let(:base_path) { "/#{namespace.to_param}/#{project.to_param}/-/merge_requests/#{merge_request.to_param}" }
-  let(:merge_request_diff) { instance_double(MergeRequestDiff, id: 999, merge_head?: false, diff_stats: nil) }
+  let(:merge_request_diff) do
+    instance_double(MergeRequestDiff, id: 999, merge_head?: false, diff_stats: nil, persisted?: true)
+  end
+
   let(:resolved_diff_id) { merge_request_diff.id }
   let(:request_params) { {} }
   let(:current_user) { build_stubbed(:user) }
@@ -425,6 +428,22 @@ RSpec.describe ::RapidDiffs::MergeRequestPresenter, feature_category: :code_revi
         allow(entity).to receive(:as_json).and_return({})
 
         presenter.versions
+      end
+    end
+
+    context 'when merge request diff is not persisted' do
+      let(:merge_request_diff) { instance_double(MergeRequestDiff, id: nil, persisted?: false, merge_head?: false) }
+
+      it 'returns nil' do
+        expect(presenter.versions).to be_nil
+      end
+    end
+
+    context 'when merge request diff is nil' do
+      let(:merge_request_diff) { nil }
+
+      it 'returns nil' do
+        expect(presenter.versions).to be_nil
       end
     end
   end

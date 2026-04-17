@@ -1,5 +1,6 @@
 ---
 name: cancel_github_import
+deprecated: true
 description: Grants the ability to cancel GitHub project imports
 permissions:
   - cancel_github_import

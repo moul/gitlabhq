@@ -5,5 +5,6 @@ boundaries:
   - project
   - group
 permissions:
-  - download_project_export
   - download_group_export
+  - download_project_export
+  - download_project_relation_export

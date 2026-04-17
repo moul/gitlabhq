@@ -12,6 +12,7 @@ permissions:
   - read_project_invited_group
   - read_project_transfer_location
   - read_share_location
+  - read_starred_project
   - read_starring_user
   - read_storage
 boundaries:

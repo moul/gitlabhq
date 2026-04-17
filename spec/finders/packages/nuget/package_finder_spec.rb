@@ -123,7 +123,7 @@ RSpec.describe Packages::Nuget::PackageFinder, feature_category: :package_regist
     context 'with a project' do
       let(:target) { project }
 
-      before do
+      before_all do
         project.add_developer(user)
       end
 
@@ -133,7 +133,7 @@ RSpec.describe Packages::Nuget::PackageFinder, feature_category: :package_regist
     context 'with a subgroup' do
       let(:target) { subgroup }
 
-      before do
+      before_all do
         subgroup.add_developer(user)
       end
 
@@ -143,7 +143,7 @@ RSpec.describe Packages::Nuget::PackageFinder, feature_category: :package_regist
     context 'with a group' do
       let(:target) { group }
 
-      before do
+      before_all do
         group.add_developer(user)
       end
 

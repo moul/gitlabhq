@@ -1,5 +1,6 @@
 ---
 name: read_merge_request_approval_state
+deprecated: true
 description: Grants the ability to read merge requests approvals
 boundaries:
   - project

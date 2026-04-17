@@ -83,6 +83,7 @@ class MergeRequestRapidDiffsApp extends RapidDiffsFacade {
   }
 
   #initCompareVersions() {
+    if (!this.appData.versions) return;
     initCompareVersions(this.root.querySelector('[data-after-browser-toggle]'), this.appData);
   }
 }

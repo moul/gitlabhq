@@ -7,3 +7,5 @@ boundaries:
   - instance
 permissions:
   - delete_webhook
+  - delete_webhook_custom_header
+  - delete_webhook_url_variable

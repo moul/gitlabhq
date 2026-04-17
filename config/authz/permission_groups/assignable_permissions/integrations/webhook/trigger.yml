@@ -1,0 +1,9 @@
+---
+name: trigger_webhook
+description: Grants the ability to trigger webhooks
+boundaries:
+  - group
+  - project
+permissions:
+  - resend_webhook_event
+  - test_webhook

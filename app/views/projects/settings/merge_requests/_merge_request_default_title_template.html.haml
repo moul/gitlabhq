@@ -1,0 +1,13 @@
+- form = local_assigns.fetch(:form)
+
+%fieldset.form-group.gl-form-group{ aria: { describedby: :mr_default_title_template_description }, data: { testid: 'mr-default-title-template-fieldset' } }
+  - beta_badge = render(Pajamas::ExperimentBadgeComponent.new(type: :beta))
+  = form.label :mr_default_title_template, class: 'gl-block col-form-label' do
+    = safe_join([s_('ProjectSettings|Merge request title template'), ' ', beta_badge])
+    .label-description{ id: :mr_default_title_template_description }
+      = s_('ProjectSettings|The default title used when creating a new merge request.')
+  = form.text_area :mr_default_title_template, class: 'form-control gl-form-input gl-form-textarea', rows: 4, maxlength: Project::MAX_MR_TITLE_TEMPLATE_LENGTH, data: { testid: 'mr-default-title-template-input' }, placeholder: s_('ProjectSettings|Enter a merge request title template')
+  %p.form-text.gl-text-subtle
+    = s_('ProjectSettings|Leave empty to use the current default behavior.')
+    = safe_format(s_('ProjectSettings|Maximum %{maxLength} characters.'), maxLength: Project::MAX_MR_TITLE_TEMPLATE_LENGTH)
+    = safe_format(s_('ProjectSettings|Supported variables: %{code_start}%%{source_branch}%{code_end}, %{code_start}%%{target_branch}%{code_end}, %{code_start}%%{title_from_branch}%{code_end}, %{code_start}%%{first_commit}%{code_end}, %{code_start}%%{first_multiline_commit}%{code_end}.'), tag_pair(tag.code, :code_start, :code_end))

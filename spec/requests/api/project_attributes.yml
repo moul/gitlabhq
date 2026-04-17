@@ -172,7 +172,6 @@ project_setting:
     - updated_at
     - cve_id_request_enabled
     - mr_default_target_self
-    - mr_default_title_template
     - target_platforms
     - selective_code_owner_removals
     - suggested_reviewers_enabled

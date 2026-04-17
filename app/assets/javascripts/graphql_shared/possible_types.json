@@ -3,6 +3,12 @@
     "ContainerProtectionAccessLevel",
     "ContainerProtectionTagRule"
   ],
+  "AiCatalogCustomAndFoundationalItem": [
+    "AiCatalogAgent",
+    "AiCatalogFlow",
+    "AiCatalogThirdPartyFlow",
+    "AiFoundationalChatAgent"
+  ],
   "AiCatalogItem": [
     "AiCatalogAgent",
     "AiCatalogFlow",

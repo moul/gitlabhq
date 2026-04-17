@@ -29,6 +29,25 @@ RSpec.describe Projects::Settings::MergeRequestsController do
       sign_in(admin)
     end
 
+    context 'when mr_default_title_template feature flag is disabled' do
+      before do
+        stub_feature_flags(mr_default_title_template: false)
+      end
+
+      it 'does not permit mr_default_title_template param' do
+        controller.instance_variable_set(:@project, project)
+
+        put :update, params: {
+          namespace_id: project.namespace,
+          project_id: project.id,
+          project: { mr_default_title_template: '%(source_branch)' }
+        }
+
+        expect(response).to redirect_to project_settings_merge_requests_path(project)
+        expect(project.reload.mr_default_title_template).to be_nil
+      end
+    end
+
     context 'when it fails to update' do
       before do
         allow_next_instance_of(::Projects::UpdateService) do |service|

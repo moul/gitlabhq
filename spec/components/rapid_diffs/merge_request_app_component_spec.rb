@@ -24,7 +24,7 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
   let(:default_suggestion_commit_message) { 'Apply suggestion' }
 
   let(:presenter) do
-    instance_double(
+    double( # rubocop:disable RSpec/VerifiedDoubles -- preparing? is delegated via SimpleDelegator at runtime
       ::RapidDiffs::MergeRequestPresenter,
       diffs_stats_endpoint: diffs_stats_endpoint,
       diff_files_endpoint: diff_files_endpoint,
@@ -45,7 +45,8 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
       versions: versions,
       suggestions_help_path: suggestions_help_path,
       default_suggestion_commit_message: default_suggestion_commit_message,
-      linked_file: nil
+      linked_file: nil,
+      preparing?: false
     )
   end
 
@@ -141,6 +142,25 @@ RSpec.describe RapidDiffs::MergeRequestAppComponent, feature_category: :code_rev
         expect(startup_js).to include('linked-file-id')
       end
     end
+  end
+
+  context 'when merge request is preparing' do
+    before do
+      allow(presenter).to receive(:preparing?).and_return(true)
+      allow(app_component).to receive(:with_empty_state).and_yield
+    end
+
+    it 'renders building message' do
+      render_component
+
+      expect(page).to have_text('Building your merge request')
+    end
+  end
+
+  it 'does not render building message when not preparing' do
+    render_component
+
+    expect(page).not_to have_text('Building your merge request')
   end
 
   context "when user has permission to create notes" do

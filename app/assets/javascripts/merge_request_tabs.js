@@ -237,6 +237,7 @@ export default class MergeRequestTabs {
     this.diffsClass = null;
     this.commitsLoaded = false;
     this.isFixedLayoutPreferred = this.contentWrapper.classList.contains('container-limited');
+    this.isNewMergeRequest = Boolean(document.querySelector('.js-merge-request-new-submit'));
     this.createRapidDiffsApp = createRapidDiffsApp;
     this.rapidDiffsApp = null;
     this.eventHub = createEventHub();
@@ -312,11 +313,19 @@ export default class MergeRequestTabs {
 
       const { action } = e.currentTarget.dataset || {};
 
+      const href = e.currentTarget.getAttribute('href');
+
       if (isMetaClick(e)) {
-        const targetLink = e.currentTarget.getAttribute('href');
-        visitUrl(targetLink, true);
+        visitUrl(href, true);
+      } else if (
+        this.createRapidDiffsApp &&
+        this.isDiffAction(action) &&
+        !this.loadedPages[action] &&
+        !this.isNewMergeRequest &&
+        !this.#hasDiffRefs()
+      ) {
+        visitUrl(href);
       } else if (action) {
-        const href = e.currentTarget.getAttribute('href');
         this.tabShown(action, href);
       }
     }
@@ -744,6 +753,18 @@ export default class MergeRequestTabs {
       hash: noteId ? `note_${noteId}` : undefined,
     });
     visitUrl(url.toString());
+  }
+
+  #hasDiffRefs() {
+    const appDataEl = document.querySelector('[data-rapid-diffs]');
+    if (!appDataEl) return false;
+
+    try {
+      const appData = JSON.parse(appDataEl.dataset.appData);
+      return Boolean(appData?.versions);
+    } catch {
+      return false;
+    }
   }
 
   #visitLegacyDiffNote(discussion) {

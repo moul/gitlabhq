@@ -1,5 +1,6 @@
 ---
 name: delete_webhook_custom_header
+deprecated: true
 description: Grants the ability to delete webhook custom headers
 boundaries:
   - group

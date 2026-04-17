@@ -6,4 +6,5 @@ boundaries:
   - group
 permissions:
   - create_project_export
+  - create_project_relation_export
   - start_group_export

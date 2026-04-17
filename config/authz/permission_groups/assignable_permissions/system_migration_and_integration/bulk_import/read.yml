@@ -1,7 +1,10 @@
 ---
 name: read_bulk_import
+deprecated: true
 description: Grants the ability to read GitLab Migration (bulk import) details
 permissions:
   - read_bulk_import
+  - read_bulk_import_entity
+  - read_bulk_import_entity_failure
 boundaries:
   - instance

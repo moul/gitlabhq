@@ -137,6 +137,13 @@ describe('Merge Request Rapid Diffs app', () => {
     );
   });
 
+  it('skips compare versions when versions data is absent', async () => {
+    buildApp();
+    await app.init();
+
+    expect(initCompareVersions).not.toHaveBeenCalled();
+  });
+
   it('initializes new discussion toggle with allowExpandedLines', async () => {
     buildApp();
     await app.init();

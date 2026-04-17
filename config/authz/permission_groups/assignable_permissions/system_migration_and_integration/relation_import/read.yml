@@ -1,5 +1,6 @@
 ---
 name: read_relation_import
+deprecated: true
 description: Grants the ability to read relation imports
 boundaries:
   - project

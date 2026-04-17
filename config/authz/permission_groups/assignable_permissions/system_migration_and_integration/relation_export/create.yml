@@ -1,5 +1,6 @@
 ---
 name: create_relation_export
+deprecated: true
 description: Grants the ability to create relation exports
 boundaries:
   - project

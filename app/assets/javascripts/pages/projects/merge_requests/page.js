@@ -3,7 +3,7 @@ import VueApollo from 'vue-apollo';
 import initMrNotes from 'ee_else_ce/mr_notes';
 import { start as startCodeReviewMessaging } from '~/code_review/signals';
 import diffsEventHub from '~/diffs/event_hub';
-import { EVT_MR_DIFF_GENERATED } from '~/diffs/constants';
+import { EVT_MR_DIFF_GENERATED, EVT_MR_PREPARED } from '~/diffs/constants';
 import initSidebarBundle from '~/sidebar/sidebar_bundle';
 import { apolloProvider } from '~/graphql_shared/issuable_client';
 import { parseBoolean } from '~/lib/utils/common_utils';
@@ -133,6 +133,12 @@ export function initMrPage(createRapidDiffsApp) {
       commitsCountBadge.textContent = commitCount;
     }
   });
+
+  if (createRapidDiffsApp) {
+    diffsEventHub.$once(EVT_MR_PREPARED, () => {
+      window.location.reload();
+    });
+  }
 
   requestIdleCallback(() => {
     initRapidDiffsToggle();

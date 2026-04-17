@@ -1689,6 +1689,13 @@ RSpec.describe Projects::IssuesController, :request_store, feature_category: :te
         expect(json_response.first.keys).to match_array(%w[id reply_id expanded notes diff_discussion discussion_path individual_note resolvable commit_id for_commit project_id confidential resolve_path resolved resolved_at resolved_by resolved_by_push])
       end
 
+      it 'starts and completes covered experience for load_comments' do
+        expect do
+          get :discussions, params: { namespace_id: project.namespace, project_id: project, id: issue.iid }
+        end.to start_user_experience(:load_comments)
+        .and complete_user_experience(:load_comments)
+      end
+
       it 'renders the author status html if there is a status' do
         create(:user_status, user: discussion.author)
 

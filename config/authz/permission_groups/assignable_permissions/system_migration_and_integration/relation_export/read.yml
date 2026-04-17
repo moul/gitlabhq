@@ -1,5 +1,6 @@
 ---
 name: read_relation_export
+deprecated: true
 description: Grants the ability to read relation exports
 boundaries:
   - project

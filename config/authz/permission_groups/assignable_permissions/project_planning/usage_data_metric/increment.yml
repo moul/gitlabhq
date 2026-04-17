@@ -1,5 +1,6 @@
 ---
 name: increment_usage_data_metric
+deprecated: true
 description: Grants the ability to increment usage data metrics
 boundaries:
   - instance

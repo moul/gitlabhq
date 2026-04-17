@@ -445,21 +445,18 @@ RSpec.describe 'Admin::Users', :with_current_organization, feature_category: :us
       end
     end
 
-    context 'when organization access level is set', :js do
-      before do
-        within_testid 'organization-section' do
-          select_from_listbox 'Owner', from: 'User'
-        end
-        click_button 'Create user'
+    it 'assigns correct organization access level', :js do
+      within_testid 'organization-section' do
+        select_from_listbox 'Owner', from: 'User'
       end
+      click_button 'Create user'
+      expect(page).to have_content('User was successfully created.')
 
-      it 'assigns correct organization access level', :js do
-        user = User.find_by(username: 'bang')
-        organization_user = Organizations::OrganizationUser
-          .find_by(user_id: user.id, organization_id: current_organization.id)
+      user = User.find_by(username: 'bang')
+      organization_user = Organizations::OrganizationUser
+        .find_by(user_id: user.id, organization_id: current_organization.id)
 
-        expect(organization_user.access_level).to eq('owner')
-      end
+      expect(organization_user.access_level).to eq('owner')
     end
 
     context 'when instance has multiple organizations', :js do
@@ -512,6 +509,7 @@ RSpec.describe 'Admin::Users', :with_current_organization, feature_category: :us
           expects_warning_to_be_shown
 
           click_button 'Create user'
+          expect(page).to have_content('User was successfully created.')
 
           new_user = User.find_by(username: user_name)
 

@@ -65,6 +65,7 @@ class Projects::IssuesController < Projects::ApplicationController
 
   after_action :log_issue_show, only: :show
 
+  prepend_around_action :track_load_comments_sli, only: [:discussions]
   around_action :allow_gitaly_ref_name_caching, only: [:discussions]
 
   respond_to :html
@@ -282,6 +283,12 @@ class Projects::IssuesController < Projects::ApplicationController
   end
 
   protected
+
+  def track_load_comments_sli
+    Labkit::UserExperienceSli.start(:load_comments) do
+      yield
+    end
+  end
 
   def index_html_request?
     action_name.to_sym == :index && html_request?

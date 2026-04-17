@@ -6,16 +6,16 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
   let(:task) { described_class.new }
 
   describe '#run', :unlimited_max_formatted_output_length do
-    let(:permission_name) { 'modify_wiki' }
+    let(:permission_name) { 'update_wiki' }
     let(:raw_permissions) { %w[update_wiki] }
     let(:permission_source_file) do
-      'config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml'
+      'config/authz/permission_groups/assignable_permissions/wiki_category/wiki/update.yml'
     end
 
     let(:permission_definition) do
       {
         name: permission_name,
-        description: 'Modify a wiki',
+        description: 'Update a wiki',
         permissions: raw_permissions,
         boundaries: ['project']
       }
@@ -76,6 +76,54 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
       end
     end
 
+    context 'when permission name has invalid format' do
+      let(:permission_name) { 'InvalidName' }
+      let(:permission_source_file) do
+        'config/authz/permission_groups/assignable_permissions/wiki_category/wiki/InvalidName.yml'
+      end
+
+      it 'returns an error' do
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following assignable permissions have invalid names.
+          #  Permission name must be in the format action_resource[_subresource].
+          #  Learn more: https://docs.gitlab.com/development/permissions/conventions/#naming-permissions
+          #
+          #    - InvalidName (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/InvalidName.yml)
+          #
+          #  The following permission names do not match their file path.
+          #  The permission name must equal '<action>_<resource>' derived from the path.
+          #  Learn more: https://docs.gitlab.com/development/permissions/conventions/#naming-permissions
+          #
+          #    - InvalidName (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/InvalidName.yml)
+          #      Path must match 'config/authz/permission_groups/assignable_permissions/<category>/<resource>/<action>.yml' based on <resource> and <action> values from 'InvalidName' ('<action>_<resource>')
+          #
+          #######################################################################
+        OUTPUT
+      end
+    end
+
+    context 'when action is disallowed' do
+      let(:permission_name) { 'manage_wiki' }
+      let(:permission_source_file) do
+        'config/authz/permission_groups/assignable_permissions/wiki_category/wiki/manage.yml'
+      end
+
+      it 'returns an error' do
+        expect { run }.to raise_error(SystemExit).and output(<<~OUTPUT).to_stdout
+          #######################################################################
+          #
+          #  The following assignable permissions contain a disallowed action.
+          #  Learn more: https://docs.gitlab.com/development/permissions/conventions/#disallowed-actions
+          #
+          #    - manage_wiki: Prefer a granular action over manage. (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/manage.yml)
+          #
+          #######################################################################
+        OUTPUT
+      end
+    end
+
     context 'when resource name starts with a boundary prefix' do
       let(:permission_name) { 'read_user_ssh_key' }
       let(:permission_source_file) do
@@ -126,7 +174,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
             #  The following permissions failed schema validation.
             #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#create-the-assignable-permission-file
             #
-            #    - modify_wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml)
+            #    - update_wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/update.yml)
             #        - property '/key' is invalid: error_type=schema
             #        - root is missing required keys: description, permissions, boundaries
             #
@@ -145,7 +193,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
             #  The following permissions failed schema validation.
             #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#create-the-assignable-permission-file
             #
-            #    - modify_wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml)
+            #    - update_wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/update.yml)
             #        - property '/permissions/0' does not match format: known_permissions
             #
             #######################################################################
@@ -163,7 +211,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
             #  The following permissions failed schema validation.
             #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#create-the-assignable-permission-file
             #
-            #    - modify_wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml)
+            #    - update_wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/update.yml)
             #        - property '/boundaries/0' is not one of: ["instance", "group", "project", "user"]
             #
             #######################################################################
@@ -200,7 +248,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
 
         it 'includes the source path in the error' do
           expect { run }.to raise_error(SystemExit).and output(
-            %r{- modify_wiki \(config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify\.yml\)}
+            %r{- update_wiki \(config/authz/permission_groups/assignable_permissions/wiki_category/wiki/update\.yml\)}
           ).to_stdout
         end
       end
@@ -208,17 +256,17 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
 
     context 'when raw permissions are used in multiple assignable permissions' do
       let(:zebra_source_file) do
-        'config/authz/permission_groups/assignable_permissions/wiki_category/zebra/modify.yml'
+        'config/authz/permission_groups/assignable_permissions/wiki_category/zebra/update.yml'
       end
 
       let(:apple_source_file) do
-        'config/authz/permission_groups/assignable_permissions/wiki_category/apple/modify.yml'
+        'config/authz/permission_groups/assignable_permissions/wiki_category/apple/update.yml'
       end
 
       let(:zebra_assignable) do
         Authz::PermissionGroups::Assignable.new(
           {
-            name: 'modify_zebra',
+            name: 'update_zebra',
             description: 'Zebra assignable',
             permissions: %w[beta_permission alpha_permission unique_one],
             boundaries: ['project']
@@ -230,7 +278,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
       let(:apple_assignable) do
         Authz::PermissionGroups::Assignable.new(
           {
-            name: 'modify_apple',
+            name: 'update_apple',
             description: 'Apple assignable',
             permissions: %w[beta_permission alpha_permission unique_two],
             boundaries: ['project']
@@ -241,7 +289,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
 
       before do
         allow(Authz::PermissionGroups::Assignable).to receive(:all).and_return(
-          { modify_zebra: zebra_assignable, modify_apple: apple_assignable }
+          { update_zebra: zebra_assignable, update_apple: apple_assignable }
         )
         allow(Authz::Permission).to receive(:defined?).with(anything).and_return(true)
       end
@@ -254,8 +302,8 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
           #  Each raw permission should only belong to one assignable permission.
           #  Learn more: https://docs.gitlab.com/development/permissions/granular_access/assignable_permissions/#important-constraints
           #
-          #    - alpha_permission: found in modify_apple (config/authz/permission_groups/assignable_permissions/wiki_category/apple/modify.yml), modify_zebra (config/authz/permission_groups/assignable_permissions/wiki_category/zebra/modify.yml)
-          #    - beta_permission: found in modify_apple (config/authz/permission_groups/assignable_permissions/wiki_category/apple/modify.yml), modify_zebra (config/authz/permission_groups/assignable_permissions/wiki_category/zebra/modify.yml)
+          #    - alpha_permission: found in update_apple (config/authz/permission_groups/assignable_permissions/wiki_category/apple/update.yml), update_zebra (config/authz/permission_groups/assignable_permissions/wiki_category/zebra/update.yml)
+          #    - beta_permission: found in update_apple (config/authz/permission_groups/assignable_permissions/wiki_category/apple/update.yml), update_zebra (config/authz/permission_groups/assignable_permissions/wiki_category/zebra/update.yml)
           #
           #######################################################################
         OUTPUT
@@ -265,7 +313,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
         let(:apple_assignable) do
           Authz::PermissionGroups::Assignable.new(
             {
-              name: 'modify_apple',
+              name: 'update_apple',
               description: 'Apple assignable',
               permissions: %w[beta_permission alpha_permission unique_two],
               boundaries: ['project'],
@@ -302,9 +350,9 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
     end
 
     context 'when permission name does not match path-derived name' do
-      let(:permission_name) { 'modify_old_wiki' }
+      let(:permission_name) { 'update_old_wiki' }
       let(:permission_source_file) do
-        'config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml'
+        'config/authz/permission_groups/assignable_permissions/wiki_category/wiki/update.yml'
       end
 
       it 'returns an error' do
@@ -315,8 +363,8 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
           #  The permission name must equal '<action>_<resource>' derived from the path.
           #  Learn more: https://docs.gitlab.com/development/permissions/conventions/#naming-permissions
           #
-          #    - modify_old_wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml)
-          #      Path must match 'config/authz/permission_groups/assignable_permissions/<category>/<resource>/<action>.yml' based on <resource> and <action> values from 'modify_old_wiki' ('<action>_<resource>')
+          #    - update_old_wiki (config/authz/permission_groups/assignable_permissions/wiki_category/wiki/update.yml)
+          #      Path must match 'config/authz/permission_groups/assignable_permissions/<category>/<resource>/<action>.yml' based on <resource> and <action> values from 'update_old_wiki' ('<action>_<resource>')
           #
           #######################################################################
         OUTPUT
@@ -324,9 +372,9 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
     end
 
     context 'when permission name matches path-derived name' do
-      let(:permission_name) { 'modify_wiki' }
+      let(:permission_name) { 'update_wiki' }
       let(:permission_source_file) do
-        'config/authz/permission_groups/assignable_permissions/wiki_category/wiki/modify.yml'
+        'config/authz/permission_groups/assignable_permissions/wiki_category/wiki/update.yml'
       end
 
       it 'completes successfully' do
@@ -338,7 +386,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
       let(:category) { 'wiki_category' }
       let(:resource) { 'wiki' }
       let(:permission_source_file) do
-        "config/authz/permission_groups/assignable_permissions/#{category}/#{resource}/modify.yml"
+        "config/authz/permission_groups/assignable_permissions/#{category}/#{resource}/update.yml"
       end
 
       context 'when resource metadata for the permission is not in the correct schema' do
@@ -406,7 +454,7 @@ RSpec.describe Tasks::Gitlab::Permissions::Assignable::ValidateTask, :silence_st
       let(:category) { 'wiki_category' }
       let(:resource) { 'wiki' }
       let(:permission_source_file) do
-        "config/authz/permission_groups/assignable_permissions/#{category}/#{resource}/modify.yml"
+        "config/authz/permission_groups/assignable_permissions/#{category}/#{resource}/update.yml"
       end
 
       context 'when category metadata exists and is not in the correct schema' do

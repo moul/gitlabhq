@@ -22,7 +22,7 @@ module Boards
       board = parent_board_collection.create(params)
 
       unless board.persisted?
-        return ServiceResponse.error(message: "There was an error when creating a board.", payload: board)
+        return ServiceResponse.error(message: "There was an error when creating a board.", payload: { board: board })
       end
 
       board.tap do |created_board|
@@ -32,7 +32,7 @@ module Boards
 
       track_board_creation_event(board)
 
-      ServiceResponse.success(payload: board)
+      ServiceResponse.success(payload: { board: board })
     end
 
     def track_board_creation_event(board)

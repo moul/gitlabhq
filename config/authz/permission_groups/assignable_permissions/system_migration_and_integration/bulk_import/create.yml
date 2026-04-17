@@ -1,5 +1,6 @@
 ---
 name: create_bulk_import
+deprecated: true
 description: Grants the ability to start a new GitLab Migration (bulk import)
 permissions:
   - create_bulk_import

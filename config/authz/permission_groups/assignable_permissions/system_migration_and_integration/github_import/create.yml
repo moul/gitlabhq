@@ -1,5 +1,6 @@
 ---
 name: create_github_import
+deprecated: true
 description: Grants the ability to import projects from GitHub
 permissions:
   - create_github_import

@@ -1,5 +1,6 @@
 ---
 name: read_epic_label_event
+deprecated: true
 description: Grants the ability to read epic label events
 boundaries:
   - group

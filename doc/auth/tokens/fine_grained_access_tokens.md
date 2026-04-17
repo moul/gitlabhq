@@ -68,17 +68,6 @@ Fine-grained personal access tokens can access the following REST API endpoints:
 
 ### Application Security resources
 
-#### Audit Event
-
-Grants the ability to read audit events.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | Group | `GET` | `/groups/:id/audit_events` |
-| Read | Group | `GET` | `/groups/:id/audit_events/:audit_event_id` |
-| Read | Instance | `GET` | `/audit_events` |
-| Read | Instance | `GET` | `/audit_events/:id` |
-
 #### Compliance Policy Setting
 
 Grants the ability to read and update compliance policy settings.
@@ -104,27 +93,6 @@ Grants the ability to create dependency list exports.
 | ------ | ------ | ------ | ---- |
 | Create | Project | `POST` | `/projects/:id/dependency_list_exports` |
 | Create | Group | `POST` | `/groups/:id/dependency_list_exports` |
-
-#### External Status Check
-
-Grants the ability to read, retry, and update external status checks.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/status_checks` |
-| Retry | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/status_checks/:external_status_check_id/retry` |
-| Update | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/status_check_responses` |
-
-#### External Status Check Service
-
-Grants the ability to create, delete, read, and update external status check services.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Project | `POST` | `/projects/:id/external_status_checks` |
-| Delete | Project | `DELETE` | `/projects/:id/external_status_checks/:check_id` |
-| Read | Project | `GET` | `/projects/:id/external_status_checks` |
-| Update | Project | `PUT` | `/projects/:id/external_status_checks/:check_id` |
 
 #### SBOM Occurrence
 
@@ -293,6 +261,30 @@ Grants the ability to create, delete, read, stop, and update environments.
 | Stop | Project | `POST` | `/projects/:id/environments/:environment_id/stop` |
 | Stop | Project | `POST` | `/projects/:id/environments/stop_stale` |
 | Update | Project | `PUT` | `/projects/:id/environments/:environment_id` |
+
+#### Feature Flag
+
+Grants the ability to create, delete, read, and update feature flags.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Project | `POST` | `/projects/:id/feature_flags` |
+| Delete | Project | `DELETE` | `/projects/:id/feature_flags/:feature_flag_name` |
+| Read | Project | `GET` | `/projects/:id/feature_flags` |
+| Read | Project | `GET` | `/projects/:id/feature_flags/:feature_flag_name` |
+| Update | Project | `PUT` | `/projects/:id/feature_flags/:feature_flag_name` |
+
+#### Freeze Period
+
+Grants the ability to create, delete, read, and update freeze periods.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Project | `POST` | `/projects/:id/freeze_periods` |
+| Delete | Project | `DELETE` | `/projects/:id/freeze_periods/:freeze_period_id` |
+| Read | Project | `GET` | `/projects/:id/freeze_periods` |
+| Read | Project | `GET` | `/projects/:id/freeze_periods/:freeze_period_id` |
+| Update | Project | `PUT` | `/projects/:id/freeze_periods/:freeze_period_id` |
 
 #### Job
 
@@ -529,6 +521,40 @@ Grants the ability to create, delete, read, and update CI variables.
 | Update | Group | `PUT` | `/groups/:id/variables/:key` |
 | Update | Instance | `PUT` | `/admin/ci/variables/:key` |
 
+### Compliance resources
+
+#### Audit Event
+
+Grants the ability to read audit events.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | Group | `GET` | `/groups/:id/audit_events` |
+| Read | Group | `GET` | `/groups/:id/audit_events/:audit_event_id` |
+| Read | Instance | `GET` | `/audit_events` |
+| Read | Instance | `GET` | `/audit_events/:id` |
+
+#### External Status Check
+
+Grants the ability to read, retry, and update external status checks.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/status_checks` |
+| Retry | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/status_checks/:external_status_check_id/retry` |
+| Update | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/status_check_responses` |
+
+#### External Status Check Service
+
+Grants the ability to create, delete, read, and update external status check services.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Project | `POST` | `/projects/:id/external_status_checks` |
+| Delete | Project | `DELETE` | `/projects/:id/external_status_checks/:check_id` |
+| Read | Project | `GET` | `/projects/:id/external_status_checks` |
+| Update | Project | `PUT` | `/projects/:id/external_status_checks/:check_id` |
+
 ### Duo resources
 
 #### Chat Completion
@@ -737,17 +763,6 @@ Grants the ability to read and update preferences.
 | Read | User | `GET` | `/user/preferences` |
 | Update | User | `PUT` | `/user/preferences` |
 
-#### SAML Identity
-
-Grants the ability to delete, read, and update SAML identities.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Delete | Group | `DELETE` | `/groups/:id/saml/:uid` |
-| Read | Group | `GET` | `/groups/:id/saml/identities` |
-| Read | Group | `GET` | `/groups/:id/saml/:uid` |
-| Update | Group | `PATCH` | `/groups/:id/saml/:uid` |
-
 #### SSH Certificate
 
 Grants the ability to create, delete, and read SSH certificates.
@@ -797,6 +812,48 @@ Grants the ability to create, delete, merge, read, and update topics.
 | Delete | Instance | `DELETE` | `/topics/:id` |
 | Merge | Instance | `POST` | `/topics/merge` |
 | Update | Instance | `PUT` | `/topics/:id` |
+
+### Integrations resources
+
+#### Webhook
+
+Grants the ability to create, delete, read, trigger, and update webhooks.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Project | `POST` | `/projects/:id/hooks` |
+| Create | Group | `POST` | `/groups/:id/hooks` |
+| Create | Instance | `POST` | `/hooks` |
+| Delete | Project | `DELETE` | `/projects/:id/hooks/:hook_id/url_variables/:key` |
+| Delete | Project | `DELETE` | `/projects/:id/hooks/:hook_id/custom_headers/:key` |
+| Delete | Project | `DELETE` | `/projects/:id/hooks/:hook_id` |
+| Delete | Group | `DELETE` | `/groups/:id/hooks/:hook_id` |
+| Delete | Group | `DELETE` | `/groups/:id/hooks/:hook_id/url_variables/:key` |
+| Delete | Group | `DELETE` | `/groups/:id/hooks/:hook_id/custom_headers/:key` |
+| Delete | Instance | `DELETE` | `/hooks/:hook_id/url_variables/:key` |
+| Delete | Instance | `DELETE` | `/hooks/:hook_id/custom_headers/:key` |
+| Delete | Instance | `DELETE` | `/hooks/:hook_id` |
+| Read | Project | `GET` | `/projects/:id/hooks` |
+| Read | Project | `GET` | `/projects/:id/hooks/:hook_id` |
+| Read | Project | `GET` | `/projects/:id/hooks/:hook_id/events` |
+| Read | Group | `GET` | `/groups/:id/hooks` |
+| Read | Group | `GET` | `/groups/:id/hooks/:hook_id` |
+| Read | Group | `GET` | `/groups/:id/hooks/:hook_id/events` |
+| Read | Instance | `GET` | `/hooks` |
+| Read | Instance | `GET` | `/hooks/:hook_id` |
+| Trigger | Project | `POST` | `/projects/:id/hooks/:hook_id/test/:trigger` |
+| Trigger | Project | `POST` | `/projects/:id/hooks/:hook_id/events/:hook_log_id/resend` |
+| Trigger | Group | `POST` | `/groups/:id/hooks/:hook_id/test/:trigger` |
+| Trigger | Group | `POST` | `/groups/:id/hooks/:hook_id/events/:hook_log_id/resend` |
+| Update | Project | `PUT` | `/projects/:id/hooks/:hook_id/url_variables/:key` |
+| Update | Project | `PUT` | `/projects/:id/hooks/:hook_id/custom_headers/:key` |
+| Update | Project | `PUT` | `/projects/:id/hooks/:hook_id` |
+| Update | Group | `PUT` | `/groups/:id/hooks/:hook_id` |
+| Update | Group | `PUT` | `/groups/:id/hooks/:hook_id/url_variables/:key` |
+| Update | Group | `PUT` | `/groups/:id/hooks/:hook_id/custom_headers/:key` |
+| Update | Instance | `PUT` | `/hooks/:hook_id/url_variables/:key` |
+| Update | Instance | `PUT` | `/hooks/:hook_id/custom_headers/:key` |
+| Update | Instance | `PUT` | `/hooks/:hook_id` |
 
 ### Monitoring resources
 
@@ -1075,7 +1132,7 @@ Grants the ability to create, delete, and read packages.
 
 #### Package Pipeline
 
-Grants the ability to read package pipelines.
+Grants the ability to read the CI/CD pipelines associated with a package.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1305,27 +1362,6 @@ Grants the ability to delete, read, and update custom attributes.
 | Update | Group | `PUT` | `/groups/:id/custom_attributes/:key` |
 | Update | Instance | `PUT` | `/users/:id/custom_attributes/:key` |
 
-#### Epic Label Event
-
-Grants the ability to read epic label events.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | Group | `GET` | `/groups/:id/epics/:eventable_id/resource_label_events` |
-| Read | Group | `GET` | `/groups/:id/epics/:eventable_id/resource_label_events/:event_id` |
-
-#### Feature Flag
-
-Grants the ability to create, delete, read, and update feature flags.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Project | `POST` | `/projects/:id/feature_flags` |
-| Delete | Project | `DELETE` | `/projects/:id/feature_flags/:feature_flag_name` |
-| Read | Project | `GET` | `/projects/:id/feature_flags` |
-| Read | Project | `GET` | `/projects/:id/feature_flags/:feature_flag_name` |
-| Update | Project | `PUT` | `/projects/:id/feature_flags/:feature_flag_name` |
-
 #### Feature Flag User List
 
 Grants the ability to create, delete, read, and update feature flag user lists.
@@ -1338,18 +1374,6 @@ Grants the ability to create, delete, read, and update feature flag user lists.
 | Read | Project | `GET` | `/projects/:id/feature_flags_user_lists/:iid` |
 | Update | Project | `PUT` | `/projects/:id/feature_flags_user_lists/:iid` |
 
-#### Freeze Period
-
-Grants the ability to create, delete, read, and update freeze periods.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Project | `POST` | `/projects/:id/freeze_periods` |
-| Delete | Project | `DELETE` | `/projects/:id/freeze_periods/:freeze_period_id` |
-| Read | Project | `GET` | `/projects/:id/freeze_periods` |
-| Read | Project | `GET` | `/projects/:id/freeze_periods/:freeze_period_id` |
-| Update | Project | `PUT` | `/projects/:id/freeze_periods/:freeze_period_id` |
-
 #### Internal Event
 
 Grants the ability to track internal events.
@@ -1358,15 +1382,6 @@ Grants the ability to track internal events.
 | ------ | ------ | ------ | ---- |
 | Track | Instance | `POST` | `/usage_data/track_events` |
 | Track | Instance | `POST` | `/usage_data/track_event` |
-
-#### Issue Label Event
-
-Grants the ability to read issue label events.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | Project | `GET` | `/projects/:id/issues/:eventable_id/resource_label_events` |
-| Read | Project | `GET` | `/projects/:id/issues/:eventable_id/resource_label_events/:event_id` |
 
 #### Label
 
@@ -1391,15 +1406,6 @@ Grants the ability to create, delete, promote, read, and update labels.
 | Update | Group | `PUT` | `/groups/:id/labels` |
 | Update | Group | `PUT` | `/groups/:id/labels/:name` |
 
-#### Merge Request Label Event
-
-Grants the ability to read merge request label events.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | Project | `GET` | `/projects/:id/merge_requests/:eventable_id/resource_label_events` |
-| Read | Project | `GET` | `/projects/:id/merge_requests/:eventable_id/resource_label_events/:event_id` |
-
 #### Service Ping
 
 Grants the ability to read service ping data.
@@ -1410,17 +1416,17 @@ Grants the ability to read service ping data.
 
 #### Usage Data Metric
 
-Grants the ability to increment and read usage data metrics.
+Grants the ability to read and update usage data metrics.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
-| Increment | Instance | `POST` | `/usage_data/increment_counter` |
-| Increment | Instance | `POST` | `/usage_data/increment_unique_users` |
 | Read | Instance | `GET` | `/usage_data/non_sql_metrics` |
+| Update | Instance | `POST` | `/usage_data/increment_counter` |
+| Update | Instance | `POST` | `/usage_data/increment_unique_users` |
 
 #### Work Item
 
-Grants the ability to create, delete, read, and update work items.
+Grants the ability to create, delete, read, and update work items such as epics and issues.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1551,6 +1557,8 @@ Grants the ability to create, delete, read, and update work items.
 | Read | Project | `GET` | `/projects/:id/milestones/:milestone_id/issues` |
 | Read | Project | `GET` | `/projects/:id/milestones/:milestone_id/merge_requests` |
 | Read | Project | `GET` | `/projects/:id/milestones/:milestone_id/burndown_events` |
+| Read | Project | `GET` | `/projects/:id/issues/:eventable_id/resource_label_events` |
+| Read | Project | `GET` | `/projects/:id/issues/:eventable_id/resource_label_events/:event_id` |
 | Read | Project | `GET` | `/projects/:id/issues/:eventable_id/resource_state_events` |
 | Read | Project | `GET` | `/projects/:id/issues/:eventable_id/resource_state_events/:event_id` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:eventable_id/resource_state_events` |
@@ -1587,6 +1595,8 @@ Grants the ability to create, delete, read, and update work items.
 | Read | Group | `GET` | `/groups/:id/epics/:noteable_id/notes/:note_id` |
 | Read | Group | `GET` | `/groups/:id/wiki_pages/:noteable_id/notes` |
 | Read | Group | `GET` | `/groups/:id/wiki_pages/:noteable_id/notes/:note_id` |
+| Read | Group | `GET` | `/groups/:id/epics/:eventable_id/resource_label_events` |
+| Read | Group | `GET` | `/groups/:id/epics/:eventable_id/resource_label_events/:event_id` |
 | Read | Group | `GET` | `/groups/:id/epics/:eventable_id/resource_state_events` |
 | Read | Group | `GET` | `/groups/:id/epics/:eventable_id/resource_state_events/:event_id` |
 | Read | Group | `GET` | `/groups/:id/epics/:epic_iid/issues` |
@@ -1641,6 +1651,24 @@ Grants the ability to create, delete, read, and update work items.
 
 ### Projects resources
 
+#### Markdown Upload
+
+Grants the ability to create, delete, and read Markdown uploads.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Create | Project | `POST` | `/projects/:id/uploads` |
+| Delete | Project | `DELETE` | `/projects/:id/uploads/:upload_id` |
+| Delete | Project | `DELETE` | `/projects/:id/uploads/:secret/:filename` |
+| Delete | Group | `DELETE` | `/groups/:id/uploads/:upload_id` |
+| Delete | Group | `DELETE` | `/groups/:id/uploads/:secret/:filename` |
+| Read | Project | `GET` | `/projects/:id/uploads` |
+| Read | Project | `GET` | `/projects/:id/uploads/:upload_id` |
+| Read | Project | `GET` | `/projects/:id/uploads/:secret/:filename` |
+| Read | Group | `GET` | `/groups/:id/uploads` |
+| Read | Group | `GET` | `/groups/:id/uploads/:upload_id` |
+| Read | Group | `GET` | `/groups/:id/uploads/:secret/:filename` |
+
 #### Page
 
 Grants the ability to delete, read, and update pages.
@@ -1666,7 +1694,7 @@ Grants the ability to create, delete, read, update, and verify pages domains.
 
 #### Project
 
-Grants the ability to archive, create, delete, fork, read, read starred, share, transfer, and update projects.
+Grants the ability to archive, create, delete, fork, read, share, transfer, and update projects.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1692,8 +1720,8 @@ Grants the ability to archive, create, delete, fork, read, read starred, share, 
 | Read | Group | `GET` | `/groups/:id/projects` |
 | Read | User | `GET` | `/users/:user_id/projects` |
 | Read | User | `GET` | `/users/:user_id/contributed_projects` |
+| Read | User | `GET` | `/users/:user_id/starred_projects` |
 | Read | User | `GET` | `/projects` |
-| Read Starred | User | `GET` | `/users/:user_id/starred_projects` |
 | Share | Project | `POST` | `/projects/:id/share` |
 | Share | Project | `DELETE` | `/projects/:id/share/:group_id` |
 | Transfer | Project | `PUT` | `/projects/:id/transfer` |
@@ -1764,7 +1792,7 @@ Grants the ability to create, delete, protect, and read branches.
 
 #### Code
 
-Grants the ability to download, push, and read code.
+Grants the ability to download, push, and read code via Git.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
@@ -1829,12 +1857,16 @@ Grants the ability to approve, create, delete, merge, read, and update merge req
 | Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/merge_ref` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/closes_issues` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/related_issues` |
+| Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/approvals` |
+| Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/approval_state` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/versions` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/versions/:version_id` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:noteable_id/discussions` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:noteable_id/discussions/:discussion_id` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:noteable_id/discussions/:discussion_id/notes` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:noteable_id/discussions/:discussion_id/notes/:note_id` |
+| Read | Project | `GET` | `/projects/:id/merge_requests/:eventable_id/resource_label_events` |
+| Read | Project | `GET` | `/projects/:id/merge_requests/:eventable_id/resource_label_events/:event_id` |
 | Read | Group | `GET` | `/groups/:id/merge_requests` |
 | Read | User | `GET` | `/merge_requests` |
 | Update | Project | `POST` | `/projects/:id/merge_requests/:merge_request_iid/draft_notes` |
@@ -1861,15 +1893,6 @@ Grants the ability to create, delete, read, and update merge request approval ru
 | Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/approval_rules` |
 | Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/approval_rules/:approval_rule_id` |
 | Update | Project | `PUT` | `/projects/:id/merge_requests/:merge_request_iid/approval_rules/:approval_rule_id` |
-
-#### Merge Request Approval State
-
-Grants the ability to read merge request approval states.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/approvals` |
-| Read | Project | `GET` | `/projects/:id/merge_requests/:merge_request_iid/approval_state` |
 
 #### Merge Request Dependency
 
@@ -2337,6 +2360,17 @@ Grants the ability to create, delete, and read SAML group links.
 | Read | Group | `GET` | `/groups/:id/saml_group_links` |
 | Read | Group | `GET` | `/groups/:id/saml_group_links/:saml_group_name` |
 
+#### SAML Identity
+
+Grants the ability to delete, read, and update SAML identities.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Delete | Group | `DELETE` | `/groups/:id/saml/:uid` |
+| Read | Group | `GET` | `/groups/:id/saml/identities` |
+| Read | Group | `GET` | `/groups/:id/saml/:uid` |
+| Update | Group | `PATCH` | `/groups/:id/saml/:uid` |
+
 #### SAML User
 
 Grants the ability to read SAML users.
@@ -2436,52 +2470,6 @@ Grants the ability to read and run batched background migrations.
 | Run | Instance | `PUT` | `/admin/batched_background_migrations/:id/resume` |
 | Run | Instance | `PUT` | `/admin/batched_background_migrations/:id/pause` |
 
-#### Bitbucket Import
-
-Grants the ability to create Bitbucket imports.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Group | `POST` | `/import/bitbucket` |
-| Create | User | `POST` | `/import/bitbucket` |
-
-#### Bitbucket Server Import
-
-Grants the ability to create Bitbucket Server imports.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Instance | `POST` | `/import/bitbucket_server` |
-
-#### Bulk Import
-
-Grants the ability to cancel, create, and read bulk imports.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Cancel | Instance | `POST` | `/bulk_imports/:import_id/cancel` |
-| Create | Instance | `POST` | `/bulk_imports` |
-| Read | Instance | `GET` | `/bulk_imports` |
-| Read | Instance | `GET` | `/bulk_imports/:import_id` |
-
-#### Bulk Import Entity
-
-Grants the ability to read bulk import entities.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | Instance | `GET` | `/bulk_imports/entities` |
-| Read | Instance | `GET` | `/bulk_imports/:import_id/entities` |
-| Read | Instance | `GET` | `/bulk_imports/:import_id/entities/:entity_id` |
-
-#### Bulk Import Entity Failure
-
-Grants the ability to read bulk import entity failures.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Read | Instance | `GET` | `/bulk_imports/:import_id/entities/:entity_id/failures` |
-
 #### Database Migration
 
 Grants the ability to mark database migrations.
@@ -2497,44 +2485,46 @@ Grants the ability to create, download, and read exports.
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
 | Create | Project | `POST` | `/projects/:id/export` |
+| Create | Project | `POST` | `/projects/:id/export_relations` |
 | Create | Group | `POST` | `/groups/:id/export` |
 | Download | Project | `GET` | `/projects/:id/export/download` |
+| Download | Project | `GET` | `/projects/:id/export_relations/download` |
 | Download | Group | `GET` | `/groups/:id/export/download` |
 | Read | Project | `GET` | `/projects/:id/export` |
+| Read | Project | `GET` | `/projects/:id/export_relations/status` |
 
-#### GitHub Gist Import
+#### Import
 
-Grants the ability to create GitHub gist imports.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | User | `POST` | `/import/github/gists` |
-
-#### GitHub Import
-
-Grants the ability to cancel and create GitHub imports.
+Grants the ability to cancel, create, and read imports.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |
 | Cancel | User | `POST` | `/import/github/cancel` |
-| Create | Group | `POST` | `/import/github` |
-| Create | User | `POST` | `/import/github` |
-
-#### Import
-
-Grants the ability to create and read imports.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
+| Cancel | Instance | `POST` | `/bulk_imports/:import_id/cancel` |
 | Create | Project | `POST` | `/projects/:id/import/git` |
+| Create | Project | `POST` | `/projects/import-relation` |
+| Create | Group | `POST` | `/import/bitbucket` |
+| Create | Group | `POST` | `/import/github` |
 | Create | Group | `POST` | `/projects/import` |
 | Create | Group | `POST` | `/projects/remote-import` |
 | Create | Group | `POST` | `/projects/remote-import-s3` |
+| Create | User | `POST` | `/import/bitbucket` |
+| Create | User | `POST` | `/import/github` |
+| Create | User | `POST` | `/import/github/gists` |
 | Create | User | `POST` | `/projects/import` |
 | Create | User | `POST` | `/projects/remote-import` |
 | Create | User | `POST` | `/projects/remote-import-s3` |
+| Create | Instance | `POST` | `/bulk_imports` |
 | Create | Instance | `POST` | `/groups/import` |
+| Create | Instance | `POST` | `/import/bitbucket_server` |
 | Read | Project | `GET` | `/projects/:id/import` |
+| Read | Project | `GET` | `/projects/:id/relation-imports` |
+| Read | Instance | `GET` | `/bulk_imports` |
+| Read | Instance | `GET` | `/bulk_imports/entities` |
+| Read | Instance | `GET` | `/bulk_imports/:import_id` |
+| Read | Instance | `GET` | `/bulk_imports/:import_id/entities` |
+| Read | Instance | `GET` | `/bulk_imports/:import_id/entities/:entity_id` |
+| Read | Instance | `GET` | `/bulk_imports/:import_id/entities/:entity_id/failures` |
 
 #### Placeholder Reassignment
 
@@ -2545,105 +2535,7 @@ Grants the ability to create and read placeholder reassignments.
 | Create | Group | `POST` | `/groups/:id/placeholder_reassignments` |
 | Read | Group | `GET` | `/groups/:id/placeholder_reassignments` |
 
-#### Relation Export
-
-Grants the ability to create, download, and read relation exports.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Project | `POST` | `/projects/:id/export_relations` |
-| Download | Project | `GET` | `/projects/:id/export_relations/download` |
-| Read | Project | `GET` | `/projects/:id/export_relations/status` |
-
-#### Relation Import
-
-Grants the ability to create and read relation imports.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Project | `POST` | `/projects/import-relation` |
-| Read | Project | `GET` | `/projects/:id/relation-imports` |
-
-#### Webhook
-
-Grants the ability to create, delete, read, test, and update webhooks.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Project | `POST` | `/projects/:id/hooks` |
-| Create | Group | `POST` | `/groups/:id/hooks` |
-| Create | Instance | `POST` | `/hooks` |
-| Delete | Project | `DELETE` | `/projects/:id/hooks/:hook_id` |
-| Delete | Group | `DELETE` | `/groups/:id/hooks/:hook_id` |
-| Delete | Instance | `DELETE` | `/hooks/:hook_id` |
-| Read | Project | `GET` | `/projects/:id/hooks` |
-| Read | Project | `GET` | `/projects/:id/hooks/:hook_id` |
-| Read | Project | `GET` | `/projects/:id/hooks/:hook_id/events` |
-| Read | Group | `GET` | `/groups/:id/hooks` |
-| Read | Group | `GET` | `/groups/:id/hooks/:hook_id` |
-| Read | Group | `GET` | `/groups/:id/hooks/:hook_id/events` |
-| Read | Instance | `GET` | `/hooks` |
-| Read | Instance | `GET` | `/hooks/:hook_id` |
-| Test | Project | `POST` | `/projects/:id/hooks/:hook_id/test/:trigger` |
-| Test | Group | `POST` | `/groups/:id/hooks/:hook_id/test/:trigger` |
-| Update | Project | `PUT` | `/projects/:id/hooks/:hook_id` |
-| Update | Group | `PUT` | `/groups/:id/hooks/:hook_id` |
-| Update | Instance | `PUT` | `/hooks/:hook_id` |
-
-#### Webhook Custom Header
-
-Grants the ability to delete and update webhook custom headers.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Delete | Project | `DELETE` | `/projects/:id/hooks/:hook_id/custom_headers/:key` |
-| Delete | Group | `DELETE` | `/groups/:id/hooks/:hook_id/custom_headers/:key` |
-| Delete | Instance | `DELETE` | `/hooks/:hook_id/custom_headers/:key` |
-| Update | Project | `PUT` | `/projects/:id/hooks/:hook_id/custom_headers/:key` |
-| Update | Group | `PUT` | `/groups/:id/hooks/:hook_id/custom_headers/:key` |
-| Update | Instance | `PUT` | `/hooks/:hook_id/custom_headers/:key` |
-
-#### Webhook Event
-
-Grants the ability to resend webhook events.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Resend | Project | `POST` | `/projects/:id/hooks/:hook_id/events/:hook_log_id/resend` |
-| Resend | Group | `POST` | `/groups/:id/hooks/:hook_id/events/:hook_log_id/resend` |
-
-#### Webhook URL variable
-
-Grants the ability to delete and update webhook URL variables.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Delete | Project | `DELETE` | `/projects/:id/hooks/:hook_id/url_variables/:key` |
-| Delete | Group | `DELETE` | `/groups/:id/hooks/:hook_id/url_variables/:key` |
-| Delete | Instance | `DELETE` | `/hooks/:hook_id/url_variables/:key` |
-| Update | Project | `PUT` | `/projects/:id/hooks/:hook_id/url_variables/:key` |
-| Update | Group | `PUT` | `/groups/:id/hooks/:hook_id/url_variables/:key` |
-| Update | Instance | `PUT` | `/hooks/:hook_id/url_variables/:key` |
-
 ### Wiki resources
-
-#### Markdown Upload
-
-Grants the ability to create, delete, and read Markdown uploads.
-
-| Action | Access | Method | Path |
-| ------ | ------ | ------ | ---- |
-| Create | Project | `POST` | `/projects/:id/uploads` |
-| Delete | Project | `DELETE` | `/projects/:id/uploads/:upload_id` |
-| Delete | Project | `DELETE` | `/projects/:id/uploads/:secret/:filename` |
-| Delete | Group | `DELETE` | `/groups/:id/uploads/:upload_id` |
-| Delete | Group | `DELETE` | `/groups/:id/uploads/:secret/:filename` |
-| Read | Project | `GET` | `/projects/:id/uploads` |
-| Read | Project | `GET` | `/projects/:id/uploads/:upload_id` |
-| Read | Project | `GET` | `/projects/:id/uploads/:secret/:filename` |
-| Read | Group | `GET` | `/groups/:id/uploads` |
-| Read | Group | `GET` | `/groups/:id/uploads/:upload_id` |
-| Read | Group | `GET` | `/groups/:id/uploads/:secret/:filename` |
 
 #### Wiki
 

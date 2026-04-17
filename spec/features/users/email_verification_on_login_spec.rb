@@ -397,9 +397,10 @@ RSpec.describe 'Email Verification On Login', :with_current_organization, :clean
 
         # unlocking works as expected
         visit unlock_url
-        expect_user_to_be_unlocked
+
         expect(page).to have_current_path(new_user_session_path)
         expect(page).to have_content('Your account has been unlocked successfully')
+        expect_user_to_be_unlocked
 
         gitlab_sign_in(user)
         expect(page).to have_current_path(root_path)
@@ -491,8 +492,8 @@ RSpec.describe 'Email Verification On Login', :with_current_organization, :clean
   private
 
   def expect_no_email_verification
-    expect_user_to_be_unlocked
     expect(page).to have_current_path(root_path)
+    expect_user_to_be_unlocked
   end
 
   def expect_verification_triggered(reason: '')

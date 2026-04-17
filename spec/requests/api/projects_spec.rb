@@ -5489,6 +5489,48 @@ RSpec.describe API::Projects, :aggregate_failures, feature_category: :groups_and
       end
     end
 
+    context 'attribute mr_default_title_template' do
+      context 'when the feature flag is enabled' do
+        before do
+          stub_feature_flags(mr_default_title_template: project)
+        end
+
+        it 'is exposed in the project response' do
+          get api("/projects/#{project.id}", user)
+
+          expect(response).to have_gitlab_http_status(:ok)
+          expect(json_response).to include('mr_default_title_template')
+        end
+
+        it 'updates the template' do
+          put api("/projects/#{project.id}", user), params: { mr_default_title_template: '%{source_branch}' }
+
+          expect(response).to have_gitlab_http_status(:ok)
+          expect(json_response['mr_default_title_template']).to eq('%{source_branch}')
+        end
+      end
+
+      context 'when the feature flag is disabled' do
+        before do
+          stub_feature_flags(mr_default_title_template: false)
+        end
+
+        it 'is not exposed in the project response' do
+          get api("/projects/#{project.id}", user)
+
+          expect(response).to have_gitlab_http_status(:ok)
+          expect(json_response).not_to include('mr_default_title_template')
+        end
+
+        it 'does not update the template' do
+          put api("/projects/#{project.id}", user), params: { mr_default_title_template: '%{source_branch}' }
+
+          expect(response).to have_gitlab_http_status(:ok)
+          expect(project.reload.mr_default_title_template).to be_nil
+        end
+      end
+    end
+
     context 'attribute mr_default_target_self' do
       let_it_be(:source_project) { create(:project, :public) }
 

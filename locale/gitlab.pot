@@ -11676,9 +11676,6 @@ msgstr ""
 msgid "BillingPlans|50000 compute minutes"
 msgstr ""
 
-msgid "BillingPlans|@%{user_name} you are currently using the %{plan_name}."
-msgstr ""
-
 msgid "BillingPlans|A central hub to manage standards adherence, violations reporting, and compliance frameworks."
 msgstr ""
 
@@ -11955,9 +11952,6 @@ msgstr ""
 msgid "BillingPlans|Level up with Premium"
 msgstr ""
 
-msgid "BillingPlans|Looking to purchase or manage a subscription for your group? Navigate to your %{groups_link} and go to %{strong_open}Settings &gt; Billing.%{strong_close}"
-msgstr ""
-
 msgid "BillingPlans|Manage plan"
 msgstr ""
 
@@ -12084,9 +12078,6 @@ msgstr ""
 msgid "BillingPlans|Team Project Management"
 msgstr ""
 
-msgid "BillingPlans|Then %{move_link_start}move any projects%{move_link_end} you wish to use with your subscription to that group."
-msgstr ""
-
 msgid "BillingPlans|These credits are included in your trial, and provide access to AI features. To maintain access after your trial, purchase monthly credits for your group, starting at $0.95, with volume discounts available."
 msgstr ""
 
@@ -12166,9 +12157,6 @@ msgid "BillingPlans|Vulnerability Management"
 msgstr ""
 
 msgid "BillingPlans|We recommend starting with 20 credits per month."
-msgstr ""
-
-msgid "BillingPlans|You don't have any groups. You'll need to %{create_group_link_start}create one%{create_group_link_end} and %{move_link_start}move your projects to it%{move_link_end}."
 msgstr ""
 
 msgid "BillingPlans|You have successfully started a GitLab Ultimate trial that will expire on %{exp_date}."
@@ -55708,6 +55696,9 @@ msgstr ""
 msgid "ProjectSettings|Encourage"
 msgstr ""
 
+msgid "ProjectSettings|Enter a merge request title template"
+msgstr ""
+
 msgid "ProjectSettings|Environments"
 msgstr ""
 
@@ -55795,6 +55786,9 @@ msgstr ""
 msgid "ProjectSettings|Leave empty to use default template."
 msgstr ""
 
+msgid "ProjectSettings|Leave empty to use the current default behavior."
+msgstr ""
+
 msgid "ProjectSettings|Make sure this pattern does not contradict the %{link_start}Push rules &gt; Branch name%{link_end} setting."
 msgstr ""
 
@@ -55826,6 +55820,9 @@ msgid "ProjectSettings|Merge method"
 msgstr ""
 
 msgid "ProjectSettings|Merge options"
+msgstr ""
+
+msgid "ProjectSettings|Merge request title template"
 msgstr ""
 
 msgid "ProjectSettings|Merge requests"
@@ -55996,6 +55993,9 @@ msgstr ""
 msgid "ProjectSettings|Submit changes to be merged upstream."
 msgstr ""
 
+msgid "ProjectSettings|Supported variables: %{code_start}%%{source_branch}%{code_end}, %{code_start}%%{target_branch}%{code_end}, %{code_start}%%{title_from_branch}%{code_end}, %{code_start}%%{first_commit}%{code_end}, %{code_start}%%{first_multiline_commit}%{code_end}."
+msgstr ""
+
 msgid "ProjectSettings|Target project"
 msgstr ""
 
@@ -56015,6 +56015,9 @@ msgid "ProjectSettings|The default target project for merge requests created in 
 msgstr ""
 
 msgid "ProjectSettings|The default template will be applied on save."
+msgstr ""
+
+msgid "ProjectSettings|The default title used when creating a new merge request."
 msgstr ""
 
 msgid "ProjectSettings|The host of your data collector instance."

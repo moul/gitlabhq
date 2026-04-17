@@ -192,11 +192,10 @@ RSpec.describe 'Admin impersonates user', feature_category: :user_management do
         end
 
         context 'a user with an expired password' do
-          before do
-            another_user.update!(password_expires_at: Time.zone.now - 5.minutes)
-          end
-
           it 'is redirected back to the impersonated users page in the admin after stopping' do
+            expect(page).to have_content "You are now impersonating #{another_user.username}"
+            another_user.update!(password_expires_at: Time.zone.now - 5.minutes)
+
             subject
 
             expect(page).to have_current_path("/admin/users/#{another_user.username}", ignore_query: true)

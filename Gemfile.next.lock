@@ -337,7 +337,7 @@ GEM
       asciidoctor (~> 2.0)
     asciidoctor-plantuml (0.0.16)
       asciidoctor (>= 2.0.17, < 3.0.0)
-    ast (2.4.2)
+    ast (2.4.3)
     async (2.32.0)
       console (~> 1.29)
       fiber-annotation
@@ -661,11 +661,6 @@ GEM
       racc
     ffaker (2.25.0)
     ffi (1.17.3)
-    ffi (1.17.3-aarch64-linux-gnu)
-    ffi (1.17.3-arm64-darwin)
-    ffi (1.17.3-x86-linux-gnu)
-    ffi (1.17.3-x86_64-darwin)
-    ffi (1.17.3-x86_64-linux-gnu)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -762,7 +757,7 @@ GEM
       terminal-table (>= 1.5.1)
     gitlab-chronic (0.10.6)
       numerizer (~> 0.2)
-    gitlab-cloud-connector (1.46.0)
+    gitlab-cloud-connector (1.47.0)
       activesupport (>= 7.0)
       jwt (~> 2.9)
     gitlab-crystalball (1.1.3)
@@ -1412,6 +1407,7 @@ GEM
     omniauth_openid_connect (0.8.0)
       omniauth (>= 1.9, < 3)
       openid_connect (~> 2.2)
+    open3 (0.2.1)
     open4 (1.3.4)
     openid_connect (2.3.1)
       activemodel
@@ -2046,24 +2042,28 @@ GEM
       hashie
       version_gem (~> 1.1)
     snowplow-tracker (0.8.0)
-    solargraph (0.54.4)
+    solargraph (0.58.3)
+      ast (~> 2.4.3)
       backport (~> 1.2)
       benchmark (~> 0.4)
-      bundler (~> 2.0)
+      bundler (>= 2.0)
       diff-lcs (~> 1.4)
       jaro_winkler (~> 1.6, >= 1.6.1)
       kramdown (~> 2.3)
       kramdown-parser-gfm (~> 1.1)
       logger (~> 1.6)
       observer (~> 0.1)
+      open3 (~> 0.2.1)
       ostruct (~> 0.6)
       parser (~> 3.0)
-      rbs (~> 3.3)
+      prism (~> 1.4)
+      rbs (>= 3.6.1, <= 4.0.0.dev.4)
       reverse_markdown (~> 3.0)
-      rubocop (~> 1.38)
+      rubocop (~> 1.76)
       thor (~> 1.0)
       tilt (~> 2.0)
       yard (~> 0.9, >= 0.9.24)
+      yard-activesupport-concern (~> 0.0)
       yard-solargraph (~> 0.1)
     solargraph-rspec (0.5.4)
       solargraph (>= 0.52.0)
@@ -2274,6 +2274,8 @@ GEM
       nokogiri (~> 1.8)
     yajl-ruby (1.4.3)
     yard (0.9.38)
+    yard-activesupport-concern (0.0.1)
+      yard (>= 0.8)
     yard-solargraph (0.1.0)
       yard (~> 0.9)
     zeitwerk (2.6.18)
@@ -2619,7 +2621,7 @@ DEPENDENCIES
   simplecov-lcov (~> 0.8.0)
   slack-messenger (~> 2.3.5)
   snowplow-tracker (~> 0.8.0)
-  solargraph (~> 0.54.0)
+  solargraph (~> 0.58.0)
   solargraph-rspec (~> 0.5.1)
   spamcheck (~> 1.3.0)
   spring (~> 4.3.0)
@@ -2694,7 +2696,7 @@ CHECKSUMS
   asciidoctor-include-ext (0.4.0) sha256=406adb9d2fbfc25536609ca13b787ed704dc06a4e49d6709b83f3bad578f7878
   asciidoctor-kroki (0.10.0) sha256=8e4225d88f120e2e7b5d3f5ddb67c5e69496d7344a16c57db5036ac900123062
   asciidoctor-plantuml (0.0.16) sha256=407e47cd1186ded5ccc75f0c812e5524c26c571d542247c5132abb8f47bd1793
-  ast (2.4.2) sha256=1e280232e6a33754cde542bc5ef85520b74db2aac73ec14acef453784447cc12
+  ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   async (2.32.0) sha256=79ffbc8a5a99a8e7e5e65c7622ecf1e38e2193f0b920c5fec2316f09ff184787
   atlassian-jwt (0.2.1) sha256=2fd2d87418773f2e140c038cb22e049069708aff2bd0a423a7e1740574e97823
   attr_encrypted (4.2.0) sha256=7e5c80159e6e38ed40dc4e2e65c4f57234fe1f376bddc40c8b773bfb9b81ad51
@@ -2839,11 +2841,6 @@ CHECKSUMS
   fast_gettext (4.1.0) sha256=8e6b612676d601209662d2cd793ed4a067f834c8ca65ede793bacc9bcc1c2763
   ffaker (2.25.0) sha256=e485c5adf8195aac55662875b7f515469bca46d77b60d0e7d08db6861bcbec40
   ffi (1.17.3) sha256=0e9f39f7bb3934f77ad6feab49662be77e87eedcdeb2a3f5c0234c2938563d4c
-  ffi (1.17.3-aarch64-linux-gnu) sha256=28ad573df26560f0aedd8a90c3371279a0b2bd0b4e834b16a2baa10bd7a97068
-  ffi (1.17.3-arm64-darwin) sha256=0c690555d4cee17a7f07c04d59df39b2fba74ec440b19da1f685c6579bb0717f
-  ffi (1.17.3-x86-linux-gnu) sha256=868a88fcaf5186c3a46b7c7c2b2c34550e1e61a405670ab23f5b6c9971529089
-  ffi (1.17.3-x86_64-darwin) sha256=1f211811eb5cfaa25998322cdd92ab104bfbd26d1c4c08471599c511f2c00bb5
-  ffi (1.17.3-x86_64-linux-gnu) sha256=3746b01f677aae7b16dc1acb7cb3cc17b3e35bdae7676a3f568153fb0e2c887f
   ffi-compiler (1.0.1) sha256=019f389b078a2fec9de7f4f65771095f80a447e34436b4588bcb629e2a564c30
   ffi-yajl (2.6.0) sha256=69baa612273991e4c79667464eb25f3feb169899aab33929a33b03234af24336
   fiber-annotation (0.2.0) sha256=7abfadf1d119f508867d4103bf231c0354d019cc39a5738945dec2edadaf6c03
@@ -2876,7 +2873,7 @@ CHECKSUMS
   gitlab-active-context (0.0.1)
   gitlab-backup-cli (0.0.1)
   gitlab-chronic (0.10.6) sha256=a244d11a1396d2aac6ae9b2f326adf1605ec1ad20c29f06e8b672047d415a9ac
-  gitlab-cloud-connector (1.46.0) sha256=8188c8a7a91f3d220cd0feebe80c3bdf45a8380eb70076b136129deb68e48da9
+  gitlab-cloud-connector (1.47.0) sha256=1c16d8d0944e1d729f4b16eb482d6a8b09a5f13d2bda3a94c1d67163868fb63c
   gitlab-crystalball (1.1.3) sha256=ea9a90d659704a042d763ce6d343a9f664cd650e0787a19adec7036ea4390861
   gitlab-dangerfiles (4.10.0) sha256=0adb9cfec58ffce42f68b1aef528503bdc89aed3994ba461c67e1d9246513e1c
   gitlab-duo-workflow-service-client (0.7)
@@ -3121,6 +3118,7 @@ CHECKSUMS
   omniauth-shibboleth-redux (2.0.0) sha256=e9b353fd103405fcc8549e8510b9cad857acf0b286d764fac5dba8a93ab8ffe1
   omniauth_crowd (2.4.0)
   omniauth_openid_connect (0.8.0) sha256=1f2f3890386e2a742221cee0d2e903b78d874e6fab9ea3bfa31c1462f4793d25
+  open3 (0.2.1) sha256=8e2d7d2113526351201438c1aa35c8139f0141c9e8913baa007c898973bf3952
   open4 (1.3.4) sha256=a1df037310624ecc1ea1d81264b11c83e96d0c3c1c6043108d37d396dcd0f4b1
   openid_connect (2.3.1) sha256=5d808380cff80d78e3d3d54cfaebe2d6461d835c674faa29e2314a402c1b2182
   opensearch-ruby (3.4.0) sha256=0a8621686bed3c59b4c23e08cbaef873685a3fe4568e9d2703155ca92b8ca05d
@@ -3356,7 +3354,7 @@ CHECKSUMS
   slack-messenger (2.3.6) sha256=58581e587debcbb769336cc7ebe4eb6ae411947fccf347e967a17ac9813e66d8
   snaky_hash (2.0.0) sha256=fe8b2e39e8ff69320f7812af73ea06401579e29ff1734a7009567391600687de
   snowplow-tracker (0.8.0) sha256=7ba6f4f1443a829845fd28e63eda72d9d3d247f485310ddcccaebbc52b734a38
-  solargraph (0.54.4) sha256=842705cc511a085e967314de8bd2dd89b00f90238b5582e665ffa39efbd880e0
+  solargraph (0.58.3) sha256=debefdc927d1e72383b2c4add89e71373d902b9904617efdb687749509fe2e69
   solargraph-rspec (0.5.4) sha256=295fc5ae98694edcc638488a93d4c8cd66f56883cf7961f47f1409602baf7e1c
   sorbet-runtime (0.6.12984) sha256=3fff20a5b147a2e191210563d61886ac121fc1cd8b5e0faf6bc18873139e0fe4
   spamcheck (1.3.3) sha256=3a29ba9dfcd59543d88054d38c657f79e0a6cf44d763df08ad47680abed50ec7
@@ -3455,6 +3453,7 @@ CHECKSUMS
   xpath (3.2.0) sha256=6dfda79d91bb3b949b947ecc5919f042ef2f399b904013eb3ef6d20dd3a4082e
   yajl-ruby (1.4.3) sha256=8c974d9c11ae07b0a3b6d26efea8407269b02e4138118fbe3ef0d2ec9724d1d2
   yard (0.9.38) sha256=721fb82afb10532aa49860655f6cc2eaa7130889df291b052e1e6b268283010f
+  yard-activesupport-concern (0.0.1) sha256=be790cb0efc23e2e87677063598ac8b743586154657bbd9655a7f03ce78390ef
   yard-solargraph (0.1.0) sha256=a19a4619c942181a618fb9458970a9d2534cf7fda69fc43949629a7948a5930e
   zeitwerk (2.6.18) sha256=bd2d213996ff7b3b364cd342a585fbee9797dbc1c0c6d868dc4150cc75739781
 

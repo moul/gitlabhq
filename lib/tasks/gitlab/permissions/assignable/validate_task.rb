@@ -6,11 +6,15 @@ module Tasks
       module Assignable
         class ValidateTask < ::Tasks::Gitlab::Permissions::BaseValidateTask
           PERMISSION_DIR = ::Authz::PermissionGroups::Assignable::BASE_PATH
+          PERMISSION_NAME_REGEX = ::Authz::Validation::PERMISSION_NAME_REGEX
+          DISALLOWED_ACTIONS = ::Authz::Validation::DISALLOWED_ACTIONS
           BOUNDARIES = ::Authz::Validation::BOUNDARIES
 
           def initialize
             @violations = {
               schema: {},
+              name: [],
+              action: {},
               boundary_in_name: {},
               duplicate_name: [],
               duplicate_raw_permission: {},
@@ -45,6 +49,8 @@ module Tasks
 
           def validate_permission(permission)
             validate_schema(permission)
+            validate_name(permission)
+            validate_action(permission)
             validate_boundary_in_name(permission)
             validate_file(permission)
             validate_name_path(permission)
@@ -56,7 +62,13 @@ module Tasks
             @categories << permission.category
           end
 
+          def permission_source_paths(permission_name)
+            [assignable_source_path(permission_name)]
+          end
+
           def validate_boundary_in_name(permission)
+            return unless permission.resource.present?
+
             boundary = BOUNDARIES.find { |b| permission.resource.start_with?("#{b}_") }
             return unless boundary
 
@@ -167,6 +179,8 @@ module Tasks
 
           def format_all_errors
             out = format_schema_errors { |name| assignable_source_path(name) }
+            out += format_error_list_with_source(:name)
+            out += format_action_errors
             out += format_boundary_in_name_errors
             out += format_duplicate_name_errors
             out += format_duplicate_raw_permission_errors
@@ -254,6 +268,11 @@ module Tasks
             {
               schema: "The following permissions failed schema validation." \
                 "\n#{assignable_permissions_link(anchor: 'create-the-assignable-permission-file')}",
+              name: "The following assignable permissions have invalid names." \
+                "\nPermission name must be in the format action_resource[_subresource]." \
+                "\n#{conventions_link(anchor: 'naming-permissions')}",
+              action: "The following assignable permissions contain a disallowed action." \
+                "\n#{conventions_link(anchor: 'disallowed-actions')}",
               boundary_in_name: "The following assignable permissions encode a resource boundary in their name." \
                 "\nThe permission name should not include the boundary (project, group, user) as a prefix." \
                 "\n#{conventions_link(anchor: 'avoiding-resource-boundaries-in-permission-names')}",

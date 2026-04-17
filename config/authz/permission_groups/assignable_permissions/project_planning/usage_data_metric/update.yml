@@ -1,0 +1,7 @@
+---
+name: update_usage_data_metric
+description: Grants the ability to update usage data metrics
+boundaries:
+  - instance
+permissions:
+  - increment_usage_data_metric

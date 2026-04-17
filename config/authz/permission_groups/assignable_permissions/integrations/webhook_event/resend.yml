@@ -1,5 +1,6 @@
 ---
 name: resend_webhook_event
+deprecated: true
 description: Grants the ability to resend webhook events
 boundaries:
   - group

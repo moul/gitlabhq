@@ -1,5 +1,6 @@
 ---
 name: create_relation_import
+deprecated: true
 description: Grants the ability to create relation imports
 boundaries:
   - project

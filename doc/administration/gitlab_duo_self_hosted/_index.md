@@ -42,8 +42,16 @@ For customers with an offline license, billing is seat based and you must have t
 
 For customers with an online license, billing is [usage based](../../subscriptions/gitlab_credits.md). You can also use GitLab-managed models in a hybrid deployment.
 
-Inference data (including code inputs, model prompts, and model responses) does not leave the customer network.
-Anonymized billing metadata (instance ID, call count, anonymized user ID) is sent to GitLab for usage billing.
+### Data transmission
+
+The following billing metadata is sent to GitLab for usage billing:
+
+- Anonymized instance ID
+- Call count
+- User ID
+
+Inference data, including code inputs, model prompts, and model responses, does not leave the customer network.
+
 GitLab does not capture which model or model provider the customer uses.
 
 ### GitLab Duo

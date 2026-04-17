@@ -38,6 +38,7 @@ module API
 
       def verify_update_project_attrs!(project, attrs)
         attrs.delete(:repository_storage) unless can?(current_user, :change_repository_storage, project)
+        attrs.delete(:mr_default_title_template) unless Feature.enabled?(:mr_default_title_template, project)
       end
 
       def verify_project_filters!(attrs)

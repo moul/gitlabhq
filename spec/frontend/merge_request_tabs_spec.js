@@ -475,6 +475,19 @@ describe('MergeRequestTabs', () => {
 
         beforeEach(() => {
           setWindowLocation('https://example.com');
+          const rdApp = document.createElement('article');
+          rdApp.dataset.rapidDiffs = 'true';
+          rdApp.dataset.appData = JSON.stringify({
+            versions: {
+              source_versions: [{ selected: true, base_sha: 'abc', head_sha: 'def' }],
+              target_versions: [{ selected: true, start_sha: 'ghi' }],
+            },
+          });
+          document.querySelector.mockImplementation((selector) => {
+            if (selector === '[data-rapid-diffs]') return rdApp;
+            if (selector === '.content-wrapper') return mainContent;
+            return tabContent;
+          });
           init = jest.fn();
           hide = jest.fn();
           show = jest.fn();
@@ -526,6 +539,50 @@ describe('MergeRequestTabs', () => {
           await testContext.class.tabShown('new', 'not-a-vue-page');
           await testContext.class.tabShown('diffs', 'not-a-vue-page');
           expect(show).toHaveBeenCalledTimes(1);
+        });
+
+        describe('when diff refs are missing', () => {
+          let rdAppNoDiffs;
+
+          beforeEach(() => {
+            rdAppNoDiffs = document.createElement('article');
+            rdAppNoDiffs.dataset.rapidDiffs = 'true';
+            rdAppNoDiffs.dataset.appData = JSON.stringify({ versions: null });
+            document.querySelector.mockImplementation((selector) => {
+              if (selector === '[data-rapid-diffs]') return rdAppNoDiffs;
+              if (selector === '.js-merge-request-new-submit') return null;
+              if (selector === '.content-wrapper') return mainContent;
+              return tabContent;
+            });
+          });
+
+          it('navigates to full page instead of SPA when clicking diffs tab', () => {
+            testContext.class = new MergeRequestTabs({
+              stubLocation,
+              createRapidDiffsApp,
+            });
+            const diffsHref = '/project/-/merge_requests/1/diffs';
+            testContext.class.clickTab({
+              stopImmediatePropagation: jest.fn(),
+              preventDefault: jest.fn(),
+              currentTarget: {
+                dataset: { action: 'diffs' },
+                getAttribute: () => diffsHref,
+              },
+            });
+            expect(visitUrl).toHaveBeenCalledWith(diffsHref);
+            expect(createRapidDiffsApp).not.toHaveBeenCalled();
+          });
+
+          it('does not redirect on initial page load', async () => {
+            testContext.class = new MergeRequestTabs({
+              action: 'diffs',
+              stubLocation,
+              createRapidDiffsApp,
+            });
+            await testContext.class.tabShown('diffs', '/diffs');
+            expect(createRapidDiffsApp).toHaveBeenCalledTimes(1);
+          });
         });
       });
     });

@@ -1,5 +1,6 @@
 ---
 name: update_webhook_url_variable
+deprecated: true
 description: Grants the ability to update webhook URL variables
 boundaries:
   - group

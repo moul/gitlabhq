@@ -13,8 +13,8 @@ RSpec.describe Route do
     claiming_attributes: [:path]
 
   describe '.cells_claims_scope' do
-    let!(:top_level_route) { create(:group, path: 'top-level').route }
-    let!(:sub_route) { create(:group, parent: create(:group), path: 'child').route }
+    let_it_be(:top_level_route) { create(:group, path: 'top-level').route }
+    let_it_be(:sub_route) { create(:group, parent: create(:group), path: 'child').route }
 
     it 'returns only top-level routes without a slash in the path' do
       scope = described_class.cells_claims_scope

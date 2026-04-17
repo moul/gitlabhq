@@ -172,6 +172,9 @@ module API
       expose :suggestion_commit_message, documentation: { type: 'String', example: 'Suggestion message' }
       expose :merge_commit_template, documentation: { type: 'String', example: '%(title)' }
       expose :squash_commit_template, documentation: { type: 'String', example: '%(source_branch)' }
+      expose :mr_default_title_template,
+        if: ->(project, _) { ::Feature.enabled?(:mr_default_title_template, project) },
+        documentation: { type: 'String', example: '%(source_branch)' }
       expose :issue_branch_template, documentation: { type: 'String', example: '%(title)' }
       expose :statistics, using: ::API::Entities::ProjectStatistics, if: ->(project, options) {
         options[:statistics] && Ability.allowed?(options[:current_user], :read_statistics, project)

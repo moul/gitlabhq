@@ -296,6 +296,29 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="query-aicatalogconfigureditems-itemtypes"></a>`itemTypes` | [`[AiCatalogItemType!]`](#aicatalogitemtype) | Types of items to retrieve. |
 | <a id="query-aicatalogconfigureditems-projectid"></a>`projectId` | [`ProjectID`](#projectid) | Project ID to retrieve configured AI Catalog items for. |
 
+### `Query.aiCatalogCustomAndFoundationalItems`
+
+{{< details >}}
+**Introduced** in GitLab 19.0.
+**Status**: Experiment.
+{{< /details >}}
+
+List of AI Catalog items, including foundational items.
+
+Returns [`AiCatalogCustomAndFoundationalItemConnection!`](#aicatalogcustomandfoundationalitemconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="query-aicatalogcustomandfoundationalitems-itemtypes"></a>`itemTypes` | [`[AiCatalogItemType!]`](#aicatalogitemtype) | Types of items to retrieve. |
+| <a id="query-aicatalogcustomandfoundationalitems-search"></a>`search` | [`String`](#string) | Search items by name and description. |
+| <a id="query-aicatalogcustomandfoundationalitems-sort"></a>`sort` | [`AiCatalogItemsSort`](#aicatalogitemssort) | Sort order of items. |
+
 ### `Query.aiCatalogItem`
 
 {{< details >}}
@@ -6454,6 +6477,8 @@ Input type: `CreateLatestDiffNoteInput`
 | ---- | ---- | ----------- |
 | <a id="mutation-createlatestdiffnote-body"></a>`body` | [`String!`](#string) | Content of the note. |
 | <a id="mutation-createlatestdiffnote-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-createlatestdiffnote-endnewline"></a>`endNewLine` | [`Int`](#int) | End line number on the new version of the file for a multiline note. When provided, newLine is required and marks the start of the comment range. |
+| <a id="mutation-createlatestdiffnote-endoldline"></a>`endOldLine` | [`Int`](#int) | End line number on the old version of the file for a multiline note. When provided, oldLine is required and marks the start of the comment range. |
 | <a id="mutation-createlatestdiffnote-filepath"></a>`filePath` | [`String!`](#string) | Path of the file to comment on. For renamed files, either the old or new path can be used. |
 | <a id="mutation-createlatestdiffnote-headsha"></a>`headSha` | [`String!`](#string) | HEAD SHA of the merge request diff. The request fails if it does not match the current diff, guarding against commenting on a stale diff. |
 | <a id="mutation-createlatestdiffnote-internal"></a>`internal` | [`Boolean`](#boolean) | Internal flag for a note. Default is false. |
@@ -18095,6 +18120,29 @@ The edge type for [`AiCatalogBuiltInTool`](#aicatalogbuiltintool).
 | ---- | ---- | ----------- |
 | <a id="aicatalogbuiltintooledge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="aicatalogbuiltintooledge-node"></a>`node` | [`AiCatalogBuiltInTool`](#aicatalogbuiltintool) | The item at the end of the edge. |
+
+#### `AiCatalogCustomAndFoundationalItemConnection`
+
+The connection type for [`AiCatalogCustomAndFoundationalItem`](#aicatalogcustomandfoundationalitem).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="aicatalogcustomandfoundationalitemconnection-edges"></a>`edges` | [`[AiCatalogCustomAndFoundationalItemEdge]`](#aicatalogcustomandfoundationalitemedge) | A list of edges. |
+| <a id="aicatalogcustomandfoundationalitemconnection-nodes"></a>`nodes` | [`[AiCatalogCustomAndFoundationalItem]`](#aicatalogcustomandfoundationalitem) | A list of nodes. |
+| <a id="aicatalogcustomandfoundationalitemconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `AiCatalogCustomAndFoundationalItemEdge`
+
+The edge type for [`AiCatalogCustomAndFoundationalItem`](#aicatalogcustomandfoundationalitem).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="aicatalogcustomandfoundationalitemedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="aicatalogcustomandfoundationalitemedge-node"></a>`node` | [`AiCatalogCustomAndFoundationalItem`](#aicatalogcustomandfoundationalitem) | The item at the end of the edge. |
 
 #### `AiCatalogFlowStepsConnection`
 
@@ -62734,6 +62782,17 @@ See the [GraphQL documentation](https://graphql.org/learn/) for more information
 abstract types.
 
 ### Unions
+
+#### `AiCatalogCustomAndFoundationalItem`
+
+An AI catalog item, which is either a custom or foundational item.
+
+One of:
+
+- [`AiCatalogAgent`](#aicatalogagent)
+- [`AiCatalogFlow`](#aicatalogflow)
+- [`AiCatalogThirdPartyFlow`](#aicatalogthirdpartyflow)
+- [`AiFoundationalChatAgent`](#aifoundationalchatagent)
 
 #### `CiJobTokenScopeTarget`
 

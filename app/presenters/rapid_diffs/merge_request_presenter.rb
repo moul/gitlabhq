@@ -120,6 +120,8 @@ module RapidDiffs
     end
 
     def versions
+      return unless resource.merge_request_diff&.persisted?
+
       ::RapidDiffs::DiffCompareVersionsEntity.represent(
         resource,
         diff_id: request_params[:diff_id],

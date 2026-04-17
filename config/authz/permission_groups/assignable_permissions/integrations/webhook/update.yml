@@ -7,3 +7,5 @@ boundaries:
   - instance
 permissions:
   - update_webhook
+  - update_webhook_custom_header
+  - update_webhook_url_variable

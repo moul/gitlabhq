@@ -1,5 +1,6 @@
 ---
 name: download_relation_export
+deprecated: true
 description: Grants the ability to download relation exports
 boundaries:
   - project
