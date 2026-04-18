@@ -12564,6 +12564,9 @@ msgstr ""
 msgid "Blame|Show age indicator legend"
 msgstr ""
 
+msgid "Blame|Unable to load blame"
+msgstr ""
+
 msgid "Blob"
 msgstr ""
 

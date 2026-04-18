@@ -242,6 +242,53 @@ RSpec.describe 'Gitaly unavailable graceful degradation', feature_category: :sou
     end
   end
 
+  describe 'Projects::BlameController' do
+    describe '#show' do
+      let(:make_request) { get project_blame_path(project, 'master/README.md') }
+
+      let(:allow_gitaly_to_raise_error) do
+        allow(Gitlab::Git::Commit).to receive(:find)
+          .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+      end
+
+      it_behaves_like 'handles Gitaly errors for request specs'
+    end
+
+    describe '#streaming' do
+      let(:make_request) do
+        get namespace_project_blame_streaming_path(
+          namespace_id: project.namespace,
+          project_id: project,
+          id: 'master/README.md'
+        )
+      end
+
+      let(:allow_gitaly_to_raise_error) do
+        allow(Gitlab::Git::Commit).to receive(:find)
+          .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+      end
+
+      it_behaves_like 'handles Gitaly errors for request specs'
+    end
+
+    describe '#page' do
+      let(:make_request) do
+        get namespace_project_blame_page_path(
+          namespace_id: project.namespace,
+          project_id: project,
+          id: 'master/README.md'
+        )
+      end
+
+      let(:allow_gitaly_to_raise_error) do
+        allow(Gitlab::Git::Commit).to receive(:find)
+          .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+      end
+
+      it_behaves_like 'handles Gitaly errors for request specs'
+    end
+  end
+
   describe 'Projects::CommitsController' do
     describe '#show' do
       let(:allow_gitaly_to_raise_error) do
