@@ -1057,6 +1057,21 @@
   - Gemfile.next.lock
   - Gemfile.next.checksum
 
+# Keep in sync with doctor runtime dependencies:
+#   - scripts/ai_harness/doctor (entrypoint + helper scripts)
+#   - tooling/ai_harness/doctor/**/* (library code under tooling/)
+#   - lib/gitlab/fp/**/* (functional programming utilities used by doctor)
+# When adding new runtime dependencies to doctor, add their paths here
+# in the same MR.
+.ai-harness-patterns: &ai-harness-patterns
+  - "**/AGENTS.md"
+  - "**/CLAUDE.md"
+  - ".ai/**/*"
+  - "**/.ai/**/*"
+  - "scripts/ai_harness/doctor"
+  - "tooling/ai_harness/doctor/**/*"
+  - "lib/gitlab/fp/**/*"
+
 ##################
 # Conditions set #
 ##################
@@ -3619,3 +3634,11 @@
   rules:
     - <<: *if-merge-request-tier-3
       changes: *code-backstage-patterns
+
+#########################
+# AI Harness rules      #
+#########################
+.ai-harness:rules:doctor:
+  rules:
+    - <<: *if-default-refs
+      changes: *ai-harness-patterns

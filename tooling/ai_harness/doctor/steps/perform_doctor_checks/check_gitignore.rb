@@ -9,6 +9,8 @@ module AiHarness
       module PerformDoctorChecks
         class CheckGitignore
           CHECK_NAME = '.gitignore coverage'
+          # Keep in sync: if you change these entries, update .ai-harness-patterns
+          # in .gitlab/ci/rules.gitlab-ci.yml so the CI job triggers on the right paths.
           REQUIRED_ENTRIES = %w[AGENTS.local.md CLAUDE.local.md .ai/*].freeze
 
           # @param context [Hash] the ROP chain context
