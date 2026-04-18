@@ -973,7 +973,6 @@ export default {
     'app/assets/javascripts/vue_shared/components/content_viewer/viewers/download_viewer.vue',
     'app/assets/javascripts/vue_shared/components/content_viewer/viewers/image_viewer.vue',
     'app/assets/javascripts/vue_shared/components/content_viewer/viewers/markdown_viewer.vue',
-    'app/assets/javascripts/vue_shared/components/crud_component.vue',
     'app/assets/javascripts/vue_shared/components/deployment_instance.vue',
     'app/assets/javascripts/vue_shared/components/design_management/design_disclosure.vue',
     'app/assets/javascripts/vue_shared/components/diff_stats_dropdown.vue',

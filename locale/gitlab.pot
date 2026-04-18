@@ -35075,6 +35075,9 @@ msgstr ""
 msgid "GroupSettings|Be careful. Changing a group's parent can have unintended side effects. %{learn_more_link_start}Learn more.%{learn_more_link_end}"
 msgstr ""
 
+msgid "GroupSettings|Built-in project templates"
+msgstr ""
+
 msgid "GroupSettings|By default, webhooks for group access token expiration trigger 7 days before a token expires. Enable this setting to also trigger these webhooks 60 and 30 days before a token expires."
 msgstr ""
 
@@ -35111,6 +35114,9 @@ msgstr ""
 msgid "GroupSettings|Contact source cannot be changed when issues already have contacts assigned from a different source."
 msgstr ""
 
+msgid "GroupSettings|Control whether built-in project templates are available for new projects. You can enforce this setting for all subgroups."
+msgstr ""
+
 msgid "GroupSettings|Custom project templates"
 msgstr ""
 
@@ -35145,6 +35151,9 @@ msgid "GroupSettings|Enable JWT format for CI/CD job tokens"
 msgstr ""
 
 msgid "GroupSettings|Enable JWT format for the CI_JOB_TOKEN variable. When disabled, it uses the legacy database format."
+msgstr ""
+
+msgid "GroupSettings|Enable built-in project templates"
 msgstr ""
 
 msgid "GroupSettings|Enable email notifications"
@@ -35343,6 +35352,9 @@ msgid "GroupSettings|When disabled, members cannot use runner registration token
 msgstr ""
 
 msgid "GroupSettings|When enabled, enterprise users in this group can create personal snippets. When disabled, enterprise users will be restricted from creating snippets in their personal namespace."
+msgstr ""
+
+msgid "GroupSettings|When selected, built-in templates appear in the template selector."
 msgstr ""
 
 msgid "GroupSettings|You must have the Owner role in the target group"
