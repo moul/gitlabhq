@@ -345,9 +345,9 @@ RSpec.describe GroupMember, feature_category: :groups_and_projects do
       let(:action) { group.add_member(user, Gitlab::Access::GUEST) }
 
       it 'changes access level' do
-        expect { action }.to change { user.can?(:guest_access, project_a) }.from(false).to(true)
-          .and change { user.can?(:guest_access, project_b) }.from(false).to(true)
-          .and change { user.can?(:guest_access, project_c) }.from(false).to(true)
+        expect { action }.to change { user.can?(:read_project, project_a) }.from(false).to(true)
+          .and change { user.can?(:read_project, project_b) }.from(false).to(true)
+          .and change { user.can?(:read_project, project_c) }.from(false).to(true)
       end
 
       it_behaves_like 'calls AuthorizedProjectsWorker inline to recalculate authorizations'
@@ -377,9 +377,9 @@ RSpec.describe GroupMember, feature_category: :groups_and_projects do
       let(:action) { group.members.find_by(user: user).destroy! }
 
       it 'changes access level' do
-        expect { action }.to change { user.can?(:guest_access, project_a) }.from(true).to(false)
-          .and change { user.can?(:guest_access, project_b) }.from(true).to(false)
-          .and change { user.can?(:guest_access, project_c) }.from(true).to(false)
+        expect { action }.to change { user.can?(:read_project, project_a) }.from(true).to(false)
+          .and change { user.can?(:read_project, project_b) }.from(true).to(false)
+          .and change { user.can?(:read_project, project_c) }.from(true).to(false)
       end
 
       it_behaves_like 'calls AuthorizedProjectsWorker inline to recalculate authorizations'

@@ -39,6 +39,7 @@ project:
   - download_code
   - download_wiki_code
   - export_requirements
+  - fork_project
   - import_requirements
   - import_work_items
   - mark_note_as_internal

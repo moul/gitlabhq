@@ -355,6 +355,7 @@ class ProjectPolicy < BasePolicy
     enable :build_download_code
     enable :build_read_container_image
     enable :request_access
+    enable :fork_project
   end
 
   rule { can?(:public_access) }.policy do
@@ -441,9 +442,7 @@ class ProjectPolicy < BasePolicy
 
   rule { guest & ~public_project }.enable :read_grafana
 
-  rule { (can?(:public_user_access) | can?(:reporter_access)) & forking_allowed }.policy do
-    enable :fork_project
-  end
+  rule { ~forking_allowed }.prevent :fork_project
 
   rule { metrics_dashboard_disabled }.policy do
     prevent(:metrics_dashboard)
@@ -538,6 +537,7 @@ class ProjectPolicy < BasePolicy
   rule { ~can?(:create_work_item) }.prevent :import_work_items
 
   rule { ~user_confirmed }.policy do
+    prevent :create_build
     prevent :create_pipeline
     prevent :update_pipeline
     prevent :cancel_pipeline
@@ -790,7 +790,7 @@ class ProjectPolicy < BasePolicy
 
   # These rules are included to allow maintainers of projects to push to certain
   # to run pipelines for the branches they have access to.
-  rule { can?(:public_user_access) & has_merge_requests_allowing_pushes & user_confirmed }.policy do
+  rule { can?(:public_user_access) & has_merge_requests_allowing_pushes }.policy do
     enable :create_build
     enable :create_pipeline
   end

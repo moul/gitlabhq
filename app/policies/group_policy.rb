@@ -8,7 +8,7 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
   condition(:public_group) { @subject.public? }
 
   with_score 0
-  condition(:logged_in_viewable) { @user && @subject.internal? && !@user.external? }
+  condition(:logged_in_viewable) { @user && @subject.try(:internal?) && !@user.external? }
 
   condition(:has_access) { access_level != GroupMember::NO_ACCESS }
 
@@ -150,8 +150,6 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
 
   # Role permissions are maintained in yaml in config/authz/roles/
   rule { guest }.policy do
-    enable :guest_access
-
     enable(*Authz::Role.get(:guest).direct_permissions(:group))
   end
 
