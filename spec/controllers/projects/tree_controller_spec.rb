@@ -396,5 +396,42 @@ RSpec.describe Projects::TreeController, feature_category: :source_code_manageme
         end
       end
     end
+
+    describe 'when gitaly is unavailable' do
+      let(:params) do
+        {
+          namespace_id: project.namespace.to_param, project_id: project, id: 'master'
+        }
+      end
+
+      before do
+        allow(Gitlab::Git::Commit).to receive(:find)
+          .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+      end
+
+      context 'when graceful_gitaly_degradation is enabled' do
+        before do
+          stub_feature_flags(graceful_gitaly_degradation: true)
+        end
+
+        it 'returns 503' do
+          get :show, params: params
+
+          expect(response).to have_gitlab_http_status(:service_unavailable)
+        end
+      end
+
+      context 'when graceful_gitaly_degradation is disabled' do
+        before do
+          stub_feature_flags(graceful_gitaly_degradation: false)
+        end
+
+        it 'raises the error' do
+          expect do
+            get :show, params: params
+          end.to raise_error(Gitlab::Git::CommandError)
+        end
+      end
+    end
   end
 end

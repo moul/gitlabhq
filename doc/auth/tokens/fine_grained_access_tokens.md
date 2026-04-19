@@ -2470,6 +2470,14 @@ Grants the ability to read and run batched background migrations.
 | Run | Instance | `PUT` | `/admin/batched_background_migrations/:id/resume` |
 | Run | Instance | `PUT` | `/admin/batched_background_migrations/:id/pause` |
 
+#### Database Dictionary
+
+Grants the ability to read database dictionaries.
+
+| Action | Access | Method | Path |
+| ------ | ------ | ------ | ---- |
+| Read | Instance | `GET` | `/databases/:database_name/dictionary/tables` |
+
 #### Database Migration
 
 Grants the ability to mark database migrations.

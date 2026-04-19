@@ -252,6 +252,7 @@ module API
         mount ::API::Conan::V2::ProjectPackages
         mount ::API::ContainerRegistryEvent
         mount ::API::ContainerRepositories
+        mount ::API::Databases
         mount ::API::DebianGroupPackages
         mount ::API::DebianProjectPackages
         mount ::API::DependencyProxy

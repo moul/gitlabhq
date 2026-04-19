@@ -55785,6 +55785,51 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_878426eec0dc"
+  "/api/v4/databases/{database_name}/dictionary/tables":
+    get:
+      operationId: getApiV4DatabasesDatabaseNameDictionaryTables
+      summary: List dictionary tables
+      description: Returns database dictionary tables filtered by database and optional
+        table size
+      tags:
+      - Database dictionary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIEntitiesDictionaryTable"
+        '401':
+          description: 401 Unauthorized
+        '403':
+          description: 403 Forbidden
+      parameters:
+      - name: database_name
+        required: true
+        description: The database name
+        schema:
+          type: string
+          enum:
+          - main
+          - ci
+          - sec
+          - embedding
+          - geo
+          minLength: 1
+        in: path
+      - name: table_size
+        required: false
+        description: Filter by table size classification
+        schema:
+          type: string
+          enum:
+          - small
+          - medium
+          - large
+          - over_limit
+          nullable: true
+        in: query
   "/api/v4/registry/repositories/{id}":
     get:
       operationId: getApiV4RegistryRepositoriesId
@@ -80193,6 +80238,9 @@ components:
           example: database
           items:
             type: string
+        table_size:
+          type: string
+          example: small
     APIEntitiesCiVariable:
       type: object
       properties:

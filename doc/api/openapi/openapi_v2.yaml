@@ -43329,6 +43329,49 @@ paths:
       tags:
       - container_registry
       operationId: getApiV4RegistryRepositoriesId
+  "/api/v4/databases/{database_name}/dictionary/tables":
+    get:
+      summary: List dictionary tables
+      description: Returns database dictionary tables filtered by database and optional
+        table size
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: database_name
+        description: The database name
+        type: string
+        enum:
+        - main
+        - ci
+        - sec
+        - embedding
+        - geo
+        required: true
+      - in: query
+        name: table_size
+        description: Filter by table size classification
+        type: string
+        enum:
+        - small
+        - medium
+        - large
+        - over_limit
+        required: false
+      responses:
+        '200':
+          description: List dictionary tables
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/API_Entities_Dictionary_Table"
+        '401':
+          description: 401 Unauthorized
+        '403':
+          description: 403 Forbidden
+      tags:
+      - database_dictionary
+      operationId: getApiV4DatabasesDatabaseNameDictionaryTables
   "/api/v4/events":
     get:
       summary: List currently authenticated user's events
@@ -71009,9 +71052,13 @@ definitions:
         items:
           type: string
         example: database
+      table_size:
+        type: string
+        example: small
     required:
     - table_name
     - feature_categories
+    - table_size
     description: API_Entities_Dictionary_Table model
   postApiV4AdminClustersAdd:
     type: object

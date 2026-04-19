@@ -1,0 +1,7 @@
+---
+name: read_database_dictionary
+description: Grants the ability to read database dictionary tables
+boundaries:
+  - instance
+permissions:
+  - read_database_dictionary

@@ -333,4 +333,17 @@ RSpec.describe 'Gitaly unavailable graceful degradation', feature_category: :sou
       it_behaves_like 'handles Gitaly errors for json format'
     end
   end
+
+  describe 'Projects::TreeController' do
+    describe '#show' do
+      let(:make_request) { get project_tree_path(project, 'master') }
+
+      let(:allow_gitaly_to_raise_error) do
+        allow(Gitlab::Git::Commit).to receive(:find)
+          .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+      end
+
+      it_behaves_like 'handles Gitaly errors for request specs'
+    end
+  end
 end
