@@ -1170,6 +1170,10 @@ class Group < Namespace
     feature_flag_enabled_for_self_or_ancestor?(:use_mermaid_v11, type: :gitlab_com_derisk)
   end
 
+  def sscs_malware_detection_feature_flag_enabled?
+    feature_flag_enabled_for_self_or_ancestor?(:sscs_malware_detection, type: :wip)
+  end
+
   def use_work_item_url?
     !feature_flag_enabled_for_self_or_ancestor?(:work_item_legacy_url, type: :gitlab_com_derisk)
   end

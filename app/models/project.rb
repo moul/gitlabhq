@@ -3629,6 +3629,10 @@ class Project < ApplicationRecord
     group&.use_mermaid_v11_feature_flag_enabled? || Feature.enabled?(:use_mermaid_v11, self, type: :gitlab_com_derisk)
   end
 
+  def sscs_malware_detection_feature_flag_enabled?
+    group&.sscs_malware_detection_feature_flag_enabled? || Feature.enabled?(:sscs_malware_detection, type: :wip)
+  end
+
   def use_work_item_url?
     return false if Feature.enabled?(:work_item_legacy_url, self, type: :gitlab_com_derisk)
     return true if group.blank?

@@ -38,7 +38,6 @@ module Ci
       def known_non_job_token_types
         ::Authn::AgnosticTokenIdentifier::TOKEN_TYPES - [::Authn::Tokens::CiJobToken]
       end
-      strong_memoize_attr :known_non_job_token_types
     end
   end
 end

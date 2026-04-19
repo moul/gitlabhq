@@ -126,11 +126,6 @@ RSpec.describe API::Ci::Runner, :clean_gitlab_redis_shared_state, feature_catego
         end
 
         it 'returns 403 and logs the auth failure' do
-          # TODO: remove this expectation once the following issue is resolved
-          # https://gitlab.com/gitlab-org/gitlab/-/work_items/594564
-          expect(Gitlab::AppLogger).to receive(:info).with(a_hash_including(
-            class: "Ci::Runners::PartitionedTokenFinder"
-          )).at_least(:once)
           expect(Gitlab::AppLogger).to receive(:info).with(a_hash_including(
             job_id: job.id,
             auth_fail_reason: 'job_token_expired',

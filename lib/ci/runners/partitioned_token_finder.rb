@@ -5,6 +5,12 @@ module Ci
     class PartitionedTokenFinder < Authn::TokenField::Finders::BaseEncryptedPartitioned
       include Gitlab::Utils::StrongMemoize
 
+      def execute
+        return if irrelevant_token?
+
+        super
+      end
+
       protected
 
       def partition_key
@@ -14,6 +20,14 @@ module Ci
 
       def partition_scope
         base_scope.with_runner_type(partition_key)
+      end
+
+      def irrelevant_token?
+        known_non_runner_token_types.any? { |type| type.prefix?(token) }
+      end
+
+      def known_non_runner_token_types
+        ::Authn::AgnosticTokenIdentifier::TOKEN_TYPES - [::Authn::Tokens::RunnerAuthenticationToken]
       end
     end
   end

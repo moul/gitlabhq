@@ -60,5 +60,27 @@ RSpec.describe Ci::Runners::PartitionedTokenFinder, feature_category: :continuou
         expect(recorder.log.first).not_to match(/"ci_runners"."runner_type" =/)
       end
     end
+
+    context 'when the token has a known non-runner prefix' do
+      let(:token) { 'glpat-abc123' }
+
+      it 'returns nil without querying the database' do
+        recorder = ActiveRecord::QueryRecorder.new do
+          expect(finder.execute).to be_nil
+        end
+
+        expect(recorder.count).to eq(0)
+      end
+    end
+
+    context 'when the token has no prefix (legacy token)' do
+      let(:token) { 'abc123xyz' }
+
+      it 'does not exclude the token and queries the database' do
+        recorder = ActiveRecord::QueryRecorder.new { finder.execute }
+
+        expect(recorder.count).to be > 0
+      end
+    end
   end
 end
