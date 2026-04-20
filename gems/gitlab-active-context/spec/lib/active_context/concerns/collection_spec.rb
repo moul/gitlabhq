@@ -157,7 +157,7 @@ RSpec.describe ActiveContext::Concerns::Collection do
   describe 'indexing embedding models' do
     let(:current_indexing_embedding_model) do
       ::ActiveContext::EmbeddingModel.new(
-        model_name: 'some-model-01',
+        model_key: 'some-model-01',
         field: 'current_model_field',
         llm_class: Test::MockLlmClass,
         llm_params: {}
@@ -166,7 +166,7 @@ RSpec.describe ActiveContext::Concerns::Collection do
 
     let(:next_indexing_embedding_model) do
       ::ActiveContext::EmbeddingModel.new(
-        model_name: 'some-model-02',
+        model_key: 'some-model-02',
         field: 'next_model_field',
         llm_class: Test::MockLlmClass,
         llm_params: {}

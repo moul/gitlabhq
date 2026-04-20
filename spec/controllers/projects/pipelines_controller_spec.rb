@@ -1046,7 +1046,7 @@ RSpec.describe Projects::PipelinesController, feature_category: :continuous_inte
 
     context 'with attachments' do
       let(:blob) do
-        <<~EOF
+        <<~XML
           <testsuites>
             <testsuite>
               <testcase classname='Calculator' name='sumTest1' time='0.01'>
@@ -1055,7 +1055,7 @@ RSpec.describe Projects::PipelinesController, feature_category: :continuous_inte
               </testcase>
             </testsuite>
           </testsuites>
-        EOF
+        XML
       end
 
       before do

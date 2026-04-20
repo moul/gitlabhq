@@ -33,7 +33,7 @@ RSpec.describe ActiveContext::Preprocessors::Embeddings do
   let(:test_model_key) { 'test-model-001' }
   let(:mock_embedding_models) do
     ::ActiveContext::EmbeddingModel.new(
-      model_name: test_model_key,
+      model_key: test_model_key,
       field: 'embeddings_v1',
       llm_class: Test::MockLlmClass,
       llm_params: { model: test_model_key }

@@ -42,7 +42,7 @@ module ActiveContext
 
             # Group documents by their embedding model configuration
             # This allows processing similar documents together with the same embedding model
-            model_groups = docs_to_process.group_by { |item| item[:models].map { |m| [m.field, m.model_name] }.sort }
+            model_groups = docs_to_process.group_by { |item| item[:models].map { |m| [m.field, m.model_key] }.sort }
 
             model_groups.each_value do |items|
               models = items.first[:models]
