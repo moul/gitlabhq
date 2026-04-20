@@ -2116,7 +2116,7 @@ GEM
       faraday (~> 2.0)
       faraday-follow_redirects
     sync (0.5.0)
-    sys-filesystem (1.4.3)
+    sys-filesystem (1.5.5)
       ffi (~> 1.1)
     sysexits (1.2.0)
     table_print (1.5.7)
@@ -2641,7 +2641,7 @@ DEPENDENCIES
   stackprof (~> 0.2.26)
   state_machines-activerecord (~> 0.100.0)
   state_machines-rspec (~> 0.6)
-  sys-filesystem (~> 1.4.3)
+  sys-filesystem (~> 1.5.0)
   tanuki_emoji (~> 0.13)
   telesignenterprise (~> 2.6)
   terser (= 1.0.2)
@@ -3384,7 +3384,7 @@ CHECKSUMS
   strings-ansi (0.2.0) sha256=90262d760ea4a94cc2ae8d58205277a343409c288cbe7c29416b1826bd511c88
   swd (2.0.3) sha256=4cdbe2a4246c19f093fce22e967ec3ebdd4657d37673672e621bf0c7eb770655
   sync (0.5.0) sha256=668356cc07c59ac7ed9ecf34fec3929831f179c07adb1f3e1c3b7a1609a638fd
-  sys-filesystem (1.4.3) sha256=390919de89822ad6d3ba3daf694d720be9d83ed95cdf7adf54d4573c98b17421
+  sys-filesystem (1.5.5) sha256=6f995890a734b9f0aa55df5e09d99adeb9fd1c288f2c4097269a1f8c95e15033
   sysexits (1.2.0) sha256=598241c4ae57baa403c125182dfdcc0d1ac4c0fb606dd47fbed57e4aaf795662
   table_print (1.5.7) sha256=436664281f93387b882335795e16cfeeb839ad0c785ff7f9110fc0f17c68b5cb
   tanuki_emoji (0.13.0) sha256=dee2182a5cad6f88ed91cd4e39088bd2a8f313e24f83ff5d4b5b0fecf29f6d93

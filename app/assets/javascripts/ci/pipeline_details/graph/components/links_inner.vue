@@ -91,7 +91,7 @@ export default {
       }
     },
     highlightedJobs(jobs) {
-      this.$emit('highlightedJobsChange', jobs);
+      this.$emit('highlighted-jobs-change', jobs);
     },
     linksData() {
       this.calculateLinkData();

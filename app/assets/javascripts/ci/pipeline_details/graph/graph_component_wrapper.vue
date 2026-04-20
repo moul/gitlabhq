@@ -408,8 +408,8 @@ export default {
       :show-links="showLinks"
       :view-type="graphViewType"
       @error="reportFailure"
-      @refreshPipelineGraph="refreshPipelineGraph"
-      @setSkipRetryModal="setSkipRetryModal"
+      @refresh-pipeline-graph="refreshPipelineGraph"
+      @set-skip-retry-modal="setSkipRetryModal"
     />
   </div>
 </template>

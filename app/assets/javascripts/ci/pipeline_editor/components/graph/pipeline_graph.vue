@@ -143,7 +143,7 @@ export default {
         :container-id="containerId"
         :container-measurements="measurements"
         :highlighted-job="highlightedJob"
-        @highlightedJobsChange="updateHighlightedJobs"
+        @highlighted-jobs-change="updateHighlightedJobs"
         @error="onError"
       >
         <div class="gl-relative gl-flex gl-p-8">

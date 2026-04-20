@@ -39,7 +39,7 @@ module SearchHelper
   end
 
   def resource_results(term, scope: nil)
-    return [] if term.length < Gitlab::Search::Params::MIN_TERM_LENGTH
+    return [] if term.length < Search::Params::MIN_TERM_LENGTH
     return scope_specific_results(term, scope) if scope.present?
 
     [

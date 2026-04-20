@@ -512,7 +512,7 @@ RSpec.describe SearchHelper, feature_category: :global_search do
     end
 
     with_them do
-      it 'returns results only if the term is more than or equal to Gitlab::Search::Params::MIN_TERM_LENGTH' do
+      it 'returns results only if the term is more than or equal to Search::Params::MIN_TERM_LENGTH' do
         results = resource_results(term)
 
         expect(results.size).to eq(size)
@@ -624,7 +624,7 @@ RSpec.describe SearchHelper, feature_category: :global_search do
         expect(groups_autocomplete(search_term).pluck(:id)).to eq([group_2.id])
       end
 
-      context 'when the search term is Gitlab::Search::Params::MIN_TERM_LENGTH characters long' do
+      context 'when the search term is Search::Params::MIN_TERM_LENGTH characters long' do
         let(:search_term) { 'te' }
 
         it 'returns the group' do
@@ -670,7 +670,7 @@ RSpec.describe SearchHelper, feature_category: :global_search do
         expect(projects_autocomplete(search_term).pluck(:id)).to eq([project_2.id, project_1.id])
       end
 
-      context 'when the search term is Gitlab::Search::Params::MIN_TERM_LENGTH characters long' do
+      context 'when the search term is Search::Params::MIN_TERM_LENGTH characters long' do
         let(:search_term) { 'te' }
 
         it 'returns the project' do

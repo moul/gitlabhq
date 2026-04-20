@@ -81013,9 +81013,6 @@ msgstr ""
 msgid "WorkItemStatus|Status set to %{status_name}."
 msgstr ""
 
-msgid "WorkItems|All of your work items are now in one place. You can create and share multiple views to manage work better."
-msgstr ""
-
 msgid "WorkItems|An error occurred while fetching children"
 msgstr ""
 
@@ -81031,16 +81028,7 @@ msgstr ""
 msgid "WorkItems|Fields"
 msgstr ""
 
-msgid "WorkItems|Give feedback"
-msgstr ""
-
-msgid "WorkItems|Give feedback on this experience"
-msgstr ""
-
 msgid "WorkItems|How do I use statuses?"
-msgstr ""
-
-msgid "WorkItems|New work items list"
 msgstr ""
 
 msgid "WorkItems|Open items in side panel"

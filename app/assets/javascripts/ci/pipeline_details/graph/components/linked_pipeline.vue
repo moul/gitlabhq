@@ -225,7 +225,7 @@ export default {
             id: this.graphqlPipelineId,
           },
         });
-        this.$emit('refreshPipelineGraph');
+        this.$emit('refresh-pipeline-graph');
       } catch {
         this.$emit('error', { type: ACTION_FAILURE });
       } finally {
@@ -237,14 +237,14 @@ export default {
     },
     onClickLinkedPipeline() {
       this.hideTooltips();
-      this.$emit('pipelineClicked', this.$refs.linkedPipeline);
-      this.$emit('pipelineExpandToggle', this.sourceJobName, !this.expanded);
+      this.$emit('pipeline-clicked', this.$refs.linkedPipeline);
+      this.$emit('pipeline-expand-toggle', this.sourceJobName, !this.expanded);
     },
     onDownstreamHovered() {
-      this.$emit('downstreamHovered', this.sourceJobName);
+      this.$emit('downstream-hovered', this.sourceJobName);
     },
     onDownstreamHoverLeave() {
-      this.$emit('downstreamHovered', '');
+      this.$emit('downstream-hovered', '');
     },
     retryPipeline() {
       this.executePipelineAction(RetryPipelineMutation);

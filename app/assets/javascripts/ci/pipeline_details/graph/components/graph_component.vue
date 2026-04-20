@@ -238,7 +238,7 @@ export default {
             :view-type="viewType"
             :user-permissions="userPermissions"
             @error="onError"
-            @setSkipRetryModal="$emit('setSkipRetryModal')"
+            @set-skip-retry-modal="$emit('set-skip-retry-modal')"
           />
         </template>
         <template #main>
@@ -254,7 +254,7 @@ export default {
               :show-links="showJobLinks"
               :view-type="viewType"
               @error="onError"
-              @highlightedJobsChange="updateHighlightedJobs"
+              @highlighted-jobs-change="updateHighlightedJobs"
             >
               <stage-column-component
                 v-for="column in layout"
@@ -270,10 +270,10 @@ export default {
                 :pipeline-expanded="pipelineExpanded"
                 :pipeline-id="pipeline.id"
                 :user-permissions="currentPipelinePermissions"
-                @refreshPipelineGraph="$emit('refreshPipelineGraph')"
-                @setSkipRetryModal="$emit('setSkipRetryModal')"
-                @jobHover="setJob"
-                @updateMeasurements="getMeasurements"
+                @refresh-pipeline-graph="$emit('refresh-pipeline-graph')"
+                @set-skip-retry-modal="$emit('set-skip-retry-modal')"
+                @job-hover="setJob"
+                @update-measurements="getMeasurements"
               />
             </links-layer>
           </div>
@@ -291,11 +291,11 @@ export default {
             :view-type="viewType"
             :user-permissions="userPermissions"
             data-testid="downstream-pipelines"
-            @downstreamHovered="setSourceJob"
-            @pipelineExpandToggle="togglePipelineExpanded"
-            @refreshPipelineGraph="$emit('refreshPipelineGraph')"
-            @setSkipRetryModal="$emit('setSkipRetryModal')"
-            @scrollContainer="slidePipelineContainer"
+            @downstream-hovered="setSourceJob"
+            @pipeline-expand-toggle="togglePipelineExpanded"
+            @refresh-pipeline-graph="$emit('refresh-pipeline-graph')"
+            @set-skip-retry-modal="$emit('set-skip-retry-modal')"
+            @scroll-container="slidePipelineContainer"
             @error="onError"
           />
         </template>

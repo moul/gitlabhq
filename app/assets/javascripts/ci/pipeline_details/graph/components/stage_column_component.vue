@@ -103,7 +103,7 @@ export default {
     },
   },
   mounted() {
-    this.$emit('updateMeasurements');
+    this.$emit('update-measurements');
   },
   methods: {
     getGroupId(group) {
@@ -183,7 +183,7 @@ export default {
           :with-confirmation-modal="withConfirmationModal"
           class="js-stage-action"
           @click.native="actionClicked"
-          @pipelineActionRequestComplete="$emit('refreshPipelineGraph')"
+          @pipeline-action-request-complete="$emit('refresh-pipeline-graph')"
         />
       </div>
     </template>
@@ -203,8 +203,8 @@ export default {
             :key="getGroupId(group)"
             data-testid="stage-column-group-failed"
             class="gl-pipeline-job-width gl-relative gl-mb-2 gl-whitespace-normal"
-            @mouseenter="$emit('jobHover', group.name)"
-            @mouseleave="$emit('jobHover', '')"
+            @mouseenter="$emit('job-hover', group.name)"
+            @mouseleave="$emit('job-hover', '')"
           >
             <div
               v-if="isParallel(group) || isMatrix(group)"
@@ -227,8 +227,8 @@ export default {
               :stage-name="showStageName ? group.stageName : ''"
               :css-class-job-name="$options.jobClasses"
               :class="[{ 'gl-opacity-3': isFadedOut(group.name) }, 'gl-duration-slow gl-ease-ease']"
-              @pipelineActionRequestComplete="$emit('refreshPipelineGraph')"
-              @setSkipRetryModal="$emit('setSkipRetryModal')"
+              @pipeline-action-request-complete="$emit('refresh-pipeline-graph')"
+              @set-skip-retry-modal="$emit('set-skip-retry-modal')"
             />
           </div>
         </div>
@@ -245,8 +245,8 @@ export default {
           :key="getGroupId(group)"
           data-testid="stage-column-group"
           class="gl-pipeline-job-width gl-relative gl-mb-2 gl-whitespace-normal"
-          @mouseenter="$emit('jobHover', group.name)"
-          @mouseleave="$emit('jobHover', '')"
+          @mouseenter="$emit('job-hover', group.name)"
+          @mouseleave="$emit('job-hover', '')"
         >
           <div
             v-if="isParallel(group) || isMatrix(group)"
@@ -269,8 +269,8 @@ export default {
             :stage-name="showStageName ? group.stageName : ''"
             :css-class-job-name="$options.jobClasses"
             :class="[{ 'gl-opacity-3': isFadedOut(group.name) }, 'gl-duration-slow gl-ease-ease']"
-            @pipelineActionRequestComplete="$emit('refreshPipelineGraph')"
-            @setSkipRetryModal="$emit('setSkipRetryModal')"
+            @pipeline-action-request-complete="$emit('refresh-pipeline-graph')"
+            @set-skip-retry-modal="$emit('set-skip-retry-modal')"
           />
         </div>
       </div>

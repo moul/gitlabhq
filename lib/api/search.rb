@@ -134,7 +134,7 @@ module API
         # This prevents returning all work items when unavailable types (e.g., epic on CE) are requested
         return false unless params[:type].present? && params[:scope] == 'work_items'
 
-        processed_params = Gitlab::Search::Params.new(params)
+        processed_params = ::Search::Params.new(params)
         processed_params[:work_item_type_ids].blank?
       end
 

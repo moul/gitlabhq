@@ -247,11 +247,11 @@ describe('Pipeline graph wrapper', () => {
       createComponentWithApollo();
       await waitForPromises();
     });
-    describe('when receiving `setSkipRetryModal` event', () => {
+    describe('when receiving `set-skip-retry-modal` event', () => {
       it('passes down `skipRetryModal` value as true', async () => {
         expect(findGraph().props('skipRetryModal')).toBe(false);
 
-        await findGraph().vm.$emit('setSkipRetryModal');
+        await findGraph().vm.$emit('set-skip-retry-modal');
 
         expect(findGraph().props('skipRetryModal')).toBe(true);
       });
@@ -283,7 +283,7 @@ describe('Pipeline graph wrapper', () => {
     beforeEach(async () => {
       createComponentWithApollo();
       await waitForPromises();
-      findGraph().vm.$emit('refreshPipelineGraph');
+      findGraph().vm.$emit('refresh-pipeline-graph');
     });
 
     it('calls refetch', () => {

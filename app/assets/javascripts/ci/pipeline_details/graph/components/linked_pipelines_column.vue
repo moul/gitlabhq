@@ -102,7 +102,7 @@ export default {
       },
       result() {
         this.loadingPipelineId = null;
-        this.$emit('scrollContainer');
+        this.$emit('scroll-container');
       },
       error(err) {
         this.$emit('error', { type: LOAD_FAILURE, skipSentry: true });
@@ -183,7 +183,7 @@ export default {
       this.loadingPipelineId = pipeline.id;
     },
     onDownstreamHovered(jobName) {
-      this.$emit('downstreamHovered', jobName);
+      this.$emit('downstream-hovered', jobName);
     },
     onPipelineExpandToggle(jobName, expanded) {
       // Highlighting only applies to downstream pipelines
@@ -191,7 +191,7 @@ export default {
         return;
       }
 
-      this.$emit('pipelineExpandToggle', jobName, expanded);
+      this.$emit('pipeline-expand-toggle', jobName, expanded);
     },
     showContainer(id) {
       return this.isExpanded(id) || this.isLoadingPipeline(id);
@@ -221,10 +221,10 @@ export default {
             :type="type"
             :expanded="isExpanded(pipeline.id)"
             :user-permissions="getPipelinePermissions(pipeline.id)"
-            @downstreamHovered="onDownstreamHovered"
-            @pipelineClicked="onPipelineClick(pipeline)"
-            @pipelineExpandToggle="onPipelineExpandToggle"
-            @refreshPipelineGraph="$emit('refreshPipelineGraph')"
+            @downstream-hovered="onDownstreamHovered"
+            @pipeline-clicked="onPipelineClick(pipeline)"
+            @pipeline-expand-toggle="onPipelineExpandToggle"
+            @refresh-pipeline-graph="$emit('refresh-pipeline-graph')"
           />
           <div
             v-if="showContainer(pipeline.id)"
@@ -243,7 +243,7 @@ export default {
               :skip-retry-modal="skipRetryModal"
               :is-linked-pipeline="true"
               :view-type="graphViewType"
-              @setSkipRetryModal="$emit('setSkipRetryModal')"
+              @set-skip-retry-modal="$emit('set-skip-retry-modal')"
             />
           </div>
         </li>

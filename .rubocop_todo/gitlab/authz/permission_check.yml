@@ -134,7 +134,6 @@ Gitlab/Authz/PermissionCheck:
     - 'ee/app/helpers/security_helper.rb'
     - 'ee/app/helpers/vulnerabilities_helper.rb'
     - 'ee/app/models/ci/minutes/notification.rb'
-    - 'ee/app/models/ee/group.rb'
     - 'ee/app/models/ee/issue.rb'
     - 'ee/app/models/ee/user.rb'
     - 'ee/app/models/gitlab_subscriptions/trials/duo_enterprise.rb'

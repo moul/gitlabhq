@@ -151,7 +151,6 @@ Search/NamespacedClass:
     - 'lib/gitlab/search/abuse_validators/no_abusive_term_length_validator.rb'
     - 'lib/gitlab/search/found_blob.rb'
     - 'lib/gitlab/search/found_wiki_page.rb'
-    - 'lib/gitlab/search/params.rb'
     - 'lib/gitlab/search/parsed_query.rb'
     - 'lib/gitlab/search/query.rb'
     - 'lib/gitlab/search/recent_issues.rb'

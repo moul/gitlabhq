@@ -628,7 +628,7 @@ gem 'health_check', '~> 3.0', feature_category: :shared # rubocop:todo Gemfile/M
 
 # System information
 gem 'vmstat', '~> 2.3.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
-gem 'sys-filesystem', '~> 1.4.3', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'sys-filesystem', '~> 1.5.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 
 # NTP client
 gem 'net-ntp', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839

@@ -14,7 +14,6 @@ export const initWorkItemsFeedback = ({
   badgeTitle,
   badgePopoverTitle,
   badgeContent,
-  router,
 } = {}) => {
   if (expiry) {
     const expiryDate = new Date(expiry);
@@ -29,7 +28,6 @@ export const initWorkItemsFeedback = ({
     el,
     name: 'WorkItemFeedbackRoot',
     apolloProvider,
-    router,
     provide: {
       feedbackIssue,
       feedbackIssueText,

@@ -207,8 +207,8 @@ RSpec.describe SearchController, feature_category: :global_search do
 
           context 'when checking search term length' do
             let(:search_queries) do
-              char_limit = Gitlab::Search::Params::SEARCH_CHAR_LIMIT
-              term_limit = Gitlab::Search::Params::SEARCH_TERM_LIMIT
+              char_limit = Search::Params::SEARCH_CHAR_LIMIT
+              term_limit = Search::Params::SEARCH_TERM_LIMIT
               term_char_limit = Gitlab::Search::AbuseDetection::ABUSIVE_TERM_SIZE
               {
                 chars_under_limit: ("#{'a' * (term_char_limit - 1)} " * (term_limit - 1))[0, char_limit],
@@ -485,7 +485,7 @@ RSpec.describe SearchController, feature_category: :global_search do
 
       context 'when search term is invalid' do
         it 'sets @scope even when search_term_valid? returns false' do
-          long_search_term = 'a' * (Gitlab::Search::Params::SEARCH_CHAR_LIMIT + 1)
+          long_search_term = 'a' * (Search::Params::SEARCH_CHAR_LIMIT + 1)
 
           get :show, params: { search: long_search_term, scope: 'work_items' }
 
@@ -497,7 +497,7 @@ RSpec.describe SearchController, feature_category: :global_search do
         end
 
         it 'sets @scope even when terms count is invalid' do
-          too_many_terms = Array.new(Gitlab::Search::Params::SEARCH_TERM_LIMIT + 1, 'term').join(' ')
+          too_many_terms = Array.new(Search::Params::SEARCH_TERM_LIMIT + 1, 'term').join(' ')
 
           get :show, params: { search: too_many_terms, scope: 'projects' }
           expect(assigns(:scope)).to be_present

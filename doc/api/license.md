@@ -141,7 +141,7 @@ Example request:
 
 ```shell
 curl --header "PRIVATE-TOKEN: <your_access_token>" \
---url "https://gitlab.example.com/api/v4/license/:id"
+  --url "https://gitlab.example.com/api/v4/license/:id"
 ```
 
 Example response:
@@ -185,8 +185,8 @@ POST /license
 
 ```shell
 curl --request POST \
---header "PRIVATE-TOKEN: <your_access_token>" \
---url "https://gitlab.example.com/api/v4/license?license=eyJkYXRhIjoiMHM5Q...S01Udz09XG4ifQ=="
+  --header "PRIVATE-TOKEN: <your_access_token>" \
+  --url "https://gitlab.example.com/api/v4/license?license=eyJkYXRhIjoiMHM5Q...S01Udz09XG4ifQ=="
 ```
 
 Example response:
@@ -235,8 +235,8 @@ DELETE /license/:id
 
 ```shell
 curl --request DELETE \
---header "PRIVATE-TOKEN: <your_access_token>" \
---url "https://gitlab.example.com/api/v4/license/:id"
+  --header "PRIVATE-TOKEN: <your_access_token>" \
+  --url "https://gitlab.example.com/api/v4/license/:id"
 ```
 
 Returns:
@@ -259,8 +259,8 @@ PUT /license/:id/refresh_billable_users
 
 ```shell
 curl --request PUT \
---header "PRIVATE-TOKEN: <your_access_token>" \
---url "https://gitlab.example.com/api/v4/license/:id/refresh_billable_users"
+  --header "PRIVATE-TOKEN: <your_access_token>" \
+  --url "https://gitlab.example.com/api/v4/license/:id/refresh_billable_users"
 ```
 
 Example response:
@@ -290,9 +290,8 @@ GET /license/usage_export.csv
 ```
 
 ```shell
-curl --request GET \
---header "PRIVATE-TOKEN: <your_access_token>" \
---url "https://gitlab.example.com/api/v4/license/usage_export.csv"
+curl --header "PRIVATE-TOKEN: <your_access_token>" \
+  --url "https://gitlab.example.com/api/v4/license/usage_export.csv"
 ```
 
 Example response:

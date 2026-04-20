@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Gitlab::Search::Params, feature_category: :global_search do
+RSpec.describe Search::Params, feature_category: :global_search do
   subject(:search_params) { described_class.new(params, detect_abuse: detect_abuse) }
 
   let(:search) { 'search' }
@@ -111,13 +111,13 @@ RSpec.describe Gitlab::Search::Params, feature_category: :global_search do
     end
 
     context 'when query has too many terms' do
-      let(:search) { Array.new((::Gitlab::Search::Params::SEARCH_TERM_LIMIT + 1), 'a').join(' ') }
+      let(:search) { Array.new(::Search::Params::SEARCH_TERM_LIMIT + 1, 'a').join(' ') }
 
       it { is_expected.not_to be_valid }
     end
 
     context 'when query is too long' do
-      let(:search) { 'a' * (::Gitlab::Search::Params::SEARCH_CHAR_LIMIT + 1) }
+      let(:search) { 'a' * (::Search::Params::SEARCH_CHAR_LIMIT + 1) }
 
       it { is_expected.not_to be_valid }
     end

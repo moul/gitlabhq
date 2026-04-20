@@ -211,12 +211,12 @@ class SearchController < ApplicationController
     return false if params[:search].blank?
 
     unless search_service.valid_query_length?
-      flash[:alert] = t('errors.messages.search_chars_too_long', count: Gitlab::Search::Params::SEARCH_CHAR_LIMIT)
+      flash[:alert] = t('errors.messages.search_chars_too_long', count: Search::Params::SEARCH_CHAR_LIMIT)
       return false
     end
 
     unless search_service.valid_terms_count?
-      flash[:alert] = t('errors.messages.search_terms_too_long', count: Gitlab::Search::Params::SEARCH_TERM_LIMIT)
+      flash[:alert] = t('errors.messages.search_terms_too_long', count: Search::Params::SEARCH_TERM_LIMIT)
       return false
     end
 
