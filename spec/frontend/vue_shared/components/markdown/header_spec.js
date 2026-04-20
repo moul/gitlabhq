@@ -517,7 +517,7 @@ describe('Markdown field header component', () => {
       await triggerSearch('prompt');
 
       expect(findCloneDiv().element.innerHTML).toBe(
-        'lorem ipsum dolor sit amet lorem &lt;img src="<span class="js-highlight js-highlight-active" style="background-color: rgb(233, 190, 116); display: inline-block;">prompt</span>"&gt;',
+        'lorem ipsum dolor sit amet lorem &lt;img src="<span class="js-highlight js-highlight-active">prompt</span>"&gt;',
       );
     });
 

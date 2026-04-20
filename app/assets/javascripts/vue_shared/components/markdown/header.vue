@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script>
 import { GlPopover, GlButton, GlTooltipDirective, GlFormInput } from '@gitlab/ui';
-import { GL_COLOR_ORANGE_200, GL_COLOR_ALPHA_DARK_2 } from '@gitlab/ui/src/tokens/build/js/tokens';
 import $ from 'jquery';
 import { escapeRegExp } from 'lodash-es';
 import { MARKDOWN_EVENT_SHOW, MARKDOWN_EVENT_HIDE } from '~/behaviors/preview_markdown';
@@ -36,8 +35,6 @@ import { FIND_AND_REPLACE_FOCUSABLE_SELECTOR } from './constants';
 
 export default {
   findAndReplace: {
-    highlightColor: GL_COLOR_ALPHA_DARK_2,
-    highlightColorActive: GL_COLOR_ORANGE_200,
     highlightClass: 'js-highlight',
     highlightClassActive: 'js-highlight-active',
   },
@@ -275,7 +272,6 @@ export default {
 
         if (previousActive) {
           previousActive.classList.remove(options.highlightClassActive);
-          previousActive.style.backgroundColor = options.highlightColor;
         }
 
         const newActive = this.cloneDiv
@@ -284,7 +280,6 @@ export default {
 
         if (newActive) {
           newActive.classList.add(options.highlightClassActive);
-          newActive.style.backgroundColor = options.highlightColorActive;
         }
       },
     },
@@ -516,14 +511,11 @@ export default {
           // Odd index → this segment is a match
           const span = document.createElement('span');
           span.classList.add(options.highlightClass);
-          span.style.backgroundColor = options.highlightColor;
-          span.style.display = 'inline-block';
           span.textContent = segment; // Use textContent for safe text insertion
 
           // Highlight first match
           if (counter === 0) {
             span.classList.add(options.highlightClassActive);
-            span.style.backgroundColor = options.highlightColorActive;
           }
 
           fragment.appendChild(span);

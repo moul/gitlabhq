@@ -279,7 +279,6 @@ variables:
 
   ES_JAVA_OPTS: "-Xms256m -Xmx256m"
   ELASTIC_URL: "http://elastic:changeme@elasticsearch:9200"
-  BUNDLER_CHECKSUM_VERIFICATION_OPT_IN: "1"
   CACHE_CLASSES: "true"
   CHECK_PRECOMPILED_ASSETS: "true"
   RETRY_FAILED_TESTS_IN_NEW_PROCESS: "true"

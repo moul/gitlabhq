@@ -99,6 +99,16 @@
   --severity-color-info: var(--gl-color-blue-400);
   --severity-color-unknown: var(--gl-color-neutral-400);
 
+  /**
+   * Find and replace highlight styles
+   * Discussion: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231274
+   * Owner: Group Knowledge
+   */
+  --find-and-replace-match-text-color: var(--gl-highlight-match-text-color);
+  --find-and-replace-match-background-color: var(--gl-color-orange-100);
+  --find-and-replace-match-active-text-color: var(--gl-highlight-match-text-color);
+  --find-and-replace-match-active-background-color: var(--gl-highlight-match-background-color);
+
   &.gl-dark {
     --ci-icon-success-background-color: var(--gl-color-green-300);
     --ci-icon-success-text-color: var(--gl-color-green-900);
@@ -145,5 +155,8 @@
     --severity-color-low: var(--gl-color-orange-100);
     --severity-color-info: var(--gl-color-blue-300);
     --severity-color-unknown: var(--gl-color-neutral-300);
+
+    --find-and-replace-match-active-text-color: var(--gl-color-neutral-0);
+    --find-and-replace-match-active-background-color: var(--gl-color-orange-800);
   }
 }
