@@ -3423,7 +3423,7 @@ client side of the SAML authentication.
 
 ## Password generation for users created through SAML
 
-GitLab [generates and sets passwords for users created through SAML](../security/passwords_for_integrated_authentication_methods.md).
+GitLab [generates and sets passwords for users created through SAML](../user/profile/user_passwords.md).
 
 Users authenticated with SSO or SAML must not use a password for Git operations
 over HTTPS. These users can instead:

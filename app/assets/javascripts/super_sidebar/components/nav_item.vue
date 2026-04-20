@@ -146,7 +146,7 @@ export default {
         'gl-px-2 gl-mx-2 gl-leading-normal': this.isSubitem,
         'gl-px-2': !this.isSubitem,
         '!gl-pl-5 gl-rounded-small': this.isFlyout,
-        'gl-rounded-base': !this.isFlyout,
+        'gl-rounded-lg': !this.isFlyout,
         [this.item.link_classes]: this.item.link_classes,
         ...this.linkClasses,
       };

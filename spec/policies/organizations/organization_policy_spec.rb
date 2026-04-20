@@ -34,6 +34,7 @@ RSpec.describe Organizations::OrganizationPolicy, feature_category: :organizatio
       it { is_expected.to be_allowed(:create_group) }
       it { is_expected.to be_allowed(:read_organization) }
       it { is_expected.to be_allowed(:read_organization_user) }
+      it { expect_allowed(:transfer_group) }
       it { expect_allowed(:access_organization_admin_area) }
 
       context 'when org_admin_area feature flag is disabled' do
@@ -48,6 +49,7 @@ RSpec.describe Organizations::OrganizationPolicy, feature_category: :organizatio
     context 'when admin mode is disabled' do
       it { is_expected.to be_disallowed(:admin_organization) }
       it { is_expected.to be_disallowed(:access_organization_admin_area) }
+      it { expect_disallowed(:transfer_group) }
 
       context 'when the organization is private' do
         it { is_expected.to be_disallowed(:read_organization) }
@@ -70,6 +72,7 @@ RSpec.describe Organizations::OrganizationPolicy, feature_category: :organizatio
     it { is_expected.to be_allowed(:create_group) }
     it { is_expected.to be_allowed(:read_organization) }
     it { is_expected.to be_disallowed(:read_organization_user) }
+    it { expect_disallowed(:transfer_group) }
     it { expect_disallowed(:access_organization_admin_area) }
   end
 
@@ -82,6 +85,7 @@ RSpec.describe Organizations::OrganizationPolicy, feature_category: :organizatio
     it { is_expected.to be_allowed(:create_group) }
     it { is_expected.to be_allowed(:read_organization) }
     it { is_expected.to be_allowed(:read_organization_user) }
+    it { expect_allowed(:transfer_group) }
     it { expect_allowed(:access_organization_admin_area) }
 
     context 'when org_admin_area feature flag is disabled' do
@@ -97,6 +101,7 @@ RSpec.describe Organizations::OrganizationPolicy, feature_category: :organizatio
     it { is_expected.to be_disallowed(:admin_organization) }
     it { is_expected.to be_disallowed(:create_group) }
     it { is_expected.to be_disallowed(:read_organization_user) }
+    it { expect_disallowed(:transfer_group) }
     it { expect_disallowed(:access_organization_admin_area) }
 
     context 'when the organization is private' do

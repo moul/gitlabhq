@@ -70,7 +70,7 @@ To set up SSO with Azure as your identity provider:
    group claim to match the required attribute.
 
 <i class="fa-youtube-play" aria-hidden="true"></i>
-View a demo of [SCIM provisioning on Azure using SAML SSO for groups](https://youtu.be/24-ZxmTeEBU). The `objectID` mapping is outdated in this video. Follow the [SCIM documentation](scim_setup.md#configure-microsoft-entra-id-formerly-azure-active-directory) instead.
+View a demo of [SCIM provisioning on Azure using SAML SSO for groups](https://youtu.be/24-ZxmTeEBU). The `objectID` mapping is outdated in this video. Follow the instructions for [configuring Microsoft Entra ID for SCIM documentation](scim_setup.md#configure-microsoft-entra-id) instead.
 
 For more information, see the [Azure configuration example](example_saml_config.md#azure-active-directory).
 
@@ -264,7 +264,7 @@ To set up SSO with AWS IAM Identity Center as your identity provider:
 
 1. Under **IAM Identity Center SAML metadata**, copy the **IAM Identity Center sign-in URL**
    and download the certificate.
-   
+
 1. On your terminal, generate a SHA1 fingerprint from the
    downloaded certificate:
 
@@ -785,7 +785,7 @@ For example:
 - [Glossary](../../../integration/saml.md#glossary)
 - [Blog post: The ultimate guide to enabling SAML and SSO on GitLab.com](https://about.gitlab.com/blog/the-ultimate-guide-to-enabling-saml/)
 - [Authentication comparison between GitLab.com and GitLab Self-Managed](../../../administration/auth/_index.md#gitlabcom-compared-to-gitlab-self-managed)
-- [Passwords for users created through integrated authentication](../../../security/passwords_for_integrated_authentication_methods.md)
+- [Passwords for users created through integrated authentication](../../profile/user_passwords.md)
 - [SAML Group Sync](group_sync.md)
 
 ## Troubleshooting

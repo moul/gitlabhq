@@ -314,6 +314,7 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
   rule { owner | admin | organization_owner }.policy do
     enable :owner_access
     enable :read_statistics
+    enable :update_group_organization
   end
 
   rule { maintainer & can?(:create_projects) }.policy do

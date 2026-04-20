@@ -256,7 +256,7 @@ gitlab_rails['omniauth_providers'] = [
 
 ### Passwords for users created via OmniAuth
 
-The [Generated passwords for users created through integrated authentication](../security/passwords_for_integrated_authentication_methods.md)
+The [Generated passwords for users created through integrated authentication](../user/profile/user_passwords.md)
 guide provides an overview about how GitLab generates and sets passwords for
 users created with OmniAuth.
 

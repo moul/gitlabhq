@@ -173,11 +173,6 @@
     }
   }
 
-  // Super sidebar item
-  .super-sidebar-nav-item {
-    @apply gl-rounded-lg #{!important};
-  }
-
   // Application background item hover/focus states
   .super-sidebar .super-sidebar-nav-item,
   .dashboard-shortcuts-button,
@@ -430,9 +425,6 @@
     flex: 1;
     min-height: 0;
     contain: layout;
-    // a margin is required for the panel element so that it works exactly like the native viewport,
-    // which compensates for the scrollbar size when using fixed position
-    margin-right: var(--scrollbar-width, 0);
   }
 
   &.issue-boards-page .panel-content,
@@ -443,13 +435,8 @@
   .panel-content-inner,
   .work-item-detail-panel-content {
     overflow-x: hidden;
-    overflow-y: scroll;
-  }
-
-  .panel-content-inner,
-  .work-item-detail-panel-content,
-  .work-item-detail-panel-header {
-    margin-right: calc(var(--scrollbar-width, 0) * -1);
+    overflow-y: auto;
+    scrollbar-gutter: stable;
   }
 
   .panel-content-inner {

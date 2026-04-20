@@ -315,7 +315,7 @@ concatenate them into a single file. Use either:
 - A filename pattern (`junit: rspec-*.xml`, `junit: test-results/**/*.xml`).
 - An array of filenames (`junit: [rspec-1.xml, rspec-2.xml, rspec-3.xml]`).
 - A combination of both (`junit: [rspec.xml, test-results/TEST-*.xml]`).
-- Directories are not supported(`junit: test-results`, `junit: test-results/**`).
+- Directories are not supported (`junit: test-results`, `junit: test-results/**`).
 
 ## `artifacts:reports:load_performance`
 

@@ -25,7 +25,6 @@ describe('IndexLayout', () => {
         createComponent({ heading: 'Test Heading' });
         expect(findPageHeading().exists()).toBe(true);
         expect(findPageHeading().props('heading')).toBe('Test Heading');
-        expect(findPageHeading().classes()).toContain('!gl-my-0');
       });
 
       it('renders when heading slot is provided', () => {
@@ -78,14 +77,15 @@ describe('IndexLayout', () => {
 
   describe('slots', () => {
     describe('alerts', () => {
-      it('renders alerts container when slot is provided', () => {
-        createComponent({}, { alerts: '<div>Content</div>' });
+      it('always renders the alerts container', () => {
+        createComponent();
         expect(findAlerts().exists()).toBe(true);
+        expect(findAlerts().attributes('id')).toBe('index-layout-alerts');
       });
 
-      it('does not render alerts container when slots are not provided', () => {
-        createComponent();
-        expect(findAlerts().exists()).toBe(false);
+      it('renders alerts container when slot is provided', () => {
+        createComponent({}, { alerts: '<div>Alerts slot content</div>' });
+        expect(findAlerts().text()).toContain('Alerts slot content');
       });
     });
 

@@ -27,12 +27,8 @@ export default {
 </script>
 
 <template>
-  <div class="gl-flex gl-flex-col gl-gap-5">
-    <page-heading
-      :heading="heading"
-      class="!gl-my-0 gl-pt-5"
-      :class="{ 'gl-sr-only': pageHeadingSrOnly }"
-    >
+  <div>
+    <page-heading :heading="heading" :class="{ 'gl-sr-only': pageHeadingSrOnly }">
       <template v-if="$scopedSlots.heading" #heading>
         <slot name="heading"></slot>
       </template>
@@ -45,8 +41,8 @@ export default {
       </template>
     </page-heading>
     <div
-      v-if="$scopedSlots.alerts"
-      class="gl-flex gl-flex-col gl-gap-3"
+      id="index-layout-alerts"
+      class="gl-mb-5 gl-flex gl-flex-col gl-gap-3 empty:gl-mb-0"
       data-testid="index-layout-alerts"
     >
       <slot name="alerts"></slot>

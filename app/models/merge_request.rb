@@ -2982,7 +2982,7 @@ class MergeRequest < ApplicationRecord
       project_id: target_project_id,
       replica_state_id: state_id,
       primary_state_id: primary_state_id,
-      backtrace: Gitlab::BacktraceCleaner.clean_backtrace(caller)
+      caller: Gitlab::BacktraceCleaner.clean_backtrace(caller)
     )
 
     true

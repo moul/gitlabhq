@@ -27,12 +27,14 @@ module Organizations
       enable :read_organization
       enable :read_organization_user
       enable :read_work_item_type
+      enable :transfer_group
     end
 
     rule { organization_owner }.policy do
       enable :admin_organization
       enable :access_organization_admin_area
       enable :read_organization_user
+      enable :transfer_group
     end
 
     rule { ~organization_admin_area_enabled }.policy do

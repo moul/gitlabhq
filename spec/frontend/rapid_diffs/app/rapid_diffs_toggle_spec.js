@@ -1,12 +1,18 @@
 import { GlPopover, GlDisclosureDropdownGroup } from '@gitlab/ui';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import { useMockLocationHelper } from 'helpers/mock_window_location_helper';
+import waitForPromises from 'helpers/wait_for_promises';
 import RapidDiffsToggle from '~/rapid_diffs/app/rapid_diffs_toggle.vue';
+import Api from '~/api';
+import Tracking from '~/tracking';
+import { SERVICE_PING_SCHEMA } from '~/tracking/constants';
 import { setCookie, removeCookie, getCookie } from '~/lib/utils/common_utils';
 import { RAPID_DIFFS_COOKIE_NAME } from '~/rapid_diffs/constants';
 import { helpPagePath } from '~/helpers/help_page_helper';
 
 jest.mock('~/lib/utils/common_utils');
+jest.mock('~/api');
+jest.mock('~/tracking');
 const FEEDBACK_ISSUE_PATH = 'https://gitlab.com/gitlab-org/gitlab/-/work_items/596236';
 const DOCS_URL = helpPagePath('user/project/merge_requests/changes', { anchor: 'rapid-diffs' });
 
@@ -40,8 +46,20 @@ describe('RapidDiffsToggle', () => {
       expect(findLearnMoreButton().attributes('href')).toBe(DOCS_URL);
     });
 
-    it('sets cookie and navigates without rapid_diffs_disabled param on click', () => {
+    it('tracks event, sets cookie, and reloads on click', async () => {
+      Api.trackInternalEvent.mockResolvedValue();
       findTryButton().vm.$emit('click');
+      await waitForPromises();
+      expect(Tracking.event).toHaveBeenCalledWith(undefined, 'toggle_rapid_diffs', {
+        context: {
+          schema: SERVICE_PING_SCHEMA,
+          data: { event_name: 'toggle_rapid_diffs', data_source: 'redis_hll' },
+        },
+        label: 'enabled',
+      });
+      expect(Api.trackInternalEvent).toHaveBeenCalledWith('toggle_rapid_diffs', {
+        label: 'enabled',
+      });
       expect(setCookie).toHaveBeenCalledWith(RAPID_DIFFS_COOKIE_NAME, 'true');
       expect(window.location.assign).toHaveBeenCalledWith('https://example.com/diffs');
     });
@@ -79,9 +97,21 @@ describe('RapidDiffsToggle', () => {
       ]);
     });
 
-    it('removes cookie and navigates without rapid_diffs param when switching to classic', () => {
+    it('tracks event, removes cookie, and reloads when switching to classic', async () => {
+      Api.trackInternalEvent.mockResolvedValue();
       const switchGroup = findDropdownGroups().at(1);
       switchGroup.props('group').items[0].action();
+      await waitForPromises();
+      expect(Tracking.event).toHaveBeenCalledWith(undefined, 'toggle_rapid_diffs', {
+        context: {
+          schema: SERVICE_PING_SCHEMA,
+          data: { event_name: 'toggle_rapid_diffs', data_source: 'redis_hll' },
+        },
+        label: 'disabled',
+      });
+      expect(Api.trackInternalEvent).toHaveBeenCalledWith('toggle_rapid_diffs', {
+        label: 'disabled',
+      });
       expect(removeCookie).toHaveBeenCalledWith(RAPID_DIFFS_COOKIE_NAME);
       expect(window.location.assign).toHaveBeenCalledWith('https://example.com/diffs');
     });

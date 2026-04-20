@@ -51,7 +51,7 @@ Flows are available in IDEs and the GitLab UI.
 - In IDEs, the software development flow is available in VS Code, Visual Studio, and JetBrains. Support for other flows is being proposed.
 
 For more information about how flows execute in CI/CD, see [the flow execution documentation](execution.md).
-For information about the security of flows, see [the composite identity documentation](../security.md).
+For information about the security of flows, see [the composite identity documentation](../composite_identity.md).
 
 ## Prerequisites
 

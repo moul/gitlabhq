@@ -16,11 +16,5 @@ module Layouts
     renders_one :description
     renders_one :actions
     renders_one :alerts
-
-    def page_heading_classes
-      classes = '!gl-my-0 gl-pt-5'
-      classes += ' gl-sr-only' if @page_heading_sr_only
-      classes
-    end
   end
 end
