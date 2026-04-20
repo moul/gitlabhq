@@ -38,6 +38,8 @@ module Gitlab
         case finder
         when BranchesFinder
           Feature.enabled?(:branch_list_keyset_pagination, project)
+        when Gitlab::Git::Finders::BranchesFinder
+          true
         when TagsFinder
           true
         when ::Repositories::TreeFinder
@@ -51,6 +53,8 @@ module Gitlab
         case finder
         when BranchesFinder
           Feature.enabled?(:branch_list_keyset_pagination, project)
+        when Gitlab::Git::Finders::BranchesFinder
+          true
         when TagsFinder
           params[:search].blank? # Gitaly pagination does not support tags search
         when ::Repositories::TreeFinder

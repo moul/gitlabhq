@@ -122,7 +122,7 @@ Prerequisites:
 To create a static environment in the UI:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Operate** > **Environments**.
+1. In the left sidebar, select **Operate** > **Environments**.
 1. Select **Create an environment**.
 1. Complete the fields.
 1. Select **Save**.
@@ -363,7 +363,7 @@ GitLab validates the pipeline configuration at pipeline creation.
 To search environments by name:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Operate** > **Environments**.
+1. In the left sidebar, select **Operate** > **Environments**.
 1. In the search bar, enter your search term.
    - The length of your **search term should be 3 or more characters**.
    - Matching applies from the beginning of the environment name.
@@ -410,7 +410,7 @@ When using the `on_stop` action to stop an environment, the job runs if it's not
 To stop an environment in the GitLab UI:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Operate** > **Environments**.
+1. In the left sidebar, select **Operate** > **Environments**.
 1. Next to the environment you want to stop, select **Stop**.
 1. On the confirmation dialog, select **Stop environment**.
 
@@ -554,7 +554,7 @@ you can view its expiration date and time.
 To view an environment's expiration date and time:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Operate** > **Environments**.
+1. In the left sidebar, select **Operate** > **Environments**.
 1. Select the name of the environment.
 
 The expiration date and time is displayed in the upper-left corner, next to the environment's name.
@@ -567,7 +567,7 @@ you can override its expiration.
 To override an environment's expiration in the UI:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Operate** > **Environments**.
+1. In the left sidebar, select **Operate** > **Environments**.
 1. Select the environment name.
 1. in the upper-right corner, select the thumbtack ({{< icon name="thumbtack" >}}).
 
@@ -597,7 +597,7 @@ Prerequisites:
 To clean up stale environments:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Operate** > **Environments**.
+1. In the left sidebar, select **Operate** > **Environments**.
 1. Select **Clean up environments**.
 1. Select the date to use for determining which environments to consider stale.
 1. Select **Clean up**.
@@ -739,7 +739,7 @@ Prerequisites:
 To delete an environment:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Operate** > **Environments**.
+1. In the left sidebar, select **Operate** > **Environments**.
 1. Select the **Stopped** tab.
 1. Next to the environment you want to delete, select **Delete environment**.
 1. On the confirmation dialog, select **Delete environment**.
@@ -845,7 +845,7 @@ Limitations of GitLab Auto Rollback:
 GitLab Auto Rollback is turned off by default. To turn it on:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Automatic deployment rollbacks**.
 1. Select the checkbox for **Enable automatic rollbacks**.
 1. Select **Save changes**.

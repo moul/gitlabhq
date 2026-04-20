@@ -2167,8 +2167,6 @@ You can go to a page by using the `visit` method and passing the path as an argu
   visit project_pipeline_path(project, pipeline)
 ```
 
-Before executing any page interaction when navigating or making asynchronous call through the UI, make sure to use `wait_for_requests` before proceeding with further instructions.
-
 #### Elements interaction
 
 There are a lot of different ways to find and interact with elements.
@@ -2228,11 +2226,6 @@ To assert anything in a page, you can always access `page` variable, which is au
 ```
 
 ```ruby
-  # You can combine any of these selectors with `not_to` instead
-  expect(page).not_to have_button('Submit review')
-```
-
-```ruby
   # When a test case has back to back expectations,
   # it is recommended to group them using `:aggregate_failures`
   it 'shows the issue description and design references', :aggregate_failures do
@@ -2255,6 +2248,17 @@ You can also create a sub-block to look into, to:
 ```
 
 You can find a more comprehensive list of matchers in the [feature tests matchers](best_practices.md#matchers) documentation.
+
+Before asserting on any backend attributes, assert on a visible element first to confirm the operation has completed. Avoid using `wait_for_requests`, as race conditions can occur when the wait is called before the request is made.
+
+```ruby
+  click_button 'Leave project'
+
+  # This ensures that the request to leave the project has completed
+  expect(page).to have_text 'You left the project.'
+
+  expect(project.reload.users.exists?(user.id)).to be(false)
+```
 
 #### Feature flags
 

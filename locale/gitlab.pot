@@ -7623,6 +7623,9 @@ msgstr ""
 msgid "AiPowered|Amazon Q Setup"
 msgstr ""
 
+msgid "AiPowered|An error occurred while loading Duo settings. Please try again."
+msgstr ""
+
 msgid "AiPowered|Assign models to AI-native features."
 msgstr ""
 
@@ -15998,6 +16001,9 @@ msgid "Cloud SQL instances are fully managed, relational SQL Server databases. G
 msgstr ""
 
 msgid "Cloud Storage"
+msgstr ""
+
+msgid "Cloud-connected GitLab Duo Workflow Service at %{host} is operational."
 msgstr ""
 
 msgid "CloudSeed|AI / ML"
@@ -32985,9 +32991,6 @@ msgid "GitLab Duo Core"
 msgstr ""
 
 msgid "GitLab Duo Workflow Service at %{host} is not operational."
-msgstr ""
-
-msgid "GitLab Duo Workflow Service at %{host} is operational."
 msgstr ""
 
 msgid "GitLab Duo features"
@@ -67003,6 +67006,9 @@ msgstr ""
 msgid "Self hosted AI Gateway URL is set to %{url}. It can be changed in the Gitlab Duo configuration."
 msgstr ""
 
+msgid "Self-hosted GitLab Duo Workflow Service at %{host} is operational."
+msgstr ""
+
 msgid "Semantic search"
 msgstr ""
 
@@ -75210,6 +75216,9 @@ msgid "Unable to sign in to group with SAML: \"%{reason}\""
 msgstr ""
 
 msgid "Unable to suggest a path. Please refresh and try again."
+msgstr ""
+
+msgid "Unable to update AI settings"
 msgstr ""
 
 msgid "Unable to update DPoP preference."

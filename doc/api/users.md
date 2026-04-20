@@ -1369,7 +1369,8 @@ Supported attributes:
 Example request:
 
 ```shell
-curl --request PATCH --header "PRIVATE-TOKEN: <your_access_token>" \
+curl --request PATCH \
+  --header "PRIVATE-TOKEN: <your_access_token>" \
   --url "https://gitlab.example.com/api/v4/users/1/disable_two_factor"
 ```
 
@@ -1498,7 +1499,7 @@ POST /user/support_pin
 Example request:
 
 ```shell
-curl --request POST |
+curl --request POST \
   --header "PRIVATE-TOKEN: <your_access_token>" \
   --url "https://gitlab.example.com/api/v4/user/support_pin"
 ```

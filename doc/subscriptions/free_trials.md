@@ -78,7 +78,7 @@ Prerequisites:
 To start a trial:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Billing**.
+1. In the left sidebar, select **Settings** > **Billing**.
 1. Select **Start free trial**.
 1. Complete the fields.
 1. Select **Continue**.

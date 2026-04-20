@@ -14,7 +14,7 @@ module Gitlab
         return merge_request.compare if merge_request.compare
         return commit if commit.present?
         return merge_request.merge_head_diff if merge_head_diff?
-        return merge_request.merge_request_diff if diff_id.blank?
+        return merge_request.latest_merge_request_diff || merge_request.merge_request_diff if diff_id.blank?
 
         merge_request_diff_by_id
       end

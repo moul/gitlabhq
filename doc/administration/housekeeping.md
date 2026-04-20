@@ -120,7 +120,7 @@ housekeeping tasks. The manual trigger can be useful when either:
 To trigger housekeeping tasks manually:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Advanced**.
 1. Select **Run housekeeping**.
 
@@ -155,7 +155,7 @@ grace period is reduced to 30 minutes.
 To trigger a manual prune of unreachable objects:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Advanced**.
 1. Select **Run housekeeping**.
 1. Wait 30 minutes for the operation to complete.

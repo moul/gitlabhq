@@ -41,7 +41,7 @@ Prerequisites:
 To protect an environment:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Protected environments**.
 1. Select **Protect an environment**.
 1. From the **Environment** list, select the environment you want to protect.
@@ -275,7 +275,7 @@ To protect a group-level environment, make sure your environments have the corre
 {{< /history >}}
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Protected environments**.
 1. From the **Environment** list, select the [deployment tier of environments](_index.md#deployment-tier-of-environments) you want to protect.
 1. In the **Allowed to deploy** list, select the [subgroups](../../user/group/subgroups/_index.md) you want to give deploy access to.

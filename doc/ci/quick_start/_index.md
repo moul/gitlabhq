@@ -49,7 +49,7 @@ If you're using GitLab.com, you can skip this step. GitLab.com provides instance
 To view available runners:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Runners**.
 
 As long as you have at least one runner that's active, with a green circle next to it,

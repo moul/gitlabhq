@@ -3,8 +3,9 @@ import path from 'node:path';
 import { existsSync } from 'node:fs';
 import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
-// eslint-disable-next-line import/no-unresolved
 import graphqlPlugin from '@graphql-eslint/eslint-plugin';
+import noUnsanitizedPlugin from 'eslint-plugin-no-unsanitized';
+import { conditionalIgnores } from './tooling/eslint-config/conditional_ignores.js';
 import * as todoLists from './.eslint_todo/index.mjs';
 import { eslintLocalRules } from './tooling/eslint-config/eslint-local-rules/index.mjs';
 
@@ -21,22 +22,21 @@ const NO_HARDCODED_URLS_OPTIONS = {
   disallowedObjectProperties: ['relative_url_root'],
 };
 
+// Rules disabled for non-production code (configs, tests, tools, stories, etc.)
+const relaxedUrlAndI18nRules = {
+  '@gitlab/require-i18n-strings': 'off',
+  '@gitlab/no-hardcoded-urls': 'off',
+  '@gitlab/vue-no-hardcoded-urls': 'off',
+  'local-rules/no-web-url': 'off',
+  'local-rules/vue-no-web-url': 'off',
+};
+
 const { dirname } = import.meta;
 const compat = new FlatCompat({
   baseDirectory: dirname,
   recommendedConfig: js.configs.recommended,
   allConfig: js.configs.all,
 });
-
-const extendConfigs = [
-  'plugin:@gitlab/default',
-  'plugin:@gitlab/i18n',
-  'plugin:no-jquery/slim',
-  'plugin:no-jquery/deprecated-3.4',
-  'plugin:no-unsanitized/recommended-legacy',
-  './tooling/eslint-config/conditionally_ignore.js',
-  'plugin:@gitlab/jest',
-];
 
 // Allowing JiHu to add rules on their side since the update from
 // eslintrc.yml to eslint.config.mjs is not allowing subdirectory
@@ -83,53 +83,47 @@ const jestConfig = {
   },
 };
 
-/** An object to make it easier to reuse restricted imports */
-const restrictedImportsPaths = {
-  axios: {
-    name: 'axios',
-    message: 'Import axios from ~/lib/utils/axios_utils instead.',
-  },
-  mousetrap: {
-    name: 'mousetrap',
-    message: 'Import { Mousetrap } from ~/lib/mousetrap instead.',
-  },
-  sentry: {
+// ── Restricted Imports ──
+
+const restrictedImportsPaths = [
+  { name: 'axios', message: 'Import axios from ~/lib/utils/axios_utils instead.' },
+  { name: 'mousetrap', message: 'Import { Mousetrap } from ~/lib/mousetrap instead.' },
+  {
     name: '@sentry/browser',
     message: 'Use "import * as Sentry from \'~/sentry/sentry_browser_wrapper\';" instead',
   },
-  vuex: {
+  {
     name: 'vuex',
     message:
       'See our documentation on "Migrating from VueX" for tips on how to avoid adding new VueX stores.',
   },
-};
+];
 
-const restrictedImportsPatterns = {
-  gitlabUiDist: {
+const restrictedImportsPatterns = [
+  {
     group: ['@gitlab/ui/dist/*'],
     message:
       'Avoid importing from `@gitlab/ui/dist`. Our build uses aliases to force importing gitlab-ui from source, using `/dist` may have no effect.',
   },
-  react: {
+  {
     group: ['react', 'react-dom/*'],
     message: 'We do not allow usage of React in our codebase except for the graphql_explorer',
   },
-  lodash: {
+  {
     group: ['lodash', 'lodash/*'],
     message: 'Use lodash-es instead of lodash',
   },
-};
+];
 
-const restrictedImportsAll = {
-  paths: Object.values(restrictedImportsPaths),
-  patterns: Object.values(restrictedImportsPatterns),
-};
-
-const restrictedImportPatternsFromCE = {
-  group: ['ee/**/*'],
-  message:
-    'The `ee` import alias is only allowed in the `ee` directory. See https://docs.gitlab.com/development/ee_features/#separation-of-ee-code-in-the-frontend.',
-};
+const specRestrictedImportsPaths = [
+  ...restrictedImportsPaths,
+  {
+    name: '~/locale',
+    importNames: ['__', 's__'],
+    message:
+      'Do not externalize strings in specs: https://docs.gitlab.com/development/i18n/externalization.html#test-files-jest',
+  },
+];
 
 const baseNoRestrictedSyntax = [
   {
@@ -211,22 +205,11 @@ const specNoRestrictedSyntax = [
   },
 ];
 
-const specRestrictedImportsPaths = [
-  restrictedImportsPaths.axios,
-  restrictedImportsPaths.mousetrap,
-  restrictedImportsPaths.sentry,
-  restrictedImportsPaths.vuex,
-  {
-    name: '~/locale',
-    importNames: ['__', 's__'],
-    message:
-      'Do not externalize strings in specs: https://docs.gitlab.com/development/i18n/externalization.html#test-files-jest',
-  },
-];
-
 export default [
+  // Global ignores
   {
     ignores: [
+      ...conditionalIgnores,
       'app/assets/javascripts/locale/**/app.js',
       'builds/',
       'coverage/',
@@ -240,13 +223,28 @@ export default [
       'storybook/public',
       'spec/fixtures/**/*.graphql',
       'ee/frontend_islands/',
-      'app/assets/javascripts/lib/utils/path_helpers/*.js',
-      'ee/app/assets/javascripts/lib/utils/path_helpers/*.js',
+      '{,ee/}app/assets/javascripts/lib/utils/path_helpers/*.js',
       'spec/frontend/scripts/infection_scanner/fixtures/**',
+
+      // Dot-prefixed directories were implicitly ignored under legacy
+      // eslintrc config (FlatCompat) but must be listed explicitly in flat config
+      '.eslint_todo/**',
+      'doc/.markdownlint/**',
+      'doc-locale/.markdownlint/**',
     ],
   },
-  ...compat.extends(...extendConfigs),
+  // Legacy plugin configs (via FlatCompat)
+  ...compat.extends(
+    'plugin:@gitlab/default',
+    'plugin:@gitlab/i18n',
+    'plugin:no-jquery/slim',
+    'plugin:no-jquery/deprecated-3.4',
+    'plugin:@gitlab/jest',
+  ),
   ...compat.plugins('no-jquery'),
+  // Native flat config plugins
+  noUnsanitizedPlugin.configs.recommended,
+  // Global rule overrides
   {
     rules: {
       'no-unused-vars': [
@@ -258,6 +256,7 @@ export default [
       ],
     },
   },
+  // Main application code rules
   {
     files: ['**/*.{js,vue}'],
 
@@ -284,6 +283,7 @@ export default [
     },
 
     rules: {
+      // Import rules
       'import/no-commonjs': 'error',
       'import/no-default-export': 'off',
       // Use dependency-cruiser to get an accurate analysis on circular dependencies
@@ -305,13 +305,18 @@ export default [
       ],
 
       'lines-between-class-members': 'off',
+
+      // jQuery rules
       'no-jquery/no-animate-toggle': 'off',
       'no-jquery/no-event-shorthand': 'off',
       'no-jquery/no-serialize': 'error',
+
+      // Promise rules
       'promise/always-return': 'off',
       'promise/no-callback-in-promise': 'off',
       '@gitlab/no-global-event-off': 'error',
 
+      // Vue rules
       '@gitlab/vue-no-new-non-primitive-in-template': [
         'error',
         {
@@ -320,10 +325,14 @@ export default [
       ],
 
       '@gitlab/vue-no-undef-apollo-properties': 'error',
+
+      // Tailwind rules
       '@gitlab/tailwind-no-interpolation': 'error',
       '@gitlab/vue-tailwind-no-interpolation': 'error',
       '@gitlab/tailwind-no-max-width-media-queries': 'error',
       '@gitlab/vue-tailwind-no-max-width-media-queries': 'error',
+
+      // URL rules
       '@gitlab/no-hardcoded-urls': ['error', NO_HARDCODED_URLS_OPTIONS],
       '@gitlab/vue-no-hardcoded-urls': [
         'error',
@@ -420,6 +429,7 @@ export default [
         },
       ],
 
+      // Restricted syntax, properties, and imports
       'no-restricted-syntax': ['error', ...baseNoRestrictedSyntax],
 
       'no-restricted-properties': [
@@ -482,13 +492,21 @@ export default [
       'no-restricted-imports': [
         'error',
         {
-          ...restrictedImportsAll,
-          patterns: [...restrictedImportsAll.patterns, restrictedImportPatternsFromCE],
+          paths: restrictedImportsPaths,
+          patterns: [
+            ...restrictedImportsPatterns,
+            {
+              group: ['ee/**/*'],
+              message:
+                'The `ee` import alias is only allowed in the `ee` directory. See https://docs.gitlab.com/development/ee_features/#separation-of-ee-code-in-the-frontend.',
+            },
+          ],
         },
       ],
 
       'unicorn/prefer-dom-node-dataset': ['error'],
 
+      // Sanitization rules
       'no-unsanitized/method': [
         'error',
         {
@@ -507,6 +525,8 @@ export default [
         },
       ],
       'unicorn/no-array-callback-reference': 'off',
+
+      // Local rules
       'local-rules/require-valid-help-page-path': 'error',
       'local-rules/vue-require-valid-help-page-link-component': 'error',
       'local-rules/vue-require-vue-constructor-name': 'error',
@@ -515,13 +535,17 @@ export default [
       'local-rules/vue-no-web-url': 'error',
     },
   },
-  /** Overrides for EE files to be allowed to import from EE */
+  // Overrides for EE files to be allowed to import from EE
   {
     files: ['ee/**/*.{js,vue}'],
     rules: {
-      'no-restricted-imports': ['error', restrictedImportsAll],
+      'no-restricted-imports': [
+        'error',
+        { paths: restrictedImportsPaths, patterns: restrictedImportsPatterns },
+      ],
     },
   },
+  // Vue file rules and Vue 3 compatibility
   {
     files: ['*.vue', '**/*.vue'],
     rules: {
@@ -569,20 +593,17 @@ export default [
       ],
     },
   },
+  // Spec files (unit tests)
   {
     files: ['{,ee/,jh/}spec/frontend*/**/*'],
 
     rules: {
-      '@gitlab/require-i18n-strings': 'off',
+      ...relaxedUrlAndI18nRules,
       '@gitlab/no-runtime-template-compiler': 'off',
       '@gitlab/tailwind-no-interpolation': 'off',
       '@gitlab/vue-tailwind-no-interpolation': 'off',
       '@gitlab/no-max-width-media-queries': 'off',
       '@gitlab/vue-tailwind-no-max-width-media-queries': 'off',
-      '@gitlab/no-hardcoded-urls': 'off',
-      '@gitlab/vue-no-hardcoded-urls': 'off',
-      'local-rules/no-web-url': 'off',
-      'local-rules/vue-no-web-url': 'off',
       'require-await': 'error',
       'import/no-dynamic-require': 'off',
       'no-import-assign': 'off',
@@ -629,59 +650,18 @@ export default [
         'error',
         {
           paths: specRestrictedImportsPaths,
-
-          patterns: [restrictedImportsPatterns.gitlabUiDist, restrictedImportsPatterns.lodash],
+          patterns: restrictedImportsPatterns,
         },
       ],
     },
   },
-  {
-    files: [
-      'config/**/*',
-      'scripts/**/*',
-      '**/*.config.js',
-      '**/*.config.*.js',
-      '**/jest_resolver.js',
-      'tooling/eslint-config/**/*',
-      'eslint.config.mjs',
-    ],
-
-    rules: {
-      '@gitlab/require-i18n-strings': 'off',
-      '@gitlab/no-hardcoded-urls': 'off',
-      '@gitlab/vue-no-hardcoded-urls': 'off',
-      'local-rules/no-web-url': 'off',
-      'local-rules/vue-no-web-url': 'off',
-      'import/extensions': 'off',
-      'import/no-extraneous-dependencies': 'off',
-      'import/no-commonjs': 'off',
-      'import/no-nodejs-modules': 'off',
-      'filenames/match-regex': 'off',
-      'no-console': 'off',
-      'import/no-unresolved': [
-        'error',
-        {
-          ignore: [
-            // False positive: eslint-plugin-import doesn't read `exports` field.
-            // See https://github.com/import-js/eslint-plugin-import/issues/1810
-            '^vite$',
-            '^lightningcss$',
-            '^vite-plugin-ruby$',
-          ],
-        },
-      ],
-    },
-  },
+  // Storybook stories
   {
     files: ['**/*.stories.js'],
 
     rules: {
       'filenames/match-regex': 'off',
-      '@gitlab/require-i18n-strings': 'off',
-      '@gitlab/no-hardcoded-urls': 'off',
-      '@gitlab/vue-no-hardcoded-urls': 'off',
-      'local-rules/no-web-url': 'off',
-      'local-rules/vue-no-web-url': 'off',
+      ...relaxedUrlAndI18nRules,
       'import/no-unresolved': [
         'error',
         // The test fixtures are dynamically generated in CI during
@@ -692,6 +672,7 @@ export default [
       ],
     },
   },
+  // GraphQL files
   {
     files: ['**/*.graphql'],
 
@@ -723,6 +704,7 @@ export default [
       'local-rules/graphql-require-valid-urgency': 'error',
     },
   },
+  // GraphQL files that don't require selections (branch rules)
   {
     files: [
       'app/assets/javascripts/projects/settings/branch_rules/queries/branch_rules_details.query.graphql',
@@ -736,6 +718,42 @@ export default [
       '@graphql-eslint/require-selections': 'off',
     },
   },
+  // Config, scripts, and tooling files
+  {
+    files: [
+      'config/**/*',
+      'scripts/**/*',
+      '**/*.config.js',
+      '**/*.config.*.js',
+      '**/jest_resolver.js',
+      'tooling/eslint-config/**/*',
+      'eslint.config.mjs',
+    ],
+
+    rules: {
+      ...relaxedUrlAndI18nRules,
+      'import/extensions': 'off',
+      'import/no-extraneous-dependencies': 'off',
+      'import/no-commonjs': 'off',
+      'import/no-nodejs-modules': 'off',
+      'filenames/match-regex': 'off',
+      'no-console': 'off',
+      'import/no-unresolved': [
+        'error',
+        {
+          ignore: [
+            // False positive: eslint-plugin-import doesn't read `exports` field.
+            // See https://github.com/import-js/eslint-plugin-import/issues/1810
+            '^vite$',
+            '^lightningcss$',
+            '^vite-plugin-ruby$',
+            '@graphql-eslint/eslint-plugin',
+          ],
+        },
+      ],
+    },
+  },
+  // Tooling files
   {
     files: ['{,spec/}tooling/**/*'],
 
@@ -744,11 +762,7 @@ export default [
       'import/no-commonjs': 'off',
       'import/no-extraneous-dependencies': 'off',
       'no-restricted-syntax': 'off',
-      '@gitlab/require-i18n-strings': 'off',
-      '@gitlab/no-hardcoded-urls': 'off',
-      '@gitlab/vue-no-hardcoded-urls': 'off',
-      'local-rules/no-web-url': 'off',
-      'local-rules/vue-no-web-url': 'off',
+      ...relaxedUrlAndI18nRules,
     },
   },
 
@@ -763,12 +777,8 @@ export default [
     },
 
     rules: {
-      '@gitlab/require-i18n-strings': 'off',
+      ...relaxedUrlAndI18nRules,
       '@gitlab/vue-require-i18n-strings': 'off',
-      '@gitlab/no-hardcoded-urls': 'off',
-      '@gitlab/vue-no-hardcoded-urls': 'off',
-      'local-rules/no-web-url': 'off',
-      'local-rules/vue-no-web-url': 'off',
     },
   },
 
@@ -777,25 +787,13 @@ export default [
     files: ['storybook/**/*.{js,vue}'],
 
     rules: {
-      '@gitlab/require-i18n-strings': 'off',
-      '@gitlab/no-hardcoded-urls': 'off',
-      '@gitlab/vue-no-hardcoded-urls': 'off',
+      ...relaxedUrlAndI18nRules,
       'import/no-extraneous-dependencies': 'off',
       'import/no-commonjs': 'off',
       'import/no-nodejs-modules': 'off',
       'filenames/match-regex': 'off',
       'no-console': 'off',
       'import/no-unresolved': 'off',
-      'local-rules/no-web-url': 'off',
-      'local-rules/vue-no-web-url': 'off',
-    },
-  },
-
-  {
-    files: ['storybook/config/test-runner.js'],
-
-    rules: {
-      'unicorn/filename-case': 'off',
     },
   },
 
@@ -827,6 +825,7 @@ export default [
     },
   },
 
+  // MSW integration tests
   {
     files: ['{,ee/}spec/frontend/msw_integration/**/*_spec.js'],
 
@@ -858,7 +857,7 @@ export default [
             },
           ],
           patterns: [
-            restrictedImportsPatterns.gitlabUiDist,
+            ...restrictedImportsPatterns,
             {
               group: ['vue'],
               importNames: ['nextTick'],
@@ -927,12 +926,8 @@ export default [
     },
 
     rules: {
-      '@gitlab/require-i18n-strings': 'off',
-      '@gitlab/no-hardcoded-urls': 'off',
-      '@gitlab/vue-no-hardcoded-urls': 'off',
+      ...relaxedUrlAndI18nRules,
       'no-restricted-imports': 'off',
-      'local-rules/no-web-url': 'off',
-      'local-rules/vue-no-web-url': 'off',
     },
   },
 
@@ -958,12 +953,7 @@ export default [
       'import/no-unresolved': 'off',
       // k6 allows .js extensions in URLs
       'import/extensions': 'off',
-      // k6 performance tests don't need internationalization
-      '@gitlab/require-i18n-strings': 'off',
-      '@gitlab/no-hardcoded-urls': 'off',
-      '@gitlab/vue-no-hardcoded-urls': 'off',
-      'local-rules/no-web-url': 'off',
-      'local-rules/vue-no-web-url': 'off',
+      ...relaxedUrlAndI18nRules,
       // Console logging is expected in k6 tests
       'no-console': 'off',
       // Allow unnamed functions in k6 tests
@@ -975,7 +965,7 @@ export default [
 
   // web worker rules
   {
-    files: ['app/assets/javascripts/**/*_worker.js', 'ee/app/assets/javascripts/**/*_worker.js'],
+    files: ['{,ee/}app/assets/javascripts/**/*_worker.js'],
 
     languageOptions: {
       globals: {

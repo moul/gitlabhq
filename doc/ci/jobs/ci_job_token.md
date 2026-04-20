@@ -139,7 +139,7 @@ Prerequisites:
 To add a group or project to the allowlist:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Job token permissions**.
 1. To the right of **CI/CD job token allowlist**, select **Add**.
 1. Select **Group or project**
@@ -174,7 +174,7 @@ Prerequisites:
 To set a feature to be only visible to project members:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
 1. Set the visibility to **Only project members** for the features you want to restrict access to.
    - The ability to fetch artifacts is controlled by the CI/CD visibility setting.
@@ -217,7 +217,7 @@ Prerequisites:
 To disable the job token allowlist:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Job token permissions**.
 1. Select **All groups and projects**.
 1. Recommended. When finished testing, select **This project and any groups and projects in the allowlist** to re-enable the job token allowlist.
@@ -262,7 +262,7 @@ Prerequisites:
 To grant permission to job tokens generated in your project to push to the project's repository:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Job token permissions**.
 1. In the **Permissions** section, select **Allow Git push requests to the repository**.
 
@@ -321,7 +321,7 @@ You can track which other projects use a CI/CD job token to authenticate with yo
 in an authentication log. To check the log:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Job token permissions**. The **Authentication log** section displays the
    list of other projects that accessed your project by authenticating with a job token.
 1. Optional. Select **Download CSV** to download the full authentication log, in CSV format.
@@ -344,7 +344,7 @@ Beginning in GitLab 19.0, CI/CD job tokens use the JWT standard by default. Proj
 To use the legacy format for your CI/CD tokens:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **General pipelines**.
 1. Turn off **Enable JWT format for CI/CD job tokens**.
 

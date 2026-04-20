@@ -83,6 +83,11 @@ Select a flow to view its details.
 
 You can create a flow from a project, or by using the AI Catalog.
 
+> [!note]
+> You cannot define a custom flow to call a specific custom agent from a project
+> or the AI Catalog. Custom flows create and use their own agents based
+> on their YAML configuration.
+
 Prerequisites:
 
 - You must have the Maintainer or Owner role for the project.

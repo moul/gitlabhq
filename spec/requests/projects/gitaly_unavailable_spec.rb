@@ -346,4 +346,47 @@ RSpec.describe 'Gitaly unavailable graceful degradation', feature_category: :sou
       it_behaves_like 'handles Gitaly errors for request specs'
     end
   end
+
+  describe 'Projects::BranchesController' do
+    describe '#index' do
+      let(:allow_gitaly_to_raise_error) do
+        allow_next_instance_of(Gitlab::GitalyClient::RefService) do |ref_service|
+          allow(ref_service).to receive(:local_branches)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      context 'with HTML format' do
+        let(:make_request) { get project_branches_path(project) }
+
+        it_behaves_like 'handles Gitaly errors for request specs'
+      end
+
+      context 'with JSON format' do
+        let(:make_request) { get project_branches_path(project, format: :json) }
+
+        it_behaves_like 'handles Gitaly errors for json format'
+      end
+    end
+
+    describe '#diverging_commit_counts' do
+      let(:make_request) do
+        get diverging_commit_counts_namespace_project_branches_path(
+          namespace_id: project.namespace,
+          project_id: project,
+          names: %w[fix],
+          format: :json
+        )
+      end
+
+      let(:allow_gitaly_to_raise_error) do
+        allow_next_instance_of(Gitlab::Git::Finders::RefsFinder) do |finder|
+          allow(finder).to receive(:execute)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      it_behaves_like 'handles Gitaly errors for json format'
+    end
+  end
 end

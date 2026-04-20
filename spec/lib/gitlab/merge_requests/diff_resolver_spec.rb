@@ -20,12 +20,18 @@ RSpec.describe Gitlab::MergeRequests::DiffResolver, feature_category: :code_revi
 
   let_it_be(:base_diff_2) do
     merge_request.clear_memoized_shas
-    merge_request.create_merge_request_diff
+
+    # `MergeRequestDiff#set_as_latest_diff` is called in `after_commit` which
+    # gets skipped in specs so we replicate it here. This is so we can set this
+    # as the latest diff.
+    merge_request.create_merge_request_diff.tap do |diff|
+      merge_request.update_column(:latest_merge_request_diff_id, diff.id)
+    end
   end
 
   let_it_be(:head_diff) { create(:merge_request_diff, :merge_head, merge_request: merge_request) }
   let(:params) { {} }
-  let(:diff_resolver) { described_class.new(merge_request.reload, params) }
+  let(:diff_resolver) { described_class.new(merge_request, params) }
 
   describe '#resolve' do
     let(:diffable_merge_ref?) { false }
@@ -38,6 +44,18 @@ RSpec.describe Gitlab::MergeRequests::DiffResolver, feature_category: :code_revi
 
     it 'returns base diff' do
       expect(diff_resolver.resolve).to eq(base_diff_2)
+    end
+
+    context 'when latest_merge_request_diff is not set' do
+      before do
+        allow(merge_request)
+          .to receive(:latest_merge_request_diff)
+          .and_return(nil)
+      end
+
+      it 'returns associated merge_request_diff' do
+        expect(diff_resolver.resolve).to eq(merge_request.merge_request_diff)
+      end
     end
 
     context 'when compare is present' do

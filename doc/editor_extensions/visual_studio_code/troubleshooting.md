@@ -15,27 +15,24 @@ If you encounter any issues with the GitLab for VS Code extension, or have featu
 
 ## Enable debug logs
 
-Both the VS Code Extension and the GitLab Language Server provide logs that can help you troubleshoot. To enable debug logging:
+Both the VS Code Extension and the GitLab Language Server provide logs that can help you troubleshoot.
+To enable debug logging:
 
 1. In VS Code, open the Settings editor:
    - For macOS, press <kbd>Command</kbd>+<kbd>,</kbd>.
    - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
-1. In the upper-right corner, select **Open Settings (JSON)** to edit your `settings.json` file.
-1. Add this line, or edit it if it already exists:
-
-   ```json
-   "gitlab.debug": true,
-   ```
-
+1. Select **Extensions** > **GitLab** > **Other**.
+1. Under **GitLab: Debug**, select the checkbox to turn on debug mode.
 1. Save your changes.
 
-### View log files
+## View debug logs
 
 To view debug logs from either the VS Code Extension or the GitLab Language Server:
 
-1. Use the command `GitLab: Show Extension Logs` to view the output panel.
-1. In the upper-right corner of the output panel, select either **GitLab** or
-   **GitLab Language Server** from the dropdown list.
+1. In VS Code, select **View** > **Output**.
+1. In the output panel at the bottom, in the upper-right corner,
+   select **GitLab** or **GitLab Language Server** from the list.
+1. Review for errors, warnings, connection issues, or authentication problems.
 
 ## Error: `407 Access Denied` failure with a proxy
 
@@ -48,6 +45,75 @@ Fetching resource from https://gitlab.com/api/v4/personal_access_tokens/self fai
 
 You must [enable proxy authentication](../language_server/_index.md#enable-proxy-authentication)
 for the GitLab Language Server.
+
+## Project configuration issues
+
+Start by ensuring the correct project is selected in the GitLab for VS Code extension.
+
+1. In VS Code, in the left sidebar, select **GitLab** ({{< icon name="tanuki" >}}).
+1. Ensure the project is listed and selected.
+
+If an error message appears next to the project name, select it to reveal what needs to be updated.
+
+For example, you might have multiple repositories and need to select one, or there might be no repositories at all.
+
+### No Git repository
+
+If your workspace doesn't have a Git repository initialized, you must create a new one:
+
+1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
+1. Select **Initialize Repository**.
+
+When the repository is initialized, you should see the name in the **Source Control** view.
+
+### Git repository with no GitLab remote
+
+You might have a Git repository but it's not properly connected to GitLab.
+
+1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
+1. On the **Source Control** label, right-click and select **Repositories**.
+1. Next to your repository, select the ellipsis ({{< icon name=ellipsis_h >}}), then **Remote** > **Add Remote**.
+1. Enter your GitLab project URL.
+1. Select the newly added remote as your upstream.
+
+### Multiple GitLab remotes
+
+Your repository might have multiple GitLab remotes configured.
+To select the correct one:
+
+1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
+1. On the status bar, select the current remote name.
+1. From the list, select the appropriate GitLab remote.
+1. Ensure the selected remote belongs to a group namespace in GitLab.
+
+### Multiple GitLab projects
+
+If your VS Code workspace contains multiple GitLab projects, you might want
+to close all the projects you're not using.
+
+To close projects:
+
+1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
+1. Ensure repositories are shown: on the **Source Control** label, right-click and select **Repositories**.
+1. Right-click the repository you want to close and select **Close Repository**.
+
+### Git remote with SSH custom alias
+
+If your repository remote uses an SSH custom alias (for example, `git@my-work-gitlab:group/project.git` instead of `git@gitlab.com:group/project.git`), the GitLab for VS Code extension might not correctly match your repository to your GitLab project.
+
+To resolve this issue, you can:
+
+- Change the remote to use SSH without a custom alias, or HTTP.
+- Configure the default namespace for the Agent Platform.
+
+To configure the default namespace:
+
+1. [Determine the namespace your project is in](../../user/namespace/_index.md#determine-which-type-of-namespace-youre-in).
+1. In VS Code, open the Settings editor:
+   - For macOS, press <kbd>Command</kbd>+<kbd>,</kbd>.
+   - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
+1. Select **Extensions** > **GitLab** > **GitLab Duo**.
+1. Under **GitLab › Duo Agent Platform: Default Namespace**, enter your namespace.
 
 ## Configure self-signed certificates
 
@@ -110,7 +176,9 @@ in the `gitlab-vscode-extension` project.
 
 To troubleshoot GitLab Duo errors in VS Code:
 
-1. Ensure you meet the [prerequisites](setup.md#configure-gitlab-duo).
+1. Ensure you meet the [prerequisites](setup.md#configure-gitlab-duo) and the necessary settings
+   are on.
+1. Ensure that [Admin mode is disabled](../../administration/settings/sign_in_restrictions.md#turn-off-admin-mode-for-your-session).
 1. Review diagnostics output:
    1. Open the Command Palette with <kbd>Command</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> or
       <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
@@ -128,6 +196,16 @@ For additional support:
 
 - [Troubleshooting the GitLab Duo Agent Platform in your IDE](../../user/duo_agent_platform/troubleshooting_ide.md)
 - Troubleshooting [Code Suggestions](../../user/project/repository/code_suggestions/troubleshooting.md#vs-code-troubleshooting)
+
+## Network issues
+
+If you are seeing `HTTP/1.1` responses from GitLab Duo rather than `/-/cable`
+WebSocket endpoints in your logs, your WebSocket connections may be blocked.
+
+Your GitLab instance must allow inbound WebSocket connections from IDE clients.
+Ask your network administrator to
+[allow WebSocket traffic to your GitLab instance](../../administration/gitlab_duo/configure/_index.md#allow-inbound-connections-from-clients-to-the-gitlab-instance)
+if you suspect this is the issue.
 
 ## Known issue: GitLab Duo Chat fails to initialize in remote environments
 
@@ -156,6 +234,80 @@ To resolve these issues:
 For updates on a permanent solution, see
 [issue #1944](https://gitlab.com/gitlab-org/gitlab-vscode-extension/-/issues/1944) and
 [Issue #1943](https://gitlab.com/gitlab-org/gitlab-vscode-extension/-/issues/1943)
+
+## IDE commands fail or run indefinitely
+
+When using GitLab Duo Agentic Chat or the Software Development Flow in your IDE,
+GitLab Duo can get stuck in a loop or have difficulty running commands.
+
+This issue can occur when you are using shell themes or integrations, like `Oh My ZSH!` or `powerlevel10k`.
+When a GitLab Duo agent spawns a terminal, a theme or integration can prevent commands from running properly.
+
+As a workaround, use a simpler theme for commands sent by agents.
+[Issue 2070](https://gitlab.com/gitlab-org/gitlab-vscode-extension/-/issues/2070) tracks improvements to this behavior so this workaround is no longer needed.
+
+### Edit your `.zshrc` file
+
+In VS Code and JetBrains IDEs, configure `Oh My ZSH!` or `powerlevel10k` to use a simpler
+theme when it runs commands sent by an agent. You can use the environment variables exposed
+by the IDEs to set these values.
+
+Edit your `~/.zshrc` file to include this code:
+
+```shell
+# ~/.zshrc
+
+# Path to your oh-my-zsh installation
+export ZSH="$HOME/.oh-my-zsh"
+
+# ...
+
+# Decide whether to load a full terminal environment,
+# or keep it minimal for agentic AI in IDEs
+if [[ "$TERM_PROGRAM" == "vscode" || "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
+  echo "IDE agentic environment detected, not loading full shell integrations"
+else
+  # Oh My ZSH
+  source $ZSH/oh-my-zsh.sh
+  # Theme: Powerlevel10k
+  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+  # Other integrations like syntax highlighting
+fi
+
+# Other setup, like PATH variables
+```
+
+### Edit your Bash shell
+
+In VS Code or JetBrains IDEs, you can turn off advanced prompts in Bash, so that agents don't initiate them.
+Edit your `~/.bashrc` or `~/.bash_profile` file to include this code:
+
+```shell
+# ~/.bashrc or ~/.bash_profile
+
+# Decide whether to load a full terminal environment,
+# or keep it minimal for Agentic AI in IDEs
+if [[ "$TERM_PROGRAM" == "vscode" || "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
+  echo "IDE agentic environment detected, not loading full shell integrations"
+
+  # Keep only essential settings for agents
+  export PS1='\$ '  # Minimal prompt
+
+else
+  # Load full Bash environment
+
+  # Custom prompt (e.g., Starship, custom PS1)
+  if command -v starship &> /dev/null; then
+    eval "$(starship init bash)"
+  else
+    # ... Add your own PS1 variable
+  fi
+
+  # Load additional integrations
+fi
+
+# Always load essential environment variables and aliases
+```
 
 ## Error: `can't access the OS Keychain`
 
@@ -244,7 +396,7 @@ Gather this information from affected users, and provide it in your bug report:
 1. The error message shown to the user.
 1. Workflow and Language Server logs:
    1. [Enable debug logs](#enable-debug-logs).
-   1. [Retrieve log files](#view-log-files) for the extension, and the Language Server.
+   1. [Retrieve log files](#view-debug-logs) for the extension, and the Language Server.
 1. Diagnostics output.
    1. Open the Command Palette with <kbd>Command</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> or
       <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>

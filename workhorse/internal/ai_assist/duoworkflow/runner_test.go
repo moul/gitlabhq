@@ -218,6 +218,7 @@ type mockMcpManager struct {
 		name string
 		args string
 	}
+	setWorkflowIDCalls []string
 }
 
 func (m *mockMcpManager) HasTool(_ string) bool {
@@ -256,6 +257,13 @@ func (m *mockMcpManager) CallTool(_ context.Context, action *pb.Action) (*pb.Cli
 		return nil, m.callToolError
 	}
 	return m.callToolResult, nil
+}
+
+func (m *mockMcpManager) SetWorkflowID(id string) {
+	if m == nil {
+		return
+	}
+	m.setWorkflowIDCalls = append(m.setWorkflowIDCalls, id)
 }
 
 func (m *mockMcpManager) Close() error {
@@ -821,6 +829,11 @@ func TestRunner_handleWebSocketMessage(t *testing.T) {
 					startReq := mockWf.sendEvents[0].GetStartRequest()
 					require.NotNil(t, startReq)
 					assert.ElementsMatch(t, tt.clientCapabilities, startReq.ClientCapabilities)
+				}
+
+				if tt.mcpManager != nil {
+					require.Len(t, tt.mcpManager.setWorkflowIDCalls, 1)
+					assert.Equal(t, "id-123", tt.mcpManager.setWorkflowIDCalls[0])
 				}
 			}
 		})

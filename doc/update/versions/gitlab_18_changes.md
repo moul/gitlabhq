@@ -40,17 +40,25 @@ Each list item points to a specific section that holds more information.
 Items marked with an installation method, like `(Geo)` or `(Linux package)`,
 apply only to that method. All other items apply to all installation methods.
 
+### Upgrade to 18.11
+
+Before upgrading to GitLab 18.11, review the following:
+
+- [18.11.0] Upgrading to 18.11 triggers a [PostgreSQL 17.7 version upgrade](#postgresql-version-177-upgrade-on-gitlab-1811) (Linux package, Docker, Geo)
+
 ### Upgrade to 18.10
 
 Before upgrading to GitLab 18.10, review the following:
 
 - [18.10.0 - 18.10.3] - [Geo blob download failures on Ubuntu 24.04 with kernel 6.8+](#geo-blob-download-failures-on-ubuntu-2404-with-kernel-68) (Linux package, Geo)
+- [18.10.0 - 18.10.3] - [Geo secondary throttled jobs not draining](#geo-secondary-throttled-jobs-not-draining) (Geo)
 - [18.10.0] - [Geo blob download timeout setting](#geo-blob-download-timeout-setting) (Geo)
 
 ### Upgrade to 18.9
 
 Before upgrading to GitLab 18.9, review the following:
 
+- [18.9.0 - 18.9.5] - [Geo secondary throttled jobs not draining](#geo-secondary-throttled-jobs-not-draining) (Geo)
 - [18.9.0] - [Upgrade to 18.9 fails with PostgreSQL CheckViolation](#upgrade-to-189-fails-with-postgresql-checkviolation)
 
 ### Upgrade to 18.8
@@ -145,6 +153,28 @@ Before upgrading to GitLab 18.0, review the following:
 ## Upgrade notes
 
 Specific upgrade notes for GitLab 18.
+
+### Geo secondary throttled jobs not draining
+
+{{< details >}}
+
+- Tier: Premium, Ultimate
+
+{{< /details >}}
+
+- Affects: Geo
+- Affected versions:
+
+  | Release | Affected patch releases | Fixed patch level |
+  | ------- | ----------------------- | ----------------- |
+  | 18.10   | 18.10.0 - 18.10.3       | 18.10.4           |
+  | 18.9    | 18.9.0 - 18.9.5         | 18.9.6            |
+
+Geo secondary sites disabled `ConcurrencyLimit::ResumeWorker`, causing throttled
+`Geo::EventWorker` and `Geo::SyncWorker` jobs to accumulate in Redis without
+draining. This could stall Geo replication and increase Redis memory usage.
+
+For more information, see [issue 595824](https://gitlab.com/gitlab-org/gitlab/-/work_items/595824).
 
 ### Geo blob download timeout setting
 
@@ -912,3 +942,16 @@ MergeRequest.left_joins(:merge_data)
 ```
 
 The migration processes merge requests in batches and should complete within hours to days for most instances.
+
+### PostgreSQL version 17.7 upgrade on GitLab 18.11
+
+- Affects: Linux package, Docker, Geo
+- Affected versions: 18.11.0
+
+Upgrading to GitLab 18.11 triggers an automatic upgrade to [PostgreSQL 17.7](../../administration/package_information/postgresql_versions.md) for single-node Linux package installations.
+
+> [!warning]
+> Automatic database version upgrades only apply to single-node instances when using the Linux package.
+> For Geo deployments, PostgreSQL upgrades must be [deliberately scheduled and planned](../../administration/geo/replication/upgrading_the_geo_sites.md)
+> because a major version upgrade requires re-initializing PostgreSQL replication to Geo secondaries.
+> This may result in larger than expected downtime.

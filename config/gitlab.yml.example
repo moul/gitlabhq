@@ -856,6 +856,9 @@ production: &base
     # Expected JWT audience claim
     # jwt_audience: gitlab-rails
 
+    # JWT issuer (must match the 'iss' claim in tokens issued by the IAM auth service)
+    # jwt_issuer: https://iam.example.com
+
   ## LDAP settings
   # You can test connections and inspect a sample of the LDAP users with login
   # access by running:

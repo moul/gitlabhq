@@ -562,7 +562,7 @@ GitLab Observability automatically instruments your CI/CD pipelines when enabled
 To enable automatic pipeline instrumentation, add the `GITLAB_OBSERVABILITY_EXPORT` CI/CD variable to your project or group:
 
 1. In the top bar, select **Search or go to** and find your project or group.
-1. Select **Settings > CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Variables**.
 1. Select **Add variable**.
 1. Configure the variable:

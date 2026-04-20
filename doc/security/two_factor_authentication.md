@@ -119,7 +119,7 @@ Prerequisites:
 To enforce 2FA for a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Select **All users in this group must set up two-factor authentication**.
 1. Optional. In **Delay 2FA enforcement (hours)**, enter the number of hours you
@@ -256,7 +256,7 @@ Top-level group Owners can disable two-factor authentication (2FA) for enterpris
 To disable 2FA:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Manage** > **Members**.
+1. In the left sidebar, select **Manage** > **Members**.
 1. Find a user with the **Enterprise** and **2FA** badges.
 1. Select **More actions** ({{< icon name="ellipsis_v" >}}) and select **Disable two-factor authentication**.
 

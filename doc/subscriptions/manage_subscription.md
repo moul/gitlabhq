@@ -50,7 +50,7 @@ In this case, the user sees only the features available to that subscription.
 To subscribe to GitLab.com:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Billing**.
+1. In the left sidebar, select **Settings** > **Billing**.
 1. Select **Upgrade subscription**.
 1. Select a tier and a GitLab Credits option.
 1. Select **Continue to checkout**. You are redirected to the Customers Portal.
@@ -97,7 +97,7 @@ Prerequisites:
 To see the status of your GitLab.com subscription:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Billing**.
+1. In the left sidebar, select **Settings** > **Billing**.
 
 The following information is displayed:
 

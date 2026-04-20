@@ -344,7 +344,7 @@ GEM
     asciidoctor-plantuml (0.0.16)
       asciidoctor (>= 2.0.17, < 3.0.0)
     ast (2.4.3)
-    async (2.32.0)
+    async (2.39.0)
       console (~> 1.29)
       fiber-annotation
       io-event (~> 1.11)
@@ -769,7 +769,7 @@ GEM
     gitlab-crystalball (1.1.3)
       git (< 4)
       ostruct (< 1)
-    gitlab-dangerfiles (4.10.0)
+    gitlab-dangerfiles (4.11.0)
       danger (>= 9.3.0)
       danger-gitlab (>= 8.0.0)
       rake (~> 13.0)
@@ -1958,7 +1958,7 @@ GEM
       ruby-lsp (~> 0.26.0)
     ruby-magic (0.6.0)
       mini_portile2 (~> 2.8)
-    ruby-progressbar (1.11.0)
+    ruby-progressbar (1.13.0)
     ruby-saml (1.18.1)
       nokogiri (>= 1.13.10)
       rexml
@@ -2313,7 +2313,7 @@ DEPENDENCIES
   asciidoctor-include-ext (~> 0.4.0)
   asciidoctor-kroki (~> 0.10.0)
   asciidoctor-plantuml (~> 0.0.16)
-  async (~> 2.32.0)
+  async (~> 2.39.0)
   atlassian-jwt (~> 0.2.1)
   attr_encrypted (~> 4.2)
   aws-sdk-cloudformation (~> 1)
@@ -2397,7 +2397,7 @@ DEPENDENCIES
   gitlab-chronic (~> 0.10.5)
   gitlab-cloud-connector (~> 1.45)
   gitlab-crystalball (~> 1.1.3)
-  gitlab-dangerfiles (~> 4.10.0)
+  gitlab-dangerfiles (~> 4.11.0)
   gitlab-database-data_isolation!
   gitlab-duo-workflow-service-client (~> 0.7)!
   gitlab-experiment (~> 1.3.0)
@@ -2705,7 +2705,7 @@ CHECKSUMS
   asciidoctor-kroki (0.10.0) sha256=8e4225d88f120e2e7b5d3f5ddb67c5e69496d7344a16c57db5036ac900123062
   asciidoctor-plantuml (0.0.16) sha256=407e47cd1186ded5ccc75f0c812e5524c26c571d542247c5132abb8f47bd1793
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
-  async (2.32.0) sha256=79ffbc8a5a99a8e7e5e65c7622ecf1e38e2193f0b920c5fec2316f09ff184787
+  async (2.39.0) sha256=df18730073f2bbb45788077dfa20cb365ecc1b9453969f44de6796b5191a00aa
   atlassian-jwt (0.2.1) sha256=2fd2d87418773f2e140c038cb22e049069708aff2bd0a423a7e1740574e97823
   attr_encrypted (4.2.0) sha256=7e5c80159e6e38ed40dc4e2e65c4f57234fe1f376bddc40c8b773bfb9b81ad51
   attr_required (1.0.2) sha256=f0ebfc56b35e874f4d0ae799066dbc1f81efefe2364ca3803dc9ea6a4de6cb99
@@ -2883,7 +2883,7 @@ CHECKSUMS
   gitlab-chronic (0.10.6) sha256=a244d11a1396d2aac6ae9b2f326adf1605ec1ad20c29f06e8b672047d415a9ac
   gitlab-cloud-connector (1.47.0) sha256=1c16d8d0944e1d729f4b16eb482d6a8b09a5f13d2bda3a94c1d67163868fb63c
   gitlab-crystalball (1.1.3) sha256=ea9a90d659704a042d763ce6d343a9f664cd650e0787a19adec7036ea4390861
-  gitlab-dangerfiles (4.10.0) sha256=0adb9cfec58ffce42f68b1aef528503bdc89aed3994ba461c67e1d9246513e1c
+  gitlab-dangerfiles (4.11.0) sha256=efaf68e659b4f20b10e168f1c53acdee779259703200d2a098d7d0baffc78ef9
   gitlab-database-data_isolation (0.1.0)
   gitlab-duo-workflow-service-client (0.7)
   gitlab-experiment (1.3.0) sha256=747c720edb6bd1a3f6974fbdd389a7f79d26a74a4f7927525104ecfe3281e6be
@@ -3319,7 +3319,7 @@ CHECKSUMS
   ruby-lsp-rails (0.4.8) sha256=f09d1f926d4063deeb2f3049311925c20dfe6c912371e3bcd04a265a865c44ae
   ruby-lsp-rspec (0.1.28) sha256=0db3b3ffba08c6d70eb7831e79090a1863f572fe131ed0ecfce8a2f7d01bf491
   ruby-magic (0.6.0) sha256=7b2138877b7d23aff812c95564eba6473b74b815ef85beb0eb792e729a2b6101
-  ruby-progressbar (1.11.0) sha256=cc127db3866dc414ffccbf92928a241e585b3aa2b758a5563e74a6ee0f57d50a
+  ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
   ruby-saml (1.18.1) sha256=1b0e7a44aef150b4197955f5e015d593672e242cfdc5d06aa7554ec2350b9107
   ruby-statistics (4.1.0) sha256=7d697abd5dc4e6141d21ecb4165482807564f11bbe154cf1c60a2677b507f2a9
   ruby2_keywords (0.0.5) sha256=ffd13740c573b7301cf7a2e61fc857b2a8e3d3aff32545d6f8300d8bae10e3ef

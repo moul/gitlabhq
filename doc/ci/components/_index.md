@@ -731,7 +731,7 @@ Prerequisites:
 To set the project as a catalog project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
 1. Turn on the **CI/CD Catalog project** toggle.
 

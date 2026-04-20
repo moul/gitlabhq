@@ -134,7 +134,7 @@ Prerequisites:
 To add or update variables in the project settings:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Variables**.
 1. Select **Add variable** and fill in the details:
    - **Key**: Must be one line, with no spaces, using only letters, numbers, or `_`.
@@ -169,7 +169,7 @@ Prerequisites:
 To add a group variable:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Variables**.
 1. Select **Add variable** and fill in the details:
    - **Key**: Must be one line, with no spaces, using only letters, numbers, or `_`.
@@ -199,7 +199,7 @@ Alternatively, group variables can be added [by using the API](../../api/group_l
 To set a group CI/CD variable to only be available for certain environments:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Variables**.
 1. To the right of the variable, select **Edit** ({{< icon name="pencil" >}}).
 1. For **Environment scope**, select **All (default)** (`*`), a specific [environment](../environments/_index.md),
@@ -602,7 +602,7 @@ Prerequisites:
 To enable the pipeline variable restriction setting in projects in the group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Variables**.
 1. In the **Disable pipeline variables in projects that don't use them** section,
    select **Start migration**.

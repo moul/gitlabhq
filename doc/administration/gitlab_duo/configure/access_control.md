@@ -42,7 +42,7 @@ Prerequisites:
 To give access to specific Agent Platform features for a top-level group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **GitLab Duo**.
+1. In the left sidebar, select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **Limit access based on group membership**, select **Add group**.
 1. From the dropdown list, select an existing subgroup.

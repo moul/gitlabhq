@@ -599,6 +599,13 @@ For projects with a security policy:
 
 - The project must not have a security policy. If a security policy is assigned to the project, it is automatically unassigned during the transfer.
 
+For projects with name or path conflicts:
+
+- A project cannot be transferred if the destination namespace already contains a project
+  or subgroup with the same name or path. This includes projects
+  [pending deletion](#delete-a-project). To resolve the conflict, rename or remove the
+  conflicting item in the destination namespace before you transfer the project.
+
 When you transfer a project:
 
 - The project [path changes](repository/_index.md#repository-path-changes). Make sure you change the URLs to the project components where necessary.

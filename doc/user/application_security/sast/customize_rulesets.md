@@ -23,6 +23,13 @@ The Semgrep-based SAST analyzer and GitLab Advanced SAST analyzer each have a
 [default ruleset](rules.md). You can customize their rules to suit your organization's security
 requirements. For example, you might want to raise the severity level of a specific rule.
 
+Before you write custom rules for the Semgrep-based SAST analyzer, you can prototype and test them
+interactively in the [Semgrep Playground](https://semgrep.dev/playground/new).
+When you use the Playground, ignore findings in the **test code** panel that are marked with a
+star icon ({{< icon name="star" >}}) and have the tooltip **Finding found with the Semgrep Pro Engine**.
+These findings are not compatible with the open-source Semgrep engine that GitLab uses.
+For more information about the Semgrep rule format, see [Learn Semgrep Syntax](https://semgrep.dev/learn).
+
 ## Ruleset glossary
 
 Rule

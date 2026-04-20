@@ -224,7 +224,7 @@ Selecting an individual job shows you its [job log](job_logs.md), and allows you
 To view jobs that ran in a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Jobs**.
+1. In the left sidebar, select **Build** > **Jobs**.
 
 You can filter the list by job status, source, name, and kind.
 
@@ -381,7 +381,7 @@ To retry a job from the job log:
 To retry a job from a pipeline:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Pipelines**.
+1. In the left sidebar, select **Build** > **Pipelines**.
 1. Find the pipeline that contains the job you want to retry.
 1. From the pipeline graph, next to the job you want to retry, select **Run again** ({{< icon name="retry" >}}).
 
@@ -435,7 +435,7 @@ To cancel a job from the job log:
 To cancel a job from a pipeline:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Pipelines**.
+1. In the left sidebar, select **Build** > **Pipelines**.
 1. Find the pipeline that contains the job you want to cancel.
 1. From the pipeline graph, next to the job you want to cancel, select **Cancel** ({{< icon name="cancel" >}}).
 

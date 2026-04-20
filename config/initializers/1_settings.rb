@@ -1293,6 +1293,7 @@ Settings.iam_auth_service['grpc'] ||= {}
 Settings.iam_auth_service.grpc['host'] ||= 'localhost'
 Settings.iam_auth_service.grpc['port'] ||= 8085
 Settings.iam_auth_service['jwt_audience'] ||= 'gitlab-rails'
+Settings.iam_auth_service['jwt_issuer'] ||= 'http://localhost'
 
 #
 # Gitlab Secrets Manager Openbao Integration

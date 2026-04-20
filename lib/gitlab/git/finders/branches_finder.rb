@@ -33,7 +33,7 @@ module Gitlab
           @next_cursor = nil
         end
 
-        def execute
+        def execute(gitaly_pagination: false) # rubocop:disable Lint/UnusedMethodArgument -- required by GitalyKeysetPager interface
           refs = fetch_refs
           branches = build_branches(refs)
           @next_cursor = refs_finder.next_cursor
