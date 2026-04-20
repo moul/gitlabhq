@@ -171,7 +171,7 @@ module Issues
       begin
         yield batch_size
         retries = 0
-      rescue ActiveRecord::StatementTimeout, ActiveRecord::QueryCanceled => ex
+      rescue ActiveRecord::StatementTimeout, ActiveRecord::QueryCanceled => ex # rubocop:disable Database/RescueStatementTimeout, Database/RescueQueryCanceled -- Necessary for adaptive batch resizing strategy
         raise ex if batch_size < exit_batch_size
 
         if (retries += 1) == RETRIES_LIMIT
@@ -181,7 +181,7 @@ module Issues
         end
 
         retry
-      end
+      end # rubocop:enable Database/RescueStatementTimeout, Database/RescueQueryCanceled
     end
   end
 end

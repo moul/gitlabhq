@@ -2,7 +2,7 @@
 import { captureException, addBreadcrumb, SDK_VERSION } from '@sentry/browser';
 import * as Sentry from '@sentry/browser';
 
-import { initSentry, isExternalOriginError } from '~/sentry/init_sentry';
+import { initSentry, isExternalOriginError, isServerUnavailableError } from '~/sentry/init_sentry';
 
 const mockDsn = 'https://123@sentry.gitlab.test/123';
 const mockEnvironment = 'development';
@@ -262,6 +262,46 @@ describe('SentryConfig', () => {
       });
     });
 
+    describe('beforeSend', () => {
+      let beforeSend;
+
+      beforeEach(() => {
+        initSentry();
+        beforeSend = mockSentryInit.mock.calls[0][0].beforeSend;
+      });
+
+      it('drops events caused by a 503 ServerError', () => {
+        const error = new Error('Response not successful: Received status code 503');
+        error.name = 'ServerError';
+        error.statusCode = 503;
+
+        expect(beforeSend({ event_id: '123' }, { originalException: error })).toBeNull();
+      });
+
+      it('keeps events for non-503 server errors', () => {
+        const error = new Error('Response not successful: Received status code 500');
+        error.name = 'ServerError';
+        error.statusCode = 500;
+        const event = { event_id: '456' };
+
+        expect(beforeSend(event, { originalException: error })).toBe(event);
+      });
+
+      it('keeps events for non-ServerError exceptions', () => {
+        const error = new TypeError('Cannot read properties of undefined');
+        const event = { event_id: '789' };
+
+        expect(beforeSend(event, { originalException: error })).toBe(event);
+      });
+
+      it('keeps events when hint has no originalException', () => {
+        const event = { event_id: 'abc' };
+
+        expect(beforeSend(event, {})).toBe(event);
+        expect(beforeSend(event, undefined)).toBe(event);
+      });
+    });
+
     describe('when user is not logged in', () => {
       beforeEach(() => {
         window.gon.current_user_id = undefined;
@@ -331,6 +371,36 @@ describe('SentryConfig', () => {
 
         expect(context).toEqual({ op: 'pageload', name: window.location.pathname });
       });
+    });
+  });
+
+  describe('isServerUnavailableError', () => {
+    it('returns true for a ServerError with statusCode 503', () => {
+      const error = new Error('Response not successful: Received status code 503');
+      error.name = 'ServerError';
+      error.statusCode = 503;
+
+      expect(isServerUnavailableError({ originalException: error })).toBe(true);
+    });
+
+    it('returns false for a ServerError with a different status code', () => {
+      const error = new Error('Response not successful: Received status code 500');
+      error.name = 'ServerError';
+      error.statusCode = 500;
+
+      expect(isServerUnavailableError({ originalException: error })).toBe(false);
+    });
+
+    it('returns false for non-ServerError exceptions', () => {
+      expect(isServerUnavailableError({ originalException: new TypeError('fail') })).toBe(false);
+    });
+
+    it('returns false when originalException is undefined', () => {
+      expect(isServerUnavailableError({})).toBe(false);
+    });
+
+    it('returns false when hint is undefined', () => {
+      expect(isServerUnavailableError(undefined)).toBe(false);
     });
   });
 });

@@ -145,8 +145,6 @@ export default {
     'app/assets/javascripts/work_items/pages/create_work_item.vue',
     'app/assets/javascripts/work_items/router/index.js',
     'app/assets/javascripts/work_items/utils.js',
-    'ee/app/assets/javascripts/ai/catalog/pages/ai_catalog_agents_show.vue',
-    'ee/app/assets/javascripts/ai/catalog/pages/ai_catalog_flows_show.vue',
     'ee/app/assets/javascripts/ai/components/ai_panel.vue',
     'ee/app/assets/javascripts/ai/constants.js',
     'ee/app/assets/javascripts/ai/duo_agentic_chat/components/duo_agentic_chat_state_manager.vue',

@@ -474,6 +474,21 @@ RSpec.describe SearchController, feature_category: :global_search do
           end
         end
 
+        context 'when the response status is 400' do
+          it 'increments the custom search sli error rate with error: false' do
+            allow(controller).to receive(:status).and_return(400)
+
+            expect(Gitlab::Metrics::GlobalSearchSlis).to receive(:record_error_rate).with(
+              error: false,
+              search_scope: 'work_items',
+              search_type: 'basic',
+              search_level: 'global'
+            )
+
+            get :show, params: { scope: 'work_items', search: 'hello world' }
+          end
+        end
+
         context 'when something goes wrong before a search is done' do
           it 'does not increment the error rate' do
             expect(Gitlab::Metrics::GlobalSearchSlis).not_to receive(:record_error_rate)
@@ -655,6 +670,21 @@ RSpec.describe SearchController, feature_category: :global_search do
           it 'increments the custom search sli error rate with error: true' do
             expect(Gitlab::Metrics::GlobalSearchSlis).to receive(:record_error_rate).with(
               error: true,
+              search_scope: 'projects',
+              search_type: 'basic',
+              search_level: 'global'
+            )
+
+            get :count, params: { search: 'hello', scope: 'projects', filter: 'search' }
+          end
+        end
+
+        context 'when the response status is 400' do
+          it 'increments the custom search sli error rate with error: false' do
+            allow(controller).to receive(:status).and_return(400)
+
+            expect(Gitlab::Metrics::GlobalSearchSlis).to receive(:record_error_rate).with(
+              error: false,
               search_scope: 'projects',
               search_type: 'basic',
               search_level: 'global'

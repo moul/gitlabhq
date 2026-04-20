@@ -665,7 +665,6 @@ trigger_ai_flow
 trigger_amazon_q
 troubleshoot_job_with_ai
 unlink
-unschedule_job
 update_admin_role
 update_alert_management_alert
 update_alert_management_metric_image

@@ -30,6 +30,13 @@ export function isExternalOriginError(event) {
   );
 }
 
+export function isServerUnavailableError(hint) {
+  const error = hint?.originalException;
+  if (!error) return false;
+
+  return error.name === 'ServerError' && Number(error.statusCode) === 503;
+}
+
 const initSentry = () => {
   if (!gon?.sentry_dsn) {
     return;
@@ -46,8 +53,9 @@ const initSentry = () => {
         : [gon.gitlab_url, 'webpack-internal://'],
     environment: gon.sentry_environment,
 
-    beforeSend(event) {
+    beforeSend(event, hint) {
       if (isExternalOriginError(event)) return null;
+      if (isServerUnavailableError(hint)) return null;
       return event;
     },
 

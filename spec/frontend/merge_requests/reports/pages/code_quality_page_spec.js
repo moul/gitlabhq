@@ -1,4 +1,5 @@
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
+import { useMockInternalEventsTracking } from 'helpers/tracking_internal_events_helper';
 import CodeQualityPage from '~/merge_requests/reports/pages/code_quality_page.vue';
 import CodeQualityProvider from '~/merge_requests/reports/components/code_quality_provider.vue';
 import CodeQualityContent from '~/merge_requests/reports/components/code_quality_content.vue';
@@ -29,5 +30,20 @@ describe('CodeQualityPage', () => {
 
   it('renders CodeQualityContent inside provider', () => {
     expect(findContent().exists()).toBe(true);
+  });
+
+  describe('tracking', () => {
+    const { bindInternalEventDocument } = useMockInternalEventsTracking();
+
+    it('tracks view_merge_request_report on mount', () => {
+      createComponent();
+      const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+      expect(trackEventSpy).toHaveBeenCalledWith(
+        'view_merge_request_report',
+        { label: 'code_quality' },
+        undefined,
+      );
+    });
   });
 });

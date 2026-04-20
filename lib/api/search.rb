@@ -118,7 +118,7 @@ module API
 
         search_service = search_service(additional_params)
         Gitlab::Metrics::GlobalSearchSlis.record_error_rate(
-          error: @search_duration_s.nil? || (status < 200 || status >= 400),
+          error: @search_duration_s.nil? || status >= 500,
           search_type: search_type(additional_params),
           search_level: search_service.level,
           search_scope: @search_duration_s.nil? ? user_requested_search_scope : search_service.scope
