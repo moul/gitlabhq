@@ -1226,6 +1226,9 @@ msgstr ""
 msgid "%{number_commits_behind} commits behind %{default_branch}, %{number_commits_ahead} commits ahead"
 msgstr ""
 
+msgid "%{number} options selected"
+msgstr ""
+
 msgid "%{openedEpics} open, %{closedEpics} closed"
 msgstr ""
 
@@ -6252,7 +6255,7 @@ msgstr ""
 msgid "AdminSettings|If exact code search is enabled, you should turn off this setting to save resources."
 msgstr ""
 
-msgid "AdminSettings|If no unit is written, it defaults to seconds. For example, these are all equivalent: %{oneDayInSeconds}, %{oneDayInHoursHumanReadable}, or %{oneDayHumanReadable}. Minimum value is two hours. %{linkStart}Learn more.%{linkEnd}"
+msgid "AdminSettings|If no unit is written, it defaults to seconds. For example, these are all equivalent: %{oneDayInSeconds}, %{oneDayInHoursHumanReadable}, or %{oneDayHumanReadable}. Minimum value is two hours. %{linkStart}Learn more%{linkEnd}."
 msgstr ""
 
 msgid "AdminSettings|If not specified at the group or instance level, the default is %{default_initial_branch_name}. Does not affect existing repositories."
@@ -26831,6 +26834,12 @@ msgstr ""
 msgid "DuoAgentsPlatform|Failed to fetch workflows"
 msgstr ""
 
+msgid "DuoAgentsPlatform|Failed to submit approval. Please try again."
+msgstr ""
+
+msgid "DuoAgentsPlatform|Failed to submit modification. Please try again."
+msgstr ""
+
 msgid "DuoAgentsPlatform|Fix a failing pipeline"
 msgstr ""
 
@@ -26865,6 +26874,9 @@ msgid "DuoAgentsPlatform|Manage automated flows within your project."
 msgstr ""
 
 msgid "DuoAgentsPlatform|Manage trigger settings."
+msgstr ""
+
+msgid "DuoAgentsPlatform|Modify plan"
 msgstr ""
 
 msgid "DuoAgentsPlatform|New agent sessions will appear here."
@@ -26937,6 +26949,9 @@ msgid "DuoAgentsPlatform|Start a Free Trial"
 msgstr ""
 
 msgid "DuoAgentsPlatform|Start your free %{strongStart}%{trialDuration}-day trial%{strongEnd} now to accelerate your software delivery. Automate tasks with AI agents, from searching projects to creating commits."
+msgstr ""
+
+msgid "DuoAgentsPlatform|Tell the agent what to change and it will generate an updated plan for your review."
 msgstr ""
 
 msgid "DuoAgentsPlatform|The trigger could not be created. Try again."
@@ -45445,6 +45460,9 @@ msgid "Modified"
 msgstr ""
 
 msgid "Modified in this version"
+msgstr ""
+
+msgid "Modify"
 msgstr ""
 
 msgid "Modify commit message"

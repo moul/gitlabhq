@@ -89,7 +89,7 @@ Alternatively, to monitor progress, in the left sidebar, select **Automate** > *
 To create a merge request from an issue:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Work items**, then filter by **Type** = **Issue**.
+1. In the left sidebar, select **Plan** > **Work items**, then filter by **Type** = **Issue**.
 1. Select the issue you want to create a merge request for.
 1. To create a merge request from the issue, either:
    - Assign the Duo Developer service account to the issue:

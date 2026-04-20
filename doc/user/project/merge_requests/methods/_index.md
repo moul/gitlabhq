@@ -36,7 +36,7 @@ gitGraph
 ## Configure a project's merge method
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **Merge requests**.
+1. In the left sidebar, select **Settings** > **Merge requests**.
 1. Select your desired **Merge method** from these options:
    - Merge commit
    - Merge commit with semi-linear history
@@ -313,7 +313,7 @@ Prerequisites:
 To turn on automatic rebase:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **Merge requests**.
+1. In the left sidebar, select **Settings** > **Merge requests**.
 1. In the **Merge method** section, select **Enable automatic rebase prior to merge**.
 1. Select **Save changes**.
 

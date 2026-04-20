@@ -1016,7 +1016,7 @@ See also:
 
 ### Create a deprecation issue
 
-Every GraphQL deprecation should have a deprecation issue created [using the `Deprecations` issue template](https://gitlab.com/gitlab-org/gitlab/-/issues/new?issuable_template=Deprecations) to track its deprecation and removal.
+Every GraphQL deprecation should have a deprecation issue created [using the `Deprecations` issue template](https://gitlab.com/gitlab-org/gitlab/-/issues/new?description_template=Deprecations) to track its deprecation and removal.
 
 Apply these two labels to the deprecation issue:
 

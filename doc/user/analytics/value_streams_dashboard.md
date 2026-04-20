@@ -44,7 +44,7 @@ For a click-through demo, see [the Value Stream Management product tour](https:/
 To view the Value Streams Dashboard as an analytics dashboard for a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Analyze** > **Analytics dashboards**.
+1. In the left sidebar, select **Analyze** > **Analytics dashboards**.
 1. From the list of available dashboards, select **Value Streams Dashboard**.
 
 > [!note]
@@ -252,7 +252,7 @@ To view the Value Streams Dashboard for a group:
 To view the Value Streams Dashboard as an analytics dashboard for a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Analyze** > **Analytics dashboards**.
+1. In the left sidebar, select **Analyze** > **Analytics dashboards**.
 1. From the list of available dashboards, select **Value Streams Dashboard**.
 
 ## Schedule reports
@@ -287,7 +287,7 @@ Prerequisites:
 - You must have the Maintainer or Owner role for the group.
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Analytics**.
+1. In the left sidebar, select **Settings** > **Analytics**.
 1. Select the project where you would like to store your YAML configuration file.
 1. Select **Save changes**.
 

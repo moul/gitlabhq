@@ -171,7 +171,7 @@ Prerequisites:
 To do this:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **Merge requests**.
+1. In the left sidebar, select **Settings** > **Merge requests**.
 1. Scroll to **Merge suggestions**, and alter the text to meet your needs.
    For a list of placeholders you can use in this message, see [supported variables](#supported-variables).
 

@@ -74,7 +74,7 @@ Prerequisites:
 To view a list of agents associated with your project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Agents**.
+1. In the left sidebar, select **Automate** > **Agents**.
    - To view agents enabled in the project, select the **Enabled** tab.
    - To view agents managed by the project, select the **Managed** tab.
 
@@ -95,7 +95,7 @@ Prerequisites:
 To create an agent:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Agents**.
+1. In the left sidebar, select **Automate** > **Agents**.
 1. Select **New agent**.
 1. Under **Basic information**:
    1. In **Display name**, enter a name for the agent.
@@ -159,7 +159,7 @@ Prerequisites:
 To enable an agent:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Agents**.
+1. In the left sidebar, select **Automate** > **Agents**.
 1. Select the **Managed** tab, then select the agent you want to enable.
 1. In the upper-right corner, select **Enable**.
 1. Under **Project**, select the project you want to enable the agent in.
@@ -200,7 +200,7 @@ Prerequisites:
 To enable an agent in a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Agents**.
+1. In the left sidebar, select **Automate** > **Agents**.
 1. In the upper-right corner, select **Enable agent from group**.
 1. From the dropdown list, select the agent you want to enable.
 1. Select **Enable**.

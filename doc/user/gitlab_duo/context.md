@@ -71,7 +71,7 @@ Exclude context to protect sensitive information, like password and configuratio
 To specify content that Code Review excludes:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Under **GitLab Duo**, in the **GitLab Duo context exclusions** section, select **Manage exclusions**.
 1. Specify which project files and directories are excluded from GitLab Duo context, and select **Save exclusions**.
 1. Optional. To delete an existing exclusion, select **Delete** ({{< icon name="remove" >}}) for the appropriate exclusion.

@@ -33,7 +33,7 @@ Prerequisites:
 To view sessions for your project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Sessions**.
+1. In the left sidebar, select **Automate** > **Sessions**.
 1. Select any session to view more details.
 
 ## View sessions you've triggered
@@ -57,7 +57,7 @@ To browse and switch Chat sessions in the GitLab Duo CLI, see [switch sessions](
 You can cancel a session that is running or waiting for input. To cancel a session:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Sessions**.
+1. In the left sidebar, select **Automate** > **Sessions**.
 1. On the **Details** tab, scroll to the bottom.
 1. Select **Cancel session**.
 1. In the confirmation dialog, select **Cancel session** to confirm.

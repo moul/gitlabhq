@@ -146,15 +146,19 @@ The following fields are required: [Project](#pipeline-project)
 - List all pipelines in the `gitlab-org/gitlab` project that failed today:
 
   ````yaml
+  ```glql
   display: table
   fields: id, ref, status, startedAt
   query: type = Pipeline and project = "gitlab-org/gitlab" and status = failed and updated = today()
+  ```
   ````
 
 - List all Duo agent pipelines in the `gitlab-org/gitlab` project:
 
   ````yaml
+  ```glql
   display: table
   fields: id, ref, status, source, startedAt
   query: type = Pipeline and project = "gitlab-org/gitlab" and source = "duo_workflow"
+  ```
   ````

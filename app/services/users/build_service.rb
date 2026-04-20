@@ -113,6 +113,8 @@ module Users
       @user_params[:email_otp_required_after] = Time.current if should_enrol_in_email_otp?
 
       @user_params.delete(:user_type) unless allowed_user_type?
+      @user_params.delete(:provisioned_by_group_id) unless service_account?
+      @user_params.delete(:provisioned_by_project_id) unless service_account?
     end
 
     def set_external_param?
@@ -132,6 +134,10 @@ module Users
 
     def allowed_user_type?
       ALLOWED_USER_TYPES.include?(user_params[:user_type]&.to_sym)
+    end
+
+    def service_account?
+      user_params[:user_type]&.to_sym == :service_account
     end
 
     def password_reset
@@ -210,6 +216,8 @@ module Users
         :password_expires_at,
         :private_profile,
         :projects_limit,
+        :provisioned_by_group_id,
+        :provisioned_by_project_id,
         :public_email,
         :remember_me,
         :skip_ai_prefix_validation,

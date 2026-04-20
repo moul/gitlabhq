@@ -129,7 +129,7 @@ Any links created with HTML `<a>` tags must use absolute URLs as their
 Markdown files, as Hugo can only process and replace Markdown-formatted links.
 
 If you have an idea or request for a new element that would be useful on the Docs site,
-submit a [feature request](https://gitlab.com/gitlab-org/technical-writing/docs-gitlab-com/-/issues/new?issuable_template=Default).
+submit a [feature request](https://gitlab.com/gitlab-org/technical-writing/docs-gitlab-com/-/issues/new?description_template=Default).
 
 ### Heading levels in Markdown
 
@@ -1911,7 +1911,7 @@ Do not use words to describe the icon:
 
 When the button doesn't have any hover text, describe the icon.
 Follow up by creating a
-[UX bug issue](https://gitlab.com/gitlab-org/gitlab/-/issues/new?issuable_template=Bug)
+[UX bug issue](https://gitlab.com/gitlab-org/gitlab/-/issues/new?description_template=Bug)
 to add hover text to the button to improve accessibility.
 
 - Avoid: `Select {{</* icon name="ellipsis_v" */>}}.`

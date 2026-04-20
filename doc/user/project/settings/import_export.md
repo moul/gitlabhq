@@ -178,7 +178,7 @@ Prerequisites:
 To export a project and its data, follow these steps:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Advanced**.
 1. Select **Export project**.
 1. After the export is generated, you can:
@@ -473,7 +473,7 @@ Prerequisites:
 To export the contents of a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. In the **Advanced** section, select **Export group**.
 1. After the export is generated, you can:
    - Follow a link contained in an email that you should receive.

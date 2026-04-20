@@ -85,7 +85,7 @@ other jobs run in a separate branch pipeline. To disable this behavior, see
 To turn on dependency scanning through the GitLab UI:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Code** > **Repository**.
+1. In the left sidebar, select **Code** > **Repository**.
 1. Select the `.gitlab-ci.yml` file.
 1. Select **Edit** > **Edit single file**.
 1. Add the `Dependency-Scanning.v2` CI/CD template:

@@ -84,7 +84,7 @@ Prerequisites:
 To turn on static reachability analysis in your project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Code** > **Repository**.
+1. In the left sidebar, select **Code** > **Repository**.
 1. Select the `.gitlab-ci.yml` file.
 1. Select **Edit** > **Edit single file**.
 1. Add the following configuration:

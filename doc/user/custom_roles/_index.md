@@ -292,5 +292,5 @@ To assign custom roles to LDAP or SAML groups:
 If a permission does not exist, you can:
 
 - Discuss individual custom role and permission requests in [issue 391760](https://gitlab.com/gitlab-org/gitlab/-/issues/391760).
-- Create an issue to request the permission with the [permission proposal issue template](https://gitlab.com/gitlab-org/gitlab/-/issues/new?issuable_template=Permission%20Proposal).
+- Create an issue to request the permission with the [permission proposal issue template](https://gitlab.com/gitlab-org/gitlab/-/issues/new?description_template=Permission%20Proposal).
 - Contribute to GitLab and add the permission.

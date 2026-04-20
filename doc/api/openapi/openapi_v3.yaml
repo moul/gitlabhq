@@ -1009,7 +1009,7 @@ paths:
         '401':
           description: Unauthorized
         '403':
-          description: 403 Forbidden
+          description: Forbidden
         '404':
           description: Not found
       requestBody:
@@ -1018,6 +1018,40 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/RequestBody_518c68f555bc"
+      x-gitlab-lifecycle: experiment
+  "/api/v4/ai/duo_workflows/code_review/custom_instructions":
+    get:
+      operationId: getApiV4AiDuoWorkflowsCodeReviewCustomInstructions
+      summary: Fetch the Duo Code Review custom instructions for a merge request
+      description: Fetch all Duo Code Review custom instructions for a merge request.
+      tags:
+      - GitLab Duo workflows
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Validation failed
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+      parameters:
+      - name: project_id
+        required: true
+        description: The ID or path of the project
+        schema:
+          type: string
+          nullable: true
+        in: query
+      - name: merge_request_iid
+        required: true
+        description: The IID of the merge request
+        schema:
+          type: integer
+          nullable: true
+        in: query
       x-gitlab-lifecycle: experiment
   "/api/v4/ai/duo_workflows/agent_workflows":
     post:

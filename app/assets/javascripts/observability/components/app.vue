@@ -44,8 +44,11 @@ export default {
       type: Object,
       required: true,
       validator(authTokens) {
-        // Allow empty objects - polling will handle fetching tokens
         if (!authTokens || Object.keys(authTokens).length === 0) {
+          return true;
+        }
+
+        if (authTokens.status === 'loading') {
           return true;
         }
 
@@ -99,6 +102,7 @@ export default {
     },
 
     needsPolling() {
+      if (this.currentAuthTokens?.status === 'loading') return true;
       const { accessJwt, refreshJwt } = this.currentAuthTokens || {};
       return !accessJwt?.trim() || !refreshJwt?.trim();
     },
@@ -155,6 +159,7 @@ export default {
   beforeUnmount() {
     this.pollingCancelled = true;
     clearTimeout(this.iframeReadyTimeout);
+    clearTimeout(this.authTimeout);
     this.stopProvisioningMessageCycle();
     iframeNavigator.deregister();
     if (this.authManager) {
@@ -186,6 +191,12 @@ export default {
       );
       this.authManager.setCallbacks(this.handleAuthSuccess, this.handleAuthError);
 
+      this.authTimeout = setTimeout(() => {
+        if (this.isLoading) {
+          this.handleAuthError();
+        }
+      }, TIMEOUTS.AUTH_TIMEOUT);
+
       window.addEventListener('message', this.handleMessage);
     },
 
@@ -203,7 +214,6 @@ export default {
         .then((tokens) => {
           if (this.pollingCancelled) return;
           this.currentAuthTokens = tokens;
-          this.isLoading = false;
           this.initializeAuth();
         })
         .catch(() => {
@@ -276,12 +286,14 @@ export default {
     },
 
     handleAuthSuccess() {
+      clearTimeout(this.authTimeout);
       this.isLoading = false;
       this.isAuthenticated = true;
       iframeNavigator.register(this.$refs.o11yFrame, this.allowedOrigin);
     },
 
     handleAuthError() {
+      clearTimeout(this.authTimeout);
       this.isLoading = false;
       this.isAuthenticated = false;
     },

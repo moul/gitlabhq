@@ -262,8 +262,9 @@ Prerequisites:
 - You must have the Owner role for the top-level group.
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General** > **Permissions and group features**.
-1. Clear the **Service account token expiration** checkbox.
+1. In the left sidebar, select **Settings** > **General**.
+1. Expand **Permissions and group features**.
+1. Under **Personal access tokens**, clear the **Require expiration dates for service accounts** checkbox.
 
 You can now create personal access tokens for a service account user with no expiry date.
 
@@ -354,7 +355,7 @@ Disabling the personal access tokens of a group's [enterprise users](../enterpri
 To disable the enterprise users' personal access tokens:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Under **Enterprise users**, select **Disable personal access tokens**.
 1. Select **Save changes**.

@@ -268,7 +268,7 @@ Choose which license information source to use when both are available.
 To configure the preferred source of license information for a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Secure** > **Security configuration**.
+1. In the left sidebar, select **Secure** > **Security configuration**.
 1. In the **License information source** section, select either:
    - **SBOM** (default) - Uses license information from CycloneDX reports.
      - The scanner reads license information from reports located in the project at `/gl-sbom-*.cdx.json`.

@@ -62,7 +62,7 @@ From this page, you can perform the following actions:
 To view your group access tokens:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Access tokens**.
+1. In the left sidebar, select **Settings** > **Access tokens**.
 
 Active and usable access tokens are stored in the **Active group access tokens** section.
 Expired, rotated, or revoked tokens are stored in the **Inactive group access tokens** section.
@@ -86,7 +86,7 @@ Expired, rotated, or revoked tokens are stored in the **Inactive group access to
 To create a group access token:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Access tokens**.
+1. In the left sidebar, select **Settings** > **Access tokens**.
 1. Select **Add new token**.
 1. In **Token name**, enter a name. The token name is visible to any user with permissions to view the group.
 1. Optional. In **Token description**, enter a description for the token.
@@ -204,7 +204,7 @@ On GitLab Self-Managed and GitLab Dedicated, you can modify the
 To rotate a group access token:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Access tokens**.
+1. In the left sidebar, select **Settings** > **Access tokens**.
 1. For the relevant token, select **Rotate** ({{< icon name="retry" >}}).
 1. In the confirmation dialog, select **Rotate**.
 
@@ -229,7 +229,7 @@ GitLab deletes revoked group and project access tokens after 30 days. For more i
 To revoke a group access token:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Access tokens**.
+1. In the left sidebar, select **Settings** > **Access tokens**.
 1. For the relevant token, select **Revoke** ({{< icon name="remove" >}}).
 1. In the confirmation dialog, select **Revoke**.
 

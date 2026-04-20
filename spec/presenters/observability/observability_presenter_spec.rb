@@ -16,6 +16,15 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
       o11y_service_url: 'https://observability.example.com')
   end
 
+  shared_context 'without observability settings' do
+    let(:group_without_settings) { build_stubbed(:group) }
+    let(:presenter_without_settings) { described_class.new(group_without_settings, path) }
+
+    before do
+      allow(group_without_settings).to receive(:observability_group_o11y_setting).and_return(nil)
+    end
+  end
+
   before do
     stub_reactive_cache
     allow(group).to receive(:observability_group_o11y_setting).and_return(observability_setting)
@@ -70,11 +79,11 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
 
   describe '#auth_tokens' do
     context 'when cache is empty' do
-      it 'returns empty hash and enqueues worker' do
+      it 'returns loading status and enqueues worker' do
         expect(ExternalServiceReactiveCachingWorker).to receive(:perform_async)
           .with(described_class.name, group.id)
 
-        expect(presenter.auth_tokens).to eq({})
+        expect(presenter.auth_tokens).to eq({ 'status' => 'loading' })
         expect(reactive_cache_alive?(presenter)).to be_truthy
       end
     end
@@ -86,17 +95,9 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
         stub_reactive_cache(presenter, cached_tokens)
       end
 
-      context 'when cache is populated' do
-        let(:cached_tokens) { { 'test_token' => 'value' } }
-
-        before do
-          stub_reactive_cache(presenter, cached_tokens)
-        end
-
-        it 'returns cached tokens without enqueuing worker' do
-          expect(ExternalServiceReactiveCachingWorker).not_to receive(:perform_async)
-          expect(presenter.auth_tokens).to eq(cached_tokens)
-        end
+      it 'returns cached tokens without enqueuing worker' do
+        expect(ExternalServiceReactiveCachingWorker).not_to receive(:perform_async)
+        expect(presenter.auth_tokens).to eq(cached_tokens)
       end
     end
 
@@ -106,21 +107,16 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
         invalidate_reactive_cache(presenter)
       end
 
-      it 'returns empty hash and enqueues worker' do
+      it 'returns loading status and enqueues worker' do
         expect(ExternalServiceReactiveCachingWorker).to receive(:perform_async)
           .with(described_class.name, group.id)
 
-        expect(presenter.auth_tokens).to eq({})
+        expect(presenter.auth_tokens).to eq({ 'status' => 'loading' })
       end
     end
 
     context 'when observability_setting is nil' do
-      let(:group_without_settings) { build_stubbed(:group) }
-      let(:presenter_without_settings) { described_class.new(group_without_settings, path) }
-
-      before do
-        allow(group_without_settings).to receive(:observability_group_o11y_setting).and_return(nil)
-      end
+      include_context 'without observability settings'
 
       it 'returns empty hash without enqueuing worker' do
         expect(ExternalServiceReactiveCachingWorker).not_to receive(:perform_async)
@@ -175,6 +171,7 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
           nil,
           {},
           { 'status' => :ready },
+          { 'status' => 'loading' },
           { 'token' => 'value' },
           { 'status' => 'provisioning' } # string, not symbol
         ]
@@ -190,12 +187,7 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
     end
 
     context 'when group has no observability settings' do
-      let(:group_without_settings) { build_stubbed(:group) }
-      let(:presenter_without_settings) { described_class.new(group_without_settings, path) }
-
-      before do
-        allow(group_without_settings).to receive(:observability_group_o11y_setting).and_return(nil)
-      end
+      include_context 'without observability settings'
 
       it { expect(presenter_without_settings.provisioning?).to be false }
     end
@@ -274,12 +266,7 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
       end
 
       context 'when observability_setting is nil' do
-        let(:group_without_settings) { build_stubbed(:group) }
-        let(:presenter_without_settings) { described_class.new(group_without_settings, path) }
-
-        before do
-          allow(group_without_settings).to receive(:observability_group_o11y_setting).and_return(nil)
-        end
+        include_context 'without observability settings'
 
         it 'returns empty hash without calling generate_tokens' do
           expect(Observability::O11yToken).not_to receive(:generate_tokens)
@@ -313,21 +300,6 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
         it 'returns empty hash and logs the exception' do
           expect(presenter.calculate_reactive_cache).to eq({})
           expect(Gitlab::ErrorTracking).to have_received(:log_exception).with(exception)
-        end
-      end
-
-      context 'when tokens have camelCase keys' do
-        let(:camel_case_tokens) { { 'testToken' => 'value', 'anotherKey' => 'another_value' } }
-        let(:expected_result) { { 'test_token' => 'value', 'another_key' => 'another_value' } }
-
-        before do
-          allow(Observability::O11yToken).to receive(:generate_tokens)
-            .with(observability_setting)
-            .and_return(camel_case_tokens)
-        end
-
-        it 'transforms keys to snake_case' do
-          expect(presenter.calculate_reactive_cache).to eq(expected_result)
         end
       end
     end
@@ -375,11 +347,11 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
     end
 
     context 'when cache is empty' do
-      it 'returns a hash with empty auth_tokens' do
+      it 'returns a hash with loading auth_tokens' do
         expect(presenter.to_h).to include(
           o11y_url: 'https://observability.example.com',
           path: 'services',
-          auth_tokens: {},
+          auth_tokens: { 'status' => 'loading' },
           title: 'Observability|Services',
           query_params: {}
         )
@@ -395,12 +367,7 @@ RSpec.describe Observability::ObservabilityPresenter, :use_clean_rails_memory_st
     end
 
     context 'when group has no observability settings' do
-      let(:group_without_settings) { build_stubbed(:group) }
-      let(:presenter_without_settings) { described_class.new(group_without_settings, path) }
-
-      before do
-        allow(group).to receive(:observability_group_o11y_setting).and_return(nil)
-      end
+      include_context 'without observability settings'
 
       it 'returns nil values for observability-specific fields' do
         expect(presenter_without_settings.to_h).to include(

@@ -238,7 +238,7 @@ Prerequisites:
 To add or update a variable in the project settings:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **CI/CD**.
+1. In the left sidebar, select **Settings** > **CI/CD**.
 1. Expand **Variables**.
 1. Select **Add variable** and complete the fields:
    - **Type**: Select **Variable (default)**.
@@ -289,7 +289,7 @@ Prerequisites:
 To enable an external agent:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Agents**.
+1. In the left sidebar, select **Automate** > **Agents**.
 1. Select the **Managed** tab, then select the agent you want to enable.
 1. In the upper-right corner, select **Enable**.
 1. Under **Project**, select the project you want to enable the agent in.
@@ -344,7 +344,7 @@ Prerequisites:
 To enable an external agent in a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Agents**.
+1. In the left sidebar, select **Automate** > **Agents**.
 1. In the upper-right corner, select **Enable agent from group**.
 1. From the dropdown list, select the external agent you want to enable.
 1. For **Add triggers**, select which event types trigger the external agent:
@@ -449,7 +449,7 @@ Prerequisites:
 To create an external agent:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Agents**.
+1. In the left sidebar, select **Automate** > **Agents**.
 1. Select **New agent**.
 1. Under **Basic information**:
    1. In **Display name**, enter a name.

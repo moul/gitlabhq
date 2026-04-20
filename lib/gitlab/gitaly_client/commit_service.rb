@@ -435,7 +435,7 @@ module Gitlab
         request = Gitaly::CommitLanguagesRequest.new(repository: @gitaly_repo, revision: encode_binary(ref) || '')
         response = gitaly_client_call(@repository.storage, :commit_service, :commit_languages, request, timeout: GitalyClient.long_timeout)
 
-        response.languages.map { |l| { value: l.share.round(2), label: l.name, color: l.color, highlight: l.color } }
+        response.languages.map { |l| { value: l.share.round(2), label: l.name, color: l.color, highlight: l.color, language_id: l.language_id.nonzero? } }
       end
 
       def raw_blame(revision, path, range:, ignore_revisions_blob: nil)

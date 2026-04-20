@@ -75,7 +75,7 @@ After you enable pipeline secret detection, you can [customize the analyzer sett
 This method requires you to manually edit an existing `.gitlab-ci.yml` file.
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Pipeline editor**.
+1. In the left sidebar, select **Build** > **Pipeline editor**.
 1. Copy and paste the following to the bottom of the `.gitlab-ci.yml` file:
 
    ```yaml
@@ -100,7 +100,7 @@ This method automatically prepares a merge request to add a `.gitlab-ci.yml` fil
 To enable pipeline secret detection:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Secure** > **Security configuration**.
+1. In the left sidebar, select **Secure** > **Security configuration**.
 1. In the **Pipeline secret detection** row, select **Configure with a merge request**.
 1. Optional. Complete the fields.
 1. Select **Create merge request**.
@@ -172,7 +172,7 @@ by default the first scheduled scan is a historic scan.
 To run a historic scan:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Pipelines**.
+1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select **New pipeline**.
 1. Add a CI/CD variable:
    1. From the dropdown list, select **Variable**.

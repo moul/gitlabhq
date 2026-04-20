@@ -59,7 +59,7 @@ Prerequisites:
 To add a custom domain for a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Domain Verification**.
+1. In the left sidebar, select **Settings** > **Domain Verification**.
 1. In the upper-right corner, select **Add Domain**.
 1. Configure the domain settings:
    - **Domain**: Enter the domain name.
@@ -99,14 +99,14 @@ After successful verification, the domain status changes to **Verified** and can
 To view all custom domains for a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Domain Verification**.
+1. In the left sidebar, select **Settings** > **Domain Verification**.
 
 ### Edit group domains
 
 To edit a custom domain for a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Domain Verification**.
+1. In the left sidebar, select **Settings** > **Domain Verification**.
 1. Next to the domain name, select **Edit** ({{< icon name="pencil" >}}).
 
 From here, you can:
@@ -127,7 +127,7 @@ Deleting a group domain can impact enterprise users in your group. After you del
 To delete a custom domain for a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Domain Verification**.
+1. In the left sidebar, select **Settings** > **Domain Verification**.
 1. Next to the domain name, select **Remove domain** ({{< icon name="remove" >}}).
 1. When prompted, select **Delete domain**.
 
@@ -221,7 +221,7 @@ Prerequisites:
 To view an enterprise user's email address:
 
 1. In the top bar, select **Search or go to** and find your project or group.
-1. Select **Manage** > **Members**.
+1. In the left sidebar, select **Manage** > **Members**.
 1. Hover over the enterprise user's name.
 
 You can also use the [group members API](../../api/group_members.md) and [project members API](../../api/project_members.md)
@@ -314,7 +314,7 @@ Prerequisites:
 To enable the Extension Marketplace for enterprise users:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Under **Web IDE and workspaces**, select the **Enable extension marketplace** checkbox.
 1. Select **Save changes**.

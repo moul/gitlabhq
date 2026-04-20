@@ -312,7 +312,7 @@ policy's information (for example, description or enforcement status), and creat
 policies:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Secure** > **Policies**.
+1. In the left sidebar, select **Secure** > **Policies**.
 
 ![Policies List Page](img/policies_list_v17_7.png)
 
@@ -332,7 +332,7 @@ unsupported data, rule mode turns off automatically. Fix the YAML first to use r
 Use the policy editor to create, edit, and delete policies:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Secure** > **Policies**.
+1. In the left sidebar, select **Secure** > **Policies**.
    - To create a new policy, select **New policy** in the **Policies** page header,
      then select the policy type.
    - To edit an existing policy, select **Edit policy** in the selected policy drawer.
@@ -371,7 +371,7 @@ Your preferred panel size is saved across sessions.
 To switch between the standard and advanced editor layouts:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Secure** > **Policies**.
+1. In the left sidebar, select **Secure** > **Policies**.
    - To create a new policy, select **New policy** in the **Policies** page header,
      then select the policy type.
    - To edit an existing policy, select **Edit policy** in the selected policy drawer.

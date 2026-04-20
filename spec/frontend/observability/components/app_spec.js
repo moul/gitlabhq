@@ -4,7 +4,7 @@ import waitForPromises from 'helpers/wait_for_promises';
 import axios from '~/lib/utils/axios_utils';
 import simplePoll from '~/lib/utils/simple_poll';
 import App from '~/observability/components/app.vue';
-import { MAX_POLLING_ATTEMPTS, POLLING_TIMEOUT } from '~/observability/constants';
+import { MAX_POLLING_ATTEMPTS, POLLING_TIMEOUT, TIMEOUTS } from '~/observability/constants';
 import iframeNavigator from '~/observability/iframe_navigator';
 import * as cryptoModule from '~/observability/utils/nonce';
 import { AuthManager } from '~/observability/utils/auth_manager';
@@ -136,37 +136,14 @@ describe('Observability App Component', () => {
   });
 
   describe('Component Rendering', () => {
-    it('renders iframe with correct observability URL', async () => {
-      await setupComponent({
-        o11yUrl: 'https://custom.observability.com',
-        path: 'custom-path/dashboard',
-      });
+    it.each([
+      ['custom URL and path', 'https://custom.observability.com', 'custom-path/dashboard'],
+      ['nested path', 'https://o11y.gitlab.com', 'metrics/dashboard'],
+      ['default path', 'https://o11y.gitlab.com', 'traces-explorer'],
+    ])('renders iframe with correct src for %s', async (_, o11yUrl, path) => {
+      await setupComponent({ o11yUrl, path });
 
-      expect(wrapper.find('iframe').attributes('src')).toBe(
-        'https://custom.observability.com/custom-path/dashboard',
-      );
-    });
-
-    it('handles different path formats correctly', async () => {
-      await setupComponent({
-        o11yUrl: 'https://o11y.gitlab.com',
-        path: 'metrics/dashboard',
-      });
-
-      expect(wrapper.find('iframe').attributes('src')).toBe(
-        'https://o11y.gitlab.com/metrics/dashboard',
-      );
-    });
-
-    it('handles edge cases in URL construction', async () => {
-      await setupComponent({
-        o11yUrl: 'https://o11y.gitlab.com',
-        path: 'traces-explorer',
-      });
-
-      expect(wrapper.find('iframe').attributes('src')).toBe(
-        'https://o11y.gitlab.com/traces-explorer',
-      );
+      expect(wrapper.find('iframe').attributes('src')).toBe(`${o11yUrl}/${path}`);
     });
 
     it('renders iframe with correct title', async () => {
@@ -270,13 +247,16 @@ describe('Observability App Component', () => {
       axiosGetSpy.mockRestore();
     });
 
-    it('calls simplePoll when tokens are empty', async () => {
+    it.each([
+      ['empty', {}],
+      ['loading status', { status: 'loading' }],
+    ])('calls simplePoll when tokens are %s', async (_, authTokens) => {
       simplePoll.mockClear();
       axiosGetSpy.mockResolvedValueOnce({
         data: { auth_tokens: { access_jwt: 'a', refresh_jwt: 'r' } },
       });
 
-      await setupComponent({ authTokens: {} });
+      await setupComponent({ authTokens });
       await waitForPromises();
 
       expect(simplePoll).toHaveBeenCalledWith(expect.any(Function), {
@@ -306,6 +286,23 @@ describe('Observability App Component', () => {
         { accessJwt: 'access', refreshJwt: 'refresh' },
         expect.any(String),
       );
+    });
+
+    it('shows error after auth timeout when iframe never loads', async () => {
+      axiosGetSpy.mockResolvedValueOnce({
+        data: { auth_tokens: { access_jwt: 'a', refresh_jwt: 'r' } },
+      });
+
+      await setupComponent({ authTokens: {} });
+      await waitForPromises();
+
+      expect(wrapper.findByTestId('o11y-loading-status').exists()).toBe(true);
+
+      jest.advanceTimersByTime(TIMEOUTS.AUTH_TIMEOUT);
+      await nextTick();
+
+      expect(wrapper.findByTestId('o11y-loading-status').exists()).toBe(false);
+      expect(wrapper.findByTestId('o11y-error-status').exists()).toBe(true);
     });
 
     it('updates authTokensStatus when status is present in response', async () => {
@@ -435,22 +432,28 @@ describe('Observability App Component', () => {
   });
 
   describe('Props Validation', () => {
-    it('rejects invalid auth token structure', () => {
-      const authTokensValidator = App.props.authTokens.validator;
+    const { validator: authTokensValidator } = App.props.authTokens;
 
+    it('rejects invalid auth token structure', () => {
       expect(authTokensValidator({ accessJwt: 'token' })).toBe(false);
       expect(authTokensValidator({ accessJwt: '', refreshJwt: 'refresh' })).toBe(false);
     });
 
     it('accepts valid auth token structure', () => {
-      const authTokensValidator = App.props.authTokens.validator;
-
       expect(
         authTokensValidator({
           accessJwt: 'access-token',
           refreshJwt: 'refresh-token',
         }),
       ).toBe(true);
+    });
+
+    it('accepts auth tokens with loading status', () => {
+      expect(authTokensValidator({ status: 'loading' })).toBe(true);
+    });
+
+    it('rejects auth tokens with non-loading status', () => {
+      expect(authTokensValidator({ status: 'error' })).toBe(false);
     });
   });
 

@@ -905,7 +905,7 @@ To recreate a pipeline execution policy:
 <!-- markdownlint-disable MD044 -->
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Secure** > **Policies**.
+1. In the left sidebar, select **Secure** > **Policies**.
 1. Select the pipeline execution policy you want to recreate.
 1. In the right sidebar, select the **YAML** tab and copy the contents of the entire policy file.
 1. Next to the policies table, select the vertical ellipsis ({{< icon name="ellipsis_v" >}}), and select **Delete**.

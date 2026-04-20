@@ -86,7 +86,7 @@ To help detect a potential secret leak, you can use the
 To view the deploy keys available to a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **Repository**.
+1. In the left sidebar, select **Settings** > **Repository**.
 1. Expand **Deploy keys**.
 
 The deploy keys available are listed:
@@ -106,7 +106,7 @@ Prerequisites:
   key on the host that requires access to the repository.
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **Repository**.
+1. In the left sidebar, select **Settings** > **Repository**.
 1. Expand **Deploy keys**.
 1. Select **Add new key**.
 1. Complete the fields.
@@ -154,7 +154,7 @@ Prerequisites:
 To grant a public deploy key access to a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **Repository**.
+1. In the left sidebar, select **Settings** > **Repository**.
 1. Expand **Deploy keys**.
 1. Select **Publicly accessible deploy keys**.
 1. In the key's row, select **Enable**.
@@ -171,7 +171,7 @@ Prerequisites:
 To edit the project access permissions of a deploy key:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **Repository**.
+1. In the left sidebar, select **Settings** > **Repository**.
 1. Expand **Deploy keys**.
 1. In the key's row, select **Edit** ({{< icon name="pencil" >}}).
 1. Select or clear the **Grant write permissions to this key** checkbox.
@@ -188,7 +188,7 @@ Prerequisites:
 To disable a deploy key:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **Repository**.
+1. In the left sidebar, select **Settings** > **Repository**.
 1. Expand **Deploy keys**.
 1. Select **Disable** ({{< icon name="cancel" >}}).
 

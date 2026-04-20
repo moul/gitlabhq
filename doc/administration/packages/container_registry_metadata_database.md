@@ -15,8 +15,8 @@ description: Store your container registry's data in a database to manage multip
 
 {{< history >}}
 
-- [Enabled on GitLab Self-Managed](https://gitlab.com/gitlab-org/gitlab/-/issues/423459) as a [beta feature](../../policy/development_stages_support.md) in GitLab 16.4.
 - [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/423459) in GitLab 17.3.
+- Prefer mode for new Linux package and self-compiled installations [introduced](https://gitlab.com/gitlab-org/container-registry/-/merge_requests/2849) in GitLab 19.0. Enabled by default.
 
 {{< /history >}}
 
@@ -192,6 +192,7 @@ To monitor and manage the post-import garbage collection backlog:
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/omnibus-gitlab/-/work_items/9411) in GitLab 18.7.
+- [Enabled by default](https://gitlab.com/gitlab-org/container-registry/-/merge_requests/2849) for new Linux package and self-compiled installations in GitLab 19.0.
 
 {{< /history >}}
 
@@ -241,6 +242,55 @@ database after a fallback. To move from filesystem to database mode after a
 fallback, complete the standard [metadata import](#enable-the-database-for-existing-registries)
 and restart the registry.
 
+### Default configuration
+
+{{< history >}}
+
+- Default metadata database mode [changed to `prefer`](https://gitlab.com/gitlab-org/container-registry/-/merge_requests/2849) in GitLab 19.0 for new Linux package and self-compiled installations.
+
+{{< /history >}}
+
+In GitLab 19.0 and later, the metadata database is enabled by default in prefer mode for new installations:
+
+- Linux package (Omnibus) installations: `registry['database']['enabled']` defaults to `"prefer"` when the setting is not specified in `/etc/gitlab/gitlab.rb`. For more information, see [issue 9396](https://gitlab.com/gitlab-org/omnibus-gitlab/-/issues/9396).
+- Self-compiled installations: `database.enabled` defaults to `"prefer"` when the setting is not specified in the registry configuration file.
+
+After upgrading, check which backend the registry uses. For the procedure, see [Verify which metadata backend is active](#verify-which-metadata-backend-is-active).
+
+#### New installations
+
+On a new GitLab 19.0 or later installation, the registry starts in prefer mode. If a reachable metadata database is configured, the registry uses it. Without a reachable database, the registry fails to start.
+
+To keep a new installation on filesystem metadata, set the database mode to `"false"` before the first registry start:
+
+- For Linux package (Omnibus) installations, in `/etc/gitlab/gitlab.rb`:
+
+  ```ruby
+  registry['database']['enabled'] = "false"
+  ```
+
+- For self-compiled installations, in `/home/git/gitlab/config/gitlab.yml`:
+
+  ```yaml
+  registry:
+    database:
+      enabled: false
+  ```
+
+#### Existing installations
+
+Upgrading an existing installation to GitLab 19.0 or later preserves the current `registry['database']['enabled']` setting. The upgrade does not migrate metadata or switch the active backend.
+
+An existing prefer-mode installation with filesystem metadata continues to use filesystem metadata after the upgrade. To switch to the database, complete a [metadata import](#enable-the-database-for-existing-registries).
+
+#### Metadata database backups
+
+When the registry uses the metadata database, include the registry database in your backups. For the procedure, see [Backup with metadata database](#backup-with-metadata-database).
+
+A prefer-mode installation with existing filesystem metadata stays in fallback across restarts. During fallback, the registry does not read from or write to the metadata database. You do not need to back up the metadata database until fallback ends.
+
+To end fallback, complete a [metadata import](#enable-the-database-for-existing-registries) and restart the registry. After the restart, the registry uses the metadata database. Include it in your backup routine.
+
 ### Verify which metadata backend is active
 
 To verify which metadata backend your registry is using,
@@ -251,7 +301,7 @@ use one of the following methods.
 1. Send a request to the registry `/v2/` endpoint:
 
    ```shell
-   curl --silent --head "https://registry.example.com/v2/" | grep --ignore-case gitlabcontainer-registry-database-enabled
+   curl --silent --head "https://registry.example.com/v2/" | grep --ignore-case gitlab-container-registry-database-enabled
    ```
 
 1. Inspect the

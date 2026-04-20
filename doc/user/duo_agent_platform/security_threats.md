@@ -201,7 +201,7 @@ Prerequisites:
 To configure prompt injection protection:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **GitLab Duo features**.
 1. Under **Prompt injection protection**, select an option:
    - **No checks**: Turn off scanning entirely. No prompt data is sent to third-party services.

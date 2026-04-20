@@ -113,15 +113,19 @@ The following fields are required: [Project](#job-project)
 - List all failed jobs in the `gitlab-org/gitlab` project:
 
   ````yaml
+  ```glql
   display: table
   fields: name, status, stage, startedAt
   query: type = Job and project = "gitlab-org/gitlab" and status = failed
+  ```
   ````
 
 - List all jobs with artifacts in the `gitlab-org/gitlab` project:
 
   ````yaml
+  ```glql
   display: table
   fields: name, status, stage
   query: type = Job and project = "gitlab-org/gitlab" and withArtifacts = true
+  ```
   ````

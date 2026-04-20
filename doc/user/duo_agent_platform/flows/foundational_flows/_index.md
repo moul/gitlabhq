@@ -107,7 +107,7 @@ Prerequisites:
 - Flow execution and foundational flows turned on for the top-level group.
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings > General**.
+1. In the left sidebar, select **Settings > General**.
 1. Expand **GitLab Duo**.
 1. Turn on the **GitLab Duo**, **Allow flow execution**, and **Allow foundational flows** toggles.
 1. Select **Save changes**.
@@ -144,7 +144,7 @@ Prerequisites:
 - Flow execution and foundational flows turned on for the instance.
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **GitLab Duo features**.
 1. Under **Flow execution**, select the **Allow flow execution** and **Allow foundational flows** checkboxes.
 1. Select the checkbox for each foundational flow you want to turn on.
@@ -162,7 +162,7 @@ Prerequisites:
 - Flow execution and foundational flows turned on for the instance and group.
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings > General**.
+1. In the left sidebar, select **Settings > General**.
 1. Expand **GitLab Duo**.
 1. Turn on the **GitLab Duo**, **Allow flow execution**, and **Allow foundational flows** toggles.
 1. Select **Save changes**.

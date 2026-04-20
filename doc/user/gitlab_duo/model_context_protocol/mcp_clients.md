@@ -83,7 +83,7 @@ Allow the IDE to access external MCP tools in the top-level group where GitLab D
 To allow your local environment to access external MCP tools on GitLab.com:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **GitLab Duo**.
+1. In the left sidebar, select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **External MCP tools**, select the **Allow external MCP tools** checkbox.
 1. Select **Save changes**.
@@ -93,7 +93,7 @@ To allow your local environment to access external MCP tools on GitLab.com:
 To allow your local environment to access external MCP tools on GitLab Self-Managed:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **GitLab Duo features**.
 1. Under **External MCP tools**, select the **Allow external MCP tools** checkbox.
 1. Select **Save changes**.

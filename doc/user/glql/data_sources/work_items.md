@@ -578,37 +578,45 @@ Work items include the types:
 - List all issues in the `gitlab-org/gitlab` project sorted by title:
 
   ````yaml
+  ```glql
   display: table
   fields: state, title, updated
   sort: title asc
   query: project = "gitlab-org/gitlab" and type = Issue
+  ```
   ````
 
 - List all epics in the `gitlab-org` group sorted by the start date (oldest first):
 
   ````yaml
+  ```glql
   display: table
   fields: title, state, startDate
   sort: startDate asc
   query: group = "gitlab-org" and type = Epic
+  ```
   ````
 
 - List all issues in the `gitlab-org` group with an assigned weight sorted by
   the weight (highest first):
 
   ````yaml
+  ```glql
   display: table
   fields: title, weight, health
   sort: weight desc
   query: type = Issue and group = "gitlab-org" and weight = any
+  ```
   ````
 
 - List all issues in the `gitlab-org` group due up to a week from today sorted by the due
   date (earliest first):
 
   ````yaml
+  ```glql
   display: table
   fields: title, dueDate, assignee
   sort: dueDate asc
   query: type = Issue and group = "gitlab-org" and due >= today() and due <= 1w
+  ```
   ````

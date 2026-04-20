@@ -30397,8 +30397,8 @@ CREATE TABLE service_desk_settings (
     add_external_participants_from_cc boolean DEFAULT false NOT NULL,
     reopen_issue_on_external_participant_note boolean DEFAULT false NOT NULL,
     tickets_confidential_by_default boolean DEFAULT true NOT NULL,
-    created_at timestamp with time zone DEFAULT now() NOT NULL,
-    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
     CONSTRAINT check_57a79552e1 CHECK ((char_length(custom_email) <= 255))
 );
 
@@ -38897,6 +38897,9 @@ ALTER TABLE packages_conan_recipe_revisions
 
 ALTER TABLE vulnerability_statistics
     ADD CONSTRAINT check_vulnerability_statistics_traversal_ids_not_empty CHECK ((cardinality(traversal_ids) > 0)) NOT VALID;
+
+ALTER TABLE x509_certificates
+    ADD CONSTRAINT check_x509_certificates_serial_number_max_length CHECK ((octet_length(serial_number) <= 25)) NOT VALID;
 
 ALTER TABLE ONLY p_ci_build_needs
     ADD CONSTRAINT p_ci_build_needs_pkey PRIMARY KEY (id, partition_id);

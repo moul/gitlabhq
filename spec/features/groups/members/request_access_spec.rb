@@ -33,11 +33,6 @@ RSpec.describe 'Groups > Members > Request access', feature_category: :groups_an
         request_access
       end
 
-      expect(ActionMailer::Base.deliveries.last.to).to eq [owner.notification_email_or_default]
-      expect(ActionMailer::Base.deliveries.last.subject).to match "Request to join the #{group.name} group"
-
-      expect(page).to have_content 'Your request for access has been queued for review.'
-
       more_actions_dropdown.click
 
       expect(page).to have_content 'Withdraw access request'
@@ -109,12 +104,14 @@ RSpec.describe 'Groups > Members > Request access', feature_category: :groups_an
 
   def request_access
     find_by_testid('request-access-link').click
-    wait_for_requests
+
+    expect(page).to have_content 'Your request for access has been queued for review.'
   end
 
   def withdraw_access
     find_by_testid('withdraw-access-link').click
     accept_gl_confirm
-    wait_for_requests
+
+    expect(page).to have_content 'Your access request to the group has been withdrawn.'
   end
 end

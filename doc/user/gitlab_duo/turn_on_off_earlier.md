@@ -145,7 +145,7 @@ Prerequisites:
 To turn GitLab Duo on or off for a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Visibility, project features, permissions**.
 1. Under **GitLab Duo**, turn the toggle on or off.
 1. Select **Save changes**.

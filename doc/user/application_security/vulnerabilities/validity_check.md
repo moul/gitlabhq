@@ -47,7 +47,7 @@ Prerequisites:
 To enable validity checks for a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Secure** > **Security configuration**.
+1. In the left sidebar, select **Secure** > **Security configuration**.
 1. Under **Pipeline Secret Detection**, turn on the **Validity checks** toggle.
 
 GitLab checks the status of detected secrets when the `secret_detection` CI/CD job is complete.

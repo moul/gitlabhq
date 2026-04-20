@@ -29,7 +29,7 @@ expected, reach out to GitLab Support for further assistance with the following 
 To identify the GitLab Advanced SAST analyzer version:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Jobs**.
+1. In the left sidebar, select **Build** > **Jobs**.
 1. Locate the `gitlab-advanced-sast` job.
 1. In the output of the job, search for the string `GitLab GitLab Advanced SAST analyzer`.
 

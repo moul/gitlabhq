@@ -23,8 +23,6 @@ Style/UnlessLogicalOperators:
     - 'ee/app/views/groups/settings/_personal_access_tokens.html.haml'
     - 'ee/lib/remote_development/devfile_operations/restrictions_enforcer.rb'
     - 'ee/lib/search/zoekt/cache.rb'
-    - 'ee/lib/sidebars/groups/super_sidebar_menus/duo_agents_menu.rb'
-    - 'ee/lib/sidebars/projects/super_sidebar_menus/duo_agents_menu.rb'
     - 'lib/api/commits.rb'
     - 'lib/banzai/filter/truncate_visible_filter.rb'
     - 'lib/file_size_validator.rb'

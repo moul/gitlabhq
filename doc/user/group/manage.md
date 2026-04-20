@@ -29,7 +29,7 @@ Prerequisites:
 To add a group README:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. In the **Group README** section, select **Add README**. This action creates a new project `gitlab-profile` that contains the `README.md` file.
 1. On the prompt for creating a README, select **Create and add README**. You're redirected to the Web IDE, where a README file is created.
 1. In the Web IDE, edit and commit the `README.md` file.
@@ -67,7 +67,7 @@ create a new group and transfer projects to it instead.
 To change your group path (group URL):
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Advanced** section.
 1. Under **Change group URL**, enter a new name.
 1. Select **Change group URL**.
@@ -125,7 +125,7 @@ Prerequisites:
 To archive a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Advanced**.
 1. In the **Archive group** section, select **Archive**.
 
@@ -196,7 +196,7 @@ Prerequisites:
 To transfer a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Advanced** section.
 1. Select **Transfer group**.
 1. From the dropdown list, select the group.
@@ -260,7 +260,7 @@ You can disable all email notifications related to the group, which includes its
 To disable email notifications:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Permissions and group features** section.
 1. Clear the **Enable email notifications** checkbox.
 
@@ -286,7 +286,7 @@ Prerequisites:
 To disable diff previews for all projects in a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Clear **Include diff previews**.
 1. Select **Save changes**.
@@ -313,7 +313,7 @@ The following group and project members receive notification emails about access
 You can enable notifications to inherited members of a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. Under **Expiry notification emails about group and project access tokens within this group should be sent to:**, select **All direct and inherited members of the group or project**.
 1. Optional. Check the **Enforce for all subgroups** checkbox.
@@ -340,7 +340,7 @@ before a group token expires. By default, these webhooks trigger 7 days before a
 To configure these webhooks to also trigger 60 days and 30 days before a token expires:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Permissions and group features** section.
 1. Select the **Add additional webhook triggers for group access token expiration** checkbox.
 1. Select **Save changes**.
@@ -358,7 +358,7 @@ These visual cues are particularly helpful for groups with many users.
 To disable group mentions:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Permissions and group features** section.
 1. Select **Group mentions are disabled**.
 1. Select **Save changes**.
@@ -390,7 +390,7 @@ Prerequisites:
 To restrict personal snippets for enterprise users:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Permissions and group features** section.
 1. Clear the **Allow personal snippets** checkbox.
 1. Select **Save changes**.
@@ -420,7 +420,7 @@ Prerequisites:
 To prevent invitations to a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Permissions and group features** section.
 1. Select **Disable Group/Project members invitation**.
 1. Select **Save changes**.
@@ -600,7 +600,7 @@ Prerequisites:
 To remove the user cap:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Permissions and group features**.
 1. From **Seat control**, select **Open access**.
 1. Select **Save changes**.
@@ -621,7 +621,7 @@ Prerequisites:
 To approve members that are pending because they've exceeded the user cap:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **Usage quotas**.
+1. In the left sidebar, select **Settings** > **Usage quotas**.
 1. On the **Seats** tab, under the alert, select **View pending approvals**.
 1. For each member you want to approve, select **Approve**.
 
@@ -683,7 +683,7 @@ For more information, see [group-level project templates](custom_project_templat
 To enable group file templates:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Templates** section.
 1. Choose a project to act as the template repository.
 1. Select **Save changes**.
@@ -723,7 +723,7 @@ Prerequisites:
 To enable this setting:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Merge requests**.
 1. Under **Merge checks**, select **Pipelines must succeed**.
    This setting also prevents merge requests from being merged if there is no pipeline.
@@ -742,7 +742,7 @@ Prerequisites:
 To change this behavior:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Merge requests**.
 1. Under **Merge checks**:
    - Select **Pipelines must succeed**.
@@ -760,7 +760,7 @@ Prerequisites:
 To enable this setting:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Merge requests**.
 1. Under **Merge checks**, select **All threads must be resolved**.
 1. Select **Save changes**.
@@ -781,7 +781,7 @@ that belong to the group.
 To view the merge request approval settings for a group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Merge request approvals** section.
 1. Select the settings you want.
 1. Select **Save changes**.
@@ -808,7 +808,7 @@ Changes to [group wikis](../project/wiki/group.md) do not appear in group activi
 You can view the most recent actions taken in a group, either in your browser or in an RSS feed:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Manage** > **Activity**.
+1. In the left sidebar, select **Manage** > **Activity**.
 
 To view the activity feed in Atom format, select the
 **RSS** ({{< icon name="rss" >}}) icon.
@@ -839,7 +839,7 @@ Prerequisites:
 To display user data on the [GitLab Credits dashboard](../../subscriptions/gitlab_credits.md#gitlab-credits-dashboard):
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand the **Permissions and group features** section.
 1. For the **GitLab Credits dashboard**, select the **Display user data** checkbox.
 1. Select **Save changes**.

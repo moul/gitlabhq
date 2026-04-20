@@ -24,9 +24,17 @@ The S3 bucket contains logs that are:
 
 If you use [your own encryption keys](encryption.md#customer-managed-encryption), application logs use GitLab-managed keys, not your provided key.
 
-## Manage access to application logs
+## View and manage application log access
 
-You can add, edit, or remove AWS IAM users and roles that have read-only access to your application logs.
+You can add, edit, or remove AWS IAM users and roles that have read-only access to your
+application logs.
+
+Access your application logs to do the following:
+
+- Monitor and troubleshoot your GitLab Dedicated instance.
+- Configure automated log processing and monitoring systems.
+- Set up tools that retrieve logs from the S3 bucket.
+- Retain audit trails for compliance reporting.
 
 Prerequisites:
 

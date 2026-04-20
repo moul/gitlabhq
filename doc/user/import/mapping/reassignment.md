@@ -192,7 +192,7 @@ All other rows are skipped.
 To request reassignment of contributions and memberships by using a CSV file:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Manage** > **Members**.
+1. In the left sidebar, select **Manage** > **Members**.
 1. Select the **Placeholders** tab.
 1. Select **Reassign with CSV**.
 1. Download the prefilled CSV template.

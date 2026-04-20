@@ -133,7 +133,7 @@ Prerequisites:
 To change GitLab Duo availability for a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **GitLab Duo**.
 1. Turn the **GitLab Duo** toggle on or off.
 1. Select **Save changes**.
@@ -179,7 +179,7 @@ Prerequisites:
 To change GitLab Duo availability for a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **GitLab Duo**.
 1. Turn the **GitLab Duo** toggle on or off.
 1. Select **Save changes**.
@@ -268,7 +268,7 @@ Prerequisites:
 To turn on GitLab Duo experiment and beta features for a top-level group:
 
 1. In the top bar, select **Search or go to** and find your group.
-1. Select **Settings** > **GitLab Duo**.
+1. In the left sidebar, select **Settings** > **GitLab Duo**.
 1. Select **Change configuration**.
 1. Under **Feature preview**, select **Turn on experiment and beta GitLab Duo features**.
 1. Select **Save changes**.

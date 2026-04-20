@@ -104,7 +104,7 @@ Prerequisites:
 To turn on dependency scanning:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Secure** > **Security configuration**.
+1. In the left sidebar, select **Secure** > **Security configuration**.
 1. In the **Dependency Scanning** row, select **Configure with a merge request**.
 1. Select **Create merge request**.
 1. Review the merge request, then select **Merge**.
@@ -128,7 +128,7 @@ Prerequisites:
 To turn on dependency scanning:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Pipeline editor**.
+1. In the left sidebar, select **Build** > **Pipeline editor**.
 1. If no `.gitlab-ci.yml` file exists, select **Configure pipeline**, then delete the example
    content.
 1. Copy and paste the following to the bottom of the `.gitlab-ci.yml` file. If an `include` line
@@ -609,7 +609,7 @@ dependency_scanning:
 
 Because all variables have not been tested, you may find that some work and others do not.
 If you need one that does not work,
-[submitting a feature request](https://gitlab.com/gitlab-org/gitlab/-/issues/new?issuable_template=Feature%20proposal%20-%20detailed&issue[title]=Docs%20feedback%20-%20feature%20proposal:%20Write%20your%20title)
+[submitting a feature request](https://gitlab.com/gitlab-org/gitlab/-/issues/new?description_template=Feature%20proposal%20-%20detailed&issue[title]=Docs%20feedback%20-%20feature%20proposal:%20Write%20your%20title)
 or contribute to the code to enable it to be used.
 
 ### Custom TLS certificate authority

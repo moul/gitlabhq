@@ -61,7 +61,7 @@ After merging the merge request, the issue is closed automatically, unless
 To create a branch and a merge request at the same time:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
+1. In the left sidebar, select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
 1. Go to the bottom of the issue description.
 1. Select **Create merge request** > **Create merge request and branch**.
 1. On the dialog, review the suggested branch name. It's based on your project's
@@ -86,7 +86,7 @@ Prerequisites:
 To create a merge request when a branch is already linked in Development:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
+1. In the left sidebar, select **Plan** > **Work items**, then filter by **Type** = **Issue** and select your issue.
 1. In the **Development** section, find the linked branch.
 1. Select the branch actions menu ({{< icon name="ellipsis_v" >}}).
 1. Select **Create merge request**.
@@ -116,7 +116,7 @@ Prerequisites:
 To create a branch and a merge request at the same time:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the left sidebar, select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
 1. Go to the bottom of the task description.
 1. Select **Create merge request**.
 1. On the dialog, review the suggested branch name.
@@ -141,7 +141,7 @@ Prerequisites:
 To create a merge request when a branch is already linked in Development:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
+1. In the left sidebar, select **Plan** > **Work items**, then filter by **Type** = **Task** and select your task.
 1. In the **Development** section, find the linked branch.
 1. Select the branch actions menu ({{< icon name="ellipsis_v" >}}).
 1. Select **Create merge request**.
@@ -246,7 +246,7 @@ Prerequisites:
 To do this:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **Merge requests**.
+1. In the left sidebar, select **Settings** > **Merge requests**.
 1. In the **Target project** section, select the option you want to use for
    your default target project.
 1. Select **Save changes**.

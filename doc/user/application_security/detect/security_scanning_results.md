@@ -76,7 +76,7 @@ Prerequisites:
 To download a security report:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Pipelines**.
+1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
 1. Select **Download results**, then the desired security report.
@@ -111,7 +111,7 @@ Prerequisites:
 To view a pipeline security report:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Pipelines**.
+1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the latest pipeline.
 
 To see details of a finding or vulnerability, select its description.
@@ -127,7 +127,7 @@ Prerequisites:
 To create an issue:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Pipelines**.
+1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
 1. Select a finding's description.
@@ -149,7 +149,7 @@ Prerequisites:
 To change the status and severity of findings or vulnerabilities:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Pipelines**.
+1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the latest pipeline.
 1. Select the **Security** tab.
 1. In the finding report:
@@ -181,7 +181,7 @@ Prerequisites:
 To download a security report:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Build** > **Pipelines**.
+1. In the left sidebar, select **Build** > **Pipelines**.
 1. Select the pipeline.
 1. Select the **Security** tab.
 1. Select **Download results**, then the desired security report.
@@ -227,7 +227,7 @@ Prerequisites:
 To view the security widget:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Merge requests**.
+1. In the left sidebar, select **Code** > **Merge requests**.
 1. Select a merge request.
 
 To see the details for each security report type, select **Show details**

@@ -73,7 +73,7 @@ Prerequisites:
 To view a list of flows associated with your project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Flows**.
+1. In the left sidebar, select **Automate** > **Flows**.
    - To view flows enabled in the project, select the **Enabled** tab.
    - To view flows managed by the project, select the **Managed** tab.
 
@@ -99,7 +99,7 @@ Prerequisites:
 To create a flow:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Flows**.
+1. In the left sidebar, select **Automate** > **Flows**.
 1. Select **New flow**.
 1. Under **Basic information**:
    1. In **Display name**, enter a name.
@@ -153,7 +153,7 @@ Prerequisites:
 To enable a flow:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Flows**.
+1. In the left sidebar, select **Automate** > **Flows**.
 1. Select the **Managed** tab, then select the flow you want to enable.
 1. In the upper-right corner, select **Enable**.
 1. Under **Project**, select the project you want to enable the flow in.
@@ -210,7 +210,7 @@ Prerequisites:
 To enable a flow in a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Automate** > **Flows**.
+1. In the left sidebar, select **Automate** > **Flows**.
 1. In the upper-right corner, select **Enable flow from group**.
 1. From the dropdown list, select the flow you want to enable.
 1. For **Add triggers**, select which events trigger the flow:

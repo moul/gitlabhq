@@ -174,9 +174,13 @@ module Observability
     def auth_tokens
       return {} unless observability_setting
 
-      with_reactive_cache do |data|
+      result = with_reactive_cache do |data|
         data
-      end || {}
+      end
+
+      return { 'status' => 'loading' } if result.nil?
+
+      result
     end
 
     def url_with_path

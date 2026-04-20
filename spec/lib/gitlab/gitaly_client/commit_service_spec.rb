@@ -1649,6 +1649,43 @@ RSpec.describe Gitlab::GitalyClient::CommitService, feature_category: :gitaly do
     end
   end
 
+  describe '#languages' do
+    let(:response) do
+      Gitaly::CommitLanguagesResponse.new(
+        languages: [
+          Gitaly::CommitLanguagesResponse::Language.new(
+            name: 'Ruby', share: 50.0, color: '#701516', language_id: language_id
+          )
+        ]
+      )
+    end
+
+    subject(:languages) { client.languages }
+
+    before do
+      expect_any_instance_of(Gitaly::CommitService::Stub)
+        .to receive(:commit_languages)
+        .with(kind_of(Gitaly::CommitLanguagesRequest), kind_of(Hash))
+        .and_return(response)
+    end
+
+    context 'when language_id is zero' do
+      let(:language_id) { 0 }
+
+      it 'returns nil for language_id' do
+        is_expected.to eq([{ value: 50.0, label: 'Ruby', color: '#701516', highlight: '#701516', language_id: nil }])
+      end
+    end
+
+    context 'when language_id is present' do
+      let(:language_id) { 326 }
+
+      it 'returns the language_id' do
+        is_expected.to eq([{ value: 50.0, label: 'Ruby', color: '#701516', highlight: '#701516', language_id: 326 }])
+      end
+    end
+  end
+
   describe '#get_patch_id' do
     it 'returns patch_id of given revisions' do
       expect(client.get_patch_id('HEAD~', 'HEAD')).to eq('67cc1b19744f71ee68e5aa6aa0dbadf03a6ba912')

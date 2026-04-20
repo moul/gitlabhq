@@ -75,6 +75,7 @@ describe('SentryConfig', () => {
               /NetworkError/i,
               /NavigationDuplicated/,
               /You must be logged in/,
+              /Request failed with status code 401/,
             ],
             tracePropagationTargets: [/^\//],
             tracesSampleRate: mockSentryClientsideTracesSampleRate,

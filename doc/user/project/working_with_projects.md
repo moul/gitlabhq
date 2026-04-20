@@ -182,7 +182,7 @@ To view only the projects you are the owner of:
 To view the activity of a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Manage** > **Activity**.
+1. In the left sidebar, select **Manage** > **Activity**.
 1. Optional. To filter activity by contribution type, select a tab:
 
    - **All**: All contributions by project members.
@@ -267,7 +267,7 @@ Prerequisites:
 - You must have the Maintainer or Owner role for the project.
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. In the **Project name** text box, enter your project name. See the [limitations on project names](../reserved_names.md).
 1. Optional. In the **Project description** text box, enter your project description. The description is limited to 2,000 characters.
    Components published in the CI/CD catalog require a project description.
@@ -289,7 +289,7 @@ Prerequisites:
 To rename a repository:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Advanced**.
 1. In the **Change path** text box, edit the path.
 1. Select **Change path**.
@@ -335,7 +335,7 @@ Prerequisites:
 To upload an avatar in your project settings:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. In the **Project avatar** section, select **Choose file**.
 1. Select your avatar file.
 1. Select **Save changes**.
@@ -527,7 +527,7 @@ Prerequisites:
 To transfer a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Settings** > **General**.
+1. In the left sidebar, select **Settings** > **General**.
 1. Expand **Advanced**.
 1. Under **Transfer project**, choose the namespace to transfer the project to.
 1. Select **Transfer project**.
