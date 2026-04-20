@@ -37541,6 +37541,12 @@ msgstr ""
 msgid "InProductMarketing|Built-in security"
 msgstr ""
 
+msgid "InProductMarketing|Create a GitLab account to purchase the Premium tier of GitLab Self-Managed."
+msgstr ""
+
+msgid "InProductMarketing|Delegate work to AI"
+msgstr ""
+
 msgid "InProductMarketing|Free guest users"
 msgstr ""
 

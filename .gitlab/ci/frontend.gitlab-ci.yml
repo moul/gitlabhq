@@ -560,6 +560,11 @@ jest-msw-integration:
     - job: compile-fe-islands
       optional: true
 
+jest-msw-integration vue3:
+  extends:
+    - jest-msw-integration
+    - .vue3
+
 jest-integration:
   extends:
     - .frontend-test-base

@@ -1,4 +1,18 @@
 import { waitFor } from '@testing-library/dom';
+import { mount } from '@vue/test-utils';
+
+export const assignRouter = (routerFn, args) => {
+  const router = routerFn(args);
+
+  // We inject the router metadata globally so that our test setup can
+  // pick it up and do the router setup and cleanup
+  global.metadata.router = router;
+  return router;
+};
+
+export const fullMount = (component, params) => {
+  return mount(component, { attachTo: document.body, ...params });
+};
 
 export const waitForElement = (finder) =>
   waitFor(() => {

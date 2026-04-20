@@ -828,7 +828,7 @@ export default [
   },
 
   {
-    files: ['spec/frontend/msw_integration/**/*.js'],
+    files: ['{,ee/}spec/frontend/msw_integration/**/*_spec.js'],
 
     rules: {
       ...jestConfig.rules,
@@ -870,6 +870,17 @@ export default [
       'no-restricted-syntax': [
         'error',
         ...specNoRestrictedSyntax,
+        {
+          selector: 'CallExpression[callee.object.name=/[Rr]outer/][callee.property.name="push"]',
+          message:
+            'Do not use router.push. Use the UI to trigger actions which in turn trigger route changes to simulate user behaviours.',
+        },
+        {
+          selector:
+            'CallExpression[callee.object.property.name=/[Rr]outer/][callee.property.name="push"]',
+          message:
+            'Do not use router.push. Use the UI to trigger actions which in turn trigger route changes to simulate user behaviours.',
+        },
         {
           selector: 'MemberExpression[property.name="nextTick"]',
           message: 'Use waitFor from @testing-library/dom instead of nextTick.',

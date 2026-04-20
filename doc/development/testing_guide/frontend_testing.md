@@ -1272,19 +1272,22 @@ MSW integration tests live in `spec/frontend/msw_integration/`. The structure is
 
 ```plaintext
 spec/frontend/msw_integration/
-├── fixture_utils.js        # Auto-loading and helpers for fixture responses
+├── constants.js            # Shared constants (for example, base metadata)
+├── fixture_utils.js        # Helpers for building dynamic mutation responses
 ├── handlers.js             # GraphQL router: composes feature handlers
 ├── handlers/
 │   └── work_items.js       # Work item resolver and operation overrides
 ├── server.js               # MSW server setup (imported by test_setup.js)
-├── test_setup.js           # Global setup: polyfills, server lifecycle
+├── setup_utils.js          # Router and lifecycle helpers used by test_setup.js
+├── test_helpers.js         # Test utilities: assignRouter, fullMount, waitForElement, getText
+├── test_setup.js           # Global setup: polyfills, server lifecycle, router reset
 ├── polyfills.js            # TextEncoder/TextDecoder polyfills for jsdom
 └── work_items/
     └── work_item_spec.js   # Integration test file
 ```
 
 The shared files (`handlers.js`, `server.js`, `test_setup.js`,
-`polyfills.js`) are configured automatically through
+`polyfills.js`, `test_helpers.js`) are configured automatically through
 `jest.config.msw_integration.js`. Test files import fixture data
 directly from the relevant feature handler file
 (for example, `handlers/work_items.js`).
@@ -1481,8 +1484,12 @@ export function handleMyFeatureOperation({ operationName, variables, res, ctx })
 Test files live under `spec/frontend/msw_integration/` in a subdirectory that
 mirrors the feature area. Each file should:
 
-1. Mount the root component with `mount` from `@vue/test-utils` and the
-   real `apolloProvider`.
+1. Create a router with `assignRouter` from `test_helpers.js` instead of
+   calling the router factory directly. This registers the router globally
+   so `test_setup.js` can reset it between tests.
+1. Mount the root component with `fullMount` from `test_helpers.js` and the
+   real `apolloProvider`. `fullMount` wraps `mount` from `@vue/test-utils`
+   and automatically attaches to `document.body`.
 1. Use `waitFor` from `@testing-library/dom` after actions that trigger
    API calls.
 1. Interact with the UI through native DOM APIs (`.click()`,
@@ -1491,7 +1498,7 @@ mirrors the feature area. Each file should:
 
 #### Prefer DOM assertions over Vue Test Utils wrappers
 
-Use `@vue/test-utils` `mount` only to create the component. After mount,
+Use `fullMount` from `test_helpers.js` only to create the component. After mount,
 interact with and assert on the DOM directly. This keeps the tests
 Vue-version agnostic and makes future Vue 3 migration straightforward.
 
@@ -1521,22 +1528,25 @@ Here is a minimal example:
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
 import { waitFor } from '@testing-library/dom';
-import { mount } from '@vue/test-utils';
 import { apolloProvider } from '~/graphql_shared/issuable_client';
+import { createRouter } from '~/my_feature/router';
 import MyApp from '~/my_feature/components/app.vue';
-import { waitForElement, getText } from '../test_helpers';
+import { assignRouter, fullMount, waitForElement, getText } from '../test_helpers';
 
 Vue.use(VueApollo);
 
 describe('My feature test', () => {
-  let wrapper;
+  const router = assignRouter(createRouter, {
+    fullPath: 'gitlab-org/gitlab',
+    routerPath: 'my_feature',
+  });
 
   const findResult = () =>
     document.querySelector('[data-testid="result"]');
 
   const createComponent = () => {
-    wrapper = mount(MyApp, {
-      attachTo: document.body,
+    fullMount(MyApp, {
+      router,
       apolloProvider,
       provide: {
         fullPath: 'gitlab-org/gitlab',
@@ -1546,11 +1556,6 @@ describe('My feature test', () => {
 
   beforeEach(async () => {
     await apolloProvider.defaultClient.cache.reset();
-  });
-
-  afterEach(() => {
-    wrapper?.destroy();
-    apolloProvider.defaultClient.stop();
   });
 
   it('renders the page and responds to user interaction', async () => {
@@ -1574,15 +1579,24 @@ Key differences from unit tests:
 
 - Use the real `apolloProvider` instead of `createMockApollo`. MSW
   intercepts the actual network requests.
-- Use `mount` (not `shallowMountExtended` or `mountExtended`). The full
-  component tree must render for realistic interaction testing.
+- Use `fullMount` from `test_helpers.js` (not `shallowMountExtended`
+  or `mountExtended`). The full component tree must render for
+  realistic interaction testing. `fullMount` wraps `mount` and
+  attaches to `document.body` automatically.
+- Use `assignRouter` from `test_helpers.js` to create a router.
+  This registers the router globally so `test_setup.js` can reset
+  it between tests. Do not call router factory functions directly
+  or push routes manually.
 - After mounting, use native DOM APIs for all interactions and
   assertions. This avoids coupling to Vue internals and ensures Vue 3
   compatibility.
 - Do not mock child components. The goal is to test how they work
   together.
-- Reset the Apollo cache in `beforeEach` and stop the client in
-  `afterEach` to prevent state from leaking between tests.
+- Reset the Apollo cache in `beforeEach` to prevent state from
+  leaking between tests.
+- Do not add `afterEach` cleanup for wrapper destruction or Apollo
+  client teardown. The global `test_setup.js` handles router resets,
+  wrapper destroy and metadata cleanup.
 - Server lifecycle (`server.listen`, `server.resetHandlers`,
   `server.close`) is handled globally by `test_setup.js`. Do not add
   these calls in individual test files.
