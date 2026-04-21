@@ -55645,10 +55645,16 @@ msgstr ""
 msgid "ProjectSettings|Allow anyone to pull from package registry"
 msgstr ""
 
+msgid "ProjectSettings|Allow security policy bots to access CI/CD configuration files in this project."
+msgstr ""
+
 msgid "ProjectSettings|Allow skipping the merge train"
 msgstr ""
 
 msgid "ProjectSettings|Allow users and tokens read-only access to fetch security policy configurations in this project to enforce policies. %{linkStart}Learn more%{linkEnd}."
+msgstr ""
+
+msgid "ProjectSettings|Allowed file patterns"
 msgstr ""
 
 msgid "ProjectSettings|Always show thumbs-up and thumbs-down emoji buttons on issues, merge requests, and snippets."
@@ -55709,6 +55715,9 @@ msgid "ProjectSettings|Collector host"
 msgstr ""
 
 msgid "ProjectSettings|Combine git tags with release notes, release evidence, and assets to create a release."
+msgstr ""
+
+msgid "ProjectSettings|Comma-separated glob patterns for files the bot can access (for example, ci/**/*.yml)."
 msgstr ""
 
 msgid "ProjectSettings|Commits in earlier merge train pipelines might not get validated with immediately merged commits. "
@@ -56029,6 +56038,9 @@ msgstr ""
 msgid "ProjectSettings|Security and compliance for this project."
 msgstr ""
 
+msgid "ProjectSettings|Security policy bot access"
+msgstr ""
+
 msgid "ProjectSettings|Select a project"
 msgstr ""
 
@@ -56192,6 +56204,9 @@ msgid "ProjectSettings|What are merge trains?"
 msgstr ""
 
 msgid "ProjectSettings|What is squashing?"
+msgstr ""
+
+msgid "ProjectSettings|When enabled, security policy bots from projects in the same group hierarchy can access files matching the specified patterns."
 msgstr ""
 
 msgid "ProjectSettings|When merge request pipelines are enabled in the CI/CD configuration file, pipelines validate the combined results of the source and target branches. %{link_start}How to configure merge request pipelines?%{link_end}"

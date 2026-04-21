@@ -1292,6 +1292,13 @@ The shared files (`handlers.js`, `server.js`, `test_setup.js`,
 directly from the relevant feature handler file
 (for example, `handlers/work_items.js`).
 
+All test helper utilities exported from `test_helpers.js` are
+auto-imported globally through `test_setup.js` using
+`Object.assign(global, testHelpers)`, so you do not need to import
+them explicitly in your test files. To add a new helper, export it
+from `test_helpers.js` and it becomes available globally in all MSW
+integration tests.
+
 ### Handler architecture
 
 Because MSW v1 matches the first `rest.post` handler that applies,
@@ -1304,14 +1311,26 @@ feature-specific resolver functions in order:
 import { rest } from 'msw';
 import { handleWorkItemOperation } from './handlers/work_items';
 
-const featureHandlers = [handleWorkItemOperation];
+// Thin router: Import feature handlers here
+const graphqlFeatureHandlers = [handleWorkItemOperation];
+
+// Collect all REST endpoints from feature handlers
+const restEndpoints = [...workItemRestEndpoints];
+
+const restEndpointsHandlers = restEndpoints.map((endpoint) =>
+  rest[endpoint.method](endpoint.path, (req, res, ctx) => {
+    return res(ctx.json(endpoint.response));
+  }),
+);
 
 export const handlers = [
+  // Single GraphQL endpoint that routes to feature handlers
   rest.post('http://test.host/api/graphql', (req, res, ctx) => {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const { operationName, variables } = body;
 
-    for (const handler of featureHandlers) {
+    // Try each feature handler until one returns a result
+    for (const handler of graphqlFeatureHandlers) {
       const result = handler({ operationName, variables, res, ctx });
       if (result) return result;
     }
@@ -1319,6 +1338,7 @@ export const handlers = [
     console.log(`No handler for operationName: ${operationName}`);
     return res(ctx.status(400));
   }),
+  ...restEndpointsHandlers,
 ];
 ```
 
@@ -1346,7 +1366,8 @@ requests):
    ```javascript
    import { handleMergeRequestOperation } from './handlers/merge_requests';
 
-   const featureHandlers = [
+   // Thin router: Import feature handlers here
+   const graphqlFeatureHandlers = [
      handleWorkItemOperation,
      handleMergeRequestOperation,
    ];

@@ -155,6 +155,7 @@ Configure your project's merge request settings:
 - Configure:
   - [Suggested changes commit messages](../merge_requests/reviews/suggestions.md#configure-the-commit-message-for-applied-suggestions).
   - [Merge and squash commit message templates](../merge_requests/commit_templates.md).
+  - [Merge request title templates](../merge_requests/title_templates.md).
   - [Default target project](../merge_requests/creating_merge_requests.md#set-the-default-target-project) for merge requests coming from forks.
 
 ### Delete the source branch on merge by default

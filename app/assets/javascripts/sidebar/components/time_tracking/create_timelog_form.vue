@@ -4,6 +4,7 @@ import {
   GlFormInput,
   GlDatepicker,
   GlFormTextarea,
+  GlFormCharacterCount,
   GlModal,
   GlAlert,
   GlLink,
@@ -13,10 +14,10 @@ import { issuableTypeText, TYPE_ISSUE } from '~/issues/constants';
 import { toISOStringWithoutMilliseconds } from '~/lib/utils/datetime_utility';
 import { TYPENAME_ISSUE, TYPENAME_MERGE_REQUEST } from '~/graphql_shared/constants';
 import { joinPaths } from '~/lib/utils/url_utility';
-import { s__, sprintf } from '~/locale';
+import { n__, s__, sprintf } from '~/locale';
 import updateWorkItemMutation from '~/work_items/graphql/update_work_item.mutation.graphql';
 import createTimelogMutation from '../../queries/create_timelog.mutation.graphql';
-import { CREATE_TIMELOG_MODAL_ID } from './constants';
+import { CREATE_TIMELOG_MODAL_ID, SUMMARY_MAX_LENGTH } from './constants';
 
 export default {
   components: {
@@ -24,6 +25,7 @@ export default {
     GlFormGroup,
     GlFormInput,
     GlFormTextarea,
+    GlFormCharacterCount,
     GlModal,
     GlAlert,
     GlLink,
@@ -104,6 +106,9 @@ export default {
     close() {
       this.resetModal();
       this.$refs.modal.close();
+    },
+    remainingCountText(count) {
+      return n__('%d character remaining.', '%d characters remaining.', count);
     },
     registerTimeSpent(event) {
       event.preventDefault();
@@ -194,6 +199,7 @@ export default {
       return convertToGraphQLId(this.getGraphQLEntityType(), this.issuableId);
     },
   },
+  SUMMARY_MAX_LENGTH,
 };
 </script>
 
@@ -255,7 +261,23 @@ export default {
         :optional-text="__('(optional)')"
         label-for="summary"
       >
-        <gl-form-textarea id="summary" v-model="summary" rows="3" no-resize />
+        <gl-form-textarea
+          id="summary"
+          v-model="summary"
+          rows="3"
+          no-resize
+          :maxlength="$options.SUMMARY_MAX_LENGTH"
+          aria-describedby="summary-character-count"
+        />
+        <template #description>
+          <gl-form-character-count
+            :value="summary"
+            :limit="$options.SUMMARY_MAX_LENGTH"
+            count-text-id="summary-character-count"
+          >
+            <template #remaining-count-text="{ count }">{{ remainingCountText(count) }}</template>
+          </gl-form-character-count>
+        </template>
       </gl-form-group>
       <gl-alert v-if="saveError" variant="danger" class="gl-mb-3" :dismissible="false">
         {{ saveError }}

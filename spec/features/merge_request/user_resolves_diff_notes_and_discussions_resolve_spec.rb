@@ -229,7 +229,9 @@ RSpec.describe 'Merge request > User resolves diff notes and threads', :js, feat
           find('button[data-testid="resolve-discussion-button"]').click
         end
 
-        expect(page).to have_selector('.discussion-next-btn', visible: false)
+        wait_for_requests
+
+        expect(page).not_to have_selector('.discussion-next-btn', visible: :all)
       end
 
       it 'updates updated text after resolving note' do

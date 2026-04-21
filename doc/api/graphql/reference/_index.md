@@ -12456,6 +12456,7 @@ Input type: `ProjectCiCdSettingsUpdateInput`
 | <a id="mutation-projectcicdsettingsupdate-inboundjobtokenscopeenabled"></a>`inboundJobTokenScopeEnabled` | [`Boolean`](#boolean) | Indicates whether CI/CD job tokens generated in other projects have restricted access to this project. |
 | <a id="mutation-projectcicdsettingsupdate-jobtokenscopeenabled"></a>`jobTokenScopeEnabled` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated**: Outbound job token scope is being removed. This field can now only be set to false. Deprecated in GitLab 16.0. |
 | <a id="mutation-projectcicdsettingsupdate-keeplatestartifact"></a>`keepLatestArtifact` | [`Boolean`](#boolean) | Indicates whether the latest artifact should be kept for the project. |
+| <a id="mutation-projectcicdsettingsupdate-maxpipelinespermergetrain"></a>`maxPipelinesPerMergeTrain` | [`Int`](#int) | Maximum number of parallel pipelines per merge train. |
 | <a id="mutation-projectcicdsettingsupdate-mergepipelinesenabled"></a>`mergePipelinesEnabled` | [`Boolean`](#boolean) | Indicates if merged results pipelines are enabled for the project. |
 | <a id="mutation-projectcicdsettingsupdate-mergetrainsenabled"></a>`mergeTrainsEnabled` | [`Boolean`](#boolean) | Indicates if merge trains are enabled for the project. |
 | <a id="mutation-projectcicdsettingsupdate-mergetrainsskiptrainallowed"></a>`mergeTrainsSkipTrainAllowed` | [`Boolean`](#boolean) | Indicates whether an option is allowed to merge without refreshing the merge train. Ignored unless the `merge_trains_skip_train` feature flag is also enabled. |
@@ -49557,6 +49558,7 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="projectcicdsetting-inboundjobtokenscopeenabled"></a>`inboundJobTokenScopeEnabled` | [`Boolean`](#boolean) | Indicates whether CI/CD job tokens generated in other projects have restricted access to this project. |
 | <a id="projectcicdsetting-jobtokenscopeenabled"></a>`jobTokenScopeEnabled` | [`Boolean`](#boolean) | Indicates whether CI/CD job tokens generated in this project have restricted access to other projects. |
 | <a id="projectcicdsetting-keeplatestartifact"></a>`keepLatestArtifact` | [`Boolean`](#boolean) | Indicates whether the latest artifact should be kept for the project. |
+| <a id="projectcicdsetting-maxpipelinespermergetrain"></a>`maxPipelinesPerMergeTrain` | [`Int`](#int) | Maximum number of parallel pipelines per merge train. When null, the plan limit applies. |
 | <a id="projectcicdsetting-mergepipelinesenabled"></a>`mergePipelinesEnabled` | [`Boolean`](#boolean) | Indicates whether merged results pipelines are enabled. |
 | <a id="projectcicdsetting-mergetrainsenabled"></a>`mergeTrainsEnabled` | [`Boolean`](#boolean) | Whether merge trains are enabled. |
 | <a id="projectcicdsetting-mergetrainsskiptrainallowed"></a>`mergeTrainsSkipTrainAllowed` | [`Boolean!`](#boolean) | Whether merge immediately is allowed for merge trains. |

@@ -30221,7 +30221,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              "$ref": "#/components/schemas/RequestBody_70b14d38e7ca"
+              "$ref": "#/components/schemas/RequestBody_b64aa173db03"
     delete:
       operationId: deleteApiV4ProjectsId
       summary: Delete a project
@@ -69182,7 +69182,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_015e8b695790"
+              "$ref": "#/components/schemas/RequestBody_a9e6fb278ceb"
   "/api/v4/admin/migrations/pending":
     get:
       operationId: getApiV4AdminMigrationsPending
@@ -79344,6 +79344,8 @@ components:
           type: string
         stage:
           type: string
+        pipeline_id:
+          type: string
         project_id:
           type: string
         project_name:
@@ -80227,6 +80229,9 @@ components:
         web_hook_calls_mid:
           type: integer
           example: 500
+        max_pipelines_per_merge_train:
+          type: integer
+          example: 20
     APIEntitiesProjectIdentity:
       type: object
       properties:
@@ -85363,6 +85368,8 @@ components:
           type: string
         merge_trains_skip_train_allowed:
           type: string
+        max_pipelines_per_merge_train:
+          type: string
         only_allow_merge_if_all_status_checks_passed:
           type: string
         allow_pipeline_trigger_approve_deployment:
@@ -85759,6 +85766,8 @@ components:
         merge_trains_enabled:
           type: string
         merge_trains_skip_train_allowed:
+          type: string
+        max_pipelines_per_merge_train:
           type: string
         only_allow_merge_if_all_status_checks_passed:
           type: string
@@ -97310,7 +97319,7 @@ components:
           nullable: true
       required:
       - name
-    RequestBody_70b14d38e7ca:
+    RequestBody_b64aa173db03:
       type: object
       properties:
         name:
@@ -97951,6 +97960,11 @@ components:
           type: boolean
           description: Allow merge train merge requests to be merged without waiting
             for pipelines to finish.
+          nullable: true
+        max_pipelines_per_merge_train:
+          type: integer
+          description: Maximum number of parallel pipelines per merge train for this
+            project.
           nullable: true
         ci_restrict_pipeline_cancellation_role:
           type: string
@@ -108356,7 +108370,7 @@ components:
           nullable: true
       required:
       - token
-    RequestBody_015e8b695790:
+    RequestBody_a9e6fb278ceb:
       type: object
       properties:
         plan_name:
@@ -108483,6 +108497,10 @@ components:
           type: integer
           description: Maximum number of times a webhook can be called per minute,
             per top-level namespace. 0 for unlimited (GitLab.com only).
+          nullable: true
+        max_pipelines_per_merge_train:
+          type: integer
+          description: Maximum number of parallel pipelines per merge train
           nullable: true
       required:
       - plan_name

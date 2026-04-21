@@ -81,7 +81,7 @@ export default {
       return this.$apollo.queries.groups.loading;
     },
     selectedGroupsLabel() {
-      if (this.selectedGroups.length === 1) {
+      if (this.isOnlyOneGroupSelected) {
         return this.selectedGroups[0].name;
       }
       if (this.selectedGroups.length > 0) {
@@ -90,9 +90,6 @@ export default {
         });
       }
 
-      return this.selectedGroupsPlaceholder;
-    },
-    selectedGroupsPlaceholder() {
       return __('Select a group');
     },
     isOnlyOneGroupSelected() {
@@ -123,7 +120,7 @@ export default {
       return this.unselectedItems.map(mapItemToListboxFormat);
     },
     listBoxItems() {
-      if (this.selectedGroupOptions.length === 0) {
+      if (!this.hasSelectedGroups) {
         return this.unSelectedGroupOptions;
       }
 
@@ -157,16 +154,15 @@ export default {
     search: debounce(function debouncedSearch() {
       this.$apollo.queries.groups.refetch();
     }, DEFAULT_DEBOUNCE_AND_THROTTLE_MS),
-    singleSelectedGroup(selectedObj, isMarking) {
-      return isMarking ? [selectedObj] : [];
-    },
     getSelectedGroups(groups, selectedGroupIds) {
       return groups.filter(({ id }) => selectedGroupIds.includes(id));
     },
     setSelectedGroups(payload) {
-      this.selectedGroups = this.multiSelect
-        ? payload
-        : this.singleSelectedGroup(payload, !this.isGroupSelected(payload));
+      if (this.multiSelect) {
+        this.selectedGroups = payload;
+      } else {
+        this.selectedGroups = this.isGroupSelected(payload) ? [] : [payload];
+      }
     },
     onClick(groupId) {
       const group = this.availableGroups.find(({ id }) => id === groupId);

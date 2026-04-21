@@ -119,6 +119,10 @@ module Organizations
       self.class.default?(id)
     end
 
+    def empty?
+      groups.none? && projects.none?
+    end
+
     def to_param
       path
     end

@@ -828,6 +828,24 @@ export default [
   // MSW integration tests
   {
     files: ['{,ee/}spec/frontend/msw_integration/**/*_spec.js'],
+    languageOptions: {
+      globals: {
+        waitForElement: 'readonly',
+        getText: 'readonly',
+        findByTestId: 'readonly',
+        findInDrawer: 'readonly',
+        findButtonByText: 'readonly',
+        findByGraphQLId: 'readonly',
+        setInputValue: 'readonly',
+        waitAndSetValue: 'readonly',
+        waitAndClick: 'readonly',
+        waitForElementToBeNull: 'readonly',
+        waitForAssertion: 'readonly',
+        createPortalElement: 'readonly',
+        assignRouter: 'readonly',
+        fullMount: 'readonly',
+      },
+    },
 
     rules: {
       ...jestConfig.rules,

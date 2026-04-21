@@ -202,6 +202,27 @@ RSpec.describe Organizations::Organization, type: :model, feature_category: :org
   end
 
   context 'when using scopes' do
+    describe '.active' do
+      let_it_be(:active_org) { create(:organization) }
+
+      let_it_be(:deletion_scheduled_org) do
+        create(:organization).tap do |o|
+          o.update_column(:state, described_class.states['deletion_scheduled'])
+        end
+      end
+
+      let_it_be(:deletion_in_progress_org) do
+        create(:organization).tap do |o|
+          o.update_column(:state, described_class.states['deletion_in_progress'])
+        end
+      end
+
+      it 'returns only active organizations' do
+        expect(described_class.active).to include(active_org)
+        expect(described_class.active).not_to include(deletion_scheduled_org, deletion_in_progress_org)
+      end
+    end
+
     describe '.by_path' do
       let_it_be(:other_organization) { create(:organization, path: 'other-org') }
 
@@ -316,6 +337,45 @@ RSpec.describe Organizations::Organization, type: :model, feature_category: :org
     it 'ensures organization has organization_detail upon initialization' do
       expect(organization.organization_detail).to be_present
       expect(organization.organization_detail).not_to be_persisted
+    end
+  end
+
+  describe '#empty?' do
+    context 'when the organization has no groups and no projects' do
+      it 'returns true' do
+        expect(organization.empty?).to be(true)
+      end
+    end
+
+    context 'when the organization has groups' do
+      before do
+        create(:group, organization: organization)
+      end
+
+      it 'returns false' do
+        expect(organization.empty?).to be(false)
+      end
+    end
+
+    context 'when the organization has projects' do
+      before do
+        create(:project, organization: organization)
+      end
+
+      it 'returns false' do
+        expect(organization.empty?).to be(false)
+      end
+    end
+  end
+
+  describe 'invalid state transitions' do
+    let_it_be(:user) { create(:user) }
+
+    it 'cannot schedule_deletion! from deletion_scheduled state' do
+      organization.update_column(:state, described_class.states['deletion_scheduled'])
+
+      expect { organization.schedule_deletion!(transition_user: user) }
+        .to raise_error(StateMachines::InvalidTransition)
     end
   end
 

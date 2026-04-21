@@ -32,6 +32,7 @@ import { toggleHiddenClassBySelector } from '../external';
 import ProjectFeatureSetting from './project_feature_setting.vue';
 import ProjectSettingRow from './project_setting_row.vue';
 import CiCatalogSettings from './ci_catalog_settings.vue';
+import BotAccessSettings from './bot_access_settings.vue';
 
 const FEATURE_ACCESS_LEVEL_ANONYMOUS = { value: 30, label: s__('ProjectSettings|Everyone') };
 
@@ -131,6 +132,7 @@ export default {
     GlToggle,
     ConfirmDanger,
     SecretManagerSettings,
+    BotAccessSettings,
     OtherProjectSettings: () =>
       import(
         'jh_component/pages/projects/shared/permissions/components/other_project_settings.vue'
@@ -309,6 +311,11 @@ export default {
       required: false,
       default: false,
     },
+    botAccessSettingsAvailable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     const defaults = {
@@ -342,6 +349,8 @@ export default {
       extendedPratExpiryWebhooksExecute: false,
       cveIdRequestEnabled: true,
       sppRepositoryPipelineAccess: false,
+      pipelineExecutionPolicyBotAccessEnabled: false,
+      pipelineExecutionPolicyBotAccessFilePatterns: [],
       featureAccessLevelEveryone,
       featureAccessLevelMembers,
       featureAccessLevel,
@@ -1127,6 +1136,11 @@ export default {
           </gl-form-checkbox>
         </label>
       </project-setting-row>
+      <bot-access-settings
+        v-if="botAccessSettingsAvailable"
+        :enabled="pipelineExecutionPolicyBotAccessEnabled"
+        :file-patterns="pipelineExecutionPolicyBotAccessFilePatterns"
+      />
     </template>
 
     <template #footer>

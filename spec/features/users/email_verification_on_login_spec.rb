@@ -52,6 +52,8 @@ RSpec.describe 'Email Verification On Login', :with_current_organization, :clean
     it 'locks at MAXIMUM_ATTEMPTS' do
       perform_enqueued_jobs do
         gitlab_sign_in(user, password: 'wrong_password')
+        expect(page).to have_content(_('Invalid login or password.'))
+
         user.reload
         expect(user.locked_at).not_to be_nil
         expect(user.unlock_token).to be_nil # Only set after valid credentials
@@ -210,12 +212,15 @@ RSpec.describe 'Email Verification On Login', :with_current_organization, :clean
           code = expect_instructions_email_and_extract_code
 
           perform_verification_with_code('123456')
-          expect_log_message('Failed Attempt', reason: 'rate_limited')
+
           expect(page).to have_content(
             format(s_("IdentityVerification|You've reached the maximum amount of tries. "\
                       'Wait %{interval} or send a new code and try again.'), interval: '10 minutes'))
+          expect_log_message('Failed Attempt', reason: 'rate_limited')
 
           perform_verification_with_code(code)
+
+          expect(page).to have_content(s_('IdentityVerification|Verification successful'))
           expect_log_message('Successful')
         end
       end
@@ -227,9 +232,9 @@ RSpec.describe 'Email Verification On Login', :with_current_organization, :clean
         perform_verification_with_code('123456')
 
         # Expect an error message
-        expect_log_message('Failed Attempt', reason: 'invalid')
         expect(page).to have_content(s_('IdentityVerification|The code is incorrect. '\
                                         'Enter it again, or send a new code.'))
+        expect_log_message('Failed Attempt', reason: 'invalid')
       end
 
       it 'verifies expired codes' do
@@ -244,10 +249,10 @@ RSpec.describe 'Email Verification On Login', :with_current_organization, :clean
           perform_verification_with_code(code)
 
           # Expect an error message
-          expect_log_message('Failed Attempt', reason: 'expired')
           expect(page).to have_content(
             s_('IdentityVerification|The code has expired. Send a new code and try again.')
           )
+          expect_log_message('Failed Attempt', reason: 'expired')
         end
       end
     end
@@ -374,14 +379,16 @@ RSpec.describe 'Email Verification On Login', :with_current_organization, :clean
 
       before do
         user.update!(failed_attempts: User.maximum_attempts - 1)
-        perform_enqueued_jobs do
-          gitlab_sign_in(user, password: 'wrong_password')
-        end
       end
 
       it 'the unlock link still works' do
-        # The user is locked and unlock instructions are sent
-        expect(page).to have_content(_('Invalid login or password.'))
+        perform_enqueued_jobs do
+          gitlab_sign_in(user, password: 'wrong_password')
+
+          # The user is locked and unlock instructions are sent
+          expect(page).to have_content(_('Invalid login or password.'))
+        end
+
         user.reload
         expect(user.locked_at).not_to be_nil
         expect(user.unlock_token).not_to be_nil
@@ -497,6 +504,9 @@ RSpec.describe 'Email Verification On Login', :with_current_organization, :clean
   end
 
   def expect_verification_triggered(reason: '')
+    expect(page).to have_content(s_('IdentityVerification|Help us protect your account'))
+    expect(page).to have_current_path(new_user_session_path)
+
     expect_log_message(message: "Account Locked: username=#{user.username}")
     expect_log_message('Instructions Sent', reason: reason)
 
@@ -504,22 +514,19 @@ RSpec.describe 'Email Verification On Login', :with_current_organization, :clean
     expect(user.locked_at).not_to be_nil
     expect(user.unlock_token).not_to be_nil
 
-    expect(page).to have_current_path(new_user_session_path)
-    expect(page).to have_content(s_('IdentityVerification|Help us protect your account'))
-
     expect(ActionMailer::Base.deliveries.size).to eq(1)
   end
 
   def expect_successful_verification
+    expect(page).to have_content(s_('IdentityVerification|Verification successful'))
+    expect(page).to have_current_path(users_successful_verification_path)
+    expect(page).to have_selector("meta[http-equiv='refresh'][content='3; url=#{root_path}']", visible: false)
+
     expect_log_message('Successful')
     expect_log_message(message: "Successful Login: username=#{user.username} "\
                                 "ip=127.0.0.1 method=standard admin=false")
 
     expect_user_to_be_unlocked
-
-    expect(page).to have_current_path(users_successful_verification_path)
-    expect(page).to have_content(s_('IdentityVerification|Verification successful'))
-    expect(page).to have_selector("meta[http-equiv='refresh'][content='3; url=#{root_path}']", visible: false)
   end
 
   def expect_no_duplicated_verification_email

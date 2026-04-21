@@ -2,6 +2,8 @@ import { fetch, Request, Response, Headers } from '@whatwg-node/fetch';
 import { server } from './server';
 import { setupRouter } from './setup_utils';
 import { baseMetadata } from './constants';
+import * as testHelpers from './test_helpers';
+import * as workItemsTestHelpers from './work_items/test_helpers';
 
 jest.mock('~/actioncable_consumer', () => ({
   __esModule: true,
@@ -20,6 +22,10 @@ global.Request = Request;
 global.Response = Response;
 global.Headers = Headers;
 global.metadata = baseMetadata;
+
+// Import all test helpers as global utilities
+Object.assign(global, testHelpers);
+Object.assign(global, workItemsTestHelpers);
 
 beforeAll(() => {
   server.listen({ onUnhandledRequest: 'warn' });

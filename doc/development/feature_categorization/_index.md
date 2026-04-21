@@ -46,6 +46,12 @@ suites in CI and they don't belong to any product groups.
 For gems that are primarily maintained by the [Test Platform sub department](https://handbook.gitlab.com/handbook/engineering/infrastructure/test-platform/), we use `feature_category: :test_platform`.
 For example, `capybara` is defined in both `Gemfile` and `qa/Gemfile` to run tests involving UI. They don't belong to a specific product group.
 
+### Rails platform feature category
+
+Rails core framework gems are primarily maintained by
+Backend Maintainers.
+For example, `rails`, and `zeitwerk` should be defined as `:rails_platform`.
+
 ### Shared feature category
 
 > [!warning]

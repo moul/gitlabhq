@@ -1000,101 +1000,79 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
     describe '#validate_branch_existence' do
       let_it_be(:project) { create(:project, :repository) }
 
-      context 'when validate_merge_request_branch_existence feature flag is enabled' do
-        before do
-          stub_feature_flags(validate_merge_request_branch_existence: project)
-        end
+      context 'when source branch does not exist' do
+        it 'is invalid on create' do
+          mr = build(:merge_request, source_project: project, target_project: project,
+            source_branch: 'nonexistent-source', target_branch: 'master',
+            skip_branch_existence_check: false)
 
-        context 'when source branch does not exist' do
-          it 'is invalid on create' do
-            mr = build(:merge_request, source_project: project, target_project: project,
-              source_branch: 'nonexistent-source', target_branch: 'master',
-              skip_branch_existence_check: false)
-
-            expect(mr).not_to be_valid
-            expect(mr.errors[:source_branch]).to include('does not exist')
-          end
-        end
-
-        context 'when target branch does not exist' do
-          it 'is invalid on create' do
-            mr = build(:merge_request, source_project: project, target_project: project,
-              source_branch: 'master', target_branch: 'nonexistent-target',
-              skip_branch_existence_check: false)
-
-            expect(mr).not_to be_valid
-            expect(mr.errors[:target_branch]).to include('does not exist')
-          end
-        end
-
-        context 'when both branches exist' do
-          it 'is valid' do
-            mr = build(:merge_request, source_project: project, target_project: project,
-              source_branch: 'master', target_branch: 'feature',
-              skip_branch_existence_check: false)
-
-            expect(mr).to be_valid
-          end
-        end
-
-        context 'when both branches do not exist' do
-          it 'reports errors for both branches' do
-            mr = build(:merge_request, source_project: project, target_project: project,
-              source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
-              skip_branch_existence_check: false)
-
-            expect(mr).not_to be_valid
-            expect(mr.errors[:source_branch]).to include('does not exist')
-            expect(mr.errors[:target_branch]).to include('does not exist')
-          end
-        end
-
-        context 'when allow_broken is true' do
-          it 'skips the validation' do
-            mr = build(:merge_request, source_project: project, target_project: project,
-              source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
-              allow_broken: true, skip_branch_existence_check: false)
-
-            mr.valid?
-            expect(mr.errors[:source_branch]).not_to include('does not exist')
-            expect(mr.errors[:target_branch]).not_to include('does not exist')
-          end
-        end
-
-        context 'when skip_branch_existence_check is true' do
-          it 'skips the validation' do
-            mr = build(:merge_request, source_project: project, target_project: project,
-              source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
-              skip_branch_existence_check: true)
-
-            mr.valid?
-            expect(mr.errors[:source_branch]).not_to include('does not exist')
-            expect(mr.errors[:target_branch]).not_to include('does not exist')
-          end
-        end
-
-        context 'when importing' do
-          it 'skips the validation' do
-            mr = build(:merge_request, source_project: project, target_project: project,
-              source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
-              skip_branch_existence_check: false, importing: true)
-
-            mr.valid?
-            expect(mr.errors[:source_branch]).not_to include('does not exist')
-            expect(mr.errors[:target_branch]).not_to include('does not exist')
-          end
+          expect(mr).not_to be_valid
+          expect(mr.errors[:source_branch]).to include('does not exist')
         end
       end
 
-      context 'when validate_merge_request_branch_existence feature flag is disabled' do
-        before do
-          stub_feature_flags(validate_merge_request_branch_existence: false)
-        end
+      context 'when target branch does not exist' do
+        it 'is invalid on create' do
+          mr = build(:merge_request, source_project: project, target_project: project,
+            source_branch: 'master', target_branch: 'nonexistent-target',
+            skip_branch_existence_check: false)
 
-        it 'skips the validation' do
+          expect(mr).not_to be_valid
+          expect(mr.errors[:target_branch]).to include('does not exist')
+        end
+      end
+
+      context 'when both branches exist' do
+        it 'is valid' do
+          mr = build(:merge_request, source_project: project, target_project: project,
+            source_branch: 'master', target_branch: 'feature',
+            skip_branch_existence_check: false)
+
+          expect(mr).to be_valid
+        end
+      end
+
+      context 'when both branches do not exist' do
+        it 'reports errors for both branches' do
           mr = build(:merge_request, source_project: project, target_project: project,
             source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
             skip_branch_existence_check: false)
+
+          expect(mr).not_to be_valid
+          expect(mr.errors[:source_branch]).to include('does not exist')
+          expect(mr.errors[:target_branch]).to include('does not exist')
+        end
+      end
+
+      context 'when allow_broken is true' do
+        it 'skips the validation' do
+          mr = build(:merge_request, source_project: project, target_project: project,
+            source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
+            allow_broken: true, skip_branch_existence_check: false)
+
+          mr.valid?
+          expect(mr.errors[:source_branch]).not_to include('does not exist')
+          expect(mr.errors[:target_branch]).not_to include('does not exist')
+        end
+      end
+
+      context 'when skip_branch_existence_check is true' do
+        it 'skips the validation' do
+          mr = build(:merge_request, source_project: project, target_project: project,
+            source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
+            skip_branch_existence_check: true)
+
+          mr.valid?
+          expect(mr.errors[:source_branch]).not_to include('does not exist')
+          expect(mr.errors[:target_branch]).not_to include('does not exist')
+        end
+      end
+
+      context 'when importing' do
+        it 'skips the validation' do
+          mr = build(:merge_request, source_project: project, target_project: project,
+            source_branch: 'nonexistent-source', target_branch: 'nonexistent-target',
+            skip_branch_existence_check: false, importing: true)
 
           mr.valid?
           expect(mr.errors[:source_branch]).not_to include('does not exist')
@@ -4009,6 +3987,53 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
         allow(merge_request).to receive(:has_no_commits?) { true }
 
         expect(merge_request.has_ci?).to be(false)
+      end
+    end
+  end
+
+  describe '#head_pipeline' do
+    let(:merge_request) { create(:merge_request) }
+
+    let!(:pipeline) do
+      create(:ci_empty_pipeline, project: merge_request.project, sha: merge_request.diff_head_sha)
+    end
+
+    it 'finds head_pipeline using partition-aware lookup' do
+      merge_request.update_columns(head_pipeline_id: pipeline.id)
+
+      expect(merge_request.head_pipeline).to eq(pipeline)
+    end
+
+    it 'returns nil when head_pipeline_id is nil' do
+      merge_request.update_columns(head_pipeline_id: nil)
+
+      expect(merge_request.head_pipeline).to be_nil
+    end
+
+    it 'does not execute any queries when head_pipeline_id is nil' do
+      merge_request.update_columns(head_pipeline_id: nil)
+
+      recorder = ActiveRecord::QueryRecorder.new { merge_request.head_pipeline }
+
+      expect(recorder.count).to eq(0)
+    end
+
+    it 'caches the result in the association target' do
+      merge_request.update_columns(head_pipeline_id: pipeline.id)
+      merge_request.head_pipeline
+
+      expect(merge_request.association(:head_pipeline).loaded?).to eq(true)
+    end
+
+    context 'when ci_partitionable_finder is disabled' do
+      before do
+        stub_feature_flags(ci_partitionable_finder: false)
+      end
+
+      it 'uses the default association behavior' do
+        merge_request.update_columns(head_pipeline_id: pipeline.id)
+
+        expect(merge_request.head_pipeline).to eq(pipeline)
       end
     end
   end

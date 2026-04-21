@@ -1130,7 +1130,7 @@ RSpec.describe WorkItems::TypesFramework::SystemDefined::Type, feature_category:
 
     it_behaves_like 'work item type configuration', :configurable?, {
       issue: true,
-      task: true,
+      task: false,
       incident: false,
       ticket: false
     }

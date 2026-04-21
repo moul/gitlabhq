@@ -21,26 +21,26 @@ end
 
 extend ignore_feature_category
 
-gem 'bundler-checksum', '~> 0.1.0', path: 'gems/bundler-checksum', require: false, feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'bundler-checksum', '~> 0.1.0', path: 'gems/bundler-checksum', require: false, feature_category: :rails_platform
 
 # See https://docs.gitlab.com/ee/development/gemfile.html#upgrade-rails for guidelines when upgrading Rails
-gem 'rails', '~> 7.2.3', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'rails', '~> 7.2.3', feature_category: :rails_platform
 
 # Pin Zeitwerk until https://gitlab.com/gitlab-org/omnibus-gitlab/-/issues/9408 is fixed
-gem 'zeitwerk', '= 2.6.18', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'zeitwerk', '= 2.6.18', feature_category: :rails_platform
 
-gem 'activerecord-gitlab', path: 'gems/activerecord-gitlab', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'activerecord-gitlab', path: 'gems/activerecord-gitlab', feature_category: :rails_platform
 gem 'gitlab-database-data_isolation', path: 'gems/gitlab-database-data_isolation', feature_category: :organization
 
 gem 'action_dispatch-draw_all',
   path: 'gems/action_dispatch-draw_all',
   require: 'action_dispatch/draw_all',
-  feature_category: :tooling
+  feature_category: :rails_platform
 
 # Need by Rails
-gem 'drb', '~> 2.2', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'drb', '~> 2.2', feature_category: :rails_platform
 
-gem 'bootsnap', '~> 1.23.0', require: false, feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'bootsnap', '~> 1.23.0', require: false, feature_category: :rails_platform
 
 # Avoid the precompiled native gems because Omnibus needs to build this to ensure
 # LD_LIBRARY_PATH is correct: https://gitlab.com/gitlab-org/omnibus-gitlab/-/merge_requests/7730
@@ -64,10 +64,10 @@ gem 'gitlab-backup-cli', path: 'gems/gitlab-backup-cli', require: 'gitlab/backup
 gem 'gitlab-secret_detection', '< 1.0', feature_category: :secret_detection
 
 # Responders respond_to and respond_with
-gem 'responders', '~> 3.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'responders', '~> 3.0', feature_category: :rails_platform
 
-gem 'sprockets', '~> 3.7.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
-gem 'sprockets-rails', '~>  3.5.1', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'sprockets', '~> 3.7.0', feature_category: :rails_platform
+gem 'sprockets-rails', '~>  3.5.1', feature_category: :rails_platform
 
 gem 'view_component', '~> 3.23.2', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 

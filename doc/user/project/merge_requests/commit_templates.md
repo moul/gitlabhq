@@ -111,4 +111,5 @@ To restore the commit message to the project template, reload the page.
 
 ## Related topics
 
-- [Squash and merge](squash_and_merge.md).
+- [Merge request title templates](title_templates.md)
+- [Squash and merge](squash_and_merge.md)

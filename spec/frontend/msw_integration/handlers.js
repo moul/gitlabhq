@@ -1,8 +1,12 @@
 import { rest } from 'msw';
-import { handleWorkItemOperation, workItemRestEndpoints } from './handlers/work_items';
+import { handleWorkItemOperation, workItemRestEndpoints } from './work_items/handlers';
 
-const featureHandlers = [handleWorkItemOperation];
+// Thin router: Import feature handlers here
+const graphqlFeatureHandlers = [handleWorkItemOperation];
+
+// Collect all REST endpoints from feature handlers
 const restEndpoints = [...workItemRestEndpoints];
+
 const restEndpointsHandlers = restEndpoints.map((endpoint) =>
   rest[endpoint.method](endpoint.path, (req, res, ctx) => {
     return res(ctx.json(endpoint.response));
@@ -10,11 +14,12 @@ const restEndpointsHandlers = restEndpoints.map((endpoint) =>
 );
 
 export const handlers = [
+  // Single GraphQL endpoint that routes to feature handlers
   rest.post('http://test.host/api/graphql', (req, res, ctx) => {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const { operationName, variables } = body;
 
-    for (const handler of featureHandlers) {
+    for (const handler of graphqlFeatureHandlers) {
       const result = handler({ operationName, variables, res, ctx });
       if (result) return result;
     }

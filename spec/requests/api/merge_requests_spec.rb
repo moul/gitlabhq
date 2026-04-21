@@ -2722,39 +2722,20 @@ RSpec.describe API::MergeRequests, :aggregate_failures, feature_category: :sourc
         expect(json_response['error']).to eq('target_branch is missing')
       end
 
-      context 'when validate_merge_request_branch_existence feature flag is enabled' do
-        before do
-          stub_feature_flags(validate_merge_request_branch_existence: project)
-        end
+      it "returns 400 when source_branch does not exist in the repository" do
+        post api("/projects/#{project.id}/merge_requests", user),
+          params: { title: "Test merge_request", source_branch: "non-existent-source", target_branch: "master", author: user }
 
-        it "returns 400 when source_branch does not exist in the repository" do
-          post api("/projects/#{project.id}/merge_requests", user),
-            params: { title: "Test merge_request", source_branch: "non-existent-source", target_branch: "master", author: user }
-
-          expect(response).to have_gitlab_http_status(:bad_request)
-          expect(json_response['message']).to eq({ 'source_branch' => ['does not exist'] })
-        end
-
-        it "returns 400 when target_branch does not exist in the repository" do
-          post api("/projects/#{project.id}/merge_requests", user),
-            params: { title: "Test merge_request", source_branch: "markdown", target_branch: "non-existent-target", author: user }
-
-          expect(response).to have_gitlab_http_status(:bad_request)
-          expect(json_response['message']).to eq({ 'target_branch' => ['does not exist'] })
-        end
+        expect(response).to have_gitlab_http_status(:bad_request)
+        expect(json_response['message']).to eq({ 'source_branch' => ['does not exist'] })
       end
 
-      context 'when validate_merge_request_branch_existence feature flag is disabled' do
-        before do
-          stub_feature_flags(validate_merge_request_branch_existence: false)
-        end
+      it "returns 400 when target_branch does not exist in the repository" do
+        post api("/projects/#{project.id}/merge_requests", user),
+          params: { title: "Test merge_request", source_branch: "markdown", target_branch: "non-existent-target", author: user }
 
-        it "does not validate branch existence" do
-          post api("/projects/#{project.id}/merge_requests", user),
-            params: { title: "Test merge_request", source_branch: "non-existent-source", target_branch: "master", author: user }
-
-          expect(response).not_to have_gitlab_http_status(:bad_request)
-        end
+        expect(response).to have_gitlab_http_status(:bad_request)
+        expect(json_response['message']).to eq({ 'target_branch' => ['does not exist'] })
       end
 
       it "returns 400 when title is missing" do

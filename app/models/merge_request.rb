@@ -937,6 +937,13 @@ class MergeRequest < ApplicationRecord
     [:assignees, :reviewers] + super
   end
 
+  def head_pipeline
+    return super if Feature.disabled?(:ci_partitionable_finder, project)
+    return super unless head_pipeline_id
+
+    association(:head_pipeline).target ||= Ci::Pipeline.find_by_id(head_pipeline_id)
+  end
+
   def recent_commits(limit: MergeRequestDiff::COMMITS_SAFE_SIZE, load_from_gitaly: false, page: nil, preload_metadata: false)
     if preload_metadata && !load_from_gitaly
       preload_commits_metadata
@@ -1392,7 +1399,6 @@ class MergeRequest < ApplicationRecord
 
   def validate_branch_existence
     return unless source_project && target_project
-    return unless Feature.enabled?(:validate_merge_request_branch_existence, source_project)
 
     if source_branch.present? && !source_branch_exists?
       errors.add(:source_branch, _('does not exist'))

@@ -113,6 +113,17 @@ Use the alternative attributes instead.
 
 ## Retrieve a project
 
+{{< history >}}
+
+- `mr_default_title_template` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228442) in GitLab 18.11 [with a feature flag](../administration/feature_flags/_index.md) named `mr_default_title_template`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of the `mr_default_title_template` attribute is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
+
 Retrieves the specified project. This endpoint can be accessed without authentication if
 the project is publicly accessible.
 
@@ -281,6 +292,7 @@ following response attributes:
 | `enforce_auth_checks_on_uploads` | boolean | Whether authentication checks are enforced on uploads. |
 | `suggestion_commit_message` | string | Custom commit message for suggestions. |
 | `merge_commit_template` | string | Template for merge commit messages. |
+| `mr_default_title_template` | string | Template for merge request titles. |
 | `squash_commit_template` | string | Template for squash commit messages. |
 | `issue_branch_template` | string | Template for branch names created from issues. |
 | `warn_about_potentially_unwanted_characters` | boolean | Whether to warn about potentially unwanted characters. |
@@ -498,6 +510,7 @@ Example response:
   "suggestion_commit_message": null,
   "enforce_auth_checks_on_uploads": true,
   "merge_commit_template": null,
+  "mr_default_title_template": null,
   "squash_commit_template": null,
   "issue_branch_template": "gitlab/%{id}-%{title}",
   "marked_for_deletion_at": "2020-04-03", // Deprecated in favor of marked_for_deletion_on. Planned for removal in a future version of the REST API.
@@ -542,11 +555,13 @@ List projects and project attributes.
 {{< history >}}
 
 - `web_based_commit_signing_enabled` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/194650) in GitLab 18.2 [with a flag](../administration/feature_flags/_index.md) named `use_web_based_commit_signing_enabled`. Disabled by default.
+- `mr_default_title_template` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228442) in GitLab 18.11 [with a feature flag](../administration/feature_flags/_index.md) named `mr_default_title_template`. Disabled by default.
 
 {{< /history >}}
 
 > [!flag]
-> The availability of the `web_based_commit_signing_enabled` attribute is controlled by a feature flag.
+> The availability of the `web_based_commit_signing_enabled` and `mr_default_title_template` attributes
+> are controlled by feature flags.
 > For more information, see the history.
 > This feature is available for testing, but not ready for production use.
 
@@ -715,6 +730,7 @@ following response attributes:
 | `enforce_auth_checks_on_uploads` | boolean | Whether authentication checks are enforced on uploads. |
 | `suggestion_commit_message` | string | Custom commit message for suggestions. |
 | `merge_commit_template` | string | Template for merge commit messages. |
+| `mr_default_title_template` | string | Template for merge request titles. |
 | `squash_commit_template` | string | Template for squash commit messages. |
 | `issue_branch_template` | string | Template for branch names created from issues. |
 | `warn_about_potentially_unwanted_characters` | boolean | Whether to warn about potentially unwanted characters. |
@@ -880,6 +896,7 @@ Example response:
     "enforce_auth_checks_on_uploads": true,
     "suggestion_commit_message": null,
     "merge_commit_template": null,
+    "mr_default_title_template": null,
     "squash_commit_template": null,
     "issue_branch_template": "gitlab/%{id}-%{title}",
     "auto_devops_enabled": false,
@@ -913,6 +930,17 @@ Example response:
 > `updated_at` is updated whenever the project record is changed in the database.
 
 ### List all personal projects for a user
+
+{{< history >}}
+
+- `mr_default_title_template` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228442) in GitLab 18.11 [with a feature flag](../administration/feature_flags/_index.md) named `mr_default_title_template`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of the `mr_default_title_template` attribute is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
 
 Lists all personal projects for a specified user. The following restrictions apply:
 
@@ -1082,6 +1110,7 @@ following response attributes:
 | `enforce_auth_checks_on_uploads` | boolean | Whether authentication checks are enforced on uploads. |
 | `suggestion_commit_message` | string | Custom commit message for suggestions. |
 | `merge_commit_template` | string | Template for merge commit messages. |
+| `mr_default_title_template` | string | Template for merge request titles. |
 | `squash_commit_template` | string | Template for squash commit messages. |
 | `issue_branch_template` | string | Template for branch names created from issues. |
 | `warn_about_potentially_unwanted_characters` | boolean | Whether to warn about potentially unwanted characters. |
@@ -1211,6 +1240,7 @@ Example response:
     "enforce_auth_checks_on_uploads": true,
     "suggestion_commit_message": null,
     "merge_commit_template": null,
+    "mr_default_title_template": null,
     "squash_commit_template": null,
     "secret_push_protection_enabled": false,
     "issue_branch_template": "gitlab/%{id}-%{title}",
@@ -1354,6 +1384,7 @@ Example response:
     "enforce_auth_checks_on_uploads": true,
     "suggestion_commit_message": null,
     "merge_commit_template": null,
+    "mr_default_title_template": null,
     "squash_commit_template": null,
     "secret_push_protection_enabled": false,
     "issue_branch_template": "gitlab/%{id}-%{title}",
@@ -1386,6 +1417,17 @@ Example response:
 ```
 
 ### List all projects contributions for a user
+
+{{< history >}}
+
+- `mr_default_title_template` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228442) in GitLab 18.11 [with a feature flag](../administration/feature_flags/_index.md) named `mr_default_title_template`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of the `mr_default_title_template` attribute is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
 
 Lists all contributions to visible projects for a specified user. Returns only contributions in
 the past year. For more information about what counts as a contribution, see
@@ -1530,6 +1572,7 @@ following response attributes:
 | `enforce_auth_checks_on_uploads` | boolean | Whether authentication checks are enforced on uploads. |
 | `suggestion_commit_message` | string | Custom commit message for suggestions. |
 | `merge_commit_template` | string | Template for merge commit messages. |
+| `mr_default_title_template` | string | Template for merge request titles. |
 | `squash_commit_template` | string | Template for squash commit messages. |
 | `issue_branch_template` | string | Template for branch names created from issues. |
 | `warn_about_potentially_unwanted_characters` | boolean | Whether to warn about potentially unwanted characters. |
@@ -1643,6 +1686,7 @@ Example response:
     "enforce_auth_checks_on_uploads": true,
     "suggestion_commit_message": null,
     "merge_commit_template": null,
+    "mr_default_title_template": null,
     "squash_commit_template": null,
     "secret_push_protection_enabled": false,
     "issue_branch_template": "gitlab/%{id}-%{title}",
@@ -1768,6 +1812,7 @@ Example response:
     "enforce_auth_checks_on_uploads": true,
     "suggestion_commit_message": null,
     "merge_commit_template": null,
+    "mr_default_title_template": null,
     "squash_commit_template": null,
     "secret_push_protection_enabled": false,
     "issue_branch_template": "gitlab/%{id}-%{title}",
@@ -2186,8 +2231,14 @@ see [Project feature visibility level](#project-feature-visibility-level).
 - `model_registry_access_level` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/412734) in GitLab 16.7.
 - `packages_enabled` [deprecated](https://gitlab.com/gitlab-org/gitlab/-/issues/454759) in GitLab 17.10.
 - `package_registry_access_level` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/454759) in GitLab 18.5.
+- `mr_default_title_template` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228442) in GitLab 18.11 [with a feature flag](../administration/feature_flags/_index.md) named `mr_default_title_template`. Disabled by default.
 
 {{< /history >}}
+
+> [!flag]
+> The availability of the `mr_default_title_template` attribute is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
 
 Creates a project for a user.
 
@@ -2237,6 +2288,7 @@ Supported general project attributes:
 | `merge_commit_template`                            | string  | No       | [Template](../user/project/merge_requests/commit_templates.md) used to create merge commit message in merge requests. |
 | `merge_method`                                     | string  | No       | Set the project's [merge method](../user/project/merge_requests/methods/_index.md). Can be `merge` (merge commit), `rebase_merge` (merge commit with semi-linear history), or `ff` (fast-forward merge). |
 | `merge_requests_enabled`                           | boolean | No       | _(Deprecated)_ Enable merge requests for this project. Use `merge_requests_access_level` instead. |
+| `mr_default_title_template`                        | string  | No       | [Template](../user/project/merge_requests/title_templates.md) used to set default merge request title. |
 | `mirror_trigger_builds`                            | boolean | No       | Pull mirroring triggers builds. Premium and Ultimate only. |
 | `mirror`                                           | boolean | No       | Enables pull mirroring in a project. Premium and Ultimate only. |
 | `namespace_id`                                     | integer | No       | Namespace for the new project (defaults to the current user's namespace). |
@@ -2280,8 +2332,14 @@ see [Project feature visibility level](#project-feature-visibility-level).
 - `packages_enabled` [deprecated](https://gitlab.com/gitlab-org/gitlab/-/issues/454759) in GitLab 17.10.
 - `package_registry_access_level` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/454759) in GitLab 18.5.
 - `protect_merge_request_pipelines` and `ci_display_pipeline_variables` [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/584488) in GitLab 18.10.
+- `mr_default_title_template` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228442) in GitLab 18.11 [with a feature flag](../administration/feature_flags/_index.md) named `mr_default_title_template`. Disabled by default.
 
 {{< /history >}}
+
+> [!flag]
+> The availability of the `mr_default_title_template` attribute is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
 
 Updates an existing project.
 
@@ -2344,6 +2402,7 @@ Supported general project attributes:
 | `merge_method`                                     | string            | No       | Set the project's [merge method](../user/project/merge_requests/methods/_index.md). Can be `merge` (merge commit), `rebase_merge` (merge commit with semi-linear history), or `ff` (fast-forward merge). |
 | `merge_pipelines_enabled`                          | boolean           | No       | Enable or disable merged results pipelines. |
 | `merge_requests_enabled`                           | boolean           | No       | _(Deprecated)_ Enable merge requests for this project. Use `merge_requests_access_level` instead. |
+| `mr_default_title_template`                        | string            | No       | [Template](../user/project/merge_requests/title_templates.md) used to set default merge request title. |
 | `merge_trains_enabled`                             | boolean           | No       | Enable or disable merge trains. |
 | `merge_trains_skip_train_allowed`                  | boolean           | No       | Allows merge train merge requests to be merged without waiting for pipelines to finish. |
 | `mirror_overwrites_diverged_branches`              | boolean           | No       | Pull mirror overwrites diverged branches. Premium and Ultimate only. |
@@ -2457,6 +2516,17 @@ Example responses:
 ```
 
 ### Archive a project
+
+{{< history >}}
+
+- `mr_default_title_template` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228442) in GitLab 18.11 [with a feature flag](../administration/feature_flags/_index.md) named `mr_default_title_template`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of the `mr_default_title_template` attribute is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
 
 Archives the specified project.
 
@@ -2590,6 +2660,7 @@ Example response:
   "enforce_auth_checks_on_uploads": true,
   "suggestion_commit_message": null,
   "merge_commit_template": null,
+  "mr_default_title_template": null,
   "secret_push_protection_enabled": false,
   "container_registry_image_prefix": "registry.example.com/diaspora/diaspora-project-site",
   "_links": {
@@ -2606,6 +2677,17 @@ Example response:
 ```
 
 ### Unarchive a project
+
+{{< history >}}
+
+- `mr_default_title_template` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228442) in GitLab 18.11 [with a feature flag](../administration/feature_flags/_index.md) named `mr_default_title_template`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of the `mr_default_title_template` attribute is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
 
 Unarchives the specified project.
 
@@ -2739,6 +2821,7 @@ Example response:
   "enforce_auth_checks_on_uploads": true,
   "suggestion_commit_message": null,
   "merge_commit_template": null,
+  "mr_default_title_template": null,
   "container_registry_image_prefix": "registry.example.com/diaspora/diaspora-project-site",
   "secret_push_protection_enabled": false,
   "_links": {
@@ -2806,6 +2889,17 @@ Supported attributes:
 | `id`      | integer or string | Yes      | The ID or [URL-encoded path of the project](rest/_index.md#namespaced-paths). |
 
 ### Transfer a project to a new namespace
+
+{{< history >}}
+
+- `mr_default_title_template` [introduced](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/228442) in GitLab 18.11 [with a feature flag](../administration/feature_flags/_index.md) named `mr_default_title_template`. Disabled by default.
+
+{{< /history >}}
+
+> [!flag]
+> The availability of the `mr_default_title_template` attribute is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
 
 Transfers a project to a new namespace.
 
@@ -2936,6 +3030,7 @@ Example response:
   "squash_option": "default_on",
   "suggestion_commit_message": null,
   "merge_commit_template": null,
+  "mr_default_title_template": null,
   "auto_devops_enabled": true,
   "auto_devops_deploy_strategy": "continuous",
   "autoclose_referenced_issues": true,

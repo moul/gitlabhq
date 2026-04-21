@@ -21,6 +21,19 @@ module Ci
 
       subject(:execute) { service.execute }
 
+      context "when job is present and ready for execution", :aggregate_failures do
+        let_it_be(:runner) { create(:ci_runner, :project, projects: [project]) }
+
+        it 'returns correct payload' do
+          expect(execute.valid?).to be_truthy
+
+          response = Gitlab::Json.parse(execute.build_json)
+
+          expect(response['job_info']['id']).to eq(pending_job.id)
+          expect(response['job_info']['pipeline_id']).to eq(pipeline.id)
+        end
+      end
+
       context 'when queue size exceeds MAX_QUEUE_DEPTH' do
         let(:runner) { create(:ci_runner, :instance) }
         let!(:pending_job_1) { create(:ci_build, :pending, :queued, pipeline: pipeline) }

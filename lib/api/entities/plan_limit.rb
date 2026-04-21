@@ -33,6 +33,7 @@ module API
       expose :web_hook_calls, documentation: { type: 'Integer', example: 500 }
       expose :web_hook_calls_low, documentation: { type: 'Integer', example: 500 }
       expose :web_hook_calls_mid, documentation: { type: 'Integer', example: 500 }
+      expose :max_pipelines_per_merge_train, documentation: { type: 'Integer', example: 20 }
     end
   end
 end
