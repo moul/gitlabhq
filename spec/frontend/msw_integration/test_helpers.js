@@ -1,12 +1,15 @@
 import { waitFor } from '@testing-library/dom';
 import { mount } from '@vue/test-utils';
+import setWindowLocation from 'helpers/set_window_location_helper';
 
 export const assignRouter = (routerFn, args) => {
+  setWindowLocation(args?.routerPath || '/');
+
   const router = routerFn(args);
 
   // We inject the router metadata globally so that our test setup can
   // pick it up and do the router setup and cleanup
-  global.metadata.router = router;
+  global.metadata = { ...global.metadata, router };
   return router;
 };
 

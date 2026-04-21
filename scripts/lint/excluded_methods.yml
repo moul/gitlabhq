@@ -2,6 +2,8 @@
 #   scripts/lint/unused_methods.rb, however subsequent research shows
 #   them to be false positives, and should be ignored when running that script.
 #
+app/models/ci/catalog/components_project.rb:
+  - fetch_component: Public API method for fetching component data by name; only called from specs currently but part of the model's interface
 app/models/project_setting.rb:
   - reviewer_auto_assignment_enabled?: Will be used in follow-up MR for reviewer auto-assignment
 app/models/commit_signatures/x509_commit_signature.rb:

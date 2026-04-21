@@ -340,7 +340,8 @@ RSpec.describe Ci::Runner, type: :model, factory_default: :keep, feature_categor
         let(:runner) { build(:ci_runner, :instance) }
 
         it 'allows assign allowed_plans' do
-          runner.allowed_plan_ids = [default_plan.id]
+          runner.allowed_plan_ids = [default_plan.id] unless Gitlab.ee?
+          runner.allowed_plan_name_uids = [Plan::PLAN_NAME_UID_LIST[:default]] if Gitlab.ee?
 
           expect(runner).to be_valid
         end
@@ -1376,8 +1377,17 @@ RSpec.describe Ci::Runner, type: :model, factory_default: :keep, feature_categor
       let_it_be(:default_plan) { create(:default_plan) }
 
       before do
-        create_list(:ci_runner, 2, allowed_plan_ids: [default_plan.id])
-        create_list(:ci_runner, 2, allowed_plan_ids: [])
+        create_list(
+          :ci_runner, 2,
+          allowed_plan_ids: [default_plan.id],
+          allowed_plan_name_uids: ([Plan::PLAN_NAME_UID_LIST[:default]] if Gitlab.ee?)
+        )
+
+        create_list(
+          :ci_runner, 2,
+          allowed_plan_ids: [],
+          allowed_plan_name_uids: ([] if Gitlab.ee?)
+        )
       end
 
       it 'creates two matchers' do

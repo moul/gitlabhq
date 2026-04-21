@@ -45574,7 +45574,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_b13957acafb4"
+              "$ref": "#/components/schemas/RequestBody_7a61593b3087"
   "/api/v4/projects/{id}/services/pivotaltracker":
     put:
       operationId: putApiV4ProjectsIdServicesPivotaltracker
@@ -47536,7 +47536,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_b13957acafb4"
+              "$ref": "#/components/schemas/RequestBody_7a61593b3087"
   "/api/v4/projects/{id}/integrations/pivotaltracker":
     put:
       operationId: putApiV4ProjectsIdIntegrationsPivotaltracker
@@ -49498,7 +49498,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_b13957acafb4"
+              "$ref": "#/components/schemas/RequestBody_7a61593b3087"
   "/api/v4/groups/{id}/integrations/pivotaltracker":
     put:
       operationId: putApiV4GroupsIdIntegrationsPivotaltracker
@@ -103180,7 +103180,7 @@ components:
       required:
       - project_url
       - issues_url
-    RequestBody_b13957acafb4:
+    RequestBody_7a61593b3087:
       type: object
       properties:
         recipients:
@@ -103204,6 +103204,10 @@ components:
           description: Branches to send notifications for. Valid options are `all`,
             `default`, `protected`, and `default_and_protected`. The default value
             is `default`.
+          nullable: true
+        notify_child_pipelines:
+          type: boolean
+          description: Send notifications for child pipelines.
           nullable: true
         pipeline_events:
           type: boolean

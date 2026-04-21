@@ -53017,6 +53017,9 @@ definitions:
         description: Branches to send notifications for. Valid options are `all`,
           `default`, `protected`, and `default_and_protected`. The default value is
           `default`.
+      notify_child_pipelines:
+        type: boolean
+        description: Send notifications for child pipelines.
       pipeline_events:
         type: boolean
         description: Trigger event when a pipeline status changes.
@@ -60588,6 +60591,9 @@ definitions:
         description: Branches to send notifications for. Valid options are `all`,
           `default`, `protected`, and `default_and_protected`. The default value is
           `default`.
+      notify_child_pipelines:
+        type: boolean
+        description: Send notifications for child pipelines.
       pipeline_events:
         type: boolean
         description: Trigger event when a pipeline status changes.
@@ -62532,6 +62538,9 @@ definitions:
         description: Branches to send notifications for. Valid options are `all`,
           `default`, `protected`, and `default_and_protected`. The default value is
           `default`.
+      notify_child_pipelines:
+        type: boolean
+        description: Send notifications for child pipelines.
       pipeline_events:
         type: boolean
         description: Trigger event when a pipeline status changes.

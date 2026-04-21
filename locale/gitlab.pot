@@ -67162,6 +67162,9 @@ msgstr ""
 msgid "Send notifications for broken pipelines."
 msgstr ""
 
+msgid "Send notifications for child pipelines."
+msgstr ""
+
 msgid "Send notifications for the default branch."
 msgstr ""
 
