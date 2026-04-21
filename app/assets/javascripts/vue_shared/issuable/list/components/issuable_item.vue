@@ -484,7 +484,7 @@ export default {
           v-bind="issuableTitleProps"
           @click.stop="handleIssuableItemClick"
         >
-          {{ issuable.title }}
+          <span v-safe-html="issuable.titleHtml"></span>
           <gl-icon v-if="isIssuableUrlExternal" name="external-link" class="gl-ml-2" />
         </gl-link>
         <slot name="title-icons"></slot>

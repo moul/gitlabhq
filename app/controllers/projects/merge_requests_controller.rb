@@ -208,14 +208,6 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
     }
   end
 
-  def sast_reports
-    reports_response(merge_request.compare_sast_reports(current_user), head_pipeline)
-  end
-
-  def secret_detection_reports
-    reports_response(merge_request.compare_secret_detection_reports(current_user), head_pipeline)
-  end
-
   def context_commits
     # Get commits from repository
     # or from cache if already merged

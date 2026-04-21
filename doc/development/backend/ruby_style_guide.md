@@ -17,7 +17,7 @@ Where a RuboCop rule is absent, refer to the following style guides as general g
 
 Generally, if a style is not covered by existing RuboCop rules or the above style guides, it shouldn't be a blocker.
 
-Some styles we have decided [no one should not have a strong opinion on](#styles-we-have-no-opinion-on).
+Some styles we have decided [no one should have a strong opinion on](#styles-we-have-no-opinion-on).
 
 See also:
 

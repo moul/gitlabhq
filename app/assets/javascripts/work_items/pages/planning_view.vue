@@ -842,6 +842,7 @@ export default {
           unique: true,
           token: WorkItemTypeToken,
           multiSelect: true,
+          operators: OPERATORS_IS_NOT_OR,
           fullPath: this.rootPageFullPath,
         });
       }

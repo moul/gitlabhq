@@ -34,6 +34,7 @@ import { routes } from '~/work_items/router/routes';
 import {
   OPERATOR_IS,
   FILTERED_SEARCH_TERM,
+  OPERATORS_IS_NOT_OR,
   TOKEN_TYPE_ASSIGNEE,
   TOKEN_TYPE_AUTHOR,
   TOKEN_TYPE_CLOSED,
@@ -890,6 +891,18 @@ describe('planning-view', () => {
             { description: 'is not one of', value: '!=' },
           ],
         });
+      });
+    });
+
+    describe('Type token', () => {
+      it('includes "is not or" operator', () => {
+        mountComponent();
+
+        const typeToken = findFilteredSearchBar()
+          .props('tokens')
+          .find((token) => token.type === TOKEN_TYPE_TYPE);
+
+        expect(typeToken.operators).toEqual(OPERATORS_IS_NOT_OR);
       });
     });
 

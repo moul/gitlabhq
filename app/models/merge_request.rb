@@ -2338,23 +2338,6 @@ class MergeRequest < ApplicationRecord
       pipeline_has_report_in_self_or_descendants?(:sast)
   end
 
-  def has_secret_detection_reports?
-    !!diff_head_pipeline&.complete_or_manual? &&
-      pipeline_has_report_in_self_or_descendants?(:secret_detection)
-  end
-
-  def compare_sast_reports(current_user)
-    return missing_report_error("SAST") unless has_sast_reports?
-
-    compare_reports(::Vulnerabilities::CompareSecurityReportsService, current_user, 'sast')
-  end
-
-  def compare_secret_detection_reports(current_user)
-    return missing_report_error("secret detection") unless has_secret_detection_reports?
-
-    compare_reports(::Vulnerabilities::CompareSecurityReportsService, current_user, 'secret_detection')
-  end
-
   def calculate_reactive_cache(identifier, current_user_id = nil, report_type = nil, *args)
     service_class = identifier.constantize
 
