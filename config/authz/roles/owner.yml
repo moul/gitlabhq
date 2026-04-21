@@ -89,6 +89,7 @@ group:
   - create_runners
   - create_service_account
   - create_subgroup
+  - delete_enterprise_user
   - delete_group_link
   - delete_namespace_ban
   - delete_secrets_permission
@@ -100,6 +101,7 @@ group:
   - destroy_issue
   - destroy_resource_access_tokens
   - destroy_user_achievement
+  - disable_two_factor_enterprise_user
   - edit_billing
   - export_group_memberships
   - invite_group_members
@@ -115,6 +117,7 @@ group:
   - read_compliance_dashboard
   - read_compliance_framework
   - read_compliance_violations_report
+  - read_email_enterprise_user
   - read_enterprise_user
   - read_group_credentials_inventory
   - read_group_saml_identity
@@ -140,6 +143,7 @@ group:
   - set_show_diff_preview_in_email
   - update_approval_rule
   - update_default_branch_protection
+  - update_enterprise_user
   - update_git_access_protocol
   - update_group_link
   - update_knowledge_graph_setting

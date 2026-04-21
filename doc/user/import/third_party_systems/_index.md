@@ -15,7 +15,7 @@ Migrate to GitLab from third-party systems.
 - [From Bitbucket Cloud](../bitbucket_cloud.md)
 - [From FogBugz](../../project/import/fogbugz.md)
 - [Through a manifest file](../../project/import/manifest.md)
-- [Through a Git URL](../../project/import/repo_by_url.md)
+- [Through a Git URL](repo_by_url.md)
 - [From IBM DevOps ClearCase](clearcase.md)
 - [From Concurrent Versions System (CVS)](cvs.md)
 - [From Perforce P4](perforce.md)

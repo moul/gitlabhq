@@ -44,7 +44,8 @@ apply only to that method. All other items apply to all installation methods.
 
 Before upgrading to GitLab 18.11, review the following:
 
-- [18.11.0] Upgrading to 18.11 triggers a [PostgreSQL 17.7 version upgrade](#postgresql-version-177-upgrade-on-gitlab-1811) (Linux package, Docker, Geo)
+- [18.11.0] - [Upgrading to 18.11 triggers a PostgreSQL 17.7 version upgrade](#postgresql-version-177-upgrade-on-gitlab-1811) (Linux package, Docker, Geo)
+- [18.11.0] - [Mattermost and Spamcheck removed from SLES 12.5 packages](#mattermost-and-spamcheck-removed-from-sles-125-packages) (Linux package)
 
 ### Upgrade to 18.10
 
@@ -153,6 +154,25 @@ Before upgrading to GitLab 18.0, review the following:
 ## Upgrade notes
 
 Specific upgrade notes for GitLab 18.
+
+### Mattermost and Spamcheck removed from SLES 12.5 packages
+
+- Affects: Linux package
+- Affected versions: 18.11.0 and later
+
+Due to [RPM package size constraints](https://gitlab.com/gitlab-org/omnibus-gitlab/-/work_items/9716),
+Mattermost and Spamcheck have been removed from SLES 12.5 Linux packages.
+
+SUSE distributions are
+[deprecated in GitLab 18.9 and scheduled for removal in GitLab 19.0](../deprecations.md#linux-package-support-for-suse-distributions),
+and both [Mattermost](../deprecations.md#mattermost-bundled-with-linux-package) and
+[Spamcheck](../deprecations.md#spamcheck-support-in-the-linux-package-and-gitlab-helm-chart)
+are scheduled for removal from all distributions in GitLab 19.0.
+
+If you rely on Mattermost on SLES 12.5, you can
+[migrate Mattermost to a standalone deployment](https://docs.mattermost.com/administration-guide/onboard/migrate-gitlab-omnibus.html).
+If you use Spamcheck on SLES 12.5, you can
+[deploy it using Docker](../../administration/reporting/spamcheck.md).
 
 ### Geo secondary throttled jobs not draining
 

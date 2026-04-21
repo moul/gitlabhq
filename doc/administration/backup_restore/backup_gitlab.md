@@ -137,7 +137,7 @@ for Wiki and Design Repository cases.
 
 Personal and project snippets, and group wiki content, are stored in Git repositories.
 
-Project forks are deduplicated in live a GitLab site using pool repositories.
+Project forks are deduplicated in a GitLab site using pool repositories.
 
 The backup command produces a Git bundle for each repository and tars them all up. This duplicates pool repository data into every fork. In our testing, 100 GB of Git repositories took a little over 2 hours to back up and upload to S3. At around 400 GB of Git data, the backup command is likely not viable for regular backups. For more information, see [alternative backup strategies](#alternative-backup-strategies).
 

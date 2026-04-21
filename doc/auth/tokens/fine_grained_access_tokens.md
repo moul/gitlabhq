@@ -2162,7 +2162,7 @@ Grants the ability to create, delete, and read emails.
 
 #### Enterprise User
 
-Grants the ability to delete, disable two factor, read, and update enterprise users.
+Grants the ability to delete, disable two factor, read, read email, and update enterprise users.
 
 | Action | Access | Method | Path |
 | ------ | ------ | ------ | ---- |

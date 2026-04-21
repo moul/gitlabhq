@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Gitlab::Ci::Config::External::File::Base, feature_category: :pipeline_composition do
   let_it_be(:project) { create(:project) }
-  let(:variables) {}
+  let(:variables) { nil }
   let(:context_params) { { sha: 'HEAD', variables: variables, project: project } }
   let(:ctx) { Gitlab::Ci::Config::External::Context.new(**context_params) }
 

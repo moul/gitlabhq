@@ -15,7 +15,7 @@ title: Work items
 
 Work items are the core elements for planning and tracking work in GitLab.
 Planning and tracking product development often requires breaking work into smaller, manageable parts
-while maintaining connection to the bigger picture.
+while maintaining a connection to the bigger picture.
 Work items are designed around this fundamental need, providing a unified way to represent units of
 work at any level, from strategic initiatives to individual tasks.
 
@@ -103,7 +103,7 @@ These filters are available for work items:
   - Operators: `is`, `is not`
 - My reaction
   - Operators: `is`, `is not`
-- Organisation
+- Organization
   - Operators: `is`
 - Parent
   - Operators: `is`, `is not`

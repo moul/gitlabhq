@@ -55,47 +55,18 @@ Start by ensuring the correct project is selected in the GitLab for VS Code exte
 
 If an error message appears next to the project name, select it to reveal what needs to be updated.
 
-For example, you might have multiple repositories and need to select one, or there might be no repositories at all.
+To resolve these issues, see the extension setup documentation:
 
-### No Git repository
+- [Connect to your repository](setup.md#connect-to-your-repository): If no remote is defined, or
+  you have multiple remotes configured.
+- [Switch accounts](setup.md#switch-accounts): If **Multiple GitLab Accounts** appears in the
+  status bar.
+- [Select a project](setup.md#select-a-project): If **(multiple projects)** appears in the
+  status bar.
 
-If your workspace doesn't have a Git repository initialized, you must create a new one:
-
-1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
-1. Select **Initialize Repository**.
-
-When the repository is initialized, you should see the name in the **Source Control** view.
-
-### Git repository with no GitLab remote
-
-You might have a Git repository but it's not properly connected to GitLab.
-
-1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
-1. On the **Source Control** label, right-click and select **Repositories**.
-1. Next to your repository, select the ellipsis ({{< icon name=ellipsis_h >}}), then **Remote** > **Add Remote**.
-1. Enter your GitLab project URL.
-1. Select the newly added remote as your upstream.
-
-### Multiple GitLab remotes
-
-Your repository might have multiple GitLab remotes configured.
-To select the correct one:
-
-1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
-1. On the status bar, select the current remote name.
-1. From the list, select the appropriate GitLab remote.
-1. Ensure the selected remote belongs to a group namespace in GitLab.
-
-### Multiple GitLab projects
-
-If your VS Code workspace contains multiple GitLab projects, you might want
-to close all the projects you're not using.
-
-To close projects:
-
-1. In the left sidebar, select **Source Control** ({{< icon name="branch" >}}).
-1. Ensure repositories are shown: on the **Source Control** label, right-click and select **Repositories**.
-1. Right-click the repository you want to close and select **Close Repository**.
+If this is your first time working with Git in VS Code, see
+[source control in VS Code](https://code.visualstudio.com/docs/sourcecontrol/overview) for information
+on initializing repositories and workspaces, which occurs outside of the GitLab extension.
 
 ### Git remote with SSH custom alias
 
@@ -354,19 +325,7 @@ A workaround exists for Ubuntu users who use versions of VS Code earlier than 1.
 If you use VS Code version 1.68.0 or later, re-installation might not be possible. However, you can still run
 the last three steps to re-authenticate.
 
-## Set token with environment variables
-
-If you often delete your VS Code storage, such as in Gitpod containers, set environment variables
-before starting VS Code. If you set the token in a
-[VS Code environment variable](https://code.visualstudio.com/docs/editor/variables-reference#_environment-variables),
-you don't have to set a personal access token each time you delete your VS Code storage. Set these variables:
-
-- `GITLAB_WORKFLOW_INSTANCE_URL`: Your GitLab instance URL, like `https://gitlab.com`.
-- `GITLAB_WORKFLOW_TOKEN`: Your personal access token, which you created [when authenticating with GitLab](setup.md#authenticate-with-gitlab).
-
-The token configured in an environment variable is overridden if you configure a token for the same GitLab instance in the extension.
-
-### Connection and authorization error when using GDK
+## Connection and authorization error when using GDK
 
 When using VS Code with GDK, you might get an error that states that your system
 is unable to establish a secure TLS connection to a GitLab instance running on

@@ -113,7 +113,7 @@ RSpec.describe Gitlab::Ci::Config::External::Context, feature_category: :pipelin
     end
 
     context 'with nil as a value' do
-      let(:timeout_seconds) {}
+      let(:timeout_seconds) { nil }
 
       it 'updates execution_deadline' do
         expect { subject.set_deadline(timeout_seconds) }

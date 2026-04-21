@@ -7,14 +7,14 @@ RSpec.describe Gitlab::Ci::Config::Entry::Retry do
 
   shared_context 'when retry value is a numeric' do
     let(:config) { max }
-    let(:max) {}
+    let(:max) { nil }
   end
 
   shared_context 'when retry value is a hash' do
     let(:config) { { max: max, when: public_send(:when), exit_codes: exit_codes }.compact }
-    let(:when) {}
-    let(:exit_codes) {}
-    let(:max) {}
+    let(:when) { nil }
+    let(:exit_codes) { nil }
+    let(:max) { nil }
   end
 
   describe '#value' do

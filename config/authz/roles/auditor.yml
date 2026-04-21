@@ -70,6 +70,7 @@ group:
   - read_dependency
   - read_dependency_proxy
   - read_dora4_analytics
+  - read_email_enterprise_user
   - read_enterprise_user
   - read_group
   - read_group_all_available_runners

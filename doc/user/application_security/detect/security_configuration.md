@@ -78,6 +78,10 @@ Not enabled
 
 #### View security configuration page
 
+Prerequisites:
+
+- The Security Manager, Maintainer, or Owner role for the project.
+
 To view a project's security configuration:
 
 1. In the top bar, select **Search or go to** and find your project.
@@ -86,6 +90,10 @@ To view a project's security configuration:
 To see a historic view of changes to the CI/CD configuration file, select **Configuration history**.
 
 #### Edit a project's security configuration
+
+Prerequisites:
+
+- The Security Manager, Maintainer, or Owner role for the project.
 
 To edit a project's security configuration:
 

@@ -12174,6 +12174,9 @@ msgstr ""
 msgid "BillingPlans|You have successfully started a GitLab Ultimate trial that will expire on %{exp_date}."
 msgstr ""
 
+msgid "BillingPlans|You will still have access to all GitLab Credits you have purchased"
+msgstr ""
+
 msgid "BillingPlans|Your %{platform} is on %{planName}"
 msgstr ""
 
