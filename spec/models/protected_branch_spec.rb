@@ -192,6 +192,12 @@ RSpec.describe ProtectedBranch, feature_category: :source_code_management do
     end
   end
 
+  describe '.can_update_security_orchestration_policy_project?' do
+    it 'returns false' do
+      expect(described_class.can_update_security_orchestration_policy_project?(build_stubbed(:user), build_stubbed(:project))).to eq(false)
+    end
+  end
+
   describe '.by_name' do
     let!(:protected_branch) { create(:protected_branch, name: 'master') }
     let!(:another_protected_branch) { create(:protected_branch, name: 'stable') }

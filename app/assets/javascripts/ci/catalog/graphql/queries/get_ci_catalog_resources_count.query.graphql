@@ -1,3 +1,5 @@
+# @feature_category: pipeline_composition
+
 query getCatalogResourcesCount($searchTerm: String) {
   all: ciCatalogResources(scope: ALL, search: $searchTerm) {
     count

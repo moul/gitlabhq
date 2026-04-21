@@ -11,6 +11,8 @@ project:
   raw_permissions:
   - _delete_incident_work_item
   - add_catalog_resource
+  - admin_namespace_cluster_agent_mapping
+  - admin_organization_cluster_agent_mapping
   - admin_project_secrets_manager
   - archive_project
   - cancel_project_import

@@ -3,7 +3,6 @@ Gitlab/Authz/DisallowAbilityAllowed:
   Details: grace period
   Exclude:
     - 'app/policies/ci/runner_project_policy.rb'
-    - 'app/policies/clusters/agent_policy.rb'
     - 'app/policies/concerns/policy_actor.rb'
     - 'app/policies/issue_policy.rb'
     - 'app/policies/todo_policy.rb'

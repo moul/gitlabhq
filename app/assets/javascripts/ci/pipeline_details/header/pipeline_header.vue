@@ -83,6 +83,9 @@ export default {
           iid: this.pipelineIid,
         };
       },
+      skip() {
+        return !this.pipelineIid;
+      },
       update(data) {
         const newFavicon = data?.project?.pipeline?.detailedStatus?.favicon;
         this.setFavicon(newFavicon);
@@ -484,7 +487,7 @@ export default {
           data-testid="pipeline-ref-text"
         ></div>
         <div>
-          <header-badges :pipeline="pipeline" />
+          <header-badges v-if="pipeline.id" :pipeline="pipeline" />
 
           <div class="gl-inline-block">
             <button
@@ -537,6 +540,7 @@ export default {
           {{ __('Fix pipeline with Duo') }}
         </duo-workflow-action>
         <header-actions
+          v-if="pipeline.id"
           class="gl-self-start"
           :pipeline="pipeline"
           :is-retrying="isRetrying"

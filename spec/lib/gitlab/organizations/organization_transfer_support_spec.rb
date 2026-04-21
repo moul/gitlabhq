@@ -31,6 +31,7 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       bulk_import_entities
       bulk_import_failures
       bulk_import_trackers
+      cluster_platforms_kubernetes
       clusters
       custom_dashboard_search_data
       custom_dashboards

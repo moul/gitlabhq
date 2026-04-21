@@ -11584,7 +11584,7 @@ Input type: `NamespaceCreateRemoteDevelopmentClusterAgentMappingInput`
 | ---- | ---- | ----------- |
 | <a id="mutation-namespacecreateremotedevelopmentclusteragentmapping-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-namespacecreateremotedevelopmentclusteragentmapping-clusteragentid"></a>`clusterAgentId` | [`ClustersAgentID!`](#clustersagentid) | GlobalID of the cluster agent to be associated with the namespace. |
-| <a id="mutation-namespacecreateremotedevelopmentclusteragentmapping-namespaceid"></a>`namespaceId` | [`NamespaceID!`](#namespaceid) | GlobalID of the namespace to be associated with the cluster agent. |
+| <a id="mutation-namespacecreateremotedevelopmentclusteragentmapping-namespaceid"></a>`namespaceId` | [`GroupID!`](#groupid) | GlobalID of the group to be associated with the cluster agent. |
 
 #### Fields
 
@@ -11604,7 +11604,7 @@ Input type: `NamespaceDeleteRemoteDevelopmentClusterAgentMappingInput`
 | ---- | ---- | ----------- |
 | <a id="mutation-namespacedeleteremotedevelopmentclusteragentmapping-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-namespacedeleteremotedevelopmentclusteragentmapping-clusteragentid"></a>`clusterAgentId` | [`ClustersAgentID!`](#clustersagentid) | GlobalID of the cluster agent to be un-associated from the namespace. |
-| <a id="mutation-namespacedeleteremotedevelopmentclusteragentmapping-namespaceid"></a>`namespaceId` | [`NamespaceID!`](#namespaceid) | GlobalID of the namespace to be un-associated from the cluster agent. |
+| <a id="mutation-namespacedeleteremotedevelopmentclusteragentmapping-namespaceid"></a>`namespaceId` | [`GroupID!`](#groupid) | GlobalID of the group to be un-associated from the cluster agent. |
 
 #### Fields
 
@@ -19078,6 +19078,43 @@ The edge type for [`BranchRule`](#branchrule).
 | ---- | ---- | ----------- |
 | <a id="branchruleedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="branchruleedge-node"></a>`node` | [`BranchRule`](#branchrule) | The item at the end of the edge. |
+
+#### `BulkImportExportUploadUploadRegistryConnection`
+
+The connection type for [`BulkImportExportUploadUploadRegistry`](#bulkimportexportuploaduploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="bulkimportexportuploaduploadregistryconnection-edges"></a>`edges` | [`[BulkImportExportUploadUploadRegistryEdge]`](#bulkimportexportuploaduploadregistryedge) | A list of edges. |
+| <a id="bulkimportexportuploaduploadregistryconnection-nodes"></a>`nodes` | [`[BulkImportExportUploadUploadRegistry]`](#bulkimportexportuploaduploadregistry) | A list of nodes. |
+| <a id="bulkimportexportuploaduploadregistryconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+##### Fields with arguments
+
+###### `BulkImportExportUploadUploadRegistryConnection.count`
+
+Limited count of collection. Returns limit + 1 for counts greater than the limit.
+
+Returns [`Int!`](#int).
+
+Arguments:
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="bulkimportexportuploaduploadregistryconnection-count-limit"></a>`limit` | [`Int`](#int) | Limit value to be applied to the count query. Default is 1000. |
+
+#### `BulkImportExportUploadUploadRegistryEdge`
+
+The edge type for [`BulkImportExportUploadUploadRegistry`](#bulkimportexportuploaduploadregistry).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="bulkimportexportuploaduploadregistryedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="bulkimportexportuploaduploadregistryedge-node"></a>`node` | [`BulkImportExportUploadUploadRegistry`](#bulkimportexportuploaduploadregistry) | The item at the end of the edge. |
 
 #### `CiBuildNeedConnection`
 
@@ -30922,6 +30959,36 @@ Branch rules configured for a rule target.
 | <a id="branchrule-squashoption"></a>`squashOption` {{< icon name="warning-solid" >}} | [`SquashOption`](#squashoption) | **Introduced** in GitLab 17.9. **Status**: Experiment. Default behavior for squashing in merge requests. |
 | <a id="branchrule-updatedat"></a>`updatedAt` | [`Time`](#time) | Timestamp of when the branch rule was last updated. |
 
+### `BulkImportExportUploadUploadRegistry`
+
+Represents the Geo replication and verification state of a `bulk_import_export_upload_upload`.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="bulkimportexportuploaduploadregistry-bulkimportexportuploaduploadid"></a>`bulkImportExportUploadUploadId` | [`ID!`](#id) | ID of the bulk import/export archive upload. |
+| <a id="bulkimportexportuploaduploadregistry-checksummismatch"></a>`checksumMismatch` | [`Boolean`](#boolean) | Indicate if the checksums of the BulkImportExportUploadUploadRegistry do not match on the primary and secondary. |
+| <a id="bulkimportexportuploaduploadregistry-createdat"></a>`createdAt` | [`Time`](#time) | Timestamp when the BulkImportExportUploadUploadRegistry was created. |
+| <a id="bulkimportexportuploaduploadregistry-datamanagementdetailspath"></a>`dataManagementDetailsPath` | [`String`](#string) | Path to the data management view for this BulkImportExportUploadUploadRegistry. |
+| <a id="bulkimportexportuploaduploadregistry-forcetoredownload"></a>`forceToRedownload` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 17.10. Removed from registry tables in the database in favor of the newer reusable framework. |
+| <a id="bulkimportexportuploaduploadregistry-id"></a>`id` | [`ID!`](#id) | ID of the BulkImportExportUploadUploadRegistry. |
+| <a id="bulkimportexportuploaduploadregistry-lastsyncfailure"></a>`lastSyncFailure` | [`String`](#string) | Error message during sync of the BulkImportExportUploadUploadRegistry. |
+| <a id="bulkimportexportuploaduploadregistry-lastsyncedat"></a>`lastSyncedAt` | [`Time`](#time) | Timestamp of the most recent successful sync of the BulkImportExportUploadUploadRegistry. |
+| <a id="bulkimportexportuploaduploadregistry-missingonprimary"></a>`missingOnPrimary` | [`Boolean`](#boolean) | Indicate if the BulkImportExportUploadUploadRegistry is missing on primary. |
+| <a id="bulkimportexportuploaduploadregistry-modelrecordid"></a>`modelRecordId` | [`Int`](#int) | ID of the BulkImportExportUploadUploadRegistry's model record. |
+| <a id="bulkimportexportuploaduploadregistry-retryat"></a>`retryAt` | [`Time`](#time) | Timestamp after which the BulkImportExportUploadUploadRegistry is resynced. |
+| <a id="bulkimportexportuploaduploadregistry-retrycount"></a>`retryCount` | [`Int`](#int) | Number of consecutive failed sync attempts of the BulkImportExportUploadUploadRegistry. |
+| <a id="bulkimportexportuploaduploadregistry-state"></a>`state` | [`RegistryState`](#registrystate) | Sync state of the BulkImportExportUploadUploadRegistry. |
+| <a id="bulkimportexportuploaduploadregistry-verificationchecksum"></a>`verificationChecksum` | [`String`](#string) | The local checksum of the BulkImportExportUploadUploadRegistry. |
+| <a id="bulkimportexportuploaduploadregistry-verificationchecksummismatched"></a>`verificationChecksumMismatched` | [`String`](#string) | The expected checksum of the BulkImportExportUploadUploadRegistry in case of mismatch. |
+| <a id="bulkimportexportuploaduploadregistry-verificationfailure"></a>`verificationFailure` | [`String`](#string) | Error message during verification of the BulkImportExportUploadUploadRegistry. |
+| <a id="bulkimportexportuploaduploadregistry-verificationretryat"></a>`verificationRetryAt` | [`Time`](#time) | Timestamp after which the BulkImportExportUploadUploadRegistry is reverified. |
+| <a id="bulkimportexportuploaduploadregistry-verificationretrycount"></a>`verificationRetryCount` | [`Int`](#int) | Number of consecutive failed verification attempts of the BulkImportExportUploadUploadRegistry. |
+| <a id="bulkimportexportuploaduploadregistry-verificationstartedat"></a>`verificationStartedAt` | [`Time`](#time) | Timestamp when the verification of BulkImportExportUploadUploadRegistry started. |
+| <a id="bulkimportexportuploaduploadregistry-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Verification state of the BulkImportExportUploadUploadRegistry. |
+| <a id="bulkimportexportuploaduploadregistry-verifiedat"></a>`verifiedAt` | [`Time`](#time) | Timestamp of the most recent successful verification of the BulkImportExportUploadUploadRegistry. |
+
 ### `BurnupChartDailyTotals`
 
 Represents the total number of issues and their weights for a particular day.
@@ -36661,6 +36728,31 @@ four standard [pagination arguments](#pagination-arguments):
 | <a id="geonode-aivectorizablefileuploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
 | <a id="geonode-aivectorizablefileuploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
 | <a id="geonode-aivectorizablefileuploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
+
+##### `GeoNode.bulkImportExportUploadUploadRegistries`
+
+{{< details >}}
+**Introduced** in GitLab 19.0.
+**Status**: Experiment.
+{{< /details >}}
+
+Find bulk import/export archive upload registries on this Geo node. Ignored if `geo_bulk_import_export_upload_upload_replication` feature flag is disabled.
+
+Returns [`BulkImportExportUploadUploadRegistryConnection`](#bulkimportexportuploaduploadregistryconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="geonode-bulkimportexportuploaduploadregistries-ids"></a>`ids` | [`[GeoBulkImportExportUploadUploadRegistryID!]`](#geobulkimportexportuploaduploadregistryid) | Filters registries by their ID. |
+| <a id="geonode-bulkimportexportuploaduploadregistries-keyword"></a>`keyword` {{< icon name="warning-solid" >}} | [`String`](#string) | **Deprecated** in GitLab 17.9. A keyword search feature on Geo registries will not be built in the UI due to poor search UX and performance. |
+| <a id="geonode-bulkimportexportuploaduploadregistries-replicationstate"></a>`replicationState` | [`ReplicationStateEnum`](#replicationstateenum) | Filters registries by their replication state. |
+| <a id="geonode-bulkimportexportuploaduploadregistries-sort"></a>`sort` | [`GeoRegistrySort`](#georegistrysort) | Sort registries by given criteria. |
+| <a id="geonode-bulkimportexportuploaduploadregistries-verificationstate"></a>`verificationState` | [`VerificationStateEnum`](#verificationstateenum) | Filters registries by their verification state. |
 
 ##### `GeoNode.ciSecureFileRegistries`
 
@@ -58009,6 +58101,7 @@ Geo registry class.
 | <a id="georegistryclass-abuse_report_upload_registry"></a>`ABUSE_REPORT_UPLOAD_REGISTRY` | Geo::AbuseReportUploadRegistry registry class. |
 | <a id="georegistryclass-achievement_upload_registry"></a>`ACHIEVEMENT_UPLOAD_REGISTRY` | Geo::AchievementUploadRegistry registry class. |
 | <a id="georegistryclass-ai_vectorizable_file_upload_registry"></a>`AI_VECTORIZABLE_FILE_UPLOAD_REGISTRY` | Geo::AiVectorizableFileUploadRegistry registry class. |
+| <a id="georegistryclass-bulk_import_export_upload_upload_registry"></a>`BULK_IMPORT_EXPORT_UPLOAD_UPLOAD_REGISTRY` | Geo::BulkImportExportUploadUploadRegistry registry class. |
 | <a id="georegistryclass-ci_secure_file_registry"></a>`CI_SECURE_FILE_REGISTRY` | Geo::CiSecureFileRegistry registry class. |
 | <a id="georegistryclass-container_repository_registry"></a>`CONTAINER_REPOSITORY_REGISTRY` | Geo::ContainerRepositoryRegistry registry class. |
 | <a id="georegistryclass-dependency_proxy_blob_registry"></a>`DEPENDENCY_PROXY_BLOB_REGISTRY` | Geo::DependencyProxyBlobRegistry registry class. |
@@ -61839,6 +61932,12 @@ A `GeoBaseRegistryID` is a global ID. It is encoded as a string.
 
 An example `GeoBaseRegistryID` is: `"gid://gitlab/Geo::BaseRegistry/1"`.
 
+### `GeoBulkImportExportUploadUploadRegistryID`
+
+A `GeoBulkImportExportUploadUploadRegistryID` is a global ID. It is encoded as a string.
+
+An example `GeoBulkImportExportUploadUploadRegistryID` is: `"gid://gitlab/Geo::BulkImportExportUploadUploadRegistry/1"`.
+
 ### `GeoCiSecureFileRegistryID`
 
 A `GeoCiSecureFileRegistryID` is a global ID. It is encoded as a string.
@@ -62961,6 +63060,7 @@ One of:
 - [`AbuseReportUploadRegistry`](#abusereportuploadregistry)
 - [`AchievementUploadRegistry`](#achievementuploadregistry)
 - [`AiVectorizableFileUploadRegistry`](#aivectorizablefileuploadregistry)
+- [`BulkImportExportUploadUploadRegistry`](#bulkimportexportuploaduploadregistry)
 - [`CiSecureFileRegistry`](#cisecurefileregistry)
 - [`ContainerRepositoryRegistry`](#containerrepositoryregistry)
 - [`DependencyProxyBlobRegistry`](#dependencyproxyblobregistry)

@@ -15,7 +15,6 @@ RSpec.describe Issue, feature_category: :team_planning do
   describe "Associations" do
     it { is_expected.to belong_to(:milestone) }
     it { is_expected.to belong_to(:project) }
-    it { is_expected.to belong_to(:work_item_type).class_name('WorkItems::Type') }
     it { is_expected.to belong_to(:moved_to).class_name('Issue') }
     it { is_expected.to have_one(:moved_from).class_name('Issue') }
     it { is_expected.to belong_to(:duplicated_to).class_name('Issue') }
@@ -149,7 +148,8 @@ RSpec.describe Issue, feature_category: :team_planning do
 
       with_them do
         it 'is possible to change type only between selected types' do
-          issue = create(:issue, old_type, project: reusable_project)
+          traits = old_type == :issue ? [] : [old_type]
+          issue = create(:issue, *traits, project: reusable_project)
 
           issue.assign_attributes(work_item_type_id: build(:work_item_system_defined_type, new_type).id)
 
@@ -1769,10 +1769,11 @@ RSpec.describe Issue, feature_category: :team_planning do
   describe '#supports_assignee?' do
     Gitlab::DatabaseImporters::WorkItems::BaseTypeImporter::WIDGETS_FOR_TYPE.each_pair do |base_type, widgets|
       specify do
-        issue = build(:issue, base_type)
-        supports_assignee = widgets.include?(:assignees)
-
         skip if !Gitlab.ee? && [:epic, :requirement, :objective, :test_case, :key_result].include?(base_type)
+
+        traits = base_type == :issue ? [] : [base_type]
+        issue = build(:issue, *traits)
+        supports_assignee = widgets.include?(:assignees)
 
         expect(issue.supports_assignee?).to eq(supports_assignee)
       end
@@ -1985,9 +1986,10 @@ RSpec.describe Issue, feature_category: :team_planning do
 
     with_them do
       it 'uses the issue type as the reference name' do
-        issue = create(:issue, issue_type, project: reusable_project)
-
         skip if !Gitlab.ee? && issue_type == :test_case
+
+        traits = issue_type == :issue ? [] : [issue_type]
+        issue = create(:issue, *traits, project: reusable_project)
 
         expect(issue.gfm_reference).to eq("#{expected_name} #{issue.to_reference}")
       end

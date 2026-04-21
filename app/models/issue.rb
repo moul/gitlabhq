@@ -237,12 +237,11 @@ class Issue < ApplicationRecord
   scope :preload_namespace, -> { preload(:namespace) }
   scope :preload_routables, -> { preload(project: [:route, { namespace: :route }]) }
   scope :preload_namespace_routables, -> { preload(namespace: [:route, { parent: :route }]) }
-  scope :preload_for_rss, -> { preload(:author, :assignees, :labels, :milestone, :work_item_type, :project, { project: :namespace }) }
+  scope :preload_for_rss, -> { preload(:author, :assignees, :labels, :milestone, :project, { project: :namespace }) }
 
   scope :with_alert_management_alerts, -> { joins(:alert_management_alert) }
   scope :with_api_entity_associations, -> {
-    preload(:work_item_type,
-      :timelogs, :closed_by, :assignees, :author, :issuable_severity,
+    preload(:timelogs, :closed_by, :assignees, :author, :issuable_severity,
       :labels, namespace: [{ parent: :route }, :route], milestone: { project: [:route, { namespace: :route }] },
       project: [:project_namespace, :project_feature, :route, { group: :route }, { namespace: :route }],
       duplicated_to: { project: [:project_feature] }
@@ -279,10 +278,10 @@ class Issue < ApplicationRecord
 
     where(
       author: User.support_bot,
-      work_item_type: provider.default_issue_type.id
+      work_item_type_id: provider.default_issue_type.id
     )
     .or(
-      where(work_item_type: provider.find_by_base_type(:ticket).id)
+      where(work_item_type_id: provider.find_by_base_type(:ticket).id)
     )
   }
 

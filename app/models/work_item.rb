@@ -31,7 +31,7 @@ class WorkItem < Issue
 
   scope :inc_relations_for_permission_check, -> {
     includes(
-      :author, :work_item_type, { project: [:project_feature, { namespace: :route }, :group] }, { namespace: [:route] }
+      :author, { project: [:project_feature, { namespace: :route }, :group] }, { namespace: [:route] }
     )
   }
 
@@ -251,7 +251,6 @@ class WorkItem < Issue
       Gitlab::SQL::CTE.new(:work_item_ids_cte, id_in(ids))
         .apply_to(all)
         .in_namespaces_with_cte(namespaces)
-        .includes(:work_item_type)
     end
 
     # Returns descendant work item IDs for base work items and all their descendants.

@@ -72099,6 +72099,28 @@ components:
           type: string
         packages_helm_metadata_caches_oldest_unsynced_time:
           type: string
+        bulk_import_export_upload_uploads_count:
+          type: string
+        bulk_import_export_upload_uploads_checksum_total_count:
+          type: string
+        bulk_import_export_upload_uploads_checksummed_count:
+          type: string
+        bulk_import_export_upload_uploads_checksum_failed_count:
+          type: string
+        bulk_import_export_upload_uploads_synced_count:
+          type: string
+        bulk_import_export_upload_uploads_failed_count:
+          type: string
+        bulk_import_export_upload_uploads_registry_count:
+          type: string
+        bulk_import_export_upload_uploads_verification_total_count:
+          type: string
+        bulk_import_export_upload_uploads_verified_count:
+          type: string
+        bulk_import_export_upload_uploads_verification_failed_count:
+          type: string
+        bulk_import_export_upload_uploads_oldest_unsynced_time:
+          type: string
         ai_vectorizable_file_uploads_count:
           type: string
         ai_vectorizable_file_uploads_checksum_total_count:
@@ -72366,6 +72388,10 @@ components:
         packages_helm_metadata_caches_synced_in_percentage:
           type: string
         packages_helm_metadata_caches_verified_in_percentage:
+          type: string
+        bulk_import_export_upload_uploads_synced_in_percentage:
+          type: string
+        bulk_import_export_upload_uploads_verified_in_percentage:
           type: string
         ai_vectorizable_file_uploads_synced_in_percentage:
           type: string
@@ -77543,6 +77569,28 @@ components:
           type: string
         packages_helm_metadata_caches_oldest_unsynced_time:
           type: string
+        bulk_import_export_upload_uploads_count:
+          type: string
+        bulk_import_export_upload_uploads_checksum_total_count:
+          type: string
+        bulk_import_export_upload_uploads_checksummed_count:
+          type: string
+        bulk_import_export_upload_uploads_checksum_failed_count:
+          type: string
+        bulk_import_export_upload_uploads_synced_count:
+          type: string
+        bulk_import_export_upload_uploads_failed_count:
+          type: string
+        bulk_import_export_upload_uploads_registry_count:
+          type: string
+        bulk_import_export_upload_uploads_verification_total_count:
+          type: string
+        bulk_import_export_upload_uploads_verified_count:
+          type: string
+        bulk_import_export_upload_uploads_verification_failed_count:
+          type: string
+        bulk_import_export_upload_uploads_oldest_unsynced_time:
+          type: string
         ai_vectorizable_file_uploads_count:
           type: string
         ai_vectorizable_file_uploads_checksum_total_count:
@@ -77810,6 +77858,10 @@ components:
         packages_helm_metadata_caches_synced_in_percentage:
           type: string
         packages_helm_metadata_caches_verified_in_percentage:
+          type: string
+        bulk_import_export_upload_uploads_synced_in_percentage:
+          type: string
+        bulk_import_export_upload_uploads_verified_in_percentage:
           type: string
         ai_vectorizable_file_uploads_synced_in_percentage:
           type: string

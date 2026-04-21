@@ -73422,6 +73422,28 @@ definitions:
         type: string
       packages_helm_metadata_caches_oldest_unsynced_time:
         type: string
+      bulk_import_export_upload_uploads_count:
+        type: string
+      bulk_import_export_upload_uploads_checksum_total_count:
+        type: string
+      bulk_import_export_upload_uploads_checksummed_count:
+        type: string
+      bulk_import_export_upload_uploads_checksum_failed_count:
+        type: string
+      bulk_import_export_upload_uploads_synced_count:
+        type: string
+      bulk_import_export_upload_uploads_failed_count:
+        type: string
+      bulk_import_export_upload_uploads_registry_count:
+        type: string
+      bulk_import_export_upload_uploads_verification_total_count:
+        type: string
+      bulk_import_export_upload_uploads_verified_count:
+        type: string
+      bulk_import_export_upload_uploads_verification_failed_count:
+        type: string
+      bulk_import_export_upload_uploads_oldest_unsynced_time:
+        type: string
       ai_vectorizable_file_uploads_count:
         type: string
       ai_vectorizable_file_uploads_checksum_total_count:
@@ -73689,6 +73711,10 @@ definitions:
       packages_helm_metadata_caches_synced_in_percentage:
         type: string
       packages_helm_metadata_caches_verified_in_percentage:
+        type: string
+      bulk_import_export_upload_uploads_synced_in_percentage:
+        type: string
+      bulk_import_export_upload_uploads_verified_in_percentage:
         type: string
       ai_vectorizable_file_uploads_synced_in_percentage:
         type: string
@@ -74002,6 +74028,17 @@ definitions:
     - packages_helm_metadata_caches_verified_count
     - packages_helm_metadata_caches_verification_failed_count
     - packages_helm_metadata_caches_oldest_unsynced_time
+    - bulk_import_export_upload_uploads_count
+    - bulk_import_export_upload_uploads_checksum_total_count
+    - bulk_import_export_upload_uploads_checksummed_count
+    - bulk_import_export_upload_uploads_checksum_failed_count
+    - bulk_import_export_upload_uploads_synced_count
+    - bulk_import_export_upload_uploads_failed_count
+    - bulk_import_export_upload_uploads_registry_count
+    - bulk_import_export_upload_uploads_verification_total_count
+    - bulk_import_export_upload_uploads_verified_count
+    - bulk_import_export_upload_uploads_verification_failed_count
+    - bulk_import_export_upload_uploads_oldest_unsynced_time
     - ai_vectorizable_file_uploads_count
     - ai_vectorizable_file_uploads_checksum_total_count
     - ai_vectorizable_file_uploads_checksummed_count
@@ -74136,6 +74173,8 @@ definitions:
     - supply_chain_attestations_verified_in_percentage
     - packages_helm_metadata_caches_synced_in_percentage
     - packages_helm_metadata_caches_verified_in_percentage
+    - bulk_import_export_upload_uploads_synced_in_percentage
+    - bulk_import_export_upload_uploads_verified_in_percentage
     - ai_vectorizable_file_uploads_synced_in_percentage
     - ai_vectorizable_file_uploads_verified_in_percentage
     - import_export_upload_uploads_synced_in_percentage

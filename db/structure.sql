@@ -2643,6 +2643,22 @@ RETURN NEW;
 END
 $$;
 
+CREATE FUNCTION trigger_31b1148083b3() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+IF NEW."project_id" IS NULL THEN
+  SELECT "project_id"
+  INTO NEW."project_id"
+  FROM "bulk_import_export_upload_uploads"
+  WHERE "bulk_import_export_upload_uploads"."id" = NEW."bulk_import_export_upload_upload_id";
+END IF;
+
+RETURN NEW;
+
+END
+$$;
+
 CREATE FUNCTION trigger_3434b82e5e12() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -16572,6 +16588,29 @@ CREATE SEQUENCE bulk_import_export_batches_id_seq
 
 ALTER SEQUENCE bulk_import_export_batches_id_seq OWNED BY bulk_import_export_batches.id;
 
+CREATE TABLE bulk_import_export_upload_upload_states (
+    id bigint NOT NULL,
+    verification_started_at timestamp with time zone,
+    verification_retry_at timestamp with time zone,
+    verified_at timestamp with time zone,
+    bulk_import_export_upload_upload_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    verification_state smallint DEFAULT 0 NOT NULL,
+    verification_retry_count smallint DEFAULT 0 NOT NULL,
+    verification_checksum bytea,
+    verification_failure text,
+    CONSTRAINT check_318f88ee90 CHECK ((char_length(verification_failure) <= 255))
+);
+
+CREATE SEQUENCE bulk_import_export_upload_upload_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE bulk_import_export_upload_upload_states_id_seq OWNED BY bulk_import_export_upload_upload_states.id;
+
 CREATE TABLE bulk_import_export_upload_uploads (
     id bigint DEFAULT nextval('uploads_id_seq'::regclass) NOT NULL,
     size bigint NOT NULL,
@@ -18348,7 +18387,8 @@ CREATE TABLE cluster_platforms_kubernetes (
     authorization_type smallint,
     organization_id bigint,
     group_id bigint,
-    project_id bigint
+    project_id bigint,
+    CONSTRAINT check_73ecf3bb91 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1))
 );
 
 CREATE SEQUENCE cluster_platforms_kubernetes_id_seq
@@ -35610,6 +35650,8 @@ ALTER TABLE ONLY bulk_import_entities ALTER COLUMN id SET DEFAULT nextval('bulk_
 
 ALTER TABLE ONLY bulk_import_export_batches ALTER COLUMN id SET DEFAULT nextval('bulk_import_export_batches_id_seq'::regclass);
 
+ALTER TABLE ONLY bulk_import_export_upload_upload_states ALTER COLUMN id SET DEFAULT nextval('bulk_import_export_upload_upload_states_id_seq'::regclass);
+
 ALTER TABLE ONLY bulk_import_export_uploads ALTER COLUMN id SET DEFAULT nextval('bulk_import_export_uploads_id_seq'::regclass);
 
 ALTER TABLE ONLY bulk_import_exports ALTER COLUMN id SET DEFAULT nextval('bulk_import_exports_id_seq'::regclass);
@@ -38730,6 +38772,9 @@ ALTER TABLE ONLY bulk_import_entities
 ALTER TABLE ONLY bulk_import_export_batches
     ADD CONSTRAINT bulk_import_export_batches_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY bulk_import_export_upload_upload_states
+    ADD CONSTRAINT bulk_import_export_upload_upload_states_pkey PRIMARY KEY (id);
+
 ALTER TABLE ONLY bulk_import_export_upload_uploads
     ADD CONSTRAINT bulk_import_export_upload_uploads_pkey PRIMARY KEY (id, model_type);
 
@@ -38804,9 +38849,6 @@ ALTER TABLE ONLY project_type_ci_runners
 
 ALTER TABLE cluster_providers_aws
     ADD CONSTRAINT check_6d49cca3b0 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1)) NOT VALID;
-
-ALTER TABLE cluster_platforms_kubernetes
-    ADD CONSTRAINT check_73ecf3bb91 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1)) NOT VALID;
 
 ALTER TABLE ONLY group_type_ci_runners
     ADD CONSTRAINT check_81b90172a6 UNIQUE (id);
@@ -44265,6 +44307,20 @@ CREATE INDEX idx_audit_events_part_on_entity_id_desc_author_id_created_at ON ONL
 
 CREATE INDEX idx_award_emoji_on_user_emoji_name_awardable_type_awardable_id ON award_emoji USING btree (user_id, name, awardable_type, awardable_id);
 
+CREATE UNIQUE INDEX idx_bie_upl_upl_on_id_unique ON bulk_import_export_upload_uploads USING btree (id);
+
+CREATE INDEX idx_bie_upl_upl_states_failed_verification ON bulk_import_export_upload_upload_states USING btree (verification_retry_at NULLS FIRST) WHERE (verification_state = 3);
+
+CREATE INDEX idx_bie_upl_upl_states_needs_verification_id ON bulk_import_export_upload_upload_states USING btree (bulk_import_export_upload_upload_id) WHERE ((verification_state = 0) OR (verification_state = 3));
+
+CREATE UNIQUE INDEX idx_bie_upl_upl_states_on_bie_upl_upl_id ON bulk_import_export_upload_upload_states USING btree (bulk_import_export_upload_upload_id);
+
+CREATE INDEX idx_bie_upl_upl_states_on_verification_started ON bulk_import_export_upload_upload_states USING btree (bulk_import_export_upload_upload_id, verification_started_at) WHERE (verification_state = 1);
+
+CREATE INDEX idx_bie_upl_upl_states_on_verification_state ON bulk_import_export_upload_upload_states USING btree (verification_state);
+
+CREATE INDEX idx_bie_upl_upl_states_pending_verification ON bulk_import_export_upload_upload_states USING btree (verified_at NULLS FIRST) WHERE (verification_state = 0);
+
 CREATE INDEX idx_branch_rules_mr_approval_settings_on_project_id ON projects_branch_rules_merge_request_approval_settings USING btree (project_id);
 
 CREATE UNIQUE INDEX idx_branch_rules_mr_approval_settings_on_protected_branch_id ON projects_branch_rules_merge_request_approval_settings USING btree (protected_branch_id);
@@ -45738,6 +45794,8 @@ CREATE INDEX index_bulk_import_entities_on_project_id ON bulk_import_entities US
 CREATE INDEX index_bulk_import_export_batches_on_group_id ON bulk_import_export_batches USING btree (group_id);
 
 CREATE INDEX index_bulk_import_export_batches_on_project_id ON bulk_import_export_batches USING btree (project_id);
+
+CREATE INDEX index_bulk_import_export_upload_upload_states_on_project_id ON bulk_import_export_upload_upload_states USING btree (project_id);
 
 CREATE INDEX index_bulk_import_export_uploads_on_export_id ON bulk_import_export_uploads USING btree (export_id);
 
@@ -55035,6 +55093,8 @@ CREATE TRIGGER trigger_30209d0fba3e BEFORE INSERT OR UPDATE ON alert_management_
 
 CREATE TRIGGER trigger_309294c3b889 BEFORE INSERT OR UPDATE ON snippet_statistics FOR EACH ROW EXECUTE FUNCTION trigger_309294c3b889();
 
+CREATE TRIGGER trigger_31b1148083b3 BEFORE INSERT OR UPDATE ON bulk_import_export_upload_upload_states FOR EACH ROW EXECUTE FUNCTION trigger_31b1148083b3();
+
 CREATE TRIGGER trigger_3434b82e5e12 BEFORE INSERT OR UPDATE ON abuse_report_uploads FOR EACH ROW EXECUTE FUNCTION trigger_3434b82e5e12();
 
 CREATE TRIGGER trigger_363d0fd35f2c BEFORE INSERT OR UPDATE ON packages_nuget_dependency_link_metadata FOR EACH ROW EXECUTE FUNCTION trigger_363d0fd35f2c();
@@ -57640,6 +57700,9 @@ ALTER TABLE ONLY issue_assignees
 ALTER TABLE ONLY agent_project_authorizations
     ADD CONSTRAINT fk_b7fe9b4777 FOREIGN KEY (agent_id) REFERENCES cluster_agents(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY bulk_import_export_upload_upload_states
+    ADD CONSTRAINT fk_b813ddddfd FOREIGN KEY (bulk_import_export_upload_upload_id) REFERENCES bulk_import_export_upload_uploads(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY namespace_import_users
     ADD CONSTRAINT fk_b82be3e1f3 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
@@ -58362,6 +58425,9 @@ ALTER TABLE ONLY slack_integrations
 
 ALTER TABLE ONLY project_requirement_compliance_statuses
     ADD CONSTRAINT fk_f9109a4712 FOREIGN KEY (compliance_framework_id) REFERENCES compliance_management_frameworks(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY bulk_import_export_upload_upload_states
+    ADD CONSTRAINT fk_f937c3987a FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY application_settings
     ADD CONSTRAINT fk_f9867b3540 FOREIGN KEY (web_ide_oauth_application_id) REFERENCES oauth_applications(id) ON DELETE SET NULL;

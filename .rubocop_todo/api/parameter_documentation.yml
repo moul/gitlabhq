@@ -1,5 +1,6 @@
 ---
 API/ParameterDocumentation:
+  Details: grace period
   Exclude:
     - 'lib/api/admin/broadcast_messages.rb'
     - 'lib/api/environments.rb'

@@ -24,12 +24,11 @@ module API
 
         FIELD_PRELOADS = {
           author: [:author],
-          work_item_type: [:work_item_type],
           duplicated_to_work_item_url: [:duplicated_to],
           moved_to_work_item_url: [:moved_to],
           promoted_to_epic_url: [:work_item_transition],
-          web_url: [:author, :work_item_type],
-          web_path: [:author, :work_item_type]
+          web_url: [:author],
+          web_path: [:author]
         }.freeze
 
         PROJECT_FIELD_PRELOADS = {
@@ -38,7 +37,7 @@ module API
           web_url: [{ namespace: :route }, { project: :namespace }],
           web_path: [{ namespace: :route }, { project: :namespace }],
           user_permissions: [:project],
-          features: [:work_item_type, :project]
+          features: [:project]
         }.freeze
 
         GROUP_FIELD_PRELOADS = {
@@ -46,7 +45,7 @@ module API
           web_url: [{ namespace: :route }],
           web_path: [{ namespace: :route }],
           user_permissions: [:namespace],
-          features: [:work_item_type, { namespace: :route }]
+          features: [{ namespace: :route }]
         }.freeze
 
         def preload_associations_for(field_keys, feature_keys, resource_parent)

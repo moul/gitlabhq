@@ -31961,6 +31961,12 @@ msgstr ""
 msgid "Geo|Allowed Geo IP should contain valid IP addresses"
 msgstr ""
 
+msgid "Geo|Bulk import/export archive upload"
+msgstr ""
+
+msgid "Geo|Bulk import/export archive uploads"
+msgstr ""
+
 msgid "Geo|CI Job Artifact"
 msgstr ""
 
