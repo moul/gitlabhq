@@ -2697,6 +2697,9 @@ msgstr ""
 msgid "AICatalog|Connects to an AI model provider outside GitLab."
 msgstr ""
 
+msgid "AICatalog|Contact your administrator to enable GitLab Duo"
+msgstr ""
+
 msgid "AICatalog|Contains dangerous code, exploits, or harmful actions."
 msgstr ""
 
@@ -3001,6 +3004,9 @@ msgid "AICatalog|Leave blank to use dynamic client registration"
 msgstr ""
 
 msgid "AICatalog|Link to the homepage or documentation for this MCP server"
+msgstr ""
+
+msgid "AICatalog|Log in to enable"
 msgstr ""
 
 msgid "AICatalog|MCP"
@@ -81654,9 +81660,6 @@ msgstr ""
 msgid "WorkItem|Epic will be moved to parent group %{groupName}."
 msgstr ""
 
-msgid "WorkItem|Epics and issues are now work items."
-msgstr ""
-
 msgid "WorkItem|Error loading work item types"
 msgstr ""
 
@@ -81772,9 +81775,6 @@ msgid "WorkItem|Issue has 1 related vulnerability"
 msgid_plural "WorkItem|Issue has %{itemCount} related vulnerabilities"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "WorkItem|Issues are now work items."
-msgstr ""
 
 msgid "WorkItem|Issues created from Service Desk are now Tickets. Filter by type \"Ticket\" to see only these items."
 msgstr ""

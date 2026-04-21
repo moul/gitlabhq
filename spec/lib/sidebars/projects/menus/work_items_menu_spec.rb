@@ -20,8 +20,7 @@ RSpec.describe Sidebars::Projects::Menus::WorkItemsMenu, feature_category: :navi
         pill_count: menu.pill_count,
         pill_count_field: menu.pill_count_field,
         has_pill: menu.has_pill?,
-        super_sidebar_parent: Sidebars::Projects::SuperSidebarMenus::PlanMenu,
-        badge: menu.send(:work_items_badge)
+        super_sidebar_parent: Sidebars::Projects::SuperSidebarMenus::PlanMenu
       }
     end
   end
@@ -111,41 +110,6 @@ RSpec.describe Sidebars::Projects::Menus::WorkItemsMenu, feature_category: :navi
         end
 
         it { is_expected.to be_nil }
-      end
-    end
-  end
-
-  describe '#show_work_items_badge?' do
-    subject { menu.send(:show_work_items_badge?) }
-
-    describe 'when user is not logged in' do
-      let(:user) { nil }
-
-      it { is_expected.to be(false) }
-    end
-
-    describe 'when user is logged in' do
-      it 'does not show the badge when user has dismissed the callout' do
-        allow(user).to receive(:dismissed_callout?).with(feature_name: 'work_items_nav_badge').and_return(true)
-        expect(menu.send(:show_work_items_badge?)).to be(false)
-      end
-
-      describe 'when the callout is not dismissed' do
-        before do
-          allow(user).to receive(:dismissed_callout?).with(feature_name: 'work_items_nav_badge').and_return(false)
-        end
-
-        it 'does not show the badge after the expiry date' do
-          travel_to(Sidebars::Concerns::ShowWorkItemsBadge::WORK_ITEMS_BADGE_EXPIRES_ON + 1.day) do
-            expect(menu.send(:show_work_items_badge?)).to be(false)
-          end
-        end
-
-        it 'shows the badge before the expiry date' do
-          travel_to(Sidebars::Concerns::ShowWorkItemsBadge::WORK_ITEMS_BADGE_EXPIRES_ON - 1.day) do
-            expect(menu.send(:show_work_items_badge?)).to be(true)
-          end
-        end
       end
     end
   end

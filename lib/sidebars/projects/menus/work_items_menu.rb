@@ -5,7 +5,6 @@ module Sidebars
     module Menus
       class WorkItemsMenu < ::Sidebars::Menu
         include Gitlab::Utils::StrongMemoize
-        include Sidebars::Concerns::ShowWorkItemsBadge
 
         override :configure_menu_items
         def configure_menu_items
@@ -70,8 +69,7 @@ module Sidebars
             pill_count_field: pill_count_field,
             has_pill: has_pill?,
             super_sidebar_parent: ::Sidebars::Projects::SuperSidebarMenus::PlanMenu,
-            item_id: :project_issue_list,
-            badge: work_items_badge
+            item_id: :project_issue_list
           })
         end
 
@@ -133,15 +131,6 @@ module Sidebars
             active_routes: { controller: :milestones },
             item_id: :milestones
           )
-        end
-
-        def work_items_badge
-          return unless show_work_items_badge?
-
-          {
-            label: _('New'),
-            tooltip: s_('WorkItem|Issues are now work items.')
-          }
         end
       end
     end

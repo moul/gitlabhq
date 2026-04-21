@@ -55,7 +55,7 @@ export default {
       type: Number,
       required: true,
     },
-    draggedType: {
+    draggedItemId: {
       type: String,
       required: false,
       default: null,
@@ -136,7 +136,7 @@ export default {
           :filter-params="filters"
           :show-new-form="showNewForm"
           :column-index="columnIndex"
-          :dragged-type="draggedType"
+          :dragged-item-id="draggedItemId"
           @dragStop="$emit('dragStop')"
           @dragStart="$emit('dragStart', $event)"
           @toggleNewForm="toggleNewForm"

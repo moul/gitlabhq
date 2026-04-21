@@ -28,9 +28,7 @@ module Groups
     prepend_before_action(only: [:calendar]) { authenticate_sessionless_user!(:ics) }
     prepend_before_action(only: [:rss]) { authenticate_sessionless_user!(:rss) }
 
-    def index
-      dismiss_work_items_badge
-    end
+    def index; end
 
     def show
       not_found unless group.supports_work_items?
@@ -72,14 +70,6 @@ module Groups
 
     def show_params
       params.permit(:iid)
-    end
-
-    def dismiss_work_items_badge
-      return unless current_user
-
-      ::Users::DismissCalloutService.new(
-        container: nil, current_user: current_user, params: { feature_name: :work_items_nav_badge }
-      ).execute
     end
   end
 end

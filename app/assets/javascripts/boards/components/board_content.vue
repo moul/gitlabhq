@@ -84,7 +84,7 @@ export default {
     return {
       highlightedLists: [],
       columnsThatCannotFindActiveItem: 0,
-      draggedType: null,
+      draggedItemId: null,
     };
   },
   computed: {
@@ -261,11 +261,11 @@ export default {
         });
       }
     },
-    handleDragStart({ itemType }) {
-      this.draggedType = itemType;
+    handleDragStart({ itemId }) {
+      this.draggedItemId = itemId;
     },
     handleDragStop() {
-      this.draggedType = null;
+      this.draggedItemId = null;
     },
   },
 };
@@ -302,7 +302,7 @@ export default {
           :list-query-variables="listQueryVariables"
           :lists="boardListsById"
           :can-admin-list="canAdminList"
-          :dragged-type="draggedType"
+          :dragged-item-id="draggedItemId"
           @dragStart="handleDragStart"
           @dragStop="handleDragStop"
           @highlight-list="highlightList"

@@ -2,6 +2,7 @@
 stage: Software Supply Chain Security
 group: Pipeline Security
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
+description: "Learn to use GitLab CI/CD job tokens to authenticate with private resources, API endpoints, and different projects from running jobs."
 title: CI/CD job token
 ---
 

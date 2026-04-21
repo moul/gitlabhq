@@ -522,7 +522,7 @@ export const getWorkItemTypeAllowedStatusMap = (workItemTypeNodes) => {
   workItemTypeNodes.forEach((workItemType) => {
     const statuses = workItemType.widgetDefinitions?.find(isStatusWidget)?.allowedStatuses;
     if (statuses) {
-      workItemTypeAllowedStatusMap[workItemType.name.toUpperCase()] = statuses;
+      workItemTypeAllowedStatusMap[workItemType.id] = statuses;
     }
   });
 

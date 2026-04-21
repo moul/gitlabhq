@@ -307,14 +307,16 @@ describe('BoardContent', () => {
     });
   });
 
-  it('handles `draggedType` when dragging starts', async () => {
+  it('handles `draggedItemId` when dragging starts', async () => {
     createComponent();
     await waitForPromises();
 
-    findBoardColumns().wrappers[0].vm.$emit('dragStart', { itemType: 'ISSUE' });
+    findBoardColumns().wrappers[0].vm.$emit('dragStart', {
+      itemId: 'gid://gitlab/WorkItems::Type/1',
+    });
 
     await nextTick();
 
-    expect(findBoardColumns().at(0).props('draggedType')).toBe('ISSUE');
+    expect(findBoardColumns().at(0).props('draggedItemId')).toBe('gid://gitlab/WorkItems::Type/1');
   });
 });

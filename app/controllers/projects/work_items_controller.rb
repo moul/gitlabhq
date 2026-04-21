@@ -44,13 +44,7 @@ class Projects::WorkItemsController < Projects::ApplicationController
     end
   end
 
-  def index
-    return unless current_user
-
-    ::Users::DismissCalloutService.new(
-      container: nil, current_user: current_user, params: { feature_name: :work_items_nav_badge }
-    ).execute
-  end
+  def index; end
 
   def new
     service = ::WorkItems::BuildService.new(

@@ -116,7 +116,7 @@ previous one is removed.
 To create each label:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. Select **Manage** > **Labels**.
+1. In the left sidebar, select **Manage** > **Labels**.
 1. Select **New label**.
 1. In the **Title** field, enter the name of the label. Start with `type::bug`.
 1. Optional. Select a color by selecting from the available colors, or enter a hex color value for
