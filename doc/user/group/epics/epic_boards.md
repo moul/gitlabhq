@@ -38,7 +38,7 @@ To view an epic board:
 1. In the top bar, select **Search or go to** and find your group.
 1. In the left sidebar, select **Plan** > **Epic boards**.
 
-![GitLab epic board - Premium](img/epic_board_v15_10.png)
+![An epic board displaying epics in lists.](img/epic_board_v15_10.png)
 
 ## Create an epic board
 
@@ -108,7 +108,7 @@ To create a new list:
 1. Select **New list**.
    The new list panel opens.
 
-   ![creating a new list between two lists in an issue board](img/issue_board_add_list_between_lists_v17_6.png)
+   ![The new list panel inserted between two existing lists.](img/issue_board_add_list_between_lists_v17_6.png)
 1. In the **New list** column expand the **Select a label** dropdown list and select the label to use as
    list scope.
 1. Select **Add to board**.
@@ -149,7 +149,7 @@ To create an epic from a list in epic board:
 1. Enter the new epic's title.
 1. Select **Create epic**.
 
-![Create a GitLab epic from an epic board](img/epic_board_epic_create_v15_10.png)
+![The inline form used to create a new epic on a board list.](img/epic_board_epic_create_v15_10.png)
 
 ### Edit an epic
 

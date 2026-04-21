@@ -241,11 +241,7 @@ module Gitlab
           next unless quick_action_target.supports_severity?
 
           if severity
-            if quick_action_target.persisted?
-              ::Issues::UpdateService.new(container: quick_action_target.project, current_user: current_user, params: { severity: severity }).execute(quick_action_target)
-            else
-              quick_action_target.build_issuable_severity(severity: severity)
-            end
+            @updates[:severity] = severity
 
             @execution_message[:severity] = _("Severity updated to %{severity}.") % { severity: severity.capitalize }
           else

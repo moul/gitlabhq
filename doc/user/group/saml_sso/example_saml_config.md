@@ -231,7 +231,7 @@ searching for `SAMLResponse`. The decoded SAML response is in XML format. For ex
          <ds:DigestValue>MaIsoi8hbT9gsi/mNZsz449mUuAcuEWY0q3bc4asOQs=</ds:DigestValue>
        </ds:Reference>
      </ds:SignedInfo>
-     <ds:SignatureValue>dMsQX8ivi...HMuKGhyLRvabGU6CuPrf7==<</ds:SignatureValue>
+     <ds:SignatureValue>dMsQX8ivi...HMuKGhyLRvabGU6CuPrf7==</ds:SignatureValue>
      <ds:KeyInfo>
        <ds:X509Data>
          <ds:X509Certificate>MIIDq...cptGr3vN9TQ==</ds:X509Certificate>

@@ -112,9 +112,9 @@ RSpec.describe MergeRequests::MergeStrategies::FromSourceBranch, feature_categor
       end
     end
 
-    context 'when rebase_on_merge_automatic ff is off' do
+    context 'when automatic rebase is off' do
       before do
-        stub_feature_flags(rebase_on_merge_automatic: false)
+        project.project_setting.update!(automatic_rebase_enabled: false)
       end
 
       context 'when merge request should be rebased' do
@@ -281,11 +281,7 @@ RSpec.describe MergeRequests::MergeStrategies::FromSourceBranch, feature_categor
       end
     end
 
-    context 'when rebase_on_merge_automatic ff is off' do
-      before do
-        stub_feature_flags(rebase_on_merge_automatic: false)
-      end
-
+    context 'when automatic rebase is off' do
       context 'when fast-forward is required' do
         before do
           project.merge_method = :ff

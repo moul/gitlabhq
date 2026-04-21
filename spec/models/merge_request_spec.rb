@@ -5242,7 +5242,7 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
         )
       end
 
-      context 'when rebase_on_merge_automatic is true' do
+      context 'when automatic_rebase_enabled is true' do
         before do
           subject.project.project_setting.update!(automatic_rebase_enabled: true)
         end
@@ -5263,9 +5263,9 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
         end
       end
 
-      context 'when rebase_on_merge_automatic is false' do
+      context 'when automatic_rebase_enabled is false' do
         before do
-          stub_feature_flags(rebase_on_merge_automatic: false)
+          subject.project.project_setting.update!(automatic_rebase_enabled: false)
         end
 
         where(:should_be_rebased, :skip_rebase_check, :expected_mergeable) do

@@ -47,27 +47,6 @@ if [ "${README_FILES}" != "" ]; then
   ((ERRORCODE++))
 fi
 
-printf "${INFO_COLOR_SET}INFO${COLOR_RESET} Checking '$(pwd)/doc' for directory names containing dashes...\n"
-DIRECTORY_NAMES_WITH_DASHES=$(find doc -type d -name "*-*")
-if [ "${DIRECTORY_NAMES_WITH_DASHES}" != "" ]; then
-  printf "${ERROR_COLOR_SET}ERROR${COLOR_RESET} Directory names with dashes found! Use underscores instead of dashes for these directory names:\n"
-  printf "  ${DIRECTORY_NAMES_WITH_DASHES}\n"
-  printf "${ERROR_COLOR_SET}ERROR${COLOR_RESET} For more information, see https://docs.gitlab.com/development/documentation/site_architecture/folder_structure/#work-with-directories-and-files\n\n"
-  ((ERRORCODE++))
-fi
-
-# Number of filenames with dashes as of 2025-10-14
-FILE_NUMBER_DASHES=20
-FILENAMES_WITH_DASHES=$(find doc -type f -name "*-*.md" | wc -l)
-printf "${INFO_COLOR_SET}INFO${COLOR_RESET} Checking '$(pwd)/doc' for filenames containing dashes...\n"
-if [ "${FILENAMES_WITH_DASHES}" -ne $FILE_NUMBER_DASHES ]
-then
-  printf "${ERROR_COLOR_SET}ERROR${COLOR_RESET} The number of filenames containing dashes has changed! Use underscores instead of dashes for filenames.\n"
-  printf "${ERROR_COLOR_SET}ERROR${COLOR_RESET} If removing a file with a filename containing dashes, update the variable FILE_NUMBER_DASHES in scripts/lint-doc.sh.\n"
-  printf "${ERROR_COLOR_SET}ERROR${COLOR_RESET} For more information, see https://docs.gitlab.com/development/documentation/site_architecture/folder_structure/#work-with-directories-and-files\n\n"
-  ((ERRORCODE++))
-fi
-
 printf "${INFO_COLOR_SET}INFO${COLOR_RESET} Checking '$(pwd)/doc' for directory names containing an uppercase letter...\n"
 DIRECTORY_NAMES_WITH_UPPERCASE=$(find doc -type d -name "*[[:upper:]]*")
 if [ "${DIRECTORY_NAMES_WITH_UPPERCASE}" != "" ]; then
@@ -78,7 +57,7 @@ if [ "${DIRECTORY_NAMES_WITH_UPPERCASE}" != "" ]; then
 fi
 
 printf "${INFO_COLOR_SET}INFO${COLOR_RESET} Checking '$(pwd)/doc' for images without a milestone in the filename...\n"
-VERSIONLESS_IMAGES=$(find doc -name "*.png" | grep -Ev '_v[0-9][0-9]?_.+\.png$')
+VERSIONLESS_IMAGES=$(find doc -name "*.png" | grep -Ev '[_-]v[0-9][0-9]?_.+\.png$')
 if [ "${VERSIONLESS_IMAGES}" != "" ]; then
   printf "${ERROR_COLOR_SET}ERROR${COLOR_RESET} Images without a milestone in the filename found! Append a milestone ('_vXX_Y') to the filename of these images:\n"
   printf "  ${VERSIONLESS_IMAGES}\n"

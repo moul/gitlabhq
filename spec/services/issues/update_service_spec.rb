@@ -1459,6 +1459,12 @@ RSpec.describe Issues::UpdateService, :mailer, :request_store, feature_category:
 
           it_behaves_like 'updates the severity', 'low'
 
+          context 'when using a quick action' do
+            let(:opts) { { description: "some description\n/severity low" } }
+
+            it_behaves_like 'updates the severity', 'low'
+          end
+
           it 'does not create a new record' do
             expect { update_issue(opts) }.not_to change(IssuableSeverity, :count)
           end

@@ -4778,6 +4778,9 @@ msgstr ""
 msgid "Achievements|Achievement has been deleted."
 msgstr ""
 
+msgid "Achievements|Achievement has been updated."
+msgstr ""
+
 msgid "Achievements|Achievement name cannot be longer than %{length} characters."
 msgstr ""
 
@@ -4817,7 +4820,16 @@ msgstr ""
 msgid "Achievements|Description"
 msgstr ""
 
+msgid "Achievements|Edit achievement"
+msgstr ""
+
 msgid "Achievements|Failed to delete achievement. Please try again."
+msgstr ""
+
+msgid "Achievements|File is too large. Maximum file size is 200 KiB."
+msgstr ""
+
+msgid "Achievements|More actions"
 msgstr ""
 
 msgid "Achievements|Name"
@@ -72936,6 +72948,9 @@ msgid "This page is hosted on GitLab pages but contains user-generated content a
 msgstr ""
 
 msgid "This page is unavailable because you are not allowed to read information across multiple projects."
+msgstr ""
+
+msgid "This page must be opened from the GitLab for Jira Cloud app. You can close this window."
 msgstr ""
 
 msgid "This parent item does not exist or you don't have sufficient permission."

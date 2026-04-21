@@ -3105,6 +3105,16 @@
   :idempotent: false
   :tags: []
   :queue_namespace: :repository_check
+- :name: snowplow:analytics_snowplow_emitter
+  :worker_name: Analytics::SnowplowEmitterWorker
+  :feature_category: :product_analytics
+  :has_external_dependencies: true
+  :urgency: :low
+  :resource_boundary: :unknown
+  :weight: 1
+  :idempotent: true
+  :tags: []
+  :queue_namespace: :snowplow
 - :name: terraform:terraform_states_destroy
   :worker_name: Terraform::States::DestroyWorker
   :feature_category: :infrastructure_as_code

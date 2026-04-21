@@ -202,7 +202,7 @@ You can create a merge request from your fork to contribute back to the main pro
       default target for your fork.
    1. Select a branch from the upstream repository:
 
-      ![Selecting branches](img/forking_workflow_branch_select_v15_9.png)
+      ![The dropdown list for selecting the target branch in the upstream repository.](img/forking_workflow_branch_select_v15_9.png)
 
    > [!note]
    > If your fork's visibility is more restricted than the parent repository, the target branch

@@ -229,7 +229,10 @@ To set a default GitLab Duo namespace:
 {{< /history >}}
 
 When you use GitLab Duo in an IDE or the CLI, the first available namespace determines feature
-availability and credit consumption. GitLab Duo checks for a namespace in this order:
+availability and credit consumption. Along with the other Agent Platform requirements, the project
+you work on must be in a [group namespace](../../user/namespace/_index.md).
+
+GitLab Duo checks for a namespace in this order:
 
 1. The project namespace, if your project is linked to a remote repository in GitLab.
 1. The default namespace set in your user preferences.

@@ -751,6 +751,20 @@ RSpec.describe Issues::CreateService, feature_category: :team_planning do
           expect(created_issue.work_item_type_id).to eq(build(:work_item_system_defined_type, :incident).id)
         end
       end
+
+      context 'when creating an incident with /severity quick action' do
+        let(:opts) { { title: 'Title', issue_type: 'incident', description: '/severity s3' } }
+
+        before do
+          project.add_developer(user)
+        end
+
+        it 'applies the severity to the created incident' do
+          expect(result).to be_success
+          expect(issue).to be_persisted
+          expect(issue.severity).to eq('medium')
+        end
+      end
     end
 
     context 'resolving discussions' do

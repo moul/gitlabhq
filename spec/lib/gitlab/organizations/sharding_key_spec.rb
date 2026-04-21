@@ -258,7 +258,6 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
       "ci_runner_machines" => "https://gitlab.com/gitlab-org/gitlab/-/issues/525293",
       "instance_type_ci_runner_machines" => "https://gitlab.com/gitlab-org/gitlab/-/issues/525293",
       "clusters" => "https://gitlab.com/gitlab-org/gitlab/-/issues/553452",
-      "cluster_providers_gcp" => "https://gitlab.com/gitlab-org/gitlab/-/issues/584432",
       "clusters_kubernetes_namespaces" => "https://gitlab.com/gitlab-org/gitlab/-/issues/584433",
       "cluster_providers_aws" => "https://gitlab.com/gitlab-org/gitlab/-/issues/584431",
       "ci_runners" => "https://gitlab.com/gitlab-org/gitlab/-/issues/525293",

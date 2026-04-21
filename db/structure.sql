@@ -18471,7 +18471,8 @@ CREATE TABLE cluster_providers_gcp (
     cloud_run boolean DEFAULT false NOT NULL,
     organization_id bigint,
     group_id bigint,
-    project_id bigint
+    project_id bigint,
+    CONSTRAINT check_a92783b0a9 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1))
 );
 
 CREATE SEQUENCE cluster_providers_gcp_id_seq
@@ -38862,9 +38863,6 @@ ALTER TABLE abuse_reports
 ALTER TABLE related_epic_links
     ADD CONSTRAINT check_a6d9d7c276 CHECK ((issue_link_id IS NOT NULL)) NOT VALID;
 
-ALTER TABLE cluster_providers_gcp
-    ADD CONSTRAINT check_a92783b0a9 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1)) NOT VALID;
-
 ALTER TABLE sprints
     ADD CONSTRAINT check_ccd8a1eae0 CHECK ((start_date IS NOT NULL)) NOT VALID;
 
@@ -47889,10 +47887,6 @@ CREATE UNIQUE INDEX index_namespaces_name_parent_id_type ON namespaces USING btr
 
 CREATE INDEX index_namespaces_on_created_at ON namespaces USING btree (created_at);
 
-CREATE INDEX index_namespaces_on_custom_project_templates_group_id_and_type ON namespaces USING btree (custom_project_templates_group_id, type) WHERE (custom_project_templates_group_id IS NOT NULL);
-
-CREATE INDEX index_namespaces_on_file_template_project_id ON namespaces USING btree (file_template_project_id);
-
 CREATE INDEX index_namespaces_on_ldap_sync_last_successful_update_at ON namespaces USING btree (ldap_sync_last_successful_update_at);
 
 CREATE INDEX index_namespaces_on_name_trigram ON namespaces USING gin (name gin_trgm_ops);
@@ -56220,9 +56214,6 @@ ALTER TABLE ONLY approvals
 ALTER TABLE ONLY packages_debian_file_metadata
     ADD CONSTRAINT fk_31440cf2d5 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
-ALTER TABLE ONLY namespaces
-    ADD CONSTRAINT fk_319256d87a FOREIGN KEY (file_template_project_id) REFERENCES projects(id) ON DELETE SET NULL;
-
 ALTER TABLE ONLY snippet_repository_storage_moves
     ADD CONSTRAINT fk_321e6c6235 FOREIGN KEY (snippet_organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
 
@@ -58184,9 +58175,6 @@ ALTER TABLE ONLY tag_gpg_signatures
 
 ALTER TABLE ONLY award_emoji
     ADD CONSTRAINT fk_e766b8f650 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
-
-ALTER TABLE ONLY namespaces
-    ADD CONSTRAINT fk_e7a0b20a6b FOREIGN KEY (custom_project_templates_group_id) REFERENCES namespaces(id) ON DELETE SET NULL;
 
 ALTER TABLE ONLY fork_networks
     ADD CONSTRAINT fk_e7b436b2b5 FOREIGN KEY (root_project_id) REFERENCES projects(id) ON DELETE SET NULL;

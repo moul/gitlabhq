@@ -42,7 +42,7 @@ DevOps adoption shows feature adoption for development, security, and operations
 A feature shows as **adopted** when a group or subgroup has used the feature in a project in the last full calendar month.
 For example, if an issue was created in a project in a group, the group has adopted issues in that time.
 
-![DevOps adoption report for a group](img/devops_adoption_v17_8.png)
+![The overview tab of a DevOps adoption report.](img/devops_adoption_v17_8.png)
 
 The **Overview** tab illustrates the:
 

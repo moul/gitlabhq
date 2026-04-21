@@ -210,7 +210,7 @@ a merge request, or:
 1. Search for the user you want to assign, and select the user. GitLab Free allows one
    assignee per merge request, but GitLab Premium and GitLab Ultimate allow multiple assignees:
 
-   ![Two assignees for merge requests sidebar](img/merge_request_assignees_v16_0.png)
+   ![The merge request sidebar displaying multiple assigned users.](img/merge_request_assignees_v16_0.png)
 
 GitLab adds the merge request to the user's **Assigned merge requests** page.
 

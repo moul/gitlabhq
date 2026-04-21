@@ -251,6 +251,7 @@ GitLab Duo features are enabled by default in VS Code when you meet the prerequi
 - For agents, you have [foundational agents turned on](../../user/duo_agent_platform/agents/foundational_agents/_index.md#turn-foundational-agents-on-or-off)
   and [custom agents enabled](../../user/duo_agent_platform/agents/custom.md#enable-an-agent), as
   needed.
+- Your project is in a [group namespace](../../user/namespace/_index.md).
 - You have a [default GitLab Duo namespace](../../user/profile/preferences.md#namespace-resolution-in-your-local-environment)
   set or have a project open that has GitLab Duo access.
 - For GitLab Duo Code Suggestions, you [meet the additional prerequisites](../../user/project/repository/code_suggestions/set_up.md#prerequisites).

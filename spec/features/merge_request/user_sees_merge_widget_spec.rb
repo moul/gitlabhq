@@ -392,8 +392,6 @@ RSpec.describe 'Merge request > User sees merge widget', :js, feature_category: 
 
   context 'view merge request where fast-forward merge is not possible' do
     before do
-      stub_feature_flags(rebase_on_merge_automatic: ff_status)
-
       project.update!(merge_requests_ff_only_enabled: true)
       project.project_setting.update!(automatic_rebase_enabled: ff_status)
 

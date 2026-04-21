@@ -30,10 +30,7 @@ To troubleshoot GitLab Duo errors in your IDE:
 1. If the diagnostics indicate that Agentic Chat is not supported for the current project,
    [set a default GitLab Duo namespace](../../user/profile/preferences.md#namespace-resolution-in-your-local-environment).
 
-For additional support:
-
-- [Troubleshooting the GitLab Duo Agent Platform in your IDE](../../user/duo_agent_platform/troubleshooting_ide.md)
-- [Troubleshooting GitLab Duo Code Suggestions](../../user/project/repository/code_suggestions/troubleshooting.md#jetbrains-ides-troubleshooting)
+For support with Code Suggestions, see [troubleshooting Code Suggestions](../../user/project/repository/code_suggestions/troubleshooting.md#jetbrains-ides-troubleshooting).
 
 ## Network issues
 

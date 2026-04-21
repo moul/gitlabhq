@@ -71,6 +71,7 @@ Prerequisites:
 - For agents, you have [foundational agents turned on](../../user/duo_agent_platform/agents/foundational_agents/_index.md#turn-foundational-agents-on-or-off)
   and [custom agents enabled](../../user/duo_agent_platform/agents/custom.md#enable-an-agent), as
   needed.
+- Your project is in a [group namespace](../../user/namespace/_index.md).
 - You have a [default GitLab Duo namespace](../../user/profile/preferences.md#namespace-resolution-in-your-local-environment)
   set or have a project open that has GitLab Duo access.
 

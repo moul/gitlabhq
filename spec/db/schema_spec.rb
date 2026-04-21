@@ -134,7 +134,9 @@ RSpec.describe 'Database schema',
       # merge_request_diff_commits_b5377a7a34 is the temporary table for the merge_request_diff_commits partitioning
       # backfill. It will get foreign keys after the partitioning is finished.
       merge_request_diff_commits_b5377a7a34: %w[merge_request_commits_metadata_id merge_request_diff_id project_id],
-      namespaces: %w[owner_id],
+      # file_template_project_id and custom_project_templates_group_id will be removed from namespaces
+      # as part of https://gitlab.com/gitlab-org/gitlab/-/work_items/592091
+      namespaces: %w[owner_id file_template_project_id custom_project_templates_group_id],
       namespace_descendants: %w[namespace_id],
       notes: %w[author_id commit_id noteable_id updated_by_id resolved_by_id discussion_id],
       notification_settings: %w[source_id],
@@ -308,7 +310,7 @@ RSpec.describe 'Database schema',
       issues: 35,
       members: 19,
       merge_requests: 29,
-      namespaces: 26,
+      namespaces: 24,
       p_ci_builds: 26,
       p_ci_pipelines: 24,
       packages_package_files: 16,

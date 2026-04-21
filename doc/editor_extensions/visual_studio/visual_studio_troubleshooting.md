@@ -28,10 +28,7 @@ If GitLab Duo Chat or GitLab Duo Code Suggestions are not available in Visual St
   1. If Code Suggestions is not enabled, in the top bar, select **Extensions** > **GitLab** >
      **Toggle Code Suggestions**.
 
-For additional support:
-
-- [Troubleshooting the GitLab Duo Agent Platform in your IDE](../../user/duo_agent_platform/troubleshooting_ide.md)
-- Troubleshooting [GitLab Duo Code Suggestions](../../user/project/repository/code_suggestions/troubleshooting.md#microsoft-visual-studio-troubleshooting)
+For support with Code Suggestions, see [troubleshooting Code Suggestions](../../user/project/repository/code_suggestions/troubleshooting.md#microsoft-visual-studio-troubleshooting).
 
 ## Network issues
 

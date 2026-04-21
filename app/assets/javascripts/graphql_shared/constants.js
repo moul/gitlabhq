@@ -1,5 +1,6 @@
 export const MINIMUM_SEARCH_LENGTH = 3;
 
+export const TYPENAME_ACHIEVEMENT = 'Achievements::Achievement';
 export const TYPENAME_ADMIN_MEMBER_ROLE = 'AdminMemberRole';
 export const TYPENAME_AI_DUO_WORKFLOW = 'Ai::DuoWorkflows::Workflow';
 export const TYPENAME_BOARD = 'Board';

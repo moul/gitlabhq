@@ -1227,6 +1227,8 @@
   - 1
 - - snippets_update_repository_storage
   - 1
+- - snowplow
+  - 1
 - - ssh_keys_update_last_used_at
   - 1
 - - status_page_publish
