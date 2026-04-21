@@ -59,7 +59,7 @@ The cluster cannot assign replica shards to the same node as primary shards.
 > Before you use a new Elasticsearch cluster in production, see
 > [important Elasticsearch configuration](https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html).
 
-### Version requirements
+### Version compatibility
 
 #### Elasticsearch
 
@@ -72,37 +72,33 @@ The cluster cannot assign replica shards to the same node as primary shards.
 > [!warning]
 > Support for Elasticsearch 7.x was [deprecated](https://gitlab.com/gitlab-org/gitlab/-/issues/583544)
 > in GitLab 18.10 and is planned for removal in 19.1.
->
-> [!note]
-> GitLab.com uses Elasticsearch 9.x in production. For self-managed instances, Elasticsearch 9.x
-> is the recommended version for optimal performance and forward compatibility.
 
-Advanced search works with the following versions of Elasticsearch.
+Advanced search is compatible with the following versions of Elasticsearch.
 
-| GitLab version        | Elasticsearch version       |
-|-----------------------|-----------------------------|
-| GitLab 18.1 and later | Elasticsearch 7.x and later |
-| GitLab 15.0 to 18.0   | Elasticsearch 7.x and 8.x   |
-| GitLab 14.0 to 14.10  | Elasticsearch 6.8 to 7.x    |
+| GitLab version | Elasticsearch version |
+|----------------|-----------------------|
+| 18.1 and later | 7.x and later         |
+| 15.0 to 18.0   | 7.x and 8.x           |
+| 14.0 to 14.10  | 6.8 to 7.x            |
+
+GitLab.com uses Elasticsearch 8.x.
+On GitLab Self-Managed, you should use Elasticsearch 9.x
+for optimal performance and forward compatibility.
 
 Advanced search follows the [Elasticsearch end-of-life policy](https://www.elastic.co/support/eol).
 
 #### OpenSearch
 
-| GitLab version          | OpenSearch version             |
-|-------------------------|--------------------------------|
-| GitLab 18.1 and later   | OpenSearch 1.x and later       |
-| GitLab 17.6.3 to 18.0   | OpenSearch 1.x and 2.x         |
-| GitLab 15.5.3 to 17.6.2 | OpenSearch 1.x, 2.0 to 2.17    |
-| GitLab 15.0 to 15.5.2   | OpenSearch 1.x                 |
+Advanced search is compatible with the following versions of OpenSearch.
 
-OpenSearch 3.x is supported starting from GitLab 18.1. See [merge request 192197](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/192197) for details.
+| GitLab version   | OpenSearch version |
+|------------------|--------------------|
+| 18.1 and later   | 1.x and later      |
+| 17.6.3 to 18.0   | 1.x and 2.x        |
+| 15.5.3 to 17.6.2 | 1.x, 2.0 to 2.17   |
+| 15.0 to 15.5.2   | 1.x                |
 
-If your version of Elasticsearch or OpenSearch is incompatible, to prevent data loss, indexing pauses and
-a message is logged in the
-[`elasticsearch.log`](../../administration/logs/_index.md#elasticsearchlog) file.
-
-If you are using a compatible version and after connecting to OpenSearch, you get the message `Elasticsearch version not compatible`, [resume indexing](#resume-indexing).
+Advanced search follows the [OpenSearch maintenance policy](https://opensearch.org/releases/).
 
 ### System requirements
 

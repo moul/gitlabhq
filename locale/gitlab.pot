@@ -7434,6 +7434,9 @@ msgstr ""
 msgid "AgentArtifacts|View full session details"
 msgstr ""
 
+msgid "AgentPlan|Agent plan"
+msgstr ""
+
 msgid "Agents|Cannot be assigned"
 msgstr ""
 

@@ -157,7 +157,7 @@ module Gitlab
         end
 
         def cache_enabled?
-          ::Feature.enabled?(:ci_optimize_component_fetching, project)
+          ::Feature.enabled?(:ci_cache_component_includes, project)
         end
 
         def access_allowed?(current_user)

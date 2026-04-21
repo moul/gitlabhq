@@ -5,8 +5,8 @@ import {
   VIEW_MERGE_REQUEST_REPORT,
   TRACKING_LABEL_BY_ROUTE,
 } from '~/merge_requests/reports/constants';
-import CodeQualityProvider from '~/merge_requests/reports/components/code_quality_provider.vue';
-import CodeQualityContent from '~/merge_requests/reports/components/code_quality_content.vue';
+import CodeQualityProvider from './code_quality_provider.vue';
+import CodeQualityContent from './code_quality_content.vue';
 
 export default {
   name: 'CodeQualityPage',

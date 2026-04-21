@@ -114,6 +114,7 @@ project:
   - provision_gke_runner
   - push_code_to_protected_branches
   - push_to_delete_protected_branch
+  - read_any_audit_event
   - read_approvers
   - read_branch_rule
   - read_commit_committer_check
@@ -194,6 +195,7 @@ group:
   - modify_product_analytics_settings
   - provision_cloud_runner
   - provision_gke_runner
+  - read_any_audit_event
   - read_deploy_token
   - read_jobs_statistics
   - read_namespace_cluster_agent_mapping

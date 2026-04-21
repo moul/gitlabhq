@@ -59,6 +59,8 @@ import {
 import IssuableList from '~/vue_shared/issuable/list/components/issuable_list_root.vue';
 import { DEFAULT_PAGE_SIZE, issuableListTabs } from '~/vue_shared/issuable/list/constants';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
+import IndexLayout from '~/vue_shared/components/index_layout.vue';
+import NewResourceDropdown from '~/vue_shared/components/new_resource_dropdown/new_resource_dropdown.vue';
 import { AutocompleteCache } from '../utils';
 
 const UserToken = () => import('~/vue_shared/components/filtered_search_bar/tokens/user_token.vue');
@@ -72,7 +74,7 @@ const MilestoneToken = () =>
 
 export default {
   name: 'IssuesDashboardApp',
-  i18n,
+  i18n: { ...i18n, pageTitle: __('Work items') },
   issuableListTabs,
   components: {
     GlDisclosureDropdown,
@@ -80,6 +82,8 @@ export default {
     IssuableList,
     IssueCardStatistics,
     IssueCardTimeInfo,
+    IndexLayout,
+    NewResourceDropdown,
     WorkItemStatusBadge: () =>
       import('ee_component/work_items/components/shared/work_item_status_badge.vue'),
   },
@@ -530,70 +534,75 @@ export default {
 </script>
 
 <template>
-  <issuable-list
-    :current-tab="state"
-    :error="issuesError"
-    :has-next-page="pageInfo.hasNextPage"
-    :has-previous-page="pageInfo.hasPreviousPage"
-    :has-scoped-labels-feature="hasScopedLabelsFeature"
-    :initial-filter-value="filterTokens"
-    :initial-sort-by="sortKey"
-    :issuables="renderedIssues"
-    :issuables-loading="isLoading"
-    namespace="dashboard"
-    recent-searches-storage-key="issues"
-    :search-tokens="searchTokens"
-    :show-pagination-controls="showPaginationControls"
-    show-work-item-type-icon
-    :sort-options="sortOptions"
-    :tab-counts="tabCounts"
-    :tabs="$options.issuableListTabs"
-    truncate-counts
-    :url-params="urlParams"
-    use-keyset-pagination
-    @click-tab="handleClickTab"
-    @dismiss-alert="handleDismissAlert"
-    @filter="handleFilter"
-    @next-page="handleNextPage"
-    @previous-page="handlePreviousPage"
-    @sort="handleSort"
-  >
-    <template #nav-actions>
-      <gl-disclosure-dropdown
-        v-gl-tooltip="$options.i18n.actionsLabel"
-        category="tertiary"
-        icon="ellipsis_v"
-        :items="dropdownItems"
-        no-caret
-        text-sr-only
-        :toggle-text="$options.i18n.actionsLabel"
-      />
+  <index-layout :heading="$options.i18n.pageTitle">
+    <template #actions>
+      <new-resource-dropdown />
     </template>
+    <issuable-list
+      :current-tab="state"
+      :error="issuesError"
+      :has-next-page="pageInfo.hasNextPage"
+      :has-previous-page="pageInfo.hasPreviousPage"
+      :has-scoped-labels-feature="hasScopedLabelsFeature"
+      :initial-filter-value="filterTokens"
+      :initial-sort-by="sortKey"
+      :issuables="renderedIssues"
+      :issuables-loading="isLoading"
+      namespace="dashboard"
+      recent-searches-storage-key="issues"
+      :search-tokens="searchTokens"
+      :show-pagination-controls="showPaginationControls"
+      show-work-item-type-icon
+      :sort-options="sortOptions"
+      :tab-counts="tabCounts"
+      :tabs="$options.issuableListTabs"
+      truncate-counts
+      :url-params="urlParams"
+      use-keyset-pagination
+      @click-tab="handleClickTab"
+      @dismiss-alert="handleDismissAlert"
+      @filter="handleFilter"
+      @next-page="handleNextPage"
+      @previous-page="handlePreviousPage"
+      @sort="handleSort"
+    >
+      <template #nav-actions>
+        <gl-disclosure-dropdown
+          v-gl-tooltip="$options.i18n.actionsLabel"
+          category="tertiary"
+          icon="ellipsis_v"
+          :items="dropdownItems"
+          no-caret
+          text-sr-only
+          :toggle-text="$options.i18n.actionsLabel"
+        />
+      </template>
 
-    <template #timeframe="{ issuable = {} }">
-      <issue-card-time-info :issue="issuable" />
-    </template>
+      <template #timeframe="{ issuable = {} }">
+        <issue-card-time-info :issue="issuable" />
+      </template>
 
-    <template #status="{ issuable = {} }">
-      {{ getStatus(issuable) }}
-    </template>
+      <template #status="{ issuable = {} }">
+        {{ getStatus(issuable) }}
+      </template>
 
-    <template #statistics="{ issuable = {} }">
-      <issue-card-statistics :issue="issuable" />
-    </template>
+      <template #statistics="{ issuable = {} }">
+        <issue-card-statistics :issue="issuable" />
+      </template>
 
-    <template #custom-status="{ issuable = {} }">
-      <div v-if="showStatusBadge(issuable)" class="gl-max-w-20">
-        <work-item-status-badge :item="issuable.status" />
-      </div>
-    </template>
+      <template #custom-status="{ issuable = {} }">
+        <div v-if="showStatusBadge(issuable)" class="gl-max-w-20">
+          <work-item-status-badge :item="issuable.status" />
+        </div>
+      </template>
 
-    <template #empty-state>
-      <gl-empty-state
-        :description="emptyStateDescription"
-        :svg-path="emptyStateSvgPath"
-        :title="emptyStateTitle"
-      />
-    </template>
-  </issuable-list>
+      <template #empty-state>
+        <gl-empty-state
+          :description="emptyStateDescription"
+          :svg-path="emptyStateSvgPath"
+          :title="emptyStateTitle"
+        />
+      </template>
+    </issuable-list>
+  </index-layout>
 </template>

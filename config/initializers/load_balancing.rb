@@ -7,6 +7,10 @@ def configure_load_balancing!
     load_balancer.base_models = ::Gitlab::Database.database_base_models_using_load_balancing.values.freeze
     load_balancer.all_database_names = ::Gitlab::Database.all_database_names.freeze
   end
+
+  Gitlab::Database::LoadBalancing::Callbacks.configure! do |callbacks|
+    callbacks.track_exception_proc = ->(exception) { Gitlab::ErrorTracking.track_exception(exception) }
+  end
 end
 
 configure_load_balancing!

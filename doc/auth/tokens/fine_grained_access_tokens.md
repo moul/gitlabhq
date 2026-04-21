@@ -824,14 +824,8 @@ Grants the ability to create, delete, read, trigger, and update webhooks.
 | Create | Project | `POST` | `/projects/:id/hooks` |
 | Create | Group | `POST` | `/groups/:id/hooks` |
 | Create | Instance | `POST` | `/hooks` |
-| Delete | Project | `DELETE` | `/projects/:id/hooks/:hook_id/url_variables/:key` |
-| Delete | Project | `DELETE` | `/projects/:id/hooks/:hook_id/custom_headers/:key` |
 | Delete | Project | `DELETE` | `/projects/:id/hooks/:hook_id` |
 | Delete | Group | `DELETE` | `/groups/:id/hooks/:hook_id` |
-| Delete | Group | `DELETE` | `/groups/:id/hooks/:hook_id/url_variables/:key` |
-| Delete | Group | `DELETE` | `/groups/:id/hooks/:hook_id/custom_headers/:key` |
-| Delete | Instance | `DELETE` | `/hooks/:hook_id/url_variables/:key` |
-| Delete | Instance | `DELETE` | `/hooks/:hook_id/custom_headers/:key` |
 | Delete | Instance | `DELETE` | `/hooks/:hook_id` |
 | Read | Project | `GET` | `/projects/:id/hooks` |
 | Read | Project | `GET` | `/projects/:id/hooks/:hook_id` |
@@ -848,12 +842,18 @@ Grants the ability to create, delete, read, trigger, and update webhooks.
 | Update | Project | `PUT` | `/projects/:id/hooks/:hook_id/url_variables/:key` |
 | Update | Project | `PUT` | `/projects/:id/hooks/:hook_id/custom_headers/:key` |
 | Update | Project | `PUT` | `/projects/:id/hooks/:hook_id` |
+| Update | Project | `DELETE` | `/projects/:id/hooks/:hook_id/url_variables/:key` |
+| Update | Project | `DELETE` | `/projects/:id/hooks/:hook_id/custom_headers/:key` |
 | Update | Group | `PUT` | `/groups/:id/hooks/:hook_id` |
 | Update | Group | `PUT` | `/groups/:id/hooks/:hook_id/url_variables/:key` |
 | Update | Group | `PUT` | `/groups/:id/hooks/:hook_id/custom_headers/:key` |
+| Update | Group | `DELETE` | `/groups/:id/hooks/:hook_id/url_variables/:key` |
+| Update | Group | `DELETE` | `/groups/:id/hooks/:hook_id/custom_headers/:key` |
 | Update | Instance | `PUT` | `/hooks/:hook_id/url_variables/:key` |
 | Update | Instance | `PUT` | `/hooks/:hook_id/custom_headers/:key` |
 | Update | Instance | `PUT` | `/hooks/:hook_id` |
+| Update | Instance | `DELETE` | `/hooks/:hook_id/url_variables/:key` |
+| Update | Instance | `DELETE` | `/hooks/:hook_id/custom_headers/:key` |
 
 ### Monitoring resources
 

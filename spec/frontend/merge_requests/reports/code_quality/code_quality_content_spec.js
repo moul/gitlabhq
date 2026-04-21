@@ -1,5 +1,5 @@
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
-import CodeQualityContent from '~/merge_requests/reports/components/code_quality_content.vue';
+import CodeQualityContent from '~/merge_requests/reports/code_quality/code_quality_content.vue';
 import ReportSection from '~/merge_requests/reports/components/report_section.vue';
 import { codeQualitySummary } from '~/vue_merge_request_widget/widgets/code_quality/utils';
 

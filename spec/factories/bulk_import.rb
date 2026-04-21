@@ -32,5 +32,9 @@ FactoryBot.define do
     trait :with_configuration do
       configuration { association(:bulk_import_configuration, bulk_import: instance) }
     end
+
+    trait :with_offline_configuration do
+      offline_configuration { association(:import_offline_configuration, bulk_import: instance) }
+    end
   end
 end

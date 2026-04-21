@@ -1,8 +1,8 @@
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
 import { useMockInternalEventsTracking } from 'helpers/tracking_internal_events_helper';
-import CodeQualityPage from '~/merge_requests/reports/pages/code_quality_page.vue';
-import CodeQualityProvider from '~/merge_requests/reports/components/code_quality_provider.vue';
-import CodeQualityContent from '~/merge_requests/reports/components/code_quality_content.vue';
+import CodeQualityPage from '~/merge_requests/reports/code_quality/code_quality_page.vue';
+import CodeQualityProvider from '~/merge_requests/reports/code_quality/code_quality_provider.vue';
+import CodeQualityContent from '~/merge_requests/reports/code_quality/code_quality_content.vue';
 
 describe('CodeQualityPage', () => {
   let wrapper;

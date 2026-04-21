@@ -8,7 +8,7 @@ import {
   HTTP_STATUS_INTERNAL_SERVER_ERROR,
 } from '~/lib/utils/http_status';
 import Poll from '~/lib/utils/poll';
-import CodeQualityProvider from '~/merge_requests/reports/components/code_quality_provider.vue';
+import CodeQualityProvider from '~/merge_requests/reports/code_quality/code_quality_provider.vue';
 import {
   newFinding,
   resolvedFinding,

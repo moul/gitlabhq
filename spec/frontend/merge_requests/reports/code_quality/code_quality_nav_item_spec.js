@@ -1,5 +1,5 @@
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
-import CodeQualityNavItem from '~/merge_requests/reports/components/code_quality_nav_item.vue';
+import CodeQualityNavItem from '~/merge_requests/reports/code_quality/code_quality_nav_item.vue';
 import ReportListItem from '~/merge_requests/reports/components/report_list_item.vue';
 
 describe('CodeQualityNavItem', () => {

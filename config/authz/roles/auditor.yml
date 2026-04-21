@@ -9,10 +9,12 @@ project:
   - access_security_and_compliance
   - add_project_to_instance_security_dashboard
   - public_user_access
+  - read_any_audit_event
   - read_approvers
   - read_ascp_component
   - read_ascp_scan
   - read_ascp_security_context
+  - read_audit_event
   - read_branch_rule
   - read_build
   - read_cluster
@@ -35,7 +37,6 @@ project:
   - read_on_demand_dast_scan
   - read_pages
   - read_pipeline_subscription
-  - read_project_audit_events
   - read_project_import
   - read_project_merge_request_analytics
   - read_project_security_exclusions
@@ -56,6 +57,8 @@ group:
   raw_permissions:
   - read_add_on_purchase
   - read_ai_domain_settings
+  - read_any_audit_event
+  - read_audit_event
   - read_billable_member
   - read_billing
   - read_cluster
@@ -74,7 +77,6 @@ group:
   - read_enterprise_user
   - read_group
   - read_group_all_available_runners
-  - read_group_audit_events
   - read_group_contribution_analytics
   - read_group_release_stats
   - read_group_repository_analytics

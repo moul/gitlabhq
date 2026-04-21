@@ -115,6 +115,7 @@ export default {
   SHOW_SIDEBAR_STORAGE_KEY: 'work_item_show_sidebar',
   ENABLE_TRUNCATION_STORAGE_KEY: 'work_item_truncate_descriptions',
   components: {
+    AgentPlan: () => import('ee_component/work_items/components/agent_plan/agent_plan.vue'),
     DesignDropzone,
     DesignWidget,
     DesignUploadButton,
@@ -1313,6 +1314,8 @@ export default {
                   </design-dropzone>
                 </template>
               </design-widget>
+
+              <agent-plan v-if="glFeatures.agentPlan" />
 
               <work-item-tree
                 v-if="showWorkItemTree"

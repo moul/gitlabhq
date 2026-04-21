@@ -36566,6 +36566,7 @@ Response dimensions for `FinishedPipelines` aggregation engine.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="finishedpipelinesaggregationresponsedimensions-project"></a>`project` | [`Project`](#project) | Project. |
 | <a id="finishedpipelinesaggregationresponsedimensions-ref"></a>`ref` | [`String`](#string) | Pipeline ref. |
 | <a id="finishedpipelinesaggregationresponsedimensions-source"></a>`source` | [`String`](#string) | Pipeline source. |
 | <a id="finishedpipelinesaggregationresponsedimensions-status"></a>`status` | [`String`](#string) | Pipeline status. |

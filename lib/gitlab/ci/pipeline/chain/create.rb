@@ -184,7 +184,7 @@ module Gitlab
 
             return if needs.empty?
 
-            ::Ci::BuildNeed.bulk_insert!(needs, batch_size: BULK_INSERT_BATCH_SIZE)
+            ::Ci::BuildNeed.bulk_insert!(needs, batch_size: BULK_INSERT_BATCH_SIZE, validate: false)
           end
 
           def bulk_insert_job_sources!(builds)

@@ -178,28 +178,6 @@ RSpec.describe MergeRequests::RefreshService, feature_category: :code_review_wor
           expect(merge_status_updates.values.sum).to eq(2)
         end
 
-        context 'when batch_merge_status_updates feature flag is disabled' do
-          before do
-            stub_feature_flags(batch_merge_status_updates: false)
-          end
-
-          it 'updates merge status individually with more queries' do
-            recorder = ActiveRecord::QueryRecorder.new do
-              refresh_service.execute(@oldrev, @newrev, 'refs/heads/master')
-            end
-
-            expect(@merge_request.reload.merge_status).to eq('unchecked')
-            expect(@another_merge_request.reload.merge_status).to eq('unchecked')
-            expect(@fork_merge_request.reload.merge_status).to eq('unchecked')
-            expect(extra_merge_request1.reload.merge_status).to eq('cannot_be_merged_recheck')
-            expect(extra_merge_request2.reload.merge_status).to eq('cannot_be_merged_recheck')
-
-            # Individual updates would have one UPDATE per MR (5 MRs)
-            merge_status_updates = recorder.occurrences_starting_with('UPDATE "merge_requests" SET "merge_status"')
-            expect(merge_status_updates.values.sum).to eq 5
-          end
-        end
-
         context 'when auto_merge_on_mark_as_unchecked feature flag is enabled' do
           let!(:auto_merge_mr) do
             create(

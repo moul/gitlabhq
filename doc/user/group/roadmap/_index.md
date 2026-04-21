@@ -179,7 +179,7 @@ on the start day (Sunday) of the week. This preset is selected by default.
 
 ### Weeks
 
-![roadmap date range in weeks](img/roadmap_timeline_weeks_v11_11.png)
+![The Weeks date range preset on a roadmap.](img/roadmap_timeline_weeks_v11_11.png)
 
 In the **Weeks** preset, roadmap shows epics and milestones which have start or due dates **falling within**
 or **going through** currently selected date range preset, where **today**
@@ -210,4 +210,4 @@ If an epic is [blocked by another epic](../epics/linked_epics.md#blocking-epics)
 
 When you hover over the blocked icon ({{< icon name="entity-blocked" >}}), a detailed information popover is displayed.
 
-![Blocked epics](img/roadmap_blocked_icon_v15_5.png)
+![The popover displaying detailed information about a blocked epic.](img/roadmap_blocked_icon_v15_5.png)

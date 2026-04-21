@@ -246,4 +246,29 @@ RSpec.describe Import::Offline::Configuration, feature_category: :importers do
       end
     end
   end
+
+  describe '#entity_prefix_for_path' do
+    let(:configuration) do
+      build(:offline_configuration, entity_prefix_mapping: {
+        'my-group/my-project' => 'project_1',
+        'my-group' => 'group_2'
+      })
+    end
+
+    context 'when the path exists in the mapping' do
+      it 'returns the entity prefix for a project path' do
+        expect(configuration.entity_prefix_for_path('my-group/my-project')).to eq('project_1')
+      end
+
+      it 'returns the entity prefix for a group path' do
+        expect(configuration.entity_prefix_for_path('my-group')).to eq('group_2')
+      end
+    end
+
+    context 'when the path does not exist in the mapping' do
+      it 'returns nil' do
+        expect(configuration.entity_prefix_for_path('unknown/path')).to be_nil
+      end
+    end
+  end
 end

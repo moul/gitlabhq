@@ -8,12 +8,24 @@ module BulkImports
     # @param tmpdir [String] Temp directory to store downloaded file to. Must be located under `Dir.tmpdir`.
     # @param filename [String] Name of the file to download.
     def self.for_context(context:, relation:, tmpdir:, filename:)
-      # TODO: Check if bulk_import from context is offline, then initialize with an object storage download strategy
-      #   implementation in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/229577
-      file_download_strategy = Import::BulkImports::HttpFileDownloadStrategy.new(
-        context: context,
-        relative_url: context.entity.relation_download_url_path(relation, context.extra[:batch_number])
-      )
+      if context.offline?
+        object_key = Import::Offline::ObjectKeyBuilder.new(context.offline_configuration)
+          .download_object_key(
+            relation: relation,
+            extension: filename.delete_prefix(relation),
+            entity_source_full_path: context.entity.source_full_path,
+            batch_number: context.extra[:batch_number]
+          )
+
+        file_download_strategy = Import::Offline::Imports::ObjectStorageFileDownloadStrategy.new(
+          offline_configuration: context.offline_configuration, object_key: object_key
+        )
+      else
+        file_download_strategy = Import::BulkImports::HttpFileDownloadStrategy.new(
+          context: context,
+          relative_url: context.entity.relation_download_url_path(relation, context.extra[:batch_number])
+        )
+      end
 
       new(tmpdir: tmpdir, filename: filename, file_download_strategy: file_download_strategy)
     end

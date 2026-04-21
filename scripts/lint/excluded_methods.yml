@@ -71,3 +71,5 @@ app/models/work_items/types_framework/provider.rb:
   - by_base_types_ordered_by_name: Public method on Provider, tested in specs. Temporarily unused but will be used in follow-up work
 ee/app/models/ai/catalog/item.rb:
   - starred_by?: Will be used in follow-up MR adding GraphQL mutation for starring AI catalog items
+ee/app/models/ee/application_setting.rb:
+  - advanced_search_indexing_paused?: Will be used in follow-up MR !229833 for dedicated pause indexing

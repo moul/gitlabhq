@@ -16942,7 +16942,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_54e484e969cd"
+              "$ref": "#/components/schemas/RequestBody_3a63558ded9a"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -74214,6 +74214,8 @@ components:
           type: string
         helm_max_packages_count:
           type: string
+        active_context_pause_indexing:
+          type: string
         allow_all_integrations:
           type: string
         allowed_integrations:
@@ -74269,6 +74271,8 @@ components:
         elasticsearch_namespace_ids:
           type: string
         elasticsearch_pause_indexing:
+          type: string
+        elasticsearch_advanced_search_pause_indexing:
           type: string
         elasticsearch_project_ids:
           type: string
@@ -91779,7 +91783,7 @@ components:
           nullable: true
       required:
       - avatar
-    RequestBody_54e484e969cd:
+    RequestBody_3a63558ded9a:
       type: object
       properties:
         admin_mode:
@@ -92765,7 +92769,12 @@ components:
           nullable: true
         elasticsearch_pause_indexing:
           type: boolean
-          description: Pause Elasticsearch indexing
+          description: Pause Elasticsearch indexing (global control for both Advanced
+            Search and ActiveContext)
+          nullable: true
+        elasticsearch_advanced_search_pause_indexing:
+          type: boolean
+          description: Pause advanced search indexing
           nullable: true
         elasticsearch_url:
           type: string
@@ -92783,6 +92792,10 @@ components:
         elasticsearch_limit_indexing:
           type: boolean
           description: Limit Elasticsearch to index certain namespaces and projects
+          nullable: true
+        active_context_pause_indexing:
+          type: boolean
+          description: Pause ActiveContext indexing
           nullable: true
         elasticsearch_namespace_ids:
           type: array

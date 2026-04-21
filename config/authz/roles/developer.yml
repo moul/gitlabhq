@@ -65,6 +65,7 @@ project:
   - read_ascp_component
   - read_ascp_scan
   - read_ascp_security_context
+  - read_audit_event
   - read_cluster
   - read_cluster_agent
   - read_coverage_fuzzing
@@ -73,7 +74,6 @@ project:
   - read_on_demand_dast_scan
   - read_pipeline_subscription
   - read_pod_logs
-  - read_project_audit_events
   - read_project_security_exclusions
   - read_resource_group
   - read_secret_push_protection_info
@@ -127,11 +127,11 @@ group:
   - read_ai_catalog_flow
   - read_ai_catalog_third_party_flow
   - read_ai_foundational_flow
+  - read_audit_event
   - read_cluster
   - read_cluster_agent
   - read_dependency
   - read_group_all_available_runners
-  - read_group_audit_events
   - read_licenses
   - read_observability_portal
   - read_security_attribute

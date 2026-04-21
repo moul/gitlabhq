@@ -19,7 +19,7 @@ module Import
       end
 
       def validate!
-        validate_url
+        validate_url!(http_client.resource_url(relative_url))
       end
 
       private
@@ -92,20 +92,6 @@ module Import
           url: context.configuration.url,
           token: context.configuration.access_token
         )
-      end
-
-      def allow_local_requests?
-        ::Gitlab::CurrentSettings.allow_local_requests_from_web_hooks_and_services?
-      end
-
-      def validate_url
-        ::Gitlab::HTTP_V2::UrlBlocker.validate!(
-          http_client.resource_url(relative_url),
-          allow_localhost: allow_local_requests?,
-          allow_local_network: allow_local_requests?,
-          schemes: %w[http https],
-          deny_all_requests_except_allowed: ::Gitlab::CurrentSettings.deny_all_requests_except_allowed?,
-          outbound_local_requests_allowlist: ::Gitlab::CurrentSettings.outbound_local_requests_whitelist) # rubocop:disable Naming/InclusiveLanguage -- existing setting
       end
 
       def validate_content_type

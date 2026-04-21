@@ -55,7 +55,6 @@
 - KeysFinder
 - LfsPointersFinder
 - LicenseTemplateFinder
-- Members::BilledMembersFinder
 - MergeRequests::OldestPerCommitFinder
 - NotesFinder
 - Organizations::OrganizationAssociationCounter

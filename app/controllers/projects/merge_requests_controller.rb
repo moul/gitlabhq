@@ -43,7 +43,6 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
     push_frontend_feature_flag(:mr_pipelines_graphql, project)
     push_frontend_feature_flag(:rapid_diffs_on_mr_show, current_user, type: :wip)
     push_frontend_feature_flag(:mr_related_work_items, project)
-    push_frontend_feature_flag(:mr_widget_pipeline_subscription, project)
   end
 
   before_action do

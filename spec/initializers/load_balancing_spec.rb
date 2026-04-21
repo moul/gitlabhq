@@ -131,4 +131,20 @@ RSpec.describe 'load_balancing', :delete, :reestablished_active_record_base, fea
       end
     end
   end
+
+  describe Gitlab::Database::LoadBalancing::Callbacks do
+    describe '.configure!' do
+      it 'configures track_exception_proc to forward exceptions to ErrorTracking' do
+        expect(Gitlab::ErrorTracking).to receive(:track_exception)
+                                           .with(an_instance_of(Gitlab::Utils::ConcurrentRubyThreadIsUsedError))
+
+        initialize_load_balancer
+
+        Gitlab::Utils.restrict_within_concurrent_ruby do
+          expect { ApplicationRecord.connection.execute("SELECT 1") }
+            .to raise_error(Gitlab::Utils::ConcurrentRubyThreadIsUsedError)
+        end
+      end
+    end
+  end
 end

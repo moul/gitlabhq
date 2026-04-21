@@ -249,9 +249,9 @@ RSpec.describe Gitlab::Ci::Components::InstancePath, feature_category: :pipeline
         end
       end
 
-      context 'when ci_optimize_component_fetching feature flag is disabled' do
+      context 'when ci_cache_component_includes feature flag is disabled' do
         before do
-          stub_feature_flags(ci_optimize_component_fetching: false)
+          stub_feature_flags(ci_cache_component_includes: false)
         end
 
         context 'when fetching the latest release' do
@@ -712,9 +712,9 @@ RSpec.describe Gitlab::Ci::Components::InstancePath, feature_category: :pipeline
       project.add_developer(user)
     end
 
-    context 'when ci_optimize_component_fetching is disabled' do
+    context 'when ci_cache_component_includes is disabled' do
       before do
-        stub_feature_flags(ci_optimize_component_fetching: false)
+        stub_feature_flags(ci_cache_component_includes: false)
       end
 
       it 'does not write to cache' do

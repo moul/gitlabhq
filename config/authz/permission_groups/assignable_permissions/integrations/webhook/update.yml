@@ -6,6 +6,8 @@ boundaries:
   - project
   - instance
 permissions:
+  - delete_webhook_custom_header
+  - delete_webhook_url_variable
   - update_webhook
   - update_webhook_custom_header
   - update_webhook_url_variable

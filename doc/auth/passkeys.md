@@ -69,6 +69,10 @@ Prerequisites:
 - Passkey sign-in must not be disabled for your [group](../user/group/saml_sso/_index.md#disable-password-and-passkey-authentication-for-enterprise-users)
   or [instance](../administration/settings/sign_in_restrictions.md#password-and-passkey-authentication).
 
+> [!note]
+> User accounts created through an external identity provider might need to create a new GitLab password.
+> For more information, see [passwords for externally authenticated accounts](../user/profile/user_passwords.md#passwords-for-externally-authenticated-accounts).
+
 To add a passkey:
 
 1. In the upper-right corner, select your avatar.

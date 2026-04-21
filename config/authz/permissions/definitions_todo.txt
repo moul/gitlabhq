@@ -469,7 +469,6 @@ read_group_activity_analytics
 read_group_all_available_runners
 read_group_analytics_dashboards
 read_group_approval_rule
-read_group_audit_events
 read_group_boards
 read_group_build_report_results
 read_group_contribution_analytics
@@ -533,7 +532,6 @@ read_pipeline_metadata
 read_pipeline_schedule_variables
 read_pod_logs
 read_pro_ai_analytics
-read_project_audit_events
 read_project_for_iids
 read_project_level_analytics_dashboard
 read_project_level_value_stream_dashboard_overview_counts

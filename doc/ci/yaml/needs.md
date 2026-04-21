@@ -484,8 +484,8 @@ In this example:
   - `test`, which always exists in the pipeline.
   - `test_optional`, which only exists in the pipeline when `RUN_OPTIONAL_TESTS` is `true`.
 - When `RUN_OPTIONAL_TESTS` is:
-  - `true`, then `test_optional` doesn't exist in the pipeline and `deploy` runs after `test` finishes.
-  - `false`, then `test_optional` exists in the pipeline and `deploy` waits for both `test`
+  - `false`, then `test_optional` doesn't exist in the pipeline and `deploy` runs after `test` finishes.
+  - `true`, then `test_optional` exists in the pipeline and `deploy` waits for both `test`
     and `test_optional` to finish.
 
 Without `optional: true`, pipeline creation fails because the `deploy` job

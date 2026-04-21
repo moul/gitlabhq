@@ -14917,6 +14917,7 @@ CREATE TABLE application_settings (
     lock_tool_approval_for_session_enabled boolean DEFAULT false NOT NULL,
     personal_access_token_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     diff_limits jsonb DEFAULT '{}'::jsonb NOT NULL,
+    active_context_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     CONSTRAINT app_settings_container_reg_cleanup_tags_max_list_size_positive CHECK ((container_registry_cleanup_tags_service_max_list_size >= 0)),
     CONSTRAINT app_settings_dep_proxy_ttl_policies_worker_capacity_positive CHECK ((dependency_proxy_ttl_group_policy_worker_capacity >= 0)),
     CONSTRAINT app_settings_ext_pipeline_validation_service_url_text_limit CHECK ((char_length(external_pipeline_validation_service_url) <= 255)),
@@ -18440,6 +18441,7 @@ CREATE TABLE cluster_providers_aws (
     organization_id bigint,
     group_id bigint,
     project_id bigint,
+    CONSTRAINT check_6d49cca3b0 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1)),
     CONSTRAINT check_f1f42cd85e CHECK ((char_length(kubernetes_version) <= 30))
 );
 
@@ -38847,9 +38849,6 @@ ALTER TABLE ONLY instance_type_ci_runners
 
 ALTER TABLE ONLY project_type_ci_runners
     ADD CONSTRAINT check_619c71f3a2 UNIQUE (id);
-
-ALTER TABLE cluster_providers_aws
-    ADD CONSTRAINT check_6d49cca3b0 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1)) NOT VALID;
 
 ALTER TABLE ONLY group_type_ci_runners
     ADD CONSTRAINT check_81b90172a6 UNIQUE (id);

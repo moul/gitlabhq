@@ -14,7 +14,7 @@ RSpec.describe BulkImports::FileDownloadService, feature_category: :importers do
 
   let(:tmpdir) { Dir.mktmpdir }
   let(:relation) { 'labels' }
-  let(:filename) { 'labels.tar.gz' }
+  let(:filename) { 'labels.ndjson.gz' }
   let(:filepath) { File.join(tmpdir, filename) }
 
   after do
@@ -31,21 +31,62 @@ RSpec.describe BulkImports::FileDownloadService, feature_category: :importers do
       )
     end
 
-    it 'initializes the service with an instance of Import::BulkImports::HttpFileDownloadStrategy' do
-      strategy_double = instance_double(Import::BulkImports::HttpFileDownloadStrategy)
+    context 'when the import is online' do
+      it 'initializes the service with an HttpFileDownloadStrategy' do
+        strategy_double = instance_double(Import::BulkImports::HttpFileDownloadStrategy)
 
-      allow(Import::BulkImports::HttpFileDownloadStrategy).to receive(:new).with(
-        context: context,
-        relative_url: context.entity.relation_download_url_path(relation, context.extra[:batch_number])
-      ).and_return(strategy_double)
+        allow(Import::BulkImports::HttpFileDownloadStrategy).to receive(:new).with(
+          context: context,
+          relative_url: context.entity.relation_download_url_path(relation, context.extra[:batch_number])
+        ).and_return(strategy_double)
 
-      expect(described_class).to receive(:new).with(
-        tmpdir: tmpdir,
-        filename: filename,
-        file_download_strategy: strategy_double
-      ).and_call_original
+        expect(described_class).to receive(:new).with(
+          tmpdir: tmpdir,
+          filename: filename,
+          file_download_strategy: strategy_double
+        ).and_call_original
 
-      expect(service_for_context).to be_a(described_class)
+        expect(service_for_context).to be_a(described_class)
+      end
+    end
+
+    context 'when the import is offline' do
+      let_it_be(:offline_bulk_import) { create(:bulk_import) }
+      let_it_be(:entity) { create(:bulk_import_entity, bulk_import: offline_bulk_import) }
+      let_it_be(:entity_prefix) { 'group_123' }
+      let_it_be(:offline_configuration) do
+        create(
+          :import_offline_configuration,
+          bulk_import: offline_bulk_import,
+          entity_prefix_mapping: { entity.source_full_path => entity_prefix }
+        )
+      end
+
+      let_it_be(:context) do
+        BulkImports::Pipeline::Context.new(
+          create(:bulk_import_tracker, entity: entity),
+          batch_number: 1
+        )
+      end
+
+      it 'initializes the service with an ObjectStorageFileDownloadStrategy' do
+        export_prefix = offline_configuration.export_prefix
+        expected_object_key = "#{export_prefix}/#{entity_prefix}/labels/batch_1.ndjson.gz"
+        strategy_double = instance_double(Import::Offline::Imports::ObjectStorageFileDownloadStrategy)
+
+        allow(Import::Offline::Imports::ObjectStorageFileDownloadStrategy).to receive(:new).with(
+          offline_configuration: context.offline_configuration,
+          object_key: expected_object_key
+        ).and_return(strategy_double)
+
+        expect(described_class).to receive(:new).with(
+          tmpdir: tmpdir,
+          filename: filename,
+          file_download_strategy: strategy_double
+        ).and_call_original
+
+        expect(service_for_context).to be_a(described_class)
+      end
     end
   end
 

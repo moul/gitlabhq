@@ -145,4 +145,8 @@ class BulkImport < ApplicationRecord
 
     Import::BulkImports::ConfigurationPurgeWorker.perform_in(PURGE_CONFIGURATION_DELAY, configuration.id)
   end
+
+  def offline?
+    offline_configuration.present?
+  end
 end
