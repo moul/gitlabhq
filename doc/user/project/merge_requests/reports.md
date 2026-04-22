@@ -66,6 +66,45 @@ To view security scan findings:
 1. Select the **Reports** tab.
 1. Select **Security scan**.
 
+## License compliance report
+
+The license compliance report shows licenses detected in your project's
+dependencies by comparing the source branch pipeline results with the target
+branch pipeline results.
+
+Licenses are grouped into three categories:
+
+- **New licenses**: Licenses detected in the source branch that do not exist
+  in the target branch.
+- **Existing licenses**: Licenses that exist in both branches.
+- **Removed licenses**: Licenses that exist in the target branch but not in
+  the source branch.
+
+For each license, the report shows the following information:
+
+- License name and classification (allowed, denied, or unknown)
+- Number of dependencies using the license
+- List of affected dependencies with package manager and version information
+
+License classifications are determined by your project's
+[license approval policies](../../compliance/license_approval_policies.md).
+
+### View license compliance findings
+
+Prerequisites:
+
+- You must have at least the Developer role for the project.
+- You must have [license scanning](../../compliance/license_scanning_of_cyclonedx_files/_index.md)
+  configured for your project.
+
+To view license compliance findings:
+
+1. In the left sidebar, select **Search or go to** and find your project.
+1. Select **Code** > **Merge requests**.
+1. Select a merge request.
+1. Select the **Reports** tab.
+1. Select **License compliance**.
+
 ## Troubleshooting
 
 When security scanning is enabled, you might encounter the following issues.

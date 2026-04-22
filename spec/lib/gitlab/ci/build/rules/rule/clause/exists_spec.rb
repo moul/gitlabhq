@@ -21,9 +21,9 @@ RSpec.describe Gitlab::Ci::Build::Rules::Rule::Clause::Exists, feature_category:
     ])
   end
 
-  let(:globs) {}
-  let(:project_path) {}
-  let(:ref) {}
+  let(:globs) { nil }
+  let(:project_path) { nil }
+  let(:ref) { nil }
   let(:clause) { { paths: globs, project: project_path, ref: ref }.compact }
 
   before_all do
@@ -283,7 +283,7 @@ RSpec.describe Gitlab::Ci::Build::Rules::Rule::Clause::Exists, feature_category:
 
       context 'when context has no project' do
         let(:globs) { ['Dockerfile'] }
-        let(:project) {}
+        let(:project) { nil }
 
         it { is_expected.to be_falsey }
       end

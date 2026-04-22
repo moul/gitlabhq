@@ -1046,8 +1046,10 @@ class MergeRequest < ApplicationRecord
     end
   end
 
-  def commit_shas(limit: nil)
-    return merge_request_diff.commit_shas(limit: limit, preload_metadata: true) if merge_request_diff.persisted?
+  def commit_shas(limit: nil, bypass_preloaded: false)
+    mode = bypass_preloaded ? :force_metadata : :preload
+
+    return merge_request_diff.commit_shas(limit: limit, mode: mode) if merge_request_diff.persisted?
 
     shas =
       if compare_commits
@@ -1210,7 +1212,7 @@ class MergeRequest < ApplicationRecord
 
   def changed_paths
     shas_for_changed_paths = if Feature.enabled?(:optimised_commits_for_mr_changed_paths, project)
-                               commit_shas
+                               commit_shas(bypass_preloaded: true)
                              else
                                commits
                              end

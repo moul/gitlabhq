@@ -2567,7 +2567,7 @@ module Gitlab
         subject { described_class.new(YAML.dump(config)).execute }
 
         context 'no dependencies' do
-          let(:dependencies) {}
+          let(:dependencies) { nil }
 
           it { is_expected.to be_valid }
         end
@@ -2623,8 +2623,8 @@ module Gitlab
       end
 
       describe "Job Needs" do
-        let(:needs) {}
-        let(:dependencies) {}
+        let(:needs) { nil }
+        let(:dependencies) { nil }
 
         let(:config) do
           {

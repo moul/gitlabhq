@@ -1148,6 +1148,7 @@ spec:
 {{< history >}}
 
 - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/393401) in GitLab 16.6.
+- Support for array type inputs [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/566155) in GitLab 19.0.
 
 {{< /history >}}
 
@@ -1157,7 +1158,7 @@ The limit is 50 options per input.
 **Keyword type**: Header keyword. `spec` must be declared at the top of the configuration file,
 in a header section.
 
-**Supported values**: An array of input options. Only string and number [`type`](#specinputstype) inputs can be used with options.
+**Supported values**: An array of input options.
 
 **Example of `spec:inputs:options`**:
 

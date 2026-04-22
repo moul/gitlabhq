@@ -210,7 +210,31 @@ RSpec.describe Gitlab::Ci::Config::External::Context, feature_category: :pipelin
   end
 
   describe '#sentry_payload' do
-    it { expect(subject.sentry_payload).to match(a_hash_including(:project, :user)) }
+    it { expect(subject.sentry_payload).to match(a_hash_including(:project, :user, :include_type_counts)) }
+
+    describe 'include_type_counts' do
+      subject(:include_type_counts) { context.sentry_payload[:include_type_counts] }
+
+      let(:context) { described_class.new(project: project, sha: '12345') }
+
+      context 'when expandset is empty' do
+        it { is_expected.to eq({}) }
+      end
+
+      context 'when expandset contains files of various types' do
+        let(:local_file) { instance_double(Gitlab::Ci::Config::External::File::Local, metadata: { type: :local }) }
+        let(:project_file) { instance_double(Gitlab::Ci::Config::External::File::Project, metadata: { type: :project }) }
+        let(:component_file) { instance_double(Gitlab::Ci::Config::External::File::Component, metadata: { type: :component }) }
+
+        before do
+          context.expandset.push(local_file, project_file, project_file, component_file)
+        end
+
+        it 'returns a count per include type' do
+          expect(include_type_counts).to eq({ local: 1, project: 2, component: 1 })
+        end
+      end
+    end
   end
 
   describe '#internal_include?' do

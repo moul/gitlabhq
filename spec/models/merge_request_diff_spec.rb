@@ -1678,14 +1678,14 @@ RSpec.describe MergeRequestDiff, feature_category: :code_review_workflow do
 
       it_behaves_like 'result with commit SHAs'
 
-      context 'without preload_metadata' do
+      context 'with default mode (:auto)' do
         let(:query_options) { {} }
 
         it_behaves_like 'query count verification', expected_count: 10
       end
 
-      context 'with preload_metadata enabled' do
-        let(:query_options) { { preload_metadata: true } }
+      context 'with mode: :preload' do
+        let(:query_options) { { mode: :preload } }
 
         it_behaves_like 'query count verification'
       end
@@ -1723,6 +1723,41 @@ RSpec.describe MergeRequestDiff, feature_category: :code_review_workflow do
 
         it_behaves_like 'result with commit SHAs'
         it_behaves_like 'query count verification'
+      end
+    end
+
+    context 'with mode: :force_metadata' do
+      it 'always uses a single query when commits are not preloaded' do
+        diff_with_commits.merge_request_diff_commits.reset
+
+        recorder = ActiveRecord::QueryRecorder.new(skip_cached: false) do
+          diff_with_commits.commit_shas(mode: :force_metadata)
+        end
+
+        expect(recorder.count).to eq(1)
+        expect(recorder.log.first).to include('COALESCE(merge_request_commits_metadata.sha')
+      end
+
+      it 'always uses a single query even when commits are already preloaded' do
+        diff_with_commits.merge_request_diff_commits.load
+
+        recorder = ActiveRecord::QueryRecorder.new(skip_cached: false) do
+          diff_with_commits.commit_shas(mode: :force_metadata)
+        end
+
+        expect(recorder.count).to eq(1)
+        expect(recorder.log.first).to include('COALESCE(merge_request_commits_metadata.sha')
+      end
+
+      it 'returns the same shas regardless of association state' do
+        diff_with_commits.merge_request_diff_commits.reset
+        shas_without_preload = diff_with_commits.commit_shas(mode: :force_metadata)
+
+        diff_with_commits.merge_request_diff_commits.load
+        shas_with_preload = diff_with_commits.commit_shas(mode: :force_metadata)
+
+        expect(shas_without_preload).not_to be_empty
+        expect(shas_without_preload).to eq(shas_with_preload)
       end
     end
   end

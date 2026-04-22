@@ -471,6 +471,18 @@ class Namespace < ApplicationRecord
     ancestors.archived.exists?
   end
 
+  def self_or_ancestors_transfer_scheduled?
+    return transfer_scheduled? if parent_id.nil?
+
+    self_and_ancestors(skope: Namespace).transfer_scheduled.exists?
+  end
+
+  def self_or_ancestors_transfer_in_progress?
+    return transfer_in_progress? if parent_id.nil?
+
+    self_and_ancestors(skope: Namespace).transfer_in_progress.exists?
+  end
+
   def to_reference_base(from = nil, full: false, absolute_path: false)
     if full || cross_namespace_reference?(from)
       absolute_path ? "/#{full_path}" : full_path

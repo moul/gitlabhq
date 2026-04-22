@@ -24904,7 +24904,8 @@ CREATE TABLE oauth_applications (
     dynamic boolean DEFAULT false NOT NULL,
     organization_id bigint,
     device_code_enabled boolean DEFAULT true NOT NULL,
-    CONSTRAINT check_75750847b8 CHECK ((char_length(scopes) <= 2048))
+    CONSTRAINT check_75750847b8 CHECK ((char_length(scopes) <= 2048)),
+    CONSTRAINT check_77eda6baaa CHECK ((organization_id IS NOT NULL))
 );
 
 CREATE SEQUENCE oauth_applications_id_seq

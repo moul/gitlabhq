@@ -1636,6 +1636,105 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
     end
   end
 
+  describe '#self_or_ancestors_transfer_scheduled?' do
+    let_it_be(:user) { create(:user) }
+    let_it_be_with_reload(:group) { create(:group) }
+    let_it_be_with_reload(:subgroup) { create(:group, parent: group) }
+    let_it_be_with_reload(:group_project) { create(:project, group: group) }
+    let_it_be_with_reload(:subgroup_project) { create(:project, group: subgroup) }
+
+    it 'returns false when neither project nor ancestors are transfer_scheduled' do
+      expect(group_project.self_or_ancestors_transfer_scheduled?).to eq(false)
+    end
+
+    context 'when project_namespace is transfer_scheduled' do
+      before do
+        group_project.project_namespace.schedule_transfer(transition_user: user)
+      end
+
+      it 'returns true' do
+        expect(group_project.self_or_ancestors_transfer_scheduled?).to eq(true)
+      end
+    end
+
+    context 'when parent group is transfer_scheduled' do
+      before do
+        group.schedule_transfer(transition_user: user)
+      end
+
+      it 'returns true' do
+        expect(group_project.self_or_ancestors_transfer_scheduled?).to eq(true)
+      end
+    end
+
+    context 'when ancestor group is transfer_scheduled' do
+      before do
+        group.schedule_transfer(transition_user: user)
+      end
+
+      it 'returns true' do
+        expect(subgroup_project.self_or_ancestors_transfer_scheduled?).to eq(true)
+      end
+    end
+
+    context 'when neither project nor any ancestor is transfer_scheduled' do
+      it 'returns false' do
+        expect(subgroup_project.self_or_ancestors_transfer_scheduled?).to eq(false)
+      end
+    end
+  end
+
+  describe '#self_or_ancestors_transfer_in_progress?' do
+    let_it_be(:user) { create(:user) }
+    let_it_be_with_reload(:group) { create(:group) }
+    let_it_be_with_reload(:subgroup) { create(:group, parent: group) }
+    let_it_be_with_reload(:group_project) { create(:project, group: group) }
+    let_it_be_with_reload(:subgroup_project) { create(:project, group: subgroup) }
+
+    it 'returns false when neither project nor ancestors are transfer_in_progress' do
+      expect(group_project.self_or_ancestors_transfer_in_progress?).to eq(false)
+    end
+
+    context 'when project_namespace is transfer_in_progress' do
+      before do
+        group_project.project_namespace.schedule_transfer(transition_user: user)
+        group_project.project_namespace.start_transfer(transition_user: user)
+      end
+
+      it 'returns true' do
+        expect(group_project.self_or_ancestors_transfer_in_progress?).to eq(true)
+      end
+    end
+
+    context 'when parent group is transfer_in_progress' do
+      before do
+        group.schedule_transfer(transition_user: user)
+        group.start_transfer(transition_user: user)
+      end
+
+      it 'returns true' do
+        expect(group_project.self_or_ancestors_transfer_in_progress?).to eq(true)
+      end
+    end
+
+    context 'when ancestor group is transfer_in_progress' do
+      before do
+        group.schedule_transfer(transition_user: user)
+        group.start_transfer(transition_user: user)
+      end
+
+      it 'returns true' do
+        expect(subgroup_project.self_or_ancestors_transfer_in_progress?).to eq(true)
+      end
+    end
+
+    context 'when neither project nor any ancestor is transfer_in_progress' do
+      it 'returns false' do
+        expect(subgroup_project.self_or_ancestors_transfer_in_progress?).to eq(false)
+      end
+    end
+  end
+
   describe '#root_group' do
     context 'when root_namespace is not personal' do
       let_it_be(:group) { build(:group) }

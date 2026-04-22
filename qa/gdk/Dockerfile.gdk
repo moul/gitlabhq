@@ -90,6 +90,7 @@ RUN set -eu; \
 FROM base AS gitlab-node-modules
 
 COPY --chown=gdk:gdk package.json yarn.lock .tool-versions ./gitlab/
+COPY --chown=gdk:gdk patches/ ./gitlab/patches/
 COPY --chown=gdk:gdk scripts/frontend/postinstall.js ./gitlab/scripts/frontend/postinstall.js
 COPY --chown=gdk:gdk scripts/frontend/preinstall.mjs ./gitlab/scripts/frontend/preinstall.mjs
 RUN make .gitlab-yarn && yarn cache clean

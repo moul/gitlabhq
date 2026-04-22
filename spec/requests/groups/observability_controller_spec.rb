@@ -32,13 +32,8 @@ RSpec.describe Groups::ObservabilityController, feature_category: :observability
       end
     end
 
-    context 'when feature flag is disabled' do
-      before do
-        stub_feature_flags(observability_sass_features: false)
-      end
-
-      it_behaves_like 'redirects to 404'
-    end
+    it_behaves_like 'observability requires feature flag'
+    it_behaves_like 'observability requires permissions'
 
     context 'when user is not authenticated' do
       before do
@@ -50,19 +45,6 @@ RSpec.describe Groups::ObservabilityController, feature_category: :observability
 
         expect(response).to redirect_to(new_user_session_path)
       end
-    end
-
-    context 'with incorrect permissions' do
-      let(:user) { create(:user) }
-
-      before do
-        group.add_guest(user)
-        sign_in(user)
-      end
-
-      subject { get group_observability_path(group, 'services') }
-
-      it_behaves_like 'redirects to 404'
     end
 
     context 'when the group has observability settings' do
@@ -81,6 +63,14 @@ RSpec.describe Groups::ObservabilityController, feature_category: :observability
           path: 'services',
           o11y_url: 'https://observability.example.com'
         )
+      end
+
+      context 'when checking iframe partial markup' do
+        before do
+          services_page
+        end
+
+        it_behaves_like 'renders observability iframe'
       end
     end
 

@@ -21,7 +21,8 @@ RSpec.describe 'Session TTLs', :clean_gitlab_redis_shared_state, feature_categor
     expect_single_session_with_short_ttl
   end
 
-  it 'increases the TTL when the login succeeds', :js do
+  it 'increases the TTL when the login succeeds', :js,
+    quarantine: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/issues/42245' do
     user = create(:user)
     gitlab_sign_in(user)
 

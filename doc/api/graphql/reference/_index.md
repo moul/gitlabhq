@@ -17419,6 +17419,33 @@ Input type: `WorkItemSavedViewUpdateInput`
 | <a id="mutation-workitemsavedviewupdate-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
 | <a id="mutation-workitemsavedviewupdate-savedview"></a>`savedView` | [`WorkItemSavedViewType`](#workitemsavedviewtype) | Updated saved view. |
 
+### `Mutation.workItemSettingsUpdate`
+
+{{< details >}}
+**Introduced** in GitLab 19.0.
+**Status**: Experiment.
+{{< /details >}}
+
+Updates work item settings for a root group or organization. Omit fullPath to update settings for the current organization. Only available when the `work_item_configurable_types` feature flag is enabled.
+
+Input type: `WorkItemSettingsUpdateInput`
+
+#### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-workitemsettingsupdate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-workitemsettingsupdate-customizabletypevisibility"></a>`customizableTypeVisibility` | [`Boolean`](#boolean) | Whether namespace admins can configure per-type work item visibility. |
+| <a id="mutation-workitemsettingsupdate-fullpath"></a>`fullPath` | [`ID`](#id) | Full path of the root group. Omit to use the current organization. |
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="mutation-workitemsettingsupdate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
+| <a id="mutation-workitemsettingsupdate-errors"></a>`errors` | [`[String!]!`](#string) | Errors encountered during the mutation. |
+| <a id="mutation-workitemsettingsupdate-workitemsettings"></a>`workItemSettings` | [`WorkItemSettings`](#workitemsettings) | Work item settings after mutation. |
+
 ### `Mutation.workItemSubscribe`
 
 {{< details >}}
@@ -37514,6 +37541,7 @@ Describes the usage of consumables under the subscription.
 | <a id="gitlabsubscriptionusage-overage"></a>`overage` | [`GitlabSubscriptionOverage`](#gitlabsubscriptionoverage) | Overage statistics. |
 | <a id="gitlabsubscriptionusage-overagetermsaccepted"></a>`overageTermsAccepted` | [`Boolean!`](#boolean) | Indicates whether overage terms have been accepted for the subscription. |
 | <a id="gitlabsubscriptionusage-paidtiertrial"></a>`paidTierTrial` | [`GitlabSubscriptionPaidTierTrial!`](#gitlabsubscriptionpaidtiertrial) | Paid tier trial data for the subscription. |
+| <a id="gitlabsubscriptionusage-products"></a>`products` | [`[GitlabSubscriptionUsageProduct!]`](#gitlabsubscriptionusageproduct) | All supported products with their associated flow types. |
 | <a id="gitlabsubscriptionusage-purchasecreditspath"></a>`purchaseCreditsPath` | [`String`](#string) | URL to purchase GitLab Credits. |
 | <a id="gitlabsubscriptionusage-startdate"></a>`startDate` | [`ISO8601Date`](#iso8601date) | Start date of the period covered by the usage data. |
 | <a id="gitlabsubscriptionusage-subscriptionportalusagedashboardurl"></a>`subscriptionPortalUsageDashboardUrl` | [`String`](#string) | Full URL to the GitLab Credits usage dashboard in the Customer Portal. |
@@ -37555,6 +37583,30 @@ Information about a GitLab Credits flow type.
 | ---- | ---- | ----------- |
 | <a id="gitlabsubscriptionusageflowtypeinfo-id"></a>`id` | [`String!`](#string) | Identifier for the flow type, used for filtering. |
 | <a id="gitlabsubscriptionusageflowtypeinfo-title"></a>`title` | [`String!`](#string) | Display name for the flow type. |
+
+### `GitlabSubscriptionUsageProduct`
+
+A product with GitLab Credits usage.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionusageproduct-creditsused"></a>`creditsUsed` | [`Float`](#float) | Total GitLab Credits consumed for the product. |
+| <a id="gitlabsubscriptionusageproduct-flowtypes"></a>`flowTypes` | [`[GitlabSubscriptionUsageProductFlowType!]!`](#gitlabsubscriptionusageproductflowtype) | Flow types belonging to the product. |
+| <a id="gitlabsubscriptionusageproduct-id"></a>`id` | [`String!`](#string) | Identifier for the product. |
+| <a id="gitlabsubscriptionusageproduct-title"></a>`title` | [`String!`](#string) | Display name for the product. |
+
+### `GitlabSubscriptionUsageProductFlowType`
+
+A flow type within a product for GitLab Credits usage.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="gitlabsubscriptionusageproductflowtype-id"></a>`id` | [`String!`](#string) | Identifier for the flow type. |
+| <a id="gitlabsubscriptionusageproductflowtype-title"></a>`title` | [`String!`](#string) | Display name for the flow type. |
 
 ### `GitlabSubscriptionUsageUser`
 
@@ -37940,6 +37992,7 @@ GPG signature for a signed commit.
 | <a id="group-webbasedcommitsigningenabled"></a>`webBasedCommitSigningEnabled` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.2. **Status**: Experiment. Indicates whether web-based commit signing is enabled for the group. |
 | <a id="group-webpath"></a>`webPath` | [`String!`](#string) | Web path of the group. |
 | <a id="group-weburl"></a>`webUrl` | [`String!`](#string) | Web URL of the group. |
+| <a id="group-workitemsettings"></a>`workItemSettings` {{< icon name="warning-solid" >}} | [`WorkItemSettings`](#workitemsettings) | **Introduced** in GitLab 19.0. **Status**: Experiment. Work item settings for the group. |
 
 #### Fields with arguments
 
@@ -44414,6 +44467,7 @@ Version of a machine learning model.
 | <a id="namespace-userpermissions"></a>`userPermissions` | [`NamespacePermissions!`](#namespacepermissions) | Permissions for the current user on the resource. |
 | <a id="namespace-visibility"></a>`visibility` | [`String`](#string) | Visibility of the namespace. |
 | <a id="namespace-weburl"></a>`webUrl` | [`String`](#string) | URL of the namespace. |
+| <a id="namespace-workitemsettings"></a>`workItemSettings` {{< icon name="warning-solid" >}} | [`WorkItemSettings`](#workitemsettings) | **Introduced** in GitLab 19.0. **Status**: Experiment. Work item settings for the namespace. |
 
 #### Fields with arguments
 
@@ -55033,6 +55087,16 @@ Check permissions for the current user on a work item.
 | ---- | ---- | ----------- |
 | <a id="workitemselectfieldvalue-customfield"></a>`customField` | [`CustomField!`](#customfield) | Custom field associated with the custom field value. |
 | <a id="workitemselectfieldvalue-selectedoptions"></a>`selectedOptions` | [`[CustomFieldSelectOption!]`](#customfieldselectoption) | Selected options of the custom field. |
+
+### `WorkItemSettings`
+
+Work item settings for a namespace.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="workitemsettings-customizabletypevisibility"></a>`customizableTypeVisibility` | [`Boolean!`](#boolean) | Whether namespace admins can configure per-type work item visibility. |
 
 ### `WorkItemStateCountsType`
 

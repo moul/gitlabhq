@@ -3156,6 +3156,14 @@ class Project < ApplicationRecord
     ancestors.archived.exists?
   end
 
+  def self_or_ancestors_transfer_scheduled?
+    project_namespace.transfer_scheduled? || namespace.self_or_ancestors_transfer_scheduled?
+  end
+
+  def self_or_ancestors_transfer_in_progress?
+    project_namespace.transfer_in_progress? || namespace.self_or_ancestors_transfer_in_progress?
+  end
+
   def renamed?
     persisted? && path_changed?
   end

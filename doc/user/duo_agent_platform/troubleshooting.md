@@ -118,6 +118,6 @@ ensuring that GitLab Duo is on and that you are properly connected.
 
 For further support, see the troubleshooting page for your extension and IDE:
 
-- [GitLab for VS Code](../../editor_extensions/visual_studio_code/troubleshooting.md)
+- [GitLab for VS Code](../../editor_extensions/visual_studio_code/troubleshooting.md#gitlab-duo)
 - [GitLab Duo plugin for JetBrains IDEs](../../editor_extensions/jetbrains_ide/jetbrains_troubleshooting.md)
 - [GitLab for Visual Studio](../../editor_extensions/visual_studio/visual_studio_troubleshooting.md)

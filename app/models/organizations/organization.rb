@@ -95,7 +95,9 @@ module Organizations
     end
 
     def self.find_by_path_with_isolation(path)
-      with_isolation.find_by(path: path)
+      return unless path
+
+      with_isolation.where("LOWER(path) = ?", path.downcase).first
     end
 
     def self.find_by_namespace_path_with_isolation(path)

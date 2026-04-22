@@ -109,7 +109,8 @@ module Gitlab
           def sentry_payload
             {
               user: user.inspect,
-              project: project.inspect
+              project: project.inspect,
+              include_type_counts: expandset_include_type_counts
             }
           end
 
@@ -143,6 +144,12 @@ module Gitlab
 
           def current_monotonic_time
             Gitlab::Metrics::System.monotonic_time
+          end
+
+          def expandset_include_type_counts
+            expandset.each_with_object(Hash.new(0)) do |file, counts|
+              counts[file.metadata[:type]] += 1
+            end
           end
 
           def execution_expired?

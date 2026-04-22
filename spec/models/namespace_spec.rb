@@ -1272,6 +1272,89 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
     end
   end
 
+  describe '#self_or_ancestors_transfer_scheduled?' do
+    let_it_be(:user) { create(:user) }
+    let(:grandparent) { create(:group) }
+    let(:parent) { create(:group, parent: grandparent) }
+    let(:namespace) { create(:group, parent: parent) }
+
+    where(:namespace_state, :parent_state, :grandparent_state, :expected_result) do
+      :transfer_scheduled   | :ancestor_inherited | :ancestor_inherited | true
+      :ancestor_inherited   | :transfer_scheduled | :ancestor_inherited | true
+      :ancestor_inherited   | :ancestor_inherited | :transfer_scheduled | true
+      :transfer_scheduled   | :transfer_scheduled | :ancestor_inherited | true
+      :ancestor_inherited   | :ancestor_inherited | :ancestor_inherited | false
+      :transfer_in_progress | :ancestor_inherited | :ancestor_inherited | false
+    end
+
+    with_them do
+      before do
+        namespace.update_column(:state, Namespace.states[namespace_state])
+        parent.update_column(:state, Namespace.states[parent_state])
+        grandparent.update_column(:state, Namespace.states[grandparent_state])
+      end
+
+      it 'returns the expected result' do
+        expect(namespace.self_or_ancestors_transfer_scheduled?).to eq(expected_result)
+      end
+    end
+
+    context 'when group has no parent' do
+      let_it_be_with_reload(:root) { create(:group) }
+
+      it 'returns true when transfer_scheduled' do
+        root.schedule_transfer(transition_user: user)
+        expect(root.self_or_ancestors_transfer_scheduled?).to eq(true)
+      end
+
+      it 'returns false when not transfer_scheduled' do
+        expect(root.self_or_ancestors_transfer_scheduled?).to eq(false)
+      end
+    end
+  end
+
+  describe '#self_or_ancestors_transfer_in_progress?' do
+    let_it_be(:user) { create(:user) }
+    let(:grandparent) { create(:group) }
+    let(:parent) { create(:group, parent: grandparent) }
+    let(:namespace) { create(:group, parent: parent) }
+
+    where(:namespace_state, :parent_state, :grandparent_state, :expected_result) do
+      :transfer_in_progress | :ancestor_inherited   | :ancestor_inherited   | true
+      :ancestor_inherited   | :transfer_in_progress | :ancestor_inherited   | true
+      :ancestor_inherited   | :ancestor_inherited   | :transfer_in_progress | true
+      :transfer_in_progress | :transfer_in_progress | :ancestor_inherited   | true
+      :ancestor_inherited   | :ancestor_inherited   | :ancestor_inherited   | false
+      :transfer_scheduled   | :ancestor_inherited   | :ancestor_inherited   | false
+    end
+
+    with_them do
+      before do
+        namespace.update_column(:state, Namespace.states[namespace_state])
+        parent.update_column(:state, Namespace.states[parent_state])
+        grandparent.update_column(:state, Namespace.states[grandparent_state])
+      end
+
+      it 'returns the expected result' do
+        expect(namespace.self_or_ancestors_transfer_in_progress?).to eq(expected_result)
+      end
+    end
+
+    context 'when group has no parent' do
+      let_it_be_with_reload(:root) { create(:group) }
+
+      it 'returns true when transfer_in_progress' do
+        root.schedule_transfer(transition_user: user)
+        root.start_transfer(transition_user: user)
+        expect(root.self_or_ancestors_transfer_in_progress?).to eq(true)
+      end
+
+      it 'returns false when not transfer_in_progress' do
+        expect(root.self_or_ancestors_transfer_in_progress?).to eq(false)
+      end
+    end
+  end
+
   describe '#traversal_ids' do
     let(:namespace) { build(:group) }
 

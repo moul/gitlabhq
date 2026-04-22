@@ -249,6 +249,39 @@ when manually passing inputs for:
 - Git [push options](../../topics/git/commit.md#push-options-for-gitlab-cicd)
 - [Pipeline schedules](../pipelines/schedules.md#create-a-pipeline-schedule)
 
+##### Array inputs with options
+
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/566155) in GitLab 19.0.
+
+{{< /history >}}
+
+You can define a list of options to restrict the allowed values for array inputs.
+When you run a pipeline manually, the UI displays a multi-select dropdown
+instead of a text field. For example:
+
+```yaml
+spec:
+  inputs:
+    runner_tags:
+      type: array
+      default: ["docker"]
+      options:
+        - docker
+        - linux
+        - gpu
+        - macos
+---
+
+test:
+  script:
+    - run_tests.sh
+  tags: $[[ inputs.runner_tags ]]
+```
+
+The pipeline fails to start if any value in the array input does not match a listed option.
+
 ##### Access individual array elements
 
 {{< history >}}

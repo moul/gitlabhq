@@ -2619,7 +2619,7 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
     let(:merge_request) { build(:merge_request, id: 1, project: project) }
 
     before do
-      allow(merge_request).to receive(:commit_shas).and_return(shas)
+      allow(merge_request).to receive(:commit_shas).with(bypass_preloaded: true).and_return(shas)
     end
 
     it 'fetches the changed paths from gitaly using commit SHAs' do
@@ -3782,6 +3782,24 @@ RSpec.describe MergeRequest, factory_default: :keep, feature_category: :code_rev
       context 'without a limit' do
         it 'returns all commit shas of the merge request diff' do
           expect(subject.commit_shas.size).to eq(29)
+        end
+      end
+
+      context 'with bypass_preloaded: true' do
+        it 'calls MergeRequestDiff#commit_shas with mode: :force_metadata' do
+          expect(subject.merge_request_diff)
+            .to receive(:commit_shas).with(hash_including(mode: :force_metadata))
+
+          subject.commit_shas(bypass_preloaded: true)
+        end
+      end
+
+      context 'with bypass_preloaded: false (default)' do
+        it 'calls MergeRequestDiff#commit_shas with mode: :preload' do
+          expect(subject.merge_request_diff)
+            .to receive(:commit_shas).with(hash_including(mode: :preload))
+
+          subject.commit_shas
         end
       end
     end

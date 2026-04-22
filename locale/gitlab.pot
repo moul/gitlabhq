@@ -16632,7 +16632,7 @@ msgstr ""
 msgid "ClusterAgents|You will need to create a token to connect to your agent"
 msgstr ""
 
-msgid "ClusterAgents|Your instance doesn't have the %{linkStart}GitLab Agent Server (KAS)%{linkEnd} set up. Ask a GitLab Administrator to install it."
+msgid "ClusterAgents|Your instance doesn't have the %{linkStart}GitLab Relay (KAS)%{linkEnd} set up. Ask a GitLab Administrator to install it."
 msgstr ""
 
 msgid "ClusterAgent|An agent can have only two active tokens at a time"
@@ -65984,6 +65984,9 @@ msgstr ""
 msgid "SecurityReports|(Sum of open vulnerability scores%{supStart}*%{supEnd} + Age penalty%{supStart}†%{supEnd}) * Diminishing factor%{supStart}‡%{supEnd} * Diversity factor%{supStart}§%{supEnd}"
 msgstr ""
 
+msgid "SecurityReports|0 vulnerabilities"
+msgstr ""
+
 msgid "SecurityReports|1 vulnerability attached to %{nrIssues} issues"
 msgstr ""
 
@@ -84865,10 +84868,16 @@ msgstr ""
 msgid "ciReport|%{criticalStart}critical%{criticalEnd}, %{highStart}high%{highEnd} and %{otherStart}other%{otherEnd} vulnerabilities detected."
 msgstr ""
 
-msgid "ciReport|%{criticalStart}critical%{criticalEnd}, %{highStart}high%{highEnd}, and %{otherStart}others%{otherEnd}"
+msgid "ciReport|%{danger_start}%{degradedNum} degraded%{danger_end}, %{same_start}%{sameNum} same%{same_end}, and %{success_start}%{improvedNum} improved%{success_end}"
 msgstr ""
 
-msgid "ciReport|%{danger_start}%{degradedNum} degraded%{danger_end}, %{same_start}%{sameNum} same%{same_end}, and %{success_start}%{improvedNum} improved%{success_end}"
+msgid "ciReport|%{firstSeverityStart}count severity%{firstSeverityEnd}"
+msgstr ""
+
+msgid "ciReport|%{firstSeverityStart}count severity%{firstSeverityEnd} and %{secondSeverityStart}count severity%{secondSeverityEnd}"
+msgstr ""
+
+msgid "ciReport|%{firstSeverityStart}count severity%{firstSeverityEnd}, %{secondSeverityStart}count severity%{secondSeverityEnd}, and %{thirdSeverityStart}count severity%{thirdSeverityEnd}"
 msgstr ""
 
 msgid "ciReport|%{prefix} %{strong_start}%{score}%{strong_end} %{delta} %{deltaPercent} in %{path}"
@@ -85132,6 +85141,9 @@ msgstr ""
 msgid "ciReport|No security scans enabled."
 msgstr ""
 
+msgid "ciReport|Other"
+msgstr ""
+
 msgid "ciReport|Parsing schema failed. Check the validity of your .gitlab-ci.yml content."
 msgstr ""
 
@@ -85224,7 +85236,16 @@ msgstr ""
 msgid "ciReport|Vulnerability was matched by a policy and will be auto-dismissed."
 msgstr ""
 
+msgid "ciReport|critical"
+msgstr ""
+
+msgid "ciReport|high"
+msgstr ""
+
 msgid "ciReport|in"
+msgstr ""
+
+msgid "ciReport|others"
 msgstr ""
 
 msgid "closed"
