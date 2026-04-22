@@ -17,12 +17,12 @@ Sessions show the status and execution data for the agents and flows you've run.
 Sessions are created by GitLab Duo Agentic Chat and foundational flows in the IDE or UI. Examples include:
 
 - Flows that are executed on a runner, like the [Fix your CI/CD Pipeline Flow](../flows/foundational_flows/fix_pipeline.md).
-  These sessions are visible in the UI under **Automate** > **Sessions**.
+  These sessions are visible in the UI under **AI** > **Sessions**.
 - Flows that run in the IDE, like the [Software development Flow](../flows/foundational_flows/software_development.md).
   These sessions are visible in the IDE, on the **Flows** tab, under **Sessions**.
 - Sessions created by GitLab Duo Chat. These sessions are visible on the right sidebar
   by selecting **GitLab Duo Chat history**.
-- Flows that are invoked by triggers. These sessions are visible in the UI under **Automate** > **Sessions**.
+- Flows that are invoked by triggers. These sessions are visible in the UI under **AI** > **Sessions**.
 
 ## View sessions for your project
 
@@ -33,7 +33,7 @@ Prerequisites:
 To view sessions for your project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Automate** > **Sessions**.
+1. In the left sidebar, select **AI** > **Sessions**.
 1. Select any session to view more details.
 
 ## View sessions you've triggered
@@ -57,7 +57,7 @@ To browse and switch Chat sessions in the GitLab Duo CLI, see [switch sessions](
 You can cancel a session that is running or waiting for input. To cancel a session:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Automate** > **Sessions**.
+1. In the left sidebar, select **AI** > **Sessions**.
 1. On the **Details** tab, scroll to the bottom.
 1. Select **Cancel session**.
 1. In the confirmation dialog, select **Cancel session** to confirm.

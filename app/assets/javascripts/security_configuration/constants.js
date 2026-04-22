@@ -108,12 +108,18 @@ export const TEMP_PROVIDER_URLS = {
 
 export const TAB_VULNERABILITY_MANAGEMENT_INDEX = 1;
 
+// tracking for security training
 export const TRACK_TOGGLE_TRAINING_PROVIDER_ACTION = 'toggle_security_training_provider';
 export const TRACK_TOGGLE_TRAINING_PROVIDER_LABEL = 'update_security_training_provider';
 export const TRACK_CLICK_TRAINING_LINK_ACTION = 'click_security_training_link';
 export const TRACK_PROVIDER_LEARN_MORE_CLICK_ACTION = 'click_link';
 export const TRACK_PROVIDER_LEARN_MORE_CLICK_LABEL = 'security_training_provider';
 export const TRACK_TRAINING_LOADED_ACTION = 'security_training_link_loaded';
+
+// tracking for scan profiles
+export const EVENT_VIEW_SCAN_PROFILE_TABLE = 'view_scan_profile_list';
+export const EVENT_CLICK_SCAN_PROFILE_LEARN_MORE_LINK = 'click_scan_profile_learn_more_link';
+export const EVENT_PREVIEW_SCAN_PROFILE = 'preview_scan_profile';
 
 export const i18n = {
   configurationHistory: s__('SecurityConfiguration|Configuration history'),

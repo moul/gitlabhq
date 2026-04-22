@@ -132,6 +132,10 @@ module WorkItems
         by_base_types(names).sort_by { |type| type.name.downcase }
       end
 
+      def wrap_type(type)
+        namespaced_type(type)
+      end
+
       private
 
       def resource_parent
@@ -164,23 +168,43 @@ module WorkItems
       # Override in EE to include custom types via the indexed cache.
       # In CE, resolves from system-defined types only.
       def resolve_by_id(id)
-        type_class.find_by(id: id)
+        type = type_class.find_by(id: id)
+        namespaced_type(type)
       end
 
       # Override in EE to return the converted custom type when one exists.
       # In CE, returns the system-defined type for the given base_type.
       def resolve_by_base_type(name)
-        type_class.default_by_type(name)
+        type = type_class.default_by_type(name)
+        namespaced_type(type)
       end
 
       # Override in EE to return all types (system-defined + custom) from the indexed cache.
       # In CE, returns system-defined types only.
       def resolve_all
-        type_class.all
+        type_class.all.map { |type| namespaced_type(type) }
+      end
+
+      def namespaced_type(type)
+        return unless type
+
+        NamespacedType.new(type, enabled: true, is_a_group: group_namespace?, tasks_on_boards: tasks_on_boards?)
+      end
+
+      def tasks_on_boards?
+        return false if namespace.nil?
+
+        namespace.try(:work_item_tasks_on_boards_feature_flag_enabled?) || false
       end
 
       def type_class
         WorkItems::TypesFramework::SystemDefined::Type
+      end
+
+      def group_namespace?
+        return false if namespace.nil?
+
+        namespace.is_a?(::Group)
       end
 
       def project_namespace?

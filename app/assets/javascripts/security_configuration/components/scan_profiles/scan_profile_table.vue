@@ -12,6 +12,7 @@ import {
 import { __ } from '~/locale';
 import { PROMO_URL } from '~/constants';
 import { helpPagePath } from '~/helpers/help_page_helper';
+import { InternalEvents } from '~/tracking';
 import {
   SCAN_PROFILE_CATEGORIES,
   SCAN_PROFILE_I18N,
@@ -21,6 +22,8 @@ import {
   SCAN_PROFILE_SCANNER_HEALTH_STALE,
   SCAN_PROFILE_SCANNER_HEALTH_UNCONFIGURED,
   SCAN_PROFILE_SCANNER_HEALTH_WARNING,
+  EVENT_VIEW_SCAN_PROFILE_TABLE,
+  EVENT_CLICK_SCAN_PROFILE_LEARN_MORE_LINK,
 } from '~/security_configuration/constants';
 import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 
@@ -36,7 +39,7 @@ export default {
     GlSkeletonLoader,
     GlSprintf,
   },
-  mixins: [glFeatureFlagsMixin()],
+  mixins: [glFeatureFlagsMixin(), InternalEvents.mixin()],
   props: {
     tableItems: {
       type: Array,
@@ -62,6 +65,9 @@ export default {
         '/user/application_security/configuration/security_configuration_profiles',
       );
     },
+  },
+  mounted() {
+    this.trackEvent(EVENT_VIEW_SCAN_PROFILE_TABLE);
   },
   methods: {
     getScannerMetadata(scanType) {
@@ -93,6 +99,7 @@ export default {
     },
   },
   LEARN_MORE_LINK: `${PROMO_URL}/solutions/application-security-testing/`,
+  EVENT_CLICK_SCAN_PROFILE_LEARN_MORE_LINK,
   SCAN_PROFILE_I18N,
 };
 </script>
@@ -131,7 +138,14 @@ export default {
         >
           <gl-sprintf :message="$options.SCAN_PROFILE_I18N.profileHelpDescription">
             <template #link="{ content }">
-              <gl-link :href="scanProfileHelpPath" target="_blank">{{ content }}</gl-link>
+              <gl-link
+                :href="scanProfileHelpPath"
+                target="_blank"
+                :data-event-tracking="$options.EVENT_CLICK_SCAN_PROFILE_LEARN_MORE_LINK"
+                data-event-label="profile_help"
+              >
+                {{ content }}
+              </gl-link>
             </template>
           </gl-sprintf>
         </gl-popover>
@@ -162,9 +176,14 @@ export default {
         >
           <gl-sprintf :message="getScannerMetadata(item.scanType).helpDescription">
             <template #link="{ content }">
-              <gl-link :href="getScannerMetadata(item.scanType).helpLink" target="_blank">{{
-                content
-              }}</gl-link>
+              <gl-link
+                :href="getScannerMetadata(item.scanType).helpLink"
+                target="_blank"
+                :data-event-tracking="$options.EVENT_CLICK_SCAN_PROFILE_LEARN_MORE_LINK"
+                data-event-label="scanner_help"
+              >
+                {{ content }}
+              </gl-link>
             </template>
           </gl-sprintf>
         </gl-popover>
@@ -190,6 +209,8 @@ export default {
           <gl-link
             :href="$options.LEARN_MORE_LINK"
             target="_blank"
+            :data-event-tracking="$options.EVENT_CLICK_SCAN_PROFILE_LEARN_MORE_LINK"
+            data-event-label="ultimate_hint"
             data-testid="learn-more-ultimate-link"
           >
             {{ __('Learn more about the Ultimate security suite') }}

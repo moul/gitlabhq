@@ -138,8 +138,8 @@ To view the current version of an agent or flow:
 
 1. In the top bar, select **Search or go to** and find your project or group.
 1. In the left sidebar, select either:
-   - **Automate** > **Agents**
-   - **Automate** > **Flows**
+   - **AI** > **Agents**
+   - **AI** > **Flows**
 1. Select the agent or flow to view its details.
 
 The details page displays:
@@ -158,8 +158,8 @@ To make your group or project use the latest version of an agent or flow:
 
 1. In the top bar, select **Search or go to** and find your project or group.
 1. In the left sidebar, select either:
-   - **Automate** > **Agents**
-   - **Automate** > **Flows**
+   - **AI** > **Agents**
+   - **AI** > **Flows**
 1. Select the agent or flow you want to update.
 1. Review the latest version carefully. To update, select **View latest version** > **Update to `<x.y.z>`**.
 

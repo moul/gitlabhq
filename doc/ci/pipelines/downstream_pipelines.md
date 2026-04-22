@@ -313,7 +313,11 @@ For example:
 trigger_pipeline:
   stage: deploy
   script:
-    - curl --request POST --form "token=$CI_JOB_TOKEN" --form ref=main "https://gitlab.example.com/api/v4/projects/9/trigger/pipeline"
+    - |
+      curl --request POST \
+        --form "token=$CI_JOB_TOKEN" \
+        --form ref=main \
+        --url "https://gitlab.example.com/api/v4/projects/9/trigger/pipeline"
   rules:
     - if: $CI_COMMIT_TAG
   environment: production

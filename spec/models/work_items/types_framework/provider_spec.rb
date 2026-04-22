@@ -480,6 +480,105 @@ RSpec.describe WorkItems::TypesFramework::Provider, feature_category: :team_plan
     end
   end
 
+  describe '#namespaced_type' do
+    it 'returns a NamespacedType wrapping the given type' do
+      result = provider.send(:namespaced_type, issue_type)
+
+      expect(result).to be_a(SimpleDelegator)
+      expect(result.id).to eq(issue_type.id)
+    end
+
+    it 'returns nil when type is nil' do
+      result = provider.send(:namespaced_type, nil)
+
+      expect(result).to be_nil
+    end
+
+    context 'when namespace is a group' do
+      let(:provider) { described_class.new(group) }
+
+      it 'sets is_a_group to true' do
+        result = provider.send(:namespaced_type, issue_type)
+
+        expect(result.send(:is_a_group)).to be(true)
+      end
+    end
+
+    context 'when namespace is a project' do
+      let(:provider) { described_class.new(project) }
+
+      it 'sets is_a_group to false' do
+        result = provider.send(:namespaced_type, issue_type)
+
+        expect(result.send(:is_a_group)).to be(false)
+      end
+    end
+
+    context 'when namespace is nil' do
+      let(:provider) { described_class.new(nil) }
+
+      it 'sets is_a_group to false' do
+        result = provider.send(:namespaced_type, issue_type)
+
+        expect(result.send(:is_a_group)).to be(false)
+      end
+    end
+  end
+
+  describe '#group_namespace?' do
+    context 'when namespace is a group' do
+      let(:provider) { described_class.new(group) }
+
+      it 'returns true' do
+        expect(provider.send(:group_namespace?)).to be(true)
+      end
+    end
+
+    context 'when namespace is a project' do
+      let(:provider) { described_class.new(project) }
+
+      it 'returns false' do
+        expect(provider.send(:group_namespace?)).to be(false)
+      end
+    end
+
+    context 'when namespace is nil' do
+      let(:provider) { described_class.new(nil) }
+
+      it 'returns false' do
+        expect(provider.send(:group_namespace?)).to be(false)
+      end
+    end
+  end
+
+  describe '#tasks_on_boards?' do
+    context 'when namespace is nil' do
+      let(:provider) { described_class.new(nil) }
+
+      it 'returns false' do
+        expect(provider.send(:tasks_on_boards?)).to be(false)
+      end
+    end
+
+    context 'when namespace has work_item_tasks_on_boards_feature_flag_enabled?' do
+      let(:provider) { described_class.new(group) }
+
+      it 'returns the value from namespace' do
+        allow(group).to receive(:work_item_tasks_on_boards_feature_flag_enabled?).and_return(true)
+
+        expect(provider.send(:tasks_on_boards?)).to be(true)
+      end
+    end
+
+    context 'when namespace does not respond to work_item_tasks_on_boards_feature_flag_enabled?' do
+      let(:provider) { described_class.new(organization) }
+
+      it 'returns false' do
+        expect(provider.send(:tasks_on_boards?)).to be(false)
+      end
+    end
+  end
+
   describe '#root_ancestor (private)' do
     subject(:root_ancestor) { provider.send(:root_ancestor) }
 

@@ -73,7 +73,7 @@ Prerequisites:
 To view a list of flows associated with your project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Automate** > **Flows**.
+1. In the left sidebar, select **AI** > **Flows**.
    - To view flows enabled in the project, select the **Enabled** tab.
    - To view flows managed by the project, select the **Managed** tab.
 
@@ -99,7 +99,7 @@ Prerequisites:
 To create a flow:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Automate** > **Flows**.
+1. In the left sidebar, select **AI** > **Flows**.
 1. Select **New flow**.
 1. Under **Basic information**:
    1. In **Display name**, enter a name.
@@ -153,7 +153,7 @@ Prerequisites:
 To enable a flow:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Automate** > **Flows**.
+1. In the left sidebar, select **AI** > **Flows**.
 1. Select the **Managed** tab, then select the flow you want to enable.
 1. In the upper-right corner, select **Enable**.
 1. Under **Project**, select the project you want to enable the flow in.
@@ -192,7 +192,7 @@ To enable a flow:
 
 {{< /tabs >}}
 
-The flow appears in the group and project **Automate** > **Flows** pages.
+The flow appears in the group and project **AI** > **Flows** pages.
 Members of any project in the top-level group can now enable the flow in their project.
 
 A service account is created in the group. The name of the account
@@ -210,7 +210,7 @@ Prerequisites:
 To enable a flow in a project:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Automate** > **Flows**.
+1. In the left sidebar, select **AI** > **Flows**.
 1. In the upper-right corner, select **Enable flow from group**.
 1. From the dropdown list, select the flow you want to enable.
 1. For **Add triggers**, select which events trigger the flow:
@@ -222,7 +222,7 @@ To enable a flow in a project:
      as a reviewer to a merge request.
 1. Select **Enable**.
 
-The flow appears in the project's **Automate** > **Flows** list.
+The flow appears in the project's **AI** > **Flows** list.
 
 The top-level group's service account is added to the project.
 This account is assigned the Developer role.
@@ -237,7 +237,7 @@ Prerequisites:
 To disable a flow:
 
 1. In the top bar, select **Search or go to** and find your group or project.
-1. Select **Automate** > **Flows**.
+1. Select **AI** > **Flows**.
 1. Find the flow you want to remove and select **Actions** ({{< icon name="ellipsis_v" >}}) > **Disable**.
 1. On the confirmation dialog, select **Disable**.
 
@@ -299,7 +299,7 @@ Prerequisites:
 - You must be a member of the managing project and have the Maintainer or Owner role.
 
 1. In the top bar, select **Search or go to** and find your group or project.
-1. Select **Automate** > **Flows**.
+1. Select **AI** > **Flows**.
 1. Select the flow you want to edit.
 1. In the upper-right corner, select **Edit**.
 1. Edit any fields you want to change, then select **Save changes**.
@@ -317,7 +317,7 @@ Prerequisites:
 To hide a flow:
 
 1. In the top bar, select **Search or go to** and find your group or project.
-1. Select **Automate** > **Flows**.
+1. Select **AI** > **Flows**.
 1. Find the flow you want to hide and select **Actions** ({{< icon name="ellipsis_v" >}}) > **Hide**.
 1. In the confirmation dialog, select **Confirm**.
 
@@ -330,7 +330,7 @@ Prerequisites:
 - You must be an administrator.
 
 1. In the top bar, select **Search or go to** and find your group or project.
-1. Select **Automate** > **Flows**.
+1. Select **AI** > **Flows**.
 1. Find the flow you want to delete and select **Actions** ({{< icon name="ellipsis_v" >}}) > **Delete**.
 1. In the confirmation dialog, select **Delete**.
 

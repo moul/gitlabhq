@@ -271,7 +271,8 @@ RSpec.describe 'Bulk update work items', feature_category: :team_planning do
     end
 
     context 'when updating work items that do not support requested widgets' do
-      let_it_be(:task) { create(:work_item, :task, project: project) }
+      let_it_be(:task_type) { build(:work_item_system_defined_type, :task) }
+      let_it_be(:task) { create(:work_item, work_item_type: task_type, project: project) }
       let_it_be(:issue) { create(:work_item, :issue, project: project) }
 
       let(:updatable_work_item_ids) { [task.to_gid.to_s, issue.to_gid.to_s] }
@@ -279,11 +280,15 @@ RSpec.describe 'Bulk update work items', feature_category: :team_planning do
       before do
         # the stub_all_work_item_widget does not work here as it not uses the get_widget method.
         # it uses the work_item.supported_quick_action_commands method that used the work_item_type.widget_classes
-        widgets = task.work_item_type.widget_classes(project).reject do |widget|
+        #
+        # We need to stub at the SystemDefined::Type level because BulkUpdateService loads work items
+        # fresh from the database, and work_item.work_item_type returns a new NamespacedType instance
+        # each time (which delegates to SystemDefined::Type). Stubbing task.work_item_type only affects
+        # the already-fetched instance, not the newly created one.
+        widgets = task_type.widget_classes(project).reject do |widget|
           widget == WorkItems::Widgets::Milestone
         end
-
-        allow(task.work_item_type).to receive(:widget_classes).with(project).and_return(widgets)
+        allow(task_type).to receive(:widget_classes).and_return(widgets)
       end
 
       context 'when updating milestone widget' do

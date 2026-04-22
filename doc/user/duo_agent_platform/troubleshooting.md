@@ -10,7 +10,7 @@ you might encounter the following issues.
 
 ## View logs
 
-After a flow is created, you can view the flow's session by going to **Automate** > **Sessions**.
+After a flow is created, you can view the flow's session by going to **AI** > **Sessions**.
 
 The **Details** tab shows a link to the CI/CD job logs.
 These logs can contain troubleshooting information.
@@ -24,7 +24,7 @@ If you are trying to run a flow but it's not visible in the GitLab UI:
 1. Ensure the group you are in has been given permission [to use flows](../../administration/gitlab_duo/configure/access_control.md).
 1. If the top-level group is configured correctly but flows are not visible for an individual project:
    1. Go to the project.
-   1. Select **Automate** > **Flows**.
+   1. Select **AI** > **Flows**.
    1. In the upper-right corner, select **Enable flow from group**.
    1. Select a flow, then select **Enable**.
 

@@ -12,11 +12,31 @@ module Gitlab
 
       def perform
         each_sub_batch do |sub_batch|
+          ids = sub_batch.pluck(:id) # rubocop:disable CodeReuse/ActiveRecord -- need to get IDs for deletion
+          next if ids.empty?
+
+          emails = ::Email.where(id: ids).to_a if cells_claims_enabled? # rubocop:disable CodeReuse/ActiveRecord -- need Email records for claims metadata
           sub_batch.delete_all
+          schedule_bulk_claims_destroy(emails) if cells_claims_enabled?
         end
       end
 
       private
+
+      def cells_claims_enabled?
+        ::Email.cells_claims_enabled_for_attribute?(:email)
+      end
+
+      def schedule_bulk_claims_destroy(records)
+        return if records.blank?
+
+        destroy_metadata = records.filter_map { |record| record.build_destroy_metadata_for_worker(:email) }
+        return if destroy_metadata.empty?
+
+        destroy_metadata.each_slice(::Cells::Claimable::BULK_CLAIMS_BATCH_SIZE) do |batch|
+          ::Cells::BulkClaimsWorker.perform_async(::Email.name, 'email', { 'destroy_metadata' => batch })
+        end
+      end
 
       def created_cut_off
         ApplicationSetting::USERS_UNCONFIRMED_SECONDARY_EMAILS_DELETE_AFTER_DAYS.days.ago

@@ -286,68 +286,6 @@ RSpec.describe WorkItems::TypesFramework::SystemDefined::Type, feature_category:
       end
     end
 
-    describe '.by_base_type_ordered_by_name' do
-      it 'orders results by name ascending (case-insensitive)' do
-        result = described_class.by_base_type_ordered_by_name([:issue, :task, :incident, :ticket])
-        names = result.map(&:name)
-
-        # Expected order: Incident, Issue, Task, Ticket
-        expect(names).to eq(%w[Incident Issue Task Ticket])
-      end
-
-      it 'returns empty array when no base_types match' do
-        result = described_class.by_base_type_ordered_by_name([:nonexistent, :fake])
-
-        expect(result).to be_empty
-      end
-
-      it 'returns empty array when given empty array' do
-        result = described_class.by_base_type_ordered_by_name([])
-
-        expect(result).to be_empty
-      end
-
-      it 'handles single base_type' do
-        result = described_class.by_base_type_ordered_by_name([:issue])
-
-        expect(result.size).to eq(1)
-        expect(result.first.base_type).to eq('issue')
-      end
-
-      it 'accepts string base_types' do
-        result = described_class.by_base_type_ordered_by_name(%w[issue task])
-
-        expect(result.map(&:base_type)).to match_array(%w[issue task])
-      end
-
-      it 'accepts mixed symbols and strings' do
-        result = described_class.by_base_type_ordered_by_name([:issue, 'task'])
-
-        expect(result.map(&:base_type)).to match_array(%w[issue task])
-      end
-
-      it 'sorts case-insensitively' do
-        all_types = [:issue, :incident, :task, :ticket]
-        result = described_class.by_base_type_ordered_by_name(all_types)
-        names = result.map(&:name)
-
-        expect(names).to eq(names.sort_by(&:downcase))
-      end
-
-      it 'ignores duplicate base_types' do
-        result = described_class.by_base_type_ordered_by_name([:issue, :issue, :task, :task])
-
-        expect(result.map(&:base_type)).to match_array(%w[issue task])
-      end
-
-      it 'maintains order when base_types are provided in different order' do
-        result1 = described_class.by_base_type_ordered_by_name([:task, :incident, :issue])
-        result2 = described_class.by_base_type_ordered_by_name([:issue, :incident, :task])
-
-        expect(result1.map(&:name)).to eq(result2.map(&:name))
-      end
-    end
-
     describe '.with_widget_definition' do
       let(:assignees_widget_type) { :assignees }
       let(:description_widget_type) { :description }
@@ -1404,38 +1342,10 @@ RSpec.describe WorkItems::TypesFramework::SystemDefined::Type, feature_category:
     let(:incident_type) { build(:work_item_system_defined_type, :incident) }
     let(:ticket_type) { build(:work_item_system_defined_type, :ticket) }
 
-    shared_examples "a type that supports filterable list view" do
-      let(:all_types) { [issue_type, task_type, incident_type, ticket_type] }
-      it "returns true for all types", :aggregate_failures do
-        all_types.each do |type|
-          expect(type.filterable_list_view?(resource_parent)).to be true
-        end
+    it 'returns true for all CE types', :aggregate_failures do
+      [issue_type, task_type, incident_type, ticket_type].each do |type|
+        expect(type.filterable_list_view?).to be true
       end
-    end
-
-    context 'when resource_parent is a project' do
-      let(:resource_parent) { build(:project) }
-
-      it_behaves_like "a type that supports filterable list view"
-    end
-
-    context 'when resource_parent is nil' do
-      let(:resource_parent) { nil }
-
-      it_behaves_like "a type that supports filterable list view"
-    end
-
-    context "when resource parent is a group" do
-      let(:resource_parent) { build(:group) }
-
-      it_behaves_like "a type that supports filterable list view"
-    end
-
-    context 'when resource_parent is a Namespaces::ProjectNamespace' do
-      let(:project) { build(:project) }
-      let(:resource_parent) { project.project_namespace }
-
-      it_behaves_like "a type that supports filterable list view"
     end
   end
 
@@ -1444,70 +1354,11 @@ RSpec.describe WorkItems::TypesFramework::SystemDefined::Type, feature_category:
     let(:incident_type) { build(:work_item_system_defined_type, :incident) }
     let(:ticket_type) { build(:work_item_system_defined_type, :ticket) }
     let(:task_type) { build(:work_item_system_defined_type, :task) }
-    let(:project) { build(:project) }
 
-    shared_examples "filterable_board_view for all types except task" do
-      let(:all_types_without_task) { [issue_type, incident_type, ticket_type] }
-
-      it "returns true for all types except task", :aggregate_failures do
-        all_types_without_task.each do |type|
-          expect(type.filterable_board_view?(resource_parent)).to be true
-        end
+    it 'returns true for issue, incident, ticket, and task types', :aggregate_failures do
+      [issue_type, incident_type, ticket_type, task_type].each do |type|
+        expect(type.filterable_board_view?).to be true
       end
-    end
-
-    shared_examples "filterable_board_view for tasks" do |expected_with_license:|
-      context 'with task type' do
-        it 'returns expected result when feature flag is enabled' do
-          expect(task_type.filterable_board_view?(resource_parent)).to be expected_with_license
-        end
-
-        context "when the work_item_tasks_on_boards feature flag is disabled" do
-          before do
-            stub_feature_flags(work_item_tasks_on_boards: false)
-          end
-
-          it 'returns false when feature flag is disabled' do
-            expect(task_type.filterable_board_view?(resource_parent)).to be false
-          end
-        end
-      end
-    end
-
-    context 'when resource_parent is a project' do
-      let(:resource_parent) { build(:project) }
-
-      it_behaves_like "filterable_board_view for all types except task"
-      it_behaves_like "filterable_board_view for tasks", expected_with_license: true
-    end
-
-    context 'when resource_parent is nil' do
-      let(:resource_parent) { nil }
-
-      it_behaves_like "filterable_board_view for all types except task"
-      it_behaves_like "filterable_board_view for tasks", expected_with_license: false
-    end
-
-    context 'when resource_parent is a group' do
-      let(:resource_parent) { build(:group) }
-
-      it_behaves_like "filterable_board_view for all types except task"
-      it_behaves_like "filterable_board_view for tasks", expected_with_license: true
-    end
-
-    context 'when resource_parent is a Namespaces::ProjectNamespace' do
-      let(:project) { build(:project) }
-      let(:resource_parent) { project.project_namespace }
-
-      it_behaves_like "filterable_board_view for all types except task"
-      it_behaves_like "filterable_board_view for tasks", expected_with_license: true
-    end
-
-    context "when resource_parent is an Organization" do
-      let(:resource_parent) { build(:organization) }
-
-      it_behaves_like "filterable_board_view for all types except task"
-      it_behaves_like "filterable_board_view for tasks", expected_with_license: false
     end
   end
 end

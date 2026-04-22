@@ -28,6 +28,10 @@ RSpec.shared_examples 'User views wiki pages' do
     visit(wiki_path(wiki, action: :pages))
   end
 
+  it 'shows a link to create a new page' do
+    expect(page).to have_link('New page')
+  end
+
   context 'ordered by title', quarantine: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/issues/24077' do
     let(:pages_ordered_by_title) { [wiki_page2, wiki_page3, wiki_page1] }
 

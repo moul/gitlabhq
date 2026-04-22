@@ -45,7 +45,7 @@ Prerequisites:
 To create a trigger:
 
 1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Automate** > **Triggers**.
+1. In the left sidebar, select **AI** > **Triggers**.
 1. Select **New flow trigger**.
 1. In **Description**, enter a description for the trigger.
 1. From the **Event types** dropdown list, select one or more event types:
@@ -67,18 +67,18 @@ To create a trigger:
      To view this option, the `ai_catalog_create_third_party_flows` flag must be enabled.
 1. Select **Create flow trigger**.
 
-The trigger now appears in **Automate** > **Triggers**.
+The trigger now appears in **AI** > **Triggers**.
 
 ### Edit a trigger
 
 1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Automate** > **Triggers**.
+1. In the left sidebar, select **AI** > **Triggers**.
 1. For the trigger you want to change, select **Edit flow trigger** ({{< icon name="pencil" >}}).
 1. Make the changes and select **Save changes**.
 
 ### Delete a trigger
 
 1. In the top bar, select **Search or go to** and find your project.
-1. In the left sidebar, select **Automate** > **Triggers**.
+1. In the left sidebar, select **AI** > **Triggers**.
 1. For the trigger you want to change, select **Delete flow trigger** ({{< icon name="remove" >}}).
 1. On the confirmation dialog, select **OK**.

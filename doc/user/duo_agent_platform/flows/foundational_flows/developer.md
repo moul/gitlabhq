@@ -82,7 +82,7 @@ promising approach.
 
 The Developer Flow responds with a link to its session.
 
-Alternatively, to monitor progress, in the left sidebar, select **Automate** > **Sessions**.
+Alternatively, to monitor progress, in the left sidebar, select **AI** > **Sessions**.
 
 ### Generate a merge request from an issue
 
@@ -96,7 +96,7 @@ To create a merge request from an issue:
      1. In the right sidebar, in the **Assignees** section, select **Edit**.
      1. Type `duo developer` and select it from the search results.
    - Below the issue header, select **Generate MR with GitLab Duo**.
-1. Optional. To monitor the flow's progress, in the left sidebar, select **Automate** > **Sessions**.
+1. Optional. To monitor the flow's progress, in the left sidebar, select **AI** > **Sessions**.
 1. When the session completes, review the merge request from the link in the **Activity** section of the issue.
 
 ## Best practices
