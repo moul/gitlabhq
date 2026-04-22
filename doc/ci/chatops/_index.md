@@ -102,7 +102,7 @@ ls:
     - echo -e "section_start:$( date +%s ):chat_reply\r\033[0K\n$( ls -la )\nsection_end:$( date +%s ):chat_reply\r\033[0K"
 ```
 
-## Trigger a CI/CD job using ChatOps
+## Run a CI/CD job using ChatOps
 
 Prerequisites:
 
@@ -111,7 +111,7 @@ Prerequisites:
 
 You can run a CI/CD job on the default branch from Slack or Mattermost.
 
-The slash command to trigger a CI/CD job depends on which slash command integration
+The slash command to run a CI/CD job depends on which slash command integration
 is configured for the project.
 
 - For the GitLab for Slack app, use `/gitlab <project-name> run <job name> <arguments>`.

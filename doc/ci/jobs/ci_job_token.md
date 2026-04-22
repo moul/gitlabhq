@@ -20,8 +20,8 @@ is revoked and you cannot use the token anymore.
 
 Use a CI/CD job token to authenticate with certain GitLab features from running jobs.
 The token receives the same access level as the user that triggered the pipeline,
-but has [access to fewer resources](#job-token-access) than a personal access token. A user can cause a job to run
-with an action like pushing a commit, triggering a manual job, or being the owner of a scheduled pipeline.
+but has [access to fewer resources](#job-token-access) than a personal access token. A user
+can trigger a job by pushing a commit, running a manual job, or owning a scheduled pipeline.
 This user must have a [role that has the required privileges](../../user/permissions.md#project-cicd)
 to access the resources.
 
@@ -72,7 +72,7 @@ more granular.
 ## GitLab CI/CD job token security
 
 If a job token is leaked, it could potentially be used to access private data accessible
-to the user that triggered the CI/CD job. To help prevent leaking or misuse of this token,
+to the user that ran the CI/CD job. To help prevent leaking or misuse of this token,
 GitLab:
 
 - Masks the job token in job logs.
@@ -253,7 +253,7 @@ If you use the `semantic-release` tool, [this setting might prevent pipeline cre
 
 > [!warning]
 > Do not enable this setting on projects configured as [pull mirrors](../../user/project/repository/mirror/pull.md),
-> especially if [pipelines are triggered for mirror updates](../../user/project/repository/mirror/pull.md#trigger-pipelines-for-mirror-updates).
+> especially if [pipelines run for mirror updates](../../user/project/repository/mirror/pull.md#trigger-pipelines-for-mirror-updates).
 > The upstream repository owner could attempt to use the `CI_JOB_TOKEN` to push commits to the mirrored project.
 
 Prerequisites:
@@ -439,7 +439,7 @@ When using JWT format job tokens in GitLab 18.8 and earlier, a job could fail wi
 a `403 Forbidden` error. This can happen in:
 
 - Jobs that use [`needs`](../yaml/_index.md#needs).
-- Jobs triggered from [child pipelines](../pipelines/downstream_pipelines.md#parent-child-pipelines).
+- Jobs in [child pipelines](../pipelines/downstream_pipelines.md#parent-child-pipelines).
 - Jobs that run for longer than approximately 6 minutes without producing console output.
 
 The error typically appeared in runner logs as:

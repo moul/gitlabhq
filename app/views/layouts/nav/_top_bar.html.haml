@@ -1,6 +1,0 @@
-.top-bar-fixed.container-fluid.gl-rounded-t-lg.gl-sticky.gl-top-0.gl-left-0.gl-mx-0.gl-w-full{ class: class_names('without-breadcrumbs': Feature.enabled?(:page_breadcrumbs_in_top_bar, current_user)), data: { testid: 'top-bar' } }
-  .top-bar-container.gl-flex.gl-items-center.gl-gap-2
-    .gl-grow.gl-basis-0.gl-flex.gl-items-center.gl-justify-start.gl-gap-3
-      = render "layouts/nav/breadcrumbs/breadcrumbs"
-      = render "layouts/nav/work_items/feedback_popup"
-      = yield(:top_bar_actions) if content_for?(:top_bar_actions)

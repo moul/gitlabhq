@@ -55669,9 +55669,6 @@ msgstr ""
 msgid "ProjectSettings|Allow security policy bots to access CI/CD configuration files in this project."
 msgstr ""
 
-msgid "ProjectSettings|Allow skipping the merge train"
-msgstr ""
-
 msgid "ProjectSettings|Allow users and tokens read-only access to fetch security policy configurations in this project to enforce policies. %{linkStart}Learn more%{linkEnd}."
 msgstr ""
 
@@ -55741,7 +55738,7 @@ msgstr ""
 msgid "ProjectSettings|Comma-separated glob patterns for files the bot can access (for example, ci/**/*.yml)."
 msgstr ""
 
-msgid "ProjectSettings|Commits in earlier merge train pipelines might not get validated with immediately merged commits. "
+msgid "ProjectSettings|Commits in earlier merge train pipelines might not be validated against the merged commits. "
 msgstr ""
 
 msgid "ProjectSettings|Configure %{link_start}data sources%{link_end} to be used for your dashboards."
@@ -55933,6 +55930,9 @@ msgstr ""
 msgid "ProjectSettings|Merge commit with semi-linear history"
 msgstr ""
 
+msgid "ProjectSettings|Merge immediately without restarting the merge train"
+msgstr ""
+
 msgid "ProjectSettings|Merge method"
 msgstr ""
 
@@ -55946,9 +55946,6 @@ msgid "ProjectSettings|Merge requests"
 msgstr ""
 
 msgid "ProjectSettings|Merge requests approved for merge are queued, and pipelines validate the combined results of the source and target branches before merge. %{link_start}What are merge trains?%{link_end}"
-msgstr ""
-
-msgid "ProjectSettings|Merge requests can be set to merge immediately without restarting pipelines for other trains in the queue. "
 msgstr ""
 
 msgid "ProjectSettings|Merge suggestions"
@@ -56231,6 +56228,9 @@ msgid "ProjectSettings|When enabled, security policy bots from projects in the s
 msgstr ""
 
 msgid "ProjectSettings|When merge request pipelines are enabled in the CI/CD configuration file, pipelines validate the combined results of the source and target branches. %{link_start}How to configure merge request pipelines?%{link_end}"
+msgstr ""
+
+msgid "ProjectSettings|When selected, merge requests merge immediately without restarting other train pipelines. "
 msgstr ""
 
 msgid "ProjectSettings|When semi-linear merge is not possible, the user is given the option to rebase."

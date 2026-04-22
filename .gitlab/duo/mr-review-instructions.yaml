@@ -266,7 +266,7 @@ instructions:
     instructions: |
       For ViewComponent changes, verify:
       1. Composition over inheritance:
-         - Flag ViewComponents that inherit from another ViewComponent (not ViewComponent::Base or ApplicationComponent)
+         - Flag ViewComponents that inherit from another ViewComponent (not ViewComponent::Base)
          - Remind: "Prefer composition (wrapping one component with another) over inheritance between ViewComponents, as inheritance with separate templates leads to confusion"
       2. Instance method visibility:
          - Flag public instance methods that are only used in the component template

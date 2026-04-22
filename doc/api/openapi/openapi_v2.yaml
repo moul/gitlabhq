@@ -11485,6 +11485,23 @@ paths:
         format: int32
         required: true
         example: 88
+      - in: query
+        name: byte_offset
+        description: Byte offset to start reading from
+        type: integer
+        format: int32
+        minimum: 0
+        required: false
+        example: 0
+      - in: query
+        name: byte_limit
+        description: Maximum number of bytes to return
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 512000
+        required: false
+        example: 51200
       - in: path
         name: id
         type: integer

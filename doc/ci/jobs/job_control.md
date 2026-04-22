@@ -53,7 +53,7 @@ In blocking manual jobs:
   enabled can't be merged with a blocked pipeline.
 - The pipeline shows a status of **blocked**.
 
-When using manual jobs in triggered pipelines with a [`trigger:strategy`](../yaml/_index.md#triggerstrategy),
+When using manual jobs in downstream pipelines with a [`trigger:strategy`](../yaml/_index.md#triggerstrategy),
 the type of manual job can affect the trigger job's status while the pipeline runs.
 
 ### Run a manual job
@@ -121,7 +121,7 @@ To retry a manual job with previously-specified variables:
 Use [`manual_confirmation`](../yaml/_index.md#manual_confirmation) with `when: manual` to require confirmation for manual jobs.
 This helps prevent accidental deployments or deletions for sensitive jobs like those that deploy to production.
 
-When you trigger the job, you must confirm the action before it runs.
+When you run the job, you must confirm the action before it runs.
 
 ### Protect manual jobs
 
@@ -134,7 +134,7 @@ When you trigger the job, you must confirm the action before it runs.
 
 Use [protected environments](../environments/protected_environments.md)
 to define a list of users authorized to run a manual job. You can authorize only
-the users associated with a protected environment to trigger manual jobs, which can:
+the users associated with a protected environment to run manual jobs, which can:
 
 - More precisely limit who can deploy to an environment.
 - Block a pipeline until an approved user "approves" it.
@@ -158,8 +158,8 @@ To protect a manual job:
 
 1. In the [protected environments settings](../environments/protected_environments.md#protecting-environments),
    select the environment (`production` in this example) and add the users, roles or groups
-   that are authorized to trigger the manual job to the **Allowed to Deploy** list. Only those in
-   this list can trigger this manual job, and GitLab administrators
+   that are authorized to run the manual job to the **Allowed to Deploy** list. Only those in
+   this list can run this manual job, and GitLab administrators
    who are always able to use protected environments.
 
 You can use protected environments with blocking manual jobs to have a list of users

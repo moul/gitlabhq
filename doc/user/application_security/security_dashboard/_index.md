@@ -217,11 +217,9 @@ To view details:
 {{< history >}}
 
 - [Introduced](https://gitlab.com/groups/gitlab-org/-/work_items/17422) in GitLab 18.11 [with a feature flag](../../../administration/feature_flags/_index.md) named `new_security_dashboard_vulnerabilities_by_identifier`. Enabled by default.
+- [Generally available](https://gitlab.com/gitlab-org/gitlab/-/issues/592130) in GitLab 19.0. Feature flag `new_security_dashboard_vulnerabilities_by_identifier` removed.
 
 {{< /history >}}
-
-> [!flag]
-> The availability of this feature is controlled by a feature flag. For more information, see the history.
 
 The **Top 10 CWEs** chart is available on group and project dashboards. It shows the 10 most common CWE identifiers associated with the open vulnerabilities in the group or project.
 

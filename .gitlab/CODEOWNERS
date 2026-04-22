@@ -1898,6 +1898,7 @@ ee/app/workers/ai/repository_xray/
 # Necessary to keep the design system in-sync
 [Foundations::Design System] @gitlab-org/foundations/design-system/engineering
 /app/components/pajamas/
+/app/components/layouts/static_panel*
 
 # Search framework maintainers
 [Advanced Search Framework] @gitlab-org/search-team/maintainers/advanced-framework

@@ -229,7 +229,7 @@ Use the `CI_PIPELINE_SOURCE` variable to control when to add jobs for these pipe
 | `merge_request_event`           | For pipelines created when a merge request is created or updated. Required to enable [merge request pipelines](../pipelines/merge_request_pipelines.md), [merged results pipelines](../pipelines/merged_results_pipelines.md), and [merge trains](../pipelines/merge_trains.md). |
 | `ondemand_dast_scan`            | For [DAST on-demand scan](../../user/application_security/dast/on-demand_scan.md) pipelines. |
 | `ondemand_dast_validation`      | For [DAST on-demand validation](../../user/application_security/dast/profiles.md#site-profile-validation) pipelines |
-| `parent_pipeline`               | For pipelines triggered by a [parent/child pipeline](../pipelines/downstream_pipelines.md#parent-child-pipelines). Use this pipeline source in the child pipeline configuration so that it can be triggered by the parent pipeline. |
+| `parent_pipeline`               | For child pipelines triggered by a [parent pipeline](../pipelines/downstream_pipelines.md#parent-child-pipelines). Use this pipeline source in the child pipeline configuration so that it can be triggered by the parent pipeline. |
 | `pipeline`                      | For [multi-project pipelines](../pipelines/downstream_pipelines.md#multi-project-pipelines). |
 | `push`                          | For pipelines triggered by a Git push event, including for branches and tags. |
 | `schedule`                      | For [scheduled pipelines](../pipelines/schedules.md). |
@@ -313,7 +313,7 @@ You can also avoid duplicate pipelines by changing the job rules to avoid either
 pipelines or merge request pipelines. However, if you use a `- when: always` rule without
 `workflow: rules`, GitLab displays a [pipeline warning](../debugging.md#pipeline-warnings).
 
-For example, the following does not trigger double pipelines, but is not recommended
+For example, the following does not cause double pipelines, but is not recommended
 without `workflow: rules`:
 
 ```yaml

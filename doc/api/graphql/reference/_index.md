@@ -29237,7 +29237,7 @@ Extra metadata for AI message.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="aimessageextras-additionalcontext"></a>`additionalContext` | [`[AiAdditionalContext!]`](#aiadditionalcontext) | Additional context for the message. |
-| <a id="aimessageextras-hasfeedback"></a>`hasFeedback` | [`Boolean`](#boolean) | Whether the user has provided feedback for the mesage. |
+| <a id="aimessageextras-hasfeedback"></a>`hasFeedback` | [`Boolean`](#boolean) | Whether the user has provided feedback for the message. |
 | <a id="aimessageextras-sources"></a>`sources` | [`[JSON!]`](#json) | Sources used to form the message. |
 
 ### `AiMetrics`

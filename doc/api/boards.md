@@ -454,7 +454,7 @@ POST /projects/:id/boards/:board_id/lists
 | `label_id` | integer | no | The ID of a label. |
 | `assignee_id` | integer | no | The ID of a user. Premium and Ultimate only. |
 | `milestone_id` | integer | no | The ID of a milestone. Premium and Ultimate only. |
-| `iteration_id` | integer | no | The ID of a iteration. Premium and Ultimate only. |
+| `iteration_id` | integer | no | The ID of an iteration. Premium and Ultimate only. |
 
 > [!note]
 > Label, assignee and milestone arguments are mutually exclusive,

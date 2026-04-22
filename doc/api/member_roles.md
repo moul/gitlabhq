@@ -98,7 +98,7 @@ Example response:
 ]
 ```
 
-### Create a instance member role
+### Create an instance member role
 
 Create an instance-wide member role.
 

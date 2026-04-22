@@ -958,9 +958,7 @@ class ProjectPolicy < BasePolicy
     enable :read_model_registry
   end
 
-  rule { developer & model_registry_enabled }.policy do
-    enable :write_model_registry
-  end
+  rule { ~model_registry_enabled }.prevent :write_model_registry
 
   rule { public_project & model_experiments_enabled }.policy do
     enable :read_model_experiments
@@ -970,9 +968,7 @@ class ProjectPolicy < BasePolicy
     enable :read_model_experiments
   end
 
-  rule { developer & model_experiments_enabled }.policy do
-    enable :write_model_experiments
-  end
+  rule { ~model_experiments_enabled }.prevent :write_model_experiments
 
   rule { ~private_project & guest & external_user }.enable :read_container_image
 

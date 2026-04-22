@@ -92,7 +92,7 @@ With `spec:inputs`:
 
 Then you set the values for the inputs when you:
 
-- [Trigger a new pipeline](#for-a-pipeline) using this configuration file.
+- [Run a new pipeline](#for-a-pipeline) using this configuration file.
   You should always set default values when using inputs to configure new pipelines
   with any method other than `include`. Otherwise the pipeline could fail to start
   if a new pipeline triggers automatically, including in:
@@ -243,7 +243,7 @@ test_job:
 Array inputs must be formatted as JSON, for example `["array-input-1", "array-input-2"]`,
 when manually passing inputs for:
 
-- [Manually triggered pipelines](../pipelines/_index.md#run-a-pipeline-manually).
+- [Manually run pipelines](../pipelines/_index.md#run-a-pipeline-manually).
 - The [pipeline triggers API](../../api/pipeline_triggers.md#trigger-a-pipeline-with-a-token).
 - The [pipelines API](../../api/pipelines.md#create-a-new-pipeline).
 - Git [push options](../../topics/git/commit.md#push-options-for-gitlab-cicd)
@@ -603,16 +603,16 @@ of the main `.gitlab-ci.yml` file. You cannot use inputs defined in included fil
 > For enhanced security, you should [disable pipeline variables](../variables/_index.md#restrict-pipeline-variables) when using inputs.
 
 You should always set default values when defining inputs for pipelines.
-Otherwise the pipeline could fail to start if a new pipeline triggers automatically.
+If any input is missing a default, the pipeline fails when it triggers automatically.
 For example, merge request pipelines can trigger for changes to a merge request's source branch.
 You cannot manually set inputs for merge request pipelines, so if any input is missing a default,
-the pipeline fails to create. This can also happen for branch pipelines, tag pipelines,
+the pipeline fails. This can also happen for branch pipelines, tag pipelines,
 and other automatically triggered pipelines.
 
 You can set input values with:
 
 - [Downstream pipelines](../pipelines/downstream_pipelines.md#pass-inputs-to-a-downstream-pipeline)
-- [Manually triggered pipelines](../pipelines/_index.md#run-a-pipeline-manually).
+- [Manually run pipelines](../pipelines/_index.md#run-a-pipeline-manually).
 - The [pipeline triggers API](../../api/pipeline_triggers.md#trigger-a-pipeline-with-a-token)
 - The [pipelines API](../../api/pipelines.md#create-a-new-pipeline)
 - Git [push options](../../topics/git/commit.md#push-options-for-gitlab-cicd)

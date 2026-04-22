@@ -2,6 +2,7 @@
 stage: Security Risk Management
 group: Security Insights
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
+description: Use the Dependency List Export API to generate and download export files of project or group dependencies.
 title: Dependency list export API
 ---
 

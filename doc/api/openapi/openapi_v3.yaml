@@ -13280,7 +13280,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_bb57c4a7c4c6"
+              "$ref": "#/components/schemas/RequestBody_2e164c8419ab"
   "/api/v4/projects/{id}/ml/mlflow/api/2.0/mlflow/runs/delete":
     post:
       operationId: postApiV4ProjectsIdMlMlflowApi20MlflowRunsDelete
@@ -16942,7 +16942,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_78920f4806ad"
+              "$ref": "#/components/schemas/RequestBody_dc8984c055fe"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -64123,6 +64123,25 @@ paths:
           type: integer
         in: path
         example: 88
+      - name: byte_offset
+        required: false
+        description: Byte offset to start reading from
+        schema:
+          type: integer
+          minimum: 0
+          nullable: true
+        in: query
+        example: 0
+      - name: byte_limit
+        required: false
+        description: Maximum number of bytes to return
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 512000
+          nullable: true
+        in: query
+        example: 51200
       - name: id
         required: true
         schema: {}
@@ -74599,6 +74618,8 @@ components:
         duo_workflows_default_image_registry:
           type: string
         ci_telemetry_otel_endpoint:
+          type: string
+        ci_job_telemetry_sampling_rate:
           type: string
         disabled_direct_code_suggestions:
           type: string
@@ -91136,7 +91157,7 @@ components:
       - run_id
       - key
       - value
-    RequestBody_bb57c4a7c4c6:
+    RequestBody_2e164c8419ab:
       type: object
       properties:
         run_id:
@@ -91172,7 +91193,7 @@ components:
           nullable: true
         params:
           type: array
-          description: Array that contains paramater information
+          description: Array that contains parameter information
           items:
             type: object
             properties:
@@ -91785,7 +91806,7 @@ components:
           nullable: true
       required:
       - avatar
-    RequestBody_78920f4806ad:
+    RequestBody_dc8984c055fe:
       type: object
       properties:
         admin_mode:
@@ -92985,6 +93006,10 @@ components:
         ci_telemetry_otel_endpoint:
           type: string
           description: OTEL Collector endpoint URL for CI job telemetry
+          nullable: true
+        ci_job_telemetry_sampling_rate:
+          type: number
+          description: Sampling rate for CI job telemetry (0.0 to 1.0)
           nullable: true
         duo_namespace_access_rules:
           type: array

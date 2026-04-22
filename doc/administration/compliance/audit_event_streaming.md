@@ -79,7 +79,7 @@ Prerequisites:
 
 - Administrator access on the instance.
 
-To update a instance streaming destination's name:
+To update an instance streaming destination's name:
 
 1. In the upper-right corner, select **Admin**.
 1. In the left sidebar, select **Monitoring** > **Audit events**.
@@ -88,7 +88,7 @@ To update a instance streaming destination's name:
 1. In the **Name** fields, add a destination name to update.
 1. Select **Save** to update the streaming destination.
 
-To update a instance streaming destination's custom HTTP headers:
+To update an instance streaming destination's custom HTTP headers:
 
 1. In the upper-right corner, select **Admin**.
 1. In the left sidebar, select **Monitoring** > **Audit events**.

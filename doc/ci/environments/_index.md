@@ -500,7 +500,7 @@ stop_review:
 ```
 
 > [!note]
-> When using this functionality together with merge trains, the `stop` job triggers only if [duplicate pipelines are avoided](../jobs/job_rules.md#avoid-duplicate-pipelines).
+> When using this functionality together with merge trains, the `stop` job runs only if [duplicate pipelines are avoided](../jobs/job_rules.md#avoid-duplicate-pipelines).
 
 ### Stop an environment after a certain time period
 
@@ -513,13 +513,13 @@ You can set an environment to stop automatically after a certain time period.
 
 In your `.gitlab-ci.yml` file, specify the [`environment:auto_stop_in`](../yaml/_index.md#environmentauto_stop_in)
 keyword. Specify the time period in natural language, such as `1 hour and 30 minutes` or `1 day`.
-After the time period passes, GitLab automatically triggers a job to stop the environment.
+After the time period passes, GitLab automatically starts a job to stop the environment.
 
 In the following example:
 
-- Each commit on a merge request triggers a `review_app` job that deploys the latest change to the
+- Each commit on a merge request runs a `review_app` job that deploys the latest change to the
   environment and resets its expiry period.
-- If the environment is inactive for more than a week, GitLab automatically triggers the
+- If the environment is inactive for more than a week, GitLab automatically runs the
   `stop_review_app` job to stop the environment.
 
 ```yaml

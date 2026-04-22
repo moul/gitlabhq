@@ -1,0 +1,16 @@
+.js-static-panel.static-panel.content-wrapper.gl-relative.paneled-view.gl-flex-1.gl-overflow-y-auto.gl-bg-default{ @html_options }
+  .panel-header
+    .broadcast-wrapper
+      = broadcasts
+    .top-bar-fixed.container-fluid.gl-rounded-t-lg.gl-sticky.gl-top-0.gl-left-0.gl-mx-0.gl-w-full{ class: top_bar_classes }
+      .top-bar-container.gl-flex.gl-items-center.gl-gap-2
+        .gl-grow.gl-basis-0.gl-flex.gl-items-center.gl-justify-start.gl-gap-3
+          = header
+  .panel-content
+    .panel-content-inner.js-static-panel-inner
+      = before_body
+      %div{ @container_options }
+        %main#content-body.content.gl-pb-3{ **@main_options, class: "gl-@container/panel" }
+          = body
+      = after_body
+    = footer

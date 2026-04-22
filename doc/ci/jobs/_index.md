@@ -263,7 +263,7 @@ CI/CD jobs can have the following statuses:
 
 {{< /history >}}
 
-GitLab CI/CD jobs now include a source attribute that indicates the action that initially triggered a CI/CD job.
+GitLab CI/CD jobs include a source attribute that indicates the action that triggered the job.
 Use this attribute to track how a job was initiated or filter job runs based on the specific sources.
 
 #### Available job sources
@@ -281,7 +281,7 @@ The source attribute can have the following values:
 - `ondemand_dast_validation`: Job initiated by an on-demand DAST validation.
 - `parent_pipeline`: Job initiated by a parent pipeline
 - `pipeline`: Job initiated by a user manually running a pipeline.
-- `pipeline_execution_policy`: Job initiated by a triggered pipeline execution policy.
+- `pipeline_execution_policy`: Job initiated by a pipeline execution policy.
 - `pipeline_execution_policy_schedule`: Job initiated by a scheduled pipeline execution policy.
 - `push`: Job initiated by a code push.
 - `scan_execution_policy`: Job initiated by a scan execution policy.

@@ -230,7 +230,7 @@ When you merge a merge request immediately:
 > The **merge immediately** option may not be available if your project uses the [fast-forward](../../user/project/merge_requests/methods/_index.md#fast-forward-merge)
 > merge method and the source branch is behind the target branch. See [issue 434070](https://gitlab.com/gitlab-org/gitlab/-/issues/434070) for more details.
 
-### Allow merge trains to be skipped to merge immediately without restarting merge train pipelines
+### Merge immediately without restarting merge train pipelines
 
 {{< details >}}
 
@@ -276,7 +276,7 @@ To enable skipping the train without pipeline restarts:
 1. In the left sidebar, select **Settings** > **Merge requests**.
 1. In the **Merge options** section, ensure the **Enable merged results pipelines**
    and **Enable merge trains** options are enabled.
-1. Select **Allow skipping the merge train**.
+1. Select **Merge immediately without restarting the merge train**.
 1. Select **Save changes**.
 
 To merge a merge request by skipping the merge train, use the [merge requests merge API endpoint](../../api/merge_requests.md#merge-a-merge-request)
