@@ -3,12 +3,6 @@ Capybara/VisibilityMatcher:
   Exclude:
     - 'spec/features/dashboard/merge_requests_spec.rb'
     - 'spec/features/issuables/task_lists_spec.rb'
-    - 'spec/features/merge_request/user_posts_notes_spec.rb'
-    - 'spec/features/merge_request/user_resolves_diff_notes_and_discussions_resolve_spec.rb'
-    - 'spec/features/merge_request/user_resolves_outdated_diff_discussions_spec.rb'
-    - 'spec/features/merge_request/user_sees_diff_spec.rb'
-    - 'spec/features/merge_request/user_sees_merge_widget_spec.rb'
-    - 'spec/features/merge_request/user_views_diffs_spec.rb'
     - 'spec/features/projects/blobs/blob_show_spec.rb'
     - 'spec/features/projects/ci/lint_spec.rb'
     - 'spec/features/projects/commit/comments/user_adds_comment_spec.rb'

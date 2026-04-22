@@ -3427,14 +3427,6 @@ RSpec.describe User, :with_current_organization, feature_category: :user_profile
 
     it { is_expected.to be_truthy }
 
-    context 'when :passkeys feature flag is disabled' do
-      before do
-        stub_feature_flags(passkeys: false)
-      end
-
-      it { is_expected.to be_falsey }
-    end
-
     it_behaves_like 'OmniAuth user password authentication'
 
     context 'when the password authentication for web interface is disabled' do

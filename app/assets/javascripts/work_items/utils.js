@@ -118,6 +118,7 @@ export const findLinkedItemsWidget = (workItem) =>
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_LINKED_ITEMS);
 
 export const findLinkedResourcesWidget = (workItem) =>
+  workItem?.features?.linkedResources ||
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_LINKED_RESOURCES);
 
 export const findMilestoneWidget = (workItem) =>

@@ -1472,7 +1472,6 @@ class User < ApplicationRecord
   end
 
   def allow_passkey_authentication?
-    return false if Feature.disabled?(:passkeys, self)
     return false if disable_password_authentication_for_sso_users?
 
     Gitlab::CurrentSettings.password_authentication_enabled_for_web?

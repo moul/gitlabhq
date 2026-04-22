@@ -166,6 +166,7 @@ RSpec.describe 'Database schema',
       # No LFK needed: daily partitions are dropped after 1 day via retain_for
       # https://gitlab.com/gitlab-org/gitlab/-/blob/ccc2459924e2805e43ad8f97eec15a6932d84f68/ee/app/models/analytics/knowledge_graph/code_indexing_task.rb#L13
       p_knowledge_graph_code_indexing_tasks: %w[project_id],
+      programming_languages: %w[language_id],
       project_build_artifacts_size_refreshes: %w[last_job_artifact_id],
       project_data_transfers: %w[project_id namespace_id],
       project_error_tracking_settings: %w[sentry_project_id],

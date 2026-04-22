@@ -266,7 +266,9 @@ build_submodule:
   stage: test
   script:
     - apt update && apt install -y unzip
-    - curl --location --output artifacts.zip "https://gitlab.example.com/api/v4/projects/1/jobs/artifacts/main/download?job=test&job_token=$CI_JOB_TOKEN"
+    - |
+      curl --location --output artifacts.zip \
+        --url "https://gitlab.example.com/api/v4/projects/1/jobs/artifacts/main/download?job=test&job_token=$CI_JOB_TOKEN"
     - unzip artifacts.zip
 ```
 

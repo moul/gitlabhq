@@ -6,7 +6,7 @@ description: Writing styles, markup, formatting, and other standards for GitLab 
 title: Documentation AGENTS.md
 ---
 
-The [`AGENTS.md`](../../AGENTS.md) file provides documentation instructions for GitLab Duo.
+The [`AGENTS.md`](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/AGENTS.md) file provides documentation instructions for GitLab Duo.
 When an agent writes documentation in the `gitlab/doc` directory, it
 reads the `AGENTS.md` automatically and applies the instructions to its output.
 

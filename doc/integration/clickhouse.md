@@ -47,6 +47,7 @@ The supported ClickHouse version differs depending on your GitLab version:
 - GitLab 18.1 and later supports ClickHouse 23.x, 24.x, and 25.x.
 - GitLab 18.8 and later supports ClickHouse 23.x, 24.x, 25.x, and the Replicated database engine.
   - Older clusters will require an additional permission (`dictGet`), see the [snippet](#database-dictionary-read-support).
+- GitLab 19.0 and later supports ClickHouse 25.x and 26.x. Support for ClickHouse 23.x and 24.x has been removed.
 
 ClickHouse Cloud is always compatible with the latest stable GitLab release.
 

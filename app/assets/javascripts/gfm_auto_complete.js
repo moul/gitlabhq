@@ -23,6 +23,8 @@ import {
   recordFrequentCommandUsage,
 } from '~/editor/quick_action_suggestions';
 import { isCurrentViewWorkItem } from '~/work_items/utils';
+import { userIsDisabled } from '~/ai/agents_utils';
+import { FLOW_TRIGGER_EVENTS } from '~/vue_shared/constants';
 import AjaxCache from './lib/utils/ajax_cache';
 import { spriteIcon } from './lib/utils/common_utils';
 import { newDate } from './lib/utils/datetime_utility';
@@ -154,7 +156,7 @@ export function membersBeforeSave(members) {
       icon: avatarIcon,
       availability: member?.availability,
       compositeIdentityEnforced: member?.composite_identity_enforced,
-      disabled: member?.disabled,
+      disabled: userIsDisabled(member, FLOW_TRIGGER_EVENTS.MENTION),
     };
   });
 }

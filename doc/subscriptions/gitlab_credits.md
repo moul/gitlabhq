@@ -414,9 +414,18 @@ Use the dashboard to understand which users, groups, or projects are driving usa
 
 The dashboard displays the following information:
 
-- Organization usage: Total credit usage across your GitLab instance or group
-- Detailed credit usage by user: Number of credits used by each user
-- User drill-down view: Individual usage events for each user, with links to GitLab Duo Agent Platform session details
+- **Organization usage**: Total credit usage across your GitLab instance or group
+- **Usage trends**: Cumulative number of credits consumed over the current billing period, displayed as a cumulative area chart. Dashed threshold lines indicate the total credits available for each
+credit type.
+- **Usage overview**: Daily credit consumption broken down by credit type, displayed as a stacked bar chart
+- **Usage by user**: Number of credits used by each user
+- **User drill-down view**: Individual usage events for each user, with links to GitLab Duo Agent Platform session details
+
+> [!note]
+> The **Usage trends** chart is available only if you:
+>
+> - Don't have temporary evaluation credits.
+> - Have a Monthly Commitment Pool, monthly waivers, or On-Demand credits.
 
 ### View the GitLab Credits dashboard
 

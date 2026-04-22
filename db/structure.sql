@@ -6844,6 +6844,7 @@ CREATE TABLE web_hook_logs_daily (
     organization_id bigint,
     group_id bigint,
     project_id bigint,
+    CONSTRAINT check_19dc80d658 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1)),
     CONSTRAINT check_df72cb58f5 CHECK ((char_length(url_hash) <= 44))
 )
 PARTITION BY RANGE (created_at);
@@ -18535,7 +18536,8 @@ CREATE TABLE clusters_kubernetes_namespaces (
     environment_id bigint,
     organization_id bigint,
     group_id bigint,
-    sharding_project_id bigint
+    sharding_project_id bigint,
+    CONSTRAINT check_8556b17a2a CHECK ((num_nonnulls(group_id, organization_id, sharding_project_id) = 1))
 );
 
 CREATE SEQUENCE clusters_kubernetes_namespaces_id_seq
@@ -27502,7 +27504,8 @@ CREATE TABLE programming_languages (
     id bigint NOT NULL,
     name character varying NOT NULL,
     color character varying NOT NULL,
-    created_at timestamp with time zone NOT NULL
+    created_at timestamp with time zone NOT NULL,
+    language_id bigint
 );
 
 CREATE SEQUENCE programming_languages_id_seq
@@ -38857,9 +38860,6 @@ ALTER TABLE epic_issues
 ALTER TABLE spam_logs
     ADD CONSTRAINT check_0c0873a24a CHECK ((organization_id IS NOT NULL)) NOT VALID;
 
-ALTER TABLE web_hook_logs_daily
-    ADD CONSTRAINT check_19dc80d658 CHECK ((num_nonnulls(group_id, organization_id, project_id) = 1)) NOT VALID;
-
 ALTER TABLE workspaces
     ADD CONSTRAINT check_2a89035b04 CHECK ((personal_access_token_id IS NOT NULL)) NOT VALID;
 
@@ -38880,9 +38880,6 @@ ALTER TABLE ONLY project_type_ci_runners
 
 ALTER TABLE ONLY group_type_ci_runners
     ADD CONSTRAINT check_81b90172a6 UNIQUE (id);
-
-ALTER TABLE clusters_kubernetes_namespaces
-    ADD CONSTRAINT check_8556b17a2a CHECK ((num_nonnulls(group_id, organization_id, sharding_project_id) = 1)) NOT VALID;
 
 ALTER TABLE abuse_reports
     ADD CONSTRAINT check_95e5f0c300 CHECK ((char_length(message) <= 2048)) NOT VALID;
@@ -48591,6 +48588,8 @@ CREATE INDEX index_postgres_reindex_actions_on_index_identifier ON postgres_rein
 
 CREATE INDEX index_postgres_reindex_queued_actions_on_state ON postgres_reindex_queued_actions USING btree (state);
 
+CREATE UNIQUE INDEX index_programming_languages_on_language_id ON programming_languages USING btree (language_id);
+
 CREATE UNIQUE INDEX index_programming_languages_on_name ON programming_languages USING btree (name);
 
 CREATE INDEX index_proj_type_ci_runner_machines_on_contacted_at_desc_id_desc ON project_type_ci_runner_machines USING btree (contacted_at DESC, id DESC);
@@ -49233,11 +49232,7 @@ CREATE INDEX index_scim_oauth_access_tokens_on_organization_id ON scim_oauth_acc
 
 CREATE INDEX index_sec_finding_enrichments_on_created_at_and_id ON security_finding_enrichments USING btree (created_at, id);
 
-CREATE INDEX index_sec_finding_enrichments_on_epss_score ON security_finding_enrichments USING btree (epss_score) WHERE (epss_score IS NOT NULL);
-
 CREATE UNIQUE INDEX index_sec_finding_enrichments_on_finding_and_cve ON security_finding_enrichments USING btree (finding_uuid, cve);
-
-CREATE INDEX index_sec_finding_enrichments_on_is_known_exploit ON security_finding_enrichments USING btree (is_known_exploit) WHERE (is_known_exploit IS NOT NULL);
 
 CREATE INDEX index_sec_finding_enrichments_on_project_id ON security_finding_enrichments USING btree (project_id);
 

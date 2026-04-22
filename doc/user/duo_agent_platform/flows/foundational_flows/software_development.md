@@ -128,6 +128,7 @@ to the following APIs:
 - [Issues API](../../../../api/issues.md)
 - [Notes API](../../../../api/notes.md)
 - [Usage Data API](../../../../api/usage_data.md)
+- [Metadata API](../../../../api/metadata.md) (including the deprecated `/version` endpoint)
 
 ## Audit log
 

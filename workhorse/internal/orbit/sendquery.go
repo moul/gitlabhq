@@ -176,15 +176,27 @@ func handleRecvError(ctx context.Context, w http.ResponseWriter, r *http.Request
 		fail.Request(w, r, fmt.Errorf("orbit.SendQuery: stream ended without result"), fail.WithStatus(http.StatusBadGateway))
 		return
 	}
-	if ctx.Err() != nil {
-		fail.Request(w, r, fmt.Errorf("orbit.SendQuery: %v", ctx.Err()), fail.WithStatus(http.StatusGatewayTimeout))
-		return
-	}
-	if st, ok := status.FromError(err); ok && st.Code() == codes.Canceled {
+	if isContextDone(ctx, err) {
+		fail.Request(w, r, fmt.Errorf("orbit.SendQuery: %v", err), fail.WithStatus(http.StatusGatewayTimeout))
 		return
 	}
 	log.WithRequest(r).WithError(fmt.Errorf("orbit.SendQuery: stream recv: %v", err)).Error()
 	fail.Request(w, r, fmt.Errorf("orbit.SendQuery: stream error"), fail.WithStatus(http.StatusBadGateway))
+}
+
+// isContextDone returns true when the recv error was caused by the context
+// being done (deadline exceeded or canceled). It checks both the local
+// context and the gRPC status code for DeadlineExceeded so the detection
+// is race-free: gRPC may return the error before the child context's
+// Err() is set.
+func isContextDone(ctx context.Context, err error) bool {
+	if ctx.Err() != nil {
+		return true
+	}
+	if st, ok := status.FromError(err); ok {
+		return st.Code() == codes.DeadlineExceeded
+	}
+	return false
 }
 
 func (sq *SendQuery) handleRedaction(

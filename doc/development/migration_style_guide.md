@@ -48,7 +48,7 @@ work it needs to perform and how long it takes to complete:
    Migrations used to add new models are also part of these regular schema migrations. The only differences are the Rails command used to generate the migrations and the additional generated files, one for the model and one for the model's spec.
 1. [**Post-deployment migrations.**](database/post_deployment_migrations.md) These are Rails migrations in `db/post_migrate` and
    are run independently from the GitLab.com deployments. Pending post migrations are executed on a daily basis at the discretion
-   of release manager through the [post-deploy migration pipeline](https://gitlab.com/gitlab-org/release/docs/-/blob/master/general/post_deploy_migration/readme.md#how-to-determine-if-a-post-deploy-migration-has-been-executed-on-gitlabcom).
+   of release manager through the [post-deploy migration pipeline](https://gitlab.com/gitlab-org/release/docs/-/blob/master/general/database-migrations/post-deploy-migration/readme.md#how-to-determine-if-a-post-deploy-migration-has-been-executed-on-gitlabcom).
    These migrations can be used for schema changes that aren't critical for the application to operate, or data migrations that take at most a few minutes.
    Common examples for schema changes that should run post-deploy include:
 

@@ -608,6 +608,34 @@ describe('WorkItemDetail component', () => {
     expect(findLinkedResourcesWidget().exists()).toBe(true);
   });
 
+  it('renders the resources widget from features', async () => {
+    const response = workItemByIidResponseFactory({
+      linkedResourcesWidgetPresent: false,
+      features: {
+        linkedResources: {
+          linkedResources: {
+            nodes: [
+              {
+                url: 'http://zoom.example.com/j/1234567890',
+                __typename: 'WorkItemLinkedResource',
+              },
+            ],
+            __typename: 'WorkItemLinkedResourceConnection',
+          },
+          __typename: 'WorkItemWidgetLinkedResources',
+        },
+      },
+    });
+
+    createComponent({
+      handler: jest.fn().mockReturnValue(response),
+      provide: { glFeatures: { workItemFeaturesField: true } },
+    });
+    await mockApollo.resolveAll();
+
+    expect(findLinkedResourcesWidget().exists()).toBe(true);
+  });
+
   it('shows an error message when WorkItemTitle emits an `error` event', async () => {
     createComponent();
     await mockApollo.resolveAll();

@@ -19,11 +19,6 @@ RSpec.describe 'Admin Mode Login', :with_current_organization, feature_category:
       expect(page).to have_current_path root_path, ignore_query: true
     end
 
-    def expect_admin_sign_in_waiting_for_code(user)
-      enable_admin_mode!(user, use_ui: true)
-      expect(page).to have_content(_('Enter verification code'))
-    end
-
     def expect_admin_sign_in_success
       expect(page).to have_content(_('Admin mode is active.'))
       expect(page).to have_current_path admin_root_path, ignore_query: true
@@ -41,7 +36,8 @@ RSpec.describe 'Admin Mode Login', :with_current_organization, feature_category:
         before do
           gitlab_sign_in(user, remember: true) # This test checks that even when the user is remembered for sign-in, the user still needs to sign in for Admin mode.
           expect_main_sign_in_success(user.current_otp)
-          expect_admin_sign_in_waiting_for_code(user)
+
+          enable_admin_mode!(user, use_ui: true, with_2fa: true)
         end
 
         it 'blocks login if we reuse the same code immediately', :freeze_time do

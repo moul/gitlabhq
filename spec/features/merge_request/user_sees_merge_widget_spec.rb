@@ -102,7 +102,7 @@ RSpec.describe 'Merge request > User sees merge widget', :js, feature_category: 
 
             wait_for_requests
 
-            expect(page).to have_selector('[data-testid="listbox-item-master"]', visible: true)
+            expect(page).to have_selector('[data-testid="listbox-item-master"]', visible: :visible)
           end
         end
       end
@@ -147,7 +147,7 @@ RSpec.describe 'Merge request > User sees merge widget', :js, feature_category: 
 
       click_button 'Merge…'
 
-      expect(page).to have_selector('[data-testid="merge-failed-pipeline-confirmation-dialog"]', visible: true)
+      expect(page).to have_selector('[data-testid="merge-failed-pipeline-confirmation-dialog"]', visible: :visible)
     end
 
     it 'allows me to merge with a failed pipeline', quarantine: 'https://gitlab.com/gitlab-org/quality/test-failure-issues/-/issues/16779' do

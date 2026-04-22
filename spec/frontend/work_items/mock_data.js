@@ -1898,6 +1898,13 @@ export const mockWorkItemFeaturesData = ({ discussionLocked = false } = {}) => (
     },
     __typename: 'WorkItemWidgetCrmContacts',
   },
+  linkedResources: {
+    linkedResources: {
+      nodes: [],
+      __typename: 'WorkItemLinkedResourceConnection',
+    },
+    __typename: 'WorkItemWidgetLinkedResources',
+  },
   status: null,
 });
 

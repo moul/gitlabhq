@@ -40,7 +40,6 @@ import {
   WIDGET_TYPE_DEVELOPMENT,
   STATE_OPEN,
   WIDGET_TYPE_ITERATION,
-  WIDGET_TYPE_LINKED_RESOURCES,
   WIDGET_TYPE_MILESTONE,
   WORK_ITEM_TYPE_NAME_INCIDENT,
   VIEW_CONTEXT,
@@ -56,6 +55,7 @@ import {
   findAssigneesWidget,
   findAwardEmojiWidget,
   findErrorTrackingWidget,
+  findLinkedResourcesWidget,
   findHierarchyWidgetDefinition,
   activeWorkItemIds,
 } from '../utils';
@@ -427,7 +427,7 @@ export default {
       return findErrorTrackingWidget(this.workItem) ?? {};
     },
     workItemLinkedResources() {
-      return this.findWidget(WIDGET_TYPE_LINKED_RESOURCES)?.linkedResources.nodes ?? [];
+      return findLinkedResourcesWidget(this.workItem)?.linkedResources?.nodes ?? [];
     },
     workItemHierarchy() {
       return this.findWidget(WIDGET_TYPE_HIERARCHY);

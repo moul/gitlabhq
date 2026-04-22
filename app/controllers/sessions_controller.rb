@@ -38,7 +38,6 @@ class SessionsController < Devise::SessionsController
   before_action :load_recaptcha
   before_action :set_invite_params, only: [:new]
   before_action only: [:new] do
-    push_frontend_feature_flag(:passkeys, Feature.current_request)
     push_frontend_feature_flag(:two_step_sign_in, Feature.current_request)
   end
 
@@ -72,8 +71,7 @@ class SessionsController < Devise::SessionsController
   end
 
   def new_passkey
-    if Feature.enabled?(:passkeys, Feature.current_request) &&
-        Gitlab::CurrentSettings.password_authentication_enabled_for_web?
+    if Gitlab::CurrentSettings.password_authentication_enabled_for_web?
       handle_passwordless_flow
     else
       render_403

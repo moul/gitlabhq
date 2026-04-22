@@ -68,6 +68,7 @@ group:
   - read_compliance_framework
   - read_compliance_violations_report
   - read_container_image
+  - read_contribution_analytics
   - read_custom_dashboard
   - read_cycle_analytics
   - read_dependency

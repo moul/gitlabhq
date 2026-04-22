@@ -580,6 +580,11 @@ describe('GfmAutoComplete', () => {
       type: 'User',
     };
 
+    const agentUser = {
+      ...defaultUser,
+      composite_identity_enforced: true,
+    };
+
     const defaultExpectedOutput = {
       username: 'my-group',
       avatarTag:
@@ -587,6 +592,7 @@ describe('GfmAutoComplete', () => {
       title: 'My Group (2)',
       search: 'MyGroup my-group',
       icon: '',
+      disabled: false,
     };
 
     const userDefaultOutput = {
@@ -595,6 +601,7 @@ describe('GfmAutoComplete', () => {
       title: 'My User',
       search: 'MyUser my-user',
       icon: '',
+      disabled: false,
     };
 
     it('should return the original object when username is null', () => {
@@ -642,29 +649,41 @@ describe('GfmAutoComplete', () => {
         {
           ...userDefaultOutput,
           compositeIdentityEnforced: true,
+          disabled: true,
         },
       ]);
     });
 
-    describe('when disabled field is present', () => {
-      it.each`
-        disabled | description
-        ${true}  | ${'disabled is true'}
-        ${false} | ${'disabled is false'}
-      `('should include disabled field when $description', ({ disabled }) => {
-        expect(
-          membersBeforeSave([
-            {
-              ...defaultUser,
-              disabled,
-            },
-          ]),
-        ).toEqual([
-          {
-            ...userDefaultOutput,
-            disabled,
-          },
-        ]);
+    describe('disabled attribute', () => {
+      const disabledUser = {
+        ...defaultUser,
+        disabled: true,
+      };
+      const disabledAgent = {
+        ...agentUser,
+        disabled: true,
+      };
+      const agentWithNoMentionTrigger = {
+        ...agentUser,
+        disabled: false,
+        flow_trigger_events: ['ASSIGN'],
+      };
+      const agentWithMentionTrigger = {
+        ...agentUser,
+        disabled: false,
+        flow_trigger_events: ['MENTION'],
+      };
+
+      it.each([
+        [defaultUser, false],
+        [disabledUser, true],
+        [disabledAgent, true],
+        [agentWithNoMentionTrigger, true],
+        [agentWithMentionTrigger, false],
+      ])('with %s returns %s', (rawMember, expected) => {
+        const [member] = membersBeforeSave([rawMember]);
+
+        expect(member.disabled).toBe(expected);
       });
     });
   });

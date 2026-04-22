@@ -262,33 +262,22 @@
     - !reference [.db-services-with-auto-explain, services]
     - !reference [.os2-services, services]
 
-.use-pg17-clickhouse23:
-  extends: .use-pg17
-  services:
-    - !reference [.db-services-with-auto-explain, services]
-    - name: clickhouse/clickhouse-server:23.11.3.23-alpine
-      alias: clickhouse
-  variables:
-    CLICKHOUSE_USER: default
-    CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
-    CLICKHOUSE_DB: gitlab_clickhouse_test
-
-.use-pg17-clickhouse24:
-  extends: .use-pg17
-  services:
-    - !reference [.db-services-with-auto-explain, services]
-    - name: clickhouse/clickhouse-server:24.9.1.3278-alpine
-      alias: clickhouse
-  variables:
-    CLICKHOUSE_USER: default
-    CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
-    CLICKHOUSE_DB: gitlab_clickhouse_test
-
 .use-pg17-clickhouse25:
   extends: .use-pg17
   services:
     - !reference [.db-services-with-auto-explain, services]
     - name: clickhouse/clickhouse-server:25.12.3-alpine
+      alias: clickhouse
+  variables:
+    CLICKHOUSE_USER: default
+    CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    CLICKHOUSE_DB: gitlab_clickhouse_test
+
+.use-pg17-clickhouse26:
+  extends: .use-pg17
+  services:
+    - !reference [.db-services-with-auto-explain, services]
+    - name: clickhouse/clickhouse-server:26.2.13.2-alpine
       alias: clickhouse
   variables:
     CLICKHOUSE_USER: default

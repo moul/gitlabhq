@@ -15,7 +15,7 @@ module AdminModeHelper
   #
   # See also tag :enable_admin_mode in spec/spec_helper.rb for a spec-wide
   # alternative
-  def enable_admin_mode!(user, use_ui: false)
+  def enable_admin_mode!(user, use_ui: false, with_2fa: false)
     if use_ui
       visit new_admin_session_path
 
@@ -27,7 +27,11 @@ module AdminModeHelper
       fill_in 'user_password', with: user.password
       click_button 'Enter admin mode'
 
-      wait_for_requests
+      if with_2fa
+        expect(page).to have_content(_('Enter verification code'))
+      else
+        expect(page).to have_content(_('Admin mode is active'))
+      end
     else
       fake_user_mode = instance_double(Gitlab::Auth::CurrentUserMode)
 

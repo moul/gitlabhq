@@ -176,7 +176,7 @@ RSpec.describe Organizations::Organization, type: :model, feature_category: :org
           end
 
           context 'when organization is the default organization' do
-            let(:organization) { build(:organization, :default, name: 'Default', path: 'default') }
+            let(:organization) { build(:organization, :default, name: 'Default', path: 'default') } # rubocop:disable Gitlab/RSpec/AvoidCreateDefaultOrganization -- required for testing default organization properties
 
             it 'skips validation and is valid' do
               expect(organization).to be_valid
@@ -495,7 +495,7 @@ RSpec.describe Organizations::Organization, type: :model, feature_category: :org
   end
 
   context 'when a default organization exists' do
-    let_it_be(:default_organization) { create(:organization, :default) }
+    let_it_be(:default_organization) { create(:organization, :default) } # rubocop:disable Gitlab/RSpec/AvoidCreateDefaultOrganization -- required for testing default organization properties
 
     describe '.without_default' do
       it 'excludes default organization' do

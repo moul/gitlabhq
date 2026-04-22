@@ -354,30 +354,6 @@ rspec fast_spec_helper:
     # Load fast_spec_helper as well just in case there are no specs available.
     - rspec_section bin/rspec --dry-run spec/fast_spec_helper.rb ${fast_spec_helper_specs}
 
-rspec unit clickhouse23:
-  extends:
-    - .rspec-base-pg17-clickhouse23
-    - .rails:rules:clickhouse-changes
-  parallel: 2
-
-rspec-ee unit clickhouse23:
-  extends:
-    - .rspec-base-pg17-clickhouse23
-    - .rails:rules:ee-only-clickhouse-changes
-  parallel: 2
-
-rspec unit clickhouse24:
-  extends:
-    - .rspec-base-pg17-clickhouse24
-    - .rails:rules:clickhouse-changes
-  parallel: 2
-
-rspec-ee unit clickhouse24:
-  extends:
-    - .rspec-base-pg17-clickhouse24
-    - .rails:rules:ee-only-clickhouse-changes
-  parallel: 2
-
 rspec unit clickhouse25:
   extends:
     - .rspec-base-pg17-clickhouse25
@@ -402,6 +378,18 @@ rspec-ee integration pg17 clickhouse25:
     - .rails:rules:ee-only-integration
   parallel: 3
 
+rspec unit clickhouse26:
+  extends:
+    - .rspec-base-pg17-clickhouse26
+    - .rails:rules:clickhouse-changes
+  parallel: 2
+
+rspec-ee unit clickhouse26:
+  extends:
+    - .rspec-base-pg17-clickhouse26
+    - .rails:rules:ee-only-clickhouse-changes
+  parallel: 2
+
 rspec ci-config-validation branch-pipelines:
   extends:
     - .ci-config-validation-base
@@ -423,30 +411,6 @@ rspec ci-config-validation mr-pipelines:
     - !reference [.base-script, script]
     - rspec_section rspec_simple_job "--tag ci_config_validation -- spec/dot_gitlab_ci/ci_configuration_validation/merge_request_pipeline_spec.rb"
 
-gitlab:clickhouse-23:rollback:main:
-  extends:
-    - .rspec-base
-    - .production
-    - .use-pg17-clickhouse23
-    - .rails:rules:clickhouse-changes
-  script:
-    - !reference [.clickhouse-setup, script]
-    - 'sed -i "s|test:$|production:|g" config/click_house.yml'
-    - bundle exec rake gitlab:clickhouse:migrate &&
-      bundle exec rake gitlab:clickhouse:rollback:main VERSION=0
-
-gitlab:clickhouse-24:rollback:main:
-  extends:
-    - .rspec-base
-    - .production
-    - .use-pg17-clickhouse24
-    - .rails:rules:clickhouse-changes
-  script:
-    - !reference [.clickhouse-setup, script]
-    - 'sed -i "s|test:$|production:|g" config/click_house.yml'
-    - bundle exec rake gitlab:clickhouse:migrate &&
-      bundle exec rake gitlab:clickhouse:rollback:main VERSION=0
-
 gitlab:clickhouse-25:rollback:main:
   extends:
     - .rspec-base
@@ -458,6 +422,19 @@ gitlab:clickhouse-25:rollback:main:
     - 'sed -i "s|test:$|production:|g" config/click_house.yml'
     - bundle exec rake gitlab:clickhouse:migrate &&
       bundle exec rake gitlab:clickhouse:rollback:main VERSION=0
+
+gitlab:clickhouse-26:rollback:main:
+  extends:
+    - .rspec-base
+    - .production
+    - .use-pg17-clickhouse26
+    - .rails:rules:clickhouse-changes
+  script:
+    - !reference [.clickhouse-setup, script]
+    - 'sed -i "s|test:$|production:|g" config/click_house.yml'
+    - bundle exec rake gitlab:clickhouse:migrate &&
+      bundle exec rake gitlab:clickhouse:rollback:main VERSION=0
+
 
 gitlab:setup:
   extends: .db-job-base
@@ -496,9 +473,7 @@ rspec:artifact-collector unit:
   needs:
     - job: rspec unit pg17  # 44 jobs
       optional: true
-    - job: rspec unit clickhouse23  # 2 jobs
-      optional: true
-    - job: rspec unit clickhouse24  # 2 jobs
+    - job: rspec unit clickhouse26  # 2 jobs
       optional: true
     - job: rspec unit clickhouse25  # 2 jobs
       optional: true
@@ -584,9 +559,7 @@ rspec:artifact-collector ee remainder:
       optional: true
     - job: rspec-ee background_migration pg17  # 6 jobs
       optional: true
-    - job: rspec-ee unit clickhouse23  # 2 jobs
-      optional: true
-    - job: rspec-ee unit clickhouse24  # 2 jobs
+    - job: rspec-ee unit clickhouse26  # 2 jobs
       optional: true
     - job: rspec-ee unit clickhouse25  # 2 jobs
       optional: true

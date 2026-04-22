@@ -84,4 +84,11 @@ fragment BaseWorkItemFeatures on WorkItemFeatures {
       }
     }
   }
+  linkedResources {
+    linkedResources {
+      nodes {
+        url
+      }
+    }
+  }
 }

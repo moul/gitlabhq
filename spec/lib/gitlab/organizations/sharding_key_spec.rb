@@ -27,12 +27,7 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
   let(:allowed_to_be_missing_not_null) do
     [
       'keys.organization_id', # https://gitlab.com/gitlab-org/gitlab/-/issues/577246
-      'spam_logs.organization_id', # https://gitlab.com/gitlab-org/gitlab/-/issues/553470
-      *%w[
-        web_hook_logs_daily.organization_id
-        web_hook_logs_daily.group_id
-        web_hook_logs_daily.project_id
-      ] # https://gitlab.com/gitlab-org/gitlab/-/issues/524820
+      'spam_logs.organization_id' # https://gitlab.com/gitlab-org/gitlab/-/issues/553470
     ]
   end
 
@@ -258,7 +253,6 @@ RSpec.describe 'new tables missing sharding_key', feature_category: :organizatio
       "ci_runner_machines" => "https://gitlab.com/gitlab-org/gitlab/-/issues/525293",
       "instance_type_ci_runner_machines" => "https://gitlab.com/gitlab-org/gitlab/-/issues/525293",
       "clusters" => "https://gitlab.com/gitlab-org/gitlab/-/issues/553452",
-      "clusters_kubernetes_namespaces" => "https://gitlab.com/gitlab-org/gitlab/-/issues/584433",
       "ci_runners" => "https://gitlab.com/gitlab-org/gitlab/-/issues/525293",
       "instance_type_ci_runners" => "https://gitlab.com/gitlab-org/gitlab/-/issues/525293",
       "ci_runner_taggings" => "https://gitlab.com/gitlab-org/gitlab/-/issues/525293",

@@ -241,7 +241,7 @@ For GitLab.com, we execute post-deployment migrations throughout a single releas
 After the application code changes are fully deployed,
 The release manager can choose to execute post-deployment migrations at their discretion at a much later time.
 The post-deployment migration executes one time per day pending GitLab.com availability.
-For this reason, you need a [confirmation](https://gitlab.com/gitlab-org/release/docs/-/tree/master/general/post_deploy_migration#how-to-determine-if-a-post-deploy-migration-has-been-executed-on-gitlabcom)
+For this reason, you need a [confirmation](https://gitlab.com/gitlab-org/release/docs/-/blob/master/general/database-migrations/post-deploy-migration/readme.md#how-to-determine-if-a-post-deploy-migration-has-been-executed-on-gitlabcom)
 the post-deployment migrations included in the first MR were executed before merging the second MR.
 
 #### New or updated queries might be slow on a large GitLab instance

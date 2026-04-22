@@ -20,6 +20,7 @@ RSpec.describe ActiveContext::Concerns::Queue do
   before do
     clear_all_queues!
     allow(ActiveContext::Redis).to receive(:with_redis).and_yield(redis_double)
+    allow(redis_double).to receive(:scan_each)
   end
 
   describe '.register!' do

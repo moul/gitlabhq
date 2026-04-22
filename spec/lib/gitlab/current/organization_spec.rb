@@ -11,7 +11,7 @@ RSpec.describe Gitlab::Current::Organization, feature_category: :organization do
   let_it_be(:user_organization) { create(:organization) }
   let_it_be(:session_organization) { create(:organization) }
   let_it_be(:header_organization) { create(:organization) }
-  let_it_be(:default_organization) { create(:organization, :default) }
+  let_it_be(:default_organization) { create(:organization, :default) } # rubocop:disable Gitlab/RSpec/AvoidCreateDefaultOrganization -- required for testing fallback behavior
 
   let_it_be(:group) { create(:group, organization: organization) }
   let_it_be(:user) { create(:user, organization: user_organization, organizations: [default_organization]) }

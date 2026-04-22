@@ -289,7 +289,7 @@ end
 1. Verify that the post-deploy migration was executed on GitLab.com using ChatOps with
    `/chatops gitlab run auto_deploy status <merge_sha>`. If the output returns `db/gprd`,
    the post-deploy migration has been executed in the production database. For more information, see
-   [How to determine if a post-deploy migration has been executed on GitLab.com](https://gitlab.com/gitlab-org/release/docs/-/blob/master/general/post_deploy_migration/readme.md#how-to-determine-if-a-post-deploy-migration-has-been-executed-on-gitlabcom).
+   [How to determine if a post-deploy migration has been executed on GitLab.com](https://gitlab.com/gitlab-org/release/docs/-/blob/master/general/database-migrations/post-deploy-migration/readme.md#how-to-determine-if-a-post-deploy-migration-has-been-executed-on-gitlabcom).
 1. Wait until the next week so that the FK can be validated over a weekend.
 1. Use [Database Lab](database_lab.md) to check if validation was successful.
    Ensure the output does not indicate the foreign key is `NOT VALID`.

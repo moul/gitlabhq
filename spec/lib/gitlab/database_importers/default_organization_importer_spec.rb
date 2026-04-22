@@ -23,7 +23,7 @@ RSpec.describe Gitlab::DatabaseImporters::DefaultOrganizationImporter, feature_c
     end
 
     context 'when default organization exists' do
-      let!(:default_org) { create(:organization, :default) }
+      let!(:default_org) { create(:organization, :default) } # rubocop:disable Gitlab/RSpec/AvoidCreateDefaultOrganization -- required for testing idempotent behavior
 
       it 'does not create another organization' do
         expect { subject }.not_to change { Organizations::Organization.count }

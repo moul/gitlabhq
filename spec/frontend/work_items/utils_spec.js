@@ -8,6 +8,7 @@ import {
   WIDGET_TYPE_NOTES,
   WIDGET_TYPE_ERROR_TRACKING,
   WIDGET_TYPE_CRM_CONTACTS,
+  WIDGET_TYPE_LINKED_RESOURCES,
   WIDGET_TYPE_HIERARCHY,
   WORK_ITEM_TYPE_ENUM_EPIC,
   WORK_ITEM_TYPE_ENUM_INCIDENT,
@@ -38,6 +39,7 @@ import {
   findErrorTrackingWidget,
   findNotesWidget,
   findCrmContactsWidget,
+  findLinkedResourcesWidget,
   formatLabelForListbox,
   formatUserForListbox,
   newWorkItemPath,
@@ -1201,5 +1203,32 @@ describe('findCrmContactsWidget', () => {
 
   it('returns undefined when neither exists', () => {
     expect(findCrmContactsWidget({ widgets: [] })).toBeUndefined();
+  });
+});
+
+describe('findLinkedResourcesWidget', () => {
+  const linkedResourcesWidget = {
+    type: WIDGET_TYPE_LINKED_RESOURCES,
+    linkedResources: { nodes: [] },
+  };
+  const featuresLinkedResources = { linkedResources: { nodes: [] } };
+
+  it('returns features.linkedResources when present', () => {
+    const workItem = {
+      features: { linkedResources: featuresLinkedResources },
+      widgets: [linkedResourcesWidget],
+    };
+
+    expect(findLinkedResourcesWidget(workItem)).toBe(featuresLinkedResources);
+  });
+
+  it('falls back to widgets when features not present', () => {
+    const workItem = { widgets: [linkedResourcesWidget] };
+
+    expect(findLinkedResourcesWidget(workItem)).toBe(linkedResourcesWidget);
+  });
+
+  it('returns undefined when neither exists', () => {
+    expect(findLinkedResourcesWidget({ widgets: [] })).toBeUndefined();
   });
 });

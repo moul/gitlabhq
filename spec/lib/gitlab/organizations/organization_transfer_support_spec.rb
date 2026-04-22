@@ -35,6 +35,7 @@ RSpec.describe 'organization transfer support tracking', :aggregate_failures, fe
       cluster_providers_gcp
       clusters
       cluster_providers_aws
+      clusters_kubernetes_namespaces
       custom_dashboard_search_data
       custom_dashboards
       dependency_list_export_part_uploads

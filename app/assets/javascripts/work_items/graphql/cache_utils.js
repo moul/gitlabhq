@@ -4,7 +4,6 @@ import { TYPENAME_USER } from '~/graphql_shared/constants';
 import { apolloProvider } from '~/graphql_shared/issuable_client';
 import { convertToGraphQLId } from '~/graphql_shared/utils';
 import { getBaseURL } from '~/lib/utils/url_utility';
-import { convertEachWordToTitleCase } from '~/lib/utils/text_utility';
 import { getDraft, clearDraft } from '~/lib/utils/autosave';
 import {
   newWorkItemOptimisticUserPermissions,
@@ -26,6 +25,7 @@ import {
   WIDGET_TYPE_CRM_CONTACTS,
   NEW_WORK_ITEM_IID,
   WIDGET_TYPE_LINKED_ITEMS,
+  WIDGET_TYPE_LINKED_RESOURCES,
   STATE_CLOSED,
   WIDGET_TYPE_CUSTOM_FIELDS,
   WIDGET_TYPE_STATUS,
@@ -487,6 +487,14 @@ export const getNewWorkItemSharedCache = ({
       discussionLocked: false,
       __typename: 'WorkItemWidgetNotes',
     },
+    linkedResources: {
+      ...widgetDefinitionsHash[WIDGET_TYPE_LINKED_RESOURCES],
+      linkedResources: {
+        nodes: [],
+        __typename: 'WorkItemLinkedResourceConnection',
+      },
+      __typename: 'WorkItemWidgetLinkedResources',
+    },
     development: {
       __typename: 'WorkItemWidgetDevelopment',
       closingMergeRequests: {
@@ -903,7 +911,6 @@ export const setNewWorkItemCache = ({
     return;
   }
 
-  const workItemTitleCase = convertEachWordToTitleCase(workItemType.split('_').join(' '));
   const currentUserId = convertToGraphQLId(TYPENAME_USER, gon?.current_user_id);
   const baseURL = getBaseURL();
   const isValidWorkItemTitle = workItemTitle.trim().length > 0;
@@ -1024,7 +1031,7 @@ export const setNewWorkItemCache = ({
           },
           workItemType: {
             id: workItemTypeId || 'mock-work-item-type-id',
-            name: workItemTitleCase,
+            name: workItemType,
             iconName: workItemTypeIconName,
             __typename: 'WorkItemType',
           },

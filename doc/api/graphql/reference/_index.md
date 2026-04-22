@@ -20866,6 +20866,30 @@ The edge type for [`ContributionAnalyticsContribution`](#contributionanalyticsco
 | <a id="contributionanalyticscontributionedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
 | <a id="contributionanalyticscontributionedge-node"></a>`node` | [`ContributionAnalyticsContribution`](#contributionanalyticscontribution) | The item at the end of the edge. |
 
+#### `ContributionsAggregationResponseConnection`
+
+The connection type for [`ContributionsAggregationResponse`](#contributionsaggregationresponse).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="contributionsaggregationresponseconnection-count"></a>`count` | [`Int!`](#int) | Total number of aggregated rows. |
+| <a id="contributionsaggregationresponseconnection-edges"></a>`edges` | [`[ContributionsAggregationResponseEdge]`](#contributionsaggregationresponseedge) | A list of edges. |
+| <a id="contributionsaggregationresponseconnection-nodes"></a>`nodes` | [`[ContributionsAggregationResponse]`](#contributionsaggregationresponse) | A list of nodes. |
+| <a id="contributionsaggregationresponseconnection-pageinfo"></a>`pageInfo` | [`PageInfo!`](#pageinfo) | Information to aid in pagination. |
+
+#### `ContributionsAggregationResponseEdge`
+
+The edge type for [`ContributionsAggregationResponse`](#contributionsaggregationresponse).
+
+##### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="contributionsaggregationresponseedge-cursor"></a>`cursor` | [`String!`](#string) | A cursor for use in pagination. |
+| <a id="contributionsaggregationresponseedge-node"></a>`node` | [`ContributionsAggregationResponse`](#contributionsaggregationresponse) | The item at the end of the edge. |
+
 #### `CountableVulnerabilityConnection`
 
 The connection type for [`CountableVulnerability`](#countablevulnerability).
@@ -29610,6 +29634,20 @@ Returns [`AgentPlatformSessionsAggregationScope`](#agentplatformsessionsaggregat
 | <a id="analytics-agentplatformsessions-flowtype"></a>`flowType` | [`[String!]`](#string) | Filter by one or many flow types. |
 | <a id="analytics-agentplatformsessions-userid"></a>`userId` | [`[String!]`](#string) | Filter by one or many user Global IDs. |
 
+##### `Analytics.contributions`
+
+Aggregation engine for contribution analytics.
+
+Returns [`ContributionsAggregationScope`](#contributionsaggregationscope).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="analytics-contributions-authorid"></a>`authorId` | [`[String!]`](#string) | Filter by one or many author Global IDs. |
+| <a id="analytics-contributions-createdatfrom"></a>`createdAtFrom` | [`Time`](#time) | Filter by contribution timestamp. Start of the range. |
+| <a id="analytics-contributions-createdatto"></a>`createdAtTo` | [`Time`](#time) | Filter by contribution timestamp. End of the range. |
+
 ##### `Analytics.duoCodeSuggestions`
 
 Aggregation engine for GitLab Duo Code Suggestions usage.
@@ -33299,6 +33337,58 @@ Represents the contributions of a user.
 | <a id="contributionanalyticscontribution-repopushed"></a>`repoPushed` | [`Int`](#int) | Number of repository pushes the user made. |
 | <a id="contributionanalyticscontribution-totalevents"></a>`totalEvents` | [`Int`](#int) | Total number of events contributed by the user. |
 | <a id="contributionanalyticscontribution-user"></a>`user` | [`UserCore`](#usercore) | Contributor User object. |
+
+### `ContributionsAggregationResponse`
+
+Response for `Contributions` aggregation engine.
+
+#### Fields
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="contributionsaggregationresponse-dimensions"></a>`dimensions` | [`ContributionsAggregationResponseDimensions`](#contributionsaggregationresponsedimensions) | Aggregation dimensions. Every selected dimension will be used for aggregation. |
+| <a id="contributionsaggregationresponse-totalcount"></a>`totalCount` | [`Int`](#int) | Total number of contributions. |
+| <a id="contributionsaggregationresponse-userscount"></a>`usersCount` | [`Int`](#int) | Number of unique contributors. |
+
+### `ContributionsAggregationResponseDimensions`
+
+Response dimensions for `Contributions` aggregation engine.
+
+#### Fields with arguments
+
+##### `ContributionsAggregationResponseDimensions.createdAt`
+
+Contribution timestamp.
+
+Returns [`Time`](#time).
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="contributionsaggregationresponsedimensions-createdat-granularity"></a>`granularity` | [`String`](#string) |  |
+
+### `ContributionsAggregationScope`
+
+Aggregation scope for `Contributions`. Apply ordering and pagination on the aggregation.
+
+#### Fields with arguments
+
+##### `ContributionsAggregationScope.aggregated`
+
+Aggregated data.
+
+Returns [`ContributionsAggregationResponseConnection`](#contributionsaggregationresponseconnection).
+
+This field returns a [connection](#connections). It accepts the
+four standard [pagination arguments](#pagination-arguments):
+`before: String`, `after: String`, `first: Int`, and `last: Int`.
+
+###### Arguments
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| <a id="contributionsaggregationscope-aggregated-orderby"></a>`orderBy` | [`[AggregationOrder!]`](#aggregationorder) | Sorting order list for the aggregated data. |
 
 ### `ControlExpression`
 
@@ -64872,7 +64962,7 @@ see the associated mutation type above.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="aiexplainvulnerabilityinput-includesourcecode"></a>`includeSourceCode` | [`Boolean`](#boolean) | Include vulnerablility source code in the AI prompt. |
+| <a id="aiexplainvulnerabilityinput-includesourcecode"></a>`includeSourceCode` | [`Boolean`](#boolean) | Include vulnerability source code in the AI prompt. |
 | <a id="aiexplainvulnerabilityinput-resourceid"></a>`resourceId` | [`AiModelID!`](#aimodelid) | Global ID of the resource to mutate. |
 
 ### `AiGenerateCommitMessageInput`

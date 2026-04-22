@@ -40,7 +40,7 @@ The Code Review Flow helps you streamline code reviews with agentic AI.
 
 This flow:
 
-- Analyzes code changes, merge request comments, and linked issues.
+- Analyzes code changes and merge request comments.
 - Provides enhanced contextual understanding of repository structure and cross-file dependencies.
 - Delivers detailed review comments with actionable feedback.
 - Supports custom review instructions tailored to your project.
