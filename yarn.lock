@@ -3134,10 +3134,10 @@
     tslib "^2.3.1"
     uuid "^10.0.0"
 
-"@sourcegraph/code-host-integration@0.0.95":
-  version "0.0.95"
-  resolved "https://registry.yarnpkg.com/@sourcegraph/code-host-integration/-/code-host-integration-0.0.95.tgz#269f3606040b6e598de28a1bdd57a9ba7c430766"
-  integrity sha512-oMFI2k3KDqqrNEh8/1zwqCPAqV1xFtDmBVKA8U2R+upGLl60cSxWKqGA/8XBESEKb9EiOO9a3yATr/KfQGwAxA==
+"@sourcegraph/code-host-integration@0.0.96":
+  version "0.0.96"
+  resolved "https://registry.yarnpkg.com/@sourcegraph/code-host-integration/-/code-host-integration-0.0.96.tgz#f5dec0f0fa60cf0ec3e16c4e0cec7802ca98dd91"
+  integrity sha512-uRlBoJnOjsoi1qNPpbM8LgIiriF7GgPxyWMBMEpwpVOEX1tRkWqLPrUe6XcKea42rVsnvythA2MDMGi0eaLOfw==
 
 "@standard-schema/spec@^1.0.0":
   version "1.0.0"

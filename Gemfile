@@ -552,7 +552,7 @@ group :development, :test do
 end
 
 group :development, :test, :danger do
-  gem 'gitlab-dangerfiles', '~> 4.11.0', require: false, feature_category: :tooling
+  gem 'gitlab-dangerfiles', '~> 4.11.1', require: false, feature_category: :tooling
 end
 
 group :development, :test, :coverage do
