@@ -1425,18 +1425,6 @@ RSpec.describe Ci::PipelineProcessing::AtomicProcessingService, feature_category
 
         process_pipeline
       end
-
-      context 'when FF `ci_skip_redundant_pipeline_cache_expiration` is disabled' do
-        before do
-          stub_feature_flags(ci_skip_redundant_pipeline_cache_expiration: false)
-        end
-
-        it 'does not pass skip_cache_expiration when updating pipeline status' do
-          expect(pipeline).to receive(:set_status).with(anything).and_call_original
-
-          process_pipeline
-        end
-      end
     end
 
     private

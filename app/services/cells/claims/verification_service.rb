@@ -54,6 +54,8 @@ module Cells
         start_id = @start_id
 
         loop do
+          batch_started_at = Gitlab::Metrics::System.monotonic_time
+
           local_records = find_local_records(start_id)
           break if local_records.empty?
 
@@ -66,15 +68,18 @@ module Cells
           @on_batch_processed&.call(@scan_last_id)
 
           over_time = runtime_limiter.over_time?
+
           Gitlab::AppLogger.info(
             class: self.class.name,
             message: "Cells::Claims::VerificationService batch processed",
             table_name: model.table_name,
             batch_first_id: start_id,
             batch_last_id: last_id,
+            batch_size: local_records.size,
             created: created,
             destroyed: destroyed,
             chunk_count: chunk_count,
+            duration_s: Gitlab::Metrics::System.monotonic_time - batch_started_at,
             over_time: over_time,
             cell_id: claim_service.cell_id,
             feature_category: :cell

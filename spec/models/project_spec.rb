@@ -7144,6 +7144,7 @@ RSpec.describe Project, factory_default: :keep, feature_category: :groups_and_pr
       expect(ProjectCacheWorker).to receive(:perform_async).with(project.id, [], %w[repository_size wiki_size])
       expect(DetectRepositoryLanguagesWorker).to receive(:perform_async).with(project.id)
       expect(AuthorizedProjectUpdate::ProjectRecalculateWorker).to receive(:perform_async).with(project.id)
+      expect(Issues::PlacementWorker).to receive(:perform_async).with({ 'namespace_id' => project.project_namespace.work_item_positioning_root.id })
 
       project.after_import
     end

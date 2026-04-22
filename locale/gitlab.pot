@@ -56110,7 +56110,7 @@ msgstr ""
 msgid "ProjectSettings|Submit changes to be merged upstream."
 msgstr ""
 
-msgid "ProjectSettings|Supported variables: %{code_start}%%{source_branch}%{code_end}, %{code_start}%%{target_branch}%{code_end}, %{code_start}%%{title_from_branch}%{code_end}, %{code_start}%%{first_commit}%{code_end}, %{code_start}%%{first_multiline_commit}%{code_end}."
+msgid "ProjectSettings|Supported variables: %{code_start}%%{source_branch}%{code_end}, %{code_start}%%{target_branch}%{code_end}, %{code_start}%%{title_from_branch}%{code_end}, %{code_start}%%{first_commit_title}%{code_end}."
 msgstr ""
 
 msgid "ProjectSettings|Target project"
@@ -70733,6 +70733,9 @@ msgid "TagsPage|Tags"
 msgstr ""
 
 msgid "TagsPage|Tags give the ability to mark specific points in history as being important"
+msgstr ""
+
+msgid "TagsPage|Unable to load tag"
 msgstr ""
 
 msgid "TagsPage|Unable to load tags"

@@ -1795,28 +1795,6 @@ RSpec.describe ProjectsHelper, feature_category: :source_code_management do
     end
   end
 
-  describe '#issue_manual_ordering_class' do
-    context 'when sorting by relative position' do
-      before do
-        assign(:sort, 'relative_position')
-      end
-
-      it 'returns manual ordering class' do
-        expect(helper.issue_manual_ordering_class).to eq('manual-ordering')
-      end
-
-      context 'when manual sorting disabled' do
-        before do
-          allow(helper).to receive(:issue_repositioning_disabled?).and_return(true)
-        end
-
-        it 'returns nil' do
-          expect(helper.issue_manual_ordering_class).to eq(nil)
-        end
-      end
-    end
-  end
-
   describe '#show_invalid_gpg_key_message?' do
     subject { helper.show_invalid_gpg_key_message?(project) }
 

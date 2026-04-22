@@ -1,0 +1,6 @@
+---
+Gitlab/AvoidOrganizationUrlRoutes:
+  Details: grace period
+  Exclude:
+    - 'app/models/organizations/organization.rb'
+    - 'lib/gitlab/url_builder.rb'

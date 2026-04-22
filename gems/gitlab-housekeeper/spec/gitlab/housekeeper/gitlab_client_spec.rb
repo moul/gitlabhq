@@ -150,7 +150,7 @@ RSpec.describe ::Gitlab::Housekeeper::GitlabClient do
         .to_return(status: 200, body: { id: housekeeper_user_id }.to_json)
 
       # Get the id of the current merge request
-      stub_request(:get, "https://gitlab.com/api/v4/projects/456/merge_requests?state=opened&source_branch=the-source-branch&target_branch=the-target-branch&source_project_id=123")
+      stub_request(:get, "https://gitlab.com/api/v4/projects/456/merge_requests?state=opened&source_branch=the-source-branch&target_branch=the-target-branch&source_project_id=123&with_merge_status_recheck=true")
         .with(
           headers: {
             'Private-Token' => 'the-api-token'
@@ -305,6 +305,59 @@ RSpec.describe ::Gitlab::Housekeeper::GitlabClient do
     end
   end
 
+  describe '#get_existing_merge_request' do
+    let(:params) do
+      {
+        source_project_id: 123,
+        source_branch: 'the-source-branch',
+        target_branch: 'the-target-branch',
+        target_project_id: 456
+      }
+    end
+
+    it 'passes with_merge_status_recheck to the API' do
+      stub = stub_request(:get, "https://gitlab.com/api/v4/projects/456/merge_requests")
+        .with(
+          query: {
+            state: 'opened',
+            source_branch: 'the-source-branch',
+            target_branch: 'the-target-branch',
+            source_project_id: 123,
+            with_merge_status_recheck: true
+          },
+          headers: { 'Private-Token' => 'the-api-token' }
+        )
+        .to_return(status: 200, body: [{ iid: 1234, has_conflicts: true }].to_json)
+
+      result = client.get_existing_merge_request(**params)
+
+      expect(stub).to have_been_requested
+      expect(result['iid']).to eq(1234)
+      expect(result['has_conflicts']).to eq(true)
+    end
+
+    context 'when no merge request exists' do
+      before do
+        stub_request(:get, "https://gitlab.com/api/v4/projects/456/merge_requests")
+          .with(
+            query: {
+              state: 'opened',
+              source_branch: 'the-source-branch',
+              target_branch: 'the-target-branch',
+              source_project_id: 123,
+              with_merge_status_recheck: true
+            },
+            headers: { 'Private-Token' => 'the-api-token' }
+          )
+          .to_return(status: 200, body: [].to_json)
+      end
+
+      it 'returns nil' do
+        expect(client.get_existing_merge_request(**params)).to be_nil
+      end
+    end
+  end
+
   describe '#create_or_update_merge_request' do
     let(:assignee_id) { 111 }
     let(:reviewer_id) { 999 }
@@ -345,7 +398,7 @@ RSpec.describe ::Gitlab::Housekeeper::GitlabClient do
         .to_return(status: 200, body: [{ id: assignee_id }].to_json)
 
       # Stub the check to see if the merge request already exists
-      stub_request(:get, "https://gitlab.com/api/v4/projects/456/merge_requests?state=opened&source_branch=the-source-branch&target_branch=the-target-branch&source_project_id=123")
+      stub_request(:get, "https://gitlab.com/api/v4/projects/456/merge_requests?state=opened&source_branch=the-source-branch&target_branch=the-target-branch&source_project_id=123&with_merge_status_recheck=true")
         .with(
           headers: {
             'Private-Token' => 'the-api-token'

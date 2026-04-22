@@ -948,15 +948,29 @@ RSpec.describe Gitlab::MergeRequests::MessageGenerator, feature_category: :code_
       end
     end
 
+    context 'when template uses %{first_commit_title}' do
+      it 'returns the commit subject (first line of the commit message)' do
+        expect(generator.new_mr_title('%{first_commit_title}')).to eq('Feature added')
+      end
+    end
+
     context 'when template uses %{first_commit}' do
-      it 'returns only the first line of the commit message' do
-        expect(generator.new_mr_title('%{first_commit}')).to eq('Feature added')
+      it 'treats the placeholder as disallowed and removes it' do
+        expect(generator.new_mr_title('%{first_commit} suffix')).to eq('suffix')
+      end
+
+      it 'returns nil when the template only contains the disallowed placeholder' do
+        expect(generator.new_mr_title('%{first_commit}')).to be_nil
       end
     end
 
     context 'when template uses %{first_multiline_commit}' do
-      it 'returns only the first line of the multiline commit message' do
-        expect(generator.new_mr_title('%{first_multiline_commit}')).to eq('Feature added')
+      it 'treats the placeholder as disallowed and removes it' do
+        expect(generator.new_mr_title('%{first_multiline_commit} suffix')).to eq('suffix')
+      end
+
+      it 'returns nil when the template only contains the disallowed placeholder' do
+        expect(generator.new_mr_title('%{first_multiline_commit}')).to be_nil
       end
     end
 
@@ -975,6 +989,42 @@ RSpec.describe Gitlab::MergeRequests::MessageGenerator, feature_category: :code_
     context 'when template mixes a disallowed placeholder with static text' do
       it 'returns the static text with the disallowed placeholder removed' do
         expect(generator.new_mr_title('%{title} - suffix')).to eq('- suffix')
+      end
+    end
+
+    context 'when commit has a multiline message and template has trailing text' do
+      before do
+        multiline_message = "Feature added\n\nSigned-off-by: John Doe <john@example.com>"
+        commit = merge_request.first_commit
+        allow(commit).to receive_messages(safe_message: multiline_message, title: 'Feature added')
+        allow(merge_request).to receive(:first_commit).and_return(commit)
+      end
+
+      it 'preserves trailing text after %{first_commit_title}' do
+        expect(generator.new_mr_title('%{first_commit_title} Hello!')).to eq('Feature added Hello!')
+      end
+
+      it 'preserves text before and after %{first_commit_title}' do
+        expect(generator.new_mr_title('MR: %{first_commit_title} [%{source_branch}]'))
+          .to eq('MR: Feature added [feature]')
+      end
+
+      it 'returns only the commit subject when using %{first_commit_title}' do
+        expect(generator.new_mr_title('%{first_commit_title}')).to eq('Feature added')
+      end
+    end
+
+    context 'when first_commit is nil' do
+      before do
+        allow(merge_request).to receive(:first_commit).and_return(nil)
+      end
+
+      it 'removes the placeholder line and returns the remaining template' do
+        expect(generator.new_mr_title("%{first_commit_title}\n%{source_branch}")).to eq('feature')
+      end
+
+      it 'returns nil when the template only contains %{first_commit_title}' do
+        expect(generator.new_mr_title('%{first_commit_title}')).to be_nil
       end
     end
   end

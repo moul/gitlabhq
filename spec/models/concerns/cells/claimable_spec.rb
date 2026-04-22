@@ -313,8 +313,33 @@ RSpec.describe Cells::Claimable, feature_category: :cell do
   end
 
   describe '.cells_claims_scope' do
-    it 'returns all by default' do
-      expect(test_klass.cells_claims_scope).to eq(test_klass.all)
+    it 'narrows SELECT to claim-relevant columns by default' do
+      columns = test_klass.cells_claims_scope.select_values.map(&:to_s)
+      expect(columns).to contain_exactly('id', 'updated_at', 'path')
+    end
+
+    it 'returns results scoped to the full table by default' do
+      instance
+      expect(test_klass.cells_claims_scope.to_a).to contain_exactly(instance)
+    end
+
+    context 'when subject_key is a Proc' do
+      let(:subject_key) { -> { id } }
+
+      it 'skips narrowing because Proc column access cannot be introspected' do
+        expect(test_klass.cells_claims_scope.select_values).to be_empty
+      end
+    end
+
+    context 'when the table has no updated_at column' do
+      before do
+        allow(test_klass).to receive(:column_names).and_return(%w[id path])
+      end
+
+      it 'omits updated_at from the select list' do
+        columns = test_klass.cells_claims_scope.select_values.map(&:to_s)
+        expect(columns).not_to include('updated_at')
+      end
     end
 
     context 'when overridden' do
@@ -349,9 +374,13 @@ RSpec.describe Cells::Claimable, feature_category: :cell do
         top_level = scoped_klass.create!(path: 'toplevel')
         scoped_klass.create!(path: 'group/sub')
 
-        result = scoped_klass.cells_claims_scope
-        expect(result).to include(top_level)
-        expect(result.count).to eq(1)
+        result = scoped_klass.cells_claims_scope.to_a
+        expect(result).to contain_exactly(top_level)
+      end
+
+      it 'narrows SELECT on top of the custom block' do
+        columns = scoped_klass.cells_claims_scope.select_values.map(&:to_s)
+        expect(columns).to contain_exactly('id', 'updated_at', 'path')
       end
     end
   end

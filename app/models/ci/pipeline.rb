@@ -349,24 +349,7 @@ module Ci
             ::JiraConnect::SyncBuildsWorker.perform_async(pipeline.id, seq_id)
           end
 
-          if Feature.enabled?(:ci_skip_redundant_pipeline_cache_expiration, pipeline.project) &&
-              keyword_args[:skip_cache_expiration]
-            Gitlab::AppLogger.info(
-              message: 'Skipping pipeline cache expiration from state machine transition',
-              class: self.class.name,
-              pipeline_id: pipeline.id,
-              project_id: pipeline.project_id,
-              pipeline_status: pipeline.status)
-
-            next
-          end
-
-          Gitlab::AppLogger.info(
-            message: 'Expiring pipeline cache from state machine transition',
-            class: self.class.name,
-            pipeline_id: pipeline.id,
-            project_id: pipeline.project_id,
-            pipeline_status: pipeline.status)
+          next if keyword_args[:skip_cache_expiration]
 
           if Feature.enabled?(:ci_expire_pipeline_cache_workers, pipeline.project)
             Ci::ExpirePipelineCacheWorker.perform_async(pipeline.id, { 'partition_id' => pipeline.partition_id })

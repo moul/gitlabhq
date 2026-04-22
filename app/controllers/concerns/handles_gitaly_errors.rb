@@ -29,7 +29,7 @@ module HandlesGitalyErrors
     respond_to do |format|
       format.html { render action: action_name, status: :service_unavailable }
       format.json { render json: { error: gitaly_unavailable_message }, status: :service_unavailable }
-      format.atom { render action: action_name, status: :service_unavailable }
+      format.atom { render action: action_name, layout: 'xml', status: :service_unavailable }
       format.any { render plain: gitaly_unavailable_message, status: :service_unavailable }
     end
   end

@@ -84,8 +84,6 @@ class ProjectPresenter < Gitlab::View::Presenter::Delegated
       'activity'
     elsif project.wiki_repository_exists? && can?(current_user, :read_wiki, project)
       'wiki'
-    elsif can?(current_user, :read_issue, project)
-      'projects/issues'
     else
       'activity'
     end
@@ -526,8 +524,6 @@ class ProjectPresenter < Gitlab::View::Presenter::Delegated
       'files'
     elsif project.wiki_repository_exists? && can?(current_user, :read_wiki, project)
       'wiki'
-    elsif can?(current_user, :read_issue, project)
-      'projects/issues'
     else
       'activity'
     end

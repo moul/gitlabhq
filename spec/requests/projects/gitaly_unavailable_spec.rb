@@ -389,4 +389,40 @@ RSpec.describe 'Gitaly unavailable graceful degradation', feature_category: :sou
       it_behaves_like 'handles Gitaly errors for json format'
     end
   end
+
+  describe 'Projects::TagsController' do
+    describe '#index' do
+      let(:allow_gitaly_to_raise_error) do
+        allow_next_instance_of(TagsFinder) do |finder|
+          allow(finder).to receive(:execute)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      context 'with HTML format' do
+        let(:make_request) { get project_tags_path(project) }
+
+        it_behaves_like 'handles Gitaly errors for request specs'
+      end
+
+      context 'with Atom format' do
+        let(:make_request) { get project_tags_path(project, format: :atom) }
+
+        it_behaves_like 'handles Gitaly errors for request specs'
+      end
+    end
+
+    describe '#show' do
+      let(:make_request) { get project_tag_path(project, 'v1.0.0') }
+
+      let(:allow_gitaly_to_raise_error) do
+        allow_next_instance_of(Repository) do |repository|
+          allow(repository).to receive(:find_tag)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      it_behaves_like 'handles Gitaly errors for request specs'
+    end
+  end
 end

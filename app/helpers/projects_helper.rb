@@ -671,12 +671,6 @@ module ProjectsHelper
     classes.join(' ')
   end
 
-  def issue_manual_ordering_class
-    return unless @sort == 'relative_position' && !issue_repositioning_disabled?
-
-    'manual-ordering'
-  end
-
   def dashboard_projects_app_data
     {
       initial_sort: group_project_list_sort_by,

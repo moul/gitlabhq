@@ -188,16 +188,6 @@ RSpec.describe ProjectsController, feature_category: :groups_and_projects do
           expect(response).to render_template('projects/_wiki')
         end
 
-        it 'shows issues list page if wiki is disabled' do
-          project.project_feature.update_attribute(:wiki_access_level, ProjectFeature::DISABLED)
-          create(:issue, project: project)
-
-          get :show, params: { namespace_id: project.namespace, id: project }
-
-          expect(response).to render_template('projects/_issues')
-          expect(assigns(:issuable_meta_data)).not_to be_nil
-        end
-
         it 'shows activity page if wiki and issues are disabled' do
           project.project_feature.update_attribute(:wiki_access_level, ProjectFeature::DISABLED)
           project.project_feature.update_attribute(:issues_access_level, ProjectFeature::DISABLED)

@@ -336,7 +336,7 @@ module Keeps
     end
 
     # Override to force push when migration is overdue (3 weeks old or before required stop)
-    def should_push_code?(change, push_when_approved)
+    def should_push_code?(change, push_when_approved, push_when_conflict: true)
       super || outdated_migration_checker.existing_migration_timestamp_outdated?(change.identifiers)
     end
 

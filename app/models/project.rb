@@ -2750,6 +2750,7 @@ class Project < ApplicationRecord
     DetectRepositoryLanguagesWorker.perform_async(id)
     ProjectCacheWorker.perform_async(self.id, [], %w[repository_size wiki_size])
     AuthorizedProjectUpdate::ProjectRecalculateWorker.perform_async(id)
+    Issues::PlacementWorker.perform_async({ 'namespace_id' => project_namespace.work_item_positioning_root.id })
 
     enqueue_record_project_target_platforms
 

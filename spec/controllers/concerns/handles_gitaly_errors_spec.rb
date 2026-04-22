@@ -195,11 +195,11 @@ RSpec.describe HandlesGitalyErrors, feature_category: :source_code_management do
       before do
         stub_feature_flags(graceful_gitaly_degradation: true)
         allow(controller).to receive(:render).and_call_original
-        allow(controller).to receive(:render).with(action: 'index', status: :service_unavailable)
+        allow(controller).to receive(:render).with(action: 'index', layout: 'xml', status: :service_unavailable)
       end
 
-      it 'renders the action template with 503 status' do
-        expect(controller).to receive(:render).with(action: 'index', status: :service_unavailable)
+      it 'renders the action template with xml layout and 503 status' do
+        expect(controller).to receive(:render).with(action: 'index', layout: 'xml', status: :service_unavailable)
 
         get :index, format: :atom
       end

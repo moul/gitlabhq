@@ -661,6 +661,14 @@ Gitlab/AvoidUserOrganization:
     - 'ee/spec/**/*'
     - 'ee/db/fixtures/development/**/*'
 
+# See https://gitlab.com/gitlab-org/gitlab/-/issues/581990
+Gitlab/AvoidOrganizationUrlRoutes:
+  Enabled: true
+  Exclude:
+    - 'app/helpers/routing/organizations_helper.rb'
+    - 'spec/**/*'
+    - 'ee/spec/**/*'
+
 Gitlab/DisallowCurrentOrganizationIdSafeNavigation:
   Description: 'Use `Current.organization.id` instead of `Current.organization&.id`. `Current.organization` is expected to be assigned.'
   Enabled: true

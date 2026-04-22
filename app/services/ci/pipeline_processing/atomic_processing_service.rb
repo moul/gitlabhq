@@ -98,11 +98,7 @@ module Ci
       end
 
       def update_pipeline!
-        if Feature.enabled?(:ci_skip_redundant_pipeline_cache_expiration, pipeline.project)
-          pipeline.set_status(@collection.status_of_all, skip_cache_expiration: true)
-        else
-          pipeline.set_status(@collection.status_of_all)
-        end
+        pipeline.set_status(@collection.status_of_all, skip_cache_expiration: true)
       end
 
       def update_jobs_processed!

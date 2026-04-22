@@ -118,7 +118,10 @@ RSpec.describe Keeps::OverdueFinalizeBackgroundMigration, feature_category: :too
     end
 
     before do
-      allow(change).to receive(:identifiers).and_return(%w[OverdueFinalizeBackgroundMigration TestMigration])
+      allow(change).to receive_messages(
+        identifiers: %w[OverdueFinalizeBackgroundMigration TestMigration],
+        has_conflicts: false
+      )
       allow(keep).to receive(:outdated_migration_checker).and_return(outdated_migration_checker)
     end
 

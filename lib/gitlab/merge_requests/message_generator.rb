@@ -41,8 +41,7 @@ module Gitlab
           template,
           allowed_placeholders: ALLOWED_NEW_MR_TITLE_PLACEHOLDERS
         )
-        # Title must be single-line; take only the first line if placeholders
-        # expanded to multi-line content (e.g. %{first_commit} with a body).
+        # Safety net: ensure the title is always single-line regardless of placeholder expansion.
         result.lines.first&.strip.presence
       end
 
@@ -77,6 +76,11 @@ module Gitlab
           return unless merge_request.persisted? || merge_request.compare_commits.present?
 
           merge_request.first_commit&.safe_message&.strip
+        },
+        'first_commit_title' => ->(merge_request, _, _) {
+          return unless merge_request.persisted? || merge_request.compare_commits.present?
+
+          merge_request.first_commit&.title&.strip
         },
         'first_multiline_commit' => ->(merge_request, _, _) {
           merge_request.first_multiline_commit&.safe_message&.strip.presence || merge_request.title
@@ -145,8 +149,7 @@ module Gitlab
         source_branch
         target_branch
         title_from_branch
-        first_commit
-        first_multiline_commit
+        first_commit_title
       ].freeze
 
       PLACEHOLDERS_COMBINED_REGEX = /%{(#{Regexp.union(PLACEHOLDERS.keys)})}/

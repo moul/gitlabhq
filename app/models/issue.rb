@@ -431,12 +431,6 @@ class Issue < ApplicationRecord
     end
   end
 
-  def relative_positioning_namespace
-    return namespace if namespace.parent&.user_namespace?
-
-    namespace.root_ancestor
-  end
-
   def self.relative_positioning_query_base(issue)
     in_projects(issue.relative_positioning_parent_projects)
   end

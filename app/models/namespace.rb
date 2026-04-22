@@ -536,6 +536,12 @@ class Namespace < ApplicationRecord
     type == Group.sti_name
   end
 
+  def work_item_positioning_root
+    return self if parent&.user_namespace?
+
+    root_ancestor
+  end
+
   def project_namespace?
     type == Namespaces::ProjectNamespace.sti_name
   end

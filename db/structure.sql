@@ -24914,6 +24914,30 @@ CREATE SEQUENCE oauth_applications_id_seq
 
 ALTER SEQUENCE oauth_applications_id_seq OWNED BY oauth_applications.id;
 
+CREATE TABLE oauth_consents (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    status smallint DEFAULT 0 NOT NULL,
+    client_id text NOT NULL,
+    consent_challenge text NOT NULL,
+    requested_scopes text[],
+    granted_scopes text[],
+    CONSTRAINT check_3fd9d8434f CHECK ((char_length(consent_challenge) <= 100)),
+    CONSTRAINT check_oauth_consents_granted_scopes_size CHECK ((cardinality(granted_scopes) <= 50)),
+    CONSTRAINT check_oauth_consents_requested_scopes_size CHECK ((cardinality(requested_scopes) <= 50))
+);
+
+CREATE SEQUENCE oauth_consents_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE oauth_consents_id_seq OWNED BY oauth_consents.id;
+
 CREATE TABLE oauth_device_grants (
     id bigint NOT NULL,
     resource_owner_id bigint,
@@ -36291,6 +36315,8 @@ ALTER TABLE ONLY oauth_access_tokens ALTER COLUMN id SET DEFAULT nextval('oauth_
 
 ALTER TABLE ONLY oauth_applications ALTER COLUMN id SET DEFAULT nextval('oauth_applications_id_seq'::regclass);
 
+ALTER TABLE ONLY oauth_consents ALTER COLUMN id SET DEFAULT nextval('oauth_consents_id_seq'::regclass);
+
 ALTER TABLE ONLY oauth_device_grants ALTER COLUMN id SET DEFAULT nextval('oauth_device_grants_id_seq'::regclass);
 
 ALTER TABLE ONLY oauth_openid_requests ALTER COLUMN id SET DEFAULT nextval('oauth_openid_requests_id_seq'::regclass);
@@ -40081,6 +40107,9 @@ ALTER TABLE ONLY oauth_access_tokens
 
 ALTER TABLE ONLY oauth_applications
     ADD CONSTRAINT oauth_applications_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY oauth_consents
+    ADD CONSTRAINT oauth_consents_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY oauth_device_grants
     ADD CONSTRAINT oauth_device_grants_pkey PRIMARY KEY (id);
@@ -47999,6 +48028,12 @@ CREATE INDEX index_oauth_applications_on_owner_id_and_owner_type ON oauth_applic
 CREATE INDEX index_oauth_applications_on_secret ON oauth_applications USING btree (secret);
 
 CREATE UNIQUE INDEX index_oauth_applications_on_uid ON oauth_applications USING btree (uid);
+
+CREATE INDEX index_oauth_consents_on_client_id ON oauth_consents USING btree (client_id);
+
+CREATE UNIQUE INDEX index_oauth_consents_on_consent_challenge ON oauth_consents USING btree (consent_challenge);
+
+CREATE INDEX index_oauth_consents_on_user_id_and_status ON oauth_consents USING btree (user_id, status);
 
 CREATE INDEX index_oauth_device_grants_on_application_id ON oauth_device_grants USING btree (application_id);
 
@@ -57112,6 +57147,9 @@ ALTER TABLE ONLY ascp_security_guidelines
 ALTER TABLE ONLY project_secrets_manager_maintenance_tasks
     ADD CONSTRAINT fk_8211c0d849 FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY oauth_consents
+    ADD CONSTRAINT fk_8233ea86aa FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY related_epic_links
     ADD CONSTRAINT fk_8257080565 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
@@ -57813,6 +57851,9 @@ ALTER TABLE ONLY sbom_graph_paths
 
 ALTER TABLE ONLY clusters_kubernetes_namespaces
     ADD CONSTRAINT fk_c4feab64ff FOREIGN KEY (sharding_project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY oauth_consents
+    ADD CONSTRAINT fk_c5f142ff4b FOREIGN KEY (client_id) REFERENCES oauth_applications(uid) ON DELETE CASCADE;
 
 ALTER TABLE ONLY issues
     ADD CONSTRAINT fk_c63cbf6c25 FOREIGN KEY (closed_by_id) REFERENCES users(id) ON DELETE SET NULL;

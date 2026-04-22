@@ -172,7 +172,7 @@ Note the following when promoting a secondary:
 - If the secondary site [has been paused](../replication/pause_resume_replication.md), the promotion
   performs a point-in-time recovery to the last known state.
   Data that was created on the primary while the secondary was paused is lost.
-- If the secondary site [has been paused](../replication/pause_resume_replication.md) and you encouter an `ActiveRecord::StatementInvalid: PG::ReadOnlySqlTransaction: ERROR:  cannot execute DELETE in a read-only transaction` error message during this process, see this knowledge base article: [Geo promotion fails with read-only transaction error or timeout after unexpected primary shutdown](https://support.gitlab.com/hc/en-us/articles/21019042667804-Geo-promotion-fails-with-read-only-transaction-error-or-timeout-after-unexpected-primary-shutdown).
+- If the secondary site [has been paused](../replication/pause_resume_replication.md) and you encounter an `ActiveRecord::StatementInvalid: PG::ReadOnlySqlTransaction: ERROR:  cannot execute DELETE in a read-only transaction` error message during this process, see this knowledge base article: [Geo promotion fails with read-only transaction error or timeout after unexpected primary shutdown](https://support.gitlab.com/hc/en-us/articles/21019042667804-Geo-promotion-fails-with-read-only-transaction-error-or-timeout-after-unexpected-primary-shutdown).
 - A new **secondary** should not be added at this time. If you want to add a new
   **secondary**, do this after you have completed the entire process of promoting
   the **secondary** to the **primary**.

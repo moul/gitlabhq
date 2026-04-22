@@ -13,7 +13,7 @@ reads `AGENTS.md` automatically and applies the instructions to its output.
 Before you submit AI-generated content for review, ensure the following:
 
 - Content is accurate.
-- Common problems wth AI-generated content, like hallucinations and repetitive content, are addressed.
+- Common problems with AI-generated content, like hallucinations and repetitive content, are addressed.
 
 ## Use AGENTS.md
 

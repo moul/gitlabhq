@@ -2719,54 +2719,30 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
 
       subject(:cancel_pipeline) { pipeline.cancel(**transition_args) }
 
-      shared_examples 'runs pipeline cache expiration' do
-        it 'logs that cache expiration is running' do
-          allow(Gitlab::AppLogger).to receive(:info)
-          expect(Gitlab::AppLogger).to receive(:info).with(
-            hash_including(message: 'Expiring pipeline cache from state machine transition'))
-          expect(Gitlab::AppLogger).not_to receive(:info).with(
-            hash_including(message: 'Skipping pipeline cache expiration from state machine transition'))
+      it 'enqueues Ci::ExpirePipelineCacheWorker' do
+        expect(Ci::ExpirePipelineCacheWorker)
+          .to receive(:perform_async)
+          .with(pipeline.id, { 'partition_id' => pipeline.partition_id })
 
-          cancel_pipeline
+        cancel_pipeline
+      end
+
+      context 'when ci_expire_pipeline_cache_workers feature flag is disabled' do
+        before do
+          stub_feature_flags(ci_expire_pipeline_cache_workers: false)
         end
 
-        it 'enqueues Ci::ExpirePipelineCacheWorker' do
-          expect(Ci::ExpirePipelineCacheWorker)
-            .to receive(:perform_async)
-            .with(pipeline.id, { 'partition_id' => pipeline.partition_id })
+        it 'executes Ci::ExpirePipelineCacheService' do
+          expect_next_instance_of(Ci::ExpirePipelineCacheService) do |service|
+            expect(service).to receive(:execute).with(pipeline)
+          end
 
           cancel_pipeline
-        end
-
-        context 'when ci_expire_pipeline_cache_workers feature flag is disabled' do
-          before do
-            stub_feature_flags(ci_expire_pipeline_cache_workers: false)
-          end
-
-          it 'executes Ci::ExpirePipelineCacheService' do
-            expect_next_instance_of(Ci::ExpirePipelineCacheService) do |service|
-              expect(service).to receive(:execute).with(pipeline)
-            end
-
-            cancel_pipeline
-          end
         end
       end
 
-      it_behaves_like 'runs pipeline cache expiration'
-
       context 'when skip_cache_expiration is provided' do
         let(:transition_args) { { skip_cache_expiration: true } }
-
-        it 'logs that cache expiration was skipped' do
-          allow(Gitlab::AppLogger).to receive(:info)
-          expect(Gitlab::AppLogger).to receive(:info).with(
-            hash_including(message: 'Skipping pipeline cache expiration from state machine transition'))
-          expect(Gitlab::AppLogger).not_to receive(:info).with(
-            hash_including(message: 'Expiring pipeline cache from state machine transition'))
-
-          cancel_pipeline
-        end
 
         it 'does not enqueue Ci::ExpirePipelineCacheWorker' do
           expect(Ci::ExpirePipelineCacheWorker).not_to receive(:perform_async)
@@ -2784,14 +2760,6 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
 
             cancel_pipeline
           end
-        end
-
-        context 'when FF `ci_skip_redundant_pipeline_cache_expiration` is disabled' do
-          before do
-            stub_feature_flags(ci_skip_redundant_pipeline_cache_expiration: false)
-          end
-
-          it_behaves_like 'runs pipeline cache expiration'
         end
       end
     end

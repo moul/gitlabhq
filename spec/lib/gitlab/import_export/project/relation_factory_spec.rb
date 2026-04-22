@@ -234,22 +234,8 @@ RSpec.describe Gitlab::ImportExport::Project::RelationFactory, :use_clean_rails_
       expect(created_object.project).to equal(project)
     end
 
-    context 'computing relative position' do
-      context 'when max relative position in the hierarchy is not cached' do
-        it 'has computed new relative_position' do
-          expect(created_object.relative_position).to equal(1026) # 513*2 - ideal distance
-        end
-      end
-
-      context 'when max relative position in the hierarchy is cached' do
-        before do
-          Rails.cache.write("import:#{project.model_name.plural}:#{project.id}:hierarchy_max_issues_relative_position", 10000)
-        end
-
-        it 'has computed new relative_position' do
-          expect(created_object.relative_position).to equal(10000 + 1026) # 513*2 - ideal distance
-        end
-      end
+    it 'sets relative_position to nil so Issues::PlacementWorker can position it after import' do
+      expect(created_object.relative_position).to be_nil
     end
 
     context 'when issue_type is provided in the hash' do

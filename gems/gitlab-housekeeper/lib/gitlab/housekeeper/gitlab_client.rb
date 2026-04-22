@@ -116,7 +116,8 @@ module Gitlab
           state: :opened,
           source_branch: source_branch,
           target_branch: target_branch,
-          source_project_id: source_project_id
+          source_project_id: source_project_id,
+          with_merge_status_recheck: true
         })
 
         return nil if data.empty?

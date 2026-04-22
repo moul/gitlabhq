@@ -105,8 +105,10 @@ RSpec.describe Cells::Claims::VerificationService, feature_category: :cell do
             message: "Cells::Claims::VerificationService batch processed",
             batch_first_id: 0,
             batch_last_id: user.id,
+            batch_size: 1,
             created: User.cells_claims_attributes.size,
             destroyed: 0,
+            duration_s: kind_of(Numeric),
             over_time: false
           )
         )

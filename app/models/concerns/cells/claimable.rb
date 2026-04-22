@@ -39,11 +39,16 @@ module Cells
           return
         end
 
-        if _cells_claims_scope_block
-          instance_exec(&_cells_claims_scope_block)
-        else
-          all
-        end
+        base = _cells_claims_scope_block ? instance_exec(&_cells_claims_scope_block) : all
+
+        # Narrowing the SELECT avoids instantiating wide AR rows like users. We skip it when
+        # cells_claims_subject_key is a Proc because the columns the Proc accesses cannot be
+        # statically introspected, so a narrowed SELECT could raise MissingAttributeError at
+        # runtime for something like `-> { namespace_id }`. Symbol subject_keys are safe since
+        # the accessed column is known and added to the select list.
+        return base if cells_claims_subject_key.is_a?(Proc)
+
+        base.select(*cells_claims_default_select_columns)
       end
 
       def cells_claims_attribute(name, type:, feature_flag: nil, **options)
@@ -130,6 +135,14 @@ module Cells
     class_methods do
       def register_as_model_with_claims
         Claimable.models_with_claims.add(self)
+      end
+
+      # Called only for Symbol subject_keys; cells_claims_scope short-circuits earlier for Procs.
+      def cells_claims_default_select_columns
+        columns = Set.new([primary_key, cells_claims_subject_key.to_s])
+        columns << 'updated_at' if column_names.include?('updated_at')
+        columns.merge(cells_claims_attributes.keys.map(&:to_s))
+        columns.to_a
       end
     end
 
