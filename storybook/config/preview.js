@@ -6,7 +6,6 @@ import Vuex from 'vuex'; // eslint-disable-line no-restricted-imports
 import translateMixin from '~/vue_shared/translate';
 import logoWithBlackText from '../static/_logo_with_black_text.svg';
 import logoWithWhiteText from '../static/_logo_with_white_text.svg';
-import { initializeGitLabAPIAccess } from './addons/gitlab_api_access/preview';
 
 // Filter out invalid language tags from navigator.languages to prevent Intl API errors
 // This is particularly important in CI environments where invalid tags like 'en-US@posix' may be present
@@ -37,8 +36,6 @@ const stylesheetsRequireCtx = require.context(
   true,
   /(application|highlight\/themes\/white|lazy_bundles\/gridstack)\.scss$/,
 );
-
-initializeGitLabAPIAccess();
 
 translateMixin(Vue);
 Vue.use(VueApollo);

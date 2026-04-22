@@ -45,15 +45,22 @@ Each advisory has a page with the following details:
 
 {{< details >}}
 
-- Status: Experiment
 - Tier: Ultimate
-- Offering: GitLab.com, GitLab Self-Managed, GitLab Dedicated
+- Offering: GitLab.com, GitLab Self-Managed
+- Status: Experiment
 
 {{< /details >}}
 
+{{< history >}}
+
+- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/work_items/503307) in GitLab 18.11 [with a feature flag](../../../administration/feature_flags/_index.md) named `pm_advisory_graphql`. Disabled by default. This feature is an [experiment](../../../policy/development_stages_support.md).
+
+{{< /history >}}
+
 > [!flag]
-> This feature is an [experiment](../../../policy/development_stages_support.md).
-> This feature is disabled by default. To make it available, an administrator can [enable the feature flag](../../../administration/feature_flags/_index.md) named `pm_advisory_graphql`.
+> The availability of this feature is controlled by a feature flag.
+> For more information, see the history.
+> This feature is available for testing, but not ready for production use.
 
 Use the following GraphQL endpoints to look up individual or multiple advisories by identifier:
 

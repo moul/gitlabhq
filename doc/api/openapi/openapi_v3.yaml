@@ -16942,7 +16942,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_3a63558ded9a"
+              "$ref": "#/components/schemas/RequestBody_78920f4806ad"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -73954,6 +73954,8 @@ components:
           type: string
         snippet_size_limit:
           type: string
+        description_and_note_max_size:
+          type: string
         email_restrictions_enabled:
           type: string
         email_restrictions:
@@ -91783,7 +91785,7 @@ components:
           nullable: true
       required:
       - avatar
-    RequestBody_3a63558ded9a:
+    RequestBody_78920f4806ad:
       type: object
       properties:
         admin_mode:
@@ -92451,6 +92453,11 @@ components:
         wiki_page_max_content_bytes:
           type: integer
           description: Maximum wiki page content size in bytes
+          nullable: true
+        description_and_note_max_size:
+          type: integer
+          description: Maximum work item, merge request, and vulnerability description
+            and comment content size in bytes.
           nullable: true
         wiki_asciidoc_allow_uri_includes:
           type: boolean

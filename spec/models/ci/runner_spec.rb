@@ -1380,13 +1380,13 @@ RSpec.describe Ci::Runner, type: :model, factory_default: :keep, feature_categor
         create_list(
           :ci_runner, 2,
           allowed_plan_ids: [default_plan.id],
-          allowed_plan_name_uids: ([Plan::PLAN_NAME_UID_LIST[:default]] if Gitlab.ee?)
+          allowed_plan_name_uids: Gitlab.ee? ? [Plan::PLAN_NAME_UID_LIST[:default]] : []
         )
 
         create_list(
           :ci_runner, 2,
           allowed_plan_ids: [],
-          allowed_plan_name_uids: ([] if Gitlab.ee?)
+          allowed_plan_name_uids: []
         )
       end
 

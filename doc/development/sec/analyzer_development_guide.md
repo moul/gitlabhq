@@ -378,7 +378,7 @@ The `GITLAB_TOKEN` for the [@gl-service-dev-secure-analyzers-automation](https:/
            <a href="https://gitlab.com/gitlab-org/security-products/analyzers/gitlab-advanced-sast/-/settings/ci_cd#js-cicd-variables-settings"><code>gitlab-advanced-sast</code></a>
          </td>
          <td>
-           This allows our <a href="https://gitlab.com/gitlab-org/security-products/ci-templates/blob/cfe285a/scripts/tag_image.sh">tagging script</a> to pull from the private container registry in the development project <code>registry.gitlab.com/gitlab-org/security-products/analyzers/<analyzer-name>/tmp</code>, and push to the publicly accessible container registry <code>registry.gitlab.com/security-products/<analyzer-name></code>.
+           This allows our <a href="https://gitlab.com/gitlab-org/security-products/ci-templates/blob/cfe285a/scripts/tag_image.sh">tagging script</a> to pull from the private container registry in the development project <code>registry.gitlab.com/gitlab-org/security-products/analyzers/&lt;analyzer-name&gt;/tmp</code>, and push to the publicly accessible container registry <code>registry.gitlab.com/security-products/&lt;analyzer-name&gt;</code>.
          </td>
        </tr>
      </tbody>

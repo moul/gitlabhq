@@ -6,12 +6,6 @@ end
 
 source 'https://rubygems.org'
 
-if ENV.fetch('BUNDLER_CHECKSUM_VERIFICATION_OPT_IN', 'false') != 'false' # this verification is still experimental
-  $LOAD_PATH.unshift(File.expand_path("gems/bundler-checksum/lib", __dir__))
-  require 'bundler-checksum'
-  BundlerChecksum.patch!
-end
-
 # Please see https://docs.gitlab.com/ee/development/feature_categorization/#gemfile
 ignore_feature_category = Module.new do
   def gem(*arguments, feature_category: nil, **keyword_arguments) # rubocop:disable Lint/UnusedMethodArgument -- Ignoring feature_category intentionally
@@ -21,6 +15,7 @@ end
 
 extend ignore_feature_category
 
+# Deprecated
 gem 'bundler-checksum', '~> 0.1.0', path: 'gems/bundler-checksum', require: false, feature_category: :rails_platform
 
 # See https://docs.gitlab.com/ee/development/gemfile.html#upgrade-rails for guidelines when upgrading Rails

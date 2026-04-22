@@ -37,6 +37,8 @@ Specify Agent Skills for GitLab Duo to use with:
 - GitLab Duo Chat in your local environment.
 - Foundational and custom flows.
 
+User-level skills are only available for use with the GitLab Duo CLI.
+
 ## How GitLab Duo uses Agent Skills
 
 When an agent starts working, GitLab Duo adds metadata for all available skills to the agent's
@@ -77,7 +79,14 @@ You can also manually direct GitLab Duo to use a skill by name, file path, or sl
   By setting `optional: true`, the flow gracefully handles cases where no agent skills exist.
   The agent works with or without additional context.
 
-### Create workspace-level skills
+### Create skills
+
+You can create skills at the workspace level or user level.
+
+If a user-level skill and a workspace-level skill share the same name, the workspace-level skill
+takes precedence. This allows you to override a user-level skill with a project-specific version.
+
+#### Create workspace-level skills
 
 Workspace-level skills apply to a specific project or workspace. You define them in a `SKILL.md`
 file in a `skills/<skill-name>/` directory of your project.
@@ -168,7 +177,7 @@ To create a workspace-level skill:
 1. Start a new conversation or flow. You should do this every time you change or add a `SKILL.md`
    file to avoid context confusion for the agent.
 
-### Create user-level skills
+#### Create user-level skills
 
 {{< details >}}
 
@@ -176,25 +185,24 @@ To create a workspace-level skill:
 
 {{< /details >}}
 
-User-level skills apply across all of your projects. You define them in a `SKILL.md` file in one
-of the following directories:
+User-level skills apply across all of your projects. You define them in a `SKILL.md` file in a
+`skills/<skill-name>/` directory within your home directory.
 
-- The agents directory in your home directory:
-  - For Linux or macOS, at `~/.agents/skills/<skill_name>/SKILL.md`
-  - For Windows, at `%USERPROFILE%\.agents\skills\<skill_name>\SKILL.md`
-- The GitLab Duo configuration directory:
-  - For Linux or macOS, at `~/.gitlab/duo/skills/<skill_name>/SKILL.md`
-  - For Windows, at `%APPDATA%\GitLab\duo\skills\<skill_name>\SKILL.md`
-    (for example, `C:\Users\<username>\AppData\Roaming\GitLab\duo\skills\<skill_name>\SKILL.md`)
+User-level skills are only available for use with the GitLab Duo CLI.
 
-If you have set one of the following environment variables, the GitLab Duo configuration
-directory path is different. `GLAB_CONFIG_DIR` takes priority over `XDG_CONFIG_HOME`.
+##### Create a directory for user-level skills
 
-- For `GLAB_CONFIG_DIR`, at `$GLAB_CONFIG_DIR/skills/<skill_name>/SKILL.md`
-- For `XDG_CONFIG_HOME`, at `$XDG_CONFIG_HOME/gitlab/duo/skills/<skill_name>/SKILL.md`
+You can create a skills directory in one of the following locations:
 
-If a user-level skill and a workspace-level skill share the same name, the workspace-level skill
-takes precedence. This allows you to override a user-level skill with a project-specific version.
+- To keep your skills with your other GitLab Duo customization files:
+  - For Linux or macOS, create a directory at `~/.gitlab/duo/skills/`.
+  - For Windows, create a directory at `%APPDATA%\GitLab\duo\skills\`.
+  - If you have set `GLAB_CONFIG_DIR` or `XDG_CONFIG_HOME`, use `$GLAB_CONFIG_DIR/skills/` or `$XDG_CONFIG_HOME/gitlab/duo/skills/`. If both are set, `GLAB_CONFIG_DIR` takes priority.
+- To share skills with other AI tools that support the Agent Skills specification:
+  - For Linux or macOS, create a directory at `~/.agents/skills/`.
+  - For Windows, create a directory at `%USERPROFILE%\.agents\skills\`.
+
+##### Create a user-level skill file
 
 To create a user-level skill:
 
@@ -226,12 +234,8 @@ To create a user-level skill:
    export GITLAB_ENABLE_GLOBAL_SKILLS=true
    ```
 
-1. Create a skill directory in one of the supported locations:
-
-   ```shell
-   mkdir -p ~/.agents/skills/<skill_name>
-   ```
-
+1. In your `skills` directory, create another directory for the specific skill.
+   Use the skill name as the directory name. For example, `~/.gitlab/duo/skills/<skill_name>/`.
 1. Create a `SKILL.md` file and include instructions using the following format.
    The `name` and `description` YAML front matter fields are required.
 
@@ -246,7 +250,7 @@ To create a user-level skill:
 
 1. Start a new conversation. The skill is available in any project.
 
-### Expose skills as slash commands
+#### Expose skills as slash commands
 
 To enable a skill as a custom slash command, add `slash-command: enabled` to the metadata in the
 YAML front matter of your `SKILL.md` file:
@@ -263,7 +267,7 @@ metadata:
 After you add the metadata, you can use `/<skill_name>` in new sessions to instruct GitLab Duo to use the
 skill. For example, `/fix-bugs`.
 
-### Use a skill manually
+### Use skills manually
 
 To direct GitLab Duo to use a specific skill, use one of the following methods:
 
