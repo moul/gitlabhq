@@ -31,55 +31,45 @@ An individual account that represents a person ([human user type](https://gitlab
 
 The type you assign when you create a new user that implicitly grants a certain set of permissible actions. Types include Regular, Auditor, and Administrator. Types are different from roles and permissions.
 
-## Administrator
+## Administrator users
 
 A user type with the highest level of system access who can configure instance-wide settings, manage
 other users, and perform administrative tasks across all groups and projects.
 
-<!--For more information, see [administrator users](../auth/users_admin.md). -->
-## Auditor
+## Auditor users
 
 A special user type with read-only access to all groups, projects, and administrative functions.
-Auditors cannot make changes but can view content for compliance and security purposes.
-
-For more information, see [auditor users](../administration/auditor_users.md).
+[Auditor users](../administration/auditor_users.md) cannot make changes but can view content for
+compliance and security purposes.
 
 ## External users
 
 Users designated as external to your organization who have restricted access to internal projects
-and groups. External users can only access projects where they have explicit membership.
-
-For more information, see [external users](../administration/external_users.md).
+and groups. [External users](../administration/external_users.md) can only access projects where
+they have explicit membership.
 
 ## Authentication
 
-The process of verifying a user's identity before granting access to GitLab. Authentication methods
-include passwords, two-factor authentication, SSH keys, personal access tokens, and integration
-with external identity providers.
-
-For more information, see [user authentication](user_authentication.md).
+The process of verifying a user's identity before granting access to GitLab.
+[Authentication methods](user_authentication.md) include passwords, two-factor authentication, SSH
+keys, personal access tokens, and integration with external identity providers.
 
 ## Service accounts
 
 Non-human user accounts designed to perform automated actions, access data, or run scheduled
-processes.
-
-For more information, see [service accounts](../user/profile/service_accounts.md).
+processes. [Service accounts](../user/profile/service_accounts.md) are commonly used in pipelines
+or third-party integrations.
 
 ## SSH keys
 
-Cryptographic keys used for secure authentication when accessing Git repositories. SSH keys
+Cryptographic keys used for secure authentication when accessing Git repositories. [SSH keys](../user/ssh.md)
 provide a secure alternative to password-based authentication for Git operations.
-
-For more information, see [SSH keys](../user/ssh.md).
 
 ## Two-factor authentication (2FA)
 
 An additional security layer that requires users to provide a second form of authentication
-beyond their password. GitLab supports various 2FA methods including authenticator apps and
-recovery codes.
-
-For more information, see [two-factor authentication](../user/profile/account/two_factor_authentication.md).
+beyond their password. GitLab supports various [2FA methods](../user/profile/account/two_factor_authentication.md)
+including authenticator apps and recovery codes.
 
 ## Group
 
@@ -91,7 +81,6 @@ management. Groups can contain subgroups and inherit permissions from parent gro
 A user who has been granted access to a specific group or project. Members have an assigned role
 that determines their permissions in that resource.
 
-<!-- For more information, see [group and project membership](../auth/membership.md). -->
 ## Membership
 
 The association between users and specific groups or projects that defines their access rights
@@ -120,10 +109,10 @@ Resources belong to feature categories that are defined in our [monorepo](https:
 
 ## Permission
 
-The specific actions a user can perform on GitLab resources like creating issues, pushing code, or managing project settings. These make up roles.
-Internally within GitLab engineering, they are called assignable permission groups and are defined as YAML definitions in our [monorepo](https://gitlab.com/gitlab-org/gitlab/-/tree/master/config/authz/permission_groups/assignable_permissions).
+The [specific actions](../user/permissions.md) a user can perform on GitLab resources like creating issues,
+pushing code, or managing project settings. These make up roles.
 
-For more information, see [roles and permissions](../user/permissions.md).
+Internally, they are referred to as assignable permission groups and defined in [YAML files](https://gitlab.com/gitlab-org/gitlab/-/tree/master/config/authz/permission_groups/assignable_permissions).
 
 ### Raw permissions
 
@@ -132,23 +121,19 @@ Roles are built from assignable permission groups, which are built from raw perm
 
 ## Roles
 
-Predefined (aka default) or custom sets of permissions assigned to users that determine what actions they can perform in groups and projects. Roles include both default roles and custom roles. Essentially, they are just containers of permissions.
-
-For more information, see [roles and permissions](../user/permissions.md).
+Sets of one or more permissions assigned to a user that define the actions they can perform in
+groups and projects. Roles include both default roles and custom roles.
 
 ## Default roles
 
-The predefined roles available in GitLab: Minimal Access, Guest, Planner, Reporter, Security Manager, Developer,
+The [predefined roles](../user/permissions.md) available in GitLab: Minimal Access, Guest, Planner, Reporter, Security Manager, Developer,
 Maintainer, and Owner. Each role includes a specific set of permissions.
-
-For more information, see [roles and permissions](../user/permissions.md).
 
 ## Custom roles
 
-Customer-defined roles with specific permissions tailored to organizational needs. Use custom roles
-to build on top of default roles (e.g. Guest, Reporter, Developer, Maintainer) and build your own access levels that don't match the default roles provided by GitLab. Permissions that are available to custom roles are defined as YAML definitions in our [monorepo](https://gitlab.com/gitlab-org/gitlab/-/tree/master/ee/config/custom_abilities)
-
-For more information, see [custom roles](../user/custom_roles/_index.md).
+Customer-defined roles with specific permissions tailored to organizational needs. Use [custom roles](../user/custom_roles/_index.md)
+to extend the default roles and add additional permissions. Available permissions are defined as
+[YAML files](https://gitlab.com/gitlab-org/gitlab/-/tree/master/ee/config/custom_abilities).
 
 ## Boundaries
 
@@ -161,8 +146,10 @@ The organizational levels where permissions and policies can be applied:
 
 ## Scopes
 
-Scopes define what permissions are available to certain resources within a certain organizational level (boundary). It is fully qualified by resource permission and boundary. This is used to determine the access given to personal access tokens,
-group access tokens, project access tokens, and OAuth applications.
+Scopes define what permissions are available to certain resources in each organizational
+level (boundary). Each scope is fully qualified by resource permission and boundary. GitLab uses
+these scopes to determine the access given to personal access tokens, group access tokens,
+project access tokens, and OAuth applications.
 
 ## Inheritance
 
@@ -173,7 +160,39 @@ content below.
 ## Personal access token
 
 A token that acts as an alternative to passwords for authentication when using the GitLab API
-or Git over HTTPS. Personal access tokens have defined scopes that limit what actions they
-can perform.
+or Git over HTTPS. [Personal access tokens](../user/profile/personal_access_tokens.md) have defined
+scopes that limit what actions they can perform.
 
-For more information, see [personal access tokens](../user/profile/personal_access_tokens.md).
+## Identity provider (IdP)
+
+The service that manages your user identities, such as Okta or OneLogin.
+
+## Service provider (SP)
+
+An application that delegates authentication to an external identity provider. The service provider
+consumes authentication assertions from a SAML IdP to verify user identities. GitLab acts as a
+service provider when configured for SAML or OIDC authentication.
+
+## Assertion
+
+A piece of information about a user's identity, such as their name or role. Also known as a claim or
+an attribute.
+
+## Single Sign-On (SSO)
+
+An authentication method that allows users to access multiple applications with a single set of
+credentials. With SSO, users authenticate once through an identity provider and gain access to
+GitLab and other connected services without re-entering credentials.
+
+## Assertion consumer service URL
+
+The callback on GitLab where users are redirected after successfully authenticating with the IdP.
+
+## Issuer
+
+How GitLab identifies itself to the IdP. Also known as a "Relying party trust identifier".
+
+## Certificate fingerprint
+
+Confirms that communications over SAML are secure by checking that the server is signing
+communications with the correct certificate. Also known as a certificate thumbprint.

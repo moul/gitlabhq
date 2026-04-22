@@ -175,7 +175,7 @@ Group permissions for [compliance](compliance/_index.md) features including comp
 | View [compliance center](compliance/compliance_center/_index.md)                       |       |         |          |        ✓         |           |            |   ✓   |
 | Manage [compliance frameworks](compliance/compliance_frameworks/_index.md)             |       |         |          |        ✓         |           |            |   ✓   |
 | Assign [compliance frameworks](compliance/compliance_frameworks/_index.md) to projects |       |         |          |        ✓         |           |            |   ✓   |
-| Manage [audit streams](compliance/audit_event_streaming.md)                            |       |         |          |                  |           |            |   ✓   |
+| Manage [audit streams](compliance/audit_event_streaming.md)                            |       |         |          |        ✓         |           |            |   ✓   |
 
 **Footnotes**:
 
@@ -726,7 +726,7 @@ Project permissions for [issues](project/issues/_index.md):
 | Create [test cases](../ci/test_cases/_index.md)                                   |       |    ✓    |    ✓     |        ✓         |     ✓     |     ✓      |   ✓   |
 | Move [test cases](../ci/test_cases/_index.md)                                     |       |    ✓    |    ✓     |        ✓         |     ✓     |     ✓      |   ✓   |
 | Reopen [test cases](../ci/test_cases/_index.md)                                   |       |    ✓    |    ✓     |        ✓         |     ✓     |     ✓      |   ✓   |
-| [Import](project/issues/csv_import.md) issues from a CSV file                     |       |    ✓    |          |                  |     ✓     |     ✓      |   ✓   |
+| [Import](project/issues/csv_import.md) issues from a CSV file                     |       |    ✓    |    ✓     |        ✓         |     ✓     |     ✓      |   ✓   |
 | [Export](project/issues/csv_export.md) issues to a CSV file                       |   ✓   |    ✓    |    ✓     |        ✓         |     ✓     |     ✓      |   ✓   |
 | Delete issues <sup>5</sup>                                                        |       |    ✓    |    ✓     |        ✓         |     ✓     |     ✓      |   ✓   |
 | Manage [Feature flags](../operations/feature_flags.md)                            |       |         |          |                  |     ✓     |     ✓      |   ✓   |

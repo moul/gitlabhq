@@ -782,7 +782,7 @@ For example:
 ## Related topics
 
 - [SAML SSO for GitLab Self-Managed](../../../integration/saml.md)
-- [Glossary](../../../integration/saml.md#glossary)
+- [Glossary](../../../auth/auth_glossary.md)
 - [Blog post: The ultimate guide to enabling SAML and SSO on GitLab.com](https://about.gitlab.com/blog/the-ultimate-guide-to-enabling-saml/)
 - [Authentication comparison between GitLab.com and GitLab Self-Managed](../../../administration/auth/_index.md#gitlabcom-compared-to-gitlab-self-managed)
 - [Passwords for users created through integrated authentication](../../profile/user_passwords.md)

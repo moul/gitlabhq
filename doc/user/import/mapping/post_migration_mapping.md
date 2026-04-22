@@ -159,7 +159,7 @@ To view placeholder users created during imports to a top-level group and its su
 
 1. In the top bar, select **Search or go to** and find your group.
    This group must be at the top level.
-1. Select **Manage** > **Members**.
+1. In the left sidebar, select **Manage** > **Members**.
 1. Select the **Placeholders** tab.
 
 ### Filter for placeholder users
