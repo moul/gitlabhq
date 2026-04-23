@@ -2,11 +2,11 @@
 
 require 'spec_helper'
 
-RSpec.describe Label, feature_category: :team_planning do
+RSpec.describe Label, feature_category: :team_planning, factory_default: :keep do
   using RSpec::Parameterized::TableSyntax
 
-  let_it_be(:group) { create(:group) }
-  let_it_be(:project) { create(:project) }
+  let_it_be(:group) { create_default(:group) }
+  let_it_be(:project) { create_default(:project) }
 
   describe 'modules' do
     it { is_expected.to include_module(Referable) }
@@ -457,8 +457,8 @@ RSpec.describe Label, feature_category: :team_planning do
   describe '.top_labels_by_target' do
     let(:label) { create(:label) }
     let(:popular_label) { create(:label) }
-    let(:merge_request1) { create(:merge_request) }
-    let(:merge_request2) { create(:merge_request) }
+    let(:merge_request1) { create(:merge_request, source_branch: 'feature-1') }
+    let(:merge_request2) { create(:merge_request, source_branch: 'feature-2') }
 
     before do
       merge_request1.labels = [label, popular_label]

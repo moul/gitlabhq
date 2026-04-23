@@ -2525,6 +2525,7 @@ Grants the ability to cancel, create, and read imports.
 | Create | Instance | `POST` | `/bulk_imports` |
 | Create | Instance | `POST` | `/groups/import` |
 | Create | Instance | `POST` | `/import/bitbucket_server` |
+| Create | Instance | `POST` | `/offline_imports` |
 | Read | Project | `GET` | `/projects/:id/import` |
 | Read | Project | `GET` | `/projects/:id/relation-imports` |
 | Read | Instance | `GET` | `/bulk_imports` |

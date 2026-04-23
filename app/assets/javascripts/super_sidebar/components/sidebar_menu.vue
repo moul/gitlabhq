@@ -257,6 +257,7 @@ export default {
     </ul>
     <pinned-section
       v-if="supportsPins"
+      id="super-sidebar-pinned-section"
       ref="pinnedSectionButton"
       :items="pinnedItems"
       :has-flyout="showFlyoutMenus"
@@ -272,6 +273,7 @@ export default {
       data-testid="main-menu-separator"
     />
     <ul
+      id="super-sidebar-non-static-section"
       aria-labelledby="super-sidebar-context-header"
       class="gl-mb-0 gl-list-none gl-p-0"
       data-testid="non-static-items-section"

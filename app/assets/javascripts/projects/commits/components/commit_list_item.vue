@@ -1,5 +1,6 @@
 <script>
 import { GlLink, GlCard, GlTooltipDirective } from '@gitlab/ui';
+import { InternalEvents } from '~/tracking';
 import { __, sprintf } from '~/locale';
 import SafeHtml from '~/vue_shared/directives/safe_html';
 import UserAvatarLink from '~/vue_shared/components/user_avatar/user_avatar_link.vue';
@@ -31,6 +32,7 @@ export default {
     SafeHtml,
     GlTooltip: GlTooltipDirective,
   },
+  mixins: [InternalEvents.mixin()],
   props: {
     commit: {
       type: Object,
@@ -63,6 +65,9 @@ export default {
   methods: {
     onClick() {
       this.isCollapsed = !this.isCollapsed;
+      this.trackEvent('expand_collapse_commit_list_item', {
+        label: this.isCollapsed ? 'collapse' : 'expand',
+      });
     },
   },
 };

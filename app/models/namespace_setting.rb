@@ -16,7 +16,6 @@ class NamespaceSetting < ApplicationRecord
   ignore_column :third_party_ai_features_enabled, remove_with: '16.11', remove_after: '2024-04-18'
   ignore_column :code_suggestions, remove_with: '17.8', remove_after: '2024-05-16'
   ignore_column :job_token_policies_enabled, remove_with: '18.5', remove_after: '2025-09-13'
-  ignore_column :duo_agent_platform_request_count, remove_with: '18.9', remove_after: '2026-01-16'
   ignore_columns :early_access_program_participant, :early_access_program_joined_by_id,
     remove_with: '18.10', remove_after: '2026-03-13'
 

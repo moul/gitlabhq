@@ -70,6 +70,8 @@ and fixability behavior — see `01_intent.md §2` and `02_contracts.md §3`.
 
 ```
 tooling/ai_harness/doctor/          ← implementation
+  AGENTS.md                         agent instructions (this file; CLAUDE.md is identical)
+  CLAUDE.md                         copy of AGENTS.md (parity convention)
   main.rb                           top-level ROP chain (AiHarness::Doctor::Main.main)
   messages.rb                       Gitlab::Fp::Message subclasses
   steps/
@@ -146,6 +148,6 @@ testing requirements), see `03_constraints.md`.
 Per the repo root's AI instruction conventions: `AGENTS.md` is the source of
 truth, and `CLAUDE.md` must be identical in content (not a symlink). This
 convention is enforced by the doctor's own parity check — which means **this
-file (`spec/tooling/ai_harness/doctor/AGENTS.md`) and its copy
-(`spec/tooling/ai_harness/doctor/CLAUDE.md`) must always have identical
+file (`tooling/ai_harness/doctor/AGENTS.md`) and its copy
+(`tooling/ai_harness/doctor/CLAUDE.md`) must always have identical
 content**. Run `scripts/ai_harness/doctor --fix` to sync them automatically.

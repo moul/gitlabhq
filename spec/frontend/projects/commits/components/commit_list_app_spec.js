@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueApollo from 'vue-apollo';
 import { GlKeysetPagination, GlLoadingIcon } from '@gitlab/ui';
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
+import { useMockInternalEventsTracking } from 'helpers/tracking_internal_events_helper';
 import createMockApollo from 'helpers/mock_apollo_helper';
 import waitForPromises from 'helpers/wait_for_promises';
 import { createAlert } from '~/alert';
@@ -27,6 +28,8 @@ jest.mock('~/projects/commits/utils');
 
 describe('CommitListApp', () => {
   let wrapper;
+
+  const { bindInternalEventDocument } = useMockInternalEventsTracking();
 
   const defaultProvide = {
     projectFullPath: 'gitlab-org/gitlab',
@@ -322,6 +325,78 @@ describe('CommitListApp', () => {
       await waitForPromises();
 
       expect(findDailyCommits()).toHaveLength(2);
+    });
+  });
+
+  describe('filter_commit_list event tracking', () => {
+    beforeEach(async () => {
+      createComponent();
+      await waitForPromises();
+    });
+
+    it('tracks filter event with author label', () => {
+      const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+      findCommitHeader().vm.$emit('filter', [{ type: 'author', value: { data: 'Administrator' } }]);
+
+      expect(trackEventSpy).toHaveBeenCalledWith(
+        'filter_commit_list',
+        { label: 'author' },
+        undefined,
+      );
+    });
+
+    it('tracks filter event with message label', () => {
+      const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+      findCommitHeader().vm.$emit('filter', [{ type: 'message', value: { data: 'fix bug' } }]);
+
+      expect(trackEventSpy).toHaveBeenCalledWith(
+        'filter_commit_list',
+        { label: 'message' },
+        undefined,
+      );
+    });
+
+    it('tracks filter event with message label for filtered-search-term token type', () => {
+      const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+      findCommitHeader().vm.$emit('filter', [
+        { type: 'filtered-search-term', value: { data: 'fix bug' } },
+      ]);
+
+      expect(trackEventSpy).toHaveBeenCalledWith(
+        'filter_commit_list',
+        { label: 'message' },
+        undefined,
+      );
+    });
+
+    it('tracks filter event with combined label when both filters are applied', () => {
+      const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+      findCommitHeader().vm.$emit('filter', [
+        { type: 'author', value: { data: 'Administrator' } },
+        { type: 'message', value: { data: 'fix bug' } },
+      ]);
+
+      expect(trackEventSpy).toHaveBeenCalledWith(
+        'filter_commit_list',
+        { label: 'author,message' },
+        undefined,
+      );
+    });
+
+    it('tracks filter event with none label when filters are cleared', () => {
+      const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+      findCommitHeader().vm.$emit('filter', []);
+
+      expect(trackEventSpy).toHaveBeenCalledWith(
+        'filter_commit_list',
+        { label: 'none' },
+        undefined,
+      );
     });
   });
 

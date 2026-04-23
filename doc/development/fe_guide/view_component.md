@@ -161,13 +161,16 @@ For example:
 
 ```ruby
 = render Pajamas::CheckboxTagComponent.new(name: 'project[initialize_with_sast]',
-  checkbox_options: { data: { testid: 'initialize-with-sast-checkbox', track_label: track_label, track_action: 'activate_form_input', track_property: 'init_with_sast' } }) do |c|
+  checkbox_options: { data: { testid: 'initialize-with-sast-checkbox' } }) do |c|
   - c.with_label do
     = s_('ProjectsNew|Enable Static Application Security Testing (SAST)')
   - c.with_help_text do
     = s_('ProjectsNew|Analyze your source code for known security vulnerabilities.')
-    = link_to _('Learn more.'), help_page_path('user/application_security/sast/_index.md'), target: '_blank', rel: 'noopener noreferrer', data: { track_action: 'followed' }
+    = link_to _('Learn more.'), help_page_path('user/application_security/sast/_index.md'), target: '_blank', rel: 'noopener noreferrer'
 ```
+
+> [!note]
+> Legacy tracking parameters (`track_action`, `track_label`, and `track_property`) are deprecated. For more information, see the [migration guide](../internal_analytics/internal_event_instrumentation/migration.md).
 
 For the full list of options, see its
 [source](https://gitlab.com/gitlab-org/gitlab/-/blob/master/app/components/pajamas/checkbox_tag_component.rb).

@@ -1636,6 +1636,12 @@ when no arguments are specified.
 
 ##### View layer with data attributes
 
+> [!note]
+> The `data-track-*` attributes and `have_tracking` matcher shown below are part of
+> the legacy Snowplow tracking system. For new tracking, use `data-event-tracking`
+> attributes instead. For more information, see the
+> [migration guide](../internal_analytics/internal_event_instrumentation/migration.md).
+
 If you are using the data attributes to register tracking at the Haml layer,
 you can use the `have_tracking` matcher method to assert if expected data attributes are assigned.
 

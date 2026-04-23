@@ -9,7 +9,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
   using RSpec::Parameterized::TableSyntax
 
   let_it_be(:organization) { create(:organization) }
-  let!(:group) { create(:group) }
+  let_it_be_with_refind(:group) { create(:group) }
 
   let(:developer_access) { Gitlab::Access::DEVELOPER_PROJECT_ACCESS }
   let(:maintainer_access) { Gitlab::Access::MAINTAINER_PROJECT_ACCESS }
@@ -105,10 +105,10 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     end
 
     describe '#namespace_members' do
-      let(:requester) { create(:user) }
-      let(:developer) { create(:user) }
+      let_it_be(:requester) { create(:user) }
+      let_it_be(:developer) { create(:user) }
 
-      before do
+      before_all do
         group.request_access(requester)
         group.add_developer(developer)
       end
@@ -128,10 +128,10 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     end
 
     describe '#namespace_requesters' do
-      let(:requester) { create(:user) }
-      let(:developer) { create(:user) }
+      let_it_be(:requester) { create(:user) }
+      let_it_be(:developer) { create(:user) }
 
-      before do
+      before_all do
         group.request_access(requester)
         group.add_developer(developer)
       end
@@ -156,7 +156,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
       let_it_be(:developer) { create(:user) }
       let_it_be(:invited_member) { create(:group_member, :invited, :owner, group: group) }
 
-      before do
+      before_all do
         group.request_access(requester)
         group.add_developer(developer)
       end
@@ -246,7 +246,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
       let_it_be(:requester) { create(:user) }
       let_it_be(:developer) { create(:user) }
 
-      before do
+      before_all do
         group.request_access(requester)
         group.add_developer(developer)
       end
@@ -347,11 +347,11 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     end
 
     describe '#notification_settings' do
-      let(:user) { create(:user) }
-      let(:group) { create(:group) }
-      let(:sub_group) { create(:group, parent_id: group.id) }
+      let_it_be(:user) { create(:user) }
+      let_it_be(:group) { create(:group) }
+      let_it_be(:sub_group) { create(:group, parent_id: group.id) }
 
-      before do
+      before_all do
         group.add_developer(user)
         sub_group.add_maintainer(user)
       end
@@ -1540,12 +1540,12 @@ RSpec.describe Group, feature_category: :groups_and_projects do
       end
 
       context 'when user is present' do
-        let(:user) { create(:user) }
+        let_it_be(:user) { create(:user) }
 
         it { is_expected.to match_array([group, internal_group, public_group]) }
 
         context 'when user has access to accessible group' do
-          before do
+          before_all do
             accessible_group.add_developer(user)
           end
 
@@ -2426,7 +2426,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     end
 
     context 'when user is a member of the group' do
-      before do
+      before_all do
         group.add_guest(user)
       end
 
@@ -2456,7 +2456,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     let_it_be(:group_user) { create(:user) }
 
     context 'with user in the group' do
-      before do
+      before_all do
         group.add_owner(group_user)
       end
 
@@ -2546,7 +2546,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
       let_it_be(:shared_group) { create(:group, :private, parent: shared_group_parent) }
       let_it_be(:shared_group_child) { create(:group, :private, parent: shared_group) }
 
-      before do
+      before_all do
         group_parent.add_owner(parent_group_user)
         group.add_owner(group_user)
         group_child.add_owner(child_group_user)
@@ -2621,12 +2621,12 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     end
 
     context 'multiple groups shared with group' do
-      let(:user) { create(:user) }
-      let(:group) { create(:group, :private) }
-      let(:shared_group_parent) { create(:group, :private) }
-      let(:shared_group) { create(:group, :private, parent: shared_group_parent) }
+      let_it_be(:user) { create(:user) }
+      let_it_be(:group) { create(:group, :private) }
+      let_it_be(:shared_group_parent) { create(:group, :private) }
+      let_it_be(:shared_group) { create(:group, :private, parent: shared_group_parent) }
 
-      before do
+      before_all do
         group.add_owner(user)
 
         create(:group_group_link, { shared_with_group: group,
@@ -2829,7 +2829,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     let_it_be(:parent_group_user) { create(:user) }
     let_it_be(:group_user) { create(:user) }
 
-    before do
+    before_all do
       group.parent.add_maintainer(parent_group_user)
       group.add_developer(group_user)
     end
@@ -2856,7 +2856,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     let_it_be(:parent_group_user) { create(:user) }
     let_it_be(:group_user) { create(:user) }
 
-    before do
+    before_all do
       group.parent.add_maintainer(parent_group_user)
       group.add_developer(group_user)
     end
@@ -2900,7 +2900,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
       let_it_be(:group_user) { create(:user) }
       let_it_be(:shared_group) { create(:group) }
 
-      before do
+      before_all do
         group.add_developer(group_user)
         create(:group_group_link, shared_group: shared_group, shared_with_group: group)
       end
@@ -2917,7 +2917,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
       let_it_be(:shared_with_group) { create(:group) }
       let_it_be(:other_subgroup_user) { create(:user) }
 
-      before do
+      before_all do
         create(:group_group_link, shared_group: subgroup, shared_with_group: shared_with_group)
         subgroup.add_maintainer(other_subgroup_user)
 
@@ -2955,7 +2955,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
       end
 
       context 'when the user is a member of the group' do
-        before do
+        before_all do
           group.add_developer(user)
         end
 
@@ -2974,7 +2974,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
         end
 
         context 'when the user is a member of the subgroup' do
-          before do
+          before_all do
             subgroup.add_developer(user)
           end
 
@@ -3209,9 +3209,9 @@ RSpec.describe Group, feature_category: :groups_and_projects do
   end
 
   describe '#highest_group_member' do
-    let(:nested_group) { create(:group, parent: group) }
-    let(:nested_group_2) { create(:group, parent: nested_group) }
-    let(:user) { create(:user) }
+    let_it_be(:nested_group) { create(:group, parent: group) }
+    let_it_be(:nested_group_2) { create(:group, parent: nested_group) }
+    let_it_be(:user) { create(:user) }
 
     subject(:highest_group_member) { nested_group_2.highest_group_member(user) }
 
@@ -3228,7 +3228,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     end
 
     context 'when the user is only a member of one group in the hierarchy' do
-      before do
+      before_all do
         nested_group.add_developer(user)
       end
 
@@ -3238,7 +3238,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     end
 
     context 'when the user is a member of several groups in the hierarchy' do
-      before do
+      before_all do
         group.add_owner(user)
         nested_group.add_developer(user)
         nested_group_2.add_maintainer(user)
@@ -4028,7 +4028,7 @@ RSpec.describe Group, feature_category: :groups_and_projects do
     let_it_be(:internal_group_group_link) { create(:group_group_link, shared_group: shared_group, shared_with_group: shared_with_internal_group) }
     let_it_be(:public_group_group_link) { create(:group_group_link, shared_group: shared_group, shared_with_group: shared_with_public_group) }
 
-    before do
+    before_all do
       shared_with_private_group.add_developer(user_with_access)
       parent_group.add_developer(user_with_parent_access)
     end

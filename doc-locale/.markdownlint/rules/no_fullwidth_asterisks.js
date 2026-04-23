@@ -17,7 +17,7 @@ module.exports = {
       if (token.type === 'fence' || token.type === 'code_block') {
         const startLine = token.map[0];
         const endLine = token.map[1];
-        for (let i = startLine; i < endLine; i++) {
+        for (let i = startLine; i < endLine; i += 1) {
           codeLines.add(i);
         }
       }
@@ -43,17 +43,19 @@ module.exports = {
       const fullwidthPattern = /＊/g;
       let match;
 
+      // eslint-disable-next-line no-cond-assign
       while ((match = fullwidthPattern.exec(line)) !== null) {
         // Check if in inline code
         const matchPos = match.index;
         const isInInlineCode = inlineCodeRanges.some((range) => {
           if (range.line !== lineIndex) return false;
-          const codeStart = line.indexOf('`' + range.content);
+          const codeStart = line.indexOf(`\`${range.content}`);
           const codeEnd = codeStart + range.content.length + 2;
           return matchPos >= codeStart && matchPos <= codeEnd;
         });
 
         if (isInInlineCode) {
+          // eslint-disable-next-line no-continue
           continue;
         }
 

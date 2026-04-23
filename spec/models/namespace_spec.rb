@@ -13,7 +13,7 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
   let_it_be(:user_sti_name) { Namespaces::UserNamespace.sti_name }
 
   let_it_be(:organization) { create(:organization) }
-  let!(:namespace) { create(:namespace, :with_namespace_settings) }
+  let(:namespace) { create(:namespace, :with_namespace_settings) }
   let(:gitlab_shell) { Gitlab::Shell.new }
   let(:repository_storage) { 'default' }
 
@@ -2401,9 +2401,12 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
 
     subject(:execute_update) { group.update!(share_with_group_lock: true) }
 
-    before do
+    before_all do
       shared_with_group_one.add_developer(group_one_user)
       shared_with_group_two.add_developer(group_two_user)
+    end
+
+    before do
       create(:project_group_link, group: shared_with_group_one, project: project)
       create(:project_group_link, group: shared_with_group_one, project: another_project)
       create(:project_group_link, group: shared_with_group_two, project: project)
@@ -3422,7 +3425,7 @@ RSpec.describe Namespace, feature_category: :groups_and_projects do
       let_it_be(:project) { create(:project) }
       let(:project_namespace) { project.project_namespace }
 
-      before do
+      before_all do
         project.add_developer(user)
       end
 

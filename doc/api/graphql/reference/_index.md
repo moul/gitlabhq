@@ -38151,7 +38151,6 @@ Returns [`[AutocompletedUser!]`](#autocompleteduser).
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="group-autocompleteusers-includeserviceaccountsfortriggerevents"></a>`includeServiceAccountsForTriggerEvents` {{< icon name="warning-solid" >}} | [`[AiFlowTriggerEventType!]`](#aiflowtriggereventtype) | **Introduced** in GitLab 18.9. **Status**: Experiment. Which flow triggers events associated to the service accounts to include. |
 | <a id="group-autocompleteusers-search"></a>`search` | [`String`](#string) | Query to search users by name, username, or public email. |
 
 ##### `Group.availableSecurityScanProfiles`
@@ -47428,7 +47427,6 @@ Returns [`[AutocompletedUser!]`](#autocompleteduser).
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="project-autocompleteusers-includeserviceaccountsfortriggerevents"></a>`includeServiceAccountsForTriggerEvents` {{< icon name="warning-solid" >}} | [`[AiFlowTriggerEventType!]`](#aiflowtriggereventtype) | **Introduced** in GitLab 18.9. **Status**: Experiment. Which flow triggers events associated to the service accounts to include. |
 | <a id="project-autocompleteusers-search"></a>`search` | [`String`](#string) | Query to search users by name, username, or public email. |
 
 ##### `Project.availableDeployKeys`
@@ -50063,6 +50061,7 @@ Returns [`String`](#string).
 | <a id="projectpermissions-readpagescontent"></a>`readPagesContent` | [`Boolean!`](#boolean) | If `true`, the user can perform `read_pages_content` on this resource. |
 | <a id="projectpermissions-readpathlocks"></a>`readPathLocks` | [`Boolean!`](#boolean) | If `true`, the user can perform `read_path_locks` on this resource. |
 | <a id="projectpermissions-readproject"></a>`readProject` | [`Boolean!`](#boolean) | If `true`, the user can perform `read_project` on this resource. |
+| <a id="projectpermissions-readprojectcomponentusages"></a>`readProjectComponentUsages` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 19.0. **Status**: Experiment. If `true`, the user can perform `read_project_component_usages` on this resource. |
 | <a id="projectpermissions-readprojectmember"></a>`readProjectMember` | [`Boolean!`](#boolean) | If `true`, the user can perform `read_project_member` on this resource. |
 | <a id="projectpermissions-readrunnercloudprovisioninginfo"></a>`readRunnerCloudProvisioningInfo` {{< icon name="warning-solid" >}} | [`Boolean!`](#boolean) | **Introduced** in GitLab 18.8. **Status**: Experiment. If `true`, the user can perform `read_runner_cloud_provisioning_info` on this resource. |
 | <a id="projectpermissions-readwiki"></a>`readWiki` | [`Boolean!`](#boolean) | If `true`, the user can perform `read_wiki` on this resource. |

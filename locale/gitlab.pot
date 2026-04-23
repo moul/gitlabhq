@@ -9091,6 +9091,9 @@ msgstr ""
 msgid "An error occurred while fetching coverage reports."
 msgstr ""
 
+msgid "An error occurred while fetching downstream pipeline details."
+msgstr ""
+
 msgid "An error occurred while fetching environments."
 msgstr ""
 
@@ -11730,9 +11733,6 @@ msgstr ""
 msgid "BillingPlans|AI-powered features for writing code and automating workflows. Purchase %{creditsLinkStart}credits%{creditsLinkEnd} to unlock AI capabilities for your group, starting at $1 with volume discounts available."
 msgstr ""
 
-msgid "BillingPlans|Accelerate development with AI guidance and automation"
-msgstr ""
-
 msgid "BillingPlans|Access AI assistance wherever you're most productive"
 msgstr ""
 
@@ -11760,13 +11760,7 @@ msgstr ""
 msgid "BillingPlans|All stages of the DevOps lifecycle"
 msgstr ""
 
-msgid "BillingPlans|Also featuring GitLab Duo Agent Platform"
-msgstr ""
-
 msgid "BillingPlans|Application Security Testing"
-msgstr ""
-
-msgid "BillingPlans|Automate repetitive development tasks"
 msgstr ""
 
 msgid "BillingPlans|Automatically merge changes in sequence to prevent conflicts and keep your branch stable."
@@ -11791,9 +11785,6 @@ msgid "BillingPlans|Bring your own CI runners"
 msgstr ""
 
 msgid "BillingPlans|Bring your own production environment"
-msgstr ""
-
-msgid "BillingPlans|Build smarter with intelligent AI"
 msgstr ""
 
 msgid "BillingPlans|Built to grow with your team"
@@ -11827,9 +11818,6 @@ msgid "BillingPlans|Consolidate your toolchain in one place"
 msgstr ""
 
 msgid "BillingPlans|Continue to checkout"
-msgstr ""
-
-msgid "BillingPlans|Continue with GitLab Premium to keep shipping faster, together."
 msgstr ""
 
 msgid "BillingPlans|Control who can approve merge requests to ensure code quality and compliance."
@@ -11880,10 +11868,10 @@ msgstr ""
 msgid "BillingPlans|Executive level insights"
 msgstr ""
 
-msgid "BillingPlans|Explain complex logic instantly"
+msgid "BillingPlans|Explore %{feature}"
 msgstr ""
 
-msgid "BillingPlans|Explore %{feature}"
+msgid "BillingPlans|Explore how GitLab Premium and GitLab Duo Agent Platform can help you ship faster."
 msgstr ""
 
 msgid "BillingPlans|Explore plans"
@@ -11908,9 +11896,6 @@ msgid "BillingPlans|For scaling organizations seeking enhanced productivity and 
 msgstr ""
 
 msgid "BillingPlans|Free guest users"
-msgstr ""
-
-msgid "BillingPlans|Generate tests and refactor efficiently"
 msgstr ""
 
 msgid "BillingPlans|Get 10,000 compute minutes per month for your CI/CD pipelines, up from 400 on the Free plan."
@@ -11943,7 +11928,7 @@ msgstr ""
 msgid "BillingPlans|GitLab Free"
 msgstr ""
 
-msgid "BillingPlans|GitLab Premium features"
+msgid "BillingPlans|GitLab Premium"
 msgstr ""
 
 msgid "BillingPlans|Have a question? We're here to help."
@@ -11967,7 +11952,7 @@ msgstr ""
 msgid "BillingPlans|Introducing GitLab Duo Enterprise"
 msgstr ""
 
-msgid "BillingPlans|Keep building with GitLab Premium."
+msgid "BillingPlans|Keep building with GitLab."
 msgstr ""
 
 msgid "BillingPlans|Learn more"
@@ -11980,6 +11965,9 @@ msgid "BillingPlans|Learn more."
 msgstr ""
 
 msgid "BillingPlans|Level up with Premium"
+msgstr ""
+
+msgid "BillingPlans|Manage credits"
 msgstr ""
 
 msgid "BillingPlans|Manage plan"
@@ -12004,6 +11992,9 @@ msgid "BillingPlans|Minimum 5 credits"
 msgstr ""
 
 msgid "BillingPlans|Monthly commitment"
+msgstr ""
+
+msgid "BillingPlans|Monthly commitments offer significant discounts. Pool credits across your namespace for predictable costs, and keep them after your trial ends."
 msgstr ""
 
 msgid "BillingPlans|Multi-region support"
@@ -12052,6 +12043,9 @@ msgid "BillingPlans|Repository pull mirroring"
 msgstr ""
 
 msgid "BillingPlans|Safeguard testing and production environments by restricting deployment access to authorized users only."
+msgstr ""
+
+msgid "BillingPlans|Save on GitLab Credits with monthly commitment"
 msgstr ""
 
 msgid "BillingPlans|Scale with Confidence"
@@ -12202,6 +12196,9 @@ msgid "BillingPlans|Your AI companion throughout development"
 msgstr ""
 
 msgid "BillingPlans|Your group is on %{planName}"
+msgstr ""
+
+msgid "BillingPlans|Your monthly commitment pool is shared across your group. You keep these credits when the trial ends."
 msgstr ""
 
 msgid "BillingPlans|Your monthly credit commitment is shared across all members of the group. Credits reset at the start of each billing cycle."
@@ -75764,7 +75761,16 @@ msgstr ""
 msgid "UpgradeSubscription|Billing page is not available"
 msgstr ""
 
+msgid "UpgradeSubscription|Confirm group assignment"
+msgstr ""
+
+msgid "UpgradeSubscription|To upgrade your subscription, %{projectName} will be assigned to a new group. This action changes the %{pathLinkStart}project's path%{pathLinkEnd} and can lead to %{dataLossLinkStart}data loss%{dataLossLinkEnd}. %{learnMoreLinkStart}Learn more%{learnMoreLinkEnd}."
+msgstr ""
+
 msgid "UpgradeSubscription|Try again"
+msgstr ""
+
+msgid "UpgradeSubscription|Your personal project was assigned to %{groupName} for billing."
 msgstr ""
 
 msgid "Upload"

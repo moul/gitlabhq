@@ -39,6 +39,7 @@ project:
   - read_on_demand_dast_scan
   - read_pages
   - read_pipeline_subscription
+  - read_project_component_usages
   - read_project_import
   - read_project_merge_request_analytics
   - read_project_security_exclusions

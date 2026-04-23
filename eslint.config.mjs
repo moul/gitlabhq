@@ -140,35 +140,6 @@ const baseNoRestrictedSyntax = [
       'GlBreakpointInstance only checks viewport breakpoints. You may want the breakpoints of a panel. Use PanelBreakpointInstance at ~/panel_breakpoint_instance instead (or add eslint-ignore here).',
   },
   {
-    selector: 'Literal[value=/docs.gitlab.+\\u002Fee/]',
-    message: 'No hard coded url, use `DOCS_URL` in `~/constants`',
-  },
-  {
-    selector: 'TemplateElement[value.cooked=/docs.gitlab.+\\u002Fee/]',
-    message: 'No hard coded url, use `DOCS_URL` in `~/constants`',
-  },
-  {
-    selector: 'Literal[value=/(?=.*docs.gitlab.*)(?!.*\\u002Fee\\b.*)/]',
-    message: 'No hard coded url, use `DOCS_URL` in `~/constants`',
-  },
-  {
-    selector: 'TemplateElement[value.cooked=/(?=.*docs.gitlab.*)(?!.*\\u002Fee\\b.*)/]',
-    message: 'No hard coded url, use `DOCS_URL` in `~/constants`',
-  },
-  {
-    selector: 'Literal[value=/(?=.*about.gitlab.*)(?!.*\\u002Fblog\\b.*)/]',
-    message: 'No hard coded url, use `PROMO_URL` in `~/constants`',
-  },
-  {
-    selector: 'TemplateElement[value.cooked=/(?=.*about.gitlab.*)(?!.*\\u002Fblog\\b.*)/]',
-    message: 'No hard coded url, use `PROMO_URL` in `~/constants`',
-  },
-  {
-    selector:
-      'TemplateLiteral[expressions.0.name=DOCS_URL] > TemplateElement[value.cooked=/\\u002Fjh|\\u002Fee/]',
-    message: '`/ee` or `/jh` path found in docs url, use `DOCS_URL` in `~/constants`',
-  },
-  {
     selector: "MemberExpression[object.type='ThisExpression'][property.name=/(\\$delete|\\$set)/]",
     message:
       "Vue 2's set/delete methods are not available in Vue 3. Create/assign new objects with the desired properties instead.",
@@ -229,8 +200,6 @@ export default [
       // Dot-prefixed directories were implicitly ignored under legacy
       // eslintrc config (FlatCompat) but must be listed explicitly in flat config
       '.eslint_todo/**',
-      'doc/.markdownlint/**',
-      'doc-locale/.markdownlint/**',
     ],
   },
   // Legacy plugin configs (via FlatCompat)
@@ -660,8 +629,8 @@ export default [
     files: ['**/*.stories.js'],
 
     rules: {
-      'filenames/match-regex': 'off',
       ...relaxedUrlAndI18nRules,
+      'filenames/match-regex': 'off',
       'import/no-unresolved': [
         'error',
         // The test fixtures are dynamically generated in CI during
@@ -725,19 +694,21 @@ export default [
       'scripts/**/*',
       '**/*.config.js',
       '**/*.config.*.js',
-      '**/jest_resolver.js',
-      'tooling/eslint-config/**/*',
+      '{,spec/}tooling/**/*',
+      'jest_resolver.js',
       'eslint.config.mjs',
+      'doc/.markdownlint/**',
+      'doc-locale/.markdownlint/**',
     ],
 
     rules: {
       ...relaxedUrlAndI18nRules,
       'import/extensions': 'off',
-      'import/no-extraneous-dependencies': 'off',
-      'import/no-commonjs': 'off',
       'import/no-nodejs-modules': 'off',
       'filenames/match-regex': 'off',
       'no-console': 'off',
+      'import/no-commonjs': 'off',
+      'import/no-extraneous-dependencies': 'off',
       'import/no-unresolved': [
         'error',
         {
@@ -751,34 +722,6 @@ export default [
           ],
         },
       ],
-    },
-  },
-  // Tooling files
-  {
-    files: ['{,spec/}tooling/**/*'],
-
-    rules: {
-      'no-undef': 'off',
-      'import/no-commonjs': 'off',
-      'import/no-extraneous-dependencies': 'off',
-      'no-restricted-syntax': 'off',
-      ...relaxedUrlAndI18nRules,
-    },
-  },
-
-  // JIRA subscriptions config
-  {
-    files: ['app/assets/javascripts/jira_connect/subscriptions/**/*.{js,vue}'],
-
-    languageOptions: {
-      globals: {
-        AP: 'readonly',
-      },
-    },
-
-    rules: {
-      ...relaxedUrlAndI18nRules,
-      '@gitlab/vue-require-i18n-strings': 'off',
     },
   },
 

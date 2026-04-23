@@ -118,7 +118,7 @@ module Ci
 
     rule { can?(:admin_build) | (can?(:update_build) & owner_of_job & unprotected_ref) }.enable :erase_build
 
-    rule { can?(:public_access) & branch_allows_collaboration }.policy do
+    rule { (public_project | project.internal_access) & branch_allows_collaboration }.policy do
       enable :cancel_build
 
       enable(*all_job_update_abilities)

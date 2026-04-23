@@ -6,9 +6,9 @@ RSpec.describe MergeRequests::CreateService, :clean_gitlab_redis_shared_state, f
   include ProjectForksHelper
   include AfterNextHelpers
 
-  let(:project) { create(:project, :repository) }
-  let(:user) { create(:user) }
-  let(:user2) { create(:user) }
+  let_it_be_with_reload(:project) { create(:project, :repository) }
+  let_it_be(:user) { create(:user) }
+  let_it_be(:user2) { create(:user) }
 
   describe '#execute' do
     context 'valid params' do
@@ -25,7 +25,7 @@ RSpec.describe MergeRequests::CreateService, :clean_gitlab_redis_shared_state, f
       let(:service) { described_class.new(project: project, current_user: user, params: opts) }
       let(:merge_request) { service.execute }
 
-      before do
+      before_all do
         project.add_maintainer(user)
         project.add_developer(user2)
       end
@@ -446,7 +446,7 @@ RSpec.describe MergeRequests::CreateService, :clean_gitlab_redis_shared_state, f
           }
         end
 
-        before do
+        before_all do
           project.add_maintainer(user)
           project.add_maintainer(user2)
         end
@@ -461,9 +461,9 @@ RSpec.describe MergeRequests::CreateService, :clean_gitlab_redis_shared_state, f
 
     context 'merge request create service' do
       context 'asssignee_id' do
-        let(:user2) { create(:user) }
+        let_it_be(:user2) { create(:user) }
 
-        before do
+        before_all do
           project.add_maintainer(user)
         end
 
@@ -503,7 +503,7 @@ RSpec.describe MergeRequests::CreateService, :clean_gitlab_redis_shared_state, f
             }
           end
 
-          before do
+          before_all do
             project.add_maintainer(user2)
           end
 
@@ -553,7 +553,7 @@ RSpec.describe MergeRequests::CreateService, :clean_gitlab_redis_shared_state, f
         }
       end
 
-      before do
+      before_all do
         project.add_maintainer(user)
       end
 
@@ -591,7 +591,7 @@ RSpec.describe MergeRequests::CreateService, :clean_gitlab_redis_shared_state, f
         }
       end
 
-      before do
+      before_all do
         project.add_maintainer(user)
       end
 
@@ -649,9 +649,12 @@ RSpec.describe MergeRequests::CreateService, :clean_gitlab_redis_shared_state, f
       end
 
       context 'when the user has access to both projects' do
+        before_all do
+          project.add_developer(user)
+        end
+
         before do
           target_project.add_developer(user)
-          project.add_developer(user)
         end
 
         it 'creates the merge request', :sidekiq_inline do
@@ -694,7 +697,7 @@ RSpec.describe MergeRequests::CreateService, :clean_gitlab_redis_shared_state, f
         }
       end
 
-      before do
+      before_all do
         project.add_developer(user2)
         project.add_maintainer(user)
       end

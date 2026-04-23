@@ -18,7 +18,7 @@ module.exports = {
       if (token.type === 'fence' || token.type === 'code_block') {
         const startLine = token.map[0];
         const endLine = token.map[1];
-        for (let i = startLine; i < endLine; i++) {
+        for (let i = startLine; i < endLine; i += 1) {
           codeLines.add(i);
         }
       }
@@ -46,6 +46,7 @@ module.exports = {
       const fourAsteriskPattern = /\*{4,}/g;
       let match;
 
+      // eslint-disable-next-line no-cond-assign
       while ((match = fourAsteriskPattern.exec(line)) !== null) {
         // Check if this match is inside inline code
         const matchStart = match.index;
@@ -55,13 +56,14 @@ module.exports = {
           if (range.line !== lineIndex) return false;
 
           // Check if the asterisks appear in this inline code section
-          const codeStart = line.indexOf('`' + range.content);
+          const codeStart = line.indexOf(`\`${range.content}`);
           const codeEnd = codeStart + range.content.length + 2; // +2 for backticks
 
           return matchStart >= codeStart && matchEnd <= codeEnd;
         });
 
         if (isInInlineCode) {
+          // eslint-disable-next-line no-continue
           continue; // Skip if in inline code
         }
 
@@ -91,10 +93,10 @@ module.exports = {
 
         onError({
           lineNumber: lineIndex + 1,
-          detail: detail,
+          detail,
           context: line.trim(),
           range: [column, asteriskCount],
-          fixInfo: fixInfo,
+          fixInfo,
         });
       }
     });

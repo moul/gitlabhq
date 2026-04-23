@@ -46,7 +46,7 @@ module Ci
       prevent :update_pipeline
     end
 
-    rule { can?(:public_access) & branch_allows_collaboration }.policy do
+    rule { (project.public_project | project.internal_access) & branch_allows_collaboration }.policy do
       enable :update_pipeline
       enable :cancel_pipeline
     end

@@ -1,4 +1,5 @@
 import { shallowMountExtended } from 'helpers/vue_test_utils_helper';
+import { useMockInternalEventsTracking } from 'helpers/tracking_internal_events_helper';
 import CommitListItem from '~/projects/commits/components/commit_list_item.vue';
 import UserAvatarLink from '~/vue_shared/components/user_avatar/user_avatar_link.vue';
 import UserAvatarImage from '~/vue_shared/components/user_avatar/user_avatar_image.vue';
@@ -11,6 +12,8 @@ import { mockCommit } from './mock_data';
 
 describe('CommitListItem', () => {
   let wrapper;
+
+  const { bindInternalEventDocument } = useMockInternalEventsTracking();
 
   const mockCommitWithoutAuthor = {
     ...mockCommit,
@@ -210,6 +213,33 @@ describe('CommitListItem', () => {
     it('passes commit sha to description component', async () => {
       await findExpandCollapseButton().vm.$emit('click');
       expect(findDescription().props('commitSha')).toBe(mockCommit.sha);
+    });
+  });
+
+  describe('internal event tracking', () => {
+    it('tracks expand event when action buttons click expands the drawer', async () => {
+      const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+      await findActionButtons().vm.$emit('click');
+
+      expect(trackEventSpy).toHaveBeenCalledWith(
+        'expand_collapse_commit_list_item',
+        { label: 'expand' },
+        undefined,
+      );
+    });
+
+    it('tracks collapse event when action buttons click collapses the drawer', async () => {
+      const { trackEventSpy } = bindInternalEventDocument(wrapper.element);
+
+      await findActionButtons().vm.$emit('click');
+      await findActionButtons().vm.$emit('click');
+
+      expect(trackEventSpy).toHaveBeenLastCalledWith(
+        'expand_collapse_commit_list_item',
+        { label: 'collapse' },
+        undefined,
+      );
     });
   });
 });

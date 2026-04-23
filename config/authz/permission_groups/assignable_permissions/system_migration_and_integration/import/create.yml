@@ -15,3 +15,4 @@ permissions:
   - create_group_import
   - create_project_import
   - create_project_relation_import
+  - create_offline_import

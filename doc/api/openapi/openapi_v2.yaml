@@ -45743,6 +45743,38 @@ paths:
       tags:
       - offline_transfers
       operationId: getApiV4OfflineExportsId
+  "/api/v4/offline_imports":
+    post:
+      summary: Start a new offline transfer import
+      description: Initiates a new offline transfer import from object storage
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: postApiV4OfflineImports
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/postApiV4OfflineImports"
+      responses:
+        '201':
+          description: Start a new offline transfer import
+          schema:
+            "$ref": "#/definitions/API_Entities_BulkImport"
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+        '422':
+          description: Unprocessable entity
+        '429':
+          description: Too many requests
+      tags:
+      - offline_transfers
+      operationId: postApiV4OfflineImports
   "/api/v4/organizations":
     post:
       summary: Create an organization
@@ -75083,7 +75115,7 @@ definitions:
             description: AWS S3 object storage region
           path_style:
             type: boolean
-            description: Use path-style URLs instead of virtual hosted-style URLs
+            description: Use path-style URLs instead of virtual-hosted-style URLs
             default: false
         required:
         - aws_access_key_id
@@ -75107,7 +75139,7 @@ definitions:
             description: Object storage location endpoint
           path_style:
             type: boolean
-            description: Use path-style URLs instead of virtual hosted-style URLs
+            description: Use path-style URLs instead of virtual-hosted-style URLs
             default: true
         required:
         - aws_access_key_id
@@ -75130,6 +75162,91 @@ definitions:
     - bucket
     - entities
     description: Start a new offline transfer export
+  postApiV4OfflineImports:
+    type: object
+    properties:
+      bucket:
+        type: string
+        description: Name of the object storage bucket where export data is stored
+      aws_s3_configuration:
+        type: object
+        description: AWS S3 object storage configuration
+        properties:
+          aws_access_key_id:
+            type: string
+            description: AWS S3 access key ID
+          aws_secret_access_key:
+            type: string
+            description: AWS S3 secret access key
+          region:
+            type: string
+            description: AWS S3 object storage region
+          path_style:
+            type: boolean
+            description: Use path-style URLs instead of virtual-hosted-style URLs
+            default: false
+        required:
+        - aws_access_key_id
+        - aws_secret_access_key
+        - region
+      s3_compatible_configuration:
+        type: object
+        description: MinIO or other S3-compatible object storage configuration
+        properties:
+          aws_access_key_id:
+            type: string
+            description: S3-compatible access key ID
+          aws_secret_access_key:
+            type: string
+            description: S3-compatible secret access key
+          region:
+            type: string
+            description: S3-compatible object storage region
+          endpoint:
+            type: string
+            description: Object storage location endpoint
+          path_style:
+            type: boolean
+            description: Use path-style URLs instead of virtual-hosted-style URLs
+            default: true
+        required:
+        - aws_access_key_id
+        - aws_secret_access_key
+        - region
+        - endpoint
+      export_prefix:
+        type: string
+        description: Prefix of the export within the bucket
+      entities:
+        type: array
+        description: List of entities to import
+        items:
+          type: object
+          properties:
+            source_type:
+              type: string
+              description: Type of the entity to import
+              enum:
+              - group_entity
+              - project_entity
+            source_full_path:
+              type: string
+              description: Full path of the entity on the source instance
+            destination_namespace:
+              type: string
+              description: Full path of the destination namespace
+            destination_slug:
+              type: string
+              description: Destination slug for the imported entity
+          required:
+          - source_type
+          - source_full_path
+          - destination_namespace
+    required:
+    - bucket
+    - export_prefix
+    - entities
+    description: Start a new offline transfer import
   postApiV4Organizations:
     type: object
     properties:

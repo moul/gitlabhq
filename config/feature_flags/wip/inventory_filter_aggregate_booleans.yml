@@ -1,0 +1,9 @@
+---
+name: inventory_filter_aggregate_booleans
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/596691
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/231741
+rollout_issue_url:
+milestone: '19.0'
+type: wip
+group: group::security platform management
+default_enabled: false

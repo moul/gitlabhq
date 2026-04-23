@@ -339,6 +339,39 @@ RSpec.describe Ci::BuildPolicy, feature_category: :continuous_integration do
           expect(policy).to be_allowed :update_build
         end
       end
+
+      context 'when branch allows collaboration and user is a non-member' do
+        subject { policy }
+
+        before do
+          allow(project).to receive(:empty_repo?).and_return(false)
+          allow(project).to receive(:branch_allows_collaboration?).and_return(true)
+        end
+
+        context 'on a public project' do
+          let_it_be(:project) { create(:project, :public) }
+
+          it { expect_allowed(:cancel_build, *described_class.all_job_update_abilities) }
+        end
+
+        context 'on an internal project' do
+          let_it_be(:project) { create(:project, :internal) }
+
+          it { expect_allowed(:cancel_build, *described_class.all_job_update_abilities) }
+
+          context 'when the user is external' do
+            let_it_be(:user) { create(:user, external: true) }
+
+            it { expect_disallowed(:cancel_build) }
+          end
+        end
+
+        context 'on a private project' do
+          let_it_be(:project) { create(:project, :private) }
+
+          it { expect_disallowed(:cancel_build) }
+        end
+      end
     end
 
     describe 'rules for archived jobs' do

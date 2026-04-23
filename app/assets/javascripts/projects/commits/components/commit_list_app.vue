@@ -1,5 +1,6 @@
 <script>
 import { GlIcon, GlKeysetPagination, GlLoadingIcon } from '@gitlab/ui';
+import { InternalEvents } from '~/tracking';
 import { localeDateFormat } from '~/lib/utils/datetime_utility';
 import { createAlert } from '~/alert';
 import { s__ } from '~/locale';
@@ -36,6 +37,7 @@ export default {
     CommitListHeader,
     CommitListItem,
   },
+  mixins: [InternalEvents.mixin()],
   inject: ['projectFullPath', 'escapedRef'],
   data() {
     return {
@@ -159,6 +161,11 @@ export default {
           result[key] = filter.value.data;
         }
       });
+
+      const activeFilters = [];
+      if (result.authorFilter) activeFilters.push('author');
+      if (result.messageFilter) activeFilters.push('message');
+      this.trackEvent('filter_commit_list', { label: activeFilters.join(',') || 'none' });
 
       Object.assign(this, result);
       this.resetPagination();

@@ -24,6 +24,64 @@ RSpec.describe 'getting a repository in a project', feature_category: :source_co
     expect(graphql_data['project']['repository']).to be_present
   end
 
+  context 'when authorizing granular token permissions' do
+    it_behaves_like 'authorizing granular token permissions for GraphQL', [:read_project, :read_code] do
+      let(:user) { current_user }
+      let(:boundary_object) { project }
+      let(:query) do
+        graphql_query_for(
+          'project',
+          { fullPath: project.full_path },
+          query_graphql_field('repository', {}, 'rootRef')
+        )
+      end
+
+      let(:request) { post_graphql(query, token: { personal_access_token: pat }) }
+    end
+
+    it_behaves_like 'authorizing granular token permissions for GraphQL',
+      [:read_project, :read_code, :read_repository_tree] do
+      let(:user) { current_user }
+      let(:boundary_object) { project }
+      let(:query) do
+        graphql_query_for(
+          'project',
+          { fullPath: project.full_path },
+          query_graphql_field('repository', {}, <<~QUERY)
+            tree(path:"", ref:"#{project.default_branch}") {
+              __typename
+            }
+          QUERY
+        )
+      end
+
+      let(:request) { post_graphql(query, token: { personal_access_token: pat }) }
+    end
+
+    it_behaves_like 'authorizing granular token permissions for GraphQL',
+      [:read_project, :read_code, :read_repository_tree, :read_repository_blob] do
+      let(:user) { current_user }
+      let(:boundary_object) { project }
+      let(:query) do
+        graphql_query_for(
+          'project',
+          { fullPath: project.full_path },
+          query_graphql_field('repository', {}, <<~QUERY)
+            tree(path:"", ref:"#{project.default_branch}") {
+              blobs {
+                nodes {
+                  webPath
+                }
+              }
+            }
+          QUERY
+        )
+      end
+
+      let(:request) { post_graphql(query, token: { personal_access_token: pat }) }
+    end
+  end
+
   context 'as a non-authorized user' do
     let(:current_user) { create(:user) }
 

@@ -35590,7 +35590,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_520f96986f1e"
+              "$ref": "#/components/schemas/RequestBody_83e523ac558b"
     get:
       operationId: getApiV4OfflineExports
       summary: List all offline transfer exports
@@ -35666,6 +35666,36 @@ paths:
         schema:
           type: integer
         in: path
+  "/api/v4/offline_imports":
+    post:
+      operationId: postApiV4OfflineImports
+      summary: Start a new offline transfer import
+      description: Initiates a new offline transfer import from object storage
+      tags:
+      - Offline transfers
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/APIEntitiesBulkImport"
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+        '422':
+          description: Unprocessable entity
+        '429':
+          description: Too many requests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RequestBody_76cbe3ae52d7"
   "/api/v4/projects/{id}/packages/nuget/index":
     get:
       operationId: getApiV4ProjectsIdPackagesNugetIndex
@@ -101001,7 +101031,7 @@ components:
       required:
       - name
       - path
-    RequestBody_520f96986f1e:
+    RequestBody_83e523ac558b:
       type: object
       properties:
         bucket:
@@ -101026,7 +101056,7 @@ components:
               nullable: true
             path_style:
               type: boolean
-              description: Use path-style URLs instead of virtual hosted-style URLs
+              description: Use path-style URLs instead of virtual-hosted-style URLs
               nullable: true
           required:
           - aws_access_key_id
@@ -101056,7 +101086,7 @@ components:
             path_style:
               type: boolean
               default: true
-              description: Use path-style URLs instead of virtual hosted-style URLs
+              description: Use path-style URLs instead of virtual-hosted-style URLs
               nullable: true
           required:
           - aws_access_key_id
@@ -101080,6 +101110,107 @@ components:
           nullable: true
       required:
       - bucket
+      - entities
+    RequestBody_76cbe3ae52d7:
+      type: object
+      properties:
+        bucket:
+          type: string
+          description: Name of the object storage bucket where export data is stored
+          nullable: true
+        aws_s3_configuration:
+          type: object
+          description: AWS S3 object storage configuration
+          properties:
+            aws_access_key_id:
+              type: string
+              description: AWS S3 access key ID
+              nullable: true
+            aws_secret_access_key:
+              type: string
+              description: AWS S3 secret access key
+              nullable: true
+            region:
+              type: string
+              description: AWS S3 object storage region
+              nullable: true
+            path_style:
+              type: boolean
+              description: Use path-style URLs instead of virtual-hosted-style URLs
+              nullable: true
+          required:
+          - aws_access_key_id
+          - aws_secret_access_key
+          - region
+          nullable: true
+        s3_compatible_configuration:
+          type: object
+          description: MinIO or other S3-compatible object storage configuration
+          properties:
+            aws_access_key_id:
+              type: string
+              description: S3-compatible access key ID
+              nullable: true
+            aws_secret_access_key:
+              type: string
+              description: S3-compatible secret access key
+              nullable: true
+            region:
+              type: string
+              description: S3-compatible object storage region
+              nullable: true
+            endpoint:
+              type: string
+              description: Object storage location endpoint
+              nullable: true
+            path_style:
+              type: boolean
+              default: true
+              description: Use path-style URLs instead of virtual-hosted-style URLs
+              nullable: true
+          required:
+          - aws_access_key_id
+          - aws_secret_access_key
+          - region
+          - endpoint
+          nullable: true
+        export_prefix:
+          type: string
+          description: Prefix of the export within the bucket
+          nullable: true
+        entities:
+          type: array
+          description: List of entities to import
+          items:
+            type: object
+            properties:
+              source_type:
+                type: string
+                enum:
+                - group_entity
+                - project_entity
+                description: Type of the entity to import
+                minLength: 1
+              source_full_path:
+                type: string
+                description: Full path of the entity on the source instance
+                nullable: true
+              destination_namespace:
+                type: string
+                description: Full path of the destination namespace
+                nullable: true
+              destination_slug:
+                type: string
+                description: Destination slug for the imported entity
+                nullable: true
+            required:
+            - source_type
+            - source_full_path
+            - destination_namespace
+          nullable: true
+      required:
+      - bucket
+      - export_prefix
       - entities
     RequestBody_2ce27e3485fd:
       type: object
