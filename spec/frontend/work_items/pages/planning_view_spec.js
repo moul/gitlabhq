@@ -18,6 +18,12 @@ import { useLocalStorageSpy } from 'helpers/local_storage_helper';
 import { useMockInternalEventsTracking } from 'helpers/tracking_internal_events_helper';
 import { getParameterByName, removeParams, updateHistory } from '~/lib/utils/url_utility';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
+import {
+  planningViewAllItemsFilters,
+  planningViewSavedViewFilterTokens,
+  setPlanningViewAllItemsFilters,
+  setPlanningViewSavedViewFilterTokens,
+} from '~/work_items/pages/planning_view_state';
 
 import {
   CREATED_DESC,
@@ -425,6 +431,8 @@ describe('planning-view', () => {
     getParameterByName.mockImplementation((...args) =>
       jest.requireActual('~/lib/utils/url_utility').getParameterByName(...args),
     );
+    setPlanningViewAllItemsFilters(null);
+    setPlanningViewSavedViewFilterTokens({});
   });
 
   it('calls query to fetch work items when list-view emits update-query', async () => {
@@ -1602,18 +1610,45 @@ describe('planning-view', () => {
           expect(findSaveViewButton().exists()).toBe(false);
         });
 
-        it('persists unsaved changes on "All Items" to localStorage', async () => {
-          await mountDefault();
+        describe('in-session filter restoration', () => {
+          beforeEach(async () => {
+            await mountDefault();
+            await router.push({ name: 'planningView', params: { type: 'issues' } });
+            await waitForPromises();
+          });
 
-          findFilteredSearchBar().vm.$emit('onFilter', [
-            { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
-          ]);
-          await nextTick();
+          it('restores All Items filters when navigating All Items → Saved View → All Items', async () => {
+            findFilteredSearchBar().vm.$emit('onFilter', [
+              { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
+            ]);
+            await nextTick();
 
-          expect(localStorage.setItem).toHaveBeenCalledWith(
-            'full/path-all-items-draft-filters',
-            expect.stringContaining('"query"'),
-          );
+            expect(planningViewAllItemsFilters.value).toEqual(
+              expect.objectContaining({
+                filterTokens: expect.arrayContaining([
+                  expect.objectContaining({
+                    type: TOKEN_TYPE_AUTHOR,
+                    value: expect.objectContaining({ data: 'homer' }),
+                  }),
+                ]),
+              }),
+            );
+
+            await router.push({ name: 'savedView', params: { type: 'issues', view_id: '3' } });
+            await waitForPromises();
+
+            findWorkItemsSavedViewsSelectors().vm.$emit('navigate-to-all-items');
+            await waitForPromises();
+
+            expect(findFilteredSearchBar().props('initialFilterValue')).toEqual(
+              expect.arrayContaining([
+                expect.objectContaining({
+                  type: TOKEN_TYPE_AUTHOR,
+                  value: expect.objectContaining({ data: 'homer' }),
+                }),
+              ]),
+            );
+          });
         });
       });
 
@@ -1988,18 +2023,6 @@ describe('planning-view', () => {
         });
       });
 
-      it('persists unsaved changes to localStorage', async () => {
-        findFilteredSearchBar().vm.$emit('onFilter', [
-          { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
-        ]);
-        await nextTick();
-
-        expect(localStorage.setItem).toHaveBeenCalledWith(
-          'full/path-saved-view-3',
-          expect.stringContaining('"filterTokens"'),
-        );
-      });
-
       it('persists unsaved data when navigating back to the saved view', async () => {
         findFilteredSearchBar().vm.$emit('onSort', CREATED_DESC);
         await nextTick();
@@ -2010,6 +2033,37 @@ describe('planning-view', () => {
         await nextTick();
 
         expect(findFilteredSearchBar().props('initialSortBy')).toBe(CREATED_DESC);
+      });
+
+      it('restores filters in-session when switching between saved views', async () => {
+        findFilteredSearchBar().vm.$emit('onFilter', [
+          { type: TOKEN_TYPE_AUTHOR, value: { data: 'homer', operator: OPERATOR_IS } },
+        ]);
+        await nextTick();
+
+        expect(planningViewSavedViewFilterTokens.value['3']).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              type: TOKEN_TYPE_AUTHOR,
+              value: expect.objectContaining({ data: 'homer' }),
+            }),
+          ]),
+        );
+
+        await router.push({ name: 'savedView', params: { type: 'work_items', view_id: '4' } });
+        await waitForPromises();
+
+        await router.push({ name: 'savedView', params: { type: 'work_items', view_id: '3' } });
+        await waitForPromises();
+
+        expect(findFilteredSearchBar().props('initialFilterValue')).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              type: TOKEN_TYPE_AUTHOR,
+              value: expect.objectContaining({ data: 'homer' }),
+            }),
+          ]),
+        );
       });
     });
 
@@ -2602,8 +2656,6 @@ describe('planning-view', () => {
         await waitForPromises();
 
         const workItems = findListView().props('workItems');
-        // Verify that items are sorted by created date descending
-        // The default mock data should be sorted by creation date
         expect(workItems.length).toBeGreaterThan(0);
         if (workItems.length > 1) {
           const firstCreatedAt = new Date(workItems[0].createdAt);
@@ -2618,7 +2670,6 @@ describe('planning-view', () => {
         await waitForPromises();
 
         const workItems = findListView().props('workItems');
-        // Verify that items are sorted by created date ascending
         expect(workItems.length).toBeGreaterThan(0);
         if (workItems.length > 1) {
           const firstCreatedAt = new Date(workItems[0].createdAt);
@@ -2633,7 +2684,6 @@ describe('planning-view', () => {
         await waitForPromises();
 
         const workItems = findListView().props('workItems');
-        // Verify that items are sorted by title ascending
         expect(workItems.length).toBeGreaterThan(0);
         if (workItems.length > 1) {
           const firstTitle = (workItems[0].title || '').toLowerCase();
@@ -2674,6 +2724,7 @@ describe('planning-view', () => {
 
       it('sorts work items by updated date in ascending order', async () => {
         mountComponent();
+        await waitForPromises();
         findFilteredSearchBar().vm.$emit('onSort', UPDATED_ASC);
         await waitForPromises();
 
@@ -2685,6 +2736,16 @@ describe('planning-view', () => {
           const secondUpdatedAt = new Date(workItems[1].updatedAt);
           expect(firstUpdatedAt.getTime()).toBeLessThanOrEqual(secondUpdatedAt.getTime());
         }
+      });
+
+      it('passes the correct sort key to the API when sorting by updated date ascending', async () => {
+        mountComponent();
+        findFilteredSearchBar().vm.$emit('onSort', UPDATED_ASC);
+        await waitForPromises();
+
+        expect(defaultSlimQueryHandler).toHaveBeenCalledWith(
+          expect.objectContaining({ sort: UPDATED_ASC }),
+        );
       });
     });
   });

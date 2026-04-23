@@ -404,7 +404,7 @@ Supported attributes:
 | Attribute          | Type              | Required | Description |
 |--------------------|-------------------|----------|-------------|
 | `id`               | integer or string | Yes      | The ID or [URL-encoded path](rest/_index.md#namespaced-paths) of a project. |
-| `approval_rule_id` | integer           | Yes      | The ID of a approval rule. |
+| `approval_rule_id` | integer           | Yes      | The ID of an approval rule. |
 
 ```json
 {

@@ -737,7 +737,3 @@ export function sortWorkItems(workItems, sortKey, resolveWorkItemSortValue) {
 export function getSortedWorkItems(workItems, sortKey) {
   return sortWorkItems(workItems, sortKey, getSortValue);
 }
-
-export function getAllItemsDraftFiltersStorageKey(fullPath) {
-  return `${fullPath}-all-items-draft-filters`;
-}

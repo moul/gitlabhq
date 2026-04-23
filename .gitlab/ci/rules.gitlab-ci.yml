@@ -272,6 +272,9 @@
 .if-group-code-review-label-or-maintenance-label-on-mr: &if-group-code-review-label-or-maintenance-label-on-mr
   if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_EVENT_TYPE != "merge_train" && ($CI_MERGE_REQUEST_LABELS =~ /group::code review/ || $CI_MERGE_REQUEST_LABELS =~ /maintenance::dependency/)'
 
+.if-canonical-mr: &if-canonical-mr
+  if: '($CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_EVENT_TYPE != "merge_train") && $CI_PROJECT_NAMESPACE =~ /^gitlab(-org)?($|\/)/'
+
 .if-dev-internal-release: &if-dev-internal-release
   if: '$CI_SERVER_HOST == "dev.gitlab.org" && $CI_PROJECT_PATH == "gitlab/gitlab-ee" && $CI_COMMIT_REF_NAME =~
   /^[\d-]+-stable-ee$/ && $CI_COMMIT_TITLE =~ /^Update VERSION file.*internal/'
@@ -1604,6 +1607,9 @@
     - <<: *if-sync-changes-on-stable-branches
     - <<: *if-group-code-review-label-or-maintenance-label-on-mr
       changes: *backend-only-patterns
+    # Automatically run on canonical MRs with backend changes (before assets-shared to avoid prevent-tier-1 exclusion)
+    - <<: *if-canonical-mr
+      changes: *backend-only-patterns
     - !reference [".frontend:rules:assets-shared", rules]
     # Always build on stable branches to serve release-environments pipeline
     # Do not refer directly to .release-environments:rules:start-release-environments-security-pipeline
@@ -2247,6 +2253,10 @@
 
 .qa:rules:e2e:perf-on-cng:
   rules:
+    - <<: *if-not-canonical-namespace
+      when: never
+    - <<: *if-merge-request-labels-pipeline-expedite
+      when: never
     - <<: *if-merge-request-targeting-stable-branch
       when: never
     - !reference [".qa:rules:e2e-test-never-run", rules]
@@ -2260,13 +2270,19 @@
     # Do not run for scheduled pipeline for rails-next branch
     - <<: *if-rails-branch-schedule
       when: never
+    # Automatically run for MRs with group::code review label or maintenance::dependency label and backend changes
     - <<: *if-group-code-review-label-or-maintenance-label-on-mr
       changes: *backend-only-patterns
+    # Allow manual triggering for CNG dependency changes
     - <<: *if-merge-request
       changes: *cng-dependency-patterns
       when: manual
       allow_failure: true
-    - <<: *if-dot-com-gitlab-org-schedule
+    # Allow manual triggering on all other canonical MRs (with backend and frontend change but not docs-only changes)
+    - <<: *if-canonical-mr
+      changes: *backend-only-patterns
+      when: manual
+      allow_failure: true
 
 .qa:rules:fulfillment-e2e-quarantine-report:
   rules:

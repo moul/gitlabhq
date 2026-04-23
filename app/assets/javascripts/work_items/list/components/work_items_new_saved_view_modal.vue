@@ -14,7 +14,6 @@ import {
 } from '@gitlab/ui';
 import { __, s__, n__, sprintf } from '~/locale';
 import { SAVED_VIEW_VISIBILITY, ROUTES } from '~/work_items/constants';
-import { getAllItemsDraftFiltersStorageKey } from '~/work_items/utils';
 import { saveSavedView } from 'ee_else_ce/work_items/list/utils';
 import { getIdFromGraphQLId } from '~/graphql_shared/utils';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
@@ -124,9 +123,6 @@ export default {
     emptyTitleFeedback() {
       return this.savedViewTitle ? '' : this.$options.i18n.validateTitle;
     },
-    allItemsDraftFiltersStorageKey() {
-      return getAllItemsDraftFiltersStorageKey(this.fullPath);
-    },
   },
   watch: {
     show: {
@@ -157,9 +153,6 @@ export default {
       const trimmedTitle = this.savedViewTitle?.trim() ?? '';
       this.isTitleValid =
         trimmedTitle.length > 0 && trimmedTitle.length <= this.$options.MAX_TITLE_LENGTH;
-    },
-    resetAllItemsToDefaults() {
-      localStorage.removeItem(this.allItemsDraftFiltersStorageKey);
     },
     async saveView() {
       this.validateTitle();
@@ -199,15 +192,12 @@ export default {
 
         if (!this.isEdit) {
           const newViewId = getIdFromGraphQLId(data[mutationKey].savedView.id);
-          this.resetAllItemsToDefaults();
 
           this.$router.push({
             name: ROUTES.savedView,
             params: { view_id: newViewId.toString() },
             query: undefined,
           });
-        } else {
-          this.resetAllItemsToDefaults();
         }
 
         this.$toast.show(

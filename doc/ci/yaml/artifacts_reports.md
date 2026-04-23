@@ -326,13 +326,12 @@ concatenate them into a single file. Use either:
 
 {{< /details >}}
 
-The `load_performance` report collects [Load Performance Testing metrics](../testing/load_performance_testing.md).
-The report is uploaded to GitLab as an artifact.
+The `load_performance` report collects [load performance testing metrics](../testing/load_performance_testing.md)
+and is uploaded as an artifact.
 
-GitLab can display the results of only one report in the merge request
-[load testing widget](../testing/load_performance_testing.md#how-load-performance-testing-works).
-
-GitLab cannot display the combined results of multiple `load_performance` reports.
+Results are displayed in the merge request
+[load testing widget](../testing/load_performance_testing.md#load-performance-results-in-merge-requests).
+Combined results from multiple `load_performance` reports are not supported.
 
 ## `artifacts:reports:metrics`
 

@@ -81,7 +81,7 @@ You can customize the job with CI/CD variables:
 | `SITESPEED_IMAGE`          | `sitespeedio/sitespeed.io` | Docker image to use. Does not control the version. |
 | `SITESPEED_VERSION`        | `14.1.0`                   | Version of the Docker image. |
 | `SITESPEED_OPTIONS`        | none                       | Additional sitespeed.io options. For more information, see [sitespeed.io configuration](https://www.sitespeed.io/documentation/sitespeed.io/configuration/). |
-| `SITESPEED_DOCKER_OPTIONS` | none                       | Additional options passed to the `docker run` command. For more information, see [Docker run options](https://docs.docker.com/reference/cli/docker/container/run/#options). |
+| `SITESPEED_DOCKER_OPTIONS` | none                       | Additional options passed to `docker run`, such as `--network` to connect to a specific Docker network. |
 
 For example, to override the number of runs and change the version:
 

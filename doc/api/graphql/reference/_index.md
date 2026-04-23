@@ -56880,7 +56880,7 @@ Available fields to be exported as CSV.
 | <a id="availableexportfields-author_username"></a>`AUTHOR_USERNAME` | Author username of the work item. |
 | <a id="availableexportfields-closed_at"></a>`CLOSED_AT` | Closed at (UTC) date of the work item. |
 | <a id="availableexportfields-confidential"></a>`CONFIDENTIAL` | Confidentiality flag of the work item. |
-| <a id="availableexportfields-created_at"></a>`CREATED_AT` | Crated at (UTC) date of the work item. |
+| <a id="availableexportfields-created_at"></a>`CREATED_AT` | Created at (UTC) date of the work item. |
 | <a id="availableexportfields-description"></a>`DESCRIPTION` | Description of the work item. |
 | <a id="availableexportfields-due_date"></a>`DUE_DATE` | Due date (UTC) of the work item. |
 | <a id="availableexportfields-id"></a>`ID` | Unique identifier of the work item. |

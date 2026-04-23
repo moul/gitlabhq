@@ -120,11 +120,13 @@ import {
   PARAM_PAGE_BEFORE,
   PARAM_STATE,
 } from '~/work_items/list/constants';
+import { getSortedWorkItems, combineWorkItemLists } from '~/work_items/utils';
 import {
-  getSortedWorkItems,
-  combineWorkItemLists,
-  getAllItemsDraftFiltersStorageKey,
-} from '~/work_items/utils';
+  planningViewAllItemsFilters,
+  planningViewSavedViewFilterTokens,
+  setPlanningViewAllItemsFilters,
+  setPlanningViewSavedViewFilterTokens,
+} from '~/work_items/pages/planning_view_state';
 
 import searchProjectsQuery from '../list/graphql/search_projects.query.graphql';
 
@@ -233,8 +235,6 @@ export default {
     'isGroup',
     'isGroupIssuesList',
     'isServiceDeskSupported',
-    'canAdminIssue',
-    'canBulkAdminEpic',
     'workItemType',
     'hasGroupBulkEditFeature',
     'hasEpicsFeature',
@@ -430,10 +430,14 @@ export default {
               namespacePreferences: savedView.displaySettings,
             };
 
+            const sessionFilters =
+              planningViewSavedViewFilterTokens.value[this.$route.params.view_id];
+            this.filterTokens = sessionFilters ?? tokens;
+            this.updateState(this.filterTokens);
+
             if (draft) {
               this.restoreViewDraft();
             } else {
-              this.filterTokens = tokens;
               this.sortKey = savedView?.sort;
               this.localDisplaySettings = {
                 commonPreferences: { ...this.displaySettings.commonPreferences },
@@ -500,7 +504,14 @@ export default {
           this.showIssueRepositioningMessage();
           sortKey = this.state === STATUS_CLOSED ? UPDATED_DESC : CREATED_DESC;
         }
-        if (!this.isSavedView) this.sortKey = sortKey;
+        if (!this.isSavedView) {
+          this.sortKey = sortKey;
+          // Sync default sort to URL on fresh load so the URL always reflects current state.
+          // Guard against overwriting existing params (e.g. sv_limit_id on redirect from saved view).
+          if (!Object.keys(this.$route.query).length) {
+            this.updateRouterQueryParams();
+          }
+        }
         this.isSortKeyInitialized = true;
       },
       skip() {
@@ -539,22 +550,6 @@ export default {
     },
     hasSearch() {
       return Boolean(this.searchQuery);
-    },
-    allItemsDraftFilters() {
-      const {
-        sv_not_found,
-        sv_limit_id,
-        show,
-        first_page_size,
-        last_page_size,
-        page_after,
-        page_before,
-        ...query
-      } = this.$route.query;
-      return { query };
-    },
-    allItemsDraftFiltersStorageKey() {
-      return getAllItemsDraftFiltersStorageKey(this.rootPageFullPath);
     },
     namespace() {
       return this.isGroup ? NAMESPACE_GROUP : NAMESPACE_PROJECT;
@@ -1103,7 +1098,6 @@ export default {
     },
     viewDraftData() {
       return {
-        filterTokens: this.filterTokens,
         sortKey: this.sortKey,
         displaySettings: this.localDisplaySettings,
       };
@@ -1129,13 +1123,14 @@ export default {
     },
     eeSearchTokens() {
       if (this.isSavedView && Boolean(this.savedView)) {
-        const draft = localStorage.getItem(this.savedViewDraftStorageKey);
         const tokens = this.getFilterTokensFromSavedView(this.savedView.filters);
         this.initialViewTokens = tokens;
+        const sessionFilters = planningViewSavedViewFilterTokens.value[this.$route.params.view_id];
+        this.filterTokens = sessionFilters ?? tokens;
+        this.updateState(this.filterTokens);
+        const draft = localStorage.getItem(this.savedViewDraftStorageKey);
         if (draft) {
           this.restoreViewDraft();
-        } else {
-          this.filterTokens = tokens;
         }
       }
     },
@@ -1192,39 +1187,11 @@ export default {
     if (this.isSavedView) {
       this.pageParams = getInitialPageParams(this.pageSize);
     } else {
-      const draft = localStorage.getItem(this.allItemsDraftFiltersStorageKey);
       const hasUrlQuery = Object.keys(this.$route.query).length > 0;
-      const hasSavedViewParam =
-        'sv_not_found' in this.$route.query || 'sv_limit_id' in this.$route.query;
-
-      const {
-        sv_not_found,
-        sv_limit_id,
-        show,
-        first_page_size,
-        last_page_size,
-        page_after,
-        page_before,
-        ...query
-      } = this.$route.query;
-
-      if (hasUrlQuery && !hasSavedViewParam) {
-        localStorage.setItem(this.allItemsDraftFiltersStorageKey, JSON.stringify({ query }));
-      } else if (draft && !hasSavedViewParam) {
-        const parsedData = JSON.parse(draft);
-
-        if (parsedData.query) {
-          this.$router.replace({ query: parsedData.query }).catch((error) => {
-            if (error.name !== 'NavigationDuplicated') {
-              throw error;
-            }
-          });
-        }
-      }
 
       this.updateData(getParameterByName(PARAM_SORT));
 
-      if (!draft && !hasUrlQuery) {
+      if (!hasUrlQuery) {
         this.addStateToken();
       }
     }
@@ -1235,6 +1202,20 @@ export default {
   },
 
   methods: {
+    saveSessionFilters(tokens) {
+      if (this.isSavedView) {
+        setPlanningViewSavedViewFilterTokens({
+          ...planningViewSavedViewFilterTokens.value,
+          [this.$route.params.view_id]: [...tokens],
+        });
+      } else {
+        setPlanningViewAllItemsFilters({
+          filterTokens: [...tokens],
+          sortKey: this.sortKey,
+          state: this.state,
+        });
+      }
+    },
     checkDetailPanelParams() {
       const queryParam = getParameterByName(DETAIL_VIEW_QUERY_PARAM_NAME);
 
@@ -1392,9 +1373,6 @@ export default {
 
       const parsedData = JSON.parse(draft);
 
-      this.filterTokens = this.glFeatures.workItemConfigurableTypes
-        ? convertLegacyTypeFormat(parsedData.filterTokens, this.getWorkItemTypeConfiguration)
-        : parsedData.filterTokens;
       this.sortKey = parsedData.sortKey;
       this.localDisplaySettings = parsedData.displaySettings;
     },
@@ -1409,26 +1387,20 @@ export default {
       this.updateRouterQueryParams();
     },
     navigateToAllItems() {
-      const draft = localStorage.getItem(this.allItemsDraftFiltersStorageKey);
-
-      if (draft) {
-        const { query } = JSON.parse(draft);
-
-        this.$router
-          .push({
-            name: ROUTES.index,
-            query,
-          })
-          .catch((error) => {
-            if (error.name !== 'NavigationDuplicated') {
-              throw error;
-            }
-          });
-
-        return;
+      let query;
+      if (planningViewAllItemsFilters.value) {
+        const { filterTokens, sortKey, state } = planningViewAllItemsFilters.value;
+        const urlFilterParams = convertToUrlParams(filterTokens, {
+          hasCustomFieldsFeature: this.hasCustomFieldsFeature,
+        });
+        query = {
+          sort: urlSortParams[sortKey],
+          state,
+          ...urlFilterParams,
+          first_page_size: DEFAULT_PAGE_SIZE,
+        };
       }
-
-      this.$router.push({ name: ROUTES.index }).catch((error) => {
+      this.$router.push({ name: ROUTES.index, query }).catch((error) => {
         if (error.name !== 'NavigationDuplicated') {
           throw error;
         }
@@ -1646,17 +1618,6 @@ export default {
 
       localStorage.setItem(this.savedViewDraftStorageKey, JSON.stringify(this.viewDraftData));
     },
-    persistAllItemsDraft() {
-      const hasSavedViewParam =
-        'sv_not_found' in this.$route.query || 'sv_limit_id' in this.$route.query;
-
-      if (!hasSavedViewParam) {
-        localStorage.setItem(
-          this.allItemsDraftFiltersStorageKey,
-          JSON.stringify(this.allItemsDraftFilters),
-        );
-      }
-    },
     handleAllIssuablesCheckedInput(value) {
       this.workItems.forEach((issuable) => this.updateCheckedIssuableIds(issuable, value));
     },
@@ -1697,12 +1658,15 @@ export default {
       this.pageParams = getInitialPageParams(this.pageSize);
 
       this.updateRouterQueryParams();
+      this.saveSessionFilters(tokens);
 
       if (this.isSavedView) {
         this.persistSavedViewDraft();
-      } else {
-        this.persistAllItemsDraft();
       }
+    },
+    handleSetPageParams(pageParams) {
+      this.pageParams = pageParams;
+      this.updateRouterQueryParams();
     },
     handleSort(sortKey) {
       if (this.sortKey === sortKey) {
@@ -1722,6 +1686,7 @@ export default {
       }
 
       this.updateRouterQueryParams();
+      this.saveSessionFilters(this.filterTokens);
       this.persistSavedViewDraft();
     },
     async saveSortPreference(sortKey) {
@@ -2216,7 +2181,7 @@ export default {
       @update-tokens="($evt) => (filterTokens = $evt)"
       @set-checked-issuable-ids="($evt) => (checkedIssuableIds = $evt)"
       @reorder="handleReorder"
-      @set-page-params="($evt) => (pageParams = $evt)"
+      @set-page-params="handleSetPageParams"
       @set-page-size="($evt) => (pageSize = $evt)"
       @select-item="handleToggle"
     >

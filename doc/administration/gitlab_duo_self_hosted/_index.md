@@ -42,18 +42,6 @@ For customers with an offline license, billing is seat based and you must have t
 
 For customers with an online license, billing is [usage based](../../subscriptions/gitlab_credits.md). You can also use GitLab-managed models in a hybrid deployment.
 
-### Data transmission
-
-The following billing metadata is sent to GitLab for usage billing:
-
-- Anonymized instance ID
-- Call count
-- User ID
-
-Inference data, including code inputs, model prompts, and model responses, does not leave the customer network.
-
-GitLab does not capture which model or model provider the customer uses.
-
 ### GitLab Duo
 
 GitLab Duo Self-Hosted is for customers with GitLab Duo Enterprise who are using GitLab Duo
@@ -95,6 +83,18 @@ or GitLab Duo Pro when GitLab hosts and connects to those models through the clo
 | [Vulnerability Resolution](../../user/application_security/vulnerabilities/_index.md#vulnerability-resolution)                         | GitLab 18.1.2 and later | Beta                |
 | [GitLab Duo and SDLC trends Dashboard](../../user/analytics/duo_and_sdlc_trends.md)                                                    | GitLab 17.9 and later   | Beta                |
 | [Code Review Summary](../../user/project/merge_requests/duo_in_merge_requests.md#summarize-a-code-review)                              | GitLab 18.1.2 and later | Experiment          |
+
+## Data transmission
+
+The following billing metadata is sent to GitLab for usage billing:
+
+- Anonymized instance ID
+- Call count
+- User ID
+
+Inference data, including code inputs, model prompts, and model responses, does not leave the customer network.
+
+GitLab does not capture which model or model provider the customer uses.
 
 ## AI Gateway configurations
 

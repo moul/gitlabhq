@@ -258,6 +258,7 @@ export default Node.create({
           [COMMANDS.ASSIGN_REVIEWER]: '@',
           [COMMANDS.UNASSIGN_REVIEWER]: '@',
           [COMMANDS.REASSIGN_REVIEWER]: '@',
+          [COMMANDS.REQUEST_REVIEW]: '@',
           [COMMANDS.MILESTONE]: '%',
           [COMMANDS.ITERATION]: '*iteration:',
           [COMMANDS.STATUS]: '"',

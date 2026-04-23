@@ -173,6 +173,20 @@ We recommend to migrate to the bundled Envoy Gateway and Gateway API.
 Alternatively, you can deploy and configure an
 [external Ingress controller and class](https://docs.gitlab.com/charts/charts/globals/#configure-ingress-settings).
 
+## GitLab 19.3
+
+### The `glab duo ask` command
+
+- Announced in GitLab 19.0
+- Removal in GitLab 19.3 ([breaking change](https://docs.gitlab.com/update/terminology/#breaking-change))
+- To discuss this change or learn more, see the [deprecation issue](https://gitlab.com/gitlab-org/gitlab/-/work_items/597732).
+
+The `glab duo ask` command in the GitLab CLI is deprecated in GitLab 19.0
+and will be removed in GitLab 19.3. The command generates Git commands from
+natural language descriptions.
+
+Use [`glab duo cli`](https://docs.gitlab.com/cli/duo/cli/) instead for AI-powered assistance in the CLI.
+
 ## GitLab 19.1
 
 ### Elasticsearch 7.x no longer supported for advanced search

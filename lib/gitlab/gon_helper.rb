@@ -59,6 +59,10 @@ module Gitlab
       gon.dot_com                = Gitlab.com?
       gon.uf_error_prefix        = ::Gitlab::Utils::ErrorMessage::UF_ERROR_PREFIX
       gon.pat_prefix             = Gitlab::CurrentSettings.current_application_settings.personal_access_token_prefix
+      if Feature.enabled?(:custom_prefix_for_all_token_types, :instance)
+        gon.instance_token_prefix = Authn::TokenField::PrefixHelper.instance_prefix
+      end
+
       gon.keyboard_shortcuts_enabled = current_user ? current_user.keyboard_shortcuts_enabled : true
       gon.broadcast_message_dismissal_path =
         current_user ? Gitlab::Routing.url_helpers.broadcast_message_dismissals_path : nil
