@@ -28795,7 +28795,7 @@ paths:
   "/api/v4/projects/{id}/packages/npm/{package_name}":
     put:
       summary: Create or deprecate NPM package
-      description: Create was introduced in GitLab 11.8 & deprecate suppport was added
+      description: Create was introduced in GitLab 11.8 & deprecate support was added
         in 16.0
       produces:
       - application/json
@@ -49122,6 +49122,12 @@ definitions:
       duo_foundational_flows_availability:
         type: boolean
         description: Enable GitLab foundational Duo flows for this group
+      duo_custom_agents_availability:
+        type: boolean
+        description: Enable GitLab Duo custom agents for this group
+      duo_custom_flows_availability:
+        type: boolean
+        description: Enable GitLab Duo custom flows for this group
       tool_approval_for_session_availability:
         type: string
         description: Tool approval for session availability. One of `default_on`,
@@ -49404,6 +49410,12 @@ definitions:
       duo_foundational_flows_availability:
         type: boolean
         description: Enable GitLab foundational Duo flows for this group
+      duo_custom_agents_availability:
+        type: boolean
+        description: Enable GitLab Duo custom agents for this group
+      duo_custom_flows_availability:
+        type: boolean
+        description: Enable GitLab Duo custom flows for this group
       tool_approval_for_session_availability:
         type: string
         description: Tool approval for session availability. One of `default_on`,

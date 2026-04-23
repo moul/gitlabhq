@@ -62,7 +62,7 @@ module Gitlab
 
         def draw_header
           pdf.repeat(:all, dynamic: true) do
-            Gitlab::PDF::Header.render(pdf, exportable.name, page: pdf.page_number, height: 50)
+            Gitlab::PDF::Header.render(pdf, exportable, page: pdf.page_number, height: 50)
           end
         end
 

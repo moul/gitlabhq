@@ -3,12 +3,15 @@
 module API
   class MarkdownUploads < ::API::Base
     include PaginationParams
+    include APIGuard
 
     feature_category :team_planning
 
     FILENAME_QUERY_PARAM_REQUIREMENTS = API::NAMESPACE_OR_PROJECT_REQUIREMENTS.merge(
       filename: API::NO_SLASH_URL_PART_REGEX
     )
+
+    allow_access_with_scope :ai_workflows, if: ->(request) { request.post? }
 
     before { authenticate_non_get! }
 

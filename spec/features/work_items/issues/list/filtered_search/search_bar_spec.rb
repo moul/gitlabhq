@@ -21,7 +21,7 @@ RSpec.describe 'Search bar', :js, feature_category: :team_planning do
       click_filtered_search_bar
       send_keys :down, :enter
 
-      expect_token_segment 'Assignee'
+      expect_token_segment 'State'
     end
   end
 

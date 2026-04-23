@@ -132,10 +132,6 @@ module WorkItems
         by_base_types(names).sort_by { |type| type.name.downcase }
       end
 
-      def wrap_type(type)
-        namespaced_type(type)
-      end
-
       private
 
       def resource_parent

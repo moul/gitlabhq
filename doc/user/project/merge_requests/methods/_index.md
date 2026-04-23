@@ -83,7 +83,7 @@ and selecting `Merge commit` as the **Merge method** in the GitLab UI:
   ```mermaid
   %%{init: { 'gitGraph': {'showBranches': true, 'showCommitLabel':true,'mainBranchName': 'main', 'fontFamily': 'GitLab Sans'}} }%%
   gitGraph
-     accTitle: Diagram of of a squash merge
+     accTitle: Diagram of a squash merge
      accDescr: A Git graph showing repository and branch structure after a squash commit is added to the main branch.
      commit id:"A"
      branch feature

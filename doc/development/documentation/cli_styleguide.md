@@ -53,6 +53,21 @@ Every generated CLI documentation page must include the following sections, in t
 1. Options inherited from parent commands
 1. Subcommands (if the command has subcommands)
 
+The following table shows the mapping between each page section and the Go source field
+that generates it:
+
+| Page section                           | Go source |
+|----------------------------------------|-----------|
+| Title                                  | Full command path from the `CommandPath()` method. |
+| Short description                      | `Short` field of `cobra.Command`. |
+| Synopsis                               | `Long` field of `cobra.Command`. |
+| Usage line                             | `UseLine()` method of `cobra.Command`. |
+| Aliases                                | `Aliases` field of `cobra.Command`. |
+| Examples                               | `Example` field of `cobra.Command`. |
+| Options                                | Flag definitions (`cmd.Flags()` and `cmd.PersistentFlags()`). |
+| Options inherited from parent commands | Parent command's persistent flags. |
+| Subcommands                            | Subcommand names registered with `cmd.AddCommand()`. |
+
 ### Title
 
 The title is the full command invocation, formatted as inline code. For example:

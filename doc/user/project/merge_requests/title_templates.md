@@ -77,7 +77,22 @@ When you create a merge request, GitLab assigns the title in this order:
 
 1. If you provide a title, GitLab uses it.
 1. If a title template is configured, GitLab uses the expanded template.
-1. If no template is set, GitLab derives the title from the first commit message or the source branch name.
+1. If no template is set, GitLab uses the [default title behavior](#default-title-behavior).
+
+## Default title behavior
+
+When no title template is configured and you don't provide a title, GitLab generates
+the title by checking these conditions in order:
+
+1. If the merge request has a single commit, the commit title.
+1. If the merge request has multiple commits, the title of the first commit with a
+   multi-line commit message.
+1. If the source branch name starts with an issue IID followed by a hyphen, for example
+   `123-fix-typo`, the title is `Resolve "<your_issue_title>"`.
+1. Otherwise, the source branch name, with hyphens and underscores replaced by spaces.
+
+If the merge request has no commits, or you mark it as a draft, GitLab prepends `Draft:`
+to the title.
 
 ## Related topics
 

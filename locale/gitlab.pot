@@ -70381,6 +70381,9 @@ msgstr ""
 msgid "SuperSonics|Licensed to"
 msgstr ""
 
+msgid "SuperSonics|Manage subscription"
+msgstr ""
+
 msgid "SuperSonics|Offline license"
 msgstr ""
 

@@ -14920,6 +14920,7 @@ CREATE TABLE application_settings (
     diff_limits jsonb DEFAULT '{}'::jsonb NOT NULL,
     markdown_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     active_context_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
+    duo_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     CONSTRAINT app_settings_container_reg_cleanup_tags_max_list_size_positive CHECK ((container_registry_cleanup_tags_service_max_list_size >= 0)),
     CONSTRAINT app_settings_dep_proxy_ttl_policies_worker_capacity_positive CHECK ((dependency_proxy_ttl_group_policy_worker_capacity >= 0)),
     CONSTRAINT app_settings_ext_pipeline_validation_service_url_text_limit CHECK ((char_length(external_pipeline_validation_service_url) <= 255)),
@@ -24590,6 +24591,10 @@ CREATE TABLE namespace_settings (
     lock_built_in_project_templates_enabled boolean DEFAULT false NOT NULL,
     tool_approval_for_session_enabled boolean,
     lock_tool_approval_for_session_enabled boolean DEFAULT false NOT NULL,
+    duo_custom_flows_enabled boolean,
+    lock_duo_custom_flows_enabled boolean DEFAULT false NOT NULL,
+    duo_custom_agents_enabled boolean,
+    lock_duo_custom_agents_enabled boolean DEFAULT false NOT NULL,
     CONSTRAINT check_0ba93c78c7 CHECK ((char_length(default_branch_name) <= 255)),
     CONSTRAINT check_d9644d516f CHECK ((char_length(step_up_auth_required_oauth_provider) <= 255)),
     CONSTRAINT check_namespace_settings_security_policies_is_hash CHECK ((jsonb_typeof(security_policies) = 'object'::text)),
@@ -47981,7 +47986,7 @@ CREATE INDEX index_notes_on_line_code ON notes USING btree (line_code);
 
 CREATE INDEX index_notes_on_namespace_id ON notes USING btree (namespace_id);
 
-CREATE INDEX index_notes_on_noteable_id_and_noteable_type_and_system ON notes USING btree (noteable_id, noteable_type, system);
+CREATE INDEX index_notes_on_noteable_id_and_noteable_type_system_author_id ON notes USING btree (noteable_id, noteable_type, system) INCLUDE (author_id);
 
 CREATE INDEX index_notes_on_noteable_id_noteable_type_and_id ON notes USING btree (noteable_id, noteable_type, id);
 
@@ -47992,6 +47997,8 @@ CREATE INDEX index_notes_on_project_id_and_id_and_system_false ON notes USING bt
 CREATE INDEX index_notes_on_project_id_and_noteable_type ON notes USING btree (project_id, noteable_type);
 
 CREATE INDEX index_notes_on_review_id ON notes USING btree (review_id);
+
+CREATE INDEX index_notes_on_system_notes_with_mentions ON notes USING btree (noteable_id, noteable_type) WHERE ((system = true) AND (note ~~ '%@%'::text));
 
 CREATE INDEX index_notification_settings_on_source_and_level_and_user ON notification_settings USING btree (source_id, source_type, level, user_id);
 

@@ -113,10 +113,6 @@ export const MAX_WORK_ITEMS = 10;
 export const FORM_TYPES = {
   create: 'create',
   add: 'add',
-  [WORK_ITEM_TYPE_ENUM_OBJECTIVE]: {
-    icon: `work-item-objective`,
-    name: s__('WorkItem|Objective'),
-  },
 };
 
 export const DEFAULT_PAGE_SIZE_NOTES = 20; // Set to 20 to not exceed query complexity

@@ -393,11 +393,12 @@ RSpec.describe 'Admin::Users', :with_current_organization, feature_category: :us
     end
 
     it 'creates new user' do
-      expect { click_button 'Create user' }.to change { User.count }.by(1)
+      expect { click_create_user! }.to change { User.count }.by(1)
     end
 
     it 'applies defaults to user' do
-      click_button 'Create user'
+      click_create_user!
+
       user = User.find_by(username: 'bang')
       expect(user.projects_limit)
         .to eq(Gitlab.config.gitlab.default_projects_limit)
@@ -408,7 +409,8 @@ RSpec.describe 'Admin::Users', :with_current_organization, feature_category: :us
     end
 
     it 'creates user with valid data' do
-      click_button 'Create user'
+      click_create_user!
+
       user = User.find_by(username: 'bang')
       expect(user.name).to eq('Big Bang')
       expect(user.email).to eq('bigbang@mail.com')
@@ -424,7 +426,7 @@ RSpec.describe 'Admin::Users', :with_current_organization, feature_category: :us
 
     it 'sends valid email to user with email & password' do
       perform_enqueued_jobs do
-        click_button 'Create user'
+        click_create_user!
       end
 
       user = User.find_by(username: 'bang')
@@ -449,8 +451,8 @@ RSpec.describe 'Admin::Users', :with_current_organization, feature_category: :us
       within_testid 'organization-section' do
         select_from_listbox 'Owner', from: 'User'
       end
-      click_button 'Create user'
-      expect(page).to have_content('User was successfully created.')
+
+      click_create_user!
 
       user = User.find_by(username: 'bang')
       organization_user = Organizations::OrganizationUser
@@ -467,7 +469,7 @@ RSpec.describe 'Admin::Users', :with_current_organization, feature_category: :us
           select_from_listbox 'New Organization', from: current_organization.name
         end
 
-        expect { click_button 'Create user' }.to change { organization.users.count }.by(1)
+        expect { click_create_user! }.to change { organization.users.count }.by(1)
       end
     end
 
@@ -508,8 +510,7 @@ RSpec.describe 'Admin::Users', :with_current_organization, feature_category: :us
           expects_external_to_be_unchecked
           expects_warning_to_be_shown
 
-          click_button 'Create user'
-          expect(page).to have_content('User was successfully created.')
+          click_create_user!
 
           new_user = User.find_by(username: user_name)
 
@@ -532,6 +533,13 @@ RSpec.describe 'Admin::Users', :with_current_organization, feature_category: :us
           expect(find('#warning_external_automatically_set')[:class]).not_to include 'hidden'
         end
       end
+    end
+
+    def click_create_user!
+      click_button 'Create user'
+
+      # Wait for UI element to ensure API request completes before proceeding
+      expect(page).to have_content('User was successfully created.')
     end
   end
 

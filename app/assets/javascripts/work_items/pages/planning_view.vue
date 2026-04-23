@@ -742,6 +742,7 @@ export default {
 
       const tokens = [
         {
+          order: 4,
           type: TOKEN_TYPE_ASSIGNEE,
           title: TOKEN_TITLE_ASSIGNEE,
           icon: 'user',
@@ -755,6 +756,7 @@ export default {
           multiSelect: true,
         },
         {
+          order: 5,
           type: TOKEN_TYPE_AUTHOR,
           title: TOKEN_TITLE_AUTHOR,
           icon: 'pencil',
@@ -770,6 +772,7 @@ export default {
           multiSelect: true,
         },
         {
+          order: 3,
           type: TOKEN_TYPE_LABEL,
           title: TOKEN_TITLE_LABEL,
           icon: 'labels',
@@ -781,6 +784,7 @@ export default {
           multiSelect: true,
         },
         {
+          order: 7,
           type: TOKEN_TYPE_MILESTONE,
           title: TOKEN_TITLE_MILESTONE,
           icon: 'milestone',
@@ -791,6 +795,7 @@ export default {
           isProject: !this.isGroup,
         },
         {
+          order: 16,
           type: TOKEN_TYPE_SEARCH_WITHIN,
           title: TOKEN_TITLE_SEARCH_WITHIN,
           icon: 'search',
@@ -806,6 +811,7 @@ export default {
 
       if (this.isGroup && !this.isGroupIssuesList) {
         tokens.push({
+          order: 17,
           type: TOKEN_TYPE_GROUP,
           icon: 'group',
           title: TOKEN_TITLE_GROUP,
@@ -818,6 +824,7 @@ export default {
 
       if (!this.isGroup) {
         tokens.push({
+          order: 11,
           type: TOKEN_TYPE_RELEASE,
           title: TOKEN_TITLE_RELEASE,
           icon: 'rocket-launch',
@@ -829,6 +836,7 @@ export default {
 
       if (!this.workItemType) {
         tokens.push({
+          order: 2,
           type: TOKEN_TYPE_TYPE,
           title: TOKEN_TITLE_TYPE,
           icon: 'work-item-issue',
@@ -842,6 +850,7 @@ export default {
 
       if (this.isLoggedIn) {
         tokens.push({
+          order: 12,
           type: TOKEN_TYPE_CONFIDENTIAL,
           title: TOKEN_TITLE_CONFIDENTIAL,
           icon: 'eye-slash',
@@ -855,6 +864,7 @@ export default {
         });
 
         tokens.push({
+          order: 14,
           type: TOKEN_TYPE_MY_REACTION,
           title: TOKEN_TITLE_MY_REACTION,
           icon: 'thumb-up',
@@ -865,6 +875,7 @@ export default {
         });
 
         tokens.push({
+          order: 15,
           type: TOKEN_TYPE_SUBSCRIBED,
           title: TOKEN_TITLE_SUBSCRIBED,
           icon: 'notifications',
@@ -887,6 +898,7 @@ export default {
       }
 
       tokens.push({
+        order: 1,
         type: TOKEN_TYPE_STATE,
         title: TOKEN_TITLE_STATE,
         icon: 'issue-open-m',
@@ -902,6 +914,7 @@ export default {
 
       if (this.hasIssueDateFilterFeature) {
         tokens.push({
+          order: 18,
           type: TOKEN_TYPE_CLOSED,
           title: TOKEN_TITLE_CLOSED,
           icon: 'history',
@@ -911,6 +924,7 @@ export default {
         });
 
         tokens.push({
+          order: 19,
           type: TOKEN_TYPE_CREATED,
           title: TOKEN_TITLE_CREATED,
           icon: 'history',
@@ -920,6 +934,7 @@ export default {
         });
 
         tokens.push({
+          order: 20,
           type: TOKEN_TYPE_DUE_DATE,
           title: TOKEN_TITLE_DUE_DATE,
           icon: 'calendar',
@@ -929,6 +944,7 @@ export default {
         });
 
         tokens.push({
+          order: 21,
           type: TOKEN_TYPE_UPDATED,
           title: TOKEN_TITLE_UPDATED,
           icon: 'history',
@@ -940,6 +956,7 @@ export default {
 
       if (this.canReadCrmOrganization) {
         tokens.push({
+          order: 22,
           type: TOKEN_TYPE_ORGANIZATION,
           title: TOKEN_TITLE_ORGANIZATION,
           icon: 'organization',
@@ -954,6 +971,7 @@ export default {
 
       if (this.canReadCrmContact) {
         tokens.push({
+          order: 23,
           type: TOKEN_TYPE_CONTACT,
           title: TOKEN_TITLE_CONTACT,
           icon: 'user',
@@ -967,6 +985,7 @@ export default {
       }
 
       tokens.push({
+        order: 9,
         type: TOKEN_TYPE_PARENT,
         title: TOKEN_TITLE_PARENT,
         icon: 'work-item-parent',
@@ -983,7 +1002,7 @@ export default {
         tokens.push(...this.eeSearchTokens);
       }
 
-      tokens.sort((a, b) => a.title.localeCompare(b.title));
+      tokens.sort((a, b) => a.order - b.order);
 
       return tokens;
     },

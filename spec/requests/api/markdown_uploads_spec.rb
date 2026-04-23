@@ -53,6 +53,17 @@ RSpec.describe API::MarkdownUploads, feature_category: :team_planning do
         expect(response).to have_gitlab_http_status(:forbidden)
       end
     end
+
+    context 'when authenticated with a token that has the ai_workflows scope' do
+      let_it_be(:oauth_token) { create(:oauth_access_token, user: user, scopes: [:ai_workflows]) }
+
+      it 'allows the Workhorse pre-authorization' do
+        post api(path, oauth_access_token: oauth_token), headers: headers
+
+        expect(response).to have_gitlab_http_status(:ok)
+        expect(json_response['MaximumSize']).to eq(project.max_attachment_size)
+      end
+    end
   end
 
   describe "POST /projects/:id/uploads" do
@@ -70,6 +81,16 @@ RSpec.describe API::MarkdownUploads, feature_category: :team_planning do
       expect(json_response['url']).to start_with("/uploads/")
       expect(json_response['url']).to end_with("/dk.png")
       expect(json_response['full_path']).to start_with("/-/project/#{project.id}/uploads")
+    end
+
+    context 'when authenticated with a token that has the ai_workflows scope' do
+      let_it_be(:oauth_token) { create(:oauth_access_token, user: user, scopes: [:ai_workflows]) }
+
+      it 'allows file upload' do
+        post api(path, oauth_access_token: oauth_token), params: { file: file }
+
+        expect(response).to have_gitlab_http_status(:created)
+      end
     end
 
     it "does not leave the temporary file in place after uploading, even when the tempfile reaper does not run" do
@@ -127,6 +148,16 @@ RSpec.describe API::MarkdownUploads, feature_category: :team_planning do
       get api(path, project_maintainer)
 
       expect_paginated_array_response(uploads.reverse.map(&:id))
+    end
+
+    context 'when authenticated with a token that has the ai_workflows scope' do
+      let_it_be(:oauth_token) { create(:oauth_access_token, user: project_maintainer, scopes: [:ai_workflows]) }
+
+      it 'does not allow listing uploads (POST-only scope)' do
+        get api(path, oauth_access_token: oauth_token)
+
+        expect(response).to have_gitlab_http_status(:forbidden)
+      end
     end
 
     it_behaves_like 'an unauthorized request' do

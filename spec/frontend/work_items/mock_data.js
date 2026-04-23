@@ -905,20 +905,20 @@ export const taskType = {
 
 export const objectiveType = {
   __typename: 'WorkItemType',
-  id: 'gid://gitlab/WorkItems::Type/2411',
+  id: 'gid://gitlab/WorkItems::Type/6',
   name: 'Objective',
   iconName: 'work-item-objective',
 };
 
 export const issueType = {
   __typename: 'WorkItemType',
-  id: 'gid://gitlab/WorkItems::Type/2411',
+  id: 'gid://gitlab/WorkItems::Type/1',
   name: 'Issue',
   iconName: 'work-item-issue',
 };
 
 export const incidentType = {
-  id: 'gid://gitlab/WorkItems::Type/5',
+  id: 'gid://gitlab/WorkItems::Type/2',
   name: 'Incident',
   iconName: 'issue-type-incident',
   __typename: 'WorkItemType',
@@ -933,7 +933,7 @@ export const ticketType = {
 
 export const epicType = {
   __typename: 'WorkItemType',
-  id: 'gid://gitlab/WorkItems::Type/2411',
+  id: 'gid://gitlab/WorkItems::Type/8',
   name: 'Epic',
   iconName: 'work-item-epic',
 };
@@ -10092,7 +10092,7 @@ export const mockWorkItemTypesConfigurationResponse = {
             showProjectSelector: false,
             supportsMoveAction: true,
             supportsRoadmapView: false,
-            useIssueView: true,
+            useIssueView: false,
             visibleInSettings: true,
             widgetDefinitions: [
               {
@@ -10105,7 +10105,7 @@ export const mockWorkItemTypesConfigurationResponse = {
             __typename: 'WorkItemType',
           },
           {
-            id: 'gid://gitlab/WorkItems::Type/2',
+            id: 'gid://gitlab/WorkItems::Type/5',
             name: 'Task',
             archived: false,
             enabled: false,
@@ -10135,6 +10135,126 @@ export const mockWorkItemTypesConfigurationResponse = {
                 __typename: 'WorkItemWidgetDefinitionStartAndDueDate',
               },
             ],
+            __typename: 'WorkItemType',
+          },
+        ],
+        __typename: 'WorkItemTypeConnection',
+      },
+      __typename: 'Namespace',
+    },
+  },
+};
+
+export const mockWorkItemTypesConfigurationBoardsResponse = {
+  data: {
+    namespace: {
+      id: 'gid://gitlab/Group/1',
+      workItemTypes: {
+        nodes: [
+          {
+            id: 'gid://gitlab/WorkItems::Type/1',
+            name: 'Issue',
+            archived: false,
+            enabled: true,
+            canPromoteToObjective: true,
+            canUserCreateItems: true,
+            iconName: 'work-item-issue',
+            isConfigurable: true,
+            isFilterableBoardView: true,
+            isFilterableListView: true,
+            isGroupWorkItemType: false,
+            isIncidentManagement: false,
+            isServiceDesk: false,
+            showProjectSelector: false,
+            supportsMoveAction: true,
+            supportsRoadmapView: false,
+            useIssueView: false,
+            visibleInSettings: true,
+            widgetDefinitions: [
+              {
+                type: 'HIERARCHY',
+                propagatesMilestone: false,
+                autoExpandTreeOnMove: false,
+                __typename: 'WorkItemWidgetDefinitionHierarchy',
+              },
+            ],
+            __typename: 'WorkItemType',
+          },
+          {
+            id: 'gid://gitlab/WorkItems::Type/5',
+            name: 'Task',
+            archived: false,
+            enabled: false,
+            canPromoteToObjective: false,
+            canUserCreateItems: true,
+            iconName: 'work-item-task',
+            isConfigurable: true,
+            isFilterableBoardView: false,
+            isFilterableListView: true,
+            isGroupWorkItemType: false,
+            isIncidentManagement: false,
+            isServiceDesk: false,
+            showProjectSelector: false,
+            supportsMoveAction: true,
+            supportsRoadmapView: false,
+            useIssueView: false,
+            visibleInSettings: true,
+            widgetDefinitions: [
+              {
+                type: 'PROGRESS',
+                showPopover: true,
+                __typename: 'WorkItemWidgetDefinitionProgress',
+              },
+              {
+                type: 'START_AND_DUE_DATE',
+                canRollUp: true,
+                __typename: 'WorkItemWidgetDefinitionStartAndDueDate',
+              },
+            ],
+            __typename: 'WorkItemType',
+          },
+          {
+            id: 'gid://gitlab/WorkItems::Type/2',
+            name: 'Incident',
+            archived: false,
+            enabled: true,
+            canPromoteToObjective: true,
+            canUserCreateItems: true,
+            iconName: 'work-item-incident',
+            isConfigurable: true,
+            isFilterableBoardView: true,
+            isFilterableListView: true,
+            isGroupWorkItemType: false,
+            isIncidentManagement: true,
+            isServiceDesk: false,
+            showProjectSelector: false,
+            supportsMoveAction: true,
+            supportsRoadmapView: false,
+            useIssueView: true,
+            visibleInSettings: true,
+            widgetDefinitions: [],
+            __typename: 'WorkItemType',
+          },
+          {
+            id: 'gid://gitlab/WorkItems::Type/9',
+            name: 'Ticket',
+            archived: false,
+            enabled: true,
+            canPromoteToObjective: true,
+            canUserCreateItems: true,
+            iconName: 'work-item-ticket',
+            isConfigurable: true,
+            isFilterableBoardView: true,
+            isFilterableListView: true,
+            isGroupWorkItemType: false,
+            isIncidentManagement: false,
+            isServiceDesk: true,
+            showProjectSelector: false,
+            supportsMoveAction: true,
+            supportsRoadmapView: false,
+            useIssueView: true,
+            visibleInSettings: true,
+            widgetDefinitions: [],
             __typename: 'WorkItemType',
           },
         ],
