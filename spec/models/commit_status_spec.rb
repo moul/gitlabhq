@@ -928,6 +928,12 @@ RSpec.describe CommitStatus, feature_category: :continuous_integration do
         :unknown_failure | true
         :api_failure | true
         :stuck_or_timeout_failure | true
+        :stuck_pending_with_matching_runners | true
+        :stuck_pending_no_matching_runners | true
+        :no_updates_running | true
+        :no_updates_canceling | true
+        :server_timeout_running | true
+        :server_timeout_canceling | true
         :runner_system_failure | true
       end
 

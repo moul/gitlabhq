@@ -4748,14 +4748,14 @@ RSpec.describe Ci::Build, feature_category: :continuous_integration, factory_def
     let(:timeout) { 1000 }
     let(:build) { create(:ci_build, :running, pipeline: pipeline, timeout: timeout) }
 
-    context 'when failure reason is job_execution_timeout' do
+    context 'when failure reason is server_timeout_running' do
       it 'overwrites finished_at' do
-        build.drop!(:job_execution_timeout)
+        build.drop!(:server_timeout_running)
         expect(build.reload.finished_at).to eq(build.started_at + timeout.seconds)
       end
     end
 
-    context 'when the failure reason is not job_execution_timeout' do
+    context 'when the failure reason is not server_timeout_running' do
       it 'does not overwrite finished_at' do
         build.drop!(:script_failure)
         expect(build.reload.finished_at).not_to eq(build.started_at + timeout.seconds)
@@ -4768,14 +4768,14 @@ RSpec.describe Ci::Build, feature_category: :continuous_integration, factory_def
     let(:timeout) { 1000 }
     let(:build) { create(:ci_build, :canceling, pipeline: pipeline, timeout: timeout) }
 
-    context 'when failure reason is job_execution_server_timeout' do
+    context 'when failure reason is server_timeout_canceling' do
       it 'overwrites finished_at' do
-        build.drop!(:job_execution_server_timeout)
+        build.drop!(:server_timeout_canceling)
         expect(build.reload.finished_at).to eq(build.started_at + timeout.seconds)
       end
     end
 
-    context 'when the failure reason is not job_execution_server_timeout' do
+    context 'when the failure reason is not server_timeout_canceling' do
       it 'does not overwrite finished_at' do
         build.drop!(:script_failure)
         expect(build.reload.finished_at).not_to eq(build.started_at + timeout.seconds)
@@ -4790,17 +4790,17 @@ RSpec.describe Ci::Build, feature_category: :continuous_integration, factory_def
     end
 
     context 'when a Reason class is passed as failure_reason' do
-      context 'when the reason is job_execution_server_timeout' do
+      context 'when the reason is server_timeout_canceling' do
         it 'overwrites finished_at' do
           reason = ::Gitlab::Ci::Build::Status::Reason
-                     .fabricate(build, :job_execution_server_timeout)
+                     .fabricate(build, :server_timeout_canceling)
 
           build.drop(reason)
           expect(build.reload.finished_at).to eq(build.started_at + timeout.seconds)
         end
       end
 
-      context 'when the reason is not job_execution_server_timeout' do
+      context 'when the reason is not server_timeout_canceling' do
         it 'does not overwrite finished_at' do
           reason = ::Gitlab::Ci::Build::Status::Reason
                      .fabricate(build, :script_failure)

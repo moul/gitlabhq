@@ -65,6 +65,9 @@ fragment BaseWorkItemFeatures on WorkItemFeatures {
   errorTracking {
     identifier
   }
+  notifications {
+    subscribed
+  }
   crmContacts {
     contactsAvailable
     contacts {

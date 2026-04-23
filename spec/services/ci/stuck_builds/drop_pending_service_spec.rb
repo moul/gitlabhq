@@ -42,14 +42,14 @@ RSpec.describe Ci::StuckBuilds::DropPendingService, feature_category: :continuou
         context 'when created_at is the same as updated_at' do
           let(:created_at) { 1.5.days.ago }
 
-          it_behaves_like 'job is dropped with failure reason', 'stuck_or_timeout_failure'
+          it_behaves_like 'job is dropped with failure reason', 'stuck_pending_with_matching_runners'
           it_behaves_like 'when invalid dooms the job bypassing validations'
         end
 
         context 'when created_at is before updated_at' do
           let(:created_at) { 3.days.ago }
 
-          it_behaves_like 'job is dropped with failure reason', 'stuck_or_timeout_failure'
+          it_behaves_like 'job is dropped with failure reason', 'stuck_pending_with_matching_runners'
           it_behaves_like 'when invalid dooms the job bypassing validations'
         end
       end
@@ -100,14 +100,14 @@ RSpec.describe Ci::StuckBuilds::DropPendingService, feature_category: :continuou
         context 'when created_at is the same as updated_at' do
           let(:created_at) { 1.5.hours.ago }
 
-          it_behaves_like 'job is dropped with failure reason', 'stuck_or_timeout_failure'
+          it_behaves_like 'job is dropped with failure reason', 'stuck_pending_no_matching_runners'
           it_behaves_like 'when invalid dooms the job bypassing validations'
         end
 
         context 'when created_at is before updated_at' do
           let(:created_at) { 3.days.ago }
 
-          it_behaves_like 'job is dropped with failure reason', 'stuck_or_timeout_failure'
+          it_behaves_like 'job is dropped with failure reason', 'stuck_pending_no_matching_runners'
           it_behaves_like 'when invalid dooms the job bypassing validations'
         end
       end
@@ -162,7 +162,7 @@ RSpec.describe Ci::StuckBuilds::DropPendingService, feature_category: :continuou
 
           [stuck_job, stuck_job_p101, stuck_job_p102].each do |build|
             expect(build.reload).to be_failed
-            expect(build.failure_reason).to eq('stuck_or_timeout_failure')
+            expect(build.failure_reason).to eq('stuck_pending_no_matching_runners')
           end
         end
       end

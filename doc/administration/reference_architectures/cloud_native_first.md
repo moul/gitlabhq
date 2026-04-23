@@ -2,6 +2,7 @@
 stage: GitLab Delivery
 group: Operate
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
+description: Deploy all GitLab components in Kubernetes using Cloud Native First reference architectures with four standardized sizes and external PostgreSQL, Redis, and object storage.
 title: 'Reference architecture: Cloud Native First (Beta)'
 ---
 

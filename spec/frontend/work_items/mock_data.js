@@ -1890,6 +1890,10 @@ export const mockWorkItemFeaturesData = ({ discussionLocked = false } = {}) => (
   errorTracking: {
     identifier: null,
   },
+  notifications: {
+    subscribed: false,
+    __typename: 'WorkItemWidgetNotifications',
+  },
   crmContacts: {
     contactsAvailable: false,
     contacts: {

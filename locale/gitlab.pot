@@ -7454,6 +7454,12 @@ msgstr ""
 msgid "AgentPlan|Agent plan"
 msgstr ""
 
+msgid "AgentPlan|Describe your intent for Duo. An agent plan structures context into an agent-ready input for autonomous execution."
+msgstr ""
+
+msgid "AgentPlan|Edit agent plan"
+msgstr ""
+
 msgid "Agents|Cannot be assigned"
 msgstr ""
 
@@ -7655,6 +7661,9 @@ msgstr ""
 msgid "AiPowered|Allow GitLab to process your code and project data for AI-native features in this group. Your data is sent to GitLab Duo. Groups, subgroups, and projects can opt out individually."
 msgstr ""
 
+msgid "AiPowered|Allow users to approve tools for a session in the IDE and CLI."
+msgstr ""
+
 msgid "AiPowered|Allow users without a GitLab Duo Pro or Enterprise seat to access GitLab Duo Agent Platform features. %{linkStart}Which features are included%{linkEnd}?"
 msgstr ""
 
@@ -7734,6 +7743,9 @@ msgid "AiPowered|Control whether AI-powered features are available."
 msgstr ""
 
 msgid "AiPowered|Control whether GitLab can process your code and project data for AI-native features."
+msgstr ""
+
+msgid "AiPowered|Control whether users can approve tools for a session in the IDE and CLI."
 msgstr ""
 
 msgid "AiPowered|Control who can access AI-native features executed with or without CI/CD pipelines."
@@ -7968,6 +7980,27 @@ msgid "AiPowered|This setting only applies when flow execution is on."
 msgstr ""
 
 msgid "AiPowered|To add members to the group that contains the project, see the %{linkStart}prerequisites%{linkEnd}."
+msgstr ""
+
+msgid "AiPowered|Tool approval for sessions"
+msgstr ""
+
+msgid "AiPowered|Tool approval for sessions is available. Groups and subgroups can turn it off."
+msgstr ""
+
+msgid "AiPowered|Tool approval for sessions is available. Subgroups can turn it off."
+msgstr ""
+
+msgid "AiPowered|Tool approval for sessions is not available and cannot be turned on for any group or subgroup."
+msgstr ""
+
+msgid "AiPowered|Tool approval for sessions is not available and cannot be turned on for any subgroup."
+msgstr ""
+
+msgid "AiPowered|Tool approval for sessions is not available. Groups and subgroups can turn it on."
+msgstr ""
+
+msgid "AiPowered|Tool approval for sessions is not available. Subgroups can turn it on."
 msgstr ""
 
 msgid "AiPowered|Tools"
@@ -49997,6 +50030,9 @@ msgid "Organization|Change organization URL"
 msgstr ""
 
 msgid "Organization|Choose organization visibility level."
+msgstr ""
+
+msgid "Organization|Claim your org"
 msgstr ""
 
 msgid "Organization|Copy organization ID"

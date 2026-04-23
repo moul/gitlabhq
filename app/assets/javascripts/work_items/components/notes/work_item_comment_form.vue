@@ -11,6 +11,7 @@ import gfmEventHub from '~/vue_shared/components/markdown/eventhub';
 import { confirmAction } from '~/lib/utils/confirm_via_gl_modal/confirm_via_gl_modal';
 import { trackSavedUsingEditor } from '~/vue_shared/components/markdown/tracking';
 import glAbilitiesMixin from '~/vue_shared/mixins/gl_abilities_mixin';
+import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import MarkdownEditor from '~/vue_shared/components/markdown/markdown_editor.vue';
 import HelpIcon from '~/vue_shared/components/help_icon/help_icon.vue';
 import WorkItemStateToggle from '~/work_items/components/work_item_state_toggle.vue';
@@ -46,7 +47,7 @@ export default {
   directives: {
     GlTooltip: GlTooltipDirective,
   },
-  mixins: [glAbilitiesMixin()],
+  mixins: [glAbilitiesMixin(), glFeatureFlagsMixin()],
   props: {
     workItemId: {
       type: String,
@@ -268,6 +269,7 @@ export default {
         return {
           fullPath: this.fullPath,
           iid: this.workItemIid,
+          useWorkItemFeatures: Boolean(this.glFeatures.workItemFeaturesField),
         };
       },
       update(data) {

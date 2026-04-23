@@ -1,4 +1,3 @@
-import { GlButton } from '@gitlab/ui';
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
 import currentUserOrganizationsGraphQlResponse from 'test_fixtures/graphql/organizations/current_user_organizations.query.graphql.json';
@@ -42,6 +41,7 @@ describe('OrganizationsIndexApp', () => {
       provide: {
         newOrganizationUrl: MOCK_NEW_ORG_URL,
         canCreateOrganization: true,
+        glFeatures: {},
         ...provide,
       },
     });
@@ -53,7 +53,8 @@ describe('OrganizationsIndexApp', () => {
 
   // Finders
   const findOrganizationHeaderText = () => wrapper.findByText('Organizations');
-  const findNewOrganizationButton = () => wrapper.findComponent(GlButton);
+  const findNewOrganizationButton = () => wrapper.findByText('New organization');
+  const findClaimOrgButton = () => wrapper.findByText('Claim your org');
   const findOrganizationsView = () => wrapper.findComponent(OrganizationsView);
 
   // Assertions
@@ -250,6 +251,26 @@ describe('OrganizationsIndexApp', () => {
         last: DEFAULT_PER_PAGE,
         before: startCursor,
       });
+    });
+  });
+
+  describe('claim org button', () => {
+    it('renders when organizationReconciliation feature flag is enabled', async () => {
+      createComponent({
+        provide: { glFeatures: { organizationReconciliation: true } },
+      });
+      await waitForPromises();
+
+      expect(findClaimOrgButton().exists()).toBe(true);
+    });
+
+    it('does not render when organizationReconciliation feature flag is disabled', async () => {
+      createComponent({
+        provide: { glFeatures: { organizationReconciliation: false } },
+      });
+      await waitForPromises();
+
+      expect(findClaimOrgButton().exists()).toBe(false);
     });
   });
 });

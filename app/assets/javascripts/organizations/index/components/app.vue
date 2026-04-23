@@ -2,6 +2,7 @@
 import { GlButton } from '@gitlab/ui';
 import { __, s__ } from '~/locale';
 import { createAlert } from '~/alert';
+import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { DEFAULT_PER_PAGE } from '~/api';
 import OrganizationsView from '~/organizations/shared/components/organizations_view.vue';
 import currentUserOrganizationsQuery from '../../shared/graphql/queries/current_user_organizations.query.graphql';
@@ -11,6 +12,7 @@ export default {
   i18n: {
     organizations: __('Organizations'),
     newOrganization: s__('Organization|New organization'),
+    claimOrg: s__('Organization|Claim your org'),
     errorMessage: s__(
       'Organization|An error occurred loading user organizations. Please refresh the page to try again.',
     ),
@@ -19,6 +21,7 @@ export default {
     GlButton,
     OrganizationsView,
   },
+  mixins: [glFeatureFlagsMixin()],
   inject: ['newOrganizationUrl', 'canCreateOrganization'],
   data() {
     return {
@@ -79,6 +82,9 @@ export default {
     <div v-if="showHeader" class="gl-flex gl-items-center">
       <h1 class="gl-my-4 gl-text-size-h-display">{{ $options.i18n.organizations }}</h1>
       <div class="gl-ml-auto">
+        <gl-button v-if="glFeatures.organizationReconciliation" icon="plus" variant="confirm">{{
+          $options.i18n.claimOrg
+        }}</gl-button>
         <gl-button v-if="canCreateOrganization" :href="newOrganizationUrl" variant="confirm">{{
           $options.i18n.newOrganization
         }}</gl-button>

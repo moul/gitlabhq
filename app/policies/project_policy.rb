@@ -896,8 +896,6 @@ class ProjectPolicy < BasePolicy
 
   rule { project_bot }.enable :project_bot_access
 
-  rule { can?(:read_all_resources) }.enable :read_resource_access_tokens
-
   rule { ~resource_access_token_feature_available }.policy do
     prevent :read_resource_access_tokens
     prevent :destroy_resource_access_tokens

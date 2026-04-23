@@ -284,7 +284,11 @@ export const removeHierarchyChild = ({ cache, id, workItem }) => {
 export const updateParent = ({ cache, fullPath, iid, workItem }) => {
   const queryArgs = {
     query: workItemByIidQuery,
-    variables: { fullPath, iid },
+    variables: {
+      fullPath,
+      iid,
+      useWorkItemFeatures: Boolean(window.gon.features.workItemFeaturesField),
+    },
   };
   const sourceData = cache.readQuery(queryArgs);
 
@@ -305,7 +309,11 @@ export const updateParent = ({ cache, fullPath, iid, workItem }) => {
 export const updateWorkItemCurrentTodosWidget = ({ cache, fullPath, iid, todos }) => {
   const query = {
     query: workItemByIidQuery,
-    variables: { fullPath, iid },
+    variables: {
+      fullPath,
+      iid,
+      useWorkItemFeatures: Boolean(window.gon.features.workItemFeaturesField),
+    },
   };
 
   const sourceData = cache.readQuery(query);

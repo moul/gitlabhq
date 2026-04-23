@@ -20,9 +20,9 @@ RSpec.describe ActiveContext::Queues do
   before do
     stub_const('TestModule::TestQueue', test_queue_class)
     allow(ActiveContext::Redis).to receive(:with_redis).and_yield(redis)
-    allow(redis).to receive(:scan_each)
 
-    described_class.instance_variable_set(:@queue_classes_map, nil)
+    described_class.instance_variable_set(:@queues, nil)
+    described_class.instance_variable_set(:@raw_queues, nil)
     described_class.instance_variable_set(:@queues_registered, nil)
   end
 
@@ -104,108 +104,12 @@ RSpec.describe ActiveContext::Queues do
     end
 
     context 'when calling .raw_queues' do
-      it 'builds queue instances from configured classes' do
+      it 'calls register_all_queues!' do
+        expect(described_class).to receive(:register_all_queues!).at_least(:once).and_call_original
+
         expect(described_class.raw_queues.length).to eq 8
         expect(length_raw_queues_for_class(Test::Queues::Mock)).to eq Test::Queues::Mock.number_of_shards
         expect(length_raw_queues_for_class(test_queue_class)).to eq test_queue_class.number_of_shards
-      end
-
-      it 'dynamically reflects changes to number_of_shards' do
-        # Initial call - should have 3 shards
-        expect(length_raw_queues_for_class(test_queue_class)).to eq 3
-
-        # Simulate shard count increase (e.g., admin updates queue_shard_count)
-        allow(test_queue_class).to receive(:number_of_shards).and_return(5)
-
-        # Next call should pick up the new shard count immediately
-        expect(length_raw_queues_for_class(test_queue_class)).to eq 5
-      end
-
-      it 'processes existing shards in Redis even when shard count decreases' do
-        # Simulate having items in shards 0, 1, 2 in Redis
-        allow(redis).to receive(:scan_each).and_yield('testmodule:{test_queue}:0:zset')
-                                           .and_yield('testmodule:{test_queue}:1:zset')
-                                           .and_yield('testmodule:{test_queue}:2:zset')
-
-        # Initial queues with 3 shards
-        expect(length_raw_queues_for_class(test_queue_class)).to eq 3
-
-        # Decrease shard count to 1
-        allow(test_queue_class).to receive(:number_of_shards).and_return(1)
-
-        # Should still process all 3 existing shards (0, 1, 2) even though configured is 1
-        # This prevents orphaning items when decreasing shard count
-        expect(length_raw_queues_for_class(test_queue_class)).to eq 3
-      end
-
-      it 'handles Redis scan failure gracefully' do
-        allow(redis).to receive(:scan_each).and_raise(StandardError.new('Redis error'))
-        allow(ActiveContext::Logger).to receive(:warn)
-
-        # Should fall back to configured shards only
-        expect(length_raw_queues_for_class(test_queue_class)).to eq 3
-        expect(ActiveContext::Logger).to have_received(:warn).at_least(:once).with(
-          hash_including(message: 'Failed to discover shards from Redis')
-        )
-      end
-    end
-
-    describe '.discover_shards_from_redis' do
-      it 'returns empty array when no matching keys found' do
-        allow(redis).to receive(:scan_each)
-
-        shards = described_class.discover_shards_from_redis('nonexistent:key')
-
-        expect(shards).to eq([])
-      end
-
-      it 'extracts shard numbers from matching keys' do
-        allow(redis).to receive(:scan_each).and_yield('testmodule:{test_queue}:0:zset')
-                                           .and_yield('testmodule:{test_queue}:5:zset')
-                                           .and_yield('testmodule:{test_queue}:2:zset')
-
-        shards = described_class.discover_shards_from_redis('testmodule:{test_queue}')
-
-        expect(shards).to eq([0, 2, 5])
-      end
-
-      it 'ignores non-matching keys' do
-        allow(redis).to receive(:scan_each).and_yield('testmodule:{test_queue}:0:zset')
-                                           .and_yield('testmodule:{other_queue}:1:zset')
-                                           .and_yield('testmodule:{test_queue}:0:score')
-
-        shards = described_class.discover_shards_from_redis('testmodule:{test_queue}')
-
-        expect(shards).to eq([0])
-      end
-    end
-
-    describe '.extract_shard_number' do
-      it 'extracts shard number from valid key' do
-        shard = described_class.extract_shard_number(
-          'testmodule:{test_queue}:5:zset',
-          'testmodule:{test_queue}'
-        )
-
-        expect(shard).to eq(5)
-      end
-
-      it 'returns nil for non-matching key' do
-        shard = described_class.extract_shard_number(
-          'other:{queue}:5:zset',
-          'testmodule:{test_queue}'
-        )
-
-        expect(shard).to be_nil
-      end
-
-      it 'returns nil for key without shard number' do
-        shard = described_class.extract_shard_number(
-          'testmodule:{test_queue}:zset',
-          'testmodule:{test_queue}'
-        )
-
-        expect(shard).to be_nil
       end
     end
 

@@ -10,6 +10,7 @@ import {
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import Tracking from '~/tracking';
 import { __, s__, sprintf } from '~/locale';
+import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import {
   I18N_WORK_ITEM_ERROR_UPDATING,
   STATE_OPEN,
@@ -37,7 +38,7 @@ export default {
     GlModal,
     GlLink,
   },
-  mixins: [Tracking.mixin()],
+  mixins: [Tracking.mixin(), glFeatureFlagsMixin()],
   inject: {
     viewContext: { default: VIEW_CONTEXT.fullScreen },
   },
@@ -98,6 +99,7 @@ export default {
         return {
           fullPath: this.fullPath,
           iid: this.workItemIid,
+          useWorkItemFeatures: Boolean(this.glFeatures.workItemFeaturesField),
         };
       },
       update(data) {

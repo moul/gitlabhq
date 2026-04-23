@@ -456,7 +456,7 @@ module Ci
       end
 
       before_transition running: [:failed] do |build|
-        if build.failure_reason&.to_sym == :job_execution_timeout
+        if build.server_timeout_running?
           # If job was stuck or timed-out, only bill the set timeout.
           build.finished_at = build.started_at + build.timeout.seconds
         end
@@ -466,7 +466,7 @@ module Ci
         reason_enum = ::Gitlab::Ci::Build::Status::Reason
                            .fabricate(build, transition.args.first)
 
-        if reason_enum.failure_reason == :job_execution_server_timeout
+        if reason_enum.failure_reason == :server_timeout_canceling
           # If job was stuck or timed-out, only bill the set timeout.
           build.failure_reason = reason_enum.failure_reason
           build.finished_at = build.started_at + build.timeout.seconds

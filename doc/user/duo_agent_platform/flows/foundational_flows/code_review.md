@@ -81,15 +81,18 @@ There is a feature request to add this functionality, see [issue 560116](https:/
 
 ## Custom code review instructions
 
-Customize the behavior of Code Review Flow with repository-specific review instructions. You can
-guide GitLab Duo to:
+Customize the behavior of Code Review Flow with an `mr-review-instructions.yaml` file.
+
+You can guide GitLab Duo with repository-specific review instructions:
 
 - Focus on specific code quality aspects (such as security, performance, and maintainability).
 - Enforce coding standards and best practices unique to your project.
 - Target specific file patterns with tailored review criteria.
 - Provide more detailed explanations for certain types of changes.
 
-To configure custom instructions, see [customize instructions for GitLab Duo](../../customize/review_instructions.md).
+Code Review Flow does not reference `AGENTS.md` and `SKILL.md` files.
+
+To configure custom instructions, see [customize review instructions for GitLab Duo](../../customize/review_instructions.md).
 
 ## Automatic reviews from GitLab Duo for a project
 

@@ -31,6 +31,7 @@ import {
   WIDGET_TYPE_LINKED_ITEMS,
   WIDGET_TYPE_LINKED_RESOURCES,
   WIDGET_TYPE_MILESTONE,
+  WIDGET_TYPE_NOTIFICATIONS,
   WIDGET_TYPE_NOTES,
   WIDGET_TYPE_START_AND_DUE_DATE,
   WIDGET_TYPE_STATUS,
@@ -123,6 +124,10 @@ export const findLinkedResourcesWidget = (workItem) =>
 
 export const findMilestoneWidget = (workItem) =>
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_MILESTONE);
+
+export const findNotificationsWidget = (workItem) =>
+  workItem?.features?.notifications ||
+  workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_NOTIFICATIONS);
 
 export const findNotesWidget = (workItem) =>
   workItem?.features?.notes ||

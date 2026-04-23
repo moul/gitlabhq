@@ -43,6 +43,7 @@ project:
   - read_project_import
   - read_project_merge_request_analytics
   - read_project_security_exclusions
+  - read_resource_access_tokens
   - read_runners
   - read_saved_replies
   - read_saved_view

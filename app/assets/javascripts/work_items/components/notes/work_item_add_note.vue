@@ -9,6 +9,7 @@ import { clearDraft } from '~/lib/utils/autosave';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
 import ResolveDiscussionButton from '~/notes/components/resolve_discussion_button.vue';
 import { ASC, DESC } from '~/notes/constants';
+import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { updateCacheAfterCreatingNote } from '../../graphql/cache_utils';
 import createNoteMutation from '../../graphql/notes/create_work_item_note.mutation.graphql';
 import workItemNotesByIidQuery from '../../graphql/notes/work_item_notes_by_iid.query.graphql';
@@ -31,7 +32,7 @@ export default {
     WorkItemCommentForm,
     ResolveDiscussionButton,
   },
-  mixins: [Tracking.mixin()],
+  mixins: [Tracking.mixin(), glFeatureFlagsMixin()],
   inject: {
     viewContext: { default: VIEW_CONTEXT.fullScreen },
   },
@@ -158,6 +159,7 @@ export default {
         return {
           fullPath: this.fullPath,
           iid: this.workItemIid,
+          useWorkItemFeatures: Boolean(this.glFeatures.workItemFeaturesField),
         };
       },
       update(data) {

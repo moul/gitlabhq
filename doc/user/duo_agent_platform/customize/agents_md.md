@@ -34,7 +34,7 @@ details are available for GitLab Duo Agent Platform and any other AI tool that s
 Specify `AGENTS.md` files for GitLab Duo to use with:
 
 - GitLab Duo Chat in your local environment.
-- Foundational and custom flows.
+- Foundational and custom flows, excluding Code Review Flow.
 
 ## How GitLab Duo uses `AGENTS.md` files
 

@@ -5,6 +5,7 @@ import {
   WIDGET_TYPE_DESCRIPTION,
   WIDGET_TYPE_ASSIGNEES,
   WIDGET_TYPE_AWARD_EMOJI,
+  WIDGET_TYPE_NOTIFICATIONS,
   WIDGET_TYPE_NOTES,
   WIDGET_TYPE_ERROR_TRACKING,
   WIDGET_TYPE_CRM_CONTACTS,
@@ -37,6 +38,7 @@ import {
   findAssigneesWidget,
   findAwardEmojiWidget,
   findErrorTrackingWidget,
+  findNotificationsWidget,
   findNotesWidget,
   findCrmContactsWidget,
   findLinkedResourcesWidget,
@@ -1112,6 +1114,30 @@ describe('findAwardEmojiWidget', () => {
 
   it('returns undefined when neither exists', () => {
     expect(findAwardEmojiWidget({ widgets: [] })).toBeUndefined();
+  });
+});
+
+describe('findNotificationsWidget', () => {
+  const notificationsWidget = { type: WIDGET_TYPE_NOTIFICATIONS, subscribed: true };
+  const featuresNotifications = { subscribed: true };
+
+  it('returns features.notifications when present', () => {
+    const workItem = {
+      features: { notifications: featuresNotifications },
+      widgets: [notificationsWidget],
+    };
+
+    expect(findNotificationsWidget(workItem)).toBe(featuresNotifications);
+  });
+
+  it('falls back to widgets when features not present', () => {
+    const workItem = { widgets: [notificationsWidget] };
+
+    expect(findNotificationsWidget(workItem)).toBe(notificationsWidget);
+  });
+
+  it('returns undefined when neither exists', () => {
+    expect(findNotificationsWidget({ widgets: [] })).toBeUndefined();
   });
 });
 

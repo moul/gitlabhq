@@ -156,7 +156,7 @@ gem 'gitlab-grape-openapi', path: 'gems/gitlab-grape-openapi', feature_category:
 gem 'rack-cors', '~> 2.0.1', require: 'rack/cors', feature_category: :api
 
 # GraphQL API
-gem 'graphql', '2.5.11', feature_category: :api
+gem 'graphql', '2.5.23', feature_category: :api
 gem 'graphql-docs', '~> 5.2.0', group: [:development, :test], feature_category: :api
 gem 'apollo_upload_server', '~> 2.1.6', feature_category: :api
 

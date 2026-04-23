@@ -35,7 +35,7 @@ other AI tool that supports the specification.
 Specify Agent Skills for GitLab Duo to use with:
 
 - GitLab Duo Chat in your local environment.
-- Foundational and custom flows.
+- Foundational and custom flows, excluding Code Review Flow.
 
 User-level skills are only available for use with the GitLab Duo CLI.
 

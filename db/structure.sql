@@ -6295,7 +6295,6 @@ PARTITION BY LIST (partition_id);
 
 CREATE TABLE p_ci_pipeline_variables (
     key character varying NOT NULL,
-    value text,
     encrypted_value text,
     encrypted_value_salt character varying,
     encrypted_value_iv character varying,
@@ -17177,7 +17176,6 @@ ALTER SEQUENCE ci_gitlab_hosted_runner_monthly_usages_id_seq OWNED BY ci_gitlab_
 CREATE TABLE ci_group_variables (
     id bigint NOT NULL,
     key character varying NOT NULL,
-    value text,
     encrypted_value text,
     encrypted_value_salt character varying,
     encrypted_value_iv character varying,
@@ -17559,7 +17557,6 @@ ALTER SEQUENCE ci_pipeline_schedule_inputs_id_seq OWNED BY ci_pipeline_schedule_
 CREATE TABLE ci_pipeline_schedule_variables (
     id bigint NOT NULL,
     key character varying NOT NULL,
-    value text,
     encrypted_value text,
     encrypted_value_salt character varying,
     encrypted_value_iv character varying,
@@ -18185,7 +18182,6 @@ ALTER SEQUENCE ci_unit_tests_id_seq OWNED BY ci_unit_tests.id;
 CREATE TABLE ci_variables (
     id bigint NOT NULL,
     key character varying NOT NULL,
-    value text,
     encrypted_value text,
     encrypted_value_salt character varying,
     encrypted_value_iv character varying,

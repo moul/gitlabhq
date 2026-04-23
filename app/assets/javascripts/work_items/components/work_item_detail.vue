@@ -1315,7 +1315,7 @@ export default {
                 </template>
               </design-widget>
 
-              <agent-plan v-if="glFeatures.agentPlan" />
+              <agent-plan v-if="glFeatures.agentPlan" :content="''" @save="() => {}" />
 
               <work-item-tree
                 v-if="showWorkItemTree"

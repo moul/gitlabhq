@@ -367,7 +367,7 @@ RSpec.describe API::Ci::Runner, :clean_gitlab_redis_shared_state, feature_catego
 
         context 'when the job is already in a failed state' do
           before do
-            job.drop!(:job_execution_server_timeout)
+            job.drop!(:server_timeout_canceling)
           end
 
           it_behaves_like 'forbidden without persistence'

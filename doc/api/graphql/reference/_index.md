@@ -57067,6 +57067,8 @@ Values for sorting CI/CD job analytics.
 | <a id="cijobfailurereason-job_token_expired"></a>`JOB_TOKEN_EXPIRED` | A job that failed due to job token expired. |
 | <a id="cijobfailurereason-missing_dependency_failure"></a>`MISSING_DEPENDENCY_FAILURE` | A job that failed due to missing dependency failure. |
 | <a id="cijobfailurereason-no_matching_runner"></a>`NO_MATCHING_RUNNER` | A job that failed due to no matching runner. |
+| <a id="cijobfailurereason-no_updates_canceling"></a>`NO_UPDATES_CANCELING` | A job that failed due to no updates canceling. |
+| <a id="cijobfailurereason-no_updates_running"></a>`NO_UPDATES_RUNNING` | A job that failed due to no updates running. |
 | <a id="cijobfailurereason-pipeline_loop_detected"></a>`PIPELINE_LOOP_DETECTED` | A job that failed due to pipeline loop detected. |
 | <a id="cijobfailurereason-project_deleted"></a>`PROJECT_DELETED` | A job that failed due to project deleted. |
 | <a id="cijobfailurereason-protected_environment_failure"></a>`PROTECTED_ENVIRONMENT_FAILURE` | A job that failed due to protected environment failure. |
@@ -57078,8 +57080,12 @@ Values for sorting CI/CD job analytics.
 | <a id="cijobfailurereason-scheduler_failure"></a>`SCHEDULER_FAILURE` | A job that failed due to scheduler failure. |
 | <a id="cijobfailurereason-script_failure"></a>`SCRIPT_FAILURE` | A job that failed due to script failure. |
 | <a id="cijobfailurereason-secrets_provider_not_found"></a>`SECRETS_PROVIDER_NOT_FOUND` | A job that failed due to secrets provider not found. |
+| <a id="cijobfailurereason-server_timeout_canceling"></a>`SERVER_TIMEOUT_CANCELING` | A job that failed due to server timeout canceling. |
+| <a id="cijobfailurereason-server_timeout_running"></a>`SERVER_TIMEOUT_RUNNING` | A job that failed due to server timeout running. |
 | <a id="cijobfailurereason-stale_schedule"></a>`STALE_SCHEDULE` | A job that failed due to stale schedule. |
 | <a id="cijobfailurereason-stuck_or_timeout_failure"></a>`STUCK_OR_TIMEOUT_FAILURE` | A job that failed due to stuck or timeout failure. |
+| <a id="cijobfailurereason-stuck_pending_no_matching_runners"></a>`STUCK_PENDING_NO_MATCHING_RUNNERS` | A job that failed due to stuck pending no matching runners. |
+| <a id="cijobfailurereason-stuck_pending_with_matching_runners"></a>`STUCK_PENDING_WITH_MATCHING_RUNNERS` | A job that failed due to stuck pending with matching runners. |
 | <a id="cijobfailurereason-trace_size_exceeded"></a>`TRACE_SIZE_EXCEEDED` | A job that failed due to trace size exceeded. |
 | <a id="cijobfailurereason-unknown_failure"></a>`UNKNOWN_FAILURE` | A job that failed due to unknown failure. |
 | <a id="cijobfailurereason-unmet_prerequisites"></a>`UNMET_PREREQUISITES` | A job that failed due to unmet prerequisites. |

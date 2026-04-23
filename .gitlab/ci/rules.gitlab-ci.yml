@@ -1033,6 +1033,7 @@
 .permissions-patterns: &permissions-patterns
   - "config/authz/permissions/**/*.yml"
   - "config/authz/permission_groups/**/*.yml"
+  - "config/authz/roles/**/*.yml"
   - "lib/tasks/gitlab/permissions/**/*.rb"
   - "{,ee/}app/policies/**/*.rb"
   - "{,ee/}lib/api/**/*.rb"

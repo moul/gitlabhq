@@ -4,6 +4,7 @@ import produce from 'immer';
 import { createAlert } from '~/alert';
 import { TYPENAME_ISSUE, TYPENAME_MERGE_REQUEST } from '~/graphql_shared/constants';
 import { convertToGraphQLId } from '~/graphql_shared/utils';
+import glFeatureFlagsMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { TYPE_ISSUE } from '~/issues/constants';
 import {
   localeDateFormat,
@@ -29,6 +30,7 @@ export default {
   directives: {
     GlTooltip: GlTooltipDirective,
   },
+  mixins: [glFeatureFlagsMixin()],
   inject: {
     fullPath: {
       default: null,
@@ -74,6 +76,7 @@ export default {
         const type = this.issuableType === TYPE_ISSUE ? TYPENAME_ISSUE : TYPENAME_MERGE_REQUEST;
         return {
           id: convertToGraphQLId(type, this.issuableId),
+          useWorkItemFeatures: Boolean(this.glFeatures.workItemFeaturesField),
         };
       },
       update(data) {
