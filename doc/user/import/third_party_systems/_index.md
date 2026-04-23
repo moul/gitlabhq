@@ -14,7 +14,7 @@ Migrate to GitLab from third-party systems.
 - [From Gitea](../gitea.md)
 - [From Bitbucket Cloud](../bitbucket_cloud.md)
 - [From FogBugz](../../project/import/fogbugz.md)
-- [Through a manifest file](../../project/import/manifest.md)
+- [Through a manifest file](manifest_file.md)
 - [Through a Git URL](repo_by_url.md)
 - [From IBM DevOps ClearCase](clearcase.md)
 - [From Concurrent Versions System (CVS)](cvs.md)

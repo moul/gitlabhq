@@ -53,6 +53,24 @@ module ApplicationWorker
     end
   end
 
+  # This is a hook for EE
+  #
+  # @param sharding_object [Object] the sharding object to check, such as an
+  # organization, namespace, or project
+  # @yield [block] Executed if the sharding object is an SSOT, not a replica
+  def skip_writes_if_replica(_sharding_object)
+    yield
+  end
+
+  # This is a hook for EE
+  #
+  # @param sharding_object [Object] the sharding object to check, such as an
+  # organization, namespace, or project
+  # @return [Boolean] true if the sharding object is a replica, false if SSOT
+  def skip_writes_if_replica?(_sharding_object)
+    false
+  end
+
   class_methods do
     extend ::Gitlab::Utils::Override
 

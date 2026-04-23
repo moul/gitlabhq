@@ -63807,6 +63807,12 @@ msgstr ""
 msgid "SecurityOrchestration|%{cadence} on %{branches}%{timeWindowInfo}%{branchExceptionsString}"
 msgstr ""
 
+msgid "SecurityOrchestration|%{categorySelector} matched %{includingSelector} with %{exceptionSelector}"
+msgstr ""
+
+msgid "SecurityOrchestration|%{categorySelector} matched %{includingSelector} with %{exceptionSelector} %{excludingSelector}"
+msgstr ""
+
 msgid "SecurityOrchestration|%{hours}"
 msgstr ""
 
@@ -64411,6 +64417,9 @@ msgstr ""
 msgid "SecurityOrchestration|Failed to load projects"
 msgstr ""
 
+msgid "SecurityOrchestration|Failed to load security categories"
+msgstr ""
+
 msgid "SecurityOrchestration|Failed to start dry run. Please try again."
 msgstr ""
 
@@ -64612,6 +64621,9 @@ msgstr ""
 msgid "SecurityOrchestration|No actions defined - policy will not run."
 msgstr ""
 
+msgid "SecurityOrchestration|No attributes"
+msgstr ""
+
 msgid "SecurityOrchestration|No compliance frameworks"
 msgstr ""
 
@@ -64640,6 +64652,9 @@ msgid "SecurityOrchestration|No rules defined - policy will not run."
 msgstr ""
 
 msgid "SecurityOrchestration|No scope"
+msgstr ""
+
+msgid "SecurityOrchestration|No security categories"
 msgstr ""
 
 msgid "SecurityOrchestration|No tags available"
@@ -64976,6 +64991,9 @@ msgstr ""
 msgid "SecurityOrchestration|Select a cadence"
 msgstr ""
 
+msgid "SecurityOrchestration|Select a category"
+msgstr ""
+
 msgid "SecurityOrchestration|Select a group"
 msgstr ""
 
@@ -64985,7 +65003,13 @@ msgstr ""
 msgid "SecurityOrchestration|Select a variable"
 msgstr ""
 
+msgid "SecurityOrchestration|Select attributes"
+msgstr ""
+
 msgid "SecurityOrchestration|Select bypass reasons"
+msgstr ""
+
+msgid "SecurityOrchestration|Select category"
 msgstr ""
 
 msgid "SecurityOrchestration|Select criteria"
@@ -65193,6 +65217,9 @@ msgid "SecurityOrchestration|The security findings remain in their current statu
 msgstr ""
 
 msgid "SecurityOrchestration|The test run failed for an unspecified reason. Please try again."
+msgstr ""
+
+msgid "SecurityOrchestration|There are no attributes for the selected category"
 msgstr ""
 
 msgid "SecurityOrchestration|There are no exception branches yet."
@@ -65580,6 +65607,9 @@ msgid "SecurityOrchestration|at %{time}"
 msgstr ""
 
 msgid "SecurityOrchestration|at the following times: %{cadenceSelector}, start at %{start}, run for: %{duration}, and timezone is %{timezoneSelector}"
+msgstr ""
+
+msgid "SecurityOrchestration|attributes"
 msgstr ""
 
 msgid "SecurityOrchestration|branch"

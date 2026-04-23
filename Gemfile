@@ -620,7 +620,7 @@ gem 'vmstat', '~> 2.3.0', feature_category: :shared # rubocop:todo Gemfile/Missi
 gem 'sys-filesystem', '~> 1.5.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
 
 # NTP client
-gem 'net-ntp', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+gem 'net-ntp', feature_category: :geo_replication
 
 # SSH keys support
 gem 'ssh_data', '~> 2.0', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839

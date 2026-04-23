@@ -24,7 +24,11 @@ module Gitlab
       attr_reader :merge_request, :params
 
       def merge_head_diff?
-        merge_request.diffable_merge_ref? && diff_id.blank? && start_sha.blank?
+        merge_request.diffable_merge_ref? && start_sha.blank? && (diff_id.blank? || latest_diff_id?)
+      end
+
+      def latest_diff_id?
+        merge_request.merge_request_diff&.id == diff_id.to_i
       end
 
       def commit

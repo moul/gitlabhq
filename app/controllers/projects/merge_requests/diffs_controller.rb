@@ -147,6 +147,7 @@ class Projects::MergeRequests::DiffsController < Projects::MergeRequests::Applic
   end
 
   # rubocop: disable CodeReuse/ActiveRecord
+  # rubocop: disable Metrics/PerceivedComplexity -- Deprecated method, will be removed with legacy diffs
   #
   # Deprecated: https://gitlab.com/gitlab-org/gitlab/issues/37735
   def find_merge_request_diff_compare
@@ -175,6 +176,7 @@ class Projects::MergeRequests::DiffsController < Projects::MergeRequests::Applic
     end
 
     return @merge_request.merge_head_diff if render_merge_ref_head_diff?
+    return @merge_request.merge_head_diff if latest_diff_with_merge_head?
 
     if @start_sha
       ::MergeRequests::MergeRequestDiffComparison
@@ -184,6 +186,7 @@ class Projects::MergeRequests::DiffsController < Projects::MergeRequests::Applic
       @merge_request_diff
     end
   end
+  # rubocop: enable Metrics/PerceivedComplexity
   # rubocop: enable CodeReuse/ActiveRecord
 
   def additional_attributes
@@ -219,6 +222,15 @@ class Projects::MergeRequests::DiffsController < Projects::MergeRequests::Applic
       Gitlab::Utils.to_boolean(params[:diff_head]) &&
       @merge_request.diffable_merge_ref? &&
       @start_sha.nil?
+  end
+
+  def latest_diff_with_merge_head?
+    return false if params[:diff_id].blank?
+    return false if Gitlab::Utils.to_boolean(params[:diff_head])
+    return false unless @merge_request_diff.id == @merge_request.merge_request_diff&.id
+    return false unless @merge_request.diffable_merge_ref?
+
+    @start_sha.nil?
   end
 
   def note_positions

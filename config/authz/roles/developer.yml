@@ -21,6 +21,7 @@ project:
   - admin_tag
   - admin_vulnerability_merge_request_link
   - approve_merge_request
+  - build_push_code
   - cancel_build
   - cancel_pipeline
   - create_build

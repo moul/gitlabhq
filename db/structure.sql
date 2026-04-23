@@ -20249,6 +20249,8 @@ CREATE TABLE duo_workflows_workflows (
     service_account_id bigint,
     tool_call_approvals jsonb DEFAULT '{}'::jsonb NOT NULL,
     ai_catalog_item_id bigint,
+    summary text,
+    CONSTRAINT check_13bb5688db CHECK ((char_length(summary) <= 1024)),
     CONSTRAINT check_30ca07a4ef CHECK ((char_length(goal) <= 16384)),
     CONSTRAINT check_3a9162f1ae CHECK ((char_length(image) <= 2048)),
     CONSTRAINT check_73884a5839 CHECK ((num_nonnulls(namespace_id, project_id) = 1)),

@@ -1,6 +1,7 @@
 import { GlButton, GlAttributeList } from '@gitlab/ui';
 import { MountingPortal } from 'portal-vue';
 import CrudComponent from '~/vue_shared/components/crud_component.vue';
+import DynamicPanel from '~/vue_shared/components/dynamic_panel.vue';
 import { stubComponent } from 'helpers/stub_component';
 import { shallowMountExtended, mountExtended } from 'helpers/vue_test_utils_helper';
 import { createMockDirective, getBinding } from 'helpers/vue_mock_directive';
@@ -20,6 +21,7 @@ describe('PersonalAccessTokenDrawer', () => {
       propsData: { token },
       directives: { GlTooltip: createMockDirective('gl-tooltip') },
       stubs: {
+        DynamicPanel,
         MountingPortal: stubComponent(MountingPortal, { name: 'MountingPortal' }),
       },
     });

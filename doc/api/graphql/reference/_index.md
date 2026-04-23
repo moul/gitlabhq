@@ -3875,7 +3875,7 @@ Input type: `approvalProjectRuleUpdateInput`
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="mutation-approvalprojectruleupdate-approvalsrequired"></a>`approvalsRequired` | [`Int!`](#int) | How many approvals are required to satify rule. |
+| <a id="mutation-approvalprojectruleupdate-approvalsrequired"></a>`approvalsRequired` | [`Int!`](#int) | How many approvals are required to satisfy rule. |
 | <a id="mutation-approvalprojectruleupdate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-approvalprojectruleupdate-groupids"></a>`groupIds` | [`[ID!]`](#id) | List of IDs of Groups that can approval rule. |
 | <a id="mutation-approvalprojectruleupdate-id"></a>`id` | [`ApprovalProjectRuleID!`](#approvalprojectruleid) | Global ID of the approval rule to destroy. |
@@ -4852,7 +4852,7 @@ Input type: `branchRuleApprovalProjectRuleCreateInput`
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| <a id="mutation-branchruleapprovalprojectrulecreate-approvalsrequired"></a>`approvalsRequired` | [`Int!`](#int) | How many approvals are required to satify rule. |
+| <a id="mutation-branchruleapprovalprojectrulecreate-approvalsrequired"></a>`approvalsRequired` | [`Int!`](#int) | How many approvals are required to satisfy rule. |
 | <a id="mutation-branchruleapprovalprojectrulecreate-branchruleid"></a>`branchRuleId` | [`ProjectsBranchRuleID!`](#projectsbranchruleid) | Global ID of the branch rule to destroy. |
 | <a id="mutation-branchruleapprovalprojectrulecreate-clientmutationid"></a>`clientMutationId` | [`String`](#string) | A unique identifier for the client performing the mutation. |
 | <a id="mutation-branchruleapprovalprojectrulecreate-groupids"></a>`groupIds` | [`[ID!]`](#id) | List of IDs of Groups that can approval rule. |

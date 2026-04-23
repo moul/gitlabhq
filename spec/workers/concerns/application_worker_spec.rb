@@ -164,6 +164,22 @@ RSpec.describe ApplicationWorker, feature_category: :sidekiq do
     end
   end
 
+  describe '#skip_writes_if_replica' do
+    it 'yields the block by default' do
+      block_called = false
+
+      instance.skip_writes_if_replica(:any_object) { block_called = true }
+
+      expect(block_called).to be true
+    end
+  end
+
+  describe '#skip_writes_if_replica?' do
+    it 'returns false by default' do
+      expect(instance.skip_writes_if_replica?(:any_object)).to be false
+    end
+  end
+
   describe '.queue_namespace' do
     before do
       allow(router).to receive(:route).and_return('foo_bar_dummy', 'some_namespace:foo_bar_dummy')

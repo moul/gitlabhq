@@ -31,7 +31,7 @@ RSpec.describe Gitlab::MergeRequests::DiffResolver, feature_category: :code_revi
 
   let_it_be(:head_diff) { create(:merge_request_diff, :merge_head, merge_request: merge_request) }
   let(:params) { {} }
-  let(:diff_resolver) { described_class.new(merge_request, params) }
+  let(:diff_resolver) { described_class.new(merge_request.reload, params) }
 
   describe '#resolve' do
     let(:diffable_merge_ref?) { false }
@@ -86,6 +86,55 @@ RSpec.describe Gitlab::MergeRequests::DiffResolver, feature_category: :code_revi
 
         it 'raises error' do
           expect { diff_resolver.resolve }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context 'when diff_id is the latest diff' do
+        let(:params) { { diff_id: base_diff_2.id } }
+
+        it 'returns the latest base diff' do
+          expect(diff_resolver.resolve).to eq(base_diff_2)
+        end
+
+        context 'when HEAD diff is diffable' do
+          let(:diffable_merge_ref?) { true }
+
+          it 'returns HEAD diff' do
+            expect(diff_resolver.resolve).to eq(head_diff)
+          end
+
+          context 'when start_sha is present' do
+            let(:params) { { diff_id: base_diff_2.id, start_sha: base_diff_1.head_commit_sha } }
+
+            it 'returns a comparison between versions instead of HEAD diff' do
+              diff = diff_resolver.resolve
+
+              expect(diff).to be_a(Compare)
+              expect(diff.diffs.diff_files.map(&:file_path)).to eq(['new_file.txt'])
+            end
+          end
+        end
+      end
+
+      context 'when diff_id is not the latest diff and HEAD diff is diffable' do
+        let(:params) { { diff_id: base_diff_1.id } }
+        let(:diffable_merge_ref?) { true }
+
+        it 'returns the requested diff, not the HEAD diff' do
+          expect(diff_resolver.resolve).to eq(base_diff_1)
+        end
+      end
+
+      context 'when merge_request_diff is nil and diff_id is present' do
+        let(:params) { { diff_id: base_diff_2.id } }
+        let(:diffable_merge_ref?) { true }
+
+        before do
+          allow(merge_request).to receive(:merge_request_diff).and_return(nil)
+        end
+
+        it 'returns the requested diff instead of raising' do
+          expect(diff_resolver.resolve).to eq(base_diff_2)
         end
       end
 

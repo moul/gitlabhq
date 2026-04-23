@@ -747,9 +747,7 @@ class ProjectPolicy < BasePolicy
     except(*::Authz::Role.get(:public_anonymous).direct_permissions(:project))
   end
 
-  rule { can?(:developer_access) & push_repository_for_job_token_allowed }.policy do
-    enable :build_push_code
-  end
+  rule { ~push_repository_for_job_token_allowed }.prevent :build_push_code
 
   rule { public_or_internal & job_token_container_registry }.policy do
     enable :build_read_container_image
