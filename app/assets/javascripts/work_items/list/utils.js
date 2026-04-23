@@ -1,8 +1,13 @@
 import produce from 'immer';
 import { camelCase, capitalize } from 'lodash-es';
-import { TYPENAME_ITERATIONS_CADENCE, TYPENAME_WORK_ITEM } from '~/graphql_shared/constants';
+import {
+  TYPENAME_ITERATIONS_CADENCE,
+  TYPENAME_WORK_ITEM,
+  TYPENAME_WORK_ITEMS_TYPE,
+} from '~/graphql_shared/constants';
 import { getIdFromGraphQLId, convertToGraphQLId } from '~/graphql_shared/utils';
 import { isPositiveInteger } from '~/lib/utils/number_utils';
+import { convertEachWordToTitleCase } from '~/lib/utils/text_utility';
 import { getParameterByName } from '~/lib/utils/url_utility';
 import { __, s__ } from '~/locale';
 import {
@@ -436,7 +441,8 @@ export const getSavedViewFilterTokens = (filterObject, options = {}) => {
   const tokens = Object.entries(filterObject)
     .filter(
       ([key]) =>
-        (apiParamKeys.includes(key) || ['not', 'or', 'in', HIERARCHY_FILTERS].includes(key)) &&
+        (apiParamKeys.concat('workItemTypeIds').includes(key) ||
+          ['not', 'or', 'in', HIERARCHY_FILTERS].includes(key)) &&
         (options.includeStateToken || key !== TOKEN_TYPE_STATE),
     )
     .reduce((acc, [key, value]) => {
@@ -542,6 +548,65 @@ export const getSavedViewFilterTokens = (filterObject, options = {}) => {
     const hasTypeToken = tokens.some((token) => token.type === TOKEN_TYPE_TYPE);
     if (hasTypeToken) return convertMultipleIsTypeTokensToOr(tokens);
   }
+  return tokens;
+};
+
+const getIdFromEnum = (value, getWorkItemTypeConfiguration) => {
+  const typeName = convertEachWordToTitleCase(value.split('_').join(' '));
+  return String(getIdFromGraphQLId(getWorkItemTypeConfiguration(typeName)?.id));
+};
+
+const convertEnumToId = (value, getWorkItemTypeConfiguration) => {
+  return Array.isArray(value)
+    ? value.map((val) => getIdFromEnum(val, getWorkItemTypeConfiguration))
+    : getIdFromEnum(value, getWorkItemTypeConfiguration);
+};
+
+const convertGidToId = (value) => {
+  return Array.isArray(value)
+    ? value.map((val) => String(getIdFromGraphQLId(val.toLowerCase())))
+    : String(getIdFromGraphQLId(value.toLowerCase()));
+};
+
+export const convertNumberToGid = (value) => {
+  return Array.isArray(value)
+    ? value.map((val) => convertToGraphQLId(TYPENAME_WORK_ITEMS_TYPE, val))
+    : convertToGraphQLId(TYPENAME_WORK_ITEMS_TYPE, value);
+};
+
+/**
+ * For an array of tokens with a Type token, we convert the data from:
+ *
+ * - An enum (e.g. `ISSUE`)
+ * - A gid (e.g. `gid://gitlab/WorkItems::Type/1`)
+ *
+ * To a number:
+ *
+ * - `1`
+ *
+ * @param {Object[]} tokens
+ * @param {Function} getWorkItemTypeConfiguration
+ * @returns {Object[]} tokens
+ */
+export const convertLegacyTypeFormat = (tokens, getWorkItemTypeConfiguration) => {
+  const enumRegex = /^[a-z_]+$/i;
+  const typeToken = tokens.find((token) => token.type === TOKEN_TYPE_TYPE);
+  if (!typeToken?.value?.data) {
+    return tokens;
+  }
+
+  const testValue = Array.isArray(typeToken.value.data)
+    ? typeToken.value.data.at(0)
+    : typeToken.value.data;
+
+  if (typeToken && enumRegex.test(testValue)) {
+    typeToken.value.data = convertEnumToId(typeToken.value.data, getWorkItemTypeConfiguration);
+  }
+
+  if (typeToken && testValue.toLowerCase().startsWith('gid')) {
+    typeToken.value.data = convertGidToId(typeToken.value.data);
+  }
+
   return tokens;
 };
 

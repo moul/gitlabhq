@@ -416,7 +416,7 @@ multiple machines with the Sentinel daemon.
    # sentinel['port'] = 26379
 
    ## Quorum must reflect the amount of voting sentinels it take to start a failover.
-   ## Value must NOT be greater then the amount of sentinels.
+   ## Value must NOT be greater than the amount of sentinels.
    ##
    ## The quorum can be used to tune Sentinel in two ways:
    ## 1. If a the quorum is set to a value smaller than the majority of Sentinels

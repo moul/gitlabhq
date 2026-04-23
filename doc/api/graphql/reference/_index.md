@@ -6408,7 +6408,7 @@ Input type: `CreateIssueInput`
 | <a id="mutation-createissue-healthstatus"></a>`healthStatus` | [`HealthStatus`](#healthstatus) | Desired health status. |
 | <a id="mutation-createissue-iid"></a>`iid` | [`Int`](#int) | IID (internal ID) of a project issue. Only admins and project owners can modify. |
 | <a id="mutation-createissue-iterationcadenceid"></a>`iterationCadenceId` | [`IterationsCadenceID`](#iterationscadenceid) | Global iteration cadence ID. Required when `iterationWildcardId` is provided. |
-| <a id="mutation-createissue-iterationid"></a>`iterationId` | [`IterationID`](#iterationid) | Global iteration ID. Mutually exlusive argument with `iterationWildcardId`. |
+| <a id="mutation-createissue-iterationid"></a>`iterationId` | [`IterationID`](#iterationid) | Global iteration ID. Mutually exclusive argument with `iterationWildcardId`. |
 | <a id="mutation-createissue-iterationwildcardid"></a>`iterationWildcardId` | [`IssueCreationIterationWildcardId`](#issuecreationiterationwildcardid) | Iteration wildcard ID. Supported values are: `CURRENT`. Mutually exclusive argument with `iterationId`. iterationCadenceId also required when this argument is provided. |
 | <a id="mutation-createissue-labelids"></a>`labelIds` | [`[LabelID!]`](#labelid) | IDs of labels to be added to the issue. |
 | <a id="mutation-createissue-labels"></a>`labels` | [`[String!]`](#string) | Labels of the issue. |

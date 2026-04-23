@@ -431,7 +431,7 @@ Insecure implementation of JWTs can lead to several security vulnerabilities, in
 ### Description
 
 A Server-side Request Forgery (SSRF) is an attack in which an attacker
-is able coerce a application into making an outbound request to an unintended
+is able to coerce an application into making an outbound request to an unintended
 resource. This resource is usually internal. In GitLab, the connection most
 commonly uses HTTP, but an SSRF can be performed with any protocol, such as
 Redis or SSH.

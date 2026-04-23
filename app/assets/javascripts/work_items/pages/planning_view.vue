@@ -9,11 +9,7 @@ import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { InternalEvents } from '~/tracking';
 import { createAlert, VARIANT_INFO } from '~/alert';
-import {
-  TYPENAME_NAMESPACE,
-  TYPENAME_USER,
-  TYPENAME_WORK_ITEMS_TYPE,
-} from '~/graphql_shared/constants';
+import { TYPENAME_NAMESPACE, TYPENAME_USER } from '~/graphql_shared/constants';
 import { getParameterByName, removeParams, updateHistory } from '~/lib/utils/url_utility';
 import {
   STATUS_ALL,
@@ -96,6 +92,8 @@ import UserCalloutDismisser from '~/vue_shared/components/user_callout_dismisser
 import ListView from 'ee_else_ce/work_items/list/list_view.vue';
 
 import {
+  convertLegacyTypeFormat,
+  convertNumberToGid,
   getSortOptions,
   getInitialPageParams,
   subscribeToSavedView,
@@ -1036,11 +1034,11 @@ export default {
       });
       if (this.glFeatures.workItemConfigurableTypes) {
         if (params.types) {
-          params.workItemTypeIds = this.convertToGid(params.types);
+          params.workItemTypeIds = convertNumberToGid(params.types);
           delete params.types;
         }
         if (params.not?.types) {
-          params.not.workItemTypeIds = this.convertToGid(params.not.types);
+          params.not.workItemTypeIds = convertNumberToGid(params.not.types);
           delete params.not.types;
         }
       }
@@ -1288,11 +1286,6 @@ export default {
         this.refetchItems({ refetchCounts: true });
       }
     },
-    convertToGid(value) {
-      return Array.isArray(value)
-        ? value.map((el) => convertToGraphQLId(TYPENAME_WORK_ITEMS_TYPE, el))
-        : convertToGraphQLId(TYPENAME_WORK_ITEMS_TYPE, value);
-    },
     toggleStickyHeader(isVisible) {
       this.isStickyHeaderVisible = isVisible;
     },
@@ -1386,9 +1379,12 @@ export default {
         convertTypeTokens: true,
       });
       const availableTokenTypes = this.searchTokens.map((token) => token.type);
-      return tokens.filter(
+      const filteredTokens = tokens.filter(
         (token) => availableTokenTypes.includes(token.type) || token.type === FILTERED_SEARCH_TERM,
       );
+      return this.glFeatures.workItemConfigurableTypes
+        ? convertLegacyTypeFormat(filteredTokens, this.getWorkItemTypeConfiguration)
+        : filteredTokens;
     },
     restoreViewDraft() {
       const draft = localStorage.getItem(this.savedViewDraftStorageKey);
@@ -1396,7 +1392,9 @@ export default {
 
       const parsedData = JSON.parse(draft);
 
-      this.filterTokens = parsedData.filterTokens;
+      this.filterTokens = this.glFeatures.workItemConfigurableTypes
+        ? convertLegacyTypeFormat(parsedData.filterTokens, this.getWorkItemTypeConfiguration)
+        : parsedData.filterTokens;
       this.sortKey = parsedData.sortKey;
       this.localDisplaySettings = parsedData.displaySettings;
     },

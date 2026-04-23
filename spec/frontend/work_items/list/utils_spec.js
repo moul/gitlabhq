@@ -52,6 +52,8 @@ import {
   handleEnforceSubscriptionLimit,
   updateCacheAfterViewReorder,
   reorderSavedView,
+  convertNumberToGid,
+  convertLegacyTypeFormat,
 } from 'ee_else_ce/work_items/list/utils';
 import { DEFAULT_PAGE_SIZE } from '~/vue_shared/issuable/list/constants';
 import {
@@ -299,6 +301,32 @@ describe('getSavedViewFilterTokens', () => {
     expect(getSavedViewFilterTokens(savedViewFiltersWithMultipleSearchTokens)).toEqual(
       savedViewFilterTokensWithMultipleSearchTokens,
     );
+  });
+});
+
+describe('convertNumberToGid', () => {
+  it('converts a number to a gid', () => {
+    expect(convertNumberToGid('1')).toBe('gid://gitlab/WorkItems::Type/1');
+  });
+});
+
+describe('convertLegacyTypeFormat', () => {
+  const getWorkItemTypeConfiguration = jest
+    .fn()
+    .mockReturnValue({ id: 'gid://gitlab/WorkItems::Type/1' });
+  const createTokens = (data) => [{ type: 'type', value: { data } }];
+
+  it.each`
+    data                                | expected
+    ${'issue'}                          | ${'1'}
+    ${'KEY_RESULT'}                     | ${'1'}
+    ${['task']}                         | ${['1']}
+    ${['issue', 'task']}                | ${['1', '1']}
+    ${'gid://gitlab/WorkItems::Type/5'} | ${'5'}
+  `('converts enums and gids to a number', ({ data, expected }) => {
+    const tokens = createTokens(data);
+    const expectedTokens = createTokens(expected);
+    expect(convertLegacyTypeFormat(tokens, getWorkItemTypeConfiguration)).toEqual(expectedTokens);
   });
 });
 

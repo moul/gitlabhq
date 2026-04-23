@@ -755,6 +755,10 @@ export const savedViewFilters = {
     type: TOKEN_TYPE_TYPE,
     operator: OPERATOR_IS,
   },
+  workItemTypeIds: {
+    type: TOKEN_TYPE_TYPE,
+    operator: OPERATOR_IS,
+  },
   updatedAfter: {
     type: TOKEN_TYPE_UPDATED,
     operator: OPERATOR_AFTER,
