@@ -666,7 +666,12 @@ GEM
       prime
       racc
     ffaker (2.25.0)
-    ffi (1.17.3)
+    ffi (1.17.4)
+    ffi (1.17.4-aarch64-linux-gnu)
+    ffi (1.17.4-arm64-darwin)
+    ffi (1.17.4-x86-linux-gnu)
+    ffi (1.17.4-x86_64-darwin)
+    ffi (1.17.4-x86_64-linux-gnu)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -2848,7 +2853,12 @@ CHECKSUMS
   fast_blank (1.0.1) sha256=269fc30414fed4e6403bc4a49081e1ea539f8b9226e59276ed1efaefabaa17ea
   fast_gettext (4.1.0) sha256=8e6b612676d601209662d2cd793ed4a067f834c8ca65ede793bacc9bcc1c2763
   ffaker (2.25.0) sha256=e485c5adf8195aac55662875b7f515469bca46d77b60d0e7d08db6861bcbec40
-  ffi (1.17.3) sha256=0e9f39f7bb3934f77ad6feab49662be77e87eedcdeb2a3f5c0234c2938563d4c
+  ffi (1.17.4) sha256=bcd1642e06f0d16fc9e09ac6d49c3a7298b9789bcb58127302f934e437d60acf
+  ffi (1.17.4-aarch64-linux-gnu) sha256=b208f06f91ffd8f5e1193da3cae3d2ccfc27fc36fba577baf698d26d91c080df
+  ffi (1.17.4-arm64-darwin) sha256=19071aaf1419251b0a46852abf960e77330a3b334d13a4ab51d58b31a937001b
+  ffi (1.17.4-x86-linux-gnu) sha256=38e150df5f4ca555e25beca4090823ae09657bceded154e3c52f8631c1ed72cf
+  ffi (1.17.4-x86_64-darwin) sha256=aa70390523cf3235096cf64962b709b4cfbd5c082a2cb2ae714eb0fe2ccda496
+  ffi (1.17.4-x86_64-linux-gnu) sha256=9d3db14c2eae074b382fa9c083fe95aec6e0a1451da249eab096c34002bc752d
   ffi-compiler (1.0.1) sha256=019f389b078a2fec9de7f4f65771095f80a447e34436b4588bcb629e2a564c30
   ffi-yajl (2.6.0) sha256=69baa612273991e4c79667464eb25f3feb169899aab33929a33b03234af24336
   fiber-annotation (0.2.0) sha256=7abfadf1d119f508867d4103bf231c0354d019cc39a5738945dec2edadaf6c03

@@ -45,8 +45,8 @@ RSpec.describe ProjectsController, feature_category: :groups_and_projects do
         end
       end
 
-      context 'with managable group' do
-        context 'when managable_group_count is 1' do
+      context 'with manageable group' do
+        context 'when manageable_group_count is 1' do
           before do
             group.add_owner(user)
           end
@@ -59,7 +59,7 @@ RSpec.describe ProjectsController, feature_category: :groups_and_projects do
           end
         end
 
-        context 'when managable_group_count is 0' do
+        context 'when manageable_group_count is 0' do
           context 'when create_projects on personal namespace is allowed' do
             before do
               allow(user).to receive(:can_create_project?).and_return(true)

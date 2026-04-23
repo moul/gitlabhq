@@ -26,7 +26,8 @@ class Admin::HooksController < Admin::ApplicationController
   end
 
   def hook_param_names
-    %i[enable_ssl_verification name description token url]
+    %i[enable_ssl_verification name description token url push_events_branch_filter branch_filter_strategy
+      custom_webhook_template]
   end
 
   def trigger_values

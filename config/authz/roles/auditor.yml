@@ -23,6 +23,7 @@ project:
   - read_compliance_dashboard
   - read_compliance_framework
   - read_compliance_violations_report
+  - read_confidential_issues
   - read_dependency
   - read_deployment
   - read_environment
@@ -68,6 +69,7 @@ group:
   - read_compliance_dashboard
   - read_compliance_framework
   - read_compliance_violations_report
+  - read_confidential_issues
   - read_container_image
   - read_contribution_analytics
   - read_custom_dashboard

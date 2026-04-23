@@ -5,6 +5,10 @@ info: Any user with at least the Maintainer role can merge updates to this conte
 title: Background operations
 ---
 
+> [!warning]
+> This framework is experimental and subject to changes or bugs.
+> Reach out to `#g_database_architecture` on Slack before adopting it.
+
 Background operations provide a framework for performing large-scale
 data operations on GitLab databases. Unlike
 [batched background migrations](batched_background_migrations.md) (BBM), which run
@@ -84,6 +88,31 @@ When an organization moves to a different cell, the records in
 stored cursor position. Cell-local records in
 `background_operation_workers_cell_local` are not affected by organization
 moves — they remain on the cell where they were created.
+
+### Resume from previous progress
+
+When a new operation is enqueued with the same `job_class_name`,
+`table_name`, `column_name`, and `job_arguments` (see
+[Duplicate detection](#duplicate-detection)), the framework automatically
+resumes from where the previous operation left off instead of re-scanning
+the entire table from the beginning.
+
+Operations that need to start from the beginning of the table on every run
+can declare `reset_cursor!` in the operation class:
+
+```ruby
+class MyOperation < BaseOperationWorker
+  operation_name :delete_all
+  cursor :id
+  reset_cursor!
+
+  def perform
+    each_sub_batch { |sub_batch| sub_batch.delete_all }
+  end
+end
+```
+
+Alternatively, pass an explicit `min_cursor` when calling `.enqueue`.
 
 ### Duplicate detection
 
@@ -200,6 +229,9 @@ Parameters:
 - `table_name`: The database table to iterate over.
 - `column_name`: The cursor column.
 - `job_arguments` (optional): An array of string arguments. Defaults to `[]`.
+- `min_cursor` (optional): An array specifying the starting cursor position.
+  When omitted, the framework resumes from the previous operation's last
+  cursor or falls back to `MIN(column)`.
 - `user`: The user initiating the operation. Sets `user_id` and
   `organization_id` on the record.
 

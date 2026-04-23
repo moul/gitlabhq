@@ -56,6 +56,11 @@ export default {
       required: false,
       default: false,
     },
+    isSystemHook: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     isNewHook: {
       type: Boolean,
       required: false,
@@ -126,6 +131,7 @@ export default {
     <webhook-form-trigger-list
       :initial-triggers="initialTriggers"
       :has-group="hasGroup"
+      :is-system-hook="isSystemHook"
       :is-new-hook="isNewHook"
     />
 

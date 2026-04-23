@@ -78,6 +78,7 @@ export default {
     shouldShowOrganizationSwitcher() {
       return (
         this.glFeatures.uiForOrganizations &&
+        this.glFeatures.organizationSwitching &&
         this.isLoggedIn &&
         window.gon.current_organization &&
         this.sidebarData.has_multiple_organizations

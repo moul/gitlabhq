@@ -25098,7 +25098,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_28b2297afa19"
+              "$ref": "#/components/schemas/RequestBody_ab27a6a69ff0"
   "/api/v4/hooks/{hook_id}":
     get:
       operationId: getApiV4HooksHookId
@@ -25153,7 +25153,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_730da3991927"
+              "$ref": "#/components/schemas/RequestBody_12cf9f027a41"
     post:
       operationId: postApiV4HooksHookId
       summary: Test a hook
@@ -95418,7 +95418,7 @@ components:
       required:
       - tag_name
       - ref
-    RequestBody_28b2297afa19:
+    RequestBody_ab27a6a69ff0:
       type: object
       properties:
         url:
@@ -95472,6 +95472,10 @@ components:
           description: Filter push events by branch. Possible values are `wildcard`
             (default), `regex`, and `all_branches`
           nullable: true
+        custom_webhook_template:
+          type: string
+          description: Custom template for the request payload
+          nullable: true
         url_variables:
           type: array
           description: URL variables for interpolation
@@ -95514,7 +95518,7 @@ components:
           nullable: true
       required:
       - url
-    RequestBody_730da3991927:
+    RequestBody_12cf9f027a41:
       type: object
       properties:
         url:
@@ -95566,6 +95570,10 @@ components:
           - all_branches
           description: Filter push events by branch. Possible values are `wildcard`
             (default), `regex`, and `all_branches`
+          nullable: true
+        custom_webhook_template:
+          type: string
+          description: Custom template for the request payload
           nullable: true
         url_variables:
           type: array

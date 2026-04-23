@@ -66,6 +66,24 @@ RSpec.describe Admin::HooksController, feature_category: :webhooks do
     end
 
     it_behaves_like 'disabled on GitLab.com'
+
+    context 'with custom_webhook_template and custom_headers' do
+      let_it_be(:hook_params) do
+        {
+          url: 'http://example.com',
+          custom_webhook_template: '{"event": "test"}',
+          custom_headers: [{ key: 'X-Custom-Header', value: 'secret-value' }]
+        }
+      end
+
+      it 'saves custom_webhook_template and custom_headers' do
+        post_create
+
+        hook = SystemHook.first
+        expect(hook.custom_webhook_template).to eq('{"event": "test"}')
+        expect(hook.custom_headers).to eq({ 'X-Custom-Header' => 'secret-value' })
+      end
+    end
   end
 
   describe 'POST #update' do
@@ -115,6 +133,23 @@ RSpec.describe Admin::HooksController, feature_category: :webhooks do
       expect(hook).to have_attributes(
         url_variables: { 'token' => 'some secret value', 'bar' => 'qux' }
       )
+    end
+
+    context 'with custom_webhook_template and custom_headers' do
+      let(:hook_params) do
+        {
+          custom_webhook_template: '{"event": "updated"}',
+          custom_headers: [{ key: 'X-Custom-Header', value: 'new-secret' }]
+        }
+      end
+
+      it 'updates custom_webhook_template and custom_headers' do
+        put_update
+
+        hook.reload
+        expect(hook.custom_webhook_template).to eq('{"event": "updated"}')
+        expect(hook.custom_headers).to eq({ 'X-Custom-Header' => 'new-secret' })
+      end
     end
 
     it_behaves_like 'disabled on GitLab.com'

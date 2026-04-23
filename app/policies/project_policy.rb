@@ -331,8 +331,6 @@ class ProjectPolicy < BasePolicy
     enable :read_pages_content
   end
 
-  rule { can?(:read_all_resources) }.enable :read_confidential_issues
-
   # We define `:public_user_access` separately because there are cases in gitlab-ee
   # where we enable or prevent it based on other conditions.
   rule { (~anonymous & public_project) | internal_access }.policy do

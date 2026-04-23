@@ -89,27 +89,22 @@ describe('SuperTopbar', () => {
 
     describe('Organization switcher', () => {
       describe.each`
-        isFeatureFlagEnabled | isLoggedIn | currentOrganization        | hasMultipleOrganizations | expected
-        ${false}             | ${false}   | ${undefined}               | ${false}                 | ${false}
-        ${false}             | ${false}   | ${undefined}               | ${true}                  | ${false}
-        ${false}             | ${false}   | ${mockCurrentOrganization} | ${false}                 | ${false}
-        ${false}             | ${false}   | ${mockCurrentOrganization} | ${true}                  | ${false}
-        ${false}             | ${true}    | ${undefined}               | ${false}                 | ${false}
-        ${false}             | ${true}    | ${undefined}               | ${true}                  | ${false}
-        ${false}             | ${true}    | ${mockCurrentOrganization} | ${false}                 | ${false}
-        ${false}             | ${true}    | ${mockCurrentOrganization} | ${true}                  | ${false}
-        ${true}              | ${false}   | ${undefined}               | ${false}                 | ${false}
-        ${true}              | ${false}   | ${undefined}               | ${true}                  | ${false}
-        ${true}              | ${false}   | ${mockCurrentOrganization} | ${false}                 | ${false}
-        ${true}              | ${false}   | ${mockCurrentOrganization} | ${true}                  | ${false}
-        ${true}              | ${true}    | ${undefined}               | ${false}                 | ${false}
-        ${true}              | ${true}    | ${undefined}               | ${true}                  | ${false}
-        ${true}              | ${true}    | ${mockCurrentOrganization} | ${false}                 | ${false}
-        ${true}              | ${true}    | ${mockCurrentOrganization} | ${true}                  | ${true}
+        uiForOrganizations | organizationSwitching | isLoggedIn | currentOrganization        | hasMultipleOrganizations | expected
+        ${false}           | ${false}              | ${false}   | ${undefined}               | ${false}                 | ${false}
+        ${false}           | ${false}              | ${true}    | ${mockCurrentOrganization} | ${true}                  | ${false}
+        ${false}           | ${true}               | ${true}    | ${mockCurrentOrganization} | ${true}                  | ${false}
+        ${true}            | ${false}              | ${true}    | ${mockCurrentOrganization} | ${true}                  | ${false}
+        ${true}            | ${true}               | ${false}   | ${undefined}               | ${false}                 | ${false}
+        ${true}            | ${true}               | ${false}   | ${mockCurrentOrganization} | ${true}                  | ${false}
+        ${true}            | ${true}               | ${true}    | ${undefined}               | ${false}                 | ${false}
+        ${true}            | ${true}               | ${true}    | ${undefined}               | ${true}                  | ${false}
+        ${true}            | ${true}               | ${true}    | ${mockCurrentOrganization} | ${false}                 | ${false}
+        ${true}            | ${true}               | ${true}    | ${mockCurrentOrganization} | ${true}                  | ${true}
       `(
-        'when `ui_for_organizations` feature flag is $isFeatureFlagEnabled, logged in state is $isLoggedIn, current organization $currentOrganization, and has_multiple_organizations is $hasMultipleOrganizations',
+        'when uiForOrganizations is $uiForOrganizations, organizationSwitching is $organizationSwitching, logged in state is $isLoggedIn, current organization $currentOrganization, and has_multiple_organizations is $hasMultipleOrganizations',
         ({
-          isFeatureFlagEnabled,
+          uiForOrganizations,
+          organizationSwitching,
           isLoggedIn,
           currentOrganization,
           hasMultipleOrganizations,
@@ -125,7 +120,7 @@ describe('SuperTopbar', () => {
                   has_multiple_organizations: hasMultipleOrganizations,
                 },
               },
-              { glFeatures: { uiForOrganizations: isFeatureFlagEnabled } },
+              { glFeatures: { uiForOrganizations, organizationSwitching } },
             );
             await waitForPromises();
           });

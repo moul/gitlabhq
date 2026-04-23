@@ -44020,9 +44020,6 @@ msgstr ""
 msgid "Merge request dependencies must be merged."
 msgstr ""
 
-msgid "Merge request events"
-msgstr ""
-
 msgid "Merge request fast-forward merges"
 msgstr ""
 
@@ -50080,9 +50077,6 @@ msgid "Organization|Select an organization"
 msgstr ""
 
 msgid "Organization|Switch organizations"
-msgstr ""
-
-msgid "Organization|Switching between organizations is not currently supported."
 msgstr ""
 
 msgid "Organization|Unable to fetch organizations. Reload the page to try again."
@@ -61222,9 +61216,6 @@ msgstr ""
 msgid "SSL Verification:"
 msgstr ""
 
-msgid "SSL verification"
-msgstr ""
-
 msgid "SSO for GitLab.com groups"
 msgstr ""
 
@@ -62579,9 +62570,6 @@ msgid "Secret push protection"
 msgstr ""
 
 msgid "Secret push protection skipped via"
-msgstr ""
-
-msgid "Secret token"
 msgstr ""
 
 msgid "Secret token."
@@ -70570,9 +70558,6 @@ msgstr ""
 msgid "System header and footer"
 msgstr ""
 
-msgid "System hooks are triggered on sets of events like creating a project or adding an SSH key. You can also enable extra triggers, such as push events."
-msgstr ""
-
 msgid "System information"
 msgstr ""
 
@@ -70640,9 +70625,6 @@ msgid "Tag name should not start with %{prefixes}"
 msgstr ""
 
 msgid "Tag push"
-msgstr ""
-
-msgid "Tag push events"
 msgstr ""
 
 msgid "Tag this commit."
@@ -75116,21 +75098,6 @@ msgstr ""
 msgid "URL is required"
 msgstr ""
 
-msgid "URL is triggered for each branch updated to the repository"
-msgstr ""
-
-msgid "URL is triggered when a merge request is created, updated, or merged"
-msgstr ""
-
-msgid "URL is triggered when a new tag is pushed to the repository"
-msgstr ""
-
-msgid "URL is triggered when repository is updated"
-msgstr ""
-
-msgid "URL must be percent-encoded if necessary."
-msgstr ""
-
 msgid "URL must start with %{codeStart}http://%{codeEnd}, %{codeStart}https://%{codeEnd}, or %{codeStart}ftp://%{codeEnd}"
 msgstr ""
 
@@ -76821,9 +76788,6 @@ msgid "Use this integration to connect to Google Play with fastlane in CI/CD pip
 msgstr ""
 
 msgid "Use this integration to connect to the Apple App Store with fastlane in CI/CD pipelines."
-msgstr ""
-
-msgid "Use this token to validate received payloads."
 msgstr ""
 
 msgid "Use webhook (POST requests only)"
@@ -80067,6 +80031,9 @@ msgstr ""
 msgid "WebhooksTrigger|A comment is made or edited on an work item or merge request."
 msgstr ""
 
+msgid "WebhooksTrigger|A commit or branch is pushed."
+msgstr ""
+
 msgid "WebhooksTrigger|A confidential work item is created, updated, closed, or reopened."
 msgstr ""
 
@@ -80080,6 +80047,9 @@ msgid "WebhooksTrigger|A group member is created, updated, or removed."
 msgstr ""
 
 msgid "WebhooksTrigger|A job's status changes."
+msgstr ""
+
+msgid "WebhooksTrigger|A member promotion request is queued, approved, or denied."
 msgstr ""
 
 msgid "WebhooksTrigger|A merge request is created, updated, or merged."
@@ -80098,6 +80068,9 @@ msgid "WebhooksTrigger|A project is created or removed."
 msgstr ""
 
 msgid "WebhooksTrigger|A release is created, updated, or deleted."
+msgstr ""
+
+msgid "WebhooksTrigger|A repository is updated."
 msgstr ""
 
 msgid "WebhooksTrigger|A subgroup is created or removed."
@@ -80139,6 +80112,9 @@ msgstr ""
 msgid "WebhooksTrigger|Job events"
 msgstr ""
 
+msgid "WebhooksTrigger|Member approval events"
+msgstr ""
+
 msgid "WebhooksTrigger|Member events"
 msgstr ""
 
@@ -80157,10 +80133,16 @@ msgstr ""
 msgid "WebhooksTrigger|Releases events"
 msgstr ""
 
+msgid "WebhooksTrigger|Repository update events"
+msgstr ""
+
 msgid "WebhooksTrigger|Resource access token events"
 msgstr ""
 
 msgid "WebhooksTrigger|Subgroup events"
+msgstr ""
+
+msgid "WebhooksTrigger|System hooks are triggered on sets of events like creating a project or adding an SSH key. You can also enable extra triggers, such as push events."
 msgstr ""
 
 msgid "WebhooksTrigger|Tag push events"
@@ -80274,19 +80256,16 @@ msgstr ""
 msgid "Webhooks|Hide sensitive data such as tokens in the UI."
 msgstr ""
 
-msgid "Webhooks|How it looks in the UI"
+msgid "Webhooks|How do I create a custom webhook template?"
 msgstr ""
 
-msgid "Webhooks|How to create a custom webhook template?"
+msgid "Webhooks|How it looks in the UI"
 msgstr ""
 
 msgid "Webhooks|Issue events"
 msgstr ""
 
 msgid "Webhooks|Job events"
-msgstr ""
-
-msgid "Webhooks|Member approval events"
 msgstr ""
 
 msgid "Webhooks|Member events"
@@ -80380,9 +80359,6 @@ msgid "Webhooks|The webhook has %{help_link_start}failed%{help_link_end} %{failu
 msgstr ""
 
 msgid "Webhooks|The webhook has %{help_link_start}failed%{help_link_end} %{failure_count} times consecutively and is disabled for %{retry_time}. To re-enable the webhook earlier, see %{strong_start}Recent events%{strong_end} for more information about the error, then test your settings."
-msgstr ""
-
-msgid "Webhooks|URL is triggered when a member promotion request is queued, approved, or denied"
 msgstr ""
 
 msgid "Webhooks|URL preview"

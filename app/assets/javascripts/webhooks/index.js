@@ -18,6 +18,7 @@ export default () => {
     secretToken: initialSecretToken,
     customHeaders,
     hasGroup,
+    isSystemHook,
     triggers: initialTriggers,
     isNewHook,
   } = el.dataset;
@@ -36,6 +37,7 @@ export default () => {
           initialCustomHeaders: JSON.parse(customHeaders),
           initialTriggers: convertObjectPropsToCamelCase(JSON.parse(initialTriggers)),
           hasGroup: parseBoolean(hasGroup),
+          isSystemHook: parseBoolean(isSystemHook),
           isNewHook: parseBoolean(isNewHook),
         },
       });

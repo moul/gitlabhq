@@ -38,6 +38,7 @@ RSpec.describe HooksHelper, feature_category: :integrations do
           url_variables: "[]",
           custom_headers: "[]",
           is_new_hook: "false",
+          is_system_hook: "false",
           triggers: expected_triggers,
           deploy_token_events_enabled: 'false'
         )
@@ -60,6 +61,7 @@ RSpec.describe HooksHelper, feature_category: :integrations do
           url_variables: Gitlab::Json.dump([{ key: 'abc' }, { key: 'def' }]),
           custom_headers: "[]",
           is_new_hook: "false",
+          is_system_hook: "false",
           triggers: expected_triggers,
           deploy_token_events_enabled: 'false'
         )
@@ -82,6 +84,7 @@ RSpec.describe HooksHelper, feature_category: :integrations do
           url_variables: "[]",
           custom_headers: Gitlab::Json.dump([{ key: 'test', value: WebHook::SECRET_MASK }]),
           is_new_hook: "false",
+          is_system_hook: "false",
           triggers: expected_triggers,
           deploy_token_events_enabled: 'false'
         )
@@ -108,11 +111,15 @@ RSpec.describe HooksHelper, feature_category: :integrations do
       end
     end
 
-    context 'when hook is not a project hook' do
+    context 'when hook is a system hook' do
       subject(:form_data) { helper.webhook_form_data(system_hook) }
 
       it 'does not include deploy_token_events_enabled' do
         expect(form_data).not_to have_key(:deploy_token_events_enabled)
+      end
+
+      it 'includes is_system_hook as true' do
+        expect(form_data).to include(is_system_hook: 'true')
       end
     end
 

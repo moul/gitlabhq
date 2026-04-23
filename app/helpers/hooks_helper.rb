@@ -10,6 +10,7 @@ module HooksHelper
       url_variables: Gitlab::Json.dump(hook.url_variables.keys.map { { key: _1 } }),
       custom_headers: Gitlab::Json.dump(hook.custom_headers.keys.map { { key: _1, value: WebHook::SECRET_MASK } }),
       is_new_hook: hook.new_record?.to_s,
+      is_system_hook: hook.is_a?(SystemHook).to_s,
       triggers: Gitlab::Json.dump(all_triggers(hook))
     }
 

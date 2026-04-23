@@ -120,9 +120,10 @@ describe('GreetingHeader', () => {
   const findStatusModal = () => wrapper.findComponent(SetStatusModal);
 
   describe('Name display', () => {
-    it('renders full name above the greeting', () => {
+    it('renders full name above the greeting in an H2', () => {
       createComponent();
       expect(findName().text()).toBe('John Doe');
+      expect(findName().element.tagName).toBe('H2');
     });
 
     it('falls back to username when full name is not available', () => {
@@ -133,11 +134,6 @@ describe('GreetingHeader', () => {
     it('falls back to username when full name is empty', () => {
       createComponent({ gonData: { current_user_fullname: '' } });
       expect(findName().text()).toBe('johndoe');
-    });
-
-    it('does not render name line when no name or username is available', () => {
-      createComponent({ gonData: { current_user_fullname: null, current_username: null } });
-      expect(findName().exists()).toBe(false);
     });
 
     it('handles single name correctly', () => {
@@ -170,11 +166,11 @@ describe('GreetingHeader', () => {
   describe('Greeting', () => {
     useFakeDate(FIXED_DATE);
 
-    it('renders a greeting in the h1 element', () => {
+    it('renders a greeting', () => {
       createComponent();
       const greeting = findGreeting();
       expect(greeting.exists()).toBe(true);
-      expect(greeting.element.tagName).toBe('H1');
+      expect(greeting.element.tagName).toBe('P');
       expect(greeting.text().length).toBeGreaterThan(0);
     });
 

@@ -221,10 +221,6 @@ class GroupPolicy < Namespaces::GroupProjectNamespaceSharedPolicy
     enable :read_group
   end
 
-  rule { can?(:read_all_resources) }.policy do
-    enable :read_confidential_issues
-  end
-
   rule { has_projects }.policy do
     enable :read_group
   end

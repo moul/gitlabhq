@@ -75799,6 +75799,9 @@ definitions:
         - wildcard
         - regex
         - all_branches
+      custom_webhook_template:
+        type: string
+        description: Custom template for the request payload
       url_variables:
         type: array
         description: URL variables for interpolation
@@ -75878,6 +75881,9 @@ definitions:
         - wildcard
         - regex
         - all_branches
+      custom_webhook_template:
+        type: string
+        description: Custom template for the request payload
       url_variables:
         type: array
         description: URL variables for interpolation
