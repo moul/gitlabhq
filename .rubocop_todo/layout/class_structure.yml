@@ -137,7 +137,6 @@ Layout/ClassStructure:
     - 'app/validators/addressable_url_validator.rb'
     - 'app/validators/html_safety_validator.rb'
     - 'app/workers/analytics/usage_trends/counter_job_worker.rb'
-    - 'app/workers/cluster_update_app_worker.rb'
     - 'app/workers/gitlab_service_ping_worker.rb'
     - 'app/workers/jira_connect/sync_deployments_worker.rb'
     - 'app/workers/mail_scheduler/notification_service_worker.rb'

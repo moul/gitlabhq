@@ -74,7 +74,6 @@ import {
 } from '~/vue_shared/components/filtered_search_bar/constants';
 
 import searchLabelsQuery from '~/work_items/list/graphql/search_labels.query.graphql';
-import getWorkItemStateCountsQuery from 'ee_else_ce/work_items/list/graphql/get_work_item_state_counts.query.graphql';
 import getWorkItemsQuery from 'ee_else_ce/work_items/list/graphql/get_work_items_full.query.graphql';
 import getWorkItemsSlimQuery from 'ee_else_ce/work_items/list/graphql/get_work_items_slim.query.graphql';
 import getWorkItemsCountOnlyQuery from 'ee_else_ce/work_items/list/graphql/get_work_items_count_only.query.graphql';
@@ -271,7 +270,6 @@ export default {
       filterTokens: [],
       workItemsFull: [],
       workItemsSlim: [],
-      workItemStateCounts: {},
       workItemsCount: 0,
       hasWorkItems: false,
       pageParams: {},
@@ -323,28 +321,6 @@ export default {
       },
       skip() {
         return isEmpty(this.queryVariables) || this.metadataLoading;
-      },
-      error(error) {
-        Sentry.captureException(error);
-      },
-    },
-
-    // TODO: remove entirely once consolidated list is GA
-    workItemStateCounts: {
-      query: getWorkItemStateCountsQuery,
-      variables() {
-        return this.queryVariables;
-      },
-      update(data) {
-        return data?.[this.namespace]?.workItemStateCounts ?? {};
-      },
-      skip() {
-        return (
-          !this.isServiceDeskList ||
-          isEmpty(this.queryVariables) ||
-          this.metadataLoading ||
-          this.shouldSkipDueToSavedViewState
-        );
       },
       error(error) {
         Sentry.captureException(error);
@@ -566,14 +542,6 @@ export default {
       }
       return this.savedViewNotFound || !this.isSubscribedToSavedView;
     },
-    tabCounts() {
-      const { all, closed, opened } = this.workItemStateCounts;
-      return {
-        [STATUS_OPEN]: opened,
-        [STATUS_CLOSED]: closed,
-        [STATUS_ALL]: all,
-      };
-    },
     tabs() {
       if (this.withTabs) {
         return this.$options.issuableListTabs;
@@ -581,9 +549,6 @@ export default {
       return [];
     },
     currentTabCount() {
-      if (this.withTabs) {
-        return this.tabCounts[this.state] ?? 0;
-      }
       return this.workItemsCount;
     },
     preferencesChanged() {
@@ -1788,11 +1753,10 @@ export default {
     handleWorkItemCreated() {
       this.refetchItems({ refetchCounts: true });
     },
-    async refetchItems({ refetchCounts = false } = {}) {
+    async refetchItems({ refetchCounts = false }) {
       if (refetchCounts) {
-        this.$apollo.queries.workItemStateCounts.refetch();
+        this.$apollo.queries.workItemsCount.refetch();
       }
-
       // evict the namespace's workItems cache to force a full refetch
       const { cache } = this.$apollo.provider.defaultClient;
       cache.evict({
@@ -1854,10 +1818,9 @@ export default {
     },
     handleRefetch(scope) {
       if (scope === 'counts') {
-        this.$apollo.queries.workItemStateCounts.refetch();
+        this.$apollo.queries.workItemsCount.refetch();
       }
       if (scope === 'all') {
-        this.$apollo.queries.workItemStateCounts.refetch();
         this.$apollo.queries.workItemsFull.refetch();
         this.$apollo.queries.workItemsSlim.refetch();
         this.$apollo.queries.hasWorkItems.refetch();
@@ -1916,13 +1879,7 @@ export default {
           </gl-alert>
         </div>
 
-        <issuable-tabs
-          v-if="withTabs"
-          :tabs="tabs"
-          :tab-counts="tabCounts"
-          :current-tab="state"
-          @click="handleClickTab"
-        >
+        <issuable-tabs v-if="withTabs" :tabs="tabs" :current-tab="state" @click="handleClickTab">
           <template #nav-actions>
             <div class="gl-flex gl-justify-end gl-gap-3">
               <gl-button
@@ -2172,7 +2129,6 @@ export default {
       :with-tabs="withTabs"
       :work-items="workItems"
       :page-info="pageInfo"
-      :work-item-state-counts="workItemStateCounts"
       :work-items-count="workItemsCount"
       :has-work-items="hasWorkItems"
       :is-initial-load-complete="isInitialLoadComplete"

@@ -55,7 +55,12 @@ module Types
         null: false,
         description: 'Root path in the context of the organization.',
         experiment: { milestone: '18.5' }
-      field :web_url,
+      field :web_path,
+        GraphQL::Types::String,
+        null: false,
+        description: 'Web path of the organization.',
+        experiment: { milestone: '19.0' }
+      field :web_url, # rubocop:disable GraphQL/ExtractType -- web_url and web_path are semantically distinct (absolute URL vs. relative path) and should not be extracted into a composite type
         GraphQL::Types::String,
         null: false,
         description: 'Web URL of the organization.',
@@ -65,6 +70,10 @@ module Types
 
       def avatar_url
         object.avatar_url(only_path: false)
+      end
+
+      def web_path
+        object.web_url(only_path: true)
       end
     end
     # rubocop: enable Graphql/AuthorizeTypes

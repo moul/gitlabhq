@@ -80,6 +80,8 @@ project:
   - create_resource_access_tokens
   - create_runners
   - create_service_account
+  - create_squash_option
+  - delete_branch_rule
   - delete_freeze_period
   - delete_job_artifact
   - delete_protected_tag
@@ -91,6 +93,7 @@ project:
   - destroy_protected_branch
   - destroy_release
   - destroy_resource_access_tokens
+  - destroy_squash_option
   - destroy_upload
   - enable_container_scanning_for_registry
   - enable_secret_push_protection
@@ -120,6 +123,7 @@ project:
   - read_commit_committer_check
   - read_commit_committer_name_check
   - read_deploy_token
+  - read_external_status_check
   - read_freeze_period
   - read_import_error
   - read_member_access_request
@@ -139,6 +143,7 @@ project:
   - read_runners
   - read_runners_registration_token
   - read_service_account
+  - read_squash_option
   - read_usage_quotas
   - read_web_hook
   - remove_pages
@@ -146,6 +151,7 @@ project:
   - set_license_information_source
   - stop_environment
   - update_approvers
+  - update_branch_rule
   - update_cluster
   - update_freeze_period
   - update_pages
@@ -155,6 +161,7 @@ project:
   - update_secret_detection_validity_check
   - update_security_setting
   - update_snippet
+  - update_squash_option
   - use_protected_cache
   - view_edit_page
 group:

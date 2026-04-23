@@ -5850,20 +5850,6 @@ export const removeLinkedWorkItemResponse = (message, errors = []) => {
   };
 };
 
-export const groupWorkItemStateCountsQueryResponse = {
-  data: {
-    group: {
-      id: 'gid://gitlab/Group/3',
-      __typename: 'Group',
-      workItemStateCounts: {
-        all: 3,
-        closed: 1,
-        opened: 2,
-      },
-    },
-  },
-};
-
 export const groupEpicsWithMilestonesQueryResponse = {
   data: {
     namespace: {

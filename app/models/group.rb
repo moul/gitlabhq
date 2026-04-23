@@ -254,6 +254,7 @@ class Group < Namespace
   after_commit :update_two_factor_requirement
 
   scope :with_users, -> { includes(:users) }
+  scope :with_owners, -> { preload(:owners) }
 
   scope :active, -> { self_and_ancestors_active }
   scope :self_and_ancestors_active, -> { self_and_ancestors_non_archived.self_and_ancestors_not_aimed_for_deletion }

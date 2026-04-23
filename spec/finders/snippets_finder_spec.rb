@@ -366,6 +366,21 @@ RSpec.describe SnippetsFinder do
           expect(described_class.new(user, only_project: true).execute).to be_empty
         end
       end
+
+      context 'when a project is provided' do
+        before_all do
+          project.add_developer(user)
+        end
+
+        it 'returns project snippets even without read_cross_project' do
+          snippets = described_class.new(user, project: project).execute
+          expect(snippets).to contain_exactly(
+            private_project_snippet,
+            internal_project_snippet,
+            public_project_snippet
+          )
+        end
+      end
     end
 
     context 'when project snippets are disabled' do

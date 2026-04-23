@@ -71,7 +71,6 @@ import {
 } from '~/work_items/constants';
 
 import namespaceWorkItemTypesQuery from '~/work_items/graphql/namespace_work_item_types.query.graphql';
-import getWorkItemStateCountsQuery from 'ee_else_ce/work_items/list/graphql/get_work_item_state_counts.query.graphql';
 import getWorkItemsFullQuery from 'ee_else_ce/work_items/list/graphql/get_work_items_full.query.graphql';
 import getWorkItemsSlimQuery from 'ee_else_ce/work_items/list/graphql/get_work_items_slim.query.graphql';
 import hasWorkItemsQuery from '~/work_items/list/graphql/has_work_items.query.graphql';
@@ -104,7 +103,6 @@ import WorkItemDetailPanel from '~/work_items/components/work_item_detail_panel.
 import {
   workItemsQueryResponseNoLabels,
   workItemsQueryResponseNoAssignees,
-  groupWorkItemStateCountsQueryResponse,
   userPreferenceQueryResponse,
   combinedQueryResultExample,
   namespaceWorkItemTypesQueryResponse,
@@ -175,9 +173,6 @@ const hasWorkItemsData = {
 
 const defaultQueryHandler = jest.fn().mockResolvedValue(workItemsQueryResponseNoLabels);
 const defaultSlimQueryHandler = jest.fn().mockResolvedValue(workItemsQueryResponseNoAssignees);
-const defaultCountsQueryHandler = jest
-  .fn()
-  .mockResolvedValue(groupWorkItemStateCountsQueryResponse);
 const namespaceQueryHandler = jest.fn().mockResolvedValue(namespaceWorkItemTypesQueryResponse);
 const userPreferenceMutationHandler = jest
   .fn()
@@ -290,7 +285,6 @@ const defaultFeatureFlags = {
 const mountComponent = ({
   queryHandler = defaultQueryHandler,
   slimQueryHandler = defaultSlimQueryHandler,
-  countsQueryHandler = defaultCountsQueryHandler,
   hasWorkItemsHandler = defaultHasWorkItemsHandler,
   countsOnlyHandler = defaultCountsOnlyHandler,
   mockPreferencesHandler = mockPreferencesQueryHandler,
@@ -307,7 +301,6 @@ const mountComponent = ({
   const apolloProvider = createMockApollo([
     [getWorkItemsFullQuery, queryHandler],
     [getWorkItemsSlimQuery, slimQueryHandler],
-    [getWorkItemStateCountsQuery, countsQueryHandler],
     [namespaceWorkItemTypesQuery, namespaceQueryHandler],
     [hasWorkItemsQuery, hasWorkItemsHandler],
     [getWorkItemsCountOnlyQuery, countsOnlyHandler],
@@ -558,7 +551,7 @@ describe('planning-view', () => {
           });
           await waitForPromises();
 
-          const initialCallCount = defaultCountsQueryHandler.mock.calls.length;
+          const initialCallCount = defaultCountsOnlyHandler.mock.calls.length;
 
           // component displays open work items by default
           findDetailPanel().vm.$emit('work-item-updated', {
@@ -567,7 +560,7 @@ describe('planning-view', () => {
 
           await waitForPromises();
 
-          expect(defaultCountsQueryHandler.mock.calls.length).toBeGreaterThan(initialCallCount);
+          expect(defaultCountsOnlyHandler.mock.calls.length).toBeGreaterThan(initialCallCount);
         });
       });
     });

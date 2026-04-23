@@ -426,11 +426,15 @@ class ProjectPolicy < BasePolicy
     prevent :create_merge_request_in
   end
 
-  rule { ~can?(:create_issue) }.prevent :create_incident
+  rule { ~can?(:create_issue) }.policy do
+    prevent :create_incident
+    prevent :create_task
+    prevent :create_work_item
+    prevent :import_issues
+    prevent :import_work_items
+  end
 
   rule { ~can?(:read_environment) }.prevent :read_freeze_period
-
-  rule { can?(:create_issue) }.enable :create_work_item
 
   # We cannot use `guest_access` because that includes non-members on public projects
   # Only guests that are project members are allowed to set metadata when creating new issues
@@ -438,8 +442,6 @@ class ProjectPolicy < BasePolicy
     enable :set_new_issue_metadata
     enable :set_new_work_item_metadata
   end
-
-  rule { can?(:create_issue) }.enable :create_task
 
   rule { guest & can?(:download_code) }.enable :build_download_code
   rule { guest & can?(:read_container_image) }.enable :build_read_container_image
@@ -536,9 +538,6 @@ class ProjectPolicy < BasePolicy
 
   rule { owner | admin | organization_owner | guest | group_member | group_requester }.prevent :request_access
   rule { ~request_access_enabled }.prevent :request_access
-
-  rule { ~can?(:create_issue) }.prevent :import_issues
-  rule { ~can?(:create_work_item) }.prevent :import_work_items
 
   rule { ~user_confirmed }.policy do
     prevent :create_build

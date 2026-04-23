@@ -21,6 +21,8 @@ project:
   - award_emoji
   - create_issue
   - create_note
+  - create_task
+  - create_work_item
   - delete_saved_view
   - export_work_items
   - read_ai_catalog_item_consumer

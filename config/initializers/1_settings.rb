@@ -1155,6 +1155,9 @@ Gitlab.ee do
   Settings.cron_jobs['virtual_registries_cleanup_enqueue_policy_worker'] ||= {}
   Settings.cron_jobs['virtual_registries_cleanup_enqueue_policy_worker']['cron'] ||= '40 * * * *'
   Settings.cron_jobs['virtual_registries_cleanup_enqueue_policy_worker']['job_class'] = 'VirtualRegistries::Cleanup::EnqueuePolicyWorker'
+  Settings.cron_jobs['minimal_access_provisioning_notification_worker'] ||= {}
+  Settings.cron_jobs['minimal_access_provisioning_notification_worker']['cron'] ||= '0 1 * * *'
+  Settings.cron_jobs['minimal_access_provisioning_notification_worker']['job_class'] = 'GitlabSubscriptions::MemberManagement::MinimalAccessProvisioningNotificationWorker'
 
   Gitlab.com do
     Settings.cron_jobs['disable_legacy_open_source_license_for_inactive_projects'] ||= {}

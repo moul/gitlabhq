@@ -45406,6 +45406,7 @@ Active period time range for on-call rotation.
 | <a id="organization-organizationusers"></a>`organizationUsers` {{< icon name="warning-solid" >}} | [`OrganizationUserConnection!`](#organizationuserconnection) | **Introduced** in GitLab 16.4. **Status**: Experiment. Users with access to the organization. |
 | <a id="organization-path"></a>`path` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 16.4. **Status**: Experiment. Path of the organization. |
 | <a id="organization-rootpath"></a>`rootPath` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 18.5. **Status**: Experiment. Root path in the context of the organization. |
+| <a id="organization-webpath"></a>`webPath` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 19.0. **Status**: Experiment. Web path of the organization. |
 | <a id="organization-weburl"></a>`webUrl` {{< icon name="warning-solid" >}} | [`String!`](#string) | **Introduced** in GitLab 16.6. **Status**: Experiment. Web URL of the organization. |
 
 #### Fields with arguments

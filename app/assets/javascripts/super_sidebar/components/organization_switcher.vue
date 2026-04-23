@@ -109,7 +109,7 @@ export default {
         .map((node) => ({
           id: getIdFromGraphQLId(node.id),
           text: node.name,
-          href: node.webUrl,
+          href: node.rootPath,
           avatarUrl: node.avatarUrl,
         }))
         .filter((item) => item.id !== this.currentOrganization.id);

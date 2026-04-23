@@ -1216,6 +1216,21 @@ RSpec.describe Group, feature_category: :groups_and_projects do
       end
     end
 
+    describe 'with_owners' do
+      let_it_be(:owner) { create(:user) }
+
+      before_all do
+        private_group.add_owner(owner)
+      end
+
+      subject { described_class.with_owners }
+
+      it 'preloads the owners association' do
+        associations = subject.map { |group| group.association(:owners) }
+        expect(associations).to all(be_loaded)
+      end
+    end
+
     describe 'with_non_invite_group_members' do
       let_it_be(:group_member) { create(:group_member, member_namespace: private_group, requested_at: nil, invite_token: nil, access_level: Gitlab::Access::DEVELOPER) }
 

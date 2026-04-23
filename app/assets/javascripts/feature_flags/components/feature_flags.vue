@@ -210,6 +210,7 @@ export default {
             <span>{{ featureFlagsLimit }}</span>
           </template>
           <template #pricingLink="{ content }">
+            <!-- eslint-disable-next-line @gitlab/vue-no-hardcoded-urls -- External promo site path, not a GitLab URL -->
             <promo-page-link path="/pricing" target="_blank">{{ content }}</promo-page-link>
           </template>
         </gl-sprintf>

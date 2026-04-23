@@ -1,6 +1,7 @@
 <script>
 import { GlLoadingIcon, GlButton } from '@gitlab/ui';
 import { uniqueId } from 'lodash-es';
+import { mapActions } from 'pinia';
 import { computed } from 'vue';
 import { logError } from '~/lib/logger';
 import { captureException } from '~/sentry/sentry_browser_wrapper';
@@ -13,6 +14,7 @@ import { isLoggedIn, handleLocationHash } from '~/lib/utils/common_utils';
 import { __ } from '~/locale';
 import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 import { visitUrl, getLocationHash } from '~/lib/utils/url_utility';
+import { useFileTreeBrowserVisibility } from '~/repository/stores/file_tree_browser_visibility';
 import CodeIntelligence from '~/code_navigation/components/app.vue';
 import LineHighlighter from '~/blob/line_highlighter';
 import blobInfoQuery from 'shared_queries/repository/blob_info.query.graphql';
@@ -383,6 +385,7 @@ export default {
     setForkTarget(target) {
       this.forkTarget = target;
     },
+    ...mapActions(useFileTreeBrowserVisibility, ['collapseForBlame']),
     onCopy() {
       // eslint-disable-next-line no-restricted-properties
       navigator.clipboard.writeText(this.blobInfo.rawTextBlob);
@@ -399,6 +402,7 @@ export default {
       }
     },
     setShowBlame(showBlame) {
+      if (showBlame) this.collapseForBlame();
       this.showBlame = showBlame;
       const { blame, ...queryWithoutBlame } = this.$route?.query || {};
       const isAlreadySynced = showBlame ? blame === '1' : !blame;

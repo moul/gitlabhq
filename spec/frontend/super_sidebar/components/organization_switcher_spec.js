@@ -102,7 +102,7 @@ describe('OrganizationSwitcher', () => {
 
       expect(findDropdownItemByIndex(1).text()).toContain(firstOrganization.name);
       expect(findDropdownItemByIndex(1).find('a').attributes('href')).toBe(
-        firstOrganization.webUrl,
+        firstOrganization.rootPath,
       );
       expect(findDropdownItemByIndex(1).findComponent(GlAvatar).props()).toMatchObject({
         src: firstOrganization.avatarUrl,
@@ -112,7 +112,7 @@ describe('OrganizationSwitcher', () => {
 
       expect(findDropdownItemByIndex(2).text()).toContain(secondOrganization.name);
       expect(findDropdownItemByIndex(2).find('a').attributes('href')).toBe(
-        secondOrganization.webUrl,
+        secondOrganization.rootPath,
       );
       expect(findDropdownItemByIndex(2).findComponent(GlAvatar).props()).toMatchObject({
         src: secondOrganization.avatarUrl,

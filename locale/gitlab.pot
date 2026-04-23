@@ -2087,6 +2087,11 @@ msgid_plural "%d roles"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "1 tag"
+msgid_plural "%d tags"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "1 user"
 msgid_plural "%d users"
 msgstr[0] ""
@@ -44695,6 +44700,87 @@ msgid "Min Value"
 msgstr ""
 
 msgid "Minimal Access"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|%{minimal_access_link_start}Users with the Minimal Access role%{minimal_access_link_end} can only view limited group information without access to projects."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|%{purchase_seats_link_start}Purchase more seats%{purchase_seats_link_end}."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Action required: Users assigned Minimal Access role due to seat constraints"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Change the users' role in the group or project."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Group members:"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Hello %{name},"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|If you have any questions or need help, contact GitLab support."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Purchase more seats."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Purchase more seats:"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Restricted Access:"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Seat usage:"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Thank you,"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|The GitLab Team"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|This count reflects users affected on %{sync_date}. The current number may differ if users have since been upgraded or removed."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|To grant more permissions to these users, you should first review your %{seat_usage_link_start}seat usage%{seat_usage_link_end}. Then either:"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|To grant more permissions to these users, you should first review your seat usage. Then either:"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|To identify the affected users, go to your %{users_url_start}user list%{users_url_end} page in your %{bold_start}Admin%{bold_end} area and sort the members table by %{bold_start}Last created%{bold_end}. The most recent users will appear at the top of the list."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|To identify the affected users, go to your top-level group %{members_url_start}members%{members_url_end} page and sort the members table by %{bold_start}User created%{bold_end} in descending order. The most recent users will appear at the top of the list."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|To identify the affected users, go to your top-level group members page and sort the members table by User created in descending order. The most recent users will appear at the top of the list."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|To identify the affected users, go to your user list page in your Admin area and sort by Last created. The most recent users will appear at the top of the list."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|User list:"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Users with Minimal Access role:"
+msgstr ""
+
+msgid "MinimalAccessProvisioning|Users with the Minimal Access role can only view limited group information without access to projects."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|We're notifying you that %{user_count} user provisioned through LDAP or SAML/SCIM has been assigned the Minimal Access role because %{restricted_access_link_start}restricted access%{restricted_access_link_end} is on and no seats are available in your subscription."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|We're notifying you that %{user_count} user provisioned through LDAP or SAML/SCIM has been assigned the Minimal Access role because restricted access is on and no seats are available in your subscription."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|We're notifying you that %{user_count} users provisioned through LDAP or SAML/SCIM have been assigned the Minimal Access role because %{restricted_access_link_start}restricted access%{restricted_access_link_end} is on and no seats are available in your subscription."
+msgstr ""
+
+msgid "MinimalAccessProvisioning|We're notifying you that %{user_count} users provisioned through LDAP or SAML/SCIM have been assigned the Minimal Access role because restricted access is on and no seats are available in your subscription."
 msgstr ""
 
 msgid "Minimize panel"
