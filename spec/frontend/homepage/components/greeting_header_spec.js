@@ -9,11 +9,11 @@ import GreetingHeader from '~/homepage/components/greeting_header.vue';
 import SetStatusModal from '~/set_status_modal/set_status_modal_wrapper.vue';
 import getUserStatusQuery from '~/homepage/graphql/queries/user_status.query.graphql';
 import { createMockDirective, getBinding } from 'helpers/vue_mock_directive';
-import { GREETING_MESSAGES } from '~/homepage/constants';
-import { buildTimeAwareGreetings } from '~/homepage/utils/build_time_aware_greetings';
-import { useFakeDate } from 'helpers/fake_date';
+import { getRandomGreeting } from '~/homepage/utils/build_time_aware_greetings';
 
-const FIXED_DATE = new Date(2025, 2, 19, 10, 0); // Wednesday 10am
+jest.mock('~/homepage/utils/build_time_aware_greetings', () => ({
+  getRandomGreeting: jest.fn().mockReturnValue('Mocked greeting'),
+}));
 
 Vue.use(VueApollo);
 
@@ -164,20 +164,17 @@ describe('GreetingHeader', () => {
   });
 
   describe('Greeting', () => {
-    useFakeDate(FIXED_DATE);
-
-    it('renders a greeting', () => {
+    it('renders the greeting returned by getRandomGreeting', () => {
       createComponent();
       const greeting = findGreeting();
       expect(greeting.exists()).toBe(true);
       expect(greeting.element.tagName).toBe('P');
-      expect(greeting.text().length).toBeGreaterThan(0);
+      expect(greeting.text()).toBe('Mocked greeting');
     });
 
-    it('renders a greeting from the combined greeting pool', () => {
+    it('calls getRandomGreeting to obtain the message', () => {
       createComponent();
-      const allGreetings = [...GREETING_MESSAGES, ...buildTimeAwareGreetings(FIXED_DATE)];
-      expect(allGreetings).toContain(findGreeting().text());
+      expect(getRandomGreeting).toHaveBeenCalled();
     });
   });
 

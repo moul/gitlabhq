@@ -24,24 +24,33 @@ To enable debug logging:
    - For Windows or Linux, press <kbd>Control</kbd>+<kbd>,</kbd>.
 1. Select **Extensions** > **GitLab** > **Other**.
 1. Under **GitLab: Debug**, select the checkbox to turn on debug mode.
-1. Save your changes.
+1. Reload the window to restart the extension:
+   - For macOS:
+     1. Press <kbd>Command</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>.
+     1. Type `reload window` and select **Developer: Reload Window**.
+   - For Windows or Linux:
+     1. Press <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>.
+     1. Type `reload window` and select **Developer: Reload Window**.
 
 ### View debug logs
 
 To view debug logs:
 
 1. In VS Code, select **View** > **Output**.
-1. In the output panel at the bottom, in the upper-right corner,
-   select **GitLab** or **GitLab Language Server** from the list.
+1. In the upper-right corner of the output panel, select the dropdown list to filter for
+   **GitLab** or **GitLab Language Server** logs.
 1. Review for errors, warnings, connection issues, or authentication problems.
 
 ## Authentication
 
 You might encounter the following authentication errors.
 
-### Error: `can't access the OS Keychain`
+### Error: `...can't access the OS Keychain`
 
-Error messages like these can occur on both macOS and Ubuntu:
+On macOS and Ubuntu, you might get an error when the extension cannot access the OS Keychain to
+authenticate.
+
+For example:
 
 ```plaintext
 The GitLab extension can't access the OS Keychain.
@@ -53,36 +62,50 @@ Error: Cannot get password
 at I.$getPassword (vscode-file://vscode-app/snap/code/97/usr/share/code/resources/app/out/vs/workbench/workbench.desktop.main.js:1712:49592)
 ```
 
-For more information about these errors, see:
+Follow the workaround below for your operating system.
+
+For more information about this error, see:
 
 - [Extension issue 580](https://gitlab.com/gitlab-org/gitlab-vscode-extension/-/issues/580)
 - [Upstream `microsoft/vscode` issue 147515](https://github.com/microsoft/vscode/issues/147515)
 
 #### macOS workaround
 
-A workaround exists for macOS:
+To work around this error on macOS:
 
-1. On your machine, open **Keychain Access** and search for `vscodegitlab.gitlab-workflow`.
+1. On your machine, open **Keychain Access**, and search for `vscodegitlab.gitlab-workflow`.
 1. Delete `vscodegitlab.gitlab-workflow` from your keychain.
-1. Remove the corrupted account from VS Code using the `GitLab: Remove Account from VS Code` command.
-1. To add the account again, run either `Gitlab: Add Account to VS Code` or `GitLab: Authenticate to GitLab.com`.
+1. Press <kbd>Command</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> to open the Command Palette.
+1. Type `GitLab: Remove Account from VS Code` and press <kbd>Enter</kbd> to remove the
+   corrupted account from VS Code.
+1. Open the Command Palette again and run `GitLab: Authenticate` to add the account again.
 
 #### Ubuntu workaround
 
 When you install VS Code with `snap` in Ubuntu 20.04 and 22.04, VS Code can't read passwords from the
 OS keychain. Extension versions 3.44.0 and later use the OS keychain for secure token storage.
-A workaround exists for Ubuntu users who use versions of VS Code earlier than 1.68.0:
 
-- You can downgrade the GitLab for VS Code extension to version 3.43.1.
-- You can install VS Code from the `.deb` package, rather than `snap`:
+If you use a version of VS Code earlier than 1.68.0, try one of these workarounds:
+
+- Downgrade the GitLab for VS Code extension to version 3.43.1.
+- Install VS Code from the `.deb` package, rather than `snap`:
   1. Uninstall the `snap` VS Code.
   1. Install VS Code from the [`.deb` package](https://code.visualstudio.com/Download).
-  1. Go to Ubuntu's **Password & Keys**, find the `vscodegitlab.workflow/gitlab-tokens` entry, and remove it.
-  1. In VS Code, run `Gitlab: Remove Your Account` to remove the account with missing credentials.
-  1. To add the account again, run `GitLab: Authenticate`.
+  1. Go to Ubuntu's **Password & Keys**, find the `vscodegitlab.workflow/gitlab-tokens` entry, and
+     remove it.
+  1. In VS Code, press <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> to open the Command Palette.
+  1. Type `Gitlab: Remove Your Account` and press <kbd>Enter</kbd> to remove the account with
+     missing credentials.
+  1. Open the Command Palette again and run `GitLab: Authenticate` to add the account again.
 
-If you use VS Code version 1.68.0 or later, re-installation might not be possible. However, you can still run
-the last three steps to re-authenticate.
+If you use VS Code version 1.68.0 or later, try to re-authenticate:
+
+1. Go to Ubuntu's **Password & Keys**, find the `vscodegitlab.workflow/gitlab-tokens` entry, and
+   remove it.
+1. In VS Code, press <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> to open the Command Palette.
+1. Type `Gitlab: Remove Your Account` and press <kbd>Enter</kbd> to remove the account with
+   missing credentials.
+1. Open the Command Palette again and run `GitLab: Authenticate` to add the account again.
 
 ### Connection and authorization error when using GDK
 
@@ -100,30 +123,33 @@ socket disconnected before secure TLS connection was established
 This issue occurs if you are running GDK on `http` and your GitLab instance is
 hosted on `https`.
 
-To resolve this, manually enter an `http` URL for your instance when you run the
-`GitLab: Authenticate` command.
+To resolve this:
+
+1. Open the Command Palette:
+   - For macOS, press <kbd>Command</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>.
+   - For Windows or Linux, press <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>.
+1. Type `GitLab: Authenticate` and press <kbd>Enter</kbd>.
+1. Select the option to manually enter an `http` URL for your instance and press <kbd>Enter</kbd>.
+1. Follow the remaining prompts to authenticate.
 
 ## Project configuration
 
 You might encounter the following project configuration errors.
 
-### Resolve project configuration errors
+### Account and project configuration errors
 
-Start by ensuring the correct project is selected in the GitLab for VS Code extension.
+When you open a project in VS Code, you might see an error message next to the project name in the
+**GitLab** ({{< icon name="tanuki" >}}) tab. Or, you might see warning messages about multiple
+accounts or projects in the status bar.
 
-1. In VS Code, in the left sidebar, select **GitLab** ({{< icon name="tanuki" >}}).
-1. Ensure the project is listed and selected.
+These messages appear when the extension is unable to identify which repository, account, or
+project to use.
 
-If an error message appears next to the project name, select it to reveal what needs to be updated.
+To resolve these errors:
 
-To resolve these issues, see the extension setup documentation:
-
-- [Connect to your repository](setup.md#connect-to-your-repository): If no remote is defined, or
-  you have multiple remotes configured.
-- [Switch accounts](setup.md#switch-accounts): If **Multiple GitLab Accounts** appears in the
-  status bar.
-- [Select a project](setup.md#select-a-project): If **(multiple projects)** appears in the
-  status bar.
+- If no remote is defined or you have multiple remotes configured, see [connect to your repository](setup.md#connect-to-your-repository).
+- If **Multiple GitLab Accounts** appears in the status bar, [switch accounts](setup.md#switch-accounts).
+- If **(multiple projects)** appears in the status bar, [select a project](setup.md#select-a-project).
 
 If this is your first time working with Git in VS Code, see
 [source control in VS Code](https://code.visualstudio.com/docs/sourcecontrol/overview) for information
@@ -131,14 +157,16 @@ on initializing repositories and workspaces, which occurs outside of the GitLab 
 
 #### Git remote with SSH custom alias
 
-If your repository remote uses an SSH custom alias (for example, `git@my-work-gitlab:group/project.git` instead of `git@gitlab.com:group/project.git`), the GitLab for VS Code extension might not correctly match your repository to your GitLab project.
+If your repository remote uses an SSH custom alias, the extension might not correctly match your
+repository to your GitLab project. For example, if your remote uses
+`git@my-work-gitlab:group/project.git` instead of `git@gitlab.com:group/project.git`.
 
 To resolve this issue, you can:
 
-- Change the remote to use SSH without a custom alias, or HTTP.
-- Configure the default namespace for the Agent Platform.
+- Change the remote to use HTTP or use SSH without a custom alias.
+- Configure a default GitLab Duo namespace in the extension.
 
-To configure the default namespace:
+To configure a default namespace:
 
 1. [Determine the namespace your project is in](../../user/namespace/_index.md#determine-which-type-of-namespace-youre-in).
 1. In VS Code, open the Settings editor:
@@ -149,25 +177,29 @@ To configure the default namespace:
 
 ### HTTPS project cloning works but SSH cloning fails
 
-This problem happens in VS Code when your SSH URL host or path is different from your HTTPS path. The GitLab for VS Code extension uses:
+You might get an SSH cloning error while HTTPS cloning works. This occurs when your SSH URL host
+or path is different from your HTTPS path.
+
+The GitLab for VS Code extension uses:
 
 - The host to match the account that you set up.
 - The path to get the namespace and project name.
 
-For example, the VS Code extension's URLs are:
+For example, the URLs for the VS Code extension project are:
 
 - SSH: `git@gitlab.com:gitlab-org/gitlab-vscode-extension.git`
 - HTTPS: `https://gitlab.com/gitlab-org/gitlab-vscode-extension.git`
 
-Both have the `gitlab.com` and `gitlab-org/gitlab-vscode-extension` path.
+Both have the `gitlab.com` host and the `gitlab-org/gitlab-vscode-extension` path.
 
-To fix this problem, check if your SSH URL is on a different host, or if it has extra segments in a path.
-If either is true, you can manually assign a Git repository to a GitLab project:
+To resolve this error:
 
-1. In VS Code, in the left sidebar, select **GitLab** ({{< icon name="tanuki" >}}).
-1. Select the project marked `(no GitLab project)`, then select **Manually assign GitLab project**:
+1. Check if your SSH URL is on a different host or if it has extra segments in the path.
+1. If either is true, manually assign the Git repository to a GitLab project:
+   1. In VS Code, in the left sidebar, select **GitLab** ({{< icon name="tanuki" >}}).
+   1. Select the project marked `(no GitLab project)`, then select **Manually assign GitLab project**:
    ![Assign GitLab project manually](img/manually_assign_v15_3.png)
-1. Select the correct project from the list.
+   1. Select the correct project from the list.
 
 For more information about simplifying this process, see
 [issue 577](https://gitlab.com/gitlab-org/gitlab-vscode-extension/-/issues/577)

@@ -319,6 +319,7 @@ following response attributes:
 | `duo_remote_flows_enabled` | boolean | Indicates if GitLab Duo remote flows are enabled. |
 | `duo_foundational_flows_enabled` | boolean | Indicates if GitLab Duo foundational flows are enabled. |
 | `duo_sast_fp_detection_enabled` | boolean | Indicates if GitLab Duo SAST false positive detection is enabled. |
+| `duo_sast_vr_workflow_enabled` | boolean | Indicates if GitLab Duo SAST vulnerability resolution workflow is enabled. |
 | `web_based_commit_signing_enabled` | boolean | Indicates if web-based commit signing is enabled. |
 | `spp_repository_pipeline_access` | boolean | Repository pipeline access for security policies. Only visible if the security orchestration policies feature is available. |
 | `permissions` | object | User permissions for the project. |
@@ -754,6 +755,7 @@ following response attributes:
 | `duo_remote_flows_enabled` | boolean | Indicates if GitLab Duo remote flows are enabled. |
 | `duo_foundational_flows_enabled` | boolean | Indicates if GitLab Duo foundational flows are enabled. |
 | `duo_sast_fp_detection_enabled` | boolean | Indicates if GitLab Duo SAST false positive detection is enabled. |
+| `duo_sast_vr_workflow_enabled` | boolean | Indicates if GitLab Duo SAST vulnerability resolution workflow is enabled. |
 | `spp_repository_pipeline_access` | boolean | Repository pipeline access for security policies. Only visible if the security orchestration policies feature is available. |
 | `permissions` | object | User permissions for the project. |
 | `permissions.project_access` | object | Project access permissions for the user. |
@@ -1134,6 +1136,7 @@ following response attributes:
 | `duo_remote_flows_enabled` | boolean | Indicates if GitLab Duo remote flows are enabled. |
 | `duo_foundational_flows_enabled` | boolean | Indicates if GitLab Duo foundational flows are enabled. |
 | `duo_sast_fp_detection_enabled` | boolean | Indicates if GitLab Duo SAST false positive detection is enabled. |
+| `duo_sast_vr_workflow_enabled` | boolean | Indicates if GitLab Duo SAST vulnerability resolution workflow is enabled. |
 | `spp_repository_pipeline_access` | boolean | Repository pipeline access for security policies. Only visible if the security orchestration policies feature is available. |
 | `permissions` | object | User permissions for the project. |
 | `permissions.project_access` | object | Project access permissions for the user. |
@@ -1596,6 +1599,7 @@ following response attributes:
 | `duo_remote_flows_enabled` | boolean | Indicates if GitLab Duo remote flows are enabled. |
 | `duo_foundational_flows_enabled` | boolean | Indicates if GitLab Duo foundational flows are enabled. |
 | `duo_sast_fp_detection_enabled` | boolean | Indicates if GitLab Duo SAST false positive detection is enabled. |
+| `duo_sast_vr_workflow_enabled` | boolean | Indicates if GitLab Duo SAST vulnerability resolution workflow is enabled. |
 | `spp_repository_pipeline_access` | boolean | Repository pipeline access for security policies. Only visible if the security orchestration policies feature is available. |
 | `permissions` | object | User permissions for the project. |
 | `permissions.project_access` | object | Project access permissions for the user. |
@@ -2385,6 +2389,8 @@ Supported general project attributes:
 | `default_branch`                                   | string            | No       | The [default branch](../user/project/repository/branches/default.md) name. |
 | `description`                                      | string            | No       | Short project description. |
 | `duo_remote_flows_enabled`                         | boolean           | No       | Determine whether or not [flows](../user/duo_agent_platform/flows/_index.md) can run in your project. |
+| `duo_sast_fp_detection_enabled` | boolean | No | Enable or disable SAST false positive detection. See [turn on SAST false positive detection](../user/application_security/vulnerabilities/false_positive_detection.md#turn-on-for-a-project). |
+| `duo_sast_vr_workflow_enabled` | boolean | No | Enable or disable SAST vulnerability resolution workflow. See [turn on SAST vulnerability resolution workflow](../user/application_security/vulnerabilities/agentic_vulnerability_resolution.md#turn-on-for-a-project). |
 | `emails_disabled`                                  | boolean           | No       | _(Deprecated)_ Disable email notifications. Use `emails_enabled` instead |
 | `emails_enabled`                                   | boolean           | No       | Enable email notifications. |
 | `enforce_auth_checks_on_uploads`                   | boolean           | No       | Enforce [auth checks](../security/user_file_uploads.md#enable-authorization-checks-for-all-media-files) on uploads. |

@@ -481,6 +481,7 @@ export default {
         .mutate({
           mutation: setSortPreferenceMutation,
           variables: { input: { visibilityPipelineIdType: idType.toUpperCase() } },
+          context: { featureCategory: 'continuous_integration' },
         })
         .then(({ data }) => {
           if (data.userPreferencesUpdate.errors.length) {

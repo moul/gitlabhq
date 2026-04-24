@@ -42,9 +42,21 @@ RSpec.describe ActiveContext::Concerns::Collection do
     it 'delegates to ActiveContext adapter' do
       query = 'test query'
 
-      expect(mock_adapter).to receive(:search).with(query: query, user: user, collection: collection_class)
+      expect(mock_adapter).to receive(:search).with(
+        query: query, user: user, collection: collection_class, source_fields: nil
+      )
 
       collection_class.search(user: user, query: query)
+    end
+
+    it 'passes source_fields to the adapter' do
+      query = 'test query'
+
+      expect(mock_adapter).to receive(:search).with(
+        query: query, user: user, collection: collection_class, source_fields: ['content']
+      )
+
+      collection_class.search(user: user, query: query, source_fields: ['content'])
     end
   end
 

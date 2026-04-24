@@ -307,6 +307,11 @@ ul.wiki-pages-list.content-list {
 
 .wiki-form.immersive {
   --immersive-editor-text-width: #{$wiki-content-default-width};
+
+  .markdown-area, .ProseMirror, .md-write-holder {
+    min-height: max(60vh, 320px);
+    max-height: none;
+  }
 }
 
 .wiki-form {

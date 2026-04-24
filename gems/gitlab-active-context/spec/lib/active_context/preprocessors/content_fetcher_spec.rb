@@ -35,7 +35,7 @@ RSpec.describe ActiveContext::Preprocessors::ContentFetcher do
 
   before do
     allow(ActiveContext).to receive(:adapter).and_return(mock_adapter)
-    allow(mock_adapter).to receive_message_chain(:client, :search).and_return(search_results)
+    allow(mock_adapter).to receive(:search).and_return(search_results)
     allow(ActiveContext::CollectionCache).to receive(:fetch).and_return(mock_collection)
     allow(ActiveContext::Logger).to receive(:skippable_exception).and_return(nil)
   end
@@ -50,10 +50,11 @@ RSpec.describe ActiveContext::Preprocessors::ContentFetcher do
       end
 
       it 'calls search with the correct parameters' do
-        expect(mock_adapter).to receive_message_chain(:client, :search).with(
+        expect(mock_adapter).to receive(:search).with(
           user: nil,
           collection: collection_name,
-          query: query
+          query: query,
+          source_fields: %w[id content]
         )
 
         process_refs

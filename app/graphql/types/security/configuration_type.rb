@@ -88,7 +88,7 @@ module Types
       field :secret_push_protection_available,
         GraphQL::Types::Boolean,
         null: false,
-        description: 'Whether secret push protection is available at the instance level.'
+        description: 'Whether secret push protection is available for projects in the instance.'
 
       field :secret_push_protection_enabled,
         GraphQL::Types::Boolean,

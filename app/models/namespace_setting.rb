@@ -121,6 +121,13 @@ class NamespaceSetting < ApplicationRecord
     Date.current.advance(years: 1, days: -1).end_of_day
   end
 
+  def self.next_namespace_ids(cursor:, limit:)
+    where('namespace_id > ?', cursor)
+      .order(:namespace_id)
+      .limit(limit)
+      .pluck(:namespace_id)
+  end
+
   def prevent_sharing_groups_outside_hierarchy
     return super if namespace.root?
 

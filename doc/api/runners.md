@@ -14,7 +14,7 @@ title: Runners API
 
 Use this API to manage [runners](../ci/runners/_index.md) registered to an instance.
 
-To create new instance, group, or project runners, use the [`POST /user/runners`](users.md#create-a-runner-linked-to-a-user) endpoint.
+To create a new instance, group, or project runner, use the [`POST /user/runners`](users.md#create-a-runner-linked-to-a-user) endpoint.
 Use this API to manage existing runners.
 
 [Pagination](rest/_index.md#pagination) is available on the following API endpoints (they return 20 items by default):

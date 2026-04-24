@@ -51505,8 +51505,9 @@ Security configuration data for a project.
 | <a id="securityconfiguration-licenseconfigurationsource"></a>`licenseConfigurationSource` | [`String`](#string) | Source of license configuration. |
 | <a id="securityconfiguration-maxtrackedrefs"></a>`maxTrackedRefs` | [`Int`](#int) | Maximum number of refs that can be tracked for security scanning. |
 | <a id="securityconfiguration-secretdetectionconfigurationpath"></a>`secretDetectionConfigurationPath` | [`String`](#string) | Path to secret detection configuration. |
-| <a id="securityconfiguration-secretpushprotectionavailable"></a>`secretPushProtectionAvailable` | [`Boolean!`](#boolean) | Whether secret push protection is available at the instance level. |
+| <a id="securityconfiguration-secretpushprotectionavailable"></a>`secretPushProtectionAvailable` | [`Boolean!`](#boolean) | Whether secret push protection is available for projects in the instance. |
 | <a id="securityconfiguration-secretpushprotectionenabled"></a>`secretPushProtectionEnabled` | [`Boolean`](#boolean) | Whether secret push protection is enabled for the project. |
+| <a id="securityconfiguration-secretpushprotectionenforced"></a>`secretPushProtectionEnforced` | [`Boolean!`](#boolean) | Whether secret push protection is automatically enforced for all projects in the instance. |
 | <a id="securityconfiguration-secretpushprotectionlicensed"></a>`secretPushProtectionLicensed` {{< icon name="warning-solid" >}} | [`Boolean`](#boolean) | **Deprecated** in GitLab 18.11. Automatic enablement of Secret Push Protection for public GitLab.com projects has been discontinued. |
 | <a id="securityconfiguration-securityscanprofileslicensed"></a>`securityScanProfilesLicensed` | [`Boolean!`](#boolean) | Whether the project has a license for security scan profiles. |
 | <a id="securityconfiguration-securitytrainingenabled"></a>`securityTrainingEnabled` | [`Boolean!`](#boolean) | Whether security training is available for the project. |

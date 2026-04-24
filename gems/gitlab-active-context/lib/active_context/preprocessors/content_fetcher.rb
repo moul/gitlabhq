@@ -9,10 +9,11 @@ module ActiveContext
 
       class_methods do
         def fetch_content(refs:, query:, collection:, content_field: 'content')
-          matches = ::ActiveContext.adapter.client.search(
+          matches = ::ActiveContext.adapter.search(
             user: nil,
             collection: collection,
-            query: query
+            query: query,
+            source_fields: ['id', content_field]
           )
 
           content_by_id = matches.each_with_object({}) do |match, hash|

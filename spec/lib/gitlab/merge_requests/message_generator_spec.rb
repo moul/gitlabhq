@@ -1027,6 +1027,21 @@ RSpec.describe Gitlab::MergeRequests::MessageGenerator, feature_category: :code_
         expect(generator.new_mr_title('%{first_commit_title}')).to be_nil
       end
     end
+
+    context 'when the merge request is not persisted and has no compare commits' do
+      before do
+        merge_request.compare_commits = []
+        merge_request.compare = nil
+      end
+
+      it 'returns nil because %{first_commit_title} resolves to blank' do
+        expect(generator.new_mr_title('%{first_commit_title}')).to be_nil
+      end
+
+      it 'removes the placeholder and keeps surrounding text' do
+        expect(generator.new_mr_title('%{first_commit_title} suffix')).to eq('suffix')
+      end
+    end
   end
 
   describe '#new_mr_description' do

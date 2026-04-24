@@ -10,11 +10,13 @@ import CompareApp from '~/merge_requests/components/compare_app.vue';
 import { __ } from '~/locale';
 import GpgBadges from '~/gpg_badges';
 import { createRapidDiffsApp } from '~/rapid_diffs';
+import { initCompareButtonLoading } from './init_compare_button_loading';
 
 GpgBadges.fetch();
 
 const mrNewCompareNode = document.querySelector('.js-merge-request-new-compare');
 if (mrNewCompareNode) {
+  initCompareButtonLoading();
   const targetCompareEl = document.getElementById('js-target-project-dropdown');
   const sourceCompareEl = document.getElementById('js-source-project-dropdown');
   const compareEl = document.querySelector('.js-merge-request-new-compare');

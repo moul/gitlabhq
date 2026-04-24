@@ -11,7 +11,9 @@ import {
   GlAlert,
   GlLink,
   GlFormCharacterCount,
+  GlSprintf,
 } from '@gitlab/ui';
+import TimeAgoTooltip from '~/vue_shared/components/time_ago_tooltip.vue';
 import { __, s__, n__, sprintf } from '~/locale';
 import { SAVED_VIEW_VISIBILITY, ROUTES } from '~/work_items/constants';
 import { saveSavedView } from 'ee_else_ce/work_items/list/utils';
@@ -33,6 +35,8 @@ export default {
     GlAlert,
     GlLink,
     GlFormCharacterCount,
+    GlSprintf,
+    TimeAgoTooltip,
   },
   i18n: {
     validateTitle: s__('WorkItem|Title is required.'),
@@ -41,6 +45,8 @@ export default {
       'WorkItem|You have reached the maximum number of views in your list. If you add a view, the last view in your list will be removed.',
     ),
     learnMoreAboutViewLimits: s__('WorkItem|Learn more about view limits.'),
+    authorInfoCreatedBy: s__('WorkItem|Created by %{author}'),
+    authorInfoUpdatedBy: s__('WorkItem|Updated %{timeAgo} by %{updatedBy}'),
   },
   savedViewLimitsHelpPath: helpPagePath('user/work_items/saved_views.md', {
     anchor: 'saved-view-limits',
@@ -100,6 +106,24 @@ export default {
     };
   },
   computed: {
+    savedViewAuthor() {
+      return this.savedView?.author ?? null;
+    },
+    savedViewAuthorId() {
+      return this.savedViewAuthor ? this.getUserId(this.savedViewAuthor) : '';
+    },
+    savedViewLastUpdatedBy() {
+      return this.savedView?.lastUpdatedBy ?? null;
+    },
+    savedViewLastUpdatedById() {
+      return this.savedViewLastUpdatedBy ? this.getUserId(this.savedViewLastUpdatedBy) : '';
+    },
+    savedViewUpdatedAt() {
+      return this.savedView?.updatedAt ?? '';
+    },
+    showAuthorInfo() {
+      return this.isEdit && Boolean(this.savedViewAuthorId) && !this.savedView?.isPrivate;
+    },
     modalTitle() {
       return this.isEdit ? s__('WorkItem|Edit view') : s__('WorkItem|New view');
     },
@@ -146,6 +170,9 @@ export default {
     },
   },
   methods: {
+    getUserId(user) {
+      return getIdFromGraphQLId(user.id);
+    },
     focusTitleInput() {
       this.$refs.savedViewTitle?.$el.focus();
     },
@@ -372,6 +399,52 @@ export default {
               {{ visibilityText }}
             </span>
           </div>
+        </div>
+      </div>
+
+      <div
+        v-if="showAuthorInfo"
+        class="gl-mb-5 gl-flex gl-flex-wrap gl-items-center gl-gap-x-4 gl-gap-y-3 gl-rounded-base gl-bg-strong gl-px-4 gl-py-3 gl-text-sm gl-leading-16 gl-text-subtle"
+        data-testid="saved-view-author-info"
+      >
+        <span class="gl-flex-auto">
+          <gl-sprintf :message="$options.i18n.authorInfoCreatedBy">
+            <template #author>
+              <gl-link
+                :data-user-id="savedViewAuthorId"
+                :data-username="savedViewAuthor.username"
+                :data-name="savedViewAuthor.name"
+                :data-avatar-url="savedViewAuthor.avatarUrl"
+                :href="savedViewAuthor.webPath"
+                data-testid="saved-view-author"
+                class="author-link js-user-link gl-text-strong"
+                @click.stop
+              >
+                <span class="author">{{ savedViewAuthor.name }}</span>
+              </gl-link>
+            </template>
+          </gl-sprintf>
+        </span>
+
+        <div v-if="savedViewUpdatedAt && savedViewLastUpdatedBy">
+          <gl-sprintf :message="$options.i18n.authorInfoUpdatedBy">
+            <template #timeAgo>
+              <time-ago-tooltip :time="savedViewUpdatedAt" />
+            </template>
+            <template #updatedBy
+              ><gl-link
+                :data-user-id="savedViewLastUpdatedById"
+                :data-username="savedViewLastUpdatedBy.username"
+                :data-name="savedViewLastUpdatedBy.name"
+                :data-avatar-url="savedViewLastUpdatedBy.avatarUrl"
+                :href="savedViewLastUpdatedBy.webPath"
+                class="author-link js-user-link gl-text-strong"
+                @click.stop
+              >
+                <span class="author">{{ savedViewLastUpdatedBy?.name }}</span>
+              </gl-link></template
+            >
+          </gl-sprintf>
         </div>
       </div>
 

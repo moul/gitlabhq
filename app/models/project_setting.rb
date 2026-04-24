@@ -18,6 +18,14 @@ class ProjectSetting < ApplicationRecord
 
   ALLOWED_TARGET_PLATFORMS = %w[ios osx tvos watchos android].freeze
 
+  HUMANIZED_ATTRIBUTES = {
+    mr_default_title_template: 'Merge request default title template'
+  }.freeze
+
+  def self.human_attribute_name(attribute, *options)
+    HUMANIZED_ATTRIBUTES[attribute.to_sym] || super
+  end
+
   belongs_to :project, inverse_of: :project_setting
 
   ignore_column :pages_multiple_versions_enabled, remove_with: '17.9', remove_after: '2025-02-20'
@@ -54,6 +62,7 @@ class ProjectSetting < ApplicationRecord
   validates :merge_commit_template, length: { maximum: Project::MAX_COMMIT_TEMPLATE_LENGTH }
   validates :squash_commit_template, length: { maximum: Project::MAX_COMMIT_TEMPLATE_LENGTH }
   validates :mr_default_title_template, length: { maximum: Project::MAX_MR_TITLE_TEMPLATE_LENGTH }
+  validate :mr_default_title_template_no_newlines
   validates :issue_branch_template, length: { maximum: Issue::MAX_BRANCH_TEMPLATE }
   validates :target_platforms, inclusion: { in: ALLOWED_TARGET_PLATFORMS }
   validates :suggested_reviewers_enabled, inclusion: { in: [true, false] }
@@ -122,6 +131,15 @@ class ProjectSetting < ApplicationRecord
       errors.add :merge_request_title_regex, _('and regex description must be either both set, or neither.')
       errors.add :merge_request_title_regex_description, _('and regex must be either both set, or neither.')
     end
+  end
+
+  def mr_default_title_template_no_newlines
+    return unless Feature.enabled?(:mr_default_title_template, project)
+    return if mr_default_title_template.blank?
+
+    return unless mr_default_title_template.match?(/[\r\n]/)
+
+    errors.add(:mr_default_title_template, _('must be a single line'))
   end
 
   def validates_mr_default_target_self

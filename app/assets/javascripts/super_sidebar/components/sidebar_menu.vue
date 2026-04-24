@@ -77,6 +77,9 @@ export default {
       variables() {
         return { fullPath: this.currentPath };
       },
+      context: {
+        featureCategory: 'navigation',
+      },
       skip() {
         return !this.currentPath;
       },

@@ -5,6 +5,8 @@ class WorkItem < Issue
   include Gitlab::InternalEventsTracking
   include Import::HasImportSource
 
+  MAX_OPEN_WORK_ITEMS_COUNT = 10_000
+
   COMMON_QUICK_ACTIONS_COMMANDS = [
     :title, :reopen, :close, :tableflip, :shrug, :type, :promote_to, :checkin_reminder,
     :subscribe, :unsubscribe, :confidential, :award, :react, :move, :clone, :copy_metadata,

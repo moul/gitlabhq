@@ -8613,12 +8613,6 @@ msgstr ""
 msgid "Allow projects and subgroups to override the group setting"
 msgstr ""
 
-msgid "Allow projects to enable secret push protection. This does not enable secret push protection."
-msgstr ""
-
-msgid "Allow secret push protection"
-msgstr ""
-
 msgid "Allow the user to confirm their identity with only an email address, and skip phone number or credit card verification."
 msgstr ""
 
@@ -11352,6 +11346,9 @@ msgid "Autosave|Note"
 msgstr ""
 
 msgid "Availability"
+msgstr ""
+
+msgid "Available"
 msgstr ""
 
 msgid "Available ID"
@@ -28700,6 +28697,9 @@ msgid "Enforce two-factor authentication for administrators"
 msgstr ""
 
 msgid "Enforce two-factor authentication for all user sign-ins."
+msgstr ""
+
+msgid "Enforced"
 msgstr ""
 
 msgid "EnforcementAtLimitAlert|To invite more users, you can reduce the number of users in your top-level group to %{pluralized_limit} or less. You can also upgrade to a paid tier which do not have user limits. If you need additional time, you can start a free %{duration}-day trial which includes unlimited users."
@@ -55752,6 +55752,9 @@ msgstr ""
 msgid "ProjectService|Trigger event when an incident is created."
 msgstr ""
 
+msgid "ProjectSettings|%{link_start}Supported variables%{link_end}."
+msgstr ""
+
 msgid "ProjectSettings|%{link_start}What are description templates?%{link_end}"
 msgstr ""
 
@@ -56019,7 +56022,7 @@ msgstr ""
 msgid "ProjectSettings|Leave empty to use default template."
 msgstr ""
 
-msgid "ProjectSettings|Leave empty to use the current default behavior."
+msgid "ProjectSettings|Leave empty to use the %{link_start}default behavior%{link_end}."
 msgstr ""
 
 msgid "ProjectSettings|Make sure this pattern does not contradict the %{link_start}Push rules &gt; Branch name%{link_end} setting."
@@ -56187,6 +56190,9 @@ msgstr ""
 msgid "ProjectSettings|Select the project containing %{link_start}Analytics Dashboards%{link_end} configuration files."
 msgstr ""
 
+msgid "ProjectSettings|Set a default title for merge requests."
+msgstr ""
+
 msgid "ProjectSettings|Set the default behavior of this option in merge requests. Changes to this are also applied to existing merge requests."
 msgstr ""
 
@@ -56229,9 +56235,6 @@ msgstr ""
 msgid "ProjectSettings|Submit changes to be merged upstream."
 msgstr ""
 
-msgid "ProjectSettings|Supported variables: %{code_start}%%{source_branch}%{code_end}, %{code_start}%%{target_branch}%{code_end}, %{code_start}%%{title_from_branch}%{code_end}, %{code_start}%%{first_commit_title}%{code_end}."
-msgstr ""
-
 msgid "ProjectSettings|Target project"
 msgstr ""
 
@@ -56251,9 +56254,6 @@ msgid "ProjectSettings|The default target project for merge requests created in 
 msgstr ""
 
 msgid "ProjectSettings|The default template will be applied on save."
-msgstr ""
-
-msgid "ProjectSettings|The default title used when creating a new merge request."
 msgstr ""
 
 msgid "ProjectSettings|The host of your data collector instance."
@@ -72796,6 +72796,15 @@ msgstr ""
 msgid "This epic cannot be added. One or more epics would exceed the maximum depth (%{max_depth}) from its most distant ancestor."
 msgstr ""
 
+msgid "This feature is automatically enforced for all projects in the instance."
+msgstr ""
+
+msgid "This feature is available for each project in the instance."
+msgstr ""
+
+msgid "This feature is not available for projects in the instance."
+msgstr ""
+
 msgid "This feature requires an Ultimate plan %{linkStart}Learn more%{linkEnd}."
 msgstr ""
 
@@ -81695,6 +81704,9 @@ msgstr ""
 msgid "WorkItem|Created %{timeago}"
 msgstr ""
 
+msgid "WorkItem|Created by %{author}"
+msgstr ""
+
 msgid "WorkItem|Creating a lifecycle will not effect existing items. Change the lifecycle associated with an item type to use this new lifecycle."
 msgstr ""
 
@@ -82735,6 +82747,9 @@ msgid "WorkItem|Undo"
 msgstr ""
 
 msgid "WorkItem|Update work items"
+msgstr ""
+
+msgid "WorkItem|Updated %{timeAgo} by %{updatedBy}"
 msgstr ""
 
 msgid "WorkItem|Usage"
@@ -86457,6 +86472,9 @@ msgid "must be a root group."
 msgstr ""
 
 msgid "must be a root namespace"
+msgstr ""
+
+msgid "must be a single line"
 msgstr ""
 
 msgid "must be a string"

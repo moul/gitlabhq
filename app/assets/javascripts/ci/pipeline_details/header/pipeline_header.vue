@@ -74,7 +74,10 @@ export default {
   apollo: {
     pipeline: {
       context() {
-        return getQueryHeaders(this.graphqlResourceEtag);
+        return {
+          ...getQueryHeaders(this.graphqlResourceEtag),
+          featureCategory: 'continuous_integration',
+        };
       },
       query: getPipelineQuery,
       variables() {

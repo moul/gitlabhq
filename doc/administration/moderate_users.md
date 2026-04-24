@@ -235,6 +235,13 @@ the LDAP identity first needs to be deleted:
 GitLab administrators can deactivate and reactivate users.
 You should deactivate a user if they have no recent activity, and you do not want them to occupy a seat on the instance.
 
+GitLab determines a user's recent activity based on the `last_active_at` timestamp, which is the most recent between:
+
+- `last_activity_on`: The timestamp of the user's last recorded activity in GitLab (such as creating issues, merge requests, or comments).
+- `current_sign_in_at`: The timestamp of the user's most recent sign-in.
+
+If a user's current sign-in timestamp is more recent than their last recorded activity, the user is considered recently active, even if they have not used any GitLab features since signing in.
+
 A deactivated user:
 
 - Can sign in to GitLab.

@@ -224,6 +224,9 @@ export default {
           variables: {
             id: this.graphqlPipelineId,
           },
+          context: {
+            featureCategory: 'continuous_integration',
+          },
         });
         this.$emit('refresh-pipeline-graph');
       } catch {

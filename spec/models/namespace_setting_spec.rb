@@ -159,6 +159,20 @@ RSpec.describe NamespaceSetting, feature_category: :groups_and_projects do
         end
       end
     end
+
+    describe '.next_namespace_ids' do
+      let_it_be(:namespace_1) { create(:namespace, :with_namespace_settings) }
+      let_it_be(:namespace_2) { create(:namespace, :with_namespace_settings) }
+      let_it_be(:namespace_3) { create(:namespace, :with_namespace_settings) }
+
+      let(:namespace_ids) { [namespace_1.id, namespace_2.id, namespace_3.id].sort }
+
+      it 'returns namespace ids after the cursor up to the limit in ascending order' do
+        cursor = namespace_ids.first
+
+        expect(described_class.next_namespace_ids(cursor: cursor, limit: 2)).to eq(namespace_ids.drop(1).first(2))
+      end
+    end
   end
 
   describe "validations" do

@@ -102,7 +102,10 @@ export default {
     pipelines: {
       query: getMergeRequestPipelines,
       context() {
-        return getQueryHeaders(this.graphqlResourceEtag);
+        return {
+          ...getQueryHeaders(this.graphqlResourceEtag),
+          featureCategory: 'continuous_integration',
+        };
       },
       // TODO: Implement proper ETag caching - https://gitlab.com/gitlab-org/gitlab/-/work_items/593625
       pollInterval: 60000,

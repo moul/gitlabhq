@@ -31,6 +31,39 @@ RSpec.describe ProjectSetting, type: :model, feature_category: :groups_and_proje
         .is_at_most(Project::MAX_MR_TITLE_TEMPLATE_LENGTH)
     end
 
+    context 'for mr_default_title_template single-line validation' do
+      it 'rejects values containing newlines' do
+        setting = build(:project_setting, mr_default_title_template: "first line\nsecond line")
+        setting.valid?
+        expect(setting.errors[:mr_default_title_template]).to include('must be a single line')
+        expect(setting.errors.full_messages)
+          .to include('Merge request default title template must be a single line')
+      end
+
+      it 'rejects values containing carriage returns' do
+        setting = build(:project_setting, mr_default_title_template: "first line\rsecond line")
+        setting.valid?
+        expect(setting.errors[:mr_default_title_template]).to include('must be a single line')
+      end
+
+      it 'allows a single-line value' do
+        setting = build(:project_setting, mr_default_title_template: '%{source_branch} - %{first_commit}')
+        expect(setting).to be_valid
+      end
+
+      context 'when mr_default_title_template feature flag is disabled' do
+        before do
+          stub_feature_flags(mr_default_title_template: false)
+        end
+
+        it 'does not run the single-line validation' do
+          setting = build(:project_setting, mr_default_title_template: "first line\nsecond line")
+          setting.valid?
+          expect(setting.errors[:mr_default_title_template]).not_to include('must be a single line')
+        end
+      end
+    end
+
     it 'validates the length of merge_request_title_regex_description' do
       is_expected.to validate_length_of(:merge_request_title_regex_description)
         .is_at_most(Project::MAX_MERGE_REQUEST_TITLE_REGEX_DESCRIPTION)

@@ -22,6 +22,7 @@ module Projects
           security_training_enabled: project.security_training_available?,
           container_scanning_for_registry_enabled: container_scanning_for_registry_enabled,
           secret_push_protection_available: secret_push_protection_available?,
+          secret_push_protection_enforced: secret_push_protection_enforced,
           secret_push_protection_enabled: secret_push_protection_enabled,
           validity_checks_available: validity_checks_available,
           validity_checks_enabled: validity_checks_enabled,
@@ -165,6 +166,7 @@ module Projects
       def validity_checks_available; end
       def validity_checks_enabled; end
       def container_scanning_for_registry_enabled; end
+      def secret_push_protection_enforced; end
       def secret_push_protection_enabled; end
       def secret_detection_configuration_path; end
       def license_configuration_source; end

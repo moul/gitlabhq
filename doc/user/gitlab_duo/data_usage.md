@@ -137,6 +137,12 @@ Secret scanning runs in the following scenarios:
 > [!note]
 > Secret scanning does not occur when you interact with GitLab Duo Chat through the web interface.
 
+### Exception: Secret false positive detection
+
+[Secret false positive detection](../application_security/vulnerabilities/secret_false_positive_detection.md) is an opt-in feature that sends information about the vulnerability, including code context surrounding detected secrets, to LLMs for analysis. This is a deliberate exception to the [secret detection and redaction](#secret-detection-and-redaction) behavior.
+
+Because this feature is opt-in, you must explicitly enable it at both the group and project level before any vulnerability data is sent to LLMs. Review your organization's data policies before enabling this feature.
+
 ## Share group usage data with GitLab
 
 {{< history >}}

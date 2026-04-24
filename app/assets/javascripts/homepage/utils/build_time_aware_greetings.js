@@ -1,4 +1,6 @@
+import { __ } from '~/locale';
 import {
+  GREETING_MESSAGES,
   MORNING_GREETINGS,
   AFTERNOON_GREETINGS,
   EVENING_GREETINGS,
@@ -48,4 +50,14 @@ export function buildTimeAwareGreetings(now = new Date()) {
   greetings.push(...DAY_GREETINGS[day]);
 
   return greetings;
+}
+
+/**
+ * Returns a single random greeting from the combined general and time-aware pools.
+ * @param {Date} now - The current date/time (defaults to new Date())
+ * @returns {string} A greeting string
+ */
+export function getRandomGreeting(now = new Date()) {
+  const all = [...GREETING_MESSAGES, ...buildTimeAwareGreetings(now)];
+  return all.length > 0 ? all[Math.floor(Math.random() * all.length)] : __('Welcome!');
 }
