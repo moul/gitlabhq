@@ -1,8 +1,12 @@
 #import "~/graphql_shared/fragments/user.fragment.graphql"
 
 # @feature_category: custom_dashboards_foundation
-query getDashboards($organizationId: OrganizationsOrganizationID!) {
-  customDashboards(organizationId: $organizationId) {
+query getDashboards(
+  $organizationId: OrganizationsOrganizationID!
+  $search: String
+  $createdById: UserID
+) {
+  customDashboards(organizationId: $organizationId, search: $search, createdById: $createdById) {
     nodes {
       id
       name
