@@ -42,6 +42,7 @@ describe('YourWorkGroupsApp', () => {
 
   const defaultPropsData = {
     initialSort: 'created_desc',
+    canCreateGroup: true,
   };
 
   const endpoint = '/dashboard/groups.json';
@@ -114,6 +115,14 @@ describe('YourWorkGroupsApp', () => {
       userPreferencesSortKey: null,
       sortStorageKey: 'groups',
     });
+  });
+
+  it('links to the "Explore groups" page', async () => {
+    await createComponent({ mountFn: mountExtended });
+
+    expect(wrapper.findByTestId('explore-groups-button').attributes('href')).toBe(
+      '/explore/groups',
+    );
   });
 
   describe('when relative_url_root is set', () => {

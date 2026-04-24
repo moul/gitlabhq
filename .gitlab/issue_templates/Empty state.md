@@ -40,7 +40,7 @@ Follow the steps to complete this issue -->
 
 - [ ] The solution follows the `Configuration required` specifications [in Pajamas](https://design.gitlab.com/regions/empty-states#configuration-required).
 - [ ] Ask a [Growth product manager or Designer](https://about.gitlab.com/handbook/engineering/development/growth/#stable-counterparts) to review your solution.
-- [ ] Is your solution introducing a new empty states or modifying an existing one?
+- [ ] Is your solution introducing a new empty state or modifying an existing one?
   - [ ] Introducing a new empty state: Follow the instructions from the [`After merge` section](#after-merge) below to add Snowplow tracking. 
   - [ ] Modifying an existing empty state: Follow the [`Experimentation` process](#experimentation) below. _Note_: If the empty state you want to replace hasn't been updated in a long time, doesn't pitch the value of the feature, or does not contain a next step action CTA,  then we recommend you skip the experimentation process to implement and add tracking to your new empty state.
 

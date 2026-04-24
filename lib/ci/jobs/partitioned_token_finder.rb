@@ -22,6 +22,12 @@ module Ci
         base_scope.in_partition(partition_key)
       end
 
+      def skip_fallback?
+        # Ci::Build's token is partition scoped
+        # Therefore, no need to fallback to all partitions for uniqueness_check
+        options[:uniqueness_check]
+      end
+
       def irrelevant_token?
         invalid_job_token? || known_non_job_token?
       end

@@ -55077,6 +55077,9 @@ msgstr ""
 msgid "Project '%{project_name}' has been successfully restored."
 msgstr ""
 
+msgid "Project '%{project_name}' has been successfully transferred."
+msgstr ""
+
 msgid "Project '%{project_name}' has been successfully unarchived."
 msgstr ""
 

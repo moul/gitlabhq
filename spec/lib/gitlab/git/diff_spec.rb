@@ -23,7 +23,7 @@ RSpec.describe Gitlab::Git::Diff, feature_category: :source_code_management do
 
   before do
     @raw_diff_hash = {
-      diff: <<EOT.gsub(/^ {8}/, "").sub(/\n$/, ""),
+      diff: <<DIFF.gsub(/^ {8}/, "").sub(/\n$/, ""),
         @@ -4,3 +4,6 @@
          [submodule "gitlab-shell"]
          \tpath = gitlab-shell
@@ -32,7 +32,7 @@ RSpec.describe Gitlab::Git::Diff, feature_category: :source_code_management do
         +	path = gitlab-grack
         +	url = https://gitlab.com/gitlab-org/gitlab-grack.git
 
-EOT
+DIFF
       new_path: ".gitmodules",
       old_path: ".gitmodules",
       a_mode: '100644',

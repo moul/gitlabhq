@@ -22,6 +22,12 @@ module Ci
         base_scope.with_runner_type(partition_key)
       end
 
+      def skip_fallback?
+        # Ci::Runner's token is partition scoped
+        # Therefore, no need to fallback to all partitions for uniqueness_check
+        options[:uniqueness_check]
+      end
+
       def irrelevant_token?
         known_non_runner_token_types.any? { |type| type.prefix?(token) }
       end

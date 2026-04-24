@@ -32728,6 +32728,7 @@ Represents a ComplianceFramework associated with a Project.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| <a id="complianceframework-approvalpolicies"></a>`approvalPolicies` | [`ScanResultPolicyConnection`](#scanresultpolicyconnection) | Approval Policies of the compliance framework. (see [Connections](#connections)) |
 | <a id="complianceframework-color"></a>`color` | [`String!`](#string) | Hexadecimal representation of compliance framework's label color. |
 | <a id="complianceframework-compliancerequirements"></a>`complianceRequirements` | [`ComplianceRequirementConnection`](#compliancerequirementconnection) | Compliance requirements of the compliance framework. (see [Connections](#connections)) |
 | <a id="complianceframework-default"></a>`default` | [`Boolean`](#boolean) | Default compliance framework for the group. |
@@ -32740,7 +32741,7 @@ Represents a ComplianceFramework associated with a Project.
 | <a id="complianceframework-pipelineexecutionpolicies"></a>`pipelineExecutionPolicies` | [`PipelineExecutionPolicyConnection`](#pipelineexecutionpolicyconnection) | Pipeline Execution Policies of the compliance framework. (see [Connections](#connections)) |
 | <a id="complianceframework-projects"></a>`projects` | [`ProjectConnection`](#projectconnection) | Projects associated with the compliance framework. (see [Connections](#connections)) |
 | <a id="complianceframework-scanexecutionpolicies"></a>`scanExecutionPolicies` | [`ScanExecutionPolicyConnection`](#scanexecutionpolicyconnection) | Scan Execution Policies of the compliance framework. (see [Connections](#connections)) |
-| <a id="complianceframework-scanresultpolicies"></a>`scanResultPolicies` | [`ScanResultPolicyConnection`](#scanresultpolicyconnection) | Scan Result Policies of the compliance framework. (see [Connections](#connections)) |
+| <a id="complianceframework-scanresultpolicies"></a>`scanResultPolicies` {{< icon name="warning-solid" >}} | [`ScanResultPolicyConnection`](#scanresultpolicyconnection) | **Deprecated** in GitLab 19.0. Use `approvalPolicies`. |
 | <a id="complianceframework-updatedat"></a>`updatedAt` | [`Time`](#time) | Timestamp of when the compliance framework was last updated. |
 | <a id="complianceframework-vulnerabilitymanagementpolicies"></a>`vulnerabilityManagementPolicies` | [`VulnerabilityManagementPolicyConnection`](#vulnerabilitymanagementpolicyconnection) | Vulnerability Management Policies of the compliance framework. (see [Connections](#connections)) |
 

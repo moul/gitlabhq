@@ -10,6 +10,7 @@ const formatSubgroupsAndProjects = (item) => {
   const baseItem = {
     type: item.type,
     name: item.name,
+    path: '', // TODO: Assign value using `item.path` once it is exposed from API in https://gitlab.com/groups/gitlab-org/-/work_items/20249
     fullPath: item.full_path,
     editPath: item.edit_path,
     archived: item.archived,
@@ -68,6 +69,7 @@ const formatSubgroupsAndProjects = (item) => {
       removeProject: item.can_remove,
       canLeave: item.can_leave,
       viewEditPage: item.can_edit,
+      changeNamespace: item.can_transfer,
     },
     // All properties below are not yet supported by `/children.json` endpoint
     // We set them to defaults so that we don't get Apollo errors when

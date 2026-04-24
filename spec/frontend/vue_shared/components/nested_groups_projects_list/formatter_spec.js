@@ -81,7 +81,7 @@ describe('formatGraphQLGroupsAndProjects', () => {
       accessLevel: {
         integerValue: 50,
       },
-      availableActions: ['copy-id', 'edit'],
+      availableActions: ['copy-id', 'edit', 'transfer'],
       customProperty: mockProject.nameWithNamespace,
       relativeWebUrl: `/gitlab/${mockProject.fullPath}`,
     });

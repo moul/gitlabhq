@@ -28,6 +28,8 @@ module Authn
             )
           end
 
+          return if skip_fallback?
+
           base_scope
             .find_by(encrypted_field => tokens) # rubocop:disable CodeReuse/ActiveRecord -- have to use find_by
             # TODO: remove this logging once the following issue is resolved
@@ -54,6 +56,10 @@ module Authn
         end
 
         protected
+
+        def skip_fallback?
+          false
+        end
 
         def partition_key
           raise NotImplementedError

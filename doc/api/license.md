@@ -115,7 +115,7 @@ This is calculated differently depending on whether the license has expired or n
 Returns:
 
 - `200 OK` with response containing the licenses in JSON format. This is an empty JSON array if there are no licenses.
-- `403 Forbidden` if the current user in not permitted to read the licenses.
+- `403 Forbidden` if the current user is not permitted to read the licenses.
 
 ## Retrieve a license
 
@@ -242,7 +242,7 @@ curl --request DELETE \
 Returns:
 
 - `204 No Content` if the license is successfully deleted.
-- `403 Forbidden` if the current user in not permitted to delete the license.
+- `403 Forbidden` if the current user is not permitted to delete the license.
 - `404 Not Found` if the license to delete could not be found.
 
 ## Trigger recalculation of billable users
@@ -274,7 +274,7 @@ Example response:
 Returns:
 
 - `202 Accepted` if the request to refresh billable users is successfully initiated.
-- `403 Forbidden` if the current user in not permitted to refresh billable users for the license.
+- `403 Forbidden` if the current user is not permitted to refresh billable users for the license.
 - `404 Not Found` if the license could not be found.
 
 | Attribute                    | Type          | Description                               |
@@ -315,4 +315,4 @@ Date,Billable User Count
 Returns:
 
 - `200 OK`: Response contains the license usage in CSV format.
-- `403 Forbidden` if the current user in not permitted to view license usage.
+- `403 Forbidden` if the current user is not permitted to view license usage.

@@ -17,6 +17,35 @@ RSpec.describe Ci::Jobs::PartitionedTokenFinder, feature_category: :continuous_i
 
     subject(:finder) { described_class.new(strategy, token, unscoped) }
 
+    context 'with uniqueness_check: true' do
+      subject(:finder) { described_class.new(strategy, token, unscoped, uniqueness_check: true) }
+
+      it 'finds the job using partition-scoped query only' do
+        recorder = ActiveRecord::QueryRecorder.new do
+          expect(finder.execute).to eq(job)
+        end
+
+        expect(recorder.count).to eq(1)
+        expect(recorder.log.first).to match(/"p_ci_builds"."token_encrypted" IN/)
+        expect(recorder.log.first).to match(/"p_ci_builds"."partition_id" =/)
+      end
+
+      context 'when partition_id is incorrect (fast-path miss)' do
+        before do
+          allow(::Ci::Builds::TokenPrefix).to receive(:decode_partition).with(token).and_return(999)
+        end
+
+        it 'returns nil without falling back to all-partitions query' do
+          recorder = ActiveRecord::QueryRecorder.new do
+            expect(finder.execute).to be_nil
+          end
+
+          expect(recorder.count).to eq(1)
+          expect(recorder.log.first).to match(/"p_ci_builds"."partition_id" =/)
+        end
+      end
+    end
+
     it 'uses partition_id filter in query' do
       recorder = ActiveRecord::QueryRecorder.new do
         expect(finder.execute).to eq(job)

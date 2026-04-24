@@ -7,6 +7,7 @@ import {
   ACTION_UNARCHIVE,
   ACTION_ARCHIVE,
   ACTION_LEAVE,
+  ACTION_TRANSFER,
 } from '~/vue_shared/components/list_actions/constants';
 import toast from '~/vue_shared/plugins/global_toast';
 import { sprintf, __, s__ } from '~/locale';
@@ -26,6 +27,7 @@ export const availableGraphQLProjectActions = ({
 
   // Rules
   const canEdit = userPermissions.viewEditPage;
+  const canTransfer = userPermissions.changeNamespace;
   const canArchive = userPermissions.archiveProject && !archived && !markedForDeletion;
   const canUnarchive = userPermissions.archiveProject && isSelfArchived;
   const canRestore = userPermissions.removeProject && isSelfDeletionScheduled;
@@ -38,6 +40,7 @@ export const availableGraphQLProjectActions = ({
   const actions = {
     [ACTION_COPY_ID]: true,
     [ACTION_EDIT]: canEdit,
+    [ACTION_TRANSFER]: canTransfer,
     [ACTION_ARCHIVE]: canArchive,
     [ACTION_UNARCHIVE]: canUnarchive,
     [ACTION_RESTORE]: canRestore,
@@ -99,6 +102,14 @@ export const renderLeaveSuccessToast = (project) => {
   toast(
     sprintf(s__('Projects|You left the "%{nameWithNamespace}" project.'), {
       nameWithNamespace: project.nameWithNamespace,
+    }),
+  );
+};
+
+export const renderTransferSuccessToast = (project) => {
+  toast(
+    sprintf(__("Project '%{project_name}' has been successfully transferred."), {
+      project_name: project.nameWithNamespace,
     }),
   );
 };
