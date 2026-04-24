@@ -172,6 +172,7 @@ group:
   - admin_ai_catalog_item_consumer
   - admin_build
   - admin_cluster
+  - admin_custom_field
   - admin_note
   - admin_pipeline
   - admin_push_rules

@@ -10,7 +10,7 @@ import {
   GlIntersectionObserver,
 } from '@gitlab/ui';
 import noAccessSvg from '@gitlab/svgs/dist/illustrations/empty-state/empty-search-md.svg';
-import DuoWorkflowAction from 'ee_component/ai/shared/widgets/duo_workflow_action.vue';
+import DuoAssignDeveloperButton from 'ee_component/work_items/components/duo_assign_developer_button.vue';
 import DesignDropzone from '~/vue_shared/components/upload_dropzone/upload_dropzone.vue';
 import * as Sentry from '~/sentry/sentry_browser_wrapper';
 import { s__, __ } from '~/locale';
@@ -149,7 +149,7 @@ export default {
     WorkItemVulnerabilities: () =>
       import('ee_component/work_items/components/work_item_vulnerabilities.vue'),
     WorkItemMetadataProvider,
-    DuoWorkflowAction,
+    DuoAssignDeveloperButton,
   },
   mixins: [glFeatureFlagsMixin(), trackingMixin],
   inject: {
@@ -420,6 +420,9 @@ export default {
     workItemAssignees() {
       return findAssigneesWidget(this.workItem);
     },
+    workItemAssigneeIds() {
+      return this.workItemAssignees?.assignees?.nodes?.map((a) => a.id) ?? [];
+    },
     workItemAwardEmoji() {
       return findAwardEmojiWidget(this.workItem);
     },
@@ -584,9 +587,7 @@ export default {
     canPasteDesign() {
       return !this.isSaving && !this.isAddingNotes && !this.editMode && !this.activeChildItem;
     },
-    agentPrivileges() {
-      return [1, 2, 3, 4, 5];
-    },
+
     confidentialityToggledText() {
       return this.workItem.confidential
         ? s__('WorkItem|Confidentiality turned on.')
@@ -1232,17 +1233,12 @@ export default {
                       :project-id="workItemProjectId"
                     />
                     <div>
-                      <duo-workflow-action
+                      <duo-assign-developer-button
                         v-if="duoRemoteFlowsAvailability"
-                        :project-path="workItemFullPath"
-                        :hover-message="__('Generate merge request with Duo')"
-                        :goal="workItem.webUrl"
-                        workflow-definition="developer/v1"
-                        :agent-privileges="agentPrivileges"
-                        :work-item-id="workItem.iid"
-                        size="medium"
-                        >{{ __('Generate MR with Duo') }}</duo-workflow-action
-                      >
+                        :work-item-id="workItem.id"
+                        :project-gid="workItemProjectId"
+                        :current-assignee-ids="workItemAssigneeIds"
+                      />
                     </div>
                   </div>
                 </div>

@@ -37,7 +37,7 @@ class MergeRequest < ApplicationRecord
     source_project_id_convert_to_bigint
     target_project_id_convert_to_bigint
     updated_by_id_convert_to_bigint
-  ], remove_with: '18.3', remove_after: '2025-07-17'
+  ], remove_with: '19.1', remove_after: '2026-05-21'
 
   extend ::Gitlab::Utils::Override
 

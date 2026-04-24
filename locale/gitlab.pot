@@ -30392,6 +30392,9 @@ msgstr ""
 msgid "Failed to approve the current merge request."
 msgstr ""
 
+msgid "Failed to assign Duo Developer."
+msgstr ""
+
 msgid "Failed to assign a user because no user was found."
 msgstr ""
 
@@ -50159,6 +50162,9 @@ msgstr[1] ""
 msgid "Organization|Perform advanced options such as changing the organization URL."
 msgstr ""
 
+msgid "Organization|Placeholder"
+msgstr ""
+
 msgid "Organization|Private - The organization can only be viewed by members."
 msgstr ""
 
@@ -62031,6 +62037,9 @@ msgstr ""
 msgid "ScanResultPolicy|Prevent branch modification"
 msgstr ""
 
+msgid "ScanResultPolicy|Prevent editing approval rules in projects and merge requests"
+msgstr ""
+
 msgid "ScanResultPolicy|Prevent group branch modification"
 msgstr ""
 
@@ -62197,6 +62206,9 @@ msgid "ScanResultPolicy|When enabled, prevents a user from removing a branch fro
 msgstr ""
 
 msgid "ScanResultPolicy|When enabled, prevents pushing and force pushing to a protected branch if that branch is included in the security policy."
+msgstr ""
+
+msgid "ScanResultPolicy|When enabled, prevents users from adding, removing, or editing approval rules in projects and merge requests where this policy applies."
 msgstr ""
 
 msgid "ScanResultPolicy|When enabled, there will be password confirmation on approvals."

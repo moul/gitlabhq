@@ -55979,7 +55979,7 @@ Represents an X.509 certificate.
 | ---- | ---- | ----------- |
 | <a id="x509certificate-certificatestatus"></a>`certificateStatus` | [`String!`](#string) | Indicates if the certificate is good or revoked. |
 | <a id="x509certificate-createdat"></a>`createdAt` | [`Time!`](#time) | Timestamp of when the certificate was saved. |
-| <a id="x509certificate-email"></a>`email` | [`String!`](#string) | Email associated with the cerificate. |
+| <a id="x509certificate-email"></a>`email` | [`String!`](#string) | Email associated with the certificate. |
 | <a id="x509certificate-id"></a>`id` | [`ID!`](#id) | ID of the certificate. |
 | <a id="x509certificate-serialnumber"></a>`serialNumber` | [`String!`](#string) | Serial number of the certificate. |
 | <a id="x509certificate-subject"></a>`subject` | [`String!`](#string) | Subject of the certificate. |

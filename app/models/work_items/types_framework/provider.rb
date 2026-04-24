@@ -32,7 +32,7 @@ module WorkItems
       def initialize(namespace = nil)
         # Always try to pass the current namespace or subtypes(Group, Project::Namespace) and not the root ancestor.
         #
-        # We will use it to fetch custom types and apply the TypesFilter.
+        # We will use it to fetch custom types and apply filtering.
         #
         # For custom types we need to either
         # 1. fetch types by organization_id of the namespace for Self-Managed

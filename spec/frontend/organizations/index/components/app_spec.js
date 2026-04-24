@@ -9,6 +9,7 @@ import { DEFAULT_PER_PAGE } from '~/api';
 import currentUserOrganizationsQuery from '~/organizations/shared/graphql/queries/current_user_organizations.query.graphql';
 import OrganizationsIndexApp from '~/organizations/index/components/app.vue';
 import OrganizationsView from '~/organizations/shared/components/organizations_view.vue';
+import ReconciliationModal from '~/organizations/index/components/reconciliation/modal.vue';
 import { pageInfoEmpty } from 'jest/organizations/mock_data';
 import { MOCK_NEW_ORG_URL } from '../../shared/mock_data';
 
@@ -54,8 +55,9 @@ describe('OrganizationsIndexApp', () => {
   // Finders
   const findOrganizationHeaderText = () => wrapper.findByText('Organizations');
   const findNewOrganizationButton = () => wrapper.findByText('New organization');
-  const findClaimOrgButton = () => wrapper.findByText('Claim your org');
+  const findClaimOrgButton = () => wrapper.findByTestId('claim-org-button');
   const findOrganizationsView = () => wrapper.findComponent(OrganizationsView);
+  const findReconciliationModal = () => wrapper.findComponent(ReconciliationModal);
 
   // Assertions
   const itRendersHeaderText = () => {
@@ -255,22 +257,56 @@ describe('OrganizationsIndexApp', () => {
   });
 
   describe('claim org button', () => {
-    it('renders when organizationReconciliation feature flag is enabled', async () => {
-      createComponent({
-        provide: { glFeatures: { organizationReconciliation: true } },
-      });
-      await waitForPromises();
+    describe('when organizationReconciliation feature flag is enabled', () => {
+      beforeEach(async () => {
+        createComponent({
+          provide: { glFeatures: { organizationReconciliation: true } },
+        });
 
-      expect(findClaimOrgButton().exists()).toBe(true);
+        await waitForPromises();
+      });
+
+      it('renders button', () => {
+        expect(findClaimOrgButton().exists()).toBe(true);
+      });
+
+      it('opens reconciliation modal when clicked', async () => {
+        expect(findReconciliationModal().props('visible')).toBe(false);
+        findClaimOrgButton().vm.$emit('click');
+        await waitForPromises();
+
+        expect(findReconciliationModal().props('visible')).toBe(true);
+      });
+
+      it('closes modal when change event is emitted with false', async () => {
+        findClaimOrgButton().vm.$emit('click');
+        await waitForPromises();
+
+        expect(findReconciliationModal().props('visible')).toBe(true);
+
+        findReconciliationModal().vm.$emit('change', false);
+        await waitForPromises();
+
+        expect(findReconciliationModal().props('visible')).toBe(false);
+      });
     });
 
-    it('does not render when organizationReconciliation feature flag is disabled', async () => {
-      createComponent({
-        provide: { glFeatures: { organizationReconciliation: false } },
-      });
-      await waitForPromises();
+    describe('when organizationReconciliation feature flag is disabled', () => {
+      beforeEach(async () => {
+        createComponent({
+          provide: { glFeatures: { organizationReconciliation: false } },
+        });
 
-      expect(findClaimOrgButton().exists()).toBe(false);
+        await waitForPromises();
+      });
+
+      it('does not render button', () => {
+        expect(findClaimOrgButton().exists()).toBe(false);
+      });
+
+      it('does not render modal', () => {
+        expect(findReconciliationModal().exists()).toBe(false);
+      });
     });
   });
 });

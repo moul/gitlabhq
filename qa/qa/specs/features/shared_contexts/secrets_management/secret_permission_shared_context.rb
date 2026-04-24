@@ -38,7 +38,7 @@ module QA
           settings.expand_visibility_project_features_permissions do |permissions|
             permissions.enable_secrets_manager
             Support::Waiter.wait_until(max_duration: 60, sleep_interval: 2) do
-              permissions.secrets_manager_enabled?
+              permissions.has_secrets_manager_enabled?
             end
           end
         end
