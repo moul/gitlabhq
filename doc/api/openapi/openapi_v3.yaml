@@ -16942,7 +16942,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_15bf551affa8"
+              "$ref": "#/components/schemas/RequestBody_bc816d46aa91"
   "/api/v4/projects/{id}/issues/{eventable_id}/resource_state_events":
     get:
       operationId: getApiV4ProjectsIdIssuesEventableIdResourceStateEvents
@@ -74207,8 +74207,6 @@ components:
           type: string
         show_migrate_from_jenkins_banner:
           type: string
-        ropc_without_client_credentials:
-          type: string
         global_search_snippet_titles_enabled:
           type: string
         global_search_users_enabled:
@@ -91848,7 +91846,7 @@ components:
           nullable: true
       required:
       - avatar
-    RequestBody_15bf551affa8:
+    RequestBody_bc816d46aa91:
       type: object
       properties:
         admin_mode:
@@ -92717,10 +92715,6 @@ components:
         resource_usage_limits:
           type: object
           description: Definition for resource usage limits enforced in Sidekiq workers
-          nullable: true
-        ropc_without_client_credentials:
-          type: boolean
-          description: Allows the use of Oauth ROPC flow without client credentials
           nullable: true
         vscode_extension_marketplace:
           type: object

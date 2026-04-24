@@ -449,7 +449,6 @@ describe('planning-view', () => {
     await waitForPromises();
 
     expect(findWorkItemUserPreferences().props()).toMatchObject({
-      isEpicsList: false, // default work item is null so not an epics list
       fullPath: 'full/path',
       // TODO re-add shouldOpenItemsInSidePanel
       commonPreferences: {},

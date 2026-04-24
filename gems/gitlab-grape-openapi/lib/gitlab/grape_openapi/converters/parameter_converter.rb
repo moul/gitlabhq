@@ -7,6 +7,7 @@ module Gitlab
         include CoercerResolver
         include Concerns::Serializable
         include Concerns::LimitResolver
+        include Concerns::FailFastAnnotatable
 
         attr_reader :name, :options, :validations, :route
 
@@ -135,9 +136,14 @@ module Gitlab
           method = route.instance_variable_get(:@options)[:method]
           return nil if method != 'GET' && method != 'DELETE' && in_value != 'path'
 
+          annotated = options.dup
+          if options[:desc] && fail_fast_in_validations?(validations)
+            annotated[:desc] = annotate_fail_fast(options[:desc])
+          end
+
           param = Gitlab::GrapeOpenapi::Models::Parameter.new(
             name,
-            options: options,
+            options: annotated,
             schema: schema,
             in_value: in_value
           )

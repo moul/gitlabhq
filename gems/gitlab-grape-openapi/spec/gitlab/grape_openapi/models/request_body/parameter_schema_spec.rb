@@ -1178,6 +1178,54 @@ RSpec.describe Gitlab::GrapeOpenapi::Models::RequestBody::ParameterSchema do
         end
       end
     end
+
+    describe 'fail_fast annotation' do
+      let(:key) { :name }
+
+      context 'with fail_fast: true in validations' do
+        let(:param_options) { { type: 'String', required: true, desc: 'A name' } }
+        let(:validations) do
+          [{ attributes: [:name], opts: { fail_fast: true },
+             validator_class: Grape::Validations::Validators::PresenceValidator }]
+        end
+
+        it 'appends annotation to description' do
+          expect(method_call).to eq(
+            type: 'string',
+            description: 'A name (validation stops on first error)',
+            nullable: true
+          )
+        end
+      end
+
+      context 'with fail_fast: true in validations and annotation already present' do
+        let(:param_options) { { type: 'String', required: true, desc: 'A name (validation stops on first error)' } }
+        let(:validations) do
+          [{ attributes: [:name], opts: { fail_fast: true },
+             validator_class: Grape::Validations::Validators::PresenceValidator }]
+        end
+
+        it 'does not duplicate the annotation' do
+          expect(method_call).to eq(
+            type: 'string',
+            description: 'A name (validation stops on first error)',
+            nullable: true
+          )
+        end
+      end
+
+      context 'without fail_fast' do
+        let(:param_options) { { type: 'String', required: true, desc: 'A name' } }
+
+        it 'leaves description unchanged' do
+          expect(method_call).to eq(
+            type: 'string',
+            description: 'A name',
+            nullable: true
+          )
+        end
+      end
+    end
   end
 end
 # rubocop:enable RSpec/VerifiedDoubles

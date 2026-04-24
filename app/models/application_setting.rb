@@ -764,6 +764,11 @@ class ApplicationSetting < ApplicationRecord
 
   validates :diff_limits, json_schema: { filename: "application_setting_diff_limits" }
 
+  jsonb_accessor :mcp_server_settings,
+    enabled: [:boolean, { default: true }]
+
+  validates :mcp_server_settings, json_schema: { filename: "application_setting_mcp_server_settings" }
+
   jsonb_accessor :group_settings,
     top_level_group_creation_enabled: [:boolean, { default: true }],
     disable_invite_members: [:boolean, { default: false }]
@@ -864,8 +869,6 @@ class ApplicationSetting < ApplicationRecord
   validates :helm_max_packages_count,
     presence: true,
     numericality: { only_integer: true, greater_than: 0 }
-
-  jsonb_accessor :oauth_provider, ropc_without_client_credentials: [:boolean, { default: true }]
 
   validates :package_registry, json_schema: { filename: 'application_setting_package_registry' }
 

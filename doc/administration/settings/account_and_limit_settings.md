@@ -570,36 +570,6 @@ To turn the **User OAuth applications** setting on or off:
 1. Select or clear the **User OAuth applications** checkbox.
 1. Select **Save changes**.
 
-## OAuth authorizations
-
-{{< details >}}
-
-- Tier: Free, Premium, Ultimate
-- Offering: GitLab Self-Managed, GitLab Dedicated
-
-{{< /details >}}
-
-{{< history >}}
-
-- [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/323615) in GitLab 17.8.
-
-{{< /history >}}
-
-Prerequisites:
-
-- You must be an administrator.
-
-The **OAuth authorizations** setting controls whether users can use the OAuth resource owner password
-credentials flow to authorize themselves without client credentials.
-
-To turn this setting on or off:
-
-1. In the upper-right corner, select **Admin**.
-1. In the left sidebar, select **Settings** > **General**.
-1. Expand **Account and limit**.
-1. Select or clear the **Allow user to use resource owner password credentials flow without OAuth client credentials** checkbox.
-1. Select **Save changes**.
-
 ## Disable user profile name changes
 
 {{< details >}}

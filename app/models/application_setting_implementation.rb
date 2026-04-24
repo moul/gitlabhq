@@ -362,7 +362,6 @@ module ApplicationSettingImplementation
         seat_control: 0,
         show_migrate_from_jenkins_banner: true,
         top_level_group_creation_enabled: true,
-        ropc_without_client_credentials: true,
         vscode_extension_marketplace_enabled: false,
         vscode_extension_marketplace_extension_host_domain: ::WebIde::ExtensionMarketplace::DEFAULT_EXTENSION_HOST_DOMAIN,
         reindexing_minimum_index_size: 1.gigabyte,

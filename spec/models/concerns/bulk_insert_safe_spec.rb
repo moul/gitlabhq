@@ -2,6 +2,15 @@
 
 require 'spec_helper'
 
+BulkInsertParentItem = Class.new(ActiveRecord::Base) do
+  self.table_name = :_test_bulk_insert_parent_items
+  self.inheritance_column = :_type_disabled
+
+  def self.name
+    table_name.singularize.camelcase
+  end
+end
+
 RSpec.describe BulkInsertSafe, feature_category: :database do
   before_all do
     ActiveRecord::Schema.define do
@@ -47,15 +56,6 @@ RSpec.describe BulkInsertSafe, feature_category: :database do
       drop_table :_test_bulk_insert_parent_items, force: true
       drop_table :_test_bulk_insert_items_with_composite_pk, force: true
       drop_table :_test_bulk_insert_with_non_serial_pk, force: true
-    end
-  end
-
-  BulkInsertParentItem = Class.new(ActiveRecord::Base) do
-    self.table_name = :_test_bulk_insert_parent_items
-    self.inheritance_column = :_type_disabled
-
-    def self.name
-      table_name.singularize.camelcase
     end
   end
 

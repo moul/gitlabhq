@@ -893,6 +893,11 @@ security_inventory_filters:
   - table: projects
     column: project_id
     on_delete: async_delete
+security_policy_schedule_pipelines:
+  - table: p_ci_pipelines
+    column: pipeline_id
+    on_delete: async_delete
+    worker_class: LooseForeignKeys::CiPipelinesBuildsCleanupCronWorker
 security_project_tracked_contexts:
   - table: projects
     column: project_id

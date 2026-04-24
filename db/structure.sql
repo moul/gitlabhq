@@ -14920,6 +14920,7 @@ CREATE TABLE application_settings (
     markdown_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     active_context_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     duo_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
+    mcp_server_settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     CONSTRAINT app_settings_container_reg_cleanup_tags_max_list_size_positive CHECK ((container_registry_cleanup_tags_service_max_list_size >= 0)),
     CONSTRAINT app_settings_dep_proxy_ttl_policies_worker_capacity_positive CHECK ((dependency_proxy_ttl_group_policy_worker_capacity >= 0)),
     CONSTRAINT app_settings_ext_pipeline_validation_service_url_text_limit CHECK ((char_length(external_pipeline_validation_service_url) <= 255)),
@@ -14987,6 +14988,7 @@ CREATE TABLE application_settings (
     CONSTRAINT check_application_settings_importers_is_hash CHECK ((jsonb_typeof(importers) = 'object'::text)),
     CONSTRAINT check_application_settings_integrations_is_hash CHECK ((jsonb_typeof(integrations) = 'object'::text)),
     CONSTRAINT check_application_settings_markdown_settings_is_hash CHECK ((jsonb_typeof(markdown_settings) = 'object'::text)),
+    CONSTRAINT check_application_settings_mcp_server_settings_is_hash CHECK ((jsonb_typeof(mcp_server_settings) = 'object'::text)),
     CONSTRAINT check_application_settings_o11y_settings_is_hash CHECK ((jsonb_typeof(observability_settings) = 'object'::text)),
     CONSTRAINT check_application_settings_package_registry_is_hash CHECK ((jsonb_typeof(package_registry) = 'object'::text)),
     CONSTRAINT check_application_settings_pat_settings_is_hash CHECK ((jsonb_typeof(personal_access_token_settings) = 'object'::text)),
@@ -24591,6 +24593,7 @@ CREATE TABLE namespace_settings (
     lock_duo_custom_flows_enabled boolean DEFAULT false NOT NULL,
     duo_custom_agents_enabled boolean,
     lock_duo_custom_agents_enabled boolean DEFAULT false NOT NULL,
+    mcp_server_enabled boolean,
     CONSTRAINT check_0ba93c78c7 CHECK ((char_length(default_branch_name) <= 255)),
     CONSTRAINT check_d9644d516f CHECK ((char_length(step_up_auth_required_oauth_provider) <= 255)),
     CONSTRAINT check_namespace_settings_security_policies_is_hash CHECK ((jsonb_typeof(security_policies) = 'object'::text)),
@@ -30174,6 +30177,24 @@ CREATE SEQUENCE security_policy_requirements_id_seq
     CACHE 1;
 
 ALTER SEQUENCE security_policy_requirements_id_seq OWNED BY security_policy_requirements.id;
+
+CREATE TABLE security_policy_schedule_pipelines (
+    id bigint NOT NULL,
+    security_policy_id bigint NOT NULL,
+    pipeline_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+CREATE SEQUENCE security_policy_schedule_pipelines_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE security_policy_schedule_pipelines_id_seq OWNED BY security_policy_schedule_pipelines.id;
 
 CREATE TABLE security_policy_settings (
     id bigint NOT NULL,
@@ -36714,6 +36735,8 @@ ALTER TABLE ONLY security_policy_project_links ALTER COLUMN id SET DEFAULT nextv
 
 ALTER TABLE ONLY security_policy_requirements ALTER COLUMN id SET DEFAULT nextval('security_policy_requirements_id_seq'::regclass);
 
+ALTER TABLE ONLY security_policy_schedule_pipelines ALTER COLUMN id SET DEFAULT nextval('security_policy_schedule_pipelines_id_seq'::regclass);
+
 ALTER TABLE ONLY security_policy_settings ALTER COLUMN id SET DEFAULT nextval('security_policy_settings_id_seq'::regclass);
 
 ALTER TABLE ONLY security_project_tracked_contexts ALTER COLUMN id SET DEFAULT nextval('security_project_tracked_contexts_id_seq'::regclass);
@@ -40886,6 +40909,9 @@ ALTER TABLE ONLY security_policy_project_links
 ALTER TABLE ONLY security_policy_requirements
     ADD CONSTRAINT security_policy_requirements_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY security_policy_schedule_pipelines
+    ADD CONSTRAINT security_policy_schedule_pipelines_pkey PRIMARY KEY (id);
+
 ALTER TABLE ONLY security_policy_settings
     ADD CONSTRAINT security_policy_settings_pkey PRIMARY KEY (id);
 
@@ -44910,6 +44936,10 @@ CREATE INDEX idx_scan_result_policy_violations_on_policy_id_and_id ON scan_resul
 
 CREATE INDEX idx_sec_inv_filters_traversals_unarchived_proj_severities_sort ON security_inventory_filters USING btree (traversal_ids, project_id, id DESC) WHERE ((NOT archived) AND ((critical > 0) OR (high > 0)));
 
+CREATE INDEX idx_sec_pol_sched_pipes_on_policy_id ON security_policy_schedule_pipelines USING btree (security_policy_id);
+
+CREATE INDEX idx_sec_pol_sched_pipes_on_project_id ON security_policy_schedule_pipelines USING btree (project_id);
+
 CREATE INDEX idx_secret_detect_token_on_project_id ON secret_detection_token_statuses USING btree (project_id);
 
 CREATE UNIQUE INDEX idx_secret_rotation_infos_project_secret ON secret_rotation_infos USING btree (project_id, secret_name, secret_metadata_version);
@@ -44931,6 +44961,8 @@ CREATE INDEX idx_security_policy_dismissals_license_occurrence_uuids ON security
 CREATE INDEX idx_security_policy_dismissals_project_findings_uuids ON security_policy_dismissals USING gin (security_findings_uuids);
 
 CREATE INDEX idx_security_policy_project_links_on_project_id_and_id ON security_policy_project_links USING btree (project_id, id);
+
+CREATE UNIQUE INDEX idx_security_policy_schedule_pipelines_on_pipeline_id ON security_policy_schedule_pipelines USING btree (pipeline_id);
 
 CREATE INDEX idx_security_scan_profile_proj_statuses_on_build_id ON security_scan_profile_project_statuses USING btree (build_id);
 
@@ -57031,6 +57063,9 @@ ALTER TABLE ONLY analytics_devops_adoption_snapshots
 ALTER TABLE ONLY issue_customer_relations_contacts
     ADD CONSTRAINT fk_79296ff8c6 FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
+ALTER TABLE ONLY security_policy_schedule_pipelines
+    ADD CONSTRAINT fk_794b8460ff FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
+
 ALTER TABLE ONLY design_management_repository_states
     ADD CONSTRAINT fk_794c47b7ba FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
 
@@ -58344,6 +58379,9 @@ ALTER TABLE ONLY wiki_page_slugs
 
 ALTER TABLE ONLY epics
     ADD CONSTRAINT fk_f081aa4489 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY security_policy_schedule_pipelines
+    ADD CONSTRAINT fk_f09c91edab FOREIGN KEY (security_policy_id) REFERENCES security_policies(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY bulk_import_export_batches
     ADD CONSTRAINT fk_f0e254a867 FOREIGN KEY (group_id) REFERENCES namespaces(id) ON DELETE CASCADE;

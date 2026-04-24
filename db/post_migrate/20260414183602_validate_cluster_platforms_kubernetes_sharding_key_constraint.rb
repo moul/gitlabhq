@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class ValidateClusterPlatformsKubernetesShardingKeyConstraint < Gitlab::Database::Migration[2.3]
-  CONSTRAINT_NAME = 'check_73ecf3bb91'
-
   milestone '19.0'
 
+  # no-op: this migration was ordered before the finalize migration, causing
+  # failures on GDK and self-managed instances that run all migrations at once.
+  # Moved to 20260423132622_validate_cluster_platforms_kubernetes_sharding_key_constraint_fixed.rb
   def up
-    validate_multi_column_not_null_constraint :cluster_platforms_kubernetes,
-      :organization_id, :group_id, :project_id,
-      constraint_name: CONSTRAINT_NAME
+    # no-op
   end
 
   def down

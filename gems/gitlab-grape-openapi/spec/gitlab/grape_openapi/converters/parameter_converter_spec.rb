@@ -1605,5 +1605,42 @@ RSpec.describe Gitlab::GrapeOpenapi::Converters::ParameterConverter do
       end
     end
   end
+
+  describe '#convert with fail_fast' do
+    let(:converter) { described_class.new(name, options: options, validations: fail_fast_validations, route: route) }
+
+    let(:fail_fast_validations) do
+      [{ attributes: [:active], opts: { fail_fast: true },
+         validator_class: Grape::Validations::Validators::PresenceValidator }]
+    end
+
+    context 'when fail_fast: true is set in validations' do
+      let(:options) { { required: true, type: 'String', desc: 'A name' } }
+
+      it 'appends annotation to description in converted parameter options' do
+        parameter = converter.convert
+        expect(parameter.options[:desc]).to eq('A name (validation stops on first error)')
+      end
+    end
+
+    context 'when fail_fast: true and description already has annotation' do
+      let(:options) { { required: true, type: 'String', desc: 'A name (validation stops on first error)' } }
+
+      it 'does not duplicate the annotation' do
+        parameter = converter.convert
+        expect(parameter.options[:desc]).to eq('A name (validation stops on first error)')
+      end
+    end
+
+    context 'when fail_fast is not set' do
+      let(:options) { { required: true, type: 'String', desc: 'A name' } }
+      let(:fail_fast_validations) { [] }
+
+      it 'leaves description unchanged' do
+        parameter = converter.convert
+        expect(parameter.options[:desc]).to eq('A name')
+      end
+    end
+  end
   # rubocop:enable RSpec/MultipleMemoizedHelpers, RSpec/VerifiedDoubles
 end

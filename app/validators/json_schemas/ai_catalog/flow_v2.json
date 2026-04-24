@@ -466,6 +466,10 @@
         "literal": {
           "type": "boolean",
           "description": "Whether the 'from' value should be treated as a literal value"
+        },
+        "optional": {
+          "type": "boolean",
+          "description": "Whether the input is optional. Default is false. If true, no error is raised for missing input data"
         }
       }
     },

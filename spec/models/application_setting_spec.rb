@@ -238,7 +238,6 @@ RSpec.describe ApplicationSetting, feature_category: :settings, type: :model do
         resource_usage_limits: {},
         restricted_visibility_levels: Settings.gitlab['restricted_visibility_levels'],
         root_moved_permanently_redirection: false,
-        ropc_without_client_credentials: true,
         rsa_key_restriction: 0,
         runner_jobs_request_api_limit: 2000,
         runner_jobs_patch_trace_api_limit: 200,

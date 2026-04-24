@@ -8,6 +8,7 @@ module Gitlab
           include Converters::CoercerResolver
           include Concerns::Serializable
           include Concerns::LimitResolver
+          include Concerns::FailFastAnnotatable
 
           def initialize(route:, key:, param_options:)
             @route = route
@@ -17,6 +18,8 @@ module Gitlab
           end
 
           def build
+            fail_fast = fail_fast_in_validations?(validations)
+            @param_options = param_options.merge(fail_fast: fail_fast) if fail_fast
             built_schema = build_raw_type_schema
 
             unless built_schema
@@ -33,6 +36,12 @@ module Gitlab
           private
 
           attr_reader :route, :key, :param_options, :validations
+
+          def annotated_description
+            return param_options[:desc] unless param_options[:fail_fast]
+
+            annotate_fail_fast(param_options[:desc])
+          end
 
           # Handles schema building for types that cannot safely be passed through TypeResolver
           def build_raw_type_schema
@@ -79,7 +88,7 @@ module Gitlab
 
           def build_coerced_schema_with_description(mapping)
             schema = build_coerced_schema(mapping)
-            schema[:description] = param_options[:desc] if param_options[:desc]
+            schema[:description] = annotated_description if param_options[:desc]
             schema
           end
 
@@ -87,13 +96,13 @@ module Gitlab
             # Handle types like [String] or [Integer]
             item_type = param_options[:type].to_s.delete('[').delete(']')
             schema = { type: 'array', items: { type: Converters::TypeResolver.resolve_type(item_type) } }
-            schema[:description] = param_options[:desc] if param_options[:desc]
+            schema[:description] = annotated_description if param_options[:desc]
             schema
           end
 
           def build_file_schema
             schema = { type: 'string', format: 'binary' }
-            schema[:description] = param_options[:desc] if param_options[:desc]
+            schema[:description] = annotated_description if param_options[:desc]
             schema
           end
 
@@ -111,7 +120,7 @@ module Gitlab
               schema[:default] = param_options[:default]
             end
 
-            schema[:description] = param_options[:desc] if param_options[:desc]
+            schema[:description] = annotated_description if param_options[:desc]
             schema
           end
 
@@ -122,20 +131,20 @@ module Gitlab
               schema[:default] = param_options[:default]
             end
 
-            schema[:description] = param_options[:desc] if param_options[:desc]
+            schema[:description] = annotated_description if param_options[:desc]
             schema
           end
 
           def build_array_schema
             item_type = param_options[:type].delete('[').delete(']').downcase
             schema = { type: 'array', items: { type: Converters::TypeResolver.resolve_type(item_type) } }
-            schema[:description] = param_options[:desc] if param_options[:desc]
+            schema[:description] = annotated_description if param_options[:desc]
             schema
           end
 
           def build_nested_array_schema
             schema = { type: 'array' }
-            schema[:description] = param_options[:desc] if param_options[:desc]
+            schema[:description] = annotated_description if param_options[:desc]
 
             # Build the items schema from nested params
             nested_params = param_options[:params]
@@ -167,7 +176,7 @@ module Gitlab
 
           def build_nested_hash_schema
             schema = { type: 'object' }
-            schema[:description] = param_options[:desc] if param_options[:desc]
+            schema[:description] = annotated_description if param_options[:desc]
 
             # Build the properties schema from nested params
             nested_params = param_options[:params]
@@ -196,7 +205,7 @@ module Gitlab
               schema[:default] = param_options[:default]
             end
 
-            schema[:description] = param_options[:desc] if param_options[:desc]
+            schema[:description] = annotated_description if param_options[:desc]
 
             if param_options.dig(:documentation, :example)
               schema[:example] = param_options.dig(:documentation, :example)

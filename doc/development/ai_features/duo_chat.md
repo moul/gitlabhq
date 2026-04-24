@@ -217,7 +217,8 @@ LangSmith integration works with any tools, including [GitLab Centralized Evalua
 > It's not available in Production environment.
 
 1. Access [LangSmith](https://smith.langchain.com/) and create an account
-   1. Optional. [Create an Access Request](https://gitlab.com/gitlab-com/team-member-epics/access-requests/-/issues/new?description_template=Individual_Bulk_Access_Request) to be added to the GitLab organization in LangSmith.
+   1. Request access through Lumos
+   1. [Create an access request](https://gitlab.com/gitlab-com/team-member-epics/access-requests/-/work_items) (template `LangSmith_Access_Request`) for the `Editor` role
 1. Create [an API key](https://docs.smith.langchain.com/#create-an-api-key) (be careful where you create API key - they can be created in personal namespace or in GL namespace).
 1. Set the following environment variables in GDK.
 

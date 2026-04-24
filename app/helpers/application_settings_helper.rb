@@ -649,7 +649,6 @@ module ApplicationSettingsHelper
       :require_personal_access_token_expiry,
       :observability_backend_ssl_verification_enabled,
       :show_migrate_from_jenkins_banner,
-      :ropc_without_client_credentials,
       :global_search_snippet_titles_enabled,
       :global_search_users_enabled,
       :global_search_work_items_enabled,
