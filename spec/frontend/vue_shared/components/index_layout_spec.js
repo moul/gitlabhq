@@ -77,15 +77,15 @@ describe('IndexLayout', () => {
 
   describe('slots', () => {
     describe('alerts', () => {
-      it('always renders the alerts container', () => {
-        createComponent();
-        expect(findAlerts().exists()).toBe(true);
-        expect(findAlerts().attributes('id')).toBe('index-layout-alerts');
-      });
-
       it('renders alerts container when slot is provided', () => {
         createComponent({}, { alerts: '<div>Alerts slot content</div>' });
+        expect(findAlerts().attributes('id')).toBe('index-layout-alerts');
         expect(findAlerts().text()).toContain('Alerts slot content');
+      });
+
+      it('does not render when no alerts slot is provided', () => {
+        createComponent({ heading: 'Test Heading' });
+        expect(findAlerts().exists()).toBe(false);
       });
     });
 

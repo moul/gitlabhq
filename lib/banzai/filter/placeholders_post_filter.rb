@@ -344,8 +344,21 @@ module Banzai
 
         return unless node.parent&.name == 'a'
 
-        # Since we wrap images with a link, we need to update the link href too;
-        # use data-src, as it's the actual target (possibly asset proxied).
+        # ImageLinkFilter wraps <img> tags in <a> tags whose href matches the image src. Verify the
+        # parent <a> was created by ImageLinkFilter before changing its href, since changing the
+        # href of an anchor can have security-relevant implications (e.g. ReferenceRedactor relies
+        # on it). A user could manually author HTML with a different href that we must not
+        # overwrite.
+        #
+        # When AssetProxy is active, ImageLinkFilter copies the <img>'s data-canonical-src to the
+        # <a> href; its presence *means* ImageLinkFilter created this wrapper (sanitisation strips
+        # user-supplied data-canonical-src on <a> tags).
+        #
+        # When AssetProxy is not active, we must check that the href matches the original image URL.
+        return unless node.parent['data-canonical-src'] || node.parent['href'] == url
+
+        # Since we wrap images with a link, we need to update the link href too; use data-src, as
+        # it's the actual target (possibly asset proxied).
         node.parent['href'] = node['data-src']
       end
 

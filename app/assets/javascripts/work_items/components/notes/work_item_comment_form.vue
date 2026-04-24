@@ -21,6 +21,7 @@ import workItemEmailParticipantsByIidQuery from '../../graphql/notes/work_item_e
 import { findEmailParticipantsWidget } from '../../utils';
 
 export default {
+  name: 'WorkItemCommentForm',
   i18n: {
     internal: s__('Notes|Make this an internal note'),
     internalVisibility: s__(

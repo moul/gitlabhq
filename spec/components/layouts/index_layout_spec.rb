@@ -78,16 +78,17 @@ RSpec.describe Layouts::IndexLayout, feature_category: :design_system do
 
   describe 'slots' do
     describe 'alerts' do
-      it 'always renders the alerts container' do
-        render_inline described_class.new(heading: heading)
-        expect(page).to have_css('#index-layout-alerts[data-testid="index-layout-alerts"]')
-      end
-
       it 'renders alert content when slot is provided' do
         render_inline described_class.new(heading: heading) do |c|
           c.with_alerts { alerts_content }
         end
-        expect(page).to have_css('#index-layout-alerts', text: alerts_content)
+        expect(page).to have_css('#index-layout-alerts[data-testid="index-layout-alerts"]', text: alerts_content)
+      end
+
+      it 'does not render when no alerts slot is provided' do
+        render_inline described_class.new(heading: heading)
+
+        expect(page).not_to have_css('#index-layout-alerts[data-testid="index-layout-alerts"]')
       end
     end
 

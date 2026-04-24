@@ -98,6 +98,78 @@ RSpec.describe Admin::Registrations::GroupsController, feature_category: :onboar
           expect { post_create }.to change { Group.count }.by(1).and change { Project.count }.by(1)
         end
 
+        context 'when project_template_name is provided' do
+          subject(:post_create_with_template) do
+            post admin_registrations_groups_path,
+              params: { group: group_params, project: project_params.merge(project_template_name: 'rails') }
+          end
+
+          it 'passes template_name to the service' do
+            service = instance_double(Onboarding::SelfManaged::StandardNamespaceCreateService)
+            allow(service).to receive(:execute)
+              .and_return(ServiceResponse.success(payload: { project: build_stubbed(:project) }))
+            expect(Onboarding::SelfManaged::StandardNamespaceCreateService).to receive(:new).with(
+              admin,
+              hash_including(project_params: hash_including(template_name: 'rails'))
+            ).and_return(service)
+
+            post_create_with_template
+          end
+        end
+
+        context 'when project_template_name is blank' do
+          subject(:post_create_no_template) do
+            post admin_registrations_groups_path,
+              params: { group: group_params, project: project_params.merge(project_template_name: '') }
+          end
+
+          it 'passes template_name as nil to the service' do
+            service = instance_double(Onboarding::SelfManaged::StandardNamespaceCreateService)
+            allow(service).to receive(:execute)
+              .and_return(ServiceResponse.success(payload: { project: build_stubbed(:project) }))
+            expect(Onboarding::SelfManaged::StandardNamespaceCreateService).to receive(:new).with(
+              admin,
+              hash_including(project_params: hash_including(template_name: nil))
+            ).and_return(service)
+
+            post_create_no_template
+          end
+        end
+
+        context 'when template availability changes between requests (license change simulation)' do
+          let(:fake_template) { instance_double(Gitlab::ProjectTemplate, name: 'new_enterprise_template') }
+
+          it 'reflects the updated template list on each request without an app restart' do
+            # First request: template not yet available (license not yet applied)
+            allow(Gitlab::ProjectTemplate).to receive(:all).and_return([])
+            service1 = instance_double(Onboarding::SelfManaged::StandardNamespaceCreateService)
+            allow(service1).to receive(:execute)
+              .and_return(ServiceResponse.success(payload: { project: build_stubbed(:project) }))
+            expect(Onboarding::SelfManaged::StandardNamespaceCreateService).to receive(:new).with(
+              admin,
+              hash_including(project_params: hash_including(template_name: nil))
+            ).and_return(service1)
+
+            post admin_registrations_groups_path,
+              params: { group: group_params,
+                        project: project_params.merge(project_template_name: 'new_enterprise_template') }
+
+            # Second request: license updated, template now valid
+            allow(Gitlab::ProjectTemplate).to receive(:all).and_return([fake_template])
+            service2 = instance_double(Onboarding::SelfManaged::StandardNamespaceCreateService)
+            allow(service2).to receive(:execute)
+              .and_return(ServiceResponse.success(payload: { project: build_stubbed(:project) }))
+            expect(Onboarding::SelfManaged::StandardNamespaceCreateService).to receive(:new).with(
+              admin,
+              hash_including(project_params: hash_including(template_name: 'new_enterprise_template'))
+            ).and_return(service2)
+
+            post admin_registrations_groups_path,
+              params: { group: group_params,
+                        project: project_params.merge(project_template_name: 'new_enterprise_template') }
+          end
+        end
+
         it 'redirects to the created project' do
           post_create
 

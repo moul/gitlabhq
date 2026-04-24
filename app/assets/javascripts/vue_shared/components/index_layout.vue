@@ -41,6 +41,7 @@ export default {
       </template>
     </page-heading>
     <div
+      v-if="$scopedSlots.alerts"
       id="index-layout-alerts"
       class="gl-mb-5 gl-flex gl-flex-col gl-gap-3 empty:gl-mb-0"
       data-testid="index-layout-alerts"

@@ -492,7 +492,8 @@ group :development do
   # Used by
   # * `lib/tasks/gitlab/security/update_banned_ssh_keys.rake`
   # * `lib/tasks/gitlab/db/migration_squash.rake`
-  gem 'git', '~> 1.8', feature_category: :shared # rubocop:todo Gemfile/MissingFeatureCategory -- https://gitlab.com/gitlab-org/gitlab/-/issues/581839
+  # * `lib/gitlab/diff/diff_refs.rb`
+  gem 'git', '~> 1.8', feature_category: :source_code_management
 end
 
 group :development, :test do

@@ -2197,8 +2197,9 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uber (0.1.0)
-    undercover (0.8.4)
+    undercover (0.8.5)
       base64
+      benchmark
       bigdecimal
       imagen (>= 0.2.0)
       rainbow (>= 2.1, < 4.0)
@@ -3432,7 +3433,7 @@ CHECKSUMS
   typhoeus (1.4.1) sha256=1c17db8364bd45ab302dc61e460173c3e69835896be88a3df07c206d5c55ef7c
   tzinfo (2.0.6) sha256=8daf828cc77bcf7d63b0e3bdb6caa47e2272dcfaf4fbfe46f8c3a9df087a829b
   uber (0.1.0) sha256=5beeb407ff807b5db994f82fa9ee07cfceaa561dad8af20be880bc67eba935dc
-  undercover (0.8.4) sha256=99a6df93a6bb2c8d06e701df5fdb3be9411f50eae3f9f9e1d67672176258d09c
+  undercover (0.8.5) sha256=054a3c77ef3a08a2e8ebcc272a383b7e187fb30b55c2a164ff1643dc2999aaa9
   unf (0.1.4) sha256=4999517a531f2a955750f8831941891f6158498ec9b6cb1c81ce89388e63022e
   unf_ext (0.0.8.2) sha256=90b9623ee359cc4878461c5d2eab7d3d3ce5801a680a9e7ac83b8040c5b742fa
   unicode (0.4.4.5) sha256=42f294bfc8e186d29da89d1f766071505a20a22776168a31bb3408e03fa7a9d7
@@ -3476,4 +3477,4 @@ CHECKSUMS
   zeitwerk (2.6.18) sha256=bd2d213996ff7b3b364cd342a585fbee9797dbc1c0c6d868dc4150cc75739781
 
 BUNDLED WITH
-   2.7.1
+  4.0.10

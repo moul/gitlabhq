@@ -21,6 +21,7 @@ import WorkItemCommentLocked from './work_item_comment_locked.vue';
 import WorkItemCommentForm from './work_item_comment_form.vue';
 
 export default {
+  name: 'WorkItemAddNote',
   constantOptions: {
     avatarUrl: window.gon.current_user_avatar_url,
   },

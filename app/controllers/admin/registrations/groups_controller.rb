@@ -15,6 +15,8 @@ module Admin
       def new
         @group = Group.new
         @project = Project.new
+        @project_templates = Gitlab::ProjectTemplate.all
+        @template_name = ''
       end
 
       def create
@@ -27,6 +29,8 @@ module Admin
         else
           @group = result.payload[:group]
           @project = result.payload[:project]
+          @project_templates = Gitlab::ProjectTemplate.all
+          @template_name = permitted_template_name
           flash.now[:alert] = result.message
           render :new, status: :unprocessable_entity
         end
@@ -48,8 +52,18 @@ module Admin
       def project_params
         params.require(:project).permit(:name, :path).merge(
           organization_id: Current.organization.id,
-          visibility_level: Gitlab::VisibilityLevel::PRIVATE
+          visibility_level: Gitlab::VisibilityLevel::PRIVATE,
+          template_name: permitted_template_name
         )
+      end
+
+      def permitted_template_name
+        name = params.require(:project).permit(:project_template_name)[:project_template_name].presence
+        name if valid_template_names.include?(name)
+      end
+
+      def valid_template_names
+        Gitlab::ProjectTemplate.all.map(&:name).to_set
       end
     end
   end
