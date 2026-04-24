@@ -68,7 +68,7 @@ To view a test case:
 1. In the left sidebar, select **Build** > **Test cases**.
 1. Select the title of the test case you want to view. You are taken to the test case page.
 
-![An example test case page](img/test_case_show_v13_10.png)
+![A test case page that shows the title, description, labels, and sidebar options.](img/test_case_show_v13_10.png)
 
 ## Edit a test case
 

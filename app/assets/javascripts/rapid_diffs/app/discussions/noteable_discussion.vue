@@ -9,6 +9,7 @@ import { createAlert } from '~/alert';
 import { getNoteFormErrorMessages } from '~/notes/utils';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
 import ResolveDiscussionButton from '~/notes/components/resolve_discussion_button.vue';
+import ResolveWithIssueButton from '~/notes/components/discussion_resolve_with_issue_button.vue';
 import NoteSignedOutWidget from './note_signed_out_widget.vue';
 import NoteForm from './note_form.vue';
 import DiscussionNotes from './discussion_notes.vue';
@@ -21,6 +22,7 @@ export default {
     NoteSignedOutWidget,
     NoteForm,
     DiscussionNotes,
+    ResolveWithIssueButton,
   },
   inject: {
     store: {
@@ -94,6 +96,9 @@ export default {
     },
     canStartReview() {
       return Boolean(this.store.addDraftToDiscussion) && !this.hasDraftReply;
+    },
+    resolveWithIssuePath() {
+      return !this.discussion.resolved ? this.discussion.resolve_with_issue_path : '';
     },
   },
   methods: {
@@ -237,13 +242,20 @@ export default {
               class="gl-min-w-0 gl-flex-[9999] gl-basis-15"
               @focus="showReplyForm"
             />
-            <resolve-discussion-button
-              v-if="toggleResolveNote && resolvable && canResolve"
-              class="!gl-m-0 !gl-w-auto !gl-min-w-0 gl-flex-1 gl-basis-auto"
-              :is-resolving="isResolving"
-              :button-title="resolveButtonTitle"
-              @on-click="toggleResolve"
-            />
+            <div class="btn-group !gl-w-auto !gl-min-w-0 gl-flex-1 gl-basis-auto">
+              <resolve-discussion-button
+                v-if="toggleResolveNote && resolvable && canResolve"
+                class="!gl-m-0"
+                :is-resolving="isResolving"
+                :button-title="resolveButtonTitle"
+                @on-click="toggleResolve"
+              />
+              <resolve-with-issue-button
+                v-if="discussion.resolvable && resolveWithIssuePath"
+                :url="resolveWithIssuePath"
+                class="!gl-w-auto"
+              />
+            </div>
           </div>
         </div>
       </template>

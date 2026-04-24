@@ -5,7 +5,6 @@ import {
   TOKEN_TITLE_AUTHOR,
   TOKEN_TYPE_MESSAGE,
   TOKEN_TITLE_MESSAGE,
-  OPERATORS_IS_NOT_OR,
   OPERATORS_IS,
 } from '~/vue_shared/components/filtered_search_bar/constants';
 import FilteredSearchBar from '~/vue_shared/components/filtered_search_bar/filtered_search_bar_root.vue';
@@ -36,10 +35,9 @@ export default {
           dataType: 'user',
           valueField: 'name',
           defaultUsers: [],
-          operators: OPERATORS_IS_NOT_OR,
+          operators: OPERATORS_IS,
           fullPath: this.projectFullPath,
           isProject: true,
-          multiSelect: true,
           recentSuggestionsStorageKey: `${this.projectFullPath}-commits-recent-tokens-author`,
           preloadedUsers: this.preloadedUsers,
           unique: true,

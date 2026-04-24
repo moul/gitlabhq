@@ -527,7 +527,13 @@ Example response:
 
 ## Delete a board list from a board
 
-Deletes a specified list from an issue board. Only for administrators and project owners.
+Deletes a specified list from an issue board.
+
+Prerequisites:
+
+- Either:
+  - The Planner, Reporter, Security Manager, Developer, Maintainer, or Owner role for the project.
+  - Administrator access.
 
 ```plaintext
 DELETE /projects/:id/boards/:board_id/lists/:list_id

@@ -9,6 +9,7 @@ import { createAlert } from '~/alert';
 import { COMMENT_FORM } from '~/notes/i18n';
 import DiscussionReplyPlaceholder from '~/notes/components/discussion_reply_placeholder.vue';
 import ResolveDiscussionButton from '~/notes/components/resolve_discussion_button.vue';
+import ResolveWithIssueButton from '~/notes/components/discussion_resolve_with_issue_button.vue';
 import NoteForm from '~/rapid_diffs/app/discussions/note_form.vue';
 import NoteSignedOutWidget from '~/rapid_diffs/app/discussions/note_signed_out_widget.vue';
 import NoteableDiscussion from '~/rapid_diffs/app/discussions/noteable_discussion.vue';
@@ -370,6 +371,60 @@ describe('NoteableDiscussion', () => {
         await wrapper.findComponent(NoteForm).props('saveDraft')('');
         expect(store.addDraftToDiscussion).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('resolve with issue button', () => {
+    const resolveWithIssuePath = '/issues/new?discussion_to_resolve=1';
+
+    it('renders when discussion is resolvable and not resolved', () => {
+      createComponent({
+        props: {
+          discussion: createDiscussion({
+            resolvable: true,
+            resolved: false,
+            resolve_with_issue_path: resolveWithIssuePath,
+          }),
+        },
+      });
+      const button = wrapper.findComponent(ResolveWithIssueButton);
+      expect(button.exists()).toBe(true);
+      expect(button.props('url')).toBe(resolveWithIssuePath);
+    });
+
+    it('does not render when discussion is resolved', () => {
+      createComponent({
+        props: {
+          discussion: createDiscussion({
+            resolvable: true,
+            resolved: true,
+            resolve_with_issue_path: resolveWithIssuePath,
+          }),
+        },
+      });
+      expect(wrapper.findComponent(ResolveWithIssueButton).exists()).toBe(false);
+    });
+
+    it('does not render when discussion is not resolvable', () => {
+      createComponent({
+        props: {
+          discussion: createDiscussion({
+            resolvable: false,
+            resolved: false,
+            resolve_with_issue_path: resolveWithIssuePath,
+          }),
+        },
+      });
+      expect(wrapper.findComponent(ResolveWithIssueButton).exists()).toBe(false);
+    });
+
+    it('does not render when resolve_with_issue_path is absent', () => {
+      createComponent({
+        props: {
+          discussion: createDiscussion({ resolvable: true, resolved: false }),
+        },
+      });
+      expect(wrapper.findComponent(ResolveWithIssueButton).exists()).toBe(false);
     });
   });
 

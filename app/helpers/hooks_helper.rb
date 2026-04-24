@@ -11,7 +11,8 @@ module HooksHelper
       custom_headers: Gitlab::Json.dump(hook.custom_headers.keys.map { { key: _1, value: WebHook::SECRET_MASK } }),
       is_new_hook: hook.new_record?.to_s,
       is_system_hook: hook.is_a?(SystemHook).to_s,
-      triggers: Gitlab::Json.dump(all_triggers(hook))
+      triggers: Gitlab::Json.dump(all_triggers(hook)),
+      has_signing_token: hook.signing_token.present?.to_s
     }
 
     if hook.is_a?(ProjectHook) && hook.project

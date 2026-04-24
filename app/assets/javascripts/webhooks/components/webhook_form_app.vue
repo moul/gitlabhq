@@ -1,5 +1,6 @@
 <script>
 import { GlFormGroup, GlFormInput, GlFormTextarea, GlSprintf } from '@gitlab/ui';
+import glFeatureFlagMixin from '~/vue_shared/mixins/gl_feature_flags_mixin';
 
 import FormUrlApp from './form_url_app.vue';
 import FormCustomHeaders from './form_custom_headers.vue';
@@ -16,6 +17,7 @@ export default {
     FormCustomHeaders,
     WebhookFormTriggerList,
   },
+  mixins: [glFeatureFlagMixin()],
   props: {
     initialUrl: {
       type: String,
@@ -47,6 +49,11 @@ export default {
       required: false,
       default: '',
     },
+    hasSigningToken: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     initialTriggers: {
       type: Object,
       required: true,
@@ -72,6 +79,7 @@ export default {
       name: this.initialName,
       description: this.initialDescription,
       secretToken: this.initialSecretToken,
+      signingToken: this.hasSigningToken ? '************' : '',
     };
   },
 };
@@ -102,6 +110,35 @@ export default {
     </gl-form-group>
 
     <form-url-app :initial-url="initialUrl" :initial-url-variables="initialUrlVariables" />
+
+    <gl-form-group
+      v-if="glFeatures.webhookSigningToken"
+      :label="s__('Webhooks|Signing token')"
+      label-for="webhook-signing-token"
+    >
+      <template #description>
+        <gl-sprintf
+          :message="
+            s__(
+              'Webhooks|Used to validate requests from GitLab. Sent in the %{codeStart}webhook-signature%{codeEnd} HTTP header.',
+            )
+          "
+        >
+          <template #code="{ content }">
+            <code>{{ content }}</code>
+          </template>
+        </gl-sprintf>
+      </template>
+      <gl-form-input
+        id="webhook-signing-token"
+        v-model="signingToken"
+        name="hook[signing_token]"
+        type="password"
+        autocomplete="new-password"
+        class="gl-form-input-xl"
+        data-testid="webhook-signing-token"
+      />
+    </gl-form-group>
 
     <gl-form-group :label="s__('Webhooks|Secret token')" label-for="webhook-secret-token">
       <template #description>

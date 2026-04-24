@@ -7281,7 +7281,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_0234de4577e7"
+              "$ref": "#/components/schemas/RequestBody_b8b1b3559842"
   "/api/v4/groups/{id}/member_roles/{member_role_id}":
     delete:
       operationId: deleteApiV4GroupsIdMemberRolesMemberRoleId
@@ -7348,7 +7348,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RequestBody_0234de4577e7"
+              "$ref": "#/components/schemas/RequestBody_b8b1b3559842"
   "/api/v4/member_roles/{member_role_id}":
     delete:
       operationId: deleteApiV4MemberRolesMemberRoleId
@@ -80573,6 +80573,9 @@ components:
         read_security_scan_profiles:
           type: boolean
           default: false
+        read_virtual_registry:
+          type: boolean
+          default: false
         read_admin_cicd:
           type: boolean
           default: false
@@ -89366,7 +89369,7 @@ components:
           nullable: true
       required:
       - extern_uid
-    RequestBody_0234de4577e7:
+    RequestBody_b8b1b3559842:
       type: object
       properties:
         base_access_level:
@@ -89510,6 +89513,13 @@ components:
         read_security_scan_profiles:
           type: boolean
           description: Read security scan profiles.
+          nullable: true
+        read_virtual_registry:
+          type: boolean
+          description: Allows read access to virtual registries at the group level.
+            Enables users to resolve packages through the virtual registry without
+            requiring broader group membership permissions. Only works on top level
+            groups.
           nullable: true
         read_admin_cicd:
           type: boolean

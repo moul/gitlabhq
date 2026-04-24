@@ -44,6 +44,7 @@ apply only to that method. All other items apply to all installation methods.
 
 Before upgrading to GitLab 18.11, review the following:
 
+- [18.11.0 - 18.11.1] - [CI job token regression pulling container images from internal and public projects](#ci-job-token-regression-pulling-container-images-from-internal-and-public-projects)
 - [18.11.0] - [Upgrading to 18.11 triggers a PostgreSQL 17.7 version upgrade](#postgresql-version-177-upgrade-on-gitlab-1811) (Linux package, Docker, Geo)
 - [18.11.0] - [Mattermost and Spamcheck removed from SLES 12.5 packages](#mattermost-and-spamcheck-removed-from-sles-125-packages) (Linux package)
 
@@ -156,6 +157,38 @@ Before upgrading to GitLab 18.0, review the following:
 ## Upgrade notes
 
 Specific upgrade notes for GitLab 18.
+
+### CI job token regression pulling container images from internal and public projects
+
+- Affects: All installation methods
+- Affected versions:
+
+  | Release | Affected patch releases | Fixed patch level |
+  | ------- | ----------------------- | ----------------- |
+  | 18.11   | 18.11.0 - 18.11.1       | 18.11.2           |
+
+> [!warning]
+> Do not upgrade to GitLab 18.11.0 or 18.11.1 if CI jobs rely on `CI_JOB_TOKEN`
+> to pull container images from internal or public projects. The fix ships in
+> GitLab 18.11.2 on 2026-05-13.
+
+A regression in GitLab 18.11.0 prevents CI jobs from pulling container images
+from internal or public projects using `CI_JOB_TOKEN`. Affected pipelines fail
+with `denied: requested access to the resource is denied`. The fix was
+backported to `18-11-stable-ee` but landed after the 18.11.1 tag was cut, so
+both 18.11.0 and 18.11.1 are affected.
+
+Available workarounds for operators who have already upgraded:
+
+1. Add each consuming project to the source project's CI job token allowlist.
+   See [CI/CD job token security](../../ci/jobs/ci_job_token.md#gitlab-cicd-job-token-security).
+1. Authenticate the container pull with a personal, group, or project access
+   token instead of `CI_JOB_TOKEN`.
+1. Apply the backport commit
+   [`e3c0f308`](https://gitlab.com/gitlab-org/gitlab/-/commit/e3c0f30800f803b8f519e9b937296b068d8f4cca)
+   to the GitLab instance.
+
+For more information, see [issue 597223](https://gitlab.com/gitlab-org/gitlab/-/work_items/597223).
 
 ### Mattermost and Spamcheck removed from SLES 12.5 packages
 

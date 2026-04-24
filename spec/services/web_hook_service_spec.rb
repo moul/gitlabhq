@@ -71,7 +71,7 @@ RSpec.describe WebHookService, :request_store, :clean_gitlab_redis_shared_state,
     end
   end
 
-  describe '#execute' do
+  describe '#execute', :freeze_time do
     let(:uuid) { SecureRandom.uuid }
     let!(:recursion_uuid) { SecureRandom.uuid }
     let(:headers) do
@@ -82,7 +82,9 @@ RSpec.describe WebHookService, :request_store, :clean_gitlab_redis_shared_state,
         'X-Gitlab-Webhook-UUID' => uuid,
         'X-Gitlab-Event' => 'Push Hook',
         'X-Gitlab-Event-UUID' => recursion_uuid,
-        'X-Gitlab-Instance' => Gitlab.config.gitlab.base_url
+        'X-Gitlab-Instance' => Gitlab.config.gitlab.base_url,
+        'webhook-timestamp' => Time.current.to_i.to_s,
+        'webhook-id' => uuid_regex
       }
     end
 
@@ -172,6 +174,66 @@ RSpec.describe WebHookService, :request_store, :clean_gitlab_redis_shared_state,
         expect(WebMock).to have_requested(:post, stubbed_hostname(project_hook.url)).with(
           headers: headers.merge({ 'X-Gitlab-Token' => project_hook.token })
         ).once
+      end
+    end
+
+    context 'when signing_token is defined' do
+      let(:signing_token) { "whsec_#{Base64.strict_encode64('a' * 32)}" }
+
+      before do
+        project_hook.signing_token = signing_token
+        stub_full_request(project_hook.url, method: :post)
+      end
+
+      it 'includes Webhook-Signature and webhook-id headers' do
+        service_instance.execute
+
+        headers = WebMock::RequestRegistry.instance.requested_signatures.hash.keys.last.headers
+        expect(headers['Webhook-Signature']).to start_with('v1,')
+        expect(headers['Webhook-Id']).to eq(headers['Idempotency-Key'])
+      end
+
+      it 'computes a valid HMAC-SHA256 signature' do
+        service_instance.execute
+
+        request = WebMock::RequestRegistry.instance.requested_signatures.hash.keys.last
+        message_id = request.headers['Webhook-Id']
+        timestamp = request.headers['Webhook-Timestamp']
+        body = request.body
+        raw_key = Base64.strict_decode64(signing_token.delete_prefix('whsec_'))
+        message = "#{message_id}.#{timestamp}.#{body}"
+        expected = "v1,#{Base64.strict_encode64(OpenSSL::HMAC.digest('sha256', raw_key, message))}"
+
+        expect(request.headers['Webhook-Signature']).to eq(expected)
+      end
+
+      context 'when webhook_signing_token feature flag is disabled' do
+        before do
+          stub_feature_flags(webhook_signing_token: false)
+        end
+
+        it 'does not include Webhook-Signature but still includes webhook-id' do
+          service_instance.execute
+
+          headers = WebMock::RequestRegistry.instance.requested_signatures.hash.keys.last.headers
+          expect(headers).not_to have_key('Webhook-Signature')
+          expect(headers['Webhook-Timestamp']).to match(/\A\d+\z/)
+          expect(headers['Webhook-Id']).to match(/\A[0-9a-f-]{36}\z/)
+        end
+      end
+
+      context 'when both token and signing_token are set' do
+        before do
+          project_hook.token = generate(:token)
+        end
+
+        it 'includes both X-Gitlab-Token and Webhook-Signature headers' do
+          service_instance.execute
+
+          headers = WebMock::RequestRegistry.instance.requested_signatures.hash.keys.last.headers
+          expect(headers['X-Gitlab-Token']).to eq(project_hook.token)
+          expect(headers['Webhook-Signature']).to start_with('v1,')
+        end
       end
     end
 

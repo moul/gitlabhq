@@ -46863,11 +46863,13 @@ Represents a test run for a scheduled pipeline execution policy.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | <a id="policyscope-complianceframeworks"></a>`complianceFrameworks` | [`ComplianceFrameworkConnection!`](#complianceframeworkconnection) | Compliance Frameworks linked to the policy. (see [Connections](#connections)) |
+| <a id="policyscope-excludingapplicationattributes"></a>`excludingApplicationAttributes` {{< icon name="warning-solid" >}} | [`SecurityAttributeConnection!`](#securityattributeconnection) | **Introduced** in GitLab 19.0. **Status**: Experiment. Application security attributes that the policy does not apply to. |
 | <a id="policyscope-excludingarchivedprojects"></a>`excludingArchivedProjects` | [`Boolean!`](#boolean) | Boolean indicating whether archived projects are excluded from the policy. |
 | <a id="policyscope-excludingbusinessimpactattributes"></a>`excludingBusinessImpactAttributes` {{< icon name="warning-solid" >}} | [`SecurityAttributeConnection!`](#securityattributeconnection) | **Introduced** in GitLab 18.11. **Status**: Experiment. Business Impact security attributes that the policy does not apply to. |
 | <a id="policyscope-excludinggroups"></a>`excludingGroups` | [`GroupConnection!`](#groupconnection) | Groups to which the policy should not be applied. (see [Connections](#connections)) |
 | <a id="policyscope-excludingpersonalprojects"></a>`excludingPersonalProjects` | [`Boolean!`](#boolean) | Boolean indicating whether personal projects are excluded from the policy. |
 | <a id="policyscope-excludingprojects"></a>`excludingProjects` | [`ProjectConnection!`](#projectconnection) | Projects to which the policy should not be applied. (see [Connections](#connections)) |
+| <a id="policyscope-includingapplicationattributes"></a>`includingApplicationAttributes` {{< icon name="warning-solid" >}} | [`SecurityAttributeConnection!`](#securityattributeconnection) | **Introduced** in GitLab 19.0. **Status**: Experiment. Application security attributes that the policy applies to. |
 | <a id="policyscope-includingbusinessimpactattributes"></a>`includingBusinessImpactAttributes` {{< icon name="warning-solid" >}} | [`SecurityAttributeConnection!`](#securityattributeconnection) | **Introduced** in GitLab 18.11. **Status**: Experiment. Business Impact security attributes that the policy applies to. |
 | <a id="policyscope-includinggroups"></a>`includingGroups` | [`GroupConnection!`](#groupconnection) | Groups to which the policy should be applied. (see [Connections](#connections)) |
 | <a id="policyscope-includingprojects"></a>`includingProjects` | [`ProjectConnection!`](#projectconnection) | Projects to which the policy should be applied. (see [Connections](#connections)) |
@@ -59155,6 +59157,7 @@ Member role permission.
 | <a id="memberrolepermission-read_runners"></a>`READ_RUNNERS` | Allows read-only access to group or project runners, including the runner fleet dashboard. |
 | <a id="memberrolepermission-read_security_attribute"></a>`READ_SECURITY_ATTRIBUTE` | Allows read-only access to the security categories and attributes that belong to a top-level group. |
 | <a id="memberrolepermission-read_security_scan_profiles"></a>`READ_SECURITY_SCAN_PROFILES` | Read security scan profiles. |
+| <a id="memberrolepermission-read_virtual_registry"></a>`READ_VIRTUAL_REGISTRY` | Allows read access to virtual registries at the group level. Enables users to resolve packages through the virtual registry without requiring broader group membership permissions. Only works on top level groups. |
 | <a id="memberrolepermission-read_vulnerability"></a>`READ_VULNERABILITY` | Read vulnerability reports and security dashboards. |
 | <a id="memberrolepermission-remove_group"></a>`REMOVE_GROUP` | Ability to delete or restore a subgroup. This ability does not allow deleting top-level groups. Review the retention period settings to prevent accidental deletion. |
 | <a id="memberrolepermission-remove_project"></a>`REMOVE_PROJECT` | Allows deletion of projects. |
@@ -59193,6 +59196,7 @@ Member role standard permission.
 | <a id="memberrolestandardpermission-read_runners"></a>`READ_RUNNERS` | Allows read-only access to group or project runners, including the runner fleet dashboard. |
 | <a id="memberrolestandardpermission-read_security_attribute"></a>`READ_SECURITY_ATTRIBUTE` | Allows read-only access to the security categories and attributes that belong to a top-level group. |
 | <a id="memberrolestandardpermission-read_security_scan_profiles"></a>`READ_SECURITY_SCAN_PROFILES` | Read security scan profiles. |
+| <a id="memberrolestandardpermission-read_virtual_registry"></a>`READ_VIRTUAL_REGISTRY` | Allows read access to virtual registries at the group level. Enables users to resolve packages through the virtual registry without requiring broader group membership permissions. Only works on top level groups. |
 | <a id="memberrolestandardpermission-read_vulnerability"></a>`READ_VULNERABILITY` | Read vulnerability reports and security dashboards. |
 | <a id="memberrolestandardpermission-remove_group"></a>`REMOVE_GROUP` | Ability to delete or restore a subgroup. This ability does not allow deleting top-level groups. Review the retention period settings to prevent accidental deletion. |
 | <a id="memberrolestandardpermission-remove_project"></a>`REMOVE_PROJECT` | Allows deletion of projects. |
@@ -61097,8 +61101,8 @@ Status of vulnerability flag false positive detection.
 | ----- | ----------- |
 | <a id="vulnerabilityfalsepositivedetectionstatus-detected_as_fp"></a>`DETECTED_AS_FP` | Detection is detected as fp. |
 | <a id="vulnerabilityfalsepositivedetectionstatus-detected_as_not_fp"></a>`DETECTED_AS_NOT_FP` | Detection is detected as not fp. |
+| <a id="vulnerabilityfalsepositivedetectionstatus-dismissed"></a>`DISMISSED` | Detection is dismissed. |
 | <a id="vulnerabilityfalsepositivedetectionstatus-failed"></a>`FAILED` | Detection is failed. |
-| <a id="vulnerabilityfalsepositivedetectionstatus-in_progress"></a>`IN_PROGRESS` | Detection is in progress. |
 | <a id="vulnerabilityfalsepositivedetectionstatus-not_started"></a>`NOT_STARTED` | Detection is not started. |
 
 ### `VulnerabilityFindingTokenStatusState`

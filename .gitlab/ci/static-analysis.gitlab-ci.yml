@@ -406,7 +406,7 @@ ping-appsec-for-dependency-review:
 validate-codeowners-coverage:
   extends:
     - .static-analysis-base
-    - .static-analysis:rules:static-analysis
+    - .static-analysis:rules:validate-codeowners-coverage
   variables:
     SETUP_DB: "false"
     USE_BUNDLE_INSTALL: "false"

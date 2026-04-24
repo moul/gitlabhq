@@ -153,7 +153,7 @@ class WebHookService
 
   def make_request(url, basic_auth = false)
     Gitlab::HTTP.post(url,
-      body: Gitlab::Json::LimitedEncoder.encode(request_payload, limit: REQUEST_BODY_SIZE_LIMIT),
+      body: encoded_request_body,
       headers: build_custom_headers.merge(build_headers),
       verify: hook.enable_ssl_verification,
       basic_auth: basic_auth,
@@ -218,18 +218,34 @@ class WebHookService
 
   def build_headers
     @headers ||= begin
+      timestamp = Time.current.to_i.to_s
+
       headers = {
         'Content-Type' => 'application/json',
         'User-Agent' => "GitLab/#{Gitlab::VERSION}",
         'Idempotency-Key' => idempotency_key,
         Gitlab::WebHooks::GITLAB_EVENT_HEADER => self.class.hook_to_event(hook_name, hook),
         Gitlab::WebHooks::GITLAB_UUID_HEADER => SecureRandom.uuid,
-        Gitlab::WebHooks::GITLAB_INSTANCE_HEADER => Gitlab.config.gitlab.base_url
+        Gitlab::WebHooks::GITLAB_INSTANCE_HEADER => Gitlab.config.gitlab.base_url,
+        Gitlab::WebHooks::WEBHOOK_TIMESTAMP_HEADER => timestamp,
+        Gitlab::WebHooks::WEBHOOK_ID_HEADER => idempotency_key
       }
 
       headers['X-Gitlab-Token'] = Gitlab::Utils.remove_line_breaks(hook.token) if hook.token.present?
+
+      if Feature.enabled?(:webhook_signing_token, hook.parent) && hook.signing_token.present?
+        headers[Gitlab::WebHooks::WEBHOOK_SIGNATURE_HEADER] = build_signature(timestamp, idempotency_key)
+      end
+
       headers.merge!(Gitlab::WebHooks::RecursionDetection.header(hook))
     end
+  end
+
+  def build_signature(timestamp, message_id)
+    raw_key = Base64.strict_decode64(hook.signing_token.delete_prefix(WebHooks::Hook::SIGNING_TOKEN_PREFIX))
+    data = "#{message_id}.#{timestamp}.#{encoded_request_body}"
+    digest = OpenSSL::Digest.new('SHA256')
+    "v1,#{Base64.strict_encode64(OpenSSL::HMAC.digest(digest, raw_key, data))}"
   end
 
   def build_custom_headers(values_redacted: false)
@@ -318,6 +334,11 @@ class WebHookService
     raise_custom_webhook_template_error!('You may be trying to access an array value, which is not supported.')
   end
   strong_memoize_attr :request_payload
+
+  def encoded_request_body
+    Gitlab::Json::LimitedEncoder.encode(request_payload, limit: REQUEST_BODY_SIZE_LIMIT)
+  end
+  strong_memoize_attr :encoded_request_body
 
   def render_custom_template(template, params)
     CUSTOM_TEMPLATE_INTERPOLATION_REGEX.replace_gsub(template) do |match|

@@ -17943,6 +17943,9 @@ msgstr ""
 msgid "CompareRevisions|There was an error while searching the branch/tag list. Please try again."
 msgstr ""
 
+msgid "CompareRevisions|Unable to compare revisions"
+msgstr ""
+
 msgid "CompareRevisions|View open merge request"
 msgstr ""
 
@@ -30390,9 +30393,6 @@ msgid "Failed to apply commands."
 msgstr ""
 
 msgid "Failed to approve the current merge request."
-msgstr ""
-
-msgid "Failed to assign Duo Developer."
 msgstr ""
 
 msgid "Failed to assign a user because no user was found."
@@ -80525,6 +80525,9 @@ msgstr ""
 msgid "Webhooks|Sensitive portion of URL"
 msgstr ""
 
+msgid "Webhooks|Signing token"
+msgstr ""
+
 msgid "Webhooks|Subgroup events"
 msgstr ""
 
@@ -80559,6 +80562,9 @@ msgid "Webhooks|URL preview"
 msgstr ""
 
 msgid "Webhooks|Used to validate received payloads. Sent with the request in the %{codeStart}X-Gitlab-Token%{codeEnd} HTTP header."
+msgstr ""
+
+msgid "Webhooks|Used to validate requests from GitLab. Sent in the %{codeStart}webhook-signature%{codeEnd} HTTP header."
 msgstr ""
 
 msgid "Webhooks|Vulnerability events"
@@ -85912,6 +85918,9 @@ msgid "is not a descendant of the Group owning the template"
 msgstr ""
 
 msgid "is not a valid X509 certificate."
+msgstr ""
+
+msgid "is not a valid base64-encoded string"
 msgstr ""
 
 msgid "is not allowed for this group."

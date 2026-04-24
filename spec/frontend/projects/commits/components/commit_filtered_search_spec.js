@@ -7,7 +7,6 @@ import {
   TOKEN_TITLE_AUTHOR,
   TOKEN_TYPE_MESSAGE,
   TOKEN_TITLE_MESSAGE,
-  OPERATORS_IS_NOT_OR,
   OPERATORS_IS,
 } from '~/vue_shared/components/filtered_search_bar/constants';
 import UserToken from '~/vue_shared/components/filtered_search_bar/tokens/user_token.vue';
@@ -53,10 +52,9 @@ describe('CommitFilteredSearch', () => {
             dataType: 'user',
             valueField: 'name',
             defaultUsers: [],
-            operators: OPERATORS_IS_NOT_OR,
+            operators: OPERATORS_IS,
             fullPath: 'gitlab-org/gitlab',
             isProject: true,
-            multiSelect: true,
             recentSuggestionsStorageKey: 'gitlab-org/gitlab-commits-recent-tokens-author',
             preloadedUsers: [],
             unique: true,

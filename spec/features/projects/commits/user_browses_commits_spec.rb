@@ -30,7 +30,7 @@ RSpec.describe 'User browses commits', feature_category: :source_code_management
       click_link 'Tag'
     end
 
-    expect(page).to have_selector("input[value='#{sample_commit.id}']", visible: false)
+    expect(page).to have_selector("input[value='#{sample_commit.id}']", visible: :hidden)
   end
 
   it 'renders inline diff button when click side-by-side diff button' do

@@ -425,4 +425,108 @@ RSpec.describe 'Gitaly unavailable graceful degradation', feature_category: :sou
       it_behaves_like 'handles Gitaly errors for request specs'
     end
   end
+
+  describe 'Projects::CompareController' do
+    describe '#show' do
+      let(:make_request) { get project_compare_path(project, from: 'master', to: 'feature') }
+
+      let(:allow_gitaly_to_raise_error) do
+        allow_next_instance_of(CompareService) do |service|
+          allow(service).to receive(:execute)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      it_behaves_like 'handles Gitaly errors for request specs'
+
+      it 'renders the gitaly unavailable error message' do
+        allow_gitaly_to_raise_error
+
+        make_request
+
+        expect(response.body).to include('Unable to compare revisions')
+        expect(response.body).to include('The git server, Gitaly, is not available at this time')
+      end
+
+      context 'when error is raised from Repository level' do
+        let(:allow_gitaly_to_raise_error) do
+          allow_next_instance_of(Repository) do |repository|
+            allow(repository).to receive(:compare_source_branch)
+              .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+          end
+        end
+
+        it 'still renders the gitaly unavailable error message' do
+          allow_gitaly_to_raise_error
+
+          make_request
+
+          expect(response).to have_gitlab_http_status(:service_unavailable)
+          expect(response.body).to include('Unable to compare revisions')
+        end
+      end
+
+      context 'when Gitaly health check fails (compare returns nil)' do
+        let(:allow_gitaly_to_raise_error) do
+          # Simulate CompareService returning nil (as it does when Commit.find swallows errors)
+          allow_next_instance_of(CompareService) do |service|
+            allow(service).to receive(:execute).and_return(nil)
+          end
+
+          # Simulate Gitaly health check failing
+          allow_next_instance_of(Gitlab::GitalyClient::HealthCheckService) do |service|
+            allow(service).to receive(:check).and_return({ success: false, message: 'Gitaly unavailable' })
+          end
+        end
+
+        it 'renders the gitaly unavailable error message' do
+          allow_gitaly_to_raise_error
+
+          make_request
+
+          expect(response).to have_gitlab_http_status(:service_unavailable)
+          expect(response.body).to include('Unable to compare revisions')
+        end
+      end
+    end
+
+    describe '#signatures' do
+      let(:make_request) do
+        get signatures_namespace_project_compare_index_path(namespace_id: project.namespace, project_id: project,
+          from: 'master', to: 'feature', format: :json)
+      end
+
+      let(:allow_gitaly_to_raise_error) do
+        allow_next_instance_of(CompareService) do |service|
+          allow(service).to receive(:execute)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      it_behaves_like 'handles Gitaly errors for json format'
+    end
+
+    describe '#diff_for_path' do
+      let(:make_request) do
+        get diff_for_path_namespace_project_compare_index_path(
+          namespace_id: project.namespace,
+          project_id: project,
+          from: 'master',
+          to: 'feature',
+          old_path: 'README.md',
+          new_path: 'README.md',
+          format: :json
+        )
+      end
+
+      let(:allow_gitaly_to_raise_error) do
+        allow_next_instance_of(CompareService) do |service|
+          allow(service).to receive(:execute)
+            .and_raise(Gitlab::Git::CommandError, 'Gitaly unavailable')
+        end
+      end
+
+      it_behaves_like 'handles Gitaly errors for json format'
+    end
+  end
 end

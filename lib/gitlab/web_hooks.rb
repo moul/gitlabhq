@@ -5,6 +5,9 @@ module Gitlab
     GITLAB_EVENT_HEADER = 'X-Gitlab-Event'
     GITLAB_INSTANCE_HEADER = 'X-Gitlab-Instance'
     GITLAB_UUID_HEADER = 'X-Gitlab-Webhook-UUID'
+    WEBHOOK_ID_HEADER = 'webhook-id'
+    WEBHOOK_SIGNATURE_HEADER = 'webhook-signature'
+    WEBHOOK_TIMESTAMP_HEADER = 'webhook-timestamp'
 
     class << self
       def prepare_data(data)

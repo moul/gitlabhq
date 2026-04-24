@@ -25,9 +25,8 @@ class Admin::HooksController < Admin::ApplicationController
     @hook ||= SystemHook.find(params.permit(:id)[:id])
   end
 
-  def hook_param_names
-    %i[enable_ssl_verification name description token url push_events_branch_filter branch_filter_strategy
-      custom_webhook_template]
+  def webhook_signing_token_actor
+    :instance
   end
 
   def trigger_values

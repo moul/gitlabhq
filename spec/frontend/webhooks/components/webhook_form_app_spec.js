@@ -33,7 +33,7 @@ describe('WebhookFormApp', () => {
     vulnerabilityEvents: false,
   };
 
-  const createComponent = ({ props = {} } = {}) => {
+  const createComponent = ({ props = {}, glFeatures = {} } = {}) => {
     wrapper = shallowMountExtended(WebhookFormApp, {
       propsData: {
         initialTriggers: defaultInitialTriggers,
@@ -41,12 +41,14 @@ describe('WebhookFormApp', () => {
         hasGroup: false,
         ...props,
       },
+      provide: { glFeatures },
     });
   };
 
   const findNameInput = () => wrapper.findByTestId('webhook-name');
   const findDescriptionInput = () => wrapper.findByTestId('webhook-description');
   const findSecretTokenInput = () => wrapper.findByTestId('webhook-secret-token');
+  const findSigningTokenInput = () => wrapper.findByTestId('webhook-signing-token');
   const findFormUrlApp = () => wrapper.findComponent(FormUrlApp);
   const findFormCustomHeaders = () => wrapper.findComponent(FormCustomHeaders);
   const findWebhookFormTriggerList = () => wrapper.findComponent(WebhookFormTriggerList);
@@ -157,6 +159,42 @@ describe('WebhookFormApp', () => {
 
       expect(findFormCustomHeaders().props()).toMatchObject({
         initialCustomHeaders,
+      });
+    });
+  });
+
+  describe('signing token input', () => {
+    describe('when webhookSigningToken feature flag is disabled (default)', () => {
+      it('does not render signing token input', () => {
+        expect(findSigningTokenInput().exists()).toBe(false);
+      });
+    });
+
+    describe('when webhookSigningToken feature flag is enabled', () => {
+      it('renders signing token input', () => {
+        createComponent({ glFeatures: { webhookSigningToken: true } });
+
+        expect(findSigningTokenInput().exists()).toBe(true);
+        expect(findSigningTokenInput().attributes('name')).toBe('hook[signing_token]');
+        expect(findSigningTokenInput().attributes('type')).toBe('password');
+      });
+
+      it('shows masked value when hasSigningToken is true', () => {
+        createComponent({
+          glFeatures: { webhookSigningToken: true },
+          props: { hasSigningToken: true },
+        });
+
+        expect(findSigningTokenInput().props('value')).toBe('************');
+      });
+
+      it('shows empty value when hasSigningToken is false', () => {
+        createComponent({
+          glFeatures: { webhookSigningToken: true },
+          props: { hasSigningToken: false },
+        });
+
+        expect(findSigningTokenInput().props('value')).toBe('');
       });
     });
   });

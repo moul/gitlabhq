@@ -951,6 +951,11 @@
 .static-analysis-patterns: &static-analysis-patterns
   - ".{haml-lint,haml-lint_todo}.yml"
 
+.codeowners-patterns: &codeowners-patterns
+  - ".gitlab/CODEOWNERS"
+  - "*"
+  - "*/*"
+
 # this is a combination of ruby-patterns and additional paths that contain ruby scripts without extension
 .rubocop-target-patterns: &rubocop-target-patterns
   - "**/Rakefile"
@@ -2966,6 +2971,15 @@
       changes: *code-backstage-qa-patterns
     - <<: *if-default-refs
       changes: *spec-only-patterns
+    - <<: *if-default-refs
+      changes: *static-analysis-patterns
+
+.static-analysis:rules:validate-codeowners-coverage:
+  rules:
+    - <<: *if-merge-request
+      changes: *codeowners-patterns
+    - <<: *if-default-refs
+      changes: *code-backstage-qa-patterns
     - <<: *if-default-refs
       changes: *static-analysis-patterns
 

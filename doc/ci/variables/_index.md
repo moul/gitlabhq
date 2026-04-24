@@ -24,9 +24,12 @@ to execute scripts. Each shell has its own set of reserved variable names.
 
 To ensure consistent behavior, you should always put variable values in single or double quotes.
 Variables are internally parsed by the [Psych YAML parser](https://docs.ruby-lang.org/en/master/Psych.html),
-so quoted and unquoted variables might be parsed differently. For example, `VAR1: 012345`
-is interpreted as an octal value, so the value becomes `5349`, but `VAR1: "012345"` is parsed
-as a string with a value of `012345`.
+so quoted and unquoted variables might be parsed differently. For example:
+
+- `VAR1: 012345` is interpreted as an octal value, so the value becomes `5349`.
+- `VAR1: "012345"` is parsed as a string with a value of `012345`.
+- `VAR1: 019` is parsed as the string `"019"` and not as octal, because `9` is not a valid
+  octal digit. Octal parsing only applies when all digits are 0–7.
 
 For more information about advanced use of GitLab CI/CD, see [7 advanced GitLab CI workflow hacks](https://about.gitlab.com/webcast/7cicd-hacks/) shared by GitLab engineers.
 

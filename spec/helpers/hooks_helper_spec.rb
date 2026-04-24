@@ -40,7 +40,8 @@ RSpec.describe HooksHelper, feature_category: :integrations do
           is_new_hook: "false",
           is_system_hook: "false",
           triggers: expected_triggers,
-          deploy_token_events_enabled: 'false'
+          deploy_token_events_enabled: 'false',
+          has_signing_token: 'false'
         )
       end
     end
@@ -63,7 +64,8 @@ RSpec.describe HooksHelper, feature_category: :integrations do
           is_new_hook: "false",
           is_system_hook: "false",
           triggers: expected_triggers,
-          deploy_token_events_enabled: 'false'
+          deploy_token_events_enabled: 'false',
+          has_signing_token: 'false'
         )
       end
     end
@@ -86,7 +88,8 @@ RSpec.describe HooksHelper, feature_category: :integrations do
           is_new_hook: "false",
           is_system_hook: "false",
           triggers: expected_triggers,
-          deploy_token_events_enabled: 'false'
+          deploy_token_events_enabled: 'false',
+          has_signing_token: 'false'
         )
       end
     end
@@ -130,6 +133,20 @@ RSpec.describe HooksHelper, feature_category: :integrations do
 
       it 'does not include deploy_token_events_enabled' do
         expect(form_data).not_to have_key(:deploy_token_events_enabled)
+      end
+    end
+
+    context 'when hook has a signing token' do
+      let(:project_hook) { build_stubbed(:project_hook, :signing_token, project: project) }
+
+      it 'includes has_signing_token as true' do
+        expect(form_data).to include(has_signing_token: 'true')
+      end
+    end
+
+    context 'when hook has no signing token' do
+      it 'includes has_signing_token as false' do
+        expect(form_data).to include(has_signing_token: 'false')
       end
     end
   end

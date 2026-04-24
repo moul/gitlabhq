@@ -105,14 +105,14 @@ RSpec.describe "User adds a comment on a commit", :js, feature_category: :source
               click_button("Preview")
             end
 
-            expect(scope).to have_css(".js-md-preview, .js-vue-md-preview", visible: true, count: 2)
+            expect(scope).to have_css(".js-md-preview, .js-vue-md-preview", visible: :visible, count: 2)
                       .and have_content(comment_text)
                       .and have_content(another_comment_text)
                       .and have_xpath("//gl-emoji[@data-name='smile']")
 
             # Test UI elements, then submit.
             page.within(first_form) do
-              expect(find(".js-note-text", visible: false).text).to eq("")
+              expect(find(".js-note-text", visible: :hidden).text).to eq("")
               expect(page).to have_css('.js-md-preview, .js-vue-md-preview')
 
               click_button("Comment")
