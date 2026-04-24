@@ -50177,9 +50177,6 @@ msgstr[1] ""
 msgid "Organization|Perform advanced options such as changing the organization URL."
 msgstr ""
 
-msgid "Organization|Placeholder"
-msgstr ""
-
 msgid "Organization|Private - The organization can only be viewed by members."
 msgstr ""
 
@@ -50205,6 +50202,18 @@ msgid "Organization|Search for an organization"
 msgstr ""
 
 msgid "Organization|Select an organization"
+msgstr ""
+
+msgid "Organization|Step %{currentStep} / %{totalSteps}"
+msgstr ""
+
+msgid "Organization|Step 1 placeholder"
+msgstr ""
+
+msgid "Organization|Step 2 placeholder"
+msgstr ""
+
+msgid "Organization|Step 3 placeholder"
 msgstr ""
 
 msgid "Organization|Switch organizations"

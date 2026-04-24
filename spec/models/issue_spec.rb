@@ -2312,4 +2312,33 @@ RSpec.describe Issue, feature_category: :team_planning do
       end
     end
   end
+
+  describe '#as_json' do
+    let_it_be(:issue) { create(:issue) }
+
+    it 'renames exported_work_item_type to work_item_type' do
+      json = issue.as_json(methods: [:exported_work_item_type])
+
+      expect(json).to have_key('work_item_type')
+      expect(json).not_to have_key('exported_work_item_type')
+      expect(json['work_item_type']).to eq({ 'base_type' => 'issue' })
+    end
+
+    it 'does not add work_item_type when exported_work_item_type is not in methods' do
+      json = issue.as_json(only: [:id])
+
+      expect(json).not_to have_key('work_item_type')
+      expect(json).not_to have_key('exported_work_item_type')
+    end
+
+    it 'includes labels when labels option is present' do
+      label = create(:label, project: issue.project)
+      issue.labels << label
+
+      json = issue.as_json(labels: true)
+
+      expect(json[:labels]).to be_present
+      expect(json[:labels].first).to include('title' => label.title)
+    end
+  end
 end

@@ -16,12 +16,12 @@
 # SELECT
 #   1 AS one
 # FROM
-#   "work_item_widget_definitions"
+#   "work_item_custom_statuses"
 # WHERE
 #   LOWER(
-#     "work_item_widget_definitions"."name"
+#     "work_item_custom_statuses"."name"
 #   ) = LOWER('different')
-#   AND "work_item_widget_definitions"."work_item_type_id" = 5
+#   AND "work_item_custom_statuses"."namespace_id" = 5
 # LIMIT
 #   1
 

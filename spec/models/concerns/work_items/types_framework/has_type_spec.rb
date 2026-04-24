@@ -72,6 +72,28 @@ RSpec.describe WorkItems::TypesFramework::HasType, feature_category: :team_plann
     end
   end
 
+  describe '#exported_work_item_type' do
+    context 'when work_item_type is a system-defined type' do
+      before do
+        work_item.work_item_type_id = system_defined_type.id
+      end
+
+      it 'returns a hash with the base_type' do
+        expect(work_item.exported_work_item_type).to eq({ 'base_type' => 'issue' })
+      end
+    end
+
+    context 'when work_item_type cannot be resolved' do
+      before do
+        work_item.work_item_type_id = non_existing_record_id
+      end
+
+      it 'defaults the base_type to issue' do
+        expect(work_item.exported_work_item_type).to eq({ 'base_type' => 'issue' })
+      end
+    end
+  end
+
   describe '#work_item_type=' do
     context 'when we set a db work_item_type' do
       it 'sets the work_item_type_id' do

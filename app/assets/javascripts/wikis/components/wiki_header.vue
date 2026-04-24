@@ -117,7 +117,9 @@ export default {
     }
   },
   destroyed() {
-    document.removeEventListener('keyup', this.onKeyUp);
+    if (this.showEditButton) {
+      document.removeEventListener('keyup', this.onKeyUp);
+    }
   },
   methods: {
     hideStickyHeader() {

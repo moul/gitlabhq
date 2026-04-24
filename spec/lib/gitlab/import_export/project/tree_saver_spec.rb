@@ -183,8 +183,8 @@ RSpec.describe Gitlab::ImportExport::Project::TreeSaver, :with_license, feature_
 
         it { is_expected.not_to be_empty }
 
-        it 'has a work_item_type' do
-          issue = subject.first
+        it 'exports work_item_type for system-defined types' do
+          issue = subject.find { |i| i['title'] == 'task issue' }
 
           expect(issue['work_item_type']).to eq('base_type' => 'task')
         end
@@ -522,7 +522,7 @@ RSpec.describe Gitlab::ImportExport::Project::TreeSaver, :with_license, feature_
       merge_commit_template: 'merge commit message template',
       squash_commit_template: 'squash commit message template')
 
-    issue = create(:issue, :task, assignees: [user], project: project)
+    issue = create(:issue, :task, assignees: [user], project: project, title: 'task issue')
     snippet = create(:project_snippet, project: project)
     project_label = create(:label, project: project)
     group_label = create(:group_label, group: group)

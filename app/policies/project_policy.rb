@@ -158,24 +158,6 @@ class ProjectPolicy < BasePolicy
     public_project? || internal_access? || project_allowed_for_job_token_by_scope?
   end
 
-  desc "If the user is via CI job token and project visibility allows access"
-  condition(:job_token_repository) { job_token_access_allowed_to?(:repository) }
-
-  desc "If the user is via CI job token and project container registry visibility allows access"
-  condition(:job_token_container_registry) { job_token_access_allowed_to?(:container_registry) }
-
-  desc "If the user is via CI job token and project package registry visibility allows access"
-  condition(:job_token_package_registry) { job_token_access_allowed_to?(:package_registry) }
-
-  desc "If the user is via CI job token and project ci/cd visibility allows access"
-  condition(:job_token_builds) { job_token_access_allowed_to?(:builds) }
-
-  desc "If the user is via CI job token and project releases visibility allows access"
-  condition(:job_token_releases) { job_token_access_allowed_to?(:releases) }
-
-  desc "If the user is via CI job token and project environment visibility allows access"
-  condition(:job_token_environments) { job_token_access_allowed_to?(:environments) }
-
   desc "If the project is either public or internal"
   condition(:public_or_internal) do
     project.public? || project.internal?
@@ -189,6 +171,10 @@ class ProjectPolicy < BasePolicy
   desc "If the pages is internal"
   condition(:internal_pages) do
     project.project_feature.pages_access_level == ProjectFeature::ENABLED
+  end
+
+  condition(:private_package_registry) do
+    project.project_feature.package_registry_access_level == ProjectFeature::PRIVATE
   end
 
   condition(:forking_allowed) do
@@ -335,7 +321,14 @@ class ProjectPolicy < BasePolicy
   # where we enable or prevent it based on other conditions.
   rule { (~anonymous & public_project) | internal_access }.policy do
     enable :public_user_access
-    enable :read_project_for_iids
+    enable :guest_access
+
+    enable :build_download_code
+    enable :build_read_container_image
+    enable :request_access
+    enable :fork_project
+
+    enable(*Authz::Role.get(:public_anonymous).direct_permissions(:project))
   end
 
   rule { guest }.enable :guest_access
@@ -346,17 +339,7 @@ class ProjectPolicy < BasePolicy
   rule { maintainer }.enable :maintainer_access
   rule { owner | admin | organization_owner }.enable :owner_access
 
-  rule { can?(:public_user_access) }.policy do
-    enable :guest_access
-    enable :public_access
-
-    enable :build_download_code
-    enable :build_read_container_image
-    enable :request_access
-    enable :fork_project
-  end
-
-  rule { can?(:public_access) }.policy do
+  rule { public_project }.policy do
     enable(*Authz::Role.get(:public_anonymous).direct_permissions(:project))
   end
 
@@ -529,6 +512,17 @@ class ProjectPolicy < BasePolicy
   end
 
   rule { packages_disabled }.policy do
+    prevent :read_package
+    prevent :create_package
+    prevent :update_package
+    prevent :admin_package
+    prevent :destroy_package
+  end
+
+  # We need this separate rule for job tokens in case the package registry is private
+  # Since read_package is enabled for a different access level than other feature based
+  # permissions we cannot use the access_allowed_to dynamic conditions
+  rule { ~project_allowed_for_job_token_by_scope & private_package_registry }.policy do
     prevent :read_package
     prevent :create_package
     prevent :update_package
@@ -730,11 +724,6 @@ class ProjectPolicy < BasePolicy
     except :read_package
   end
 
-  rule { public_project }.policy do
-    enable :public_access
-    enable :read_project_for_iids
-  end
-
   # If the project is private
   rule { ~project_allowed_for_job_token }.prevent_all
 
@@ -747,35 +736,6 @@ class ProjectPolicy < BasePolicy
   end
 
   rule { ~push_repository_for_job_token_allowed }.prevent :build_push_code
-
-  rule { public_or_internal & job_token_container_registry }.policy do
-    enable :build_read_container_image
-    enable :read_container_image
-  end
-
-  rule { public_or_internal & job_token_package_registry }.policy do
-    enable :read_package
-    enable :read_project
-  end
-
-  rule { public_or_internal & job_token_repository }.policy do
-    enable :read_project
-    enable :build_download_code
-  end
-
-  rule { public_or_internal & job_token_builds }.policy do
-    # this is additionally needed to download artifacts
-    enable :read_commit_status
-    enable :_read_public_build
-  end
-
-  rule { public_or_internal & job_token_releases }.policy do
-    enable :read_release
-  end
-
-  rule { public_or_internal & job_token_environments }.policy do
-    enable :read_environment
-  end
 
   rule { ~public_builds }.policy do
     prevent :_read_public_build
@@ -1043,23 +1003,11 @@ class ProjectPolicy < BasePolicy
     when ProjectFeature::DISABLED
       false
     when ProjectFeature::PRIVATE
+      return false unless project_allowed_for_job_token_by_scope?
+
       can?(:read_all_resources) ||
         can?(:read_all_organization_resources) ||
         team_access_level >= ProjectFeature.required_minimum_access_level(feature)
-    else
-      true
-    end
-  end
-
-  def job_token_access_allowed_to?(feature)
-    return false unless @user&.from_ci_job_token?
-    return false unless project.project_feature
-
-    case project.project_feature.access_level(feature)
-    when ProjectFeature::DISABLED
-      false
-    when ProjectFeature::PRIVATE
-      @user.ci_job_token_scope.accessible?(project)
     else
       true
     end

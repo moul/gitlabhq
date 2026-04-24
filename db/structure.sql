@@ -34112,25 +34112,6 @@ CREATE TABLE work_item_weights_sources (
     updated_at timestamp with time zone NOT NULL
 );
 
-CREATE TABLE work_item_widget_definitions (
-    id bigint NOT NULL,
-    work_item_type_id bigint NOT NULL,
-    widget_type smallint NOT NULL,
-    disabled boolean DEFAULT false,
-    name text,
-    widget_options jsonb,
-    CONSTRAINT check_050f2e2328 CHECK ((char_length(name) <= 255))
-);
-
-CREATE SEQUENCE work_item_widget_definitions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-ALTER SEQUENCE work_item_widget_definitions_id_seq OWNED BY work_item_widget_definitions.id;
-
 CREATE TABLE workspace_agentk_states (
     id bigint NOT NULL,
     created_at timestamp with time zone NOT NULL,
@@ -37050,8 +37031,6 @@ ALTER TABLE ONLY work_item_type_user_preferences ALTER COLUMN id SET DEFAULT nex
 ALTER TABLE ONLY work_item_type_visibilities ALTER COLUMN id SET DEFAULT nextval('work_item_type_visibilities_id_seq'::regclass);
 
 ALTER TABLE ONLY work_item_type_visibility_defaults ALTER COLUMN id SET DEFAULT nextval('work_item_type_visibility_defaults_id_seq'::regclass);
-
-ALTER TABLE ONLY work_item_widget_definitions ALTER COLUMN id SET DEFAULT nextval('work_item_widget_definitions_id_seq'::regclass);
 
 ALTER TABLE ONLY workspace_agentk_states ALTER COLUMN id SET DEFAULT nextval('workspace_agentk_states_id_seq'::regclass);
 
@@ -41484,9 +41463,6 @@ ALTER TABLE ONLY work_item_types
 
 ALTER TABLE ONLY work_item_weights_sources
     ADD CONSTRAINT work_item_weights_sources_pkey PRIMARY KEY (work_item_id);
-
-ALTER TABLE ONLY work_item_widget_definitions
-    ADD CONSTRAINT work_item_widget_definitions_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY workspace_agentk_states
     ADD CONSTRAINT workspace_agentk_states_pkey PRIMARY KEY (id);
@@ -50355,10 +50331,6 @@ CREATE UNIQUE INDEX index_work_item_types_on_name_unique ON work_item_types USIN
 CREATE INDEX index_work_item_weights_sources_on_namespace_id ON work_item_weights_sources USING btree (namespace_id);
 
 CREATE INDEX index_work_item_weights_sources_on_work_item_id ON work_item_weights_sources USING btree (work_item_id);
-
-CREATE UNIQUE INDEX index_work_item_widget_definitions_on_type_id_and_name ON work_item_widget_definitions USING btree (work_item_type_id, TRIM(BOTH FROM lower(name)));
-
-CREATE INDEX index_work_item_widget_definitions_on_work_item_type_id ON work_item_widget_definitions USING btree (work_item_type_id);
 
 CREATE INDEX index_workspace_agentk_states_on_project_id ON workspace_agentk_states USING btree (project_id);
 
@@ -60830,9 +60802,6 @@ ALTER TABLE ONLY work_item_colors
 
 ALTER TABLE ONLY work_item_dates_sources
     ADD CONSTRAINT fk_work_item_dates_sources_on_namespace_id FOREIGN KEY (namespace_id) REFERENCES namespaces(id) ON DELETE CASCADE;
-
-ALTER TABLE ONLY work_item_widget_definitions
-    ADD CONSTRAINT fk_work_item_widget_definitions_work_item_type_id FOREIGN KEY (work_item_type_id) REFERENCES work_item_types(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ONLY zoekt_indices
     ADD CONSTRAINT fk_zoekt_indices_on_zoekt_replica_id FOREIGN KEY (zoekt_replica_id) REFERENCES zoekt_replicas(id) ON DELETE SET NULL;

@@ -95,6 +95,7 @@ Prerequisites:
   to speed up the process.
 - Back up [your container registry data](../backup_restore/backup_gitlab.md#container-registry)
   if possible.
+- Configure container registry [notifications](container_registry.md#configure-container-registry-notifications).
 
 ### Enable the database for new installations
 

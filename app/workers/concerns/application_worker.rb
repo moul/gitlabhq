@@ -247,7 +247,7 @@ module ApplicationWorker
       # `schedule_at` could be one of
       # - nil.
       # - a single Numeric that represents time, like `30.minutes.from_now.to_i`.
-      # - an array, where each element is a Numeric that reprsents time.
+      # - an array, where each element is a Numeric that represents time.
       #    - Each element in this array would correspond to the time at which
       #    - the job in `args_list` at the corresponding index needs to be scheduled.
 

@@ -254,7 +254,7 @@ export default {
 <template>
   <div>
     <div class="flash-container gl-mb-3"></div>
-    <div ref="fileContent" class="gl-relative gl-flex">
+    <div ref="fileContent" class="gl-relative gl-flex gl-overflow-x-auto">
       <blame-info v-if="showBlame" :blame-info="blameInfo" :project-path="projectPath" />
 
       <blame-skeleton-loader

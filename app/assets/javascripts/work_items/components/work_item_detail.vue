@@ -873,11 +873,9 @@ export default {
         return;
       }
 
-      // Dragging image resize handles in RTE do not require repositioning like text does
-      // so we return early after preventing default behaviour, this fixes
-      // a problem as mentioned in https://gitlab.com/gitlab-org/gitlab/-/merge_requests/217708#note_2987427072
-      if (event.target.classList.contains('image-resize')) {
-        event.preventDefault();
+      // Allow the rich-text editor (ProseMirror) to handle its own node drags
+      // (images, videos, iframes, etc.) without interference.
+      if (event.target.closest('.ProseMirror')) {
         return;
       }
 

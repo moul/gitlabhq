@@ -52,9 +52,6 @@ class Issue < ApplicationRecord
   # https://gitlab.com/gitlab-org/gitlab/-/blob/1379c2d7bffe2a8d809f23ac5ef9b4114f789c07/app/assets/javascripts/issues/list/constants.js#L154-158
   TYPES_FOR_LIST = %w[issue incident test_case task objective key_result ticket].freeze
 
-  # Types of issues that should be displayed on issue board lists
-  TYPES_FOR_BOARD_LIST = %w[issue incident ticket].freeze
-
   # This default came from the enum `issue_type` column. Defined as default in the DB
   DEFAULT_ISSUE_TYPE = :issue
 
@@ -82,7 +79,6 @@ class Issue < ApplicationRecord
 
   belongs_to :duplicated_to, class_name: 'Issue'
   belongs_to :closed_by, class_name: 'User'
-  belongs_to :work_item_type, class_name: 'WorkItems::Type'
   belongs_to :moved_to, class_name: 'Issue', inverse_of: :moved_from
   has_one :moved_from, class_name: 'Issue', foreign_key: :moved_to_id, inverse_of: :moved_to
 
@@ -706,6 +702,11 @@ class Issue < ApplicationRecord
           methods: [:text_color]
         )
       end
+
+      # Rename `exported_work_item_type` to `work_item_type` in the JSON output.
+      # We use a differently-named method to avoid conflicting with the `HasType#work_item_type` method,
+      # but the exported JSON key must remain `work_item_type` for import compatibility.
+      json['work_item_type'] = json.delete('exported_work_item_type') if json.key?('exported_work_item_type')
     end
   end
 

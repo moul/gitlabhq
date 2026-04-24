@@ -18,6 +18,9 @@ module Ci
 
       Ci::Partitions::CreateService.new(ci_partition_current).execute
       Ci::Partitions::SyncService.new(ci_partition_current).execute
+      return unless Feature.enabled?(:ci_archive_old_partitions, :instance)
+
+      Ci::Partitions::ArchiveService.new(ci_partition_current).execute
     end
   end
 end

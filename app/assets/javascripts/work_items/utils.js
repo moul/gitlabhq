@@ -118,6 +118,14 @@ export const findLabelsWidget = (workItem) =>
 export const findLinkedItemsWidget = (workItem) =>
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_LINKED_ITEMS);
 
+export const findBlockerLinkedItems = (workItem) =>
+  workItem?.features?.linkedItems?.linkedItems?.nodes ||
+  workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_LINKED_ITEMS)?.linkedItems?.nodes;
+
+export const findOpenChildItemsCountsByType = (workItem) =>
+  workItem?.features?.hierarchy?.rolledUpCountsByType ||
+  workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_HIERARCHY)?.rolledUpCountsByType;
+
 export const findLinkedResourcesWidget = (workItem) =>
   workItem?.features?.linkedResources ||
   workItem?.widgets?.find((widget) => widget.type === WIDGET_TYPE_LINKED_RESOURCES);

@@ -17,6 +17,10 @@ module WorkItems
 
       delegate :icon_name, to: :work_item_type, allow_nil: true
 
+      def exported_work_item_type
+        { 'base_type' => work_item_type&.base_type || 'issue' }
+      end
+
       def work_item_type=(value)
         work_item_type = work_items_types_provider.fetch_work_item_type(value)
         self.work_item_type_id = persistable_type_id(work_item_type)

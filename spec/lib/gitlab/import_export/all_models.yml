@@ -9,7 +9,6 @@ issues:
 - updated_by
 - milestone
 - iteration
-- work_item_type
 - notes
 - resource_label_events
 - resource_weight_events
@@ -97,8 +96,6 @@ work_item_transition:
 work_item_position:
 - namespace
 - work_item
-work_item_type:
-- user_preferences
 events:
 - author
 - group

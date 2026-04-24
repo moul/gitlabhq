@@ -254,19 +254,19 @@ RSpec.describe Gitlab::ImportExport::Project::RelationFactory, :use_clean_rails_
       end
     end
 
-    context 'when work_item_type is provided in the hash' do
+    context 'when work_item_type hash is provided' do
       let(:incident_type) { build(:work_item_system_defined_type, :incident) }
-      let(:additional_relation_attributes) { { 'work_item_type' => incident_type } }
+      let(:additional_relation_attributes) { { 'work_item_type' => { 'base_type' => 'incident' } } }
 
       it 'sets the correct work_item_type' do
         expect(created_object.work_item_type_id).to eq(incident_type.id)
       end
     end
 
-    context 'when issue_type is provided in the hash as well as a work_item_type' do
+    context 'when work_item_type hash is provided as well as issue_type' do
       let(:incident_type) { build(:work_item_system_defined_type, :incident) }
       let(:additional_relation_attributes) do
-        { 'issue_type' => 'task', 'work_item_type' => incident_type }
+        { 'issue_type' => 'task', 'work_item_type' => { 'base_type' => 'incident' } }
       end
 
       it 'makes work_item_type take precedence over issue_type' do

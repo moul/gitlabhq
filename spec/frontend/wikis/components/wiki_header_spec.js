@@ -150,11 +150,16 @@ describe('wikis/components/wiki_header', () => {
       expect(document.removeEventListener).toHaveBeenCalledWith('keyup', wrapper.vm.onKeyUp);
     });
 
-    it('does not attach keyup event listener when user does not have edit permission', () => {
+    it('does not attach or remove keyup event listener when user does not have edit permission', () => {
       jest.spyOn(document, 'addEventListener');
+      jest.spyOn(document, 'removeEventListener');
       buildWrapper({ showEditButton: false });
 
       expect(document.addEventListener).not.toHaveBeenCalled();
+
+      wrapper.destroy();
+
+      expect(document.removeEventListener).not.toHaveBeenCalled();
     });
 
     it('renders correct page heading', () => {

@@ -185,6 +185,11 @@ pre-push:
       files: git diff --name-only --diff-filter=A $(git merge-base origin/master HEAD)..HEAD
       glob: 'db/click_house/main.sql'
       run: scripts/lint-clickhouse-migrations.sh
+    ai-harness-doctor:
+      tags: ai-harness
+      files: git diff --name-only $(git merge-base origin/master HEAD)..HEAD
+      # We need to specify {files} as part of the command, otherwise it won't execute the hook
+      run: echo {files} >/dev/null && scripts/ai_harness/doctor
 
   scripts:
     'merge_conflicts':
@@ -197,6 +202,9 @@ pre-push:
 pre-commit:
   parallel: true
   commands:
+    ai-harness-doctor:
+      tags: ai-harness
+      run: scripts/ai_harness/doctor
     rubocop:
       tags: backend style
       files: git diff --name-only --diff-filter=d --staged

@@ -1416,6 +1416,46 @@ export const workItemsClosedAndOpenLinkedItemsResponse = {
   },
 };
 
+export const workItemBlockedByLinkedItemsResponseWithFeatures = {
+  data: {
+    namespace: {
+      __typename: 'Namespace',
+      id: 'gid://gitlab/Group/1',
+      workItem: {
+        id: 'gid://gitlab/WorkItem/2',
+        features: {
+          linkedItems: {
+            linkedItems: mockBlockedByLinkedItem.linkedItems,
+            __typename: 'WorkItemWidgetLinkedItems',
+          },
+          __typename: 'WorkItemFeatures',
+        },
+        __typename: 'WorkItem',
+      },
+    },
+  },
+};
+
+export const workItemNoBlockedByLinkedItemsResponseWithFeatures = {
+  data: {
+    namespace: {
+      __typename: 'Namespace',
+      id: 'gid://gitlab/Group/1',
+      workItem: {
+        id: 'gid://gitlab/WorkItem/2',
+        features: {
+          linkedItems: {
+            linkedItems: { nodes: [], __typename: 'LinkedWorkItemTypeConnection' },
+            __typename: 'WorkItemWidgetLinkedItems',
+          },
+          __typename: 'WorkItemFeatures',
+        },
+        __typename: 'WorkItem',
+      },
+    },
+  },
+};
+
 export const workItemDevelopmentMRNodes = [
   {
     id: 'gid://gitlab/MergeRequestsClosingIssues/61',
@@ -3488,6 +3528,48 @@ export const mockNoOpenChildrenCount = {
             __typename: 'WorkItemWidgetHierarchy',
           },
         ],
+        __typename: 'WorkItem',
+      },
+      __typename: 'Namespace',
+    },
+  },
+};
+
+export const mockOpenChildrenCountWithFeatures = {
+  data: {
+    namespace: {
+      id: 'gid://gitlab/Group/33',
+      workItem: {
+        id: 'gid://gitlab/WorkItem/843',
+        features: {
+          hierarchy: {
+            rolledUpCountsByType:
+              mockOpenChildrenCount.data.namespace.workItem.widgets[0].rolledUpCountsByType,
+            __typename: 'WorkItemWidgetHierarchy',
+          },
+          __typename: 'WorkItemFeatures',
+        },
+        __typename: 'WorkItem',
+      },
+      __typename: 'Namespace',
+    },
+  },
+};
+
+export const mockNoOpenChildrenCountWithFeatures = {
+  data: {
+    namespace: {
+      id: 'gid://gitlab/Group/33',
+      workItem: {
+        id: 'gid://gitlab/WorkItem/843',
+        features: {
+          hierarchy: {
+            rolledUpCountsByType:
+              mockNoOpenChildrenCount.data.namespace.workItem.widgets[0].rolledUpCountsByType,
+            __typename: 'WorkItemWidgetHierarchy',
+          },
+          __typename: 'WorkItemFeatures',
+        },
         __typename: 'WorkItem',
       },
       __typename: 'Namespace',

@@ -302,7 +302,7 @@ Use:
 ## Trigger a multi-project pipeline by using the API
 
 You can use the [CI/CD job token (`CI_JOB_TOKEN`)](../jobs/ci_job_token.md) with the
-[pipeline trigger API endpoint](../../api/pipeline_triggers.md#trigger-a-pipeline-with-a-token)
+[pipeline trigger tokens API endpoint](../../api/pipeline_triggers.md#trigger-a-pipeline-with-a-token)
 to trigger multi-project pipelines from inside a CI/CD job. GitLab sets pipelines triggered
 with a job token as downstream pipelines of the pipeline that contains the job that
 made the API call.

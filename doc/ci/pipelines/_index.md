@@ -324,9 +324,9 @@ to that specific branch:
 
 - Run manual pipelines (using the [Web UI](#run-a-pipeline-manually) or [pipelines API](#pipelines-api)).
 - Run scheduled pipelines.
-- Run pipelines using triggers.
+- Run pipelines using trigger tokens.
 - Run on-demand DAST scan.
-- Trigger manual actions on existing pipelines.
+- Run manual jobs on existing pipelines.
 - Retry or cancel existing jobs (using the Web UI or pipelines API).
 
 **Variables** marked as **protected** are accessible to jobs that run in pipelines for protected branches. Only assign users the right to merge to protected branches if they have permission to access sensitive information like deployment credentials and tokens.
@@ -445,10 +445,6 @@ Select **Pipeline ID** in the dropdown list in the upper right to display the pi
 (unique ID across the instance).
 Select **pipeline IID** to display the pipeline IIDs (internal ID, unique across the project only).
 
-For example:
-
-![A list of pipelines displayed on the Pipelines page, with filters for trigger author, branch name, status, tag, and source.](img/pipeline_list_v16_11.png)
-
 To view the pipelines that relate to a specific merge request, go to the **Pipelines** tab
 in the merge request.
 
@@ -548,7 +544,7 @@ GitLab provides API endpoints to:
 - Maintain pipeline schedules. For more information, see [Pipeline schedules API](../../api/pipeline_schedules.md).
 - Trigger pipeline runs. For more information, see:
   - [Triggering pipelines through the API](../triggers/_index.md).
-  - [Pipeline triggers API](../../api/pipeline_triggers.md).
+  - [Pipeline trigger tokens API](../../api/pipeline_triggers.md).
 
 ## Ref specs for runners
 

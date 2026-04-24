@@ -24,10 +24,6 @@ FactoryBot.define do
         user.organization ||= user.organizations.first
       end
 
-      # if org_owner_of
-      #   user.organization_users << build(:organization_user, :owner, organization: org_owner_of, user: user)
-      # end
-
       user.organization ||= org_owner_of || create(:common_organization)
 
       # Ensure user.organization will be added to user.organizations

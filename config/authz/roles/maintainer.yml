@@ -216,5 +216,6 @@ group:
   - read_runners
   - read_secrets_manager
   - read_secrets_permission
+  - start_trial
   - update_cluster
   - update_protected_branch

@@ -141,7 +141,7 @@ To use and customize this template:
 1. Customize the template based on your deployment needs:
 
    - Modify the deployment script and environment URL to work with your infrastructure.
-   - Adjust [the rules section](../jobs/job_rules.md) if you want to trigger review apps
+   - Adjust [the rules section](../jobs/job_rules.md) if you want to deploy review apps
      for branches even without merge requests.
 
    For example, for a deployment to Heroku:
@@ -229,7 +229,7 @@ review_app:
 To deploy and access review apps:
 
 1. Go to your merge request.
-1. Optional. If the review app job is manual, select **Run** ({{< icon name="play" >}}) to trigger the deployment.
+1. Optional. If the review app job is manual, select **Run** ({{< icon name="play" >}}) to start the deployment.
 1. When the pipeline finishes, select **View app** to open the review app in your browser.
 
 ## Example implementations

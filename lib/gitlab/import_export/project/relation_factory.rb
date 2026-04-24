@@ -42,7 +42,6 @@ module Gitlab
                       committer: 'MergeRequest::DiffCommitUser',
                       merge_request_commits_metadata: 'MergeRequest::CommitsMetadata',
                       merge_request_diff_commits: 'MergeRequestDiffCommit',
-                      work_item_type: 'WorkItems::TypesFramework::SystemDefined::Type',
                       work_item_description: 'WorkItems::Description',
                       user_contributions: 'User',
                       squash_option: 'Projects::BranchRules::SquashOption' }.freeze
@@ -72,7 +71,6 @@ module Gitlab
           MergeRequest::DiffCommitUser
           MergeRequest::CommitsMetadata
           MergeRequestDiffCommit
-          WorkItems::TypesFramework::SystemDefined::Type
         ].freeze
 
         RELATIONS_WITH_REWRITABLE_USERNAMES = %i[
@@ -97,6 +95,9 @@ module Gitlab
           @object = preload_keys(@object, PROJECT_REFERENCES, @importable)
           @object = preload_keys(@object, GROUP_REFERENCES, @importable.group)
           @object = preload_keys(@object, USER_REFERENCES, @user)
+
+          @object.work_item_type = @work_item_type if @object && @work_item_type
+          @object
         end
 
         private
@@ -211,12 +212,14 @@ module Gitlab
         def setup_work_item
           @relation_hash['relative_position'] = nil
 
+          work_item_type_hash = @relation_hash.delete('work_item_type')
           issue_type = @relation_hash.delete('issue_type')
 
-          if issue_type
-            type = ::WorkItems::TypesFramework::Provider.new(@importable).find_by_base_type(issue_type)
-            @relation_hash['work_item_type'] ||= type
-          end
+          base_type = work_item_type_hash&.dig('base_type') || issue_type
+
+          return unless base_type
+
+          @work_item_type = ::WorkItems::TypesFramework::Provider.new(@importable).find_by_base_type(base_type)
         end
 
         def setup_release

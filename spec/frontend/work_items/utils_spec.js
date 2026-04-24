@@ -11,6 +11,7 @@ import {
   WIDGET_TYPE_CRM_CONTACTS,
   WIDGET_TYPE_LINKED_RESOURCES,
   WIDGET_TYPE_HIERARCHY,
+  WIDGET_TYPE_LINKED_ITEMS,
   WORK_ITEM_TYPE_ENUM_EPIC,
   WORK_ITEM_TYPE_ENUM_INCIDENT,
   WORK_ITEM_TYPE_ENUM_ISSUE,
@@ -37,9 +38,11 @@ import {
   convertTypeEnumToName,
   findAssigneesWidget,
   findAwardEmojiWidget,
+  findBlockerLinkedItems,
   findErrorTrackingWidget,
   findNotificationsWidget,
   findNotesWidget,
+  findOpenChildItemsCountsByType,
   findCrmContactsWidget,
   findLinkedResourcesWidget,
   formatLabelForListbox,
@@ -1256,5 +1259,65 @@ describe('findLinkedResourcesWidget', () => {
 
   it('returns undefined when neither exists', () => {
     expect(findLinkedResourcesWidget({ widgets: [] })).toBeUndefined();
+  });
+});
+
+describe('findBlockerLinkedItems', () => {
+  const widgetNodes = [{ linkId: 'gid://gitlab/IssueLink/1', linkType: 'is_blocked_by' }];
+  const featuresNodes = [{ linkId: 'gid://gitlab/IssueLink/2', linkType: 'is_blocked_by' }];
+  const linkedItemsWidget = {
+    type: WIDGET_TYPE_LINKED_ITEMS,
+    linkedItems: { nodes: widgetNodes },
+  };
+
+  it('returns features.linkedItems.linkedItems.nodes when present', () => {
+    const workItem = {
+      features: { linkedItems: { linkedItems: { nodes: featuresNodes } } },
+      widgets: [linkedItemsWidget],
+    };
+
+    expect(findBlockerLinkedItems(workItem)).toBe(featuresNodes);
+  });
+
+  it('falls back to widgets when features not present', () => {
+    const workItem = { widgets: [linkedItemsWidget] };
+
+    expect(findBlockerLinkedItems(workItem)).toBe(widgetNodes);
+  });
+
+  it('returns undefined when neither exists', () => {
+    expect(findBlockerLinkedItems({ widgets: [] })).toBeUndefined();
+  });
+});
+
+describe('findOpenChildItemsCountsByType', () => {
+  const widgetCounts = [
+    { countsByState: { opened: 1, all: 1, closed: 0 }, workItemType: { name: 'Task' } },
+  ];
+  const featuresCounts = [
+    { countsByState: { opened: 2, all: 2, closed: 0 }, workItemType: { name: 'Issue' } },
+  ];
+  const hierarchyWidget = {
+    type: WIDGET_TYPE_HIERARCHY,
+    rolledUpCountsByType: widgetCounts,
+  };
+
+  it('returns features.hierarchy.rolledUpCountsByType when present', () => {
+    const workItem = {
+      features: { hierarchy: { rolledUpCountsByType: featuresCounts } },
+      widgets: [hierarchyWidget],
+    };
+
+    expect(findOpenChildItemsCountsByType(workItem)).toBe(featuresCounts);
+  });
+
+  it('falls back to widgets when features not present', () => {
+    const workItem = { widgets: [hierarchyWidget] };
+
+    expect(findOpenChildItemsCountsByType(workItem)).toBe(widgetCounts);
+  });
+
+  it('returns undefined when neither exists', () => {
+    expect(findOpenChildItemsCountsByType({ widgets: [] })).toBeUndefined();
   });
 });

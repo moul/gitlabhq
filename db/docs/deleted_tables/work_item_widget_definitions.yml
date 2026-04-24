@@ -13,3 +13,5 @@ milestone: '15.9'
 gitlab_schema: gitlab_main_cell_local
 table_size: small
 notes: static and deprecated table, to be removed in https://gitlab.com/gitlab-org/gitlab/-/issues/584338
+removed_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/232977
+removed_in_milestone: '19.0'

@@ -1683,7 +1683,7 @@ lib/gitlab/checks/
 /app/validators/json_schemas/build_metadata_config_options.json
 /app/validators/json_schemas/build_metadata_secrets.json
 /app/validators/json_schemas/ci_job_definition_config.json
-/app/validators/json_schemas/run_steps.json
+/app/validators/json_schemas/ci_run_steps.json
 /app/workers/build_queue_worker.rb
 /app/workers/create_pipeline_worker.rb
 /app/workers/expire_build_artifacts_worker.rb

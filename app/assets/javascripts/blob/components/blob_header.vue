@@ -112,7 +112,7 @@ export default {
       </blob-filepath>
     </div>
 
-    <div class="file-actions gl-flex gl-flex-wrap gl-items-center gl-gap-3">
+    <div class="file-actions gl-ml-auto gl-flex gl-flex-wrap gl-items-center gl-gap-3">
       <blame-header v-if="showBlameInfo" />
       <viewer-switcher
         v-if="!hideViewerSwitcher"

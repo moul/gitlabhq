@@ -51,6 +51,7 @@ Before upgrading to GitLab 18.11, review the following:
 
 Before upgrading to GitLab 18.10, review the following:
 
+- [18.10.0 - 18.10.3] - [Geo site URL blocked when using outbound filtering](#geo-site-url-blocked-when-using-outbound-filtering) (Geo)
 - [18.10.0 - 18.10.3] - [Geo blob download failures on Ubuntu 24.04 with kernel 6.8+](#geo-blob-download-failures-on-ubuntu-2404-with-kernel-68) (Linux package, Geo)
 - [18.10.0 - 18.10.3] - [Geo secondary throttled jobs not draining](#geo-secondary-throttled-jobs-not-draining) (Geo)
 - [18.10.0] - [Geo blob download timeout setting](#geo-blob-download-timeout-setting) (Geo)
@@ -59,6 +60,7 @@ Before upgrading to GitLab 18.10, review the following:
 
 Before upgrading to GitLab 18.9, review the following:
 
+- [18.9.0 - 18.9.5] - [Geo site URL blocked when using outbound filtering](#geo-site-url-blocked-when-using-outbound-filtering) (Geo)
 - [18.9.0 - 18.9.5] - [Geo secondary throttled jobs not draining](#geo-secondary-throttled-jobs-not-draining) (Geo)
 - [18.9.0] - [Upgrade to 18.9 fails with PostgreSQL CheckViolation](#upgrade-to-189-fails-with-postgresql-checkviolation)
 
@@ -195,6 +197,31 @@ Geo secondary sites disabled `ConcurrencyLimit::ResumeWorker`, causing throttled
 draining. This could stall Geo replication and increase Redis memory usage.
 
 For more information, see [issue 595824](https://gitlab.com/gitlab-org/gitlab/-/work_items/595824).
+
+### Geo site URL blocked when using outbound filtering
+
+{{< details >}}
+
+- Tier: Premium, Ultimate
+
+{{< /details >}}
+
+- Affects: Geo
+- Affected versions:
+
+  | Release | Affected patch releases | Fixed patch level |
+  | ------- | ----------------------- | ----------------- |
+  | 18.10   | 18.10.0 - 18.10.3       | 18.10.4           |
+  | 18.9    | 18.9.0 - 18.9.5         | 18.9.6            |
+
+When outbound request filtering is enabled, Geo site URLs are incorrectly blocked.
+This causes validation errors when saving Geo sites with messages like
+`Url is blocked: Requests to hosts and IP addresses not on the Allow List are denied`.
+
+The issue occurs because Geo site URLs are not automatically added to the outbound
+local requests allowlist when outbound filtering is configured.
+
+For more information, see [issue 544821](https://gitlab.com/gitlab-org/gitlab/-/issues/544821).
 
 ### Geo blob download timeout setting
 

@@ -100,6 +100,7 @@ export default {
 
     cancelEditingMedia() {
       this.endEditingMedia();
+      this.tiptapEditor.commands.focus();
       this.updateMediaInfoToState();
     },
 

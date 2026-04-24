@@ -100,6 +100,27 @@ RSpec.describe Boards::Issues::ListService, feature_category: :portfolio_managem
             expect(described_class.new(parent, user, params).execute).to contain_exactly(incident)
           end
         end
+
+        context 'when filtering by work_item_type_ids' do
+          let(:incident_type) { build(:work_item_system_defined_type, :incident) }
+
+          it 'only returns issues with the specified work item type' do
+            params = { board_id: board.id, id: list1.id, work_item_type_ids: [incident_type.id] }
+
+            expect(described_class.new(parent, user, params).execute).to eq [incident]
+          end
+        end
+
+        context 'when filtering by negated work_item_type_ids' do
+          let(:issue_type) { build(:work_item_system_defined_type, :issue) }
+          let(:task_type) { build(:work_item_system_defined_type, :task) }
+
+          it 'excludes issues with the specified work item types' do
+            params = { board_id: board.id, id: list1.id, not: { work_item_type_ids: [issue_type.id, task_type.id] } }
+
+            expect(described_class.new(parent, user, params).execute).to contain_exactly(incident)
+          end
+        end
       end
     end
 

@@ -3,6 +3,7 @@ stage: Verify
 group: Pipeline Execution
 info: To determine the technical writer assigned to the Stage/Group associated with this page, see <https://handbook.gitlab.com/handbook/product/ux/technical-writing/#assignments>
 title: Customize pipeline configuration
+description: Configure pipeline settings for visibility, timeouts, Git strategy, auto-cancel behavior, and automatic cleanup.
 ---
 
 {{< details >}}
