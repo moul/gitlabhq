@@ -59908,7 +59908,7 @@ Types of security policy project created status.
 
 | Value | Description |
 | ----- | ----------- |
-| <a id="policyprojectcreatedstatus-error"></a>`ERROR` | Creating the security policy project faild. |
+| <a id="policyprojectcreatedstatus-error"></a>`ERROR` | Creating the security policy project failed. |
 | <a id="policyprojectcreatedstatus-success"></a>`SUCCESS` | Creating the security policy project was successful. |
 
 ### `PolicyScheduleTestRunState`
