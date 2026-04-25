@@ -138,12 +138,34 @@ describe('NoteForm', () => {
         new KeyboardEvent('keydown', { key: ENTER_KEY, shiftKey, metaKey, ctrlKey }),
       );
       await nextTick();
-      expect(defaultProps.saveNote).toHaveBeenCalledWith('edit', shiftKey);
+      expect(defaultProps.saveNote).toHaveBeenCalledWith('edit');
       expect(trackSavedUsingEditor).toHaveBeenCalledWith(
         true,
         `${defaultProvisions.noteableType}_note`,
       );
       expect(findEditor().props('value')).toBe('');
+    });
+
+    it('forces saveNote on shift+cmd+enter', async () => {
+      const saveDraft = jest.fn().mockResolvedValue();
+      createComponent({ saveDraft, noteBody: 'text' }, undefined, {
+        MarkdownEditor: stubComponent(MarkdownEditor, {
+          template: '<div></div>',
+          computed: {
+            isContentEditorActive() {
+              return false;
+            },
+          },
+        }),
+      });
+      findEditor().vm.$emit('input', 'text');
+      findEditor().vm.$emit(
+        'keydown',
+        new KeyboardEvent('keydown', { key: ENTER_KEY, shiftKey: true, metaKey: true }),
+      );
+      await nextTick();
+      expect(defaultProps.saveNote).toHaveBeenCalledWith('text');
+      expect(saveDraft).not.toHaveBeenCalled();
     });
 
     it('cancels form on escape keydown', () => {
@@ -420,7 +442,7 @@ describe('NoteForm', () => {
         expect(saveDraft).toHaveBeenCalledWith('draft text');
       });
 
-      it('calls saveDraft on shift+cmd+enter', async () => {
+      it('calls saveDraft on cmd+enter', async () => {
         createComponent({ saveDraft, noteBody: 'draft text' }, undefined, {
           MarkdownEditor: stubComponent(MarkdownEditor, {
             template: '<div></div>',
@@ -434,7 +456,7 @@ describe('NoteForm', () => {
         findEditor().vm.$emit('input', 'draft text');
         findEditor().vm.$emit(
           'keydown',
-          new KeyboardEvent('keydown', { key: ENTER_KEY, shiftKey: true, metaKey: true }),
+          new KeyboardEvent('keydown', { key: ENTER_KEY, metaKey: true }),
         );
         await nextTick();
         expect(saveDraft).toHaveBeenCalledWith('draft text');

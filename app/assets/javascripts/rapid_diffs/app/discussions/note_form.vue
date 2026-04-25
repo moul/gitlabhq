@@ -160,22 +160,22 @@ export default {
       clearDraft(this.autosaveKey);
       this.$emit('cancel', shouldConfirm && this.noteBody !== this.editedNoteBody);
     },
-    handleKeySubmit(shiftPressed = false) {
-      if (shiftPressed && this.saveDraft) {
+    handleKeySubmit(forceUpdate = false) {
+      if (this.saveDraft && !forceUpdate) {
         this.handleDraftSubmit();
       } else {
-        this.handleUpdate(shiftPressed);
+        this.handleUpdate();
       }
       this.editedNoteBody = '';
     },
-    async handleUpdate(shiftPressed = false) {
+    async handleUpdate() {
       this.isSubmitting = true;
       trackSavedUsingEditor(
         this.$refs.markdownEditor.isContentEditorActive,
         `${this.noteableType}_note`,
       );
       try {
-        await this.saveNote(this.editedNoteBody, shiftPressed);
+        await this.saveNote(this.editedNoteBody);
         this.editedNoteBody = '';
         clearDraft(this.autosaveKey);
       } catch (error) {
