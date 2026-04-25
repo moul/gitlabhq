@@ -336,7 +336,7 @@ module Ci
     end
 
     def assign_runner!(build, params)
-      build.runner_id = runner.id
+      build.runner = runner
       build.runner_session_attributes = params[:session] if params[:session].present?
 
       failure_reason, _ = @logger.instrument(:assign_runner_failure_reason) do

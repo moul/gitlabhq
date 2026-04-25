@@ -351,11 +351,7 @@ module Ci
 
           next if keyword_args[:skip_cache_expiration]
 
-          if Feature.enabled?(:ci_expire_pipeline_cache_workers, pipeline.project)
-            Ci::ExpirePipelineCacheWorker.perform_async(pipeline.id, { 'partition_id' => pipeline.partition_id })
-          else
-            Ci::ExpirePipelineCacheService.new.execute(pipeline) # rubocop: disable CodeReuse/ServiceClass
-          end
+          Ci::ExpirePipelineCacheService.new.execute(pipeline) # rubocop: disable CodeReuse/ServiceClass
         end
       end
 

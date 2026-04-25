@@ -2719,47 +2719,21 @@ RSpec.describe Ci::Pipeline, :mailer, factory_default: :keep, feature_category: 
 
       subject(:cancel_pipeline) { pipeline.cancel(**transition_args) }
 
-      it 'enqueues Ci::ExpirePipelineCacheWorker' do
-        expect(Ci::ExpirePipelineCacheWorker)
-          .to receive(:perform_async)
-          .with(pipeline.id, { 'partition_id' => pipeline.partition_id })
+      it 'executes Ci::ExpirePipelineCacheService' do
+        expect_next_instance_of(Ci::ExpirePipelineCacheService) do |service|
+          expect(service).to receive(:execute).with(pipeline)
+        end
 
         cancel_pipeline
-      end
-
-      context 'when ci_expire_pipeline_cache_workers feature flag is disabled' do
-        before do
-          stub_feature_flags(ci_expire_pipeline_cache_workers: false)
-        end
-
-        it 'executes Ci::ExpirePipelineCacheService' do
-          expect_next_instance_of(Ci::ExpirePipelineCacheService) do |service|
-            expect(service).to receive(:execute).with(pipeline)
-          end
-
-          cancel_pipeline
-        end
       end
 
       context 'when skip_cache_expiration is provided' do
         let(:transition_args) { { skip_cache_expiration: true } }
 
-        it 'does not enqueue Ci::ExpirePipelineCacheWorker' do
-          expect(Ci::ExpirePipelineCacheWorker).not_to receive(:perform_async)
+        it 'does not execute Ci::ExpirePipelineCacheService' do
+          expect(Ci::ExpirePipelineCacheService).not_to receive(:new)
 
           cancel_pipeline
-        end
-
-        context 'when ci_expire_pipeline_cache_workers feature flag is disabled' do
-          before do
-            stub_feature_flags(ci_expire_pipeline_cache_workers: false)
-          end
-
-          it 'does not execute Ci::ExpirePipelineCacheService' do
-            expect(Ci::ExpirePipelineCacheService).not_to receive(:new)
-
-            cancel_pipeline
-          end
         end
       end
     end

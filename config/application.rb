@@ -15,6 +15,7 @@ require 'sprockets/railtie'
 
 require 'gitlab/utils/all'
 
+require_relative 'freeze_gems'
 Bundler.require(*Rails.groups)
 
 module Gitlab

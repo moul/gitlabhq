@@ -562,7 +562,7 @@ module Ci
 
     def ensure_manager(system_xid)
       # rubocop: disable Performance/ActiveRecordSubtransactionMethods -- This is used only in API endpoints outside of transactions
-      RunnerManager.safe_find_or_create_by!(runner_id: id, system_xid: system_xid.to_s) do |m|
+      RunnerManager.safe_find_or_create_by!(runner: self, system_xid: system_xid.to_s) do |m|
         m.runner_type = runner_type
         m.organization_id = organization_id
       end
