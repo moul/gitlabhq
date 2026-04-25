@@ -48208,6 +48208,9 @@ msgstr ""
 msgid "Observability|APM & performance"
 msgstr ""
 
+msgid "Observability|Add OpenTelemetry with Duo"
+msgstr ""
+
 msgid "Observability|Advanced analytics"
 msgstr ""
 
@@ -48398,6 +48401,9 @@ msgid "Observability|Failed to load observability usage data."
 msgstr ""
 
 msgid "Observability|Failed to load related issues. Try reloading the page."
+msgstr ""
+
+msgid "Observability|Failed to start workflow"
 msgstr ""
 
 msgid "Observability|Failed to update O11y service settings"
@@ -48620,6 +48626,9 @@ msgid "Observability|Once provisioned, you can test your endpoints by sending a 
 msgstr ""
 
 msgid "Observability|OpenTelemetry native"
+msgstr ""
+
+msgid "Observability|OpenTelemetry workflow started"
 msgstr ""
 
 msgid "Observability|Password for authentication with the o11y service."

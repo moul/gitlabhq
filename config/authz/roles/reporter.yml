@@ -118,6 +118,7 @@ group:
   - create_timelog
   - delete_secret
   - download_wiki_code
+  - manage_devops_adoption_namespaces
   - mark_note_as_internal
   - read_ci_cd_analytics
   - read_confidential_epic
@@ -146,5 +147,6 @@ group:
   - update_issue
   - update_secret
   - view_group_ci_cd_analytics
+  - view_group_devops_adoption
   - view_productivity_analytics
   - view_type_of_work_charts
