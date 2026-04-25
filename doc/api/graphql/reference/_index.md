@@ -36498,7 +36498,7 @@ Represents a stack trace.
 | <a id="errortrackingstacktrace-columnnumber"></a>`columnNumber` | [`Int`](#int) | Column number of the stack trace. |
 | <a id="errortrackingstacktrace-context"></a>`context` | [`[WorkItemWidgetErrorTrackingStackTraceContext!]`](#workitemwidgeterrortrackingstacktracecontext) | Context of the stack trace. |
 | <a id="errortrackingstacktrace-filename"></a>`filename` | [`String`](#string) | Filename of the stack trace. |
-| <a id="errortrackingstacktrace-function"></a>`function` | [`String`](#string) | Name of the function where the error occured. |
+| <a id="errortrackingstacktrace-function"></a>`function` | [`String`](#string) | Name of the function where the error occurred. |
 | <a id="errortrackingstacktrace-linenumber"></a>`lineNumber` | [`Int`](#int) | Line number of the stack trace. |
 
 ### `EscalationPolicyType`
