@@ -161,41 +161,6 @@ RSpec.describe UsersHelper, feature_category: :user_management do
     end
   end
 
-  describe '#current_user_menu_items' do
-    subject(:items) { helper.current_user_menu_items }
-
-    before do
-      allow(helper).to receive(:current_user).and_return(user)
-      allow(helper).to receive(:can?).and_return(false)
-    end
-
-    it 'includes all default items' do
-      expect(items).to include(:help, :sign_out)
-    end
-
-    it 'includes the profile tab if the user can read themself' do
-      expect(helper).to receive(:can?).with(user, :read_user, user) { true }
-
-      expect(items).to include(:profile)
-    end
-
-    it 'includes the settings tab if the user can update themself' do
-      expect(helper).to receive(:can?).with(user, :update_user, user) { true }
-
-      expect(items).to include(:settings)
-    end
-
-    context 'when terms are enforced' do
-      before do
-        enforce_terms
-      end
-
-      it 'hides the profile and the settings tab' do
-        expect(items).not_to include(:settings, :profile, :help)
-      end
-    end
-  end
-
   describe '#impersonation_enabled' do
     context 'when impersonation is enabled' do
       before do

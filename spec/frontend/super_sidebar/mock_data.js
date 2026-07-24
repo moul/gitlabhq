@@ -250,10 +250,8 @@ export const userMenuMockData = {
     admin_mode_active: false,
   },
   avatar_url: invalidUrl,
-  has_link_to_profile: true,
   status: userMenuMockStatus,
   pipeline_minutes: userMenuMockPipelineMinutes,
-  can_sign_out: false,
   gitlab_com_but_not_canary: true,
   canary_toggle_com_url: 'https://next.gitlab.com',
 };

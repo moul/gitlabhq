@@ -399,15 +399,26 @@ For more information about disaster recovery, including recovery objectives, see
 
 ## Migrate to GitLab Dedicated
 
-To migrate your data to GitLab Dedicated:
+How you migrate to GitLab Dedicated depends on your source system.
 
-- From another GitLab instance:
-  - Use [direct transfer](../../user/group/import/_index.md).
-  - Use the [direct transfer API](../../api/bulk_imports.md).
-- From third-party services:
-  - Use the [import sources](../../user/import/_index.md) (migration tools).
-- For complex migrations:
-  - Engage [Professional Services](../../user/import/_index.md#migrate-by-engaging-professional-services).
+To migrate a complete GitLab Self-Managed instance, use
+[Geo](../../administration/dedicated/geo_migration.md).
+Consider Geo first, because it replicates your entire instance and migrates the most complete set of data.
+
+To migrate specific groups and projects from GitLab Self-Managed or GitLab.com, use one of
+these importers:
+
+- Direct transfer: Uses a direct connection between instances to copy groups and projects.
+  Direct transfer is the recommended method. You can also automate it with the
+  [direct transfer API](../../api/bulk_imports.md).
+- File exports: Give you a portable package of your data that works in offline environments.
+
+To migrate from third-party services, use the [import sources](../../user/import/_index.md),
+which provide a migration tool for some third-party platforms.
+
+For complex migrations, engage
+[Professional Services](../../user/import/_index.md#migrate-by-engaging-professional-services)
+to plan and run the migration.
 
 ## Expired subscriptions
 

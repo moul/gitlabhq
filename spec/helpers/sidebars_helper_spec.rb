@@ -109,7 +109,6 @@ RSpec.describe SidebarsHelper, feature_category: :navigation do
           user_is_admin: false
         },
         avatar_url: user.avatar_url,
-        has_link_to_profile: helper.current_user_menu?(:profile),
         status: {
           can_update: helper.can?(user, :update_user_status, user),
           busy: user.status&.busy?,
@@ -120,9 +119,6 @@ RSpec.describe SidebarsHelper, feature_category: :navigation do
           message: user.status&.message&.html_safe,
           clear_after: nil
         },
-        settings: {
-          has_settings: helper.current_user_menu?(:settings)
-        },
         user_counts: {
           assigned_issues: 1,
           assigned_merge_requests: 4,
@@ -130,7 +126,6 @@ RSpec.describe SidebarsHelper, feature_category: :navigation do
           todos: 3,
           last_update: 1609459200000
         },
-        can_sign_out: helper.current_user_menu?(:sign_out),
         projects_path: dashboard_projects_path,
         groups_path: dashboard_groups_path,
         gitlab_com_and_canary: Gitlab.com_and_canary?,

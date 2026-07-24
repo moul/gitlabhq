@@ -692,32 +692,25 @@ describe('UserMenu component', () => {
   describe('Sign out group', () => {
     const findSignOutGroup = () => wrapper.findByTestId('sign-out-group');
 
-    it('should not render sign out group when user cannot sign out', () => {
+    beforeEach(() => {
       createWrapper();
-      expect(findSignOutGroup().exists()).toBe(false);
     });
 
-    describe('when user can sign out', () => {
-      beforeEach(() => {
-        createWrapper({ can_sign_out: true });
-      });
+    it('should render sign out group', () => {
+      expect(findSignOutGroup().exists()).toBe(true);
+    });
 
-      it('should render sign out group', () => {
-        expect(findSignOutGroup().exists()).toBe(true);
-      });
+    it('should render the menu item with a link to sign out and correct data attribute', () => {
+      expect(findSignOutGroup().find('a').attributes('href')).toBe('/users/sign_out');
+      expect(findSignOutGroup().find('a').attributes('data-method')).toBe('post');
+    });
 
-      it('should render the menu item with a link to sign out and correct data attribute', () => {
-        expect(findSignOutGroup().find('a').attributes('href')).toBe('/users/sign_out');
-        expect(findSignOutGroup().find('a').attributes('data-method')).toBe('post');
-      });
+    it('should track Snowplow event on sign out', () => {
+      findSignOutGroup().vm.$emit('action');
 
-      it('should track Snowplow event on sign out', () => {
-        findSignOutGroup().vm.$emit('action');
-
-        expect(trackingSpy).toHaveBeenCalledWith(undefined, 'click_link', {
-          label: 'user_sign_out',
-          property: 'nav_user_menu',
-        });
+      expect(trackingSpy).toHaveBeenCalledWith(undefined, 'click_link', {
+        label: 'user_sign_out',
+        property: 'nav_user_menu',
       });
     });
   });

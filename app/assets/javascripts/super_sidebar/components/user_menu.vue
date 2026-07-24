@@ -509,12 +509,7 @@ export default {
         </gl-disclosure-dropdown-item>
       </gl-disclosure-dropdown-group>
 
-      <gl-disclosure-dropdown-group
-        v-if="data.can_sign_out"
-        bordered
-        data-testid="sign-out-group"
-        @action="trackSignOut"
-      >
+      <gl-disclosure-dropdown-group bordered data-testid="sign-out-group" @action="trackSignOut">
         <gl-disclosure-dropdown-item :item="signOutItem">
           <template #list-item>
             <gl-icon name="power" variant="subtle" class="gl-mr-2" />

@@ -56,14 +56,6 @@ module UsersHelper
     { user_internal_regex_pattern: pattern, user_internal_regex_options: options }
   end
 
-  def current_user_menu_items
-    @current_user_menu_items ||= get_current_user_menu_items
-  end
-
-  def current_user_menu?(item)
-    current_user_menu_items.include?(item)
-  end
-
   # Used to preload when you are rendering many projects and checking access
   def load_max_project_member_accesses(projects)
     # There are two different request store paradigms for max member access and
@@ -291,20 +283,6 @@ module UsersHelper
     return ldap_blocked_badge if user.ldap_blocked?
 
     { text: s_('AdminUsers|Blocked'), variant: 'danger' }
-  end
-
-  def get_current_user_menu_items
-    items = []
-
-    items << :sign_out if current_user
-
-    return items if current_user&.required_terms_not_accepted?
-
-    items << :help
-    items << :profile if can?(current_user, :read_user, current_user)
-    items << :settings if can?(current_user, :update_user, current_user)
-
-    items
   end
 
   def render_job_title(job_title, with_schema_markup: false)

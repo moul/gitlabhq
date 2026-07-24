@@ -84,8 +84,6 @@ RSpec.describe 'Admin updates metrics and profiling settings', :request_store, :
 
         click_button('Preview payload')
 
-        wait_for_requests
-
         expect(page).to have_button 'Hide payload'
         expect(page).to have_content expected_payload_content
       end
@@ -97,8 +95,6 @@ RSpec.describe 'Admin updates metrics and profiling settings', :request_store, :
         end
 
         click_button('Download payload')
-
-        wait_for_requests
       end
     end
 

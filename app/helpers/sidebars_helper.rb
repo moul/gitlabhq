@@ -65,12 +65,8 @@ module SidebarsHelper
         user_is_admin: user.can_access_admin_area?
       },
       avatar_url: user.avatar_url,
-      has_link_to_profile: current_user_menu?(:profile),
       logo_url: current_appearance&.header_logo_path,
       status: user_status_menu_data(user),
-      settings: {
-        has_settings: current_user_menu?(:settings)
-      },
       user_counts: {
         assigned_issues: user.assigned_open_issues_count,
         assigned_merge_requests: user.all_assigned_merge_requests_count(cached_only: true),
@@ -78,8 +74,6 @@ module SidebarsHelper
         todos: user.todos_pending_count,
         last_update: time_in_milliseconds
       },
-      can_sign_out: current_user_menu?(:sign_out),
-
       compare_plans_url: compare_plans_url(user: user, project: project, group: group),
       create_new_menu_groups: create_new_menu_groups(group: group, project: project),
       projects_path: dashboard_projects_path,
