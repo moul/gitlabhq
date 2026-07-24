@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script>
 import { GlButton, GlFormTextarea } from '@gitlab/ui';
 import { cloneDeep, isNumber, uniqueId } from 'lodash-es';

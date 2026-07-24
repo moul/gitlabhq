@@ -94,6 +94,139 @@ RSpec.describe Gitlab::SidekiqMiddleware::ConcurrencyLimit::QueueManager,
     end
   end
 
+  describe '#drop_jobs!' do
+    let(:matching_context) { { 'meta.user' => 'target_user' } }
+    let(:other_context) { { 'meta.user' => 'other_user' } }
+
+    before do
+      service.add_to_queue!(job, matching_context)
+      service.add_to_queue!(job.merge('jid' => 'other_jid'), other_context)
+    end
+
+    it 'removes matching jobs and returns completed result' do
+      result = service.drop_jobs!(matching_context, timeout: 10)
+
+      expect(result).to eq(completed: true, deleted_jobs: 1)
+      expect(service.queue_size).to eq(1)
+    end
+
+    it 'leaves non-matching jobs intact' do
+      service.drop_jobs!(matching_context, timeout: 10)
+
+      Gitlab::Redis::SharedState.with do |redis|
+        remaining = redis.lrange(service.redis_key, 0, -1).map { |j| service.send(:deserialize, j) }
+        expect(remaining.map { |j| j['context']['meta.user'] }).to contain_exactly('other_user')
+      end
+    end
+
+    it 'returns 0 deleted_jobs when nothing matches' do
+      result = service.drop_jobs!({ 'meta.user' => 'unknown' }, timeout: 10)
+
+      expect(result).to eq(completed: true, deleted_jobs: 0)
+      expect(service.queue_size).to eq(2)
+    end
+
+    it 'does not remove any job when metadata is empty' do
+      result = service.drop_jobs!({}, timeout: 10)
+
+      expect(result).to eq(completed: true, deleted_jobs: 0)
+      expect(service.queue_size).to eq(2)
+    end
+
+    it 'removes every job when metadata matches the worker class' do
+      result = service.drop_jobs!({ 'class' => worker_class_name }, timeout: 10)
+
+      expect(result).to eq(completed: true, deleted_jobs: 2)
+      expect(service.queue_size).to eq(0)
+    end
+
+    it 'does not remove any job when metadata targets another worker class' do
+      result = service.drop_jobs!({ 'class' => 'OtherWorker' }, timeout: 10)
+
+      expect(result).to eq(completed: true, deleted_jobs: 0)
+      expect(service.queue_size).to eq(2)
+    end
+
+    context 'when timeout is exceeded' do
+      before do
+        allow(service).to receive(:monotonic_time).and_return(0, 0, 100)
+      end
+
+      it 'stops early and returns completed: false' do
+        result = service.drop_jobs!(matching_context, timeout: 10)
+
+        expect(result[:completed]).to be(false)
+      end
+    end
+
+    it 'clears the drop-requested flag once finished' do
+      service.drop_jobs!(matching_context, timeout: 10)
+
+      expect(service.send(:drop_requested?)).to be_falsey
+    end
+
+    it 'sets the drop-requested flag with a TTL matching the operation budget', :aggregate_failures do
+      service.send(:request_drop!, 15)
+
+      drop_key = service.instance_variable_get(:@drop_request_key)
+      ttl = Gitlab::Redis::SharedState.with { |redis| redis.ttl(drop_key) }
+
+      expect(service.send(:drop_requested?)).to be_truthy
+      expect(ttl).to be_between(1, 15)
+    end
+
+    context 'when the resume lease cannot be obtained' do
+      before do
+        stub_const("#{described_class}::DROP_LOCK_RETRIES", 1)
+        stub_const("#{described_class}::DROP_LOCK_SLEEP", 0)
+        # Resume is actively holding the shared lease.
+        Gitlab::ExclusiveLease.new(service.send(:lease_key), timeout: 1.minute).try_obtain
+      end
+
+      it 'does not process the queue and reports completed: false', :aggregate_failures do
+        result = service.drop_jobs!(matching_context, timeout: 10)
+
+        expect(result).to eq(completed: false, deleted_jobs: 0)
+        expect(service.queue_size).to eq(2)
+      end
+
+      it 'still clears the drop-requested flag' do
+        service.drop_jobs!(matching_context, timeout: 10)
+
+        expect(service.send(:drop_requested?)).to be_falsey
+      end
+    end
+
+    context 'when the queue is empty' do
+      before do
+        Gitlab::Redis::SharedState.with { |redis| redis.del(service.redis_key) }
+      end
+
+      it 'skips the drop-request/lock handshake and reports completed', :aggregate_failures do
+        expect(service).not_to receive(:request_drop!)
+
+        expect(service.drop_jobs!(matching_context, timeout: 10)).to eq(completed: true, deleted_jobs: 0)
+      end
+    end
+
+    context 'when the queue spans multiple read batches' do
+      before do
+        stub_const("#{described_class}::MAX_BATCH_SIZE", 1)
+
+        service.add_to_queue!(job.merge('jid' => 'match_2'), matching_context)
+        service.add_to_queue!(job.merge('jid' => 'noise_2'), other_context)
+        service.add_to_queue!(job.merge('jid' => 'match_3'), matching_context)
+      end
+
+      it 'removes every matching job across batches', :aggregate_failures do
+        result = service.drop_jobs!(matching_context, timeout: 10)
+
+        expect(result).to eq(completed: true, deleted_jobs: 3)
+        expect(service.queue_size).to eq(2)
+      end
+    end
+  end
+
   describe '#has_jobs_in_queue?' do
     it 'uses queue_size' do
       expect { service.add_to_queue!(job, worker_context) }
@@ -170,6 +303,19 @@ RSpec.describe Gitlab::SidekiqMiddleware::ConcurrencyLimit::QueueManager,
     end
 
     it_behaves_like 'resumes jobs respecting concurrency limit'
+
+    context 'when a drop is requested' do
+      before do
+        service.send(:request_drop!, 30)
+      end
+
+      it 'yields the lease without processing the queue', :aggregate_failures do
+        expect(worker_class).not_to receive(:bulk_perform_async)
+
+        expect(service.resume_processing!).to eq(0)
+        expect(service.queue_size).to eq(3)
+      end
+    end
 
     it 'drops a set after execution' do
       expect_next_instance_of(Gitlab::ExclusiveLease) do |el|

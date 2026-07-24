@@ -5,10 +5,14 @@ module Gitlab
     module ConcurrencyLimit
       class QueueManager
         include ExclusiveLeaseGuard
+        include Gitlab::ExclusiveLeaseHelpers
 
         MAX_PROCESSING_TIME = 5.minutes
         LEASE_TIMEOUT = MAX_PROCESSING_TIME + 2.seconds
         MAX_BATCH_SIZE = 5_000
+        # Bounded wait for the shared lease before drop_jobs! gives up (admin can retry).
+        DROP_LOCK_RETRIES = 10
+        DROP_LOCK_SLEEP = 0.5.seconds
         NON_TRANSIENT_ERRORS = [
           Gitlab::SidekiqMiddleware::SizeLimiter::ExceedLimitError,
           JSON::ParserError
@@ -20,6 +24,7 @@ module Gitlab
           @worker_name = worker_name
           @redis_key = "#{prefix}:throttled_jobs:{#{worker_name.underscore}}"
           @metadata_key = "#{prefix}:resume_meta:{#{worker_name.underscore}}"
+          @drop_request_key = "#{prefix}:drop_requested:{#{worker_name.underscore}}"
         end
 
         def add_to_queue!(job, context)
@@ -28,6 +33,74 @@ module Gitlab
           end
 
           deferred_job_counter.increment({ worker: @worker_name })
+        end
+
+        # Removes deferred jobs from this worker's queue whose context matches the metadata.
+        #
+        # @param context_metadata [Hash] application-context metadata to match against each job
+        # @param timeout [Numeric] seconds budget before stopping early
+        # @return [Hash] :completed flag and :deleted_jobs count
+        # @see #resume_processing!
+        def drop_jobs!(context_metadata, timeout:)
+          # Skip the drop-request/lock handshake when there is nothing to remove: callers may
+          # iterate over every worker routed to a queue, and most deferred queues are empty.
+          return { completed: true, deleted_jobs: 0 } unless has_jobs_in_queue?
+
+          start_time = monotonic_time
+          completed = false
+          deleted = 0
+
+          # Signal intent so resume_processing! yields the shared lease, then acquire the same
+          # lease before mutating: resume trims from the head by position (ltrim) while we remove
+          # by value (lrem), which could otherwise drop an unprocessed job. The flag TTL matches
+          # the operation budget so it covers the whole run and self-heals if this process dies.
+          request_drop!(timeout)
+
+          in_lock(lease_key, ttl: LEASE_TIMEOUT, retries: DROP_LOCK_RETRIES, sleep_sec: DROP_LOCK_SLEEP) do
+            completed = true
+
+            with_redis do |redis|
+              # We hold the lease, so we are the only remover: track deletions locally instead of
+              # inferring from llen, which concurrent add_to_queue! rpushes would inflate (causing
+              # range_start to overshoot and skip unexamined entries).
+              deleted_size = 0
+              page = 0
+
+              loop do
+                range_start = (page * MAX_BATCH_SIZE) - deleted_size
+                entries = redis.lrange(@redis_key, range_start, range_start + MAX_BATCH_SIZE - 1)
+                break if entries.empty?
+
+                page += 1
+                timed_out = false
+                entries.each do |job_json|
+                  if timeout_exceeded?(start_time, timeout)
+                    completed = false
+                    timed_out = true
+                    break
+                  end
+
+                  job = deserialize(job_json)
+                  next unless job_matches?(job, context_metadata)
+
+                  deleted += redis.lrem(@redis_key, 1, job_json)
+                rescue ::JSON::ParserError
+                  next
+                end
+
+                break if timed_out
+
+                deleted_size = deleted
+              end
+            end
+          end
+
+          { completed: completed, deleted_jobs: deleted }
+        rescue Gitlab::ExclusiveLeaseHelpers::FailedToObtainLockError
+          # Resume is actively processing this queue; the caller can retry.
+          { completed: false, deleted_jobs: deleted }
+        ensure
+          clear_drop_request!
         end
 
         def queue_size
@@ -39,6 +112,10 @@ module Gitlab
         end
 
         def resume_processing!
+          # Yield to a pending drop_jobs! request so an admin purge is not starved while we hold
+          # the lease across a long resume run.
+          return 0 if drop_requested?
+
           try_obtain_lease do
             with_redis do |redis|
               unless Feature.enabled?(:concurrency_limit_eager_resume_processing, :instance, type: :ops)
@@ -50,6 +127,7 @@ module Gitlab
               total_resumed_jobs = 0
               while deadline.future?
                 break unless renew_lease!
+                break if drop_requested?
 
                 resumed_jobs_count = resume_processing_once!(redis)
                 break if resumed_jobs_count == 0
@@ -73,6 +151,29 @@ module Gitlab
 
         def lease_taken_log_level
           :info
+        end
+
+        # Signals that an admin {#drop_jobs!} wants this worker's queue, so {#resume_processing!} yields.
+        #
+        # @param ttl [Numeric] seconds the flag lives; matches the drop budget so it covers the run
+        # @see #resume_processing!
+        def request_drop!(ttl)
+          with_redis { |redis| redis.set(@drop_request_key, true, ex: [ttl.ceil, 1].max) }
+        end
+
+        # Whether an admin {#drop_jobs!} is waiting for this worker's queue.
+        #
+        # @return [Boolean]
+        # @see #drop_jobs!
+        def drop_requested?
+          with_redis { |redis| redis.exists?(@drop_request_key) } # rubocop:disable CodeReuse/ActiveRecord -- Redis, not ActiveRecord
+        end
+
+        # Clears the drop-requested flag once the admin {#drop_jobs!} has finished.
+        #
+        # @see #drop_jobs!
+        def clear_drop_request!
+          with_redis { |redis| redis.del(@drop_request_key) }
         end
 
         def resume_processing_once!(redis)
@@ -214,6 +315,37 @@ module Gitlab
         def dropped_job_counter
           @dropped_job_counter ||= ::Gitlab::Metrics.counter(:sidekiq_concurrency_limit_dropped_jobs_total,
             'Count of poison jobs dropped from the concurrency limit buffered queue.')
+        end
+
+        # Whether a deferred job's stored context matches all given metadata.
+        #
+        # @param job [Hash] deserialized deferred job payload
+        # @param context_metadata [Hash] metadata to match against the job's context
+        # @return [Boolean]
+        def job_matches?(job, context_metadata)
+          return false if context_metadata.empty?
+
+          context = job['context'] || {}
+          context_metadata.all? do |key, value|
+            # Deferred jobs do not store their class: the queue itself is per-worker.
+            key == 'class' ? value == @worker_name : context[key] == value
+          end
+        end
+
+        # Whether the elapsed time since start_time exceeds the timeout.
+        #
+        # @param start_time [Float] monotonic timestamp captured at the start
+        # @param timeout [Numeric] seconds budget
+        # @return [Boolean]
+        def timeout_exceeded?(start_time, timeout)
+          (monotonic_time - start_time) > timeout
+        end
+
+        # Current monotonic clock reading.
+        #
+        # @return [Float] monotonic time in seconds
+        def monotonic_time
+          Gitlab::Metrics::System.monotonic_time
         end
       end
     end

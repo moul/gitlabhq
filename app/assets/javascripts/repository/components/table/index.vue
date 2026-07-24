@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script>
 import { GlButton } from '@gitlab/ui';
 import { sprintf, __ } from '~/locale';

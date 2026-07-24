@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script>
 import { GlBreadcrumb } from '@gitlab/ui';
 import { joinPaths, escapeFileUrl, buildURLwithRefType } from '~/lib/utils/url_utility';

@@ -415,7 +415,6 @@ export default {
             :hide-attachment-button="disableAttachments"
             :new-comment-template-paths-prop="newCommentTemplatePaths"
             :class="{ 'gl-pt-0': immersive }"
-            @enable-markdown-editor="$emit('enableMarkdownEditor')"
           >
             <template #header-buttons>
               <slot name="header-buttons"></slot>
